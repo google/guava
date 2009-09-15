@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+
+<project name="guava" default="compile">
+  <property environment="env"/>
+
+  <!-- can be overridden at the command line with -Dversion=
+       or in IDEA, in the ant properties dialog -->
+  <property name="version" value="snapshot"/>
+
+  <target name="compile" description="Compile Java source.">
+    <mkdir dir="build/classes"/>
+    <javac srcdir="src"
+         debug="on"
+         destdir="build/classes"
+         source="1.6"
+         target="1.6">
+      <classpath>
+        <pathelement location="lib/jsr305.jar"/>
+        <pathelement location="lib/google-collect-1.0-rc2.jar"/>
+      </classpath>
+    </javac>
+  </target>
+
+  <target name="clean"
+      description="Remove generated files.">
+    <delete dir="build"/>
+  </target>
+
+  <target name="javadoc"
+      description="Generate Javadocs.">
+    <delete dir="build/javadoc"/>
+    <mkdir dir="build/javadoc"/>
+    <javadoc packagenames="com.google.common.base,com.google.common.io,com.google.common.util.concurrent,com.google.common.primitives"
+         destdir="build/javadoc"
+         use="true"
+         author="true"
+         protected="true"
+         windowtitle="Guava Libraries PRELIMINARY CODE DROP SUBJECT TO CHANGE">
+      <sourcepath>
+        <pathelement location="src"/>
+      </sourcepath>
+      <!-- workaround for http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6442982 -->
+      <classpath>
+        <pathelement location="lib/google-collect-1.0-rc2.jar"/>
+        <pathelement location="lib/jsr305.jar"/>
+      </classpath>
+      <link href="http://jsr-305.googlecode.com/svn/trunk/javadoc"/>
+      <link href="http://java.sun.com/javase/6/docs/api"/>
+    </javadoc>
+  </target>
+</project>
