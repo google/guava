@@ -41,8 +41,6 @@ import java.util.concurrent.RejectedExecutionException;
  *     }
  *   }, exec);}</pre>
  *
- * @param <V> The type returned by {@link Future#get()}.
- *
  * @author Sven Mawson
  * @author Nishant Thakkar
  * @since 9.09.15 <b>tentative</b>

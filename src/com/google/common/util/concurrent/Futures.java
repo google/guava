@@ -389,13 +389,6 @@ public class Futures {
    * If the function throws any checked exceptions, they should be wrapped in a
    * {@code UndeclaredThrowableException} so that this class can get access to
    * the cause.
-   *
-   * @param <I> This should match the type <I> returned by the provided
-   *     ListenableFuture.get() and the parameter of
-   *     Function<I,ListenableFuture<O>>.apply.
-   * @param <O> This should match the type <O> returned by the resulting
-   *     ListenableFuture.get() and the return type of
-   *     Function<I,ListenableFuture<O>>.apply.
    */
   private static class ChainingListenableFuture<I, O>
       extends AbstractListenableFuture<O> implements Runnable {

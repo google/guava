@@ -32,7 +32,6 @@ import java.util.concurrent.Executor;
  * {@code ListenableFuture} interface and simply delegates the
  * {@link #addListener(Runnable, Executor)} and {@link #done()} methods to it.
  * 
- * @param <V> The result type returned by the {@code get} method
  * @author Sven Mawson
  * @since 9.09.15 <b>tentative</b>
  */

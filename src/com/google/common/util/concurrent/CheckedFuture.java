@@ -40,8 +40,6 @@ import java.util.concurrent.TimeoutException;
  * future will guarantee execution of all listeners when the task completes.
  * 
  * @author Sven Mawson
- * @param <V> The result type returned by the <tt>checkedGet</tt> methods
- * @param <E> The Exception type thrown by the <tt>checkedGet</tt> methods
  * @since 9.09.15 <b>tentative</b>
  */
 public interface CheckedFuture<V, E extends Exception>

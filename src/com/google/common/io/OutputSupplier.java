@@ -22,7 +22,6 @@ import java.io.IOException;
  * An factory for writable streams of bytes or characters.
  *
  * @author Chris Nokleberg
- * @param <T> the type of object being supplied
  * @since 9.09.15 <b>tentative</b>
  */
 public interface OutputSupplier<T> {

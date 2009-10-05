@@ -44,7 +44,6 @@ import java.util.concurrent.locks.AbstractQueuedSynchronizer;
  * cancellation it is left to the subclass to distinguish between created
  * and running tasks.
  *
- * @param <V> The result type returned by the {@code get} method
  * @author Sven Mawson
  * @since 9.09.15 <b>tentative</b>
  */
