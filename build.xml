@@ -16,7 +16,7 @@
          target="1.6">
       <classpath>
         <pathelement location="lib/jsr305.jar"/>
-        <pathelement location="lib/google-collect-1.0-rc2.jar"/>
+        <pathelement location="lib/google-collect-1.0-rc3.jar"/>
       </classpath>
     </javac>
   </target>
@@ -41,7 +41,7 @@
       </sourcepath>
       <!-- workaround for http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6442982 -->
       <classpath>
-        <pathelement location="lib/google-collect-1.0-rc2.jar"/>
+        <pathelement location="lib/google-collect-1.0-rc3.jar"/>
         <pathelement location="lib/jsr305.jar"/>
       </classpath>
       <link href="http://jsr-305.googlecode.com/svn/trunk/javadoc"/>
