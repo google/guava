@@ -18,7 +18,6 @@ package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.VisibleForTesting;
-import static com.google.common.base.Preconditions.checkArgument;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -28,6 +27,8 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static com.google.common.base.Preconditions.checkArgument;
 
 /**
  * Implementation of {@code Multimap} that uses an {@code ArrayList} to store
@@ -55,6 +56,7 @@ import java.util.Map;
  * Multimaps#synchronizedListMultimap}.
  *
  * @author Jared Levy
+ * @since 2010.01.04 <b>stable</b> (imported from Google Collections Library)
  */
 @GwtCompatible(serializable = true)
 public final class ArrayListMultimap<K, V> extends AbstractListMultimap<K, V> {

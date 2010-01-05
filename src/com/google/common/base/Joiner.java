@@ -47,6 +47,7 @@ import javax.annotation.Nullable;
  * given element is null.
  *
  * @author Kevin Bourrillion
+ * @since 2010.01.04 <b>stable</b> (imported from Google Collections Library)
  */
 @GwtCompatible public class Joiner {
   /**

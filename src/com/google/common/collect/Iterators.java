@@ -21,9 +21,6 @@ import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Function;
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
-import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.common.base.Preconditions.checkState;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 
@@ -37,6 +34,10 @@ import java.util.NoSuchElementException;
 
 import javax.annotation.Nullable;
 
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkState;
+
 /**
  * This class contains static utility methods that operate on or return objects
  * of type {@link Iterator}. Except as noted, each method has a corresponding
@@ -44,6 +45,7 @@ import javax.annotation.Nullable;
  *
  * @author Kevin Bourrillion
  * @author Jared Levy
+ * @since 2010.01.04 <b>stable</b> (imported from Google Collections Library)
  */
 @GwtCompatible
 public final class Iterators {
@@ -178,9 +180,9 @@ public final class Iterators {
    * @param predicate a predicate that determines whether an element should
    *     be removed
    * @return {@code true} if any elements were removed from the iterator
+   * @since 2010.01.04 <b>tentative</b>
    */
-  // TODO: make public post-1.0
-  static <T> boolean removeIf(
+  public static <T> boolean removeIf(
       Iterator<T> removeFrom, Predicate<? super T> predicate) {
     checkNotNull(predicate);
     boolean modified = false;
@@ -677,6 +679,36 @@ public final class Iterators {
   }
 
   /**
+   * Returns the index in {@code iterator} of the first element that satisfies
+   * the provided {@code predicate}, or {@code -1} if the Iterator has no such
+   * elements.
+   *
+   * <p>More formally, returns the lowest index {@code i} such that
+   * {@code predicate.apply(Iterators.get(iterator, i))} is {@code true}, or
+   * {@code -1} if there is no such index.
+   *
+   * <p>If -1 is returned, the iterator will be left exhausted: its
+   * {@code hasNext()} method will return {@code false}.  Otherwise,
+   * the iterator will be set to the element which satisfies the
+   * {@code predicate}.
+   *
+   * @since 2010.01.04 <b>tentative</b>
+   */
+  public static <T> int indexOf(
+      Iterator<T> iterator, Predicate<? super T> predicate) {
+    Preconditions.checkNotNull(predicate, "predicate");
+    int i = 0;
+    while (iterator.hasNext()) {
+      T current = iterator.next();
+      if (predicate.apply(current)) {
+        return i;
+      }
+      i++;
+    }
+    return -1;
+  }
+
+  /**
    * Returns an iterator that applies {@code function} to each element of {@code
    * fromIterator}.
    *
@@ -746,6 +778,34 @@ public final class Iterators {
     }
   }
 
+  /**
+   * Returns a view of the supplied {@code iterator} that removes each element
+   * from the supplied {@code iterator} as it is returned.
+   *
+   * <p>The provided iterator must support {@link Iterator#remove()} or
+   * else the returned iterator will fail on the first call to {@code
+   * next}.
+   *
+   * @param iterator the iterator to remove and return elements from
+   * @return an iterator that removes and returns elements from the
+   *     supplied iterator
+   * @since 2010.01.04 <b>tentative</b>
+   */
+  public static <T> Iterator<T> consumingIterator(final Iterator<T> iterator) {
+    checkNotNull(iterator);
+    return new UnmodifiableIterator<T>() {
+      public boolean hasNext() {
+        return iterator.hasNext();
+      }
+
+      public T next() {
+        T next = iterator.next();
+        iterator.remove();
+        return next;
+      }
+    };
+  }
+
   // Methods only in Iterators, not in Iterables
 
   /**
@@ -761,7 +821,8 @@ public final class Iterators {
    * Arrays#asList(Object[])} or {@link ImmutableList#of(Object[])}}.
    */
   public static <T> UnmodifiableIterator<T> forArray(final T... array) {
-    // optimized. benchmarks at nearly 2x of the straightforward impl
+    // TODO: compare performance with Arrays.asList(array).iterator().
+    checkNotNull(array);  // eager for GWT.
     return new UnmodifiableIterator<T>() {
       final int length = array.length;
       int i = 0;
@@ -769,12 +830,9 @@ public final class Iterators {
         return i < length;
       }
       public T next() {
-        try {
-          // 'return array[i++];' almost works
-          T t = array[i];
-          i++;
-          return t;
-        } catch (ArrayIndexOutOfBoundsException e) {
+        if (i < length) {
+          return array[i++];
+        } else {
           throw new NoSuchElementException();
         }
       }

@@ -38,7 +38,7 @@ import java.util.RandomAccess;
  * UnsignedBytes}.
  *
  * @author Kevin Bourrillion
- * @since 9.09.15 <b>tentative</b>
+ * @since 2009.09.15 <b>tentative</b>
  */
 @GwtCompatible
 public final class Bytes {
@@ -210,6 +210,10 @@ public final class Bytes {
    * Copies a collection of {@code Byte} instances into a new array of
    * primitive {@code byte} values.
    *
+   * <p>Elements are copied from the argument collection as if by {@code
+   * collection.toArray()}.  Calling this method is as thread-safe as calling
+   * that method.
+   *
    * @param collection a collection of {@code Byte} objects
    * @return an array containing the same values as {@code collection}, in the
    *     same order, converted to primitives
@@ -221,11 +225,11 @@ public final class Bytes {
       return ((ByteArrayAsList) collection).toByteArray();
     }
 
-    // TODO: handle collection being concurrently modified
-    int counter = 0;
-    byte[] array = new byte[collection.size()];
-    for (Byte value : collection) {
-      array[counter++] = value;
+    Object[] boxedArray = collection.toArray();
+    int len = boxedArray.length;
+    byte[] array = new byte[len];
+    for (int i = 0; i < len; i++) {
+      array[i] = (Byte) boxedArray[i];
     }
     return array;
   }

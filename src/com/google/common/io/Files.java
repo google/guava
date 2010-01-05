@@ -30,6 +30,10 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.io.RandomAccessFile;
+import java.nio.MappedByteBuffer;
+import java.nio.channels.FileChannel;
+import java.nio.channels.FileChannel.MapMode;
 import java.nio.charset.Charset;
 import java.security.MessageDigest;
 import java.util.List;
@@ -41,7 +45,7 @@ import java.util.zip.Checksum;
  * <p>All method parameters must be non-null unless documented otherwise.
  *
  * @author Chris Nokleberg
- * @since 9.09.15 <b>tentative</b>
+ * @since 2009.09.15 <b>tentative</b>
  */
 public final class Files {
 
@@ -207,7 +211,7 @@ public final class Files {
    * @throws IOException if an I/O error occurs
    */
   public static String toString(File file, Charset charset) throws IOException {
-    return new String(toByteArray(file), charset);
+    return new String(toByteArray(file), charset.name());
   }
 
   /**
@@ -456,7 +460,8 @@ public final class Files {
    * Deletes all the files within a directory. Does not delete the
    * directory itself.
    *
-   * <p>If the file argument is a symbolic link this method will do
+   * <p>If the file argument is a symbolic link or there is a symbolic
+   * link in the path leading to the directory, this method will do
    * nothing. Symbolic links within the directory are not followed.
    *
    * @param directory the directory to delete the contents of
@@ -550,8 +555,11 @@ public final class Files {
   /**
    * Process the bytes of a file.
    *
+   * <p>(If this seems too complicated, maybe you're looking for
+   * {@link #toByteArray}.)
+   *
    * @param file the file to read
-   * @param processor the object to which to pass the bytes of the file
+   * @param processor the object to which the bytes of the file are passed.
    * @return the result of the byte processor
    * @throws IOException if an I/O error occurs
    */
@@ -588,5 +596,101 @@ public final class Files {
   public static byte[] getDigest(File file, MessageDigest md)
       throws IOException {
     return ByteStreams.getDigest(newInputStreamSupplier(file), md);
+  }
+
+  /**
+   * Fully maps a file read-only in to memory as per
+   * {@link FileChannel#map(java.nio.channels.FileChannel.MapMode, long, long)}.
+   *
+   * <p>Files are mapped from offset 0 to its length.
+   *
+   * <p>This only works for files <= {@link Integer#MAX_VALUE} bytes.
+   *
+   * @param file the file to map
+   * @return a read-only buffer reflecting {@code file}
+   * @throws FileNotFoundException if the {@code file} does not exist
+   * @throws IOException if an I/O error occurs
+   *
+   * @see FileChannel#map(MapMode, long, long)
+   * @since 2010.01.04 <b>tentative</b>
+   */
+  public static MappedByteBuffer map(File file) throws IOException {
+    return map(file, MapMode.READ_ONLY);
+  }
+
+  /**
+   * Fully maps a file in to memory as per
+   * {@link FileChannel#map(java.nio.channels.FileChannel.MapMode, long, long)}
+   * using the requested {@link MapMode}.
+   *
+   * <p>Files are mapped from offset 0 to its length.
+   *
+   * <p>This only works for files <= {@link Integer#MAX_VALUE} bytes.
+   *
+   * @param file the file to map
+   * @param mode the mode to use when mapping {@code file}
+   * @return a buffer reflecting {@code file}
+   * @throws FileNotFoundException if the {@code file} does not exist
+   * @throws IOException if an I/O error occurs
+   *
+   * @see FileChannel#map(MapMode, long, long)
+   * @since 2010.01.04 <b>tentative</b>
+   */
+  public static MappedByteBuffer map(File file, MapMode mode)
+      throws IOException {
+    if (!file.exists()) {
+      throw new FileNotFoundException(file.toString());
+    }
+    return map(file, mode, file.length());
+  }
+
+  /**
+   * Maps a file in to memory as per
+   * {@link FileChannel#map(java.nio.channels.FileChannel.MapMode, long, long)}
+   * using the requested {@link MapMode}.
+   *
+   * <p>Files are mapped from offset 0 to {@code size}.
+   *
+   * <p>If the mode is {@link MapMode#READ_WRITE} and the file does not exist,
+   * it will be created with the requested {@code size}. Thus this method is
+   * useful for creating memory mapped files which do not yet exist.
+   *
+   * <p>This only works for files <= {@link Integer#MAX_VALUE} bytes.
+   *
+   * @param file the file to map
+   * @param mode the mode to use when mapping {@code file}
+   * @return a buffer reflecting {@code file}
+   * @throws IOException if an I/O error occurs
+   *
+   * @see FileChannel#map(MapMode, long, long)
+   * @since 2010.01.04 <b>tentative</b>
+   */
+  public static MappedByteBuffer map(File file, MapMode mode, long size)
+      throws FileNotFoundException, IOException {
+    RandomAccessFile raf =
+        new RandomAccessFile(file, mode == MapMode.READ_ONLY ? "r" : "rw");
+
+    boolean threw = true;
+    try {
+      MappedByteBuffer mbb = map(raf, mode, size);
+      threw = false;
+      return mbb;
+    } finally {
+      Closeables.close(raf, threw);
+    }
+  }
+
+  private static MappedByteBuffer map(RandomAccessFile raf, MapMode mode,
+      long size) throws IOException {
+    FileChannel channel = raf.getChannel();
+
+    boolean threw = true;
+    try {
+      MappedByteBuffer mbb = channel.map(mode, 0, size);
+      threw = false;
+      return mbb;
+    } finally {
+      Closeables.close(channel, threw);
+    }
   }
 }

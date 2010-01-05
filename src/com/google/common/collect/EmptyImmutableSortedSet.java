@@ -27,7 +27,7 @@ import javax.annotation.Nullable;
 
 /**
  * An empty immutable sorted set.
- * 
+ *
  * @author Jared Levy
  */
 @GwtCompatible(serializable = true)
@@ -108,5 +108,9 @@ class EmptyImmutableSortedSet<E> extends ImmutableSortedSet<E> {
 
   @Override boolean hasPartialArray() {
     return false;
+  }
+
+  @Override int indexOf(Object target) {
+    return -1;
   }
 }

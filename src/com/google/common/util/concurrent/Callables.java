@@ -24,7 +24,7 @@ import javax.annotation.Nullable;
  * Static utility methods pertaining to the {@link Callable} interface.
  *
  * @author Isaac Shum
- * @since 9.09.15 <b>tentative</b>
+ * @since 2009.09.15 <b>tentative</b>
  */
 public final class Callables {
   private Callables() {}
@@ -35,7 +35,7 @@ public final class Callables {
    */
   public static <T> Callable<T> returning(final @Nullable T value) {
     return new Callable<T>() {
-      @Override public T call() {
+      /*@Override*/ public T call() {
         return value;
       }
     };

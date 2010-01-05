@@ -17,6 +17,9 @@
 package com.google.common.primitives;
 
 import com.google.common.annotations.GwtCompatible;
+
+import java.util.Comparator;
+
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -27,7 +30,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * signedness is not an issue are in {@link Bytes}.
  *
  * @author Kevin Bourrillion
- * @since 9.09.15 <b>tentative</b>
+ * @since 2009.09.15 <b>tentative</b>
  */
 @GwtCompatible
 public final class SignedBytes {
@@ -138,5 +141,40 @@ public final class SignedBytes {
       builder.append(separator).append(array[i]);
     }
     return builder.toString();
+  }
+
+  /**
+   * Returns a comparator that compares two {@code byte} arrays
+   * lexicographically. That is, it compares, using {@link
+   * #compare(byte, byte)}), the first pair of values that follow any common
+   * prefix, or when one array is a prefix of the other, treats the shorter
+   * array as the lesser. For example, {@code [] < [0x01] < [0x01, 0x80] <
+   * [0x01, 0x7F] < [0x02]}. Values are treated as signed.
+   *
+   * <p>The returned comparator is inconsistent with {@link
+   * Object#equals(Object)} (since arrays support only identity equality), but
+   * it is consistent with {@link java.util.Arrays#equals(byte[], byte[])}.
+   *
+   * @see <a href="http://en.wikipedia.org/wiki/Lexicographical_order">
+   *     Lexicographical order</a> article at Wikipedia
+   * @since 2010.01.04 <b>tentative</b>
+   */
+  public static Comparator<byte[]> lexicographicalComparator() {
+    return LexicographicalComparator.INSTANCE;
+  }
+
+  private enum LexicographicalComparator implements Comparator<byte[]> {
+    INSTANCE;
+
+    public int compare(byte[] left, byte[] right) {
+      int minLength = Math.min(left.length, right.length);
+      for (int i = 0; i < minLength; i++) {
+        int result = SignedBytes.compare(left[i], right[i]);
+        if (result != 0) {
+          return result;
+        }
+      }
+      return left.length - right.length;
+    }
   }
 }

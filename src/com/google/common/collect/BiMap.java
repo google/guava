@@ -30,6 +30,7 @@ import javax.annotation.Nullable;
  * as this bimap but with reversed keys and values.
  *
  * @author Kevin Bourrillion
+ * @since 2010.01.04 <b>stable</b> (imported from Google Collections Library)
  */
 @GwtCompatible
 public interface BiMap<K, V> extends Map<K, V> {

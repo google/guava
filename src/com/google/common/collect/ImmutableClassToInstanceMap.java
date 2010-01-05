@@ -25,6 +25,7 @@ import java.util.Map;
  * MutableClassToInstanceMap}.
  *
  * @author Kevin Bourrillion
+ * @since 2010.01.04 <b>stable</b> (imported from Google Collections Library)
  */
 public final class ImmutableClassToInstanceMap<B> extends
     ForwardingMap<Class<? extends B>, B> implements ClassToInstanceMap<B> {

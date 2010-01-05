@@ -32,7 +32,7 @@ import javax.annotation.Nullable;
  */
 @GwtCompatible(serializable = true)
 @SuppressWarnings("serial") // uses writeReplace(), not default serialization
-final class RegularImmutableList<E> extends ImmutableList<E> {
+class RegularImmutableList<E> extends ImmutableList<E> {
   private final transient int offset;
   private final transient int size;
   private final transient Object[] array;
@@ -67,7 +67,7 @@ final class RegularImmutableList<E> extends ImmutableList<E> {
 
   @Override public Object[] toArray() {
     Object[] newArray = new Object[size()];
-    System.arraycopy(array, offset, newArray, 0, size);
+    Platform.unsafeArrayCopy(array, offset, newArray, 0, size);
     return newArray;
   }
 
@@ -77,7 +77,7 @@ final class RegularImmutableList<E> extends ImmutableList<E> {
     } else if (other.length > size) {
       other[size] = null;
     }
-    System.arraycopy(array, offset, other, 0, size);
+    Platform.unsafeArrayCopy(array, offset, other, 0, size);
     return other;
   }
 
@@ -223,5 +223,13 @@ final class RegularImmutableList<E> extends ImmutableList<E> {
       sb.append(", ").append(array[i]);
     }
     return sb.append(']').toString();
+  }
+
+  int offset() {
+    return offset;
+  }
+
+  Object[] array() {
+    return array;
   }
 }

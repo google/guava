@@ -77,6 +77,7 @@ import java.util.SortedSet;
  *
  * @see ImmutableSet
  * @author Jared Levy
+ * @since 2010.01.04 <b>stable</b> (imported from Google Collections Library)
  */
 @GwtCompatible(serializable = true)
 @SuppressWarnings("serial") // we're overriding default serialization
@@ -238,7 +239,7 @@ public abstract class ImmutableSortedSet<E>
       return array;
     } else {
       Object[] copy = new Object[size];
-      System.arraycopy(array, 0, copy, 0, size);
+      Platform.unsafeArrayCopy(array, 0, copy, 0, size);
       return copy;
     }
   }
@@ -643,6 +644,11 @@ public abstract class ImmutableSortedSet<E>
 
   /** Returns whether the elements are stored in a subset of a larger array. */
   abstract boolean hasPartialArray();
+
+  /**
+   * Returns the position of an element within the set, or -1 if not present.
+   */
+  abstract int indexOf(Object target);
 
   /*
    * This class is used to serialize all ImmutableSortedSet instances,

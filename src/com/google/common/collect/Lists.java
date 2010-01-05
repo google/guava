@@ -19,9 +19,6 @@ package com.google.common.collect;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Function;
-import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkElementIndex;
-import static com.google.common.base.Preconditions.checkNotNull;
 
 import java.io.Serializable;
 import java.util.AbstractList;
@@ -38,12 +35,17 @@ import java.util.RandomAccess;
 
 import javax.annotation.Nullable;
 
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkElementIndex;
+import static com.google.common.base.Preconditions.checkNotNull;
+
 /**
  * Static utility methods pertaining to {@link List} instances. Also see this
  * class's counterparts {@link Sets} and {@link Maps}.
  *
  * @author Kevin Bourrillion
  * @author Mike Bostock
+ * @since 2010.01.04 <b>stable</b> (imported from Google Collections Library)
  */
 @GwtCompatible
 public final class Lists {

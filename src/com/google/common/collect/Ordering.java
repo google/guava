@@ -26,7 +26,11 @@ import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.NoSuchElementException;
+import java.util.SortedMap;
+import java.util.SortedSet;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * A comparator with added methods to support common functions. For example:
@@ -51,6 +55,7 @@ import java.util.NoSuchElementException;
  *
  * @author Jesse Wilson
  * @author Kevin Bourrillion
+ * @since 2010.01.04 <b>stable</b> (imported from Google Collections Library)
  */
 @GwtCompatible
 public abstract class Ordering<T> implements Comparator<T> {
@@ -172,6 +177,75 @@ public abstract class Ordering<T> implements Comparator<T> {
   }
 
   /**
+   * Returns an arbitrary ordering over all objects, for which {@code compare(a,
+   * b) == 0} implies {@code a == b} (identity equality). There is no meaning
+   * whatsoever to the order imposed, but it is constant for the life of the VM.
+   *
+   * <p>Because the ordering is identity-based, it is not "consistent with
+   * {@link Object#equals(Object)}" as defined by {@link Comparator}. Use
+   * caution when building a {@link SortedSet} or {@link SortedMap} from it, as
+   * the resulting collection will not behave exactly according to spec.
+   *
+   * <p>This ordering is not serializable, as its implementation relies on
+   * {@link System#identityHashCode(Object)}, so its behavior cannot be
+   * preserved across serialization.
+   *
+   * @since 2010.01.04 <b>tentative</b>
+   */
+  public static Ordering<Object> arbitrary() {
+    return ArbitraryOrderingHolder.ARBITRARY_ORDERING;
+  }
+
+  private static class ArbitraryOrderingHolder {
+    static final Ordering<Object> ARBITRARY_ORDERING = new ArbitraryOrdering();
+  }
+
+  @VisibleForTesting static class ArbitraryOrdering extends Ordering<Object> {
+    private Map<Object, Integer> uids =
+        Platform.tryWeakKeys(new MapMaker()).makeComputingMap(
+            new Function<Object, Integer>() {
+              final AtomicInteger counter = new AtomicInteger(0);
+              public Integer apply(Object from) {
+                return counter.getAndIncrement();
+              }
+            });
+
+    /*@Override*/ public int compare(Object left, Object right) {
+      if (left == right) {
+        return 0;
+      }
+      int leftCode = identityHashCode(left);
+      int rightCode = identityHashCode(right);
+      if (leftCode != rightCode) {
+        return leftCode < rightCode ? -1 : 1;
+      }
+
+      // identityHashCode collision (rare, but not as rare as you'd think)
+      int result = uids.get(left).compareTo(uids.get(right));
+      if (result == 0) {
+        throw new AssertionError(); // extremely, extremely unlikely.
+      }
+      return result;
+    }
+
+    @Override public String toString() {
+      return "Ordering.arbitrary()";
+    }
+
+    /*
+     * We need to be able to mock identityHashCode() calls for tests, because it
+     * can take 1-10 seconds to find colliding objects. Mocking frameworks that
+     * can do magic to mock static method calls still can't do so for a system
+     * class, so we need the indirection. In production, Hotspot should still
+     * recognize that the call is 1-morphic and should still be willing to
+     * inline it if necessary.
+     */
+    int identityHashCode(Object object) {
+      return System.identityHashCode(object);
+    }
+  }
+
+  /**
    * Returns an ordering that compares objects by the natural ordering of their
    * string representations as returned by {@code toString()}. It does not
    * support null values.
@@ -252,6 +326,35 @@ public abstract class Ordering<T> implements Comparator<T> {
   @GwtCompatible(serializable = true)
   public <F> Ordering<F> onResultOf(Function<F, ? extends T> function) {
     return new ByFunctionOrdering<F, T>(function, this);
+  }
+
+  /**
+   * Returns a new ordering which sorts iterables by comparing corresponding
+   * elements pairwise until a nonzero result is found; imposes "dictionary
+   * order". If the end of one iterable is reached, but not the other, the
+   * shorter iterable is considered to be less than the longer one. For example,
+   * a lexicographical natural ordering over integers considers {@code
+   * [] < [1] < [1, 1] < [1, 2] < [2]}.
+   *
+   * <p>Note that {@code ordering.lexicographical().reverse()} is not
+   * equivalent to {@code ordering.reverse().lexicographical()} (consider how
+   * each would order {@code [1]} and {@code [1, 1]}).
+   *
+   * @since 2010.01.04 <b>tentative</b>
+   */
+  @GwtCompatible(serializable = true)
+  // type parameter <S> lets us avoid the extra <String> in statements like:
+  // Ordering<Iterable<String>> o =
+  //     Ordering.<String>natural().lexicographical();
+  public <S extends T> Ordering<Iterable<S>> lexicographical() {
+    /*
+     * Note that technically the returned ordering should be capable of
+     * handling not just {@code Iterable<S>} instances, but also any {@code
+     * Iterable<? extends S>}. However, the need for this comes up so rarely
+     * that it doesn't justify making everyone else deal with the very ugly
+     * wildcard.
+     */
+    return new LexicographicalOrdering<S>(this);
   }
 
   /**

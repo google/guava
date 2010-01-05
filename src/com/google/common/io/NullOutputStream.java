@@ -22,7 +22,7 @@ import java.io.OutputStream;
  * Implementation of {@link OutputStream} that simply discards written bytes.
  *
  * @author Spencer Kimball
- * @since 9.09.15 <b>tentative</b>
+ * @since 2009.09.15 <b>tentative</b>
  */
 public class NullOutputStream extends OutputStream {
   /** Discards the specified byte. */

@@ -18,7 +18,6 @@ package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
-import static com.google.common.base.Preconditions.checkNotNull;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
@@ -34,6 +33,8 @@ import java.util.Set;
 import java.util.SortedSet;
 
 import javax.annotation.Nullable;
+
+import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * Synchronized collection views. The returned synchronized collection views are

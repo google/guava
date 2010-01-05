@@ -44,6 +44,7 @@ import javax.annotation.Nullable;
  * are guaranteed to be immutable.
  *
  * @author Jared Levy
+ * @since 2010.01.04 <b>stable</b> (imported from Google Collections Library)
  */
 @GwtCompatible(serializable = true)
 public class ImmutableListMultimap<K, V>

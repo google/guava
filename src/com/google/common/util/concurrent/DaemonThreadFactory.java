@@ -25,7 +25,7 @@ import java.util.concurrent.ThreadFactory;
  *
  * @author Charles Fry
  * @author Harendra Verma
- * @since 9.09.15 <b>tentative</b>
+ * @since 2009.09.15 <b>tentative</b>
  */
 public class DaemonThreadFactory implements ThreadFactory {
 

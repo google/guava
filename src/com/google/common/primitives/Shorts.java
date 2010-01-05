@@ -18,25 +18,27 @@ package com.google.common.primitives;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
-import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkElementIndex;
-import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.common.base.Preconditions.checkPositionIndexes;
 
 import java.io.Serializable;
 import java.util.AbstractList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.RandomAccess;
+
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkElementIndex;
+import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkPositionIndexes;
 
 /**
  * Static utility methods pertaining to {@code short} primitives, that are not
  * already found in either {@link Short} or {@link Arrays}.
  *
  * @author Kevin Bourrillion
- * @since 9.09.15 <b>tentative</b>
+ * @since 2009.09.15 <b>tentative</b>
  */
 @GwtCompatible
 public final class Shorts {
@@ -101,7 +103,7 @@ public final class Shorts {
    *     value if {@code a} is greater than {@code b}; or zero if they are equal
    */
   public static int compare(short a, short b) {
-    return (a < b) ? -1 : ((a > b) ? 1 : 0);
+    return a - b; // safe due to restricted range
   }
 
   /**
@@ -355,8 +357,47 @@ public final class Shorts {
   }
 
   /**
+   * Returns a comparator that compares two {@code short} arrays
+   * lexicographically. That is, it compares, using {@link
+   * #compare(short, short)}), the first pair of values that follow any
+   * common prefix, or when one array is a prefix of the other, treats the
+   * shorter array as the lesser. For example, {@code [] < [(short) 1] <
+   * [(short) 1, (short) 2] < [(short) 2]}.
+   *
+   * <p>The returned comparator is inconsistent with {@link
+   * Object#equals(Object)} (since arrays support only identity equality), but
+   * it is consistent with {@link Arrays#equals(short[], short[])}.
+   *
+   * @see <a href="http://en.wikipedia.org/wiki/Lexicographical_order">
+   *     Lexicographical order</a> article at Wikipedia
+   * @since 2010.01.04 <b>tentative</b>
+   */
+  public static Comparator<short[]> lexicographicalComparator() {
+    return LexicographicalComparator.INSTANCE;
+  }
+
+  private enum LexicographicalComparator implements Comparator<short[]> {
+    INSTANCE;
+
+    public int compare(short[] left, short[] right) {
+      int minLength = Math.min(left.length, right.length);
+      for (int i = 0; i < minLength; i++) {
+        int result = Shorts.compare(left[i], right[i]);
+        if (result != 0) {
+          return result;
+        }
+      }
+      return left.length - right.length;
+    }
+  }
+
+  /**
    * Copies a collection of {@code Short} instances into a new array of
    * primitive {@code short} values.
+   *
+   * <p>Elements are copied from the argument collection as if by {@code
+   * collection.toArray()}.  Calling this method is as thread-safe as calling
+   * that method.
    *
    * @param collection a collection of {@code Short} objects
    * @return an array containing the same values as {@code collection}, in the
@@ -369,11 +410,11 @@ public final class Shorts {
       return ((ShortArrayAsList) collection).toShortArray();
     }
 
-    // TODO: handle collection being concurrently modified
-    int counter = 0;
-    short[] array = new short[collection.size()];
-    for (Short value : collection) {
-      array[counter++] = value;
+    Object[] boxedArray = collection.toArray();
+    int len = boxedArray.length;
+    short[] array = new short[len];
+    for (int i = 0; i < len; i++) {
+      array[i] = (Short) boxedArray[i];
     }
     return array;
   }

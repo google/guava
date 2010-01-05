@@ -21,7 +21,7 @@ import com.google.common.base.Preconditions;
 import java.io.IOException;
 import java.io.Reader;
 import java.nio.CharBuffer;
-import java.util.ArrayDeque;
+import java.util.LinkedList;
 import java.util.Queue;
 
 /**
@@ -30,7 +30,7 @@ import java.util.Queue;
  * objects, not just instances of {@link Reader}.
  *
  * @author Chris Nokleberg
- * @since 9.09.15 <b>tentative</b>
+ * @since 2009.09.15 <b>tentative</b>
  */
 public final class LineReader {
   private final Readable readable;
@@ -38,7 +38,7 @@ public final class LineReader {
   private final char[] buf = new char[0x1000]; // 4K
   private final CharBuffer cbuf = CharBuffer.wrap(buf);
 
-  private final Queue<String> lines = new ArrayDeque<String>();
+  private final Queue<String> lines = new LinkedList<String>();
   private final LineBuffer lineBuf = new LineBuffer() {
     @Override protected void handleLine(String line, String end) {
       lines.add(line);

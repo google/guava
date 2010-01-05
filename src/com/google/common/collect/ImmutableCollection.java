@@ -28,11 +28,15 @@ import javax.annotation.Nullable;
 /**
  * An immutable collection. Does not permit null elements.
  *
+ * <p>In addition to the {@link Collection} methods, this class has an {@link
+ * #asList()} method, which returns a list view of the collection's elements.
+ *
  * <p><b>Note</b>: Although this class is not final, it cannot be subclassed
  * outside of this package as it has no public or protected constructors. Thus,
  * instances of this type are guaranteed to be immutable.
  *
  * @author Jesse Wilson
+ * @since 2010.01.04 <b>stable</b> (imported from Google Collections Library)
  */
 @GwtCompatible
 @SuppressWarnings("serial") // we're overriding default serialization
@@ -153,6 +157,31 @@ public abstract class ImmutableCollection<E>
    */
   public final void clear() {
     throw new UnsupportedOperationException();
+  }
+
+  // TODO: Restructure code so ImmutableList doesn't contain this variable,
+  // which it doesn't use.
+  private transient ImmutableList<E> asList;
+
+  /**
+   * Returns a list view of the collection.
+   *
+   * @since 2010.01.04 <b>tentative</b>
+   */
+  public ImmutableList<E> asList() {
+    ImmutableList<E> list = asList;
+    return (list == null) ? (asList = createAsList()) : list;
+  }
+
+  ImmutableList<E> createAsList() {
+    switch (size()) {
+      case 0:
+        return ImmutableList.of();
+      case 1:
+        return ImmutableList.of(iterator().next());
+      default:
+        return new ImmutableAsList<E>(toArray(), this);
+    }
   }
 
   private static class EmptyImmutableCollection

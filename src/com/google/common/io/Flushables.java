@@ -25,7 +25,7 @@ import java.util.logging.Logger;
  * Utility methods for working with {@link Flushable} objects.
  *
  * @author Michael Lancaster
- * @since 9.09.15 <b>tentative</b>
+ * @since 2009.09.15 <b>tentative</b>
  */
 public final class Flushables {
   private static final Logger logger

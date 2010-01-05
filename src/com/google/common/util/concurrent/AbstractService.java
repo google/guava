@@ -37,7 +37,7 @@ import java.util.concurrent.locks.ReentrantLock;
  * single execution thread.
  *
  * @author Jesse Wilson
- * @since 9.09.15 <b>tentative</b>
+ * @since 2009.09.15 <b>tentative</b>
  */
 public abstract class AbstractService implements Service {
 

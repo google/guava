@@ -22,6 +22,8 @@ import java.util.Map;
 
 import javax.annotation.Nullable;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 /**
  * Implementation of {@link ImmutableMap} with exactly one entry.
  *
@@ -42,9 +44,9 @@ final class SingletonImmutableMap<K, V> extends ImmutableMap<K, V> {
   }
 
   SingletonImmutableMap(Entry<K, V> entry) {
-    this.entry = entry;
-    this.singleKey = entry.getKey();
-    this.singleValue = entry.getValue();
+    this.entry = checkNotNull(entry);  // checkNotNull for GWT.
+    this.singleKey = checkNotNull(entry.getKey());  // checkNotNull for GWT.
+    this.singleValue = checkNotNull(entry.getValue()); // checkNotNull for GWT.
   }
 
   private Entry<K, V> entry() {

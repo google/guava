@@ -24,7 +24,7 @@ import java.io.InputStream;
  * An {@link InputStream} that counts the number of bytes read.
  *
  * @author Chris Nokleberg
- * @since 9.09.15 <b>tentative</b>
+ * @since 2009.09.15 <b>tentative</b>
  */
 public class CountingInputStream extends FilterInputStream {
 

@@ -18,25 +18,27 @@ package com.google.common.primitives;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
-import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkElementIndex;
-import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.common.base.Preconditions.checkPositionIndexes;
 
 import java.io.Serializable;
 import java.util.AbstractList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.RandomAccess;
+
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkElementIndex;
+import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkPositionIndexes;
 
 /**
  * Static utility methods pertaining to {@code long} primitives, that are not
  * already found in either {@link Long} or {@link Arrays}.
  *
  * @author Kevin Bourrillion
- * @since 9.09.15 <b>tentative</b>
+ * @since 2009.09.15 <b>tentative</b>
  */
 @GwtCompatible
 public final class Longs {
@@ -341,8 +343,47 @@ public final class Longs {
   }
 
   /**
+   * Returns a comparator that compares two {@code long} arrays
+   * lexicographically. That is, it compares, using {@link
+   * #compare(long, long)}), the first pair of values that follow any
+   * common prefix, or when one array is a prefix of the other, treats the
+   * shorter array as the lesser. For example,
+   * {@code [] < [1L] < [1L, 2L] < [2L]}.
+   *
+   * <p>The returned comparator is inconsistent with {@link
+   * Object#equals(Object)} (since arrays support only identity equality), but
+   * it is consistent with {@link Arrays#equals(long[], long[])}.
+   *
+   * @see <a href="http://en.wikipedia.org/wiki/Lexicographical_order">
+   *     Lexicographical order</a> article at Wikipedia
+   * @since 2010.01.04 <b>tentative</b>
+   */
+  public static Comparator<long[]> lexicographicalComparator() {
+    return LexicographicalComparator.INSTANCE;
+  }
+
+  private enum LexicographicalComparator implements Comparator<long[]> {
+    INSTANCE;
+
+    public int compare(long[] left, long[] right) {
+      int minLength = Math.min(left.length, right.length);
+      for (int i = 0; i < minLength; i++) {
+        int result = Longs.compare(left[i], right[i]);
+        if (result != 0) {
+          return result;
+        }
+      }
+      return left.length - right.length;
+    }
+  }
+
+  /**
    * Copies a collection of {@code Long} instances into a new array of
    * primitive {@code long} values.
+   *
+   * <p>Elements are copied from the argument collection as if by {@code
+   * collection.toArray()}.  Calling this method is as thread-safe as calling
+   * that method.
    *
    * @param collection a collection of {@code Long} objects
    * @return an array containing the same values as {@code collection}, in the
@@ -355,11 +396,11 @@ public final class Longs {
       return ((LongArrayAsList) collection).toLongArray();
     }
 
-    // TODO: handle collection being concurrently modified
-    int counter = 0;
-    long[] array = new long[collection.size()];
-    for (Long value : collection) {
-      array[counter++] = value;
+    Object[] boxedArray = collection.toArray();
+    int len = boxedArray.length;
+    long[] array = new long[len];
+    for (int i = 0; i < len; i++) {
+      array[i] = (Long) boxedArray[i];
     }
     return array;
   }

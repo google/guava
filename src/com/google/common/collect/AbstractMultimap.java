@@ -1316,11 +1316,11 @@ abstract class AbstractMultimap<K, V> implements Multimap<K, V>, Serializable {
     // The following methods are included for performance.
 
     @Override public boolean containsKey(Object key) {
-      return submap.containsKey(key);
+      return Maps.safeContainsKey(submap, key);
     }
 
     @Override public Collection<V> get(Object key) {
-      Collection<V> collection = submap.get(key);
+      Collection<V> collection = Maps.safeGet(submap, key);
       if (collection == null) {
         return null;
       }
@@ -1370,7 +1370,7 @@ abstract class AbstractMultimap<K, V> implements Multimap<K, V>, Serializable {
       // The following methods are included for performance.
 
       @Override public boolean contains(Object o) {
-        return submap.entrySet().contains(o);
+        return Collections2.safeContains(submap.entrySet(), o);
       }
 
       @Override public boolean remove(Object o) {

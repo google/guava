@@ -47,6 +47,7 @@ import java.io.Serializable;
  * created since this class has a parameter-less constructor.
  *
  * @author Mike Bostock
+ * @since 2010.01.04 <b>stable</b> (imported from Google Collections Library)
  */
 @GwtCompatible
 public abstract class ForwardingObject {

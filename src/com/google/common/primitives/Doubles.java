@@ -17,25 +17,27 @@
 package com.google.common.primitives;
 
 import com.google.common.annotations.GwtCompatible;
-import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkElementIndex;
-import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.common.base.Preconditions.checkPositionIndexes;
 
 import java.io.Serializable;
 import java.util.AbstractList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.RandomAccess;
+
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkElementIndex;
+import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkPositionIndexes;
 
 /**
  * Static utility methods pertaining to {@code double} primitives, that are not
  * already found in either {@link Double} or {@link Arrays}.
  *
  * @author Kevin Bourrillion
- * @since 9.09.15 <b>tentative</b>
+ * @since 2009.09.15 <b>tentative</b>
  */
 @GwtCompatible
 public final class Doubles {
@@ -289,8 +291,47 @@ public final class Doubles {
   }
 
   /**
+   * Returns a comparator that compares two {@code double} arrays
+   * lexicographically. That is, it compares, using {@link
+   * #compare(double, double)}), the first pair of values that follow any
+   * common prefix, or when one array is a prefix of the other, treats the
+   * shorter array as the lesser. For example,
+   * {@code [] < [1.0] < [1.0, 2.0] < [2.0]}.
+   *
+   * <p>The returned comparator is inconsistent with {@link
+   * Object#equals(Object)} (since arrays support only identity equality), but
+   * it is consistent with {@link Arrays#equals(double[], double[])}.
+   *
+   * @see <a href="http://en.wikipedia.org/wiki/Lexicographical_order">
+   *     Lexicographical order</a> article at Wikipedia
+   * @since 2010.01.04 <b>tentative</b>
+   */
+  public static Comparator<double[]> lexicographicalComparator() {
+    return LexicographicalComparator.INSTANCE;
+  }
+
+  private enum LexicographicalComparator implements Comparator<double[]> {
+    INSTANCE;
+
+    public int compare(double[] left, double[] right) {
+      int minLength = Math.min(left.length, right.length);
+      for (int i = 0; i < minLength; i++) {
+        int result = Doubles.compare(left[i], right[i]);
+        if (result != 0) {
+          return result;
+        }
+      }
+      return left.length - right.length;
+    }
+  }
+
+  /**
    * Copies a collection of {@code Double} instances into a new array of
    * primitive {@code double} values.
+   *
+   * <p>Elements are copied from the argument collection as if by {@code
+   * collection.toArray()}.  Calling this method is as thread-safe as calling
+   * that method.
    *
    * @param collection a collection of {@code Double} objects
    * @return an array containing the same values as {@code collection}, in the
@@ -303,11 +344,11 @@ public final class Doubles {
       return ((DoubleArrayAsList) collection).toDoubleArray();
     }
 
-    // TODO: handle collection being concurrently modified
-    int counter = 0;
-    double[] array = new double[collection.size()];
-    for (Double value : collection) {
-      array[counter++] = value;
+    Object[] boxedArray = collection.toArray();
+    int len = boxedArray.length;
+    double[] array = new double[len];
+    for (int i = 0; i < len; i++) {
+      array[i] = (Double) boxedArray[i];
     }
     return array;
   }

@@ -9,11 +9,14 @@
 
   <target name="compile" description="Compile Java source.">
     <mkdir dir="build/classes"/>
+<!-- why doesn't this source/target/bootclasspath stuff work?? -->
     <javac srcdir="src"
          debug="on"
          destdir="build/classes"
-         source="1.6"
-         target="1.6">
+         source="5"
+         target="5"
+         bootclasspath="${env.JAVA5_HOME}/lib/rt.jar"
+         extdirs="">
       <classpath>
         <pathelement location="lib/jsr305.jar"/>
       </classpath>
@@ -34,7 +37,7 @@
          use="true"
          author="true"
          protected="true"
-         windowtitle="Guava Libraries 2010.01.04">
+         windowtitle="Guava Libraries ${version}">
       <sourcepath>
         <pathelement location="src"/>
       </sourcepath>

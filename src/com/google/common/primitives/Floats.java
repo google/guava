@@ -17,25 +17,27 @@
 package com.google.common.primitives;
 
 import com.google.common.annotations.GwtCompatible;
-import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkElementIndex;
-import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.common.base.Preconditions.checkPositionIndexes;
 
 import java.io.Serializable;
 import java.util.AbstractList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.RandomAccess;
+
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkElementIndex;
+import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkPositionIndexes;
 
 /**
  * Static utility methods pertaining to {@code float} primitives, that are not
  * already found in either {@link Float} or {@link Arrays}.
  *
  * @author Kevin Bourrillion
- * @since 9.09.15 <b>tentative</b>
+ * @since 2009.09.15 <b>tentative</b>
  */
 @GwtCompatible
 public final class Floats {
@@ -286,8 +288,47 @@ public final class Floats {
   }
 
   /**
+   * Returns a comparator that compares two {@code float} arrays
+   * lexicographically. That is, it compares, using {@link
+   * #compare(float, float)}), the first pair of values that follow any
+   * common prefix, or when one array is a prefix of the other, treats the
+   * shorter array as the lesser. For example, {@code [] < [1.0f] < [1.0f, 2.0f]
+   * < [2.0f]}.
+   *
+   * <p>The returned comparator is inconsistent with {@link
+   * Object#equals(Object)} (since arrays support only identity equality), but
+   * it is consistent with {@link Arrays#equals(float[], float[])}.
+   *
+   * @see <a href="http://en.wikipedia.org/wiki/Lexicographical_order">
+   *     Lexicographical order</a> article at Wikipedia
+   * @since 2010.01.04 <b>tentative</b>
+   */
+  public static Comparator<float[]> lexicographicalComparator() {
+    return LexicographicalComparator.INSTANCE;
+  }
+
+  private enum LexicographicalComparator implements Comparator<float[]> {
+    INSTANCE;
+
+    public int compare(float[] left, float[] right) {
+      int minLength = Math.min(left.length, right.length);
+      for (int i = 0; i < minLength; i++) {
+        int result = Floats.compare(left[i], right[i]);
+        if (result != 0) {
+          return result;
+        }
+      }
+      return left.length - right.length;
+    }
+  }
+
+  /**
    * Copies a collection of {@code Float} instances into a new array of
    * primitive {@code float} values.
+   *
+   * <p>Elements are copied from the argument collection as if by {@code
+   * collection.toArray()}.  Calling this method is as thread-safe as calling
+   * that method.
    *
    * @param collection a collection of {@code Float} objects
    * @return an array containing the same values as {@code collection}, in the
@@ -300,11 +341,11 @@ public final class Floats {
       return ((FloatArrayAsList) collection).toFloatArray();
     }
 
-    // TODO: handle collection being concurrently modified
-    int counter = 0;
-    float[] array = new float[collection.size()];
-    for (Float value : collection) {
-      array[counter++] = value;
+    Object[] boxedArray = collection.toArray();
+    int len = boxedArray.length;
+    float[] array = new float[len];
+    for (int i = 0; i < len; i++) {
+      array[i] = (Float) boxedArray[i];
     }
     return array;
   }

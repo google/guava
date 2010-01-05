@@ -28,37 +28,37 @@ import java.util.concurrent.TimeoutException;
  * Subclasses should override one or more methods to modify the behavior of
  * the backing collection as desired per the <a
  * href="http://en.wikipedia.org/wiki/Decorator_pattern">decorator pattern</a>.
- * 
+ *
  * @see ForwardingObject
  * @author Sven Mawson
- * @since 9.09.15 <b>tentative</b>
+ * @since 2009.09.15 <b>tentative</b>
  */
 public abstract class ForwardingFuture<V> extends ForwardingObject
     implements Future<V> {
-  
+
   @Override protected abstract Future<V> delegate();
-  
-  @Override
+
+  /*@Override*/
   public boolean cancel(boolean mayInterruptIfRunning) {
     return delegate().cancel(mayInterruptIfRunning);
   }
 
-  @Override
+  /*@Override*/
   public boolean isCancelled() {
     return delegate().isCancelled();
   }
 
-  @Override
+  /*@Override*/
   public boolean isDone() {
     return delegate().isDone();
   }
 
-  @Override
+  /*@Override*/
   public V get() throws InterruptedException, ExecutionException {
     return delegate().get();
   }
 
-  @Override
+  /*@Override*/
   public V get(long timeout, TimeUnit unit)
       throws InterruptedException, ExecutionException, TimeoutException {
     return delegate().get(timeout, unit);

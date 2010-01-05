@@ -45,7 +45,7 @@ import java.util.concurrent.locks.AbstractQueuedSynchronizer;
  * and running tasks.
  *
  * @author Sven Mawson
- * @since 9.09.15 <b>tentative</b>
+ * @since 2009.09.15 <b>tentative</b>
  */
 public abstract class AbstractFuture<V> implements Future<V> {
 

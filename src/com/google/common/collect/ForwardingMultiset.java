@@ -30,6 +30,7 @@ import javax.annotation.Nullable;
  *
  * @see ForwardingObject
  * @author Kevin Bourrillion
+ * @since 2010.01.04 <b>stable</b> (imported from Google Collections Library)
  */
 @GwtCompatible
 public abstract class ForwardingMultiset<E> extends ForwardingCollection<E>

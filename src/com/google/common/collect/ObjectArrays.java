@@ -27,6 +27,7 @@ import javax.annotation.Nullable;
  * Static utility methods pertaining to object arrays.
  *
  * @author Kevin Bourrillion
+ * @since 2010.01.04 <b>stable</b> (imported from Google Collections Library)
  */
 @GwtCompatible
 public final class ObjectArrays {
@@ -65,8 +66,8 @@ public final class ObjectArrays {
   @GwtIncompatible("Array.newInstance(Class, int)")
   public static <T> T[] concat(T[] first, T[] second, Class<T> type) {
     T[] result = newArray(type, first.length + second.length);
-    System.arraycopy(first, 0, result, 0, first.length);
-    System.arraycopy(second, 0, result, first.length, second.length);
+    Platform.unsafeArrayCopy(first, 0, result, 0, first.length);
+    Platform.unsafeArrayCopy(second, 0, result, first.length, second.length);
     return result;
   }
 
@@ -82,7 +83,7 @@ public final class ObjectArrays {
   public static <T> T[] concat(@Nullable T element, T[] array) {
     T[] result = newArray(array, array.length + 1);
     result[0] = element;
-    System.arraycopy(array, 0, result, 1, array.length);
+    Platform.unsafeArrayCopy(array, 0, result, 1, array.length);
     return result;
   }
 
@@ -104,7 +105,7 @@ public final class ObjectArrays {
   /** GWT safe version of Arrays.copyOf. */
   private static <T> T[] arraysCopyOf(T[] original, int newLength) {
     T[] copy = newArray(original, newLength);
-    System.arraycopy(
+    Platform.unsafeArrayCopy(
         original, 0, copy, 0, Math.min(original.length, newLength));
     return copy;
   }

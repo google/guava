@@ -19,10 +19,10 @@ package com.google.common.io;
 import java.io.IOException;
 
 /**
- * An factory for readable streams of bytes or characters.
+ * A factory for readable streams of bytes or characters.
  *
  * @author Chris Nokleberg
- * @since 9.09.15 <b>tentative</b>
+ * @since 2009.09.15 <b>tentative</b>
  */
 public interface InputSupplier<T> {
   T getInput() throws IOException;

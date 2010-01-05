@@ -28,6 +28,7 @@ import java.util.Iterator;
  *
  * @see ForwardingObject
  * @author Kevin Bourrillion
+ * @since 2010.01.04 <b>stable</b> (imported from Google Collections Library)
  */
 @GwtCompatible
 public abstract class ForwardingIterator<T>

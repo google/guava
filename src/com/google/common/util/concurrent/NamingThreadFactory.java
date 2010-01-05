@@ -25,7 +25,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * each thread created.
  *
  * @author Kevin Bourrillion
- * @since 9.09.15 <b>tentative</b>
+ * @since 2009.09.15 <b>tentative</b>
  */
 public class NamingThreadFactory implements ThreadFactory {
   private final ThreadFactory backingFactory;

@@ -21,8 +21,6 @@ import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Function;
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
-import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.base.Predicate;
 
 import java.util.Arrays;
@@ -39,6 +37,9 @@ import java.util.SortedSet;
 
 import javax.annotation.Nullable;
 
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
+
 /**
  * This class contains static utility methods that operate on or return objects
  * of type {@code Iterable}. Except as noted, each method has a corresponding
@@ -46,6 +47,7 @@ import javax.annotation.Nullable;
  *
  * @author Kevin Bourrillion
  * @author Jared Levy
+ * @since 2010.01.04 <b>stable</b> (imported from Google Collections Library)
  */
 @GwtCompatible
 public final class Iterables {
@@ -141,8 +143,9 @@ public final class Iterables {
    *
    * @throws UnsupportedOperationException if the iterable does not support
    *     {@code remove()}.
+   * @since 2010.01.04 <b>tentative</b>
    */
-  static <T> boolean removeIf(
+  public static <T> boolean removeIf(
       Iterable<T> removeFrom, Predicate<? super T> predicate) {
     if (removeFrom instanceof RandomAccess && removeFrom instanceof List) {
       return removeIfFromRandomAccessList(
@@ -559,6 +562,22 @@ public final class Iterables {
   }
 
   /**
+   * Returns the index in {@code iterable} of the first element that satisfies
+   * the provided {@code predicate}, or {@code -1} if the Iterable has no such
+   * elements.
+   *
+   * <p>More formally, returns the lowest index {@code i} such that
+   * {@code predicate.apply(Iterables.get(iterable, i))} is {@code true} or
+   * {@code -1} if there is no such index.
+   *
+   * @since 2010.01.04 <b>tentative</b>
+   */
+  public static <T> int indexOf(
+      Iterable<T> iterable, Predicate<? super T> predicate) {
+    return Iterators.indexOf(iterable.iterator(), predicate);
+  }
+
+  /**
    * Returns an iterable that applies {@code function} to each element of {@code
    * fromIterable}.
    *
@@ -630,6 +649,26 @@ public final class Iterables {
     return Iterators.getLast(iterable.iterator());
   }
 
+  /**
+   * Returns a view of the supplied iterable that wraps each generated
+   * {@link Iterator} through {@link Iterators#consumingIterator(Iterator)}.
+   *
+   * @param iterable the iterable to wrap
+   * @return a view of the supplied iterable that wraps each generated iterator
+   *     through {@link Iterators#consumingIterator(Iterator)}
+   *
+   * @see Iterators#consumingIterator(Iterator)
+   * @since 2010.01.04 <b>tentative</b>
+   */
+  public static <T> Iterable<T> consumingIterable(final Iterable<T> iterable) {
+    checkNotNull(iterable);
+    return new Iterable<T>() {
+      public Iterator<T> iterator() {
+        return Iterators.consumingIterator(iterable.iterator());
+      }
+    };
+  }
+
   // Methods only in Iterables, not in Iterators
 
   /**
@@ -679,6 +718,8 @@ public final class Iterables {
   public static <T> boolean isEmpty(Iterable<T> iterable) {
     return !iterable.iterator().hasNext();
   }
+
+  // Non-public
 
   /**
    * Removes the specified element from the specified iterable.

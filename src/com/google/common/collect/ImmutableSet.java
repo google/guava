@@ -60,6 +60,7 @@ import javax.annotation.Nullable;
  * @see ImmutableMap
  * @author Kevin Bourrillion
  * @author Nick Kralevich
+ * @since 2010.01.04 <b>stable</b> (imported from Google Collections Library)
  */
 @GwtCompatible(serializable = true)
 @SuppressWarnings("serial") // we're overriding default serialization
@@ -276,10 +277,10 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E>
 
     if (elements.size() == 1) {
       // The iterable contained only duplicates of the same element.
-      return new SingletonImmutableSet<E>(elements.get(0), hashCode); 
+      return new SingletonImmutableSet<E>(elements.get(0), hashCode);
     } else if (tableSize > Hashing.chooseTableSize(elements.size())) {
       // Resize the table when the iterable includes too many duplicates.
-      return create(elements, elements.size()); 
+      return create(elements, elements.size());
     } else {
       return new RegularImmutableSet<E>(
           elements.toArray(), hashCode, table, mask);
@@ -313,7 +314,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E>
 
     @Override public Object[] toArray() {
       Object[] array = new Object[size()];
-      System.arraycopy(elements, 0, array, 0, size());
+      Platform.unsafeArrayCopy(elements, 0, array, 0, size());
       return array;
     }
 
@@ -324,7 +325,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E>
       } else if (array.length > size) {
         array[size] = null;
       }
-      System.arraycopy(elements, 0, array, 0, size);
+      Platform.unsafeArrayCopy(elements, 0, array, 0, size);
       return array;
     }
 
@@ -344,6 +345,10 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E>
         }
       }
       return true;
+    }
+
+    @Override ImmutableList<E> createAsList() {
+      return new ImmutableAsList<E>(elements, this);
     }
   }
 

@@ -53,6 +53,7 @@ import javax.annotation.Nullable;
  * @author Jared Levy
  * @param <K> the type of keys maintained by this multimap
  * @param <V> the type of mapped values
+ * @since 2010.01.04 <b>stable</b> (imported from Google Collections Library)
  */
 @GwtCompatible
 public interface Multimap<K, V> {

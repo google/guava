@@ -17,26 +17,28 @@
 package com.google.common.primitives;
 
 import com.google.common.annotations.GwtCompatible;
-import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkElementIndex;
-import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.common.base.Preconditions.checkPositionIndexes;
 
 import java.io.Serializable;
 import java.util.AbstractList;
 import java.util.Arrays;
+import java.util.BitSet;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.RandomAccess;
-import java.util.BitSet;
+
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkElementIndex;
+import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkPositionIndexes;
 
 /**
  * Static utility methods pertaining to {@code boolean} primitives, that are not
  * already found in either {@link Boolean} or {@link Arrays}.
  *
  * @author Kevin Bourrillion
- * @since 9.09.15 <b>tentative</b>
+ * @since 2009.09.15 <b>tentative</b>
  */
 @GwtCompatible
 public final class Booleans {
@@ -252,8 +254,47 @@ public final class Booleans {
   }
 
   /**
+   * Returns a comparator that compares two {@code boolean} arrays
+   * lexicographically. That is, it compares, using {@link
+   * #compare(boolean, boolean)}), the first pair of values that follow any
+   * common prefix, or when one array is a prefix of the other, treats the
+   * shorter array as the lesser. For example,
+   * {@code [] < [false] < [false, true] < [true]}.
+   *
+   * <p>The returned comparator is inconsistent with {@link
+   * Object#equals(Object)} (since arrays support only identity equality), but
+   * it is consistent with {@link Arrays#equals(boolean[], boolean[])}.
+   *
+   * @see <a href="http://en.wikipedia.org/wiki/Lexicographical_order">
+   *     Lexicographical order</a> article at Wikipedia
+   * @since 2010.01.04 <b>tentative</b>
+   */
+  public static Comparator<boolean[]> lexicographicalComparator() {
+    return LexicographicalComparator.INSTANCE;
+  }
+
+  private enum LexicographicalComparator implements Comparator<boolean[]> {
+    INSTANCE;
+
+    public int compare(boolean[] left, boolean[] right) {
+      int minLength = Math.min(left.length, right.length);
+      for (int i = 0; i < minLength; i++) {
+        int result = Booleans.compare(left[i], right[i]);
+        if (result != 0) {
+          return result;
+        }
+      }
+      return left.length - right.length;
+    }
+  }
+
+  /**
    * Copies a collection of {@code Boolean} instances into a new array of
    * primitive {@code boolean} values.
+   *
+   * <p>Elements are copied from the argument collection as if by {@code
+   * collection.toArray()}.  Calling this method is as thread-safe as calling
+   * that method.
    *
    * <p><b>Note:</b> consider representing the collection as a {@link
    * BitSet} instead.
@@ -269,11 +310,11 @@ public final class Booleans {
       return ((BooleanArrayAsList) collection).toBooleanArray();
     }
 
-    // TODO: handle collection being concurrently modified
-    int counter = 0;
-    boolean[] array = new boolean[collection.size()];
-    for (Boolean value : collection) {
-      array[counter++] = value;
+    Object[] boxedArray = collection.toArray();
+    int len = boxedArray.length;
+    boolean[] array = new boolean[len];
+    for (int i = 0; i < len; i++) {
+      array[i] = (Boolean) boxedArray[i];
     }
     return array;
   }

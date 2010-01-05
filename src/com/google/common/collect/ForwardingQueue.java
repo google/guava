@@ -28,6 +28,7 @@ import java.util.Queue;
  *
  * @see ForwardingObject
  * @author Mike Bostock
+ * @since 2010.01.04 <b>stable</b> (imported from Google Collections Library)
  */
 @GwtCompatible
 public abstract class ForwardingQueue<E> extends ForwardingCollection<E>

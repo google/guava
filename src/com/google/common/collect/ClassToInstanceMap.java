@@ -36,6 +36,7 @@ import javax.annotation.Nullable;
  *     simply {@link Object}
  *
  * @author Kevin Bourrillion
+ * @since 2010.01.04 <b>stable</b> (imported from Google Collections Library)
  */
 @GwtCompatible
 public interface ClassToInstanceMap<B> extends Map<Class<? extends B>, B> {

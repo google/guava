@@ -17,16 +17,16 @@
 package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
-import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import com.google.common.collect.Collections2.FilteredCollection;
+import com.google.common.primitives.Ints;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.util.AbstractSet;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
@@ -36,7 +36,9 @@ import java.util.HashSet;
 import java.util.IdentityHashMap;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeMap;
@@ -44,12 +46,16 @@ import java.util.TreeSet;
 
 import javax.annotation.Nullable;
 
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
+
 /**
  * Static utility methods pertaining to {@link Set} instances. Also see this
  * class's counterparts {@link Lists} and {@link Maps}.
  *
  * @author Kevin Bourrillion
  * @author Jared Levy
+ * @since 2010.01.04 <b>stable</b> (imported from Google Collections Library)
  */
 @GwtCompatible
 public final class Sets {
@@ -476,7 +482,7 @@ public final class Sets {
 
     // addAll is the only inherited implementation
 
-    static final long serialVersionUID = 0;
+    private static final long serialVersionUID = 0;
 
     private void readObject(ObjectInputStream stream)
         throws IOException, ClassNotFoundException {
@@ -513,6 +519,8 @@ public final class Sets {
      * Copies the current contents of this set view into an existing set. This
      * method has equivalent behavior to {@code set.addAll(this)}, assuming that
      * all the sets involved are based on the same notion of equivalence.
+     *
+     * @return a reference to {@code set}, for convenience
      */
     // Note: S should logically extend Set<? super E> but can't due to either
     // some javac bug or some weirdness in the spec, not sure which.
@@ -713,6 +721,218 @@ public final class Sets {
 
     @Override public int hashCode() {
       return hashCodeImpl(this);
+    }
+  }
+
+  /**
+   * Returns every possible list that can be formed by choosing one element
+   * from each of the given sets in order; the "n-ary
+   * <a href="http://en.wikipedia.org/wiki/Cartesian_product">Cartesian
+   * product</a>" of the sets. For example: <pre class="code">   {@code
+   *
+   *   cartesianProduct(ImmutableList.of(
+   *       ImmutableSet.of(1, 2),
+   *       ImmutableSet.of("A", "B", "C")))}</pre>
+   *
+   * returns a set containing six lists:
+   *
+   * <ul>
+   * <li>{@code ImmutableList.of(1, "A")}
+   * <li>{@code ImmutableList.of(1, "B")}
+   * <li>{@code ImmutableList.of(1, "C")}
+   * <li>{@code ImmutableList.of(2, "A")}
+   * <li>{@code ImmutableList.of(2, "B")}
+   * <li>{@code ImmutableList.of(2, "C")}
+   * </ul>
+   *
+   * The order in which these lists are returned is not guaranteed, however the
+   * position of an element inside a tuple always corresponds to the position of
+   * the set from which it came in the input list. Note that if any input set is
+   * empty, the Cartesian product will also be empty. If no sets at all are
+   * provided (an empty list), the resulting Cartesian product has one element,
+   * an empty list (counter-intuitive, but mathematically consistent).
+   *
+   * @param sets the sets to choose elements from, in the order that
+   *     the elements chosen from those sets should appear in the resulting
+   *     lists
+   * @param <B> any common base class shared by all axes (often just {@link
+   *     Object})
+   * @return the Cartesian product, as an immutable set containing immutable
+   *     lists
+   * @throws NullPointerException if {@code sets}, any one of the {@code sets},
+   *     or any element of a provided set is null
+   * @since 2010.01.04 <b>tentative</b>
+   */
+  public static <B> Set<List<B>> cartesianProduct(
+      List<? extends Set<? extends B>> sets) {
+    CartesianSet<B> cartesianSet = new CartesianSet<B>(sets);
+    return cartesianSet.isEmpty() ? ImmutableSet.<List<B>>of() : cartesianSet;
+  }
+
+  /**
+   * Returns every possible list that can be formed by choosing one element
+   * from each of the given sets in order; the "n-ary
+   * <a href="http://en.wikipedia.org/wiki/Cartesian_product">Cartesian
+   * product</a>" of the sets. For example: <pre class="code">   {@code
+   *
+   *   cartesianProduct(
+   *       ImmutableSet.of(1, 2),
+   *       ImmutableSet.of("A", "B", "C"))}</pre>
+   *
+   * returns a set containing six lists:
+   w
+   * <ul>
+   * <li>{@code ImmutableList.of(1, "A")}
+   * <li>{@code ImmutableList.of(1, "B")}
+   * <li>{@code ImmutableList.of(1, "C")}
+   * <li>{@code ImmutableList.of(2, "A")}
+   * <li>{@code ImmutableList.of(2, "B")}
+   * <li>{@code ImmutableList.of(2, "C")}
+   * </ul>
+   *
+   * The order in which these lists are returned is not guaranteed, however the
+   * position of an element inside a tuple always corresponds to the position of
+   * the set from which it came in the input list. Note that if any input set is
+   * empty, the Cartesian product will also be empty. If no sets at all are
+   * provided, the resulting Cartesian product has one element, an empty list
+   * (counter-intuitive, but mathematically consistent).
+   *
+   * @param sets the sets to choose elements from, in the order that
+   *     the elements chosen from those sets should appear in the resulting
+   *     lists
+   * @param <B> any common base class shared by all axes (often just {@link
+   *     Object})
+   * @return the Cartesian product, as an immutable set containing immutable
+   *     lists
+   * @throws NullPointerException if {@code sets}, any one of the {@code sets},
+   *     or any element of a provided set is null
+   * @since 2010.01.04 <b>tentative</b>
+   */
+  public static <B> Set<List<B>> cartesianProduct(
+      Set<? extends B>... sets) {
+    return cartesianProduct(Arrays.asList(sets));
+  }
+
+  private static class CartesianSet<B> extends AbstractSet<List<B>> {
+    final ImmutableList<Axis> axes;
+    final int size;
+
+    CartesianSet(List<? extends Set<? extends B>> sets) {
+      long dividend = 1;
+      ImmutableList.Builder<Axis> builder = ImmutableList.builder();
+      for (Set<? extends B> set : sets) {
+        Axis axis = new Axis(set, (int) dividend); // check overflow at end
+        builder.add(axis);
+        dividend *= axis.size();
+      }
+      this.axes = builder.build();
+      size = Ints.checkedCast(dividend);
+    }
+
+    @Override public int size() {
+      return size;
+    }
+
+    @Override public UnmodifiableIterator<List<B>> iterator() {
+      return new UnmodifiableIterator<List<B>>() {
+        int index;
+
+        public boolean hasNext() {
+          return index < size;
+        }
+
+        public List<B> next() {
+          if (!hasNext()) {
+            throw new NoSuchElementException();
+          }
+
+          Object[] tuple = new Object[axes.size()];
+          for (int i = 0 ; i < tuple.length; i++) {
+            tuple[i] = axes.get(i).getForIndex(index);
+          }
+          index++;
+
+          @SuppressWarnings("unchecked") // only B's are put in here
+          List<B> result = (ImmutableList<B>) ImmutableList.of(tuple);
+          return result;
+        }
+      };
+    }
+
+    @Override public boolean contains(Object element) {
+      if (!(element instanceof List<?>)) {
+        return false;
+      }
+      List<?> tuple = (List<?>) element;
+      int dimensions = axes.size();
+      if (tuple.size() != dimensions) {
+        return false;
+      }
+      for (int i = 0; i < dimensions; i++) {
+        if (!axes.get(i).contains(tuple.get(i))) {
+          return false;
+        }
+      }
+      return true;
+    }
+
+    @Override public boolean equals(@Nullable Object object) {
+      // Warning: this is broken if size() == 0, so it is critical that we
+      // substitute an empty ImmutableSet to the user in place of this
+      if (object instanceof CartesianSet<?>) {
+        CartesianSet<?> that = (CartesianSet) object;
+        return this.axes.equals(that.axes);
+      }
+      return super.equals(object);
+    }
+
+    @Override public int hashCode() {
+      // Warning: this is broken if size() == 0, so it is critical that we
+      // substitute an empty ImmutableSet to the user in place of this
+
+      // It's a weird formula, but tests prove it works.
+      int adjust = size - 1;
+      for (int i = 0; i < axes.size(); i++) {
+        adjust *= 31;
+      }
+      return axes.hashCode() + adjust;
+    }
+
+    private class Axis {
+      final ImmutableSet<? extends B> choices;
+      final int dividend;
+
+      Axis(Set<? extends B> set, int dividend) {
+        choices = ImmutableSet.copyOf(set);
+        this.dividend = dividend;
+      }
+
+      int size() {
+        return choices.size();
+      }
+
+      B getForIndex(int index) {
+        return choices.asList().get(index / dividend % size());
+      }
+
+      boolean contains(Object target) {
+        return choices.contains(target);
+      }
+
+      @Override public boolean equals(Object obj) {
+        if (obj instanceof CartesianSet.Axis) {
+          CartesianSet.Axis that = (CartesianSet.Axis) obj;
+          return this.choices.equals(that.choices);
+          // dividends must be equal or we wouldn't have gotten this far
+        }
+        return false;
+      }
+
+      @Override public int hashCode() {
+        // an opportunistic formula chosen because it happens to make
+        // CartesianSet.hashCode() work!
+        return size / choices.size() * choices.hashCode();
+      }
     }
   }
 

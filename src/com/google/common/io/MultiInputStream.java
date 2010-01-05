@@ -25,7 +25,7 @@ import java.util.Iterator;
  * one stream will be open at a time.
  *
  * @author Chris Nokleberg
- * @since 9.09.15 <b>tentative</b>
+ * @since 2009.09.15 <b>tentative</b>
  */
 final class MultiInputStream extends InputStream {
 

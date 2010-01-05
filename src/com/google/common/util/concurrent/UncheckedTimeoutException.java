@@ -20,7 +20,7 @@ package com.google.common.util.concurrent;
  * Unchecked version of {@link java.util.concurrent.TimeoutException}.
  *
  * @author Kevin Bourrillion
- * @since 9.09.15
+ * @since 2009.09.15 <b>tentative</b>
  */
 public class UncheckedTimeoutException extends RuntimeException {
   public UncheckedTimeoutException() {}

@@ -24,7 +24,7 @@ import java.util.regex.Pattern;
  * Utility class for converting between various case formats.
  *
  * @author Mike Bostock
- * @since 9.09.15 <b>tentative</b>
+ * @since 2009.09.15 <b>tentative</b>
  */
 public enum CaseFormat {
 

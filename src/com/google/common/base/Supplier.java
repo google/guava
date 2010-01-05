@@ -24,6 +24,7 @@ import com.google.common.annotations.GwtCompatible;
  * guarantees are implied by this interface.
  *
  * @author Harry Heymann
+ * @since 2010.01.04 <b>stable</b> (imported from Google Collections Library)
  */
 @GwtCompatible
 public interface Supplier<T> {

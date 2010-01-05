@@ -24,7 +24,7 @@ import java.io.OutputStream;
  * An OutputStream that counts the number of bytes written.
  *
  * @author Chris Nokleberg
- * @since 9.09.15 <b>tentative</b>
+ * @since 2009.09.15 <b>tentative</b>
  */
 public class CountingOutputStream extends FilterOutputStream {
 

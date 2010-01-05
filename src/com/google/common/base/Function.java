@@ -38,6 +38,7 @@ import javax.annotation.Nullable;
  * @param <T> the type of the function output
  * @author Kevin Bourrillion
  * @author Scott Bonneau
+ * @since 2010.01.04 <b>stable</b> (imported from Google Collections Library)
  */
 @GwtCompatible
 public interface Function<F, T> {

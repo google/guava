@@ -28,7 +28,7 @@ import java.io.IOException;
  *
  * @author Alan Green
  * @author Sebastian Kanthak
- * @since 9.09.15 <b>tentative</b>
+ * @since 2009.09.15 <b>tentative</b>
  */
 class AppendableWriter extends Writer {
   private final Appendable target;

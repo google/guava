@@ -24,6 +24,7 @@ import java.util.Iterator;
  * An iterator that does not support {@link #remove}.
  *
  * @author Jared Levy
+ * @since 2010.01.04 <b>stable</b> (imported from Google Collections Library)
  */
 @GwtCompatible
 public abstract class UnmodifiableIterator<E> implements Iterator<E> {

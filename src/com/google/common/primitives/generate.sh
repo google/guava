@@ -52,6 +52,7 @@ import java.util.AbstractList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.RandomAccess;
 
@@ -60,6 +61,7 @@ import java.util.RandomAccess;
  * already found in either {@link WrapperCl} or {@link Arrays}.
  *
  * @author Kevin Bourrillion
+ * @since 2009.09.15 <b>tentative</b>
  */
 @GwtCompatible
 public final class PrimTyps {
@@ -378,8 +380,46 @@ public final class PrimTyps {
   }
 
   /**
+   * Returns a comparator that compares two {@code primtyp} arrays
+   * lexicographically. That is, it compares, using {@link
+   * #compare(primtyp, primtyp)}), the first pair of values that follow any
+   * common prefix, or when one array is a prefix of the other, treats the
+   * shorter array as the lesser. For example, {@code [] < [1] < [1, 2] < [2]}.
+   *
+   * <p>The returned comparator is inconsistent with {@link
+   * Object#equals(Object)} (since arrays support only identity equality), but
+   * it is consistent with {@link Arrays#equals(primtyp[], primtyp[])}.
+   *
+   * @see <a href="http://en.wikipedia.org/wiki/Lexicographical_order">
+   *     Lexicographical order</a> article at Wikipedia
+   * @since 2010.01.04 <b>tentative</b>
+   */
+  public static Comparator<primtyp[]> lexicographicalComparator() {
+    return LexicographicalComparator.INSTANCE;
+  }
+
+  private enum LexicographicalComparator implements Comparator<primtyp[]> {
+    INSTANCE;
+
+    public int compare(primtyp[] left, primtyp[] right) {
+      int minLength = Math.min(left.length, right.length);
+      for (int i = 0; i < minLength; i++) {
+        int result = PrimTyps.compare(left[i], right[i]);
+        if (result != 0) {
+          return result;
+        }
+      }
+      return left.length - right.length;
+    }
+  }
+
+  /**
    * Copies a collection of {@code WrapperCl} instances into a new array of
    * primitive {@code primtyp} values.
+   *
+   * <p>Elements are copied from the argument collection as if by {@code
+   * collection.toArray()}.  Calling this method is as thread-safe as calling
+   * that method.
    *
    * @param collection a collection of {@code WrapperCl} objects
    * @return an array containing the same values as {@code collection}, in the
@@ -392,11 +432,11 @@ public final class PrimTyps {
       return ((PrimTypArrayAsList) collection).toPrimTypArray();
     }
 
-    // TODO: handle collection being concurrently modified
-    int counter = 0;
-    primtyp[] array = new primtyp[collection.size()];
-    for (WrapperCl value : collection) {
-      array[counter++] = value;
+    Object[] boxedArray = collection.toArray();
+    int len = boxedArray.length;
+    primtyp[] array = new primtyp[len];
+    for (int i = 0; i < len; i++) {
+      array[i] = (WrapperCl) boxedArray[i];
     }
     return array;
   }

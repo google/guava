@@ -26,7 +26,7 @@ import java.io.IOException;
  * An InputStream that limits the number of bytes which can be read.
  *
  * @author Charles Fry
- * @since 9.09.15 <b>tentative</b>
+ * @since 2009.09.15 <b>tentative</b>
  */
 public class LimitInputStream extends FilterInputStream {
 

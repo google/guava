@@ -17,8 +17,11 @@
 package com.google.common.base;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.VisibleForTesting;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import javax.annotation.Nullable;
 
@@ -26,6 +29,7 @@ import javax.annotation.Nullable;
  * Helper functions that can operate on any {@code Object}.
  *
  * @author Laurence Gonsalves
+ * @since 2010.01.04 <b>stable</b> (imported from Google Collections Library)
  */
 @GwtCompatible
 public final class Objects {
@@ -65,5 +69,101 @@ public final class Objects {
    */
   public static int hashCode(Object... objects) {
     return Arrays.hashCode(objects);
+  }
+
+  /**
+   * Creates an instance of {@link ToStringHelper}.
+   *
+   * <p>This is helpful for implementing {@link Object#toString()}. For
+   * example, in an object that contains two member variables, {@code x},
+   * and {@code y}, one could write:<pre>   <tt>
+   *   public class ClassName {
+   *     public String toString() {
+   *       return Objects.toStringHelper(this)
+   *           .add("x", x)
+   *           .add("y", y)
+   *           .toString();
+   *     }
+   *   }</tt>
+   * </pre>
+   *
+   * Assuming the values of {@code x} and {@code y} are 1 and 2,
+   * this code snippet returns the string <tt>"ClassName{x=1, y=2}"</tt>.
+   *
+   * @since 2010.01.04 <b>tentative</b>
+   */
+  public static ToStringHelper toStringHelper(Object object) {
+    return new ToStringHelper(object);
+  }
+
+  /**
+   * Support class for {@link Objects#toStringHelper}.
+   *
+   * @author Jason Lee
+   * @since 2010.01.04 <b>tentative</b>
+   */
+  public static class ToStringHelper {
+    private final List<String> fieldString = new ArrayList<String>();
+    private final Object instance;
+
+    /**
+     * Use {@link Objects#toStringHelper(Object)} to create an instance.
+     */
+    private ToStringHelper(Object instance) {
+      this.instance = Preconditions.checkNotNull(instance);
+    }
+
+    /**
+     * Adds a name/value pair to the formatted output in {@code name=value}
+     * format. If {@code value} is {@code null}, the string {@code "null"}
+     * is used.
+     */
+    public ToStringHelper add(String name, @Nullable Object value) {
+      return addValue(Preconditions.checkNotNull(name) + "=" + value);
+    }
+
+    /**
+     * Adds a value to the formatted output in {@code value} format.<p/>
+     *
+     * It is strongly encouraged to use {@link #add(String, Object)} instead and
+     * give value a readable name.
+     */
+    public ToStringHelper addValue(@Nullable Object value) {
+      fieldString.add(String.valueOf(value));
+      return this;
+    }
+
+    private static final Joiner JOINER = Joiner.on(", ");
+
+    /**
+     * Returns the formatted string.
+     */
+    @Override public String toString() {
+      StringBuilder builder = new StringBuilder(100)
+          .append(simpleName(instance.getClass()))
+          .append('{');
+      return JOINER.appendTo(builder, fieldString)
+          .append('}')
+          .toString();
+    }
+
+    /**
+     * {@link Class#getSimpleName()} is not GWT compatible yet, so we
+     * provide our own implementation.
+     */
+    @VisibleForTesting
+    static String simpleName(Class<?> clazz) {
+      String name = clazz.getName();
+
+      // we want the name of the inner class all by its lonesome
+      int start = name.lastIndexOf('$');
+
+      // if this isn't an inner class, just find the start of the
+      // top level class name.
+      if (start == -1) {
+        start = name.lastIndexOf('.');
+      }
+      return name.substring(start + 1);
+    }
   }
 }

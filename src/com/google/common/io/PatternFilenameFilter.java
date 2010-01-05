@@ -27,7 +27,7 @@ import java.util.regex.PatternSyntaxException;
  * File name filter that only accepts files matching a regular expression.
  *
  * @author Apple Chow
- * @since 9.09.15 <b>tentative</b>
+ * @since 2009.09.15 <b>tentative</b>
  */
 public final class PatternFilenameFilter implements FilenameFilter {
 
@@ -51,7 +51,7 @@ public final class PatternFilenameFilter implements FilenameFilter {
     this.pattern = Preconditions.checkNotNull(pattern);
   }
 
-  @Override public boolean accept(File dir, String fileName) {
+  /*@Override*/ public boolean accept(File dir, String fileName) {
     return pattern.matcher(fileName).matches();
   }
 }

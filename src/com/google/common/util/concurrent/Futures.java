@@ -17,7 +17,6 @@
 package com.google.common.util.concurrent;
 
 import com.google.common.base.Function;
-import static com.google.common.base.Preconditions.checkNotNull;
 
 import java.lang.reflect.UndeclaredThrowableException;
 import java.util.concurrent.CancellationException;
@@ -30,13 +29,15 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import javax.annotation.Nullable;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 /**
  * Static utility methods pertaining to the {@link Future} interface.
  *
  * @author Kevin Bourrillion
  * @author Nishant Thakkar
  * @author Sven Mawson
- * @since 9.09.15 <b>tentative</b>
+ * @since 2009.09.15 <b>tentative</b>
  */
 public class Futures {
   private Futures() {}
@@ -216,9 +217,9 @@ public class Futures {
    * the provided function called on the result of the provided future.
    * The resulting future doesn't interrupt when aborted.
    *
-   * TODO: Add a version that accepts a normal {@code Future}
+   * <p>TODO: Add a version that accepts a normal {@code Future}
    *
-   * The typical use for this method would be when a RPC call is dependent on
+   * <p>The typical use for this method would be when a RPC call is dependent on
    * the results of another RPC.  One would call the first RPC (input), create a
    * function that calls another RPC based on input's result, and then call
    * chain on input and that function to get a {@code ListenableFuture} of
@@ -241,10 +242,10 @@ public class Futures {
    * the provided function called on the result of the provided future.
    * The resulting future doesn't interrupt when aborted.
    *
-   * This version allows an arbitrary executor to be passed in for running the
-   * chained Function. When using {@link Executors#sameThreadExecutor}, the
-   * thread chained Function executes in will be whichever thread set the result
-   * of the input Future, which may be the network thread in the case of
+   * <p>This version allows an arbitrary executor to be passed in for running
+   * the chained Function. When using {@link Executors#sameThreadExecutor}, the
+   * thread chained Function executes in will be whichever thread set the
+   * result of the input Future, which may be the network thread in the case of
    * RPC-based Futures.
    *
    * @param input The future to chain
@@ -268,8 +269,8 @@ public class Futures {
    * the provided function called on the result of the provided future.
    * The resulting future doesn't interrupt when aborted.
    *
-   * An example use of this method is to convert a serializable object returned
-   * from an RPC into a POJO.
+   * <p>An example use of this method is to convert a serializable object
+   * returned from an RPC into a POJO.
    *
    * @param future The future to compose
    * @param function A Function to compose the results of the provided future
@@ -279,14 +280,41 @@ public class Futures {
    */
   public static <I, O> ListenableFuture<O> compose(ListenableFuture<I> future,
       final Function<? super I, ? extends O> function) {
+    return compose(future, function, Executors.sameThreadExecutor());
+  }
+
+  /**
+   * Creates a new {@code ListenableFuture} that wraps another
+   * {@code ListenableFuture}.  The result of the new future is the result of
+   * the provided function called on the result of the provided future.
+   * The resulting future doesn't interrupt when aborted.
+   *
+   * <p>An example use of this method is to convert a serializable object
+   * returned from an RPC into a POJO.
+   *
+   * <p>This version allows an arbitrary executor to be passed in for running
+   * the chained Function. When using {@link Executors#sameThreadExecutor}, the
+   * thread chained Function executes in will be whichever thread set the result
+   * of the input Future, which may be the network thread in the case of
+   * RPC-based Futures.
+   *
+   * @param future The future to compose
+   * @param function A Function to compose the results of the provided future
+   *     to the results of the returned future.
+   * @param exec Executor to run the function in.
+   * @return A future that holds result of the composition.
+   * @since 2010.01.04 <b>tentative</b>
+   */
+  public static <I, O> ListenableFuture<O> compose(ListenableFuture<I> future,
+      final Function<? super I, ? extends O> function, Executor exec) {
     Function<I, ListenableFuture<O>> wrapperFunction
         = new Function<I, ListenableFuture<O>>() {
-            public ListenableFuture<O> apply(I input) {
+            /*@Override*/ public ListenableFuture<O> apply(I input) {
               O output = function.apply(input);
               return immediateFuture(output);
             }
         };
-    return chain(future, wrapperFunction);
+    return chain(future, wrapperFunction, exec);
   }
 
   /**
@@ -319,20 +347,20 @@ public class Futures {
       /*
        * Concurrency detail:
        *
-       * To preserve the idempotency of calls to this.get(*) calls to the
+       * <p>To preserve the idempotency of calls to this.get(*) calls to the
        * function are only applied once. A lock is required to prevent multiple
        * applications of the function. The calls to future.get(*) are performed
        * outside the lock, as is required to prevent calls to
        * get(long, TimeUnit) to persist beyond their timeout.
        *
-       * Calls to future.get(*) on every call to this.get(*) also provide the
-       * cancellation behavior for this.
+       * <p>Calls to future.get(*) on every call to this.get(*) also provide
+       * the cancellation behavior for this.
        *
-       * (Consider: in thread A, call get(), in thread B call get(long,
+       * <p>(Consider: in thread A, call get(), in thread B call get(long,
        * TimeUnit). Thread B may have to wait for Thread A to finish, which
        * would be unacceptable.)
        *
-       * Note that each call to Future<O>.get(*) results in a call to
+       * <p>Note that each call to Future<O>.get(*) results in a call to
        * Future<I>.get(*), but the function is only applied once, so
        * Future<I>.get(*) is assumed to be idempotent.
        */
@@ -341,12 +369,12 @@ public class Futures {
       private boolean set = false;
       private O value = null;
 
-      @Override
+      /*@Override*/
       public O get() throws InterruptedException, ExecutionException {
         return apply(future.get());
       }
 
-      @Override
+      /*@Override*/
       public O get(long timeout, TimeUnit unit) throws InterruptedException,
           ExecutionException, TimeoutException {
         return apply(future.get(timeout, unit));
@@ -362,17 +390,17 @@ public class Futures {
         }
       }
 
-      @Override
+      /*@Override*/
       public boolean cancel(boolean mayInterruptIfRunning) {
         return future.cancel(mayInterruptIfRunning);
       }
 
-      @Override
+      /*@Override*/
       public boolean isCancelled() {
         return future.isCancelled();
       }
 
-      @Override
+      /*@Override*/
       public boolean isDone() {
         return future.isDone();
       }
@@ -386,9 +414,9 @@ public class Futures {
    * passed-in {@code Function} to generate the result.
    * The resulting future doesn't interrupt when aborted.
    *
-   * If the function throws any checked exceptions, they should be wrapped in a
-   * {@code UndeclaredThrowableException} so that this class can get access to
-   * the cause.
+   * <p>If the function throws any checked exceptions, they should be wrapped
+   * in a {@code UndeclaredThrowableException} so that this class can get
+   * access to the cause.
    */
   private static class ChainingListenableFuture<I, O>
       extends AbstractListenableFuture<O> implements Runnable {
@@ -507,14 +535,14 @@ public class Futures {
       return delegate;
     }
 
-    @Override
+    /*@Override*/
     public void addListener(Runnable listener, Executor exec) {
 
       // When a listener is first added, we run a task that will wait for
       // the delegate to finish, and when it is done will run the listeners.
       if (!hasListeners.get() && hasListeners.compareAndSet(false, true)) {
         adapterExecutor.execute(new Runnable() {
-          @Override
+          /*@Override*/
           public void run() {
             try {
               delegate.get();

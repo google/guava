@@ -20,8 +20,6 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Function;
 import com.google.common.base.Joiner.MapJoiner;
 import com.google.common.base.Objects;
-import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 
@@ -47,6 +45,9 @@ import java.util.TreeMap;
 
 import javax.annotation.Nullable;
 
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
+
 /**
  * Static utility methods pertaining to {@link Map} instances. Also see this
  * class's counterparts {@link Lists} and {@link Sets}.
@@ -54,6 +55,7 @@ import javax.annotation.Nullable;
  * @author Kevin Bourrillion
  * @author Mike Bostock
  * @author Isaac Shum
+ * @since 2010.01.04 <b>stable</b> (imported from Google Collections Library)
  */
 @GwtCompatible
 public final class Maps {
@@ -1331,4 +1333,28 @@ public final class Maps {
 
   static final MapJoiner standardJoiner
       = Collections2.standardJoiner.withKeyValueSeparator("=");
+
+  /**
+   * Delegates to {@link Map#get}.  Returns {@code null} on {@code
+   * ClassCastException}.
+   */
+  static <V> V safeGet(Map<?, V> map, Object key) {
+    try {
+      return map.get(key);
+    } catch (ClassCastException e) {
+      return null;
+    }
+  }
+
+  /**
+   * Delegates to {@link Map#containsKey}.  Returns {@code false} on {@code
+   * ClassCastException}
+   */
+  static boolean safeContainsKey(Map<?, ?> map, Object key) {
+    try {
+      return map.containsKey(key);
+    } catch (ClassCastException e) {
+      return false;
+    }
+  }
 }

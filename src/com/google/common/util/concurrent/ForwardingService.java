@@ -25,34 +25,34 @@ import java.util.concurrent.Future;
  * A {@link Service} that forwards all method calls to another service.
  *
  * @author Chris Nokleberg
- * @since 9.09.15 <b>tentative</b>
+ * @since 2009.09.15 <b>tentative</b>
  */
 public abstract class ForwardingService extends ForwardingObject
     implements Service {
 
   @Override protected abstract Service delegate();
 
-  @Override public Future<State> start() {
+  /*@Override*/ public Future<State> start() {
     return delegate().start();
   }
 
-  @Override public State state() {
+  /*@Override*/ public State state() {
     return delegate().state();
   }
 
-  @Override public Future<State> stop() {
+  /*@Override*/ public Future<State> stop() {
     return delegate().stop();
   }
 
-  @Override public State startAndWait() {
+  /*@Override*/ public State startAndWait() {
     return delegate().startAndWait();
   }
 
-  @Override public State stopAndWait() {
+  /*@Override*/ public State stopAndWait() {
     return delegate().stopAndWait();
   }
 
-  @Override public boolean isRunning() {
+  /*@Override*/ public boolean isRunning() {
     return delegate().isRunning();
   }
 }

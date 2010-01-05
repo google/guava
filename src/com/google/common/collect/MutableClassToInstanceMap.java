@@ -24,6 +24,7 @@ import java.util.Map;
  * See also {@link ImmutableClassToInstanceMap}.
  *
  * @author Kevin Bourrillion
+ * @since 2010.01.04 <b>stable</b> (imported from Google Collections Library)
  */
 public final class MutableClassToInstanceMap<B>
     extends ConstrainedMap<Class<? extends B>, B>
@@ -81,14 +82,16 @@ public final class MutableClassToInstanceMap<B>
 
   private static final Map<Class<?>, Class<?>> PRIMITIVES_TO_WRAPPERS
       = new ImmutableMap.Builder<Class<?>, Class<?>>()
-      .put(boolean.class, Boolean.class)
-      .put(byte.class, Byte.class)
-      .put(char.class, Character.class)
-      .put(double.class, Double.class)
-      .put(float.class, Float.class)
-      .put(int.class, Integer.class)
-      .put(long.class, Long.class)
-      .put(short.class, Short.class)
-      .put(void.class, Void.class)
-      .build();
+          .put(boolean.class, Boolean.class)
+          .put(byte.class, Byte.class)
+          .put(char.class, Character.class)
+          .put(double.class, Double.class)
+          .put(float.class, Float.class)
+          .put(int.class, Integer.class)
+          .put(long.class, Long.class)
+          .put(short.class, Short.class)
+          .put(void.class, Void.class)
+          .build();
+
+  private static final long serialVersionUID = 0;
 }

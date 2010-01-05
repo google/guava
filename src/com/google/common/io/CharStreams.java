@@ -46,7 +46,7 @@ import java.util.List;
  *
  * @author Chris Nokleberg
  * @author Bin Zhu
- * @since 9.09.15 <b>tentative</b>
+ * @since 2009.09.15 <b>tentative</b>
  */
 public final class CharStreams {
   private static final int BUF_SIZE = 0x800; // 2K chars (4K bytes)
@@ -377,7 +377,7 @@ public final class CharStreams {
   public static InputSupplier<Reader> join(
       final Iterable<? extends InputSupplier<? extends Reader>> suppliers) {
     return new InputSupplier<Reader>() {
-      @Override public Reader getInput() throws IOException {
+      /*@Override*/ public Reader getInput() throws IOException {
         return new MultiReader(suppliers.iterator());
       }
     };

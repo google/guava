@@ -27,7 +27,7 @@ import javax.annotation.Nullable;
  * Utility methods for working with {@link Closeable} objects.
  *
  * @author Michael Lancaster
- * @since 9.09.15 <b>tentative</b>
+ * @since 2009.09.15 <b>tentative</b>
  */
 public final class Closeables {
   private static final Logger logger

@@ -27,9 +27,9 @@ import java.util.Set;
 import javax.annotation.Nullable;
 
 /**
- * An empty immutable sorted set with one or more elements.
+ * An immutable sorted set with one or more elements.
  * TODO: Consider creating a separate class for a single-element sorted set.
- * 
+ *
  * @author Jared Levy
  */
 @GwtCompatible(serializable = true)
@@ -148,7 +148,7 @@ final class RegularImmutableSortedSet<E>
 
   @Override public Object[] toArray() {
     Object[] array = new Object[size()];
-    System.arraycopy(elements, fromIndex, array, 0, size());
+    Platform.unsafeArrayCopy(elements, fromIndex, array, 0, size());
     return array;
   }
 
@@ -160,7 +160,7 @@ final class RegularImmutableSortedSet<E>
     } else if (array.length > size) {
       array[size] = null;
     }
-    System.arraycopy(elements, fromIndex, array, 0, size);
+    Platform.unsafeArrayCopy(elements, fromIndex, array, 0, size);
     return array;
   }
 
@@ -249,5 +249,25 @@ final class RegularImmutableSortedSet<E>
 
   @Override boolean hasPartialArray() {
     return (fromIndex != 0) || (toIndex != elements.length);
+  }
+
+  @Override int indexOf(Object target) {
+    if (target == null) {
+      return -1;
+    }
+    int position;
+    try {
+      position = binarySearch(target);
+    } catch (ClassCastException e) {
+      return -1;
+    }
+    // The equals() check is needed when the comparator isn't compatible with
+    // equals().
+    return (position >= 0 && elements[position].equals(target))
+        ? position - fromIndex : -1;
+  }
+
+  @Override ImmutableList<E> createAsList() {
+    return new ImmutableSortedAsList<E>(elements, fromIndex, size(), this);
   }
 }

@@ -45,6 +45,7 @@ import javax.annotation.Nullable;
  *
  * @author Neal Kanodia
  * @author Jared Levy
+ * @since 2010.01.04 <b>stable</b> (imported from Google Collections Library)
  */
 @GwtCompatible
 @SuppressWarnings("serial") // we're overriding default serialization

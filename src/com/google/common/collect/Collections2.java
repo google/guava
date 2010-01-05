@@ -19,8 +19,6 @@ package com.google.common.collect;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Function;
 import com.google.common.base.Joiner;
-import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 
@@ -31,12 +29,16 @@ import java.util.Set;
 
 import javax.annotation.Nullable;
 
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
+
 /**
  * Provides static methods for working with {@code Collection} instances.
  *
  * @author Chris Povirk
  * @author Mike Bostock
  * @author Jared Levy
+ * @since 2010.01.04 <b>stable</b> (imported from Google Collections Library)
  */
 @GwtCompatible
 public final class Collections2 {
@@ -107,6 +109,18 @@ public final class Collections2 {
 
     return new FilteredCollection<E>(
         checkNotNull(unfiltered), checkNotNull(predicate));
+  }
+
+  /**
+   * Delegates to {@link Collection#contains}.  Returns {@code false} on {@code
+   * ClassCastException}
+   */
+  static boolean safeContains(Collection<?> collection, Object object) {
+    try {
+      return collection.contains(object);
+    } catch (ClassCastException e) {
+      return false;
+    }
   }
 
   static class FilteredCollection<E> implements Collection<E> {

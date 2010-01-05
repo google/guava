@@ -32,6 +32,7 @@ import javax.annotation.Nullable;
  * serializable.
  *
  * @author Mike Bostock
+ * @since 2010.01.04 <b>stable</b> (imported from Google Collections Library)
  */
 public final class EnumHashBiMap<K extends Enum<K>, V>
     extends AbstractBiMap<K, V> {

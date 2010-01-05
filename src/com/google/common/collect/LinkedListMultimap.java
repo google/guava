@@ -90,6 +90,7 @@ import javax.annotation.Nullable;
  * Multimaps#synchronizedListMultimap}.
  *
  * @author Mike Bostock
+ * @since 2010.01.04 <b>stable</b> (imported from Google Collections Library)
  */
 @GwtCompatible(serializable = true)
 public final class LinkedListMultimap<K, V>

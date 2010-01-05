@@ -36,7 +36,7 @@ import java.util.List;
  *
  * @author Chris Nokleberg
  * @author Ben Yu
- * @since 9.09.15 <b>tentative</b>
+ * @since 2009.09.15 <b>tentative</b>
  */
 public final class Resources {
 

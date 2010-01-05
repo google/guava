@@ -17,7 +17,6 @@
 package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
-import static com.google.common.base.Preconditions.checkNotNull;
 
 import java.io.InvalidObjectException;
 import java.io.ObjectInputStream;
@@ -30,6 +29,8 @@ import java.util.List;
 import java.util.RandomAccess;
 
 import javax.annotation.Nullable;
+
+import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * A high-performance, immutable, random-access {@code List} implementation.
@@ -49,6 +50,7 @@ import javax.annotation.Nullable;
  * @see ImmutableMap
  * @see ImmutableSet
  * @author Kevin Bourrillion
+ * @since 2010.01.04 <b>stable</b> (imported from Google Collections Library)
  */
 @GwtCompatible(serializable = true)
 @SuppressWarnings("serial") // we're overriding default serialization
@@ -198,36 +200,56 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
   }
 
   /**
-   * Returns an immutable list containing the given elements, in order. This
-   * method iterates over {@code elements} at most once. Note that if {@code
-   * list} is a {@code List<String>}, then {@code ImmutableList.copyOf(list)}
-   * returns an {@code ImmutableList<String>} containing each of the strings
-   * in {@code list}, while ImmutableList.of(list)} returns an {@code
-   * ImmutableList<List<String>>} containing one element (the given list
-   * itself).
+   * Returns an immutable list containing the given elements, in order. If
+   * {@code elements} is a {@link Collection}, this method behaves exactly as
+   * {@link #copyOf(Collection)}; otherwise, it behaves exactly as {@code
+   * copyOf(elements.iterator()}.
+   *
+   * @throws NullPointerException if any of {@code elements} is null
+   */
+  @SuppressWarnings("unchecked") // bugs.sun.com/view_bug.do?bug_id=6558557
+  public static <E> ImmutableList<E> copyOf(Iterable<? extends E> elements) {
+    checkNotNull(elements);
+    return (elements instanceof Collection)
+      ? copyOf((Collection<? extends E>) elements)
+      : copyOf(elements.iterator());
+  }
+
+  /**
+   * Returns an immutable list containing the given elements, in order.
    *
    * <p><b>Note:</b> Despite what the method name suggests, if {@code elements}
    * is an {@code ImmutableList}, no copy will actually be performed, and the
    * given list itself will be returned.
    *
+   * <p>Note that if {@code list} is a {@code List<String>}, then {@code
+   * ImmutableList.copyOf(list)} returns an {@code ImmutableList<String>}
+   * containing each of the strings in {@code list}, while
+   * ImmutableList.of(list)} returns an {@code ImmutableList<List<String>>}
+   * containing one element (the given list itself).
+   *
+   * <p>This method is safe to use even when {@code elements} is a synchronized
+   * or concurrent collection that is currently being modified by another
+   * thread.
+   *
    * @throws NullPointerException if any of {@code elements} is null
+   * @since 2010.01.04 <b>stable</b> (Iterable overload existed previously)
    */
-  public static <E> ImmutableList<E> copyOf(Iterable<? extends E> elements) {
+  public static <E> ImmutableList<E> copyOf(Collection<? extends E> elements) {
+    checkNotNull(elements);
+    // TODO: Once the ImmutableAsList and ImmutableSortedAsList are
+    // GWT-compatible, return elements.asList() when elements is an
+    // ImmutableCollection.
     if (elements instanceof ImmutableList) {
       /*
-       * TODO: If the given ImmutableList is a sublist, copy the referenced
+       * TODO: When given an ImmutableList that's a sublist, copy the referenced
        * portion of the array into a new array to save space?
        */
       @SuppressWarnings("unchecked") // all supported methods are covariant
       ImmutableList<E> list = (ImmutableList<E>) elements;
       return list;
-    } else if (elements instanceof Collection) {
-      @SuppressWarnings("unchecked")
-      Collection<? extends E> coll = (Collection<? extends E>) elements;
-      return copyOfInternal(coll);
-    } else {
-      return copyOfInternal(Lists.newArrayList(elements));
     }
+    return copyFromCollection(elements);
   }
 
   /**
@@ -236,42 +258,22 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
    * @throws NullPointerException if any of {@code elements} is null
    */
   public static <E> ImmutableList<E> copyOf(Iterator<? extends E> elements) {
-    return copyOfInternal(Lists.newArrayList(elements));
+    return copyFromCollection(Lists.newArrayList(elements));
   }
 
-  private static <E> ImmutableList<E> copyOfInternal(
-      ArrayList<? extends E> list) {
-    switch (list.size()) {
+  private static <E> ImmutableList<E> copyFromCollection(
+      Collection<? extends E> collection) {
+    Object[] elements = collection.toArray();
+    switch (elements.length) {
       case 0:
         return of();
       case 1:
-        return new SingletonImmutableList<E>(list.iterator().next());
+        @SuppressWarnings("unchecked") // collection had only Es in it
+        ImmutableList<E> list = new SingletonImmutableList<E>((E) elements[0]);
+        return list;
       default:
-        return new RegularImmutableList<E>(nullChecked(list.toArray()));
+        return new RegularImmutableList<E>(copyIntoArray(elements));
     }
-  }
-
-  /**
-   * Checks that all the array elements are non-null.
-   *
-   * @return the argument array
-   * @throws NullPointerException if any element is null
-   */
-  private static Object[] nullChecked(Object[] array) {
-    for (int i = 0, len = array.length; i < len; i++) {
-      if (array[i] == null) {
-        throw new NullPointerException("at index " + i);
-      }
-    }
-    return array;
-  }
-
-  private static <E> ImmutableList<E> copyOfInternal(
-      Collection<? extends E> collection) {
-    int size = collection.size();
-    return (size == 0)
-        ? ImmutableList.<E>of()
-        : ImmutableList.<E>createFromIterable(collection, size);
   }
 
   ImmutableList() {}
@@ -344,45 +346,13 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
     return array;
   }
 
-  private static <E> ImmutableList<E> createFromIterable(
-      Iterable<? extends E> source, int estimatedSize) {
-    Object[] array = new Object[estimatedSize];
-    int index = 0;
-
-    for (Object element : source) {
-      if (index == estimatedSize) {
-        // At least one element was added after our call to size().
-        estimatedSize = ((estimatedSize / 2) + 1) * 3;
-        array = copyOf(array, estimatedSize);
-      }
-      if (element == null) {
-        throw new NullPointerException("at index " + index);
-      }
-      array[index++] = element;
-    }
-
-    if (index == 0) {
-      return of();
-    } else if (index == 1) {
-      // The elements of "array" come from a Iterable<? extends E>.
-      @SuppressWarnings("unchecked")
-      E element = (E) array[0];
-      return of(element);
-    }
-
-    if (index != estimatedSize) {
-      array = copyOf(array, index);
-    }
-
-    return new RegularImmutableList<E>(array, 0, index);
-  }
-
-  // Avoid using Arrays.copyOf(), which is not present until JDK6.
-  private static Object[] copyOf(Object[] oldArray, int newSize) {
-    Object[] newArray = new Object[newSize];
-    System.arraycopy(oldArray, 0, newArray, 0,
-        Math.min(oldArray.length, newSize));
-    return newArray;
+  /**
+   * Returns this list instance.
+   *
+   * @since 2010.01.04 <b>tentative</b>
+   */
+  @Override public ImmutableList<E> asList() {
+    return this;
   }
 
   /*

@@ -20,7 +20,7 @@ package com.google.common.util.concurrent;
  * A simple ListenableFuture that holds a value or an exception.
  *
  * @author Sven Mawson
- * @since 9.09.15 <b>tentative</b>
+ * @since 2009.09.15 <b>tentative</b>
  */
 public class ValueFuture<V> extends AbstractListenableFuture<V> {
 

@@ -17,7 +17,7 @@
 package com.google.common.util.concurrent;
 
 import com.google.common.base.Service;
-import com.google.common.base.Service.State;
+import com.google.common.base.Service.State; // for javadoc
 import com.google.common.base.Throwables;
 
 import java.util.concurrent.Executor;
@@ -31,7 +31,7 @@ import java.util.concurrent.Future;
  * for each method.
  *
  * @author Chris Nokleberg
- * @since 9.09.15 <b>tentative</b>
+ * @since 2009.09.15 <b>tentative</b>
  */
 public abstract class AbstractIdleService implements Service {
 
@@ -39,7 +39,7 @@ public abstract class AbstractIdleService implements Service {
   private final Service delegate = new AbstractService() {
     @Override protected final void doStart() {
       executor(State.STARTING).execute(new Runnable() {
-        @Override public void run() {
+        /*@Override*/ public void run() {
           try {
             startUp();
             notifyStarted();
@@ -53,7 +53,7 @@ public abstract class AbstractIdleService implements Service {
 
     @Override protected final void doStop() {
       executor(State.STOPPING).execute(new Runnable() {
-        @Override public void run() {
+        /*@Override*/ public void run() {
           try {
             shutDown();
             notifyStopped();
@@ -98,27 +98,27 @@ public abstract class AbstractIdleService implements Service {
 
   // We override instead of using ForwardingService so that these can be final.
 
-  @Override public final Future<State> start() {
+  /*@Override*/ public final Future<State> start() {
     return delegate.start();
   }
 
-  @Override public final State startAndWait() {
+  /*@Override*/ public final State startAndWait() {
     return delegate.startAndWait();
   }
 
-  @Override public final boolean isRunning() {
+  /*@Override*/ public final boolean isRunning() {
     return delegate.isRunning();
   }
 
-  @Override public final State state() {
+  /*@Override*/ public final State state() {
     return delegate.state();
   }
 
-  @Override public final Future<State> stop() {
+  /*@Override*/ public final Future<State> stop() {
     return delegate.stop();
   }
 
-  @Override public final State stopAndWait() {
+  /*@Override*/ public final State stopAndWait() {
     return delegate.stopAndWait();
   }
 }

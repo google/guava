@@ -16,6 +16,7 @@
 
 package com.google.common.base;
 
+import com.google.common.annotations.GwtCompatible;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -40,10 +41,20 @@ import java.util.List;
  * separate characters.
  *
  * @author Kevin Bourrillion
- * @since 9.09.15 <b>tentative</b>
+ * @since 2009.09.15 <b>tentative</b>
  */
+@GwtCompatible
 public abstract class CharMatcher implements Predicate<Character> {
-  // Public constants
+
+  // Constants
+
+  // Excludes 2000-2000a, which is handled as a range
+  private static final String BREAKING_WHITESPACE_CHARS =
+      "\t\n\013\f\r \u0085\u1680\u2028\u2029\u205f\u3000";
+
+  // Excludes 2007, which is handled as a gap in a pair of ranges
+  private static final String NON_BREAKING_WHITESPACE_CHARS =
+      "\u00a0\u180e\u202f";
 
   /**
    * Determines whether a character is whitespace according to the latest
@@ -51,15 +62,27 @@ public abstract class CharMatcher implements Predicate<Character> {
    * <a href="http://unicode.org/cldr/utility/list-unicodeset.jsp?a=%5Cp%7Bwhitespace%7D">here</a>.
    * This is not the same definition used by other Java APIs. See a comparison
    * of several definitions of "whitespace" at
-   * <a href="http://go/white+space">go/white+space</a>.
+   * <a href="TODO">(TODO)</a>.
    *
-   * <b>Note:</b> as the Unicode definition evolves, we will modify this
+   * <p><b>Note:</b> as the Unicode definition evolves, we will modify this
    * constant to keep it up to date.
    */
-  public static final CharMatcher WHITESPACE = anyOf(
-      "\t\n\013\f\r \u0085\u00a0\u1680\u180e\u2028\u2029\u202f\u205f\u3000")
-      .or(inRange('\u2000', '\u200a'))
-      .precomputed(); // TODO: should we do this more lazily?
+  public static final CharMatcher WHITESPACE =
+      anyOf(BREAKING_WHITESPACE_CHARS + NON_BREAKING_WHITESPACE_CHARS)
+          .or(inRange('\u2000', '\u200a'));
+
+  /**
+   * Determines whether a character is a breaking whitespace (that is,
+   * a whitespace which can be interpreted as a break between words
+   * for formatting purposes).  See {@link #WHITESPACE} for a discussion
+   * of that term.
+   *
+   * @since 2010.01.04 <b>tentative</b>
+   */
+  public static final CharMatcher BREAKING_WHITESPACE =
+      anyOf(BREAKING_WHITESPACE_CHARS)
+          .or(inRange('\u2000', '\u2006'))
+          .or(inRange('\u2008', '\u200a'));
 
   /**
    * Determines whether a character is ASCII, meaning that its code point is
@@ -71,24 +94,19 @@ public abstract class CharMatcher implements Predicate<Character> {
    * Determines whether a character is a digit according to
    * <a href="http://unicode.org/cldr/utility/list-unicodeset.jsp?a=%5Cp%7Bdigit%7D">Unicode</a>.
    */
-  public static final CharMatcher DIGIT =
-      new CharMatcher() {
-        @Override protected void setBits(LookupTable table) {
-          String zeroes = "0"
-              + "\u0660\u06f0\u07c0\u0966\u09e6\u0a66\u0ae6\u0b66\u0be6\u0c66"
-              + "\u0ce6\u0d66\u0e50\u0ed0\u0f20\u1040\u1090\u17e0\u1810\u1946"
-              + "\u19d0\u1b50\u1bb0\u1c40\u1c50\ua620\ua8d0\ua900\uaa50\uff10";
-          for (char base : zeroes.toCharArray()) {
-            for (char value = 0; value < 10; value++) {
-              table.set((char) (base + value));
-            }
-          }
-        }
-        @Override public boolean matches(char c) {
-          // nicer way to do this?
-          throw new UnsupportedOperationException(); // COV_NF_LINE
-        }
-      }.precomputed();
+  public static final CharMatcher DIGIT;
+
+  static {
+    CharMatcher digit = inRange('0', '9');
+    String zeroes =
+        "\u0660\u06f0\u07c0\u0966\u09e6\u0a66\u0ae6\u0b66\u0be6\u0c66"
+            + "\u0ce6\u0d66\u0e50\u0ed0\u0f20\u1040\u1090\u17e0\u1810\u1946"
+            + "\u19d0\u1b50\u1bb0\u1c40\u1c50\ua620\ua8d0\ua900\uaa50\uff10";
+    for (char base : zeroes.toCharArray()) {
+      digit = digit.or(inRange(base, (char) (base + 9)));
+    }
+    DIGIT = digit;
+  }
 
   /**
    * Determines whether a character is whitespace according to {@link
@@ -96,11 +114,16 @@ public abstract class CharMatcher implements Predicate<Character> {
    * to use {@link #WHITESPACE}. See a comparison of several definitions of
    * "whitespace" at <a href="http://go/white+space">go/white+space</a>.
    */
-  public static final CharMatcher JAVA_WHITESPACE = new CharMatcher() {
-    @Override public boolean matches(char c) {
-      return Character.isWhitespace(c);
-    }
-  };
+  public static final CharMatcher JAVA_WHITESPACE
+      = inRange('\u0009', (char) 13)  // \\u000d doesn't work as a char literal
+      .or(inRange('\u001c', '\u0020'))
+      .or(is('\u1680'))
+      .or(is('\u180e'))
+      .or(inRange('\u2000', '\u2006'))
+      .or(inRange('\u2008', '\u200b'))
+      .or(inRange('\u2028', '\u2029'))
+      .or(is('\u205f'))
+      .or(is('\u3000'));
 
   /**
    * Determines whether a character is a digit according to {@link
@@ -159,11 +182,8 @@ public abstract class CharMatcher implements Predicate<Character> {
    * Determines whether a character is an ISO control character according to
    * {@link Character#isISOControl(char)}.
    */
-  public static final CharMatcher JAVA_ISO_CONTROL = new CharMatcher() {
-    @Override public boolean matches(char c) {
-      return Character.isISOControl(c);
-    }
-  };
+  public static final CharMatcher JAVA_ISO_CONTROL = inRange('\u0000', '\u001f')
+      .or(inRange('\u007f', '\u009f'));
 
   /**
    * Determines whether a character is invisible; that is, if its Unicode
@@ -182,9 +202,7 @@ public abstract class CharMatcher implements Predicate<Character> {
       .or(inRange('\u206a', '\u206f'))
       .or(is('\u3000'))
       .or(inRange('\ud800', '\uf8ff'))
-      .or(anyOf("\ufeff\ufff9\ufffa\ufffb"))
-      .precomputed(); // TODO: should we do this more lazily?
-      // TODO: this tableize is taking forever, need to make it faster
+      .or(anyOf("\ufeff\ufff9\ufffa\ufffb"));
 
   /**
    * Determines whether a character is single-width (not double-width).  When
@@ -206,8 +224,7 @@ public abstract class CharMatcher implements Predicate<Character> {
       .or(inRange('\u2100', '\u213a'))
       .or(inRange('\ufb50', '\ufdff'))
       .or(inRange('\ufe70', '\ufeff'))
-      .or(inRange('\uff61', '\uffdc'))
-      .precomputed(); // TODO: should we do this more lazily?
+      .or(inRange('\uff61', '\uffdc'));
 
   /** Matches any character. */
   public static final CharMatcher ANY = new CharMatcher() {
@@ -605,6 +622,20 @@ public abstract class CharMatcher implements Predicate<Character> {
    * Precomputation takes time and is likely to be worthwhile only if the
    * precomputed matcher is queried many thousands of times.
    *
+   * <p>This method has no effect (returns {@code this}) when called in GWT:
+   * it's unclear whether a precomputed matcher is faster, but it certainly
+   * consumes more memory, which doesn't seem like a worthwhile tradeoff in a
+   * browser.
+   */
+  public CharMatcher precomputed() {
+    return Platform.precomputeCharMatcher(this);
+  }
+
+  /**
+   * This is the actual implementation of {@link #precomputed}, but we bounce
+   * calls through a method on {@link Platform} so that we can have different
+   * behavior in GWT.
+   *
    * <p>The default precomputation is to cache the configuration of the original
    * matcher in an eight-kilobyte bit array. In some situations this produces a
    * matcher which is faster to query than the original.
@@ -612,7 +643,7 @@ public abstract class CharMatcher implements Predicate<Character> {
    * <p>The default implementation creates a new bit array and passes it to
    * {@link #setBits(LookupTable)}.
    */
-  public CharMatcher precomputed() {
+  CharMatcher precomputedInternal() {
     final LookupTable table = new LookupTable();
     setBits(table);
 
@@ -631,8 +662,8 @@ public abstract class CharMatcher implements Predicate<Character> {
 
   /**
    * For use by implementors; sets the bit corresponding to each character ('\0'
-   * to '\uFFFF') that matches this matcher in the given bit array, leaving all
-   * other bits untouched.
+   * to '{@literal \}uFFFF') that matches this matcher in the given bit array,
+   * leaving all other bits untouched.
    *
    * <p>The default implementation loops over every possible character value,
    * invoking {@link #matches} for each one.
@@ -1075,7 +1106,7 @@ public abstract class CharMatcher implements Predicate<Character> {
    *
    * @throws NullPointerException if {@code character} is null
    */
-  @Override public boolean apply(Character character) {
+  /*@Override*/ public boolean apply(Character character) {
     return matches(character);
   }
 }

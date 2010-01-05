@@ -37,7 +37,7 @@ import java.util.concurrent.TimeUnit;
  * Please see {@code SimpleTimeLimiterTest} for more usage examples.
  *
  * @author Kevin Bourrillion
- * @since 9.09.15 <b>tentative</b>
+ * @since 2009.09.15 <b>tentative</b>
  */
 public interface TimeLimiter {
 

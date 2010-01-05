@@ -27,7 +27,7 @@ import java.util.concurrent.TimeUnit;
  * time-limiter while you're debugging.
  *
  * @author Kevin Bourrillion
- * @since 9.09.15 <b>tentative</b>
+ * @since 2009.09.15 <b>tentative</b>
  */
 public class FakeTimeLimiter implements TimeLimiter {
   public <T> T newProxy(T target, Class<T> interfaceType, long timeoutDuration,

@@ -36,5 +36,4 @@ package com.google.common.io;
  * explicitly annotated as being {@link javax.annotation.Nullable}.
  *
  * @author Chris Nokleberg
- * @since 9.09.15 <b>tentative</b>
  */

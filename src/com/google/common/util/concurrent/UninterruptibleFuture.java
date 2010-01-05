@@ -29,11 +29,11 @@ import java.util.concurrent.TimeoutException;
  * Futures#makeUninterruptible(Future)}.
  *
  * @author Kevin Bourrillion
- * @since 9.09.15 <b>tentative</b>
+ * @since 2009.09.15 <b>tentative</b>
  */
 public interface UninterruptibleFuture<V> extends Future<V> {
-  @Override V get() throws ExecutionException;
+  /*@Override*/ V get() throws ExecutionException;
 
-  @Override V get(long timeout, TimeUnit unit)
+  /*@Override*/ V get(long timeout, TimeUnit unit)
       throws ExecutionException, TimeoutException;
 }

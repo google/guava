@@ -20,6 +20,8 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.ImmutableSet.ArrayImmutableSet;
 import com.google.common.collect.ImmutableSet.TransformedImmutableSet;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 /**
  * Implementation of {@link ImmutableMap} with two or more entries.
  *
@@ -37,8 +39,9 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
 
   RegularImmutableMap(Entry<?, ?>... immutableEntries) {
     // each of our 6 callers carefully put only Entry<K, V>s into the array!
+    // checkNotNull for GWT.
     @SuppressWarnings("unchecked")
-    Entry<K, V>[] tmp = (Entry<K, V>[]) immutableEntries;
+    Entry<K, V>[] tmp = (Entry<K, V>[]) checkNotNull(immutableEntries);
     this.entries = tmp;
 
     int tableSize = Hashing.chooseTableSize(immutableEntries.length);
@@ -47,13 +50,14 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
 
     int keySetHashCodeMutable = 0;
     for (Entry<K, V> entry : this.entries) {
-      K key = entry.getKey();
+      checkNotNull(entry);  // checkNotNull for GWT.
+      K key = checkNotNull(entry.getKey());  // checkNotNull for GWT.
       int keyHashCode = key.hashCode();
       for (int i = Hashing.smear(keyHashCode); true; i++) {
         int index = (i & mask) * 2;
         Object existing = table[index];
         if (existing == null) {
-          V value = entry.getValue();
+          V value = checkNotNull(entry.getValue());  // checkNotNull for GWT.
           table[index] = key;
           table[index + 1] = value;
           keySetHashCodeMutable += keyHashCode;

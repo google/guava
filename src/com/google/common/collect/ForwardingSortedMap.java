@@ -29,6 +29,7 @@ import java.util.SortedMap;
  *
  * @see ForwardingObject
  * @author Mike Bostock
+ * @since 2010.01.04 <b>stable</b> (imported from Google Collections Library)
  */
 @GwtCompatible
 public abstract class ForwardingSortedMap<K, V> extends ForwardingMap<K, V>

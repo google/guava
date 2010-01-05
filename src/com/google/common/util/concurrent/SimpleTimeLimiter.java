@@ -40,7 +40,7 @@ import java.util.concurrent.TimeoutException;
  * the thread running the call will be interrupted.
  *
  * @author Kevin Bourrillion
- * @since 9.09.15 <b>tentative</b>
+ * @since 2009.09.15 <b>tentative</b>
  */
 public class SimpleTimeLimiter implements TimeLimiter {
 
