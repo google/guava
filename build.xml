@@ -16,7 +16,6 @@
          target="1.6">
       <classpath>
         <pathelement location="lib/jsr305.jar"/>
-        <pathelement location="lib/google-collect-1.0-rc3.jar"/>
       </classpath>
     </javac>
   </target>
@@ -30,18 +29,17 @@
       description="Generate Javadocs.">
     <delete dir="build/javadoc"/>
     <mkdir dir="build/javadoc"/>
-    <javadoc packagenames="com.google.common.base,com.google.common.io,com.google.common.util.concurrent,com.google.common.primitives"
+    <javadoc packagenames="com.google.common.annotations,com.google.common.base,com.google.common.collect,com.google.common.io,com.google.common.primitives,com.google.common.util.concurrent"
          destdir="build/javadoc"
          use="true"
          author="true"
          protected="true"
-         windowtitle="Guava Libraries PRELIMINARY CODE DROP SUBJECT TO CHANGE">
+         windowtitle="Guava Libraries 2010.01.04">
       <sourcepath>
         <pathelement location="src"/>
       </sourcepath>
       <!-- workaround for http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6442982 -->
       <classpath>
-        <pathelement location="lib/google-collect-1.0-rc3.jar"/>
         <pathelement location="lib/jsr305.jar"/>
       </classpath>
       <link href="http://jsr-305.googlecode.com/svn/trunk/javadoc"/>
