@@ -30,7 +30,7 @@ import java.util.Map;
  * serializable.
  *
  * @author Mike Bostock
- * @since 2010.01.04 <b>stable</b> (imported from Google Collections Library)
+ * @since 2 (imported from Google Collections Library)
  */
 public final class EnumBiMap<K extends Enum<K>, V extends Enum<V>>
     extends AbstractBiMap<K, V> {

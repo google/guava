@@ -23,7 +23,7 @@ import com.google.common.annotations.GwtCompatible;
  * 
  * @author Jared Levy
  */
-@GwtCompatible(serializable = true)
+@GwtCompatible(serializable = true, emulated = true)
 @SuppressWarnings("serial") // uses writeReplace(), not default serialization
 class RegularImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
   final transient ImmutableMap<K, V> delegate;

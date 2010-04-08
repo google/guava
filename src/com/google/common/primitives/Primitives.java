@@ -28,16 +28,16 @@ import java.util.Set;
  * corresponding wrapper types.
  *
  * @author Kevin Bourrillion
- * @since 2009.09.15 <b>tentative</b>
+ * @since 1
  */
 public final class Primitives {
   private Primitives() {}
 
   /** A map from primitive types to their corresponding wrapper types. */
-  public static final Map<Class<?>, Class<?>> PRIMITIVE_TO_WRAPPER_TYPE;
+  private static final Map<Class<?>, Class<?>> PRIMITIVE_TO_WRAPPER_TYPE;
 
   /** A map from wrapper types to their corresponding primitive types. */
-  public static final Map<Class<?>, Class<?>> WRAPPER_TO_PRIMITIVE_TYPE;
+  private static final Map<Class<?>, Class<?>> WRAPPER_TO_PRIMITIVE_TYPE;
 
   // Sad that we can't use a BiMap. :(
   
@@ -65,13 +65,26 @@ public final class Primitives {
     backward.put(value, key);
   }
 
-  /** All nine primitive types (including void). */
-  public static final Set<Class<?>> PRIMITIVE_TYPES
-      = PRIMITIVE_TO_WRAPPER_TYPE.keySet();
+  /**
+   * Returns an immutable set of all nine primitive types (including {@code
+   * void}). Note that a simpler way to test whether a {@code Class} instance
+   * is a member of this set is to call {@link Class#isPrimitive}.
+   *
+   * @since 3
+   */
+  public static Set<Class<?>> allPrimitiveTypes() {
+    return PRIMITIVE_TO_WRAPPER_TYPE.keySet();
+  }
 
-  /** All nine wrapper types (including Void). */
-  public static final Set<Class<?>> WRAPPER_TYPES
-      = WRAPPER_TO_PRIMITIVE_TYPE.keySet();
+  /**
+   * Returns an immutable set of all nine primitive-wrapper types (including
+   * {@link Void}).
+   *
+   * @since 3
+   */
+  public static Set<Class<?>> allWrapperTypes() {
+    return WRAPPER_TO_PRIMITIVE_TYPE.keySet();
+  }
 
   /**
    * Returns {@code true} if {@code type} is one of the nine

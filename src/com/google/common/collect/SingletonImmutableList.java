@@ -32,9 +32,10 @@ import static com.google.common.base.Preconditions.checkNotNull;
  *
  * @author Hayward Chan
  */
-@GwtCompatible(serializable = true)
+@GwtCompatible(serializable = true, emulated = true)
 @SuppressWarnings("serial") // uses writeReplace(), not default serialization
 final class SingletonImmutableList<E> extends ImmutableList<E> {
+
   final transient E element;
 
   SingletonImmutableList(E element) {

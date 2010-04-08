@@ -16,6 +16,8 @@
 
 package com.google.common.util.concurrent;
 
+import com.google.common.annotations.Beta;
+
 import java.util.concurrent.Executor;
 
 /**
@@ -33,8 +35,9 @@ import java.util.concurrent.Executor;
  * {@link #addListener(Runnable, Executor)} and {@link #done()} methods to it.
  * 
  * @author Sven Mawson
- * @since 2009.09.15 <b>tentative</b>
+ * @since 1
  */
+@Beta
 public abstract class AbstractListenableFuture<V>
     extends AbstractFuture<V> implements ListenableFuture<V> {
 

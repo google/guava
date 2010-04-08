@@ -17,7 +17,7 @@
 package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.VisibleForTesting;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
@@ -53,17 +53,16 @@ import static com.google.common.base.Preconditions.checkNotNull;
 final class Synchronized {
   private Synchronized() {}
 
-  /** Abstract base class for synchronized views. */
-  static class SynchronizedObject implements Serializable {
-    private final Object delegate;
-    protected final Object mutex;
+  private static class SynchronizedObject implements Serializable {
+    final Object delegate;
+    final Object mutex;
 
-    public SynchronizedObject(Object delegate, @Nullable Object mutex) {
+    SynchronizedObject(Object delegate, @Nullable Object mutex) {
       this.delegate = checkNotNull(delegate);
       this.mutex = (mutex == null) ? this : mutex;
     }
 
-    protected Object delegate() {
+    Object delegate() {
       return delegate;
     }
 
@@ -89,45 +88,20 @@ final class Synchronized {
     private static final long serialVersionUID = 0;
   }
 
-  /**
-   * Returns a synchronized (thread-safe) collection backed by the specified
-   * collection using the specified mutex. In order to guarantee serial access,
-   * it is critical that <b>all</b> access to the backing collection is
-   * accomplished through the returned collection.
-   *
-   * <p>It is imperative that the user manually synchronize on the specified
-   * mutex when iterating over the returned collection: <pre>  {@code
-   *
-   *  Collection<E> s = Synchronized.collection(
-   *      new HashSet<E>(), mutex);
-   *  ...
-   *  synchronized (mutex) {
-   *    Iterator<E> i = s.iterator(); // Must be in synchronized block
-   *    while (i.hasNext()) {
-   *      foo(i.next());
-   *    }
-   *  }}</pre>
-   *
-   * Failure to follow this advice may result in non-deterministic behavior.
-   *
-   * @param collection the collection to be wrapped in a synchronized view
-   * @return a synchronized view of the specified collection
-   */
-  static <E> Collection<E> collection(
+  private static <E> Collection<E> collection(
       Collection<E> collection, @Nullable Object mutex) {
     return new SynchronizedCollection<E>(collection, mutex);
   }
 
-  /** @see Synchronized#collection */
-  static class SynchronizedCollection<E> extends SynchronizedObject
-      implements Collection<E> {
-    public SynchronizedCollection(
+  @VisibleForTesting static class SynchronizedCollection<E>
+      extends SynchronizedObject implements Collection<E> {
+    private SynchronizedCollection(
         Collection<E> delegate, @Nullable Object mutex) {
       super(delegate, mutex);
     }
 
     @SuppressWarnings("unchecked")
-    @Override protected Collection<E> delegate() {
+    @Override Collection<E> delegate() {
       return (Collection<E>) super.delegate();
     }
 
@@ -210,41 +184,17 @@ final class Synchronized {
     private static final long serialVersionUID = 0;
   }
 
-  /**
-   * Returns a synchronized (thread-safe) set backed by the specified set using
-   * the specified mutex. In order to guarantee serial access, it is critical
-   * that <b>all</b> access to the backing set is accomplished through the
-   * returned set.
-   *
-   * <p>It is imperative that the user manually synchronize on the specified
-   * mutex when iterating over the returned set:  <pre>  {@code
-   *
-   *  Set<E> s = Synchronized.set(new HashSet<E>(), mutex);
-   *  ...
-   *  synchronized (mutex) {
-   *    Iterator<E> i = s.iterator(); // Must be in synchronized block
-   *    while (i.hasNext()) {
-   *      foo(i.next());
-   *    }
-   *  }}</pre>
-   *
-   * Failure to follow this advice may result in non-deterministic behavior.
-   *
-   * @param set the set to be wrapped in a synchronized view
-   * @return a synchronized view of the specified set
-   */
-  public static <E> Set<E> set(Set<E> set, @Nullable Object mutex) {
+  @VisibleForTesting static <E> Set<E> set(Set<E> set, @Nullable Object mutex) {
     return new SynchronizedSet<E>(set, mutex);
   }
 
-  /** @see Synchronized#set */
-  static class SynchronizedSet<E> extends SynchronizedCollection<E>
-      implements Set<E> {
-    public SynchronizedSet(Set<E> delegate, @Nullable Object mutex) {
+  @VisibleForTesting static class SynchronizedSet<E>
+      extends SynchronizedCollection<E> implements Set<E> {
+    private SynchronizedSet(Set<E> delegate, @Nullable Object mutex) {
       super(delegate, mutex);
     }
 
-    @Override protected Set<E> delegate() {
+    @Override Set<E> delegate() {
       return (Set<E>) super.delegate();
     }
 
@@ -266,43 +216,18 @@ final class Synchronized {
     private static final long serialVersionUID = 0;
   }
 
-  /**
-   * Returns a synchronized (thread-safe) sorted set backed by the specified
-   * sorted set using the specified mutex. In order to guarantee serial access,
-   * it is critical that <b>all</b> access to the backing sorted set is
-   * accomplished through the returned sorted set.
-   *
-   * <p>It is imperative that the user manually synchronize on the specified
-   * mutex when iterating over the returned sorted set: <pre>  {@code
-   *
-   *  SortedSet<E> s = Synchronized.sortedSet(
-   *      new TreeSet<E>(), mutex);
-   *  ...
-   *  synchronized (mutex) {
-   *    Iterator<E> i = s.iterator(); // Must be in synchronized block
-   *    while (i.hasNext()) {
-   *      foo(i.next());
-   *    }
-   *  }}</pre>
-   *
-   * Failure to follow this advice may result in non-deterministic behavior.
-   *
-   * @param set the sorted set to be wrapped in a synchronized view
-   * @return a synchronized view of the specified sorted set
-   */
-  static <E> SortedSet<E> sortedSet(SortedSet<E> set, @Nullable Object mutex) {
+  private static <E> SortedSet<E> sortedSet(
+      SortedSet<E> set, @Nullable Object mutex) {
     return new SynchronizedSortedSet<E>(set, mutex);
   }
 
-  /** @see Synchronized#sortedSet */
-  static class SynchronizedSortedSet<E> extends SynchronizedSet<E>
+  private static class SynchronizedSortedSet<E> extends SynchronizedSet<E>
       implements SortedSet<E> {
-    public SynchronizedSortedSet(
-        SortedSet<E> delegate, @Nullable Object mutex) {
+    SynchronizedSortedSet(SortedSet<E> delegate, @Nullable Object mutex) {
       super(delegate, mutex);
     }
 
-    @Override protected SortedSet<E> delegate() {
+    @Override SortedSet<E> delegate() {
       return (SortedSet<E>) super.delegate();
     }
 
@@ -345,46 +270,19 @@ final class Synchronized {
     private static final long serialVersionUID = 0;
   }
 
-  /**
-   * Returns a synchronized (thread-safe) list backed by the specified list
-   * using the specified mutex. In order to guarantee serial access, it is
-   * critical that <b>all</b> access to the backing list is accomplished
-   * through the returned list.
-   *
-   * <p>It is imperative that the user manually synchronize on the specified
-   * mutex when iterating over the returned list: <pre>  {@code
-   *
-   *  List<E> l = Synchronized.list(new ArrayList<E>(), mutex);
-   *  ...
-   *  synchronized (mutex) {
-   *    Iterator<E> i = l.iterator(); // Must be in synchronized block
-   *    while (i.hasNext()) {
-   *      foo(i.next());
-   *    }
-   *  }}</pre>
-   *
-   * Failure to follow this advice may result in non-deterministic behavior.
-   *
-   * <p>The returned list implements {@link RandomAccess} if the specified list
-   * implements {@code RandomAccess}.
-   *
-   * @param list the list to be wrapped in a synchronized view
-   * @return a synchronized view of the specified list
-   */
-  static <E> List<E> list(List<E> list, @Nullable Object mutex) {
+  private static <E> List<E> list(List<E> list, @Nullable Object mutex) {
     return (list instanceof RandomAccess)
         ? new SynchronizedRandomAccessList<E>(list, mutex)
         : new SynchronizedList<E>(list, mutex);
   }
 
-  /** @see Synchronized#list */
-  static class SynchronizedList<E> extends SynchronizedCollection<E>
+  private static class SynchronizedList<E> extends SynchronizedCollection<E>
       implements List<E> {
-    public SynchronizedList(List<E> delegate, @Nullable Object mutex) {
+    SynchronizedList(List<E> delegate, @Nullable Object mutex) {
       super(delegate, mutex);
     }
 
-    @Override protected List<E> delegate() {
+    @Override List<E> delegate() {
       return (List<E>) super.delegate();
     }
 
@@ -438,10 +336,9 @@ final class Synchronized {
       }
     }
 
-    @GwtIncompatible("List.subList")
     public List<E> subList(int fromIndex, int toIndex) {
       synchronized (mutex) {
-        return list(Platform.subList(delegate(), fromIndex, toIndex), mutex);
+        return list(delegate().subList(fromIndex, toIndex), mutex);
       }
     }
 
@@ -463,55 +360,29 @@ final class Synchronized {
     private static final long serialVersionUID = 0;
   }
 
-  /** @see Synchronized#list */
-  static class SynchronizedRandomAccessList<E> extends SynchronizedList<E>
-      implements RandomAccess {
-    public SynchronizedRandomAccessList(List<E> list, @Nullable Object mutex) {
+  private static class SynchronizedRandomAccessList<E>
+      extends SynchronizedList<E> implements RandomAccess {
+    SynchronizedRandomAccessList(List<E> list, @Nullable Object mutex) {
       super(list, mutex);
     }
     private static final long serialVersionUID = 0;
   }
 
-  /**
-   * Returns a synchronized (thread-safe) multiset backed by the specified
-   * multiset using the specified mutex. In order to guarantee serial access, it
-   * is critical that <b>all</b> access to the backing multiset is accomplished
-   * through the returned multiset.
-   *
-   * <p>It is imperative that the user manually synchronize on the specified
-   * mutex when iterating over the returned multiset: <pre>  {@code
-   *
-   *  Multiset<E> s = Synchronized.multiset(
-   *      HashMultiset.<E>create(), mutex);
-   *  ...
-   *  synchronized (mutex) {
-   *    Iterator<E> i = s.iterator(); // Must be in synchronized block
-   *    while (i.hasNext()) {
-   *      foo(i.next());
-   *    }
-   *  }}</pre>
-   *
-   * Failure to follow this advice may result in non-deterministic behavior.
-   *
-   * @param multiset the multiset to be wrapped
-   * @return a synchronized view of the specified multiset
-   */
-  private static <E> Multiset<E> multiset(
+  static <E> Multiset<E> multiset(
       Multiset<E> multiset, @Nullable Object mutex) {
     return new SynchronizedMultiset<E>(multiset, mutex);
   }
 
-  /** @see Synchronized#multiset */
-  static class SynchronizedMultiset<E> extends SynchronizedCollection<E>
+  private static class SynchronizedMultiset<E> extends SynchronizedCollection<E>
       implements Multiset<E> {
-    private transient Set<E> elementSet;
-    private transient Set<Entry<E>> entrySet;
+    transient Set<E> elementSet;
+    transient Set<Entry<E>> entrySet;
 
-    public SynchronizedMultiset(Multiset<E> delegate, @Nullable Object mutex) {
+    SynchronizedMultiset(Multiset<E> delegate, @Nullable Object mutex) {
       super(delegate, mutex);
     }
 
-    @Override protected Multiset<E> delegate() {
+    @Override Multiset<E> delegate() {
       return (Multiset<E>) super.delegate();
     }
 
@@ -581,39 +452,11 @@ final class Synchronized {
     private static final long serialVersionUID = 0;
   }
 
-  /**
-   * Returns a synchronized (thread-safe) multimap backed by the specified
-   * multimap using the specified mutex. In order to guarantee serial access, it
-   * is critical that <b>all</b> access to the backing multimap is accomplished
-   * through the returned multimap.
-   *
-   * <p>It is imperative that the user manually synchronize on the specified
-   * mutex when accessing any of the return multimap's collection views:
-   * <pre>  {@code
-   *
-   *  Multimap<K, V> m = Synchronized.multimap(
-   *      HashMultimap.create(), mutex);
-   *  ...
-   *  Set<K> s = m.keySet();  // Needn't be in synchronized block
-   *  ...
-   *  synchronized (mutex) {
-   *    Iterator<K> i = s.iterator(); // Must be in synchronized block
-   *    while (i.hasNext()) {
-   *      foo(i.next());
-   *    }
-   *  }}</pre>
-   *
-   * Failure to follow this advice may result in non-deterministic behavior.
-   *
-   * @param multimap the multimap to be wrapped in a synchronized view
-   * @return a synchronized view of the specified multimap
-   */
-  public static <K, V> Multimap<K, V> multimap(
+  static <K, V> Multimap<K, V> multimap(
       Multimap<K, V> multimap, @Nullable Object mutex) {
     return new SynchronizedMultimap<K, V>(multimap, mutex);
   }
 
-  /** @see Synchronized#multimap */
   private static class SynchronizedMultimap<K, V> extends SynchronizedObject
       implements Multimap<K, V> {
     transient Set<K> keySet;
@@ -623,7 +466,7 @@ final class Synchronized {
     transient Multiset<K> keys;
 
     @SuppressWarnings("unchecked")
-    @Override protected Multimap<K, V> delegate() {
+    @Override Multimap<K, V> delegate() {
       return (Multimap<K, V>) super.delegate();
     }
 
@@ -772,28 +615,18 @@ final class Synchronized {
     private static final long serialVersionUID = 0;
   }
 
-  /**
-   * Returns a synchronized (thread-safe) list multimap backed by the specified
-   * multimap using the specified mutex.
-   *
-   * <p>You must follow the warnings described for {@link #multimap}.
-   *
-   * @param multimap the multimap to be wrapped in a synchronized view
-   * @return a synchronized view of the specified multimap
-   */
-  public static <K, V> ListMultimap<K, V> listMultimap(
+  static <K, V> ListMultimap<K, V> listMultimap(
       ListMultimap<K, V> multimap, @Nullable Object mutex) {
     return new SynchronizedListMultimap<K, V>(multimap, mutex);
   }
 
-  /** @see Synchronized#listMultimap */
   private static class SynchronizedListMultimap<K, V>
       extends SynchronizedMultimap<K, V> implements ListMultimap<K, V> {
     SynchronizedListMultimap(
         ListMultimap<K, V> delegate, @Nullable Object mutex) {
       super(delegate, mutex);
     }
-    @Override protected ListMultimap<K, V> delegate() {
+    @Override ListMultimap<K, V> delegate() {
       return (ListMultimap<K, V>) super.delegate();
     }
     @Override public List<V> get(K key) {
@@ -815,29 +648,20 @@ final class Synchronized {
     private static final long serialVersionUID = 0;
   }
 
-  /**
-   * Returns a synchronized (thread-safe) set multimap backed by the specified
-   * multimap using the specified mutex.
-   *
-   * <p>You must follow the warnings described for {@link #multimap}.
-   *
-   * @param multimap the multimap to be wrapped in a synchronized view
-   * @return a synchronized view of the specified multimap
-   */
-  public static <K, V> SetMultimap<K, V> setMultimap(
+  static <K, V> SetMultimap<K, V> setMultimap(
       SetMultimap<K, V> multimap, @Nullable Object mutex) {
     return new SynchronizedSetMultimap<K, V>(multimap, mutex);
   }
 
-  /** @see Synchronized#setMultimap */
   private static class SynchronizedSetMultimap<K, V>
       extends SynchronizedMultimap<K, V> implements SetMultimap<K, V> {
     transient Set<Map.Entry<K, V>> entrySet;
+
     SynchronizedSetMultimap(
         SetMultimap<K, V> delegate, @Nullable Object mutex) {
       super(delegate, mutex);
     }
-    @Override protected SetMultimap<K, V> delegate() {
+    @Override SetMultimap<K, V> delegate() {
       return (SetMultimap<K, V>) super.delegate();
     }
     @Override public Set<V> get(K key) {
@@ -867,28 +691,18 @@ final class Synchronized {
     private static final long serialVersionUID = 0;
   }
 
-  /**
-   * Returns a synchronized (thread-safe) sorted set multimap backed by the
-   * specified multimap using the specified mutex.
-   *
-   * <p>You must follow the warnings described for {@link #multimap}.
-   *
-   * @param multimap the multimap to be wrapped in a synchronized view
-   * @return a synchronized view of the specified multimap
-   */
-  public static <K, V> SortedSetMultimap<K, V> sortedSetMultimap(
+  static <K, V> SortedSetMultimap<K, V> sortedSetMultimap(
       SortedSetMultimap<K, V> multimap, @Nullable Object mutex) {
     return new SynchronizedSortedSetMultimap<K, V>(multimap, mutex);
   }
 
-  /** @see Synchronized#sortedSetMultimap */
   private static class SynchronizedSortedSetMultimap<K, V>
       extends SynchronizedSetMultimap<K, V> implements SortedSetMultimap<K, V> {
     SynchronizedSortedSetMultimap(
         SortedSetMultimap<K, V> delegate, @Nullable Object mutex) {
       super(delegate, mutex);
     }
-    @Override protected SortedSetMultimap<K, V> delegate() {
+    @Override SortedSetMultimap<K, V> delegate() {
       return (SortedSetMultimap<K, V>) super.delegate();
     }
     @Override public SortedSet<V> get(K key) {
@@ -915,75 +729,21 @@ final class Synchronized {
     private static final long serialVersionUID = 0;
   }
 
-  /**
-   * Returns a synchronized (thread-safe) collection backed by the specified
-   * collection using the specified mutex. In order to guarantee serial access,
-   * it is critical that <b>all</b> access to the backing collection is
-   * accomplished through the returned collection.
-   *
-   * <p>It is imperative that the user manually synchronize on the specified
-   * mutex when iterating over the returned collection: <pre>  {@code
-   *
-   *  Collection<E> s = Synchronized.typePreservingCollection(
-   *      new HashSet<E>(), mutex);
-   *  ...
-   *  synchronized (mutex) {
-   *    Iterator<E> i = s.iterator(); // Must be in synchronized block
-   *    while (i.hasNext()) {
-   *      foo(i.next());
-   *    }
-   *  }}</pre>
-   *
-   * Failure to follow this advice may result in non-deterministic behavior.
-   *
-   * <p>If the specified collection is a {@code SortedSet}, {@code Set} or
-   * {@code List}, this method will behave identically to {@link #sortedSet},
-   * {@link #set} or {@link #list} respectively, in that order of specificity.
-   *
-   * @param collection the collection to be wrapped in a synchronized view
-   * @return a synchronized view of the specified collection
-   */
   private static <E> Collection<E> typePreservingCollection(
       Collection<E> collection, @Nullable Object mutex) {
     if (collection instanceof SortedSet) {
       return sortedSet((SortedSet<E>) collection, mutex);
-    } else if (collection instanceof Set) {
-      return set((Set<E>) collection, mutex);
-    } else if (collection instanceof List) {
-      return list((List<E>) collection, mutex);
-    } else {
-      return collection(collection, mutex);
     }
+    if (collection instanceof Set) {
+      return set((Set<E>) collection, mutex);
+    }
+    if (collection instanceof List) {
+      return list((List<E>) collection, mutex);
+    }
+    return collection(collection, mutex);
   }
 
-  /**
-   * Returns a synchronized (thread-safe) set backed by the specified set using
-   * the specified mutex. In order to guarantee serial access, it is critical
-   * that <b>all</b> access to the backing collection is accomplished through
-   * the returned collection.
-   *
-   * <p>It is imperative that the user manually synchronize on the specified
-   * mutex when iterating over the returned collection: <pre>  {@code
-   *
-   *  Set<E> s = Synchronized.typePreservingSet(
-   *      new HashSet<E>(), mutex);
-   *  ...
-   *  synchronized (mutex) {
-   *    Iterator<E> i = s.iterator(); // Must be in synchronized block
-   *    while (i.hasNext()) {
-   *      foo(i.next());
-   *    }
-   *  }}</pre>
-   *
-   * Failure to follow this advice may result in non-deterministic behavior.
-   *
-   * <p>If the specified collection is a {@code SortedSet} this method will
-   * behave identically to {@link #sortedSet}.
-   *
-   * @param set the set to be wrapped in a synchronized view
-   * @return a synchronized view of the specified set
-   */
-  public static <E> Set<E> typePreservingSet(
+  private static <E> Set<E> typePreservingSet(
       Set<E> set, @Nullable Object mutex) {
     if (set instanceof SortedSet) {
       return sortedSet((SortedSet<E>) set, mutex);
@@ -992,10 +752,9 @@ final class Synchronized {
     }
   }
 
-  /** @see Synchronized#multimap */
-  static class SynchronizedAsMapEntries<K, V>
+  private static class SynchronizedAsMapEntries<K, V>
       extends SynchronizedSet<Map.Entry<K, Collection<V>>> {
-    public SynchronizedAsMapEntries(
+    SynchronizedAsMapEntries(
         Set<Map.Entry<K, Collection<V>>> delegate, @Nullable Object mutex) {
       super(delegate, mutex);
     }
@@ -1071,50 +830,23 @@ final class Synchronized {
     private static final long serialVersionUID = 0;
   }
 
-  /**
-   * Returns a synchronized (thread-safe) map backed by the specified map using
-   * the specified mutex. In order to guarantee serial access, it is critical
-   * that <b>all</b> access to the backing map is accomplished through the
-   * returned map.
-   *
-   * <p>It is imperative that the user manually synchronize on the specified
-   * mutex when accessing any of the return map's collection views:
-   * <pre>  {@code
-   *
-   *  Map<K, V> m = Synchronized.map(
-   *      new HashMap<K, V>(), mutex);
-   *  ...
-   *  Set<K> s = m.keySet();  // Needn't be in synchronized block
-   *  ...
-   *  synchronized (mutex) {
-   *    Iterator<K> i = s.iterator(); // Must be in synchronized block
-   *    while (i.hasNext()) {
-   *      foo(i.next());
-   *    }
-   *  }}</pre>
-   *
-   * Failure to follow this advice may result in non-deterministic behavior.
-   *
-   * @param map the map to be wrapped in a synchronized view
-   * @return a synchronized view of the specified map
-   */
-  public static <K, V> Map<K, V> map(Map<K, V> map, @Nullable Object mutex) {
+  @VisibleForTesting
+  static <K, V> Map<K, V> map(Map<K, V> map, @Nullable Object mutex) {
     return new SynchronizedMap<K, V>(map, mutex);
   }
 
-  /** @see Synchronized#map */
-  static class SynchronizedMap<K, V> extends SynchronizedObject
+  private static class SynchronizedMap<K, V> extends SynchronizedObject
       implements Map<K, V> {
-    private transient Set<K> keySet;
-    private transient Collection<V> values;
-    private transient Set<Map.Entry<K, V>> entrySet;
+    transient Set<K> keySet;
+    transient Collection<V> values;
+    transient Set<Map.Entry<K, V>> entrySet;
 
-    public SynchronizedMap(Map<K, V> delegate, @Nullable Object mutex) {
+    private SynchronizedMap(Map<K, V> delegate, @Nullable Object mutex) {
       super(delegate, mutex);
     }
 
     @SuppressWarnings("unchecked")
-    @Override protected Map<K, V> delegate() {
+    @Override Map<K, V> delegate() {
       return (Map<K, V>) super.delegate();
     }
 
@@ -1217,52 +949,22 @@ final class Synchronized {
     private static final long serialVersionUID = 0;
   }
 
-  /**
-   * Returns a synchronized (thread-safe) bimap backed by the specified bimap
-   * using the specified mutex. In order to guarantee serial access, it is
-   * critical that <b>all</b> access to the backing bimap is accomplished
-   * through the returned bimap.
-   *
-   * <p>It is imperative that the user manually synchronize on the specified
-   * mutex when accessing any of the return bimap's collection views:
-   * <pre>  {@code
-   *
-   *  BiMap<K, V> m = Synchronized.biMap(
-   *      HashBiMap.<K, V>create(), mutex);
-   *  ...
-   *  Set<K> s = m.keySet();  // Needn't be in synchronized block
-   *  ...
-   *  synchronized (mutex) {
-   *    Iterator<K> i = s.iterator(); // Must be in synchronized block
-   *    while (i.hasNext()) {
-   *      foo(i.next());
-   *    }
-   *  }}</pre>
-   *
-   * Failure to follow this advice may result in non-deterministic behavior.
-   *
-   * @param bimap the bimap to be wrapped in a synchronized view
-   * @return a synchronized view of the specified bimap
-   */
-  public static <K, V> BiMap<K, V> biMap(
-      BiMap<K, V> bimap, @Nullable Object mutex) {
+  static <K, V> BiMap<K, V> biMap(BiMap<K, V> bimap, @Nullable Object mutex) {
     return new SynchronizedBiMap<K, V>(bimap, mutex, null);
   }
 
-  /** @see Synchronized#biMap */
-  static class SynchronizedBiMap<K, V> extends SynchronizedMap<K, V>
-      implements BiMap<K, V>, Serializable {
+  @VisibleForTesting static class SynchronizedBiMap<K, V>
+      extends SynchronizedMap<K, V> implements BiMap<K, V>, Serializable {
     private transient Set<V> valueSet;
     private transient BiMap<V, K> inverse;
 
-    public SynchronizedBiMap(
-        BiMap<K, V> delegate, @Nullable Object mutex,
+    private SynchronizedBiMap(BiMap<K, V> delegate, @Nullable Object mutex,
         @Nullable BiMap<V, K> inverse) {
       super(delegate, mutex);
       this.inverse = inverse;
     }
 
-    @Override protected BiMap<K, V> delegate() {
+    @Override BiMap<K, V> delegate() {
       return (BiMap<K, V>) super.delegate();
     }
 
@@ -1294,14 +996,12 @@ final class Synchronized {
     private static final long serialVersionUID = 0;
   }
 
-  /** @see SynchronizedMultimap#asMap */
-  static class SynchronizedAsMap<K, V>
+  private static class SynchronizedAsMap<K, V>
       extends SynchronizedMap<K, Collection<V>> {
-    private transient Set<Map.Entry<K, Collection<V>>> asMapEntrySet;
-    private transient Collection<Collection<V>> asMapValues;
+    transient Set<Map.Entry<K, Collection<V>>> asMapEntrySet;
+    transient Collection<Collection<V>> asMapValues;
 
-    public SynchronizedAsMap(
-        Map<K, Collection<V>> delegate, @Nullable Object mutex) {
+    SynchronizedAsMap(Map<K, Collection<V>> delegate, @Nullable Object mutex) {
       super(delegate, mutex);
     }
 
@@ -1341,8 +1041,7 @@ final class Synchronized {
     private static final long serialVersionUID = 0;
   }
 
-  /** @see SynchronizedMultimap#asMap */
-  static class SynchronizedAsMapValues<V>
+  private static class SynchronizedAsMapValues<V>
       extends SynchronizedCollection<Collection<V>> {
     SynchronizedAsMapValues(
         Collection<Collection<V>> delegate, @Nullable Object mutex) {

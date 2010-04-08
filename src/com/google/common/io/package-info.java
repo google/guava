@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 
-package com.google.common.io;
-
 /**
  * This package contains utility methods and classes for working with Java I/O,
  * for example input streams, output streams, readers, writers, and files.
@@ -31,9 +29,12 @@ package com.google.common.io;
  * {@link com.google.common.io.Files} classes all have static helper methods to
  * create new factories and to work with them.
  *
- * <p>The methods of this package always throw {@link NullPointerException} in
- * response to a null value being supplied for any parameter that is not
- * explicitly annotated as being {@link javax.annotation.Nullable}.
+ * <p>This package is a part of the open-source
+ * <a href="http://guava-libraries.googlecode.com">Guava libraries</a>.
  *
  * @author Chris Nokleberg
  */
+@ParametersAreNonnullByDefault
+package com.google.common.io;
+
+import javax.annotation.ParametersAreNonnullByDefault;

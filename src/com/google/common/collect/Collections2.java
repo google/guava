@@ -19,6 +19,8 @@ package com.google.common.collect;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Function;
 import com.google.common.base.Joiner;
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 
@@ -29,16 +31,13 @@ import java.util.Set;
 
 import javax.annotation.Nullable;
 
-import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkNotNull;
-
 /**
  * Provides static methods for working with {@code Collection} instances.
  *
  * @author Chris Povirk
  * @author Mike Bostock
  * @author Jared Levy
- * @since 2010.01.04 <b>stable</b> (imported from Google Collections Library)
+ * @since 2 (imported from Google Collections Library)
  */
 @GwtCompatible
 public final class Collections2 {
@@ -74,7 +73,8 @@ public final class Collections2 {
    */
   static <E> Collection<E> toCollection(Iterable<E> iterable) {
     return (iterable instanceof Collection)
-        ? (Collection<E>) iterable : Lists.newArrayList(iterable);
+        ? (Collection<E>) iterable
+        : Lists.newArrayList(iterable.iterator());
   }
 
   /**

@@ -40,7 +40,7 @@ import javax.annotation.Nullable;
  * consecutive in the iteration order.
  *
  * @author Jared Levy
- * @since 2010.01.04 <b>stable</b> (imported from Google Collections Library)
+ * @since 2 (imported from Google Collections Library)
  */
 @GwtCompatible(serializable = true)
 public class ImmutableMultiset<E> extends ImmutableCollection<E>
@@ -316,11 +316,36 @@ public class ImmutableMultiset<E> extends ImmutableCollection<E>
       return false;
     }
 
+    // TODO: Revert once this class is emulated in GWT.
+    @Override public Object[] toArray() {
+      Object[] newArray = new Object[size()];
+      return toArray(newArray);
+    }
+
+    // TODO: Revert once this class is emulated in GWT.
+    @Override public <T> T[] toArray(T[] other) {
+      int size = size();
+      if (other.length < size) {
+        other = ObjectArrays.newArray(other, size);
+      } else if (other.length > size) {
+        other[size] = null;
+      }
+
+      // Writes will produce ArrayStoreException when the toArray() doc requires
+      Object[] otherAsObjectArray = other;
+      int index = 0;
+      for (Entry<?> element : this) {
+        otherAsObjectArray[index++] = element;
+      }
+      return other;
+    }
+
     @Override public int hashCode() {
       return multiset.map.hashCode();
     }
 
-    @Override Object writeReplace() {
+    // TODO: Revert the comment-out once this class is emulated in GWT.
+    /*@Override*/ Object writeReplace() {
       return this;
     }
 
@@ -358,7 +383,8 @@ public class ImmutableMultiset<E> extends ImmutableCollection<E>
         this, (int) Math.min(tmpSize, Integer.MAX_VALUE));
   }
 
-  @Override Object writeReplace() {
+  // TODO: Revert the comment-out once this class is emulated in GWT.
+  /*@Override*/ Object writeReplace() {
     return this;
   }
 

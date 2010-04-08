@@ -22,17 +22,16 @@ import java.util.Map;
 
 import javax.annotation.Nullable;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-
 /**
  * Implementation of {@link ImmutableMap} with exactly one entry.
  *
  * @author Jesse Wilson
  * @author Kevin Bourrillion
  */
-@GwtCompatible(serializable = true)
+@GwtCompatible(serializable = true, emulated = true)
 @SuppressWarnings("serial") // uses writeReplace(), not default serialization
 final class SingletonImmutableMap<K, V> extends ImmutableMap<K, V> {
+
   final transient K singleKey;
   final transient V singleValue;
 
@@ -44,9 +43,9 @@ final class SingletonImmutableMap<K, V> extends ImmutableMap<K, V> {
   }
 
   SingletonImmutableMap(Entry<K, V> entry) {
-    this.entry = checkNotNull(entry);  // checkNotNull for GWT.
-    this.singleKey = checkNotNull(entry.getKey());  // checkNotNull for GWT.
-    this.singleValue = checkNotNull(entry.getValue()); // checkNotNull for GWT.
+    this.entry = entry;
+    this.singleKey = entry.getKey();
+    this.singleValue = entry.getValue();
   }
 
   private Entry<K, V> entry() {

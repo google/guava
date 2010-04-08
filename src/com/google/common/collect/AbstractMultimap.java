@@ -17,10 +17,6 @@
 package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.annotations.GwtIncompatible;
-import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.common.base.Preconditions.checkState;
 
 import java.io.Serializable;
 import java.util.AbstractCollection;
@@ -40,6 +36,10 @@ import java.util.SortedMap;
 import java.util.SortedSet;
 
 import javax.annotation.Nullable;
+
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkState;
 
 /**
  * Basic implementation of the {@link Multimap} interface. This class represents
@@ -757,11 +757,10 @@ abstract class AbstractMultimap<K, V> implements Multimap<K, V>, Serializable {
       return new WrappedListIterator(index);
     }
 
-    @GwtIncompatible("List.subList")
     public List<V> subList(int fromIndex, int toIndex) {
       refreshIfEmpty();
       return wrapList(getKey(),
-          Platform.subList(getListDelegate(), fromIndex, toIndex),
+          getListDelegate().subList(fromIndex, toIndex),
           (getAncestor() == null) ? this : getAncestor());
     }
 
@@ -1178,7 +1177,7 @@ abstract class AbstractMultimap<K, V> implements Multimap<K, V>, Serializable {
    */
   public Collection<Map.Entry<K, V>> entries() {
     Collection<Map.Entry<K, V>> result = entries;
-    return (entries == null) ? entries = createEntries() : result;
+    return (result == null) ? entries = createEntries() : result;
   }
 
   private Collection<Map.Entry<K, V>> createEntries() {
@@ -1310,7 +1309,7 @@ abstract class AbstractMultimap<K, V> implements Multimap<K, V>, Serializable {
 
     @Override public Set<Map.Entry<K, Collection<V>>> entrySet() {
       Set<Map.Entry<K, Collection<V>>> result = entrySet;
-      return (entrySet == null) ? entrySet = new AsMapEntries() : result;
+      return (result == null) ? entrySet = new AsMapEntries() : result;
     }
 
     // The following methods are included for performance.

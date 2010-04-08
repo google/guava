@@ -16,16 +16,16 @@
 
 package com.google.common.base;
 
+import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.GwtIncompatible;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
-import java.util.StringTokenizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.regex.PatternSyntaxException;
 
 /**
  * An object that divides strings (or other instances of {@code CharSequence})
@@ -81,13 +81,14 @@ import java.util.regex.PatternSyntaxException;
  * similar JDK methods; for instance, it does not silently discard trailing
  * separators, as does {@link String#split(String)}, nor does it have a default
  * behavior of using five particular whitespace characters as separators, like
- * {@link StringTokenizer}.
+ * {@link java.util.StringTokenizer}.
  *
  * @author Julien Silland
  * @author Jesse Wilson
  * @author Kevin Bourrillion
- * @since 2009.09.15 <b>tentative</b>
+ * @since 1
  */
+@GwtCompatible
 public final class Splitter {
   private final CharMatcher trimmer;
   private final boolean omitEmptyStrings;
@@ -197,6 +198,7 @@ public final class Splitter {
    * @throws IllegalArgumentException if {@code separatorPattern} matches the
    *     empty string
    */
+  @GwtIncompatible("java.util.regex")
   public static Splitter on(final Pattern separatorPattern) {
     checkNotNull(separatorPattern);
     checkArgument(!separatorPattern.matcher("").matches(),
@@ -229,18 +231,19 @@ public final class Splitter {
    * @param separatorPattern the pattern that determines whether a subsequence
    *     is a separator. This pattern may not match the empty string.
    * @return a splitter, with default settings, that uses this pattern
-   * @throws PatternSyntaxException if {@code separatorPattern} is a malformed
-   *     expression
+   * @throws java.util.regex.PatternSyntaxException if {@code separatorPattern}
+   *     is a malformed expression
    * @throws IllegalArgumentException if {@code separatorPattern} matches the
    *     empty string
    */
+  @GwtIncompatible("java.util.regex")
   public static Splitter onPattern(String separatorPattern) {
     return on(Pattern.compile(separatorPattern));
   }
 
   /**
    * Returns a splitter that divides strings into pieces of the given length.
-   * For example, {@code Splitter.atEach(2).split("abcde")} returns an
+   * For example, {@code Splitter.fixedLength(2).split("abcde")} returns an
    * iterable containing {@code ["ab", "cd", "e"]}. The last piece can be
    * smaller than {@code length} but will never be empty.
    *
@@ -315,6 +318,7 @@ public final class Splitter {
    *     should be removed from the beginning/end of a subsequence
    * @return a splitter with the desired configuration
    */
+  // TODO: throw if a trimmer was already specified!
   public Splitter trimResults(CharMatcher trimmer) {
     checkNotNull(trimmer);
     return new Splitter(strategy, omitEmptyStrings, trimmer);

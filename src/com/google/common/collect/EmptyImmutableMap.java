@@ -28,7 +28,7 @@ import javax.annotation.Nullable;
  * @author Jesse Wilson
  * @author Kevin Bourrillion
  */
-@GwtCompatible(serializable = true)
+@GwtCompatible(serializable = true, emulated = true)
 final class EmptyImmutableMap extends ImmutableMap<Object, Object> {
   static final EmptyImmutableMap INSTANCE = new EmptyImmutableMap();
 

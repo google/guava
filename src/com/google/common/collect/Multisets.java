@@ -36,7 +36,7 @@ import javax.annotation.Nullable;
  *
  * @author Kevin Bourrillion
  * @author Mike Bostock
- * @since 2010.01.04 <b>stable</b> (imported from Google Collections Library)
+ * @since 2 (imported from Google Collections Library)
  */
 @GwtCompatible
 public final class Multisets {
@@ -57,7 +57,7 @@ public final class Multisets {
    */
   public static <E> Multiset<E> unmodifiableMultiset(
       Multiset<? extends E> multiset) {
-    return new UnmodifiableMultiset<E>(multiset);
+    return new UnmodifiableMultiset<E>(checkNotNull(multiset));
   }
 
   private static class UnmodifiableMultiset<E>
@@ -334,7 +334,7 @@ public final class Multisets {
    * based on different equivalence relations (as {@code HashMultiset} and
    * {@code TreeMultiset} are).
    *
-   * @since 2010.01.04 <b>tentative</b>
+   * @since 2
    */
   public static <E> Multiset<E> intersection(
       final Multiset<E> multiset1, final Multiset<?> multiset2) {

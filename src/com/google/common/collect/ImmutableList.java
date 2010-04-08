@@ -50,9 +50,9 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * @see ImmutableMap
  * @see ImmutableSet
  * @author Kevin Bourrillion
- * @since 2010.01.04 <b>stable</b> (imported from Google Collections Library)
+ * @since 2 (imported from Google Collections Library)
  */
-@GwtCompatible(serializable = true)
+@GwtCompatible(serializable = true, emulated = true)
 @SuppressWarnings("serial") // we're overriding default serialization
 public abstract class ImmutableList<E> extends ImmutableCollection<E>
     implements List<E>, RandomAccess {
@@ -80,7 +80,7 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
   }
 
   /**
-   * Identical to {@link #of(Object[])}.
+   * Returns an immutable list containing the given elements, in order.
    *
    * @throws NullPointerException if any element is null
    */
@@ -89,7 +89,7 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
   }
 
   /**
-   * Identical to {@link #of(Object[])}.
+   * Returns an immutable list containing the given elements, in order.
    *
    * @throws NullPointerException if any element is null
    */
@@ -98,7 +98,7 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
   }
 
   /**
-   * Identical to {@link #of(Object[])}.
+   * Returns an immutable list containing the given elements, in order.
    *
    * @throws NullPointerException if any element is null
    */
@@ -107,7 +107,7 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
   }
 
   /**
-   * Identical to {@link #of(Object[])}.
+   * Returns an immutable list containing the given elements, in order.
    *
    * @throws NullPointerException if any element is null
    */
@@ -116,7 +116,7 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
   }
 
   /**
-   * Identical to {@link #of(Object[])}.
+   * Returns an immutable list containing the given elements, in order.
    *
    * @throws NullPointerException if any element is null
    */
@@ -125,7 +125,7 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
   }
 
   /**
-   * Identical to {@link #of(Object[])}.
+   * Returns an immutable list containing the given elements, in order.
    *
    * @throws NullPointerException if any element is null
    */
@@ -136,7 +136,7 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
   }
 
   /**
-   * Identical to {@link #of(Object[])}.
+   * Returns an immutable list containing the given elements, in order.
    *
    * @throws NullPointerException if any element is null
    */
@@ -147,7 +147,7 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
   }
 
   /**
-   * Identical to {@link #of(Object[])}.
+   * Returns an immutable list containing the given elements, in order.
    *
    * @throws NullPointerException if any element is null
    */
@@ -158,7 +158,7 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
   }
 
   /**
-   * Identical to {@link #of(Object[])}.
+   * Returns an immutable list containing the given elements, in order.
    *
    * @throws NullPointerException if any element is null
    */
@@ -169,7 +169,7 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
   }
 
   /**
-   * Identical to {@link #of(Object[])}.
+   * Returns an immutable list containing the given elements, in order.
    *
    * @throws NullPointerException if any element is null
    */
@@ -185,10 +185,26 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
   /**
    * Returns an immutable list containing the given elements, in order.
    *
+   * @throws NullPointerException if any element is null
+   */
+  public static <E> ImmutableList<E> of(
+      E e1, E e2, E e3, E e4, E e5, E e6, E e7, E e8, E e9, E e10, E e11, E e12,
+      E... others) {
+    final int paramCount = 12;
+    Object[] array = new Object[paramCount + others.length];
+    copyIntoArray(array, 0, e1, e2, e3, e4, e5, e6, e7, e8, e9, e10, e11, e12);
+    copyIntoArray(array, paramCount, others);
+    return new RegularImmutableList<E>(array);
+  }
+
+  /**
+   * Returns an immutable list containing the given elements, in order.
+   *
+   * @deprecated use {@link #copyOf(Object[])}
    * @throws NullPointerException if any of {@code elements} is null
    */
-  public static <E> ImmutableList<E> of(E... elements) {
-    checkNotNull(elements); // for GWT
+  @Deprecated
+  public static <E> ImmutableList<E> of(E[] elements) {
     switch (elements.length) {
       case 0:
         return ImmutableList.of();
@@ -233,21 +249,17 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
    * thread.
    *
    * @throws NullPointerException if any of {@code elements} is null
-   * @since 2010.01.04 <b>stable</b> (Iterable overload existed previously)
+   * @since 2 (Iterable overload existed previously)
    */
   public static <E> ImmutableList<E> copyOf(Collection<? extends E> elements) {
-    checkNotNull(elements);
-    // TODO: Once the ImmutableAsList and ImmutableSortedAsList are
-    // GWT-compatible, return elements.asList() when elements is an
-    // ImmutableCollection.
-    if (elements instanceof ImmutableList) {
+    if (elements instanceof ImmutableCollection) {
       /*
        * TODO: When given an ImmutableList that's a sublist, copy the referenced
        * portion of the array into a new array to save space?
        */
       @SuppressWarnings("unchecked") // all supported methods are covariant
-      ImmutableList<E> list = (ImmutableList<E>) elements;
-      return list;
+      ImmutableCollection<E> list = (ImmutableCollection<E>) elements;
+      return list.asList();
     }
     return copyFromCollection(elements);
   }
@@ -259,6 +271,23 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
    */
   public static <E> ImmutableList<E> copyOf(Iterator<? extends E> elements) {
     return copyFromCollection(Lists.newArrayList(elements));
+  }
+
+  /**
+   * Returns an immutable list containing the given elements, in order.
+   *
+   * @throws NullPointerException if any of {@code elements} is null
+   * @since 3
+   */
+  public static <E> ImmutableList<E> copyOf(E[] elements) {
+    switch (elements.length) {
+      case 0:
+        return ImmutableList.of();
+      case 1:
+        return new SingletonImmutableList<E>(elements[0]);
+      default:
+        return new RegularImmutableList<E>(copyIntoArray(elements));
+    }
   }
 
   private static <E> ImmutableList<E> copyFromCollection(
@@ -335,21 +364,25 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
   }
 
   private static Object[] copyIntoArray(Object... source) {
-    Object[] array = new Object[source.length];
-    int index = 0;
+    return copyIntoArray(new Object[source.length], 0, source);
+  }
+
+  private static Object[] copyIntoArray(Object[] dest, int pos,
+      Object... source) {
+    int index = pos;
     for (Object element : source) {
       if (element == null) {
         throw new NullPointerException("at index " + index);
       }
-      array[index++] = element;
+      dest[index++] = element;
     }
-    return array;
+    return dest;
   }
 
   /**
    * Returns this list instance.
    *
-   * @since 2010.01.04 <b>tentative</b>
+   * @since 2
    */
   @Override public ImmutableList<E> asList() {
     return this;
@@ -365,7 +398,7 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
       this.elements = elements;
     }
     Object readResolve() {
-      return of(elements);
+      return copyOf(elements);
     }
     private static final long serialVersionUID = 0;
   }
@@ -450,7 +483,6 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
      *     null element
      */
     @Override public Builder<E> add(E... elements) {
-      checkNotNull(elements); // for GWT
       contents.ensureCapacity(contents.size() + elements.length);
       super.add(elements);
       return this;
@@ -468,6 +500,10 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
       super.addAll(elements);
       return this;
     }
+
+    // TODO: should this be promoted to ImmutableCollection.Builder?
+    // TODO: get rid of it or replace it with
+    // .addAll(elements.subList(fromIndex, toIndex)?
 
     /**
      * Returns a newly-created {@code ImmutableList} based on the contents of

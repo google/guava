@@ -16,6 +16,8 @@
 
 package com.google.common.util.concurrent;
 
+import com.google.common.annotations.Beta;
+
 import java.util.concurrent.Callable;
 import java.util.concurrent.Executor;
 import java.util.concurrent.FutureTask;
@@ -27,8 +29,9 @@ import java.util.concurrent.FutureTask;
  * be called.
  * 
  * @author Sven Mawson
- * @since 2009.09.15 <b>tentative</b>
+ * @since 1
  */
+@Beta
 public class ListenableFutureTask<V> extends FutureTask<V>
     implements ListenableFuture<V> {
 

@@ -16,6 +16,8 @@
 
 package com.google.common.io;
 
+import com.google.common.annotations.Beta;
+
 import java.io.Flushable;
 import java.io.IOException;
 import java.util.logging.Level;
@@ -25,8 +27,9 @@ import java.util.logging.Logger;
  * Utility methods for working with {@link Flushable} objects.
  *
  * @author Michael Lancaster
- * @since 2009.09.15 <b>tentative</b>
+ * @since 1
  */
+@Beta
 public final class Flushables {
   private static final Logger logger
       = Logger.getLogger(Flushables.class.getName());

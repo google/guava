@@ -20,15 +20,13 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.ImmutableSet.ArrayImmutableSet;
 import com.google.common.collect.ImmutableSet.TransformedImmutableSet;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-
 /**
  * Implementation of {@link ImmutableMap} with two or more entries.
  *
  * @author Jesse Wilson
  * @author Kevin Bourrillion
  */
-@GwtCompatible(serializable = true)
+@GwtCompatible(serializable = true, emulated = true)
 final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
 
   private final transient Entry<K, V>[] entries; // entries in insertion order
@@ -39,9 +37,8 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
 
   RegularImmutableMap(Entry<?, ?>... immutableEntries) {
     // each of our 6 callers carefully put only Entry<K, V>s into the array!
-    // checkNotNull for GWT.
     @SuppressWarnings("unchecked")
-    Entry<K, V>[] tmp = (Entry<K, V>[]) checkNotNull(immutableEntries);
+    Entry<K, V>[] tmp = (Entry<K, V>[]) immutableEntries;
     this.entries = tmp;
 
     int tableSize = Hashing.chooseTableSize(immutableEntries.length);
@@ -50,14 +47,13 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
 
     int keySetHashCodeMutable = 0;
     for (Entry<K, V> entry : this.entries) {
-      checkNotNull(entry);  // checkNotNull for GWT.
-      K key = checkNotNull(entry.getKey());  // checkNotNull for GWT.
+      K key = entry.getKey();
       int keyHashCode = key.hashCode();
       for (int i = Hashing.smear(keyHashCode); true; i++) {
         int index = (i & mask) * 2;
         Object existing = table[index];
         if (existing == null) {
-          V value = checkNotNull(entry.getValue());  // checkNotNull for GWT.
+          V value = entry.getValue();
           table[index] = key;
           table[index + 1] = value;
           keySetHashCodeMutable += keyHashCode;
@@ -181,7 +177,7 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
       this.map = map;
     }
 
-    public int size() {
+    public int size() {      
       return map.entries.length;
     }
 

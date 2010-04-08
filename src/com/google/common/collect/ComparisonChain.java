@@ -16,6 +16,8 @@
 
 package com.google.common.collect;
 
+import com.google.common.annotations.Beta;
+import com.google.common.annotations.GwtCompatible;
 import com.google.common.primitives.Booleans;
 import com.google.common.primitives.Ints;
 import com.google.common.primitives.Longs;
@@ -34,7 +36,7 @@ import javax.annotation.Nullable;
  *     return ComparisonChain.start()
  *         .compare(this.aString, that.aString)
  *         .compare(this.anInt, that.anInt)
- *         .compare(this.anEnum, that.anEnum, Ordering.nullsLast())
+ *         .compare(this.anEnum, that.anEnum, Ordering.natural().nullsLast())
  *         .result();
  *   }}</pre>
  *
@@ -47,8 +49,10 @@ import javax.annotation.Nullable;
  *
  * @author Mark Davis
  * @author Kevin Bourrillion
- * @since 2010.01.04 <b>tentative</b>
+ * @since 2
  */
+@Beta
+@GwtCompatible
 public abstract class ComparisonChain {
   private ComparisonChain() {}
 

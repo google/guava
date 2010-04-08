@@ -60,9 +60,10 @@ import javax.annotation.Nullable;
  * @see ImmutableMap
  * @author Kevin Bourrillion
  * @author Nick Kralevich
- * @since 2010.01.04 <b>stable</b> (imported from Google Collections Library)
+ * @since 2 (imported from Google Collections Library)
  */
-@GwtCompatible(serializable = true)
+// TODO: benchmark and optimize all creation paths, which are a mess right now
+@GwtCompatible(serializable = true, emulated = true)
 @SuppressWarnings("serial") // we're overriding default serialization
 public abstract class ImmutableSet<E> extends ImmutableCollection<E>
     implements Set<E> {
@@ -138,13 +139,42 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E>
   /**
    * Returns an immutable set containing the given elements, in order. Repeated
    * occurrences of an element (according to {@link Object#equals}) after the
-   * first are ignored (but too many of these may result in the set being
-   * sized inappropriately).
+   * first are ignored.
    *
+   * @throws NullPointerException if any element is null
+   */
+  @SuppressWarnings("unchecked")
+  public static <E> ImmutableSet<E> of(E e1, E e2, E e3, E e4, E e5, E e6,
+      E... others) {
+    int size = others.length + 6;
+    List<E> all = new ArrayList<E>(size);
+    Collections.addAll(all, e1, e2, e3, e4, e5, e6);
+    Collections.addAll(all, others);
+    return create(all, size);
+  }
+
+  /**
+   * Returns an immutable set containing the given elements, in order. Repeated
+   * occurrences of an element (according to {@link Object#equals}) after the
+   * first are ignored.
+   *
+   * @deprecated use {@link #copyOf(Object[])}.
    * @throws NullPointerException if any of {@code elements} is null
    */
-  public static <E> ImmutableSet<E> of(E... elements) {
-    checkNotNull(elements); // for GWT
+  // TODO: when this is removed, remember to remove from ISS and ISSFS too
+  @Deprecated
+  public static <E> ImmutableSet<E> of(E[] elements) {
+    return copyOf(elements);
+  }
+  
+ /**
+  * Returns an immutable set containing the given elements, in order. Repeated
+  * occurrences of an element (according to {@link Object#equals}) after the
+  * first are ignored.
+  *
+  * @throws NullPointerException if any of {@code elements} is null
+  */
+  public static <E> ImmutableSet<E> copyOf(E[] elements) {
     switch (elements.length) {
       case 0:
         return of();
@@ -152,14 +182,13 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E>
         return of(elements[0]);
       default:
         return create(elements);
-    }
+    }    
   }
-
+  
   /**
    * Returns an immutable set containing the given elements, in order. Repeated
    * occurrences of an element (according to {@link Object#equals}) after the
-   * first are ignored (but too many of these may result in the set being
-   * sized inappropriately). This method iterates over {@code elements} at most
+   * first are ignored. This method iterates over {@code elements} at most
    * once.
    *
    * <p>Note that if {@code s} is a {@code Set<String>}, then {@code
@@ -258,7 +287,6 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E>
     int hashCode = 0;
 
     for (E element : iterable) {
-      checkNotNull(element); // for GWT
       int hash = element.hashCode();
       for (int i = Hashing.smear(hash); true; i++) {
         int index = i & mask;
@@ -314,7 +342,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E>
 
     @Override public Object[] toArray() {
       Object[] array = new Object[size()];
-      Platform.unsafeArrayCopy(elements, 0, array, 0, size());
+      System.arraycopy(elements, 0, array, 0, size());
       return array;
     }
 
@@ -325,7 +353,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E>
       } else if (array.length > size) {
         array[size] = null;
       }
-      Platform.unsafeArrayCopy(elements, 0, array, 0, size);
+      System.arraycopy(elements, 0, array, 0, size);
       return array;
     }
 
@@ -395,7 +423,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E>
         array[size] = null;
       }
 
-      // Writes will produce ArrayStoreException when the toArray() doc requires.
+      // Writes will produce ArrayStoreException when the toArray() doc requires
       Object[] objectArray = array;
       for (int i = 0; i < source.length; i++) {
         objectArray[i] = transform(source[i]);
@@ -425,7 +453,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E>
       this.elements = elements;
     }
     Object readResolve() {
-      return of(elements);
+      return copyOf(elements);
     }
     private static final long serialVersionUID = 0;
   }
@@ -492,7 +520,6 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E>
      *     null element
      */
     @Override public Builder<E> add(E... elements) {
-      checkNotNull(elements); // for GWT
       contents.ensureCapacity(contents.size() + elements.length);
       super.add(elements);
       return this;

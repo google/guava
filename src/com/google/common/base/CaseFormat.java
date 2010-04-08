@@ -16,47 +16,48 @@
 
 package com.google.common.base;
 
-import java.util.Locale;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.VisibleForTesting;
+
 
 /**
- * Utility class for converting between various case formats.
+ * Utility class for converting between various ASCII case formats.
  *
  * @author Mike Bostock
- * @since 2009.09.15 <b>tentative</b>
+ * @since 1
  */
+@GwtCompatible
 public enum CaseFormat {
 
   /**
    * Hyphenated variable naming convention, e.g., "lower-hyphen".
    */
-  LOWER_HYPHEN(Pattern.compile("[-]"), "-"),
+  LOWER_HYPHEN(CharMatcher.is('-'), "-"),
 
   /**
    * C++ variable naming convention, e.g., "lower_underscore".
    */
-  LOWER_UNDERSCORE(Pattern.compile("[_]"), "_"),
+  LOWER_UNDERSCORE(CharMatcher.is('_'), "_"),
 
   /**
    * Java variable naming convention, e.g., "lowerCamel".
    */
-  LOWER_CAMEL(Pattern.compile("[A-Z]"), ""),
+  LOWER_CAMEL(CharMatcher.inRange('A', 'Z'), ""),
 
   /**
    * Java and C++ class naming convention, e.g., "UpperCamel".
    */
-  UPPER_CAMEL(Pattern.compile("[A-Z]"), ""),
+  UPPER_CAMEL(CharMatcher.inRange('A', 'Z'), ""),
 
   /**
    * Java and C++ constant naming convention, e.g., "UPPER_UNDERSCORE".
    */
-  UPPER_UNDERSCORE(Pattern.compile("[_]"), "_");
+  UPPER_UNDERSCORE(CharMatcher.is('_'), "_");
 
-  private final Pattern wordBoundary;
+  private final CharMatcher wordBoundary;
   private final String wordSeparator;
 
-  private CaseFormat(Pattern wordBoundary, String wordSeparator) {
+  private CaseFormat(CharMatcher wordBoundary, String wordSeparator) {
     this.wordBoundary = wordBoundary;
     this.wordSeparator = wordSeparator;
   }
@@ -75,7 +76,6 @@ public enum CaseFormat {
       throw new NullPointerException();
     }
 
-    /* optimize case where no conversion is required */
     if (format == this) {
       return s;
     }
@@ -84,20 +84,26 @@ public enum CaseFormat {
     switch (this) {
       case LOWER_HYPHEN:
         switch (format) {
-          case LOWER_UNDERSCORE: return s.replace("-", "_");
-          case UPPER_UNDERSCORE: return s.replace("-", "_").toUpperCase(Locale.US);
+          case LOWER_UNDERSCORE:
+            return s.replace('-', '_');
+          case UPPER_UNDERSCORE:
+            return toUpperCaseAscii(s.replace('-', '_'));
         }
         break;
       case LOWER_UNDERSCORE:
         switch (format) {
-          case LOWER_HYPHEN: return s.replace("_", "-");
-          case UPPER_UNDERSCORE: return s.toUpperCase(Locale.US);
+          case LOWER_HYPHEN:
+            return s.replace('_', '-');
+          case UPPER_UNDERSCORE:
+            return toUpperCaseAscii(s);
         }
         break;
       case UPPER_UNDERSCORE:
         switch (format) {
-          case LOWER_HYPHEN: return s.replace("_", "-").toLowerCase(Locale.US);
-          case LOWER_UNDERSCORE: return s.toLowerCase(Locale.US);
+          case LOWER_HYPHEN:
+            return toLowerCaseAscii(s.replace('_', '-'));
+          case LOWER_UNDERSCORE:
+            return toLowerCaseAscii(s);
         }
         break;
     }
@@ -105,8 +111,8 @@ public enum CaseFormat {
     /* otherwise, deal with camel conversion */
     StringBuilder out = null;
     int i = 0;
-    for (Matcher matcher = wordBoundary.matcher(s); matcher.find();) {
-      int j = matcher.start();
+    int j = -1;
+    while ((j = wordBoundary.indexIn(s, ++j)) != -1) {
       if (i == 0) {
         /* include some extra space for separators */
         out = new StringBuilder(s.length() + 4 * wordSeparator.length());
@@ -126,26 +132,61 @@ public enum CaseFormat {
 
   private String normalizeFirstWord(String word) {
     switch (this) {
-      case LOWER_CAMEL: return word.toLowerCase(Locale.US);
+      case LOWER_CAMEL: return toLowerCaseAscii(word);
       default: return normalizeWord(word);
     }
   }
 
   private String normalizeWord(String word) {
     switch (this) {
-      case LOWER_HYPHEN: return word.toLowerCase(Locale.US);
-      case LOWER_UNDERSCORE: return word.toLowerCase(Locale.US);
-      case LOWER_CAMEL: return toTitleCase(word);
-      case UPPER_CAMEL: return toTitleCase(word);
-      case UPPER_UNDERSCORE: return word.toUpperCase(Locale.US);
+      case LOWER_HYPHEN: return toLowerCaseAscii(word);
+      case LOWER_UNDERSCORE: return toLowerCaseAscii(word);
+      case LOWER_CAMEL: return firstCharOnlyToUpper(word);
+      case UPPER_CAMEL: return firstCharOnlyToUpper(word);
+      case UPPER_UNDERSCORE: return toUpperCaseAscii(word);
     }
     throw new RuntimeException("unknown case: " + this);
   }
 
-  private static String toTitleCase(String word) {
-    return (word.length() < 2) ? word.toUpperCase(Locale.US)
-        : (Character.toTitleCase(word.charAt(0))
-           + word.substring(1).toLowerCase(Locale.US));
+  private static String firstCharOnlyToUpper(String word) {
+    int length = word.length();
+    return (length == 0) ? word : new StringBuilder(length)
+        .append(charToUpperCaseAscii(word.charAt(0)))
+        .append(toLowerCaseAscii(word.substring(1)))
+        .toString();
   }
 
+  @VisibleForTesting static String toUpperCaseAscii(String string) {
+    int length = string.length();
+    StringBuilder builder = new StringBuilder(length);
+    for (int i = 0; i < length; i++) {
+      builder.append(charToUpperCaseAscii(string.charAt(i)));
+    }
+    return builder.toString();
+  }
+
+  @VisibleForTesting static String toLowerCaseAscii(String string) {
+    int length = string.length();
+    StringBuilder builder = new StringBuilder(length);
+    for (int i = 0; i < length; i++) {
+      builder.append(charToLowerCaseAscii(string.charAt(i)));
+    }
+    return builder.toString();
+  }
+
+  private static char charToUpperCaseAscii(char c) {
+    return isLowerCase(c) ? (char) (c & 0x5f) : c;
+  }
+
+  private static char charToLowerCaseAscii(char c) {
+    return isUpperCase(c) ? (char) (c ^ 0x20) : c;
+  }
+
+  private static boolean isLowerCase(char c) {
+    return (c >= 'a') && (c <= 'z');
+  }
+
+  private static boolean isUpperCase(char c) {
+    return (c >= 'A') && (c <= 'Z');
+  }
 }

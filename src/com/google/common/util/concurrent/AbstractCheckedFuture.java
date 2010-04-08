@@ -16,6 +16,8 @@
 
 package com.google.common.util.concurrent;
 
+import com.google.common.annotations.Beta;
+
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
@@ -27,8 +29,9 @@ import java.util.concurrent.TimeoutException;
  * the {@link #checkedGet()} and {@link #checkedGet(long, TimeUnit)} methods.
  * 
  * @author Sven Mawson
- * @since 2009.09.15 <b>tentative</b>
+ * @since 1
  */
+@Beta
 public abstract class AbstractCheckedFuture<V, E extends Exception>
     implements CheckedFuture<V, E> {
 

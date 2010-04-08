@@ -16,8 +16,8 @@
 
 package com.google.common.util.concurrent;
 
+import com.google.common.annotations.Beta;
 import com.google.common.base.Service;
-import com.google.common.base.Service.State; // for javadoc
 import com.google.common.base.Throwables;
 
 import java.util.concurrent.Executor;
@@ -31,8 +31,9 @@ import java.util.concurrent.Future;
  * for each method.
  *
  * @author Chris Nokleberg
- * @since 2009.09.15 <b>tentative</b>
+ * @since 1
  */
+@Beta
 public abstract class AbstractIdleService implements Service {
 
   /* use AbstractService for state management */
@@ -80,20 +81,20 @@ public abstract class AbstractIdleService implements Service {
    * execute()} method is called when this service is started and stopped,
    * and should return promptly.
    *
-   * @param state {@link State#STARTING} or {@link State#STOPPING}, used by the
+   * @param state {@link com.google.common.base.Service.State#STARTING} or
+   *     {@link com.google.common.base.Service.State#STOPPING}, used by the
    *     default implementation for naming the thread
    */
   protected Executor executor(final State state) {
     return new Executor() {
       public void execute(Runnable command) {
-        new Thread(command, AbstractIdleService.this.toString() + " " + state)
-            .start();
+        new Thread(command, getServiceName() + " " + state).start();
       }
     };
   }
 
   @Override public String toString() {
-    return getClass().getSimpleName();
+    return getServiceName() + " [" + state() + "]";
   }
 
   // We override instead of using ForwardingService so that these can be final.
@@ -120,5 +121,9 @@ public abstract class AbstractIdleService implements Service {
 
   /*@Override*/ public final State stopAndWait() {
     return delegate.stopAndWait();
+  }
+  
+  private String getServiceName() {
+    return getClass().getSimpleName();
   }
 }

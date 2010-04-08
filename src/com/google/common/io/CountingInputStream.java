@@ -16,6 +16,8 @@
 
 package com.google.common.io;
 
+import com.google.common.annotations.Beta;
+
 import java.io.FilterInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -24,9 +26,10 @@ import java.io.InputStream;
  * An {@link InputStream} that counts the number of bytes read.
  *
  * @author Chris Nokleberg
- * @since 2009.09.15 <b>tentative</b>
+ * @since 1
  */
-public class CountingInputStream extends FilterInputStream {
+@Beta
+public final class CountingInputStream extends FilterInputStream {
 
   private long count;
   private long mark = -1;

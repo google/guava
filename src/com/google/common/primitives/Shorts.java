@@ -38,7 +38,7 @@ import static com.google.common.base.Preconditions.checkPositionIndexes;
  * already found in either {@link Short} or {@link Arrays}.
  *
  * @author Kevin Bourrillion
- * @since 2009.09.15 <b>tentative</b>
+ * @since 1
  */
 @GwtCompatible
 public final class Shorts {
@@ -62,7 +62,8 @@ public final class Shorts {
   }
 
   /**
-   * Returns the {@code short} value that is equal to {@code value}, if possible.
+   * Returns the {@code short} value that is equal to {@code value}, if
+   * possible.
    *
    * @param value any value in the range of the {@code short} type
    * @return the {@code short} value that equals {@code value}
@@ -370,7 +371,7 @@ public final class Shorts {
    *
    * @see <a href="http://en.wikipedia.org/wiki/Lexicographical_order">
    *     Lexicographical order</a> article at Wikipedia
-   * @since 2010.01.04 <b>tentative</b>
+   * @since 2
    */
   public static Comparator<short[]> lexicographicalComparator() {
     return LexicographicalComparator.INSTANCE;

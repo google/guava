@@ -16,6 +16,8 @@
 
 package com.google.common.util.concurrent;
 
+import com.google.common.annotations.Beta;
+
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -25,8 +27,9 @@ import java.util.concurrent.atomic.AtomicInteger;
  * each thread created.
  *
  * @author Kevin Bourrillion
- * @since 2009.09.15 <b>tentative</b>
+ * @since 1
  */
+@Beta
 public class NamingThreadFactory implements ThreadFactory {
   private final ThreadFactory backingFactory;
   private final String format;

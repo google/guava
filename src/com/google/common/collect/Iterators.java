@@ -16,6 +16,7 @@
 
 package com.google.common.collect;
 
+import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Function;
@@ -45,7 +46,7 @@ import static com.google.common.base.Preconditions.checkState;
  *
  * @author Kevin Bourrillion
  * @author Jared Levy
- * @since 2010.01.04 <b>stable</b> (imported from Google Collections Library)
+ * @since 2 (imported from Google Collections Library)
  */
 @GwtCompatible
 public final class Iterators {
@@ -180,7 +181,7 @@ public final class Iterators {
    * @param predicate a predicate that determines whether an element should
    *     be removed
    * @return {@code true} if any elements were removed from the iterator
-   * @since 2010.01.04 <b>tentative</b>
+   * @since 2
    */
   public static <T> boolean removeIf(
       Iterator<T> removeFrom, Predicate<? super T> predicate) {
@@ -480,7 +481,7 @@ public final class Iterators {
    * @throws NullPointerException if any of the provided iterators is null
    */
   public static <T> Iterator<T> concat(Iterator<? extends T>... inputs) {
-    return concat(ImmutableList.of(inputs).iterator());
+    return concat(ImmutableList.copyOf(inputs).iterator());
   }
 
   /**
@@ -586,7 +587,7 @@ public final class Iterators {
         @SuppressWarnings("unchecked") // we only put Ts in it
         List<T> list = Collections.unmodifiableList(
             (List<T>) Arrays.asList(array));
-        return (pad || count == size) ? list : Platform.subList(list, 0, count);
+        return (pad || count == size) ? list : list.subList(0, count);
       }
     };
   }
@@ -692,7 +693,7 @@ public final class Iterators {
    * the iterator will be set to the element which satisfies the
    * {@code predicate}.
    *
-   * @since 2010.01.04 <b>tentative</b>
+   * @since 2
    */
   public static <T> int indexOf(
       Iterator<T> iterator, Predicate<? super T> predicate) {
@@ -735,8 +736,8 @@ public final class Iterators {
   }
 
   /**
-   * Advances {@code iterator} {@code position + 1} times, returning the element
-   * at the {@code position}th position.
+   * Advances {@code iterator} {@code position + 1} times, returning the
+   * element at the {@code position}th position.
    *
    * @param position position of the element to return
    * @return the element at the specified position in {@code iterator}
@@ -745,10 +746,7 @@ public final class Iterators {
    *     {@code iterator}
    */
   public static <T> T get(Iterator<T> iterator, int position) {
-    if (position < 0) {
-      throw new IndexOutOfBoundsException("position (" + position
-          + ") must not be negative");
-    }
+    checkNonnegative(position);
 
     int skipped = 0;
     while (iterator.hasNext()) {
@@ -761,6 +759,13 @@ public final class Iterators {
     throw new IndexOutOfBoundsException("position (" + position
         + ") must be less than the number of elements that remained ("
         + skipped + ")");
+  }
+
+  private static void checkNonnegative(int position) {
+    if (position < 0) {
+      throw new IndexOutOfBoundsException("position (" + position
+          + ") must not be negative");
+    }
   }
 
   /**
@@ -779,6 +784,75 @@ public final class Iterators {
   }
 
   /**
+   * Advances {@code iterator} to the end, returning the last element or
+   * {@code defaultValue} if the iterator is empty.
+   *
+   * @param defaultValue the default value to return if the iterator is empty
+   * @return the last element of {@code iterator}
+   * @since 3
+   */
+  public static <T> T getLast(Iterator<T> iterator, @Nullable T defaultValue) {
+    return iterator.hasNext() ? getLast(iterator) : defaultValue;
+  }
+
+  /**
+   * Calls {@code next()} on {@code iterator}, either {@code numberToSkip} times
+   * or until {@code hasNext()} returns {@code false}, whichever comes first.
+   *
+   * @return the number of elements skipped
+   * @since 3
+   */
+  @Beta // naming issue, unclear user demand
+  public static <T> int skip(Iterator<T> iterator, int numberToSkip) {
+    checkNotNull(iterator);
+    checkArgument(numberToSkip >= 0, "number to skip cannot be negative");
+
+    int i;
+    for (i = 0; i < numberToSkip && iterator.hasNext(); i++) {
+      iterator.next();
+    }
+    return i;
+  }
+
+  /**
+   * Creates an iterator returning the first {@code limitSize} elements of the
+   * given iterator. If the original iterator does not contain that many
+   * elements, the returned iterator will have the same behavior as the original
+   * iterator. The returned iterator supports {@code remove()} if the original
+   * iterator does.
+   *
+   * @param iterator the iterator to limit
+   * @param limitSize the maximum number of elements in the returned iterator
+   * @throws IllegalArgumentException if {@code limitSize} is negative
+   * @since 3
+   */
+  @Beta // naming issue
+  public static <T> Iterator<T> limit(
+      final Iterator<T> iterator, final int limitSize) {
+    checkNotNull(iterator);
+    checkArgument(limitSize >= 0, "limit is negative");
+    return new Iterator<T>() {
+      private int count;
+
+      public boolean hasNext() {
+        return count < limitSize && iterator.hasNext();
+      }
+
+      public T next() {
+        if (!hasNext()) {
+          throw new NoSuchElementException();
+        }
+        count++;
+        return iterator.next();
+      }
+
+      public void remove() {
+        iterator.remove();
+      }
+    };
+  }
+
+  /**
    * Returns a view of the supplied {@code iterator} that removes each element
    * from the supplied {@code iterator} as it is returned.
    *
@@ -789,8 +863,9 @@ public final class Iterators {
    * @param iterator the iterator to remove and return elements from
    * @return an iterator that removes and returns elements from the
    *     supplied iterator
-   * @since 2010.01.04 <b>tentative</b>
+   * @since 2
    */
+  @Beta
   public static <T> Iterator<T> consumingIterator(final Iterator<T> iterator) {
     checkNotNull(iterator);
     return new UnmodifiableIterator<T>() {
@@ -818,7 +893,8 @@ public final class Iterators {
    * this method unnecessary.
    *
    * <p>The {@code Iterable} equivalent of this method is either {@link
-   * Arrays#asList(Object[])} or {@link ImmutableList#of(Object[])}}.
+   * Arrays#asList(Object[])}, {@link ImmutableList#copyOf(Object[])}},
+   * or {@link ImmutableList#of}.
    */
   public static <T> UnmodifiableIterator<T> forArray(final T... array) {
     // TODO: compare performance with Arrays.asList(array).iterator().

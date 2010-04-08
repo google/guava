@@ -34,7 +34,7 @@ import javax.annotation.Nullable;
  * @author Mike Bostock
  * @author Vlad Patryshev
  * @author Jared Levy
- * @since 2010.01.04 <b>stable</b> (imported from Google Collections Library)
+ * @since 2 (imported from Google Collections Library)
  */
 @GwtCompatible
 public final class Functions {
@@ -105,7 +105,7 @@ public final class Functions {
           "Key '%s' not present in map", key);
       return result;
     }
-    @Override public boolean equals(Object o) {
+    @Override public boolean equals(@Nullable Object o) {
       if (o instanceof FunctionForMapNoDefault) {
         FunctionForMapNoDefault<?, ?> that = (FunctionForMapNoDefault<?, ?>) o;
         return map.equals(that.map);
@@ -148,7 +148,7 @@ public final class Functions {
     public V apply(K key) {
       return map.containsKey(key) ? map.get(key) : defaultValue;
     }
-    @Override public boolean equals(Object o) {
+    @Override public boolean equals(@Nullable Object o) {
       if (o instanceof ForMapWithDefault) {
         ForMapWithDefault<?, ?> that = (ForMapWithDefault<?, ?>) o;
         return map.equals(that.map)
@@ -195,7 +195,7 @@ public final class Functions {
     public C apply(A a) {
       return g.apply(f.apply(a));
     }
-    @Override public boolean equals(Object obj) {
+    @Override public boolean equals(@Nullable Object obj) {
       if (obj instanceof FunctionComposition) {
         FunctionComposition<?, ?, ?> that = (FunctionComposition<?, ?, ?>) obj;
         return f.equals(that.f) && g.equals(that.g);
@@ -232,7 +232,7 @@ public final class Functions {
     public Boolean apply(T t) {
       return predicate.apply(t);
     }
-    @Override public boolean equals(Object obj) {
+    @Override public boolean equals(@Nullable Object obj) {
       if (obj instanceof PredicateFunction) {
         PredicateFunction<?> that = (PredicateFunction<?>) obj;
         return predicate.equals(that.predicate);
@@ -265,10 +265,10 @@ public final class Functions {
     public ConstantFunction(@Nullable E value) {
       this.value = value;
     }
-    public E apply(Object from) {
+    public E apply(@Nullable Object from) {
       return value;
     }
-    @Override public boolean equals(Object obj) {
+    @Override public boolean equals(@Nullable Object obj) {
       if (obj instanceof ConstantFunction) {
         ConstantFunction<?> that = (ConstantFunction<?>) obj;
         return Objects.equal(value, that.value);

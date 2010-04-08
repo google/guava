@@ -16,7 +16,9 @@
 
 package com.google.common.util.concurrent;
 
+import com.google.common.annotations.Beta;
 import com.google.common.base.Function;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 import java.lang.reflect.UndeclaredThrowableException;
 import java.util.concurrent.CancellationException;
@@ -24,12 +26,11 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
+import static java.util.concurrent.TimeUnit.NANOSECONDS;
 import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import javax.annotation.Nullable;
-
-import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * Static utility methods pertaining to the {@link Future} interface.
@@ -37,8 +38,9 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * @author Kevin Bourrillion
  * @author Nishant Thakkar
  * @author Sven Mawson
- * @since 2009.09.15 <b>tentative</b>
+ * @since 1
  */
+@Beta
 public class Futures {
   private Futures() {}
 
@@ -71,15 +73,15 @@ public class Futures {
         try {
           long timeoutNanos = timeoutUnit.toNanos(timeoutDuration);
           long end = System.nanoTime() + timeoutNanos;
-          for (long remaining = timeoutNanos; remaining > 0;
-              remaining = end - System.nanoTime()) {
+          while (true) {
             try {
-              return future.get(remaining, TimeUnit.NANOSECONDS);
-            } catch (InterruptedException ignored) {
+              return future.get(timeoutNanos, NANOSECONDS);
+            } catch (InterruptedException e) {
+              // Future treats negative timeouts just like zero.
+              timeoutNanos = end - System.nanoTime();
               interrupted = true;
             }
           }
-          throw new TimeoutException();
         } finally {
           if (interrupted) {
             Thread.currentThread().interrupt();
@@ -233,7 +235,7 @@ public class Futures {
    */
   public static <I, O> ListenableFuture<O> chain(ListenableFuture<I> input,
       Function<? super I, ? extends ListenableFuture<? extends O>> function) {
-    return chain(input, function, Executors.sameThreadExecutor());
+    return chain(input, function, MoreExecutors.sameThreadExecutor());
   }
 
   /**
@@ -243,8 +245,8 @@ public class Futures {
    * The resulting future doesn't interrupt when aborted.
    *
    * <p>This version allows an arbitrary executor to be passed in for running
-   * the chained Function. When using {@link Executors#sameThreadExecutor}, the
-   * thread chained Function executes in will be whichever thread set the
+   * the chained Function. When using {@link MoreExecutors#sameThreadExecutor},
+   * the thread chained Function executes in will be whichever thread set the
    * result of the input Future, which may be the network thread in the case of
    * RPC-based Futures.
    *
@@ -280,7 +282,7 @@ public class Futures {
    */
   public static <I, O> ListenableFuture<O> compose(ListenableFuture<I> future,
       final Function<? super I, ? extends O> function) {
-    return compose(future, function, Executors.sameThreadExecutor());
+    return compose(future, function, MoreExecutors.sameThreadExecutor());
   }
 
   /**
@@ -293,9 +295,9 @@ public class Futures {
    * returned from an RPC into a POJO.
    *
    * <p>This version allows an arbitrary executor to be passed in for running
-   * the chained Function. When using {@link Executors#sameThreadExecutor}, the
-   * thread chained Function executes in will be whichever thread set the result
-   * of the input Future, which may be the network thread in the case of
+   * the chained Function. When using {@link MoreExecutors#sameThreadExecutor},
+   * the thread chained Function executes in will be whichever thread set the
+   * result of the input Future, which may be the network thread in the case of
    * RPC-based Futures.
    *
    * @param future The future to compose
@@ -303,13 +305,14 @@ public class Futures {
    *     to the results of the returned future.
    * @param exec Executor to run the function in.
    * @return A future that holds result of the composition.
-   * @since 2010.01.04 <b>tentative</b>
+   * @since 2
    */
   public static <I, O> ListenableFuture<O> compose(ListenableFuture<I> future,
       final Function<? super I, ? extends O> function, Executor exec) {
+    checkNotNull(function);
     Function<I, ListenableFuture<O>> wrapperFunction
         = new Function<I, ListenableFuture<O>>() {
-            /*@Override*/ public ListenableFuture<O> apply(I input) {
+            @Override public ListenableFuture<O> apply(I input) {
               O output = function.apply(input);
               return immediateFuture(output);
             }
@@ -341,7 +344,8 @@ public class Futures {
    */
   public static <I, O> Future<O> compose(final Future<I> future,
       final Function<? super I, ? extends O> function) {
-
+    checkNotNull(future);
+    checkNotNull(function);
     return new Future<O>() {
 
       /*
@@ -428,7 +432,7 @@ public class Futures {
     private ChainingListenableFuture(
         Function<? super I, ? extends ListenableFuture<? extends O>> function,
         ListenableFuture<? extends I> inputFuture) {
-      this.function = function;
+      this.function = checkNotNull(function);
       this.inputFuture = makeUninterruptible(inputFuture);
     }
 
@@ -461,7 +465,7 @@ public class Futures {
                 setException(e.getCause());
               }
             }
-          }, Executors.sameThreadExecutor());
+          }, MoreExecutors.sameThreadExecutor());
       } catch (UndeclaredThrowableException e) {
         // Set the cause of the exception as this future's exception
         setException(e.getCause());
@@ -491,7 +495,7 @@ public class Futures {
         Function<Exception, E> mapper) {
       super(delegate);
 
-      this.mapper = mapper;
+      this.mapper = checkNotNull(mapper);
     }
 
     @Override
@@ -527,7 +531,7 @@ public class Futures {
     private final Future<T> delegate;
 
     ListenableFutureAdapter(final Future<T> delegate) {
-      this.delegate = delegate;
+      this.delegate = checkNotNull(delegate);
     }
 
     @Override

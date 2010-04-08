@@ -20,7 +20,7 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 
 import java.lang.reflect.Array;
-import java.util.List;
+import java.util.logging.Logger;
 
 /**
  * Methods factored out so that they can be emulated differently in GWT.
@@ -29,19 +29,8 @@ import java.util.List;
  */
 @GwtCompatible(emulated = true)
 class Platform {
-
-  /**
-   * Calls {@link List#subList(int, int)}.  Factored out so that it can be
-   * emulated in GWT.
-   *
-   * <p>This method is not supported in GWT yet.  See <a
-   * href="http://code.google.com/p/google-web-toolkit/issues/detail?id=1791">
-   * GWT issue 1791</a>
-   */
-  @GwtIncompatible("List.subList")
-  static <T> List<T> subList(List<T> list, int fromIndex, int toIndex) {
-    return list.subList(fromIndex, toIndex);
-  }
+  private static final Logger logger =
+      Logger.getLogger(Platform.class.getCanonicalName());
 
   /**
    * Calls {@link Class#isInstance(Object)}.  Factored out so that it can be

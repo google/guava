@@ -46,9 +46,9 @@ import javax.annotation.Nullable;
  * @see ImmutableSet
  * @author Jesse Wilson
  * @author Kevin Bourrillion
- * @since 2010.01.04 <b>stable</b> (imported from Google Collections Library)
+ * @since 2 (imported from Google Collections Library)
  */
-@GwtCompatible(serializable = true)
+@GwtCompatible(serializable = true, emulated = true)
 @SuppressWarnings("serial") // we're overriding default serialization
 public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
   /**

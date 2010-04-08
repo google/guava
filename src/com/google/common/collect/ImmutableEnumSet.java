@@ -29,7 +29,7 @@ import java.util.Set;
  *
  * @author Jared Levy
  */
-@GwtCompatible(serializable = true)
+@GwtCompatible(serializable = true, emulated = true)
 @SuppressWarnings("serial") // we're overriding default serialization
 final class ImmutableEnumSet<E /*extends Enum<E>*/> extends ImmutableSet<E> {
   /*
@@ -47,6 +47,9 @@ final class ImmutableEnumSet<E /*extends Enum<E>*/> extends ImmutableSet<E> {
    * this, we declare the type parameter as just <E> and the field as just
    * Set<E>. writeReplace() must then use an unchecked cast to return to
    * EnumSet, guaranteeing immutability as described above.
+   *
+   * TODO: Revert back to <E extends Enum<E>> and EnumSet now that this class
+   * is GWT emulated.
    */
   private final transient Set<E> delegate;
 

@@ -18,15 +18,15 @@ package com.google.common.io;
 
 import com.google.common.base.Preconditions;
 
-import java.io.Reader;
 import java.io.IOException;
+import java.io.Reader;
 import java.util.Iterator;
 
 /**
  * A {@link Reader} that will concatenates multiple readers
  *
  * @author Bin Zhu
- * @since 2009.09.15 <b>tentative</b>
+ * @since 1
  */
 class MultiReader extends Reader {
   private final Iterator<? extends InputSupplier<? extends Reader>> it;

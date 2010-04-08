@@ -16,6 +16,7 @@
 
 package com.google.common.base;
 
+import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.VisibleForTesting;
 
@@ -29,7 +30,7 @@ import javax.annotation.Nullable;
  * Helper functions that can operate on any {@code Object}.
  *
  * @author Laurence Gonsalves
- * @since 2010.01.04 <b>stable</b> (imported from Google Collections Library)
+ * @since 2 (imported from Google Collections Library)
  */
 @GwtCompatible
 public final class Objects {
@@ -90,18 +91,36 @@ public final class Objects {
    * Assuming the values of {@code x} and {@code y} are 1 and 2,
    * this code snippet returns the string <tt>"ClassName{x=1, y=2}"</tt>.
    *
-   * @since 2010.01.04 <b>tentative</b>
+   * @since 2
    */
+  @Beta
   public static ToStringHelper toStringHelper(Object object) {
     return new ToStringHelper(object);
+  }
+
+  /**
+   * Returns the first of two given parameters that is not {@code null}, if
+   * either is, or otherwise throws a {@link NullPointerException}.
+   *
+   * @return {@code first} if {@code first} is not {@code null}, or
+   *     {@code second} if {@code first} is {@code null} and {@code second} is
+   *     not {@code null}
+   * @throws NullPointerException if both {@code first} and {@code second} were
+   *     {@code null}
+   * @since 3
+   */
+  @Beta
+  public static <T> T firstNonNull(@Nullable T first, @Nullable T second) {
+    return first != null ? first : Preconditions.checkNotNull(second);
   }
 
   /**
    * Support class for {@link Objects#toStringHelper}.
    *
    * @author Jason Lee
-   * @since 2010.01.04 <b>tentative</b>
+   * @since 2
    */
+  @Beta
   public static class ToStringHelper {
     private final List<String> fieldString = new ArrayList<String>();
     private final Object instance;

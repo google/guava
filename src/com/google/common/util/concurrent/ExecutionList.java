@@ -16,6 +16,7 @@
 
 package com.google.common.util.concurrent;
 
+import com.google.common.annotations.Beta;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 
@@ -33,8 +34,9 @@ import java.util.logging.Logger;
  * 
  * @author Nishant Thakkar
  * @author Sven Mawson
- * @since 2009.09.15 <b>tentative</b>
+ * @since 1
  */
+@Beta
 public class ExecutionList implements Runnable {
   
   // Logger to log exceptions caught when running runnables.

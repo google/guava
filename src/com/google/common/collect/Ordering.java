@@ -19,7 +19,6 @@ package com.google.common.collect;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Function;
-import static com.google.common.base.Preconditions.checkNotNull;
 
 import java.util.Collections;
 import java.util.Comparator;
@@ -31,6 +30,8 @@ import java.util.NoSuchElementException;
 import java.util.SortedMap;
 import java.util.SortedSet;
 import java.util.concurrent.atomic.AtomicInteger;
+
+import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * A comparator with added methods to support common functions. For example:
@@ -55,7 +56,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  *
  * @author Jesse Wilson
  * @author Kevin Bourrillion
- * @since 2010.01.04 <b>stable</b> (imported from Google Collections Library)
+ * @since 2 (imported from Google Collections Library)
  */
 @GwtCompatible
 public abstract class Ordering<T> implements Comparator<T> {
@@ -190,7 +191,7 @@ public abstract class Ordering<T> implements Comparator<T> {
    * {@link System#identityHashCode(Object)}, so its behavior cannot be
    * preserved across serialization.
    *
-   * @since 2010.01.04 <b>tentative</b>
+   * @since 2
    */
   public static Ordering<Object> arbitrary() {
     return ArbitraryOrderingHolder.ARBITRARY_ORDERING;
@@ -210,7 +211,7 @@ public abstract class Ordering<T> implements Comparator<T> {
               }
             });
 
-    /*@Override*/ public int compare(Object left, Object right) {
+    @Override public int compare(Object left, Object right) {
       if (left == right) {
         return 0;
       }
@@ -340,7 +341,7 @@ public abstract class Ordering<T> implements Comparator<T> {
    * equivalent to {@code ordering.reverse().lexicographical()} (consider how
    * each would order {@code [1]} and {@code [1, 1]}).
    *
-   * @since 2010.01.04 <b>tentative</b>
+   * @since 2
    */
   @GwtCompatible(serializable = true)
   // type parameter <S> lets us avoid the extra <String> in statements like:
@@ -396,9 +397,10 @@ public abstract class Ordering<T> implements Comparator<T> {
    * not modified. The returned list is modifiable, serializable, and has random
    * access.
    *
-   * <p>Unlike {@link Sets#newTreeSet(Iterable)}, this method does not collapse
-   * elements that compare as zero, and the resulting collection does not
-   * maintain its own sort order.
+   * <p>Unlike {@link Sets#newTreeSet(Iterable)}, this method does not discard
+   * elements that are duplicates according to the comparator. The sort
+   * performed is <i>stable</i>, meaning that such elements will appear in the
+   * resulting list in the same order they appeared in the input.
    *
    * @param iterable the elements to be copied and sorted
    * @return a new list containing the given elements in sorted order
@@ -407,6 +409,26 @@ public abstract class Ordering<T> implements Comparator<T> {
     List<E> list = Lists.newArrayList(iterable);
     Collections.sort(list, this);
     return list;
+  }
+
+  /**
+   * Returns an <i>immutable</i> copy of the given iterable sorted by this
+   * ordering. The input is not modified.
+   *
+   * <p>Unlike {@link Sets#newTreeSet(Iterable)}, this method does not discard
+   * elements that are duplicates according to the comparator. The sort
+   * performed is <i>stable</i>, meaning that such elements will appear in the
+   * resulting list in the same order they appeared in the input.
+   *
+   * @param iterable the elements to be copied and sorted
+   * @return a new immutable list containing the given elements in sorted order
+   * @throws NullPointerException if {@code iterable} or any of its elements is
+   *     null
+   * @since 3
+   */
+  public <E extends T> ImmutableList<E> immutableSortedCopy(
+      Iterable<E> iterable) {
+    return ImmutableList.copyOf(sortedCopy(iterable));
   }
 
   /**

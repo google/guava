@@ -17,7 +17,6 @@
 package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
-import static com.google.common.base.Preconditions.checkNotNull;
 
 import java.io.Serializable;
 import java.util.Collection;
@@ -36,9 +35,9 @@ import javax.annotation.Nullable;
  * instances of this type are guaranteed to be immutable.
  *
  * @author Jesse Wilson
- * @since 2010.01.04 <b>stable</b> (imported from Google Collections Library)
+ * @since 2 (imported from Google Collections Library)
  */
-@GwtCompatible
+@GwtCompatible(emulated = true)
 @SuppressWarnings("serial") // we're overriding default serialization
 public abstract class ImmutableCollection<E>
     implements Collection<E>, Serializable {
@@ -166,8 +165,9 @@ public abstract class ImmutableCollection<E>
   /**
    * Returns a list view of the collection.
    *
-   * @since 2010.01.04 <b>tentative</b>
+   * @since 2
    */
+  @GwtCompatible(serializable = false)
   public ImmutableList<E> asList() {
     ImmutableList<E> list = asList;
     return (list == null) ? (asList = createAsList()) : list;
@@ -287,7 +287,6 @@ public abstract class ImmutableCollection<E>
      *     null element
      */
     public Builder<E> add(E... elements) {
-      checkNotNull(elements); // for GWT
       for (E element : elements) {
         add(element);
       }
@@ -307,7 +306,6 @@ public abstract class ImmutableCollection<E>
      *     null element
      */
     public Builder<E> addAll(Iterable<? extends E> elements) {
-      checkNotNull(elements); // for GWT
       for (E element : elements) {
         add(element);
       }
@@ -327,7 +325,6 @@ public abstract class ImmutableCollection<E>
      *     null element
      */
     public Builder<E> addAll(Iterator<? extends E> elements) {
-      checkNotNull(elements); // for GWT
       while (elements.hasNext()) {
         add(elements.next());
       }

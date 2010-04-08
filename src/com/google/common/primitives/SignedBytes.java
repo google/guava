@@ -30,7 +30,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * signedness is not an issue are in {@link Bytes}.
  *
  * @author Kevin Bourrillion
- * @since 2009.09.15 <b>tentative</b>
+ * @since 1
  */
 @GwtCompatible
 public final class SignedBytes {
@@ -157,7 +157,7 @@ public final class SignedBytes {
    *
    * @see <a href="http://en.wikipedia.org/wiki/Lexicographical_order">
    *     Lexicographical order</a> article at Wikipedia
-   * @since 2010.01.04 <b>tentative</b>
+   * @since 2
    */
   public static Comparator<byte[]> lexicographicalComparator() {
     return LexicographicalComparator.INSTANCE;

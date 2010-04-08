@@ -16,6 +16,7 @@
 
 package com.google.common.io;
 
+import com.google.common.annotations.Beta;
 import com.google.common.annotations.VisibleForTesting;
 
 import java.io.ByteArrayInputStream;
@@ -34,8 +35,9 @@ import java.io.OutputStream;
  * <p>This class is thread-safe.
  *
  * @author Chris Nokleberg
- * @since 2009.09.15 <b>tentative</b>
+ * @since 1
  */
+@Beta
 public final class FileBackedOutputStream extends OutputStream {
 
   private final int fileThreshold;
@@ -81,8 +83,8 @@ public final class FileBackedOutputStream extends OutputStream {
    * @param fileThreshold the number of bytes before the stream should
    *     switch to buffering to a file
    * @param resetOnFinalize if true, the {@link #reset} method will
-   *     be called when the {@link InputSupplier} returned by {@link #getSupplier}
-   *     is finalized
+   *     be called when the {@link InputSupplier} returned by {@link
+   *     #getSupplier} is finalized
    */
   public FileBackedOutputStream(int fileThreshold, boolean resetOnFinalize) {
     this.fileThreshold = fileThreshold;
@@ -166,7 +168,8 @@ public final class FileBackedOutputStream extends OutputStream {
     write(b, 0, b.length);
   }
 
-  @Override public synchronized void write(byte[] b, int off, int len) throws IOException {
+  @Override public synchronized void write(byte[] b, int off, int len)
+      throws IOException {
     update(len);
     out.write(b, off, len);
   }

@@ -315,7 +315,7 @@ final class CustomConcurrentHashMap {
      *  list, for example), possibly null
      * @return a new entry
      */
-    abstract E newEntry(K key, int hash, E next);
+    E newEntry(K key, int hash, E next);
 
     /**
      * Creates a copy of the given entry pointing to the given next entry.

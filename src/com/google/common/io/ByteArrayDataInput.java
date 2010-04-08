@@ -16,6 +16,8 @@
 
 package com.google.common.io;
 
+import com.google.common.annotations.Beta;
+
 import java.io.DataInput;
 import java.io.IOException;
 
@@ -26,8 +28,9 @@ import java.io.IOException;
  * IllegalStateException}.
  *
  * @author Kevin Bourrillion
- * @since 2009.09.15 <b>tentative</b>
+ * @since 1
  */
+@Beta
 public interface ByteArrayDataInput extends DataInput {
   /*@Override*/ void readFully(byte b[]);
   /*@Override*/ void readFully(byte b[], int off, int len);

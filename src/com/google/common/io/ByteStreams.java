@@ -16,6 +16,7 @@
 
 package com.google.common.io;
 
+import com.google.common.annotations.Beta;
 import com.google.common.base.Preconditions;
 
 import java.io.ByteArrayInputStream;
@@ -41,8 +42,9 @@ import java.util.zip.Checksum;
  * <p>All method parameters must be non-null unless documented otherwise.
  *
  * @author Chris Nokleberg
- * @since 2009.09.15 <b>tentative</b>
+ * @since 1
  */
+@Beta
 public final class ByteStreams {
   private static final int BUF_SIZE = 0x1000; // 4K
 

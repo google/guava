@@ -16,6 +16,8 @@
 
 package com.google.common.io;
 
+import com.google.common.annotations.Beta;
+
 import java.io.DataOutput;
 import java.io.IOException;
 
@@ -24,8 +26,9 @@ import java.io.IOException;
  * methods offer identical functionality but do not throw {@link IOException}.
  *
  * @author Jayaprabhakar Kadarkarai
- * @since 2009.09.15 <b>tentative</b>
+ * @since 1
  */
+@Beta
 public interface ByteArrayDataOutput extends DataOutput {
   /*@Override*/ void write(int b);
   /*@Override*/ void write(byte b[]);

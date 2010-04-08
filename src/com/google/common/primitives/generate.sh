@@ -40,6 +40,7 @@ perl -pe "s/primtyp/$1/g; s/PrimTyp/$2/g; s/WrapperCl/$3/g" << "--EOF--" > $2s.j
 
 package com.google.common.primitives;
 
+import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import static com.google.common.base.Preconditions.checkArgument;
@@ -61,7 +62,7 @@ import java.util.RandomAccess;
  * already found in either {@link WrapperCl} or {@link Arrays}.
  *
  * @author Kevin Bourrillion
- * @since 2009.09.15 <b>tentative</b>
+ * @since 1
  */
 @GwtCompatible
 public final class PrimTyps {
@@ -85,7 +86,8 @@ public final class PrimTyps {
   }
 
   /**
-   * Returns the {@code primtyp} value that is equal to {@code value}, if possible.
+   * Returns the {@code primtyp} value that is equal to {@code value}, if
+   * possible.
    *
    * @param value any value in the range of the {@code primtyp} type
    * @return the {@code primtyp} value that equals {@code value}
@@ -392,7 +394,7 @@ public final class PrimTyps {
    *
    * @see <a href="http://en.wikipedia.org/wiki/Lexicographical_order">
    *     Lexicographical order</a> article at Wikipedia
-   * @since 2010.01.04 <b>tentative</b>
+   * @since 2
    */
   public static Comparator<primtyp[]> lexicographicalComparator() {
     return LexicographicalComparator.INSTANCE;

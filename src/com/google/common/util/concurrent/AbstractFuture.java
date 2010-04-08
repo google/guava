@@ -16,6 +16,8 @@
 
 package com.google.common.util.concurrent;
 
+import com.google.common.annotations.Beta;
+
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
@@ -45,8 +47,9 @@ import java.util.concurrent.locks.AbstractQueuedSynchronizer;
  * and running tasks.
  *
  * @author Sven Mawson
- * @since 2009.09.15 <b>tentative</b>
+ * @since 1
  */
+@Beta
 public abstract class AbstractFuture<V> implements Future<V> {
 
   /** Synchronization control for AbstractFutures. */

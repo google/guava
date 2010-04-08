@@ -16,6 +16,7 @@
 
 package com.google.common.util.concurrent;
 
+import com.google.common.annotations.Beta;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.base.Throwables;
@@ -40,8 +41,9 @@ import java.util.concurrent.TimeoutException;
  * the thread running the call will be interrupted.
  *
  * @author Kevin Bourrillion
- * @since 2009.09.15 <b>tentative</b>
+ * @since 1
  */
+@Beta
 public class SimpleTimeLimiter implements TimeLimiter {
 
   private final ExecutorService executor;
@@ -158,11 +160,11 @@ public class SimpleTimeLimiter implements TimeLimiter {
     return false;
   }
 
-  // TODO: replace with version in common.reflect if and when that gets open-sourced
+  // TODO: replace with version in common.reflect if and when it's open-sourced
   private static <T> T newProxy(
       Class<T> interfaceType, InvocationHandler handler) {
-    Object object = Proxy.newProxyInstance(
-        interfaceType.getClassLoader(), new Class<?>[] { interfaceType }, handler);
+    Object object = Proxy.newProxyInstance(interfaceType.getClassLoader(),
+        new Class<?>[] { interfaceType }, handler);
     return interfaceType.cast(object);
   }
 }

@@ -16,19 +16,25 @@
 
 package com.google.common.base;
 
+import com.google.common.annotations.Beta;
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.util.List;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
+
+import javax.annotation.Nullable;
 
 /**
  * Static utility methods pertaining to instances of {@link Throwable}.
  *
  * @author Kevin Bourrillion
  * @author Ben Yu
- * @since 2009.09.15 <b>tentative</b>
+ * @since 1
  */
+@Beta
 public final class Throwables {
   private Throwables() {}
 
@@ -48,7 +54,7 @@ public final class Throwables {
    * </pre>
    */
   public static <X extends Throwable> void propagateIfInstanceOf(
-      Throwable throwable, Class<X> declaredType) throws X {
+      @Nullable Throwable throwable, Class<X> declaredType) throws X {
     if (declaredType.isInstance(throwable)) {
       throw declaredType.cast(throwable);
     }
@@ -68,7 +74,7 @@ public final class Throwables {
    *   }
    * </pre>
    */
-  public static void propagateIfPossible(Throwable throwable) {
+  public static void propagateIfPossible(@Nullable Throwable throwable) {
     propagateIfInstanceOf(throwable, Error.class);
     propagateIfInstanceOf(throwable, RuntimeException.class);
   }
@@ -93,30 +99,31 @@ public final class Throwables {
    *     calling method
    */
   public static <X extends Throwable> void propagateIfPossible(
-      Throwable throwable, Class<X> declaredType) throws X {
+      @Nullable Throwable throwable, Class<X> declaredType) throws X {
     propagateIfInstanceOf(throwable, declaredType);
     propagateIfPossible(throwable);
   }
 
   /**
    * Propagates {@code throwable} exactly as-is, if and only if it is an
-   * instance of {@link RuntimeException}, {@link Error}, {@code aDeclaredType},
-   * or {@code anotherDeclaredType}.  In the unlikely case that you have three
-   * or more declared checked exception types, you can handle them all by
-   * invoking these methods repeatedly. See usage example in
-   * {@link #propagateIfPossible(Throwable, Class)}.
+   * instance of {@link RuntimeException}, {@link Error}, {@code declaredType1},
+   * or {@code declaredType2}.  In the unlikely case that you have three or more
+   * declared checked exception types, you can handle them all by invoking these
+   * methods repeatedly. See usage example in {@link
+   * #propagateIfPossible(Throwable, Class)}.
    *
    * @param throwable the Throwable to possibly propagate
-   * @param aDeclaredType any checked exception type declared by the calling
+   * @param declaredType1 any checked exception type declared by the calling
    *     method
-   * @param anotherDeclaredType any other checked exception type declared by the
+   * @param declaredType2 any other checked exception type declared by the
    *     calling method
    */
-  public static <X1 extends Throwable, X2 extends Throwable> void
-      propagateIfPossible(Throwable throwable, Class<X1> aDeclaredType,
-          Class<X2> anotherDeclaredType) throws X1, X2 {
-    propagateIfInstanceOf(throwable, aDeclaredType);
-    propagateIfPossible(throwable, anotherDeclaredType);
+  public static <X1 extends Throwable, X2 extends Throwable>
+      void propagateIfPossible(@Nullable Throwable throwable,
+          Class<X1> declaredType1, Class<X2> declaredType2) throws X1, X2 {
+    checkNotNull(declaredType2);
+    propagateIfInstanceOf(throwable, declaredType1);
+    propagateIfPossible(throwable, declaredType2);
   }
 
   /**
@@ -140,10 +147,11 @@ public final class Throwables {
    * </pre>
    *
    * @param throwable the Throwable to propagate
-   * @return nothing will ever be returned
+   * @return nothing will ever be returned; this return type is only for your
+   *     convenience, as illustrated in the example above
    */
   public static RuntimeException propagate(Throwable throwable) {
-    propagateIfPossible(throwable);
+    propagateIfPossible(checkNotNull(throwable));
     throw new RuntimeException(throwable);
   }
 
@@ -182,7 +190,7 @@ public final class Throwables {
    *     {@code throwable}
    */
   public static List<Throwable> getCausalChain(Throwable throwable) {
-    Preconditions.checkNotNull(throwable);
+    checkNotNull(throwable);
     List<Throwable> causes = new ArrayList<Throwable>(4);
     while (throwable != null) {
       causes.add(throwable);
@@ -216,8 +224,8 @@ public final class Throwables {
    *     replaced by the concatenation of the trace from the exception and the
    *     trace from the cause.
    */
-  public static Exception throwCause(Exception exception, boolean combineStackTraces)
-      throws Exception {
+  public static Exception throwCause(Exception exception,
+      boolean combineStackTraces) throws Exception {
     Throwable cause = exception.getCause();
     if (cause == null) {
       throw exception;
@@ -225,9 +233,11 @@ public final class Throwables {
     if (combineStackTraces) {
       StackTraceElement[] causeTrace = cause.getStackTrace();
       StackTraceElement[] outerTrace = exception.getStackTrace();
-      StackTraceElement[] combined = new StackTraceElement[causeTrace.length + outerTrace.length];
+      StackTraceElement[] combined =
+          new StackTraceElement[causeTrace.length + outerTrace.length];
       System.arraycopy(causeTrace, 0, combined, 0, causeTrace.length);
-      System.arraycopy(outerTrace, 0, combined, causeTrace.length, outerTrace.length);
+      System.arraycopy(outerTrace, 0, combined,
+          causeTrace.length, outerTrace.length);
       cause.setStackTrace(combined);
     }
     if (cause instanceof Exception) {

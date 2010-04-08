@@ -37,9 +37,9 @@ import javax.annotation.Nullable;
  * guaranteed to be immutable.
  *
  * @author Jared Levy
- * @since 2010.01.04 <b>stable</b> (imported from Google Collections Library)
+ * @since 2 (imported from Google Collections Library)
  */
-@GwtCompatible(serializable = true)
+@GwtCompatible(serializable = true, emulated = true)
 public abstract class ImmutableBiMap<K, V> extends ImmutableMap<K, V>
     implements BiMap<K, V> {
 
@@ -171,7 +171,7 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableMap<K, V>
       if (map.isEmpty()) {
         return of();
       }
-      return new RegularImmutableBiMap<K, V>(super.build());
+      return new RegularImmutableBiMap<K, V>(map);
     }
   }
 

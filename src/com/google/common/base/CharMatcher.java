@@ -16,9 +16,11 @@
 
 package com.google.common.base;
 
-import com.google.common.annotations.GwtCompatible;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
+
+import com.google.common.annotations.Beta;
+import com.google.common.annotations.GwtCompatible;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -41,11 +43,13 @@ import java.util.List;
  * separate characters.
  *
  * @author Kevin Bourrillion
- * @since 2009.09.15 <b>tentative</b>
+ * @since 1
  */
+// TODO: release as "stable" after changing from chars to code points, and
+// deciding whether constants should change to methods
+@Beta
 @GwtCompatible
 public abstract class CharMatcher implements Predicate<Character> {
-
   // Constants
 
   // Excludes 2000-2000a, which is handled as a range
@@ -60,9 +64,9 @@ public abstract class CharMatcher implements Predicate<Character> {
    * Determines whether a character is whitespace according to the latest
    * Unicode standard, as illustrated
    * <a href="http://unicode.org/cldr/utility/list-unicodeset.jsp?a=%5Cp%7Bwhitespace%7D">here</a>.
-   * This is not the same definition used by other Java APIs. See a comparison
-   * of several definitions of "whitespace" at
-   * <a href="TODO">(TODO)</a>.
+   * This is not the same definition used by other Java APIs. (See a <a href=
+   * "http://spreadsheets.google.com/pub?key=pd8dAQyHbdewRsnE5x5GzKQ">comparison
+   * of several definitions of "whitespace"</a>.)
    *
    * <p><b>Note:</b> as the Unicode definition evolves, we will modify this
    * constant to keep it up to date.
@@ -77,7 +81,7 @@ public abstract class CharMatcher implements Predicate<Character> {
    * for formatting purposes).  See {@link #WHITESPACE} for a discussion
    * of that term.
    *
-   * @since 2010.01.04 <b>tentative</b>
+   * @since 2
    */
   public static final CharMatcher BREAKING_WHITESPACE =
       anyOf(BREAKING_WHITESPACE_CHARS)
@@ -111,8 +115,9 @@ public abstract class CharMatcher implements Predicate<Character> {
   /**
    * Determines whether a character is whitespace according to {@link
    * Character#isWhitespace(char) Java's definition}; it is usually preferable
-   * to use {@link #WHITESPACE}. See a comparison of several definitions of
-   * "whitespace" at <a href="http://go/white+space">go/white+space</a>.
+   * to use {@link #WHITESPACE}.  (See a <a href=
+   * "http://spreadsheets.google.com/pub?key=pd8dAQyHbdewRsnE5x5GzKQ">comparison
+   * of several definitions of "whitespace"</a>.)
    */
   public static final CharMatcher JAVA_WHITESPACE
       = inRange('\u0009', (char) 13)  // \\u000d doesn't work as a char literal
@@ -179,7 +184,7 @@ public abstract class CharMatcher implements Predicate<Character> {
   };
 
   /**
-   * Determines whether a character is an ISO control character according to
+   * Determines whether a character is an ISO control character as specified by
    * {@link Character#isISOControl(char)}.
    */
   public static final CharMatcher JAVA_ISO_CONTROL = inRange('\u0000', '\u001f')
@@ -262,13 +267,15 @@ public abstract class CharMatcher implements Predicate<Character> {
     }
     @Override public String replaceFrom(
         CharSequence sequence, CharSequence replacement) {
-      StringBuilder retval = new StringBuilder(sequence.length() * replacement.length());
+      StringBuilder retval =
+          new StringBuilder(sequence.length() * replacement.length());
       for (int i = 0; i < sequence.length(); i++) {
         retval.append(replacement);
       }
       return retval.toString();
     }
-    @Override public String collapseFrom(CharSequence sequence, char replacement) {
+    @Override public String collapseFrom(
+        CharSequence sequence, char replacement) {
       return (sequence.length() == 0) ? "" : String.valueOf(replacement);
     }
     @Override public String trimFrom(CharSequence sequence) {
@@ -352,7 +359,7 @@ public abstract class CharMatcher implements Predicate<Character> {
     @Override public CharMatcher negate() {
       return ANY;
     }
-    @Override protected void setBits(LookupTable table) {
+    @Override void setBits(LookupTable table) {
     }
     @Override public CharMatcher precomputed() {
       return this;
@@ -383,7 +390,7 @@ public abstract class CharMatcher implements Predicate<Character> {
       @Override public CharMatcher negate() {
         return isNot(match);
       }
-      @Override protected void setBits(LookupTable table) {
+      @Override void setBits(LookupTable table) {
         table.set(match);
       }
       @Override public CharMatcher precomputed() {
@@ -433,7 +440,7 @@ public abstract class CharMatcher implements Predicate<Character> {
           @Override public boolean matches(char c) {
             return c == match1 || c == match2;
           }
-          @Override protected void setBits(LookupTable table) {
+          @Override void setBits(LookupTable table) {
             table.set(match1);
             table.set(match2);
           }
@@ -450,7 +457,7 @@ public abstract class CharMatcher implements Predicate<Character> {
       @Override public boolean matches(char c) {
         return Arrays.binarySearch(chars, c) >= 0;
       }
-      @Override protected void setBits(LookupTable table) {
+      @Override void setBits(LookupTable table) {
         for (char c : chars) {
           table.set(c);
         }
@@ -480,7 +487,7 @@ public abstract class CharMatcher implements Predicate<Character> {
       @Override public boolean matches(char c) {
         return startInclusive <= c && c <= endInclusive;
       }
-      @Override protected void setBits(LookupTable table) {
+      @Override void setBits(LookupTable table) {
         char c = startInclusive;
         while (true) {
           table.set(c);
@@ -609,7 +616,7 @@ public abstract class CharMatcher implements Predicate<Character> {
       return new Or(newComponents);
     }
 
-    @Override protected void setBits(LookupTable table) {
+    @Override void setBits(LookupTable table) {
       for (CharMatcher matcher : components) {
         matcher.setBits(table);
       }
@@ -627,6 +634,7 @@ public abstract class CharMatcher implements Predicate<Character> {
    * consumes more memory, which doesn't seem like a worthwhile tradeoff in a
    * browser.
    */
+  // TODO: must seriously evaluate the benefits of this
   public CharMatcher precomputed() {
     return Platform.precomputeCharMatcher(this);
   }
@@ -668,7 +676,7 @@ public abstract class CharMatcher implements Predicate<Character> {
    * <p>The default implementation loops over every possible character value,
    * invoking {@link #matches} for each one.
    */
-  protected void setBits(LookupTable table) {
+  void setBits(LookupTable table) {
     char c = Character.MIN_VALUE;
     while (true) {
       if (matches(c)) {
@@ -687,7 +695,7 @@ public abstract class CharMatcher implements Predicate<Character> {
    * <p>TODO: possibly share a common BitArray class with BloomFilter
    * and others... a simpler java.util.BitSet.
    */
-  protected static class LookupTable {
+  private static final class LookupTable {
     int[] data = new int[2048];
 
     void set(char index) {
@@ -726,8 +734,8 @@ public abstract class CharMatcher implements Predicate<Character> {
    * characters.
    *
    * <p>The default implementation iterates over the sequence, invoking {@link
-   * #matches} for each character, until this returns {@code false} or the end is
-   * reached.
+   * #matches} for each character, until this returns {@code false} or the end
+   * is reached.
    *
    * @param sequence the character sequence to examine, possibly empty
    * @return {@code true} if this matcher matches every character in the
@@ -910,8 +918,9 @@ public abstract class CharMatcher implements Predicate<Character> {
    *
    * ... returns {@code "yoohoo"}.
    *
-   * <p><b>Note:</b> If the replacement is a fixed string with only one character,
-   * you are better off calling {@link #replaceFrom(CharSequence, char)} directly.
+   * <p><b>Note:</b> If the replacement is a fixed string with only one
+   * character, you are better off calling {@link #replaceFrom(CharSequence,
+   * char)} directly.
    *
    * @param sequence the character sequence to replace matching characters in
    * @param replacement the characters to append to the result string in place
@@ -934,7 +943,7 @@ public abstract class CharMatcher implements Predicate<Character> {
     }
 
     int len = string.length();
-    StringBuilder buf = new StringBuilder((int) (len * 1.5) + 16);
+    StringBuilder buf = new StringBuilder((len * 3 / 2) + 16);
 
     int oldpos = 0;
     do {
@@ -1106,7 +1115,7 @@ public abstract class CharMatcher implements Predicate<Character> {
    *
    * @throws NullPointerException if {@code character} is null
    */
-  /*@Override*/ public boolean apply(Character character) {
+  @Override public boolean apply(Character character) {
     return matches(character);
   }
 }

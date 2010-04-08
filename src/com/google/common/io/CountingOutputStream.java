@@ -16,6 +16,8 @@
 
 package com.google.common.io;
 
+import com.google.common.annotations.Beta;
+
 import java.io.FilterOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -24,9 +26,10 @@ import java.io.OutputStream;
  * An OutputStream that counts the number of bytes written.
  *
  * @author Chris Nokleberg
- * @since 2009.09.15 <b>tentative</b>
+ * @since 1
  */
-public class CountingOutputStream extends FilterOutputStream {
+@Beta
+public final class CountingOutputStream extends FilterOutputStream {
 
   private long count;
 

@@ -44,7 +44,7 @@ import javax.annotation.Nullable;
  * are guaranteed to be immutable.
  *
  * @author Jared Levy
- * @since 2010.01.04 <b>stable</b> (imported from Google Collections Library)
+ * @since 2 (imported from Google Collections Library)
  */
 @GwtCompatible(serializable = true)
 public class ImmutableListMultimap<K, V>
@@ -317,7 +317,7 @@ public class ImmutableListMultimap<K, V>
       for (int j = 0; j < valueCount; j++) {
         array[j] = stream.readObject();
       }
-      builder.put(key, ImmutableList.of(array));
+      builder.put(key, ImmutableList.copyOf(array));
       tmpSize += valueCount;
     }
 

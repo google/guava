@@ -16,9 +16,9 @@
 
 package com.google.common.base;
 
+import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
-import static com.google.common.base.Preconditions.checkNotNull;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -26,8 +26,11 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import javax.annotation.Nullable;
+
+import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * Contains static factory methods for creating {@code Predicate} instances.
@@ -36,7 +39,7 @@ import javax.annotation.Nullable;
  * serializable parameters.
  *
  * @author Kevin Bourrillion
- * @since 2010.01.04 <b>stable</b> (imported from Google Collections Library)
+ * @since 2 (imported from Google Collections Library)
  */
 @GwtCompatible
 public final class Predicates {
@@ -131,7 +134,7 @@ public final class Predicates {
   /**
    * Returns a predicate that evaluates to {@code true} if any one of its
    * components evaluates to {@code true}. The components are evaluated in
-   * order, and evaluation will be "short-circuited" as soon as as soon as a
+   * order, and evaluation will be "short-circuited" as soon as a
    * true predicate is found. It defensively copies the iterable passed in, so
    * future changes to it won't alter the behavior of this predicate. If {@code
    * components} is empty, the returned predicate will always evaluate to {@code
@@ -145,7 +148,7 @@ public final class Predicates {
   /**
    * Returns a predicate that evaluates to {@code true} if any one of its
    * components evaluates to {@code true}. The components are evaluated in
-   * order, and evaluation will be "short-circuited" as soon as as soon as a
+   * order, and evaluation will be "short-circuited" as soon as a
    * true predicate is found. It defensively copies the array passed in, so
    * future changes to it won't alter the behavior of this predicate. If {@code
    * components} is empty, the returned predicate will always evaluate to {@code
@@ -158,11 +161,11 @@ public final class Predicates {
   /**
    * Returns a predicate that evaluates to {@code true} if either of its
    * components evaluates to {@code true}. The components are evaluated in
-   * order, and evaluation will be "short-circuited" as soon as as soon as a
+   * order, and evaluation will be "short-circuited" as soon as a
    * true predicate is found.
    */
-  public static <T> Predicate<T> or(Predicate<? super T> first,
-      Predicate<? super T> second) {
+  public static <T> Predicate<T> or(
+      Predicate<? super T> first, Predicate<? super T> second) {
     return new OrPredicate<T>(Predicates.<T>asList(
         checkNotNull(first), checkNotNull(second)));
   }
@@ -172,7 +175,6 @@ public final class Predicates {
    * tested {@code equals()} the given target or both are null.
    */
   public static <T> Predicate<T> equalTo(@Nullable T target) {
-    // TODO: Change signature to return Predicate<Object>.
     return (target == null)
         ? Predicates.<T>isNull()
         : new IsEqualToPredicate<T>(target);
@@ -219,12 +221,89 @@ public final class Predicates {
     return new CompositionPredicate<A, B>(predicate, function);
   }
 
+  /**
+   * Returns a predicate that evaluates to {@code true} if the
+   * {@code CharSequence} being tested contains any match for the given
+   * regular expression pattern. The test used is equivalent to
+   * {@code Pattern.compile(pattern).matcher(arg).find()}
+   *
+   * @throws java.util.regex.PatternSyntaxException if the pattern is invalid
+   * @since 3
+   */
+  @Beta
+  @GwtIncompatible(value = "java.util.regex.Pattern")
+  public static Predicate<CharSequence> containsPattern(String pattern) {
+    return new ContainsPatternPredicate(pattern);
+  }
+
+  /**
+   * Returns a predicate that evaluates to {@code true} if the
+   * {@code CharSequence} being tested contains any match for the given
+   * regular expression pattern. The test used is equivalent to
+   * {@code regex.matcher(arg).find()}
+   *
+   * @since 3
+   */
+  @GwtIncompatible(value = "java.util.regex.Pattern")
+  public static Predicate<CharSequence> contains(Pattern pattern) {
+    return new ContainsPatternPredicate(pattern);
+  }
+
+  /**
+   * @see Predicates#contains(Pattern)
+   * @see Predicates#containsPattern(String)
+   */
+  private static class ContainsPatternPredicate
+      implements Predicate<CharSequence>, Serializable {
+    final Pattern pattern;
+
+    ContainsPatternPredicate(Pattern pattern) {
+      this.pattern = checkNotNull(pattern);
+    }
+
+    ContainsPatternPredicate(String patternStr) {
+      this(Pattern.compile(patternStr));
+    }
+
+    public boolean apply(CharSequence t) {
+      return pattern.matcher(t).find();
+    }
+
+    @Override public int hashCode() {
+      // Pattern uses Object.hashCode, so we have to reach
+      // inside to build a hashCode consistent with equals.
+
+      return Objects.hashCode(pattern.pattern(), pattern.flags());
+    }
+
+    @Override public boolean equals(@Nullable Object obj) {
+      if (obj instanceof ContainsPatternPredicate) {
+        ContainsPatternPredicate that = (ContainsPatternPredicate) obj;
+
+        // Pattern uses Object (identity) equality, so we have to reach
+        // inside to compare individual fields.
+        return Objects.equal(pattern.pattern(), that.pattern.pattern())
+            && Objects.equal(pattern.flags(), that.pattern.flags());
+      }
+      return false;
+    }
+
+    @Override public String toString() {
+      return Objects.toStringHelper(this)
+          .add("pattern", pattern)
+          .add("pattern.flags", Integer.toHexString(pattern.flags()))
+          .toString();
+    }
+
+    private static final long serialVersionUID = 0;
+  }
+
   /** @see Predicates#alwaysTrue() */
   // Package private for GWT serialization.
   enum AlwaysTruePredicate implements Predicate<Object> {
     INSTANCE;
 
-    public boolean apply(Object o) {
+    public boolean apply(@Nullable Object o) {
       return true;
     }
     @Override public String toString() {
@@ -237,7 +316,7 @@ public final class Predicates {
   enum AlwaysFalsePredicate implements Predicate<Object> {
     INSTANCE;
 
-    public boolean apply(Object o) {
+    public boolean apply(@Nullable Object o) {
       return false;
     }
     @Override public String toString() {
@@ -246,21 +325,20 @@ public final class Predicates {
   }
 
   /** @see Predicates#not(Predicate) */
-  private static class NotPredicate<T>
-      implements Predicate<T>, Serializable {
-    private final Predicate<T> predicate;
+  private static class NotPredicate<T> implements Predicate<T>, Serializable {
+    final Predicate<T> predicate;
 
-    private NotPredicate(Predicate<T> predicate) {
+    NotPredicate(Predicate<T> predicate) {
       this.predicate = checkNotNull(predicate);
     }
     public boolean apply(T t) {
       return !predicate.apply(t);
     }
     @Override public int hashCode() {
-      return ~predicate.hashCode(); /* Invert all bits. */
+      return ~predicate.hashCode();
     }
-    @Override public boolean equals(Object obj) {
-      if (obj instanceof NotPredicate<?>) {
+    @Override public boolean equals(@Nullable Object obj) {
+      if (obj instanceof NotPredicate) {
         NotPredicate<?> that = (NotPredicate<?>) obj;
         return predicate.equals(that.predicate);
       }
@@ -275,8 +353,7 @@ public final class Predicates {
   private static final Joiner commaJoiner = Joiner.on(",");
 
   /** @see Predicates#and(Iterable) */
-  private static class AndPredicate<T>
-      implements Predicate<T>, Serializable {
+  private static class AndPredicate<T> implements Predicate<T>, Serializable {
     private final Iterable<? extends Predicate<? super T>> components;
 
     private AndPredicate(Iterable<? extends Predicate<? super T>> components) {
@@ -297,8 +374,8 @@ public final class Predicates {
       }
       return result;
     }
-    @Override public boolean equals(Object obj) {
-      if (obj instanceof AndPredicate<?>) {
+    @Override public boolean equals(@Nullable Object obj) {
+      if (obj instanceof AndPredicate) {
         AndPredicate<?> that = (AndPredicate<?>) obj;
         return iterableElementsEqual(components, that.components);
       }
@@ -311,8 +388,7 @@ public final class Predicates {
   }
 
   /** @see Predicates#or(Iterable) */
-  private static class OrPredicate<T>
-      implements Predicate<T>, Serializable {
+  private static class OrPredicate<T> implements Predicate<T>, Serializable {
     private final Iterable<? extends Predicate<? super T>> components;
 
     private OrPredicate(Iterable<? extends Predicate<? super T>> components) {
@@ -333,8 +409,8 @@ public final class Predicates {
       }
       return result;
     }
-    @Override public boolean equals(Object obj) {
-      if (obj instanceof OrPredicate<?>) {
+    @Override public boolean equals(@Nullable Object obj) {
+      if (obj instanceof OrPredicate) {
         OrPredicate<?> that = (OrPredicate<?>) obj;
         return iterableElementsEqual(components, that.components);
       }
@@ -360,7 +436,7 @@ public final class Predicates {
     @Override public int hashCode() {
       return target.hashCode();
     }
-    @Override public boolean equals(Object obj) {
+    @Override public boolean equals(@Nullable Object obj) {
       if (obj instanceof IsEqualToPredicate) {
         IsEqualToPredicate<?> that = (IsEqualToPredicate<?>) obj;
         return target.equals(that.target);
@@ -381,13 +457,13 @@ public final class Predicates {
     private InstanceOfPredicate(Class<?> clazz) {
       this.clazz = checkNotNull(clazz);
     }
-    public boolean apply(Object o) {
+    public boolean apply(@Nullable Object o) {
       return Platform.isInstance(clazz, o);
     }
     @Override public int hashCode() {
       return clazz.hashCode();
     }
-    @Override public boolean equals(Object obj) {
+    @Override public boolean equals(@Nullable Object obj) {
       if (obj instanceof InstanceOfPredicate) {
         InstanceOfPredicate that = (InstanceOfPredicate) obj;
         return clazz == that.clazz;
@@ -405,7 +481,7 @@ public final class Predicates {
   private enum IsNullPredicate implements Predicate<Object> {
     INSTANCE;
 
-    public boolean apply(Object o) {
+    public boolean apply(@Nullable Object o) {
       return o == null;
     }
     @Override public String toString() {
@@ -418,7 +494,7 @@ public final class Predicates {
   private enum NotNullPredicate implements Predicate<Object> {
     INSTANCE;
 
-    public boolean apply(Object o) {
+    public boolean apply(@Nullable Object o) {
       return o != null;
     }
     @Override public String toString() {
@@ -427,8 +503,7 @@ public final class Predicates {
   }
 
   /** @see Predicates#in(Collection) */
-  private static class InPredicate<T>
-      implements Predicate<T>, Serializable {
+  private static class InPredicate<T> implements Predicate<T>, Serializable {
     private final Collection<?> target;
 
     private InPredicate(Collection<?> target) {
@@ -445,8 +520,8 @@ public final class Predicates {
       }
     }
 
-    @Override public boolean equals(Object obj) {
-      if (obj instanceof InPredicate<?>) {
+    @Override public boolean equals(@Nullable Object obj) {
+      if (obj instanceof InPredicate) {
         InPredicate<?> that = (InPredicate<?>) obj;
         return target.equals(that.target);
       }
@@ -478,8 +553,8 @@ public final class Predicates {
       return p.apply(f.apply(a));
     }
 
-    @Override public boolean equals(Object obj) {
-      if (obj instanceof CompositionPredicate<?, ?>) {
+    @Override public boolean equals(@Nullable Object obj) {
+      if (obj instanceof CompositionPredicate) {
         CompositionPredicate<?, ?> that = (CompositionPredicate<?, ?>) obj;
         return f.equals(that.f) && p.equals(that.p);
       }

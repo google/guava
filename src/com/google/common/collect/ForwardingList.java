@@ -17,7 +17,6 @@
 package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.annotations.GwtIncompatible;
 
 import java.util.Collection;
 import java.util.List;
@@ -32,11 +31,11 @@ import javax.annotation.Nullable;
  * href="http://en.wikipedia.org/wiki/Decorator_pattern">decorator pattern</a>.
  *
  * <p>This class does not implement {@link java.util.RandomAccess}. If the
- * delegate supports random access, the {@code ForwadingList} subclass should
+ * delegate supports random access, the {@code ForwardingList} subclass should
  * implement the {@code RandomAccess} interface.
  *
  * @author Mike Bostock
- * @since 2010.01.04 <b>stable</b> (imported from Google Collections Library)
+ * @since 2 (imported from Google Collections Library)
  */
 @GwtCompatible
 public abstract class ForwardingList<E> extends ForwardingCollection<E>
@@ -80,9 +79,8 @@ public abstract class ForwardingList<E> extends ForwardingCollection<E>
     return delegate().set(index, element);
   }
 
-  @GwtIncompatible("List.subList")
   public List<E> subList(int fromIndex, int toIndex) {
-    return Platform.subList(delegate(), fromIndex, toIndex);
+    return delegate().subList(fromIndex, toIndex);
   }
 
   @Override public boolean equals(@Nullable Object object) {

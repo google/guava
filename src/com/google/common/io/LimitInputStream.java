@@ -16,19 +16,21 @@
 
 package com.google.common.io;
 
+import com.google.common.annotations.Beta;
 import com.google.common.base.Preconditions;
 
 import java.io.FilterInputStream;
-import java.io.InputStream;
 import java.io.IOException;
+import java.io.InputStream;
 
 /**
  * An InputStream that limits the number of bytes which can be read.
  *
  * @author Charles Fry
- * @since 2009.09.15 <b>tentative</b>
+ * @since 1
  */
-public class LimitInputStream extends FilterInputStream {
+@Beta
+public final class LimitInputStream extends FilterInputStream {
 
   private long left;
   private long mark = -1;
@@ -99,5 +101,4 @@ public class LimitInputStream extends FilterInputStream {
     left -= skipped;
     return skipped;
   }
-
 }

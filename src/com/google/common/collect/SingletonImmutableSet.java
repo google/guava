@@ -29,9 +29,10 @@ import javax.annotation.Nullable;
  * @author Kevin Bourrillion
  * @author Nick Kralevich
  */
-@GwtCompatible(serializable = true)
+@GwtCompatible(serializable = true, emulated = true)
 @SuppressWarnings("serial") // uses writeReplace(), not default serialization
 final class SingletonImmutableSet<E> extends ImmutableSet<E> {
+
   final transient E element;
 
   // Non-volatile because:

@@ -16,7 +16,7 @@
 
 package com.google.common.collect;
 
-import static com.google.common.collect.MutableClassToInstanceMap.cast;
+import com.google.common.primitives.Primitives;
 
 import java.util.Map;
 
@@ -25,7 +25,7 @@ import java.util.Map;
  * MutableClassToInstanceMap}.
  *
  * @author Kevin Bourrillion
- * @since 2010.01.04 <b>stable</b> (imported from Google Collections Library)
+ * @since 2 (imported from Google Collections Library)
  */
 public final class ImmutableClassToInstanceMap<B> extends
     ForwardingMap<Class<? extends B>, B> implements ClassToInstanceMap<B> {
@@ -82,6 +82,10 @@ public final class ImmutableClassToInstanceMap<B> extends
         mapBuilder.put(type, cast(type, value));
       }
       return this;
+    }
+
+    private static <B, T extends B> T cast(Class<T> type, B value) {
+      return Primitives.wrap(type).cast(value);
     }
 
     /**

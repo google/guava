@@ -16,6 +16,7 @@
 
 package com.google.common.base;
 
+import com.google.common.annotations.Beta;
 import com.google.common.annotations.VisibleForTesting;
 
 import java.io.Serializable;
@@ -31,7 +32,7 @@ import javax.annotation.Nullable;
  *
  * @author Laurence Gonsalves
  * @author Harry Heymann
- * @since 2010.01.04 <b>stable</b> (imported from Google Collections Library)
+ * @since 2 (imported from Google Collections Library)
  */
 public final class Suppliers {
   private Suppliers() {}
@@ -39,29 +40,28 @@ public final class Suppliers {
   /**
    * Returns a new supplier which is the composition of the provided function
    * and supplier. In other words, the new supplier's value will be computed by
-   * retrieving the value from {@code first}, and then applying
+   * retrieving the value from {@code supplier}, and then applying
    * {@code function} to that value. Note that the resulting supplier will not
-   * call {@code first} or invoke {@code function} until it is called.
+   * call {@code supplier} or invoke {@code function} until it is called.
    */
   public static <F, T> Supplier<T> compose(
-      Function<? super F, T> function, Supplier<F> first) {
+      Function<? super F, T> function, Supplier<F> supplier) {
     Preconditions.checkNotNull(function);
-    Preconditions.checkNotNull(first);
-    return new SupplierComposition<F, T>(function, first);
+    Preconditions.checkNotNull(supplier);
+    return new SupplierComposition<F, T>(function, supplier);
   }
 
   private static class SupplierComposition<F, T>
       implements Supplier<T>, Serializable {
-    final Function<? super F, ? extends T> function;
-    final Supplier<? extends F> first;
+    final Function<? super F, T> function;
+    final Supplier<F> supplier;
 
-    SupplierComposition(Function<? super F, ? extends T> function,
-        Supplier<? extends F> first) {
+    SupplierComposition(Function<? super F, T> function, Supplier<F> supplier) {
       this.function = function;
-      this.first = first;
+      this.supplier = supplier;
     }
     public T get() {
-      return function.apply(first.get());
+      return function.apply(supplier.get());
     }
     private static final long serialVersionUID = 0;
   }
@@ -80,8 +80,8 @@ public final class Suppliers {
     return new MemoizingSupplier<T>(Preconditions.checkNotNull(delegate));
   }
 
-  @VisibleForTesting static class MemoizingSupplier<T>
-      implements Supplier<T>, Serializable {
+  @VisibleForTesting
+  static class MemoizingSupplier<T> implements Supplier<T>, Serializable {
     final Supplier<T> delegate;
     transient boolean initialized;
     transient T value;
@@ -117,8 +117,9 @@ public final class Suppliers {
    *     should stop being returned by subsequent {@code get()} calls
    * @param unit the unit that {@code duration} is expressed in
    * @throws IllegalArgumentException if {@code duration} is not positive
-   * @since 2010.01.04 <b>tentative</b>
+   * @since 2
    */
+  @Beta
   public static <T> Supplier<T> memoizeWithExpiration(
       Supplier<T> delegate, long duration, TimeUnit unit) {
     return new ExpiringMemoizingSupplier<T>(delegate, duration, unit);

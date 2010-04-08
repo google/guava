@@ -16,6 +16,7 @@
 
 package com.google.common.util.concurrent;
 
+import com.google.common.annotations.Beta;
 import com.google.common.base.Service;
 import com.google.common.base.Throwables;
 
@@ -29,8 +30,9 @@ import java.util.concurrent.Future;
  * threading manually.
  *
  * @author Jesse Wilson
- * @since 2009.09.15 <b>tentative</b>
+ * @since 1
  */
+@Beta
 public abstract class AbstractExecutionThreadService implements Service {
 
   /* use AbstractService for state management */
@@ -111,14 +113,13 @@ public abstract class AbstractExecutionThreadService implements Service {
   protected Executor executor() {
     return new Executor() {
       public void execute(Runnable command) {
-        new Thread(command, AbstractExecutionThreadService.this.toString())
-            .start();
+        new Thread(command, getServiceName()).start();
       }
     };
   }
 
   @Override public String toString() {
-    return getClass().getSimpleName();
+    return getServiceName() + " [" + state() + "]";
   }
 
   // We override instead of using ForwardingService so that these can be final.
@@ -145,5 +146,9 @@ public abstract class AbstractExecutionThreadService implements Service {
 
   /*@Override*/ public final State stopAndWait() {
     return delegate.stopAndWait();
+  }
+
+  private String getServiceName() {
+    return getClass().getSimpleName();
   }
 }

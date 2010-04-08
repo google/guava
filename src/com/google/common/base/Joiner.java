@@ -47,7 +47,7 @@ import javax.annotation.Nullable;
  * given element is null.
  *
  * @author Kevin Bourrillion
- * @since 2010.01.04 <b>stable</b> (imported from Google Collections Library)
+ * @since 2 (imported from Google Collections Library)
  */
 @GwtCompatible public class Joiner {
   /**
@@ -119,8 +119,8 @@ import javax.annotation.Nullable;
    * to {@link #appendTo(Appendable, Iterable)}, except that it does not throw
    * {@link IOException}.
    */
-  public final StringBuilder appendTo(StringBuilder builder, Iterable<?> parts)
-  {
+  public final StringBuilder appendTo(
+      StringBuilder builder, Iterable<?> parts) {
     try {
       appendTo((Appendable) builder, parts);
     } catch (IOException impossible) {

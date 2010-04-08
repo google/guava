@@ -18,8 +18,8 @@ package com.google.common.io;
 
 import java.io.Closeable;
 import java.io.Flushable;
-import java.io.Writer;
 import java.io.IOException;
+import java.io.Writer;
 
 /**
  * Writer that places all output on an {@link Appendable} target. If the target
@@ -28,7 +28,7 @@ import java.io.IOException;
  *
  * @author Alan Green
  * @author Sebastian Kanthak
- * @since 2009.09.15 <b>tentative</b>
+ * @since 1
  */
 class AppendableWriter extends Writer {
   private final Appendable target;

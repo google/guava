@@ -28,7 +28,7 @@ import javax.annotation.Nullable;
  * 
  * @author Kevin Bourrillion
  */
-@GwtCompatible(serializable = true)
+@GwtCompatible(serializable = true, emulated = true)
 final class EmptyImmutableSet extends ImmutableSet<Object> {
   static final EmptyImmutableSet INSTANCE = new EmptyImmutableSet();
 

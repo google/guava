@@ -16,6 +16,7 @@
 
 package com.google.common.io;
 
+import com.google.common.annotations.Beta;
 import com.google.common.base.Preconditions;
 
 import java.io.Closeable;
@@ -46,8 +47,9 @@ import java.util.List;
  *
  * @author Chris Nokleberg
  * @author Bin Zhu
- * @since 2009.09.15 <b>tentative</b>
+ * @since 1
  */
+@Beta
 public final class CharStreams {
   private static final int BUF_SIZE = 0x800; // 2K chars (4K bytes)
 
@@ -60,7 +62,8 @@ public final class CharStreams {
    * @param value the string to read
    * @return the factory
    */
-  public static InputSupplier<StringReader> newReaderSupplier(final String value) {
+  public static InputSupplier<StringReader> newReaderSupplier(
+      final String value) {
     Preconditions.checkNotNull(value);
     return new InputSupplier<StringReader>() {
       public StringReader getInput() {
@@ -167,8 +170,8 @@ public final class CharStreams {
    * @return the number of characters copied
    * @throws IOException if an I/O error occurs
    */
-  public static <R extends Readable & Closeable> long copy(InputSupplier<R> from,
-      Appendable to) throws IOException {
+  public static <R extends Readable & Closeable> long copy(
+      InputSupplier<R> from, Appendable to) throws IOException {
     boolean threw = true;
     R in = from.getInput();
     try {

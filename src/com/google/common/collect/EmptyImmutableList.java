@@ -17,9 +17,6 @@
 package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
-import static com.google.common.base.Preconditions.checkElementIndex;
-import static com.google.common.base.Preconditions.checkPositionIndex;
-import static com.google.common.base.Preconditions.checkPositionIndexes;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -28,12 +25,16 @@ import java.util.ListIterator;
 
 import javax.annotation.Nullable;
 
+import static com.google.common.base.Preconditions.checkElementIndex;
+import static com.google.common.base.Preconditions.checkPositionIndex;
+import static com.google.common.base.Preconditions.checkPositionIndexes;
+
 /**
  * An empty immutable list.
  * 
  * @author Kevin Bourrillion
  */
-@GwtCompatible(serializable = true)
+@GwtCompatible(serializable = true, emulated = true)
 final class EmptyImmutableList extends ImmutableList<Object> {
   static final EmptyImmutableList INSTANCE = new EmptyImmutableList();
 

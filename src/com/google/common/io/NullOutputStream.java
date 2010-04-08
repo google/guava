@@ -16,15 +16,18 @@
 
 package com.google.common.io;
 
+import com.google.common.annotations.Beta;
+
 import java.io.OutputStream;
 
 /**
  * Implementation of {@link OutputStream} that simply discards written bytes.
  *
  * @author Spencer Kimball
- * @since 2009.09.15 <b>tentative</b>
+ * @since 1
  */
-public class NullOutputStream extends OutputStream {
+@Beta
+public final class NullOutputStream extends OutputStream {
   /** Discards the specified byte. */
   @Override public void write(int b) {
   }

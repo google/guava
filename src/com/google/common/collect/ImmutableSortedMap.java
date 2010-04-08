@@ -16,10 +16,9 @@
 
 package com.google.common.collect;
 
+import com.google.common.annotations.GwtCompatible;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
-
-import com.google.common.annotations.GwtCompatible;
 
 import java.io.Serializable;
 import java.util.Arrays;
@@ -48,9 +47,9 @@ import javax.annotation.Nullable;
  * guaranteed to be immutable.
  *
  * @author Jared Levy
- * @since 2010.01.04 <b>stable</b> (imported from Google Collections Library)
+ * @since 2 (imported from Google Collections Library)
  */
-@GwtCompatible(serializable = true)
+@GwtCompatible(serializable = true, emulated = true)
 public class ImmutableSortedMap<K, V>
     extends ImmutableSortedMapFauxverideShim<K, V> implements SortedMap<K, V> {
 

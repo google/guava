@@ -16,6 +16,8 @@
 
 package com.google.common.util.concurrent;
 
+import com.google.common.annotations.Beta;
+
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
@@ -40,8 +42,9 @@ import java.util.concurrent.TimeoutException;
  * future will guarantee execution of all listeners when the task completes.
  * 
  * @author Sven Mawson
- * @since 2009.09.15 <b>tentative</b>
+ * @since 1
  */
+@Beta
 public interface CheckedFuture<V, E extends Exception>
     extends ListenableFuture<V> {
 
@@ -53,7 +56,7 @@ public interface CheckedFuture<V, E extends Exception>
    * @return the result of executing the future.
    * @throws E on interruption, cancellation or execution exceptions.
    */
-  public V checkedGet() throws E;
+  V checkedGet() throws E;
   
   /**
    * Exception checking version of {@link Future#get(long, TimeUnit)} that will
@@ -65,6 +68,5 @@ public interface CheckedFuture<V, E extends Exception>
    * @throws TimeoutException if retrieving the result timed out.
    * @throws E on interruption, cancellation or execution exceptions.
    */
-  public V checkedGet(long timeout, TimeUnit unit)
-      throws TimeoutException, E;
+  V checkedGet(long timeout, TimeUnit unit) throws TimeoutException, E;
 }

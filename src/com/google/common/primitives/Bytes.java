@@ -17,10 +17,6 @@
 package com.google.common.primitives;
 
 import com.google.common.annotations.GwtCompatible;
-import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkElementIndex;
-import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.common.base.Preconditions.checkPositionIndexes;
 
 import java.io.Serializable;
 import java.util.AbstractList;
@@ -30,6 +26,11 @@ import java.util.Collections;
 import java.util.List;
 import java.util.RandomAccess;
 
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkElementIndex;
+import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkPositionIndexes;
+
 /**
  * Static utility methods pertaining to {@code byte} primitives, that are not
  * already found in either {@link Byte} or {@link Arrays}, <i>and interpret
@@ -38,7 +39,7 @@ import java.util.RandomAccess;
  * UnsignedBytes}.
  *
  * @author Kevin Bourrillion
- * @since 2009.09.15 <b>tentative</b>
+ * @since 1
  */
 @GwtCompatible
 public final class Bytes {

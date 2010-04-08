@@ -16,6 +16,8 @@
 
 package com.google.common.base;
 
+import com.google.common.annotations.Beta;
+
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
@@ -42,8 +44,9 @@ import java.util.concurrent.Future;
  * the threading and state management easier.
  *
  * @author Jesse Wilson
- * @since 2009.09.15 <b>tentative</b>
+ * @since 1
  */
+@Beta // TODO: make it an abstract class and move to common.util.concurrent
 public interface Service {
   /**
    * If the service state is {@link State#NEW}, this initiates service startup

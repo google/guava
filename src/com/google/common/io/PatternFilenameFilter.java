@@ -16,6 +16,7 @@
 
 package com.google.common.io;
 
+import com.google.common.annotations.Beta;
 import com.google.common.base.Preconditions;
 
 import java.io.File;
@@ -27,8 +28,9 @@ import java.util.regex.PatternSyntaxException;
  * File name filter that only accepts files matching a regular expression.
  *
  * @author Apple Chow
- * @since 2009.09.15 <b>tentative</b>
+ * @since 1
  */
+@Beta
 public final class PatternFilenameFilter implements FilenameFilter {
 
   private final Pattern pattern;

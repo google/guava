@@ -24,7 +24,7 @@ import java.lang.ref.SoftReference;
  * simpler alternative to using a {@link java.lang.ref.ReferenceQueue}.
  *
  * @author Bob Lee
- * @since 2010.01.04 <b>stable</b> (imported from Google Collections Library)
+ * @since 2 (imported from Google Collections Library)
  */
 public abstract class FinalizableSoftReference<T> extends SoftReference<T>
     implements FinalizableReference {

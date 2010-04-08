@@ -16,6 +16,7 @@
 
 package com.google.common.util.concurrent;
 
+import com.google.common.annotations.Beta;
 import com.google.common.collect.ForwardingObject;
 
 import java.util.concurrent.ExecutionException;
@@ -31,8 +32,9 @@ import java.util.concurrent.TimeoutException;
  *
  * @see ForwardingObject
  * @author Sven Mawson
- * @since 2009.09.15 <b>tentative</b>
+ * @since 1
  */
+@Beta
 public abstract class ForwardingFuture<V> extends ForwardingObject
     implements Future<V> {
 

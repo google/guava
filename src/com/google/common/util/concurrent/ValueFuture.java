@@ -16,12 +16,15 @@
 
 package com.google.common.util.concurrent;
 
+import com.google.common.annotations.Beta;
+
 /**
  * A simple ListenableFuture that holds a value or an exception.
  *
  * @author Sven Mawson
- * @since 2009.09.15 <b>tentative</b>
+ * @since 1
  */
+@Beta
 public class ValueFuture<V> extends AbstractListenableFuture<V> {
 
   /**

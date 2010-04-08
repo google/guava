@@ -16,6 +16,8 @@
 
 package com.google.common.util.concurrent;
 
+import com.google.common.annotations.Beta;
+
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
@@ -29,8 +31,9 @@ import java.util.concurrent.TimeoutException;
  * Futures#makeUninterruptible(Future)}.
  *
  * @author Kevin Bourrillion
- * @since 2009.09.15 <b>tentative</b>
+ * @since 1
  */
+@Beta
 public interface UninterruptibleFuture<V> extends Future<V> {
   /*@Override*/ V get() throws ExecutionException;
 

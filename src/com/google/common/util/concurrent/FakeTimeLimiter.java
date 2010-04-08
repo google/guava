@@ -16,6 +16,8 @@
 
 package com.google.common.util.concurrent;
 
+import com.google.common.annotations.Beta;
+
 import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
 
@@ -27,8 +29,9 @@ import java.util.concurrent.TimeUnit;
  * time-limiter while you're debugging.
  *
  * @author Kevin Bourrillion
- * @since 2009.09.15 <b>tentative</b>
+ * @since 1
  */
+@Beta
 public class FakeTimeLimiter implements TimeLimiter {
   public <T> T newProxy(T target, Class<T> interfaceType, long timeoutDuration,
       TimeUnit timeoutUnit) {

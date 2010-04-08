@@ -16,6 +16,8 @@
 
 package com.google.common.util.concurrent;
 
+import com.google.common.annotations.Beta;
+
 import java.util.concurrent.Executor;
 import java.util.concurrent.Future;
 import java.util.concurrent.RejectedExecutionException;
@@ -43,10 +45,10 @@ import java.util.concurrent.RejectedExecutionException;
  *
  * @author Sven Mawson
  * @author Nishant Thakkar
- * @since 2009.09.15 <b>tentative</b>
+ * @since 1
  */
+@Beta
 public interface ListenableFuture<V> extends Future<V> {
-
   /**
    * <p>Adds a listener and executor to the ListenableFuture.
    * The listener will be {@linkplain Executor#execute(Runnable) passed
@@ -64,5 +66,5 @@ public interface ListenableFuture<V> extends Future<V> {
    * @throws RejectedExecutionException if we tried to execute the listener
    * immediately but the executor rejected it.
    */
-  public void addListener(Runnable listener, Executor exec);
+  void addListener(Runnable listener, Executor exec);
 }

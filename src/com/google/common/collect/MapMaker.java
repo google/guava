@@ -92,7 +92,7 @@ import java.util.concurrent.TimeUnit;
  *
  * @author Bob Lee
  * @author Kevin Bourrillion
- * @since 2010.01.04 <b>stable</b> (imported from Google Collections Library)
+ * @since 2 (imported from Google Collections Library)
  */
 @GwtCompatible(emulated = true)
 public final class MapMaker {

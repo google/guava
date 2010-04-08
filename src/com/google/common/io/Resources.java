@@ -16,6 +16,7 @@
 
 package com.google.common.io;
 
+import com.google.common.annotations.Beta;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -36,9 +37,11 @@ import java.util.List;
  *
  * @author Chris Nokleberg
  * @author Ben Yu
- * @since 2009.09.15 <b>tentative</b>
+ * @since 1
  */
+@Beta
 public final class Resources {
+  private Resources() {}
 
   /**
    * Returns a factory that will supply instances of {@link InputStream} that

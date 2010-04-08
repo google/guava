@@ -16,14 +16,17 @@
 
 package com.google.common.io;
 
+import com.google.common.annotations.Beta;
+
 import java.io.IOException;
 
 /**
  * A factory for readable streams of bytes or characters.
  *
  * @author Chris Nokleberg
- * @since 2009.09.15 <b>tentative</b>
+ * @since 1
  */
+@Beta
 public interface InputSupplier<T> {
   T getInput() throws IOException;
 }

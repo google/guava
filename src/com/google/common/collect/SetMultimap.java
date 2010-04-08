@@ -34,7 +34,7 @@ import javax.annotation.Nullable;
  * the map returned by {@link #asMap} has {@code Set} values.
  *
  * @author Jared Levy
- * @since 2010.01.04 <b>stable</b> (imported from Google Collections Library)
+ * @since 2 (imported from Google Collections Library)
  */
 @GwtCompatible
 public interface SetMultimap<K, V> extends Multimap<K, V> {

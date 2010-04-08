@@ -50,7 +50,7 @@ import javax.annotation.Nullable;
  * @author Jared Levy
  * @author Robert Konigsberg
  * @author Mike Bostock
- * @since 2010.01.04 <b>stable</b> (imported from Google Collections Library)
+ * @since 2 (imported from Google Collections Library)
  */
 @GwtCompatible
 public final class Multimaps {
@@ -376,6 +376,7 @@ public final class Multimaps {
    */
   public static <K, V, M extends Multimap<K, V>> M invertFrom(
       Multimap<? extends V, ? extends K> source, M dest) {
+    checkNotNull(dest);
     for (Map.Entry<? extends V, ? extends K> entry : source.entries()) {
       dest.put(entry.getValue(), entry.getKey());
     }
@@ -452,7 +453,7 @@ public final class Multimaps {
     transient Map<K, Collection<V>> map;
 
     UnmodifiableMultimap(final Multimap<K, V> delegate) {
-      this.delegate = delegate;
+      this.delegate = checkNotNull(delegate);
     }
 
     @Override protected Multimap<K, V> delegate() {

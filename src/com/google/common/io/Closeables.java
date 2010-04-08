@@ -16,6 +16,8 @@
 
 package com.google.common.io;
 
+import com.google.common.annotations.Beta;
+
 import java.io.Closeable;
 import java.io.IOException;
 import java.util.logging.Level;
@@ -27,8 +29,9 @@ import javax.annotation.Nullable;
  * Utility methods for working with {@link Closeable} objects.
  *
  * @author Michael Lancaster
- * @since 2009.09.15 <b>tentative</b>
+ * @since 1
  */
+@Beta
 public final class Closeables {
   private static final Logger logger
       = Logger.getLogger(Closeables.class.getName());

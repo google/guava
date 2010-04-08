@@ -19,8 +19,9 @@ package com.google.common.base;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.VisibleForTesting;
 
-import java.util.Collection;
 import java.util.NoSuchElementException;
+
+import javax.annotation.Nullable;
 
 /**
  * Simple static methods to be called at the start of your own methods to verify
@@ -53,7 +54,7 @@ import java.util.NoSuchElementException;
  * these types of exceptions.
  *
  * @author Kevin Bourrillion
- * @since 2010.01.04 <b>stable</b> (imported from Google Collections Library)
+ * @since 2 (imported from Google Collections Library)
  */
 @GwtCompatible
 public final class Preconditions {
@@ -81,7 +82,8 @@ public final class Preconditions {
    *     be converted to a string using {@link String#valueOf(Object)}
    * @throws IllegalArgumentException if {@code expression} is false
    */
-  public static void checkArgument(boolean expression, Object errorMessage) {
+  public static void checkArgument(
+      boolean expression, @Nullable Object errorMessage) {
     if (!expression) {
       throw new IllegalArgumentException(String.valueOf(errorMessage));
     }
@@ -107,7 +109,8 @@ public final class Preconditions {
    *     this happen)
    */
   public static void checkArgument(boolean expression,
-      String errorMessageTemplate, Object... errorMessageArgs) {
+      @Nullable String errorMessageTemplate,
+      @Nullable Object... errorMessageArgs) {
     if (!expression) {
       throw new IllegalArgumentException(
           format(errorMessageTemplate, errorMessageArgs));
@@ -136,7 +139,8 @@ public final class Preconditions {
    *     be converted to a string using {@link String#valueOf(Object)}
    * @throws IllegalStateException if {@code expression} is false
    */
-  public static void checkState(boolean expression, Object errorMessage) {
+  public static void checkState(
+      boolean expression, @Nullable Object errorMessage) {
     if (!expression) {
       throw new IllegalStateException(String.valueOf(errorMessage));
     }
@@ -162,7 +166,8 @@ public final class Preconditions {
    *     this happen)
    */
   public static void checkState(boolean expression,
-      String errorMessageTemplate, Object... errorMessageArgs) {
+      @Nullable String errorMessageTemplate,
+      @Nullable Object... errorMessageArgs) {
     if (!expression) {
       throw new IllegalStateException(
           format(errorMessageTemplate, errorMessageArgs));
@@ -194,7 +199,7 @@ public final class Preconditions {
    * @return the non-null reference that was validated
    * @throws NullPointerException if {@code reference} is null
    */
-  public static <T> T checkNotNull(T reference, Object errorMessage) {
+  public static <T> T checkNotNull(T reference, @Nullable Object errorMessage) {
     if (reference == null) {
       throw new NullPointerException(String.valueOf(errorMessage));
     }
@@ -218,8 +223,9 @@ public final class Preconditions {
    * @return the non-null reference that was validated
    * @throws NullPointerException if {@code reference} is null
    */
-  public static <T> T checkNotNull(T reference, String errorMessageTemplate,
-      Object... errorMessageArgs) {
+  public static <T> T checkNotNull(T reference,
+      @Nullable String errorMessageTemplate,
+      @Nullable Object... errorMessageArgs) {
     if (reference == null) {
       // If either of these parameters is null, the right thing happens anyway
       throw new NullPointerException(
@@ -227,6 +233,8 @@ public final class Preconditions {
     }
     return reference;
   }
+
+
 
   /*
    * All recent hotspots (as of 2009) *really* like to have the natural code
@@ -288,7 +296,8 @@ public final class Preconditions {
    *     less than {@code size}
    * @throws IllegalArgumentException if {@code size} is negative
    */
-  public static int checkElementIndex(int index, int size, String desc) {
+  public static int checkElementIndex(
+      int index, int size, @Nullable String desc) {
     // Carefully optimized for execution by hotspot (explanatory comment above)
     if (index < 0 || index >= size) {
       throw new IndexOutOfBoundsException(badElementIndex(index, size, desc));
@@ -337,7 +346,8 @@ public final class Preconditions {
    *     greater than {@code size}
    * @throws IllegalArgumentException if {@code size} is negative
    */
-  public static int checkPositionIndex(int index, int size, String desc) {
+  public static int checkPositionIndex(
+      int index, int size, @Nullable String desc) {
     // Carefully optimized for execution by hotspot (explanatory comment above)
     if (index < 0 || index > size) {
       throw new IndexOutOfBoundsException(badPositionIndex(index, size, desc));
@@ -401,7 +411,10 @@ public final class Preconditions {
    *     template. Arguments are converted to strings using
    *     {@link String#valueOf(Object)}. Arguments can be null.
    */
-  @VisibleForTesting static String format(String template, Object... args) {
+  @VisibleForTesting static String format(String template,
+      @Nullable Object... args) {
+    template = String.valueOf(template); // null -> "null"
+
     // start substituting the arguments into the '%s' placeholders
     StringBuilder builder = new StringBuilder(
         template.length() + 16 * args.length);

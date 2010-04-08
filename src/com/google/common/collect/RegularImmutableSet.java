@@ -25,7 +25,7 @@ import com.google.common.collect.ImmutableSet.ArrayImmutableSet;
  *
  * @author Kevin Bourrillion
  */
-@GwtCompatible(serializable = true)
+@GwtCompatible(serializable = true, emulated = true)
 @SuppressWarnings("serial") // uses writeReplace(), not default serialization
 final class RegularImmutableSet<E> extends ArrayImmutableSet<E> {
   // the same elements in hashed positions (plus nulls)

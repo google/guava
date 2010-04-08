@@ -16,8 +16,8 @@
 
 package com.google.common.io;
 
-import java.io.InputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Iterator;
 
 /**
@@ -25,7 +25,7 @@ import java.util.Iterator;
  * one stream will be open at a time.
  *
  * @author Chris Nokleberg
- * @since 2009.09.15 <b>tentative</b>
+ * @since 1
  */
 final class MultiInputStream extends InputStream {
 

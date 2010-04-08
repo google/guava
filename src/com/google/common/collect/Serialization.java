@@ -51,7 +51,7 @@ final class Serialization {
    * appropriate capacity before calling any of the {@code populate} methods.
    */
   @GwtIncompatible("java.io.ObjectInputStream")
-  public static int readCount(ObjectInputStream stream) throws IOException {
+  static int readCount(ObjectInputStream stream) throws IOException {
     return stream.readInt();
   }
 
@@ -64,7 +64,7 @@ final class Serialization {
    * first value, second key, second value, and so on.
    */
   @GwtIncompatible("java.io.ObjectOutputStream")
-  public static <K, V> void writeMap(Map<K, V> map, ObjectOutputStream stream)
+  static <K, V> void writeMap(Map<K, V> map, ObjectOutputStream stream)
       throws IOException {
     stream.writeInt(map.size());
     for (Map.Entry<K, V> entry : map.entrySet()) {
@@ -78,7 +78,7 @@ final class Serialization {
    * See {@link #writeMap} for the data format.
    */
   @GwtIncompatible("java.io.ObjectInputStream")
-  public static <K, V> void populateMap(Map<K, V> map, ObjectInputStream stream)
+  static <K, V> void populateMap(Map<K, V> map, ObjectInputStream stream)
       throws IOException, ClassNotFoundException {
     int size = stream.readInt();
     populateMap(map, stream, size);
@@ -90,7 +90,7 @@ final class Serialization {
    * prior call to {@link #readCount}.
    */
   @GwtIncompatible("java.io.ObjectInputStream")
-  public static <K, V> void populateMap(Map<K, V> map, ObjectInputStream stream,
+  static <K, V> void populateMap(Map<K, V> map, ObjectInputStream stream,
       int size) throws IOException, ClassNotFoundException {
     for (int i = 0; i < size; i++) {
       @SuppressWarnings("unchecked") // reading data stored by writeMap
@@ -110,7 +110,7 @@ final class Serialization {
    * first element, its count, the second element, its count, and so on.
    */
   @GwtIncompatible("java.io.ObjectOutputStream")
-  public static <E> void writeMultiset(
+  static <E> void writeMultiset(
       Multiset<E> multiset, ObjectOutputStream stream) throws IOException {
     int entryCount = multiset.entrySet().size();
     stream.writeInt(entryCount);
@@ -125,7 +125,7 @@ final class Serialization {
    * deserialization. See {@link #writeMultiset} for the data format.
    */
   @GwtIncompatible("java.io.ObjectInputStream")
-  public static <E> void populateMultiset(
+  static <E> void populateMultiset(
       Multiset<E> multiset, ObjectInputStream stream)
       throws IOException, ClassNotFoundException {
     int distinctElements = stream.readInt();
@@ -138,7 +138,7 @@ final class Serialization {
    * of distinct elements is determined by a prior call to {@link #readCount}.
    */
   @GwtIncompatible("java.io.ObjectInputStream")
-  public static <E> void populateMultiset(
+  static <E> void populateMultiset(
       Multiset<E> multiset, ObjectInputStream stream, int distinctElements)
       throws IOException, ClassNotFoundException {
     for (int i = 0; i < distinctElements; i++) {
@@ -160,7 +160,7 @@ final class Serialization {
    * key's values.
    */
   @GwtIncompatible("java.io.ObjectOutputStream")
-  public static <K, V> void writeMultimap(
+  static <K, V> void writeMultimap(
       Multimap<K, V> multimap, ObjectOutputStream stream) throws IOException {
     stream.writeInt(multimap.asMap().size());
     for (Map.Entry<K, Collection<V>> entry : multimap.asMap().entrySet()) {
@@ -177,7 +177,7 @@ final class Serialization {
    * deserialization. See {@link #writeMultimap} for the data format.
    */
   @GwtIncompatible("java.io.ObjectInputStream")
-  public static <K, V> void populateMultimap(
+  static <K, V> void populateMultimap(
       Multimap<K, V> multimap, ObjectInputStream stream)
       throws IOException, ClassNotFoundException {
     int distinctKeys = stream.readInt();
@@ -190,7 +190,7 @@ final class Serialization {
    * of distinct keys is determined by a prior call to {@link #readCount}.
    */
   @GwtIncompatible("java.io.ObjectInputStream")
-  public static <K, V> void populateMultimap(
+  static <K, V> void populateMultimap(
       Multimap<K, V> multimap, ObjectInputStream stream, int distinctKeys)
       throws IOException, ClassNotFoundException {
     for (int i = 0; i < distinctKeys; i++) {

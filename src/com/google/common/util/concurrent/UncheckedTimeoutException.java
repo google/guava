@@ -16,12 +16,15 @@
 
 package com.google.common.util.concurrent;
 
+import com.google.common.annotations.Beta;
+
 /**
  * Unchecked version of {@link java.util.concurrent.TimeoutException}.
  *
  * @author Kevin Bourrillion
- * @since 2009.09.15 <b>tentative</b>
+ * @since 1
  */
+@Beta
 public class UncheckedTimeoutException extends RuntimeException {
   public UncheckedTimeoutException() {}
 

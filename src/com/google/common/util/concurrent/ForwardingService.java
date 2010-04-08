@@ -16,6 +16,7 @@
 
 package com.google.common.util.concurrent;
 
+import com.google.common.annotations.Beta;
 import com.google.common.base.Service;
 import com.google.common.collect.ForwardingObject;
 
@@ -25,8 +26,9 @@ import java.util.concurrent.Future;
  * A {@link Service} that forwards all method calls to another service.
  *
  * @author Chris Nokleberg
- * @since 2009.09.15 <b>tentative</b>
+ * @since 1
  */
+@Beta
 public abstract class ForwardingService extends ForwardingObject
     implements Service {
 

@@ -16,6 +16,8 @@
 
 package com.google.common.io;
 
+import com.google.common.annotations.Beta;
+
 import java.io.IOException;
 
 /**
@@ -25,8 +27,9 @@ import java.io.IOException;
  * should return {@code false} when you want to stop processing.
  *
  * @author Chris Nokleberg
- * @since 2009.09.15 <b>tentative</b>
+ * @since 1
  */
+@Beta
 public interface ByteProcessor<T> {
   /**
    * This method will be called for each chunk of bytes in an

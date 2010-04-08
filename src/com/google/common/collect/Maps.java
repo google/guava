@@ -42,6 +42,7 @@ import java.util.Properties;
 import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
+import java.util.concurrent.ConcurrentMap;
 
 import javax.annotation.Nullable;
 
@@ -55,7 +56,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * @author Kevin Bourrillion
  * @author Mike Bostock
  * @author Isaac Shum
- * @since 2010.01.04 <b>stable</b> (imported from Google Collections Library)
+ * @since 2 (imported from Google Collections Library)
  */
 @GwtCompatible
 public final class Maps {
@@ -154,6 +155,25 @@ public final class Maps {
   public static <K, V> LinkedHashMap<K, V>
       newLinkedHashMap(Map<? extends K, ? extends V> map) {
     return new LinkedHashMap<K, V>(map);
+  }
+
+  /**
+   * Returns a general-purpose instance of {@code ConcurrentMap}, which
+   * supports all optional operations of the ConcurrentMap interface. It does
+   * not permit null keys or values. It is serializable.
+   *
+   * <p>This is currently accomplished by calling {@link MapMaker#makeMap()}.
+   *
+   * <p>It is preferable to use {@code MapMaker} directly (rather than through
+   * this method), as it presents numerous useful configuration options,
+   * such as the concurrency level, load factor, key/value reference types,
+   * and value computation.
+   *
+   * @return a new, empty {@code ConcurrentMap}
+   * @since 3
+   */
+  public static <K, V> ConcurrentMap<K, V> newConcurrentMap() {
+    return new MapMaker().<K, V>makeMap();
   }
 
   /**
@@ -1261,8 +1281,7 @@ public final class Maps {
    * implementation.
    */
   @GwtCompatible
-  abstract static class ImprovedAbstractMap<K, V>
-      extends AbstractMap<K, V> {
+  abstract static class ImprovedAbstractMap<K, V> extends AbstractMap<K, V> {
 
     /**
      * Creates the entry set to be returned by {@link #entrySet()}. This method

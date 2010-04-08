@@ -16,6 +16,7 @@
 
 package com.google.common.io;
 
+import com.google.common.annotations.Beta;
 import com.google.common.base.Preconditions;
 
 import java.io.BufferedReader;
@@ -45,8 +46,9 @@ import java.util.zip.Checksum;
  * <p>All method parameters must be non-null unless documented otherwise.
  *
  * @author Chris Nokleberg
- * @since 2009.09.15 <b>tentative</b>
+ * @since 1
  */
+@Beta
 public final class Files {
 
   /** Maximum loop count when creating temp directories. */
@@ -612,7 +614,7 @@ public final class Files {
    * @throws IOException if an I/O error occurs
    *
    * @see FileChannel#map(MapMode, long, long)
-   * @since 2010.01.04 <b>tentative</b>
+   * @since 2
    */
   public static MappedByteBuffer map(File file) throws IOException {
     return map(file, MapMode.READ_ONLY);
@@ -634,7 +636,7 @@ public final class Files {
    * @throws IOException if an I/O error occurs
    *
    * @see FileChannel#map(MapMode, long, long)
-   * @since 2010.01.04 <b>tentative</b>
+   * @since 2
    */
   public static MappedByteBuffer map(File file, MapMode mode)
       throws IOException {
@@ -663,7 +665,7 @@ public final class Files {
    * @throws IOException if an I/O error occurs
    *
    * @see FileChannel#map(MapMode, long, long)
-   * @since 2010.01.04 <b>tentative</b>
+   * @since 2
    */
   public static MappedByteBuffer map(File file, MapMode mode, long size)
       throws FileNotFoundException, IOException {

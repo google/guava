@@ -47,7 +47,7 @@ import javax.annotation.Nullable;
  * are guaranteed to be immutable.
  *
  * @author Mike Ward
- * @since 2010.01.04 <b>stable</b> (imported from Google Collections Library)
+ * @since 2 (imported from Google Collections Library)
  */
 @GwtCompatible(serializable = true)
 public class ImmutableSetMultimap<K, V>
@@ -363,7 +363,7 @@ public class ImmutableSetMultimap<K, V>
       for (int j = 0; j < valueCount; j++) {
         array[j] = stream.readObject();
       }
-      ImmutableSet<Object> valueSet = ImmutableSet.of(array);
+      ImmutableSet<Object> valueSet = ImmutableSet.copyOf(array);
       if (valueSet.size() != array.length) {
         throw new InvalidObjectException(
             "Duplicate key-value pairs exist for key " + key);

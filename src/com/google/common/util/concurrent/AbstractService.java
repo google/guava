@@ -16,6 +16,7 @@
 
 package com.google.common.util.concurrent;
 
+import com.google.common.annotations.Beta;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 import com.google.common.base.Service;
@@ -37,8 +38,9 @@ import java.util.concurrent.locks.ReentrantLock;
  * single execution thread.
  *
  * @author Jesse Wilson
- * @since 2009.09.15 <b>tentative</b>
+ * @since 1
  */
+@Beta
 public abstract class AbstractService implements Service {
 
   private final ReentrantLock lock = new ReentrantLock();
@@ -242,13 +244,17 @@ public abstract class AbstractService implements Service {
     }
   }
 
+  @Override public String toString() {
+    return getClass().getSimpleName() + " [" + state() + "]";
+  }
+  
   /**
    * A change from one service state to another, plus the result of the change.
    *
    * TODO: could this be renamed to DefaultFuture, with methods
    *     like setResult(T) and setFailure(T) ?
    */
-  private static class Transition implements Future<State> {
+  private class Transition implements Future<State> {
     private final CountDownLatch done = new CountDownLatch(1);
     private State result;
     private Throwable failureCause;
@@ -290,7 +296,7 @@ public abstract class AbstractService implements Service {
       if (done.await(timeout, unit)) {
         return getImmediately();
       }
-      throw new TimeoutException();
+      throw new TimeoutException(AbstractService.this.toString());
     }
 
     private State getImmediately() throws ExecutionException {

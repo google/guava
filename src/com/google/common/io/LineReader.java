@@ -16,6 +16,7 @@
 
 package com.google.common.io;
 
+import com.google.common.annotations.Beta;
 import com.google.common.base.Preconditions;
 
 import java.io.IOException;
@@ -30,8 +31,9 @@ import java.util.Queue;
  * objects, not just instances of {@link Reader}.
  *
  * @author Chris Nokleberg
- * @since 2009.09.15 <b>tentative</b>
+ * @since 1
  */
+@Beta
 public final class LineReader {
   private final Readable readable;
   private final Reader reader;

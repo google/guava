@@ -16,6 +16,7 @@
 
 package com.google.common.collect;
 
+import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
@@ -55,7 +56,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
  *
  * @author Kevin Bourrillion
  * @author Jared Levy
- * @since 2010.01.04 <b>stable</b> (imported from Google Collections Library)
+ * @since 2 (imported from Google Collections Library)
  */
 @GwtCompatible
 public final class Sets {
@@ -262,13 +263,12 @@ public final class Sets {
       @SuppressWarnings("unchecked")
       Collection<? extends E> collection = (Collection<? extends E>) elements;
       return new LinkedHashSet<E>(collection);
-    } else {
-      LinkedHashSet<E> set = newLinkedHashSet();
-      for (E element : elements) {
-        set.add(element);
-      }
-      return set;
     }
+    LinkedHashSet<E> set = newLinkedHashSet();
+    for (E element : elements) {
+      set.add(element);
+    }
+    return set;
   }
 
   // TreeSet
@@ -673,6 +673,28 @@ public final class Sets {
   }
 
   /**
+   * Returns an unmodifiable <b>view</b> of the symmetric difference of two
+   * sets. The returned set contains all elements that are contained in either
+   * {@code set1} or {@code set2} but not in both. The iteration order of the
+   * returned set is undefined.
+   *
+   * <p>Results are undefined if {@code set1} and {@code set2} are sets based
+   * on different equivalence relations (as {@code HashSet}, {@code TreeSet},
+   * and the keySet of an {@code IdentityHashMap} all are).
+   *
+   * @since 3
+   */
+  @Beta
+  public static <E> SetView<E> symmetricDifference(
+      Set<? extends E> set1, Set<? extends E> set2) {
+    checkNotNull(set1, "set1");
+    checkNotNull(set2, "set2");
+
+    // TODO: Replace this with a more efficient implementation
+    return difference(union(set1, set2), intersection(set1, set2));
+  }
+
+  /**
    * Returns the elements of {@code unfiltered} that satisfy a predicate. The
    * returned set is a live view of {@code unfiltered}; changes to one affect
    * the other.
@@ -761,7 +783,7 @@ public final class Sets {
    *     lists
    * @throws NullPointerException if {@code sets}, any one of the {@code sets},
    *     or any element of a provided set is null
-   * @since 2010.01.04 <b>tentative</b>
+   * @since 2
    */
   public static <B> Set<List<B>> cartesianProduct(
       List<? extends Set<? extends B>> sets) {
@@ -806,7 +828,7 @@ public final class Sets {
    *     lists
    * @throws NullPointerException if {@code sets}, any one of the {@code sets},
    *     or any element of a provided set is null
-   * @since 2010.01.04 <b>tentative</b>
+   * @since 2
    */
   public static <B> Set<List<B>> cartesianProduct(
       Set<? extends B>... sets) {
@@ -853,7 +875,7 @@ public final class Sets {
           index++;
 
           @SuppressWarnings("unchecked") // only B's are put in here
-          List<B> result = (ImmutableList<B>) ImmutableList.of(tuple);
+          List<B> result = (ImmutableList<B>) ImmutableList.copyOf(tuple);
           return result;
         }
       };

@@ -62,7 +62,7 @@ import java.lang.annotation.Target;
  */
 @Retention(RetentionPolicy.CLASS)
 @Target({ ElementType.TYPE, ElementType.METHOD })
-// @Documented - uncomment when GWT support is official
+
 @GwtCompatible
 public @interface GwtCompatible {
 

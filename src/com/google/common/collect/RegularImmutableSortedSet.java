@@ -32,7 +32,7 @@ import javax.annotation.Nullable;
  *
  * @author Jared Levy
  */
-@GwtCompatible(serializable = true)
+@GwtCompatible(serializable = true, emulated = true)
 @SuppressWarnings("serial")
 final class RegularImmutableSortedSet<E>
     extends ImmutableSortedSet<E> {
@@ -148,7 +148,7 @@ final class RegularImmutableSortedSet<E>
 
   @Override public Object[] toArray() {
     Object[] array = new Object[size()];
-    Platform.unsafeArrayCopy(elements, fromIndex, array, 0, size());
+    System.arraycopy(elements, fromIndex, array, 0, size());
     return array;
   }
 
@@ -160,7 +160,7 @@ final class RegularImmutableSortedSet<E>
     } else if (array.length > size) {
       array[size] = null;
     }
-    Platform.unsafeArrayCopy(elements, fromIndex, array, 0, size);
+    System.arraycopy(elements, fromIndex, array, 0, size);
     return array;
   }
 

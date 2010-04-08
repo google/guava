@@ -28,7 +28,7 @@ import java.lang.ref.PhantomReference;
  * automatically.
  *
  * @author Bob Lee
- * @since 2010.01.04 <b>stable</b> (imported from Google Collections Library)
+ * @since 2 (imported from Google Collections Library)
  */
 public abstract class FinalizablePhantomReference<T>
     extends PhantomReference<T> implements FinalizableReference {

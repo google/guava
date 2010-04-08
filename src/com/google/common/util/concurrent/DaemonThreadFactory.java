@@ -16,6 +16,7 @@
 
 package com.google.common.util.concurrent;
 
+import com.google.common.annotations.Beta;
 import com.google.common.base.Preconditions;
 
 import java.util.concurrent.ThreadFactory;
@@ -25,8 +26,9 @@ import java.util.concurrent.ThreadFactory;
  *
  * @author Charles Fry
  * @author Harendra Verma
- * @since 2009.09.15 <b>tentative</b>
+ * @since 1
  */
+@Beta
 public class DaemonThreadFactory implements ThreadFactory {
 
   private final ThreadFactory factory;

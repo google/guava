@@ -16,6 +16,8 @@
 
 package com.google.common.base;
 
+import com.google.common.annotations.Beta;
+
 import java.nio.charset.Charset;
 
 /**
@@ -24,8 +26,11 @@ import java.nio.charset.Charset;
  * implementations.
  *
  * @author Mike Bostock
- * @since 2009.09.15 <b>tentative</b>
+ * @since 1
  */
+// TODO: Should we change to methods, e.g. Charsets.utf8(), which would give us
+// the option of lazy init, besides being more standard across the library?
+@Beta
 public final class Charsets {
   private Charsets() {}
 

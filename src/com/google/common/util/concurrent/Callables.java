@@ -16,6 +16,8 @@
 
 package com.google.common.util.concurrent;
 
+import com.google.common.annotations.Beta;
+
 import java.util.concurrent.Callable;
 
 import javax.annotation.Nullable;
@@ -24,8 +26,9 @@ import javax.annotation.Nullable;
  * Static utility methods pertaining to the {@link Callable} interface.
  *
  * @author Isaac Shum
- * @since 2009.09.15 <b>tentative</b>
+ * @since 1
  */
+@Beta
 public final class Callables {
   private Callables() {}
 

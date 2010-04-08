@@ -16,14 +16,13 @@
 
 package com.google.common.collect;
 
-import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkNotNull;
-
+import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 
 import java.io.InvalidObjectException;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -31,6 +30,9 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.SortedSet;
+
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * An immutable {@code SortedSet} that stores its elements in a sorted array.
@@ -77,9 +79,10 @@ import java.util.SortedSet;
  *
  * @see ImmutableSet
  * @author Jared Levy
- * @since 2010.01.04 <b>stable</b> (imported from Google Collections Library)
+ * @since 2 (imported from Google Collections Library)
  */
-@GwtCompatible(serializable = true)
+// TODO: benchmark and optimize all creation paths, which are a mess right now
+@GwtCompatible(serializable = true, emulated = true)
 @SuppressWarnings("serial") // we're overriding default serialization
 public abstract class ImmutableSortedSet<E>
     extends ImmutableSortedSetFauxverideShim<E> implements SortedSet<E> {
@@ -173,6 +176,25 @@ public abstract class ImmutableSortedSet<E>
       E e1, E e2, E e3, E e4, E e5) {
     return ofInternal(Ordering.natural(), e1, e2, e3, e4, e5);
   }
+  
+  /**
+   * Returns an immutable sorted set containing the given elements sorted by
+   * their natural ordering. When multiple elements are equivalent according to
+   * {@link Comparable#compareTo}, only the first one specified is included.
+   *
+   * @throws NullPointerException if any element is null
+   */
+  @SuppressWarnings("unchecked")
+  public static <E extends Comparable<? super E>> ImmutableSortedSet<E> of(
+      E e1, E e2, E e3, E e4, E e5, E e6, E... remaining) {
+    int size = remaining.length + 6;
+    List<E> all = new ArrayList<E>(size);
+    Collections.addAll(all, e1, e2, e3, e4, e5, e6);
+    Collections.addAll(all, remaining);
+    // This is a mess (see TODO at top of file)
+    return ofInternal(Ordering.natural(),
+        (Object[]) all.toArray(new Comparable[0]));
+  }
 
   // TODO: Consider adding factory methods that throw an exception when given
   // duplicate elements.
@@ -183,15 +205,28 @@ public abstract class ImmutableSortedSet<E>
    * {@link Comparable#compareTo}, only the first one specified is included.
    *
    * @throws NullPointerException if any of {@code elements} is null
+   * @deprecated use {@link #copyOf(Comparable[])}.
    */
+  @Deprecated
   public static <E extends Comparable<? super E>> ImmutableSortedSet<E> of(
-      E... elements) {
-    return ofInternal(Ordering.natural(), elements);
+      E[] elements) {
+    return copyOf(elements);
+  }
+  
+  /**
+   * Returns an immutable sorted set containing the given elements sorted by
+   * their natural ordering. When multiple elements are equivalent according to
+   * {@link Comparable#compareTo}, only the first one specified is included.
+   *
+   * @throws NullPointerException if any of {@code elements} is null
+   */
+  public static <E extends Comparable<? super E>> ImmutableSortedSet<E> copyOf(
+      E[] elements) {
+    return ofInternal(Ordering.natural(), (Object[]) elements);
   }
 
   private static <E> ImmutableSortedSet<E> ofInternal(
-      Comparator<? super E> comparator, E... elements) {
-    checkNotNull(elements); // for GWT
+      Comparator<? super E> comparator, Object... elements) {
     switch (elements.length) {
       case 0:
         return emptySet(comparator);
@@ -339,7 +374,8 @@ public abstract class ImmutableSortedSet<E>
    * <p><b>Note:</b> Despite what the method name suggests, if {@code sortedSet}
    * is an {@code ImmutableSortedSet}, it may be returned instead of a copy.
    *
-   * @throws NullPointerException if any of {@code elements} is null
+   * @throws NullPointerException if {@code sortedSet} or any of its elements
+   *     is null
    */
   @SuppressWarnings("unchecked")
   public static <E> ImmutableSortedSet<E> copyOfSorted(SortedSet<E> sortedSet) {
@@ -381,8 +417,7 @@ public abstract class ImmutableSortedSet<E>
 
   /** Simplified version of {@link Iterables#toArray} that is GWT safe. */
   private static <T> Object[] newObjectArray(Iterable<T> iterable) {
-    Collection<T> collection = (iterable instanceof Collection)
-        ? (Collection<T>) iterable : Lists.newArrayList(iterable);
+    Collection<T> collection = Collections2.toCollection(iterable);
     Object[] array = new Object[collection.size()];
     return collection.toArray(array);
   }
@@ -419,6 +454,42 @@ public abstract class ImmutableSortedSet<E>
           : comparator.equals(comparator2);
     }
     return false;
+  }
+
+  /**
+   * Returns an immutable sorted set containing the elements in the given list
+   * in the same order. It is useful when the elements already have the desired
+   * order but constructing the appropriate comparator is difficult.
+   *
+   * @throws NullPointerException if any of the elements is null
+   * @throws IllegalArgumentException if {@code elements} contains any
+   *     duplicate values (according to {@link Object#equals})
+   * @since 3
+   */
+  @Beta
+  public static <E> ImmutableSortedSet<E> withExplicitOrder(List<E> elements) {
+    return ExplicitOrderedImmutableSortedSet.create(elements);
+  }
+
+  /**
+   * Returns an immutable sorted set containing the provided elements in the
+   * same order. It is useful when the elements already have the desired order
+   * but constructing the appropriate comparator is difficult.
+   *
+   * @param firstElement the value which should appear first in the generated
+   *     set
+   * @param remainingElementsInOrder the rest of the values in the generated
+   *     set, in the order they should appear
+   * @throws NullPointerException if any of the elements is null
+   * @throws IllegalArgumentException if any duplicate values (according to
+   *     {@link Object#equals(Object)}) are present among the method arguments
+   * @since 3
+   */
+  @Beta
+  public static <E> ImmutableSortedSet<E> withExplicitOrder(
+      E firstElement, E... remainingElementsInOrder) {
+    return withExplicitOrder(
+        Lists.asList(firstElement, remainingElementsInOrder));
   }
 
   /**

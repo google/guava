@@ -37,8 +37,11 @@ import static com.google.common.base.Preconditions.checkPositionIndexes;
  * Static utility methods pertaining to {@code char} primitives, that are not
  * already found in either {@link Character} or {@link Arrays}.
  *
+ * <p>All the operations in this class treat {@code char} values strictly
+ * numerically; they are neither Unicode-aware nor locale-dependent.
+ *
  * @author Kevin Bourrillion
- * @since 2009.09.15 <b>tentative</b>
+ * @since 1
  */
 @GwtCompatible
 public final class Chars {
@@ -371,7 +374,7 @@ public final class Chars {
    *
    * @see <a href="http://en.wikipedia.org/wiki/Lexicographical_order">
    *     Lexicographical order</a> article at Wikipedia
-   * @since 2010.01.04 <b>tentative</b>
+   * @since 2
    */
   public static Comparator<char[]> lexicographicalComparator() {
     return LexicographicalComparator.INSTANCE;

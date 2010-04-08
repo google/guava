@@ -16,6 +16,7 @@
 
 package com.google.common.collect;
 
+import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Function;
@@ -47,7 +48,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
  *
  * @author Kevin Bourrillion
  * @author Jared Levy
- * @since 2010.01.04 <b>stable</b> (imported from Google Collections Library)
+ * @since 2 (imported from Google Collections Library)
  */
 @GwtCompatible
 public final class Iterables {
@@ -79,7 +80,7 @@ public final class Iterables {
 
   /**
    * Returns {@code true} if {@code iterable} contains {@code element}; that is,
-   * any object for while {@code equals(element)} is true.
+   * any object for which {@code equals(element)} is true.
    */
   public static boolean contains(Iterable<?> iterable, @Nullable Object element)
   {
@@ -143,7 +144,7 @@ public final class Iterables {
    *
    * @throws UnsupportedOperationException if the iterable does not support
    *     {@code remove()}.
-   * @since 2010.01.04 <b>tentative</b>
+   * @since 2
    */
   public static <T> boolean removeIf(
       Iterable<T> removeFrom, Predicate<? super T> predicate) {
@@ -170,14 +171,7 @@ public final class Iterables {
     }
 
     // Clear the tail of any remaining items
-    // Note: hand-written GWT-compatible version of
-    // list.subList(to, list.size()).clear();
-    ListIterator<T> iter = list.listIterator(list.size());
-    for (int idx = from - to; idx > 0; idx--) {
-      iter.previous();
-      iter.remove();
-    }
-
+    list.subList(to, list.size()).clear();
     return from != to;
   }
 
@@ -234,10 +228,7 @@ public final class Iterables {
    */
   @GwtIncompatible("Array.newInstance(Class, int)")
   public static <T> T[] toArray(Iterable<? extends T> iterable, Class<T> type) {
-    @SuppressWarnings("unchecked") // bugs.sun.com/view_bug.do?bug_id=6558557
-    Collection<? extends T> collection = (iterable instanceof Collection)
-        ? (Collection<? extends T>) iterable
-        : Lists.newArrayList(iterable);
+    Collection<? extends T> collection = Collections2.toCollection(iterable);
     T[] array = ObjectArrays.newArray(type, collection.size());
     return collection.toArray(array);
   }
@@ -391,7 +382,7 @@ public final class Iterables {
    * @throws NullPointerException if any of the provided iterables is null
    */
   public static <T> Iterable<T> concat(Iterable<? extends T>... inputs) {
-    return concat(ImmutableList.of(inputs));
+    return concat(ImmutableList.copyOf(inputs));
   }
 
   /**
@@ -570,7 +561,7 @@ public final class Iterables {
    * {@code predicate.apply(Iterables.get(iterable, i))} is {@code true} or
    * {@code -1} if there is no such index.
    *
-   * @since 2010.01.04 <b>tentative</b>
+   * @since 2
    */
   public static <T> int indexOf(
       Iterable<T> iterable, Predicate<? super T> predicate) {
@@ -616,12 +607,16 @@ public final class Iterables {
       Preconditions.checkElementIndex(position, collection.size());
     } else {
       // Can only check the lower end
-      if (position < 0) {
-        throw new IndexOutOfBoundsException(
-            "position cannot be negative: " + position);
-      }
+      checkNonnegativeIndex(position);
     }
     return Iterators.get(iterable.iterator(), position);
+  }
+
+  private static void checkNonnegativeIndex(int position) {
+    if (position < 0) {
+      throw new IndexOutOfBoundsException(
+          "position cannot be negative: " + position);
+    }
   }
 
   /**
@@ -638,15 +633,158 @@ public final class Iterables {
       if (list.isEmpty()) {
         throw new NoSuchElementException();
       }
-      return list.get(list.size() - 1);
+      return getLastInNonemptyList(list);
     }
 
+    // TODO: consider whether this "optimization" is worthwhile. Users with
+    // SortedSets tend to know they are SortedSets and probably would not
+    // call this method.
     if (iterable instanceof SortedSet) {
       SortedSet<T> sortedSet = (SortedSet<T>) iterable;
       return sortedSet.last();
     }
 
     return Iterators.getLast(iterable.iterator());
+  }
+
+  /**
+   * Returns the last element of {@code iterable} or {@code defaultValue} if
+   * the iterable is empty.
+   *
+   * @param defaultValue the value to return if {@code iterable} is empty
+   * @return the last element of {@code iterable} or the default value
+   * @since 3
+   */
+  public static <T> T getLast(Iterable<T> iterable, @Nullable T defaultValue) {
+    if (iterable instanceof Collection) {
+      Collection<T> collection = (Collection<T>) iterable;
+      if (collection.isEmpty()) {
+        return defaultValue;
+      }
+    }
+
+    if (iterable instanceof List) {
+      List<T> list = (List<T>) iterable;
+      return getLastInNonemptyList(list);
+    }
+
+    // TODO: consider whether this "optimization" is worthwhile. Users with
+    // SortedSets tend to know they are SortedSets and probably would not
+    // call this method.
+    if (iterable instanceof SortedSet) {
+      SortedSet<T> sortedSet = (SortedSet<T>) iterable;
+      return sortedSet.last();
+    }
+
+    return Iterators.getLast(iterable.iterator(), defaultValue);
+  }
+
+  private static <T> T getLastInNonemptyList(List<T> list) {
+    return list.get(list.size() - 1);
+  }
+
+  /**
+   * Returns a view of {@code iterable} that skips its first
+   * {@code numberToSkip} elements. If {@code iterable} contains fewer than
+   * {@code numberToSkip} elements, the returned iterable skips all of its
+   * elements.
+   *
+   * <p>Modifications to the underlying {@link Iterable} before a call to
+   * {@code iterator()} are reflected in the returned iterator. That is, the
+   * iterator skips the first {@code numberToSkip} elements that exist when the
+   * {@code Iterator} is created, not when {@code skip()} is called.
+   *
+   * <p>The returned iterable's iterator supports {@code remove()} if the
+   * iterator of the underlying iterable supports it. Note that it is
+   * <i>not</i> possible to delete the last skipped element by immediately
+   * calling {@code remove()} on that iterator, as the {@code Iterator}
+   * contract states that a call to {@code remove()} before a call to
+   * {@code next()} will throw an {@link IllegalStateException}.
+   *
+   * @since 3
+   */
+  @Beta // naming issue
+  public static <T> Iterable<T> skip(final Iterable<T> iterable,
+      final int numberToSkip) {
+    checkNotNull(iterable);
+    checkArgument(numberToSkip >= 0, "number to skip cannot be negative");
+
+    if (iterable instanceof List) {
+      final List<T> list = (List<T>) iterable;
+      return new IterableWithToString<T>() {
+        public Iterator<T> iterator() {
+          // TODO: Support a concurrent list whose size changes while this
+          // method is running.
+          return (numberToSkip >= list.size())
+              ? Iterators.<T>emptyIterator()
+              : list.subList(numberToSkip, list.size()).iterator();
+        }
+      };
+    }
+
+    return new IterableWithToString<T>() {
+      public Iterator<T> iterator() {
+        final Iterator<T> iterator = iterable.iterator();
+
+        Iterators.skip(iterator, numberToSkip);
+
+        /*
+         * We can't just return the iterator because an immediate call to its
+         * remove() method would remove one of the skipped elements instead of
+         * throwing an IllegalStateException.
+         */
+        return new Iterator<T>() {
+          boolean atStart = true;
+
+          public boolean hasNext() {
+            return iterator.hasNext();
+          }
+
+          public T next() {
+            if (!hasNext()) {
+              throw new NoSuchElementException();
+            }
+
+            try {
+              return iterator.next();
+            } finally {
+              atStart = false;
+            }
+          }
+
+          public void remove() {
+            if (atStart) {
+              throw new IllegalStateException();
+            }
+            iterator.remove();
+          }
+        };
+      }
+    };
+  }
+
+  /**
+   * Creates an iterable with the first {@code limitSize} elements of the given
+   * iterable. If the original iterable does not contain that many elements, the
+   * returned iterator will have the same behavior as the original iterable. The
+   * returned iterable's iterator supports {@code remove()} if the original
+   * iterator does.
+   *
+   * @param iterable the iterable to limit
+   * @param limitSize the maximum number of elements in the returned iterator
+   * @throws IllegalArgumentException if {@code limitSize} is negative
+   * @since 3
+   */
+  @Beta // naming issue
+  public static <T> Iterable<T> limit(
+      final Iterable<T> iterable, final int limitSize) {
+    checkNotNull(iterable);
+    checkArgument(limitSize >= 0, "limit is negative");
+    return new IterableWithToString<T>() {
+      public Iterator<T> iterator() {
+        return Iterators.limit(iterable.iterator(), limitSize);
+      }
+    };
   }
 
   /**
@@ -658,8 +796,9 @@ public final class Iterables {
    *     through {@link Iterators#consumingIterator(Iterator)}
    *
    * @see Iterators#consumingIterator(Iterator)
-   * @since 2010.01.04 <b>tentative</b>
+   * @since 2
    */
+  @Beta
   public static <T> Iterable<T> consumingIterable(final Iterable<T> iterable) {
     checkNotNull(iterable);
     return new Iterable<T>() {
