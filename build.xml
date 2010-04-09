@@ -73,7 +73,7 @@
 
   <target name="zipsrc" description="Build zip of source.">
     <mkdir dir="build/dist/guava-r${release}"/>
-    <jar jarfile="build/dist/guava-r${release}/src-r${release}.zip">
+    <jar jarfile="build/dist/guava-r${release}/guava-src-r${release}.zip">
       <fileset dir="src"/>
     </jar>
   </target>
