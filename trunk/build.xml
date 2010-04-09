@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+
+<project name="guava" default="compile">
+
+  <!-- can be overridden at the command line with -Dversion=
+       or in IDEA, in the ant properties dialog -->
+  <property name="version" value="snapshot"/>
+
+  <target name="compile" description="Compile Java source.">
+    <mkdir dir="build/classes"/>
+
+    <property environment="env"/>
+    <property name="java5bootclasspath" value="${env.JAVA5_HOME}/jre/lib/rt.jar"/>
+
+    <available file="${java5bootclasspath}" property="isJava5HomeSetRight"/>
+    <fail unless="isJava5HomeSetRight" 
+          message="JAVA5_HOME must be set to a valid JDK 1.5 installation, containing a jre/lib/rt.jar file"/>
+
+    <!-- why does this still allow @Override on interface impl? -->
+    <javac srcdir="src"
+         debug="on"
+         destdir="build/classes"
+         source="1.5"
+         target="1.5"
+         bootclasspath="${java5bootclasspath}"
+         extdirs="">
+      <classpath>
+        <pathelement location="lib/jsr305.jar"/>
+      </classpath>
+    </javac>
+  </target>
+
+  <target name="clean"
+      description="Remove generated files.">
+    <delete dir="build"/>
+  </target>
+
+  <target name="javadoc"
+      description="Generate Javadocs.">
+    <delete dir="build/javadoc"/>
+    <mkdir dir="build/javadoc"/>
+    <javadoc packagenames="com.google.common.annotations,com.google.common.base,com.google.common.collect,com.google.common.io,com.google.common.primitives,com.google.common.util.concurrent"
+         destdir="build/javadoc"
+         use="true"
+         author="true"
+         protected="true"
+         windowtitle="Guava Libraries ${version}">
+      <sourcepath>
+        <pathelement location="src"/>
+      </sourcepath>
+      <!-- workaround for http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6442982 -->
+      <classpath>
+        <pathelement location="lib/jsr305.jar"/>
+      </classpath>
+      <link href="http://jsr-305.googlecode.com/svn/trunk/javadoc"/>
+      <link href="http://java.sun.com/javase/6/docs/api"/>
+    </javadoc>
+  </target>
+</project>
