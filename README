@@ -1,0 +1,28 @@
+Guava: Google Core Libraries for Java
+
+Requires JDK 5 or higher.
+
+Project page:
+  http://guava-libraries.googlecode.com
+
+Ask "how-to" and "why-didn't-it-work" questions at:
+  http://www.stackoverflow.com/questions/ask
+  (use the "guava" tag so we'll see it)
+
+Ask discussion questions at:
+  http://groups.google.com/group/guava-discuss
+
+Subscribe to project updates in your feed reader:
+  http://code.google.com/feeds/p/guava-libraries/updates/basic
+
+Warnings:
+
+All APIs marked @Beta at the class or method level are subject to
+change. If your code is a library or framework that users outside
+your control will include on their classpath, do not use @Beta
+APIs (at least without repackaging them somehow).
+
+Serialized forms of ALL objects are subject to change. Do not
+persist these and assume they can be read by a future version of
+the library.
+

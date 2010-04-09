@@ -27,16 +27,22 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * Old location of {@link MoreExecutors}.
+ *
+ * @deprecated use {@link MoreExecutors}
  */
 @Beta // TODO: delete after Guava release 3
+@Deprecated
 public final class Executors {
   private Executors() {}
 
   /**
    * Old location of {@link MoreExecutors#getExitingExecutorService(
    * ThreadPoolExecutor, long, TimeUnit)}.
+   *
+   * @deprecated use {@link MoreExecutors#getExitingExecutorService(
+   * ThreadPoolExecutor, long, TimeUnit)}.
    */
-  public static ExecutorService getExitingExecutorService(
+  @Deprecated public static ExecutorService getExitingExecutorService(
       ThreadPoolExecutor executor, long terminationTimeout, TimeUnit timeUnit) {
     return MoreExecutors.getExitingExecutorService(
         executor, terminationTimeout, timeUnit);
@@ -45,7 +51,11 @@ public final class Executors {
   /**
    * Old location of {@link MoreExecutors#getExitingScheduledExecutorService(
    * ScheduledThreadPoolExecutor, long, TimeUnit)}.
+   *
+   * @deprecated use {@link MoreExecutors#getExitingScheduledExecutorService(
+   * ScheduledThreadPoolExecutor, long, TimeUnit)}.
    */
+  @Deprecated
   public static ScheduledExecutorService getExitingScheduledExecutorService(
       ScheduledThreadPoolExecutor executor, long terminationTimeout,
       TimeUnit timeUnit) {
@@ -56,8 +66,11 @@ public final class Executors {
   /**
    * Old location of {@link MoreExecutors#addDelayedShutdownHook(
    * ExecutorService, long, TimeUnit)}.
+   *
+   * @deprecated use {@link MoreExecutors#addDelayedShutdownHook(
+   * ExecutorService, long, TimeUnit)}.
    */
-  public static void addDelayedShutdownHook(
+  @Deprecated public static void addDelayedShutdownHook(
       final ExecutorService service, final long terminationTimeout,
       final TimeUnit timeUnit) {
     MoreExecutors.addDelayedShutdownHook(service, terminationTimeout, timeUnit);
@@ -66,8 +79,11 @@ public final class Executors {
   /**
    * Old location of {@link MoreExecutors#getExitingExecutorService(
    * ThreadPoolExecutor)}.
+   *
+   * @deprecated use {@link MoreExecutors#getExitingExecutorService(
+   * ThreadPoolExecutor)}.
    */
-  public static ExecutorService getExitingExecutorService(
+  @Deprecated public static ExecutorService getExitingExecutorService(
       ThreadPoolExecutor executor) {
     return MoreExecutors.getExitingExecutorService(executor);
   }
@@ -75,7 +91,11 @@ public final class Executors {
   /**
    * Old location of {@link MoreExecutors#getExitingScheduledExecutorService(
    * ScheduledThreadPoolExecutor)}.
+   *
+   * @deprecated use {@link MoreExecutors#getExitingScheduledExecutorService(
+   * ScheduledThreadPoolExecutor)}.
    */
+  @Deprecated
   public static ScheduledExecutorService getExitingScheduledExecutorService(
       ScheduledThreadPoolExecutor executor) {
     return MoreExecutors.getExitingScheduledExecutorService(executor);
@@ -83,22 +103,29 @@ public final class Executors {
 
   /**
    * Old location of {@link MoreExecutors#daemonThreadFactory()}.
+   *
+   * @deprecated use {@link MoreExecutors#daemonThreadFactory()}.
    */
-  public static ThreadFactory daemonThreadFactory() {
+  @Deprecated public static ThreadFactory daemonThreadFactory() {
     return MoreExecutors.daemonThreadFactory();
   }
 
   /**
    * Old location of {@link MoreExecutors#daemonThreadFactory(ThreadFactory)}.
+   *
+   * @deprecated use {@link MoreExecutors#daemonThreadFactory(ThreadFactory)}.
    */
+  @Deprecated
   public static ThreadFactory daemonThreadFactory(ThreadFactory factory) {
     return MoreExecutors.daemonThreadFactory(factory);
   }
 
   /**
    * Old location of {@link MoreExecutors#sameThreadExecutor()}.
+   *
+   * @deprecated use {@link MoreExecutors#sameThreadExecutor()}.
    */
-  public static ExecutorService sameThreadExecutor() {
+  @Deprecated public static ExecutorService sameThreadExecutor() {
     return MoreExecutors.sameThreadExecutor();
   }
 }

@@ -60,7 +60,7 @@
          windowtitle="Guava: Google Core Libraries for Java - release ${release}">
       <sourcepath>
         <pathelement location="src"/>
-        <pathelement location="${env.JAVA_HOME}/src"/>
+        <pathelement location="/home/kevinb/latestjavadocs"/> <!-- I know, I know... -->
       </sourcepath>
       <!-- workaround for http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6442982 -->
       <classpath>
@@ -81,6 +81,7 @@
   <target name="dist" depends="jar, zipsrc, javadoc"
        description="Build entire distribution.">
     <copy toDir="build/dist/guava-r${release}" file="COPYING"/>
+    <copy toDir="build/dist/guava-r${release}" file="README"/>
     <copy toDir="build/dist/guava-r${release}">
       <fileset dir="build" includes="javadoc/**/*"/>
     </copy>

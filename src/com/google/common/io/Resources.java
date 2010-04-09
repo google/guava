@@ -30,7 +30,7 @@ import java.util.List;
 
 /**
  * Provides utility methods for working with resources in the classpath.
- * Note that even those these methods use {@link URL} parameters, they
+ * Note that even though these methods use {@link URL} parameters, they
  * are usually not appropriate for HTTP or other non-classpath resources.
  *
  * <p>All method parameters must be non-null unless documented otherwise.
