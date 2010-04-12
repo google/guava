@@ -31,6 +31,20 @@
     <developerConnection>scm:svn:https://guava-libraries.googlecode.com/svn/trunk/</developerConnection>
     <url>http://code.google.com/p/guava-libraries/source/browse</url>
   </scm>
+  <developers>
+    <developer>
+      <id>kevinb9n</id>
+      <name>Kevin Bourillion</name>
+      <email>kevinb@google.com</email>
+      <organization>Google</organization>
+      <organizationUrl>http://www.google.com</organizationUrl>
+      <roles>
+        <role>owner</role>
+        <role>developer</role>
+      </roles>
+      <timezone>-8</timezone>
+    </developer>
+  </developers>
   <build>
     <plugins>
       <plugin>
