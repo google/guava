@@ -31,20 +31,6 @@
     <developerConnection>scm:svn:https://guava-libraries.googlecode.com/svn/trunk/</developerConnection>
     <url>http://code.google.com/p/guava-libraries/source/browse</url>
   </scm>
-  <!-- this is temporarily copied from the parent pom.  remove this section when that is used -->
-  <distributionManagement>
-    <repository>
-      <id>google-maven-repository</id>
-      <name>Google Maven Repository</name>
-      <url>file:///tmp/maven2/</url>
-    </repository>
-    <snapshotRepository>
-      <id>google-maven-snapshot-repository</id>
-      <name>Google Maven Snapshot Repository</name>
-      <url>file:///tmp/maven2/</url>
-      <uniqueVersion>true</uniqueVersion>
-    </snapshotRepository>
-  </distributionManagement>
   <build>
     <plugins>
       <plugin>
