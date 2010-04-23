@@ -35,6 +35,9 @@ import java.util.SortedSet;
 public abstract class ForwardingSortedSet<E> extends ForwardingSet<E>
     implements SortedSet<E> {
 
+  /** Constructor for use by subclasses. */
+  protected ForwardingSortedSet() {}
+
   @Override protected abstract SortedSet<E> delegate();
 
   public Comparator<? super E> comparator() {

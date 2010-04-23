@@ -70,7 +70,8 @@ public final class Lists {
    * elements.
    *
    * <p><b>Note:</b> if mutability is not required and the elements are
-   * non-null, use {@link ImmutableList#of(Object[])} instead.
+   * non-null, use an overload of {@link ImmutableList#of()} (for varargs) or
+   * {@link ImmutableList#copyOf(Object[])} (for an array) instead.
    *
    * @param elements the elements that the list should contain, in order
    * @return a new {@code ArrayList} containing those elements

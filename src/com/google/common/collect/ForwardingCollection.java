@@ -35,6 +35,9 @@ import java.util.Iterator;
 public abstract class ForwardingCollection<E> extends ForwardingObject
     implements Collection<E> {
 
+  /** Constructor for use by subclasses. */
+  protected ForwardingCollection() {}
+
   @Override protected abstract Collection<E> delegate();
 
   public Iterator<E> iterator() {

@@ -36,6 +36,9 @@ import javax.annotation.Nullable;
 public abstract class ForwardingMapEntry<K, V>
     extends ForwardingObject implements Map.Entry<K, V> {
 
+  /** Constructor for use by subclasses. */
+  protected ForwardingMapEntry() {}
+
   @Override protected abstract Map.Entry<K, V> delegate();
 
   public K getKey() {

@@ -4,9 +4,11 @@
 
   You must:
    * have JAVA_HOME set to a recent JDK 6 installation
-   * have JAVA5_HOME set to a recent JDK 1.5.0 installation
-   * have unzipped $JAVA_HOME/src.zip to $JAVA_HOME/src
-   * specify -Drelease=03 (for example) on the ant command line
+   * have JAVA5_HOME set to a recent JDK 1.5.0 installation, 
+     or specify this with -Djava5home=
+   * have unzipped $JAVA_HOME/src.zip to $JAVA_HOME/src,
+     or specify this with -Djavasrc=
+   * specify -Drelease=04 (for example) on the ant command line
 
 -->
 
@@ -14,14 +16,17 @@
 
   <property environment="env"/>
 
-  <!-- can be overridden at the command line with -Drelease=
-       or in IDEA, in the ant properties dialog -->
+  <!-- these properties can be overridden at the command line with
+       -Dname=value, or in IDEA in the ant properties dialog -->
+
   <property name="release" value="SNAPSHOT"/>
+  <property name="java5home" value="${env.JAVA5_HOME}" />
+  <property name="javasrc" value="${env.JAVA_HOME}/src" />
 
   <target name="compile" description="Compile Java source.">
     <mkdir dir="build/classes"/>
 
-    <property name="java5bootclasspath" value="${env.JAVA5_HOME}/jre/lib/rt.jar"/>
+    <property name="java5bootclasspath" value="${java5home}/jre/lib/rt.jar"/>
 
     <available file="${java5bootclasspath}" property="isJava5HomeSetRight"/>
     <fail unless="isJava5HomeSetRight" 
@@ -60,7 +65,7 @@
          windowtitle="Guava: Google Core Libraries for Java - release ${release}">
       <sourcepath>
         <pathelement location="src"/>
-        <pathelement location="/home/kevinb/latestjavadocs"/> <!-- I know, I know... -->
+        <pathelement location="${javasrc}"/> <!-- I know, I know... -->
       </sourcepath>
       <!-- workaround for http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6442982 -->
       <classpath>

@@ -56,6 +56,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
  *
  * @author Kevin Bourrillion
  * @author Jared Levy
+ * @author Chris Povirk
  * @since 2 (imported from Google Collections Library)
  */
 @GwtCompatible
@@ -160,7 +161,8 @@ public final class Sets {
    * elements in unspecified order.
    *
    * <p><b>Note:</b> if mutability is not required and the elements are
-   * non-null, use {@link ImmutableSet#of(Object[])} instead.
+   * non-null, use an overload of {@link ImmutableSet#of()} (for varargs) or
+   * {@link ImmutableSet#copyOf(Object[])} (for an array) instead.
    *
    * <p><b>Note:</b> if {@code E} is an {@link Enum} type, use {@link
    * EnumSet#of(Enum, Enum[])} instead.
@@ -752,7 +754,7 @@ public final class Sets {
    * <a href="http://en.wikipedia.org/wiki/Cartesian_product">Cartesian
    * product</a>" of the sets. For example: <pre class="code">   {@code
    *
-   *   cartesianProduct(ImmutableList.of(
+   *   Sets.cartesianProduct(ImmutableList.of(
    *       ImmutableSet.of(1, 2),
    *       ImmutableSet.of("A", "B", "C")))}</pre>
    *
@@ -773,6 +775,12 @@ public final class Sets {
    * empty, the Cartesian product will also be empty. If no sets at all are
    * provided (an empty list), the resulting Cartesian product has one element,
    * an empty list (counter-intuitive, but mathematically consistent).
+   *
+   * <p><i>Performance notes:</i> while the cartesian product of sets of size
+   * {@code m, n, p} is a set of size {@code m x n x p}, its actual memory
+   * consumption is much smaller. When the cartesian set is constructed, the
+   * input sets are merely copied. Only as the resulting set is iterated are the
+   * individual lists created, and these are not retained after iteration.
    *
    * @param sets the sets to choose elements from, in the order that
    *     the elements chosen from those sets should appear in the resulting
@@ -797,12 +805,12 @@ public final class Sets {
    * <a href="http://en.wikipedia.org/wiki/Cartesian_product">Cartesian
    * product</a>" of the sets. For example: <pre class="code">   {@code
    *
-   *   cartesianProduct(
+   *   Sets.cartesianProduct(
    *       ImmutableSet.of(1, 2),
    *       ImmutableSet.of("A", "B", "C"))}</pre>
    *
    * returns a set containing six lists:
-   w
+   *
    * <ul>
    * <li>{@code ImmutableList.of(1, "A")}
    * <li>{@code ImmutableList.of(1, "B")}
@@ -818,6 +826,12 @@ public final class Sets {
    * empty, the Cartesian product will also be empty. If no sets at all are
    * provided, the resulting Cartesian product has one element, an empty list
    * (counter-intuitive, but mathematically consistent).
+   *
+   * <p><i>Performance notes:</i> while the cartesian product of sets of size
+   * {@code m, n, p} is a set of size {@code m x n x p}, its actual memory
+   * consumption is much smaller. When the cartesian set is constructed, the
+   * input sets are merely copied. Only as the resulting set is iterated are the
+   * individual lists created, and these are not retained after iteration.
    *
    * @param sets the sets to choose elements from, in the order that
    *     the elements chosen from those sets should appear in the resulting
@@ -901,8 +915,8 @@ public final class Sets {
     @Override public boolean equals(@Nullable Object object) {
       // Warning: this is broken if size() == 0, so it is critical that we
       // substitute an empty ImmutableSet to the user in place of this
-      if (object instanceof CartesianSet<?>) {
-        CartesianSet<?> that = (CartesianSet) object;
+      if (object instanceof CartesianSet) {
+        CartesianSet<?> that = (CartesianSet<?>) object;
         return this.axes.equals(that.axes);
       }
       return super.equals(object);
@@ -922,10 +936,12 @@ public final class Sets {
 
     private class Axis {
       final ImmutableSet<? extends B> choices;
+      final ImmutableList<? extends B> choicesList;
       final int dividend;
 
       Axis(Set<? extends B> set, int dividend) {
         choices = ImmutableSet.copyOf(set);
+        choicesList = choices.asList();
         this.dividend = dividend;
       }
 
@@ -934,13 +950,14 @@ public final class Sets {
       }
 
       B getForIndex(int index) {
-        return choices.asList().get(index / dividend % size());
+        return choicesList.get(index / dividend % size());
       }
 
       boolean contains(Object target) {
         return choices.contains(target);
       }
 
+      @SuppressWarnings("unchecked") // javac rejects "CartesianSet<?>.Axis"
       @Override public boolean equals(Object obj) {
         if (obj instanceof CartesianSet.Axis) {
           CartesianSet.Axis that = (CartesianSet.Axis) obj;
@@ -951,10 +968,139 @@ public final class Sets {
       }
 
       @Override public int hashCode() {
-        // an opportunistic formula chosen because it happens to make
-        // CartesianSet.hashCode() work!
+        // Because Axis instances are not exposed, we can
+        // opportunistically choose whatever bizarre formula happens
+        // to make CartesianSet.hashCode() as simple as possible.
         return size / choices.size() * choices.hashCode();
       }
+    }
+  }
+
+  /**
+   * Returns the set of all possible subsets of {@code set}. For example,
+   * {@code powerSet(ImmutableSet.of(1, 2))} returns the set {@code {{},
+   * {1}, {2}, {1, 2}}}.
+   *
+   * <p>Elements appear in these subsets in the same iteration order as they
+   * appeared in the input set. The order in which these subsets appear in the
+   * outer set is undefined. Note that the power set of the empty set is not the
+   * empty set, but a one-element set containing the empty set.
+   *
+   * <p>The returned set and its constituent sets use {@code equals} to decide
+   * whether two elements are identical, even if the input set uses a different
+   * concept of equivalence.
+   *
+   * <p><i>Performance notes:</i> while the power set of a set with size {@code
+   * n} is of size {@code 2^n}, its memory usage is only {@code O(n)}. When the
+   * power set is constructed, the input set is merely copied. Only as the
+   * power set is iterated are the individual subsets created, and these subsets
+   * themselves occupy only a few bytes of memory regardless of their size.
+   *
+   * @param set the set of elements to construct a power set from
+   * @return the power set, as an immutable set of immutable sets
+   * @throws IllegalArgumentException if {@code set} has more than 30 unique
+   *     elements (causing the power set size to exceed the {@code int} range)
+   * @throws NullPointerException if {@code set} or any of its elements is
+   *     null
+   * @see <a href="http://en.wikipedia.org/wiki/Power_set">Power set article</a>
+   *     at Wikipedia
+   * @since 4
+   */
+  @GwtCompatible(serializable = false)
+  public static <E> Set<Set<E>> powerSet(Set<E> set) {
+    ImmutableSet<E> input = ImmutableSet.copyOf(set);
+    checkArgument(input.size() <= 30,
+        "Too many elements to create power set: %s > 30", input.size());
+    return new PowerSet<E>(input);
+  }
+
+  private static final class PowerSet<E> extends AbstractSet<Set<E>> {
+    final ImmutableSet<E> inputSet;
+    final ImmutableList<E> inputList;
+    final int powerSetSize;
+
+    PowerSet(ImmutableSet<E> input) {
+      this.inputSet = input;
+      this.inputList = input.asList();
+      this.powerSetSize = 1 << input.size();
+    }
+
+    @Override public int size() {
+      return powerSetSize;
+    }
+
+    @Override public boolean isEmpty() {
+      return false;
+    }
+
+    @Override public Iterator<Set<E>> iterator() {
+      return new AbstractIndexedIterator<Set<E>>(powerSetSize) {
+        @Override protected Set<E> get(final int setBits) {
+          return new AbstractSet<E>() {
+            @Override public int size() {
+              return Integer.bitCount(setBits);
+            }
+            @Override public Iterator<E> iterator() {
+              return new BitFilteredSetIterator<E>(inputList, setBits);
+            }
+          };
+        }
+      };
+    }
+
+    private static final class BitFilteredSetIterator<E>
+        extends UnmodifiableIterator<E> {
+      final ImmutableList<E> input;
+      int remainingSetBits;
+
+      BitFilteredSetIterator(ImmutableList<E> input, int allSetBits) {
+        this.input = input;
+        this.remainingSetBits = allSetBits;
+      }
+
+      @Override public boolean hasNext() {
+        return remainingSetBits != 0;
+      }
+
+      @Override public E next() {
+        int index = Integer.numberOfTrailingZeros(remainingSetBits);
+        if (index == 32) {
+          throw new NoSuchElementException();
+        }
+
+        int currentElementMask = 1 << index;
+        remainingSetBits &= ~currentElementMask;
+        return input.get(index);
+      }
+    }
+
+    @Override public boolean contains(@Nullable Object obj) {
+      if (obj instanceof Set) {
+        Set<?> set = (Set<?>) obj;
+        return inputSet.containsAll(set);
+      }
+      return false;
+    }
+
+    @Override public boolean equals(@Nullable Object obj) {
+      if (obj instanceof PowerSet) {
+        PowerSet<?> that = (PowerSet<?>) obj;
+        return inputSet.equals(that.inputSet);
+      }
+      return super.equals(obj);
+    }
+
+    @Override public int hashCode() {
+      /*
+       * The sum of the sums of the hash codes in each subset is just the sum of
+       * each input element's hash code times the number of sets that element
+       * appears in. Each element appears in exactly half of the 2^n sets, so:
+       */
+      return inputSet.hashCode() << (inputSet.size() - 1);
+    }
+
+    @Override public String toString() {
+      return "powerSet(" + inputSet + ")";
     }
   }
 

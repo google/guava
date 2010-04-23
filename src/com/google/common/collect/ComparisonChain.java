@@ -16,7 +16,6 @@
 
 package com.google.common.collect;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.primitives.Booleans;
 import com.google.common.primitives.Ints;
@@ -51,7 +50,6 @@ import javax.annotation.Nullable;
  * @author Kevin Bourrillion
  * @since 2
  */
-@Beta
 @GwtCompatible
 public abstract class ComparisonChain {
   private ComparisonChain() {}

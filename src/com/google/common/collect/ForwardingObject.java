@@ -52,7 +52,7 @@ import java.io.Serializable;
 @GwtCompatible
 public abstract class ForwardingObject {
 
-  /** Sole constructor. */
+  /** Constructor for use by subclasses. */
   protected ForwardingObject() {}
 
   /**

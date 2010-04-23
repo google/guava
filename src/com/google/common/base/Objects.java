@@ -16,7 +16,6 @@
 
 package com.google.common.base;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.VisibleForTesting;
 
@@ -93,7 +92,6 @@ public final class Objects {
    *
    * @since 2
    */
-  @Beta
   public static ToStringHelper toStringHelper(Object object) {
     return new ToStringHelper(object);
   }
@@ -109,7 +107,6 @@ public final class Objects {
    *     {@code null}
    * @since 3
    */
-  @Beta
   public static <T> T firstNonNull(@Nullable T first, @Nullable T second) {
     return first != null ? first : Preconditions.checkNotNull(second);
   }
@@ -120,7 +117,6 @@ public final class Objects {
    * @author Jason Lee
    * @since 2
    */
-  @Beta
   public static class ToStringHelper {
     private final List<String> fieldString = new ArrayList<String>();
     private final Object instance;

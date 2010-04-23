@@ -41,6 +41,9 @@ import javax.annotation.Nullable;
 public abstract class ForwardingList<E> extends ForwardingCollection<E>
     implements List<E> {
 
+  /** Constructor for use by subclasses. */
+  protected ForwardingList() {}
+
   @Override protected abstract List<E> delegate();
 
   public void add(int index, E element) {

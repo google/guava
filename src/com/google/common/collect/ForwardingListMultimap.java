@@ -36,6 +36,9 @@ import javax.annotation.Nullable;
 public abstract class ForwardingListMultimap<K, V>
     extends ForwardingMultimap<K, V> implements ListMultimap<K, V> {
 
+  /** Constructor for use by subclasses. */
+  protected ForwardingListMultimap() {}
+
   @Override protected abstract ListMultimap<K, V> delegate();
 
   @Override public List<V> get(@Nullable K key) {

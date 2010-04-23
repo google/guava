@@ -36,6 +36,9 @@ import javax.annotation.Nullable;
 public abstract class ForwardingSet<E> extends ForwardingCollection<E>
     implements Set<E> {
 
+  /** Constructor for use by subclasses. */
+  protected ForwardingSet() {}
+
   @Override protected abstract Set<E> delegate();
 
   @Override public boolean equals(@Nullable Object object) {

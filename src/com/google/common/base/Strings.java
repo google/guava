@@ -16,15 +16,13 @@
 
 package com.google.common.base;
 
-import static com.google.common.base.Preconditions.checkArgument;
-
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
-
 
 import java.util.Formatter;
 
 import javax.annotation.Nullable;
+
+import static com.google.common.base.Preconditions.checkArgument;
 
 /**
  * Static utility methods pertaining to {@code String} or {@code CharSequence}
@@ -33,7 +31,6 @@ import javax.annotation.Nullable;
  * @author Kevin Bourrillion
  * @since 3
  */
-@Beta
 @GwtCompatible
 public final class Strings {
   private Strings() {}

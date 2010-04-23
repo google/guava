@@ -32,6 +32,9 @@ import java.util.concurrent.Future;
 public abstract class ForwardingService extends ForwardingObject
     implements Service {
 
+  /** Constructor for use by subclasses. */
+  protected ForwardingService() {}
+
   @Override protected abstract Service delegate();
 
   /*@Override*/ public Future<State> start() {

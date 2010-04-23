@@ -20,7 +20,6 @@ import com.google.common.annotations.Beta;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
-import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * A ThreadFactory which decorates another ThreadFactory to set a name on
@@ -29,11 +28,9 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @author Kevin Bourrillion
  * @since 1
  */
-@Beta
+@Beta // TODO: Deprecate this class.
 public class NamingThreadFactory implements ThreadFactory {
-  private final ThreadFactory backingFactory;
-  private final String format;
-  private final AtomicInteger count = new AtomicInteger(0);
+  private final ThreadFactory delegate;
 
   public static final ThreadFactory DEFAULT_FACTORY
       = Executors.defaultThreadFactory();
@@ -63,18 +60,13 @@ public class NamingThreadFactory implements ThreadFactory {
    * @throws java.util.IllegalFormatException if {@code format} is invalid
    */
   public NamingThreadFactory(String format, ThreadFactory backingFactory) {
-    this.format = format;
-    this.backingFactory = backingFactory;
-    makeName(0); // fail fast if format is bad
+    this.delegate = new ThreadFactoryBuilder()
+        .setNameFormat(format)
+        .setThreadFactory(backingFactory)
+        .build();
   }
 
   public Thread newThread(Runnable r) {
-    Thread t = backingFactory.newThread(r);
-    t.setName(makeName(count.getAndIncrement()));
-    return t;
-  }
-
-  private String makeName(int ordinal) {
-    return String.format(format, ordinal);
+    return delegate.newThread(r);
   }
 }

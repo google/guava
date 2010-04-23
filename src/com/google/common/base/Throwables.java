@@ -17,7 +17,6 @@
 package com.google.common.base;
 
 import com.google.common.annotations.Beta;
-import static com.google.common.base.Preconditions.checkNotNull;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -27,6 +26,8 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 /**
  * Static utility methods pertaining to instances of {@link Throwable}.
  *
@@ -34,7 +35,6 @@ import javax.annotation.Nullable;
  * @author Ben Yu
  * @since 1
  */
-@Beta
 public final class Throwables {
   private Throwables() {}
 
@@ -189,6 +189,7 @@ public final class Throwables {
    * @return an unmodifiable list containing the cause chain starting with
    *     {@code throwable}
    */
+  @Beta
   public static List<Throwable> getCausalChain(Throwable throwable) {
     checkNotNull(throwable);
     List<Throwable> causes = new ArrayList<Throwable>(4);
@@ -224,6 +225,7 @@ public final class Throwables {
    *     replaced by the concatenation of the trace from the exception and the
    *     trace from the cause.
    */
+  @Beta
   public static Exception throwCause(Exception exception,
       boolean combineStackTraces) throws Exception {
     Throwable cause = exception.getCause();

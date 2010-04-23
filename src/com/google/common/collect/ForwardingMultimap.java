@@ -39,6 +39,9 @@ import javax.annotation.Nullable;
 public abstract class ForwardingMultimap<K, V> extends ForwardingObject
     implements Multimap<K, V> {
 
+  /** Constructor for use by subclasses. */
+  protected ForwardingMultimap() {}
+
   @Override protected abstract Multimap<K, V> delegate();
 
   public Map<K, Collection<V>> asMap() {

@@ -36,6 +36,9 @@ import javax.annotation.Nullable;
 public abstract class ForwardingMultiset<E> extends ForwardingCollection<E>
     implements Multiset<E> {
 
+  /** Constructor for use by subclasses. */
+  protected ForwardingMultiset() {}
+
   @Override protected abstract Multiset<E> delegate();
 
   public int count(Object element) {

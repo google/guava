@@ -35,6 +35,9 @@ import java.util.SortedMap;
 public abstract class ForwardingSortedMap<K, V> extends ForwardingMap<K, V>
     implements SortedMap<K, V> {
 
+  /** Constructor for use by subclasses. */
+  protected ForwardingSortedMap() {}
+
   @Override protected abstract SortedMap<K, V> delegate();
 
   public Comparator<? super K> comparator() {

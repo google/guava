@@ -620,6 +620,32 @@ public final class Iterables {
   }
 
   /**
+   * Returns the element at the specified position in an iterable or a default
+   * value otherwise.
+   *
+   * @param position position of the element to return
+   * @param defaultValue the default value to return if {@code position} is
+   *     greater than or equal to the size of the iterable
+   * @return the element at the specified position in {@code iterable} or
+   *     {@code defaultValue} if {@code iterable} contains fewer than
+   *     {@code position + 1} elements.
+   * @throws IndexOutOfBoundsException if {@code position} is negative
+   * @since 4
+   */
+  @Beta
+  public static <T> T get(Iterable<T> iterable, int position,
+      @Nullable T defaultValue) {
+    checkNotNull(iterable);
+    checkNonnegativeIndex(position);
+
+    try {
+      return get(iterable, position);
+    } catch (IndexOutOfBoundsException e) {
+      return defaultValue;
+    }
+  }
+
+  /**
    * Returns the last element of {@code iterable}.
    *
    * @return the last element of {@code iterable}

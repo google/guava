@@ -34,6 +34,9 @@ import java.util.ListIterator;
 public abstract class ForwardingListIterator<E> extends ForwardingIterator<E>
     implements ListIterator<E> {
 
+  /** Constructor for use by subclasses. */
+  protected ForwardingListIterator() {}
+
   @Override protected abstract ListIterator<E> delegate();
 
   public void add(E element) {

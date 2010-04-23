@@ -94,8 +94,8 @@ public final class MoreExecutors {
       TimeUnit timeUnit) {
     executor.setThreadFactory(daemonThreadFactory(executor.getThreadFactory()));
 
-    ScheduledExecutorService service = Executors
-        .unconfigurableScheduledExecutorService(executor);
+    ScheduledExecutorService service =
+        Executors.unconfigurableScheduledExecutorService(executor);
 
     addDelayedShutdownHook(service, terminationTimeout, timeUnit);
 
@@ -175,11 +175,13 @@ public final class MoreExecutors {
 
   /**
    * Returns a {@link ThreadFactory} which creates daemon threads. This is
-   * implemented by wrapping {@link java.util.concurrent.Executors#defaultThreadFactory()}, marking
-   * all new threads as daemon threads
+   * implemented by wrapping {@link
+   * java.util.concurrent.Executors#defaultThreadFactory()}, marking all new
+   * threads as daemon threads.
    *
    * @return a {@link ThreadFactory} which creates daemon threads
    */
+  // TODO: Deprecate this method.
   public static ThreadFactory daemonThreadFactory() {
     return daemonThreadFactory(Executors.defaultThreadFactory());
   }
@@ -191,8 +193,12 @@ public final class MoreExecutors {
    * @return a new {@link ThreadFactory} backed by {@code factory} whose created
    *         threads are all daemon threads
    */
+  // TODO: Deprecate this method.
   public static ThreadFactory daemonThreadFactory(ThreadFactory factory) {
-    return new DaemonThreadFactory(factory);
+    return new ThreadFactoryBuilder()
+        .setThreadFactory(factory)
+        .setDaemon(true)
+        .build();
   }
 
   /**

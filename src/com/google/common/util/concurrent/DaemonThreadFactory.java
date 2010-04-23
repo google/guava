@@ -17,7 +17,6 @@
 package com.google.common.util.concurrent;
 
 import com.google.common.annotations.Beta;
-import com.google.common.base.Preconditions;
 
 import java.util.concurrent.ThreadFactory;
 
@@ -28,19 +27,18 @@ import java.util.concurrent.ThreadFactory;
  * @author Harendra Verma
  * @since 1
  */
-@Beta
+@Beta // TODO: Deprecate this class.
 public class DaemonThreadFactory implements ThreadFactory {
-
-  private final ThreadFactory factory;
+  private final ThreadFactory delegate;
 
   public DaemonThreadFactory(ThreadFactory factory) {
-    Preconditions.checkNotNull(factory);
-    this.factory = factory;
+    this.delegate = new ThreadFactoryBuilder()
+        .setThreadFactory(factory)
+        .setDaemon(true)
+        .build();
   }
 
   public Thread newThread(Runnable r) {
-    Thread t = factory.newThread(r);
-    t.setDaemon(true);
-    return t;
+    return delegate.newThread(r);
   }
 }

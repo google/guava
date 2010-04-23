@@ -435,6 +435,24 @@ public final class Files {
   }
 
   /**
+   * Creates any necessary but nonexistent parent directories of the specified
+   * file. Note that if this operation fails it may have succeeded in creating
+   * some (but not all) of the necessary parent directories.
+   *
+   * @throws IOException if an I/O error occurs, or if any necessary but
+   *     nonexistent parent directories of the specified file could not be
+   *     created.
+   * @since 4
+   */
+  public static void createParentDirs(File file) throws IOException {
+    File parent = file.getCanonicalFile().getParentFile();
+    parent.mkdirs();
+    if (!parent.exists()) {
+      throw new IOException("Unable to create parent directories of " + file);
+    }
+  }
+
+  /**
    * Moves the file from one path to another. This method can rename a file or
    * move it to a different directory, like the Unix {@code mv} command.
    *

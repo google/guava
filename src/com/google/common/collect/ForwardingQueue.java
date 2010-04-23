@@ -34,6 +34,9 @@ import java.util.Queue;
 public abstract class ForwardingQueue<E> extends ForwardingCollection<E>
     implements Queue<E> {
 
+  /** Constructor for use by subclasses. */
+  protected ForwardingQueue() {}
+
   @Override protected abstract Queue<E> delegate();
 
   public boolean offer(E o) {

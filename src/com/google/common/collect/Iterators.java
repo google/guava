@@ -665,12 +665,9 @@ public final class Iterators {
 
   /**
    * Returns the first element in {@code iterator} that satisfies the given
-   * predicate. If a matching element is found, the iterator will be left in a
-   * state such that calling {@code iterator.remove()} will remove the found
-   * item. If no such element is found, the iterator will be left exhausted: its
-   * {@code hasNext()} method will return {@code false}.
+   * predicate.  If no such element is found, the iterator will be left
+   * exhausted: its {@code hasNext()} method will return {@code false}.
    *
-   * @return the first matching element in {@code iterator}
    * @throws NoSuchElementException if no element in {@code iterator} matches
    *     the given predicate
    */
@@ -765,6 +762,33 @@ public final class Iterators {
     if (position < 0) {
       throw new IndexOutOfBoundsException("position (" + position
           + ") must not be negative");
+    }
+  }
+
+  /**
+   * Advances {@code iterator} {@code position + 1} times, returning the
+   * element at the {@code position}th position or {@code defaultValue}
+   * otherwise.
+   *
+   * @param position position of the element to return
+   * @param defaultValue the default value to return if the iterator is empty
+   *     or if {@code position} is greater than the number of elements
+   *     remaining in {@code iterator}
+   * @return the element at the specified position in {@code iterator} or
+   *     {@code defaultValue} if {@code iterator} produces fewer than
+   *     {@code position + 1} elements.
+   * @throws IndexOutOfBoundsException if {@code position} is negative
+   * @since 4
+   */
+  @Beta
+  public static <T> T get(Iterator<T> iterator, int position,
+      @Nullable T defaultValue) {
+    checkNonnegative(position);
+
+    try {
+      return get(iterator, position);
+    } catch (IndexOutOfBoundsException e) {
+      return defaultValue;
     }
   }
 

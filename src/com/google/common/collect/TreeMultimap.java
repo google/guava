@@ -30,8 +30,6 @@ import java.util.SortedSet;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
-import javax.annotation.Nullable;
-
 /**
  * Implementation of {@code Multimap} whose keys and values are ordered by
  * their natural ordering or by supplied comparators. In all cases, this
@@ -111,19 +109,9 @@ public class TreeMultimap<K, V> extends AbstractSortedSetMultimap<K, V> {
         multimap);
   }
 
-  // Used by the TreeMultimap serialization test.
-  TreeMultimap() {
-    this(null, null);
-  }
-
-  // Must be package-private so multimaps with null comparators can be
-  // serialized (which can be created with Multimaps.newTreeMultimap()). Once
-  // that method is removed, this constructor can be made private.
-  TreeMultimap(@Nullable Comparator<? super K> keyComparator,
-      @Nullable Comparator<? super V> valueComparator) {
-    super((keyComparator == null)
-        ? new TreeMap<K, Collection<V>>()
-        : new TreeMap<K, Collection<V>>(keyComparator));
+  TreeMultimap(Comparator<? super K> keyComparator,
+      Comparator<? super V> valueComparator) {
+    super(new TreeMap<K, Collection<V>>(keyComparator));
     this.keyComparator = keyComparator;
     this.valueComparator = valueComparator;
   }
@@ -144,8 +132,7 @@ public class TreeMultimap<K, V> extends AbstractSortedSetMultimap<K, V> {
    *     key
    */
   @Override SortedSet<V> createCollection() {
-    return (valueComparator == null)
-        ? new TreeSet<V>() : new TreeSet<V>(valueComparator);
+    return new TreeSet<V>(valueComparator);
   }
 
   /**
@@ -197,8 +184,8 @@ public class TreeMultimap<K, V> extends AbstractSortedSetMultimap<K, V> {
   private void readObject(ObjectInputStream stream)
       throws IOException, ClassNotFoundException {
     stream.defaultReadObject();
-    keyComparator = (Comparator<? super K>) stream.readObject();
-    valueComparator = (Comparator<? super V>) stream.readObject();
+    keyComparator = checkNotNull((Comparator<? super K>) stream.readObject());
+    valueComparator = checkNotNull((Comparator<? super V>) stream.readObject());
     setMap(new TreeMap<K, Collection<V>>(keyComparator));
     Serialization.populateMultimap(this, stream);
   }

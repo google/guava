@@ -360,7 +360,7 @@ abstract class AbstractMultimap<K, V> implements Multimap<K, V>, Serializable {
   }
 
   private List<V> wrapList(
-      K key, List<V> list, @Nullable WrappedCollection ancestor) {
+      @Nullable K key, List<V> list, @Nullable WrappedCollection ancestor) {
     return (list instanceof RandomAccess)
         ? new RandomAccessWrappedList(key, list, ancestor)
         : new WrappedList(key, list, ancestor);
@@ -628,7 +628,7 @@ abstract class AbstractMultimap<K, V> implements Multimap<K, V>, Serializable {
 
   /** Set decorator that stays in sync with the multimap values for a key. */
   private class WrappedSet extends WrappedCollection implements Set<V> {
-    WrappedSet(K key, Set<V> delegate) {
+    WrappedSet(@Nullable K key, Set<V> delegate) {
       super(key, delegate, null);
     }
   }
@@ -685,7 +685,8 @@ abstract class AbstractMultimap<K, V> implements Multimap<K, V>, Serializable {
 
   /** List decorator that stays in sync with the multimap values for a key. */
   private class WrappedList extends WrappedCollection implements List<V> {
-    WrappedList(K key, List<V> delegate, @Nullable WrappedCollection ancestor) {
+    WrappedList(@Nullable K key, List<V> delegate,
+        @Nullable WrappedCollection ancestor) {
       super(key, delegate, ancestor);
     }
 
@@ -814,7 +815,7 @@ abstract class AbstractMultimap<K, V> implements Multimap<K, V>, Serializable {
    */
   private class RandomAccessWrappedList extends WrappedList
       implements RandomAccess {
-    RandomAccessWrappedList(K key, List<V> delegate,
+    RandomAccessWrappedList(@Nullable K key, List<V> delegate,
         @Nullable WrappedCollection ancestor) {
       super(key, delegate, ancestor);
     }

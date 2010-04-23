@@ -34,6 +34,9 @@ import java.util.concurrent.ConcurrentMap;
 public abstract class ForwardingConcurrentMap<K, V> extends ForwardingMap<K, V>
     implements ConcurrentMap<K, V> {
 
+  /** Constructor for use by subclasses. */
+  protected ForwardingConcurrentMap() {}
+
   @Override protected abstract ConcurrentMap<K, V> delegate();
 
   public V putIfAbsent(K key, V value) {

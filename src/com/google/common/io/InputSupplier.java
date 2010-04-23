@@ -16,8 +16,6 @@
 
 package com.google.common.io;
 
-import com.google.common.annotations.Beta;
-
 import java.io.IOException;
 
 /**
@@ -26,7 +24,6 @@ import java.io.IOException;
  * @author Chris Nokleberg
  * @since 1
  */
-@Beta
 public interface InputSupplier<T> {
   T getInput() throws IOException;
 }

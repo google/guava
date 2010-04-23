@@ -3,7 +3,7 @@
   <component name="AntConfiguration">
     <defaultAnt bundledAnt="true" />
   </component>
-  <component name="BlazePluginSettings" buildBeforeRefresh="true" blazeTestProducers="true" />
+  <component name="BlazePluginSettings" buildBeforeRefresh="true" blazeTestProducers="true" updater="default" />
   <component name="ClientPropertiesManager">
     <properties class="javax.swing.AbstractButton">
       <property name="hideActionText" class="java.lang.Boolean" />

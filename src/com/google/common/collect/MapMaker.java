@@ -18,28 +18,26 @@ package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
-import com.google.common.base.FinalizableReferenceQueue;
-import com.google.common.base.FinalizableSoftReference;
-import com.google.common.base.FinalizableWeakReference;
+import com.google.common.base.Equivalence;
+import com.google.common.base.Equivalences;
 import com.google.common.base.Function;
-import com.google.common.collect.CustomConcurrentHashMap.ComputingStrategy;
-import com.google.common.collect.CustomConcurrentHashMap.Internals;
+import com.google.common.base.Objects;
+import com.google.common.collect.CustomConcurrentHashMap.Strength;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.lang.ref.SoftReference;
 import java.lang.ref.WeakReference;
-import java.lang.reflect.Field;
 import java.util.Map;
-import java.util.TimerTask;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.TimeUnit;
 
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkState;
+
 /**
- * A {@link ConcurrentMap} builder, providing any combination of these
+ * <p>A {@link ConcurrentMap} builder, providing any combination of these
  * features: {@linkplain SoftReference soft} or {@linkplain WeakReference
  * weak} keys, soft or weak values, timed expiration, and on-demand
  * computation of values. Usage example: <pre> {@code
@@ -83,7 +81,8 @@ import java.util.concurrent.TimeUnit;
  * keys and strong values are used, this will never happen.) The client can
  * never observe a partially-reclaimed entry. Any {@link java.util.Map.Entry}
  * instance retrieved from the map's {@linkplain Map#entrySet() entry set}
- * is snapshot of that entry's state at the time of retrieval.
+ * is a snapshot of that entry's state at the time of retrieval; such entries
+ * do, however, support {@link Map.Entry#setValue}.
  *
  * <p>{@code new MapMaker().weakKeys().makeMap()} can almost always be
  * used as a drop-in replacement for {@link java.util.WeakHashMap}, adding
@@ -96,18 +95,72 @@ import java.util.concurrent.TimeUnit;
  */
 @GwtCompatible(emulated = true)
 public final class MapMaker {
-  private Strength keyStrength = Strength.STRONG;
-  private Strength valueStrength = Strength.STRONG;
-  private long expirationNanos = 0;
+  private static final int DEFAULT_INITIAL_CAPACITY = 16;
+  private static final int DEFAULT_CONCURRENCY_LEVEL = 16;
+  private static final int DEFAULT_EXPIRATION_NANOS = 0;
+
+  private static final int UNSET_INITIAL_CAPACITY = -1;
+  private static final int UNSET_CONCURRENCY_LEVEL = -1;
+  static final int UNSET_EXPIRATION_NANOS = -1;
+  static final int UNSET_MAXIMUM_SIZE = -1;
+
+  int initialCapacity = UNSET_INITIAL_CAPACITY;
+  int concurrencyLevel = UNSET_CONCURRENCY_LEVEL;
+  int maximumSize = UNSET_MAXIMUM_SIZE;
+
+  Strength keyStrength;
+  Strength valueStrength;
+
+  long expirationNanos = UNSET_EXPIRATION_NANOS;
+
   private boolean useCustomMap;
-  private final CustomConcurrentHashMap.Builder builder
-      = new CustomConcurrentHashMap.Builder();
+
+  Equivalence<Object> keyEquivalence;
+  Equivalence<Object> valueEquivalence;
 
   /**
    * Constructs a new {@code MapMaker} instance with default settings,
    * including strong keys, strong values, and no automatic expiration.
    */
   public MapMaker() {}
+
+  /**
+   * Sets a custom {@code Equivalence} strategy for comparing keys.
+   *
+   * <p>By default, the map uses {@link Equivalences#identity()} to determine
+   * key equality when {@link #weakKeys()} or {@link #softKeys()} is
+   * specified, and {@link Equivalences#equals()} otherwise.
+   */
+  // TODO: if these become public, update the text of the file Javadoc.
+
+
+  // TODO: undo this indirection if keyEquiv gets released
+  MapMaker privateKeyEquivalence(Equivalence<Object> equivalence) {
+    checkState(keyEquivalence == null,
+        "key equivalence was already set to " + keyEquivalence);
+    keyEquivalence = checkNotNull(equivalence);
+    this.useCustomMap = true;
+    return this;
+  }
+
+  Equivalence<Object> getKeyEquivalence() {
+    return Objects.firstNonNull(keyEquivalence,
+        getKeyStrength().defaultEquivalence());
+  }
+
+  // TODO: undo this indirection if valueEquiv gets released
+  MapMaker privateValueEquivalence(Equivalence<Object> equivalence) {
+    checkState(valueEquivalence == null,
+        "value equivalence was already set to " + valueEquivalence);
+    this.valueEquivalence = checkNotNull(equivalence);
+    this.useCustomMap = true;
+    return this;
+  }
+
+  Equivalence<Object> getValueEquivalence() {
+    return Objects.firstNonNull(valueEquivalence,
+        getValueStrength().defaultEquivalence());
+  }
 
   /**
    * Sets a custom initial capacity (defaults to 16). Resizing this or
@@ -120,7 +173,41 @@ public final class MapMaker {
    * @throws IllegalStateException if an initial capacity was already set
    */
   public MapMaker initialCapacity(int initialCapacity) {
-    builder.initialCapacity(initialCapacity);
+    checkState(this.initialCapacity == UNSET_INITIAL_CAPACITY,
+        "initial capacity was already set to " + this.initialCapacity);
+    checkArgument(initialCapacity >= 0);
+    this.initialCapacity = initialCapacity;
+    return this;
+  }
+
+  int getInitialCapacity() {
+    return (initialCapacity == UNSET_INITIAL_CAPACITY)
+        ? DEFAULT_INITIAL_CAPACITY : initialCapacity;
+  }
+
+  /**
+   * Specifies the maximum number of entries the map may contain. While the
+   * number of entries in the map is not guaranteed to grow to the maximum,
+   * the map will attempt to make the best use of memory without exceeding the
+   * maximum number of entries. As the map size grows close to the maximum,
+   * the map will evict entries that are less likely to be used again. For
+   * example, the map may evict an entry because it hasn't been used recently
+   * or very often.
+   *
+   * @throws IllegalArgumentException if {@code size} is negative
+   * @throws IllegalStateException if a maximum size was already set
+   */
+  // TODO: Implement and make public.
+  MapMaker maximumSize(int size) {
+    // TODO: Should we disallow maximumSize < concurrencyLevel? If we allow it,
+    // should we return a dummy map that doesn't actually retain any
+    // entries?
+
+    checkState(this.maximumSize == UNSET_MAXIMUM_SIZE,
+        "maximum size was already set to " + this.maximumSize);
+    checkArgument(initialCapacity >= 0);
+    this.maximumSize = size;
+    this.useCustomMap = true;
     return this;
   }
 
@@ -144,8 +231,16 @@ public final class MapMaker {
    */
   @GwtIncompatible("java.util.concurrent.ConcurrentHashMap concurrencyLevel")
   public MapMaker concurrencyLevel(int concurrencyLevel) {
-    builder.concurrencyLevel(concurrencyLevel);
+    checkState(this.concurrencyLevel == UNSET_CONCURRENCY_LEVEL,
+        "concurrency level was already set to " + this.concurrencyLevel);
+    checkArgument(concurrencyLevel > 0);
+    this.concurrencyLevel = concurrencyLevel;
     return this;
+  }
+
+  int getConcurrencyLevel() {
+    return (concurrencyLevel == UNSET_CONCURRENCY_LEVEL)
+        ? DEFAULT_CONCURRENCY_LEVEL : concurrencyLevel;
   }
 
   /**
@@ -186,14 +281,19 @@ public final class MapMaker {
     return setKeyStrength(Strength.SOFT);
   }
 
-  private MapMaker setKeyStrength(Strength strength) {
-    if (keyStrength != Strength.STRONG) {
-      throw new IllegalStateException("Key strength was already set to "
-          + keyStrength + ".");
+  MapMaker setKeyStrength(Strength strength) {
+    checkState(keyStrength == null,
+        "Key strength was already set to " + keyStrength + ".");
+    keyStrength = checkNotNull(strength);
+    if (strength != Strength.STRONG) {
+      // STRONG could be used during deserialization.
+      useCustomMap = true;
     }
-    keyStrength = strength;
-    useCustomMap = true;
     return this;
+  }
+
+  Strength getKeyStrength() {
+    return Objects.firstNonNull(keyStrength, Strength.STRONG);
   }
 
   /**
@@ -242,19 +342,26 @@ public final class MapMaker {
     return setValueStrength(Strength.SOFT);
   }
 
-  private MapMaker setValueStrength(Strength strength) {
-    if (valueStrength != Strength.STRONG) {
-      throw new IllegalStateException("Value strength was already set to "
-          + valueStrength + ".");
+  MapMaker setValueStrength(Strength strength) {
+    checkState(valueStrength == null,
+        "Value strength was already set to " + valueStrength + ".");
+    valueStrength = checkNotNull(strength);
+    if (strength != Strength.STRONG) {
+      // STRONG could be used during deserialization.
+      useCustomMap = true;
     }
-    valueStrength = strength;
-    useCustomMap = true;
     return this;
+  }
+
+  Strength getValueStrength() {
+    return Objects.firstNonNull(valueStrength, Strength.STRONG);
   }
 
   /**
    * Specifies that each entry should be automatically removed from the
    * map once a fixed duration has passed since the entry's creation.
+   * Note that changing the value of an entry will reset its expiration
+   * time.
    *
    * @param duration the length of time after an entry is created that it
    *     should be automatically removed
@@ -263,32 +370,77 @@ public final class MapMaker {
    * @throws IllegalStateException if the expiration time was already set
    */
   public MapMaker expiration(long duration, TimeUnit unit) {
-    if (expirationNanos != 0) {
-      throw new IllegalStateException("expiration time of "
-          + expirationNanos + " ns was already set");
-    }
-    if (duration <= 0) {
-      throw new IllegalArgumentException("invalid duration: " + duration);
-    }
+    checkState(expirationNanos == UNSET_EXPIRATION_NANOS,
+        "expiration time of " + expirationNanos + " ns was already set");
+    checkArgument(duration > 0,
+        "invalid duration: " + duration);
     this.expirationNanos = unit.toNanos(duration);
     useCustomMap = true;
     return this;
   }
 
+  long getExpirationNanos() {
+    return (expirationNanos == UNSET_EXPIRATION_NANOS)
+        ? DEFAULT_EXPIRATION_NANOS : expirationNanos;
+  }
+
   /**
-   * Builds the final map, without on-demand computation of values. This method
+   * Builds a map, without on-demand computation of values. This method
    * does not alter the state of this {@code MapMaker} instance, so it can be
    * invoked again to create multiple independent maps.
    *
    * @param <K> the type of keys to be stored in the returned map
    * @param <V> the type of values to be stored in the returned map
-   * @return a concurrent map having the requested features
+   * @return a serializable concurrent map having the requested features
    */
   public <K, V> ConcurrentMap<K, V> makeMap() {
     return useCustomMap
-        ? new StrategyImpl<K, V>(this).map
-        : new ConcurrentHashMap<K, V>(builder.getInitialCapacity(),
-            0.75f, builder.getConcurrencyLevel());
+        ? new CustomConcurrentHashMap<K, V>(this)
+        : new ConcurrentHashMap<K, V>(getInitialCapacity(),
+            0.75f, getConcurrencyLevel());
+  }
+
+  /**
+   * Builds a caching function, which either returns an already-computed value
+   * for a given key or atomically computes it using the supplied function.
+   * If another thread is currently computing the value for this key, simply
+   * waits for that thread to finish and returns its computed value. Note that
+   * the function may be executed concurrently by multiple threads, but only for
+   * distinct keys.
+   *
+   * <p>The {@code Map} view of the {@code Cache}'s cache is only
+   * updated when function computation completes. In other words, an entry isn't
+   * visible until the value's computation completes. No methods on the {@code
+   * Map} will ever trigger computation.
+   *
+   * <p>{@link Cache#apply} in the returned function implementation may
+   * throw:
+   *
+   * <ul>
+   * <li>{@link NullPointerException} if the key is null or the
+   *     computing function returns null
+   * <li>{@link ComputationException} if an exception was thrown by the
+   *     computing function. If that exception is already of type {@link
+   *     ComputationException} it is propagated directly; otherwise it is
+   *     wrapped.
+   * </ul>
+   *
+   * <p>If {@link Map#put} is called on the underlying map before a computation
+   * completes, other threads waiting on the computation will wake up and return
+   * the stored value. When the computation completes, its new result will
+   * overwrite the value that was put in the map manually.
+   *
+   * <p>This method does not alter the state of this {@code MapMaker} instance,
+   * so it can be invoked again to create multiple independent maps.
+   *
+   * @param <K> the type of keys to be stored in the returned cache
+   * @param <V> the type of values to be stored in the returned cache
+   * @return a serializable cache having the requested features
+   */
+  // TODO: figure out the Cache interface first
+  <K, V> Cache<K, V> makeCache(
+      Function<? super K, ? extends V> computingFunction) {
+    return new ComputingConcurrentHashMap<K, V>(this, computingFunction);
   }
 
   /**
@@ -312,7 +464,7 @@ public final class MapMaker {
    *     function returns null
    * <li>{@link ComputationException} if an exception was thrown by the
    *     computing function. If that exception is already of type {@link
-   *     ComputationException}, it is propagated directly; otherwise it is
+   *     ComputationException} it is propagated directly; otherwise it is
    *     wrapped.
    * </ul>
    *
@@ -333,787 +485,45 @@ public final class MapMaker {
    */
   public <K, V> ConcurrentMap<K, V> makeComputingMap(
       Function<? super K, ? extends V> computingFunction) {
-    return new StrategyImpl<K, V>(this, computingFunction).map;
+    Cache<K, V> cache = makeCache(computingFunction);
+    return new ComputingMapAdapter<K, V>(cache);
   }
 
-  // Remainder of this file is private implementation details
-
-  private enum Strength {
-    WEAK {
-      @Override boolean equal(Object a, Object b) {
-        return a == b;
-      }
-      @Override int hash(Object o) {
-        return System.identityHashCode(o);
-      }
-      @Override <K, V> ValueReference<K, V> referenceValue(
-          ReferenceEntry<K, V> entry, V value) {
-        return new WeakValueReference<K, V>(value, entry);
-      }
-      @Override <K, V> ReferenceEntry<K, V> newEntry(
-          Internals<K, V, ReferenceEntry<K, V>> internals, K key,
-          int hash, ReferenceEntry<K, V> next) {
-        return (next == null)
-            ? new WeakEntry<K, V>(internals, key, hash)
-            : new LinkedWeakEntry<K, V>(internals, key, hash, next);
-      }
-      @Override <K, V> ReferenceEntry<K, V> copyEntry(
-          K key, ReferenceEntry<K, V> original,
-          ReferenceEntry<K, V> newNext) {
-        WeakEntry<K, V> from = (WeakEntry<K, V>) original;
-        return (newNext == null)
-            ? new WeakEntry<K, V>(from.internals, key, from.hash)
-            : new LinkedWeakEntry<K, V>(
-                from.internals, key, from.hash, newNext);
-      }
-    },
-
-    SOFT {
-      @Override boolean equal(Object a, Object b) {
-        return a == b;
-      }
-      @Override int hash(Object o) {
-        return System.identityHashCode(o);
-      }
-      @Override <K, V> ValueReference<K, V> referenceValue(
-          ReferenceEntry<K, V> entry, V value) {
-        return new SoftValueReference<K, V>(value, entry);
-      }
-      @Override <K, V> ReferenceEntry<K, V> newEntry(
-          Internals<K, V, ReferenceEntry<K, V>> internals, K key,
-          int hash, ReferenceEntry<K, V> next) {
-        return (next == null)
-            ? new SoftEntry<K, V>(internals, key, hash)
-            : new LinkedSoftEntry<K, V>(internals, key, hash, next);
-      }
-      @Override <K, V> ReferenceEntry<K, V> copyEntry(
-          K key, ReferenceEntry<K, V> original,
-          ReferenceEntry<K, V> newNext) {
-        SoftEntry<K, V> from = (SoftEntry<K, V>) original;
-        return (newNext == null)
-            ? new SoftEntry<K, V>(from.internals, key, from.hash)
-            : new LinkedSoftEntry<K, V>(
-                from.internals, key, from.hash, newNext);
-      }
-    },
-
-    STRONG {
-      @Override boolean equal(Object a, Object b) {
-        return a.equals(b);
-      }
-      @Override int hash(Object o) {
-        return o.hashCode();
-      }
-      @Override <K, V> ValueReference<K, V> referenceValue(
-          ReferenceEntry<K, V> entry, V value) {
-        return new StrongValueReference<K, V>(value);
-      }
-      @Override <K, V> ReferenceEntry<K, V> newEntry(
-          Internals<K, V, ReferenceEntry<K, V>> internals, K key,
-          int hash, ReferenceEntry<K, V> next) {
-        return (next == null)
-            ? new StrongEntry<K, V>(internals, key, hash)
-            : new LinkedStrongEntry<K, V>(
-                internals, key, hash, next);
-      }
-      @Override <K, V> ReferenceEntry<K, V> copyEntry(
-          K key, ReferenceEntry<K, V> original,
-          ReferenceEntry<K, V> newNext) {
-        StrongEntry<K, V> from = (StrongEntry<K, V>) original;
-        return (newNext == null)
-            ? new StrongEntry<K, V>(from.internals, key, from.hash)
-            : new LinkedStrongEntry<K, V>(
-                from.internals, key, from.hash, newNext);
-      }
-    };
+  /**
+   * A function which caches the result of each application (computation). This
+   * interface does not specify the caching semantics, but does expose a {@code
+   * ConcurrentMap} view of cached entries.
+   *
+   * @author Bob Lee
+   */
+  interface Cache<K, V> extends Function<K, V> {
 
     /**
-     * Determines if two keys or values are equal according to this
-     * strength strategy.
+     * Returns a map view of the cached entries.
      */
-    abstract boolean equal(Object a, Object b);
-
-    /**
-     * Hashes a key according to this strategy.
-     */
-    abstract int hash(Object o);
-
-    /**
-     * Creates a reference for the given value according to this value
-     * strength.
-     */
-    abstract <K, V> ValueReference<K, V> referenceValue(
-        ReferenceEntry<K, V> entry, V value);
-
-    /**
-     * Creates a new entry based on the current key strength.
-     */
-    abstract <K, V> ReferenceEntry<K, V> newEntry(
-        Internals<K, V, ReferenceEntry<K, V>> internals, K key,
-        int hash, ReferenceEntry<K, V> next);
-
-    /**
-     * Creates a new entry and copies the value and other state from an
-     * existing entry.
-     */
-    abstract <K, V> ReferenceEntry<K, V> copyEntry(K key,
-        ReferenceEntry<K, V> original, ReferenceEntry<K, V> newNext);
+    ConcurrentMap<K, V> asMap();
   }
 
-  private static class StrategyImpl<K, V> implements Serializable,
-      ComputingStrategy<K, V, ReferenceEntry<K, V>> {
-    final Strength keyStrength;
-    final Strength valueStrength;
-    final ConcurrentMap<K, V> map;
-    final long expirationNanos;
-    Internals<K, V, ReferenceEntry<K, V>> internals;
-
-    StrategyImpl(MapMaker maker) {
-      this.keyStrength = maker.keyStrength;
-      this.valueStrength = maker.valueStrength;
-      this.expirationNanos = maker.expirationNanos;
-
-      map = maker.builder.buildMap(this);
-    }
-
-    StrategyImpl(
-        MapMaker maker, Function<? super K, ? extends V> computer) {
-      this.keyStrength = maker.keyStrength;
-      this.valueStrength = maker.valueStrength;
-      this.expirationNanos = maker.expirationNanos;
-
-      map = maker.builder.buildComputingMap(this, computer);
-    }
-
-    public void setValue(ReferenceEntry<K, V> entry, V value) {
-      setValueReference(
-          entry, valueStrength.referenceValue(entry, value));
-      if (expirationNanos > 0) {
-        scheduleRemoval(entry.getKey(), value);
-      }
-    }
-
-    void scheduleRemoval(K key, V value) {
-      /*
-       * TODO: Keep weak reference to map, too. Build a priority
-       * queue out of the entries themselves instead of creating a
-       * task per entry. Then, we could have one recurring task per
-       * map (which would clean the entire map and then reschedule
-       * itself depending upon when the next expiration comes). We
-       * also want to avoid removing an entry prematurely if the
-       * entry was set to the same value again.
-       */
-      final WeakReference<K> keyReference = new WeakReference<K>(key);
-      final WeakReference<V> valueReference = new WeakReference<V>(value);
-      ExpirationTimer.instance.schedule(
-          new TimerTask() {
-            @Override public void run() {
-              K key = keyReference.get();
-              if (key != null) {
-                // Remove if the value is still the same.
-                map.remove(key, valueReference.get());
-              }
-            }
-          }, TimeUnit.NANOSECONDS.toMillis(expirationNanos));
-    }
-
-    public boolean equalKeys(K a, Object b) {
-      return keyStrength.equal(a, b);
-    }
-
-    public boolean equalValues(V a, Object b) {
-      return valueStrength.equal(a, b);
-    }
-
-    public int hashKey(Object key) {
-      return keyStrength.hash(key);
-    }
-
-    public K getKey(ReferenceEntry<K, V> entry) {
-      return entry.getKey();
-    }
-
-    public int getHash(ReferenceEntry<K, V> entry) {
-      return entry.getHash();
-    }
-
-    public ReferenceEntry<K, V> newEntry(
-        K key, int hash, ReferenceEntry<K, V> next) {
-      return keyStrength.newEntry(internals, key, hash, next);
-    }
-
-    public ReferenceEntry<K, V> copyEntry(K key,
-        ReferenceEntry<K, V> original, ReferenceEntry<K, V> newNext) {
-      ValueReference<K, V> valueReference = original.getValueReference();
-      if (valueReference == COMPUTING) {
-        ReferenceEntry<K, V> newEntry
-            = newEntry(key, original.getHash(), newNext);
-        newEntry.setValueReference(
-            new FutureValueReference(original, newEntry));
-        return newEntry;
-      } else {
-        ReferenceEntry<K, V> newEntry
-            = newEntry(key, original.getHash(), newNext);
-        newEntry.setValueReference(valueReference.copyFor(newEntry));
-        return newEntry;
-      }
-    }
-
-    /**
-     * Waits for a computation to complete. Returns the result of the
-     * computation or null if none was available.
-     */
-    public V waitForValue(ReferenceEntry<K, V> entry)
-        throws InterruptedException {
-      ValueReference<K, V> valueReference = entry.getValueReference();
-      if (valueReference == COMPUTING) {
-        synchronized (entry) {
-          while ((valueReference = entry.getValueReference())
-              == COMPUTING) {
-            entry.wait();
-          }
-        }
-      }
-      return valueReference.waitForValue();
-    }
-
-    /**
-     * Used by CustomConcurrentHashMap to retrieve values. Returns null
-     * instead of blocking or throwing an exception.
-     */
-    public V getValue(ReferenceEntry<K, V> entry) {
-      ValueReference<K, V> valueReference = entry.getValueReference();
-      return valueReference.get();
-    }
-
-    public V compute(K key, final ReferenceEntry<K, V> entry,
-        Function<? super K, ? extends V> computer) {
-      V value;
-      try {
-        value = computer.apply(key);
-      } catch (ComputationException e) {
-        // if computer has thrown a computation exception, propagate rather
-        // than wrap
-        setValueReference(entry,
-            new ComputationExceptionReference<K, V>(e.getCause()));
-        throw e;
-      } catch (Throwable t) {
-        setValueReference(
-          entry, new ComputationExceptionReference<K, V>(t));
-        throw new ComputationException(t);
-      }
-
-      if (value == null) {
-        String message
-            = computer + " returned null for key " + key + ".";
-        setValueReference(
-            entry, new NullOutputExceptionReference<K, V>(message));
-        throw new NullOutputException(message);
-      } else {
-        setValue(entry, value);
-      }
-      return value;
-    }
-
-    /**
-     * Sets the value reference on an entry and notifies waiting
-     * threads.
-     */
-    void setValueReference(ReferenceEntry<K, V> entry,
-        ValueReference<K, V> valueReference) {
-      boolean notifyOthers = (entry.getValueReference() == COMPUTING);
-      entry.setValueReference(valueReference);
-      if (notifyOthers) {
-        synchronized (entry) {
-          entry.notifyAll();
-        }
-      }
-    }
-
-    /**
-     * Points to an old entry where a value is being computed. Used to
-     * support non-blocking copying of entries during table expansion,
-     * removals, etc.
-     */
-    private class FutureValueReference implements ValueReference<K, V> {
-      final ReferenceEntry<K, V> original;
-      final ReferenceEntry<K, V> newEntry;
-
-      FutureValueReference(
-          ReferenceEntry<K, V> original, ReferenceEntry<K, V> newEntry) {
-        this.original = original;
-        this.newEntry = newEntry;
-      }
-
-      public V get() {
-        boolean success = false;
-        try {
-          V value = original.getValueReference().get();
-          success = true;
-          return value;
-        } finally {
-          if (!success) {
-            removeEntry();
-          }
-        }
-      }
-
-      public ValueReference<K, V> copyFor(ReferenceEntry<K, V> entry) {
-        return new FutureValueReference(original, entry);
-      }
-
-      public V waitForValue() throws InterruptedException {
-        boolean success = false;
-        try {
-          // assert that key != null
-          V value = StrategyImpl.this.waitForValue(original);
-          success = true;
-          return value;
-        } finally {
-          if (!success) {
-            removeEntry();
-          }
-        }
-      }
-
-      /**
-       * Removes the entry in the event of an exception. Ideally,
-       * we'd clean up as soon as the computation completes, but we
-       * can't do that without keeping a reference to this entry from
-       * the original.
-       */
-      void removeEntry() {
-        internals.removeEntry(newEntry);
-      }
-    }
-
-    public ReferenceEntry<K, V> getNext(
-        ReferenceEntry<K, V> entry) {
-      return entry.getNext();
-    }
-
-    public void setInternals(
-        Internals<K, V, ReferenceEntry<K, V>> internals) {
-      this.internals = internals;
-    }
-
+  /**
+   * Overrides get() to compute on demand.
+   */
+  static class ComputingMapAdapter<K, V> extends ForwardingConcurrentMap<K, V>
+      implements Serializable {
     private static final long serialVersionUID = 0;
 
-    private void writeObject(ObjectOutputStream out)
-        throws IOException {
-      // Custom serialization code ensures that the key and value
-      // strengths are written before the map. We'll need them to
-      // deserialize the map entries.
-      out.writeObject(keyStrength);
-      out.writeObject(valueStrength);
-      out.writeLong(expirationNanos);
+    final Cache<K, V> cache;
 
-      // TODO: It is possible for the strategy to try to use the map
-      // or internals during deserialization, for example, if an
-      // entry gets reclaimed. We could detect this case and queue up
-      // removals to be flushed after we deserialize the map.
-      out.writeObject(internals);
-      out.writeObject(map);
+    ComputingMapAdapter(Cache<K, V> cache) {
+      this.cache = cache;
     }
 
-    /**
-     * Fields used during deserialization. We use a nested class so we
-     * don't load them until we need them. We need to use reflection to
-     * set final fields outside of the constructor.
-     */
-    private static class Fields {
-      static final Field keyStrength = findField("keyStrength");
-      static final Field valueStrength = findField("valueStrength");
-      static final Field expirationNanos = findField("expirationNanos");
-      static final Field internals = findField("internals");
-      static final Field map = findField("map");
-
-      static Field findField(String name) {
-        try {
-          Field f = StrategyImpl.class.getDeclaredField(name);
-          f.setAccessible(true);
-          return f;
-        } catch (NoSuchFieldException e) {
-          throw new AssertionError(e);
-        }
-      }
+    @Override protected ConcurrentMap<K, V> delegate() {
+      return cache.asMap();
     }
 
-    private void readObject(ObjectInputStream in)
-        throws IOException, ClassNotFoundException {
-      try {
-        Fields.keyStrength.set(this, in.readObject());
-        Fields.valueStrength.set(this, in.readObject());
-        Fields.expirationNanos.set(this, in.readLong());
-        Fields.internals.set(this, in.readObject());
-        Fields.map.set(this, in.readObject());
-      } catch (IllegalAccessException e) {
-        throw new AssertionError(e);
-      }
-    }
-  }
-
-  /** A reference to a value. */
-  private interface ValueReference<K, V> {
-    /**
-     * Gets the value. Does not block or throw exceptions.
-     */
-    V get();
-
-    /** Creates a copy of this reference for the given entry. */
-    ValueReference<K, V> copyFor(ReferenceEntry<K, V> entry);
-
-    /**
-     * Waits for a value that may still be computing. Unlike get(),
-     * this method can block (in the case of FutureValueReference) or
-     * throw an exception.
-     */
-    V waitForValue() throws InterruptedException;
-  }
-
-  private static final ValueReference<Object, Object> COMPUTING
-      = new ValueReference<Object, Object>() {
-    public Object get() {
-      return null;
-    }
-    public ValueReference<Object, Object> copyFor(
-        ReferenceEntry<Object, Object> entry) {
-      throw new AssertionError();
-    }
-    public Object waitForValue() {
-      throw new AssertionError();
-    }
-  };
-
-  /**
-   * Singleton placeholder that indicates a value is being computed.
-   */
-  @SuppressWarnings("unchecked")
-  // Safe because impl never uses a parameter or returns any non-null value
-  private static <K, V> ValueReference<K, V> computing() {
-    return (ValueReference<K, V>) COMPUTING;
-  }
-
-  /** Used to provide null output exceptions to other threads. */
-  private static class NullOutputExceptionReference<K, V>
-      implements ValueReference<K, V> {
-    final String message;
-    NullOutputExceptionReference(String message) {
-      this.message = message;
-    }
-    public V get() {
-      return null;
-    }
-    public ValueReference<K, V> copyFor(
-        ReferenceEntry<K, V> entry) {
-      return this;
-    }
-    public V waitForValue() {
-      throw new NullOutputException(message);
-    }
-  }
-
-  /** Used to provide computation exceptions to other threads. */
-  private static class ComputationExceptionReference<K, V>
-      implements ValueReference<K, V> {
-    final Throwable t;
-    ComputationExceptionReference(Throwable t) {
-      this.t = t;
-    }
-    public V get() {
-      return null;
-    }
-    public ValueReference<K, V> copyFor(
-        ReferenceEntry<K, V> entry) {
-      return this;
-    }
-    public V waitForValue() {
-      throw new AsynchronousComputationException(t);
-    }
-  }
-
-  /** Wrapper class ensures that queue isn't created until it's used. */
-  private static class QueueHolder {
-    static final FinalizableReferenceQueue queue
-        = new FinalizableReferenceQueue();
-  }
-
-  /**
-   * An entry in a reference map.
-   */
-  private interface ReferenceEntry<K, V> {
-    /**
-     * Gets the value reference from this entry.
-     */
-    ValueReference<K, V> getValueReference();
-
-    /**
-     * Sets the value reference for this entry.
-     *
-     * @param valueReference
-     */
-    void setValueReference(ValueReference<K, V> valueReference);
-
-    /**
-     * Removes this entry from the map if its value reference hasn't
-     * changed.  Used to clean up after values. The value reference can
-     * just call this method on the entry so it doesn't have to keep
-     * its own reference to the map.
-     */
-    void valueReclaimed();
-
-    /** Gets the next entry in the chain. */
-    ReferenceEntry<K, V> getNext();
-
-    /** Gets the entry's hash. */
-    int getHash();
-
-    /** Gets the key for this entry. */
-    public K getKey();
-  }
-
-  /**
-   * Used for strongly-referenced keys.
-   */
-  private static class StrongEntry<K, V> implements ReferenceEntry<K, V> {
-    final K key;
-
-    StrongEntry(Internals<K, V, ReferenceEntry<K, V>> internals, K key,
-        int hash) {
-      this.internals = internals;
-      this.key = key;
-      this.hash = hash;
-    }
-
-    public K getKey() {
-      return this.key;
-    }
-
-    // The code below is exactly the same for each entry type.
-
-    final Internals<K, V, ReferenceEntry<K, V>> internals;
-    final int hash;
-    volatile ValueReference<K, V> valueReference = computing();
-
-    public ValueReference<K, V> getValueReference() {
-      return valueReference;
-    }
-    public void setValueReference(
-        ValueReference<K, V> valueReference) {
-      this.valueReference = valueReference;
-    }
-    public void valueReclaimed() {
-      internals.removeEntry(this, null);
-    }
-    public ReferenceEntry<K, V> getNext() {
-      return null;
-    }
-    public int getHash() {
-      return hash;
-    }
-  }
-
-  private static class LinkedStrongEntry<K, V> extends StrongEntry<K, V> {
-
-    LinkedStrongEntry(Internals<K, V, ReferenceEntry<K, V>> internals,
-        K key, int hash, ReferenceEntry<K, V> next) {
-      super(internals, key, hash);
-      this.next = next;
-    }
-
-    final ReferenceEntry<K, V> next;
-
-    @Override public ReferenceEntry<K, V> getNext() {
-      return next;
-    }
-  }
-
-  /**
-   * Used for softly-referenced keys.
-   */
-  private static class SoftEntry<K, V> extends FinalizableSoftReference<K>
-      implements ReferenceEntry<K, V> {
-    SoftEntry(Internals<K, V, ReferenceEntry<K, V>> internals, K key,
-        int hash) {
-      super(key, QueueHolder.queue);
-      this.internals = internals;
-      this.hash = hash;
-    }
-
-    public K getKey() {
-      return get();
-    }
-
-    public void finalizeReferent() {
-      internals.removeEntry(this);
-    }
-
-    // The code below is exactly the same for each entry type.
-
-    final Internals<K, V, ReferenceEntry<K, V>> internals;
-    final int hash;
-    volatile ValueReference<K, V> valueReference = computing();
-
-    public ValueReference<K, V> getValueReference() {
-      return valueReference;
-    }
-    public void setValueReference(
-        ValueReference<K, V> valueReference) {
-      this.valueReference = valueReference;
-    }
-    public void valueReclaimed() {
-      internals.removeEntry(this, null);
-    }
-    public ReferenceEntry<K, V> getNext() {
-      return null;
-    }
-    public int getHash() {
-      return hash;
-    }
-  }
-
-  private static class LinkedSoftEntry<K, V> extends SoftEntry<K, V> {
-    LinkedSoftEntry(Internals<K, V, ReferenceEntry<K, V>> internals,
-        K key, int hash, ReferenceEntry<K, V> next) {
-      super(internals, key, hash);
-      this.next = next;
-    }
-
-    final ReferenceEntry<K, V> next;
-
-    @Override public ReferenceEntry<K, V> getNext() {
-      return next;
-    }
-  }
-
-  /**
-   * Used for weakly-referenced keys.
-   */
-  private static class WeakEntry<K, V> extends FinalizableWeakReference<K>
-      implements ReferenceEntry<K, V> {
-    WeakEntry(Internals<K, V, ReferenceEntry<K, V>> internals, K key,
-        int hash) {
-      super(key, QueueHolder.queue);
-      this.internals = internals;
-      this.hash = hash;
-    }
-
-    public K getKey() {
-      return get();
-    }
-
-    public void finalizeReferent() {
-      internals.removeEntry(this);
-    }
-
-    // The code below is exactly the same for each entry type.
-
-    final Internals<K, V, ReferenceEntry<K, V>> internals;
-    final int hash;
-    volatile ValueReference<K, V> valueReference = computing();
-
-    public ValueReference<K, V> getValueReference() {
-      return valueReference;
-    }
-    public void setValueReference(
-        ValueReference<K, V> valueReference) {
-      this.valueReference = valueReference;
-    }
-    public void valueReclaimed() {
-      internals.removeEntry(this, null);
-    }
-    public ReferenceEntry<K, V> getNext() {
-      return null;
-    }
-    public int getHash() {
-      return hash;
-    }
-  }
-
-  private static class LinkedWeakEntry<K, V> extends WeakEntry<K, V> {
-    LinkedWeakEntry(Internals<K, V, ReferenceEntry<K, V>> internals,
-        K key, int hash, ReferenceEntry<K, V> next) {
-      super(internals, key, hash);
-      this.next = next;
-    }
-
-    final ReferenceEntry<K, V> next;
-
-    @Override public ReferenceEntry<K, V> getNext() {
-      return next;
-    }
-  }
-
-  /** References a weak value. */
-  private static class WeakValueReference<K, V>
-      extends FinalizableWeakReference<V>
-      implements ValueReference<K, V> {
-    final ReferenceEntry<K, V> entry;
-
-    WeakValueReference(V referent, ReferenceEntry<K, V> entry) {
-      super(referent, QueueHolder.queue);
-      this.entry = entry;
-    }
-
-    public void finalizeReferent() {
-      entry.valueReclaimed();
-    }
-
-    public ValueReference<K, V> copyFor(
-        ReferenceEntry<K, V> entry) {
-      return new WeakValueReference<K, V>(get(), entry);
-    }
-
-    public V waitForValue() {
-      return get();
-    }
-  }
-
-  /** References a soft value. */
-  private static class SoftValueReference<K, V>
-      extends FinalizableSoftReference<V>
-      implements ValueReference<K, V> {
-    final ReferenceEntry<K, V> entry;
-
-    SoftValueReference(V referent, ReferenceEntry<K, V> entry) {
-      super(referent, QueueHolder.queue);
-      this.entry = entry;
-    }
-
-    public void finalizeReferent() {
-      entry.valueReclaimed();
-    }
-
-    public ValueReference<K, V> copyFor(
-        ReferenceEntry<K, V> entry) {
-      return new SoftValueReference<K, V>(get(), entry);
-    }
-
-    public V waitForValue() {
-      return get();
-    }
-  }
-
-  /** References a strong value. */
-  private static class StrongValueReference<K, V>
-      implements ValueReference<K, V> {
-    final V referent;
-
-    StrongValueReference(V referent) {
-      this.referent = referent;
-    }
-
-    public V get() {
-      return referent;
-    }
-
-    public ValueReference<K, V> copyFor(
-        ReferenceEntry<K, V> entry) {
-      return this;
-    }
-
-    public V waitForValue() {
-      return get();
+    @SuppressWarnings("unchecked") // unsafe, which is why this is deprecated
+    @Override public V get(Object key) {
+      return cache.apply((K) key);
     }
   }
 }

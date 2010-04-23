@@ -16,7 +16,6 @@
 
 package com.google.common.base;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.VisibleForTesting;
 
 import java.io.Serializable;
@@ -119,7 +118,6 @@ public final class Suppliers {
    * @throws IllegalArgumentException if {@code duration} is not positive
    * @since 2
    */
-  @Beta
   public static <T> Supplier<T> memoizeWithExpiration(
       Supplier<T> delegate, long duration, TimeUnit unit) {
     return new ExpiringMemoizingSupplier<T>(delegate, duration, unit);

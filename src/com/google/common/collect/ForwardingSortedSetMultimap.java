@@ -37,6 +37,9 @@ import javax.annotation.Nullable;
 public abstract class ForwardingSortedSetMultimap<K, V>
     extends ForwardingSetMultimap<K, V> implements SortedSetMultimap<K, V> {
 
+  /** Constructor for use by subclasses. */
+  protected ForwardingSortedSetMultimap() {}
+
   @Override protected abstract SortedSetMultimap<K, V> delegate();
 
   @Override public SortedSet<V> get(@Nullable K key) {
