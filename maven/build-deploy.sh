@@ -29,5 +29,11 @@ if [[ -z ${greater_than_java5} ]] ; then
   exit 1
 else
   echo "Building with java ${java_version}"
-fi  
-mvn clean package source:jar site:jar javadoc:jar gpg:sign deploy
+fi
+
+if [[ $# > 0 ]]; then
+  params+=" -Dgpg.keyname=${1}"
+fi
+cmd="mvn clean package source:jar site:jar javadoc:jar gpg:sign deploy ${params}"
+echo "Executing ${cmd}"
+${cmd}

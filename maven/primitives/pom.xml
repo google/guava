@@ -5,7 +5,7 @@
   <parent>
     <groupId>com.google.guava</groupId>
     <artifactId>guava-parent</artifactId>
-    <version>r03</version>
+    <version>r04-SNAPSHOT</version>
     <relativePath>maven</relativePath>
   </parent>
   <groupId>${parent.groupId}</groupId>

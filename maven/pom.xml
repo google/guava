@@ -7,7 +7,7 @@
   </parent>
   <groupId>com.google.guava</groupId>
   <artifactId>guava-parent</artifactId>
-  <version>r03</version>
+  <version>r04-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>Guava (Google Common Libraries) Maven Parent</name>
   <url>http://code.google.com/p/guava-libraries</url>
