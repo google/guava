@@ -46,6 +46,17 @@ import javax.annotation.Nullable;
  * specified, the joining methods will throw {@link NullPointerException} if any
  * given element is null.
  *
+ * <p><b>Warning: joiner instances are always immutable</b>; a configuration
+ * method such as {@code useForNull} has no effect on the instance it is invoked
+ * on! You must store and use the new joiner instance returned by the method.
+ * This makes joiners thread-safe, and safe to store as {@code static final}
+ * constants. <pre>   {@code
+ *
+ *   // Bad! Do not do this!
+ *   Joiner joiner = Joiner.on(',');
+ *   joiner.skipNulls(); // does nothing!
+ *   return joiner.join("wrong", null, "wrong");}</pre>
+ *
  * @author Kevin Bourrillion
  * @since 2 (imported from Google Collections Library)
  */
@@ -142,7 +153,7 @@ import javax.annotation.Nullable;
   /**
    * Appends to {@code builder} the string representation of each of the
    * remaining arguments. Identical to {@link #appendTo(Appendable, Object,
-   * Object, Object[])}, except that it does not throw {@link IOException}.
+   * Object, Object...)}, except that it does not throw {@link IOException}.
    */
   public final StringBuilder appendTo(StringBuilder builder,
       @Nullable Object first, @Nullable Object second, Object... rest) {
@@ -244,11 +255,11 @@ import javax.annotation.Nullable;
 
   /**
    * An object that joins map entries in the same manner as {@code Joiner} joins
-   * iterables and arrays.
+   * iterables and arrays. Like {@code Joiner}, it is thread-safe and immutable.
    */
   public static class MapJoiner {
-    private Joiner joiner;
-    private String keyValueSeparator;
+    private final Joiner joiner;
+    private final String keyValueSeparator;
 
     private MapJoiner(Joiner joiner, String keyValueSeparator) {
       this.joiner = joiner;

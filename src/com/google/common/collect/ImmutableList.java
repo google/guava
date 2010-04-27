@@ -501,10 +501,6 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
       return this;
     }
 
-    // TODO: should this be promoted to ImmutableCollection.Builder?
-    // TODO: get rid of it or replace it with
-    // .addAll(elements.subList(fromIndex, toIndex)?
-
     /**
      * Returns a newly-created {@code ImmutableList} based on the contents of
      * the {@code Builder}.
@@ -514,3 +510,4 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
     }
   }
 }
+

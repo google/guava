@@ -73,7 +73,8 @@ public abstract class CharMatcher implements Predicate<Character> {
    */
   public static final CharMatcher WHITESPACE =
       anyOf(BREAKING_WHITESPACE_CHARS + NON_BREAKING_WHITESPACE_CHARS)
-          .or(inRange('\u2000', '\u200a'));
+          .or(inRange('\u2000', '\u200a'))
+          .precomputed();
 
   /**
    * Determines whether a character is a breaking whitespace (that is,
@@ -86,7 +87,8 @@ public abstract class CharMatcher implements Predicate<Character> {
   public static final CharMatcher BREAKING_WHITESPACE =
       anyOf(BREAKING_WHITESPACE_CHARS)
           .or(inRange('\u2000', '\u2006'))
-          .or(inRange('\u2008', '\u200a'));
+          .or(inRange('\u2008', '\u200a'))
+          .precomputed();
 
   /**
    * Determines whether a character is ASCII, meaning that its code point is
@@ -109,7 +111,7 @@ public abstract class CharMatcher implements Predicate<Character> {
     for (char base : zeroes.toCharArray()) {
       digit = digit.or(inRange(base, (char) (base + 9)));
     }
-    DIGIT = digit;
+    DIGIT = digit.precomputed();
   }
 
   /**
@@ -128,7 +130,8 @@ public abstract class CharMatcher implements Predicate<Character> {
       .or(inRange('\u2008', '\u200b'))
       .or(inRange('\u2028', '\u2029'))
       .or(is('\u205f'))
-      .or(is('\u3000'));
+      .or(is('\u3000'))
+      .precomputed();
 
   /**
    * Determines whether a character is a digit according to {@link
@@ -207,7 +210,8 @@ public abstract class CharMatcher implements Predicate<Character> {
       .or(inRange('\u206a', '\u206f'))
       .or(is('\u3000'))
       .or(inRange('\ud800', '\uf8ff'))
-      .or(anyOf("\ufeff\ufff9\ufffa\ufffb"));
+      .or(anyOf("\ufeff\ufff9\ufffa\ufffb"))
+      .precomputed();
 
   /**
    * Determines whether a character is single-width (not double-width).  When
@@ -229,7 +233,8 @@ public abstract class CharMatcher implements Predicate<Character> {
       .or(inRange('\u2100', '\u213a'))
       .or(inRange('\ufb50', '\ufdff'))
       .or(inRange('\ufe70', '\ufeff'))
-      .or(inRange('\uff61', '\uffdc'));
+      .or(inRange('\uff61', '\uffdc'))
+      .precomputed();
 
   /** Matches any character. */
   public static final CharMatcher ANY = new CharMatcher() {

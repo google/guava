@@ -189,7 +189,7 @@ public final class Throwables {
    * @return an unmodifiable list containing the cause chain starting with
    *     {@code throwable}
    */
-  @Beta
+  @Beta // TODO: decide best return type
   public static List<Throwable> getCausalChain(Throwable throwable) {
     checkNotNull(throwable);
     List<Throwable> causes = new ArrayList<Throwable>(4);

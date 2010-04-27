@@ -446,8 +446,9 @@ public final class Files {
    */
   public static void createParentDirs(File file) throws IOException {
     File parent = file.getCanonicalFile().getParentFile();
+    // TODO: return if parent is null
     parent.mkdirs();
-    if (!parent.exists()) {
+    if (!parent.exists()) { // TODO: change to isDirectory
       throw new IOException("Unable to create parent directories of " + file);
     }
   }
