@@ -133,7 +133,6 @@ public final class MapMaker {
    */
   // TODO: if these become public, update the text of the file Javadoc.
 
-
   // TODO: undo this indirection if keyEquiv gets released
   MapMaker privateKeyEquivalence(Equivalence<Object> equivalence) {
     checkState(keyEquivalence == null,

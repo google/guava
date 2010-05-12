@@ -16,6 +16,9 @@
 
 package com.google.common.collect;
 
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Function;
 import com.google.common.base.Joiner.MapJoiner;
@@ -45,9 +48,6 @@ import java.util.TreeMap;
 import java.util.concurrent.ConcurrentMap;
 
 import javax.annotation.Nullable;
-
-import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * Static utility methods pertaining to {@link Map} instances. Also see this
@@ -82,25 +82,25 @@ public final class Maps {
    * specified number of elements without rehashing.
    *
    * @param expectedSize the expected size
-   * @return a new, empty {@code HashMap} with enough
-   *     capacity to hold {@code expectedSize} elements without rehashing
+   * @return a new, empty {@code HashMap} with enough capacity to hold {@code
+   *         expectedSize} elements without rehashing
    * @throws IllegalArgumentException if {@code expectedSize} is negative
    */
   public static <K, V> HashMap<K, V> newHashMapWithExpectedSize(
       int expectedSize) {
     /*
      * The HashMap is constructed with an initialCapacity that's greater than
-     * expectedSize. The larger value is necessary because HashMap resizes
-     * its internal array if the map size exceeds loadFactor * initialCapacity.
+     * expectedSize. The larger value is necessary because HashMap resizes its
+     * internal array if the map size exceeds loadFactor * initialCapacity.
      */
     return new HashMap<K, V>(capacity(expectedSize));
   }
 
   /**
-   * Returns an appropriate value for the "capacity" (in reality, "minimum
-   * table size") parameter of a {@link HashMap} constructor, such that the
-   * resulting table will be between 25% and 50% full when it contains
-   * {@code expectedSize} entries.
+   * Returns an appropriate value for the "capacity" (in reality, "minimum table
+   * size") parameter of a {@link HashMap} constructor, such that the resulting
+   * table will be between 25% and 50% full when it contains {@code
+   * expectedSize} entries.
    *
    * @throws IllegalArgumentException if {@code expectedSize} is negative
    */
@@ -120,8 +120,8 @@ public final class Maps {
    * #newEnumMap} instead.
    *
    * @param map the mappings to be placed in the new map
-   * @return a new {@code HashMap} initialized with the mappings from
-   *     {@code map}
+   * @return a new {@code HashMap} initialized with the mappings from {@code
+   *         map}
    */
   public static <K, V> HashMap<K, V> newHashMap(
       Map<? extends K, ? extends V> map) {
@@ -149,18 +149,18 @@ public final class Maps {
    * ImmutableMap#copyOf(Map)} instead.
    *
    * @param map the mappings to be placed in the new map
-   * @return a new, {@code LinkedHashMap} initialized with the
-   *     mappings from {@code map}
+   * @return a new, {@code LinkedHashMap} initialized with the mappings from
+   *         {@code map}
    */
-  public static <K, V> LinkedHashMap<K, V>
-      newLinkedHashMap(Map<? extends K, ? extends V> map) {
+  public static <K, V> LinkedHashMap<K, V> newLinkedHashMap(
+      Map<? extends K, ? extends V> map) {
     return new LinkedHashMap<K, V>(map);
   }
 
   /**
-   * Returns a general-purpose instance of {@code ConcurrentMap}, which
-   * supports all optional operations of the ConcurrentMap interface. It does
-   * not permit null keys or values. It is serializable.
+   * Returns a general-purpose instance of {@code ConcurrentMap}, which supports
+   * all optional operations of the ConcurrentMap interface. It does not permit
+   * null keys or values. It is serializable.
    *
    * <p>This is currently accomplished by calling {@link MapMaker#makeMap()}.
    *
@@ -198,9 +198,9 @@ public final class Maps {
    * ImmutableSortedMap#copyOfSorted(SortedMap)} instead.
    *
    * @param map the sorted map whose mappings are to be placed in the new map
-   *     and whose comparator is to be used to sort the new map
+   *        and whose comparator is to be used to sort the new map
    * @return a new {@code TreeMap} initialized with the mappings from {@code
-   *     map} and using the comparator of {@code map}
+   *         map} and using the comparator of {@code map}
    */
   public static <K, V> TreeMap<K, V> newTreeMap(SortedMap<K, ? extends V> map) {
     return new TreeMap<K, V>(map);
@@ -241,9 +241,9 @@ public final class Maps {
    *
    * @param map the map from which to initialize this {@code EnumMap}
    * @return a new {@code EnumMap} initialized with the mappings from {@code
-   *     map}
+   *         map}
    * @throws IllegalArgumentException if {@code m} is not an {@code EnumMap}
-   *     instance and contains no mappings
+   *         instance and contains no mappings
    */
   public static <K extends Enum<K>, V> EnumMap<K, V> newEnumMap(
       Map<K, ? extends V> map) {
@@ -324,8 +324,8 @@ public final class Maps {
           onBoth.put(leftKey, leftValue);
         } else {
           eq = false;
-          differences.put(leftKey, new ValueDifferenceImpl<V>(
-              leftValue, rightValue));
+          differences.put(
+              leftKey, new ValueDifferenceImpl<V>(leftValue, rightValue));
         }
       } else {
         eq = false;
@@ -338,8 +338,7 @@ public final class Maps {
         areEqual, onlyOnLeft, onlyOnRight, onBoth, differences);
   }
 
-  private static class MapDifferenceImpl<K, V>
-      implements MapDifference<K, V> {
+  private static class MapDifferenceImpl<K, V> implements MapDifference<K, V> {
     final boolean areEqual;
     final Map<K, V> onlyOnLeft;
     final Map<K, V> onlyOnRight;
@@ -416,7 +415,6 @@ public final class Maps {
 
   static class ValueDifferenceImpl<V>
       implements MapDifference.ValueDifference<V> {
-
     private final V left;
     private final V right;
 
@@ -460,11 +458,11 @@ public final class Maps {
    * @param values the values to use when constructing the {@code Map}
    * @param keyFunction the function used to produce the key for each value
    * @return a map mapping the result of evaluating the function {@code
-   *     keyFunction} on each value in the input collection to that value
+   *         keyFunction} on each value in the input collection to that value
    * @throws IllegalArgumentException if {@code keyFunction} produces the same
-   *     key for more than one value in the input collection
+   *         key for more than one value in the input collection
    * @throws NullPointerException if any elements of {@code values} is null, or
-   *     if {@code keyFunction} produces {@code null} for any value
+   *         if {@code keyFunction} produces {@code null} for any value
    */
   // TODO: consider returning a bimap, whose inverse view does lookups by
   // invoking the function.
@@ -485,15 +483,14 @@ public final class Maps {
    * a plain-old-{@code Map} out of a {@code Properties}.
    *
    * @param properties a {@code Properties} object to be converted
-   * @return an immutable map containing all the entries in
-   *     {@code properties}
-   * @throws ClassCastException if any key in {@code Properties} is not a
-   *     {@code String}
+   * @return an immutable map containing all the entries in {@code properties}
+   * @throws ClassCastException if any key in {@code Properties} is not a {@code
+   *         String}
    * @throws NullPointerException if any key or value in {@code Properties} is
-   *     null.
+   *         null
    */
-  public static ImmutableMap<String, String>
-      fromProperties(Properties properties) {
+  public static ImmutableMap<String, String> fromProperties(
+      Properties properties) {
     ImmutableMap.Builder<String, String> builder = ImmutableMap.builder();
 
     for (Enumeration<?> e = properties.propertyNames(); e.hasMoreElements();) {
@@ -514,7 +511,7 @@ public final class Maps {
    * @param value the value to be associated with the returned entry
    */
   public static <K, V> Entry<K, V> immutableEntry(
-      @Nullable final K key, @Nullable final V value) {
+      @Nullable K key, @Nullable V value) {
     return new ImmutableEntry<K, V>(key, value);
   }
 
@@ -527,17 +524,16 @@ public final class Maps {
    * @return an unmodifiable view of the entries
    */
   static <K, V> Set<Entry<K, V>> unmodifiableEntrySet(
-      final Set<Entry<K, V>> entrySet) {
-    return new UnmodifiableEntrySet<K, V>(Collections.unmodifiableSet(
-        entrySet));
+      Set<Entry<K, V>> entrySet) {
+    return new UnmodifiableEntrySet<K, V>(
+        Collections.unmodifiableSet(entrySet));
   }
 
   /**
    * Returns an unmodifiable view of the specified map entry. The {@link
    * Entry#setValue} operation throws an {@link UnsupportedOperationException}.
    * This also has the side-effect of redefining {@code equals} to comply with
-   * the Entry contract, to avoid a possible nefarious implementation of
-   * equals.
+   * the Entry contract, to avoid a possible nefarious implementation of equals.
    *
    * @param entry the entry for which to return an unmodifiable view
    * @return an unmodifiable view of the entry
@@ -548,6 +544,7 @@ public final class Maps {
       @Override public K getKey() {
         return entry.getKey();
       }
+
       @Override public V getValue() {
         return entry.getValue();
       }
@@ -573,6 +570,7 @@ public final class Maps {
         @Override public Entry<K, V> next() {
           return unmodifiableEntry(super.next());
         }
+
         @Override protected Iterator<Entry<K, V>> delegate() {
           return delegate;
         }
@@ -600,8 +598,7 @@ public final class Maps {
 
   /** @see Maps#unmodifiableEntrySet(Set) */
   static class UnmodifiableEntrySet<K, V>
-      extends UnmodifiableEntries<K, V>
-      implements Set<Entry<K, V>> {
+      extends UnmodifiableEntries<K, V> implements Set<Entry<K, V>> {
     UnmodifiableEntrySet(Set<Entry<K, V>> entries) {
       super(entries);
     }
@@ -638,7 +635,6 @@ public final class Maps {
   /** @see Maps#unmodifiableBiMap(BiMap) */
   private static class UnmodifiableBiMap<K, V>
       extends ForwardingMap<K, V> implements BiMap<K, V>, Serializable {
-
     final Map<K, V> unmodifiableMap;
     final BiMap<? extends K, ? extends V> delegate;
     transient BiMap<V, K> inverse;
@@ -646,7 +642,7 @@ public final class Maps {
 
     UnmodifiableBiMap(BiMap<? extends K, ? extends V> delegate,
         @Nullable BiMap<V, K> inverse) {
-      unmodifiableMap = Collections.<K, V>unmodifiableMap(delegate);
+      unmodifiableMap = Collections.unmodifiableMap(delegate);
       this.delegate = delegate;
       this.inverse = inverse;
     }
@@ -669,7 +665,7 @@ public final class Maps {
     @Override public Set<V> values() {
       Set<V> result = values;
       return (result == null)
-          ? values = Collections.<V>unmodifiableSet(delegate.values())
+          ? values = Collections.unmodifiableSet(delegate.values())
           : result;
     }
 
@@ -719,15 +715,15 @@ public final class Maps {
   /**
    * Returns a view of a map where each value is transformed by a function. All
    * other properties of the map, such as iteration order, are left intact. For
-   * example, the code:
-   * <pre>   {@code
+   * example, the code: <pre>   {@code
    *
    *   Map<String, Integer> map = ImmutableMap.of("a", 4, "b", 9);
-   *   Function<Integer, Double> sqrt = new Function<Integer, Double>() {
-   *     public Double apply(Integer in) {
-   *       return Math.sqrt((int) in);
-   *     }
-   *   };
+   *   Function<Integer, Double> sqrt =
+   *       new Function<Integer, Double>() {
+   *         public Double apply(Integer in) {
+   *           return Math.sqrt((int) in);
+   *         }
+   *       };
    *   Map<String, Double> transformed = Maps.transformValues(sqrt, map);
    *   System.out.println(transformed);}</pre>
    *
@@ -762,8 +758,8 @@ public final class Maps {
     final Map<K, V1> fromMap;
     final Function<? super V1, V2> function;
 
-    TransformedValuesMap(Map<K, V1> fromMap, Function<? super V1, V2> function)
-    {
+    TransformedValuesMap(
+        Map<K, V1> fromMap, Function<? super V1, V2> function) {
       this.fromMap = checkNotNull(fromMap);
       this.function = checkNotNull(function);
     }
@@ -779,7 +775,8 @@ public final class Maps {
     @Override public V2 get(Object key) {
       V1 value = fromMap.get(key);
       return (value != null || fromMap.containsKey(key))
-          ? function.apply(value) : null;
+          ? function.apply(value)
+          : null;
     }
 
     @Override public V2 remove(Object key) {
@@ -808,8 +805,8 @@ public final class Maps {
       }
 
       @Override public Iterator<Entry<K, V2>> iterator() {
-        final Iterator<Entry<K, V1>> mapIterator
-            = fromMap.entrySet().iterator();
+        final Iterator<Entry<K, V1>> mapIterator =
+            fromMap.entrySet().iterator();
 
         return new Iterator<Entry<K, V2>>() {
           public boolean hasNext() {
@@ -822,6 +819,7 @@ public final class Maps {
               @Override public K getKey() {
                 return entry.getKey();
               }
+
               @Override public V2 getValue() {
                 return function.apply(entry.getValue());
               }
@@ -891,11 +889,12 @@ public final class Maps {
   public static <K, V> Map<K, V> filterKeys(
       Map<K, V> unfiltered, final Predicate<? super K> keyPredicate) {
     checkNotNull(keyPredicate);
-    Predicate<Entry<K, V>> entryPredicate = new Predicate<Entry<K, V>>() {
-      public boolean apply(Entry<K, V> input) {
-        return keyPredicate.apply(input.getKey());
-      }
-    };
+    Predicate<Entry<K, V>> entryPredicate =
+        new Predicate<Entry<K, V>>() {
+          public boolean apply(Entry<K, V> input) {
+            return keyPredicate.apply(input.getKey());
+          }
+        };
     return (unfiltered instanceof AbstractFilteredMap)
         ? filterFiltered((AbstractFilteredMap<K, V>) unfiltered, entryPredicate)
         : new FilteredKeyMap<K, V>(
@@ -929,11 +928,12 @@ public final class Maps {
   public static <K, V> Map<K, V> filterValues(
       Map<K, V> unfiltered, final Predicate<? super V> valuePredicate) {
     checkNotNull(valuePredicate);
-    Predicate<Entry<K, V>> entryPredicate = new Predicate<Entry<K, V>>() {
-      public boolean apply(Entry<K, V> input) {
-        return valuePredicate.apply(input.getValue());
-      }
-    };
+    Predicate<Entry<K, V>> entryPredicate =
+        new Predicate<Entry<K, V>>() {
+          public boolean apply(Entry<K, V> input) {
+            return valuePredicate.apply(input.getValue());
+          }
+        };
     return filterEntries(unfiltered, entryPredicate);
   }
 
@@ -975,22 +975,20 @@ public final class Maps {
    * Support {@code clear()}, {@code removeAll()}, and {@code retainAll()} when
    * filtering a filtered map.
    */
-  private static <K, V> Map<K, V> filterFiltered(
-      AbstractFilteredMap<K, V> map,
+  private static <K, V> Map<K, V> filterFiltered(AbstractFilteredMap<K, V> map,
       Predicate<? super Entry<K, V>> entryPredicate) {
-    Predicate<Entry<K, V>> predicate
-        = Predicates.and(map.predicate, entryPredicate);
+    Predicate<Entry<K, V>> predicate =
+        Predicates.and(map.predicate, entryPredicate);
     return new FilteredEntryMap<K, V>(map.unfiltered, predicate);
   }
 
-  private static abstract class AbstractFilteredMap<K, V>
+  private abstract static class AbstractFilteredMap<K, V>
       extends AbstractMap<K, V> {
-
     final Map<K, V> unfiltered;
     final Predicate<? super Entry<K, V>> predicate;
 
-    AbstractFilteredMap(Map<K, V> unfiltered,
-        Predicate<? super Entry<K, V>> predicate) {
+    AbstractFilteredMap(
+        Map<K, V> unfiltered, Predicate<? super Entry<K, V>> predicate) {
       this.unfiltered = unfiltered;
       this.predicate = predicate;
     }
@@ -1046,6 +1044,7 @@ public final class Maps {
           public boolean hasNext() {
             return entryIterator.hasNext();
           }
+
           public V next() {
             return entryIterator.next().getValue();
           }
@@ -1145,8 +1144,9 @@ public final class Maps {
 
     // The cast is called only when the key is in the unfiltered map, implying
     // that key is a K.
+    @Override
     @SuppressWarnings("unchecked")
-    @Override public boolean containsKey(Object key) {
+    public boolean containsKey(Object key) {
       return unfiltered.containsKey(key) && keyPredicate.apply((K) key);
     }
   }
@@ -1159,8 +1159,8 @@ public final class Maps {
      */
     final Set<Entry<K, V>> filteredEntrySet;
 
-    FilteredEntryMap(Map<K, V> unfiltered,
-        Predicate<? super Entry<K, V>> entryPredicate) {
+    FilteredEntryMap(
+        Map<K, V> unfiltered, Predicate<? super Entry<K, V>> entryPredicate) {
       super(unfiltered, entryPredicate);
       filteredEntrySet = Sets.filter(unfiltered.entrySet(), predicate);
     }
@@ -1189,6 +1189,7 @@ public final class Maps {
               @Override protected Entry<K, V> delegate() {
                 return entry;
               }
+
               @Override public V setValue(V value) {
                 checkArgument(apply(entry.getKey(), value));
                 return super.setValue(value);
@@ -1213,6 +1214,7 @@ public final class Maps {
           public boolean hasNext() {
             return iterator.hasNext();
           }
+
           public K next() {
             return iterator.next().getKey();
           }
@@ -1282,15 +1284,14 @@ public final class Maps {
    */
   @GwtCompatible
   abstract static class ImprovedAbstractMap<K, V> extends AbstractMap<K, V> {
-
     /**
      * Creates the entry set to be returned by {@link #entrySet()}. This method
-     * is invoked at most once on a given map, at the time when {@code
-     * entrySet} is first called.
+     * is invoked at most once on a given map, at the time when {@code entrySet}
+     * is first called.
      */
     protected abstract Set<Entry<K, V>> createEntrySet();
 
-    private transient Set<Entry<K, V>> entrySet;
+    private Set<Entry<K, V>> entrySet;
 
     @Override public Set<Entry<K, V>> entrySet() {
       Set<Entry<K, V>> result = entrySet;
@@ -1300,40 +1301,42 @@ public final class Maps {
       return result;
     }
 
-    private transient Set<K> keySet;
+    private Set<K> keySet;
 
     @Override public Set<K> keySet() {
       Set<K> result = keySet;
       if (result == null) {
         final Set<K> delegate = super.keySet();
-        keySet = result = new ForwardingSet<K>() {
-          @Override protected Set<K> delegate() {
-            return delegate;
-          }
+        keySet = result =
+            new ForwardingSet<K>() {
+              @Override protected Set<K> delegate() {
+                return delegate;
+              }
 
-          @Override public boolean isEmpty() {
-            return ImprovedAbstractMap.this.isEmpty();
-          }
-        };
+              @Override public boolean isEmpty() {
+                return ImprovedAbstractMap.this.isEmpty();
+              }
+            };
       }
       return result;
     }
 
-    private transient Collection<V> values;
+    private Collection<V> values;
 
     @Override public Collection<V> values() {
       Collection<V> result = values;
       if (result == null) {
         final Collection<V> delegate = super.values();
-        values = result = new ForwardingCollection<V>() {
-          @Override protected Collection<V> delegate() {
-            return delegate;
-          }
+        values = result =
+            new ForwardingCollection<V>() {
+              @Override protected Collection<V> delegate() {
+                return delegate;
+              }
 
-          @Override public boolean isEmpty() {
-            return ImprovedAbstractMap.this.isEmpty();
-          }
-        };
+              @Override public boolean isEmpty() {
+                return ImprovedAbstractMap.this.isEmpty();
+              }
+            };
       }
       return result;
     }
@@ -1350,11 +1353,11 @@ public final class Maps {
     }
   }
 
-  static final MapJoiner standardJoiner
-      = Collections2.standardJoiner.withKeyValueSeparator("=");
+  static final MapJoiner standardJoiner =
+      Collections2.standardJoiner.withKeyValueSeparator("=");
 
   /**
-   * Delegates to {@link Map#get}.  Returns {@code null} on {@code
+   * Delegates to {@link Map#get}. Returns {@code null} on {@code
    * ClassCastException}.
    */
   static <V> V safeGet(Map<?, V> map, Object key) {
@@ -1366,7 +1369,7 @@ public final class Maps {
   }
 
   /**
-   * Delegates to {@link Map#containsKey}.  Returns {@code false} on {@code
+   * Delegates to {@link Map#containsKey}. Returns {@code false} on {@code
    * ClassCastException}
    */
   static boolean safeContainsKey(Map<?, ?> map, Object key) {

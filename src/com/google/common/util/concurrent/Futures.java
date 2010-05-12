@@ -425,9 +425,9 @@ public class Futures {
   private static class ChainingListenableFuture<I, O>
       extends AbstractListenableFuture<O> implements Runnable {
 
-    private final Function<? super I, ? extends ListenableFuture<? extends O>>
+    private Function<? super I, ? extends ListenableFuture<? extends O>>
         function;
-    private final UninterruptibleFuture<? extends I> inputFuture;
+    private UninterruptibleFuture<? extends I> inputFuture;
 
     private ChainingListenableFuture(
         Function<? super I, ? extends ListenableFuture<? extends O>> function,
@@ -478,6 +478,10 @@ public class Futures {
         // the error needs to be propagated ASAP.
         setException(e);
         throw e;
+      } finally {
+        // Don't pin inputs beyond completion
+        function = null;
+        inputFuture = null;
       }
     }
   }

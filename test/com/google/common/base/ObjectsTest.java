@@ -16,9 +16,7 @@
 
 package com.google.common.base;
 
-
 import junit.framework.TestCase;
-
 
 /**
  * Tests for {@link Objects}.
@@ -55,40 +53,6 @@ public class ObjectsTest extends TestCase {
     assertTrue(Objects.hashCode(1, 2, 3) != Objects.hashCode(3, 2, 1));
     assertTrue(Objects.hashCode(1, 2, 3) != Objects.hashCode(2, 3, 1));
   }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
   public void testFirstNonNull_withNonNull() throws Exception {
     String s1 = "foo";

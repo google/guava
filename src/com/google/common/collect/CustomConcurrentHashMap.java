@@ -1218,6 +1218,32 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
     return segmentFor(hash).removeEntry(entry, hash);
   }
 
+  /**
+   * Returns true if the given entry has expired.
+   */
+  boolean isExpired(ReferenceEntry<K, V> entry) {
+    return isExpired((Expirable) entry, System.nanoTime());
+  }
+
+  /**
+   * Returns true if the given entry has expired.
+   */
+  boolean isExpired(Expirable expirable, long now) {
+    // Avoid overflow.
+    return now - expirable.getWriteTime() > expirationNanos;
+  }
+
+  /**
+   * Gets the value from an entry. Returns null if the value is null (i.e.
+   * reclaimed or not computed yet) or if the entry is expired. If
+   * you already called expireEntries() you can just check the value for
+   * null and skip the expiration check.
+   */
+  V getUnexpiredValue(ReferenceEntry<K, V> e) {
+    V value = e.getValueReference().get();
+    return (expires && isExpired(e)) ? null : value;
+  }
+
   @SuppressWarnings("unchecked")
   final Segment[] newSegmentArray(int ssize) {
     // Note: This is the only way I could figure out how to create
@@ -1368,21 +1394,6 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
       setValueReference(entry, valueStrength.referenceValue(entry, value));
     }
 
-    /**
-     * Returns true if the given entry has expired.
-     */
-    boolean isExpired(Expirable expirable, long now) {
-      // Handle overflow.
-      return now - expirable.getWriteTime() > expirationNanos;
-    }
-
-    /**
-     * Returns true if the given entry has expired.
-     */
-    boolean isExpired(ReferenceEntry<K, V> entry) {
-      return isExpired((Expirable) entry, System.nanoTime());
-    }
-
     @GuardedBy("Segment.this")
     void addExpirable(Expirable added) {
       removeExpirable(added);
@@ -1504,17 +1515,6 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
       return entry.getValueReference().get();
     }
 
-    /**
-     * Gets the value from an entry. Returns null if the value is null (i.e.
-     * reclaimed or not computed yet) or if the entry is expired. If
-     * you already called expireEntries() you can just check the value for
-     * null and skip the expiration check.
-     */
-    V validValue(ReferenceEntry<K, V> e) {
-      V value = e.getValueReference().get();
-      return (expires && isExpired(e)) ? null : value;
-    }
-
     boolean containsKey(Object key, int hash) {
       if (count != 0) { // read-volatile
         for (ReferenceEntry<K, V> e = getFirst(hash); e != null;
@@ -1529,7 +1529,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
           }
 
           if (keyEquivalence.equivalent(entryKey, key)) {
-            return validValue(e) != null;
+            return getUnexpiredValue(e) != null;
           }
         }
       }
@@ -1544,7 +1544,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
         for (int i = 0; i < length; ++i) {
           for (ReferenceEntry<K, V> e = table.get(i); e != null;
               e = e.getNext()) {
-            V entryValue = validValue(e);
+            V entryValue = getUnexpiredValue(e);
             if (entryValue == null) {
               continue;
             }
@@ -1820,8 +1820,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
     boolean reclaimValue(ReferenceEntry<K, V> entry, int hash) {
       /*
        * Used for reference cleanup. We probably don't want to expire entries
-       * here as it can be called over and over. TODO: Pass in value reference
-       * instead of the value.
+       * here as it can be called over and over.
        */
       lock();
       try {
@@ -2225,8 +2224,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
      */
     boolean advanceTo(ReferenceEntry<K, V> entry) {
       K key = entry.getKey();
-      V value = entry.getValueReference().get();
-      // TODO: Ensure value hasn't expired.
+      V value = getUnexpiredValue(entry);
       if (key != null && value != null) {
         nextExternal = new WriteThroughEntry(key, value);
         return true;

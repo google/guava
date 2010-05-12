@@ -234,8 +234,6 @@ public final class Preconditions {
     return reference;
   }
 
-
-
   /*
    * All recent hotspots (as of 2009) *really* like to have the natural code
    *

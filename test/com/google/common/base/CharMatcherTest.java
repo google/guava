@@ -18,7 +18,6 @@ package com.google.common.base;
 
 import com.google.testing.util.NullPointerTester;
 
-
 import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
 
@@ -71,10 +70,6 @@ public class CharMatcherTest extends TestCase {
   // The next tests require ICU4J and have, at least for now, been sliced out
   // of the open-source view of the tests.
 
-
-
-
-
   // For GWT-compatibility reasons, CharMatcher.JAVA_WHITESPACE doesn't actually
   // use Character.isWhitespace. This test ensures that its custom
   // implementation stays in sync with the implementation of
@@ -97,10 +92,6 @@ public class CharMatcherTest extends TestCase {
 
   // Omitting tests for the rest of the JAVA_* constants as these are defined
   // as extremely straightforward pass-throughs to the JDK methods.
-
-
-
-
 
   // We're testing the is(), isNot(), anyOf(), noneOf() and inRange() methods
   // below by testing their text-processing methods.

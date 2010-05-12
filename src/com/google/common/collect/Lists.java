@@ -470,8 +470,6 @@ public final class Lists {
         : new Partition<T>(list, size);
   }
 
-
-
   private static class Partition<T> extends AbstractList<List<T>> {
     final List<T> list;
     final int size;

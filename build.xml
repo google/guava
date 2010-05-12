@@ -57,7 +57,8 @@
     <delete dir="build/javadoc"/>
     <mkdir dir="build/javadoc"/>
 
-    <javadoc packagenames="com.google.common.annotations,com.google.common.base,com.google.common.collect,com.google.common.io,com.google.common.primitives,com.google.common.util.concurrent"
+<!-- TODO: there should be some better way to do this -->
+    <javadoc packagenames="com.google.common.annotations,com.google.common.base,com.google.common.collect,com.google.common.io,com.google.common.net,com.google.common.primitives,com.google.common.util.concurrent"
          destdir="build/javadoc"
          use="true"
          author="true"

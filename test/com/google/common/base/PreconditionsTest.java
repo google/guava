@@ -20,7 +20,6 @@ import com.google.testing.util.NullPointerTester;
 
 import junit.framework.TestCase;
 
-
 /**
  * Unit test for {@link Preconditions}.
  *
@@ -165,46 +164,6 @@ public class PreconditionsTest extends TestCase {
       verifyComplexMessage(expected);
     }
   }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
   public void testCheckElementIndex_ok() {
     assertEquals(0, Preconditions.checkElementIndex(0, 1));
@@ -358,12 +317,6 @@ public class PreconditionsTest extends TestCase {
           expected.getMessage());
     }
   }
-
-
-
-
-
-
 
   public void testFormat() {
     assertEquals("%s", Preconditions.format("%s"));

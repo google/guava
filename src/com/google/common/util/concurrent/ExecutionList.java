@@ -20,7 +20,7 @@ import com.google.common.annotations.Beta;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 
-import java.util.List;
+import java.util.Queue;
 import java.util.concurrent.Executor;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -43,9 +43,8 @@ public class ExecutionList implements Runnable {
   private static final Logger LOG =
       Logger.getLogger(ExecutionList.class.getName());
 
-  // The list of runnable,executor pairs to execute.  Only modified within
-  // a synchronized block.
-  private final List<RunnableExecutorPair> runnables = Lists.newArrayList();
+  // The runnable,executor pairs to execute.
+  private final Queue<RunnableExecutorPair> runnables = Lists.newLinkedList();
   
   // Boolean we use mark when execution has started.  Only accessed from within
   // synchronized blocks.
@@ -98,10 +97,10 @@ public class ExecutionList implements Runnable {
       executed = true;
     }
     
-    // At this point the runnable list will never be modified again, so we are
-    // safe running it outside of the synchronized block.
-    for (RunnableExecutorPair runnableAndExecutor : runnables) {
-      runnableAndExecutor.execute();
+    // At this point the runnables will never be modified by another
+    // thread, so we are safe using it outside of the synchronized block.
+    while (!runnables.isEmpty()) {
+      runnables.poll().execute();
     }
   }
 
