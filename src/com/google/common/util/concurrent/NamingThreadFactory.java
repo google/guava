@@ -29,11 +29,8 @@ import java.util.concurrent.ThreadFactory;
  * @since 1
  */
 @Beta // TODO: Deprecate this class.
-public class NamingThreadFactory implements ThreadFactory {
+public final class NamingThreadFactory implements ThreadFactory {
   private final ThreadFactory delegate;
-
-  public static final ThreadFactory DEFAULT_FACTORY
-      = Executors.defaultThreadFactory();
 
   /**
    * Creates a new factory that delegates to the default thread factory for
@@ -46,7 +43,7 @@ public class NamingThreadFactory implements ThreadFactory {
    *     NamingThreadFactory and will be assigned sequentially.
    */
   public NamingThreadFactory(String format) {
-    this(format, DEFAULT_FACTORY);
+    this(format, Executors.defaultThreadFactory());
   }
 
   /**

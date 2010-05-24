@@ -29,13 +29,13 @@ import java.lang.annotation.Target;
  * GWT.  They can cause GWT compilation errors or simply unexpected exceptions
  * when used in GWT.
  *
- * <p>Note that this annotation should only be applied to methods or inner
- * classes of types which are annotated as {@link GwtCompatible}.
+ * <p>Note that this annotation should only be applied to methods, fields, or
+ * inner classes of types which are annotated as {@link GwtCompatible}.
  *
  * @author Charles Fry
  */
 @Retention(RetentionPolicy.CLASS)
-@Target({ ElementType.TYPE, ElementType.METHOD })
+@Target({ ElementType.TYPE, ElementType.METHOD, ElementType.FIELD })
 
 @GwtCompatible
 public @interface GwtIncompatible {

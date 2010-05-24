@@ -724,7 +724,7 @@ public final class Maps {
    *           return Math.sqrt((int) in);
    *         }
    *       };
-   *   Map<String, Double> transformed = Maps.transformValues(sqrt, map);
+   *   Map<String, Double> transformed = Maps.transformValues(map, sqrt);
    *   System.out.println(transformed);}</pre>
    *
    * ... prints {@code {a=2.0, b=3.0}}.
@@ -1183,6 +1183,7 @@ public final class Maps {
           public boolean hasNext() {
             return iterator.hasNext();
           }
+
           public Entry<K, V> next() {
             final Entry<K, V> entry = iterator.next();
             return new ForwardingMapEntry<K, V>() {

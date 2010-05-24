@@ -471,27 +471,24 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
      * @param original the entry to copy
      * @param newNext entry in the same bucket
      */
+    @GuardedBy("Segment.this")
     <K, V> ReferenceEntry<K, V> copyEntry(
         CustomConcurrentHashMap<K, V> map,
         ReferenceEntry<K, V> original, ReferenceEntry<K, V> newNext) {
       return newEntry(map, original.getKey(), original.getHash(), newNext);
     }
 
+    @GuardedBy("Segment.this")
     <K, V> void copyExpirableEntry(
         ReferenceEntry<K, V> original, ReferenceEntry<K, V> newEntry) {
       Expirable originalExpirable = (Expirable) original;
       Expirable newExpirable = (Expirable) newEntry;
       newExpirable.setWriteTime(originalExpirable.getWriteTime());
 
-      Expirable previous = originalExpirable.getPreviousExpirable();
-      newExpirable.setPreviousExpirable(previous);
-      previous.setNextExpirable(newExpirable);
-      originalExpirable.setPreviousExpirable(NullExpirable.INSTANCE);
+      connectExpirable(originalExpirable.getPreviousExpirable(), newExpirable);
+      connectExpirable(newExpirable, originalExpirable.getNextExpirable());
 
-      Expirable next = originalExpirable.getNextExpirable();
-      newExpirable.setNextExpirable(next);
-      next.setPreviousExpirable(newExpirable);
-      originalExpirable.setNextExpirable(NullExpirable.INSTANCE);
+      nullifyExpirable(originalExpirable);
     }
 
     <K, V> void copyEvictableEntry(
@@ -1192,6 +1189,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
     entry.setValueReference(valueReference);
   }
 
+  @GuardedBy("Segment.this")
   ReferenceEntry<K, V> copyEntry(
       ReferenceEntry<K, V> original, ReferenceEntry<K, V> newNext) {
     ValueReference<K, V> valueReference = original.getValueReference();
@@ -1216,6 +1214,18 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
   boolean removeEntry(ReferenceEntry<K, V> entry) {
     int hash = entry.getHash();
     return segmentFor(hash).removeEntry(entry, hash);
+  }
+
+  @GuardedBy("Segment.this")
+  static void connectExpirable(Expirable previous, Expirable next) {
+    previous.setNextExpirable(next);
+    next.setPreviousExpirable(previous);
+  }
+
+  @GuardedBy("Segment.this")
+  static void nullifyExpirable(Expirable nulled) {
+    nulled.setNextExpirable(NullExpirable.INSTANCE);
+    nulled.setPreviousExpirable(NullExpirable.INSTANCE);
   }
 
   /**
@@ -1385,6 +1395,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
      * Sets a new value of an entry. Adds newly created entries at the end
      * of the expiration queue.
      */
+    @GuardedBy("Segment.this") // if expires
     void setValue(ReferenceEntry<K, V> entry, V value, boolean inserted) {
       // TODO: explore other expiration strategies (e.g. on insertion)
       if (expires) {
@@ -1396,7 +1407,8 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
 
     @GuardedBy("Segment.this")
     void addExpirable(Expirable added) {
-      removeExpirable(added);
+      connectExpirable(added.getPreviousExpirable(),
+          added.getNextExpirable());
 
       added.setWriteTime(System.nanoTime());
 
@@ -1406,20 +1418,9 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
 
     @GuardedBy("Segment.this")
     void removeExpirable(Expirable removed) {
-      Expirable next = removed.getNextExpirable();
-      if (next == null) {
-        return;
-      }
-      connectExpirable(removed.getPreviousExpirable(), next);
-
-      removed.setNextExpirable(NullExpirable.INSTANCE);
-      removed.setPreviousExpirable(NullExpirable.INSTANCE);
-    }
-
-    @GuardedBy("Segment.this")
-    void connectExpirable(Expirable previous, Expirable next) {
-      previous.setNextExpirable(next);
-      next.setPreviousExpirable(previous);
+      connectExpirable(removed.getPreviousExpirable(),
+          removed.getNextExpirable());
+      nullifyExpirable(removed);
     }
 
     /**
@@ -1448,12 +1449,12 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
       return new AtomicReferenceArray<ReferenceEntry<K, V>>(size);
     }
 
+    @GuardedBy("Segment.this")
     void clearExpirationQueue() {
       Expirable expirable = expirationHead.getNextExpirable();
       while (expirable != expirationHead) {
         Expirable next = expirable.getNextExpirable();
-        expirable.setNextExpirable(NullExpirable.INSTANCE);
-        expirable.setPreviousExpirable(NullExpirable.INSTANCE);
+        nullifyExpirable(expirable);
         expirable = next;
       }
 

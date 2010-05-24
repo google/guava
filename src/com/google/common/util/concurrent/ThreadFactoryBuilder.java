@@ -43,11 +43,9 @@ import java.util.concurrent.atomic.AtomicLong;
  */
 @Beta
 public final class ThreadFactoryBuilder {
-  private boolean wasDaemonSet = false;
-
-  private boolean daemon = false;
   private String nameFormat = null;
-  private int priority = Thread.MIN_PRIORITY - 1;
+  private Boolean daemon = null;
+  private Integer priority = null;
   private UncaughtExceptionHandler uncaughtExceptionHandler = null;
   private ThreadFactory backingThreadFactory = null;
 
@@ -81,7 +79,6 @@ public final class ThreadFactoryBuilder {
    */
   public ThreadFactoryBuilder setDaemon(boolean daemon) {
     this.daemon = daemon;
-    this.wasDaemonSet = true;
     return this;
   }
 
@@ -93,7 +90,6 @@ public final class ThreadFactoryBuilder {
    * @return this for the builder pattern
    */
   public ThreadFactoryBuilder setPriority(int priority) {
-    // TODO: Do we want to leave these Precondition checks in here?
     // Thread#setPriority() already checks for validity. These error messages
     // are nicer though and will fail-fast.
     checkArgument(priority >= Thread.MIN_PRIORITY,
@@ -137,26 +133,36 @@ public final class ThreadFactoryBuilder {
 
   /**
    * Returns a new thread factory using the options supplied during the building
-   * process.
+   * process. After building, it is still possible to change the options used to
+   * build the ThreadFactory and/or build again. State is not shared amongst
+   * built instances.
    *
    * @return the fully constructed {@link ThreadFactory}
    */
   public ThreadFactory build() {
+    return build(this);
+  }
+
+  private static ThreadFactory build(ThreadFactoryBuilder builder) {
+    final String nameFormat = builder.nameFormat;
+    final Boolean daemon = builder.daemon;
+    final Integer priority = builder.priority;
+    final UncaughtExceptionHandler uncaughtExceptionHandler =
+        builder.uncaughtExceptionHandler;
+    final ThreadFactory backingThreadFactory = builder.backingThreadFactory;
+    final AtomicLong count = (nameFormat != null) ? new AtomicLong(0) : null;
     return new ThreadFactory() {
-      private final AtomicLong count = (nameFormat != null)
-          ? new AtomicLong(0)
-          : null;
       @Override public Thread newThread(Runnable runnable) {
         Thread thread = (backingThreadFactory != null)
             ? backingThreadFactory.newThread(runnable)
             : new Thread(runnable);
-        if (wasDaemonSet) {
-          thread.setDaemon(daemon);
-        }
         if (nameFormat != null) {
           thread.setName(String.format(nameFormat, count.getAndIncrement()));
         }
-        if (priority >= Thread.MIN_PRIORITY) {
+        if (daemon != null) {
+          thread.setDaemon(daemon);
+        }
+        if (priority != null) {
           thread.setPriority(priority);
         }
         if (uncaughtExceptionHandler != null) {

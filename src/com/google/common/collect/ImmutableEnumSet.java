@@ -21,7 +21,6 @@ import com.google.common.annotations.GwtCompatible;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.EnumSet;
-import java.util.Set;
 
 /**
  * Implementation of {@link ImmutableSet} backed by a non-empty {@link
@@ -31,7 +30,7 @@ import java.util.Set;
  */
 @GwtCompatible(serializable = true, emulated = true)
 @SuppressWarnings("serial") // we're overriding default serialization
-final class ImmutableEnumSet<E /*extends Enum<E>*/> extends ImmutableSet<E> {
+final class ImmutableEnumSet<E extends Enum<E>> extends ImmutableSet<E> {
   /*
    * Notes on EnumSet and <E extends Enum<E>>:
    *
@@ -39,21 +38,10 @@ final class ImmutableEnumSet<E /*extends Enum<E>*/> extends ImmutableSet<E> {
    * know that calling {@code clone()} during deserialization will return an
    * object that no one else has a reference to, allowing us to guarantee
    * immutability. Hence, we support only {@link EnumSet}.
-   *
-   * GWT complicates matters. If we declare the class's type parameter as
-   * <E extends Enum<E>> (as is necessary to declare a field of type
-   * EnumSet<E>), GWT generates serializers for every available enum. This
-   * increases the size of some applications' JavaScript by over 10%. To avoid
-   * this, we declare the type parameter as just <E> and the field as just
-   * Set<E>. writeReplace() must then use an unchecked cast to return to
-   * EnumSet, guaranteeing immutability as described above.
-   *
-   * TODO: Revert back to <E extends Enum<E>> and EnumSet now that this class
-   * is GWT emulated.
    */
-  private final transient Set<E> delegate;
+  private final transient EnumSet<E> delegate;
 
-  ImmutableEnumSet(Set<E> delegate) {
+  ImmutableEnumSet(EnumSet<E> delegate) {
     this.delegate = delegate;
   }
 
@@ -101,9 +89,8 @@ final class ImmutableEnumSet<E /*extends Enum<E>*/> extends ImmutableSet<E> {
   }
 
   // All callers of the constructor are restricted to <E extends Enum<E>>.
-  @SuppressWarnings("unchecked")
   @Override Object writeReplace() {
-    return new EnumSerializedForm((EnumSet) delegate);
+    return new EnumSerializedForm<E>(delegate);
   }
 
   /*

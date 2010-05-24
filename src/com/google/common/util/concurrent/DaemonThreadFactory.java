@@ -28,7 +28,7 @@ import java.util.concurrent.ThreadFactory;
  * @since 1
  */
 @Beta // TODO: Deprecate this class.
-public class DaemonThreadFactory implements ThreadFactory {
+public final class DaemonThreadFactory implements ThreadFactory {
   private final ThreadFactory delegate;
 
   public DaemonThreadFactory(ThreadFactory factory) {

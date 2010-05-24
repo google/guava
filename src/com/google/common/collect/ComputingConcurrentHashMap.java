@@ -228,7 +228,16 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V>
       throw new NullOutputException(message);
     }
 
-    segment.setValue(entry, value, true);
+    if (expires) {
+      segment.lock();
+      try {
+        segment.setValue(entry, value, true);
+      } finally {
+        segment.unlock();
+      }
+    } else {
+      segment.setValue(entry, value, true);
+    }
     return value;
   }
 
