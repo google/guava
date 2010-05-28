@@ -27,8 +27,12 @@ import java.util.concurrent.ThreadFactory;
  *
  * @author Kevin Bourrillion
  * @since 1
+ * @deprecated Create a {@link ThreadFactoryBuilder} and then use its
+ *     {@link ThreadFactoryBuilder#setNameFormat} and
+ *     {@link ThreadFactoryBuilder#setThreadFactory} methods.
  */
-@Beta // TODO: Deprecate this class.
+@Beta
+@Deprecated
 public final class NamingThreadFactory implements ThreadFactory {
   private final ThreadFactory delegate;
 
@@ -43,7 +47,10 @@ public final class NamingThreadFactory implements ThreadFactory {
    *     NamingThreadFactory and will be assigned sequentially.
    */
   public NamingThreadFactory(String format) {
-    this(format, Executors.defaultThreadFactory());
+    this.delegate = new ThreadFactoryBuilder()
+        .setNameFormat(format)
+        .setThreadFactory(Executors.defaultThreadFactory())
+        .build();
   }
 
   /**

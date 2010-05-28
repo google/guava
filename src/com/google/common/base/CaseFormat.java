@@ -1,16 +1,14 @@
 /*
  * Copyright (C) 2006 Google Inc.
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
+ * Unless required by applicable law or agreed to in writing, software distributed under the
+ * License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
+ * express or implied. See the License for the specific language governing permissions and
  * limitations under the License.
  */
 
@@ -27,7 +25,6 @@ import com.google.common.annotations.VisibleForTesting;
  */
 @GwtCompatible
 public enum CaseFormat {
-
   /**
    * Hyphenated variable naming convention, e.g., "lower-hyphen".
    */
@@ -56,16 +53,15 @@ public enum CaseFormat {
   private final CharMatcher wordBoundary;
   private final String wordSeparator;
 
-  private CaseFormat(CharMatcher wordBoundary, String wordSeparator) {
+  CaseFormat(CharMatcher wordBoundary, String wordSeparator) {
     this.wordBoundary = wordBoundary;
     this.wordSeparator = wordSeparator;
   }
 
   /**
-   * Converts the specified {@code String s} from this format to the specified
-   * {@code format}. A "best effort" approach is taken; if {@code s} does not
-   * conform to the assumed format, then the behavior of this method is
-   * undefined but we make a reasonable effort at converting anyway.
+   * Converts the specified {@code String s} from this format to the specified {@code format}. A
+   * "best effort" approach is taken; if {@code s} does not conform to the assumed format, then the
+   * behavior of this method is undefined but we make a reasonable effort at converting anyway.
    */
   public String to(CaseFormat format, String s) {
     if (format == null) {
@@ -107,13 +103,13 @@ public enum CaseFormat {
         break;
     }
 
-    /* otherwise, deal with camel conversion */
+    // otherwise, deal with camel conversion
     StringBuilder out = null;
     int i = 0;
     int j = -1;
     while ((j = wordBoundary.indexIn(s, ++j)) != -1) {
       if (i == 0) {
-        /* include some extra space for separators */
+        // include some extra space for separators
         out = new StringBuilder(s.length() + 4 * wordSeparator.length());
         out.append(format.normalizeFirstWord(s.substring(i, j)));
       } else {
@@ -131,25 +127,35 @@ public enum CaseFormat {
 
   private String normalizeFirstWord(String word) {
     switch (this) {
-      case LOWER_CAMEL: return toLowerCaseAscii(word);
-      default: return normalizeWord(word);
+      case LOWER_CAMEL:
+        return toLowerCaseAscii(word);
+      default:
+        return normalizeWord(word);
     }
   }
 
   private String normalizeWord(String word) {
     switch (this) {
-      case LOWER_HYPHEN: return toLowerCaseAscii(word);
-      case LOWER_UNDERSCORE: return toLowerCaseAscii(word);
-      case LOWER_CAMEL: return firstCharOnlyToUpper(word);
-      case UPPER_CAMEL: return firstCharOnlyToUpper(word);
-      case UPPER_UNDERSCORE: return toUpperCaseAscii(word);
+      case LOWER_HYPHEN:
+        return toLowerCaseAscii(word);
+      case LOWER_UNDERSCORE:
+        return toLowerCaseAscii(word);
+      case LOWER_CAMEL:
+        return firstCharOnlyToUpper(word);
+      case UPPER_CAMEL:
+        return firstCharOnlyToUpper(word);
+      case UPPER_UNDERSCORE:
+        return toUpperCaseAscii(word);
     }
     throw new RuntimeException("unknown case: " + this);
   }
 
   private static String firstCharOnlyToUpper(String word) {
     int length = word.length();
-    return (length == 0) ? word : new StringBuilder(length)
+    if (length == 0) {
+      return word;
+    }
+    return new StringBuilder(length)
         .append(charToUpperCaseAscii(word.charAt(0)))
         .append(toLowerCaseAscii(word.substring(1)))
         .toString();

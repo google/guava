@@ -1,16 +1,14 @@
 /*
  * Copyright (C) 2008 Google Inc.
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
+ * Unless required by applicable law or agreed to in writing, software distributed under the
+ * License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
+ * express or implied. See the License for the specific language governing permissions and
  * limitations under the License.
  */
 
@@ -27,20 +25,17 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * Determines a true or false value for any Java {@code char} value, just as
- * {@link Predicate} does for any {@link Object}. Also offers basic text
- * processing methods based on this function. Implementations are strongly
- * encouraged to be side-effect-free and immutable.
+ * Determines a true or false value for any Java {@code char} value, just as {@link Predicate} does
+ * for any {@link Object}. Also offers basic text processing methods based on this function.
+ * Implementations are strongly encouraged to be side-effect-free and immutable.
  *
- * <p>Throughout the documentation of this class, the phrase "matching
- * character" is used to mean "any character {@code c} for which {@code
- * this.matches(c)} returns {@code true}".
+ * <p>Throughout the documentation of this class, the phrase "matching character" is used to mean
+ * "any character {@code c} for which {@code this.matches(c)} returns {@code true}".
  *
- * <p><b>Note:</b> This class deals only with {@code char} values; it does not
- * understand supplementary Unicode code points in the range {@code 0x10000} to
- * {@code 0x10FFFF}. Such logical characters are encoded into a {@code String}
- * using surrogate pairs, and a {@code CharMatcher} treats these just as two
- * separate characters.
+ * <p><b>Note:</b> This class deals only with {@code char} values; it does not understand
+ * supplementary Unicode code points in the range {@code 0x10000} to {@code 0x10FFFF}. Such logical
+ * characters are encoded into a {@code String} using surrogate pairs, and a {@code CharMatcher}
+ * treats these just as two separate characters.
  *
  * @author Kevin Bourrillion
  * @since 1
@@ -61,15 +56,15 @@ public abstract class CharMatcher implements Predicate<Character> {
       "\u00a0\u180e\u202f";
 
   /**
-   * Determines whether a character is whitespace according to the latest
-   * Unicode standard, as illustrated
+   * Determines whether a character is whitespace according to the latest Unicode standard, as
+   * illustrated
    * <a href="http://unicode.org/cldr/utility/list-unicodeset.jsp?a=%5Cp%7Bwhitespace%7D">here</a>.
-   * This is not the same definition used by other Java APIs. (See a <a href=
-   * "http://spreadsheets.google.com/pub?key=pd8dAQyHbdewRsnE5x5GzKQ">comparison
-   * of several definitions of "whitespace"</a>.)
+   * This is not the same definition used by other Java APIs. (See a
+   * <a href="http://spreadsheets.google.com/pub?key=pd8dAQyHbdewRsnE5x5GzKQ">comparison of several
+   * definitions of "whitespace"</a>.)
    *
-   * <p><b>Note:</b> as the Unicode definition evolves, we will modify this
-   * constant to keep it up to date.
+   * <p><b>Note:</b> as the Unicode definition evolves, we will modify this constant to keep it up
+   * to date.
    */
   public static final CharMatcher WHITESPACE =
       anyOf(BREAKING_WHITESPACE_CHARS + NON_BREAKING_WHITESPACE_CHARS)
@@ -77,10 +72,9 @@ public abstract class CharMatcher implements Predicate<Character> {
           .precomputed();
 
   /**
-   * Determines whether a character is a breaking whitespace (that is,
-   * a whitespace which can be interpreted as a break between words
-   * for formatting purposes).  See {@link #WHITESPACE} for a discussion
-   * of that term.
+   * Determines whether a character is a breaking whitespace (that is, a whitespace which can be
+   * interpreted as a break between words for formatting purposes). See {@link #WHITESPACE} for a
+   * discussion of that term.
    *
    * @since 2
    */
@@ -91,8 +85,7 @@ public abstract class CharMatcher implements Predicate<Character> {
           .precomputed();
 
   /**
-   * Determines whether a character is ASCII, meaning that its code point is
-   * less than 128.
+   * Determines whether a character is ASCII, meaning that its code point is less than 128.
    */
   public static final CharMatcher ASCII = inRange('\0', '\u007f');
 
@@ -115,28 +108,26 @@ public abstract class CharMatcher implements Predicate<Character> {
   }
 
   /**
-   * Determines whether a character is whitespace according to {@link
-   * Character#isWhitespace(char) Java's definition}; it is usually preferable
-   * to use {@link #WHITESPACE}.  (See a <a href=
-   * "http://spreadsheets.google.com/pub?key=pd8dAQyHbdewRsnE5x5GzKQ">comparison
-   * of several definitions of "whitespace"</a>.)
+   * Determines whether a character is whitespace according to {@link Character#isWhitespace(char)
+   * Java's definition}; it is usually preferable to use {@link #WHITESPACE}. (See a
+   * <a href="http://spreadsheets.google.com/pub?key=pd8dAQyHbdewRsnE5x5GzKQ">comparison of several
+   * definitions of "whitespace"</a>.)
    */
-  public static final CharMatcher JAVA_WHITESPACE
-      = inRange('\u0009', (char) 13)  // \\u000d doesn't work as a char literal
-      .or(inRange('\u001c', '\u0020'))
-      .or(is('\u1680'))
-      .or(is('\u180e'))
-      .or(inRange('\u2000', '\u2006'))
-      .or(inRange('\u2008', '\u200b'))
-      .or(inRange('\u2028', '\u2029'))
-      .or(is('\u205f'))
-      .or(is('\u3000'))
-      .precomputed();
+  public static final CharMatcher JAVA_WHITESPACE =
+      inRange('\u0009', (char) 13)  // \\u000d doesn't work as a char literal
+          .or(inRange('\u001c', '\u0020'))
+          .or(is('\u1680'))
+          .or(is('\u180e'))
+          .or(inRange('\u2000', '\u2006'))
+          .or(inRange('\u2008', '\u200b'))
+          .or(inRange('\u2028', '\u2029'))
+          .or(is('\u205f'))
+          .or(is('\u3000'))
+          .precomputed();
 
   /**
-   * Determines whether a character is a digit according to {@link
-   * Character#isDigit(char) Java's definition}. If you only care to match
-   * ASCII digits, you can use {@code inRange('0', '9')}.
+   * Determines whether a character is a digit according to {@link Character#isDigit(char) Java's
+   * definition}. If you only care to match ASCII digits, you can use {@code inRange('0', '9')}.
    */
   public static final CharMatcher JAVA_DIGIT = new CharMatcher() {
     @Override public boolean matches(char c) {
@@ -145,9 +136,8 @@ public abstract class CharMatcher implements Predicate<Character> {
   };
 
   /**
-   * Determines whether a character is a letter according to {@link
-   * Character#isLetter(char) Java's definition}. If you only care to match
-   * letters of the Latin alphabet, you can use {@code
+   * Determines whether a character is a letter according to {@link Character#isLetter(char) Java's
+   * definition}. If you only care to match letters of the Latin alphabet, you can use {@code
    * inRange('a', 'z').or(inRange('A', 'Z'))}.
    */
   public static final CharMatcher JAVA_LETTER = new CharMatcher() {
@@ -167,8 +157,8 @@ public abstract class CharMatcher implements Predicate<Character> {
   };
 
   /**
-   * Determines whether a character is upper case according to {@link
-   * Character#isUpperCase(char) Java's definition}.
+   * Determines whether a character is upper case according to {@link Character#isUpperCase(char)
+   * Java's definition}.
    */
   public static final CharMatcher JAVA_UPPER_CASE = new CharMatcher() {
     @Override public boolean matches(char c) {
@@ -177,8 +167,8 @@ public abstract class CharMatcher implements Predicate<Character> {
   };
 
   /**
-   * Determines whether a character is lower case according to {@link
-   * Character#isLowerCase(char) Java's definition}.
+   * Determines whether a character is lower case according to {@link Character#isLowerCase(char)
+   * Java's definition}.
    */
   public static final CharMatcher JAVA_LOWER_CASE = new CharMatcher() {
     @Override public boolean matches(char c) {
@@ -187,17 +177,16 @@ public abstract class CharMatcher implements Predicate<Character> {
   };
 
   /**
-   * Determines whether a character is an ISO control character as specified by
-   * {@link Character#isISOControl(char)}.
+   * Determines whether a character is an ISO control character as specified by {@link
+   * Character#isISOControl(char)}.
    */
-  public static final CharMatcher JAVA_ISO_CONTROL = inRange('\u0000', '\u001f')
-      .or(inRange('\u007f', '\u009f'));
+  public static final CharMatcher JAVA_ISO_CONTROL =
+      inRange('\u0000', '\u001f').or(inRange('\u007f', '\u009f'));
 
   /**
-   * Determines whether a character is invisible; that is, if its Unicode
-   * category is any of SPACE_SEPARATOR, LINE_SEPARATOR,
-   * PARAGRAPH_SEPARATOR, CONTROL, FORMAT, SURROGATE, and PRIVATE_USE according
-   * to ICU4J.
+   * Determines whether a character is invisible; that is, if its Unicode category is any of
+   * SPACE_SEPARATOR, LINE_SEPARATOR, PARAGRAPH_SEPARATOR, CONTROL, FORMAT, SURROGATE, and
+   * PRIVATE_USE according to ICU4J.
    */
   public static final CharMatcher INVISIBLE = inRange('\u0000', '\u0020')
       .or(inRange('\u007f', '\u00a0'))
@@ -214,12 +203,12 @@ public abstract class CharMatcher implements Predicate<Character> {
       .precomputed();
 
   /**
-   * Determines whether a character is single-width (not double-width).  When
-   * in doubt, this matcher errs on the side of returning {@code false} (that
-   * is, it tends to assume a character is double-width).
+   * Determines whether a character is single-width (not double-width). When in doubt, this matcher
+   * errs on the side of returning {@code false} (that is, it tends to assume a character is
+   * double-width).
    *
-   * <b>Note:</b> as the reference file evolves, we will modify this constant
-   * to keep it up to date.
+   * <p><b>Note:</b> as the reference file evolves, we will modify this constant to keep it up to
+   * date.
    */
   public static final CharMatcher SINGLE_WIDTH = inRange('\u0000', '\u04f9')
       .or(is('\u05be'))
@@ -237,139 +226,162 @@ public abstract class CharMatcher implements Predicate<Character> {
       .precomputed();
 
   /** Matches any character. */
-  public static final CharMatcher ANY = new CharMatcher() {
-    @Override public boolean matches(char c) {
-      return true;
-    }
+  public static final CharMatcher ANY =
+      new CharMatcher() {
+        @Override public boolean matches(char c) {
+          return true;
+        }
 
-    @Override public int indexIn(CharSequence sequence) {
-      return (sequence.length() == 0) ? -1 : 0;
-    }
-    @Override public int indexIn(CharSequence sequence, int start) {
-      int length = sequence.length();
-      Preconditions.checkPositionIndex(start, length);
-      return (start == length) ? -1 : start;
-    }
-    @Override public int lastIndexIn(CharSequence sequence) {
-      return sequence.length() - 1;
-    }
-    @Override public boolean matchesAllOf(CharSequence sequence) {
-      checkNotNull(sequence);
-      return true;
-    }
-    @Override public boolean matchesNoneOf(CharSequence sequence) {
-      return sequence.length() == 0;
-    }
-    @Override public String removeFrom(CharSequence sequence) {
-      checkNotNull(sequence);
-      return "";
-    }
-    @Override public String replaceFrom(
-        CharSequence sequence, char replacement) {
-      char[] array = new char[sequence.length()];
-      Arrays.fill(array, replacement);
-      return new String(array);
-    }
-    @Override public String replaceFrom(
-        CharSequence sequence, CharSequence replacement) {
-      StringBuilder retval =
-          new StringBuilder(sequence.length() * replacement.length());
-      for (int i = 0; i < sequence.length(); i++) {
-        retval.append(replacement);
-      }
-      return retval.toString();
-    }
-    @Override public String collapseFrom(
-        CharSequence sequence, char replacement) {
-      return (sequence.length() == 0) ? "" : String.valueOf(replacement);
-    }
-    @Override public String trimFrom(CharSequence sequence) {
-      checkNotNull(sequence);
-      return "";
-    }
-    @Override public int countIn(CharSequence sequence) {
-      return sequence.length();
-    }
-    @Override public CharMatcher and(CharMatcher other) {
-      return checkNotNull(other);
-    }
-    @Override public CharMatcher or(CharMatcher other) {
-      checkNotNull(other);
-      return this;
-    }
-    @Override public CharMatcher negate() {
-      return NONE;
-    }
-    @Override public CharMatcher precomputed() {
-      return this;
-    }
-  };
+        @Override public int indexIn(CharSequence sequence) {
+          return (sequence.length() == 0) ? -1 : 0;
+        }
+
+        @Override public int indexIn(CharSequence sequence, int start) {
+          int length = sequence.length();
+          Preconditions.checkPositionIndex(start, length);
+          return (start == length) ? -1 : start;
+        }
+
+        @Override public int lastIndexIn(CharSequence sequence) {
+          return sequence.length() - 1;
+        }
+
+        @Override public boolean matchesAllOf(CharSequence sequence) {
+          checkNotNull(sequence);
+          return true;
+        }
+
+        @Override public boolean matchesNoneOf(CharSequence sequence) {
+          return sequence.length() == 0;
+        }
+
+        @Override public String removeFrom(CharSequence sequence) {
+          checkNotNull(sequence);
+          return "";
+        }
+
+        @Override public String replaceFrom(CharSequence sequence, char replacement) {
+          char[] array = new char[sequence.length()];
+          Arrays.fill(array, replacement);
+          return new String(array);
+        }
+
+        @Override public String replaceFrom(CharSequence sequence, CharSequence replacement) {
+          StringBuilder retval = new StringBuilder(sequence.length() * replacement.length());
+          for (int i = 0; i < sequence.length(); i++) {
+            retval.append(replacement);
+          }
+          return retval.toString();
+        }
+
+        @Override public String collapseFrom(CharSequence sequence, char replacement) {
+          return (sequence.length() == 0) ? "" : String.valueOf(replacement);
+        }
+
+        @Override public String trimFrom(CharSequence sequence) {
+          checkNotNull(sequence);
+          return "";
+        }
+
+        @Override public int countIn(CharSequence sequence) {
+          return sequence.length();
+        }
+
+        @Override public CharMatcher and(CharMatcher other) {
+          return checkNotNull(other);
+        }
+
+        @Override public CharMatcher or(CharMatcher other) {
+          checkNotNull(other);
+          return this;
+        }
+
+        @Override public CharMatcher negate() {
+          return NONE;
+        }
+
+        @Override public CharMatcher precomputed() {
+          return this;
+        }
+      };
 
   /** Matches no characters. */
-  public static final CharMatcher NONE = new CharMatcher() {
-    @Override public boolean matches(char c) {
-      return false;
-    }
+  public static final CharMatcher NONE =
+      new CharMatcher() {
+        @Override public boolean matches(char c) {
+          return false;
+        }
 
-    @Override public int indexIn(CharSequence sequence) {
-      checkNotNull(sequence);
-      return -1;
-    }
-    @Override public int indexIn(CharSequence sequence, int start) {
-      int length = sequence.length();
-      Preconditions.checkPositionIndex(start, length);
-      return -1;
-    }
-    @Override public int lastIndexIn(CharSequence sequence) {
-      checkNotNull(sequence);
-      return -1;
-    }
-    @Override public boolean matchesAllOf(CharSequence sequence) {
-      return sequence.length() == 0;
-    }
-    @Override public boolean matchesNoneOf(CharSequence sequence) {
-      checkNotNull(sequence);
-      return true;
-    }
-    @Override public String removeFrom(CharSequence sequence) {
-      return sequence.toString();
-    }
-    @Override public String replaceFrom(
-        CharSequence sequence, char replacement) {
-      return sequence.toString();
-    }
-    @Override public String replaceFrom(
-        CharSequence sequence, CharSequence replacement) {
-      checkNotNull(replacement);
-      return sequence.toString();
-    }
-    @Override public String collapseFrom(
-        CharSequence sequence, char replacement) {
-      return sequence.toString();
-    }
-    @Override public String trimFrom(CharSequence sequence) {
-      return sequence.toString();
-    }
-    @Override public int countIn(CharSequence sequence) {
-      checkNotNull(sequence);
-      return 0;
-    }
-    @Override public CharMatcher and(CharMatcher other) {
-      checkNotNull(other);
-      return this;
-    }
-    @Override public CharMatcher or(CharMatcher other) {
-      return checkNotNull(other);
-    }
-    @Override public CharMatcher negate() {
-      return ANY;
-    }
-    @Override void setBits(LookupTable table) {
-    }
-    @Override public CharMatcher precomputed() {
-      return this;
-    }
-  };
+        @Override public int indexIn(CharSequence sequence) {
+          checkNotNull(sequence);
+          return -1;
+        }
+
+        @Override public int indexIn(CharSequence sequence, int start) {
+          int length = sequence.length();
+          Preconditions.checkPositionIndex(start, length);
+          return -1;
+        }
+
+        @Override public int lastIndexIn(CharSequence sequence) {
+          checkNotNull(sequence);
+          return -1;
+        }
+
+        @Override public boolean matchesAllOf(CharSequence sequence) {
+          return sequence.length() == 0;
+        }
+
+        @Override public boolean matchesNoneOf(CharSequence sequence) {
+          checkNotNull(sequence);
+          return true;
+        }
+
+        @Override public String removeFrom(CharSequence sequence) {
+          return sequence.toString();
+        }
+
+        @Override public String replaceFrom(CharSequence sequence, char replacement) {
+          return sequence.toString();
+        }
+
+        @Override public String replaceFrom(CharSequence sequence, CharSequence replacement) {
+          checkNotNull(replacement);
+          return sequence.toString();
+        }
+
+        @Override public String collapseFrom(CharSequence sequence, char replacement) {
+          return sequence.toString();
+        }
+
+        @Override public String trimFrom(CharSequence sequence) {
+          return sequence.toString();
+        }
+
+        @Override public int countIn(CharSequence sequence) {
+          checkNotNull(sequence);
+          return 0;
+        }
+
+        @Override public CharMatcher and(CharMatcher other) {
+          checkNotNull(other);
+          return this;
+        }
+
+        @Override public CharMatcher or(CharMatcher other) {
+          return checkNotNull(other);
+        }
+
+        @Override public CharMatcher negate() {
+          return ANY;
+        }
+
+        @Override void setBits(LookupTable table) {}
+
+        @Override public CharMatcher precomputed() {
+          return this;
+        }
+      };
 
   // Static factories
 
@@ -382,22 +394,26 @@ public abstract class CharMatcher implements Predicate<Character> {
         return c == match;
       }
 
-      @Override public String replaceFrom(
-          CharSequence sequence, char replacement) {
+      @Override public String replaceFrom(CharSequence sequence, char replacement) {
         return sequence.toString().replace(match, replacement);
       }
+
       @Override public CharMatcher and(CharMatcher other) {
         return other.matches(match) ? this : NONE;
       }
+
       @Override public CharMatcher or(CharMatcher other) {
         return other.matches(match) ? other : super.or(other);
       }
+
       @Override public CharMatcher negate() {
         return isNot(match);
       }
+
       @Override void setBits(LookupTable table) {
         table.set(match);
       }
+
       @Override public CharMatcher precomputed() {
         return this;
       }
@@ -405,8 +421,7 @@ public abstract class CharMatcher implements Predicate<Character> {
   }
 
   /**
-   * Returns a {@code char} matcher that matches any character except the one
-   * specified.
+   * Returns a {@code char} matcher that matches any character except the one specified.
    *
    * <p>To negate another {@code CharMatcher}, use {@link #negate()}.
    */
@@ -419,9 +434,11 @@ public abstract class CharMatcher implements Predicate<Character> {
       @Override public CharMatcher and(CharMatcher other) {
         return other.matches(match) ? super.and(other) : other;
       }
+
       @Override public CharMatcher or(CharMatcher other) {
         return other.matches(match) ? ANY : this;
       }
+
       @Override public CharMatcher negate() {
         return is(match);
       }
@@ -429,8 +446,8 @@ public abstract class CharMatcher implements Predicate<Character> {
   }
 
   /**
-   * Returns a {@code char} matcher that matches any character present in the
-   * given character sequence.
+   * Returns a {@code char} matcher that matches any character present in the given character
+   * sequence.
    */
   public static CharMatcher anyOf(final CharSequence sequence) {
     switch (sequence.length()) {
@@ -445,10 +462,12 @@ public abstract class CharMatcher implements Predicate<Character> {
           @Override public boolean matches(char c) {
             return c == match1 || c == match2;
           }
+
           @Override void setBits(LookupTable table) {
             table.set(match1);
             table.set(match2);
           }
+
           @Override public CharMatcher precomputed() {
             return this;
           }
@@ -462,6 +481,7 @@ public abstract class CharMatcher implements Predicate<Character> {
       @Override public boolean matches(char c) {
         return Arrays.binarySearch(chars, c) >= 0;
       }
+
       @Override void setBits(LookupTable table) {
         for (char c : chars) {
           table.set(c);
@@ -471,27 +491,27 @@ public abstract class CharMatcher implements Predicate<Character> {
   }
 
   /**
-   * Returns a {@code char} matcher that matches any character not present in
-   * the given character sequence.
+   * Returns a {@code char} matcher that matches any character not present in the given character
+   * sequence.
    */
   public static CharMatcher noneOf(CharSequence sequence) {
     return anyOf(sequence).negate();
   }
 
   /**
-   * Returns a {@code char} matcher that matches any character in a given range
-   * (both endpoints are inclusive). For example, to match any lowercase letter
-   * of the English alphabet, use {@code CharMatcher.inRange('a', 'z')}.
+   * Returns a {@code char} matcher that matches any character in a given range (both endpoints are
+   * inclusive). For example, to match any lowercase letter of the English alphabet, use {@code
+   * CharMatcher.inRange('a', 'z')}.
    *
    * @throws IllegalArgumentException if {@code endInclusive < startInclusive}
    */
-  public static CharMatcher inRange(
-      final char startInclusive, final char endInclusive) {
+  public static CharMatcher inRange(final char startInclusive, final char endInclusive) {
     checkArgument(endInclusive >= startInclusive);
     return new CharMatcher() {
       @Override public boolean matches(char c) {
         return startInclusive <= c && c <= endInclusive;
       }
+
       @Override void setBits(LookupTable table) {
         char c = startInclusive;
         while (true) {
@@ -501,6 +521,7 @@ public abstract class CharMatcher implements Predicate<Character> {
           }
         }
       }
+
       @Override public CharMatcher precomputed() {
         return this;
       }
@@ -508,12 +529,10 @@ public abstract class CharMatcher implements Predicate<Character> {
   }
 
   /**
-   * Returns a matcher with identical behavior to the given {@link
-   * Character}-based predicate, but which operates on primitive {@code char}
-   * instances instead.
+   * Returns a matcher with identical behavior to the given {@link Character}-based predicate, but
+   * which operates on primitive {@code char} instances instead.
    */
-  public static CharMatcher forPredicate(
-      final Predicate<? super Character> predicate) {
+  public static CharMatcher forPredicate(final Predicate<? super Character> predicate) {
     checkNotNull(predicate);
     if (predicate instanceof CharMatcher) {
       return (CharMatcher) predicate;
@@ -522,6 +541,7 @@ public abstract class CharMatcher implements Predicate<Character> {
       @Override public boolean matches(char c) {
         return predicate.apply(c);
       }
+
       @Override public boolean apply(Character character) {
         return predicate.apply(checkNotNull(character));
       }
@@ -548,12 +568,15 @@ public abstract class CharMatcher implements Predicate<Character> {
       @Override public boolean matchesAllOf(CharSequence sequence) {
         return original.matchesNoneOf(sequence);
       }
+
       @Override public boolean matchesNoneOf(CharSequence sequence) {
         return original.matchesAllOf(sequence);
       }
+
       @Override public int countIn(CharSequence sequence) {
         return sequence.length() - original.countIn(sequence);
       }
+
       @Override public CharMatcher negate() {
         return original;
       }
@@ -561,8 +584,7 @@ public abstract class CharMatcher implements Predicate<Character> {
   }
 
   /**
-   * Returns a matcher that matches any character matched by both this matcher
-   * and {@code other}.
+   * Returns a matcher that matches any character matched by both this matcher and {@code other}.
    */
   public CharMatcher and(CharMatcher other) {
     return new And(Arrays.asList(this, checkNotNull(other)));
@@ -592,8 +614,7 @@ public abstract class CharMatcher implements Predicate<Character> {
   }
 
   /**
-   * Returns a matcher that matches any character matched by either this matcher
-   * or {@code other}.
+   * Returns a matcher that matches any character matched by either this matcher or {@code other}.
    */
   public CharMatcher or(CharMatcher other) {
     return new Or(Arrays.asList(this, checkNotNull(other)));
@@ -629,32 +650,28 @@ public abstract class CharMatcher implements Predicate<Character> {
   }
 
   /**
-   * Returns a {@code char} matcher functionally equivalent to this one, but
-   * which may be faster to query than the original; your mileage may vary.
-   * Precomputation takes time and is likely to be worthwhile only if the
-   * precomputed matcher is queried many thousands of times.
+   * Returns a {@code char} matcher functionally equivalent to this one, but which may be faster to
+   * query than the original; your mileage may vary. Precomputation takes time and is likely to be
+   * worthwhile only if the precomputed matcher is queried many thousands of times.
    *
-   * <p>This method has no effect (returns {@code this}) when called in GWT:
-   * it's unclear whether a precomputed matcher is faster, but it certainly
-   * consumes more memory, which doesn't seem like a worthwhile tradeoff in a
-   * browser.
+   * <p>This method has no effect (returns {@code this}) when called in GWT: it's unclear whether a
+   * precomputed matcher is faster, but it certainly consumes more memory, which doesn't seem like a
+   * worthwhile tradeoff in a browser.
    */
-  // TODO: must seriously evaluate the benefits of this
   public CharMatcher precomputed() {
     return Platform.precomputeCharMatcher(this);
   }
 
   /**
-   * This is the actual implementation of {@link #precomputed}, but we bounce
-   * calls through a method on {@link Platform} so that we can have different
-   * behavior in GWT.
+   * This is the actual implementation of {@link #precomputed}, but we bounce calls through a method
+   * on {@link Platform} so that we can have different behavior in GWT.
    *
-   * <p>The default precomputation is to cache the configuration of the original
-   * matcher in an eight-kilobyte bit array. In some situations this produces a
-   * matcher which is faster to query than the original.
+   * <p>The default precomputation is to cache the configuration of the original matcher in an
+   * eight-kilobyte bit array. In some situations this produces a matcher which is faster to query
+   * than the original.
    *
-   * <p>The default implementation creates a new bit array and passes it to
-   * {@link #setBits(LookupTable)}.
+   * <p>The default implementation creates a new bit array and passes it to {@link
+   * #setBits(LookupTable)}.
    */
   CharMatcher precomputedInternal() {
     final LookupTable table = new LookupTable();
@@ -674,12 +691,11 @@ public abstract class CharMatcher implements Predicate<Character> {
   }
 
   /**
-   * For use by implementors; sets the bit corresponding to each character ('\0'
-   * to '{@literal \}uFFFF') that matches this matcher in the given bit array,
-   * leaving all other bits untouched.
+   * For use by implementors; sets the bit corresponding to each character ('\0' to '{@literal
+   * \}uFFFF') that matches this matcher in the given bit array, leaving all other bits untouched.
    *
-   * <p>The default implementation loops over every possible character value,
-   * invoking {@link #matches} for each one.
+   * <p>The default implementation loops over every possible character value, invoking {@link
+   * #matches} for each one.
    */
   void setBits(LookupTable table) {
     char c = Character.MIN_VALUE;
@@ -694,11 +710,10 @@ public abstract class CharMatcher implements Predicate<Character> {
   }
 
   /**
-   * A bit array with one bit per {@code char} value, used by {@link
-   * CharMatcher#precomputed}.
+   * A bit array with one bit per {@code char} value, used by {@link CharMatcher#precomputed}.
    *
-   * <p>TODO: possibly share a common BitArray class with BloomFilter
-   * and others... a simpler java.util.BitSet.
+   * <p>TODO: possibly share a common BitArray class with BloomFilter and others... a simpler
+   * java.util.BitSet.
    */
   private static final class LookupTable {
     int[] data = new int[2048];
@@ -706,6 +721,7 @@ public abstract class CharMatcher implements Predicate<Character> {
     void set(char index) {
       data[index >> 5] |= (1 << index);
     }
+
     boolean get(char index) {
       return (data[index >> 5] & (1 << index)) != 0;
     }
@@ -714,16 +730,14 @@ public abstract class CharMatcher implements Predicate<Character> {
   // Text processing routines
 
   /**
-   * Returns {@code true} if a character sequence contains only matching
-   * characters.
+   * Returns {@code true} if a character sequence contains only matching characters.
    *
-   * <p>The default implementation iterates over the sequence, invoking {@link
-   * #matches} for each character, until this returns {@code false} or the end
-   * is reached.
+   * <p>The default implementation iterates over the sequence, invoking {@link #matches} for each
+   * character, until this returns {@code false} or the end is reached.
    *
    * @param sequence the character sequence to examine, possibly empty
-   * @return {@code true} if this matcher matches every character in the
-   *     sequence, including when the sequence is empty
+   * @return {@code true} if this matcher matches every character in the sequence, including when
+   *         the sequence is empty
    */
   public boolean matchesAllOf(CharSequence sequence) {
     for (int i = sequence.length() - 1; i >= 0; i--) {
@@ -735,16 +749,14 @@ public abstract class CharMatcher implements Predicate<Character> {
   }
 
   /**
-   * Returns {@code true} if a character sequence contains no matching
-   * characters.
+   * Returns {@code true} if a character sequence contains no matching characters.
    *
-   * <p>The default implementation iterates over the sequence, invoking {@link
-   * #matches} for each character, until this returns {@code false} or the end
-   * is reached.
+   * <p>The default implementation iterates over the sequence, invoking {@link #matches} for each
+   * character, until this returns {@code false} or the end is reached.
    *
    * @param sequence the character sequence to examine, possibly empty
-   * @return {@code true} if this matcher matches every character in the
-   *     sequence, including when the sequence is empty
+   * @return {@code true} if this matcher matches every character in the sequence, including when
+   *         the sequence is empty
    */
   public boolean matchesNoneOf(CharSequence sequence) {
     return indexIn(sequence) == -1;
@@ -753,11 +765,11 @@ public abstract class CharMatcher implements Predicate<Character> {
   // TODO: perhaps add matchesAnyOf()
 
   /**
-   * Returns the index of the first matching character in a character sequence,
-   * or {@code -1} if no matching character is present.
+   * Returns the index of the first matching character in a character sequence, or {@code -1} if no
+   * matching character is present.
    *
-   * <p>The default implementation iterates over the sequence in forward order
-   * calling {@link #matches} for each character.
+   * <p>The default implementation iterates over the sequence in forward order calling {@link
+   * #matches} for each character.
    *
    * @param sequence the character sequence to examine from the beginning
    * @return an index, or {@code -1} if no character matches
@@ -773,20 +785,19 @@ public abstract class CharMatcher implements Predicate<Character> {
   }
 
   /**
-   * Returns the index of the first matching character in a character sequence,
-   * starting from a given position, or {@code -1} if no character matches after
-   * that position.
+   * Returns the index of the first matching character in a character sequence, starting from a
+   * given position, or {@code -1} if no character matches after that position.
    *
-   * <p>The default implementation iterates over the sequence in forward order,
-   * beginning at {@code start}, calling {@link #matches} for each character.
+   * <p>The default implementation iterates over the sequence in forward order, beginning at {@code
+   * start}, calling {@link #matches} for each character.
    *
    * @param sequence the character sequence to examine
-   * @param start the first index to examine; must be nonnegative and no
-   *     greater than {@code sequence.length()}
-   * @return the index of the first matching character, guaranteed to be no less
-   *     than {@code start}, or {@code -1} if no character matches
-   * @throws IndexOutOfBoundsException if start is negative or greater than
-   *     {@code sequence.length()}
+   * @param start the first index to examine; must be nonnegative and no greater than {@code
+   *        sequence.length()}
+   * @return the index of the first matching character, guaranteed to be no less than {@code start},
+   *         or {@code -1} if no character matches
+   * @throws IndexOutOfBoundsException if start is negative or greater than {@code
+   *         sequence.length()}
    */
   public int indexIn(CharSequence sequence, int start) {
     int length = sequence.length();
@@ -800,11 +811,11 @@ public abstract class CharMatcher implements Predicate<Character> {
   }
 
   /**
-   * Returns the index of the last matching character in a character sequence,
-   * or {@code -1} if no matching character is present.
+   * Returns the index of the last matching character in a character sequence, or {@code -1} if no
+   * matching character is present.
    *
-   * <p>The default implementation iterates over the sequence in reverse order
-   * calling {@link #matches} for each character.
+   * <p>The default implementation iterates over the sequence in reverse order calling {@link
+   * #matches} for each character.
    *
    * @param sequence the character sequence to examine from the end
    * @return an index, or {@code -1} if no character matches
@@ -832,8 +843,8 @@ public abstract class CharMatcher implements Predicate<Character> {
   }
 
   /**
-   * Returns a string containing all non-matching characters of a character
-   * sequence, in order. For example: <pre>   {@code
+   * Returns a string containing all non-matching characters of a character sequence, in order. For
+   * example: <pre>   {@code
    *
    *   CharMatcher.is('a').removeFrom("bazaar")}</pre>
    *
@@ -850,8 +861,7 @@ public abstract class CharMatcher implements Predicate<Character> {
     int spread = 1;
 
     // This unusual loop comes from extensive benchmarking
-    OUT:
-    while (true) {
+    OUT: while (true) {
       pos++;
       while (true) {
         if (pos == chars.length) {
@@ -869,8 +879,8 @@ public abstract class CharMatcher implements Predicate<Character> {
   }
 
   /**
-   * Returns a string containing all matching characters of a character
-   * sequence, in order. For example: <pre>   {@code
+   * Returns a string containing all matching characters of a character sequence, in order. For
+   * example: <pre>   {@code
    *
    *   CharMatcher.is('a').retainFrom("bazaar")}</pre>
    *
@@ -881,21 +891,20 @@ public abstract class CharMatcher implements Predicate<Character> {
   }
 
   /**
-   * Returns a string copy of the input character sequence, with each character
-   * that matches this matcher replaced by a given replacement character. For
-   * example: <pre>   {@code
+   * Returns a string copy of the input character sequence, with each character that matches this
+   * matcher replaced by a given replacement character. For example: <pre>   {@code
    *
    *   CharMatcher.is('a').replaceFrom("radar", 'o')}</pre>
    *
    * ... returns {@code "rodor"}.
    *
-   * <p>The default implementation uses {@link #indexIn(CharSequence)} to find
-   * the first matching character, then iterates the remainder of the sequence
-   * calling {@link #matches(char)} for each character.
+   * <p>The default implementation uses {@link #indexIn(CharSequence)} to find the first matching
+   * character, then iterates the remainder of the sequence calling {@link #matches(char)} for each
+   * character.
    *
    * @param sequence the character sequence to replace matching characters in
-   * @param replacement the character to append to the result string in place of
-   *     each matching character in {@code sequence}
+   * @param replacement the character to append to the result string in place of each matching
+   *        character in {@code sequence}
    * @return the new string
    */
   public String replaceFrom(CharSequence sequence, char replacement) {
@@ -915,21 +924,19 @@ public abstract class CharMatcher implements Predicate<Character> {
   }
 
   /**
-   * Returns a string copy of the input character sequence, with each character
-   * that matches this matcher replaced by a given replacement sequence. For
-   * example: <pre>   {@code
+   * Returns a string copy of the input character sequence, with each character that matches this
+   * matcher replaced by a given replacement sequence. For example: <pre>   {@code
    *
    *   CharMatcher.is('a').replaceFrom("yaha", "oo")}</pre>
    *
    * ... returns {@code "yoohoo"}.
    *
-   * <p><b>Note:</b> If the replacement is a fixed string with only one
-   * character, you are better off calling {@link #replaceFrom(CharSequence,
-   * char)} directly.
+   * <p><b>Note:</b> If the replacement is a fixed string with only one character, you are better
+   * off calling {@link #replaceFrom(CharSequence, char)} directly.
    *
    * @param sequence the character sequence to replace matching characters in
-   * @param replacement the characters to append to the result string in place
-   *     of each matching character in {@code sequence}
+   * @param replacement the characters to append to the result string in place of each matching
+   *        character in {@code sequence}
    * @return the new string
    */
   public String replaceFrom(CharSequence sequence, CharSequence replacement) {
@@ -963,15 +970,14 @@ public abstract class CharMatcher implements Predicate<Character> {
   }
 
   /**
-   * Returns a substring of the input character sequence that omits all
-   * characters this matcher matches from the beginning and from the end of the
-   * string. For example: <pre> {@code
+   * Returns a substring of the input character sequence that omits all characters this matcher
+   * matches from the beginning and from the end of the string. For example: <pre>   {@code
    *
    *   CharMatcher.anyOf("ab").trimFrom("abacatbab")}</pre>
    *
    * ... returns {@code "cat"}.
    *
-   * <p>Note that<pre>   {@code
+   * <p>Note that: <pre>   {@code
    *
    *   CharMatcher.inRange('\0', ' ').trimFrom(str)}</pre>
    *
@@ -997,9 +1003,8 @@ public abstract class CharMatcher implements Predicate<Character> {
   }
 
   /**
-   * Returns a substring of the input character sequence that omits all
-   * characters this matcher matches from the beginning of the
-   * string. For example: <pre> {@code
+   * Returns a substring of the input character sequence that omits all characters this matcher
+   * matches from the beginning of the string. For example: <pre> {@code
    *
    *   CharMatcher.anyOf("ab").trimLeadingFrom("abacatbab")}</pre>
    *
@@ -1019,9 +1024,8 @@ public abstract class CharMatcher implements Predicate<Character> {
   }
 
   /**
-   * Returns a substring of the input character sequence that omits all
-   * characters this matcher matches from the end of the
-   * string. For example: <pre> {@code
+   * Returns a substring of the input character sequence that omits all characters this matcher
+   * matches from the end of the string. For example: <pre> {@code
    *
    *   CharMatcher.anyOf("ab").trimTrailingFrom("abacatbab")}</pre>
    *
@@ -1041,22 +1045,21 @@ public abstract class CharMatcher implements Predicate<Character> {
   }
 
   /**
-   * Returns a string copy of the input character sequence, with each group of
-   * consecutive characters that match this matcher replaced by a single
-   * replacement character. For example: <pre>   {@code
+   * Returns a string copy of the input character sequence, with each group of consecutive
+   * characters that match this matcher replaced by a single replacement character. For example:
+   * <pre>   {@code
    *
    *   CharMatcher.anyOf("eko").collapseFrom("bookkeeper", '-')}</pre>
    *
    * ... returns {@code "b-p-r"}.
    *
-   * <p>The default implementation uses {@link #indexIn(CharSequence)} to find
-   * the first matching character, then iterates the remainder of the sequence
-   * calling {@link #matches(char)} for each character.
+   * <p>The default implementation uses {@link #indexIn(CharSequence)} to find the first matching
+   * character, then iterates the remainder of the sequence calling {@link #matches(char)} for each
+   * character.
    *
-   * @param sequence the character sequence to replace matching groups of
-   *     characters in
-   * @param replacement the character to append to the result string in place of
-   *     each group of matching characters in {@code sequence}
+   * @param sequence the character sequence to replace matching groups of characters in
+   * @param replacement the character to append to the result string in place of each group of
+   *        matching characters in {@code sequence}
    * @return the new string
    */
   public String collapseFrom(CharSequence sequence, char replacement) {
@@ -1087,9 +1090,9 @@ public abstract class CharMatcher implements Predicate<Character> {
   }
 
   /**
-   * Collapses groups of matching characters exactly as {@link #collapseFrom}
-   * does, except that groups of matching characters at the start or end of the
-   * sequence are removed without replacement.
+   * Collapses groups of matching characters exactly as {@link #collapseFrom} does, except that
+   * groups of matching characters at the start or end of the sequence are removed without
+   * replacement.
    */
   public String trimAndCollapseFrom(CharSequence sequence, char replacement) {
     int first = negate().indexIn(sequence);

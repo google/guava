@@ -53,7 +53,7 @@ public final class MoreExecutors {
    * adding a shutdown hook to wait for their completion.
    *
    * <p>This is mainly for fixed thread pools.
-   * See {@link java.util.concurrent.Executors#newFixedThreadPool(int)}.
+   * See {@link Executors#newFixedThreadPool(int)}.
    *
    * @param executor the executor to modify to make sure it exits when the
    *        application is finished
@@ -64,7 +64,10 @@ public final class MoreExecutors {
    */
   public static ExecutorService getExitingExecutorService(
       ThreadPoolExecutor executor, long terminationTimeout, TimeUnit timeUnit) {
-    executor.setThreadFactory(daemonThreadFactory(executor.getThreadFactory()));
+    executor.setThreadFactory(new ThreadFactoryBuilder()
+        .setDaemon(true)
+        .setThreadFactory(executor.getThreadFactory())
+        .build());
 
     ExecutorService service = Executors.unconfigurableExecutorService(executor);
 
@@ -80,7 +83,7 @@ public final class MoreExecutors {
    * their completion.
    *
    * <p>This is mainly for fixed thread pools.
-   * See {@link java.util.concurrent.Executors#newScheduledThreadPool(int)}.
+   * See {@link Executors#newScheduledThreadPool(int)}.
    *
    * @param executor the executor to modify to make sure it exits when the
    *        application is finished
@@ -92,7 +95,10 @@ public final class MoreExecutors {
   public static ScheduledExecutorService getExitingScheduledExecutorService(
       ScheduledThreadPoolExecutor executor, long terminationTimeout,
       TimeUnit timeUnit) {
-    executor.setThreadFactory(daemonThreadFactory(executor.getThreadFactory()));
+    executor.setThreadFactory(new ThreadFactoryBuilder()
+        .setDaemon(true)
+        .setThreadFactory(executor.getThreadFactory())
+        .build());
 
     ScheduledExecutorService service =
         Executors.unconfigurableScheduledExecutorService(executor);
@@ -142,7 +148,7 @@ public final class MoreExecutors {
    * even if the executor has not finished its work.
    *
    * <p>This is mainly for fixed thread pools.
-   * See {@link java.util.concurrent.Executors#newFixedThreadPool(int)}.
+   * See {@link Executors#newFixedThreadPool(int)}.
    *
    * @param executor the executor to modify to make sure it exits when the
    *        application is finished
@@ -162,7 +168,7 @@ public final class MoreExecutors {
    * even if the executor has not finished its work.
    *
    * <p>This is mainly for fixed thread pools.
-   * See {@link java.util.concurrent.Executors#newScheduledThreadPool(int)}.
+   * See {@link Executors#newScheduledThreadPool(int)}.
    *
    * @param executor the executor to modify to make sure it exits when the
    *        application is finished
@@ -175,15 +181,19 @@ public final class MoreExecutors {
 
   /**
    * Returns a {@link ThreadFactory} which creates daemon threads. This is
-   * implemented by wrapping {@link
-   * java.util.concurrent.Executors#defaultThreadFactory()}, marking all new
-   * threads as daemon threads.
+   * implemented by wrapping {@link Executors#defaultThreadFactory()}, marking
+   * all new threads as daemon threads.
    *
    * @return a {@link ThreadFactory} which creates daemon threads
+   * @deprecated Create a {@link ThreadFactoryBuilder} and then use its
+   *     {@link ThreadFactoryBuilder#setDaemon} method.
    */
-  // TODO: Deprecate this method.
+  @Deprecated
   public static ThreadFactory daemonThreadFactory() {
-    return daemonThreadFactory(Executors.defaultThreadFactory());
+    return new ThreadFactoryBuilder()
+        .setThreadFactory(Executors.defaultThreadFactory())
+        .setDaemon(true)
+        .build();
   }
 
   /**
@@ -192,8 +202,12 @@ public final class MoreExecutors {
    * @param factory the {@link ThreadFactory} used to generate new threads
    * @return a new {@link ThreadFactory} backed by {@code factory} whose created
    *         threads are all daemon threads
+   * @deprecated Create a {@link ThreadFactoryBuilder} and then use its
+   *     {@link ThreadFactoryBuilder#setDaemon} and
+   *     {@link ThreadFactoryBuilder#setThreadFactory} methods.
+   *
    */
-  // TODO: Deprecate this method.
+  @Deprecated
   public static ThreadFactory daemonThreadFactory(ThreadFactory factory) {
     return new ThreadFactoryBuilder()
         .setThreadFactory(factory)

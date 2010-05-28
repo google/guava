@@ -26,8 +26,12 @@ import java.util.concurrent.ThreadFactory;
  * @author Charles Fry
  * @author Harendra Verma
  * @since 1
+ * @deprecated Create a {@link ThreadFactoryBuilder} and then use its
+ *     {@link ThreadFactoryBuilder#setDaemon} and
+ *     {@link ThreadFactoryBuilder#setThreadFactory} methods.
  */
-@Beta // TODO: Deprecate this class.
+@Beta
+@Deprecated
 public final class DaemonThreadFactory implements ThreadFactory {
   private final ThreadFactory delegate;
 

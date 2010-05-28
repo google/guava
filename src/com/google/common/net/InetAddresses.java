@@ -256,7 +256,12 @@ public final class InetAddresses {
         if (piece < 0 || piece > 255) {
           return null;
         }
-        if (address[i].startsWith("0") && piece != 0) {
+
+        // No leading zeroes are allowed.  See
+        // http://tools.ietf.org/html/draft-main-ipaddr-text-rep-00
+        // section 2.1 for discussion.
+
+        if (address[i].startsWith("0") && address[i].length() != 1) {
           return null;
         }
         bytes[i] = (byte) piece;

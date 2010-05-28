@@ -380,6 +380,8 @@ public abstract class Ordering<T> implements Comparator<T> {
     return new NullsLastOrdering<S>(this);
   }
 
+  // Regular instance methods
+
   /**
    * {@link Collections#binarySearch(List, Object, Comparator) Searches}
    * {@code sortedList} for {@code key} using the binary search algorithm. The
