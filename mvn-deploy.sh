@@ -33,7 +33,8 @@ fi
 
 if [[ $# > 0 ]]; then
   params+=" -Dgpg.keyname=${1}"
+  gpg_sign_plugin=" gpg:sign"
 fi
-cmd="mvn clean package source:jar site:jar javadoc:jar gpg:sign deploy ${params}"
+cmd="mvn clean package source:jar site:jar javadoc:jar ${gpg_sign_plugin} deploy ${params}"
 echo "Executing ${cmd}"
 ${cmd}
