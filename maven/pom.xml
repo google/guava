@@ -1,0 +1,77 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>com.google</groupId>
+    <artifactId>google</artifactId>
+    <version>5</version>
+  </parent>
+  <groupId>com.google.guava</groupId>
+  <artifactId>guava-parent</artifactId>
+  <version>r03</version>
+  <packaging>pom</packaging>
+  <name>Guava (Google Common Libraries) Maven Parent</name>
+  <url>http://code.google.com/p/guava-libraries</url>
+  <issueManagement>
+  	<system>code.google.com</system>
+  	<url>http://code.google.com/p/guava-libraries/issues</url>
+  </issueManagement>
+  <inceptionYear>2010</inceptionYear>
+  <licenses>
+    <license>
+      <name>The Apache Software License, Version 2.0</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+  <prerequisites>
+    <maven>2.0.9</maven>
+  </prerequisites>
+  <scm>
+    <connection>scm:svn:http://guava-libraries.googlecode.com/svn/trunk/</connection>
+    <developerConnection>scm:svn:https://guava-libraries.googlecode.com/svn/trunk/</developerConnection>
+    <url>http://code.google.com/p/guava-libraries/source/browse</url>
+  </scm>
+  <developers>
+    <developer>
+      <id>kevinb9n</id>
+      <name>Kevin Bourillion</name>
+      <email>kevinb@google.com</email>
+      <organization>Google</organization>
+      <organizationUrl>http://www.google.com</organizationUrl>
+      <roles>
+        <role>owner</role>
+        <role>developer</role>
+      </roles>
+      <timezone>-8</timezone>
+    </developer>
+  </developers>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>1.5</source>
+          <target>1.5</target>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+  <dependencies> <!-- These are all inherited -->
+    <dependency>
+      <groupId>com.google.code.findbugs</groupId>
+      <artifactId>jsr305</artifactId>
+      <version>1.3.7</version>
+      <optional>true</optional>
+    </dependency>
+  </dependencies>
+  <modules>
+    <module>..</module>
+    <module>annotations</module>
+    <module>base</module>
+    <module>collections</module>
+    <module>concurrent</module>
+    <module>io</module>
+    <module>primitives</module>
+  </modules>
+</project>
