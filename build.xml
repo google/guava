@@ -76,6 +76,26 @@
     </javadoc>
   </target>
 
+  <target name="jdiff" description="Generate JDiff report">
+    <mkdir dir="build/javadoc/jdiff"/>
+    <javadoc doclet="jdiff.JDiff"
+         docletpath="../../trunk/lib/jdiff.jar"
+         additionalparam="-apiname guava -apidir build/javadoc/jdiff"
+         packagenames="com.google.common.*"
+         destdir="build/javadoc/jdiff">
+      <sourcepath>
+        <pathelement location="src"/>
+      </sourcepath>
+      <classpath>
+        <pathelement location="lib/jsr305.jar"/>
+      </classpath>
+    </javadoc>
+
+    <!-- remove dumb comments inserted by jdiff so that we only see svn diffs when things actually change. -->
+    <replaceregexp match="^.!--\s+(on|Command line arguments) .* -->$\n" 
+        replace="" flags="gm" file="build/javadoc/jdiff/guava.xml"/>
+  </target>
+
   <target name="zipsrc" description="Build zip of source.">
     <mkdir dir="build/dist/guava-r${release}"/>
     <jar jarfile="build/dist/guava-r${release}/guava-src-r${release}.zip">
