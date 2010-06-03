@@ -180,42 +180,6 @@ public final class MoreExecutors {
   }
 
   /**
-   * Returns a {@link ThreadFactory} which creates daemon threads. This is
-   * implemented by wrapping {@link Executors#defaultThreadFactory()}, marking
-   * all new threads as daemon threads.
-   *
-   * @return a {@link ThreadFactory} which creates daemon threads
-   * @deprecated Create a {@link ThreadFactoryBuilder} and then use its
-   *     {@link ThreadFactoryBuilder#setDaemon} method.
-   */
-  @Deprecated
-  public static ThreadFactory daemonThreadFactory() {
-    return new ThreadFactoryBuilder()
-        .setThreadFactory(Executors.defaultThreadFactory())
-        .setDaemon(true)
-        .build();
-  }
-
-  /**
-   * Wraps another {@link ThreadFactory}, making all new threads daemon threads.
-   *
-   * @param factory the {@link ThreadFactory} used to generate new threads
-   * @return a new {@link ThreadFactory} backed by {@code factory} whose created
-   *         threads are all daemon threads
-   * @deprecated Create a {@link ThreadFactoryBuilder} and then use its
-   *     {@link ThreadFactoryBuilder#setDaemon} and
-   *     {@link ThreadFactoryBuilder#setThreadFactory} methods.
-   *
-   */
-  @Deprecated
-  public static ThreadFactory daemonThreadFactory(ThreadFactory factory) {
-    return new ThreadFactoryBuilder()
-        .setThreadFactory(factory)
-        .setDaemon(true)
-        .build();
-  }
-
-  /**
    * Creates an executor service that runs each task in the thread
    * that invokes {@code execute/submit}, as in {@link CallerRunsPolicy}  This
    * applies both to individually submitted tasks and to collections of tasks
