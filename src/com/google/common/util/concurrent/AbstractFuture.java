@@ -25,6 +25,8 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.concurrent.locks.AbstractQueuedSynchronizer;
 
+import javax.annotation.Nullable;
+
 /**
  * <p>An abstract implementation of the {@link Future} interface.  This class
  * is an abstraction of {@link java.util.concurrent.FutureTask} to support use
@@ -103,7 +105,7 @@ public abstract class AbstractFuture<V> implements Future<V> {
    * @param value the value that was the result of the task.
    * @return true if the state was successfully changed.
    */
-  protected boolean set(V value) {
+  protected boolean set(@Nullable V value) {
     boolean result = sync.set(value);
     if (result) {
       done();

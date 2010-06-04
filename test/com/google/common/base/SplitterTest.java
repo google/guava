@@ -16,6 +16,8 @@
 
 package com.google.common.base;
 
+import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.Lists;
 import com.google.testing.util.NullPointerTester;
 
@@ -28,11 +30,12 @@ import java.util.regex.Pattern;
 /**
  * @author Julien Silland
  */
+@GwtCompatible(emulated = true)
 public class SplitterTest extends TestCase {
 
   public void testSplitNullString() {
     try {
-      Iterable<String> letters = Splitter.on(',').split(null);
+      Splitter.on(',').split(null);
       fail();
     } catch (NullPointerException expected) {
     }
@@ -267,42 +270,49 @@ public class SplitterTest extends TestCase {
         "(Marlon)", "(Michael)", "(Jackie)", "(Jemaine)", "(Tito)");
   }
 
+  @GwtIncompatible("Splitter.onPattern")
   public void testPatternSimpleSplit() {
     String simple = "a,b,c";
     Iterable<String> letters = Splitter.onPattern(",").split(simple);
     assertContentsInOrder(letters, "a", "b", "c");
   }
 
+  @GwtIncompatible("Splitter.onPattern")
   public void testPatternSimpleSplitWithNoDelimiter() {
     String simple = "a,b,c";
     Iterable<String> letters = Splitter.onPattern("foo").split(simple);
     assertContentsInOrder(letters, "a,b,c");
   }
 
+  @GwtIncompatible("Splitter.onPattern")
   public void testPatternSplitWithDoubleDelimiter() {
     String doubled = "a,,b,c";
     Iterable<String> letters = Splitter.onPattern(",").split(doubled);
     assertContentsInOrder(letters, "a", "", "b", "c");
   }
 
+  @GwtIncompatible("Splitter.onPattern")
   public void testPatternSplitWithDoubleDelimiterAndSpace() {
     String doubled = "a,, b,c";
     Iterable<String> letters = Splitter.onPattern(",").split(doubled);
     assertContentsInOrder(letters, "a", "", " b", "c");
   }
 
+  @GwtIncompatible("Splitter.onPattern")
   public void testPatternSplitWithTrailingDelimiter() {
     String trailing = "a,b,c,";
     Iterable<String> letters = Splitter.onPattern(",").split(trailing);
     assertContentsInOrder(letters, "a", "b", "c", "");
   }
 
+  @GwtIncompatible("Splitter.onPattern")
   public void testPatternSplitWithLeadingDelimiter() {
     String leading = ",a,b,c";
     Iterable<String> letters = Splitter.onPattern(",").split(leading);
     assertContentsInOrder(letters, "", "a", "b", "c");
   }
 
+  @GwtIncompatible("Splitter.onPattern")
   public void testPatternSplitWithMultipleLetters() {
     Iterable<String> testPatterningMotto = Splitter.onPattern("-").split(
         "Testing-rocks-Debugging-sucks");
@@ -310,40 +320,50 @@ public class SplitterTest extends TestCase {
         "Testing", "rocks", "Debugging", "sucks");
   }
 
-  private static final Pattern LITERAL_DOT_PATTERN = Pattern.compile("\\.");
+  @GwtIncompatible("java.util.regex.Pattern")
+  private static Pattern literalDotPattern() {
+    return Pattern.compile("\\.");
+  }
 
+  @GwtIncompatible("java.util.regex.Pattern")
   public void testPatternSplitWithDoubleDelimiterOmitEmptyStrings() {
     String doubled = "a..b.c";
-    Iterable<String> letters = Splitter.on(LITERAL_DOT_PATTERN)
+    Iterable<String> letters = Splitter.on(literalDotPattern())
         .omitEmptyStrings().split(doubled);
     assertContentsInOrder(letters, "a", "b", "c");
   }
 
+  @GwtIncompatible("java.util.regex.Pattern")
   public void testPatternSplitEmptyToken() {
     String emptyToken = "a. .c";
-    Iterable<String> letters = Splitter.on(LITERAL_DOT_PATTERN).trimResults()
+    Iterable<String> letters = Splitter.on(literalDotPattern()).trimResults()
         .split(emptyToken);
     assertContentsInOrder(letters, "a", "", "c");
   }
 
+  @GwtIncompatible("java.util.regex.Pattern")
   public void testPatternSplitEmptyTokenOmitEmptyStrings() {
     String emptyToken = "a. .c";
-    Iterable<String> letters = Splitter.on(LITERAL_DOT_PATTERN)
+    Iterable<String> letters = Splitter.on(literalDotPattern())
         .omitEmptyStrings().trimResults().split(emptyToken);
     assertContentsInOrder(letters, "a", "c");
   }
 
+  @GwtIncompatible("java.util.regex.Pattern")
   public void testPatternSplitOnOnlyDelimiter() {
-    Iterable<String> blankblank = Splitter.on(LITERAL_DOT_PATTERN).split(".");
+    Iterable<String> blankblank = Splitter.on(literalDotPattern()).split(".");
+
     assertContentsInOrder(blankblank, "", "");
   }
 
+  @GwtIncompatible("java.util.regex.Pattern")
   public void testPatternSplitOnOnlyDelimitersOmitEmptyStrings() {
-    Iterable<String> empty = Splitter.on(LITERAL_DOT_PATTERN).omitEmptyStrings()
+    Iterable<String> empty = Splitter.on(literalDotPattern()).omitEmptyStrings()
         .split("...");
     assertContentsInOrder(empty);
   }
 
+  @GwtIncompatible("java.util.regex.Pattern")
   public void testPatternSplitMatchingIsGreedy() {
     String longDelimiter = "a, b,   c";
     Iterable<String> letters = Splitter.on(Pattern.compile(",\\s*"))
@@ -351,6 +371,7 @@ public class SplitterTest extends TestCase {
     assertContentsInOrder(letters, "a", "b", "c");
   }
 
+  @GwtIncompatible("java.util.regex.Pattern")
   public void testPatternSplitWithLongLeadingDelimiter() {
     String longDelimiter = ", a, b, c";
     Iterable<String> letters = Splitter.on(Pattern.compile(", "))
@@ -358,6 +379,7 @@ public class SplitterTest extends TestCase {
     assertContentsInOrder(letters, "", "a", "b", "c");
   }
 
+  @GwtIncompatible("java.util.regex.Pattern")
   public void testPatternSplitWithLongTrailingDelimiter() {
     String longDelimiter = "a, b, c/ ";
     Iterable<String> letters = Splitter.on(Pattern.compile("[,/]\\s"))
@@ -365,6 +387,7 @@ public class SplitterTest extends TestCase {
     assertContentsInOrder(letters, "a", "b", "c", "");
   }
 
+  @GwtIncompatible("java.util.regex.Pattern")
   public void testPatternSplitInvalidPattern() {
     try {
       Splitter.on(Pattern.compile("a*"));
@@ -373,6 +396,7 @@ public class SplitterTest extends TestCase {
     }
   }
 
+  @GwtIncompatible("java.util.regex.Pattern")
   public void testPatternSplitWithTrim() {
     String jacksons = "arfo(Marlon)aorf, (Michael)orfa, afro(Jackie)orfa, "
         + "ofar(Jemaine), aff(Tito)";
@@ -386,10 +410,14 @@ public class SplitterTest extends TestCase {
   public void testSplitterIterableIsUnmodifiable() {
     assertIteratorIsUnmodifiable(Splitter.on(',').split("a,b").iterator());
     assertIteratorIsUnmodifiable(Splitter.on(",").split("a,b").iterator());
+  }
+
+  @GwtIncompatible("java.util.regex.Pattern")
+  public void testSplitterIterableIsUnmodifiable_pattern() {
     assertIteratorIsUnmodifiable(
         Splitter.on(Pattern.compile(",")).split("a,b").iterator());
   }
-  
+
   private void assertIteratorIsUnmodifiable(Iterator<?> iterator) {
     iterator.next();
     try {
@@ -402,6 +430,10 @@ public class SplitterTest extends TestCase {
   public void testSplitterIterableIsLazy() {
     assertSplitterIterableIsLazy(Splitter.on(','));
     assertSplitterIterableIsLazy(Splitter.on(","));
+  }
+
+  @GwtIncompatible("java.util.regex.Pattern")
+  public void testSplitterIterableIsLazy_pattern() {
     assertSplitterIterableIsLazy(Splitter.on(Pattern.compile(",")));
   }
 
@@ -480,6 +512,7 @@ public class SplitterTest extends TestCase {
     }
   }
 
+  @GwtIncompatible("NullPointerTester")
   public void testNullPointers() throws Exception {
     NullPointerTester tester = new NullPointerTester();
     tester.testAllPublicStaticMethods(Splitter.class);
@@ -493,3 +526,4 @@ public class SplitterTest extends TestCase {
     assertEquals(Arrays.asList(expected), Lists.newArrayList(actual));
   }
 }
+

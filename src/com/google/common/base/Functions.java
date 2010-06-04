@@ -51,6 +51,7 @@ public final class Functions {
     INSTANCE;
 
     public String apply(Object o) {
+      checkNotNull(o);  // eager for GWT.
       return o.toString();
     }
 

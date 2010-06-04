@@ -18,6 +18,8 @@ package com.google.common.util.concurrent;
 
 import com.google.common.annotations.Beta;
 
+import javax.annotation.Nullable;
+
 /**
  * A simple ListenableFuture that holds a value or an exception.
  *
@@ -49,7 +51,7 @@ public class ValueFuture<V> extends AbstractListenableFuture<V> {
    * @return true if the value was successfully set.
    */
   @Override
-  public boolean set(V newValue) {
+  public boolean set(@Nullable V newValue) {
     return super.set(newValue);
   }
 

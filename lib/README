@@ -1,0 +1,3 @@
+As a user of Guava, you do NOT need any of these jars at runtime. They are here
+only to support our build.
+

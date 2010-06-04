@@ -16,11 +16,6 @@
 
 package com.google.common.base;
 
-import com.google.testing.util.NullPointerTester;
-
-import junit.framework.AssertionFailedError;
-import junit.framework.TestCase;
-
 import static com.google.common.base.CharMatcher.anyOf;
 import static com.google.common.base.CharMatcher.forPredicate;
 import static com.google.common.base.CharMatcher.inRange;
@@ -28,13 +23,22 @@ import static com.google.common.base.CharMatcher.is;
 import static com.google.common.base.CharMatcher.isNot;
 import static com.google.common.base.CharMatcher.noneOf;
 
+import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.GwtIncompatible;
+import com.google.testing.util.NullPointerTester;
+
+import junit.framework.AssertionFailedError;
+import junit.framework.TestCase;
+
 /**
  * Unit test for {@link CharMatcher}.
  *
  * @author Kevin Bourrillion
  */
+@GwtCompatible(emulated = true)
 public class CharMatcherTest extends TestCase {
 
+  @GwtIncompatible("NullPointerTester")
   public void testStaticNullPointers() throws Exception {
     NullPointerTester tester = new NullPointerTester();
     tester.testAllPublicStaticMethods(CharMatcher.class);
@@ -74,6 +78,8 @@ public class CharMatcherTest extends TestCase {
   // use Character.isWhitespace. This test ensures that its custom
   // implementation stays in sync with the implementation of
   // Character.isWhitespace.
+
+  @GwtIncompatible("Character.isWhitespace")
   public void testJavaWhitespace() {
     for (int c = 0; c <= Character.MAX_VALUE; c++) {
       assertEquals("" + c, Character.isWhitespace(c),
@@ -81,6 +87,7 @@ public class CharMatcherTest extends TestCase {
     }
   }
 
+  @GwtIncompatible("Character.isISOControl")
   public void testJavaIsoControl() {
     for (int c = 0; c <= Character.MAX_VALUE; c++) {
       assertEquals("" + c, Character.isISOControl(c),
@@ -100,27 +107,42 @@ public class CharMatcherTest extends TestCase {
   // method, but by overall "scenario". Also, the variety of actual tests we
   // do borders on absurd overkill. Better safe than sorry, though?
 
-  public void testEmptyAndNull() throws Exception {
-    doTestEmptyAndNull(CharMatcher.ANY);
-    doTestEmptyAndNull(CharMatcher.NONE);
-    doTestEmptyAndNull(is('a'));
-    doTestEmptyAndNull(isNot('a'));
-    doTestEmptyAndNull(anyOf(""));
-    doTestEmptyAndNull(anyOf("x"));
-    doTestEmptyAndNull(anyOf("xy"));
-    doTestEmptyAndNull(anyOf("CharMatcher"));
-    doTestEmptyAndNull(noneOf("CharMatcher"));
-    doTestEmptyAndNull(inRange('n', 'q'));
-    doTestEmptyAndNull(forPredicate(Predicates.equalTo('c')));
+  public void testEmpty() throws Exception {
+    doTestEmpty(CharMatcher.ANY);
+    doTestEmpty(CharMatcher.NONE);
+    doTestEmpty(is('a'));
+    doTestEmpty(isNot('a'));
+    doTestEmpty(anyOf(""));
+    doTestEmpty(anyOf("x"));
+    doTestEmpty(anyOf("xy"));
+    doTestEmpty(anyOf("CharMatcher"));
+    doTestEmpty(noneOf("CharMatcher"));
+    doTestEmpty(inRange('n', 'q'));
+    doTestEmpty(forPredicate(Predicates.equalTo('c')));
   }
 
-  private void doTestEmptyAndNull(CharMatcher matcher) throws Exception {
-    reallyTestEmptyAndNull(matcher);
-    reallyTestEmptyAndNull(matcher.negate());
-    reallyTestEmptyAndNull(matcher.precomputed());
+  @GwtIncompatible("NullPointerTester")
+  public void testNull() throws Exception {
+    doTestNull(CharMatcher.ANY);
+    doTestNull(CharMatcher.NONE);
+    doTestNull(is('a'));
+    doTestNull(isNot('a'));
+    doTestNull(anyOf(""));
+    doTestNull(anyOf("x"));
+    doTestNull(anyOf("xy"));
+    doTestNull(anyOf("CharMatcher"));
+    doTestNull(noneOf("CharMatcher"));
+    doTestNull(inRange('n', 'q'));
+    doTestNull(forPredicate(Predicates.equalTo('c')));
   }
 
-  private void reallyTestEmptyAndNull(CharMatcher matcher) throws Exception {
+  private void doTestEmpty(CharMatcher matcher) throws Exception {
+    reallyTestEmpty(matcher);
+    reallyTestEmpty(matcher.negate());
+    reallyTestEmpty(matcher.precomputed());
+  }
+
+  private void reallyTestEmpty(CharMatcher matcher) throws Exception {
     assertEquals(-1, matcher.indexIn(""));
     assertEquals(-1, matcher.indexIn("", 0));
     try {
@@ -141,7 +163,10 @@ public class CharMatcherTest extends TestCase {
     assertEquals("", matcher.replaceFrom("", "ZZ"));
     assertEquals("", matcher.trimFrom(""));
     assertEquals(0, matcher.countIn(""));
+  }
 
+  @GwtIncompatible("NullPointerTester")
+  private void doTestNull(CharMatcher matcher) throws Exception {
     NullPointerTester tester = new NullPointerTester();
     tester.testAllPublicInstanceMethods(matcher);
   }
@@ -322,11 +347,13 @@ public class CharMatcherTest extends TestCase {
     assertFalse(matcher.matchesAllOf(s));
     assertTrue(matcher.matchesNoneOf(s));
 
-    // Note: only 'assertEquals' is promised by the API.
-    assertSame(s, matcher.removeFrom(s));
-    assertSame(s, matcher.replaceFrom(s, 'z'));
-    assertSame(s, matcher.replaceFrom(s, "ZZ"));
-    assertSame(s, matcher.trimFrom(s));
+    // Note: only 'assertEquals' is promised by the API.  Although they could
+    // have been assertSame() on the server side, they have to be assertEquals
+    // in GWT, because of GWT issue 4491.
+    assertEquals(s, matcher.removeFrom(s));
+    assertEquals(s, matcher.replaceFrom(s, 'z'));
+    assertEquals(s, matcher.replaceFrom(s, "ZZ"));
+    assertEquals(s, matcher.trimFrom(s));
     assertEquals(0, matcher.countIn(s));
   }
 

@@ -16,13 +16,14 @@
 
 package com.google.common.base;
 
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import com.google.common.annotations.GwtCompatible;
 
 import java.util.Formatter;
 
 import javax.annotation.Nullable;
-
-import static com.google.common.base.Preconditions.checkArgument;
 
 /**
  * Static utility methods pertaining to {@code String} or {@code CharSequence}
@@ -83,7 +84,7 @@ public final class Strings {
    * <li>{@code padStart("2010", 3, '0')} returns {@code "2010"}
    * </ul>
    *
-   * <p>See {@link Formatter} for a richer set of formatting capabilities. 
+   * <p>See {@link Formatter} for a richer set of formatting capabilities.
    *
    * @param string the string which should appear at the end of the result
    * @param minLength the minimum length the resulting string must have. Can be
@@ -93,6 +94,7 @@ public final class Strings {
    * @return the padded string
    */
   public static String padStart(String string, int minLength, char padChar) {
+    checkNotNull(string);  // eager for GWT.
     if (string.length() >= minLength) {
       return string;
     }
@@ -124,6 +126,7 @@ public final class Strings {
    * @return the padded string
    */
   public static String padEnd(String string, int minLength, char padChar) {
+    checkNotNull(string);  // eager for GWT.
     if (string.length() >= minLength) {
       return string;
     }
@@ -147,6 +150,7 @@ public final class Strings {
    * @throws IllegalArgumentException if {@code count} is negative
    */
   public static String repeat(String string, int count) {
+    checkNotNull(string);  // eager for GWT.
     checkArgument(count >= 0, "invalid count: %s", count);
 
     // If this multiplication overflows, a NegativeArraySizeException or
@@ -158,3 +162,4 @@ public final class Strings {
     return builder.toString();
   }
 }
+
