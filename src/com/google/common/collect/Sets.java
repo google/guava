@@ -16,8 +16,12 @@
 
 package com.google.common.collect;
 
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import com.google.common.collect.Collections2.FilteredCollection;
@@ -47,9 +51,6 @@ import java.util.TreeSet;
 
 import javax.annotation.Nullable;
 
-import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkNotNull;
-
 /**
  * Static utility methods pertaining to {@link Set} instances. Also see this
  * class's counterparts {@link Lists} and {@link Maps}.
@@ -59,7 +60,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * @author Chris Povirk
  * @since 2 (imported from Google Collections Library)
  */
-@GwtCompatible
+@GwtCompatible(emulated = true)
 public final class Sets {
   private Sets() {}
 
@@ -483,9 +484,10 @@ public final class Sets {
     }
 
     // addAll is the only inherited implementation
-
+    @GwtIncompatible("not needed in emulated source")
     private static final long serialVersionUID = 0;
 
+    @GwtIncompatible("java.io.ObjectInputStream")
     private void readObject(ObjectInputStream stream)
         throws IOException, ClassNotFoundException {
       stream.defaultReadObject();

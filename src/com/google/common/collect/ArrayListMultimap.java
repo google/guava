@@ -16,9 +16,11 @@
 
 package com.google.common.collect;
 
-import com.google.common.annotations.GwtCompatible;
-import com.google.common.annotations.VisibleForTesting;
 import static com.google.common.base.Preconditions.checkArgument;
+
+import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.VisibleForTesting;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -139,12 +141,14 @@ public final class ArrayListMultimap<K, V> extends AbstractListMultimap<K, V> {
    *     each distinct key: the key, number of values for that key, and the
    *     key's values
    */
+  @GwtIncompatible("java.io.ObjectOutputStream")
   private void writeObject(ObjectOutputStream stream) throws IOException {
     stream.defaultWriteObject();
     stream.writeInt(expectedValuesPerKey);
     Serialization.writeMultimap(this, stream);
   }
 
+  @GwtIncompatible("java.io.ObjectOutputStream")
   private void readObject(ObjectInputStream stream)
       throws IOException, ClassNotFoundException {
     stream.defaultReadObject();
@@ -155,5 +159,6 @@ public final class ArrayListMultimap<K, V> extends AbstractListMultimap<K, V> {
     Serialization.populateMultimap(this, stream, distinctKeys);
   }
 
+  @GwtIncompatible("Not needed in emulated source.")
   private static final long serialVersionUID = 0;
 }

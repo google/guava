@@ -16,10 +16,12 @@
 
 package com.google.common.collect;
 
-import com.google.common.annotations.GwtCompatible;
-import com.google.common.base.Objects;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
+
+import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.GwtIncompatible;
+import com.google.common.base.Objects;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -42,7 +44,7 @@ import javax.annotation.Nullable;
  * @author Kevin Bourrillion
  * @author Mike Bostock
  */
-@GwtCompatible
+@GwtCompatible(emulated = true)
 abstract class AbstractBiMap<K, V> extends ForwardingMap<K, V>
     implements BiMap<K, V>, Serializable {
 
@@ -371,11 +373,13 @@ abstract class AbstractBiMap<K, V> extends ForwardingMap<K, V>
     /**
      * @serialData the forward bimap
      */
+    @GwtIncompatible("java.io.ObjectOuputStream")
     private void writeObject(ObjectOutputStream stream) throws IOException {
       stream.defaultWriteObject();
       stream.writeObject(inverse());
     }
 
+    @GwtIncompatible("java.io.ObjectInputStream")
     @SuppressWarnings("unchecked") // reading data stored by writeObject
     private void readObject(ObjectInputStream stream)
         throws IOException, ClassNotFoundException {
@@ -383,12 +387,15 @@ abstract class AbstractBiMap<K, V> extends ForwardingMap<K, V>
       setInverse((AbstractBiMap<V, K>) stream.readObject());
     }
 
+    @GwtIncompatible("Not needed in the emulated source.")
     Object readResolve() {
       return inverse().inverse();
     }
 
+    @GwtIncompatible("Not needed in emulated source.")
     private static final long serialVersionUID = 0;
   }
 
+  @GwtIncompatible("Not needed in emulated source.")
   private static final long serialVersionUID = 0;
 }

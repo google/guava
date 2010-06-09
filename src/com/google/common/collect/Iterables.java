@@ -16,6 +16,9 @@
 
 package com.google.common.collect;
 
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -38,9 +41,6 @@ import java.util.SortedSet;
 
 import javax.annotation.Nullable;
 
-import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkNotNull;
-
 /**
  * This class contains static utility methods that operate on or return objects
  * of type {@code Iterable}. Except as noted, each method has a corresponding
@@ -50,7 +50,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * @author Jared Levy
  * @since 2 (imported from Google Collections Library)
  */
-@GwtCompatible
+@GwtCompatible(emulated = true)
 public final class Iterables {
   private Iterables() {}
 
@@ -226,7 +226,6 @@ public final class Iterables {
    * @return a newly-allocated array into which all the elements of the iterable
    *     have been copied
    */
-  @GwtIncompatible("Array.newInstance(Class, int)")
   public static <T> T[] toArray(Iterable<? extends T> iterable, Class<T> type) {
     Collection<? extends T> collection = Collections2.toCollection(iterable);
     T[] array = ObjectArrays.newArray(type, collection.size());

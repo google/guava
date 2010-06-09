@@ -16,6 +16,8 @@
 
 package com.google.common.base;
 
+import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.Lists;
 import com.google.testing.util.NullPointerTester;
 
@@ -34,6 +36,7 @@ import static com.google.testing.util.SerializableTester.reserialize;
  * @author Laurence Gonsalves
  * @author Harry Heymann
  */
+@GwtCompatible(emulated = true)
 public class SuppliersTest extends TestCase {
   public void testCompose() {
     Supplier<Integer> fiveSupplier = new Supplier<Integer>() {
@@ -80,8 +83,7 @@ public class SuppliersTest extends TestCase {
     assertEquals(Integer.valueOf(1), result.get(1));
   }
 
-  private static class CountingSupplier
-      implements Supplier<Integer>, Serializable {
+  static class CountingSupplier implements Supplier<Integer>, Serializable {
     transient int calls = 0;
     public Integer get() {
       calls++;
@@ -95,6 +97,7 @@ public class SuppliersTest extends TestCase {
     checkMemoize(countingSupplier, memoizedSupplier);
   }
 
+  @GwtIncompatible("SerializableTester")
   public void testMemoizeSerialized() {
     CountingSupplier countingSupplier = new CountingSupplier();
     Supplier<Integer> memoizedSupplier = Suppliers.memoize(countingSupplier);
@@ -147,6 +150,7 @@ public class SuppliersTest extends TestCase {
     }
   }
 
+  @GwtIncompatible("Thread.sleep")
   public void testMemoizeWithExpiration() throws InterruptedException {
     CountingSupplier countingSupplier = new CountingSupplier();
 
@@ -156,6 +160,7 @@ public class SuppliersTest extends TestCase {
     checkExpiration(countingSupplier, memoizedSupplier);
   }
 
+  @GwtIncompatible("Thread.sleep, SerializationTester")
   public void testMemoizeWithExpirationSerialized()
       throws InterruptedException {
     CountingSupplier countingSupplier = new CountingSupplier();
@@ -173,6 +178,7 @@ public class SuppliersTest extends TestCase {
     checkExpiration(countingCopy, copy);
   }
 
+  @GwtIncompatible("Thread.sleep")
   private void checkExpiration(
       CountingSupplier countingSupplier, Supplier<Integer> memoizedSupplier)
       throws InterruptedException {
@@ -210,6 +216,7 @@ public class SuppliersTest extends TestCase {
     assertNull(nullSupplier.get());
   }
 
+  @GwtIncompatible("Thread")
   public void testThreadSafe() throws InterruptedException {
     final Supplier<Integer> nonThreadSafe = new Supplier<Integer>() {
       int counter = 0;
@@ -244,6 +251,7 @@ public class SuppliersTest extends TestCase {
     assertEquals(new Integer(numThreads * iterations + 1), nonThreadSafe.get());
   }
 
+  @GwtIncompatible("SerializationTester")
   public void testSerialization() {
     assertEquals(
         Integer.valueOf(5), reserialize(Suppliers.ofInstance(5)).get());
@@ -258,6 +266,7 @@ public class SuppliersTest extends TestCase {
         Suppliers.synchronizedSupplier(Suppliers.ofInstance(5))).get());
   }
 
+  @GwtIncompatible("NullPointerTest")
   public void testNullPointers() throws Exception {
     NullPointerTester tester = new NullPointerTester();
     tester.testAllPublicStaticMethods(Suppliers.class);

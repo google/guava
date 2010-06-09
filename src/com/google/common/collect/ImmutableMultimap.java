@@ -16,8 +16,10 @@
 
 package com.google.common.collect;
 
-import com.google.common.annotations.GwtCompatible;
 import static com.google.common.base.Preconditions.checkNotNull;
+
+import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.GwtIncompatible;
 
 import java.io.Serializable;
 import java.util.Arrays;
@@ -46,7 +48,7 @@ import javax.annotation.Nullable;
  * @author Jared Levy
  * @since 2 (imported from Google Collections Library)
  */
-@GwtCompatible
+@GwtCompatible(emulated = true)
 public abstract class ImmutableMultimap<K, V>
     implements Multimap<K, V>, Serializable {
 
@@ -231,6 +233,7 @@ public abstract class ImmutableMultimap<K, V>
   // These constants allow the deserialization code to set final fields. This
   // holder class makes sure they are not initialized unless an instance is
   // deserialized.
+  @GwtIncompatible("java serialization is not supported")
   static class FieldSettersHolder {
     // Eclipse doesn't like the raw ImmutableMultimap
     @SuppressWarnings("unchecked")

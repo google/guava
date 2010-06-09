@@ -16,12 +16,15 @@
 
 package com.google.common.collect;
 
-import com.google.common.annotations.GwtCompatible;
-import com.google.common.base.Objects;
-import com.google.common.base.Preconditions;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.Multisets.setCountImpl;
+import static java.util.Collections.unmodifiableList;
+
+import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.GwtIncompatible;
+import com.google.common.base.Objects;
+import com.google.common.base.Preconditions;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -32,15 +35,14 @@ import java.util.AbstractMap;
 import java.util.AbstractSequentialList;
 import java.util.AbstractSet;
 import java.util.Collection;
-import static java.util.Collections.unmodifiableList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.NoSuchElementException;
 import java.util.Set;
+import java.util.Map.Entry;
 
 import javax.annotation.Nullable;
 
@@ -92,7 +94,7 @@ import javax.annotation.Nullable;
  * @author Mike Bostock
  * @since 2 (imported from Google Collections Library)
  */
-@GwtCompatible(serializable = true)
+@GwtCompatible(serializable = true, emulated = true)
 public final class LinkedListMultimap<K, V>
     implements ListMultimap<K, V>, Serializable {
   /*
@@ -923,6 +925,7 @@ public final class LinkedListMultimap<K, V>
    *     the first key, the number of values for that key, and the key's values,
    *     followed by successive keys and values from the entries() ordering
    */
+  @GwtIncompatible("java.io.ObjectOutputStream")
   private void writeObject(ObjectOutputStream stream) throws IOException {
     stream.defaultWriteObject();
     stream.writeInt(size());
@@ -932,6 +935,7 @@ public final class LinkedListMultimap<K, V>
     }
   }
 
+  @GwtIncompatible("java.io.ObjectInputStream")
   private void readObject(ObjectInputStream stream)
       throws IOException, ClassNotFoundException {
     stream.defaultReadObject();
@@ -948,5 +952,6 @@ public final class LinkedListMultimap<K, V>
     }
   }
 
+  @GwtIncompatible("java serialization not supported")
   private static final long serialVersionUID = 0;
 }

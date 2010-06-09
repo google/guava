@@ -16,7 +16,10 @@
 
 package com.google.common.collect;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.VisibleForTesting;
 
 import java.io.IOException;
@@ -34,8 +37,6 @@ import java.util.SortedSet;
 
 import javax.annotation.Nullable;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-
 /**
  * Synchronized collection views. The returned synchronized collection views are
  * serializable if the backing collection and the mutex are serializable.
@@ -49,7 +50,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * @author Mike Bostock
  * @author Jared Levy
  */
-@GwtCompatible
+@GwtCompatible(emulated = true)
 final class Synchronized {
   private Synchronized() {}
 
@@ -79,12 +80,14 @@ final class Synchronized {
     // they don't contain any non-transient member variables, while the
     // following writeObject() handles the SynchronizedObject members.
 
+    @GwtIncompatible("java.io.ObjectOutputStream")
     private void writeObject(ObjectOutputStream stream) throws IOException {
       synchronized (mutex) {
         stream.defaultWriteObject();
       }
     }
 
+    @GwtIncompatible("not needed in emulated source")
     private static final long serialVersionUID = 0;
   }
 

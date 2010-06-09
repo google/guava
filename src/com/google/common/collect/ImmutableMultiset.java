@@ -16,8 +16,10 @@
 
 package com.google.common.collect;
 
-import com.google.common.annotations.GwtCompatible;
 import static com.google.common.base.Preconditions.checkNotNull;
+
+import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.Serialization.FieldSetter;
 
 import java.io.IOException;
@@ -148,6 +150,7 @@ public class ImmutableMultiset<E> extends ImmutableCollection<E>
   // These constants allow the deserialization code to set final fields. This
   // holder class makes sure they are not initialized unless an instance is
   // deserialized.
+  @GwtIncompatible("java serialization is not supported.")
   @SuppressWarnings("unchecked")
   // eclipse doesn't like the raw types here, but they're harmless
   private static class FieldSettersHolder {
@@ -344,8 +347,8 @@ public class ImmutableMultiset<E> extends ImmutableCollection<E>
       return multiset.map.hashCode();
     }
 
-    // TODO: Revert the comment-out once this class is emulated in GWT.
-    /*@Override*/ Object writeReplace() {
+    @GwtIncompatible("not needed in emulated source.")
+    @Override Object writeReplace() {
       return this;
     }
 
@@ -356,11 +359,13 @@ public class ImmutableMultiset<E> extends ImmutableCollection<E>
    * @serialData the number of distinct elements, the first element, its count,
    *     the second element, its count, and so on
    */
+  @GwtIncompatible("java.io.ObjectOutputStream")
   private void writeObject(ObjectOutputStream stream) throws IOException {
     stream.defaultWriteObject();
     Serialization.writeMultiset(this, stream);
   }
 
+  @GwtIncompatible("java.io.ObjectInputStream")
   private void readObject(ObjectInputStream stream)
       throws IOException, ClassNotFoundException {
     stream.defaultReadObject();
@@ -383,8 +388,8 @@ public class ImmutableMultiset<E> extends ImmutableCollection<E>
         this, (int) Math.min(tmpSize, Integer.MAX_VALUE));
   }
 
-  // TODO: Revert the comment-out once this class is emulated in GWT.
-  /*@Override*/ Object writeReplace() {
+  @GwtIncompatible("java serialization not supported.")
+  @Override Object writeReplace() {
     return this;
   }
 

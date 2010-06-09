@@ -16,6 +16,7 @@
 
 package com.google.common.base;
 
+import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.VisibleForTesting;
 
 import java.io.Serializable;
@@ -33,6 +34,7 @@ import javax.annotation.Nullable;
  * @author Harry Heymann
  * @since 2 (imported from Google Collections Library)
  */
+@GwtCompatible
 public final class Suppliers {
   private Suppliers() {}
 
@@ -139,10 +141,10 @@ public final class Suppliers {
     }
 
     public synchronized T get() {
-      if (!initialized || System.nanoTime() - expirationNanos >= 0) {
+      if (!initialized || Platform.systemNanoTime() - expirationNanos >= 0) {
         value = delegate.get();
         initialized = true;
-        expirationNanos = System.nanoTime() + durationNanos;
+        expirationNanos = Platform.systemNanoTime() + durationNanos;
       }
       return value;
     }

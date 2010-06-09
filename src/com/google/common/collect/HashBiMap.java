@@ -17,6 +17,7 @@
 package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.GwtIncompatible;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -34,7 +35,7 @@ import javax.annotation.Nullable;
  * @author Mike Bostock
  * @since 2 (imported from Google Collections Library)
  */
-@GwtCompatible
+@GwtCompatible(emulated = true)
 public final class HashBiMap<K, V> extends AbstractBiMap<K, V> {
 
   /**
@@ -91,11 +92,13 @@ public final class HashBiMap<K, V> extends AbstractBiMap<K, V> {
    * @serialData the number of entries, first key, first value, second key,
    *     second value, and so on.
    */
+  @GwtIncompatible("java.io.ObjectOutputStream")
   private void writeObject(ObjectOutputStream stream) throws IOException {
     stream.defaultWriteObject();
     Serialization.writeMap(this, stream);
   }
 
+  @GwtIncompatible("java.io.ObjectInputStream")
   private void readObject(ObjectInputStream stream)
       throws IOException, ClassNotFoundException {
     stream.defaultReadObject();
@@ -105,5 +108,6 @@ public final class HashBiMap<K, V> extends AbstractBiMap<K, V> {
     Serialization.populateMap(this, stream, size);
   }
 
+  @GwtIncompatible("Not needed in emulated source")
   private static final long serialVersionUID = 0;
 }

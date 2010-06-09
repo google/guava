@@ -17,6 +17,7 @@
 package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.GwtIncompatible;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -47,7 +48,7 @@ import javax.annotation.Nullable;
  * @author Jared Levy
  * @since 2 (imported from Google Collections Library)
  */
-@GwtCompatible
+@GwtCompatible(emulated = true)
 @SuppressWarnings("serial") // we're overriding default serialization
 public final class TreeMultiset<E> extends AbstractMapBasedMultiset<E> {
 
@@ -195,12 +196,14 @@ public final class TreeMultiset<E> extends AbstractMapBasedMultiset<E> {
    * @serialData the comparator, the number of distinct elements, the first
    *     element, its count, the second element, its count, and so on
    */
+  @GwtIncompatible("java.io.ObjectOutputStream")
   private void writeObject(ObjectOutputStream stream) throws IOException {
     stream.defaultWriteObject();
     stream.writeObject(elementSet().comparator());
     Serialization.writeMultiset(this, stream);
   }
 
+  @GwtIncompatible("java.io.ObjectInputStream")
   private void readObject(ObjectInputStream stream)
       throws IOException, ClassNotFoundException {
     stream.defaultReadObject();
@@ -211,5 +214,6 @@ public final class TreeMultiset<E> extends AbstractMapBasedMultiset<E> {
     Serialization.populateMultiset(this, stream);
   }
 
+  @GwtIncompatible("not needed in emulated source")
   private static final long serialVersionUID = 0;
 }

@@ -33,15 +33,6 @@ class Platform {
       Logger.getLogger(Platform.class.getCanonicalName());
 
   /**
-   * Calls {@link Class#isInstance(Object)}.  Factored out so that it can be
-   * emulated in GWT.
-   */
-  @GwtIncompatible("Class.isInstance")
-  static boolean isInstance(Class<?> clazz, Object obj) {
-    return clazz.isInstance(obj);
-  }
-
-  /**
    * Clone the given array using {@link Object#clone()}.  It is factored out so
    * that it can be emulated in GWT.
    */

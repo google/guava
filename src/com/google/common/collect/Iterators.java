@@ -16,6 +16,10 @@
 
 package com.google.common.collect;
 
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkState;
+
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -35,10 +39,6 @@ import java.util.NoSuchElementException;
 
 import javax.annotation.Nullable;
 
-import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.common.base.Preconditions.checkState;
-
 /**
  * This class contains static utility methods that operate on or return objects
  * of type {@link Iterator}. Except as noted, each method has a corresponding
@@ -48,7 +48,7 @@ import static com.google.common.base.Preconditions.checkState;
  * @author Jared Levy
  * @since 2 (imported from Google Collections Library)
  */
-@GwtCompatible
+@GwtCompatible(emulated = true)
 public final class Iterators {
   private Iterators() {}
 
@@ -307,7 +307,6 @@ public final class Iterators {
    * @return a newly-allocated array into which all the elements of the iterator
    *         have been copied
    */
-  @GwtIncompatible("Array.newArray")
   public static <T> T[] toArray(
       Iterator<? extends T> iterator, Class<T> type) {
     List<T> list = Lists.newArrayList(iterator);

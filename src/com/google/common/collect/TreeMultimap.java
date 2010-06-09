@@ -16,8 +16,10 @@
 
 package com.google.common.collect;
 
-import com.google.common.annotations.GwtCompatible;
 import static com.google.common.base.Preconditions.checkNotNull;
+
+import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.GwtIncompatible;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -66,7 +68,7 @@ import java.util.TreeSet;
  * @author Jared Levy
  * @since 2 (imported from Google Collections Library)
  */
-@GwtCompatible(serializable = true)
+@GwtCompatible(serializable = true, emulated = true)
 public class TreeMultimap<K, V> extends AbstractSortedSetMultimap<K, V> {
   private transient Comparator<? super K> keyComparator;
   private transient Comparator<? super V> valueComparator;
@@ -173,6 +175,7 @@ public class TreeMultimap<K, V> extends AbstractSortedSetMultimap<K, V> {
    *     then for each distinct key: the key, number of values for that key, and
    *     key values
    */
+  @GwtIncompatible("java.io.ObjectOutputStream")
   private void writeObject(ObjectOutputStream stream) throws IOException {
     stream.defaultWriteObject();
     stream.writeObject(keyComparator());
@@ -180,6 +183,7 @@ public class TreeMultimap<K, V> extends AbstractSortedSetMultimap<K, V> {
     Serialization.writeMultimap(this, stream);
   }
 
+  @GwtIncompatible("java.io.ObjectInputStream")
   @SuppressWarnings("unchecked") // reading data stored by writeObject
   private void readObject(ObjectInputStream stream)
       throws IOException, ClassNotFoundException {
@@ -190,5 +194,6 @@ public class TreeMultimap<K, V> extends AbstractSortedSetMultimap<K, V> {
     Serialization.populateMultimap(this, stream);
   }
 
+  @GwtIncompatible("not needed in emulated source")
   private static final long serialVersionUID = 0;
 }

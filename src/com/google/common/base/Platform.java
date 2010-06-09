@@ -40,6 +40,11 @@ final class Platform {
   static char[] charBufferFromThreadLocal() {
     return DEST_TL.get();
   }
+  
+  /** Calls {@link System#nanoTime()}. */
+  static long systemNanoTime() {
+    return System.nanoTime();
+  }
 
   /**
    * A thread-local destination buffer to keep us from creating new buffers.
