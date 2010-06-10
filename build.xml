@@ -62,10 +62,11 @@
          use="true"
          author="true"
          protected="true"
+         linksource="true"
          windowtitle="Guava: Google Core Libraries for Java - ${release}">
       <sourcepath>
         <pathelement location="src"/>
-        <pathelement location="${javasrc}"/> <!-- I know, I know... -->
+        <pathelement location="${javasrc}"/>
       </sourcepath>
       <!-- workaround for http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6442982 -->
       <classpath>
