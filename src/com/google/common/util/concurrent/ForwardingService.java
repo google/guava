@@ -37,27 +37,27 @@ public abstract class ForwardingService extends ForwardingObject
 
   @Override protected abstract Service delegate();
 
-  /*@Override*/ public Future<State> start() {
+  @Override public Future<State> start() {
     return delegate().start();
   }
 
-  /*@Override*/ public State state() {
+  @Override public State state() {
     return delegate().state();
   }
 
-  /*@Override*/ public Future<State> stop() {
+  @Override public Future<State> stop() {
     return delegate().stop();
   }
 
-  /*@Override*/ public State startAndWait() {
+  @Override public State startAndWait() {
     return delegate().startAndWait();
   }
 
-  /*@Override*/ public State stopAndWait() {
+  @Override public State stopAndWait() {
     return delegate().stopAndWait();
   }
 
-  /*@Override*/ public boolean isRunning() {
+  @Override public boolean isRunning() {
     return delegate().isRunning();
   }
 }

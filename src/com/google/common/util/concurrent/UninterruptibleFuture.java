@@ -35,8 +35,8 @@ import java.util.concurrent.TimeoutException;
  */
 @Beta
 public interface UninterruptibleFuture<V> extends Future<V> {
-  /*@Override*/ V get() throws ExecutionException;
+  @Override V get() throws ExecutionException;
 
-  /*@Override*/ V get(long timeout, TimeUnit unit)
+  @Override V get(long timeout, TimeUnit unit)
       throws ExecutionException, TimeoutException;
 }

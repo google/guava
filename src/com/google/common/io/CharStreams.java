@@ -380,7 +380,7 @@ public final class CharStreams {
   public static InputSupplier<Reader> join(
       final Iterable<? extends InputSupplier<? extends Reader>> suppliers) {
     return new InputSupplier<Reader>() {
-      /*@Override*/ public Reader getInput() throws IOException {
+      @Override public Reader getInput() throws IOException {
         return new MultiReader(suppliers.iterator());
       }
     };

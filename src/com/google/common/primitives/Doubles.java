@@ -443,7 +443,7 @@ public final class Doubles {
     }
 
     /** In GWT, List and AbstractList do not have the subList method. */
-    /*@Override*/ public List<Double> subList(int fromIndex, int toIndex) {
+    @Override public List<Double> subList(int fromIndex, int toIndex) {
       int size = size();
       checkPositionIndexes(fromIndex, toIndex, size);
       if (fromIndex == toIndex) {

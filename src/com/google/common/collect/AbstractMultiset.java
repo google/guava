@@ -18,6 +18,8 @@ package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Objects;
+import com.google.common.primitives.Ints;
+
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.Multisets.setCountImpl;
@@ -57,7 +59,7 @@ abstract class AbstractMultiset<E> extends AbstractCollection<E>
     for (Entry<E> entry : entrySet()) {
       sum += entry.getCount();
     }
-    return (int) Math.min(sum, Integer.MAX_VALUE);
+    return Ints.saturatedCast(sum);
   }
 
   @Override public boolean isEmpty() {

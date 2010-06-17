@@ -510,7 +510,7 @@ public final class Chars {
     }
 
     /** In GWT, List and AbstractList do not have the subList method. */
-    /*@Override*/ public List<Character> subList(int fromIndex, int toIndex) {
+    @Override public List<Character> subList(int fromIndex, int toIndex) {
       int size = size();
       checkPositionIndexes(fromIndex, toIndex, size);
       if (fromIndex == toIndex) {

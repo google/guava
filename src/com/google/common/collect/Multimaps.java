@@ -353,7 +353,7 @@ public final class Multimaps {
       return factory.get();
     }
 
-    /*@Override*/ public Comparator<? super V> valueComparator() {
+    @Override public Comparator<? super V> valueComparator() {
       return valueComparator;
     }
 

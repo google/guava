@@ -233,15 +233,15 @@ abstract class AbstractBiMap<K, V> extends ForwardingMap<K, V>
       return new Iterator<V>() {
         V valueToRemove;
 
-        /*@Override*/ public boolean hasNext() {
+        @Override public boolean hasNext() {
           return iterator.hasNext();
         }
 
-        /*@Override*/ public V next() {
+        @Override public V next() {
           return valueToRemove = iterator.next();
         }
 
-        /*@Override*/ public void remove() {
+        @Override public void remove() {
           iterator.remove();
           removeFromInverseMap(valueToRemove);
         }
@@ -293,11 +293,11 @@ abstract class AbstractBiMap<K, V> extends ForwardingMap<K, V>
       return new Iterator<Entry<K, V>>() {
         Entry<K, V> entry;
 
-        /*@Override*/ public boolean hasNext() {
+        @Override public boolean hasNext() {
           return iterator.hasNext();
         }
 
-        /*@Override*/ public Entry<K, V> next() {
+        @Override public Entry<K, V> next() {
           entry = iterator.next();
           final Entry<K, V> finalEntry = entry;
 
@@ -324,7 +324,7 @@ abstract class AbstractBiMap<K, V> extends ForwardingMap<K, V>
           };
         }
 
-        /*@Override*/ public void remove() {
+        @Override public void remove() {
           checkState(entry != null);
           V value = entry.getValue();
           iterator.remove();

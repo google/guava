@@ -23,6 +23,7 @@ import static com.google.common.collect.Multisets.checkNonnegative;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.primitives.Ints;
 
 import java.io.InvalidObjectException;
 import java.io.ObjectStreamException;
@@ -174,7 +175,7 @@ abstract class AbstractMapBasedMultiset<E> extends AbstractMultiset<E>
   // Optimizations - Query Operations
 
   @Override public int size() {
-    return (int) Math.min(this.size, Integer.MAX_VALUE);
+    return Ints.saturatedCast(size);
   }
 
   @Override public Iterator<E> iterator() {

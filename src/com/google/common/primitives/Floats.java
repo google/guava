@@ -440,7 +440,7 @@ public final class Floats {
     }
 
     /** In GWT, List and AbstractList do not have the subList method. */
-    /*@Override*/ public List<Float> subList(int fromIndex, int toIndex) {
+    @Override public List<Float> subList(int fromIndex, int toIndex) {
       int size = size();
       checkPositionIndexes(fromIndex, toIndex, size);
       if (fromIndex == toIndex) {

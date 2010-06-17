@@ -76,15 +76,15 @@ public final class Iterators {
 
   private static final Iterator<Object> EMPTY_MODIFIABLE_ITERATOR =
       new Iterator<Object>() {
-        /*@Override*/ public boolean hasNext() {
+        @Override public boolean hasNext() {
           return false;
         }
 
-        /*@Override*/ public Object next() {
+        @Override public Object next() {
           throw new NoSuchElementException();
         }
 
-        /*@Override*/ public void remove() {
+        @Override public void remove() {
           throw new IllegalStateException();
         }
       };

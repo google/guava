@@ -38,7 +38,7 @@ public final class Callables {
    */
   public static <T> Callable<T> returning(final @Nullable T value) {
     return new Callable<T>() {
-      /*@Override*/ public T call() {
+      @Override public T call() {
         return value;
       }
     };

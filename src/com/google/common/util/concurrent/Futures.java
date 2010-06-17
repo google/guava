@@ -373,12 +373,12 @@ public class Futures {
       private boolean set = false;
       private O value = null;
 
-      /*@Override*/
+      @Override
       public O get() throws InterruptedException, ExecutionException {
         return apply(future.get());
       }
 
-      /*@Override*/
+      @Override
       public O get(long timeout, TimeUnit unit) throws InterruptedException,
           ExecutionException, TimeoutException {
         return apply(future.get(timeout, unit));
@@ -394,17 +394,17 @@ public class Futures {
         }
       }
 
-      /*@Override*/
+      @Override
       public boolean cancel(boolean mayInterruptIfRunning) {
         return future.cancel(mayInterruptIfRunning);
       }
 
-      /*@Override*/
+      @Override
       public boolean isCancelled() {
         return future.isCancelled();
       }
 
-      /*@Override*/
+      @Override
       public boolean isDone() {
         return future.isDone();
       }
@@ -434,6 +434,14 @@ public class Futures {
         ListenableFuture<? extends I> inputFuture) {
       this.function = checkNotNull(function);
       this.inputFuture = makeUninterruptible(inputFuture);
+    }
+
+    public boolean cancel(boolean mayInterruptIfRunning) {
+      Future<? extends I> future = inputFuture;
+      if (future != null) {
+        return future.cancel(mayInterruptIfRunning);
+      }
+      return false;
     }
 
     public void run() {
@@ -543,14 +551,14 @@ public class Futures {
       return delegate;
     }
 
-    /*@Override*/
+    @Override
     public void addListener(Runnable listener, Executor exec) {
 
       // When a listener is first added, we run a task that will wait for
       // the delegate to finish, and when it is done will run the listeners.
       if (!hasListeners.get() && hasListeners.compareAndSet(false, true)) {
         adapterExecutor.execute(new Runnable() {
-          /*@Override*/
+          @Override
           public void run() {
             try {
               delegate.get();

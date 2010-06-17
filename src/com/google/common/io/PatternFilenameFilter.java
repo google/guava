@@ -53,7 +53,7 @@ public final class PatternFilenameFilter implements FilenameFilter {
     this.pattern = Preconditions.checkNotNull(pattern);
   }
 
-  /*@Override*/ public boolean accept(File dir, String fileName) {
+  @Override public boolean accept(File dir, String fileName) {
     return pattern.matcher(fileName).matches();
   }
 }

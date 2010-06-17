@@ -131,7 +131,7 @@ public final class Splitter {
     checkNotNull(separatorMatcher);
 
     return new Splitter(new Strategy() {
-      /*@Override*/ public SplittingIterator iterator(
+      @Override public SplittingIterator iterator(
           Splitter splitter, final CharSequence toSplit) {
         return new SplittingIterator(splitter, toSplit) {
           @Override int separatorStart(int start) {
@@ -159,7 +159,7 @@ public final class Splitter {
         "The separator may not be the empty string.");
 
     return new Splitter(new Strategy() {
-      /*@Override*/ public SplittingIterator iterator(
+      @Override public SplittingIterator iterator(
           Splitter splitter, CharSequence toSplit) {
         return new SplittingIterator(splitter, toSplit) {
           @Override public int separatorStart(int start) {
@@ -205,7 +205,7 @@ public final class Splitter {
         "The pattern may not match the empty string: %s", separatorPattern);
 
     return new Splitter(new Strategy() {
-      /*@Override*/ public SplittingIterator iterator(
+      @Override public SplittingIterator iterator(
           final Splitter splitter, CharSequence toSplit) {
         final Matcher matcher = separatorPattern.matcher(toSplit);
         return new SplittingIterator(splitter, toSplit) {
@@ -255,7 +255,7 @@ public final class Splitter {
     checkArgument(length > 0, "The length may not be less than 1");
 
     return new Splitter(new Strategy() {
-      /*@Override*/ public SplittingIterator iterator(
+      @Override public SplittingIterator iterator(
           final Splitter splitter, CharSequence toSplit) {
         return new SplittingIterator(splitter, toSplit) {
           @Override public int separatorStart(int start) {
@@ -334,7 +334,7 @@ public final class Splitter {
     checkNotNull(sequence);
 
     return new Iterable<String>() {
-      /*@Override*/ public Iterator<String> iterator() {
+      @Override public Iterator<String> iterator() {
         return strategy.iterator(Splitter.this, sequence);
       }
     };
@@ -452,7 +452,7 @@ public final class Splitter {
       return next;
     }
 
-    /*@Override*/ public void remove() {
+    @Override public void remove() {
       throw new UnsupportedOperationException();
     }
   }

@@ -21,6 +21,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.Serialization.FieldSetter;
+import com.google.common.primitives.Ints;
 
 import java.io.IOException;
 import java.io.InvalidObjectException;
@@ -123,8 +124,7 @@ public class ImmutableMultiset<E> extends ImmutableCollection<E>
     if (size == 0) {
       return of();
     }
-    return new ImmutableMultiset<E>(
-        builder.build(), (int) Math.min(size, Integer.MAX_VALUE));
+    return new ImmutableMultiset<E>(builder.build(), Ints.saturatedCast(size));
   }
 
   /**
@@ -384,8 +384,7 @@ public class ImmutableMultiset<E> extends ImmutableCollection<E>
     }
 
     FieldSettersHolder.MAP_FIELD_SETTER.set(this, builder.build());
-    FieldSettersHolder.SIZE_FIELD_SETTER.set(
-        this, (int) Math.min(tmpSize, Integer.MAX_VALUE));
+    FieldSettersHolder.SIZE_FIELD_SETTER.set(this, Ints.saturatedCast(tmpSize));
   }
 
   @GwtIncompatible("java serialization not supported.")

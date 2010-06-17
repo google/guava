@@ -19,7 +19,6 @@ package com.google.common.collect;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Equivalence;
-import com.google.common.base.Equivalences;
 import com.google.common.base.Function;
 import com.google.common.base.Objects;
 import com.google.common.collect.CustomConcurrentHashMap.Strength;
@@ -123,15 +122,6 @@ public final class MapMaker {
    * including strong keys, strong values, and no automatic expiration.
    */
   public MapMaker() {}
-
-  /**
-   * Sets a custom {@code Equivalence} strategy for comparing keys.
-   *
-   * <p>By default, the map uses {@link Equivalences#identity()} to determine
-   * key equality when {@link #weakKeys()} or {@link #softKeys()} is
-   * specified, and {@link Equivalences#equals()} otherwise.
-   */
-  // TODO: if these become public, update the text of the file Javadoc.
 
   // TODO: undo this indirection if keyEquiv gets released
   MapMaker privateKeyEquivalence(Equivalence<Object> equivalence) {

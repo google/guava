@@ -124,27 +124,27 @@ public abstract class AbstractExecutionThreadService implements Service {
 
   // We override instead of using ForwardingService so that these can be final.
 
-  /*@Override*/ public final Future<State> start() {
+  @Override public final Future<State> start() {
     return delegate.start();
   }
 
-  /*@Override*/ public final State startAndWait() {
+  @Override public final State startAndWait() {
     return delegate.startAndWait();
   }
 
-  /*@Override*/ public final boolean isRunning() {
+  @Override public final boolean isRunning() {
     return delegate.isRunning();
   }
 
-  /*@Override*/ public final State state() {
+  @Override public final State state() {
     return delegate.state();
   }
 
-  /*@Override*/ public final Future<State> stop() {
+  @Override public final Future<State> stop() {
     return delegate.stop();
   }
 
-  /*@Override*/ public final State stopAndWait() {
+  @Override public final State stopAndWait() {
     return delegate.stopAndWait();
   }
 

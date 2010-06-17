@@ -19,6 +19,8 @@ package com.google.common.collect;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Function;
+import com.google.common.primitives.Ints;
+
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkElementIndex;
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -90,7 +92,7 @@ public final class Lists {
     checkArgument(arraySize >= 0);
 
     // TODO: Figure out the right behavior, and document it
-    return (int) Math.min(5L + arraySize + (arraySize / 10), Integer.MAX_VALUE);
+    return Ints.saturatedCast(5L + arraySize + (arraySize / 10));
   }
 
   /**

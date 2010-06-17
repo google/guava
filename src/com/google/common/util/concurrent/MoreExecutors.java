@@ -235,7 +235,7 @@ public final class MoreExecutors {
     private int runningTasks = 0;
     private boolean shutdown = false;
 
-    /*@Override*/
+    @Override
     public void execute(Runnable command) {
       startTask();
       try {
@@ -245,7 +245,7 @@ public final class MoreExecutors {
       }
     }
 
-    /*@Override*/
+    @Override
     public boolean isShutdown() {
       lock.lock();
       try {
@@ -255,7 +255,7 @@ public final class MoreExecutors {
       }
     }
 
-    /*@Override*/
+    @Override
     public void shutdown() {
       lock.lock();
       try {
@@ -266,13 +266,13 @@ public final class MoreExecutors {
     }
 
     // See sameThreadExecutor javadoc for unusual behavior of this method.
-    /*@Override*/
+    @Override
     public List<Runnable> shutdownNow() {
       shutdown();
       return Collections.emptyList();
     }
 
-    /*@Override*/
+    @Override
     public boolean isTerminated() {
       lock.lock();
       try {
@@ -282,7 +282,7 @@ public final class MoreExecutors {
       }
     }
 
-    /*@Override*/
+    @Override
     public boolean awaitTermination(long timeout, TimeUnit unit)
         throws InterruptedException {
       long nanos = unit.toNanos(timeout);

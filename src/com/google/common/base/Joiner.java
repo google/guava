@@ -1,23 +1,22 @@
 /*
  * Copyright (C) 2008 Google Inc.
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.base;
 
-import com.google.common.annotations.GwtCompatible;
 import static com.google.common.base.Preconditions.checkNotNull;
+
+import com.google.common.annotations.GwtCompatible;
 
 import java.io.IOException;
 import java.util.AbstractList;
@@ -29,28 +28,24 @@ import java.util.Map.Entry;
 import javax.annotation.Nullable;
 
 /**
- * An object which joins pieces of text (specified as an array, {@link
- * Iterable}, varargs or even a {@link Map}) with a separator. It either
- * appends the results to an {@link Appendable} or returns them as a {@link
- * String}. Example: <pre>   {@code
+ * An object which joins pieces of text (specified as an array, {@link Iterable}, varargs or even a
+ * {@link Map}) with a separator. It either appends the results to an {@link Appendable} or returns
+ * them as a {@link String}. Example: <pre>   {@code
  *
  *   Joiner joiner = Joiner.on("; ").skipNulls();
  *    . . .
  *   return joiner.join("Harry", null, "Ron", "Hermione");}</pre>
  *
- * This returns the string {@code "Harry; Ron; Hermione"}. Note that all input
- * elements are converted to strings using {@link Object#toString()} before
- * being appended.
+ * This returns the string {@code "Harry; Ron; Hermione"}. Note that all input elements are
+ * converted to strings using {@link Object#toString()} before being appended.
  *
- * <p>If neither {@link #skipNulls()} nor {@link #useForNull(String)} is
- * specified, the joining methods will throw {@link NullPointerException} if any
- * given element is null.
+ * <p>If neither {@link #skipNulls()} nor {@link #useForNull(String)} is specified, the joining
+ * methods will throw {@link NullPointerException} if any given element is null.
  *
- * <p><b>Warning: joiner instances are always immutable</b>; a configuration
- * method such as {@code useForNull} has no effect on the instance it is invoked
- * on! You must store and use the new joiner instance returned by the method.
- * This makes joiners thread-safe, and safe to store as {@code static final}
- * constants. <pre>   {@code
+ * <p><b>Warning: joiner instances are always immutable</b>; a configuration method such as {@code
+ * useForNull} has no effect on the instance it is invoked on! You must store and use the new joiner
+ * instance returned by the method. This makes joiners thread-safe, and safe to store as {@code
+ * static final} constants. <pre>   {@code
  *
  *   // Bad! Do not do this!
  *   Joiner joiner = Joiner.on(',');
@@ -60,18 +55,17 @@ import javax.annotation.Nullable;
  * @author Kevin Bourrillion
  * @since 2 (imported from Google Collections Library)
  */
-@GwtCompatible public class Joiner {
+@GwtCompatible
+public class Joiner {
   /**
-   * Returns a joiner which automatically places {@code separator} between
-   * consecutive elements.
+   * Returns a joiner which automatically places {@code separator} between consecutive elements.
    */
   public static Joiner on(String separator) {
     return new Joiner(separator);
   }
 
   /**
-   * Returns a joiner which automatically places {@code separator} between
-   * consecutive elements.
+   * Returns a joiner which automatically places {@code separator} between consecutive elements.
    */
   public static Joiner on(char separator) {
     return new Joiner(String.valueOf(separator));
@@ -88,11 +82,10 @@ import javax.annotation.Nullable;
   }
 
   /**
-   * Appends the string representation of each of {@code parts}, using the
-   * previously configured separator between each, to {@code appendable}.
+   * Appends the string representation of each of {@code parts}, using the previously configured
+   * separator between each, to {@code appendable}.
    */
-  public <A extends Appendable> A appendTo(A appendable, Iterable<?> parts)
-      throws IOException {
+  public <A extends Appendable> A appendTo(A appendable, Iterable<?> parts) throws IOException {
     checkNotNull(appendable);
     Iterator<?> iterator = parts.iterator();
     if (iterator.hasNext()) {
@@ -106,32 +99,28 @@ import javax.annotation.Nullable;
   }
 
   /**
-   * Appends the string representation of each of {@code parts}, using the
-   * previously configured separator between each, to {@code appendable}.
+   * Appends the string representation of each of {@code parts}, using the previously configured
+   * separator between each, to {@code appendable}.
    */
-  public final <A extends Appendable> A appendTo(
-      A appendable, Object[] parts) throws IOException {
+  public final <A extends Appendable> A appendTo(A appendable, Object[] parts) throws IOException {
     return appendTo(appendable, Arrays.asList(parts));
   }
 
   /**
-   * Appends to {@code appendable} the string representation of each of the
-   * remaining arguments.
+   * Appends to {@code appendable} the string representation of each of the remaining arguments.
    */
-  public final <A extends Appendable> A appendTo(A appendable,
-      @Nullable Object first, @Nullable Object second, Object... rest)
-      throws IOException {
+  public final <A extends Appendable> A appendTo(
+      A appendable, @Nullable Object first, @Nullable Object second, Object... rest)
+          throws IOException {
     return appendTo(appendable, iterable(first, second, rest));
   }
 
   /**
-   * Appends the string representation of each of {@code parts}, using the
-   * previously configured separator between each, to {@code builder}. Identical
-   * to {@link #appendTo(Appendable, Iterable)}, except that it does not throw
-   * {@link IOException}.
+   * Appends the string representation of each of {@code parts}, using the previously configured
+   * separator between each, to {@code builder}. Identical to {@link #appendTo(Appendable,
+   * Iterable)}, except that it does not throw {@link IOException}.
    */
-  public final StringBuilder appendTo(
-      StringBuilder builder, Iterable<?> parts) {
+  public final StringBuilder appendTo(StringBuilder builder, Iterable<?> parts) {
     try {
       appendTo((Appendable) builder, parts);
     } catch (IOException impossible) {
@@ -141,53 +130,51 @@ import javax.annotation.Nullable;
   }
 
   /**
-   * Appends the string representation of each of {@code parts}, using the
-   * previously configured separator between each, to {@code builder}. Identical
-   * to {@link #appendTo(Appendable, Iterable)}, except that it does not throw
-   * {@link IOException}.
+   * Appends the string representation of each of {@code parts}, using the previously configured
+   * separator between each, to {@code builder}. Identical to {@link #appendTo(Appendable,
+   * Iterable)}, except that it does not throw {@link IOException}.
    */
   public final StringBuilder appendTo(StringBuilder builder, Object[] parts) {
     return appendTo(builder, Arrays.asList(parts));
   }
 
   /**
-   * Appends to {@code builder} the string representation of each of the
-   * remaining arguments. Identical to {@link #appendTo(Appendable, Object,
-   * Object, Object...)}, except that it does not throw {@link IOException}.
+   * Appends to {@code builder} the string representation of each of the remaining arguments.
+   * Identical to {@link #appendTo(Appendable, Object, Object, Object...)}, except that it does not
+   * throw {@link IOException}.
    */
-  public final StringBuilder appendTo(StringBuilder builder,
-      @Nullable Object first, @Nullable Object second, Object... rest) {
+  public final StringBuilder appendTo(
+      StringBuilder builder, @Nullable Object first, @Nullable Object second, Object... rest) {
     return appendTo(builder, iterable(first, second, rest));
   }
 
   /**
-   * Returns a string containing the string representation of each of {@code
-   * parts}, using the previously configured separator between each.
+   * Returns a string containing the string representation of each of {@code parts}, using the
+   * previously configured separator between each.
    */
   public final String join(Iterable<?> parts) {
     return appendTo(new StringBuilder(), parts).toString();
   }
 
   /**
-   * Returns a string containing the string representation of each of {@code
-   * parts}, using the previously configured separator between each.
+   * Returns a string containing the string representation of each of {@code parts}, using the
+   * previously configured separator between each.
    */
   public final String join(Object[] parts) {
     return join(Arrays.asList(parts));
   }
 
   /**
-   * Returns a string containing the string representation of each argument,
-   * using the previously configured separator between each.
+   * Returns a string containing the string representation of each argument, using the previously
+   * configured separator between each.
    */
-  public final String join(
-      @Nullable Object first, @Nullable Object second, Object... rest) {
+  public final String join(@Nullable Object first, @Nullable Object second, Object... rest) {
     return join(iterable(first, second, rest));
   }
 
   /**
-   * Returns a joiner with the same behavior as this one, except automatically
-   * substituting {@code nullText} for any provided null elements.
+   * Returns a joiner with the same behavior as this one, except automatically substituting {@code
+   * nullText} for any provided null elements.
    */
   public Joiner useForNull(final String nullText) {
     checkNotNull(nullText);
@@ -195,11 +182,12 @@ import javax.annotation.Nullable;
       @Override CharSequence toString(Object part) {
         return (part == null) ? nullText : Joiner.this.toString(part);
       }
+
       @Override public Joiner useForNull(String nullText) {
-        checkNotNull(nullText); // weird, just to satisfy NullPointerTester!
-        // TODO: fix that?
+        checkNotNull(nullText); // weird: just to satisfy NullPointerTester.
         throw new UnsupportedOperationException("already specified useForNull");
       }
+
       @Override public Joiner skipNulls() {
         throw new UnsupportedOperationException("already specified useForNull");
       }
@@ -207,13 +195,13 @@ import javax.annotation.Nullable;
   }
 
   /**
-   * Returns a joiner with the same behavior as this joiner, except
-   * automatically skipping over any provided null elements.
+   * Returns a joiner with the same behavior as this joiner, except automatically skipping over any
+   * provided null elements.
    */
   public Joiner skipNulls() {
     return new Joiner(this) {
-      @Override public <A extends Appendable> A appendTo(
-          A appendable, Iterable<?> parts) throws IOException {
+      @Override public <A extends Appendable> A appendTo(A appendable, Iterable<?> parts)
+          throws IOException {
         checkNotNull(appendable, "appendable");
         checkNotNull(parts, "parts");
         Iterator<?> iterator = parts.iterator();
@@ -233,29 +221,30 @@ import javax.annotation.Nullable;
         }
         return appendable;
       }
+
       @Override public Joiner useForNull(String nullText) {
-        checkNotNull(nullText); // weird, just to satisfy NullPointerTester!
+        checkNotNull(nullText); // weird: just to satisfy NullPointerTester.
         throw new UnsupportedOperationException("already specified skipNulls");
       }
+
       @Override public MapJoiner withKeyValueSeparator(String kvs) {
-        checkNotNull(kvs); // weird, just to satisfy NullPointerTester!
-        throw new UnsupportedOperationException(
-            "can't use .skipNulls() with maps");
+        checkNotNull(kvs); // weird: just to satisfy NullPointerTester.
+        throw new UnsupportedOperationException("can't use .skipNulls() with maps");
       }
     };
   }
 
   /**
-   * Returns a {@code MapJoiner} using the given key-value separator, and the
-   * same configuration as this {@code Joiner} otherwise.
+   * Returns a {@code MapJoiner} using the given key-value separator, and the same configuration as
+   * this {@code Joiner} otherwise.
    */
   public MapJoiner withKeyValueSeparator(String keyValueSeparator) {
     return new MapJoiner(this, checkNotNull(keyValueSeparator));
   }
 
   /**
-   * An object that joins map entries in the same manner as {@code Joiner} joins
-   * iterables and arrays. Like {@code Joiner}, it is thread-safe and immutable.
+   * An object that joins map entries in the same manner as {@code Joiner} joins iterables and
+   * arrays. Like {@code Joiner}, it is thread-safe and immutable.
    */
   public static class MapJoiner {
     private final Joiner joiner;
@@ -267,12 +256,10 @@ import javax.annotation.Nullable;
     }
 
     /**
-     * Appends the string representation of each entry of {@code map}, using the
-     * previously configured separator and key-value separator, to {@code
-     * appendable}.
+     * Appends the string representation of each entry of {@code map}, using the previously
+     * configured separator and key-value separator, to {@code appendable}.
      */
-    public <A extends Appendable> A appendTo(A appendable, Map<?, ?> map)
-        throws IOException {
+    public <A extends Appendable> A appendTo(A appendable, Map<?, ?> map) throws IOException {
       checkNotNull(appendable);
       Iterator<? extends Map.Entry<?, ?>> iterator = map.entrySet().iterator();
       if (iterator.hasNext()) {
@@ -292,10 +279,9 @@ import javax.annotation.Nullable;
     }
 
     /**
-     * Appends the string representation of each entry of {@code map}, using the
-     * previously configured separator and key-value separator, to {@code
-     * builder}. Identical to {@link #appendTo(Appendable, Map)}, except that it
-     * does not throw {@link IOException}.
+     * Appends the string representation of each entry of {@code map}, using the previously
+     * configured separator and key-value separator, to {@code builder}. Identical to {@link
+     * #appendTo(Appendable, Map)}, except that it does not throw {@link IOException}.
      */
     public StringBuilder appendTo(StringBuilder builder, Map<?, ?> map) {
       try {
@@ -307,18 +293,16 @@ import javax.annotation.Nullable;
     }
 
     /**
-     * Returns a string containing the string representation of each entry of
-     * {@code map}, using the previously configured separator and key-value
-     * separator.
+     * Returns a string containing the string representation of each entry of {@code map}, using the
+     * previously configured separator and key-value separator.
      */
     public String join(Map<?, ?> map) {
       return appendTo(new StringBuilder(), map).toString();
     }
 
     /**
-     * Returns a map joiner with the same behavior as this one, except
-     * automatically substituting {@code nullText} for any provided null keys or
-     * values.
+     * Returns a map joiner with the same behavior as this one, except automatically substituting
+     * {@code nullText} for any provided null keys or values.
      */
     public MapJoiner useForNull(String nullText) {
       return new MapJoiner(joiner.useForNull(nullText), keyValueSeparator);
@@ -326,9 +310,7 @@ import javax.annotation.Nullable;
   }
 
   CharSequence toString(Object part) {
-    return (part instanceof CharSequence)
-        ? (CharSequence) part
-        : part.toString();
+    return (part instanceof CharSequence) ? (CharSequence) part : part.toString();
   }
 
   private static Iterable<Object> iterable(
@@ -338,6 +320,7 @@ import javax.annotation.Nullable;
       @Override public int size() {
         return rest.length + 2;
       }
+
       @Override public Object get(int index) {
         switch (index) {
           case 0:

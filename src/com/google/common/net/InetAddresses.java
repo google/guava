@@ -543,6 +543,8 @@ public final class InetAddresses {
    * <p>The RFC can be found here:
    * <a target="_parent" href="http://tools.ietf.org/html/rfc4380"
    *    >http://tools.ietf.org/html/rfc4380</a>.
+   *
+   * @since 5
    */
   public static class TeredoInfo {
     private final Inet4Address server;

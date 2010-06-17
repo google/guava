@@ -20,6 +20,7 @@ import com.google.common.annotations.VisibleForTesting;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.collect.Multisets.checkNonnegative;
 import com.google.common.collect.Serialization.FieldSetter;
+import com.google.common.primitives.Ints;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -135,7 +136,7 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E>
     for (Integer value : countMap.values()) {
       sum += value;
     }
-    return (int) Math.min(sum, Integer.MAX_VALUE);
+    return Ints.saturatedCast(sum);
   }
 
   /*
