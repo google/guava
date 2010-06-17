@@ -90,10 +90,12 @@ public final class Objects {
    * Assuming the values of {@code x} and {@code y} are 1 and 2,
    * this code snippet returns the string <tt>"ClassName{x=1, y=2}"</tt>.
    *
+   * @param self the object to generate the string for (typically {@code this}),
+   *        used only for its class name
    * @since 2
    */
-  public static ToStringHelper toStringHelper(Object object) {
-    return new ToStringHelper(object);
+  public static ToStringHelper toStringHelper(Object self) {
+    return new ToStringHelper(self);
   }
 
   /**
