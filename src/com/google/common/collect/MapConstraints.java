@@ -16,9 +16,10 @@
 
 package com.google.common.collect;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
-import static com.google.common.base.Preconditions.checkNotNull;
 
 import java.util.Collection;
 import java.util.Comparator;

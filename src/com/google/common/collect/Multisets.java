@@ -16,10 +16,11 @@
 
 package com.google.common.collect;
 
-import com.google.common.annotations.GwtCompatible;
-import com.google.common.base.Objects;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
+
+import com.google.common.annotations.GwtCompatible;
+import com.google.common.base.Objects;
 
 import java.io.Serializable;
 import java.util.AbstractSet;

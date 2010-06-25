@@ -54,7 +54,7 @@ import javax.annotation.Nullable;
  * the lowercase form of the name.
  *
  * <p><a href="http://en.wikipedia.org/wiki/Internationalized_domain_name">
- * internationalized domain names (IDN)</a> such as {@code 网络.cn} are
+ * internationalized domain names (IDN)</a> such as {@code ??.cn} are
  * supported.
  *
  * @author Craig Berry
@@ -386,6 +386,7 @@ public final class InternetDomainName {
    *
    * @return {@code true} if this domain name appears exactly on the public
    *     suffix list
+   * @since 6
    */
   public boolean isPublicSuffix() {
     return publicSuffixIndex == 0;
@@ -396,6 +397,8 @@ public final class InternetDomainName {
    * public suffix}, including if it is a public suffix itself. For example,
    * returns {@code true} for {@code www.google.com}, {@code foo.co.uk} and
    * {@code com}, but not for {@code google} or {@code google.foo}.
+   *
+   * @since 6
    */
   public boolean hasPublicSuffix() {
     return publicSuffixIndex != NO_PUBLIC_SUFFIX_FOUND;
@@ -404,6 +407,8 @@ public final class InternetDomainName {
   /**
    * Returns the {@linkplain #isPublicSuffix() public suffix} portion of the
    * domain name, or {@code null} if no public suffix is present.
+   *
+   * @since 6
    */
   public InternetDomainName publicSuffix() {
     return hasPublicSuffix() ? ancestor(publicSuffixIndex) : null;
@@ -415,6 +420,8 @@ public final class InternetDomainName {
    * returns {@code true} for {@code www.google.com}, {@code foo.co.uk} and
    * {@code bar.ca.us}, but not for {@code google}, {@code com}, or {@code
    * google.foo}.
+   *
+   * @since 6
    */
   public boolean isUnderPublicSuffix() {
     return publicSuffixIndex > 0;
@@ -425,6 +432,8 @@ public final class InternetDomainName {
    * component followed by a {@linkplain #isPublicSuffix() public suffix}. For
    * example, returns {@code true} for {@code google.com} and {@code foo.co.uk},
    * but not for {@code www.google.com} or {@code co.uk}.
+   *
+   * @since 6
    */
   public boolean isTopPrivateDomain() {
     return publicSuffixIndex == 1;
@@ -442,6 +451,7 @@ public final class InternetDomainName {
    *
    * @throws IllegalStateException if this domain does not end with a
    *     public suffix
+   * @since 6
    */
   public InternetDomainName topPrivateDomain() {
     if (isTopPrivateDomain()) {

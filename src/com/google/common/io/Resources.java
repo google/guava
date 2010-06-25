@@ -16,9 +16,10 @@
 
 package com.google.common.io;
 
-import com.google.common.annotations.Beta;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
+
+import com.google.common.annotations.Beta;
 
 import java.io.IOException;
 import java.io.InputStream;

@@ -16,6 +16,8 @@
 
 package com.google.common.base;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import com.google.common.annotations.Beta;
 
 import java.io.PrintWriter;
@@ -25,8 +27,6 @@ import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Nullable;
-
-import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * Static utility methods pertaining to instances of {@link Throwable}.

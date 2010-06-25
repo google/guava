@@ -16,8 +16,9 @@
 
 package com.google.common.collect;
 
-import com.google.common.annotations.GwtCompatible;
 import static com.google.common.base.Preconditions.checkArgument;
+
+import com.google.common.annotations.GwtCompatible;
 
 /**
  * Static methods for implementing hash-based collections.
@@ -48,7 +49,12 @@ final class Hashing {
   // If the set has this many elements, it will "max out" the table size
   private static final int CUTOFF = 1 << 29;
 
-  // Size the table to be at most 50% full, if possible
+  /**
+   * Returns an array size suitable for the backing array of a hash table that
+   * uses linear probing in its implementation.  The returned size is the
+   * smallest power of two that can hold setSize elements while being at most
+   * 50% full, if possible.
+   */
   static int chooseTableSize(int setSize) {
     if (setSize < CUTOFF) {
       return Integer.highestOneBit(setSize) << 2;

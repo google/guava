@@ -16,6 +16,8 @@
 
 package com.google.common.collect;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import com.google.common.annotations.GwtCompatible;
 
 import java.io.InvalidObjectException;
@@ -29,8 +31,6 @@ import java.util.List;
 import java.util.RandomAccess;
 
 import javax.annotation.Nullable;
-
-import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * A high-performance, immutable, random-access {@code List} implementation.

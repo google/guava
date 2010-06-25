@@ -16,6 +16,9 @@
 
 package com.google.common.collect;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkState;
+
 import com.google.common.base.Equivalence;
 import com.google.common.base.Equivalences;
 import com.google.common.base.FinalizableReferenceQueue;
@@ -42,9 +45,6 @@ import java.util.concurrent.locks.ReentrantLock;
 
 import javax.annotation.Nullable;
 import javax.annotation.concurrent.GuardedBy;
-
-import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.common.base.Preconditions.checkState;
 
 /**
  * The concurrent hash map implementation built by {@link MapMaker}.

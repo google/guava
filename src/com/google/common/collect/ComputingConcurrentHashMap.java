@@ -16,9 +16,10 @@
 
 package com.google.common.collect;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import com.google.common.base.Equivalence;
 import com.google.common.base.Function;
-import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.collect.MapMaker.Cache;
 
 import java.io.IOException;

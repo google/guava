@@ -59,6 +59,9 @@
 
     <javadoc packagenames="com.google.common.*"
          destdir="build/javadoc"
+         encoding="UTF-8"
+         docencoding="UTF-8"
+         charset="UTF-8"
          use="true"
          author="true"
          protected="true"

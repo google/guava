@@ -16,10 +16,10 @@
 
 package com.google.common.primitives;
 
-import java.util.Comparator;
-
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
+
+import java.util.Comparator;
 
 /**
  * Static utility methods pertaining to {@code byte} primitives that interpret
@@ -33,6 +33,17 @@ import static com.google.common.base.Preconditions.checkNotNull;
  */
 public final class UnsignedBytes {
   private UnsignedBytes() {}
+
+  /**
+   * Returns the value of the given byte as an integer, when treated as
+   * unsigned. That is, returns {@code value + 256} if {@code value} is
+   * negative; {@code value} itself otherwise.
+   *
+   * @since 6
+   */
+  public static int toInt(byte value) {
+    return value & 0xFF;
+  }
 
   /**
    * Returns the {@code byte} value that, when treated as unsigned, is equal to
@@ -79,7 +90,7 @@ public final class UnsignedBytes {
    *     value if {@code a} is greater than {@code b}; or zero if they are equal
    */
   public static int compare(byte a, byte b) {
-    return (a & 0xFF) - (b & 0xFF);
+    return toInt(a) - toInt(b);
   }
 
   /**
@@ -92,9 +103,9 @@ public final class UnsignedBytes {
    */
   public static byte min(byte... array) {
     checkArgument(array.length > 0);
-    int min = array[0] & 0xFF;
+    int min = toInt(array[0]);
     for (int i = 1; i < array.length; i++) {
-      int next = array[i] & 0xFF;
+      int next = toInt(array[i]);
       if (next < min) {
         min = next;
       }
@@ -112,9 +123,9 @@ public final class UnsignedBytes {
    */
   public static byte max(byte... array) {
     checkArgument(array.length > 0);
-    int max = array[0] & 0xFF;
+    int max = toInt(array[0]);
     for (int i = 1; i < array.length; i++) {
-      int next = array[i] & 0xFF;
+      int next = toInt(array[i]);
       if (next > max) {
         max = next;
       }
@@ -139,9 +150,9 @@ public final class UnsignedBytes {
 
     // For pre-sizing a builder, just get the right order of magnitude
     StringBuilder builder = new StringBuilder(array.length * 5);
-    builder.append(array[0] & 0xFF);
+    builder.append(toInt(array[0]));
     for (int i = 1; i < array.length; i++) {
-      builder.append(separator).append(array[i] & 0xFF);
+      builder.append(separator).append(toInt(array[i]));
     }
     return builder.toString();
   }

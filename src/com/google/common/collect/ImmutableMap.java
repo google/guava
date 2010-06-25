@@ -16,9 +16,10 @@
 
 package com.google.common.collect;
 
-import com.google.common.annotations.GwtCompatible;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.Iterables.getOnlyElement;
+
+import com.google.common.annotations.GwtCompatible;
 
 import java.io.Serializable;
 import java.util.Collections;

@@ -16,6 +16,11 @@
 
 package com.google.common.primitives;
 
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkElementIndex;
+import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkPositionIndexes;
+
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 
@@ -27,11 +32,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.RandomAccess;
-
-import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkElementIndex;
-import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.common.base.Preconditions.checkPositionIndexes;
 
 /**
  * Static utility methods pertaining to {@code short} primitives, that are not
@@ -265,10 +265,11 @@ public final class Shorts {
   }
 
   /**
-   * Returns a big-endian representation of {@code value} in a ?-element byte
+   * Returns a big-endian representation of {@code value} in a 2-element byte
    * array; equivalent to {@code
-   * ByteBuffer.allocate(?).putShort(value).array()}.  For example, the input
-   * value {@code ?} would yield the byte array {@code {?}}.
+   * ByteBuffer.allocate(2).putShort(value).array()}.  For example, the input
+   * value {@code (short) 0x1234} would yield the byte array {@code {0x12,
+   * 0x34}}.
    *
    * <p>If you need to convert and concatenate several values (possibly even of
    * different types), use a shared {@link java.nio.ByteBuffer} instance, or use
@@ -283,15 +284,15 @@ public final class Shorts {
   }
 
   /**
-   * Returns the {@code short} value whose big-endian representation is
-   * stored in the first ? bytes of {@code bytes}; equivalent to {@code
+   * Returns the {@code short} value whose big-endian representation is stored
+   * in the first 2 bytes of {@code bytes}; equivalent to {@code
    * ByteBuffer.wrap(bytes).getShort()}. For example, the input byte array
-   * {@code {?}} would yield the {@code short} value {@code ?}.
+   * {@code {0x12, 0x34}} would yield the {@code short} value {@code 0x1234}.
    *
    * <p>Arguably, it's preferable to use {@link java.nio.ByteBuffer}; that
    * library exposes much more flexibility at little cost in readability.
    *
-   * @throws IllegalArgumentException if {@code bytes} has fewer than ?
+   * @throws IllegalArgumentException if {@code bytes} has fewer than 2
    *     elements
    */
   @GwtIncompatible("doesn't work")
@@ -335,8 +336,8 @@ public final class Shorts {
 
   /**
    * Returns a string containing the supplied {@code short} values separated
-   * by {@code separator}. For example, {@code join("-", 1?, 2?, 3?)} returns
-   * the string {@code "1-2-3"}.
+   * by {@code separator}. For example, {@code join("-", (short) 1, (short) 2,
+   * (short) 3)} returns the string {@code "1-2-3"}.
    *
    * @param separator the text that should appear between consecutive values in
    *     the resulting string (but not at the start or end)

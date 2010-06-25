@@ -16,6 +16,8 @@
 
 package com.google.common.base;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -29,8 +31,6 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 import javax.annotation.Nullable;
-
-import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * Contains static factory methods for creating {@code Predicate} instances.

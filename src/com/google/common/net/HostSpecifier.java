@@ -30,8 +30,8 @@ import javax.annotation.Nullable;
  *
  * <p>Because this class is intended to represent host specifiers which can
  * reasonably be used in a URI, the domain name case is further restricted to
- * include only those domain names which end in a recognized top-level domain
- * (TLD); see {@link InternetDomainName#isRecognizedTld()} for details.
+ * include only those domain names which end in a recognized public suffix; see
+ * {@link InternetDomainName#isPublicSuffix()} for details.
  *
  * <p>Note that no network lookups are performed by any {@code HostSpecifier}
  * methods.  No attempt is made to verify that a provided specifier corresponds
@@ -103,7 +103,7 @@ public final class HostSpecifier {
 
     final InternetDomainName domain = InternetDomainName.from(specifier);
 
-    if (domain.isUnderRecognizedTld()) {
+    if (domain.isUnderPublicSuffix()) {
       return new HostSpecifier(domain.name());
     }
 

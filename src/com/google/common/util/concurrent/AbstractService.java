@@ -16,9 +16,10 @@
 
 package com.google.common.util.concurrent;
 
-import com.google.common.annotations.Beta;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
+
+import com.google.common.annotations.Beta;
 import com.google.common.base.Service;
 import com.google.common.base.Service.State; // javadoc needs this
 import com.google.common.base.Throwables;

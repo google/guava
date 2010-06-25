@@ -16,13 +16,13 @@
 
 package com.google.common.collect;
 
-import com.google.common.annotations.GwtCompatible;
-import com.google.common.base.Objects;
-import com.google.common.primitives.Ints;
-
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.Multisets.setCountImpl;
+
+import com.google.common.annotations.GwtCompatible;
+import com.google.common.base.Objects;
+import com.google.common.primitives.Ints;
 
 import java.util.AbstractCollection;
 import java.util.AbstractSet;

@@ -16,9 +16,10 @@
 
 package com.google.common.collect;
 
-import com.google.common.annotations.VisibleForTesting;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.collect.Multisets.checkNonnegative;
+
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.Serialization.FieldSetter;
 import com.google.common.primitives.Ints;
 

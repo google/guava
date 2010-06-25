@@ -16,9 +16,10 @@
 
 package com.google.common.util.concurrent;
 
-import com.google.common.annotations.Beta;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
+
+import com.google.common.annotations.Beta;
 import com.google.common.base.Throwables;
 import com.google.common.collect.Sets;
 

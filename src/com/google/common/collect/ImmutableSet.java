@@ -16,8 +16,9 @@
 
 package com.google.common.collect;
 
-import com.google.common.annotations.GwtCompatible;
 import static com.google.common.base.Preconditions.checkNotNull;
+
+import com.google.common.annotations.GwtCompatible;
 
 import java.io.Serializable;
 import java.util.ArrayList;

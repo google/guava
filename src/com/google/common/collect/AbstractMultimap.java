@@ -16,6 +16,10 @@
 
 package com.google.common.collect;
 
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkState;
+
 import com.google.common.annotations.GwtCompatible;
 
 import java.io.Serializable;
@@ -36,10 +40,6 @@ import java.util.SortedMap;
 import java.util.SortedSet;
 
 import javax.annotation.Nullable;
-
-import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.common.base.Preconditions.checkState;
 
 /**
  * Basic implementation of the {@link Multimap} interface. This class represents

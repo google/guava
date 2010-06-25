@@ -16,9 +16,11 @@
 
 package com.google.common.util.concurrent;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+import static java.util.concurrent.TimeUnit.NANOSECONDS;
+
 import com.google.common.annotations.Beta;
 import com.google.common.base.Function;
-import static com.google.common.base.Preconditions.checkNotNull;
 
 import java.lang.reflect.UndeclaredThrowableException;
 import java.util.concurrent.CancellationException;
@@ -26,7 +28,6 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
-import static java.util.concurrent.TimeUnit.NANOSECONDS;
 import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicBoolean;
 

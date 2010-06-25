@@ -343,8 +343,8 @@ public final class InetAddresses {
     if (quad == null) {
       return null;
     }
-    String penultimate = Integer.toHexString((quad[0] << 8) | quad[1]);
-    String ultimate = Integer.toHexString((quad[2] << 8) | quad[3]);
+    String penultimate = Integer.toHexString((quad[0] << 8) | (quad[1] & 0xff));
+    String ultimate = Integer.toHexString((quad[2] << 8) | (quad[3] & 0xff));
     return initialPart + penultimate + ":" + ultimate;
   }
 

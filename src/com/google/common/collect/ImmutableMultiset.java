@@ -27,8 +27,11 @@ import java.io.IOException;
 import java.io.InvalidObjectException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -58,6 +61,71 @@ public class ImmutableMultiset<E> extends ImmutableCollection<E>
   }
 
   /**
+   * Returns an immutable multiset containing a single element.
+   *
+   * @throws NullPointerException if {@code element} is null
+   */
+  @SuppressWarnings("unchecked") // generic array created but never written
+  public static <E> ImmutableMultiset<E> of(E element) {
+    return copyOfInternal(element);
+  }
+
+  /**
+   * Returns an immutable multiset containing the given elements, in order.
+   *
+   * @throws NullPointerException if any element is null
+   */
+  @SuppressWarnings("unchecked") // 
+  public static <E> ImmutableMultiset<E> of(E e1, E e2) {
+    return copyOfInternal(e1, e2);
+  }
+
+  /**
+   * Returns an immutable multiset containing the given elements, in order.
+   *
+   * @throws NullPointerException if any element is null
+   */
+  @SuppressWarnings("unchecked") // 
+  public static <E> ImmutableMultiset<E> of(E e1, E e2, E e3) {
+    return copyOfInternal(e1, e2, e3);
+  }
+
+  /**
+   * Returns an immutable multiset containing the given elements, in order.
+   *
+   * @throws NullPointerException if any element is null
+   */
+  @SuppressWarnings("unchecked") // 
+  public static <E> ImmutableMultiset<E> of(E e1, E e2, E e3, E e4) {
+    return copyOfInternal(e1, e2, e3, e4);
+  }
+
+  /**
+   * Returns an immutable multiset containing the given elements, in order.
+   *
+   * @throws NullPointerException if any element is null
+   */
+  @SuppressWarnings("unchecked") // 
+  public static <E> ImmutableMultiset<E> of(E e1, E e2, E e3, E e4, E e5) {
+    return copyOfInternal(e1, e2, e3, e4, e5);
+  }
+
+  /**
+   * Returns an immutable multiset containing the given elements, in order.
+   *
+   * @throws NullPointerException if any element is null
+   */
+  @SuppressWarnings("unchecked") // 
+  public static <E> ImmutableMultiset<E> of(
+      E e1, E e2, E e3, E e4, E e5, E e6, E... others) {
+    int size = others.length + 6;
+    List<E> all = new ArrayList<E>(size);
+    Collections.addAll(all, e1, e2, e3, e4, e5, e6);
+    Collections.addAll(all, others);
+    return copyOf(all);
+  }
+
+  /**
    * Returns an immutable multiset containing the given elements.
    *
    * <p>The multiset is ordered by the first occurrence of each element. For
@@ -65,8 +133,24 @@ public class ImmutableMultiset<E> extends ImmutableCollection<E>
    * elements in the order {@code 2, 3, 3, 1}.
    *
    * @throws NullPointerException if any of {@code elements} is null
+   * @deprecated use {@link #copyOf(Object[])}.
    */
-  public static <E> ImmutableMultiset<E> of(E... elements) {
+  @Deprecated
+  public static <E> ImmutableMultiset<E> of(E[] elements) {
+    return copyOf(Arrays.asList(elements));
+  }
+
+  /**
+   * Returns an immutable multiset containing the given elements.
+   *
+   * <p>The multiset is ordered by the first occurrence of each element. For
+   * example, {@code ImmutableMultiset.copyOf([2, 3, 1, 3])} yields a multiset
+   * with elements in the order {@code 2, 3, 3, 1}.
+   *
+   * @throws NullPointerException if any of {@code elements} is null
+   * @since 6
+   */
+  public static <E> ImmutableMultiset<E> copyOf(E[] elements) {
     return copyOf(Arrays.asList(elements));
   }
 
@@ -104,6 +188,10 @@ public class ImmutableMultiset<E> extends ImmutableCollection<E>
         : LinkedHashMultiset.create(elements);
 
     return copyOfInternal(multiset);
+  }
+  
+  private static <E> ImmutableMultiset<E> copyOfInternal(E... elements) {
+    return copyOf(Arrays.asList(elements));
   }
 
   private static <E> ImmutableMultiset<E> copyOfInternal(

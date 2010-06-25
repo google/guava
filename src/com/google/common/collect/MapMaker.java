@@ -16,6 +16,10 @@
 
 package com.google.common.collect;
 
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkState;
+
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Equivalence;
@@ -30,10 +34,6 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.TimeUnit;
-
-import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.common.base.Preconditions.checkState;
 
 /**
  * <p>A {@link ConcurrentMap} builder, providing any combination of these
@@ -81,7 +81,7 @@ import static com.google.common.base.Preconditions.checkState;
  * never observe a partially-reclaimed entry. Any {@link java.util.Map.Entry}
  * instance retrieved from the map's {@linkplain Map#entrySet() entry set}
  * is a snapshot of that entry's state at the time of retrieval; such entries
- * do, however, support {@link Map.Entry#setValue}.
+ * do, however, support {@link java.util.Map.Entry#setValue}.
  *
  * <p>{@code new MapMaker().weakKeys().makeMap()} can almost always be
  * used as a drop-in replacement for {@link java.util.WeakHashMap}, adding

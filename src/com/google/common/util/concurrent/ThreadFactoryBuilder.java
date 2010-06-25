@@ -16,9 +16,10 @@
 
 package com.google.common.util.concurrent;
 
-import com.google.common.annotations.Beta;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
+
+import com.google.common.annotations.Beta;
 
 import java.lang.Thread.UncaughtExceptionHandler;
 import java.util.concurrent.ThreadFactory;

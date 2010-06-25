@@ -1004,8 +1004,8 @@ public final class Sets {
    *     elements (causing the power set size to exceed the {@code int} range)
    * @throws NullPointerException if {@code set} or any of its elements is
    *     null
-   * @see <a href="http://en.wikipedia.org/wiki/Power_set">Power set article</a>
-   *     at Wikipedia
+   * @see <a href="http://en.wikipedia.org/wiki/Power_set">Power set article at
+   *      Wikipedia</a>
    * @since 4
    */
   @GwtCompatible(serializable = false)
