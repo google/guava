@@ -54,7 +54,7 @@ import javax.annotation.Nullable;
  * the lowercase form of the name.
  *
  * <p><a href="http://en.wikipedia.org/wiki/Internationalized_domain_name">
- * internationalized domain names (IDN)</a> such as {@code ??.cn} are
+ * internationalized domain names (IDN)</a> such as {@code 网络.cn} are
  * supported.
  *
  * @author Craig Berry
