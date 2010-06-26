@@ -26,7 +26,6 @@ import java.util.Iterator;
  * backing iterator as desired per the <a
  * href="http://en.wikipedia.org/wiki/Decorator_pattern">decorator pattern</a>.
  *
- * @see ForwardingObject
  * @author Kevin Bourrillion
  * @since 2 (imported from Google Collections Library)
  */

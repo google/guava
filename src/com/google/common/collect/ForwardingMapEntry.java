@@ -28,7 +28,6 @@ import javax.annotation.Nullable;
  * backing map entry as desired per the <a
  * href="http://en.wikipedia.org/wiki/Decorator_pattern">decorator pattern</a>.
  *
- * @see ForwardingObject
  * @author Mike Bostock
  * @since 2 (imported from Google Collections Library)
  */

@@ -26,7 +26,6 @@ import java.util.concurrent.ConcurrentMap;
  * the backing map as desired per the <a
  * href="http://en.wikipedia.org/wiki/Decorator_pattern">decorator pattern</a>.
  *
- * @see ForwardingObject
  * @author Charles Fry
  * @since 2 (imported from Google Collections Library)
  */

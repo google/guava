@@ -44,6 +44,10 @@ import javax.annotation.Nullable;
  * of type {@link Iterator}. Except as noted, each method has a corresponding
  * {@link Iterable}-based method in the {@link Iterables} class.
  *
+ * <p><i>Performance notes:</i> Unless otherwise noted, all of the iterators
+ * produced in this class are <i>lazy</i>, which means that they only advance
+ * the backing iteration when absolutely necessary.
+ *
  * @author Kevin Bourrillion
  * @author Jared Levy
  * @since 2 (imported from Google Collections Library)

@@ -29,7 +29,6 @@ import java.util.concurrent.TimeoutException;
  * the backing collection as desired per the <a
  * href="http://en.wikipedia.org/wiki/Decorator_pattern">decorator pattern</a>.
  *
- * @see ForwardingObject
  * @author Sven Mawson
  * @since 1
  */

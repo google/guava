@@ -29,7 +29,6 @@ import javax.annotation.Nullable;
  * behavior of the backing multimap as desired per the <a
  * href="http://en.wikipedia.org/wiki/Decorator_pattern">decorator pattern</a>.
  *
- * @see ForwardingSetMultimap
  * @author Kurt Alfred Kluever
  * @since 3
  */
