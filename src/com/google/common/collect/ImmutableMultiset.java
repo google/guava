@@ -64,6 +64,7 @@ public class ImmutableMultiset<E> extends ImmutableCollection<E>
    * Returns an immutable multiset containing a single element.
    *
    * @throws NullPointerException if {@code element} is null
+   * @since 6 (source-compatible since release 2)
    */
   @SuppressWarnings("unchecked") // generic array created but never written
   public static <E> ImmutableMultiset<E> of(E element) {
@@ -74,6 +75,7 @@ public class ImmutableMultiset<E> extends ImmutableCollection<E>
    * Returns an immutable multiset containing the given elements, in order.
    *
    * @throws NullPointerException if any element is null
+   * @since 6 (source-compatible since release 2)
    */
   @SuppressWarnings("unchecked") // 
   public static <E> ImmutableMultiset<E> of(E e1, E e2) {
@@ -84,6 +86,7 @@ public class ImmutableMultiset<E> extends ImmutableCollection<E>
    * Returns an immutable multiset containing the given elements, in order.
    *
    * @throws NullPointerException if any element is null
+   * @since 6 (source-compatible since release 2)
    */
   @SuppressWarnings("unchecked") // 
   public static <E> ImmutableMultiset<E> of(E e1, E e2, E e3) {
@@ -94,6 +97,7 @@ public class ImmutableMultiset<E> extends ImmutableCollection<E>
    * Returns an immutable multiset containing the given elements, in order.
    *
    * @throws NullPointerException if any element is null
+   * @since 6 (source-compatible since release 2)
    */
   @SuppressWarnings("unchecked") // 
   public static <E> ImmutableMultiset<E> of(E e1, E e2, E e3, E e4) {
@@ -104,6 +108,7 @@ public class ImmutableMultiset<E> extends ImmutableCollection<E>
    * Returns an immutable multiset containing the given elements, in order.
    *
    * @throws NullPointerException if any element is null
+   * @since 6 (source-compatible since release 2)
    */
   @SuppressWarnings("unchecked") // 
   public static <E> ImmutableMultiset<E> of(E e1, E e2, E e3, E e4, E e5) {
@@ -114,6 +119,7 @@ public class ImmutableMultiset<E> extends ImmutableCollection<E>
    * Returns an immutable multiset containing the given elements, in order.
    *
    * @throws NullPointerException if any element is null
+   * @since 6 (source-compatible since release 2)
    */
   @SuppressWarnings("unchecked") // 
   public static <E> ImmutableMultiset<E> of(
@@ -134,6 +140,7 @@ public class ImmutableMultiset<E> extends ImmutableCollection<E>
    *
    * @throws NullPointerException if any of {@code elements} is null
    * @deprecated use {@link #copyOf(Object[])}.
+   * @since 2 (changed from varargs in release 6)
    */
   @Deprecated
   public static <E> ImmutableMultiset<E> of(E[] elements) {

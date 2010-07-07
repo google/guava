@@ -186,6 +186,7 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
    * Returns an immutable list containing the given elements, in order.
    *
    * @throws NullPointerException if any element is null
+   * @since 3 (source-compatible since release 2)
    */
   public static <E> ImmutableList<E> of(
       E e1, E e2, E e3, E e4, E e5, E e6, E e7, E e8, E e9, E e10, E e11, E e12,
@@ -202,6 +203,7 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
    *
    * @deprecated use {@link #copyOf(Object[])}
    * @throws NullPointerException if any of {@code elements} is null
+   * @since 2 (changed from varargs in release 3)
    */
   @Deprecated
   public static <E> ImmutableList<E> of(E[] elements) {

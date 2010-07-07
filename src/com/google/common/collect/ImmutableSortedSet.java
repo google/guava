@@ -183,6 +183,7 @@ public abstract class ImmutableSortedSet<E>
    * {@link Comparable#compareTo}, only the first one specified is included.
    *
    * @throws NullPointerException if any element is null
+   * @since 3 (source-compatible since release 2)
    */
   @SuppressWarnings("unchecked")
   public static <E extends Comparable<? super E>> ImmutableSortedSet<E> of(
@@ -206,6 +207,7 @@ public abstract class ImmutableSortedSet<E>
    *
    * @throws NullPointerException if any of {@code elements} is null
    * @deprecated use {@link #copyOf(Comparable[])}.
+   * @since 2 (changed from varargs in release 3)
    */
   @Deprecated
   public static <E extends Comparable<? super E>> ImmutableSortedSet<E> of(
@@ -219,6 +221,7 @@ public abstract class ImmutableSortedSet<E>
    * {@link Comparable#compareTo}, only the first one specified is included.
    *
    * @throws NullPointerException if any of {@code elements} is null
+   * @since 3
    */
   public static <E extends Comparable<? super E>> ImmutableSortedSet<E> copyOf(
       E[] elements) {
