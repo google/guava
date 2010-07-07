@@ -143,6 +143,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E>
    * first are ignored.
    *
    * @throws NullPointerException if any element is null
+   * @since 3 (source-compatible since release 2)
    */
   @SuppressWarnings("unchecked")
   public static <E> ImmutableSet<E> of(E e1, E e2, E e3, E e4, E e5, E e6,
@@ -161,6 +162,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E>
    *
    * @deprecated use {@link #copyOf(Object[])}.
    * @throws NullPointerException if any of {@code elements} is null
+   * @since 2 (changed from varargs in release 3)
    */
   // TODO: when this is removed, remember to remove from ISS and ISSFS too
   @Deprecated
@@ -174,6 +176,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E>
   * first are ignored.
   *
   * @throws NullPointerException if any of {@code elements} is null
+  * @since 3
   */
   public static <E> ImmutableSet<E> copyOf(E[] elements) {
     switch (elements.length) {

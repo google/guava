@@ -16,6 +16,10 @@
 
 package com.google.common.base;
 
+import static com.google.common.base.Throwables.getStackTraceAsString;
+import static java.util.Arrays.asList;
+import static java.util.regex.Pattern.quote;
+
 import com.google.common.collect.Iterables;
 import com.google.common.collect.ObjectArrays;
 import com.google.testing.util.NullPointerTester;
@@ -25,10 +29,6 @@ import junit.framework.TestCase;
 import java.io.FileNotFoundException;
 import java.util.Arrays;
 import java.util.List;
-
-import static com.google.common.base.Throwables.getStackTraceAsString;
-import static java.util.Arrays.asList;
-import static java.util.regex.Pattern.quote;
 
 /**
  * Unit test for {@link Throwables}.

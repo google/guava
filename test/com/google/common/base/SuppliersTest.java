@@ -16,6 +16,8 @@
 
 package com.google.common.base;
 
+import static com.google.testing.util.SerializableTester.reserialize;
+
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.Lists;
@@ -27,8 +29,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-
-import static com.google.testing.util.SerializableTester.reserialize;
 
 /**
  * Tests com.google.common.base.Suppliers.
