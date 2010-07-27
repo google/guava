@@ -40,7 +40,7 @@ import java.util.RandomAccess;
  * @author Kevin Bourrillion
  * @since 1
  */
-@GwtCompatible
+@GwtCompatible(emulated = true)
 public final class Longs {
   private Longs() {}
 

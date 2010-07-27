@@ -19,7 +19,6 @@ package com.google.common.collect;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 
-import java.lang.reflect.Array;
 import java.util.Collection;
 
 import javax.annotation.Nullable;
@@ -41,6 +40,7 @@ public final class ObjectArrays {
    * @param length the length of the new array
    */
   @SuppressWarnings("unchecked")
+  // @GwtIncompatible("Array.newInstance(Class, int)")
   public static <T> T[] newArray(Class<T> type, int length) {
     return Platform.newArray(type, length);
   }
@@ -172,5 +172,14 @@ public final class ObjectArrays {
       array[i++] = element;
     }
     return array;
+  }
+
+  /**
+   * Swaps {@code array[i]} with {@code array[j]}.
+   */
+  static void swap(Object[] array, int i, int j) {
+    Object temp = array[i];
+    array[i] = array[j];
+    array[j] = temp;
   }
 }

@@ -97,6 +97,12 @@ public class SuppliersTest extends TestCase {
     checkMemoize(countingSupplier, memoizedSupplier);
   }
 
+  public void testMemoize_redudantly() {
+    CountingSupplier countingSupplier = new CountingSupplier();
+    Supplier<Integer> memoizedSupplier = Suppliers.memoize(countingSupplier);
+    assertSame(memoizedSupplier, Suppliers.memoize(memoizedSupplier));
+  }
+
   @GwtIncompatible("SerializableTester")
   public void testMemoizeSerialized() {
     CountingSupplier countingSupplier = new CountingSupplier();

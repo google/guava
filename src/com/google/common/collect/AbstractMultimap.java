@@ -888,6 +888,11 @@ abstract class AbstractMultimap<K, V> implements Multimap<K, V>, Serializable {
       }
       return count > 0;
     }
+    
+    @Override public boolean removeAll(Collection<?> c) {
+      checkNotNull(c); // eager for GWT
+      return super.removeAll(c);
+    }
 
     @Override public boolean containsAll(Collection<?> c) {
       return subMap.keySet().containsAll(c);

@@ -76,9 +76,14 @@ public final class Suppliers {
    * <p>The returned supplier is thread-safe. The supplier's serialized form
    * does not contain the cached value, which will be recalculated when {@code
    * get()} is called on the reserialized instance.
+   *
+   * <p>If {@code delegate} is an instance created by an earlier call to {@code
+   * memoize}, it is returned directly.
    */
   public static <T> Supplier<T> memoize(Supplier<T> delegate) {
-    return new MemoizingSupplier<T>(Preconditions.checkNotNull(delegate));
+    return (delegate instanceof MemoizingSupplier)
+        ? delegate
+        : new MemoizingSupplier<T>(Preconditions.checkNotNull(delegate));
   }
 
   @VisibleForTesting

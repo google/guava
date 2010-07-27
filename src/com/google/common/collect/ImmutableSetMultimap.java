@@ -254,6 +254,7 @@ public class ImmutableSetMultimap<K, V>
    */
   public static <K, V> ImmutableSetMultimap<K, V> copyOf(
       Multimap<? extends K, ? extends V> multimap) {
+    checkNotNull(multimap); // eager for GWT
     if (multimap.isEmpty()) {
       return of();
     }

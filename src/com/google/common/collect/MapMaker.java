@@ -20,6 +20,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 
+import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Equivalence;
@@ -378,15 +379,40 @@ public final class MapMaker {
    * does not alter the state of this {@code MapMaker} instance, so it can be
    * invoked again to create multiple independent maps.
    *
-   * @param <K> the type of keys to be stored in the returned map
-   * @param <V> the type of values to be stored in the returned map
    * @return a serializable concurrent map having the requested features
    */
   public <K, V> ConcurrentMap<K, V> makeMap() {
     return useCustomMap
-        ? new CustomConcurrentHashMap<K, V>(this)
+        ? new CustomConcurrentHashMap<K, V>(this, null)
         : new ConcurrentHashMap<K, V>(getInitialCapacity(),
             0.75f, getConcurrencyLevel());
+  }
+
+  /**
+   * Builds a map, without on-demand computation of values. This method
+   * does not alter the state of this {@code MapMaker} instance, so it can be
+   * invoked again to create multiple independent maps.
+   *
+   * <p>The returned map will invoke the supplied listener each time it evicts
+   * an entry, whether it does so due to timed expiration, exceeding the
+   * maximum size, or discovering that the key or value has been reclaimed by
+   * the garbage collector. The returned map will invoke this listener
+   * synchronously, during invocations of any of that map's public methods
+   * (even read-only methods). The listener will <i>not</i> be invoked on manual
+   * removal.
+   *
+   * As the listener will be invoked on a caller's thread,
+   * operations that are expensive or may throw exceptions should be performed
+   * asynchronously.
+   *
+   * @param listener the listener to be notified of eviction events
+   * @return a serializable concurrent map having the requested features
+   */
+  // TODO: do generics magic to set the eviction listener outside of make
+  @Beta
+  <K, V> ConcurrentMap<K, V> makeMap(
+      MapEvictionListener<K, V> listener) {
+    return new CustomConcurrentHashMap<K, V>(this, listener);
   }
 
   /**
@@ -422,14 +448,67 @@ public final class MapMaker {
    * <p>This method does not alter the state of this {@code MapMaker} instance,
    * so it can be invoked again to create multiple independent maps.
    *
-   * @param <K> the type of keys to be stored in the returned cache
-   * @param <V> the type of values to be stored in the returned cache
+   * @param computingFunction the function used to compute new values
    * @return a serializable cache having the requested features
    */
-  // TODO: figure out the Cache interface first
+  // TODO: figure out the Cache interface before making this public
   <K, V> Cache<K, V> makeCache(
       Function<? super K, ? extends V> computingFunction) {
-    return new ComputingConcurrentHashMap<K, V>(this, computingFunction);
+    return new ComputingConcurrentHashMap<K, V>(this, null, computingFunction);
+  }
+
+  /**
+   * Builds a caching function, which either returns an already-computed value
+   * for a given key or atomically computes it using the supplied function.
+   * If another thread is currently computing the value for this key, simply
+   * waits for that thread to finish and returns its computed value. Note that
+   * the function may be executed concurrently by multiple threads, but only for
+   * distinct keys.
+   *
+   * <p>The {@code Map} view of the {@code Cache}'s cache is only
+   * updated when function computation completes. In other words, an entry isn't
+   * visible until the value's computation completes. No methods on the {@code
+   * Map} will ever trigger computation.
+   *
+   * <p>{@link Cache#apply} in the returned function implementation may
+   * throw:
+   *
+   * <ul>
+   * <li>{@link NullPointerException} if the key is null or the
+   *     computing function returns null
+   * <li>{@link ComputationException} if an exception was thrown by the
+   *     computing function. If that exception is already of type {@link
+   *     ComputationException} it is propagated directly; otherwise it is
+   *     wrapped.
+   * </ul>
+   *
+   * <p>If {@link Map#put} is called on the underlying map before a computation
+   * completes, other threads waiting on the computation will wake up and return
+   * the stored value. When the computation completes, its new result will
+   * overwrite the value that was put in the map manually.
+   *
+   * <p>The returned map will invoke the supplied listener each time it evicts
+   * an entry, whether it does so due to timed expiration, exceeding the
+   * maximum size, or discovering that the key or value has been reclaimed by
+   * the garbage collector. The returned map will invoke this listener
+   * synchronously, during invocations of any of that map's public methods
+   * (even read-only methods). The listener will <i>not</i> be invoked on manual
+   * removal.
+   *
+   * <p>This method does not alter the state of this {@code MapMaker} instance,
+   * so it can be invoked again to create multiple independent maps.
+   *
+   * @param computingFunction the function used to compute new values
+   * @param listener the listener to be notified of eviction events
+   * @return a serializable cache having the requested features
+   */
+  // TODO: figure out the Cache interface before making this public
+  @Beta
+  <K, V> Cache<K, V> makeCache(
+      Function<? super K, ? extends V> computingFunction,
+      MapEvictionListener<K, V> listener) {
+    return new ComputingConcurrentHashMap<K, V>(this, listener,
+        computingFunction);
   }
 
   /**
@@ -471,10 +550,13 @@ public final class MapMaker {
    *
    * <p>This method does not alter the state of this {@code MapMaker} instance,
    * so it can be invoked again to create multiple independent maps.
+   *
+   * @param computingFunction the function used to compute new values
+   * @return a serializable concurrent map having the requested features
    */
   public <K, V> ConcurrentMap<K, V> makeComputingMap(
       Function<? super K, ? extends V> computingFunction) {
-    Cache<K, V> cache = makeCache(computingFunction);
+    Cache<K, V> cache = makeCache(computingFunction, null);
     return new ComputingMapAdapter<K, V>(cache);
   }
 

@@ -32,12 +32,15 @@ import java.io.Serializable;
 import java.lang.reflect.Array;
 import java.util.AbstractCollection;
 import java.util.AbstractMap;
+import java.util.AbstractQueue;
 import java.util.AbstractSet;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.NoSuchElementException;
+import java.util.Queue;
 import java.util.Set;
+import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReferenceArray;
@@ -51,7 +54,7 @@ import javax.annotation.concurrent.GuardedBy;
  *
  * This implementation is heavily derived from revision 1.96 of
  * <a href="http://tinyurl.com/ConcurrentHashMap">ConcurrentHashMap.java</a>.
- * 
+ *
  * @author Bob Lee
  * @author Doug Lea ({@code ConcurrentHashMap})
  */
@@ -138,6 +141,15 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
   /** True if size-based eviction is enabled. */
   final boolean evicts;
 
+  /** Entries waiting to be consumed by the eviction listener. */
+  final Queue<ReferenceEntry<K, V>> pendingEvictionNotifications;
+
+  /**
+   * A listener that is invoked when an entry is removed due to expiration or
+   * garbage collection of soft/weak entries.
+   */
+  final MapEvictionListener<K, V> evictionListener;
+
   /** The concurrency level. */
   final int concurrencyLevel;
 
@@ -148,7 +160,8 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
    * Creates a new, empty map with the specified strategy, initial capacity
    * and concurrency level.
    */
-  CustomConcurrentHashMap(MapMaker builder) {
+  CustomConcurrentHashMap(MapMaker builder,
+      MapEvictionListener<K, V> evictionListener) {
     keyStrength = builder.getKeyStrength();
     valueStrength = builder.getValueStrength();
 
@@ -162,6 +175,22 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
     expires = expirationNanos > 0;
 
     entryFactory = EntryFactory.getFactory(keyStrength, expires, evicts);
+
+    if (evictionListener == null
+        || evictionListener.equals(NullListener.INSTANCE)) {
+      @SuppressWarnings("unchecked")
+      Queue<ReferenceEntry<K, V>> defaultQueue = (Queue) discardingQueue;
+      pendingEvictionNotifications = defaultQueue;
+
+      @SuppressWarnings("unchecked")
+      MapEvictionListener<K, V> defaultListener =
+          (MapEvictionListener<K, V>) NullListener.INSTANCE;
+      this.evictionListener = defaultListener;
+    } else {
+      pendingEvictionNotifications =
+          new ConcurrentLinkedQueue<ReferenceEntry<K, V>>();
+      this.evictionListener = evictionListener;
+    }
 
     concurrencyLevel = filterConcurrencyLevel(builder.getConcurrencyLevel());
 
@@ -515,6 +544,13 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
      * throw an exception.
      */
     V waitForValue() throws InterruptedException;
+
+    /**
+     * Clears this reference object. This intentionally mimics {@link
+     * java.lang.ref.Reference#clear()}, and indeed is implemented by
+     * {@code Reference} subclasses for weak and soft values.
+     */
+    void clear();
   }
 
   /**
@@ -532,6 +568,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
     public Object waitForValue() {
       throw new AssertionError();
     }
+    public void clear() {}
   };
 
   /**
@@ -641,6 +678,33 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
     int getLastUsage();
   }
 
+  enum NullListener implements MapEvictionListener {
+    INSTANCE;
+    @Override public void onEviction(Object key, Object value) {}
+  }
+
+  static final Queue<Object> discardingQueue = new AbstractQueue<Object>() {
+    public boolean offer(Object o) {
+      return true;
+    }
+
+    public Object peek() {
+      return null;
+    }
+
+    public Object poll() {
+      return null;
+    }
+
+    public int size() {
+      return 0;
+    }
+
+    public Iterator<Object> iterator() {
+      return Iterators.emptyIterator();
+    }
+  };
+
   /*
    * Note: All of this duplicate code sucks, but it saves a lot of memory.
    * If only Java had mixins! To maintain this code, make a change for
@@ -682,6 +746,9 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
     }
     public void setValueReference(
         ValueReference<K, V> valueReference) {
+      if (this.valueReference != null) {
+        this.valueReference.clear();
+      }
       this.valueReference = valueReference;
     }
     public void valueReclaimed() {
@@ -813,7 +880,10 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
     }
 
     public void finalizeReferent() {
-      map.removeEntry(this);
+      if (map.removeEntry(this)) {
+        // send removal notification if the entry is in the map
+        map.pendingEvictionNotifications.offer(this);
+      }
     }
 
     // The code below is exactly the same for each entry type.
@@ -828,6 +898,9 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
     }
     public void setValueReference(
         ValueReference<K, V> valueReference) {
+      if (this.valueReference != null) {
+        this.valueReference.clear();
+      }
       this.valueReference = valueReference;
     }
     public void valueReclaimed() {
@@ -959,7 +1032,10 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
     }
 
     public void finalizeReferent() {
-      map.removeEntry(this);
+      if (map.removeEntry(this)) {
+        // send removal notification if the entry is in the map
+        map.pendingEvictionNotifications.offer(this);
+      }
     }
 
     // The code below is exactly the same for each entry type.
@@ -974,6 +1050,9 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
     }
     public void setValueReference(
         ValueReference<K, V> valueReference) {
+      if (this.valueReference != null) {
+        this.valueReference.clear();
+      }
       this.valueReference = valueReference;
     }
     public void valueReclaimed() {
@@ -1100,6 +1179,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
 
     public void finalizeReferent() {
       entry.valueReclaimed();
+      // valueReclaimed will add to pendingEvictionNotifications
     }
 
     public ValueReference<K, V> copyFor(
@@ -1125,6 +1205,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
 
     public void finalizeReferent() {
       entry.valueReclaimed();
+      // valueReclaimed will add to pendingEvictionNotifications
     }
 
     public ValueReference<K, V> copyFor(
@@ -1158,6 +1239,8 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
     public V waitForValue() {
       return get();
     }
+
+    public void clear() {}
   }
 
   /**
@@ -1206,9 +1289,16 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
     return rehash(h);
   }
 
-  boolean reclaimValue(ReferenceEntry<K, V> entry) {
+  void reclaimValue(ReferenceEntry<K, V> entry) {
     int hash = entry.getHash();
-    return segmentFor(hash).reclaimValue(entry, hash);
+    if (segmentFor(hash).reclaimValue(entry, hash)) {
+      // send removal notification if the entry is in the map and has not been
+      // reused; copy the entry in case it is reused before the notification
+      // is processed
+      ReferenceEntry<K, V> newEntry = entryFactory.newEntry(
+          this, entry.getKey(), hash, null);
+      pendingEvictionNotifications.offer(newEntry);
+    }
   }
 
   boolean removeEntry(ReferenceEntry<K, V> entry) {
@@ -1252,6 +1342,21 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
   V getUnexpiredValue(ReferenceEntry<K, V> e) {
     V value = e.getValueReference().get();
     return (expires && isExpired(e)) ? null : value;
+  }
+
+  /**
+   * Notifies listeners that an entry has been automatically removed due to
+   * expiration or eligability for garbage collection. This should be called
+   * every time expireEntries is called (once the lock is released). It must
+   * only be called from user threads (e.g. not from garbage collection
+   * callbacks).
+   */
+  void processPendingNotifications() {
+    ReferenceEntry<K, V> entry;
+    while ((entry = pendingEvictionNotifications.poll()) != null) {
+      evictionListener.onEviction(entry.getKey(),
+          entry.getValueReference().get());
+    }
   }
 
   @SuppressWarnings("unchecked")
@@ -1438,7 +1543,10 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
       while (expirable != expirationHead && isExpired(expirable, now)) {
         @SuppressWarnings("unchecked")
         ReferenceEntry<K, V> entry = (ReferenceEntry<K,V>) expirable;
-        removeEntry(entry, entry.getHash());
+        if (removeEntry(entry, entry.getHash())) {
+          // send removal notification if the entry is in the map
+          pendingEvictionNotifications.offer(entry);
+        }
         // removeEntry should have called removeExpirable, but let's be sure
         removeExpirable(expirable);
         expirable = expirationHead.getNextExpirable();
@@ -1560,6 +1668,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
     }
 
     boolean replace(K key, int hash, V oldValue, V newValue) {
+      checkNotNull(oldValue);
       checkNotNull(newValue);
       lock();
       try {
@@ -1589,6 +1698,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
         return false;
       } finally {
         unlock();
+        processPendingNotifications();
       }
     }
 
@@ -1620,6 +1730,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
         return null;
       } finally {
         unlock();
+        processPendingNotifications();
       }
     }
 
@@ -1671,6 +1782,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
         return null;
       } finally {
         unlock();
+        processPendingNotifications();
       }
     }
 
@@ -1774,6 +1886,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
         return null;
       } finally {
         unlock();
+        processPendingNotifications();
       }
     }
 
@@ -1810,6 +1923,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
         return false;
       } finally {
         unlock();
+        processPendingNotifications();
       }
     }
 
@@ -2420,7 +2534,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
   Object writeReplace() {
     return new SerializationProxy<K, V>(keyStrength, valueStrength,
         keyEquivalence, valueEquivalence, expirationNanos, maximumSize,
-        concurrencyLevel, this);
+        concurrencyLevel, evictionListener, this);
   }
 
   /**
@@ -2439,6 +2553,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
     final long expirationNanos;
     final int maximumSize;
     final int concurrencyLevel;
+    final MapEvictionListener<K, V> evictionListener;
 
     transient ConcurrentMap<K, V> delegate;
 
@@ -2447,6 +2562,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
         Equivalence<Object> keyEquivalence,
         Equivalence<Object> valueEquivalence,
         long expirationNanos, int maximumSize, int concurrencyLevel,
+        MapEvictionListener<K, V> evictionListener,
         ConcurrentMap<K, V> delegate) {
       this.keyStrength = keyStrength;
       this.valueStrength = valueStrength;
@@ -2455,6 +2571,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
       this.expirationNanos = expirationNanos;
       this.maximumSize = maximumSize;
       this.concurrencyLevel = concurrencyLevel;
+      this.evictionListener = evictionListener;
       this.delegate = delegate;
     }
 
@@ -2522,9 +2639,11 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
         long expirationNanos,
         int maximumSize,
         int concurrencyLevel,
+        MapEvictionListener<K, V> evictionListener,
         ConcurrentMap<K, V> delegate) {
       super(keyStrength, valueStrength, keyEquivalence, valueEquivalence,
-          expirationNanos, maximumSize, concurrencyLevel, delegate);
+          expirationNanos, maximumSize, concurrencyLevel, evictionListener,
+          delegate);
     }
 
     private void writeObject(java.io.ObjectOutputStream out)
@@ -2538,7 +2657,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
         throws IOException, ClassNotFoundException {
       in.defaultReadObject();
       MapMaker mapMaker = readMapMaker(in);
-      delegate = mapMaker.makeMap();
+      delegate = mapMaker.makeMap(evictionListener);
       readEntries(in);
     }
 

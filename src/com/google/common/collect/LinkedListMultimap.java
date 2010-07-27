@@ -17,6 +17,7 @@
 package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.Multisets.setCountImpl;
 import static java.util.Collections.unmodifiableList;
@@ -592,6 +593,10 @@ public final class LinkedListMultimap<K, V>
         }
         @Override public boolean contains(Object key) { // for performance
           return keyCount.contains(key);
+        }
+        @Override public boolean removeAll(Collection<?> c) {
+          checkNotNull(c); // eager for GWT
+          return super.removeAll(c);
         }
       };
     }

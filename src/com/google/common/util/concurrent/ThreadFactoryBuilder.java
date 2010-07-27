@@ -22,6 +22,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.annotations.Beta;
 
 import java.lang.Thread.UncaughtExceptionHandler;
+import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -36,8 +37,9 @@ import java.util.concurrent.atomic.AtomicLong;
  * handler}
  * <li> a {@linkplain ThreadFactory#newThread backing thread factory}
  * </ul>
- * If no backing thread factory is provided, new threads are created using
- * {@link Thread#Thread(Runnable)}.
+ * If no backing thread factory is provided, a default backing thread factory is
+ * used as if by calling {@code setThreadFactory(}{@link
+ * Executors#defaultThreadFactory()}{@code )}.
  *
  * @author Kurt Alfred Kluever
  * @since 4
@@ -150,13 +152,14 @@ public final class ThreadFactoryBuilder {
     final Integer priority = builder.priority;
     final UncaughtExceptionHandler uncaughtExceptionHandler =
         builder.uncaughtExceptionHandler;
-    final ThreadFactory backingThreadFactory = builder.backingThreadFactory;
+    final ThreadFactory backingThreadFactory =
+        (builder.backingThreadFactory != null)
+        ? builder.backingThreadFactory
+        : Executors.defaultThreadFactory();
     final AtomicLong count = (nameFormat != null) ? new AtomicLong(0) : null;
     return new ThreadFactory() {
       @Override public Thread newThread(Runnable runnable) {
-        Thread thread = (backingThreadFactory != null)
-            ? backingThreadFactory.newThread(runnable)
-            : new Thread(runnable);
+        Thread thread = backingThreadFactory.newThread(runnable);
         if (nameFormat != null) {
           thread.setName(String.format(nameFormat, count.getAndIncrement()));
         }

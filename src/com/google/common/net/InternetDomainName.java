@@ -34,11 +34,9 @@ import javax.annotation.Nullable;
 
 /**
  * An immutable well-formed internet domain name, as defined by
- * <a href="http://www.ietf.org/rfc/rfc1035.txt">RFC 1035</a>, with the
- * exception that names ending in {@code "."} are not supported (as they are not
- * generally used in browsers, email, and other end-user applications. Examples
- * include {@code com} and {@code foo.co.uk}. Only syntactic analysis is
- * performed; no DNS lookups or other network interactions take place. Thus
+ * <a href="http://www.ietf.org/rfc/rfc1035.txt">RFC 1035</a>.
+ * Examples include {@code com} and {@code foo.co.uk}. Only syntactic analysis
+ * is performed; no DNS lookups or other network interactions take place. Thus
  * there is no guarantee that the domain actually exists on the internet.
  * Invalid domain names throw {@link IllegalArgumentException} on construction.
  *
@@ -56,7 +54,8 @@ import javax.annotation.Nullable;
  *
  * <p><a href="http://en.wikipedia.org/wiki/Internationalized_domain_name">
  * internationalized domain names (IDN)</a> such as {@code 网络.cn} are
- * supported.
+ * supported, but with much weaker syntactic validation (resulting in false
+ * positive reports of validity).
  *
  * @author Craig Berry
  * @since 5
@@ -64,6 +63,9 @@ import javax.annotation.Nullable;
 @Beta
 @GwtCompatible
 public final class InternetDomainName {
+
+  private static final CharMatcher DOTS_MATCHER =
+      CharMatcher.anyOf(".\u3002\uFF0E\uFF61");
   private static final Splitter DOT_SPLITTER = Splitter.on('.');
   private static final Joiner DOT_JOINER = Joiner.on('.');
 
@@ -98,6 +100,14 @@ public final class InternetDomainName {
    * Private constructor used to implement {@link #from(String)}.
    */
   private InternetDomainName(String name) {
+    // Normalize all dot-like characters to '.', and strip trailing '.'.
+
+    name = DOTS_MATCHER.replaceFrom(name, '.');
+
+    if (name.endsWith(".")) {
+      name = name.substring(0, name.length() - 1);
+    }
+
     this.name = name;
     this.parts = ImmutableList.copyOf(DOT_SPLITTER.split(name));
     checkArgument(validateSyntax(parts), "Not a valid domain name: '%s'", name);
@@ -247,77 +257,6 @@ public final class InternetDomainName {
    */
   public ImmutableList<String> parts() {
     return parts;
-  }
-
-  /**
-   * Old location of {@link #isPublicSuffix()}.
-   *
-   * @deprecated use {@link #isPublicSuffix()}
-   */
-  @Deprecated public boolean isRecognizedTld() {
-    return isPublicSuffix();
-  }
-
-  /**
-   * Old location of {@link #isUnderPublicSuffix()}.
-   *
-   * @deprecated use {@link #isUnderPublicSuffix()}
-   */
-  @Deprecated public boolean isUnderRecognizedTld() {
-    return isUnderPublicSuffix();
-  }
-
-  /**
-   * Old location of {@link #hasPublicSuffix()}.
-   *
-   * @deprecated use {@link #hasPublicSuffix()}
-   */
-  @Deprecated public boolean hasRecognizedTld() {
-    return hasPublicSuffix();
-  }
-
-  /**
-   * Old location of {@link #publicSuffix()}.
-   *
-   * @deprecated use {@link #publicSuffix()}
-   */
-  @Deprecated public InternetDomainName recognizedTld() {
-    return publicSuffix();
-  }
-
-  /**
-   * Old location of {@link #isTopPrivateDomain()}.
-   *
-   * @deprecated use {@link #isTopPrivateDomain()}
-   */
-  @Deprecated public boolean isImmediatelyUnderTld() {
-    return isTopPrivateDomain();
-  }
-
-  /**
-   * Old location of {@link #topPrivateDomain()}.
-   *
-   * @deprecated use {@link #topPrivateDomain()}
-   */
-  @Deprecated public InternetDomainName topCookieDomain() {
-    return topPrivateDomain();
-  }
-
-  /**
-   * Returns the rightmost non-{@linkplain #isRecognizedTld() TLD} domain name
-   * part.  For example
-   * {@code new InternetDomainName("www.google.com").rightmostNonTldPart()}
-   * returns {@code "google"}.  Returns null if either no
-   * {@linkplain #isRecognizedTld() TLD} is found, or the whole domain name is
-   * itself a {@linkplain #isRecognizedTld() TLD}.
-   *
-   * @deprecated use the first {@linkplain #parts part} of the {@link
-   *     #topPrivateDomain()}
-   */
-  @Deprecated public String rightmostNonTldPart() {
-    return publicSuffixIndex >= 1
-        ? parts.get(publicSuffixIndex - 1)
-        : null;
   }
 
   /**

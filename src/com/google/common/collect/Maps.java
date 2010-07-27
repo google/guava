@@ -19,6 +19,7 @@ package com.google.common.collect;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Function;
 import com.google.common.base.Joiner.MapJoiner;
@@ -749,19 +750,97 @@ public final class Maps {
    * a view, copy the returned map into a new map of your choosing.
    */
   public static <K, V1, V2> Map<K, V2> transformValues(
-      Map<K, V1> fromMap, Function<? super V1, V2> function) {
-    return new TransformedValuesMap<K, V1, V2>(fromMap, function);
+      Map<K, V1> fromMap, final Function<? super V1, V2> function) {
+    checkNotNull(function);
+    EntryTransformer<K, V1, V2> transformer =
+        new EntryTransformer<K, V1, V2>() {
+          public V2 transformEntry(K key, V1 value) {
+            return function.apply(value);
+          }
+        };
+    return transformEntries(fromMap, transformer);
   }
 
-  private static class TransformedValuesMap<K, V1, V2>
+  /**
+   * Returns a view of a map whose values are derived from the original map's
+   * entries. In contrast to {@link #transformValues}, this method's
+   * entry-transformation logic may depend on the key as well as the value.
+   *
+   * <p>All other properties of the transformed map, such as iteration order,
+   * are left intact. For example, the code: <pre>   {@code
+   *
+   *   Map<String, Boolean> options =
+   *       ImmutableMap.of("verbose", true, "sort", false);
+   *   EntryTransformer<String, Boolean, String> flagPrefixer =
+   *       new EntryTransformer<String, Boolean, String>() {
+   *         public String transformEntry(String key, Boolean value) {
+   *           return value ? key : "no" + key;
+   *         }
+   *       };
+   *   Map<String, String> transformed =
+   *       Maps.transformEntries(options, flagPrefixer);
+   *   System.out.println(transformed);}</pre>
+   *
+   * ... prints {@code {verbose=verbose, sort=nosort}}.
+   *
+   * <p>Changes in the underlying map are reflected in this view. Conversely,
+   * this view supports removal operations, and these are reflected in the
+   * underlying map.
+   *
+   * <p>It's acceptable for the underlying map to contain null keys and null
+   * values provided that the transformer is capable of accepting null inputs.
+   * The transformed map might contain null values if the transformer sometimes
+   * gives a null result.
+   *
+   * <p>The returned map is not thread-safe or serializable, even if the
+   * underlying map is.
+   *
+   * <p>The transformer is applied lazily, invoked when needed. This is
+   * necessary for the returned map to be a view, but it means that the
+   * transformer will be applied many times for bulk operations like {@link
+   * Map#containsValue} and {@link Object#toString}. For this to perform well,
+   * {@code transformer} should be fast. To avoid lazy evaluation when the
+   * returned map doesn't need to be a view, copy the returned map into a new
+   * map of your choosing.
+   *
+   * <b>Warning:<b> This method assumes that for any instance {@code k} of
+   * {@code EntryTransformer} key type {@code K}, {@code k.equals(k2)} implies
+   * that {@code k2} is also of type {@code K}. Using an {@code
+   * EntryTransformer} key type for which this may not hold, such as {@code
+   * ArrayList}, may risk a {@code ClassCastException} when calling methods on
+   * the transformed map.
+   */
+  @Beta
+  public static <K, V1, V2> Map<K, V2> transformEntries(
+      Map<K, V1> fromMap,
+      EntryTransformer<? super K, ? super V1, V2> transformer) {
+    return new TransformedEntriesMap<K, V1, V2>(fromMap, transformer);
+  }
+
+  /**
+   * A transformation of the value of a key-value pair, using both key and value
+   * as inputs. To apply the transformation to a map, use
+   * {@link Maps#transformEntries(Map, EntryTransformer)}.
+   *
+   * @param <K> the key type of the input and output entries
+   * @param <V1> the value type of the input entry
+   * @param <V2> the value type of the output entry
+   */
+  @Beta
+  public interface EntryTransformer<K, V1, V2> {
+    V2 transformEntry(K key, V1 value);
+  }
+
+  private static class TransformedEntriesMap<K, V1, V2>
       extends AbstractMap<K, V2> {
     final Map<K, V1> fromMap;
-    final Function<? super V1, V2> function;
+    final EntryTransformer<? super K, ? super V1, V2> transformer;
 
-    TransformedValuesMap(
-        Map<K, V1> fromMap, Function<? super V1, V2> function) {
+    TransformedEntriesMap(
+        Map<K, V1> fromMap,
+        EntryTransformer<? super K, ? super V1, V2> transformer) {
       this.fromMap = checkNotNull(fromMap);
-      this.function = checkNotNull(function);
+      this.transformer = checkNotNull(transformer);
     }
 
     @Override public int size() {
@@ -772,16 +851,20 @@ public final class Maps {
       return fromMap.containsKey(key);
     }
 
+    // safe as long as the user followed the <b>Warning</b> in the javadoc
+    @SuppressWarnings("unchecked")
     @Override public V2 get(Object key) {
       V1 value = fromMap.get(key);
       return (value != null || fromMap.containsKey(key))
-          ? function.apply(value)
+          ? transformer.transformEntry((K) key, value)
           : null;
     }
 
+    // safe as long as the user followed the <b>Warning</b> in the javadoc
+    @SuppressWarnings("unchecked")
     @Override public V2 remove(Object key) {
       return fromMap.containsKey(key)
-          ? function.apply(fromMap.remove(key))
+          ? transformer.transformEntry((K) key, fromMap.remove(key))
           : null;
     }
 
@@ -801,7 +884,7 @@ public final class Maps {
 
     class EntrySet extends AbstractSet<Entry<K, V2>> {
       @Override public int size() {
-        return TransformedValuesMap.this.size();
+        return TransformedEntriesMap.this.size();
       }
 
       @Override public Iterator<Entry<K, V2>> iterator() {
@@ -821,7 +904,8 @@ public final class Maps {
               }
 
               @Override public V2 getValue() {
-                return function.apply(entry.getValue());
+                return transformer.transformEntry(
+                    entry.getKey(), entry.getValue());
               }
             };
           }
@@ -843,7 +927,7 @@ public final class Maps {
         Entry<?, ?> entry = (Entry<?, ?>) o;
         Object entryKey = entry.getKey();
         Object entryValue = entry.getValue();
-        V2 mapValue = TransformedValuesMap.this.get(entryKey);
+        V2 mapValue = TransformedEntriesMap.this.get(entryKey);
         if (mapValue != null) {
           return mapValue.equals(entryValue);
         }

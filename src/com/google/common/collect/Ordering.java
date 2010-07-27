@@ -382,6 +382,36 @@ public abstract class Ordering<T> implements Comparator<T> {
 
   // Regular instance methods
 
+  private <E extends T> void quicksortLeastK(
+      E[] values, int left, int right, int k) {
+    if (right > left) {
+      int pivotIndex = (left + right) >>> 1; // left + ((right - left) / 2)
+      int pivotNewIndex = partition(values, left, right, pivotIndex);
+      quicksortLeastK(values, left, pivotNewIndex - 1, k);
+      if (pivotNewIndex < k) {
+        quicksortLeastK(values, pivotNewIndex + 1, right, k);
+      }
+    }
+  }
+
+  private <E extends T> int partition(
+      E[] values, int left, int right, int pivotIndex) {
+    E pivotValue = values[pivotIndex];
+
+    values[pivotIndex] = values[right];
+    values[right] = pivotValue;
+
+    int storeIndex = left;
+    for (int i = left; i < right; i++) {
+      if (compare(values[i], pivotValue) < 0) {
+        ObjectArrays.swap(values, storeIndex, i);
+        storeIndex++;
+      }
+    }
+    ObjectArrays.swap(values, right, storeIndex);
+    return storeIndex;
+  }
+
   /**
    * {@link Collections#binarySearch(List, Object, Comparator) Searches}
    * {@code sortedList} for {@code key} using the binary search algorithm. The
@@ -476,8 +506,8 @@ public abstract class Ordering<T> implements Comparator<T> {
   }
 
   /**
-   * Returns the largest of the specified values according to this ordering. If
-   * there are multiple largest values, the first of those is returned.
+   * Returns the greatest of the specified values according to this ordering. If
+   * there are multiple greatest values, the first of those is returned.
    *
    * @param iterable the iterable whose maximum element is to be determined
    * @throws NoSuchElementException if {@code iterable} is empty
@@ -498,8 +528,8 @@ public abstract class Ordering<T> implements Comparator<T> {
   }
 
   /**
-   * Returns the largest of the specified values according to this ordering. If
-   * there are multiple largest values, the first of those is returned.
+   * Returns the greatest of the specified values according to this ordering. If
+   * there are multiple greatest values, the first of those is returned.
    *
    * @param a value to compare, returned if greater than or equal to the rest.
    * @param b value to compare
@@ -519,7 +549,7 @@ public abstract class Ordering<T> implements Comparator<T> {
   }
 
   /**
-   * Returns the larger of the two values according to this ordering. If the
+   * Returns the greater of the two values according to this ordering. If the
    * values compare as 0, the first is returned.
    *
    * <p><b>Implementation note:</b> this method is invoked by the default
@@ -536,8 +566,8 @@ public abstract class Ordering<T> implements Comparator<T> {
   }
 
   /**
-   * Returns the smallest of the specified values according to this ordering. If
-   * there are multiple smallest values, the first of those is returned.
+   * Returns the least of the specified values according to this ordering. If
+   * there are multiple least values, the first of those is returned.
    *
    * @param iterable the iterable whose minimum element is to be determined
    * @throws NoSuchElementException if {@code iterable} is empty
@@ -558,8 +588,8 @@ public abstract class Ordering<T> implements Comparator<T> {
   }
 
   /**
-   * Returns the smallest of the specified values according to this ordering. If
-   * there are multiple smallest values, the first of those is returned.
+   * Returns the least of the specified values according to this ordering. If
+   * there are multiple least values, the first of those is returned.
    *
    * @param a value to compare, returned if less than or equal to the rest.
    * @param b value to compare
@@ -579,7 +609,7 @@ public abstract class Ordering<T> implements Comparator<T> {
   }
 
   /**
-   * Returns the smaller of the two values according to this ordering. If the
+   * Returns the lesser of the two values according to this ordering. If the
    * values compare as 0, the first is returned.
    *
    * <p><b>Implementation note:</b> this method is invoked by the default
@@ -598,4 +628,6 @@ public abstract class Ordering<T> implements Comparator<T> {
   // Never make these public
   static final int LEFT_IS_GREATER = 1;
   static final int RIGHT_IS_GREATER = -1;
+
+  private static final Object[] EMPTY_ARRAY = new Object[0];
 }

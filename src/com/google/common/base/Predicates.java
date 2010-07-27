@@ -52,36 +52,34 @@ public final class Predicates {
    * Returns a predicate that always evaluates to {@code true}.
    */
   @GwtCompatible(serializable = true)
-  @SuppressWarnings("unchecked")
   public static <T> Predicate<T> alwaysTrue() {
-    return (Predicate<T>) AlwaysTruePredicate.INSTANCE;
+    return ObjectPredicate.ALWAYS_TRUE.withNarrowedType();
   }
 
   /**
    * Returns a predicate that always evaluates to {@code false}.
    */
   @GwtCompatible(serializable = true)
-  @SuppressWarnings("unchecked")
   public static <T> Predicate<T> alwaysFalse() {
-    return (Predicate<T>) AlwaysFalsePredicate.INSTANCE;
+    return ObjectPredicate.ALWAYS_FALSE.withNarrowedType();
   }
 
   /**
    * Returns a predicate that evaluates to {@code true} if the object reference
    * being tested is null.
    */
-  @SuppressWarnings("unchecked")
+  @GwtCompatible(serializable = true)
   public static <T> Predicate<T> isNull() {
-    return (Predicate<T>) IsNullPredicate.INSTANCE;
+    return ObjectPredicate.IS_NULL.withNarrowedType();
   }
 
   /**
    * Returns a predicate that evaluates to {@code true} if the object reference
    * being tested is not null.
    */
-  @SuppressWarnings("unchecked")
+  @GwtCompatible(serializable = true)
   public static <T> Predicate<T> notNull() {
-    return (Predicate<T>) NotNullPredicate.INSTANCE;
+    return ObjectPredicate.NOT_NULL.withNarrowedType();
   }
 
   /**
@@ -298,29 +296,32 @@ public final class Predicates {
     private static final long serialVersionUID = 0;
   }
 
-  /** @see Predicates#alwaysTrue() */
   // Package private for GWT serialization.
-  enum AlwaysTruePredicate implements Predicate<Object> {
-    INSTANCE;
-
-    public boolean apply(@Nullable Object o) {
-      return true;
-    }
-    @Override public String toString() {
-      return "AlwaysTrue";
-    }
-  }
-
-  /** @see Predicates#alwaysFalse() */
-  // Package private for GWT serialization.
-  enum AlwaysFalsePredicate implements Predicate<Object> {
-    INSTANCE;
-
-    public boolean apply(@Nullable Object o) {
-      return false;
-    }
-    @Override public String toString() {
-      return "AlwaysFalse";
+  enum ObjectPredicate implements Predicate<Object> {
+    ALWAYS_TRUE {
+      @Override public boolean apply(@Nullable Object o) {
+        return true;
+      }
+    },
+    ALWAYS_FALSE {
+      @Override public boolean apply(@Nullable Object o) {
+        return false;
+      }
+    },
+    IS_NULL {
+      @Override public boolean apply(@Nullable Object o) {
+        return o == null;
+      }
+    },
+    NOT_NULL {
+      @Override public boolean apply(@Nullable Object o) {
+        return o != null;
+      }
+    };
+    
+    @SuppressWarnings("unchecked") // these Object predicates work for any T
+    <T> Predicate<T> withNarrowedType() {
+      return (Predicate<T>) this;
     }
   }
 
@@ -474,32 +475,6 @@ public final class Predicates {
       return "IsInstanceOf(" + clazz.getName() + ")";
     }
     private static final long serialVersionUID = 0;
-  }
-
-  /** @see Predicates#isNull() */
-  // enum singleton pattern
-  private enum IsNullPredicate implements Predicate<Object> {
-    INSTANCE;
-
-    public boolean apply(@Nullable Object o) {
-      return o == null;
-    }
-    @Override public String toString() {
-      return "IsNull";
-    }
-  }
-
-  /** @see Predicates#notNull() */
-  // enum singleton pattern
-  private enum NotNullPredicate implements Predicate<Object> {
-    INSTANCE;
-
-    public boolean apply(@Nullable Object o) {
-      return o != null;
-    }
-    @Override public String toString() {
-      return "NotNull";
-    }
   }
 
   /** @see Predicates#in(Collection) */
