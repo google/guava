@@ -803,12 +803,14 @@ public final class Maps {
    * returned map doesn't need to be a view, copy the returned map into a new
    * map of your choosing.
    *
-   * <b>Warning:<b> This method assumes that for any instance {@code k} of
+   * <p><b>Warning:</b> This method assumes that for any instance {@code k} of
    * {@code EntryTransformer} key type {@code K}, {@code k.equals(k2)} implies
    * that {@code k2} is also of type {@code K}. Using an {@code
    * EntryTransformer} key type for which this may not hold, such as {@code
    * ArrayList}, may risk a {@code ClassCastException} when calling methods on
    * the transformed map.
+   *
+   * @since 7
    */
   @Beta
   public static <K, V1, V2> Map<K, V2> transformEntries(
@@ -825,6 +827,7 @@ public final class Maps {
    * @param <K> the key type of the input and output entries
    * @param <V1> the value type of the input entry
    * @param <V2> the value type of the output entry
+   * @since 7
    */
   @Beta
   public interface EntryTransformer<K, V1, V2> {

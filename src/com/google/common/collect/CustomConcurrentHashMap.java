@@ -148,7 +148,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
    * A listener that is invoked when an entry is removed due to expiration or
    * garbage collection of soft/weak entries.
    */
-  final MapEvictionListener<K, V> evictionListener;
+  final MapEvictionListener<? super K, ? super V> evictionListener;
 
   /** The concurrency level. */
   final int concurrencyLevel;
@@ -160,8 +160,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
    * Creates a new, empty map with the specified strategy, initial capacity
    * and concurrency level.
    */
-  CustomConcurrentHashMap(MapMaker builder,
-      MapEvictionListener<K, V> evictionListener) {
+  CustomConcurrentHashMap(MapMaker builder) {
     keyStrength = builder.getKeyStrength();
     valueStrength = builder.getValueStrength();
 
@@ -176,6 +175,8 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
 
     entryFactory = EntryFactory.getFactory(keyStrength, expires, evicts);
 
+    MapEvictionListener<? super K, ? super V> evictionListener =
+        builder.evictionListener;
     if (evictionListener == null
         || evictionListener.equals(NullListener.INSTANCE)) {
       @SuppressWarnings("unchecked")
@@ -2529,7 +2530,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
 
   /* ---------------- Serialization Support -------------- */
 
-  private static final long serialVersionUID = 2;
+  private static final long serialVersionUID = 3;
 
   Object writeReplace() {
     return new SerializationProxy<K, V>(keyStrength, valueStrength,
@@ -2544,7 +2545,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
    */
   abstract static class AbstractSerializationProxy<K, V>
       extends ForwardingConcurrentMap<K, V> implements Serializable {
-    private static final long serialVersionUID = 0;
+    private static final long serialVersionUID = 1;
 
     final Strength keyStrength;
     final Strength valueStrength;
@@ -2553,7 +2554,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
     final long expirationNanos;
     final int maximumSize;
     final int concurrencyLevel;
-    final MapEvictionListener<K, V> evictionListener;
+    final MapEvictionListener<? super K, ? super V> evictionListener;
 
     transient ConcurrentMap<K, V> delegate;
 
@@ -2562,7 +2563,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
         Equivalence<Object> keyEquivalence,
         Equivalence<Object> valueEquivalence,
         long expirationNanos, int maximumSize, int concurrencyLevel,
-        MapEvictionListener<K, V> evictionListener,
+        MapEvictionListener<? super K, ? super V> evictionListener,
         ConcurrentMap<K, V> delegate) {
       this.keyStrength = keyStrength;
       this.valueStrength = valueStrength;
@@ -2599,6 +2600,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
           .privateKeyEquivalence(keyEquivalence)
           .privateValueEquivalence(valueEquivalence)
           .concurrencyLevel(concurrencyLevel);
+      mapMaker.evictionListener(evictionListener);
       if (expirationNanos != 0) {
         // expiration() throws an exception if you pass 0.
         mapMaker.expiration(expirationNanos, TimeUnit.NANOSECONDS);
@@ -2630,7 +2632,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
    */
   private static class SerializationProxy<K, V>
       extends AbstractSerializationProxy<K, V> {
-    private static final long serialVersionUID = 0;
+    private static final long serialVersionUID = 1;
 
     SerializationProxy(Strength keyStrength,
         Strength valueStrength,
@@ -2639,7 +2641,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
         long expirationNanos,
         int maximumSize,
         int concurrencyLevel,
-        MapEvictionListener<K, V> evictionListener,
+        MapEvictionListener<? super K, ? super V> evictionListener,
         ConcurrentMap<K, V> delegate) {
       super(keyStrength, valueStrength, keyEquivalence, valueEquivalence,
           expirationNanos, maximumSize, concurrencyLevel, evictionListener,
@@ -2657,7 +2659,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
         throws IOException, ClassNotFoundException {
       in.defaultReadObject();
       MapMaker mapMaker = readMapMaker(in);
-      delegate = mapMaker.makeMap(evictionListener);
+      delegate = mapMaker.makeMap();
       readEntries(in);
     }
 

@@ -18,9 +18,7 @@ package com.google.common.base;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.annotations.GwtIncompatible;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -28,7 +26,6 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
-import java.util.regex.Pattern;
 
 import javax.annotation.Nullable;
 
@@ -179,20 +176,6 @@ public final class Predicates {
   }
 
   /**
-   * Returns a predicate that evaluates to {@code true} if the object being
-   * tested is an instance of the given class. If the object being tested
-   * is {@code null} this predicate evaluates to {@code false}.
-   *
-   * <p>If you want to filter an {@code Iterable} to narrow its type, consider
-   * using {@link com.google.common.collect.Iterables#filter(Iterable, Class)}
-   * in preference.
-   */
-  @GwtIncompatible("Class.isInstance")
-  public static Predicate<Object> instanceOf(Class<?> clazz) {
-    return new InstanceOfPredicate(clazz);
-  }
-
-  /**
    * Returns a predicate that evaluates to {@code true} if the object reference
    * being tested is a member of the given collection. It does not defensively
    * copy the collection passed in, so future changes to it will alter the
@@ -217,84 +200,6 @@ public final class Predicates {
   public static <A, B> Predicate<A> compose(
       Predicate<B> predicate, Function<A, ? extends B> function) {
     return new CompositionPredicate<A, B>(predicate, function);
-  }
-
-  /**
-   * Returns a predicate that evaluates to {@code true} if the
-   * {@code CharSequence} being tested contains any match for the given
-   * regular expression pattern. The test used is equivalent to
-   * {@code Pattern.compile(pattern).matcher(arg).find()}
-   *
-   * @throws java.util.regex.PatternSyntaxException if the pattern is invalid
-   * @since 3
-   */
-  @Beta
-  @GwtIncompatible(value = "java.util.regex.Pattern")
-  public static Predicate<CharSequence> containsPattern(String pattern) {
-    return new ContainsPatternPredicate(pattern);
-  }
-
-  /**
-   * Returns a predicate that evaluates to {@code true} if the
-   * {@code CharSequence} being tested contains any match for the given
-   * regular expression pattern. The test used is equivalent to
-   * {@code regex.matcher(arg).find()}
-   *
-   * @since 3
-   */
-  @GwtIncompatible(value = "java.util.regex.Pattern")
-  public static Predicate<CharSequence> contains(Pattern pattern) {
-    return new ContainsPatternPredicate(pattern);
-  }
-
-  /**
-   * @see Predicates#contains(Pattern)
-   * @see Predicates#containsPattern(String)
-   */
-  @GwtIncompatible("Only used by other GWT-incompatible code.")
-  private static class ContainsPatternPredicate
-      implements Predicate<CharSequence>, Serializable {
-    final Pattern pattern;
-
-    ContainsPatternPredicate(Pattern pattern) {
-      this.pattern = checkNotNull(pattern);
-    }
-
-    ContainsPatternPredicate(String patternStr) {
-      this(Pattern.compile(patternStr));
-    }
-
-    public boolean apply(CharSequence t) {
-      return pattern.matcher(t).find();
-    }
-
-    @Override public int hashCode() {
-      // Pattern uses Object.hashCode, so we have to reach
-      // inside to build a hashCode consistent with equals.
-
-      return Objects.hashCode(pattern.pattern(), pattern.flags());
-    }
-
-    @Override public boolean equals(@Nullable Object obj) {
-      if (obj instanceof ContainsPatternPredicate) {
-        ContainsPatternPredicate that = (ContainsPatternPredicate) obj;
-
-        // Pattern uses Object (identity) equality, so we have to reach
-        // inside to compare individual fields.
-        return Objects.equal(pattern.pattern(), that.pattern.pattern())
-            && Objects.equal(pattern.flags(), that.pattern.flags());
-      }
-      return false;
-    }
-
-    @Override public String toString() {
-      return Objects.toStringHelper(this)
-          .add("pattern", pattern)
-          .add("pattern.flags", Integer.toHexString(pattern.flags()))
-          .toString();
-    }
-
-    private static final long serialVersionUID = 0;
   }
 
   // Package private for GWT serialization.
@@ -604,3 +509,4 @@ public final class Predicates {
     return list;
   }
 }
+

@@ -94,7 +94,7 @@ import java.util.concurrent.TimeUnit;
  * @since 2 (imported from Google Collections Library)
  */
 @GwtCompatible(emulated = true)
-public final class MapMaker {
+public final class MapMaker extends GenericMapMaker<Object, Object> {
   private static final int DEFAULT_INITIAL_CAPACITY = 16;
   private static final int DEFAULT_CONCURRENCY_LEVEL = 16;
   private static final int DEFAULT_EXPIRATION_NANOS = 0;
@@ -162,6 +162,7 @@ public final class MapMaker {
    *   negative
    * @throws IllegalStateException if an initial capacity was already set
    */
+  @Override
   public MapMaker initialCapacity(int initialCapacity) {
     checkState(this.initialCapacity == UNSET_INITIAL_CAPACITY,
         "initial capacity was already set to " + this.initialCapacity);
@@ -220,6 +221,7 @@ public final class MapMaker {
    * @throws IllegalStateException if a concurrency level was already set
    */
   @GwtIncompatible("java.util.concurrent.ConcurrentHashMap concurrencyLevel")
+  @Override
   public MapMaker concurrencyLevel(int concurrencyLevel) {
     checkState(this.concurrencyLevel == UNSET_CONCURRENCY_LEVEL,
         "concurrency level was already set to " + this.concurrencyLevel);
@@ -248,6 +250,7 @@ public final class MapMaker {
    * @see WeakReference
    */
   @GwtIncompatible("java.lang.ref.WeakReference")
+  @Override
   public MapMaker weakKeys() {
     return setKeyStrength(Strength.WEAK);
   }
@@ -267,6 +270,7 @@ public final class MapMaker {
    * @see SoftReference
    */
   @GwtIncompatible("java.lang.ref.SoftReference")
+  @Override
   public MapMaker softKeys() {
     return setKeyStrength(Strength.SOFT);
   }
@@ -305,6 +309,7 @@ public final class MapMaker {
    * @see WeakReference
    */
   @GwtIncompatible("java.lang.ref.WeakReference")
+  @Override
   public MapMaker weakValues() {
     return setValueStrength(Strength.WEAK);
   }
@@ -328,6 +333,7 @@ public final class MapMaker {
    * @see SoftReference
    */
   @GwtIncompatible("java.lang.ref.SoftReference")
+  @Override
   public MapMaker softValues() {
     return setValueStrength(Strength.SOFT);
   }
@@ -359,6 +365,7 @@ public final class MapMaker {
    * @throws IllegalArgumentException if {@code duration} is not positive
    * @throws IllegalStateException if the expiration time was already set
    */
+  @Override
   public MapMaker expiration(long duration, TimeUnit unit) {
     checkState(expirationNanos == UNSET_EXPIRATION_NANOS,
         "expiration time of " + expirationNanos + " ns was already set");
@@ -375,17 +382,45 @@ public final class MapMaker {
   }
 
   /**
-   * Builds a map, without on-demand computation of values. This method
-   * does not alter the state of this {@code MapMaker} instance, so it can be
-   * invoked again to create multiple independent maps.
+   * Specifies a listener instance, which all maps built using this {@code
+   * MapMaker} will notify each time an entry is evicted.
    *
-   * @return a serializable concurrent map having the requested features
+   * <p>A map built by this map maker will invoke the supplied listener after it
+   * evicts an entry, whether it does so due to timed expiration, exceeding the
+   * maximum size, or discovering that the key or value has been reclaimed by
+   * the garbage collector. It will invoke the listener synchronously, during
+   * invocations of any of that map's public methods (even read-only methods).
+   * The listener will <i>not</i> be invoked on manual removal.
+   *
+   * <p><b>Important note:</b> Instead of returning <em>this</em> as a {@code
+   * MapMaker} instance, this method returns {@code GenericMapMaker<K, V>}.
+   * From this point on, either the original reference or the returned
+   * reference may be used to complete configuration and build the map, but only
+   * the "generic" one is type-safe. That is, it will properly prevent you from
+   * building maps whose key or value types are incompatible with the types
+   * accepted by the listener already provided; the {@code MapMaker} type cannot
+   * do this. For best results, simply use the standard method-chaining idiom,
+   * as illustrated in the documentation at top, configuring a {@code MapMaker}
+   * and building your {@link Map} all in a single statement.
+   *
+   * <p><b>Warning:</b> if you ignore the above advice, and use this {@code
+   * MapMaker} to build maps whose key or value types are incompatible with the
+   * listener, you will likely experience a {@link ClassCastException} at an
+   * undefined point in the future.
+   *
+   * @since 7
    */
-  public <K, V> ConcurrentMap<K, V> makeMap() {
-    return useCustomMap
-        ? new CustomConcurrentHashMap<K, V>(this, null)
-        : new ConcurrentHashMap<K, V>(getInitialCapacity(),
-            0.75f, getConcurrencyLevel());
+  @Beta
+  public <K, V> GenericMapMaker<K, V> evictionListener(
+      MapEvictionListener<K, V> listener) {
+    checkState(this.evictionListener == null);
+
+    // safely limiting the kinds of maps this can produce
+    @SuppressWarnings("unchecked")
+    GenericMapMaker<K, V> me = (GenericMapMaker<K, V>) this;
+    me.evictionListener = checkNotNull(listener);
+    useCustomMap = true;
+    return me;
   }
 
   /**
@@ -393,26 +428,14 @@ public final class MapMaker {
    * does not alter the state of this {@code MapMaker} instance, so it can be
    * invoked again to create multiple independent maps.
    *
-   * <p>The returned map will invoke the supplied listener each time it evicts
-   * an entry, whether it does so due to timed expiration, exceeding the
-   * maximum size, or discovering that the key or value has been reclaimed by
-   * the garbage collector. The returned map will invoke this listener
-   * synchronously, during invocations of any of that map's public methods
-   * (even read-only methods). The listener will <i>not</i> be invoked on manual
-   * removal.
-   *
-   * As the listener will be invoked on a caller's thread,
-   * operations that are expensive or may throw exceptions should be performed
-   * asynchronously.
-   *
-   * @param listener the listener to be notified of eviction events
    * @return a serializable concurrent map having the requested features
    */
-  // TODO: do generics magic to set the eviction listener outside of make
-  @Beta
-  <K, V> ConcurrentMap<K, V> makeMap(
-      MapEvictionListener<K, V> listener) {
-    return new CustomConcurrentHashMap<K, V>(this, listener);
+  @Override
+  public <K, V> ConcurrentMap<K, V> makeMap() {
+    return useCustomMap
+        ? new CustomConcurrentHashMap<K, V>(this)
+        : new ConcurrentHashMap<K, V>(getInitialCapacity(),
+            0.75f, getConcurrencyLevel());
   }
 
   /**
@@ -454,61 +477,7 @@ public final class MapMaker {
   // TODO: figure out the Cache interface before making this public
   <K, V> Cache<K, V> makeCache(
       Function<? super K, ? extends V> computingFunction) {
-    return new ComputingConcurrentHashMap<K, V>(this, null, computingFunction);
-  }
-
-  /**
-   * Builds a caching function, which either returns an already-computed value
-   * for a given key or atomically computes it using the supplied function.
-   * If another thread is currently computing the value for this key, simply
-   * waits for that thread to finish and returns its computed value. Note that
-   * the function may be executed concurrently by multiple threads, but only for
-   * distinct keys.
-   *
-   * <p>The {@code Map} view of the {@code Cache}'s cache is only
-   * updated when function computation completes. In other words, an entry isn't
-   * visible until the value's computation completes. No methods on the {@code
-   * Map} will ever trigger computation.
-   *
-   * <p>{@link Cache#apply} in the returned function implementation may
-   * throw:
-   *
-   * <ul>
-   * <li>{@link NullPointerException} if the key is null or the
-   *     computing function returns null
-   * <li>{@link ComputationException} if an exception was thrown by the
-   *     computing function. If that exception is already of type {@link
-   *     ComputationException} it is propagated directly; otherwise it is
-   *     wrapped.
-   * </ul>
-   *
-   * <p>If {@link Map#put} is called on the underlying map before a computation
-   * completes, other threads waiting on the computation will wake up and return
-   * the stored value. When the computation completes, its new result will
-   * overwrite the value that was put in the map manually.
-   *
-   * <p>The returned map will invoke the supplied listener each time it evicts
-   * an entry, whether it does so due to timed expiration, exceeding the
-   * maximum size, or discovering that the key or value has been reclaimed by
-   * the garbage collector. The returned map will invoke this listener
-   * synchronously, during invocations of any of that map's public methods
-   * (even read-only methods). The listener will <i>not</i> be invoked on manual
-   * removal.
-   *
-   * <p>This method does not alter the state of this {@code MapMaker} instance,
-   * so it can be invoked again to create multiple independent maps.
-   *
-   * @param computingFunction the function used to compute new values
-   * @param listener the listener to be notified of eviction events
-   * @return a serializable cache having the requested features
-   */
-  // TODO: figure out the Cache interface before making this public
-  @Beta
-  <K, V> Cache<K, V> makeCache(
-      Function<? super K, ? extends V> computingFunction,
-      MapEvictionListener<K, V> listener) {
-    return new ComputingConcurrentHashMap<K, V>(this, listener,
-        computingFunction);
+    return new ComputingConcurrentHashMap<K, V>(this, computingFunction);
   }
 
   /**
@@ -554,9 +523,10 @@ public final class MapMaker {
    * @param computingFunction the function used to compute new values
    * @return a serializable concurrent map having the requested features
    */
+  @Override
   public <K, V> ConcurrentMap<K, V> makeComputingMap(
       Function<? super K, ? extends V> computingFunction) {
-    Cache<K, V> cache = makeCache(computingFunction, null);
+    Cache<K, V> cache = makeCache(computingFunction);
     return new ComputingMapAdapter<K, V>(cache);
   }
 

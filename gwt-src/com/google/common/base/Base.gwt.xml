@@ -1,0 +1,5 @@
+<module>
+  <source path=""/>
+  <super-source path="super"/>
+  <inherits name="java.util.Util"/>
+</module>

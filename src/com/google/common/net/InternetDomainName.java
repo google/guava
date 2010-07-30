@@ -53,7 +53,7 @@ import javax.annotation.Nullable;
  * the lowercase form of the name.
  *
  * <p><a href="http://en.wikipedia.org/wiki/Internationalized_domain_name">
- * internationalized domain names (IDN)</a> such as {@code 网络.cn} are
+ * internationalized domain names</a> such as {@code 网络.cn} are
  * supported, but with much weaker syntactic validation (resulting in false
  * positive reports of validity).
  *
@@ -61,7 +61,7 @@ import javax.annotation.Nullable;
  * @since 5
  */
 @Beta
-@GwtCompatible
+@GwtCompatible(emulated = true)
 public final class InternetDomainName {
 
   private static final CharMatcher DOTS_MATCHER =
@@ -155,15 +155,6 @@ public final class InternetDomainName {
     // to lower case allows us to simplify matching.
     return new InternetDomainName(domain.toLowerCase());
   }
-
-  // TODO: For the moment, we validate that all parts of a domain
-  // * Start and end with an alphanumeric character
-  // * Have alphanumeric, dash, or underscore characters internally
-  // An additional constraint is that the first character of the last part
-  // may not be numeric.
-  // All of this is a compromise to allow relatively accurate and efficient
-  // checking. We may soon move to using java.net.IDN for this purpose in
-  // non-GWT code.
 
   /**
    * Validation method used by {@from} to ensure that the domain name is
@@ -462,4 +453,5 @@ public final class InternetDomainName {
   public int hashCode() {
     return name.hashCode();
   }
+
 }

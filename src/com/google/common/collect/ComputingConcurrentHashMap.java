@@ -48,9 +48,8 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V>
    * load factor and concurrency level.
    */
   ComputingConcurrentHashMap(MapMaker builder,
-      MapEvictionListener<K, V> listener,
       Function<? super K, ? extends V> computingFunction) {
-    super(builder, listener);
+    super(builder);
     this.computingFunction = checkNotNull(computingFunction);
   }
 
@@ -322,7 +321,7 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V>
 
   /* ---------------- Serialization Support -------------- */
 
-  private static final long serialVersionUID = 0;
+  private static final long serialVersionUID = 1;
 
   @Override Object writeReplace() {
     return new ComputingSerializationProxy<K, V>(keyStrength, valueStrength,
@@ -343,7 +342,7 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V>
         long expirationNanos,
         int maximumSize,
         int concurrencyLevel,
-        MapEvictionListener<K, V> evictionListener,
+        MapEvictionListener<? super K, ? super V> evictionListener,
         ConcurrentMap<K, V> delegate,
         Function<? super K, ? extends V> computingFunction) {
       super(keyStrength, valueStrength, keyEquivalence, valueEquivalence,
@@ -363,7 +362,7 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V>
         throws IOException, ClassNotFoundException {
       in.defaultReadObject();
       MapMaker mapMaker = readMapMaker(in);
-      cache = mapMaker.makeCache(computingFunction, evictionListener);
+      cache = mapMaker.makeCache(computingFunction);
       delegate = cache.asMap();
       readEntries(in);
     }
@@ -380,6 +379,6 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V>
       return cache.apply(from);
     }
 
-    private static final long serialVersionUID = 0;
+    private static final long serialVersionUID = 1;
   }
 }
