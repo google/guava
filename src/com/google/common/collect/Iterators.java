@@ -311,7 +311,7 @@ public final class Iterators {
    * @return a newly-allocated array into which all the elements of the iterator
    *         have been copied
    */
-  // @GwtIncompatible("Array.newInstance(Class, int)")
+  @GwtIncompatible("Array.newInstance(Class, int)")
   public static <T> T[] toArray(
       Iterator<? extends T> iterator, Class<T> type) {
     List<T> list = Lists.newArrayList(iterator);

@@ -40,7 +40,7 @@ public final class ObjectArrays {
    * @param length the length of the new array
    */
   @SuppressWarnings("unchecked")
-  // @GwtIncompatible("Array.newInstance(Class, int)")
+  @GwtIncompatible("Array.newInstance(Class, int)")
   public static <T> T[] newArray(Class<T> type, int length) {
     return Platform.newArray(type, length);
   }

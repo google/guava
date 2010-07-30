@@ -230,7 +230,7 @@ public final class Iterables {
    * @return a newly-allocated array into which all the elements of the iterable
    *     have been copied
    */
-  // @GwtIncompatible("Array.newInstance(Class, int)")
+  @GwtIncompatible("Array.newInstance(Class, int)")
   public static <T> T[] toArray(Iterable<? extends T> iterable, Class<T> type) {
     Collection<? extends T> collection = Collections2.toCollection(iterable);
     T[] array = ObjectArrays.newArray(type, collection.size());
