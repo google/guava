@@ -16,73 +16,103 @@
 
 package com.google.common.collect;
 
+import static com.google.common.base.Preconditions.checkArgument;
+
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.ImmutableSet.ArrayImmutableSet;
 import com.google.common.collect.ImmutableSet.TransformedImmutableSet;
+
+import javax.annotation.Nullable;
+import javax.annotation.concurrent.Immutable;
 
 /**
  * Implementation of {@link ImmutableMap} with two or more entries.
  *
  * @author Jesse Wilson
  * @author Kevin Bourrillion
+ * @author Gregory Kick
  */
 @GwtCompatible(serializable = true, emulated = true)
 final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
 
-  private final transient Entry<K, V>[] entries; // entries in insertion order
-  private final transient Object[] table; // alternating keys and values
-  // 'and' with an int then shift to get a table index
+  // entries in insertion order
+  private final transient LinkedEntry<K, V>[] entries;
+  // array of linked lists of entries
+  private final transient LinkedEntry<K, V>[] table;
+  // 'and' with an int to get a table index
   private final transient int mask;
   private final transient int keySetHashCode;
 
+  // TODO: investigate avoiding the creation of ImmutableEntries since we
+  // re-copy them anyway.
   RegularImmutableMap(Entry<?, ?>... immutableEntries) {
-    // each of our 6 callers carefully put only Entry<K, V>s into the array!
-    @SuppressWarnings("unchecked")
-    Entry<K, V>[] tmp = (Entry<K, V>[]) immutableEntries;
-    this.entries = tmp;
+    int size = immutableEntries.length;
+    entries = createEntryArray(size);
 
-    int tableSize = Hashing.chooseTableSize(immutableEntries.length);
-    table = new Object[tableSize * 2];
+    // TODO: try smaller table sizes
+    int tableSize = Hashing.chooseTableSize(size);
+    table = createEntryArray(tableSize);
     mask = tableSize - 1;
 
     int keySetHashCodeMutable = 0;
-    for (Entry<K, V> entry : this.entries) {
+    for (int entryIndex = 0; entryIndex < size; entryIndex++) {
+      // each of our 6 callers carefully put only Entry<K, V>s into the array!
+      @SuppressWarnings("unchecked")
+      Entry<K, V> entry = (Entry<K, V>) immutableEntries[entryIndex];
       K key = entry.getKey();
       int keyHashCode = key.hashCode();
-      for (int i = Hashing.smear(keyHashCode); true; i++) {
-        int index = (i & mask) * 2;
-        Object existing = table[index];
-        if (existing == null) {
-          V value = entry.getValue();
-          table[index] = key;
-          table[index + 1] = value;
-          keySetHashCodeMutable += keyHashCode;
-          break;
-        } else if (existing.equals(key)) {
-          throw new IllegalArgumentException("duplicate key: " + key);
-        }
+      keySetHashCodeMutable += keyHashCode;
+      int tableIndex = Hashing.smear(keyHashCode) & mask;
+      @Nullable LinkedEntry<K, V> existing = table[tableIndex];
+      // prepend, not append, so the entries can be immutable
+      LinkedEntry<K, V> linkedEntry =
+          new LinkedEntry<K, V>(key, entry.getValue(), existing);
+      table[tableIndex] = linkedEntry;
+      entries[entryIndex] = linkedEntry;
+      while (existing != null) {
+        checkArgument(!key.equals(existing.getKey()), "duplicate key: %s", key);
+        existing = existing.next;
       }
     }
     keySetHashCode = keySetHashCodeMutable;
+  }
+
+  /**
+   * Creates a {@link LinkedEntry} array to hold parameterized entries. The
+   * result must never be upcast back to LinkedEntry[] (or Object[], etc.), or
+   * allowed to escape the class.
+   */
+  @SuppressWarnings("unchecked") // Safe as long as the javadocs are followed
+  private LinkedEntry<K, V>[] createEntryArray(int size) {
+    return new LinkedEntry[size];
+  }
+
+  @Immutable
+  @SuppressWarnings("serial") // this class is never serialized
+  private static final class LinkedEntry<K, V> extends ImmutableEntry<K, V> {
+    @Nullable final LinkedEntry<K, V> next;
+
+    LinkedEntry(K key, V value, @Nullable LinkedEntry<K, V> next) {
+      super(key, value);
+      this.next = next;
+    }
   }
 
   @Override public V get(Object key) {
     if (key == null) {
       return null;
     }
-    for (int i = Hashing.smear(key.hashCode()); true; i++) {
-      int index = (i & mask) * 2;
-      Object candidate = table[index];
-      if (candidate == null) {
-        return null;
-      }
-      if (candidate.equals(key)) {
-        // we're careful to store only V's at odd indices
-        @SuppressWarnings("unchecked")
-        V value = (V) table[index + 1];
-        return value;
+    int index = Hashing.smear(key.hashCode()) & mask;
+    for (LinkedEntry<K, V> entry = table[index];
+        entry != null;
+        entry = entry.next) {
+      K candidateKey = entry.getKey();
+      // assume that equals uses the == optimization when appropriate
+      if (key.equals(candidateKey)) {
+        return entry.getValue();
       }
     }
+    return null;
   }
 
   public int size() {
@@ -177,7 +207,7 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
       this.map = map;
     }
 
-    public int size() {      
+    public int size() {
       return map.entries.length;
     }
 
