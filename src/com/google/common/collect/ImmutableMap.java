@@ -43,8 +43,6 @@ import javax.annotation.Nullable;
  * it has no public or protected constructors. Thus, instances of this class are
  * guaranteed to be immutable.
  *
- * @see ImmutableList
- * @see ImmutableSet
  * @author Jesse Wilson
  * @author Kevin Bourrillion
  * @since 2 (imported from Google Collections Library)
@@ -154,6 +152,8 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
    * <p>Builder instances can be reused - it is safe to call {@link #build}
    * multiple times to build multiple maps in series. Each map is a superset of
    * the maps created before it.
+   *
+   * @since 2 (imported from Google Collections Library)
    */
   public static class Builder<K, V> {
     final List<Entry<K, V>> entries = Lists.newArrayList();

@@ -82,6 +82,8 @@ public interface MapDifference<K, V> {
    * A difference between the mappings from two maps with the same key. The
    * {@code leftValue()} and {@code rightValue} are not equal, and one but not
    * both of them may be null.
+   *
+   * @since 2 (imported from Google Collections Library)
    */
   interface ValueDifference<V> {
     /**

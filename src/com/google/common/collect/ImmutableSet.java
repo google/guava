@@ -489,6 +489,8 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E>
    * <p>Builder instances can be reused - it is safe to call {@link #build}
    * multiple times to build multiple sets in series. Each set
    * is a superset of the set created before it.
+   *
+   * @since 2 (imported from Google Collections Library)
    */
   public static class Builder<E> extends ImmutableCollection.Builder<E> {
     // accessed directly by ImmutableSortedSet

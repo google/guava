@@ -135,6 +135,8 @@ public abstract class ImmutableMultimap<K, V>
    * <p>Builder instances can be reused - it is safe to call {@link #build}
    * multiple times to build multiple multimaps in series. Each multimap
    * contains the key-value mappings in the previously created multimaps.
+   *
+   * @since 2 (imported from Google Collections Library)
    */
   public static class Builder<K, V> {
     private final Multimap<K, V> builderMultimap = new BuilderMultimap<K, V>();

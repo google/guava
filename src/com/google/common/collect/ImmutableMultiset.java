@@ -514,6 +514,8 @@ public class ImmutableMultiset<E> extends ImmutableCollection<E>
    * <p>Builder instances can be reused - it is safe to call {@link #build}
    * multiple times to build multiple multisets in series. Each multiset
    * is a superset of the multiset created before it.
+   *
+   * @since 2 (imported from Google Collections Library)
    */
   public static final class Builder<E> extends ImmutableCollection.Builder<E> {
     private final Multiset<E> contents = LinkedHashMultiset.create();

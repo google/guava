@@ -552,6 +552,8 @@ public abstract class ImmutableSortedSet<E>
    * <p>Builder instances can be reused - it is safe to call {@link #build}
    * multiple times to build multiple sets in series. Each set
    * is a superset of the set created before it.
+   *
+   * @since 2 (imported from Google Collections Library)
    */
   public static final class Builder<E> extends ImmutableSet.Builder<E> {
     private final Comparator<? super E> comparator;

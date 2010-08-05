@@ -26,6 +26,7 @@ import java.lang.reflect.UndeclaredThrowableException;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
@@ -42,7 +43,7 @@ import javax.annotation.Nullable;
  * @since 1
  */
 @Beta
-public class Futures {
+public final class Futures {
   private Futures() {}
 
   /**
@@ -531,7 +532,7 @@ public class Futures {
       implements ListenableFuture<T> {
 
     private static final Executor adapterExecutor =
-        java.util.concurrent.Executors.newCachedThreadPool();
+        Executors.newCachedThreadPool();
 
     // The execution list to hold our listeners.
     private final ExecutionList executionList = new ExecutionList();

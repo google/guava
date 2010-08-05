@@ -502,6 +502,8 @@ public final class Sets {
    * retain a reference of type {@code SetView}; typically, you either use it
    * as a plain {@link Set}, or immediately invoke {@link #immutableCopy} or
    * {@link #copyInto} and forget the {@code SetView} itself.
+   *
+   * @since 2 (imported from Google Collections Library)
    */
   public abstract static class SetView<E> extends AbstractSet<E> {
     private SetView() {} // no subclasses but our own

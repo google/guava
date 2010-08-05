@@ -116,7 +116,6 @@ import javax.annotation.Nullable;
  */
 @Beta
 public final class InetAddresses {
-
   private static final int IPV4_PART_COUNT = 4;
   private static final int IPV6_PART_COUNT = 8;
   private static final Inet4Address LOOPBACK4 =
@@ -546,7 +545,8 @@ public final class InetAddresses {
    *
    * @since 5
    */
-  public static class TeredoInfo {
+  @Beta
+  public static final class TeredoInfo {
     private final Inet4Address server;
     private final Inet4Address client;
     private final int port;
@@ -562,6 +562,7 @@ public final class InetAddresses {
      *         or the {@code flags} arguments are out of range of an
      *         unsigned short
      */
+    // TODO: why is this public?
     public TeredoInfo(@Nullable Inet4Address server,
                       @Nullable Inet4Address client,
                       int port, int flags) {

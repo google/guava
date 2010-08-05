@@ -216,6 +216,8 @@ public interface Multiset<E> extends Collection<E> {
    * that are either live "read-through" views to the Multiset, or immutable
    * snapshots. Note that this type is unrelated to the similarly-named type
    * {@code Map.Entry}.
+   *
+   * @since 2 (imported from Google Collections Library)
    */
   interface Entry<E> {
 

@@ -245,6 +245,8 @@ public class Joiner {
   /**
    * An object that joins map entries in the same manner as {@code Joiner} joins iterables and
    * arrays. Like {@code Joiner}, it is thread-safe and immutable.
+   *
+   * @since 2 (imported from Google Collections Library)
    */
   public static class MapJoiner {
     private final Joiner joiner;

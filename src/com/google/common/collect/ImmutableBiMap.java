@@ -131,6 +131,8 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableMap<K, V>
    * <p>Builder instances can be reused - it is safe to call {@link #build}
    * multiple times to build multiple bimaps in series. Each bimap is a superset
    * of the bimaps created before it.
+   *
+   * @since 2 (imported from Google Collections Library)
    */
   public static final class Builder<K, V> extends ImmutableMap.Builder<K, V> {
 

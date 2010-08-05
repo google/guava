@@ -21,6 +21,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Function;
 import com.google.common.base.Joiner.MapJoiner;
 import com.google.common.base.Objects;
@@ -59,7 +60,7 @@ import javax.annotation.Nullable;
  * @author Isaac Shum
  * @since 2 (imported from Google Collections Library)
  */
-@GwtCompatible
+@GwtCompatible(emulated = true)
 public final class Maps {
   private Maps() {}
 
@@ -490,6 +491,7 @@ public final class Maps {
    * @throws NullPointerException if any key or value in {@code Properties} is
    *         null
    */
+  @GwtIncompatible("java.util.Properties")
   public static ImmutableMap<String, String> fromProperties(
       Properties properties) {
     ImmutableMap.Builder<String, String> builder = ImmutableMap.builder();
@@ -831,7 +833,7 @@ public final class Maps {
    */
   @Beta
   public interface EntryTransformer<K, V1, V2> {
-    V2 transformEntry(K key, V1 value);
+    V2 transformEntry(@Nullable K key, @Nullable V1 value);
   }
 
   private static class TransformedEntriesMap<K, V1, V2>

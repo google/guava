@@ -704,7 +704,7 @@ public final class Iterators {
    */
   public static <T> int indexOf(
       Iterator<T> iterator, Predicate<? super T> predicate) {
-    Preconditions.checkNotNull(predicate, "predicate");
+    checkNotNull(predicate, "predicate");
     int i = 0;
     while (iterator.hasNext()) {
       T current = iterator.next();

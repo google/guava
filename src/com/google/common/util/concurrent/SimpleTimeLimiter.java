@@ -45,7 +45,7 @@ import java.util.concurrent.TimeoutException;
  * @since 1
  */
 @Beta
-public class SimpleTimeLimiter implements TimeLimiter {
+public final class SimpleTimeLimiter implements TimeLimiter {
 
   private final ExecutorService executor;
 
@@ -61,17 +61,15 @@ public class SimpleTimeLimiter implements TimeLimiter {
    *
    * @param executor the ExecutorService that will execute the method calls on
    *     the target objects; for example, a {@link
-   *     java.util.concurrent.Executors#newCachedThreadPool()}.
+   *     Executors#newCachedThreadPool()}.
    */
   public SimpleTimeLimiter(ExecutorService executor) {
-    checkNotNull(executor);
-    this.executor = executor;
+    this.executor = checkNotNull(executor);
   }
 
   /**
    * Constructs a TimeLimiter instance using a {@link
-   * java.util.concurrent.Executors#newCachedThreadPool()} to execute proxied
-   * method calls.
+   * Executors#newCachedThreadPool()} to execute proxied method calls.
    *
    * <p><b>Warning:</b> using a bounded executor may be counterproductive! If
    * the thread pool fills up, any time callers spend waiting for a thread may
@@ -119,7 +117,8 @@ public class SimpleTimeLimiter implements TimeLimiter {
       TimeUnit timeoutUnit, boolean amInterruptible) throws Exception {
     checkNotNull(callable);
     checkNotNull(timeoutUnit);
-    checkArgument(timeoutDuration > 0, "bad timeout: " + timeoutDuration);
+    checkArgument(timeoutDuration > 0, "timeout must be positive: %s",
+        timeoutDuration);
     Future<T> future = executor.submit(callable);
     try {
       if (amInterruptible) {

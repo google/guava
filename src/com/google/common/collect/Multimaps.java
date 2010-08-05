@@ -24,7 +24,6 @@ import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Function;
 import com.google.common.base.Joiner;
 import com.google.common.base.Joiner.MapJoiner;
-import com.google.common.base.Preconditions;
 import com.google.common.base.Supplier;
 
 import java.io.IOException;
@@ -1235,7 +1234,7 @@ public final class Multimaps {
     ImmutableListMultimap.Builder<K, V> builder
         = ImmutableListMultimap.builder();
     for (V value : values) {
-      Preconditions.checkNotNull(value, values);
+      checkNotNull(value, values);
       builder.put(keyFunction.apply(value), value);
     }
     return builder.build();

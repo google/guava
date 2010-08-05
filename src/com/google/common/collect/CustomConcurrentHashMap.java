@@ -310,14 +310,14 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
     STRONG {
       @Override <K, V> ReferenceEntry<K, V> newEntry(
           CustomConcurrentHashMap<K, V> map, K key, int hash,
-          ReferenceEntry<K, V> next) {
+          @Nullable ReferenceEntry<K, V> next) {
         return new StrongEntry<K, V>(map, key, hash, next);
       }
     },
     STRONG_EXPIRABLE {
       @Override <K, V> ReferenceEntry<K, V> newEntry(
           CustomConcurrentHashMap<K, V> map, K key, int hash,
-          ReferenceEntry<K, V> next) {
+          @Nullable ReferenceEntry<K, V> next) {
         return new StrongExpirableEntry<K, V>(map, key, hash, next);
       }
       @Override <K, V> ReferenceEntry<K, V> copyEntry(
@@ -331,7 +331,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
     STRONG_EVICTABLE {
       @Override <K, V> ReferenceEntry<K, V> newEntry(
           CustomConcurrentHashMap<K, V> map, K key, int hash,
-          ReferenceEntry<K, V> next) {
+          @Nullable ReferenceEntry<K, V> next) {
         return new StrongEvictableEntry<K, V>(map, key, hash, next);
       }
       @Override <K, V> ReferenceEntry<K, V> copyEntry(
@@ -345,7 +345,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
     STRONG_EXPIRABLE_EVICTABLE {
       @Override <K, V> ReferenceEntry<K, V> newEntry(
           CustomConcurrentHashMap<K, V> map, K key, int hash,
-          ReferenceEntry<K, V> next) {
+          @Nullable ReferenceEntry<K, V> next) {
         return new StrongExpirableEvictableEntry<K, V>(map, key, hash, next);
       }
       @Override <K, V> ReferenceEntry<K, V> copyEntry(
@@ -361,14 +361,14 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
     SOFT {
       @Override <K, V> ReferenceEntry<K, V> newEntry(
           CustomConcurrentHashMap<K, V> map, K key, int hash,
-          ReferenceEntry<K, V> next) {
+          @Nullable ReferenceEntry<K, V> next) {
         return new SoftEntry<K, V>(map, key, hash, next);
       }
     },
     SOFT_EXPIRABLE {
       @Override <K, V> ReferenceEntry<K, V> newEntry(
           CustomConcurrentHashMap<K, V> map, K key, int hash,
-          ReferenceEntry<K, V> next) {
+          @Nullable ReferenceEntry<K, V> next) {
         return new SoftExpirableEntry<K, V>(map, key, hash, next);
       }
       @Override <K, V> ReferenceEntry<K, V> copyEntry(
@@ -382,7 +382,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
     SOFT_EVICTABLE {
       @Override <K, V> ReferenceEntry<K, V> newEntry(
           CustomConcurrentHashMap<K, V> map, K key, int hash,
-          ReferenceEntry<K, V> next) {
+          @Nullable ReferenceEntry<K, V> next) {
         return new SoftEvictableEntry<K, V>(map, key, hash, next);
       }
       @Override <K, V> ReferenceEntry<K, V> copyEntry(
@@ -396,7 +396,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
     SOFT_EXPIRABLE_EVICTABLE {
       @Override <K, V> ReferenceEntry<K, V> newEntry(
           CustomConcurrentHashMap<K, V> map, K key, int hash,
-          ReferenceEntry<K, V> next) {
+          @Nullable ReferenceEntry<K, V> next) {
         return new SoftExpirableEvictableEntry<K, V>(map, key, hash, next);
       }
       @Override <K, V> ReferenceEntry<K, V> copyEntry(
@@ -412,14 +412,14 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
     WEAK {
       @Override <K, V> ReferenceEntry<K, V> newEntry(
           CustomConcurrentHashMap<K, V> map, K key, int hash,
-          ReferenceEntry<K, V> next) {
+          @Nullable ReferenceEntry<K, V> next) {
         return new WeakEntry<K, V>(map, key, hash, next);
       }
     },
     WEAK_EXPIRABLE {
       @Override <K, V> ReferenceEntry<K, V> newEntry(
           CustomConcurrentHashMap<K, V> map, K key, int hash,
-          ReferenceEntry<K, V> next) {
+          @Nullable ReferenceEntry<K, V> next) {
         return new WeakExpirableEntry<K, V>(map, key, hash, next);
       }
       @Override <K, V> ReferenceEntry<K, V> copyEntry(
@@ -433,7 +433,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
     WEAK_EVICTABLE {
       @Override <K, V> ReferenceEntry<K, V> newEntry(
           CustomConcurrentHashMap<K, V> map, K key, int hash,
-          ReferenceEntry<K, V> next) {
+          @Nullable ReferenceEntry<K, V> next) {
         return new WeakEvictableEntry<K, V>(map, key, hash, next);
       }
       @Override <K, V> ReferenceEntry<K, V> copyEntry(
@@ -447,7 +447,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
     WEAK_EXPIRABLE_EVICTABLE {
       @Override <K, V> ReferenceEntry<K, V> newEntry(
           CustomConcurrentHashMap<K, V> map, K key, int hash,
-          ReferenceEntry<K, V> next) {
+          @Nullable ReferenceEntry<K, V> next) {
         return new WeakExpirableEvictableEntry<K, V>(map, key, hash, next);
       }
       @Override <K, V> ReferenceEntry<K, V> copyEntry(
@@ -493,7 +493,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
      */
     abstract <K, V> ReferenceEntry<K, V> newEntry(
         CustomConcurrentHashMap<K, V> map, K key, int hash,
-        ReferenceEntry<K, V> next);
+        @Nullable ReferenceEntry<K, V> next);
 
     /**
      * Copies an entry, assigning it a new {@code next} entry.
@@ -724,7 +724,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
     final K key;
 
     StrongEntry(CustomConcurrentHashMap<K, V> map, K key, int hash,
-        ReferenceEntry<K, V> next) {
+        @Nullable ReferenceEntry<K, V> next) {
       this.map = map;
       this.key = key;
       this.hash = hash;
@@ -766,7 +766,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
   private static class StrongExpirableEntry<K, V> extends StrongEntry<K, V>
       implements Expirable {
     StrongExpirableEntry(CustomConcurrentHashMap<K, V> map, K key, int hash,
-        ReferenceEntry<K, V> next) {
+        @Nullable ReferenceEntry<K, V> next) {
       super(map, key, hash, next);
     }
 
@@ -802,7 +802,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
   private static class StrongEvictableEntry<K, V> extends StrongEntry<K, V>
       implements Evictable {
     StrongEvictableEntry(CustomConcurrentHashMap<K, V> map, K key, int hash,
-        ReferenceEntry<K, V> next) {
+        @Nullable ReferenceEntry<K, V> next) {
       super(map, key, hash, next);
     }
 
@@ -820,7 +820,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
   private static class StrongExpirableEvictableEntry<K, V>
       extends StrongEntry<K, V> implements Expirable, Evictable {
     StrongExpirableEvictableEntry(CustomConcurrentHashMap<K, V> map, K key,
-        int hash, ReferenceEntry<K, V> next) {
+        int hash, @Nullable ReferenceEntry<K, V> next) {
       super(map, key, hash, next);
     }
 
@@ -869,7 +869,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
   private static class SoftEntry<K, V> extends FinalizableSoftReference<K>
       implements ReferenceEntry<K, V> {
     SoftEntry(CustomConcurrentHashMap<K, V> map, K key, int hash,
-        ReferenceEntry<K, V> next) {
+        @Nullable ReferenceEntry<K, V> next) {
       super(key, QueueHolder.queue);
       this.map = map;
       this.hash = hash;
@@ -918,7 +918,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
   private static class SoftExpirableEntry<K, V> extends SoftEntry<K, V>
       implements Expirable {
     SoftExpirableEntry(CustomConcurrentHashMap<K, V> map, K key, int hash,
-        ReferenceEntry<K, V> next) {
+        @Nullable ReferenceEntry<K, V> next) {
       super(map, key, hash, next);
     }
 
@@ -954,7 +954,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
   private static class SoftEvictableEntry<K, V> extends SoftEntry<K, V>
       implements Evictable {
     SoftEvictableEntry(CustomConcurrentHashMap<K, V> map, K key, int hash,
-        ReferenceEntry<K, V> next) {
+        @Nullable ReferenceEntry<K, V> next) {
       super(map, key, hash, next);
     }
 
@@ -972,7 +972,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
   private static class SoftExpirableEvictableEntry<K, V>
       extends SoftEntry<K, V> implements Expirable, Evictable {
     SoftExpirableEvictableEntry(CustomConcurrentHashMap<K, V> map, K key,
-        int hash, ReferenceEntry<K, V> next) {
+        int hash, @Nullable ReferenceEntry<K, V> next) {
       super(map, key, hash, next);
     }
 
@@ -1021,7 +1021,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
   private static class WeakEntry<K, V> extends FinalizableWeakReference<K>
       implements ReferenceEntry<K, V> {
     WeakEntry(CustomConcurrentHashMap<K, V> map, K key, int hash,
-        ReferenceEntry<K, V> next) {
+        @Nullable ReferenceEntry<K, V> next) {
       super(key, QueueHolder.queue);
       this.map = map;
       this.hash = hash;
@@ -1070,7 +1070,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
   private static class WeakExpirableEntry<K, V> extends WeakEntry<K, V>
       implements Expirable {
     WeakExpirableEntry(CustomConcurrentHashMap<K, V> map, K key, int hash,
-        ReferenceEntry<K, V> next) {
+        @Nullable ReferenceEntry<K, V> next) {
       super(map, key, hash, next);
     }
 
@@ -1106,7 +1106,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
   private static class WeakEvictableEntry<K, V> extends WeakEntry<K, V>
       implements Evictable {
     WeakEvictableEntry(CustomConcurrentHashMap<K, V> map, K key, int hash,
-        ReferenceEntry<K, V> next) {
+        @Nullable ReferenceEntry<K, V> next) {
       super(map, key, hash, next);
     }
 
@@ -1124,7 +1124,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
   private static class WeakExpirableEvictableEntry<K, V>
       extends WeakEntry<K, V> implements Expirable, Evictable {
     WeakExpirableEvictableEntry(CustomConcurrentHashMap<K, V> map, K key,
-        int hash, ReferenceEntry<K, V> next) {
+        int hash, @Nullable ReferenceEntry<K, V> next) {
       super(map, key, hash, next);
     }
 

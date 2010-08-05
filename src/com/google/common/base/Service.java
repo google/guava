@@ -121,9 +121,11 @@ public interface Service {
 
   /**
    * The lifecycle states of a service.
+   *
+   * @since 1
    */
-  public enum State {
-
+  @Beta // should come out of Beta when Service does
+  enum State {
     /**
      * A service in this state is inactive. It does minimal work and consumes
      * minimal resources.

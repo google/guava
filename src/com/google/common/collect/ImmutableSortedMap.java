@@ -320,6 +320,8 @@ public class ImmutableSortedMap<K, V>
    * <p>Builder instances can be reused - it is safe to call {@link #build}
    * multiple times to build multiple maps in series. Each map is a superset of
    * the maps created before it.
+   *
+   * @since 2 (imported from Google Collections Library)
    */
   public static final class Builder<K, V> extends ImmutableMap.Builder<K, V> {
     private final Comparator<? super K> comparator;
