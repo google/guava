@@ -42,8 +42,8 @@ import javax.annotation.Nullable;
 public final class Predicates {
   private Predicates() {}
 
-  // TODO: considering having these implement a VisitablePredicate interface
-  // which specifies an accept(PredicateVisitor) method.
+  // TODO(kevinb): considering having these implement a VisitablePredicate
+  // interface which specifies an accept(PredicateVisitor) method.
 
   /**
    * Returns a predicate that always evaluates to {@code true}.
@@ -445,19 +445,6 @@ public final class Predicates {
     }
 
     @Override public int hashCode() {
-      /*
-       * TODO:  To leave the door open for future enhancement, this
-       * calculation should be coordinated with the hashCode() method of the
-       * corresponding composition method in Functions.  To construct the
-       * composition:
-       *    predicate(function2(function1(x)))
-       *
-       * There are two different ways of composing it:
-       *    compose(predicate, compose(function2, function1))
-       *    compose(compose(predicate, function2), function1)
-       *
-       * It would be nice if these could be equal.
-       */
       return f.hashCode() ^ p.hashCode();
     }
 

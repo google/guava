@@ -48,8 +48,7 @@ import javax.annotation.Nullable;
 abstract class AbstractMapBasedMultiset<E> extends AbstractMultiset<E>
     implements Serializable {
 
-  // TODO: Replace AtomicInteger with a to-be-written IntegerHolder class for
-  // better performance.
+  // TODO(kevinb): test whether a custom IntegerHolder would be faster
   private transient Map<E, AtomicInteger> backingMap;
 
   /*
@@ -347,8 +346,6 @@ abstract class AbstractMapBasedMultiset<E> extends AbstractMultiset<E>
     @Override protected Set<E> delegate() {
       return delegate;
     }
-
-    // TODO: a way to not have to write this much code?
 
     @Override public Iterator<E> iterator() {
       final Iterator<Map.Entry<E, AtomicInteger>> entries

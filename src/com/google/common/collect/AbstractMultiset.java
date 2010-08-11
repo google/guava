@@ -180,10 +180,10 @@ abstract class AbstractMultiset<E> extends AbstractCollection<E>
         ? ((Multiset<?>) elementsToRemove).elementSet() : elementsToRemove;
 
     return elementSet().removeAll(collection);
-    // TODO: implement retainAll similarly?
   }
 
   @Override public boolean retainAll(Collection<?> elementsToRetain) {
+    // TODO(kevinb): implement similarly to removeAll?
     checkNotNull(elementsToRetain);
     Iterator<Entry<E>> entries = entrySet().iterator();
     boolean modified = false;

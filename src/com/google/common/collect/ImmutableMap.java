@@ -186,8 +186,10 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
       return this;
     }
 
-    // TODO: Should build() and the ImmutableBiMap & ImmutableSortedMap versions
-    // throw an IllegalStateException instead?
+    /*
+     * TODO(kevinb): Should build() and the ImmutableBiMap & ImmutableSortedMap
+     * versions throw an IllegalStateException instead?
+     */
 
     /**
      * Returns a newly-created immutable map.

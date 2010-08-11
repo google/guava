@@ -344,9 +344,9 @@ public final class MapConstraints {
      * something to keep in mind if we make the change.
      *
      * Note that UnmodifiableBiMap *does* use racy single-check lazy init.
-     * TODO: pick one and standardize
+     * TODO(cpovirk): pick one and standardize
      */
-    transient volatile BiMap<V, K> inverse;
+    volatile BiMap<V, K> inverse;
 
     ConstrainedBiMap(BiMap<K, V> delegate, @Nullable BiMap<V, K> inverse,
         MapConstraint<? super K, ? super V> constraint) {

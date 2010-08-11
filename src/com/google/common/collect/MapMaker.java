@@ -124,7 +124,7 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    */
   public MapMaker() {}
 
-  // TODO: undo this indirection if keyEquiv gets released
+  // TODO(kevinb): undo this indirection if keyEquiv gets released
   MapMaker privateKeyEquivalence(Equivalence<Object> equivalence) {
     checkState(keyEquivalence == null,
         "key equivalence was already set to " + keyEquivalence);
@@ -138,7 +138,7 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
         getKeyStrength().defaultEquivalence());
   }
 
-  // TODO: undo this indirection if valueEquiv gets released
+  // TODO(kevinb): undo this indirection if valueEquiv gets released
   MapMaker privateValueEquivalence(Equivalence<Object> equivalence) {
     checkState(valueEquivalence == null,
         "value equivalence was already set to " + valueEquivalence);
@@ -188,8 +188,8 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    * @throws IllegalArgumentException if {@code size} is not greater than zero
    * @throws IllegalStateException if a maximum size was already set
    */
-  // TODO: make public after: a) writing unit tests, b) resolving behavior when
-  // maximumSize < concurrencyLevel
+  // TODO(user): make public after: a) writing unit tests, b) resolving behavior
+  // when maximumSize < concurrencyLevel
   MapMaker maximumSize(int size) {
     checkState(this.maximumSize == UNSET_MAXIMUM_SIZE,
         "maximum size was already set to " + this.maximumSize);
@@ -472,7 +472,7 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    * @param computingFunction the function used to compute new values
    * @return a serializable cache having the requested features
    */
-  // TODO: figure out the Cache interface before making this public
+  // TODO(kevinb): figure out the Cache interface before making this public
   <K, V> Cache<K, V> makeCache(
       Function<? super K, ? extends V> computingFunction) {
     return new ComputingConcurrentHashMap<K, V>(this, computingFunction);

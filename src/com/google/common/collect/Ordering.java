@@ -72,7 +72,7 @@ public abstract class Ordering<T> implements Comparator<T> {
    * support legacy types from before Java 5.
    */
   @GwtCompatible(serializable = true)
-  @SuppressWarnings("unchecked") // TODO: the right way to explain this??
+  @SuppressWarnings("unchecked") // TODO(kevinb): the right way to explain this??
   public static <C extends Comparable> Ordering<C> natural() {
     return (Ordering) NaturalOrdering.INSTANCE;
   }
@@ -163,8 +163,7 @@ public abstract class Ordering<T> implements Comparator<T> {
    * outside the set of values it can compare. Extending {@link
    * ClassCastException} may seem odd, but it is required.
    */
-  // TODO: consider making this exception type public. or consider getting rid
-  // of it.
+  // TODO(kevinb): make this public, document it right
   @VisibleForTesting
   static class IncomparableValueException extends ClassCastException {
     final Object value;

@@ -162,7 +162,7 @@ public final class PrimTyps {
     return indexOf(array, target, 0, array.length);
   }
 
-  // TODO: consider making this public
+  // TODO(kevinb): consider making this public
   private static int indexOf(
       primtyp[] array, primtyp target, int start, int end) {
     for (int i = start; i < end; i++) {
@@ -216,7 +216,7 @@ public final class PrimTyps {
     return lastIndexOf(array, target, 0, array.length);
   }
 
-  // TODO: consider making this public
+  // TODO(kevinb): consider making this public
   private static int lastIndexOf(
       primtyp[] array, primtyp target, int start, int end) {
     for (int i = end - 1; i >= start; i--) {

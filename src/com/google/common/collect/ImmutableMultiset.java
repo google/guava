@@ -361,10 +361,6 @@ public class ImmutableMultiset<E> extends ImmutableCollection<E>
     return entrySet().toString();
   }
 
-  // TODO: Serialization of the element set should serialize the multiset, and
-  // deserialization should call multiset.elementSet(). Then
-  // reserialized(multiset).elementSet() == reserialized(multiset.elementSet())
-  // Currently, those object references differ.
   public Set<E> elementSet() {
     return map.keySet();
   }
@@ -414,13 +410,13 @@ public class ImmutableMultiset<E> extends ImmutableCollection<E>
       return false;
     }
 
-    // TODO: Revert once this class is emulated in GWT.
+    // TODO(hhchan): Revert once this class is emulated in GWT.
     @Override public Object[] toArray() {
       Object[] newArray = new Object[size()];
       return toArray(newArray);
     }
 
-    // TODO: Revert once this class is emulated in GWT.
+    // TODO(hhchan): Revert once this class is emulated in GWT.
     @Override public <T> T[] toArray(T[] other) {
       int size = size();
       if (other.length < size) {

@@ -122,12 +122,12 @@ public final class Sets {
   public static <E extends Enum<E>> EnumSet<E> newEnumSet(Iterable<E> iterable,
       Class<E> elementType) {
     /*
-     * TODO: noneOf() and addAll() will both throw NullPointerExceptions when
-     * appropriate. However, NullPointerTester will fail on this method because
-     * it passes in Class.class instead of an enum type. This means that, when
-     * iterable is null but elementType is not, noneOf() will throw a
-     * ClassCastException before addAll() has a chance to throw a
-     * NullPointerException. NullPointerTester considers this a failure.
+     * TODO(cpovirk): noneOf() and addAll() will both throw
+     * NullPointerExceptions when appropriate. However, NullPointerTester will
+     * fail on this method because it passes in Class.class instead of an enum
+     * type. This means that, when iterable is null but elementType is not,
+     * noneOf() will throw a ClassCastException before addAll() has a chance to
+     * throw a NullPointerException. NullPointerTester considers this a failure.
      * Ideally the test would be fixed, but it would require a special case for
      * Class<E> where E extends Enum. Until that happens (if ever), leave
      * checkNotNull() here. For now, contemplate the irony that checking
@@ -556,9 +556,6 @@ public final class Sets {
     checkNotNull(set1, "set1");
     checkNotNull(set2, "set2");
 
-    // TODO: once we have OrderedIterators, check if these are compatible
-    // sorted sets and use that instead if so
-
     final Set<? extends E> set2minus1 = difference(set2, set1);
 
     return new SetView<E>() {
@@ -618,9 +615,6 @@ public final class Sets {
     checkNotNull(set1, "set1");
     checkNotNull(set2, "set2");
 
-    // TODO: once we have OrderedIterators, check if these are compatible
-    // sorted sets and use that instead if so
-
     final Predicate<Object> inSet2 = Predicates.in(set2);
     return new SetView<E>() {
       @Override public Iterator<E> iterator() {
@@ -658,9 +652,6 @@ public final class Sets {
     checkNotNull(set1, "set1");
     checkNotNull(set2, "set2");
 
-    // TODO: once we have OrderedIterators, check if these are compatible
-    // sorted sets and use that instead if so
-
     final Predicate<Object> notInSet2 = Predicates.not(Predicates.in(set2));
     return new SetView<E>() {
       @Override public Iterator<E> iterator() {
@@ -696,7 +687,7 @@ public final class Sets {
     checkNotNull(set1, "set1");
     checkNotNull(set2, "set2");
 
-    // TODO: Replace this with a more efficient implementation
+    // TODO(kevinb): Replace this with a more efficient implementation
     return difference(union(set1, set2), intersection(set1, set2));
   }
 

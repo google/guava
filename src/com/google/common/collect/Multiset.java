@@ -253,7 +253,7 @@ public interface Multiset<E> extends Collection<E> {
      *      ? (b.getElement() == null) : a.getElement().equals(b.getElement()))
      *    && (a.getCount() == b.getCount())</pre>
      */
-    // TODO: check this wrt TreeMultiset?
+    // TODO(kevinb): check this wrt TreeMultiset?
     boolean equals(Object o);
 
     /**
@@ -283,7 +283,7 @@ public interface Multiset<E> extends Collection<E> {
    * {@code true} if the given object is also a multiset and contains equal
    * elements with equal counts, regardless of order.
    */
-  // TODO: caveats about equivalence-relation?
+  // TODO(kevinb): caveats about equivalence-relation?
   boolean equals(@Nullable Object object);
 
   /**

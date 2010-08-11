@@ -305,7 +305,7 @@ public final class Multisets {
           }
         };
       }
-      // TODO: faster contains, remove
+      // TODO(kevinb): faster contains, remove
     }
 
     private static final long serialVersionUID = 0;

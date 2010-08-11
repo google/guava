@@ -132,7 +132,7 @@ public class TreeBasedTable<R, C, V> extends StandardRowSortedTable<R, C, V> {
     this.columnComparator = columnComparator;
   }
 
-  // TODO: Move to StandardRowSortedTable?
+  // TODO(jlevy): Move to StandardRowSortedTable?
 
   /**
    * Returns the comparator that orders the rows. With natural ordering,

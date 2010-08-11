@@ -35,12 +35,6 @@ import javax.annotation.Nullable;
  */
 class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V>
     implements Cache<K, V> {
-
-  /*
-   * TODO: Select a permanent name for this class. The name matters because
-   * we expose it in the serialized state and will be stuck w/ it forever.
-   */
-
   final Function<? super K, ? extends V> computingFunction;
 
   /**
@@ -209,7 +203,7 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V>
     } catch (ComputationException e) {
       // if computingFunction has thrown a computation exception,
       // propagate rather than wrap
-      // TODO: If we remove the entry before setting the value reference,
+      // TODO(user): If we remove the entry before setting the value reference,
       // if the caller retries, they'll get the result of a different
       // rather than the same result.
       setValueReference(entry,
@@ -223,7 +217,7 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V>
     if (value == null) {
       String message =
           computingFunction + " returned null for key " + key + ".";
-      // TODO: If we remove the entry before setting the value reference,
+      // TODO(user): If we remove the entry before setting the value reference,
       // if the caller retries, they'll get the result of a different
       // rather than the same result.
       setValueReference(entry,

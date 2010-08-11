@@ -466,8 +466,6 @@ public final class Maps {
    * @throws NullPointerException if any elements of {@code values} is null, or
    *         if {@code keyFunction} produces {@code null} for any value
    */
-  // TODO: consider returning a bimap, whose inverse view does lookups by
-  // invoking the function.
   public static <K, V> ImmutableMap<K, V> uniqueIndex(
       Iterable<V> values, Function<? super V, K> keyFunction) {
     checkNotNull(keyFunction);

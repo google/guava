@@ -46,7 +46,7 @@ import java.util.concurrent.Future;
  * @author Jesse Wilson
  * @since 1
  */
-@Beta // TODO: make it an abstract class and move to common.util.concurrent
+@Beta // TODO(kevinb): make abstract class? move to common.util.concurrent?
 public interface Service {
   /**
    * If the service state is {@link State#NEW}, this initiates service startup

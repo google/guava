@@ -82,7 +82,7 @@ public final class Equivalences {
       }
 
       public int hash(Object o) {
-        return o.hashCode(); // TODO: why NPE? counter-intuitive.
+        return o.hashCode(); // TODO(kevinb): why NPE? counter-intuitive.
       }
     },
   }

@@ -256,8 +256,8 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
   public static <E> ImmutableList<E> copyOf(Collection<? extends E> elements) {
     if (elements instanceof ImmutableCollection) {
       /*
-       * TODO: When given an ImmutableList that's a sublist, copy the referenced
-       * portion of the array into a new array to save space?
+       * TODO(kevinb): When given an ImmutableList that's a sublist, copy the
+       * referenced portion of the array into a new array to save space?
        */
       @SuppressWarnings("unchecked") // all supported methods are covariant
       ImmutableCollection<E> list = (ImmutableCollection<E>) elements;

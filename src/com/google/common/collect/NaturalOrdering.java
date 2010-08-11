@@ -26,7 +26,7 @@ import java.util.List;
 
 /** An ordering that uses the natural order of the values. */
 @GwtCompatible(serializable = true)
-@SuppressWarnings("unchecked") // TODO: the right way to explain this??
+@SuppressWarnings("unchecked") // TODO(kevinb): the right way to explain this??
 final class NaturalOrdering
     extends Ordering<Comparable> implements Serializable {
   static final NaturalOrdering INSTANCE = new NaturalOrdering();
@@ -42,13 +42,13 @@ final class NaturalOrdering
     return result;
   }
 
-  @SuppressWarnings("unchecked") // TODO: the right way to explain this??
+  @SuppressWarnings("unchecked") // TODO(kevinb): the right way to explain this??
   @Override public <S extends Comparable> Ordering<S> reverse() {
     return (Ordering) ReverseNaturalOrdering.INSTANCE;
   }
 
   // Override to remove a level of indirection from inner loop
-  @SuppressWarnings("unchecked") // TODO: the right way to explain this??
+  @SuppressWarnings("unchecked") // TODO(kevinb): the right way to explain this??
   @Override public int binarySearch(
       List<? extends Comparable> sortedList, Comparable key) {
     return Collections.binarySearch((List) sortedList, key);

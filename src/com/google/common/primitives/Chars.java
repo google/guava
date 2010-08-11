@@ -140,7 +140,7 @@ public final class Chars {
     return indexOf(array, target, 0, array.length);
   }
 
-  // TODO: consider making this public
+  // TODO(kevinb): consider making this public
   private static int indexOf(
       char[] array, char target, int start, int end) {
     for (int i = start; i < end; i++) {
@@ -194,7 +194,7 @@ public final class Chars {
     return lastIndexOf(array, target, 0, array.length);
   }
 
-  // TODO: consider making this public
+  // TODO(kevinb): consider making this public
   private static int lastIndexOf(
       char[] array, char target, int start, int end) {
     for (int i = end - 1; i >= start; i--) {

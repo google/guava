@@ -43,13 +43,13 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
   private final transient int mask;
   private final transient int keySetHashCode;
 
-  // TODO: investigate avoiding the creation of ImmutableEntries since we
+  // TODO(gak): investigate avoiding the creation of ImmutableEntries since we
   // re-copy them anyway.
   RegularImmutableMap(Entry<?, ?>... immutableEntries) {
     int size = immutableEntries.length;
     entries = createEntryArray(size);
 
-    // TODO: try smaller table sizes
+    // TODO(gak): try smaller table sizes
     int tableSize = Hashing.chooseTableSize(size);
     table = createEntryArray(tableSize);
     mask = tableSize - 1;
@@ -134,11 +134,6 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
     }
     return false;
   }
-
-  // TODO: Serialization of the map views should serialize the map, and
-  // deserialization should call entrySet(), keySet(), or values() on the
-  // deserialized map. The views are serializable since the Immutable* classes
-  // are.
 
   private transient ImmutableSet<Entry<K, V>> entrySet;
 

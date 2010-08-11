@@ -266,7 +266,7 @@ public final class UnsignedBytes {
        * Returns true if x1 is less than x2, when both values are treated as
        * unsigned.
        */
-      // TODO: Should be a common utility method in primitives.UnsignedLongs.
+      // TODO(kevinb): Should be a common method in primitives.UnsignedLongs.
       static boolean lessThanUnsigned(long x1, long x2) {
         return (x1 + Long.MIN_VALUE) < (x2 + Long.MIN_VALUE);
       }

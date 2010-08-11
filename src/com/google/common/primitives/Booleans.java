@@ -109,7 +109,7 @@ public final class Booleans {
     return indexOf(array, target, 0, array.length);
   }
 
-  // TODO: consider making this public
+  // TODO(kevinb): consider making this public
   private static int indexOf(
       boolean[] array, boolean target, int start, int end) {
     for (int i = start; i < end; i++) {
@@ -163,7 +163,7 @@ public final class Booleans {
     return lastIndexOf(array, target, 0, array.length);
   }
 
-  // TODO: consider making this public
+  // TODO(kevinb): consider making this public
   private static int lastIndexOf(
       boolean[] array, boolean target, int start, int end) {
     for (int i = end - 1; i >= start; i--) {

@@ -181,10 +181,10 @@ public final class TreeMultiset<E> extends AbstractMapBasedMultiset<E> {
   }
 
   /*
-   * TODO: Decide whether entrySet() should return entries with an equals()
-   * method that calls the comparator to compare the two keys. If that change
-   * is made, AbstractMultiset.equals() can simply check whether two multisets
-   * have equal entry sets.
+   * TODO(jlevy): Decide whether entrySet() should return entries with an
+   * equals() method that calls the comparator to compare the two keys. If that
+   * change is made, AbstractMultiset.equals() can simply check whether two
+   * multisets have equal entry sets.
    */
 }
 

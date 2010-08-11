@@ -28,7 +28,7 @@ import javax.annotation.Nullable;
 
 /**
  * An immutable sorted set with one or more elements.
- * TODO: Consider creating a separate class for a single-element sorted set.
+ * TODO(jlevy): Consider separate class for a single-element sorted set.
  *
  * @author Jared Levy
  */
@@ -92,7 +92,7 @@ final class RegularImmutableSortedSet<E>
   }
 
   @Override public boolean containsAll(Collection<?> targets) {
-    // TODO: For optimal performance, use a binary search when
+    // TODO(jlevy): For optimal performance, use a binary search when
     // targets.size() < size() / log(size())
     if (!hasSameComparator(targets, comparator()) || (targets.size() <= 1)) {
       return super.containsAll(targets);
@@ -152,7 +152,7 @@ final class RegularImmutableSortedSet<E>
     return array;
   }
 
-  // TODO: Move to ObjectArrays (same code in ImmutableList).
+  // TODO(kevinb): Move to ObjectArrays (same code in ImmutableList).
   @Override public <T> T[] toArray(T[] array) {
     int size = size();
     if (array.length < size) {

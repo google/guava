@@ -81,13 +81,13 @@ import java.util.SortedSet;
  * @author Jared Levy
  * @since 2 (imported from Google Collections Library)
  */
-// TODO: benchmark and optimize all creation paths, which are a mess right now
+// TODO(benyu): benchmark and optimize all creation paths, which are a mess now
 @GwtCompatible(serializable = true, emulated = true)
 @SuppressWarnings("serial") // we're overriding default serialization
 public abstract class ImmutableSortedSet<E>
     extends ImmutableSortedSetFauxverideShim<E> implements SortedSet<E> {
 
-  // TODO: Can we find a way to remove this @SuppressWarnings even for eclipse?
+  // TODO(cpovirk): find a way to remove this @SuppressWarnings even for eclipse?
   @SuppressWarnings("unchecked")
   private static final Comparator NATURAL_ORDER = Ordering.natural();
 
@@ -197,8 +197,7 @@ public abstract class ImmutableSortedSet<E>
         (Object[]) all.toArray(new Comparable[0]));
   }
 
-  // TODO: Consider adding factory methods that throw an exception when given
-  // duplicate elements.
+  // TODO(kevinb): Consider factory methods that reject duplicates
 
   /**
    * Returns an immutable sorted set containing the given elements sorted by
@@ -272,7 +271,7 @@ public abstract class ImmutableSortedSet<E>
       }
     }
 
-    // TODO: Move to ObjectArrays?
+    // TODO(kevinb): Move to ObjectArrays?
     if (size == array.length) {
       return array;
     } else {

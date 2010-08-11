@@ -324,7 +324,7 @@ public class ImmutableSetMultimap<K, V>
    * Its iterator traverses the values for the first key, the values for the
    * second key, and so on.
    */
-  // TODO: Fix this so that two copies of the entries are not created.
+  // TODO(kevinb): Fix this so that two copies of the entries are not created.
   @Override public ImmutableSet<Map.Entry<K, V>> entries() {
     ImmutableSet<Map.Entry<K, V>> result = entries;
     return (result == null)

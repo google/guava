@@ -63,7 +63,6 @@ import javax.annotation.Nullable;
  * @author Nick Kralevich
  * @since 2 (imported from Google Collections Library)
  */
-// TODO: benchmark and optimize all creation paths, which are a mess right now
 @GwtCompatible(serializable = true, emulated = true)
 @SuppressWarnings("serial") // we're overriding default serialization
 public abstract class ImmutableSet<E> extends ImmutableCollection<E>
@@ -164,7 +163,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E>
    * @throws NullPointerException if any of {@code elements} is null
    * @since 2 (changed from varargs in release 3)
    */
-  // TODO: when this is removed, remember to remove from ISS and ISSFS too
+  // TODO(kevinb): when this is removed, remember to remove from ISS and ISSFS
   @Deprecated
   public static <E> ImmutableSet<E> of(E[] elements) {
     return copyOf(elements);
@@ -231,13 +230,12 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E>
 
   private static <E> ImmutableSet<E> copyOfInternal(
       Collection<? extends E> collection) {
-    // TODO: Support concurrent collections that change while this method is
-    // running.
+    // TODO(kevinb): Support concurrently-modified collections
     switch (collection.size()) {
       case 0:
         return of();
       case 1:
-        // TODO: Remove "ImmutableSet.<E>" when eclipse bug is fixed.
+        // TODO(kevinb): Remove "ImmutableSet.<E>" when eclipse bug is fixed.
         return ImmutableSet.<E>of(collection.iterator().next());
       default:
         return create(collection, collection.size());

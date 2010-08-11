@@ -261,7 +261,7 @@ public final class Splitter {
    *     should be removed from the beginning/end of a subsequence
    * @return a splitter with the desired configuration
    */
-  // TODO: throw if a trimmer was already specified!
+  // TODO(kevinb): throw if a trimmer was already specified!
   public Splitter trimResults(CharMatcher trimmer) {
     checkNotNull(trimmer);
     return new Splitter(strategy, omitEmptyStrings, trimmer);
@@ -346,10 +346,10 @@ public final class Splitter {
   }
 
   /*
-   * Copied from common.collect.AbstractIterator. TODO: un-fork once these
-   * packages have been combined into a single library.
+   * Copied from common.collect.AbstractIterator. TODO(kevinb): un-fork if these
+   * packages are ever combined into a single library.
    */
-  private static abstract class AbstractIterator<T> implements Iterator<T> {
+  private abstract static class AbstractIterator<T> implements Iterator<T> {
     State state = State.NOT_READY;
 
     enum State {

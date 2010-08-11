@@ -158,8 +158,10 @@ public abstract class ImmutableCollection<E>
     throw new UnsupportedOperationException();
   }
 
-  // TODO: Restructure code so ImmutableList doesn't contain this variable,
-  // which it doesn't use.
+  /*
+   * TODO(kevinb): Restructure code so ImmutableList doesn't contain this
+   * variable, which it doesn't use.
+   */
   private transient ImmutableList<E> asList;
 
   /**

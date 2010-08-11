@@ -59,23 +59,9 @@ public class HashBasedTable<R, C, V> extends StandardTable<R, C, V> {
       this.expectedSize = expectedSize;
     }
     public Map<C, V> get() {
-      return newHashMapWithExpectedSize(expectedSize);
+      return Maps.newHashMapWithExpectedSize(expectedSize);
     }
     private static final long serialVersionUID = 0;
-  }
-
-  /**
-   * Copied from {@link Maps#newHashMapWithExpectedSize}.
-   * TODO: Revert back once {@code Maps} is GWT-compliant.
-   */
-  private static <C, V> Map<C, V> newHashMapWithExpectedSize(int expectedSize) {
-    /*
-     * The HashMap is constructed with an initialCapacity that's greater than
-     * expectedSize. The larger value is necessary because HashMap resizes
-     * its internal array if the map size exceeds loadFactor * initialCapacity.
-     */
-    checkArgument(expectedSize >= 0);
-    return new HashMap<C, V>(Math.max(expectedSize * 2, 16));
   }
 
   /**
@@ -98,7 +84,7 @@ public class HashBasedTable<R, C, V> extends StandardTable<R, C, V> {
   public static <R, C, V> HashBasedTable<R, C, V> create(
       int expectedRows, int expectedCellsPerRow) {
     checkArgument(expectedCellsPerRow >= 0);
-    Map<R, Map<C, V>> backingMap = newHashMapWithExpectedSize(expectedRows);
+    Map<R, Map<C, V>> backingMap = Maps.newHashMapWithExpectedSize(expectedRows);
     return new HashBasedTable<R, C, V>(
         backingMap, new Factory<C, V>(expectedCellsPerRow));
   }

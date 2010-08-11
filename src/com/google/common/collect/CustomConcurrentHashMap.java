@@ -61,12 +61,6 @@ import javax.annotation.concurrent.GuardedBy;
  */
 class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
     implements ConcurrentMap<K, V>, Serializable {
-
-  /*
-   * TODO: Select a permanent name for this class. The name matters because
-   * we expose it in the serialized state and will be stuck w/ it forever.
-   */
-
   /*
    * The basic strategy is to subdivide the table among Segments, each of which
    * itself is a concurrently readable hash table. The map supports
@@ -117,7 +111,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
    * undergo continuous modification which would make it impossible to obtain
    * an accurate result.
    *
-   * TODO: Talk to Doug about the possiblity of defining size() and
+   * TODO(kevinb): Talk to Doug about the possiblity of defining size() and
    * containsValue() in terms of weakly consistent iteration.
    */
   static final int RETRIES_BEFORE_LOCK = 2;
@@ -228,7 +222,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
 
     concurrencyLevel = filterConcurrencyLevel(builder.getConcurrencyLevel());
 
-    // TODO: Handle initialCapacity > maximumSize.
+    // TODO(kevinb): Handle initialCapacity > maximumSize.
     int initialCapacity = builder.getInitialCapacity();
     if (initialCapacity > MAXIMUM_CAPACITY) {
       initialCapacity = MAXIMUM_CAPACITY;
@@ -284,7 +278,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
 
   enum Strength {
     /*
-     * TODO: If we strongly reference the value and aren't computing, we
+     * TODO(kevinb): If we strongly reference the value and aren't computing, we
      * needn't wrap the value. This could save ~8 bytes per entry.
      */
 
@@ -337,9 +331,6 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
    * Creates new entries.
    */
   enum EntryFactory {
-
-    // TODO: Generate all of these combos at build time.
-
     STRONG {
       @Override <K, V> ReferenceEntry<K, V> newEntry(
           CustomConcurrentHashMap<K, V> map, K key, int hash,
@@ -762,8 +753,6 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
    * with "Soft" or "Weak" within the pasted text. The primary difference
    * is that strong entries store the key reference directly while soft
    * and weak entries delegate to their respective superclasses.
-   *
-   * TODO: Generate this code.
    */
 
   /**
@@ -1365,7 +1354,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
   private static int rehash(int h) {
     // Spread bits to regularize both segment and index locations,
     // using variant of single-word Wang/Jenkins hash.
-    // TODO: use Hashing/move this to Hashing?
+    // TODO(kevinb): use Hashing/move this to Hashing?
     h += (h << 15) ^ 0xffffcd7d;
     h ^= (h >>> 10);
     h += (h << 3);
@@ -1393,8 +1382,11 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
   }
 
   int hash(Object key) {
-    // TODO: can we just trust keyEquivalence to throw NPE as it promises?
-    // (That is, if some user's Equivalence doesn't, let them get a broken map?)
+    /*
+     * TODO(kevinb): can we just trust keyEquivalence to throw NPE as it
+     * promises? (That is, if some user's Equivalence doesn't, let them get a
+     * broken map?)
+     */
     int h = keyEquivalence.hash(checkNotNull(key));
     return rehash(h);
   }
@@ -1506,7 +1498,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
    * @return the segment
    */
   Segment segmentFor(int hash) {
-    // TODO: Lazily create segments.
+    // TODO(user): Lazily create segments?
     return segments[(hash >>> segmentShift) & segmentMask];
   }
 
@@ -1521,7 +1513,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
   final class Segment extends ReentrantLock {
 
     /*
-     * TODO: Consider copying variables (like evicts) from outer class into
+     * TODO(user): Consider copying variables (like evicts) from outer class into
      * this class. It will require more memory but will reduce indirection.
      */
 
@@ -2425,7 +2417,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
   }
 
   @Override public boolean containsValue(Object value) {
-    // TODO: document why we choose to throw over returning false?
+    // TODO(kevinb): document why we choose to throw over returning false?
     checkNotNull(value, "value");
 
     // See explanation of modCount use above
@@ -2437,7 +2429,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
     for (int k = 0; k < RETRIES_BEFORE_LOCK; ++k) {
       int mcsum = 0;
       for (int i = 0; i < segments.length; ++i) {
-        // TODO: verify the importance of this crazy trick with Doug
+        // TODO(kevinb): verify the importance of this crazy trick with Doug
         @SuppressWarnings("UnusedDeclaration")
         int c = segments[i].count;
         mcsum += (mc[i] = segments[i].modCount);
@@ -2448,7 +2440,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
       boolean cleanSweep = true;
       if (mcsum != 0) {
         for (int i = 0; i < segments.length; ++i) {
-          // TODO: verify the importance of this crazy trick with Doug
+          // TODO(kevinb): verify the importance of this crazy trick with Doug
           @SuppressWarnings("UnusedDeclaration")
           int c = segments[i].count;
           if (mc[i] != segments[i].modCount) {

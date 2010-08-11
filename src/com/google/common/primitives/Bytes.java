@@ -87,7 +87,7 @@ public final class Bytes {
     return indexOf(array, target, 0, array.length);
   }
 
-  // TODO: consider making this public
+  // TODO(kevinb): consider making this public
   private static int indexOf(
       byte[] array, byte target, int start, int end) {
     for (int i = start; i < end; i++) {
@@ -141,7 +141,7 @@ public final class Bytes {
     return lastIndexOf(array, target, 0, array.length);
   }
 
-  // TODO: consider making this public
+  // TODO(kevinb): consider making this public
   private static int lastIndexOf(
       byte[] array, byte target, int start, int end) {
     for (int i = end - 1; i >= start; i--) {

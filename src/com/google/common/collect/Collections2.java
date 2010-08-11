@@ -56,7 +56,7 @@ public final class Collections2 {
    * @param self a collection which might contain all elements in {@code c}
    * @param c a collection whose elements might be contained by {@code self}
    */
-  // TODO: Make public?
+  // TODO(kevinb): Make public?
   static boolean containsAll(Collection<?> self, Collection<?> c) {
     checkNotNull(self);
     for (Object o : c) {

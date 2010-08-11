@@ -138,7 +138,7 @@ public final class Shorts {
     return indexOf(array, target, 0, array.length);
   }
 
-  // TODO: consider making this public
+  // TODO(kevinb): consider making this public
   private static int indexOf(
       short[] array, short target, int start, int end) {
     for (int i = start; i < end; i++) {
@@ -192,7 +192,7 @@ public final class Shorts {
     return lastIndexOf(array, target, 0, array.length);
   }
 
-  // TODO: consider making this public
+  // TODO(kevinb): consider making this public
   private static int lastIndexOf(
       short[] array, short target, int start, int end) {
     for (int i = end - 1; i >= start; i--) {

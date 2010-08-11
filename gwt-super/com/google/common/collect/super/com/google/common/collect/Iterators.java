@@ -895,7 +895,7 @@ public final class Iterators {
    * or {@link ImmutableList#of}.
    */
   public static <T> UnmodifiableIterator<T> forArray(final T... array) {
-    // TODO: compare performance with Arrays.asList(array).iterator().
+    // TODO(kevinb): compare performance with Arrays.asList(array).iterator().
     checkNotNull(array);  // eager for GWT.
     return new UnmodifiableIterator<T>() {
       final int length = array.length;

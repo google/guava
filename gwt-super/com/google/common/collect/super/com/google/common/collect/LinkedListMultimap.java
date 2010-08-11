@@ -671,7 +671,7 @@ public final class LinkedListMultimap<K, V>
     }
 
     public Set<Entry<K>> entrySet() {
-      // TODO: lazy init?
+      // TODO(jlevy): lazy init?
       return new AbstractSet<Entry<K>>() {
         @Override public int size() {
           return keyCount.elementSet().size();
@@ -809,9 +809,6 @@ public final class LinkedListMultimap<K, V>
   }
 
   private class AsMapEntries extends AbstractSet<Entry<K, Collection<V>>> {
-
-    // TODO: Override contains() and remove() for better performance.
-
     @Override public int size() {
       return keyCount.elementSet().size();
     }
@@ -841,6 +838,8 @@ public final class LinkedListMultimap<K, V>
         }
       };
     }
+
+    // TODO(jlevy): Override contains() and remove() for better performance.
   }
 
   private transient Map<K, Collection<V>> map;

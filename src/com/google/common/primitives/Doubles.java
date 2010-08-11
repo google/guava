@@ -52,7 +52,7 @@ public final class Doubles {
    */
   public static int hashCode(double value) {
     return ((Double) value).hashCode();
-    // TODO: do it this way when we can (GWT problem):
+    // TODO(kevinb): do it this way when we can (GWT problem):
     // long bits = Double.doubleToLongBits(value);
     // return (int)(bits ^ (bits >>> 32));
   }
@@ -105,7 +105,7 @@ public final class Doubles {
     return indexOf(array, target, 0, array.length);
   }
 
-  // TODO: consider making this public
+  // TODO(kevinb): consider making this public
   private static int indexOf(
       double[] array, double target, int start, int end) {
     for (int i = start; i < end; i++) {
@@ -163,7 +163,7 @@ public final class Doubles {
     return lastIndexOf(array, target, 0, array.length);
   }
 
-  // TODO: consider making this public
+  // TODO(kevinb): consider making this public
   private static int lastIndexOf(
       double[] array, double target, int start, int end) {
     for (int i = end - 1; i >= start; i--) {

@@ -91,7 +91,7 @@ public final class Lists {
   @VisibleForTesting static int computeArrayListCapacity(int arraySize) {
     checkArgument(arraySize >= 0);
 
-    // TODO: Figure out the right behavior, and document it
+    // TODO(kevinb): Figure out the right behavior, and document it
     return Ints.saturatedCast(5L + arraySize + (arraySize / 10));
   }
 

@@ -58,11 +58,10 @@ public final class Constraints {
    * Returns a constraint that verifies that the element is not null. If the
    * element is null, a {@link NullPointerException} is thrown.
    */
-  // javac doesn't need this suppressed. eclipse does. and idea thinks it's an
-  // error! TODO: justify safety
+  // safe to narrow the type since checkElement returns its argument directly
   @SuppressWarnings("unchecked")
-  public static final <E> Constraint<E> notNull() {
-    return (Constraint<E>) NotNullConstraint.INSTANCE;
+  public static <E> Constraint<E> notNull() {
+    return (Constraint) NotNullConstraint.INSTANCE;
   }
 
   /**
@@ -274,7 +273,6 @@ public final class Constraints {
    * @param constraint the constraint for elements in the list
    * @return a constrained view of the specified iterator
    */
-  // TODO: Make public?
   private static <E> ListIterator<E> constrainedListIterator(
       ListIterator<E> listIterator, Constraint<? super E> constraint) {
     return new ConstrainedListIterator<E>(listIterator, constraint);
@@ -369,8 +367,10 @@ public final class Constraints {
     }
   }
 
-  // TODO: For better performance, avoid making a copy of the elements by having
-  // addAll() call add() repeatedly instead.
+  /*
+   * TODO(kevinb): For better performance, avoid making a copy of the elements
+   * by having addAll() call add() repeatedly instead.
+   */
 
   private static <E> Collection<E> checkElements(
       Collection<E> elements, Constraint<? super E> constraint) {

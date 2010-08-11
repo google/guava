@@ -105,7 +105,7 @@ public final class Longs {
     return indexOf(array, target, 0, array.length);
   }
 
-  // TODO: consider making this public
+  // TODO(kevinb): consider making this public
   private static int indexOf(
       long[] array, long target, int start, int end) {
     for (int i = start; i < end; i++) {
@@ -159,7 +159,7 @@ public final class Longs {
     return lastIndexOf(array, target, 0, array.length);
   }
 
-  // TODO: consider making this public
+  // TODO(kevinb): consider making this public
   private static int lastIndexOf(
       long[] array, long target, int start, int end) {
     for (int i = end - 1; i >= start; i--) {

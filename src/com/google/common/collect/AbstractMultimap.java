@@ -1167,9 +1167,11 @@ abstract class AbstractMultimap<K, V> implements Multimap<K, V>, Serializable {
 
   private transient Collection<Map.Entry<K, V>> entries;
 
-  // TODO: should we copy this javadoc to each concrete class, so that classes
-  // like LinkedHashMultimap that need to say something different are still
-  // able to {@inheritDoc} all the way from Multimap?
+  /*
+   * TODO(kevinb): should we copy this javadoc to each concrete class, so that
+   * classes like LinkedHashMultimap that need to say something different are
+   * still able to {@inheritDoc} all the way from Multimap?
+   */
 
   /**
    * {@inheritDoc}
@@ -1187,7 +1189,7 @@ abstract class AbstractMultimap<K, V> implements Multimap<K, V>, Serializable {
   }
 
   private Collection<Map.Entry<K, V>> createEntries() {
-    // TODO: can we refactor so we're not doing "this instanceof"?
+    // TODO(kevinb): can we refactor so we're not doing "this instanceof"?
     return (this instanceof SetMultimap) ? new EntrySet() : new Entries();
   }
 

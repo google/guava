@@ -68,8 +68,7 @@ public final class Interners {
     public E intern(final E sample) {
       final int hashCode = sample.hashCode();
 
-      // TODO: once MapMaker supports arbitrary Equivalence, we won't need the
-      // dummy instance anymore
+      // TODO(kevinb): stop using the dummy instance; use custom Equivalence?
       Object fakeReference = new Object() {
         @Override public int hashCode() {
           return hashCode;
@@ -141,8 +140,6 @@ public final class Interners {
         return hashCode;
       }
       @Override public boolean equals(Object object) {
-        // TODO: should we try to do something to make equals() somewhat more
-        // normal?
         if (object == this) {
           return true;
         }

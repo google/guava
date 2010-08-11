@@ -40,9 +40,7 @@ import java.util.List;
  * @author Kevin Bourrillion
  * @since 1
  */
-// TODO: release as "stable" after changing from chars to code points, and
-// deciding whether constants should change to methods
-@Beta
+@Beta // Possibly change from chars to code points; decide constants vs. methods
 @GwtCompatible
 public abstract class CharMatcher implements Predicate<Character> {
   // Constants
@@ -682,7 +680,7 @@ public abstract class CharMatcher implements Predicate<Character> {
         return table.get(c);
       }
 
-      // TODO: make methods like negate() smart
+      // TODO(kevinb): make methods like negate() smart?
 
       @Override public CharMatcher precomputed() {
         return this;
@@ -712,8 +710,8 @@ public abstract class CharMatcher implements Predicate<Character> {
   /**
    * A bit array with one bit per {@code char} value, used by {@link CharMatcher#precomputed}.
    *
-   * <p>TODO: possibly share a common BitArray class with BloomFilter and others... a simpler
-   * java.util.BitSet.
+   * <p>TODO(kevinb): possibly share a common BitArray class with BloomFilter and others... a
+   * simpler java.util.BitSet.
    */
   private static final class LookupTable {
     int[] data = new int[2048];
@@ -762,7 +760,7 @@ public abstract class CharMatcher implements Predicate<Character> {
     return indexIn(sequence) == -1;
   }
 
-  // TODO: perhaps add matchesAnyOf()
+  // TODO(kevinb): add matchesAnyOf()
 
   /**
    * Returns the index of the first matching character in a character sequence, or {@code -1} if no
@@ -1068,8 +1066,7 @@ public abstract class CharMatcher implements Predicate<Character> {
       return sequence.toString();
     }
 
-    // TODO: this implementation can probably be made faster.
-
+    // TODO(kevinb): see if this implementation can be made faster
     StringBuilder builder = new StringBuilder(sequence.length())
         .append(sequence.subSequence(0, first))
         .append(replacement);

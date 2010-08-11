@@ -47,10 +47,11 @@ import java.util.SortedSet;
  */
 @GwtCompatible
 class StandardRowSortedTable<R, C, V> extends StandardTable<R, C, V> {
-  // TODO: Consider adding headTable, tailTable, and subTable methods, which
-  // return a Table view with rows keys in a given range.
-
-  // TODO: Create a RowSortedTable subinterface with the revised methods?
+  /*
+   * TODO(jlevy): Consider adding headTable, tailTable, and subTable methods,
+   * which return a Table view with rows keys in a given range. Create a
+   * RowSortedTable subinterface with the revised methods?
+   */
 
   StandardRowSortedTable(SortedMap<R, Map<C, V>> backingMap,
       Supplier<? extends Map<C, V>> factory) {

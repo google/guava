@@ -541,7 +541,7 @@ public final class ByteStreams {
 
   }
 
-  // TODO: Not all streams support skipping.
+  // TODO(chrisn): Not all streams support skipping.
   /** Returns the length of a supplied input stream, in bytes. */
   public static long length(InputSupplier<? extends InputStream> supplier)
       throws IOException {

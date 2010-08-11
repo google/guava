@@ -51,7 +51,7 @@ public final class Floats {
    * @return a hash code for the value
    */
   public static int hashCode(float value) {
-    // TODO: is there a better way, that's still gwt-safe?
+    // TODO(kevinb): is there a better way, that's still gwt-safe?
     return ((Float) value).hashCode();
   }
 
@@ -102,7 +102,7 @@ public final class Floats {
     return indexOf(array, target, 0, array.length);
   }
 
-  // TODO: consider making this public
+  // TODO(kevinb): consider making this public
   private static int indexOf(
       float[] array, float target, int start, int end) {
     for (int i = start; i < end; i++) {
@@ -160,7 +160,7 @@ public final class Floats {
     return lastIndexOf(array, target, 0, array.length);
   }
 
-  // TODO: consider making this public
+  // TODO(kevinb): consider making this public
   private static int lastIndexOf(
       float[] array, float target, int start, int end) {
     for (int i = end - 1; i >= start; i--) {

@@ -28,9 +28,6 @@ import java.util.NoSuchElementException;
  */
 @GwtCompatible
 abstract class AbstractIndexedIterator<E> extends UnmodifiableIterator<E> {
-
-  // TODO: Make public? If public, constructor should verify that size >= 0.
-
   private final int size;
   private int position;
 
@@ -39,8 +36,6 @@ abstract class AbstractIndexedIterator<E> extends UnmodifiableIterator<E> {
    * {@link #next()}.
    */
   protected abstract E get(int index);
-
-  // TODO: Add constructor taking an offset.
 
   protected AbstractIndexedIterator(int size) {
     this.size = size;

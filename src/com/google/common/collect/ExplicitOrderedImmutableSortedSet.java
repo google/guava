@@ -31,7 +31,7 @@ import java.util.List;
  *
  * @author Jared Levy
  */
-// TODO: Create superclass with code shared by this class and
+// TODO(jlevy): Create superclass with code shared by this class and
 // RegularImmutableSortedSet.
 @SuppressWarnings("serial")
 @GwtCompatible(serializable = true, emulated = true)
@@ -105,7 +105,7 @@ final class ExplicitOrderedImmutableSortedSet<E>
     return array;
   }
 
-  // TODO: Move to ObjectArrays (same code in ImmutableList).
+  // TODO(jlevy): Move to ObjectArrays (same code in ImmutableList).
   @Override public <T> T[] toArray(T[] array) {
     int size = size();
     if (array.length < size) {
@@ -118,7 +118,7 @@ final class ExplicitOrderedImmutableSortedSet<E>
   }
 
   @Override public int hashCode() {
-    // TODO: Cache hash code?
+    // TODO(jlevy): Cache hash code?
     int hash = 0;
     for (int i = fromIndex; i < toIndex; i++) {
       hash += elements[i].hashCode();
@@ -142,7 +142,7 @@ final class ExplicitOrderedImmutableSortedSet<E>
     return createSubset(fromIndex, findSubsetIndex(toElement));
   }
 
-  // TODO: Override subSet to avoid redundant map lookups.
+  // TODO(jlevy): Override subSet to avoid redundant map lookups.
   @Override ImmutableSortedSet<E> subSetImpl(E fromElement, E toElement) {
     return createSubset(
         findSubsetIndex(fromElement), findSubsetIndex(toElement));
@@ -155,7 +155,7 @@ final class ExplicitOrderedImmutableSortedSet<E>
   private int findSubsetIndex(E element) {
     Integer index = rankMap().get(element);
     if (index == null) {
-      // TODO: Make Ordering.IncomparableValueException public and use it here.
+      // TODO(kevinb): Make Ordering.IncomparableValueException public, use it
       throw new ClassCastException();
     }
     if (index <= fromIndex) {
@@ -187,9 +187,11 @@ final class ExplicitOrderedImmutableSortedSet<E>
         ? index - fromIndex : -1;
   }
 
-  // TODO: Modify ImmutableSortedAsList.subList() so it creates a list based on
-  // an ExplicitOrderedImmutableSortedSet when the original list was constructed
-  // from one, for faster contains(), indexOf(), and lastIndexOf().
+  /*
+   * TODO(jlevy): Modify ImmutableSortedAsList.subList() so it creates a list
+   * based on an ExplicitOrderedImmutableSortedSet when the original list was
+   * constructed from one, for faster contains(), indexOf(), and lastIndexOf().
+   */
   @Override ImmutableList<E> createAsList() {
     return new ImmutableSortedAsList<E>(elements, fromIndex, size(), this);
   }

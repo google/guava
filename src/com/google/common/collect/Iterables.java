@@ -411,7 +411,8 @@ public final class Iterables {
      *     }
      *   }
      *
-     * TODO: there may be a better way to do this.
+     * TODO(kevinb): it would probably be better to do this directly instead of
+     * via transform().  The transform() impl isn't all that hard.
      */
 
     Function<Iterable<? extends T>, Iterator<? extends T>> function
@@ -656,19 +657,20 @@ public final class Iterables {
    * @throws NoSuchElementException if the iterable has no elements
    */
   public static <T> T getLast(Iterable<T> iterable) {
+    // TODO(kevinb): Support a concurrently modified collection?
     if (iterable instanceof List) {
       List<T> list = (List<T>) iterable;
-      // TODO: Support a concurrent list whose size changes while this method
-      // is running.
       if (list.isEmpty()) {
         throw new NoSuchElementException();
       }
       return getLastInNonemptyList(list);
     }
 
-    // TODO: consider whether this "optimization" is worthwhile. Users with
-    // SortedSets tend to know they are SortedSets and probably would not
-    // call this method.
+    /*
+     * TODO(kevinb): consider whether this "optimization" is worthwhile. Users
+     * with SortedSets tend to know they are SortedSets and probably would not
+     * call this method.
+     */
     if (iterable instanceof SortedSet) {
       SortedSet<T> sortedSet = (SortedSet<T>) iterable;
       return sortedSet.last();
@@ -698,9 +700,11 @@ public final class Iterables {
       return getLastInNonemptyList(list);
     }
 
-    // TODO: consider whether this "optimization" is worthwhile. Users with
-    // SortedSets tend to know they are SortedSets and probably would not
-    // call this method.
+    /*
+     * TODO(kevinb): consider whether this "optimization" is worthwhile. Users
+     * with SortedSets tend to know they are SortedSets and probably would not
+     * call this method.
+     */
     if (iterable instanceof SortedSet) {
       SortedSet<T> sortedSet = (SortedSet<T>) iterable;
       return sortedSet.last();
@@ -743,8 +747,7 @@ public final class Iterables {
       final List<T> list = (List<T>) iterable;
       return new IterableWithToString<T>() {
         public Iterator<T> iterator() {
-          // TODO: Support a concurrent list whose size changes while this
-          // method is running.
+          // TODO(kevinb): Support a concurrently modified collection?
           return (numberToSkip >= list.size())
               ? Iterators.<T>emptyIterator()
               : list.subList(numberToSkip, list.size()).iterator();

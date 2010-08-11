@@ -98,8 +98,7 @@ public final class ObjectArrays {
    * <p>This method returns the elements in the order they are returned by the
    * collection's iterator.
    *
-   * <p>TODO: Support concurrent collections whose size can change while the
-   * method is running.
+   * <p>TODO(kevinb): support concurrently modified collections?
    *
    * @param c the collection for which to return an array of elements
    * @param array the array in which to place the collection elements
@@ -129,8 +128,7 @@ public final class ObjectArrays {
    * <p>This method assumes that the collection size doesn't change while the
    * method is running.
    *
-   * <p>TODO: Support concurrent collections whose size can change while the
-   * method is running.
+   * <p>TODO(kevinb): support concurrently modified collections?
    *
    * @param c the collection for which to return an array of elements
    */

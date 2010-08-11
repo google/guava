@@ -54,7 +54,7 @@ import javax.annotation.Nullable;
 @GwtCompatible
 @Beta
 public interface Table<R, C, V> {
-  // TODO: Consider adding methods similar to ConcurrentMap methods.
+  // TODO(jlevy): Consider adding methods similar to ConcurrentMap methods.
 
   // Accessors
 

@@ -53,12 +53,13 @@ import javax.annotation.Nullable;
 @GwtCompatible(serializable = true, emulated = true)
 public class ImmutableSortedMap<K, V>
     extends ImmutableSortedMapFauxverideShim<K, V> implements SortedMap<K, V> {
-
-  // TODO: Confirm that ImmutableSortedMap is faster to construct and uses less
-  // memory than TreeMap; then say so in the class Javadoc.
-
-  // TODO: Create separate subclasses for empty, single-entry, and
-  // multiple-entry instances.
+  /*
+   * TODO(kevinb): Confirm that ImmutableSortedMap is faster to construct and
+   * uses less memory than TreeMap; then say so in the class Javadoc.
+   *
+   * TODO(kevinb): Create separate subclasses for empty, single-entry, and
+   * multiple-entry instances, if it's deemed beneficial.
+   */
 
   @SuppressWarnings("unchecked")
   private static final Comparator NATURAL_ORDER = Ordering.natural();
@@ -219,7 +220,7 @@ public class ImmutableSortedMap<K, V>
     }
 
     if (sameComparator && (map instanceof ImmutableSortedMap)) {
-      // TODO: Prove that this cast is safe, even though
+      // TODO(kevinb): Prove that this cast is safe, even though
       // Collections.unmodifiableSortedMap requires the same key type.
       @SuppressWarnings("unchecked")
       ImmutableSortedMap<K, V> kvMap = (ImmutableSortedMap<K, V>) map;
@@ -515,7 +516,7 @@ public class ImmutableSortedMap<K, V>
       return ImmutableSortedSet.emptySet(comparator);
     }
 
-    // TODO: For better performance, don't create a separate array.
+    // TODO(jlevy): For better performance, don't create a separate array.
     Object[] array = new Object[size()];
     for (int i = fromIndex; i < toIndex; i++) {
       array[i - fromIndex] = entries[i].getKey();

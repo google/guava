@@ -334,10 +334,10 @@ class StandardTable<R, C, V> implements Table<R, C, V>, Serializable {
 
   private class Row extends Maps.ImprovedAbstractMap<C, V> {
     /*
-     * TODO: To avoid making repeated calls to backingMap.get(), this class
-     * could store a delegate the way AbstractMultimap.WrappedCollection does.
-     * For that to work, all calls to backingMap.remove() and backing.clear()
-     * must call clear() on each non-empty removed map.
+     * TODO(jlevy): To avoid making repeated calls to backingMap.get(), this
+     * class could store a delegate the way AbstractMultimap.WrappedCollection
+     * does. For that to work, all calls to backingMap.remove() and
+     * backing.clear() must call clear() on each non-empty removed map.
      */
 
     final R rowKey;
@@ -1078,7 +1078,7 @@ class StandardTable<R, C, V> implements Table<R, C, V>, Serializable {
 
   private static final long serialVersionUID = 0;
 
-  // TODO: Move keyIteratorImpl and valueIteratorImpl to Maps
+  // TODO(kevinb): Move keyIteratorImpl and valueIteratorImpl to Maps, reuse
 
   /**
    * Generates the iterator of a map's key set from the map's entry set
