@@ -1848,6 +1848,10 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
     @GuardedBy("Segment.this")
     void setTable(AtomicReferenceArray<ReferenceEntry<K, V>> newTable) {
       this.threshold = newTable.length() * 3 / 4; // 0.75
+      if (this.threshold == maxSegmentSize) {
+        // prevent spurious expansion before eviction
+        this.threshold++;
+      }
       this.table = newTable;
     }
 
@@ -2024,9 +2028,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
         }
 
         int newCount = this.count + 1;
-        if (evicts && newCount > maxSegmentSize) {
-          evictEntry();
-        } else if (newCount > this.threshold) { // ensure capacity
+        if (newCount > this.threshold) { // ensure capacity
           expand();
         }
 
@@ -2056,6 +2058,10 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
             setValue(e, value, absent);
             return entryValue;
           }
+        }
+
+        if (evicts && newCount > maxSegmentSize) {
+          evictEntry();
         }
 
         // Create a new entry.
