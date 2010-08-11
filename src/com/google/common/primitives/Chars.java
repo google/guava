@@ -521,7 +521,6 @@ public final class Chars {
       return oldValue;
     }
 
-    /** In GWT, List and AbstractList do not have the subList method. */
     @Override public List<Character> subList(int fromIndex, int toIndex) {
       int size = size();
       checkPositionIndexes(fromIndex, toIndex, size);

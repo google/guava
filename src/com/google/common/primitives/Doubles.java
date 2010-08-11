@@ -442,7 +442,6 @@ public final class Doubles {
       return oldValue;
     }
 
-    /** In GWT, List and AbstractList do not have the subList method. */
     @Override public List<Double> subList(int fromIndex, int toIndex) {
       int size = size();
       checkPositionIndexes(fromIndex, toIndex, size);

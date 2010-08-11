@@ -439,7 +439,6 @@ public final class Floats {
       return oldValue;
     }
 
-    /** In GWT, List and AbstractList do not have the subList method. */
     @Override public List<Float> subList(int fromIndex, int toIndex) {
       int size = size();
       checkPositionIndexes(fromIndex, toIndex, size);

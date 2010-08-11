@@ -434,7 +434,6 @@ public final class Longs {
       return oldValue;
     }
 
-    /** In GWT, List and AbstractList do not have the subList method. */
     @Override public List<Long> subList(int fromIndex, int toIndex) {
       int size = size();
       checkPositionIndexes(fromIndex, toIndex, size);

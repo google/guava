@@ -321,7 +321,6 @@ public final class Bytes {
       return oldValue;
     }
 
-    /** In GWT, List and AbstractList do not have the subList method. */
     @Override public List<Byte> subList(int fromIndex, int toIndex) {
       int size = size();
       checkPositionIndexes(fromIndex, toIndex, size);
