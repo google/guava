@@ -202,6 +202,8 @@ public final class Predicates {
     return new CompositionPredicate<A, B>(predicate, function);
   }
 
+  // End public API, begin private implementation classes.
+
   // Package private for GWT serialization.
   enum ObjectPredicate implements Predicate<Object> {
     ALWAYS_TRUE {

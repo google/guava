@@ -247,55 +247,7 @@ public final class Predicates {
     return new ContainsPatternPredicate(pattern);
   }
 
-  /**
-   * @see Predicates#contains(Pattern)
-   * @see Predicates#containsPattern(String)
-   */
-  @GwtIncompatible("Only used by other GWT-incompatible code.")
-  private static class ContainsPatternPredicate
-      implements Predicate<CharSequence>, Serializable {
-    final Pattern pattern;
-
-    ContainsPatternPredicate(Pattern pattern) {
-      this.pattern = checkNotNull(pattern);
-    }
-
-    ContainsPatternPredicate(String patternStr) {
-      this(Pattern.compile(patternStr));
-    }
-
-    public boolean apply(CharSequence t) {
-      return pattern.matcher(t).find();
-    }
-
-    @Override public int hashCode() {
-      // Pattern uses Object.hashCode, so we have to reach
-      // inside to build a hashCode consistent with equals.
-
-      return Objects.hashCode(pattern.pattern(), pattern.flags());
-    }
-
-    @Override public boolean equals(@Nullable Object obj) {
-      if (obj instanceof ContainsPatternPredicate) {
-        ContainsPatternPredicate that = (ContainsPatternPredicate) obj;
-
-        // Pattern uses Object (identity) equality, so we have to reach
-        // inside to compare individual fields.
-        return Objects.equal(pattern.pattern(), that.pattern.pattern())
-            && Objects.equal(pattern.flags(), that.pattern.flags());
-      }
-      return false;
-    }
-
-    @Override public String toString() {
-      return Objects.toStringHelper(this)
-          .add("pattern", pattern)
-          .add("pattern.flags", Integer.toHexString(pattern.flags()))
-          .toString();
-    }
-
-    private static final long serialVersionUID = 0;
-  }
+  // End public API, begin private implementation classes.
 
   // Package private for GWT serialization.
   enum ObjectPredicate implements Predicate<Object> {
@@ -556,6 +508,56 @@ public final class Predicates {
 
     @Override public String toString() {
       return p.toString() + "(" + f.toString() + ")";
+    }
+
+    private static final long serialVersionUID = 0;
+  }
+
+  /**
+   * @see Predicates#contains(Pattern)
+   * @see Predicates#containsPattern(String)
+   */
+  @GwtIncompatible("Only used by other GWT-incompatible code.")
+  private static class ContainsPatternPredicate
+      implements Predicate<CharSequence>, Serializable {
+    final Pattern pattern;
+
+    ContainsPatternPredicate(Pattern pattern) {
+      this.pattern = checkNotNull(pattern);
+    }
+
+    ContainsPatternPredicate(String patternStr) {
+      this(Pattern.compile(patternStr));
+    }
+
+    public boolean apply(CharSequence t) {
+      return pattern.matcher(t).find();
+    }
+
+    @Override public int hashCode() {
+      // Pattern uses Object.hashCode, so we have to reach
+      // inside to build a hashCode consistent with equals.
+
+      return Objects.hashCode(pattern.pattern(), pattern.flags());
+    }
+
+    @Override public boolean equals(@Nullable Object obj) {
+      if (obj instanceof ContainsPatternPredicate) {
+        ContainsPatternPredicate that = (ContainsPatternPredicate) obj;
+
+        // Pattern uses Object (identity) equality, so we have to reach
+        // inside to compare individual fields.
+        return Objects.equal(pattern.pattern(), that.pattern.pattern())
+            && Objects.equal(pattern.flags(), that.pattern.flags());
+      }
+      return false;
+    }
+
+    @Override public String toString() {
+      return Objects.toStringHelper(this)
+          .add("pattern", pattern)
+          .add("pattern.flags", Integer.toHexString(pattern.flags()))
+          .toString();
     }
 
     private static final long serialVersionUID = 0;
