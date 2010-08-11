@@ -19,7 +19,7 @@ package java.util.concurrent;
 /**
  * OpenJDK TimeUnit minus the unsupported operations
  *
- * @author fry@google.com (Charles Fry)
+ * @author Charles Fry
  */
 public enum TimeUnit {
   NANOSECONDS {

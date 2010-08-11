@@ -19,7 +19,7 @@ package com.google.common.base;
 import java.util.concurrent.TimeUnit;
 
 /**
- * @author jessewilson@google.com (Jesse Wilson)
+ * @author Jesse Wilson
  */
 class Platform {
 

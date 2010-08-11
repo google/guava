@@ -27,7 +27,7 @@ import java.util.concurrent.TimeUnit;
  * MapMaker emulation. Since Javascript is single-threaded and have no
  * references, this reduces to the creation of expiring and computing maps.
  *
- * @author fry@google.com (Charles Fry)
+ * @author Charles Fry
  */
 public class MapMaker {
 

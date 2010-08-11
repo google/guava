@@ -21,7 +21,7 @@ import java.util.Map;
 /**
  * Minimal GWT emulation of a map providing atomic operations.
  *
- * @author jessewilson@google.com (Jesse Wilson)
+ * @author Jesse Wilson
  */
 public interface ConcurrentMap<K, V> extends Map<K, V> {
 

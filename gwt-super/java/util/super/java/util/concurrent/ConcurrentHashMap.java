@@ -30,7 +30,7 @@ import java.util.Set;
  * single-threaded</a>, it is essentially a {@link java.util.HashMap},
  * implementing the new methods introduced by {@link ConcurrentMap}.
  *
- * @author hhchan@google.com (Hayward Chan)
+ * @author Hayward Chan
  */
 public class ConcurrentHashMap<K, V>
     extends AbstractMap<K, V> implements ConcurrentMap<K, V> {

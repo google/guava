@@ -23,7 +23,7 @@ import com.google.gwt.core.client.GWT;
  *
  * <p><strong>This .java file should never be consumed by javac.</strong>
  *
- * @author hhchan@google.com (Hayward Chan)
+ * @author Hayward Chan
  */
 class Platform {
 
