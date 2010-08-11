@@ -40,13 +40,19 @@ import javax.annotation.Nullable;
  * there is no guarantee that the domain actually exists on the internet.
  * Invalid domain names throw {@link IllegalArgumentException} on construction.
  *
- * <p>It is often the case that domains of interest are those under a
- * {@linkplain #isPublicSuffix() public suffix} but not themselves a public
- * suffix; {@link #hasPublicSuffix()} and {@link #isTopPrivateDomain()} test for
- * this. Similarly, one often needs to obtain the domain consisting of the
- * public suffix plus one subdomain level, typically to obtain the highest-level
- * domain for which cookies may be set. Use {@link #topPrivateDomain()} for this
- * purpose.
+ * <p>One common use of this class is to determine whether a given string is
+ * likely to represent an addressable domain on the web -- that is, for a
+ * candidate string "xxx", might browsing to "http://xxx/" result in a webpage
+ * being displayed? In the past, this test was frequently done by determining
+ * whether the domain ended with a {@linkplain #isPublicSuffix() public suffix}
+ * but was not itself a public suffix. However, this test is no longer accurate;
+ * there are many domains which are both public suffixes and addressable as
+ * hosts. "uk.com" is one example. As a result, the only useful test to
+ * determine if a domain is a plausible web host is {@link #hasPublicSuffix()}.
+ * This will return {@code true} for many domains which (currently) are not
+ * hosts, such as "com"), but given that any public suffix may become
+ * a host without warning, it is better to err on the side of permissiveness
+ * and thus avoid spurious rejection of valid sites.
  *
  * <p>{@linkplain #equals(Object) Equality} of domain names is case-insensitive,
  * so for convenience, the {@link #name()} and {@link #parts()} methods return
@@ -271,7 +277,9 @@ public final class InternetDomainName {
    * Indicates whether this domain name ends in a {@linkplain #isPublicSuffix()
    * public suffix}, including if it is a public suffix itself. For example,
    * returns {@code true} for {@code www.google.com}, {@code foo.co.uk} and
-   * {@code com}, but not for {@code google} or {@code google.foo}.
+   * {@code com}, but not for {@code google} or {@code google.foo}. This is
+   * the recommended method for determining whether a domain is potentially an
+   * addressable host.
    *
    * @since 6
    */
@@ -296,6 +304,16 @@ public final class InternetDomainName {
    * {@code bar.ca.us}, but not for {@code google}, {@code com}, or {@code
    * google.foo}.
    *
+   * <p><b>Warning:</b> a {@code false} result from this method does not imply
+   * that the domain does not represent an addressable host, as many public
+   * suffixes are also addressable hosts. Use {@link #hasPublicSuffix()} for
+   * that test.
+   *
+   * <p>This method can be used to determine whether it will probably be
+   * possible to set cookies on the domain, though even that depends on
+   * individual browsers' implementations of cookie controls. See
+   * <a href="http://www.ietf.org/rfc/rfc2109.txt">RFC 2109</a> for details.
+   *
    * @since 6
    */
   public boolean isUnderPublicSuffix() {
@@ -308,6 +326,18 @@ public final class InternetDomainName {
    * example, returns {@code true} for {@code google.com} and {@code foo.co.uk},
    * but not for {@code www.google.com} or {@code co.uk}.
    *
+   * <p><b>Warning:</b> A {@code true} result from this method does not imply
+   * that the domain is at the highest level which is addressable as a host, as
+   * many public suffixes are also addressable hosts. For example, the domain
+   * {@code bar.uk.com} has a public suffix of {@code uk.com}, so it would
+   * return {@code true} from this method. But {@code uk.com} is itself an
+   * addressable host.
+   *
+   * <p>This method can be used to determine whether a domain is probably the
+   * highest level for which cookies may be set, though even that depends on
+   * individual browsers' implementations of cookie controls. See
+   * <a href="http://www.ietf.org/rfc/rfc2109.txt">RFC 2109</a> for details.
+   *
    * @since 6
    */
   public boolean isTopPrivateDomain() {
@@ -317,12 +347,20 @@ public final class InternetDomainName {
   /**
    * Returns the portion of this domain name that is one level beneath the
    * public suffix. For example, for {@code x.adwords.google.co.uk} it returns
-   * {@code google.co.uk}, since {@code co.uk} is a public suffix. This is the
-   * highest-level parent of this domain for which cookies may be set, as
-   * cookies cannot be set on a public suffix itself.
+   * {@code google.co.uk}, since {@code co.uk} is a public suffix.
    *
    * <p>If {@link #isTopPrivateDomain()} is true, the current domain name
    * instance is returned.
+   *
+   * <p>This method should not be used to determine the topmost parent domain
+   * which is addressable as a host, as many public suffixes are also
+   * addressable hosts. For example, the domain {@code foo.bar.uk.com} has
+   * a public suffix of {@code uk.com}, so it would return {@code bar.uk.com}
+   * from this method. But {@code uk.com} is itself an addressable host.
+   *
+   * <p>This method can be used to determine the probable highest level parent
+   * domain for which cookies may be set, though even that depends on individual
+   * browsers' implementations of cookie controls.
    *
    * @throws IllegalStateException if this domain does not end with a
    *     public suffix
