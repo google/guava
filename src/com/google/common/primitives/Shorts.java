@@ -284,10 +284,10 @@ public final class Shorts {
   }
 
   /**
-   * Returns the {@code short} value whose big-endian representation is stored
-   * in the first 2 bytes of {@code bytes}; equivalent to {@code
+   * Returns the {@code short} value whose big-endian representation is
+   * stored in the first 2 bytes of {@code bytes}; equivalent to {@code
    * ByteBuffer.wrap(bytes).getShort()}. For example, the input byte array
-   * {@code {0x12, 0x34}} would yield the {@code short} value {@code 0x1234}.
+   * {@code {0x54, 0x32}} would yield the {@code short} value {@code 0x5432}.
    *
    * <p>Arguably, it's preferable to use {@link java.nio.ByteBuffer}; that
    * library exposes much more flexibility at little cost in readability.
@@ -299,7 +299,19 @@ public final class Shorts {
   public static short fromByteArray(byte[] bytes) {
     checkArgument(bytes.length >= BYTES,
         "array too small: %s < %s", bytes.length, BYTES);
-    return (short) ((bytes[0] << 8) | (bytes[1] & 0xFF));
+    return fromBytes(bytes[0], bytes[1]);
+  }
+
+  /**
+   * Returns the {@code short} value whose byte representation is the given 2
+   * bytes, in big-endian order; equivalent to {@code Shorts.fromByteArray(new
+   * byte[] {b1, b2})}.
+   *
+   * @since 7
+   */
+  @GwtIncompatible("doesn't work")
+  public static short fromBytes(byte b1, byte b2) {
+    return (short) ((b1 << 8) | (b2 & 0xFF));
   }
 
   /**

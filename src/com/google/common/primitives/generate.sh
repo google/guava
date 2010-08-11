@@ -322,6 +322,18 @@ public final class PrimTyps {
   public static primtyp fromByteArray(byte[] bytes) {
     checkArgument(bytes.length >= BYTES,
         "array too small: %s < %s", bytes.length, BYTES);
+    return fromBytes(bytes[0], bytes[1], bytes[2], bytes[3]);
+  }
+
+  /**
+   * Returns the {@code primtyp} value whose byte representation is the given ?
+   * bytes, in big-endian order; equivalent to {@code
+   * PrimTyps.fromByteArray(new byte[] { ? })}.
+   *
+   * @since 7
+   */
+  @GwtIncompatible("doesn't work")
+  public static primtyp fromBytes(byte b1, byte b2, byte b3, byte b4) {
     return ?
   }
 

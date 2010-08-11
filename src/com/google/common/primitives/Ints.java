@@ -273,8 +273,6 @@ public final class Ints {
    * different types), use a shared {@link java.nio.ByteBuffer} instance, or use
    * {@link com.google.common.io.ByteStreams#newDataOutput()} to get a growable
    * buffer.
-   *
-   * <p><b>Warning:</b> do not use this method in GWT. It returns wrong answers.
    */
   @GwtIncompatible("doesn't work")
   public static byte[] toByteArray(int value) {
@@ -295,18 +293,25 @@ public final class Ints {
    * <p>Arguably, it's preferable to use {@link java.nio.ByteBuffer}; that
    * library exposes much more flexibility at little cost in readability.
    *
-   * <p><b>Warning:</b> do not use this method in GWT. It returns wrong answers.
-   *
    * @throws IllegalArgumentException if {@code bytes} has fewer than 4 elements
    */
   @GwtIncompatible("doesn't work")
   public static int fromByteArray(byte[] bytes) {
     checkArgument(bytes.length >= BYTES,
         "array too small: %s < %s", bytes.length, BYTES);
-    return bytes[0] << 24
-        | (bytes[1] & 0xFF) << 16
-        | (bytes[2] & 0xFF) << 8
-        | (bytes[3] & 0xFF);
+    return fromBytes(bytes[0], bytes[1], bytes[2], bytes[3]);
+  }
+
+  /**
+   * Returns the {@code int} value whose byte representation is the given 4
+   * bytes, in big-endian order; equivalent to {@code Ints.fromByteArray(new
+   * byte[] {b1, b2, b3, b4})}.
+   *
+   * @since 7
+   */
+  @GwtIncompatible("doesn't work")
+  public static int fromBytes(byte b1, byte b2, byte b3, byte b4) {
+    return b1 << 24 | (b2 & 0xFF) << 16 | (b3 & 0xFF) << 8 | (b4 & 0xFF);
   }
 
   /**

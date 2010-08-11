@@ -241,8 +241,6 @@ public final class Longs {
    * different types), use a shared {@link java.nio.ByteBuffer} instance, or use
    * {@link com.google.common.io.ByteStreams#newDataOutput()} to get a growable
    * buffer.
-   *
-   * <p><b>Warning:</b> do not use this method in GWT. It returns wrong answers.
    */
   @GwtIncompatible("doesn't work")
   public static byte[] toByteArray(long value) {
@@ -267,8 +265,6 @@ public final class Longs {
    * <p>Arguably, it's preferable to use {@link java.nio.ByteBuffer}; that
    * library exposes much more flexibility at little cost in readability.
    *
-   * <p><b>Warning:</b> do not use this method in GWT. It returns wrong answers.
-   *
    * @throws IllegalArgumentException if {@code bytes} has fewer than 8
    *     elements
    */
@@ -276,14 +272,28 @@ public final class Longs {
   public static long fromByteArray(byte[] bytes) {
     checkArgument(bytes.length >= BYTES,
         "array too small: %s < %s", bytes.length, BYTES);
-    return (bytes[0] & 0xFFL) << 56
-        | (bytes[1] & 0xFFL) << 48
-        | (bytes[2] & 0xFFL) << 40
-        | (bytes[3] & 0xFFL) << 32
-        | (bytes[4] & 0xFFL) << 24
-        | (bytes[5] & 0xFFL) << 16
-        | (bytes[6] & 0xFFL) << 8
-        | (bytes[7] & 0xFFL);
+    return fromBytes(bytes[0], bytes[1], bytes[2], bytes[3], 
+        bytes[4], bytes[5], bytes[6], bytes[7]) ;
+  }
+
+  /**
+   * Returns the {@code long} value whose byte representation is the given 8
+   * bytes, in big-endian order; equivalent to {@code Longs.fromByteArray(new
+   * byte[] {b1, b2, b3, b4, b5, b6, b7, b8})}.
+   *
+   * @since 7
+   */
+  @GwtIncompatible("doesn't work")
+  public static long fromBytes(byte b1, byte b2, byte b3, byte b4,
+      byte b5, byte b6, byte b7, byte b8) {
+    return (b1 & 0xFFL) << 56
+        | (b2 & 0xFFL) << 48
+        | (b3 & 0xFFL) << 40
+        | (b4 & 0xFFL) << 32
+        | (b5 & 0xFFL) << 24
+        | (b6 & 0xFFL) << 16
+        | (b7 & 0xFFL) << 8
+        | (b8 & 0xFFL);
   }
 
   /**

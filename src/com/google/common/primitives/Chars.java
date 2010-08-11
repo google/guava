@@ -300,7 +300,19 @@ public final class Chars {
   public static char fromByteArray(byte[] bytes) {
     checkArgument(bytes.length >= BYTES,
         "array too small: %s < %s", bytes.length, BYTES);
-    return (char) ((bytes[0] << 8) | (bytes[1] & 0xFF));
+    return fromBytes(bytes[0], bytes[1]);
+  }
+
+  /**
+   * Returns the {@code char} value whose byte representation is the given 2
+   * bytes, in big-endian order; equivalent to {@code Chars.fromByteArray(new
+   * byte[] {b1, b2})}.
+   *
+   * @since 7
+   */
+  @GwtIncompatible("doesn't work")
+  public static char fromBytes(byte b1, byte b2) {
+    return (char) ((b1 << 8) | (b2 & 0xFF));
   }
 
   /**
