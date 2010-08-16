@@ -23,11 +23,13 @@ import com.google.common.annotations.Beta;
 import com.google.common.base.Function;
 
 import java.lang.reflect.UndeclaredThrowableException;
+import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -219,7 +221,12 @@ public final class Futures {
    * Creates a new {@code ListenableFuture} that wraps another
    * {@code ListenableFuture}.  The result of the new future is the result of
    * the provided function called on the result of the provided future.
-   * The resulting future doesn't interrupt when aborted.
+   *
+   * <p>Successful cancellation of either the input future or the result of
+   * function application will cause the returned future to be cancelled.
+   * Cancelling the returned future will succeed if it is currently running.
+   * In this case, attempts will be made to cancel the input future and the
+   * result of the function, however there is no guarantee of success.
    *
    * <p>TODO: Add a version that accepts a normal {@code Future}
    *
@@ -244,7 +251,12 @@ public final class Futures {
    * Creates a new {@code ListenableFuture} that wraps another
    * {@code ListenableFuture}.  The result of the new future is the result of
    * the provided function called on the result of the provided future.
-   * The resulting future doesn't interrupt when aborted.
+   *
+   * <p>Successful cancellation of either the input future or the result of
+   * function application will cause the returned future to be cancelled.
+   * Cancelling the returned future will succeed if it is currently running.
+   * In this case, attempts will be made to cancel the input future and the
+   * result of the function, however there is no guarantee of success.
    *
    * <p>This version allows an arbitrary executor to be passed in for running
    * the chained Function. When using {@link MoreExecutors#sameThreadExecutor},
@@ -271,7 +283,11 @@ public final class Futures {
    * Creates a new {@code ListenableFuture} that wraps another
    * {@code ListenableFuture}.  The result of the new future is the result of
    * the provided function called on the result of the provided future.
-   * The resulting future doesn't interrupt when aborted.
+   *
+   * <p>Successful cancellation of the input future will cause the returned
+   * future to be cancelled.  Cancelling the returned future will succeed if it
+   * is currently running.  In this case, an attempt will be made to cancel the
+   * input future, however there is no guarantee of success.
    *
    * <p>An example use of this method is to convert a serializable object
    * returned from an RPC into a POJO.
@@ -291,7 +307,11 @@ public final class Futures {
    * Creates a new {@code ListenableFuture} that wraps another
    * {@code ListenableFuture}.  The result of the new future is the result of
    * the provided function called on the result of the provided future.
-   * The resulting future doesn't interrupt when aborted.
+   *
+   * <p>Successful cancellation of the input future will cause the returned
+   * future to be cancelled.  Cancelling the returned future will succeed if it
+   * is currently running.  In this case, an attempt will be made to cancel the
+   * input future, however there is no guarantee of success.
    *
    * <p>An example use of this method is to convert a serializable object
    * returned from an RPC into a POJO.
@@ -418,7 +438,6 @@ public final class Futures {
    * {@code Runnable} so that it can be used to nest ListenableFutures.
    * Once the passed-in {@code ListenableFuture} is complete, it calls the
    * passed-in {@code Function} to generate the result.
-   * The resulting future doesn't interrupt when aborted.
    *
    * <p>If the function throws any checked exceptions, they should be wrapped
    * in a {@code UndeclaredThrowableException} so that this class can get
@@ -430,6 +449,9 @@ public final class Futures {
     private Function<? super I, ? extends ListenableFuture<? extends O>>
         function;
     private UninterruptibleFuture<? extends I> inputFuture;
+    private volatile ListenableFuture<? extends O> outputFuture;
+    private final BlockingQueue<Boolean> mayInterruptIfRunningChannel =
+        new LinkedBlockingQueue<Boolean>(1);
 
     private ChainingListenableFuture(
         Function<? super I, ? extends ListenableFuture<? extends O>> function,
@@ -439,11 +461,26 @@ public final class Futures {
     }
 
     public boolean cancel(boolean mayInterruptIfRunning) {
-      Future<? extends I> future = inputFuture;
-      if (future != null) {
-        return future.cancel(mayInterruptIfRunning);
+      if (cancel()) {
+        try {
+          // This should never block since only one thread is allowed to cancel
+          // this Future.
+          mayInterruptIfRunningChannel.put(mayInterruptIfRunning);
+        } catch (InterruptedException ignored) {
+          Thread.currentThread().interrupt();
+        }
+        cancel(inputFuture, mayInterruptIfRunning);
+        cancel(outputFuture, mayInterruptIfRunning);
+        return true;
       }
       return false;
+    }
+
+    private void cancel(@Nullable Future<?> future,
+        boolean mayInterruptIfRunning) {
+      if (future != null) {
+        future.cancel(mayInterruptIfRunning);
+      }
     }
 
     public void run() {
@@ -461,8 +498,22 @@ public final class Futures {
           return;
         }
 
-        final ListenableFuture<? extends O> outputFuture =
+        final ListenableFuture<? extends O> outputFuture = this.outputFuture =
             function.apply(sourceResult);
+        if (isCancelled()) {
+          // Handles the case where cancel was called while the function was
+          // being applied.
+          try {
+            // There is a gap in cancel(boolean) between calling cancel() and
+            // storing the value of mayInterruptIfRunning, so this thread needs
+            // to block, waiting for that value.
+            outputFuture.cancel(mayInterruptIfRunningChannel.take());
+          } catch (InterruptedException ignored) {
+            Thread.currentThread().interrupt();
+          }
+          this.outputFuture = null;
+          return;
+        }
         outputFuture.addListener(new Runnable() {
             public void run() {
               try {
@@ -470,9 +521,16 @@ public final class Futures {
                 // UninterruptibleListenableFuture, but we don't want to start a
                 // combinatorial explosion of interfaces, so we have to make do.
                 set(makeUninterruptible(outputFuture).get());
+              } catch (CancellationException e) {
+                // Cancel this future and return.
+                cancel();
+                return;
               } catch (ExecutionException e) {
                 // Set the cause of the exception as this future's exception
                 setException(e.getCause());
+              } finally {
+                // Don't pin inputs beyond completion
+                ChainingListenableFuture.this.outputFuture = null;
               }
             }
           }, MoreExecutors.sameThreadExecutor());
