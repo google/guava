@@ -42,7 +42,7 @@ import javax.annotation.Nullable;
  * @author Jared Levy
  * @since 2 (imported from Google Collections Library)
  */
-@GwtCompatible(serializable = true)
+@GwtCompatible(serializable = true, emulated = true)
 public class ImmutableMultiset<E> extends ImmutableCollection<E>
     implements Multiset<E> {
 
