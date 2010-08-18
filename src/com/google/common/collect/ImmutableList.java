@@ -85,7 +85,7 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
    * @throws NullPointerException if any element is null
    */
   public static <E> ImmutableList<E> of(E e1, E e2) {
-    return new RegularImmutableList<E>(copyIntoArray(e1, e2));
+    return construct(e1, e2);
   }
 
   /**
@@ -94,7 +94,7 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
    * @throws NullPointerException if any element is null
    */
   public static <E> ImmutableList<E> of(E e1, E e2, E e3) {
-    return new RegularImmutableList<E>(copyIntoArray(e1, e2, e3));
+    return construct(e1, e2, e3);
   }
 
   /**
@@ -103,7 +103,7 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
    * @throws NullPointerException if any element is null
    */
   public static <E> ImmutableList<E> of(E e1, E e2, E e3, E e4) {
-    return new RegularImmutableList<E>(copyIntoArray(e1, e2, e3, e4));
+    return construct(e1, e2, e3, e4);
   }
 
   /**
@@ -112,7 +112,7 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
    * @throws NullPointerException if any element is null
    */
   public static <E> ImmutableList<E> of(E e1, E e2, E e3, E e4, E e5) {
-    return new RegularImmutableList<E>(copyIntoArray(e1, e2, e3, e4, e5));
+    return construct(e1, e2, e3, e4, e5);
   }
 
   /**
@@ -121,7 +121,7 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
    * @throws NullPointerException if any element is null
    */
   public static <E> ImmutableList<E> of(E e1, E e2, E e3, E e4, E e5, E e6) {
-    return new RegularImmutableList<E>(copyIntoArray(e1, e2, e3, e4, e5, e6));
+    return construct(e1, e2, e3, e4, e5, e6);
   }
 
   /**
@@ -131,8 +131,7 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
    */
   public static <E> ImmutableList<E> of(
       E e1, E e2, E e3, E e4, E e5, E e6, E e7) {
-    return new RegularImmutableList<E>(
-        copyIntoArray(e1, e2, e3, e4, e5, e6, e7));
+    return construct(e1, e2, e3, e4, e5, e6, e7);
   }
 
   /**
@@ -142,8 +141,7 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
    */
   public static <E> ImmutableList<E> of(
       E e1, E e2, E e3, E e4, E e5, E e6, E e7, E e8) {
-    return new RegularImmutableList<E>(
-        copyIntoArray(e1, e2, e3, e4, e5, e6, e7, e8));
+    return construct(e1, e2, e3, e4, e5, e6, e7, e8);
   }
 
   /**
@@ -153,8 +151,7 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
    */
   public static <E> ImmutableList<E> of(
       E e1, E e2, E e3, E e4, E e5, E e6, E e7, E e8, E e9) {
-    return new RegularImmutableList<E>(
-        copyIntoArray(e1, e2, e3, e4, e5, e6, e7, e8, e9));
+    return construct(e1, e2, e3, e4, e5, e6, e7, e8, e9);
   }
 
   /**
@@ -164,8 +161,7 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
    */
   public static <E> ImmutableList<E> of(
       E e1, E e2, E e3, E e4, E e5, E e6, E e7, E e8, E e9, E e10) {
-    return new RegularImmutableList<E>(
-        copyIntoArray(e1, e2, e3, e4, e5, e6, e7, e8, e9, e10));
+    return construct(e1, e2, e3, e4, e5, e6, e7, e8, e9, e10);
   }
 
   /**
@@ -175,8 +171,7 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
    */
   public static <E> ImmutableList<E> of(
       E e1, E e2, E e3, E e4, E e5, E e6, E e7, E e8, E e9, E e10, E e11) {
-    return new RegularImmutableList<E>(
-        copyIntoArray(e1, e2, e3, e4, e5, e6, e7, e8, e9, e10, e11));
+    return construct(e1, e2, e3, e4, e5, e6, e7, e8, e9, e10, e11);
   }
 
   // These go up to eleven. After that, you just get the varargs form, and
@@ -191,11 +186,21 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
   public static <E> ImmutableList<E> of(
       E e1, E e2, E e3, E e4, E e5, E e6, E e7, E e8, E e9, E e10, E e11, E e12,
       E... others) {
-    final int paramCount = 12;
-    Object[] array = new Object[paramCount + others.length];
-    copyIntoArray(array, 0, e1, e2, e3, e4, e5, e6, e7, e8, e9, e10, e11, e12);
-    copyIntoArray(array, paramCount, others);
-    return new RegularImmutableList<E>(array);
+    Object[] array = new Object[12 + others.length];
+    array[0] = e1;
+    array[1] = e2;
+    array[2] = e3;
+    array[3] = e4;
+    array[4] = e5;
+    array[5] = e6;
+    array[6] = e7;
+    array[7] = e8;
+    array[8] = e9;
+    array[9] = e10;
+    array[10] = e11;
+    array[11] = e12;
+    System.arraycopy(others, 0, array, 12, others.length);
+    return construct(array);
   }
 
   /**
@@ -207,14 +212,7 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
    */
   @Deprecated
   public static <E> ImmutableList<E> of(E[] elements) {
-    switch (elements.length) {
-      case 0:
-        return ImmutableList.of();
-      case 1:
-        return new SingletonImmutableList<E>(elements[0]);
-      default:
-        return new RegularImmutableList<E>(copyIntoArray(elements));
-    }
+    return copyOf(elements);
   }
 
   /**
@@ -288,7 +286,7 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
       case 1:
         return new SingletonImmutableList<E>(elements[0]);
       default:
-        return new RegularImmutableList<E>(copyIntoArray(elements));
+        return construct(elements.clone());
     }
   }
 
@@ -303,8 +301,27 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
         ImmutableList<E> list = new SingletonImmutableList<E>((E) elements[0]);
         return list;
       default:
-        return new RegularImmutableList<E>(copyIntoArray(elements));
+        // safe to use the array without copying it
+        // as specified by Collection.toArray().
+        return construct(elements);
     }
+  }
+  
+  /** {@code elements} has to be internally created array. */
+  private static <E> ImmutableList<E> construct(Object... elements) {
+    for (int i = 0; i < elements.length; i++) {
+      checkElementNotNull(elements[i], i);
+    }
+    return new RegularImmutableList<E>(elements);
+  }
+
+  // We do this instead of Preconditions.checkNotNull to save boxing and array
+  // creation cost.
+  private static Object checkElementNotNull(Object element, int index) {
+    if (element == null) {
+      throw new NullPointerException("at index " + index);
+    }
+    return element;
   }
 
   ImmutableList() {}
@@ -363,22 +380,6 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
    */
   public final E remove(int index) {
     throw new UnsupportedOperationException();
-  }
-
-  private static Object[] copyIntoArray(Object... source) {
-    return copyIntoArray(new Object[source.length], 0, source);
-  }
-
-  private static Object[] copyIntoArray(Object[] dest, int pos,
-      Object... source) {
-    int index = pos;
-    for (Object element : source) {
-      if (element == null) {
-        throw new NullPointerException("at index " + index);
-      }
-      dest[index++] = element;
-    }
-    return dest;
   }
 
   /**
