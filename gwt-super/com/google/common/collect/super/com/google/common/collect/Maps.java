@@ -805,7 +805,7 @@ public final class Maps {
     V2 transformEntry(@Nullable K key, @Nullable V1 value);
   }
 
-  private static class TransformedEntriesMap<K, V1, V2>
+  static class TransformedEntriesMap<K, V1, V2>
       extends AbstractMap<K, V2> {
     final Map<K, V1> fromMap;
     final EntryTransformer<? super K, ? super V1, V2> transformer;
