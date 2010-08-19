@@ -22,12 +22,10 @@ import com.google.common.annotations.GwtCompatible;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Set;
 
 import javax.annotation.Nullable;
@@ -95,9 +93,8 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E>
    *
    * @throws NullPointerException if any element is null
    */
-  @SuppressWarnings("unchecked")
   public static <E> ImmutableSet<E> of(E e1, E e2) {
-    return create(e1, e2);
+    return construct(e1, e2);
   }
 
   /**
@@ -107,9 +104,8 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E>
    *
    * @throws NullPointerException if any element is null
    */
-  @SuppressWarnings("unchecked")
   public static <E> ImmutableSet<E> of(E e1, E e2, E e3) {
-    return create(e1, e2, e3);
+    return construct(e1, e2, e3);
   }
 
   /**
@@ -119,9 +115,8 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E>
    *
    * @throws NullPointerException if any element is null
    */
-  @SuppressWarnings("unchecked")
   public static <E> ImmutableSet<E> of(E e1, E e2, E e3, E e4) {
-    return create(e1, e2, e3, e4);
+    return construct(e1, e2, e3, e4);
   }
 
   /**
@@ -131,9 +126,8 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E>
    *
    * @throws NullPointerException if any element is null
    */
-  @SuppressWarnings("unchecked")
   public static <E> ImmutableSet<E> of(E e1, E e2, E e3, E e4, E e5) {
-    return create(e1, e2, e3, e4, e5);
+    return construct(e1, e2, e3, e4, e5);
   }
 
   /**
@@ -144,14 +138,71 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E>
    * @throws NullPointerException if any element is null
    * @since 3 (source-compatible since release 2)
    */
-  @SuppressWarnings("unchecked")
   public static <E> ImmutableSet<E> of(E e1, E e2, E e3, E e4, E e5, E e6,
       E... others) {
-    int size = others.length + 6;
-    List<E> all = new ArrayList<E>(size);
-    Collections.addAll(all, e1, e2, e3, e4, e5, e6);
-    Collections.addAll(all, others);
-    return create(all, size);
+    final int paramCount = 6;
+    Object[] elements = new Object[paramCount + others.length];
+    elements[0] = e1;
+    elements[1] = e2;
+    elements[2] = e3;
+    elements[3] = e4;
+    elements[4] = e5;
+    elements[5] = e6;
+    for (int i = paramCount; i < elements.length; i++) {
+      elements[i] = others[i - paramCount];
+    }
+    return construct(elements);
+  }
+  
+  /** {@code elements} has to be internally created array. */
+  private static <E> ImmutableSet<E> construct(Object... elements) {
+    int tableSize = Hashing.chooseTableSize(elements.length);
+    Object[] table = new Object[tableSize];
+    int mask = tableSize - 1;
+    ArrayList<Object> uniqueElementsList = null;
+    int hashCode = 0;
+    for (int i = 0; i < elements.length; i++) {
+      Object element = elements[i];
+      int hash = element.hashCode();
+      for (int j = Hashing.smear(hash); ; j++) {
+        int index = j & mask;
+        Object value = table[index];
+        if (value == null) {
+          if (uniqueElementsList != null) {
+            uniqueElementsList.add(element);
+          }
+          // Came to an empty slot. Put the element here.
+          table[index] = element;
+          hashCode += hash;
+          break;
+        } else if (value.equals(element)) {
+          if (uniqueElementsList == null) {
+            // first dup
+            uniqueElementsList = new ArrayList<Object>(elements.length);
+            for (int k = 0; k < i; k++) {
+              Object previous = elements[k];
+              uniqueElementsList.add(previous);
+            }
+          }
+          break;
+        }
+      }
+    }
+    Object[] uniqueElements = uniqueElementsList == null
+        ? elements
+        : uniqueElementsList.toArray();
+    if (uniqueElements.length == 1) {
+      // There is only one element or elements are all duplicates
+      @SuppressWarnings("unchecked") // we are careful to only pass in E
+      E element = (E) uniqueElements[0];
+      return new SingletonImmutableSet<E>(element, hashCode);
+    } else if (tableSize > 2 * Hashing.chooseTableSize(uniqueElements.length)) {
+      // Resize the table when the array includes too many duplicates.
+      // when this happens, we have already made a copy
+      return construct(uniqueElements);
+    } else {
+      return new RegularImmutableSet<E>(uniqueElements, hashCode, table, mask);
+    }
   }
 
   /**
@@ -178,14 +229,16 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E>
   * @since 3
   */
   public static <E> ImmutableSet<E> copyOf(E[] elements) {
+    // TODO(benyu): could we delegate to
+    // copyFromCollection(Arrays.asList(elements))?
     switch (elements.length) {
       case 0:
         return of();
       case 1:
         return of(elements[0]);
       default:
-        return create(elements);
-    }    
+        return construct(elements.clone());
+    }
   }
   
   /**
@@ -207,13 +260,11 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E>
    * @throws NullPointerException if any of {@code elements} is null
    */
   public static <E> ImmutableSet<E> copyOf(Iterable<? extends E> elements) {
-    if (elements instanceof ImmutableSet
-        && !(elements instanceof ImmutableSortedSet)) {
-      @SuppressWarnings("unchecked") // all supported methods are covariant
-      ImmutableSet<E> set = (ImmutableSet<E>) elements;
-      return set;
+    if (elements instanceof Collection) {
+      Collection<? extends E> collection = (Collection<? extends E>) elements;
+      return copyOf(collection);
     }
-    return copyOfInternal(Collections2.toCollection(elements));
+    return copyOf(elements.iterator());
   }
 
   /**
@@ -224,21 +275,59 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E>
    * @throws NullPointerException if any of {@code elements} is null
    */
   public static <E> ImmutableSet<E> copyOf(Iterator<? extends E> elements) {
-    Collection<E> list = Lists.newArrayList(elements);
-    return copyOfInternal(list);
+    // TODO(benyu): here we could avoid toArray() for 0 or 1-element list,
+    // worth it?
+    return copyFromCollection(Lists.newArrayList(elements));
+  }
+  
+  /**
+   * Returns an immutable set containing the given elements, in order. Repeated
+   * occurrences of an element (according to {@link Object#equals}) after the
+   * first are ignored. This method iterates over {@code elements} at most
+   * once.
+   *
+   * <p>Note that if {@code s} is a {@code Set<String>}, then {@code
+   * ImmutableSet.copyOf(s)} returns an {@code ImmutableSet<String>} containing
+   * each of the strings in {@code s}, while {@code ImmutableSet.of(s)} returns
+   * a {@code ImmutableSet<Set<String>>} containing one element (the given set
+   * itself).
+   *
+   * <p><b>Note:</b> Despite what the method name suggests, if {@code elements}
+   * is an {@code ImmutableSet} (but not an {@code ImmutableSortedSet}), no copy
+   * will actually be performed, and the given set itself will be returned.
+   *
+   * <p>This method is safe to use even when {@code elements} is a synchronized
+   * or concurrent collection that is currently being modified by another
+   * thread.
+   *
+   * @throws NullPointerException if any of {@code elements} is null
+   */
+  // TODO(benyu): Consider changing this to public when we have the same
+  // overload in ImmutableSortedSet
+  private static <E> ImmutableSet<E> copyOf(Collection<? extends E> elements) {
+    if (elements instanceof ImmutableSet
+        && !(elements instanceof ImmutableSortedSet)) {
+      @SuppressWarnings("unchecked") // all supported methods are covariant
+      ImmutableSet<E> set = (ImmutableSet<E>) elements;
+      return set;
+    }
+    return copyFromCollection(elements);
   }
 
-  private static <E> ImmutableSet<E> copyOfInternal(
+  private static <E> ImmutableSet<E> copyFromCollection(
       Collection<? extends E> collection) {
-    // TODO(kevinb): Support concurrently-modified collections
-    switch (collection.size()) {
+    Object[] elements = collection.toArray();
+    switch (elements.length) {
       case 0:
         return of();
       case 1:
-        // TODO(kevinb): Remove "ImmutableSet.<E>" when eclipse bug is fixed.
-        return ImmutableSet.<E>of(collection.iterator().next());
+        @SuppressWarnings("unchecked") // collection had only Es in it
+        E onlyElement = (E) elements[0];
+        return of(onlyElement);
       default:
-        return create(collection, collection.size());
+        // safe to use the array without copying it
+        // as specified by Collection.toArray().
+        return construct(elements);
     }
   }
 
@@ -273,49 +362,6 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E>
   // This declaration is needed to make Set.iterator() and
   // ImmutableCollection.iterator() consistent.
   @Override public abstract UnmodifiableIterator<E> iterator();
-
-  private static <E> ImmutableSet<E> create(E... elements) {
-    return create(Arrays.asList(elements), elements.length);
-  }
-
-  private static <E> ImmutableSet<E> create(
-      Iterable<? extends E> iterable, int count) {
-    // count is always the (nonzero) number of elements in the iterable
-    int tableSize = Hashing.chooseTableSize(count);
-    Object[] table = new Object[tableSize];
-    int mask = tableSize - 1;
-
-    List<E> elements = new ArrayList<E>(count);
-    int hashCode = 0;
-
-    for (E element : iterable) {
-      int hash = element.hashCode();
-      for (int i = Hashing.smear(hash); true; i++) {
-        int index = i & mask;
-        Object value = table[index];
-        if (value == null) {
-          // Came to an empty bucket. Put the element here.
-          table[index] = element;
-          elements.add(element);
-          hashCode += hash;
-          break;
-        } else if (value.equals(element)) {
-          break; // Found a duplicate. Nothing to do.
-        }
-      }
-    }
-
-    if (elements.size() == 1) {
-      // The iterable contained only duplicates of the same element.
-      return new SingletonImmutableSet<E>(elements.get(0), hashCode);
-    } else if (tableSize > Hashing.chooseTableSize(elements.size())) {
-      // Resize the table when the iterable includes too many duplicates.
-      return create(elements, elements.size());
-    } else {
-      return new RegularImmutableSet<E>(
-          elements.toArray(), hashCode, table, mask);
-    }
-  }
 
   abstract static class ArrayImmutableSet<E> extends ImmutableSet<E> {
     // the elements (two or more) in the desired order.
