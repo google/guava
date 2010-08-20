@@ -190,8 +190,10 @@
         </and>
       </fileset>
     </copy>
+    <!-- Exclude the CustomFieldSerializers because they are not part of
+         the API.  They are public only for GWT. -->
     <copy toDir="build/gwt-javadoc-src">
-      <fileset dir="gwt-src"/>
+      <fileset dir="gwt-src" excludes="**/*_CustomFieldSerializer.java"/>
     </copy>
     <copy toDir="build/gwt-javadoc-src">
       <fileset dir="gwt-super/com/google/common/base/super"/>
