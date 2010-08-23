@@ -43,5 +43,10 @@ class ImmutableEntry<K, V> extends AbstractMapEntry<K, V>
   @Override public V getValue() {
     return value;
   }
+  
+  @Override public final V setValue(V value){
+    throw new UnsupportedOperationException();
+  }
+  
   private static final long serialVersionUID = 0;
 }
