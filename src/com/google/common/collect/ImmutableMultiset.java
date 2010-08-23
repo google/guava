@@ -189,9 +189,8 @@ public class ImmutableMultiset<E> extends ImmutableCollection<E>
       return result;
     }
 
-    @SuppressWarnings("unchecked") // the cast causes a warning
     Multiset<? extends E> multiset = (elements instanceof Multiset)
-        ? (Multiset<? extends E>) elements
+        ? Multisets.cast(elements)
         : LinkedHashMultiset.create(elements);
 
     return copyOfInternal(multiset);
@@ -591,8 +590,7 @@ public class ImmutableMultiset<E> extends ImmutableCollection<E>
      */
     @Override public Builder<E> addAll(Iterable<? extends E> elements) {
       if (elements instanceof Multiset) {
-        @SuppressWarnings("unchecked")
-        Multiset<? extends E> multiset = (Multiset<? extends E>) elements;
+        Multiset<? extends E> multiset = Multisets.cast(elements);
         for (Entry<? extends E> entry : multiset.entrySet()) {
           addCopies(entry.getElement(), entry.getCount());
         }

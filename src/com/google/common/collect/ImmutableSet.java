@@ -260,11 +260,9 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E>
    * @throws NullPointerException if any of {@code elements} is null
    */
   public static <E> ImmutableSet<E> copyOf(Iterable<? extends E> elements) {
-    if (elements instanceof Collection) {
-      Collection<? extends E> collection = (Collection<? extends E>) elements;
-      return copyOf(collection);
-    }
-    return copyOf(elements.iterator());
+    return (elements instanceof Collection)
+        ? copyOf(Collections2.cast(elements))
+        : copyOf(elements.iterator());
   }
 
   /**

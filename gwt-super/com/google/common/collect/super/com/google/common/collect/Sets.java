@@ -199,13 +199,9 @@ public final class Sets {
    * @return a new {@code HashSet} containing those elements (minus duplicates)
    */
   public static <E> HashSet<E> newHashSet(Iterable<? extends E> elements) {
-    if (elements instanceof Collection) {
-      @SuppressWarnings("unchecked")
-      Collection<? extends E> collection = (Collection<? extends E>) elements;
-      return new HashSet<E>(collection);
-    } else {
-      return newHashSet(elements.iterator());
-    }
+    return (elements instanceof Collection)
+        ? new HashSet<E>(Collections2.cast(elements))
+        : newHashSet(elements.iterator());
   }
 
   /**
@@ -257,9 +253,7 @@ public final class Sets {
   public static <E> LinkedHashSet<E> newLinkedHashSet(
       Iterable<? extends E> elements) {
     if (elements instanceof Collection) {
-      @SuppressWarnings("unchecked")
-      Collection<? extends E> collection = (Collection<? extends E>) elements;
-      return new LinkedHashSet<E>(collection);
+      return new LinkedHashSet<E>(Collections2.cast(elements));
     }
     LinkedHashSet<E> set = newLinkedHashSet();
     for (E element : elements) {

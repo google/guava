@@ -237,8 +237,7 @@ abstract class AbstractMultimap<K, V> implements Multimap<K, V>, Serializable {
 
     boolean changed = false;
     if (values instanceof Collection) {
-      @SuppressWarnings("unchecked")
-      Collection<? extends V> c = (Collection<? extends V>) values;
+      Collection<? extends V> c = Collections2.cast(values);
       changed = collection.addAll(c);
     } else {
       for (V value : values) {

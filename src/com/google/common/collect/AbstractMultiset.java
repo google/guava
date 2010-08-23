@@ -164,8 +164,7 @@ abstract class AbstractMultiset<E> extends AbstractCollection<E>
       return false;
     }
     if (elementsToAdd instanceof Multiset) {
-      @SuppressWarnings("unchecked")
-      Multiset<? extends E> that = (Multiset<? extends E>) elementsToAdd;
+      Multiset<? extends E> that = Multisets.cast(elementsToAdd);
       for (Entry<? extends E> entry : that.entrySet()) {
         add(entry.getElement(), entry.getCount());
       }

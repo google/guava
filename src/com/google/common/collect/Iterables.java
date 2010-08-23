@@ -246,8 +246,7 @@ public final class Iterables {
   public static <T> boolean addAll(
       Collection<T> addTo, Iterable<? extends T> elementsToAdd) {
     if (elementsToAdd instanceof Collection) {
-      @SuppressWarnings("unchecked")
-      Collection<? extends T> c = (Collection<? extends T>) elementsToAdd;
+      Collection<? extends T> c = Collections2.cast(elementsToAdd);
       return addTo.addAll(c);
     }
     return Iterators.addAll(addTo, elementsToAdd.iterator());

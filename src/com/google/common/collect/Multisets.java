@@ -469,4 +469,11 @@ public final class Multisets {
   static void checkNonnegative(int count, String name) {
     checkArgument(count >= 0, "%s cannot be negative: %s", name, count);
   }
+
+  /**
+   * Used to avoid http://bugs.sun.com/view_bug.do?bug_id=6558557
+   */
+  static <T> Multiset<T> cast(Iterable<T> iterable) {
+    return (Multiset<T>) iterable;
+  }
 }

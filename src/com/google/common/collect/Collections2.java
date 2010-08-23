@@ -298,5 +298,12 @@ public final class Collections2 {
     return false;
   }
 
+  /**
+   * Used to avoid http://bugs.sun.com/view_bug.do?bug_id=6558557
+   */
+  static <T> Collection<T> cast(Iterable<T> iterable) {
+    return (Collection<T>) iterable;
+  }
+
   static final Joiner standardJoiner = Joiner.on(", ");
 }

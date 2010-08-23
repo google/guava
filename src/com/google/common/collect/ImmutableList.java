@@ -223,11 +223,10 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
    *
    * @throws NullPointerException if any of {@code elements} is null
    */
-  @SuppressWarnings("unchecked") // bugs.sun.com/view_bug.do?bug_id=6558557
   public static <E> ImmutableList<E> copyOf(Iterable<? extends E> elements) {
-    checkNotNull(elements);
+    checkNotNull(elements); // TODO(kevinb): is this here only for GWT?
     return (elements instanceof Collection)
-      ? copyOf((Collection<? extends E>) elements)
+      ? copyOf(Collections2.cast(elements))
       : copyOf(elements.iterator());
   }
 
