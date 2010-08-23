@@ -539,7 +539,7 @@ public final class Maps {
    * @param entry the entry for which to return an unmodifiable view
    * @return an unmodifiable view of the entry
    */
-  private static <K, V> Entry<K, V> unmodifiableEntry(final Entry<K, V> entry) {
+  static <K, V> Entry<K, V> unmodifiableEntry(final Entry<K, V> entry) {
     checkNotNull(entry);
     return new AbstractMapEntry<K, V>() {
       @Override public K getKey() {

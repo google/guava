@@ -2929,6 +2929,7 @@ class TldPatterns {
       "med.pl",
       "sopot.pl",
       "gliwice.pl",
+      "krakow.pl",
       "poznan.pl",
       "wroc.pl",
       "zakopane.pl",
