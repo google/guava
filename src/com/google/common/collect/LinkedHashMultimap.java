@@ -209,7 +209,9 @@ public final class LinkedHashMultimap<K, V> extends AbstractSetMultimap<K, V> {
     }
 
     @Override public void clear() {
-      linkedEntries.removeAll(createEntries(delegate()));
+      for (V value : delegate) {
+        linkedEntries.remove(createEntry(value));
+      }
       delegate.clear();
     }
 
