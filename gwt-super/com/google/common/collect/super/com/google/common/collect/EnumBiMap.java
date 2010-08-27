@@ -19,11 +19,7 @@ package com.google.common.collect;
 import static com.google.common.base.Preconditions.checkArgument;
 
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.annotations.GwtIncompatible;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.util.EnumMap;
 import java.util.Map;
 
@@ -104,30 +100,5 @@ public final class EnumBiMap<K extends Enum<K>, V extends Enum<V>>
   public Class<V> valueType() {
     return valueType;
   }
-
-  /**
-   * @serialData the key class, value class, number of entries, first key, first
-   *     value, second key, second value, and so on.
-   */
-  @GwtIncompatible("java.io.ObjectOutputStream")
-  private void writeObject(ObjectOutputStream stream) throws IOException {
-    stream.defaultWriteObject();
-    stream.writeObject(keyType);
-    stream.writeObject(valueType);
-    Serialization.writeMap(this, stream);
-  }
-
-  @SuppressWarnings("unchecked") // reading fields populated by writeObject
-  @GwtIncompatible("java.io.ObjectInputStream")
-  private void readObject(ObjectInputStream stream)
-      throws IOException, ClassNotFoundException {
-    stream.defaultReadObject();
-    keyType = (Class<K>) stream.readObject();
-    valueType = (Class<V>) stream.readObject();
-    setDelegates(new EnumMap<K, V>(keyType), new EnumMap<V, K>(valueType));
-    Serialization.populateMap(this, stream);
-  }
-
-  @GwtIncompatible("not needed in emulated source.")
-  private static final long serialVersionUID = 0;
 }
+

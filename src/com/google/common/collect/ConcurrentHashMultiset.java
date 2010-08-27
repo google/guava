@@ -19,6 +19,7 @@ package com.google.common.collect;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.collect.Multisets.checkNonnegative;
 
+import com.google.common.annotations.Beta;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.Serialization.FieldSetter;
 import com.google.common.primitives.Ints;
@@ -52,6 +53,10 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E>
    * ConcurrentMap's atomic operations. Many of them, such as add(E, int), are
    * read-modify-write sequences, and so are implemented as loops that wrap
    * ConcurrentMap's compare-and-set operations (like putIfAbsent).
+   *
+   * Invariant: all entries have a positive value. In particular, there are no
+   * entries with zero value. Some operations would fail if this was not the
+   * case.
    */
 
   /** The number of occurrences of each element. */
@@ -88,6 +93,28 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E>
     ConcurrentHashMultiset<E> multiset = ConcurrentHashMultiset.create();
     Iterables.addAll(multiset, elements);
     return multiset;
+  }
+
+  /**
+   * Creates a new, empty {@code ConcurrentHashMultiset} using {@code mapMaker}
+   * to construct the internal backing map.
+   *
+   * <p>If this {@link MapMaker} is configured to use entry eviction of any
+   * kind, this eviction applies to all occurrences of a given element as a
+   * single unit.
+   *
+   * <p>The returned multiset is serializable but any serialization caveats
+   * given in {@code MapMaker} apply.
+   *
+   * <p>Finally, soft/weak values can be used but are not very useful.
+   * Soft/weak keys on the other hand can be useful in some scenarios.
+   * 
+   * @since 7
+   */
+  @Beta
+  public static <E> ConcurrentHashMultiset<E> create(
+      GenericMapMaker<? super E, ? super Number> mapMaker) {
+    return new ConcurrentHashMultiset<E>(mapMaker.<E, Integer>makeMap());
   }
 
   /**
@@ -462,27 +489,26 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E>
   /**
    * We use a special form of unboxing that treats null as zero.
    */
-  private static int unbox(Integer i) {
+  private static int unbox(@Nullable Integer i) {
     return (i == null) ? 0 : i;
   }
 
   /**
-   * @serialData the number of distinct elements, the first element, its count,
-   *     the second element, its count, and so on
+   * @serialData the ConcurrentMap of elements and their counts.
    */
   private void writeObject(ObjectOutputStream stream) throws IOException {
     stream.defaultWriteObject();
-    // creating HashMultiset to handle concurrent changes
-    Serialization.writeMultiset(HashMultiset.create(this), stream);
+    stream.writeObject(countMap);
   }
 
   private void readObject(ObjectInputStream stream)
       throws IOException, ClassNotFoundException {
     stream.defaultReadObject();
-    FieldSettersHolder.COUNT_MAP_FIELD_SETTER.set(
-        this, new ConcurrentHashMap<Object, Object>());
-    Serialization.populateMultiset(this, stream);
+    @SuppressWarnings("unchecked") // reading data stored by writeObject
+    ConcurrentMap<E, Integer> deserializedCountMap =
+        (ConcurrentMap<E, Integer>) stream.readObject();
+    FieldSettersHolder.COUNT_MAP_FIELD_SETTER.set(this, deserializedCountMap);
   }
 
-  private static final long serialVersionUID = 0L;
+  private static final long serialVersionUID = 1;
 }

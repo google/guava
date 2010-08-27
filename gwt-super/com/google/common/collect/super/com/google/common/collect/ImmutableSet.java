@@ -85,7 +85,7 @@ public abstract class ImmutableSet<E> extends ForwardingImmutableCollection<E>
     List<E> all = new ArrayList<E>(size);
     Collections.addAll(all, e1, e2, e3, e4, e5, e6);
     Collections.addAll(all, others);
-    return copyOfInternal(all);
+    return copyOf(all.iterator());
   }
 
   /** @deprecated */
@@ -112,30 +112,24 @@ public abstract class ImmutableSet<E> extends ForwardingImmutableCollection<E>
       ImmutableSet<E> set = (ImmutableSet<E>) elements;
       return set;
     }
-    return copyOfInternal(Collections2.toCollection(elements));
+    return copyOf(elements.iterator());
   }
 
   public static <E> ImmutableSet<E> copyOf(Iterator<? extends E> elements) {
-    Collection<E> list = Lists.newArrayList(elements);
-    return copyOfInternal(list);
-  }
-
-  private static <E> ImmutableSet<E> copyOfInternal(
-      Collection<? extends E> collection) {
-    switch (collection.size()) {
-      case 0:
-        return of();
-      case 1:
-        // TODO: Remove "ImmutableSet.<E>" when eclipse bug is fixed.
-        return ImmutableSet.<E>of(collection.iterator().next());
-      default:
-        Set<E> delegate = Sets.newLinkedHashSet();
-        for (E element : collection) {
-          checkNotNull(element);
-          delegate.add(element);
-        }
-        return new RegularImmutableSet<E>(delegate);
+    if (!elements.hasNext()) {
+      return of();
     }
+    E first = elements.next();
+    if (!elements.hasNext()) {
+      // TODO: Remove "ImmutableSet.<E>" when eclipse bug is fixed.
+      return ImmutableSet.<E>of(first);
+    }
+    Set<E> delegate = Sets.newLinkedHashSet();
+    delegate.add(checkNotNull(first));
+    do {
+      delegate.add(checkNotNull(elements.next()));
+    } while (elements.hasNext());
+    return new RegularImmutableSet<E>(delegate);
   }
 
   // Factory methods that skips the null checks on elements, only used when
@@ -214,7 +208,7 @@ public abstract class ImmutableSet<E> extends ForwardingImmutableCollection<E>
     }
 
     @Override public ImmutableSet<E> build() {
-      return copyOfInternal(contents);
+      return copyOf(contents.iterator());
     }
   }
 }

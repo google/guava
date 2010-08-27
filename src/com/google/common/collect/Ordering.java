@@ -39,9 +39,9 @@ import java.util.concurrent.atomic.AtomicInteger;
  *
  *   if (Ordering.from(comparator).reverse().isOrdered(list)) { ... }}</pre>
  *
- * <p>The {@link #from(Comparator)} method returns the equivalent {@code
- * Ordering} instance for a pre-existing comparator. You can also skip the
- * comparator step and extend {@code Ordering} directly: <pre>   {@code
+ * The {@link #from(Comparator)} method returns the equivalent {@code Ordering}
+ * instance for a pre-existing comparator. You can also skip the comparator step
+ * and extend {@code Ordering} directly: <pre>   {@code
  *
  *   Ordering<String> byLengthOrdering = new Ordering<String>() {
  *     public int compare(String left, String right) {
@@ -627,6 +627,4 @@ public abstract class Ordering<T> implements Comparator<T> {
   // Never make these public
   static final int LEFT_IS_GREATER = 1;
   static final int RIGHT_IS_GREATER = -1;
-
-  private static final Object[] EMPTY_ARRAY = new Object[0];
 }

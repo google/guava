@@ -145,7 +145,7 @@
       <classpath>
         <pathelement location="build/classes" />
         <pathelement location="lib/jsr305.jar"/>
-        <pathelement location="${gwthome}/gwt.jar"/>
+        <pathelement location="${gwthome}/gwt-user.jar"/>
         <pathelement location="${gwthome}/gwt-dev.jar"/>
       </classpath>
     </javac>
@@ -226,7 +226,7 @@
       <!-- workaround for http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6442982 -->
       <classpath>
         <pathelement location="lib/jsr305.jar"/>
-        <pathelement location="${gwthome}/gwt.jar"/>
+        <pathelement location="${gwthome}/gwt-user.jar"/>
         <pathelement location="${gwthome}/gwt-dev.jar"/>
       </classpath>
 
@@ -261,7 +261,7 @@
         <pathelement location="build/classes" />
         <pathelement location="build/gwt-classes" />
         <pathelement location="lib/jsr305.jar"/>
-        <pathelement location="${gwthome}/gwt.jar"/>
+        <pathelement location="${gwthome}/gwt-user.jar"/>
         <pathelement location="${gwthome}/gwt-dev.jar"/>
       </classpath>
     </javac>
@@ -279,7 +279,7 @@
           <pathelement location="gwt-test" />
           <pathelement location="build/gwt-test-classes" />
           <pathelement location="lib/jsr305.jar"/>
-          <pathelement location="${gwthome}/gwt.jar"/>
+          <pathelement location="${gwthome}/gwt-user.jar"/>
           <pathelement location="${gwthome}/gwt-dev.jar"/>
         </classpath>
         <!-- add jvmarg -Xss16M or similar if you see a StackOverflowError -->

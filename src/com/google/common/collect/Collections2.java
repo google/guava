@@ -66,18 +66,6 @@ public final class Collections2 {
     }
     return true;
   }
-
-  /**
-   * Converts an iterable into a collection. If the iterable is already a
-   * collection, it is returned. Otherwise, an {@link java.util.ArrayList} is
-   * created with the contents of the iterable in the same iteration order.
-   */
-  static <E> Collection<E> toCollection(Iterable<E> iterable) {
-    return (iterable instanceof Collection)
-        ? (Collection<E>) iterable
-        : Lists.newArrayList(iterable.iterator());
-  }
-
   /**
    * Returns the elements of {@code unfiltered} that satisfy a predicate. The
    * returned collection is a live view of {@code unfiltered}; changes to one

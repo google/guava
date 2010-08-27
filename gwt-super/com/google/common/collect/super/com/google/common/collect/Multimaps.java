@@ -314,19 +314,19 @@ public final class Multimaps {
    * returned multimap.
    *
    * <p>It is imperative that the user manually synchronize on the returned
-   * multimap when accessing any of its collection views: <pre>  {@code
+   * multimap when accessing any of its collection views: <pre>   {@code
    *
-   *  Multimap<K, V> m = Multimaps.synchronizedMultimap(
-   *      HashMultimap.<K, V>create());
-   *  ...
-   *  Set<K> s = m.keySet();  // Needn't be in synchronized block
-   *  ...
-   *  synchronized (m) {  // Synchronizing on m, not s!
-   *    Iterator<K> i = s.iterator(); // Must be in synchronized block
-   *    while (i.hasNext()) {
-   *      foo(i.next());
-   *    }
-   *  }}</pre>
+   *   Multimap<K, V> m = Multimaps.synchronizedMultimap(
+   *       HashMultimap.<K, V>create());
+   *   ...
+   *   Set<K> s = m.keySet();  // Needn't be in synchronized block
+   *   ...
+   *   synchronized (m) {  // Synchronizing on m, not s!
+   *     Iterator<K> i = s.iterator(); // Must be in synchronized block
+   *     while (i.hasNext()) {
+   *       foo(i.next());
+   *     }
+   *   }}</pre>
    *
    * Failure to follow this advice may result in non-deterministic behavior.
    *
@@ -1110,20 +1110,20 @@ public final class Multimaps {
    * snapshot, it does <em>not</em> reflect subsequent changes on the input
    * iterable.
    *
-   * <p>For example, <pre class="code">  {@code
+   * <p>For example, <pre>   {@code
    *
-   *  List<String> badGuys
-   *      = Arrays.asList("Inky", "Blinky", "Pinky", "Pinky", "Clyde");
-   *  Function<String, Integer> stringLengthFunction = ...;
-   *  Multimap<Integer, String> index
-   *      = Multimaps.index(badGuys, stringLengthFunction);
-   *  System.out.println(index);}</pre>
+   *   List<String> badGuys =
+   *       Arrays.asList("Inky", "Blinky", "Pinky", "Pinky", "Clyde");
+   *   Function<String, Integer> stringLengthFunction = ...;
+   *   Multimap<Integer, String> index =
+   *       Multimaps.index(badGuys, stringLengthFunction);
+   *   System.out.println(index);}</pre>
    *
-   * prints <pre class="code">  {@code
+   * prints <pre>   {@code
    *
-   *  {4=[Inky], 5=[Pinky, Pinky, Clyde], 6=[Blinky]}}</pre>
+   *   {4=[Inky], 5=[Pinky, Pinky, Clyde], 6=[Blinky]}}</pre>
    *
-   * <p>The returned multimap is serializable if its keys and values are all
+   * The returned multimap is serializable if its keys and values are all
    * serializable.
    *
    * @param values the values to use when constructing the {@code
@@ -1132,12 +1132,14 @@ public final class Multimaps {
    * @return {@code ImmutableMultimap} mapping the result of evaluating the
    *     function {@code keyFunction} on each value in the input collection to
    *     that value
-   * @throws NullPointerException if any of the following cases is true: <ul>
-   * <li> {@code values} is null
-   * <li> {@code keyFunction} is null
-   * <li> An element in {@code values} is null
-   * <li> {@code keyFunction} returns null for any element of {@code values}
-   * </ul>
+   * @throws NullPointerException if any of the following cases is true:
+   *     <ul>
+   *     <li>{@code values} is null
+   *     <li>{@code keyFunction} is null
+   *     <li>An element in {@code values} is null
+   *     <li>{@code keyFunction} returns {@code null} for any element of {@code
+   *         values}
+   *     </ul>
    */
   public static <K, V> ImmutableListMultimap<K, V> index(
       Iterable<V> values, Function<? super V, K> keyFunction) {

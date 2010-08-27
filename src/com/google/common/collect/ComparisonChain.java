@@ -28,8 +28,7 @@ import javax.annotation.Nullable;
 /**
  * A utility for performing a "lazy" chained comparison statement, which 
  * performs comparisons only until it finds a nonzero result. For example:
- *
- * <pre class="code">   {@code
+ * <pre>   {@code
  *
  *   public int compareTo(Foo that) {
  *     return ComparisonChain.start()

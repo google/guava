@@ -21,14 +21,14 @@ import com.google.common.annotations.GwtCompatible;
 /**
  * "Overrides" the {@link ImmutableSet} static methods that lack
  * {@link ImmutableSortedSet} equivalents with deprecated, exception-throwing
- * versions. This prevents accidents like the following:<pre>   {@code
+ * versions. This prevents accidents like the following: <pre>   {@code
  *
  *   List<Object> objects = ...;
  *   // Sort them:
  *   Set<Object> sorted = ImmutableSortedSet.copyOf(objects);
  *   // BAD CODE! The returned set is actually an unsorted ImmutableSet!}</pre>
  *
- * <p>While we could put the overrides in {@link ImmutableSortedSet} itself, it
+ * While we could put the overrides in {@link ImmutableSortedSet} itself, it
  * seems clearer to separate these "do not call" methods from those intended for
  * normal use.
  *

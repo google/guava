@@ -517,20 +517,18 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E>
   }
 
   /**
-   * A builder for creating immutable set instances, especially
-   * {@code public static final} sets ("constant sets").
+   * A builder for creating immutable set instances, especially {@code public
+   * static final} sets ("constant sets"). Example: <pre>   {@code
    *
-   * <p>Example:
-   * <pre>{@code
-   *   public static final ImmutableSet<Color> GOOGLE_COLORS
-   *       = new ImmutableSet.Builder<Color>()
+   *   public static final ImmutableSet<Color> GOOGLE_COLORS =
+   *       new ImmutableSet.Builder<Color>()
    *           .addAll(WEBSAFE_COLORS)
    *           .add(new Color(0, 191, 255))
    *           .build();}</pre>
    *
-   * <p>Builder instances can be reused - it is safe to call {@link #build}
-   * multiple times to build multiple sets in series. Each set
-   * is a superset of the set created before it.
+   * Builder instances can be reused; it is safe to call {@link #build} multiple
+   * times to build multiple sets in series. Each set is a superset of the set
+   * created before it.
    *
    * @since 2 (imported from Google Collections Library)
    */

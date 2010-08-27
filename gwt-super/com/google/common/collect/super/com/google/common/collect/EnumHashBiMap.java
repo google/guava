@@ -17,13 +17,8 @@
 package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.annotations.GwtIncompatible;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.util.EnumMap;
-import java.util.HashMap;
 import java.util.Map;
 
 import javax.annotation.Nullable;
@@ -89,29 +84,5 @@ public final class EnumHashBiMap<K extends Enum<K>, V>
   public Class<K> keyType() {
     return keyType;
   }
-
-  /**
-   * @serialData the key class, number of entries, first key, first value,
-   *     second key, second value, and so on.
-   */
-  @GwtIncompatible("java.io.ObjectOutputStream")
-  private void writeObject(ObjectOutputStream stream) throws IOException {
-    stream.defaultWriteObject();
-    stream.writeObject(keyType);
-    Serialization.writeMap(this, stream);
-  }
-
-  @SuppressWarnings("unchecked") // reading field populated by writeObject
-  @GwtIncompatible("java.io.ObjectInputStream")
-  private void readObject(ObjectInputStream stream)
-      throws IOException, ClassNotFoundException {
-    stream.defaultReadObject();
-    keyType = (Class<K>) stream.readObject();
-    setDelegates(new EnumMap<K, V>(keyType),
-        new HashMap<V, K>(keyType.getEnumConstants().length * 3 / 2));
-    Serialization.populateMap(this, stream);
-  }
-
-  @GwtIncompatible("only needed in emulated source.")
-  private static final long serialVersionUID = 0;
 }
+

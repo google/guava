@@ -104,6 +104,8 @@ public class TestModuleEntryPoint implements EntryPoint {
         AbstractBiMap.class,
         AbstractMapBasedMultiset.class,
         ArrayListMultimap.class,
+        EnumBiMap.class,
+        EnumHashBiMap.class,
         EnumMultiset.class,
         HashBiMap.class,
         HashMultimap.class,

@@ -960,9 +960,8 @@ public final class Iterators {
    * @param array array to read elements out of
    * @param offset index of first array element to retrieve
    * @param length number of elements in iteration
-   *
-   * @throws IndexOutOfBoundsException if {@code offset} is negative,
-   *    {@code length} is negative, or {@code offset + length > array.length}
+   * @throws IndexOutOfBoundsException if {@code offset} is negative, {@code
+   *     length} is negative, or {@code offset + length > array.length}
    */
   static <T> UnmodifiableIterator<T> forArray(
       final T[] array, final int offset, int length) {

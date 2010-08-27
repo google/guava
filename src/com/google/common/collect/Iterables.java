@@ -232,9 +232,31 @@ public final class Iterables {
    */
   @GwtIncompatible("Array.newInstance(Class, int)")
   public static <T> T[] toArray(Iterable<? extends T> iterable, Class<T> type) {
-    Collection<? extends T> collection = Collections2.toCollection(iterable);
+    Collection<? extends T> collection = toCollection(iterable);
     T[] array = ObjectArrays.newArray(type, collection.size());
     return collection.toArray(array);
+  }
+
+  /**
+   * Copies an iterable's elements into an array.
+   *
+   * @param iterable the iterable to copy
+   * @return a newly-allocated array into which all the elements of the iterable
+   *     have been copied
+   */
+  static Object[] toArray(Iterable<?> iterable) {
+    return toCollection(iterable).toArray();
+  }
+
+  /**
+   * Converts an iterable into a collection. If the iterable is already a
+   * collection, it is returned. Otherwise, an {@link java.util.ArrayList} is
+   * created with the contents of the iterable in the same iteration order.
+   */
+  private static <E> Collection<E> toCollection(Iterable<E> iterable) {
+    return (iterable instanceof Collection)
+        ? (Collection<E>) iterable
+        : Lists.newArrayList(iterable.iterator());
   }
 
   /**
@@ -844,7 +866,7 @@ public final class Iterables {
 
   /**
    * Adapts a list to an iterable with reversed iteration order. It is
-   * especially useful in foreach-style loops: <pre class="code">   {@code
+   * especially useful in foreach-style loops: <pre>   {@code
    *
    *   List<String> mylist = ...
    *   for (String str : Iterables.reverse(mylist)) {

@@ -460,6 +460,7 @@ public final class Futures {
       this.inputFuture = makeUninterruptible(inputFuture);
     }
 
+    @Override
     public boolean cancel(boolean mayInterruptIfRunning) {
       if (cancel()) {
         try {

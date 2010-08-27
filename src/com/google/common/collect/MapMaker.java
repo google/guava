@@ -40,7 +40,7 @@ import java.util.concurrent.TimeUnit;
  * <p>A {@link ConcurrentMap} builder, providing any combination of these
  * features: {@linkplain SoftReference soft} or {@linkplain WeakReference
  * weak} keys, soft or weak values, timed expiration, and on-demand
- * computation of values. Usage example: <pre> {@code
+ * computation of values. Usage example: <pre>   {@code
  *
  *   ConcurrentMap<Key, Graph> graphs = new MapMaker()
  *       .concurrencyLevel(32)
@@ -61,8 +61,7 @@ import java.util.concurrent.TimeUnit;
  * The returned map is implemented as a hash table with similar performance
  * characteristics to {@link ConcurrentHashMap}. It supports all optional
  * operations of the {@code ConcurrentMap} interface. It does not permit
- * null keys or values. It is serializable; however, serializing a map that
- * uses soft or weak references can give unpredictable results.
+ * null keys or values.
  *
  * <p><b>Note:</b> by default, the returned map uses equality comparisons
  * (the {@link Object#equals(Object) equals} method) to determine equality
@@ -83,6 +82,12 @@ import java.util.concurrent.TimeUnit;
  * instance retrieved from the map's {@linkplain Map#entrySet() entry set}
  * is a snapshot of that entry's state at the time of retrieval; such entries
  * do, however, support {@link java.util.Map.Entry#setValue}.
+ *
+ * <p>The maps produced by {@code MapMaker} are serializable, and the
+ * deserialized maps retain all the configuration properties of the original
+ * map. If the map uses soft or weak references, the entries will be
+ * reconstructed as they were, but there is no guarantee that the entries won't
+ * be immediately reclaimed.
  *
  * <p>{@code new MapMaker().weakKeys().makeMap()} can almost always be
  * used as a drop-in replacement for {@link java.util.WeakHashMap}, adding
@@ -532,8 +537,6 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    * A function which caches the result of each application (computation). This
    * interface does not specify the caching semantics, but does expose a {@code
    * ConcurrentMap} view of cached entries.
-   *
-   * @author Bob Lee
    */
   interface Cache<K, V> extends Function<K, V> {
 

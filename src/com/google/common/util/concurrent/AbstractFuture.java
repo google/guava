@@ -16,6 +16,8 @@
 
 package com.google.common.util.concurrent;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import com.google.common.annotations.Beta;
 
 import java.util.concurrent.CancellationException;
@@ -124,7 +126,7 @@ public abstract class AbstractFuture<V> implements Future<V> {
    * @throws Error if the throwable was an {@link Error}.
    */
   protected boolean setException(Throwable throwable) {
-    boolean result = sync.setException(throwable);
+    boolean result = sync.setException(checkNotNull(throwable));
     if (result) {
       done();
     }

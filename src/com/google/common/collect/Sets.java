@@ -405,8 +405,8 @@ public final class Sets {
    * to this method, and no reference to the map is retained, as illustrated
    * in the following code fragment: <pre>  {@code
    *
-   *  Set<Object> identityHashSet = Sets.newSetFromMap(
-   *      new IdentityHashMap<Object, Boolean>());}</pre>
+   *   Set<Object> identityHashSet = Sets.newSetFromMap(
+   *       new IdentityHashMap<Object, Boolean>());}</pre>
    *
    * This method has the same behavior as the JDK 6 method
    * {@code Collections.newSetFromMap()}. The returned set is serializable if
@@ -592,15 +592,15 @@ public final class Sets {
    * your sets will generally be smaller than the other, pass it first.
    * Unfortunately, since this method sets the generic type of the returned set
    * based on the type of the first set passed, this could in rare cases force
-   * you to make a cast, for example: <pre>  {@code
+   * you to make a cast, for example: <pre>   {@code
    *
-   *  Set<Object> aFewBadObjects = ...
-   *  Set<String> manyBadStrings = ...
+   *   Set<Object> aFewBadObjects = ...
+   *   Set<String> manyBadStrings = ...
    *
-   *  // impossible for a non-String to be in the intersection
-   *  SuppressWarnings("unchecked")
-   *  Set<String> badStrings = (Set) Sets.intersection(
-   *      aFewBadObjects, manyBadStrings);}</pre>
+   *   // impossible for a non-String to be in the intersection
+   *   SuppressWarnings("unchecked")
+   *   Set<String> badStrings = (Set) Sets.intersection(
+   *       aFewBadObjects, manyBadStrings);}</pre>
    *
    * This is unfortunate, but should come up only very rarely.
    */
@@ -741,7 +741,7 @@ public final class Sets {
    * Returns every possible list that can be formed by choosing one element
    * from each of the given sets in order; the "n-ary
    * <a href="http://en.wikipedia.org/wiki/Cartesian_product">Cartesian
-   * product</a>" of the sets. For example: <pre class="code">   {@code
+   * product</a>" of the sets. For example: <pre>   {@code
    *
    *   Sets.cartesianProduct(ImmutableList.of(
    *       ImmutableSet.of(1, 2),
@@ -792,7 +792,7 @@ public final class Sets {
    * Returns every possible list that can be formed by choosing one element
    * from each of the given sets in order; the "n-ary
    * <a href="http://en.wikipedia.org/wiki/Cartesian_product">Cartesian
-   * product</a>" of the sets. For example: <pre class="code">   {@code
+   * product</a>" of the sets. For example: <pre>   {@code
    *
    *   Sets.cartesianProduct(
    *       ImmutableSet.of(1, 2),

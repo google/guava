@@ -1714,7 +1714,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
       long now = System.nanoTime();
       while (expirable != expirationHead && isExpired(expirable, now)) {
         @SuppressWarnings("unchecked")
-        ReferenceEntry<K, V> entry = (ReferenceEntry<K,V>) expirable;
+        ReferenceEntry<K, V> entry = (ReferenceEntry<K, V>) expirable;
         if (removeEntry(entry, entry.getHash())) {
           // send removal notification if the entry is in the map
           pendingEvictionNotifications.offer(entry);
@@ -1751,7 +1751,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
 
       // then remove a single entry
       @SuppressWarnings("unchecked")
-      ReferenceEntry<K, V> entry = (ReferenceEntry<K,V>) evictable;
+      ReferenceEntry<K, V> entry = (ReferenceEntry<K, V>) evictable;
       if (removeEntry(entry, entry.getHash())) {
         // send removal notification if the entry is in the map
         pendingEvictionNotifications.offer(entry);

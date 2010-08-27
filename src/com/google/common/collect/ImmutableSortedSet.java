@@ -402,7 +402,7 @@ public abstract class ImmutableSortedSet<E>
       }
     }
 
-    Object[] array = newObjectArray(elements);
+    Object[] array = Iterables.toArray(elements);
     if (array.length == 0) {
       return emptySet(comparator);
     }
@@ -415,13 +415,6 @@ public abstract class ImmutableSortedSet<E>
       array = removeDupes(array, comparator);
     }
     return new RegularImmutableSortedSet<E>(array, comparator);
-  }
-
-  /** Simplified version of {@link Iterables#toArray} that is GWT safe. */
-  private static <T> Object[] newObjectArray(Iterable<T> iterable) {
-    Collection<T> collection = Collections2.toCollection(iterable);
-    Object[] array = new Object[collection.size()];
-    return collection.toArray(array);
   }
 
   private static <E> ImmutableSortedSet<E> copyOfInternal(
@@ -536,21 +529,19 @@ public abstract class ImmutableSortedSet<E>
   }
 
   /**
-   * A builder for creating immutable sorted set instances, especially
-   * {@code public static final} sets ("constant sets"), with a given
-   * comparator.
+   * A builder for creating immutable sorted set instances, especially {@code
+   * public static final} sets ("constant sets"), with a given comparator.
+   * Example: <pre>   {@code
    *
-   * <p>Example:
-   * <pre>{@code
-   *   public static final ImmutableSortedSet<Number> LUCKY_NUMBERS
-   *       = new ImmutableSortedSet.Builder<Number>(ODDS_FIRST_COMPARATOR)
+   *   public static final ImmutableSortedSet<Number> LUCKY_NUMBERS =
+   *       new ImmutableSortedSet.Builder<Number>(ODDS_FIRST_COMPARATOR)
    *           .addAll(SINGLE_DIGIT_PRIMES)
    *           .add(42)
    *           .build();}</pre>
    *
-   * <p>Builder instances can be reused - it is safe to call {@link #build}
-   * multiple times to build multiple sets in series. Each set
-   * is a superset of the set created before it.
+   * Builder instances can be reused; it is safe to call {@link #build} multiple
+   * times to build multiple sets in series. Each set is a superset of the set
+   * created before it.
    *
    * @since 2 (imported from Google Collections Library)
    */

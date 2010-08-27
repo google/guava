@@ -493,22 +493,21 @@ public class ImmutableMultiset<E> extends ImmutableCollection<E>
   }
 
   /**
-   * A builder for creating immutable multiset instances, especially
-   * {@code public static final} multisets ("constant multisets").
+   * A builder for creating immutable multiset instances, especially {@code
+   * public static final} multisets ("constant multisets"). Example:
+   * <pre> {@code
    *
-   * <p>Example:
-   * <pre>   {@code
-   *   public static final ImmutableMultiset<Bean> BEANS
-   *       = new ImmutableMultiset.Builder<Bean>()
+   *   public static final ImmutableMultiset<Bean> BEANS =
+   *       new ImmutableMultiset.Builder<Bean>()
    *           .addCopies(Bean.COCOA, 4)
    *           .addCopies(Bean.GARDEN, 6)
    *           .addCopies(Bean.RED, 8)
    *           .addCopies(Bean.BLACK_EYED, 10)
    *           .build();}</pre>
    *
-   * <p>Builder instances can be reused - it is safe to call {@link #build}
-   * multiple times to build multiple multisets in series. Each multiset
-   * is a superset of the multiset created before it.
+   * Builder instances can be reused; it is safe to call {@link #build} multiple
+   * times to build multiple multisets in series. Each multiset is a superset of
+   * the multiset created before it.
    *
    * @since 2 (imported from Google Collections Library)
    */
