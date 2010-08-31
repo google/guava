@@ -25,12 +25,11 @@ import java.util.Map;
 import javax.annotation.Nullable;
 
 /**
- * Useful functions.
+ * Static utility methods pertaining to {@code Function} instances.
  *
  * <p>All methods returns serializable functions as long as they're given serializable parameters.
  *
  * @author Mike Bostock
- * @author Vlad Patryshev
  * @author Jared Levy
  * @since 2 (imported from Google Collections Library)
  */
@@ -41,6 +40,10 @@ public final class Functions {
   /**
    * Returns a function that calls {@code toString()} on its argument. The function does not accept
    * nulls; it will throw a {@link NullPointerException} when applied to {@code null}.
+   *
+   * <p><b>Warning:</b> The returned function may not be <i>consistent with equals</i> (as
+   * documented at {@link Function#apply}). For example, this function yields different results for
+   * the two equal instances {@code ImmutableSet.of(1, 2)} and {@code ImmutableSet.of(2, 1)}.
    */
   public static Function<Object, String> toStringFunction() {
     return ToStringFunction.INSTANCE;
@@ -139,7 +142,7 @@ public final class Functions {
     final Map<K, ? extends V> map;
     final V defaultValue;
 
-    ForMapWithDefault(Map<K, ? extends V> map, V defaultValue) {
+    ForMapWithDefault(Map<K, ? extends V> map, @Nullable V defaultValue) {
       this.map = checkNotNull(map);
       this.defaultValue = defaultValue;
     }
@@ -214,6 +217,9 @@ public final class Functions {
 
   /**
    * Creates a function that returns the same boolean output as the given predicate for all inputs.
+   *
+   * <p>The returned function is <i>consistent with equals</i> (as documented at {@link
+   * Function#apply}) if and only if {@code predicate} is itself consistent with equals.
    */
   public static <T> Function<T, Boolean> forPredicate(Predicate<T> predicate) {
     return new PredicateFunction<T>(predicate);

@@ -29,44 +29,44 @@ import java.util.concurrent.TimeoutException;
  * versions of the {@code get} methods that can throw a checked exception and
  * allows listeners to be attached to the future.  This makes it easier to
  * create a future that executes logic which can throw an exception.
- * 
+ *
  * <p>Implementations of this interface must adapt the exceptions thrown by
  * {@code Future#get()}: {@link CancellationException},
  * {@link ExecutionException} and {@link InterruptedException} into the type
  * specified by the {@code E} type parameter.
- * 
+ *
  * <p>This interface also extends the ListenableFuture interface to allow
  * listeners to be added. This allows the future to be used as a normal
  * {@link Future} or as an asynchronous callback mechanism as needed. This
  * allows multiple callbacks to be registered for a particular task, and the
  * future will guarantee execution of all listeners when the task completes.
- * 
+ *
  * @author Sven Mawson
  * @since 1
  */
 @Beta
-public interface CheckedFuture<V, E extends Exception>
+public interface CheckedFuture<V, X extends Exception>
     extends ListenableFuture<V> {
 
   /**
    * Exception checking version of {@link Future#get()} that will translate
    * {@link InterruptedException}, {@link CancellationException} and
    * {@link ExecutionException} into application-specific exceptions.
-   * 
+   *
    * @return the result of executing the future.
-   * @throws E on interruption, cancellation or execution exceptions.
+   * @throws X on interruption, cancellation or execution exceptions.
    */
-  V checkedGet() throws E;
-  
+  V checkedGet() throws X;
+
   /**
    * Exception checking version of {@link Future#get(long, TimeUnit)} that will
    * translate {@link InterruptedException}, {@link CancellationException} and
    * {@link ExecutionException} into application-specific exceptions.  On
    * timeout this method throws a normal {@link TimeoutException}.
-   * 
+   *
    * @return the result of executing the future.
    * @throws TimeoutException if retrieving the result timed out.
-   * @throws E on interruption, cancellation or execution exceptions.
+   * @throws X on interruption, cancellation or execution exceptions.
    */
-  V checkedGet(long timeout, TimeUnit unit) throws TimeoutException, E;
+  V checkedGet(long timeout, TimeUnit unit) throws TimeoutException, X;
 }

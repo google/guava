@@ -122,11 +122,11 @@ public final class Futures {
    * {@link ListenableFutureTask}, which adds the {@link ListenableFuture}
    * functionality to the standard {@code FutureTask} implementation.
    */
-  public static <T> ListenableFuture<T> makeListenable(Future<T> future) {
+  public static <V> ListenableFuture<V> makeListenable(Future<V> future) {
     if (future instanceof ListenableFuture) {
-      return (ListenableFuture<T>) future;
+      return (ListenableFuture<V>) future;
     }
-    return new ListenableFutureAdapter<T>(future);
+    return new ListenableFutureAdapter<V>(future);
   }
 
   /**
@@ -139,9 +139,9 @@ public final class Futures {
    * {@link ExecutionException} with the actual cause of the exception.
    * See {@link Future#get()} for details on the exceptions thrown.
    */
-  public static <T, E extends Exception> CheckedFuture<T, E> makeChecked(
-      Future<T> future, Function<Exception, E> mapper) {
-    return new MappingCheckedFuture<T, E>(makeListenable(future), mapper);
+  public static <V, X extends Exception> CheckedFuture<V, X> makeChecked(
+      Future<V> future, Function<Exception, X> mapper) {
+    return new MappingCheckedFuture<V, X>(makeListenable(future), mapper);
   }
 
   /**
@@ -151,76 +151,79 @@ public final class Futures {
    * {@code true}. It's useful for returning something that implements the
    * {@code ListenableFuture} interface but already has the result.
    */
-  public static <T> ListenableFuture<T> immediateFuture(@Nullable T value) {
-    ValueFuture<T> future = ValueFuture.create();
+  public static <V> ListenableFuture<V> immediateFuture(@Nullable V value) {
+    ValueFuture<V> future = ValueFuture.create();
     future.set(value);
     return future;
   }
 
   /**
-   * Creates a {@code CheckedFuture} which has its value set immediately upon
-   * construction. The getters just return the value. This {@code Future} can't
-   * be canceled or timed out and its {@code isDone()} method always returns
-   * {@code true}. It's useful for returning something that implements the
-   * {@code CheckedFuture} interface but already has the result.
+   * Returns a {@code CheckedFuture} which has its value set immediately upon
+   * construction.
+   *
+   * <p>The returned {@code Future} can't be cancelled, and its {@code isDone()}
+   * method always returns {@code true}. Calling {@code get()} or {@code
+   * checkedGet()} will immediately return the provided value.
    */
-  public static <T, E extends Exception> CheckedFuture<T, E>
-      immediateCheckedFuture(@Nullable T value) {
-    ValueFuture<T> future = ValueFuture.create();
+  public static <V, X extends Exception> CheckedFuture<V, X>
+      immediateCheckedFuture(@Nullable V value) {
+    ValueFuture<V> future = ValueFuture.create();
     future.set(value);
-    return Futures.makeChecked(future, new Function<Exception, E>() {
-      public E apply(Exception e) {
+    return Futures.makeChecked(future, new Function<Exception, X>() {
+      public X apply(Exception e) {
         throw new AssertionError("impossible");
       }
     });
   }
 
   /**
-   * Creates a {@code ListenableFuture} which has an exception set immediately
-   * upon construction. The getters just return the value. This {@code Future}
-   * can't be canceled or timed out and its {@code isDone()} method always
-   * returns {@code true}. It's useful for returning something that implements
-   * the {@code ListenableFuture} interface but already has a failed
-   * result. Calling {@code get()} will throw the provided {@code Throwable}
-   * (wrapped in an {@code ExecutionException}).
+   * Returns a {@code ListenableFuture} which has an exception set immediately
+   * upon construction.
    *
-   * @throws Error if the throwable was an {@link Error}.
+   * <p>The returned {@code Future} can't be cancelled, and its {@code isDone()}
+   * method always returns {@code true}. Calling {@code get()} will immediately
+   * throw the provided {@code Throwable} wrapped in an {@code
+   * ExecutionException}.
+   *
+   * @throws Error if the throwable is an {@link Error}.
    */
-  public static <T> ListenableFuture<T> immediateFailedFuture(
+  public static <V> ListenableFuture<V> immediateFailedFuture(
       Throwable throwable) {
     checkNotNull(throwable);
-    ValueFuture<T> future = ValueFuture.create();
+    ValueFuture<V> future = ValueFuture.create();
     future.setException(throwable);
     return future;
   }
 
   /**
-   * Creates a {@code CheckedFuture} which has an exception set immediately
-   * upon construction. The getters just return the value. This {@code Future}
-   * can't be canceled or timed out and its {@code isDone()} method always
-   * returns {@code true}. It's useful for returning something that implements
-   * the {@code CheckedFuture} interface but already has a failed result.
-   * Calling {@code get()} will throw the provided {@code Throwable} (wrapped in
-   * an {@code ExecutionException}) and calling {@code checkedGet()} will throw
-   * the provided exception itself.
+   * Returns a {@code CheckedFuture} which has an exception set immediately upon
+   * construction.
    *
-   * @throws Error if the throwable was an {@link Error}.
+   * <p>The returned {@code Future} can't be cancelled, and its {@code isDone()}
+   * method always returns {@code true}. Calling {@code get()} will immediately
+   * throw the provided {@code Throwable} wrapped in an {@code
+   * ExecutionException}, and calling {@code checkedGet()} will throw the
+   * provided exception itself.
+   *
+   * @throws Error if the throwable is an {@link Error}.
    */
-  public static <T, E extends Exception> CheckedFuture<T, E>
-      immediateFailedCheckedFuture(final E exception) {
+  public static <V, X extends Exception> CheckedFuture<V, X>
+      immediateFailedCheckedFuture(final X exception) {
     checkNotNull(exception);
-    return makeChecked(Futures.<T>immediateFailedFuture(exception),
-        new Function<Exception, E>() {
-          public E apply(Exception e) {
+    return makeChecked(Futures.<V>immediateFailedFuture(exception),
+        new Function<Exception, X>() {
+          public X apply(Exception e) {
             return exception;
           }
         });
   }
 
   /**
-   * Creates a new {@code ListenableFuture} that wraps another
-   * {@code ListenableFuture}.  The result of the new future is the result of
-   * the provided function called on the result of the provided future.
+   * Returns a new {@code ListenableFuture} whose result is asynchronously
+   * derived from the result of the given {@code Future}. More precisely, the
+   * returned {@code Future} takes its result from a {@code Future} produced by
+   * applying the given {@code Function} to the result of the original {@code
+   * Future}.
    *
    * <p>Successful cancellation of either the input future or the result of
    * function application will cause the returned future to be cancelled.
@@ -248,9 +251,11 @@ public final class Futures {
   }
 
   /**
-   * Creates a new {@code ListenableFuture} that wraps another
-   * {@code ListenableFuture}.  The result of the new future is the result of
-   * the provided function called on the result of the provided future.
+   * Returns a new {@code ListenableFuture} whose result is asynchronously
+   * derived from the result of the given {@code Future}. More precisely, the
+   * returned {@code Future} takes its result from a {@code Future} produced by
+   * applying the given {@code Function} to the result of the original {@code
+   * Future}.
    *
    * <p>Successful cancellation of either the input future or the result of
    * function application will cause the returned future to be cancelled.
@@ -280,9 +285,9 @@ public final class Futures {
   }
 
   /**
-   * Creates a new {@code ListenableFuture} that wraps another
-   * {@code ListenableFuture}.  The result of the new future is the result of
-   * the provided function called on the result of the provided future.
+   * Returns a new {@code ListenableFuture} whose result is the product of
+   * applying the given {@code Function} to the result of the given {@code
+   * Future}.
    *
    * <p>Successful cancellation of the input future will cause the returned
    * future to be cancelled.  Cancelling the returned future will succeed if it
@@ -304,9 +309,9 @@ public final class Futures {
   }
 
   /**
-   * Creates a new {@code ListenableFuture} that wraps another
-   * {@code ListenableFuture}.  The result of the new future is the result of
-   * the provided function called on the result of the provided future.
+   * Returns a new {@code ListenableFuture} whose result is the product of
+   * applying the given {@code Function} to the result of the given {@code
+   * Future}.
    *
    * <p>Successful cancellation of the input future will cause the returned
    * future to be cancelled.  Cancelling the returned future will succeed if it
@@ -343,9 +348,8 @@ public final class Futures {
   }
 
   /**
-   * Creates a new {@code Future} that wraps another {@code Future}.
-   * The result of the new future is the result of the provided function called
-   * on the result of the provided future.
+   * Returns a new {@code Future} whose result is the product of applying the
+   * given {@code Function} to the result of the given {@code Future}.
    *
    * <p>An example use of this method is to convert a Future that produces a
    * handle to an object to a future that produces the object itself.
@@ -559,20 +563,20 @@ public final class Futures {
    * A checked future that uses a function to map from exceptions to the
    * appropriate checked type.
    */
-  private static class MappingCheckedFuture<T, E extends Exception> extends
-      AbstractCheckedFuture<T, E> {
+  private static class MappingCheckedFuture<V, X extends Exception> extends
+      AbstractCheckedFuture<V, X> {
 
-    final Function<Exception, E> mapper;
+    final Function<Exception, X> mapper;
 
-    MappingCheckedFuture(ListenableFuture<T> delegate,
-        Function<Exception, E> mapper) {
+    MappingCheckedFuture(ListenableFuture<V> delegate,
+        Function<Exception, X> mapper) {
       super(delegate);
 
       this.mapper = checkNotNull(mapper);
     }
 
     @Override
-    protected E mapException(Exception e) {
+    protected X mapException(Exception e) {
       return mapper.apply(e);
     }
   }
@@ -587,8 +591,8 @@ public final class Futures {
    * <p>If the delegate future is interrupted or throws an unexpected unchecked
    * exception, the listeners will not be invoked.
    */
-  private static class ListenableFutureAdapter<T> extends ForwardingFuture<T>
-      implements ListenableFuture<T> {
+  private static class ListenableFutureAdapter<V> extends ForwardingFuture<V>
+      implements ListenableFuture<V> {
 
     private static final Executor adapterExecutor =
         Executors.newCachedThreadPool();
@@ -601,14 +605,14 @@ public final class Futures {
     private final AtomicBoolean hasListeners = new AtomicBoolean(false);
 
     // The delegate future.
-    private final Future<T> delegate;
+    private final Future<V> delegate;
 
-    ListenableFutureAdapter(final Future<T> delegate) {
+    ListenableFutureAdapter(final Future<V> delegate) {
       this.delegate = checkNotNull(delegate);
     }
 
     @Override
-    protected Future<T> delegate() {
+    protected Future<V> delegate() {
       return delegate;
     }
 

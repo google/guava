@@ -18,6 +18,8 @@ package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import com.google.common.collect.Lists;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -257,6 +259,12 @@ public abstract class ImmutableList<E> extends ForwardingImmutableCollection<E>
 
   @Override public ImmutableList<E> asList() {
     return this;
+  }
+  
+  public ImmutableList<E> reverse(){
+    List<E> list = Lists.newArrayList(this);
+    Collections.reverse(list);
+    return unsafeDelegateList(list);
   }
 
   @Override public Object[] toArray() {

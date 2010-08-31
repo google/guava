@@ -87,6 +87,12 @@ public final class Collections2 {
    * which elements satisfy the filter. When a live view is <i>not</i> needed,
    * it may be faster to copy {@code Iterables.filter(unfiltered, predicate)}
    * and use the copy.
+   *
+   * <p><b>Warning:</b> {@code predicate} must be <i>consistent with equals</i>,
+   * as documented at {@link Predicate#apply}. Do not provide a predicate such
+   * as {@code Predicates.instanceOf(ArrayList.class)}, which is inconsistent
+   * with equals. (See {@link Iterables#filter(Iterable, Class)} for related
+   * functionality.)
    */
   public static <E> Collection<E> filter(
       Collection<E> unfiltered, Predicate<? super E> predicate) {
@@ -150,6 +156,12 @@ public final class Collections2 {
         // will catch
         @SuppressWarnings("unchecked")
         E e = (E) element;
+
+        /*
+         * We check whether e satisfies the predicate, when we really mean to
+         * check whether the element contained in the set does. This is ok as
+         * long as the predicate is consistent with equals, as required.
+         */
         return predicate.apply(e) && unfiltered.contains(element);
       } catch (NullPointerException e) {
         return false;
@@ -181,6 +193,8 @@ public final class Collections2 {
         // will catch
         @SuppressWarnings("unchecked")
         E e = (E) element;
+
+        // See comment in contains() concerning predicate.apply(e)
         return predicate.apply(e) && unfiltered.remove(element);
       } catch (NullPointerException e) {
         return false;
@@ -203,6 +217,7 @@ public final class Collections2 {
       checkNotNull(collection);
       Predicate<E> combinedPredicate = new Predicate<E>() {
         public boolean apply(E input) {
+          // See comment in contains() concerning predicate.apply(e)
           return predicate.apply(input) && !collection.contains(input);
         }
       };

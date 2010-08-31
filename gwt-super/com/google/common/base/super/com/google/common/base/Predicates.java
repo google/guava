@@ -30,7 +30,7 @@ import java.util.List;
 import javax.annotation.Nullable;
 
 /**
- * Contains static factory methods for creating {@code Predicate} instances.
+ * Static utility methods pertaining to {@code Predicate} instances.
  *
  * <p>All methods returns serializable predicates as long as they're given
  * serializable parameters.

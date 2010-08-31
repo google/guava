@@ -972,6 +972,11 @@ public final class Maps {
    * iterate across every key/value mapping in the underlying map and determine
    * which satisfy the filter. When a live view is <i>not</i> needed, it may be
    * faster to copy the filtered map and use the copy.
+   *
+   * <p><b>Warning:</b> {@code keyPredicate} must be <i>consistent with
+   * equals</i>, as documented at {@link Predicate#apply}. Do not provide a
+   * predicate such as {@code Predicates.instanceOf(ArrayList.class)}, which is
+   * inconsistent with equals.
    */
   public static <K, V> Map<K, V> filterKeys(
       Map<K, V> unfiltered, final Predicate<? super K> keyPredicate) {
@@ -1011,6 +1016,11 @@ public final class Maps {
    * iterate across every key/value mapping in the underlying map and determine
    * which satisfy the filter. When a live view is <i>not</i> needed, it may be
    * faster to copy the filtered map and use the copy.
+   *
+   * <p><b>Warning:</b> {@code valuePredicate} must be <i>consistent with
+   * equals</i>, as documented at {@link Predicate#apply}. Do not provide a
+   * predicate such as {@code Predicates.instanceOf(ArrayList.class)}, which is
+   * inconsistent with equals.
    */
   public static <K, V> Map<K, V> filterValues(
       Map<K, V> unfiltered, final Predicate<? super V> valuePredicate) {
@@ -1049,6 +1059,9 @@ public final class Maps {
    * iterate across every key/value mapping in the underlying map and determine
    * which satisfy the filter. When a live view is <i>not</i> needed, it may be
    * faster to copy the filtered map and use the copy.
+   *
+   * <p><b>Warning:</b> {@code valuePredicate} must be <i>consistent with
+   * equals</i>, as documented at {@link Predicate#apply}.
    */
   public static <K, V> Map<K, V> filterEntries(
       Map<K, V> unfiltered, Predicate<? super Entry<K, V>> entryPredicate) {

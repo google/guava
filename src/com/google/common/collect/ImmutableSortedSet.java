@@ -311,7 +311,44 @@ public abstract class ImmutableSortedSet<E>
     // Unsafe, see ImmutableSortedSetFauxverideShim.
     @SuppressWarnings("unchecked")
     Ordering<E> naturalOrder = (Ordering) Ordering.<Comparable>natural();
-    return copyOfInternal(naturalOrder, elements, false);
+    return copyOf(naturalOrder, elements);
+  }
+
+  /**
+   * Returns an immutable sorted set containing the given elements sorted by
+   * their natural ordering. When multiple elements are equivalent according to
+   * {@code compareTo()}, only the first one specified is included. To create a
+   * copy of a {@code SortedSet} that preserves the comparator, call
+   * {@link #copyOfSorted} instead. This method iterates over {@code elements}
+   * at most once.
+   *
+   * <p>Note that if {@code s} is a {@code Set<String>}, then
+   * {@code ImmutableSortedSet.copyOf(s)} returns an
+   * {@code ImmutableSortedSet<String>} containing each of the strings in
+   * {@code s}, while {@code ImmutableSortedSet.of(s)} returns an
+   * {@code ImmutableSortedSet<Set<String>>} containing one element (the given
+   * set itself).
+   *
+   * <p><b>Note:</b> Despite what the method name suggests, if {@code elements}
+   * is an {@code ImmutableSortedSet}, it may be returned instead of a copy.
+   *
+   * <p>This method is not type-safe, as it may be called on elements that are
+   * not mutually comparable.
+   *
+   * <p>This method is safe to use even when {@code elements} is a synchronized
+   * or concurrent collection that is currently being modified by another
+   * thread.
+   *
+   * @throws ClassCastException if the elements are not mutually comparable
+   * @throws NullPointerException if any of {@code elements} is null
+   */
+  public static <E> ImmutableSortedSet<E> copyOf(
+      Collection<? extends E> elements) {
+    // Hack around K not being a subtype of Comparable.
+    // Unsafe, see ImmutableSortedSetFauxverideShim.
+    @SuppressWarnings("unchecked")
+    Ordering<E> naturalOrder = (Ordering) Ordering.<Comparable>natural();
+    return copyOf(naturalOrder, elements);
   }
 
   /**
@@ -332,6 +369,21 @@ public abstract class ImmutableSortedSet<E>
     @SuppressWarnings("unchecked")
     Ordering<E> naturalOrder = (Ordering) Ordering.<Comparable>natural();
     return copyOfInternal(naturalOrder, elements);
+  }
+
+  /**
+   * Returns an immutable sorted set containing the given elements sorted by
+   * the given {@code Comparator}. When multiple elements are equivalent
+   * according to {@code compareTo()}, only the first one specified is
+   * included.
+   *
+   * @throws NullPointerException if {@code comparator} or any of
+   *     {@code elements} is null
+   */
+  public static <E> ImmutableSortedSet<E> copyOf(
+      Comparator<? super E> comparator, Iterator<? extends E> elements) {
+    checkNotNull(comparator);
+    return copyOfInternal(comparator, elements);
   }
 
   /**
@@ -358,13 +410,17 @@ public abstract class ImmutableSortedSet<E>
    * according to {@code compareTo()}, only the first one specified is
    * included.
    *
+   * <p>This method is safe to use even when {@code elements} is a synchronized
+   * or concurrent collection that is currently being modified by another
+   * thread.
+   *
    * @throws NullPointerException if {@code comparator} or any of
    *     {@code elements} is null
    */
   public static <E> ImmutableSortedSet<E> copyOf(
-      Comparator<? super E> comparator, Iterator<? extends E> elements) {
+      Comparator<? super E> comparator, Collection<? extends E> elements) {
     checkNotNull(comparator);
-    return copyOfInternal(comparator, elements);
+    return copyOfInternal(comparator, elements, false);
   }
 
   /**
@@ -375,6 +431,10 @@ public abstract class ImmutableSortedSet<E>
    *
    * <p><b>Note:</b> Despite what the method name suggests, if {@code sortedSet}
    * is an {@code ImmutableSortedSet}, it may be returned instead of a copy.
+   *
+   * <p>This method is safe to use even when {@code elements} is a synchronized
+   * or concurrent collection that is currently being modified by another
+   * thread.
    *
    * @throws NullPointerException if {@code sortedSet} or any of its elements
    *     is null

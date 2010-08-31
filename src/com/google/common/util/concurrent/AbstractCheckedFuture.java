@@ -27,17 +27,17 @@ import java.util.concurrent.TimeoutException;
 /**
  * A delegating wrapper around a {@link ListenableFuture} that adds support for
  * the {@link #checkedGet()} and {@link #checkedGet(long, TimeUnit)} methods.
- * 
+ *
  * @author Sven Mawson
  * @since 1
  */
 @Beta
-public abstract class AbstractCheckedFuture<V, E extends Exception>
-    implements CheckedFuture<V, E> {
+public abstract class AbstractCheckedFuture<V, X extends Exception>
+    implements CheckedFuture<V, X> {
 
   /** The delegate, used to pass along all our methods. */
   protected final ListenableFuture<V> delegate;
-  
+
   /**
    * Constructs an {@code AbstractCheckedFuture} that wraps a delegate.
    */
@@ -49,17 +49,17 @@ public abstract class AbstractCheckedFuture<V, E extends Exception>
    * Translate from an {@link InterruptedException},
    * {@link CancellationException} or {@link ExecutionException} to an exception
    * of type {@code E}.  Subclasses must implement the mapping themselves.
-   * 
+   *
    * The {@code e} parameter can be an instance of {@link InterruptedException},
    * {@link CancellationException}, or {@link ExecutionException}.
    */
-  protected abstract E mapException(Exception e);
-  
+  protected abstract X mapException(Exception e);
+
   /*
    * Just like get but maps the exceptions into appropriate application-specific
    * exceptions.
    */
-  public V checkedGet() throws E {
+  public V checkedGet() throws X {
     try {
       return get();
     } catch (InterruptedException e) {
@@ -76,7 +76,7 @@ public abstract class AbstractCheckedFuture<V, E extends Exception>
    * The timed version of checkedGet maps the interrupted, cancellation or
    * execution exceptions exactly the same as the untimed version does.
    */
-  public V checkedGet(long timeout, TimeUnit unit) throws TimeoutException, E {
+  public V checkedGet(long timeout, TimeUnit unit) throws TimeoutException, X {
     try {
       return get(timeout, unit);
     } catch (InterruptedException e) {
@@ -90,28 +90,28 @@ public abstract class AbstractCheckedFuture<V, E extends Exception>
   }
 
   // Delegate methods for methods defined in the ListenableFuture interface.
-  
+
   public boolean cancel(boolean mayInterruptIfRunning) {
     return delegate.cancel(mayInterruptIfRunning);
   }
-  
+
   public boolean isCancelled() {
     return delegate.isCancelled();
   }
-  
+
   public boolean isDone() {
     return delegate.isDone();
   }
-  
+
   public V get() throws InterruptedException, ExecutionException {
     return delegate.get();
   }
-  
+
   public V get(long timeout, TimeUnit unit) throws InterruptedException,
       ExecutionException, TimeoutException {
     return delegate.get(timeout, unit);
   }
-  
+
   public void addListener(Runnable listener, Executor exec) {
     delegate.addListener(listener, exec);
   }

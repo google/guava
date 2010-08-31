@@ -21,43 +21,38 @@ import com.google.common.annotations.GwtCompatible;
 import javax.annotation.Nullable;
 
 /**
- * Determines a true or false value for a given input. For example, a
- * {@code RegexPredicate} might implement {@code Predicate<String>}, and return
- * {@code true} for any string that matches its given regular expression.
- *
- * <p>Implementations which may cause side effects upon evaluation are strongly
- * encouraged to state this fact clearly in their API documentation.
+ * Determines a true or false value for a given input.
  *
  * @author Kevin Bourrillion
  * @since 2 (imported from Google Collections Library)
  */
 @GwtCompatible
 public interface Predicate<T> {
-
-  /*
-   * This interface does not extend Function<T, Boolean> because doing so would
-   * let predicates return null.
-   */
-
   /**
-   * Applies this predicate to the given object.
+   * Returns the result of applying this predicate to {@code input}. This method is <i>generally
+   * expected</i>, but not absolutely required, to have the following properties:
    *
-   * @param input the input that the predicate should act on
-   * @return the value of this predicate when applied to the input {@code t}
+   * <ul>
+   * <li>Its execution does not cause any observable side effects.
+   * <li>The computation is <i>consistent with equals</i>; that is, {@link Objects#equal
+   *     Objects.equal}{@code (a, b)} implies that {@code predicate.apply(a) ==
+   *     predicate.apply(b))}.
+   * </ul>
+   *
+   * @throws NullPointerException if {@code input} is null and this predicate does not accept null
+   *     arguments
    */
   boolean apply(@Nullable T input);
 
   /**
-   * Indicates whether some other object is equal to this {@code Predicate}.
-   * This method can return {@code true} <i>only</i> if the specified object is
-   * also a {@code Predicate} and, for every input object {@code input}, it
-   * returns exactly the same value. Thus, {@code predicate1.equals(predicate2)}
-   * implies that either {@code predicate1.apply(input)} and
-   * {@code predicate2.apply(input)} are both {@code true} or both
-   * {@code false}.
+   * Indicates whether another object is equal to this predicate.
    *
-   * <p>Note that it is always safe <i>not</i> to override
-   * {@link Object#equals}.
+   * <p>Most implementations will have no reason to override the behavior of {@link Object#equals}.
+   * However, an implementation may also choose to return {@code true} whenever {@code object} is a
+   * {@link Predicate} that it considers <i>interchangeable</i> with this one. "Interchangeable"
+   * <i>typically</i> means that {@code this.apply(t) == that.apply(t)} for all {@code t} of type
+   * {@code T}). Note that a {@code false} result from this method does not imply that the
+   * predicates are known <i>not</i> to be interchangeable.
    */
-  boolean equals(@Nullable Object obj);
+  boolean equals(@Nullable Object object);
 }

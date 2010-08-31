@@ -690,6 +690,12 @@ public final class Sets {
    * across every element in the underlying set and determine which elements
    * satisfy the filter. When a live view is <i>not</i> needed, it may be faster
    * to copy {@code Iterables.filter(unfiltered, predicate)} and use the copy.
+   *
+   * <p><b>Warning:</b> {@code predicate} must be <i>consistent with equals</i>,
+   * as documented at {@link Predicate#apply}. Do not provide a predicate such
+   * as {@code Predicates.instanceOf(ArrayList.class)}, which is inconsistent
+   * with equals. (See {@link Iterables#filter(Iterable, Class)} for related
+   * functionality.)
    */
   public static <E> Set<E> filter(
       Set<E> unfiltered, Predicate<? super E> predicate) {

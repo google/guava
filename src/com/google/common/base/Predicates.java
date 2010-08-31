@@ -33,7 +33,7 @@ import java.util.regex.Pattern;
 import javax.annotation.Nullable;
 
 /**
- * Contains static factory methods for creating {@code Predicate} instances.
+ * Static utility methods pertaining to {@code Predicate} instances.
  *
  * <p>All methods returns serializable predicates as long as they're given
  * serializable parameters.
@@ -186,6 +186,12 @@ public final class Predicates {
    * <p>If you want to filter an {@code Iterable} to narrow its type, consider
    * using {@link com.google.common.collect.Iterables#filter(Iterable, Class)}
    * in preference.
+   *
+   * <p><b>Warning:</b> contrary to the typical assumptions about predicates (as
+   * documented at {@link Predicate#apply}), the returned predicate may not be
+   * <i>consistent with equals</i>. For example, {@code
+   * instanceOf(ArrayList.class)} will yield different results for the two equal
+   * instances {@code Lists.newArrayList(1)} and {@code Arrays.asList(1)}.
    */
   @GwtIncompatible("Class.isInstance")
   public static Predicate<Object> instanceOf(Class<?> clazz) {

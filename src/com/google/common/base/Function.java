@@ -19,38 +19,38 @@ import com.google.common.annotations.GwtCompatible;
 import javax.annotation.Nullable;
 
 /**
- * A transformation from one object to another. For example, a string-to-integer function would
- * implement {@code Function<String, Integer>} to convert integer values in text form into {@code
- * Integer} form.
+ * Determines an output value based on an input value.
  *
- * <p>Implementations which may cause side effects upon evaluation are strongly encouraged to state
- * this fact clearly in their API documentation.
- *
- * @param <F> the type of the function input
- * @param <T> the type of the function output
  * @author Kevin Bourrillion
- * @author Scott Bonneau
  * @since 2 (imported from Google Collections Library)
  */
 @GwtCompatible
 public interface Function<F, T> {
   /**
-   * Applies the function to an object of type {@code F}, resulting in an object of type {@code T}.
-   * Note that types {@code F} and {@code T} may or may not be the same.
+   * Returns the result of applying this function to {@code input}. This method is <i>generally
+   * expected</i>, but not absolutely required, to have the following properties:
    *
-   * @param from the source object
-   * @return the resulting object
+   * <ul>
+   * <li>Its execution does not cause any observable side effects.
+   * <li>The computation is <i>consistent with equals</i>; that is, {@link Objects#equal
+   *     Objects.equal}{@code (a, b)} implies that {@code Objects.equal(function.apply(a),
+   *     function.apply(b))}.
+   * </ul>
+   *
+   * @throws NullPointerException if {@code input} is null and this function does not accept null
+   *     arguments
    */
-  T apply(@Nullable F from);
+  T apply(@Nullable F input);
 
   /**
-   * Indicates whether some other object is equal to this {@code Function}. This method can return
-   * {@code true} <i>only</i> if the specified object is also a {@code Function} and, for every
-   * input object {@code o}, it returns exactly the same value. Thus, {@code
-   * function1.equals(function2)} implies that either {@code function1.apply(o)} and {@code
-   * function2.apply(o)} are both null, or {@code function1.apply(o).equals(function2.apply(o))}.
+   * Indicates whether another object is equal to this function.
    *
-   * <p>Note that it is always safe <i>not</i> to override {@link Object#equals}.
+   * <p>Most implementations will have no reason to override the behavior of {@link Object#equals}.
+   * However, an implementation may also choose to return {@code true} whenever {@code object} is a
+   * {@link Function} that it considers <i>interchangeable</i> with this one. "Interchangeable"
+   * <i>typically</i> means that {@code Objects.equal(this.apply(f), that.apply(f))} is true for all
+   * {@code f} of type {@code F}). Note that a {@code false} result from this method does not imply
+   * that the functions are known <i>not</i> to be interchangeable.
    */
-  boolean equals(@Nullable Object obj);
+  boolean equals(@Nullable Object object);
 }

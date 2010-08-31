@@ -31,7 +31,7 @@ import javax.annotation.Nullable;
 
 /**
  * An empty immutable list.
- * 
+ *
  * @author Kevin Bourrillion
  */
 @GwtCompatible(serializable = true, emulated = true)

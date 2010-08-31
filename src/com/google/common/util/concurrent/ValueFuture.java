@@ -21,7 +21,8 @@ import com.google.common.annotations.Beta;
 import javax.annotation.Nullable;
 
 /**
- * A simple ListenableFuture that holds a value or an exception.
+ * A {@link ListenableFuture} whose result may be set by a {@link #set(Object)}
+ * or {@link #setException(Throwable)} call.
  *
  * @author Sven Mawson
  * @since 1
@@ -32,8 +33,8 @@ public class ValueFuture<V> extends AbstractListenableFuture<V> {
   /**
    * Creates a new {@code ValueFuture} in the default state.
    */
-  public static <T> ValueFuture<T> create() {
-    return new ValueFuture<T>();
+  public static <V> ValueFuture<V> create() {
+    return new ValueFuture<V>();
   }
 
   /**

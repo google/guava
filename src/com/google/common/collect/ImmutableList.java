@@ -19,6 +19,7 @@ package com.google.common.collect;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.base.Preconditions;
 
 import java.io.InvalidObjectException;
 import java.io.ObjectInputStream;
@@ -305,7 +306,7 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
         return construct(elements);
     }
   }
-  
+
   /** {@code elements} has to be internally created array. */
   private static <E> ImmutableList<E> construct(Object... elements) {
     for (int i = 0; i < elements.length; i++) {
@@ -512,4 +513,3 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
     }
   }
 }
-

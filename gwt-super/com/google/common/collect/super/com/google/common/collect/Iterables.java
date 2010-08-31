@@ -394,6 +394,23 @@ public final class Iterables {
   }
 
   /**
+   * Returns an iterator over the iterators of the given iterables.
+   */
+  static <T> UnmodifiableIterator<Iterator<? extends T>> iterators(
+      Iterable<? extends Iterable<? extends T>> iterables) {
+    final Iterator<? extends Iterable<? extends T>> iterableIterator =
+        iterables.iterator();
+    return new UnmodifiableIterator<Iterator<? extends T>>() {
+      public boolean hasNext() {
+        return iterableIterator.hasNext();
+      }
+      public Iterator<? extends T> next() {
+        return iterableIterator.next().iterator();
+      }
+    };
+  }
+
+  /**
    * Combines multiple iterables into a single iterable. The returned iterable
    * has an iterator that traverses the elements of each iterable in
    * {@code inputs}. The input iterators are not polled until necessary.
@@ -404,32 +421,11 @@ public final class Iterables {
    * iterators are null.
    */
   public static <T> Iterable<T> concat(
-      Iterable<? extends Iterable<? extends T>> inputs) {
-    /*
-     * Hint: if you let A represent Iterable<? extends T> and B represent
-     * Iterator<? extends T>, then this Function would look simply like:
-     *
-     *   Function<A, B> function = new Function<A, B> {
-     *     public B apply(A from) {
-     *       return from.iterator();
-     *     }
-     *   }
-     *
-     * TODO(kevinb): it would probably be better to do this directly instead of
-     * via transform().  The transform() impl isn't all that hard.
-     */
-
-    Function<Iterable<? extends T>, Iterator<? extends T>> function
-        = new Function<Iterable<? extends T>, Iterator<? extends T>>() {
-      public Iterator<? extends T> apply(Iterable<? extends T> from) {
-        return from.iterator();
-      }
-    };
-    final Iterable<Iterator<? extends T>> iterators
-        = transform(inputs, function);
+      final Iterable<? extends Iterable<? extends T>> inputs) {
+    checkNotNull(inputs);
     return new IterableWithToString<T>() {
       public Iterator<T> iterator() {
-        return Iterators.concat(iterators.iterator());
+        return Iterators.concat(iterators(inputs));
       }
     };
   }
