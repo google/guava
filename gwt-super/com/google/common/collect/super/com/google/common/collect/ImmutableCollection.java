@@ -135,6 +135,10 @@ public abstract class ImmutableCollection<E>
   static <E> ImmutableCollection<E> unsafeDelegate(Collection<E> delegate) {
     return new ForwardingImmutableCollection<E>(delegate);
   }
+  
+  boolean isPartialView(){
+    return false;
+  }
 
   abstract static class Builder<E> {
 

@@ -152,17 +152,18 @@ public class ImmutableSortedMap<K, V>
    * Returns an immutable map containing the same entries as {@code map}, sorted
    * by the natural ordering of the keys.
    *
-   * <p><b>Note:</b> Despite what the method name suggests, if {@code map} is an
-   * {@code ImmutableSortedMap}, it may be returned instead of a copy.
+   * <p>Despite the method name, this method attempts to avoid actually copying
+   * the data when it is safe to do so. The exact circumstances under which a
+   * copy will or will not be performed are undocumented and subject to change.
    *
    * <p>This method is not type-safe, as it may be called on a map with keys
    * that are not mutually comparable.
    *
    * @throws ClassCastException if the keys in {@code map} are not mutually
-   *     comparable
+   *         comparable
    * @throws NullPointerException if any key or value in {@code map} is null
    * @throws IllegalArgumentException if any two keys are equal according to
-   *     their natural ordering
+   *         their natural ordering
    */
   public static <K, V> ImmutableSortedMap<K, V> copyOf(
       Map<? extends K, ? extends V> map) {
@@ -177,12 +178,13 @@ public class ImmutableSortedMap<K, V>
    * Returns an immutable map containing the same entries as {@code map}, with
    * keys sorted by the provided comparator.
    *
-   * <p><b>Note:</b> Despite what the method name suggests, if {@code map} is an
-   * {@code ImmutableSortedMap}, it may be returned instead of a copy.
+   * <p>Despite the method name, this method attempts to avoid actually copying
+   * the data when it is safe to do so. The exact circumstances under which a
+   * copy will or will not be performed are undocumented and subject to change.
    *
    * @throws NullPointerException if any key or value in {@code map} is null
-   * @throws IllegalArgumentException if any two keys are equal according to
-   *     the comparator
+   * @throws IllegalArgumentException if any two keys are equal according to the
+   *         comparator
    */
   public static <K, V> ImmutableSortedMap<K, V> copyOf(
       Map<? extends K, ? extends V> map, Comparator<? super K> comparator) {
@@ -193,8 +195,9 @@ public class ImmutableSortedMap<K, V>
    * Returns an immutable map containing the same entries as the provided sorted
    * map, with the same ordering.
    *
-   * <p><b>Note:</b> Despite what the method name suggests, if {@code map} is an
-   * {@code ImmutableSortedMap}, it may be returned instead of a copy.
+   * <p>Despite the method name, this method attempts to avoid actually copying
+   * the data when it is safe to do so. The exact circumstances under which a
+   * copy will or will not be performed are undocumented and subject to change.
    *
    * @throws NullPointerException if any key or value in {@code map} is null
    */
@@ -224,7 +227,9 @@ public class ImmutableSortedMap<K, V>
       // Collections.unmodifiableSortedMap requires the same key type.
       @SuppressWarnings("unchecked")
       ImmutableSortedMap<K, V> kvMap = (ImmutableSortedMap<K, V>) map;
-      return kvMap;
+      if (!kvMap.isPartialView()) {
+        return kvMap;
+      }
     }
 
     // Using List to support concurrent map whose size changes
@@ -444,6 +449,10 @@ public class ImmutableSortedMap<K, V>
     return false;
   }
 
+  @Override boolean isPartialView() {
+    return fromIndex != 0 || toIndex != entries.length;   
+  }
+
   private transient ImmutableSet<Entry<K, V>> entrySet;
 
   /**
@@ -466,6 +475,10 @@ public class ImmutableSortedMap<K, V>
 
     EntrySet(ImmutableSortedMap<K, V> map) {
       this.map = map;
+    }
+
+    @Override boolean isPartialView() {
+      return map.isPartialView();
     }
 
     public int size() {
@@ -560,6 +573,10 @@ public class ImmutableSortedMap<K, V>
 
     @Override public boolean contains(Object target) {
       return map.containsValue(target);
+    }
+
+    @Override boolean isPartialView() {
+      return true;
     }
 
     @Override Object writeReplace() {

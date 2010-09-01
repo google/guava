@@ -53,4 +53,8 @@ class RegularImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
   @Override public ImmutableBiMap<V, K> inverse() {
     return inverse;
   }
+
+  @Override boolean isPartialView() {
+    return delegate.isPartialView() || inverse.delegate().isPartialView();
+  }
 }

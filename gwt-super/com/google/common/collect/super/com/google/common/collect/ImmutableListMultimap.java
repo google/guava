@@ -142,7 +142,7 @@ public class ImmutableListMultimap<K, V>
    * Builder instances can be reused; it is safe to call {@link #build} multiple
    * times to build multiple multimaps in series. Each multimap contains the
    * key-value mappings in the previously created multimaps.
-   * 
+   *
    * @since 2 (imported from Google Collections Library)
    */
   public static final class Builder<K, V>
@@ -208,16 +208,16 @@ public class ImmutableListMultimap<K, V>
   }
 
   /**
-   * Returns an immutable multimap containing the same mappings as
-   * {@code multimap}. The generated multimap's key and value orderings
-   * correspond to the iteration ordering of the {@code multimap.asMap()} view.
+   * Returns an immutable multimap containing the same mappings as {@code
+   * multimap}. The generated multimap's key and value orderings correspond to
+   * the iteration ordering of the {@code multimap.asMap()} view.
    *
-   * <p><b>Note:</b> Despite what the method name suggests, if
-   * {@code multimap} is an {@code ImmutableListMultimap}, no copy will actually
-   * be performed, and the given multimap itself will be returned.
+   * <p>Despite the method name, this method attempts to avoid actually copying
+   * the data when it is safe to do so. The exact circumstances under which a
+   * copy will or will not be performed are undocumented and subject to change.
    *
    * @throws NullPointerException if any key or value in {@code multimap} is
-   *     null
+   *         null
    */
   public static <K, V> ImmutableListMultimap<K, V> copyOf(
       Multimap<? extends K, ? extends V> multimap) {
@@ -225,11 +225,14 @@ public class ImmutableListMultimap<K, V>
       return of();
     }
 
+    // TODO(user): copy ImmutableSetMultimap by using asList() on the sets
     if (multimap instanceof ImmutableListMultimap) {
       @SuppressWarnings("unchecked") // safe since multimap is not writable
       ImmutableListMultimap<K, V> kvMultimap
           = (ImmutableListMultimap<K, V>) multimap;
-      return kvMultimap;
+      if (!kvMultimap.isPartialView()) {
+        return kvMultimap;
+      }
     }
 
     ImmutableMap.Builder<K, ImmutableList<V>> builder = ImmutableMap.builder();
@@ -284,4 +287,3 @@ public class ImmutableListMultimap<K, V>
     throw new UnsupportedOperationException();
   }
 }
-

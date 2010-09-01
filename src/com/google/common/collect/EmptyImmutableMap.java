@@ -74,6 +74,10 @@ final class EmptyImmutableMap extends ImmutableMap<Object, Object> {
     return false;
   }
 
+  @Override boolean isPartialView() {
+    return false;
+  }
+
   @Override public int hashCode() {
     return 0;
   }

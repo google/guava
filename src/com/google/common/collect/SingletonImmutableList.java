@@ -132,6 +132,10 @@ final class SingletonImmutableList<E> extends ImmutableList<E> {
     return false;
   }
 
+  @Override boolean isPartialView() {
+    return false;
+  }
+
   @Override public Object[] toArray() {
     return new Object[] { element };
   }

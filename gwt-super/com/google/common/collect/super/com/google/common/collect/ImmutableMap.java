@@ -171,6 +171,10 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
         return new RegularImmutableMap<K, V>(orderPreservingCopy);
     }
   }
+  
+  boolean isPartialView(){
+    return false;
+  }
 
   public final V put(K k, V v) {
     throw new UnsupportedOperationException();

@@ -285,19 +285,21 @@ public abstract class ImmutableSortedSet<E>
    * Returns an immutable sorted set containing the given elements sorted by
    * their natural ordering. When multiple elements are equivalent according to
    * {@code compareTo()}, only the first one specified is included. To create a
-   * copy of a {@code SortedSet} that preserves the comparator, call
-   * {@link #copyOfSorted} instead. This method iterates over {@code elements}
-   * at most once.
+   * copy of a {@code SortedSet} that preserves the comparator, call {@link
+   * #copyOfSorted} instead. This method iterates over {@code elements} at most
+   * once.
+
    *
-   * <p>Note that if {@code s} is a {@code Set<String>}, then
-   * {@code ImmutableSortedSet.copyOf(s)} returns an
-   * {@code ImmutableSortedSet<String>} containing each of the strings in
-   * {@code s}, while {@code ImmutableSortedSet.of(s)} returns an
-   * {@code ImmutableSortedSet<Set<String>>} containing one element (the given
-   * set itself).
+   * <p>Note that if {@code s} is a {@code Set<String>}, then {@code
+   * ImmutableSortedSet.copyOf(s)} returns an {@code ImmutableSortedSet<String>}
+   * containing each of the strings in {@code s}, while {@code
+   * ImmutableSortedSet.of(s)} returns an {@code
+   * ImmutableSortedSet<Set<String>>} containing one element (the given set
+   * itself).
    *
-   * <p><b>Note:</b> Despite what the method name suggests, if {@code elements}
-   * is an {@code ImmutableSortedSet}, it may be returned instead of a copy.
+   * <p>Despite the method name, this method attempts to avoid actually copying
+   * the data when it is safe to do so. The exact circumstances under which a
+   * copy will or will not be performed are undocumented and subject to change.
    *
    * <p>This method is not type-safe, as it may be called on elements that are
    * not mutually comparable.
@@ -393,11 +395,12 @@ public abstract class ImmutableSortedSet<E>
    * according to {@code compare()}, only the first one specified is
    * included. This method iterates over {@code elements} at most once.
    *
-   * <p><b>Note:</b> Despite what the method name suggests, if {@code elements}
-   * is an {@code ImmutableSortedSet}, it may be returned instead of a copy.
+   * <p>Despite the method name, this method attempts to avoid actually copying
+   * the data when it is safe to do so. The exact circumstances under which a
+   * copy will or will not be performed are undocumented and subject to change.
    *
-   * @throws NullPointerException if {@code comparator} or any of
-   *     {@code elements} is null
+   * @throws NullPointerException if {@code comparator} or any of {@code
+   *         elements} is null
    */
   public static <E> ImmutableSortedSet<E> copyOf(
       Comparator<? super E> comparator, Iterable<? extends E> elements) {
@@ -411,6 +414,11 @@ public abstract class ImmutableSortedSet<E>
    * according to {@code compareTo()}, only the first one specified is
    * included.
    *
+   * <p>Despite the method name, this method attempts to avoid actually copying
+   * the data when it is safe to do so. The exact circumstances under which a
+   * copy will or will not be performed are undocumented and subject to change.
+   *
+
    * <p>This method is safe to use even when {@code elements} is a synchronized
    * or concurrent collection that is currently being modified by another
    * thread.
@@ -426,12 +434,13 @@ public abstract class ImmutableSortedSet<E>
 
   /**
    * Returns an immutable sorted set containing the elements of a sorted set,
-   * sorted by the same {@code Comparator}. That behavior differs from
-   * {@link #copyOf(Iterable)}, which always uses the natural ordering of the
+   * sorted by the same {@code Comparator}. That behavior differs from {@link
+   * #copyOf(Iterable)}, which always uses the natural ordering of the
    * elements.
    *
-   * <p><b>Note:</b> Despite what the method name suggests, if {@code sortedSet}
-   * is an {@code ImmutableSortedSet}, it may be returned instead of a copy.
+   * <p>Despite the method name, this method attempts to avoid actually copying
+   * the data when it is safe to do so. The exact circumstances under which a
+   * copy will or will not be performed are undocumented and subject to change.
    *
    * <p>This method is safe to use even when {@code elements} is a synchronized
    * or concurrent collection that is currently being modified by another
@@ -458,7 +467,7 @@ public abstract class ImmutableSortedSet<E>
     if (hasSameComparator && (elements instanceof ImmutableSortedSet)) {
       @SuppressWarnings("unchecked")
       ImmutableSortedSet<E> result = (ImmutableSortedSet<E>) elements;
-      if (!result.hasPartialArray()) {
+      if (!result.isPartialView()) {
         return result;
       }
     }
@@ -769,9 +778,6 @@ public abstract class ImmutableSortedSet<E>
   abstract ImmutableSortedSet<E> subSetImpl(E fromElement, E toElement);
   abstract ImmutableSortedSet<E> tailSetImpl(E fromElement);
 
-  /** Returns whether the elements are stored in a subset of a larger array. */
-  abstract boolean hasPartialArray();
-
   /**
    * Returns the position of an element within the set, or -1 if not present.
    */
@@ -809,3 +815,4 @@ public abstract class ImmutableSortedSet<E>
     return new SerializedForm<E>(comparator, toArray());
   }
 }
+

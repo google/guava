@@ -135,6 +135,10 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
     return false;
   }
 
+  @Override boolean isPartialView() {
+    return false;
+  }
+
   private transient ImmutableSet<Entry<K, V>> entrySet;
 
   @Override public ImmutableSet<Entry<K, V>> entrySet() {
@@ -185,6 +189,10 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
     @Override public boolean contains(Object target) {
       return map.containsKey(target);
     }
+
+    @Override boolean isPartialView() {
+      return true;
+    }
   }
 
   private transient ImmutableCollection<V> values;
@@ -219,6 +227,10 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
 
     @Override public boolean contains(Object target) {
       return map.containsValue(target);
+    }
+
+    @Override boolean isPartialView() {
+      return true;
     }
   }
 

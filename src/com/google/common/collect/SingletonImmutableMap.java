@@ -74,6 +74,10 @@ final class SingletonImmutableMap<K, V> extends ImmutableMap<K, V> {
     return singleValue.equals(value);
   }
 
+  @Override boolean isPartialView() {
+    return false;
+  }
+
   private transient ImmutableSet<Entry<K, V>> entrySet;
 
   @Override public ImmutableSet<Entry<K, V>> entrySet() {
@@ -117,6 +121,10 @@ final class SingletonImmutableMap<K, V> extends ImmutableMap<K, V> {
 
     @Override public UnmodifiableIterator<V> iterator() {
       return Iterators.singletonIterator(singleValue);
+    }
+
+    @Override boolean isPartialView() {
+      return true;
     }
   }
 

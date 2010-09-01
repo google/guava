@@ -53,6 +53,10 @@ class RegularImmutableList<E> extends ImmutableList<E> {
     return false;
   }
 
+  @Override boolean isPartialView() {
+    return offset != 0 || size != array.length;
+  }
+
   @Override public boolean contains(Object target) {
     return indexOf(target) != -1;
   }

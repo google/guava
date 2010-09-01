@@ -146,6 +146,10 @@ final class RegularImmutableSortedSet<E>
     return -lower - 1;
   }
 
+  @Override boolean isPartialView() {
+    return fromIndex != 0 || toIndex != elements.length;
+  }
+
   @Override public Object[] toArray() {
     Object[] array = new Object[size()];
     System.arraycopy(elements, fromIndex, array, 0, size());
@@ -245,10 +249,6 @@ final class RegularImmutableSortedSet<E>
     } else {
       return emptySet(comparator);
     }
-  }
-
-  @Override boolean hasPartialArray() {
-    return (fromIndex != 0) || (toIndex != elements.length);
   }
 
   @Override int indexOf(Object target) {

@@ -206,16 +206,16 @@ public abstract class ImmutableMultimap<K, V>
   }
 
   /**
-   * Returns an immutable multimap containing the same mappings as
-   * {@code multimap}. The generated multimap's key and value orderings
-   * correspond to the iteration ordering of the {@code multimap.asMap()} view.
+   * Returns an immutable multimap containing the same mappings as {@code
+   * multimap}. The generated multimap's key and value orderings correspond to
+   * the iteration ordering of the {@code multimap.asMap()} view.
    *
-   * <p><b>Note:</b> Despite what the method name suggests, if
-   * {@code multimap} is an {@code ImmutableMultimap}, no copy will actually be
-   * performed, and the given multimap itself will be returned.
+   * <p>Despite the method name, this method attempts to avoid actually copying
+   * the data when it is safe to do so. The exact circumstances under which a
+   * copy will or will not be performed are undocumented and subject to change.
    *
    * @throws NullPointerException if any key or value in {@code multimap} is
-   *     null
+   *         null
    */
   public static <K, V> ImmutableMultimap<K, V> copyOf(
       Multimap<? extends K, ? extends V> multimap) {
@@ -223,10 +223,11 @@ public abstract class ImmutableMultimap<K, V>
       @SuppressWarnings("unchecked") // safe since multimap is not writable
       ImmutableMultimap<K, V> kvMultimap
           = (ImmutableMultimap<K, V>) multimap;
-      return kvMultimap;
-    } else {
-      return ImmutableListMultimap.copyOf(multimap);
+      if (!kvMultimap.isPartialView()) {
+        return kvMultimap;
+      }
     }
+    return ImmutableListMultimap.copyOf(multimap);
   }
 
   final transient ImmutableMap<K, ? extends ImmutableCollection<V>> map;
@@ -327,6 +328,10 @@ public abstract class ImmutableMultimap<K, V>
    */
   public boolean remove(Object key, Object value) {
     throw new UnsupportedOperationException();
+  }
+
+  boolean isPartialView(){
+    return map.isPartialView();
   }
 
   // accessors
@@ -439,6 +444,10 @@ public abstract class ImmutableMultimap<K, V>
       };
     }
 
+    @Override boolean isPartialView() {
+      return multimap.isPartialView();
+    }
+
     public int size() {
       return multimap.size();
     }
@@ -489,9 +498,9 @@ public abstract class ImmutableMultimap<K, V>
   }
 
   private static class Values<V> extends ImmutableCollection<V> {
-    final Multimap<?, V> multimap;
+    final ImmutableMultimap<?, V> multimap;
 
-    Values(Multimap<?, V> multimap) {
+    Values(ImmutableMultimap<?, V> multimap) {
       this.multimap = multimap;
     }
 
@@ -510,6 +519,10 @@ public abstract class ImmutableMultimap<K, V>
 
     public int size() {
       return multimap.size();
+    }
+
+    @Override boolean isPartialView() {
+      return true;
     }
 
     private static final long serialVersionUID = 0;

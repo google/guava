@@ -74,6 +74,10 @@ final class EmptyImmutableList extends ImmutableList<Object> {
     return true;
   }
 
+  @Override boolean isPartialView() {
+    return false;
+  }
+
   @Override public boolean contains(Object target) {
     return false;
   }

@@ -224,18 +224,23 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
    * it is a {@code SortedMap} whose comparator is not <i>consistent with
    * equals</i>), the results of this method are undefined.
    *
-   * <p><b>Note:</b> Despite what the method name suggests, if {@code map} is an
-   * {@code ImmutableMap}, no copy will actually be performed, and the given map
-   * itself will be returned.
+   * <p>Despite the method name, this method attempts to avoid actually copying
+   * the data when it is safe to do so. The exact circumstances under which a
+   * copy will or will not be performed are undocumented and subject to change.
    *
    * @throws NullPointerException if any key or value in {@code map} is null
    */
   public static <K, V> ImmutableMap<K, V> copyOf(
       Map<? extends K, ? extends V> map) {
     if ((map instanceof ImmutableMap) && !(map instanceof ImmutableSortedMap)) {
+      // TODO(user): Make ImmutableMap.copyOf(immutableBiMap) call copyOf()
+      // on the ImmutableMap delegate(), rather than the bimap itself
+
       @SuppressWarnings("unchecked") // safe since map is not writable
       ImmutableMap<K, V> kvMap = (ImmutableMap<K, V>) map;
-      return kvMap;
+      if (!kvMap.isPartialView()) {
+        return kvMap;
+      }
     }
 
     @SuppressWarnings("unchecked") // we won't write to this array
@@ -336,6 +341,8 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
     }
     return false;
   }
+
+  abstract boolean isPartialView();
 
   @Override public int hashCode() {
     // not caching hash code since it could change if map values are mutable

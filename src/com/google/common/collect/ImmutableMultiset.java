@@ -49,6 +49,7 @@ import javax.annotation.Nullable;
  * @since 2 (imported from Google Collections Library)
  */
 @GwtCompatible(serializable = true, emulated = true)
+// TODO(user): write an efficient asList() implementation
 public class ImmutableMultiset<E> extends ImmutableCollection<E>
     implements Multiset<E> {
 
@@ -77,7 +78,7 @@ public class ImmutableMultiset<E> extends ImmutableCollection<E>
    * @throws NullPointerException if any element is null
    * @since 6 (source-compatible since release 2)
    */
-  @SuppressWarnings("unchecked") // 
+  @SuppressWarnings("unchecked") //
   public static <E> ImmutableMultiset<E> of(E e1, E e2) {
     return copyOfInternal(e1, e2);
   }
@@ -88,7 +89,7 @@ public class ImmutableMultiset<E> extends ImmutableCollection<E>
    * @throws NullPointerException if any element is null
    * @since 6 (source-compatible since release 2)
    */
-  @SuppressWarnings("unchecked") // 
+  @SuppressWarnings("unchecked") //
   public static <E> ImmutableMultiset<E> of(E e1, E e2, E e3) {
     return copyOfInternal(e1, e2, e3);
   }
@@ -99,7 +100,7 @@ public class ImmutableMultiset<E> extends ImmutableCollection<E>
    * @throws NullPointerException if any element is null
    * @since 6 (source-compatible since release 2)
    */
-  @SuppressWarnings("unchecked") // 
+  @SuppressWarnings("unchecked") //
   public static <E> ImmutableMultiset<E> of(E e1, E e2, E e3, E e4) {
     return copyOfInternal(e1, e2, e3, e4);
   }
@@ -110,7 +111,7 @@ public class ImmutableMultiset<E> extends ImmutableCollection<E>
    * @throws NullPointerException if any element is null
    * @since 6 (source-compatible since release 2)
    */
-  @SuppressWarnings("unchecked") // 
+  @SuppressWarnings("unchecked") //
   public static <E> ImmutableMultiset<E> of(E e1, E e2, E e3, E e4, E e5) {
     return copyOfInternal(e1, e2, e3, e4, e5);
   }
@@ -121,7 +122,7 @@ public class ImmutableMultiset<E> extends ImmutableCollection<E>
    * @throws NullPointerException if any element is null
    * @since 6 (source-compatible since release 2)
    */
-  @SuppressWarnings("unchecked") // 
+  @SuppressWarnings("unchecked") //
   public static <E> ImmutableMultiset<E> of(
       E e1, E e2, E e3, E e4, E e5, E e6, E... others) {
     int size = others.length + 6;
@@ -168,12 +169,9 @@ public class ImmutableMultiset<E> extends ImmutableCollection<E>
    * example, {@code ImmutableMultiset.copyOf(Arrays.asList(2, 3, 1, 3))} yields
    * a multiset with elements in the order {@code 2, 3, 3, 1}.
    *
-   * <p>Note that if {@code c} is a {@code Collection<String>}, then {@code
-   * ImmutableMultiset.copyOf(c)} returns an {@code ImmutableMultiset<String>}
-   * containing each of the strings in {@code c}, while
-   * {@code ImmutableMultiset.of(c)} returns an
-   * {@code ImmutableMultiset<Collection<String>>} containing one element (the
-   * given collection itself).
+   * <p>Despite the method name, this method attempts to avoid actually copying
+   * the data when it is safe to do so. The exact circumstances under which a
+   * copy will or will not be performed are undocumented and subject to change.
    *
    * <p><b>Note:</b> Despite what the method name suggests, if {@code elements}
    * is an {@code ImmutableMultiset}, no copy will actually be performed, and
@@ -186,7 +184,9 @@ public class ImmutableMultiset<E> extends ImmutableCollection<E>
     if (elements instanceof ImmutableMultiset) {
       @SuppressWarnings("unchecked") // all supported methods are covariant
       ImmutableMultiset<E> result = (ImmutableMultiset<E>) elements;
-      return result;
+      if (!result.isPartialView()) {
+        return result;
+      }
     }
 
     Multiset<? extends E> multiset = (elements instanceof Multiset)
@@ -195,7 +195,7 @@ public class ImmutableMultiset<E> extends ImmutableCollection<E>
 
     return copyOfInternal(multiset);
   }
-  
+
   private static <E> ImmutableMultiset<E> copyOfInternal(E... elements) {
     return copyOf(Arrays.asList(elements));
   }
@@ -257,6 +257,10 @@ public class ImmutableMultiset<E> extends ImmutableCollection<E>
   ImmutableMultiset(ImmutableMap<E, Integer> map, int size) {
     this.map = map;
     this.size = size;
+  }
+
+  @Override boolean isPartialView() {
+    return map.isPartialView();
   }
 
   public int count(@Nullable Object element) {
@@ -395,6 +399,10 @@ public class ImmutableMultiset<E> extends ImmutableCollection<E>
 
     public int size() {
       return multiset.map.size();
+    }
+
+    @Override boolean isPartialView() {
+      return multiset.isPartialView();
     }
 
     @Override public boolean contains(Object o) {

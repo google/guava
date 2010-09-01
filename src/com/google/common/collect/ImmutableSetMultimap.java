@@ -247,9 +247,9 @@ public class ImmutableSetMultimap<K, V>
    * Repeated occurrences of an entry in the multimap after the first are
    * ignored.
    *
-   * <p><b>Note:</b> Despite what the method name suggests, if
-   * {@code multimap} is an {@code ImmutableSetMultimap}, no copy will actually
-   * be performed, and the given multimap itself will be returned.
+   * <p>Despite the method name, this method attempts to avoid actually copying
+   * the data when it is safe to do so. The exact circumstances under which a
+   * copy will or will not be performed are undocumented and subject to change.
    *
    * @throws NullPointerException if any key or value in {@code multimap} is
    *     null
@@ -265,7 +265,9 @@ public class ImmutableSetMultimap<K, V>
       @SuppressWarnings("unchecked") // safe since multimap is not writable
       ImmutableSetMultimap<K, V> kvMultimap
           = (ImmutableSetMultimap<K, V>) multimap;
-      return kvMultimap;
+      if (!kvMultimap.isPartialView()) {
+        return kvMultimap;
+      }
     }
 
     ImmutableMap.Builder<K, ImmutableSet<V>> builder = ImmutableMap.builder();

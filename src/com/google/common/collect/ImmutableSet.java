@@ -240,12 +240,11 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E>
         return construct(elements.clone());
     }
   }
-  
+
   /**
    * Returns an immutable set containing the given elements, in order. Repeated
    * occurrences of an element (according to {@link Object#equals}) after the
-   * first are ignored. This method iterates over {@code elements} at most
-   * once.
+   * first are ignored. This method iterates over {@code elements} at most once.
    *
    * <p>Note that if {@code s} is a {@code Set<String>}, then {@code
    * ImmutableSet.copyOf(s)} returns an {@code ImmutableSet<String>} containing
@@ -253,9 +252,9 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E>
    * a {@code ImmutableSet<Set<String>>} containing one element (the given set
    * itself).
    *
-   * <p><b>Note:</b> Despite what the method name suggests, if {@code elements}
-   * is an {@code ImmutableSet} (but not an {@code ImmutableSortedSet}), no copy
-   * will actually be performed, and the given set itself will be returned.
+   * <p>Despite the method name, this method attempts to avoid actually copying
+   * the data when it is safe to do so. The exact circumstances under which a
+   * copy will or will not be performed are undocumented and subject to change.
    *
    * @throws NullPointerException if any of {@code elements} is null
    */
@@ -290,9 +289,17 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E>
    * a {@code ImmutableSet<Set<String>>} containing one element (the given set
    * itself).
    *
-   * <p><b>Note:</b> Despite what the method name suggests, if {@code elements}
-   * is an {@code ImmutableSet} (but not an {@code ImmutableSortedSet}), no copy
-   * will actually be performed, and the given set itself will be returned.
+   * <p><b>Note:</b> Despite what the method name suggests, {@code copyOf} will
+   * return constant-space views, rather than linear-space copies, of some
+   * inputs known to be immutable. For some other immutable inputs, such as key
+   * sets of an {@code ImmutableMap}, it still performs a copy in order to avoid
+   * holding references to the values of the map. The heuristics used in this
+   * decision are undocumented and subject to change except that:
+   * <ul>
+   * <li>A full copy will be done of any {@code ImmutableSortedSet}.</li>
+   * <li>{@code ImmutableSet.copyOf()} is idempotent with respect to pointer
+   * equality.</li>
+   * </ul>
    *
    * <p>This method is safe to use even when {@code elements} is a synchronized
    * or concurrent collection that is currently being modified by another
@@ -306,7 +313,9 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E>
         && !(elements instanceof ImmutableSortedSet)) {
       @SuppressWarnings("unchecked") // all supported methods are covariant
       ImmutableSet<E> set = (ImmutableSet<E>) elements;
-      return set;
+      if (!set.isPartialView()) {
+        return set;
+      }
     }
     return copyFromCollection(elements);
   }
@@ -418,6 +427,10 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E>
         }
       }
       return true;
+    }
+
+    @Override boolean isPartialView() {
+      return false;
     }
 
     @Override ImmutableList<E> createAsList() {

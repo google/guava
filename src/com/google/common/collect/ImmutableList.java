@@ -234,9 +234,9 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
   /**
    * Returns an immutable list containing the given elements, in order.
    *
-   * <p><b>Note:</b> Despite what the method name suggests, if {@code elements}
-   * is an {@code ImmutableList}, no copy will actually be performed, and the
-   * given list itself will be returned.
+   * <p>Despite the method name, this method attempts to avoid actually copying
+   * the data when it is safe to do so. The exact circumstances under which a
+   * copy will or will not be performed are undocumented and subject to change.
    *
    * <p>Note that if {@code list} is a {@code List<String>}, then {@code
    * ImmutableList.copyOf(list)} returns an {@code ImmutableList<String>}
@@ -253,13 +253,9 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
    */
   public static <E> ImmutableList<E> copyOf(Collection<? extends E> elements) {
     if (elements instanceof ImmutableCollection) {
-      /*
-       * TODO(kevinb): When given an ImmutableList that's a sublist, copy the
-       * referenced portion of the array into a new array to save space?
-       */
       @SuppressWarnings("unchecked") // all supported methods are covariant
-      ImmutableCollection<E> list = (ImmutableCollection<E>) elements;
-      return list.asList();
+      ImmutableList<E> list = ((ImmutableCollection<E>) elements).asList();
+      return list.isPartialView() ? copyFromCollection(list) : list;
     }
     return copyFromCollection(elements);
   }

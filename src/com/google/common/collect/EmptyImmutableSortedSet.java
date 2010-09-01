@@ -53,6 +53,10 @@ class EmptyImmutableSortedSet<E> extends ImmutableSortedSet<E> {
     return Iterators.emptyIterator();
   }
 
+  @Override boolean isPartialView() {
+    return false;
+  }
+
   private static final Object[] EMPTY_ARRAY = new Object[0];
 
   @Override public Object[] toArray() {
@@ -104,10 +108,6 @@ class EmptyImmutableSortedSet<E> extends ImmutableSortedSet<E> {
 
   @Override ImmutableSortedSet<E> tailSetImpl(E fromElement) {
     return this;
-  }
-
-  @Override boolean hasPartialArray() {
-    return false;
   }
 
   @Override int indexOf(Object target) {

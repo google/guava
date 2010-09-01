@@ -66,6 +66,10 @@ final class SingletonImmutableSet<E> extends ImmutableSet<E> {
     return Iterators.singletonIterator(element);
   }
 
+  @Override boolean isPartialView() {
+    return false;
+  }
+
   @Override public Object[] toArray() {
     return new Object[] { element };
   }

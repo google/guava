@@ -50,6 +50,10 @@ final class EmptyImmutableSet extends ImmutableSet<Object> {
     return Iterators.emptyIterator();
   }
 
+  @Override boolean isPartialView() {
+    return false;
+  }
+
   private static final Object[] EMPTY_ARRAY = new Object[0];
 
   @Override public Object[] toArray() {

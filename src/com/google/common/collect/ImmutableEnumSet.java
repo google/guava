@@ -45,6 +45,10 @@ final class ImmutableEnumSet<E extends Enum<E>> extends ImmutableSet<E> {
     this.delegate = delegate;
   }
 
+  @Override boolean isPartialView() {
+    return false;
+  }
+
   @Override public UnmodifiableIterator<E> iterator() {
     return Iterators.unmodifiableIterator(delegate.iterator());
   }

@@ -183,8 +183,9 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableMap<K, V>
    * it is a {@code SortedMap} whose comparator is not <i>consistent with
    * equals</i>), the results of this method are undefined.
    *
-   * <p><b>Note:</b> If {@code map} is an {@code ImmutableBiMap}, the given map
-   * itself will be returned.
+   * <p>Despite the method name, this method attempts to avoid actually copying
+   * the data when it is safe to do so. The exact circumstances under which a
+   * copy will or will not be performed are undocumented and subject to change.
    *
    * @throws IllegalArgumentException if two keys have the same value
    * @throws NullPointerException if any key or value in {@code map} is null
@@ -194,7 +195,11 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableMap<K, V>
     if (map instanceof ImmutableBiMap) {
       @SuppressWarnings("unchecked") // safe since map is not writable
       ImmutableBiMap<K, V> bimap = (ImmutableBiMap<K, V>) map;
-      return bimap;
+      // TODO(user): if we need to make a copy of a BiMap because the
+      // forward map is a view, don't make a copy of the non-view delegate map
+      if (!bimap.isPartialView()) {
+        return bimap;
+      }
     }
 
     if (map.isEmpty()) {
@@ -282,6 +287,9 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableMap<K, V>
     }
     @Override public ImmutableBiMap<Object, Object> inverse() {
       return this;
+    }
+    @Override boolean isPartialView() {
+      return false;
     }
     Object readResolve() {
       return EMPTY_IMMUTABLE_BIMAP; // preserve singleton property

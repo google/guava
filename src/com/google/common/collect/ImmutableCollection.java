@@ -186,6 +186,8 @@ public abstract class ImmutableCollection<E>
     }
   }
 
+  abstract boolean isPartialView();
+
   private static class EmptyImmutableCollection
       extends ImmutableCollection<Object> {
     public int size() {
@@ -216,8 +218,19 @@ public abstract class ImmutableCollection<E>
       }
       return array;
     }
+
+    @Override ImmutableList<Object> createAsList() {
+      return ImmutableList.of();
+    }
+
+    @Override boolean isPartialView() {
+      return false;
+    }
   }
 
+  /**
+   * Nonempty collection stored in an array.
+   */
   private static class ArrayImmutableCollection<E>
       extends ImmutableCollection<E> {
     private final E[] elements;
@@ -236,6 +249,15 @@ public abstract class ImmutableCollection<E>
 
     @Override public UnmodifiableIterator<E> iterator() {
       return Iterators.forArray(elements);
+    }
+
+    @Override ImmutableList<E> createAsList() {
+      return elements.length == 1 ? new SingletonImmutableList<E>(elements[0])
+          : new RegularImmutableList<E>(elements);
+    }
+
+    @Override boolean isPartialView() {
+      return false;
     }
   }
 
