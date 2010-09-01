@@ -328,7 +328,15 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
 
   // This declaration is needed to make List.iterator() and
   // ImmutableCollection.iterator() consistent.
-  @Override public abstract UnmodifiableIterator<E> iterator();
+  @Override public UnmodifiableIterator<E> iterator() {
+    return listIterator();
+  }
+
+  @Override public UnmodifiableListIterator<E> listIterator() {
+    return listIterator(0);
+  }
+
+  @Override public abstract UnmodifiableListIterator<E> listIterator(int index);
 
   // Mark these two methods with @Nullable
 

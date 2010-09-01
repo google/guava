@@ -23,9 +23,8 @@ import static com.google.common.base.Preconditions.checkPositionIndexes;
 import com.google.common.annotations.GwtCompatible;
 
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
-import java.util.ListIterator;
+import java.util.NoSuchElementException;
 
 import javax.annotation.Nullable;
 
@@ -37,6 +36,33 @@ import javax.annotation.Nullable;
 @GwtCompatible(serializable = true, emulated = true)
 final class EmptyImmutableList extends ImmutableList<Object> {
   static final EmptyImmutableList INSTANCE = new EmptyImmutableList();
+  static final UnmodifiableListIterator<Object> ITERATOR =
+      new UnmodifiableListIterator<Object>() {
+
+        @Override public boolean hasNext() {
+          return false;
+        }
+
+        @Override public boolean hasPrevious() {
+          return false;
+        }
+
+        @Override public Object next() {
+          throw new NoSuchElementException();
+        }
+
+        @Override public int nextIndex() {
+          return 0;
+        }
+
+        @Override public Object previous() {
+          throw new NoSuchElementException();
+        }
+
+        @Override public int previousIndex() {
+          return -1;
+        }
+      };
 
   private EmptyImmutableList() {}
 
@@ -88,13 +114,13 @@ final class EmptyImmutableList extends ImmutableList<Object> {
     return this;
   }
 
-  public ListIterator<Object> listIterator() {
-    return Collections.emptyList().listIterator();
+  @Override public UnmodifiableListIterator<Object> listIterator(){
+    return ITERATOR;
   }
 
-  public ListIterator<Object> listIterator(int start) {
+  @Override public UnmodifiableListIterator<Object> listIterator(int start) {
     checkPositionIndex(start, 0);
-    return Collections.emptyList().listIterator();
+    return ITERATOR;
   }
 
   @Override public boolean containsAll(Collection<?> targets) {

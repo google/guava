@@ -20,8 +20,6 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Preconditions;
 
 import java.util.List;
-import java.util.ListIterator;
-import java.util.NoSuchElementException;
 
 import javax.annotation.Nullable;
 
@@ -118,60 +116,16 @@ class RegularImmutableList<E> extends ImmutableList<E> {
             array, offset + fromIndex, toIndex - fromIndex);
   }
 
-  public ListIterator<E> listIterator() {
-    return listIterator(0);
-  }
-
-  public ListIterator<E> listIterator(final int start) {
+  @Override public UnmodifiableListIterator<E> listIterator(final int start) {
     Preconditions.checkPositionIndex(start, size);
 
-    return new ListIterator<E>() {
-      int index = start;
-
-      public boolean hasNext() {
-        return index < size;
-      }
-      public boolean hasPrevious() {
-        return index > 0;
+    return new AbstractIndexedIterator<E>(start, size) {
+      // The fake cast to E is safe because the creation methods only allow E's
+      @SuppressWarnings("unchecked")
+      @Override protected E get(int index) {
+        return (E) array[index + offset];
       }
 
-      public int nextIndex() {
-        return index;
-      }
-      public int previousIndex() {
-        return index - 1;
-      }
-
-      public E next() {
-        E result;
-        try {
-          result = get(index);
-        } catch (IndexOutOfBoundsException rethrown) {
-          throw new NoSuchElementException();
-        }
-        index++;
-        return result;
-      }
-      public E previous() {
-        E result;
-        try {
-          result = get(index - 1);
-        } catch (IndexOutOfBoundsException rethrown) {
-          throw new NoSuchElementException();
-        }
-        index--;
-        return result;
-      }
-
-      public void set(E o) {
-        throw new UnsupportedOperationException();
-      }
-      public void add(E o) {
-        throw new UnsupportedOperationException();
-      }
-      public void remove() {
-        throw new UnsupportedOperationException();
-      }
     };
   }
 
