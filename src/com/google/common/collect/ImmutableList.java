@@ -249,7 +249,6 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
    * thread.
    *
    * @throws NullPointerException if any of {@code elements} is null
-   * @since 2 (Iterable overload existed previously)
    */
   public static <E> ImmutableList<E> copyOf(Collection<? extends E> elements) {
     if (elements instanceof ImmutableCollection) {
