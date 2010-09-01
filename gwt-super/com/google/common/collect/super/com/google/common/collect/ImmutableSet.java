@@ -105,6 +105,11 @@ public abstract class ImmutableSet<E> extends ForwardingImmutableCollection<E>
     }
   }
 
+  public static <E> ImmutableSet<E> copyOf(Collection<? extends E> elements) {
+    Iterable<? extends E> iterable = elements;
+    return copyOf(iterable);
+  } 
+
   public static <E> ImmutableSet<E> copyOf(Iterable<? extends E> elements) {
     if (elements instanceof ImmutableSet
         && !(elements instanceof ImmutableSortedSet)) {

@@ -299,10 +299,9 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E>
    * thread.
    *
    * @throws NullPointerException if any of {@code elements} is null
+   * @since 7 (source-compatible since release 2)
    */
-  // TODO(benyu): Consider changing this to public when we have the same
-  // overload in ImmutableSortedSet
-  private static <E> ImmutableSet<E> copyOf(Collection<? extends E> elements) {
+  public static <E> ImmutableSet<E> copyOf(Collection<? extends E> elements) {
     if (elements instanceof ImmutableSet
         && !(elements instanceof ImmutableSortedSet)) {
       @SuppressWarnings("unchecked") // all supported methods are covariant

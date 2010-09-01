@@ -136,6 +136,11 @@ public abstract class ImmutableSortedSet<E>
   }
 
   public static <E extends Comparable<? super E>> ImmutableSortedSet<E> copyOf(
+      Collection<? extends E> elements) {
+    return copyOfInternal(Ordering.natural(), elements, false);
+  }
+
+  public static <E extends Comparable<? super E>> ImmutableSortedSet<E> copyOf(
       Iterable<? extends E> elements) {
     return copyOfInternal(Ordering.natural(), elements, false);
   }
