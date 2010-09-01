@@ -681,9 +681,23 @@ public final class Iterators {
    * @throws NoSuchElementException if no element in {@code iterator} matches
    *     the given predicate
    */
-  public static <T> T find(Iterator<T> iterator, Predicate<? super T> predicate)
-  {
+  public static <T> T find(
+      Iterator<T> iterator, Predicate<? super T> predicate) {
     return filter(iterator, predicate).next();
+  }
+
+  /**
+   * Returns the first element in {@code iterator} that satisfies the given
+   * predicate.  If no such element is found, {@code defaultValue} will be
+   * returned from this method and the iterator will be left exhausted: its
+   * {@code hasNext()} method will return {@code false}.
+   *
+   * @since 7
+   */
+  public static <T> T find(Iterator<T> iterator, Predicate<? super T> predicate,
+      @Nullable T defaultValue) {
+    UnmodifiableIterator<T> filteredIterator = filter(iterator, predicate);
+    return filteredIterator.hasNext() ? filteredIterator.next() : defaultValue;
   }
 
   /**

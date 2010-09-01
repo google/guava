@@ -575,6 +575,17 @@ public final class Iterables {
   }
 
   /**
+   * Returns the first element in {@code iterable} that satisfies the given
+   * predicate, or {@code defaultValue} if none found.
+   *
+   * @since 7
+   */
+  public static <T> T find(Iterable<T> iterable,
+      Predicate<? super T> predicate, @Nullable T defaultValue) {
+    return Iterators.find(iterable.iterator(), predicate, defaultValue);
+  }
+
+  /**
    * Returns the index in {@code iterable} of the first element that satisfies
    * the provided {@code predicate}, or {@code -1} if the Iterable has no such
    * elements.
