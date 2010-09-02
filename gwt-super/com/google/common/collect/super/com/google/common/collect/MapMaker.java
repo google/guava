@@ -29,7 +29,7 @@ import java.util.concurrent.TimeUnit;
  *
  * @author Charles Fry
  */
-public class MapMaker {
+public class MapMaker extends GenericMapMaker<Object, Object> {
 
   private static class ExpiringComputingMap<K, V>
       extends ConcurrentHashMap<K, V> {
@@ -67,7 +67,7 @@ public class MapMaker {
        * entry was set to the same value again.
        */
       Timer timer = new Timer() {
-        public void run() {
+        @Override public void run() {
           remove(key, value);
         }
       };
@@ -122,6 +122,7 @@ public class MapMaker {
   public MapMaker() {
   }
 
+  @Override
   public MapMaker initialCapacity(int initialCapacity) {
     if (initialCapacity < 0) {
       throw new IllegalArgumentException();
@@ -138,6 +139,7 @@ public class MapMaker {
     return this;
   }
 
+  @Override
   public MapMaker expiration(long duration, TimeUnit unit) {
     if (expirationMillis != 0) {
       throw new IllegalStateException("expiration time of "
@@ -151,12 +153,14 @@ public class MapMaker {
     return this;
   }
 
+  @Override
   public <K, V> ConcurrentMap<K, V> makeMap() {
     return useCustomMap
         ? new ExpiringComputingMap<K, V>(expirationMillis)
         : new ConcurrentHashMap<K, V>(initialCapacity, loadFactor);
   }
 
+  @Override
   public <K, V> ConcurrentMap<K, V> makeComputingMap(
       Function<? super K, ? extends V> computer) {
     return new ExpiringComputingMap<K, V>(expirationMillis, computer);

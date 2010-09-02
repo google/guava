@@ -414,6 +414,7 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    * @since 7
    */
   @Beta
+  @GwtIncompatible("To be supported")
   public <K, V> GenericMapMaker<K, V> evictionListener(
       MapEvictionListener<K, V> listener) {
     checkState(this.evictionListener == null);

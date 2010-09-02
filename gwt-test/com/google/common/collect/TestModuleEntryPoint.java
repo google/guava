@@ -74,6 +74,7 @@ public class TestModuleEntryPoint implements EntryPoint {
         ForwardingSortedMap.class,
         ForwardingSortedSet.class,
         ForwardingSortedSetMultimap.class,
+        GenericMapMaker.class,
         Hashing.class,
         ImmutableEntry.class,
         ImmutableListMultimap.class,
