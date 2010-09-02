@@ -639,10 +639,24 @@ public final class Iterables {
   }
 
   /**
+   * Returns the first element in {@code iterable} or {@code defaultValue} if
+   * the iterable is empty.  The {@link Iterators} analog to this method is
+   * {@link Iterators#getNext}.
+   *
+   * @param defaultValue the default value to return if the iterable is empty
+   * @return the first element of {@code iterable} or the default value
+   * @since 7
+   */
+  @Beta
+  public static <T> T getFirst(Iterable<T> iterable, @Nullable T defaultValue) {
+    return Iterators.getNext(iterable.iterator(), defaultValue);
+  }
+
+  /**
    * Returns the last element of {@code iterable}.
    *
    * @return the last element of {@code iterable}
-   * @throws NoSuchElementException if the iterable has no elements
+   * @throws NoSuchElementException if the iterable is empty
    */
   public static <T> T getLast(Iterable<T> iterable) {
     // TODO(kevinb): Support a concurrently modified collection?

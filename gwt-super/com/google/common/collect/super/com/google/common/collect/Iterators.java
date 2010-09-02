@@ -781,10 +781,24 @@ public final class Iterators {
   }
 
   /**
+   * Returns the next element in {@code iterator} or {@code defaultValue} if
+   * the iterator is empty.  The {@link Iterables} analog to this method is
+   * {@link Iterables#getFirst}.
+   *
+   * @param defaultValue the default value to return if the iterator is empty
+   * @return the next element of {@code iterator} or the default value
+   * @since 7
+   */
+  @Beta
+  public static <T> T getNext(Iterator<T> iterator, @Nullable T defaultValue) {
+    return iterator.hasNext() ? iterator.next() : defaultValue;
+  }
+
+  /**
    * Advances {@code iterator} to the end, returning the last element.
    *
    * @return the last element of {@code iterator}
-   * @throws NoSuchElementException if the iterator has no remaining elements
+   * @throws NoSuchElementException if the iterator is empty
    */
   public static <T> T getLast(Iterator<T> iterator) {
     while (true) {
