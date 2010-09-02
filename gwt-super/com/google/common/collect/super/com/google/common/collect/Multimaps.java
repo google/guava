@@ -47,6 +47,7 @@ import javax.annotation.Nullable;
  * @author Jared Levy
  * @author Robert Konigsberg
  * @author Mike Bostock
+ * @author Louis Wasserman
  * @since 2 (imported from Google Collections Library)
  */
 @GwtCompatible(emulated = true)
