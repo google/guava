@@ -1234,9 +1234,12 @@ public final class Multimaps {
    * perform well, {@code function} should be fast. To avoid lazy evaluation 
    * when the returned multimap doesn't need to be a view, copy the returned 
    * multimap into a new multimap of your choosing.
+   *
+   * @since 7
    */
+  @Beta
   @GwtIncompatible(value = "untested")
-  @Beta public static <K, V1, V2> Multimap<K, V2> transformValues(
+  public static <K, V1, V2> Multimap<K, V2> transformValues(
       Multimap<K, V1> fromMultimap, final Function<? super V1, V2> function) {
     checkNotNull(function);
     EntryTransformer<K, V1, V2> transformer =
@@ -1300,9 +1303,12 @@ public final class Multimaps {
    * EntryTransformer} key type for which this may not hold, such as {@code
    * ArrayList}, may risk a {@code ClassCastException} when calling methods on
    * the transformed multimap.
+   *
+   * @since 7
    */
+  @Beta
   @GwtIncompatible(value = "untested")
-  @Beta public static <K, V1, V2> Multimap<K, V2> transformEntries(
+  public static <K, V1, V2> Multimap<K, V2> transformEntries(
       Multimap<K, V1> fromMap,
       EntryTransformer<? super K, ? super V1, V2> transformer) {
     return new TransformedEntriesMultimap<K, V1, V2>(fromMap, transformer);
@@ -1531,9 +1537,12 @@ public final class Multimaps {
    * perform well, {@code function} should be fast. To avoid lazy evaluation 
    * when the returned multimap doesn't need to be a view, copy the returned 
    * multimap into a new multimap of your choosing.
+   *
+   * @since 7
    */
+  @Beta
   @GwtIncompatible(value = "untested")
-  @Beta public static <K, V1, V2> ListMultimap<K, V2> transformValues(
+  public static <K, V1, V2> ListMultimap<K, V2> transformValues(
       ListMultimap<K, V1> fromMultimap,
       final Function<? super V1, V2> function) {
     checkNotNull(function);
@@ -1595,9 +1604,12 @@ public final class Multimaps {
    * EntryTransformer} key type for which this may not hold, such as {@code
    * ArrayList}, may risk a {@code ClassCastException} when calling methods on
    * the transformed multimap.
+   *
+   * @since 7
    */
+  @Beta
   @GwtIncompatible(value = "untested")
-  @Beta public static <K, V1, V2> ListMultimap<K, V2> transformEntries(
+  public static <K, V1, V2> ListMultimap<K, V2> transformEntries(
       ListMultimap<K, V1> fromMap,
       EntryTransformer<? super K, ? super V1, V2> transformer) {
     return new TransformedEntriesListMultimap<K, V1, V2>(fromMap, transformer);
@@ -1689,4 +1701,3 @@ public final class Multimaps {
     return builder.build();
   }
 }
-
