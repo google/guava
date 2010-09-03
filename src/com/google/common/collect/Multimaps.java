@@ -1374,7 +1374,7 @@ public final class Multimaps {
     
     @Override public Collection<Entry<K, V2>> entries() {
       if (entries == null) {
-        Collection<Entry<K, V2>> es = new TransformedEntries();
+        Collection<Entry<K, V2>> es = new TransformedEntries(transformer);
         entries = es;
         return es;
       }
@@ -1384,15 +1384,24 @@ public final class Multimaps {
     private class TransformedEntries
         extends TransformedCollection<Entry<K, V1>, Entry<K, V2>> {
 
-      TransformedEntries() {
-        super(fromMultimap.entries(), 
+      TransformedEntries(
+          final EntryTransformer<? super K, ? super V1, V2> transformer) {
+        super(fromMultimap.entries(),
             new Function<Entry<K, V1>, Entry<K, V2>>() {
-          @Override public Entry<K, V2> apply(Entry<K, V1> entry) {
-            K key = entry.getKey();
-            return Maps.immutableEntry(
-                key, transformer.transformEntry(key, entry.getValue()));
-          }
-        });
+              @Override public Entry<K, V2> apply(final Entry<K, V1> entry) {
+                return new AbstractMapEntry<K, V2>() {
+
+                  @Override public K getKey() {
+                    return entry.getKey();
+                  }
+
+                  @Override public V2 getValue() {
+                    return transformer.transformEntry(
+                        entry.getKey(), entry.getValue());
+                  }
+                };
+              }
+            });
       }
 
       @SuppressWarnings("unchecked")
