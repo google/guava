@@ -30,6 +30,7 @@ import java.util.ListIterator;
 import java.util.Map;
 import java.util.RandomAccess;
 import java.util.Set;
+import java.util.SortedMap;
 import java.util.SortedSet;
 
 import javax.annotation.Nullable;
@@ -51,7 +52,7 @@ import javax.annotation.Nullable;
 final class Synchronized {
   private Synchronized() {}
 
-  private static class SynchronizedObject implements Serializable {
+  static class SynchronizedObject implements Serializable {
     final Object delegate;
     final Object mutex;
 
@@ -178,9 +179,10 @@ final class Synchronized {
     return new SynchronizedSet<E>(set, mutex);
   }
 
-  @VisibleForTesting static class SynchronizedSet<E>
+  static class SynchronizedSet<E>
       extends SynchronizedCollection<E> implements Set<E> {
-    private SynchronizedSet(Set<E> delegate, @Nullable Object mutex) {
+    
+    SynchronizedSet(Set<E> delegate, @Nullable Object mutex) {
       super(delegate, mutex);
     }
 
@@ -211,7 +213,7 @@ final class Synchronized {
     return new SynchronizedSortedSet<E>(set, mutex);
   }
 
-  private static class SynchronizedSortedSet<E> extends SynchronizedSet<E>
+  static class SynchronizedSortedSet<E> extends SynchronizedSet<E>
       implements SortedSet<E> {
     SynchronizedSortedSet(SortedSet<E> delegate, @Nullable Object mutex) {
       super(delegate, mutex);
@@ -831,7 +833,7 @@ final class Synchronized {
     transient Collection<V> values;
     transient Set<Map.Entry<K, V>> entrySet;
 
-    private SynchronizedMap(Map<K, V> delegate, @Nullable Object mutex) {
+    SynchronizedMap(Map<K, V> delegate, @Nullable Object mutex) {
       super(delegate, mutex);
     }
 
@@ -933,6 +935,61 @@ final class Synchronized {
     @Override public int hashCode() {
       synchronized (mutex) {
         return delegate().hashCode();
+      }
+    }
+
+    private static final long serialVersionUID = 0;
+  }
+  
+  static <K, V> SortedMap<K, V> sortedMap(
+      SortedMap<K, V> sortedMap, @Nullable Object mutex) {
+    return new SynchronizedSortedMap<K, V>(sortedMap, mutex);
+  }
+  
+  static class SynchronizedSortedMap<K, V> extends SynchronizedMap<K, V>
+      implements SortedMap<K, V> {
+
+    SynchronizedSortedMap(SortedMap<K, V> delegate, @Nullable Object mutex) {
+      super(delegate, mutex);
+    }
+
+    @Override SortedMap<K, V> delegate() {
+      return (SortedMap<K, V>) super.delegate();
+    }
+
+    @Override public Comparator<? super K> comparator() {
+      synchronized (mutex) {
+        return delegate().comparator();
+      }
+    }
+
+    @Override public K firstKey() {
+      synchronized (mutex) {
+        return delegate().firstKey();
+      }
+    }
+
+    @Override public SortedMap<K, V> headMap(K toKey) {
+      synchronized (mutex) {
+        return sortedMap(delegate().headMap(toKey), mutex);
+      }
+    }
+
+    @Override public K lastKey() {
+      synchronized (mutex) {
+        return delegate().lastKey();
+      }
+    }
+
+    @Override public SortedMap<K, V> subMap(K fromKey, K toKey) {
+      synchronized (mutex) {
+        return sortedMap(delegate().subMap(fromKey, toKey), mutex);
+      }
+    }
+
+    @Override public SortedMap<K, V> tailMap(K fromKey) {
+      synchronized (mutex) {
+        return sortedMap(delegate().tailMap(fromKey), mutex);
       }
     }
 
