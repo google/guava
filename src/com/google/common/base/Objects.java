@@ -17,7 +17,6 @@
 package com.google.common.base;
 
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.annotations.VisibleForTesting;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -95,7 +94,49 @@ public final class Objects {
    * @since 2
    */
   public static ToStringHelper toStringHelper(Object self) {
-    return new ToStringHelper(self);
+    return new ToStringHelper(simpleName(self.getClass()));
+  }
+
+  /**
+   * Creates an instance of {@link ToStringHelper} in the same manner as
+   * {@link Objects#toStringHelper(Object)}, but using the name of {@code clazz}
+   * instead of using an instance's {@link Object#getClass()}.
+   *
+   * @param clazz the {@link Class} of the instance
+   * @since 7 (source compatible since 2)
+   */
+  public static ToStringHelper toStringHelper(Class<?> clazz) {
+    return new ToStringHelper(simpleName(clazz));
+  }
+
+  /**
+   * Creates an instance of {@link ToStringHelper} in the same manner as
+   * {@link Objects#toStringHelper(Object)}, but using {@code className} instead
+   * of using an instance's {@link Object#getClass()}.
+   *
+   * @param className the name of the instance type
+   * @since 7 (source compatible since 2)
+   */
+  public static ToStringHelper toStringHelper(String className) {
+    return new ToStringHelper(className);
+  }
+
+  /**
+   * {@link Class#getSimpleName()} is not GWT compatible yet, so we
+   * provide our own implementation.
+   */
+  private static String simpleName(Class<?> clazz) {
+    String name = clazz.getName();
+
+    // we want the name of the inner class all by its lonesome
+    int start = name.lastIndexOf('$');
+
+    // if this isn't an inner class, just find the start of the
+    // top level class name.
+    if (start == -1) {
+      start = name.lastIndexOf('.');
+    }
+    return name.substring(start + 1);
   }
 
   /**
@@ -121,13 +162,13 @@ public final class Objects {
    */
   public static class ToStringHelper {
     private final List<String> fieldString = new ArrayList<String>();
-    private final Object instance;
+    private final String className;
 
     /**
      * Use {@link Objects#toStringHelper(Object)} to create an instance.
      */
-    private ToStringHelper(Object instance) {
-      this.instance = Preconditions.checkNotNull(instance);
+    private ToStringHelper(String className) {
+      this.className = Preconditions.checkNotNull(className);
     }
 
     /**
@@ -157,30 +198,11 @@ public final class Objects {
      */
     @Override public String toString() {
       StringBuilder builder = new StringBuilder(100)
-          .append(simpleName(instance.getClass()))
+          .append(className)
           .append('{');
       return JOINER.appendTo(builder, fieldString)
           .append('}')
           .toString();
-    }
-
-    /**
-     * {@link Class#getSimpleName()} is not GWT compatible yet, so we
-     * provide our own implementation.
-     */
-    @VisibleForTesting
-    static String simpleName(Class<?> clazz) {
-      String name = clazz.getName();
-
-      // we want the name of the inner class all by its lonesome
-      int start = name.lastIndexOf('$');
-
-      // if this isn't an inner class, just find the start of the
-      // top level class name.
-      if (start == -1) {
-        start = name.lastIndexOf('.');
-      }
-      return name.substring(start + 1);
     }
   }
 }

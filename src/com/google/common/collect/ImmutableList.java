@@ -301,7 +301,7 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
         return construct(elements);
     }
   }
-
+  
   /** {@code elements} has to be internally created array. */
   private static <E> ImmutableList<E> construct(Object... elements) {
     for (int i = 0; i < elements.length; i++) {
@@ -394,6 +394,133 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
     return this;
   }
 
+  /**
+   * Returns a view of this immutable list in reverse order. For example, {@code
+   * ImmutableList.of(1, 2, 3).reverse()} is equivalent to {@code
+   * ImmutableList.of(3, 2, 1)}.
+   *
+   * @return a view of this immutable list in reverse order
+   * @since 7
+   */
+  public ImmutableList<E> reverse() {
+    return new ReverseImmutableList<E>(this);
+  }
+
+  private static class ReverseImmutableList<E> extends ImmutableList<E> {
+    private transient final ImmutableList<E> forwardList;
+    private transient final int size;
+
+    ReverseImmutableList(ImmutableList<E> backingList) {
+      this.forwardList = backingList;
+      this.size = backingList.size();
+    }
+
+    private int reverseIndex(int index) {
+      return (size - 1) - index;
+    }
+
+    private int reversePosition(int index) {
+      return size - index;
+    }
+
+    @Override public ImmutableList<E> reverse() {
+      return forwardList;
+    }
+
+    @Override public boolean contains(@Nullable Object object) {
+      return forwardList.contains(object);
+    }
+
+    @Override public boolean containsAll(Collection<?> targets) {
+      return forwardList.containsAll(targets);
+    }
+
+    @Override public int indexOf(@Nullable Object object) {
+      int index = forwardList.lastIndexOf(object);
+      return (index >= 0) ? reverseIndex(index) : -1;
+    }
+
+    @Override public int lastIndexOf(@Nullable Object object) {
+      int index = forwardList.indexOf(object);
+      return (index >= 0) ? reverseIndex(index) : -1;
+    }
+
+    @Override public ImmutableList<E> subList(int fromIndex, int toIndex) {
+      Preconditions.checkPositionIndexes(fromIndex, toIndex, size);
+      return forwardList.subList(
+          reversePosition(toIndex), reversePosition(fromIndex)).reverse();
+    }
+
+    @Override public E get(int index) {
+      Preconditions.checkElementIndex(index, size);
+      return forwardList.get(reverseIndex(index));
+    }
+
+    @Override public UnmodifiableListIterator<E> listIterator(int index) {
+      Preconditions.checkPositionIndex(index, size);
+      final UnmodifiableListIterator<E> forward =
+          forwardList.listIterator(reversePosition(index));
+      return new UnmodifiableListIterator<E>() {
+        @Override public boolean hasNext() {
+          return forward.hasPrevious();
+        }
+
+        @Override public boolean hasPrevious() {
+          return forward.hasNext();
+        }
+
+        @Override public E next() {
+          return forward.previous();
+        }
+
+        @Override public int nextIndex() {
+          return reverseIndex(forward.previousIndex());
+        }
+
+        @Override public E previous() {
+          return forward.next();
+        }
+
+        @Override public int previousIndex() {
+          return reverseIndex(forward.nextIndex());
+        }
+      };
+    }
+
+    @Override public int size() {
+      return size;
+    }
+
+    @Override public boolean isEmpty() {
+      return forwardList.isEmpty();
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override public boolean equals(@Nullable Object object) {
+      if (object == this) {
+        return true;
+      }
+      if (object instanceof List) {
+        List<?> that = (List<?>) object;
+        return this.size() == that.size()
+            && Iterables.elementsEqual(this, that);
+      }
+      return false;
+    }
+
+    @Override public int hashCode() {
+      int hashCode = 1;
+      for (E e : this) {
+        hashCode = 31 * hashCode + e.hashCode();
+      }
+      return hashCode;
+    }
+
+    @Override boolean isPartialView() {
+      return forwardList.isPartialView();
+    }
+  }
+  
   /*
    * Serializes ImmutableLists as their logical contents. This ensures that
    * implementation types do not leak into the serialized representation.
@@ -516,3 +643,4 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
     }
   }
 }
+

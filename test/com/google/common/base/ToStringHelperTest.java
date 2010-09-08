@@ -45,6 +45,16 @@ public class ToStringHelperTest extends TestCase {
     assertTrue(toTest.matches("[0-9]+\\{\\}"));
   }
 
+  public void testConstructor_classObject() {
+    String toTest = Objects.toStringHelper(TestClass.class).toString();
+    assertEquals("TestClass{}", toTest);
+  }
+
+  public void testConstructor_stringObject() {
+    String toTest = Objects.toStringHelper("FooBar").toString();
+    assertEquals("FooBar{}", toTest);
+  }
+
   // all remaining test are on an inner class with various fields
   public void testToString_oneField() {
     String toTest = Objects.toStringHelper(new TestClass())
