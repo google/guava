@@ -190,15 +190,16 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    * example, the map may evict an entry because it hasn't been used recently
    * or very often.
    *
+   * @param size the maximum size of the map
+   *
    * @throws IllegalArgumentException if {@code size} is not greater than zero
    * @throws IllegalStateException if a maximum size was already set
    */
-  // TODO(user): make public after: a) writing unit tests, b) resolving behavior
-  // when maximumSize < concurrencyLevel
+  @GwtIncompatible("To be supported")
+
   MapMaker maximumSize(int size) {
     checkState(this.maximumSize == UNSET_MAXIMUM_SIZE,
         "maximum size was already set to " + this.maximumSize);
-    // TODO: eventually support size 0 to disable caching
     checkArgument(size > 0, "maximum size must be positive");
     this.maximumSize = size;
     this.useCustomMap = true;

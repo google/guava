@@ -3537,8 +3537,8 @@ class TldPatterns {
       "\u0627\u0644\u0633\u0639\u0648\u062f\u064a\u0629",
       "\u0440\u0444",
       "\u0645\u0635\u0631",
-      "ar",
-      "uk"
+      "appspot.com",
+      "blogspot.com"
   );
 
   /**

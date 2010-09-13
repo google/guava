@@ -134,7 +134,9 @@ public final class InternetDomainName {
 
   /**
    * Returns the index of the leftmost part of the public suffix, or -1 if not
-   * found.
+   * found. Note that the value defined as the "public suffix" may not be a
+   * public suffix according to {@link #isPublicSuffix()} if the domain ends
+   * with an excluded domain pattern such as "nhs.uk".
    */
   private int findPublicSuffix() {
     final int partsSize = parts.size();
@@ -142,7 +144,18 @@ public final class InternetDomainName {
     for (int i = 0; i < partsSize; i++) {
       String ancestorName = DOT_JOINER.join(parts.subList(i, partsSize));
 
-      if (isPublicSuffixInternal(ancestorName)) {
+      if (TldPatterns.EXACT.contains(ancestorName)) {
+        return i;
+      }
+
+      // Excluded domains (e.g. !nhs.uk) use the next highest
+      // domain as the effective public suffix (e.g. uk).
+
+      if (TldPatterns.EXCLUDED.contains(ancestorName)) {
+        return i + 1;
+      }
+
+      if (matchesWildcardPublicSuffix(ancestorName)) {
         return i;
       }
     }
@@ -447,16 +460,6 @@ public final class InternetDomainName {
     } catch (IllegalArgumentException e) {
       return false;
     }
-  }
-
-  /**
-   * Does the domain name satisfy the Mozilla criteria for a {@linkplain
-   * #isPublicSuffix() public suffix}?
-   */
-  private static boolean isPublicSuffixInternal(String domain) {
-    return TldPatterns.EXACT.contains(domain)
-        || (!TldPatterns.EXCLUDED.contains(domain)
-            && matchesWildcardPublicSuffix(domain));
   }
 
   /**

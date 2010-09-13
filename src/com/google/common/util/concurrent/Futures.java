@@ -372,6 +372,10 @@ public final class Futures {
       final Function<? super I, ? extends O> function) {
     checkNotNull(future);
     checkNotNull(function);
+    /*
+     * TODO(cpovirk): if (future instanceof ListenableFuture), delegate to
+     * ListenableFuture variant
+     */
     return new Future<O>() {
 
       /*
@@ -398,6 +402,7 @@ public final class Futures {
       private final Object lock = new Object();
       private boolean set = false;
       private O value = null;
+      private ExecutionException exception = null;
 
       @Override
       public O get() throws InterruptedException, ExecutionException {
@@ -410,11 +415,21 @@ public final class Futures {
         return apply(future.get(timeout, unit));
       }
 
-      private O apply(I raw) {
-        synchronized(lock) {
+      private O apply(I raw) throws ExecutionException {
+        synchronized (lock) {
           if (!set) {
-            value = function.apply(raw);
+            try {
+              value = function.apply(raw);
+            } catch (RuntimeException e) {
+              exception = new ExecutionException(e);
+            } catch (Error e) {
+              exception = new ExecutionException(e);
+            }
             set = true;
+          }
+
+          if (exception != null) {
+            throw exception;
           }
           return value;
         }

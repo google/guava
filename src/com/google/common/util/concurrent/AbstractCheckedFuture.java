@@ -46,24 +46,37 @@ public abstract class AbstractCheckedFuture<V, X extends Exception>
   }
 
   /**
-   * Translate from an {@link InterruptedException},
-   * {@link CancellationException} or {@link ExecutionException} to an exception
-   * of type {@code E}.  Subclasses must implement the mapping themselves.
+   * Translates from an {@link InterruptedException},
+   * {@link CancellationException} or {@link ExecutionException} thrown by
+   * {@code get} to an exception of type {@code X} to be thrown by
+   * {@code checkedGet}. Subclasses must implement this method.
    *
-   * The {@code e} parameter can be an instance of {@link InterruptedException},
-   * {@link CancellationException}, or {@link ExecutionException}.
+   * <p>If {@code e} is an {@code InterruptedException}, the calling
+   * {@code checkedGet} method has already restored the interrupt after catching
+   * the exception. If an implementation of {@link #mapException(Exception)}
+   * wishes to swallow the interrupt, it can do so by calling
+   * {@link Thread#interrupted()}.
    */
   protected abstract X mapException(Exception e);
 
-  /*
-   * Just like get but maps the exceptions into appropriate application-specific
-   * exceptions.
+  /**
+   * {@inheritDoc}
+   *
+   * <p>This implementation calls {@link #get()} and maps that method's standard
+   * exceptions to instances of type {@code X} using {@link #mapException}.
+   *
+   * <p>In addition, if {@code get} throws an {@link InterruptedException}, this
+   * implementation will set the current thread's interrupt status before
+   * calling {@code mapException}.
+   *
+   * @throws X if {@link #get()} throws an {@link InterruptedException},
+   *         {@link CancellationException}, or {@link ExecutionException}
    */
   public V checkedGet() throws X {
     try {
       return get();
     } catch (InterruptedException e) {
-      cancel(true);
+      Thread.currentThread().interrupt();
       throw mapException(e);
     } catch (CancellationException e) {
       throw mapException(e);
@@ -72,15 +85,26 @@ public abstract class AbstractCheckedFuture<V, X extends Exception>
     }
   }
 
-  /*
-   * The timed version of checkedGet maps the interrupted, cancellation or
-   * execution exceptions exactly the same as the untimed version does.
+  /**
+   * {@inheritDoc}
+   *
+   * <p>This implementation calls {@link #get(long, TimeUnit)} and maps that
+   * method's standard exceptions (excluding {@link TimeoutException}, which is
+   * propagated) to instances of type {@code X} using {@link #mapException}.
+   *
+   * <p>In addition, if {@code get} throws an {@link InterruptedException}, this
+   * implementation will set the current thread's interrupt status before
+   * calling {@code mapException}.
+   *
+   * @throws X if {@link #get()} throws an {@link InterruptedException},
+   *         {@link CancellationException}, or {@link ExecutionException}
+   * @throws TimeoutException {@inheritDoc}
    */
   public V checkedGet(long timeout, TimeUnit unit) throws TimeoutException, X {
     try {
       return get(timeout, unit);
     } catch (InterruptedException e) {
-      cancel(true);
+      Thread.currentThread().interrupt();
       throw mapException(e);
     } catch (CancellationException e) {
       throw mapException(e);

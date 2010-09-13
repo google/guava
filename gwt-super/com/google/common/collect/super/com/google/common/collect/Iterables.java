@@ -394,23 +394,6 @@ public final class Iterables {
   }
 
   /**
-   * Returns an iterator over the iterators of the given iterables.
-   */
-  static <T> UnmodifiableIterator<Iterator<? extends T>> iterators(
-      Iterable<? extends Iterable<? extends T>> iterables) {
-    final Iterator<? extends Iterable<? extends T>> iterableIterator =
-        iterables.iterator();
-    return new UnmodifiableIterator<Iterator<? extends T>>() {
-      public boolean hasNext() {
-        return iterableIterator.hasNext();
-      }
-      public Iterator<? extends T> next() {
-        return iterableIterator.next().iterator();
-      }
-    };
-  }
-
-  /**
    * Combines multiple iterables into a single iterable. The returned iterable
    * has an iterator that traverses the elements of each iterable in
    * {@code inputs}. The input iterators are not polled until necessary.
@@ -426,6 +409,23 @@ public final class Iterables {
     return new IterableWithToString<T>() {
       public Iterator<T> iterator() {
         return Iterators.concat(iterators(inputs));
+      }
+    };
+  }
+
+  /**
+   * Returns an iterator over the iterators of the given iterables.
+   */
+  private static <T> UnmodifiableIterator<Iterator<? extends T>> iterators(
+      Iterable<? extends Iterable<? extends T>> iterables) {
+    final Iterator<? extends Iterable<? extends T>> iterableIterator =
+        iterables.iterator();
+    return new UnmodifiableIterator<Iterator<? extends T>>() {
+      public boolean hasNext() {
+        return iterableIterator.hasNext();
+      }
+      public Iterator<? extends T> next() {
+        return iterableIterator.next().iterator();
       }
     };
   }

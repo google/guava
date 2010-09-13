@@ -193,7 +193,8 @@ final class ExplicitOrderedImmutableSortedSet<E>
    * constructed from one, for faster contains(), indexOf(), and lastIndexOf().
    */
   @Override ImmutableList<E> createAsList() {
-    return new ImmutableSortedAsList<E>(elements, fromIndex, size(), this);
+    return new ImmutableSortedAsList<E>(
+        this, new RegularImmutableList<E>(elements, fromIndex, size()));
   }
 
   /*

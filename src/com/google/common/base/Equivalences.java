@@ -15,6 +15,7 @@
 package com.google.common.base;
 
 import com.google.common.annotations.Beta;
+import com.google.common.annotations.GwtCompatible;
 
 /**
  * Contains static factory methods for creating {@code Equivalence} instances.
@@ -25,6 +26,7 @@ import com.google.common.annotations.Beta;
  * @since 4
  */
 @Beta
+@GwtCompatible
 public final class Equivalences {
   private Equivalences() {}
 

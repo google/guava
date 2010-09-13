@@ -228,10 +228,13 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
       initialCapacity = MAXIMUM_CAPACITY;
     }
 
-    // Find power-of-two sizes best matching arguments
+    // Find power-of-two sizes best matching arguments. Constraints:
+    // (segmentCount <= maximumSize)
+    // && (concurrencyLevel > maximumSize || segmentCount > concurrencyLevel)
     int segmentShift = 0;
     int segmentCount = 1;
-    while (segmentCount < concurrencyLevel) {
+    while (segmentCount < concurrencyLevel
+        && (!evicts || segmentCount * 2 <= maximumSize)) {
       ++segmentShift;
       segmentCount <<= 1;
     }
@@ -719,6 +722,24 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
     void setPreviousEvictable(Evictable previous);
   }
 
+  enum NullEvictable implements Evictable {
+    INSTANCE;
+
+    @Override
+    public Evictable getNextEvictable() {
+      return this;
+    }
+    @Override
+    public void setNextEvictable(Evictable next) {}
+
+    @Override
+    public Evictable getPreviousEvictable() {
+      return this;
+    }
+    @Override
+    public void setPreviousEvictable(Evictable previous) {}
+  }
+
   enum NullListener implements MapEvictionListener {
     INSTANCE;
     @Override public void onEviction(Object key, Object value) {}
@@ -847,7 +868,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
     // The code below is exactly the same for each evictable entry type.
 
     @GuardedBy("Segment.this")
-    Evictable nextEvictable;
+    Evictable nextEvictable = NullEvictable.INSTANCE;
     public Evictable getNextEvictable() {
       return nextEvictable;
     }
@@ -856,7 +877,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
     }
 
     @GuardedBy("Segment.this")
-    Evictable previousEvictable;
+    Evictable previousEvictable = NullEvictable.INSTANCE;
     public Evictable getPreviousEvictable() {
       return previousEvictable;
     }
@@ -903,7 +924,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
     // The code below is exactly the same for each evictable entry type.
 
     @GuardedBy("Segment.this")
-    Evictable nextEvictable;
+    Evictable nextEvictable = NullEvictable.INSTANCE;
     public Evictable getNextEvictable() {
       return nextEvictable;
     }
@@ -912,7 +933,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
     }
 
     @GuardedBy("Segment.this")
-    Evictable previousEvictable;
+    Evictable previousEvictable = NullEvictable.INSTANCE;
     public Evictable getPreviousEvictable() {
       return previousEvictable;
     }
@@ -1019,7 +1040,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
     // The code below is exactly the same for each evictable entry type.
 
     @GuardedBy("Segment.this")
-    Evictable nextEvictable;
+    Evictable nextEvictable = NullEvictable.INSTANCE;
     public Evictable getNextEvictable() {
       return nextEvictable;
     }
@@ -1028,7 +1049,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
     }
 
     @GuardedBy("Segment.this")
-    Evictable previousEvictable;
+    Evictable previousEvictable = NullEvictable.INSTANCE;
     public Evictable getPreviousEvictable() {
       return previousEvictable;
     }
@@ -1075,7 +1096,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
     // The code below is exactly the same for each evictable entry type.
 
     @GuardedBy("Segment.this")
-    Evictable nextEvictable;
+    Evictable nextEvictable = NullEvictable.INSTANCE;
     public Evictable getNextEvictable() {
       return nextEvictable;
     }
@@ -1084,7 +1105,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
     }
 
     @GuardedBy("Segment.this")
-    Evictable previousEvictable;
+    Evictable previousEvictable = NullEvictable.INSTANCE;
     public Evictable getPreviousEvictable() {
       return previousEvictable;
     }
@@ -1191,7 +1212,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
     // The code below is exactly the same for each evictable entry type.
 
     @GuardedBy("Segment.this")
-    Evictable nextEvictable;
+    Evictable nextEvictable = NullEvictable.INSTANCE;
     public Evictable getNextEvictable() {
       return nextEvictable;
     }
@@ -1200,7 +1221,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
     }
 
     @GuardedBy("Segment.this")
-    Evictable previousEvictable;
+    Evictable previousEvictable = NullEvictable.INSTANCE;
     public Evictable getPreviousEvictable() {
       return previousEvictable;
     }
@@ -1247,7 +1268,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
     // The code below is exactly the same for each evictable entry type.
 
     @GuardedBy("Segment.this")
-    Evictable nextEvictable;
+    Evictable nextEvictable = NullEvictable.INSTANCE;
     public Evictable getNextEvictable() {
       return nextEvictable;
     }
@@ -1256,7 +1277,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
     }
 
     @GuardedBy("Segment.this")
-    Evictable previousEvictable;
+    Evictable previousEvictable = NullEvictable.INSTANCE;
     public Evictable getPreviousEvictable() {
       return previousEvictable;
     }
@@ -1364,7 +1385,8 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
   }
 
   /**
-   * Sets the value reference on an entry and notifies waiting threads.
+   * Sets the value reference on an entry and notifies waiting threads. The
+   * simple default implementation is overridden in ComputingConcurrentHashMap.
    */
   void setValueReference(ReferenceEntry<K, V> entry,
       ValueReference<K, V> valueReference) {
@@ -1474,9 +1496,8 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
 
   @GuardedBy("Segment.this")
   static void nullifyEvictable(Evictable nulled) {
-    // TODO: use null instance instead?
-    nulled.setNextEvictable(null);
-    nulled.setPreviousEvictable(null);
+    nulled.setNextEvictable(NullEvictable.INSTANCE);
+    nulled.setPreviousEvictable(NullEvictable.INSTANCE);
   }
 
   @SuppressWarnings("unchecked")
@@ -1748,6 +1769,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
       // drain recency queue to have maximal information
       drainRecencyQueue();
       Evictable evictable = evictionHead.getNextEvictable();
+      checkState(evictable != evictionHead);
 
       // then remove a single entry
       @SuppressWarnings("unchecked")
@@ -1755,8 +1777,9 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
       if (removeEntry(entry, entry.getHash())) {
         // send removal notification if the entry is in the map
         pendingEvictionNotifications.offer(entry);
+      } else {
+        throw new AssertionError();
       }
-      removeEvictable(evictable);
     }
 
     @GuardedBy("Segment.this")
@@ -1782,9 +1805,9 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
 
     @GuardedBy("Segment.this")
     void drainRecencyQueue() {
-      // While the queue is being drained it may be concurrently appended to.
-      // The number of elements removed are tracked so that the length can be
-      // decremented by the delta rather than set to zero.
+      // While the recency queue is being drained it may be concurrently
+      // appended to. The number of elements removed are tracked so that the
+      // length can be decremented by the delta rather than set to zero.
       int drained = 0;
       Evictable evictable;
       while ((evictable = recencyQueue.poll()) != null) {
@@ -1826,7 +1849,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
     /** Whether the entry is linked on the eviction list. */
     @GuardedBy("Segment.this")
     boolean inEvictionList(Evictable evictable) {
-      return (evictable.getNextEvictable() != null);
+      return (evictable.getNextEvictable() != NullEvictable.INSTANCE);
     }
 
     @GuardedBy("Segment.this")
@@ -2047,7 +2070,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
             // If the value disappeared, this entry is partially collected,
             // and we should pretend like it doesn't exist.
             V entryValue = e.getValueReference().get();
-            boolean absent = entryValue == null;
+            boolean absent = (entryValue == null);
             if (onlyIfAbsent && !absent) {
               if (evicts) {
                 addEvictableOnWrite((Evictable) e);
@@ -2062,6 +2085,8 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
 
         if (evicts && newCount > maxSegmentSize) {
           evictEntry();
+          newCount = this.count + 1;
+          first = table.get(index);
         }
 
         // Create a new entry.
@@ -2183,6 +2208,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
     }
 
     boolean remove(Object key, int hash, Object value) {
+      checkNotNull(value);
       lock();
       try {
         if (expires) {

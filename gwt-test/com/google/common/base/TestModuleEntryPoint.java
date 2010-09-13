@@ -35,6 +35,8 @@ public class TestModuleEntryPoint implements EntryPoint {
     // TODO: Auto generate this list.
     List<Class<?>> allClasses = Arrays.<Class<?>>asList(
         CharMatcher.class,
+        Equivalence.class,
+        Equivalences.class,
         Function.class,
         Functions.class,
         Joiner.class,

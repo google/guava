@@ -79,6 +79,7 @@ import java.util.SortedSet;
  *
  * @see ImmutableSet
  * @author Jared Levy
+ * @author Louis Wasserman
  * @since 2 (imported from Google Collections Library)
  */
 // TODO(benyu): benchmark and optimize all creation paths, which are a mess now
@@ -121,8 +122,8 @@ public abstract class ImmutableSortedSet<E>
    */
   public static <E extends Comparable<? super E>> ImmutableSortedSet<E> of(
       E element) {
-    Object[] array = { checkNotNull(element) };
-    return new RegularImmutableSortedSet<E>(array, Ordering.natural());
+    return new RegularImmutableSortedSet<E>(
+        ImmutableList.of(element), Ordering.natural());
   }
 
   /**
@@ -135,7 +136,7 @@ public abstract class ImmutableSortedSet<E>
   @SuppressWarnings("unchecked")
   public static <E extends Comparable<? super E>> ImmutableSortedSet<E> of(
       E e1, E e2) {
-    return ofInternal(Ordering.natural(), e1, e2);
+    return copyOf(Ordering.natural(), Arrays.asList(e1, e2));
   }
 
   /**
@@ -148,7 +149,7 @@ public abstract class ImmutableSortedSet<E>
   @SuppressWarnings("unchecked")
   public static <E extends Comparable<? super E>> ImmutableSortedSet<E> of(
       E e1, E e2, E e3) {
-    return ofInternal(Ordering.natural(), e1, e2, e3);
+    return copyOf(Ordering.natural(), Arrays.asList(e1, e2, e3));
   }
 
   /**
@@ -161,7 +162,7 @@ public abstract class ImmutableSortedSet<E>
   @SuppressWarnings("unchecked")
   public static <E extends Comparable<? super E>> ImmutableSortedSet<E> of(
       E e1, E e2, E e3, E e4) {
-    return ofInternal(Ordering.natural(), e1, e2, e3, e4);
+    return copyOf(Ordering.natural(), Arrays.asList(e1, e2, e3, e4));
   }
 
   /**
@@ -174,7 +175,7 @@ public abstract class ImmutableSortedSet<E>
   @SuppressWarnings("unchecked")
   public static <E extends Comparable<? super E>> ImmutableSortedSet<E> of(
       E e1, E e2, E e3, E e4, E e5) {
-    return ofInternal(Ordering.natural(), e1, e2, e3, e4, e5);
+    return copyOf(Ordering.natural(), Arrays.asList(e1, e2, e3, e4, e5));
   }
   
   /**
@@ -192,9 +193,7 @@ public abstract class ImmutableSortedSet<E>
     List<E> all = new ArrayList<E>(size);
     Collections.addAll(all, e1, e2, e3, e4, e5, e6);
     Collections.addAll(all, remaining);
-    // This is a mess (see TODO at top of file)
-    return ofInternal(Ordering.natural(),
-        (Object[]) all.toArray(new Comparable[0]));
+    return copyOf(Ordering.natural(), all);
   }
 
   // TODO(kevinb): Consider factory methods that reject duplicates
@@ -224,61 +223,7 @@ public abstract class ImmutableSortedSet<E>
    */
   public static <E extends Comparable<? super E>> ImmutableSortedSet<E> copyOf(
       E[] elements) {
-    return ofInternal(Ordering.natural(), (Object[]) elements);
-  }
-
-  private static <E> ImmutableSortedSet<E> ofInternal(
-      Comparator<? super E> comparator, Object... elements) {
-    switch (elements.length) {
-      case 0:
-        return emptySet(comparator);
-      default:
-        /*
-         * We can't use Platform.clone() because of GWT bug 3621. See our GWT
-         * ImmutableSortedSetTest.testOf_gwtArraycopyBug() for details. We can't
-         * use System.arraycopy() here for the same reason.
-         */
-        Object[] array = new Object[elements.length];
-        for (int i = 0; i < elements.length; i++) {
-          array[i] = checkNotNull(elements[i]);
-        }
-        sort(array, comparator);
-        array = removeDupes(array, comparator);
-        return new RegularImmutableSortedSet<E>(array, comparator);
-    }
-  }
-
-  /** Sort the array, according to the comparator. */
-  @SuppressWarnings("unchecked") // E comparator with Object array
-  private static <E> void sort(
-      Object[] array, Comparator<? super E> comparator) {
-    Arrays.sort(array, (Comparator<Object>) comparator);
-  }
-
-  /**
-   * Returns an array that removes duplicate consecutive elements, according to
-   * the provided comparator. Note that the input array is modified. This method
-   * does not support empty arrays.
-   */
-  private static <E> Object[] removeDupes(Object[] array,
-      Comparator<? super E> comparator) {
-    int size = 1;
-    for (int i = 1; i < array.length; i++) {
-      Object element = array[i];
-      if (unsafeCompare(comparator, array[size - 1], element) != 0) {
-        array[size] = element;
-        size++;
-      }
-    }
-
-    // TODO(kevinb): Move to ObjectArrays?
-    if (size == array.length) {
-      return array;
-    } else {
-      Object[] copy = new Object[size];
-      Platform.unsafeArrayCopy(array, 0, copy, 0, size);
-      return copy;
-    }
+    return copyOf(Ordering.natural(), Arrays.asList(elements));
   }
 
   /**
@@ -466,25 +411,24 @@ public abstract class ImmutableSortedSet<E>
 
     if (hasSameComparator && (elements instanceof ImmutableSortedSet)) {
       @SuppressWarnings("unchecked")
-      ImmutableSortedSet<E> result = (ImmutableSortedSet<E>) elements;
-      if (!result.isPartialView()) {
-        return result;
+      ImmutableSortedSet<E> original = (ImmutableSortedSet<E>) elements;
+      if (original.isEmpty()) {
+        return original;
       }
+      ImmutableList<E> elementsList = original.asList();
+      ImmutableList<E> copiedElementsList = ImmutableList.copyOf(elements);
+      if (elementsList == copiedElementsList) {
+        return original;
+      }
+      return new RegularImmutableSortedSet<E>(copiedElementsList, comparator);
     }
 
-    Object[] array = Iterables.toArray(elements);
-    if (array.length == 0) {
+    ImmutableList<E> list =
+        immutableSortedUniqueCopy(comparator, Lists.newArrayList(elements));
+    if (list.isEmpty()) {
       return emptySet(comparator);
     }
-
-    for (Object e : array) {
-      checkNotNull(e);
-    }
-    if (!hasSameComparator) {
-      sort(array, comparator);
-      array = removeDupes(array, comparator);
-    }
-    return new RegularImmutableSortedSet<E>(array, comparator);
+    return new RegularImmutableSortedSet<E>(list, comparator);
   }
 
   private static <E> ImmutableSortedSet<E> copyOfInternal(
@@ -492,14 +436,29 @@ public abstract class ImmutableSortedSet<E>
     if (!elements.hasNext()) {
       return emptySet(comparator);
     }
-    List<E> list = Lists.newArrayList();
-    while (elements.hasNext()) {
-      list.add(checkNotNull(elements.next()));
+    ImmutableList<E> list =
+        immutableSortedUniqueCopy(comparator, Lists.newArrayList(elements));
+    return new RegularImmutableSortedSet<E>(list, comparator);
+  }
+
+  /**
+   * The list will get modified. Sorts the list, eliminates duplicate elements,
+   * returns an immutable copy.
+   */
+  private static <E> ImmutableList<E> immutableSortedUniqueCopy(
+      Comparator<? super E> comparator, List<E> list) {
+    if (list.isEmpty()) {
+      return ImmutableList.of();
     }
-    Object[] array = list.toArray();
-    sort(array, comparator);
-    array = removeDupes(array, comparator);
-    return new RegularImmutableSortedSet<E>(array, comparator);
+    Collections.sort(list, comparator);
+    int size = 1;
+    for (int i = 1; i < list.size(); i++) {
+      E elem = list.get(i);
+      if (comparator.compare(elem, list.get(size - 1)) != 0) {
+        list.set(size++, elem);
+      }
+    }
+    return ImmutableList.copyOf(list.subList(0, size));
   }
 
   /**
@@ -815,4 +774,3 @@ public abstract class ImmutableSortedSet<E>
     return new SerializedForm<E>(comparator, toArray());
   }
 }
-
