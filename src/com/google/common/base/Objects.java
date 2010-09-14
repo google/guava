@@ -103,7 +103,7 @@ public final class Objects {
    * instead of using an instance's {@link Object#getClass()}.
    *
    * @param clazz the {@link Class} of the instance
-   * @since 7 (source compatible since 2)
+   * @since 7 (source-compatible since 2)
    */
   public static ToStringHelper toStringHelper(Class<?> clazz) {
     return new ToStringHelper(simpleName(clazz));
@@ -115,7 +115,7 @@ public final class Objects {
    * of using an instance's {@link Object#getClass()}.
    *
    * @param className the name of the instance type
-   * @since 7 (source compatible since 2)
+   * @since 7 (source-compatible since 2)
    */
   public static ToStringHelper toStringHelper(String className) {
     return new ToStringHelper(className);
@@ -161,6 +161,7 @@ public final class Objects {
    * @since 2
    */
   public static class ToStringHelper {
+    // TODO(kevinb): why are we not just appending directly to a StringBuilder?
     private final List<String> fieldString = new ArrayList<String>();
     private final String className;
 

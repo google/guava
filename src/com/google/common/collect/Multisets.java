@@ -18,15 +18,19 @@ package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkState;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Objects;
+import com.google.common.collect.Multiset.Entry;
+import com.google.common.primitives.Ints;
 
 import java.io.Serializable;
 import java.util.AbstractSet;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 import java.util.Set;
 
 import javax.annotation.Nullable;
@@ -37,6 +41,7 @@ import javax.annotation.Nullable;
  *
  * @author Kevin Bourrillion
  * @author Mike Bostock
+ * @author Louis Wasserman
  * @since 2 (imported from Google Collections Library)
  */
 @GwtCompatible
@@ -436,8 +441,95 @@ public final class Multisets {
       int n = getCount();
       return (n == 1) ? text : (text + " x " + n);
     }
+  } 
+
+  /**
+   * An implementation of {@link Multiset#equals}.
+   */
+  static boolean equalsImpl(Multiset<?> multiset, @Nullable Object object) {
+    if (object == multiset) {
+      return true;
+    }
+    if (object instanceof Multiset) {
+      Multiset<?> that = (Multiset<?>) object;
+      /*
+       * We can't simply check whether the entry sets are equal, since that
+       * approach fails when a TreeMultiset has a comparator that returns 0
+       * when passed unequal elements.
+       */
+
+      if (multiset.size() != that.size()
+          || multiset.entrySet().size() != that.entrySet().size()) {
+        return false;
+      }
+      for (Entry<?> entry : that.entrySet()) {
+        if (multiset.count(entry.getElement()) != entry.getCount()) {
+          return false;
+        }
+      }
+      return true;
+    }
+    return false;
   }
 
+  /**
+   * An implementation of {@link Multiset#hashCode}.
+   */
+  static int hashCodeImpl(Multiset<?> multiset) {
+    return multiset.entrySet().hashCode();
+  }
+
+  /**
+   * An implementation of {@link Multiset#toString}.
+   */
+  static String toStringImpl(Multiset<?> multiset) {
+    return multiset.entrySet().toString();
+  }
+
+  /**
+   * An implementation of {@link Multiset#addAll}.
+   */
+  static <E> boolean addAllImpl(
+      Multiset<E> self, Collection<? extends E> elements) {
+    if (elements.isEmpty()) {
+      return false;
+    }
+    if (elements instanceof Multiset) {
+      Multiset<? extends E> that = cast(elements);
+      for (Entry<? extends E> entry : that.entrySet()) {
+        self.add(entry.getElement(), entry.getCount());
+      }
+    } else {
+      Iterators.addAll(self, elements.iterator());
+    }
+    return true;
+  }
+
+  /**
+   * An implementation of {@link Multiset#removeAll}.
+   */
+  static boolean removeAllImpl(
+      Multiset<?> self, Collection<?> elementsToRemove) {
+    Collection<?> collection = (elementsToRemove instanceof Multiset)
+        ? ((Multiset<?>) elementsToRemove).elementSet() : elementsToRemove;
+
+    return self.elementSet().removeAll(collection);
+  }
+
+  /**
+   * An implementation of {@link Multiset#retainAll}.
+   */
+  static boolean retainAllImpl(
+      Multiset<?> self, Collection<?> elementsToRetain) {
+    Collection<?> collection = (elementsToRetain instanceof Multiset)
+        ? ((Multiset<?>) elementsToRetain).elementSet() : elementsToRetain;
+
+    return self.elementSet().retainAll(collection);
+  }
+
+  /**
+   * An implementation of {@link Multiset#setCount(Object, int)}.
+   */
   static <E> int setCountImpl(Multiset<E> self, E element, int count) {
     checkNonnegative(count, "count");
 
@@ -453,6 +545,9 @@ public final class Multisets {
     return oldCount;
   }
 
+  /**
+   * An implementation of {@link Multiset#setCount(Object, int, int)}.
+   */
   static <E> boolean setCountImpl(
       Multiset<E> self, E element, int oldCount, int newCount) {
     checkNonnegative(oldCount, "oldCount");
@@ -464,6 +559,144 @@ public final class Multisets {
     } else {
       return false;
     }
+  }
+  
+  /**
+   * An implementation of {@link Multiset#elementSet}.
+   */
+  static <E> Set<E> elementSetImpl(Multiset<E> self){
+    return new ElementSetImpl<E>(self);
+  }
+  
+  private static final class ElementSetImpl<E> extends AbstractSet<E>
+      implements Serializable {
+    private final Multiset<E> multiset;
+    
+    ElementSetImpl(Multiset<E> multiset) {
+      this.multiset = multiset;
+    }
+
+    @Override public boolean add(E e) {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override public boolean addAll(Collection<? extends E> c) {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override public void clear() {
+      multiset.clear();
+    }
+
+    @Override public boolean contains(Object o) {
+      return multiset.contains(o);
+    }
+
+    @Override public boolean containsAll(Collection<?> c) {
+      return multiset.containsAll(c);
+    }
+
+    @Override public boolean isEmpty() {
+      return multiset.isEmpty();
+    }
+
+    @Override public Iterator<E> iterator() {
+      final Iterator<Entry<E>> entryIterator = multiset.entrySet().iterator();
+      return new Iterator<E>() {
+
+        @Override public boolean hasNext() {
+          return entryIterator.hasNext();
+        }
+
+        @Override public E next() {
+          return entryIterator.next().getElement();
+        }
+
+        @Override public void remove() {
+          entryIterator.remove();
+        }
+      };
+    }
+
+    @Override public boolean remove(Object o) {
+      int count = multiset.count(o);
+      if (count > 0) {
+        multiset.remove(o, count);
+        return true;
+      }
+      return false;
+    }
+
+    @Override public int size() {
+      return multiset.entrySet().size();
+    }
+
+    private static final long serialVersionUID = 0;
+  }
+  
+  /**
+   * An implementation of {@link Multiset#iterator}.
+   */
+  static <E> Iterator<E> iteratorImpl(Multiset<E> multiset) {
+    return new MultisetIteratorImpl<E>(
+        multiset, multiset.entrySet().iterator());
+  }
+
+  static final class MultisetIteratorImpl<E> implements Iterator<E> {
+    private final Multiset<E> multiset;
+    private final Iterator<Entry<E>> entryIterator;
+    private Entry<E> currentEntry;
+    /** Count of subsequent elements equal to current element */
+    private int laterCount;
+    /** Count of all elements equal to current element */
+    private int totalCount;
+    private boolean canRemove;
+
+    MultisetIteratorImpl(
+        Multiset<E> multiset, Iterator<Entry<E>> entryIterator) {
+      this.multiset = multiset;
+      this.entryIterator = entryIterator;
+    }
+
+    public boolean hasNext() {
+      return laterCount > 0 || entryIterator.hasNext();
+    }
+
+    public E next() {
+      if (!hasNext()) {
+        throw new NoSuchElementException();
+      }
+      if (laterCount == 0) {
+        currentEntry = entryIterator.next();
+        totalCount = laterCount = currentEntry.getCount();
+      }
+      laterCount--;
+      canRemove = true;
+      return currentEntry.getElement();
+    }
+
+    public void remove() {
+      checkState(
+          canRemove, "no calls to next() since the last call to remove()");
+      if (totalCount == 1) {
+        entryIterator.remove();
+      } else {
+        multiset.remove(currentEntry.getElement());
+      }
+      totalCount--;
+      canRemove = false;
+    }
+  }
+  
+  /**
+   * An implementation of {@link Multiset#size}.
+   */
+  static int sizeImpl(Multiset<?> multiset) {
+    long size = 0;
+    for (Entry<?> entry : multiset.entrySet()) {
+      size += entry.getCount();
+    }
+    return Ints.saturatedCast(size);
   }
 
   static void checkNonnegative(int count, String name) {

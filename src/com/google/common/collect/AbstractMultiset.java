@@ -16,19 +16,15 @@
 
 package com.google.common.collect;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.Multisets.setCountImpl;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Objects;
-import com.google.common.primitives.Ints;
+import com.google.common.collect.Multiset.Entry;
 
 import java.util.AbstractCollection;
-import java.util.AbstractSet;
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.NoSuchElementException;
 import java.util.Set;
 
 import javax.annotation.Nullable;
@@ -40,12 +36,13 @@ import javax.annotation.Nullable;
  * optionally overriding {@link #add(Object, int)} and
  * {@link #remove(Object, int)} to enable modifications to the multiset.
  *
- * <p>The {@link #contains}, {@link #containsAll}, {@link #count}, and
- * {@link #size} implementations all iterate across the set returned by
- * {@link Multiset#entrySet()}, as do many methods acting on the set returned by
- * {@link #elementSet()}. Override those methods for better performance.
+ * <p>The {@link #count} and {@link #size} implementations all iterate across 
+ * the set returned by {@link Multiset#entrySet()}, as do many methods acting on
+ * the set returned by {@link #elementSet()}. Override those methods for better
+ * performance.
  *
  * @author Kevin Bourrillion
+ * @author Louis Wasserman
  */
 @GwtCompatible
 abstract class AbstractMultiset<E> extends AbstractCollection<E>
@@ -55,11 +52,7 @@ abstract class AbstractMultiset<E> extends AbstractCollection<E>
   // Query Operations
 
   @Override public int size() {
-    long sum = 0L;
-    for (Entry<E> entry : entrySet()) {
-      sum += entry.getCount();
-    }
-    return Ints.saturatedCast(sum);
+    return Multisets.sizeImpl(this);
   }
 
   @Override public boolean isEmpty() {
@@ -67,54 +60,11 @@ abstract class AbstractMultiset<E> extends AbstractCollection<E>
   }
 
   @Override public boolean contains(@Nullable Object element) {
-    return elementSet().contains(element);
+    return count(element) > 0;
   }
 
   @Override public Iterator<E> iterator() {
-    return new MultisetIterator();
-  }
-
-  private class MultisetIterator implements Iterator<E> {
-    private final Iterator<Entry<E>> entryIterator;
-    private Entry<E> currentEntry;
-    /** Count of subsequent elements equal to current element */
-    private int laterCount;
-    /** Count of all elements equal to current element */
-    private int totalCount;
-    private boolean canRemove;
-
-    MultisetIterator() {
-      this.entryIterator = entrySet().iterator();
-    }
-
-    public boolean hasNext() {
-      return laterCount > 0 || entryIterator.hasNext();
-    }
-
-    public E next() {
-      if (!hasNext()) {
-        throw new NoSuchElementException();
-      }
-      if (laterCount == 0) {
-        currentEntry = entryIterator.next();
-        totalCount = laterCount = currentEntry.getCount();
-      }
-      laterCount--;
-      canRemove = true;
-      return currentEntry.getElement();
-    }
-
-    public void remove() {
-      checkState(canRemove,
-          "no calls to next() since the last call to remove()");
-      if (totalCount == 1) {
-        entryIterator.remove();
-      } else {
-        AbstractMultiset.this.remove(currentEntry.getElement());
-      }
-      totalCount--;
-      canRemove = false;
-    }
+    return Multisets.iteratorImpl(this);
   }
 
   public int count(Object element) {
@@ -155,45 +105,16 @@ abstract class AbstractMultiset<E> extends AbstractCollection<E>
 
   // Bulk Operations
 
-  @Override public boolean containsAll(Collection<?> elements) {
-    return elementSet().containsAll(elements);
-  }
-
   @Override public boolean addAll(Collection<? extends E> elementsToAdd) {
-    if (elementsToAdd.isEmpty()) {
-      return false;
-    }
-    if (elementsToAdd instanceof Multiset) {
-      Multiset<? extends E> that = Multisets.cast(elementsToAdd);
-      for (Entry<? extends E> entry : that.entrySet()) {
-        add(entry.getElement(), entry.getCount());
-      }
-    } else {
-      super.addAll(elementsToAdd);
-    }
-    return true;
+    return Multisets.addAllImpl(this, elementsToAdd);
   }
 
   @Override public boolean removeAll(Collection<?> elementsToRemove) {
-    Collection<?> collection = (elementsToRemove instanceof Multiset)
-        ? ((Multiset<?>) elementsToRemove).elementSet() : elementsToRemove;
-
-    return elementSet().removeAll(collection);
+    return Multisets.removeAllImpl(this, elementsToRemove);
   }
 
   @Override public boolean retainAll(Collection<?> elementsToRetain) {
-    // TODO(kevinb): implement similarly to removeAll?
-    checkNotNull(elementsToRetain);
-    Iterator<Entry<E>> entries = entrySet().iterator();
-    boolean modified = false;
-    while (entries.hasNext()) {
-      Entry<E> entry = entries.next();
-      if (!elementsToRetain.contains(entry.getElement())) {
-        entries.remove();
-        modified = true;
-      }
-    }
-    return modified;
+    return Multisets.retainAllImpl(this, elementsToRetain);
   }
 
   @Override public void clear() {
@@ -217,27 +138,7 @@ abstract class AbstractMultiset<E> extends AbstractCollection<E>
    * returned by {@link #elementSet()}.
    */
   Set<E> createElementSet() {
-    return new ElementSet();
-  }
-
-  private class ElementSet extends AbstractSet<E> {
-    @Override public Iterator<E> iterator() {
-      final Iterator<Entry<E>> entryIterator = entrySet().iterator();
-      return new Iterator<E>() {
-        public boolean hasNext() {
-          return entryIterator.hasNext();
-        }
-        public E next() {
-          return entryIterator.next().getElement();
-        }
-        public void remove() {
-          entryIterator.remove();
-        }
-      };
-    }
-    @Override public int size() {
-      return entrySet().size();
-    }
+    return Multisets.elementSetImpl(this);
   }
 
   // Object methods
@@ -250,28 +151,7 @@ abstract class AbstractMultiset<E> extends AbstractCollection<E>
    * count.
    */
   @Override public boolean equals(@Nullable Object object) {
-    if (object == this) {
-      return true;
-    }
-    if (object instanceof Multiset) {
-      Multiset<?> that = (Multiset<?>) object;
-      /*
-       * We can't simply check whether the entry sets are equal, since that
-       * approach fails when a TreeMultiset has a comparator that returns 0
-       * when passed unequal elements.
-       */
-
-      if (this.size() != that.size()) {
-        return false;
-      }
-      for (Entry<?> entry : that.entrySet()) {
-        if (count(entry.getElement()) != entry.getCount()) {
-          return false;
-        }
-      }
-      return true;
-    }
-    return false;
+    return Multisets.equalsImpl(this, object);
   }
 
   /**
@@ -281,7 +161,7 @@ abstract class AbstractMultiset<E> extends AbstractCollection<E>
    * Multiset#entrySet()}.
    */
   @Override public int hashCode() {
-    return entrySet().hashCode();
+    return Multisets.hashCodeImpl(this);
   }
 
   /**
@@ -291,6 +171,6 @@ abstract class AbstractMultiset<E> extends AbstractCollection<E>
    * {@link Multiset#entrySet()}.
    */
   @Override public String toString() {
-    return entrySet().toString();
+    return Multisets.toStringImpl(this);
   }
 }

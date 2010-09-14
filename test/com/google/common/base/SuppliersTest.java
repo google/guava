@@ -45,8 +45,8 @@ public class SuppliersTest extends TestCase {
       }
     };
 
-    Function<Number,Integer> intValueFunction =
-        new Function<Number,Integer>() {
+    Function<Number, Integer> intValueFunction =
+        new Function<Number, Integer>() {
           public Integer apply(Number x) {
             return x.intValue();
           }

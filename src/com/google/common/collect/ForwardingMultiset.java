@@ -16,8 +16,12 @@
 
 package com.google.common.collect;
 
+import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.base.Objects;
 
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.Set;
 
 import javax.annotation.Nullable;
@@ -28,7 +32,20 @@ import javax.annotation.Nullable;
  * backing multiset as desired per the <a
  * href="http://en.wikipedia.org/wiki/Decorator_pattern">decorator pattern</a>.
  *
+ * <p><b>Warning:</b> The methods of {@code ForwardingMultiset} forward
+ * <b>indiscriminately</b> to the methods of the delegate. For example,
+ * overriding {@link #add(Object, int)} alone <b>will not</b> change the
+ * behavior of {@link #add(Object)}, which can lead to unexpected behavior. In
+ * this case, you should override {@code add(Object)} as well, either providing
+ * your own implementation, or delegating to the provided {@code standardAdd}
+ * method.
+ *
+ * <p>The {@code standard} methods and any collection views they return are not
+ * guaranteed to be thread-safe, even when all of the methods that they depend
+ * on are thread-safe.
+ *
  * @author Kevin Bourrillion
+ * @author Louis Wasserman
  * @since 2 (imported from Google Collections Library)
  */
 @GwtCompatible
@@ -74,5 +91,189 @@ public abstract class ForwardingMultiset<E> extends ForwardingCollection<E>
 
   public boolean setCount(E element, int oldCount, int newCount) {
     return delegate().setCount(element, oldCount, newCount);
+  }
+
+  /**
+   * A sensible definition of {@link #contains} in terms of {@link #count}. If
+   * you override {@link #count}, you may wish to override {@link #contains} to
+   * forward to this implementation.
+   * 
+   * @since 7
+   */
+  @Beta @Override protected boolean standardContains(@Nullable Object object) {
+    return count(object) > 0;
+  }
+
+  /**
+   * A sensible, albeit inefficient, definition of {@link #count} in terms of
+   * {@link #entrySet}. If you override {@link #entrySet}, you may wish to
+   * override {@link #count} to forward to this implementation.
+   * 
+   * @since 7
+   */
+  @Beta protected int standardCount(@Nullable Object object) {
+    for (Entry<?> entry : this.entrySet()) {
+      if (Objects.equal(entry.getElement(), object)) {
+        return entry.getCount();
+      }
+    }
+    return 0;
+  }
+
+  /**
+   * A sensible definition of {@link #add(Object)} in terms of {@link
+   * #add(Object, int)}. If you override {@link #add(Object, int)}, you may
+   * wish to override {@link #add(Object)} to forward to this implementation.
+   * 
+   * @since 7
+   */
+  @Beta protected boolean standardAdd(E element) {
+    add(element, 1);
+    return true;
+  }
+
+  /**
+   * A sensible definition of {@link #addAll(Collection)} in terms of {@link
+   * #add(Object)} and {@link #add(Object, int)}. If you override either of
+   * these methods, you may wish to override {@link #addAll(Collection)} to
+   * forward to this implementation.
+   * 
+   * @since 7
+   */
+  @Beta @Override protected boolean standardAddAll(
+      Collection<? extends E> elementsToAdd) {
+    return Multisets.addAllImpl(this, elementsToAdd);
+  }
+
+  /**
+   * A sensible definition of {@link #remove(Object)} in terms of {@link
+   * #remove(Object, int)}. If you override {@link #remove(Object, int)}, you
+   * may wish to override {@link #remove(Object)} to forward to this
+   * implementation.
+   * 
+   * @since 7
+   */
+  @Beta @Override protected boolean standardRemove(Object element) {
+    return remove(element, 1) > 0;
+  }
+
+  /**
+   * A sensible definition of {@link #removeAll} in terms of {@link
+   * #elementSet()}. If you override {@link #elementSet()}, you may wish to
+   * override {@link #removeAll} to forward to this implementation.
+   * 
+   * @since 7
+   */
+  @Beta @Override protected boolean standardRemoveAll(
+      Collection<?> elementsToRemove) {
+    return Multisets.removeAllImpl(this, elementsToRemove);
+  }
+
+  /**
+   * A sensible definition of {@link #retainAll} in terms of {@link #elementSet}
+   * . If you override {@link #elementSet}, you may wish to override {@link
+   * #retainAll} to forward to this implementation.
+   * 
+   * @since 7
+   */
+  @Beta @Override protected boolean standardRetainAll(
+      Collection<?> elementsToRetain) {
+    return Multisets.retainAllImpl(this, elementsToRetain);
+  }
+
+  /**
+   * A sensible definition of {@link #setCount(Object, int)} in terms of {@link
+   * #count(Object)}, {@link #add(Object, int)}, and {@link #remove(Object,
+   * int)}. {@link #entrySet()}. If you override any of these methods, you may
+   * wish to override {@link #setCount(Object, int)} to forward to this
+   * implementation.
+   * 
+   * @since 7
+   */
+  @Beta protected int standardSetCount(E element, int count) {
+    return Multisets.setCountImpl(this, element, count);
+  }
+
+  /**
+   * A sensible definition of {@link #setCount(Object, int, int)} in terms of
+   * {@link #count(Object)} and {@link #setCount(Object, int)}. If you override
+   * either of these methods, you may wish to override {@link #setCount(Object,
+   * int, int)} to forward to this implementation.
+   *
+   * @since 7
+   */
+  @Beta protected boolean standardSetCount(
+      E element, int oldCount, int newCount) {
+    return Multisets.setCountImpl(this, element, oldCount, newCount);
+  }
+
+  /**
+   * A sensible definition of {@link #elementSet} in terms of the following
+   * methods: {@link #clear}, {@link #contains}, {@link #containsAll},
+   * {@link #count}, {@link #isEmpty}, the {@code size()} and {@code iterator()}
+   * methods of {@link #entrySet}, and {@link #remove(Object, int)}.  In many 
+   * situations, you may wish to override {@link #elementSet} to forward to this
+   * implementation.
+   * 
+   * @since 7
+   */
+  @Beta protected Set<E> standardElementSet() {
+    return Multisets.elementSetImpl(this);
+  }
+
+  /**
+   * A sensible definition of {@link #iterator} in terms of {@link #entrySet}
+   * and {@link #remove(Object)}. If you override either of these methods, you
+   * may wish to override {@link #iterator} to forward to this implementation.
+   * 
+   * @since 7
+   */
+  @Beta protected Iterator<E> standardIterator() {
+    return Multisets.iteratorImpl(this);
+  }
+
+  /**
+   * A sensible, albeit inefficient, definition of {@link #size} in terms of
+   * {@link #entrySet}. If you override {@link #entrySet}, you may wish to
+   * override {@link #size} to forward to this implementation.
+   * 
+   * @since 7
+   */
+  @Beta protected int standardSize() {
+    return Multisets.sizeImpl(this);
+  }
+
+  /**
+   * A sensible, albeit inefficient, definition of {@link #size} in terms of
+   * {@code entrySet().size()} and {@link #count}. If you override either of
+   * these methods, you may wish to override {@link #size} to forward to this
+   * implementation.
+   *
+   * @since 7
+   */
+  @Beta protected boolean standardEquals(@Nullable Object object) {
+    return Multisets.equalsImpl(this, object);
+  }
+
+  /**
+   * A sensible definition of {@link #hashCode} in terms of {@link #entrySet}.
+   * If you override {@link #entrySet}, you may wish to override {@link
+   * #hashCode} to forward to this implementation.
+   *
+   * @since 7
+   */
+  @Beta protected int standardHashCode() {
+    return Multisets.hashCodeImpl(this);
+  }
+
+  /**
+   * A sensible definition of {@link #toString} in terms of {@link #entrySet}.
+   * If you override {@link #entrySet}, you may wish to override {@link
+   * #toString} to forward to this implementation.
+   * 
+   * @since 7
+   */
+  @Beta @Override protected String standardToString() {
+    return entrySet().toString();
   }
 }

@@ -14,8 +14,12 @@
 
 package com.google.common.base;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
+
+import javax.annotation.Nullable;
 
 /**
  * Contains static factory methods for creating {@code Equivalence} instances.
@@ -41,8 +45,8 @@ public final class Equivalences {
   /**
    * Returns an equivalence that delegates to {@link Object#equals} and {@link Object#hashCode}.
    * {@link Equivalence#equivalent} returns {@code true} if both values are null, or if neither
-   * value is null and {@link Object#equals} returns {@code true}. {@link Equivalence#hash} throws a
-   * {@link NullPointerException} if passed a null value.
+   * value is null and {@link Object#equals} returns {@code true}. {@link Equivalence#hash} returns
+   * {@code 0} if passed a null value.
    */
   public static Equivalence<Object> nullAwareEquals() {
     return Impl.NULL_AWARE_EQUALS;
@@ -61,7 +65,7 @@ public final class Equivalences {
 
   private enum Impl implements Equivalence<Object> {
     EQUALS {
-      public boolean equivalent(Object a, Object b) {
+      public boolean equivalent(Object a, @Nullable Object b) {
         return a.equals(b);
       }
 
@@ -70,21 +74,21 @@ public final class Equivalences {
       }
     },
     IDENTITY {
-      public boolean equivalent(Object a, Object b) {
-        return a == b;
+      public boolean equivalent(Object a, @Nullable Object b) {
+        return checkNotNull(a) == b;
       }
 
-      public int hash(Object o) {
+      public int hash(@Nullable Object o) {
         return System.identityHashCode(o);
       }
     },
     NULL_AWARE_EQUALS {
-      public boolean equivalent(Object a, Object b) {
+      public boolean equivalent(@Nullable Object a, @Nullable Object b) {
         return Objects.equal(a, b);
       }
 
-      public int hash(Object o) {
-        return o.hashCode(); // TODO(kevinb): why NPE? counter-intuitive.
+      public int hash(@Nullable Object o) {
+        return (o == null) ? 0 : o.hashCode();
       }
     },
   }

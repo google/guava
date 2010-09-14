@@ -346,8 +346,7 @@ public final class Constraints {
       return delegate;
     }
     @Override public boolean add(E element) {
-      constraint.checkElement(element);
-      return delegate.add(element);
+      return standardAdd(element);
     }
     @Override public boolean addAll(Collection<? extends E> elements) {
       return delegate.addAll(checkElements(elements, constraint));

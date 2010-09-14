@@ -225,6 +225,11 @@ abstract class AbstractMapBasedMultiset<E> extends AbstractMultiset<E>
     }
   }
 
+  @Override public boolean contains(@Nullable Object element) {
+    AtomicInteger frequency = backingMap.get(element);
+    return frequency != null && frequency.get() > 0;
+  }
+
   @Override public int count(@Nullable Object element) {
     AtomicInteger frequency = backingMap.get(element);
     return (frequency == null) ? 0 : frequency.get();

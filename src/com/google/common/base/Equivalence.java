@@ -17,6 +17,8 @@ package com.google.common.base;
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 
+import javax.annotation.Nullable;
+
 /**
  * A strategy for determining whether two instances are considered equivalent. Examples of
  * equivalences are the {@link Equivalences#identity() identity equivalence} and {@link
@@ -51,7 +53,7 @@ public interface Equivalence<T> {
    *     false}.
    * </ul>
    */
-  boolean equivalent(T a, T b);
+  boolean equivalent(@Nullable T a, @Nullable T b);
 
   /**
    * Returns a hash code for {@code object}. This function <b>must</b> return the same value for
@@ -59,7 +61,6 @@ public interface Equivalence<T> {
    * distinct value for instances which are not equivalent.
    *
    * @see Object#hashCode the same contractual obligations apply here
-   * @throws NullPointerException if t is null
    */
-  int hash(T t);
+  int hash(@Nullable T t);
 }
