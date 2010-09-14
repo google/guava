@@ -31,7 +31,7 @@ final class NullsFirstOrdering<T> extends Ordering<T> implements Serializable {
     this.ordering = ordering;
   }
 
-  public int compare(T left, T right) {
+  public int compare(@Nullable T left, @Nullable T right) {
     if (left == right) {
       return 0;
     }

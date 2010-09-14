@@ -217,11 +217,11 @@ public abstract class ImmutableList<E> extends ForwardingImmutableCollection<E>
     return Arrays.asList(castedArray);
   }
 
-  public final int indexOf(@Nullable Object object) {
+  public int indexOf(@Nullable Object object) {
     return delegate.indexOf(object);
   }
 
-  public final int lastIndexOf(@Nullable Object object) {
+  public int lastIndexOf(@Nullable Object object) {
     return delegate.lastIndexOf(object);
   }
 

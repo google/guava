@@ -509,6 +509,195 @@ public final class Lists {
   }
 
   /**
+   * Returns a view of the specified string as an immutable list of {@code
+   * Character} values.
+   *
+   * @since 7
+   */
+  @Beta public static ImmutableList<Character> charactersOf(String string) {
+    return new StringAsImmutableList(checkNotNull(string));
+  }
+
+  @SuppressWarnings("serial") // serialized using ImmutableList serialization
+  private static final class StringAsImmutableList
+      extends ImmutableList<Character> {
+
+    private final String string;
+
+    StringAsImmutableList(String string) {
+      this.string = string;
+    }
+
+    @Override public boolean contains(@Nullable Object object) {
+      return indexOf(object) >= 0;
+    }
+
+    @Override public int indexOf(@Nullable Object object) {
+      return (object instanceof Character)
+          ? string.indexOf((Character) object) : -1;
+    }
+
+    @Override public int lastIndexOf(@Nullable Object object) {
+      return (object instanceof Character)
+          ? string.lastIndexOf((Character) object) : -1;
+    }
+
+    @Override public UnmodifiableListIterator<Character> listIterator(
+        int index) {
+      int n = size();
+      checkPositionIndex(index, n);
+      return new AbstractIndexedIterator<Character>(index, n) {
+        @Override protected Character get(int index) {
+          return string.charAt(index);
+        }
+      };
+    }
+
+    @Override public ImmutableList<Character> subList(
+        int fromIndex, int toIndex) {
+      return charactersOf(string.substring(fromIndex, toIndex));
+    }
+
+    @Override boolean isPartialView() {
+      return false;
+    }
+
+    @Override public Character get(int index) {
+      return string.charAt(index);
+    }
+
+    @Override public int size() {
+      return string.length();
+    }
+
+    @Override public boolean equals(@Nullable Object obj) {
+      if (!(obj instanceof List)) {
+        return false;
+      }
+      List<?> list = (List<?>) obj;
+      int n = string.length();
+      if (n != list.size()) {
+        return false;
+      }
+      Iterator<?> iterator = list.iterator();
+      for (int i = 0; i < n; i++) {
+        Object elem = iterator.next();
+        if (!(elem instanceof Character)
+            || ((Character) elem).charValue() != string.charAt(i)) {
+          return false;
+        }
+      }
+      return true;
+    }
+
+    int hash = 0;
+
+    @Override public int hashCode() {
+      int h = hash;
+      if (h == 0) {
+        h = 1;
+        for (int i = 0; i < string.length(); i++) {
+          h = h * 31 + string.charAt(i);
+        }
+        hash = h;
+      }
+      return h;
+    }
+  }
+
+  /**
+   * Returns a view of the specified {@code CharSequence} as a {@code
+   * List<Character>}, viewing {@code sequence} as a sequence of Unicode code
+   * units. The view does not support any modification operations, but reflects
+   * any changes to the underlying character sequence.
+   *
+   * @param sequence the character sequence to view as a {@code List} of
+   *        characters
+   * @return an {@code List<Character>} view of the character sequence
+   * @since 7
+   */
+  @Beta public static List<Character> charactersOf(CharSequence sequence) {
+    return new CharSequenceAsList(checkNotNull(sequence));
+  }
+
+  private static final class CharSequenceAsList
+      extends AbstractList<Character> {
+    private final CharSequence sequence;
+
+    CharSequenceAsList(CharSequence sequence) {
+      this.sequence = sequence;
+    }
+
+    @Override public Character get(int index) {
+      return sequence.charAt(index);
+    }
+
+    @Override public boolean contains(@Nullable Object o) {
+      return indexOf(o) >= 0;
+    }
+
+    @Override public int indexOf(@Nullable Object o) {
+      if (o instanceof Character) {
+        char c = (Character) o;
+        for (int i = 0; i < sequence.length(); i++) {
+          if (sequence.charAt(i) == c) {
+            return i;
+          }
+        }
+      }
+      return -1;
+    }
+
+    @Override public int lastIndexOf(@Nullable Object o) {
+      if (o instanceof Character) {
+        char c = ((Character) o).charValue();
+        for (int i = sequence.length() - 1; i >= 0; i--) {
+          if (sequence.charAt(i) == c) {
+            return i;
+          }
+        }
+      }
+      return -1;
+    }
+
+    @Override public int size() {
+      return sequence.length();
+    }
+
+    @Override public List<Character> subList(int fromIndex, int toIndex) {
+      return charactersOf(sequence.subSequence(fromIndex, toIndex));
+    }
+
+    @Override public int hashCode() {
+      int hash = 1;
+      for (int i = 0; i < sequence.length(); i++) {
+        hash = hash * 31 + sequence.charAt(i);
+      }
+      return hash;
+    }
+
+    @Override public boolean equals(@Nullable Object o) {
+      if (!(o instanceof List)) {
+        return false;
+      }
+      List<?> list = (List<?>) o;
+      int n = sequence.length();
+      if (n != list.size()) {
+        return false;
+      }
+      Iterator<?> iterator = list.iterator();
+      for (int i = 0; i < n; i++) {
+        Object elem = iterator.next();
+        if (!(elem instanceof Character)
+            || ((Character) elem).charValue() != sequence.charAt(i)) {
+          return false;
+        }
+      }
+      return true;
+    }
+  }
+
+  /**
    * Returns a reversed view of the specified list. For example, {@code
    * Lists.reverse(Arrays.asList(1, 2, 3))} returns a list containing {@code 3,
    * 2, 1}. The returned list is backed by this list, so non-structural changes

@@ -85,21 +85,25 @@ final class RegularImmutableSortedSet<E> extends ImmutableSortedSet<E> {
      * If targets is a sorted set with the same comparator, containsAll can run
      * in O(n) time stepping through the two collections.
      */
-    Iterator<E> myIterator = iterator();
-    Iterator<?> iterator = targets.iterator();
-    Object target = iterator.next();
+    Iterator<E> thisIterator = iterator();
+    Iterator<?> thatIterator = targets.iterator();
+    Object target = thatIterator.next();
 
     try {
 
-      while (myIterator.hasNext()) {
+      while (thisIterator.hasNext()) {
 
-        int cmp = unsafeCompare(myIterator.next(), target);
+        int cmp = unsafeCompare(thisIterator.next(), target);
 
         if (cmp == 0) {
-          if (!iterator.hasNext()) {
+
+          if (!thatIterator.hasNext()) {
+
             return true;
           }
-          target = iterator.next();
+
+          target = thatIterator.next();
+
         } else if (cmp > 0) {
           return false;
         }

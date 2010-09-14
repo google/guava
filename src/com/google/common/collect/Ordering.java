@@ -33,6 +33,8 @@ import java.util.SortedMap;
 import java.util.SortedSet;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import javax.annotation.Nullable;
+
 /**
  * A comparator with added methods to support common functions. For example:
  * <pre>   {@code
@@ -381,6 +383,9 @@ public abstract class Ordering<T> implements Comparator<T> {
 
   // Regular instance methods
 
+  // Override to add @Nullable
+  @Override public abstract int compare(@Nullable T left, @Nullable T right);
+
   private <E extends T> void quicksortLeastK(
       E[] values, int left, int right, int k) {
     if (right > left) {
@@ -419,7 +424,7 @@ public abstract class Ordering<T> implements Comparator<T> {
    * @param sortedList the list to be searched
    * @param key the key to be searched for
    */
-  public int binarySearch(List<? extends T> sortedList, T key) {
+  public int binarySearch(List<? extends T> sortedList, @Nullable T key) {
     return Collections.binarySearch(sortedList, key, this);
   }
 
@@ -537,7 +542,8 @@ public abstract class Ordering<T> implements Comparator<T> {
    * @throws ClassCastException if the parameters are not <i>mutually
    *     comparable</i> under this ordering.
    */
-  public <E extends T> E max(E a, E b, E c, E... rest) {
+  public <E extends T> E max(
+      @Nullable E a, @Nullable E b, @Nullable E c, E... rest) {
     E maxSoFar = max(max(a, b), c);
 
     for (E r : rest) {
@@ -560,7 +566,7 @@ public abstract class Ordering<T> implements Comparator<T> {
    * @throws ClassCastException if the parameters are not <i>mutually
    *     comparable</i> under this ordering.
    */
-  public <E extends T> E max(E a, E b) {
+  public <E extends T> E max(@Nullable E a, @Nullable E b) {
     return compare(a, b) >= 0 ? a : b;
   }
 
@@ -597,7 +603,8 @@ public abstract class Ordering<T> implements Comparator<T> {
    * @throws ClassCastException if the parameters are not <i>mutually
    *     comparable</i> under this ordering.
    */
-  public <E extends T> E min(E a, E b, E c, E... rest) {
+  public <E extends T> E min(
+      @Nullable E a, @Nullable E b, @Nullable E c, E... rest) {
     E minSoFar = min(min(a, b), c);
 
     for (E r : rest) {
@@ -620,7 +627,7 @@ public abstract class Ordering<T> implements Comparator<T> {
    * @throws ClassCastException if the parameters are not <i>mutually
    *     comparable</i> under this ordering.
    */
-  public <E extends T> E min(E a, E b) {
+  public <E extends T> E min(@Nullable E a, @Nullable E b) {
     return compare(a, b) <= 0 ? a : b;
   }
 
