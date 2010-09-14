@@ -495,32 +495,19 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
       return forwardList.isEmpty();
     }
 
-    @SuppressWarnings("unchecked")
-    @Override public boolean equals(@Nullable Object object) {
-      if (object == this) {
-        return true;
-      }
-      if (object instanceof List) {
-        List<?> that = (List<?>) object;
-        return this.size() == that.size()
-            && Iterables.elementsEqual(this, that);
-      }
-      return false;
-    }
-
-    @Override public int hashCode() {
-      int hashCode = 1;
-      for (E e : this) {
-        hashCode = 31 * hashCode + e.hashCode();
-      }
-      return hashCode;
-    }
-
     @Override boolean isPartialView() {
       return forwardList.isPartialView();
     }
   }
   
+  @Override public boolean equals(Object obj) {
+    return Lists.equalsImpl(this, obj);
+  }
+
+  @Override public int hashCode() {
+    return Lists.hashCodeImpl(this);
+  }
+
   /*
    * Serializes ImmutableLists as their logical contents. This ensures that
    * implementation types do not leak into the serialized representation.
@@ -643,4 +630,3 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
     }
   }
 }
-

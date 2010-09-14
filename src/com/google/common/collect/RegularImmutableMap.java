@@ -236,7 +236,7 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
 
   @Override public String toString() {
     StringBuilder result = new StringBuilder(size() * 16).append('{');
-    Collections2.standardJoiner.appendTo(result, entries);
+    Collections2.STANDARD_JOINER.appendTo(result, entries);
     return result.append('}').toString();
   }
 

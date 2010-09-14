@@ -169,7 +169,7 @@ public abstract class ImmutableSet<E> extends ForwardingImmutableCollection<E>
   }
 
   @Override public boolean equals(Object obj) {
-    return Collections2.setEquals(this, obj);
+    return Sets.equalsImpl(this, obj);
   }
 
   @Override public int hashCode() {

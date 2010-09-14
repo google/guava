@@ -181,11 +181,11 @@ abstract class AbstractBiMap<K, V> extends ForwardingMap<K, V>
     }
 
     @Override public boolean removeAll(Collection<?> keysToRemove) {
-      return Iterators.removeAll(iterator(), keysToRemove);
+      return standardRemoveAll(keysToRemove);
     }
 
     @Override public boolean retainAll(Collection<?> keysToRetain) {
-      return Iterators.retainAll(iterator(), keysToRetain);
+      return standardRetainAll(keysToRetain);
     }
 
     @Override public Iterator<K> iterator() {
@@ -249,15 +249,15 @@ abstract class AbstractBiMap<K, V> extends ForwardingMap<K, V>
     }
 
     @Override public Object[] toArray() {
-      return ObjectArrays.toArrayImpl(this);
+      return standardToArray();
     }
 
     @Override public <T> T[] toArray(T[] array) {
-      return ObjectArrays.toArrayImpl(this, array);
+      return standardToArray(array);
     }
 
     @Override public String toString() {
-      return Iterators.toString(iterator());
+      return standardToString();
     }
   }
 
@@ -336,22 +336,22 @@ abstract class AbstractBiMap<K, V> extends ForwardingMap<K, V>
     // See java.util.Collections.CheckedEntrySet for details on attacks.
 
     @Override public Object[] toArray() {
-      return ObjectArrays.toArrayImpl(this);
+      return standardToArray();
     }
     @Override public <T> T[] toArray(T[] array) {
-      return ObjectArrays.toArrayImpl(this, array);
+      return standardToArray(array);
     }
     @Override public boolean contains(Object o) {
       return Maps.containsEntryImpl(delegate(), o);
     }
     @Override public boolean containsAll(Collection<?> c) {
-      return Collections2.containsAll(this, c);
+      return standardContainsAll(c);
     }
     @Override public boolean removeAll(Collection<?> c) {
-      return Iterators.removeAll(iterator(), c);
+      return standardRemoveAll(c);
     }
     @Override public boolean retainAll(Collection<?> c) {
-      return Iterators.retainAll(iterator(), c);
+      return standardRetainAll(c);
     }
   }
 

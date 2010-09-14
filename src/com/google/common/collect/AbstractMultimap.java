@@ -1282,7 +1282,7 @@ abstract class AbstractMultimap<K, V> implements Multimap<K, V>, Serializable {
   /** Entry set for a {@link SetMultimap}. */
   private class EntrySet extends Entries implements Set<Map.Entry<K, V>> {
     @Override public boolean equals(@Nullable Object object) {
-      return Collections2.setEquals(this, object);
+      return Sets.equalsImpl(this, object);
     }
     @Override public int hashCode() {
       return Sets.hashCodeImpl(this);

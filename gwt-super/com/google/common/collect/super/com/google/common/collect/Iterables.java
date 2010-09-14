@@ -31,7 +31,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
 import java.util.NoSuchElementException;
 import java.util.RandomAccess;
 import java.util.Set;
@@ -858,26 +857,13 @@ public final class Iterables {
    * Iterable#iterator} can simply be invoked on the result of calling this
    * method.
    *
+   * <p>Note: the method (Lists.reverse) can always be used in place of this
+   * one. This method will be deprecated shortly.
+   *
    * @return an iterable with the same elements as the list, in reverse
    */
   public static <T> Iterable<T> reverse(final List<T> list) {
-    checkNotNull(list);
-    return new IterableWithToString<T>() {
-      public Iterator<T> iterator() {
-        final ListIterator<T> listIter = list.listIterator(list.size());
-        return new Iterator<T>() {
-          public boolean hasNext() {
-            return listIter.hasPrevious();
-          }
-          public T next() {
-            return listIter.previous();
-          }
-          public void remove() {
-            listIter.remove();
-          }
-        };
-      }
-    };
+    return Lists.reverse(list);
   }
 
   /**

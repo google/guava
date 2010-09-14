@@ -354,15 +354,11 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E>
         && hashCode() != object.hashCode()) {
       return false;
     }
-    return Collections2.setEquals(this, object);
+    return Sets.equalsImpl(this, object);
   }
 
   @Override public int hashCode() {
-    int hashCode = 0;
-    for (Object o : this) {
-      hashCode += o.hashCode();
-    }
-    return hashCode;
+    return Sets.hashCodeImpl(this);
   }
 
   // This declaration is needed to make Set.iterator() and

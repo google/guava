@@ -792,7 +792,7 @@ final class Synchronized {
     }
     @Override public boolean containsAll(Collection<?> c) {
       synchronized (mutex) {
-        return Collections2.containsAll(delegate(), c);
+        return Collections2.containsAllImpl(delegate(), c);
       }
     }
     @Override public boolean equals(Object o) {
@@ -800,7 +800,7 @@ final class Synchronized {
         return true;
       }
       synchronized (mutex) {
-        return Collections2.setEquals(delegate(), o);
+        return Sets.equalsImpl(delegate(), o);
       }
     }
     @Override public boolean remove(Object o) {

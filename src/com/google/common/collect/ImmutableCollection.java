@@ -52,46 +52,19 @@ public abstract class ImmutableCollection<E>
   public abstract UnmodifiableIterator<E> iterator();
 
   public Object[] toArray() {
-    Object[] newArray = new Object[size()];
-    return toArray(newArray);
+    return ObjectArrays.toArrayImpl(this);
   }
 
   public <T> T[] toArray(T[] other) {
-    int size = size();
-    if (other.length < size) {
-      other = ObjectArrays.newArray(other, size);
-    } else if (other.length > size) {
-      other[size] = null;
-    }
-
-    // Writes will produce ArrayStoreException when the toArray() doc requires.
-    Object[] otherAsObjectArray = other;
-    int index = 0;
-    for (E element : this) {
-      otherAsObjectArray[index++] = element;
-    }
-    return other;
+    return ObjectArrays.toArrayImpl(this, other);
   }
 
   public boolean contains(@Nullable Object object) {
-    if (object == null) {
-      return false;
-    }
-    for (E element : this) {
-      if (element.equals(object)) {
-        return true;
-      }
-    }
-    return false;
+    return object != null && Iterators.contains(iterator(), object);
   }
 
   public boolean containsAll(Collection<?> targets) {
-    for (Object target : targets) {
-      if (!contains(target)) {
-        return false;
-      }
-    }
-    return true;
+    return Collections2.containsAllImpl(this, targets);
   }
 
   public boolean isEmpty() {
@@ -99,9 +72,7 @@ public abstract class ImmutableCollection<E>
   }
 
   @Override public String toString() {
-    StringBuilder sb = new StringBuilder(size() * 16).append('[');
-    Collections2.standardJoiner.appendTo(sb, this);
-    return sb.append(']').toString();
+    return Collections2.toStringImpl(this);
   }
 
   /**

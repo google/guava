@@ -23,6 +23,8 @@ import com.google.common.base.Function;
 import com.google.common.collect.MapMaker.Cache;
 
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.atomic.AtomicReferenceArray;
 
@@ -345,14 +347,14 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V>
       this.computingFunction = computingFunction;
     }
 
-    private void writeObject(java.io.ObjectOutputStream out)
+    private void writeObject(ObjectOutputStream out)
         throws IOException {
       out.defaultWriteObject();
       writeMapTo(out);
     }
 
     @SuppressWarnings("unchecked")
-    private void readObject(java.io.ObjectInputStream in)
+    private void readObject(ObjectInputStream in)
         throws IOException, ClassNotFoundException {
       in.defaultReadObject();
       MapMaker mapMaker = readMapMaker(in);

@@ -572,6 +572,10 @@ public final class Maps {
           return unmodifiableEntry(super.next());
         }
 
+        @Override public void remove() {
+          throw new UnsupportedOperationException();
+        }
+
         @Override protected Iterator<Entry<K, V>> delegate() {
           return delegate;
         }
@@ -580,20 +584,37 @@ public final class Maps {
 
     // See java.util.Collections.UnmodifiableEntrySet for details on attacks.
 
+    @Override public boolean add(Entry<K, V> element) {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override public boolean addAll(
+        Collection<? extends Entry<K, V>> collection) {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override public void clear() {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override public boolean remove(Object object) {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override public boolean removeAll(Collection<?> collection) {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override public boolean retainAll(Collection<?> collection) {
+      throw new UnsupportedOperationException();
+    }
+
     @Override public Object[] toArray() {
-      return ObjectArrays.toArrayImpl(this);
+      return standardToArray();
     }
 
     @Override public <T> T[] toArray(T[] array) {
-      return ObjectArrays.toArrayImpl(this, array);
-    }
-
-    @Override public boolean contains(Object o) {
-      return containsEntryImpl(delegate(), o);
-    }
-
-    @Override public boolean containsAll(Collection<?> c) {
-      return Collections2.containsAll(this, c);
+      return standardToArray(array);
     }
   }
 
@@ -607,7 +628,7 @@ public final class Maps {
     // See java.util.Collections.UnmodifiableEntrySet for details on attacks.
 
     @Override public boolean equals(@Nullable Object object) {
-      return Collections2.setEquals(this, object);
+      return Sets.equalsImpl(this, object);
     }
 
     @Override public int hashCode() {
@@ -1454,8 +1475,8 @@ public final class Maps {
     }
   }
 
-  static final MapJoiner standardJoiner =
-      Collections2.standardJoiner.withKeyValueSeparator("=");
+  static final MapJoiner STANDARD_JOINER =
+      Collections2.STANDARD_JOINER.withKeyValueSeparator("=");
 
   /**
    * Delegates to {@link Map#get}. Returns {@code null} on {@code

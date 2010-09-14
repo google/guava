@@ -16,23 +16,39 @@
 
 package com.google.common.collect;
 
+import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.base.Objects;
 
 import java.util.Collection;
 import java.util.Iterator;
 
+import javax.annotation.Nullable;
+
 /**
  * A collection which forwards all its method calls to another collection.
- * Subclasses should override one or more methods to modify the behavior of
- * the backing collection as desired per the <a
+ * Subclasses should override one or more methods to modify the behavior of the
+ * backing collection as desired per the <a
  * href="http://en.wikipedia.org/wiki/Decorator_pattern">decorator pattern</a>.
  *
+ * <p><b>Warning:</b> The methods of {@code ForwardingCollection} forward
+ * <b>indiscriminately</b> to the methods of the delegate. For example,
+ * overriding {@link #add} alone <b>will not</b> change the behavior of {@link
+ * #addAll}, which can lead to unexpected behavior. In this case, you should
+ * override {@code addAll} as well, either providing your own implementation, or
+ * delegating to the provided {@code standardAddAll} method.
+ *
+ * <p>The {@code standard} methods are not guaranteed to be thread-safe, even
+ * when all of the methods that they depend on are thread-safe.
+ *
  * @author Kevin Bourrillion
+ * @author Louis Wasserman
  * @since 2 (imported from Google Collections Library)
  */
 @GwtCompatible
 public abstract class ForwardingCollection<E> extends ForwardingObject
     implements Collection<E> {
+  // TODO(user): identify places where thread safety is actually lost
 
   /** Constructor for use by subclasses. */
   protected ForwardingCollection() {}
@@ -59,14 +75,6 @@ public abstract class ForwardingCollection<E> extends ForwardingObject
     return delegate().contains(object);
   }
 
-  public Object[] toArray() {
-    return delegate().toArray();
-  }
-
-  public <T> T[] toArray(T[] array) {
-    return delegate().toArray(array);
-  }
-
   public boolean add(E element) {
     return delegate().add(element);
   }
@@ -89,5 +97,156 @@ public abstract class ForwardingCollection<E> extends ForwardingObject
 
   public void clear() {
     delegate().clear();
+  }
+
+  public Object[] toArray() {
+    return delegate().toArray();
+  }
+
+  public <T> T[] toArray(T[] array) {
+    return delegate().toArray(array);
+  }
+
+  /**
+   * A sensible definition of {@link #contains} in terms of {@link #iterator}.
+   * If you override {@link #iterator}, you may wish to override {@link
+   * #contains} to forward to this implementation.
+   *
+   * @since 7
+   */
+  @Beta protected boolean standardContains(@Nullable Object object) {
+    return Iterators.contains(iterator(), object);
+  }
+
+  /**
+   * A sensible definition of {@link #containsAll} in terms of {@link #contains}
+   * . If you override {@link #contains}, you may wish to override {@link
+   * #containsAll} to forward to this implementation.
+   *
+   * @since 7
+   */
+  @Beta protected boolean standardContainsAll(Collection<?> collection) {
+    for (Object o : collection) {
+      if (!contains(o)) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  /**
+   * A sensible definition of {@link #addAll} in terms of {@link #add}. If you
+   * override {@link #add}, you may wish to override {@link #addAll} to forward
+   * to this implementation.
+   *
+   * @since 7
+   */
+  @Beta protected boolean standardAddAll(Collection<? extends E> collection) {
+    return Iterators.addAll(this, collection.iterator());
+  }
+
+  /**
+   * A sensible definition of {@link #remove} in terms of {@link #iterator},
+   * using the iterator's {@code remove} method. If you override {@link
+   * #iterator}, you may wish to override {@link #remove} to forward to this
+   * implementation.
+   *
+   * @since 7
+   */
+  @Beta protected boolean standardRemove(@Nullable Object object) {
+    Iterator<E> iterator = iterator();
+    while (iterator.hasNext()) {
+      if (Objects.equal(iterator.next(), object)) {
+        iterator.remove();
+        return true;
+      }
+    }
+    return false;
+  }
+
+  /**
+   * A sensible definition of {@link #removeAll} in terms of {@link #iterator},
+   * using the iterator's {@code remove} method. If you override {@link
+   * #iterator}, you may wish to override {@link #removeAll} to forward to this
+   * implementation.
+   *
+   * @since 7
+   */
+  @Beta protected boolean standardRemoveAll(Collection<?> collection) {
+    return Iterators.removeAll(iterator(), collection);
+  }
+
+  /**
+   * A sensible definition of {@link #retainAll} in terms of {@link #iterator},
+   * using the iterator's {@code remove} method. If you override {@link
+   * #iterator}, you may wish to override {@link #retainAll} to forward to this
+   * implementation.
+   *
+   * @since 7
+   */
+  @Beta protected boolean standardRetainAll(Collection<?> collection) {
+    return Iterators.retainAll(iterator(), collection);
+  }
+
+  /**
+   * A sensible definition of {@link #clear} in terms of {@link #iterator},
+   * using the iterator's {@code remove} method. If you override {@link
+   * #iterator}, you may wish to override {@link #clear} to forward to this
+   * implementation.
+   *
+   * @since 7
+   */
+  @Beta protected void standardClear() {
+    Iterator<E> iterator = iterator();
+    while (iterator.hasNext()) {
+      iterator.next();
+      iterator.remove();
+    }
+  }
+
+  /**
+   * A sensible definition of {@link #isEmpty} as {@code !iterator().hasNext}.
+   * If you override {@link #isEmpty}, you may wish to override {@link #isEmpty}
+   * to forward to this implementation. Alternately, it may be more efficient to
+   * implement {@code isEmpty} as {@code size() == 0}.
+   *
+   * @since 7
+   */
+  @Beta protected boolean standardIsEmpty() {
+    return !iterator().hasNext();
+  }
+
+  /**
+   * A sensible definition of {@link #toString} in terms of {@link #iterator}.
+   * If you override {@link #iterator}, you may wish to override {@link
+   * #toString} to forward to this implementation.
+   *
+   * @since 7
+   */
+  @Beta protected String standardToString() {
+    return Collections2.toStringImpl(this);
+  }
+
+  /**
+   * A sensible definition of {@link #toArray()} in terms of {@link
+   * #toArray(Object[])}. If you override {@link #toArray(Object[])}, you may
+   * wish to override {@link #toArray} to forward to this implementation.
+   *
+   * @since 7
+   */
+  @Beta protected Object[] standardToArray() {
+    Object[] newArray = new Object[size()];
+    return toArray(newArray);
+  }
+
+  /**
+   * A sensible definition of {@link #toArray(Object[])} in terms of {@link
+   * #size} and {@link #iterator}. If you override either of these methods, you
+   * may wish to override {@link #toArray} to forward to this implementation.
+   *
+   * @since 7
+   */
+  @Beta protected <T> T[] standardToArray(T[] array) {
+    return ObjectArrays.toArrayImpl(this, array);
   }
 }

@@ -352,7 +352,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
 
   @Override public String toString() {
     StringBuilder result = new StringBuilder(size() * 16).append('{');
-    Maps.standardJoiner.appendTo(result, this);
+    Maps.STANDARD_JOINER.appendTo(result, this);
     return result.append('}').toString();
   }
 

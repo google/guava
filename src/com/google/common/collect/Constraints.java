@@ -345,7 +345,6 @@ public final class Constraints {
     @Override protected Multiset<E> delegate() {
       return delegate;
     }
-
     @Override public boolean add(E element) {
       constraint.checkElement(element);
       return delegate.add(element);

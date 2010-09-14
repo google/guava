@@ -28,6 +28,7 @@ import com.google.common.primitives.Ints;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.lang.reflect.Array;
 import java.util.AbstractCollection;
@@ -497,7 +498,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
      * Look-up table for factories. First dimension is the reference type.
      * The second dimension is the result of OR-ing the feature masks.
      */
-    static final EntryFactory[][] FACTORIES = {
+    static final EntryFactory[][] factories = {
       { STRONG, STRONG_EXPIRABLE, STRONG_EVICTABLE, STRONG_EXPIRABLE_EVICTABLE },
       { SOFT,   SOFT_EXPIRABLE,   SOFT_EVICTABLE,   SOFT_EXPIRABLE_EVICTABLE   },
       { WEAK,   WEAK_EXPIRABLE,   WEAK_EVICTABLE,   WEAK_EXPIRABLE_EVICTABLE   }
@@ -507,7 +508,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
         boolean expires, boolean evicts) {
       int flags = (expires ? EXPIRABLE_MASK : 0)
           | (evicts ? EVICTABLE_MASK : 0);
-      return FACTORIES[keyStrength.ordinal()][flags];
+      return factories[keyStrength.ordinal()][flags];
     }
 
     /**
@@ -2901,7 +2902,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
       return delegate;
     }
 
-    void writeMapTo(java.io.ObjectOutputStream out) throws IOException {
+    void writeMapTo(ObjectOutputStream out) throws IOException {
       out.writeInt(delegate.size());
       for (Entry<K, V> entry : delegate.entrySet()) {
         out.writeObject(entry.getKey());
@@ -2968,8 +2969,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
           delegate);
     }
 
-    private void writeObject(java.io.ObjectOutputStream out)
-        throws IOException {
+    private void writeObject(ObjectOutputStream out) throws IOException {
       out.defaultWriteObject();
       writeMapTo(out);
     }

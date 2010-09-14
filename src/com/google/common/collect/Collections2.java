@@ -28,9 +28,6 @@ import com.google.common.base.Predicates;
 import java.util.AbstractCollection;
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.Set;
-
-import javax.annotation.Nullable;
 
 /**
  * Provides static methods for working with {@code Collection} instances.
@@ -44,28 +41,6 @@ import javax.annotation.Nullable;
 public final class Collections2 {
   private Collections2() {}
 
-  /**
-   * Returns {@code true} if the collection {@code self} contains all of the
-   * elements in the collection {@code c}.
-   *
-   * <p>This method iterates over the specified collection {@code c}, checking
-   * each element returned by the iterator in turn to see if it is contained in
-   * the specified collection {@code self}. If all elements are so contained,
-   * {@code true} is returned, otherwise {@code false}.
-   *
-   * @param self a collection which might contain all elements in {@code c}
-   * @param c a collection whose elements might be contained by {@code self}
-   */
-  // TODO(kevinb): Make public?
-  static boolean containsAll(Collection<?> self, Collection<?> c) {
-    checkNotNull(self);
-    for (Object o : c) {
-      if (!self.contains(o)) {
-        return false;
-      }
-    }
-    return true;
-  }
   /**
    * Returns the elements of {@code unfiltered} that satisfy a predicate. The
    * returned collection is a live view of {@code unfiltered}; changes to one
@@ -289,16 +264,43 @@ public final class Collections2 {
     }
   }
 
-  static boolean setEquals(Set<?> thisSet, @Nullable Object object) {
-    if (object == thisSet) {
-      return true;
+  /**
+   * Returns {@code true} if the collection {@code self} contains all of the
+   * elements in the collection {@code c}.
+   *
+   * <p>This method iterates over the specified collection {@code c}, checking
+   * each element returned by the iterator in turn to see if it is contained in
+   * the specified collection {@code self}. If all elements are so contained,
+   * {@code true} is returned, otherwise {@code false}.
+   *
+   * @param self a collection which might contain all elements in {@code c}
+   * @param c a collection whose elements might be contained by {@code self}
+   */
+  static boolean containsAllImpl(Collection<?> self, Collection<?> c) {
+    checkNotNull(self);
+    for (Object o : c) {
+      if (!self.contains(o)) {
+        return false;
+      }
     }
-    if (object instanceof Set) {
-      Set<?> thatSet = (Set<?>) object;
-      return thisSet.size() == thatSet.size()
-          && thisSet.containsAll(thatSet);
-    }
-    return false;
+    return true;
+  }
+
+  /**
+   * An implementation of {@link Collection#toString()}.
+   */
+  static String toStringImpl(final Collection<?> collection) {
+    Iterator<?> i = collection.iterator();
+    StringBuilder sb = new StringBuilder(collection.size() * 16).append('[');
+
+    STANDARD_JOINER.appendTo(
+        sb, Iterables.transform(collection, new Function<Object, Object>() {
+
+          @Override public Object apply(Object input) {
+            return input == collection ? "(this Collection)" : input;
+          }
+        }));
+    return sb.append(']').toString();
   }
 
   /**
@@ -308,5 +310,5 @@ public final class Collections2 {
     return (Collection<T>) iterable;
   }
 
-  static final Joiner standardJoiner = Joiner.on(", ");
+  static final Joiner STANDARD_JOINER = Joiner.on(", ");
 }

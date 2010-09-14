@@ -735,7 +735,7 @@ public final class Sets {
     }
 
     @Override public boolean equals(@Nullable Object object) {
-      return Collections2.setEquals(this, object);
+      return equalsImpl(this, object);
     }
 
     @Override public int hashCode() {
@@ -1100,7 +1100,7 @@ public final class Sets {
   }
 
   /**
-   * Calculates and returns the hash code of {@code s}.
+   * An implementation for {@link Set#hashCode()}.
    */
   static int hashCodeImpl(Set<?> s) {
     int hashCode = 0;
@@ -1108,5 +1108,26 @@ public final class Sets {
       hashCode += o != null ? o.hashCode() : 0;
     }
     return hashCode;
+  }
+
+  /**
+   * An implementation for {@link Set#equals(Object)}.
+   */
+  static boolean equalsImpl(Set<?> s, @Nullable Object object){
+    if (s == object) {
+      return true;
+    }
+    if (object instanceof Set) {
+      Set<?> o = (Set<?>) object;
+
+      try {
+        return s.size() == o.size() && s.containsAll(o);
+      } catch (NullPointerException ignored) {
+        return false;
+      } catch (ClassCastException ignored) {
+        return false;
+      }
+    }
+    return false;
   }
 }

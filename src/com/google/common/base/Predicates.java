@@ -310,7 +310,7 @@ public final class Predicates {
     private static final long serialVersionUID = 0;
   }
 
-  private static final Joiner commaJoiner = Joiner.on(",");
+  private static final Joiner COMMA_JOINER = Joiner.on(",");
 
   /** @see Predicates#and(Iterable) */
   private static class AndPredicate<T> implements Predicate<T>, Serializable {
@@ -342,7 +342,7 @@ public final class Predicates {
       return false;
     }
     @Override public String toString() {
-      return "And(" + commaJoiner.join(components) + ")";
+      return "And(" + COMMA_JOINER.join(components) + ")";
     }
     private static final long serialVersionUID = 0;
   }
@@ -377,7 +377,7 @@ public final class Predicates {
       return false;
     }
     @Override public String toString() {
-      return "Or(" + commaJoiner.join(components) + ")";
+      return "Or(" + COMMA_JOINER.join(components) + ")";
     }
     private static final long serialVersionUID = 0;
   }

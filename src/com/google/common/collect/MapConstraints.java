@@ -532,25 +532,25 @@ public final class MapConstraints {
     }
 
     @Override public Object[] toArray() {
-      return ObjectArrays.toArrayImpl(this);
+      return standardToArray();
     }
     @Override public <T> T[] toArray(T[] array) {
-      return ObjectArrays.toArrayImpl(this, array);
+      return standardToArray(array);
     }
     @Override public boolean contains(Object o) {
-      return Iterators.contains(iterator(), o);
+      return standardContains(o);
     }
     @Override public boolean containsAll(Collection<?> c) {
-      return Collections2.containsAll(this, c);
+      return standardContainsAll(c);
     }
     @Override public boolean remove(Object o) {
-      return Iterables.remove(this, o);
+      return standardRemove(o);
     }
     @Override public boolean removeAll(Collection<?> c) {
-      return Iterators.removeAll(iterator(), c);
+      return standardRemoveAll(c);
     }
     @Override public boolean retainAll(Collection<?> c) {
-      return Iterators.retainAll(iterator(), c);
+      return standardRetainAll(c);
     }
   }
 
@@ -584,25 +584,25 @@ public final class MapConstraints {
     // See Collections.CheckedMap.CheckedEntrySet for details on attacks.
 
     @Override public Object[] toArray() {
-      return ObjectArrays.toArrayImpl(this);
+      return standardToArray();
     }
     @Override public <T> T[] toArray(T[] array) {
-      return ObjectArrays.toArrayImpl(this, array);
+      return standardToArray(array);
     }
     @Override public boolean contains(Object o) {
       return Maps.containsEntryImpl(delegate(), o);
     }
     @Override public boolean containsAll(Collection<?> c) {
-      return Collections2.containsAll(this, c);
+      return standardContainsAll(c);
     }
     @Override public boolean remove(Object o) {
       return Maps.removeEntryImpl(delegate(), o);
     }
     @Override public boolean removeAll(Collection<?> c) {
-      return Iterators.removeAll(iterator(), c);
+      return standardRemoveAll(c);
     }
     @Override public boolean retainAll(Collection<?> c) {
-      return Iterators.retainAll(iterator(), c);
+      return standardRetainAll(c);
     }
   }
 
@@ -617,7 +617,7 @@ public final class MapConstraints {
     // See Collections.CheckedMap.CheckedEntrySet for details on attacks.
 
     @Override public boolean equals(@Nullable Object object) {
-      return Collections2.setEquals(this, object);
+      return Sets.equalsImpl(this, object);
     }
 
     @Override public int hashCode() {
@@ -656,11 +656,11 @@ public final class MapConstraints {
     // See Collections.CheckedMap.CheckedEntrySet for details on attacks.
 
     @Override public Object[] toArray() {
-      return ObjectArrays.toArrayImpl(this);
+      return standardToArray();
     }
 
     @Override public <T> T[] toArray(T[] array) {
-      return ObjectArrays.toArrayImpl(this, array);
+      return standardToArray(array);
     }
 
     @Override public boolean contains(Object o) {
@@ -668,15 +668,15 @@ public final class MapConstraints {
     }
 
     @Override public boolean containsAll(Collection<?> c) {
-      return Collections2.containsAll(this, c);
+      return standardContainsAll(c);
     }
 
     @Override public boolean equals(@Nullable Object object) {
-      return Collections2.setEquals(this, object);
+      return standardEquals(object);
     }
 
     @Override public int hashCode() {
-      return Sets.hashCodeImpl(this);
+      return standardHashCode();
     }
 
     @Override public boolean remove(Object o) {
@@ -684,11 +684,11 @@ public final class MapConstraints {
     }
 
     @Override public boolean removeAll(Collection<?> c) {
-      return Iterators.removeAll(iterator(), c);
+      return standardRemoveAll(c);
     }
 
     @Override public boolean retainAll(Collection<?> c) {
-      return Iterators.retainAll(iterator(), c);
+      return standardRetainAll(c);
     }
   }
 

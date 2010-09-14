@@ -14,6 +14,7 @@
 
 package com.google.common.base;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -25,21 +26,23 @@ import java.util.Map;
 public final class Defaults {
   private Defaults() {}
 
-  private static final Map<Class<?>, Object> DEFAULTS = new HashMap<Class<?>, Object>(16);
-
-  private static <T> void put(Class<T> type, T value) {
-    DEFAULTS.put(type, value);
-  }
+  private static final Map<Class<?>, Object> DEFAULTS;
 
   static {
-    put(boolean.class, false);
-    put(char.class, '\0');
-    put(byte.class, (byte) 0);
-    put(short.class, (short) 0);
-    put(int.class, 0);
-    put(long.class, 0L);
-    put(float.class, 0f);
-    put(double.class, 0d);
+    Map<Class<?>, Object> map = new HashMap<Class<?>, Object>();
+    put(map, boolean.class, false);
+    put(map, char.class, '\0');
+    put(map, byte.class, (byte) 0);
+    put(map, short.class, (short) 0);
+    put(map, int.class, 0);
+    put(map, long.class, 0L);
+    put(map, float.class, 0f);
+    put(map, double.class, 0d);
+    DEFAULTS = Collections.unmodifiableMap(map);
+  }
+
+  private static <T> void put(Map<Class<?>, Object> map, Class<T> type, T value) {
+    map.put(type, value);
   }
 
   /**

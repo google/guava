@@ -49,12 +49,6 @@ final class RegularImmutableSortedSet<E> extends ImmutableSortedSet<E> {
     checkArgument(!elements.isEmpty());
   }
 
-  RegularImmutableSortedSet(
-      Object[] elements, Comparator<? super E> comparator) {
-    // TODO(user): eliminate callers of this version.
-    this(new RegularImmutableList<E>(elements), comparator);
-  }
-
   @Override public UnmodifiableIterator<E> iterator() {
     return elements.iterator();
   }
@@ -95,28 +89,35 @@ final class RegularImmutableSortedSet<E> extends ImmutableSortedSet<E> {
     Iterator<?> iterator = targets.iterator();
     Object target = iterator.next();
 
-    while (myIterator.hasNext()) {
+    try {
 
-      int cmp = unsafeCompare(myIterator.next(), target);
+      while (myIterator.hasNext()) {
 
-      if (cmp == 0) {
-        if (!iterator.hasNext()) {
-          return true;
+        int cmp = unsafeCompare(myIterator.next(), target);
+
+        if (cmp == 0) {
+          if (!iterator.hasNext()) {
+            return true;
+          }
+          target = iterator.next();
+        } else if (cmp > 0) {
+          return false;
         }
-        target = iterator.next();
-      } else if (cmp > 0) {
-        return false;
       }
+    } catch (NullPointerException e) {
+      return false;
+    } catch (ClassCastException e) {
+      return false;
     }
 
     return false;
   }
 
   private int binarySearch(Object key) {
-    // TODO(kevinb): split this into binarySearch(E) and
+    // TODO(kevinb): split this into binarySearch(E) and 
     // unsafeBinarySearch(Object), use each appropriately. name all methods that
     // might throw CCE "unsafe*".
-
+    
     // Pretend the comparator can compare anything. If it turns out it can't
     // compare a and b, we should get a CCE on the subsequent line. Only methods
     // that are spec'd to throw CCE should call this.
@@ -173,16 +174,6 @@ final class RegularImmutableSortedSet<E> extends ImmutableSortedSet<E> {
     return this.containsAll(that);
   }
 
-  @Override public int hashCode() {
-    // not caching hash code since it could change if the elements are mutable
-    // in a way that modifies their hash codes
-    int hash = 0;
-    for (E e : this) {
-      hash += e.hashCode();
-    }
-    return hash;
-  }
-
   public E first() {
     return elements.get(0);
   }
@@ -228,9 +219,9 @@ final class RegularImmutableSortedSet<E> extends ImmutableSortedSet<E> {
     } catch (ClassCastException e) {
       return -1;
     }
-    // TODO(kevinb): reconsider if it's really worth making feeble attempts at
+    // TODO(kevinb): reconsider if it's really worth making feeble attempts at 
     // sanity for inconsistent comparators.
-
+    
     // The equals() check is needed when the comparator isn't compatible with
     // equals().
     return (position >= 0 && elements.get(position).equals(target))
