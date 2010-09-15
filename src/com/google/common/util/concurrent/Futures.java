@@ -361,6 +361,8 @@ public final class Futures {
    * <p>When calling {@link Future#get(long, TimeUnit)} on the returned
    * future, the timeout only applies to the future passed in to this method.
    * Any additional time taken by applying {@code function} is not considered.
+   * (Exception: If the input future is a {@link ListenableFuture}, timeouts
+   * will be strictly enforced.)
    *
    * @param future The future to compose
    * @param function A Function to compose the results of the provided future
@@ -370,12 +372,11 @@ public final class Futures {
    */
   public static <I, O> Future<O> compose(final Future<I> future,
       final Function<? super I, ? extends O> function) {
+    if (future instanceof ListenableFuture) {
+      return compose((ListenableFuture<I>) future, function);
+    }
     checkNotNull(future);
     checkNotNull(function);
-    /*
-     * TODO(cpovirk): if (future instanceof ListenableFuture), delegate to
-     * ListenableFuture variant
-     */
     return new Future<O>() {
 
       /*

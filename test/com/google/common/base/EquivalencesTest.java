@@ -51,8 +51,8 @@ public class EquivalencesTest extends TestCase {
 
   public void testEquivalenceIdentityEquivalent() {
     assertTrue(Equivalences.identity().equivalent(OBJECT, OBJECT));
-    assertFalse(Equivalences.identity().equivalent("x", new String("x")));
-    assertFalse(Equivalences.identity().equivalent(new String("x"), "x"));
+    assertFalse(Equivalences.identity().equivalent(12L, new Long(12L)));
+    assertFalse(Equivalences.identity().equivalent(new Long(12L), 12L));
     assertFalse(Equivalences.equals().equivalent("x", null));
     try {
       Equivalences.equals().equivalent(null, OBJECT);

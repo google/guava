@@ -66,10 +66,12 @@ public final class Equivalences {
   private enum Impl implements Equivalence<Object> {
     EQUALS {
       public boolean equivalent(Object a, @Nullable Object b) {
+        checkNotNull(a);  // for GWT.
         return a.equals(b);
       }
 
       public int hash(Object o) {
+        checkNotNull(o);  // for GWT.
         return o.hashCode();
       }
     },

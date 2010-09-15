@@ -16,6 +16,7 @@
 
 package com.google.common.collect;
 
+import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 
 import java.util.ListIterator;
@@ -24,8 +25,10 @@ import java.util.ListIterator;
  * A list iterator that does not support {@link #remove}, {@link #add}, or
  * {@link #set}.
  *
+ * @since 7
  * @author Louis Wasserman
  */
+@Beta
 @GwtCompatible
 public abstract class UnmodifiableListIterator<E> 
     extends UnmodifiableIterator<E> implements ListIterator<E> {
