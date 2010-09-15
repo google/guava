@@ -22,6 +22,7 @@ import static com.google.common.base.Preconditions.checkState;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.base.Ascii;
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Joiner;
 import com.google.common.base.Objects;
@@ -54,9 +55,10 @@ import javax.annotation.Nullable;
  * a host without warning, it is better to err on the side of permissiveness
  * and thus avoid spurious rejection of valid sites.
  *
- * <p>{@linkplain #equals(Object) Equality} of domain names is case-insensitive,
- * so for convenience, the {@link #name()} and {@link #parts()} methods return
- * the lowercase form of the name.
+ * <p>{@linkplain #equals(Object) Equality} of domain names is case-insensitive
+ * with respect to ASCII characters, so for convenience, the {@link #name()} and
+ * {@link #parts()} methods return string with all ASCII characters converted to
+ * lowercase.
  *
  * <p><a href="http://en.wikipedia.org/wiki/Internationalized_domain_name">
  * internationalized domain names</a> such as {@code 网络.cn} are
@@ -170,9 +172,12 @@ public final class InternetDomainName {
    * @throws IllegalArgumentException If name is not syntactically valid
    */
   public static InternetDomainName from(String domain) {
-    // RFC 1035 defines domain names to be case-insensitive; normalizing
-    // to lower case allows us to simplify matching.
-    return new InternetDomainName(domain.toLowerCase());
+    /*
+     * RFC 1035 defines ASCII components of domain names to be case-insensitive;
+     * normalizing ASCII characters to lower case allows us to simplify matching
+     * and support more robust equality testing.
+     */
+    return new InternetDomainName(Ascii.toLowerCase(checkNotNull(domain)));
   }
 
   /**

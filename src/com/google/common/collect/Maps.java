@@ -27,6 +27,7 @@ import com.google.common.base.Joiner.MapJoiner;
 import com.google.common.base.Objects;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
+import com.google.common.collect.MapDifference.ValueDifference;
 
 import java.io.Serializable;
 import java.util.AbstractCollection;
@@ -336,11 +337,21 @@ public final class Maps {
     }
 
     boolean areEqual = eq && onlyOnRight.isEmpty();
-    return new MapDifferenceImpl<K, V>(
+    return mapDifference(
         areEqual, onlyOnLeft, onlyOnRight, onBoth, differences);
   }
 
-  private static class MapDifferenceImpl<K, V> implements MapDifference<K, V> {
+  private static <K, V> MapDifference<K, V> mapDifference(boolean areEqual,
+      Map<K, V> onlyOnLeft, Map<K, V> onlyOnRight, Map<K, V> onBoth,
+      Map<K, ValueDifference<V>> differences) {
+    return new MapDifferenceImpl<K, V>(areEqual,
+        Collections.unmodifiableMap(onlyOnLeft),
+        Collections.unmodifiableMap(onlyOnRight),
+        Collections.unmodifiableMap(onBoth),
+        Collections.unmodifiableMap(differences));
+  }
+
+  static class MapDifferenceImpl<K, V> implements MapDifference<K, V> {
     final boolean areEqual;
     final Map<K, V> onlyOnLeft;
     final Map<K, V> onlyOnRight;
@@ -351,10 +362,10 @@ public final class Maps {
         Map<K, V> onlyOnRight, Map<K, V> onBoth,
         Map<K, ValueDifference<V>> differences) {
       this.areEqual = areEqual;
-      this.onlyOnLeft = Collections.unmodifiableMap(onlyOnLeft);
-      this.onlyOnRight = Collections.unmodifiableMap(onlyOnRight);
-      this.onBoth = Collections.unmodifiableMap(onBoth);
-      this.differences = Collections.unmodifiableMap(differences);
+      this.onlyOnLeft = onlyOnLeft;
+      this.onlyOnRight = onlyOnRight;
+      this.onBoth = onBoth;
+      this.differences = differences;
     }
 
     public boolean areEqual() {

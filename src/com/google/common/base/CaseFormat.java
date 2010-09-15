@@ -15,7 +15,6 @@
 package com.google.common.base;
 
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.annotations.VisibleForTesting;
 
 /**
  * Utility class for converting between various ASCII case formats.
@@ -82,7 +81,7 @@ public enum CaseFormat {
           case LOWER_UNDERSCORE:
             return s.replace('-', '_');
           case UPPER_UNDERSCORE:
-            return toUpperCaseAscii(s.replace('-', '_'));
+            return Ascii.toUpperCase(s.replace('-', '_'));
         }
         break;
       case LOWER_UNDERSCORE:
@@ -90,15 +89,15 @@ public enum CaseFormat {
           case LOWER_HYPHEN:
             return s.replace('_', '-');
           case UPPER_UNDERSCORE:
-            return toUpperCaseAscii(s);
+            return Ascii.toUpperCase(s);
         }
         break;
       case UPPER_UNDERSCORE:
         switch (format) {
           case LOWER_HYPHEN:
-            return toLowerCaseAscii(s.replace('_', '-'));
+            return Ascii.toLowerCase(s.replace('_', '-'));
           case LOWER_UNDERSCORE:
-            return toLowerCaseAscii(s);
+            return Ascii.toLowerCase(s);
         }
         break;
     }
@@ -128,7 +127,7 @@ public enum CaseFormat {
   private String normalizeFirstWord(String word) {
     switch (this) {
       case LOWER_CAMEL:
-        return toLowerCaseAscii(word);
+        return Ascii.toLowerCase(word);
       default:
         return normalizeWord(word);
     }
@@ -137,15 +136,15 @@ public enum CaseFormat {
   private String normalizeWord(String word) {
     switch (this) {
       case LOWER_HYPHEN:
-        return toLowerCaseAscii(word);
+        return Ascii.toLowerCase(word);
       case LOWER_UNDERSCORE:
-        return toLowerCaseAscii(word);
+        return Ascii.toLowerCase(word);
       case LOWER_CAMEL:
         return firstCharOnlyToUpper(word);
       case UPPER_CAMEL:
         return firstCharOnlyToUpper(word);
       case UPPER_UNDERSCORE:
-        return toUpperCaseAscii(word);
+        return Ascii.toUpperCase(word);
     }
     throw new RuntimeException("unknown case: " + this);
   }
@@ -156,42 +155,8 @@ public enum CaseFormat {
       return word;
     }
     return new StringBuilder(length)
-        .append(charToUpperCaseAscii(word.charAt(0)))
-        .append(toLowerCaseAscii(word.substring(1)))
+        .append(Ascii.toUpperCase(word.charAt(0)))
+        .append(Ascii.toLowerCase(word.substring(1)))
         .toString();
-  }
-
-  @VisibleForTesting static String toUpperCaseAscii(String string) {
-    int length = string.length();
-    StringBuilder builder = new StringBuilder(length);
-    for (int i = 0; i < length; i++) {
-      builder.append(charToUpperCaseAscii(string.charAt(i)));
-    }
-    return builder.toString();
-  }
-
-  @VisibleForTesting static String toLowerCaseAscii(String string) {
-    int length = string.length();
-    StringBuilder builder = new StringBuilder(length);
-    for (int i = 0; i < length; i++) {
-      builder.append(charToLowerCaseAscii(string.charAt(i)));
-    }
-    return builder.toString();
-  }
-
-  private static char charToUpperCaseAscii(char c) {
-    return isLowerCase(c) ? (char) (c & 0x5f) : c;
-  }
-
-  private static char charToLowerCaseAscii(char c) {
-    return isUpperCase(c) ? (char) (c ^ 0x20) : c;
-  }
-
-  private static boolean isLowerCase(char c) {
-    return (c >= 'a') && (c <= 'z');
-  }
-
-  private static boolean isUpperCase(char c) {
-    return (c >= 'A') && (c <= 'Z');
   }
 }

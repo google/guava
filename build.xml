@@ -25,9 +25,7 @@
   <property name="release" value="unknown"/>
   <property name="java5home" value="${env.JAVA5_HOME}" />
   <property name="javasrc" value="${env.JAVA_HOME}/src" />
-
-  <!-- Only needed for GWT targets. -->
-  <property name="gwthome" value="${env.GWT_HOME}" />
+  <property name="gwthome" value="lib" />
 
   <target name="compile" description="Compile Java source.">
     <mkdir dir="build/classes"/>
@@ -122,7 +120,7 @@
     </jar>
   </target>
 
-  <target name="dist" depends="jar, zipsrc, javadoc"
+  <target name="dist" depends="jar, gwtjar, zipsrc, javadoc"
        description="Build entire distribution.">
     <copy toDir="build/dist/guava-${release}" file="COPYING"/>
     <copy toDir="build/dist/guava-${release}" file="README"/>

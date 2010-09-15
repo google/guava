@@ -183,20 +183,4 @@ public class CaseFormatTest extends TestCase {
     assertEquals("FOO", UPPER_UNDERSCORE.to(UPPER_UNDERSCORE, "FOO"));
     assertEquals("FOO_BAR", UPPER_UNDERSCORE.to(UPPER_UNDERSCORE, "FOO_BAR"));
   }
-
-  private static final String IGNORED = "`1234567890-=~!@#$%^&*()_+[]\\{}|;':\",./<>?'";
-  private static final String UPPER = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-  private static final String LOWER = "abcdefghijklmnopqrstuvwxyz";
-
-  public void testToUpperCase() {
-    assertEquals(UPPER, CaseFormat.toUpperCaseAscii(LOWER));
-    assertEquals(UPPER, CaseFormat.toUpperCaseAscii(UPPER));
-    assertEquals(IGNORED, CaseFormat.toUpperCaseAscii(IGNORED));
-  }
-
-  public void testToLowerCase() {
-    assertEquals(LOWER, CaseFormat.toLowerCaseAscii(UPPER));
-    assertEquals(LOWER, CaseFormat.toLowerCaseAscii(LOWER));
-    assertEquals(IGNORED, CaseFormat.toUpperCaseAscii(IGNORED));
-  }
 }
