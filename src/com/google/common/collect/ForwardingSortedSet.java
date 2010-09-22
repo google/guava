@@ -144,14 +144,16 @@ public abstract class ForwardingSortedSet<E> extends ForwardingSet<E>
     }
     return false;
   }
-  
+
   /**
    * A sensible default implementation of {@link #subSet(Object, Object)} in
    * terms of {@link #headSet(Object)} and {@link #tailSet(Object)}. In some
    * situations, you may wish to override {@link #subSet(Object, Object)} to
    * forward to this implementation.
+   *
+   * @since 7
    */
-  protected SortedSet<E> standardSubSet(E fromElement, E toElement) {
+  @Beta protected SortedSet<E> standardSubSet(E fromElement, E toElement) {
     return tailSet(fromElement).headSet(toElement);
   }
 }
