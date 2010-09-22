@@ -100,8 +100,23 @@ public abstract class ForwardingMultiset<E> extends ForwardingCollection<E>
    * 
    * @since 7
    */
-  @Beta @Override protected boolean standardContains(@Nullable Object object) {
+  @Override @Beta protected boolean standardContains(@Nullable Object object) {
     return count(object) > 0;
+  }
+
+  /**
+   * A sensible definition of {@link #clear} in terms of the {@code iterator}
+   * method of {@link #entrySet}. If you override {@link #entrySet}, you may
+   * wish to override {@link #contains} to forward to this implementation.
+   *
+   * @since 7
+   */
+  @Override @Beta protected void standardClear() {
+    Iterator<Entry<E>> entryIterator = entrySet().iterator();
+    while (entryIterator.hasNext()) {
+      entryIterator.next();
+      entryIterator.remove();
+    }
   }
 
   /**
@@ -158,10 +173,11 @@ public abstract class ForwardingMultiset<E> extends ForwardingCollection<E>
   }
 
   /**
-   * A sensible definition of {@link #removeAll} in terms of {@link
-   * #elementSet()}. If you override {@link #elementSet()}, you may wish to
-   * override {@link #removeAll} to forward to this implementation.
-   * 
+   * A sensible definition of {@link #removeAll} in terms of the {@code
+   * removeAll} method of {@link #elementSet}. If you override {@link
+   * #elementSet}, you may wish to override {@link #removeAll} to forward to
+   * this implementation.
+   *
    * @since 7
    */
   @Beta @Override protected boolean standardRemoveAll(
@@ -170,10 +186,11 @@ public abstract class ForwardingMultiset<E> extends ForwardingCollection<E>
   }
 
   /**
-   * A sensible definition of {@link #retainAll} in terms of {@link #elementSet}
-   * . If you override {@link #elementSet}, you may wish to override {@link
-   * #retainAll} to forward to this implementation.
-   * 
+   * A sensible definition of {@link #retainAll} in terms of the {@code
+   * retainAll} method of {@link #elementSet}. If you override {@link
+   * #elementSet}, you may wish to override {@link #retainAll} to forward to
+   * this implementation.
+   *
    * @since 7
    */
   @Beta @Override protected boolean standardRetainAll(
@@ -256,21 +273,21 @@ public abstract class ForwardingMultiset<E> extends ForwardingCollection<E>
   }
 
   /**
-   * A sensible definition of {@link #hashCode} in terms of {@link #entrySet}.
-   * If you override {@link #entrySet}, you may wish to override {@link
+   * A sensible definition of {@link #hashCode} as {@code entrySet().hashCode()}
+   * . If you override {@link #entrySet}, you may wish to override {@link
    * #hashCode} to forward to this implementation.
    *
    * @since 7
    */
   @Beta protected int standardHashCode() {
-    return Multisets.hashCodeImpl(this);
+    return entrySet().hashCode();
   }
 
   /**
-   * A sensible definition of {@link #toString} in terms of {@link #entrySet}.
-   * If you override {@link #entrySet}, you may wish to override {@link
+   * A sensible definition of {@link #toString} as {@code entrySet().toString()}
+   * . If you override {@link #entrySet}, you may wish to override {@link
    * #toString} to forward to this implementation.
-   * 
+   *
    * @since 7
    */
   @Beta @Override protected String standardToString() {

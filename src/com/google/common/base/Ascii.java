@@ -19,7 +19,7 @@ import com.google.common.annotations.GwtCompatible;
 
 /**
  * Static methods pertaining ASCII characters (those in the range of values {@code 0x00} through
- * {@code 0x7F}, and to strings containing such characters.
+ * {@code 0x7F}), and to strings containing such characters.
  *
  * @author Craig Berry
  * @author Gregory Kick

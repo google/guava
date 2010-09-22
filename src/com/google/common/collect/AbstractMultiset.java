@@ -161,7 +161,7 @@ abstract class AbstractMultiset<E> extends AbstractCollection<E>
    * Multiset#entrySet()}.
    */
   @Override public int hashCode() {
-    return Multisets.hashCodeImpl(this);
+    return entrySet().hashCode();
   }
 
   /**
@@ -171,6 +171,6 @@ abstract class AbstractMultiset<E> extends AbstractCollection<E>
    * {@link Multiset#entrySet()}.
    */
   @Override public String toString() {
-    return Multisets.toStringImpl(this);
+    return entrySet().toString();
   }
 }

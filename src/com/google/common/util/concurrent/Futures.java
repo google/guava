@@ -25,6 +25,7 @@ import com.google.common.base.Function;
 import java.lang.reflect.UndeclaredThrowableException;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.CancellationException;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
@@ -57,7 +58,7 @@ public final class Futures {
   public static <V> UninterruptibleFuture<V> makeUninterruptible(
       final Future<V> future) {
     checkNotNull(future);
-    if (future instanceof UninterruptibleFuture) {
+    if (future instanceof UninterruptibleFuture<?>) {
       return (UninterruptibleFuture<V>) future;
     }
     return new UninterruptibleFuture<V>() {
@@ -123,7 +124,7 @@ public final class Futures {
    * functionality to the standard {@code FutureTask} implementation.
    */
   public static <V> ListenableFuture<V> makeListenable(Future<V> future) {
-    if (future instanceof ListenableFuture) {
+    if (future instanceof ListenableFuture<?>) {
       return (ListenableFuture<V>) future;
     }
     return new ListenableFutureAdapter<V>(future);
@@ -468,16 +469,99 @@ public final class Futures {
 
     private Function<? super I, ? extends ListenableFuture<? extends O>>
         function;
-    private UninterruptibleFuture<? extends I> inputFuture;
+    private ListenableFuture<? extends I> inputFuture;
     private volatile ListenableFuture<? extends O> outputFuture;
     private final BlockingQueue<Boolean> mayInterruptIfRunningChannel =
         new LinkedBlockingQueue<Boolean>(1);
+    private final CountDownLatch outputCreated = new CountDownLatch(1);
 
     private ChainingListenableFuture(
         Function<? super I, ? extends ListenableFuture<? extends O>> function,
         ListenableFuture<? extends I> inputFuture) {
       this.function = checkNotNull(function);
-      this.inputFuture = makeUninterruptible(inputFuture);
+      this.inputFuture = checkNotNull(inputFuture);
+    }
+
+    /**
+     * Delegate the get() to the input and output futures, in case
+     * their implementations defer starting computation until their
+     * own get() is invoked.
+     */
+    public O get() throws InterruptedException, ExecutionException {
+      if (!isDone()) {
+        // Invoking get on the inputFuture will ensure our own run()
+        // method below is invoked as a listener when inputFuture sets
+        // its value.  Therefore when get() returns we should then see
+        // the outputFuture be created.
+        ListenableFuture<? extends I> inputFuture = this.inputFuture;
+        if (inputFuture != null) {
+          inputFuture.get();
+        }
+
+        // If our listener was scheduled to run on an executor we may
+        // need to wait for our listener to finish running before the
+        // outputFuture has been constructed by the function.
+        outputCreated.await();
+
+        // Like above with the inputFuture, we have a listener on
+        // the outputFuture that will set our own value when its
+        // value is set.  Invoking get will ensure the output can
+        // complete and invoke our listener, so that we can later
+        // get the result.
+        ListenableFuture<? extends O> outputFuture = this.outputFuture;
+        if (outputFuture != null) {
+          outputFuture.get();
+        }
+      }
+      return super.get();
+    }
+
+    /**
+     * Delegate the get() to the input and output futures, in case
+     * their implementations defer starting computation until their
+     * own get() is invoked.
+     */
+    public O get(long timeout, TimeUnit unit) throws TimeoutException,
+        ExecutionException, InterruptedException {
+      if (!isDone()) {
+        // Use a single time unit so we can decrease remaining timeout
+        // as we wait for various phases to complete.
+        if (unit != NANOSECONDS) {
+          timeout = NANOSECONDS.convert(timeout, unit);
+          unit = NANOSECONDS;
+        }
+
+        // Invoking get on the inputFuture will ensure our own run()
+        // method below is invoked as a listener when inputFuture sets
+        // its value.  Therefore when get() returns we should then see
+        // the outputFuture be created.
+        ListenableFuture<? extends I> inputFuture = this.inputFuture;
+        if (inputFuture != null) {
+          long start = System.nanoTime();
+          inputFuture.get(timeout, unit);
+          timeout -= Math.max(0, System.nanoTime() - start);
+        }
+
+        // If our listener was scheduled to run on an executor we may
+        // need to wait for our listener to finish running before the
+        // outputFuture has been constructed by the function.
+        long start = System.nanoTime();
+        if (!outputCreated.await(timeout, unit)) {
+          throw new TimeoutException();
+        }
+        timeout -= Math.max(0, System.nanoTime() - start);
+
+        // Like above with the inputFuture, we have a listener on
+        // the outputFuture that will set our own value when its
+        // value is set.  Invoking get will ensure the output can
+        // complete and invoke our listener, so that we can later
+        // get the result.
+        ListenableFuture<? extends O> outputFuture = this.outputFuture;
+        if (outputFuture != null) {
+          outputFuture.get(timeout, unit);
+        }
+      }
+      return super.get(timeout, unit);
     }
 
     @Override
@@ -508,7 +592,7 @@ public final class Futures {
       try {
         I sourceResult;
         try {
-          sourceResult = inputFuture.get();
+          sourceResult = makeUninterruptible(inputFuture).get();
         } catch (CancellationException e) {
           // Cancel this future and return.
           cancel();
@@ -563,14 +647,14 @@ public final class Futures {
         // client
         setException(e);
       } catch (Error e) {
-        // This seems evil, but the client needs to know an error occured and
-        // the error needs to be propagated ASAP.
+        // Propagate errors up ASAP - our superclass will rethrow the error
         setException(e);
-        throw e;
       } finally {
         // Don't pin inputs beyond completion
         function = null;
         inputFuture = null;
+        // Allow our get routines to examine outputFuture now.
+        outputCreated.countDown();
       }
     }
   }

@@ -473,20 +473,6 @@ public final class Multisets {
   }
 
   /**
-   * An implementation of {@link Multiset#hashCode}.
-   */
-  static int hashCodeImpl(Multiset<?> multiset) {
-    return multiset.entrySet().hashCode();
-  }
-
-  /**
-   * An implementation of {@link Multiset#toString}.
-   */
-  static String toStringImpl(Multiset<?> multiset) {
-    return multiset.entrySet().toString();
-  }
-
-  /**
    * An implementation of {@link Multiset#addAll}.
    */
   static <E> boolean addAllImpl(
