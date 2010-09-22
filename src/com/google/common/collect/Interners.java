@@ -35,10 +35,12 @@ public final class Interners {
   private Interners() {}
 
   /**
-   * Returns a new thread-safe interner which retains a strong reference to
-   * each instance it has interned, thus preventing these instances from being
+   * Returns a new thread-safe interner which retains a strong reference to each
+   * instance it has interned, thus preventing these instances from being
    * garbage-collected. If this retention is acceptable, this implementation may
-   * perform better than {@link #newWeakInterner}.
+   * perform better than {@link #newWeakInterner}. Note that unlike {@link
+   * String#intern}, using this interner does not consume memory in the
+   * permanent generation.
    */
   public static <E> Interner<E> newStrongInterner() {
     final ConcurrentMap<E, E> map = new MapMaker().makeMap();
@@ -55,7 +57,9 @@ public final class Interners {
    * instance it has interned, and so does not prevent these instances from
    * being garbage-collected. This most likely does not perform as well as
    * {@link #newStrongInterner}, but is the best alternative when the memory
-   * usage of that implementation is unacceptable.
+   * usage of that implementation is unacceptable. Note that unlike {@link
+   * String#intern}, using this interner does not consume memory in the
+   * permanent generation.
    */
   public static <E> Interner<E> newWeakInterner() {
     return new WeakInterner<E>();

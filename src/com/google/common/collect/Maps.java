@@ -27,6 +27,7 @@ import com.google.common.base.Joiner.MapJoiner;
 import com.google.common.base.Objects;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
+import com.google.common.base.Supplier;
 import com.google.common.collect.MapDifference.ValueDifference;
 
 import java.io.Serializable;
@@ -59,6 +60,7 @@ import javax.annotation.Nullable;
  * @author Kevin Bourrillion
  * @author Mike Bostock
  * @author Isaac Shum
+ * @author Louis Wasserman
  * @since 2 (imported from Google Collections Library)
  */
 @GwtCompatible(emulated = true)
@@ -703,46 +705,6 @@ public final class Maps {
     }
 
     private static final long serialVersionUID = 0;
-  }
-
-  /**
-   * Implements {@code Collection.contains} safely for forwarding collections of
-   * map entries. If {@code o} is an instance of {@code Map.Entry}, it is
-   * wrapped using {@link #unmodifiableEntry} to protect against a possible
-   * nefarious equals method.
-   *
-   * <p>Note that {@code c} is the backing (delegate) collection, rather than
-   * the forwarding collection.
-   *
-   * @param c the delegate (unwrapped) collection of map entries
-   * @param o the object that might be contained in {@code c}
-   * @return {@code true} if {@code c} contains {@code o}
-   */
-  static <K, V> boolean containsEntryImpl(Collection<Entry<K, V>> c, Object o) {
-    if (!(o instanceof Entry)) {
-      return false;
-    }
-    return c.contains(unmodifiableEntry((Entry<?, ?>) o));
-  }
-
-  /**
-   * Implements {@code Collection.remove} safely for forwarding collections of
-   * map entries. If {@code o} is an instance of {@code Map.Entry}, it is
-   * wrapped using {@link #unmodifiableEntry} to protect against a possible
-   * nefarious equals method.
-   *
-   * <p>Note that {@code c} is backing (delegate) collection, rather than the
-   * forwarding collection.
-   *
-   * @param c the delegate (unwrapped) collection of map entries
-   * @param o the object to remove from {@code c}
-   * @return {@code true} if {@code c} was changed
-   */
-  static <K, V> boolean removeEntryImpl(Collection<Entry<K, V>> c, Object o) {
-    if (!(o instanceof Entry)) {
-      return false;
-    }
-    return c.remove(unmodifiableEntry((Entry<?, ?>) o));
   }
 
   /**
@@ -1440,16 +1402,23 @@ public final class Maps {
       Set<K> result = keySet;
       if (result == null) {
         final Set<K> delegate = super.keySet();
-        keySet = result =
-            new ForwardingSet<K>() {
-              @Override protected Set<K> delegate() {
-                return delegate;
-              }
+        keySet = result = new ForwardingSet<K>() {
+          @Override protected Set<K> delegate() {
+            return delegate;
+          }
 
-              @Override public boolean isEmpty() {
-                return ImprovedAbstractMap.this.isEmpty();
-              }
-            };
+          @Override public boolean isEmpty() {
+            return ImprovedAbstractMap.this.isEmpty();
+          }
+
+          @Override public boolean remove(Object object) {
+            if (contains(object)) {
+              ImprovedAbstractMap.this.remove(object);
+              return true;
+            }
+            return false;
+          }
+        };
       }
       return result;
     }
@@ -1460,16 +1429,15 @@ public final class Maps {
       Collection<V> result = values;
       if (result == null) {
         final Collection<V> delegate = super.values();
-        values = result =
-            new ForwardingCollection<V>() {
-              @Override protected Collection<V> delegate() {
-                return delegate;
-              }
+        values = result = new ForwardingCollection<V>() {
+          @Override protected Collection<V> delegate() {
+            return delegate;
+          }
 
-              @Override public boolean isEmpty() {
-                return ImprovedAbstractMap.this.isEmpty();
-              }
-            };
+          @Override public boolean isEmpty() {
+            return ImprovedAbstractMap.this.isEmpty();
+          }
+        };
       }
       return result;
     }
@@ -1510,6 +1478,225 @@ public final class Maps {
       return map.containsKey(key);
     } catch (ClassCastException e) {
       return false;
+    }
+  }
+
+  /**
+   * An implementation of {@link Map#entrySet}.
+   */
+  static <K, V> Set<Entry<K, V>> entrySetImpl(
+      Map<K, V> map, Supplier<Iterator<Entry<K, V>>> entryIteratorSupplier) {
+    return new EntrySetImpl<K, V>(map, entryIteratorSupplier);
+  }
+
+  private static class EntrySetImpl<K, V> extends AbstractSet<Entry<K, V>> {
+    private final Map<K, V> map;
+    private final Supplier<Iterator<Entry<K, V>>> entryIteratorSupplier;
+
+    EntrySetImpl(
+        Map<K, V> map, Supplier<Iterator<Entry<K, V>>> entryIteratorSupplier) {
+      this.map = checkNotNull(map);
+      this.entryIteratorSupplier = checkNotNull(entryIteratorSupplier);
+    }
+
+    @Override public Iterator<Entry<K, V>> iterator() {
+      return entryIteratorSupplier.get();
+    }
+
+    @Override public int size() {
+      return map.size();
+    }
+
+    @Override public void clear() {
+      map.clear();
+    }
+
+    @Override public boolean contains(Object o) {
+      if (o instanceof Entry) {
+        Entry<?, ?> entry = (Entry<?, ?>) o;
+        Object key = entry.getKey();
+        if (map.containsKey(key)) {
+          V value = map.get(entry.getKey());
+          return Objects.equal(value, entry.getValue());
+        }
+      }
+      return false;
+    }
+
+    @Override public boolean isEmpty() {
+      return map.isEmpty();
+    }
+
+    @Override public boolean remove(Object o) {
+      if (contains(o)) {
+        Entry<?, ?> entry = (Entry<?, ?>) o;
+        map.remove(entry.getKey());
+        return true;
+      }
+      return false;
+    }
+
+    @Override public int hashCode() {
+      return map.hashCode();
+    }
+  }
+
+  /**
+   * Implements {@code Collection.contains} safely for forwarding collections of
+   * map entries. If {@code o} is an instance of {@code Map.Entry}, it is
+   * wrapped using {@link #unmodifiableEntry} to protect against a possible
+   * nefarious equals method.
+   *
+   * <p>Note that {@code c} is the backing (delegate) collection, rather than
+   * the forwarding collection.
+   *
+   * @param c the delegate (unwrapped) collection of map entries
+   * @param o the object that might be contained in {@code c}
+   * @return {@code true} if {@code c} contains {@code o}
+   */
+  static <K, V> boolean containsEntryImpl(Collection<Entry<K, V>> c, Object o) {
+    if (!(o instanceof Entry)) {
+      return false;
+    }
+    return c.contains(unmodifiableEntry((Entry<?, ?>) o));
+  }
+
+  /**
+   * Implements {@code Collection.remove} safely for forwarding collections of
+   * map entries. If {@code o} is an instance of {@code Map.Entry}, it is
+   * wrapped using {@link #unmodifiableEntry} to protect against a possible
+   * nefarious equals method.
+   *
+   * <p>Note that {@code c} is backing (delegate) collection, rather than the
+   * forwarding collection.
+   *
+   * @param c the delegate (unwrapped) collection of map entries
+   * @param o the object to remove from {@code c}
+   * @return {@code true} if {@code c} was changed
+   */
+  static <K, V> boolean removeEntryImpl(Collection<Entry<K, V>> c, Object o) {
+    if (!(o instanceof Entry)) {
+      return false;
+    }
+    return c.remove(unmodifiableEntry((Entry<?, ?>) o));
+  }
+
+  /**
+   * An implementation of {@link Map#equals}.
+   */
+  static boolean equalsImpl(Map<?, ?> map, Object object) {
+    if (map == object) {
+      return true;
+    }
+    if (object instanceof Map) {
+      Map<?, ?> o = (Map<?, ?>) object;
+      return map.entrySet().equals(o.entrySet());
+    }
+    return false;
+  }
+
+  /**
+   * An implementation of {@link Map#hashCode}.
+   */
+  static int hashCodeImpl(Map<?, ?> map) {
+    return Sets.hashCodeImpl(map.entrySet());
+  }
+
+  /**
+   * An implementation of {@link Map#toString}.
+   */
+  static String toStringImpl(Map<?, ?> map) {
+    StringBuilder sb = new StringBuilder(map.size() * 16).append('{');
+    STANDARD_JOINER.appendTo(sb, map);
+    return sb.append('}').toString();
+  }
+
+  /**
+   * An implementation of {@link Map#putAll}.
+   */
+  static <K, V> void putAllImpl(
+      Map<K, V> self, Map<? extends K, ? extends V> map) {
+    for (Map.Entry<? extends K, ? extends V> entry : map.entrySet()) {
+      self.put(entry.getKey(), entry.getValue());
+    }
+  }
+
+  /**
+   * An implementation of {@link Map#keySet}.
+   */
+  static <K, V> Set<K> keySetImpl(final Map<K, V> map) {
+    return new AbstractMapWrapper<K, V>(map).keySet();
+  }
+
+  /**
+   * An admittedly inefficient implementation of {@link Map#containsKey}.
+   */
+  static boolean containsKeyImpl(Map<?, ?> map, @Nullable Object key) {
+    for (Entry<?, ?> entry : map.entrySet()) {
+      if (Objects.equal(entry.getKey(), key)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  /**
+   * An implementation of {@link Map#values}.
+   */
+  static <K, V> Collection<V> valuesImpl(Map<K, V> map) {
+    return new AbstractMapWrapper<K, V>(map).values();
+  }
+
+  /**
+   * An implementation of {@link Map#containsValue}.
+   */
+  static boolean containsValueImpl(Map<?, ?> map, @Nullable Object value) {
+    for (Entry<?, ?> entry : map.entrySet()) {
+      if (Objects.equal(entry.getValue(), value)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  /**
+   * A wrapper on a map that supplies the {@code ImprovedAbstractMap}
+   * implementations of {@code keySet()} and {@code values()}.
+   */
+  private static final class AbstractMapWrapper<K, V>
+      extends ImprovedAbstractMap<K, V>{
+    private final Map<K, V> map;
+
+    AbstractMapWrapper(Map<K, V> map) {
+      this.map = checkNotNull(map);
+    }
+
+    @Override public void clear() {
+      map.clear();
+    }
+
+    @Override public boolean containsKey(Object key) {
+      return map.containsKey(key);
+    }
+
+    @Override public V remove(Object key) {
+      return map.remove(key);
+    }
+
+    @Override public boolean containsValue(Object value) {
+      return map.containsValue(value);
+    }
+
+    @Override protected Set<Entry<K, V>> createEntrySet() {
+      return map.entrySet();
+    }
+
+    @Override public boolean isEmpty() {
+      return map.isEmpty();
+    }
+
+    @Override public int size() {
+      return map.size();
     }
   }
 }
