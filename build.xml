@@ -66,8 +66,10 @@
          encoding="UTF-8"
          docencoding="UTF-8"
          charset="UTF-8"
+         use="true"
          author="true"
          protected="true"
+         linksource="true"
          windowtitle="Guava: Google Core Libraries for Java - ${release}">
       <sourcepath>
         <pathelement location="src"/>
