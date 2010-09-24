@@ -140,7 +140,6 @@ public abstract class ImmutableCollection<E>
    *
    * @since 2
    */
-  @GwtCompatible(serializable = false)
   public ImmutableList<E> asList() {
     ImmutableList<E> list = asList;
     return (list == null) ? (asList = createAsList()) : list;

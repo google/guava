@@ -129,7 +129,7 @@ public abstract class ImmutableCollection<E>
       default:
         @SuppressWarnings("unchecked")
         E[] castedArray = (E[]) toArray();
-        return new RegularImmutableList<E>(Arrays.asList(castedArray));
+        return new ImmutableAsList<E>(Arrays.asList(castedArray));
     }
   }
   static <E> ImmutableCollection<E> unsafeDelegate(Collection<E> delegate) {

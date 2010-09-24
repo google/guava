@@ -21,6 +21,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.annotations.Beta;
 import com.google.common.base.FinalizableReferenceQueue;
 import com.google.common.base.FinalizableWeakReference;
+import com.google.common.base.Function;
 
 import java.util.concurrent.ConcurrentMap;
 
@@ -171,6 +172,42 @@ public final class Interners {
         }
         return object.equals(this);
       }
+    }
+  }
+
+  /**
+   * Returns a function that delegates to the {@link Interner#intern} method of
+   * the given interner.
+   *
+   * @since 8
+   */
+  public static <E> Function<E, E> asFunction(Interner<E> interner) {
+    return new InternerFunction<E>(checkNotNull(interner));
+  }
+
+  private static class InternerFunction<E> implements Function<E, E> {
+
+    private final Interner<E> interner;
+
+    public InternerFunction(Interner<E> interner) {
+      this.interner = interner;
+    }
+
+    @Override public E apply(E input) {
+      return interner.intern(input);
+    }
+
+    @Override public int hashCode() {
+      return interner.hashCode();
+    }
+
+    @Override public boolean equals(Object other) {
+      if (other instanceof InternerFunction<?>) {
+        InternerFunction<?> that = (InternerFunction<?>) other;
+        return interner.equals(that.interner);
+      }
+
+      return false;
     }
   }
 }

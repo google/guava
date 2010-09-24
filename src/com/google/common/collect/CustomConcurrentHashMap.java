@@ -1405,11 +1405,6 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
   }
 
   int hash(Object key) {
-    /*
-     * TODO(kevinb): can we just trust keyEquivalence to throw NPE as it
-     * promises? (That is, if some user's Equivalence doesn't, let them get a
-     * broken map?)
-     */
     int h = keyEquivalence.hash(checkNotNull(key));
     return rehash(h);
   }
@@ -1903,7 +1898,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
             continue;
           }
 
-          if (keyEquivalence.equivalent(entryKey, key)) {
+          if (keyEquivalence.equivalent(key, entryKey)) {
             if (expires && isExpired(e)) {
               continue;
             }
@@ -1940,7 +1935,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
             continue;
           }
 
-          if (keyEquivalence.equivalent(entryKey, key)) {
+          if (keyEquivalence.equivalent(key, entryKey)) {
             return getUnexpiredValue(e) != null;
           }
         }
@@ -1960,7 +1955,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
             if (entryValue == null) {
               continue;
             }
-            if (valueEquivalence.equivalent(entryValue, value)) {
+            if (valueEquivalence.equivalent(value, entryValue)) {
               return true;
             }
           }
@@ -1991,7 +1986,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
               return false;
             }
 
-            if (valueEquivalence.equivalent(entryValue, oldValue)) {
+            if (valueEquivalence.equivalent(oldValue, entryValue)) {
               setValue(e, newValue, false);
               return true;
             } else {
@@ -2086,6 +2081,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
 
         if (evicts && newCount > maxSegmentSize) {
           evictEntry();
+          // this.count just changed; read it again
           newCount = this.count + 1;
           first = table.get(index);
         }
@@ -2191,7 +2187,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
         for (ReferenceEntry<K, V> e = first; e != null; e = e.getNext()) {
           K entryKey = e.getKey();
           if (e.getHash() == hash && entryKey != null
-              && keyEquivalence.equivalent(entryKey, key)) {
+              && keyEquivalence.equivalent(key, entryKey)) {
             V entryValue = e.getValueReference().get();
             ++modCount;
             ReferenceEntry<K, V> newFirst = removeFromTable(first, e);
@@ -2224,10 +2220,10 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
         for (ReferenceEntry<K, V> e = first; e != null; e = e.getNext()) {
           K entryKey = e.getKey();
           if (e.getHash() == hash && entryKey != null
-              && keyEquivalence.equivalent(entryKey, key)) {
+              && keyEquivalence.equivalent(key, entryKey)) {
             V entryValue = e.getValueReference().get();
             if (value == entryValue || (value != null && entryValue != null
-                && valueEquivalence.equivalent(entryValue, value))) {
+                && valueEquivalence.equivalent(value, entryValue))) {
               ++modCount;
               ReferenceEntry<K, V> newFirst = removeFromTable(first, e);
               table.set(index, newFirst);
@@ -2824,7 +2820,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
       }
       V v = CustomConcurrentHashMap.this.get(key);
 
-      return v != null && valueEquivalence.equivalent(v, e.getValue());
+      return v != null && valueEquivalence.equivalent(e.getValue(), v);
     }
 
     @Override public boolean remove(Object o) {

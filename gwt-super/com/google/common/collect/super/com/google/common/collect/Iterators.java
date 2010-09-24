@@ -925,18 +925,9 @@ public final class Iterators {
   public static <T> UnmodifiableIterator<T> forArray(final T... array) {
     // TODO(kevinb): compare performance with Arrays.asList(array).iterator().
     checkNotNull(array);  // eager for GWT.
-    return new UnmodifiableIterator<T>() {
-      final int length = array.length;
-      int i = 0;
-      public boolean hasNext() {
-        return i < length;
-      }
-      public T next() {
-        if (i < length) {
-          return array[i++];
-        } else {
-          throw new NoSuchElementException();
-        }
+    return new AbstractIndexedIterator<T>(array.length) {
+      @Override protected T get(int index) {
+        return array[index];
       }
     };
   }
@@ -958,23 +949,21 @@ public final class Iterators {
   static <T> UnmodifiableIterator<T> forArray(
       final T[] array, final int offset, int length) {
     checkArgument(length >= 0);
-    final int end = offset + length;
+    int end = offset + length;
 
     // Technically we should give a slightly more descriptive error on overflow
     Preconditions.checkPositionIndexes(offset, end, array.length);
 
     // If length == 0 is a common enough case, we could return emptyIterator().
 
-    return new UnmodifiableIterator<T>() {
-      int i = offset;
-      public boolean hasNext() {
-        return i < end;
-      }
-      public T next() {
-        if (!hasNext()) {
-          throw new NoSuchElementException();
-        }
-        return array[i++];
+    /*
+     * We can't use call the two-arg constructor with arguments (offset, end)
+     * because the returned Iterator is a ListIterator that may be moved back
+     * past the beginning of the iteration.
+     */
+    return new AbstractIndexedIterator<T>(length) {
+      @Override protected T get(int index) {
+        return array[offset + index];
       }
     };
   }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2009 Google Inc.
+ * Copyright (C) 2010 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,12 +19,12 @@ package com.google.common.collect;
 import java.util.List;
 
 /**
- * GWT emulated version of {@link RegularImmutableList}.
+ * GWT emulation of {@link ImmutableAsList}.
  *
  * @author Hayward Chan
  */
-class RegularImmutableList<E> extends ImmutableList<E> {
-  RegularImmutableList(List<E> delegate) {
+final class ImmutableAsList<E> extends RegularImmutableList<E> {
+  ImmutableAsList(List<E> delegate) {
     super(delegate);
   }
 }

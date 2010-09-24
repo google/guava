@@ -796,6 +796,23 @@ public final class Maps {
    */
   @Beta
   public interface EntryTransformer<K, V1, V2> {
+    /**
+     * Determines an output value based on a key-value pair. This method is
+     * <i>generally expected</i>, but not absolutely required, to have the
+     * following properties:
+     *
+     * <ul>
+     * <li>Its execution does not cause any observable side effects.
+     * <li>The computation is <i>consistent with equals</i>; that is,
+     *     {@link Objects#equal Objects.equal}{@code (k1, k2) &&}
+     *     {@link Objects#equal}{@code (v1, v2)} implies that {@code
+     *     Objects.equal(transformer.transform(k1, v1),
+     *     transformer.transform(k2, v2))}.
+     * </ul>
+     *
+     * @throws NullPointerException if the key or value is null and this
+     *     transformer does not accept null arguments
+     */
     V2 transformEntry(@Nullable K key, @Nullable V1 value);
   }
 

@@ -51,6 +51,15 @@ public abstract class GenericMapMaker<K0, V0> {
   public abstract GenericMapMaker<K0, V0> initialCapacity(int initialCapacity);
 
   /**
+   * See {@link MapMaker#maximumSize}.
+   *
+   * @since 8
+   */
+  @Beta
+  @GwtIncompatible("To be supported")
+  public abstract GenericMapMaker<K0, V0> maximumSize(int maximumSize);
+
+  /**
    * See {@link MapMaker#concurrencyLevel}.
    */
   @GwtIncompatible("java.util.concurrent.ConcurrentHashMap concurrencyLevel")

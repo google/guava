@@ -215,12 +215,9 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
     }
 
     @Override public UnmodifiableIterator<V> iterator() {
-      return new AbstractIterator<V>() {
-        int index = 0;
-        @Override protected V computeNext() {
-          return (index < map.entries.length)
-              ? map.entries[index++].getValue()
-              : endOfData();
+      return new AbstractIndexedIterator<V>(map.entries.length) {
+        @Override protected V get(int index) {
+          return map.entries[index].getValue();
         }
       };
     }

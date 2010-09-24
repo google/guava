@@ -73,8 +73,12 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V>
           if (entry == null) {
             // Create a new entry.
             created = true;
-            int count = segment.count;
-            if (count++ > segment.threshold) { // ensure capacity
+            int newCount = segment.count + 1;
+            if (evicts && newCount > segment.maxSegmentSize) {
+              segment.evictEntry();
+              // segment.count just changed; read it again
+              newCount = segment.count + 1;
+            } else if (newCount > segment.threshold) { // ensure capacity
               segment.expand();
             }
             AtomicReferenceArray<ReferenceEntry<K, V>> table = segment.table;
@@ -83,7 +87,7 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V>
             ++segment.modCount;
             entry = entryFactory.newEntry(this, key, hash, first);
             table.set(index, entry);
-            segment.count = count; // write-volatile
+            segment.count = newCount; // write-volatile
           }
         } finally {
           segment.unlock();

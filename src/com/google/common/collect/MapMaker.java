@@ -39,14 +39,15 @@ import java.util.concurrent.TimeUnit;
 /**
  * <p>A {@link ConcurrentMap} builder, providing any combination of these
  * features: {@linkplain SoftReference soft} or {@linkplain WeakReference
- * weak} keys, soft or weak values, timed expiration, and on-demand
- * computation of values. Usage example: <pre>   {@code
+ * weak} keys, soft or weak values, size-based evicition, timed expiration, and
+ * on-demand computation of values. Usage example: <pre>   {@code
  *
  *   ConcurrentMap<Key, Graph> graphs = new MapMaker()
- *       .concurrencyLevel(32)
+ *       .concurrencyLevel(4)
  *       .softKeys()
  *       .weakValues()
- *       .expiration(30, TimeUnit.MINUTES)
+ *       .maximumSize(10000)
+ *       .expiration(10, TimeUnit.MINUTES)
  *       .makeComputingMap(
  *           new Function<Key, Graph>() {
  *             public Graph apply(Key key) {
@@ -118,7 +119,8 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
 
   long expirationNanos = UNSET_EXPIRATION_NANOS;
 
-  private boolean useCustomMap;
+  // TODO(kevinb): dispense with this after benchmarking
+  boolean useCustomMap;
 
   Equivalence<Object> keyEquivalence;
   Equivalence<Object> valueEquivalence;
@@ -194,10 +196,12 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    *
    * @throws IllegalArgumentException if {@code size} is not greater than zero
    * @throws IllegalStateException if a maximum size was already set
+   * @since 8
    */
+  @Beta
   @GwtIncompatible("To be supported")
-
-  MapMaker maximumSize(int size) {
+  @Override
+  public MapMaker maximumSize(int size) {
     checkState(this.maximumSize == UNSET_MAXIMUM_SIZE,
         "maximum size was already set to " + this.maximumSize);
     checkArgument(size > 0, "maximum size must be positive");
@@ -412,6 +416,7 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    * listener, you will likely experience a {@link ClassCastException} at an
    * undefined point in the future.
    *
+   * @throws IllegalStateException if an eviction listener was already set
    * @since 7
    */
   @Beta

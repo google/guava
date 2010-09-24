@@ -153,7 +153,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E>
     }
     return construct(elements);
   }
-  
+
   /** {@code elements} has to be internally created array. */
   private static <E> ImmutableSet<E> construct(Object... elements) {
     int tableSize = Hashing.chooseTableSize(elements.length);
@@ -219,7 +219,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E>
   public static <E> ImmutableSet<E> of(E[] elements) {
     return copyOf(elements);
   }
-  
+
  /**
   * Returns an immutable set containing the given elements, in order. Repeated
   * occurrences of an element (according to {@link Object#equals}) after the
@@ -276,7 +276,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E>
     // worth it?
     return copyFromCollection(Lists.newArrayList(elements));
   }
-  
+
   /**
    * Returns an immutable set containing the given elements, in order. Repeated
    * occurrences of an element (according to {@link Object#equals}) after the
@@ -455,12 +455,9 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E>
     }
 
     @Override public UnmodifiableIterator<E> iterator() {
-      return new AbstractIterator<E>() {
-        int index = 0;
-        @Override protected E computeNext() {
-          return index < source.length
-              ? transform(source[index++])
-              : endOfData();
+      return new AbstractIndexedIterator<E>(source.length) {
+        @Override protected E get(int index) {
+          return transform(source[index]);
         }
       };
     }

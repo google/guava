@@ -16,6 +16,8 @@
 
 package com.google.common.collect;
 
+import com.google.common.annotations.GwtCompatible;
+
 import java.io.InvalidObjectException;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
@@ -26,6 +28,7 @@ import java.io.Serializable;
  *
  * @author Jared Levy
  */
+@GwtCompatible(serializable = true, emulated = true)
 @SuppressWarnings("serial")
 final class ImmutableAsList<E> extends RegularImmutableList<E> {
   private final transient ImmutableCollection<E> collection;
