@@ -9,7 +9,7 @@
   </parent>
   <groupId>com.google.guava</groupId>
   <artifactId>guava</artifactId>
-  <version>r07-SNAPSHOT</version>
+  <version>r08-SNAPSHOT</version>
   <packaging>jar</packaging>
   <name>Guava (Google Common Libraries)</name>
   <description>
