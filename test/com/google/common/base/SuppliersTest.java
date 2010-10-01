@@ -16,19 +16,19 @@
 
 package com.google.common.base;
 
-import static com.google.testing.util.SerializableTester.reserialize;
-
-import com.google.common.annotations.GwtCompatible;
-import com.google.common.annotations.GwtIncompatible;
-import com.google.common.collect.Lists;
-import com.google.testing.util.NullPointerTester;
-
-import junit.framework.TestCase;
+import static com.google.common.testing.SerializableTester.reserialize;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+
+import junit.framework.TestCase;
+
+import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.GwtIncompatible;
+import com.google.common.collect.Lists;
+import com.google.common.testing.NullPointerTester;
 
 /**
  * Tests com.google.common.base.Suppliers.
@@ -84,6 +84,7 @@ public class SuppliersTest extends TestCase {
   }
 
   static class CountingSupplier implements Supplier<Integer>, Serializable {
+    private static final long serialVersionUID = 1L;
     transient int calls = 0;
     public Integer get() {
       calls++;
@@ -118,6 +119,8 @@ public class SuppliersTest extends TestCase {
         ((Suppliers.MemoizingSupplier<Integer>) copy).delegate;
     checkMemoize(countingCopy, copy);
   }
+
+
 
   private void checkMemoize(
       CountingSupplier countingSupplier, Supplier<Integer> memoizedSupplier) {

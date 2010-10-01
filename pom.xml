@@ -86,6 +86,6 @@
     </plugins>
     <finalName>${project.artifactId}-${project.version}</finalName>
     <sourceDirectory>src</sourceDirectory>
-    <testSourceDirectory>tests_disabled</testSourceDirectory>
+    <testSourceDirectory>test</testSourceDirectory>
   </build>
 </project>

@@ -16,14 +16,14 @@
 
 package com.google.common.base;
 
-import com.google.common.base.internal.Finalizer;
-
-import junit.framework.TestCase;
-
 import java.lang.ref.ReferenceQueue;
 import java.lang.ref.WeakReference;
 import java.net.URL;
 import java.net.URLClassLoader;
+
+import junit.framework.TestCase;
+
+import com.google.common.base.internal.Finalizer;
 
 /**
  * Unit test for {@link FinalizableReferenceQueue}.

@@ -16,15 +16,6 @@
 
 package com.google.common.base;
 
-import com.google.common.annotations.GwtCompatible;
-import com.google.common.annotations.GwtIncompatible;
-import com.google.common.collect.ImmutableSet;
-import com.google.testing.util.EqualsTester;
-import com.google.testing.util.NullPointerTester;
-import com.google.testing.util.SerializableTester;
-
-import junit.framework.TestCase;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -33,6 +24,15 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.regex.Pattern;
+
+import junit.framework.TestCase;
+
+import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.GwtIncompatible;
+import com.google.common.collect.ImmutableSet;
+import com.google.common.testing.EqualsTester;
+import com.google.common.testing.NullPointerTester;
+import com.google.common.testing.SerializableTester;
 
 /**
  * Unit test for {@link Predicates}.
@@ -289,7 +289,7 @@ public class PredicatesTest extends TestCase {
     checkSerialization(Predicates.and(Arrays.asList(TRUE, FALSE)));
   }
 
-  @SuppressWarnings("unchecked")
+  @SuppressWarnings({"unchecked", "rawtypes"})
   public void testAnd_arrayDefensivelyCopied() {
     Predicate[] array = {Predicates.alwaysFalse()};
     Predicate<Object> predicate = Predicates.and(array);
@@ -298,7 +298,7 @@ public class PredicatesTest extends TestCase {
     assertFalse(predicate.apply(1));
   }
 
-  @SuppressWarnings("unchecked")
+  @SuppressWarnings({"unchecked", "rawtypes"})
   public void testAnd_listDefensivelyCopied() {
     List list = new ArrayList<Predicate>();
     Predicate<Object> predicate = Predicates.and(list);
@@ -307,7 +307,7 @@ public class PredicatesTest extends TestCase {
     assertTrue(predicate.apply(1));
   }
 
-  @SuppressWarnings("unchecked")
+  @SuppressWarnings({"unchecked", "rawtypes"})
   public void testAnd_iterableDefensivelyCopied() {
     final List list = new ArrayList<Predicate>();
     Iterable iterable = new Iterable<Predicate>() {
@@ -451,7 +451,7 @@ public class PredicatesTest extends TestCase {
     assertEquals(pre.apply(0), post.apply(0));
   }
 
-  @SuppressWarnings("unchecked")
+  @SuppressWarnings({"unchecked", "rawtypes"})
   public void testOr_arrayDefensivelyCopied() {
     Predicate[] array = {Predicates.alwaysFalse()};
     Predicate<Object> predicate = Predicates.or(array);
@@ -460,7 +460,7 @@ public class PredicatesTest extends TestCase {
     assertFalse(predicate.apply(1));
   }
 
-  @SuppressWarnings("unchecked")
+  @SuppressWarnings({"unchecked", "rawtypes"})
   public void testOr_listDefensivelyCopied() {
     List list = new ArrayList<Predicate>();
     Predicate<Object> predicate = Predicates.or(list);
@@ -469,7 +469,7 @@ public class PredicatesTest extends TestCase {
     assertFalse(predicate.apply(1));
   }
 
-  @SuppressWarnings("unchecked")
+  @SuppressWarnings({"unchecked", "rawtypes"})
   public void testOr_iterableDefensivelyCopied() {
     final List list = new ArrayList<Predicate>();
     Iterable iterable = new Iterable<Predicate>() {
@@ -681,6 +681,7 @@ public class PredicatesTest extends TestCase {
   /*
    * Tests that compilation will work when applying explicit types.
    */
+  @SuppressWarnings("unused")
   public void testIn_compilesWithExplicitSupertype() {
     Collection<Number> nums = ImmutableSet.of();
     Predicate<Number> p1 = Predicates.in(nums);

@@ -16,16 +16,16 @@
 
 package com.google.common.base;
 
-import com.google.common.annotations.GwtCompatible;
-import com.google.common.annotations.GwtIncompatible;
-import com.google.common.collect.Lists;
-import com.google.testing.util.NullPointerTester;
-
-import junit.framework.TestCase;
-
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.regex.Pattern;
+
+import junit.framework.TestCase;
+
+import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.GwtIncompatible;
+import com.google.common.collect.Lists;
+import com.google.common.testing.NullPointerTester;
 
 /**
  * @author Julien Silland
