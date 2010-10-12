@@ -47,7 +47,7 @@ import java.util.concurrent.TimeUnit;
  *       .softKeys()
  *       .weakValues()
  *       .maximumSize(10000)
- *       .expiration(10, TimeUnit.MINUTES)
+ *       .timeToLive(10, TimeUnit.MINUTES)
  *       .makeComputingMap(
  *           new Function<Key, Graph>() {
  *             public Graph apply(Key key) {
@@ -105,19 +105,17 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
   private static final int DEFAULT_CONCURRENCY_LEVEL = 16;
   private static final int DEFAULT_EXPIRATION_NANOS = 0;
 
-  private static final int UNSET_INITIAL_CAPACITY = -1;
-  private static final int UNSET_CONCURRENCY_LEVEL = -1;
-  static final int UNSET_EXPIRATION_NANOS = -1;
-  static final int UNSET_MAXIMUM_SIZE = -1;
+  static final int UNSET_INT = -1;
 
-  int initialCapacity = UNSET_INITIAL_CAPACITY;
-  int concurrencyLevel = UNSET_CONCURRENCY_LEVEL;
-  int maximumSize = UNSET_MAXIMUM_SIZE;
+  int initialCapacity = UNSET_INT;
+  int concurrencyLevel = UNSET_INT;
+  int maximumSize = UNSET_INT;
 
   Strength keyStrength;
   Strength valueStrength;
 
-  long expirationNanos = UNSET_EXPIRATION_NANOS;
+  long timeToLiveNanos = UNSET_INT;
+  long timeToIdleNanos = UNSET_INT;
 
   // TODO(kevinb): dispense with this after benchmarking
   boolean useCustomMap;
@@ -134,7 +132,7 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
   // TODO(kevinb): undo this indirection if keyEquiv gets released
   MapMaker privateKeyEquivalence(Equivalence<Object> equivalence) {
     checkState(keyEquivalence == null,
-        "key equivalence was already set to " + keyEquivalence);
+        "key equivalence was already set to %s", keyEquivalence);
     keyEquivalence = checkNotNull(equivalence);
     this.useCustomMap = true;
     return this;
@@ -148,7 +146,7 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
   // TODO(kevinb): undo this indirection if valueEquiv gets released
   MapMaker privateValueEquivalence(Equivalence<Object> equivalence) {
     checkState(valueEquivalence == null,
-        "value equivalence was already set to " + valueEquivalence);
+        "value equivalence was already set to %s", valueEquivalence);
     this.valueEquivalence = checkNotNull(equivalence);
     this.useCustomMap = true;
     return this;
@@ -171,15 +169,15 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    */
   @Override
   public MapMaker initialCapacity(int initialCapacity) {
-    checkState(this.initialCapacity == UNSET_INITIAL_CAPACITY,
-        "initial capacity was already set to " + this.initialCapacity);
+    checkState(this.initialCapacity == UNSET_INT,
+        "initial capacity was already set to %s", this.initialCapacity);
     checkArgument(initialCapacity >= 0);
     this.initialCapacity = initialCapacity;
     return this;
   }
 
   int getInitialCapacity() {
-    return (initialCapacity == UNSET_INITIAL_CAPACITY)
+    return (initialCapacity == UNSET_INT)
         ? DEFAULT_INITIAL_CAPACITY : initialCapacity;
   }
 
@@ -202,8 +200,8 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
   @GwtIncompatible("To be supported")
   @Override
   public MapMaker maximumSize(int size) {
-    checkState(this.maximumSize == UNSET_MAXIMUM_SIZE,
-        "maximum size was already set to " + this.maximumSize);
+    checkState(this.maximumSize == UNSET_INT,
+        "maximum size was already set to %s", this.maximumSize);
     checkArgument(size > 0, "maximum size must be positive");
     this.maximumSize = size;
     this.useCustomMap = true;
@@ -231,15 +229,15 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
   @GwtIncompatible("java.util.concurrent.ConcurrentHashMap concurrencyLevel")
   @Override
   public MapMaker concurrencyLevel(int concurrencyLevel) {
-    checkState(this.concurrencyLevel == UNSET_CONCURRENCY_LEVEL,
-        "concurrency level was already set to " + this.concurrencyLevel);
+    checkState(this.concurrencyLevel == UNSET_INT,
+        "concurrency level was already set to %s", this.concurrencyLevel);
     checkArgument(concurrencyLevel > 0);
     this.concurrencyLevel = concurrencyLevel;
     return this;
   }
 
   int getConcurrencyLevel() {
-    return (concurrencyLevel == UNSET_CONCURRENCY_LEVEL)
+    return (concurrencyLevel == UNSET_INT)
         ? DEFAULT_CONCURRENCY_LEVEL : concurrencyLevel;
   }
 
@@ -285,7 +283,7 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
 
   MapMaker setKeyStrength(Strength strength) {
     checkState(keyStrength == null,
-        "Key strength was already set to " + keyStrength + ".");
+        "Key strength was already set to %s", keyStrength);
     keyStrength = checkNotNull(strength);
     if (strength != Strength.STRONG) {
       // STRONG could be used during deserialization.
@@ -348,7 +346,7 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
 
   MapMaker setValueStrength(Strength strength) {
     checkState(valueStrength == null,
-        "Value strength was already set to " + valueStrength + ".");
+        "Value strength was already set to %s", valueStrength);
     valueStrength = checkNotNull(strength);
     if (strength != Strength.STRONG) {
       // STRONG could be used during deserialization.
@@ -370,23 +368,77 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    * @param duration the length of time after an entry is created that it
    *     should be automatically removed
    * @param unit the unit that {@code duration} is expressed in
-   * @throws IllegalArgumentException if {@code duration} is not positive
-   * @throws IllegalStateException if the expiration time was already set
+   * @throws IllegalArgumentException if {@code duration} is not positive, or is
+   *     larger than one hundred years
+   * @throws IllegalStateException if the time to live or time to idle was
+   *     already set
    */
+  // TODO(user): deprecate
   @Override
   public MapMaker expiration(long duration, TimeUnit unit) {
-    checkState(expirationNanos == UNSET_EXPIRATION_NANOS,
-        "expiration time of " + expirationNanos + " ns was already set");
-    checkArgument(duration > 0,
-        "invalid duration: " + duration);
-    this.expirationNanos = unit.toNanos(duration);
+    return timeToLive(duration, unit);
+  }
+
+  /**
+   * Specifies that each entry should be automatically removed from the
+   * map once a fixed duration has passed since the entry's creation.
+   * Note that changing the value of an entry will reset its expiration
+   * time.
+   *
+   * @param duration the length of time after an entry is created that it
+   *     should be automatically removed
+   * @param unit the unit that {@code duration} is expressed in
+   * @throws IllegalArgumentException if {@code duration} is not positive, or is
+   *     larger than one hundred years
+   * @throws IllegalStateException if the time to live or time to idle was
+   *     already set
+   */
+  @Override
+  public MapMaker timeToLive(long duration, TimeUnit unit) {
+    checkExpiration(duration, unit);
+    this.timeToLiveNanos = unit.toNanos(duration);
     useCustomMap = true;
     return this;
   }
 
-  long getExpirationNanos() {
-    return (expirationNanos == UNSET_EXPIRATION_NANOS)
-        ? DEFAULT_EXPIRATION_NANOS : expirationNanos;
+  private void checkExpiration(long duration, TimeUnit unit) {
+    checkState(timeToLiveNanos == UNSET_INT,
+        "time to live of %s ns was already set", timeToLiveNanos);
+    checkState(timeToIdleNanos == UNSET_INT,
+        "time to idle of ns was already set", timeToIdleNanos);
+    checkArgument(duration > 0, "invalid duration: %s %s", duration, unit);
+  }
+
+  long getTimeToLiveNanos() {
+    return (timeToLiveNanos == UNSET_INT)
+        ? DEFAULT_EXPIRATION_NANOS : timeToLiveNanos;
+  }
+
+  /**
+   * Specifies that each entry should be automatically removed from the
+   * map once a fixed duration has passed since the entry's last access.
+   *
+   * @param duration the length of time after an entry is last accessed
+   *     that it should be automatically removed
+   * @param unit the unit that {@code duration} is expressed in
+   * @throws IllegalArgumentException if {@code duration} is not positive, or is
+   *     larger than one hundred years
+   * @throws IllegalStateException if the time to idle or time to live was
+   *     already set
+   */
+  @GwtIncompatible("To be supported")
+  // TODO(user): make public and add @Override after: 1) completing unit tests,
+  // and 2) implementing serialization.
+  MapMaker timeToIdle(long duration, TimeUnit unit) {
+    checkExpiration(duration, unit);
+    this.timeToIdleNanos = unit.toNanos(duration);
+    useCustomMap = true;
+    return this;
+  }
+
+  long getTimeToIdleNanos() {
+    return (timeToIdleNanos == UNSET_INT)
+        ? DEFAULT_EXPIRATION_NANOS : timeToIdleNanos;
   }
 
   /**

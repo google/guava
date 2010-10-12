@@ -938,10 +938,9 @@ public final class Maps {
    *
    * <p>The resulting map's {@code keySet()}, {@code entrySet()}, and {@code
    * values()} views have iterators that don't support {@code remove()}, but all
-   * other methods are supported by the map and its views. The map's {@code
-   * put()} and {@code putAll()} methods throw an {@link
-   * IllegalArgumentException} if a key that doesn't satisfy the predicate is
-   * provided.
+   * other methods are supported by the map and its views. When given a key that
+   * doesn't satisfy the predicate, the map's {@code put()} and {@code putAll()}
+   * methods throw an {@link IllegalArgumentException}.
    *
    * <p>When methods such as {@code removeAll()} and {@code clear()} are called
    * on the filtered map or its views, only mappings whose keys satisfy the
@@ -982,10 +981,10 @@ public final class Maps {
    *
    * <p>The resulting map's {@code keySet()}, {@code entrySet()}, and {@code
    * values()} views have iterators that don't support {@code remove()}, but all
-   * other methods are supported by the map and its views. The {@link Map#put},
-   * {@link Map#putAll}, and {@link Entry#setValue} methods throw an {@link
-   * IllegalArgumentException} if a value that doesn't satisfy the predicate is
-   * provided.
+   * other methods are supported by the map and its views. When given a value
+   * that doesn't satisfy the predicate, the map's {@code put()}, {@code
+   * putAll()}, and {@link Entry#setValue} methods throw an {@link
+   * IllegalArgumentException}.
    *
    * <p>When methods such as {@code removeAll()} and {@code clear()} are called
    * on the filtered map or its views, only mappings whose values satisfy the
@@ -1023,12 +1022,12 @@ public final class Maps {
    *
    * <p>The resulting map's {@code keySet()}, {@code entrySet()}, and {@code
    * values()} views have iterators that don't support {@code remove()}, but all
-   * other methods are supported by the map and its views. The map's {@code
-   * put()} and {@code putAll()} methods throw an {@link
-   * IllegalArgumentException} if a key/value pair that doesn't satisfy the
-   * predicate is provided. Similarly, the map's entries have a {@link
-   * Entry#setValue} method that throws an {@link IllegalArgumentException} when
-   * the existing key and the provided value don't satisfy the predicate.
+   * other methods are supported by the map and its views. When given a
+   * key/value pair that doesn't satisfy the predicate, the map's {@code put()}
+   * and {@code putAll()} methods throw an {@link IllegalArgumentException}.
+   * Similarly, the map's entries have a {@link Entry#setValue} method that
+   * throws an {@link IllegalArgumentException} when the existing key and the
+   * provided value don't satisfy the predicate.
    *
    * <p>When methods such as {@code removeAll()} and {@code clear()} are called
    * on the filtered map or its views, only mappings that satisfy the filter
@@ -1042,7 +1041,7 @@ public final class Maps {
    * which satisfy the filter. When a live view is <i>not</i> needed, it may be
    * faster to copy the filtered map and use the copy.
    *
-   * <p><b>Warning:</b> {@code valuePredicate} must be <i>consistent with
+   * <p><b>Warning:</b> {@code entryPredicate} must be <i>consistent with
    * equals</i>, as documented at {@link Predicate#apply}.
    */
   public static <K, V> Map<K, V> filterEntries(
@@ -1233,8 +1232,7 @@ public final class Maps {
     }
   }
 
-  private static class FilteredEntryMap<K, V>
-      extends AbstractFilteredMap<K, V> {
+  static class FilteredEntryMap<K, V> extends AbstractFilteredMap<K, V> {
     /**
      * Entries in this set satisfy the predicate, but they don't validate the
      * input to {@code Entry.setValue()}.

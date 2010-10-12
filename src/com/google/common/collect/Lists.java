@@ -164,6 +164,7 @@ public final class Lists {
   @GwtCompatible(serializable = true)
   public static <E> ArrayList<E> newArrayListWithCapacity(
       int initialArraySize) {
+    checkArgument(initialArraySize >= 0);  // for GWT.
     return new ArrayList<E>(initialArraySize);
   }
 
@@ -544,9 +545,7 @@ public final class Lists {
 
     @Override public UnmodifiableListIterator<Character> listIterator(
         int index) {
-      int n = size();
-      checkPositionIndex(index, n);
-      return new AbstractIndexedIterator<Character>(index, n) {
+      return new AbstractIndexedListIterator<Character>(size(), index) {
         @Override protected Character get(int index) {
           return string.charAt(index);
         }

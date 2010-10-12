@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2010 Google Inc.
+ * Copyright (C) 2007 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,7 +18,6 @@ package com.google.common.testing;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.testing.Assert.assertEquals;
-import static com.google.common.testing.Assert.assertNotEquals;
 import static com.google.common.testing.Assert.assertTrue;
 
 import java.util.Arrays;
@@ -143,10 +142,10 @@ public final class EqualsTester {
     // for backward compatibility
     for (Iterable<Object> group : equalityGroups) {
       for (Object reference : group) {
-        assertNotEquals(reference, null);
+        assertTrue(reference != null);
         assertTrue(reference + " is expected to be equal to itself",
             reference.equals(reference));
-        assertNotEquals(reference, NotAnInstance.SINGLETON);
+        assertTrue(!reference.equals(NotAnInstance.SINGLETON));
         for (Object right : group) {
           if (reference != right) {
             assertEquals(reference + " is expected to be equal to " + right,
@@ -176,7 +175,7 @@ public final class EqualsTester {
         for (Object left : group) {
           for (Object right : anotherGroup) {
             // No two objects from different equality group can be equal
-            assertNotEquals(left, right);
+            assertTrue(!left.equals(right));
           }
         }
       }

@@ -16,7 +16,6 @@
 
 package com.google.common.collect;
 import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.common.base.Preconditions.checkPositionIndex;
 
 import com.google.common.annotations.GwtCompatible;
 
@@ -80,8 +79,7 @@ abstract class TransformedImmutableList<D, E> extends ImmutableList<E> {
   }
 
   @Override public UnmodifiableListIterator<E> listIterator(int index) {
-    checkPositionIndex(index, size());
-    return new AbstractIndexedIterator<E>(index, size()) {
+    return new AbstractIndexedListIterator<E>(size(), index) {
       @Override protected E get(int index) {
         return TransformedImmutableList.this.get(index);
       }

@@ -16,6 +16,7 @@
 
 package com.google.common.collect;
 
+import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
@@ -156,7 +157,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E>
 
   /** {@code elements} has to be internally created array. */
   private static <E> ImmutableSet<E> construct(Object... elements) {
-    int tableSize = Hashing.chooseTableSize(elements.length);
+    int tableSize = chooseTableSize(elements.length);
     Object[] table = new Object[tableSize];
     int mask = tableSize - 1;
     ArrayList<Object> uniqueElementsList = null;
@@ -196,13 +197,35 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E>
       @SuppressWarnings("unchecked") // we are careful to only pass in E
       E element = (E) uniqueElements[0];
       return new SingletonImmutableSet<E>(element, hashCode);
-    } else if (tableSize > 2 * Hashing.chooseTableSize(uniqueElements.length)) {
+    } else if (tableSize > 2 * chooseTableSize(uniqueElements.length)) {
       // Resize the table when the array includes too many duplicates.
       // when this happens, we have already made a copy
       return construct(uniqueElements);
     } else {
       return new RegularImmutableSet<E>(uniqueElements, hashCode, table, mask);
     }
+  }
+
+  // We use power-of-2 tables, and this is the highest int that's a power of 2
+  static final int MAX_TABLE_SIZE = 1 << 30;
+
+  // If the set has this many elements, it will "max out" the table size
+  static final int CUTOFF = 1 << 29;
+
+  /**
+   * Returns an array size suitable for the backing array of a hash table that
+   * uses linear probing in its implementation.  The returned size is the
+   * smallest power of two that can hold setSize elements while being at most
+   * 50% full, if possible.
+   */
+  static int chooseTableSize(int setSize) {
+    if (setSize < CUTOFF) {
+      return Integer.highestOneBit(setSize) << 2;
+    }
+
+    // The table can't be completely full or we'll get infinite reprobes
+    checkArgument(setSize < MAX_TABLE_SIZE, "collection too large");
+    return MAX_TABLE_SIZE;
   }
 
   /**
@@ -455,7 +478,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E>
     }
 
     @Override public UnmodifiableIterator<E> iterator() {
-      return new AbstractIndexedIterator<E>(source.length) {
+      return new AbstractIndexedListIterator<E>(source.length) {
         @Override protected E get(int index) {
           return transform(source[index]);
         }

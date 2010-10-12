@@ -84,7 +84,8 @@ public class SuppliersTest extends TestCase {
   }
 
   static class CountingSupplier implements Supplier<Integer>, Serializable {
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 0L;
+
     transient int calls = 0;
     public Integer get() {
       calls++;
@@ -119,8 +120,6 @@ public class SuppliersTest extends TestCase {
         ((Suppliers.MemoizingSupplier<Integer>) copy).delegate;
     checkMemoize(countingCopy, copy);
   }
-
-
 
   private void checkMemoize(
       CountingSupplier countingSupplier, Supplier<Integer> memoizedSupplier) {
@@ -258,6 +257,14 @@ public class SuppliersTest extends TestCase {
     }
 
     assertEquals(new Integer(numThreads * iterations + 1), nonThreadSafe.get());
+  }
+
+  public void testSupplierFunction() {
+    Supplier<Integer> supplier = Suppliers.ofInstance(14);
+    Function<Supplier<Integer>, Integer> supplierFunction =
+        Suppliers.supplierFunction();
+
+    assertEquals(14, (int) supplierFunction.apply(supplier));
   }
 
   @GwtIncompatible("SerializationTester")

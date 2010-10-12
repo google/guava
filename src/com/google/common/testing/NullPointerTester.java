@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2010 Google Inc.
+ * Copyright (C) 2005 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -280,8 +280,8 @@ public final class NullPointerTester {
       if (i != indexOfParamToSetToNull) {
         params[i] = defaults.get(types[i]);
         if (!parameterIsPrimitiveOrNullable(func, indexOfParamToSetToNull)) {
-          Assert.assertNotNull("No default value found for "
-                               + types[i].getName(), params[i]);
+          Assert.assertTrue("No default value found for " + types[i].getName(),
+              params[i] != null);
         }
       }
     }

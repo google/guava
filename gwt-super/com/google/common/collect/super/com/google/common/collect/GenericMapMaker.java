@@ -50,7 +50,14 @@ public abstract class GenericMapMaker<K0, V0> {
   /**
    * See {@link MapMaker#expiration}.
    */
+  // TODO(user): deprecate
   public abstract GenericMapMaker<K0, V0> expiration(
+      long duration, TimeUnit unit);
+
+  /**
+   * See {@link MapMaker#timeToLive}.
+   */
+  public abstract GenericMapMaker<K0, V0> timeToLive(
       long duration, TimeUnit unit);
 
   /*
@@ -70,4 +77,3 @@ public abstract class GenericMapMaker<K0, V0> {
   public abstract <K extends K0, V extends V0> ConcurrentMap<K, V>
       makeComputingMap(Function<? super K, ? extends V> computingFunction);
 }
-

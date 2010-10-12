@@ -49,8 +49,7 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
     int size = immutableEntries.length;
     entries = createEntryArray(size);
 
-    // TODO(gak): try smaller table sizes
-    int tableSize = Hashing.chooseTableSize(size);
+    int tableSize = chooseTableSize(size);
     table = createEntryArray(tableSize);
     mask = tableSize - 1;
 
@@ -75,6 +74,13 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
       }
     }
     keySetHashCode = keySetHashCodeMutable;
+  }
+
+  private static int chooseTableSize(int size) {
+    // least power of 2 greater than size
+    int tableSize = Integer.highestOneBit(size) << 1;
+    checkArgument(tableSize > 0, "table too large: %s", size);
+    return tableSize;
   }
 
   /**
@@ -107,7 +113,13 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
         entry != null;
         entry = entry.next) {
       K candidateKey = entry.getKey();
-      // assume that equals uses the == optimization when appropriate
+
+      /*
+       * Assume that equals uses the == optimization when appropriate, and that
+       * it would check hash codes as an optimization when appropriate. If we
+       * did these things, it would just make things worse for the most
+       * performance-conscious users.
+       */
       if (key.equals(candidateKey)) {
         return entry.getValue();
       }
@@ -215,7 +227,7 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
     }
 
     @Override public UnmodifiableIterator<V> iterator() {
-      return new AbstractIndexedIterator<V>(map.entries.length) {
+      return new AbstractIndexedListIterator<V>(map.entries.length) {
         @Override protected V get(int index) {
           return map.entries[index].getValue();
         }

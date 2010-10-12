@@ -93,7 +93,14 @@ public abstract class GenericMapMaker<K0, V0> {
   /**
    * See {@link MapMaker#expiration}.
    */
+  // TODO(user): deprecate
   public abstract GenericMapMaker<K0, V0> expiration(
+      long duration, TimeUnit unit);
+
+  /**
+   * See {@link MapMaker#timeToLive}.
+   */
+  public abstract GenericMapMaker<K0, V0> timeToLive(
       long duration, TimeUnit unit);
 
   /*

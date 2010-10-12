@@ -16,8 +16,6 @@
 
 package com.google.common.collect;
 
-import static com.google.common.base.Preconditions.checkArgument;
-
 import com.google.common.annotations.GwtCompatible;
 
 /**
@@ -41,27 +39,5 @@ final class Hashing {
   static int smear(int hashCode) {
     hashCode ^= (hashCode >>> 20) ^ (hashCode >>> 12);
     return hashCode ^ (hashCode >>> 7) ^ (hashCode >>> 4);
-  }
-
-  // We use power-of-2 tables, and this is the highest int that's a power of 2
-  private static final int MAX_TABLE_SIZE = 1 << 30;
-
-  // If the set has this many elements, it will "max out" the table size
-  private static final int CUTOFF = 1 << 29;
-
-  /**
-   * Returns an array size suitable for the backing array of a hash table that
-   * uses linear probing in its implementation.  The returned size is the
-   * smallest power of two that can hold setSize elements while being at most
-   * 50% full, if possible.
-   */
-  static int chooseTableSize(int setSize) {
-    if (setSize < CUTOFF) {
-      return Integer.highestOneBit(setSize) << 2;
-    }
-
-    // The table can't be completely full or we'll get infinite reprobes
-    checkArgument(setSize < MAX_TABLE_SIZE, "collection too large");
-    return MAX_TABLE_SIZE;
   }
 }

@@ -27,9 +27,9 @@ import com.google.common.base.Objects;
  */
 @Beta
 @GwtCompatible
-public final class MoreAsserts {
+public final class GuavaAsserts {
 
-  private MoreAsserts() { }
+  private GuavaAsserts() { }
 
   /**
    * Utility for testing equals() and hashCode() results at once.
@@ -54,9 +54,9 @@ public final class MoreAsserts {
     }
 
     if ((lhs == null) || (rhs == null)) {
-      Assert.assertFalse(
+      Assert.assertTrue(
           "Your check is dubious...why would you expect an object "
-          + "to be equal to null?", expectedResult);
+          + "to be equal to null?", !expectedResult);
     }
 
     if (lhs != null) {

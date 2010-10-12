@@ -19,7 +19,7 @@ package com.google.common.collect;
 import com.google.common.annotations.GwtCompatible;
 
 /**
- * Wraps an exception that occured during a computation.
+ * Wraps an exception that occurred during a computation.
  */
 @GwtCompatible
 public class ComputationException extends RuntimeException {

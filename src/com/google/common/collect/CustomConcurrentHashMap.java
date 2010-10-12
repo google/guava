@@ -154,20 +154,23 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
   /** Strategy for referencing values. */
   final Strength valueStrength;
 
-  /** How long the map retains values in ns. */
-  final long expirationNanos;
-
-  /** True if expiration is enabled. */
-  final boolean expires;
+  /**
+   * How long after the last access to an entry the map will retain that
+   * entry.
+   */
+  final long expireAfterReadNanos;
 
   /**
-   * The maximum size of this map. MapMaker.UNSET_MAXIMUM_SIZE if there is no
+   * How long after the last write to an entry the map will retain that
+   * entry.
+   */
+  final long expireAfterWriteNanos;
+
+  /**
+   * The maximum size of this map. MapMaker.UNSET_INT if there is no
    * maximum.
    */
   final int maximumSize;
-
-  /** True if size-based eviction is enabled. */
-  final boolean evicts;
 
   /** Entries waiting to be consumed by the eviction listener. */
   final Queue<ReferenceEntry<K, V>> pendingEvictionNotifications;
@@ -195,13 +198,19 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
     keyEquivalence = builder.getKeyEquivalence();
     valueEquivalence = builder.getValueEquivalence();
 
-    expirationNanos = builder.getExpirationNanos();
+    // MapMaker ensures that timeToLive and timeToIdle are mutually exclusive
+    expireAfterReadNanos = builder.getTimeToIdleNanos();
+    if (expiresAfterRead()) {
+      expireAfterWriteNanos = expireAfterReadNanos;
+    } else {
+      expireAfterWriteNanos = builder.getTimeToLiveNanos();
+    }
+
     maximumSize = builder.maximumSize;
+    boolean evictsBySize = evictsBySize();
 
-    evicts = maximumSize != MapMaker.UNSET_MAXIMUM_SIZE;
-    expires = expirationNanos > 0;
-
-    entryFactory = EntryFactory.getFactory(keyStrength, expires, evicts);
+    entryFactory =
+        EntryFactory.getFactory(keyStrength, expiresAfterWrite(), evictsBySize);
 
     MapEvictionListener<? super K, ? super V> evictionListener =
         builder.evictionListener;
@@ -235,7 +244,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
     int segmentShift = 0;
     int segmentCount = 1;
     while (segmentCount < concurrencyLevel
-        && (!evicts || segmentCount * 2 <= maximumSize)) {
+        && (!evictsBySize || segmentCount * 2 <= maximumSize)) {
       ++segmentShift;
       segmentCount <<= 1;
     }
@@ -254,7 +263,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
       segmentSize <<= 1;
     }
 
-    if (evicts) {
+    if (evictsBySize) {
       // Ensure sum of segment max sizes = overall max size
       int maximumSegmentSize = maximumSize / segmentCount + 1;
       int remainder = maximumSize % segmentCount;
@@ -262,14 +271,26 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
         if (i == remainder) {
           maximumSegmentSize--;
         }
-        this.segments[i] = new Segment(segmentSize, maximumSegmentSize);
+        this.segments[i] = createSegment(segmentSize, maximumSegmentSize);
       }
     } else {
       for (int i = 0; i < this.segments.length; ++i) {
-        this.segments[i] = new Segment(segmentSize,
-            MapMaker.UNSET_MAXIMUM_SIZE);
+        this.segments[i] = createSegment(segmentSize,
+            MapMaker.UNSET_INT);
       }
     }
+  }
+
+  boolean evictsBySize() {
+    return maximumSize != MapMaker.UNSET_INT;
+  }
+
+  boolean expiresAfterWrite() {
+    return expireAfterWriteNanos > 0;
+  }
+
+  boolean expiresAfterRead() {
+    return expireAfterReadNanos > 0;
   }
 
   /**
@@ -505,9 +526,9 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
     };
 
     static EntryFactory getFactory(Strength keyStrength,
-        boolean expires, boolean evicts) {
-      int flags = (expires ? EXPIRABLE_MASK : 0)
-          | (evicts ? EVICTABLE_MASK : 0);
+        boolean expireAfterWrite, boolean evictsBySize) {
+      int flags = (expireAfterWrite ? EXPIRABLE_MASK : 0)
+          | (evictsBySize ? EVICTABLE_MASK : 0);
       return factories[keyStrength.ordinal()][flags];
     }
 
@@ -541,7 +562,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
         ReferenceEntry<K, V> original, ReferenceEntry<K, V> newEntry) {
       Expirable originalExpirable = (Expirable) original;
       Expirable newExpirable = (Expirable) newEntry;
-      newExpirable.setWriteTime(originalExpirable.getWriteTime());
+      newExpirable.setExpirationTime(originalExpirable.getExpirationTime());
 
       connectExpirables(originalExpirable.getPreviousExpirable(), newExpirable);
       connectExpirables(newExpirable, originalExpirable.getNextExpirable());
@@ -652,6 +673,9 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
     K getKey();
   }
 
+  // TODO(kevinb): push Expirable and Evictable methods into ReferenceEntry to
+  // avoid casting
+
   /**
    * Implemented by entries that are expirable. Expirable entries are
    * maintained in a doubly-linked list. New entries are added at the tail
@@ -659,11 +683,11 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
    * of the list.
    */
   interface Expirable {
-    /** Gets the entry write time in ns. */
-    long getWriteTime();
+    /** Gets the entry expiration time in ns. */
+    long getExpirationTime();
 
-    /** Sets the entry write time in ns. */
-    void setWriteTime(long writeTime);
+    /** Sets the entry expiration time in ns. */
+    void setExpirationTime(long time);
 
     /** Gets the next entry in the recency list. */
     Expirable getNextExpirable();
@@ -682,11 +706,11 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
     INSTANCE;
 
     @Override
-    public long getWriteTime() {
+    public long getExpirationTime() {
       return 0;
     }
     @Override
-    public void setWriteTime(long writeTime) {}
+    public void setExpirationTime(long time) {}
 
     @Override
     public Expirable getNextExpirable() {
@@ -832,12 +856,12 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
 
     // The code below is exactly the same for each expirable entry type.
 
-    volatile long writeTime = Long.MAX_VALUE;
-    public long getWriteTime() {
-      return writeTime;
+    volatile long time = Long.MAX_VALUE;
+    public long getExpirationTime() {
+      return time;
     }
-    public void setWriteTime(long writeTime) {
-      this.writeTime = writeTime;
+    public void setExpirationTime(long time) {
+      this.time = time;
     }
 
     @GuardedBy("Segment.this")
@@ -896,12 +920,12 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
 
     // The code below is exactly the same for each expirable entry type.
 
-    volatile long writeTime = Long.MAX_VALUE;
-    public long getWriteTime() {
-      return writeTime;
+    volatile long time = Long.MAX_VALUE;
+    public long getExpirationTime() {
+      return time;
     }
-    public void setWriteTime(long writeTime) {
-      this.writeTime = writeTime;
+    public void setExpirationTime(long time) {
+      this.time = time;
     }
 
     @GuardedBy("Segment.this")
@@ -1004,12 +1028,12 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
 
     // The code below is exactly the same for each expirable entry type.
 
-    volatile long writeTime = Long.MAX_VALUE;
-    public long getWriteTime() {
-      return writeTime;
+    volatile long time = Long.MAX_VALUE;
+    public long getExpirationTime() {
+      return time;
     }
-    public void setWriteTime(long writeTime) {
-      this.writeTime = writeTime;
+    public void setExpirationTime(long time) {
+      this.time = time;
     }
 
     @GuardedBy("Segment.this")
@@ -1068,12 +1092,12 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
 
     // The code below is exactly the same for each expirable entry type.
 
-    volatile long writeTime = Long.MAX_VALUE;
-    public long getWriteTime() {
-      return writeTime;
+    volatile long time = Long.MAX_VALUE;
+    public long getExpirationTime() {
+      return time;
     }
-    public void setWriteTime(long writeTime) {
-      this.writeTime = writeTime;
+    public void setExpirationTime(long time) {
+      this.time = time;
     }
 
     @GuardedBy("Segment.this")
@@ -1176,12 +1200,12 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
 
     // The code below is exactly the same for each expirable entry type.
 
-    volatile long writeTime = Long.MAX_VALUE;
-    public long getWriteTime() {
-      return writeTime;
+    volatile long time = Long.MAX_VALUE;
+    public long getExpirationTime() {
+      return time;
     }
-    public void setWriteTime(long writeTime) {
-      this.writeTime = writeTime;
+    public void setExpirationTime(long time) {
+      this.time = time;
     }
 
     @GuardedBy("Segment.this")
@@ -1240,12 +1264,12 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
 
     // The code below is exactly the same for each expirable entry type.
 
-    volatile long writeTime = Long.MAX_VALUE;
-    public long getWriteTime() {
-      return writeTime;
+    volatile long time = Long.MAX_VALUE;
+    public long getExpirationTime() {
+      return time;
     }
-    public void setWriteTime(long writeTime) {
-      this.writeTime = writeTime;
+    public void setExpirationTime(long time) {
+      this.time = time;
     }
 
     @GuardedBy("Segment.this")
@@ -1451,8 +1475,8 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
    * Returns true if the given entry has expired.
    */
   boolean isExpired(Expirable expirable, long now) {
-    // Avoid overflow.
-    return now - expirable.getWriteTime() > expirationNanos;
+    // if the expiration time had overflowed, this "undoes" the overflow
+    return now - expirable.getExpirationTime() > 0;
   }
 
   /**
@@ -1463,7 +1487,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
    */
   V getUnexpiredValue(ReferenceEntry<K, V> e) {
     V value = e.getValueReference().get();
-    return (expires && isExpired(e)) ? null : value;
+    return (expiresAfterWrite() && isExpired(e)) ? null : value;
   }
 
   // eviction
@@ -1519,6 +1543,10 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
     return segments[(hash >>> segmentShift) & segmentMask];
   }
 
+  Segment createSegment(int initialCapacity, int maxSegmentSize) {
+    return new Segment(initialCapacity, maxSegmentSize);
+  }
+
   /* ---------------- Inner Classes -------------- */
 
   /**
@@ -1527,11 +1555,12 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
    * avoid separate construction.
    */
   @SuppressWarnings("serial") // This class is never serialized.
-  final class Segment extends ReentrantLock {
+  class Segment extends ReentrantLock {
 
     /*
-     * TODO(user): Consider copying variables (like evicts) from outer class into
-     * this class. It will require more memory but will reduce indirection.
+     * TODO(user): Consider copying variables (like evictsBySize) from outer
+     * class into this class. It will require more memory but will reduce
+     * indirection.
      */
 
     /*
@@ -1597,18 +1626,18 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
     volatile AtomicReferenceArray<ReferenceEntry<K, V>> table;
 
     /**
-     * The maximum size of this map. MapMaker.UNSET_MAXIMUM_SIZE if there is no
+     * The maximum size of this map. MapMaker.UNSET_INT if there is no
      * maximum.
      */
     final int maxSegmentSize;
 
     /**
      * The recency queue is used to record which entries were accessed
-     * for updating the eviction list's ordering. It is drained as a batch
-     * operation when either the RECENCY_THRESHOLD is crossed or a write
-     * occurs on the segment.
+     * for updating the eviction list's ordering. It is drained
+     * as a batch operation when either the RECENCY_THRESHOLD is crossed or
+     * a write occurs on the segment.
      */
-    final Queue<Evictable> recencyQueue;
+    final Queue<ReferenceEntry<K, V>> recencyQueue;
 
     /** The size of {@code recencyQueue}. */
     final AtomicInteger recencyQueueLength;
@@ -1637,10 +1666,10 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
 
     /** The head of the expiration queue. */
     final Expirable expirationHead = new Expirable() {
-      public long getWriteTime() {
+      public long getExpirationTime() {
         return Long.MAX_VALUE;
       }
-      public void setWriteTime(long writeTime) {}
+      public void setExpirationTime(long time) {}
 
       @GuardedBy("Segment.this")
       Expirable nextExpirable = this;
@@ -1665,8 +1694,8 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
       setTable(newEntryArray(initialCapacity));
       this.maxSegmentSize = maxSegmentSize;
 
-      if (evicts) {
-        recencyQueue = new ConcurrentLinkedQueue<Evictable>();
+      if (evictsBySize() || expiresAfterWrite()) {
+        recencyQueue = new ConcurrentLinkedQueue<ReferenceEntry<K, V>>();
         recencyQueueLength = new AtomicInteger();
       } else {
         recencyQueue = null;
@@ -1682,28 +1711,103 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
      * Sets a new value of an entry. Adds newly created entries at the end
      * of the expiration queue.
      */
-    @GuardedBy("Segment.this") // if expires
-    void setValue(ReferenceEntry<K, V> entry, V value, boolean inserted) {
-      if (expires) {
-        Expirable expirable = (Expirable) entry;
-        addExpirable(expirable);
-      }
-      if (evicts) {
-        Evictable evictable = (Evictable) entry;
-        addEvictableOnWrite(evictable);
+    @GuardedBy("Segment.this")
+    void setValue(ReferenceEntry<K, V> entry, V value) {
+      // Note: this if is mirrored in ComputingConcurrentHashMap.
+      if (evictsBySize() || expiresAfterWrite()) {
+        checkState(isLocked());
+        recordWrite(entry);
       }
       setValueReference(entry, valueStrength.referenceValue(entry, value));
+    }
+
+    // recency queue, shared by expiration and eviction
+
+    /**
+     * Records the relative order in which this read was performed by adding
+     * {@code entry} to the recency queue. At write-time, or when the queue is
+     * full past the threshold, the queue will be drained and the entries
+     * therein processed.
+     */
+    void recordRead(ReferenceEntry<K, V> entry) {
+      // TODO(user): update timestamp without reordering eviction lists?
+      recencyQueue.add(entry);
+      // we are not under lock, so only drain the recency queue if full
+      if (recencyQueueLength.incrementAndGet() > RECENCY_THRESHOLD) {
+        if (tryLock()) {
+          try {
+            drainRecencyQueue();
+          } finally {
+            unlock();
+          }
+        }
+      }
+    }
+
+    /**
+     * Updates eviction metadata that {@code entry} was just written. This
+     * currently amounts to adding {@code entry} to relevant expiration lists.
+     */
+    @GuardedBy("Segment.this")
+    void recordWrite(ReferenceEntry<K, V> entry) {
+      // we are already under lock, so drain the recency queue immediately
+      drainRecencyQueue();
+      if (entry instanceof Evictable) {
+        addEvictable((Evictable) entry);
+      }
+      if (entry instanceof Expirable) {
+        addExpirable((Expirable) entry, expireAfterWriteNanos);
+      }
+    }
+
+    /**
+     * Drains the recency queue, updating eviction metadata that the entries
+     * therein were read in the specified relative order. This currently amounts
+     * to adding them to relevant expiration lists (accounting for the fact that
+     * they could have been removed from the map since being added to the
+     * recency queue).
+     */
+    @GuardedBy("Segment.this")
+    void drainRecencyQueue() {
+      // While the recency queue is being drained it may be concurrently
+      // appended to. The number of elements removed are tracked so that the
+      // length can be decremented by the delta rather than set to zero.
+      int drained = 0;
+      ReferenceEntry<K, V> entry;
+      while ((entry = recencyQueue.poll()) != null) {
+        // An entry may be in the recency queue despite it being removed from
+        // the map . This can occur when the entry was concurrently read while a
+        // writer is removing it from the segment or after a clear has removed
+        // all of the segment's entries.
+
+        if (entry instanceof Evictable) {
+          Evictable evictable = (Evictable) entry;
+          if (inEvictionList(evictable)) {
+            addEvictable(evictable);
+          }
+        }
+
+        if (entry instanceof Expirable) {
+          Expirable expirable = (Expirable) entry;
+          if (inExpirationList(expirable)) {
+            addExpirable(expirable, expireAfterReadNanos);
+          }
+        }
+        drained++;
+      }
+      recencyQueueLength.addAndGet(-drained);
     }
 
     // expiration
 
     @GuardedBy("Segment.this")
-    void addExpirable(Expirable expirable) {
+    void addExpirable(Expirable expirable, long expirationNanos) {
       // unlink
       connectExpirables(expirable.getPreviousExpirable(),
           expirable.getNextExpirable());
 
-      expirable.setWriteTime(System.nanoTime());
+      // might overflow, but that's okay (see isExpired())
+      expirable.setExpirationTime(System.nanoTime() + expirationNanos);
 
       // add to tail
       connectExpirables(expirationHead.getPreviousExpirable(), expirable);
@@ -1717,11 +1821,15 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
       nullifyExpirable(expirable);
     }
 
-    /**
-     * Removes expired entries.
-     */
+    @GuardedBy("Segment.this")
+    boolean inExpirationList(Expirable expirable) {
+      return expirable.getNextExpirable() != NullExpirable.INSTANCE;
+    }
+
     @GuardedBy("Segment.this")
     void expireEntries() {
+      drainRecencyQueue();
+
       Expirable expirable = expirationHead.getNextExpirable();
       if (expirable == expirationHead) {
         // There's no point in calling nanoTime() if we have no entries to
@@ -1762,8 +1870,8 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
      */
     @GuardedBy("Segment.this")
     void evictEntry() {
-      // drain recency queue to have maximal information
       drainRecencyQueue();
+
       Evictable evictable = evictionHead.getNextEvictable();
       checkState(evictable != evictionHead);
 
@@ -1778,50 +1886,6 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
       }
     }
 
-    @GuardedBy("Segment.this")
-    void addEvictableOnWrite(Evictable added) {
-      // we are already under lock, so drain the recency queue immediately
-      drainRecencyQueue();
-      addEvictable(added);
-    }
-
-    void addEvictableOnRead(Evictable added) {
-      recencyQueue.add(added);
-      // we are not under lock, so only drian the recency queue if full
-      if (recencyQueueLength.incrementAndGet() > RECENCY_THRESHOLD) {
-        if (tryLock()) {
-          try {
-            drainRecencyQueue();
-          } finally {
-            unlock();
-          }
-        }
-      }
-    }
-
-    @GuardedBy("Segment.this")
-    void drainRecencyQueue() {
-      // While the recency queue is being drained it may be concurrently
-      // appended to. The number of elements removed are tracked so that the
-      // length can be decremented by the delta rather than set to zero.
-      int drained = 0;
-      Evictable evictable;
-      while ((evictable = recencyQueue.poll()) != null) {
-        // An entry may be in the recency queue despite it being
-        // removed from the map and eviciton list. This can occur when the
-        // entry was concurrently read while a writer is removing it from the
-        // segment or after a clear has removed all of the segment's entries.
-        // If the entry is no longer in the recency dequeue then it does not
-        // need to be processed.
-        if (inEvictionList(evictable)) {
-          addEvictable(evictable);
-        }
-        drained++;
-      }
-      recencyQueueLength.addAndGet(-drained);
-    }
-
-    /** Moves the entry to the tail of the eviction list. */
     @GuardedBy("Segment.this")
     void addEvictable(Evictable evictable) {
       if (evictable.getNextEvictable() != evictionHead) {
@@ -1842,7 +1906,6 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
       nullifyEvictable(evictable);
     }
 
-    /** Whether the entry is linked on the eviction list. */
     @GuardedBy("Segment.this")
     boolean inEvictionList(Evictable evictable) {
       return (evictable.getNextEvictable() != NullEvictable.INSTANCE);
@@ -1899,11 +1962,11 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
           }
 
           if (keyEquivalence.equivalent(key, entryKey)) {
-            if (expires && isExpired(e)) {
+            if (expiresAfterWrite() && isExpired(e)) {
               continue;
             }
-            if (evicts) {
-              addEvictableOnRead((Evictable) e);
+            if (evictsBySize() || expiresAfterRead()) {
+              recordRead(e);
             }
             return e;
           }
@@ -1970,7 +2033,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
       checkNotNull(newValue);
       lock();
       try {
-        if (expires) {
+        if (expiresAfterWrite()) {
           expireEntries();
         }
 
@@ -1987,13 +2050,13 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
             }
 
             if (valueEquivalence.equivalent(oldValue, entryValue)) {
-              setValue(e, newValue, false);
+              setValue(e, newValue);
               return true;
             } else {
               // Mimic
               // "if (map.containsKey(key) && map.get(key).equals(oldValue))..."
-              if (evicts) {
-                addEvictableOnWrite((Evictable) e);
+              if (evictsBySize() || expiresAfterWrite()) {
+                recordWrite(e);
               }
             }
           }
@@ -2010,7 +2073,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
       checkNotNull(newValue);
       lock();
       try {
-        if (expires) {
+        if (expiresAfterWrite()) {
           expireEntries();
         }
 
@@ -2026,7 +2089,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
               return null;
             }
 
-            setValue(e, newValue, false);
+            setValue(e, newValue);
             return entryValue;
           }
         }
@@ -2042,7 +2105,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
       checkNotNull(value);
       lock();
       try {
-        if (expires) {
+        if (expiresAfterWrite()) {
           expireEntries();
         }
 
@@ -2068,18 +2131,18 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
             V entryValue = e.getValueReference().get();
             boolean absent = (entryValue == null);
             if (onlyIfAbsent && !absent) {
-              if (evicts) {
-                addEvictableOnWrite((Evictable) e);
+              if (evictsBySize() || expiresAfterWrite()) {
+                recordWrite(e);
               }
               return entryValue;
             }
 
-            setValue(e, value, absent);
+            setValue(e, value);
             return entryValue;
           }
         }
 
-        if (evicts && newCount > maxSegmentSize) {
+        if (evictsBySize() && newCount > maxSegmentSize) {
           evictEntry();
           // this.count just changed; read it again
           newCount = this.count + 1;
@@ -2090,7 +2153,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
         ++modCount;
         ReferenceEntry<K, V> newEntry = entryFactory.newEntry(
             CustomConcurrentHashMap.this, key, hash, first);
-        setValue(newEntry, value, true);
+        setValue(newEntry, value);
         table.set(index, newEntry);
         this.count = newCount; // write-volatile
         return null;
@@ -2208,7 +2271,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
       checkNotNull(value);
       lock();
       try {
-        if (expires) {
+        if (expiresAfterWrite()) {
           expireEntries();
         }
 
@@ -2319,10 +2382,10 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
     @GuardedBy("Segment.this")
     private ReferenceEntry<K, V> removeFromTable(ReferenceEntry<K, V> first,
         ReferenceEntry<K, V> removed) {
-      if (expires) {
+      if (expiresAfterWrite()) {
         removeExpirable((Expirable) removed);
       }
-      if (evicts) {
+      if (evictsBySize()) {
         removeEvictable((Evictable) removed);
       }
 
@@ -2519,7 +2582,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
 
   @Override public V remove(Object key) {
     int hash = hash(key);
-    return segmentFor(hash).remove(key, hash, expires);
+    return segmentFor(hash).remove(key, hash, expiresAfterWrite());
   }
 
   /**
@@ -2852,7 +2915,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
 
   Object writeReplace() {
     return new SerializationProxy<K, V>(keyStrength, valueStrength,
-        keyEquivalence, valueEquivalence, expirationNanos, maximumSize,
+        keyEquivalence, valueEquivalence, expireAfterWriteNanos, maximumSize,
         concurrencyLevel, evictionListener, this);
   }
 
@@ -2869,7 +2932,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
     final Strength valueStrength;
     final Equivalence<Object> keyEquivalence;
     final Equivalence<Object> valueEquivalence;
-    final long expirationNanos;
+    final long expireAfterWriteNanos;
     final int maximumSize;
     final int concurrencyLevel;
     final MapEvictionListener<? super K, ? super V> evictionListener;
@@ -2880,14 +2943,14 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
         Strength valueStrength,
         Equivalence<Object> keyEquivalence,
         Equivalence<Object> valueEquivalence,
-        long expirationNanos, int maximumSize, int concurrencyLevel,
+        long expireAfterWriteNanos, int maximumSize, int concurrencyLevel,
         MapEvictionListener<? super K, ? super V> evictionListener,
         ConcurrentMap<K, V> delegate) {
       this.keyStrength = keyStrength;
       this.valueStrength = valueStrength;
       this.keyEquivalence = keyEquivalence;
       this.valueEquivalence = valueEquivalence;
-      this.expirationNanos = expirationNanos;
+      this.expireAfterWriteNanos = expireAfterWriteNanos;
       this.maximumSize = maximumSize;
       this.concurrencyLevel = concurrencyLevel;
       this.evictionListener = evictionListener;
@@ -2918,11 +2981,12 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
           .privateValueEquivalence(valueEquivalence)
           .concurrencyLevel(concurrencyLevel);
       mapMaker.evictionListener(evictionListener);
-      if (expirationNanos != 0) {
-        // expiration() throws an exception if you pass 0.
-        mapMaker.expiration(expirationNanos, TimeUnit.NANOSECONDS);
+      // TODO(user): read/write expireAfterReadNanos, and increment
+      // serialVersionUIDs
+      if (expireAfterWriteNanos > 0) {
+        mapMaker.timeToLive(expireAfterWriteNanos, TimeUnit.NANOSECONDS);
       }
-      if (maximumSize != MapMaker.UNSET_MAXIMUM_SIZE) {
+      if (maximumSize != MapMaker.UNSET_INT) {
         mapMaker.maximumSize(maximumSize);
       }
       return mapMaker;
@@ -2955,14 +3019,14 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
         Strength valueStrength,
         Equivalence<Object> keyEquivalence,
         Equivalence<Object> valueEquivalence,
-        long expirationNanos,
+        long expireAfterWriteNanos,
         int maximumSize,
         int concurrencyLevel,
         MapEvictionListener<? super K, ? super V> evictionListener,
         ConcurrentMap<K, V> delegate) {
       super(keyStrength, valueStrength, keyEquivalence, valueEquivalence,
-          expirationNanos, maximumSize, concurrencyLevel, evictionListener,
-          delegate);
+          expireAfterWriteNanos, maximumSize, concurrencyLevel,
+          evictionListener, delegate);
     }
 
     private void writeObject(ObjectOutputStream out) throws IOException {

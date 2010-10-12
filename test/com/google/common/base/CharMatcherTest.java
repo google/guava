@@ -26,7 +26,7 @@ import junit.framework.TestCase;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
-import com.google.common.testing.AssertionFailedError;
+import com.google.common.testing.Assert;
 import com.google.common.testing.NullPointerTester;
 
 /**
@@ -47,7 +47,8 @@ public class CharMatcherTest extends TestCase {
 
   private static final CharMatcher WHATEVER = new CharMatcher() {
     @Override public boolean matches(char c) {
-      throw new AssertionFailedError("You weren't supposed to actually invoke me!");
+      Assert.fail("You weren't supposed to actually invoke me!");
+      return false; // never actually reached
     }
   };
 

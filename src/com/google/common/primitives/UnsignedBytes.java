@@ -199,11 +199,12 @@ public final class UnsignedBytes {
    * <p>Uses reflection to gracefully fall back to the Java implementation if
    * {@code Unsafe} isn't available.
    */
-  private static class LexicographicalComparatorHolder {
-    static final Comparator<byte[]> BEST_COMPARATOR = getBestComparator();
-
+  @VisibleForTesting
+  static class LexicographicalComparatorHolder {
     static final String UNSAFE_COMPARATOR_NAME =
         LexicographicalComparatorHolder.class.getName() + "$UnsafeComparator";
+
+    static final Comparator<byte[]> BEST_COMPARATOR = getBestComparator();
 
     @SuppressWarnings("unused") // only access this class via reflection!
     enum UnsafeComparator implements Comparator<byte[]> {

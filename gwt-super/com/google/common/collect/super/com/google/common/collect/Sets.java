@@ -676,12 +676,11 @@ public final class Sets {
    * the other.
    *
    * <p>The resulting set's iterator does not support {@code remove()}, but all
-   * other set methods are supported. The set's {@code add()} and
-   * {@code addAll()} methods throw an {@link IllegalArgumentException} if an
-   * element that doesn't satisfy the predicate is provided. When methods such
-   * as {@code removeAll()} and {@code clear()} are called on the filtered set,
-   * only elements that satisfy the filter will be removed from the underlying
-   * collection.
+   * other set methods are supported. When given an element that doesn't satisfy
+   * the predicate, the set's {@code add()} and {@code addAll()} methods throw
+   * an {@link IllegalArgumentException}. When methods such as {@code
+   * removeAll()} and {@code clear()} are called on the filtered set, only
+   * elements that satisfy the filter will be removed from the underlying set.
    *
    * <p>The returned set isn't threadsafe or serializable, even if
    * {@code unfiltered} is.
@@ -1014,7 +1013,7 @@ public final class Sets {
     }
 
     @Override public Iterator<Set<E>> iterator() {
-      return new AbstractIndexedIterator<Set<E>>(powerSetSize) {
+      return new AbstractIndexedListIterator<Set<E>>(powerSetSize) {
         @Override protected Set<E> get(final int setBits) {
           return new AbstractSet<E>() {
             @Override public int size() {

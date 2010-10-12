@@ -131,6 +131,26 @@ public final class Futures {
   }
 
   /**
+   * Creates a {@link ListenableFuture} out of a normal {@link Future} and uses
+   * the given {@link Executor} to get the value of the Future. The
+   * returned future will create a thread using the given executor to wait for
+   * the source future to complete before executing the listeners.
+   *
+   * <p>Callers who have a future that subclasses
+   * {@link java.util.concurrent.FutureTask} may want to instead subclass
+   * {@link ListenableFutureTask}, which adds the {@link ListenableFuture}
+   * functionality to the standard {@code FutureTask} implementation.
+   */
+  public static <V> ListenableFuture<V> makeListenable(
+      Future<V> future, Executor executor) {
+    checkNotNull(executor);
+    if (future instanceof ListenableFuture<?>) {
+      return (ListenableFuture<V>) future;
+    }
+    return new ListenableFutureAdapter<V>(future, executor);
+  }
+
+  /**
    * Creates a {@link CheckedFuture} out of a normal {@link Future} and a
    * {@link Function} that maps from {@link Exception} instances into the
    * appropriate checked type.
@@ -694,8 +714,10 @@ public final class Futures {
   private static class ListenableFutureAdapter<V> extends ForwardingFuture<V>
       implements ListenableFuture<V> {
 
-    private static final Executor adapterExecutor =
+    private static final Executor defaultAdapterExecutor =
         Executors.newCachedThreadPool();
+
+    private final Executor adapterExecutor;
 
     // The execution list to hold our listeners.
     private final ExecutionList executionList = new ExecutionList();
@@ -707,8 +729,13 @@ public final class Futures {
     // The delegate future.
     private final Future<V> delegate;
 
-    ListenableFutureAdapter(final Future<V> delegate) {
+    ListenableFutureAdapter(Future<V> delegate) {
+      this(delegate, defaultAdapterExecutor);
+    }
+
+    ListenableFutureAdapter(Future<V> delegate, Executor adapterExecutor) {
       this.delegate = checkNotNull(delegate);
+      this.adapterExecutor = checkNotNull(adapterExecutor);
     }
 
     @Override

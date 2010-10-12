@@ -47,12 +47,12 @@ public final class Collections2 {
    * affect the other.
    *
    * <p>The resulting collection's iterator does not support {@code remove()},
-   * but all other collection methods are supported. The collection's
-   * {@code add()} and {@code addAll()} methods throw an
-   * {@link IllegalArgumentException} if an element that doesn't satisfy the
-   * predicate is provided. When methods such as {@code removeAll()} and
-   * {@code clear()} are called on the filtered collection, only elements that
-   * satisfy the filter will be removed from the underlying collection.
+   * but all other collection methods are supported. When given an element that
+   * doesn't satisfy the predicate, the collection's {@code add()} and {@code
+   * addAll()} methods throw an {@link IllegalArgumentException}. When methods
+   * such as {@code removeAll()} and {@code clear()} are called on the filtered
+   * collection, only elements that satisfy the filter will be removed from the
+   * underlying collection.
    *
    * <p>The returned collection isn't threadsafe or serializable, even if
    * {@code unfiltered} is.

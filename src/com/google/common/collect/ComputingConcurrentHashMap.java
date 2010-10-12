@@ -53,84 +53,142 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V>
     return this;
   }
 
-  public V apply(K key) {
-    checkNotNull(key);
+  @Override Segment createSegment(int initialCapacity, int maxSegmentSize) {
+    return new ComputingSegment(initialCapacity, maxSegmentSize);
+  }
 
+  @SuppressWarnings("unchecked") // explain
+  @Override ComputingSegment segmentFor(int hash) {
+    return (ComputingSegment) super.segmentFor(hash);
+  }
+
+  public V apply(K key) {
     int hash = hash(key);
-    Segment segment = segmentFor(hash);
-    outer: while (true) {
-      ReferenceEntry<K, V> entry = segment.getEntry(key, hash);
-      if (entry == null) {
-        boolean created = false;
-        segment.lock();
-        try {
-          if (expires) {
-            segment.expireEntries();
+    return segmentFor(hash).compute(key, hash);
+  }
+
+  @SuppressWarnings("serial") // This class is never serialized.
+  class ComputingSegment extends Segment {
+    ComputingSegment(int initialCapacity, int maxSegmentSize) {
+      super(initialCapacity, maxSegmentSize);
+    }
+
+    V compute(K key, int hash) {
+      outer: while (true) {
+        ReferenceEntry<K, V> entry = getEntry(key, hash);
+        if (entry == null) {
+          boolean created = false;
+          lock();
+          try {
+            if (expiresAfterWrite()) {
+              expireEntries();
+            }
+
+            // Try again--an entry could have materialized in the interim.
+            entry = getEntry(key, hash);
+            if (entry == null) {
+              // Create a new entry.
+              created = true;
+              int newCount = this.count + 1; // read-volatile
+              if (evictsBySize() && newCount > maxSegmentSize) {
+                evictEntry();
+                newCount = this.count + 1; // read-volatile
+              } else if (newCount > threshold) { // ensure capacity
+                expand();
+              }
+              AtomicReferenceArray<ReferenceEntry<K, V>> table = this.table;
+              int index = hash & (table.length() - 1);
+              ReferenceEntry<K, V> first = table.get(index);
+              ++modCount;
+              entry = entryFactory.newEntry(
+                  ComputingConcurrentHashMap.this, key, hash, first);
+              table.set(index, entry);
+              this.count = newCount; // write-volatile
+            }
+          } finally {
+            unlock();
           }
 
-          // Try again--an entry could have materialized in the interim.
-          entry = segment.getEntry(key, hash);
-          if (entry == null) {
-            // Create a new entry.
-            created = true;
-            int newCount = segment.count + 1;
-            if (evicts && newCount > segment.maxSegmentSize) {
-              segment.evictEntry();
-              // segment.count just changed; read it again
-              newCount = segment.count + 1;
-            } else if (newCount > segment.threshold) { // ensure capacity
-              segment.expand();
+          if (created) {
+            // This thread solely created the entry.
+            boolean success = false;
+            try {
+              V value = compute(key, entry);
+              checkNotNull(value, "compute() returned null unexpectedly");
+              success = true;
+              return value;
+            } finally {
+              if (!success) {
+                removeEntry(entry, hash);
+              }
             }
-            AtomicReferenceArray<ReferenceEntry<K, V>> table = segment.table;
-            int index = hash & (table.length() - 1);
-            ReferenceEntry<K, V> first = table.get(index);
-            ++segment.modCount;
-            entry = entryFactory.newEntry(this, key, hash, first);
-            table.set(index, entry);
-            segment.count = newCount; // write-volatile
+          }
+        }
+
+        // The entry already exists. Wait for the computation.
+        boolean interrupted = false;
+        try {
+          while (true) {
+            try {
+              V value = waitForValue(entry);
+              if (value == null) {
+                // Purge entry and try again.
+                removeEntry(entry, hash);
+                continue outer;
+              }
+              return value;
+            } catch (InterruptedException e) {
+              interrupted = true;
+            }
           }
         } finally {
-          segment.unlock();
-        }
-
-        if (created) {
-          // This thread solely created the entry.
-          boolean success = false;
-          try {
-            V value = compute(segment, key, entry);
-            checkNotNull(value,
-                "compute() returned null unexpectedly");
-            success = true;
-            return value;
-          } finally {
-            if (!success) {
-              segment.removeEntry(entry, hash);
-            }
+          if (interrupted) {
+            Thread.currentThread().interrupt();
           }
         }
       }
+    }
 
-      // The entry already exists. Wait for the computation.
-      boolean interrupted = false;
+    V compute(K key, ReferenceEntry<K, V> entry) {
+      V value;
       try {
-        while (true) {
-          try {
-            V value = waitForValue(entry);
-            if (value == null) {
-              // Purge entry and try again.
-              segment.removeEntry(entry, hash);
-              continue outer;
-            }
-            return value;
-          } catch (InterruptedException e) {
-            interrupted = true;
-          }
-        }
-      } finally {
-        if (interrupted) {
-          Thread.currentThread().interrupt();
-        }
+        value = computingFunction.apply(key);
+      } catch (ComputationException e) {
+        // if computingFunction has thrown a computation exception,
+        // propagate rather than wrap
+        // TODO(user): If we remove the entry before setting the value reference,
+        // if the caller retries, they'll get the result of a different
+        // rather than the same result.
+        setValueReference(entry,
+            new ComputationExceptionReference<K, V>(e.getCause()));
+        throw e;
+      } catch (Throwable t) {
+        setValueReference(entry, new ComputationExceptionReference<K, V>(t));
+        throw new ComputationException(t);
       }
+
+      if (value == null) {
+        String message =
+            computingFunction + " returned null for key " + key + ".";
+        // TODO(user): If we remove the entry before setting the value reference,
+        // if the caller retries, they'll get the result of a different
+        // rather than the same result.
+        setValueReference(entry,
+            new NullOutputExceptionReference<K, V>(message));
+        throw new NullOutputException(message);
+      }
+
+      if (evictsBySize() || expiresAfterWrite()) {
+        lock();
+        try {
+          setValue(entry, value);
+        } finally {
+          unlock();
+        }
+      } else {
+        setValue(entry, value);
+      }
+      return value;
     }
   }
 
@@ -200,48 +258,6 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V>
       throw new AsynchronousComputationException(t);
     }
     public void clear() {}
-  }
-
-  public V compute(Segment segment, K key, ReferenceEntry<K, V> entry) {
-    V value;
-    try {
-      value = computingFunction.apply(key);
-    } catch (ComputationException e) {
-      // if computingFunction has thrown a computation exception,
-      // propagate rather than wrap
-      // TODO(user): If we remove the entry before setting the value reference,
-      // if the caller retries, they'll get the result of a different
-      // rather than the same result.
-      setValueReference(entry,
-          new ComputationExceptionReference<K, V>(e.getCause()));
-      throw e;
-    } catch (Throwable t) {
-      setValueReference(entry, new ComputationExceptionReference<K, V>(t));
-      throw new ComputationException(t);
-    }
-
-    if (value == null) {
-      String message =
-          computingFunction + " returned null for key " + key + ".";
-      // TODO(user): If we remove the entry before setting the value reference,
-      // if the caller retries, they'll get the result of a different
-      // rather than the same result.
-      setValueReference(entry,
-          new NullOutputExceptionReference<K, V>(message));
-      throw new NullOutputException(message);
-    }
-
-    if (expires) {
-      segment.lock();
-      try {
-        segment.setValue(entry, value, true);
-      } finally {
-        segment.unlock();
-      }
-    } else {
-      segment.setValue(entry, value, true);
-    }
-    return value;
   }
 
   @Override ReferenceEntry<K, V> copyEntry(
@@ -325,7 +341,7 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V>
 
   @Override Object writeReplace() {
     return new ComputingSerializationProxy<K, V>(keyStrength, valueStrength,
-        keyEquivalence, valueEquivalence, expirationNanos, maximumSize,
+        keyEquivalence, valueEquivalence, expireAfterWriteNanos, maximumSize,
         concurrencyLevel, evictionListener, this, computingFunction);
   }
 
@@ -339,15 +355,15 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V>
         Strength valueStrength,
         Equivalence<Object> keyEquivalence,
         Equivalence<Object> valueEquivalence,
-        long expirationNanos,
+        long expireAfterWriteNanos,
         int maximumSize,
         int concurrencyLevel,
         MapEvictionListener<? super K, ? super V> evictionListener,
         ConcurrentMap<K, V> delegate,
         Function<? super K, ? extends V> computingFunction) {
       super(keyStrength, valueStrength, keyEquivalence, valueEquivalence,
-          expirationNanos, maximumSize, concurrencyLevel, evictionListener,
-          delegate);
+          expireAfterWriteNanos, maximumSize, concurrencyLevel,
+          evictionListener, delegate);
       this.computingFunction = computingFunction;
     }
 

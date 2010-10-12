@@ -23,6 +23,7 @@ import com.google.common.annotations.GwtCompatible;
 
 import java.io.Serializable;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -39,9 +40,11 @@ import javax.annotation.Nullable;
  * lets you easily make a "defensive copy" of a map provided to your class by a
  * caller.
  *
- * <p><b>Note</b>: Although this class is not final, it cannot be subclassed as
- * it has no public or protected constructors. Thus, instances of this class are
- * guaranteed to be immutable.
+ * <p><i>Performance notes:</i> unlike {@link HashMap}, {@code ImmutableMap} is
+ * not optimized for element types that have slow {@link Object#equals} or
+ * {@link Object#hashCode} implementations. You can get better performance by
+ * having your element type cache its own hash codes, and by making use of the
+ * cached values to short-circuit a slow {@code equals} algorithm.
  *
  * @author Jesse Wilson
  * @author Kevin Bourrillion

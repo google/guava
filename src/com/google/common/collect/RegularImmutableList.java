@@ -121,9 +121,7 @@ class RegularImmutableList<E> extends ImmutableList<E> {
   }
 
   @Override public UnmodifiableListIterator<E> listIterator(final int start) {
-    Preconditions.checkPositionIndex(start, size);
-
-    return new AbstractIndexedIterator<E>(start, size) {
+    return new AbstractIndexedListIterator<E>(size, start) {
       // The fake cast to E is safe because the creation methods only allow E's
       @SuppressWarnings("unchecked")
       @Override protected E get(int index) {

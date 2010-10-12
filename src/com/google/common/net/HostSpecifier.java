@@ -59,7 +59,7 @@ public final class HostSpecifier {
   /**
    * Returns a {@code HostSpecifier} built from the provided {@code specifier},
    * which is already known to be valid.  If the {@code specifier} might be
-   * valid, use {@link #from(String)} instead.
+   * invalid, use {@link #from(String)} instead.
    *
    * <p>The specifier must be in one of these formats:
    * <ul>
@@ -103,12 +103,12 @@ public final class HostSpecifier {
 
     final InternetDomainName domain = InternetDomainName.from(specifier);
 
-    if (domain.isUnderPublicSuffix()) {
+    if (domain.hasPublicSuffix()) {
       return new HostSpecifier(domain.name());
     }
 
     throw new IllegalArgumentException(
-        "Domain name not under a recognized TLD: " + specifier);
+        "Domain name does not have a recognized public suffix: " + specifier);
   }
 
   /**

@@ -16,6 +16,7 @@
 
 package com.google.common.base;
 
+import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.VisibleForTesting;
 
@@ -168,7 +169,7 @@ public final class Suppliers {
       implements Supplier<T>, Serializable {
     final T instance;
 
-    SupplierOfInstance(T instance) {
+    SupplierOfInstance(@Nullable T instance) {
       this.instance = instance;
     }
     public T get() {
@@ -198,5 +199,26 @@ public final class Suppliers {
       }
     }
     private static final long serialVersionUID = 0;
+  }
+
+  /**
+   * Returns a function that accepts a supplier and returns the result of
+   * invoking {@link Supplier#get} on that supplier.
+   *
+   * @since 8
+   */
+  @Beta
+  @SuppressWarnings("unchecked") // SupplierFunction works for any T.
+  public static <T> Function<Supplier<T>, T> supplierFunction() {
+    return (Function) SupplierFunction.INSTANCE;
+  }
+
+  private enum SupplierFunction implements Function<Supplier<?>, Object> {
+    INSTANCE;
+
+    @Override
+    public Object apply(Supplier<?> input) {
+      return input.get();
+    }
   }
 }

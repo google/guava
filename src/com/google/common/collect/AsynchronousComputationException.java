@@ -17,7 +17,7 @@
 package com.google.common.collect;
 
 /**
- * Wraps an exception that occured during a computation in a different thread.
+ * Wraps an exception that occurred during a computation in a different thread.
  *
  * @author Bob Lee
  */

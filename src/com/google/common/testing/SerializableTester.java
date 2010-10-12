@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2010 Google Inc.
+ * Copyright (C) 2007 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -51,8 +51,6 @@ public final class SerializableTester {
    * {@code Object}. For example, it might be declared as a {@code List}.
    *
    * @return the re-serialized object
-   * @throws SerializationException if the specified object was not successfully
-   *     serialized or deserialized
    */
   @SuppressWarnings("unchecked")
   public static <T> T reserialize(T object) {
@@ -64,12 +62,10 @@ public final class SerializableTester {
       ObjectInputStream in = new ObjectInputStream(
           new ByteArrayInputStream(bytes.toByteArray()));
       return (T) in.readObject();
-    } catch (RuntimeException e) {
-      throw new SerializationException(e);
     } catch (IOException e) {
-      throw new SerializationException(e);
+      throw new RuntimeException(e);
     } catch (ClassNotFoundException e) {
-      throw new SerializationException(e);
+      throw new RuntimeException(e);
     }
   }
 
@@ -85,13 +81,12 @@ public final class SerializableTester {
    * @return the re-serialized object
    * @throws SerializationException if the specified object was not successfully
    *     serialized or deserialized
-   * @throws junit.framework.AssertionFailedError if the re-serialized
-   *     object is not equal to the original object, or if the hashcodes
-   *     are different.
+   * @throws RuntimeException if the re-serialized object is not equal to the
+   *     original object, or if the hashcodes are different.
    */
   public static <T> T reserializeAndAssert(T object) {
     T copy = reserialize(object);
-    MoreAsserts.checkEqualsAndHashCodeMethods(
+    GuavaAsserts.checkEqualsAndHashCodeMethods(
         "Equals/Hashcode mismatch.  original=" + object + ", copy=" + copy,
         object, copy, true);
     return copy;

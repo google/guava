@@ -37,7 +37,7 @@ import javax.annotation.Nullable;
 public interface MapEvictionListener<K, V> {
 
   /**
-   * Notifies the listener that an eviction has occured. Eviction may be for
+   * Notifies the listener that an eviction has occurred. Eviction may be for
    * reasons such as timed expiration, exceeding a maximum size, or due to
    * garbage collection. Eviction notification does <i>not</i> occur due to
    * manual removal.

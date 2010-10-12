@@ -286,7 +286,7 @@ public abstract class AbstractFuture<V> implements Future<V> {
     /**
      * Transition to the COMPLETED state and set the value.
      */
-    boolean set(V v) {
+    boolean set(@Nullable V v) {
       return complete(v, null, COMPLETED);
     }
 
@@ -314,7 +314,7 @@ public abstract class AbstractFuture<V> implements Future<V> {
      * @param t the exception to set as the result of the computation.
      * @param finalState the state to transition to.
      */
-    private boolean complete(V v, Throwable t, int finalState) {
+    private boolean complete(@Nullable V v, Throwable t, int finalState) {
       if (compareAndSetState(RUNNING, COMPLETING)) {
         this.value = v;
         this.exception = t == null ? null : new ExecutionException(t);
