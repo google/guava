@@ -55,9 +55,12 @@ public abstract class GenericMapMaker<K0, V0> {
       long duration, TimeUnit unit);
 
   /**
-   * See {@link MapMaker#timeToLive}.
+   * See {@link MapMaker#expireAfterWrite}.
+   *
+   * @since 8
    */
-  public abstract GenericMapMaker<K0, V0> timeToLive(
+  @Beta
+  public abstract GenericMapMaker<K0, V0> expireAfterWrite(
       long duration, TimeUnit unit);
 
   /*

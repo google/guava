@@ -141,7 +141,7 @@ public final class Futures {
    * {@link ListenableFutureTask}, which adds the {@link ListenableFuture}
    * functionality to the standard {@code FutureTask} implementation.
    */
-  public static <V> ListenableFuture<V> makeListenable(
+  static <V> ListenableFuture<V> makeListenable(
       Future<V> future, Executor executor) {
     checkNotNull(executor);
     if (future instanceof ListenableFuture<?>) {

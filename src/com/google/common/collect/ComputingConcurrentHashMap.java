@@ -80,7 +80,7 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V>
           boolean created = false;
           lock();
           try {
-            if (expiresAfterWrite()) {
+            if (expires()) {
               expireEntries();
             }
 
@@ -178,7 +178,7 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V>
         throw new NullOutputException(message);
       }
 
-      if (evictsBySize() || expiresAfterWrite()) {
+      if (evictsBySize() || expires()) {
         lock();
         try {
           setValue(entry, value);
@@ -337,12 +337,13 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V>
 
   /* ---------------- Serialization Support -------------- */
 
-  private static final long serialVersionUID = 1;
+  private static final long serialVersionUID = 2;
 
   @Override Object writeReplace() {
     return new ComputingSerializationProxy<K, V>(keyStrength, valueStrength,
-        keyEquivalence, valueEquivalence, expireAfterWriteNanos, maximumSize,
-        concurrencyLevel, evictionListener, this, computingFunction);
+        keyEquivalence, valueEquivalence, expireAfterWriteNanos,
+        expireAfterAccessNanos, maximumSize, concurrencyLevel, evictionListener,
+        this, computingFunction);
   }
 
   static class ComputingSerializationProxy<K, V>
@@ -356,14 +357,15 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V>
         Equivalence<Object> keyEquivalence,
         Equivalence<Object> valueEquivalence,
         long expireAfterWriteNanos,
+        long expireAfterAccessNanos,
         int maximumSize,
         int concurrencyLevel,
         MapEvictionListener<? super K, ? super V> evictionListener,
         ConcurrentMap<K, V> delegate,
         Function<? super K, ? extends V> computingFunction) {
       super(keyStrength, valueStrength, keyEquivalence, valueEquivalence,
-          expireAfterWriteNanos, maximumSize, concurrencyLevel,
-          evictionListener, delegate);
+          expireAfterWriteNanos, expireAfterAccessNanos, maximumSize,
+          concurrencyLevel, evictionListener, delegate);
       this.computingFunction = computingFunction;
     }
 
@@ -395,6 +397,6 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V>
       return cache.apply(from);
     }
 
-    private static final long serialVersionUID = 1;
+    private static final long serialVersionUID = 2;
   }
 }

@@ -47,7 +47,7 @@ import java.util.concurrent.TimeUnit;
  *       .softKeys()
  *       .weakValues()
  *       .maximumSize(10000)
- *       .timeToLive(10, TimeUnit.MINUTES)
+ *       .expireAfterWrite(10, TimeUnit.MINUTES)
  *       .makeComputingMap(
  *           new Function<Key, Graph>() {
  *             public Graph apply(Key key) {
@@ -114,8 +114,8 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
   Strength keyStrength;
   Strength valueStrength;
 
-  long timeToLiveNanos = UNSET_INT;
-  long timeToIdleNanos = UNSET_INT;
+  long expireAfterWriteNanos = UNSET_INT;
+  long expireAfterAccessNanos = UNSET_INT;
 
   // TODO(kevinb): dispense with this after benchmarking
   boolean useCustomMap;
@@ -360,23 +360,12 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
   }
 
   /**
-   * Specifies that each entry should be automatically removed from the
-   * map once a fixed duration has passed since the entry's creation.
-   * Note that changing the value of an entry will reset its expiration
-   * time.
-   *
-   * @param duration the length of time after an entry is created that it
-   *     should be automatically removed
-   * @param unit the unit that {@code duration} is expressed in
-   * @throws IllegalArgumentException if {@code duration} is not positive, or is
-   *     larger than one hundred years
-   * @throws IllegalStateException if the time to live or time to idle was
-   *     already set
+   * Old name of {@link #expireAfterWrite}.
    */
   // TODO(user): deprecate
   @Override
   public MapMaker expiration(long duration, TimeUnit unit) {
-    return timeToLive(duration, unit);
+    return expireAfterWrite(duration, unit);
   }
 
   /**
@@ -392,26 +381,28 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    *     larger than one hundred years
    * @throws IllegalStateException if the time to live or time to idle was
    *     already set
+   * @since 8
    */
+  @Beta
   @Override
-  public MapMaker timeToLive(long duration, TimeUnit unit) {
+  public MapMaker expireAfterWrite(long duration, TimeUnit unit) {
     checkExpiration(duration, unit);
-    this.timeToLiveNanos = unit.toNanos(duration);
+    this.expireAfterWriteNanos = unit.toNanos(duration);
     useCustomMap = true;
     return this;
   }
 
   private void checkExpiration(long duration, TimeUnit unit) {
-    checkState(timeToLiveNanos == UNSET_INT,
-        "time to live of %s ns was already set", timeToLiveNanos);
-    checkState(timeToIdleNanos == UNSET_INT,
-        "time to idle of ns was already set", timeToIdleNanos);
+    checkState(expireAfterWriteNanos == UNSET_INT,
+        "time to live of %s ns was already set", expireAfterWriteNanos);
+    checkState(expireAfterAccessNanos == UNSET_INT,
+        "time to idle of ns was already set", expireAfterAccessNanos);
     checkArgument(duration > 0, "invalid duration: %s %s", duration, unit);
   }
 
-  long getTimeToLiveNanos() {
-    return (timeToLiveNanos == UNSET_INT)
-        ? DEFAULT_EXPIRATION_NANOS : timeToLiveNanos;
+  long getExpireAfterWriteNanos() {
+    return (expireAfterWriteNanos == UNSET_INT)
+        ? DEFAULT_EXPIRATION_NANOS : expireAfterWriteNanos;
   }
 
   /**
@@ -425,20 +416,21 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    *     larger than one hundred years
    * @throws IllegalStateException if the time to idle or time to live was
    *     already set
+   * @since 8
    */
+  @Beta
   @GwtIncompatible("To be supported")
-  // TODO(user): make public and add @Override after: 1) completing unit tests,
-  // and 2) implementing serialization.
-  MapMaker timeToIdle(long duration, TimeUnit unit) {
+  @Override
+  public MapMaker expireAfterAccess(long duration, TimeUnit unit) {
     checkExpiration(duration, unit);
-    this.timeToIdleNanos = unit.toNanos(duration);
+    this.expireAfterAccessNanos = unit.toNanos(duration);
     useCustomMap = true;
     return this;
   }
 
-  long getTimeToIdleNanos() {
-    return (timeToIdleNanos == UNSET_INT)
-        ? DEFAULT_EXPIRATION_NANOS : timeToIdleNanos;
+  long getExpireAfterAccessNanos() {
+    return (expireAfterAccessNanos == UNSET_INT)
+        ? DEFAULT_EXPIRATION_NANOS : expireAfterAccessNanos;
   }
 
   /**

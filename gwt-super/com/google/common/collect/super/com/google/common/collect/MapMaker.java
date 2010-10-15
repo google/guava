@@ -141,11 +141,11 @@ public class MapMaker extends GenericMapMaker<Object, Object> {
 
   @Override
   public MapMaker expiration(long duration, TimeUnit unit) {
-    return timeToLive(duration, unit);
+    return expireAfterWrite(duration, unit);
   }
 
   @Override
-  public MapMaker timeToLive(long duration, TimeUnit unit) {
+  public MapMaker expireAfterWrite(long duration, TimeUnit unit) {
     if (expirationMillis != 0) {
       throw new IllegalStateException("expiration time of "
           + expirationMillis + " ns was already set");
