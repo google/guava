@@ -123,7 +123,7 @@ public final class LinkedHashMultimap<K, V> extends AbstractSetMultimap<K, V> {
     Preconditions.checkArgument(expectedValuesPerKey >= 0);
     this.expectedValuesPerKey = expectedValuesPerKey;
     linkedEntries = new LinkedHashSet<Map.Entry<K, V>>(
-        expectedKeys * expectedValuesPerKey);
+        (int) Math.min(1 << 30, ((long) expectedKeys) * expectedValuesPerKey));
   }
 
   private LinkedHashMultimap(Multimap<? extends K, ? extends V> multimap) {

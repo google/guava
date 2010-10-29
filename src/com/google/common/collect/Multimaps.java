@@ -1104,7 +1104,8 @@ public final class Multimaps {
       if (map.isEmpty()) {
         return "{}";
       }
-      StringBuilder builder = new StringBuilder(map.size() * 16).append('{');
+      StringBuilder builder
+          = Collections2.newStringBuilderForCollection(map.size()).append('{');
       JOINER.appendTo(builder, map);
       return builder.append("]}").toString();
     }

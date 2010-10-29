@@ -107,6 +107,10 @@ final class SingletonImmutableList<E> extends ImmutableList<E> {
     return (fromIndex == toIndex) ? ImmutableList.<E>of() : this;
   }
 
+  @Override public ImmutableList<E> reverse() {
+    return this;
+  }
+
   @Override public boolean contains(@Nullable Object object) {
     return element.equals(object);
   }
@@ -126,6 +130,10 @@ final class SingletonImmutableList<E> extends ImmutableList<E> {
     // not caching hash code since it could change if the element is mutable
     // in a way that modifies its hash code.
     return 31 + element.hashCode();
+  }
+
+  @Override public String toString() {
+    return "[" + element + "]";
   }
 
   @Override public boolean isEmpty() {

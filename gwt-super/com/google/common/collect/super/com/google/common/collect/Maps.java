@@ -28,6 +28,7 @@ import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import com.google.common.base.Supplier;
 import com.google.common.collect.MapDifference.ValueDifference;
+import com.google.common.primitives.Ints;
 
 import java.io.Serializable;
 import java.util.AbstractCollection;
@@ -102,13 +103,15 @@ public final class Maps {
    * Returns an appropriate value for the "capacity" (in reality, "minimum table
    * size") parameter of a {@link HashMap} constructor, such that the resulting
    * table will be between 25% and 50% full when it contains {@code
-   * expectedSize} entries.
+   * expectedSize} entries, unless {@code expectedSize} is greater than
+   * {@link Integer#MAX_VALUE} / 2.
    *
    * @throws IllegalArgumentException if {@code expectedSize} is negative
    */
   static int capacity(int expectedSize) {
     checkArgument(expectedSize >= 0);
-    return Math.max(expectedSize * 2, 16);
+    // Avoid the int overflow if expectedSize > (Integer.MAX_VALUE / 2)
+    return Ints.saturatedCast(Math.max(expectedSize * 2L, 16L));
   }
 
   /**
@@ -495,6 +498,7 @@ public final class Maps {
    * @param key the key to be associated with the returned entry
    * @param value the value to be associated with the returned entry
    */
+  @GwtCompatible(serializable = true)
   public static <K, V> Entry<K, V> immutableEntry(
       @Nullable K key, @Nullable V value) {
     return new ImmutableEntry<K, V>(key, value);
@@ -1592,7 +1596,8 @@ public final class Maps {
    * An implementation of {@link Map#toString}.
    */
   static String toStringImpl(Map<?, ?> map) {
-    StringBuilder sb = new StringBuilder(map.size() * 16).append('{');
+    StringBuilder sb
+        = Collections2.newStringBuilderForCollection(map.size()).append('{');
     STANDARD_JOINER.appendTo(sb, map);
     return sb.append('}').toString();
   }

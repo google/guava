@@ -30,7 +30,7 @@ import javax.annotation.Nullable;
 
 /**
  * An empty immutable list.
- *
+ * 
  * @author Kevin Bourrillion
  */
 @GwtCompatible(serializable = true, emulated = true)
@@ -115,6 +115,10 @@ final class EmptyImmutableList extends ImmutableList<Object> {
 
   @Override public ImmutableList<Object> subList(int fromIndex, int toIndex) {
     checkPositionIndexes(fromIndex, toIndex, 0);
+    return this;
+  }
+
+  @Override public ImmutableList<Object> reverse() {
     return this;
   }
 

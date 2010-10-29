@@ -148,7 +148,8 @@ public final class Functions {
     }
 
     public V apply(K key) {
-      return map.containsKey(key) ? map.get(key) : defaultValue;
+      V result = map.get(key);
+      return (result != null || map.containsKey(key)) ? result : defaultValue;
     }
 
     @Override public boolean equals(@Nullable Object o) {

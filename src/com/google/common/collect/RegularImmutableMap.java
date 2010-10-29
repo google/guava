@@ -244,7 +244,8 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
   }
 
   @Override public String toString() {
-    StringBuilder result = new StringBuilder(size() * 16).append('{');
+    StringBuilder result
+        = Collections2.newStringBuilderForCollection(size()).append('{');
     Collections2.STANDARD_JOINER.appendTo(result, entries);
     return result.append('}').toString();
   }

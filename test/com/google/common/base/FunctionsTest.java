@@ -86,10 +86,12 @@ public class FunctionsTest extends TestCase {
     Map<String, Integer> map = Maps.newHashMap();
     map.put("One", 1);
     map.put("Three", 3);
+    map.put("Null", null);
     Function<String, Integer> function = Functions.forMap(map);
 
     assertEquals(1, function.apply("One").intValue());
     assertEquals(3, function.apply("Three").intValue());
+    assertNull(function.apply("Null"));
 
     try {
       function.apply("Two");
@@ -113,11 +115,13 @@ public class FunctionsTest extends TestCase {
     Map<String, Integer> map = Maps.newHashMap();
     map.put("One", 1);
     map.put("Three", 3);
+    map.put("Null", null);
     Function<String, Integer> function = Functions.forMap(map, 42);
 
     assertEquals(1, function.apply("One").intValue());
     assertEquals(42, function.apply("Two").intValue());
     assertEquals(3, function.apply("Three").intValue());
+    assertNull(function.apply("Null"));
 
     new EqualsTester()
         .addEqualityGroup(function, Functions.forMap(map, 42))

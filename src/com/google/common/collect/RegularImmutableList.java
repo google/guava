@@ -173,8 +173,8 @@ class RegularImmutableList<E> extends ImmutableList<E> {
   }
 
   @Override public String toString() {
-    StringBuilder sb = new StringBuilder(size() * 16);
-    sb.append('[').append(array[offset]);
+    StringBuilder sb = Collections2.newStringBuilderForCollection(size())
+        .append('[').append(array[offset]);
     for (int i = offset + 1; i < offset + size; i++) {
       sb.append(", ").append(array[i]);
     }

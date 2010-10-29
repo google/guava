@@ -285,22 +285,28 @@ public final class Collections2 {
     }
     return true;
   }
-
+  
   /**
    * An implementation of {@link Collection#toString()}.
    */
   static String toStringImpl(final Collection<?> collection) {
-    Iterator<?> i = collection.iterator();
-    StringBuilder sb = new StringBuilder(collection.size() * 16).append('[');
-
+    StringBuilder sb
+        = newStringBuilderForCollection(collection.size()).append('[');
     STANDARD_JOINER.appendTo(
         sb, Iterables.transform(collection, new Function<Object, Object>() {
-
           @Override public Object apply(Object input) {
             return input == collection ? "(this Collection)" : input;
           }
         }));
     return sb.append(']').toString();
+  }
+
+  /**
+   * Returns best-effort-sized StringBuilder based on the given collection size.
+   */
+  static StringBuilder newStringBuilderForCollection(int size) {
+    checkArgument(size >= 0, "size must be non-negative");
+    return new StringBuilder((int) Math.min(size * 8L, 1 << 30));
   }
 
   /**

@@ -31,6 +31,7 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -714,8 +715,12 @@ public final class Futures {
   private static class ListenableFutureAdapter<V> extends ForwardingFuture<V>
       implements ListenableFuture<V> {
 
+    private static final ThreadFactory threadFactory =
+        new ThreadFactoryBuilder()
+            .setNameFormat("ListenableFutureAdapter-thread-%d")
+            .build();
     private static final Executor defaultAdapterExecutor =
-        Executors.newCachedThreadPool();
+        Executors.newCachedThreadPool(threadFactory);
 
     private final Executor adapterExecutor;
 
@@ -745,10 +750,18 @@ public final class Futures {
 
     @Override
     public void addListener(Runnable listener, Executor exec) {
+      executionList.add(listener, exec);
 
       // When a listener is first added, we run a task that will wait for
       // the delegate to finish, and when it is done will run the listeners.
       if (!hasListeners.get() && hasListeners.compareAndSet(false, true)) {
+        if (delegate.isDone()) {
+          // If the delegate is already done, run the execution list
+          // immediately on the current thread.
+          executionList.run();
+          return;
+        }
+
         adapterExecutor.execute(new Runnable() {
           @Override
           public void run() {
@@ -759,15 +772,17 @@ public final class Futures {
             } catch (InterruptedException e) {
               // This thread was interrupted.  This should never happen, so we
               // throw an IllegalStateException.
-              throw new IllegalStateException("Adapter thread interrupted!", e);
+              Thread.currentThread().interrupt();
+              throw new IllegalStateException(
+                  "Adapter thread interrupted!", e);
             } catch (ExecutionException e) {
-              // The task caused an exception, so it is done, run the listeners.
+              // The task caused an exception, so it is done, run the
+              // listeners.
             }
             executionList.run();
           }
         });
       }
-      executionList.add(listener, exec);
     }
   }
 }

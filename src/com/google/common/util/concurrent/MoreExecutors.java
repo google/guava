@@ -213,6 +213,10 @@ public final class MoreExecutors {
     return new SameThreadExecutorService();
   }
 
+  /*
+   * TODO(cpovirk): make this and other classes implement
+   * ListeningExecutorService?
+   */
   // See sameThreadExecutor javadoc for behavioral notes.
   private static class SameThreadExecutorService
       extends AbstractExecutorService {

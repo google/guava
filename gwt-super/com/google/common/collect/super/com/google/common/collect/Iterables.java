@@ -624,7 +624,6 @@ public final class Iterables {
    * @throws IndexOutOfBoundsException if {@code position} is negative
    * @since 4
    */
-  @Beta
   public static <T> T get(Iterable<T> iterable, int position,
       @Nullable T defaultValue) {
     checkNotNull(iterable);
@@ -646,7 +645,6 @@ public final class Iterables {
    * @return the first element of {@code iterable} or the default value
    * @since 7
    */
-  @Beta
   public static <T> T getFirst(Iterable<T> iterable, @Nullable T defaultValue) {
     return Iterators.getNext(iterable.iterator(), defaultValue);
   }

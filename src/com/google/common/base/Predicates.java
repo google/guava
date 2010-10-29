@@ -18,7 +18,6 @@ package com.google.common.base;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 
@@ -234,7 +233,6 @@ public final class Predicates {
    * @throws java.util.regex.PatternSyntaxException if the pattern is invalid
    * @since 3
    */
-  @Beta
   @GwtIncompatible(value = "java.util.regex.Pattern")
   public static Predicate<CharSequence> containsPattern(String pattern) {
     return new ContainsPatternPredicate(pattern);

@@ -22,6 +22,7 @@ import static com.google.common.collect.Iterables.getOnlyElement;
 import com.google.common.annotations.GwtCompatible;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -161,7 +162,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
    * @since 2 (imported from Google Collections Library)
    */
   public static class Builder<K, V> {
-    final List<Entry<K, V>> entries = Lists.newArrayList();
+    final ArrayList<Entry<K, V>> entries = Lists.newArrayList();
 
     /**
      * Creates a new builder. The returned builder is equivalent to the builder
@@ -185,6 +186,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
      * @throws NullPointerException if any key or value in {@code map} is null
      */
     public Builder<K, V> putAll(Map<? extends K, ? extends V> map) {
+      entries.ensureCapacity(entries.size() + map.size());
       for (Entry<? extends K, ? extends V> entry : map.entrySet()) {
         put(entry.getKey(), entry.getValue());
       }

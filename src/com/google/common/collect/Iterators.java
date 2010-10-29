@@ -804,7 +804,6 @@ public final class Iterators {
    * @throws IndexOutOfBoundsException if {@code position} is negative
    * @since 4
    */
-  @Beta
   public static <T> T get(Iterator<T> iterator, int position,
       @Nullable T defaultValue) {
     checkNonnegative(position);
@@ -825,7 +824,6 @@ public final class Iterators {
    * @return the next element of {@code iterator} or the default value
    * @since 7
    */
-  @Beta
   public static <T> T getNext(Iterator<T> iterator, @Nullable T defaultValue) {
     return iterator.hasNext() ? iterator.next() : defaultValue;
   }

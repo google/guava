@@ -16,12 +16,15 @@
 
 package com.google.common.collect;
 
+import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Function;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
@@ -382,9 +385,71 @@ public abstract class Ordering<T> implements Comparator<T> {
   }
 
   // Regular instance methods
-
+  
   // Override to add @Nullable
   @Override public abstract int compare(@Nullable T left, @Nullable T right);
+
+  /**
+   * Returns the {@code k} least elements of the given iterable according to
+   * this ordering, in order from least to greatest.  If there are fewer than
+   * {@code k} elements present, all will be included.
+   * 
+   * <p>The implementation does not necessarily use a <em>stable</em> sorting
+   * algorithm; when multiple elements are equivalent, it is undefined which
+   * will come first.
+   * 
+   * @return an immutable {@code RandomAccess} list of the {@code k} least
+   *     elements in ascending order
+   * @throws IllegalArgumentException if {@code k} is negative
+   * @since 8
+   */
+  @Beta
+  public <E extends T> List<E> leastOf(Iterable<E> iterable, int k) {
+    checkArgument(k >= 0, "%d is negative", k);
+    
+    // values is not an E[], but we use it as such for readability. Hack.
+    @SuppressWarnings("unchecked")
+    E[] values = (E[]) Iterables.toArray(iterable);
+    
+    // TODO(nshupe): also sort whole list if k is *near* values.length?
+    // TODO(kevinb): benchmark this impl against hand-coded heap
+    E[] resultArray;
+    if (values.length <= k) {
+      Arrays.sort(values, this);
+      resultArray = values;
+    } else {
+      quicksortLeastK(values, 0, values.length - 1, k);
+
+      // this is not an E[], but we use it as such for readability. Hack.
+      @SuppressWarnings("unchecked")
+      E[] tmp = (E[]) new Object[k];
+      resultArray = tmp;
+      System.arraycopy(values, 0, resultArray, 0, k);
+    }
+
+    return Collections.unmodifiableList(Arrays.asList(resultArray));
+  }
+  
+  /**
+   * Returns the {@code k} greatest elements of the given iterable according to
+   * this ordering, in order from greatest to least. If there are fewer than
+   * {@code k} elements present, all will be included.
+   * 
+   * <p>The implementation does not necessarily use a <em>stable</em> sorting
+   * algorithm; when multiple elements are equivalent, it is undefined which
+   * will come first.
+   * 
+   * @return an immutable {@code RandomAccess} list of the {@code k} greatest
+   *     elements in <i>descending order</i>
+   * @throws IllegalArgumentException if {@code k} is negative
+   * @since 8
+   */
+  @Beta
+  public <E extends T> List<E> greatestOf(Iterable<E> iterable, int k) {
+    // TODO(kevinb): see if delegation is hurting performance noticeably
+    // TODO(kevinb): if we change this implementation, add full unit tests.
+    return reverse().leastOf(iterable, k);
+  }
 
   private <E extends T> void quicksortLeastK(
       E[] values, int left, int right, int k) {
@@ -397,14 +462,14 @@ public abstract class Ordering<T> implements Comparator<T> {
       }
     }
   }
-
+  
   private <E extends T> int partition(
       E[] values, int left, int right, int pivotIndex) {
     E pivotValue = values[pivotIndex];
 
     values[pivotIndex] = values[right];
     values[right] = pivotValue;
-
+ 
     int storeIndex = left;
     for (int i = left; i < right; i++) {
       if (compare(values[i], pivotValue) < 0) {
