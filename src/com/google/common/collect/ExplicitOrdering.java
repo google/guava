@@ -36,7 +36,7 @@ final class ExplicitOrdering<T> extends Ordering<T> implements Serializable {
     this.rankMap = rankMap;
   }
 
-  public int compare(T left, T right) {
+  @Override public int compare(T left, T right) {
     return rank(left) - rank(right); // safe because both are nonnegative
   }
 

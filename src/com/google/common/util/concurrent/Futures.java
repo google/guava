@@ -508,6 +508,7 @@ public final class Futures {
      * their implementations defer starting computation until their
      * own get() is invoked.
      */
+    @Override
     public O get() throws InterruptedException, ExecutionException {
       if (!isDone()) {
         // Invoking get on the inputFuture will ensure our own run()
@@ -542,6 +543,7 @@ public final class Futures {
      * their implementations defer starting computation until their
      * own get() is invoked.
      */
+    @Override
     public O get(long timeout, TimeUnit unit) throws TimeoutException,
         ExecutionException, InterruptedException {
       if (!isDone()) {

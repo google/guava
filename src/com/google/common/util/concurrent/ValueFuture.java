@@ -28,7 +28,7 @@ import javax.annotation.Nullable;
  * @since 1
  */
 @Beta
-public class ValueFuture<V> extends AbstractListenableFuture<V> {
+public final class ValueFuture<V> extends AbstractListenableFuture<V> {
 
   /**
    * Creates a new {@code ValueFuture} in the default state.

@@ -31,21 +31,21 @@ import java.util.logging.Logger;
  * executed in its associated {@code Executor} after {@link #run()} is called.
  * {@code Runnable}s added after {@code run} is called are still guaranteed to
  * execute.
- * 
+ *
  * @author Nishant Thakkar
  * @author Sven Mawson
  * @since 1
  */
 @Beta
-public class ExecutionList implements Runnable {
-  
+public final class ExecutionList implements Runnable {
+
   // Logger to log exceptions caught when running runnables.
   private static final Logger log =
       Logger.getLogger(ExecutionList.class.getName());
 
   // The runnable,executor pairs to execute.
   private final Queue<RunnableExecutorPair> runnables = Lists.newLinkedList();
-  
+
   // Boolean we use mark when execution has started.  Only accessed from within
   // synchronized blocks.
   private boolean executed = false;
@@ -55,7 +55,7 @@ public class ExecutionList implements Runnable {
    * the pair immediately if we've already started execution.
    */
   public void add(Runnable runnable, Executor executor) {
-    
+
     // Fail fast on a null.  We throw NPE here because the contract of
     // Executor states that it throws NPE on null listener, so we propagate
     // that contract up into the add method as well.
@@ -63,7 +63,7 @@ public class ExecutionList implements Runnable {
     Preconditions.checkNotNull(executor, "Executor was null.");
 
     boolean executeImmediate = false;
-    
+
     // Lock while we check state.  We must maintain the lock while adding the
     // new pair so that another thread can't run the list out from under us.
     // We only add to the list if we have not yet started execution.
@@ -74,7 +74,7 @@ public class ExecutionList implements Runnable {
         executeImmediate = true;
       }
     }
-    
+
     // Execute the runnable immediately.  Because of scheduling this may end up
     // getting called before some of the previously added runnables, but we're
     // ok with that.  If we want to change the contract to guarantee ordering
@@ -90,13 +90,13 @@ public class ExecutionList implements Runnable {
    * be executed immediately.
    */
   public void run() {
-    
+
     // Lock while we update our state so the add method above will finish adding
     // any listeners before we start to run them.
     synchronized (runnables) {
       executed = true;
     }
-    
+
     // At this point the runnables will never be modified by another
     // thread, so we are safe using it outside of the synchronized block.
     while (!runnables.isEmpty()) {

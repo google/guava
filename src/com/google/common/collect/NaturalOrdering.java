@@ -31,7 +31,7 @@ final class NaturalOrdering
     extends Ordering<Comparable> implements Serializable {
   static final NaturalOrdering INSTANCE = new NaturalOrdering();
 
-  public int compare(Comparable left, Comparable right) {
+  @Override public int compare(Comparable left, Comparable right) {
     checkNotNull(right); // left null is caught later
     if (left == right) {
       return 0;

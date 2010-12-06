@@ -311,7 +311,7 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    * {@link ConcurrentMap#remove(Object, Object) remove(Object, Object)},
    * and {@link ConcurrentMap#replace(Object, Object, Object) replace(K, V, V)}.
    *
-   * @throws IllegalStateException if the key strength was already set
+   * @throws IllegalStateException if the value strength was already set
    * @see WeakReference
    */
   @GwtIncompatible("java.lang.ref.WeakReference")

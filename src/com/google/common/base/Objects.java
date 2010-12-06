@@ -16,11 +16,11 @@
 
 package com.google.common.base;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import com.google.common.annotations.GwtCompatible;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 import javax.annotation.Nullable;
 
@@ -73,21 +73,28 @@ public final class Objects {
   /**
    * Creates an instance of {@link ToStringHelper}.
    *
-   * <p>This is helpful for implementing {@link Object#toString()}. For
-   * example, in an object that contains two member variables, {@code x},
-   * and {@code y}, one could write:<pre>   <tt>
-   *   public class ClassName {
-   *     public String toString() {
-   *       return Objects.toStringHelper(this)
-   *           .add("x", x)
-   *           .add("y", y)
-   *           .toString();
-   *     }
-   *   }</tt>
-   * </pre>
+   * <p>This is helpful for implementing {@link Object#toString()}.
+   * Specification by example: <pre>   {@code
+   *   // Returns "ClassName{}"
+   *   Objects.toStringHelper(this)
+   *       .toString();
    *
-   * Assuming the values of {@code x} and {@code y} are 1 and 2,
-   * this code snippet returns the string <tt>"ClassName{x=1, y=2}"</tt>.
+   *   // Returns "ClassName{x=1}"
+   *   Objects.toStringHelper(this)
+   *       .add("x", 1)
+   *       .toString();
+   *
+   *   // Returns "MyObject{x=1}"
+   *   Objects.toStringHelper("MyObject")
+   *       .add("x", 1)
+   *       .toString();
+   *
+   *   // Returns "ClassName{x=1, y=foo}"
+   *   Objects.toStringHelper(this)
+   *       .add("x", 1)
+   *       .add("y", "foo")
+   *       .toString();
+   *   }}</pre>
    *
    * @param self the object to generate the string for (typically {@code this}),
    *        used only for its class name
@@ -151,7 +158,7 @@ public final class Objects {
    * @since 3
    */
   public static <T> T firstNonNull(@Nullable T first, @Nullable T second) {
-    return first != null ? first : Preconditions.checkNotNull(second);
+    return first != null ? first : checkNotNull(second);
   }
 
   /**
@@ -160,16 +167,17 @@ public final class Objects {
    * @author Jason Lee
    * @since 2
    */
-  public static class ToStringHelper {
-    // TODO(kevinb): why are we not just appending directly to a StringBuilder?
-    private final List<String> fieldString = new ArrayList<String>();
-    private final String className;
+  public static final class ToStringHelper {
+    private final StringBuilder builder;
+    private String separator = "";
 
     /**
      * Use {@link Objects#toStringHelper(Object)} to create an instance.
      */
     private ToStringHelper(String className) {
-      this.className = Preconditions.checkNotNull(className);
+      this.builder = new StringBuilder(32)
+          .append(checkNotNull(className))
+          .append('{');
     }
 
     /**
@@ -178,32 +186,32 @@ public final class Objects {
      * is used.
      */
     public ToStringHelper add(String name, @Nullable Object value) {
-      return addValue(Preconditions.checkNotNull(name) + "=" + value);
-    }
-
-    /**
-     * Adds a value to the formatted output in {@code value} format.<p/>
-     *
-     * It is strongly encouraged to use {@link #add(String, Object)} instead and
-     * give value a readable name.
-     */
-    public ToStringHelper addValue(@Nullable Object value) {
-      fieldString.add(String.valueOf(value));
+      builder.append(separator)
+          .append(checkNotNull(name))
+          .append('=')
+          .append(value);
+      separator = ", ";
       return this;
     }
 
-    private static final Joiner JOINER = Joiner.on(", ");
+    /**
+     * Adds a value to the formatted output in {@code value} format.
+     *
+     * <p>It is strongly encouraged to use {@link #add(String, Object)} instead
+     * and give value a readable name.
+     */
+    public ToStringHelper addValue(@Nullable Object value) {
+      builder.append(separator).append(value);
+      separator = ", ";
+      return this;
+    }
 
     /**
-     * Returns the formatted string.
+     * Returns a string in the format specified by {@link
+     * Objects#toStringHelper(Object)}.
      */
     @Override public String toString() {
-      StringBuilder builder = new StringBuilder(100)
-          .append(className)
-          .append('{');
-      return JOINER.appendTo(builder, fieldString)
-          .append('}')
-          .toString();
+      return builder.append('}').toString();
     }
   }
 }

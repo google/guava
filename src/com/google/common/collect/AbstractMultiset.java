@@ -20,7 +20,6 @@ import static com.google.common.collect.Multisets.setCountImpl;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Objects;
-import com.google.common.collect.Multiset.Entry;
 
 import java.util.AbstractCollection;
 import java.util.Collection;
@@ -36,7 +35,7 @@ import javax.annotation.Nullable;
  * optionally overriding {@link #add(Object, int)} and
  * {@link #remove(Object, int)} to enable modifications to the multiset.
  *
- * <p>The {@link #count} and {@link #size} implementations all iterate across 
+ * <p>The {@link #count} and {@link #size} implementations all iterate across
  * the set returned by {@link Multiset#entrySet()}, as do many methods acting on
  * the set returned by {@link #elementSet()}. Override those methods for better
  * performance.

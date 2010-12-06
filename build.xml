@@ -15,6 +15,14 @@
    -Dgwthome=
 -->
 
+<!--
+  Currently, guava source files are required to be UTF-8 encoded, but
+  non-ASCII characters are permitted only in comments, so that they
+  can also be built by tools that use the historic -encoding=ISO-8859-1
+  (which works only because *any* byte sequence is valid ISO-8859-1.)
+  Hopefully the comment restriction will be lifted in a future release.
+-->
+
 <project name="guava" default="compile">
 
   <property environment="env"/>
@@ -39,11 +47,13 @@
     <javac srcdir="src"
          debug="on"
          destdir="build/classes"
+         encoding="UTF-8"
          source="1.5"
          target="1.5"
          bootclasspath="${java5bootclasspath}"
          extdirs="">
       <compilerarg value="-Xlint:all"/>
+      <compilerarg value="-XDignore.symbol.file"/>
       <classpath>
         <pathelement location="lib/jsr305.jar"/>
       </classpath>
@@ -66,6 +76,7 @@
          encoding="UTF-8"
          docencoding="UTF-8"
          charset="UTF-8"
+         additionalparam="-XDignore.symbol.file"
          use="true"
          author="true"
          protected="true"
@@ -80,7 +91,7 @@
         <pathelement location="lib/jsr305.jar"/>
       </classpath>
       <link href="http://jsr-305.googlecode.com/svn/trunk/javadoc"/>
-      <link href="http://java.sun.com/javase/6/docs/api"/>
+      <link href="http://download.oracle.com/javase/6/docs/api"/>
     </javadoc>
 
     <!-- remove dumb comments inserted by javadoc so that we only see svn diffs
@@ -97,9 +108,10 @@
     <mkdir dir="build/javadoc/jdiff"/>
     <javadoc doclet="jdiff.JDiff"
          docletpath="lib/jdiff.jar"
-         additionalparam="-apiname 'Guava ${release}' -apidir build/javadoc/jdiff"
+         additionalparam="-XDignore.symbol.file -apiname 'Guava ${release}' -apidir build/javadoc/jdiff"
          packagenames="com.google.common.*"
-         destdir="build/javadoc/jdiff">
+         destdir="build/javadoc/jdiff"
+         encoding="UTF-8">
       <sourcepath>
         <pathelement location="src"/>
       </sourcepath>
@@ -138,7 +150,8 @@
     <mkdir dir="build/gwt-classes"/>
     <javac srcdir="gwt-src"
            debug="on"
-           destdir="build/gwt-classes">
+           destdir="build/gwt-classes"
+           encoding="UTF-8">
       <compilerarg value="-Xlint:all"/>
       <classpath>
         <pathelement location="build/classes" />
@@ -229,7 +242,7 @@
       </classpath>
 
       <link href="http://jsr-305.googlecode.com/svn/trunk/javadoc"/>
-      <link href="http://java.sun.com/javase/6/docs/api"/>
+      <link href="http://download.oracle.com/javase/6/docs/api"/>
       <link href="http://google-web-toolkit.googlecode.com/svn/javadoc/2.1"/>
     </javadoc>
 
@@ -253,7 +266,8 @@
     <mkdir dir="build/gwt-test-classes"/>
     <javac srcdir="gwt-test"
            debug="on"
-           destdir="build/gwt-test-classes">
+           destdir="build/gwt-test-classes"
+           encoding="UTF-8">
       <compilerarg value="-Xlint:all"/>
       <classpath>
         <pathelement location="build/classes" />

@@ -24,11 +24,11 @@ import com.google.common.base.Objects;
  * Contains additional assertion methods not found in JUnit.
  *
  * @author kevinb@google.com (Kevin Bourillion)
+ * @since 8
  */
 @Beta
 @GwtCompatible
 public final class GuavaAsserts {
-
   private GuavaAsserts() { }
 
   /**

@@ -1,28 +1,38 @@
 Guava: Google Core Libraries for Java
+=====================================
 
-Requires JDK 5 or higher.
+Requires JDK 1.5 or higher.
 
 Project page:
   http://guava-libraries.googlecode.com
 
-Ask "how-to" and "why-didn't-it-work" questions at:
-  http://www.stackoverflow.com/questions/ask
-  (use the "guava" tag so we'll see it)
+File a bug or feature request here:
+  http://code.google.com/p/guava-libraries/issues/entry
 
-Ask discussion questions at:
+Ask "how-to" and "why-didn't-it-work" questions at:
+  http://www.stackoverflow.com/questions/ask (use the "guava" tag)
+
+For open-ended questions and discussion:
   http://groups.google.com/group/guava-discuss
 
 Subscribe to project updates in your feed reader:
   http://code.google.com/feeds/p/guava-libraries/updates/basic
 
-Warnings:
+IMPORTANT WARNINGS
+------------------
 
-All APIs marked @Beta at the class or method level are subject to
-change. If your code is a library or framework that users outside
-your control will include on their classpath, do not use @Beta
-APIs (at least without repackaging them somehow).
+1. APIs marked with the @Beta annotation at the class or method level
+are subject to change. They can be modified in any way, or even
+removed, at any time. If your code is a library itself (i.e. it is
+used on the CLASSPATH of users outside your own control), you should
+not use beta APIs, unless you repackage them (e.g. using ProGuard).
 
-Serialized forms of ALL objects are subject to change. Do not
-persist these and assume they can be read by a future version of
-the library.
+2. Deprecated non-beta APIs will be removed eighteen months after the
+release in which they are first deprecated. You must fix your
+references before this time. If you don't, any manner of breakage
+could result (you are not guaranteed a compilation error).
+
+3. Serialized forms of ALL objects are subject to change. Do not
+persist these and assume they can be read by a future version of the
+library.
 

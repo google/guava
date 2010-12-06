@@ -140,7 +140,8 @@ public class ImmutableMultiset<E> extends ImmutableCollection<E>
    * elements in the order {@code 2, 3, 3, 1}.
    *
    * @throws NullPointerException if any of {@code elements} is null
-   * @deprecated use {@link #copyOf(Object[])}.
+   * @deprecated use {@link #copyOf(Object[])}. <b>This method is scheduled for
+   *     deletion in January 2012.</b>
    * @since 2 (changed from varargs in release 6)
    */
   @Deprecated

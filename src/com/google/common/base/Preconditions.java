@@ -437,7 +437,7 @@ public final class Preconditions {
         builder.append(", ");
         builder.append(args[i++]);
       }
-      builder.append("]");
+      builder.append(']');
     }
 
     return builder.toString();

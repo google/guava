@@ -180,7 +180,7 @@ public final class UnsignedBytes {
    * it is consistent with {@link java.util.Arrays#equals(byte[], byte[])}.
    *
    * @see <a href="http://en.wikipedia.org/wiki/Lexicographical_order">
-   *     Lexicographical order</a> article at Wikipedia
+   *     Lexicographical order article at Wikipedia</a>
    * @since 2
    */
   public static Comparator<byte[]> lexicographicalComparator() {

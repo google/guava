@@ -72,11 +72,11 @@ import com.google.common.collect.Lists;
  *
  * @author jmcmaster@google.com (Jim McMaster)
  * @author benyu@google.com (Jige Yu)
+ * @since 8
  */
 @Beta
 @GwtCompatible
 public final class EqualsTester {
-
   private final List<Object> defaultEqualObjects = Lists.newArrayList();
   private final List<Object> defaultNotEqualObjects = Lists.newArrayList();
   private final List<List<Object>> equalityGroups = Lists.newArrayList();
@@ -87,7 +87,6 @@ public final class EqualsTester {
   public EqualsTester() {
     equalityGroups.add(defaultEqualObjects);
   }
-
 
   /**
    * Constructs a new EqualsTester for a given reference object
@@ -181,7 +180,6 @@ public final class EqualsTester {
       }
     }
   }
-
 
   private static List<Object> list(Object... objects) {
     //return Preconditions.checkContentsNotNull(Arrays.asList(objects));

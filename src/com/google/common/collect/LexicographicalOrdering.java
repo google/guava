@@ -36,7 +36,8 @@ final class LexicographicalOrdering<T>
     this.elementOrder = elementOrder;
   }
 
-  public int compare(Iterable<T> leftIterable, Iterable<T> rightIterable) {
+  @Override public int compare(
+      Iterable<T> leftIterable, Iterable<T> rightIterable) {
     Iterator<T> left = leftIterable.iterator();
     Iterator<T> right = rightIterable.iterator();
     while (left.hasNext()) {

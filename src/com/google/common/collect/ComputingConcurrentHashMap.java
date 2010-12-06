@@ -177,17 +177,7 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V>
             new NullOutputExceptionReference<K, V>(message));
         throw new NullOutputException(message);
       }
-
-      if (evictsBySize() || expires()) {
-        lock();
-        try {
-          setValue(entry, value);
-        } finally {
-          unlock();
-        }
-      } else {
-        setValue(entry, value);
-      }
+      setComputedValue(entry, value);
       return value;
     }
   }

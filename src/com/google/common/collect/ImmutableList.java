@@ -207,7 +207,8 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
   /**
    * Returns an immutable list containing the given elements, in order.
    *
-   * @deprecated use {@link #copyOf(Object[])}
+   * @deprecated use {@link #copyOf(Object[])}. <b>This method is scheduled for
+   *     deletion in October 2011.</b>
    * @throws NullPointerException if any of {@code elements} is null
    * @since 2 (changed from varargs in release 3)
    */

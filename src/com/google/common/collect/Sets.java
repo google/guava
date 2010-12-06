@@ -325,6 +325,21 @@ public final class Sets {
   }
 
   /**
+   * Creates an empty {@code Set} that uses identity to determine equality. It
+   * compares object references, instead of calling {@code equals}, to
+   * determine whether a provided object matches an element in the set. For
+   * example, {@code contains} returns {@code false} when passed an object that
+   * equals a set member, but isn't the same instance. This behavior is similar
+   * to the way {@link IdentityHashMap} handles key lookups.
+   *
+   * @since 8
+   */
+  @Beta
+  public static <E> Set<E> newIdentityHashSet() {
+    return Sets.newSetFromMap(Maps.<E, Boolean>newIdentityHashMap());
+  }
+
+  /**
    * Creates an {@code EnumSet} consisting of all enum values that are not in
    * the specified collection. If the collection is an {@link EnumSet}, this
    * method has the same behavior as {@link EnumSet#complementOf}. Otherwise,

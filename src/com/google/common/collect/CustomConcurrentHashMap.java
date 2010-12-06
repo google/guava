@@ -216,8 +216,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
       pendingEvictionNotifications = defaultQueue;
 
       @SuppressWarnings("unchecked")
-      MapEvictionListener<K, V> defaultListener =
-          (MapEvictionListener<K, V>) NullListener.INSTANCE;
+      MapEvictionListener<K, V> defaultListener = NullListener.INSTANCE;
       this.evictionListener = defaultListener;
     } else {
       pendingEvictionNotifications =
@@ -782,10 +781,12 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
       return null;
     }
 
+    @Override
     public int size() {
       return 0;
     }
 
+    @Override
     public Iterator<Object> iterator() {
       return Iterators.emptyIterator();
     }
@@ -1690,7 +1691,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
     };
 
     Segment(int initialCapacity, int maxSegmentSize) {
-      setTable(newEntryArray(initialCapacity));
+      initTable(newEntryArray(initialCapacity));
       this.maxSegmentSize = maxSegmentSize;
 
       if (evictsBySize() || expires()) {
@@ -1706,16 +1707,49 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
       return new AtomicReferenceArray<ReferenceEntry<K, V>>(size);
     }
 
+    void initTable(AtomicReferenceArray<ReferenceEntry<K, V>> newTable) {
+      this.threshold = newTable.length() * 3 / 4; // 0.75
+      if (this.threshold == maxSegmentSize) {
+        // prevent spurious expansion before eviction
+        this.threshold++;
+      }
+      this.table = newTable;
+    }
+
     /**
      * Sets a new value of an entry. Adds newly created entries at the end
      * of the expiration queue.
      */
-    @GuardedBy("Segment.this")
+    @GuardedBy("Segment.this") // if evictsBySize || expires
     void setValue(ReferenceEntry<K, V> entry, V value) {
-      // Note: this if is mirrored in ComputingConcurrentHashMap.
       if (evictsBySize() || expires()) {
         checkState(isLocked());
         recordWrite(entry);
+      }
+      setValueReference(entry, valueStrength.referenceValue(entry, value));
+    }
+
+    /**
+     * Sets the value of a newly computed entry. Adds newly created entries at
+     * the end of the expiration queue.
+     */
+    void setComputedValue(ReferenceEntry<K, V> entry, V value) {
+      if (evictsBySize() || expires()) {
+        lock();
+        try {
+          if (evictsBySize() || expires()) {
+            // "entry" currently points to the original entry created when
+            // computation began, but by now that entry may have been replaced.
+            // Find the current entry, and pass it to recordWrite to ensure that
+            // the eviction lists are consistent with the current map entries.
+            K key = entry.getKey();
+            int hash = entry.getHash();
+            ReferenceEntry<K, V> newEntry = getEntry(key, hash);
+            recordWrite(newEntry);
+          }
+        } finally {
+          unlock();
+        }
       }
       setValueReference(entry, valueStrength.referenceValue(entry, value));
     }
@@ -1747,10 +1781,11 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
 
     /**
      * Updates eviction metadata that {@code entry} was just written. This
-     * currently amounts to adding {@code entry} to relevant expiration lists.
+     * currently amounts to adding {@code entry} to relevant eviction lists.
      */
     @GuardedBy("Segment.this")
     void recordWrite(ReferenceEntry<K, V> entry) {
+      checkState(isLocked());
       // we are already under lock, so drain the recency queue immediately
       drainRecencyQueue();
       if (entry instanceof Evictable) {
@@ -1770,12 +1805,13 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
     /**
      * Drains the recency queue, updating eviction metadata that the entries
      * therein were read in the specified relative order. This currently amounts
-     * to adding them to relevant expiration lists (accounting for the fact that
+     * to adding them to relevant eviction lists (accounting for the fact that
      * they could have been removed from the map since being added to the
      * recency queue).
      */
     @GuardedBy("Segment.this")
     void drainRecencyQueue() {
+      checkState(isLocked());
       // While the recency queue is being drained it may be concurrently
       // appended to. The number of elements removed are tracked so that the
       // length can be decremented by the delta rather than set to zero.
@@ -1809,6 +1845,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
 
     @GuardedBy("Segment.this")
     void addExpirable(Expirable expirable) {
+      checkState(isLocked());
       // unlink
       connectExpirables(expirable.getPreviousExpirable(),
           expirable.getNextExpirable());
@@ -1825,6 +1862,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
 
     @GuardedBy("Segment.this")
     void removeExpirable(Expirable expirable) {
+      checkState(isLocked());
       connectExpirables(expirable.getPreviousExpirable(),
           expirable.getNextExpirable());
       nullifyExpirable(expirable);
@@ -1837,6 +1875,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
 
     @GuardedBy("Segment.this")
     void expireEntries() {
+      checkState(isLocked());
       drainRecencyQueue();
 
       Expirable expirable = expirationHead.getNextExpirable();
@@ -1861,6 +1900,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
 
     @GuardedBy("Segment.this")
     void clearExpirationQueue() {
+      checkState(isLocked());
       Expirable expirable = expirationHead.getNextExpirable();
       while (expirable != expirationHead) {
         Expirable next = expirable.getNextExpirable();
@@ -1879,6 +1919,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
      */
     @GuardedBy("Segment.this")
     void evictEntry() {
+      checkState(isLocked());
       drainRecencyQueue();
 
       Evictable evictable = evictionHead.getNextEvictable();
@@ -1897,6 +1938,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
 
     @GuardedBy("Segment.this")
     void addEvictable(Evictable evictable) {
+      checkState(isLocked());
       if (evictable.getNextEvictable() != evictionHead) {
         // unlink
         connectEvictables(evictable.getPreviousEvictable(),
@@ -1910,6 +1952,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
 
     @GuardedBy("Segment.this")
     void removeEvictable(Evictable evictable) {
+      checkState(isLocked());
       connectEvictables(evictable.getPreviousEvictable(),
           evictable.getNextEvictable());
       nullifyEvictable(evictable);
@@ -1917,11 +1960,12 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
 
     @GuardedBy("Segment.this")
     boolean inEvictionList(Evictable evictable) {
-      return (evictable.getNextEvictable() != NullEvictable.INSTANCE);
+      return evictable.getNextEvictable() != NullEvictable.INSTANCE;
     }
 
     @GuardedBy("Segment.this")
     void clearEvictionQueue() {
+      checkState(isLocked());
       Evictable evictable = evictionHead.getNextEvictable();
       while (evictable != evictionHead) {
         Evictable next = evictable.getNextEvictable();
@@ -1931,19 +1975,6 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
 
       evictionHead.setNextEvictable(evictionHead);
       evictionHead.setPreviousEvictable(evictionHead);
-    }
-
-    /**
-     * Sets table to new HashEntry array.
-     */
-    @GuardedBy("Segment.this")
-    void setTable(AtomicReferenceArray<ReferenceEntry<K, V>> newTable) {
-      this.threshold = newTable.length() * 3 / 4; // 0.75
-      if (this.threshold == maxSegmentSize) {
-        // prevent spurious expansion before eviction
-        this.threshold++;
-      }
-      this.table = newTable;
     }
 
     /**
@@ -2177,6 +2208,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
      */
     @GuardedBy("Segment.this")
     void expand() {
+      checkState(isLocked());
       AtomicReferenceArray<ReferenceEntry<K, V>> oldTable = table;
       int oldCapacity = oldTable.length();
       if (oldCapacity >= MAXIMUM_CAPACITY) {
@@ -2391,6 +2423,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
     @GuardedBy("Segment.this")
     private ReferenceEntry<K, V> removeFromTable(ReferenceEntry<K, V> first,
         ReferenceEntry<K, V> removed) {
+      checkState(isLocked());
       if (expires()) {
         removeExpirable((Expirable) removed);
       }
@@ -2531,7 +2564,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
       int mcsum = 0;
       for (int i = 0; i < segments.length; ++i) {
         // TODO(kevinb): verify the importance of this crazy trick with Doug
-        @SuppressWarnings("UnusedDeclaration")
+        @SuppressWarnings({"UnusedDeclaration", "unused"})
         int c = segments[i].count;
         mcsum += (mc[i] = segments[i].modCount);
         if (segments[i].containsValue(value)) {
@@ -2542,7 +2575,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
       if (mcsum != 0) {
         for (int i = 0; i < segments.length; ++i) {
           // TODO(kevinb): verify the importance of this crazy trick with Doug
-          @SuppressWarnings("UnusedDeclaration")
+          @SuppressWarnings({"UnusedDeclaration", "unused"})
           int c = segments[i].count;
           if (mc[i] != segments[i].modCount) {
             cleanSweep = false;
@@ -2970,6 +3003,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
       this.delegate = delegate;
     }
 
+    @Override
     protected ConcurrentMap<K, V> delegate() {
       return delegate;
     }
@@ -2983,8 +3017,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
       out.writeObject(null); // terminate entries
     }
 
-    MapMaker readMapMaker(ObjectInputStream in) throws IOException,
-        ClassNotFoundException {
+    MapMaker readMapMaker(ObjectInputStream in) throws IOException {
       int size = in.readInt();
       MapMaker mapMaker = new MapMaker()
           .initialCapacity(size)

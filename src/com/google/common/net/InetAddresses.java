@@ -319,7 +319,7 @@ public final class InetAddresses {
       int count = numberOfColons(ipString);
       StringBuilder buffer = new StringBuilder("::");
       for (int i = 0; i + count < 7; i++) {
-        buffer.append(":");
+        buffer.append(':');
       }
       ipString = ipString.replace("::", buffer);
     }

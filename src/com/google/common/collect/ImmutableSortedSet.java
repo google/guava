@@ -204,7 +204,8 @@ public abstract class ImmutableSortedSet<E>
    * {@link Comparable#compareTo}, only the first one specified is included.
    *
    * @throws NullPointerException if any of {@code elements} is null
-   * @deprecated use {@link #copyOf(Comparable[])}.
+   * @deprecated use {@link #copyOf(Comparable[])}. <b>This method is scheduled
+   *     for deletion in October 2011.</b>
    * @since 2 (changed from varargs in release 3)
    */
   @Deprecated

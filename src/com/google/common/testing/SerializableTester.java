@@ -38,6 +38,7 @@ import com.google.common.annotations.Beta;
  *
  * @see java.io.Serializable
  * @author mbostock@google.com (Mike Bostock)
+ * @since 8
  */
 @Beta
 public final class SerializableTester {

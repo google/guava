@@ -31,7 +31,7 @@ final class NullsLastOrdering<T> extends Ordering<T> implements Serializable {
     this.ordering = ordering;
   }
 
-  public int compare(@Nullable T left, @Nullable T right) {
+  @Override public int compare(@Nullable T left, @Nullable T right) {
     if (left == right) {
       return 0;
     }

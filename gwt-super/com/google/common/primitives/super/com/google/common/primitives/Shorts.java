@@ -331,7 +331,7 @@ public final class Shorts {
    * it is consistent with {@link Arrays#equals(short[], short[])}.
    *
    * @see <a href="http://en.wikipedia.org/wiki/Lexicographical_order">
-   *     Lexicographical order</a> article at Wikipedia
+   *     Lexicographical order article at Wikipedia</a>
    * @since 2
    */
   public static Comparator<short[]> lexicographicalComparator() {

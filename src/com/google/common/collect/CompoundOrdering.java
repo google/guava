@@ -43,7 +43,7 @@ final class CompoundOrdering<T> extends Ordering<T> implements Serializable {
         .addAll(comparators).add(lastComparator).build();
   }
 
-  public int compare(T left, T right) {
+  @Override public int compare(T left, T right) {
     for (Comparator<? super T> comparator : comparators) {
       int result = comparator.compare(left, right);
       if (result != 0) {

@@ -46,7 +46,8 @@ import java.util.SortedSet;
  * @author Jared Levy
  */
 @GwtCompatible
-class StandardRowSortedTable<R, C, V> extends StandardTable<R, C, V> {
+class StandardRowSortedTable<R, C, V> extends StandardTable<R, C, V>
+    implements RowSortedTable<R, C, V> {
   /*
    * TODO(jlevy): Consider adding headTable, tailTable, and subTable methods,
    * which return a Table view with rows keys in a given range. Create a

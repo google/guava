@@ -283,7 +283,7 @@ public final class Iterators {
     if (iterator.hasNext()) {
       sb.append(", ...");
     }
-    sb.append(">");
+    sb.append('>');
 
     throw new IllegalArgumentException(sb.toString());
   }

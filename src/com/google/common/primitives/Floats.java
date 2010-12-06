@@ -300,7 +300,7 @@ public final class Floats {
    * it is consistent with {@link Arrays#equals(float[], float[])}.
    *
    * @see <a href="http://en.wikipedia.org/wiki/Lexicographical_order">
-   *     Lexicographical order</a> article at Wikipedia
+   *     Lexicographical order article at Wikipedia</a>
    * @since 2
    */
   public static Comparator<float[]> lexicographicalComparator() {

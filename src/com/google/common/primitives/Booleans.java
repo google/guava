@@ -266,7 +266,7 @@ public final class Booleans {
    * it is consistent with {@link Arrays#equals(boolean[], boolean[])}.
    *
    * @see <a href="http://en.wikipedia.org/wiki/Lexicographical_order">
-   *     Lexicographical order</a> article at Wikipedia
+   *     Lexicographical order article at Wikipedia</a>
    * @since 2
    */
   public static Comparator<boolean[]> lexicographicalComparator() {

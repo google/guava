@@ -34,6 +34,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Queue;
 import java.util.RandomAccess;
 import java.util.Set;
 import java.util.SortedSet;
@@ -863,21 +864,54 @@ public final class Iterables {
    * Returns a view of the supplied iterable that wraps each generated
    * {@link Iterator} through {@link Iterators#consumingIterator(Iterator)}.
    *
+   * <p>Note: If {@code iterable} is a {@link Queue}, the returned iterable will
+   * get entries from {@link Queue#remove()} since {@link Queue}'s iteration
+   * order is undefined.  Calling {@link Iterator#hasNext()} on a generated
+   * iterator from the returned iterable may cause an item to be immediately
+   * dequeued for return on a subsequent call to {@link Iterator#next()}.
+   *
    * @param iterable the iterable to wrap
    * @return a view of the supplied iterable that wraps each generated iterator
-   *     through {@link Iterators#consumingIterator(Iterator)}
+   *     through {@link Iterators#consumingIterator(Iterator)}; for queues,
+   *     an iterable that generates iterators that return and consume the
+   *     queue's elements in queue order
    *
    * @see Iterators#consumingIterator(Iterator)
    * @since 2
    */
   @Beta
   public static <T> Iterable<T> consumingIterable(final Iterable<T> iterable) {
+    if (iterable instanceof Queue) {
+      return new Iterable<T>() {
+        public Iterator<T> iterator() {
+          return new ConsumingQueueIterator<T>((Queue<T>) iterable);
+        }
+      };
+    }
+
     checkNotNull(iterable);
+
     return new Iterable<T>() {
       public Iterator<T> iterator() {
         return Iterators.consumingIterator(iterable.iterator());
       }
     };
+  }
+
+  private static class ConsumingQueueIterator<T> extends AbstractIterator<T> {
+    private final Queue<T> queue;
+
+    private ConsumingQueueIterator(Queue<T> queue) {
+      this.queue = queue;
+    }
+
+    @Override public T computeNext() {
+      try {
+        return queue.remove();
+      } catch (NoSuchElementException e) {
+        return endOfData();
+      }
+    }
   }
 
   // Methods only in Iterables, not in Iterators
@@ -895,11 +929,11 @@ public final class Iterables {
    * Iterable#iterator} can simply be invoked on the result of calling this
    * method.
    *
-   * <p>Note: the method (Lists.reverse) can always be used in place of this
-   * one. This method will be deprecated shortly.
-   *
    * @return an iterable with the same elements as the list, in reverse
+   *
+   * @deprecated Use {@link Lists#reverse(List)}.
    */
+  @Deprecated
   public static <T> Iterable<T> reverse(final List<T> list) {
     return Lists.reverse(list);
   }

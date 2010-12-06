@@ -36,7 +36,7 @@ final class ComparatorOrdering<T> extends Ordering<T> implements Serializable {
     this.comparator = checkNotNull(comparator);
   }
 
-  public int compare(T a, T b) {
+  @Override public int compare(T a, T b) {
     return comparator.compare(a, b);
   }
 

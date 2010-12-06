@@ -32,7 +32,7 @@ import java.util.concurrent.TimeUnit;
  * @since 1
  */
 @Beta
-public class FakeTimeLimiter implements TimeLimiter {
+public final class FakeTimeLimiter implements TimeLimiter {
   public <T> T newProxy(T target, Class<T> interfaceType, long timeoutDuration,
       TimeUnit timeoutUnit) {
     return target; // ha ha

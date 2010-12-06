@@ -19,7 +19,6 @@ import static java.lang.String.format;
 
 import com.google.common.annotations.Beta;
 
-
 /**
  * A simple collection of assertions used in testing - rewritten to
  * avoid test framework dependencies.
@@ -46,9 +45,9 @@ public class Assert {
   public static void fail(String message) {
     throw new RuntimeException(message);
   }
-  
+
   /**
-   * Test the condition and throw a failure exception if false with 
+   * Test the condition and throw a failure exception if false with
    * a stock message.
    *
    * @throws RuntimeException
@@ -56,9 +55,9 @@ public class Assert {
   public static void assertTrue(boolean condition) {
     if (!condition) fail("Condition expected to be true but was false.");
   }
-  
+
   /**
-   * Test the condition and throw a failure exception if false with 
+   * Test the condition and throw a failure exception if false with
    * a stock message.
    *
    * @throws RuntimeException
@@ -66,14 +65,15 @@ public class Assert {
   public static void assertTrue(String message, boolean condition) {
     if (!condition) fail(message);
   }
-  
+
   /**
    * Assert the equality of two objects
    */
   public static void assertEquals(Object expected, Object actual) {
-    assertEquals(format("Expected '%s' but got '%s'", expected, actual), expected, actual);
+    assertEquals(format("Expected '%s' but got '%s'", expected, actual),
+        expected, actual);
   }
-  
+
   /**
    * Assert the equality of two objects
    */
