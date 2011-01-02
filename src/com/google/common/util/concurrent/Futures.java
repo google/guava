@@ -756,7 +756,7 @@ public final class Futures {
 
       // When a listener is first added, we run a task that will wait for
       // the delegate to finish, and when it is done will run the listeners.
-      if (!hasListeners.get() && hasListeners.compareAndSet(false, true)) {
+      if (hasListeners.compareAndSet(false, true)) {
         if (delegate.isDone()) {
           // If the delegate is already done, run the execution list
           // immediately on the current thread.
@@ -769,17 +769,16 @@ public final class Futures {
           public void run() {
             try {
               delegate.get();
-            } catch (CancellationException e) {
-              // The task was cancelled, so it is done, run the listeners.
+            } catch (Error e) {
+              throw e;
             } catch (InterruptedException e) {
               // This thread was interrupted.  This should never happen, so we
               // throw an IllegalStateException.
               Thread.currentThread().interrupt();
-              throw new IllegalStateException(
-                  "Adapter thread interrupted!", e);
-            } catch (ExecutionException e) {
-              // The task caused an exception, so it is done, run the
-              // listeners.
+              throw new IllegalStateException("Adapter thread interrupted!", e);
+            } catch (Throwable e) {
+              // ExecutionException / CancellationException / RuntimeException
+              // The task is done, run the listeners.
             }
             executionList.run();
           }

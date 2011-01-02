@@ -29,7 +29,7 @@ class EmptyImmutableSetMultimap extends ImmutableSetMultimap<Object, Object> {
       = new EmptyImmutableSetMultimap();
 
   private EmptyImmutableSetMultimap() {
-    super(ImmutableMap.<Object, ImmutableSet<Object>>of(), 0);
+    super(ImmutableMap.<Object, ImmutableSet<Object>>of(), 0, null);
   }
 
   private Object readResolve() {

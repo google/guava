@@ -16,18 +16,18 @@
 
 package com.google.common.base;
 
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.Map;
-
-import junit.framework.Assert;
-import junit.framework.TestCase;
-
 import com.google.common.base.Joiner.MapJoiner;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Maps;
-import com.google.common.testing.NullPointerTester;
+import com.google.testing.util.NullPointerTester;
+
+import junit.framework.Assert;
+import junit.framework.TestCase;
+
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.Map;
 
 /**
  * Unit test for {@link Joiner}.

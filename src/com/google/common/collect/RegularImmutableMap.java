@@ -65,12 +65,12 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
       @Nullable LinkedEntry<K, V> existing = table[tableIndex];
       // prepend, not append, so the entries can be immutable
       LinkedEntry<K, V> linkedEntry =
-          new LinkedEntry<K, V>(key, entry.getValue(), existing);
+          newLinkedEntry(key, entry.getValue(), existing);
       table[tableIndex] = linkedEntry;
       entries[entryIndex] = linkedEntry;
       while (existing != null) {
         checkArgument(!key.equals(existing.getKey()), "duplicate key: %s", key);
-        existing = existing.next;
+        existing = existing.next();
       }
     }
     keySetHashCode = keySetHashCodeMutable;
@@ -93,14 +93,49 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
     return new LinkedEntry[size];
   }
 
+  private static <K, V> LinkedEntry<K, V> newLinkedEntry(K key, V value,
+      @Nullable LinkedEntry<K, V> next) {
+    return (next == null)
+        ? new TerminalEntry<K, V>(key, value)
+        : new NonTerminalEntry<K, V>(key, value, next);
+  }
+
+  private interface LinkedEntry<K, V> extends Entry<K, V> {
+    /** Returns the next entry in the list or {@code null} if none exists. */
+    @Nullable LinkedEntry<K, V> next();
+  }
+
+  /** {@link LinkedEntry} implementation that has a next value. */
   @Immutable
   @SuppressWarnings("serial") // this class is never serialized
-  private static final class LinkedEntry<K, V> extends ImmutableEntry<K, V> {
-    @Nullable final LinkedEntry<K, V> next;
+  private static final class NonTerminalEntry<K, V>
+      extends ImmutableEntry<K, V> implements LinkedEntry<K, V> {
+    final LinkedEntry<K, V> next;
 
-    LinkedEntry(K key, V value, @Nullable LinkedEntry<K, V> next) {
+    NonTerminalEntry(K key, V value, LinkedEntry<K, V> next) {
       super(key, value);
       this.next = next;
+    }
+
+    @Override public LinkedEntry<K, V> next() {
+      return next;
+    }
+  }
+
+  /**
+   * {@link LinkedEntry} implementation that serves as the last entry in the
+   * list.  I.e. no next entry
+   */
+  @Immutable
+  @SuppressWarnings("serial") // this class is never serialized
+  private static final class TerminalEntry<K, V> extends ImmutableEntry<K, V>
+      implements LinkedEntry<K, V> {
+    TerminalEntry(K key, V value) {
+      super(key, value);
+    }
+
+    @Nullable @Override public LinkedEntry<K, V> next() {
+      return null;
     }
   }
 
@@ -111,7 +146,7 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
     int index = Hashing.smear(key.hashCode()) & mask;
     for (LinkedEntry<K, V> entry = table[index];
         entry != null;
-        entry = entry.next) {
+        entry = entry.next()) {
       K candidateKey = entry.getKey();
 
       /*

@@ -16,6 +16,15 @@
 
 package com.google.common.base;
 
+import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.GwtIncompatible;
+import com.google.common.collect.ImmutableSet;
+import com.google.testing.util.EqualsTester;
+import com.google.testing.util.NullPointerTester;
+import com.google.testing.util.SerializableTester;
+
+import junit.framework.TestCase;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -24,15 +33,6 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.regex.Pattern;
-
-import junit.framework.TestCase;
-
-import com.google.common.annotations.GwtCompatible;
-import com.google.common.annotations.GwtIncompatible;
-import com.google.common.collect.ImmutableSet;
-import com.google.common.testing.EqualsTester;
-import com.google.common.testing.NullPointerTester;
-import com.google.common.testing.SerializableTester;
 
 /**
  * Unit test for {@link Predicates}.
@@ -289,7 +289,7 @@ public class PredicatesTest extends TestCase {
     checkSerialization(Predicates.and(Arrays.asList(TRUE, FALSE)));
   }
 
-  @SuppressWarnings({"unchecked", "rawtypes"})
+  @SuppressWarnings("unchecked")
   public void testAnd_arrayDefensivelyCopied() {
     Predicate[] array = {Predicates.alwaysFalse()};
     Predicate<Object> predicate = Predicates.and(array);
@@ -298,7 +298,7 @@ public class PredicatesTest extends TestCase {
     assertFalse(predicate.apply(1));
   }
 
-  @SuppressWarnings({"unchecked", "rawtypes"})
+  @SuppressWarnings("unchecked")
   public void testAnd_listDefensivelyCopied() {
     List list = new ArrayList<Predicate>();
     Predicate<Object> predicate = Predicates.and(list);
@@ -307,7 +307,7 @@ public class PredicatesTest extends TestCase {
     assertTrue(predicate.apply(1));
   }
 
-  @SuppressWarnings({"unchecked", "rawtypes"})
+  @SuppressWarnings("unchecked")
   public void testAnd_iterableDefensivelyCopied() {
     final List list = new ArrayList<Predicate>();
     Iterable iterable = new Iterable<Predicate>() {
@@ -451,7 +451,7 @@ public class PredicatesTest extends TestCase {
     assertEquals(pre.apply(0), post.apply(0));
   }
 
-  @SuppressWarnings({"unchecked", "rawtypes"})
+  @SuppressWarnings("unchecked")
   public void testOr_arrayDefensivelyCopied() {
     Predicate[] array = {Predicates.alwaysFalse()};
     Predicate<Object> predicate = Predicates.or(array);
@@ -460,7 +460,7 @@ public class PredicatesTest extends TestCase {
     assertFalse(predicate.apply(1));
   }
 
-  @SuppressWarnings({"unchecked", "rawtypes"})
+  @SuppressWarnings("unchecked")
   public void testOr_listDefensivelyCopied() {
     List list = new ArrayList<Predicate>();
     Predicate<Object> predicate = Predicates.or(list);
@@ -469,7 +469,7 @@ public class PredicatesTest extends TestCase {
     assertFalse(predicate.apply(1));
   }
 
-  @SuppressWarnings({"unchecked", "rawtypes"})
+  @SuppressWarnings("unchecked")
   public void testOr_iterableDefensivelyCopied() {
     final List list = new ArrayList<Predicate>();
     Iterable iterable = new Iterable<Predicate>() {
@@ -681,7 +681,6 @@ public class PredicatesTest extends TestCase {
   /*
    * Tests that compilation will work when applying explicit types.
    */
-  @SuppressWarnings("unused")
   public void testIn_compilesWithExplicitSupertype() {
     Collection<Number> nums = ImmutableSet.of();
     Predicate<Number> p1 = Predicates.in(nums);
@@ -814,92 +813,32 @@ public class PredicatesTest extends TestCase {
         .testEquals();
       }
 
-  public void checkConsistency(
+  public void assertEqualHashCode(
       Predicate<? super Integer> expected, Predicate<? super Integer> actual) {
-    assertEvalsLike(expected, actual);
     assertEquals(actual.toString() + " should hash like " + expected.toString(),
         expected.hashCode(), actual.hashCode());
   }
 
-  public void testHashCodeForBooleanOperationsIsConsistentWithBooleanLogic() {
-    /*
-     * This isn't a "requirement" yet, as much as it's a "nice to have for
-     * future design."
-     *
-     * Maybe it will be possible to eventually have these predicates do
-     * certain simplifying logical transformations to simpler equivalent
-     * forms.  If so, this checks that the hash codes have been chosen in such
-     * a way that the fundamental building-block operations:
-     *
-     *    alwaysTrue()
-     *    alwaysFalse()
-     *    not(p)
-     *    and(p1, p2)
-     *    or(p1, p2)
-     *
-     * have hashCode() calculations that coincidentally cause equivalent logical
-     * expressions to have equivalent hashCode() values.
-     */
+  public void testHashCodeForBooleanOperations() {
     Predicate<Integer> p1 = Predicates.isNull();
     Predicate<Integer> p2 = isOdd();
-    Predicate<Integer> p3 = new Predicate<Integer>() {
-      public boolean apply(Integer i) {
-        return (Integer.bitCount(i) & 1) == 1;
-      }
-      @Override public String toString() {
-        return "oddBitCount";
-      }
-    };
 
-    checkConsistency(
-        p1,
-        Predicates.not(Predicates.not(p1)));
+    // Make sure that hash codes are not computed per-instance.
+    assertEqualHashCode(
+        Predicates.not(p1),
+        Predicates.not(p1));
 
-    checkConsistency(
-        Predicates.and(Predicates.not(p1), Predicates.not(p2)),
-        Predicates.not(Predicates.or(p1, p2)));
+    assertEqualHashCode(
+        Predicates.and(p1, p2),
+        Predicates.and(p1, p2));
 
-    checkConsistency(
-        Predicates.or(Predicates.not(p1), Predicates.not(p2)),
-        Predicates.not(Predicates.and(p1, p2)));
-
-    checkConsistency(
-        Predicates.and(Predicates.and(p1, p2), p3),
-        Predicates.and(p1, Predicates.and(p2, p3)));
-
-    checkConsistency(
-        Predicates.or(Predicates.or(p1, p2), p3),
-        Predicates.or(p1, Predicates.or(p2, p3)));
-
-    checkConsistency(
-        Predicates.or(Predicates.and(p1, p2), p3),
-        Predicates.and(Predicates.or(p1, p3), Predicates.or(p2, p3)));
-
-    checkConsistency(
-        Predicates.and(Predicates.or(p1, p2), p3),
-        Predicates.or(Predicates.and(p1, p3), Predicates.and(p2, p3)));
-
-    /*
-     * Now that alwaysFalse and alwaysTrue follow the enum singleton pattern,
-     * the following tests can't call checkConsistency to compare the hash
-     * codes.
-     */
-
-    assertEvalsLike(
-        Predicates.alwaysTrue(),
-        Predicates.not(Predicates.alwaysFalse()));
-
-    assertEvalsLike(
-        Predicates.alwaysFalse(),
-        Predicates.not(Predicates.alwaysTrue()));
-
-    assertEvalsLike(
-        Predicates.alwaysFalse(),
-        Predicates.and(p1, Predicates.not(p1)));
-
-    assertEvalsLike(
-        Predicates.alwaysTrue(),
-        Predicates.or(p1, Predicates.not(p1)));
+    assertEqualHashCode(
+        Predicates.or(p1, p2),
+        Predicates.or(p1, p2));
+ 
+    // While not a contractual requirement, we'd like the hash codes for ands
+    // & ors of the same predicates to not collide. 
+    assertTrue(Predicates.and(p1, p2).hashCode() != Predicates.or(p1, p2).hashCode());
   }
 
   private static void assertEvalsToTrue(Predicate<? super Integer> predicate) {

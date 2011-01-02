@@ -16,12 +16,12 @@
 
 package com.google.common.base;
 
-import java.util.Arrays;
-import java.util.Map;
+import com.google.common.collect.ImmutableMap;
 
 import junit.framework.TestCase;
 
-import com.google.common.collect.ImmutableMap;
+import java.util.Arrays;
+import java.util.Map;
 
 /**
  * Tests for {@link Objects#toStringHelper(Object)}.

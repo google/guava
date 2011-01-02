@@ -88,7 +88,7 @@ final class GwtSerializationDependencies {
     V value;
 
     ImmutableSetMultimapDependencies() {
-      super(null, 0);
+      super(null, 0, null);
     }
   }
 

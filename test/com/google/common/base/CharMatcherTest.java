@@ -22,12 +22,13 @@ import static com.google.common.base.CharMatcher.inRange;
 import static com.google.common.base.CharMatcher.is;
 import static com.google.common.base.CharMatcher.isNot;
 import static com.google.common.base.CharMatcher.noneOf;
-import junit.framework.TestCase;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
-import com.google.common.testing.Assert;
-import com.google.common.testing.NullPointerTester;
+import com.google.testing.util.NullPointerTester;
+
+import junit.framework.AssertionFailedError;
+import junit.framework.TestCase;
 
 /**
  * Unit test for {@link CharMatcher}.
@@ -47,8 +48,8 @@ public class CharMatcherTest extends TestCase {
 
   private static final CharMatcher WHATEVER = new CharMatcher() {
     @Override public boolean matches(char c) {
-      Assert.fail("You weren't supposed to actually invoke me!");
-      return false; // never actually reached
+      throw new AssertionFailedError(
+          "You weren't supposed to actually invoke me!");
     }
   };
 

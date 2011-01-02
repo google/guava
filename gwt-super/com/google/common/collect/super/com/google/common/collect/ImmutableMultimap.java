@@ -18,14 +18,19 @@ package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 import javax.annotation.Nullable;
 
@@ -120,6 +125,23 @@ public abstract class ImmutableMultimap<K, V>
   }
 
   /**
+   * Multimap for {@link ImmutableMultimap.Builder} that sorts key and allows
+   * duplicate values,
+   */
+  private static class SortedKeyBuilderMultimap<K, V> 
+      extends AbstractMultimap<K, V> {
+    SortedKeyBuilderMultimap(
+        Comparator<? super K> keyComparator, Multimap<K, V> multimap) {
+      super(new TreeMap<K, Collection<V>>(keyComparator));
+      putAll(multimap);
+    }
+    @Override Collection<V> createCollection() {
+      return Lists.newArrayList();
+    }
+    private static final long serialVersionUID = 0;
+  }
+  
+  /**
    * A builder for creating immutable multimap instances, especially
    * {@code public static final} multimaps ("constant multimaps"). Example:
    * <pre>   {@code
@@ -138,7 +160,8 @@ public abstract class ImmutableMultimap<K, V>
    * @since 2 (imported from Google Collections Library)
    */
   public static class Builder<K, V> {
-    private final Multimap<K, V> builderMultimap = new BuilderMultimap<K, V>();
+    Multimap<K, V> builderMultimap = new BuilderMultimap<K, V>();
+    Comparator<? super V> valueComparator;
 
     /**
      * Creates a new builder. The returned builder is equivalent to the builder
@@ -197,9 +220,38 @@ public abstract class ImmutableMultimap<K, V>
     }
 
     /**
+     * Specifies the ordering of the generated multimap's keys.
+     * 
+     * @since 8
+     */
+    @Beta
+    public Builder<K, V> orderKeysBy(Comparator<? super K> keyComparator) {
+      builderMultimap = new SortedKeyBuilderMultimap<K, V>(
+          checkNotNull(keyComparator), builderMultimap);
+      return this;
+    }
+
+    /**
+     * Specifies the ordering of the generated multimap's values for each key.
+     * 
+     * @since 8
+     */
+    @Beta
+    public Builder<K, V> orderValuesBy(Comparator<? super V> valueComparator) {
+      this.valueComparator = checkNotNull(valueComparator);
+      return this;
+    }
+    
+    /**
      * Returns a newly-created immutable multimap.
      */
     public ImmutableMultimap<K, V> build() {
+      if (valueComparator != null) {
+        for (Collection<V> values : builderMultimap.asMap().values()) {
+           List<V> list = (List <V>) values;
+           Collections.sort(list, valueComparator);
+        }
+      }
       return copyOf(builderMultimap);
     }
   }

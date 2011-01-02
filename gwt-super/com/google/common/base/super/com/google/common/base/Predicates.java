@@ -24,7 +24,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.annotation.Nullable;
@@ -263,9 +262,9 @@ public final class Predicates {
 
   /** @see Predicates#and(Iterable) */
   private static class AndPredicate<T> implements Predicate<T>, Serializable {
-    private final Iterable<? extends Predicate<? super T>> components;
+    private final List<? extends Predicate<? super T>> components;
 
-    private AndPredicate(Iterable<? extends Predicate<? super T>> components) {
+    private AndPredicate(List<? extends Predicate<? super T>> components) {
       this.components = components;
     }
     public boolean apply(T t) {
@@ -277,16 +276,13 @@ public final class Predicates {
       return true;
     }
     @Override public int hashCode() {
-      int result = -1; /* Start with all bits on. */
-      for (Predicate<? super T> predicate : components) {
-        result &= predicate.hashCode();
-      }
-      return result;
+      // 0x12472c2c is a random number to help avoid collisions with OrPredicate
+      return components.hashCode() + 0x12472c2c;
     }
     @Override public boolean equals(@Nullable Object obj) {
       if (obj instanceof AndPredicate) {
         AndPredicate<?> that = (AndPredicate<?>) obj;
-        return iterableElementsEqual(components, that.components);
+        return components.equals(that.components);
       }
       return false;
     }
@@ -298,9 +294,9 @@ public final class Predicates {
 
   /** @see Predicates#or(Iterable) */
   private static class OrPredicate<T> implements Predicate<T>, Serializable {
-    private final Iterable<? extends Predicate<? super T>> components;
+    private final List<? extends Predicate<? super T>> components;
 
-    private OrPredicate(Iterable<? extends Predicate<? super T>> components) {
+    private OrPredicate(List<? extends Predicate<? super T>> components) {
       this.components = components;
     }
     public boolean apply(T t) {
@@ -312,16 +308,13 @@ public final class Predicates {
       return false;
     }
     @Override public int hashCode() {
-      int result = 0; /* Start with all bits off. */
-      for (Predicate<? super T> predicate : components) {
-        result |= predicate.hashCode();
-      }
-      return result;
+      // 0x053c91cf is a random number to help avoid collisions with AndPredicate
+      return components.hashCode() + 0x053c91cf;
     }
     @Override public boolean equals(@Nullable Object obj) {
       if (obj instanceof OrPredicate) {
         OrPredicate<?> that = (OrPredicate<?>) obj;
-        return iterableElementsEqual(components, that.components);
+        return components.equals(that.components);
       }
       return false;
     }
@@ -453,31 +446,6 @@ public final class Predicates {
     }
 
     private static final long serialVersionUID = 0;
-  }
-
-  /**
-   * Determines whether the two Iterables contain equal elements. More
-   * specifically, this method returns {@code true} if {@code iterable1} and
-   * {@code iterable2} contain the same number of elements and every element of
-   * {@code iterable1} is equal to the corresponding element of {@code
-   * iterable2}.
-   *
-   * <p>This is not a general-purpose method; it assumes that the iterations
-   * contain no {@code null} elements.
-   */
-  private static boolean iterableElementsEqual(
-      Iterable<?> iterable1, Iterable<?> iterable2) {
-    Iterator<?> iterator1 = iterable1.iterator();
-    Iterator<?> iterator2 = iterable2.iterator();
-    while (iterator1.hasNext()) {
-      if (!iterator2.hasNext()) {
-        return false;
-      }
-      if (!iterator1.next().equals(iterator2.next())) {
-        return false;
-      }
-    }
-    return !iterator2.hasNext();
   }
 
   @SuppressWarnings("unchecked")

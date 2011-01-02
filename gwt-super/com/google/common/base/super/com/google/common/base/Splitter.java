@@ -268,7 +268,8 @@ public final class Splitter {
   }
 
   /**
-   * Splits the {@link CharSequence} passed in parameter.
+   * Splits {@code sequence} into string components and makes them available
+   * through an {@link Iterator}, which may be lazily evaluated.
    *
    * @param sequence the sequence of characters to split
    * @return an iteration over the segments split from the parameter.
@@ -400,4 +401,3 @@ public final class Splitter {
     }
   }
 }
-

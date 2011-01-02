@@ -16,17 +16,17 @@
 
 package com.google.common.base;
 
-import java.util.Map;
-
-import junit.framework.TestCase;
-
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
-import com.google.common.testing.EqualsTester;
-import com.google.common.testing.NullPointerTester;
-import com.google.common.testing.SerializableTester;
+import com.google.testing.util.EqualsTester;
+import com.google.testing.util.NullPointerTester;
+import com.google.testing.util.SerializableTester;
+
+import junit.framework.TestCase;
+
+import java.util.Map;
 
 /**
  * Tests for {@link Functions}.
@@ -275,7 +275,8 @@ public class FunctionsTest extends TestCase {
 
     Function<Object, String> numberToSpanish = Functions.constant("Yo no se");
 
-    Functions.compose(numberToSpanish, japaneseToInteger);
+    Function<String, String> japaneseToSpanish =
+        Functions.compose(numberToSpanish, japaneseToInteger);
   }
 
   private static class HashCodeFunction implements Function<Object, Integer> {

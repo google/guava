@@ -16,9 +16,9 @@
 
 package com.google.common.base;
 
-import junit.framework.TestCase;
+import com.google.testing.util.NullPointerTester;
 
-import com.google.common.testing.NullPointerTester;
+import junit.framework.TestCase;
 
 /**
  * Unit test for {@link Preconditions}.

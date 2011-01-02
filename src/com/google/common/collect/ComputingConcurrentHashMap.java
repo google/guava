@@ -174,8 +174,8 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V>
         // if the caller retries, they'll get the result of a different
         // rather than the same result.
         setValueReference(entry,
-            new NullOutputExceptionReference<K, V>(message));
-        throw new NullOutputException(message);
+            new NullPointerExceptionReference<K, V>(message));
+        throw new NullPointerException(message);
       }
       setComputedValue(entry, value);
       return value;
@@ -210,11 +210,11 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V>
     return valueReference.waitForValue();
   }
 
-  /** Used to provide null output exceptions to other threads. */
-  private static class NullOutputExceptionReference<K, V>
+  /** Used to provide null pointer exceptions to other threads. */
+  private static class NullPointerExceptionReference<K, V>
       implements ValueReference<K, V> {
     final String message;
-    NullOutputExceptionReference(String message) {
+    NullPointerExceptionReference(String message) {
       this.message = message;
     }
     public V get() {
@@ -225,7 +225,7 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V>
       return this;
     }
     public V waitForValue() {
-      throw new NullOutputException(message);
+      throw new NullPointerException(message);
     }
     public void clear() {}
   }

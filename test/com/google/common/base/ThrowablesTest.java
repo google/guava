@@ -20,15 +20,15 @@ import static com.google.common.base.Throwables.getStackTraceAsString;
 import static java.util.Arrays.asList;
 import static java.util.regex.Pattern.quote;
 
-import java.io.FileNotFoundException;
-import java.util.Arrays;
-import java.util.List;
+import com.google.common.collect.Iterables;
+import com.google.common.collect.ObjectArrays;
+import com.google.testing.util.NullPointerTester;
 
 import junit.framework.TestCase;
 
-import com.google.common.collect.Iterables;
-import com.google.common.collect.ObjectArrays;
-import com.google.common.testing.NullPointerTester;
+import java.io.FileNotFoundException;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Unit test for {@link Throwables}.
@@ -464,7 +464,9 @@ public class ThrowablesTest extends TestCase {
      * Eclipse doesn't think being thrown from a subclass's non-public,
      * non-protected method with the same signature counts as being "used."
      */
+    @SuppressWarnings("unused")
     void oneDeclared() throws SomeCheckedException {}
+    @SuppressWarnings("unused")
     void twoDeclared() throws SomeCheckedException, SomeOtherCheckedException {}
   }
 

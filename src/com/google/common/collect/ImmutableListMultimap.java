@@ -16,6 +16,7 @@
 
 package com.google.common.collect;
 
+import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 
@@ -24,6 +25,7 @@ import java.io.InvalidObjectException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.Map;
 
 import javax.annotation.Nullable;
@@ -158,54 +160,41 @@ public class ImmutableListMultimap<K, V>
      */
     public Builder() {}
 
-    /**
-     * Adds a key-value mapping to the built multimap.
-     */
     @Override public Builder<K, V> put(K key, V value) {
       super.put(key, value);
       return this;
     }
 
-    /**
-     * Stores a collection of values with the same key in the built multimap.
-     *
-     * @throws NullPointerException if {@code key}, {@code values}, or any
-     *     element in {@code values} is null. The builder is left in an invalid
-     *     state.
-     */
     @Override public Builder<K, V> putAll(K key, Iterable<? extends V> values) {
       super.putAll(key, values);
       return this;
     }
 
-    /**
-     * Stores an array of values with the same key in the built multimap.
-     *
-     * @throws NullPointerException if the key or any value is null. The builder
-     *     is left in an invalid state.
-     */
     @Override public Builder<K, V> putAll(K key, V... values) {
       super.putAll(key, values);
       return this;
     }
 
-    /**
-     * Stores another multimap's entries in the built multimap. The generated
-     * multimap's key and value orderings correspond to the iteration ordering
-     * of the {@code multimap.asMap()} view, with new keys and values following
-     * any existing keys and values.
-     *
-     * @throws NullPointerException if any key or value in {@code multimap} is
-     *     null. The builder is left in an invalid state.
-     */
     @Override public Builder<K, V> putAll(
         Multimap<? extends K, ? extends V> multimap) {
       super.putAll(multimap);
       return this;
     }
 
+    @Beta @Override
+    public Builder<K, V> orderKeysBy(Comparator<? super K> keyComparator) {
+      super.orderKeysBy(keyComparator);
+      return this;
+    }
+
+    @Beta @Override
+    public Builder<K, V> orderValuesBy(Comparator<? super V> valueComparator) {
+      super.orderValuesBy(valueComparator);
+      return this;
+    }
+
     /**
-     * Returns a newly-created immutable multimap.
+     * Returns a newly-created immutable list multimap.
      */
     @Override public ImmutableListMultimap<K, V> build() {
       return (ImmutableListMultimap<K, V>) super.build();
