@@ -135,9 +135,10 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
 
   /**
    * The builder class used in creation of min-max priority queues. Instead of
-   * constructing one directly, use {@link MinMaxPriorityQueue#orderedBy},
-   * {@link MinMaxPriorityQueue#expectedSize} or {@link
-   * MinMaxPriorityQueue#maximumSize}.
+   * constructing one directly, use {@link
+   * MinMaxPriorityQueue#orderedBy(Comparator)}, {@link
+   * MinMaxPriorityQueue#expectedSize(int)} or {@link
+   * MinMaxPriorityQueue#maximumSize(int)}.
    *
    * @param <B> the upper bound on the eventual type that can be produced by
    *     this builder (for example, a {@code Builder<Number>} can produce a

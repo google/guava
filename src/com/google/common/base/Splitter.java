@@ -44,9 +44,9 @@ import java.util.regex.Pattern;
  *
  * <p>By default {@code Splitter}'s behavior is very simplistic: <pre>   {@code
  *
- *   Splitter.on(',').split("foo,,bar,  quux")}</pre>
+ *   Splitter.on(',').split("foo,,bar, quux")}</pre>
  *
- * This returns an iterable containing {@code ["foo", "", "bar", "  quux"]}.
+ * This returns an iterable containing {@code ["foo", "", "bar", " quux"]}.
  * Notice that the splitter does not assume that you want empty strings removed,
  * or that you wish to trim whitespace. If you want features like these, simply
  * ask for them: <pre> {@code
@@ -55,7 +55,7 @@ import java.util.regex.Pattern;
  *       .trimResults()
  *       .omitEmptyStrings();}</pre>
  *
- * Now {@code MY_SPLITTER.split("foo, ,bar,  quux,")} returns an iterable
+ * Now {@code MY_SPLITTER.split("foo, ,bar, quux,")} returns an iterable
  * containing just {@code ["foo", "bar", "quux"]}. Note that the order in which
  * the configuration methods are called is never significant; for instance,
  * trimming is always applied first before checking for an empty result,
@@ -299,7 +299,7 @@ public final class Splitter {
    * automatically removes leading and trailing {@linkplain
    * CharMatcher#WHITESPACE whitespace} from each returned substring; equivalent
    * to {@code trimResults(CharMatcher.WHITESPACE)}. For example, {@code
-   * Splitter.on(',').trimResults().split(" a, b  ,c  ")} returns an iterable
+   * Splitter.on(',').trimResults().split(" a, b ,c ")} returns an iterable
    * containing {@code ["a", "b", "c"]}.
    *
    * @return a splitter with the desired configuration
