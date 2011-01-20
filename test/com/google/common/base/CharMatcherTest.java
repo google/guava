@@ -156,6 +156,7 @@ public class CharMatcherTest extends TestCase {
     } catch (IndexOutOfBoundsException expected) {
     }
     assertEquals(-1, matcher.lastIndexIn(""));
+    assertFalse(matcher.matchesAnyOf(""));
     assertTrue(matcher.matchesAllOf(""));
     assertTrue(matcher.matchesNoneOf(""));
     assertEquals("", matcher.removeFrom(""));
@@ -242,6 +243,7 @@ public class CharMatcherTest extends TestCase {
     } catch (IndexOutOfBoundsException expected) {
     }
     assertEquals(-1, matcher.lastIndexIn(s));
+    assertFalse(matcher.matchesAnyOf(s));
     assertFalse(matcher.matchesAllOf(s));
     assertTrue(matcher.matchesNoneOf(s));
 
@@ -259,6 +261,7 @@ public class CharMatcherTest extends TestCase {
     assertEquals(1, matcher.indexIn(s, 1));
     assertEquals(-1, matcher.indexIn(s, s.length()));
     assertEquals(s.length() - 1, matcher.lastIndexIn(s));
+    assertTrue(matcher.matchesAnyOf(s));
     assertTrue(matcher.matchesAllOf(s));
     assertFalse(matcher.matchesNoneOf(s));
     assertEquals("", matcher.removeFrom(s));
@@ -326,6 +329,7 @@ public class CharMatcherTest extends TestCase {
     assertEquals(0, matcher.indexIn(s, 0));
     assertEquals(-1, matcher.indexIn(s, 1));
     assertEquals(0, matcher.lastIndexIn(s));
+    assertTrue(matcher.matchesAnyOf(s));
     assertTrue(matcher.matchesAllOf(s));
     assertFalse(matcher.matchesNoneOf(s));
     assertEquals("", matcher.removeFrom(s));
@@ -342,6 +346,7 @@ public class CharMatcherTest extends TestCase {
     assertEquals(-1, matcher.indexIn(s, 0));
     assertEquals(-1, matcher.indexIn(s, 1));
     assertEquals(-1, matcher.lastIndexIn(s));
+    assertFalse(matcher.matchesAnyOf(s));
     assertFalse(matcher.matchesAllOf(s));
     assertTrue(matcher.matchesNoneOf(s));
 
@@ -361,6 +366,7 @@ public class CharMatcherTest extends TestCase {
     assertEquals(-1, matcher.indexIn(s, 1));
     assertEquals(-1, matcher.indexIn(s, 2));
     assertEquals(0, matcher.lastIndexIn(s));
+    assertTrue(matcher.matchesAnyOf(s));
     assertFalse(matcher.matchesAllOf(s));
     assertFalse(matcher.matchesNoneOf(s));
     assertEquals(s.substring(1), matcher.removeFrom(s));
@@ -376,6 +382,7 @@ public class CharMatcherTest extends TestCase {
     assertEquals(1, matcher.indexIn(s, 1));
     assertEquals(-1, matcher.indexIn(s, 2));
     assertEquals(1, matcher.lastIndexIn(s));
+    assertTrue(matcher.matchesAnyOf(s));
     assertFalse(matcher.matchesAllOf(s));
     assertFalse(matcher.matchesNoneOf(s));
     assertEquals(s.substring(0, 1), matcher.removeFrom(s));

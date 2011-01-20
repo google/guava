@@ -101,7 +101,8 @@ public final class HostSpecifier {
 
     // It is not any kind of IP address; must be a domain name or invalid.
 
-    final InternetDomainName domain = InternetDomainName.from(specifier);
+    // TODO(user): different lenient and strict versions of this?
+    final InternetDomainName domain = InternetDomainName.fromLenient(specifier);
 
     if (domain.hasPublicSuffix()) {
       return new HostSpecifier(domain.name());
@@ -128,7 +129,10 @@ public final class HostSpecifier {
       // fromValid(), we implement this method in terms of that one rather
       // than the reverse.
 
-      throw new ParseException("Invalid host specifier: " + specifier, 0);
+      ParseException parseException =
+          new ParseException("Invalid host specifier: " + specifier, 0);
+      parseException.initCause(e);
+      throw parseException;
     }
   }
 

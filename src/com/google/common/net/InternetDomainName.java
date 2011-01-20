@@ -105,7 +105,7 @@ public final class InternetDomainName {
   private final int publicSuffixIndex;
 
   /**
-   * Private constructor used to implement {@link #from(String)}.
+   * Private constructor used to implement {@link #fromLenient(String)}.
    */
   private InternetDomainName(String name) {
     // Normalize all dot-like characters to '.', and strip trailing '.'.
@@ -166,12 +166,16 @@ public final class InternetDomainName {
   }
 
   /**
-   * A factory method for creating {@code InternetDomainName} objects.
+   * A factory method for creating {@code InternetDomainName} objects. Only
+   * lenient validation of the domain is performed. Specifically,
+   * validation against
+   * <a href="http://www.ietf.org/rfc/rfc3490.txt">RFC 3490</a>
+   * ("Internationalizing Domain Names in Applications") is not performed.
    *
    * @param domain A domain name (not IP address)
    * @throws IllegalArgumentException If name is not syntactically valid
    */
-  public static InternetDomainName from(String domain) {
+  public static InternetDomainName fromLenient(String domain) {
     /*
      * RFC 1035 defines ASCII components of domain names to be case-insensitive;
      * normalizing ASCII characters to lower case allows us to simplify matching
@@ -434,15 +438,18 @@ public final class InternetDomainName {
    * @throws IllegalArgumentException if the resulting name is not valid
    */
   public InternetDomainName child(String leftParts) {
-    return InternetDomainName.from(checkNotNull(leftParts) + "." + name);
+    return InternetDomainName.fromLenient(checkNotNull(leftParts) + "." + name);
   }
 
   /**
-   * Indicates whether the argument is a syntactically valid domain name.  This
-   * method is intended for the case where a {@link String} must be validated as
-   * a valid domain name, but no further work with that {@link String} as an
-   * {@link InternetDomainName} will be required. Code like the following will
-   * unnecessarily repeat the work of validation: <pre>   {@code
+   * Indicates whether the argument is a syntactically valid domain name. Only
+   * lenient validation is done, as described in {@link #fromLenient(String)}.
+   *
+   * <p>This method is intended for the case where a {@link String} must be
+   * validated as a valid domain name, but no further work with that
+   * {@link String} as an {@link InternetDomainName} will be required. Code like
+   * the following will unnecessarily repeat the work of validation:
+   * <pre>   {@code
    *
    *   if (InternetDomainName.isValid(name)) {
    *     domainName = InternetDomainName.from(name);
@@ -458,9 +465,9 @@ public final class InternetDomainName {
    *     domainName = DEFAULT_DOMAIN;
    *   }}</pre>
    */
-  public static boolean isValid(String name) {
+  public static boolean isValidLenient(String name) {
     try {
-      from(name);
+      fromLenient(name);
       return true;
     } catch (IllegalArgumentException e) {
       return false;

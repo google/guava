@@ -394,10 +394,13 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
 
   private void checkExpiration(long duration, TimeUnit unit) {
     checkState(expireAfterWriteNanos == UNSET_INT,
-        "time to live of %s ns was already set", expireAfterWriteNanos);
+        "expireAfterWrite was already set to %s ns",
+        expireAfterWriteNanos);
     checkState(expireAfterAccessNanos == UNSET_INT,
-        "time to idle of ns was already set", expireAfterAccessNanos);
-    checkArgument(duration > 0, "invalid duration: %s %s", duration, unit);
+        "expireAfterAccess was already set to %s ns",
+        expireAfterAccessNanos);
+    checkArgument(duration > 0, "duration must be positive: %s %s",
+        duration, unit);
   }
 
   long getExpireAfterWriteNanos() {

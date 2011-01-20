@@ -43,7 +43,7 @@ final class SortedLists {
   /**
    * A comparison relationship between a value and an element in a collection.
    */
-  public enum Relation {
+  enum Relation {
 
     /**
      * The relation that specifies the greatest element strictly less than the
@@ -66,7 +66,7 @@ final class SortedLists {
      */
     LOWER {
 
-      @Override public Relation reverse() {
+      @Override Relation reverse() {
         return HIGHER;
       }
 
@@ -107,7 +107,7 @@ final class SortedLists {
      */
     FLOOR {
 
-      @Override public Relation reverse() {
+      @Override Relation reverse() {
         return CEILING;
       }
 
@@ -159,7 +159,7 @@ final class SortedLists {
      */
     EQUAL {
 
-      @Override public Relation reverse() {
+      @Override Relation reverse() {
         return this;
       }
 
@@ -200,7 +200,7 @@ final class SortedLists {
      */
     CEILING {
 
-      @Override public Relation reverse() {
+      @Override Relation reverse() {
         return FLOOR;
       }
 
@@ -253,7 +253,7 @@ final class SortedLists {
      */
     HIGHER {
 
-      @Override public Relation reverse() {
+      @Override Relation reverse() {
         return LOWER;
       }
 
@@ -275,7 +275,7 @@ final class SortedLists {
      * The reverse order counterpart of the relation. Useful for descending
      * views.
      */
-    public abstract Relation reverse();
+    abstract Relation reverse();
 
     /**
      * Given that {@code list.get(lower - 1) < list.get(index) = e <
@@ -338,7 +338,7 @@ final class SortedLists {
    *         search key is not mutually comparable with the elements of the list
    *         using this comparator.
    */
-  public static <E> int binarySearch(List<? extends E> list, @Nullable E e,
+  static <E> int binarySearch(List<? extends E> list, @Nullable E e,
       Comparator<? super E> comparator, Relation relation) {
     return binarySearch(list, e, comparator, relation, true);
   }

@@ -931,7 +931,9 @@ public final class Iterables {
    *
    * @return an iterable with the same elements as the list, in reverse
    *
-   * @deprecated Use {@link Lists#reverse(List)}.
+   * @deprecated use {@link Lists#reverse(List)} or {@link
+   *     ImmutableList#reverse()}. <b>This method is scheduled for deletion in
+   *     July 2012.</b>
    */
   @Deprecated
   public static <T> Iterable<T> reverse(final List<T> list) {

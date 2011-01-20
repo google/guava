@@ -17,6 +17,7 @@
 package com.google.common.net;
 
 import com.google.common.annotations.Beta;
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Preconditions;
 import com.google.common.io.ByteStreams;
 import com.google.common.primitives.Ints;
@@ -831,7 +832,7 @@ public final class InetAddresses {
    * @param key A 64-bit number to hash
    * @return {@code int} the input hashed into 32 bits
    */
-  protected static int hash64To32(long key) {
+  @VisibleForTesting static int hash64To32(long key) {
     key = (~key) + (key << 18);
     key = key ^ (key >>> 31);
     key = key * 21;

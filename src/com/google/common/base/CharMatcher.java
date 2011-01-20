@@ -705,6 +705,20 @@ public abstract class CharMatcher implements Predicate<Character> {
   // Text processing routines
 
   /**
+   * Returns {@code true} if a character sequence contains at least one matching character.
+   * Equivalent to {@code !matchesNoneOf(sequence)}.
+   *
+   * <p>The default implementation iterates over the sequence, invoking {@link #matches} for each
+   * character, until this returns {@code true} or the end is reached.
+   *
+   * @param sequence the character sequence to examine, possibly empty
+   * @return {@code true} if this matcher matches at least one character in the sequence
+   */
+  public boolean matchesAnyOf(CharSequence sequence) {
+    return !matchesNoneOf(sequence);
+  }
+
+  /**
    * Returns {@code true} if a character sequence contains only matching characters.
    *
    * <p>The default implementation iterates over the sequence, invoking {@link #matches} for each
@@ -724,7 +738,8 @@ public abstract class CharMatcher implements Predicate<Character> {
   }
 
   /**
-   * Returns {@code true} if a character sequence contains no matching characters.
+   * Returns {@code true} if a character sequence contains no matching characters. Equivalent to
+   * {@code !matchesAnyOf(sequence)}.
    *
    * <p>The default implementation iterates over the sequence, invoking {@link #matches} for each
    * character, until this returns {@code false} or the end is reached.
