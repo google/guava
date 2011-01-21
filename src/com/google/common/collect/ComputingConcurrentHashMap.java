@@ -180,14 +180,45 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V>
       setComputedValue(entry, value);
       return value;
     }
+
+    /**
+     * Sets the value of a newly computed entry. Adds newly created entries at
+     * the end of the expiration queue.
+     */
+    void setComputedValue(ReferenceEntry<K, V> entry, V value) {
+      if (evictsBySize() || expires()) {
+        lock();
+        try {
+          if (evictsBySize() || expires()) {
+            // "entry" currently points to the original entry created when
+            // computation began, but by now that entry may have been replaced.
+            // Find the current entry, and pass it to recordWrite to ensure that
+            // the eviction lists are consistent with the current map entries.
+            K key = entry.getKey();
+            int hash = entry.getHash();
+            ReferenceEntry<K, V> newEntry = getEntry(key, hash);
+            recordWrite(newEntry);
+          }
+        } finally {
+          unlock();
+        }
+      }
+      // computation completes with putIfAbsent to ensure linearizability
+      synchronized (entry) {
+        if (entry.getValueReference().get() == null) {
+          setValueReference(entry, valueStrength.referenceValue(entry, value));
+        }
+      }
+    }
   }
 
   @Override void setValueReference(ReferenceEntry<K, V> entry,
       ValueReference<K, V> valueReference) {
-    boolean notifyOthers = (entry.getValueReference() == UNSET);
-    entry.setValueReference(valueReference);
-    if (notifyOthers) {
-      synchronized (entry) {
+    // atomically set new values for setComputedValue's sake
+    synchronized (entry) {
+      boolean notifyOthers = (entry.getValueReference() == UNSET);
+      entry.setValueReference(valueReference);
+      if (notifyOthers) {
         entry.notifyAll();
       }
     }

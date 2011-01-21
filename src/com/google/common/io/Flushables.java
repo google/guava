@@ -55,9 +55,10 @@ public final class Flushables {
     try {
       flushable.flush();
     } catch (IOException e) {
-      logger.log(Level.WARNING,
-          "IOException thrown while flushing Flushable.", e);
-      if (!swallowIOException) {
+      if (swallowIOException) {
+        logger.log(Level.WARNING,
+            "IOException thrown while flushing Flushable.", e);
+      } else {
         throw e;
       }
     }

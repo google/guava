@@ -1729,31 +1729,6 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
       setValueReference(entry, valueStrength.referenceValue(entry, value));
     }
 
-    /**
-     * Sets the value of a newly computed entry. Adds newly created entries at
-     * the end of the expiration queue.
-     */
-    void setComputedValue(ReferenceEntry<K, V> entry, V value) {
-      if (evictsBySize() || expires()) {
-        lock();
-        try {
-          if (evictsBySize() || expires()) {
-            // "entry" currently points to the original entry created when
-            // computation began, but by now that entry may have been replaced.
-            // Find the current entry, and pass it to recordWrite to ensure that
-            // the eviction lists are consistent with the current map entries.
-            K key = entry.getKey();
-            int hash = entry.getHash();
-            ReferenceEntry<K, V> newEntry = getEntry(key, hash);
-            recordWrite(newEntry);
-          }
-        } finally {
-          unlock();
-        }
-      }
-      setValueReference(entry, valueStrength.referenceValue(entry, value));
-    }
-
     // recency queue, shared by expiration and eviction
 
     /**

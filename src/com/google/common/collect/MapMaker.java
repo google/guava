@@ -520,10 +520,9 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    *     wrapped.
    * </ul>
    *
-   * <p>If {@link Map#put} is called on the underlying map before a computation
-   * completes, other threads waiting on the computation will wake up and return
-   * the stored value. When the computation completes, its new result will
-   * overwrite the value that was put in the map manually.
+   * <p>If {@link Map#put} is called before a computation completes, other
+   * threads waiting on the computation will wake up and return the stored
+   * value. When the computation completes, its result will be ignored.
    *
    * <p>This method does not alter the state of this {@code MapMaker} instance,
    * so it can be invoked again to create multiple independent maps.
@@ -571,8 +570,7 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    *
    * <p>If {@link Map#put} is called before a computation completes, other
    * threads waiting on the computation will wake up and return the stored
-   * value. When the computation completes, its new result will overwrite the
-   * value that was put in the map manually.
+   * value.
    *
    * <p>This method does not alter the state of this {@code MapMaker} instance,
    * so it can be invoked again to create multiple independent maps.
