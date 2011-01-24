@@ -1436,12 +1436,8 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
   void reclaimValue(ReferenceEntry<K, V> entry) {
     int hash = entry.getHash();
     if (segmentFor(hash).reclaimValue(entry, hash)) {
-      // send removal notification if the entry is in the map and has not been
-      // reused; copy the entry in case it is reused before the notification
-      // is processed
-      ReferenceEntry<K, V> newEntry = entryFactory.newEntry(
-          this, entry.getKey(), hash, null);
-      pendingEvictionNotifications.offer(newEntry);
+      // entry was removed from map, so can't be reused
+      pendingEvictionNotifications.offer(entry);
     }
   }
 
@@ -2152,6 +2148,12 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
               return entryValue;
             }
 
+            if (absent) {
+              // value was garbage collected; copy entry for notification
+              ReferenceEntry<K, V> notifyEntry = entryFactory.newEntry(
+                  CustomConcurrentHashMap.this, key, hash, null);
+              pendingEvictionNotifications.offer(notifyEntry);
+            }
             setValue(e, value);
             return entryValue;
           }

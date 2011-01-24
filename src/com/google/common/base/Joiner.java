@@ -239,7 +239,7 @@ public class Joiner {
    * this {@code Joiner} otherwise.
    */
   public MapJoiner withKeyValueSeparator(String keyValueSeparator) {
-    return new MapJoiner(this, checkNotNull(keyValueSeparator));
+    return new MapJoiner(this, keyValueSeparator);
   }
 
   /**
@@ -248,13 +248,13 @@ public class Joiner {
    *
    * @since 2 (imported from Google Collections Library)
    */
-  public static class MapJoiner {
+  public final static class MapJoiner {
     private final Joiner joiner;
     private final String keyValueSeparator;
 
     private MapJoiner(Joiner joiner, String keyValueSeparator) {
-      this.joiner = joiner;
-      this.keyValueSeparator = keyValueSeparator;
+      this.joiner = joiner; // only "this" is ever passed, so don't checkNotNull
+      this.keyValueSeparator = checkNotNull(keyValueSeparator);
     }
 
     /**
