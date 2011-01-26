@@ -73,18 +73,16 @@ public final class Futures {
         return future.isDone();
       }
 
-      public V get(long timeoutDuration, TimeUnit timeoutUnit)
+      public V get(long originalTimeout, TimeUnit originalUnit)
           throws TimeoutException, ExecutionException {
         boolean interrupted = false;
         try {
-          long timeoutNanos = timeoutUnit.toNanos(timeoutDuration);
-          long end = System.nanoTime() + timeoutNanos;
+          long end = System.nanoTime() + originalUnit.toNanos(originalTimeout);
           while (true) {
             try {
-              return future.get(timeoutNanos, NANOSECONDS);
-            } catch (InterruptedException e) {
               // Future treats negative timeouts just like zero.
-              timeoutNanos = end - System.nanoTime();
+              return future.get(end - System.nanoTime(), NANOSECONDS);
+            } catch (InterruptedException e) {
               interrupted = true;
             }
           }

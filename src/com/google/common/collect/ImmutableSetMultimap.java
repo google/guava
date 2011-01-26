@@ -230,6 +230,11 @@ public class ImmutableSetMultimap<K, V>
       return this;
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @since 8
+     */
     @Beta @Override
     public Builder<K, V> orderKeysBy(Comparator<? super K> keyComparator) {
       builderMultimap = new SortedKeyBuilderMultimap<K, V>(

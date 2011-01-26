@@ -14,8 +14,6 @@
 
 package com.google.common.base;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 
@@ -24,9 +22,10 @@ import javax.annotation.Nullable;
 /**
  * Contains static factory methods for creating {@code Equivalence} instances.
  *
- * <p>All methods returns serializable instances.
+ * <p>All methods return serializable instances.
  *
  * @author Bob Lee
+ * @author Kurt Alfred Kluever
  * @since 4
  */
 @Beta
@@ -36,7 +35,12 @@ public final class Equivalences {
 
   /**
    * Returns an equivalence that delegates to {@link Object#equals} and {@link Object#hashCode}.
-   * Does not support null values.
+   * {@link Equivalence#equivalent} returns {@code true} if both values are null, or if neither
+   * value is null and {@link Object#equals} returns {@code true}. {@link Equivalence#hash} returns
+   * {@code 0} if passed a null value.
+   *
+   * @since 8 (present null-friendly behavior)
+   * @since 4 (otherwise)
    */
   public static Equivalence<Object> equals() {
     return Impl.EQUALS;
@@ -47,17 +51,18 @@ public final class Equivalences {
    * {@link Equivalence#equivalent} returns {@code true} if both values are null, or if neither
    * value is null and {@link Object#equals} returns {@code true}. {@link Equivalence#hash} returns
    * {@code 0} if passed a null value.
+   *
+   * @deprecated use {@link Equivalences#equals}, which now has the null-aware behavior
    */
+  @Deprecated
   public static Equivalence<Object> nullAwareEquals() {
-    return Impl.NULL_AWARE_EQUALS;
+    return Impl.EQUALS;
   }
 
   /**
    * Returns an equivalence that uses {@code ==} to compare values and {@link
    * System#identityHashCode(Object)} to compute the hash code.  {@link Equivalence#equivalent}
-   * returns {@code true} if both values are null, or if neither value is null and {@code ==}
-   * returns {@code true}. {@link Equivalence#hash} throws a {@link NullPointerException} if passed
-   * a null value.
+   * returns {@code true} if {@code a == b}, including in the case that a and b are both null.
    */
   public static Equivalence<Object> identity() {
     return Impl.IDENTITY;
@@ -65,32 +70,22 @@ public final class Equivalences {
 
   private enum Impl implements Equivalence<Object> {
     EQUALS {
-      public boolean equivalent(Object a, @Nullable Object b) {
-        checkNotNull(a);  // for GWT.
-        return a.equals(b);
-      }
-
-      public int hash(Object o) {
-        checkNotNull(o);  // for GWT.
-        return o.hashCode();
-      }
-    },
-    IDENTITY {
-      public boolean equivalent(Object a, @Nullable Object b) {
-        return checkNotNull(a) == b;
-      }
-
-      public int hash(@Nullable Object o) {
-        return System.identityHashCode(o);
-      }
-    },
-    NULL_AWARE_EQUALS {
       public boolean equivalent(@Nullable Object a, @Nullable Object b) {
-        return Objects.equal(a, b);
+        // TODO(kevinb): use Objects.equal() after testing issue is worked out.
+        return (a == null) ? (b == null) : a.equals(b);
       }
 
       public int hash(@Nullable Object o) {
         return (o == null) ? 0 : o.hashCode();
+      }
+    },
+    IDENTITY {
+      public boolean equivalent(@Nullable Object a, @Nullable Object b) {
+        return a == b;
+      }
+
+      public int hash(@Nullable Object o) {
+        return System.identityHashCode(o);
       }
     },
   }

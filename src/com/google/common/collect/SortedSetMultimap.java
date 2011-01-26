@@ -44,6 +44,8 @@ import javax.annotation.Nullable;
  */
 @GwtCompatible
 public interface SortedSetMultimap<K, V> extends SetMultimap<K, V> {
+  // Following Javadoc copied from Multimap.
+
   /**
    * Returns a collection view of all values associated with a key. If no
    * mappings in the multimap have the provided key, an empty collection is
@@ -81,9 +83,9 @@ public interface SortedSetMultimap<K, V> extends SetMultimap<K, V> {
 
   /**
    * Returns a map view that associates each key with the corresponding values
-   * in the multimap. Changes to the returned map, such as element removal,
-   * will update the underlying multimap. The map never supports
-   * {@code setValue()} on the map entries, {@code put}, or {@code putAll}.
+   * in the multimap. Changes to the returned map, such as element removal, will
+   * update the underlying multimap. The map does not support {@code setValue()}
+   * on its entries, {@code put}, or {@code putAll}.
    *
    * <p>When passed a key that is present in the map, {@code
    * asMap().get(Object)} has the same behavior as {@link #get}, returning a

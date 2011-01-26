@@ -187,6 +187,7 @@ public class CharMatcherTest extends TestCase {
     doTestNoMatches(CharMatcher.DIGIT, "\tAz()");
     doTestNoMatches(CharMatcher.JAVA_DIGIT, "\tAz()");
     doTestNoMatches(CharMatcher.DIGIT.and(CharMatcher.ASCII), "\tAz()");
+    doTestNoMatches(CharMatcher.SINGLE_WIDTH, "\u05bf\u3000");
   }
 
   private void doTestNoMatches(CharMatcher matcher, String s) {
@@ -213,6 +214,7 @@ public class CharMatcherTest extends TestCase {
     doTestAllMatches(CharMatcher.DIGIT, "0123456789\u0ED0\u1B59");
     doTestAllMatches(CharMatcher.JAVA_DIGIT, "0123456789");
     doTestAllMatches(CharMatcher.DIGIT.and(CharMatcher.ASCII), "0123456789");
+    doTestAllMatches(CharMatcher.SINGLE_WIDTH, "\t0123ABCdef~\u00A0\u2111");
   }
 
   private void doTestAllMatches(CharMatcher matcher, String s) {

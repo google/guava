@@ -48,14 +48,37 @@ abstract class AbstractListMultimap<K, V>
 
   @Override abstract List<V> createCollection();
 
+  // Following Javadoc copied from ListMultimap.
+
+  /**
+   * {@inheritDoc}
+   *
+   * <p>Because the values for a given key may have duplicates and follow the
+   * insertion ordering, this method returns a {@link List}, instead of the
+   * {@link Collection} specified in the {@link Multimap} interface.
+   */
   @Override public List<V> get(@Nullable K key) {
     return (List<V>) super.get(key);
   }
 
+  /**
+   * {@inheritDoc}
+   *
+   * <p>Because the values for a given key may have duplicates and follow the
+   * insertion ordering, this method returns a {@link List}, instead of the
+   * {@link Collection} specified in the {@link Multimap} interface.
+   */
   @Override public List<V> removeAll(@Nullable Object key) {
     return (List<V>) super.removeAll(key);
   }
 
+  /**
+   * {@inheritDoc}
+   *
+   * <p>Because the values for a given key may have duplicates and follow the
+   * insertion ordering, this method returns a {@link List}, instead of the
+   * {@link Collection} specified in the {@link Multimap} interface.
+   */
   @Override public List<V> replaceValues(
       @Nullable K key, Iterable<? extends V> values) {
     return (List<V>) super.replaceValues(key, values);
@@ -73,6 +96,16 @@ abstract class AbstractListMultimap<K, V>
   }
 
   /**
+   * {@inheritDoc}
+   *
+   * <p>Though the method signature doesn't say so explicitly, the returned map
+   * has {@link List} values.
+   */
+  @Override public Map<K, Collection<V>> asMap() {
+    return super.asMap();
+  }
+
+  /**
    * Compares the specified object to this multimap for equality.
    *
    * <p>Two {@code ListMultimap} instances are equal if, for each key, they
@@ -82,6 +115,6 @@ abstract class AbstractListMultimap<K, V>
   @Override public boolean equals(@Nullable Object object) {
     return super.equals(object);
   }
-  
-  private static final long serialVersionUID = 6588350623831699109L;  
+
+  private static final long serialVersionUID = 6588350623831699109L;
 }

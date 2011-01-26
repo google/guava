@@ -174,6 +174,7 @@ public final class InternetDomainName {
    *
    * @param domain A domain name (not IP address)
    * @throws IllegalArgumentException If name is not syntactically valid
+   * @since 8 (previously named {@code from})
    */
   public static InternetDomainName fromLenient(String domain) {
     /*
@@ -464,6 +465,8 @@ public final class InternetDomainName {
    *   } catch (IllegalArgumentException e) {
    *     domainName = DEFAULT_DOMAIN;
    *   }}</pre>
+   *
+   * @since 8 (previously named {@code isValid})
    */
   public static boolean isValidLenient(String name) {
     try {

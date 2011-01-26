@@ -181,12 +181,22 @@ public class ImmutableListMultimap<K, V>
       return this;
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @since 8
+     */
     @Beta @Override
     public Builder<K, V> orderKeysBy(Comparator<? super K> keyComparator) {
       super.orderKeysBy(keyComparator);
       return this;
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @since 8
+     */
     @Beta @Override
     public Builder<K, V> orderValuesBy(Comparator<? super V> valueComparator) {
       super.orderValuesBy(valueComparator);

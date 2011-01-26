@@ -708,7 +708,7 @@ public final class Lists {
    *
    * @since 7
    */
-  @Beta public static <T> List<T> reverse(List<T> list) {
+  public static <T> List<T> reverse(List<T> list) {
     if (list instanceof ReverseList) {
       return ((ReverseList<T>) list).getForwardList();
     } else if (list instanceof RandomAccess) {

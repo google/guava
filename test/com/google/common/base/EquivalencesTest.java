@@ -25,57 +25,38 @@ import junit.framework.TestCase;
  */
 public class EquivalencesTest extends TestCase {
 
-  private static final Object OBJECT = new Object();
+  private static final Object OBJECT = (Integer) 42;
 
-  public void testEquivalenceEqualsEquivalent() {
+  public void testEqualsEquivalent() {
+    assertTrue(Equivalences.equals().equivalent(null, null));
     assertTrue(Equivalences.equals().equivalent(OBJECT, OBJECT));
-
+    assertTrue(Equivalences.equals().equivalent(((Integer) 42), OBJECT));
+    assertTrue(Equivalences.equals().equivalent(OBJECT, ((Integer) 42)));
     assertFalse(Equivalences.equals().equivalent(OBJECT, null));
-
-    try {
-      Equivalences.equals().equivalent(null, OBJECT);
-      fail("expected a NPE");
-    } catch (NullPointerException expected) {
-    }
+    assertFalse(Equivalences.equals().equivalent(null, OBJECT));
   }
 
-  public void testEquivalenceEqualsHash() {
+  public void testEqualsHash() {
     assertEquals(OBJECT.hashCode(), Equivalences.equals().hash(OBJECT));
-
-    try {
-      Equivalences.equals().hash(null);
-      fail("expected a NPE");
-    } catch (NullPointerException expected) {
-    }
+    assertEquals(0, Equivalences.equals().hash(null));
   }
 
-  public void testEquivalenceIdentityEquivalent() {
+  public void testIdentityEquivalent() {
+    assertTrue(Equivalences.identity().equivalent(null, null));
     assertTrue(Equivalences.identity().equivalent(OBJECT, OBJECT));
+    assertTrue(Equivalences.identity().equivalent(12L, 12L));
+    assertFalse(Equivalences.identity().equivalent(OBJECT, null));
+    assertFalse(Equivalences.identity().equivalent(null, OBJECT));
     assertFalse(Equivalences.identity().equivalent(12L, new Long(12L)));
     assertFalse(Equivalences.identity().equivalent(new Long(12L), 12L));
-    assertFalse(Equivalences.equals().equivalent("x", null));
-    try {
-      Equivalences.equals().equivalent(null, OBJECT);
-      fail("expected a NPE");
-    } catch (NullPointerException expected) {
-    }
   }
 
-  public void testEquivalenceIdentityHash() {
-    assertEquals(System.identityHashCode(OBJECT),
-        Equivalences.identity().hash(OBJECT));
+  public void testIdentityHash() {
+    assertEquals(System.identityHashCode(OBJECT), Equivalences.identity().hash(OBJECT));
     assertEquals(0, Equivalences.identity().hash(null));
   }
 
-  public void testEquivalenceNullAwareEqualsEquivalent() {
-    assertTrue(Equivalences.nullAwareEquals().equivalent(null, null));
-    assertTrue(Equivalences.nullAwareEquals().equivalent(OBJECT, OBJECT));
-    assertFalse(Equivalences.nullAwareEquals().equivalent(OBJECT, null));
-  }
-
-  public void testEquivalenceNullAwareEqualsHash() {
-    assertEquals(OBJECT.hashCode(),
-        Equivalences.nullAwareEquals().hash(OBJECT));
-    assertEquals(0, Equivalences.nullAwareEquals().hash(null));
+  public void testEqualsAndNullAwareEqualsAreIdentical() {
+    assertSame(Equivalences.equals(), Equivalences.nullAwareEquals());
   }
 }
