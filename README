@@ -6,7 +6,7 @@ Requires JDK 1.5 or higher.
 Project page:
   http://guava-libraries.googlecode.com
 
-File a bug or feature request here:
+Report a defect or feature request here:
   http://code.google.com/p/guava-libraries/issues/entry
 
 Ask "how-to" and "why-didn't-it-work" questions at:
@@ -35,4 +35,12 @@ could result (you are not guaranteed a compilation error).
 3. Serialized forms of ALL objects are subject to change. Do not
 persist these and assume they can be read by a future version of the
 library.
+
+4. Our classes are not designed to protect against a malicious caller.
+You should not use them for communication between trusted and
+untrusted code.
+
+5. We unit-test and benchmark the libraries using only OpenJDK 1.6 on
+Linux. Some features, especially in com.google.common.io, may not work
+correctly in other environments.
 

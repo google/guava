@@ -41,7 +41,7 @@ public interface Equivalence<T> {
    * <li>It is <i>symmetric</i>: for any references {@code x} and {@code y}, {@code
    *     equivalent(x, y) == equivalent(y, x)}.
    * <li>It is <i>transitive</i>: for any references {@code x}, {@code y}, and {@code z}, if
-   *     {@code equivalent(x, y) returns {@code true} and {@code equivalent(y, z)} returns {@code
+   *     {@code equivalent(x, y)} returns {@code true} and {@code equivalent(y, z)} returns {@code
    *     true}, then {@code equivalent(x, z)} should return {@code true}.
    * <li>It is <i>consistent</i>: for any references {@code x} and {@code y}, multiple invocations
    *     of {@code equivalent(x, y)} consistently return {@code true} or consistently return {@code

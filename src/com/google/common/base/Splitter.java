@@ -94,16 +94,18 @@ public final class Splitter {
   private final CharMatcher trimmer;
   private final boolean omitEmptyStrings;
   private final Strategy strategy;
+  private final int limit;
 
   private Splitter(Strategy strategy) {
-    this(strategy, false, CharMatcher.NONE);
+    this(strategy, false, CharMatcher.NONE, Integer.MAX_VALUE);
   }
 
   private Splitter(Strategy strategy, boolean omitEmptyStrings,
-      CharMatcher trimmer) {
+      CharMatcher trimmer, int limit) {
     this.strategy = strategy;
     this.omitEmptyStrings = omitEmptyStrings;
     this.trimmer = trimmer;
+    this.limit = limit;
   }
 
   /**
@@ -291,7 +293,7 @@ public final class Splitter {
    * @return a splitter with the desired configuration
    */
   public Splitter omitEmptyStrings() {
-    return new Splitter(strategy, true, trimmer);
+    return new Splitter(strategy, true, trimmer, limit);
   }
 
   /**
@@ -322,7 +324,7 @@ public final class Splitter {
   // TODO(kevinb): throw if a trimmer was already specified!
   public Splitter trimResults(CharMatcher trimmer) {
     checkNotNull(trimmer);
-    return new Splitter(strategy, omitEmptyStrings, trimmer);
+    return new Splitter(strategy, omitEmptyStrings, trimmer, limit);
   }
 
   /**
@@ -366,10 +368,12 @@ public final class Splitter {
     abstract int separatorEnd(int separatorPosition);
 
     int offset = 0;
+    int limit;
 
     protected SplittingIterator(Splitter splitter, CharSequence toSplit) {
       this.trimmer = splitter.trimmer;
       this.omitEmptyStrings = splitter.omitEmptyStrings;
+      this.limit = splitter.limit;
       this.toSplit = toSplit;
     }
 
@@ -396,6 +400,20 @@ public final class Splitter {
 
         if (omitEmptyStrings && start == end) {
           continue;
+        }
+
+        if (limit == 1) {
+          // The limit has been reached, return the rest of the string as the
+          // final item.  This is tested after empty string removal so that
+          // empty strings do not count towards the limit.
+          end = toSplit.length();
+          offset = -1;
+          // Since we may have changed the end, we need to trim it again.
+          while (end > start && trimmer.matches(toSplit.charAt(end - 1))) {
+            end--;
+          }
+        } else {
+          limit--;
         }
 
         return toSplit.subSequence(start, end).toString();

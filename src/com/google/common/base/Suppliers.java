@@ -90,17 +90,26 @@ public final class Suppliers {
   @VisibleForTesting
   static class MemoizingSupplier<T> implements Supplier<T>, Serializable {
     final Supplier<T> delegate;
-    transient boolean initialized;
+    transient volatile boolean initialized;
+    // "value" does not need to be volatile; visibility piggy-backs
+    // on volatile read of "initialized".
     transient T value;
 
     MemoizingSupplier(Supplier<T> delegate) {
       this.delegate = delegate;
     }
 
-    public synchronized T get() {
+    public T get() {
+      // A 2-field variant of Double Checked Locking.
       if (!initialized) {
-        value = delegate.get();
-        initialized = true;
+        synchronized (this) {
+          if (!initialized) {
+            T t = delegate.get();
+            value = t;
+            initialized = true;
+            return t;
+          }
+        }
       }
       return value;
     }
@@ -135,9 +144,9 @@ public final class Suppliers {
       implements Supplier<T>, Serializable {
     final Supplier<T> delegate;
     final long durationNanos;
-    transient boolean initialized;
-    transient T value;
-    transient long expirationNanos;
+    transient volatile T value;
+    // The special value 0 means "not yet initialized".
+    transient volatile long expirationNanos;
 
     ExpiringMemoizingSupplier(
         Supplier<T> delegate, long duration, TimeUnit unit) {
@@ -146,11 +155,27 @@ public final class Suppliers {
       Preconditions.checkArgument(duration > 0);
     }
 
-    public synchronized T get() {
-      if (!initialized || Platform.systemNanoTime() - expirationNanos >= 0) {
-        value = delegate.get();
-        initialized = true;
-        expirationNanos = Platform.systemNanoTime() + durationNanos;
+    public T get() {
+      // Another variant of Double Checked Locking.
+      //
+      // We use two volatile reads.  We could reduce this to one by
+      // putting our fields into a holder class, but (at least on x86)
+      // the extra memory consumption and indirection are more
+      // expensive than the extra volatile reads.
+      long nanos = expirationNanos;
+      long now = Platform.systemNanoTime();
+      if (nanos == 0 || now - nanos >= 0) {
+        synchronized (this) {
+          if (nanos == expirationNanos) {  // recheck for lost race
+            T t = delegate.get();
+            value = t;
+            nanos = now + durationNanos;
+            // In the very unlikely event that nanos is 0, set it to 1;
+            // no one will notice 1 ns of tardiness.
+            expirationNanos = (nanos == 0) ? 1 : nanos;
+            return t;
+          }
+        }
       }
       return value;
     }

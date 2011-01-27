@@ -34,6 +34,7 @@
   <property name="java5home" value="${env.JAVA5_HOME}" />
   <property name="javasrc" value="${env.JAVA_HOME}/src" />
   <property name="gwthome" value="lib" />
+  <property name="fulljavadoc" value="true" />
 
   <target name="compile" description="Compile Java source.">
     <mkdir dir="build/classes"/>
@@ -77,10 +78,10 @@
          docencoding="UTF-8"
          charset="UTF-8"
          additionalparam="-XDignore.symbol.file"
-         use="true"
          author="true"
          protected="true"
-         linksource="true"
+         use="${fulljavadoc}"
+         linksource="${fulljavadoc}"
          windowtitle="Guava: Google Core Libraries for Java - ${release}">
       <sourcepath>
         <pathelement location="src"/>
