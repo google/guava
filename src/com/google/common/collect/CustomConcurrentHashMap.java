@@ -624,7 +624,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
    */
   @SuppressWarnings("unchecked")
   // Safe because impl never uses a parameter or returns any non-null value
-  private static <K, V> ValueReference<K, V> unset() {
+  static <K, V> ValueReference<K, V> unset() {
     return (ValueReference<K, V>) UNSET;
   }
 
@@ -890,10 +890,11 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
       return valueReference;
     }
     public void setValueReference(ValueReference<K, V> valueReference) {
-      if (this.valueReference != null) {
-        this.valueReference.clear();
-      }
+      ValueReference<K, V> previous = this.valueReference;
       this.valueReference = valueReference;
+      if (previous != null) {
+        previous.clear();
+      }
     }
     public void valueReclaimed() {
       map.reclaimValue(this);
@@ -1108,10 +1109,11 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
       return valueReference;
     }
     public void setValueReference(ValueReference<K, V> valueReference) {
-      if (this.valueReference != null) {
-        this.valueReference.clear();
-      }
+      ValueReference<K, V> previous = this.valueReference;
       this.valueReference = valueReference;
+      if (previous != null) {
+        previous.clear();
+      }
     }
     public void valueReclaimed() {
       map.reclaimValue(this);
@@ -1326,10 +1328,11 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
       return valueReference;
     }
     public void setValueReference(ValueReference<K, V> valueReference) {
-      if (this.valueReference != null) {
-        this.valueReference.clear();
-      }
+      ValueReference<K, V> previous = this.valueReference;
       this.valueReference = valueReference;
+      if (previous != null) {
+        previous.clear();
+      }
     }
     public void valueReclaimed() {
       map.reclaimValue(this);
@@ -1478,8 +1481,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
       // valueReclaimed will add to pendingEvictionNotifications
     }
 
-    public ValueReference<K, V> copyFor(
-        ReferenceEntry<K, V> entry) {
+    public ValueReference<K, V> copyFor(ReferenceEntry<K, V> entry) {
       return new WeakValueReference<K, V>(get(), entry);
     }
 
@@ -1504,8 +1506,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
       // valueReclaimed will add to pendingEvictionNotifications
     }
 
-    public ValueReference<K, V> copyFor(
-        ReferenceEntry<K, V> entry) {
+    public ValueReference<K, V> copyFor(ReferenceEntry<K, V> entry) {
       return new SoftValueReference<K, V>(get(), entry);
     }
 
@@ -1527,8 +1528,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
       return referent;
     }
 
-    public ValueReference<K, V> copyFor(
-        ReferenceEntry<K, V> entry) {
+    public ValueReference<K, V> copyFor(ReferenceEntry<K, V> entry) {
       return this;
     }
 
@@ -1558,15 +1558,6 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
     h ^= (h >>> 6);
     h += (h << 2) + (h << 14);
     return h ^ (h >>> 16);
-  }
-
-  /**
-   * Sets the value reference on an entry and notifies waiting threads. The
-   * simple default implementation is overridden in ComputingConcurrentHashMap.
-   */
-  void setValueReference(ReferenceEntry<K, V> entry,
-      ValueReference<K, V> valueReference) {
-    entry.setValueReference(valueReference);
   }
 
   @GuardedBy("Segment.this")
@@ -1974,7 +1965,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
         checkState(isLocked());
         recordWrite(entry);
       }
-      setValueReference(entry, valueStrength.referenceValue(entry, value));
+      entry.setValueReference(valueStrength.referenceValue(entry, value));
     }
 
     // recency queue, shared by expiration and eviction
@@ -2489,7 +2480,10 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
                 int newIndex = e.getHash() & newMask;
                 ReferenceEntry<K, V> newNext = newTable.get(newIndex);
                 newTable.set(newIndex, copyEntry(e, newNext));
-              } // Else key was reclaimed. Skip entry.
+              } else {
+                // Key was reclaimed.
+                pendingEvictionNotifications.offer(e);
+              }
             }
           }
         }
@@ -2601,6 +2595,10 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
       }
     }
 
+    // TODO(user): This method fails to take into entry-reuse into account. For
+    // example, a put during a computation will trigger a removeEntry call that
+    // will incorrectly remove the reused put. Other callers of this method
+    // should also be audited.
     boolean removeEntry(ReferenceEntry<K, V> entry, int hash) {
       /*
        * This is used during expiration, computation and reclamation, so
@@ -2653,7 +2651,10 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
         K pKey = p.getKey();
         if (pKey != null) {
           newFirst = copyEntry(p, newFirst);
-        } // Else key was reclaimed. Skip entry.
+        } else {
+          // Key was reclaimed.
+          pendingEvictionNotifications.offer(p);
+        }
       }
       return newFirst;
     }

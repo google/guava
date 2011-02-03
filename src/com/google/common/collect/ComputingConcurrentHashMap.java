@@ -29,6 +29,7 @@ import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.atomic.AtomicReferenceArray;
 
 import javax.annotation.Nullable;
+import javax.annotation.concurrent.GuardedBy;
 
 /**
  * Adds computing functionality to {@link CustomConcurrentHashMap}.
@@ -78,6 +79,7 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V>
         ReferenceEntry<K, V> entry = getEntry(key, hash);
         if (entry == null) {
           boolean created = false;
+          ComputingValueReference computingValueReference = null;
           lock();
           try {
             if (expires()) {
@@ -102,6 +104,8 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V>
               ++modCount;
               entry = entryFactory.newEntry(
                   ComputingConcurrentHashMap.this, key, hash, first);
+              computingValueReference = new ComputingValueReference();
+              entry.setValueReference(computingValueReference);
               table.set(index, entry);
               this.count = newCount; // write-volatile
             }
@@ -113,12 +117,13 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V>
             // This thread solely created the entry.
             boolean success = false;
             try {
-              V value = compute(key, entry);
+              V value = computingValueReference.compute(key, hash);
               checkNotNull(value, "compute() returned null unexpectedly");
               success = true;
               return value;
             } finally {
               if (!success) {
+                // TODO(user): don't incorrectly clobber put entries
                 removeEntry(entry, hash);
               }
             }
@@ -130,9 +135,10 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V>
         try {
           while (true) {
             try {
-              V value = waitForValue(entry);
+              V value = entry.getValueReference().waitForValue();
               if (value == null) {
                 // Purge entry and try again.
+                // TODO(user): don't incorrectly clobber put entries
                 removeEntry(entry, hash);
                 continue outer;
               }
@@ -148,99 +154,6 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V>
         }
       }
     }
-
-    V compute(K key, ReferenceEntry<K, V> entry) {
-      V value;
-      try {
-        value = computingFunction.apply(key);
-      } catch (ComputationException e) {
-        // if computingFunction has thrown a computation exception,
-        // propagate rather than wrap
-        // TODO(user): If we remove the entry before setting the value reference,
-        // if the caller retries, they'll get the result of a different
-        // rather than the same result.
-        setValueReference(entry,
-            new ComputationExceptionReference<K, V>(e.getCause()));
-        throw e;
-      } catch (Throwable t) {
-        setValueReference(entry, new ComputationExceptionReference<K, V>(t));
-        throw new ComputationException(t);
-      }
-
-      if (value == null) {
-        String message =
-            computingFunction + " returned null for key " + key + ".";
-        // TODO(user): If we remove the entry before setting the value reference,
-        // if the caller retries, they'll get the result of a different
-        // rather than the same result.
-        setValueReference(entry,
-            new NullPointerExceptionReference<K, V>(message));
-        throw new NullPointerException(message);
-      }
-      setComputedValue(entry, value);
-      return value;
-    }
-
-    /**
-     * Sets the value of a newly computed entry. Adds newly created entries at
-     * the end of the expiration queue.
-     */
-    void setComputedValue(ReferenceEntry<K, V> entry, V value) {
-      if (evictsBySize() || expires()) {
-        lock();
-        try {
-          if (evictsBySize() || expires()) {
-            // "entry" currently points to the original entry created when
-            // computation began, but by now that entry may have been replaced.
-            // Find the current entry, and pass it to recordWrite to ensure that
-            // the eviction lists are consistent with the current map entries.
-            K key = entry.getKey();
-            int hash = entry.getHash();
-            ReferenceEntry<K, V> newEntry = getEntry(key, hash);
-            if (newEntry != null) {
-              recordWrite(newEntry);
-            }
-          }
-        } finally {
-          unlock();
-        }
-      }
-      // computation completes with putIfAbsent to ensure linearizability
-      synchronized (entry) {
-        if (entry.getValueReference().get() == null) {
-          setValueReference(entry, valueStrength.referenceValue(entry, value));
-        }
-      }
-    }
-  }
-
-  @Override void setValueReference(ReferenceEntry<K, V> entry,
-      ValueReference<K, V> valueReference) {
-    // atomically set new values for setComputedValue's sake
-    synchronized (entry) {
-      boolean notifyOthers = (entry.getValueReference() == UNSET);
-      entry.setValueReference(valueReference);
-      if (notifyOthers) {
-        entry.notifyAll();
-      }
-    }
-  }
-
-  /**
-   * Waits for a computation to complete. Returns the result of the
-   * computation or null if none was available.
-   */
-  public V waitForValue(ReferenceEntry<K, V> entry)
-      throws InterruptedException {
-    ValueReference<K, V> valueReference = entry.getValueReference();
-    if (valueReference == UNSET) {
-      synchronized (entry) {
-        while ((valueReference = entry.getValueReference()) == UNSET) {
-          entry.wait();
-        }
-      }
-    }
-    return valueReference.waitForValue();
   }
 
   /** Used to provide null pointer exceptions to other threads. */
@@ -253,8 +166,7 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V>
     public V get() {
       return null;
     }
-    public ValueReference<K, V> copyFor(
-        ReferenceEntry<K, V> entry) {
+    public ValueReference<K, V> copyFor(ReferenceEntry<K, V> entry) {
       return this;
     }
     public V waitForValue() {
@@ -273,8 +185,7 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V>
     public V get() {
       return null;
     }
-    public ValueReference<K, V> copyFor(
-        ReferenceEntry<K, V> entry) {
+    public ValueReference<K, V> copyFor(ReferenceEntry<K, V> entry) {
       return this;
     }
     public V waitForValue() {
@@ -283,78 +194,109 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V>
     public void clear() {}
   }
 
-  @Override ReferenceEntry<K, V> copyEntry(
-      ReferenceEntry<K, V> original, ReferenceEntry<K, V> newNext) {
-    ReferenceEntry<K, V> newEntry
-        = entryFactory.copyEntry(this, original, newNext);
-    ValueReference<K, V> valueReference = original.getValueReference();
-    if (valueReference == UNSET) {
-      newEntry.setValueReference(
-          new FutureValueReference(original, newEntry));
-    } else {
-      newEntry.setValueReference(valueReference.copyFor(newEntry));
-    }
-    return newEntry;
-  }
-
-  /**
-   * Points to an old entry where a value is being computed. Used to
-   * support non-blocking copying of entries during table expansion,
-   * removals, etc.
-   */
-  private class FutureValueReference implements ValueReference<K, V> {
-    final ReferenceEntry<K, V> original;
-    final ReferenceEntry<K, V> newEntry;
-
-    FutureValueReference(
-        ReferenceEntry<K, V> original, ReferenceEntry<K, V> newEntry) {
-      this.original = original;
-      this.newEntry = newEntry;
-    }
+  private class ComputingValueReference implements ValueReference<K, V> {
+    @GuardedBy("ComputingValueReference.this") // writes
+    ValueReference<K, V> computedReference = unset();
 
     public V get() {
-      boolean success = false;
-      try {
-        V value = original.getValueReference().get();
-        success = true;
-        return value;
-      } finally {
-        if (!success) {
-          removeEntry();
-        }
-      }
+      return computedReference.get();
     }
 
     public ValueReference<K, V> copyFor(ReferenceEntry<K, V> entry) {
-      return new FutureValueReference(original, entry);
-    }
-
-    public V waitForValue() throws InterruptedException {
-      boolean success = false;
-      try {
-        // assert that key != null
-        V value = ComputingConcurrentHashMap.this.waitForValue(original);
-        success = true;
-        return value;
-      } finally {
-        if (!success) {
-          removeEntry();
-        }
-      }
-    }
-
-    public void clear() {
-      original.getValueReference().clear();
+      return this;
     }
 
     /**
-     * Removes the entry in the event of an exception. Ideally,
-     * we'd clean up as soon as the computation completes, but we
-     * can't do that without keeping a reference to this entry from
-     * the original.
+     * Waits for a computation to complete. Returns the result of the
+     * computation.
      */
-    void removeEntry() {
-      ComputingConcurrentHashMap.this.removeEntry(newEntry);
+    public V waitForValue() throws InterruptedException {
+      if (computedReference == UNSET) {
+        synchronized (this) {
+          if (computedReference == UNSET) {
+            wait();
+          }
+        }
+      }
+      return get();
+    }
+
+    public void clear() {
+      // The pending computation was clobbered by a manual write. Unblock all
+      // pending gets, and have them return the new value.
+      // TODO(user): could also cancel computation if we had a thread handle
+      synchronized (this) {
+        notifyAll();
+      }
+    }
+
+    V compute(K key, int hash) {
+      V value;
+      try {
+        value = computingFunction.apply(key);
+      } catch (ComputationException e) {
+        // if computingFunction has thrown a computation exception,
+        // propagate rather than wrap
+        setValueReference(
+            new ComputationExceptionReference<K, V>(e.getCause()));
+        throw e;
+      } catch (Throwable t) {
+        setValueReference(new ComputationExceptionReference<K, V>(t));
+        throw new ComputationException(t);
+      }
+
+      if (value == null) {
+        String message =
+            computingFunction + " returned null for key " + key + ".";
+        setValueReference(new NullPointerExceptionReference<K, V>(message));
+        throw new NullPointerException(message);
+      }
+      setComputedValue(key, hash, value);
+      return value;
+    }
+
+    /**
+     * Sets the value of a newly computed entry. Adds newly created entries at
+     * the end of the expiration queue.
+     */
+    void setComputedValue(K key, int hash, V value) {
+      Segment segment = segmentFor(hash);
+      segment.lock();
+      try {
+        for (ReferenceEntry<K, V> e = segment.getFirst(hash); e != null;
+            e = e.getNext()) {
+          K entryKey = e.getKey();
+          if (e.getHash() == hash && entryKey != null
+              && keyEquivalence.equivalent(key, entryKey)) {
+            ValueReference<K, V> liveValueReference = e.getValueReference();
+            if (liveValueReference == this) {
+              if (evictsBySize() || expires()) {
+                // "entry" currently points to the original entry created when
+                // computation began, but by now that entry may have been
+                // replaced. Find the current entry, and pass it to
+                // recordWrite to ensure that the eviction lists are
+                // consistent with the current map entries.
+                segment.recordWrite(e);
+              }
+              setValueReference(valueStrength.referenceValue(e, value));
+            } else {
+              // avoid creating a new value reference pointing back to a
+              // disconnected entry
+              setValueReference(liveValueReference);
+            }
+            return;
+          }
+        }
+      } finally {
+        segment.unlock();
+      }
+    }
+
+    void setValueReference(ValueReference<K, V> valueReference) {
+      synchronized (this) {
+        computedReference = valueReference;
+        notifyAll();
+      }
     }
   }
 
