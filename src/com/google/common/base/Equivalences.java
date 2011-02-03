@@ -47,19 +47,6 @@ public final class Equivalences {
   }
 
   /**
-   * Returns an equivalence that delegates to {@link Object#equals} and {@link Object#hashCode}.
-   * {@link Equivalence#equivalent} returns {@code true} if both values are null, or if neither
-   * value is null and {@link Object#equals} returns {@code true}. {@link Equivalence#hash} returns
-   * {@code 0} if passed a null value.
-   *
-   * @deprecated use {@link Equivalences#equals}, which now has the null-aware behavior
-   */
-  @Deprecated
-  public static Equivalence<Object> nullAwareEquals() {
-    return Impl.EQUALS;
-  }
-
-  /**
    * Returns an equivalence that uses {@code ==} to compare values and {@link
    * System#identityHashCode(Object)} to compute the hash code.  {@link Equivalence#equivalent}
    * returns {@code true} if {@code a == b}, including in the case that a and b are both null.

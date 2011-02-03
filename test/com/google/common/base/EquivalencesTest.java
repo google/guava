@@ -55,8 +55,4 @@ public class EquivalencesTest extends TestCase {
     assertEquals(System.identityHashCode(OBJECT), Equivalences.identity().hash(OBJECT));
     assertEquals(0, Equivalences.identity().hash(null));
   }
-
-  public void testEqualsAndNullAwareEqualsAreIdentical() {
-    assertSame(Equivalences.equals(), Equivalences.nullAwareEquals());
-  }
 }

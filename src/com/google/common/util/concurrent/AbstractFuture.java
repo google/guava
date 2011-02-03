@@ -192,7 +192,7 @@ public abstract class AbstractFuture<V> implements Future<V> {
     static final int CANCELLED = 4;
 
     private V value;
-    private ExecutionException exception;
+    private Throwable exception;
 
     /*
      * Acquisition succeeds if the future is done, otherwise it fails.
@@ -255,7 +255,7 @@ public abstract class AbstractFuture<V> implements Future<V> {
       switch (state) {
         case COMPLETED:
           if (exception != null) {
-            throw exception;
+            throw new ExecutionException(exception);
           } else {
             return value;
           }
@@ -317,7 +317,7 @@ public abstract class AbstractFuture<V> implements Future<V> {
     private boolean complete(@Nullable V v, Throwable t, int finalState) {
       if (compareAndSetState(RUNNING, COMPLETING)) {
         this.value = v;
-        this.exception = t == null ? null : new ExecutionException(t);
+        this.exception = t;
         releaseShared(finalState);
         return true;
       }

@@ -197,7 +197,9 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V>
             K key = entry.getKey();
             int hash = entry.getHash();
             ReferenceEntry<K, V> newEntry = getEntry(key, hash);
-            recordWrite(newEntry);
+            if (newEntry != null) {
+              recordWrite(newEntry);
+            }
           }
         } finally {
           unlock();

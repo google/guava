@@ -28,7 +28,10 @@ import junit.framework.TestCase;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 /**
  * Tests com.google.common.base.Suppliers.
@@ -224,7 +227,104 @@ public class SuppliersTest extends TestCase {
   }
 
   @GwtIncompatible("Thread")
-  public void testThreadSafe() throws InterruptedException {
+  public void testExpiringMemoizedSupplierThreadSafe() throws Throwable {
+    Function<Supplier<Boolean>, Supplier<Boolean>> memoizer =
+        new Function<Supplier<Boolean>, Supplier<Boolean>>() {
+      @Override public Supplier<Boolean> apply(Supplier<Boolean> supplier) {
+        return Suppliers.memoizeWithExpiration(
+            supplier, Long.MAX_VALUE, TimeUnit.NANOSECONDS);
+      }
+    };
+    testSupplierThreadSafe(memoizer);
+  }
+
+  @GwtIncompatible("Thread")
+  public void testMemoizedSupplierThreadSafe() throws Throwable {
+    Function<Supplier<Boolean>, Supplier<Boolean>> memoizer =
+        new Function<Supplier<Boolean>, Supplier<Boolean>>() {
+      @Override public Supplier<Boolean> apply(Supplier<Boolean> supplier) {
+        return Suppliers.memoize(supplier);
+      }
+    };
+    testSupplierThreadSafe(memoizer);
+  }
+
+  @GwtIncompatible("Thread")
+  public void testSupplierThreadSafe(
+      Function<Supplier<Boolean>, Supplier<Boolean>> memoizer)
+      throws Throwable {
+    final AtomicInteger count = new AtomicInteger(0);
+    final AtomicReference<Throwable> thrown =
+        new AtomicReference<Throwable>(null);
+    final int numThreads = 3;
+    final Thread[] threads = new Thread[numThreads];
+    final long timeout = TimeUnit.MINUTES.toNanos(1);
+
+    final Supplier<Boolean> supplier = new Supplier<Boolean>() {
+      boolean isWaiting(Thread thread) {
+        switch (thread.getState()) {
+          case BLOCKED:
+          case WAITING:
+          case TIMED_WAITING:
+          return true;
+          default:
+          return false;
+        }
+      }
+
+      int waitingThreads() {
+        int waitingThreads = 0;
+        for (Thread thread : threads) {
+          if (isWaiting(thread)) {
+            waitingThreads++;
+          }
+        }
+        return waitingThreads;
+      }
+
+      public Boolean get() {
+        // Check that this method is called exactly once, by the first
+        // thread to synchronize.
+        long t0 = System.nanoTime();
+        while (waitingThreads() != numThreads - 1) {
+          if (System.nanoTime() - t0 > timeout) {
+            thrown.set(new TimeoutException(
+                "timed out waiting for other threads to block" +
+                " synchronizing on supplier"));
+            break;
+          }
+          Thread.yield();
+        }
+        count.getAndIncrement();
+        return Boolean.TRUE;
+      }
+    };
+
+    final Supplier<Boolean> memoizedSupplier = memoizer.apply(supplier);
+
+    for (int i = 0; i < numThreads; i++) {
+      threads[i] = new Thread() {
+        @Override public void run() {
+          assertSame(Boolean.TRUE, memoizedSupplier.get());
+        }
+      };
+    }
+    for (Thread t : threads) {
+      t.start();
+    }
+    for (Thread t : threads) {
+      t.join();
+    }
+
+    if (thrown.get() != null) {
+      throw thrown.get();
+    }
+    assertEquals(1, count.get());
+  }
+
+  @GwtIncompatible("Thread")
+  public void testSynchronizedSupplierThreadSafe()
+      throws InterruptedException {
     final Supplier<Integer> nonThreadSafe = new Supplier<Integer>() {
       int counter = 0;
       public Integer get() {
@@ -240,8 +340,7 @@ public class SuppliersTest extends TestCase {
     Thread[] threads = new Thread[numThreads];
     for (int i = 0; i < numThreads; i++) {
       threads[i] = new Thread() {
-        @Override
-        public void run() {
+        @Override public void run() {
           for (int j = 0; j < iterations; j++) {
             Suppliers.synchronizedSupplier(nonThreadSafe).get();
           }
@@ -255,7 +354,7 @@ public class SuppliersTest extends TestCase {
       t.join();
     }
 
-    assertEquals(new Integer(numThreads * iterations + 1), nonThreadSafe.get());
+    assertEquals(numThreads * iterations + 1, (int) nonThreadSafe.get());
   }
 
   public void testSupplierFunction() {

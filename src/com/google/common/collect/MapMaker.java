@@ -102,7 +102,7 @@ import java.util.concurrent.TimeUnit;
 @GwtCompatible(emulated = true)
 public final class MapMaker extends GenericMapMaker<Object, Object> {
   private static final int DEFAULT_INITIAL_CAPACITY = 16;
-  private static final int DEFAULT_CONCURRENCY_LEVEL = 16;
+  private static final int DEFAULT_CONCURRENCY_LEVEL = 4;
   private static final int DEFAULT_EXPIRATION_NANOS = 0;
 
   static final int UNSET_INT = -1;
@@ -220,7 +220,11 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    * contention. But overestimates and underestimates within an order of
    * magnitude do not usually have much noticeable impact. A value of one
    * is appropriate when it is known that only one thread will modify and
-   * all others will only read. Defaults to 16.
+   * all others will only read. Defaults to 4.
+   *
+   * <p><b>Note:</b> Prior to Guava release 09, the default was 16. It is
+   * possible the default will change again in the future. If you care about
+   * this value, you should always choose it explicitly.
    *
    * @throws IllegalArgumentException if {@code concurrencyLevel} is
    *     nonpositive
