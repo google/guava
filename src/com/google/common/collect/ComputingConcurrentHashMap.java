@@ -17,6 +17,7 @@
 package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkState;
 
 import com.google.common.base.Equivalence;
 import com.google.common.base.Function;
@@ -77,14 +78,16 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V>
     V compute(K key, int hash) {
       outer: while (true) {
         ReferenceEntry<K, V> entry = getEntry(key, hash);
-        if (entry == null) {
+        if (entry == null || entry.getValueReference() == UNSET) {
           boolean created = false;
           ComputingValueReference computingValueReference = null;
           lock();
           try {
-            if (expires()) {
-              expireEntries();
-            }
+            expireEntries();
+            // cleanup failed computes
+            // TODO(user): move cleanup to an executor, but then we need to
+            // account for invalidated entries below
+            cleanup();
 
             // Try again--an entry could have materialized in the interim.
             entry = getEntry(key, hash);
@@ -111,20 +114,26 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V>
             }
           } finally {
             unlock();
+            processPendingNotifications();
           }
 
           if (created) {
             // This thread solely created the entry.
             boolean success = false;
             try {
-              V value = computingValueReference.compute(key, hash);
+              V value = null;
+              // Synchronizes on the entry to allow failing fast when a
+              // recursive computation is detected. This is not full-proof
+              // since the entry may be copied when the segment is written to.
+              synchronized (entry) {
+                value = computingValueReference.compute(key, hash);
+              }
               checkNotNull(value, "compute() returned null unexpectedly");
               success = true;
               return value;
             } finally {
               if (!success) {
-                // TODO(user): don't incorrectly clobber put entries
-                removeEntry(entry, hash);
+                invalidateValue(entry, hash, computingValueReference);
               }
             }
           }
@@ -135,11 +144,12 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V>
         try {
           while (true) {
             try {
-              V value = entry.getValueReference().waitForValue();
+              checkState(!Thread.holdsLock(entry), "Recursive computation");
+              ValueReference<K, V> valueReference = entry.getValueReference();
+              V value = valueReference.waitForValue();
               if (value == null) {
                 // Purge entry and try again.
-                // TODO(user): don't incorrectly clobber put entries
-                removeEntry(entry, hash);
+                invalidateValue(entry, hash, valueReference);
                 continue outer;
               }
               return value;
@@ -289,6 +299,7 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V>
         }
       } finally {
         segment.unlock();
+        processPendingNotifications();
       }
     }
 

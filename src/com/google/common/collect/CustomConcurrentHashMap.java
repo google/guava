@@ -173,7 +173,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
   final int maximumSize;
 
   /** Entries waiting to be consumed by the eviction listener. */
-  final Queue<ReferenceEntry<K, V>> pendingEvictionNotifications;
+  final Queue<ReferenceEntry<K, V>> evictionNotificationQueue;
 
   /**
    * A listener that is invoked when an entry is removed due to expiration or
@@ -213,13 +213,13 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
         || evictionListener.equals(NullListener.INSTANCE)) {
       @SuppressWarnings("unchecked")
       Queue<ReferenceEntry<K, V>> defaultQueue = (Queue) discardingQueue;
-      pendingEvictionNotifications = defaultQueue;
+      evictionNotificationQueue = defaultQueue;
 
       @SuppressWarnings("unchecked")
       MapEvictionListener<K, V> defaultListener = NullListener.INSTANCE;
       this.evictionListener = defaultListener;
     } else {
-      pendingEvictionNotifications =
+      evictionNotificationQueue =
           new ConcurrentLinkedQueue<ReferenceEntry<K, V>>();
       this.evictionListener = evictionListener;
     }
@@ -611,10 +611,10 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
     }
     public ValueReference<Object, Object> copyFor(
         ReferenceEntry<Object, Object> entry) {
-      throw new AssertionError();
+      return this;
     }
     public Object waitForValue() {
-      throw new AssertionError();
+      return null;
     }
     public void clear() {}
   };
@@ -1047,7 +1047,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
     public void finalizeReferent() {
       if (map.removeEntry(this)) {
         // send removal notification if the entry is in the map
-        map.pendingEvictionNotifications.offer(this);
+        map.evictionNotificationQueue.offer(this);
       }
     }
 
@@ -1266,7 +1266,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
     public void finalizeReferent() {
       if (map.removeEntry(this)) {
         // send removal notification if the entry is in the map
-        map.pendingEvictionNotifications.offer(this);
+        map.evictionNotificationQueue.offer(this);
       }
     }
 
@@ -1478,7 +1478,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
 
     public void finalizeReferent() {
       entry.valueReclaimed();
-      // valueReclaimed will add to pendingEvictionNotifications
+      // valueReclaimed will add to evictionNotificationQueue
     }
 
     public ValueReference<K, V> copyFor(ReferenceEntry<K, V> entry) {
@@ -1503,7 +1503,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
 
     public void finalizeReferent() {
       entry.valueReclaimed();
-      // valueReclaimed will add to pendingEvictionNotifications
+      // valueReclaimed will add to evictionNotificationQueue
     }
 
     public ValueReference<K, V> copyFor(ReferenceEntry<K, V> entry) {
@@ -1579,7 +1579,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
     int hash = entry.getHash();
     if (segmentFor(hash).reclaimValue(entry, hash)) {
       // entry was removed from map, so can't be reused
-      pendingEvictionNotifications.offer(entry);
+      evictionNotificationQueue.offer(entry);
     }
   }
 
@@ -1632,6 +1632,14 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
 
   // eviction
 
+  void enqueueNotification(K key, int hash,
+      ValueReference<K, V> valueReference) {
+    ReferenceEntry<K, V> notifyEntry = entryFactory.newEntry(
+        CustomConcurrentHashMap.this, key, hash, null);
+    notifyEntry.setValueReference(valueReference.copyFor(notifyEntry));
+    evictionNotificationQueue.offer(notifyEntry);
+  }
+
   /**
    * Notifies listeners that an entry has been automatically removed due to
    * expiration, eviction, or eligibility for garbage collection. This should
@@ -1641,7 +1649,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
    */
   void processPendingNotifications() {
     ReferenceEntry<K, V> entry;
-    while ((entry = pendingEvictionNotifications.poll()) != null) {
+    while ((entry = evictionNotificationQueue.poll()) != null) {
       evictionListener.onEviction(entry.getKey(),
           entry.getValueReference().get());
     }
@@ -1743,7 +1751,8 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
      */
 
     /**
-     * The number of elements in this segment's region.
+     * The number of live elements in this segment's region. This does not
+     * include invalidated elements which are awaiting cleanup.
      */
     volatile int count;
 
@@ -1772,6 +1781,14 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
      * maximum.
      */
     final int maxSegmentSize;
+
+    /**
+     * The cleanup queue is used to record entries which have been invalidated
+     * and need to be removed from the map. It is drained by the cleanup
+     * executor.
+     */
+    final Queue<ReferenceEntry<K, V>> cleanupQueue =
+        new ConcurrentLinkedQueue<ReferenceEntry<K, V>>();
 
     /**
      * The recency queue is used to record which entries were accessed
@@ -1959,10 +1976,9 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
      * Sets a new value of an entry. Adds newly created entries at the end
      * of the expiration queue.
      */
-    @GuardedBy("Segment.this") // if evictsBySize || expires
+    @GuardedBy("Segment.this")
     void setValue(ReferenceEntry<K, V> entry, V value) {
       if (evictsBySize() || expires()) {
-        checkState(isLocked());
         recordWrite(entry);
       }
       entry.setValueReference(valueStrength.referenceValue(entry, value));
@@ -1999,7 +2015,6 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
      */
     @GuardedBy("Segment.this")
     void recordWrite(ReferenceEntry<K, V> entry) {
-      checkState(isLocked());
       // we are already under lock, so drain the recency queue immediately
       drainRecencyQueue();
       if (evictsBySize()) {
@@ -2024,7 +2039,6 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
      */
     @GuardedBy("Segment.this")
     void drainRecencyQueue() {
-      checkState(isLocked());
       // While the recency queue is being drained it may be concurrently
       // appended to. The number of elements removed are tracked so that the
       // length can be decremented by the delta rather than set to zero.
@@ -2056,7 +2070,6 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
 
     @GuardedBy("Segment.this")
     void addExpirable(ReferenceEntry<K, V> expirable) {
-      checkState(isLocked());
       // unlink
       connectExpirables(expirable.getPreviousExpirable(),
           expirable.getNextExpirable());
@@ -2074,7 +2087,6 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
 
     @GuardedBy("Segment.this")
     void removeExpirable(ReferenceEntry<K, V> expirable) {
-      checkState(isLocked());
       connectExpirables(expirable.getPreviousExpirable(),
           expirable.getNextExpirable());
       nullifyExpirable(expirable);
@@ -2091,7 +2103,6 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
         return;
       }
 
-      checkState(isLocked());
       drainRecencyQueue();
 
       ReferenceEntry<K, V> expirable = expirationHead.getNextExpirable();
@@ -2102,19 +2113,16 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
       }
       long now = System.nanoTime();
       while (expirable != expirationHead && isExpired(expirable, now)) {
-        if (removeEntry(expirable, expirable.getHash())) {
-          // send removal notification if the entry is in the map
-          pendingEvictionNotifications.offer(expirable);
-        }
-        // removeEntry should have called removeExpirable, but let's be sure
-        removeExpirable(expirable);
+        invalidateEntry(expirable, expirable.getHash());
         expirable = expirationHead.getNextExpirable();
       }
+
+      // TODO(user): move cleanup to an executor
+      cleanup();
     }
 
     @GuardedBy("Segment.this")
     void clearExpirationQueue() {
-      checkState(isLocked());
       ReferenceEntry<K, V> expirable = expirationHead.getNextExpirable();
       while (expirable != expirationHead) {
         ReferenceEntry<K, V> next = expirable.getNextExpirable();
@@ -2133,24 +2141,22 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
      */
     @GuardedBy("Segment.this")
     void evictEntry() {
-      checkState(isLocked());
       drainRecencyQueue();
 
       ReferenceEntry<K, V> evictable = evictionHead.getNextEvictable();
       checkState(evictable != evictionHead);
 
       // then remove a single entry
-      if (removeEntry(evictable, evictable.getHash())) {
-        // send removal notification if the entry is in the map
-        pendingEvictionNotifications.offer(evictable);
-      } else {
+      if (!invalidateEntry(evictable, evictable.getHash())) {
         throw new AssertionError();
       }
+
+      // TODO(user): move cleanup to an executor
+      cleanup();
     }
 
     @GuardedBy("Segment.this")
     void addEvictable(ReferenceEntry<K, V> evictable) {
-      checkState(isLocked());
       if (evictable.getNextEvictable() != evictionHead) {
         // unlink
         connectEvictables(evictable.getPreviousEvictable(),
@@ -2164,7 +2170,6 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
 
     @GuardedBy("Segment.this")
     void removeEvictable(ReferenceEntry<K, V> evictable) {
-      checkState(isLocked());
       connectEvictables(evictable.getPreviousEvictable(),
           evictable.getNextEvictable());
       nullifyEvictable(evictable);
@@ -2177,7 +2182,6 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
 
     @GuardedBy("Segment.this")
     void clearEvictionQueue() {
-      checkState(isLocked());
       ReferenceEntry<K, V> evictable = evictionHead.getNextEvictable();
       while (evictable != evictionHead) {
         ReferenceEntry<K, V> next = evictable.getNextEvictable();
@@ -2374,7 +2378,8 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
 
             // If the value disappeared, this entry is partially collected,
             // and we should pretend like it doesn't exist.
-            V entryValue = e.getValueReference().get();
+            ValueReference<K, V> valueReference = e.getValueReference();
+            V entryValue = valueReference.get();
             boolean absent = (entryValue == null);
             if (onlyIfAbsent && !absent) {
               if (evictsBySize() || expires()) {
@@ -2387,9 +2392,12 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
               // value was garbage collected; copy entry for notification
               ReferenceEntry<K, V> notifyEntry = entryFactory.newEntry(
                   CustomConcurrentHashMap.this, key, hash, null);
-              pendingEvictionNotifications.offer(notifyEntry);
+              evictionNotificationQueue.offer(notifyEntry);
             }
             setValue(e, value);
+            if (valueReference == UNSET) {
+              this.count = newCount; // write-volatile
+            }
             return entryValue;
           }
         }
@@ -2420,7 +2428,6 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
      */
     @GuardedBy("Segment.this")
     void expand() {
-      checkState(isLocked());
       AtomicReferenceArray<ReferenceEntry<K, V>> oldTable = table;
       int oldCapacity = oldTable.length();
       if (oldCapacity >= MAXIMUM_CAPACITY) {
@@ -2482,7 +2489,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
                 newTable.set(newIndex, copyEntry(e, newNext));
               } else {
                 // Key was reclaimed.
-                pendingEvictionNotifications.offer(e);
+                evictionNotificationQueue.offer(e);
               }
             }
           }
@@ -2595,10 +2602,8 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
       }
     }
 
-    // TODO(user): This method fails to take into entry-reuse into account. For
-    // example, a put during a computation will trigger a removeEntry call that
-    // will incorrectly remove the reused put. Other callers of this method
-    // should also be audited.
+    // Note, this method should only be called when it is impossible to reuse
+    // an entry. Currently this only occurs when its key is garbage collected.
     boolean removeEntry(ReferenceEntry<K, V> entry, int hash) {
       /*
        * This is used during expiration, computation and reclamation, so
@@ -2638,7 +2643,6 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
     @GuardedBy("Segment.this")
     private ReferenceEntry<K, V> removeFromTable(ReferenceEntry<K, V> first,
         ReferenceEntry<K, V> removed) {
-      checkState(isLocked());
       if (expires()) {
         removeExpirable(removed);
       }
@@ -2647,16 +2651,103 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
       }
 
       ReferenceEntry<K, V> newFirst = removed.getNext();
-      for (ReferenceEntry<K, V> p = first; p != removed; p = p.getNext()) {
-        K pKey = p.getKey();
-        if (pKey != null) {
-          newFirst = copyEntry(p, newFirst);
-        } else {
-          // Key was reclaimed.
-          pendingEvictionNotifications.offer(p);
-        }
+      for (ReferenceEntry<K, V> e = first; e != removed; e = e.getNext()) {
+        if (e.getKey() == null) {
+          // TODO(user): do we need to modify count?
+          evictionNotificationQueue.offer(e);
+        } else if (e.getValueReference() != UNSET) {
+          newFirst = copyEntry(e, newFirst);
+        } // else entry was invalidated
       }
       return newFirst;
+    }
+
+    @GuardedBy("Segment.this")
+    boolean invalidateEntry(ReferenceEntry<K, V> entry, int hash) {
+      ValueReference<K, V> valueReference = entry.getValueReference();
+      if (valueReference == UNSET) {
+        // short-circuit to ensure that notifications are only sent once
+        return false;
+      }
+
+      int newCount = this.count - 1;
+      for (ReferenceEntry<K, V> e = getFirst(hash); e != null;
+          e = e.getNext()) {
+        if (e == entry) {
+          K key = entry.getKey();
+          enqueueNotification(key, hash, valueReference);
+          enqueueCleanup(entry);
+          this.count = newCount; // write-volatile
+          return true;
+        }
+      }
+
+      return false;
+    }
+
+    boolean invalidateValue(ReferenceEntry<K, V> entry, int hash,
+        ValueReference<K, V> valueReference) {
+      if (valueReference == UNSET) {
+        // short-circuit to ensure that notifications are only sent once
+        return false;
+      }
+
+      lock();
+      try {
+        int newCount = this.count - 1;
+        for (ReferenceEntry<K, V> e = getFirst(hash); e != null;
+            e = e.getNext()) {
+          if (e == entry) {
+            K key = entry.getKey();
+            ValueReference<K, V> v = entry.getValueReference();
+            if (v == valueReference) {
+              enqueueCleanup(entry);
+              this.count = newCount; // write-volatile
+              return true;
+            }
+            return false;
+          }
+        }
+
+        return false;
+      } finally {
+        unlock();
+      }
+    }
+
+    @GuardedBy("Segment.this")
+    void enqueueCleanup(ReferenceEntry<K, V> entry) {
+      ValueReference<K, V> unset = unset();
+      entry.setValueReference(unset);
+      cleanupQueue.offer(entry);
+
+      if (expires()) {
+        removeExpirable(entry);
+      }
+      if (evictsBySize()) {
+        removeEvictable(entry);
+      }
+    }
+
+    @GuardedBy("Segment.this")
+    void cleanup() {
+      AtomicReferenceArray<ReferenceEntry<K, V>> table = this.table;
+      ReferenceEntry<K, V> entry;
+      while ((entry = cleanupQueue.poll()) != null) {
+        int index = entry.getHash() & (table.length() - 1);
+
+        ReferenceEntry<K, V> first = table.get(index);
+        for (ReferenceEntry<K, V> e = first; e != null; e = e.getNext()) {
+          if (e == entry) {
+            if (e.getValueReference() == UNSET) {
+              ++modCount;
+              ReferenceEntry<K, V> newFirst = removeFromTable(first, e);
+              table.set(index, newFirst);
+            }
+            break;
+          }
+        }
+      }
     }
 
     void clear() {

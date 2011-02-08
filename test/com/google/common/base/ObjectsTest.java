@@ -16,6 +16,10 @@
 
 package com.google.common.base;
 
+import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.GwtIncompatible;
+import com.google.testing.util.NullPointerTester;
+
 import junit.framework.TestCase;
 
 /**
@@ -23,6 +27,7 @@ import junit.framework.TestCase;
  *
  * @author Laurence Gonsalves
  */
+@GwtCompatible(emulated = true)
 public class ObjectsTest extends TestCase {
   public void testEqual() throws Exception {
     assertTrue(Objects.equal(1, 1));
@@ -72,9 +77,9 @@ public class ObjectsTest extends TestCase {
     }
   }
 
-  // TODO: enable this when we address the GWT issue
-  // public void testNullPointers() throws Exception {
-  //   NullPointerTester tester = new NullPointerTester();
-  //   tester.testAllPublicStaticMethods(Objects.class);
-  // }
+  @GwtIncompatible("NullPointerTester")
+  public void testNullPointers() throws Exception {
+    NullPointerTester tester = new NullPointerTester();
+    tester.testAllPublicStaticMethods(Objects.class);
+  }
 }

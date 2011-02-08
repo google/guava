@@ -66,7 +66,7 @@ public final class Objects {
    * <b>Warning</b>: When a single object is supplied, the returned hash code
    * does not equal the hash code of that object.
    */
-  public static int hashCode(Object... objects) {
+  public static int hashCode(@Nullable Object... objects) {
     return Arrays.hashCode(objects);
   }
 

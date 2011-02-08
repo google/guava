@@ -75,6 +75,7 @@ public class TreeBasedTable<R, C, V> extends StandardRowSortedTable<R, C, V> {
     Factory(Comparator<? super C> comparator) {
       this.comparator = comparator;
     }
+    @Override
     public TreeMap<C, V> get() {
       return new TreeMap<C, V>(comparator);
     }

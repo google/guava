@@ -72,7 +72,7 @@ class StandardTable<R, C, V> implements Table<R, C, V>, Serializable {
 
   // Accessors
 
-  public boolean contains(@Nullable Object rowKey, @Nullable Object columnKey) {
+  @Override public boolean contains(@Nullable Object rowKey, @Nullable Object columnKey) {
     if ((rowKey == null) || (columnKey == null)) {
       return false;
     }
@@ -80,7 +80,7 @@ class StandardTable<R, C, V> implements Table<R, C, V>, Serializable {
     return map != null && safeContainsKey(map, columnKey);
   }
 
-  public boolean containsColumn(@Nullable Object columnKey) {
+  @Override public boolean containsColumn(@Nullable Object columnKey) {
     if (columnKey == null) {
       return false;
     }
@@ -92,11 +92,11 @@ class StandardTable<R, C, V> implements Table<R, C, V>, Serializable {
     return false;
   }
 
-  public boolean containsRow(@Nullable Object rowKey) {
+  @Override public boolean containsRow(@Nullable Object rowKey) {
     return rowKey != null && safeContainsKey(backingMap, rowKey);
   }
 
-  public boolean containsValue(@Nullable Object value) {
+  @Override public boolean containsValue(@Nullable Object value) {
     if (value == null) {
       return false;
     }
@@ -108,7 +108,7 @@ class StandardTable<R, C, V> implements Table<R, C, V>, Serializable {
     return false;
   }
 
-  public V get(@Nullable Object rowKey, @Nullable Object columnKey) {
+  @Override public V get(@Nullable Object rowKey, @Nullable Object columnKey) {
     if ((rowKey == null) || (columnKey == null)) {
       return null;
     }
@@ -116,11 +116,11 @@ class StandardTable<R, C, V> implements Table<R, C, V>, Serializable {
     return map == null ? null : safeGet(map, columnKey);
   }
 
-  public boolean isEmpty() {
+  @Override public boolean isEmpty() {
     return backingMap.isEmpty();
   }
 
-  public int size() {
+  @Override public int size() {
     int size = 0;
     for (Map<C, V> map : backingMap.values()) {
       size += map.size();
@@ -152,7 +152,7 @@ class StandardTable<R, C, V> implements Table<R, C, V>, Serializable {
 
   // Mutators
 
-  public void clear() {
+  @Override public void clear() {
     backingMap.clear();
   }
 
@@ -165,20 +165,20 @@ class StandardTable<R, C, V> implements Table<R, C, V>, Serializable {
     return map;
   }
 
-  public V put(R rowKey, C columnKey, V value) {
+  @Override public V put(R rowKey, C columnKey, V value) {
     checkNotNull(rowKey);
     checkNotNull(columnKey);
     checkNotNull(value);
     return getOrCreate(rowKey).put(columnKey, value);
   }
 
-  public void putAll(Table<? extends R, ? extends C, ? extends V> table) {
+  @Override public void putAll(Table<? extends R, ? extends C, ? extends V> table) {
     for (Cell<? extends R, ? extends C, ? extends V> cell : table.cellSet()) {
       put(cell.getRowKey(), cell.getColumnKey(), cell.getValue());
     }
   }
 
-  public V remove(@Nullable Object rowKey, @Nullable Object columnKey) {
+  @Override public V remove(@Nullable Object rowKey, @Nullable Object columnKey) {
     if ((rowKey == null) || (columnKey == null)) {
       return null;
     }
@@ -266,7 +266,7 @@ class StandardTable<R, C, V> implements Table<R, C, V>, Serializable {
    * mapping, taken at the time the cell is returned by a method call to the
    * set or its iterator.
    */
-  public Set<Cell<R, C, V>> cellSet() {
+  @Override public Set<Cell<R, C, V>> cellSet() {
     CellSet result = cellSet;
     return (result == null) ? cellSet = new CellSet() : result;
   }
@@ -306,11 +306,11 @@ class StandardTable<R, C, V> implements Table<R, C, V>, Serializable {
     Iterator<Entry<C, V>> columnIterator
         = Iterators.emptyModifiableIterator();
 
-    public boolean hasNext() {
+    @Override public boolean hasNext() {
       return rowIterator.hasNext() || columnIterator.hasNext();
     }
 
-    public Cell<R, C, V> next() {
+    @Override public Cell<R, C, V> next() {
       if (!columnIterator.hasNext()) {
         rowEntry = rowIterator.next();
         columnIterator = rowEntry.getValue().entrySet().iterator();
@@ -320,7 +320,7 @@ class StandardTable<R, C, V> implements Table<R, C, V>, Serializable {
           rowEntry.getKey(), columnEntry.getKey(), columnEntry.getValue());
     }
 
-    public void remove() {
+    @Override public void remove() {
       columnIterator.remove();
       if (rowEntry.getValue().isEmpty()) {
         rowIterator.remove();
@@ -328,7 +328,7 @@ class StandardTable<R, C, V> implements Table<R, C, V>, Serializable {
     }
   }
 
-  public Map<C, V> row(R rowKey) {
+  @Override public Map<C, V> row(R rowKey) {
     return new Row(rowKey);
   }
 
@@ -399,10 +399,10 @@ class StandardTable<R, C, V> implements Table<R, C, V>, Serializable {
         }
         final Iterator<Entry<C, V>> iterator = map.entrySet().iterator();
         return new Iterator<Entry<C, V>>() {
-          public boolean hasNext() {
+          @Override public boolean hasNext() {
             return iterator.hasNext();
           }
-          public Entry<C, V> next() {
+          @Override public Entry<C, V> next() {
             final Entry<C, V> entry = iterator.next();
             return new ForwardingMapEntry<C, V>() {
               @Override protected Entry<C, V> delegate() {
@@ -413,7 +413,7 @@ class StandardTable<R, C, V> implements Table<R, C, V>, Serializable {
               }
             };
           }
-          public void remove() {
+          @Override public void remove() {
             iterator.remove();
             if (map.isEmpty()) {
               backingMap.remove(rowKey);
@@ -430,7 +430,7 @@ class StandardTable<R, C, V> implements Table<R, C, V>, Serializable {
    * <p>The returned map's views have iterators that don't support
    * {@code remove()}.
    */
-  public Map<R, V> column(C columnKey) {
+  @Override public Map<R, V> column(C columnKey) {
     return new Column(columnKey);
   }
 
@@ -680,7 +680,7 @@ class StandardTable<R, C, V> implements Table<R, C, V>, Serializable {
 
   private transient RowKeySet rowKeySet;
 
-  public Set<R> rowKeySet() {
+  @Override public Set<R> rowKeySet() {
     Set<R> result = rowKeySet;
     return (result == null) ? rowKeySet = new RowKeySet() : result;
   }
@@ -714,6 +714,7 @@ class StandardTable<R, C, V> implements Table<R, C, V>, Serializable {
    * columns of the second row, etc., skipping any columns that have
    * appeared previously.
    */
+  @Override
   public Set<C> columnKeySet() {
     Set<C> result = columnKeySet;
     return (result == null) ? columnKeySet = new ColumnKeySet() : result;
@@ -825,7 +826,7 @@ class StandardTable<R, C, V> implements Table<R, C, V>, Serializable {
    * <p>The collection's iterator traverses the values for the first row,
    * the values for the second row, and so on.
    */
-  public Collection<V> values() {
+  @Override public Collection<V> values() {
     Values result = values;
     return (result == null) ? values = new Values() : result;
   }
@@ -834,13 +835,13 @@ class StandardTable<R, C, V> implements Table<R, C, V>, Serializable {
     @Override public Iterator<V> iterator() {
       final Iterator<Cell<R, C, V>> cellIterator = cellSet().iterator();
       return new Iterator<V>() {
-        public boolean hasNext() {
+        @Override public boolean hasNext() {
           return cellIterator.hasNext();
         }
-        public V next() {
+        @Override public V next() {
           return cellIterator.next().getValue();
         }
-        public void remove() {
+        @Override public void remove() {
           cellIterator.remove();
         }
       };
@@ -853,7 +854,7 @@ class StandardTable<R, C, V> implements Table<R, C, V>, Serializable {
 
   private transient RowMap rowMap;
 
-  public Map<R, Map<C, V>> rowMap() {
+  @Override public Map<R, Map<C, V>> rowMap() {
     RowMap result = rowMap;
     return (result == null) ? rowMap = new RowMap() : result;
   }
@@ -914,16 +915,16 @@ class StandardTable<R, C, V> implements Table<R, C, V>, Serializable {
     class EntryIterator implements Iterator<Entry<R, Map<C, V>>> {
       final Iterator<R> delegate = backingMap.keySet().iterator();
 
-      public boolean hasNext() {
+      @Override public boolean hasNext() {
         return delegate.hasNext();
       }
 
-      public Entry<R, Map<C, V>> next() {
+      @Override public Entry<R, Map<C, V>> next() {
         R rowKey = delegate.next();
         return new ImmutableEntry<R, Map<C, V>>(rowKey, row(rowKey));
       }
 
-      public void remove() {
+      @Override public void remove() {
         delegate.remove();
       }
     }
@@ -931,7 +932,7 @@ class StandardTable<R, C, V> implements Table<R, C, V>, Serializable {
 
   private transient ColumnMap columnMap;
 
-  public Map<C, Map<R, V>> columnMap() {
+  @Override public Map<C, Map<R, V>> columnMap() {
     ColumnMap result = columnMap;
     return (result == null) ? columnMap = new ColumnMap() : result;
   }
@@ -1087,13 +1088,13 @@ class StandardTable<R, C, V> implements Table<R, C, V>, Serializable {
   static <K, V> Iterator<K> keyIteratorImpl(Map<K, V> map) {
     final Iterator<Entry<K, V>> entryIterator = map.entrySet().iterator();
     return new Iterator<K>() {
-      public boolean hasNext() {
+      @Override public boolean hasNext() {
         return entryIterator.hasNext();
       }
-      public K next() {
+      @Override public K next() {
         return entryIterator.next().getKey();
       }
-      public void remove() {
+      @Override public void remove() {
         entryIterator.remove();
       }
     };
@@ -1106,13 +1107,13 @@ class StandardTable<R, C, V> implements Table<R, C, V>, Serializable {
   static <K, V> Iterator<V> valueIteratorImpl(Map<K, V> map) {
     final Iterator<Entry<K, V>> entryIterator = map.entrySet().iterator();
     return new Iterator<V>() {
-      public boolean hasNext() {
+      @Override public boolean hasNext() {
         return entryIterator.hasNext();
       }
-      public V next() {
+      @Override public V next() {
         return entryIterator.next().getValue();
       }
-      public void remove() {
+      @Override public void remove() {
         entryIterator.remove();
       }
     };

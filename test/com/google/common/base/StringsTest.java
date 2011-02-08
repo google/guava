@@ -16,6 +16,10 @@
 
 package com.google.common.base;
 
+import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.GwtIncompatible;
+import com.google.testing.util.NullPointerTester;
+
 import junit.framework.TestCase;
 
 /**
@@ -23,6 +27,7 @@ import junit.framework.TestCase;
  *
  * @author Kevin Bourrillion
  */
+@GwtCompatible(emulated = true)
 public class StringsTest extends TestCase {
   public void testNullToEmpty() {
     assertEquals("", Strings.nullToEmpty(null));
@@ -124,9 +129,9 @@ public class StringsTest extends TestCase {
     }
   }
 
-  // TODO: salvage the nullpointer testing in a gwt-safe way
-  // public void testNullPointers() throws Exception {
-  //   NullPointerTester tester = new NullPointerTester();
-  //   tester.testAllPublicStaticMethods(Strings.class);
-  // }
+  @GwtIncompatible("NullPointerTester")
+  public void testNullPointers() throws Exception {
+    NullPointerTester tester = new NullPointerTester();
+    tester.testAllPublicStaticMethods(Strings.class);
+  }
 }

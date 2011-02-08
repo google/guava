@@ -16,13 +16,21 @@
 
 package com.google.common.base;
 
+import com.google.common.annotations.GwtCompatible;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Lists;
+
 import junit.framework.TestCase;
+
+import java.util.List;
 
 /**
  * Unit test for {@link Equivalences}.
  * 
  * @author Kurt Alfred Kluever
  */
+@GwtCompatible
 public class EquivalencesTest extends TestCase {
 
   private static final Object OBJECT = (Integer) 42;
@@ -54,5 +62,58 @@ public class EquivalencesTest extends TestCase {
   public void testIdentityHash() {
     assertEquals(System.identityHashCode(OBJECT), Equivalences.identity().hash(OBJECT));
     assertEquals(0, Equivalences.identity().hash(null));
+  }
+
+  public void testPairwiseEquivalent_equivalent() {
+    Equivalence<Iterable<String>> pairwise = Equivalences.pairwise(Equivalences.equals());
+    List<String> empty = ImmutableList.of();
+    List<String> a = ImmutableList.of("a");
+    List<String> b = ImmutableList.of("b");
+    List<String> ab = ImmutableList.of("a", "b");
+
+    assertTrue(pairwise.equivalent(empty, empty));
+    assertTrue(pairwise.equivalent(a, a));
+    assertTrue(pairwise.equivalent(b, b));
+    assertTrue(pairwise.equivalent(ab, ab));
+  }
+
+  public void testPairwiseEquivalent_nonEquivalent() {
+    Equivalence<Iterable<String>> pairwise = Equivalences.pairwise(Equivalences.equals());
+    List<String> empty = ImmutableList.of();
+    List<String> a = ImmutableList.of("a");
+    List<String> b = ImmutableList.of("b");
+    List<String> ab = ImmutableList.of("a", "b");
+
+    assertFalse(pairwise.equivalent(empty, ab));
+    assertFalse(pairwise.equivalent(a, ab));
+    assertFalse(pairwise.equivalent(b, ab));
+
+    assertFalse(pairwise.equivalent(a, b));
+    assertFalse(pairwise.equivalent(b, a));
+
+    assertFalse(pairwise.equivalent(ab, empty));
+    assertFalse(pairwise.equivalent(ab, a));
+    assertFalse(pairwise.equivalent(ab, b));
+  }
+
+  public void testPairwiseEquivalent_null() {
+    Equivalence<Iterable<String>> pairwise = Equivalences.pairwise(Equivalences.equals());
+    List<String> empty = ImmutableList.of();
+    List<String> a = ImmutableList.of("a");
+
+    assertTrue(pairwise.equivalent(null, null));
+    assertFalse(pairwise.equivalent(null, empty));
+    assertFalse(pairwise.equivalent(empty, null));
+    assertFalse(pairwise.equivalent(null, a));
+    assertFalse(pairwise.equivalent(a, null));
+  }
+
+  public void testPairwiseHash() {
+    Equivalence<Iterable<String>> pairwise = Equivalences.pairwise(Equivalences.equals());
+
+    assertEquals(0, pairwise.hash(null));
+    assertEquals(pairwise.hash(ImmutableList.of("a")), pairwise.hash(ImmutableSet.of("a")));
+    assertEquals(pairwise.hash(ImmutableList.of("a", "b", "c")),
+        pairwise.hash(Lists.newArrayList("a", "b", "c")));
   }
 }

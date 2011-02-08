@@ -26,7 +26,9 @@ import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 
 import java.util.AbstractCollection;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
 
 /**
@@ -285,7 +287,7 @@ public final class Collections2 {
     }
     return true;
   }
-  
+
   /**
    * An implementation of {@link Collection#toString()}.
    */
@@ -317,4 +319,7 @@ public final class Collections2 {
   }
 
   static final Joiner STANDARD_JOINER = Joiner.on(", ");
+
+  // TODO(user): Maybe move the mathematical methods to a separate
+  // package-permission class.
 }

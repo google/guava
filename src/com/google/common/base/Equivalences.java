@@ -76,4 +76,21 @@ public final class Equivalences {
       }
     },
   }
+
+  /**
+   * Returns an equivalence over iterables based on the equivalence of their elements.  More
+   * specifically, two iterables are considered equivalent if they both contain the same number of
+   * elements, and each pair of corresponding elements is equivalent according to
+   * {@code elementEquivalence}.  Null iterables are equivalent to one another.
+   *
+   * @since 9
+   */
+  @GwtCompatible(serializable = true)
+  public static <T> Equivalence<Iterable<T>> pairwise(Equivalence<? super T> elementEquivalence) {
+    /*
+     * Ideally, the returned equivalence would support {@code Iterable<? extends T>}.  However, the
+     * need for this is so rare that it's not worth making callers deal with the ugly wildcard.
+     */
+    return new PairwiseEquivalence<T>(elementEquivalence);
+  }
 }

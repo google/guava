@@ -166,14 +166,14 @@ public final class InternetDomainName {
   }
 
   /**
-   * A factory method for creating {@code InternetDomainName} objects. Only
-   * lenient validation of the domain is performed. Specifically,
-   * validation against
-   * <a href="http://www.ietf.org/rfc/rfc3490.txt">RFC 3490</a>
-   * ("Internationalizing Domain Names in Applications") is not performed.
+   * Returns an instance of {@link InternetDomainName} after lenient
+   * validation.  Specifically, validation against <a
+   * href="http://www.ietf.org/rfc/rfc3490.txt">RFC 3490</a>
+   * ("Internationalizing Domain Names in Applications") is skipped.
    *
    * @param domain A domain name (not IP address)
-   * @throws IllegalArgumentException If name is not syntactically valid
+   * @throws IllegalArgumentException if {@code name} is not syntactically valid
+   *     according to {@link #isValidLenient}
    * @since 8 (previously named {@code from})
    */
   public static InternetDomainName fromLenient(String domain) {
@@ -443,25 +443,25 @@ public final class InternetDomainName {
   }
 
   /**
-   * Indicates whether the argument is a syntactically valid domain name. Only
-   * lenient validation is done, as described in {@link #fromLenient(String)}.
+   * Indicates whether the argument is a syntactically valid domain name after
+   * lenient validation. Specifically, validation against <a
+   * href="http://www.ietf.org/rfc/rfc3490.txt">RFC 3490</a>
+   * ("Internationalizing Domain Names in Applications") is skipped.
    *
-   * <p>This method is intended for the case where a {@link String} must be
-   * validated as a valid domain name, but no further work with that
-   * {@link String} as an {@link InternetDomainName} will be required. Code like
-   * the following will unnecessarily repeat the work of validation:
+   * <p>The follow two code snippets are equivalent:
+   *
    * <pre>   {@code
    *
-   *   if (InternetDomainName.isValid(name)) {
-   *     domainName = InternetDomainName.from(name);
+   *   if (InternetDomainName.isValidLenient(name)) {
+   *     domainName = InternetDomainName.fromLenient(name);
    *   } else {
    *     domainName = DEFAULT_DOMAIN;
    *   }}</pre>
    *
-   * Such code could instead be written as follows: <pre>   {@code
+   * <pre>   {@code
    *
    *   try {
-   *     domainName = InternetDomainName.from(name);
+   *     domainName = InternetDomainName.fromLenient(name);
    *   } catch (IllegalArgumentException e) {
    *     domainName = DEFAULT_DOMAIN;
    *   }}</pre>
