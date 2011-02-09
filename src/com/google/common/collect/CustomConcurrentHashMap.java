@@ -2396,6 +2396,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
             }
             setValue(e, value);
             if (valueReference == UNSET) {
+              ++modCount;
               this.count = newCount; // write-volatile
             }
             return entryValue;
@@ -2674,6 +2675,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
       for (ReferenceEntry<K, V> e = getFirst(hash); e != null;
           e = e.getNext()) {
         if (e == entry) {
+          ++modCount;
           K key = entry.getKey();
           enqueueNotification(key, hash, valueReference);
           enqueueCleanup(entry);
@@ -2685,24 +2687,20 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
       return false;
     }
 
-    boolean invalidateValue(ReferenceEntry<K, V> entry, int hash,
-        ValueReference<K, V> valueReference) {
-      if (valueReference == UNSET) {
-        // short-circuit to ensure that notifications are only sent once
-        return false;
-      }
-
+    boolean clearValue(K key, int hash, ValueReference<K, V> valueReference) {
       lock();
       try {
         int newCount = this.count - 1;
         for (ReferenceEntry<K, V> e = getFirst(hash); e != null;
             e = e.getNext()) {
-          if (e == entry) {
-            K key = entry.getKey();
-            ValueReference<K, V> v = entry.getValueReference();
+          K entryKey = e.getKey();
+          if (e.getHash() == hash && entryKey != null
+              && keyEquivalence.equivalent(key, entryKey)) {
+            ValueReference<K, V> v = e.getValueReference();
             if (v == valueReference) {
-              enqueueCleanup(entry);
-              this.count = newCount; // write-volatile
+              ++modCount;
+              enqueueCleanup(e);
+              this.count = newCount;
               return true;
             }
             return false;
@@ -2740,7 +2738,6 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
         for (ReferenceEntry<K, V> e = first; e != null; e = e.getNext()) {
           if (e == entry) {
             if (e.getValueReference() == UNSET) {
-              ++modCount;
               ReferenceEntry<K, V> newFirst = removeFromTable(first, e);
               table.set(index, newFirst);
             }

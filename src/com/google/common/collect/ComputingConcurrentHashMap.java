@@ -94,6 +94,8 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V>
             if (entry == null) {
               // Create a new entry.
               created = true;
+              computingValueReference = new ComputingValueReference();
+
               int newCount = this.count + 1; // read-volatile
               if (evictsBySize() && newCount > maxSegmentSize) {
                 evictEntry();
@@ -101,13 +103,13 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V>
               } else if (newCount > threshold) { // ensure capacity
                 expand();
               }
+
               AtomicReferenceArray<ReferenceEntry<K, V>> table = this.table;
               int index = hash & (table.length() - 1);
               ReferenceEntry<K, V> first = table.get(index);
               ++modCount;
               entry = entryFactory.newEntry(
                   ComputingConcurrentHashMap.this, key, hash, first);
-              computingValueReference = new ComputingValueReference();
               entry.setValueReference(computingValueReference);
               table.set(index, entry);
               this.count = newCount; // write-volatile
@@ -133,7 +135,7 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V>
               return value;
             } finally {
               if (!success) {
-                invalidateValue(entry, hash, computingValueReference);
+                clearValue(key, hash, computingValueReference);
               }
             }
           }
@@ -148,8 +150,7 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V>
               ValueReference<K, V> valueReference = entry.getValueReference();
               V value = valueReference.waitForValue();
               if (value == null) {
-                // Purge entry and try again.
-                invalidateValue(entry, hash, valueReference);
+                clearValue(key, hash, valueReference);
                 continue outer;
               }
               return value;
@@ -204,6 +205,24 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V>
     public void clear() {}
   }
 
+  /** Used to provide computation result to other threads. */
+  private static class ComputedReference<K, V> implements ValueReference<K, V> {
+    final V value;
+    ComputedReference(V value) {
+      this.value = value;
+    }
+    public V get() {
+      return value;
+    }
+    public ValueReference<K, V> copyFor(ReferenceEntry<K, V> entry) {
+      return this;
+    }
+    public V waitForValue() {
+      return get();
+    }
+    public void clear() {}
+  }
+
   private class ComputingValueReference implements ValueReference<K, V> {
     @GuardedBy("ComputingValueReference.this") // writes
     ValueReference<K, V> computedReference = unset();
@@ -228,7 +247,7 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V>
           }
         }
       }
-      return get();
+      return computedReference.waitForValue();
     }
 
     public void clear() {
@@ -262,6 +281,7 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V>
         throw new NullPointerException(message);
       }
       setComputedValue(key, hash, value);
+      setValueReference(new ComputedReference<K, V>(value));
       return value;
     }
 
@@ -280,19 +300,7 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V>
               && keyEquivalence.equivalent(key, entryKey)) {
             ValueReference<K, V> liveValueReference = e.getValueReference();
             if (liveValueReference == this) {
-              if (evictsBySize() || expires()) {
-                // "entry" currently points to the original entry created when
-                // computation began, but by now that entry may have been
-                // replaced. Find the current entry, and pass it to
-                // recordWrite to ensure that the eviction lists are
-                // consistent with the current map entries.
-                segment.recordWrite(e);
-              }
-              setValueReference(valueStrength.referenceValue(e, value));
-            } else {
-              // avoid creating a new value reference pointing back to a
-              // disconnected entry
-              setValueReference(liveValueReference);
+              segment.setValue(e, value);
             }
             return;
           }
