@@ -654,7 +654,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
      * just call this method on the entry so it doesn't have to keep
      * its own reference to the map.
      */
-    void valueReclaimed();
+    void valueReclaimed(ValueReference<K, V> valueReference);
 
     /** Gets the next entry in the chain. */
     ReferenceEntry<K, V> getNext();
@@ -721,7 +721,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
     public void setValueReference(
         ValueReference<Object, Object> valueReference) {}
     @Override
-    public void valueReclaimed() {}
+    public void valueReclaimed(ValueReference<Object, Object> v) {}
     @Override
     public ReferenceEntry<Object, Object> getNext() {
       return null;
@@ -896,8 +896,8 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
         previous.clear();
       }
     }
-    public void valueReclaimed() {
-      map.reclaimValue(this);
+    public void valueReclaimed(ValueReference<K, V> v) {
+      map.reclaimValue(this, v);
     }
     public int getHash() {
       return hash;
@@ -1115,8 +1115,8 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
         previous.clear();
       }
     }
-    public void valueReclaimed() {
-      map.reclaimValue(this);
+    public void valueReclaimed(ValueReference<K, V> v) {
+      map.reclaimValue(this, v);
     }
     public int getHash() {
       return hash;
@@ -1334,8 +1334,8 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
         previous.clear();
       }
     }
-    public void valueReclaimed() {
-      map.reclaimValue(this);
+    public void valueReclaimed(ValueReference<K, V> v) {
+      map.reclaimValue(this, v);
     }
     public int getHash() {
       return hash;
@@ -1477,8 +1477,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
     }
 
     public void finalizeReferent() {
-      entry.valueReclaimed();
-      // valueReclaimed will add to evictionNotificationQueue
+      entry.valueReclaimed(this);
     }
 
     public ValueReference<K, V> copyFor(ReferenceEntry<K, V> entry) {
@@ -1502,8 +1501,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
     }
 
     public void finalizeReferent() {
-      entry.valueReclaimed();
-      // valueReclaimed will add to evictionNotificationQueue
+      entry.valueReclaimed(this);
     }
 
     public ValueReference<K, V> copyFor(ReferenceEntry<K, V> entry) {
@@ -1575,11 +1573,20 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
     return rehash(h);
   }
 
-  void reclaimValue(ReferenceEntry<K, V> entry) {
+  void reclaimValue(ReferenceEntry<K, V> entry,
+      ValueReference<K, V> valueReference) {
     int hash = entry.getHash();
-    if (segmentFor(hash).reclaimValue(entry, hash)) {
-      // entry was removed from map, so can't be reused
+    Segment segment = segmentFor(hash);
+    if (segment.clearValue(entry.getKey(), hash, valueReference)) {
       evictionNotificationQueue.offer(entry);
+    }
+
+    // TODO(user): move cleanup to an executor
+    segment.lock();
+    try {
+      segment.cleanup();
+    } finally {
+      segment.unlock();
     }
   }
 
@@ -1637,6 +1644,12 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
     ReferenceEntry<K, V> notifyEntry = entryFactory.newEntry(
         CustomConcurrentHashMap.this, key, hash, null);
     notifyEntry.setValueReference(valueReference.copyFor(notifyEntry));
+    evictionNotificationQueue.offer(notifyEntry);
+  }
+
+  void enqueueNotification(K key, int hash) {
+    ReferenceEntry<K, V> notifyEntry = entryFactory.newEntry(
+        CustomConcurrentHashMap.this, key, hash, null);
     evictionNotificationQueue.offer(notifyEntry);
   }
 
@@ -1831,7 +1844,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
         throw new UnsupportedOperationException();
       }
       @Override
-      public void valueReclaimed() {
+      public void valueReclaimed(ValueReference<K, V> valueReference) {
         throw new UnsupportedOperationException();
       }
       @Override
@@ -1910,7 +1923,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
         throw new UnsupportedOperationException();
       }
       @Override
-      public void valueReclaimed() {
+      public void valueReclaimed(ValueReference<K, V> valueReference) {
         throw new UnsupportedOperationException();
       }
       @Override
@@ -2388,16 +2401,13 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
               return entryValue;
             }
 
-            if (absent) {
-              // value was garbage collected; copy entry for notification
-              ReferenceEntry<K, V> notifyEntry = entryFactory.newEntry(
-                  CustomConcurrentHashMap.this, key, hash, null);
-              evictionNotificationQueue.offer(notifyEntry);
-            }
             setValue(e, value);
             if (valueReference == UNSET) {
               ++modCount;
               this.count = newCount; // write-volatile
+            } else if (absent) {
+              // value was garbage collected
+              enqueueNotification(key, hash);
             }
             return entryValue;
           }
@@ -2562,44 +2572,6 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
       } finally {
         unlock();
         processPendingNotifications();
-      }
-    }
-
-    /**
-     * Reclaims a value that has been collected. This is identical to
-     * removeEntry with the addition of a null value check, which avoids
-     * removing an entry that has already been reused for a new value.
-     */
-    boolean reclaimValue(ReferenceEntry<K, V> entry, int hash) {
-      /*
-       * Used for reference cleanup. We probably don't want to expire entries
-       * here as it can be called over and over.
-       */
-      lock();
-      try {
-        int newCount = this.count - 1;
-        AtomicReferenceArray<ReferenceEntry<K, V>> table = this.table;
-        int index = hash & (table.length() - 1);
-        ReferenceEntry<K, V> first = table.get(index);
-
-        for (ReferenceEntry<K, V> e = first; e != null; e = e.getNext()) {
-          if (e == entry) {
-            V entryValue = e.getValueReference().get();
-            if (entryValue == null) {
-              ++modCount;
-              ReferenceEntry<K, V> newFirst = removeFromTable(first, e);
-              table.set(index, newFirst);
-              this.count = newCount; // write-volatile
-              return true;
-            } else {
-              return false;
-            }
-          }
-        }
-
-        return false;
-      } finally {
-        unlock();
       }
     }
 
