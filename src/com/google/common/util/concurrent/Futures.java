@@ -23,6 +23,7 @@ import com.google.common.annotations.Beta;
 import com.google.common.base.Function;
 
 import java.lang.reflect.UndeclaredThrowableException;
+import java.util.List;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.CountDownLatch;
@@ -243,7 +244,19 @@ public final class Futures {
    * derived from the result of the given {@code Future}. More precisely, the
    * returned {@code Future} takes its result from a {@code Future} produced by
    * applying the given {@code Function} to the result of the original {@code
-   * Future}.
+   * Future}. Example:
+   *
+   * <pre>   {@code
+   *   ListenableFuture<RowKey> rowKeyFuture = indexService.lookUp(query);
+   *   Function<RowKey, ListenableFuture<QueryResult>> queryFunction =
+   *       new Function<RowKey, ListenableFuture<QueryResult>>() {
+   *         public ListenableFuture<QueryResult> apply(RowKey rowKey) {
+   *           return dataService.read(rowKey);
+   *         }
+   *       };
+   *   ListenableFuture<QueryResult> queryFuture =
+   *       chain(queryFuture, queryFunction);
+   * }</pre>
    *
    * <p>Successful cancellation of either the input future or the result of
    * function application will cause the returned future to be cancelled.
@@ -275,7 +288,19 @@ public final class Futures {
    * derived from the result of the given {@code Future}. More precisely, the
    * returned {@code Future} takes its result from a {@code Future} produced by
    * applying the given {@code Function} to the result of the original {@code
-   * Future}.
+   * Future}. Example:
+   *
+   * <pre>   {@code
+   *   ListenableFuture<RowKey> rowKeyFuture = indexService.lookUp(query);
+   *   Function<RowKey, ListenableFuture<QueryResult>> queryFunction =
+   *       new Function<RowKey, ListenableFuture<QueryResult>>() {
+   *         public ListenableFuture<QueryResult> apply(RowKey rowKey) {
+   *           return dataService.read(rowKey);
+   *         }
+   *       };
+   *   ListenableFuture<QueryResult> queryFuture =
+   *       chain(queryFuture, queryFunction);
+   * }</pre>
    *
    * <p>Successful cancellation of either the input future or the result of
    * function application will cause the returned future to be cancelled.
@@ -307,7 +332,19 @@ public final class Futures {
   /**
    * Returns a new {@code ListenableFuture} whose result is the product of
    * applying the given {@code Function} to the result of the given {@code
-   * Future}.
+   * Future}. Example:
+   *
+   * <pre>   {@code
+   *   ListenableFuture<QueryResult> queryFuture = ...;
+   *   Function<QueryResult, List<Row>> rowsFunction =
+   *       new Function<QueryResult, List<Row>>() {
+   *         public List<Row> apply(QueryResult queryResult) {
+   *           return queryResult.getRows();
+   *         }
+   *       };
+   *   ListenableFuture<List<Row>> rowsFuture =
+   *       compose(queryFuture, rowsFunction);
+   * }</pre>
    *
    * <p>Successful cancellation of the input future will cause the returned
    * future to be cancelled.  Cancelling the returned future will succeed if it
@@ -331,7 +368,19 @@ public final class Futures {
   /**
    * Returns a new {@code ListenableFuture} whose result is the product of
    * applying the given {@code Function} to the result of the given {@code
-   * Future}.
+   * Future}. Example:
+   *
+   * <pre>   {@code
+   *   ListenableFuture<QueryResult> queryFuture = ...;
+   *   Function<QueryResult, List<Row>> rowsFunction =
+   *       new Function<QueryResult, List<Row>>() {
+   *         public List<Row> apply(QueryResult queryResult) {
+   *           return queryResult.getRows();
+   *         }
+   *       };
+   *   ListenableFuture<List<Row>> rowsFuture =
+   *       compose(queryFuture, rowsFunction, executor);
+   * }</pre>
    *
    * <p>Successful cancellation of the input future will cause the returned
    * future to be cancelled.  Cancelling the returned future will succeed if it
@@ -369,10 +418,18 @@ public final class Futures {
 
   /**
    * Returns a new {@code Future} whose result is the product of applying the
-   * given {@code Function} to the result of the given {@code Future}.
+   * given {@code Function} to the result of the given {@code Future}. Example:
    *
-   * <p>An example use of this method is to convert a Future that produces a
-   * handle to an object to a future that produces the object itself.
+   * <pre>   {@code
+   *   Future<QueryResult> queryFuture = ...;
+   *   Function<QueryResult, List<Row>> rowsFunction =
+   *       new Function<QueryResult, List<Row>>() {
+   *         public List<Row> apply(QueryResult queryResult) {
+   *           return queryResult.getRows();
+   *         }
+   *       };
+   *   Future<List<Row>> rowsFuture = compose(queryFuture, rowsFunction);
+   * }</pre>
    *
    * <p>Each call to {@code Future<O>.get(*)} results in a call to
    * {@code Future<I>.get(*)}, but {@code function} is only applied once, so it
