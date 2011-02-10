@@ -722,7 +722,7 @@ class StandardTable<R, C, V> implements Table<R, C, V>, Serializable {
 
   private class ColumnKeySet extends TableSet<C> {
     @Override public Iterator<C> iterator() {
-      return new ColumnKeyIterator();
+      return createColumnKeyIterator();
     }
 
     @Override public int size() {
@@ -792,6 +792,14 @@ class StandardTable<R, C, V> implements Table<R, C, V>, Serializable {
       }
       return false;
     }
+  }
+  
+  /**
+   * Creates an iterator that returns each column value with duplicates
+   * omitted.
+   */
+  Iterator<C> createColumnKeyIterator() {
+    return new ColumnKeyIterator();
   }
 
   private class ColumnKeyIterator extends AbstractIterator<C> {
