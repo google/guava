@@ -16,14 +16,14 @@
 
 package com.google.common.collect;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-
-import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * GWT emulated version of {@link ImmutableSet}.  For the unsorted sets, they
@@ -108,7 +108,7 @@ public abstract class ImmutableSet<E> extends ForwardingImmutableCollection<E>
   public static <E> ImmutableSet<E> copyOf(Collection<? extends E> elements) {
     Iterable<? extends E> iterable = elements;
     return copyOf(iterable);
-  } 
+  }
 
   public static <E> ImmutableSet<E> copyOf(Iterable<? extends E> elements) {
     if (elements instanceof ImmutableSet
@@ -129,12 +129,14 @@ public abstract class ImmutableSet<E> extends ForwardingImmutableCollection<E>
       // TODO: Remove "ImmutableSet.<E>" when eclipse bug is fixed.
       return ImmutableSet.<E>of(first);
     }
+
     Set<E> delegate = Sets.newLinkedHashSet();
     delegate.add(checkNotNull(first));
     do {
       delegate.add(checkNotNull(elements.next()));
     } while (elements.hasNext());
-    return new RegularImmutableSet<E>(delegate);
+
+    return unsafeDelegate(delegate);
   }
 
   // Factory methods that skips the null checks on elements, only used when
