@@ -41,6 +41,7 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Queue;
 import java.util.Set;
+import java.util.concurrent.Executor;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.TimeUnit;
@@ -125,6 +126,12 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
    */
   static final int RECENCY_THRESHOLD = 64;
 
+  /**
+   * Maximum number of entries to be cleaned up in a single cleanup run.
+   * TODO(user): empirically optimize this
+   */
+  static final int CLEANUP_MAX = 16;
+
   /* ---------------- Fields -------------- */
 
   /**
@@ -187,6 +194,9 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
   /** Factory used to create new entries. */
   final transient EntryFactory entryFactory;
 
+  /** Performs map housekeeping operations. */
+  final Executor cleanupExecutor;
+
   /**
    * Creates a new, empty map with the specified strategy, initial capacity
    * and concurrency level.
@@ -202,10 +212,9 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
     expireAfterWriteNanos = builder.getExpireAfterWriteNanos();
 
     maximumSize = builder.maximumSize;
-    boolean evictsBySize = evictsBySize();
-
     entryFactory =
-        EntryFactory.getFactory(keyStrength, expires(), evictsBySize);
+        EntryFactory.getFactory(keyStrength, expires(), evictsBySize());
+    cleanupExecutor = builder.getCleanupExecutor();
 
     MapEvictionListener<? super K, ? super V> evictionListener =
         builder.evictionListener;
@@ -238,7 +247,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
     int segmentShift = 0;
     int segmentCount = 1;
     while (segmentCount < concurrencyLevel
-        && (!evictsBySize || segmentCount * 2 <= maximumSize)) {
+        && (!evictsBySize() || segmentCount * 2 <= maximumSize)) {
       ++segmentShift;
       segmentCount <<= 1;
     }
@@ -257,7 +266,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
       segmentSize <<= 1;
     }
 
-    if (evictsBySize) {
+    if (evictsBySize()) {
       // Ensure sum of segment max sizes = overall max size
       int maximumSegmentSize = maximumSize / segmentCount + 1;
       int remainder = maximumSize % segmentCount;
@@ -1581,13 +1590,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
       evictionNotificationQueue.offer(entry);
     }
 
-    // TODO(user): move cleanup to an executor
-    segment.lock();
-    try {
-      segment.cleanup();
-    } finally {
-      segment.unlock();
-    }
+    segment.scheduleCleanup();
   }
 
   boolean removeEntry(ReferenceEntry<K, V> entry) {
@@ -1991,9 +1994,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
      */
     @GuardedBy("Segment.this")
     void setValue(ReferenceEntry<K, V> entry, V value) {
-      if (evictsBySize() || expires()) {
-        recordWrite(entry);
-      }
+      recordWrite(entry);
       entry.setValueReference(valueStrength.referenceValue(entry, value));
     }
 
@@ -2006,6 +2007,10 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
      * therein processed.
      */
     void recordRead(ReferenceEntry<K, V> entry) {
+      if (!evictsBySize() && !expiresAfterAccess()) {
+        return;
+      }
+
       if (expiresAfterAccess()) {
         recordExpirationTime(entry, expireAfterAccessNanos);
       }
@@ -2028,6 +2033,10 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
      */
     @GuardedBy("Segment.this")
     void recordWrite(ReferenceEntry<K, V> entry) {
+      if (!evictsBySize() && !expires()) {
+        return;
+      }
+
       // we are already under lock, so drain the recency queue immediately
       drainRecencyQueue();
       if (evictsBySize()) {
@@ -2131,7 +2140,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
       }
 
       // TODO(user): move cleanup to an executor
-      cleanup();
+      processPendingCleanup();
     }
 
     @GuardedBy("Segment.this")
@@ -2150,6 +2159,21 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
     // eviction
 
     /**
+     * Performs eviction if the segment is full. This should only be called
+     * prior to adding a new entry and increasing {@code count}.
+     *
+     * @return true if eviction occurred
+     */
+    @GuardedBy("Segment.this")
+    boolean evictEntries() {
+      if (evictsBySize() && count >= maxSegmentSize) {
+        evictEntry();
+        return true;
+      }
+      return false;
+    }
+
+    /**
      * Evicts the stalest entry.
      */
     @GuardedBy("Segment.this")
@@ -2165,7 +2189,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
       }
 
       // TODO(user): move cleanup to an executor
-      cleanup();
+      processPendingCleanup();
     }
 
     @GuardedBy("Segment.this")
@@ -2217,7 +2241,11 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
 
     /* Specialized implementations of map methods */
 
-    public ReferenceEntry<K, V> getEntry(Object key, int hash) {
+    /**
+     * Returns the live entry corresponding to {@code key}, or {@code null} if
+     * the map entry for {@code key} has expired or is invalid.
+     */
+    public ReferenceEntry<K, V> getLiveEntry(Object key, int hash) {
       if (count != 0) { // read-volatile
         for (ReferenceEntry<K, V> e = getFirst(hash); e != null;
             e = e.getNext()) {
@@ -2232,11 +2260,13 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
 
           if (keyEquivalence.equivalent(key, entryKey)) {
             if (expires() && isExpired(e)) {
-              continue;
+              return null;
             }
-            if (evictsBySize() || expiresAfterAccess()) {
-              recordRead(e);
+            if (isInvalid(e)) {
+              return null;
             }
+
+            recordRead(e);
             return e;
           }
         }
@@ -2246,7 +2276,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
     }
 
     V get(Object key, int hash) {
-      ReferenceEntry<K, V> entry = getEntry(key, hash);
+      ReferenceEntry<K, V> entry = getLiveEntry(key, hash);
       if (entry == null) {
         return null;
       }
@@ -2322,9 +2352,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
             } else {
               // Mimic
               // "if (map.containsKey(key) && map.get(key).equals(oldValue))..."
-              if (evictsBySize() || expires()) {
-                recordWrite(e);
-              }
+              recordWrite(e);
             }
           }
         }
@@ -2332,7 +2360,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
         return false;
       } finally {
         unlock();
-        processPendingNotifications();
+        scheduleCleanup();
       }
     }
 
@@ -2362,7 +2390,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
         return null;
       } finally {
         unlock();
-        processPendingNotifications();
+        scheduleCleanup();
       }
     }
 
@@ -2395,14 +2423,16 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
             V entryValue = valueReference.get();
             boolean absent = (entryValue == null);
             if (onlyIfAbsent && !absent) {
-              if (evictsBySize() || expires()) {
-                recordWrite(e);
-              }
+              recordWrite(e);
               return entryValue;
             }
 
             setValue(e, value);
-            if (valueReference == UNSET) {
+            if (isInvalid(valueReference)) {
+              if (evictEntries()) {
+                newCount = this.count + 1;
+              }
+
               ++modCount;
               this.count = newCount; // write-volatile
             } else if (absent) {
@@ -2413,9 +2443,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
           }
         }
 
-        if (evictsBySize() && newCount > maxSegmentSize) {
-          evictEntry();
-          // this.count just changed; read it again
+        if (evictEntries()) {
           newCount = this.count + 1;
           first = table.get(index);
         }
@@ -2430,7 +2458,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
         return null;
       } finally {
         unlock();
-        processPendingNotifications();
+        scheduleCleanup();
       }
     }
 
@@ -2535,7 +2563,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
         return null;
       } finally {
         unlock();
-        processPendingNotifications();
+        scheduleCleanup();
       }
     }
 
@@ -2571,7 +2599,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
         return false;
       } finally {
         unlock();
-        processPendingNotifications();
+        scheduleCleanup();
       }
     }
 
@@ -2638,7 +2666,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
     @GuardedBy("Segment.this")
     boolean invalidateEntry(ReferenceEntry<K, V> entry, int hash) {
       ValueReference<K, V> valueReference = entry.getValueReference();
-      if (valueReference == UNSET) {
+      if (isInvalid(valueReference)) {
         // short-circuit to ensure that notifications are only sent once
         return false;
       }
@@ -2700,20 +2728,60 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
     }
 
     @GuardedBy("Segment.this")
-    void cleanup() {
+    void processPendingCleanup() {
       AtomicReferenceArray<ReferenceEntry<K, V>> table = this.table;
       ReferenceEntry<K, V> entry;
-      while ((entry = cleanupQueue.poll()) != null) {
+      int cleanedUp = 0;
+      while (cleanedUp < CLEANUP_MAX && (entry = cleanupQueue.poll()) != null) {
         int index = entry.getHash() & (table.length() - 1);
 
         ReferenceEntry<K, V> first = table.get(index);
         for (ReferenceEntry<K, V> e = first; e != null; e = e.getNext()) {
           if (e == entry) {
-            if (e.getValueReference() == UNSET) {
+            if (isInvalid(e)) {
               ReferenceEntry<K, V> newFirst = removeFromTable(first, e);
               table.set(index, newFirst);
+              cleanedUp++;
             }
             break;
+          }
+        }
+      }
+    }
+
+    boolean isInvalid(ReferenceEntry<K, V> entry) {
+      return isInvalid(entry.getValueReference());
+    }
+
+    boolean isInvalid(ValueReference<K, V> valueReference) {
+      return valueReference == UNSET;
+    }
+
+    final Runnable cleanupRunnable =
+        new Runnable() {
+          public void run() {
+            runCleanup();
+          }
+        };
+
+    void scheduleCleanup() {
+      checkState(!isHeldByCurrentThread());
+      cleanupExecutor.execute(cleanupRunnable);
+    }
+
+    /**
+     * Performs periodic housekeeping tasks on this segment. Never called
+     * directly, but always by the cleanup executor.
+     */
+    void runCleanup() {
+      processPendingNotifications();
+
+      if (!cleanupQueue.isEmpty()) {
+        if (tryLock()) {
+          try {
+            processPendingCleanup();
+          } finally {
+            unlock();
           }
         }
       }

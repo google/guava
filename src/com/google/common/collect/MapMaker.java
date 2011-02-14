@@ -34,6 +34,7 @@ import java.lang.ref.WeakReference;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -105,6 +106,13 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
   private static final int DEFAULT_CONCURRENCY_LEVEL = 4;
   private static final int DEFAULT_EXPIRATION_NANOS = 0;
 
+  private static final Executor DEFAULT_CLEANUP_EXECUTOR =
+      new Executor() {
+        public void execute(Runnable r) {
+          r.run();
+        }
+      };
+
   static final int UNSET_INT = -1;
 
   int initialCapacity = UNSET_INT;
@@ -122,6 +130,8 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
 
   Equivalence<Object> keyEquivalence;
   Equivalence<Object> valueEquivalence;
+
+  Executor cleanupExecutor;
 
   /**
    * Constructs a new {@code MapMaker} instance with default settings,
@@ -485,6 +495,11 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
     me.evictionListener = checkNotNull(listener);
     useCustomMap = true;
     return me;
+  }
+
+  Executor getCleanupExecutor() {
+    return (cleanupExecutor == null)
+        ? DEFAULT_CLEANUP_EXECUTOR : cleanupExecutor;
   }
 
   /**

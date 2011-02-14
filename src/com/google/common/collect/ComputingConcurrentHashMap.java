@@ -77,49 +77,60 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V>
 
     V compute(K key, int hash) {
       outer: while (true) {
-        ReferenceEntry<K, V> entry = getEntry(key, hash);
-        if (entry == null || entry.getValueReference() == UNSET) {
-          boolean created = false;
+        ReferenceEntry<K, V> entry = getLiveEntry(key, hash);
+        if (entry == null) { // entry is absent or invalid
           ComputingValueReference computingValueReference = null;
           lock();
           try {
-            expireEntries();
-            // cleanup failed computes
-            // TODO(user): move cleanup to an executor, but then we need to
-            // account for invalidated entries below
-            cleanup();
-
             // Try again--an entry could have materialized in the interim.
-            entry = getEntry(key, hash);
-            if (entry == null) {
+            expireEntries();
+
+            int newCount = this.count + 1;
+            if (newCount > this.threshold) { // ensure capacity
+              expand();
+            }
+
+            // getFirst, but remember the index
+            AtomicReferenceArray<ReferenceEntry<K, V>> table = this.table;
+            int index = hash & (table.length() - 1);
+            ReferenceEntry<K, V> first = table.get(index);
+
+            for (ReferenceEntry<K, V> e = first; e != null; e = e.getNext()) {
+              K entryKey = e.getKey();
+              if (e.getHash() == hash && entryKey != null
+                  && keyEquivalence.equivalent(key, entryKey)) {
+                entry = e;
+                break;
+              }
+            }
+            if (entry == null || isInvalid(entry)) {
               // Create a new entry.
-              created = true;
               computingValueReference = new ComputingValueReference();
 
-              int newCount = this.count + 1; // read-volatile
-              if (evictsBySize() && newCount > maxSegmentSize) {
-                evictEntry();
-                newCount = this.count + 1; // read-volatile
-              } else if (newCount > threshold) { // ensure capacity
-                expand();
+              if (evictEntries()) {
+                newCount = this.count + 1;
+                first = table.get(index);
               }
 
-              AtomicReferenceArray<ReferenceEntry<K, V>> table = this.table;
-              int index = hash & (table.length() - 1);
-              ReferenceEntry<K, V> first = table.get(index);
               ++modCount;
-              entry = entryFactory.newEntry(
-                  ComputingConcurrentHashMap.this, key, hash, first);
+              if (entry == null) {
+                entry = entryFactory.newEntry(
+                    ComputingConcurrentHashMap.this, key, hash, first);
+                table.set(index, entry);
+              }
+              // recordWrite at computation start because count is incremented
+              recordWrite(entry);
               entry.setValueReference(computingValueReference);
-              table.set(index, entry);
               this.count = newCount; // write-volatile
+            } else {
+              recordRead(entry);
             }
           } finally {
             unlock();
-            processPendingNotifications();
+            scheduleCleanup();
           }
 
-          if (created) {
+          if (computingValueReference != null) {
             // This thread solely created the entry.
             boolean success = false;
             try {
@@ -136,6 +147,7 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V>
             } finally {
               if (!success) {
                 clearValue(key, hash, computingValueReference);
+                scheduleCleanup();
               }
             }
           }
@@ -151,6 +163,7 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V>
               V value = valueReference.waitForValue();
               if (value == null) {
                 clearValue(key, hash, valueReference);
+                scheduleCleanup();
                 continue outer;
               }
               return value;
@@ -307,7 +320,7 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V>
         }
       } finally {
         segment.unlock();
-        processPendingNotifications();
+        segment.scheduleCleanup();
       }
     }
 
