@@ -77,10 +77,14 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V>
 
     V compute(K key, int hash) {
       outer: while (true) {
+        // TODO(user): refactor getLiveEntry into getLiveValue
         ReferenceEntry<K, V> entry = getLiveEntry(key, hash);
         if (entry != null) {
           // current entry is live, and read was already recorded
-          return entry.getValueReference().get();
+          V value = entry.getValueReference().get();
+          if (value != null) {
+            return value;
+          }
         }
 
         // entry is absent, invalid, or computing
@@ -149,8 +153,7 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V>
           while (true) {
             try {
               checkState(!Thread.holdsLock(entry), "Recursive computation");
-              ValueReference<K, V> valueReference = entry.getValueReference();
-              V value = valueReference.waitForValue();
+              V value = entry.getValueReference().waitForValue();
               if (value == null) {
                 // this entry could be partially-collected, don't clearValue
                 continue outer;
