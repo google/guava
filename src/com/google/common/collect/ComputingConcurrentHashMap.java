@@ -93,6 +93,9 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V>
         try {
           // Try again--an entry could have materialized in the interim.
           expireEntries();
+          // TODO(user): remove this, and deal with partially-collected entries
+          // below
+          processPendingCleanup();
 
           // getFirst, but remember the index
           AtomicReferenceArray<ReferenceEntry<K, V>> table = this.table;
@@ -107,8 +110,7 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V>
               break;
             }
           }
-          // TODO(user): reuse partially collected entries; otherwise we
-          // risk blocking on cleanup
+
           if (entry == null || isInvalid(entry)) {
             // Create a new entry.
             computingValueReference = new ComputingValueReference();
