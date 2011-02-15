@@ -453,6 +453,11 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
         ? DEFAULT_EXPIRATION_NANOS : expireAfterAccessNanos;
   }
 
+  Executor getCleanupExecutor() {
+    return (cleanupExecutor == null)
+        ? DEFAULT_CLEANUP_EXECUTOR : cleanupExecutor;
+  }
+
   /**
    * Specifies a listener instance, which all maps built using this {@code
    * MapMaker} will notify each time an entry is evicted.
@@ -495,11 +500,6 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
     me.evictionListener = checkNotNull(listener);
     useCustomMap = true;
     return me;
-  }
-
-  Executor getCleanupExecutor() {
-    return (cleanupExecutor == null)
-        ? DEFAULT_CLEANUP_EXECUTOR : cleanupExecutor;
   }
 
   /**
