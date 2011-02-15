@@ -78,77 +78,67 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V>
     V compute(K key, int hash) {
       outer: while (true) {
         ReferenceEntry<K, V> entry = getLiveEntry(key, hash);
-        if (entry == null) { // entry is absent or invalid
-          ComputingValueReference computingValueReference = null;
-          lock();
-          try {
-            // Try again--an entry could have materialized in the interim.
-            expireEntries();
+        if (entry != null) {
+          // current entry is live, and read was already recorded
+          return entry.getValueReference().get();
+        }
 
-            int newCount = this.count + 1;
-            if (newCount > this.threshold) { // ensure capacity
-              expand();
+        // entry is absent, invalid, or computing
+        ComputingValueReference computingValueReference = null;
+        lock();
+        try {
+          // Try again--an entry could have materialized in the interim.
+          expireEntries();
+
+          // getFirst, but remember the index
+          AtomicReferenceArray<ReferenceEntry<K, V>> table = this.table;
+          int index = hash & (table.length() - 1);
+          ReferenceEntry<K, V> first = table.get(index);
+
+          for (ReferenceEntry<K, V> e = first; e != null; e = e.getNext()) {
+            K entryKey = e.getKey();
+            if (e.getHash() == hash && entryKey != null
+                && keyEquivalence.equivalent(key, entryKey)) {
+              entry = e;
+              break;
             }
-
-            // getFirst, but remember the index
-            AtomicReferenceArray<ReferenceEntry<K, V>> table = this.table;
-            int index = hash & (table.length() - 1);
-            ReferenceEntry<K, V> first = table.get(index);
-
-            for (ReferenceEntry<K, V> e = first; e != null; e = e.getNext()) {
-              K entryKey = e.getKey();
-              if (e.getHash() == hash && entryKey != null
-                  && keyEquivalence.equivalent(key, entryKey)) {
-                entry = e;
-                break;
-              }
-            }
-            if (entry == null || isInvalid(entry)) {
-              // Create a new entry.
-              computingValueReference = new ComputingValueReference();
-
-              if (evictEntries()) {
-                newCount = this.count + 1;
-                first = table.get(index);
-              }
-
-              ++modCount;
-              if (entry == null) {
-                entry = entryFactory.newEntry(
-                    ComputingConcurrentHashMap.this, key, hash, first);
-                table.set(index, entry);
-              }
-              // recordWrite at computation start because count is incremented
-              recordWrite(entry);
-              entry.setValueReference(computingValueReference);
-              this.count = newCount; // write-volatile
-            } else {
-              recordRead(entry);
-            }
-          } finally {
-            unlock();
-            scheduleCleanup();
           }
+          // TODO(user): reuse partially collected entries; otherwise we
+          // risk blocking on cleanup
+          if (entry == null || isInvalid(entry)) {
+            // Create a new entry.
+            computingValueReference = new ComputingValueReference();
 
-          if (computingValueReference != null) {
-            // This thread solely created the entry.
-            boolean success = false;
-            try {
-              V value = null;
-              // Synchronizes on the entry to allow failing fast when a
-              // recursive computation is detected. This is not full-proof
-              // since the entry may be copied when the segment is written to.
-              synchronized (entry) {
-                value = computingValueReference.compute(key, hash);
-              }
-              checkNotNull(value, "compute() returned null unexpectedly");
-              success = true;
-              return value;
-            } finally {
-              if (!success) {
-                clearValue(key, hash, computingValueReference);
-                scheduleCleanup();
-              }
+            if (entry == null) {
+              entry = entryFactory.newEntry(
+                  ComputingConcurrentHashMap.this, key, hash, first);
+              table.set(index, entry);
+            }
+            entry.setValueReference(computingValueReference);
+          }
+        } finally {
+          unlock();
+          scheduleCleanup();
+        }
+
+        if (computingValueReference != null) {
+          // This thread solely created the entry.
+          boolean success = false;
+          try {
+            V value = null;
+            // Synchronizes on the entry to allow failing fast when a
+            // recursive computation is detected. This is not fool-proof
+            // since the entry may be copied when the segment is written to.
+            synchronized (entry) {
+              value = computingValueReference.compute(key, hash);
+            }
+            checkNotNull(value, "compute() returned null unexpectedly");
+            success = true;
+            return value;
+          } finally {
+            if (!success) {
+              clearValue(key, hash, computingValueReference);
+              scheduleCleanup();
             }
           }
         }
@@ -162,10 +152,10 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V>
               ValueReference<K, V> valueReference = entry.getValueReference();
               V value = valueReference.waitForValue();
               if (value == null) {
-                clearValue(key, hash, valueReference);
-                scheduleCleanup();
+                // this entry could be partially-collected, don't clearValue
                 continue outer;
               }
+              recordRead(entry);
               return value;
             } catch (InterruptedException e) {
               interrupted = true;
@@ -196,6 +186,7 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V>
     public V waitForValue() {
       throw new NullPointerException(message);
     }
+    public void notifyValueReclaimed() {}
     public void clear() {}
   }
 
@@ -215,6 +206,7 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V>
     public V waitForValue() {
       throw new AsynchronousComputationException(t);
     }
+    public void notifyValueReclaimed() {}
     public void clear() {}
   }
 
@@ -233,6 +225,7 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V>
     public V waitForValue() {
       return get();
     }
+    public void notifyValueReclaimed() {}
     public void clear() {}
   }
 
@@ -272,6 +265,8 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V>
       }
     }
 
+    public void notifyValueReclaimed() {}
+
     V compute(K key, int hash) {
       V value;
       try {
@@ -293,6 +288,8 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V>
         setValueReference(new NullPointerExceptionReference<K, V>(message));
         throw new NullPointerException(message);
       }
+      // TODO(user): explore directly calling
+      // segmentFor(hash).put(key, hash, value, true);
       setComputedValue(key, hash, value);
       setValueReference(new ComputedReference<K, V>(value));
       return value;
@@ -306,6 +303,13 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V>
       Segment segment = segmentFor(hash);
       segment.lock();
       try {
+        segment.expireEntries();
+
+        int newCount = segment.count + 1;
+        if (newCount > segment.threshold) { // ensure capacity
+          segment.expand();
+        }
+
         for (ReferenceEntry<K, V> e = segment.getFirst(hash); e != null;
             e = e.getNext()) {
           K entryKey = e.getKey();
@@ -313,7 +317,14 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V>
               && keyEquivalence.equivalent(key, entryKey)) {
             ValueReference<K, V> liveValueReference = e.getValueReference();
             if (liveValueReference == this) {
+              // putIfAbsent
+              ++segment.modCount;
+              if (segment.evictEntries()) {
+                newCount = segment.count + 1;
+              }
+
               segment.setValue(e, value);
+              segment.count = newCount; // write-volatile
             }
             return;
           }
