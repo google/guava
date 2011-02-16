@@ -608,6 +608,19 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
      * {@code Reference} subclasses for weak and soft values.
      */
     void clear();
+
+    /**
+     * Returns true if the value type is a computing reference (regardless of
+     * whether or not computation has completed). This is necessary to
+     * distiguish between partially-collected entries and computing entries,
+     * which need to be cleaned up differently.
+     */
+    boolean isComputingReference();
+
+    /**
+     * Invoked after the value has been garbage collected.
+     */
+    void notifyValueReclaimed();
   }
 
   /**
@@ -622,9 +635,13 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
         ReferenceEntry<Object, Object> entry) {
       return this;
     }
+    public boolean isComputingReference() {
+      return false;
+    }
     public Object waitForValue() {
       return null;
     }
+    public void notifyValueReclaimed() {}
     public void clear() {}
   };
 
@@ -901,9 +918,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
     public void setValueReference(ValueReference<K, V> valueReference) {
       ValueReference<K, V> previous = this.valueReference;
       this.valueReference = valueReference;
-      if (previous != null) {
-        previous.clear();
-      }
+      previous.clear();
     }
     public void valueReclaimed(ValueReference<K, V> v) {
       map.reclaimValue(this, v);
@@ -1120,9 +1135,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
     public void setValueReference(ValueReference<K, V> valueReference) {
       ValueReference<K, V> previous = this.valueReference;
       this.valueReference = valueReference;
-      if (previous != null) {
-        previous.clear();
-      }
+      previous.clear();
     }
     public void valueReclaimed(ValueReference<K, V> v) {
       map.reclaimValue(this, v);
@@ -1339,9 +1352,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
     public void setValueReference(ValueReference<K, V> valueReference) {
       ValueReference<K, V> previous = this.valueReference;
       this.valueReference = valueReference;
-      if (previous != null) {
-        previous.clear();
-      }
+      previous.clear();
     }
     public void valueReclaimed(ValueReference<K, V> v) {
       map.reclaimValue(this, v);
@@ -1485,12 +1496,20 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
       this.entry = entry;
     }
 
+    public void notifyValueReclaimed() {
+      finalizeReferent();
+    }
+
     public void finalizeReferent() {
       entry.valueReclaimed(this);
     }
 
     public ValueReference<K, V> copyFor(ReferenceEntry<K, V> entry) {
       return new WeakValueReference<K, V>(get(), entry);
+    }
+
+    public boolean isComputingReference() {
+      return false;
     }
 
     public V waitForValue() {
@@ -1509,12 +1528,20 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
       this.entry = entry;
     }
 
+    public void notifyValueReclaimed() {
+      finalizeReferent();
+    }
+
     public void finalizeReferent() {
       entry.valueReclaimed(this);
     }
 
     public ValueReference<K, V> copyFor(ReferenceEntry<K, V> entry) {
       return new SoftValueReference<K, V>(get(), entry);
+    }
+
+    public boolean isComputingReference() {
+      return false;
     }
 
     public V waitForValue() {
@@ -1539,9 +1566,15 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
       return this;
     }
 
+    public boolean isComputingReference() {
+      return false;
+    }
+
     public V waitForValue() {
       return get();
     }
+
+    public void notifyValueReclaimed() {}
 
     public void clear() {}
   }
@@ -1586,11 +1619,11 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
       ValueReference<K, V> valueReference) {
     int hash = entry.getHash();
     Segment segment = segmentFor(hash);
-    if (segment.clearValue(entry.getKey(), hash, valueReference)) {
-      evictionNotificationQueue.offer(entry);
-    }
+    segment.invalidateValue(entry.getKey(), hash, valueReference);
 
-    segment.scheduleCleanup();
+    if (!segment.isHeldByCurrentThread()) {
+      segment.scheduleCleanup();
+    }
   }
 
   boolean removeEntry(ReferenceEntry<K, V> entry) {
@@ -1598,20 +1631,15 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
     return segmentFor(hash).removeEntry(entry, hash);
   }
 
-  // expiration
+  // Entries in the map can be in the following states:
+  // - Live: valid value is set
+  // - Expired: time expired, but old value still set
+  // - Computing: computation is pending
+  // - Collected: value was collected but not yet cleaned up
+  // - Invalid: marked as invalid, awaiting cleanup or reuse
 
-  @GuardedBy("Segment.this")
-  static <K, V> void connectExpirables(ReferenceEntry<K, V> previous,
-      ReferenceEntry<K, V> next) {
-    previous.setNextExpirable(next);
-    next.setPreviousExpirable(previous);
-  }
-
-  @GuardedBy("Segment.this")
-  static <K, V> void nullifyExpirable(ReferenceEntry<K, V> nulled) {
-    ReferenceEntry<K, V> nullEntry = nullEntry();
-    nulled.setNextExpirable(nullEntry);
-    nulled.setPreviousExpirable(nullEntry);
+  boolean isLive(ReferenceEntry<K, V> entry) {
+    return getLiveValue(entry) != null;
   }
 
   /**
@@ -1629,15 +1657,40 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
     return now - expirable.getExpirationTime() > 0;
   }
 
+  boolean isInvalid(ReferenceEntry<K, V> entry) {
+    return isInvalid(entry.getValueReference());
+  }
+
+  boolean isInvalid(ValueReference<K, V> valueReference) {
+    return valueReference == UNSET;
+  }
+
   /**
-   * Gets the value from an entry. Returns null if the value is null (i.e.
-   * reclaimed or not computed yet) or if the entry is expired. If
-   * you already called expireEntries() you can just check the value for
-   * null and skip the expiration check.
+   * Gets the value from an entry. Returns null if the entry is invalid,
+   * partially-collected, computing, or expired. This method is unnecessary in
+   * blocks that call expireEntries() directly, which can simply assume that
+   * remaining entries are not expired, and only need compare the value to
+   * null.
    */
-  V getUnexpiredValue(ReferenceEntry<K, V> e) {
+  V getLiveValue(ReferenceEntry<K, V> e) {
     V value = e.getValueReference().get();
     return (expires() && isExpired(e)) ? null : value;
+  }
+
+  // expiration
+
+  @GuardedBy("Segment.this")
+  static <K, V> void connectExpirables(ReferenceEntry<K, V> previous,
+      ReferenceEntry<K, V> next) {
+    previous.setNextExpirable(next);
+    next.setPreviousExpirable(previous);
+  }
+
+  @GuardedBy("Segment.this")
+  static <K, V> void nullifyExpirable(ReferenceEntry<K, V> nulled) {
+    ReferenceEntry<K, V> nullEntry = nullEntry();
+    nulled.setNextExpirable(nullEntry);
+    nulled.setPreviousExpirable(nullEntry);
   }
 
   // eviction
@@ -2138,9 +2191,6 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
         invalidateEntry(expirable, expirable.getHash());
         expirable = expirationHead.getNextExpirable();
       }
-
-      // TODO(user): move cleanup to an executor
-      processPendingCleanup();
     }
 
     @GuardedBy("Segment.this")
@@ -2187,9 +2237,6 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
       if (!invalidateEntry(evictable, evictable.getHash())) {
         throw new AssertionError();
       }
-
-      // TODO(user): move cleanup to an executor
-      processPendingCleanup();
     }
 
     @GuardedBy("Segment.this")
@@ -2259,15 +2306,12 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
           }
 
           if (keyEquivalence.equivalent(key, entryKey)) {
-            if (expires() && isExpired(e)) {
-              return null;
-            }
-            if (isInvalid(e)) {
-              return null;
+            if (isLive(e)) {
+              recordRead(e);
+              return e;
             }
 
-            recordRead(e);
-            return e;
+            return null;
           }
         }
       }
@@ -2298,7 +2342,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
           }
 
           if (keyEquivalence.equivalent(key, entryKey)) {
-            return getUnexpiredValue(e) != null;
+            return getLiveValue(e) != null;
           }
         }
       }
@@ -2313,7 +2357,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
         for (int i = 0; i < length; ++i) {
           for (ReferenceEntry<K, V> e = table.get(i); e != null;
               e = e.getNext()) {
-            V entryValue = getUnexpiredValue(e);
+            V entryValue = getLiveValue(e);
             if (entryValue == null) {
               continue;
             }
@@ -2417,28 +2461,26 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
               && keyEquivalence.equivalent(key, entryKey)) {
             // We found an existing entry.
 
-            // If the value disappeared, this entry is partially collected,
-            // and we should pretend like it doesn't exist.
             ValueReference<K, V> valueReference = e.getValueReference();
             V entryValue = valueReference.get();
+
             boolean absent = (entryValue == null);
-            if (onlyIfAbsent && !absent) {
+            if (absent) {
+              ++modCount;
+              // Value could be partially-collected, invalidated, or computing.
+              // In the first case, the value must be reclaimed. In the latter
+              // two cases en entry must be evicted.
+              valueReference.notifyValueReclaimed();
+              evictEntries();
+              newCount = this.count + 1;
+              this.count = newCount; // write-volatile
+            } else if (onlyIfAbsent) {
               recordWrite(e);
               return entryValue;
             }
+            // else clobber, don't adjust count
 
             setValue(e, value);
-            if (isInvalid(valueReference)) {
-              if (evictEntries()) {
-                newCount = this.count + 1;
-              }
-
-              ++modCount;
-              this.count = newCount; // write-volatile
-            } else if (absent) {
-              // value was garbage collected
-              enqueueNotification(key, hash);
-            }
             return entryValue;
           }
         }
@@ -2552,10 +2594,12 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
           if (e.getHash() == hash && entryKey != null
               && keyEquivalence.equivalent(key, entryKey)) {
             V entryValue = e.getValueReference().get();
-            ++modCount;
-            ReferenceEntry<K, V> newFirst = removeFromTable(first, e);
-            table.set(index, newFirst);
-            this.count = newCount; // write-volatile
+            if (entryValue != null) {
+              ++modCount;
+              ReferenceEntry<K, V> newFirst = removeFromTable(first, e);
+              table.set(index, newFirst);
+              this.count = newCount; // write-volatile
+            }
             return entryValue;
           }
         }
@@ -2687,7 +2731,8 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
       return false;
     }
 
-    boolean clearValue(K key, int hash, ValueReference<K, V> valueReference) {
+    boolean invalidateValue(K key, int hash,
+        ValueReference<K, V> valueReference) {
       lock();
       try {
         int newCount = this.count - 1;
@@ -2699,8 +2744,32 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
             ValueReference<K, V> v = e.getValueReference();
             if (v == valueReference) {
               ++modCount;
+              enqueueNotification(key, hash, valueReference);
               enqueueCleanup(e);
               this.count = newCount;
+              return true;
+            }
+            return false;
+          }
+        }
+
+        return false;
+      } finally {
+        unlock();
+      }
+    }
+
+    boolean clearValue(K key, int hash, ValueReference<K, V> valueReference) {
+      lock();
+      try {
+        for (ReferenceEntry<K, V> e = getFirst(hash); e != null;
+            e = e.getNext()) {
+          K entryKey = e.getKey();
+          if (e.getHash() == hash && entryKey != null
+              && keyEquivalence.equivalent(key, entryKey)) {
+            ValueReference<K, V> v = e.getValueReference();
+            if (v == valueReference) {
+              enqueueCleanup(e);
               return true;
             }
             return false;
@@ -2747,14 +2816,6 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
           }
         }
       }
-    }
-
-    boolean isInvalid(ReferenceEntry<K, V> entry) {
-      return isInvalid(entry.getValueReference());
-    }
-
-    boolean isInvalid(ValueReference<K, V> valueReference) {
-      return valueReference == UNSET;
     }
 
     final Runnable cleanupRunnable =
@@ -3109,7 +3170,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
      */
     boolean advanceTo(ReferenceEntry<K, V> entry) {
       K key = entry.getKey();
-      V value = getUnexpiredValue(entry);
+      V value = getLiveValue(entry);
       if (key != null && value != null) {
         nextExternal = new WriteThroughEntry(key, value);
         return true;
