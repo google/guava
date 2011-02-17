@@ -109,7 +109,7 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V>
           }
 
           // TODO(user): reuse partially-collected entries
-          if (entry == null || isUnset(entry)) {
+          if (entry == null || isInvalid(entry)) {
             // Create a new entry.
             computingValueReference = new ComputingValueReference();
 
