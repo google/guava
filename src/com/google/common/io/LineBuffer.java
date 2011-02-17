@@ -47,7 +47,6 @@ abstract class LineBuffer {
    * @throws IOException if an I/O error occurs
    * @see #finish
    */
-  @SuppressWarnings("fallthrough")
   protected void add(char[] cbuf, int off, int len) throws IOException {
     int pos = off;
     if (sawReturn && len > 0) {
