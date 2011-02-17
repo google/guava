@@ -30,6 +30,10 @@ import java.util.concurrent.TimeoutException;
  * allows listeners to be attached to the future.  This makes it easier to
  * create a future that executes logic which can throw an exception.
  *
+ * <p>Common implementations include {@link
+ * com.google.common.labs.concurrent.ValueCheckedFuture} and {@link
+ * Futures#immediateCheckedFuture}.
+ *
  * <p>Implementations of this interface must adapt the exceptions thrown by
  * {@code Future#get()}: {@link CancellationException},
  * {@link ExecutionException} and {@link InterruptedException} into the type

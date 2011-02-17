@@ -118,6 +118,12 @@ public final class Futures {
    * returned future will create a thread to wait for the source future to
    * complete before executing the listeners.
    *
+   * <p><b>Warning:</b> If the input future does not already implement {@link
+   * ListenableFuture}, the returned future will emulate {@link
+   * ListenableFuture#addListener} by taking a thread from an internal,
+   * unbounded pool at the first call to {@code addListener} and holding it
+   * until the future is {@linkplain Future#isDone() done}.
+   *
    * <p>Callers who have a future that subclasses
    * {@link java.util.concurrent.FutureTask} may want to instead subclass
    * {@link ListenableFutureTask}, which adds the {@link ListenableFuture}
@@ -130,17 +136,6 @@ public final class Futures {
     return new ListenableFutureAdapter<V>(future);
   }
 
-  /**
-   * Creates a {@link ListenableFuture} out of a normal {@link Future} and uses
-   * the given {@link Executor} to get the value of the Future. The
-   * returned future will create a thread using the given executor to wait for
-   * the source future to complete before executing the listeners.
-   *
-   * <p>Callers who have a future that subclasses
-   * {@link java.util.concurrent.FutureTask} may want to instead subclass
-   * {@link ListenableFutureTask}, which adds the {@link ListenableFuture}
-   * functionality to the standard {@code FutureTask} implementation.
-   */
   static <V> ListenableFuture<V> makeListenable(
       Future<V> future, Executor executor) {
     checkNotNull(executor);
@@ -154,6 +149,12 @@ public final class Futures {
    * Creates a {@link CheckedFuture} out of a normal {@link Future} and a
    * {@link Function} that maps from {@link Exception} instances into the
    * appropriate checked type.
+   *
+   * <p><b>Warning:</b> If the input future does not implement {@link
+   * ListenableFuture}, the returned future will emulate {@link
+   * ListenableFuture#addListener} by taking a thread from an internal,
+   * unbounded pool at the first call to {@code addListener} and holding it
+   * until the future is {@linkplain Future#isDone() done}.
    *
    * <p>The given mapping function will be applied to an
    * {@link InterruptedException}, a {@link CancellationException}, or an
@@ -169,8 +170,7 @@ public final class Futures {
    * Creates a {@code ListenableFuture} which has its value set immediately upon
    * construction. The getters just return the value. This {@code Future} can't
    * be canceled or timed out and its {@code isDone()} method always returns
-   * {@code true}. It's useful for returning something that implements the
-   * {@code ListenableFuture} interface but already has the result.
+   * {@code true}.
    */
   public static <V> ListenableFuture<V> immediateFuture(@Nullable V value) {
     ValueFuture<V> future = ValueFuture.create();
@@ -299,7 +299,7 @@ public final class Futures {
    *         }
    *       };
    *   ListenableFuture<QueryResult> queryFuture =
-   *       chain(queryFuture, queryFunction);
+   *       chain(queryFuture, queryFunction, executor);
    * }</pre>
    *
    * <p>Successful cancellation of either the input future or the result of
