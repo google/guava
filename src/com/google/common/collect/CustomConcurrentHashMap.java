@@ -1632,11 +1632,11 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
   }
 
   // Entries in the map can be in the following states:
-  // - Live: valid value is set
-  // - Expired: time expired, but old value still set
+  // - Live: valid key/value are set
+  // - Expired: time expired (key/value may still be set)
   // - Computing: computation is pending
-  // - Collected: value was collected but not yet cleaned up
-  // - Invalid: marked as invalid, awaiting cleanup or reuse
+  // - Collected: key/value was partially collected, but not yet cleaned up
+  // - Unset: marked as unset, awaiting cleanup or reuse
 
   boolean isLive(ReferenceEntry<K, V> entry) {
     return getLiveValue(entry) != null;
@@ -1657,11 +1657,11 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
     return now - expirable.getExpirationTime() > 0;
   }
 
-  boolean isInvalid(ReferenceEntry<K, V> entry) {
-    return isInvalid(entry.getValueReference());
+  boolean isUnset(ReferenceEntry<K, V> entry) {
+    return isUnset(entry.getValueReference());
   }
 
-  boolean isInvalid(ValueReference<K, V> valueReference) {
+  boolean isUnset(ValueReference<K, V> valueReference) {
     return valueReference == UNSET;
   }
 
@@ -2188,7 +2188,9 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
       }
       long now = System.nanoTime();
       while (expirable != expirationHead && isExpired(expirable, now)) {
-        invalidateEntry(expirable, expirable.getHash());
+        if (!invalidateEntry(expirable, expirable.getHash())) {
+          throw new AssertionError();
+        }
         expirable = expirationHead.getNextExpirable();
       }
     }
@@ -2564,13 +2566,15 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
             // Clone nodes leading up to the tail.
             for (ReferenceEntry<K, V> e = head; e != tail; e = e.getNext()) {
               K key = e.getKey();
-              if (key != null) {
+              if (isUnset(e)) {
+                // Entry was invalidated.
+              } else if (key == null) {
+                // Key was reclaimed.
+                invalidateLiveEntry(e, e.getHash());
+              } else {
                 int newIndex = e.getHash() & newMask;
                 ReferenceEntry<K, V> newNext = newTable.get(newIndex);
                 newTable.set(newIndex, copyEntry(e, newNext));
-              } else {
-                // Key was reclaimed.
-                evictionNotificationQueue.offer(e);
               }
             }
           }
@@ -2697,38 +2701,45 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
 
       ReferenceEntry<K, V> newFirst = removed.getNext();
       for (ReferenceEntry<K, V> e = first; e != removed; e = e.getNext()) {
-        if (e.getKey() == null) {
-          // TODO(user): do we need to modify count?
-          evictionNotificationQueue.offer(e);
-        } else if (e.getValueReference() != UNSET) {
+        if (isUnset(e)) {
+          // Entry was invalidated.
+        } else if (e.getKey() == null) {
+          // Key was reclaimed.
+          invalidateLiveEntry(e, e.getHash()); // decrements count
+        } else {
           newFirst = copyEntry(e, newFirst);
-        } // else entry was invalidated
+        }
       }
       return newFirst;
     }
 
     @GuardedBy("Segment.this")
     boolean invalidateEntry(ReferenceEntry<K, V> entry, int hash) {
-      ValueReference<K, V> valueReference = entry.getValueReference();
-      if (isInvalid(valueReference)) {
-        // short-circuit to ensure that notifications are only sent once
+      if (isUnset(entry)) {
+        // keep count consistent
         return false;
       }
 
-      int newCount = this.count - 1;
       for (ReferenceEntry<K, V> e = getFirst(hash); e != null;
           e = e.getNext()) {
         if (e == entry) {
-          ++modCount;
-          K key = entry.getKey();
-          enqueueNotification(key, hash, valueReference);
-          enqueueCleanup(entry);
-          this.count = newCount; // write-volatile
+          invalidateLiveEntry(entry, hash);
           return true;
         }
       }
 
       return false;
+    }
+
+    @GuardedBy("Segment.this")
+    void invalidateLiveEntry(ReferenceEntry<K, V> entry, int hash) {
+      int newCount = this.count - 1;
+      ++modCount;
+      K key = entry.getKey();
+      ValueReference<K, V> valueReference = entry.getValueReference();
+      enqueueNotification(key, hash, valueReference);
+      enqueueCleanup(entry);
+      this.count = newCount; // write-volatile
     }
 
     boolean invalidateValue(K key, int hash,
@@ -2807,7 +2818,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
         ReferenceEntry<K, V> first = table.get(index);
         for (ReferenceEntry<K, V> e = first; e != null; e = e.getNext()) {
           if (e == entry) {
-            if (isInvalid(e)) {
+            if (isUnset(e)) {
               ReferenceEntry<K, V> newFirst = removeFromTable(first, e);
               table.set(index, newFirst);
               cleanedUp++;
