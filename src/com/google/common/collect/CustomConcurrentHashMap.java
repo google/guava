@@ -125,9 +125,9 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
    * lock contention by recording a memento of reads and delaying a lock
    * acquisition until the threshold is crossed or a mutation occurs.
    *
-   * <p>This must be a power of two as it is used as a mask.
+   * <p>This must be a (2^n)-1 as it is used as a mask.
    */
-  static final int DRAIN_THRESHOLD = 64;
+  static final int DRAIN_THRESHOLD = 0x3F;
 
   /**
    * Maximum number of entries to be cleaned up in a single cleanup run.
@@ -297,6 +297,10 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
 
   boolean expiresAfterAccess() {
     return expireAfterAccessNanos > 0;
+  }
+
+  boolean isInlineCleanup() {
+    return cleanupExecutor == MapMaker.DEFAULT_CLEANUP_EXECUTOR;
   }
 
   /**
@@ -1637,10 +1641,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
     int hash = entry.getHash();
     Segment segment = segmentFor(hash);
     segment.unsetValue(entry.getKey(), hash, valueReference);
-
-    if (!segment.isHeldByCurrentThread()) {
-      segment.scheduleCleanup();
-    }
+    segment.scheduleCleanup();
   }
 
   boolean removeEntry(ReferenceEntry<K, V> entry) {
@@ -1687,7 +1688,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
   /**
    * Gets the value from an entry. Returns null if the entry is invalid,
    * partially-collected, computing, or expired. This method is unnecessary in
-   * blocks that call expireEntries() directly, which can simply assume that
+   * blocks that call preWriteCleanup() directly, which can simply assume that
    * remaining entries are not expired, and only need compare the value to
    * null.
    */
@@ -2071,6 +2072,18 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
       entry.setValueReference(valueStrength.referenceValue(entry, value));
     }
 
+    /**
+     * Performs routine cleanup prior to executing a write. This should be
+     * called every time a write thread acquires the segment lock, immediately
+     * after acquiring the lock.
+     */
+    @GuardedBy("Segment.this")
+    void preWriteCleanup() {
+      expireEntries();
+      // perform inline cleanup while under lock
+      scheduleCleanup();
+    }
+
     // recency queue, shared by expiration and eviction
 
     /**
@@ -2394,7 +2407,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
       checkNotNull(newValue);
       lock();
       try {
-        expireEntries();
+        preWriteCleanup();
 
         for (ReferenceEntry<K, V> e = getFirst(hash); e != null;
             e = e.getNext()) {
@@ -2430,7 +2443,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
       checkNotNull(newValue);
       lock();
       try {
-        expireEntries();
+        preWriteCleanup();
 
         for (ReferenceEntry<K, V> e = getFirst(hash); e != null;
             e = e.getNext()) {
@@ -2460,7 +2473,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
       checkNotNull(value);
       lock();
       try {
-        expireEntries();
+        preWriteCleanup();
 
         int newCount = this.count + 1;
         if (newCount > this.threshold) { // ensure capacity
@@ -2603,7 +2616,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
     V remove(Object key, int hash) {
       lock();
       try {
-        expireEntries();
+        preWriteCleanup();
 
         int newCount = this.count - 1;
         AtomicReferenceArray<ReferenceEntry<K, V>> table = this.table;
@@ -2638,7 +2651,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
       checkNotNull(value);
       lock();
       try {
-        expireEntries();
+        preWriteCleanup();
 
         int newCount = this.count - 1;
         AtomicReferenceArray<ReferenceEntry<K, V>> table = this.table;
@@ -2852,33 +2865,46 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
       }
     }
 
+    void scheduleCleanup() {
+      if (isInlineCleanup()) {
+        if (isHeldByCurrentThread()) {
+          runUnlockedCleanup();
+        } else {
+          runLockedCleanup();
+        }
+      } else if (!isHeldByCurrentThread()) {
+        cleanupExecutor.execute(cleanupRunnable);
+      }
+    }
+
     final Runnable cleanupRunnable =
         new Runnable() {
           public void run() {
-            runCleanup();
+            runUnlockedCleanup();
+            runLockedCleanup();
           }
         };
 
-    void scheduleCleanup() {
-      checkState(!isHeldByCurrentThread());
-      cleanupExecutor.execute(cleanupRunnable);
+    /**
+     * Performs housekeeping tasks on this segment that don't require the
+     * segment lock.
+     */
+    void runUnlockedCleanup() {
+      processPendingNotifications();
     }
 
     /**
-     * Performs periodic housekeeping tasks on this segment. Never called
-     * directly, but always by the cleanup executor.
+     * Performs housekeeping tasks on this segment that require the segment
+     * lock.
      */
-    void runCleanup() {
-      processPendingNotifications();
-
-      if (tryLock()) {
-        try {
-          processPendingCleanup();
-          drainRecencyQueue();
-          readCount.set(0);
-        } finally {
-          unlock();
-        }
+    void runLockedCleanup() {
+      lock();
+      try {
+        processPendingCleanup();
+        drainRecencyQueue();
+        readCount.set(0);
+      } finally {
+        unlock();
       }
     }
 

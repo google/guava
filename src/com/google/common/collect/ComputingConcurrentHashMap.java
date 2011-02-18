@@ -87,7 +87,7 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V>
         lock();
         try {
           // Try again--an entry could have materialized in the interim.
-          expireEntries();
+          preWriteCleanup();
 
           // getFirst, but remember the index
           AtomicReferenceArray<ReferenceEntry<K, V>> table = this.table;
@@ -144,7 +144,6 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V>
           } finally {
             if (value == null) {
               clearValue(key, hash, computingValueReference);
-              scheduleCleanup();
             }
           }
         }
@@ -321,7 +320,7 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V>
       Segment segment = segmentFor(hash);
       segment.lock();
       try {
-        segment.expireEntries();
+        segment.preWriteCleanup();
 
         int newCount = segment.count + 1;
         if (newCount > segment.threshold) { // ensure capacity

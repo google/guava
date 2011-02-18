@@ -106,7 +106,7 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
   private static final int DEFAULT_CONCURRENCY_LEVEL = 4;
   private static final int DEFAULT_EXPIRATION_NANOS = 0;
 
-  private static final Executor DEFAULT_CLEANUP_EXECUTOR =
+  static final Executor DEFAULT_CLEANUP_EXECUTOR =
       new Executor() {
         public void execute(Runnable r) {
           r.run();
