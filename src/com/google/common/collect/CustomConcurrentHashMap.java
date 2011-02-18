@@ -1641,7 +1641,9 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
     int hash = entry.getHash();
     Segment segment = segmentFor(hash);
     segment.unsetValue(entry.getKey(), hash, valueReference);
-    segment.scheduleCleanup();
+    if (!segment.isHeldByCurrentThread()) { // don't cleanup inside of put
+      segment.scheduleCleanup();
+    }
   }
 
   boolean removeEntry(ReferenceEntry<K, V> entry) {
@@ -2093,17 +2095,20 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
      * therein processed.
      */
     void recordRead(ReferenceEntry<K, V> entry) {
-      if (!evictsBySize() && !expiresAfterAccess()) {
-        return;
-      }
-
       if (expiresAfterAccess()) {
         recordExpirationTime(entry, expireAfterAccessNanos);
       }
       recencyQueue.add(entry);
+
       // we are not under lock, so only drain a small fraction of the time
       if ((readCount.incrementAndGet() & DRAIN_THRESHOLD) == 0) {
-        scheduleCleanup();
+        if (isInlineCleanup()) {
+          // inline cleanup normally avoids taking the lock, but since no writes
+          // are happening we need to force some locked cleanup
+          runCleanup();
+        } else {
+          scheduleCleanup();
+        }
       }
     }
 
@@ -2867,12 +2872,18 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
 
     void scheduleCleanup() {
       if (isInlineCleanup()) {
+        // this cleanup pattern is optimized for writes, where cleanup requiring
+        // the lock is performed when the lock is acquired, and cleanup not
+        // requiring the lock is performed when the lock is released
         if (isHeldByCurrentThread()) {
-          runUnlockedCleanup();
-        } else {
           runLockedCleanup();
+        } else {
+          runUnlockedCleanup();
         }
       } else if (!isHeldByCurrentThread()) {
+        // non-default cleanup executors can ignore cleanup optimizations when
+        // the lock is held, as cleanup will always be called when the lock is
+        // released
         cleanupExecutor.execute(cleanupRunnable);
       }
     }
@@ -2880,10 +2891,14 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
     final Runnable cleanupRunnable =
         new Runnable() {
           public void run() {
-            runUnlockedCleanup();
-            runLockedCleanup();
+            runCleanup();
           }
         };
+
+    void runCleanup() {
+      runUnlockedCleanup();
+      runLockedCleanup();
+    }
 
     /**
      * Performs housekeeping tasks on this segment that don't require the
