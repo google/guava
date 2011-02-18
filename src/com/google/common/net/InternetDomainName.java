@@ -34,36 +34,40 @@ import java.util.List;
 import javax.annotation.Nullable;
 
 /**
- * An immutable well-formed internet domain name, as defined by
- * <a href="http://www.ietf.org/rfc/rfc1035.txt">RFC 1035</a>.
- * Examples include {@code com} and {@code foo.co.uk}. Only syntactic analysis
- * is performed; no DNS lookups or other network interactions take place. Thus
- * there is no guarantee that the domain actually exists on the internet.
- * Invalid domain names throw {@link IllegalArgumentException} on construction.
+ * An immutable well-formed internet domain name, such as {@code com} or {@code
+ * foo.co.uk}. Only syntactic analysis is performed; no DNS lookups or other
+ * network interactions take place. Thus there is no guarantee that the domain
+ * actually exists on the internet.
  *
  * <p>One common use of this class is to determine whether a given string is
  * likely to represent an addressable domain on the web -- that is, for a
- * candidate string "xxx", might browsing to "http://xxx/" result in a webpage
- * being displayed? In the past, this test was frequently done by determining
- * whether the domain ended with a {@linkplain #isPublicSuffix() public suffix}
- * but was not itself a public suffix. However, this test is no longer accurate;
- * there are many domains which are both public suffixes and addressable as
- * hosts. "uk.com" is one example. As a result, the only useful test to
- * determine if a domain is a plausible web host is {@link #hasPublicSuffix()}.
- * This will return {@code true} for many domains which (currently) are not
- * hosts, such as "com"), but given that any public suffix may become
- * a host without warning, it is better to err on the side of permissiveness
- * and thus avoid spurious rejection of valid sites.
+ * candidate string {@code "xxx"}, might browsing to {@code "http://xxx/"}
+ * result in a webpage being displayed? In the past, this test was frequently
+ * done by determining whether the domain ended with a {@linkplain
+ * #isPublicSuffix() public suffix} but was not itself a public suffix. However,
+ * this test is no longer accurate. There are many domains which are both public
+ * suffixes and addressable as hosts; {@code "uk.com"} is one example. As a
+ * result, the only useful test to determine if a domain is a plausible web host
+ * is {@link #hasPublicSuffix()}. This will return {@code true} for many domains
+ * which (currently) are not hosts, such as {@code "com"}), but given that any
+ * public suffix may become a host without warning, it is better to err on the
+ * side of permissiveness and thus avoid spurious rejection of valid sites.
  *
- * <p>{@linkplain #equals(Object) Equality} of domain names is case-insensitive
- * with respect to ASCII characters, so for convenience, the {@link #name()} and
- * {@link #parts()} methods return string with all ASCII characters converted to
- * lowercase.
+ * <p>During construction, names are normalized in two ways:
+ * <ol>
+ * <li>ASCII uppercase characters are converted to lowercase.
+ * <li>Unicode dot separators other than the ASCII period ({@code '.'}) are
+ * converted to the ASCII period.
+ * </ol>
+ * The normalized values will be returned from {@link #name()} and
+ * {@link #parts()}, and will be reflected in the result of
+ * {@link #equals(Object)}.
  *
  * <p><a href="http://en.wikipedia.org/wiki/Internationalized_domain_name">
- * internationalized domain names</a> such as {@code 网络.cn} are
- * supported, but with much weaker syntactic validation (resulting in false
- * positive reports of validity).
+ * internationalized domain names</a> such as {@code 网络.cn} are supported, as
+ * are the equivalent <a
+ * href="http://en.wikipedia.org/wiki/Internationalized_domain_name">IDNA
+ * Punycode-encoded</a> versions.
  *
  * @author Craig Berry
  * @since 5
@@ -138,7 +142,7 @@ public final class InternetDomainName {
    * Returns the index of the leftmost part of the public suffix, or -1 if not
    * found. Note that the value defined as the "public suffix" may not be a
    * public suffix according to {@link #isPublicSuffix()} if the domain ends
-   * with an excluded domain pattern such as "nhs.uk".
+   * with an excluded domain pattern such as {@code "nhs.uk"}.
    */
   private int findPublicSuffix() {
     final int partsSize = parts.size();
@@ -169,7 +173,15 @@ public final class InternetDomainName {
    * Returns an instance of {@link InternetDomainName} after lenient
    * validation.  Specifically, validation against <a
    * href="http://www.ietf.org/rfc/rfc3490.txt">RFC 3490</a>
-   * ("Internationalizing Domain Names in Applications") is skipped.
+   * ("Internationalizing Domain Names in Applications") is skipped, while
+   * validation against <a
+   * href="http://www.ietf.org/rfc/rfc1035.txt">RFC 1035</a> is relaxed in
+   * the following ways:
+   * <ul>
+   * <li>Any part containing non-ASCII characters is considered valid.
+   * <li>Underscores ('_') are permitted wherever dashes ('-') are permitted.
+   * <li>Parts other than the final part may start with a digit.
+   * </ul>
    *
    * @param domain A domain name (not IP address)
    * @throws IllegalArgumentException if {@code name} is not syntactically valid
@@ -478,7 +490,8 @@ public final class InternetDomainName {
   }
 
   /**
-   * Does the domain name match one of the "wildcard" patterns (e.g. "*.ar")?
+   * Does the domain name match one of the "wildcard" patterns (e.g.
+   * {@code "*.ar"})?
    */
   private static boolean matchesWildcardPublicSuffix(String domain) {
     final String[] pieces = domain.split(DOT_REGEX, 2);
