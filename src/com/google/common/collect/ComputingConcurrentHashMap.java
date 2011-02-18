@@ -77,17 +77,12 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V>
 
     V compute(K key, int hash) {
       outer: while (true) {
-        // TODO(user): refactor getLiveEntry into getLiveValue
-        ReferenceEntry<K, V> entry = getLiveEntry(key, hash);
-        if (entry != null) {
-          // current entry is live, and read was already recorded
-          V value = entry.getValueReference().get();
-          if (value != null) {
-            return value;
-          }
+        V value = get(key, hash);
+        if (value != null) {
+          return value;
         }
 
-        // entry is absent, invalid, or computing
+        ReferenceEntry<K, V> entry = null;
         ComputingValueReference computingValueReference = null;
         lock();
         try {
@@ -104,11 +99,20 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V>
             if (e.getHash() == hash && entryKey != null
                 && keyEquivalence.equivalent(key, entryKey)) {
               entry = e;
+              ValueReference<K, V> valueReference = entry.getValueReference();
+              value = valueReference.get();
+              if (value != null) {
+                return value;
+              }
+
+              if (!valueReference.isComputingReference()) {
+                // clobber invalid entries
+                unsetLiveEntry(entry, hash);
+              }
               break;
             }
           }
 
-          // TODO(user): reuse partially-collected entries
           if (entry == null || isUnset(entry)) {
             // Create a new entry.
             computingValueReference = new ComputingValueReference();
@@ -129,7 +133,6 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V>
           // This thread solely created the entry.
           boolean success = false;
           try {
-            V value = null;
             // Synchronizes on the entry to allow failing fast when a
             // recursive computation is detected. This is not fool-proof
             // since the entry may be copied when the segment is written to.
@@ -137,10 +140,9 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V>
               value = computingValueReference.compute(key, hash);
             }
             checkNotNull(value, "compute() returned null unexpectedly");
-            success = true;
             return value;
           } finally {
-            if (!success) {
+            if (value == null) {
               clearValue(key, hash, computingValueReference);
               scheduleCleanup();
             }
@@ -153,12 +155,8 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V>
           while (true) {
             try {
               checkState(!Thread.holdsLock(entry), "Recursive computation");
-              ValueReference<K, V> valueReference = entry.getValueReference();
-              V value = valueReference.waitForValue();
+              value = entry.getValueReference().waitForValue();
               if (value == null) {
-                if (!valueReference.isComputingReference()) {
-                  invalidateValue(key, hash, valueReference);
-                }
                 // else computing thread will clearValue
                 continue outer;
               }

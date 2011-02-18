@@ -19,6 +19,7 @@ package com.google.common.collect;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Equivalence;
 import com.google.common.base.Equivalences;
 import com.google.common.base.FinalizableReferenceQueue;
@@ -123,8 +124,10 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
    * the cache's recency ordering information is updated. This is used to avoid
    * lock contention by recording a memento of reads and delaying a lock
    * acquisition until the threshold is crossed or a mutation occurs.
+   *
+   * <p>This must be a power of two as it is used as a mask.
    */
-  static final int RECENCY_THRESHOLD = 64;
+  static final int DRAIN_THRESHOLD = 64;
 
   /**
    * Maximum number of entries to be cleaned up in a single cleanup run.
@@ -220,13 +223,9 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
         builder.evictionListener;
     if (evictionListener == null
         || evictionListener.equals(NullListener.INSTANCE)) {
-      @SuppressWarnings("unchecked")
-      Queue<ReferenceEntry<K, V>> defaultQueue = (Queue) discardingQueue;
-      evictionNotificationQueue = defaultQueue;
+      evictionNotificationQueue = discardingQueue();
 
-      @SuppressWarnings("unchecked")
-      MapEvictionListener<K, V> defaultListener = NullListener.INSTANCE;
-      this.evictionListener = defaultListener;
+      this.evictionListener = nullListener();
     } else {
       evictionNotificationQueue =
           new ConcurrentLinkedQueue<ReferenceEntry<K, V>>();
@@ -807,7 +806,16 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
     @Override public void onEviction(Object key, Object value) {}
   }
 
-  static final Queue<Object> discardingQueue = new AbstractQueue<Object>() {
+  /**
+   * Queue that discards all elements.
+   */
+  @SuppressWarnings("unchecked")
+  // Safe because impl never uses a parameter or returns any non-null value
+  static <K, V> MapEvictionListener<K, V> nullListener() {
+    return (MapEvictionListener<K, V>) NullListener.INSTANCE;
+  }
+
+  static final Queue<Object> DISCARDING_QUEUE = new AbstractQueue<Object>() {
     public boolean offer(Object o) {
       return true;
     }
@@ -830,6 +838,15 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
       return Iterators.emptyIterator();
     }
   };
+
+  /**
+   * Queue that discards all elements.
+   */
+  @SuppressWarnings("unchecked")
+  // Safe because impl never uses a parameter or returns any non-null value
+  static <E> Queue<E> discardingQueue() {
+    return (Queue<E>) DISCARDING_QUEUE;
+  }
 
   /*
    * Note: All of this duplicate code sucks, but it saves a lot of memory.
@@ -1619,7 +1636,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
       ValueReference<K, V> valueReference) {
     int hash = entry.getHash();
     Segment segment = segmentFor(hash);
-    segment.invalidateValue(entry.getKey(), hash, valueReference);
+    segment.unsetValue(entry.getKey(), hash, valueReference);
 
     if (!segment.isHeldByCurrentThread()) {
       segment.scheduleCleanup();
@@ -1632,9 +1649,11 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
   }
 
   // Entries in the map can be in the following states:
+  // Valid:
   // - Live: valid key/value are set
-  // - Expired: time expired (key/value may still be set)
   // - Computing: computation is pending
+  // Invalid:
+  // - Expired: time expired (key/value may still be set)
   // - Collected: key/value was partially collected, but not yet cleaned up
   // - Unset: marked as unset, awaiting cleanup or reuse
 
@@ -1821,7 +1840,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
 
     /**
      * The number of live elements in this segment's region. This does not
-     * include invalidated elements which are awaiting cleanup.
+     * include unset elements which are awaiting cleanup.
      */
     volatile int count;
 
@@ -1852,7 +1871,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
     final int maxSegmentSize;
 
     /**
-     * The cleanup queue is used to record entries which have been invalidated
+     * The cleanup queue is used to record entries which have been unset
      * and need to be removed from the map. It is drained by the cleanup
      * executor.
      */
@@ -1862,13 +1881,16 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
     /**
      * The recency queue is used to record which entries were accessed
      * for updating the eviction list's ordering. It is drained
-     * as a batch operation when either the RECENCY_THRESHOLD is crossed or
+     * as a batch operation when either the DRAIN_THRESHOLD is crossed or
      * a write occurs on the segment.
      */
     final Queue<ReferenceEntry<K, V>> recencyQueue;
 
-    /** The size of {@code recencyQueue}. */
-    final AtomicInteger recencyQueueLength;
+    /**
+     * A counter of the number of reads since the last write, used to drain
+     * queues on a small fraction of read operations.
+     */
+    final AtomicInteger readCount = new AtomicInteger();
 
     /** The head of the eviction list. */
     @GuardedBy("Segment.this")
@@ -2021,10 +2043,8 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
 
       if (evictsBySize() || expires()) {
         recencyQueue = new ConcurrentLinkedQueue<ReferenceEntry<K, V>>();
-        recencyQueueLength = new AtomicInteger();
       } else {
-        recencyQueue = null;
-        recencyQueueLength = null;
+        recencyQueue = discardingQueue();
       }
     }
 
@@ -2068,15 +2088,9 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
         recordExpirationTime(entry, expireAfterAccessNanos);
       }
       recencyQueue.add(entry);
-      // we are not under lock, so only drain the recency queue if full
-      if (recencyQueueLength.incrementAndGet() > RECENCY_THRESHOLD) {
-        if (tryLock()) {
-          try {
-            drainRecencyQueue();
-          } finally {
-            unlock();
-          }
-        }
+      // we are not under lock, so only drain a small fraction of the time
+      if ((readCount.incrementAndGet() & DRAIN_THRESHOLD) == 0) {
+        scheduleCleanup();
       }
     }
 
@@ -2086,10 +2100,6 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
      */
     @GuardedBy("Segment.this")
     void recordWrite(ReferenceEntry<K, V> entry) {
-      if (!evictsBySize() && !expires()) {
-        return;
-      }
-
       // we are already under lock, so drain the recency queue immediately
       drainRecencyQueue();
       if (evictsBySize()) {
@@ -2114,10 +2124,6 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
      */
     @GuardedBy("Segment.this")
     void drainRecencyQueue() {
-      // While the recency queue is being drained it may be concurrently
-      // appended to. The number of elements removed are tracked so that the
-      // length can be decremented by the delta rather than set to zero.
-      int drained = 0;
       ReferenceEntry<K, V> entry;
       while ((entry = recencyQueue.poll()) != null) {
         // An entry may be in the recency queue despite it being removed from
@@ -2136,9 +2142,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
             addExpirable(entry);
           }
         }
-        drained++;
       }
-      recencyQueueLength.addAndGet(-drained);
     }
 
     // expiration
@@ -2188,7 +2192,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
       }
       long now = System.nanoTime();
       while (expirable != expirationHead && isExpired(expirable, now)) {
-        if (!invalidateEntry(expirable, expirable.getHash())) {
+        if (!unsetEntry(expirable, expirable.getHash())) {
           throw new AssertionError();
         }
         expirable = expirationHead.getNextExpirable();
@@ -2236,7 +2240,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
       checkState(evictable != evictionHead);
 
       // then remove a single entry
-      if (!invalidateEntry(evictable, evictable.getHash())) {
+      if (!unsetEntry(evictable, evictable.getHash())) {
         throw new AssertionError();
       }
     }
@@ -2291,10 +2295,10 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
     /* Specialized implementations of map methods */
 
     /**
-     * Returns the live entry corresponding to {@code key}, or {@code null} if
-     * the map entry for {@code key} has expired or is invalid.
+     * Returns the entry for a given key. Note that the entry may not be live.
+     * This is only used for testing.
      */
-    public ReferenceEntry<K, V> getLiveEntry(Object key, int hash) {
+    @VisibleForTesting ReferenceEntry<K, V> getEntry(Object key, int hash) {
       if (count != 0) { // read-volatile
         for (ReferenceEntry<K, V> e = getFirst(hash); e != null;
             e = e.getNext()) {
@@ -2308,12 +2312,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
           }
 
           if (keyEquivalence.equivalent(key, entryKey)) {
-            if (isLive(e)) {
-              recordRead(e);
-              return e;
-            }
-
-            return null;
+            return e;
           }
         }
       }
@@ -2322,12 +2321,29 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
     }
 
     V get(Object key, int hash) {
-      ReferenceEntry<K, V> entry = getLiveEntry(key, hash);
-      if (entry == null) {
-        return null;
+      if (count != 0) { // read-volatile
+        for (ReferenceEntry<K, V> e = getFirst(hash); e != null;
+            e = e.getNext()) {
+          if (e.getHash() != hash) {
+            continue;
+          }
+
+          K entryKey = e.getKey();
+          if (entryKey == null) {
+            continue;
+          }
+
+          if (keyEquivalence.equivalent(key, entryKey)) {
+            V value = getLiveValue(e);
+            if (value != null) {
+              recordRead(e);
+            }
+            return value;
+          }
+        }
       }
 
-      return entry.getValueReference().get();
+      return null;
     }
 
     boolean containsKey(Object key, int hash) {
@@ -2449,6 +2465,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
         int newCount = this.count + 1;
         if (newCount > this.threshold) { // ensure capacity
           expand();
+          newCount = this.count + 1;
         }
 
         // getFirst, but remember the index
@@ -2469,7 +2486,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
             boolean absent = (entryValue == null);
             if (absent) {
               ++modCount;
-              // Value could be partially-collected, invalidated, or computing.
+              // Value could be partially-collected, unset, or computing.
               // In the first case, the value must be reclaimed. In the latter
               // two cases en entry must be evicted.
               valueReference.notifyValueReclaimed();
@@ -2570,7 +2587,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
                 // Entry was invalidated.
               } else if (key == null) {
                 // Key was reclaimed.
-                invalidateLiveEntry(e, e.getHash());
+                unsetLiveEntry(e, e.getHash()); // decrements count
               } else {
                 int newIndex = e.getHash() & newMask;
                 ReferenceEntry<K, V> newNext = newTable.get(newIndex);
@@ -2600,7 +2617,9 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
             V entryValue = e.getValueReference().get();
             if (entryValue != null) {
               ++modCount;
-              ReferenceEntry<K, V> newFirst = removeFromTable(first, e);
+              ReferenceEntry<K, V> newFirst =
+                  removeFromTable(first, e); // could decrement count
+              newCount = this.count - 1;
               table.set(index, newFirst);
               this.count = newCount; // write-volatile
             }
@@ -2634,7 +2653,9 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
             if (value == entryValue || (value != null && entryValue != null
                 && valueEquivalence.equivalent(value, entryValue))) {
               ++modCount;
-              ReferenceEntry<K, V> newFirst = removeFromTable(first, e);
+              ReferenceEntry<K, V> newFirst =
+                  removeFromTable(first, e); // could decrement count
+              newCount = this.count - 1;
               table.set(index, newFirst);
               this.count = newCount; // write-volatile
               return true;
@@ -2668,7 +2689,9 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
         for (ReferenceEntry<K, V> e = first; e != null; e = e.getNext()) {
           if (e == entry) {
             ++modCount;
-            ReferenceEntry<K, V> newFirst = removeFromTable(first, e);
+            ReferenceEntry<K, V> newFirst =
+                removeFromTable(first, e); // could decrement count
+            newCount = this.count - 1;
             table.set(index, newFirst);
             count = newCount; // write-volatile
             return true;
@@ -2705,7 +2728,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
           // Entry was invalidated.
         } else if (e.getKey() == null) {
           // Key was reclaimed.
-          invalidateLiveEntry(e, e.getHash()); // decrements count
+          unsetLiveEntry(e, e.getHash()); // decrements count
         } else {
           newFirst = copyEntry(e, newFirst);
         }
@@ -2714,17 +2737,11 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
     }
 
     @GuardedBy("Segment.this")
-    boolean invalidateEntry(ReferenceEntry<K, V> entry, int hash) {
-      if (isUnset(entry)) {
-        // keep count consistent
-        return false;
-      }
-
+    boolean unsetEntry(ReferenceEntry<K, V> entry, int hash) {
       for (ReferenceEntry<K, V> e = getFirst(hash); e != null;
           e = e.getNext()) {
         if (e == entry) {
-          invalidateLiveEntry(entry, hash);
-          return true;
+          return unsetLiveEntry(entry, hash);
         }
       }
 
@@ -2732,7 +2749,12 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
     }
 
     @GuardedBy("Segment.this")
-    void invalidateLiveEntry(ReferenceEntry<K, V> entry, int hash) {
+    boolean unsetLiveEntry(ReferenceEntry<K, V> entry, int hash) {
+      if (isUnset(entry)) {
+        // keep count consistent
+        return false;
+      }
+
       int newCount = this.count - 1;
       ++modCount;
       K key = entry.getKey();
@@ -2740,9 +2762,10 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
       enqueueNotification(key, hash, valueReference);
       enqueueCleanup(entry);
       this.count = newCount; // write-volatile
+      return true;
     }
 
-    boolean invalidateValue(K key, int hash,
+    boolean unsetValue(K key, int hash,
         ValueReference<K, V> valueReference) {
       lock();
       try {
@@ -2848,13 +2871,13 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
     void runCleanup() {
       processPendingNotifications();
 
-      if (!cleanupQueue.isEmpty()) {
-        if (tryLock()) {
-          try {
-            processPendingCleanup();
-          } finally {
-            unlock();
-          }
+      if (tryLock()) {
+        try {
+          processPendingCleanup();
+          drainRecencyQueue();
+          readCount.set(0);
+        } finally {
+          unlock();
         }
       }
     }
@@ -2869,6 +2892,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
           }
           clearExpirationQueue();
           clearEvictionQueue();
+          readCount.set(0);
 
           ++modCount;
           count = 0; // write-volatile
