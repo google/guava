@@ -177,7 +177,7 @@ public abstract class ImmutableSortedSet<E>
       E e1, E e2, E e3, E e4, E e5) {
     return copyOf(Ordering.natural(), Arrays.asList(e1, e2, e3, e4, e5));
   }
-  
+
   /**
    * Returns an immutable sorted set containing the given elements sorted by
    * their natural ordering. When multiple elements are equivalent according to
@@ -209,11 +209,12 @@ public abstract class ImmutableSortedSet<E>
    * @since 2 (changed from varargs in release 3)
    */
   @Deprecated
-  public static <E extends Comparable<? super E>> ImmutableSortedSet<E> of(
+  public
+  static <E extends Comparable<? super E>> ImmutableSortedSet<E> of(
       E[] elements) {
     return copyOf(elements);
   }
-  
+
   /**
    * Returns an immutable sorted set containing the given elements sorted by
    * their natural ordering. When multiple elements are equivalent according to
