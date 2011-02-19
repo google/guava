@@ -276,10 +276,9 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V>
     public void clear() {
       // The pending computation was clobbered by a manual write. Unblock all
       // pending gets, and have them return the new value.
+      setValueReference(new ComputedReference<K, V>(null));
+
       // TODO(user): could also cancel computation if we had a thread handle
-      synchronized (this) {
-        notifyAll();
-      }
     }
 
     public void notifyValueReclaimed() {}
@@ -354,8 +353,10 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V>
 
     void setValueReference(ValueReference<K, V> valueReference) {
       synchronized (this) {
-        computedReference = valueReference;
-        notifyAll();
+        if (computedReference == UNSET) {
+          computedReference = valueReference;
+          notifyAll();
+        }
       }
     }
   }
