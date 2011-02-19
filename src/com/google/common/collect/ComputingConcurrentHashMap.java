@@ -126,7 +126,7 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V>
           }
         } finally {
           unlock();
-          scheduleCleanup();
+          postWriteCleanup();
         }
 
         if (computingValueReference != null) {
@@ -348,7 +348,7 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V>
         }
       } finally {
         segment.unlock();
-        segment.scheduleCleanup();
+        segment.postWriteCleanup();
       }
     }
 

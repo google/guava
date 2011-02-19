@@ -1642,7 +1642,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
     Segment segment = segmentFor(hash);
     segment.unsetValue(entry.getKey(), hash, valueReference);
     if (!segment.isHeldByCurrentThread()) { // don't cleanup inside of put
-      segment.scheduleCleanup();
+      segment.postWriteCleanup();
     }
   }
 
@@ -2074,18 +2074,6 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
       entry.setValueReference(valueStrength.referenceValue(entry, value));
     }
 
-    /**
-     * Performs routine cleanup prior to executing a write. This should be
-     * called every time a write thread acquires the segment lock, immediately
-     * after acquiring the lock.
-     */
-    @GuardedBy("Segment.this")
-    void preWriteCleanup() {
-      expireEntries();
-      // perform inline cleanup while under lock
-      scheduleCleanup();
-    }
-
     // recency queue, shared by expiration and eviction
 
     /**
@@ -2099,17 +2087,6 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
         recordExpirationTime(entry, expireAfterAccessNanos);
       }
       recencyQueue.add(entry);
-
-      // we are not under lock, so only drain a small fraction of the time
-      if ((readCount.incrementAndGet() & DRAIN_THRESHOLD) == 0) {
-        if (isInlineCleanup()) {
-          // inline cleanup normally avoids taking the lock, but since no writes
-          // are happening we need to force some locked cleanup
-          runCleanup();
-        } else {
-          scheduleCleanup();
-        }
-      }
     }
 
     /**
@@ -2196,10 +2173,6 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
 
     @GuardedBy("Segment.this")
     void expireEntries() {
-      if (!expires()) {
-        return;
-      }
-
       drainRecencyQueue();
 
       ReferenceEntry<K, V> expirable = expirationHead.getNextExpirable();
@@ -2339,29 +2312,33 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
     }
 
     V get(Object key, int hash) {
-      if (count != 0) { // read-volatile
-        for (ReferenceEntry<K, V> e = getFirst(hash); e != null;
-            e = e.getNext()) {
-          if (e.getHash() != hash) {
-            continue;
-          }
-
-          K entryKey = e.getKey();
-          if (entryKey == null) {
-            continue;
-          }
-
-          if (keyEquivalence.equivalent(key, entryKey)) {
-            V value = getLiveValue(e);
-            if (value != null) {
-              recordRead(e);
+      try {
+        if (count != 0) { // read-volatile
+          for (ReferenceEntry<K, V> e = getFirst(hash); e != null;
+               e = e.getNext()) {
+            if (e.getHash() != hash) {
+              continue;
             }
-            return value;
+
+            K entryKey = e.getKey();
+            if (entryKey == null) {
+              continue;
+            }
+
+            if (keyEquivalence.equivalent(key, entryKey)) {
+              V value = getLiveValue(e);
+              if (value != null) {
+                recordRead(e);
+              }
+              return value;
+            }
           }
         }
-      }
 
-      return null;
+        return null;
+      } finally {
+        postReadCleanup();
+      }
     }
 
     boolean containsKey(Object key, int hash) {
@@ -2440,7 +2417,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
         return false;
       } finally {
         unlock();
-        scheduleCleanup();
+        postWriteCleanup();
       }
     }
 
@@ -2470,7 +2447,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
         return null;
       } finally {
         unlock();
-        scheduleCleanup();
+        postWriteCleanup();
       }
     }
 
@@ -2537,7 +2514,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
         return null;
       } finally {
         unlock();
-        scheduleCleanup();
+        postWriteCleanup();
       }
     }
 
@@ -2648,7 +2625,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
         return null;
       } finally {
         unlock();
-        scheduleCleanup();
+        postWriteCleanup();
       }
     }
 
@@ -2686,7 +2663,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
         return false;
       } finally {
         unlock();
-        scheduleCleanup();
+        postWriteCleanup();
       }
     }
 
@@ -2870,7 +2847,34 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
       }
     }
 
-    void scheduleCleanup() {
+    void postReadCleanup() {
+      // we are not under lock, so only drain a small fraction of the time
+      if ((readCount.incrementAndGet() & DRAIN_THRESHOLD) == 0) {
+        if (isInlineCleanup()) {
+          // inline cleanup normally avoids taking the lock, but since no
+          // writes are happening we need to force some locked cleanup
+          runCleanup();
+        } else if (!isHeldByCurrentThread()) {
+          cleanupExecutor.execute(cleanupRunnable);
+        }
+      }
+    }
+
+    /**
+     * Performs routine cleanup prior to executing a write. This should be
+     * called every time a write thread acquires the segment lock, immediately
+     * after acquiring the lock.
+     */
+    @GuardedBy("Segment.this")
+    void preWriteCleanup() {
+      if (isInlineCleanup()) {
+        runLockedCleanup();
+      } else {
+        expireEntries();
+      }
+    }
+
+    void postWriteCleanup() {
       if (isInlineCleanup()) {
         // this cleanup pattern is optimized for writes, where cleanup requiring
         // the lock is performed when the lock is acquired, and cleanup not
@@ -2896,8 +2900,9 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
         };
 
     void runCleanup() {
-      runUnlockedCleanup();
       runLockedCleanup();
+      // locked cleanup may generate notifications we can send unlocked
+      runUnlockedCleanup();
     }
 
     /**
@@ -2915,8 +2920,8 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
     void runLockedCleanup() {
       lock();
       try {
+        expireEntries(); // calls drainRecencyQueue
         processPendingCleanup();
-        drainRecencyQueue();
         readCount.set(0);
       } finally {
         unlock();
