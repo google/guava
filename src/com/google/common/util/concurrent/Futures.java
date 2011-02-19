@@ -173,7 +173,7 @@ public final class Futures {
    * {@code true}.
    */
   public static <V> ListenableFuture<V> immediateFuture(@Nullable V value) {
-    ValueFuture<V> future = ValueFuture.create();
+    SettableFuture<V> future = SettableFuture.create();
     future.set(value);
     return future;
   }
@@ -188,7 +188,7 @@ public final class Futures {
    */
   public static <V, X extends Exception> CheckedFuture<V, X>
       immediateCheckedFuture(@Nullable V value) {
-    ValueFuture<V> future = ValueFuture.create();
+    SettableFuture<V> future = SettableFuture.create();
     future.set(value);
     return Futures.makeChecked(future, new Function<Exception, X>() {
       public X apply(Exception e) {
@@ -211,7 +211,7 @@ public final class Futures {
   public static <V> ListenableFuture<V> immediateFailedFuture(
       Throwable throwable) {
     checkNotNull(throwable);
-    ValueFuture<V> future = ValueFuture.create();
+    SettableFuture<V> future = SettableFuture.create();
     future.setException(throwable);
     return future;
   }

@@ -25,23 +25,23 @@ import javax.annotation.Nullable;
  * or {@link #setException(Throwable)} call.
  *
  * @author Sven Mawson
- * @since 1
+ * @since 9 (in version 1 as {@code ValueFuture})
  */
 @Beta
-public final class ValueFuture<V> extends AbstractListenableFuture<V> {
+public final class SettableFuture<V> extends AbstractListenableFuture<V> {
 
   /**
-   * Creates a new {@code ValueFuture} in the default state.
+   * Creates a new {@code SettableFuture} in the default state.
    */
-  public static <V> ValueFuture<V> create() {
-    return new ValueFuture<V>();
+  public static <V> SettableFuture<V> create() {
+    return new SettableFuture<V>();
   }
 
   /**
    * Explicit private constructor, use the {@link #create} factory method to
-   * create instances of {@code ValueFuture}.
+   * create instances of {@code SettableFuture}.
    */
-  private ValueFuture() {}
+  private SettableFuture() {}
 
   /**
    * Sets the value of this future.  This method will return {@code true} if
@@ -73,7 +73,7 @@ public final class ValueFuture<V> extends AbstractListenableFuture<V> {
   /**
    * {@inheritDoc}
    *
-   * <p>A ValueFuture is never considered in the running state, so the
+   * <p>A SettableFuture is never considered in the running state, so the
    * {@code mayInterruptIfRunning} argument is ignored.
    */
   @Override
