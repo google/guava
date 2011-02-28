@@ -90,11 +90,11 @@ public abstract class ImmutableSortedSet<E>
 
   // TODO(cpovirk): find a way to remove this @SuppressWarnings even for eclipse?
   @SuppressWarnings("unchecked")
-  private static final Comparator NATURAL_ORDER = Ordering.natural();
+  private static final Comparator<Comparable> NATURAL_ORDER = Ordering.natural();
 
   @SuppressWarnings("unchecked")
-  private static final ImmutableSortedSet<Object> NATURAL_EMPTY_SET =
-      new EmptyImmutableSortedSet<Object>(NATURAL_ORDER);
+  private static final ImmutableSortedSet<Comparable> NATURAL_EMPTY_SET =
+      new EmptyImmutableSortedSet<Comparable>(NATURAL_ORDER);
 
   @SuppressWarnings("unchecked")
   private static <E> ImmutableSortedSet<E> emptySet() {
@@ -259,7 +259,7 @@ public abstract class ImmutableSortedSet<E>
     // Hack around K not being a subtype of Comparable.
     // Unsafe, see ImmutableSortedSetFauxverideShim.
     @SuppressWarnings("unchecked")
-    Ordering<E> naturalOrder = (Ordering) Ordering.<Comparable>natural();
+    Ordering<E> naturalOrder = (Ordering<E>) Ordering.<Comparable>natural();
     return copyOf(naturalOrder, elements);
   }
 
@@ -297,7 +297,7 @@ public abstract class ImmutableSortedSet<E>
     // Hack around K not being a subtype of Comparable.
     // Unsafe, see ImmutableSortedSetFauxverideShim.
     @SuppressWarnings("unchecked")
-    Ordering<E> naturalOrder = (Ordering) Ordering.<Comparable>natural();
+    Ordering<E> naturalOrder = (Ordering<E>) Ordering.<Comparable>natural();
     return copyOf(naturalOrder, elements);
   }
 
@@ -317,7 +317,7 @@ public abstract class ImmutableSortedSet<E>
     // Hack around K not being a subtype of Comparable.
     // Unsafe, see ImmutableSortedSetFauxverideShim.
     @SuppressWarnings("unchecked")
-    Ordering<E> naturalOrder = (Ordering) Ordering.<Comparable>natural();
+    Ordering<E> naturalOrder = (Ordering<E>) Ordering.<Comparable>natural();
     return copyOfInternal(naturalOrder, elements);
   }
 
@@ -400,7 +400,7 @@ public abstract class ImmutableSortedSet<E>
   public static <E> ImmutableSortedSet<E> copyOfSorted(SortedSet<E> sortedSet) {
     Comparator<? super E> comparator = sortedSet.comparator();
     if (comparator == null) {
-      comparator = NATURAL_ORDER;
+      comparator = (Comparator<? super E>) NATURAL_ORDER;
     }
     return copyOfInternal(comparator, sortedSet, true);
   }

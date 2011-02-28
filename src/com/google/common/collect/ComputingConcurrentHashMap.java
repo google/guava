@@ -100,14 +100,17 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V>
                 && keyEquivalence.equivalent(key, entryKey)) {
               entry = e;
               ValueReference<K, V> valueReference = entry.getValueReference();
-              value = valueReference.get();
-              if (value != null) {
-                return value;
-              }
 
               if (!valueReference.isComputingReference()) {
-                // clobber invalid entries
-                unsetLiveEntry(entry, hash);
+                value = valueReference.get();
+                boolean absent = (value == null);
+                if (absent) {
+                  // clobber invalid entries
+                  unsetLiveEntry(entry, hash);
+                } else {
+                  recordRead(entry);
+                  return value;
+                }
               }
               break;
             }
@@ -131,7 +134,6 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V>
 
         if (computingValueReference != null) {
           // This thread solely created the entry.
-          boolean success = false;
           try {
             // Synchronizes on the entry to allow failing fast when a
             // recursive computation is detected. This is not fool-proof
@@ -247,7 +249,9 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V>
     ValueReference<K, V> computedReference = unset();
 
     public V get() {
-      return computedReference.get();
+      // All computation lookups go through waitForValue. This method thus is
+      // only used by put, to whom we always want to appear absent.
+      return null;
     }
 
     public ValueReference<K, V> copyFor(ReferenceEntry<K, V> entry) {
@@ -304,51 +308,12 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V>
         setValueReference(new NullPointerExceptionReference<K, V>(message));
         throw new NullPointerException(message);
       }
-      // TODO(user): explore directly calling
-      // segmentFor(hash).put(key, hash, value, true);
-      setComputedValue(key, hash, value);
+
+      // Call setValueReference first to avoid put clearing us.
       setValueReference(new ComputedReference<K, V>(value));
+      // putIfAbsent
+      segmentFor(hash).put(key, hash, value, true);
       return value;
-    }
-
-    /**
-     * Sets the value of a newly computed entry. Adds newly created entries at
-     * the end of the expiration queue.
-     */
-    void setComputedValue(K key, int hash, V value) {
-      Segment segment = segmentFor(hash);
-      segment.lock();
-      try {
-        segment.preWriteCleanup();
-
-        int newCount = segment.count + 1;
-        if (newCount > segment.threshold) { // ensure capacity
-          segment.expand();
-        }
-
-        for (ReferenceEntry<K, V> e = segment.getFirst(hash); e != null;
-            e = e.getNext()) {
-          K entryKey = e.getKey();
-          if (e.getHash() == hash && entryKey != null
-              && keyEquivalence.equivalent(key, entryKey)) {
-            ValueReference<K, V> liveValueReference = e.getValueReference();
-            if (liveValueReference == this) {
-              // putIfAbsent
-              ++segment.modCount;
-              if (segment.evictEntries()) {
-                newCount = segment.count + 1;
-              }
-
-              segment.setValue(e, value);
-              segment.count = newCount; // write-volatile
-            }
-            return;
-          }
-        }
-      } finally {
-        segment.unlock();
-        segment.postWriteCleanup();
-      }
     }
 
     void setValueReference(ValueReference<K, V> valueReference) {

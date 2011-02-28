@@ -2290,21 +2290,19 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
      * This is only used for testing.
      */
     @VisibleForTesting ReferenceEntry<K, V> getEntry(Object key, int hash) {
-      if (count != 0) { // read-volatile
-        for (ReferenceEntry<K, V> e = getFirst(hash); e != null;
-            e = e.getNext()) {
-          if (e.getHash() != hash) {
-            continue;
-          }
+      for (ReferenceEntry<K, V> e = getFirst(hash); e != null;
+          e = e.getNext()) {
+        if (e.getHash() != hash) {
+          continue;
+        }
 
-          K entryKey = e.getKey();
-          if (entryKey == null) {
-            continue;
-          }
+        K entryKey = e.getKey();
+        if (entryKey == null) {
+          continue;
+        }
 
-          if (keyEquivalence.equivalent(key, entryKey)) {
-            return e;
-          }
+        if (keyEquivalence.equivalent(key, entryKey)) {
+          return e;
         }
       }
 
@@ -2483,7 +2481,9 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
               ++modCount;
               // Value could be partially-collected, unset, or computing.
               // In the first case, the value must be reclaimed. In the latter
-              // two cases en entry must be evicted.
+              // two cases en entry must be evicted. This entry could be both
+              // partially-collected and next on the eviction list, which is why
+              // notifyValueReclaimed must be called prior to evictEntries.
               valueReference.notifyValueReclaimed();
               evictEntries();
               newCount = this.count + 1;

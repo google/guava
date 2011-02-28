@@ -90,8 +90,9 @@ public abstract class ForwardingSortedSet<E> extends ForwardingSet<E>
   @SuppressWarnings("unchecked")
   private int unsafeCompare(Object o1, Object o2) {
     Comparator<? super E> comparator = comparator();
-    return (comparator == null) ? ((Comparable) o1).compareTo(o2)
-        : ((Comparator) comparator).compare(o1, o2);
+    return (comparator == null)
+        ? ((Comparable<Object>) o1).compareTo(o2)
+        : ((Comparator<Object>) comparator).compare(o1, o2);
   }
 
   /**
@@ -105,7 +106,7 @@ public abstract class ForwardingSortedSet<E> extends ForwardingSet<E>
     try {
       // any ClassCastExceptions are caught
       @SuppressWarnings("unchecked")
-      SortedSet<Object> self = (SortedSet) this;
+      SortedSet<Object> self = (SortedSet<Object>) this;
       Object ceiling = self.tailSet(object).first();
       return unsafeCompare(ceiling, object) == 0;
     } catch (ClassCastException e) {
@@ -128,7 +129,7 @@ public abstract class ForwardingSortedSet<E> extends ForwardingSet<E>
     try {
       // any ClassCastExceptions are caught
       @SuppressWarnings("unchecked")
-      SortedSet<Object> self = (SortedSet) this;
+      SortedSet<Object> self = (SortedSet<Object>) this;
       Iterator<Object> iterator = self.tailSet(object).iterator();
       if (iterator.hasNext()) {
         Object ceiling = iterator.next();

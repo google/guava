@@ -208,7 +208,7 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
 
     @SuppressWarnings("unchecked") // safe "contravariant cast"
     private <T extends B> Ordering<T> ordering() {
-      return Ordering.from((Comparator) comparator);
+      return Ordering.from((Comparator<T>) comparator);
     }
   }
 
@@ -589,6 +589,22 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
       }
       int parentIndex = getParentIndex(index);
       E parentElement = elementData(parentIndex);
+      if (parentIndex != 0) {
+        // This is a guard for the case of the childless uncle. No checks are
+        // performed for childlessness (even if we could check it), but since
+        // it is the minimum sibling that is moved from "max" to "min" half
+        // of the heap, and only if x is larger, and this is at the bottom
+        // edge of the heap, the heap invariant is still preserved.
+        int grandparentIndex = getParentIndex(parentIndex);
+        int uncleIndex = getRightChildIndex(grandparentIndex);
+        if (uncleIndex != parentIndex) {
+          E uncleElement = elementData(uncleIndex);
+          if (ordering.compare(uncleElement, parentElement) < 0) {
+            parentIndex = uncleIndex;
+            parentElement = uncleElement;
+          }
+        }
+      }
       if (ordering.compare(parentElement, x) < 0) {
         queue[index] = parentElement;
         queue[parentIndex] = x;

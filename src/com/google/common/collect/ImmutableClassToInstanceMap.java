@@ -118,7 +118,7 @@ public final class ImmutableClassToInstanceMap<B> extends
   public static <B, S extends B> ImmutableClassToInstanceMap<B> copyOf(
       Map<? extends Class<? extends S>, ? extends S> map) {
     if (map instanceof ImmutableClassToInstanceMap) {
-      return (ImmutableClassToInstanceMap<B>) (Map) map;
+      return (ImmutableClassToInstanceMap<B>) map;
     }
     return new Builder<B>().putAll(map).build();
   }

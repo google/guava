@@ -90,9 +90,9 @@ public abstract class ForwardingSortedMap<K, V> extends ForwardingMap<K, V>
   private int unsafeCompare(Object k1, Object k2) {
     Comparator<? super K> comparator = comparator();
     if (comparator == null) {
-      return ((Comparable) k1).compareTo(k2);
+      return ((Comparable<Object>) k1).compareTo(k2);
     } else {
-      return ((Comparator) comparator).compare(k1, k2);
+      return ((Comparator<Object>) comparator).compare(k1, k2);
     }
   }
 
@@ -108,7 +108,7 @@ public abstract class ForwardingSortedMap<K, V> extends ForwardingMap<K, V>
     try {
       // any CCE will be caught
       @SuppressWarnings("unchecked")
-      SortedMap<Object, V> self = (SortedMap) this;
+      SortedMap<Object, V> self = (SortedMap<Object, V>) this;
       Object ceilingKey = self.tailMap(key).firstKey();
       return unsafeCompare(ceilingKey, key) == 0;
     } catch (ClassCastException e) {
@@ -132,7 +132,7 @@ public abstract class ForwardingSortedMap<K, V> extends ForwardingMap<K, V>
     try {
       // any CCE will be caught
       @SuppressWarnings("unchecked")
-      SortedMap<Object, V> self = (SortedMap) this;
+      SortedMap<Object, V> self = (SortedMap<Object, V>) this;
       Iterator<Entry<Object, V>> entryIterator =
           self.tailMap(key).entrySet().iterator();
       if (entryIterator.hasNext()) {

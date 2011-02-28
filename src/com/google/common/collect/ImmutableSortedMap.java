@@ -80,7 +80,7 @@ public class ImmutableSortedMap<K, V>
   // unsafe, comparator() returns a comparator on the specified type
   // TODO(kevinb): evaluate whether or not of().comparator() should return null
   public static <K, V> ImmutableSortedMap<K, V> of() {
-    return (ImmutableSortedMap) NATURAL_EMPTY_MAP;
+    return (ImmutableSortedMap<K, V>) NATURAL_EMPTY_MAP;
   }
 
   @SuppressWarnings("unchecked")
@@ -177,7 +177,7 @@ public class ImmutableSortedMap<K, V>
     // Hack around K not being a subtype of Comparable.
     // Unsafe, see ImmutableSortedSetFauxverideShim.
     @SuppressWarnings("unchecked")
-    Ordering<K> naturalOrder = (Ordering) Ordering.<Comparable>natural();
+    Ordering<K> naturalOrder = (Ordering<K>) Ordering.<Comparable>natural();
     return copyOfInternal(map, naturalOrder);
   }
 

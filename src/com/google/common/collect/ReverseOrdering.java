@@ -39,7 +39,7 @@ final class ReverseOrdering<T> extends Ordering<T> implements Serializable {
 
   @SuppressWarnings("unchecked") // how to explain?
   @Override public <S extends T> Ordering<S> reverse() {
-    return (Ordering) forwardOrder;
+    return (Ordering<S>) forwardOrder;
   }
 
   // Override the six min/max methods to "hoist" delegation outside loops

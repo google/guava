@@ -79,7 +79,7 @@ public abstract class Ordering<T> implements Comparator<T> {
   @GwtCompatible(serializable = true)
   @SuppressWarnings("unchecked") // TODO(kevinb): the right way to explain this??
   public static <C extends Comparable> Ordering<C> natural() {
-    return (Ordering) NaturalOrdering.INSTANCE;
+    return (Ordering<C>) NaturalOrdering.INSTANCE;
   }
 
   /**

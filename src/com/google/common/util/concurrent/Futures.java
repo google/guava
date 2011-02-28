@@ -167,6 +167,21 @@ public final class Futures {
   }
 
   /**
+   * Creates a {@link CheckedFuture} out of a normal {@link ListenableFuture}
+   * and a {@link Function} that maps from {@link Exception} instances into the
+   * appropriate checked type.
+   *
+   * <p>The given mapping function will be applied to an
+   * {@link InterruptedException}, a {@link CancellationException}, or an
+   * {@link ExecutionException} with the actual cause of the exception.
+   * See {@link Future#get()} for details on the exceptions thrown.
+   */
+  public static <V, X extends Exception> CheckedFuture<V, X> makeChecked(
+      ListenableFuture<V> future, Function<Exception, X> mapper) {
+    return new MappingCheckedFuture<V, X>(checkNotNull(future), mapper);
+  }
+
+  /**
    * Creates a {@code ListenableFuture} which has its value set immediately upon
    * construction. The getters just return the value. This {@code Future} can't
    * be canceled or timed out and its {@code isDone()} method always returns

@@ -61,7 +61,7 @@ public final class Constraints {
   // safe to narrow the type since checkElement returns its argument directly
   @SuppressWarnings("unchecked")
   public static <E> Constraint<E> notNull() {
-    return (Constraint) NotNullConstraint.INSTANCE;
+    return (Constraint<E>) NotNullConstraint.INSTANCE;
   }
 
   /**

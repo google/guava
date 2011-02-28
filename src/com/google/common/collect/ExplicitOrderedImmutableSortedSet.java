@@ -76,7 +76,8 @@ final class ExplicitOrderedImmutableSortedSet<E>
   // create() generates an ImmutableMap<E, Integer> rankMap.
   @SuppressWarnings("unchecked")
   private ImmutableMap<E, Integer> rankMap() {
-    return ((ExplicitOrdering) comparator()).rankMap;
+    ExplicitOrdering<E> eo = (ExplicitOrdering<E>) comparator();
+    return eo.rankMap;
   }
 
   // create() ensures that every element is an E.

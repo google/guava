@@ -77,7 +77,7 @@ public final class Multisets {
     @SuppressWarnings("unchecked")
     @Override protected Multiset<E> delegate() {
       // This is safe because all non-covariant methods are overriden
-      return (Multiset) delegate;
+      return (Multiset<E>) delegate;
     }
 
     transient Set<E> elementSet;
@@ -104,7 +104,7 @@ public final class Multisets {
     @SuppressWarnings("unchecked")
     @Override public Iterator<E> iterator() {
       // Safe because the returned Iterator is made unmodifiable
-      return (Iterator) Iterators.unmodifiableIterator(delegate.iterator());
+      return (Iterator<E>) Iterators.unmodifiableIterator(delegate.iterator());
     }
 
     @Override public boolean add(E element) {

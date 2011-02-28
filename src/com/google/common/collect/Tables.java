@@ -231,13 +231,13 @@ public final class Tables {
 
     // Will cast TRANSPOSE_CELL to a type that always succeeds
     @SuppressWarnings("unchecked") // eclipse doesn't like the raw type
-    private static final Function TRANSPOSE_CELL = new Function() {
-      public Object apply(Object from) {
-        Cell<?, ?, ?> cell = (Cell<?, ?, ?>) from;
-        return immutableCell(
-            cell.getColumnKey(), cell.getRowKey(), cell.getValue());
-      }
-    };
+    private static final Function<Cell<?, ?, ?>, Cell<?, ?, ?>> TRANSPOSE_CELL =
+        new Function<Cell<?, ?, ?>, Cell<?, ?, ?>>() {
+          public Cell<?, ?, ?> apply(Cell<?, ?, ?> cell) {
+            return immutableCell(
+                cell.getColumnKey(), cell.getRowKey(), cell.getValue());
+          }
+        };
 
     CellSet cellSet;
 
@@ -251,7 +251,7 @@ public final class Tables {
       // Casting TRANSPOSE_CELL to a type that always succeeds
       @SuppressWarnings("unchecked")
       CellSet() {
-        super(original.cellSet(), TRANSPOSE_CELL);
+        super(original.cellSet(), (Function) TRANSPOSE_CELL);
       }
 
       @Override public boolean equals(Object obj) {

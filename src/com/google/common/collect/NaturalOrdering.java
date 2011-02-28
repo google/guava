@@ -44,7 +44,7 @@ final class NaturalOrdering
 
   @SuppressWarnings("unchecked") // TODO(kevinb): the right way to explain this??
   @Override public <S extends Comparable> Ordering<S> reverse() {
-    return (Ordering) ReverseNaturalOrdering.INSTANCE;
+    return (Ordering<S>) ReverseNaturalOrdering.INSTANCE;
   }
 
   // Override to remove a level of indirection from inner loop

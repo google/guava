@@ -55,7 +55,7 @@ final class NullsLastOrdering<T> extends Ordering<T> implements Serializable {
 
   @SuppressWarnings("unchecked") // still need the right way to explain this
   @Override public <S extends T> Ordering<S> nullsLast() {
-    return (Ordering) this;
+    return (Ordering<S>) this;
   }
 
   @Override public boolean equals(@Nullable Object object) {
