@@ -31,7 +31,10 @@ import com.google.common.collect.CustomConcurrentHashMap.Strength;
 import java.io.Serializable;
 import java.lang.ref.SoftReference;
 import java.lang.ref.WeakReference;
+import java.util.AbstractMap;
+import java.util.Collections;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.Executor;
@@ -113,6 +116,12 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
         }
       };
 
+  @SuppressWarnings("unchecked")
+  enum NullListener implements MapEvictionListener {
+    INSTANCE;
+    @Override public void onEviction(Object key, Object value) {}
+  }
+
   static final int UNSET_INT = -1;
 
   int initialCapacity = UNSET_INT;
@@ -127,6 +136,7 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
 
   // TODO(kevinb): dispense with this after benchmarking
   boolean useCustomMap;
+  boolean useNullMap;
 
   Equivalence<Object> keyEquivalence;
   Equivalence<Object> valueEquivalence;
@@ -200,9 +210,12 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    * example, the map may evict an entry because it hasn't been used recently
    * or very often.
    *
+   * <p>When {@code size} is zero, elements can be successfully added to the
+   * map, but are evicted immediately.
+   *
    * @param size the maximum size of the map
    *
-   * @throws IllegalArgumentException if {@code size} is not greater than zero
+   * @throws IllegalArgumentException if {@code size} is negative
    * @throws IllegalStateException if a maximum size was already set
    * @since 8
    */
@@ -212,9 +225,10 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
   public MapMaker maximumSize(int size) {
     checkState(this.maximumSize == UNSET_INT,
         "maximum size was already set to %s", this.maximumSize);
-    checkArgument(size > 0, "maximum size must be positive");
+    checkArgument(size >= 0, "maximum size must not be negative");
     this.maximumSize = size;
     this.useCustomMap = true;
+    this.useNullMap |= (maximumSize == 0);
     return this;
   }
 
@@ -391,10 +405,13 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    * Note that changing the value of an entry will reset its expiration
    * time.
    *
+   * <p>When {@code duration} is zero, elements can be successfully added to the
+   * map, but are evicted immediately.
+   *
    * @param duration the length of time after an entry is created that it
    *     should be automatically removed
    * @param unit the unit that {@code duration} is expressed in
-   * @throws IllegalArgumentException if {@code duration} is not positive
+   * @throws IllegalArgumentException if {@code duration} is negative
    * @throws IllegalStateException if the time to live or time to idle was
    *     already set
    * @since 8
@@ -404,6 +421,7 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
   public MapMaker expireAfterWrite(long duration, TimeUnit unit) {
     checkExpiration(duration, unit);
     this.expireAfterWriteNanos = unit.toNanos(duration);
+    useNullMap |= (duration == 0);
     useCustomMap = true;
     return this;
   }
@@ -415,7 +433,7 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
     checkState(expireAfterAccessNanos == UNSET_INT,
         "expireAfterAccess was already set to %s ns",
         expireAfterAccessNanos);
-    checkArgument(duration > 0, "duration must be positive: %s %s",
+    checkArgument(duration >= 0, "duration cannot be negative: %s %s",
         duration, unit);
   }
 
@@ -428,10 +446,13 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    * Specifies that each entry should be automatically removed from the
    * map once a fixed duration has passed since the entry's last access.
    *
+   * <p>When {@code duration} is zero, elements can be successfully added to the
+   * map, but are evicted immediately.
+   *
    * @param duration the length of time after an entry is last accessed
    *     that it should be automatically removed
    * @param unit the unit that {@code duration} is expressed in
-   * @throws IllegalArgumentException if {@code duration} is not positive
+   * @throws IllegalArgumentException if {@code duration} is negative
    * @throws IllegalStateException if the time to idle or time to live was
    *     already set
    * @since 8
@@ -442,6 +463,7 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
   public MapMaker expireAfterAccess(long duration, TimeUnit unit) {
     checkExpiration(duration, unit);
     this.expireAfterAccessNanos = unit.toNanos(duration);
+    useNullMap |= (duration == 0);
     useCustomMap = true;
     return this;
   }
@@ -500,6 +522,14 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
     return me;
   }
 
+  // TODO(kevinb): should this go in GenericMapMaker to avoid casts?
+  @SuppressWarnings("unchecked")
+  <K, V> MapEvictionListener<K, V> getEvictionListener() {
+    return evictionListener == null
+        ? (MapEvictionListener<K, V>) NullListener.INSTANCE
+        : (MapEvictionListener<K, V>) evictionListener;
+  }
+
   /**
    * Builds a map, without on-demand computation of values. This method
    * does not alter the state of this {@code MapMaker} instance, so it can be
@@ -509,10 +539,13 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    */
   @Override
   public <K, V> ConcurrentMap<K, V> makeMap() {
-    return useCustomMap
-        ? new CustomConcurrentHashMap<K, V>(this)
-        : new ConcurrentHashMap<K, V>(getInitialCapacity(),
-            0.75f, getConcurrencyLevel());
+    if (!useCustomMap) {
+      return new ConcurrentHashMap<K, V>(getInitialCapacity(),
+          0.75f, getConcurrencyLevel());
+    }
+    return useNullMap
+        ? new NullConcurrentMap<K, V>(this)
+        : new CustomConcurrentHashMap<K, V>(this);
   }
 
   /**
@@ -553,7 +586,9 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
   // TODO(kevinb): figure out the Cache interface before making this public
   <K, V> Cache<K, V> makeCache(
       Function<? super K, ? extends V> computingFunction) {
-    return new ComputingConcurrentHashMap<K, V>(this, computingFunction);
+    return useNullMap
+        ? new NullComputingConcurrentMap<K, V>(this, computingFunction)
+        : new ComputingConcurrentHashMap<K, V>(this, computingFunction);
   }
 
   /**
@@ -616,6 +651,121 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
      * Returns a map view of the cached entries.
      */
     ConcurrentMap<K, V> asMap();
+  }
+
+  /** A map that is always empty and evicts on insertion. */
+  static class NullConcurrentMap<K, V> extends AbstractMap<K, V>
+      implements ConcurrentMap<K, V>, Serializable {
+    private static final long serialVersionUID = 0;
+
+    final MapEvictionListener<K, V> evictionListener;
+
+    NullConcurrentMap(MapMaker mapMaker) {
+      evictionListener = mapMaker.getEvictionListener();
+    }
+
+    @Override
+    public boolean containsKey(Object key) {
+      checkNotNull(key);
+      return false;
+    }
+
+    @Override
+    public boolean containsValue(Object value) {
+      checkNotNull(value);
+      return false;
+    }
+
+    @Override
+    public V get(Object key) {
+      checkNotNull(key);
+      return null;
+    }
+
+    @Override
+    public V put(K key, V value) {
+      checkNotNull(key);
+      checkNotNull(value);
+      evictionListener.onEviction(key, value);
+      return null;
+    }
+
+    @Override
+    public V putIfAbsent(K key, V value) {
+      return put(key, value);
+    }
+
+    @Override
+    public V remove(Object key) {
+      checkNotNull(key);
+      return null;
+    }
+
+    @Override
+    public boolean remove(Object key, Object value) {
+      checkNotNull(key);
+      checkNotNull(value);
+      return false;
+    }
+
+    @Override
+    public V replace(K key, V value) {
+      checkNotNull(key);
+      checkNotNull(value);
+      return null;
+    }
+
+    @Override
+    public boolean replace(K key, V oldValue, V newValue) {
+      checkNotNull(key);
+      checkNotNull(oldValue);
+      checkNotNull(newValue);
+      return false;
+    }
+
+    @Override
+    public Set<Entry<K, V>> entrySet() {
+      return Collections.emptySet();
+    }
+  }
+
+  /** Computes on retrieval and evicts the result. */
+  static final class NullComputingConcurrentMap<K, V>
+      extends NullConcurrentMap<K, V> implements Cache<K, V> {
+    private static final long serialVersionUID = 0;
+
+    final Function<? super K, ? extends V> computingFunction;
+
+    NullComputingConcurrentMap(MapMaker mapMaker,
+        Function<? super K, ? extends V> computingFunction) {
+      super(mapMaker);
+      this.computingFunction = checkNotNull(computingFunction);
+    }
+
+    @Override
+    public V apply(K key) {
+      V value = compute(key);
+      checkNotNull(value,
+          computingFunction + " returned null for key " + key + ".");
+      evictionListener.onEviction(key, value);
+      return value;
+    }
+
+    private V compute(K key) {
+      checkNotNull(key);
+      try {
+        return computingFunction.apply(key);
+      } catch (ComputationException e) {
+        throw e;
+      } catch (Throwable t) {
+        throw new ComputationException(t);
+      }
+    }
+
+    @Override
+    public ConcurrentMap<K, V> asMap() {
+      return this;
+    }
   }
 
   /**

@@ -25,6 +25,7 @@ import com.google.common.base.Equivalences;
 import com.google.common.base.FinalizableReferenceQueue;
 import com.google.common.base.FinalizableSoftReference;
 import com.google.common.base.FinalizableWeakReference;
+import com.google.common.collect.MapMaker.NullListener;
 import com.google.common.primitives.Ints;
 
 import java.io.IOException;
@@ -42,9 +43,9 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Queue;
 import java.util.Set;
-import java.util.concurrent.Executor;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReferenceArray;
@@ -219,18 +220,10 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
         EntryFactory.getFactory(keyStrength, expires(), evictsBySize());
     cleanupExecutor = builder.getCleanupExecutor();
 
-    MapEvictionListener<? super K, ? super V> evictionListener =
-        builder.evictionListener;
-    if (evictionListener == null
-        || evictionListener.equals(NullListener.INSTANCE)) {
-      evictionNotificationQueue = discardingQueue();
-
-      this.evictionListener = nullListener();
-    } else {
-      evictionNotificationQueue =
-          new ConcurrentLinkedQueue<ReferenceEntry<K, V>>();
-      this.evictionListener = evictionListener;
-    }
+    evictionListener = builder.getEvictionListener();
+    evictionNotificationQueue = (evictionListener == NullListener.INSTANCE)
+        ? CustomConcurrentHashMap.<ReferenceEntry<K, V>>discardingQueue()
+        : new ConcurrentLinkedQueue<ReferenceEntry<K, V>>();
 
     concurrencyLevel = filterConcurrencyLevel(builder.getConcurrencyLevel());
 
@@ -803,20 +796,6 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
   // Safe because impl never uses a parameter or returns any non-null value
   private static <K, V> ReferenceEntry<K, V> nullEntry() {
     return (ReferenceEntry<K, V>) NullEntry.INSTANCE;
-  }
-
-  enum NullListener implements MapEvictionListener {
-    INSTANCE;
-    @Override public void onEviction(Object key, Object value) {}
-  }
-
-  /**
-   * Queue that discards all elements.
-   */
-  @SuppressWarnings("unchecked")
-  // Safe because impl never uses a parameter or returns any non-null value
-  static <K, V> MapEvictionListener<K, V> nullListener() {
-    return (MapEvictionListener<K, V>) NullListener.INSTANCE;
   }
 
   static final Queue<Object> DISCARDING_QUEUE = new AbstractQueue<Object>() {
@@ -2044,11 +2023,9 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
       initTable(newEntryArray(initialCapacity));
       this.maxSegmentSize = maxSegmentSize;
 
-      if (evictsBySize() || expires()) {
-        recencyQueue = new ConcurrentLinkedQueue<ReferenceEntry<K, V>>();
-      } else {
-        recencyQueue = discardingQueue();
-      }
+      recencyQueue = (evictsBySize() || expires())
+          ? new ConcurrentLinkedQueue<ReferenceEntry<K, V>>()
+          : CustomConcurrentHashMap.<ReferenceEntry<K, V>>discardingQueue();
     }
 
     AtomicReferenceArray<ReferenceEntry<K, V>> newEntryArray(int size) {
@@ -3040,7 +3017,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
 
   @Override public boolean containsValue(Object value) {
     // TODO(kevinb): document why we choose to throw over returning false?
-    checkNotNull(value, "value");
+    checkNotNull(value);
 
     // See explanation of modCount use above
 
