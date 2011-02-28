@@ -394,8 +394,7 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    * @param duration the length of time after an entry is created that it
    *     should be automatically removed
    * @param unit the unit that {@code duration} is expressed in
-   * @throws IllegalArgumentException if {@code duration} is not positive, or is
-   *     larger than one hundred years
+   * @throws IllegalArgumentException if {@code duration} is not positive
    * @throws IllegalStateException if the time to live or time to idle was
    *     already set
    * @since 8
@@ -432,8 +431,7 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    * @param duration the length of time after an entry is last accessed
    *     that it should be automatically removed
    * @param unit the unit that {@code duration} is expressed in
-   * @throws IllegalArgumentException if {@code duration} is not positive, or is
-   *     larger than one hundred years
+   * @throws IllegalArgumentException if {@code duration} is not positive
    * @throws IllegalStateException if the time to idle or time to live was
    *     already set
    * @since 8
