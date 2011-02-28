@@ -114,11 +114,13 @@ public final class ImmutableClassToInstanceMap<B> extends
    * @throws ClassCastException if any value is not an instance of the type
    *     specified by its key
    */
-  @SuppressWarnings("unchecked") // covariant casts safe (unmodifiable)
   public static <B, S extends B> ImmutableClassToInstanceMap<B> copyOf(
       Map<? extends Class<? extends S>, ? extends S> map) {
     if (map instanceof ImmutableClassToInstanceMap) {
-      return (ImmutableClassToInstanceMap<B>) map;
+      @SuppressWarnings("unchecked") // covariant casts safe (unmodifiable)
+      // Eclipse won't compile if we cast to the parameterized type.
+      ImmutableClassToInstanceMap<B> cast = (ImmutableClassToInstanceMap) map;
+      return cast;
     }
     return new Builder<B>().putAll(map).build();
   }
