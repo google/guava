@@ -225,12 +225,12 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
         ? CustomConcurrentHashMap.<ReferenceEntry<K, V>>discardingQueue()
         : new ConcurrentLinkedQueue<ReferenceEntry<K, V>>();
 
-    concurrencyLevel = filterConcurrencyLevel(builder.getConcurrencyLevel());
+    concurrencyLevel = Math.min(builder.getConcurrencyLevel(), MAX_SEGMENTS);
 
-    // TODO(kevinb): Handle initialCapacity > maximumSize.
-    int initialCapacity = builder.getInitialCapacity();
-    if (initialCapacity > MAXIMUM_CAPACITY) {
-      initialCapacity = MAXIMUM_CAPACITY;
+    int initialCapacity =
+        Math.min(builder.getInitialCapacity(), MAXIMUM_CAPACITY);
+    if (evictsBySize()) {
+        initialCapacity = Math.min(initialCapacity, maximumSize);
     }
 
     // Find power-of-two sizes best matching arguments. Constraints:
@@ -294,14 +294,6 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
 
   boolean isInlineCleanup() {
     return cleanupExecutor == MapMaker.DEFAULT_CLEANUP_EXECUTOR;
-  }
-
-  /**
-   * Returns the given concurrency level or MAX_SEGMENTS if the given level
-   * is > MAX_SEGMENTS.
-   */
-  static int filterConcurrencyLevel(int concurrenyLevel) {
-    return Math.min(concurrenyLevel, MAX_SEGMENTS);
   }
 
   enum Strength {
@@ -2020,8 +2012,8 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
     };
 
     Segment(int initialCapacity, int maxSegmentSize) {
-      initTable(newEntryArray(initialCapacity));
       this.maxSegmentSize = maxSegmentSize;
+      initTable(newEntryArray(initialCapacity));
 
       recencyQueue = (evictsBySize() || expires())
           ? new ConcurrentLinkedQueue<ReferenceEntry<K, V>>()
