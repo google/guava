@@ -374,10 +374,12 @@ public final class Futures {
    *     to the results of the returned future.  This will be run in the thread
    *     that notifies input it is complete.
    * @return A future that holds result of the composition.
+   * @deprecated Use {@code Futures.transform}.
    */
+  @Deprecated
   public static <I, O> ListenableFuture<O> compose(ListenableFuture<I> future,
       final Function<? super I, ? extends O> function) {
-    return compose(future, function, MoreExecutors.sameThreadExecutor());
+    return transform(future, function);
   }
 
   /**
@@ -417,18 +419,12 @@ public final class Futures {
    * @param exec Executor to run the function in.
    * @return A future that holds result of the composition.
    * @since 2
+   * @deprecated Use {@code Futures.transform}.
    */
+  @Deprecated
   public static <I, O> ListenableFuture<O> compose(ListenableFuture<I> future,
       final Function<? super I, ? extends O> function, Executor exec) {
-    checkNotNull(function);
-    Function<I, ListenableFuture<O>> wrapperFunction
-        = new Function<I, ListenableFuture<O>>() {
-            @Override public ListenableFuture<O> apply(I input) {
-              O output = function.apply(input);
-              return immediateFuture(output);
-            }
-        };
-    return chain(future, wrapperFunction, exec);
+    return transform(future, function, exec);
   }
 
   /**
@@ -461,11 +457,138 @@ public final class Futures {
    *     to the results of the returned future.  This will be run in the thread
    *     that calls one of the varieties of {@code get()}.
    * @return A future that computes result of the composition.
+   * @deprecated Use {@code Futures.transform}.
    */
+  @Deprecated
   public static <I, O> Future<O> compose(final Future<I> future,
       final Function<? super I, ? extends O> function) {
+    return transform(future, function);
+  }
+
+  /**
+   * Returns a new {@code ListenableFuture} whose result is the product of
+   * applying the given {@code Function} to the result of the given {@code
+   * Future}. Example:
+   *
+   * <pre>   {@code
+   *   ListenableFuture<QueryResult> queryFuture = ...;
+   *   Function<QueryResult, List<Row>> rowsFunction =
+   *       new Function<QueryResult, List<Row>>() {
+   *         public List<Row> apply(QueryResult queryResult) {
+   *           return queryResult.getRows();
+   *         }
+   *       };
+   *   ListenableFuture<List<Row>> rowsFuture =
+   *       transform(queryFuture, rowsFunction);
+   * }</pre>
+   *
+   * <p>Successful cancellation of the input future will cause the returned
+   * future to be cancelled.  Cancelling the returned future will succeed if it
+   * is currently running.  In this case, an attempt will be made to cancel the
+   * input future, however there is no guarantee of success.
+   *
+   * <p>An example use of this method is to convert a serializable object
+   * returned from an RPC into a POJO.
+   *
+   * @param future The future to compose
+   * @param function A Function to compose the results of the provided future
+   *     to the results of the returned future.  This will be run in the thread
+   *     that notifies input it is complete.
+   * @return A future that holds result of the composition.
+   * @since 9 (in version 1 as {@code compose})
+   */
+  public static <I, O> ListenableFuture<O> transform(ListenableFuture<I> future,
+      final Function<? super I, ? extends O> function) {
+    return transform(future, function, MoreExecutors.sameThreadExecutor());
+  }
+
+  /**
+   * Returns a new {@code ListenableFuture} whose result is the product of
+   * applying the given {@code Function} to the result of the given {@code
+   * Future}. Example:
+   *
+   * <pre>   {@code
+   *   ListenableFuture<QueryResult> queryFuture = ...;
+   *   Function<QueryResult, List<Row>> rowsFunction =
+   *       new Function<QueryResult, List<Row>>() {
+   *         public List<Row> apply(QueryResult queryResult) {
+   *           return queryResult.getRows();
+   *         }
+   *       };
+   *   ListenableFuture<List<Row>> rowsFuture =
+   *       transform(queryFuture, rowsFunction, executor);
+   * }</pre>
+   *
+   * <p>Successful cancellation of the input future will cause the returned
+   * future to be cancelled.  Cancelling the returned future will succeed if it
+   * is currently running.  In this case, an attempt will be made to cancel the
+   * input future, however there is no guarantee of success.
+   *
+   * <p>An example use of this method is to convert a serializable object
+   * returned from an RPC into a POJO.
+   *
+   * <p>This version allows an arbitrary executor to be passed in for running
+   * the chained Function. When using {@link MoreExecutors#sameThreadExecutor},
+   * the thread chained Function executes in will be whichever thread set the
+   * result of the input Future, which may be the network thread in the case of
+   * RPC-based Futures.
+   *
+   * @param future The future to compose
+   * @param function A Function to compose the results of the provided future
+   *     to the results of the returned future.
+   * @param exec Executor to run the function in.
+   * @return A future that holds result of the composition.
+   * @since 9 (in version 2 as {@code compose})
+   */
+  public static <I, O> ListenableFuture<O> transform(ListenableFuture<I> future,
+      final Function<? super I, ? extends O> function, Executor exec) {
+    checkNotNull(function);
+    Function<I, ListenableFuture<O>> wrapperFunction
+        = new Function<I, ListenableFuture<O>>() {
+            @Override public ListenableFuture<O> apply(I input) {
+              O output = function.apply(input);
+              return immediateFuture(output);
+            }
+        };
+    return chain(future, wrapperFunction, exec);
+  }
+
+  /**
+   * Returns a new {@code Future} whose result is the product of applying the
+   * given {@code Function} to the result of the given {@code Future}. Example:
+   *
+   * <pre>   {@code
+   *   Future<QueryResult> queryFuture = ...;
+   *   Function<QueryResult, List<Row>> rowsFunction =
+   *       new Function<QueryResult, List<Row>>() {
+   *         public List<Row> apply(QueryResult queryResult) {
+   *           return queryResult.getRows();
+   *         }
+   *       };
+   *   Future<List<Row>> rowsFuture = transform(queryFuture, rowsFunction);
+   * }</pre>
+   *
+   * <p>Each call to {@code Future<O>.get(*)} results in a call to
+   * {@code Future<I>.get(*)}, but {@code function} is only applied once, so it
+   * is assumed that {@code Future<I>.get(*)} is idempotent.
+   *
+   * <p>When calling {@link Future#get(long, TimeUnit)} on the returned
+   * future, the timeout only applies to the future passed in to this method.
+   * Any additional time taken by applying {@code function} is not considered.
+   * (Exception: If the input future is a {@link ListenableFuture}, timeouts
+   * will be strictly enforced.)
+   *
+   * @param future The future to compose
+   * @param function A Function to compose the results of the provided future
+   *     to the results of the returned future.  This will be run in the thread
+   *     that calls one of the varieties of {@code get()}.
+   * @return A future that computes result of the composition.
+   * @since 9 (in version 1 as {@code compose})
+   */
+  public static <I, O> Future<O> transform(final Future<I> future,
+      final Function<? super I, ? extends O> function) {
     if (future instanceof ListenableFuture) {
-      return compose((ListenableFuture<I>) future, function);
+      return transform((ListenableFuture<I>) future, function);
     }
     checkNotNull(future);
     checkNotNull(function);
