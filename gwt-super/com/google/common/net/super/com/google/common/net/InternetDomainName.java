@@ -444,8 +444,8 @@ public final class InternetDomainName {
   /**
    * Creates and returns a new {@code InternetDomainName} by prepending the
    * argument and a dot to the current name. For example, {@code
-   * InternetDomainName.from("foo.com").child("www.bar")} returns a new {@code
-   * InternetDomainName} with the value {@code www.bar.foo.com}.
+   * InternetDomainName.fromLenient("foo.com").child("www.bar")} returns a new
+   * {@code InternetDomainName} with the value {@code www.bar.foo.com}.
    *
    * @throws NullPointerException if leftParts is null
    * @throws IllegalArgumentException if the resulting name is not valid
