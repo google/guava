@@ -1593,6 +1593,11 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
   }
 
   @GuardedBy("Segment.this")
+  ReferenceEntry<K, V> newEntry(K key, int hash, ReferenceEntry<K, V> next) {
+    return entryFactory.newEntry(this, key, hash, next);
+  }
+
+  @GuardedBy("Segment.this")
   ReferenceEntry<K, V> copyEntry(
       ReferenceEntry<K, V> original, ReferenceEntry<K, V> newNext) {
     ValueReference<K, V> valueReference = original.getValueReference();
@@ -1631,23 +1636,38 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
   // - Collected: key/value was partially collected, but not yet cleaned up
   // - Unset: marked as unset, awaiting cleanup or reuse
 
-  boolean isLive(ReferenceEntry<K, V> entry) {
-    return getLiveValue(entry) != null;
+  @VisibleForTesting boolean isLive(ReferenceEntry<K, V> entry) {
+    return entry.getKey() != null && getLiveValue(entry) != null;
   }
 
   /**
-   * Returns true if the given entry has expired.
+   * Returns true if the entry has expired.
    */
   boolean isExpired(ReferenceEntry<K, V> entry) {
     return isExpired(entry, System.nanoTime());
   }
 
   /**
-   * Returns true if the given entry has expired.
+   * Returns true if the entry has expired.
    */
   boolean isExpired(ReferenceEntry<K, V> expirable, long now) {
     // if the expiration time had overflowed, this "undoes" the overflow
     return now - expirable.getExpirationTime() > 0;
+  }
+
+  /**
+   * Returns true if the entry has been partially collected, meaning that either
+   * the key is null, or the value is null and it is not computing.
+   */
+  boolean isCollected(ReferenceEntry<K, V> entry) {
+    if (entry.getKey() == null) {
+      return true;
+    }
+    ValueReference<K, V> valueReference = entry.getValueReference();
+    if (valueReference.isComputingReference()) {
+      return false;
+    }
+    return valueReference.get() == null;
   }
 
   boolean isUnset(ReferenceEntry<K, V> entry) {
@@ -1690,15 +1710,13 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
 
   void enqueueNotification(K key, int hash,
       ValueReference<K, V> valueReference) {
-    ReferenceEntry<K, V> notifyEntry = entryFactory.newEntry(
-        CustomConcurrentHashMap.this, key, hash, null);
+    ReferenceEntry<K, V> notifyEntry = newEntry(key, hash, null);
     notifyEntry.setValueReference(valueReference.copyFor(notifyEntry));
     evictionNotificationQueue.offer(notifyEntry);
   }
 
   void enqueueNotification(K key, int hash) {
-    ReferenceEntry<K, V> notifyEntry = entryFactory.newEntry(
-        CustomConcurrentHashMap.this, key, hash, null);
+    ReferenceEntry<K, V> notifyEntry = newEntry(key, hash, null);
     evictionNotificationQueue.offer(notifyEntry);
   }
 
@@ -2367,6 +2385,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
             // and we should pretend like it doesn't exist.
             V entryValue = e.getValueReference().get();
             if (entryValue == null) {
+              unsetLiveEntry(e, hash);
               return false;
             }
 
@@ -2376,7 +2395,8 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
             } else {
               // Mimic
               // "if (map.containsKey(key) && map.get(key).equals(oldValue))..."
-              recordWrite(e);
+              recordRead(e);
+              return false;
             }
           }
         }
@@ -2403,6 +2423,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
             // and we should pretend like it doesn't exist.
             V entryValue = e.getValueReference().get();
             if (entryValue == null) {
+              unsetLiveEntry(e, hash);
               return null;
             }
 
@@ -2445,8 +2466,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
             ValueReference<K, V> valueReference = e.getValueReference();
             V entryValue = valueReference.get();
 
-            boolean absent = (entryValue == null);
-            if (absent) {
+            if (entryValue == null) {
               ++modCount;
               // Value could be partially-collected, unset, or computing.
               // In the first case, the value must be reclaimed. In the latter
@@ -2458,7 +2478,10 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
               newCount = this.count + 1;
               this.count = newCount; // write-volatile
             } else if (onlyIfAbsent) {
-              recordWrite(e);
+              // Mimic
+              // "if (!map.containsKey(key)) ...
+              //  else return map.get(key);
+              recordRead(e);
               return entryValue;
             }
             // else clobber, don't adjust count
@@ -2475,8 +2498,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
 
         // Create a new entry.
         ++modCount;
-        ReferenceEntry<K, V> newEntry = entryFactory.newEntry(
-            CustomConcurrentHashMap.this, key, hash, first);
+        ReferenceEntry<K, V> newEntry = newEntry(key, hash, first);
         setValue(newEntry, value);
         table.set(index, newEntry);
         this.count = newCount; // write-volatile
@@ -2546,11 +2568,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
 
             // Clone nodes leading up to the tail.
             for (ReferenceEntry<K, V> e = head; e != tail; e = e.getNext()) {
-              K key = e.getKey();
-              if (isUnset(e)) {
-                // Entry was invalidated.
-              } else if (key == null) {
-                // Key was reclaimed.
+              if (isCollected(e)) {
                 unsetLiveEntry(e, e.getHash()); // decrements count
               } else {
                 int newIndex = e.getHash() & newMask;
@@ -2579,7 +2597,9 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
           if (e.getHash() == hash && entryKey != null
               && keyEquivalence.equivalent(key, entryKey)) {
             V entryValue = e.getValueReference().get();
-            if (entryValue != null) {
+            if (entryValue == null) {
+              unsetLiveEntry(e, hash);
+            } else {
               ++modCount;
               ReferenceEntry<K, V> newFirst =
                   removeFromTable(first, e); // could decrement count
@@ -2614,8 +2634,9 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
           if (e.getHash() == hash && entryKey != null
               && keyEquivalence.equivalent(key, entryKey)) {
             V entryValue = e.getValueReference().get();
-            if (value == entryValue || (value != null && entryValue != null
-                && valueEquivalence.equivalent(value, entryValue))) {
+            if (entryValue == null) {
+              unsetLiveEntry(e, hash);
+            } else if (valueEquivalence.equivalent(value, entryValue)) {
               ++modCount;
               ReferenceEntry<K, V> newFirst =
                   removeFromTable(first, e); // could decrement count
@@ -2623,9 +2644,8 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
               table.set(index, newFirst);
               this.count = newCount; // write-volatile
               return true;
-            } else {
-              return false;
             }
+            return false;
           }
         }
 
@@ -2688,10 +2708,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
 
       ReferenceEntry<K, V> newFirst = removed.getNext();
       for (ReferenceEntry<K, V> e = first; e != removed; e = e.getNext()) {
-        if (isUnset(e)) {
-          // Entry was invalidated.
-        } else if (e.getKey() == null) {
-          // Key was reclaimed.
+        if (isCollected(e)) {
           unsetLiveEntry(e, e.getHash()); // decrements count
         } else {
           newFirst = copyEntry(e, newFirst);
@@ -2721,8 +2738,12 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
 
       int newCount = this.count - 1;
       ++modCount;
-      K key = entry.getKey();
       ValueReference<K, V> valueReference = entry.getValueReference();
+      if (valueReference.isComputingReference()) {
+        return false;
+      }
+
+      K key = entry.getKey();
       enqueueNotification(key, hash, valueReference);
       enqueueCleanup(entry);
       this.count = newCount; // write-volatile
@@ -3000,6 +3021,15 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
   @Override public V get(Object key) {
     int hash = hash(key);
     return segmentFor(hash).get(key, hash);
+  }
+
+  /**
+   * Returns the entry for a given key. Note that the entry may not be live.
+   * This is only used for testing.
+   */
+  @VisibleForTesting ReferenceEntry<K, V> getEntry(Object key) {
+    int hash = hash(key);
+    return segmentFor(hash).getEntry(key, hash);
   }
 
   @Override public boolean containsKey(Object key) {

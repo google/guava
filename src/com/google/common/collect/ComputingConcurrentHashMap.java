@@ -103,8 +103,7 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V>
 
               if (!valueReference.isComputingReference()) {
                 value = valueReference.get();
-                boolean absent = (value == null);
-                if (absent) {
+                if (value == null) {
                   // clobber invalid entries
                   unsetLiveEntry(entry, hash);
                 } else {
@@ -121,8 +120,7 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V>
             computingValueReference = new ComputingValueReference();
 
             if (entry == null) {
-              entry = entryFactory.newEntry(
-                  ComputingConcurrentHashMap.this, key, hash, first);
+              entry = newEntry(key, hash, first);
               table.set(index, entry);
             }
             entry.setValueReference(computingValueReference);
