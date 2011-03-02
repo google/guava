@@ -28,7 +28,7 @@ import java.util.concurrent.TimeoutException;
  * future as desired per the <a href=
  * "http://en.wikipedia.org/wiki/Decorator_pattern">decorator pattern</a>.
  *
- * <p>Most subclasses can simply extend {@link SimpleForwadingCheckedFuture}.
+ * <p>Most subclasses can simply extend {@link SimpleForwardingCheckedFuture}.
  * 
  * @param <V> The result type returned by this Future's {@code get} method
  * @param <X> The type of the Exception thrown by the Future's 
@@ -62,11 +62,11 @@ public abstract class ForwardingCheckedFuture<V, X extends Exception>
    * @since 9
    */
   @Beta
-  public abstract static class SimpleForwadingCheckedFuture<
+  public abstract static class SimpleForwardingCheckedFuture<
       V, X extends Exception> extends ForwardingCheckedFuture<V, X> {
     private final CheckedFuture<V, X> delegate;
 
-    protected SimpleForwadingCheckedFuture(CheckedFuture<V, X> delegate) {
+    protected SimpleForwardingCheckedFuture(CheckedFuture<V, X> delegate) {
       this.delegate = Preconditions.checkNotNull(delegate);
     }
 
