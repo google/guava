@@ -3008,11 +3008,14 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
       for (Segment segment : segments) {
         segment.lock();
       }
-      for (Segment segment : segments) {
-        sum += segment.count;
-      }
-      for (Segment segment : segments) {
-        segment.unlock();
+      try {
+        for (Segment segment : segments) {
+          sum += segment.count;
+        }
+      } finally {
+        for (Segment segment : segments) {
+          segment.unlock();
+        }
       }
     }
     return Ints.saturatedCast(sum);
