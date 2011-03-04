@@ -555,6 +555,8 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
     @GuardedBy("Segment.this")
     <K, V> void copyExpirableEntry(
         ReferenceEntry<K, V> original, ReferenceEntry<K, V> newEntry) {
+      // TODO(user): when we link values instead of entries this method can go
+      // away, as can connectExpirables, nullifyExpirable.
       newEntry.setExpirationTime(original.getExpirationTime());
 
       connectExpirables(original.getPreviousExpirable(), newEntry);
@@ -566,6 +568,8 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
     @GuardedBy("Segment.this")
     <K, V> void copyEvictableEntry(
         ReferenceEntry<K, V> original, ReferenceEntry<K, V> newEntry) {
+      // TODO(user): when we link values instead of entries this method can go
+      // away, as can connectEvictables, nullifyEvictable.
       connectEvictables(original.getPreviousEvictable(), newEntry);
       connectEvictables(newEntry, original.getNextEvictable());
 
@@ -786,19 +790,22 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
 
   @SuppressWarnings("unchecked")
   // Safe because impl never uses a parameter or returns any non-null value
-  private static <K, V> ReferenceEntry<K, V> nullEntry() {
+  static <K, V> ReferenceEntry<K, V> nullEntry() {
     return (ReferenceEntry<K, V>) NullEntry.INSTANCE;
   }
 
   static final Queue<Object> DISCARDING_QUEUE = new AbstractQueue<Object>() {
+    @Override
     public boolean offer(Object o) {
       return true;
     }
 
+    @Override
     public Object peek() {
       return null;
     }
 
+    @Override
     public Object poll() {
       return null;
     }
@@ -1650,9 +1657,9 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
   /**
    * Returns true if the entry has expired.
    */
-  boolean isExpired(ReferenceEntry<K, V> expirable, long now) {
+  boolean isExpired(ReferenceEntry<K, V> entry, long now) {
     // if the expiration time had overflowed, this "undoes" the overflow
-    return now - expirable.getExpirationTime() > 0;
+    return now - entry.getExpirationTime() > 0;
   }
 
   /**
@@ -1685,9 +1692,9 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
    * remaining entries are not expired, and only need compare the value to
    * null.
    */
-  V getLiveValue(ReferenceEntry<K, V> e) {
-    V value = e.getValueReference().get();
-    return (expires() && isExpired(e)) ? null : value;
+  V getLiveValue(ReferenceEntry<K, V> entry) {
+    V value = entry.getValueReference().get();
+    return (expires() && isExpired(entry)) ? null : value;
   }
 
   // expiration
@@ -1884,150 +1891,20 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
      */
     final AtomicInteger readCount = new AtomicInteger();
 
-    /** The head of the eviction list. */
+    /**
+     * A queue of elements currently in the map, ordered by access time.
+     * Elements are added to the tail of the queue on access/write.
+     */
     @GuardedBy("Segment.this")
-    final ReferenceEntry<K, V> evictionHead = new ReferenceEntry<K, V>() {
-      @GuardedBy("Segment.this")
-      ReferenceEntry<K, V> nextEvictable = this;
-      public ReferenceEntry<K, V> getNextEvictable() {
-        return nextEvictable;
-      }
-      public void setNextEvictable(ReferenceEntry<K, V> next) {
-        this.nextEvictable = next;
-      }
+    final Queue<ReferenceEntry<K, V>> evictionQueue;
 
-      @GuardedBy("Segment.this")
-      ReferenceEntry<K, V> previousEvictable = this;
-      public ReferenceEntry<K, V> getPreviousEvictable() {
-        return previousEvictable;
-      }
-      public void setPreviousEvictable(ReferenceEntry<K, V> previous) {
-        this.previousEvictable = previous;
-      }
-
-      @Override
-      public ValueReference<K, V> getValueReference() {
-        throw new UnsupportedOperationException();
-      }
-      @Override
-      public void setValueReference(ValueReference<K, V> valueReference) {
-        throw new UnsupportedOperationException();
-      }
-      @Override
-      public void valueReclaimed(ValueReference<K, V> valueReference) {
-        throw new UnsupportedOperationException();
-      }
-      @Override
-      public ReferenceEntry<K, V> getNext() {
-        throw new UnsupportedOperationException();
-      }
-      @Override
-      public int getHash() {
-        throw new UnsupportedOperationException();
-      }
-      @Override
-      public K getKey() {
-        throw new UnsupportedOperationException();
-      }
-
-      // null expiration
-      @Override
-      public long getExpirationTime() {
-        throw new UnsupportedOperationException();
-      }
-      @Override
-      public void setExpirationTime(long time) {
-        throw new UnsupportedOperationException();
-      }
-
-      @Override
-      public ReferenceEntry<K, V> getNextExpirable() {
-        throw new UnsupportedOperationException();
-      }
-      @Override
-      public void setNextExpirable(ReferenceEntry<K, V> next) {
-        throw new UnsupportedOperationException();
-      }
-
-      @Override
-      public ReferenceEntry<K, V> getPreviousExpirable() {
-        throw new UnsupportedOperationException();
-      }
-      @Override
-      public void setPreviousExpirable(ReferenceEntry<K, V> previous) {
-        throw new UnsupportedOperationException();
-      }
-    };
-
-    /** The head of the expiration queue. */
-    final ReferenceEntry<K, V> expirationHead = new ReferenceEntry<K, V>() {
-      public long getExpirationTime() {
-        return Long.MAX_VALUE;
-      }
-      public void setExpirationTime(long time) {}
-
-      @GuardedBy("Segment.this")
-      ReferenceEntry<K, V> nextExpirable = this;
-      public ReferenceEntry<K, V> getNextExpirable() {
-        return nextExpirable;
-      }
-      public void setNextExpirable(ReferenceEntry<K, V> next) {
-        this.nextExpirable = next;
-      }
-
-      @GuardedBy("Segment.this")
-      ReferenceEntry<K, V> previousExpirable = this;
-      public ReferenceEntry<K, V> getPreviousExpirable() {
-        return previousExpirable;
-      }
-      public void setPreviousExpirable(ReferenceEntry<K, V> previous) {
-        this.previousExpirable = previous;
-      }
-
-      @Override
-      public ValueReference<K, V> getValueReference() {
-        throw new UnsupportedOperationException();
-      }
-      @Override
-      public void setValueReference(ValueReference<K, V> valueReference) {
-        throw new UnsupportedOperationException();
-      }
-      @Override
-      public void valueReclaimed(ValueReference<K, V> valueReference) {
-        throw new UnsupportedOperationException();
-      }
-      @Override
-      public ReferenceEntry<K, V> getNext() {
-        throw new UnsupportedOperationException();
-      }
-      @Override
-      public int getHash() {
-        throw new UnsupportedOperationException();
-      }
-      @Override
-      public K getKey() {
-        throw new UnsupportedOperationException();
-      }
-
-      // null eviction
-      @Override
-      public ReferenceEntry<K, V> getNextEvictable() {
-        throw new UnsupportedOperationException();
-      }
-      @Override
-      public void setNextEvictable(ReferenceEntry<K, V> next) {
-        throw new UnsupportedOperationException();
-      }
-
-      @Override
-      public ReferenceEntry<K, V> getPreviousEvictable() {
-        throw new UnsupportedOperationException();
-      }
-      @Override
-      public void setPreviousEvictable(ReferenceEntry<K, V> previous) {
-        throw new UnsupportedOperationException();
-      }
-    };
+    /**
+     * A queue of elements currently in the map, ordered by expiration time
+     * (either access or write time). Elements are added to the tail of the
+     * queue on access/write.
+     */
+    @GuardedBy("Segment.this")
+    final Queue<ReferenceEntry<K, V>> expirationQueue;
 
     Segment(int initialCapacity, int maxSegmentSize) {
       this.maxSegmentSize = maxSegmentSize;
@@ -2035,6 +1912,14 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
 
       recencyQueue = (evictsBySize() || expires())
           ? new ConcurrentLinkedQueue<ReferenceEntry<K, V>>()
+          : CustomConcurrentHashMap.<ReferenceEntry<K, V>>discardingQueue();
+
+      evictionQueue = evictsBySize()
+          ? new EvictionQueue()
+          : CustomConcurrentHashMap.<ReferenceEntry<K, V>>discardingQueue();
+
+      expirationQueue = expires()
+          ? new ExpirationQueue()
           : CustomConcurrentHashMap.<ReferenceEntry<K, V>>discardingQueue();
     }
 
@@ -2084,16 +1969,14 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
     void recordWrite(ReferenceEntry<K, V> entry) {
       // we are already under lock, so drain the recency queue immediately
       drainRecencyQueue();
-      if (evictsBySize()) {
-        addEvictable(entry);
-      }
+      evictionQueue.add(entry);
       if (expires()) {
         // currently MapMaker ensures that expireAfterWrite and
         // expireAfterAccess are mutually exclusive
         long expiration = expiresAfterAccess()
             ? expireAfterAccessNanos : expireAfterWriteNanos;
         recordExpirationTime(entry, expiration);
-        addExpirable(entry);
+        expirationQueue.add(entry);
       }
     }
 
@@ -2106,88 +1989,45 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
      */
     @GuardedBy("Segment.this")
     void drainRecencyQueue() {
-      ReferenceEntry<K, V> entry;
-      while ((entry = recencyQueue.poll()) != null) {
+      ReferenceEntry<K, V> e;
+      while ((e = recencyQueue.poll()) != null) {
         // An entry may be in the recency queue despite it being removed from
         // the map . This can occur when the entry was concurrently read while a
         // writer is removing it from the segment or after a clear has removed
         // all of the segment's entries.
-
-        if (evictsBySize()) {
-          if (inEvictionList(entry)) {
-            addEvictable(entry);
-          }
+        if (evictionQueue.contains(e)) {
+          evictionQueue.add(e);
         }
-
-        if (expires()) {
-          if (inExpirationList(entry)) {
-            addExpirable(entry);
-          }
+        if (expirationQueue.contains(e)) {
+          expirationQueue.add(e);
         }
       }
     }
 
     // expiration
 
-    @GuardedBy("Segment.this")
-    void addExpirable(ReferenceEntry<K, V> expirable) {
-      // unlink
-      connectExpirables(expirable.getPreviousExpirable(),
-          expirable.getNextExpirable());
-
-      // add to tail
-      connectExpirables(expirationHead.getPreviousExpirable(), expirable);
-      connectExpirables(expirable, expirationHead);
-    }
-
-    void recordExpirationTime(ReferenceEntry<K, V> expirable,
+    void recordExpirationTime(ReferenceEntry<K, V> entry,
         long expirationNanos) {
       // might overflow, but that's okay (see isExpired())
-      expirable.setExpirationTime(System.nanoTime() + expirationNanos);
-    }
-
-    @GuardedBy("Segment.this")
-    void removeExpirable(ReferenceEntry<K, V> expirable) {
-      connectExpirables(expirable.getPreviousExpirable(),
-          expirable.getNextExpirable());
-      nullifyExpirable(expirable);
-    }
-
-    @GuardedBy("Segment.this")
-    boolean inExpirationList(ReferenceEntry<K, V> expirable) {
-      return expirable.getNextExpirable() != NullEntry.INSTANCE;
+      entry.setExpirationTime(System.nanoTime() + expirationNanos);
     }
 
     @GuardedBy("Segment.this")
     void expireEntries() {
       drainRecencyQueue();
 
-      ReferenceEntry<K, V> expirable = expirationHead.getNextExpirable();
-      if (expirable == expirationHead) {
+      if (expirationQueue.isEmpty()) {
         // There's no point in calling nanoTime() if we have no entries to
         // expire.
         return;
       }
       long now = System.nanoTime();
-      while (expirable != expirationHead && isExpired(expirable, now)) {
-        if (!unsetEntry(expirable, expirable.getHash())) {
+      ReferenceEntry<K, V> e;
+      while ((e = expirationQueue.peek()) != null && isExpired(e, now)) {
+        if (!unsetEntry(e, e.getHash())) {
           throw new AssertionError();
         }
-        expirable = expirationHead.getNextExpirable();
       }
-    }
-
-    @GuardedBy("Segment.this")
-    void clearExpirationQueue() {
-      ReferenceEntry<K, V> expirable = expirationHead.getNextExpirable();
-      while (expirable != expirationHead) {
-        ReferenceEntry<K, V> next = expirable.getNextExpirable();
-        nullifyExpirable(expirable);
-        expirable = next;
-      }
-
-      expirationHead.setNextExpirable(expirationHead);
-      expirationHead.setPreviousExpirable(expirationHead);
     }
 
     // eviction
@@ -2201,64 +2041,15 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
     @GuardedBy("Segment.this")
     boolean evictEntries() {
       if (evictsBySize() && count >= maxSegmentSize) {
-        evictEntry();
+        drainRecencyQueue();
+
+        ReferenceEntry<K, V> e = evictionQueue.remove();
+        if (!unsetEntry(e, e.getHash())) {
+          throw new AssertionError();
+        }
         return true;
       }
       return false;
-    }
-
-    /**
-     * Evicts the stalest entry.
-     */
-    @GuardedBy("Segment.this")
-    void evictEntry() {
-      drainRecencyQueue();
-
-      ReferenceEntry<K, V> evictable = evictionHead.getNextEvictable();
-      checkState(evictable != evictionHead);
-
-      // then remove a single entry
-      if (!unsetEntry(evictable, evictable.getHash())) {
-        throw new AssertionError();
-      }
-    }
-
-    @GuardedBy("Segment.this")
-    void addEvictable(ReferenceEntry<K, V> evictable) {
-      if (evictable.getNextEvictable() != evictionHead) {
-        // unlink
-        connectEvictables(evictable.getPreviousEvictable(),
-            evictable.getNextEvictable());
-
-        // add to tail
-        connectEvictables(evictionHead.getPreviousEvictable(), evictable);
-        connectEvictables(evictable, evictionHead);
-      }
-    }
-
-    @GuardedBy("Segment.this")
-    void removeEvictable(ReferenceEntry<K, V> evictable) {
-      connectEvictables(evictable.getPreviousEvictable(),
-          evictable.getNextEvictable());
-      nullifyEvictable(evictable);
-    }
-
-    @GuardedBy("Segment.this")
-    boolean inEvictionList(ReferenceEntry<K, V> evictable) {
-      return evictable.getNextEvictable() != NullEntry.INSTANCE;
-    }
-
-    @GuardedBy("Segment.this")
-    void clearEvictionQueue() {
-      ReferenceEntry<K, V> evictable = evictionHead.getNextEvictable();
-      while (evictable != evictionHead) {
-        ReferenceEntry<K, V> next = evictable.getNextEvictable();
-        nullifyEvictable(evictable);
-        evictable = next;
-      }
-
-      evictionHead.setNextEvictable(evictionHead);
-      evictionHead.setPreviousEvictable(evictionHead);
     }
 
     /**
@@ -2698,16 +2489,12 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
      */
     @GuardedBy("Segment.this")
     private ReferenceEntry<K, V> removeFromTable(ReferenceEntry<K, V> first,
-        ReferenceEntry<K, V> removed) {
-      if (expires()) {
-        removeExpirable(removed);
-      }
-      if (evictsBySize()) {
-        removeEvictable(removed);
-      }
+        ReferenceEntry<K, V> entry) {
+      evictionQueue.remove(entry);
+      expirationQueue.remove(entry);
 
-      ReferenceEntry<K, V> newFirst = removed.getNext();
-      for (ReferenceEntry<K, V> e = first; e != removed; e = e.getNext()) {
+      ReferenceEntry<K, V> newFirst = entry.getNext();
+      for (ReferenceEntry<K, V> e = first; e != entry; e = e.getNext()) {
         if (isCollected(e)) {
           unsetLiveEntry(e, e.getHash()); // decrements count
         } else {
@@ -2806,13 +2593,8 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
       ValueReference<K, V> unset = unset();
       entry.setValueReference(unset);
       cleanupQueue.offer(entry);
-
-      if (expires()) {
-        removeExpirable(entry);
-      }
-      if (evictsBySize()) {
-        removeEvictable(entry);
-      }
+      evictionQueue.remove(entry);
+      expirationQueue.remove(entry);
     }
 
     @GuardedBy("Segment.this")
@@ -2926,8 +2708,8 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
           for (int i = 0; i < table.length(); ++i) {
             table.set(i, null);
           }
-          clearExpirationQueue();
-          clearEvictionQueue();
+          evictionQueue.clear();
+          expirationQueue.clear();
           readCount.set(0);
 
           ++modCount;
@@ -2935,6 +2717,368 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
         } finally {
           unlock();
         }
+      }
+    }
+
+    // Queues
+
+    /**
+     * A custom queue for managing eviction order. Note that this is tightly
+     * integrated with {@code ReferenceEntry}, upon which it reliese to perform
+     * its linking.
+     *
+     * <p>Note that this entire implementation makes the assumption that all
+     * elements which are in the map are also in this queue, and that all
+     * elements not in the queue are not in the map.
+     *
+     * <p>The benefits of creating our own queue are that (1) we can
+     * replace elements in the middle of the queue as part of
+     * copyEvictableEntry, and (2) the contains method is highly optimized for
+     * the current model.
+     */
+    @VisibleForTesting class EvictionQueue
+        extends AbstractQueue<ReferenceEntry<K, V>> {
+      // TODO(user): create UnsupportedOperationException throwing base class
+      @VisibleForTesting final ReferenceEntry<K, V> head =
+          new ReferenceEntry<K, V>() {
+
+        ReferenceEntry<K, V> nextEvictable = this;
+        public ReferenceEntry<K, V> getNextEvictable() {
+          return nextEvictable;
+        }
+        public void setNextEvictable(ReferenceEntry<K, V> next) {
+          this.nextEvictable = next;
+        }
+
+        ReferenceEntry<K, V> previousEvictable = this;
+        public ReferenceEntry<K, V> getPreviousEvictable() {
+          return previousEvictable;
+        }
+        public void setPreviousEvictable(ReferenceEntry<K, V> previous) {
+          this.previousEvictable = previous;
+        }
+
+        @Override
+        public ValueReference<K, V> getValueReference() {
+          throw new UnsupportedOperationException();
+        }
+        @Override
+        public void setValueReference(ValueReference<K, V> valueReference) {
+          throw new UnsupportedOperationException();
+        }
+        @Override
+        public void valueReclaimed(ValueReference<K, V> valueReference) {
+          throw new UnsupportedOperationException();
+        }
+        @Override
+        public ReferenceEntry<K, V> getNext() {
+          throw new UnsupportedOperationException();
+        }
+        @Override
+        public int getHash() {
+          throw new UnsupportedOperationException();
+        }
+        @Override
+        public K getKey() {
+          throw new UnsupportedOperationException();
+        }
+
+        // null expiration
+        @Override
+        public long getExpirationTime() {
+          throw new UnsupportedOperationException();
+        }
+        @Override
+        public void setExpirationTime(long time) {
+          throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public ReferenceEntry<K, V> getNextExpirable() {
+          throw new UnsupportedOperationException();
+        }
+        @Override
+        public void setNextExpirable(ReferenceEntry<K, V> next) {
+          throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public ReferenceEntry<K, V> getPreviousExpirable() {
+          throw new UnsupportedOperationException();
+        }
+        @Override
+        public void setPreviousExpirable(ReferenceEntry<K, V> previous) {
+          throw new UnsupportedOperationException();
+        }
+      };
+
+      // implements Queue
+
+      @Override
+      public boolean offer(ReferenceEntry<K, V> entry) {
+        // unlink
+        connectEvictables(entry.getPreviousEvictable(),
+            entry.getNextEvictable());
+
+        // add to tail
+        connectEvictables(head.getPreviousEvictable(), entry);
+        connectEvictables(entry, head);
+
+        return true;
+      }
+
+      @Override
+      public ReferenceEntry<K, V> peek() {
+        ReferenceEntry<K, V> next = head.getNextEvictable();
+        return (next == head) ? null : next;
+      }
+
+      @Override
+      public ReferenceEntry<K, V> poll() {
+        ReferenceEntry<K, V> next = head.getNextEvictable();
+        if (next == head) {
+          return null;
+        }
+
+        remove(next);
+        return next;
+      }
+
+      @Override
+      @SuppressWarnings("unchecked")
+      public boolean remove(Object o) {
+        ReferenceEntry<K, V> e = (ReferenceEntry) o;
+        ReferenceEntry<K, V> previous = e.getPreviousEvictable();
+        ReferenceEntry<K, V> next = e.getNextEvictable();
+        connectEvictables(previous, next);
+        nullifyEvictable(e);
+
+        return next != NullEntry.INSTANCE;
+      }
+
+      @Override
+      @SuppressWarnings("unchecked")
+      public boolean contains(Object o) {
+        ReferenceEntry<K, V> e = (ReferenceEntry) o;
+        return e.getNextEvictable() != NullEntry.INSTANCE;
+      }
+
+      @Override
+      public boolean isEmpty() {
+        return head.getNextEvictable() == head;
+      }
+
+      @Override
+      public int size() {
+        int size = 0;
+        for (ReferenceEntry<K, V> e = head.getNextEvictable(); e != head;
+             e = e.getNextEvictable()) {
+          size++;
+        }
+        return size;
+      }
+
+      @Override
+      public void clear() {
+        ReferenceEntry<K, V> e = head.getNextEvictable();
+        while (e != head) {
+          ReferenceEntry<K, V> next = e.getNextEvictable();
+          nullifyEvictable(e);
+          e = next;
+        }
+
+        head.setNextEvictable(head);
+        head.setPreviousEvictable(head);
+      }
+
+      @Override
+      public Iterator<ReferenceEntry<K, V>> iterator() {
+        return new AbstractLinkedIterator<ReferenceEntry<K, V>>(peek()) {
+          @Override
+          protected ReferenceEntry<K, V> computeNext(
+              ReferenceEntry<K, V> previous) {
+            ReferenceEntry<K, V> next = previous.getNextEvictable();
+            return (next == head) ? null : next;
+          }
+        };
+      }
+    }
+
+    /**
+     * A custom queue for managing expiration order. Note that this is tightly
+     * integrated with {@code ReferenceEntry}, upon which it reliese to perform
+     * its linking.
+     *
+     * <p>Note that this entire implementation makes the assumption that all
+     * elements which are in the map are also in this queue, and that all
+     * elements not in the queue are not in the map.
+     *
+     * <p>The benefits of creating our own queue are that (1) we can
+     * replace elements in the middle of the queue as part of
+     * copyEvictableEntry, and (2) the contains method is highly optimized for
+     * the current model.
+     */
+    @VisibleForTesting class ExpirationQueue
+        extends AbstractQueue<ReferenceEntry<K, V>> {
+      // TODO(user): create UnsupportedOperationException throwing base class
+      @VisibleForTesting final ReferenceEntry<K, V> head =
+          new ReferenceEntry<K, V>() {
+
+        public long getExpirationTime() {
+          return Long.MAX_VALUE;
+        }
+        public void setExpirationTime(long time) {}
+
+        ReferenceEntry<K, V> nextExpirable = this;
+        public ReferenceEntry<K, V> getNextExpirable() {
+          return nextExpirable;
+        }
+        public void setNextExpirable(ReferenceEntry<K, V> next) {
+          this.nextExpirable = next;
+        }
+
+        ReferenceEntry<K, V> previousExpirable = this;
+        public ReferenceEntry<K, V> getPreviousExpirable() {
+          return previousExpirable;
+        }
+        public void setPreviousExpirable(ReferenceEntry<K, V> previous) {
+          this.previousExpirable = previous;
+        }
+
+        @Override
+        public ValueReference<K, V> getValueReference() {
+          throw new UnsupportedOperationException();
+        }
+        @Override
+        public void setValueReference(ValueReference<K, V> valueReference) {
+          throw new UnsupportedOperationException();
+        }
+        @Override
+        public void valueReclaimed(ValueReference<K, V> valueReference) {
+          throw new UnsupportedOperationException();
+        }
+        @Override
+        public ReferenceEntry<K, V> getNext() {
+          throw new UnsupportedOperationException();
+        }
+        @Override
+        public int getHash() {
+          throw new UnsupportedOperationException();
+        }
+        @Override
+        public K getKey() {
+          throw new UnsupportedOperationException();
+        }
+
+        // null eviction
+        @Override
+        public ReferenceEntry<K, V> getNextEvictable() {
+          throw new UnsupportedOperationException();
+        }
+        @Override
+        public void setNextEvictable(ReferenceEntry<K, V> next) {
+          throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public ReferenceEntry<K, V> getPreviousEvictable() {
+          throw new UnsupportedOperationException();
+        }
+        @Override
+        public void setPreviousEvictable(ReferenceEntry<K, V> previous) {
+          throw new UnsupportedOperationException();
+        }
+      };
+
+      // implements Queue
+
+      @Override
+      public boolean offer(ReferenceEntry<K, V> entry) {
+        // unlink
+        connectExpirables(entry.getPreviousExpirable(),
+            entry.getNextExpirable());
+
+        // add to tail
+        connectExpirables(head.getPreviousExpirable(), entry);
+        connectExpirables(entry, head);
+
+        return true;
+      }
+
+      @Override
+      public ReferenceEntry<K, V> peek() {
+        ReferenceEntry<K, V> next = head.getNextExpirable();
+        return (next == head) ? null : next;
+      }
+
+      @Override
+      public ReferenceEntry<K, V> poll() {
+        ReferenceEntry<K, V> next = head.getNextExpirable();
+        if (next == head) {
+          return null;
+        }
+
+        remove(next);
+        return next;
+      }
+
+      @Override
+      @SuppressWarnings("unchecked")
+      public boolean remove(Object o) {
+        ReferenceEntry<K, V> e = (ReferenceEntry) o;
+        ReferenceEntry<K, V> previous = e.getPreviousExpirable();
+        ReferenceEntry<K, V> next = e.getNextExpirable();
+        connectExpirables(previous, next);
+        nullifyExpirable(e);
+
+        return next != NullEntry.INSTANCE;
+      }
+
+      @Override
+      @SuppressWarnings("unchecked")
+      public boolean contains(Object o) {
+        ReferenceEntry<K, V> e = (ReferenceEntry) o;
+        return e.getNextExpirable() != NullEntry.INSTANCE;
+      }
+
+      @Override
+      public boolean isEmpty() {
+        return head.getNextExpirable() == head;
+      }
+
+      @Override
+      public int size() {
+        int size = 0;
+        for (ReferenceEntry<K, V> e = head.getNextExpirable(); e != head;
+             e = e.getNextExpirable()) {
+          size++;
+        }
+        return size;
+      }
+
+      @Override
+      public void clear() {
+        ReferenceEntry<K, V> e = head.getNextExpirable();
+        while (e != head) {
+          ReferenceEntry<K, V> next = e.getNextExpirable();
+          nullifyExpirable(e);
+          e = next;
+        }
+
+        head.setNextExpirable(head);
+        head.setPreviousExpirable(head);
+      }
+
+      @Override
+      public Iterator<ReferenceEntry<K, V>> iterator() {
+        return new AbstractLinkedIterator<ReferenceEntry<K, V>>(peek()) {
+          @Override
+          protected ReferenceEntry<K, V> computeNext(
+              ReferenceEntry<K, V> previous) {
+            ReferenceEntry<K, V> next = previous.getNextExpirable();
+            return (next == head) ? null : next;
+          }
+        };
       }
     }
   }
