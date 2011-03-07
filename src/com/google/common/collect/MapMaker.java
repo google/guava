@@ -23,6 +23,7 @@ import static com.google.common.base.Preconditions.checkState;
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.base.Ascii;
 import com.google.common.base.Equivalence;
 import com.google.common.base.Function;
 import com.google.common.base.Objects;
@@ -638,6 +639,49 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
       Function<? super K, ? extends V> computingFunction) {
     Cache<K, V> cache = makeCache(computingFunction);
     return new ComputingMapAdapter<K, V>(cache);
+  }
+
+  /**
+   * Returns a string representation for this MapMaker instance.
+   * The form of this representation is not guaranteed.
+   */
+  @Override
+  public String toString() {
+    Objects.ToStringHelper s = Objects.toStringHelper(this);
+    if (initialCapacity != UNSET_INT) {
+      s.add("initialCapacity", initialCapacity);
+    }
+    if (concurrencyLevel != UNSET_INT) {
+      s.add("concurrencyLevel", concurrencyLevel);
+    }
+    if (maximumSize != UNSET_INT) {
+      s.add("maximumSize", maximumSize);
+    }
+    if (expireAfterWriteNanos != UNSET_INT) {
+      s.add("expireAfterWrite", expireAfterWriteNanos + "ns");
+    }
+    if (expireAfterAccessNanos != UNSET_INT) {
+      s.add("expireAfterAccess", expireAfterAccessNanos + "ns");
+    }
+    if (keyStrength != null) {
+      s.add("keyStrength", Ascii.toLowerCase(keyStrength.toString()));
+    }
+    if (valueStrength != null) {
+      s.add("valueStrength", Ascii.toLowerCase(valueStrength.toString()));
+    }
+    if (keyEquivalence != null) {
+      s.addValue("keyEquivalence");
+    }
+    if (valueEquivalence != null) {
+      s.addValue("valueEquivalence");
+    }
+    if (evictionListener != null) {
+      s.addValue("evictionListener");
+    }
+    if (cleanupExecutor != null) {
+      s.addValue("cleanupExecutor");
+    }
+    return s.toString();
   }
 
   /**
