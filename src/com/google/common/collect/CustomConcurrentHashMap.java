@@ -1614,6 +1614,11 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
     return newEntry;
   }
 
+  @GuardedBy("Segment.this")
+  ValueReference<K, V> newValueReference(ReferenceEntry<K, V> entry, V value) {
+    return valueStrength.referenceValue(entry, value);
+  }
+
   int hash(Object key) {
     int h = keyEquivalence.hash(checkNotNull(key));
     return rehash(h);
@@ -1910,7 +1915,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
       this.maxSegmentSize = maxSegmentSize;
       initTable(newEntryArray(initialCapacity));
 
-      recencyQueue = (evictsBySize() || expires())
+      recencyQueue = (evictsBySize() || expiresAfterAccess())
           ? new ConcurrentLinkedQueue<ReferenceEntry<K, V>>()
           : CustomConcurrentHashMap.<ReferenceEntry<K, V>>discardingQueue();
 
@@ -1943,7 +1948,8 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
     @GuardedBy("Segment.this")
     void setValue(ReferenceEntry<K, V> entry, V value) {
       recordWrite(entry);
-      entry.setValueReference(valueStrength.referenceValue(entry, value));
+      ValueReference<K, V> valueReference = newValueReference(entry, value);
+      entry.setValueReference(valueReference);
     }
 
     // recency queue, shared by expiration and eviction
@@ -1998,7 +2004,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
         if (evictionQueue.contains(e)) {
           evictionQueue.add(e);
         }
-        if (expirationQueue.contains(e)) {
+        if (expiresAfterAccess() && expirationQueue.contains(e)) {
           expirationQueue.add(e);
         }
       }
