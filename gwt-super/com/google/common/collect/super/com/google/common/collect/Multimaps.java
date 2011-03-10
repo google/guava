@@ -1103,14 +1103,15 @@ public final class Multimaps {
   }
 
   /**
-   * Creates an index {@code ImmutableMultimap} that contains the results of
+   * Creates an index {@code ImmutableListMultimap} that contains the results of
    * applying a specified function to each item in an {@code Iterable} of
    * values. Each value will be stored as a value in the resulting multimap,
    * yielding a multimap with the same size as the input iterable. The key used
    * to store that value in the multimap will be the result of calling the
    * function on that value. The resulting multimap is created as an immutable
-   * snapshot, it does <em>not</em> reflect subsequent changes on the input
-   * iterable.
+   * snapshot. In the returned multimap, keys appear in the order they are first 
+   * encountered, and the values corresponding to each key appear in the same 
+   * order as they are encountered.
    *
    * <p>For example, <pre>   {@code
    *
@@ -1123,15 +1124,15 @@ public final class Multimaps {
    *
    * prints <pre>   {@code
    *
-   *   {4=[Inky], 5=[Pinky, Pinky, Clyde], 6=[Blinky]}}</pre>
+   *   {4=[Inky], 6=[Blinky], 5=[Pinky, Pinky, Clyde]}}</pre>
    *
    * The returned multimap is serializable if its keys and values are all
    * serializable.
    *
    * @param values the values to use when constructing the {@code
-   *     ImmutableMultimap}
+   *     ImmutableListMultimap}
    * @param keyFunction the function used to produce the key for each value
-   * @return {@code ImmutableMultimap} mapping the result of evaluating the
+   * @return {@code ImmutableListMultimap} mapping the result of evaluating the
    *     function {@code keyFunction} on each value in the input collection to
    *     that value
    * @throws NullPointerException if any of the following cases is true:
