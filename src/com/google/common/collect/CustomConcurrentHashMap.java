@@ -2730,7 +2730,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
 
     /**
      * A custom queue for managing eviction order. Note that this is tightly
-     * integrated with {@code ReferenceEntry}, upon which it reliese to perform
+     * integrated with {@code ReferenceEntry}, upon which it relies to perform
      * its linking.
      *
      * <p>Note that this entire implementation makes the assumption that all
@@ -3155,16 +3155,18 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
     }
     if (check != sum) { // Resort to locking all segments
       sum = 0;
-      for (Segment segment : segments) {
-        segment.lock();
-      }
+      int segmentsLocked = 0;
       try {
+        for (Segment segment : segments) {
+          segment.lock();
+          segmentsLocked++;
+        }
         for (Segment segment : segments) {
           sum += segment.count;
         }
       } finally {
-        for (Segment segment : segments) {
-          segment.unlock();
+        for (int i = 0; i < segmentsLocked; i++) {
+          segments[i].unlock();
         }
       }
     }
@@ -3229,18 +3231,20 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
     }
 
     // Resort to locking all segments
-    for (Segment segment : segments) {
-      segment.lock();
-    }
+    int segmentsLocked = 0;
     try {
+      for (Segment segment : segments) {
+        segment.lock();
+        segmentsLocked++;
+      }
       for (Segment segment : segments) {
         if (segment.containsValue(value)) {
           return true;
         }
       }
     } finally {
-      for (Segment segment : segments) {
-        segment.unlock();
+      for (int i = 0; i < segmentsLocked; i++) {
+        segments[i].unlock();
       }
     }
     return false;
