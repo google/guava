@@ -20,6 +20,7 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
+import com.google.testing.util.EqualsTester;
 
 import junit.framework.TestCase;
 
@@ -27,19 +28,19 @@ import java.util.List;
 
 /**
  * Unit test for {@link Equivalences}.
- * 
+ *
  * @author Kurt Alfred Kluever
  */
 @GwtCompatible
 public class EquivalencesTest extends TestCase {
 
-  private static final Object OBJECT = (Integer) 42;
+  private static final Object OBJECT = 42;
 
   public void testEqualsEquivalent() {
     assertTrue(Equivalences.equals().equivalent(null, null));
     assertTrue(Equivalences.equals().equivalent(OBJECT, OBJECT));
-    assertTrue(Equivalences.equals().equivalent(((Integer) 42), OBJECT));
-    assertTrue(Equivalences.equals().equivalent(OBJECT, ((Integer) 42)));
+    assertTrue(Equivalences.equals().equivalent((42), OBJECT));
+    assertTrue(Equivalences.equals().equivalent(OBJECT, (42)));
     assertFalse(Equivalences.equals().equivalent(OBJECT, null));
     assertFalse(Equivalences.equals().equivalent(null, OBJECT));
   }
@@ -115,5 +116,32 @@ public class EquivalencesTest extends TestCase {
     assertEquals(pairwise.hash(ImmutableList.of("a")), pairwise.hash(ImmutableSet.of("a")));
     assertEquals(pairwise.hash(ImmutableList.of("a", "b", "c")),
         pairwise.hash(Lists.newArrayList("a", "b", "c")));
+  }
+
+  private static final Equivalence<String> LENGTH_EQUIVALENCE = new Equivalence<String>() {
+    @Override public boolean equivalent(String a, String b) {
+      return (a == null) ? (b == null) : (b != null) && (a.length() == b.length());
+    }
+
+    @Override public int hash(String t) {
+      return (t == null) ? 0 : t.length();
+    }
+  };
+
+  public void testWrap() {
+    new EqualsTester()
+        .addEqualityGroup(
+            Equivalences.wrap(LENGTH_EQUIVALENCE, "hello"),
+            Equivalences.wrap(LENGTH_EQUIVALENCE, "hello"),
+            Equivalences.wrap(LENGTH_EQUIVALENCE, "world"))
+        .addEqualityGroup(
+            Equivalences.wrap(LENGTH_EQUIVALENCE, "hi"),
+            Equivalences.wrap(LENGTH_EQUIVALENCE, "yo"))
+        .addEqualityGroup(
+            Equivalences.wrap(LENGTH_EQUIVALENCE, null),
+            Equivalences.wrap(LENGTH_EQUIVALENCE, null))
+        .addEqualityGroup(Equivalences.wrap(Equivalences.equals(), "hello"))
+        .addEqualityGroup(Equivalences.wrap(Equivalences.equals(), null))
+        .testEquals();
   }
 }

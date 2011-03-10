@@ -26,6 +26,7 @@ import javax.annotation.Nullable;
  *
  * @author Bob Lee
  * @author Kurt Alfred Kluever
+ * @author Gregory Kick
  * @since 4
  */
 @Beta
