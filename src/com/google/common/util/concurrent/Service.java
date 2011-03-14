@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.google.common.base;
+package com.google.common.util.concurrent;
 
 import com.google.common.annotations.Beta;
 
@@ -22,9 +22,6 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
 /**
- * <b>To be deleted. Use the copy in com.google.common.util.concurrent
- * instead.</b>
- * 
  * An object with an operational state, plus asynchronous {@link #start()} and
  * {@link #stop()} lifecycle methods to transfer into and out of this state.
  * Example services include webservers, RPC servers and timers. The normal
@@ -42,15 +39,14 @@ import java.util.concurrent.Future;
  * started nor stopped.
  *
  * <p>Implementors of this interface are strongly encouraged to extend {@link
- * com.google.common.util.concurrent.AbstractService} or {@link
- * com.google.common.util.concurrent.AbstractExecutionThreadService}, which make
- * the threading and state management easier.
+ * AbstractService}, {@link AbstractExecutionThreadService}, or {@link
+ * AbstractIdleService}, which make the threading and state management easier.
  *
  * @author Jesse Wilson
- * @since 1
+ * @since 9 (in version 1 as {@code com.google.common.base.Service})
  */
-@Beta // TODO(kevinb): make abstract class? move to common.util.concurrent?
-public interface Service {
+@Beta // TODO(kevinb): make abstract class?
+public interface Service extends com.google.common.base.Service {
   /**
    * If the service state is {@link State#NEW}, this initiates service startup
    * and returns immediately. If the service has already been started, this
@@ -122,44 +118,45 @@ public interface Service {
    */
   State stopAndWait();
 
-  /**
-   * The lifecycle states of a service.
-   *
-   * @since 1
-   */
-  @Beta // should come out of Beta when Service does
-  enum State {
-    /**
-     * A service in this state is inactive. It does minimal work and consumes
-     * minimal resources.
-     */
-    NEW,
-
-    /**
-     * A service in this state is transitioning to {@link #RUNNING}.
-     */
-    STARTING,
-
-    /**
-     * A service in this state is operational.
-     */
-    RUNNING,
-
-    /**
-     * A service in this state is transitioning to {@link #TERMINATED}.
-     */
-    STOPPING,
-
-    /**
-     * A service in this state has completed execution normally. It does minimal
-     * work and consumes minimal resources.
-     */
-    TERMINATED,
-
-    /**
-     * A service in this state has encountered a problem and may not be
-     * operational. It cannot be started nor stopped.
-     */
-    FAILED
-  }
+  // TODO(cpovirk): uncomment when removing base.Service
+//  /**
+//   * The lifecycle states of a service.
+//   *
+//   * @since 9 (in version 1 as {@code com.google.common.base.Service.State})
+//   */
+//  @Beta // should come out of Beta when Service does
+//  enum State {
+//    /**
+//     * A service in this state is inactive. It does minimal work and consumes
+//     * minimal resources.
+//     */
+//    NEW,
+//
+//    /**
+//     * A service in this state is transitioning to {@link #RUNNING}.
+//     */
+//    STARTING,
+//
+//    /**
+//     * A service in this state is operational.
+//     */
+//    RUNNING,
+//
+//    /**
+//     * A service in this state is transitioning to {@link #TERMINATED}.
+//     */
+//    STOPPING,
+//
+//    /**
+//     * A service in this state has completed execution normally. It does minimal
+//     * work and consumes minimal resources.
+//     */
+//    TERMINATED,
+//
+//    /**
+//     * A service in this state has encountered a problem and may not be
+//     * operational. It cannot be started nor stopped.
+//     */
+//    FAILED
+//  }
 }

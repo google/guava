@@ -16,6 +16,7 @@
 
 package com.google.common.collect;
 
+import static com.google.common.base.Objects.firstNonNull;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
@@ -27,6 +28,7 @@ import com.google.common.base.Ascii;
 import com.google.common.base.Equivalence;
 import com.google.common.base.Function;
 import com.google.common.base.Objects;
+import com.google.common.base.Ticker;
 import com.google.common.collect.CustomConcurrentHashMap.Strength;
 
 import java.io.Serializable;
@@ -112,8 +114,17 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
 
   static final Executor DEFAULT_CLEANUP_EXECUTOR =
       new Executor() {
+        @Override
         public void execute(Runnable r) {
           r.run();
+        }
+      };
+
+  static final Ticker DEFAULT_TICKER =
+      new Ticker() {
+        @Override
+        public long read() {
+          return System.nanoTime();
         }
       };
 
@@ -143,6 +154,7 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
   Equivalence<Object> valueEquivalence;
 
   Executor cleanupExecutor;
+  Ticker ticker;
 
   /**
    * Constructs a new {@code MapMaker} instance with default settings,
@@ -160,8 +172,7 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
   }
 
   Equivalence<Object> getKeyEquivalence() {
-    return Objects.firstNonNull(keyEquivalence,
-        getKeyStrength().defaultEquivalence());
+    return firstNonNull(keyEquivalence, getKeyStrength().defaultEquivalence());
   }
 
   // TODO(kevinb): undo this indirection if valueEquiv gets released
@@ -174,7 +185,7 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
   }
 
   Equivalence<Object> getValueEquivalence() {
-    return Objects.firstNonNull(valueEquivalence,
+    return firstNonNull(valueEquivalence,
         getValueStrength().defaultEquivalence());
   }
 
@@ -322,7 +333,7 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
   }
 
   Strength getKeyStrength() {
-    return Objects.firstNonNull(keyStrength, Strength.STRONG);
+    return firstNonNull(keyStrength, Strength.STRONG);
   }
 
   /**
@@ -385,7 +396,7 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
   }
 
   Strength getValueStrength() {
-    return Objects.firstNonNull(valueStrength, Strength.STRONG);
+    return firstNonNull(valueStrength, Strength.STRONG);
   }
 
   /**
@@ -475,8 +486,11 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
   }
 
   Executor getCleanupExecutor() {
-    return (cleanupExecutor == null)
-        ? DEFAULT_CLEANUP_EXECUTOR : cleanupExecutor;
+    return firstNonNull(cleanupExecutor, DEFAULT_CLEANUP_EXECUTOR);
+  }
+
+  Ticker getTicker() {
+    return firstNonNull(ticker, DEFAULT_TICKER);
   }
 
   /**

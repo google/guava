@@ -9,4 +9,6 @@
    
   <source path="gwt"/>
     
+  <add-linker name="std"/>
+   
 </module>

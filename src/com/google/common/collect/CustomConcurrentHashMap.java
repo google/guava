@@ -25,6 +25,7 @@ import com.google.common.base.Equivalences;
 import com.google.common.base.FinalizableReferenceQueue;
 import com.google.common.base.FinalizableSoftReference;
 import com.google.common.base.FinalizableWeakReference;
+import com.google.common.base.Ticker;
 import com.google.common.collect.MapMaker.NullListener;
 import com.google.common.primitives.Ints;
 
@@ -153,6 +154,9 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
   /** The segments, each of which is a specialized hash table. */
   final transient Segment[] segments;
 
+  /** The concurrency level. */
+  final int concurrencyLevel;
+
   /** Strategy for comparing keys. */
   final Equivalence<Object> keyEquivalence;
 
@@ -166,6 +170,12 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
   final Strength valueStrength;
 
   /**
+   * The maximum size of this map. MapMaker.UNSET_INT if there is no
+   * maximum.
+   */
+  final int maximumSize;
+
+  /**
    * How long after the last access to an entry the map will retain that
    * entry.
    */
@@ -177,12 +187,6 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
    */
   final long expireAfterWriteNanos;
 
-  /**
-   * The maximum size of this map. MapMaker.UNSET_INT if there is no
-   * maximum.
-   */
-  final int maximumSize;
-
   /** Entries waiting to be consumed by the eviction listener. */
   final Queue<ReferenceEntry<K, V>> evictionNotificationQueue;
 
@@ -192,40 +196,41 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
    */
   final MapEvictionListener<? super K, ? super V> evictionListener;
 
-  /** The concurrency level. */
-  final int concurrencyLevel;
-
   /** Factory used to create new entries. */
   final transient EntryFactory entryFactory;
 
   /** Performs map housekeeping operations. */
   final Executor cleanupExecutor;
 
+  /** Measures time in a testable way. */
+  final Ticker ticker;
+
   /**
    * Creates a new, empty map with the specified strategy, initial capacity
    * and concurrency level.
    */
   CustomConcurrentHashMap(MapMaker builder) {
+    concurrencyLevel = Math.min(builder.getConcurrencyLevel(), MAX_SEGMENTS);
+
     keyStrength = builder.getKeyStrength();
     valueStrength = builder.getValueStrength();
 
     keyEquivalence = builder.getKeyEquivalence();
     valueEquivalence = builder.getValueEquivalence();
 
+    maximumSize = builder.maximumSize;
     expireAfterAccessNanos = builder.getExpireAfterAccessNanos();
     expireAfterWriteNanos = builder.getExpireAfterWriteNanos();
 
-    maximumSize = builder.maximumSize;
     entryFactory =
         EntryFactory.getFactory(keyStrength, expires(), evictsBySize());
     cleanupExecutor = builder.getCleanupExecutor();
+    ticker = builder.getTicker();
 
     evictionListener = builder.getEvictionListener();
     evictionNotificationQueue = (evictionListener == NullListener.INSTANCE)
         ? CustomConcurrentHashMap.<ReferenceEntry<K, V>>discardingQueue()
         : new ConcurrentLinkedQueue<ReferenceEntry<K, V>>();
-
-    concurrencyLevel = Math.min(builder.getConcurrencyLevel(), MAX_SEGMENTS);
 
     int initialCapacity =
         Math.min(builder.getInitialCapacity(), MAXIMUM_CAPACITY);
@@ -1656,7 +1661,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
    * Returns true if the entry has expired.
    */
   boolean isExpired(ReferenceEntry<K, V> entry) {
-    return isExpired(entry, System.nanoTime());
+    return isExpired(entry, ticker.read());
   }
 
   /**
@@ -2015,7 +2020,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
     void recordExpirationTime(ReferenceEntry<K, V> entry,
         long expirationNanos) {
       // might overflow, but that's okay (see isExpired())
-      entry.setExpirationTime(System.nanoTime() + expirationNanos);
+      entry.setExpirationTime(ticker.read() + expirationNanos);
     }
 
     @GuardedBy("Segment.this")
@@ -2027,7 +2032,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
         // expire.
         return;
       }
-      long now = System.nanoTime();
+      long now = ticker.read();
       ReferenceEntry<K, V> e;
       while ((e = expirationQueue.peek()) != null && isExpired(e, now)) {
         if (!unsetEntry(e, e.getHash())) {

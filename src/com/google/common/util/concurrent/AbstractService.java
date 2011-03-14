@@ -129,10 +129,7 @@ public abstract class AbstractService implements Service {
 
   public State startAndWait() {
     try {
-      return start().get();
-    } catch (InterruptedException e) {
-      Thread.currentThread().interrupt();
-      throw new RuntimeException(e);
+      return Futures.makeUninterruptible(start()).get();
     } catch (ExecutionException e) {
       throw Throwables.propagate(e.getCause());
     }
@@ -140,12 +137,9 @@ public abstract class AbstractService implements Service {
 
   public State stopAndWait() {
     try {
-      return stop().get();
+      return Futures.makeUninterruptible(stop()).get();
     } catch (ExecutionException e) {
       throw Throwables.propagate(e.getCause());
-    } catch (InterruptedException e) {
-      Thread.currentThread().interrupt();
-      throw new RuntimeException(e);
     }
   }
 

@@ -18,14 +18,21 @@ import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 
 /**
- * Static methods pertaining to ASCII characters (those in the range of values {@code 0x00} through
- * {@code 0x7F}), and to strings containing such characters.
+ * Static methods pertaining to ASCII characters (those in the range of values
+ * {@code 0x00} through {@code 0x7F}), and to strings containing such
+ * characters.
+ *
+ * <p>ASCII utilities also exist in other classes of this package:
+ * <ul>
+ * <li>{@link Charsets#US_ASCII} specifies the {@code Charset} of ASCII characters.
+ * <li>{@link CharMatcher#ASCII} matches ASCII characters and provides text processing methods
+ *     which operate only on the ASCII characters of a string.
+ * </ul>
  *
  * @author Craig Berry
  * @author Gregory Kick
  * @since 7
  */
-@Beta
 @GwtCompatible
 public final class Ascii {
 
@@ -375,6 +382,22 @@ public final class Ascii {
    * @since 8
    */
   public static final byte DEL = 127;
+
+  /**
+   * The minimum value of an ASCII character.
+   *
+   * @since 9
+   */
+  @Beta
+  public static final int MIN = 0;
+
+  /**
+   * The maximum value of an ASCII character.
+   *
+   * @since 9
+   */
+  @Beta
+  public static final int MAX = 127;
 
   /**
    * Returns a copy of the input string in which all {@linkplain #isUpperCase(char) uppercase ASCII
