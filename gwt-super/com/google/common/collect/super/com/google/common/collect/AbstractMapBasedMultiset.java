@@ -99,17 +99,21 @@ abstract class AbstractMapBasedMultiset<E> extends AbstractMultiset<E>
       return new Iterator<Multiset.Entry<E>>() {
         Map.Entry<E, AtomicInteger> toRemove;
 
+        @Override
         public boolean hasNext() {
           return backingEntries.hasNext();
         }
 
+        @Override
         public Multiset.Entry<E> next() {
           final Map.Entry<E, AtomicInteger> mapEntry = backingEntries.next();
           toRemove = mapEntry;
           return new Multisets.AbstractEntry<E>() {
+            @Override
             public E getElement() {
               return mapEntry.getKey();
             }
+            @Override
             public int getCount() {
               int count = mapEntry.getValue().get();
               if (count == 0) {
@@ -123,6 +127,7 @@ abstract class AbstractMapBasedMultiset<E> extends AbstractMultiset<E>
           };
         }
 
+        @Override
         public void remove() {
           checkState(toRemove != null,
               "no calls to next() since the last call to remove()");
@@ -193,10 +198,12 @@ abstract class AbstractMapBasedMultiset<E> extends AbstractMultiset<E>
       this.entryIterator = backingMap.entrySet().iterator();
     }
 
+    @Override
     public boolean hasNext() {
       return occurrencesLeft > 0 || entryIterator.hasNext();
     }
 
+    @Override
     public E next() {
       if (occurrencesLeft == 0) {
         currentEntry = entryIterator.next();
@@ -207,6 +214,7 @@ abstract class AbstractMapBasedMultiset<E> extends AbstractMultiset<E>
       return currentEntry.getKey();
     }
 
+    @Override
     public void remove() {
       checkState(canRemove,
           "no calls to next() since the last call to remove()");
@@ -358,15 +366,18 @@ abstract class AbstractMapBasedMultiset<E> extends AbstractMultiset<E>
       return new Iterator<E>() {
         Map.Entry<E, AtomicInteger> toRemove;
 
+        @Override
         public boolean hasNext() {
           return entries.hasNext();
         }
 
+        @Override
         public E next() {
           toRemove = entries.next();
           return toRemove.getKey();
         }
 
+        @Override
         public void remove() {
           checkState(toRemove != null,
               "no calls to next() since the last call to remove()");

@@ -277,15 +277,18 @@ public final class LinkedListMultimap<K, V>
     Node<K, V> next = head;
     Node<K, V> current;
 
+    @Override
     public boolean hasNext() {
       return next != null;
     }
+    @Override
     public Node<K, V> next() {
       checkElement(next);
       current = next;
       next = next.next;
       return current;
     }
+    @Override
     public void remove() {
       checkState(current != null);
       removeNode(current);
@@ -299,9 +302,11 @@ public final class LinkedListMultimap<K, V>
     Node<K, V> next = head;
     Node<K, V> current;
 
+    @Override
     public boolean hasNext() {
       return next != null;
     }
+    @Override
     public K next() {
       checkElement(next);
       current = next;
@@ -311,6 +316,7 @@ public final class LinkedListMultimap<K, V>
       } while ((next != null) && !seenKeys.add(next.key));
       return current.key;
     }
+    @Override
     public void remove() {
       checkState(current != null);
       removeAllNodes(current.key);
@@ -360,10 +366,12 @@ public final class LinkedListMultimap<K, V>
       current = null;
     }
 
+    @Override
     public boolean hasNext() {
       return next != null;
     }
 
+    @Override
     public V next() {
       checkElement(next);
       previous = current = next;
@@ -372,10 +380,12 @@ public final class LinkedListMultimap<K, V>
       return current.value;
     }
 
+    @Override
     public boolean hasPrevious() {
       return previous != null;
     }
 
+    @Override
     public V previous() {
       checkElement(previous);
       next = current = previous;
@@ -384,14 +394,17 @@ public final class LinkedListMultimap<K, V>
       return current.value;
     }
 
+    @Override
     public int nextIndex() {
       return nextIndex;
     }
 
+    @Override
     public int previousIndex() {
       return nextIndex - 1;
     }
 
+    @Override
     public void remove() {
       checkState(current != null);
       if (current != next) { // removing next element
@@ -404,11 +417,13 @@ public final class LinkedListMultimap<K, V>
       current = null;
     }
 
+    @Override
     public void set(V value) {
       checkState(current != null);
       current.value = value;
     }
 
+    @Override
     @SuppressWarnings("unchecked")
     public void add(V value) {
       previous = addNode((K) key, value, next);
@@ -419,18 +434,22 @@ public final class LinkedListMultimap<K, V>
 
   // Query Operations
 
+  @Override
   public int size() {
     return keyCount.size();
   }
 
+  @Override
   public boolean isEmpty() {
     return head == null;
   }
 
+  @Override
   public boolean containsKey(@Nullable Object key) {
     return keyToKeyHead.containsKey(key);
   }
 
+  @Override
   public boolean containsValue(@Nullable Object value) {
     for (Iterator<Node<K, V>> i = new NodeIterator(); i.hasNext();) {
       if (Objects.equal(i.next().value, value)) {
@@ -440,6 +459,7 @@ public final class LinkedListMultimap<K, V>
     return false;
   }
 
+  @Override
   public boolean containsEntry(@Nullable Object key, @Nullable Object value) {
     for (Iterator<V> i = new ValueForKeyIterator(key); i.hasNext();) {
       if (Objects.equal(i.next(), value)) {
@@ -458,11 +478,13 @@ public final class LinkedListMultimap<K, V>
    * @param value value to store in the multimap
    * @return {@code true} always
    */
+  @Override
   public boolean put(@Nullable K key, @Nullable V value) {
     addNode(key, value, null);
     return true;
   }
 
+  @Override
   public boolean remove(@Nullable Object key, @Nullable Object value) {
     Iterator<V> values = new ValueForKeyIterator(key);
     while (values.hasNext()) {
@@ -476,6 +498,7 @@ public final class LinkedListMultimap<K, V>
 
   // Bulk Operations
 
+  @Override
   public boolean putAll(@Nullable K key, Iterable<? extends V> values) {
     boolean changed = false;
     for (V value : values) {
@@ -484,6 +507,7 @@ public final class LinkedListMultimap<K, V>
     return changed;
   }
 
+  @Override
   public boolean putAll(Multimap<? extends K, ? extends V> multimap) {
     boolean changed = false;
     for (Entry<? extends K, ? extends V> entry : multimap.entries()) {
@@ -502,6 +526,7 @@ public final class LinkedListMultimap<K, V>
    * <p>The returned list is immutable and implements
    * {@link java.util.RandomAccess}.
    */
+  @Override
   public List<V> replaceValues(@Nullable K key, Iterable<? extends V> values) {
     List<V> oldValues = getCopy(key);
     ListIterator<V> keyValues = new ValueForKeyIterator(key);
@@ -537,12 +562,14 @@ public final class LinkedListMultimap<K, V>
    * <p>The returned list is immutable and implements
    * {@link java.util.RandomAccess}.
    */
+  @Override
   public List<V> removeAll(@Nullable Object key) {
     List<V> oldValues = getCopy(key);
     removeAllNodes(key);
     return oldValues;
   }
 
+  @Override
   public void clear() {
     head = null;
     tail = null;
@@ -562,6 +589,7 @@ public final class LinkedListMultimap<K, V>
    *
    * <p>The returned list is not serializable and does not have random access.
    */
+  @Override
   public List<V> get(final @Nullable K key) {
     return new AbstractSequentialList<V>() {
       @Override public int size() {
@@ -581,6 +609,7 @@ public final class LinkedListMultimap<K, V>
 
   private transient Set<K> keySet;
 
+  @Override
   public Set<K> keySet() {
     Set<K> result = keySet;
     if (result == null) {
@@ -605,6 +634,7 @@ public final class LinkedListMultimap<K, V>
 
   private transient Multiset<K> keys;
 
+  @Override
   public Multiset<K> keys() {
     Multiset<K> result = keys;
     if (result == null) {
@@ -623,26 +653,32 @@ public final class LinkedListMultimap<K, V>
     @Override public Iterator<K> iterator() {
       final Iterator<Node<K, V>> nodes = new NodeIterator();
       return new Iterator<K>() {
+        @Override
         public boolean hasNext() {
           return nodes.hasNext();
         }
+        @Override
         public K next() {
           return nodes.next().key;
         }
+        @Override
         public void remove() {
           nodes.remove();
         }
       };
     }
 
+    @Override
     public int count(@Nullable Object key) {
       return keyCount.count(key);
     }
 
+    @Override
     public int add(@Nullable K key, int occurrences) {
       throw new UnsupportedOperationException();
     }
 
+    @Override
     public int remove(@Nullable Object key, int occurrences) {
       checkArgument(occurrences >= 0);
       int oldCount = count(key);
@@ -654,10 +690,12 @@ public final class LinkedListMultimap<K, V>
       return oldCount;
     }
 
+    @Override
     public int setCount(K element, int count) {
       return setCountImpl(this, element, count);
     }
 
+    @Override
     public boolean setCount(K element, int oldCount, int newCount) {
       return setCountImpl(this, element, oldCount, newCount);
     }
@@ -670,10 +708,12 @@ public final class LinkedListMultimap<K, V>
       return Iterators.retainAll(iterator(), c);
     }
 
+    @Override
     public Set<K> elementSet() {
       return keySet();
     }
 
+    @Override
     public Set<Entry<K>> entrySet() {
       // TODO(jlevy): lazy init?
       return new AbstractSet<Entry<K>>() {
@@ -684,20 +724,25 @@ public final class LinkedListMultimap<K, V>
         @Override public Iterator<Entry<K>> iterator() {
           final Iterator<K> keyIterator = new DistinctKeyIterator();
           return new Iterator<Entry<K>>() {
+            @Override
             public boolean hasNext() {
               return keyIterator.hasNext();
             }
+            @Override
             public Entry<K> next() {
               final K key = keyIterator.next();
               return new Multisets.AbstractEntry<K>() {
+                @Override
                 public K getElement() {
                   return key;
                 }
+                @Override
                 public int getCount() {
                   return keyCount.count(key);
                 }
               };
             }
+            @Override
             public void remove() {
               keyIterator.remove();
             }
@@ -727,6 +772,7 @@ public final class LinkedListMultimap<K, V>
    * <p>The iterator generated by the returned collection traverses the values
    * in the order they were added to the multimap.
    */
+  @Override
   public Collection<V> values() {
     Collection<V> result = valuesCollection;
     if (result == null) {
@@ -737,12 +783,15 @@ public final class LinkedListMultimap<K, V>
         @Override public Iterator<V> iterator() {
           final Iterator<Node<K, V>> nodes = new NodeIterator();
           return new Iterator<V>() {
+            @Override
             public boolean hasNext() {
               return nodes.hasNext();
             }
+            @Override
             public V next() {
               return nodes.next().value;
             }
+            @Override
             public void remove() {
               nodes.remove();
             }
@@ -770,6 +819,7 @@ public final class LinkedListMultimap<K, V>
    * subsequent {@code setValue()} call won't update the multimap but will lead
    * to a revised value being returned by {@code getValue()}.
    */
+  @Override
   public Collection<Entry<K, V>> entries() {
     Collection<Entry<K, V>> result = entries;
     if (result == null) {
@@ -781,10 +831,12 @@ public final class LinkedListMultimap<K, V>
         @Override public Iterator<Entry<K, V>> iterator() {
           final Iterator<Node<K, V>> nodes = new NodeIterator();
           return new Iterator<Entry<K, V>>() {
+            @Override
             public boolean hasNext() {
               return nodes.hasNext();
             }
 
+            @Override
             public Entry<K, V> next() {
               final Node<K, V> node = nodes.next();
               return new AbstractMapEntry<K, V>() {
@@ -802,6 +854,7 @@ public final class LinkedListMultimap<K, V>
               };
             }
 
+            @Override
             public void remove() {
               nodes.remove();
             }
@@ -820,10 +873,12 @@ public final class LinkedListMultimap<K, V>
     @Override public Iterator<Entry<K, Collection<V>>> iterator() {
       final Iterator<K> keyIterator = new DistinctKeyIterator();
       return new Iterator<Entry<K, Collection<V>>>() {
+        @Override
         public boolean hasNext() {
           return keyIterator.hasNext();
         }
 
+        @Override
         public Entry<K, Collection<V>> next() {
           final K key = keyIterator.next();
           return new AbstractMapEntry<K, Collection<V>>() {
@@ -837,6 +892,7 @@ public final class LinkedListMultimap<K, V>
           };
         }
 
+        @Override
         public void remove() {
           keyIterator.remove();
         }
@@ -848,6 +904,7 @@ public final class LinkedListMultimap<K, V>
 
   private transient Map<K, Collection<V>> map;
 
+  @Override
   public Map<K, Collection<V>> asMap() {
     Map<K, Collection<V>> result = map;
     if (result == null) {

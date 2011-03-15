@@ -62,6 +62,7 @@ public final class Suppliers {
       this.function = function;
       this.supplier = supplier;
     }
+    @Override
     public T get() {
       return function.apply(supplier.get());
     }
@@ -99,6 +100,7 @@ public final class Suppliers {
       this.delegate = delegate;
     }
 
+    @Override
     public T get() {
       // A 2-field variant of Double Checked Locking.
       if (!initialized) {
@@ -155,6 +157,7 @@ public final class Suppliers {
       Preconditions.checkArgument(duration > 0);
     }
 
+    @Override
     public T get() {
       // Another variant of Double Checked Locking.
       //
@@ -197,6 +200,7 @@ public final class Suppliers {
     SupplierOfInstance(@Nullable T instance) {
       this.instance = instance;
     }
+    @Override
     public T get() {
       return instance;
     }
@@ -218,6 +222,7 @@ public final class Suppliers {
     ThreadSafeSupplier(Supplier<T> delegate) {
       this.delegate = delegate;
     }
+    @Override
     public T get() {
       synchronized (delegate) {
         return delegate.get();

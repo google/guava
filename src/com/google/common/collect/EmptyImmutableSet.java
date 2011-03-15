@@ -34,6 +34,7 @@ final class EmptyImmutableSet extends ImmutableSet<Object> {
 
   private EmptyImmutableSet() {}
 
+  @Override
   public int size() {
     return 0;
   }

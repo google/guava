@@ -53,6 +53,7 @@ public final class Functions {
   private enum ToStringFunction implements Function<Object, String> {
     INSTANCE;
 
+    @Override
     public String apply(Object o) {
       checkNotNull(o);  // eager for GWT.
       return o.toString();
@@ -75,6 +76,7 @@ public final class Functions {
   private enum IdentityFunction implements Function<Object, Object> {
     INSTANCE;
 
+    @Override
     public Object apply(Object o) {
       return o;
     }
@@ -99,6 +101,7 @@ public final class Functions {
       this.map = checkNotNull(map);
     }
 
+    @Override
     public V apply(K key) {
       V result = map.get(key);
       checkArgument(result != null || map.containsKey(key), "Key '%s' not present in map", key);
@@ -147,6 +150,7 @@ public final class Functions {
       this.defaultValue = defaultValue;
     }
 
+    @Override
     public V apply(K key) {
       V result = map.get(key);
       return (result != null || map.containsKey(key)) ? result : defaultValue;
@@ -193,6 +197,7 @@ public final class Functions {
       this.f = checkNotNull(f);
     }
 
+    @Override
     public C apply(A a) {
       return g.apply(f.apply(a));
     }
@@ -234,6 +239,7 @@ public final class Functions {
       this.predicate = checkNotNull(predicate);
     }
 
+    @Override
     public Boolean apply(T t) {
       return predicate.apply(t);
     }
@@ -274,6 +280,7 @@ public final class Functions {
       this.value = value;
     }
 
+    @Override
     public E apply(@Nullable Object from) {
       return value;
     }

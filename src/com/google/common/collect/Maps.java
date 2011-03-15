@@ -373,22 +373,27 @@ public final class Maps {
       this.differences = differences;
     }
 
+    @Override
     public boolean areEqual() {
       return areEqual;
     }
 
+    @Override
     public Map<K, V> entriesOnlyOnLeft() {
       return onlyOnLeft;
     }
 
+    @Override
     public Map<K, V> entriesOnlyOnRight() {
       return onlyOnRight;
     }
 
+    @Override
     public Map<K, V> entriesInCommon() {
       return onBoth;
     }
 
+    @Override
     public Map<K, ValueDifference<V>> entriesDiffering() {
       return differences;
     }
@@ -441,10 +446,12 @@ public final class Maps {
       this.right = right;
     }
 
+    @Override
     public V leftValue() {
       return left;
     }
 
+    @Override
     public V rightValue() {
       return right;
     }
@@ -690,10 +697,12 @@ public final class Maps {
       return unmodifiableMap;
     }
 
+    @Override
     public V forcePut(K key, V value) {
       throw new UnsupportedOperationException();
     }
 
+    @Override
     public BiMap<V, K> inverse() {
       BiMap<V, K> result = inverse;
       return (result == null)
@@ -752,6 +761,7 @@ public final class Maps {
     checkNotNull(function);
     EntryTransformer<K, V1, V2> transformer =
         new EntryTransformer<K, V1, V2>() {
+          @Override
           public V2 transformEntry(K key, V1 value) {
             return function.apply(value);
           }
@@ -910,10 +920,12 @@ public final class Maps {
             fromMap.entrySet().iterator();
 
         return new Iterator<Entry<K, V2>>() {
+          @Override
           public boolean hasNext() {
             return mapIterator.hasNext();
           }
 
+          @Override
           public Entry<K, V2> next() {
             final Entry<K, V1> entry = mapIterator.next();
             return new AbstractMapEntry<K, V2>() {
@@ -928,6 +940,7 @@ public final class Maps {
             };
           }
 
+          @Override
           public void remove() {
             mapIterator.remove();
           }
@@ -997,6 +1010,7 @@ public final class Maps {
     checkNotNull(keyPredicate);
     Predicate<Entry<K, V>> entryPredicate =
         new Predicate<Entry<K, V>>() {
+          @Override
           public boolean apply(Entry<K, V> input) {
             return keyPredicate.apply(input.getKey());
           }
@@ -1041,6 +1055,7 @@ public final class Maps {
     checkNotNull(valuePredicate);
     Predicate<Entry<K, V>> entryPredicate =
         new Predicate<Entry<K, V>>() {
+          @Override
           public boolean apply(Entry<K, V> input) {
             return valuePredicate.apply(input.getValue());
           }
@@ -1155,10 +1170,12 @@ public final class Maps {
       @Override public Iterator<V> iterator() {
         final Iterator<Entry<K, V>> entryIterator = entrySet().iterator();
         return new UnmodifiableIterator<V>() {
+          @Override
           public boolean hasNext() {
             return entryIterator.hasNext();
           }
 
+          @Override
           public V next() {
             return entryIterator.next().getValue();
           }
@@ -1293,10 +1310,12 @@ public final class Maps {
       @Override public Iterator<Entry<K, V>> iterator() {
         final Iterator<Entry<K, V>> iterator = filteredEntrySet.iterator();
         return new UnmodifiableIterator<Entry<K, V>>() {
+          @Override
           public boolean hasNext() {
             return iterator.hasNext();
           }
 
+          @Override
           public Entry<K, V> next() {
             final Entry<K, V> entry = iterator.next();
             return new ForwardingMapEntry<K, V>() {
@@ -1325,10 +1344,12 @@ public final class Maps {
       @Override public Iterator<K> iterator() {
         final Iterator<Entry<K, V>> iterator = filteredEntrySet.iterator();
         return new UnmodifiableIterator<K>() {
+          @Override
           public boolean hasNext() {
             return iterator.hasNext();
           }
 
+          @Override
           public K next() {
             return iterator.next().getKey();
           }

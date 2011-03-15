@@ -63,6 +63,7 @@ public abstract class AbstractFuture<V> implements Future<V> {
    * Blocks until either the task completes or the timeout expires.  Uses the
    * sync blocking-with-timeout support provided by AQS.
    */
+  @Override
   public V get(long timeout, TimeUnit unit) throws InterruptedException,
       TimeoutException, ExecutionException {
     return sync.get(unit.toNanos(timeout));
@@ -72,6 +73,7 @@ public abstract class AbstractFuture<V> implements Future<V> {
    * Blocks until the task completes or we get interrupted. Uses the
    * interruptible blocking support provided by AQS.
    */
+  @Override
   public V get() throws InterruptedException, ExecutionException {
     return sync.get();
   }
@@ -79,6 +81,7 @@ public abstract class AbstractFuture<V> implements Future<V> {
   /*
    * Checks if the sync is not in the running state.
    */
+  @Override
   public boolean isDone() {
     return sync.isDone();
   }
@@ -86,6 +89,7 @@ public abstract class AbstractFuture<V> implements Future<V> {
   /*
    * Checks if the sync is in the cancelled state.
    */
+  @Override
   public boolean isCancelled() {
     return sync.isCancelled();
   }
@@ -94,6 +98,7 @@ public abstract class AbstractFuture<V> implements Future<V> {
    * Default implementation of cancel that never cancels the future.
    * Subclasses should override this to implement cancellation if desired.
    */
+  @Override
   public boolean cancel(boolean mayInterruptIfRunning) {
     return false;
   }

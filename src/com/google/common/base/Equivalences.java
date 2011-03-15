@@ -58,20 +58,24 @@ public final class Equivalences {
 
   private enum Impl implements Equivalence<Object> {
     EQUALS {
+      @Override
       public boolean equivalent(@Nullable Object a, @Nullable Object b) {
         // TODO(kevinb): use Objects.equal() after testing issue is worked out.
         return (a == null) ? (b == null) : a.equals(b);
       }
 
+      @Override
       public int hash(@Nullable Object o) {
         return (o == null) ? 0 : o.hashCode();
       }
     },
     IDENTITY {
+      @Override
       public boolean equivalent(@Nullable Object a, @Nullable Object b) {
         return a == b;
       }
 
+      @Override
       public int hash(@Nullable Object o) {
         return System.identityHashCode(o);
       }

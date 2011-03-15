@@ -57,6 +57,7 @@ public final class MapConstraints {
   private enum NotNullMapConstraint implements MapConstraint<Object, Object> {
     INSTANCE;
 
+    @Override
     public void checkKeyValue(Object key, Object value) {
       checkNotNull(key);
       checkNotNull(value);
@@ -216,6 +217,7 @@ public final class MapConstraints {
       @Override public Collection<V> getValue() {
         return Constraints.constrainedTypePreservingCollection(
             entry.getValue(), new Constraint<V>() {
+          @Override
           public V checkElement(V value) {
             constraint.checkKeyValue(getKey(), value);
             return value;
@@ -358,11 +360,13 @@ public final class MapConstraints {
       return (BiMap<K, V>) super.delegate();
     }
 
+    @Override
     public V forcePut(K key, V value) {
       constraint.checkKeyValue(key, value);
       return delegate().forcePut(key, value);
     }
 
+    @Override
     public BiMap<V, K> inverse() {
       if (inverse == null) {
         inverse = new ConstrainedBiMap<V, K>(delegate().inverse(), this,
@@ -383,6 +387,7 @@ public final class MapConstraints {
     public InverseConstraint(MapConstraint<? super V, ? super K> constraint) {
       this.constraint = checkNotNull(constraint);
     }
+    @Override
     public void checkKeyValue(K key, V value) {
       constraint.checkKeyValue(value, key);
     }
@@ -466,6 +471,7 @@ public final class MapConstraints {
     @Override public Collection<V> get(final K key) {
       return Constraints.constrainedTypePreservingCollection(
           delegate.get(key), new Constraint<V>() {
+        @Override
         public V checkElement(V value) {
           constraint.checkKeyValue(key, value);
           return value;
@@ -519,12 +525,15 @@ public final class MapConstraints {
     @Override public Iterator<Collection<V>> iterator() {
       final Iterator<Entry<K, Collection<V>>> iterator = entrySet.iterator();
       return new Iterator<Collection<V>>() {
+        @Override
         public boolean hasNext() {
           return iterator.hasNext();
         }
+        @Override
         public Collection<V> next() {
           return iterator.next().getValue();
         }
+        @Override
         public void remove() {
           iterator.remove();
         }
@@ -747,6 +756,7 @@ public final class MapConstraints {
         K key, Iterable<? extends V> values) {
       return (SortedSet<V>) super.replaceValues(key, values);
     }
+    @Override
     public Comparator<? super V> valueComparator() {
       return ((SortedSetMultimap<K, V>) delegate()).valueComparator();
     }

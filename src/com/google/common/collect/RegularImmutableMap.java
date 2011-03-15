@@ -162,6 +162,7 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
     return null;
   }
 
+  @Override
   public int size() {
     return entries.length;
   }
@@ -257,6 +258,7 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
       this.map = map;
     }
 
+    @Override
     public int size() {
       return map.entries.length;
     }

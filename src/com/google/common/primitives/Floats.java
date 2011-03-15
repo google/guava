@@ -310,6 +310,7 @@ public final class Floats {
   private enum LexicographicalComparator implements Comparator<float[]> {
     INSTANCE;
 
+    @Override
     public int compare(float[] left, float[] right) {
       int minLength = Math.min(left.length, right.length);
       for (int i = 0; i < minLength; i++) {

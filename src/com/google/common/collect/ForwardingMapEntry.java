@@ -61,14 +61,17 @@ public abstract class ForwardingMapEntry<K, V>
 
   @Override protected abstract Map.Entry<K, V> delegate();
 
+  @Override
   public K getKey() {
     return delegate().getKey();
   }
 
+  @Override
   public V getValue() {
     return delegate().getValue();
   }
 
+  @Override
   public V setValue(V value) {
     return delegate().setValue(value);
   }

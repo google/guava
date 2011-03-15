@@ -50,6 +50,7 @@ final class SingletonImmutableSet<E> extends ImmutableSet<E> {
     cachedHashCode = hashCode;
   }
 
+  @Override
   public int size() {
     return 1;
   }

@@ -237,6 +237,7 @@ public class TreeBasedTable<R, C, V> extends StandardRowSortedTable<R, C, V> {
       // to be sorted based on the top of each iterator.
       Comparator<PeekingIterator<T>> heapComparator =
           new Comparator<PeekingIterator<T>>() {
+            @Override
             public int compare(PeekingIterator<T> o1, PeekingIterator<T> o2) {
               return comparator.compare(o1.peek(), o2.peek());
             }

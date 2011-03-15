@@ -280,6 +280,7 @@ public class FunctionsTest extends TestCase {
   }
 
   private static class HashCodeFunction implements Function<Object, Integer> {
+    @Override
     public Integer apply(Object o) {
       return (o == null) ? 0 : o.hashCode();
     }

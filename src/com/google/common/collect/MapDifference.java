@@ -67,6 +67,7 @@ public interface MapDifference<K, V> {
    * #entriesOnlyOnRight()}, {@link #entriesInCommon()} and {@link
    * #entriesDiffering()} of the two instances are equal.
    */
+  @Override
   boolean equals(@Nullable Object object);
 
   /**
@@ -76,6 +77,7 @@ public interface MapDifference<K, V> {
    *   Arrays.asList(entriesOnlyOnLeft(), entriesOnlyOnRight(),
    *       entriesInCommon(), entriesDiffering())}</pre>
    */
+  @Override
   int hashCode();
 
   /**

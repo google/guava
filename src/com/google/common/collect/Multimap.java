@@ -253,6 +253,7 @@ public interface Multimap<K, V> {
    * collections as values. However, any two empty multimaps are equal, because
    * they both have empty {@link #asMap} views.
    */
+  @Override
   boolean equals(@Nullable Object obj);
 
   /**
@@ -261,5 +262,6 @@ public interface Multimap<K, V> {
    * <p>The hash code of a multimap is defined as the hash code of the map view,
    * as returned by {@link Multimap#asMap}.
    */
+  @Override
   int hashCode();
 }

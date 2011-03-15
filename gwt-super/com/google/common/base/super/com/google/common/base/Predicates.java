@@ -239,6 +239,7 @@ public final class Predicates {
     NotPredicate(Predicate<T> predicate) {
       this.predicate = checkNotNull(predicate);
     }
+    @Override
     public boolean apply(T t) {
       return !predicate.apply(t);
     }
@@ -267,6 +268,7 @@ public final class Predicates {
     private AndPredicate(List<? extends Predicate<? super T>> components) {
       this.components = components;
     }
+    @Override
     public boolean apply(T t) {
       for (Predicate<? super T> predicate : components) {
         if (!predicate.apply(t)) {
@@ -299,6 +301,7 @@ public final class Predicates {
     private OrPredicate(List<? extends Predicate<? super T>> components) {
       this.components = components;
     }
+    @Override
     public boolean apply(T t) {
       for (Predicate<? super T> predicate : components) {
         if (predicate.apply(t)) {
@@ -332,6 +335,7 @@ public final class Predicates {
     private IsEqualToPredicate(T target) {
       this.target = target;
     }
+    @Override
     public boolean apply(T t) {
       return target.equals(t);
     }
@@ -359,6 +363,7 @@ public final class Predicates {
     private InstanceOfPredicate(Class<?> clazz) {
       this.clazz = checkNotNull(clazz);
     }
+    @Override
     public boolean apply(@Nullable Object o) {
       return Platform.isInstance(clazz, o);
     }
@@ -386,6 +391,7 @@ public final class Predicates {
       this.target = checkNotNull(target);
     }
 
+    @Override
     public boolean apply(T t) {
       try {
         return target.contains(t);
@@ -425,6 +431,7 @@ public final class Predicates {
       this.f = checkNotNull(f);
     }
 
+    @Override
     public boolean apply(A a) {
       return p.apply(f.apply(a));
     }

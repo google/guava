@@ -341,6 +341,7 @@ public final class Shorts {
   private enum LexicographicalComparator implements Comparator<short[]> {
     INSTANCE;
 
+    @Override
     public int compare(short[] left, short[] right) {
       int minLength = Math.min(left.length, right.length);
       for (int i = 0; i < minLength; i++) {

@@ -37,6 +37,7 @@ class EmptyImmutableSortedSet<E> extends ImmutableSortedSet<E> {
     super(comparator);
   }
 
+  @Override
   public int size() {
     return 0;
   }
@@ -90,10 +91,12 @@ class EmptyImmutableSortedSet<E> extends ImmutableSortedSet<E> {
     return "[]";
   }
 
+  @Override
   public E first() {
     throw new NoSuchElementException();
   }
 
+  @Override
   public E last() {
     throw new NoSuchElementException();
   }

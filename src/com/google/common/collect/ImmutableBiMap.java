@@ -220,6 +220,7 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableMap<K, V>
    * <p>The inverse of an {@code ImmutableBiMap} is another
    * {@code ImmutableBiMap}.
    */
+  @Override
   public abstract ImmutableBiMap<V, K> inverse();
 
   @Override public boolean containsKey(@Nullable Object key) {
@@ -255,6 +256,7 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableMap<K, V>
    *
    * @throws UnsupportedOperationException always
    */
+  @Override
   public V forcePut(K key, V value) {
     throw new UnsupportedOperationException();
   }
@@ -263,6 +265,7 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableMap<K, V>
     return delegate().isEmpty();
   }
 
+  @Override
   public int size() {
     return delegate().size();
   }

@@ -41,6 +41,7 @@ final class SingletonImmutableList<E> extends ImmutableList<E> {
     this.element = checkNotNull(element);
   }
 
+  @Override
   public E get(int index) {
     Preconditions.checkElementIndex(index, 1);
     return element;
@@ -98,6 +99,7 @@ final class SingletonImmutableList<E> extends ImmutableList<E> {
     };
   }
 
+  @Override
   public int size() {
     return 1;
   }

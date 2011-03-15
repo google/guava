@@ -51,6 +51,7 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V>
     this.computingFunction = checkNotNull(computingFunction);
   }
 
+  @Override
   public ConcurrentMap<K, V> asMap() {
     return this;
   }
@@ -64,6 +65,7 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V>
     return (ComputingSegment) super.segmentFor(hash);
   }
 
+  @Override
   public V apply(K key) {
     int hash = hash(key);
     return segmentFor(hash).compute(key, hash);
@@ -181,19 +183,25 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V>
     NullPointerExceptionReference(String message) {
       this.message = message;
     }
+    @Override
     public V get() {
       return null;
     }
+    @Override
     public ValueReference<K, V> copyFor(ReferenceEntry<K, V> entry) {
       return this;
     }
+    @Override
     public boolean isComputingReference() {
       return false;
     }
+    @Override
     public V waitForValue() {
       throw new NullPointerException(message);
     }
+    @Override
     public void notifyValueReclaimed() {}
+    @Override
     public void clear() {}
   }
 
@@ -204,19 +212,25 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V>
     ComputationExceptionReference(Throwable t) {
       this.t = t;
     }
+    @Override
     public V get() {
       return null;
     }
+    @Override
     public ValueReference<K, V> copyFor(ReferenceEntry<K, V> entry) {
       return this;
     }
+    @Override
     public boolean isComputingReference() {
       return false;
     }
+    @Override
     public V waitForValue() {
       throw new AsynchronousComputationException(t);
     }
+    @Override
     public void notifyValueReclaimed() {}
+    @Override
     public void clear() {}
   }
 
@@ -226,19 +240,25 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V>
     ComputedReference(V value) {
       this.value = value;
     }
+    @Override
     public V get() {
       return value;
     }
+    @Override
     public ValueReference<K, V> copyFor(ReferenceEntry<K, V> entry) {
       return this;
     }
+    @Override
     public boolean isComputingReference() {
       return false;
     }
+    @Override
     public V waitForValue() {
       return get();
     }
+    @Override
     public void notifyValueReclaimed() {}
+    @Override
     public void clear() {}
   }
 
@@ -246,16 +266,19 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V>
     @GuardedBy("ComputingValueReference.this") // writes
     ValueReference<K, V> computedReference = unset();
 
+    @Override
     public V get() {
       // All computation lookups go through waitForValue. This method thus is
       // only used by put, to whom we always want to appear absent.
       return null;
     }
 
+    @Override
     public ValueReference<K, V> copyFor(ReferenceEntry<K, V> entry) {
       return this;
     }
 
+    @Override
     public boolean isComputingReference() {
       return true;
     }
@@ -264,6 +287,7 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V>
      * Waits for a computation to complete. Returns the result of the
      * computation.
      */
+    @Override
     public V waitForValue() throws InterruptedException {
       if (computedReference == UNSET) {
         synchronized (this) {
@@ -275,6 +299,7 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V>
       return computedReference.waitForValue();
     }
 
+    @Override
     public void clear() {
       // The pending computation was clobbered by a manual write. Unblock all
       // pending gets, and have them return the new value.
@@ -283,6 +308,7 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V>
       // TODO(user): could also cancel computation if we had a thread handle
     }
 
+    @Override
     public void notifyValueReclaimed() {}
 
     V compute(K key, int hash) {

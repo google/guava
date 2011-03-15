@@ -177,6 +177,7 @@ public class FinalizableReferenceQueue {
    * we needn't create a separate loader.
    */
   static class SystemLoader implements FinalizerLoader {
+    @Override
     public Class<?> loadFinalizer() {
       ClassLoader systemLoader;
       try {
@@ -209,6 +210,7 @@ public class FinalizableReferenceQueue {
         + "to garbage collect this class loader. To support reclaiming this class loader, either"
         + "resolve the underlying issue, or move Google Collections to your system class path.";
 
+    @Override
     public Class<?> loadFinalizer() {
       try {
         /*
@@ -259,6 +261,7 @@ public class FinalizableReferenceQueue {
    * this class loader, but at least the world doesn't end.
    */
   static class DirectLoader implements FinalizerLoader {
+    @Override
     public Class<?> loadFinalizer() {
       try {
         return Class.forName(FINALIZER_CLASS_NAME);

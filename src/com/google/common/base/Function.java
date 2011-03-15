@@ -52,5 +52,6 @@ public interface Function<F, T> {
    * {@code f} of type {@code F}). Note that a {@code false} result from this method does not imply
    * that the functions are known <i>not</i> to be interchangeable.
    */
+  @Override
   boolean equals(@Nullable Object object);
 }

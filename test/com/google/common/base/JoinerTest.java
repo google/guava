@@ -127,13 +127,16 @@ public class JoinerTest extends TestCase {
   }
 
   private static final Appendable NASTY_APPENDABLE = new Appendable() {
+    @Override
     public Appendable append(CharSequence csq) throws IOException {
       throw new IOException();
     }
+    @Override
     public Appendable append(CharSequence csq, int start, int end)
         throws IOException {
       throw new IOException();
     }
+    @Override
     public Appendable append(char c) throws IOException {
       throw new IOException();
     }
@@ -229,12 +232,15 @@ public class JoinerTest extends TestCase {
   }
 
   private static class DontStringMeBro implements CharSequence {
+    @Override
     public int length() {
       return 3;
     }
+    @Override
     public char charAt(int index) {
       return "foo".charAt(index);
     }
+    @Override
     public CharSequence subSequence(int start, int end) {
       return "foo".subSequence(start, end);
     }

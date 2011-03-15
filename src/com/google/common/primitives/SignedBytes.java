@@ -166,6 +166,7 @@ public final class SignedBytes {
   private enum LexicographicalComparator implements Comparator<byte[]> {
     INSTANCE;
 
+    @Override
     public int compare(byte[] left, byte[] right) {
       int minLength = Math.min(left.length, right.length);
       for (int i = 0; i < minLength; i++) {

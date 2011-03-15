@@ -61,26 +61,32 @@ public abstract class ForwardingSortedMap<K, V> extends ForwardingMap<K, V>
 
   @Override protected abstract SortedMap<K, V> delegate();
 
+  @Override
   public Comparator<? super K> comparator() {
     return delegate().comparator();
   }
 
+  @Override
   public K firstKey() {
     return delegate().firstKey();
   }
 
+  @Override
   public SortedMap<K, V> headMap(K toKey) {
     return delegate().headMap(toKey);
   }
 
+  @Override
   public K lastKey() {
     return delegate().lastKey();
   }
 
+  @Override
   public SortedMap<K, V> subMap(K fromKey, K toKey) {
     return delegate().subMap(fromKey, toKey);
   }
 
+  @Override
   public SortedMap<K, V> tailMap(K fromKey) {
     return delegate().tailMap(fromKey);
   }

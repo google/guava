@@ -677,6 +677,7 @@ public abstract class ImmutableSortedSet<E>
    * {@link SortedSet#comparator()}, which returns {@code null} to indicate
    * natural ordering.
    */
+  @Override
   public Comparator<? super E> comparator() {
     return comparator;
   }
@@ -692,6 +693,7 @@ public abstract class ImmutableSortedSet<E>
    * method doesn't throw an exception in that situation, but instead keeps the
    * original {@code toElement}.
    */
+  @Override
   public ImmutableSortedSet<E> headSet(E toElement) {
     return headSetImpl(checkNotNull(toElement));
   }
@@ -709,6 +711,7 @@ public abstract class ImmutableSortedSet<E>
    * original {@code toElement}, instead of throwing an exception, if passed a
    * {@code toElement} greater than an earlier {@code toElement}.
    */
+  @Override
   public ImmutableSortedSet<E> subSet(E fromElement, E toElement) {
     checkNotNull(fromElement);
     checkNotNull(toElement);
@@ -727,6 +730,7 @@ public abstract class ImmutableSortedSet<E>
    * this method doesn't throw an exception in that situation, but instead keeps
    * the original {@code fromElement}.
    */
+  @Override
   public ImmutableSortedSet<E> tailSet(E fromElement) {
     return tailSetImpl(checkNotNull(fromElement));
   }

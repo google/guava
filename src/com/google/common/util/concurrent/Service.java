@@ -63,6 +63,7 @@ public interface Service extends com.google.common.base.Service {
    *     returns immediately. Cancelling the returned future is unsupported and
    *     always returns {@code false}.
    */
+  @Override
   Future<State> start();
 
   /**
@@ -74,16 +75,19 @@ public interface Service extends com.google.common.base.Service {
    * @throws RuntimeException if startup failed
    * @return the state of the service when startup finished.
    */
+  @Override
   State startAndWait();
 
   /**
    * Returns {@code true} if this service is {@linkplain State#RUNNING running}.
    */
+  @Override
   boolean isRunning();
 
   /**
    * Returns the lifecycle state of the service.
    */
+  @Override
   State state();
 
   /**
@@ -102,6 +106,7 @@ public interface Service extends com.google.common.base.Service {
    *     Cancelling this future is unsupported and always returns {@code
    *     false}.
    */
+  @Override
   Future<State> stop();
 
   /**
@@ -116,6 +121,7 @@ public interface Service extends com.google.common.base.Service {
    * @throws RuntimeException if shutdown failed
    * @return the state of the service when shutdown finished.
    */
+  @Override
   State stopAndWait();
 
   // TODO(cpovirk): uncomment when removing base.Service

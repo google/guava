@@ -344,6 +344,7 @@ public final class Chars {
   private enum LexicographicalComparator implements Comparator<char[]> {
     INSTANCE;
 
+    @Override
     public int compare(char[] left, char[] right) {
       int minLength = Math.min(left.length, right.length);
       for (int i = 0; i < minLength; i++) {

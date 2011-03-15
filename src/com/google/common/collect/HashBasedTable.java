@@ -58,6 +58,7 @@ public class HashBasedTable<R, C, V> extends StandardTable<R, C, V> {
     Factory(int expectedSize) {
       this.expectedSize = expectedSize;
     }
+    @Override
     public Map<C, V> get() {
       return Maps.newHashMapWithExpectedSize(expectedSize);
     }

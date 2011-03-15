@@ -46,6 +46,7 @@ public final class Interners {
   public static <E> Interner<E> newStrongInterner() {
     final ConcurrentMap<E, E> map = new MapMaker().makeMap();
     return new Interner<E>() {
+      @Override
       public E intern(E sample) {
         E canonical = map.putIfAbsent(checkNotNull(sample), sample);
         return (canonical == null) ? sample : canonical;
@@ -70,6 +71,7 @@ public final class Interners {
     private final ConcurrentMap<InternReference, InternReference> map
         = new MapMaker().makeMap();
 
+    @Override
     public E intern(final E sample) {
       final int hashCode = sample.hashCode();
 
@@ -131,6 +133,7 @@ public final class Interners {
         super(key, frq);
         hashCode = hash;
       }
+      @Override
       public void finalizeReferent() {
         map.remove(this);
       }

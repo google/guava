@@ -276,6 +276,7 @@ public final class Booleans {
   private enum LexicographicalComparator implements Comparator<boolean[]> {
     INSTANCE;
 
+    @Override
     public int compare(boolean[] left, boolean[] right) {
       int minLength = Math.min(left.length, right.length);
       for (int i = 0; i < minLength; i++) {

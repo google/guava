@@ -39,6 +39,7 @@ public abstract class AbstractExecutionThreadService implements Service {
   private final Service delegate = new AbstractService() {
     @Override protected final void doStart() {
       executor().execute(new Runnable() {
+        @Override
         public void run() {
           try {
             startUp();
@@ -112,6 +113,7 @@ public abstract class AbstractExecutionThreadService implements Service {
    */
   protected Executor executor() {
     return new Executor() {
+      @Override
       public void execute(Runnable command) {
         new Thread(command, getServiceName()).start();
       }

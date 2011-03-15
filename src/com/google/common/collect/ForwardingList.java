@@ -61,42 +61,52 @@ public abstract class ForwardingList<E> extends ForwardingCollection<E>
 
   @Override protected abstract List<E> delegate();
 
+  @Override
   public void add(int index, E element) {
     delegate().add(index, element);
   }
 
+  @Override
   public boolean addAll(int index, Collection<? extends E> elements) {
     return delegate().addAll(index, elements);
   }
 
+  @Override
   public E get(int index) {
     return delegate().get(index);
   }
 
+  @Override
   public int indexOf(Object element) {
     return delegate().indexOf(element);
   }
 
+  @Override
   public int lastIndexOf(Object element) {
     return delegate().lastIndexOf(element);
   }
 
+  @Override
   public ListIterator<E> listIterator() {
     return delegate().listIterator();
   }
 
+  @Override
   public ListIterator<E> listIterator(int index) {
     return delegate().listIterator(index);
   }
 
+  @Override
   public E remove(int index) {
     return delegate().remove(index);
   }
 
+  @Override
   public E set(int index, E element) {
     return delegate().set(index, element);
   }
 
+  @Override
   public List<E> subList(int fromIndex, int toIndex) {
     return delegate().subList(fromIndex, toIndex);
   }

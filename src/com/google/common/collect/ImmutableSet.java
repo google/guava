@@ -397,6 +397,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E>
       this.elements = elements;
     }
 
+    @Override
     public int size() {
       return elements.length;
     }
@@ -470,6 +471,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E>
 
     abstract E transform(D element);
 
+    @Override
     public int size() {
       return source.length;
     }

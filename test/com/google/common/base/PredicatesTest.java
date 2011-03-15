@@ -45,6 +45,7 @@ public class PredicatesTest extends TestCase {
   private static final Predicate<Integer> FALSE = Predicates.alwaysFalse();
   private static final Predicate<Integer> NEVER_REACHED =
       new Predicate<Integer>() {
+    @Override
     public boolean apply(Integer i) {
       fail("This predicate should never have been evaluated");
       return false;
@@ -54,6 +55,7 @@ public class PredicatesTest extends TestCase {
   /** Instantiable predicate with reasonable hashCode() and equals() methods. */
   static class IsOdd implements Predicate<Integer>, Serializable {
     private static final long serialVersionUID = 0x150ddL;
+    @Override
     public boolean apply(Integer i) {
       return (i.intValue() & 1) == 1;
     }
@@ -311,6 +313,7 @@ public class PredicatesTest extends TestCase {
   public void testAnd_iterableDefensivelyCopied() {
     final List list = new ArrayList<Predicate>();
     Iterable iterable = new Iterable<Predicate>() {
+      @Override
       public Iterator<Predicate> iterator() {
         return list.iterator();
       }
@@ -473,6 +476,7 @@ public class PredicatesTest extends TestCase {
   public void testOr_iterableDefensivelyCopied() {
     final List list = new ArrayList<Predicate>();
     Iterable iterable = new Iterable<Predicate>() {
+      @Override
       public Iterator<Predicate> iterator() {
         return list.iterator();
       }
@@ -718,6 +722,7 @@ public class PredicatesTest extends TestCase {
   private enum TrimStringFunction implements Function<String, String> {
     INSTANCE;
 
+    @Override
     public String apply(String string) {
       return string.trim();
     }

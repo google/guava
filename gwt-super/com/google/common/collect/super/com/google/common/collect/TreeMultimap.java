@@ -139,6 +139,7 @@ public class TreeMultimap<K, V> extends AbstractSortedSetMultimap<K, V> {
     return keyComparator;
   }
 
+  @Override
   public Comparator<? super V> valueComparator() {
     return valueComparator;
   }

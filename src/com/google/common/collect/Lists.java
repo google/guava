@@ -373,38 +373,47 @@ public final class Lists {
     @Override public ListIterator<T> listIterator(final int index) {
       final ListIterator<F> delegate = fromList.listIterator(index);
       return new ListIterator<T>() {
+        @Override
         public void add(T e) {
           throw new UnsupportedOperationException();
         }
 
+        @Override
         public boolean hasNext() {
           return delegate.hasNext();
         }
 
+        @Override
         public boolean hasPrevious() {
           return delegate.hasPrevious();
         }
 
+        @Override
         public T next() {
           return function.apply(delegate.next());
         }
 
+        @Override
         public int nextIndex() {
           return delegate.nextIndex();
         }
 
+        @Override
         public T previous() {
           return function.apply(delegate.previous());
         }
 
+        @Override
         public int previousIndex() {
           return delegate.previousIndex();
         }
 
+        @Override
         public void remove() {
           delegate.remove();
         }
 
+        @Override
         public void set(T e) {
           throw new UnsupportedOperationException("not supported");
         }

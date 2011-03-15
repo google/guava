@@ -144,27 +144,33 @@ public final class TreeMultiset<E> extends AbstractMapBasedMultiset<E> {
       return (SortedMap<E, AtomicInteger>) getMap();
     }
 
+    @Override
     public Comparator<? super E> comparator() {
       return sortedMap().comparator();
     }
 
+    @Override
     public E first() {
       return sortedMap().firstKey();
     }
 
+    @Override
     public E last() {
       return sortedMap().lastKey();
     }
 
+    @Override
     public SortedSet<E> headSet(E toElement) {
       return new SortedMapBasedElementSet(sortedMap().headMap(toElement));
     }
 
+    @Override
     public SortedSet<E> subSet(E fromElement, E toElement) {
       return new SortedMapBasedElementSet(
           sortedMap().subMap(fromElement, toElement));
     }
 
+    @Override
     public SortedSet<E> tailSet(E fromElement) {
       return new SortedMapBasedElementSet(sortedMap().tailMap(fromElement));
     }

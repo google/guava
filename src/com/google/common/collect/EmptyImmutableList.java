@@ -66,6 +66,7 @@ final class EmptyImmutableList extends ImmutableList<Object> {
 
   private EmptyImmutableList() {}
 
+  @Override
   public int size() {
     return 0;
   }
@@ -99,6 +100,7 @@ final class EmptyImmutableList extends ImmutableList<Object> {
     return a;
   }
 
+  @Override
   public Object get(int index) {
     // guaranteed to fail, but at least we get a consistent message
     checkElementIndex(index, 0);

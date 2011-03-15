@@ -58,15 +58,18 @@ public final class MutableClassToInstanceMap<B>
 
   private static final MapConstraint<Class<?>, Object> VALUE_CAN_BE_CAST_TO_KEY
       = new MapConstraint<Class<?>, Object>() {
+    @Override
     public void checkKeyValue(Class<?> key, Object value) {
       cast(key, value);
     }
   };
 
+  @Override
   public <T extends B> T putInstance(Class<T> type, T value) {
     return cast(type, put(type, value));
   }
 
+  @Override
   public <T extends B> T getInstance(Class<T> type) {
     return cast(type, get(type));
   }

@@ -91,6 +91,7 @@ final class ExplicitOrderedImmutableSortedSet<E>
     return false;
   }
 
+  @Override
   public int size() {
     return toIndex - fromIndex;
   }
@@ -132,12 +133,14 @@ final class ExplicitOrderedImmutableSortedSet<E>
   }
 
   // The factory methods ensure that every element is an E.
+  @Override
   @SuppressWarnings("unchecked")
   public E first() {
     return (E) elements[fromIndex];
   }
 
   // The factory methods ensure that every element is an E.
+  @Override
   @SuppressWarnings("unchecked")
   public E last() {
     return (E) elements[toIndex - 1];

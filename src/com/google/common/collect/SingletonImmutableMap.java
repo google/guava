@@ -58,6 +58,7 @@ final class SingletonImmutableMap<K, V> extends ImmutableMap<K, V> {
     return singleKey.equals(key) ? singleValue : null;
   }
 
+  @Override
   public int size() {
     return 1;
   }
@@ -115,6 +116,7 @@ final class SingletonImmutableMap<K, V> extends ImmutableMap<K, V> {
       return false;
     }
 
+    @Override
     public int size() {
       return 1;
     }

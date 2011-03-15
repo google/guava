@@ -55,6 +55,7 @@ public final class Resources {
       final URL url) {
     checkNotNull(url);
     return new InputSupplier<InputStream>() {
+      @Override
       public InputStream getInput() throws IOException {
         return url.openStream();
       }

@@ -92,6 +92,7 @@ public final class SortedMaps {
     checkNotNull(function);
     EntryTransformer<K, V1, V2> transformer =
         new EntryTransformer<K, V1, V2>() {
+          @Override
           public V2 transformEntry(K key, V1 value) {
             return function.apply(value);
           }
@@ -330,6 +331,7 @@ public final class SortedMaps {
     // performance.
     checkNotNull(keyPredicate);
     Predicate<Entry<K, V>> entryPredicate = new Predicate<Entry<K, V>>() {
+      @Override
       public boolean apply(Entry<K, V> input) {
         return keyPredicate.apply(input.getKey());
       }
@@ -372,6 +374,7 @@ public final class SortedMaps {
     checkNotNull(valuePredicate);
     Predicate<Entry<K, V>> entryPredicate =
         new Predicate<Entry<K, V>>() {
+          @Override
           public boolean apply(Entry<K, V> input) {
             return valuePredicate.apply(input.getValue());
           }

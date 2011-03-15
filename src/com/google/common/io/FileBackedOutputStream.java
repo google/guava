@@ -94,6 +94,7 @@ public final class FileBackedOutputStream extends OutputStream {
 
     if (resetOnFinalize) {
       supplier = new InputSupplier<InputStream>() {
+        @Override
         public InputStream getInput() throws IOException {
           return openStream();
         }
@@ -108,6 +109,7 @@ public final class FileBackedOutputStream extends OutputStream {
       };
     } else {
       supplier = new InputSupplier<InputStream>() {
+        @Override
         public InputStream getInput() throws IOException {
           return openStream();
         }

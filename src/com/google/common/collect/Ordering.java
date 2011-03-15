@@ -210,6 +210,7 @@ public abstract class Ordering<T> implements Comparator<T> {
         Platform.tryWeakKeys(new MapMaker()).makeComputingMap(
             new Function<Object, Integer>() {
               final AtomicInteger counter = new AtomicInteger(0);
+              @Override
               public Integer apply(Object from) {
                 return counter.getAndIncrement();
               }

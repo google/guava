@@ -384,6 +384,7 @@ public final class Splitter {
       return null;
     }
 
+    @Override
     public final boolean hasNext() {
       checkState(state != State.FAILED);
       switch (state) {
@@ -406,6 +407,7 @@ public final class Splitter {
       return false;
     }
 
+    @Override
     public final T next() {
       if (!hasNext()) {
         throw new NoSuchElementException();

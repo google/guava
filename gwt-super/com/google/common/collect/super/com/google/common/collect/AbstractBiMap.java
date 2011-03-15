@@ -92,6 +92,7 @@ abstract class AbstractBiMap<K, V> extends ForwardingMap<K, V>
     return putInBothMaps(key, value, false);
   }
 
+  @Override
   public V forcePut(K key, V value) {
     return putInBothMaps(key, value, true);
   }
@@ -148,6 +149,7 @@ abstract class AbstractBiMap<K, V> extends ForwardingMap<K, V>
 
   // Views
 
+  @Override
   public BiMap<V, K> inverse() {
     return inverse;
   }
@@ -189,13 +191,16 @@ abstract class AbstractBiMap<K, V> extends ForwardingMap<K, V>
       return new Iterator<K>() {
         Entry<K, V> entry;
 
+        @Override
         public boolean hasNext() {
           return iterator.hasNext();
         }
+        @Override
         public K next() {
           entry = iterator.next();
           return entry.getKey();
         }
+        @Override
         public void remove() {
           checkState(entry != null);
           V value = entry.getValue();

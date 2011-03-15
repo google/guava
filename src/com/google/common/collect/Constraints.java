@@ -45,6 +45,7 @@ public final class Constraints {
   private enum NotNullConstraint implements Constraint<Object> {
     INSTANCE;
 
+    @Override
     public Object checkElement(Object element) {
       return checkNotNull(element);
     }

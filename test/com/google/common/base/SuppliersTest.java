@@ -43,6 +43,7 @@ import java.util.concurrent.atomic.AtomicReference;
 public class SuppliersTest extends TestCase {
   public void testCompose() {
     Supplier<Integer> fiveSupplier = new Supplier<Integer>() {
+      @Override
       public Integer get() {
         return 5;
       }
@@ -50,6 +51,7 @@ public class SuppliersTest extends TestCase {
 
     Function<Number, Integer> intValueFunction =
         new Function<Number, Integer>() {
+          @Override
           public Integer apply(Number x) {
             return x.intValue();
           }
@@ -64,6 +66,7 @@ public class SuppliersTest extends TestCase {
   public void testComposeWithLists() {
     Supplier<ArrayList<Integer>> listSupplier
         = new Supplier<ArrayList<Integer>>() {
+      @Override
       public ArrayList<Integer> get() {
         return Lists.newArrayList(0);
       }
@@ -71,6 +74,7 @@ public class SuppliersTest extends TestCase {
 
     Function<List<Integer>, List<Integer>> addElementFunction =
         new Function<List<Integer>, List<Integer>>() {
+          @Override
           public List<Integer> apply(List<Integer> list) {
             ArrayList<Integer> result = Lists.newArrayList(list);
             result.add(1);
@@ -89,6 +93,7 @@ public class SuppliersTest extends TestCase {
   static class CountingSupplier implements Supplier<Integer>, Serializable {
     private static final long serialVersionUID = 0L;
     transient int calls = 0;
+    @Override
     public Integer get() {
       calls++;
       return calls * 10;
@@ -141,6 +146,7 @@ public class SuppliersTest extends TestCase {
 
   public void testMemoizeExceptionThrown() {
     Supplier<Integer> exceptingSupplier = new Supplier<Integer>() {
+      @Override
       public Integer get() {
         throw new NullPointerException();
       }
@@ -282,6 +288,7 @@ public class SuppliersTest extends TestCase {
         return waitingThreads;
       }
 
+      @Override
       public Boolean get() {
         // Check that this method is called exactly once, by the first
         // thread to synchronize.
@@ -327,6 +334,7 @@ public class SuppliersTest extends TestCase {
       throws InterruptedException {
     final Supplier<Integer> nonThreadSafe = new Supplier<Integer>() {
       int counter = 0;
+      @Override
       public Integer get() {
         int nextValue = counter + 1;
         Thread.yield();

@@ -216,13 +216,16 @@ public final class LinkedHashMultimap<K, V> extends AbstractSetMultimap<K, V> {
       return new Iterator<V>() {
         V value;
 
+        @Override
         public boolean hasNext() {
           return delegateIterator.hasNext();
         }
+        @Override
         public V next() {
           value = delegateIterator.next();
           return value;
         }
+        @Override
         public void remove() {
           delegateIterator.remove();
           linkedEntries.remove(createEntry(value));
@@ -283,15 +286,18 @@ public final class LinkedHashMultimap<K, V> extends AbstractSetMultimap<K, V> {
     return new Iterator<Map.Entry<K, V>>() {
       Map.Entry<K, V> entry;
 
+      @Override
       public boolean hasNext() {
         return delegateIterator.hasNext();
       }
 
+      @Override
       public Map.Entry<K, V> next() {
         entry = delegateIterator.next();
         return entry;
       }
 
+      @Override
       public void remove() {
         // Remove from iterator first to keep iterator valid.
         delegateIterator.remove();

@@ -64,16 +64,20 @@ public final class Futures {
       return (UninterruptibleFuture<V>) future;
     }
     return new UninterruptibleFuture<V>() {
+      @Override
       public boolean cancel(boolean mayInterruptIfRunning) {
         return future.cancel(mayInterruptIfRunning);
       }
+      @Override
       public boolean isCancelled() {
         return future.isCancelled();
       }
+      @Override
       public boolean isDone() {
         return future.isDone();
       }
 
+      @Override
       public V get(long originalTimeout, TimeUnit originalUnit)
           throws TimeoutException, ExecutionException {
         boolean interrupted = false;
@@ -94,6 +98,7 @@ public final class Futures {
         }
       }
 
+      @Override
       public V get() throws ExecutionException {
         boolean interrupted = false;
         try {
@@ -213,6 +218,7 @@ public final class Futures {
     SettableFuture<V> future = SettableFuture.create();
     future.set(value);
     return Futures.makeChecked(future, new Function<Exception, X>() {
+      @Override
       public X apply(Exception e) {
         throw new AssertionError("impossible");
       }
@@ -255,6 +261,7 @@ public final class Futures {
     checkNotNull(exception);
     return makeChecked(Futures.<V>immediateFailedFuture(exception),
         new Function<Exception, X>() {
+          @Override
           public X apply(Exception e) {
             return exception;
           }
@@ -690,6 +697,7 @@ public final class Futures {
       }
     }
 
+    @Override
     public void run() {
       try {
         I sourceResult;
@@ -722,6 +730,7 @@ public final class Futures {
           return;
         }
         outputFuture.addListener(new Runnable() {
+            @Override
             public void run() {
               try {
                 // Here it would have been nice to have had an

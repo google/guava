@@ -336,8 +336,10 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
 
   // Mark these two methods with @Nullable
 
+  @Override
   public abstract int indexOf(@Nullable Object object);
 
+  @Override
   public abstract int lastIndexOf(@Nullable Object object);
 
   // constrain the return type to ImmutableList<E>
@@ -348,6 +350,7 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
    * fromIndex} and {@code toIndex} are equal, the empty immutable list is
    * returned.)
    */
+  @Override
   public abstract ImmutableList<E> subList(int fromIndex, int toIndex);
 
   /**
@@ -355,6 +358,7 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
    *
    * @throws UnsupportedOperationException always
    */
+  @Override
   public final boolean addAll(int index, Collection<? extends E> newElements) {
     throw new UnsupportedOperationException();
   }
@@ -364,6 +368,7 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
    *
    * @throws UnsupportedOperationException always
    */
+  @Override
   public final E set(int index, E element) {
     throw new UnsupportedOperationException();
   }
@@ -373,6 +378,7 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
    *
    * @throws UnsupportedOperationException always
    */
+  @Override
   public final void add(int index, E element) {
     throw new UnsupportedOperationException();
   }
@@ -382,6 +388,7 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
    *
    * @throws UnsupportedOperationException always
    */
+  @Override
   public final E remove(int index) {
     throw new UnsupportedOperationException();
   }

@@ -613,6 +613,7 @@ class StandardTable<R, C, V> implements Table<R, C, V>, Serializable {
       @Override public boolean retainAll(final Collection<?> c) {
         checkNotNull(c);
         Predicate<Entry<R, V>> predicate = new Predicate<Entry<R, V>>() {
+          @Override
           public boolean apply(Entry<R, V> entry) {
             return !c.contains(entry.getKey());
           }
@@ -659,6 +660,7 @@ class StandardTable<R, C, V> implements Table<R, C, V>, Serializable {
       @Override public boolean removeAll(final Collection<?> c) {
         checkNotNull(c);
         Predicate<Entry<R, V>> predicate = new Predicate<Entry<R, V>>() {
+          @Override
           public boolean apply(Entry<R, V> entry) {
             return c.contains(entry.getValue());
           }
@@ -669,6 +671,7 @@ class StandardTable<R, C, V> implements Table<R, C, V>, Serializable {
       @Override public boolean retainAll(final Collection<?> c) {
         checkNotNull(c);
         Predicate<Entry<R, V>> predicate = new Predicate<Entry<R, V>>() {
+          @Override
           public boolean apply(Entry<R, V> entry) {
             return !c.contains(entry.getValue());
           }

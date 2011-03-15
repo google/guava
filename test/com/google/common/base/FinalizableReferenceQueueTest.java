@@ -63,6 +63,7 @@ public class FinalizableReferenceQueueTest extends TestCase {
       super(new Object(), frq);
     }
 
+    @Override
     public void finalizeReferent() {
       finalizeReferentCalled = true;
     }
@@ -111,6 +112,7 @@ public class FinalizableReferenceQueueTest extends TestCase {
      * started first.
      */
     reference = new FinalizableWeakReference<Object>(new Object(), frq) {
+      @Override
       public void finalizeReferent() {
         reference = null;
         frq = null;

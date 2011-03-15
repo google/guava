@@ -111,11 +111,13 @@ public final class Collections2 {
       // .<E> above needed to compile in JDK 5
     }
 
+    @Override
     public boolean add(E element) {
       checkArgument(predicate.apply(element));
       return unfiltered.add(element);
     }
 
+    @Override
     public boolean addAll(Collection<? extends E> collection) {
       for (E element : collection) {
         checkArgument(predicate.apply(element));
@@ -123,10 +125,12 @@ public final class Collections2 {
       return unfiltered.addAll(collection);
     }
 
+    @Override
     public void clear() {
       Iterables.removeIf(unfiltered, predicate);
     }
 
+    @Override
     public boolean contains(Object element) {
       try {
         // unsafe cast can result in a CCE from predicate.apply(), which we
@@ -147,6 +151,7 @@ public final class Collections2 {
       }
     }
 
+    @Override
     public boolean containsAll(Collection<?> collection) {
       for (Object element : collection) {
         if (!contains(element)) {
@@ -156,14 +161,17 @@ public final class Collections2 {
       return true;
     }
 
+    @Override
     public boolean isEmpty() {
       return !Iterators.any(unfiltered.iterator(), predicate);
     }
 
+    @Override
     public Iterator<E> iterator() {
       return Iterators.filter(unfiltered.iterator(), predicate);
     }
 
+    @Override
     public boolean remove(Object element) {
       try {
         // unsafe cast can result in a CCE from predicate.apply(), which we
@@ -180,9 +188,11 @@ public final class Collections2 {
       }
     }
 
+    @Override
     public boolean removeAll(final Collection<?> collection) {
       checkNotNull(collection);
       Predicate<E> combinedPredicate = new Predicate<E>() {
+        @Override
         public boolean apply(E input) {
           return predicate.apply(input) && collection.contains(input);
         }
@@ -190,9 +200,11 @@ public final class Collections2 {
       return Iterables.removeIf(unfiltered, combinedPredicate);
     }
 
+    @Override
     public boolean retainAll(final Collection<?> collection) {
       checkNotNull(collection);
       Predicate<E> combinedPredicate = new Predicate<E>() {
+        @Override
         public boolean apply(E input) {
           // See comment in contains() concerning predicate.apply(e)
           return predicate.apply(input) && !collection.contains(input);
@@ -201,15 +213,18 @@ public final class Collections2 {
       return Iterables.removeIf(unfiltered, combinedPredicate);
     }
 
+    @Override
     public int size() {
       return Iterators.size(iterator());
     }
 
+    @Override
     public Object[] toArray() {
       // creating an ArrayList so filtering happens once
       return Lists.newArrayList(iterator()).toArray();
     }
 
+    @Override
     public <T> T[] toArray(T[] array) {
       return Lists.newArrayList(iterator()).toArray(array);
     }

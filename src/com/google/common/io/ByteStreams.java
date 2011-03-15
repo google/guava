@@ -74,6 +74,7 @@ public final class ByteStreams {
   public static InputSupplier<ByteArrayInputStream> newInputStreamSupplier(
       final byte[] b, final int off, final int len) {
     return new InputSupplier<ByteArrayInputStream>() {
+      @Override
       public ByteArrayInputStream getInput() {
         return new ByteArrayInputStream(b, off, len);
       }
@@ -705,11 +706,13 @@ public final class ByteStreams {
   public static long getChecksum(InputSupplier<? extends InputStream> supplier,
       final Checksum checksum) throws IOException {
     return readBytes(supplier, new ByteProcessor<Long>() {
+      @Override
       public boolean processBytes(byte[] buf, int off, int len) {
         checksum.update(buf, off, len);
         return true;
       }
 
+      @Override
       public Long getResult() {
         long result = checksum.getValue();
         checksum.reset();
@@ -731,11 +734,13 @@ public final class ByteStreams {
   public static byte[] getDigest(InputSupplier<? extends InputStream> supplier,
       final MessageDigest md) throws IOException {
     return readBytes(supplier, new ByteProcessor<byte[]>() {
+      @Override
       public boolean processBytes(byte[] buf, int off, int len) {
         md.update(buf, off, len);
         return true;
       }
 
+      @Override
       public byte[] getResult() {
         return md.digest();
       }

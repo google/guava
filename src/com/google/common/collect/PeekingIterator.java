@@ -47,6 +47,7 @@ public interface PeekingIterator<E> extends Iterator<E> {
    * <p>The objects returned by consecutive calls to {@link #peek()} then {@link
    * #next()} are guaranteed to be equal to each other.
    */
+  @Override
   E next();
 
   /**
@@ -59,5 +60,6 @@ public interface PeekingIterator<E> extends Iterator<E> {
    *     since the most recent call to {@link #next()} and this implementation
    *     does not support this sequence of calls (optional)
    */
+  @Override
   void remove();
 }

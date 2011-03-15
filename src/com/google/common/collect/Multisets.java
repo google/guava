@@ -161,9 +161,11 @@ public final class Multisets {
       @Nullable final E e, final int n) {
     checkArgument(n >= 0);
     return new AbstractEntry<E>() {
+      @Override
       public E getElement() {
         return e;
       }
+      @Override
       public int getCount() {
         return n;
       }
@@ -204,14 +206,17 @@ public final class Multisets {
       return delegate;
     }
 
+    @Override
     public int count(Object element) {
       return delegate.contains(element) ? 1 : 0;
     }
 
+    @Override
     public int add(E element, int occurrences) {
       throw new UnsupportedOperationException();
     }
 
+    @Override
     public int remove(Object element, int occurrences) {
       if (occurrences == 0) {
         return count(element);
@@ -222,6 +227,7 @@ public final class Multisets {
 
     transient Set<E> elementSet;
 
+    @Override
     public Set<E> elementSet() {
       Set<E> es = elementSet;
       return (es == null) ? elementSet = new ElementSet() : es;
@@ -229,6 +235,7 @@ public final class Multisets {
 
     transient Set<Entry<E>> entrySet;
 
+    @Override
     public Set<Entry<E>> entrySet() {
       Set<Entry<E>> es = entrySet;
       return (es == null) ? entrySet = new EntrySet() : es;
@@ -242,6 +249,7 @@ public final class Multisets {
       throw new UnsupportedOperationException();
     }
 
+    @Override
     public int setCount(E element, int count) {
       checkNonnegative(count, "count");
 
@@ -255,6 +263,7 @@ public final class Multisets {
       }
     }
 
+    @Override
     public boolean setCount(E element, int oldCount, int newCount) {
       return setCountImpl(this, element, oldCount, newCount);
     }
@@ -299,12 +308,15 @@ public final class Multisets {
         return new Iterator<Entry<E>>() {
           final Iterator<E> elements = delegate.iterator();
 
+          @Override
           public boolean hasNext() {
             return elements.hasNext();
           }
+          @Override
           public Entry<E> next() {
             return immutableEntry(elements.next(), 1);
           }
+          @Override
           public void remove() {
             elements.remove();
           }
@@ -644,10 +656,12 @@ public final class Multisets {
       this.entryIterator = entryIterator;
     }
 
+    @Override
     public boolean hasNext() {
       return laterCount > 0 || entryIterator.hasNext();
     }
 
+    @Override
     public E next() {
       if (!hasNext()) {
         throw new NoSuchElementException();
@@ -661,6 +675,7 @@ public final class Multisets {
       return currentEntry.getElement();
     }
 
+    @Override
     public void remove() {
       checkState(
           canRemove, "no calls to next() since the last call to remove()");

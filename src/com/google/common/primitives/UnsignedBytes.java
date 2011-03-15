@@ -240,6 +240,7 @@ public final class UnsignedBytes {
       static {
         theUnsafe = (Unsafe) AccessController.doPrivileged(
             new PrivilegedAction<Object>() {
+              @Override
               public Object run() {
                 try {
                   Field f = Unsafe.class.getDeclaredField("theUnsafe");

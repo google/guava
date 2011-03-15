@@ -54,5 +54,6 @@ public interface Predicate<T> {
    * {@code T}). Note that a {@code false} result from this method does not imply that the
    * predicates are known <i>not</i> to be interchangeable.
    */
+  @Override
   boolean equals(@Nullable Object object);
 }

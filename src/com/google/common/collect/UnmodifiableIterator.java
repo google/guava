@@ -36,6 +36,7 @@ public abstract class UnmodifiableIterator<E> implements Iterator<E> {
    *
    * @throws UnsupportedOperationException always
    */
+  @Override
   public final void remove() {
     throw new UnsupportedOperationException();
   }

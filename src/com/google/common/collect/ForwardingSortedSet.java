@@ -62,26 +62,32 @@ public abstract class ForwardingSortedSet<E> extends ForwardingSet<E>
 
   @Override protected abstract SortedSet<E> delegate();
 
+  @Override
   public Comparator<? super E> comparator() {
     return delegate().comparator();
   }
 
+  @Override
   public E first() {
     return delegate().first();
   }
 
+  @Override
   public SortedSet<E> headSet(E toElement) {
     return delegate().headSet(toElement);
   }
 
+  @Override
   public E last() {
     return delegate().last();
   }
 
+  @Override
   public SortedSet<E> subSet(E fromElement, E toElement) {
     return delegate().subSet(fromElement, toElement);
   }
 
+  @Override
   public SortedSet<E> tailSet(E fromElement) {
     return delegate().tailSet(fromElement);
   }

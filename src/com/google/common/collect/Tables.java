@@ -71,12 +71,15 @@ public final class Tables {
       this.value = value;
     }
 
+    @Override
     public R getRowKey() {
       return rowKey;
     }
+    @Override
     public C getColumnKey() {
       return columnKey;
     }
+    @Override
     public V getValue() {
       return value;
     }
@@ -137,75 +140,93 @@ public final class Tables {
       this.original = checkNotNull(original);
     }
 
+    @Override
     public void clear() {
       original.clear();
     }
 
+    @Override
     public Map<C, V> column(R columnKey) {
       return original.row(columnKey);
     }
 
+    @Override
     public Set<R> columnKeySet() {
       return original.rowKeySet();
     }
 
+    @Override
     public Map<R, Map<C, V>> columnMap() {
       return original.rowMap();
     }
 
+    @Override
     public boolean contains(
         @Nullable Object rowKey, @Nullable Object columnKey) {
       return original.contains(columnKey, rowKey);
     }
 
+    @Override
     public boolean containsColumn(@Nullable Object columnKey) {
       return original.containsRow(columnKey);
     }
 
+    @Override
     public boolean containsRow(@Nullable Object rowKey) {
       return original.containsColumn(rowKey);
     }
 
+    @Override
     public boolean containsValue(@Nullable Object value) {
       return original.containsValue(value);
     }
 
+    @Override
     public V get(@Nullable Object rowKey, @Nullable Object columnKey) {
       return original.get(columnKey, rowKey);
     }
 
+    @Override
     public boolean isEmpty() {
       return original.isEmpty();
     }
 
+    @Override
     public V put(C rowKey, R columnKey, V value) {
       return original.put(columnKey, rowKey, value);
     }
 
+    @Override
     public void putAll(Table<? extends C, ? extends R, ? extends V> table) {
       original.putAll(transpose(table));
     }
 
+    @Override
     public V remove(@Nullable Object rowKey, @Nullable Object columnKey) {
       return original.remove(columnKey, rowKey);
     }
 
+    @Override
     public Map<R, V> row(C rowKey) {
       return original.column(rowKey);
     }
 
+    @Override
     public Set<C> rowKeySet() {
       return original.columnKeySet();
     }
 
+    @Override
     public Map<C, Map<R, V>> rowMap() {
       return original.columnMap();
     }
 
+    @Override
     public int size() {
       return original.size();
     }
 
+    @Override
     public Collection<V> values() {
       return original.values();
     }
@@ -233,6 +254,7 @@ public final class Tables {
     @SuppressWarnings("unchecked") // eclipse doesn't like the raw type
     private static final Function<Cell<?, ?, ?>, Cell<?, ?, ?>> TRANSPOSE_CELL =
         new Function<Cell<?, ?, ?>, Cell<?, ?, ?>>() {
+          @Override
           public Cell<?, ?, ?> apply(Cell<?, ?, ?> cell) {
             return immutableCell(
                 cell.getColumnKey(), cell.getRowKey(), cell.getValue());
@@ -241,6 +263,7 @@ public final class Tables {
 
     CellSet cellSet;
 
+    @Override
     public Set<Cell<C, R, V>> cellSet() {
       CellSet result = cellSet;
       return (result == null) ? cellSet = new CellSet() : result;

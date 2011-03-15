@@ -511,12 +511,15 @@ public final class Multimaps {
     @Override public Iterator<Collection<V>> iterator() {
       final Iterator<Collection<V>> iterator = delegate.iterator();
       return new Iterator<Collection<V>>() {
+        @Override
         public boolean hasNext() {
           return iterator.hasNext();
         }
+        @Override
         public Collection<V> next() {
           return unmodifiableValueCollection(iterator.next());
         }
+        @Override
         public void remove() {
           throw new UnsupportedOperationException();
         }
@@ -603,6 +606,7 @@ public final class Multimaps {
         K key, @SuppressWarnings("hiding") Iterable<? extends V> values) {
       throw new UnsupportedOperationException();
     }
+    @Override
     public Comparator<? super V> valueComparator() {
       return delegate().valueComparator();
     }
@@ -881,36 +885,44 @@ public final class Multimaps {
       this.map = checkNotNull(map);
     }
 
+    @Override
     public int size() {
       return map.size();
     }
 
+    @Override
     public boolean isEmpty() {
       return map.isEmpty();
     }
 
+    @Override
     public boolean containsKey(Object key) {
       return map.containsKey(key);
     }
 
+    @Override
     public boolean containsValue(Object value) {
       return map.containsValue(value);
     }
 
+    @Override
     public boolean containsEntry(Object key, Object value) {
       return map.entrySet().contains(Maps.immutableEntry(key, value));
     }
 
+    @Override
     public Set<V> get(final K key) {
       return new AbstractSet<V>() {
         @Override public Iterator<V> iterator() {
           return new Iterator<V>() {
             int i;
 
+            @Override
             public boolean hasNext() {
               return (i == 0) && map.containsKey(key);
             }
 
+            @Override
             public V next() {
               if (!hasNext()) {
                 throw new NoSuchElementException();
@@ -919,6 +931,7 @@ public final class Multimaps {
               return map.get(key);
             }
 
+            @Override
             public void remove() {
               checkState(i == 1);
               i = -1;
@@ -933,26 +946,32 @@ public final class Multimaps {
       };
     }
 
+    @Override
     public boolean put(K key, V value) {
       throw new UnsupportedOperationException();
     }
 
+    @Override
     public boolean putAll(K key, Iterable<? extends V> values) {
       throw new UnsupportedOperationException();
     }
 
+    @Override
     public boolean putAll(Multimap<? extends K, ? extends V> multimap) {
       throw new UnsupportedOperationException();
     }
 
+    @Override
     public Set<V> replaceValues(K key, Iterable<? extends V> values) {
       throw new UnsupportedOperationException();
     }
 
+    @Override
     public boolean remove(Object key, Object value) {
       return map.entrySet().remove(Maps.immutableEntry(key, value));
     }
 
+    @Override
     public Set<V> removeAll(Object key) {
       Set<V> values = new HashSet<V>(2);
       if (!map.containsKey(key)) {
@@ -962,26 +981,32 @@ public final class Multimaps {
       return values;
     }
 
+    @Override
     public void clear() {
       map.clear();
     }
 
+    @Override
     public Set<K> keySet() {
       return map.keySet();
     }
 
+    @Override
     public Multiset<K> keys() {
       return Multisets.forSet(map.keySet());
     }
 
+    @Override
     public Collection<V> values() {
       return map.values();
     }
 
+    @Override
     public Set<Entry<K, V>> entries() {
       return map.entrySet();
     }
 
+    @Override
     public Map<K, Collection<V>> asMap() {
       Map<K, Collection<V>> result = asMap;
       if (result == null) {
@@ -1028,9 +1053,11 @@ public final class Multimaps {
         return new Iterator<Entry<K, Collection<V>>>() {
           final Iterator<K> keys = map.keySet().iterator();
 
+          @Override
           public boolean hasNext() {
             return keys.hasNext();
           }
+          @Override
           public Entry<K, Collection<V>> next() {
             final K key = keys.next();
             return new AbstractMapEntry<K, Collection<V>>() {
@@ -1042,6 +1069,7 @@ public final class Multimaps {
               }
             };
           }
+          @Override
           public void remove() {
             keys.remove();
           }

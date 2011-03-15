@@ -313,6 +313,7 @@ public final class Doubles {
   private enum LexicographicalComparator implements Comparator<double[]> {
     INSTANCE;
 
+    @Override
     public int compare(double[] left, double[] right) {
       int minLength = Math.min(left.length, right.length);
       for (int i = 0; i < minLength; i++) {

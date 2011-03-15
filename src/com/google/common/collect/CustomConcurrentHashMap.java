@@ -625,20 +625,26 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
    */
   static final ValueReference<Object, Object> UNSET
       = new ValueReference<Object, Object>() {
+    @Override
     public Object get() {
       return null;
     }
+    @Override
     public ValueReference<Object, Object> copyFor(
         ReferenceEntry<Object, Object> entry) {
       return this;
     }
+    @Override
     public boolean isComputingReference() {
       return false;
     }
+    @Override
     public Object waitForValue() {
       return null;
     }
+    @Override
     public void notifyValueReclaimed() {}
+    @Override
     public void clear() {}
   };
 
@@ -858,6 +864,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
       this.next = next;
     }
 
+    @Override
     public K getKey() {
       return this.key;
     }
@@ -916,20 +923,25 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
     final ReferenceEntry<K, V> next;
     volatile ValueReference<K, V> valueReference = unset();
 
+    @Override
     public ValueReference<K, V> getValueReference() {
       return valueReference;
     }
+    @Override
     public void setValueReference(ValueReference<K, V> valueReference) {
       ValueReference<K, V> previous = this.valueReference;
       this.valueReference = valueReference;
       previous.clear();
     }
+    @Override
     public void valueReclaimed(ValueReference<K, V> v) {
       map.reclaimValue(this, v);
     }
+    @Override
     public int getHash() {
       return hash;
     }
+    @Override
     public ReferenceEntry<K, V> getNext() {
       return next;
     }
@@ -945,27 +957,33 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
     // The code below is exactly the same for each expirable entry type.
 
     volatile long time = Long.MAX_VALUE;
+    @Override
     public long getExpirationTime() {
       return time;
     }
+    @Override
     public void setExpirationTime(long time) {
       this.time = time;
     }
 
     @GuardedBy("Segment.this")
     ReferenceEntry<K, V> nextExpirable = nullEntry();
+    @Override
     public ReferenceEntry<K, V> getNextExpirable() {
       return nextExpirable;
     }
+    @Override
     public void setNextExpirable(ReferenceEntry<K, V> next) {
       this.nextExpirable = next;
     }
 
     @GuardedBy("Segment.this")
     ReferenceEntry<K, V> previousExpirable = nullEntry();
+    @Override
     public ReferenceEntry<K, V> getPreviousExpirable() {
       return previousExpirable;
     }
+    @Override
     public void setPreviousExpirable(ReferenceEntry<K, V> previous) {
       this.previousExpirable = previous;
     }
@@ -982,18 +1000,22 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
 
     @GuardedBy("Segment.this")
     ReferenceEntry<K, V> nextEvictable = nullEntry();
+    @Override
     public ReferenceEntry<K, V> getNextEvictable() {
       return nextEvictable;
     }
+    @Override
     public void setNextEvictable(ReferenceEntry<K, V> next) {
       this.nextEvictable = next;
     }
 
     @GuardedBy("Segment.this")
     ReferenceEntry<K, V> previousEvictable = nullEntry();
+    @Override
     public ReferenceEntry<K, V> getPreviousEvictable() {
       return previousEvictable;
     }
+    @Override
     public void setPreviousEvictable(ReferenceEntry<K, V> previous) {
       this.previousEvictable = previous;
     }
@@ -1009,27 +1031,33 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
     // The code below is exactly the same for each expirable entry type.
 
     volatile long time = Long.MAX_VALUE;
+    @Override
     public long getExpirationTime() {
       return time;
     }
+    @Override
     public void setExpirationTime(long time) {
       this.time = time;
     }
 
     @GuardedBy("Segment.this")
     ReferenceEntry<K, V> nextExpirable = nullEntry();
+    @Override
     public ReferenceEntry<K, V> getNextExpirable() {
       return nextExpirable;
     }
+    @Override
     public void setNextExpirable(ReferenceEntry<K, V> next) {
       this.nextExpirable = next;
     }
 
     @GuardedBy("Segment.this")
     ReferenceEntry<K, V> previousExpirable = nullEntry();
+    @Override
     public ReferenceEntry<K, V> getPreviousExpirable() {
       return previousExpirable;
     }
+    @Override
     public void setPreviousExpirable(ReferenceEntry<K, V> previous) {
       this.previousExpirable = previous;
     }
@@ -1038,18 +1066,22 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
 
     @GuardedBy("Segment.this")
     ReferenceEntry<K, V> nextEvictable = nullEntry();
+    @Override
     public ReferenceEntry<K, V> getNextEvictable() {
       return nextEvictable;
     }
+    @Override
     public void setNextEvictable(ReferenceEntry<K, V> next) {
       this.nextEvictable = next;
     }
 
     @GuardedBy("Segment.this")
     ReferenceEntry<K, V> previousEvictable = nullEntry();
+    @Override
     public ReferenceEntry<K, V> getPreviousEvictable() {
       return previousEvictable;
     }
+    @Override
     public void setPreviousEvictable(ReferenceEntry<K, V> previous) {
       this.previousEvictable = previous;
     }
@@ -1068,10 +1100,12 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
       this.next = next;
     }
 
+    @Override
     public K getKey() {
       return get();
     }
 
+    @Override
     public void finalizeReferent() {
       if (map.removeEntry(this)) {
         // send removal notification if the entry is in the map
@@ -1133,20 +1167,25 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
     final ReferenceEntry<K, V> next;
     volatile ValueReference<K, V> valueReference = unset();
 
+    @Override
     public ValueReference<K, V> getValueReference() {
       return valueReference;
     }
+    @Override
     public void setValueReference(ValueReference<K, V> valueReference) {
       ValueReference<K, V> previous = this.valueReference;
       this.valueReference = valueReference;
       previous.clear();
     }
+    @Override
     public void valueReclaimed(ValueReference<K, V> v) {
       map.reclaimValue(this, v);
     }
+    @Override
     public int getHash() {
       return hash;
     }
+    @Override
     public ReferenceEntry<K, V> getNext() {
       return next;
     }
@@ -1162,27 +1201,33 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
     // The code below is exactly the same for each expirable entry type.
 
     volatile long time = Long.MAX_VALUE;
+    @Override
     public long getExpirationTime() {
       return time;
     }
+    @Override
     public void setExpirationTime(long time) {
       this.time = time;
     }
 
     @GuardedBy("Segment.this")
     ReferenceEntry<K, V> nextExpirable = nullEntry();
+    @Override
     public ReferenceEntry<K, V> getNextExpirable() {
       return nextExpirable;
     }
+    @Override
     public void setNextExpirable(ReferenceEntry<K, V> next) {
       this.nextExpirable = next;
     }
 
     @GuardedBy("Segment.this")
     ReferenceEntry<K, V> previousExpirable = nullEntry();
+    @Override
     public ReferenceEntry<K, V> getPreviousExpirable() {
       return previousExpirable;
     }
+    @Override
     public void setPreviousExpirable(ReferenceEntry<K, V> previous) {
       this.previousExpirable = previous;
     }
@@ -1199,18 +1244,22 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
 
     @GuardedBy("Segment.this")
     ReferenceEntry<K, V> nextEvictable = nullEntry();
+    @Override
     public ReferenceEntry<K, V> getNextEvictable() {
       return nextEvictable;
     }
+    @Override
     public void setNextEvictable(ReferenceEntry<K, V> next) {
       this.nextEvictable = next;
     }
 
     @GuardedBy("Segment.this")
     ReferenceEntry<K, V> previousEvictable = nullEntry();
+    @Override
     public ReferenceEntry<K, V> getPreviousEvictable() {
       return previousEvictable;
     }
+    @Override
     public void setPreviousEvictable(ReferenceEntry<K, V> previous) {
       this.previousEvictable = previous;
     }
@@ -1226,27 +1275,33 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
     // The code below is exactly the same for each expirable entry type.
 
     volatile long time = Long.MAX_VALUE;
+    @Override
     public long getExpirationTime() {
       return time;
     }
+    @Override
     public void setExpirationTime(long time) {
       this.time = time;
     }
 
     @GuardedBy("Segment.this")
     ReferenceEntry<K, V> nextExpirable = nullEntry();
+    @Override
     public ReferenceEntry<K, V> getNextExpirable() {
       return nextExpirable;
     }
+    @Override
     public void setNextExpirable(ReferenceEntry<K, V> next) {
       this.nextExpirable = next;
     }
 
     @GuardedBy("Segment.this")
     ReferenceEntry<K, V> previousExpirable = nullEntry();
+    @Override
     public ReferenceEntry<K, V> getPreviousExpirable() {
       return previousExpirable;
     }
+    @Override
     public void setPreviousExpirable(ReferenceEntry<K, V> previous) {
       this.previousExpirable = previous;
     }
@@ -1255,18 +1310,22 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
 
     @GuardedBy("Segment.this")
     ReferenceEntry<K, V> nextEvictable = nullEntry();
+    @Override
     public ReferenceEntry<K, V> getNextEvictable() {
       return nextEvictable;
     }
+    @Override
     public void setNextEvictable(ReferenceEntry<K, V> next) {
       this.nextEvictable = next;
     }
 
     @GuardedBy("Segment.this")
     ReferenceEntry<K, V> previousEvictable = nullEntry();
+    @Override
     public ReferenceEntry<K, V> getPreviousEvictable() {
       return previousEvictable;
     }
+    @Override
     public void setPreviousEvictable(ReferenceEntry<K, V> previous) {
       this.previousEvictable = previous;
     }
@@ -1285,10 +1344,12 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
       this.next = next;
     }
 
+    @Override
     public K getKey() {
       return get();
     }
 
+    @Override
     public void finalizeReferent() {
       if (map.removeEntry(this)) {
         // send removal notification if the entry is in the map
@@ -1350,20 +1411,25 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
     final ReferenceEntry<K, V> next;
     volatile ValueReference<K, V> valueReference = unset();
 
+    @Override
     public ValueReference<K, V> getValueReference() {
       return valueReference;
     }
+    @Override
     public void setValueReference(ValueReference<K, V> valueReference) {
       ValueReference<K, V> previous = this.valueReference;
       this.valueReference = valueReference;
       previous.clear();
     }
+    @Override
     public void valueReclaimed(ValueReference<K, V> v) {
       map.reclaimValue(this, v);
     }
+    @Override
     public int getHash() {
       return hash;
     }
+    @Override
     public ReferenceEntry<K, V> getNext() {
       return next;
     }
@@ -1379,27 +1445,33 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
     // The code below is exactly the same for each expirable entry type.
 
     volatile long time = Long.MAX_VALUE;
+    @Override
     public long getExpirationTime() {
       return time;
     }
+    @Override
     public void setExpirationTime(long time) {
       this.time = time;
     }
 
     @GuardedBy("Segment.this")
     ReferenceEntry<K, V> nextExpirable = nullEntry();
+    @Override
     public ReferenceEntry<K, V> getNextExpirable() {
       return nextExpirable;
     }
+    @Override
     public void setNextExpirable(ReferenceEntry<K, V> next) {
       this.nextExpirable = next;
     }
 
     @GuardedBy("Segment.this")
     ReferenceEntry<K, V> previousExpirable = nullEntry();
+    @Override
     public ReferenceEntry<K, V> getPreviousExpirable() {
       return previousExpirable;
     }
+    @Override
     public void setPreviousExpirable(ReferenceEntry<K, V> previous) {
       this.previousExpirable = previous;
     }
@@ -1416,18 +1488,22 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
 
     @GuardedBy("Segment.this")
     ReferenceEntry<K, V> nextEvictable = nullEntry();
+    @Override
     public ReferenceEntry<K, V> getNextEvictable() {
       return nextEvictable;
     }
+    @Override
     public void setNextEvictable(ReferenceEntry<K, V> next) {
       this.nextEvictable = next;
     }
 
     @GuardedBy("Segment.this")
     ReferenceEntry<K, V> previousEvictable = nullEntry();
+    @Override
     public ReferenceEntry<K, V> getPreviousEvictable() {
       return previousEvictable;
     }
+    @Override
     public void setPreviousEvictable(ReferenceEntry<K, V> previous) {
       this.previousEvictable = previous;
     }
@@ -1443,27 +1519,33 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
     // The code below is exactly the same for each expirable entry type.
 
     volatile long time = Long.MAX_VALUE;
+    @Override
     public long getExpirationTime() {
       return time;
     }
+    @Override
     public void setExpirationTime(long time) {
       this.time = time;
     }
 
     @GuardedBy("Segment.this")
     ReferenceEntry<K, V> nextExpirable = nullEntry();
+    @Override
     public ReferenceEntry<K, V> getNextExpirable() {
       return nextExpirable;
     }
+    @Override
     public void setNextExpirable(ReferenceEntry<K, V> next) {
       this.nextExpirable = next;
     }
 
     @GuardedBy("Segment.this")
     ReferenceEntry<K, V> previousExpirable = nullEntry();
+    @Override
     public ReferenceEntry<K, V> getPreviousExpirable() {
       return previousExpirable;
     }
+    @Override
     public void setPreviousExpirable(ReferenceEntry<K, V> previous) {
       this.previousExpirable = previous;
     }
@@ -1472,18 +1554,22 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
 
     @GuardedBy("Segment.this")
     ReferenceEntry<K, V> nextEvictable = nullEntry();
+    @Override
     public ReferenceEntry<K, V> getNextEvictable() {
       return nextEvictable;
     }
+    @Override
     public void setNextEvictable(ReferenceEntry<K, V> next) {
       this.nextEvictable = next;
     }
 
     @GuardedBy("Segment.this")
     ReferenceEntry<K, V> previousEvictable = nullEntry();
+    @Override
     public ReferenceEntry<K, V> getPreviousEvictable() {
       return previousEvictable;
     }
+    @Override
     public void setPreviousEvictable(ReferenceEntry<K, V> previous) {
       this.previousEvictable = previous;
     }
@@ -1500,14 +1586,17 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
       this.entry = entry;
     }
 
+    @Override
     public void notifyValueReclaimed() {
       finalizeReferent();
     }
 
+    @Override
     public void finalizeReferent() {
       entry.valueReclaimed(this);
     }
 
+    @Override
     public ValueReference<K, V> copyFor(ReferenceEntry<K, V> entry) {
       return new WeakValueReference<K, V>(get(), entry);
     }
@@ -2677,6 +2766,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
 
     final Runnable cleanupRunnable =
         new Runnable() {
+          @Override
           public void run() {
             runCleanup();
           }
@@ -2754,17 +2844,21 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
           new ReferenceEntry<K, V>() {
 
         ReferenceEntry<K, V> nextEvictable = this;
+        @Override
         public ReferenceEntry<K, V> getNextEvictable() {
           return nextEvictable;
         }
+        @Override
         public void setNextEvictable(ReferenceEntry<K, V> next) {
           this.nextEvictable = next;
         }
 
         ReferenceEntry<K, V> previousEvictable = this;
+        @Override
         public ReferenceEntry<K, V> getPreviousEvictable() {
           return previousEvictable;
         }
+        @Override
         public void setPreviousEvictable(ReferenceEntry<K, V> previous) {
           this.previousEvictable = previous;
         }
@@ -2935,23 +3029,29 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
       @VisibleForTesting final ReferenceEntry<K, V> head =
           new ReferenceEntry<K, V>() {
 
+        @Override
         public long getExpirationTime() {
           return Long.MAX_VALUE;
         }
+        @Override
         public void setExpirationTime(long time) {}
 
         ReferenceEntry<K, V> nextExpirable = this;
+        @Override
         public ReferenceEntry<K, V> getNextExpirable() {
           return nextExpirable;
         }
+        @Override
         public void setNextExpirable(ReferenceEntry<K, V> next) {
           this.nextExpirable = next;
         }
 
         ReferenceEntry<K, V> previousExpirable = this;
+        @Override
         public ReferenceEntry<K, V> getPreviousExpirable() {
           return previousExpirable;
         }
+        @Override
         public void setPreviousExpirable(ReferenceEntry<K, V> previous) {
           this.previousExpirable = previous;
         }

@@ -123,6 +123,7 @@ public final class MoreExecutors {
       final ExecutorService service, final long terminationTimeout,
       final TimeUnit timeUnit) {
     Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
+      @Override
       public void run() {
         try {
           // We'd like to log progress and failures that may arise in the

@@ -66,6 +66,7 @@ public final class CharStreams {
       final String value) {
     Preconditions.checkNotNull(value);
     return new InputSupplier<StringReader>() {
+      @Override
       public StringReader getInput() {
         return new StringReader(value);
       }
@@ -85,6 +86,7 @@ public final class CharStreams {
     Preconditions.checkNotNull(in);
     Preconditions.checkNotNull(charset);
     return new InputSupplier<InputStreamReader>() {
+      @Override
       public InputStreamReader getInput() throws IOException {
         return new InputStreamReader(in.getInput(), charset);
       }
@@ -104,6 +106,7 @@ public final class CharStreams {
     Preconditions.checkNotNull(out);
     Preconditions.checkNotNull(charset);
     return new OutputSupplier<OutputStreamWriter>() {
+      @Override
       public OutputStreamWriter getOutput() throws IOException {
         return new OutputStreamWriter(out.getOutput(), charset);
       }

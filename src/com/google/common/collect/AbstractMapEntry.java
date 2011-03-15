@@ -32,10 +32,13 @@ import javax.annotation.Nullable;
 @GwtCompatible
 abstract class AbstractMapEntry<K, V> implements Entry<K, V> {
 
+  @Override
   public abstract K getKey();
 
+  @Override
   public abstract V getValue();
 
+  @Override
   public V setValue(V value) {
     throw new UnsupportedOperationException();
   }

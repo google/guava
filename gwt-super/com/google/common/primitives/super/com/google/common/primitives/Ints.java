@@ -339,6 +339,7 @@ public final class Ints {
   private enum LexicographicalComparator implements Comparator<int[]> {
     INSTANCE;
 
+    @Override
     public int compare(int[] left, int[] right) {
       int minLength = Math.min(left.length, right.length);
       for (int i = 0; i < minLength; i++) {

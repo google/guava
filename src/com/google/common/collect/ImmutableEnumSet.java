@@ -53,6 +53,7 @@ final class ImmutableEnumSet<E extends Enum<E>> extends ImmutableSet<E> {
     return Iterators.unmodifiableIterator(delegate.iterator());
   }
 
+  @Override
   public int size() {
     return delegate.size();
   }

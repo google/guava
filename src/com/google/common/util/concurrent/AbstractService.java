@@ -86,6 +86,7 @@ public abstract class AbstractService implements Service {
    */
   protected abstract void doStop();
 
+  @Override
   public final Future<State> start() {
     lock.lock();
     try {
@@ -103,6 +104,7 @@ public abstract class AbstractService implements Service {
     return startup;
   }
 
+  @Override
   public final Future<State> stop() {
     lock.lock();
     try {
@@ -127,6 +129,7 @@ public abstract class AbstractService implements Service {
     return shutdown;
   }
 
+  @Override
   public State startAndWait() {
     try {
       return Futures.makeUninterruptible(start()).get();
@@ -135,6 +138,7 @@ public abstract class AbstractService implements Service {
     }
   }
 
+  @Override
   public State stopAndWait() {
     try {
       return Futures.makeUninterruptible(stop()).get();
@@ -222,10 +226,12 @@ public abstract class AbstractService implements Service {
     }
   }
 
+  @Override
   public final boolean isRunning() {
     return state() == State.RUNNING;
   }
 
+  @Override
   public final State state() {
     lock.lock();
     try {
@@ -269,23 +275,28 @@ public abstract class AbstractService implements Service {
       done.countDown();
     }
 
+    @Override
     public boolean cancel(boolean mayInterruptIfRunning) {
       return false;
     }
 
+    @Override
     public boolean isCancelled() {
       return false;
     }
 
+    @Override
     public boolean isDone() {
       return done.getCount() == 0;
     }
 
+    @Override
     public State get() throws InterruptedException, ExecutionException {
       done.await();
       return getImmediately();
     }
 
+    @Override
     public State get(long timeout, TimeUnit unit)
         throws InterruptedException, ExecutionException, TimeoutException {
       if (done.await(timeout, unit)) {

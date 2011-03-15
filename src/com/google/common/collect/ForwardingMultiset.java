@@ -57,22 +57,27 @@ public abstract class ForwardingMultiset<E> extends ForwardingCollection<E>
 
   @Override protected abstract Multiset<E> delegate();
 
+  @Override
   public int count(Object element) {
     return delegate().count(element);
   }
 
+  @Override
   public int add(E element, int occurrences) {
     return delegate().add(element, occurrences);
   }
 
+  @Override
   public int remove(Object element, int occurrences) {
     return delegate().remove(element, occurrences);
   }
 
+  @Override
   public Set<E> elementSet() {
     return delegate().elementSet();
   }
 
+  @Override
   public Set<Entry<E>> entrySet() {
     return delegate().entrySet();
   }
@@ -85,10 +90,12 @@ public abstract class ForwardingMultiset<E> extends ForwardingCollection<E>
     return delegate().hashCode();
   }
 
+  @Override
   public int setCount(E element, int count) {
     return delegate().setCount(element, count);
   }
 
+  @Override
   public boolean setCount(E element, int oldCount, int newCount) {
     return delegate().setCount(element, oldCount, newCount);
   }

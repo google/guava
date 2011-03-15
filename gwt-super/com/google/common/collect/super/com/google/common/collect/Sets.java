@@ -867,10 +867,12 @@ public final class Sets {
       return new UnmodifiableIterator<List<B>>() {
         int index;
 
+        @Override
         public boolean hasNext() {
           return index < size;
         }
 
+        @Override
         public List<B> next() {
           if (!hasNext()) {
             throw new NoSuchElementException();

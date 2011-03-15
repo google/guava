@@ -72,6 +72,7 @@ public abstract class AbstractCheckedFuture<V, X extends Exception>
    * @throws X if {@link #get()} throws an {@link InterruptedException},
    *         {@link CancellationException}, or {@link ExecutionException}
    */
+  @Override
   public V checkedGet() throws X {
     try {
       return get();
@@ -100,6 +101,7 @@ public abstract class AbstractCheckedFuture<V, X extends Exception>
    *         {@link CancellationException}, or {@link ExecutionException}
    * @throws TimeoutException {@inheritDoc}
    */
+  @Override
   public V checkedGet(long timeout, TimeUnit unit) throws TimeoutException, X {
     try {
       return get(timeout, unit);
@@ -115,27 +117,33 @@ public abstract class AbstractCheckedFuture<V, X extends Exception>
 
   // Delegate methods for methods defined in the ListenableFuture interface.
 
+  @Override
   public boolean cancel(boolean mayInterruptIfRunning) {
     return delegate.cancel(mayInterruptIfRunning);
   }
 
+  @Override
   public boolean isCancelled() {
     return delegate.isCancelled();
   }
 
+  @Override
   public boolean isDone() {
     return delegate.isDone();
   }
 
+  @Override
   public V get() throws InterruptedException, ExecutionException {
     return delegate.get();
   }
 
+  @Override
   public V get(long timeout, TimeUnit unit) throws InterruptedException,
       ExecutionException, TimeoutException {
     return delegate.get(timeout, unit);
   }
 
+  @Override
   public void addListener(Runnable listener, Executor exec) {
     delegate.addListener(listener, exec);
   }

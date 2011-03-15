@@ -38,6 +38,7 @@ final class EmptyImmutableMap extends ImmutableMap<Object, Object> {
     return null;
   }
 
+  @Override
   public int size() {
     return 0;
   }

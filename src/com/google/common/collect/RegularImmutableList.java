@@ -45,6 +45,7 @@ class RegularImmutableList<E> extends ImmutableList<E> {
     this(array, 0, array.length);
   }
 
+  @Override
   public int size() {
     return size;
   }
@@ -84,6 +85,7 @@ class RegularImmutableList<E> extends ImmutableList<E> {
   }
 
   // The fake cast to E is safe because the creation methods only allow E's
+  @Override
   @SuppressWarnings("unchecked")
   public E get(int index) {
     Preconditions.checkElementIndex(index, size);

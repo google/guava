@@ -403,6 +403,7 @@ public class ImmutableSortedMap<K, V>
     this.comparator = comparator;
   }
 
+  @Override
   public int size() {
     return entries.size();
   }
@@ -476,6 +477,7 @@ public class ImmutableSortedMap<K, V>
       return map.isPartialView();
     }
 
+    @Override
     public int size() {
       return map.size();
     }
@@ -567,6 +569,7 @@ public class ImmutableSortedMap<K, V>
       this.map = map;
     }
 
+    @Override
     public int size() {
       return map.size();
     }
@@ -605,10 +608,12 @@ public class ImmutableSortedMap<K, V>
    * Note that its behavior is not consistent with {@link TreeMap#comparator()},
    * which returns {@code null} to indicate natural ordering.
    */
+  @Override
   public Comparator<? super K> comparator() {
     return comparator;
   }
 
+  @Override
   public K firstKey() {
     if (isEmpty()) {
       throw new NoSuchElementException();
@@ -616,6 +621,7 @@ public class ImmutableSortedMap<K, V>
     return entries.get(0).getKey();
   }
 
+  @Override
   public K lastKey() {
     if (isEmpty()) {
       throw new NoSuchElementException();
@@ -633,6 +639,7 @@ public class ImmutableSortedMap<K, V>
    * an exception in that situation, but instead keeps the original {@code
    * toKey}.
    */
+  @Override
   public ImmutableSortedMap<K, V> headMap(K toKey) {
     int newToIndex = findSubmapIndex(checkNotNull(toKey));
     return createSubmap(0, newToIndex);
@@ -651,6 +658,7 @@ public class ImmutableSortedMap<K, V>
    * of throwing an exception, if passed a {@code toKey} greater than an earlier
    * {@code toKey}.
    */
+  @Override
   public ImmutableSortedMap<K, V> subMap(K fromKey, K toKey) {
     checkNotNull(fromKey);
     checkNotNull(toKey);
@@ -670,6 +678,7 @@ public class ImmutableSortedMap<K, V>
    * throw an exception in that situation, but instead keeps the original {@code
    * fromKey}.
    */
+  @Override
   public ImmutableSortedMap<K, V> tailMap(K fromKey) {
     int newFromIndex = findSubmapIndex(checkNotNull(fromKey));
     return createSubmap(newFromIndex, size());

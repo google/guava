@@ -46,6 +46,7 @@ import javax.annotation.Nullable;
 @GwtCompatible
 abstract class AbstractMultiset<E> extends AbstractCollection<E>
     implements Multiset<E> {
+  @Override
   public abstract Set<Entry<E>> entrySet();
 
   // Query Operations
@@ -66,6 +67,7 @@ abstract class AbstractMultiset<E> extends AbstractCollection<E>
     return Multisets.iteratorImpl(this);
   }
 
+  @Override
   public int count(Object element) {
     for (Entry<E> entry : entrySet()) {
       if (Objects.equal(entry.getElement(), element)) {
@@ -82,6 +84,7 @@ abstract class AbstractMultiset<E> extends AbstractCollection<E>
     return true;
   }
 
+  @Override
   public int add(E element, int occurrences) {
     throw new UnsupportedOperationException();
   }
@@ -90,14 +93,17 @@ abstract class AbstractMultiset<E> extends AbstractCollection<E>
     return remove(element, 1) > 0;
   }
 
+  @Override
   public int remove(Object element, int occurrences) {
     throw new UnsupportedOperationException();
   }
 
+  @Override
   public int setCount(E element, int count) {
     return setCountImpl(this, element, count);
   }
 
+  @Override
   public boolean setCount(E element, int oldCount, int newCount) {
     return setCountImpl(this, element, oldCount, newCount);
   }
@@ -124,6 +130,7 @@ abstract class AbstractMultiset<E> extends AbstractCollection<E>
 
   private transient Set<E> elementSet;
 
+  @Override
   public Set<E> elementSet() {
     Set<E> result = elementSet;
     if (result == null) {

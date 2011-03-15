@@ -112,12 +112,14 @@ public interface Table<R, C, V> {
    * Compares the specified object with this table for equality. Two tables are
    * equal when their cell views, as returned by {@link #cellSet}, are equal.
    */
+  @Override
   boolean equals(@Nullable Object obj);
 
   /**
    * Returns the hash code for this table. The hash code of a table is defined
    * as the hash code of its cell view, as returned by {@link #cellSet}.
    */
+  @Override
   int hashCode();
 
   // Mutators
@@ -278,6 +280,7 @@ public interface Table<R, C, V> {
      * Compares the specified object with this cell for equality. Two cells are
      * equal when they have equal row keys, column keys, and values.
      */
+    @Override
     boolean equals(@Nullable Object obj);
 
     /**
@@ -286,6 +289,7 @@ public interface Table<R, C, V> {
      * <p>The hash code of a table cell is equal to {@link
      * Objects#hashCode}{@code (e.getRowKey(), e.getColumnKey(), e.getValue())}.
      */
+    @Override
     int hashCode();
   }
 }

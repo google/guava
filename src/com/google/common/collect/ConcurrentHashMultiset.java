@@ -423,16 +423,19 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E>
       final Iterator<Map.Entry<E, Integer>> backingIterator
           = countMap.entrySet().iterator();
       return new Iterator<Multiset.Entry<E>>() {
+        @Override
         public boolean hasNext() {
           return backingIterator.hasNext();
         }
 
+        @Override
         public Multiset.Entry<E> next() {
           Map.Entry<E, Integer> backingEntry = backingIterator.next();
           return Multisets.immutableEntry(
               backingEntry.getKey(), backingEntry.getValue());
         }
 
+        @Override
         public void remove() {
           backingIterator.remove();
         }

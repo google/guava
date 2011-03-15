@@ -57,6 +57,7 @@ final class RegularImmutableSortedSet<E> extends ImmutableSortedSet<E> {
     return false;
   }
 
+  @Override
   public int size() {
     return elements.size();
   }
@@ -178,10 +179,12 @@ final class RegularImmutableSortedSet<E> extends ImmutableSortedSet<E> {
     return this.containsAll(that);
   }
 
+  @Override
   public E first() {
     return elements.get(0);
   }
 
+  @Override
   public E last() {
     return elements.get(size() - 1);
   }

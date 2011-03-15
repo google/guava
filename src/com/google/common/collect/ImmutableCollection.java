@@ -49,24 +49,30 @@ public abstract class ImmutableCollection<E>
   /**
    * Returns an unmodifiable iterator across the elements in this collection.
    */
+  @Override
   public abstract UnmodifiableIterator<E> iterator();
 
+  @Override
   public Object[] toArray() {
     return ObjectArrays.toArrayImpl(this);
   }
 
+  @Override
   public <T> T[] toArray(T[] other) {
     return ObjectArrays.toArrayImpl(this, other);
   }
 
+  @Override
   public boolean contains(@Nullable Object object) {
     return object != null && Iterators.contains(iterator(), object);
   }
 
+  @Override
   public boolean containsAll(Collection<?> targets) {
     return Collections2.containsAllImpl(this, targets);
   }
 
+  @Override
   public boolean isEmpty() {
     return size() == 0;
   }
@@ -80,6 +86,7 @@ public abstract class ImmutableCollection<E>
    *
    * @throws UnsupportedOperationException always
    */
+  @Override
   public final boolean add(E e) {
     throw new UnsupportedOperationException();
   }
@@ -89,6 +96,7 @@ public abstract class ImmutableCollection<E>
    *
    * @throws UnsupportedOperationException always
    */
+  @Override
   public final boolean remove(Object object) {
     throw new UnsupportedOperationException();
   }
@@ -98,6 +106,7 @@ public abstract class ImmutableCollection<E>
    *
    * @throws UnsupportedOperationException always
    */
+  @Override
   public final boolean addAll(Collection<? extends E> newElements) {
     throw new UnsupportedOperationException();
   }
@@ -107,6 +116,7 @@ public abstract class ImmutableCollection<E>
    *
    * @throws UnsupportedOperationException always
    */
+  @Override
   public final boolean removeAll(Collection<?> oldElements) {
     throw new UnsupportedOperationException();
   }
@@ -116,6 +126,7 @@ public abstract class ImmutableCollection<E>
    *
    * @throws UnsupportedOperationException always
    */
+  @Override
   public final boolean retainAll(Collection<?> elementsToKeep) {
     throw new UnsupportedOperationException();
   }
@@ -125,6 +136,7 @@ public abstract class ImmutableCollection<E>
    *
    * @throws UnsupportedOperationException always
    */
+  @Override
   public final void clear() {
     throw new UnsupportedOperationException();
   }
@@ -160,6 +172,7 @@ public abstract class ImmutableCollection<E>
 
   private static class EmptyImmutableCollection
       extends ImmutableCollection<Object> {
+    @Override
     public int size() {
       return 0;
     }
@@ -209,6 +222,7 @@ public abstract class ImmutableCollection<E>
       this.elements = elements;
     }
 
+    @Override
     public int size() {
       return elements.length;
     }
