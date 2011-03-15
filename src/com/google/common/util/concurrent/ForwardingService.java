@@ -18,8 +18,10 @@ package com.google.common.util.concurrent;
 
 import com.google.common.annotations.Beta;
 import com.google.common.base.Service;
+import com.google.common.base.Throwables;
 import com.google.common.collect.ForwardingObject;
 
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
 /**
@@ -59,5 +61,31 @@ public abstract class ForwardingService extends ForwardingObject
 
   @Override public boolean isRunning() {
     return delegate().isRunning();
+  }
+
+  /**
+   * A sensible default implementation of {@link #startAndWait()}, in terms of
+   * {@link #start}. If you override {@link #start}, you may wish to override
+   * {@link #startAndWait()} to forward to this implementation.
+   */
+  protected State standardStartAndWait() {
+    try {
+      return Futures.makeUninterruptible(start()).get();
+    } catch (ExecutionException e) {
+      throw Throwables.propagate(e.getCause());
+    }
+  }
+
+  /**
+   * A sensible default implementation of {@link #stopAndWait()}, in terms of
+   * {@link #stop}. If you override {@link #stop}, you may wish to override
+   * {@link #stopAndWait()} to forward to this implementation.
+   */
+  protected State standardStopAndWait() {
+    try {
+      return Futures.makeUninterruptible(stop()).get();
+    } catch (ExecutionException e) {
+      throw Throwables.propagate(e.getCause());
+    }
   }
 }
