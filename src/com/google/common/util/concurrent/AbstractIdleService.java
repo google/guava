@@ -17,7 +17,6 @@
 package com.google.common.util.concurrent;
 
 import com.google.common.annotations.Beta;
-import com.google.common.base.Service;
 import com.google.common.base.Throwables;
 
 import java.util.concurrent.Executor;
@@ -81,9 +80,9 @@ public abstract class AbstractIdleService implements Service {
    * execute()} method is called when this service is started and stopped,
    * and should return promptly.
    *
-   * @param state {@link com.google.common.base.Service.State#STARTING} or
-   *     {@link com.google.common.base.Service.State#STOPPING}, used by the
-   *     default implementation for naming the thread
+   * @param state {@link Service.State#STARTING} or
+   *     {@link Service.State#STOPPING}, used by the default implementation for
+   *     naming the thread
    */
   protected Executor executor(final State state) {
     return new Executor() {
