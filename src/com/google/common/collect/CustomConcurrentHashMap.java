@@ -111,17 +111,6 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
   static final int MAX_SEGMENTS = 1 << 16; // slightly conservative
 
   /**
-   * Number of unsynchronized retries in size and containsValue methods before
-   * resorting to locking. This is used to avoid unbounded retries if tables
-   * undergo continuous modification which would make it impossible to obtain
-   * an accurate result.
-   *
-   * TODO(kevinb): Talk to Doug about the possiblity of defining size() and
-   * containsValue() in terms of weakly consistent iteration.
-   */
-  static final int RETRIES_BEFORE_LOCK = 2;
-
-  /**
    * Number of cache access operations that can be buffered per segment before
    * the cache's recency ordering information is updated. This is used to avoid
    * lock contention by recording a memento of reads and delaying a lock
@@ -3233,47 +3222,8 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
   @Override public int size() {
     Segment[] segments = this.segments;
     long sum = 0;
-    long check = 0;
-    int[] mc = new int[segments.length];
-    // Try a few times to get accurate count. On failure due to
-    // continuous async changes in table, resort to locking.
-    for (int k = 0; k < RETRIES_BEFORE_LOCK; ++k) {
-      check = 0;
-      sum = 0;
-      int mcsum = 0;
-      for (int i = 0; i < segments.length; ++i) {
-        sum += segments[i].count;
-        mcsum += mc[i] = segments[i].modCount;
-      }
-      if (mcsum != 0) {
-        for (int i = 0; i < segments.length; ++i) {
-          check += segments[i].count;
-          if (mc[i] != segments[i].modCount) {
-            check = -1; // force retry
-            break;
-          }
-        }
-      }
-      if (check == sum) {
-        break;
-      }
-    }
-    if (check != sum) { // Resort to locking all segments
-      sum = 0;
-      int segmentsLocked = 0;
-      try {
-        for (Segment segment : segments) {
-          segment.lock();
-          segmentsLocked++;
-        }
-        for (Segment segment : segments) {
-          sum += segment.count;
-        }
-      } finally {
-        for (int i = 0; i < segmentsLocked; i++) {
-          segments[i].unlock();
-        }
-      }
+    for (int i = 0; i < segments.length; ++i) {
+      sum += segments[i].count;
     }
     return Ints.saturatedCast(sum);
   }
@@ -3301,55 +3251,13 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
     // TODO(kevinb): document why we choose to throw over returning false?
     checkNotNull(value);
 
-    // See explanation of modCount use above
-
     Segment[] segments = this.segments;
-    int[] mc = new int[segments.length];
-
-    // Try a few times without locking
-    for (int k = 0; k < RETRIES_BEFORE_LOCK; ++k) {
-      int mcsum = 0;
-      for (int i = 0; i < segments.length; ++i) {
-        // TODO(kevinb): verify the importance of this crazy trick with Doug
-        @SuppressWarnings({"UnusedDeclaration", "unused"})
-        int c = segments[i].count;
-        mcsum += (mc[i] = segments[i].modCount);
-        if (segments[i].containsValue(value)) {
-          return true;
-        }
-      }
-      boolean cleanSweep = true;
-      if (mcsum != 0) {
-        for (int i = 0; i < segments.length; ++i) {
-          // TODO(kevinb): verify the importance of this crazy trick with Doug
-          @SuppressWarnings({"UnusedDeclaration", "unused"})
-          int c = segments[i].count;
-          if (mc[i] != segments[i].modCount) {
-            cleanSweep = false;
-            break;
-          }
-        }
-      }
-      if (cleanSweep) {
-        return false;
-      }
-    }
-
-    // Resort to locking all segments
-    int segmentsLocked = 0;
-    try {
-      for (Segment segment : segments) {
-        segment.lock();
-        segmentsLocked++;
-      }
-      for (Segment segment : segments) {
-        if (segment.containsValue(value)) {
-          return true;
-        }
-      }
-    } finally {
-      for (int i = 0; i < segmentsLocked; i++) {
-        segments[i].unlock();
+    for (int i = 0; i < segments.length; ++i) {
+      // ensure visibility of most recent completed write
+      @SuppressWarnings({"UnusedDeclaration", "unused"})
+      int c = segments[i].count; // read-volatile
+      if (segments[i].containsValue(value)) {
+        return true;
       }
     }
     return false;
