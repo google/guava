@@ -48,6 +48,14 @@ public abstract class GenericMapMaker<K0, V0> {
   public abstract GenericMapMaker<K0, V0> initialCapacity(int initialCapacity);
 
   /**
+   * See {@link MapMaker#maximumSize}.
+   *
+   * @since 8
+   */
+  @Beta
+  public abstract GenericMapMaker<K0, V0> maximumSize(int maximumSize);
+
+  /**
    * See {@link MapMaker#expiration}.
    */
   // TODO(user): deprecate

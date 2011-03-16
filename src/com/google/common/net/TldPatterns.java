@@ -3747,7 +3747,8 @@ class TldPatterns {
       "blogspot.com",
       "so",
       "tp",
-      "yt"
+      "yt",
+      "ng"
   );
 
   /**

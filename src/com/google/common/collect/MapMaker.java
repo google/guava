@@ -232,7 +232,6 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    * @since 8
    */
   @Beta
-  @GwtIncompatible("To be supported")
   @Override
   public MapMaker maximumSize(int size) {
     checkState(this.maximumSize == UNSET_INT,

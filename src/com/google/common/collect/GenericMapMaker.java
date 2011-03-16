@@ -56,7 +56,6 @@ public abstract class GenericMapMaker<K0, V0> {
    * @since 8
    */
   @Beta
-  @GwtIncompatible("To be supported")
   public abstract GenericMapMaker<K0, V0> maximumSize(int maximumSize);
 
   /**
