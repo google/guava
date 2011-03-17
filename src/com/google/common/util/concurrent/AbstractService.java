@@ -20,7 +20,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 
 import com.google.common.annotations.Beta;
-import com.google.common.base.Service.State; // javadoc needs this
+import com.google.common.util.concurrent.Service.State; // javadoc needs this
 import com.google.common.base.Throwables;
 
 import java.util.concurrent.CountDownLatch;
