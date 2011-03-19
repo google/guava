@@ -255,6 +255,10 @@ public abstract class ImmutableSortedSet<E>
 
   private transient final SortedSet<E> sortedDelegate;
 
+  ImmutableSortedSet(Comparator<? super E> comparator) {
+    this(Sets.newTreeSet(comparator));
+  }
+
   ImmutableSortedSet(SortedSet<E> sortedDelegate) {
     super(sortedDelegate);
     this.sortedDelegate = Collections.unmodifiableSortedSet(sortedDelegate);

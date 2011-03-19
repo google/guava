@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2007 Google Inc.
+ * Copyright (C) 2007 The Guava Authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -35,8 +35,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @since 2 (imported from Google Collections Library)
  */
 @GwtCompatible(emulated = true)
-public final class EnumMultiset<E extends Enum<E>>
-    extends AbstractMapBasedMultiset<E> {
+public final class EnumMultiset<E extends Enum<E>> extends AbstractMapBasedMultiset<E> {
   /** Creates an empty {@code EnumMultiset}. */
   public static <E extends Enum<E>> EnumMultiset<E> create(Class<E> type) {
     return new EnumMultiset<E>(type);
@@ -48,13 +47,10 @@ public final class EnumMultiset<E extends Enum<E>>
    * @param elements the elements that the multiset should contain
    * @throws IllegalArgumentException if {@code elements} is empty
    */
-  public static <E extends Enum<E>> EnumMultiset<E> create(
-      Iterable<E> elements) {
+  public static <E extends Enum<E>> EnumMultiset<E> create(Iterable<E> elements) {
     Iterator<E> iterator = elements.iterator();
-    checkArgument(iterator.hasNext(),
-        "EnumMultiset constructor passed empty Iterable");
-    EnumMultiset<E> multiset
-        = new EnumMultiset<E>(iterator.next().getDeclaringClass());
+    checkArgument(iterator.hasNext(), "EnumMultiset constructor passed empty Iterable");
+    EnumMultiset<E> multiset = new EnumMultiset<E>(iterator.next().getDeclaringClass());
     Iterables.addAll(multiset, elements);
     return multiset;
   }
@@ -63,7 +59,7 @@ public final class EnumMultiset<E extends Enum<E>>
 
   /** Creates an empty {@code EnumMultiset}. */
   private EnumMultiset(Class<E> type) {
-    super(new EnumMap<E, AtomicInteger>(type));
+    super(WellBehavedMap.wrap(new EnumMap<E, AtomicInteger>(type)));
     this.type = type;
   }
 
@@ -76,17 +72,16 @@ public final class EnumMultiset<E extends Enum<E>>
 
   /**
    * @serialData the {@code Class<E>} for the enum type, the number of distinct
-   *     elements, the first element, its count, the second element, its count,
-   *     and so on
+   *             elements, the first element, its count, the second element, its
+   *             count, and so on
    */
   @GwtIncompatible("java.io.ObjectInputStream")
-  private void readObject(ObjectInputStream stream)
-      throws IOException, ClassNotFoundException {
+  private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {
     stream.defaultReadObject();
     @SuppressWarnings("unchecked") // reading data stored by writeObject
     Class<E> localType = (Class<E>) stream.readObject();
     type = localType;
-    setBackingMap(new EnumMap<E, AtomicInteger>(type));
+    setBackingMap(WellBehavedMap.wrap(new EnumMap<E, AtomicInteger>(type)));
     Serialization.populateMultiset(this, stream);
   }
 

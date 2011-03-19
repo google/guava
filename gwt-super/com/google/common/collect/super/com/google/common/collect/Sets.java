@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2007 Google Inc.
+ * Copyright (C) 2007 The Guava Authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,6 +21,9 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.base.Function;
+import com.google.common.base.Objects;
+import com.google.common.base.Preconditions;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import com.google.common.collect.Collections2.FilteredCollection;
@@ -1130,5 +1133,107 @@ public final class Sets {
       }
     }
     return false;
+  }
+
+  /**
+   * Creates a view of Set<B> for a Set<A>, given a bijection between A and B.
+   * (Modelled for now as InvertibleFunction<A, B>, can't be Converter<A, B>
+   * because that's not in Guava, though both designs are less than optimal).
+   * Note that the bijection is treated as undefined for values not in the
+   * given Set<A> - it doesn't have to define a true bijection for those.
+   *
+   * <p>Note that the returned Set's contains method is unsafe -
+   * you *must* pass an instance of B to it, since the bijection
+   * can only invert B's (not any Object) back to A, so we can
+   * then delegate the call to the original Set<A>.
+   */
+  static <A, B> Set<B> transform(Set<A> set, InvertibleFunction<A, B> bijection) {
+    return new TransformedSet<A, B>(
+        Preconditions.checkNotNull(set, "set"),
+        Preconditions.checkNotNull(bijection, "bijection")
+    );
+  }
+
+  /**
+   * Stop-gap measure since there is no bijection related type in Guava.
+   */
+  abstract static class InvertibleFunction<A, B> implements Function<A, B> {
+    abstract A invert(B b);
+
+    public InvertibleFunction<B, A> inverse() {
+      return new InvertibleFunction<B, A>() {
+        @Override public A apply(B b) {
+          return InvertibleFunction.this.invert(b);
+        }
+
+        @Override B invert(A a) {
+          return InvertibleFunction.this.apply(a);
+        }
+
+        // Not required per se, but just for good karma.
+        @Override public InvertibleFunction<A, B> inverse() {
+          return InvertibleFunction.this;
+        }
+      };
+    }
+  }
+
+  private static class TransformedSet<A, B> extends AbstractSet<B> {
+    final Set<A> delegate;
+    final InvertibleFunction<A, B> bijection;
+
+    TransformedSet(Set<A> delegate, InvertibleFunction<A, B> bijection) {
+      this.delegate = delegate;
+      this.bijection = bijection;
+    }
+
+    @Override public Iterator<B> iterator() {
+      return Iterators.transform(delegate.iterator(), bijection);
+    }
+
+    @Override public int size() {
+      return delegate.size();
+    }
+
+    @SuppressWarnings("unchecked") // unsafe, passed object *must* be B
+    @Override public boolean contains(Object o) {
+      B b = (B) o;
+      A a = bijection.invert(b);
+      /*
+       * Mathematically, Converter<A, B> defines a bijection between ALL A's
+       * on ALL B's. Here we concern ourselves with a subset
+       * of this relation: we only want the part that is defined by a *subset*
+       * of all A's (defined by that Set<A> delegate), and the image
+       * of *that* on B (which is this set). We don't care whether
+       * the converter is *not* a bijection for A's that are not in Set<A>
+       * or B's not in this Set<B>.
+       *
+       * We only want to return true if and only f the user passes a B instance
+       * that is contained in precisely in the image of Set<A>.
+       *
+       * The first test is whether the inverse image of this B is indeed
+       * in Set<A>. But we don't know whether that B belongs in this Set<B>
+       * or not; if not, the converter is free to return
+       * anything it wants, even an element of Set<A> (and this relationship
+       * is not part of the Set<A> <--> Set<B> bijection), and we must not
+       * be confused by that. So we have to do a final check to see if the
+       * image of that A is really equivalent to the passed B, which proves
+       * that the given B belongs indeed in the image of Set<A>.
+       */
+      return delegate.contains(a) && Objects.equal(bijection.apply(a), o);
+    }
+
+    @Override public boolean add(B b) {
+      return delegate.add(bijection.invert(b));
+    }
+
+    @SuppressWarnings("unchecked") // unsafe, passed object *must* be B
+    @Override public boolean remove(Object o) {
+      return contains(o) ? delegate.remove(bijection.invert((B) o)) : false;
+    }
+
+    @Override public void clear() {
+      delegate.clear();
+    }
   }
 }

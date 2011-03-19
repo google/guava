@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2009 Google Inc.
+ * Copyright (C) 2009 The Guava Authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -74,7 +74,7 @@ import javax.annotation.Nullable;
  */
 @Beta
 @GwtCompatible(emulated = true)
-public final class InternetDomainName {
+public class InternetDomainName {
 
   private static final CharMatcher DOTS_MATCHER =
       CharMatcher.anyOf(".\u3002\uFF0E\uFF61");
@@ -112,9 +112,12 @@ public final class InternetDomainName {
    * Private constructor used to implement {@link #fromLenient(String)}.
    */
   private InternetDomainName(String name) {
-    // Normalize all dot-like characters to '.', and strip trailing '.'.
+    // Normalize:
+    // * ASCII characters to lowercase
+    // * All dot-like characters to '.'
+    // * Strip trailing '.'
 
-    name = DOTS_MATCHER.replaceFrom(name, '.');
+    name = Ascii.toLowerCase(DOTS_MATCHER.replaceFrom(name, '.'));
 
     if (name.endsWith(".")) {
       name = name.substring(0, name.length() - 1);
@@ -123,18 +126,6 @@ public final class InternetDomainName {
     this.name = name;
     this.parts = ImmutableList.copyOf(DOT_SPLITTER.split(name));
     checkArgument(validateSyntax(parts), "Not a valid domain name: '%s'", name);
-    this.publicSuffixIndex = findPublicSuffix();
-  }
-
-  /**
-   * Private constructor used to implement {@link #ancestor(int)}. Argument
-   * parts are assumed to be valid, as they always come from an existing domain.
-   */
-  private InternetDomainName(List<String> parts) {
-    checkArgument(!parts.isEmpty());
-
-    this.parts = ImmutableList.copyOf(parts);
-    this.name = DOT_JOINER.join(parts);
     this.publicSuffixIndex = findPublicSuffix();
   }
 
@@ -189,12 +180,7 @@ public final class InternetDomainName {
    * @since 8 (previously named {@code from})
    */
   public static InternetDomainName fromLenient(String domain) {
-    /*
-     * RFC 1035 defines ASCII components of domain names to be case-insensitive;
-     * normalizing ASCII characters to lower case allows us to simplify matching
-     * and support more robust equality testing.
-     */
-    return new InternetDomainName(Ascii.toLowerCase(checkNotNull(domain)));
+    return new InternetDomainName(checkNotNull(domain));
   }
 
   /**
@@ -249,24 +235,36 @@ public final class InternetDomainName {
       return false;
     }
 
-    // GWT claims to support java.lang.Character's char-classification
-    // methods, but it actually only works for ASCII. So for now,
-    // assume anything with non-ASCII characters is valid.
-    // The only place this seems to be documented is here:
-    // http://osdir.com/ml/GoogleWebToolkitContributors/2010-03/msg00178.html
+    /*
+     * GWT claims to support java.lang.Character's char-classification methods,
+     * but it actually only works for ASCII. So for now, assume any non-ASCII
+     * characters are valid. The only place this seems to be documented is here:
+     * http://osdir.com/ml/GoogleWebToolkitContributors/2010-03/msg00178.html
+     *
+     * <p>ASCII characters in the part are expected to be valid per RFC 1035,
+     * with underscore also being allowed due to widespread practice.
+     */
 
-    if (!CharMatcher.ASCII.matchesAllOf(part)) {
-      return true;
-    }
+    String asciiChars = CharMatcher.ASCII.retainFrom(part);
 
-    if (!PART_CHAR_MATCHER.matchesAllOf(part)) {
+    if (!PART_CHAR_MATCHER.matchesAllOf(asciiChars)) {
       return false;
     }
+
+    // No initial or final dashes or underscores.
 
     if (DASH_MATCHER.matches(part.charAt(0))
         || DASH_MATCHER.matches(part.charAt(part.length() - 1))) {
       return false;
     }
+
+    /*
+     * Note that we allow (in contravention of a strict interpretation of the
+     * relevant RFCs) domain parts other than the last may begin with a digit
+     * (for example, "3com.com"). It's important to disallow an initial digit in
+     * the last part; it's the only thing that stops an IPv4 numeric address
+     * like 127.0.0.1 from looking like a valid domain name.
+     */
 
     if (isFinalPart && CharMatcher.DIGIT.matches(part.charAt(0))) {
       return false;
@@ -438,7 +436,7 @@ public final class InternetDomainName {
    * <p>TODO: Reasonable candidate for addition to public API.
    */
   private InternetDomainName ancestor(int levels) {
-    return new InternetDomainName(parts.subList(levels, parts.size()));
+    return fromInternal(DOT_JOINER.join(parts.subList(levels, parts.size())));
   }
 
   /**
@@ -451,7 +449,15 @@ public final class InternetDomainName {
    * @throws IllegalArgumentException if the resulting name is not valid
    */
   public InternetDomainName child(String leftParts) {
-    return InternetDomainName.fromLenient(checkNotNull(leftParts) + "." + name);
+    return fromInternal(checkNotNull(leftParts) + "." + name);
+  }
+
+  /**
+   * Returns a new {@link InternetDomainName} instance with the given {@code
+   * name}, using the same validation as the instance on which it is called.
+   */
+  protected InternetDomainName fromInternal(String name) {
+    return fromLenient(name);
   }
 
   /**
@@ -522,5 +528,4 @@ public final class InternetDomainName {
   public int hashCode() {
     return name.hashCode();
   }
-
 }

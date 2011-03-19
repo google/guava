@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2007 Google Inc.
+ * Copyright (C) 2007 The Guava Authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,8 +30,9 @@ import java.util.concurrent.RejectedExecutionException;
  * immediately.
  *
  * <p>Common {@code ListenableFuture} implementations include {@link
- * ValueFuture} and the futures returned by a {@link ListeningExecutorService}
- * (typically {@link ListenableFutureTask} instances).
+ * SettableFuture} and the futures returned by a {@link
+ * ListeningExecutorService} (typically {@link ListenableFutureTask}
+ * instances).
  *
  * <p>Usage:
  * <pre>   {@code

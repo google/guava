@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2007 Google Inc.
+ * Copyright (C) 2007 The Guava Authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -70,8 +70,8 @@ public final class EnumHashBiMap<K extends Enum<K>, V>
   }
 
   private EnumHashBiMap(Class<K> keyType) {
-    super(new EnumMap<K, V>(keyType), Maps.<V, K>newHashMapWithExpectedSize(
-        keyType.getEnumConstants().length));
+    super(WellBehavedMap.wrap(new EnumMap<K, V>(keyType)),
+        Maps.<V, K>newHashMapWithExpectedSize(keyType.getEnumConstants().length));
     this.keyType = keyType;
   }
 
@@ -107,7 +107,7 @@ public final class EnumHashBiMap<K extends Enum<K>, V>
       throws IOException, ClassNotFoundException {
     stream.defaultReadObject();
     keyType = (Class<K>) stream.readObject();
-    setDelegates(new EnumMap<K, V>(keyType),
+    setDelegates(WellBehavedMap.wrap(new EnumMap<K, V>(keyType)),
         new HashMap<V, K>(keyType.getEnumConstants().length * 3 / 2));
     Serialization.populateMap(this, stream);
   }

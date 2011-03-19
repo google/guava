@@ -25,6 +25,6 @@ import java.util.Comparator;
  */
 class EmptyImmutableSortedSet<E> extends ImmutableSortedSet<E> {
   EmptyImmutableSortedSet(Comparator<? super E> comparator) {
-    super(Sets.newTreeSet(comparator));
+    super(comparator);
   }
 }

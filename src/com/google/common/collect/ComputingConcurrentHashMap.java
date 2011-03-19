@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2010 Google Inc.
+ * Copyright (C) 2010 The Guava Authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -100,19 +100,19 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V>
             K entryKey = e.getKey();
             if (e.getHash() == hash && entryKey != null
                 && keyEquivalence.equivalent(key, entryKey)) {
-              entry = e;
-              ValueReference<K, V> valueReference = entry.getValueReference();
+              ValueReference<K, V> valueReference = e.getValueReference();
 
               if (!valueReference.isComputingReference()) {
+                // assume not expired, as we just called expireEntries
                 value = valueReference.get();
-                if (value == null) {
-                  // clobber invalid entries
-                  unsetLiveEntry(entry, hash);
-                } else {
-                  recordRead(entry);
+                if (value != null) {
+                  recordRead(e);
                   return value;
                 }
+                // clobber invalid entries
+                unsetLiveEntry(e, hash);
               }
+              entry = e;
               break;
             }
           }
@@ -157,12 +157,13 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V>
             try {
               checkState(!Thread.holdsLock(entry), "Recursive computation");
               value = entry.getValueReference().waitForValue();
-              if (value == null) {
-                // else computing thread will clearValue
-                continue outer;
+              // assume not expired, as we just called expireEntries
+              if (value != null) {
+                recordRead(entry);
+                return value;
               }
-              recordRead(entry);
-              return value;
+              // else computing thread will clearValue
+              continue outer;
             } catch (InterruptedException e) {
               interrupted = true;
             }
@@ -237,7 +238,7 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V>
   /** Used to provide computation result to other threads. */
   private static class ComputedReference<K, V> implements ValueReference<K, V> {
     final V value;
-    ComputedReference(V value) {
+    ComputedReference(@Nullable V value) {
       this.value = value;
     }
     @Override

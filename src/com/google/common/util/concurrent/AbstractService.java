@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2009 Google Inc.
+ * Copyright (C) 2009 The Guava Authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,15 +17,12 @@
 package com.google.common.util.concurrent;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.common.base.Preconditions.checkState;
 
 import com.google.common.annotations.Beta;
-import com.google.common.util.concurrent.Service.State; // javadoc needs this
 import com.google.common.base.Throwables;
+import com.google.common.util.concurrent.Service.State; // javadoc needs this
 
-import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.concurrent.locks.ReentrantLock;
@@ -86,7 +83,7 @@ public abstract class AbstractService implements Service {
   protected abstract void doStop();
 
   @Override
-  public final Future<State> start() {
+  public final ListenableFuture<State> start() {
     lock.lock();
     try {
       if (state == State.NEW) {
@@ -104,16 +101,16 @@ public abstract class AbstractService implements Service {
   }
 
   @Override
-  public final Future<State> stop() {
+  public final ListenableFuture<State> stop() {
     lock.lock();
     try {
       if (state == State.NEW) {
         state = State.TERMINATED;
-        startup.transitionSucceeded(State.TERMINATED);
-        shutdown.transitionSucceeded(State.TERMINATED);
+        startup.set(State.TERMINATED);
+        shutdown.set(State.TERMINATED);
       } else if (state == State.STARTING) {
         shutdownWhenStartupFinishes = true;
-        startup.transitionSucceeded(State.STOPPING);
+        startup.set(State.STOPPING);
       } else if (state == State.RUNNING) {
         state = State.STOPPING;
         doStop();
@@ -168,7 +165,7 @@ public abstract class AbstractService implements Service {
       if (shutdownWhenStartupFinishes) {
         stop();
       } else {
-        startup.transitionSucceeded(State.RUNNING);
+        startup.set(State.RUNNING);
       }
     } finally {
       lock.unlock();
@@ -194,7 +191,7 @@ public abstract class AbstractService implements Service {
       }
 
       state = State.TERMINATED;
-      shutdown.transitionSucceeded(State.TERMINATED);
+      shutdown.set(State.TERMINATED);
     } finally {
       lock.unlock();
     }
@@ -212,11 +209,11 @@ public abstract class AbstractService implements Service {
     lock.lock();
     try {
       if (state == State.STARTING) {
-        startup.transitionFailed(cause);
-        shutdown.transitionFailed(new Exception(
+        startup.setException(cause);
+        shutdown.setException(new Exception(
             "Service failed to start.", cause));
       } else if (state == State.STOPPING) {
-        shutdown.transitionFailed(cause);
+        shutdown.setException(cause);
       }
 
       state = State.FAILED;
@@ -247,68 +244,18 @@ public abstract class AbstractService implements Service {
   @Override public String toString() {
     return getClass().getSimpleName() + " [" + state() + "]";
   }
-  
+
   /**
    * A change from one service state to another, plus the result of the change.
-   *
-   * TODO: could this be renamed to DefaultFuture, with methods
-   *     like setResult(T) and setFailure(T) ?
    */
-  private class Transition implements Future<State> {
-    private final CountDownLatch done = new CountDownLatch(1);
-    private State result;
-    private Throwable failureCause;
-
-    void transitionSucceeded(State result) {
-      // guarded by AbstractService.lock
-      checkState(this.result == null);
-      this.result = result;
-      done.countDown();
-    }
-
-    void transitionFailed(Throwable cause) {
-      // guarded by AbstractService.lock
-      checkState(result == null);
-      this.result = State.FAILED;
-      this.failureCause = cause;
-      done.countDown();
-    }
-
-    @Override
-    public boolean cancel(boolean mayInterruptIfRunning) {
-      return false;
-    }
-
-    @Override
-    public boolean isCancelled() {
-      return false;
-    }
-
-    @Override
-    public boolean isDone() {
-      return done.getCount() == 0;
-    }
-
-    @Override
-    public State get() throws InterruptedException, ExecutionException {
-      done.await();
-      return getImmediately();
-    }
-
+  private class Transition extends AbstractListenableFuture<State> {
     @Override
     public State get(long timeout, TimeUnit unit)
-        throws InterruptedException, ExecutionException, TimeoutException {
-      if (done.await(timeout, unit)) {
-        return getImmediately();
-      }
-      throw new TimeoutException(AbstractService.this.toString());
-    }
-
-    private State getImmediately() throws ExecutionException {
-      if (result == State.FAILED) {
-        throw new ExecutionException(failureCause);
-      } else {
-        return result;
+        throws InterruptedException, TimeoutException, ExecutionException {
+      try {
+        return super.get(timeout, unit);
+      } catch (TimeoutException e) {
+        throw new TimeoutException(AbstractService.this.toString());
       }
     }
   }

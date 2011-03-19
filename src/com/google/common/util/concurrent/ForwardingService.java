@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2009 Google Inc.
+ * Copyright (C) 2009 The Guava Authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,7 +21,6 @@ import com.google.common.base.Throwables;
 import com.google.common.collect.ForwardingObject;
 
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Future;
 
 /**
  * A {@link Service} that forwards all method calls to another service.
@@ -38,7 +37,7 @@ public abstract class ForwardingService extends ForwardingObject
 
   @Override protected abstract Service delegate();
 
-  @Override public Future<State> start() {
+  @Override public ListenableFuture<State> start() {
     return delegate().start();
   }
 
@@ -46,7 +45,7 @@ public abstract class ForwardingService extends ForwardingObject
     return delegate().state();
   }
 
-  @Override public Future<State> stop() {
+  @Override public ListenableFuture<State> stop() {
     return delegate().stop();
   }
 

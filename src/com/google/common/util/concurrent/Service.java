@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2009 Google Inc.
+ * Copyright (C) 2009 The Guava Authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,7 +19,6 @@ package com.google.common.util.concurrent;
 import com.google.common.annotations.Beta;
 
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Future;
 
 /**
  * An object with an operational state, plus asynchronous {@link #start()} and
@@ -54,16 +53,16 @@ public interface Service {
    * be restarted.
    *
    * @return a future for the startup result, regardless of whether this call
-   *     initiated startup. Calling {@link Future#get} will block until the
-   *     service has finished starting, and returns one of {@link
+   *     initiated startup. Calling {@link ListenableFuture#get} will block
+   *     until the service has finished starting, and returns one of {@link
    *     State#RUNNING}, {@link State#STOPPING} or {@link State#TERMINATED}. If
-   *     the service fails to start, {@link Future#get} will throw an {@link
-   *     ExecutionException}, and the service's state will be {@link
-   *     State#FAILED}. If it has already finished starting, {@link Future#get}
-   *     returns immediately. Cancelling the returned future is unsupported and
-   *     always returns {@code false}.
+   *     the service fails to start, {@link ListenableFuture#get} will throw an
+   *     {@link ExecutionException}, and the service's state will be {@link
+   *     State#FAILED}. If it has already finished starting, {@link
+   *     ListenableFuture#get} returns immediately. Cancelling the returned
+   *     future is unsupported and always returns {@code false}.
    */
-  Future<State> start();
+  ListenableFuture<State> start();
 
   /**
    * Initiates service startup (if necessary), returning once the service has
@@ -95,14 +94,14 @@ public interface Service {
    * immediately without taking action.
    *
    * @return a future for the shutdown result, regardless of whether this call
-   *     initiated shutdown. Calling {@link Future#get} will block until the
-   *     service has finished shutting down, and either returns {@link
-   *     State#TERMINATED} or throws an {@link ExecutionException}. If it has
-   *     already finished stopping, {@link Future#get} returns immediately.
-   *     Cancelling this future is unsupported and always returns {@code
-   *     false}.
+   *     initiated shutdown. Calling {@link ListenableFuture#get} will block
+   *     until the service has finished shutting down, and either returns
+   *     {@link State#TERMINATED} or throws an {@link ExecutionException}. If
+   *     it has already finished stopping, {@link Future#get} returns
+   *     immediately.  Cancelling this future is unsupported and always returns
+   *     {@code false}.
    */
-  Future<State> stop();
+  ListenableFuture<State> stop();
 
   /**
    * Initiates service shutdown (if necessary), returning once the service has

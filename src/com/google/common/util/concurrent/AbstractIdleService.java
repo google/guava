@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2009 Google Inc.
+ * Copyright (C) 2009 The Guava Authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,6 @@ import com.google.common.annotations.Beta;
 import com.google.common.base.Throwables;
 
 import java.util.concurrent.Executor;
-import java.util.concurrent.Future;
 
 /**
  * Base class for services that do not need a thread while "running"
@@ -99,7 +98,7 @@ public abstract class AbstractIdleService implements Service {
 
   // We override instead of using ForwardingService so that these can be final.
 
-  @Override public final Future<State> start() {
+  @Override public final ListenableFuture<State> start() {
     return delegate.start();
   }
 
@@ -115,7 +114,7 @@ public abstract class AbstractIdleService implements Service {
     return delegate.state();
   }
 
-  @Override public final Future<State> stop() {
+  @Override public final ListenableFuture<State> stop() {
     return delegate.stop();
   }
 

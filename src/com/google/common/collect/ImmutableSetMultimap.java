@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2009 Google Inc.
+ * Copyright (C) 2009 The Guava Authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -328,7 +328,7 @@ public class ImmutableSetMultimap<K, V>
   private final transient ImmutableSortedSet<V> emptySet;
 
   ImmutableSetMultimap(ImmutableMap<K, ImmutableSet<V>> map, int size, 
-      Comparator<? super V> valueComparator) {
+      @Nullable Comparator<? super V> valueComparator) {
     super(map, size);
     this.emptySet = (valueComparator == null) 
         ? null : ImmutableSortedSet.<V>emptySet(valueComparator);

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2009 Google Inc.
+ * Copyright (C) 2009 The Guava Authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -1683,7 +1683,8 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
   }
 
   @GuardedBy("Segment.this")
-  ReferenceEntry<K, V> newEntry(K key, int hash, ReferenceEntry<K, V> next) {
+  ReferenceEntry<K, V> newEntry(
+      K key, int hash, @Nullable ReferenceEntry<K, V> next) {
     return entryFactory.newEntry(this, key, hash, next);
   }
 
@@ -1732,7 +1733,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
   // - Unset: marked as unset, awaiting cleanup or reuse
 
   @VisibleForTesting boolean isLive(ReferenceEntry<K, V> entry) {
-    return entry.getKey() != null && getLiveValue(entry) != null;
+    return getLiveValue(entry) != null;
   }
 
   /**
@@ -1781,6 +1782,9 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
    * null.
    */
   V getLiveValue(ReferenceEntry<K, V> entry) {
+    if (entry.getKey() == null) {
+      return null;
+    }
     V value = entry.getValueReference().get();
     return (expires() && isExpired(entry)) ? null : value;
   }
@@ -1807,11 +1811,6 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
       ValueReference<K, V> valueReference) {
     ReferenceEntry<K, V> notifyEntry = newEntry(key, hash, null);
     notifyEntry.setValueReference(valueReference.copyFor(notifyEntry));
-    evictionNotificationQueue.offer(notifyEntry);
-  }
-
-  void enqueueNotification(K key, int hash) {
-    ReferenceEntry<K, V> notifyEntry = newEntry(key, hash, null);
     evictionNotificationQueue.offer(notifyEntry);
   }
 
@@ -2482,7 +2481,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
             } else {
               ++modCount;
               ReferenceEntry<K, V> newFirst =
-                  removeFromTable(first, e); // could decrement count
+                  removeFromChain(first, e); // could decrement count
               newCount = this.count - 1;
               table.set(index, newFirst);
               this.count = newCount; // write-volatile
@@ -2519,7 +2518,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
             } else if (valueEquivalence.equivalent(value, entryValue)) {
               ++modCount;
               ReferenceEntry<K, V> newFirst =
-                  removeFromTable(first, e); // could decrement count
+                  removeFromChain(first, e); // could decrement count
               newCount = this.count - 1;
               table.set(index, newFirst);
               this.count = newCount; // write-volatile
@@ -2554,7 +2553,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
           if (e == entry) {
             ++modCount;
             ReferenceEntry<K, V> newFirst =
-                removeFromTable(first, e); // could decrement count
+                removeFromChain(first, e); // could decrement count
             newCount = this.count - 1;
             table.set(index, newFirst);
             count = newCount; // write-volatile
@@ -2577,7 +2576,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
      * @return the new first entry for the table
      */
     @GuardedBy("Segment.this")
-    private ReferenceEntry<K, V> removeFromTable(ReferenceEntry<K, V> first,
+    ReferenceEntry<K, V> removeFromChain(ReferenceEntry<K, V> first,
         ReferenceEntry<K, V> entry) {
       evictionQueue.remove(entry);
       expirationQueue.remove(entry);
@@ -2641,7 +2640,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
               ++modCount;
               enqueueNotification(key, hash, valueReference);
               enqueueCleanup(e);
-              this.count = newCount;
+              this.count = newCount; // write-volatile
               return true;
             }
             return false;
@@ -2698,7 +2697,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
         for (ReferenceEntry<K, V> e = first; e != null; e = e.getNext()) {
           if (e == entry) {
             if (isUnset(e)) {
-              ReferenceEntry<K, V> newFirst = removeFromTable(first, e);
+              ReferenceEntry<K, V> newFirst = removeFromChain(first, e);
               table.set(index, newFirst);
               cleanedUp++;
             }

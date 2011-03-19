@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2007 Google Inc.
+ * Copyright (C) 2007 The Guava Authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -67,7 +67,8 @@ public final class EnumBiMap<K extends Enum<K>, V extends Enum<V>>
   }
 
   private EnumBiMap(Class<K> keyType, Class<V> valueType) {
-    super(new EnumMap<K, V>(keyType), new EnumMap<V, K>(valueType));
+    super(WellBehavedMap.wrap(new EnumMap<K, V>(keyType)),
+        WellBehavedMap.wrap(new EnumMap<V, K>(valueType)));
     this.keyType = keyType;
     this.valueType = valueType;
   }

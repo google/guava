@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2009 Google Inc.
+ * Copyright (C) 2009 The Guava Authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -412,9 +412,9 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
 
   /**
    * Specifies that each entry should be automatically removed from the
-   * map once a fixed duration has passed since the entry's creation.
-   * Note that changing the value of an entry will reset its expiration
-   * time.
+   * map once a fixed duration has passed since the entry's creation or
+   * replacement. Note that changing the value of an entry will reset its
+   * expiration time.
    *
    * <p>When {@code duration} is zero, elements can be successfully added to the
    * map, but are evicted immediately.
@@ -455,7 +455,8 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
 
   /**
    * Specifies that each entry should be automatically removed from the
-   * map once a fixed duration has passed since the entry's last access.
+   * map once a fixed duration has passed since the entry's last read or
+   * write access.
    *
    * <p>When {@code duration} is zero, elements can be successfully added to the
    * map, but are evicted immediately.
