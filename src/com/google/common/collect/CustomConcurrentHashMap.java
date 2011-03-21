@@ -2041,12 +2041,31 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
      * {@code entry} to the recency queue. At write-time, or when the queue is
      * full past the threshold, the queue will be drained and the entries
      * therein processed.
+     *
+     * <p>Note: locked reads should use {@link #recordLockedRead}.
      */
     void recordRead(ReferenceEntry<K, V> entry) {
       if (expiresAfterAccess()) {
         recordExpirationTime(entry, expireAfterAccessNanos);
       }
       recencyQueue.add(entry);
+    }
+
+    /**
+     * Updates the eviction metadata that {@code entry} was just read. This
+     * currently amounts to adding {@code entry} to relevant eviction lists.
+     *
+     * <p>Note: this method should only be called under lock, as it directly
+     * manipulates the eviction queues. Unlocked reads should use {@link
+     * #recordRead}.
+     */
+    @GuardedBy("Segment.this")
+    void recordLockedRead(ReferenceEntry<K, V> entry) {
+      evictionQueue.add(entry);
+      if (expiresAfterAccess()) {
+        recordExpirationTime(entry, expireAfterAccessNanos);
+        expirationQueue.add(entry);
+      }
     }
 
     /**
@@ -2274,7 +2293,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
             } else {
               // Mimic
               // "if (map.containsKey(key) && map.get(key).equals(oldValue))..."
-              recordRead(e);
+              recordLockedRead(e);
               return false;
             }
           }
@@ -2360,7 +2379,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
               // Mimic
               // "if (!map.containsKey(key)) ...
               //  else return map.get(key);
-              recordRead(e);
+              recordLockedRead(e);
               return entryValue;
             }
             // else clobber, don't adjust count
@@ -2717,6 +2736,14 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
         } else if (!isHeldByCurrentThread()) {
           cleanupExecutor.execute(cleanupRunnable);
         }
+      } else if (tryLock()) {
+        // TODO(user): only do this when a read encounters an expired entry
+        try {
+          // inexpensive read cleanup when the lock is available
+          expireEntries();
+        } finally {
+          unlock();
+        }
       }
     }
 
@@ -2724,10 +2751,13 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
      * Performs routine cleanup prior to executing a write. This should be
      * called every time a write thread acquires the segment lock, immediately
      * after acquiring the lock.
+     *
+     * <p>Post-condition: expireEntries has been run.
      */
     @GuardedBy("Segment.this")
     void preWriteCleanup() {
       if (isInlineCleanup()) {
+        // this is the only time we have the lock, so do everything we can
         runLockedCleanup();
       } else {
         expireEntries();

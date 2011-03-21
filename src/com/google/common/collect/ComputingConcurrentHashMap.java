@@ -100,13 +100,11 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V>
             K entryKey = e.getKey();
             if (e.getHash() == hash && entryKey != null
                 && keyEquivalence.equivalent(key, entryKey)) {
-              ValueReference<K, V> valueReference = e.getValueReference();
-
-              if (!valueReference.isComputingReference()) {
-                // assume not expired, as we just called expireEntries
-                value = valueReference.get();
+              if (!e.getValueReference().isComputingReference()) {
+                // never return expired entries
+                value = getLiveValue(e);
                 if (value != null) {
-                  recordRead(e);
+                  recordLockedRead(e);
                   return value;
                 }
                 // clobber invalid entries
@@ -157,7 +155,7 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V>
             try {
               checkState(!Thread.holdsLock(entry), "Recursive computation");
               value = entry.getValueReference().waitForValue();
-              // assume not expired, as we just called expireEntries
+              // don't consider expiration as we're concurrent with computation
               if (value != null) {
                 recordRead(entry);
                 return value;
