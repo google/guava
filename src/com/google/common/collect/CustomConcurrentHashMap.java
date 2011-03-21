@@ -1733,7 +1733,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
   // - Unset: marked as unset, awaiting cleanup or reuse
 
   @VisibleForTesting boolean isLive(ReferenceEntry<K, V> entry) {
-    return getLiveValue(entry) != null;
+    return segmentFor(entry.getHash()).getLiveValue(entry) != null;
   }
 
   /**
@@ -1772,21 +1772,6 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
 
   boolean isUnset(ValueReference<K, V> valueReference) {
     return valueReference == UNSET;
-  }
-
-  /**
-   * Gets the value from an entry. Returns null if the entry is invalid,
-   * partially-collected, computing, or expired. This method is unnecessary in
-   * blocks that call preWriteCleanup() directly, which can simply assume that
-   * remaining entries are not expired, and only need compare the value to
-   * null.
-   */
-  V getLiveValue(ReferenceEntry<K, V> entry) {
-    if (entry.getKey() == null) {
-      return null;
-    }
-    V value = entry.getValueReference().get();
-    return (expires() && isExpired(entry)) ? null : value;
   }
 
   // expiration
@@ -2611,6 +2596,32 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
       return newFirst;
     }
 
+    /**
+     * Gets the value from an entry. Returns null if the entry is invalid,
+     * partially-collected, computing, or expired.
+     */
+    V getLiveValue(ReferenceEntry<K, V> entry) {
+      if (entry.getKey() == null) {
+        return null;
+      }
+      V value = entry.getValueReference().get();
+      if (value == null) {
+        return null;
+      }
+      if (expires() && isExpired(entry)) {
+        // cleanup expired entries when the lock is available
+        if (tryLock()) {
+          try {
+            expireEntries();
+          } finally {
+            unlock();
+          }
+        }
+        return null;
+      }
+      return value;
+    }
+
     @GuardedBy("Segment.this")
     boolean unsetEntry(ReferenceEntry<K, V> entry, int hash) {
       for (ReferenceEntry<K, V> e = getFirst(hash); e != null;
@@ -2735,14 +2746,6 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
           runCleanup();
         } else if (!isHeldByCurrentThread()) {
           cleanupExecutor.execute(cleanupRunnable);
-        }
-      } else if (tryLock()) {
-        // TODO(user): only do this when a read encounters an expired entry
-        try {
-          // inexpensive read cleanup when the lock is available
-          expireEntries();
-        } finally {
-          unlock();
         }
       }
     }
@@ -3449,8 +3452,10 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
      */
     boolean advanceTo(ReferenceEntry<K, V> entry) {
       K key = entry.getKey();
-      V value = getLiveValue(entry);
-      if (key != null && value != null) {
+      // TODO(user): call getLiveValue when it's moved out of Segment
+      V value = entry.getValueReference().get();
+      if (key != null && value != null &&
+          !(expires() && isExpired(entry))) {
         nextExternal = new WriteThroughEntry(key, value);
         return true;
       } else {
