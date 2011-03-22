@@ -233,6 +233,7 @@ public abstract class ImmutableSortedSet<E>
         : new RegularImmutableSortedSet<E>(delegate, isSubset);
   }
 
+  @Deprecated
   public static <E> ImmutableSortedSet<E> withExplicitOrder(List<E> elements) {
     Ordering<E> ordering = Ordering.explicit(elements);
     return elements.isEmpty()
@@ -240,6 +241,7 @@ public abstract class ImmutableSortedSet<E>
         : new ExplicitOrderedImmutableSortedSet<E>(elements, ordering);
   }
 
+  @Deprecated
   public static <E> ImmutableSortedSet<E> withExplicitOrder(
       E firstElement, E... remainingElementsInOrder) {
     checkNotNull(firstElement);

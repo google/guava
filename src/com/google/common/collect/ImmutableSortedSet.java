@@ -491,8 +491,16 @@ public abstract class ImmutableSortedSet<E>
    * @throws IllegalArgumentException if {@code elements} contains any
    *     duplicate values (according to {@link Object#equals})
    * @since 3
+   * @deprecated If the provided elements are already in their natural order,
+   *     {@link #of()} (or {@link #copyOf()}, depending on the overload) will
+   *     produce a set with the same elements in the same order.  If the
+   *     elements are arranged according to another {@code Comparator}, use
+   *     {@link #orderedBy()}.  Otherwise, use {@link ImmutableSet}, which
+   *     maintains insertion order, for inputs that are ordered but not sorted.
+   *     This method is scheduled for deletion in Guava release 10.
    */
   @Beta
+  @Deprecated
   public static <E> ImmutableSortedSet<E> withExplicitOrder(List<E> elements) {
     return ExplicitOrderedImmutableSortedSet.create(elements);
   }
@@ -510,8 +518,16 @@ public abstract class ImmutableSortedSet<E>
    * @throws IllegalArgumentException if any duplicate values (according to
    *     {@link Object#equals(Object)}) are present among the method arguments
    * @since 3
+   * @deprecated If the provided elements are already in their natural order,
+   *     {@link #of()} (or {@link #copyOf()}, depending on the overload) will
+   *     produce a set with the same elements in the same order.  If the
+   *     elements are arranged according to another {@code Comparator}, use
+   *     {@link #orderedBy()}.  Otherwise, use {@link ImmutableSet}, which
+   *     maintains insertion order, for inputs that are ordered but not sorted.
+   *     This method is scheduled for deletion in Guava release 10.
    */
   @Beta
+  @Deprecated
   public static <E> ImmutableSortedSet<E> withExplicitOrder(
       E firstElement, E... remainingElementsInOrder) {
     return withExplicitOrder(
