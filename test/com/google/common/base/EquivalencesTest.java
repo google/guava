@@ -20,11 +20,13 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.google.testing.util.EqualsTester;
 
 import junit.framework.TestCase;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Unit test for {@link Equivalences}.
@@ -142,6 +144,30 @@ public class EquivalencesTest extends TestCase {
             Equivalences.wrap(LENGTH_EQUIVALENCE, null))
         .addEqualityGroup(Equivalences.wrap(Equivalences.equals(), "hello"))
         .addEqualityGroup(Equivalences.wrap(Equivalences.equals(), null))
+        .testEquals();
+  }
+  
+  public void testComposition() {
+    Map<String, Integer> elements = Maps.newHashMap();
+    elements.put("a1", new Integer(1));
+    
+    elements.put("b1", new Integer(2));
+    elements.put("b2", new Integer(2));
+    
+    elements.put("c1", new Integer(3));
+    elements.put("c2", new Integer(3));
+    elements.put("c3", new Integer(3));
+    
+    Function<String, Integer> elementToPartition = Functions.forMap(elements);
+    Equivalence<String> eq = Equivalences.compose(Equivalences.equals(), elementToPartition);
+    
+    new EqualsTester()
+        .addEqualityGroup(
+            Equivalences.wrap(eq, "a1"))
+        .addEqualityGroup(
+            Equivalences.wrap(eq, "b1"), Equivalences.wrap(eq, "b2"))
+        .addEqualityGroup(
+            Equivalences.wrap(eq, "c1"), Equivalences.wrap(eq, "c2"), Equivalences.wrap(eq, "c3"))
         .testEquals();
   }
 }
