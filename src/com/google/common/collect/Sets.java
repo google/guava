@@ -19,7 +19,6 @@ package com.google.common.collect;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Function;
@@ -337,7 +336,6 @@ public final class Sets {
    *
    * @since 8
    */
-  @Beta
   public static <E> Set<E> newIdentityHashSet() {
     return Sets.newSetFromMap(Maps.<E, Boolean>newIdentityHashMap());
   }
@@ -693,7 +691,6 @@ public final class Sets {
    *
    * @since 3
    */
-  @Beta
   public static <E> SetView<E> symmetricDifference(
       Set<? extends E> set1, Set<? extends E> set2) {
     checkNotNull(set1, "set1");

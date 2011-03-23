@@ -19,7 +19,6 @@ package com.google.common.collect;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Function;
@@ -787,7 +786,6 @@ public final class Iterables {
    *
    * @since 3
    */
-  @Beta // naming issue
   public static <T> Iterable<T> skip(final Iterable<T> iterable,
       final int numberToSkip) {
     checkNotNull(iterable);
@@ -863,7 +861,6 @@ public final class Iterables {
    * @throws IllegalArgumentException if {@code limitSize} is negative
    * @since 3
    */
-  @Beta // naming issue
   public static <T> Iterable<T> limit(
       final Iterable<T> iterable, final int limitSize) {
     checkNotNull(iterable);
@@ -895,7 +892,6 @@ public final class Iterables {
    * @see Iterators#consumingIterator(Iterator)
    * @since 2
    */
-  @Beta
   public static <T> Iterable<T> consumingIterable(final Iterable<T> iterable) {
     if (iterable instanceof Queue) {
       return new Iterable<T>() {

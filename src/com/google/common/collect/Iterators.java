@@ -877,7 +877,7 @@ public final class Iterators {
    * @return the number of elements skipped
    * @since 3
    */
-  @Beta // naming issue, unclear user demand
+  @Beta
   public static <T> int skip(Iterator<T> iterator, int numberToSkip) {
     checkNotNull(iterator);
     checkArgument(numberToSkip >= 0, "number to skip cannot be negative");
@@ -901,7 +901,6 @@ public final class Iterators {
    * @throws IllegalArgumentException if {@code limitSize} is negative
    * @since 3
    */
-  @Beta // naming issue
   public static <T> Iterator<T> limit(
       final Iterator<T> iterator, final int limitSize) {
     checkNotNull(iterator);
@@ -943,7 +942,6 @@ public final class Iterators {
    *     supplied iterator
    * @since 2
    */
-  @Beta
   public static <T> Iterator<T> consumingIterator(final Iterator<T> iterator) {
     checkNotNull(iterator);
     return new UnmodifiableIterator<T>() {

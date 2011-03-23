@@ -19,8 +19,6 @@ package com.google.common.util.concurrent;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import com.google.common.annotations.Beta;
-
 import java.lang.Thread.UncaughtExceptionHandler;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
@@ -44,7 +42,6 @@ import java.util.concurrent.atomic.AtomicLong;
  * @author Kurt Alfred Kluever
  * @since 4
  */
-@Beta
 public final class ThreadFactoryBuilder {
   private String nameFormat = null;
   private Boolean daemon = null;

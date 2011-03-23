@@ -16,8 +16,6 @@
 
 package com.google.common.util.concurrent;
 
-import com.google.common.annotations.Beta;
-
 import java.util.concurrent.Callable;
 
 import javax.annotation.Nullable;
@@ -28,7 +26,6 @@ import javax.annotation.Nullable;
  * @author Isaac Shum
  * @since 1
  */
-@Beta
 public final class Callables {
   private Callables() {}
 

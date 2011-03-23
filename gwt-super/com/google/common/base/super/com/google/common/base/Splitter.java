@@ -20,6 +20,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 
+import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 
 import java.util.Iterator;
@@ -236,6 +237,31 @@ public final class Splitter {
    */
   public Splitter omitEmptyStrings() {
     return new Splitter(strategy, true, trimmer, limit);
+  }
+
+  /**
+   * Returns a splitter that behaves equivalently to {@code this} splitter but
+   * stops splitting after it reaches the limit.
+   * The limit defines the maximum number of items returned by the iterator.
+   *
+   * <p>For example,
+   * {@code Splitter.on(',').limit(3).split("a,b,c,d")} returns an iterable
+   * containing {@code ["a", "b", "c,d"]}.  When omitting empty strings, the
+   * omitted strings do no count.  Hence,
+   * {@code Splitter.on(',').limit(3).omitEmptyStrings().split("a,,,b,,,c,d")}
+   * returns an iterable containing {@code ["a", "b", "c,d"}.
+   * When trim is requested, all entries, including the last are trimmed.  Hence
+   * {@code Splitter.on(',').limit(3).trimResults().split(" a , b , c , d ")}
+   * results in @{code ["a", "b", "c , d"]}.
+   *
+   * @param limit the maximum number of items returns
+   * @return a splitter with the desired configuration
+   * @since 9
+   */
+  @Beta
+  public Splitter limit(int limit) {
+    checkArgument(limit > 0, "must be greater then zero: %s", limit);
+    return new Splitter(strategy, omitEmptyStrings, trimmer, limit);
   }
 
   /**
