@@ -110,8 +110,6 @@ public interface Service {
    * terminated} without having been started nor stopped. Unlike calling {@code
    * stop().get()}, this method throws no checked exceptions.
    *
-   * @throws InterruptedRuntimeException if the thread was interrupted while
-   *      waiting for the service to finish shutting down.
    * @throws RuntimeException if shutdown failed
    * @return the state of the service when shutdown finished.
    */
