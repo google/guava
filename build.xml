@@ -154,7 +154,9 @@
     <javac srcdir="gwt-src"
            debug="on"
            destdir="build/gwt-classes"
-           encoding="UTF-8">
+           encoding="UTF-8"
+           source="1.5"
+           target="1.5">
       <compilerarg value="-Xlint:all"/>
       <classpath>
         <pathelement location="build/classes" />
@@ -270,7 +272,9 @@
     <javac srcdir="gwt-test"
            debug="on"
            destdir="build/gwt-test-classes"
-           encoding="UTF-8">
+           encoding="UTF-8"
+           source="1.5"
+           target="1.5">
       <compilerarg value="-Xlint:all"/>
       <classpath>
         <pathelement location="build/classes" />
