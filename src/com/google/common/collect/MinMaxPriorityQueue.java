@@ -381,8 +381,28 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
       queue[size] = null;
       return null;
     }
+    E actualLastElement = elementData(size);
+    int lastElementAt = heapForIndex(size)
+        .getCorrectLastElement(actualLastElement);
     E toTrickle = elementData(size);
     queue[size] = null;
+    MoveDesc<E> changes = fillHole(index, toTrickle);
+    if (lastElementAt < index) {
+      // Last element is moved to before index, swapped with trickled element.
+      if (changes == null) {
+        // The trickled element is still after index.
+        return new MoveDesc<E>(actualLastElement, toTrickle);
+      } else {
+        // The trickled element is back before index, but the replaced element
+        // has now been moved after index.
+        return new MoveDesc<E>(actualLastElement, changes.replaced);
+      }
+    }
+    // Trickled element was after index to begin with, no adjustment needed.
+    return changes;
+  }
+
+  private MoveDesc<E> fillHole(int index, E toTrickle) {
     Heap heap = heapForIndex(index);
     // We consider elementData(index) a "hole", and we want to fill it
     // with the last element of the heap, toTrickle.
@@ -590,14 +610,13 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
       int parentIndex = getParentIndex(index);
       E parentElement = elementData(parentIndex);
       if (parentIndex != 0) {
-        // This is a guard for the case of the childless uncle. No checks are
-        // performed for childlessness (even if we could check it), but since
-        // it is the minimum sibling that is moved from "max" to "min" half
-        // of the heap, and only if x is larger, and this is at the bottom
-        // edge of the heap, the heap invariant is still preserved.
+        // This is a guard for the case of the childless uncle.
+        // Since the end of the array is actually the middle of the heap,
+        // a smaller childless uncle can become a child of x when we
+        // bubble up alternate levels, violating the invariant.
         int grandparentIndex = getParentIndex(parentIndex);
         int uncleIndex = getRightChildIndex(grandparentIndex);
-        if (uncleIndex != parentIndex) {
+        if (uncleIndex != parentIndex && getLeftChildIndex(uncleIndex) >= size) {
           E uncleElement = elementData(uncleIndex);
           if (ordering.compare(uncleElement, parentElement) < 0) {
             parentIndex = uncleIndex;
@@ -612,6 +631,33 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
       }
       queue[index] = x;
       return index;
+    }
+
+    /**
+     * Returns the conceptually correct last element of the heap.
+     *
+     * <p>Since the last element of the array is actually in the
+     * middle of the sorted structure, a childless uncle node could be
+     * smaller, which would corrupt the invariant if this element
+     * becomes the new parent of the uncle. In that case, we first
+     * switch the last element with its uncle, before returning.
+     */
+    int getCorrectLastElement(E actualLastElement) {
+      int parentIndex = getParentIndex(size);
+      if (parentIndex != 0) {
+        int grandparentIndex = getParentIndex(parentIndex);
+        int uncleIndex = getRightChildIndex(grandparentIndex);
+        if (uncleIndex != parentIndex
+            && getLeftChildIndex(uncleIndex) >= size) {
+          E uncleElement = elementData(uncleIndex);
+          if (ordering.compare(uncleElement, actualLastElement) < 0) {
+            queue[uncleIndex] = actualLastElement;
+            queue[size] = uncleElement;
+            return uncleIndex;
+          }
+        }
+      }
+      return size;
     }
 
     /**
