@@ -136,6 +136,7 @@
   <target name="dist" depends="jar, gwtjar, zipsrc, javadoc"
        description="Build entire distribution.">
     <copy toDir="build/dist/guava-${release}" file="AUTHORS"/>
+    <copy toDir="build/dist/guava-${release}" file="CONTRIBUTORS"/>
     <copy toDir="build/dist/guava-${release}" file="COPYING"/>
     <copy toDir="build/dist/guava-${release}" file="README"/>
     <copy toDir="build/dist/guava-${release}">
