@@ -188,7 +188,7 @@ public final class Futures {
    * {@link ExecutionException} with the actual cause of the exception.
    * See {@link Future#get()} for details on the exceptions thrown.
    *
-   * @since 9
+   * @since 9 (source-compatible since release 1)
    */
   public static <V, X extends Exception> CheckedFuture<V, X> makeChecked(
       ListenableFuture<V> future, Function<Exception, X> mapper) {
