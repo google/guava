@@ -475,7 +475,7 @@ public class InternetDomainName {
    * Returns a new {@link InternetDomainName} instance with the given {@code
    * name}, using the same validation as the instance on which it is called.
    */
-  protected InternetDomainName fromInternal(String name) {
+  InternetDomainName fromInternal(String name) {
     return fromLenient(name);
   }
 
