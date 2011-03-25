@@ -90,6 +90,26 @@ public class InternetDomainName {
   private static final String DOT_REGEX = "\\.";
 
   /**
+   * Maximum parts (labels) in a domain name.
+   *
+   * <p>TODO: Need RFC reference.
+   */
+  private static final int MAX_PARTS = 127;
+
+  /**
+   * Maximum length of a full domain name, including separators, and
+   * leaving room for the root label. See
+   * <a href="http://www.ietf.org/rfc/rfc2181.txt">RFC 2181</a> part 11.
+   */
+  private static final int MAX_LENGTH = 253;
+
+  /**
+   * Maximum size of a single part of a domain name. See
+   * <a href="http://www.ietf.org/rfc/rfc2181.txt">RFC 2181</a> part 11.
+   */
+  private static final int MAX_DOMAIN_PART_LENGTH = 63;
+
+  /**
    * The full domain name, converted to lower case.
    */
   private final String name;
@@ -123,9 +143,13 @@ public class InternetDomainName {
       name = name.substring(0, name.length() - 1);
     }
 
+    checkArgument(name.length() <= MAX_LENGTH, "Domain name too long: '%s':", name);
     this.name = name;
+
     this.parts = ImmutableList.copyOf(DOT_SPLITTER.split(name));
+    checkArgument(parts.size() <= MAX_PARTS, "Domain has too many parts: '%s'", name);
     checkArgument(validateSyntax(parts), "Not a valid domain name: '%s'", name);
+
     this.publicSuffixIndex = findPublicSuffix();
   }
 
@@ -207,11 +231,6 @@ public class InternetDomainName {
 
     return true;
   }
-
-  /**
-   * The maximum size of a single part of a domain name.
-   */
-  private static final int MAX_DOMAIN_PART_LENGTH = 63;
 
   private static final CharMatcher DASH_MATCHER = CharMatcher.anyOf("-_");
 
