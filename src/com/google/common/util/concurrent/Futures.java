@@ -172,6 +172,7 @@ public final class Futures {
    * {@link InterruptedException}, a {@link CancellationException}, or an
    * {@link ExecutionException} with the actual cause of the exception.
    * See {@link Future#get()} for details on the exceptions thrown.
+   * @since 9
    */
   public static <V, X extends Exception> CheckedFuture<V, X> makeChecked(
       Future<V> future, Function<Exception, X> mapper) {

@@ -65,6 +65,7 @@ public abstract class ForwardingService extends ForwardingObject
    * A sensible default implementation of {@link #startAndWait()}, in terms of
    * {@link #start}. If you override {@link #start}, you may wish to override
    * {@link #startAndWait()} to forward to this implementation.
+   * @since 9
    */
   protected State standardStartAndWait() {
     try {
@@ -78,6 +79,7 @@ public abstract class ForwardingService extends ForwardingObject
    * A sensible default implementation of {@link #stopAndWait()}, in terms of
    * {@link #stop}. If you override {@link #stop}, you may wish to override
    * {@link #stopAndWait()} to forward to this implementation.
+   * @since 9
    */
   protected State standardStopAndWait() {
     try {
