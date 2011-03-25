@@ -212,7 +212,7 @@ final class ExplicitOrderedImmutableSortedSet<E>
       this.elements = elements;
     }
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings("deprecation") // serialization for deprecated method
     Object readResolve() {
       return ImmutableSortedSet.withExplicitOrder(Arrays.asList(elements));
     }

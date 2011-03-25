@@ -2589,7 +2589,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
      * node can stay, but all preceding ones need to be cloned.
      *
      * @param first the first entry of the table
-     * @param removed the entry being removed from the table
+     * @param entry the entry being removed from the table
      * @return the new first entry for the table
      */
     @GuardedBy("Segment.this")

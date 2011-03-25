@@ -97,7 +97,7 @@ public interface Service {
    *     initiated shutdown. Calling {@link ListenableFuture#get} will block
    *     until the service has finished shutting down, and either returns
    *     {@link State#TERMINATED} or throws an {@link ExecutionException}. If
-   *     it has already finished stopping, {@link Future#get} returns
+   *     it has already finished stopping, {@link ListenableFuture#get} returns
    *     immediately.  Cancelling this future is unsupported and always returns
    *     {@code false}.
    */

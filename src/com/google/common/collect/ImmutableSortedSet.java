@@ -88,9 +88,13 @@ import java.util.SortedSet;
 public abstract class ImmutableSortedSet<E>
     extends ImmutableSortedSetFauxverideShim<E> implements SortedSet<E> {
 
-  // TODO(cpovirk): find a way to remove this @SuppressWarnings even for eclipse?
+  /*
+   * TODO(cpovirk): find a way to remove this @SuppressWarnings even for
+   * eclipse?
+   */
   @SuppressWarnings("unchecked")
-  private static final Comparator<Comparable> NATURAL_ORDER = Ordering.natural();
+  private static final Comparator<Comparable> NATURAL_ORDER =
+      Ordering.natural();
 
   @SuppressWarnings("unchecked")
   private static final ImmutableSortedSet<Comparable> NATURAL_EMPTY_SET =
@@ -492,12 +496,12 @@ public abstract class ImmutableSortedSet<E>
    *     duplicate values (according to {@link Object#equals})
    * @since 3
    * @deprecated If the provided elements are already in their natural order,
-   *     {@link #of()} (or {@link #copyOf()}, depending on the overload) will
-   *     produce a set with the same elements in the same order.  If the
-   *     elements are arranged according to another {@code Comparator}, use
-   *     {@link #orderedBy()}.  Otherwise, use {@link ImmutableSet}, which
-   *     maintains insertion order, for inputs that are ordered but not sorted.
-   *     This method is scheduled for deletion in Guava release 10.
+   *     {@link #copyOf(Iterable)} will produce a set with the same elements in
+   *     the same order.  If the elements are arranged according to another
+   *     {@code Comparator}, use {@link #orderedBy(Comparator)}.  Otherwise, use
+   *     {@link ImmutableSet}, which maintains insertion order for inputs that
+   *     are ordered but not sorted. This method is scheduled for deletion in
+   *     Guava release 10.
    */
   @Beta
   @Deprecated
@@ -519,12 +523,12 @@ public abstract class ImmutableSortedSet<E>
    *     {@link Object#equals(Object)}) are present among the method arguments
    * @since 3
    * @deprecated If the provided elements are already in their natural order,
-   *     {@link #of()} (or {@link #copyOf()}, depending on the overload) will
-   *     produce a set with the same elements in the same order.  If the
-   *     elements are arranged according to another {@code Comparator}, use
-   *     {@link #orderedBy()}.  Otherwise, use {@link ImmutableSet}, which
-   *     maintains insertion order, for inputs that are ordered but not sorted.
-   *     This method is scheduled for deletion in Guava release 10.
+   *     {@link #of()} will produce a set with the same elements in the same
+   *     order.  If the elements are arranged according to another {@code
+   *     Comparator}, use {@link #orderedBy(Comparator)}.  Otherwise, use {@link
+   *     ImmutableSet}, which maintains insertion order for inputs that are
+   *     ordered but not sorted. This method is scheduled for deletion in Guava
+   *     release 10.
    */
   @Beta
   @Deprecated

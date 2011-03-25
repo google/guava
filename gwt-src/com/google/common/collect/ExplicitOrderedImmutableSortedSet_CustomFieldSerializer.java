@@ -36,6 +36,7 @@ public class ExplicitOrderedImmutableSortedSet_CustomFieldSerializer {
       ExplicitOrderedImmutableSortedSet<?> instance) {
   }
 
+  @SuppressWarnings("deprecation") // serialization for deprecated method
   public static ExplicitOrderedImmutableSortedSet<Object> instantiate(
       SerializationStreamReader reader) throws SerializationException {
     List<Object> elements = new ArrayList<Object>();

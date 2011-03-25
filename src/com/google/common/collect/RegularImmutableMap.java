@@ -105,7 +105,7 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
     @Nullable LinkedEntry<K, V> next();
   }
 
-  /** {@link LinkedEntry} implementation that has a next value. */
+  /** {@code LinkedEntry} implementation that has a next value. */
   @Immutable
   @SuppressWarnings("serial") // this class is never serialized
   private static final class NonTerminalEntry<K, V>
@@ -123,7 +123,7 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
   }
 
   /**
-   * {@link LinkedEntry} implementation that serves as the last entry in the
+   * {@code LinkedEntry} implementation that serves as the last entry in the
    * list.  I.e. no next entry
    */
   @Immutable
