@@ -90,9 +90,12 @@ public class InternetDomainName {
   private static final String DOT_REGEX = "\\.";
 
   /**
-   * Maximum parts (labels) in a domain name.
-   *
-   * <p>TODO: Need RFC reference.
+   * Maximum parts (labels) in a domain name. This value arises from
+   * the 255-octet limit described in
+   * <a href="http://www.ietf.org/rfc/rfc2181.txt">RFC 2181</a> part 11 with
+   * the fact that the encoding of each part occupies at least two bytes
+   * (dot plus label externally, length byte plus label internally). Thus, if
+   * all labels have the minimum size of one byte, 127 of them will fit.
    */
   private static final int MAX_PARTS = 127;
 
