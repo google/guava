@@ -119,12 +119,6 @@ public final class Futures {
   }
 
   /**
-   * <b>No longer accessible outside the package.</b> New and existing utilities
-   * (e.g., {@link SettableFuture}, {@link
-   * MoreExecutors#listeningDecorator(java.util.concurrent.ExecutorService)})
-   * have enabled us to replace all existing callers of this method with less
-   * expensive {@code ListenableFuture} implementations. Chris Povirk is happy
-   * to assist with any fallout from this change.
    *
    * <p>Creates a {@link ListenableFuture} out of a normal {@link Future}. The
    * returned future will create a thread to wait for the source future to
@@ -141,7 +135,8 @@ public final class Futures {
    * {@link ListenableFutureTask}, which adds the {@link ListenableFuture}
    * functionality to the standard {@code FutureTask} implementation.
    */
-  static <V> ListenableFuture<V> makeListenable(Future<V> future) {
+  public static <V> ListenableFuture<V> makeListenable(
+      Future<V> future) {
     if (future instanceof ListenableFuture<?>) {
       return (ListenableFuture<V>) future;
     }
