@@ -51,7 +51,7 @@ public interface Function<F, T> {
    * However, an implementation may also choose to return {@code true} whenever {@code object} is a
    * {@link Function} that it considers <i>interchangeable</i> with this one. "Interchangeable"
    * <i>typically</i> means that {@code Objects.equal(this.apply(f), that.apply(f))} is true for all
-   * {@code f} of type {@code F}). Note that a {@code false} result from this method does not imply
+   * {@code f} of type {@code F}. Note that a {@code false} result from this method does not imply
    * that the functions are known <i>not</i> to be interchangeable.
    */
   @Override
