@@ -61,7 +61,6 @@ public abstract class GenericMapMaker<K0, V0> {
   /**
    * See {@link MapMaker#concurrencyLevel}.
    */
-  @GwtIncompatible("java.util.concurrent.ConcurrentHashMap concurrencyLevel")
   public abstract GenericMapMaker<K0, V0> concurrencyLevel(
       int concurrencyLevel);
 

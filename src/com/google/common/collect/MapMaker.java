@@ -264,11 +264,15 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    * possible the default will change again in the future. If you care about
    * this value, you should always choose it explicitly.
    *
+   * <p>GWT client code, because it runs in a single-threaded browser
+   * environment, has no need for a concurrency level.  Thus, any {@code
+   * MapMaker} map used in GWT client code will only have one partition,
+   * regardless of any calls to this method.
+   *
    * @throws IllegalArgumentException if {@code concurrencyLevel} is
    *     nonpositive
    * @throws IllegalStateException if a concurrency level was already set
    */
-  @GwtIncompatible("java.util.concurrent.ConcurrentHashMap concurrencyLevel")
   @Override
   public MapMaker concurrencyLevel(int concurrencyLevel) {
     checkState(this.concurrencyLevel == UNSET_INT,

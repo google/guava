@@ -220,6 +220,17 @@ public class MapMaker extends GenericMapMaker<Object, Object> {
   }
 
   @Override
+  public MapMaker concurrencyLevel(int concurrencyLevel) {
+    if (concurrencyLevel < 1) {
+      throw new IllegalArgumentException(
+          "GWT only supports a concurrency level of 1");
+    }
+    // GWT technically only supports concurrencyLevel == 1, but we silently
+    // ignore other positive values.
+    return this;
+  }
+
+  @Override
   public <K, V> ConcurrentMap<K, V> makeMap() {
     return useCustomMap
         ? new ExpiringComputingMap<K, V>(

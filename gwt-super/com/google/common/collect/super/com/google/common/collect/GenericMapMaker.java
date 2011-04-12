@@ -56,6 +56,12 @@ public abstract class GenericMapMaker<K0, V0> {
   public abstract GenericMapMaker<K0, V0> maximumSize(int maximumSize);
 
   /**
+   * See {@link MapMaker#concurrencyLevel}.
+   */
+  public abstract GenericMapMaker<K0, V0> concurrencyLevel(
+      int concurrencyLevel);
+
+  /**
    * See {@link MapMaker#expiration}.
    */
   // TODO(user): deprecate
