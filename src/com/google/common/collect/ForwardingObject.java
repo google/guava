@@ -26,7 +26,7 @@ import java.io.Serializable;
  * The {@link #delegate()} method must be overridden to return the instance
  * being decorated.
  *
- * This class does <i>not</i> forward the {@code hashCode} and {@code equals}
+ * <p>This class does <i>not</i> forward the {@code hashCode} and {@code equals}
  * methods through to the backing object, but relies on {@code Object}'s
  * implementation. This is necessary to preserve the symmetry of {@code equals}.
  * Custom definitions of equality are usually based on an interface, such as

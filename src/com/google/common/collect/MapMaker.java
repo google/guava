@@ -66,7 +66,7 @@ import java.util.concurrent.TimeUnit;
  * returns a valid concurrent map that behaves exactly like a
  * {@link ConcurrentHashMap}.
  *
- * The returned map is implemented as a hash table with similar performance
+ * <p>The returned map is implemented as a hash table with similar performance
  * characteristics to {@link ConcurrentHashMap}. It supports all optional
  * operations of the {@code ConcurrentMap} interface. It does not permit
  * null keys or values.
