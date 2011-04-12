@@ -46,7 +46,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * <p>A {@link ConcurrentMap} builder, providing any combination of these
  * features: {@linkplain SoftReference soft} or {@linkplain WeakReference
- * weak} keys, soft or weak values, size-based evicition, timed expiration, and
+ * weak} keys, soft or weak values, size-based eviction, timed expiration, and
  * on-demand computation of values. Usage example: <pre>   {@code
  *
  *   ConcurrentMap<Key, Graph> graphs = new MapMaker()
@@ -81,7 +81,9 @@ import java.util.concurrent.TimeUnit;
  *
  * <p>The returned map has <i>weakly consistent iteration</i>: an iterator
  * over one of the map's view collections may reflect some, all or none of
- * the changes made to the map after the iterator was created.
+ * the changes made to the map after the iterator was created. They do not
+ * throw {@link ConcurrentModificationException}, and may proceed
+ * concurrently with other operations.
  *
  * <p>An entry whose key or value is reclaimed by the garbage collector
  * immediately disappears from the map. (If the default settings of strong
@@ -89,7 +91,8 @@ import java.util.concurrent.TimeUnit;
  * never observe a partially-reclaimed entry. Any {@link java.util.Map.Entry}
  * instance retrieved from the map's {@linkplain Map#entrySet() entry set}
  * is a snapshot of that entry's state at the time of retrieval; such entries
- * do, however, support {@link java.util.Map.Entry#setValue}.
+ * do, however, support {@link java.util.Map.Entry#setValue}, which simply
+ * calls {@link java.util.Map#put} on the entry's key.
  *
  * <p>The maps produced by {@code MapMaker} are serializable, and the
  * deserialized maps retain all the configuration properties of the original
@@ -550,6 +553,18 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    * does not alter the state of this {@code MapMaker} instance, so it can be
    * invoked again to create multiple independent maps.
    *
+   * <p>Insertion, removal, update, and access operations on the returned
+   * map safely execute concurrently by multiple threads. Iterators on the
+   * returned map are weakly consistent, returning elements reflecting the
+   * state of the map at some point at or since the creation of the iterator.
+   * They do not throw {@link ConcurrentModificationException}, and may proceed
+   * concurrently with other operations.
+   *
+   * <p>The bulk operations {@code putAll}, {@code equals}, and {@code clear}
+   * are not guaranteed to be performed atomically on the returned map.
+   * Additionally, {@code size} and {@code containsValue} are implemented as
+   * bulk read operations, and thus may fail to observe concurrent writes.
+   *
    * @return a serializable concurrent map having the requested features
    */
   @Override
@@ -644,6 +659,18 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    *
    * <p>This method does not alter the state of this {@code MapMaker} instance,
    * so it can be invoked again to create multiple independent maps.
+   *
+   * <p>Insertion, removal, update, and access operations on the returned
+   * map safely execute concurrently by multiple threads. Iterators on the
+   * returned map are weakly consistent, returning elements reflecting the
+   * state of the map at some point at or since the creation of the iterator.
+   * They do not throw {@link ConcurrentModificationException}, and may proceed
+   * concurrently with other operations.
+   *
+   * <p>The bulk operations {@code putAll}, {@code equals}, and {@code clear}
+   * are not guaranteed to be performed atomically on the returned map.
+   * Additionally, {@code size} and {@code containsValue} are implemented as
+   * bulk read operations, and thus may fail to observe concurrent writes.
    *
    * @param computingFunction the function used to compute new values
    * @return a serializable concurrent map having the requested features
