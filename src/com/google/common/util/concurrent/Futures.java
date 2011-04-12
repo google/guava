@@ -78,17 +78,20 @@ public final class Futures {
       }
 
       @Override
-      public V get(long originalTimeout, TimeUnit originalUnit)
+      public V get(long timeout, TimeUnit unit)
           throws TimeoutException, ExecutionException {
         boolean interrupted = false;
         try {
-          long end = System.nanoTime() + originalUnit.toNanos(originalTimeout);
+          long remainingNanos = unit.toNanos(timeout);
+          long end = System.nanoTime() + remainingNanos;
+
           while (true) {
             try {
               // Future treats negative timeouts just like zero.
-              return future.get(end - System.nanoTime(), NANOSECONDS);
+              return future.get(remainingNanos, NANOSECONDS);
             } catch (InterruptedException e) {
               interrupted = true;
+              remainingNanos = end - System.nanoTime();
             }
           }
         } finally {
