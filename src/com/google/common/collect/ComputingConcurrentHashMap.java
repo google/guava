@@ -79,71 +79,77 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V>
 
     V compute(K key, int hash) {
       outer: while (true) {
-        V value = get(key, hash);
-        if (value != null) {
-          return value;
-        }
-
-        ReferenceEntry<K, V> entry = null;
-        ComputingValueReference computingValueReference = null;
-        lock();
-        try {
-          // Try again--an entry could have materialized in the interim.
-          preWriteCleanup();
-
-          // getFirst, but remember the index
-          AtomicReferenceArray<ReferenceEntry<K, V>> table = this.table;
-          int index = hash & (table.length() - 1);
-          ReferenceEntry<K, V> first = table.get(index);
-
-          for (ReferenceEntry<K, V> e = first; e != null; e = e.getNext()) {
-            K entryKey = e.getKey();
-            if (e.getHash() == hash && entryKey != null
-                && keyEquivalence.equivalent(key, entryKey)) {
-              if (!e.getValueReference().isComputingReference()) {
-                // never return expired entries
-                value = getLiveValue(e);
-                if (value != null) {
-                  recordLockedRead(e);
-                  return value;
-                }
-                // clobber invalid entries
-                unsetLiveEntry(e, hash);
-              }
-              entry = e;
-              break;
-            }
-          }
-
-          if (entry == null || isUnset(entry)) {
-            // Create a new entry.
-            computingValueReference = new ComputingValueReference();
-
-            if (entry == null) {
-              entry = newEntry(key, hash, first);
-              table.set(index, entry);
-            }
-            entry.setValueReference(computingValueReference);
-          }
-        } finally {
-          unlock();
-          postWriteCleanup();
-        }
-
-        if (computingValueReference != null) {
-          // This thread solely created the entry.
-          try {
-            // Synchronizes on the entry to allow failing fast when a
-            // recursive computation is detected. This is not fool-proof
-            // since the entry may be copied when the segment is written to.
-            synchronized (entry) {
-              value = computingValueReference.compute(key, hash);
-            }
-            checkNotNull(value, "compute() returned null unexpectedly");
+        ReferenceEntry<K, V> e = getEntry(key, hash);
+        if (e != null) {
+          V value = getLiveValue(e);
+          if (value != null) {
+            recordRead(e);
             return value;
+          }
+        }
+
+        // at this point e is either null, computing, or expired;
+        // avoid locking if it's already computing
+        if (e == null || !e.getValueReference().isComputingReference()) {
+          ComputingValueReference computingValueReference = null;
+          lock();
+          try {
+            preWriteCleanup();
+
+            // getFirst, but remember the index
+            AtomicReferenceArray<ReferenceEntry<K, V>> table = this.table;
+            int index = hash & (table.length() - 1);
+            ReferenceEntry<K, V> first = table.get(index);
+
+            for (e = first; e != null; e = e.getNext()) {
+              K entryKey = e.getKey();
+              if (e.getHash() == hash && entryKey != null
+                  && keyEquivalence.equivalent(key, entryKey)) {
+                if (!e.getValueReference().isComputingReference()) {
+                  // never return expired entries
+                  V value = getLiveValue(e);
+                  if (value != null) {
+                    recordLockedRead(e);
+                    return value;
+                  }
+                  // clobber invalid entries
+                  unsetLiveEntry(e, hash);
+                }
+                break;
+              }
+            }
+
+            if (e == null || isUnset(e)) {
+              // Create a new entry.
+              computingValueReference = new ComputingValueReference();
+
+              if (e == null) {
+                e = newEntry(key, hash, first);
+                table.set(index, e);
+              }
+              e.setValueReference(computingValueReference);
+            }
           } finally {
-            if (value == null) {
-              clearValue(key, hash, computingValueReference);
+            unlock();
+            postWriteCleanup();
+          }
+
+          if (computingValueReference != null) {
+            // This thread solely created the entry.
+            V value = null;
+            try {
+              // Synchronizes on the entry to allow failing fast when a
+              // recursive computation is detected. This is not fool-proof
+              // since the entry may be copied when the segment is written to.
+              synchronized (e) {
+                value = computingValueReference.compute(key, hash);
+              }
+              checkNotNull(value, "compute() returned null unexpectedly");
+              return value;
+            } finally {
+              if (value == null) {
+                clearValue(key, hash, computingValueReference);
+              }
             }
           }
         }
@@ -153,16 +159,17 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V>
         try {
           while (true) {
             try {
-              checkState(!Thread.holdsLock(entry), "Recursive computation");
-              value = entry.getValueReference().waitForValue();
+              checkState(!Thread.holdsLock(e), "Recursive computation");
+              V value = e.getValueReference().waitForValue();
               // don't consider expiration as we're concurrent with computation
               if (value != null) {
-                recordRead(entry);
+                recordRead(e);
+                postReadCleanup();
                 return value;
               }
               // else computing thread will clearValue
               continue outer;
-            } catch (InterruptedException e) {
+            } catch (InterruptedException ie) {
               interrupted = true;
             }
           }

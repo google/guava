@@ -2202,22 +2202,23 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
 
     /**
      * Returns the entry for a given key. Note that the entry may not be live.
-     * This is only used for testing.
      */
-    @VisibleForTesting ReferenceEntry<K, V> getEntry(Object key, int hash) {
-      for (ReferenceEntry<K, V> e = getFirst(hash); e != null;
-          e = e.getNext()) {
-        if (e.getHash() != hash) {
-          continue;
-        }
+    ReferenceEntry<K, V> getEntry(Object key, int hash) {
+      if (count != 0) { // read-volatile
+        for (ReferenceEntry<K, V> e = getFirst(hash); e != null;
+            e = e.getNext()) {
+          if (e.getHash() != hash) {
+            continue;
+          }
 
-        K entryKey = e.getKey();
-        if (entryKey == null) {
-          continue;
-        }
+          K entryKey = e.getKey();
+          if (entryKey == null) {
+            continue;
+          }
 
-        if (keyEquivalence.equivalent(key, entryKey)) {
-          return e;
+          if (keyEquivalence.equivalent(key, entryKey)) {
+            return e;
+          }
         }
       }
 
@@ -2226,28 +2227,14 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V>
 
     V get(Object key, int hash) {
       try {
-        if (count != 0) { // read-volatile
-          for (ReferenceEntry<K, V> e = getFirst(hash); e != null;
-               e = e.getNext()) {
-            if (e.getHash() != hash) {
-              continue;
-            }
-
-            K entryKey = e.getKey();
-            if (entryKey == null) {
-              continue;
-            }
-
-            if (keyEquivalence.equivalent(key, entryKey)) {
-              V value = getLiveValue(e);
-              if (value != null) {
-                recordRead(e);
-              }
-              return value;
-            }
+        ReferenceEntry<K, V> e = getEntry(key, hash);
+        if (e != null) {
+          V value = getLiveValue(e);
+          if (value != null) {
+            recordRead(e);
           }
+          return value;
         }
-
         return null;
       } finally {
         postReadCleanup();
