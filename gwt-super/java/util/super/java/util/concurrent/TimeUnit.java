@@ -1,25 +1,14 @@
 /*
- * Copyright (C) 2009 Google Inc.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Written by Doug Lea with assistance from members of JCP JSR-166
+ * Expert Group and released to the public domain, as explained at
+ * http://creativecommons.org/publicdomain/zero/1.0/
  */
 
 package java.util.concurrent;
 
 /**
- * OpenJDK TimeUnit minus the unsupported operations
- *
- * @author Charles Fry
+ * GWT emulation of TimeUnit, created by removing unsupported operations from
+ * Doug Lea's public domain version.
  */
 public enum TimeUnit {
   NANOSECONDS {
@@ -111,31 +100,45 @@ public enum TimeUnit {
 
   static final long MAX = Long.MAX_VALUE;
 
-  /**
-   * Scale d by m, checking for overflow.
-   * This has a short name to make above code more readable.
-   */
   static long x(long d, long m, long over) {
     if (d >  over) return Long.MAX_VALUE;
     if (d < -over) return Long.MIN_VALUE;
     return d * m;
   }
 
-  public abstract long convert(long sourceDuration, TimeUnit sourceUnit);
+  // exceptions below changed from AbstractMethodError for GWT
 
-  public abstract long toNanos(long duration);
+  public long convert(long sourceDuration, TimeUnit sourceUnit) {
+    throw new AssertionError();
+  }
 
-  public abstract long toMicros(long duration);
+  public long toNanos(long duration) {
+    throw new AssertionError();
+  }
 
-  public abstract long toMillis(long duration);
+  public long toMicros(long duration) {
+    throw new AssertionError();
+  }
 
-  public abstract long toSeconds(long duration);
+  public long toMillis(long duration) {
+    throw new AssertionError();
+  }
 
-  public abstract long toMinutes(long duration);
+  public long toSeconds(long duration) {
+    throw new AssertionError();
+  }
 
-  public abstract long toHours(long duration);
+  public long toMinutes(long duration) {
+    throw new AssertionError();
+  }
 
-  public abstract long toDays(long duration);
+  public long toHours(long duration) {
+    throw new AssertionError();
+  }
+
+  public long toDays(long duration) {
+    throw new AssertionError();
+  }
 
   abstract int excessNanos(long d, long m);
 }
