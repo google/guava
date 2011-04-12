@@ -64,6 +64,11 @@
   <target name="jar" depends="compile" description="Build jar.">
     <mkdir dir="build/dist/guava-${release}"/>
     <jar jarfile="build/dist/guava-${release}/guava-${release}.jar">
+      <manifest>
+        <attribute name="Implementation-Vendor" value="Google Inc."/>
+        <attribute name="Implementation-Title" value="Guava"/>
+        <attribute name="Implementation-Version" value="${release}"/>
+      </manifest>
       <fileset dir="build/classes"/>
     </jar>
   </target>
@@ -128,9 +133,9 @@
 
   <target name="zipsrc" description="Build zip of source.">
     <mkdir dir="build/dist/guava-${release}"/>
-    <jar jarfile="build/dist/guava-${release}/guava-src-${release}.zip">
+    <zip destfile="build/dist/guava-${release}/guava-src-${release}.zip">
       <fileset dir="src"/>
-    </jar>
+    </zip>
   </target>
 
   <target name="dist" depends="jar, gwtjar, zipsrc, javadoc"
@@ -172,6 +177,11 @@
           depends="jar, gwt.compile">
     <mkdir dir="build/dist/guava-${release}"/>
     <jar jarfile="build/dist/guava-${release}/guava-${release}-gwt.jar">
+      <manifest>
+        <attribute name="Implementation-Vendor" value="Google Inc."/>
+        <attribute name="Implementation-Title" value="Guava GWT"/>
+        <attribute name="Implementation-Version" value="${release}"/>
+      </manifest>
       <!-- Includes the @GwtCompatible non-emulated source. -->
       <fileset dir="src">
         <and>
@@ -184,6 +194,7 @@
       <fileset dir="gwt-src"/>
       <fileset dir="build/gwt-classes"/>
       <fileset dir="gwt-super"/>
+      <zipfileset includes="**/*.class" src="lib/jsr305.jar"/>
     </jar>
   </target>
 
