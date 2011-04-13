@@ -483,12 +483,12 @@ public class InternetDomainName {
   }
 
   /**
-   * Indicates whether the argument is a syntactically valid domain name after
+   * Indicates whether the argument is a syntactically valid domain name using
    * lenient validation. Specifically, validation against <a
    * href="http://www.ietf.org/rfc/rfc3490.txt">RFC 3490</a>
    * ("Internationalizing Domain Names in Applications") is skipped.
    *
-   * <p>The follow two code snippets are equivalent:
+   * <p>The following two code snippets are equivalent:
    *
    * <pre>   {@code
    *
@@ -505,6 +505,8 @@ public class InternetDomainName {
    *   } catch (IllegalArgumentException e) {
    *     domainName = DEFAULT_DOMAIN;
    *   }}</pre>
+   *
+   * The latter form is preferred as it avoids doing validation twice.
    *
    * @since 8 (previously named {@code isValid})
    */
