@@ -33,7 +33,6 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
-import java.lang.reflect.Array;
 import java.util.AbstractCollection;
 import java.util.AbstractMap;
 import java.util.AbstractQueue;
@@ -135,7 +134,7 @@ class CustomConcurrentHashMap<K, V>
   final transient int segmentShift;
 
   /** The segments, each of which is a specialized hash table. */
-  final transient Segment[] segments;
+  final transient Segment<K, V>[] segments;
 
   /** The concurrency level. */
   final int concurrencyLevel;
@@ -642,6 +641,17 @@ class CustomConcurrentHashMap<K, V>
 
   /**
    * An entry in a reference map.
+   *
+   * Entries in the map can be in the following states:
+   *
+   * Valid:
+   * - Live: valid key/value are set
+   * - Computing: computation is pending
+   *
+   * Invalid:
+   * - Expired: time expired (key/value may still be set)
+   * - Collected: key/value was partially collected, but not yet cleaned up
+   * - Unset: marked as unset, awaiting cleanup or reuse
    */
   interface ReferenceEntry<K, V> {
     /**
@@ -1811,7 +1821,7 @@ class CustomConcurrentHashMap<K, V>
 
   void reclaimValue(ReferenceEntry<K, V> entry, ValueReference<K, V> valueReference) {
     int hash = entry.getHash();
-    Segment segment = segmentFor(hash);
+    Segment<K, V> segment = segmentFor(hash);
     segment.unsetValue(entry.getKey(), hash, valueReference);
     if (!segment.isHeldByCurrentThread()) { // don't cleanup inside of put
       segment.postWriteCleanup();
@@ -1823,19 +1833,12 @@ class CustomConcurrentHashMap<K, V>
     segmentFor(hash).unsetKey(entry, hash);
   }
 
-  // Entries in the map can be in the following states:
-  // Valid:
-  // - Live: valid key/value are set
-  // - Computing: computation is pending
-  // Invalid:
-  // - Expired: time expired (key/value may still be set)
-  // - Collected: key/value was partially collected, but not yet cleaned up
-  // - Unset: marked as unset, awaiting cleanup or reuse
-
   @VisibleForTesting
   boolean isLive(ReferenceEntry<K, V> entry) {
     return segmentFor(entry.getHash()).getLiveValue(entry) != null;
   }
+
+  // expiration
 
   /**
    * Returns true if the entry has expired.
@@ -1851,31 +1854,6 @@ class CustomConcurrentHashMap<K, V>
     // if the expiration time had overflowed, this "undoes" the overflow
     return now - entry.getExpirationTime() > 0;
   }
-
-  /**
-   * Returns true if the entry has been partially collected, meaning that either the key is null,
-   * or the value is null and it is not computing.
-   */
-  boolean isCollected(ReferenceEntry<K, V> entry) {
-    if (entry.getKey() == null) {
-      return true;
-    }
-    ValueReference<K, V> valueReference = entry.getValueReference();
-    if (valueReference.isComputingReference()) {
-      return false;
-    }
-    return valueReference.get() == null;
-  }
-
-  boolean isUnset(ReferenceEntry<K, V> entry) {
-    return isUnset(entry.getValueReference());
-  }
-
-  boolean isUnset(ValueReference<K, V> valueReference) {
-    return valueReference == UNSET;
-  }
-
-  // expiration
 
   @GuardedBy("Segment.this")
   static <K, V> void connectExpirables(ReferenceEntry<K, V> previous, ReferenceEntry<K, V> next) {
@@ -1930,13 +1908,8 @@ class CustomConcurrentHashMap<K, V>
   }
 
   @SuppressWarnings("unchecked")
-  final Segment[] newSegmentArray(int ssize) {
-    // Note: This is the only way I could figure out how to create
-    // a segment array (the compiler has a tough time with arrays of
-    // inner classes of generic types apparently). Safe because we're
-    // restricting what can go in the array and no one has an
-    // unrestricted reference.
-    return (Segment[]) Array.newInstance(Segment.class, ssize);
+  final Segment<K, V>[] newSegmentArray(int ssize) {
+    return new Segment[ssize];
   }
 
   /* ---------------- Small Utilities -------------- */
@@ -1947,13 +1920,13 @@ class CustomConcurrentHashMap<K, V>
    * @param hash the hash code for the key
    * @return the segment
    */
-  Segment segmentFor(int hash) {
+  Segment<K, V> segmentFor(int hash) {
     // TODO(user): Lazily create segments?
     return segments[(hash >>> segmentShift) & segmentMask];
   }
 
-  Segment createSegment(int initialCapacity, int maxSegmentSize) {
-    return new Segment(initialCapacity, maxSegmentSize);
+  Segment<K, V> createSegment(int initialCapacity, int maxSegmentSize) {
+    return new Segment<K, V>(this, initialCapacity, maxSegmentSize);
   }
 
   /* ---------------- Inner Classes -------------- */
@@ -1963,7 +1936,7 @@ class CustomConcurrentHashMap<K, V>
    * opportunistically, just to simplify some locking and avoid separate construction.
    */
   @SuppressWarnings("serial") // This class is never serialized.
-  class Segment extends ReentrantLock {
+  static class Segment<K, V> extends ReentrantLock {
 
     /*
      * TODO(user): Consider copying variables (like evictsBySize) from outer class into this class.
@@ -1997,6 +1970,8 @@ class CustomConcurrentHashMap<K, V>
      * As a guide, all critical volatile reads and writes to the count field are marked in code
      * comments.
      */
+
+    final CustomConcurrentHashMap<K, V> map;
 
     /**
      * The number of live elements in this segment's region. This does not include unset elements
@@ -2033,7 +2008,7 @@ class CustomConcurrentHashMap<K, V>
      * from the map. It is drained by the cleanup executor.
      */
     final Queue<ReferenceEntry<K, V>> cleanupQueue =
-      new ConcurrentLinkedQueue<ReferenceEntry<K, V>>();
+        new ConcurrentLinkedQueue<ReferenceEntry<K, V>>();
 
     /**
      * The recency queue is used to record which entries were accessed for updating the eviction
@@ -2062,19 +2037,20 @@ class CustomConcurrentHashMap<K, V>
     @GuardedBy("Segment.this")
     final Queue<ReferenceEntry<K, V>> expirationQueue;
 
-    Segment(int initialCapacity, int maxSegmentSize) {
+    Segment(CustomConcurrentHashMap<K, V> map, int initialCapacity, int maxSegmentSize) {
+      this.map = map;
       this.maxSegmentSize = maxSegmentSize;
       initTable(newEntryArray(initialCapacity));
 
-      recencyQueue = (evictsBySize() || expiresAfterAccess())
+      recencyQueue = (map.evictsBySize() || map.expiresAfterAccess())
           ? new ConcurrentLinkedQueue<ReferenceEntry<K, V>>()
           : CustomConcurrentHashMap.<ReferenceEntry<K, V>>discardingQueue();
 
-      evictionQueue = evictsBySize()
+      evictionQueue = map.evictsBySize()
           ? new EvictionQueue()
           : CustomConcurrentHashMap.<ReferenceEntry<K, V>>discardingQueue();
 
-      expirationQueue = expires()
+      expirationQueue = map.expires()
           ? new ExpirationQueue()
           : CustomConcurrentHashMap.<ReferenceEntry<K, V>>discardingQueue();
     }
@@ -2098,7 +2074,7 @@ class CustomConcurrentHashMap<K, V>
     @GuardedBy("Segment.this")
     void setValue(ReferenceEntry<K, V> entry, V value) {
       recordWrite(entry);
-      ValueReference<K, V> valueReference = newValueReference(entry, value);
+      ValueReference<K, V> valueReference = map.newValueReference(entry, value);
       entry.setValueReference(valueReference);
     }
 
@@ -2112,8 +2088,8 @@ class CustomConcurrentHashMap<K, V>
      * <p>Note: locked reads should use {@link #recordLockedRead}.
      */
     void recordRead(ReferenceEntry<K, V> entry) {
-      if (expiresAfterAccess()) {
-        recordExpirationTime(entry, expireAfterAccessNanos);
+      if (map.expiresAfterAccess()) {
+        recordExpirationTime(entry, map.expireAfterAccessNanos);
       }
       recencyQueue.add(entry);
     }
@@ -2128,8 +2104,8 @@ class CustomConcurrentHashMap<K, V>
     @GuardedBy("Segment.this")
     void recordLockedRead(ReferenceEntry<K, V> entry) {
       evictionQueue.add(entry);
-      if (expiresAfterAccess()) {
-        recordExpirationTime(entry, expireAfterAccessNanos);
+      if (map.expiresAfterAccess()) {
+        recordExpirationTime(entry, map.expireAfterAccessNanos);
         expirationQueue.add(entry);
       }
     }
@@ -2143,10 +2119,12 @@ class CustomConcurrentHashMap<K, V>
       // we are already under lock, so drain the recency queue immediately
       drainRecencyQueue();
       evictionQueue.add(entry);
-      if (expires()) {
+      if (map.expires()) {
         // currently MapMaker ensures that expireAfterWrite and
         // expireAfterAccess are mutually exclusive
-        long expiration = expiresAfterAccess() ? expireAfterAccessNanos : expireAfterWriteNanos;
+        long expiration = map.expiresAfterAccess()
+            ? map.expireAfterAccessNanos
+            : map.expireAfterWriteNanos;
         recordExpirationTime(entry, expiration);
         expirationQueue.add(entry);
       }
@@ -2169,7 +2147,7 @@ class CustomConcurrentHashMap<K, V>
         if (evictionQueue.contains(e)) {
           evictionQueue.add(e);
         }
-        if (expiresAfterAccess() && expirationQueue.contains(e)) {
+        if (map.expiresAfterAccess() && expirationQueue.contains(e)) {
           expirationQueue.add(e);
         }
       }
@@ -2179,7 +2157,7 @@ class CustomConcurrentHashMap<K, V>
 
     void recordExpirationTime(ReferenceEntry<K, V> entry, long expirationNanos) {
       // might overflow, but that's okay (see isExpired())
-      entry.setExpirationTime(ticker.read() + expirationNanos);
+      entry.setExpirationTime(map.ticker.read() + expirationNanos);
     }
 
     /**
@@ -2204,9 +2182,9 @@ class CustomConcurrentHashMap<K, V>
         // expire.
         return;
       }
-      long now = ticker.read();
+      long now = map.ticker.read();
       ReferenceEntry<K, V> e;
-      while ((e = expirationQueue.peek()) != null && isExpired(e, now)) {
+      while ((e = expirationQueue.peek()) != null && map.isExpired(e, now)) {
         if (!unsetEntry(e, e.getHash())) {
           throw new AssertionError();
         }
@@ -2223,7 +2201,7 @@ class CustomConcurrentHashMap<K, V>
      */
     @GuardedBy("Segment.this")
     boolean evictEntries() {
-      if (evictsBySize() && count >= maxSegmentSize) {
+      if (map.evictsBySize() && count >= maxSegmentSize) {
         drainRecencyQueue();
 
         ReferenceEntry<K, V> e = evictionQueue.remove();
@@ -2261,7 +2239,7 @@ class CustomConcurrentHashMap<K, V>
             continue;
           }
 
-          if (keyEquivalence.equivalent(key, entryKey)) {
+          if (map.keyEquivalence.equivalent(key, entryKey)) {
             return e;
           }
         }
@@ -2298,7 +2276,7 @@ class CustomConcurrentHashMap<K, V>
             continue;
           }
 
-          if (keyEquivalence.equivalent(key, entryKey)) {
+          if (map.keyEquivalence.equivalent(key, entryKey)) {
             return getLiveValue(e) != null;
           }
         }
@@ -2317,7 +2295,7 @@ class CustomConcurrentHashMap<K, V>
             if (entryValue == null) {
               continue;
             }
-            if (valueEquivalence.equivalent(value, entryValue)) {
+            if (map.valueEquivalence.equivalent(value, entryValue)) {
               return true;
             }
           }
@@ -2337,7 +2315,7 @@ class CustomConcurrentHashMap<K, V>
         for (ReferenceEntry<K, V> e = getFirst(hash); e != null; e = e.getNext()) {
           K entryKey = e.getKey();
           if (e.getHash() == hash && entryKey != null
-              && keyEquivalence.equivalent(key, entryKey)) {
+              && map.keyEquivalence.equivalent(key, entryKey)) {
             // If the value disappeared, this entry is partially collected,
             // and we should pretend like it doesn't exist.
             V entryValue = e.getValueReference().get();
@@ -2346,7 +2324,7 @@ class CustomConcurrentHashMap<K, V>
               return false;
             }
 
-            if (valueEquivalence.equivalent(oldValue, entryValue)) {
+            if (map.valueEquivalence.equivalent(oldValue, entryValue)) {
               setValue(e, newValue);
               return true;
             } else {
@@ -2374,7 +2352,7 @@ class CustomConcurrentHashMap<K, V>
         for (ReferenceEntry<K, V> e = getFirst(hash); e != null; e = e.getNext()) {
           K entryKey = e.getKey();
           if (e.getHash() == hash && entryKey != null
-              && keyEquivalence.equivalent(key, entryKey)) {
+              && map.keyEquivalence.equivalent(key, entryKey)) {
             // If the value disappeared, this entry is partially collected,
             // and we should pretend like it doesn't exist.
             V entryValue = e.getValueReference().get();
@@ -2416,7 +2394,7 @@ class CustomConcurrentHashMap<K, V>
         for (ReferenceEntry<K, V> e = first; e != null; e = e.getNext()) {
           K entryKey = e.getKey();
           if (e.getHash() == hash && entryKey != null
-              && keyEquivalence.equivalent(key, entryKey)) {
+              && map.keyEquivalence.equivalent(key, entryKey)) {
             // We found an existing entry.
 
             ValueReference<K, V> valueReference = e.getValueReference();
@@ -2454,7 +2432,7 @@ class CustomConcurrentHashMap<K, V>
 
         // Create a new entry.
         ++modCount;
-        ReferenceEntry<K, V> newEntry = newEntry(key, hash, first);
+        ReferenceEntry<K, V> newEntry = map.newEntry(key, hash, first);
         setValue(newEntry, value);
         table.set(index, newEntry);
         this.count = newCount; // write-volatile
@@ -2524,7 +2502,7 @@ class CustomConcurrentHashMap<K, V>
               } else {
                 int newIndex = e.getHash() & newMask;
                 ReferenceEntry<K, V> newNext = newTable.get(newIndex);
-                newTable.set(newIndex, copyEntry(e, newNext));
+                newTable.set(newIndex, map.copyEntry(e, newNext));
               }
             }
           }
@@ -2546,7 +2524,7 @@ class CustomConcurrentHashMap<K, V>
         for (ReferenceEntry<K, V> e = first; e != null; e = e.getNext()) {
           K entryKey = e.getKey();
           if (e.getHash() == hash && entryKey != null
-              && keyEquivalence.equivalent(key, entryKey)) {
+              && map.keyEquivalence.equivalent(key, entryKey)) {
             V entryValue = e.getValueReference().get();
             if (entryValue == null) {
               unsetLiveEntry(e, hash);
@@ -2582,11 +2560,11 @@ class CustomConcurrentHashMap<K, V>
         for (ReferenceEntry<K, V> e = first; e != null; e = e.getNext()) {
           K entryKey = e.getKey();
           if (e.getHash() == hash && entryKey != null
-              && keyEquivalence.equivalent(key, entryKey)) {
+              && map.keyEquivalence.equivalent(key, entryKey)) {
             V entryValue = e.getValueReference().get();
             if (entryValue == null) {
               unsetLiveEntry(e, hash);
-            } else if (valueEquivalence.equivalent(value, entryValue)) {
+            } else if (map.valueEquivalence.equivalent(value, entryValue)) {
               ++modCount;
               ReferenceEntry<K, V> newFirst = removeFromChain(first, e); // could decrement count
               newCount = this.count - 1;
@@ -2623,7 +2601,7 @@ class CustomConcurrentHashMap<K, V>
         if (isCollected(e)) {
           unsetLiveEntry(e, e.getHash()); // decrements count
         } else {
-          newFirst = copyEntry(e, newFirst);
+          newFirst = map.copyEntry(e, newFirst);
         }
       }
       return newFirst;
@@ -2645,7 +2623,7 @@ class CustomConcurrentHashMap<K, V>
         for (ReferenceEntry<K, V> e = first; e != null; e = e.getNext()) {
           if (e == entry) {
             ++modCount;
-            enqueueNotification(e.getKey(), hash, e.getValueReference());
+            map.enqueueNotification(e.getKey(), hash, e.getValueReference());
             enqueueCleanup(e);
             count = newCount; // write-volatile
             return true;
@@ -2670,11 +2648,11 @@ class CustomConcurrentHashMap<K, V>
         for (ReferenceEntry<K, V> e = getFirst(hash); e != null; e = e.getNext()) {
           K entryKey = e.getKey();
           if (e.getHash() == hash && entryKey != null
-              && keyEquivalence.equivalent(key, entryKey)) {
+              && map.keyEquivalence.equivalent(key, entryKey)) {
             ValueReference<K, V> v = e.getValueReference();
             if (v == valueReference) {
               ++modCount;
-              enqueueNotification(key, hash, valueReference);
+              map.enqueueNotification(key, hash, valueReference);
               enqueueCleanup(e);
               this.count = newCount; // write-volatile
               return true;
@@ -2695,7 +2673,7 @@ class CustomConcurrentHashMap<K, V>
         for (ReferenceEntry<K, V> e = getFirst(hash); e != null; e = e.getNext()) {
           K entryKey = e.getKey();
           if (e.getHash() == hash && entryKey != null
-              && keyEquivalence.equivalent(key, entryKey)) {
+              && map.keyEquivalence.equivalent(key, entryKey)) {
             ValueReference<K, V> v = e.getValueReference();
             if (v == valueReference) {
               enqueueCleanup(e);
@@ -2737,7 +2715,7 @@ class CustomConcurrentHashMap<K, V>
       }
 
       K key = entry.getKey();
-      enqueueNotification(key, hash, valueReference);
+      map.enqueueNotification(key, hash, valueReference);
       enqueueCleanup(entry);
       this.count = newCount; // write-volatile
       return true;
@@ -2753,6 +2731,29 @@ class CustomConcurrentHashMap<K, V>
     }
 
     /**
+     * Returns true if the entry has been partially collected, meaning that either the key is null,
+     * or the value is null and it is not computing.
+     */
+    boolean isCollected(ReferenceEntry<K, V> entry) {
+      if (entry.getKey() == null) {
+        return true;
+      }
+      ValueReference<K, V> valueReference = entry.getValueReference();
+      if (valueReference.isComputingReference()) {
+        return false;
+      }
+      return valueReference.get() == null;
+    }
+
+    boolean isUnset(ReferenceEntry<K, V> entry) {
+      return isUnset(entry.getValueReference());
+    }
+
+    boolean isUnset(ValueReference<K, V> valueReference) {
+      return valueReference == UNSET;
+    }
+
+    /**
      * Gets the value from an entry. Returns null if the entry is invalid, partially-collected,
      * computing, or expired.
      */
@@ -2764,7 +2765,7 @@ class CustomConcurrentHashMap<K, V>
       if (value == null) {
         return null;
       }
-      if (expires() && isExpired(entry)) {
+      if (map.expires() && map.isExpired(entry)) {
         tryExpireEntries();
         return null;
       }
@@ -2796,12 +2797,12 @@ class CustomConcurrentHashMap<K, V>
     void postReadCleanup() {
       // we are not under lock, so only drain a small fraction of the time
       if ((readCount.incrementAndGet() & DRAIN_THRESHOLD) == 0) {
-        if (isInlineCleanup()) {
+        if (map.isInlineCleanup()) {
           // inline cleanup normally avoids taking the lock, but since no
           // writes are happening we need to force some locked cleanup
           runCleanup();
         } else if (!isHeldByCurrentThread()) {
-          cleanupExecutor.execute(cleanupRunnable);
+          map.cleanupExecutor.execute(cleanupRunnable);
         }
       }
     }
@@ -2814,7 +2815,7 @@ class CustomConcurrentHashMap<K, V>
      */
     @GuardedBy("Segment.this")
     void preWriteCleanup() {
-      if (isInlineCleanup()) {
+      if (map.isInlineCleanup()) {
         // this is the only time we have the lock, so do everything we can
         runLockedCleanup();
       } else {
@@ -2823,7 +2824,7 @@ class CustomConcurrentHashMap<K, V>
     }
 
     void postWriteCleanup() {
-      if (isInlineCleanup()) {
+      if (map.isInlineCleanup()) {
         // this cleanup pattern is optimized for writes, where cleanup requiring
         // the lock is performed when the lock is acquired, and cleanup not
         // requiring the lock is performed when the lock is released
@@ -2836,7 +2837,7 @@ class CustomConcurrentHashMap<K, V>
         // non-default cleanup executors can ignore cleanup optimizations when
         // the lock is held, as cleanup will always be called when the lock is
         // released
-        cleanupExecutor.execute(cleanupRunnable);
+        map.cleanupExecutor.execute(cleanupRunnable);
       }
     }
 
@@ -2857,7 +2858,7 @@ class CustomConcurrentHashMap<K, V>
      * Performs housekeeping tasks on this segment that don't require the segment lock.
      */
     void runUnlockedCleanup() {
-      processPendingNotifications();
+      map.processPendingNotifications();
     }
 
     /**
@@ -3291,7 +3292,7 @@ class CustomConcurrentHashMap<K, V>
 
   @Override
   public boolean isEmpty() {
-    Segment[] segments = this.segments;
+    Segment<K, V>[] segments = this.segments;
     /*
      * We keep track of per-segment modCounts to avoid ABA problems in which an element in one
      * segment was added and in another removed during traversal, in which case the table was never
@@ -3322,7 +3323,7 @@ class CustomConcurrentHashMap<K, V>
 
   @Override
   public int size() {
-    Segment[] segments = this.segments;
+    Segment<K, V>[] segments = this.segments;
     long sum = 0;
     for (int i = 0; i < segments.length; ++i) {
       sum += segments[i].count;
@@ -3357,7 +3358,7 @@ class CustomConcurrentHashMap<K, V>
     // TODO(kevinb): document why we choose to throw over returning false?
     checkNotNull(value);
 
-    Segment[] segments = this.segments;
+    Segment<K, V>[] segments = this.segments;
     for (int i = 0; i < segments.length; ++i) {
       // ensure visibility of most recent completed write
       @SuppressWarnings({"UnusedDeclaration", "unused"})
@@ -3427,7 +3428,7 @@ class CustomConcurrentHashMap<K, V>
 
   @Override
   public void clear() {
-    for (Segment segment : segments) {
+    for (Segment<K, V> segment : segments) {
       segment.clear();
     }
   }
@@ -3485,7 +3486,7 @@ class CustomConcurrentHashMap<K, V>
       }
 
       while (nextSegmentIndex >= 0) {
-        Segment seg = segments[nextSegmentIndex--];
+        Segment<K, V> seg = segments[nextSegmentIndex--];
         if (seg.count != 0) {
           currentTable = seg.table;
           nextTableIndex = currentTable.length() - 1;

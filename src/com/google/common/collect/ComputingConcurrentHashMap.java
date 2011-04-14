@@ -56,14 +56,13 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V>
   }
 
   @Override
-  Segment createSegment(int initialCapacity, int maxSegmentSize) {
-    return new ComputingSegment(initialCapacity, maxSegmentSize);
+  Segment<K, V> createSegment(int initialCapacity, int maxSegmentSize) {
+    return new ComputingSegment<K, V>(this, initialCapacity, maxSegmentSize);
   }
 
-  @SuppressWarnings("unchecked") // explain
   @Override
-  ComputingSegment segmentFor(int hash) {
-    return (ComputingSegment) super.segmentFor(hash);
+  ComputingSegment<K, V> segmentFor(int hash) {
+    return (ComputingSegment<K, V>) super.segmentFor(hash);
   }
 
   @Override
@@ -73,9 +72,9 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V>
   }
 
   @SuppressWarnings("serial") // This class is never serialized.
-  class ComputingSegment extends Segment {
-    ComputingSegment(int initialCapacity, int maxSegmentSize) {
-      super(initialCapacity, maxSegmentSize);
+  static class ComputingSegment<K, V> extends Segment<K, V> {
+    ComputingSegment(CustomConcurrentHashMap<K, V> map, int initialCapacity, int maxSegmentSize) {
+      super(map, initialCapacity, maxSegmentSize);
     }
 
     V compute(K key, int hash) {
@@ -92,7 +91,7 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V>
         // at this point e is either null, computing, or expired;
         // avoid locking if it's already computing
         if (e == null || !e.getValueReference().isComputingReference()) {
-          ComputingValueReference computingValueReference = null;
+          ComputingValueReference<K, V> computingValueReference = null;
           lock();
           try {
             preWriteCleanup();
@@ -105,7 +104,7 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V>
             for (e = first; e != null; e = e.getNext()) {
               K entryKey = e.getKey();
               if (e.getHash() == hash && entryKey != null
-                  && keyEquivalence.equivalent(key, entryKey)) {
+                  && map.keyEquivalence.equivalent(key, entryKey)) {
                 if (!e.getValueReference().isComputingReference()) {
                   // never return expired entries
                   V value = getLiveValue(e);
@@ -122,10 +121,12 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V>
 
             if (e == null || isUnset(e)) {
               // Create a new entry.
-              computingValueReference = new ComputingValueReference();
+              ComputingConcurrentHashMap<K, V> computingMap =
+                  (ComputingConcurrentHashMap<K, V>) map;
+              computingValueReference = new ComputingValueReference<K, V>(computingMap);
 
               if (e == null) {
-                e = newEntry(key, hash, first);
+                e = computingMap.newEntry(key, hash, first);
                 table.set(index, e);
               }
               e.setValueReference(computingValueReference);
@@ -288,9 +289,15 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V>
     public void clear() {}
   }
 
-  private class ComputingValueReference implements ValueReference<K, V> {
+  private static class ComputingValueReference<K, V> implements ValueReference<K, V> {
+    final ComputingConcurrentHashMap<K, V> map;
+
     @GuardedBy("ComputingValueReference.this") // writes
     ValueReference<K, V> computedReference = unset();
+
+    public ComputingValueReference(ComputingConcurrentHashMap<K, V> map) {
+      this.map = map;
+    }
 
     @Override
     public V get() {
@@ -339,7 +346,7 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V>
     V compute(K key, int hash) {
       V value;
       try {
-        value = computingFunction.apply(key);
+        value = map.computingFunction.apply(key);
       } catch (ComputationException e) {
         // if computingFunction has thrown a computation exception,
         // propagate rather than wrap
@@ -351,7 +358,7 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V>
       }
 
       if (value == null) {
-        String message = computingFunction + " returned null for key " + key + ".";
+        String message = map.computingFunction + " returned null for key " + key + ".";
         setValueReference(new NullPointerExceptionReference<K, V>(message));
         throw new NullPointerException(message);
       }
@@ -359,7 +366,7 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V>
       // Call setValueReference first to avoid put clearing us.
       setValueReference(new ComputedReference<K, V>(value));
       // putIfAbsent
-      segmentFor(hash).put(key, hash, value, true);
+      map.segmentFor(hash).put(key, hash, value, true);
       return value;
     }
 
