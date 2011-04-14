@@ -581,6 +581,59 @@ public class PredicatesTest extends TestCase {
   public void testIsInstanceOf_serialization() {
     checkSerialization(Predicates.instanceOf(Integer.class));
   }
+  
+  @GwtIncompatible("Predicates.assignableFrom")
+  public void testIsAssignableFrom_apply() {
+    Predicate<Class<?>> isInteger = Predicates.assignableFrom(Integer.class);
+
+    assertTrue(isInteger.apply(Integer.class));
+    assertFalse(isInteger.apply(Float.class));
+    
+    try {      
+      isInteger.apply(null);
+      fail();
+    } catch(NullPointerException expected) {}
+  }
+
+  @GwtIncompatible("Predicates.assignableFrom")
+  public void testIsAssignableFrom_subclass() {
+    Predicate<Class<?>> isNumber = Predicates.assignableFrom(Number.class);
+
+    assertTrue(isNumber.apply(Integer.class));
+    assertTrue(isNumber.apply(Float.class));
+  }
+
+  @GwtIncompatible("Predicates.assignableFrom")
+  public void testIsAssignableFrom_interface() {
+    Predicate<Class<?>> isComparable =
+        Predicates.assignableFrom(Comparable.class);
+
+    assertTrue(isComparable.apply(Integer.class));
+    assertTrue(isComparable.apply(Float.class));
+  }
+
+  @GwtIncompatible("Predicates.assignableFrom")
+  public void testIsAssignableFrom_equality() {
+    new EqualsTester()
+        .addEqualityGroup(
+            Predicates.assignableFrom(Integer.class),
+            Predicates.assignableFrom(Integer.class))
+        .addEqualityGroup(Predicates.assignableFrom(Number.class))
+        .addEqualityGroup(Predicates.assignableFrom(Float.class))
+        .testEquals();
+  }
+
+  @GwtIncompatible("Predicates.assignableFrom, SerializableTester")
+  public void testIsAssignableFrom_serialization() {
+    Predicate<Class<?>> predicate = 
+        Predicates.assignableFrom(Integer.class);
+    Predicate<Class<?>> reserialized =
+        SerializableTester.reserializeAndAssert(predicate);
+
+    assertEvalsLike(predicate, reserialized, Integer.class);
+    assertEvalsLike(predicate, reserialized, Float.class);
+    assertEvalsLike(predicate, reserialized, null);
+  }
 
   /*
    * Tests for Predicates.isNull()
@@ -870,10 +923,10 @@ public class PredicatesTest extends TestCase {
     assertEvalsLike(expected, actual, null);
   }
 
-  private static void assertEvalsLike(
-      Predicate<? super Integer> expected,
-      Predicate<? super Integer> actual,
-      Integer input) {
+  private static <T> void assertEvalsLike(
+      Predicate<? super T> expected,
+      Predicate<? super T> actual,
+      T input) {
     Boolean expectedResult = null;
     RuntimeException expectedRuntimeException = null;
     try {

@@ -18,6 +18,7 @@ package com.google.common.base;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 
@@ -194,6 +195,19 @@ public final class Predicates {
   @GwtIncompatible("Class.isInstance")
   public static Predicate<Object> instanceOf(Class<?> clazz) {
     return new InstanceOfPredicate(clazz);
+  }
+  
+  /**
+   * Returns a predicate that evaluates to {@code true} if the class being
+   * tested is assignable from the given class.  The returned predicate
+   * does not allow null inputs.
+   * 
+   * @since Guava release 10
+   */
+  @GwtIncompatible("Class.isAssignableFrom")
+  @Beta
+  public static Predicate<Class<?>> assignableFrom(Class<?> clazz) {
+    return new AssignableFromPredicate(clazz);
   }
 
   /**
@@ -429,6 +443,35 @@ public final class Predicates {
     }
     @Override public String toString() {
       return "IsInstanceOf(" + clazz.getName() + ")";
+    }
+    private static final long serialVersionUID = 0;
+  }
+  
+  /** @see Predicates#assignableFrom(Class) */
+  @GwtIncompatible("Class.isAssignableFrom")
+  private static class AssignableFromPredicate
+      implements Predicate<Class<?>>, Serializable {
+    private final Class<?> clazz;
+
+    private AssignableFromPredicate(Class<?> clazz) {
+      this.clazz = checkNotNull(clazz);
+    }
+    @Override
+    public boolean apply(Class<?> input) {
+      return clazz.isAssignableFrom(input);
+    }
+    @Override public int hashCode() {
+      return clazz.hashCode();
+    }
+    @Override public boolean equals(@Nullable Object obj) {
+      if (obj instanceof AssignableFromPredicate) {
+        AssignableFromPredicate that = (AssignableFromPredicate) obj;
+        return clazz == that.clazz;
+      }
+      return false;
+    }
+    @Override public String toString() {
+      return "IsAssignableFrom(" + clazz.getName() + ")";
     }
     private static final long serialVersionUID = 0;
   }
