@@ -42,11 +42,10 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V>
   final Function<? super K, ? extends V> computingFunction;
 
   /**
-   * Creates a new, empty map with the specified strategy, initial capacity,
-   * load factor and concurrency level.
+   * Creates a new, empty map with the specified strategy, initial capacity, load factor and
+   * concurrency level.
    */
-  ComputingConcurrentHashMap(MapMaker builder,
-      Function<? super K, ? extends V> computingFunction) {
+  ComputingConcurrentHashMap(MapMaker builder, Function<? super K, ? extends V> computingFunction) {
     super(builder);
     this.computingFunction = checkNotNull(computingFunction);
   }
@@ -56,12 +55,14 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V>
     return this;
   }
 
-  @Override Segment createSegment(int initialCapacity, int maxSegmentSize) {
+  @Override
+  Segment createSegment(int initialCapacity, int maxSegmentSize) {
     return new ComputingSegment(initialCapacity, maxSegmentSize);
   }
 
   @SuppressWarnings("unchecked") // explain
-  @Override ComputingSegment segmentFor(int hash) {
+  @Override
+  ComputingSegment segmentFor(int hash) {
     return (ComputingSegment) super.segmentFor(hash);
   }
 
@@ -183,59 +184,71 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V>
   }
 
   /** Used to provide null pointer exceptions to other threads. */
-  private static class NullPointerExceptionReference<K, V>
-      implements ValueReference<K, V> {
+  private static class NullPointerExceptionReference<K, V> implements ValueReference<K, V> {
     final String message;
+
     NullPointerExceptionReference(String message) {
       this.message = message;
     }
+
     @Override
     public V get() {
       return null;
     }
+
     @Override
     public ValueReference<K, V> copyFor(ReferenceEntry<K, V> entry) {
       return this;
     }
+
     @Override
     public boolean isComputingReference() {
       return false;
     }
+
     @Override
     public V waitForValue() {
       throw new NullPointerException(message);
     }
+
     @Override
     public void notifyValueReclaimed() {}
+
     @Override
     public void clear() {}
   }
 
   /** Used to provide computation exceptions to other threads. */
-  private static class ComputationExceptionReference<K, V>
-      implements ValueReference<K, V> {
+  private static class ComputationExceptionReference<K, V> implements ValueReference<K, V> {
     final Throwable t;
+
     ComputationExceptionReference(Throwable t) {
       this.t = t;
     }
+
     @Override
     public V get() {
       return null;
     }
+
     @Override
     public ValueReference<K, V> copyFor(ReferenceEntry<K, V> entry) {
       return this;
     }
+
     @Override
     public boolean isComputingReference() {
       return false;
     }
+
     @Override
     public V waitForValue() {
       throw new AsynchronousComputationException(t);
     }
+
     @Override
     public void notifyValueReclaimed() {}
+
     @Override
     public void clear() {}
   }
@@ -243,27 +256,34 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V>
   /** Used to provide computation result to other threads. */
   private static class ComputedReference<K, V> implements ValueReference<K, V> {
     final V value;
+
     ComputedReference(@Nullable V value) {
       this.value = value;
     }
+
     @Override
     public V get() {
       return value;
     }
+
     @Override
     public ValueReference<K, V> copyFor(ReferenceEntry<K, V> entry) {
       return this;
     }
+
     @Override
     public boolean isComputingReference() {
       return false;
     }
+
     @Override
     public V waitForValue() {
       return get();
     }
+
     @Override
     public void notifyValueReclaimed() {}
+
     @Override
     public void clear() {}
   }
@@ -290,8 +310,7 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V>
     }
 
     /**
-     * Waits for a computation to complete. Returns the result of the
-     * computation.
+     * Waits for a computation to complete. Returns the result of the computation.
      */
     @Override
     public V waitForValue() throws InterruptedException {
@@ -324,8 +343,7 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V>
       } catch (ComputationException e) {
         // if computingFunction has thrown a computation exception,
         // propagate rather than wrap
-        setValueReference(
-            new ComputationExceptionReference<K, V>(e.getCause()));
+        setValueReference(new ComputationExceptionReference<K, V>(e.getCause()));
         throw e;
       } catch (Throwable t) {
         setValueReference(new ComputationExceptionReference<K, V>(t));
@@ -333,8 +351,7 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V>
       }
 
       if (value == null) {
-        String message =
-            computingFunction + " returned null for key " + key + ".";
+        String message = computingFunction + " returned null for key " + key + ".";
         setValueReference(new NullPointerExceptionReference<K, V>(message));
         throw new NullPointerException(message);
       }
@@ -360,45 +377,35 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V>
 
   private static final long serialVersionUID = 2;
 
-  @Override Object writeReplace() {
-    return new ComputingSerializationProxy<K, V>(keyStrength, valueStrength,
-        keyEquivalence, valueEquivalence, expireAfterWriteNanos,
-        expireAfterAccessNanos, maximumSize, concurrencyLevel, evictionListener,
-        this, computingFunction);
+  @Override
+  Object writeReplace() {
+    return new ComputingSerializationProxy<K, V>(keyStrength, valueStrength, keyEquivalence,
+        valueEquivalence, expireAfterWriteNanos, expireAfterAccessNanos, maximumSize,
+        concurrencyLevel, evictionListener, this, computingFunction);
   }
 
-  static class ComputingSerializationProxy<K, V>
-      extends AbstractSerializationProxy<K, V> {
+  static class ComputingSerializationProxy<K, V> extends AbstractSerializationProxy<K, V> {
 
     final Function<? super K, ? extends V> computingFunction;
     transient Cache<K, V> cache;
 
-    ComputingSerializationProxy(Strength keyStrength,
-        Strength valueStrength,
-        Equivalence<Object> keyEquivalence,
-        Equivalence<Object> valueEquivalence,
-        long expireAfterWriteNanos,
-        long expireAfterAccessNanos,
-        int maximumSize,
-        int concurrencyLevel,
-        MapEvictionListener<? super K, ? super V> evictionListener,
-        ConcurrentMap<K, V> delegate,
-        Function<? super K, ? extends V> computingFunction) {
-      super(keyStrength, valueStrength, keyEquivalence, valueEquivalence,
-          expireAfterWriteNanos, expireAfterAccessNanos, maximumSize,
-          concurrencyLevel, evictionListener, delegate);
+    ComputingSerializationProxy(Strength keyStrength, Strength valueStrength,
+        Equivalence<Object> keyEquivalence, Equivalence<Object> valueEquivalence,
+        long expireAfterWriteNanos, long expireAfterAccessNanos, int maximumSize,
+        int concurrencyLevel, MapEvictionListener<? super K, ? super V> evictionListener,
+        ConcurrentMap<K, V> delegate, Function<? super K, ? extends V> computingFunction) {
+      super(keyStrength, valueStrength, keyEquivalence, valueEquivalence, expireAfterWriteNanos,
+          expireAfterAccessNanos, maximumSize, concurrencyLevel, evictionListener, delegate);
       this.computingFunction = computingFunction;
     }
 
-    private void writeObject(ObjectOutputStream out)
-        throws IOException {
+    private void writeObject(ObjectOutputStream out) throws IOException {
       out.defaultWriteObject();
       writeMapTo(out);
     }
 
     @SuppressWarnings("unchecked")
-    private void readObject(ObjectInputStream in)
-        throws IOException, ClassNotFoundException {
+    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
       in.defaultReadObject();
       MapMaker mapMaker = readMapMaker(in);
       cache = mapMaker.makeCache(computingFunction);

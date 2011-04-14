@@ -26,30 +26,29 @@ import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.TimeUnit;
 
 /**
- * MapMaker emulation. Since Javascript is single-threaded and have no
- * references, this reduces to the creation of expiring and computing maps.
+ * MapMaker emulation. Since Javascript is single-threaded and have no references, this reduces to
+ * the creation of expiring and computing maps.
  *
  * @author Charles Fry
  */
 public class MapMaker extends GenericMapMaker<Object, Object> {
 
-  // TODO(user,user): ConcurrentHashMap never throws a CME when mutating the map
-  // during iteration, but this implementation (based on a LHM) does.
-  // This will all be replaced soon anyways, so leaving it as is for now.
-  private static class ExpiringComputingMap<K, V>
-      extends LinkedHashMap<K, V> implements ConcurrentMap<K, V> {
+  // TODO(user,user): ConcurrentHashMap never throws a CME when mutating the map during iteration, but
+  // this implementation (based on a LHM) does. This will all be replaced soon anyways, so leaving
+  // it as is for now.
+  private static class ExpiringComputingMap<K, V> extends LinkedHashMap<K, V>
+      implements ConcurrentMap<K, V> {
     private final long expirationMillis;
     private final Function<? super K, ? extends V> computer;
     private final int maximumSize;
 
-    ExpiringComputingMap(long expirationMillis, int maximumSize,
-        int initialCapacity, float loadFactor) {
+    ExpiringComputingMap(long expirationMillis, int maximumSize, int initialCapacity,
+        float loadFactor) {
       this(expirationMillis, null, maximumSize, initialCapacity, loadFactor);
     }
 
-    ExpiringComputingMap(long expirationMillis,
-        Function<? super K, ? extends V> computer, int maximumSize,
-        int initialCapacity, float loadFactor) {
+    ExpiringComputingMap(long expirationMillis, Function<? super K, ? extends V> computer,
+        int maximumSize, int initialCapacity, float loadFactor) {
       super(initialCapacity, loadFactor, (maximumSize != -1));
       this.expirationMillis = expirationMillis;
       this.computer = computer;
@@ -105,16 +104,15 @@ public class MapMaker extends GenericMapMaker<Object, Object> {
     private void scheduleRemoval(final K key, final V value) {
       // from MapMaker
       /*
-       * TODO: Keep weak reference to map, too. Build a priority
-       * queue out of the entries themselves instead of creating a
-       * task per entry. Then, we could have one recurring task per
-       * map (which would clean the entire map and then reschedule
-       * itself depending upon when the next expiration comes). We
-       * also want to avoid removing an entry prematurely if the
-       * entry was set to the same value again.
+       * TODO: Keep weak reference to map, too. Build a priority queue out of the entries themselves
+       * instead of creating a task per entry. Then, we could have one recurring task per map (which
+       * would clean the entire map and then reschedule itself depending upon when the next
+       * expiration comes). We also want to avoid removing an entry prematurely if the entry was set
+       * to the same value again.
        */
       Timer timer = new Timer() {
-        @Override public void run() {
+        @Override
+        public void run() {
           remove(key, value);
         }
       };
@@ -127,13 +125,13 @@ public class MapMaker extends GenericMapMaker<Object, Object> {
       V result = super.get(k);
       if (result == null && computer != null) {
         /*
-         * This cast isn't safe, but we can rely on the fact that K is almost
-         * always passed to Map.get(), and tools like IDEs and Findbugs can
-         * catch situations where this isn't the case.
+         * This cast isn't safe, but we can rely on the fact that K is almost always passed to
+         * Map.get(), and tools like IDEs and Findbugs can catch situations where this isn't the
+         * case.
          *
-         * The alternative is to add an overloaded method, but the chances of
-         * a user calling get() instead of the new API and the risks inherent
-         * in adding a new API outweigh this little hole.
+         * The alternative is to add an overloaded method, but the chances of a user calling get()
+         * instead of the new API and the risks inherent in adding a new API outweigh this little
+         * hole.
          */
         @SuppressWarnings("unchecked")
         K key = (K) k;
@@ -193,8 +191,8 @@ public class MapMaker extends GenericMapMaker<Object, Object> {
   @Override
   public MapMaker expireAfterWrite(long duration, TimeUnit unit) {
     if (expirationMillis != 0) {
-      throw new IllegalStateException("expiration time of "
-          + expirationMillis + " ns was already set");
+      throw new IllegalStateException(
+          "expiration time of " + expirationMillis + " ns was already set");
     }
     if (duration <= 0) {
       throw new IllegalArgumentException("invalid duration: " + duration);
@@ -207,12 +205,10 @@ public class MapMaker extends GenericMapMaker<Object, Object> {
   @Override
   public MapMaker maximumSize(int maximumSize) {
     if (this.maximumSize != -1) {
-      throw new IllegalStateException("maximum size of " + maximumSize
-          + " was already set");
+      throw new IllegalStateException("maximum size of " + maximumSize + " was already set");
     }
     if (maximumSize < 0) {
-      throw new IllegalArgumentException("invalid maximum size: "
-          + maximumSize);
+      throw new IllegalArgumentException("invalid maximum size: " + maximumSize);
     }
     this.maximumSize = maximumSize;
     useCustomMap = true;
@@ -222,8 +218,7 @@ public class MapMaker extends GenericMapMaker<Object, Object> {
   @Override
   public MapMaker concurrencyLevel(int concurrencyLevel) {
     if (concurrencyLevel < 1) {
-      throw new IllegalArgumentException(
-          "GWT only supports a concurrency level of 1");
+      throw new IllegalArgumentException("GWT only supports a concurrency level of 1");
     }
     // GWT technically only supports concurrencyLevel == 1, but we silently
     // ignore other positive values.
@@ -233,15 +228,14 @@ public class MapMaker extends GenericMapMaker<Object, Object> {
   @Override
   public <K, V> ConcurrentMap<K, V> makeMap() {
     return useCustomMap
-        ? new ExpiringComputingMap<K, V>(
-            expirationMillis, null, maximumSize, initialCapacity, loadFactor)
+        ? new ExpiringComputingMap<K, V>(expirationMillis, null, maximumSize, initialCapacity,
+            loadFactor)
         : new ConcurrentHashMap<K, V>(initialCapacity, loadFactor);
   }
 
   @Override
-  public <K, V> ConcurrentMap<K, V> makeComputingMap(
-      Function<? super K, ? extends V> computer) {
-    return new ExpiringComputingMap<K, V>(
-        expirationMillis, computer, maximumSize, initialCapacity, loadFactor);
+  public <K, V> ConcurrentMap<K, V> makeComputingMap(Function<? super K, ? extends V> computer) {
+    return new ExpiringComputingMap<K, V>(expirationMillis, computer, maximumSize, initialCapacity,
+        loadFactor);
   }
 }

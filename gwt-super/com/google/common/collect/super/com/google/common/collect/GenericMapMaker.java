@@ -24,10 +24,9 @@ import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.TimeUnit;
 
 /**
- * A class exactly like {@link MapMaker}, except restricted in the types of maps
- * it can build. This type is returned by {@link MapMaker#evictionListener} to
- * prevent the user from trying to build a map that's incompatible with the key
- * and value types of the listener.
+ * A class exactly like {@link MapMaker}, except restricted in the types of maps it can build. This
+ * type is returned by {@link MapMaker#evictionListener} to prevent the user from trying to build a
+ * map that's incompatible with the key and value types of the listener.
  *
  * @param <K0> the base type for all key types of maps built by this map maker
  * @param <V0> the base type for all value types of maps built by this map maker
@@ -58,15 +57,13 @@ public abstract class GenericMapMaker<K0, V0> {
   /**
    * See {@link MapMaker#concurrencyLevel}.
    */
-  public abstract GenericMapMaker<K0, V0> concurrencyLevel(
-      int concurrencyLevel);
+  public abstract GenericMapMaker<K0, V0> concurrencyLevel(int concurrencyLevel);
 
   /**
    * See {@link MapMaker#expiration}.
    */
   // TODO(user): deprecate
-  public abstract GenericMapMaker<K0, V0> expiration(
-      long duration, TimeUnit unit);
+  public abstract GenericMapMaker<K0, V0> expiration(long duration, TimeUnit unit);
 
   /**
    * See {@link MapMaker#expireAfterWrite}.
@@ -74,13 +71,11 @@ public abstract class GenericMapMaker<K0, V0> {
    * @since 8
    */
   @Beta
-  public abstract GenericMapMaker<K0, V0> expireAfterWrite(
-      long duration, TimeUnit unit);
+  public abstract GenericMapMaker<K0, V0> expireAfterWrite(long duration, TimeUnit unit);
 
   /*
-   * Note that MapMaker's evictionListener() is not here, because once you're
-   * interacting with a GenericMapMaker you've already called that, and
-   * shouldn't be calling it again.
+   * Note that MapMaker's evictionListener() is not here, because once you're interacting with a
+   * GenericMapMaker you've already called that, and shouldn't be calling it again.
    */
 
   /**
@@ -91,6 +86,6 @@ public abstract class GenericMapMaker<K0, V0> {
   /**
    * See {@link MapMaker#makeComputingMap}.
    */
-  public abstract <K extends K0, V extends V0> ConcurrentMap<K, V>
-      makeComputingMap(Function<? super K, ? extends V> computingFunction);
+  public abstract <K extends K0, V extends V0> ConcurrentMap<K, V> makeComputingMap(
+      Function<? super K, ? extends V> computingFunction);
 }
