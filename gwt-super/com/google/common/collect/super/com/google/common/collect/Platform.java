@@ -16,8 +16,6 @@
 
 package com.google.common.collect;
 
-import com.google.gwt.core.client.GWT;
-
 /**
  * Minimal GWT emulation of {@code com.google.common.collect.Platform}.
  *
@@ -50,9 +48,5 @@ class Platform {
 
   static MapMaker tryWeakKeys(MapMaker mapMaker) {
     return mapMaker;
-  }
-
-  static void logWarning(String message, Throwable exception) {
-    GWT.log("WARNING: " + message, exception);
   }
 }

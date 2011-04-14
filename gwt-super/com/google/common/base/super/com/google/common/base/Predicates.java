@@ -356,34 +356,6 @@ public final class Predicates {
     private static final long serialVersionUID = 0;
   }
 
-  /** @see Predicates#instanceOf(Class) */
-  private static class InstanceOfPredicate
-      implements Predicate<Object>, Serializable {
-    private final Class<?> clazz;
-
-    private InstanceOfPredicate(Class<?> clazz) {
-      this.clazz = checkNotNull(clazz);
-    }
-    @Override
-    public boolean apply(@Nullable Object o) {
-      return Platform.isInstance(clazz, o);
-    }
-    @Override public int hashCode() {
-      return clazz.hashCode();
-    }
-    @Override public boolean equals(@Nullable Object obj) {
-      if (obj instanceof InstanceOfPredicate) {
-        InstanceOfPredicate that = (InstanceOfPredicate) obj;
-        return clazz == that.clazz;
-      }
-      return false;
-    }
-    @Override public String toString() {
-      return "IsInstanceOf(" + clazz.getName() + ")";
-    }
-    private static final long serialVersionUID = 0;
-  }
-
   /** @see Predicates#in(Collection) */
   private static class InPredicate<T> implements Predicate<T>, Serializable {
     private final Collection<?> target;

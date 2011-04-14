@@ -18,8 +18,6 @@ package com.google.common.base;
 
 import com.google.common.annotations.GwtCompatible;
 
-import javax.annotation.Nullable;
-
 /**
  * Methods factored out so that they can be emulated differently in GWT.
  *
@@ -29,15 +27,6 @@ import javax.annotation.Nullable;
 final class Platform {
   private Platform() {}
 
-  /**
-   * Calls {@link Class#isInstance(Object)}.
-   *
-   * <p>This method is not supported in GWT yet.
-   */
-  static boolean isInstance(Class<?> clazz, @Nullable Object obj) {
-    return clazz.isInstance(obj);
-  }
-  
   /** Returns a thread-local 1024-char array. */
   static char[] charBufferFromThreadLocal() {
     return DEST_TL.get();

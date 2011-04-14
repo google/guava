@@ -25,11 +25,6 @@ class Platform {
 
   private static final char[] CHAR_BUFFER = new char[1024];
 
-  static boolean isInstance(Class<?> clazz, Object obj) {
-    throw new UnsupportedOperationException(
-        "Class.isInstance is not supported in GWT yet.");
-  }
-
   static char[] charBufferFromThreadLocal() {
     // ThreadLocal is not available to GWT, so we always reuse the same
     // instance.  It is always safe to return the same instance because

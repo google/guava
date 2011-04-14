@@ -420,6 +420,7 @@ public final class Predicates {
   }
 
   /** @see Predicates#instanceOf(Class) */
+  @GwtIncompatible("Class.isInstance")
   private static class InstanceOfPredicate
       implements Predicate<Object>, Serializable {
     private final Class<?> clazz;
@@ -429,7 +430,7 @@ public final class Predicates {
     }
     @Override
     public boolean apply(@Nullable Object o) {
-      return Platform.isInstance(clazz, o);
+      return clazz.isInstance(o);
     }
     @Override public int hashCode() {
       return clazz.hashCode();
