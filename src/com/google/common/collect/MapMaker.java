@@ -75,10 +75,9 @@ import java.util.concurrent.TimeUnit;
  * comparisons instead for keys. Likewise, if {@link #weakValues()} or {@link #softValues()} was
  * specified, the map uses identity comparisons for values.
  *
- * <p>The returned map has <i>weakly consistent iteration</i>: an iterator over one of the map's
- * view collections may reflect some, all or none of the changes made to the map after the iterator
- * was created. They do not throw {@link ConcurrentModificationException}, and may proceed
- * concurrently with other operations.
+ * <p>The returned map has <i>weakly consistent iterators</i> which may reflect some, all or none of
+ * the changes made to the map after the iterator was created. They do not throw {@link
+ * ConcurrentModificationException}, and may proceed concurrently with other operations.
  *
  * <p>An entry whose key or value is reclaimed by the garbage collector immediately disappears from
  * the map. (If the default settings of strong keys and strong values are used, this will never
