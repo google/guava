@@ -35,7 +35,7 @@ import java.util.concurrent.TimeoutException;
  *            {@code checkedGet} method
  *
  * @author azana@google.com (Anthony Zana)
- * @since 9
+ * @since Guava release 09
  */
 @Beta
 public abstract class ForwardingCheckedFuture<V, X extends Exception> 
@@ -59,7 +59,7 @@ public abstract class ForwardingCheckedFuture<V, X extends Exception>
    * A simplified version of {@link ForwardingCheckedFuture} where subclasses
    * can pass in an already constructed {@link CheckedFuture} as the delegate.
    * 
-   * @since 9
+   * @since Guava release 09
    */
   @Beta
   public abstract static class SimpleForwardingCheckedFuture<

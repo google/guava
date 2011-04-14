@@ -29,7 +29,7 @@ import javax.annotation.Nullable;
  * Utility methods for working with {@link Closeable} objects.
  *
  * @author Michael Lancaster
- * @since 1
+ * @since Guava release 01
  */
 @Beta
 public final class Closeables {

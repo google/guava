@@ -42,7 +42,7 @@ import javax.annotation.Nullable;
  * @author Kevin Bourrillion
  * @author Mike Bostock
  * @author Louis Wasserman
- * @since 2 (imported from Google Collections Library)
+ * @since Guava release 02 (imported from Google Collections Library)
  */
 @GwtCompatible
 public final class Multisets {
@@ -352,7 +352,7 @@ public final class Multisets {
    * based on different equivalence relations (as {@code HashMultiset} and
    * {@code TreeMultiset} are).
    *
-   * @since 2
+   * @since Guava release 02
    */
   public static <E> Multiset<E> intersection(
       final Multiset<E> multiset1, final Multiset<?> multiset2) {

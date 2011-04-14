@@ -25,7 +25,7 @@ import java.util.ListIterator;
  * A list iterator that does not support {@link #remove}, {@link #add}, or
  * {@link #set}.
  *
- * @since 7
+ * @since Guava release 07
  * @author Louis Wasserman
  */
 @Beta

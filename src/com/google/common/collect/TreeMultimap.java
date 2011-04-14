@@ -66,7 +66,7 @@ import java.util.TreeSet;
  * Multimaps#synchronizedSortedSetMultimap}.
  *
  * @author Jared Levy
- * @since 2 (imported from Google Collections Library)
+ * @since Guava release 02 (imported from Google Collections Library)
  */
 @GwtCompatible(serializable = true, emulated = true)
 public class TreeMultimap<K, V> extends AbstractSortedSetMultimap<K, V> {

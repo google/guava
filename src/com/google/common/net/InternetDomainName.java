@@ -70,7 +70,7 @@ import javax.annotation.Nullable;
  * Punycode-encoded</a> versions.
  *
  * @author Craig Berry
- * @since 5
+ * @since Guava release 05
  */
 @Beta
 @GwtCompatible(emulated = true)
@@ -204,7 +204,7 @@ public class InternetDomainName {
    * @param domain A domain name (not IP address)
    * @throws IllegalArgumentException if {@code name} is not syntactically valid
    *     according to {@link #isValidLenient}
-   * @since 8 (previously named {@code from})
+   * @since Guava release 08 (previously named {@code from})
    */
   public static InternetDomainName fromLenient(String domain) {
     return new InternetDomainName(checkNotNull(domain));
@@ -322,7 +322,7 @@ public class InternetDomainName {
    *
    * @return {@code true} if this domain name appears exactly on the public
    *     suffix list
-   * @since 6
+   * @since Guava release 06
    */
   public boolean isPublicSuffix() {
     return publicSuffixIndex == 0;
@@ -336,7 +336,7 @@ public class InternetDomainName {
    * the recommended method for determining whether a domain is potentially an
    * addressable host.
    *
-   * @since 6
+   * @since Guava release 06
    */
   public boolean hasPublicSuffix() {
     return publicSuffixIndex != NO_PUBLIC_SUFFIX_FOUND;
@@ -346,7 +346,7 @@ public class InternetDomainName {
    * Returns the {@linkplain #isPublicSuffix() public suffix} portion of the
    * domain name, or {@code null} if no public suffix is present.
    *
-   * @since 6
+   * @since Guava release 06
    */
   public InternetDomainName publicSuffix() {
     return hasPublicSuffix() ? ancestor(publicSuffixIndex) : null;
@@ -369,7 +369,7 @@ public class InternetDomainName {
    * individual browsers' implementations of cookie controls. See
    * <a href="http://www.ietf.org/rfc/rfc2109.txt">RFC 2109</a> for details.
    *
-   * @since 6
+   * @since Guava release 06
    */
   public boolean isUnderPublicSuffix() {
     return publicSuffixIndex > 0;
@@ -393,7 +393,7 @@ public class InternetDomainName {
    * individual browsers' implementations of cookie controls. See
    * <a href="http://www.ietf.org/rfc/rfc2109.txt">RFC 2109</a> for details.
    *
-   * @since 6
+   * @since Guava release 06
    */
   public boolean isTopPrivateDomain() {
     return publicSuffixIndex == 1;
@@ -419,7 +419,7 @@ public class InternetDomainName {
    *
    * @throws IllegalStateException if this domain does not end with a
    *     public suffix
-   * @since 6
+   * @since Guava release 06
    */
   public InternetDomainName topPrivateDomain() {
     if (isTopPrivateDomain()) {
@@ -508,7 +508,7 @@ public class InternetDomainName {
    *
    * The latter form is preferred as it avoids doing validation twice.
    *
-   * @since 8 (previously named {@code isValid})
+   * @since Guava release 08 (previously named {@code isValid})
    */
   public static boolean isValidLenient(String name) {
     try {

@@ -30,7 +30,7 @@ import javax.annotation.Nullable;
  * serializable.
  *
  * @author Mike Bostock
- * @since 2 (imported from Google Collections Library)
+ * @since Guava release 02 (imported from Google Collections Library)
  */
 @GwtCompatible(emulated = true)
 public final class EnumHashBiMap<K extends Enum<K>, V>

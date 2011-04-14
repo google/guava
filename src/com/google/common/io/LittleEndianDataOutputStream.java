@@ -37,7 +37,7 @@ import java.io.OutputStream;
  *
  * @author chrisn@google.com (Chris Nokleberg)
  * @author kbottner@google.com (Keith Bottner)
- * @since 8
+ * @since Guava release 08
  */
 @Beta
 public class LittleEndianDataOutputStream extends FilterOutputStream

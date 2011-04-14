@@ -59,7 +59,7 @@ import javax.annotation.Nullable;
  * @author Mike Bostock
  * @author Isaac Shum
  * @author Louis Wasserman
- * @since 2 (imported from Google Collections Library)
+ * @since Guava release 02 (imported from Google Collections Library)
  */
 @GwtCompatible(emulated = true)
 public final class Maps {
@@ -175,7 +175,7 @@ public final class Maps {
    * and value computation.
    *
    * @return a new, empty {@code ConcurrentMap}
-   * @since 3
+   * @since Guava release 03
    */
   public static <K, V> ConcurrentMap<K, V> newConcurrentMap() {
     return new MapMaker().<K, V>makeMap();
@@ -789,7 +789,7 @@ public final class Maps {
    * ArrayList}, may risk a {@code ClassCastException} when calling methods on
    * the transformed map.
    *
-   * @since 7
+   * @since Guava release 07
    */
   @Beta
   public static <K, V1, V2> Map<K, V2> transformEntries(
@@ -806,7 +806,7 @@ public final class Maps {
    * @param <K> the key type of the input and output entries
    * @param <V1> the value type of the input entry
    * @param <V2> the value type of the output entry
-   * @since 7
+   * @since Guava release 07
    */
   @Beta
   public interface EntryTransformer<K, V1, V2> {

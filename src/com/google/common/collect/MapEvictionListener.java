@@ -31,7 +31,7 @@ import javax.annotation.Nullable;
  * @param <K> the type of keys being evicted
  * @param <V> the type of values being evicted
  * @author Ben Manes
- * @since 7
+ * @since Guava release 07
  */
 @Beta
 public interface MapEvictionListener<K, V> {

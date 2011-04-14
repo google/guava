@@ -32,7 +32,7 @@ import javax.annotation.Nullable;
  * href="http://en.wikipedia.org/wiki/Decorator_pattern">decorator pattern</a>.
  *
  * @author Robert Konigsberg
- * @since 2 (imported from Google Collections Library)
+ * @since Guava release 02 (imported from Google Collections Library)
  */
 @GwtCompatible
 public abstract class ForwardingMultimap<K, V> extends ForwardingObject

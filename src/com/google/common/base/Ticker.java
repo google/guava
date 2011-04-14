@@ -23,7 +23,7 @@ import com.google.common.annotations.Beta;
  * elapsed since some fixed but arbitrary point in time.
  *
  * @author Kevin Bourrillion
- * @since 9
+ * @since Guava release 09
  */
 @Beta
 public interface Ticker {

@@ -45,7 +45,7 @@ import javax.annotation.Nullable;
  * @author Kevin Bourrillion
  * @author Nishant Thakkar
  * @author Sven Mawson
- * @since 1
+ * @since Guava release 01
  */
 @Beta
 public final class Futures {
@@ -186,7 +186,7 @@ public final class Futures {
    * {@link ExecutionException} with the actual cause of the exception.
    * See {@link Future#get()} for details on the exceptions thrown.
    *
-   * @since 9 (source-compatible since release 1)
+   * @since Guava release 09 (source-compatible since release 01)
    */
   public static <V, X extends Exception> CheckedFuture<V, X> makeChecked(
       ListenableFuture<V> future, Function<Exception, X> mapper) {
@@ -388,7 +388,7 @@ public final class Futures {
    *     to the results of the returned future.  This will be run in the thread
    *     that notifies input it is complete.
    * @return A future that holds result of the composition.
-   * @since 9 (in version 1 as {@code compose})
+   * @since Guava release 09 (in release 01 as {@code compose})
    */
   public static <I, O> ListenableFuture<O> transform(ListenableFuture<I> future,
       final Function<? super I, ? extends O> function) {
@@ -431,7 +431,7 @@ public final class Futures {
    *     to the results of the returned future.
    * @param exec Executor to run the function in.
    * @return A future that holds result of the composition.
-   * @since 9 (in version 2 as {@code compose})
+   * @since Guava release 09 (in release 02 as {@code compose})
    */
   public static <I, O> ListenableFuture<O> transform(ListenableFuture<I> future,
       final Function<? super I, ? extends O> function, Executor exec) {
@@ -476,7 +476,7 @@ public final class Futures {
    *     to the results of the returned future.  This will be run in the thread
    *     that calls one of the varieties of {@code get()}.
    * @return A future that computes result of the composition.
-   * @since 9 (in version 1 as {@code compose})
+   * @since Guava release 09 (in release 01 as {@code compose})
    */
   public static <I, O> Future<O> transform(final Future<I> future,
       final Function<? super I, ? extends O> function) {

@@ -29,7 +29,7 @@ import java.util.concurrent.Executor;
  * for each method.
  *
  * @author Chris Nokleberg
- * @since 1
+ * @since Guava release 01
  */
 @Beta
 public abstract class AbstractIdleService implements Service {

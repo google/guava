@@ -31,7 +31,7 @@ import java.util.concurrent.TimeUnit;
  * @param <K0> the base type for all key types of maps built by this map maker
  * @param <V0> the base type for all value types of maps built by this map maker
  * @author Kevin Bourrillion
- * @since 7
+ * @since Guava release 07
  */
 @Beta
 @GwtCompatible(emulated = true)
@@ -49,7 +49,7 @@ public abstract class GenericMapMaker<K0, V0> {
   /**
    * See {@link MapMaker#maximumSize}.
    *
-   * @since 8
+   * @since Guava release 08
    */
   @Beta
   public abstract GenericMapMaker<K0, V0> maximumSize(int maximumSize);
@@ -68,7 +68,7 @@ public abstract class GenericMapMaker<K0, V0> {
   /**
    * See {@link MapMaker#expireAfterWrite}.
    *
-   * @since 8
+   * @since Guava release 08
    */
   @Beta
   public abstract GenericMapMaker<K0, V0> expireAfterWrite(long duration, TimeUnit unit);

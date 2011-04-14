@@ -34,7 +34,7 @@ import java.util.logging.Logger;
  *
  * @author Nishant Thakkar
  * @author Sven Mawson
- * @since 1
+ * @since Guava release 01
  */
 @Beta
 public final class ExecutionList implements Runnable {

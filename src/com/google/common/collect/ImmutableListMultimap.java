@@ -47,7 +47,7 @@ import javax.annotation.Nullable;
  * are guaranteed to be immutable.
  *
  * @author Jared Levy
- * @since 2 (imported from Google Collections Library)
+ * @since Guava release 02 (imported from Google Collections Library)
  */
 @GwtCompatible(serializable = true, emulated = true)
 public class ImmutableListMultimap<K, V>
@@ -150,7 +150,7 @@ public class ImmutableListMultimap<K, V>
    * times to build multiple multimaps in series. Each multimap contains the
    * key-value mappings in the previously created multimaps.
    *
-   * @since 2 (imported from Google Collections Library)
+   * @since Guava release 02 (imported from Google Collections Library)
    */
   public static final class Builder<K, V>
       extends ImmutableMultimap.Builder<K, V> {
@@ -184,7 +184,7 @@ public class ImmutableListMultimap<K, V>
     /**
      * {@inheritDoc}
      *
-     * @since 8
+     * @since Guava release 08
      */
     @Beta @Override
     public Builder<K, V> orderKeysBy(Comparator<? super K> keyComparator) {
@@ -195,7 +195,7 @@ public class ImmutableListMultimap<K, V>
     /**
      * {@inheritDoc}
      *
-     * @since 8
+     * @since Guava release 08
      */
     @Beta @Override
     public Builder<K, V> orderValuesBy(Comparator<? super V> valueComparator) {

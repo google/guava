@@ -36,7 +36,7 @@ import java.util.RandomAccess;
  * already found in either {@link Short} or {@link Arrays}.
  *
  * @author Kevin Bourrillion
- * @since 1
+ * @since Guava release 01
  */
 @GwtCompatible(emulated = true)
 public final class Shorts {
@@ -332,7 +332,7 @@ public final class Shorts {
    *
    * @see <a href="http://en.wikipedia.org/wiki/Lexicographical_order">
    *     Lexicographical order article at Wikipedia</a>
-   * @since 2
+   * @since Guava release 02
    */
   public static Comparator<short[]> lexicographicalComparator() {
     return LexicographicalComparator.INSTANCE;

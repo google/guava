@@ -37,7 +37,7 @@ import java.util.RandomAccess;
  * already found in either {@link Float} or {@link Arrays}.
  *
  * @author Kevin Bourrillion
- * @since 1
+ * @since Guava release 01
  */
 @GwtCompatible
 public final class Floats {
@@ -301,7 +301,7 @@ public final class Floats {
    *
    * @see <a href="http://en.wikipedia.org/wiki/Lexicographical_order">
    *     Lexicographical order article at Wikipedia</a>
-   * @since 2
+   * @since Guava release 02
    */
   public static Comparator<float[]> lexicographicalComparator() {
     return LexicographicalComparator.INSTANCE;

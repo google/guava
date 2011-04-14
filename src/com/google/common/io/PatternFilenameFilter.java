@@ -28,7 +28,7 @@ import java.util.regex.PatternSyntaxException;
  * File name filter that only accepts files matching a regular expression.
  *
  * @author Apple Chow
- * @since 1
+ * @since Guava release 01
  */
 @Beta
 public final class PatternFilenameFilter implements FilenameFilter {

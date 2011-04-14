@@ -113,7 +113,7 @@ import javax.annotation.Nullable;
  * </ul>
  *
  * @author Erik Kline
- * @since 5
+ * @since Guava release 05
  */
 @Beta
 public final class InetAddresses {
@@ -560,7 +560,7 @@ public final class InetAddresses {
    * <a target="_parent" href="http://tools.ietf.org/html/rfc4380"
    *    >http://tools.ietf.org/html/rfc4380</a>.
    *
-   * @since 5
+   * @since Guava release 05
    */
   @Beta
   public static final class TeredoInfo {
@@ -731,7 +731,7 @@ public final class InetAddresses {
    * @param ip {@link Inet6Address} to be examined for embedded IPv4
    *           client address.
    * @return {@code true} if there is an embedded IPv4 client address.
-   * @since 7
+   * @since Guava release 07
    */
   public static boolean hasEmbeddedIPv4ClientAddress(Inet6Address ip) {
     return isCompatIPv4Address(ip) || is6to4Address(ip) ||
@@ -789,7 +789,7 @@ public final class InetAddresses {
    *
    * @param ip {@link InetAddress} to "coerce"
    * @return {@link Inet4Address} represented "coerced" address
-   * @since 7
+   * @since Guava release 07
    */
   public static Inet4Address getCoercedIPv4Address(InetAddress ip) {
     if (ip instanceof Inet4Address) {
@@ -876,7 +876,7 @@ public final class InetAddresses {
    *
    * @param ip {@link InetAddress} to convert
    * @return {@code int}, "coerced" if ip is not an IPv4 address
-   * @since 7
+   * @since Guava release 07
    */
   public static int coerceToInteger(InetAddress ip) {
     return ByteStreams.newDataInput(getCoercedIPv4Address(ip).getAddress()).readInt();

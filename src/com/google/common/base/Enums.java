@@ -26,7 +26,7 @@ import com.google.common.annotations.GwtCompatible;
  *
  * @author smckay@google.com (Steve McKay)
  *
- * @since 9
+ * @since Guava release 09
  */
 @GwtCompatible
 @Beta

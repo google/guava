@@ -27,7 +27,7 @@ import java.util.logging.Logger;
  * Factories for {@link UncaughtExceptionHandler} instances.
  *
  * @author gak@google.com (Gregory Kick)
- * @since 8
+ * @since Guava release 08
  */
 public final class UncaughtExceptionHandlers {
   private UncaughtExceptionHandlers() {}

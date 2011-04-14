@@ -80,7 +80,7 @@ import java.util.SortedSet;
  * @see ImmutableSet
  * @author Jared Levy
  * @author Louis Wasserman
- * @since 2 (imported from Google Collections Library)
+ * @since Guava release 02 (imported from Google Collections Library)
  */
 // TODO(benyu): benchmark and optimize all creation paths, which are a mess now
 @GwtCompatible(serializable = true, emulated = true)
@@ -188,7 +188,7 @@ public abstract class ImmutableSortedSet<E>
    * {@link Comparable#compareTo}, only the first one specified is included.
    *
    * @throws NullPointerException if any element is null
-   * @since 3 (source-compatible since release 2)
+   * @since Guava release 03 (source-compatible since release 02)
    */
   @SuppressWarnings("unchecked")
   public static <E extends Comparable<? super E>> ImmutableSortedSet<E> of(
@@ -210,7 +210,7 @@ public abstract class ImmutableSortedSet<E>
    * @throws NullPointerException if any of {@code elements} is null
    * @deprecated use {@link #copyOf(Comparable[])}. <b>This method is scheduled
    *     for deletion in October 2011.</b>
-   * @since 2 (changed from varargs in release 3)
+   * @since Guava release 02 (changed from varargs in release 03)
    */
   @Deprecated
   public
@@ -225,7 +225,7 @@ public abstract class ImmutableSortedSet<E>
    * {@link Comparable#compareTo}, only the first one specified is included.
    *
    * @throws NullPointerException if any of {@code elements} is null
-   * @since 3
+   * @since Guava release 03
    */
   public static <E extends Comparable<? super E>> ImmutableSortedSet<E> copyOf(
       E[] elements) {
@@ -294,7 +294,7 @@ public abstract class ImmutableSortedSet<E>
    *
    * @throws ClassCastException if the elements are not mutually comparable
    * @throws NullPointerException if any of {@code elements} is null
-   * @since 7 (source-compatible since release 2)
+   * @since Guava release 07 (source-compatible since release 02)
    */
   public static <E> ImmutableSortedSet<E> copyOf(
       Collection<? extends E> elements) {
@@ -375,7 +375,7 @@ public abstract class ImmutableSortedSet<E>
    *
    * @throws NullPointerException if {@code comparator} or any of
    *     {@code elements} is null
-   * @since 7 (source-compatible since release 2)
+   * @since Guava release 07 (source-compatible since release 02)
    */
   public static <E> ImmutableSortedSet<E> copyOf(
       Comparator<? super E> comparator, Collection<? extends E> elements) {
@@ -494,7 +494,7 @@ public abstract class ImmutableSortedSet<E>
    * @throws NullPointerException if any of the elements is null
    * @throws IllegalArgumentException if {@code elements} contains any
    *     duplicate values (according to {@link Object#equals})
-   * @since 3
+   * @since Guava release 03
    * @deprecated If the provided elements are already in their natural order,
    *     {@link #copyOf(Iterable)} will produce a set with the same elements in
    *     the same order.  If the elements are arranged according to another
@@ -521,7 +521,7 @@ public abstract class ImmutableSortedSet<E>
    * @throws NullPointerException if any of the elements is null
    * @throws IllegalArgumentException if any duplicate values (according to
    *     {@link Object#equals(Object)}) are present among the method arguments
-   * @since 3
+   * @since Guava release 03
    * @deprecated If the provided elements are already in their natural order,
    *     {@link #of()} will produce a set with the same elements in the same
    *     order.  If the elements are arranged according to another {@code
@@ -594,7 +594,7 @@ public abstract class ImmutableSortedSet<E>
    * times to build multiple sets in series. Each set is a superset of the set
    * created before it.
    *
-   * @since 2 (imported from Google Collections Library)
+   * @since Guava release 02 (imported from Google Collections Library)
    */
   public static final class Builder<E> extends ImmutableSet.Builder<E> {
     private final Comparator<? super E> comparator;

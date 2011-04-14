@@ -31,7 +31,7 @@ import java.util.concurrent.TimeoutException;
  * Futures#makeUninterruptible(Future)}.
  *
  * @author Kevin Bourrillion
- * @since 1
+ * @since Guava release 01
  */
 @Beta
 public interface UninterruptibleFuture<V> extends Future<V> {

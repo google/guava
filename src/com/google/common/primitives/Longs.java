@@ -38,7 +38,7 @@ import java.util.RandomAccess;
  * already found in either {@link Long} or {@link Arrays}.
  *
  * @author Kevin Bourrillion
- * @since 1
+ * @since Guava release 01
  */
 @GwtCompatible(emulated = true)
 public final class Longs {
@@ -281,7 +281,7 @@ public final class Longs {
    * bytes, in big-endian order; equivalent to {@code Longs.fromByteArray(new
    * byte[] {b1, b2, b3, b4, b5, b6, b7, b8})}.
    *
-   * @since 7
+   * @since Guava release 07
    */
   @GwtIncompatible("doesn't work")
   public static long fromBytes(byte b1, byte b2, byte b3, byte b4,
@@ -366,7 +366,7 @@ public final class Longs {
    *
    * @see <a href="http://en.wikipedia.org/wiki/Lexicographical_order">
    *     Lexicographical order article at Wikipedia</a>
-   * @since 2
+   * @since Guava release 02
    */
   public static Comparator<long[]> lexicographicalComparator() {
     return LexicographicalComparator.INSTANCE;

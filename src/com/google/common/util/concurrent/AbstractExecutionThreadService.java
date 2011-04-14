@@ -28,7 +28,7 @@ import java.util.concurrent.Executor;
  * threading manually.
  *
  * @author Jesse Wilson
- * @since 1
+ * @since Guava release 01
  */
 @Beta
 public abstract class AbstractExecutionThreadService implements Service {

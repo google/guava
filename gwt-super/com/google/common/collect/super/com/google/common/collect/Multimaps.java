@@ -48,7 +48,7 @@ import javax.annotation.Nullable;
  * @author Robert Konigsberg
  * @author Mike Bostock
  * @author Louis Wasserman
- * @since 2 (imported from Google Collections Library)
+ * @since Guava release 02 (imported from Google Collections Library)
  */
 @GwtCompatible(emulated = true)
 public final class Multimaps {

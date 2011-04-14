@@ -29,7 +29,7 @@ import java.util.concurrent.ConcurrentMap;
  * Contains static methods pertaining to instances of {@link Interner}.
  *
  * @author Kevin Bourrillion
- * @since 3
+ * @since Guava release 03
  */
 @Beta
 public final class Interners {
@@ -182,7 +182,7 @@ public final class Interners {
    * Returns a function that delegates to the {@link Interner#intern} method of
    * the given interner.
    *
-   * @since 8
+   * @since Guava release 08
    */
   public static <E> Function<E, E> asFunction(Interner<E> interner) {
     return new InternerFunction<E>(checkNotNull(interner));

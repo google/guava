@@ -53,7 +53,7 @@ import javax.annotation.Nullable;
  * @author Kevin Bourrillion
  * @author Mike Bostock
  * @author Louis Wasserman
- * @since 2 (imported from Google Collections Library)
+ * @since Guava release 02 (imported from Google Collections Library)
  */
 @GwtCompatible
 public final class Lists {
@@ -522,7 +522,7 @@ public final class Lists {
    * Returns a view of the specified string as an immutable list of {@code
    * Character} values.
    *
-   * @since 7
+   * @since Guava release 07
    */
   @Beta public static ImmutableList<Character> charactersOf(String string) {
     return new StringAsImmutableList(checkNotNull(string));
@@ -622,7 +622,7 @@ public final class Lists {
    * @param sequence the character sequence to view as a {@code List} of
    *        characters
    * @return an {@code List<Character>} view of the character sequence
-   * @since 7
+   * @since Guava release 07
    */
   @Beta public static List<Character> charactersOf(CharSequence sequence) {
     return new CharSequenceAsList(checkNotNull(sequence));
@@ -715,7 +715,7 @@ public final class Lists {
    * <p>The returned list is random-access if the specified list is random
    * access.
    *
-   * @since 7
+   * @since Guava release 07
    */
   public static <T> List<T> reverse(List<T> list) {
     if (list instanceof ReverseList) {

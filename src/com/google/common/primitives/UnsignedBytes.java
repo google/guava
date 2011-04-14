@@ -39,7 +39,7 @@ import java.util.Comparator;
  * @author Kevin Bourrillion
  * @author Martin Buchholz
  * @author Hiroshi Yamauchi
- * @since 1
+ * @since Guava release 01
  */
 public final class UnsignedBytes {
   private UnsignedBytes() {}
@@ -49,7 +49,7 @@ public final class UnsignedBytes {
    * unsigned. That is, returns {@code value + 256} if {@code value} is
    * negative; {@code value} itself otherwise.
    *
-   * @since 6
+   * @since Guava release 06
    */
   public static int toInt(byte value) {
     return value & 0xFF;
@@ -181,7 +181,7 @@ public final class UnsignedBytes {
    *
    * @see <a href="http://en.wikipedia.org/wiki/Lexicographical_order">
    *     Lexicographical order article at Wikipedia</a>
-   * @since 2
+   * @since Guava release 02
    */
   public static Comparator<byte[]> lexicographicalComparator() {
     return LexicographicalComparatorHolder.BEST_COMPARATOR;

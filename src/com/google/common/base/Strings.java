@@ -30,7 +30,7 @@ import javax.annotation.Nullable;
  * instances.
  *
  * @author Kevin Bourrillion
- * @since 3
+ * @since Guava release 03
  */
 @GwtCompatible
 public final class Strings {

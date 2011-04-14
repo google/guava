@@ -45,7 +45,7 @@ import javax.annotation.Nullable;
  * {@link InternetDomainName} rather than this class.
  *
  * @author Craig Berry
- * @since 5
+ * @since Guava release 05
  */
 @Beta
 public final class HostSpecifier {

@@ -24,7 +24,7 @@ import java.io.IOException;
  * methods offer identical functionality but do not throw {@link IOException}.
  *
  * @author Jayaprabhakar Kadarkarai
- * @since 1
+ * @since Guava release 01
  */
 public interface ByteArrayDataOutput extends DataOutput {
   @Override void write(int b);

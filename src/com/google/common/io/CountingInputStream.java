@@ -26,7 +26,7 @@ import java.io.InputStream;
  * An {@link InputStream} that counts the number of bytes read.
  *
  * @author Chris Nokleberg
- * @since 1
+ * @since Guava release 01
  */
 @Beta
 public final class CountingInputStream extends FilterInputStream {

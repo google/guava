@@ -61,7 +61,7 @@ import javax.annotation.Nullable;
  *
  * @author Jesse Wilson
  * @author Kevin Bourrillion
- * @since 2 (imported from Google Collections Library)
+ * @since Guava release 02 (imported from Google Collections Library)
  */
 @GwtCompatible
 public abstract class Ordering<T> implements Comparator<T> {
@@ -195,7 +195,7 @@ public abstract class Ordering<T> implements Comparator<T> {
    * {@link System#identityHashCode(Object)}, so its behavior cannot be
    * preserved across serialization.
    *
-   * @since 2
+   * @since Guava release 02
    */
   public static Ordering<Object> arbitrary() {
     return ArbitraryOrderingHolder.ARBITRARY_ORDERING;
@@ -346,7 +346,7 @@ public abstract class Ordering<T> implements Comparator<T> {
    * equivalent to {@code ordering.reverse().lexicographical()} (consider how
    * each would order {@code [1]} and {@code [1, 1]}).
    *
-   * @since 2
+   * @since Guava release 02
    */
   @GwtCompatible(serializable = true)
   // type parameter <S> lets us avoid the extra <String> in statements like:
@@ -402,7 +402,7 @@ public abstract class Ordering<T> implements Comparator<T> {
    * @return an immutable {@code RandomAccess} list of the {@code k} least
    *     elements in ascending order
    * @throws IllegalArgumentException if {@code k} is negative
-   * @since 8
+   * @since Guava release 08
    */
   @Beta
   public <E extends T> List<E> leastOf(Iterable<E> iterable, int k) {
@@ -443,7 +443,7 @@ public abstract class Ordering<T> implements Comparator<T> {
    * @return an immutable {@code RandomAccess} list of the {@code k} greatest
    *     elements in <i>descending order</i>
    * @throws IllegalArgumentException if {@code k} is negative
-   * @since 8
+   * @since Guava release 08
    */
   @Beta
   public <E extends T> List<E> greatestOf(Iterable<E> iterable, int k) {
@@ -526,7 +526,7 @@ public abstract class Ordering<T> implements Comparator<T> {
    * @return a new immutable list containing the given elements in sorted order
    * @throws NullPointerException if {@code iterable} or any of its elements is
    *     null
-   * @since 3
+   * @since Guava release 03
    */
   public <E extends T> ImmutableList<E> immutableSortedCopy(
       Iterable<E> iterable) {

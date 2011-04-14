@@ -25,7 +25,7 @@ import javax.annotation.Nullable;
  * or {@link #setException(Throwable)} call.
  *
  * @author Sven Mawson
- * @since 9 (in version 1 as {@code ValueFuture})
+ * @since Guava release 09 (in release 01 as {@code ValueFuture})
  */
 @Beta
 public final class SettableFuture<V> extends AbstractListenableFuture<V> {

@@ -26,7 +26,7 @@ import javax.annotation.Nullable;
  * A collection of common eviction listeners.
  *
  * @author Charles Fry
- * @since 7
+ * @since Guava release 07
  */
 @Beta
 public final class EvictionListeners {

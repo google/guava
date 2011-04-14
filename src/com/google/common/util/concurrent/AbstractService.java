@@ -35,7 +35,7 @@ import java.util.concurrent.locks.ReentrantLock;
  * single execution thread.
  *
  * @author Jesse Wilson
- * @since 1
+ * @since Guava release 01
  */
 @Beta
 public abstract class AbstractService implements Service {

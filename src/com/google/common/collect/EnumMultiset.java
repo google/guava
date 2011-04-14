@@ -32,7 +32,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * Multiset implementation backed by an {@link EnumMap}.
  *
  * @author Jared Levy
- * @since 2 (imported from Google Collections Library)
+ * @since Guava release 02 (imported from Google Collections Library)
  */
 @GwtCompatible(emulated = true)
 public final class EnumMultiset<E extends Enum<E>> extends AbstractMapBasedMultiset<E> {

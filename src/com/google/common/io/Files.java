@@ -46,7 +46,7 @@ import java.util.zip.Checksum;
  * <p>All method parameters must be non-null unless documented otherwise.
  *
  * @author Chris Nokleberg
- * @since 1
+ * @since Guava release 01
  */
 @Beta
 public final class Files {
@@ -444,7 +444,7 @@ public final class Files {
    * @throws IOException if an I/O error occurs, or if any necessary but
    *     nonexistent parent directories of the specified file could not be
    *     created.
-   * @since 4
+   * @since Guava release 04
    */
   public static void createParentDirs(File file) throws IOException {
     File parent = file.getCanonicalFile().getParentFile();
@@ -644,7 +644,7 @@ public final class Files {
    * @throws IOException if an I/O error occurs
    *
    * @see FileChannel#map(MapMode, long, long)
-   * @since 2
+   * @since Guava release 02
    */
   public static MappedByteBuffer map(File file) throws IOException {
     return map(file, MapMode.READ_ONLY);
@@ -666,7 +666,7 @@ public final class Files {
    * @throws IOException if an I/O error occurs
    *
    * @see FileChannel#map(MapMode, long, long)
-   * @since 2
+   * @since Guava release 02
    */
   public static MappedByteBuffer map(File file, MapMode mode)
       throws IOException {
@@ -695,7 +695,7 @@ public final class Files {
    * @throws IOException if an I/O error occurs
    *
    * @see FileChannel#map(MapMode, long, long)
-   * @since 2
+   * @since Guava release 02
    */
   public static MappedByteBuffer map(File file, MapMode mode, long size)
       throws FileNotFoundException, IOException {

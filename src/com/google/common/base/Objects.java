@@ -28,7 +28,7 @@ import javax.annotation.Nullable;
  * Helper functions that can operate on any {@code Object}.
  *
  * @author Laurence Gonsalves
- * @since 2 (imported from Google Collections Library)
+ * @since Guava release 02 (imported from Google Collections Library)
  */
 @GwtCompatible
 public final class Objects {
@@ -98,7 +98,7 @@ public final class Objects {
    *
    * @param self the object to generate the string for (typically {@code this}),
    *        used only for its class name
-   * @since 2
+   * @since Guava release 02
    */
   public static ToStringHelper toStringHelper(Object self) {
     return new ToStringHelper(simpleName(self.getClass()));
@@ -110,7 +110,7 @@ public final class Objects {
    * instead of using an instance's {@link Object#getClass()}.
    *
    * @param clazz the {@link Class} of the instance
-   * @since 7 (source-compatible since 2)
+   * @since Guava release 07 (source-compatible since release 02)
    */
   public static ToStringHelper toStringHelper(Class<?> clazz) {
     return new ToStringHelper(simpleName(clazz));
@@ -122,7 +122,7 @@ public final class Objects {
    * of using an instance's {@link Object#getClass()}.
    *
    * @param className the name of the instance type
-   * @since 7 (source-compatible since 2)
+   * @since Guava release 07 (source-compatible since release 02)
    */
   public static ToStringHelper toStringHelper(String className) {
     return new ToStringHelper(className);
@@ -155,7 +155,7 @@ public final class Objects {
    *     not {@code null}
    * @throws NullPointerException if both {@code first} and {@code second} were
    *     {@code null}
-   * @since 3
+   * @since Guava release 03
    */
   public static <T> T firstNonNull(@Nullable T first, @Nullable T second) {
     return first != null ? first : checkNotNull(second);
@@ -165,7 +165,7 @@ public final class Objects {
    * Support class for {@link Objects#toStringHelper}.
    *
    * @author Jason Lee
-   * @since 2
+   * @since Guava release 02
    */
   public static final class ToStringHelper {
     private final StringBuilder builder;

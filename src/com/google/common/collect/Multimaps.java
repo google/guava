@@ -55,7 +55,7 @@ import javax.annotation.Nullable;
  * @author Robert Konigsberg
  * @author Mike Bostock
  * @author Louis Wasserman
- * @since 2 (imported from Google Collections Library)
+ * @since Guava release 02 (imported from Google Collections Library)
  */
 @GwtCompatible(emulated = true)
 public final class Multimaps {
@@ -1264,7 +1264,7 @@ public final class Multimaps {
    * when the returned multimap doesn't need to be a view, copy the returned 
    * multimap into a new multimap of your choosing.
    *
-   * @since 7
+   * @since Guava release 07
    */
   @Beta
   @GwtIncompatible(value = "untested")
@@ -1334,7 +1334,7 @@ public final class Multimaps {
    * ArrayList}, may risk a {@code ClassCastException} when calling methods on
    * the transformed multimap.
    *
-   * @since 7
+   * @since Guava release 07
    */
   @Beta
   @GwtIncompatible(value = "untested")
@@ -1577,7 +1577,7 @@ public final class Multimaps {
    * when the returned multimap doesn't need to be a view, copy the returned 
    * multimap into a new multimap of your choosing.
    *
-   * @since 7
+   * @since Guava release 07
    */
   @Beta
   @GwtIncompatible(value = "untested")
@@ -1645,7 +1645,7 @@ public final class Multimaps {
    * ArrayList}, may risk a {@code ClassCastException} when calling methods on
    * the transformed multimap.
    *
-   * @since 7
+   * @since Guava release 07
    */
   @Beta
   @GwtIncompatible(value = "untested")

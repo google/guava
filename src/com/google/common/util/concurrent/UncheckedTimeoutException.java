@@ -20,7 +20,7 @@ package com.google.common.util.concurrent;
  * Unchecked version of {@link java.util.concurrent.TimeoutException}.
  *
  * @author Kevin Bourrillion
- * @since 1
+ * @since Guava release 01
  */
 public class UncheckedTimeoutException extends RuntimeException {
   public UncheckedTimeoutException() {}

@@ -49,7 +49,7 @@ import javax.annotation.Nullable;
  *
  * @author Jesse Wilson
  * @author Kevin Bourrillion
- * @since 2 (imported from Google Collections Library)
+ * @since Guava release 02 (imported from Google Collections Library)
  */
 @GwtCompatible(serializable = true, emulated = true)
 @SuppressWarnings("serial") // we're overriding default serialization
@@ -159,7 +159,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
    * multiple times to build multiple maps in series. Each map is a superset of
    * the maps created before it.
    *
-   * @since 2 (imported from Google Collections Library)
+   * @since Guava release 02 (imported from Google Collections Library)
    */
   public static class Builder<K, V> {
     final ArrayList<Entry<K, V>> entries = Lists.newArrayList();

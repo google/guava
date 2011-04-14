@@ -46,7 +46,7 @@ import javax.annotation.Nullable;
  *
  * @author Neal Kanodia
  * @author Jared Levy
- * @since 2 (imported from Google Collections Library)
+ * @since Guava release 02 (imported from Google Collections Library)
  */
 @GwtCompatible(emulated = true)
 @SuppressWarnings("serial") // we're overriding default serialization

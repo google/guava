@@ -29,7 +29,7 @@ import java.util.concurrent.TimeUnit;
  * time-limiter while you're debugging.
  *
  * @author Kevin Bourrillion
- * @since 1
+ * @since Guava release 01
  */
 @Beta
 public final class FakeTimeLimiter implements TimeLimiter {

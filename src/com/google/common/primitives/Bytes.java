@@ -39,7 +39,7 @@ import java.util.RandomAccess;
  * UnsignedBytes}.
  *
  * @author Kevin Bourrillion
- * @since 1
+ * @since Guava release 01
  */
 @GwtCompatible
 public final class Bytes {

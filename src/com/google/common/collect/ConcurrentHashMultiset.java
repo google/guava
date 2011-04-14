@@ -44,7 +44,7 @@ import javax.annotation.Nullable;
  * elements are not supported.
  *
  * @author Cliff L. Biffle
- * @since 2 (imported from Google Collections Library)
+ * @since Guava release 02 (imported from Google Collections Library)
  */
 public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E>
     implements Serializable {
@@ -109,7 +109,7 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E>
    * <p>Finally, soft/weak values can be used but are not very useful.
    * Soft/weak keys on the other hand can be useful in some scenarios.
    * 
-   * @since 7
+   * @since Guava release 07
    */
   @Beta
   public static <E> ConcurrentHashMultiset<E> create(

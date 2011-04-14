@@ -49,7 +49,7 @@ import javax.annotation.Nullable;
  *
  * @author Mike Bostock
  * @author Louis Wasserman
- * @since 2 (imported from Google Collections Library)
+ * @since Guava release 02 (imported from Google Collections Library)
  */
 @GwtCompatible
 public abstract class ForwardingList<E> extends ForwardingCollection<E>
@@ -125,7 +125,7 @@ public abstract class ForwardingList<E> extends ForwardingCollection<E>
    * may wish to override {@link #add(Object)} to forward to this
    * implementation.
    *
-   * @since 7
+   * @since Guava release 07
    */
   @Beta protected boolean standardAdd(E element){
     add(size(), element);
@@ -138,7 +138,7 @@ public abstract class ForwardingList<E> extends ForwardingCollection<E>
    * override {@link #listIterator(int)}, you may wish to override {@link
    * #addAll(int, Collection)} to forward to this implementation.
    *
-   * @since 7
+   * @since Guava release 07
    */
   @Beta protected boolean standardAddAll(
       int index, Iterable<? extends E> elements) {
@@ -150,7 +150,7 @@ public abstract class ForwardingList<E> extends ForwardingCollection<E>
    * #listIterator()}. If you override {@link #listIterator()}, you may wish to
    * override {@link #indexOf} to forward to this implementation.
    *
-   * @since 7
+   * @since Guava release 07
    */
   @Beta protected int standardIndexOf(@Nullable Object element) {
     return Lists.indexOfImpl(this, element);
@@ -162,7 +162,7 @@ public abstract class ForwardingList<E> extends ForwardingCollection<E>
    * may wish to override {@link #lastIndexOf} to forward to this
    * implementation.
    *
-   * @since 7
+   * @since Guava release 07
    */
   @Beta protected int standardLastIndexOf(@Nullable Object element) {
     return Lists.lastIndexOfImpl(this, element);
@@ -173,7 +173,7 @@ public abstract class ForwardingList<E> extends ForwardingCollection<E>
    * {@link #listIterator()}. If you override {@link #listIterator()}, you may
    * wish to override {@link #iterator} to forward to this implementation.
    *
-   * @since 7
+   * @since Guava release 07
    */
   @Beta protected Iterator<E> standardIterator() {
     return listIterator();
@@ -185,7 +185,7 @@ public abstract class ForwardingList<E> extends ForwardingCollection<E>
    * may wish to override {@link #listIterator()} to forward to this
    * implementation.
    *
-   * @since 7
+   * @since Guava release 07
    */
   @Beta protected ListIterator<E> standardListIterator(){
     return listIterator(0);
@@ -197,7 +197,7 @@ public abstract class ForwardingList<E> extends ForwardingCollection<E>
    * methods you may wish to override {@link #listIterator(int)} to forward to
    * this implementation.
    *
-   * @since 7
+   * @since Guava release 07
    */
   @Beta protected ListIterator<E> standardListIterator(int start) {
     return Lists.listIteratorImpl(this, start);
@@ -208,7 +208,7 @@ public abstract class ForwardingList<E> extends ForwardingCollection<E>
    * override any other methods, you may wish to override {@link #subList(int,
    * int)} to forward to this implementation.
    *
-   * @since 7
+   * @since Guava release 07
    */
   @Beta protected List<E> standardSubList(int fromIndex, int toIndex) {
     return Lists.subListImpl(this, fromIndex, toIndex);
@@ -219,7 +219,7 @@ public abstract class ForwardingList<E> extends ForwardingCollection<E>
    * and {@link #iterator}. If you override either of those methods, you may
    * wish to override {@link #equals(Object)} to forward to this implementation.
    *
-   * @since 7
+   * @since Guava release 07
    */
   @Beta protected boolean standardEquals(@Nullable Object object) {
     return Lists.equalsImpl(this, object);
@@ -230,7 +230,7 @@ public abstract class ForwardingList<E> extends ForwardingCollection<E>
    * If you override {@link #iterator}, you may wish to override {@link
    * #hashCode} to forward to this implementation.
    *
-   * @since 7
+   * @since Guava release 07
    */
   @Beta protected int standardHashCode() {
     return Lists.hashCodeImpl(this);

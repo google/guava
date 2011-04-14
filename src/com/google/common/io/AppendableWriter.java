@@ -28,7 +28,7 @@ import java.io.Writer;
  *
  * @author Alan Green
  * @author Sebastian Kanthak
- * @since 1
+ * @since Guava release 01
  */
 class AppendableWriter extends Writer {
   private final Appendable target;

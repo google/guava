@@ -55,7 +55,7 @@ import javax.annotation.Nullable;
  *   return joiner.join("wrong", null, "wrong");}</pre>
  *
  * @author Kevin Bourrillion
- * @since 2 (imported from Google Collections Library)
+ * @since Guava release 02 (imported from Google Collections Library)
  */
 @GwtCompatible
 public class Joiner {
@@ -248,7 +248,7 @@ public class Joiner {
    * An object that joins map entries in the same manner as {@code Joiner} joins iterables and
    * arrays. Like {@code Joiner}, it is thread-safe and immutable.
    *
-   * @since 2 (imported from Google Collections Library)
+   * @since Guava release 02 (imported from Google Collections Library)
    */
   public final static class MapJoiner {
     private final Joiner joiner;

@@ -42,7 +42,7 @@ import com.google.common.annotations.GwtCompatible;
  * @see Constraints
  * @see MapConstraint
  * @author Mike Bostock
- * @since 3
+ * @since Guava release 03
  */
 @Beta
 @GwtCompatible

@@ -49,7 +49,7 @@ import javax.annotation.Nullable;
  *
  * @author Mike Bostock
  * @author Louis Wasserman
- * @since 2 (imported from Google Collections Library)
+ * @since Guava release 02 (imported from Google Collections Library)
  */
 @GwtCompatible
 public abstract class ForwardingSortedMap<K, V> extends ForwardingMap<K, V>
@@ -108,7 +108,7 @@ public abstract class ForwardingSortedMap<K, V> extends ForwardingMap<K, V>
    * you may wish to override {@link #containsKey} to forward to this
    * implementation.
    *
-   * @since 7
+   * @since Guava release 07
    */
   @Override @Beta protected boolean standardContainsKey(@Nullable Object key) {
     try {
@@ -132,7 +132,7 @@ public abstract class ForwardingSortedMap<K, V> extends ForwardingMap<K, V>
    * {@link #tailMap}, you may wish to override {@link #remove} to forward
    * to this implementation.
    *
-   * @since 7
+   * @since Guava release 07
    */
   @Override @Beta protected V standardRemove(@Nullable Object key) {
     try {
@@ -163,7 +163,7 @@ public abstract class ForwardingSortedMap<K, V> extends ForwardingMap<K, V>
    * situations, you may wish to override {@link #subMap(Object, Object)} to
    * forward to this implementation.
    *
-   * @since 7
+   * @since Guava release 07
    */
   @Beta protected SortedMap<K, V> standardSubMap(K fromKey, K toKey) {
     return tailMap(fromKey).headMap(toKey);

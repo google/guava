@@ -79,7 +79,7 @@ import java.util.Queue;
  *
  * @author Sverre Sundsdal
  * @author Torbjorn Gannholm
- * @since 8
+ * @since Guava release 08
  */
 // TODO(kevinb): @GwtCompatible
 @Beta
@@ -144,7 +144,7 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
    *     this builder (for example, a {@code Builder<Number>} can produce a
    *     {@code Queue<Number>} or {@code Queue<Integer>} but not a {@code
    *     Queue<Object>}).
-   * @since 8
+   * @since Guava release 08
    */
   @Beta
   public static final class Builder<B> {

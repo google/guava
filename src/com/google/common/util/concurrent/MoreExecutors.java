@@ -41,7 +41,7 @@ import java.util.concurrent.locks.ReentrantLock;
  * @author Eric Fellheimer
  * @author Kyle Littlefield
  * @author Justin Mahoney
- * @since 3
+ * @since Guava release 03
  */
 @Beta
 public final class MoreExecutors {

@@ -28,7 +28,7 @@ import java.util.Set;
  * corresponding wrapper types.
  *
  * @author Kevin Bourrillion
- * @since 1
+ * @since Guava release 01
  */
 public final class Primitives {
   private Primitives() {}
@@ -70,7 +70,7 @@ public final class Primitives {
    * void}). Note that a simpler way to test whether a {@code Class} instance
    * is a member of this set is to call {@link Class#isPrimitive}.
    *
-   * @since 3
+   * @since Guava release 03
    */
   public static Set<Class<?>> allPrimitiveTypes() {
     return PRIMITIVE_TO_WRAPPER_TYPE.keySet();
@@ -80,7 +80,7 @@ public final class Primitives {
    * Returns an immutable set of all nine primitive-wrapper types (including
    * {@link Void}).
    *
-   * @since 3
+   * @since Guava release 03
    */
   public static Set<Class<?>> allWrapperTypes() {
     return WRAPPER_TO_PRIMITIVE_TYPE.keySet();

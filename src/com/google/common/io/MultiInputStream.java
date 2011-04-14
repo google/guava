@@ -25,7 +25,7 @@ import java.util.Iterator;
  * one stream will be open at a time.
  *
  * @author Chris Nokleberg
- * @since 1
+ * @since Guava release 01
  */
 final class MultiInputStream extends InputStream {
 

@@ -51,7 +51,7 @@ import javax.annotation.Nullable;
  * and running tasks.
  *
  * @author Sven Mawson
- * @since 1
+ * @since Guava release 01
  */
 @Beta
 public abstract class AbstractFuture<V> implements Future<V> {

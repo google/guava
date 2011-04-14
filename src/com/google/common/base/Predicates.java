@@ -37,7 +37,7 @@ import javax.annotation.Nullable;
  * serializable parameters.
  *
  * @author Kevin Bourrillion
- * @since 2 (imported from Google Collections Library)
+ * @since Guava release 02 (imported from Google Collections Library)
  */
 @GwtCompatible(emulated = true)
 public final class Predicates {
@@ -231,7 +231,7 @@ public final class Predicates {
    * {@code Pattern.compile(pattern).matcher(arg).find()}
    *
    * @throws java.util.regex.PatternSyntaxException if the pattern is invalid
-   * @since 3
+   * @since Guava release 03
    */
   @GwtIncompatible(value = "java.util.regex.Pattern")
   public static Predicate<CharSequence> containsPattern(String pattern) {
@@ -244,7 +244,7 @@ public final class Predicates {
    * regular expression pattern. The test used is equivalent to
    * {@code regex.matcher(arg).find()}
    *
-   * @since 3
+   * @since Guava release 03
    */
   @GwtIncompatible(value = "java.util.regex.Pattern")
   public static Predicate<CharSequence> contains(Pattern pattern) {

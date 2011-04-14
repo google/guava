@@ -23,7 +23,7 @@ import com.google.common.annotations.Beta;
  * types.
  *
  * @author Kevin Bourrillion
- * @since 3
+ * @since Guava release 03
  */
 @Beta
 public interface Interner<E> {

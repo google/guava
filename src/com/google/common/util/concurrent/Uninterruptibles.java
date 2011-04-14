@@ -33,7 +33,7 @@ import java.util.concurrent.TimeUnit;
  * see {@link UninterruptibleFuture}.
  *
  * @author Anthony Zana
- * @since 9
+ * @since Guava release 09
  */
 @Beta
 public final class Uninterruptibles {

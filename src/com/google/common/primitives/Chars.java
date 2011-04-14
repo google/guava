@@ -41,7 +41,7 @@ import java.util.RandomAccess;
  * numerically; they are neither Unicode-aware nor locale-dependent.
  *
  * @author Kevin Bourrillion
- * @since 1
+ * @since Guava release 01
  */
 @GwtCompatible(emulated = true)
 public final class Chars {
@@ -308,7 +308,7 @@ public final class Chars {
    * bytes, in big-endian order; equivalent to {@code Chars.fromByteArray(new
    * byte[] {b1, b2})}.
    *
-   * @since 7
+   * @since Guava release 07
    */
   @GwtIncompatible("doesn't work")
   public static char fromBytes(byte b1, byte b2) {
@@ -386,7 +386,7 @@ public final class Chars {
    *
    * @see <a href="http://en.wikipedia.org/wiki/Lexicographical_order">
    *     Lexicographical order article at Wikipedia</a>
-   * @since 2
+   * @since Guava release 02
    */
   public static Comparator<char[]> lexicographicalComparator() {
     return LexicographicalComparator.INSTANCE;

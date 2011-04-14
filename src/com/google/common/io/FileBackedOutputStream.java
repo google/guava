@@ -35,7 +35,7 @@ import java.io.OutputStream;
  * <p>This class is thread-safe.
  *
  * @author Chris Nokleberg
- * @since 1
+ * @since Guava release 01
  */
 @Beta
 public final class FileBackedOutputStream extends OutputStream {

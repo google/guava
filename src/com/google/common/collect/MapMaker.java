@@ -98,7 +98,7 @@ import java.util.concurrent.TimeUnit;
  *
  * @author Bob Lee
  * @author Kevin Bourrillion
- * @since 2 (imported from Google Collections Library)
+ * @since Guava release 02 (imported from Google Collections Library)
  */
 @GwtCompatible(emulated = true)
 public final class MapMaker extends GenericMapMaker<Object, Object> {
@@ -215,7 +215,7 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    *
    * @throws IllegalArgumentException if {@code size} is negative
    * @throws IllegalStateException if a maximum size was already set
-   * @since 8
+   * @since Guava release 08
    */
   @Beta
   @Override
@@ -391,7 +391,7 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    * @param unit the unit that {@code duration} is expressed in
    * @throws IllegalArgumentException if {@code duration} is negative
    * @throws IllegalStateException if the time to live or time to idle was already set
-   * @since 8
+   * @since Guava release 08
    */
   @Beta
   @Override
@@ -427,7 +427,7 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    * @param unit the unit that {@code duration} is expressed in
    * @throws IllegalArgumentException if {@code duration} is negative
    * @throws IllegalStateException if the time to idle or time to live was already set
-   * @since 8
+   * @since Guava release 08
    */
   @Beta
   @GwtIncompatible("To be supported")
@@ -477,7 +477,7 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    * {@link ClassCastException} at an undefined point in the future.
    *
    * @throws IllegalStateException if an eviction listener was already set
-   * @since 7
+   * @since Guava release 07
    */
   @Beta
   @GwtIncompatible("To be supported")

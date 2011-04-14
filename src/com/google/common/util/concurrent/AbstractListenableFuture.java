@@ -35,7 +35,7 @@ import java.util.concurrent.Executor;
  * {@link #addListener(Runnable, Executor)} and {@link #done()} methods to it.
  * 
  * @author Sven Mawson
- * @since 1
+ * @since Guava release 01
  */
 @Beta
 public abstract class AbstractListenableFuture<V>

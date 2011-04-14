@@ -42,7 +42,7 @@ import java.util.zip.Checksum;
  * <p>All method parameters must be non-null unless documented otherwise.
  *
  * @author Chris Nokleberg
- * @since 1
+ * @since Guava release 01
  */
 @Beta
 public final class ByteStreams {

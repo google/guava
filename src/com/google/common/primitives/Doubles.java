@@ -37,7 +37,7 @@ import java.util.RandomAccess;
  * already found in either {@link Double} or {@link Arrays}.
  *
  * @author Kevin Bourrillion
- * @since 1
+ * @since Guava release 01
  */
 @GwtCompatible
 public final class Doubles {
@@ -304,7 +304,7 @@ public final class Doubles {
    *
    * @see <a href="http://en.wikipedia.org/wiki/Lexicographical_order">
    *     Lexicographical order article at Wikipedia</a>
-   * @since 2
+   * @since Guava release 02
    */
   public static Comparator<double[]> lexicographicalComparator() {
     return LexicographicalComparator.INSTANCE;

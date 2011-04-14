@@ -33,7 +33,7 @@ import javax.annotation.Nullable;
  *
  * @author Kevin Bourrillion
  * @author Ben Yu
- * @since 1
+ * @since Guava release 01
  */
 public final class Throwables {
   private Throwables() {}

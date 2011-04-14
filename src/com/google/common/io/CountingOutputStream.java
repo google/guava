@@ -26,7 +26,7 @@ import java.io.OutputStream;
  * An OutputStream that counts the number of bytes written.
  *
  * @author Chris Nokleberg
- * @since 1
+ * @since Guava release 01
  */
 @Beta
 public final class CountingOutputStream extends FilterOutputStream {

@@ -35,7 +35,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  *
  * @author Kevin Bourrillion
  * @author Jared Levy
- * @since 2 (imported from Google Collections Library)
+ * @since Guava release 02 (imported from Google Collections Library)
  */
 @GwtCompatible(serializable = true, emulated = true)
 @SuppressWarnings("serial") // we're overriding default serialization

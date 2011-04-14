@@ -30,7 +30,7 @@ import java.util.Comparator;
  * signedness is not an issue are in {@link Bytes}.
  *
  * @author Kevin Bourrillion
- * @since 1
+ * @since Guava release 01
  */
 @GwtCompatible
 public final class SignedBytes {
@@ -157,7 +157,7 @@ public final class SignedBytes {
    *
    * @see <a href="http://en.wikipedia.org/wiki/Lexicographical_order">
    *     Lexicographical order article at Wikipedia</a>
-   * @since 2
+   * @since Guava release 02
    */
   public static Comparator<byte[]> lexicographicalComparator() {
     return LexicographicalComparator.INSTANCE;

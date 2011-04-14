@@ -60,7 +60,7 @@ import javax.annotation.Nullable;
  * @see ImmutableMap
  * @author Kevin Bourrillion
  * @author Nick Kralevich
- * @since 2 (imported from Google Collections Library)
+ * @since Guava release 02 (imported from Google Collections Library)
  */
 @GwtCompatible(serializable = true, emulated = true)
 @SuppressWarnings("serial") // we're overriding default serialization
@@ -137,7 +137,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E>
    * first are ignored.
    *
    * @throws NullPointerException if any element is null
-   * @since 3 (source-compatible since release 2)
+   * @since Guava release 03 (source-compatible since release 02)
    */
   public static <E> ImmutableSet<E> of(E e1, E e2, E e3, E e4, E e5, E e6,
       E... others) {
@@ -236,7 +236,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E>
    * @deprecated use {@link #copyOf(Object[])}. <b>This method is scheduled for
    *     deletion in October 2011.</b>
    * @throws NullPointerException if any of {@code elements} is null
-   * @since 2 (changed from varargs in release 3)
+   * @since Guava release 02 (changed from varargs in release 03)
    */
   // TODO(kevinb): when this is removed, remember to remove from ISS and ISSFS
   @Deprecated
@@ -250,7 +250,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E>
   * first are ignored.
   *
   * @throws NullPointerException if any of {@code elements} is null
-  * @since 3
+  * @since Guava release 03
   */
   public static <E> ImmutableSet<E> copyOf(E[] elements) {
     // TODO(benyu): could we delegate to
@@ -330,7 +330,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E>
    * thread.
    *
    * @throws NullPointerException if any of {@code elements} is null
-   * @since 7 (source-compatible since release 2)
+   * @since Guava release 07 (source-compatible since release 02)
    */
   public static <E> ImmutableSet<E> copyOf(Collection<? extends E> elements) {
     if (elements instanceof ImmutableSet
@@ -561,7 +561,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E>
    * times to build multiple sets in series. Each set is a superset of the set
    * created before it.
    *
-   * @since 2 (imported from Google Collections Library)
+   * @since Guava release 02 (imported from Google Collections Library)
    */
   public static class Builder<E> extends ImmutableCollection.Builder<E> {
     // accessed directly by ImmutableSortedSet

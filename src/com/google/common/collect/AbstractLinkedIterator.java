@@ -30,7 +30,7 @@ import javax.annotation.Nullable;
  * {@link #remove()} method.
  *
  * @author Chris Povirk
- * @since 8
+ * @since Guava release 08
  */
 @Beta
 @GwtCompatible

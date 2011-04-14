@@ -36,7 +36,7 @@ import javax.annotation.Nullable;
  * Provides static methods that involve a {@code Table}.
  *
  * @author Jared Levy
- * @since 7
+ * @since Guava release 07
  */
 @GwtCompatible
 @Beta

@@ -22,7 +22,7 @@ import com.google.common.annotations.GwtCompatible;
  * Utility class for converting between various ASCII case formats.
  *
  * @author Mike Bostock
- * @since 1
+ * @since Guava release 01
  */
 @GwtCompatible
 public enum CaseFormat {

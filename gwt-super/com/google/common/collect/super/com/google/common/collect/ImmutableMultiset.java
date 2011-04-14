@@ -40,7 +40,7 @@ import javax.annotation.Nullable;
  * consecutive in the iteration order.
  *
  * @author Jared Levy
- * @since 2 (imported from Google Collections Library)
+ * @since Guava release 02 (imported from Google Collections Library)
  */
 @GwtCompatible(serializable = true, emulated = true)
 // TODO(user): write an efficient asList() implementation
@@ -59,7 +59,7 @@ public class ImmutableMultiset<E> extends ImmutableCollection<E>
    * Returns an immutable multiset containing a single element.
    *
    * @throws NullPointerException if {@code element} is null
-   * @since 6 (source-compatible since release 2)
+   * @since Guava release 06 (source-compatible since release 02)
    */
   @SuppressWarnings("unchecked") // generic array created but never written
   public static <E> ImmutableMultiset<E> of(E element) {
@@ -70,7 +70,7 @@ public class ImmutableMultiset<E> extends ImmutableCollection<E>
    * Returns an immutable multiset containing the given elements, in order.
    *
    * @throws NullPointerException if any element is null
-   * @since 6 (source-compatible since release 2)
+   * @since Guava release 06 (source-compatible since release 02)
    */
   @SuppressWarnings("unchecked") //
   public static <E> ImmutableMultiset<E> of(E e1, E e2) {
@@ -81,7 +81,7 @@ public class ImmutableMultiset<E> extends ImmutableCollection<E>
    * Returns an immutable multiset containing the given elements, in order.
    *
    * @throws NullPointerException if any element is null
-   * @since 6 (source-compatible since release 2)
+   * @since Guava release 06 (source-compatible since release 02)
    */
   @SuppressWarnings("unchecked") //
   public static <E> ImmutableMultiset<E> of(E e1, E e2, E e3) {
@@ -92,7 +92,7 @@ public class ImmutableMultiset<E> extends ImmutableCollection<E>
    * Returns an immutable multiset containing the given elements, in order.
    *
    * @throws NullPointerException if any element is null
-   * @since 6 (source-compatible since release 2)
+   * @since Guava release 06 (source-compatible since release 02)
    */
   @SuppressWarnings("unchecked") //
   public static <E> ImmutableMultiset<E> of(E e1, E e2, E e3, E e4) {
@@ -103,7 +103,7 @@ public class ImmutableMultiset<E> extends ImmutableCollection<E>
    * Returns an immutable multiset containing the given elements, in order.
    *
    * @throws NullPointerException if any element is null
-   * @since 6 (source-compatible since release 2)
+   * @since Guava release 06 (source-compatible since release 02)
    */
   @SuppressWarnings("unchecked") //
   public static <E> ImmutableMultiset<E> of(E e1, E e2, E e3, E e4, E e5) {
@@ -114,7 +114,7 @@ public class ImmutableMultiset<E> extends ImmutableCollection<E>
    * Returns an immutable multiset containing the given elements, in order.
    *
    * @throws NullPointerException if any element is null
-   * @since 6 (source-compatible since release 2)
+   * @since Guava release 06 (source-compatible since release 02)
    */
   @SuppressWarnings("unchecked") //
   public static <E> ImmutableMultiset<E> of(
@@ -136,7 +136,7 @@ public class ImmutableMultiset<E> extends ImmutableCollection<E>
    * @throws NullPointerException if any of {@code elements} is null
    * @deprecated use {@link #copyOf(Object[])}. <b>This method is scheduled for
    *     deletion in January 2012.</b>
-   * @since 2 (changed from varargs in release 6)
+   * @since Guava release 02 (changed from varargs in release 06)
    */
   @Deprecated
   public static <E> ImmutableMultiset<E> of(E[] elements) {
@@ -151,7 +151,7 @@ public class ImmutableMultiset<E> extends ImmutableCollection<E>
    * with elements in the order {@code 2, 3, 3, 1}.
    *
    * @throws NullPointerException if any of {@code elements} is null
-   * @since 6
+   * @since Guava release 06
    */
   public static <E> ImmutableMultiset<E> copyOf(E[] elements) {
     return copyOf(Arrays.asList(elements));
@@ -474,7 +474,7 @@ public class ImmutableMultiset<E> extends ImmutableCollection<E>
    * times to build multiple multisets in series. Each multiset is a superset of
    * the multiset created before it.
    *
-   * @since 2 (imported from Google Collections Library)
+   * @since Guava release 02 (imported from Google Collections Library)
    */
   public static final class Builder<E> extends ImmutableCollection.Builder<E> {
     private final Multiset<E> contents = LinkedHashMultiset.create();

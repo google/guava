@@ -26,7 +26,7 @@ import javax.annotation.Nullable;
  * An object representing the differences between two maps.
  *
  * @author Kevin Bourrillion
- * @since 2 (imported from Google Collections Library)
+ * @since Guava release 02 (imported from Google Collections Library)
  */
 @GwtCompatible
 public interface MapDifference<K, V> {
@@ -85,7 +85,7 @@ public interface MapDifference<K, V> {
    * {@code leftValue()} and {@code rightValue} are not equal, and one but not
    * both of them may be null.
    *
-   * @since 2 (imported from Google Collections Library)
+   * @since Guava release 02 (imported from Google Collections Library)
    */
   interface ValueDifference<V> {
     /**

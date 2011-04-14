@@ -88,7 +88,7 @@ import java.util.regex.Pattern;
  * @author Julien Silland
  * @author Jesse Wilson
  * @author Kevin Bourrillion
- * @since 1
+ * @since Guava release 01
  */
 @GwtCompatible(emulated = true)
 public final class Splitter {
@@ -314,7 +314,7 @@ public final class Splitter {
    *
    * @param limit the maximum number of items returns
    * @return a splitter with the desired configuration
-   * @since 9
+   * @since Guava release 09
    */
   @Beta
   public Splitter limit(int limit) {

@@ -29,7 +29,7 @@ import javax.annotation.Nullable;
  * @author Bob Lee
  * @author Kurt Alfred Kluever
  * @author Gregory Kick
- * @since 4
+ * @since Guava release 04
  */
 @Beta
 @GwtCompatible
@@ -42,8 +42,8 @@ public final class Equivalences {
    * value is null and {@link Object#equals} returns {@code true}. {@link Equivalence#hash} returns
    * {@code 0} if passed a null value.
    *
-   * @since 8 (present null-friendly behavior)
-   * @since 4 (otherwise)
+   * @since Guava release 08 (present null-friendly behavior)
+   * @since Guava release 04 (otherwise)
    */
   public static Equivalence<Object> equals() {
     return Impl.EQUALS;
@@ -90,7 +90,7 @@ public final class Equivalences {
    * elements, and each pair of corresponding elements is equivalent according to
    * {@code elementEquivalence}.  Null iterables are equivalent to one another.
    *
-   * @since 9
+   * @since Guava release 09
    */
   @GwtCompatible(serializable = true)
   public static <T> Equivalence<Iterable<T>> pairwise(Equivalence<? super T> elementEquivalence) {

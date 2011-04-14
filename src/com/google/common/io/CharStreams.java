@@ -47,7 +47,7 @@ import java.util.List;
  *
  * @author Chris Nokleberg
  * @author Bin Zhu
- * @since 1
+ * @since Guava release 01
  */
 @Beta
 public final class CharStreams {

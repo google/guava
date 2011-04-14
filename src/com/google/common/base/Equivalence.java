@@ -27,7 +27,7 @@ import javax.annotation.Nullable;
  * Equivalences#equals equals equivalence}.
  *
  * @author Bob Lee
- * @since 4
+ * @since Guava release 04
  */
 @Beta
 @GwtCompatible

@@ -49,7 +49,7 @@ import javax.annotation.Nullable;
  *
  * @author Kevin Bourrillion
  * @author Jared Levy
- * @since 2 (imported from Google Collections Library)
+ * @since Guava release 02 (imported from Google Collections Library)
  */
 @GwtCompatible(emulated = true)
 public final class Iterables {
@@ -146,7 +146,7 @@ public final class Iterables {
    *
    * @throws UnsupportedOperationException if the iterable does not support
    *     {@code remove()}.
-   * @since 2
+   * @since Guava release 02
    */
   public static <T> boolean removeIf(
       Iterable<T> removeFrom, Predicate<? super T> predicate) {
@@ -545,7 +545,7 @@ public final class Iterables {
    * Returns the first element in {@code iterable} that satisfies the given
    * predicate, or {@code defaultValue} if none found.
    *
-   * @since 7
+   * @since Guava release 07
    */
   public static <T> T find(Iterable<T> iterable,
       Predicate<? super T> predicate, @Nullable T defaultValue) {
@@ -561,7 +561,7 @@ public final class Iterables {
    * {@code predicate.apply(Iterables.get(iterable, i))} is {@code true} or
    * {@code -1} if there is no such index.
    *
-   * @since 2
+   * @since Guava release 02
    */
   public static <T> int indexOf(
       Iterable<T> iterable, Predicate<? super T> predicate) {
@@ -631,7 +631,7 @@ public final class Iterables {
    *     {@code defaultValue} if {@code iterable} contains fewer than
    *     {@code position + 1} elements.
    * @throws IndexOutOfBoundsException if {@code position} is negative
-   * @since 4
+   * @since Guava release 04
    */
   public static <T> T get(Iterable<T> iterable, int position,
       @Nullable T defaultValue) {
@@ -652,7 +652,7 @@ public final class Iterables {
    *
    * @param defaultValue the default value to return if the iterable is empty
    * @return the first element of {@code iterable} or the default value
-   * @since 7
+   * @since Guava release 07
    */
   public static <T> T getFirst(Iterable<T> iterable, @Nullable T defaultValue) {
     return Iterators.getNext(iterable.iterator(), defaultValue);
@@ -693,7 +693,7 @@ public final class Iterables {
    *
    * @param defaultValue the value to return if {@code iterable} is empty
    * @return the last element of {@code iterable} or the default value
-   * @since 3
+   * @since Guava release 03
    */
   public static <T> T getLast(Iterable<T> iterable, @Nullable T defaultValue) {
     if (iterable instanceof Collection) {
@@ -743,7 +743,7 @@ public final class Iterables {
    * contract states that a call to {@code remove()} before a call to
    * {@code next()} will throw an {@link IllegalStateException}.
    *
-   * @since 3
+   * @since Guava release 03
    */
   public static <T> Iterable<T> skip(final Iterable<T> iterable,
       final int numberToSkip) {
@@ -818,7 +818,7 @@ public final class Iterables {
    * @param iterable the iterable to limit
    * @param limitSize the maximum number of elements in the returned iterator
    * @throws IllegalArgumentException if {@code limitSize} is negative
-   * @since 3
+   * @since Guava release 03
    */
   public static <T> Iterable<T> limit(
       final Iterable<T> iterable, final int limitSize) {
@@ -849,7 +849,7 @@ public final class Iterables {
    *     queue's elements in queue order
    *
    * @see Iterators#consumingIterator(Iterator)
-   * @since 2
+   * @since Guava release 02
    */
   public static <T> Iterable<T> consumingIterable(final Iterable<T> iterable) {
     if (iterable instanceof Queue) {

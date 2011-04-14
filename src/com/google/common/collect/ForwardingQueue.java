@@ -40,7 +40,7 @@ import java.util.Queue;
  *
  * @author Mike Bostock
  * @author Louis Wasserman
- * @since 2 (imported from Google Collections Library)
+ * @since Guava release 02 (imported from Google Collections Library)
  */
 @GwtCompatible
 public abstract class ForwardingQueue<E> extends ForwardingCollection<E>
@@ -81,7 +81,7 @@ public abstract class ForwardingQueue<E> extends ForwardingCollection<E>
    * override {@link #add}, you may wish to override {@link #offer} to forward
    * to this implementation.
    * 
-   * @since 7
+   * @since Guava release 07
    */
   @Beta protected boolean standardOffer(E e) {
     try {
@@ -96,7 +96,7 @@ public abstract class ForwardingQueue<E> extends ForwardingCollection<E>
    * override {@link #element}, you may wish to override {@link #peek} to
    * forward to this implementation.
    * 
-   * @since 7
+   * @since Guava release 07
    */
   @Beta protected E standardPeek() {
     try {
@@ -111,7 +111,7 @@ public abstract class ForwardingQueue<E> extends ForwardingCollection<E>
    * override {@link #remove}, you may wish to override {@link #poll} to forward
    * to this implementation.
    * 
-   * @since 7
+   * @since Guava release 07
    */
   @Beta protected E standardPoll() {
     try {

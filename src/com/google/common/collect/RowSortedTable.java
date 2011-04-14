@@ -32,7 +32,7 @@ import java.util.SortedSet;
  * {@link Map} specified by the {@link Table} interface.
  *
  * @author Warren Dukes
- * @since 8
+ * @since Guava release 08
  */
 @GwtCompatible
 @Beta

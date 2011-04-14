@@ -42,7 +42,7 @@ import java.util.concurrent.TimeoutException;
  * the thread running the call will be interrupted.
  *
  * @author Kevin Bourrillion
- * @since 1
+ * @since Guava release 01
  */
 @Beta
 public final class SimpleTimeLimiter implements TimeLimiter {

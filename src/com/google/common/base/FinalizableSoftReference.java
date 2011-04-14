@@ -25,7 +25,7 @@ import java.lang.ref.SoftReference;
  * ReferenceQueue}.
  *
  * @author Bob Lee
- * @since 2 (imported from Google Collections Library)
+ * @since Guava release 02 (imported from Google Collections Library)
  */
 public abstract class FinalizableSoftReference<T> extends SoftReference<T>
     implements FinalizableReference {

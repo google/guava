@@ -41,7 +41,7 @@ import javax.annotation.Nullable;
  *
  * @author Kevin Bourrillion
  * @author Louis Wasserman
- * @since 2 (imported from Google Collections Library)
+ * @since Guava release 02 (imported from Google Collections Library)
  */
 @GwtCompatible
 public abstract class ForwardingSet<E> extends ForwardingCollection<E>
@@ -66,7 +66,7 @@ public abstract class ForwardingSet<E> extends ForwardingCollection<E>
    * {@link #containsAll}. If you override either of those methods, you may wish
    * to override {@link #equals} to forward to this implementation.
    *
-   * @since 7
+   * @since Guava release 07
    */
   @Beta protected boolean standardEquals(@Nullable Object object) {
     return Sets.equalsImpl(this, object);
@@ -77,7 +77,7 @@ public abstract class ForwardingSet<E> extends ForwardingCollection<E>
    * If you override {@link #iterator}, you may wish to override {@link #equals}
    * to forward to this implementation.
    *
-   * @since 7
+   * @since Guava release 07
    */
   @Beta protected int standardHashCode() {
     return Sets.hashCodeImpl(this);

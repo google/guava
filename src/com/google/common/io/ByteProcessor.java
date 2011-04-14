@@ -27,7 +27,7 @@ import java.io.IOException;
  * should return {@code false} when you want to stop processing.
  *
  * @author Chris Nokleberg
- * @since 1
+ * @since Guava release 01
  */
 @Beta
 public interface ByteProcessor<T> {

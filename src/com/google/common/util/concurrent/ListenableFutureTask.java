@@ -29,7 +29,7 @@ import java.util.concurrent.FutureTask;
  * be called.
  * 
  * @author Sven Mawson
- * @since 1
+ * @since Guava release 01
  */
 @Beta
 public class ListenableFutureTask<V> extends FutureTask<V>
