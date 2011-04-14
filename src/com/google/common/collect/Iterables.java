@@ -161,6 +161,8 @@ public final class Iterables {
 
   private static <T> boolean removeIfFromRandomAccessList(
       List<T> list, Predicate<? super T> predicate) {
+    // Note: Not all random access lists support set() so we need to deal with
+    // those that don't and attempt the slower remove() based solution.
     int from = 0;
     int to = 0;
 
@@ -168,7 +170,12 @@ public final class Iterables {
       T element = list.get(from);
       if (!predicate.apply(element)) {
         if (from > to) {
-          list.set(to, element);
+          try {
+            list.set(to, element);
+          } catch (UnsupportedOperationException e) {
+            slowRemoveIfForRemainingElements(list, predicate, to, from);
+            return true;
+          }
         }
         to++;
       }
@@ -177,6 +184,29 @@ public final class Iterables {
     // Clear the tail of any remaining items
     list.subList(to, list.size()).clear();
     return from != to;
+  }
+
+  private static <T> void slowRemoveIfForRemainingElements(List<T> list,
+      Predicate<? super T> predicate, int to, int from) {
+    // Here we know that:
+    // * (to < from) and that both are valid indices.
+    // * Everything with (index < to) should be kept.
+    // * Everything with (to <= index < from) should be removed.
+    // * The element with (index == from) should be kept.
+    // * Everything with (index > from) has not been checked yet.
+
+    // Check from the end of the list backwards (minimize expected cost of
+    // moving elements when remove() is called). Stop before 'from' because
+    // we already know that should be kept.
+    for (int n = list.size() - 1; n > from; n--) {
+      if (predicate.apply(list.get(n))) {
+        list.remove(n);
+      }
+    }
+    // And now remove everything in the range [to, from) (going backwards).
+    for (int n = from - 1; n >= to; n--) {
+      list.remove(n);
+    }
   }
 
   /**
