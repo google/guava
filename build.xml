@@ -45,7 +45,7 @@
     <fail unless="isJava5HomeSetRight"
           message="JAVA5_HOME must be set to a valid JDK 1.5 installation, containing a jre/lib/rt.jar file"/>
 
-    <javac srcdir="src"
+    <javac srcdir="guava/src"
          debug="on"
          destdir="build/classes"
          encoding="UTF-8"
@@ -89,7 +89,7 @@
          linksource="${fulljavadoc}"
          windowtitle="Guava: Google Core Libraries for Java - ${release}">
       <sourcepath>
-        <pathelement location="src"/>
+        <pathelement location="guava/src"/>
         <pathelement location="${javasrc}"/>
       </sourcepath>
       <!-- workaround for http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6442982 -->
@@ -119,7 +119,7 @@
          destdir="build/javadoc/jdiff"
          encoding="UTF-8">
       <sourcepath>
-        <pathelement location="src"/>
+        <pathelement location="guava/src"/>
       </sourcepath>
       <classpath>
         <pathelement location="lib/jsr305.jar"/>
@@ -134,7 +134,7 @@
   <target name="zipsrc" description="Build zip of source.">
     <mkdir dir="build/dist/guava-${release}"/>
     <zip destfile="build/dist/guava-${release}/guava-src-${release}.zip">
-      <fileset dir="src"/>
+      <fileset dir="guava/src"/>
     </zip>
   </target>
 
@@ -156,7 +156,7 @@
           description="Compile GWT source."
           depends="compile">
     <mkdir dir="build/gwt-classes"/>
-    <javac srcdir="gwt-src"
+    <javac srcdir="guava-gwt/src"
            debug="on"
            destdir="build/gwt-classes"
            encoding="UTF-8"
@@ -183,7 +183,7 @@
         <attribute name="Implementation-Version" value="${release}"/>
       </manifest>
       <!-- Includes the @GwtCompatible non-emulated source. -->
-      <fileset dir="src">
+      <fileset dir="guava/src">
         <and>
           <contains text="@GwtCompatible"/>
           <not>
@@ -191,9 +191,9 @@
           </not>
         </and>
       </fileset>
-      <fileset dir="gwt-src"/>
+      <fileset dir="guava-gwt/src"/>
       <fileset dir="build/gwt-classes"/>
-      <fileset dir="gwt-super"/>
+      <fileset dir="guava-gwt/src-super"/>
       <zipfileset includes="**/*.class" src="lib/jsr305.jar"/>
     </jar>
   </target>
@@ -208,7 +208,7 @@
     <!-- Flatten the regular source and supersource in the same directory
          tree. -->
     <copy toDir="build/gwt-javadoc-src">
-      <fileset dir="src">
+      <fileset dir="guava/src">
         <and>
           <contains text="@GwtCompatible"/>
           <not>
@@ -220,19 +220,19 @@
     <!-- Exclude the CustomFieldSerializers because they are not part of
          the API.  They are public only for GWT. -->
     <copy toDir="build/gwt-javadoc-src">
-      <fileset dir="gwt-src" excludes="**/*_CustomFieldSerializer.java"/>
+      <fileset dir="guava/gwt-src" excludes="**/*_CustomFieldSerializer.java"/>
     </copy>
     <copy toDir="build/gwt-javadoc-src">
-      <fileset dir="gwt-super/com/google/common/base/super"/>
+      <fileset dir="guava-gwt/src-super/com/google/common/base/super"/>
     </copy>
     <copy toDir="build/gwt-javadoc-src">
-      <fileset dir="gwt-super/com/google/common/collect/super"/>
+      <fileset dir="guava-gwt/src-super/com/google/common/collect/super"/>
     </copy>
     <copy toDir="build/gwt-javadoc-src">
-      <fileset dir="gwt-super/com/google/common/net/super"/>
+      <fileset dir="guava-gwt/src-super/com/google/common/net/super"/>
     </copy>
     <copy toDir="build/gwt-javadoc-src">
-      <fileset dir="gwt-super/com/google/common/primitives/super"/>
+      <fileset dir="guava-gwt/src-super/com/google/common/primitives/super"/>
     </copy>
 
     <javadoc packagenames="com.google.common.*"
@@ -280,7 +280,7 @@
           description="Compile the GWT test sources with javac."
           depends="gwtjar">
     <mkdir dir="build/gwt-test-classes"/>
-    <javac srcdir="gwt-test"
+    <javac srcdir="guava-gwt/test"
            debug="on"
            destdir="build/gwt-test-classes"
            encoding="UTF-8"
@@ -306,7 +306,7 @@
           <pathelement location="build/dist/guava-${release}/guava-${release}-gwt.jar" />
           <pathelement location="build/dist/guava-${release}/guava-${release}.jar" />
 
-          <pathelement location="gwt-test" />
+          <pathelement location="guava-gwt/test" />
           <pathelement location="build/gwt-test-classes" />
           <pathelement location="lib/jsr305.jar"/>
           <pathelement location="${gwthome}/gwt-user.jar"/>
