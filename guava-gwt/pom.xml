@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>com.google.guava</groupId>
+    <artifactId>guava-parent</artifactId>
+    <version>r10-SNAPSHOT</version>
+  </parent>
+  <artifactId>guava-gwt</artifactId>
+  <packaging>pom</packaging>
+  <name>Guava (Google Common Libraries) GWT compatible libs</name>
+  <description>
+    Guava is a suite of core and expanded libraries that include 
+    utility classes, google's collections, io classes, and much 
+    much more.
+    
+    This project includes GWT-friendly sources.
+  </description>
+  <dependencies>
+    <dependency>
+      <groupId>com.google.guava</groupId>
+      <artifactId>guava</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.5</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+    	<groupId>com.google.gwt</groupId>
+    	<artifactId>gwt-dev</artifactId>
+    	<version>2.2.0</version>
+    	<type>jar</type>
+    	<scope>provided</scope>
+    </dependency>
+    <dependency>
+    	<groupId>com.google.gwt</groupId>
+    	<artifactId>gwt-user</artifactId>
+    	<version>2.2.0</version>
+    	<type>jar</type>
+    	<scope>provided</scope>
+    </dependency>
+  </dependencies>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>1.5</source>
+          <target>1.5</target>
+        </configuration>
+      </plugin>
+    </plugins>
+    <sourceDirectory>src</sourceDirectory>
+    <testSourceDirectory>disabled</testSourceDirectory>
+  </build>
+</project>
