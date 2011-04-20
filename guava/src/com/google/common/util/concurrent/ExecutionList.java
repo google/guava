@@ -26,18 +26,19 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * <p>A list of ({@code Runnable}, {@code Executor}) pairs that guarantees
- * that every {@code Runnable} that is added using the add method will be
+ * <p>A list of ({@code Runnable}, {@code Executor}) pairs that guarantees that
+ * every {@code Runnable} that is added using the {@link #add} method will be
  * executed in its associated {@code Executor} after {@link #run()} is called.
- * {@code Runnable}s added after {@code run} is called are still guaranteed to
- * execute.
+ * Any {@code Runnable} added after the call to {@code run} is still guaranteed
+ * to execute. There is no guarantee that listeners will be executed in the
+ * order that they are added.
  *
  * @author Nishant Thakkar
  * @author Sven Mawson
  * @since Guava release 01
  */
 @Beta
-public final class ExecutionList implements Runnable {
+public final class ExecutionList {
 
   // Logger to log exceptions caught when running runnables.
   private static final Logger log =
@@ -49,6 +50,10 @@ public final class ExecutionList implements Runnable {
   // Boolean we use mark when execution has started.  Only accessed from within
   // synchronized blocks.
   private boolean executed = false;
+
+  /** Creates a new, empty {@link ExecutionList}. */
+  public ExecutionList() {
+  }
 
   /**
    * Add the runnable/executor pair to the list of pairs to execute.  Executes
@@ -89,7 +94,6 @@ public final class ExecutionList implements Runnable {
    * added.  Pairs added after this method has started executing the list will
    * be executed immediately.
    */
-  @Override
   public void run() {
 
     // Lock while we update our state so the add method above will finish adding
