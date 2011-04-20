@@ -105,6 +105,11 @@ class CustomConcurrentHashMap<K, V>
   static final int MAX_SEGMENTS = 1 << 16; // slightly conservative
 
   /**
+   * Number of (unsynchronized) retries in the containsValue method.
+   */
+  static final int CONTAINS_VALUE_RETRIES = 3;
+
+  /**
    * Number of cache access operations that can be buffered per segment before the cache's recency
    * ordering information is updated. This is used to avoid lock contention by recording a memento
    * of reads and delaying a lock acquisition until the threshold is crossed or a mutation occurs.
@@ -2285,6 +2290,7 @@ class CustomConcurrentHashMap<K, V>
       return false;
     }
 
+    @VisibleForTesting
     boolean containsValue(Object value) {
       if (count != 0) { // read-volatile
         AtomicReferenceArray<ReferenceEntry<K, V>> table = this.table;
@@ -2325,6 +2331,7 @@ class CustomConcurrentHashMap<K, V>
             }
 
             if (map.valueEquivalence.equivalent(oldValue, entryValue)) {
+              ++modCount;
               setValue(e, newValue);
               return true;
             } else {
@@ -2361,6 +2368,7 @@ class CustomConcurrentHashMap<K, V>
               return null;
             }
 
+            ++modCount;
             setValue(e, newValue);
             return entryValue;
           }
@@ -2420,6 +2428,7 @@ class CustomConcurrentHashMap<K, V>
             }
             // else clobber, don't adjust count
 
+            ++modCount;
             setValue(e, value);
             return entryValue;
           }
@@ -3296,8 +3305,7 @@ class CustomConcurrentHashMap<K, V>
     /*
      * We keep track of per-segment modCounts to avoid ABA problems in which an element in one
      * segment was added and in another removed during traversal, in which case the table was never
-     * actually empty at any point. Note the similar use of modCounts in the size() and
-     * containsValue() methods, which are the only other methods also susceptible to ABA problems.
+     * actually empty at any point.
      */
     int[] mc = new int[segments.length];
     int mcsum = 0;
@@ -3355,17 +3363,37 @@ class CustomConcurrentHashMap<K, V>
 
   @Override
   public boolean containsValue(Object value) {
-    // TODO(kevinb): document why we choose to throw over returning false?
-    checkNotNull(value);
+    checkNotNull(value); // as does ConcurrentHashMap
 
-    Segment<K, V>[] segments = this.segments;
-    for (int i = 0; i < segments.length; ++i) {
-      // ensure visibility of most recent completed write
-      @SuppressWarnings({"UnusedDeclaration", "unused"})
-      int c = segments[i].count; // read-volatile
-      if (segments[i].containsValue(value)) {
-        return true;
+    // This implementation is patterned after ConcurrentHashMap, but without the locking. The only
+    // way for it to return a false negative would be for the target value to jump around in the map
+    // such that none of the subsequent iterations observed it, despite the fact that at every point
+    // in time it was present somewhere int the map. This becomes increasingly unlikely as
+    // CONTAINS_VALUE_RETRIES increases, though without locking it is theoretically possible.
+    final Segment<K,V>[] segments = this.segments;
+    int last = -1;
+    for (int i = 0; i < CONTAINS_VALUE_RETRIES; i++) {
+      int sum = 0;
+      for (Segment<K, V> segment : segments) {
+        // ensure visibility of most recent completed write
+        @SuppressWarnings({"UnusedDeclaration", "unused"})
+        int c = segment.count; // read-volatile
+
+        AtomicReferenceArray<ReferenceEntry<K, V>> table = segment.table;
+        for (int j = 0 ; j < table.length(); j++) {
+          for (ReferenceEntry<K, V> e = table.get(j); e != null; e = e.getNext()) {
+            V v = segment.getLiveValue(e);
+            if (v != null && valueEquivalence.equivalent(value, v)) {
+              return true;
+            }
+          }
+        }
+        sum += segment.modCount;
       }
+      if (sum == last) {
+        break;
+      }
+      last = sum;
     }
     return false;
   }
