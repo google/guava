@@ -78,108 +78,111 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V>
     }
 
     V compute(K key, int hash) {
-      outer: while (true) {
-        ReferenceEntry<K, V> e = getEntry(key, hash);
-        if (e != null) {
-          V value = getLiveValue(e);
-          if (value != null) {
-            recordRead(e);
-            return value;
+      try {
+        outer: while (true) {
+          ReferenceEntry<K, V> e = getEntry(key, hash);
+          if (e != null) {
+            V value = getLiveValue(e);
+            if (value != null) {
+              recordRead(e);
+              return value;
+            }
           }
-        }
 
-        // at this point e is either null, computing, or expired;
-        // avoid locking if it's already computing
-        if (e == null || !e.getValueReference().isComputingReference()) {
-          ComputingValueReference<K, V> computingValueReference = null;
-          lock();
-          try {
-            preWriteCleanup();
+          // at this point e is either null, computing, or expired;
+          // avoid locking if it's already computing
+          if (e == null || !e.getValueReference().isComputingReference()) {
+            ComputingValueReference<K, V> computingValueReference = null;
+            lock();
+            try {
+              preWriteCleanup();
 
-            // getFirst, but remember the index
-            AtomicReferenceArray<ReferenceEntry<K, V>> table = this.table;
-            int index = hash & (table.length() - 1);
-            ReferenceEntry<K, V> first = table.get(index);
+              // getFirst, but remember the index
+              AtomicReferenceArray<ReferenceEntry<K, V>> table = this.table;
+              int index = hash & (table.length() - 1);
+              ReferenceEntry<K, V> first = table.get(index);
 
-            for (e = first; e != null; e = e.getNext()) {
-              K entryKey = e.getKey();
-              if (e.getHash() == hash && entryKey != null
-                  && map.keyEquivalence.equivalent(key, entryKey)) {
-                if (!e.getValueReference().isComputingReference()) {
-                  // never return expired entries
-                  V value = getLiveValue(e);
-                  if (value != null) {
-                    recordLockedRead(e);
-                    return value;
+              for (e = first; e != null; e = e.getNext()) {
+                K entryKey = e.getKey();
+                if (e.getHash() == hash && entryKey != null
+                    && map.keyEquivalence.equivalent(key, entryKey)) {
+                  if (!e.getValueReference().isComputingReference()) {
+                    // never return expired entries
+                    V value = getLiveValue(e);
+                    if (value != null) {
+                      recordLockedRead(e);
+                      return value;
+                    }
+                    // clobber invalid entries
+                    unsetLiveEntry(e, hash);
                   }
-                  // clobber invalid entries
-                  unsetLiveEntry(e, hash);
+                  break;
                 }
-                break;
               }
+
+              if (e == null || isUnset(e)) {
+                // Create a new entry.
+                ComputingConcurrentHashMap<K, V> computingMap =
+                    (ComputingConcurrentHashMap<K, V>) map;
+                computingValueReference = new ComputingValueReference<K, V>(computingMap);
+
+                if (e == null) {
+                  e = computingMap.newEntry(key, hash, first);
+                  table.set(index, e);
+                }
+                e.setValueReference(computingValueReference);
+              }
+            } finally {
+              unlock();
+              postWriteCleanup();
             }
 
-            if (e == null || isUnset(e)) {
-              // Create a new entry.
-              ComputingConcurrentHashMap<K, V> computingMap =
-                  (ComputingConcurrentHashMap<K, V>) map;
-              computingValueReference = new ComputingValueReference<K, V>(computingMap);
-
-              if (e == null) {
-                e = computingMap.newEntry(key, hash, first);
-                table.set(index, e);
+            if (computingValueReference != null) {
+              // This thread solely created the entry.
+              V value = null;
+              try {
+                // Synchronizes on the entry to allow failing fast when a
+                // recursive computation is detected. This is not fool-proof
+                // since the entry may be copied when the segment is written to.
+                synchronized (e) {
+                  value = computingValueReference.compute(key, hash);
+                }
+                checkNotNull(value, "compute() returned null unexpectedly");
+                return value;
+              } finally {
+                if (value == null) {
+                  clearValue(key, hash, computingValueReference);
+                }
               }
-              e.setValueReference(computingValueReference);
+            }
+          }
+
+          // The entry already exists. Wait for the computation.
+          boolean interrupted = false;
+          try {
+            while (true) {
+              try {
+                checkState(!Thread.holdsLock(e), "Recursive computation");
+                V value = e.getValueReference().waitForValue();
+                // don't consider expiration as we're concurrent with computation
+                if (value != null) {
+                  recordRead(e);
+                  return value;
+                }
+                // else computing thread will clearValue
+                continue outer;
+              } catch (InterruptedException ie) {
+                interrupted = true;
+              }
             }
           } finally {
-            unlock();
-            postWriteCleanup();
-          }
-
-          if (computingValueReference != null) {
-            // This thread solely created the entry.
-            V value = null;
-            try {
-              // Synchronizes on the entry to allow failing fast when a
-              // recursive computation is detected. This is not fool-proof
-              // since the entry may be copied when the segment is written to.
-              synchronized (e) {
-                value = computingValueReference.compute(key, hash);
-              }
-              checkNotNull(value, "compute() returned null unexpectedly");
-              return value;
-            } finally {
-              if (value == null) {
-                clearValue(key, hash, computingValueReference);
-              }
+            if (interrupted) {
+              Thread.currentThread().interrupt();
             }
           }
         }
-
-        // The entry already exists. Wait for the computation.
-        boolean interrupted = false;
-        try {
-          while (true) {
-            try {
-              checkState(!Thread.holdsLock(e), "Recursive computation");
-              V value = e.getValueReference().waitForValue();
-              // don't consider expiration as we're concurrent with computation
-              if (value != null) {
-                recordRead(e);
-                postReadCleanup();
-                return value;
-              }
-              // else computing thread will clearValue
-              continue outer;
-            } catch (InterruptedException ie) {
-              interrupted = true;
-            }
-          }
-        } finally {
-          if (interrupted) {
-            Thread.currentThread().interrupt();
-          }
-        }
+      } finally {
+        postReadCleanup();
       }
     }
   }
