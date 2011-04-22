@@ -806,6 +806,93 @@ class CustomConcurrentHashMap<K, V>
     public void setPreviousEvictable(ReferenceEntry<Object, Object> previous) {}
   }
 
+  private static abstract class AbstractReferenceEntry<K, V> implements ReferenceEntry<K, V> {
+    @Override
+    public ValueReference<K, V> getValueReference() {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void setValueReference(ValueReference<K, V> valueReference) {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void notifyKeyReclaimed() {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void notifyValueReclaimed(ValueReference<K, V> v) {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public ReferenceEntry<K, V> getNext() {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public int getHash() {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public K getKey() {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public long getExpirationTime() {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void setExpirationTime(long time) {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public ReferenceEntry<K, V> getNextExpirable() {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void setNextExpirable(ReferenceEntry<K, V> next) {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public ReferenceEntry<K, V> getPreviousExpirable() {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void setPreviousExpirable(ReferenceEntry<K, V> previous) {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public ReferenceEntry<K, V> getNextEvictable() {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void setNextEvictable(ReferenceEntry<K, V> next) {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public ReferenceEntry<K, V> getPreviousEvictable() {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void setPreviousEvictable(ReferenceEntry<K, V> previous) {
+      throw new UnsupportedOperationException();
+    }
+  }
+
   @SuppressWarnings("unchecked") // impl never uses a parameter or returns any non-null value
   static <K, V> ReferenceEntry<K, V> nullEntry() {
     return (ReferenceEntry<K, V>) NullEntry.INSTANCE;
@@ -2919,9 +3006,8 @@ class CustomConcurrentHashMap<K, V>
      */
     @VisibleForTesting
     class EvictionQueue extends AbstractQueue<ReferenceEntry<K, V>> {
-      // TODO(user): create UnsupportedOperationException throwing base class
       @VisibleForTesting
-      final ReferenceEntry<K, V> head = new ReferenceEntry<K, V>() {
+      final ReferenceEntry<K, V> head = new AbstractReferenceEntry<K, V>() {
 
         ReferenceEntry<K, V> nextEvictable = this;
 
@@ -2948,68 +3034,7 @@ class CustomConcurrentHashMap<K, V>
         }
 
         @Override
-        public ValueReference<K, V> getValueReference() {
-          throw new UnsupportedOperationException();
-        }
-
-        @Override
-        public void setValueReference(ValueReference<K, V> valueReference) {
-          throw new UnsupportedOperationException();
-        }
-
-        @Override
         public void notifyKeyReclaimed() {}
-
-        @Override
-        public void notifyValueReclaimed(ValueReference<K, V> valueReference) {
-          throw new UnsupportedOperationException();
-        }
-
-        @Override
-        public ReferenceEntry<K, V> getNext() {
-          throw new UnsupportedOperationException();
-        }
-
-        @Override
-        public int getHash() {
-          throw new UnsupportedOperationException();
-        }
-
-        @Override
-        public K getKey() {
-          throw new UnsupportedOperationException();
-        }
-
-        // null expiration
-        @Override
-        public long getExpirationTime() {
-          throw new UnsupportedOperationException();
-        }
-
-        @Override
-        public void setExpirationTime(long time) {
-          throw new UnsupportedOperationException();
-        }
-
-        @Override
-        public ReferenceEntry<K, V> getNextExpirable() {
-          throw new UnsupportedOperationException();
-        }
-
-        @Override
-        public void setNextExpirable(ReferenceEntry<K, V> next) {
-          throw new UnsupportedOperationException();
-        }
-
-        @Override
-        public ReferenceEntry<K, V> getPreviousExpirable() {
-          throw new UnsupportedOperationException();
-        }
-
-        @Override
-        public void setPreviousExpirable(ReferenceEntry<K, V> previous) {
-          throw new UnsupportedOperationException();
-        }
       };
 
       // implements Queue
@@ -3115,9 +3140,8 @@ class CustomConcurrentHashMap<K, V>
      */
     @VisibleForTesting
     class ExpirationQueue extends AbstractQueue<ReferenceEntry<K, V>> {
-      // TODO(user): create UnsupportedOperationException throwing base class
       @VisibleForTesting
-      final ReferenceEntry<K, V> head = new ReferenceEntry<K, V>() {
+      final ReferenceEntry<K, V> head = new AbstractReferenceEntry<K, V>() {
 
         @Override
         public long getExpirationTime() {
@@ -3152,58 +3176,7 @@ class CustomConcurrentHashMap<K, V>
         }
 
         @Override
-        public ValueReference<K, V> getValueReference() {
-          throw new UnsupportedOperationException();
-        }
-
-        @Override
-        public void setValueReference(ValueReference<K, V> valueReference) {
-          throw new UnsupportedOperationException();
-        }
-
-        @Override
         public void notifyKeyReclaimed() {}
-
-        @Override
-        public void notifyValueReclaimed(ValueReference<K, V> valueReference) {
-          throw new UnsupportedOperationException();
-        }
-
-        @Override
-        public ReferenceEntry<K, V> getNext() {
-          throw new UnsupportedOperationException();
-        }
-
-        @Override
-        public int getHash() {
-          throw new UnsupportedOperationException();
-        }
-
-        @Override
-        public K getKey() {
-          throw new UnsupportedOperationException();
-        }
-
-        // null eviction
-        @Override
-        public ReferenceEntry<K, V> getNextEvictable() {
-          throw new UnsupportedOperationException();
-        }
-
-        @Override
-        public void setNextEvictable(ReferenceEntry<K, V> next) {
-          throw new UnsupportedOperationException();
-        }
-
-        @Override
-        public ReferenceEntry<K, V> getPreviousEvictable() {
-          throw new UnsupportedOperationException();
-        }
-
-        @Override
-        public void setPreviousEvictable(ReferenceEntry<K, V> previous) {
-          throw new UnsupportedOperationException();
-        }
       };
 
       // implements Queue
