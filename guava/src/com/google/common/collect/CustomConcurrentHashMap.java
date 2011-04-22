@@ -3274,29 +3274,31 @@ class CustomConcurrentHashMap<K, V>
 
   @Override
   public boolean isEmpty() {
-    Segment<K, V>[] segments = this.segments;
     /*
-     * We keep track of per-segment modCounts to avoid ABA problems in which an element in one
-     * segment was added and in another removed during traversal, in which case the table was never
-     * actually empty at any point.
+     * Sum per-segment modCounts to avoid mis-reporting when elements are concurrently added and
+     * removed in one segment while checking another, in which case the table was never actually
+     * empty at any point. (The sum ensures accuracy up through at least 1<<31 per-segment
+     * modifications before recheck.)  Method containsValue() uses similar constructions for
+     * stability checks.
      */
-    int[] mc = new int[segments.length];
-    int mcsum = 0;
+    long sum = 0L;
+    Segment<K, V>[] segments = this.segments;
     for (int i = 0; i < segments.length; ++i) {
       if (segments[i].count != 0) {
         return false;
       }
-      mcsum += mc[i] = segments[i].modCount;
+      sum += segments[i].modCount;
     }
 
-    // If mcsum happens to be zero, then we know we got a snapshot
-    // before any modifications at all were made. This is
-    // probably common enough to bother tracking.
-    if (mcsum != 0) {
+    if (sum != 0L) { // recheck unless no modifications
       for (int i = 0; i < segments.length; ++i) {
-        if (segments[i].count != 0 || mc[i] != segments[i].modCount) {
+        if (segments[i].count != 0) {
           return false;
         }
+        sum -= segments[i].modCount;
+      }
+      if (sum != 0L) {
+        return false;
       }
     }
     return true;
@@ -3344,9 +3346,9 @@ class CustomConcurrentHashMap<K, V>
     // in time it was present somewhere int the map. This becomes increasingly unlikely as
     // CONTAINS_VALUE_RETRIES increases, though without locking it is theoretically possible.
     final Segment<K,V>[] segments = this.segments;
-    int last = -1;
+    long last = -1L;
     for (int i = 0; i < CONTAINS_VALUE_RETRIES; i++) {
-      int sum = 0;
+      long sum = 0L;
       for (Segment<K, V> segment : segments) {
         // ensure visibility of most recent completed write
         @SuppressWarnings({"UnusedDeclaration", "unused"})
