@@ -220,7 +220,7 @@
     <!-- Exclude the CustomFieldSerializers because they are not part of
          the API.  They are public only for GWT. -->
     <copy toDir="build/gwt-javadoc-src">
-      <fileset dir="guava/gwt-src" excludes="**/*_CustomFieldSerializer.java"/>
+      <fileset dir="guava/src" excludes="**/*_CustomFieldSerializer.java"/>
     </copy>
     <copy toDir="build/gwt-javadoc-src">
       <fileset dir="guava-gwt/src-super/com/google/common/base/super"/>
