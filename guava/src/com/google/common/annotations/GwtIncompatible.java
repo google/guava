@@ -36,7 +36,7 @@ import java.lang.annotation.Target;
  * @author Charles Fry
  */
 @Retention(RetentionPolicy.CLASS)
-@Target({ ElementType.TYPE, ElementType.METHOD, ElementType.FIELD })
+@Target({ ElementType.TYPE, ElementType.METHOD, ElementType.CONSTRUCTOR, ElementType.FIELD })
 @Documented
 @GwtCompatible
 public @interface GwtIncompatible {
