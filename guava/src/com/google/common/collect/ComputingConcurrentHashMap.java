@@ -157,32 +157,36 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V>
             }
           }
 
-          // The entry already exists. Wait for the computation.
-          boolean interrupted = false;
-          try {
-            while (true) {
-              try {
-                checkState(!Thread.holdsLock(e), "Recursive computation");
-                V value = e.getValueReference().waitForValue();
-                // don't consider expiration as we're concurrent with computation
-                if (value != null) {
-                  recordRead(e);
-                  return value;
-                }
-                // else computing thread will clearValue
-                continue outer;
-              } catch (InterruptedException ie) {
-                interrupted = true;
-              }
-            }
-          } finally {
-            if (interrupted) {
-              Thread.currentThread().interrupt();
-            }
+          V value = waitForValue(e);
+          // don't consider expiration as we're concurrent with computation
+          if (value != null) {
+            recordRead(e);
+            return value;
           }
+          // else computing thread will clearValue
+          continue outer;
         }
       } finally {
         postReadCleanup();
+      }
+    }
+
+    private V waitForValue(ReferenceEntry<K, V> entry) {
+      // The entry already exists. Wait for the computation.
+      boolean interrupted = false;
+      try {
+        while (true) {
+          try {
+            checkState(!Thread.holdsLock(entry), "Recursive computation");
+            return entry.getValueReference().waitForValue();
+          } catch (InterruptedException ie) {
+            interrupted = true;
+          }
+        }
+      } finally {
+        if (interrupted) {
+          Thread.currentThread().interrupt();
+        }
       }
     }
   }

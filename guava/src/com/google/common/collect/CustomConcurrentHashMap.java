@@ -37,6 +37,7 @@ import java.util.AbstractCollection;
 import java.util.AbstractMap;
 import java.util.AbstractQueue;
 import java.util.AbstractSet;
+import java.util.LinkedList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
@@ -2099,8 +2100,9 @@ class CustomConcurrentHashMap<K, V>
      * The cleanup queue is used to record entries which have been unset and need to be removed
      * from the map. It is drained by the cleanup executor.
      */
-    final Queue<ReferenceEntry<K, V>> cleanupQueue =
-        new ConcurrentLinkedQueue<ReferenceEntry<K, V>>();
+    // TODO(user): switch to ArrayDeque if we ever require JDK 1.6
+    @GuardedBy("Segment.this")
+    final Queue<ReferenceEntry<K, V>> cleanupQueue = new LinkedList<ReferenceEntry<K, V>>();
 
     /**
      * The recency queue is used to record which entries were accessed for updating the eviction
@@ -2357,45 +2359,53 @@ class CustomConcurrentHashMap<K, V>
     }
 
     boolean containsKey(Object key, int hash) {
-      if (count != 0) { // read-volatile
-        for (ReferenceEntry<K, V> e = getFirst(hash); e != null; e = e.getNext()) {
-          if (e.getHash() != hash) {
-            continue;
-          }
+      try {
+        if (count != 0) { // read-volatile
+          for (ReferenceEntry<K, V> e = getFirst(hash); e != null; e = e.getNext()) {
+            if (e.getHash() != hash) {
+              continue;
+            }
 
-          K entryKey = e.getKey();
-          if (entryKey == null) {
-            continue;
-          }
+            K entryKey = e.getKey();
+            if (entryKey == null) {
+              continue;
+            }
 
-          if (map.keyEquivalence.equivalent(key, entryKey)) {
-            return getLiveValue(e) != null;
+            if (map.keyEquivalence.equivalent(key, entryKey)) {
+              return getLiveValue(e) != null;
+            }
           }
         }
-      }
 
-      return false;
+        return false;
+      } finally {
+        postReadCleanup();
+      }
     }
 
     @VisibleForTesting
     boolean containsValue(Object value) {
-      if (count != 0) { // read-volatile
-        AtomicReferenceArray<ReferenceEntry<K, V>> table = this.table;
-        int length = table.length();
-        for (int i = 0; i < length; ++i) {
-          for (ReferenceEntry<K, V> e = table.get(i); e != null; e = e.getNext()) {
-            V entryValue = getLiveValue(e);
-            if (entryValue == null) {
-              continue;
-            }
-            if (map.valueEquivalence.equivalent(value, entryValue)) {
-              return true;
+      try {
+        if (count != 0) { // read-volatile
+          AtomicReferenceArray<ReferenceEntry<K, V>> table = this.table;
+          int length = table.length();
+          for (int i = 0; i < length; ++i) {
+            for (ReferenceEntry<K, V> e = table.get(i); e != null; e = e.getNext()) {
+              V entryValue = getLiveValue(e);
+              if (entryValue == null) {
+                continue;
+              }
+              if (map.valueEquivalence.equivalent(value, entryValue)) {
+                return true;
+              }
             }
           }
         }
-      }
 
-      return false;
+        return false;
+      } finally {
+        postReadCleanup();
+      }
     }
 
     boolean replace(K key, int hash, V oldValue, V newValue) {
@@ -2821,9 +2831,9 @@ class CustomConcurrentHashMap<K, V>
     void enqueueCleanup(ReferenceEntry<K, V> entry) {
       ValueReference<K, V> unset = unset();
       entry.setValueReference(unset);
-      cleanupQueue.offer(entry);
       evictionQueue.remove(entry);
       expirationQueue.remove(entry);
+      cleanupQueue.offer(entry);
     }
 
     /**
@@ -2961,13 +2971,14 @@ class CustomConcurrentHashMap<K, V>
      * Performs housekeeping tasks on this segment that require the segment lock.
      */
     void runLockedCleanup() {
-      lock();
-      try {
-        expireEntries(); // calls drainRecencyQueue
-        processPendingCleanup();
-        readCount.set(0);
-      } finally {
-        unlock();
+      if (tryLock()) {
+        try {
+          expireEntries(); // calls drainRecencyQueue
+          processPendingCleanup();
+          readCount.set(0);
+        } finally {
+          unlock();
+        }
       }
     }
 
@@ -3466,6 +3477,7 @@ class CustomConcurrentHashMap<K, V>
 
     int nextSegmentIndex;
     int nextTableIndex;
+    Segment<K, V> currentSegment;
     AtomicReferenceArray<ReferenceEntry<K, V>> currentTable;
     ReferenceEntry<K, V> nextEntry;
     WriteThroughEntry nextExternal;
@@ -3489,9 +3501,9 @@ class CustomConcurrentHashMap<K, V>
       }
 
       while (nextSegmentIndex >= 0) {
-        Segment<K, V> seg = segments[nextSegmentIndex--];
-        if (seg.count != 0) {
-          currentTable = seg.table;
+        currentSegment = segments[nextSegmentIndex--];
+        if (currentSegment.count != 0) {
+          currentTable = currentSegment.table;
           nextTableIndex = currentTable.length() - 1;
           if (nextInTable()) {
             return;
@@ -3533,15 +3545,19 @@ class CustomConcurrentHashMap<K, V>
      * skipped.
      */
     boolean advanceTo(ReferenceEntry<K, V> entry) {
-      K key = entry.getKey();
-      // TODO(user): call getLiveValue when it's moved out of Segment
-      V value = entry.getValueReference().get();
-      if (key != null && value != null && !(expires() && isExpired(entry))) {
-        nextExternal = new WriteThroughEntry(key, value);
-        return true;
-      } else {
-        // Skip partially reclaimed entry.
-        return false;
+      try {
+        K key = entry.getKey();
+        // TODO(user): call getLiveValue when it's moved out of Segment
+        V value = entry.getValueReference().get();
+        if (key != null && value != null && !(expires() && isExpired(entry))) {
+          nextExternal = new WriteThroughEntry(key, value);
+          return true;
+        } else {
+          // Skip partially reclaimed entry.
+          return false;
+        }
+      } finally {
+        currentSegment.postReadCleanup();
       }
     }
 
