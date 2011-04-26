@@ -20,6 +20,7 @@ package com.google.common.collect;
  * Wraps an exception that occurred during a computation in a different thread.
  *
  * @author Bob Lee
+ * @since Guava release 02 (imported from Google Collections Library)
  */
 public class AsynchronousComputationException extends ComputationException {
   /**

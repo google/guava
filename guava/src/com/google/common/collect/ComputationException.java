@@ -20,6 +20,9 @@ import com.google.common.annotations.GwtCompatible;
 
 /**
  * Wraps an exception that occurred during a computation.
+ *
+ * @author Bob Lee
+ * @since Guava release 02 (imported from Google Collections Library)
  */
 @GwtCompatible
 public class ComputationException extends RuntimeException {

@@ -21,7 +21,6 @@ import static com.google.common.base.Preconditions.checkState;
 
 import com.google.common.base.Equivalence;
 import com.google.common.base.Function;
-import com.google.common.collect.MapMaker.Cache;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -36,9 +35,9 @@ import javax.annotation.concurrent.GuardedBy;
  * Adds computing functionality to {@link CustomConcurrentHashMap}.
  *
  * @author Bob Lee
+ * @author Charles Fry
  */
-class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V>
-    implements Cache<K, V> {
+class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V> {
   final Function<? super K, ? extends V> computingFunction;
 
   /**
@@ -51,11 +50,6 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V>
   }
 
   @Override
-  public ConcurrentMap<K, V> asMap() {
-    return this;
-  }
-
-  @Override
   Segment<K, V> createSegment(int initialCapacity, int maxSegmentSize) {
     return new ComputingSegment<K, V>(this, initialCapacity, maxSegmentSize);
   }
@@ -65,8 +59,7 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V>
     return (ComputingSegment<K, V>) super.segmentFor(hash);
   }
 
-  @Override
-  public V apply(K key) {
+  V compute(K key) {
     int hash = hash(key);
     return segmentFor(hash).compute(key, hash);
   }
@@ -84,6 +77,7 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V>
           if (e != null) {
             V value = getLiveValue(e);
             if (value != null) {
+              // TODO(user): recordHit
               recordRead(e);
               return value;
             }
@@ -111,6 +105,7 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V>
                     V value = getLiveValue(e);
                     if (value != null) {
                       recordLockedRead(e);
+                      // TODO(user): recordHit
                       return value;
                     }
                     // clobber invalid entries
@@ -147,7 +142,6 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V>
                 synchronized (e) {
                   value = computingValueReference.compute(key, hash);
                 }
-                checkNotNull(value, "compute() returned null unexpectedly");
                 return value;
               } finally {
                 if (value == null) {
@@ -161,6 +155,7 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V>
           // don't consider expiration as we're concurrent with computation
           if (value != null) {
             recordRead(e);
+            // TODO(user): recordMiss
             return value;
           }
           // else computing thread will clearValue
@@ -191,42 +186,9 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V>
     }
   }
 
-  /** Used to provide null pointer exceptions to other threads. */
-  private static class NullPointerExceptionReference<K, V> implements ValueReference<K, V> {
-    final String message;
-
-    NullPointerExceptionReference(String message) {
-      this.message = message;
-    }
-
-    @Override
-    public V get() {
-      return null;
-    }
-
-    @Override
-    public ValueReference<K, V> copyFor(ReferenceEntry<K, V> entry) {
-      return this;
-    }
-
-    @Override
-    public boolean isComputingReference() {
-      return false;
-    }
-
-    @Override
-    public V waitForValue() {
-      throw new NullPointerException(message);
-    }
-
-    @Override
-    public void notifyValueReclaimed() {}
-
-    @Override
-    public void clear() {}
-  }
-
-  /** Used to provide computation exceptions to other threads. */
+  /**
+   * Used to provide computation exceptions to other threads.
+   */
   private static class ComputationExceptionReference<K, V> implements ValueReference<K, V> {
     final Throwable t;
 
@@ -258,10 +220,12 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V>
     public void notifyValueReclaimed() {}
 
     @Override
-    public void clear() {}
+    public void clear(ValueReference<K, V> newValue) {}
   }
 
-  /** Used to provide computation result to other threads. */
+  /**
+   * Used to provide computation result to other threads.
+   */
   private static class ComputedReference<K, V> implements ValueReference<K, V> {
     final V value;
 
@@ -293,7 +257,7 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V>
     public void notifyValueReclaimed() {}
 
     @Override
-    public void clear() {}
+    public void clear(ValueReference<K, V> newValue) {}
   }
 
   private static class ComputingValueReference<K, V> implements ValueReference<K, V> {
@@ -339,10 +303,10 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V>
     }
 
     @Override
-    public void clear() {
+    public void clear(ValueReference<K, V> newValue) {
       // The pending computation was clobbered by a manual write. Unblock all
       // pending gets, and have them return the new value.
-      setValueReference(new ComputedReference<K, V>(null));
+      setValueReference(newValue);
 
       // TODO(user): could also cancel computation if we had a thread handle
     }
@@ -364,16 +328,15 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V>
         throw new ComputationException(t);
       }
 
-      if (value == null) {
-        String message = map.computingFunction + " returned null for key " + key + ".";
-        setValueReference(new NullPointerExceptionReference<K, V>(message));
-        throw new NullPointerException(message);
+      setValueReference(new ComputedReference<K, V>(value));
+      if (value != null) {
+        // Call setValueReference first to avoid put clearing us.
+        // TODO(user): recordMiss
+        // TODO(user): recordCompute
+        // putIfAbsent
+        map.segmentFor(hash).put(key, hash, value, true);
       }
 
-      // Call setValueReference first to avoid put clearing us.
-      setValueReference(new ComputedReference<K, V>(value));
-      // putIfAbsent
-      map.segmentFor(hash).put(key, hash, value, true);
       return value;
     }
 
@@ -387,7 +350,7 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V>
     }
   }
 
-  /* ---------------- Serialization Support -------------- */
+  // Serialization Support
 
   private static final long serialVersionUID = 2;
 
@@ -401,7 +364,6 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V>
   static class ComputingSerializationProxy<K, V> extends AbstractSerializationProxy<K, V> {
 
     final Function<? super K, ? extends V> computingFunction;
-    transient Cache<K, V> cache;
 
     ComputingSerializationProxy(Strength keyStrength, Strength valueStrength,
         Equivalence<Object> keyEquivalence, Equivalence<Object> valueEquivalence,
@@ -422,21 +384,12 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V>
     private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
       in.defaultReadObject();
       MapMaker mapMaker = readMapMaker(in);
-      cache = mapMaker.makeCache(computingFunction);
-      delegate = cache.asMap();
+      delegate = mapMaker.makeComputingMap(computingFunction);
       readEntries(in);
     }
 
     Object readResolve() {
-      return cache;
-    }
-
-    public ConcurrentMap<K, V> asMap() {
       return delegate;
-    }
-
-    public V apply(@Nullable K from) {
-      return cache.apply(from);
     }
 
     private static final long serialVersionUID = 2;

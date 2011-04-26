@@ -96,6 +96,7 @@ import java.util.concurrent.TimeUnit;
  * equality for keys, and great flexibility.
  *
  * @author Bob Lee
+ * @author Charles Fry
  * @author Kevin Bourrillion
  * @since Guava release 02 (imported from Google Collections Library)
  */
@@ -524,42 +525,6 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
   }
 
   /**
-   * Builds a caching function, which either returns an already-computed value for a given key or
-   * atomically computes it using the supplied function. If another thread is currently computing
-   * the value for this key, simply waits for that thread to finish and returns its computed value.
-   * Note that the function may be executed concurrently by multiple threads, but only for distinct
-   * keys.
-   *
-   * <p>The {@code Map} view of the {@code Cache}'s cache is only updated when function computation
-   * completes. In other words, an entry isn't visible until the value's computation completes. No
-   * methods on the {@code Map} will ever trigger computation.
-   *
-   * <p>{@link Cache#apply} in the returned function implementation may throw:
-   *
-   * <ul>
-   * <li>{@link NullPointerException} if the key is null or the computing function returns null
-   * <li>{@link ComputationException} if an exception was thrown by the computing function. If that
-   * exception is already of type {@link ComputationException} it is propagated directly; otherwise
-   * it is wrapped.
-   * </ul>
-   *
-   * <p>If {@link Map#put} is called before a computation completes, other threads waiting on the
-   * computation will wake up and return the stored value. When the computation completes, its
-   * result will be ignored.
-   *
-   * <p>This method does not alter the state of this {@code MapMaker} instance, so it can be invoked
-   * again to create multiple independent maps.
-   *
-   * @param computingFunction the function used to compute new values
-   * @return a serializable cache having the requested features
-   */
-  // TODO(kevinb): figure out the Cache interface before making this public
-  <K, V> Cache<K, V> makeCache(Function<? super K, ? extends V> computingFunction) {
-    return useNullMap ? new NullComputingConcurrentMap<K, V>(this, computingFunction)
-        : new ComputingConcurrentHashMap<K, V>(this, computingFunction);
-  }
-
-  /**
    * Builds a map that supports atomic, on-demand computation of values. {@link Map#get} either
    * returns an already-computed value for the given key, atomically computes it using the supplied
    * function, or, if another thread is currently computing the value for this key, simply waits for
@@ -607,8 +572,9 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
   @Override
   public <K, V> ConcurrentMap<K, V> makeComputingMap(
       Function<? super K, ? extends V> computingFunction) {
-    Cache<K, V> cache = makeCache(computingFunction);
-    return new ComputingMapAdapter<K, V>(cache);
+    return useNullMap
+        ? new NullComputingConcurrentMap<K, V>(this, computingFunction)
+        : new ComputingMapAdapter<K, V>(this, computingFunction);
   }
 
   /**
@@ -654,18 +620,6 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
     return s.toString();
   }
 
-  /**
-   * A function which caches the result of each application (computation). This interface does not
-   * specify the caching semantics, but does expose a {@code ConcurrentMap} view of cached entries.
-   */
-  interface Cache<K, V> extends Function<K, V> {
-
-    /**
-     * Returns a map view of the cached entries.
-     */
-    ConcurrentMap<K, V> asMap();
-  }
-
   /** A map that is always empty and evicts on insertion. */
   static class NullConcurrentMap<K, V> extends AbstractMap<K, V>
       implements ConcurrentMap<K, V>, Serializable {
@@ -676,6 +630,8 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
     NullConcurrentMap(MapMaker mapMaker) {
       evictionListener = mapMaker.getEvictionListener();
     }
+
+    // implements ConcurrentMap
 
     @Override
     public boolean containsKey(Object key) {
@@ -743,8 +699,7 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
   }
 
   /** Computes on retrieval and evicts the result. */
-  static final class NullComputingConcurrentMap<K, V> extends NullConcurrentMap<K, V>
-      implements Cache<K, V> {
+  static final class NullComputingConcurrentMap<K, V> extends NullConcurrentMap<K, V> {
     private static final long serialVersionUID = 0;
 
     final Function<? super K, ? extends V> computingFunction;
@@ -755,8 +710,10 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
       this.computingFunction = checkNotNull(computingFunction);
     }
 
+    @SuppressWarnings("unchecked") // unsafe, which is why Cache is preferred
     @Override
-    public V apply(K key) {
+    public V get(Object k) {
+      K key = (K) k;
       V value = compute(key);
       checkNotNull(value, computingFunction + " returned null for key " + key + ".");
       evictionListener.onEviction(key, value);
@@ -773,35 +730,28 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
         throw new ComputationException(t);
       }
     }
-
-    @Override
-    public ConcurrentMap<K, V> asMap() {
-      return this;
-    }
   }
 
   /**
-   * Overrides get() to compute on demand.
+   * Overrides get() to compute on demand. Also throws an exception when null is returned from a
+   * computation.
    */
-  static class ComputingMapAdapter<K, V> extends ForwardingConcurrentMap<K, V>
-      implements Serializable {
+  static class ComputingMapAdapter<K, V>
+      extends ComputingConcurrentHashMap<K, V> implements Serializable {
     private static final long serialVersionUID = 0;
 
-    final Cache<K, V> cache;
-
-    ComputingMapAdapter(Cache<K, V> cache) {
-      this.cache = cache;
-    }
-
-    @Override
-    protected ConcurrentMap<K, V> delegate() {
-      return cache.asMap();
+    ComputingMapAdapter(MapMaker mapMaker, Function<? super K, ? extends V> computingFunction) {
+      super(mapMaker, computingFunction);
     }
 
     @SuppressWarnings("unchecked") // unsafe, which is why this is deprecated
     @Override
     public V get(Object key) {
-      return cache.apply((K) key);
+      V value = compute((K) key);
+      if (value == null) {
+        throw new NullPointerException(computingFunction + " returned null for key " + key + ".");
+      }
+      return value;
     }
   }
 }
