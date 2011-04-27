@@ -16,15 +16,18 @@
 
 package com.google.common.util.concurrent;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import com.google.common.annotations.Beta;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.AbstractExecutorService;
+import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.RejectedExecutionException;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -209,18 +212,17 @@ public final class MoreExecutors {
    * in concurrent calls to {@code invokeAll/invokeAny} throwing
    * RejectedExecutionException, although a subset of the tasks may already
    * have been executed.
+   *
+   * @since Guava release 10 (<a href="http://code.google.com/p/guava-libraries/wiki/Compatibility"
+   *        >mostly source-compatible</a> since Guava release 03)
    */
-  public static ExecutorService sameThreadExecutor() {
+  public static ListeningExecutorService sameThreadExecutor() {
     return new SameThreadExecutorService();
   }
 
-  /*
-   * TODO(cpovirk): make this and other classes implement
-   * ListeningExecutorService?
-   */
   // See sameThreadExecutor javadoc for behavioral notes.
   private static class SameThreadExecutorService
-      extends AbstractExecutorService {
+      extends AbstractListeningExecutorService {
     /**
      * Lock used whenever accessing the state variables
      * (runningTasks, shutdown, terminationCondition) of the executor
@@ -339,6 +341,134 @@ public final class MoreExecutors {
       } finally {
         lock.unlock();
       }
+    }
+  }
+
+  /**
+   * Creates an {@link ExecutorService} whose {@code submit} and {@code
+   * invokeAll} methods submit {@link ListenableFutureTask} instances to the
+   * given delegate executor. Those methods, as well as {@code execute} and
+   * {@code invokeAny}, are implemented in terms of calls to {@code
+   * delegate.execute}. All other methods are forwarded unchanged to the
+   * delegate. This implies that the returned {@code ListeningExecutorService}
+   * never calls the delegate's {@code submit}, {@code invokeAll}, and {@code
+   * invokeAny} methods, so any special handling of tasks must be implemented in
+   * the delegate's {@code execute} method or by wrapping the returned {@code
+   * ListeningExecutorService}.
+   *
+   * <p>If the delegate executor was already an instance of {@code
+   * ListeningExecutorService}, it is returned untouched, and the rest of this
+   * documentation does not apply.
+   *
+   * @since Guava release 10
+   */
+  public static ListeningExecutorService listeningDecorator(
+      ExecutorService delegate) {
+    return (delegate instanceof ListeningExecutorService)
+        ? (ListeningExecutorService) delegate
+        : (delegate instanceof ScheduledExecutorService)
+        ? new ScheduledListeningDecorator((ScheduledExecutorService) delegate)
+        : new ListeningDecorator(delegate);
+  }
+
+  /**
+   * Creates a {@link ScheduledExecutorService} whose {@code submit} and {@code
+   * invokeAll} methods submit {@link ListenableFutureTask} instances to the
+   * given delegate executor. Those methods, as well as {@code execute} and
+   * {@code invokeAny}, are implemented in terms of calls to {@code
+   * delegate.execute}. All other methods are forwarded unchanged to the
+   * delegate. This implies that the returned {@code
+   * SchedulingListeningExecutorService} never calls the delegate's {@code
+   * submit}, {@code invokeAll}, and {@code invokeAny} methods, so any special
+   * handling of tasks must be implemented in the delegate's {@code execute}
+   * method or by wrapping the returned {@code
+   * SchedulingListeningExecutorService}.
+   *
+   * <p>If the delegate executor was already an instance of {@code
+   * ListeningScheduledExecutorService}, it is returned untouched, and the rest
+   * of this documentation does not apply.
+   *
+   * @since Guava release 10
+   */
+  public static ListeningScheduledExecutorService listeningDecorator(
+      ScheduledExecutorService delegate) {
+    return (delegate instanceof ListeningScheduledExecutorService)
+        ? (ListeningScheduledExecutorService) delegate
+        : new ScheduledListeningDecorator(delegate);
+  }
+
+  private static class ListeningDecorator
+      extends AbstractListeningExecutorService {
+    final ExecutorService delegate;
+
+    ListeningDecorator(ExecutorService delegate) {
+      this.delegate = checkNotNull(delegate);
+    }
+
+    @Override
+    public boolean awaitTermination(long timeout, TimeUnit unit)
+        throws InterruptedException {
+      return delegate.awaitTermination(timeout, unit);
+    }
+
+    @Override
+    public boolean isShutdown() {
+      return delegate.isShutdown();
+    }
+
+    @Override
+    public boolean isTerminated() {
+      return delegate.isTerminated();
+    }
+
+    @Override
+    public void shutdown() {
+      delegate.shutdown();
+    }
+
+    @Override
+    public List<Runnable> shutdownNow() {
+      return delegate.shutdownNow();
+    }
+
+    @Override
+    public void execute(Runnable command) {
+      delegate.execute(command);
+    }
+  }
+
+  private static class ScheduledListeningDecorator
+      extends ListeningDecorator implements ListeningScheduledExecutorService {
+    final ScheduledExecutorService delegate;
+
+    ScheduledListeningDecorator(ScheduledExecutorService delegate) {
+      super(delegate);
+      this.delegate = checkNotNull(delegate);
+    }
+
+    @Override
+    public ScheduledFuture<?> schedule(
+        Runnable command, long delay, TimeUnit unit) {
+      return delegate.schedule(command, delay, unit);
+    }
+
+    @Override
+    public <V> ScheduledFuture<V> schedule(
+        Callable<V> callable, long delay, TimeUnit unit) {
+      return delegate.schedule(callable, delay, unit);
+    }
+
+    @Override
+    public ScheduledFuture<?> scheduleAtFixedRate(
+        Runnable command, long initialDelay, long period, TimeUnit unit) {
+      return delegate.scheduleAtFixedRate(command, initialDelay, period, unit);
+    }
+
+    @Override
+    public ScheduledFuture<?> scheduleWithFixedDelay(
+        Runnable command, long initialDelay, long delay, TimeUnit unit) {
+      return delegate.scheduleWithFixedDelay(
+          command, initialDelay, delay, unit);
     }
   }
 }

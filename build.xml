@@ -38,6 +38,7 @@
 
   <target name="compile" description="Compile Java source.">
     <mkdir dir="build/classes"/>
+    <mkdir dir="overridebootclasspath"/>
 
     <property name="java5bootclasspath" value="${java5home}/jre/lib/rt.jar"/>
 
@@ -45,20 +46,21 @@
     <fail unless="isJava5HomeSetRight"
           message="JAVA5_HOME must be set to a valid JDK 1.5 installation, containing a jre/lib/rt.jar file"/>
 
-    <javac srcdir="guava/src"
-         debug="on"
+    <!-- ExecutorService's type parameters changed between JDK5 and JDK6 in a
+         way that makes it impossible for our invokeAll/invokeAny methods to
+         match both at compile time. We build a JDK6-like copy of
+         ExecutorService (but with JDK5 compiler settings to ensure that it will
+         work with JRE5 at runtime) and compile against it. -->
+    <javac5 srcdir="overridebootsourcepath"
+         destdir="overridebootclasspath"
+         bootclasspath="${java5bootclasspath}">
+    </javac5>
+
+    <javac5 srcdir="guava/src"
          destdir="build/classes"
-         encoding="UTF-8"
-         source="1.5"
-         target="1.5"
-         bootclasspath="${java5bootclasspath}"
-         extdirs="">
-      <compilerarg value="-Xlint:all"/>
-      <compilerarg value="-XDignore.symbol.file"/>
-      <classpath>
-        <pathelement location="lib/jsr305.jar"/>
-      </classpath>
-    </javac>
+         bootclasspath="overridebootclasspath:${java5bootclasspath}">
+      <pathelement location="lib/jsr305.jar"/>
+    </javac5>
   </target>
 
   <target name="jar" depends="compile" description="Build jar.">
@@ -156,20 +158,14 @@
           description="Compile GWT source."
           depends="compile">
     <mkdir dir="build/gwt-classes"/>
-    <javac srcdir="guava-gwt/src"
-           debug="on"
+    <javac5 srcdir="guava-gwt/src"
            destdir="build/gwt-classes"
-           encoding="UTF-8"
-           source="1.5"
-           target="1.5">
-      <compilerarg value="-Xlint:all"/>
-      <classpath>
-        <pathelement location="build/classes" />
-        <pathelement location="lib/jsr305.jar"/>
-        <pathelement location="${gwthome}/gwt-user.jar"/>
-        <pathelement location="${gwthome}/gwt-dev.jar"/>
-      </classpath>
-    </javac>
+           bootclasspath="overridebootclasspath:${java5bootclasspath}">
+      <pathelement location="build/classes" />
+      <pathelement location="lib/jsr305.jar"/>
+      <pathelement location="${gwthome}/gwt-user.jar"/>
+      <pathelement location="${gwthome}/gwt-dev.jar"/>
+    </javac5>
   </target>
 
   <target name="gwtjar"
@@ -280,21 +276,15 @@
           description="Compile the GWT test sources with javac."
           depends="gwtjar">
     <mkdir dir="build/gwt-test-classes"/>
-    <javac srcdir="guava-gwt/test"
-           debug="on"
+    <javac5 srcdir="guava-gwt/test"
            destdir="build/gwt-test-classes"
-           encoding="UTF-8"
-           source="1.5"
-           target="1.5">
-      <compilerarg value="-Xlint:all"/>
-      <classpath>
-        <pathelement location="build/classes" />
-        <pathelement location="build/gwt-classes" />
-        <pathelement location="lib/jsr305.jar"/>
-        <pathelement location="${gwthome}/gwt-user.jar"/>
-        <pathelement location="${gwthome}/gwt-dev.jar"/>
-      </classpath>
-    </javac>
+           bootclasspath="overridebootclasspath:${java5bootclasspath}">
+      <pathelement location="build/classes" />
+      <pathelement location="build/gwt-classes" />
+      <pathelement location="lib/jsr305.jar"/>
+      <pathelement location="${gwthome}/gwt-user.jar"/>
+      <pathelement location="${gwthome}/gwt-dev.jar"/>
+    </javac5>
   </target>
 
   <macrodef name="test.gwtc">
@@ -321,6 +311,28 @@
         <arg line="-validateOnly"/>
         <arg value="@{testmodule}"/>
       </java>
+    </sequential>
+  </macrodef>
+
+  <macrodef name="javac5">
+    <attribute name="srcdir" />
+    <attribute name="destdir" />
+    <attribute name="bootclasspath" />
+    <element name="classpath-elements" optional="true" implicit="true" />
+    <sequential>
+      <javac srcdir="@{srcdir}"
+           debug="on"
+           destdir="@{destdir}"
+           encoding="UTF-8"
+           source="1.5"
+           target="1.5"
+           bootclasspath="@{bootclasspath}">
+        <compilerarg value="-Xlint:all"/>
+        <compilerarg value="-XDignore.symbol.file"/>
+        <classpath>
+          <classpath-elements />
+        </classpath>
+      </javac>
     </sequential>
   </macrodef>
 
