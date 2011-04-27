@@ -18,19 +18,13 @@ package com.google.common.net;
 
 import com.google.gwt.core.client.EntryPoint;
 
-import java.util.Arrays;
-import java.util.List;
-
 /**
+ * An empty entry point for testing GWT compatibility.
+ *
  * @author Hayward Chan
  */
 public class TestModuleEntryPoint implements EntryPoint {
 
-  @Override
-  public void onModuleLoad() {
-    // TODO: Auto generate this list.
-    List<Class<?>> allClasses = Arrays.<Class<?>>asList(
-        InternetDomainName.class,
-        TldPatterns.class);
+  @Override public void onModuleLoad() {
   }
 }

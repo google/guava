@@ -316,6 +316,9 @@
         <jvmarg value="-Xmx256M"/>
         <arg line="-war"/>
         <arg value="war"/>
+        <arg line="-strict"/>
+        <arg line="-draftCompile"/>
+        <arg line="-validateOnly"/>
         <arg value="@{testmodule}"/>
       </java>
     </sequential>

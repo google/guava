@@ -18,34 +18,13 @@ package com.google.common.base;
 
 import com.google.gwt.core.client.EntryPoint;
 
-import java.util.Arrays;
-import java.util.List;
-
 /**
- * A dummy entry point that accesses all GWT classes in
- * {@code com.google.common.base}.
+ * An empty entry point for testing GWT compatibility.
  *
  * @author Hayward Chan
  */
-@SuppressWarnings("unchecked")
 public class TestModuleEntryPoint implements EntryPoint {
 
-  @Override
-  public void onModuleLoad() {
-    // TODO: Auto generate this list.
-    List<Class<?>> allClasses = Arrays.<Class<?>>asList(
-        CharMatcher.class,
-        Equivalence.class,
-        Equivalences.class,
-        Function.class,
-        Functions.class,
-        Joiner.class,
-        Objects.class,
-        Preconditions.class,
-        Predicate.class,
-        Predicates.class,
-        Strings.class,
-        Splitter.class,
-        Supplier.class);
+  @Override public void onModuleLoad() {
   }
 }
