@@ -840,7 +840,7 @@ public final class InetAddresses {
    * Returns an {@code int} hash of a 64-bit long.
    *
    * This comes from http://www.concentric.net/~ttwang/tech/inthash.htm
-   * 
+   *
    * This hash gives no guarantees on the cryptographic suitability nor the
    * quality of randomness produced, and the mapping may change in the future.
    *
@@ -911,6 +911,51 @@ public final class InetAddresses {
       reversed[i] = addr[addr.length - i - 1];
     }
     return InetAddress.getByAddress(reversed);
+  }
+
+  /**
+   * Returns a new InetAddress that is one more than the passed in address.
+   * This method works for both IPv4 and IPv6 addresses.
+   *
+   * @param address the InetAddress to increment
+   * @return a new InetAddress that is one more than the passed in address.
+   * @throws IllegalArgumentException if InetAddress is at the end of its
+   *         range.
+   */
+  public static InetAddress increment(InetAddress address) {
+    byte[] addr = address.getAddress();
+    int i = addr.length - 1;
+    while (i >= 0 && addr[i] == (byte) 0xff) {
+      addr[i] = 0;
+      i--;
+    }
+
+    Preconditions.checkArgument(
+        i >= 0, "Incrementing " + address + " would wrap.");
+
+    addr[i]++;
+    try {
+      return InetAddress.getByAddress(addr);
+    } catch (UnknownHostException e) {
+      throw new AssertionError(e);
+    }
+  }
+
+  /**
+   * Returns true if the InetAddress is either 255.255.255.255 for IPv4 or
+   * ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff for IPv6.
+   *
+   * @returns true if the InetAddress is either 255.255.255.255 for IPv4 or
+   *          ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff for IPv6.
+   */
+  public static boolean isMaximum(InetAddress address) {
+    byte[] addr = address.getAddress();
+    for (int i = 0; i < addr.length; i++) {
+      if (addr[i] != (byte) 0xff) {
+        return false;
+      }
+    }
+    return true;
   }
 
   /**
