@@ -17,6 +17,7 @@
 package com.google.common.net;
 
 import com.google.common.annotations.Beta;
+import com.google.common.base.Preconditions;
 
 import java.net.InetAddress;
 import java.text.ParseException;
@@ -74,25 +75,21 @@ public final class HostSpecifier {
    * @throws IllegalArgumentException if the specifier is not valid.
    */
   public static HostSpecifier fromValid(String specifier) {
-    // First, try to interpret the specifier as an IP address.  Note we build
+    // Verify that no port was specified, and strip optional brackets from
+    // IPv6 literals.
+    final HostAndPort parsedHost = HostAndPort.fromString(specifier);
+    Preconditions.checkArgument(!parsedHost.hasPort());
+    final String host = parsedHost.getHostText();
+
+    // Try to interpret the specifier as an IP address.  Note we build
     // the address rather than using the .is* methods because we want to
     // use InetAddresses.toUriString to convert the result to a string in
     // canonical form.
-
     InetAddress addr = null;
-
     try {
-      addr = InetAddresses.forString(specifier);
+      addr = InetAddresses.forString(host);
     } catch (IllegalArgumentException e) {
-      // It is not an IPv4 or bracketless IPv6 specifier
-    }
-
-    if (addr == null) {
-      try {
-        addr = InetAddresses.forUriString(specifier);
-      } catch (IllegalArgumentException e) {
-        // It is not a bracketed IPv6 specifier
-      }
+      // It is not an IPv4 or IPv6 literal
     }
 
     if (addr != null) {
@@ -102,14 +99,14 @@ public final class HostSpecifier {
     // It is not any kind of IP address; must be a domain name or invalid.
 
     // TODO(user): different lenient and strict versions of this?
-    final InternetDomainName domain = InternetDomainName.fromLenient(specifier);
+    final InternetDomainName domain = InternetDomainName.fromLenient(host);
 
     if (domain.hasPublicSuffix()) {
       return new HostSpecifier(domain.name());
     }
 
     throw new IllegalArgumentException(
-        "Domain name does not have a recognized public suffix: " + specifier);
+        "Domain name does not have a recognized public suffix: " + host);
   }
 
   /**
