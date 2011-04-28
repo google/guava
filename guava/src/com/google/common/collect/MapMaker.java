@@ -29,6 +29,7 @@ import com.google.common.base.Equivalence;
 import com.google.common.base.Function;
 import com.google.common.base.Objects;
 import com.google.common.base.Ticker;
+import com.google.common.collect.ComputingConcurrentHashMap.ComputingMapAdapter;
 import com.google.common.collect.CustomConcurrentHashMap.Strength;
 
 import java.io.Serializable;
@@ -729,29 +730,6 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
       } catch (Throwable t) {
         throw new ComputationException(t);
       }
-    }
-  }
-
-  /**
-   * Overrides get() to compute on demand. Also throws an exception when null is returned from a
-   * computation.
-   */
-  static class ComputingMapAdapter<K, V>
-      extends ComputingConcurrentHashMap<K, V> implements Serializable {
-    private static final long serialVersionUID = 0;
-
-    ComputingMapAdapter(MapMaker mapMaker, Function<? super K, ? extends V> computingFunction) {
-      super(mapMaker, computingFunction);
-    }
-
-    @SuppressWarnings("unchecked") // unsafe, which is why this is deprecated
-    @Override
-    public V get(Object key) {
-      V value = compute((K) key);
-      if (value == null) {
-        throw new NullPointerException(computingFunction + " returned null for key " + key + ".");
-      }
-      return value;
     }
   }
 }

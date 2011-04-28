@@ -25,6 +25,7 @@ import com.google.common.base.Function;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.atomic.AtomicReferenceArray;
 
@@ -62,6 +63,29 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V> {
   V compute(K key) {
     int hash = hash(key);
     return segmentFor(hash).compute(key, hash);
+  }
+
+  /**
+   * Overrides get() to compute on demand. Also throws an exception when null is returned from a
+   * computation.
+   */
+  static class ComputingMapAdapter<K, V>
+      extends ComputingConcurrentHashMap<K, V> implements Serializable {
+    private static final long serialVersionUID = 0;
+
+    ComputingMapAdapter(MapMaker mapMaker, Function<? super K, ? extends V> computingFunction) {
+      super(mapMaker, computingFunction);
+    }
+
+    @SuppressWarnings("unchecked") // unsafe, which is why this is deprecated
+    @Override
+    public V get(Object key) {
+      V value = compute((K) key);
+      if (value == null) {
+        throw new NullPointerException(computingFunction + " returned null for key " + key + ".");
+      }
+      return value;
+    }
   }
 
   @SuppressWarnings("serial") // This class is never serialized.
@@ -151,7 +175,9 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V> {
             }
           }
 
-          V value = waitForValue(e);
+          // The entry already exists. Wait for the computation.
+          checkState(!Thread.holdsLock(e), "Recursive computation");
+          V value = e.getValueReference().waitForValue();
           // don't consider expiration as we're concurrent with computation
           if (value != null) {
             recordRead(e);
@@ -163,25 +189,6 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V> {
         }
       } finally {
         postReadCleanup();
-      }
-    }
-
-    private V waitForValue(ReferenceEntry<K, V> entry) {
-      // The entry already exists. Wait for the computation.
-      boolean interrupted = false;
-      try {
-        while (true) {
-          try {
-            checkState(!Thread.holdsLock(entry), "Recursive computation");
-            return entry.getValueReference().waitForValue();
-          } catch (InterruptedException ie) {
-            interrupted = true;
-          }
-        }
-      } finally {
-        if (interrupted) {
-          Thread.currentThread().interrupt();
-        }
       }
     }
   }
@@ -264,7 +271,7 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V> {
     final ComputingConcurrentHashMap<K, V> map;
 
     @GuardedBy("ComputingValueReference.this") // writes
-    ValueReference<K, V> computedReference = unset();
+    volatile ValueReference<K, V> computedReference = unset();
 
     public ComputingValueReference(ComputingConcurrentHashMap<K, V> map) {
       this.map = map;
@@ -291,11 +298,22 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V> {
      * Waits for a computation to complete. Returns the result of the computation.
      */
     @Override
-    public V waitForValue() throws InterruptedException {
+    public V waitForValue() {
       if (computedReference == UNSET) {
-        synchronized (this) {
-          if (computedReference == UNSET) {
-            wait();
+        boolean interrupted = false;
+        try {
+          synchronized (this) {
+            while (computedReference == UNSET) {
+              try {
+                wait();
+              } catch (InterruptedException ie) {
+                interrupted = true;
+              }
+            }
+          }
+        } finally {
+          if (interrupted) {
+            Thread.currentThread().interrupt();
           }
         }
       }

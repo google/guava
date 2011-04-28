@@ -580,9 +580,11 @@ class CustomConcurrentHashMap<K, V>
 
     /**
      * Waits for a value that may still be computing. Unlike get(), this method can block (in the
-     * case of FutureValueReference) or throw an exception.
+     * case of FutureValueReference).
+     *
+     * @throws AsynchronousComputationException if the computing thread throws an exception
      */
-    V waitForValue() throws InterruptedException;
+    V waitForValue();
 
     /**
      * Clears this reference object.
