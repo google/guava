@@ -910,6 +910,11 @@ public final class Maps {
       return result;
     }
 
+    // The overrides of remove(), removeAll(), and retainAll() in EntrySet and
+    // Values are needed when the backing map views have iterators that don't
+    // support remove().
+    // TODO(jlevy): See if similar logic is needed elsewhere.
+
     class EntrySet extends AbstractSet<Entry<K, V2>> {
       @Override public int size() {
         return TransformedEntriesMap.this.size();
@@ -973,6 +978,93 @@ public final class Maps {
           return true;
         }
         return false;
+      }
+
+      @Override public boolean removeAll(Collection<?> c) {
+        try {
+          return super.removeAll(c);
+        } catch (UnsupportedOperationException e) {
+          boolean changed = true;
+          for (Object o : c) {
+            changed |= remove(o);
+          }
+          return changed;
+        }
+      }
+
+      @Override public boolean retainAll(Collection<?> c) {
+        try {
+          return super.retainAll(c);
+        } catch (UnsupportedOperationException e) {
+          Set<Object> keys = Sets.newHashSetWithExpectedSize(c.size());
+          for (Object o : c) {
+            if (contains(o)) {
+              Entry<?, ?> entry = (Entry<?, ?>) o;
+              keys.add(entry.getKey());
+            }
+          }
+          return fromMap.keySet().retainAll(keys);
+        }
+      }
+    }
+
+    Values values;
+
+    @Override public Collection<V2> values() {
+      return (values == null) ? values = new Values(super.values()) : values;
+    }
+
+    class Values extends ForwardingCollection<V2> {
+      final Collection<V2> delegate;
+
+      public Values(Collection<V2> delegate) {
+        this.delegate = delegate;
+      }
+
+      @Override protected Collection<V2> delegate() {
+        return delegate;
+      }
+
+      @Override public boolean remove(Object o) {
+        try {
+          return super.remove(o);
+        } catch (UnsupportedOperationException e) {
+          for (Entry<K, V2> entry : entrySet()) {
+            if (Objects.equal(o, entry.getValue())) {
+              fromMap.remove(entry.getKey());
+              return true;
+            }
+          }
+          return false;
+        }
+      }
+
+      @Override public boolean removeAll(Collection<?> c) {
+        try {
+          return super.removeAll(c);
+        } catch (UnsupportedOperationException e) {
+          Set<Object> keys = Sets.newHashSetWithExpectedSize(c.size());
+          for (Entry<K, V2> entry : entrySet()) {
+            if (c.contains(entry.getValue())) {
+              keys.add(entry.getKey());
+            }
+          }
+          return fromMap.keySet().removeAll(keys);
+        }
+      }
+
+      @Override public boolean retainAll(Collection<?> c) {
+        try {
+          return super.retainAll(c);
+        } catch (UnsupportedOperationException e) {
+          Set<Object> keys = Sets.newHashSetWithExpectedSize(c.size());
+          for (Entry<K, V2> entry : entrySet()) {
+            if (c.contains(entry.getValue())) {
+              keys.add(entry.getKey());
+            }
+          }
+          return fromMap.keySet().retainAll(keys);
+        }
       }
     }
   }
