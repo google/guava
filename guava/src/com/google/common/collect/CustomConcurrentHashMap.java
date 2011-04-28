@@ -37,6 +37,7 @@ import java.util.AbstractCollection;
 import java.util.AbstractMap;
 import java.util.AbstractQueue;
 import java.util.AbstractSet;
+import java.util.LinkedList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
@@ -252,10 +253,6 @@ class CustomConcurrentHashMap<K, V>
         this.segments[i] = createSegment(segmentSize, MapMaker.UNSET_INT);
       }
     }
-
-    if (cleanupExecutor != null) {
-      cleanupExecutor.execute(cleanupTask);
-    }
   }
 
   boolean evictsBySize() {
@@ -275,7 +272,7 @@ class CustomConcurrentHashMap<K, V>
   }
 
   boolean isInlineCleanup() {
-    return cleanupExecutor == null;
+    return cleanupExecutor == MapMaker.DEFAULT_CLEANUP_EXECUTOR;
   }
 
   enum Strength {
@@ -666,6 +663,7 @@ class CustomConcurrentHashMap<K, V>
    * Invalid:
    * - Expired: time expired (key/value may still be set)
    * - Collected: key/value was partially collected, but not yet cleaned up
+   * - Unset: marked as unset, awaiting cleanup or reuse
    */
   interface ReferenceEntry<K, V> {
     /**
@@ -1969,12 +1967,16 @@ class CustomConcurrentHashMap<K, V>
 
   void reclaimValue(ReferenceEntry<K, V> entry, ValueReference<K, V> valueReference) {
     int hash = entry.getHash();
-    segmentFor(hash).reclaimValue(entry.getKey(), hash, valueReference);
+    Segment<K, V> segment = segmentFor(hash);
+    segment.unsetValue(entry.getKey(), hash, valueReference);
+    if (!segment.isHeldByCurrentThread()) { // don't cleanup inside of put
+      segment.postWriteCleanup();
+    }
   }
 
   void reclaimKey(ReferenceEntry<K, V> entry) {
     int hash = entry.getHash();
-    segmentFor(hash).reclaimKey(entry, hash);
+    segmentFor(hash).unsetKey(entry, hash);
   }
 
   @VisibleForTesting
@@ -2072,19 +2074,6 @@ class CustomConcurrentHashMap<K, V>
     return new Segment[ssize];
   }
 
-  final Runnable cleanupTask = new Runnable() {
-    @Override
-    public void run() {
-      // TODO(user): should we sleep between runs? use a scheduled executor? have a dirty
-      // flag to indicate when cleanup is required? enqueue one cleanup task per queue so they
-      // can wait on the queues?
-      for (Segment<K, V> segment : segments) {
-        segment.runCleanup();
-      }
-      cleanupExecutor.execute(cleanupTask);
-    }
-  };
-
   // Inner Classes
 
   /**
@@ -2130,7 +2119,8 @@ class CustomConcurrentHashMap<K, V>
     final CustomConcurrentHashMap<K, V> map;
 
     /**
-     * The number of live elements in this segment's region.
+     * The number of live elements in this segment's region. This does not include unset elements
+     * which are awaiting cleanup.
      */
     volatile int count;
 
@@ -2157,6 +2147,14 @@ class CustomConcurrentHashMap<K, V>
      * The maximum size of this map. MapMaker.UNSET_INT if there is no maximum.
      */
     final int maxSegmentSize;
+
+    /**
+     * The cleanup queue is used to record entries which have been unset and need to be removed
+     * from the map. It is drained by the cleanup executor.
+     */
+    // TODO(user): switch to ArrayDeque if we ever require JDK 1.6
+    @GuardedBy("Segment.this")
+    final Queue<ReferenceEntry<K, V>> cleanupQueue = new LinkedList<ReferenceEntry<K, V>>();
 
     /**
      * The recency queue is used to record which entries were accessed for updating the eviction
@@ -2317,7 +2315,6 @@ class CustomConcurrentHashMap<K, V>
           expireEntries();
         } finally {
           unlock();
-          postWriteCleanup();
         }
       }
     }
@@ -2334,9 +2331,7 @@ class CustomConcurrentHashMap<K, V>
       long now = map.ticker.read();
       ReferenceEntry<K, V> e;
       while ((e = expirationQueue.peek()) != null && map.isExpired(e, now)) {
-        // we may be expiring a large number of entries, so enqueue future cleanup rather than
-        // removing them immediately
-        if (!removeEntry(e, e.getHash())) {
+        if (!unsetEntry(e, e.getHash())) {
           throw new AssertionError();
         }
       }
@@ -2356,7 +2351,7 @@ class CustomConcurrentHashMap<K, V>
         drainRecencyQueue();
 
         ReferenceEntry<K, V> e = evictionQueue.remove();
-        if (!removeEntry(e, e.getHash())) {
+        if (!unsetEntry(e, e.getHash())) {
           throw new AssertionError();
         }
         return true;
@@ -2472,21 +2467,15 @@ class CustomConcurrentHashMap<K, V>
       try {
         preWriteCleanup();
 
-        // getFirst, but remember the index
-        AtomicReferenceArray<ReferenceEntry<K, V>> table = this.table;
-        int index = hash & (table.length() - 1);
-        ReferenceEntry<K, V> first = table.get(index);
-
-        for (ReferenceEntry<K, V> e = first; e != null; e = e.getNext()) {
+        for (ReferenceEntry<K, V> e = getFirst(hash); e != null; e = e.getNext()) {
           K entryKey = e.getKey();
           if (e.getHash() == hash && entryKey != null
               && map.keyEquivalence.equivalent(key, entryKey)) {
             // If the value disappeared, this entry is partially collected,
             // and we should pretend like it doesn't exist.
-            ValueReference<K, V> valueReference = e.getValueReference();
-            V entryValue = valueReference.get();
+            V entryValue = e.getValueReference().get();
             if (entryValue == null) {
-              removeLiveEntry(table, index, first, e, hash, valueReference);
+              unsetLiveEntry(e, hash);
               return false;
             }
 
@@ -2516,21 +2505,15 @@ class CustomConcurrentHashMap<K, V>
       try {
         preWriteCleanup();
 
-        // getFirst, but remember the index
-        AtomicReferenceArray<ReferenceEntry<K, V>> table = this.table;
-        int index = hash & (table.length() - 1);
-        ReferenceEntry<K, V> first = table.get(index);
-
-        for (ReferenceEntry<K, V> e = first; e != null; e = e.getNext()) {
+        for (ReferenceEntry<K, V> e = getFirst(hash); e != null; e = e.getNext()) {
           K entryKey = e.getKey();
           if (e.getHash() == hash && entryKey != null
               && map.keyEquivalence.equivalent(key, entryKey)) {
             // If the value disappeared, this entry is partially collected,
             // and we should pretend like it doesn't exist.
-            ValueReference<K, V> valueReference = e.getValueReference();
-            V entryValue = valueReference.get();
+            V entryValue = e.getValueReference().get();
             if (entryValue == null) {
-              removeLiveEntry(table, index, first, e, hash, valueReference);
+              unsetLiveEntry(e, hash);
               return null;
             }
 
@@ -2576,28 +2559,27 @@ class CustomConcurrentHashMap<K, V>
 
             if (entryValue == null) {
               ++modCount;
-              if (valueReference.isComputingReference()) {
-                evictEntries();
-              } else {
-                // immediately reuse partially collected entry, but send notifications first
-                clearLiveEntry(e, hash, valueReference); // decrements count
-              }
+              // Value could be partially-collected, unset, or computing.
+              // In the first case, the value must be reclaimed. In the latter
+              // two cases en entry must be evicted. This entry could be both
+              // partially-collected and next on the eviction list, which is why
+              // notifyValueReclaimed must be called prior to evictEntries.
+              valueReference.notifyValueReclaimed();
+              evictEntries();
               newCount = this.count + 1;
-              setValue(e, value);
               this.count = newCount; // write-volatile
-              return entryValue;
             } else if (onlyIfAbsent) {
               // Mimic
               // "if (!map.containsKey(key)) ...
               // else return map.get(key);
               recordLockedRead(e);
               return entryValue;
-            } else {
-              // clobber existing entry, count remains unchanged
-              ++modCount;
-              setValue(e, value);
-              return entryValue;
             }
+            // else clobber, don't adjust count
+
+            ++modCount;
+            setValue(e, value);
+            return entryValue;
           }
         }
 
@@ -2674,7 +2656,7 @@ class CustomConcurrentHashMap<K, V>
             // Clone nodes leading up to the tail.
             for (ReferenceEntry<K, V> e = head; e != tail; e = e.getNext()) {
               if (isCollected(e)) {
-                clearLiveEntry(e, e.getHash(), e.getValueReference());
+                unsetLiveEntry(e, e.getHash()); // decrements count
               } else {
                 int newIndex = e.getHash() & newMask;
                 ReferenceEntry<K, V> newNext = newTable.get(newIndex);
@@ -2693,7 +2675,6 @@ class CustomConcurrentHashMap<K, V>
         preWriteCleanup();
 
         int newCount = this.count - 1;
-        // getFirst, but remember the index
         AtomicReferenceArray<ReferenceEntry<K, V>> table = this.table;
         int index = hash & (table.length() - 1);
         ReferenceEntry<K, V> first = table.get(index);
@@ -2702,13 +2683,12 @@ class CustomConcurrentHashMap<K, V>
           K entryKey = e.getKey();
           if (e.getHash() == hash && entryKey != null
               && map.keyEquivalence.equivalent(key, entryKey)) {
-            ValueReference<K, V> valueReference = e.getValueReference();
-            V entryValue = valueReference.get();
+            V entryValue = e.getValueReference().get();
             if (entryValue == null) {
-              removeLiveEntry(table, index, first, e, hash, valueReference);
+              unsetLiveEntry(e, hash);
             } else {
               ++modCount;
-              ReferenceEntry<K, V> newFirst = removeFromChain(first, e); // decrements count
+              ReferenceEntry<K, V> newFirst = removeFromChain(first, e); // could decrement count
               newCount = this.count - 1;
               table.set(index, newFirst);
               this.count = newCount; // write-volatile
@@ -2731,7 +2711,6 @@ class CustomConcurrentHashMap<K, V>
         preWriteCleanup();
 
         int newCount = this.count - 1;
-        // getFirst, but remember the index
         AtomicReferenceArray<ReferenceEntry<K, V>> table = this.table;
         int index = hash & (table.length() - 1);
         ReferenceEntry<K, V> first = table.get(index);
@@ -2740,13 +2719,12 @@ class CustomConcurrentHashMap<K, V>
           K entryKey = e.getKey();
           if (e.getHash() == hash && entryKey != null
               && map.keyEquivalence.equivalent(key, entryKey)) {
-            ValueReference<K, V> valueReference = e.getValueReference();
-            V entryValue = valueReference.get();
+            V entryValue = e.getValueReference().get();
             if (entryValue == null) {
-              removeLiveEntry(table, index, first, e, hash, valueReference);
+              unsetLiveEntry(e, hash);
             } else if (map.valueEquivalence.equivalent(value, entryValue)) {
               ++modCount;
-              ReferenceEntry<K, V> newFirst = removeFromChain(first, e); // decrements count
+              ReferenceEntry<K, V> newFirst = removeFromChain(first, e); // could decrement count
               newCount = this.count - 1;
               table.set(index, newFirst);
               this.count = newCount; // write-volatile
@@ -2763,35 +2741,9 @@ class CustomConcurrentHashMap<K, V>
       }
     }
 
-    void clear() {
-      if (count != 0) {
-        lock();
-        try {
-          AtomicReferenceArray<ReferenceEntry<K, V>> table = this.table;
-          for (int i = 0; i < table.length(); ++i) {
-            table.set(i, null);
-          }
-          evictionQueue.clear();
-          expirationQueue.clear();
-          readCount.set(0);
-
-          ++modCount;
-          count = 0; // write-volatile
-        } finally {
-          unlock();
-          postWriteCleanup();
-        }
-      }
-    }
-
-    // entry removal and cleanup
-
     /**
      * Removes an entry from within a table. All entries following the removed node can stay, but
-     * all preceding ones need to be cloned. Count is not decremented, as the entry could have
-     * already been removed from the count; however partially collected entries are cleared, which
-     * could indirectly result in count being decremented. Thus callers of this method which are
-     * removing live entries need to both re-read count and decrement it.
+     * all preceding ones need to be cloned.
      *
      * @param first the first entry of the table
      * @param entry the entry being removed from the table
@@ -2805,7 +2757,7 @@ class CustomConcurrentHashMap<K, V>
       ReferenceEntry<K, V> newFirst = entry.getNext();
       for (ReferenceEntry<K, V> e = first; e != entry; e = e.getNext()) {
         if (isCollected(e)) {
-          clearLiveEntry(e, e.getHash(), e.getValueReference());
+          unsetLiveEntry(e, e.getHash()); // decrements count
         } else {
           newFirst = map.copyEntry(e, newFirst);
         }
@@ -2813,63 +2765,54 @@ class CustomConcurrentHashMap<K, V>
       return newFirst;
     }
 
-    boolean reclaimKey(ReferenceEntry<K, V> entry, int hash) {
+    /**
+     * Half-removes an entry from the map by moving it into the unset state, sending the removal
+     * notification, and enqueueing subsequent cleanup. This should be called when an entry's key
+     * has been garbage collected, and that entry is now invalid.
+     */
+    boolean unsetKey(ReferenceEntry<K, V> entry, int hash) {
       lock();
       try {
-        return removeEntry(entry, hash);
-      } finally {
-        unlock();
-        postWriteCleanup();
-      }
-    }
-
-    boolean reclaimValue(K key, int hash, ValueReference<K, V> valueReference) {
-      lock();
-      try {
-        // getFirst, but remember the index
+        int newCount = count - 1;
         AtomicReferenceArray<ReferenceEntry<K, V>> table = this.table;
         int index = hash & (table.length() - 1);
         ReferenceEntry<K, V> first = table.get(index);
 
-        for (ReferenceEntry<K, V> e = getFirst(hash); e != null; e = e.getNext()) {
-          K entryKey = e.getKey();
-          if (e.getHash() == hash && entryKey != null
-              && map.keyEquivalence.equivalent(key, entryKey)) {
-            ValueReference<K, V> v = e.getValueReference();
-            if (v == valueReference) {
-              return removeLiveEntry(table, index, first, e, hash, v);
-            }
-            return false;
+        for (ReferenceEntry<K, V> e = first; e != null; e = e.getNext()) {
+          if (e == entry) {
+            ++modCount;
+            map.enqueueNotification(e.getKey(), hash, e.getValueReference());
+            enqueueCleanup(e);
+            count = newCount; // write-volatile
+            return true;
           }
         }
 
         return false;
       } finally {
         unlock();
-        postWriteCleanup();
       }
     }
 
     /**
-     * Clears a value that has not yet been set, and thus does not require count to be modified.
+     * Half-removes an entry from the map by moving it into the unset state, sending the removal
+     * notification, and enqueueing subsequent cleanup. This should be called when an entry's value
+     * has been garbage collected, and that entry is now invalid.
      */
-    boolean clearValue(K key, int hash, ValueReference<K, V> valueReference) {
+    boolean unsetValue(K key, int hash, ValueReference<K, V> valueReference) {
       lock();
       try {
-        // getFirst, but remember the index
-        AtomicReferenceArray<ReferenceEntry<K, V>> table = this.table;
-        int index = hash & (table.length() - 1);
-        ReferenceEntry<K, V> first = table.get(index);
-
-        for (ReferenceEntry<K, V> e = first; e != null; e = e.getNext()) {
+        int newCount = this.count - 1;
+        for (ReferenceEntry<K, V> e = getFirst(hash); e != null; e = e.getNext()) {
           K entryKey = e.getKey();
           if (e.getHash() == hash && entryKey != null
               && map.keyEquivalence.equivalent(key, entryKey)) {
             ValueReference<K, V> v = e.getValueReference();
             if (v == valueReference) {
-              ReferenceEntry<K, V> newFirst = removeFromChain(first, e);
-              table.set(index, newFirst);
-              // entry not yet added to eviction/expiration queues
+              ++modCount;
+              map.enqueueNotification(key, hash, valueReference);
+              enqueueCleanup(e);
+              this.count = newCount; // write-volatile
               return true;
             }
             return false;
@@ -2879,63 +2822,70 @@ class CustomConcurrentHashMap<K, V>
         return false;
       } finally {
         unlock();
-        postWriteCleanup();
       }
     }
 
-    /**
-     * Immediately removes an entry if it is still live.
-     */
-    @GuardedBy("Segment.this")
-    boolean removeEntry(ReferenceEntry<K, V> entry, int hash) {
-      // getFirst, but remember the index
-      AtomicReferenceArray<ReferenceEntry<K, V>> table = this.table;
-      int index = hash & (table.length() - 1);
-      ReferenceEntry<K, V> first = table.get(index);
+    boolean clearValue(K key, int hash, ValueReference<K, V> valueReference) {
+      lock();
+      try {
+        for (ReferenceEntry<K, V> e = getFirst(hash); e != null; e = e.getNext()) {
+          K entryKey = e.getKey();
+          if (e.getHash() == hash && entryKey != null
+              && map.keyEquivalence.equivalent(key, entryKey)) {
+            ValueReference<K, V> v = e.getValueReference();
+            if (v == valueReference) {
+              enqueueCleanup(e);
+              return true;
+            }
+            return false;
+          }
+        }
 
-      for (ReferenceEntry<K, V> e = first; e != null; e = e.getNext()) {
+        return false;
+      } finally {
+        unlock();
+      }
+    }
+
+    @GuardedBy("Segment.this")
+    boolean unsetEntry(ReferenceEntry<K, V> entry, int hash) {
+      for (ReferenceEntry<K, V> e = getFirst(hash); e != null; e = e.getNext()) {
         if (e == entry) {
-          ValueReference<K, V> valueReference = e.getValueReference();
-          return removeLiveEntry(table, index, first, entry, hash, valueReference);
+          return unsetLiveEntry(entry, hash);
         }
       }
 
       return false;
     }
 
-    /**
-     * Immediately removes a live entry from a table. This updates the table, thus invalidating any
-     * partial iteration over its entries by the caller.
-     */
     @GuardedBy("Segment.this")
-    boolean removeLiveEntry(AtomicReferenceArray<ReferenceEntry<K, V>> table, int index,
-        ReferenceEntry<K, V> first, ReferenceEntry<K, V> entry, int hash,
-        ValueReference<K, V> valueReference) {
+    boolean unsetLiveEntry(ReferenceEntry<K, V> entry, int hash) {
+      if (isUnset(entry)) {
+        // keep count consistent
+        return false;
+      }
+
+      int newCount = this.count - 1;
+      ++modCount;
+      ValueReference<K, V> valueReference = entry.getValueReference();
       if (valueReference.isComputingReference()) {
         return false;
       }
 
-      ReferenceEntry<K, V> newFirst = removeFromChain(first, entry);
-      table.set(index, newFirst);
-      clearLiveEntry(entry, hash, valueReference);
+      K key = entry.getKey();
+      map.enqueueNotification(key, hash, valueReference);
+      enqueueCleanup(entry);
+      this.count = newCount; // write-volatile
       return true;
     }
 
-    /**
-     * Clears an entry which is being removed by sending removal notification and removing it from
-     * all queues. This method decrements count, and thus should be called after {@code table.set}
-     * in order for the volatile write of count to force visibility of the updated table.
-     */
     @GuardedBy("Segment.this")
-    void clearLiveEntry(ReferenceEntry<K, V> entry, int hash,
-        ValueReference<K, V> valueReference) {
-      int newCount = this.count - 1;
-      ++modCount;
-      K key = entry.getKey();
-      map.enqueueNotification(key, hash, valueReference);
+    void enqueueCleanup(ReferenceEntry<K, V> entry) {
+      ValueReference<K, V> unset = unset();
+      entry.setValueReference(unset);
       evictionQueue.remove(entry);
       expirationQueue.remove(entry);
-      this.count = newCount; // write-volatile
+      cleanupQueue.offer(entry);
     }
 
     /**
@@ -2951,6 +2901,14 @@ class CustomConcurrentHashMap<K, V>
         return false;
       }
       return valueReference.get() == null;
+    }
+
+    boolean isUnset(ReferenceEntry<K, V> entry) {
+      return isUnset(entry.getValueReference());
+    }
+
+    boolean isUnset(ValueReference<K, V> valueReference) {
+      return valueReference == UNSET;
     }
 
     /**
@@ -2972,14 +2930,38 @@ class CustomConcurrentHashMap<K, V>
       return value;
     }
 
-    /**
-     * Performs routine cleanup following a read. Normally cleanup happens during writes, or from
-     * the cleanupExecutor. If cleanup is not observed after a sufficient number of reads, try
-     * cleaning up from the read thread.
-     */
+    @GuardedBy("Segment.this")
+    void processPendingCleanup() {
+      AtomicReferenceArray<ReferenceEntry<K, V>> table = this.table;
+      ReferenceEntry<K, V> entry;
+      int cleanedUp = 0;
+      while (cleanedUp < CLEANUP_MAX && (entry = cleanupQueue.poll()) != null) {
+        int index = entry.getHash() & (table.length() - 1);
+
+        ReferenceEntry<K, V> first = table.get(index);
+        for (ReferenceEntry<K, V> e = first; e != null; e = e.getNext()) {
+          if (e == entry) {
+            if (isUnset(e)) {
+              ReferenceEntry<K, V> newFirst = removeFromChain(first, e);
+              table.set(index, newFirst);
+              cleanedUp++;
+            }
+            break;
+          }
+        }
+      }
+    }
+
     void postReadCleanup() {
+      // we are not under lock, so only drain a small fraction of the time
       if ((readCount.incrementAndGet() & DRAIN_THRESHOLD) == 0) {
-        runCleanup();
+        if (map.isInlineCleanup()) {
+          // inline cleanup normally avoids taking the lock, but since no
+          // writes are happening we need to force some locked cleanup
+          runCleanup();
+        } else if (!isHeldByCurrentThread()) {
+          map.cleanupExecutor.execute(cleanupRunnable);
+        }
       }
     }
 
@@ -2991,25 +2973,60 @@ class CustomConcurrentHashMap<K, V>
      */
     @GuardedBy("Segment.this")
     void preWriteCleanup() {
-      runLockedCleanup();
+      if (map.isInlineCleanup()) {
+        // this is the only time we have the lock, so do everything we can
+        runLockedCleanup();
+      } else {
+        expireEntries();
+      }
     }
 
-    /**
-     * Performs routine cleanup following a write.
-     */
     void postWriteCleanup() {
-      runUnlockedCleanup();
+      if (map.isInlineCleanup()) {
+        // this cleanup pattern is optimized for writes, where cleanup requiring
+        // the lock is performed when the lock is acquired, and cleanup not
+        // requiring the lock is performed when the lock is released
+        if (isHeldByCurrentThread()) {
+          runLockedCleanup();
+        } else {
+          runUnlockedCleanup();
+        }
+      } else if (!isHeldByCurrentThread()) {
+        // non-default cleanup executors can ignore cleanup optimizations when
+        // the lock is held, as cleanup will always be called when the lock is
+        // released
+        map.cleanupExecutor.execute(cleanupRunnable);
+      }
     }
+
+    final Runnable cleanupRunnable = new Runnable() {
+      @Override
+      public void run() {
+        runCleanup();
+      }
+    };
 
     void runCleanup() {
       runLockedCleanup();
+      // locked cleanup may generate notifications we can send unlocked
       runUnlockedCleanup();
     }
 
+    /**
+     * Performs housekeeping tasks on this segment that don't require the segment lock.
+     */
+    void runUnlockedCleanup() {
+      map.processPendingNotifications();
+    }
+
+    /**
+     * Performs housekeeping tasks on this segment that require the segment lock.
+     */
     void runLockedCleanup() {
       if (tryLock()) {
         try {
           expireEntries(); // calls drainRecencyQueue
+          processPendingCleanup();
           readCount.set(0);
         } finally {
           unlock();
@@ -3017,10 +3034,23 @@ class CustomConcurrentHashMap<K, V>
       }
     }
 
-    void runUnlockedCleanup() {
-      // locked cleanup may generate notifications we can send unlocked
-      if (!isHeldByCurrentThread()) {
-        map.processPendingNotifications();
+    void clear() {
+      if (count != 0) {
+        lock();
+        try {
+          AtomicReferenceArray<ReferenceEntry<K, V>> table = this.table;
+          for (int i = 0; i < table.length(); ++i) {
+            table.set(i, null);
+          }
+          evictionQueue.clear();
+          expirationQueue.clear();
+          readCount.set(0);
+
+          ++modCount;
+          count = 0; // write-volatile
+        } finally {
+          unlock();
+        }
       }
     }
 
