@@ -166,7 +166,7 @@ public abstract class AbstractFuture<V> implements Future<V> {
    * use this method to deal with any actions that should be undertaken when
    * the task has completed.
    */
-  protected void done() {
+  void done() {
     // Default implementation does nothing.
   }
 

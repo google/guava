@@ -57,7 +57,7 @@ public abstract class AbstractListenableFuture<V>
    * Override the done method to execute the execution list.
    */
   @Override
-  protected void done() {
+  void done() {
     executionList.run();
   }
 }
