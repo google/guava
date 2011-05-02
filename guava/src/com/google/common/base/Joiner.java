@@ -314,6 +314,7 @@ public class Joiner {
   }
 
   CharSequence toString(Object part) {
+    checkNotNull(part);  // checkNotNull for GWT (do not optimize).
     return (part instanceof CharSequence) ? (CharSequence) part : part.toString();
   }
 

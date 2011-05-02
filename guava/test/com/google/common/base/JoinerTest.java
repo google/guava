@@ -16,9 +16,11 @@
 
 package com.google.common.base;
 
+import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Joiner.MapJoiner;
 import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.testing.util.NullPointerTester;
 
@@ -34,6 +36,7 @@ import java.util.Map;
  *
  * @author Kevin Bourrillion
  */
+@GwtCompatible(emulated = true)
 public class JoinerTest extends TestCase {
   static final Joiner J = Joiner.on("-");
 
@@ -106,7 +109,7 @@ public class JoinerTest extends TestCase {
   }
 
   private static void checkNoOutput(Joiner joiner, Iterable<Integer> set) {
-    Object[] array = Iterables.toArray(set, Integer.class);
+    Object[] array = Lists.newArrayList(set).toArray(new Integer[0]);
     assertEquals("", joiner.join(set));
     assertEquals("", joiner.join(array));
 
@@ -144,7 +147,7 @@ public class JoinerTest extends TestCase {
 
   private static void checkResult(
       Joiner joiner, Iterable<Integer> parts, String expected) {
-    Integer[] partsArray = Iterables.toArray(parts, Integer.class);
+    Integer[] partsArray = Lists.newArrayList(parts).toArray(new Integer[0]);
 
     assertEquals(expected, joiner.join(parts));
 
@@ -250,6 +253,7 @@ public class JoinerTest extends TestCase {
     }
   }
 
+  @GwtIncompatible("StringBuilder.append in GWT invokes Object.toString(), unlike the JRE version.")
   public void testDontConvertCharSequenceToString() {
     assertEquals("foo,foo", Joiner.on(",").join(
         new DontStringMeBro(), new DontStringMeBro()));
@@ -257,6 +261,7 @@ public class JoinerTest extends TestCase {
         new DontStringMeBro(), null, new DontStringMeBro()));
   }
 
+  @GwtIncompatible("NullPointerTester")
   public void testNullPointers() throws Exception {
     NullPointerTester tester = new NullPointerTester();
     tester.setDefault(StringBuilder.class, new StringBuilder());

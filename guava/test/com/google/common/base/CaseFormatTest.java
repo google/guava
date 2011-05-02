@@ -22,6 +22,8 @@ import static com.google.common.base.CaseFormat.LOWER_UNDERSCORE;
 import static com.google.common.base.CaseFormat.UPPER_CAMEL;
 import static com.google.common.base.CaseFormat.UPPER_UNDERSCORE;
 
+import com.google.common.annotations.GwtCompatible;
+
 import junit.framework.TestCase;
 
 /**
@@ -29,6 +31,7 @@ import junit.framework.TestCase;
  *
  * @author Mike Bostock
  */
+@GwtCompatible
 public class CaseFormatTest extends TestCase {
 
   public void testIdentity() {

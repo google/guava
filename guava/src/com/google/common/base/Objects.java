@@ -96,6 +96,8 @@ public final class Objects {
    *       .toString();
    *   }}</pre>
    *
+   * <p>Note that in GWT, class names are often obfuscated.
+   *
    * @param self the object to generate the string for (typically {@code this}),
    *        used only for its class name
    * @since Guava release 02
@@ -108,6 +110,8 @@ public final class Objects {
    * Creates an instance of {@link ToStringHelper} in the same manner as
    * {@link Objects#toStringHelper(Object)}, but using the name of {@code clazz}
    * instead of using an instance's {@link Object#getClass()}.
+   *
+   * <p>Note that in GWT, class names are often obfuscated.
    *
    * @param clazz the {@link Class} of the instance
    * @since Guava release 07 (source-compatible since release 02)

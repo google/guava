@@ -16,6 +16,8 @@
 
 package com.google.common.base;
 
+import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.GwtIncompatible;
 import com.google.testing.util.NullPointerTester;
 
 import junit.framework.TestCase;
@@ -26,6 +28,7 @@ import junit.framework.TestCase;
  * @author Kevin Bourrillion
  * @author Jared Levy
  */
+@GwtCompatible(emulated = true)
 public class PreconditionsTest extends TestCase {
   public void testCheckArgument_simple_success() {
     Preconditions.checkArgument(true);
@@ -336,6 +339,7 @@ public class PreconditionsTest extends TestCase {
     assertEquals("null [5, 6]", Preconditions.format(null, 5, 6));
   }
 
+  @GwtIncompatible("NullPointerTester")
   public void testNullPointers() throws Exception {
     NullPointerTester tester = new NullPointerTester();
     tester.testAllPublicStaticMethods(Preconditions.class);
