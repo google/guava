@@ -450,7 +450,8 @@ public final class PrimTyps {
     int len = boxedArray.length;
     primtyp[] array = new primtyp[len];
     for (int i = 0; i < len; i++) {
-      array[i] = (WrapperCl) boxedArray[i];
+      // checkNotNull for GWT (do not optimize)
+      array[i] = (WrapperCl) checkNotNull(boxedArray[i]);
     }
     return array;
   }

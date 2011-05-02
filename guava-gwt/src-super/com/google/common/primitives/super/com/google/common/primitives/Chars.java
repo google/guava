@@ -380,7 +380,8 @@ public final class Chars {
     int len = boxedArray.length;
     char[] array = new char[len];
     for (int i = 0; i < len; i++) {
-      array[i] = (Character) boxedArray[i];
+      // checkNotNull for GWT (do not optimize).
+      array[i] = (Character) checkNotNull(boxedArray[i]);
     }
     return array;
   }

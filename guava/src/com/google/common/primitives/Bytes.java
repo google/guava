@@ -230,7 +230,8 @@ public final class Bytes {
     int len = boxedArray.length;
     byte[] array = new byte[len];
     for (int i = 0; i < len; i++) {
-      array[i] = (Byte) boxedArray[i];
+      // checkNotNull for GWT (do not optimize)
+      array[i] = (Byte) checkNotNull(boxedArray[i]);
     }
     return array;
   }

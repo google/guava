@@ -268,6 +268,10 @@ public final class Floats {
    * {@code separator}. For example, {@code join("-", 1.0f, 2.0f, 3.0f)}
    * returns the string {@code "1.0-2.0-3.0"}.
    *
+   * <p>Note that {@link Float#toString(float)} formats {@code float}
+   * differently in GWT.  In the previous example, it returns the string {@code
+   * "1-2-3"}.
+   *
    * @param separator the text that should appear between consecutive values in
    *     the resulting string (but not at the start or end)
    * @param array an array of {@code float} values, possibly empty
@@ -346,7 +350,8 @@ public final class Floats {
     int len = boxedArray.length;
     float[] array = new float[len];
     for (int i = 0; i < len; i++) {
-      array[i] = (Float) boxedArray[i];
+      // checkNotNull for GWT (do not optimize)
+      array[i] = (Float) checkNotNull(boxedArray[i]);
     }
     return array;
   }

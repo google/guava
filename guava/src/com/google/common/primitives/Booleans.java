@@ -315,7 +315,8 @@ public final class Booleans {
     int len = boxedArray.length;
     boolean[] array = new boolean[len];
     for (int i = 0; i < len; i++) {
-      array[i] = (Boolean) boxedArray[i];
+      // checkNotNull for GWT (do not optimize).
+      array[i] = (Boolean) checkNotNull(boxedArray[i]);
     }
     return array;
   }

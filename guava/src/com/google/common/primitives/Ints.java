@@ -428,7 +428,8 @@ public final class Ints {
     int len = boxedArray.length;
     int[] array = new int[len];
     for (int i = 0; i < len; i++) {
-      array[i] = (Integer) boxedArray[i];
+      // checkNotNull for GWT (do not optimize)
+      array[i] = (Integer) checkNotNull(boxedArray[i]);
     }
     return array;
   }

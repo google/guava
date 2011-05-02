@@ -271,6 +271,10 @@ public final class Doubles {
    * by {@code separator}. For example, {@code join("-", 1.0, 2.0, 3.0)} returns
    * the string {@code "1.0-2.0-3.0"}.
    *
+   * <p>Note that {@link Double#toString(double)} formats {@code double}
+   * differently in GWT sometimes.  In the previous example, it returns the string
+   * {@code "1-2-3"}.
+   *
    * @param separator the text that should appear between consecutive values in
    *     the resulting string (but not at the start or end)
    * @param array an array of {@code double} values, possibly empty
@@ -349,7 +353,8 @@ public final class Doubles {
     int len = boxedArray.length;
     double[] array = new double[len];
     for (int i = 0; i < len; i++) {
-      array[i] = (Double) boxedArray[i];
+      // checkNotNull for GWT (do not optimize).
+      array[i] = (Double) checkNotNull(boxedArray[i]);
     }
     return array;
   }

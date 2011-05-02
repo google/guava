@@ -54,6 +54,11 @@ public final class Longs {
    * Returns a hash code for {@code value}; equal to the result of invoking
    * {@code ((Long) value).hashCode()}.
    *
+   * <p>This method always return the value specified by {@link
+   * Long#hashCode()} in java, which might be different from
+   * {@code ((Long) value).hashCode()} in GWT because {@link Long#hashCode()}
+   * in GWT does not obey the JRE contract.
+   *
    * @param value a primitive {@code long} value
    * @return a hash code for the value
    */
@@ -272,7 +277,7 @@ public final class Longs {
   public static long fromByteArray(byte[] bytes) {
     checkArgument(bytes.length >= BYTES,
         "array too small: %s < %s", bytes.length, BYTES);
-    return fromBytes(bytes[0], bytes[1], bytes[2], bytes[3], 
+    return fromBytes(bytes[0], bytes[1], bytes[2], bytes[3],
         bytes[4], bytes[5], bytes[6], bytes[7]) ;
   }
 
@@ -411,7 +416,8 @@ public final class Longs {
     int len = boxedArray.length;
     long[] array = new long[len];
     for (int i = 0; i < len; i++) {
-      array[i] = (Long) boxedArray[i];
+      // checkNotNull for GWT (do not optimize)
+      array[i] = (Long) checkNotNull(boxedArray[i]);
     }
     return array;
   }

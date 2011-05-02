@@ -429,7 +429,8 @@ public final class Shorts {
     int len = boxedArray.length;
     short[] array = new short[len];
     for (int i = 0; i < len; i++) {
-      array[i] = (Short) boxedArray[i];
+      // checkNotNull for GWT (do not optimize)
+      array[i] = (Short) checkNotNull(boxedArray[i]);
     }
     return array;
   }
