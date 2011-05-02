@@ -29,10 +29,11 @@ import java.util.Map;
  * {@link #serialize(SerializationStreamWriter, Multimap)} and to either
  * {@link #instantiate(SerializationStreamReader, ImmutableMultimap.Builder)} or
  * {@link #populate(SerializationStreamReader, Multimap)}.
- * 
+ *
  * @author Chris Povirk
  */
-final class Multimap_CustomFieldSerializerBase {
+public final class Multimap_CustomFieldSerializerBase {
+
   static ImmutableMultimap<Object, Object> instantiate(
       SerializationStreamReader reader,
       ImmutableMultimap.Builder<Object, Object> builder)
@@ -49,7 +50,7 @@ final class Multimap_CustomFieldSerializerBase {
     return builder.build();
   }
 
-  static Multimap<Object, Object> populate(
+  public static Multimap<Object, Object> populate(
       SerializationStreamReader reader, Multimap<Object, Object> multimap)
       throws SerializationException {
     int keyCount = reader.readInt();
@@ -64,7 +65,7 @@ final class Multimap_CustomFieldSerializerBase {
     return multimap;
   }
 
-  static void serialize(
+  public static void serialize(
       SerializationStreamWriter writer, Multimap<?, ?> instance)
       throws SerializationException {
     writer.writeInt(instance.asMap().size());
@@ -76,7 +77,7 @@ final class Multimap_CustomFieldSerializerBase {
         writer.writeObject(value);
       }
     }
-  } 
+  }
 
   private Multimap_CustomFieldSerializerBase() {}
 }
