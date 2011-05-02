@@ -18,46 +18,13 @@ package com.google.common.util.concurrent;
 
 import com.google.common.annotations.Beta;
 
-import java.util.concurrent.Executor;
-
 /**
- * <p>An abstract base implementation of the listener support provided by
- * {@link ListenableFuture}. This class uses an {@link ExecutionList} to
- * guarantee that all registered listeners will be executed. Listener/Executor
- * pairs are stored in the execution list and executed in the order in which
- * they were added, but because of thread scheduling issues there is no
- * guarantee that the JVM will execute them in order. In addition, listeners
- * added after the task is complete will be executed immediately, even if some
- * previously added listeners have not yet been executed.
- * 
- * <p>This class uses the {@link AbstractFuture} class to implement the
- * {@code ListenableFuture} interface and simply delegates the
- * {@link #addListener(Runnable, Executor)} and {@link #done()} methods to it.
- * 
+ * Legacy location of {@link AbstractFuture}. Prefer {@code AbstractFuture} in
+ * new code.
+ *
  * @author Sven Mawson
  * @since Guava release 01
  */
 @Beta
-public abstract class AbstractListenableFuture<V>
-    extends AbstractFuture<V> implements ListenableFuture<V> {
-
-  // The execution list to hold our executors.
-  private final ExecutionList executionList = new ExecutionList();
-
-  /*
-   * Adds a listener/executor pair to execution list to execute when this task
-   * is completed.
-   */
-  @Override
-  public void addListener(Runnable listener, Executor exec) {
-    executionList.add(listener, exec);
-  }
-
-  /*
-   * Override the done method to execute the execution list.
-   */
-  @Override
-  void done() {
-    executionList.run();
-  }
+public abstract class AbstractListenableFuture<V> extends AbstractFuture<V> {
 }

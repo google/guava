@@ -22,7 +22,7 @@ import com.google.common.annotations.Beta;
 
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Future;
+import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.concurrent.locks.AbstractQueuedSynchronizer;
@@ -30,19 +30,22 @@ import java.util.concurrent.locks.AbstractQueuedSynchronizer;
 import javax.annotation.Nullable;
 
 /**
- * <p>An abstract implementation of the {@link Future} interface.  This class
- * is an abstraction of {@link java.util.concurrent.FutureTask} to support use
- * for tasks other than {@link Runnable}s.  It uses an
- * {@link AbstractQueuedSynchronizer} to deal with concurrency issues and
- * guarantee thread safety.  It could be used as a base class to
- * {@code FutureTask}, or any other implementor of the {@code Future} interface.
+ * An abstract implementation of the {@link ListenableFuture} interface. This
+ * class is preferable to {@link java.util.concurrent.FutureTask} for two
+ * reasons: It implements {@code ListenableFuture}, and it does not implement
+ * {@code Runnable}. (If you want a {@code Runnable} implementation of {@code
+ * ListenableFuture}, create a {@link ListenableFutureTask}, or submit your
+ * tasks to a {@link ListeningExecutorService}.)
  *
- * <p>This class implements all methods in {@code Future}.  Subclasses should
- * provide a way to set the result of the computation through the protected
- * methods {@link #set(Object)}, {@link #setException(Throwable)}, or
- * {@link #cancel()}.  If subclasses want to implement cancellation they can
- * override the {@link #cancel(boolean)} method with a real implementation, the
+ * <p>This class implements all methods in {@code ListenableFuture}.
+ * Subclasses should provide a way to set the result of the computation through
+ * the protected methods {@link #set(Object)}, {@link #setException(Throwable)},
+ * or {@link #cancel()}.  If subclasses want to implement cancellation, they can
+ * override the {@link #cancel(boolean)} method with a real implementation; the
  * default implementation doesn't support cancellation.
+ *
+ * <p>{@code AbstractFuture} uses an {@link AbstractQueuedSynchronizer} to deal
+ * with concurrency issues and guarantee thread safety.
  *
  * <p>The state changing methods all return a boolean indicating success or
  * failure in changing the future's state.  Valid states are running,
@@ -50,14 +53,27 @@ import javax.annotation.Nullable;
  * cancellation it is left to the subclass to distinguish between created
  * and running tasks.
  *
+ * <p>This class uses an {@link ExecutionList} to guarantee that all registered
+ * listeners will be executed, either when the future finishes or, for listeners
+ * that are added after the future completes, immediately.
+ * {@code Runnable}-{@code Executor} pairs are stored in the execution list but
+ * are not necessarily executed in the order in which they were added.  (If a
+ * listener is added after the Future is complete, it will be executed
+ * immediately, even if earlier listeners have not been executed. Additionally,
+ * executors need not guarantee FIFO execution, or different listeners may run
+ * in different executors.)
+ *
  * @author Sven Mawson
  * @since Guava release 01
  */
 @Beta
-public abstract class AbstractFuture<V> implements Future<V> {
+public abstract class AbstractFuture<V> implements ListenableFuture<V> {
 
   /** Synchronization control for AbstractFutures. */
   private final Sync<V> sync = new Sync<V>();
+
+  // The execution list to hold our executors.
+  private final ExecutionList executionList = new ExecutionList();
 
   /*
    * Blocks until either the task completes or the timeout expires.  Uses the
@@ -101,6 +117,15 @@ public abstract class AbstractFuture<V> implements Future<V> {
   @Override
   public boolean cancel(boolean mayInterruptIfRunning) {
     return false;
+  }
+
+  /*
+   * Adds a listener/executor pair to execution list to execute when this task
+   * is completed.
+   */
+  @Override
+  public void addListener(Runnable listener, Executor exec) {
+    executionList.add(listener, exec);
   }
 
   /**
@@ -162,12 +187,10 @@ public abstract class AbstractFuture<V> implements Future<V> {
 
   /*
    * Called by the success, failed, or cancelled methods to indicate that the
-   * value is now available and the latch can be released.  Subclasses can
-   * use this method to deal with any actions that should be undertaken when
-   * the task has completed.
+   * value is now available and the latch can be released.
    */
-  void done() {
-    // Default implementation does nothing.
+  private void done() {
+    executionList.run();
   }
 
   /**
