@@ -107,13 +107,6 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
   private static final int DEFAULT_CONCURRENCY_LEVEL = 4;
   private static final int DEFAULT_EXPIRATION_NANOS = 0;
 
-  static final Executor DEFAULT_CLEANUP_EXECUTOR = new Executor() {
-    @Override
-    public void execute(Runnable r) {
-      r.run();
-    }
-  };
-
   static final Ticker DEFAULT_TICKER = new Ticker() {
     @Override
     public long read() {
@@ -447,7 +440,7 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
   }
 
   Executor getCleanupExecutor() {
-    return firstNonNull(cleanupExecutor, DEFAULT_CLEANUP_EXECUTOR);
+    return cleanupExecutor;
   }
 
   Ticker getTicker() {
