@@ -314,4 +314,211 @@ public final class Tables {
       }
     }
   }
+
+  /**
+   * Returns a view of a table where each value is transformed by a function.
+   * All other properties of the table, such as iteration order, are left
+   * intact.
+   *
+   * <p>Changes in the underlying table are reflected in this view. Conversely,
+   * this view supports removal operations, and these are reflected in the
+   * underlying table.
+   *
+   * <p>It's acceptable for the underlying table to contain null keys, and even
+   * null values provided that the function is capable of accepting null input.
+   * The transformed table might contain null values, if the function sometimes
+   * gives a null result.
+   *
+   * <p>The returned table is not thread-safe or serializable, even if the
+   * underlying table is.
+   *
+   * <p>The function is applied lazily, invoked when needed. This is necessary
+   * for the returned table to be a view, but it means that the function will be
+   * applied many times for bulk operations like {@link Table#containsValue} and
+   * {@code Table.toString()}. For this to perform well, {@code function} should
+   * be fast. To avoid lazy evaluation when the returned table doesn't need to
+   * be a view, copy the returned table into a new table of your choosing.
+   *
+   * @since Guava release 10
+   */
+  public static <R, C, V1, V2> Table<R, C, V2> transformValues(
+      Table<R, C, V1> fromTable, Function<? super V1, V2> function) {
+    return new TransformedTable<R, C, V1, V2>(fromTable, function);
+  }
+
+  private static class TransformedTable<R, C, V1, V2> implements Table<R, C, V2> {
+    final Table<R, C, V1> fromTable;
+    final Function<? super V1, V2> function;
+
+    TransformedTable(Table<R, C, V1> fromTable, Function<? super V1, V2> function) {
+      this.fromTable = checkNotNull(fromTable);
+      this.function = checkNotNull(function);
+    }
+
+    @Override public boolean contains(Object rowKey, Object columnKey) {
+      return fromTable.contains(rowKey, columnKey);
+    }
+
+    @Override public boolean containsRow(Object rowKey) {
+      return fromTable.containsRow(rowKey);
+    }
+
+    @Override public boolean containsColumn(Object columnKey) {
+      return fromTable.containsColumn(columnKey);
+    }
+
+    @Override public boolean containsValue(Object value) {
+      return values().contains(value);
+    }
+
+    @Override public V2 get(Object rowKey, Object columnKey) {
+      // The function is passed a null input only when the table contains a null
+      // value.
+      return contains(rowKey, columnKey)
+          ? function.apply(fromTable.get(rowKey, columnKey)) : null;
+    }
+
+    @Override public boolean isEmpty() {
+      return fromTable.isEmpty();
+    }
+
+    @Override public int size() {
+      return fromTable.size();
+    }
+
+    @Override public void clear() {
+      fromTable.clear();
+    }
+
+    @Override public V2 put(R rowKey, C columnKey, V2 value) {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override public void putAll(Table<? extends R, ? extends C, ? extends V2> table) {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override public V2 remove(Object rowKey, Object columnKey) {
+      return contains(rowKey, columnKey)
+          ? function.apply(fromTable.remove(rowKey, columnKey)) : null;
+   }
+
+    @Override public Map<C, V2> row(R rowKey) {
+      return Maps.transformValues(fromTable.row(rowKey), function);
+    }
+
+    @Override public Map<R, V2> column(C columnKey) {
+      return Maps.transformValues(fromTable.column(columnKey), function);
+    }
+
+    Function<Cell<R, C, V1>, Cell<R, C, V2>> cellFunction() {
+      return new Function<Cell<R, C, V1>, Cell<R, C, V2>>() {
+        @Override public Cell<R, C, V2> apply(Cell<R, C, V1> cell) {
+          return immutableCell(
+              cell.getRowKey(), cell.getColumnKey(), function.apply(cell.getValue()));
+        }
+      };
+    }
+
+    class CellSet extends TransformedCollection<Cell<R, C, V1>, Cell<R, C, V2>>
+        implements Set<Cell<R, C, V2>> {
+      CellSet() {
+        super(fromTable.cellSet(), cellFunction());
+      }
+      @Override public boolean equals(Object obj) {
+        return Sets.equalsImpl(this, obj);
+      }
+      @Override public int hashCode() {
+        return Sets.hashCodeImpl(this);
+      }
+      @Override public boolean contains(Object obj) {
+         if (obj instanceof Cell) {
+           Cell<?, ?, ?> cell = (Cell<?, ?, ?>) obj;
+           return Objects.equal(cell.getValue(), get(cell.getRowKey(), cell.getColumnKey()))
+               && (cell.getValue() != null
+                   || fromTable.contains(cell.getRowKey(), cell.getColumnKey()));
+         }
+         return false;
+      }
+      @Override public boolean remove(Object obj) {
+        if (contains(obj)) {
+          Cell<?, ?, ?> cell = (Cell<?, ?, ?>) obj;
+          fromTable.remove(cell.getRowKey(), cell.getColumnKey());
+          return true;
+        }
+        return false;
+      }
+    }
+
+    CellSet cellSet;
+
+    @Override public Set<Cell<R, C, V2>> cellSet() {
+      return (cellSet == null) ? cellSet = new CellSet() : cellSet;
+    }
+
+    @Override public Set<R> rowKeySet() {
+      return fromTable.rowKeySet();
+    }
+
+    @Override public Set<C> columnKeySet() {
+      return fromTable.columnKeySet();
+    }
+
+    Collection<V2> values;
+
+    @Override public Collection<V2> values() {
+      return (values == null)
+          ? values = Collections2.transform(fromTable.values(), function)
+          : values;
+    }
+
+    Map<R, Map<C, V2>> createRowMap() {
+      Function<Map<C, V1>, Map<C, V2>> rowFunction = new Function<Map<C, V1>, Map<C, V2>>() {
+        @Override public Map<C, V2> apply(Map<C, V1> row) {
+          return Maps.transformValues(row, function);
+        }
+      };
+      return Maps.transformValues(fromTable.rowMap(), rowFunction);
+    }
+
+    Map<R, Map<C, V2>> rowMap;
+
+    @Override public Map<R, Map<C, V2>> rowMap() {
+      return (rowMap == null) ? rowMap = createRowMap() : rowMap;
+    }
+
+    Map<C, Map<R, V2>> createColumnMap() {
+      Function<Map<R, V1>, Map<R, V2>> columnFunction = new Function<Map<R, V1>, Map<R, V2>>() {
+        @Override public Map<R, V2> apply(Map<R, V1> column) {
+          return Maps.transformValues(column, function);
+        }
+      };
+      return Maps.transformValues(fromTable.columnMap(), columnFunction);
+    }
+
+    Map<C, Map<R, V2>> columnMap;
+
+    @Override public Map<C, Map<R, V2>> columnMap() {
+      return (columnMap == null) ? columnMap = createColumnMap() : columnMap;
+    }
+
+    @Override public boolean equals(@Nullable Object obj) {
+      if (obj == this) {
+        return true;
+      }
+      if (obj instanceof Table) {
+        Table<?, ?, ?> other = (Table<?, ?, ?>) obj;
+        return cellSet().equals(other.cellSet());
+      }
+      return false;
+    }
+
+    @Override public int hashCode() {
+      return cellSet().hashCode();
+    }
+
+    @Override public String toString() {
+      return rowMap().toString();
+    }
+  }
 }
