@@ -285,11 +285,17 @@ abstract class AbstractBiMap<K, V> extends ForwardingMap<K, V>
     }
 
     @Override public boolean remove(Object object) {
-      if (!esDelegate.remove(object)) {
+      if (!esDelegate.contains(object)) {
         return false;
       }
-      Entry<?, ?> entry = (Entry<?, ?>) object;
+
+      Entry<?, ?> entry = (Entry<?, ?>) object;  // safe because esDelgate.contains(object).
       inverse.delegate.remove(entry.getValue());
+      /*
+       * Remove the mapping in inverse before removing from esDelegate because if entry is part
+       * of esDelegate, entry might be invalidated after the mapping is removed from esDelegate.
+       */
+      esDelegate.remove(entry);
       return true;
     }
 
