@@ -871,6 +871,10 @@ public final class Maps {
       fromMap.clear();
     }
 
+    @Override public Set<K> keySet() {
+      return fromMap.keySet();
+    }
+
     EntrySet entrySet;
 
     @Override public Set<Entry<K, V2>> entrySet() {
