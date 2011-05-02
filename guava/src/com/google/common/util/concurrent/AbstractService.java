@@ -248,7 +248,7 @@ public abstract class AbstractService implements Service {
   /**
    * A change from one service state to another, plus the result of the change.
    */
-  private class Transition extends AbstractListenableFuture<State> {
+  private class Transition extends AbstractFuture<State> {
     @Override
     public State get(long timeout, TimeUnit unit)
         throws InterruptedException, TimeoutException, ExecutionException {

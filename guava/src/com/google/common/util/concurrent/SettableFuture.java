@@ -28,7 +28,7 @@ import javax.annotation.Nullable;
  * @since Guava release 09 (in release 01 as {@code ValueFuture})
  */
 @Beta
-public final class SettableFuture<V> extends AbstractListenableFuture<V> {
+public final class SettableFuture<V> extends AbstractFuture<V> {
 
   /**
    * Creates a new {@code SettableFuture} in the default state.

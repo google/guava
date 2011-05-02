@@ -129,9 +129,9 @@ public final class Futures {
    * <b>No longer accessible outside the package.</b> Prefer to create {@code
    * ListenableFuture} instances with {@link SettableFuture}, {@link
    * MoreExecutors#listeningDecorator(java.util.concurrent.ExecutorService)},
-   * {@link ListenableFutureTask}, {@link AbstractListenableFuture}, and other
-   * utilities over creating plain {@code Future} instances to be upgraded to
-   * {@code ListenableFuture} after the fact.
+   * {@link ListenableFutureTask}, {@link AbstractFuture}, and other utilities
+   * over creating plain {@code Future} instances to be upgraded to {@code
+   * ListenableFuture} after the fact.
    *
    * <p>Creates a {@link ListenableFuture} out of a normal {@link Future}. The
    * returned future will create a thread to wait for the source future to
@@ -577,7 +577,7 @@ public final class Futures {
    * access to the cause.
    */
   private static class ChainingListenableFuture<I, O>
-      extends AbstractListenableFuture<O> implements Runnable {
+      extends AbstractFuture<O> implements Runnable {
 
     private Function<? super I, ? extends ListenableFuture<? extends O>>
         function;
@@ -867,7 +867,7 @@ public final class Futures {
    * each component future to fill out the value in the List when that future
    * completes.
    */
-  private static class ListFuture<T> extends AbstractListenableFuture<List<T>> {
+  private static class ListFuture<T> extends AbstractFuture<List<T>> {
     ImmutableList<? extends ListenableFuture<? extends T>> futures;
     final boolean allMustSucceed;
     final AtomicInteger remaining;

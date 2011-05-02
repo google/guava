@@ -19,12 +19,13 @@ package com.google.common.util.concurrent;
 import com.google.common.annotations.Beta;
 
 /**
- * Legacy location of {@link AbstractFuture}. Prefer {@code AbstractFuture} in
- * new code.
+ * Legacy location of {@link AbstractFuture}.
  *
  * @author Sven Mawson
  * @since Guava release 01
+ * @deprecated Use {@link AbstractFuture}.
  */
 @Beta
+@Deprecated
 public abstract class AbstractListenableFuture<V> extends AbstractFuture<V> {
 }
