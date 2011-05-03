@@ -163,6 +163,12 @@ public abstract class ImmutableSortedSet<E>
   }
 
   public static <E> ImmutableSortedSet<E> copyOf(
+      Comparator<? super E> comparator, Collection<? extends E> elements) {
+    checkNotNull(comparator);
+    return copyOfInternal(comparator, elements, false);
+  }
+
+  public static <E> ImmutableSortedSet<E> copyOf(
       Comparator<? super E> comparator, Iterator<? extends E> elements) {
     checkNotNull(comparator);
     return copyOfInternal(comparator, elements);
