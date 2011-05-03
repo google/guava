@@ -403,7 +403,7 @@ public final class Booleans {
     @Override public Boolean set(int index, Boolean element) {
       checkElementIndex(index, size());
       boolean oldValue = array[start + index];
-      array[start + index] = element;
+      array[start + index] = checkNotNull(element);  // checkNotNull for GWT (do not optimize).
       return oldValue;
     }
 

@@ -465,7 +465,7 @@ public final class Shorts {
     @Override public Short set(int index, Short element) {
       checkElementIndex(index, size());
       short oldValue = array[start + index];
-      array[start + index] = element;
+      array[start + index] = checkNotNull(element);  // checkNotNull for GWT (do not optimize).
       return oldValue;
     }
 

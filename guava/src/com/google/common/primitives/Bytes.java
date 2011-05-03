@@ -318,7 +318,7 @@ public final class Bytes {
     @Override public Byte set(int index, Byte element) {
       checkElementIndex(index, size());
       byte oldValue = array[start + index];
-      array[start + index] = element;
+      array[start + index] = checkNotNull(element);  // checkNotNull for GWT (do not optimize).
       return oldValue;
     }
 

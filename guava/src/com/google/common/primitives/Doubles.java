@@ -444,7 +444,7 @@ public final class Doubles {
     @Override public Double set(int index, Double element) {
       checkElementIndex(index, size());
       double oldValue = array[start + index];
-      array[start + index] = element;
+      array[start + index] = checkNotNull(element);  // checkNotNull for GWT (do not optimize).
       return oldValue;
     }
 

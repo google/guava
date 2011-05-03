@@ -468,7 +468,7 @@ public final class Chars {
     @Override public Character set(int index, Character element) {
       checkElementIndex(index, size());
       char oldValue = array[start + index];
-      array[start + index] = element;
+      array[start + index] = checkNotNull(element);  // checkNotNull for GWT (do not optimize).
       return oldValue;
     }
 

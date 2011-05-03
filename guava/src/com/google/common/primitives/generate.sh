@@ -538,7 +538,7 @@ public final class PrimTyps {
     @Override public WrapperCl set(int index, WrapperCl element) {
       checkElementIndex(index, size());
       primtyp oldValue = array[start + index];
-      array[start + index] = element;
+      array[start + index] = checkNotNull(element);  // checkNotNull for GWT (do not optimize).
       return oldValue;
     }
 
