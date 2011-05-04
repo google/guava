@@ -26,7 +26,9 @@ import com.google.common.base.FinalizableReferenceQueue;
 import com.google.common.base.FinalizableSoftReference;
 import com.google.common.base.FinalizableWeakReference;
 import com.google.common.base.Ticker;
-import com.google.common.collect.MapMaker.NullListener;
+import com.google.common.collect.GenericMapMaker.NullListener;
+import com.google.common.collect.MapMaker.RemovalListener;
+import com.google.common.collect.MapMaker.RemovalListener.RemovalCause;
 import com.google.common.primitives.Ints;
 
 import java.io.IOException;
@@ -165,14 +167,15 @@ class CustomConcurrentHashMap<K, V>
   /** How long after the last write to an entry the map will retain that entry. */
   final long expireAfterWriteNanos;
 
-  /** Entries waiting to be consumed by the eviction listener. */
-  final Queue<ReferenceEntry<K, V>> evictionNotificationQueue;
+  /** Entries waiting to be consumed by the removal listener. */
+  // TODO(user): define a new type which creates event objects and automates the clear logic
+  final Queue<RemovalNotification<K, V>> removalNotificationQueue;
 
   /**
    * A listener that is invoked when an entry is removed due to expiration or garbage collection of
    * soft/weak entries.
    */
-  final MapEvictionListener<? super K, ? super V> evictionListener;
+  final RemovalListener<? super K, ? super V> removalListener;
 
   /** Factory used to create new entries. */
   final transient EntryFactory entryFactory;
@@ -203,10 +206,10 @@ class CustomConcurrentHashMap<K, V>
     cleanupExecutor = builder.getCleanupExecutor();
     ticker = builder.getTicker();
 
-    evictionListener = builder.getEvictionListener();
-    evictionNotificationQueue = (evictionListener == NullListener.INSTANCE)
-        ? CustomConcurrentHashMap.<ReferenceEntry<K, V>>discardingQueue()
-        : new ConcurrentLinkedQueue<ReferenceEntry<K, V>>();
+    removalListener = builder.getRemovalListener();
+    removalNotificationQueue = (removalListener == NullListener.INSTANCE)
+        ? CustomConcurrentHashMap.<RemovalNotification<K, V>>discardingQueue()
+        : new ConcurrentLinkedQueue<RemovalNotification<K, V>>();
 
     int initialCapacity = Math.min(builder.getInitialCapacity(), MAXIMUM_CAPACITY);
     if (evictsBySize()) {
@@ -672,6 +675,30 @@ class CustomConcurrentHashMap<K, V>
     static final FinalizableReferenceQueue queue = new FinalizableReferenceQueue();
   }
 
+  @VisibleForTesting
+  static class RemovalNotification<K, V> {
+    @Nullable
+    @VisibleForTesting
+    final K key;
+
+    @Nullable
+    @VisibleForTesting
+    final V value;
+
+    @VisibleForTesting
+    final RemovalCause cause;
+
+    public RemovalNotification(K key, V value, RemovalCause cause) {
+      this.key = key;
+      this.value = value;
+      this.cause = cause;
+    }
+
+    public void notify(RemovalListener<? super K, ? super V> listener) {
+      listener.onRemoval(key, value, cause);
+    }
+  }
+
   /**
    * An entry in a reference map.
    *
@@ -952,20 +979,19 @@ class CustomConcurrentHashMap<K, V>
     return (ReferenceEntry<K, V>) NullEntry.INSTANCE;
   }
 
-  static final Queue<? extends ReferenceEntry<?, ?>> DISCARDING_QUEUE =
-      new AbstractQueue<ReferenceEntry<?, ?>>() {
+  static final Queue<? extends Object> DISCARDING_QUEUE = new AbstractQueue<Object>() {
     @Override
-    public boolean offer(ReferenceEntry<?, ?> o) {
+    public boolean offer(Object o) {
       return true;
     }
 
     @Override
-    public ReferenceEntry<?, ?> peek() {
+    public Object peek() {
       return null;
     }
 
     @Override
-    public ReferenceEntry<?, ?> poll() {
+    public Object poll() {
       return null;
     }
 
@@ -975,7 +1001,7 @@ class CustomConcurrentHashMap<K, V>
     }
 
     @Override
-    public Iterator<ReferenceEntry<?, ?>> iterator() {
+    public Iterator<Object> iterator() {
       return Iterators.emptyIterator();
     }
   };
@@ -985,7 +1011,7 @@ class CustomConcurrentHashMap<K, V>
    */
   @SuppressWarnings("unchecked") // impl never uses a parameter or returns any non-null value
   static <E> Queue<E> discardingQueue() {
-    return (Queue<E>) DISCARDING_QUEUE;
+    return (Queue) DISCARDING_QUEUE;
   }
 
   /*
@@ -2048,15 +2074,16 @@ class CustomConcurrentHashMap<K, V>
 
   // eviction
 
-  void enqueueNotification(K key, int hash, ValueReference<K, V> valueReference) {
-    if (evictionNotificationQueue == DISCARDING_QUEUE) {
+  void enqueueNotification(K key, int hash, ValueReference<K, V> valueReference,
+      RemovalCause cause) {
+    if (removalNotificationQueue == DISCARDING_QUEUE) {
       return;
     }
 
-    ReferenceEntry<K, V> notifyEntry = newEntry(key, hash, null);
-    notifyEntry.setValueReference(valueReference.copyFor(notifyEntry));
+    RemovalNotification<K, V> notification =
+        new RemovalNotification<K, V>(key, valueReference.get(), cause);
     // TODO(user): recordEviction
-    evictionNotificationQueue.offer(notifyEntry);
+    removalNotificationQueue.offer(notification);
   }
 
   /**
@@ -2066,9 +2093,9 @@ class CustomConcurrentHashMap<K, V>
    * (e.g. not from garbage collection callbacks).
    */
   void processPendingNotifications() {
-    ReferenceEntry<K, V> entry;
-    while ((entry = evictionNotificationQueue.poll()) != null) {
-      evictionListener.onEviction(entry.getKey(), entry.getValueReference().get());
+    RemovalNotification<K, V> notification;
+    while ((notification = removalNotificationQueue.poll()) != null) {
+      notification.notify(removalListener);
     }
   }
 
@@ -2349,7 +2376,7 @@ class CustomConcurrentHashMap<K, V>
       long now = map.ticker.read();
       ReferenceEntry<K, V> e;
       while ((e = expirationQueue.peek()) != null && map.isExpired(e, now)) {
-        if (!removeEntry(e, e.getHash())) {
+        if (!removeEntry(e, e.getHash(), RemovalCause.EXPIRED)) {
           throw new AssertionError();
         }
       }
@@ -2369,7 +2396,7 @@ class CustomConcurrentHashMap<K, V>
         drainRecencyQueue();
 
         ReferenceEntry<K, V> e = evictionQueue.remove();
-        if (!removeEntry(e, e.getHash())) {
+        if (!removeEntry(e, e.getHash(), RemovalCause.SIZE)) {
           throw new AssertionError();
         }
         return true;
@@ -2527,6 +2554,7 @@ class CustomConcurrentHashMap<K, V>
             } else {
               // clobber existing entry, count remains unchanged
               ++modCount;
+              map.enqueueNotification(key, hash, valueReference, RemovalCause.REPLACED);
               setValue(e, value);
               return entryValue;
             }
@@ -2606,7 +2634,7 @@ class CustomConcurrentHashMap<K, V>
             // Clone nodes leading up to the tail.
             for (ReferenceEntry<K, V> e = head; e != tail; e = e.getNext()) {
               if (isCollected(e)) {
-                removeLiveEntry(e, e.getHash()); // decrements count
+                removeLiveEntry(e, e.getHash(), RemovalCause.COLLECTED);
               } else {
                 int newIndex = e.getHash() & newMask;
                 ReferenceEntry<K, V> newNext = newTable.get(newIndex);
@@ -2634,7 +2662,7 @@ class CustomConcurrentHashMap<K, V>
             // and we should pretend like it doesn't exist.
             V entryValue = e.getValueReference().get();
             if (entryValue == null) {
-              removeLiveEntry(e, hash);
+              removeLiveEntry(e, hash, RemovalCause.COLLECTED);
               return false;
             }
 
@@ -2672,7 +2700,7 @@ class CustomConcurrentHashMap<K, V>
             // and we should pretend like it doesn't exist.
             V entryValue = e.getValueReference().get();
             if (entryValue == null) {
-              removeLiveEntry(e, hash);
+              removeLiveEntry(e, hash, RemovalCause.COLLECTED);
               return null;
             }
 
@@ -2705,15 +2733,18 @@ class CustomConcurrentHashMap<K, V>
               && map.keyEquivalence.equivalent(key, entryKey)) {
             V entryValue = e.getValueReference().get();
             if (entryValue == null) {
-              removeLiveEntry(e, hash);
+              removeLiveEntry(e, hash, RemovalCause.COLLECTED);
             } else {
               ++modCount;
               ReferenceEntry<K, V> newFirst = removeFromChain(first, e); // could decrement count
               newCount = this.count - 1;
               table.set(index, newFirst);
               this.count = newCount; // write-volatile
+              ValueReference<K, V> valueReference = e.getValueReference();
+              map.enqueueNotification(entryKey, hash, valueReference, RemovalCause.EXPLICIT);
+              return entryValue;
             }
-            return entryValue;
+            return null;
           }
         }
 
@@ -2741,13 +2772,15 @@ class CustomConcurrentHashMap<K, V>
               && map.keyEquivalence.equivalent(key, entryKey)) {
             V entryValue = e.getValueReference().get();
             if (entryValue == null) {
-              removeLiveEntry(e, hash);
+              removeLiveEntry(e, hash, RemovalCause.COLLECTED);
             } else if (map.valueEquivalence.equivalent(value, entryValue)) {
               ++modCount;
               ReferenceEntry<K, V> newFirst = removeFromChain(first, e); // could decrement count
               newCount = this.count - 1;
               table.set(index, newFirst);
               this.count = newCount; // write-volatile
+              ValueReference<K, V> valueReference = e.getValueReference();
+              map.enqueueNotification(entryKey, hash, valueReference, RemovalCause.EXPLICIT);
               return true;
             }
             return false;
@@ -2766,6 +2799,14 @@ class CustomConcurrentHashMap<K, V>
         lock();
         try {
           AtomicReferenceArray<ReferenceEntry<K, V>> table = this.table;
+          if (map.removalNotificationQueue != DISCARDING_QUEUE) {
+            for (int i = 0; i < table.length(); ++i) {
+              for (ReferenceEntry<K, V> e = table.get(i); e != null; e = e.getNext()) {
+                map.enqueueNotification(
+                    e.getKey(), e.getHash(), e.getValueReference(), RemovalCause.EXPLICIT);
+              }
+            }
+          }
           for (int i = 0; i < table.length(); ++i) {
             table.set(i, null);
           }
@@ -2798,7 +2839,7 @@ class CustomConcurrentHashMap<K, V>
       ReferenceEntry<K, V> newFirst = entry.getNext();
       for (ReferenceEntry<K, V> e = first; e != entry; e = e.getNext()) {
         if (isCollected(e)) {
-          removeLiveEntry(e, e.getHash()); // decrements count
+          removeLiveEntry(e, e.getHash(), RemovalCause.COLLECTED);
         } else {
           newFirst = map.copyEntry(e, newFirst);
         }
@@ -2822,7 +2863,8 @@ class CustomConcurrentHashMap<K, V>
         for (ReferenceEntry<K, V> e = first; e != null; e = e.getNext()) {
           if (e == entry) {
             ++modCount;
-            map.enqueueNotification(e.getKey(), hash, e.getValueReference());
+            map.enqueueNotification(e.getKey(), hash, e.getValueReference(),
+                RemovalCause.COLLECTED);
             enqueueCleanup(e);
             count = newCount; // write-volatile
             return true;
@@ -2852,7 +2894,7 @@ class CustomConcurrentHashMap<K, V>
             ValueReference<K, V> v = e.getValueReference();
             if (v == valueReference) {
               ++modCount;
-              map.enqueueNotification(key, hash, valueReference);
+              map.enqueueNotification(key, hash, valueReference, RemovalCause.COLLECTED);
               enqueueCleanup(e);
               this.count = newCount; // write-volatile
               return true;
@@ -2894,10 +2936,10 @@ class CustomConcurrentHashMap<K, V>
     }
 
     @GuardedBy("Segment.this")
-    boolean removeEntry(ReferenceEntry<K, V> entry, int hash) {
+    boolean removeEntry(ReferenceEntry<K, V> entry, int hash, RemovalCause cause) {
       for (ReferenceEntry<K, V> e = getFirst(hash); e != null; e = e.getNext()) {
         if (e == entry) {
-          return removeLiveEntry(entry, hash);
+          return removeLiveEntry(entry, hash, cause);
         }
       }
 
@@ -2905,7 +2947,7 @@ class CustomConcurrentHashMap<K, V>
     }
 
     @GuardedBy("Segment.this")
-    boolean removeLiveEntry(ReferenceEntry<K, V> entry, int hash) {
+    boolean removeLiveEntry(ReferenceEntry<K, V> entry, int hash, RemovalCause cause) {
       if (isUnset(entry)) {
         // keep count consistent
         return false;
@@ -2919,7 +2961,7 @@ class CustomConcurrentHashMap<K, V>
       }
 
       K key = entry.getKey();
-      map.enqueueNotification(key, hash, valueReference);
+      map.enqueueNotification(key, hash, valueReference, cause);
       enqueueCleanup(entry);
       this.count = newCount; // write-volatile
       return true;
@@ -3808,12 +3850,12 @@ class CustomConcurrentHashMap<K, V>
 
   // Serialization Support
 
-  private static final long serialVersionUID = 4;
+  private static final long serialVersionUID = 5;
 
   Object writeReplace() {
     return new SerializationProxy<K, V>(keyStrength, valueStrength, keyEquivalence,
         valueEquivalence, expireAfterWriteNanos, expireAfterAccessNanos, maximumSize,
-        concurrencyLevel, evictionListener, this);
+        concurrencyLevel, removalListener, this);
   }
 
   /**
@@ -3822,7 +3864,7 @@ class CustomConcurrentHashMap<K, V>
    */
   abstract static class AbstractSerializationProxy<K, V>
       extends ForwardingConcurrentMap<K, V> implements Serializable {
-    private static final long serialVersionUID = 2;
+    private static final long serialVersionUID = 3;
 
     final Strength keyStrength;
     final Strength valueStrength;
@@ -3832,14 +3874,14 @@ class CustomConcurrentHashMap<K, V>
     final long expireAfterAccessNanos;
     final int maximumSize;
     final int concurrencyLevel;
-    final MapEvictionListener<? super K, ? super V> evictionListener;
+    final RemovalListener<? super K, ? super V> removalListener;
 
     transient ConcurrentMap<K, V> delegate;
 
     AbstractSerializationProxy(Strength keyStrength, Strength valueStrength,
         Equivalence<Object> keyEquivalence, Equivalence<Object> valueEquivalence,
         long expireAfterWriteNanos, long expireAfterAccessNanos, int maximumSize,
-        int concurrencyLevel, MapEvictionListener<? super K, ? super V> evictionListener,
+        int concurrencyLevel, RemovalListener<? super K, ? super V> removalListener,
         ConcurrentMap<K, V> delegate) {
       this.keyStrength = keyStrength;
       this.valueStrength = valueStrength;
@@ -3849,7 +3891,7 @@ class CustomConcurrentHashMap<K, V>
       this.expireAfterAccessNanos = expireAfterAccessNanos;
       this.maximumSize = maximumSize;
       this.concurrencyLevel = concurrencyLevel;
-      this.evictionListener = evictionListener;
+      this.removalListener = removalListener;
       this.delegate = delegate;
     }
 
@@ -3876,7 +3918,7 @@ class CustomConcurrentHashMap<K, V>
           .privateKeyEquivalence(keyEquivalence)
           .privateValueEquivalence(valueEquivalence)
           .concurrencyLevel(concurrencyLevel);
-      mapMaker.evictionListener(evictionListener);
+      mapMaker.removalListener(removalListener);
       if (expireAfterWriteNanos > 0) {
         mapMaker.expireAfterWrite(expireAfterWriteNanos, TimeUnit.NANOSECONDS);
       }
@@ -3907,15 +3949,15 @@ class CustomConcurrentHashMap<K, V>
    * circular dependency is present, so the proxy must be able to behave as the map itself.
    */
   private static class SerializationProxy<K, V> extends AbstractSerializationProxy<K, V> {
-    private static final long serialVersionUID = 2;
+    private static final long serialVersionUID = 3;
 
     SerializationProxy(Strength keyStrength, Strength valueStrength,
         Equivalence<Object> keyEquivalence, Equivalence<Object> valueEquivalence,
         long expireAfterWriteNanos, long expireAfterAccessNanos, int maximumSize,
-        int concurrencyLevel, MapEvictionListener<? super K, ? super V> evictionListener,
+        int concurrencyLevel, RemovalListener<? super K, ? super V> removalListener,
         ConcurrentMap<K, V> delegate) {
       super(keyStrength, valueStrength, keyEquivalence, valueEquivalence, expireAfterWriteNanos,
-          expireAfterAccessNanos, maximumSize, concurrencyLevel, evictionListener, delegate);
+          expireAfterAccessNanos, maximumSize, concurrencyLevel, removalListener, delegate);
     }
 
     private void writeObject(ObjectOutputStream out) throws IOException {

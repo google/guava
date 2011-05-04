@@ -25,7 +25,7 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * A class exactly like {@link MapMaker}, except restricted in the types of maps it can build. This
- * type is returned by {@link MapMaker#evictionListener} to prevent the user from trying to build a
+ * type is returned by {@link MapMaker#removalListener} to prevent the user from trying to build a
  * map that's incompatible with the key and value types of the listener.
  *
  * @param <K0> the base type for all key types of maps built by this map maker
@@ -36,6 +36,7 @@ import java.util.concurrent.TimeUnit;
 @Beta
 @GwtCompatible(emulated = true)
 public abstract class GenericMapMaker<K0, V0> {
+
   // Set by MapMaker, but sits in this class to preserve the type relationship
 
   // No subclasses but our own
@@ -74,7 +75,7 @@ public abstract class GenericMapMaker<K0, V0> {
   public abstract GenericMapMaker<K0, V0> expireAfterWrite(long duration, TimeUnit unit);
 
   /*
-   * Note that MapMaker's evictionListener() is not here, because once you're interacting with a
+   * Note that MapMaker's removalListener() is not here, because once you're interacting with a
    * GenericMapMaker you've already called that, and shouldn't be calling it again.
    */
 

@@ -20,13 +20,16 @@ import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Function;
+import com.google.common.base.Objects;
+import com.google.common.collect.MapMaker.RemovalListener;
+import com.google.common.collect.MapMaker.RemovalListener.RemovalCause;
 
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.TimeUnit;
 
 /**
  * A class exactly like {@link MapMaker}, except restricted in the types of maps it can build. This
- * type is returned by {@link MapMaker#evictionListener} to prevent the user from trying to build a
+ * type is returned by {@link MapMaker#removalListener} to prevent the user from trying to build a
  * map that's incompatible with the key and value types of the listener.
  *
  * @param <K0> the base type for all key types of maps built by this map maker
@@ -37,9 +40,17 @@ import java.util.concurrent.TimeUnit;
 @Beta
 @GwtCompatible(emulated = true)
 public abstract class GenericMapMaker<K0, V0> {
+  @GwtIncompatible("To be supported")
+  enum NullListener implements RemovalListener<Object, Object> {
+    INSTANCE;
+
+    @Override
+    public void onRemoval(Object key, Object value, RemovalCause cause) {}
+  }
+
   // Set by MapMaker, but sits in this class to preserve the type relationship
   @GwtIncompatible("To be supported")
-  MapEvictionListener<K0, V0> evictionListener;
+  RemovalListener<K0, V0> removalListener;
 
   // No subclasses but our own
   GenericMapMaker() {}
@@ -110,9 +121,15 @@ public abstract class GenericMapMaker<K0, V0> {
   public abstract GenericMapMaker<K0, V0> expireAfterAccess(long duration, TimeUnit unit);
 
   /*
-   * Note that MapMaker's evictionListener() is not here, because once you're interacting with a
+   * Note that MapMaker's removalListener() is not here, because once you're interacting with a
    * GenericMapMaker you've already called that, and shouldn't be calling it again.
    */
+
+  @SuppressWarnings("unchecked")
+  @GwtIncompatible("To be supported")
+  RemovalListener<K0, V0> getRemovalListener() {
+    return Objects.firstNonNull(removalListener, (RemovalListener<K0, V0>) NullListener.INSTANCE);
+  }
 
   /**
    * See {@link MapMaker#makeMap}.

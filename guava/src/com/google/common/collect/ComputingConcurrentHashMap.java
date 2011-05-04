@@ -21,6 +21,8 @@ import static com.google.common.base.Preconditions.checkState;
 
 import com.google.common.base.Equivalence;
 import com.google.common.base.Function;
+import com.google.common.collect.MapMaker.RemovalListener;
+import com.google.common.collect.MapMaker.RemovalListener.RemovalCause;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -137,7 +139,7 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V> {
                       return value;
                     }
                     // immediately reuse invalid entries
-                    removeLiveEntry(e, hash);
+                    removeLiveEntry(e, hash, RemovalCause.COLLECTED);
                   }
                   break;
                 }
@@ -370,13 +372,13 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V> {
 
   // Serialization Support
 
-  private static final long serialVersionUID = 2;
+  private static final long serialVersionUID = 3;
 
   @Override
   Object writeReplace() {
     return new ComputingSerializationProxy<K, V>(keyStrength, valueStrength, keyEquivalence,
         valueEquivalence, expireAfterWriteNanos, expireAfterAccessNanos, maximumSize,
-        concurrencyLevel, evictionListener, this, computingFunction);
+        concurrencyLevel, removalListener, this, computingFunction);
   }
 
   static class ComputingSerializationProxy<K, V> extends AbstractSerializationProxy<K, V> {
@@ -386,10 +388,10 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V> {
     ComputingSerializationProxy(Strength keyStrength, Strength valueStrength,
         Equivalence<Object> keyEquivalence, Equivalence<Object> valueEquivalence,
         long expireAfterWriteNanos, long expireAfterAccessNanos, int maximumSize,
-        int concurrencyLevel, MapEvictionListener<? super K, ? super V> evictionListener,
+        int concurrencyLevel, RemovalListener<? super K, ? super V> removalListener,
         ConcurrentMap<K, V> delegate, Function<? super K, ? extends V> computingFunction) {
       super(keyStrength, valueStrength, keyEquivalence, valueEquivalence, expireAfterWriteNanos,
-          expireAfterAccessNanos, maximumSize, concurrencyLevel, evictionListener, delegate);
+          expireAfterAccessNanos, maximumSize, concurrencyLevel, removalListener, delegate);
       this.computingFunction = computingFunction;
     }
 
@@ -410,6 +412,6 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V> {
       return delegate;
     }
 
-    private static final long serialVersionUID = 2;
+    private static final long serialVersionUID = 3;
   }
 }
