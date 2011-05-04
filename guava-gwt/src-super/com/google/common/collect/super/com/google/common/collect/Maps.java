@@ -1041,6 +1041,14 @@ public final class Maps {
           return fromMap.keySet().retainAll(keys);
         }
       }
+
+      @Override public void clear() {
+        try {
+          super.clear();
+        } catch (UnsupportedOperationException e) {
+          fromMap.clear();
+        }
+      }
     }
   }
 
