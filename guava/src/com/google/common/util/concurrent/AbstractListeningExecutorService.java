@@ -183,7 +183,7 @@ abstract class AbstractListeningExecutorService implements ListeningExecutorServ
     try {
       return doInvokeAny(tasks, false, 0);
     } catch (TimeoutException cannotHappen) {
-      assert false;
+      // assert false;
       return null;
     }
   }
