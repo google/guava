@@ -71,7 +71,6 @@ public abstract class GenericMapMaker<K0, V0> {
    *
    * @since Guava release 08
    */
-  @Beta
   public abstract GenericMapMaker<K0, V0> expireAfterWrite(long duration, TimeUnit unit);
 
   /*

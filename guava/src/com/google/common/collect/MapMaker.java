@@ -424,7 +424,6 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    * @throws IllegalStateException if the time to live or time to idle was already set
    * @since Guava release 08
    */
-  @Beta
   @Override
   public MapMaker expireAfterWrite(long duration, TimeUnit unit) {
     checkExpiration(duration, unit);
@@ -463,7 +462,6 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    * @throws IllegalStateException if the time to idle or time to live was already set
    * @since Guava release 08
    */
-  @Beta
   @GwtIncompatible("To be supported")
   @Override
   public MapMaker expireAfterAccess(long duration, TimeUnit unit) {
