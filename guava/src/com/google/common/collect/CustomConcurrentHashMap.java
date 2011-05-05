@@ -3078,6 +3078,7 @@ class CustomConcurrentHashMap<K, V>
       if (tryLock()) {
         try {
           expireEntries(); // calls drainRecencyQueue
+          processPendingCleanup();
           readCount.set(0);
         } finally {
           unlock();
