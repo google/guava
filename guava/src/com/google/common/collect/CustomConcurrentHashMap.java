@@ -25,6 +25,7 @@ import com.google.common.base.Equivalences;
 import com.google.common.base.FinalizableReferenceQueue;
 import com.google.common.base.FinalizableSoftReference;
 import com.google.common.base.FinalizableWeakReference;
+import com.google.common.base.Supplier;
 import com.google.common.base.Ticker;
 import com.google.common.collect.GenericMapMaker.NullListener;
 import com.google.common.collect.MapMaker.RemovalListener;
@@ -121,9 +122,9 @@ class CustomConcurrentHashMap<K, V>
   static final int DRAIN_THRESHOLD = 0x3F;
 
   /**
-   * Maximum number of entries to be cleaned up in a single cleanup run. TODO(user): empirically
-   * optimize this
+   * Maximum number of entries to be cleaned up in a single cleanup run.
    */
+  // TODO(user): empirically optimize this
   static final int CLEANUP_MAX = 16;
 
   // Fields
@@ -189,7 +190,8 @@ class CustomConcurrentHashMap<K, V>
   /**
    * Creates a new, empty map with the specified strategy, initial capacity and concurrency level.
    */
-  CustomConcurrentHashMap(MapMaker builder) {
+  CustomConcurrentHashMap(MapMaker builder,
+      Supplier<? extends CacheStatsCounter> statsCounterSupplier) {
     concurrencyLevel = Math.min(builder.getConcurrencyLevel(), MAX_SEGMENTS);
 
     keyStrength = builder.getKeyStrength();
@@ -249,11 +251,13 @@ class CustomConcurrentHashMap<K, V>
         if (i == remainder) {
           maximumSegmentSize--;
         }
-        this.segments[i] = createSegment(segmentSize, maximumSegmentSize);
+        this.segments[i] =
+            createSegment(segmentSize, maximumSegmentSize, statsCounterSupplier.get());
       }
     } else {
       for (int i = 0; i < this.segments.length; ++i) {
-        this.segments[i] = createSegment(segmentSize, MapMaker.UNSET_INT);
+        this.segments[i] =
+            createSegment(segmentSize, MapMaker.UNSET_INT, statsCounterSupplier.get());
       }
     }
 
@@ -2038,8 +2042,9 @@ class CustomConcurrentHashMap<K, V>
     return segments[(hash >>> segmentShift) & segmentMask];
   }
 
-  Segment<K, V> createSegment(int initialCapacity, int maxSegmentSize) {
-    return new Segment<K, V>(this, initialCapacity, maxSegmentSize);
+  Segment<K, V> createSegment(
+      int initialCapacity, int maxSegmentSize, CacheStatsCounter statsCounter) {
+    return new Segment<K, V>(this, initialCapacity, maxSegmentSize, statsCounter);
   }
 
   // expiration
@@ -2073,18 +2078,6 @@ class CustomConcurrentHashMap<K, V>
   }
 
   // eviction
-
-  void enqueueNotification(K key, int hash, ValueReference<K, V> valueReference,
-      RemovalCause cause) {
-    if (removalNotificationQueue == DISCARDING_QUEUE) {
-      return;
-    }
-
-    RemovalNotification<K, V> notification =
-        new RemovalNotification<K, V>(key, valueReference.get(), cause);
-    // TODO(user): recordEviction
-    removalNotificationQueue.offer(notification);
-  }
 
   /**
    * Notifies listeners that an entry has been automatically removed due to expiration, eviction,
@@ -2227,9 +2220,14 @@ class CustomConcurrentHashMap<K, V>
     @GuardedBy("Segment.this")
     final Queue<ReferenceEntry<K, V>> expirationQueue;
 
-    Segment(CustomConcurrentHashMap<K, V> map, int initialCapacity, int maxSegmentSize) {
+    /** Accumulates cache statistics. */
+    final CacheStatsCounter statsCounter;
+
+    Segment(CustomConcurrentHashMap<K, V> map, int initialCapacity, int maxSegmentSize,
+        CacheStatsCounter statsCounter) {
       this.map = map;
       this.maxSegmentSize = maxSegmentSize;
+      this.statsCounter = statsCounter;
       initTable(newEntryArray(initialCapacity));
 
       recencyQueue = (map.evictsBySize() || map.expiresAfterAccess())
@@ -2383,6 +2381,18 @@ class CustomConcurrentHashMap<K, V>
     }
 
     // eviction
+
+    void enqueueNotification(
+        K key, int hash, ValueReference<K, V> valueReference, RemovalCause cause) {
+      if (cause.wasEvicted()) {
+        statsCounter.recordEviction();
+      }
+      if (map.removalNotificationQueue != DISCARDING_QUEUE) {
+        RemovalNotification<K, V> notification =
+            new RemovalNotification<K, V>(key, valueReference.get(), cause);
+        map.removalNotificationQueue.offer(notification);
+      }
+    }
 
     /**
      * Performs eviction if the segment is full. This should only be called prior to adding a new
@@ -2554,7 +2564,7 @@ class CustomConcurrentHashMap<K, V>
             } else {
               // clobber existing entry, count remains unchanged
               ++modCount;
-              map.enqueueNotification(key, hash, valueReference, RemovalCause.REPLACED);
+              enqueueNotification(key, hash, valueReference, RemovalCause.REPLACED);
               setValue(e, value);
               return entryValue;
             }
@@ -2741,7 +2751,7 @@ class CustomConcurrentHashMap<K, V>
               table.set(index, newFirst);
               this.count = newCount; // write-volatile
               ValueReference<K, V> valueReference = e.getValueReference();
-              map.enqueueNotification(entryKey, hash, valueReference, RemovalCause.EXPLICIT);
+              enqueueNotification(entryKey, hash, valueReference, RemovalCause.EXPLICIT);
               return entryValue;
             }
             return null;
@@ -2780,7 +2790,7 @@ class CustomConcurrentHashMap<K, V>
               table.set(index, newFirst);
               this.count = newCount; // write-volatile
               ValueReference<K, V> valueReference = e.getValueReference();
-              map.enqueueNotification(entryKey, hash, valueReference, RemovalCause.EXPLICIT);
+              enqueueNotification(entryKey, hash, valueReference, RemovalCause.EXPLICIT);
               return true;
             }
             return false;
@@ -2802,7 +2812,7 @@ class CustomConcurrentHashMap<K, V>
           if (map.removalNotificationQueue != DISCARDING_QUEUE) {
             for (int i = 0; i < table.length(); ++i) {
               for (ReferenceEntry<K, V> e = table.get(i); e != null; e = e.getNext()) {
-                map.enqueueNotification(
+                enqueueNotification(
                     e.getKey(), e.getHash(), e.getValueReference(), RemovalCause.EXPLICIT);
               }
             }
@@ -2863,8 +2873,7 @@ class CustomConcurrentHashMap<K, V>
         for (ReferenceEntry<K, V> e = first; e != null; e = e.getNext()) {
           if (e == entry) {
             ++modCount;
-            map.enqueueNotification(e.getKey(), hash, e.getValueReference(),
-                RemovalCause.COLLECTED);
+            enqueueNotification(e.getKey(), hash, e.getValueReference(), RemovalCause.COLLECTED);
             enqueueCleanup(e);
             count = newCount; // write-volatile
             return true;
@@ -2894,7 +2903,7 @@ class CustomConcurrentHashMap<K, V>
             ValueReference<K, V> v = e.getValueReference();
             if (v == valueReference) {
               ++modCount;
-              map.enqueueNotification(key, hash, valueReference, RemovalCause.COLLECTED);
+              enqueueNotification(key, hash, valueReference, RemovalCause.COLLECTED);
               enqueueCleanup(e);
               this.count = newCount; // write-volatile
               return true;
@@ -2961,7 +2970,7 @@ class CustomConcurrentHashMap<K, V>
       }
 
       K key = entry.getKey();
-      map.enqueueNotification(key, hash, valueReference, cause);
+      enqueueNotification(key, hash, valueReference, cause);
       enqueueCleanup(entry);
       this.count = newCount; // write-volatile
       return true;

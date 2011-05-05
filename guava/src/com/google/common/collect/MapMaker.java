@@ -28,7 +28,11 @@ import com.google.common.base.Ascii;
 import com.google.common.base.Equivalence;
 import com.google.common.base.Function;
 import com.google.common.base.Objects;
+import com.google.common.base.Supplier;
+import com.google.common.base.Suppliers;
 import com.google.common.base.Ticker;
+import com.google.common.collect.CacheStatsCounter;
+import com.google.common.collect.CacheStatsCounterImpl;
 import com.google.common.collect.ComputingConcurrentHashMap.ComputingMapAdapter;
 import com.google.common.collect.CustomConcurrentHashMap.Strength;
 import com.google.common.collect.MapMaker.RemovalListener.RemovalCause;
@@ -110,6 +114,35 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
   private static final int DEFAULT_CONCURRENCY_LEVEL = 4;
   private static final int DEFAULT_EXPIRATION_NANOS = 0;
 
+  static final Supplier<? extends CacheStatsCounter> DEFAULT_STATS_COUNTER = Suppliers.ofInstance(
+      new CacheStatsCounter() {
+        @Override
+        public void recordHit() {}
+
+        @Override
+        public void recordMiss() {}
+
+        @Override
+        public void recordEviction() {}
+
+        @Override
+        public void recordCreate(long createTime) {}
+
+        @Override
+        public CacheStats snapshot() {
+          return EMPTY_STATS;
+        }
+      });
+  private static final CacheStats EMPTY_STATS = new CacheStats(0, 0, 0, 0, 0);
+
+  static final Supplier<CacheStatsCounterImpl> CACHE_STATS_COUNTER =
+      new Supplier<CacheStatsCounterImpl>() {
+    @Override
+    public CacheStatsCounterImpl get() {
+      return new CacheStatsCounterImpl();
+    }
+  };
+
   static final Ticker DEFAULT_TICKER = new Ticker() {
     @Override
     public long read() {
@@ -145,6 +178,10 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    * values, and no automatic expiration.
    */
   public MapMaker() {}
+
+  private boolean useNullCache() {
+    return (nullRemovalCause == null);
+  }
 
   // TODO(kevinb): undo this indirection if keyEquiv gets released
   MapMaker privateKeyEquivalence(Equivalence<Object> equivalence) {
@@ -551,7 +588,7 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
       return new ConcurrentHashMap<K, V>(getInitialCapacity(), 0.75f, getConcurrencyLevel());
     }
     return (nullRemovalCause == null)
-        ? new CustomConcurrentHashMap<K, V>(this)
+        ? new CustomConcurrentHashMap<K, V>(this, DEFAULT_STATS_COUNTER)
         : new NullConcurrentMap<K, V>(this);
   }
 
@@ -603,8 +640,8 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
   @Override
   public <K, V> ConcurrentMap<K, V> makeComputingMap(
       Function<? super K, ? extends V> computingFunction) {
-    return (nullRemovalCause == null)
-        ? new ComputingMapAdapter<K, V>(this, computingFunction)
+    return useNullCache()
+        ? new ComputingMapAdapter<K, V>(this, CACHE_STATS_COUNTER, computingFunction)
         : new NullComputingConcurrentMap<K, V>(this, computingFunction);
   }
 

@@ -21,6 +21,7 @@ import static com.google.common.base.Preconditions.checkState;
 
 import com.google.common.base.Equivalence;
 import com.google.common.base.Function;
+import com.google.common.base.Supplier;
 import com.google.common.collect.MapMaker.RemovalListener;
 import com.google.common.collect.MapMaker.RemovalListener.RemovalCause;
 
@@ -47,14 +48,17 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V> {
    * Creates a new, empty map with the specified strategy, initial capacity, load factor and
    * concurrency level.
    */
-  ComputingConcurrentHashMap(MapMaker builder, Function<? super K, ? extends V> computingFunction) {
-    super(builder);
+  ComputingConcurrentHashMap(MapMaker builder,
+      Supplier<? extends CacheStatsCounter> statsCounterSupplier,
+      Function<? super K, ? extends V> computingFunction) {
+    super(builder, statsCounterSupplier);
     this.computingFunction = checkNotNull(computingFunction);
   }
 
   @Override
-  Segment<K, V> createSegment(int initialCapacity, int maxSegmentSize) {
-    return new ComputingSegment<K, V>(this, initialCapacity, maxSegmentSize);
+  Segment<K, V> createSegment(int initialCapacity, int maxSegmentSize,
+      CacheStatsCounter statsCounter) {
+    return new ComputingSegment<K, V>(this, initialCapacity, maxSegmentSize, statsCounter);
   }
 
   @Override
@@ -75,8 +79,10 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V> {
       extends ComputingConcurrentHashMap<K, V> implements Serializable {
     private static final long serialVersionUID = 0;
 
-    ComputingMapAdapter(MapMaker mapMaker, Function<? super K, ? extends V> computingFunction) {
-      super(mapMaker, computingFunction);
+    ComputingMapAdapter(MapMaker mapMaker,
+        Supplier<? extends CacheStatsCounter> statsCounterSupplier,
+        Function<? super K, ? extends V> computingFunction) {
+      super(mapMaker, statsCounterSupplier, computingFunction);
     }
 
     @SuppressWarnings("unchecked") // unsafe, which is why this is deprecated
@@ -92,8 +98,9 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V> {
 
   @SuppressWarnings("serial") // This class is never serialized.
   static class ComputingSegment<K, V> extends Segment<K, V> {
-    ComputingSegment(CustomConcurrentHashMap<K, V> map, int initialCapacity, int maxSegmentSize) {
-      super(map, initialCapacity, maxSegmentSize);
+    ComputingSegment(CustomConcurrentHashMap<K, V> map, int initialCapacity, int maxSegmentSize,
+        CacheStatsCounter statsCounter) {
+      super(map, initialCapacity, maxSegmentSize, statsCounter);
     }
 
     V compute(K key, int hash, Function<? super K, ? extends V> computingFunction) {
@@ -103,8 +110,8 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V> {
           if (e != null) {
             V value = getLiveValue(e);
             if (value != null) {
-              // TODO(user): recordHit
               recordRead(e);
+              statsCounter.recordHit();
               return value;
             }
           }
@@ -135,7 +142,7 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V> {
                     V value = getLiveValue(e);
                     if (value != null) {
                       recordLockedRead(e);
-                      // TODO(user): recordHit
+                      statsCounter.recordHit();
                       return value;
                     }
                     // immediately reuse invalid entries
@@ -164,18 +171,22 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V> {
 
               V value = null;
               try {
+                long start;
+                long end;
                 // Synchronizes on the entry to allow failing fast when a recursive computation is
                 // detected. This is not fool-proof since the entry may be copied when the segment
                 // is written to.
                 synchronized (e) {
+                  start = map.ticker.read();
                   value = computingValueReference.compute(key, hash);
+                  end = map.ticker.read();
                 }
                 if (value != null) {
-                  // TODO(user): recordMiss
-                  // TODO(user): recordCompute
                   // putIfAbsent
                   put(key, hash, value, true);
                 }
+                statsCounter.recordMiss();
+                statsCounter.recordCreate(end - start);
                 return value;
               } finally {
                 if (value == null) {
@@ -191,7 +202,7 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V> {
           // don't consider expiration as we're concurrent with computation
           if (value != null) {
             recordRead(e);
-            // TODO(user): recordMiss
+            statsCounter.recordMiss();
             return value;
           }
           // else computing thread will clearValue
