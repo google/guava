@@ -31,14 +31,14 @@ import javax.annotation.Nullable;
  * tests equivalence using their lengths:
  *
  * <pre>   {@code
- *   equiv.wrap("a").equals(equiv.wrap("b")) // true
- *   equiv.wrap("a").equals(equiv.wrap("hello")) // false
+ *   Equivalences.wrap(equiv, "a").equals(Equivalences.wrap(equiv, "b")) // true
+ *   Equivalences.wrap(equiv, "a").equals(Equivalences.wrap(equiv, "hello")) // false
  * }</pre>
  *
  * <p>Note in particular that an equivalence wrapper is never equal to the object it wraps.
  *
  * <pre>   {@code
- *   equiv.wrap(obj).equals(obj) // always false
+ *   Equivalences.wrap(equiv, obj).equals(obj) // always false
  * }</pre>
  *
  * @author Gregory Kick
@@ -58,6 +58,13 @@ public final class EquivalenceWrapper<T> {
   /** Returns the (possibly null) reference wrapped by this instance. */
   @Nullable public T get() {
     return reference;
+  }
+
+  /**
+   * Returns the result of {@link Equivalence#hash(Object)} applied to the the wrapped reference.
+   */
+  @Override public int hashCode() {
+    return equivalence.hash(reference);
   }
 
   /**
@@ -85,17 +92,13 @@ public final class EquivalenceWrapper<T> {
   }
 
   /**
-   * Returns the result of {@link Equivalence#hash(Object)} applied to the the wrapped reference.
-   */
-  @Override public int hashCode() {
-    return equivalence.hash(reference);
-  }
-
-  /**
    * Returns a string representation for this equivalence wrapper. The form of this string
    * representation is not specified.
    */
   @Override public String toString() {
-    return equivalence + ".wrap(" + reference + ")";
+    return Objects.toStringHelper(this)
+        .add("equivalence", equivalence)
+        .add("value", reference)
+        .toString();
   }
 }

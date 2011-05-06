@@ -19,7 +19,7 @@ package com.google.common.base;
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 
-import java.io.Serializable;
+import javax.annotation.Nullable;
 
 /**
  * Contains static factory methods for creating {@code Equivalence} instances.
@@ -46,7 +46,7 @@ public final class Equivalences {
    * @since Guava release 04 (otherwise)
    */
   public static Equivalence<Object> equals() {
-    return Equals.INSTANCE;
+    return Impl.EQUALS;
   }
 
   /**
@@ -55,38 +55,49 @@ public final class Equivalences {
    * returns {@code true} if {@code a == b}, including in the case that a and b are both null.
    */
   public static Equivalence<Object> identity() {
-    return Identity.INSTANCE;
+    return Impl.IDENTITY;
   }
 
-  private static final class Equals extends AbstractEquivalence<Object>
-      implements Serializable {
-    
-    static final Equals INSTANCE = new Equals();
+  private enum Impl implements Equivalence<Object> {
+    EQUALS {
+      @Override
+      public boolean equivalent(@Nullable Object a, @Nullable Object b) {
+        // TODO(kevinb): use Objects.equal() after testing issue is worked out.
+        return (a == null) ? (b == null) : a.equals(b);
+      }
 
-    @Override protected boolean equivalentNonNull(Object a, Object b) {
-      // TODO(kevinb): use Objects.equal() after testing issue is worked out.
-      return a.equals(b);
-    }
-    @Override public int hashNonNull(Object o) {
-      return o.hashCode();
-    }
- 
-    private static final long serialVersionUID = 1;
+      @Override
+      public int hash(@Nullable Object o) {
+        return (o == null) ? 0 : o.hashCode();
+      }
+    },
+    IDENTITY {
+      @Override
+      public boolean equivalent(@Nullable Object a, @Nullable Object b) {
+        return a == b;
+      }
+
+      @Override
+      public int hash(@Nullable Object o) {
+        return System.identityHashCode(o);
+      }
+    },
   }
-  
-  private static final class Identity extends AbstractEquivalence<Object>
-      implements Serializable {
-    
-    static final Identity INSTANCE = new Identity();
-    
-    @Override protected boolean equivalentNonNull(Object a, Object b) {
-      return false;
-    }
 
-    @Override protected int hashNonNull(Object o) {
-      return System.identityHashCode(o);
-    }
- 
-    private static final long serialVersionUID = 1;
+  /**
+   * Returns an equivalence over iterables based on the equivalence of their elements.  More
+   * specifically, two iterables are considered equivalent if they both contain the same number of
+   * elements, and each pair of corresponding elements is equivalent according to
+   * {@code elementEquivalence}.  Null iterables are equivalent to one another.
+   *
+   * @since Guava release 09
+   */
+  @GwtCompatible(serializable = true)
+  public static <T> Equivalence<Iterable<T>> pairwise(Equivalence<? super T> elementEquivalence) {
+    /*
+     * Ideally, the returned equivalence would support {@code Iterable<? extends T>}.  However, the
+     * need for this is so rare that it's not worth making callers deal with the ugly wildcard.
+     */
+    return new PairwiseEquivalence<T>(elementEquivalence);
   }
 }

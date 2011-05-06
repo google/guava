@@ -24,8 +24,7 @@ import java.util.Iterator;
 import javax.annotation.Nullable;
 
 @GwtCompatible(serializable = true)
-final class PairwiseEquivalence<T> extends AbstractEquivalence<Iterable<T>>
-    implements Serializable {
+final class PairwiseEquivalence<T> implements Equivalence<Iterable<T>>, Serializable {
 
   final Equivalence<? super T> elementEquivalence;
 
@@ -34,7 +33,13 @@ final class PairwiseEquivalence<T> extends AbstractEquivalence<Iterable<T>>
   }
 
   @Override
-  protected boolean equivalentNonNull(Iterable<T> iterableA, Iterable<T> iterableB) {
+  public boolean equivalent(@Nullable Iterable<T> iterableA, @Nullable Iterable<T> iterableB) {
+    if (iterableA == null) {
+      return iterableB == null;
+    } else if (iterableB == null) {
+      return false;
+    }
+
     Iterator<T> iteratorA = iterableA.iterator();
     Iterator<T> iteratorB = iterableB.iterator();
 
@@ -48,7 +53,11 @@ final class PairwiseEquivalence<T> extends AbstractEquivalence<Iterable<T>>
   }
 
   @Override
-  protected int hashNonNull(Iterable<T> iterable) {
+  public int hash(@Nullable Iterable<T> iterable) {
+    if (iterable == null) {
+      return 0;
+    }
+
     int hash = 78721;
     for (T element : iterable) {
       hash = hash * 24943 + elementEquivalence.hash(element);
@@ -73,8 +82,8 @@ final class PairwiseEquivalence<T> extends AbstractEquivalence<Iterable<T>>
 
   @Override
   public String toString() {
-    return elementEquivalence + ".pairwise()";
+    return "Equivalences.pairwise(" + elementEquivalence + ")";
   }
 
-  private static final long serialVersionUID = 1;
+  private static final long serialVersionUID = 0;
 }
