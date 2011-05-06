@@ -240,7 +240,7 @@ public final class InetAddresses {
       return null;
     }
 
-    String[] address = ipString.split("\\.");
+    String[] address = ipString.split("\\.", IPV4_PART_COUNT + 1);
     if (address.length != IPV4_PART_COUNT) {
       return null;
     }
@@ -248,19 +248,7 @@ public final class InetAddresses {
     byte[] bytes = new byte[IPV4_PART_COUNT];
     try {
       for (int i = 0; i < bytes.length; i++) {
-        int piece = Integer.parseInt(address[i]);
-        if (piece < 0 || piece > 255) {
-          return null;
-        }
-
-        // No leading zeroes are allowed.  See
-        // http://tools.ietf.org/html/draft-main-ipaddr-text-rep-00
-        // section 2.1 for discussion.
-
-        if (address[i].startsWith("0") && address[i].length() != 1) {
-          return null;
-        }
-        bytes[i] = (byte) piece;
+        bytes[i] = parseOctet(address[i]);
       }
     } catch (NumberFormatException ex) {
       return null;
@@ -296,12 +284,7 @@ public final class InetAddresses {
       String[] parts = addressHalves[0].split(":", IPV6_PART_COUNT);
       try {
         for (int i = 0; i < parts.length; i++) {
-          if (parts[i].equals("")) {
-            // No empty segments permitted.
-            return null;
-          }
-          int piece = Integer.parseInt(parts[i], 16);
-          rawBytes.putShort(2 * i, (short) piece);
+          rawBytes.putShort(2 * i, parseHextet(parts[i]));
         }
         partsHi = parts.length;
       } catch (NumberFormatException ex) {
@@ -320,13 +303,8 @@ public final class InetAddresses {
         try {
           for (int i = 0; i < parts.length; i++) {
             int partsIndex = parts.length - i - 1;
-            if (parts[partsIndex].equals("")) {
-              // No empty segments permitted.
-              return null;
-            }
-            int piece = Integer.parseInt(parts[partsIndex], 16);
             int bytesIndex = 2 * (IPV6_PART_COUNT - i - 1);
-            rawBytes.putShort(bytesIndex, (short) piece);
+            rawBytes.putShort(bytesIndex, parseHextet(parts[partsIndex]));
           }
           partsLo = parts.length;
         } catch (NumberFormatException ex) {
@@ -362,6 +340,27 @@ public final class InetAddresses {
     String penultimate = Integer.toHexString(((quad[0] & 0xff) << 8) | (quad[1] & 0xff));
     String ultimate = Integer.toHexString(((quad[2] & 0xff) << 8) | (quad[3] & 0xff));
     return initialPart + penultimate + ":" + ultimate;
+  }
+
+  private static byte parseOctet(String ipPart) {
+    int octet = Integer.parseInt(ipPart);
+    // Disallow negatives (including -0), and values that don't fit in 8 bits.
+    // Also disallow leading zeroes, because no clear standard exists on
+    // whether these should be interpreted as decimal or octal.
+    if (ipPart.startsWith("-") || octet > 255 ||
+        (ipPart.startsWith("0") && ipPart.length() > 1)) {
+      throw new NumberFormatException();
+    }
+    return (byte) octet;
+  }
+
+  private static short parseHextet(String ipPart) {
+    int hextet = Integer.parseInt(ipPart, 16);
+    // Disallow negatives (including -0), and values that don't fit in 16 bits.
+    if (ipPart.startsWith("-") || hextet > 0xffff) {
+      throw new NumberFormatException();
+    }
+    return (short) hextet;
   }
 
   /**
