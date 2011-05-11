@@ -93,12 +93,18 @@ public final class ExecutionList {
    * Runs this execution list, executing all pairs in the order they were
    * added.  Pairs added after this method has started executing the list will
    * be executed immediately.
+   *
+   * <p>This method is idempotent. Calling it several times in parallel is
+   * semantically equivalent to calling it exactly once.
    */
   public void run() {
 
     // Lock while we update our state so the add method above will finish adding
     // any listeners before we start to run them.
     synchronized (runnables) {
+      if (executed) {
+        return;
+      }
       executed = true;
     }
 
