@@ -17,7 +17,6 @@
 package com.google.common.base;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.common.base.Preconditions.checkState;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
@@ -67,10 +66,7 @@ import javax.annotation.Nullable;
  */
 @Beta
 @GwtCompatible
-public final class Optional<T> {
-
-  // Static factories
-
+public abstract class Optional<T> {
   /**
    * Returns an {@code Optional} instance with no contained reference.
    */
@@ -79,13 +75,13 @@ public final class Optional<T> {
     return (Optional<T>) ABSENT;
   }
 
-  private static final Optional<Object> ABSENT = new Optional<Object>(null);
+  private static final Optional<Object> ABSENT = new Absent();
 
   /**
    * Returns an {@code Optional} instance containing the given non-null reference.
    */
   public static <T> Optional<T> of(T reference) {
-    return new Optional<T>(checkNotNull(reference));
+    return new Present<T>(checkNotNull(reference));
   }
 
   /**
@@ -95,25 +91,15 @@ public final class Optional<T> {
   public static <T> Optional<T> fromNullable(@Nullable T nullableReference) {
     return (nullableReference == null)
         ? Optional.<T>absent()
-        : new Optional<T>(nullableReference);
+        : new Present<T>(nullableReference);
   }
 
-  // Constructors
-
-  @Nullable private final T reference;
-
-  private Optional(@Nullable T reference) {
-    this.reference = reference;
-  }
-
-  // Accessors
+  private Optional() {}
 
   /**
    * Returns {@code true} if this instance contains a reference.
    */
-  public boolean isPresent() {
-    return reference != null;
-  }
+  public abstract boolean isPresent();
 
   // TODO(kevinb): isAbsent too?
 
@@ -123,46 +109,136 @@ public final class Optional<T> {
    * @throws IllegalStateException if the reference is absent ({@link #isPresent} returns {@code
    *     false})
    */
-  public T get() {
-    checkState(isPresent());
-    return reference;
-  }
+  public abstract T get();
+
+  /**
+   * Returns the contained non-null reference if it is present; {@code defaultValue} otherwise.
+   *
+   * @deprecated use {@link #orNull} for {@code get(null)}; {@link #or(Object)} otherwise
+   */
+  // TODO(kevinb): remove
+  @Deprecated @Nullable public abstract T get(@Nullable T defaultValue);
 
   /**
    * Returns the contained non-null reference if it is present; {@code defaultValue} otherwise.
    */
-  // TODO(kevinb): consider renaming this method
-  @Nullable public T get(@Nullable T defaultValue) {
-    return isPresent() ? reference : defaultValue;
-  }
+  public abstract T or(T defaultValue);
 
-  // Object overrides
+  /**
+   * Returns this {@code Optional} if it has a value present; {@code secondChoice} otherwise.
+   */
+  // ? extends T is the best we can do; if it doesn't fit you'll have to do some creative casting
+  public abstract Optional<T> or(Optional<? extends T> secondChoice);
+
+  /**
+   * Returns the contained non-null reference if it is present; {@code null} otherwise.
+   */
+  @Nullable public abstract T orNull();
 
   /**
    * Returns {@code true} if {@code object} is an {@code Optional} instance, and either the
    * contained references are {@linkplain Object#equals equal} to each other or both are absent.
    * Note that {@code Optional} instances of differing parameterized types can be equal.
    */
-  @Override public boolean equals(@Nullable Object object) {
-    if (object instanceof Optional) {
-      Optional<?> other = (Optional<?>) object;
-      return Objects.equal(reference, other.reference);
-    }
-    return false;
-  }
+  @Override public abstract boolean equals(@Nullable Object object);
 
   /**
    * Returns a hash code for this instance.
    */
-  @Override public int hashCode() {
-    return 0x598df91c + (isPresent() ? reference.hashCode() : 0);
-  }
+  @Override public abstract int hashCode();
 
   /**
    * Returns a string representation for this instance. The form of this string representation is
    * unspecified.
    */
-  @Override public String toString() {
-    return isPresent() ? "Optional.of(" + reference + ")" : "Optional.absent()";
+  @Override public abstract String toString();
+
+  private static final class Present<T> extends Optional<T> {
+    private final T reference;
+
+    Present(T reference) {
+      this.reference = reference;
+    }
+
+    @Override public boolean isPresent() {
+      return true;
+    }
+
+    @Override public T get() {
+      return reference;
+    }
+
+    @Override @Nullable public T get(@Nullable T defaultValue) {
+      return reference;
+    }
+
+    @Override public T or(T defaultValue) {
+      checkNotNull(defaultValue);
+      return reference;
+    }
+
+    @Override public Optional<T> or(Optional<? extends T> secondChoice) {
+      checkNotNull(secondChoice);
+      return this;
+    }
+
+    @Override public T orNull() {
+      return reference;
+    }
+
+    @Override public boolean equals(@Nullable Object object) {
+      if (object instanceof Present) {
+        Present<?> other = (Present<?>) object;
+        return reference.equals(other.reference);
+      }
+      return false;
+    }
+
+    @Override public int hashCode() {
+      return 0x598df91c + reference.hashCode();
+    }
+
+    @Override public String toString() {
+      return "Optional.of(" + reference + ")";
+    }
+  }
+
+  private static final class Absent extends Optional<Object> {
+    @Override public boolean isPresent() {
+      return false;
+    }
+
+    @Override public Object get() {
+      throw new IllegalStateException("value is absent");
+    }
+
+    @Override @Nullable public Object get(@Nullable Object defaultValue) {
+      return defaultValue;
+    }
+
+    @Override public Object or(Object defaultValue) {
+      return checkNotNull(defaultValue);
+    }
+
+    @SuppressWarnings("unchecked") // safe covariant cast
+    @Override public Optional<Object> or(Optional<?> secondChoice) {
+      return (Optional) checkNotNull(secondChoice);
+    }
+
+    @Override @Nullable public Object orNull() {
+      return null;
+    }
+
+    @Override public boolean equals(@Nullable Object object) {
+      return object == this;
+    }
+
+    @Override public int hashCode() {
+      return 0x598df91c;
+    }
+
+    @Override public String toString() {
+      return "Optional.absent()";
+    }
   }
 }
