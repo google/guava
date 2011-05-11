@@ -680,7 +680,11 @@ public final class Futures {
 
     @Override
     public boolean cancel(boolean mayInterruptIfRunning) {
-      if (cancel()) {
+      /*
+       * Our additional cancellation work needs to occur even if
+       * !mayInterruptIfRunning, so we can't move it into interruptTask().
+       */
+      if (super.cancel(mayInterruptIfRunning)) {
         try {
           // This should never block since only one thread is allowed to cancel
           // this Future.
