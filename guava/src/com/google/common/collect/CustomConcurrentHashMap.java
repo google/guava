@@ -28,8 +28,9 @@ import com.google.common.base.FinalizableWeakReference;
 import com.google.common.base.Supplier;
 import com.google.common.base.Ticker;
 import com.google.common.collect.GenericMapMaker.NullListener;
+import com.google.common.collect.MapMaker.RemovalCause;
 import com.google.common.collect.MapMaker.RemovalListener;
-import com.google.common.collect.MapMaker.RemovalListener.RemovalCause;
+import com.google.common.collect.MapMaker.RemovalNotification;
 import com.google.common.primitives.Ints;
 
 import java.io.IOException;
@@ -176,7 +177,7 @@ class CustomConcurrentHashMap<K, V>
    * A listener that is invoked when an entry is removed due to expiration or garbage collection of
    * soft/weak entries.
    */
-  final RemovalListener<? super K, ? super V> removalListener;
+  final RemovalListener<K, V> removalListener;
 
   /** Factory used to create new entries. */
   final transient EntryFactory entryFactory;
@@ -675,32 +676,8 @@ class CustomConcurrentHashMap<K, V>
   }
 
   /** Wrapper class ensures that queue isn't created until it's used. */
-  private static class QueueHolder {
+  private static final class QueueHolder {
     static final FinalizableReferenceQueue queue = new FinalizableReferenceQueue();
-  }
-
-  @VisibleForTesting
-  static class RemovalNotification<K, V> {
-    @Nullable
-    @VisibleForTesting
-    final K key;
-
-    @Nullable
-    @VisibleForTesting
-    final V value;
-
-    @VisibleForTesting
-    final RemovalCause cause;
-
-    public RemovalNotification(K key, V value, RemovalCause cause) {
-      this.key = key;
-      this.value = value;
-      this.cause = cause;
-    }
-
-    public void notify(RemovalListener<? super K, ? super V> listener) {
-      listener.onRemoval(key, value, cause);
-    }
   }
 
   /**
@@ -1137,7 +1114,7 @@ class CustomConcurrentHashMap<K, V>
     }
   }
 
-  private static class StrongExpirableEntry<K, V> extends StrongEntry<K, V>
+  private static final class StrongExpirableEntry<K, V> extends StrongEntry<K, V>
       implements ReferenceEntry<K, V> {
     StrongExpirableEntry(CustomConcurrentHashMap<K, V> map, K key, int hash,
         @Nullable ReferenceEntry<K, V> next) {
@@ -1185,7 +1162,7 @@ class CustomConcurrentHashMap<K, V>
     }
   }
 
-  private static class StrongEvictableEntry<K, V>
+  private static final class StrongEvictableEntry<K, V>
       extends StrongEntry<K, V> implements ReferenceEntry<K, V> {
     StrongEvictableEntry(CustomConcurrentHashMap<K, V> map, K key, int hash,
         @Nullable ReferenceEntry<K, V> next) {
@@ -1221,7 +1198,7 @@ class CustomConcurrentHashMap<K, V>
     }
   }
 
-  private static class StrongExpirableEvictableEntry<K, V>
+  private static final class StrongExpirableEvictableEntry<K, V>
       extends StrongEntry<K, V> implements ReferenceEntry<K, V> {
     StrongExpirableEvictableEntry(CustomConcurrentHashMap<K, V> map, K key, int hash,
         @Nullable ReferenceEntry<K, V> next) {
@@ -1413,7 +1390,7 @@ class CustomConcurrentHashMap<K, V>
     }
   }
 
-  private static class SoftExpirableEntry<K, V>
+  private static final class SoftExpirableEntry<K, V>
       extends SoftEntry<K, V> implements ReferenceEntry<K, V> {
     SoftExpirableEntry(CustomConcurrentHashMap<K, V> map, K key, int hash,
         @Nullable ReferenceEntry<K, V> next) {
@@ -1461,7 +1438,7 @@ class CustomConcurrentHashMap<K, V>
     }
   }
 
-  private static class SoftEvictableEntry<K, V>
+  private static final class SoftEvictableEntry<K, V>
       extends SoftEntry<K, V> implements ReferenceEntry<K, V> {
     SoftEvictableEntry(CustomConcurrentHashMap<K, V> map, K key, int hash,
         @Nullable ReferenceEntry<K, V> next) {
@@ -1497,7 +1474,7 @@ class CustomConcurrentHashMap<K, V>
     }
   }
 
-  private static class SoftExpirableEvictableEntry<K, V>
+  private static final class SoftExpirableEvictableEntry<K, V>
       extends SoftEntry<K, V> implements ReferenceEntry<K, V> {
     SoftExpirableEvictableEntry(CustomConcurrentHashMap<K, V> map, K key, int hash,
         @Nullable ReferenceEntry<K, V> next) {
@@ -1690,7 +1667,7 @@ class CustomConcurrentHashMap<K, V>
     }
   }
 
-  private static class WeakExpirableEntry<K, V>
+  private static final class WeakExpirableEntry<K, V>
       extends WeakEntry<K, V> implements ReferenceEntry<K, V> {
     WeakExpirableEntry(CustomConcurrentHashMap<K, V> map, K key, int hash,
         @Nullable ReferenceEntry<K, V> next) {
@@ -1738,7 +1715,7 @@ class CustomConcurrentHashMap<K, V>
     }
   }
 
-  private static class WeakEvictableEntry<K, V>
+  private static final class WeakEvictableEntry<K, V>
       extends WeakEntry<K, V> implements ReferenceEntry<K, V> {
     WeakEvictableEntry(CustomConcurrentHashMap<K, V> map, K key, int hash,
         @Nullable ReferenceEntry<K, V> next) {
@@ -1774,7 +1751,7 @@ class CustomConcurrentHashMap<K, V>
     }
   }
 
-  private static class WeakExpirableEvictableEntry<K, V>
+  private static final class WeakExpirableEvictableEntry<K, V>
       extends WeakEntry<K, V> implements ReferenceEntry<K, V> {
     WeakExpirableEvictableEntry(CustomConcurrentHashMap<K, V> map, K key, int hash,
         @Nullable ReferenceEntry<K, V> next) {
@@ -1853,7 +1830,7 @@ class CustomConcurrentHashMap<K, V>
   /**
    * References a weak value.
    */
-  private static class WeakValueReference<K, V>
+  private static final class WeakValueReference<K, V>
       extends FinalizableWeakReference<V> implements ValueReference<K, V> {
     final ReferenceEntry<K, V> entry;
 
@@ -1896,7 +1873,7 @@ class CustomConcurrentHashMap<K, V>
   /**
    * References a soft value.
    */
-  private static class SoftValueReference<K, V>
+  private static final class SoftValueReference<K, V>
       extends FinalizableSoftReference<V> implements ValueReference<K, V> {
     final ReferenceEntry<K, V> entry;
 
@@ -1939,7 +1916,7 @@ class CustomConcurrentHashMap<K, V>
   /**
    * References a strong value.
    */
-  private static class StrongValueReference<K, V> implements ValueReference<K, V> {
+  private static final class StrongValueReference<K, V> implements ValueReference<K, V> {
     final V referent;
 
     StrongValueReference(V referent) {
@@ -2088,7 +2065,7 @@ class CustomConcurrentHashMap<K, V>
   void processPendingNotifications() {
     RemovalNotification<K, V> notification;
     while ((notification = removalNotificationQueue.poll()) != null) {
-      notification.notify(removalListener);
+      removalListener.onRemoval(notification);
     }
   }
 
@@ -2235,11 +2212,11 @@ class CustomConcurrentHashMap<K, V>
           : CustomConcurrentHashMap.<ReferenceEntry<K, V>>discardingQueue();
 
       evictionQueue = map.evictsBySize()
-          ? new EvictionQueue()
+          ? new EvictionQueue<K, V>()
           : CustomConcurrentHashMap.<ReferenceEntry<K, V>>discardingQueue();
 
       expirationQueue = map.expires()
-          ? new ExpirationQueue()
+          ? new ExpirationQueue<K, V>()
           : CustomConcurrentHashMap.<ReferenceEntry<K, V>>discardingQueue();
     }
 
@@ -3115,9 +3092,7 @@ class CustomConcurrentHashMap<K, V>
      * of the queue as part of copyEvictableEntry, and (2) the contains method is highly optimized
      * for the current model.
      */
-    @VisibleForTesting
-    class EvictionQueue extends AbstractQueue<ReferenceEntry<K, V>> {
-      @VisibleForTesting
+    static final class EvictionQueue<K, V> extends AbstractQueue<ReferenceEntry<K, V>> {
       final ReferenceEntry<K, V> head = new AbstractReferenceEntry<K, V>() {
 
         ReferenceEntry<K, V> nextEvictable = this;
@@ -3249,9 +3224,7 @@ class CustomConcurrentHashMap<K, V>
      * of the queue as part of copyEvictableEntry, and (2) the contains method is highly optimized
      * for the current model.
      */
-    @VisibleForTesting
-    class ExpirationQueue extends AbstractQueue<ReferenceEntry<K, V>> {
-      @VisibleForTesting
+    static final class ExpirationQueue<K, V> extends AbstractQueue<ReferenceEntry<K, V>> {
       final ReferenceEntry<K, V> head = new AbstractReferenceEntry<K, V>() {
 
         @Override
@@ -3958,7 +3931,7 @@ class CustomConcurrentHashMap<K, V>
    * The actual object that gets serialized. Unfortunately, readResolve() doesn't get called when a
    * circular dependency is present, so the proxy must be able to behave as the map itself.
    */
-  private static class SerializationProxy<K, V> extends AbstractSerializationProxy<K, V> {
+  private static final class SerializationProxy<K, V> extends AbstractSerializationProxy<K, V> {
     private static final long serialVersionUID = 3;
 
     SerializationProxy(Strength keyStrength, Strength valueStrength,

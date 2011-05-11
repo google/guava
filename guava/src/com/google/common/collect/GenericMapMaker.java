@@ -22,7 +22,7 @@ import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Function;
 import com.google.common.base.Objects;
 import com.google.common.collect.MapMaker.RemovalListener;
-import com.google.common.collect.MapMaker.RemovalListener.RemovalCause;
+import com.google.common.collect.MapMaker.RemovalNotification;
 
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.TimeUnit;
@@ -45,7 +45,7 @@ public abstract class GenericMapMaker<K0, V0> {
     INSTANCE;
 
     @Override
-    public void onRemoval(Object key, Object value, RemovalCause cause) {}
+    public void onRemoval(RemovalNotification<Object, Object> notification) {}
   }
 
   // Set by MapMaker, but sits in this class to preserve the type relationship
@@ -123,10 +123,10 @@ public abstract class GenericMapMaker<K0, V0> {
    * GenericMapMaker you've already called that, and shouldn't be calling it again.
    */
 
-  @SuppressWarnings("unchecked")
+  @SuppressWarnings("unchecked") // safe covariant cast
   @GwtIncompatible("To be supported")
-  RemovalListener<K0, V0> getRemovalListener() {
-    return Objects.firstNonNull(removalListener, (RemovalListener<K0, V0>) NullListener.INSTANCE);
+  <K extends K0, V extends V0> RemovalListener<K, V> getRemovalListener() {
+    return (RemovalListener<K, V>) Objects.firstNonNull(removalListener, NullListener.INSTANCE);
   }
 
   /**

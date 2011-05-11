@@ -22,8 +22,8 @@ import static com.google.common.base.Preconditions.checkState;
 import com.google.common.base.Equivalence;
 import com.google.common.base.Function;
 import com.google.common.base.Supplier;
+import com.google.common.collect.MapMaker.RemovalCause;
 import com.google.common.collect.MapMaker.RemovalListener;
-import com.google.common.collect.MapMaker.RemovalListener.RemovalCause;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -97,7 +97,7 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V> {
   }
 
   @SuppressWarnings("serial") // This class is never serialized.
-  static class ComputingSegment<K, V> extends Segment<K, V> {
+  static final class ComputingSegment<K, V> extends Segment<K, V> {
     ComputingSegment(CustomConcurrentHashMap<K, V> map, int initialCapacity, int maxSegmentSize,
         CacheStatsCounter statsCounter) {
       super(map, initialCapacity, maxSegmentSize, statsCounter);
@@ -217,7 +217,7 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V> {
   /**
    * Used to provide computation exceptions to other threads.
    */
-  private static class ComputationExceptionReference<K, V> implements ValueReference<K, V> {
+  private static final class ComputationExceptionReference<K, V> implements ValueReference<K, V> {
     final Throwable t;
 
     ComputationExceptionReference(Throwable t) {
@@ -254,7 +254,7 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V> {
   /**
    * Used to provide computation result to other threads.
    */
-  private static class ComputedReference<K, V> implements ValueReference<K, V> {
+  private static final class ComputedReference<K, V> implements ValueReference<K, V> {
     final V value;
 
     ComputedReference(@Nullable V value) {
@@ -288,7 +288,7 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V> {
     public void clear(ValueReference<K, V> newValue) {}
   }
 
-  private static class ComputingValueReference<K, V> implements ValueReference<K, V> {
+  private static final class ComputingValueReference<K, V> implements ValueReference<K, V> {
     final Function<? super K, ? extends V> computingFunction;
 
     @GuardedBy("ComputingValueReference.this") // writes
@@ -392,7 +392,7 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V> {
         concurrencyLevel, removalListener, this, computingFunction);
   }
 
-  static class ComputingSerializationProxy<K, V> extends AbstractSerializationProxy<K, V> {
+  static final class ComputingSerializationProxy<K, V> extends AbstractSerializationProxy<K, V> {
 
     final Function<? super K, ? extends V> computingFunction;
 

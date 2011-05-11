@@ -35,7 +35,6 @@ import com.google.common.collect.CacheStatsCounter;
 import com.google.common.collect.CacheStatsCounterImpl;
 import com.google.common.collect.ComputingConcurrentHashMap.ComputingMapAdapter;
 import com.google.common.collect.CustomConcurrentHashMap.Strength;
-import com.google.common.collect.MapMaker.RemovalListener.RemovalCause;
 
 import java.io.Serializable;
 import java.lang.ref.SoftReference;
@@ -49,8 +48,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
-
-import javax.annotation.Nullable;
 
 /**
  * A {@link ConcurrentMap} builder, providing any combination of these features: {@linkplain
@@ -696,91 +693,122 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    * Implementations of this interface should avoid performing blocking calls or synchronizing on
    * shared resources.
    *
-   * @param <K> the type of keys being evicted
-   * @param <V> the type of values being evicted
+   * @param <K> the most general type of keys this listener can listen for; for
+   *     example {@code Object} if any key is acceptable
+   * @param <V> the most general type of values this listener can listen for; for
+   *     example {@code Object} if any key is acceptable
    */
   // TODO(user): make public when fully tested
   interface RemovalListener<K, V> {
 
-    public enum RemovalCause {
-      /**
-       * The entry was manully removed from the map. This could result from a call to
-       * {@code Map.remove}, {@code ConcurrentMap.remove}, or {@code Iterator.remove}.
-       */
-      EXPLICIT {
-        @Override
-        boolean wasEvicted() {
-          return false;
-        }
-      },
+    /**
+     * Notifies the listener that a removal occurred at some point in the past.
+     */
+    void onRemoval(RemovalNotification<K, V> notification);
+  }
 
-      /**
-       * The entry's value was replaced due to a manual operation on the map. This could result from
-       * a call to {@code Map.put}, {@code Map.putAll}, or {@code ConcurrentMap.replace}.
-       */
-      REPLACED {
-        @Override
-        boolean wasEvicted() {
-          return false;
-        }
-      },
+  /**
+   * A notification of the removal of a single entry. The key and/or value may be {@code null} if
+   * they were already garbage collected.
+   *
+   * <p>Like other {Map.Entry} instances associated with MapMaker this class holds strong references
+   * to the key and value, regardless of the type of references the map may be using.
+   */
+  // TODO(user): make public when fully tested
+  static final class RemovalNotification<K, V> extends ImmutableEntry<K, V> {
+    private static final long serialVersionUID = 0;
 
-      /**
-       * The entry was removed automatically because its key or value was garbage-collected. This
-       * could occur on maps created with {@code softKeys}, {@code softValues}, {@code weakKeys}, or
-       * {@code weakValues}.
-       */
-      COLLECTED {
-        @Override
-        boolean wasEvicted() {
-          return true;
-        }
-      },
+    private final RemovalCause cause;
 
-      /**
-       * The entry expired. This could occur on maps created with {@code expireAfterWrite} or
-       * {@code expireAfterAccess}.
-       */
-      EXPIRED {
-        @Override
-        boolean wasEvicted() {
-          return true;
-        }
-      },
-
-      /**
-       * The entry was evicted from the map due to its size. This could occur on maps created with
-       * {@code maximumSize}.
-       */
-      SIZE {
-        @Override
-        boolean wasEvicted() {
-          return true;
-        }
-      };
-
-      /**
-       * Returns true if the removal was due to eviction, false if the removal was caused by a user
-       * operation.
-       */
-      abstract boolean wasEvicted();
+    RemovalNotification(K key, V value, RemovalCause cause) {
+      super(key, value);
+      this.cause = cause;
     }
 
     /**
-     * Notifies the listener that a removal has occurred.
-     *
-     * @param key the key of the entry that has already been evicted, or {@code
-     *     null} if its reference was collected
-     * @param value the value of the entry that has already been evicted, or
-     *     {@code null} if its reference was collected
-     * @param cause the cause of the removal
+     * Returns the cause for which the entry was removed.
      */
-    // TODO(user): pass in a RemovalNotification or something, containing the key, value, cause, a
-    // wasEvicted method, possibly a timestamp, and leaving room for adding weights
-    void onRemoval(@Nullable K key, @Nullable V value, RemovalCause cause);
+    public RemovalCause getCause() {
+      return cause;
+    }
+
+    /**
+     * Returns {@code true} if there was an auotmatic removal due to eviction (the cause is neither
+     * {@link #EXPLICIT} nor {@link #REPLACED}).
+     */
+    public boolean wasEvicted() {
+      return cause.wasEvicted();
+    }
   }
 
-  private static class EvictionToRemovalListener<K, V>
+  // TODO(user): make public when fully tested
+  enum RemovalCause {
+    /**
+     * The entry was manually removed by the user. This can result from the user invoking {@link
+     * Cache#invalidate}, {@link Map#remove}, {@link ConcurrentMap#remove}, or {@link
+     * Iterator#remove}.
+     */
+    EXPLICIT {
+      @Override
+      boolean wasEvicted() {
+        return false;
+      }
+    },
+
+    /**
+     * The entry itself was not actually removed, but its value was replaced by the user. This can
+     * result from the user invoking {@link Map#put}, {@link Map#putAll}, {@link
+     * ConcurrentMap#replace(K, V)}, or {@link ConcurrentMap#replace(K, V, V)}.
+     */
+    REPLACED {
+      @Override
+      boolean wasEvicted() {
+        return false;
+      }
+    },
+
+    /**
+     * The entry was removed automatically because its key or value was garbage-collected. This
+     * can occur when using {@link #softKeys}, {@link #softValues}, {@link #weakKeys}, or {@link
+     * #weakValues}.
+     */
+    COLLECTED {
+      @Override
+      boolean wasEvicted() {
+        return true;
+      }
+    },
+
+    /**
+     * The entry's expiration timestamp has passed. This can occur when using {@link
+     * #expireAfterWrite} or {@link #expireAfterAccess}.
+     */
+    EXPIRED {
+      @Override
+      boolean wasEvicted() {
+        return true;
+      }
+    },
+
+    /**
+     * The entry was evicted due to size constraints. This can occur when using {@link
+     * #maximumSize}.
+     */
+    SIZE {
+      @Override
+      boolean wasEvicted() {
+        return true;
+      }
+    };
+
+    /**
+     * Returns {@code true} if there was an auotmatic removal due to eviction (the cause is neither
+     * {@link #EXPLICIT} nor {@link #REPLACED}).
+     */
+    abstract boolean wasEvicted();
+  }
+
+  private static final class EvictionToRemovalListener<K, V>
       implements RemovalListener<K, V>, Serializable {
     private static final long serialVersionUID = 0;
     private final MapEvictionListener<K, V> evictionListener;
@@ -790,9 +818,9 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
     }
 
     @Override
-    public void onRemoval(K key, V value, RemovalCause cause) {
-      if (cause.wasEvicted()) {
-        evictionListener.onEviction(key, value);
+    public void onRemoval(RemovalNotification<K, V> notification) {
+      if (notification.wasEvicted()) {
+        evictionListener.onEviction(notification.getKey(), notification.getValue());
       }
     }
   }
@@ -802,12 +830,11 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
       implements ConcurrentMap<K, V>, Serializable {
     private static final long serialVersionUID = 0;
 
-    final RemovalListener<K, V> removalListener;
-    final RemovalCause removalCause;
+    private final RemovalListener<K, V> removalListener;
+    private final RemovalCause removalCause;
 
-    @SuppressWarnings("unchecked")
     NullConcurrentMap(MapMaker mapMaker) {
-      removalListener = (RemovalListener<K, V>) mapMaker.getRemovalListener();
+      removalListener = mapMaker.getRemovalListener();
       removalCause = mapMaker.nullRemovalCause;
     }
 
@@ -831,11 +858,17 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
       return null;
     }
 
+    void notifyRemoval(K key, V value) {
+      RemovalNotification<K, V> notification =
+          new RemovalNotification<K, V>(key, value, removalCause);
+      removalListener.onRemoval(notification);
+    }
+
     @Override
     public V put(K key, V value) {
       checkNotNull(key);
       checkNotNull(value);
-      removalListener.onRemoval(key, value, removalCause);
+      notifyRemoval(key, value);
       return null;
     }
 
@@ -896,7 +929,7 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
       K key = (K) k;
       V value = compute(key);
       checkNotNull(value, computingFunction + " returned null for key " + key + ".");
-      removalListener.onRemoval(key, value, removalCause);
+      notifyRemoval(key, value);
       return value;
     }
 
