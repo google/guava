@@ -226,6 +226,16 @@ public class MapMaker extends GenericMapMaker<Object, Object> {
   }
 
   @Override
+  MapMaker strongKeys() {
+    return this;
+  }
+
+  @Override
+  MapMaker strongValues() {
+    return this;
+  }
+
+  @Override
   public <K, V> ConcurrentMap<K, V> makeMap() {
     return useCustomMap
         ? new ExpiringComputingMap<K, V>(expirationMillis, null, maximumSize, initialCapacity,

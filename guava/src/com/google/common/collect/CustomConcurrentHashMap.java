@@ -2403,7 +2403,8 @@ class CustomConcurrentHashMap<K, V>
     // Specialized implementations of map methods
 
     /**
-     * Returns the entry for a given key. Note that the entry may not be live.
+     * Returns the entry for a given key. Note that the entry may not be live. This is used in
+     * Interners and for testing.
      */
     ReferenceEntry<K, V> getEntry(Object key, int hash) {
       if (count != 0) { // read-volatile

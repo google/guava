@@ -19,9 +19,12 @@ package com.google.common.collect;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.Beta;
+import com.google.common.annotations.GwtIncompatible;
+import com.google.common.base.Equivalences;
 import com.google.common.base.FinalizableReferenceQueue;
 import com.google.common.base.FinalizableWeakReference;
 import com.google.common.base.Function;
+import com.google.common.collect.CustomConcurrentHashMap.ReferenceEntry;
 
 import java.util.concurrent.ConcurrentMap;
 
@@ -36,43 +39,80 @@ public final class Interners {
   private Interners() {}
 
   /**
-   * Returns a new thread-safe interner which retains a strong reference to each
-   * instance it has interned, thus preventing these instances from being
-   * garbage-collected. If this retention is acceptable, this implementation may
-   * perform better than {@link #newWeakInterner}. Note that unlike {@link
-   * String#intern}, using this interner does not consume memory in the
-   * permanent generation.
+   * Returns a new thread-safe interner which retains a strong reference to each instance it has
+   * interned, thus preventing these instances from being garbage-collected. If this retention is
+   * acceptable, this implementation may perform better than {@link #newWeakInterner}. Note that
+   * unlike {@link String#intern}, using this interner does not consume memory in the permanent
+   * generation.
    */
   public static <E> Interner<E> newStrongInterner() {
     final ConcurrentMap<E, E> map = new MapMaker().makeMap();
     return new Interner<E>() {
-      @Override
-      public E intern(E sample) {
+      @Override public E intern(E sample) {
         E canonical = map.putIfAbsent(checkNotNull(sample), sample);
         return (canonical == null) ? sample : canonical;
       }
     };
   }
 
+  private static class CustomInterner<E> implements Interner<E> {
+    // MapMaker is our friend, we know about this type
+    private final CustomConcurrentHashMap<E, Dummy> map;
+
+    CustomInterner(GenericMapMaker<? super E, Object> mm) {
+      this.map = mm
+          .strongValues()
+          .privateKeyEquivalence(Equivalences.equals())
+          .makeCustomMap();
+    }
+
+    @Override public E intern(E sample) {
+      while (true) {
+        // trying to read the canonical...
+        ReferenceEntry<E, Dummy> entry = map.getEntry(sample);
+        if (entry != null) {
+          E canonical = entry.getKey();
+          if (canonical != null) { // only matters if weak/soft keys are used
+            return canonical;
+          }
+        }
+
+        // didn't see it, trying to put it instead...
+        Dummy sneaky = map.putIfAbsent(sample, Dummy.VALUE);
+        if (sneaky == null) {
+          return sample;
+        } else {
+          /* Someone beat us to it! Trying again...
+           *
+           * Technically this loop not guaranteed to terminate, so theoretically (extremely
+           * unlikely) this thread might starve, but even then, there is always going to be another
+           * thread doing progress here.
+           */
+        }
+      }
+    }
+
+    private enum Dummy { VALUE }
+  }
+
   /**
-   * Returns a new thread-safe interner which retains a weak reference to each
-   * instance it has interned, and so does not prevent these instances from
-   * being garbage-collected. This most likely does not perform as well as
-   * {@link #newStrongInterner}, but is the best alternative when the memory
-   * usage of that implementation is unacceptable. Note that unlike {@link
-   * String#intern}, using this interner does not consume memory in the
-   * permanent generation.
+   * Returns a new thread-safe interner which retains a weak reference to each instance it has
+   * interned, and so does not prevent these instances from being garbage-collected. This most
+   * likely does not perform as well as {@link #newStrongInterner}, but is the best alternative
+   * when the memory usage of that implementation is unacceptable. Note that unlike {@link
+   * String#intern}, using this interner does not consume memory in the permanent generation.
    */
+  @GwtIncompatible("java.lang.ref.WeakReference")
   public static <E> Interner<E> newWeakInterner() {
+    // note: we don't currently replace this with the above generic implementation, which appears
+    // to perform slightly worse than this
     return new WeakInterner<E>();
   }
 
   private static class WeakInterner<E> implements Interner<E> {
-    private final ConcurrentMap<InternReference, InternReference> map
-        = new MapMaker().makeMap();
+    private final ConcurrentMap<InternReference, InternReference> map = new MapMaker().makeMap();
 
-    @Override
-    public E intern(final E sample) {
+    @Override public E intern(final E sample) {
       final int hashCode = sample.hashCode();
 
       // TODO(kevinb): stop using the dummy instance; use custom Equivalence?
@@ -85,12 +125,11 @@ public final class Interners {
             return false;
           }
           /*
-           * Implicitly an unchecked cast to WeakInterner<?>.InternReference,
-           * though until OpenJDK 7, the compiler doesn't recognize this. If we
-           * could explicitly cast to the wildcard type
-           * WeakInterner<?>.InternReference, that would be sufficient for our
-           * purposes. The compiler, however, rejects such casts (or rather, it
-           * does until OpenJDK 7).
+           * Implicitly an unchecked cast to WeakInterner<?>.InternReference, though until
+           * OpenJDK 7, the compiler doesn't recognize this. If we could explicitly cast to the
+           * wildcard type WeakInterner<?>.InternReference, that would be sufficient for our
+           * purposes. The compiler, however, rejects such casts (or rather, it does until
+           * OpenJDK 7).
            *
            * See Sun bug 6665356.
            */
@@ -123,8 +162,7 @@ public final class Interners {
       }
     }
 
-    private static final FinalizableReferenceQueue frq
-        = new FinalizableReferenceQueue();
+    private static final FinalizableReferenceQueue frq = new FinalizableReferenceQueue();
 
     class InternReference extends FinalizableWeakReference<E> {
       final int hashCode;
@@ -133,8 +171,7 @@ public final class Interners {
         super(key, frq);
         hashCode = hash;
       }
-      @Override
-      public void finalizeReferent() {
+      @Override public void finalizeReferent() {
         map.remove(this);
       }
       @Override public E get() {
@@ -154,19 +191,16 @@ public final class Interners {
         if (object instanceof WeakInterner.InternReference) {
           /*
            * On the following line, Eclipse wants a type parameter, producing
-           * WeakInterner<?>.InternReference. The problem is that javac rejects
-           * that form. Omitting WeakInterner satisfies both, though this seems
-           * odd, since we are inside a WeakInterner<E> and thus the
-           * WeakInterner<E> is implied, yet there is no reason to believe that
-           * the other object's WeakInterner has type E. That's right -- we've
-           * found a way to perform an unchecked cast without receiving a
-           * warning from either Eclipse or javac. Taking advantage of that
-           * seems questionable, even though we don't depend upon the type of
-           * that.get(), so we'll just suppress the warning.
+           * WeakInterner<?>.InternReference. The problem is that javac rejects that form. Omitting
+           * WeakInterner satisfies both, though this seems odd, since we are inside a
+           * WeakInterner<E> and thus the WeakInterner<E> is implied, yet there is no reason to
+           * believe that the other object's WeakInterner has type E. That's right -- we've found a
+           * way to perform an unchecked cast without receiving a warning from either Eclipse or
+           * javac. Taking advantage of that seems questionable, even though we don't depend upon
+           * the type of that.get(), so we'll just suppress the warning.
            */
           @SuppressWarnings("unchecked")
-          WeakInterner.InternReference that =
-              (WeakInterner.InternReference) object;
+          WeakInterner.InternReference that = (WeakInterner.InternReference) object;
           if (that.hashCode != hashCode) {
             return false;
           }
@@ -179,8 +213,7 @@ public final class Interners {
   }
 
   /**
-   * Returns a function that delegates to the {@link Interner#intern} method of
-   * the given interner.
+   * Returns a function that delegates to the {@link Interner#intern} method of the given interner.
    *
    * @since Guava release 08
    */

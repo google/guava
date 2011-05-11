@@ -19,6 +19,7 @@ package com.google.common.collect;
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.base.Equivalence;
 import com.google.common.base.Function;
 import com.google.common.base.Objects;
 import com.google.common.collect.MapMaker.RemovalListener;
@@ -55,6 +56,11 @@ public abstract class GenericMapMaker<K0, V0> {
   // No subclasses but our own
   GenericMapMaker() {}
 
+  // TODO(kevinb): undo this indirection once keyEquiv is made package-private
+  @GwtIncompatible("To be removed when #keyEquivalence is supported")
+  abstract GenericMapMaker<K0, V0> privateKeyEquivalence(
+      Equivalence<Object> equivalence);
+
   /**
    * See {@link MapMaker#initialCapacity}.
    */
@@ -69,6 +75,11 @@ public abstract class GenericMapMaker<K0, V0> {
   public abstract GenericMapMaker<K0, V0> maximumSize(int maximumSize);
 
   /**
+   * See {@link MapMaker#strongKeys}.
+   */
+  abstract GenericMapMaker<K0, V0> strongKeys();
+
+  /**
    * See {@link MapMaker#concurrencyLevel}.
    */
   public abstract GenericMapMaker<K0, V0> concurrencyLevel(int concurrencyLevel);
@@ -78,6 +89,11 @@ public abstract class GenericMapMaker<K0, V0> {
    */
   @GwtIncompatible("java.lang.ref.WeakReference")
   public abstract GenericMapMaker<K0, V0> weakKeys();
+
+  /**
+   * See {@link MapMaker#strongValues}.
+   */
+  abstract GenericMapMaker<K0, V0> strongValues();
 
   /**
    * See {@link MapMaker#softKeys}.
@@ -133,6 +149,12 @@ public abstract class GenericMapMaker<K0, V0> {
    * See {@link MapMaker#makeMap}.
    */
   public abstract <K extends K0, V extends V0> ConcurrentMap<K, V> makeMap();
+
+  /**
+   * See {@link MapMaker#makeCustomMap}.
+   */
+  @GwtIncompatible("CustomConcurrentHashMap")
+  abstract <K, V> CustomConcurrentHashMap<K, V> makeCustomMap();
 
   /**
    * See {@link MapMaker#makeComputingMap}.

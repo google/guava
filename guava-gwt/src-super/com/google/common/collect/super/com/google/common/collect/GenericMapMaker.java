@@ -42,6 +42,8 @@ public abstract class GenericMapMaker<K0, V0> {
   // No subclasses but our own
   GenericMapMaker() {}
 
+  // TODO(kevinb): undo this indirection once keyEquiv is made package-private
+
   /**
    * See {@link MapMaker#initialCapacity}.
    */
@@ -56,9 +58,19 @@ public abstract class GenericMapMaker<K0, V0> {
   public abstract GenericMapMaker<K0, V0> maximumSize(int maximumSize);
 
   /**
+   * See {@link MapMaker#strongKeys}.
+   */
+  abstract GenericMapMaker<K0, V0> strongKeys();
+
+  /**
    * See {@link MapMaker#concurrencyLevel}.
    */
   public abstract GenericMapMaker<K0, V0> concurrencyLevel(int concurrencyLevel);
+
+  /**
+   * See {@link MapMaker#strongValues}.
+   */
+  abstract GenericMapMaker<K0, V0> strongValues();
 
   /**
    * See {@link MapMaker#expiration}.

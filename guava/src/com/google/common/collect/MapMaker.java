@@ -174,6 +174,7 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
   }
 
   // TODO(kevinb): undo this indirection if keyEquiv gets released
+  @Override
   MapMaker privateKeyEquivalence(Equivalence<Object> equivalence) {
     checkState(keyEquivalence == null, "key equivalence was already set to %s", keyEquivalence);
     keyEquivalence = checkNotNull(equivalence);
@@ -282,6 +283,16 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
   }
 
   /**
+   * Specifies that each key (not value) stored in the map should be strongly referenced.
+   *
+   * @throws IllegalStateException if the key strength was already set
+   */
+  @Override
+  MapMaker strongKeys() {
+    return setKeyStrength(Strength.STRONG);
+  }
+
+  /**
    * Specifies that each key (not value) stored in the map should be wrapped in a
    * {@link WeakReference} (by default, strong references are used).
    *
@@ -329,6 +340,16 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
 
   Strength getKeyStrength() {
     return firstNonNull(keyStrength, Strength.STRONG);
+  }
+
+  /**
+   * Specifies that each key (not value) stored in the map should be strongly referenced.
+   *
+   * @throws IllegalStateException if the key strength was already set
+   */
+  @Override
+  MapMaker strongValues() {
+    return setValueStrength(Strength.STRONG);
   }
 
   /**
@@ -578,6 +599,16 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
     return (nullRemovalCause == null)
         ? new CustomConcurrentHashMap<K, V>(this, DEFAULT_STATS_COUNTER)
         : new NullConcurrentMap<K, V>(this);
+  }
+
+  /**
+   * Returns a CustomConcurrentHashMap for the benefit of internal callers that use features of
+   * that class not exposed through ConcurrentMap.
+   */
+  @Override
+  @GwtIncompatible("CustomConcurrentHashMap")
+  <K, V> CustomConcurrentHashMap<K, V> makeCustomMap() {
+    return new CustomConcurrentHashMap<K, V>(this, DEFAULT_STATS_COUNTER);
   }
 
   /**
