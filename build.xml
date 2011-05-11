@@ -303,7 +303,7 @@
           <pathelement location="${gwthome}/gwt-dev.jar"/>
         </classpath>
         <!-- add jvmarg -Xss16M or similar if you see a StackOverflowError -->
-        <jvmarg value="-Xmx256M"/>
+        <jvmarg value="-Xmx512M"/>
         <arg line="-war"/>
         <arg value="war"/>
         <arg line="-strict"/>

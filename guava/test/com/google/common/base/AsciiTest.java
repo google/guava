@@ -16,6 +16,8 @@
 
 package com.google.common.base;
 
+import com.google.common.annotations.GwtCompatible;
+
 import junit.framework.TestCase;
 
 /**
@@ -23,6 +25,7 @@ import junit.framework.TestCase;
  *
  * @author cberry@google.com (Craig Berry)
  */
+@GwtCompatible
 public class AsciiTest extends TestCase {
 
   /**
