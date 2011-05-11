@@ -26,10 +26,24 @@ import com.google.common.annotations.Beta;
  * @since Guava release 09
  */
 @Beta
-public interface Ticker {
+public abstract class Ticker {
   /**
    * Returns the number of nanoseconds elapsed since this ticker's fixed
    * point of reference.
    */
-  long read();
+  public abstract long read();
+
+  /**
+   * A ticker that reads the current time using {@link System#nanoTime}.
+   */
+  public static Ticker systemTicker() {
+    return SYSTEM_TICKER;
+  }
+      
+  private static final Ticker SYSTEM_TICKER = new Ticker() {
+    @Override
+    public long read() {
+      return System.nanoTime();
+    }
+  };
 }

@@ -140,13 +140,6 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
     }
   };
 
-  static final Ticker DEFAULT_TICKER = new Ticker() {
-    @Override
-    public long read() {
-      return System.nanoTime();
-    }
-  };
-
   static final int UNSET_INT = -1;
 
   // TODO(kevinb): dispense with this after benchmarking
@@ -482,7 +475,7 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
   }
 
   Ticker getTicker() {
-    return firstNonNull(ticker, DEFAULT_TICKER);
+    return firstNonNull(ticker, Ticker.systemTicker());
   }
 
   /**
