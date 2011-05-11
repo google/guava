@@ -26,6 +26,7 @@ import com.google.testing.util.SerializableTester;
 
 import junit.framework.TestCase;
 
+import java.io.Serializable;
 import java.util.Map;
 
 /**
@@ -374,6 +375,52 @@ public class FunctionsTest extends TestCase {
   @GwtIncompatible("SerializableTester")
   public void testConstantSerializable() {
     checkCanReserialize(Functions.constant(5));
+  }
+
+  private static class CountingSupplier
+      implements Supplier<Integer>, Serializable {
+
+    private static final long serialVersionUID = 0;
+    
+    private int value;
+
+    @Override
+    public Integer get() {
+      return ++value;
+    }
+    
+    @Override
+    public boolean equals(Object obj) {
+      if (obj instanceof CountingSupplier) {
+        return this.value == ((CountingSupplier) obj).value;
+      }
+      return false;
+    }
+    
+    @Override
+    public int hashCode() {
+      return value;
+    }
+  }
+
+  public void testForSupplier() {
+    Supplier<Integer> supplier = new CountingSupplier();
+    Function<Object, Integer> function = Functions.forSupplier(supplier);
+
+    assertEquals(1, (int) function.apply(null));
+    assertEquals(2, (int) function.apply("foo"));
+    
+    new EqualsTester(function)
+        .addEqualObject(Functions.forSupplier(supplier))
+        .addNotEqualObject(Functions.forSupplier(new CountingSupplier()))
+        .addNotEqualObject(Functions.forSupplier(Suppliers.ofInstance(12)))
+        .addNotEqualObject(Functions.toStringFunction())
+        .testEquals();
+  }
+
+  @GwtIncompatible("SerializableTester")
+  public void testForSupplierSerializable() {
+    checkCanReserialize(Functions.forSupplier(new CountingSupplier()));
   }
 
   @GwtIncompatible("SerializableTester")

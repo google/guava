@@ -19,6 +19,7 @@ package com.google.common.base;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 
 import java.io.Serializable;
@@ -303,6 +304,49 @@ public final class Functions {
       return "constant(" + value + ")";
     }
 
+    private static final long serialVersionUID = 0;
+  }
+
+  /**
+   * Returns a function that always returns the result of invoking {@link Supplier#get} on {@code
+   * supplier}, regardless of its input.
+   * 
+   * @since Guava release 10
+   */
+  @Beta
+  public static <T> Function<Object, T> forSupplier(Supplier<T> supplier) {
+    return new SupplierFunction<T>(supplier);
+  }
+
+  /** @see Functions#forSupplier*/
+  private static class SupplierFunction<T> implements Function<Object, T>, Serializable {
+    
+    private final Supplier<T> supplier;
+
+    private SupplierFunction(Supplier<T> supplier) {
+      this.supplier = checkNotNull(supplier);
+    }
+
+    @Override public T apply(@Nullable Object input) {
+      return supplier.get();
+    }
+    
+    @Override public boolean equals(@Nullable Object obj) {
+      if (obj instanceof SupplierFunction) {
+        SupplierFunction<?> that = (SupplierFunction<?>) obj;
+        return this.supplier.equals(that.supplier);
+      }
+      return false;
+    }
+    
+    @Override public int hashCode() {
+      return supplier.hashCode();
+    }
+    
+    @Override public String toString() {
+      return "forSupplier(" + supplier + ")";
+    }
+    
     private static final long serialVersionUID = 0;
   }
 }
