@@ -24,49 +24,48 @@ import com.google.common.annotations.GwtCompatible;
 import javax.annotation.Nullable;
 
 /**
- * An immutable object that may or may not contain a non-null reference to another object. Note that
- * an instance of this type never "contains {@code null}"; it either contains a non-null reference
- * or it contains nothing (the reference is "absent"). The method {@link #isPresent} distinguishes
- * between these cases.
+ * An immutable object that may contain a non-null reference to another object. Each
+ * instance of this type either contains a non-null reference, or contains nothing (in
+ * which case we say that the reference is "absent"); it is never said to "contain {@code
+ * null}".
  *
- * <p>Java's type system does not account for nullability; that is, an intentionally-nullable
- * reference has the same type as one that is expected never to be null. One reason to use a
- * non-null {@code Optional<Foo>} reference in place of a nullable {@code Foo} reference is to
- * surface this distinction to the type system; the two types are no longer interchangeable. Also,
- * the need to invoke {@link #get} serves as a reminder to either check {@link #isPresent} or
- * provide a default value, while with a nullable reference, it's easy to accidentally dereference
- * it without checking.
+ * <p>A non-null {@code Optional<T>} reference can be used as a replacement for a nullable
+ * {@code T} reference. It allows you to represent "a {@code T} that must be present" and
+ * a "a {@code T} that might be absent" as two distinct types in your program, which can
+ * aid clarity.
  *
- * <p>(Note that if you can find or create a suitable
- * <a href="http://en.wikipedia.org/wiki/Null_Object_pattern">null object</a>, you may not need
- * <i>either</i> strategy for coping with nullability.)
- *
- * <p>Other uses of this class include
+ * <p>Some uses of this class include
  *
  * <ul>
- * <li>To distinguish between "unknown" (for example, not present in a map) and "known to have no
- *     value" (present in the map, with value {@code Optional.absent()})
- * <li>To wrap nullable references for storage in a collection that does not support {@code null}
- *     (though there are
+ * <li>As a method return type, as an alternative to returning {@code null} to indicate
+ *     that no value was available
+ * <li>To distinguish between "unknown" (for example, not present in a map) and "known to
+ *     have no value" (present in the map, with value {@code Optional.absent()})
+ * <li>To wrap nullable references for storage in a collection that does not support
+ *     {@code null} (though there are
  *     <a href="http://code.google.com/p/guava-libraries/wiki/LivingWithNullHostileCollections">
  *     several other approaches to this</a> that should be considered first)
  * </ul>
  *
- * <p>This class is not intended as a direct analogue of any existing "option" or "maybe" construct
- * from other programming environments, though it may bear some similarities.
+ * <p>A common alternative to using this class is to find or create a suitable
+ * <a href="http://en.wikipedia.org/wiki/Null_Object_pattern">null object</a> for the
+ * type in question.
  *
- * <p>If you are looking for a <i>mutable</i> holder class, see {@link Holder}.
+ * <p>This class is not intended as a direct analogue of any existing "option" or "maybe"
+ * construct from other programming environments, though it may bear some similarities.
  *
- * @param <T> the type of instance that can be contained. {@code Optional} is naturally covariant on
- *     this type, so it is safe to cast an {@code Optional<T>} to {@code Optional<S>} for any
- *     supertype {@code S} of {@code T}.  
+ * <p>For a <i>mutable</i> holder class, see {@link Holder}.
+ *
+ * @param <T> the type of instance that can be contained. {@code Optional} is naturally
+ *     covariant on this type, so it is safe to cast an {@code Optional<T>} to {@code
+ *     Optional<S>} for any supertype {@code S} of {@code T}.
  * @author Kurt Alfred Kluever
  * @author Kevin Bourrillion
  * @since Guava release 10
  */
 @Beta
 @GwtCompatible
-public abstract class Optional<T> {
+public abstract class Optional<T> implements BaseHolder<T> {
   /**
    * Returns an {@code Optional} instance with no contained reference.
    */
@@ -97,21 +96,6 @@ public abstract class Optional<T> {
   private Optional() {}
 
   /**
-   * Returns {@code true} if this instance contains a reference.
-   */
-  public abstract boolean isPresent();
-
-  // TODO(kevinb): isAbsent too?
-
-  /**
-   * Returns the contained non-null reference, which must be present.
-   *
-   * @throws IllegalStateException if the reference is absent ({@link #isPresent} returns {@code
-   *     false})
-   */
-  public abstract T get();
-
-  /**
    * Returns the contained non-null reference if it is present; {@code defaultValue} otherwise.
    *
    * @deprecated use {@link #orNull} for {@code get(null)}; {@link #or(Object)} otherwise
@@ -120,25 +104,16 @@ public abstract class Optional<T> {
   @Deprecated @Nullable public abstract T get(@Nullable T defaultValue);
 
   /**
-   * Returns the contained non-null reference if it is present; {@code defaultValue} otherwise.
+   * Returns this {@code Optional} if it has a value present; {@code secondChoice}
+   * otherwise.
    */
-  public abstract T or(T defaultValue);
-
-  /**
-   * Returns this {@code Optional} if it has a value present; {@code secondChoice} otherwise.
-   */
-  // ? extends T is the best we can do; if it doesn't fit you'll have to do some creative casting
   public abstract Optional<T> or(Optional<? extends T> secondChoice);
 
   /**
-   * Returns the contained non-null reference if it is present; {@code null} otherwise.
-   */
-  @Nullable public abstract T orNull();
-
-  /**
-   * Returns {@code true} if {@code object} is an {@code Optional} instance, and either the
-   * contained references are {@linkplain Object#equals equal} to each other or both are absent.
-   * Note that {@code Optional} instances of differing parameterized types can be equal.
+   * Returns {@code true} if {@code object} is an {@code Optional} instance, and either
+   * the contained references are {@linkplain Object#equals equal} to each other or both
+   * are absent. Note that {@code Optional} instances of differing parameterized types can
+   * be equal.
    */
   @Override public abstract boolean equals(@Nullable Object object);
 
@@ -148,8 +123,8 @@ public abstract class Optional<T> {
   @Override public abstract int hashCode();
 
   /**
-   * Returns a string representation for this instance. The form of this string representation is
-   * unspecified.
+   * Returns a string representation for this instance. The form of this string
+   * representation is unspecified.
    */
   @Override public abstract String toString();
 
@@ -173,7 +148,7 @@ public abstract class Optional<T> {
     }
 
     @Override public T or(T defaultValue) {
-      checkNotNull(defaultValue);
+      checkNotNull(defaultValue, "use orNull() instead of or(null)");
       return reference;
     }
 
@@ -217,7 +192,7 @@ public abstract class Optional<T> {
     }
 
     @Override public Object or(Object defaultValue) {
-      return checkNotNull(defaultValue);
+      return checkNotNull(defaultValue, "use orNull() instead of or(null)");
     }
 
     @SuppressWarnings("unchecked") // safe covariant cast
