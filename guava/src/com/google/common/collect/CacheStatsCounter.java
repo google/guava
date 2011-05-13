@@ -22,7 +22,7 @@ import com.google.common.annotations.Beta;
  * Accumulates statistics during the operation of a {@link Cache} for presentation by {@link
  * Cache#stats}. This is solely intended for consumption by {@code Cache} implementors.
  *
- * @author fry@google.com (Charles Fry)
+ * @author Charles Fry
  * @since Guava release 10
  */
 @Beta

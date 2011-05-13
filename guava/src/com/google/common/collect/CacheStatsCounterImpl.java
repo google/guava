@@ -23,7 +23,7 @@ import java.util.concurrent.atomic.AtomicLongArray;
 /**
  * A thread-safe {@link Counter} implementation for use by {@link Cache} implementors.
  *
- * @author fry@google.com (Charles Fry)
+ * @author Charles Fry
  * @since Guava release 10
  */
 @Beta

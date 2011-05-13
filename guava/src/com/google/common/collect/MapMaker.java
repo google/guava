@@ -130,7 +130,7 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
           return EMPTY_STATS;
         }
       });
-  private static final CacheStats EMPTY_STATS = new CacheStats(0, 0, 0, 0, 0);
+  static final CacheStats EMPTY_STATS = new CacheStats(0, 0, 0, 0, 0);
 
   static final Supplier<CacheStatsCounterImpl> CACHE_STATS_COUNTER =
       new Supplier<CacheStatsCounterImpl>() {
@@ -659,9 +659,15 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
   @Override
   public <K, V> ConcurrentMap<K, V> makeComputingMap(
       Function<? super K, ? extends V> computingFunction) {
+    CacheLoader<? super K, ? extends V> loader = CacheLoader.from(computingFunction);
+    return makeComputingMap(loader);
+  }
+
+  <K, V> ConcurrentMap<K, V> makeComputingMap(
+      CacheLoader<? super K, ? extends V> loader) {
     return useNullCache()
-        ? new ComputingMapAdapter<K, V>(this, CACHE_STATS_COUNTER, computingFunction)
-        : new NullComputingConcurrentMap<K, V>(this, computingFunction);
+        ? new ComputingMapAdapter<K, V>(this, CACHE_STATS_COUNTER, loader)
+        : new NullComputingConcurrentMap<K, V>(this, loader);
   }
 
   /**
@@ -832,7 +838,7 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
     abstract boolean wasEvicted();
   }
 
-  private static final class EvictionToRemovalListener<K, V>
+  static final class EvictionToRemovalListener<K, V>
       implements RemovalListener<K, V>, Serializable {
     private static final long serialVersionUID = 0;
     private final MapEvictionListener<K, V> evictionListener;
@@ -939,12 +945,11 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
   static final class NullComputingConcurrentMap<K, V> extends NullConcurrentMap<K, V> {
     private static final long serialVersionUID = 0;
 
-    final Function<? super K, ? extends V> computingFunction;
+    final CacheLoader<? super K, ? extends V> loader;
 
-    NullComputingConcurrentMap(MapMaker mapMaker,
-        Function<? super K, ? extends V> computingFunction) {
+    NullComputingConcurrentMap(MapMaker mapMaker, CacheLoader<? super K, ? extends V> loader) {
       super(mapMaker);
-      this.computingFunction = checkNotNull(computingFunction);
+      this.loader = checkNotNull(loader);
     }
 
     @SuppressWarnings("unchecked") // unsafe, which is why Cache is preferred
@@ -952,7 +957,7 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
     public V get(Object k) {
       K key = (K) k;
       V value = compute(key);
-      checkNotNull(value, computingFunction + " returned null for key " + key + ".");
+      checkNotNull(value, loader + " returned null for key " + key + ".");
       notifyRemoval(key, value);
       return value;
     }
@@ -960,7 +965,7 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
     private V compute(K key) {
       checkNotNull(key);
       try {
-        return computingFunction.apply(key);
+        return loader.load(key);
       } catch (ComputationException e) {
         throw e;
       } catch (Throwable t) {

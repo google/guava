@@ -53,6 +53,7 @@ public final class CacheStats {
   private final long createCount;
   private final long totalCreateTime;
   private final long evictionCount;
+  // TODO(user): add createExceptionCount?
 
   /**
    * Constructs a new {@code CacheStats} instance.

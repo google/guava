@@ -50,6 +50,7 @@ import java.util.Queue;
 import java.util.Set;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -611,9 +612,9 @@ class CustomConcurrentHashMap<K, V>
      * Waits for a value that may still be computing. Unlike get(), this method can block (in the
      * case of FutureValueReference).
      *
-     * @throws AsynchronousComputationException if the computing thread throws an exception
+     * @throws ExecutionException if the computing thread throws an exception
      */
-    V waitForValue();
+    V waitForValue() throws ExecutionException;
 
     /**
      * Clears this reference object.
