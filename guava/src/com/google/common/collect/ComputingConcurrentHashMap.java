@@ -22,6 +22,7 @@ import static com.google.common.base.Preconditions.checkState;
 import com.google.common.base.Equivalence;
 import com.google.common.base.Supplier;
 import com.google.common.base.Throwables;
+import com.google.common.collect.AbstractCache.StatsCounter;
 import com.google.common.collect.MapMaker.RemovalCause;
 import com.google.common.collect.MapMaker.RemovalListener;
 
@@ -50,7 +51,7 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V> {
    * concurrency level.
    */
   ComputingConcurrentHashMap(MapMaker builder,
-      Supplier<? extends CacheStatsCounter> statsCounterSupplier,
+      Supplier<? extends StatsCounter> statsCounterSupplier,
       CacheLoader<? super K, ? extends V> loader) {
     super(builder, statsCounterSupplier);
     this.loader = checkNotNull(loader);
@@ -58,7 +59,7 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V> {
 
   @Override
   Segment<K, V> createSegment(int initialCapacity, int maxSegmentSize,
-      CacheStatsCounter statsCounter) {
+      StatsCounter statsCounter) {
     return new ComputingSegment<K, V>(this, initialCapacity, maxSegmentSize, statsCounter);
   }
 
@@ -75,7 +76,7 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V> {
   @SuppressWarnings("serial") // This class is never serialized.
   static final class ComputingSegment<K, V> extends Segment<K, V> {
     ComputingSegment(CustomConcurrentHashMap<K, V> map, int initialCapacity, int maxSegmentSize,
-        CacheStatsCounter statsCounter) {
+        StatsCounter statsCounter) {
       super(map, initialCapacity, maxSegmentSize, statsCounter);
     }
 
@@ -369,7 +370,7 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V> {
     private static final long serialVersionUID = 0;
 
     ComputingMapAdapter(MapMaker mapMaker,
-        Supplier<? extends CacheStatsCounter> statsCounterSupplier,
+        Supplier<? extends StatsCounter> statsCounterSupplier,
         CacheLoader<? super K, ? extends V> loader) {
       super(mapMaker, statsCounterSupplier, loader);
     }

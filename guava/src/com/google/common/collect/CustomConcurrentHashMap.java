@@ -27,6 +27,7 @@ import com.google.common.base.FinalizableSoftReference;
 import com.google.common.base.FinalizableWeakReference;
 import com.google.common.base.Supplier;
 import com.google.common.base.Ticker;
+import com.google.common.collect.AbstractCache.StatsCounter;
 import com.google.common.collect.GenericMapMaker.NullListener;
 import com.google.common.collect.MapMaker.RemovalCause;
 import com.google.common.collect.MapMaker.RemovalListener;
@@ -193,7 +194,7 @@ class CustomConcurrentHashMap<K, V>
    * Creates a new, empty map with the specified strategy, initial capacity and concurrency level.
    */
   CustomConcurrentHashMap(MapMaker builder,
-      Supplier<? extends CacheStatsCounter> statsCounterSupplier) {
+      Supplier<? extends StatsCounter> statsCounterSupplier) {
     concurrencyLevel = Math.min(builder.getConcurrencyLevel(), MAX_SEGMENTS);
 
     keyStrength = builder.getKeyStrength();
@@ -2021,7 +2022,7 @@ class CustomConcurrentHashMap<K, V>
   }
 
   Segment<K, V> createSegment(
-      int initialCapacity, int maxSegmentSize, CacheStatsCounter statsCounter) {
+      int initialCapacity, int maxSegmentSize, StatsCounter statsCounter) {
     return new Segment<K, V>(this, initialCapacity, maxSegmentSize, statsCounter);
   }
 
@@ -2199,10 +2200,10 @@ class CustomConcurrentHashMap<K, V>
     final Queue<ReferenceEntry<K, V>> expirationQueue;
 
     /** Accumulates cache statistics. */
-    final CacheStatsCounter statsCounter;
+    final StatsCounter statsCounter;
 
     Segment(CustomConcurrentHashMap<K, V> map, int initialCapacity, int maxSegmentSize,
-        CacheStatsCounter statsCounter) {
+        StatsCounter statsCounter) {
       this.map = map;
       this.maxSegmentSize = maxSegmentSize;
       this.statsCounter = statsCounter;
