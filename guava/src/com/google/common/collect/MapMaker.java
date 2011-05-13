@@ -504,8 +504,8 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    * each time an entry is removed from the map by any means.
    *
    * <p>A map built by this map maker will invoke the supplied listener after removing an element
-   * for any reason (see removal causes in {@link RemovalListener.RemovalCause}). It will invoke
-   * the listener during invocations of any of that map's public methods (even read-only methods).
+   * for any reason (see removal causes in {@link RemovalCause}). It will invoke the listener during
+   * invocations of any of that map's public methods (even read-only methods).
    *
    * <p><b>Important note:</b> Instead of returning <em>this</em> as a {@code MapMaker} instance,
    * this method returns {@code GenericMapMaker<K, V>}. From this point on, either the original
@@ -521,10 +521,11 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    * {@link ClassCastException} at an undefined point in the future.
    *
    * @throws IllegalStateException if a removal listener was already set
+   * @since Guava release 10
    */
+  @Beta
   @GwtIncompatible("To be supported")
-  // TODO(user): make public when fully tested
-  <K, V> GenericMapMaker<K, V> removalListener(RemovalListener<K, V> listener) {
+  public <K, V> GenericMapMaker<K, V> removalListener(RemovalListener<K, V> listener) {
     checkState(this.removalListener == null);
 
     // safely limiting the kinds of maps this can produce
@@ -559,9 +560,14 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    * {@link ClassCastException} at an undefined point in the future.
    *
    * @throws IllegalStateException if an eviction listener was already set
+   * @deprecated use {@link #removalListener}, which provides additional information about the
+   *     entry being evicted; note that {@link #evictionListener} only notifies on removals due to
+   *     eviction, while {@link #removalListener} also notifies on explicit removal (providing the
+   *     {@link RemovalCause} to indicate the specific cause of removal.
    * @since Guava release 07
    */
   @Beta
+  @Deprecated
   @GwtIncompatible("To be supported")
   public <K, V> GenericMapMaker<K, V> evictionListener(MapEvictionListener<K, V> listener) {
     checkState(this.removalListener == null);
@@ -727,10 +733,10 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    *     example {@code Object} if any key is acceptable
    * @param <V> the most general type of values this listener can listen for; for
    *     example {@code Object} if any key is acceptable
+   * @since Guava release 10
    */
-  // TODO(user): make public when fully tested
-  interface RemovalListener<K, V> {
-
+  @Beta
+  public interface RemovalListener<K, V> {
     /**
      * Notifies the listener that a removal occurred at some point in the past.
      */
@@ -743,9 +749,11 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    *
    * <p>Like other {Map.Entry} instances associated with MapMaker this class holds strong references
    * to the key and value, regardless of the type of references the map may be using.
+   *
+   * @since Guava release 10
    */
-  // TODO(user): make public when fully tested
-  static final class RemovalNotification<K, V> extends ImmutableEntry<K, V> {
+  @Beta
+  public static final class RemovalNotification<K, V> extends ImmutableEntry<K, V> {
     private static final long serialVersionUID = 0;
 
     private final RemovalCause cause;
@@ -763,20 +771,25 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
     }
 
     /**
-     * Returns {@code true} if there was an auotmatic removal due to eviction (the cause is neither
-     * {@link #EXPLICIT} nor {@link #REPLACED}).
+     * Returns {@code true} if there was an automatic removal due to eviction (the cause is neither
+     * {@link RemovalCause#EXPLICIT} nor {@link RemovalCause#REPLACED}).
      */
     public boolean wasEvicted() {
       return cause.wasEvicted();
     }
   }
 
-  // TODO(user): make public when fully tested
-  enum RemovalCause {
+  /**
+   * The reason why an entry was removed.
+   *
+   * @since Guava release 10
+   */
+  @Beta
+  public enum RemovalCause {
     /**
      * The entry was manually removed by the user. This can result from the user invoking {@link
      * Cache#invalidate}, {@link Map#remove}, {@link ConcurrentMap#remove}, or {@link
-     * Iterator#remove}.
+     * java.util.Iterator#remove}.
      */
     EXPLICIT {
       @Override
@@ -787,8 +800,9 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
 
     /**
      * The entry itself was not actually removed, but its value was replaced by the user. This can
-     * result from the user invoking {@link Map#put}, {@link Map#putAll}, {@link
-     * ConcurrentMap#replace(K, V)}, or {@link ConcurrentMap#replace(K, V, V)}.
+     * result from the user invoking {@link Map#put}, {@link Map#putAll},
+     * {@link ConcurrentMap#replace(Object, Object)}, or
+     * {@link ConcurrentMap#replace(Object, Object, Object)}.
      */
     REPLACED {
       @Override
@@ -832,7 +846,7 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
     };
 
     /**
-     * Returns {@code true} if there was an auotmatic removal due to eviction (the cause is neither
+     * Returns {@code true} if there was an automatic removal due to eviction (the cause is neither
      * {@link #EXPLICIT} nor {@link #REPLACED}).
      */
     abstract boolean wasEvicted();

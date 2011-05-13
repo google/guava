@@ -2360,14 +2360,12 @@ class CustomConcurrentHashMap<K, V>
 
     // eviction
 
-    void enqueueNotification(
-        K key, int hash, ValueReference<K, V> valueReference, RemovalCause cause) {
+    void enqueueNotification(K key, int hash, V value, RemovalCause cause) {
       if (cause.wasEvicted()) {
         statsCounter.recordEviction();
       }
       if (map.removalNotificationQueue != DISCARDING_QUEUE) {
-        RemovalNotification<K, V> notification =
-            new RemovalNotification<K, V>(key, valueReference.get(), cause);
+        RemovalNotification<K, V> notification = new RemovalNotification<K, V>(key, value, cause);
         map.removalNotificationQueue.offer(notification);
       }
     }
@@ -2543,7 +2541,7 @@ class CustomConcurrentHashMap<K, V>
             } else {
               // clobber existing entry, count remains unchanged
               ++modCount;
-              enqueueNotification(key, hash, valueReference, RemovalCause.REPLACED);
+              enqueueNotification(key, hash, entryValue, RemovalCause.REPLACED);
               setValue(e, value);
               return entryValue;
             }
@@ -2657,6 +2655,7 @@ class CustomConcurrentHashMap<K, V>
 
             if (map.valueEquivalence.equivalent(oldValue, entryValue)) {
               ++modCount;
+              enqueueNotification(key, hash, entryValue, RemovalCause.REPLACED);
               setValue(e, newValue);
               return true;
             } else {
@@ -2694,6 +2693,7 @@ class CustomConcurrentHashMap<K, V>
             }
 
             ++modCount;
+            enqueueNotification(key, hash, entryValue, RemovalCause.REPLACED);
             setValue(e, newValue);
             return entryValue;
           }
@@ -2730,7 +2730,7 @@ class CustomConcurrentHashMap<K, V>
               table.set(index, newFirst);
               this.count = newCount; // write-volatile
               ValueReference<K, V> valueReference = e.getValueReference();
-              enqueueNotification(entryKey, hash, valueReference, RemovalCause.EXPLICIT);
+              enqueueNotification(entryKey, hash, entryValue, RemovalCause.EXPLICIT);
               return entryValue;
             }
             return null;
@@ -2769,7 +2769,7 @@ class CustomConcurrentHashMap<K, V>
               table.set(index, newFirst);
               this.count = newCount; // write-volatile
               ValueReference<K, V> valueReference = e.getValueReference();
-              enqueueNotification(entryKey, hash, valueReference, RemovalCause.EXPLICIT);
+              enqueueNotification(entryKey, hash, entryValue, RemovalCause.EXPLICIT);
               return true;
             }
             return false;
@@ -2792,7 +2792,7 @@ class CustomConcurrentHashMap<K, V>
             for (int i = 0; i < table.length(); ++i) {
               for (ReferenceEntry<K, V> e = table.get(i); e != null; e = e.getNext()) {
                 enqueueNotification(
-                    e.getKey(), e.getHash(), e.getValueReference(), RemovalCause.EXPLICIT);
+                    e.getKey(), e.getHash(), e.getValueReference().get(), RemovalCause.EXPLICIT);
               }
             }
           }
@@ -2852,7 +2852,8 @@ class CustomConcurrentHashMap<K, V>
         for (ReferenceEntry<K, V> e = first; e != null; e = e.getNext()) {
           if (e == entry) {
             ++modCount;
-            enqueueNotification(e.getKey(), hash, e.getValueReference(), RemovalCause.COLLECTED);
+            enqueueNotification(
+                e.getKey(), hash, e.getValueReference().get(), RemovalCause.COLLECTED);
             enqueueCleanup(e);
             count = newCount; // write-volatile
             return true;
@@ -2882,7 +2883,7 @@ class CustomConcurrentHashMap<K, V>
             ValueReference<K, V> v = e.getValueReference();
             if (v == valueReference) {
               ++modCount;
-              enqueueNotification(key, hash, valueReference, RemovalCause.COLLECTED);
+              enqueueNotification(key, hash, valueReference.get(), RemovalCause.COLLECTED);
               enqueueCleanup(e);
               this.count = newCount; // write-volatile
               return true;
@@ -2949,7 +2950,7 @@ class CustomConcurrentHashMap<K, V>
       }
 
       K key = entry.getKey();
-      enqueueNotification(key, hash, valueReference, cause);
+      enqueueNotification(key, hash, valueReference.get(), cause);
       enqueueCleanup(entry);
       this.count = newCount; // write-volatile
       return true;
@@ -3465,6 +3466,7 @@ class CustomConcurrentHashMap<K, V>
     return segmentFor(hash).put(key, hash, value, false);
   }
 
+  @Override
   public V putIfAbsent(K key, V value) {
     int hash = hash(key);
     return segmentFor(hash).put(key, hash, value, true);
@@ -3488,6 +3490,7 @@ class CustomConcurrentHashMap<K, V>
    *
    * @throws NullPointerException if the specified key is null
    */
+  @Override
   public boolean remove(Object key, Object value) {
     int hash = hash(key);
     return segmentFor(hash).remove(key, hash, value);
@@ -3498,6 +3501,7 @@ class CustomConcurrentHashMap<K, V>
    *
    * @throws NullPointerException if any of the arguments are null
    */
+  @Override
   public boolean replace(K key, V oldValue, V newValue) {
     int hash = hash(key);
     return segmentFor(hash).replace(key, hash, oldValue, newValue);
@@ -3510,6 +3514,7 @@ class CustomConcurrentHashMap<K, V>
    *         mapping for the key
    * @throws NullPointerException if the specified key or value is null
    */
+  @Override
   public V replace(K key, V value) {
     int hash = hash(key);
     return segmentFor(hash).replace(key, hash, value);
@@ -3658,6 +3663,7 @@ class CustomConcurrentHashMap<K, V>
 
   final class KeyIterator extends HashIterator implements Iterator<K> {
 
+    @Override
     public K next() {
       return nextEntry().getKey();
     }
@@ -3665,6 +3671,7 @@ class CustomConcurrentHashMap<K, V>
 
   final class ValueIterator extends HashIterator implements Iterator<V> {
 
+    @Override
     public V next() {
       return nextEntry().getValue();
     }
@@ -3719,6 +3726,7 @@ class CustomConcurrentHashMap<K, V>
 
   final class EntryIterator extends HashIterator implements Iterator<Entry<K, V>> {
 
+    @Override
     public Entry<K, V> next() {
       return nextEntry();
     }
