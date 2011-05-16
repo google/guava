@@ -32,8 +32,10 @@ import javax.annotation.Nullable;
  * @param <V> the type of values being evicted
  * @author Ben Manes
  * @since Guava release 07
+ * @deprecated use {@link MapMaker.RemovalListener}
  */
 @Beta
+@Deprecated
 public interface MapEvictionListener<K, V> {
 
   /**
