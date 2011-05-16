@@ -164,7 +164,11 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V> {
                 }
                 if (value != null) {
                   // putIfAbsent
-                  put(key, hash, value, true);
+                  V oldValue = put(key, hash, value, true);
+                  if (oldValue != null) {
+                    // the computed value was already clobbered
+                    enqueueNotification(key, hash, value, RemovalCause.REPLACED);
+                  }
                 }
                 statsCounter.recordMiss();
                 statsCounter.recordCreate(end - start);

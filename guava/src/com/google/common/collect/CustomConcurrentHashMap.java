@@ -2525,7 +2525,7 @@ class CustomConcurrentHashMap<K, V>
                 newCount = this.count; // count remains unchanged
               }
               this.count = newCount; // write-volatile
-              return entryValue;
+              return null;
             } else if (onlyIfAbsent) {
               // Mimic
               // "if (!map.containsKey(key)) ...
