@@ -102,7 +102,7 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V> {
             try {
               preWriteCleanup();
 
-              // getFirst, but remember the index
+              int newCount = this.count - 1;
               AtomicReferenceArray<ReferenceEntry<K, V>> table = this.table;
               int index = hash & (table.length() - 1);
               ReferenceEntry<K, V> first = table.get(index);
@@ -123,8 +123,11 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V> {
                       statsCounter.recordHit();
                       return value;
                     }
-                    // immediately reuse invalid entries
-                    removeLiveEntry(e, hash, RemovalCause.COLLECTED);
+                    // immediately reuse partially collected entries
+                    enqueueNotification(entryKey, hash, value, RemovalCause.COLLECTED);
+                    evictionQueue.remove(e);
+                    expirationQueue.remove(e);
+                    this.count = newCount; // write-volatile
                   }
                   break;
                 }

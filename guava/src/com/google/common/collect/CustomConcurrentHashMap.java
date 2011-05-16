@@ -42,7 +42,6 @@ import java.util.AbstractCollection;
 import java.util.AbstractMap;
 import java.util.AbstractQueue;
 import java.util.AbstractSet;
-import java.util.LinkedList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
@@ -2165,14 +2164,6 @@ class CustomConcurrentHashMap<K, V>
     final int maxSegmentSize;
 
     /**
-     * The cleanup queue is used to record entries which have been unset and need to be removed
-     * from the map. It is drained by the cleanup executor.
-     */
-    // TODO(user): switch to ArrayDeque if we ever require JDK 1.6
-    @GuardedBy("Segment.this")
-    final Queue<ReferenceEntry<K, V>> cleanupQueue = new LinkedList<ReferenceEntry<K, V>>();
-
-    /**
      * The recency queue is used to record which entries were accessed for updating the eviction
      * list's ordering. It is drained as a batch operation when either the DRAIN_THRESHOLD is
      * crossed or a write occurs on the segment.
@@ -2361,6 +2352,10 @@ class CustomConcurrentHashMap<K, V>
 
     // eviction
 
+    void enqueueNotification(ReferenceEntry<K, V> entry, RemovalCause cause) {
+      enqueueNotification(entry.getKey(), entry.getHash(), entry.getValueReference().get(), cause);
+    }
+
     void enqueueNotification(K key, int hash, V value, RemovalCause cause) {
       if (cause.wasEvicted()) {
         statsCounter.recordEviction();
@@ -2502,10 +2497,8 @@ class CustomConcurrentHashMap<K, V>
         int newCount = this.count + 1;
         if (newCount > this.threshold) { // ensure capacity
           expand();
-          newCount = this.count + 1;
         }
 
-        // getFirst, but remember the index
         AtomicReferenceArray<ReferenceEntry<K, V>> table = this.table;
         int index = hash & (table.length() - 1);
         ReferenceEntry<K, V> first = table.get(index);
@@ -2522,15 +2515,15 @@ class CustomConcurrentHashMap<K, V>
 
             if (entryValue == null) {
               ++modCount;
-              // Value could be partially-collected, unset, or computing.
-              // In the first case, the value must be reclaimed. In the latter
-              // two cases en entry must be evicted. This entry could be both
-              // partially-collected and next on the eviction list, which is why
-              // notifyValueReclaimed must be called prior to evictEntries.
-              valueReference.notifyValueReclaimed();
-              evictEntries();
-              newCount = this.count + 1;
               setValue(e, value);
+              if (valueReference.isComputingReference()) {
+                if (evictEntries()) { // evictEntries after setting new value
+                  newCount = this.count + 1;
+                }
+              } else {
+                enqueueNotification(key, hash, entryValue, RemovalCause.COLLECTED);
+                newCount = this.count; // count remains unchanged
+              }
               this.count = newCount; // write-volatile
               return entryValue;
             } else if (onlyIfAbsent) {
@@ -2549,16 +2542,14 @@ class CustomConcurrentHashMap<K, V>
           }
         }
 
-        if (evictEntries()) {
-          newCount = this.count + 1;
-          first = table.get(index);
-        }
-
         // Create a new entry.
         ++modCount;
         ReferenceEntry<K, V> newEntry = map.newEntry(key, hash, first);
         setValue(newEntry, value);
         table.set(index, newEntry);
+        if (evictEntries()) { // evictEntries after setting new value
+          newCount = this.count + 1;
+        }
         this.count = newCount; // write-volatile
         return null;
       } finally {
@@ -2621,13 +2612,10 @@ class CustomConcurrentHashMap<K, V>
 
             // Clone nodes leading up to the tail.
             for (ReferenceEntry<K, V> e = head; e != tail; e = e.getNext()) {
-              if (isCollected(e)) {
-                removeLiveEntry(e, e.getHash(), RemovalCause.COLLECTED);
-              } else {
-                int newIndex = e.getHash() & newMask;
-                ReferenceEntry<K, V> newNext = newTable.get(newIndex);
-                newTable.set(newIndex, map.copyEntry(e, newNext));
-              }
+              int newIndex = e.getHash() & newMask;
+              ReferenceEntry<K, V> newNext = newTable.get(newIndex);
+              ReferenceEntry<K, V> newFirst = map.copyEntry(e, newNext);
+              newTable.set(newIndex, newFirst);
             }
           }
         }
@@ -2650,7 +2638,6 @@ class CustomConcurrentHashMap<K, V>
             // and we should pretend like it doesn't exist.
             V entryValue = e.getValueReference().get();
             if (entryValue == null) {
-              removeLiveEntry(e, hash, RemovalCause.COLLECTED);
               return false;
             }
 
@@ -2689,7 +2676,6 @@ class CustomConcurrentHashMap<K, V>
             // and we should pretend like it doesn't exist.
             V entryValue = e.getValueReference().get();
             if (entryValue == null) {
-              removeLiveEntry(e, hash, RemovalCause.COLLECTED);
               return null;
             }
 
@@ -2722,16 +2708,12 @@ class CustomConcurrentHashMap<K, V>
           if (e.getHash() == hash && entryKey != null
               && map.keyEquivalence.equivalent(key, entryKey)) {
             V entryValue = e.getValueReference().get();
-            if (entryValue == null) {
-              removeLiveEntry(e, hash, RemovalCause.COLLECTED);
-            } else {
+            if (entryValue != null) {
               ++modCount;
-              ReferenceEntry<K, V> newFirst = removeFromChain(first, e); // could decrement count
-              newCount = this.count - 1;
+              enqueueNotification(entryKey, hash, entryValue, RemovalCause.EXPLICIT);
+              ReferenceEntry<K, V> newFirst = removeFromChain(first, e);
               table.set(index, newFirst);
               this.count = newCount; // write-volatile
-              ValueReference<K, V> valueReference = e.getValueReference();
-              enqueueNotification(entryKey, hash, entryValue, RemovalCause.EXPLICIT);
               return entryValue;
             }
             return null;
@@ -2761,16 +2743,12 @@ class CustomConcurrentHashMap<K, V>
           if (e.getHash() == hash && entryKey != null
               && map.keyEquivalence.equivalent(key, entryKey)) {
             V entryValue = e.getValueReference().get();
-            if (entryValue == null) {
-              removeLiveEntry(e, hash, RemovalCause.COLLECTED);
-            } else if (map.valueEquivalence.equivalent(value, entryValue)) {
+            if (map.valueEquivalence.equivalent(value, entryValue)) {
               ++modCount;
-              ReferenceEntry<K, V> newFirst = removeFromChain(first, e); // could decrement count
-              newCount = this.count - 1;
+              enqueueNotification(entryKey, hash, entryValue, RemovalCause.EXPLICIT);
+              ReferenceEntry<K, V> newFirst = removeFromChain(first, e);
               table.set(index, newFirst);
               this.count = newCount; // write-volatile
-              ValueReference<K, V> valueReference = e.getValueReference();
-              enqueueNotification(entryKey, hash, entryValue, RemovalCause.EXPLICIT);
               return true;
             }
             return false;
@@ -2792,8 +2770,7 @@ class CustomConcurrentHashMap<K, V>
           if (map.removalNotificationQueue != DISCARDING_QUEUE) {
             for (int i = 0; i < table.length(); ++i) {
               for (ReferenceEntry<K, V> e = table.get(i); e != null; e = e.getNext()) {
-                enqueueNotification(
-                    e.getKey(), e.getHash(), e.getValueReference().get(), RemovalCause.EXPLICIT);
+                enqueueNotification(e, RemovalCause.EXPLICIT);
               }
             }
           }
@@ -2817,6 +2794,8 @@ class CustomConcurrentHashMap<K, V>
      * Removes an entry from within a table. All entries following the removed node can stay, but
      * all preceding ones need to be cloned.
      *
+     * <p>This method does not decrement count.
+     *
      * @param first the first entry of the table
      * @param entry the entry being removed from the table
      * @return the new first entry for the table
@@ -2828,11 +2807,7 @@ class CustomConcurrentHashMap<K, V>
 
       ReferenceEntry<K, V> newFirst = entry.getNext();
       for (ReferenceEntry<K, V> e = first; e != entry; e = e.getNext()) {
-        if (isCollected(e)) {
-          removeLiveEntry(e, e.getHash(), RemovalCause.COLLECTED);
-        } else {
-          newFirst = map.copyEntry(e, newFirst);
-        }
+        newFirst = map.copyEntry(e, newFirst);
       }
       return newFirst;
     }
@@ -2855,8 +2830,9 @@ class CustomConcurrentHashMap<K, V>
             ++modCount;
             enqueueNotification(
                 e.getKey(), hash, e.getValueReference().get(), RemovalCause.COLLECTED);
-            enqueueCleanup(e);
-            count = newCount; // write-volatile
+            ReferenceEntry<K, V> newFirst = removeFromChain(first, e);
+            table.set(index, newFirst);
+            this.count = newCount; // write-volatile
             return true;
           }
         }
@@ -2877,7 +2853,11 @@ class CustomConcurrentHashMap<K, V>
       lock();
       try {
         int newCount = this.count - 1;
-        for (ReferenceEntry<K, V> e = getFirst(hash); e != null; e = e.getNext()) {
+        AtomicReferenceArray<ReferenceEntry<K, V>> table = this.table;
+        int index = hash & (table.length() - 1);
+        ReferenceEntry<K, V> first = table.get(index);
+
+        for (ReferenceEntry<K, V> e = first; e != null; e = e.getNext()) {
           K entryKey = e.getKey();
           if (e.getHash() == hash && entryKey != null
               && map.keyEquivalence.equivalent(key, entryKey)) {
@@ -2885,7 +2865,8 @@ class CustomConcurrentHashMap<K, V>
             if (v == valueReference) {
               ++modCount;
               enqueueNotification(key, hash, valueReference.get(), RemovalCause.COLLECTED);
-              enqueueCleanup(e);
+              ReferenceEntry<K, V> newFirst = removeFromChain(first, e);
+              table.set(index, newFirst);
               this.count = newCount; // write-volatile
               return true;
             }
@@ -2902,16 +2883,24 @@ class CustomConcurrentHashMap<K, V>
       }
     }
 
+    /**
+     * Clears a value that has not yet been set, and thus does not require count to be modified.
+     */
     boolean clearValue(K key, int hash, ValueReference<K, V> valueReference) {
       lock();
       try {
-        for (ReferenceEntry<K, V> e = getFirst(hash); e != null; e = e.getNext()) {
+        AtomicReferenceArray<ReferenceEntry<K, V>> table = this.table;
+        int index = hash & (table.length() - 1);
+        ReferenceEntry<K, V> first = table.get(index);
+
+        for (ReferenceEntry<K, V> e = first; e != null; e = e.getNext()) {
           K entryKey = e.getKey();
           if (e.getHash() == hash && entryKey != null
               && map.keyEquivalence.equivalent(key, entryKey)) {
             ValueReference<K, V> v = e.getValueReference();
             if (v == valueReference) {
-              enqueueCleanup(e);
+              ReferenceEntry<K, V> newFirst = removeFromChain(first, e);
+              table.set(index, newFirst);
               return true;
             }
             return false;
@@ -2927,66 +2916,23 @@ class CustomConcurrentHashMap<K, V>
 
     @GuardedBy("Segment.this")
     boolean removeEntry(ReferenceEntry<K, V> entry, int hash, RemovalCause cause) {
-      for (ReferenceEntry<K, V> e = getFirst(hash); e != null; e = e.getNext()) {
+      int newCount = this.count - 1;
+      AtomicReferenceArray<ReferenceEntry<K, V>> table = this.table;
+      int index = hash & (table.length() - 1);
+      ReferenceEntry<K, V> first = table.get(index);
+
+      for (ReferenceEntry<K, V> e = first; e != null; e = e.getNext()) {
         if (e == entry) {
-          return removeLiveEntry(entry, hash, cause);
+          ++modCount;
+          enqueueNotification(e.getKey(), hash, e.getValueReference().get(), cause);
+          ReferenceEntry<K, V> newFirst = removeFromChain(first, e);
+          table.set(index, newFirst);
+          this.count = newCount; // write-volatile
+          return true;
         }
       }
 
       return false;
-    }
-
-    @GuardedBy("Segment.this")
-    boolean removeLiveEntry(ReferenceEntry<K, V> entry, int hash, RemovalCause cause) {
-      if (isUnset(entry)) {
-        // keep count consistent
-        return false;
-      }
-
-      int newCount = this.count - 1;
-      ++modCount;
-      ValueReference<K, V> valueReference = entry.getValueReference();
-      if (valueReference.isComputingReference()) {
-        return false;
-      }
-
-      K key = entry.getKey();
-      enqueueNotification(key, hash, valueReference.get(), cause);
-      enqueueCleanup(entry);
-      this.count = newCount; // write-volatile
-      return true;
-    }
-
-    @GuardedBy("Segment.this")
-    void enqueueCleanup(ReferenceEntry<K, V> entry) {
-      ValueReference<K, V> unset = unset();
-      entry.setValueReference(unset);
-      evictionQueue.remove(entry);
-      expirationQueue.remove(entry);
-      cleanupQueue.offer(entry);
-    }
-
-    /**
-     * Returns true if the entry has been partially collected, meaning that either the key is null,
-     * or the value is null and it is not computing.
-     */
-    boolean isCollected(ReferenceEntry<K, V> entry) {
-      if (entry.getKey() == null) {
-        return true;
-      }
-      ValueReference<K, V> valueReference = entry.getValueReference();
-      if (valueReference.isComputingReference()) {
-        return false;
-      }
-      return valueReference.get() == null;
-    }
-
-    boolean isUnset(ReferenceEntry<K, V> entry) {
-      return isUnset(entry.getValueReference());
-    }
-
-    boolean isUnset(ValueReference<K, V> valueReference) {
-      return valueReference == UNSET;
     }
 
     /**
@@ -3006,28 +2952,6 @@ class CustomConcurrentHashMap<K, V>
         return null;
       }
       return value;
-    }
-
-    @GuardedBy("Segment.this")
-    void processPendingCleanup() {
-      AtomicReferenceArray<ReferenceEntry<K, V>> table = this.table;
-      ReferenceEntry<K, V> entry;
-      int cleanedUp = 0;
-      while (cleanedUp < CLEANUP_MAX && (entry = cleanupQueue.poll()) != null) {
-        int index = entry.getHash() & (table.length() - 1);
-
-        ReferenceEntry<K, V> first = table.get(index);
-        for (ReferenceEntry<K, V> e = first; e != null; e = e.getNext()) {
-          if (e == entry) {
-            if (isUnset(e)) {
-              ReferenceEntry<K, V> newFirst = removeFromChain(first, e);
-              table.set(index, newFirst);
-              cleanedUp++;
-            }
-            break;
-          }
-        }
-      }
     }
 
     /**
@@ -3068,7 +2992,6 @@ class CustomConcurrentHashMap<K, V>
       if (tryLock()) {
         try {
           expireEntries(); // calls drainRecencyQueue
-          processPendingCleanup();
           readCount.set(0);
         } finally {
           unlock();
