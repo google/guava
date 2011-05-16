@@ -368,7 +368,7 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V> {
    * Overrides get() to compute on demand. Also throws an exception when null is returned from a
    * computation.
    */
-  static class ComputingMapAdapter<K, V>
+  static final class ComputingMapAdapter<K, V>
       extends ComputingConcurrentHashMap<K, V> implements Serializable {
     private static final long serialVersionUID = 0;
 
