@@ -75,6 +75,9 @@ import java.util.Queue;
  *     O(log n) time}
  * <li>The {@link #remove(Object)} and {@link #contains} operations require
  *     linear ({@code O(n)}) time
+ * <li>If you only access one end of the queue, and don't use a maximum size,
+ *     this class is functionally equivalent to {@link PriorityQueue}, but
+ *     significantly slower.
  * </ul>
  *
  * @author Sverre Sundsdal

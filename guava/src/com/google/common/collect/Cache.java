@@ -31,8 +31,7 @@ import javax.annotation.Nullable;
  *
  * <p>All methods other than {@link #get} are optional.
  *
- * <p>When evaluated as a {@link Function}, a cache yields the same result as
- * invoking {@link #get}.
+ * <p>When evaluated as a {@link Function}, a cache yields the same result as invoking {@link #get}.
  *
  * @author Charles Fry
  * @since Guava release 10
@@ -42,8 +41,10 @@ public interface Cache<K, V> extends Function<K, V> {
 
   /**
    * Returns the value associated with the given key, creating or retrieving that value if
-   * necessary. The implementation may support null as a valid cached value, or may return null
-   * without caching it, or may not permit null results at all.
+   * necessary. No state associated with this cache is modified until computation completes.
+   *
+   * <p>The implementation may support {@code null} as a valid cached value, or may return {@code
+   * null} without caching it, or may not permit null results at all.
    *
    * <p>This method is identical to {@link #getChecked} except that exceptions which occur during
    * cache loading are unchecked.
@@ -56,8 +57,10 @@ public interface Cache<K, V> extends Function<K, V> {
 
   /**
    * Returns the value associated with the given key, creating or retrieving that value if
-   * necessary. The implementation may support null as a valid cached value, or may return null
-   * without caching it, or may not permit null results at all.
+   * necessary. No state associated with this cache is modified until computation completes.
+   *
+   * <p>The implementation may support {@code null} as a valid cached value, or may return {@code
+   * null} without caching it, or may not permit null results at all.
    *
    * <p>This method is identical to {@link #get} except that exceptions which occur during cache
    * loading are checked.
@@ -122,9 +125,9 @@ public interface Cache<K, V> extends Function<K, V> {
    * Returns a view of the entries stored in this cache as a thread-safe map. Assume that none of
    * the returned map's optional operations will be implemented, unless specified otherwise.
    *
-   * <p>Note that the view's {@code get} method will return {@code null} if an entry is not found
-   * in the cache for a given key. Unlike {@link Cache#get} it will never attempt to create a
-   * missing value.
+   * <p>Operations on the returned map will never trigger a computation. So, unlike {@link
+   * Cache#get}, this map's {@link Map#get get} method will just return {@code null} immediately for
+   * a key that is not already cached.
    *
    * @throws UnsupportedOperationException if this operation is not supported by the cache
    *     implementation

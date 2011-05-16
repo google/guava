@@ -344,11 +344,11 @@ public final class InetAddresses {
 
   private static byte parseOctet(String ipPart) {
     int octet = Integer.parseInt(ipPart);
-    // Disallow negatives (including -0), and values that don't fit in 8 bits.
+    // Disallow +/-, and values that don't fit in 8 bits.
     // Also disallow leading zeroes, because no clear standard exists on
     // whether these should be interpreted as decimal or octal.
-    if (ipPart.startsWith("-") || octet > 255 ||
-        (ipPart.startsWith("0") && ipPart.length() > 1)) {
+    int firstDigit = Character.digit(ipPart.charAt(0), 10);
+    if (firstDigit == -1 || octet > 255 || (firstDigit == 0 && ipPart.length() > 1)) {
       throw new NumberFormatException();
     }
     return (byte) octet;
@@ -356,8 +356,8 @@ public final class InetAddresses {
 
   private static short parseHextet(String ipPart) {
     int hextet = Integer.parseInt(ipPart, 16);
-    // Disallow negatives (including -0), and values that don't fit in 16 bits.
-    if (ipPart.startsWith("-") || hextet > 0xffff) {
+    // Disallow +/-, and values that don't fit in 16 bits.
+    if (Character.digit(ipPart.charAt(0), 16) == -1 || hextet > 0xffff) {
       throw new NumberFormatException();
     }
     return (short) hextet;
