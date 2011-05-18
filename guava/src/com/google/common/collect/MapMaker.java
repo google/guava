@@ -437,6 +437,7 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    * @deprecated use {@link #expireAfterWrite}, which behaves exactly the same. <b>This method is
    *     scheduled for deletion in July 2012.</b>
    */
+  @Deprecated
   @Override
   public
   MapMaker expiration(long duration, TimeUnit unit) {
