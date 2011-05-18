@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>com.google.guava</groupId>
+    <artifactId>guava-parent</artifactId>
+    <version>r10-SNAPSHOT</version>
+  </parent>
+  <artifactId>guava-bootstrap</artifactId>
+  <name>Guava (Google Common Libraries) Compilation Bootstrap Classes</name>
+  <description>
+    ExecutorService's type parameters changed between JDK5 and JDK6 in a
+    way that makes it impossible for our invokeAll/invokeAny methods to
+    match both at compile time. This project builds a JDK6-like copy of
+    ExecutorService (but with JDK5 compiler settings to ensure that it will
+    work with JRE5 at runtime).  This project's is then used in the bootstrap
+    class path of Guava proper.
+  </description>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>1.5</source>
+          <target>1.5</target>
+        </configuration>
+      </plugin>
+    </plugins>
+    <sourceDirectory>src</sourceDirectory>
+  </build>
+</project>

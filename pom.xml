@@ -51,6 +51,7 @@
   </developers>
   <modules>
     <module>guava</module>
+    <module>guava-bootstrap</module>
     <module>guava-gwt</module>
   </modules>
 </project>
