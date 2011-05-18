@@ -26,7 +26,7 @@ import java.io.Serializable;
 import javax.annotation.Nullable;
 
 /**
- * Computes or retrieves values, based on a key, for use in populating a {@Cache}.
+ * Computes or retrieves values, based on a key, for use in populating a {@code Cache}.
  *
  * @author Charles Fry
  * @since Guava release 10

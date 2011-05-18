@@ -98,7 +98,7 @@ public abstract class Optional<T> implements BaseHolder<T> {
   /**
    * Returns the contained non-null reference if it is present; {@code defaultValue} otherwise.
    *
-   * @deprecated use {@link #orNull} for {@code get(null)}; {@link #or(Object)} otherwise
+   * @deprecated use {@code orNull()} for {@code get(null)}; {@code or(T)} otherwise
    */
   // TODO(kevinb): remove
   @Deprecated @Nullable public abstract T get(@Nullable T defaultValue);
