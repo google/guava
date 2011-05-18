@@ -8,7 +8,6 @@
     <version>r10-SNAPSHOT</version>
   </parent>
   <artifactId>guava-gwt</artifactId>
-  <packaging>pom</packaging>
   <name>Guava (Google Common Libraries) GWT compatible libs</name>
   <description>
     Guava is a suite of core and expanded libraries that include 
@@ -22,6 +21,13 @@
       <groupId>com.google.guava</groupId>
       <artifactId>guava</artifactId>
       <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.google.guava</groupId>
+      <artifactId>guava</artifactId>
+      <version>${project.version}</version>
+      <classifier>sources</classifier>
+      <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>junit</groupId>
@@ -54,8 +60,70 @@
           <target>1.5</target>
         </configuration>
       </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>unpack-guava-sources</id>
+            <phase>generate-resources</phase>
+            <goals><goal>unpack-dependencies</goal></goals>
+            <configuration>
+              <includeArtifactIds>guava</includeArtifactIds>
+              <classifier>sources</classifier>
+              <overWrite>true</overWrite>
+              <excludeTransitive>true</excludeTransitive>
+              <includeScope>provided</includeScope>
+              <excludes>META-INF/MANIFEST.MF</excludes>
+              <outputDirectory>${project.build.directory}/guava-sources</outputDirectory>
+              <type>java-source</type>
+              <silent>false</silent>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <version>1.6</version>
+        <executions>
+          <execution>
+            <phase>generate-resources</phase>
+            <goals><goal>run</goal></goals>
+            <configuration>
+              <target name="copy-gwt-resources">
+                <echo message="Test"/>
+                <copy toDir="${project.build.directory}/guava-gwt-sources"
+                      verbose="true">
+                  <fileset dir="${project.build.directory}/guava-sources">
+                    <and>
+                      <contains text="@GwtCompatible"/>
+                      <not><contains text="emulated = true"/></not>
+                    </and>
+                  </fileset>
+                </copy>
+              </target>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
     </plugins>
     <sourceDirectory>src</sourceDirectory>
     <testSourceDirectory>disabled</testSourceDirectory>
+    <resources>
+      <resource>
+        <directory>src</directory>
+        <includes>
+          <include>**/*CustomFieldSerializer*.java</include>
+          <include>**/*.gwt.xml</include>
+        </includes>
+      </resource>
+      <resource>
+        <directory>src-super</directory>
+      </resource>
+      <resource>
+        <directory>${project.build.directory}/guava-gwt-sources</directory>
+      </resource>
+    </resources>
   </build>
 </project>

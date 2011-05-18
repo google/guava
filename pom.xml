@@ -51,5 +51,6 @@
   </developers>
   <modules>
     <module>guava</module>
+    <module>guava-gwt</module>
   </modules>
 </project>
