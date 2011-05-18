@@ -51,7 +51,7 @@
          match both at compile time. We build a JDK6-like copy of
          ExecutorService (but with JDK5 compiler settings to ensure that it will
          work with JRE5 at runtime) and compile against it. -->
-    <javac5 srcdir="overridebootsourcepath"
+    <javac5 srcdir="guava-bootstrap/src"
          destdir="overridebootclasspath"
          bootclasspath="${java5bootclasspath}">
     </javac5>
