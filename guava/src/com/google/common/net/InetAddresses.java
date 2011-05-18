@@ -920,6 +920,7 @@ public final class InetAddresses {
    * @return a new InetAddress that is one more than the passed in address.
    * @throws IllegalArgumentException if InetAddress is at the end of its
    *         range.
+   * @since Guava release 10
    */
   public static InetAddress increment(InetAddress address) {
     byte[] addr = address.getAddress();
@@ -946,6 +947,7 @@ public final class InetAddresses {
    *
    * @returns true if the InetAddress is either 255.255.255.255 for IPv4 or
    *          ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff for IPv6.
+   * @since Guava release 10
    */
   public static boolean isMaximum(InetAddress address) {
     byte[] addr = address.getAddress();

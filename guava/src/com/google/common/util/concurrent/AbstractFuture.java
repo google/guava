@@ -126,14 +126,12 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
    * call to {@link #cancel(boolean) cancel(true)}.
    *
    * <p>The default implementation does nothing.
+   *
+   * @since Guava release 10
    */
   protected void interruptTask() {
   }
 
-  /*
-   * Adds a listener/executor pair to execution list to execute when this task
-   * is completed.
-   */
   @Override
   public void addListener(Runnable listener, Executor exec) {
     executionList.add(listener, exec);
