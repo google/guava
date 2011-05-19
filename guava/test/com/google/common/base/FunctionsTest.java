@@ -20,9 +20,9 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
-import com.google.testing.util.EqualsTester;
-import com.google.testing.util.NullPointerTester;
-import com.google.testing.util.SerializableTester;
+import com.google.common.testing.EqualsTester;
+import com.google.common.testing.NullPointerTester;
+import com.google.common.testing.SerializableTester;
 
 import junit.framework.TestCase;
 

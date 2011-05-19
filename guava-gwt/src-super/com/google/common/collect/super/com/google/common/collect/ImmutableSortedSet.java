@@ -239,23 +239,6 @@ public abstract class ImmutableSortedSet<E>
         : new RegularImmutableSortedSet<E>(delegate, isSubset);
   }
 
-  @Deprecated
-  public static <E> ImmutableSortedSet<E> withExplicitOrder(List<E> elements) {
-    Ordering<E> ordering = Ordering.explicit(elements);
-    return elements.isEmpty()
-        ? new EmptyImmutableSortedSet<E>(ordering)
-        : new ExplicitOrderedImmutableSortedSet<E>(elements, ordering);
-  }
-
-  @Deprecated
-  public static <E> ImmutableSortedSet<E> withExplicitOrder(
-      E firstElement, E... remainingElementsInOrder) {
-    checkNotNull(firstElement);
-    checkNotNull(remainingElementsInOrder);
-    return withExplicitOrder(
-        Lists.asList(firstElement, remainingElementsInOrder));
-  }
-
   // This reference is only used by GWT compiler to infer the elements of the
   // set that needs to be serialized.
   private Comparator<E> unusedComparatorForSerialization;

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2010 The Guava Authors
+ * Copyright (C) 2008 The Guava Authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,18 +14,24 @@
  * limitations under the License.
  */
 
-package com.google.common.collect;
+package com.google.common.testing;
 
-import java.util.Comparator;
-import java.util.List;
+import com.google.common.annotations.Beta;
 
 /**
- * GWT emulation of {@link ExplicitOrderedImmutableSortedSet}.
+ * Any object which can accept registrations of {@link TearDown} instances.
  *
- * @author Hayward Chan
+ * @author Kevin Bourrillion
  */
-class ExplicitOrderedImmutableSortedSet<E> extends ImmutableSortedSet<E> {
-  ExplicitOrderedImmutableSortedSet(List<E> elements, Comparator<E> ordering) {
-    super(copyOf(ordering, elements));
-  }
+@Beta
+public interface TearDownAccepter {
+  /**
+   * Registers a TearDown implementor which will be run after the test proper.
+   *
+   * <p>In JUnit4 language, that means as an {@code @After}.
+   *
+   * <p>In JUnit3 language, that means during the
+   * {@link junit.framework.TestCase#tearDown()} step.
+   */
+  void addTearDown(TearDown tearDown);
 }

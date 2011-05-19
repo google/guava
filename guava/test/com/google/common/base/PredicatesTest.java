@@ -19,9 +19,9 @@ package com.google.common.base;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.ImmutableSet;
-import com.google.testing.util.EqualsTester;
-import com.google.testing.util.NullPointerTester;
-import com.google.testing.util.SerializableTester;
+import com.google.common.testing.EqualsTester;
+import com.google.common.testing.NullPointerTester;
+import com.google.common.testing.SerializableTester;
 
 import junit.framework.TestCase;
 
@@ -738,6 +738,7 @@ public class PredicatesTest extends TestCase {
   /*
    * Tests that compilation will work when applying explicit types.
    */
+  @SuppressWarnings("unused")
   public void testIn_compilesWithExplicitSupertype() {
     Collection<Number> nums = ImmutableSet.of();
     Predicate<Number> p1 = Predicates.in(nums);

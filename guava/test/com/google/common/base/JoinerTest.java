@@ -22,7 +22,7 @@ import com.google.common.base.Joiner.MapJoiner;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.google.testing.util.NullPointerTester;
+import com.google.common.testing.NullPointerTester;
 
 import junit.framework.Assert;
 import junit.framework.TestCase;

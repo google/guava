@@ -19,7 +19,6 @@ package com.google.common.collect;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 
 import java.io.InvalidObjectException;
@@ -484,58 +483,6 @@ public abstract class ImmutableSortedSet<E>
           : comparator.equals(comparator2);
     }
     return false;
-  }
-
-  /**
-   * Returns an immutable sorted set containing the elements in the given list
-   * in the same order. It is useful when the elements already have the desired
-   * order but constructing the appropriate comparator is difficult.
-   *
-   * @throws NullPointerException if any of the elements is null
-   * @throws IllegalArgumentException if {@code elements} contains any
-   *     duplicate values (according to {@link Object#equals})
-   * @since Guava release 03
-   * @deprecated If the provided elements are already in their natural order,
-   *     {@link #copyOf(Iterable)} will produce a set with the same elements in
-   *     the same order.  If the elements are arranged according to another
-   *     {@code Comparator}, use {@link #orderedBy(Comparator)}.  Otherwise, use
-   *     {@link ImmutableSet}, which maintains insertion order for inputs that
-   *     are ordered but not sorted. This method is scheduled for deletion in
-   *     Guava release 10.
-   */
-  @Beta
-  @Deprecated
-  public static <E> ImmutableSortedSet<E> withExplicitOrder(List<E> elements) {
-    return ExplicitOrderedImmutableSortedSet.create(elements);
-  }
-
-  /**
-   * Returns an immutable sorted set containing the provided elements in the
-   * same order. It is useful when the elements already have the desired order
-   * but constructing the appropriate comparator is difficult.
-   *
-   * @param firstElement the value which should appear first in the generated
-   *     set
-   * @param remainingElementsInOrder the rest of the values in the generated
-   *     set, in the order they should appear
-   * @throws NullPointerException if any of the elements is null
-   * @throws IllegalArgumentException if any duplicate values (according to
-   *     {@link Object#equals(Object)}) are present among the method arguments
-   * @since Guava release 03
-   * @deprecated If the provided elements are already in their natural order,
-   *     {@link #of()} will produce a set with the same elements in the same
-   *     order.  If the elements are arranged according to another {@code
-   *     Comparator}, use {@link #orderedBy(Comparator)}.  Otherwise, use {@link
-   *     ImmutableSet}, which maintains insertion order for inputs that are
-   *     ordered but not sorted. This method is scheduled for deletion in Guava
-   *     release 10.
-   */
-  @Beta
-  @Deprecated
-  public static <E> ImmutableSortedSet<E> withExplicitOrder(
-      E firstElement, E... remainingElementsInOrder) {
-    return withExplicitOrder(
-        Lists.asList(firstElement, remainingElementsInOrder));
   }
 
   /**

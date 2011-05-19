@@ -520,8 +520,8 @@ public class ThrowablesTest extends TestCase {
   public void testThrowCause_Combine() {
     SomeCheckedException cause = new SomeCheckedException();
     SomeChainingException outer = new SomeChainingException(cause);
-    StackTraceElement[] expectedTrace = 
-        ObjectArrays.concat(cause.getStackTrace(), outer.getStackTrace(), StackTraceElement.class);
+    StackTraceElement[] expectedTrace = ObjectArrays.concat(
+        cause.getStackTrace(), outer.getStackTrace(), StackTraceElement.class);
     try {
       Throwables.throwCause(outer, true);
       fail("Exception not thrown properly");
@@ -546,8 +546,8 @@ public class ThrowablesTest extends TestCase {
   public void testThrowCause_Error() throws Exception {
     SomeError cause = new SomeError();
     SomeChainingException outer = new SomeChainingException(cause);
-    StackTraceElement[] expectedTrace = 
-        ObjectArrays.concat(cause.getStackTrace(), outer.getStackTrace(), StackTraceElement.class);
+    StackTraceElement[] expectedTrace = ObjectArrays.concat(
+        cause.getStackTrace(), outer.getStackTrace(), StackTraceElement.class);
     try {
       Throwables.throwCause(outer, true);
       fail("Exception not thrown properly");
