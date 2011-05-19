@@ -23,7 +23,7 @@ import junit.framework.TestCase;
 /**
  * Unit test for {@link Ascii}.
  *
- * @author cberry@google.com (Craig Berry)
+ * @author Craig Berry
  */
 @GwtCompatible
 public class AsciiTest extends TestCase {
