@@ -498,4 +498,3 @@ public final class Longs {
     private static final long serialVersionUID = 0;
   }
 }
-

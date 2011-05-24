@@ -524,4 +524,3 @@ public final class Ints {
     private static final long serialVersionUID = 0;
   }
 }
-

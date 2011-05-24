@@ -526,4 +526,3 @@ public final class Shorts {
     private static final long serialVersionUID = 0;
   }
 }
-
