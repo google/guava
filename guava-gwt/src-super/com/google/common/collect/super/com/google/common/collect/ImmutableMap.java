@@ -205,7 +205,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
   }
 
   public final V get(@Nullable Object key) {
-    return Maps.safeGet(delegate, key);
+    return (key == null) ? null : Maps.safeGet(delegate, key);
   }
 
   private transient ImmutableSet<Entry<K, V>> cachedEntrySet = null;
