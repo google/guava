@@ -35,6 +35,7 @@ import com.google.common.collect.AbstractCache.SimpleStatsCounter;
 import com.google.common.collect.AbstractCache.StatsCounter;
 import com.google.common.collect.ComputingConcurrentHashMap.ComputingMapAdapter;
 import com.google.common.collect.CustomConcurrentHashMap.Strength;
+import com.google.common.collect.ComputingCache.CacheAsMap;
 
 import java.io.Serializable;
 import java.lang.ref.SoftReference;
@@ -46,8 +47,10 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * <p>A builder of {@link ConcurrentMap} or {@link Cache} instances having any combination of the
@@ -522,6 +525,25 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
     return cleanupExecutor;
   }
 
+  /**
+   * Specifies a nanosecond-precision time source for use in determining when entries should be
+   * expired. By default, {@link System#nanoTime} is used.
+   *
+   * <p>The primary intent of this method is to facilitate testing of maps which have been
+   * configured with {@link #expireAfterWrite} or {@link #expireAfterAccess}.
+   *
+   * @throws IllegalStateException if a ticker was already set
+   * @since Guava release 10
+   */
+  @Override
+  @Beta
+  @GwtIncompatible("To be supported")
+  public MapMaker ticker(Ticker ticker) {
+    checkState(this.ticker == null);
+    this.ticker = checkNotNull(ticker);
+    return this;
+  }
+
   Ticker getTicker() {
     return firstNonNull(ticker, Ticker.systemTicker());
   }
@@ -638,6 +660,31 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
   @GwtIncompatible("CustomConcurrentHashMap")
   <K, V> CustomConcurrentHashMap<K, V> makeCustomMap() {
     return new CustomConcurrentHashMap<K, V>(this, DEFAULT_STATS_COUNTER);
+  }
+
+  /**
+   * Builds a cache, which either returns an already-loaded value for a given key or atomically
+   * computes or retrieves it using the supplied {@code CacheLoader}. If another thread is currently
+   * loading the value for this key, simply waits for that thread to finish and returns its
+   * loaded value. Note that multiple threads can concurrently load values for distinct keys.
+   *
+   * <p>{@link Cache#get} in the returned cache implementation will throw {@link
+   * NullPointerException} if the key is null.
+   *
+   * <p>The {@code asMap()} view of the returned cache supports removal operations, but no other
+   * modifications.
+   *
+   * <p>This method does not alter the state of this {@code MapMaker} instance, so it can be invoked
+   * again to create multiple independent caches.
+   * @param loader the cache loader used to obtain new values
+   * @return a cache having the requested features
+   * @since Guava release 10
+   */
+  @Beta
+  public <K, V> Cache<K, V> makeCache(CacheLoader<? super K, V> loader) {
+    return useNullCache()
+        ? new ComputingCache<K, V>(this, CACHE_STATS_COUNTER, loader)
+        : new NullCache<K, V>(this, loader);
   }
 
   /**
@@ -1008,6 +1055,85 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
       } catch (Throwable t) {
         throw new ComputationException(t);
       }
+    }
+  }
+
+  /** Computes on retrieval and evicts the result. */
+  static final class NullCache<K, V> implements Cache<K, V> {
+    final NullConcurrentMap<K, V> map;
+    final CacheLoader<? super K, V> loader;
+
+    final AtomicLong computeCount = new AtomicLong();
+    final AtomicLong computeTime = new AtomicLong();
+
+    NullCache(MapMaker mapMaker, CacheLoader<? super K, V> loader) {
+      this.map = new NullConcurrentMap<K, V>(mapMaker);
+      this.loader = checkNotNull(loader);
+    }
+
+    @Override
+    public V get(K key) {
+      try {
+        return getChecked(key);
+      } catch (ExecutionException e) {
+        throw new ComputationException(e.getCause());
+      }
+    }
+
+    @Override
+    public V getChecked(K key) throws ExecutionException {
+      long start = System.nanoTime();
+      V value = compute(key);
+      long end = System.nanoTime();
+      computeCount.incrementAndGet();
+      computeTime.addAndGet(end - start);
+      map.notifyRemoval(key, value);
+      return value;
+    }
+
+    private V compute(K key) throws ExecutionException {
+      checkNotNull(key);
+      try {
+        return loader.load(key);
+      } catch (Throwable t) {
+        throw new ExecutionException(t);
+      }
+    }
+
+    @Deprecated
+    @Override
+    public final V apply(K key) {
+      return get(key);
+    }
+
+    @Override
+    public int size() {
+      return 0;
+    }
+
+    @Override
+    public void invalidate(Object key) {
+      checkNotNull(key);
+    }
+
+    @Override
+    public CacheStats stats() {
+      long count = computeCount.get();
+      long time = computeTime.get();
+      return new CacheStats(0, count, count, time, count);
+    }
+
+    @Override
+    public ImmutableList<Map.Entry<K, V>> activeEntries(int limit) {
+      return ImmutableList.of();
+    }
+
+    ConcurrentMap<K, V> asMap;
+
+    @Override
+    public ConcurrentMap<K, V> asMap() {
+      ConcurrentMap<K, V> am = asMap;
+      return (am != null) ? am : (asMap = new CacheAsMap<K, V>(map));
     }
   }
 }
