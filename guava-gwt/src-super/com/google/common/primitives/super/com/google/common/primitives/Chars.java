@@ -380,7 +380,7 @@ public final class Chars {
     int len = boxedArray.length;
     char[] array = new char[len];
     for (int i = 0; i < len; i++) {
-      // checkNotNull for GWT (do not optimize).
+      // checkNotNull for GWT (do not optimize)
       array[i] = (Character) checkNotNull(boxedArray[i]);
     }
     return array;
@@ -468,7 +468,7 @@ public final class Chars {
     @Override public Character set(int index, Character element) {
       checkElementIndex(index, size());
       char oldValue = array[start + index];
-      array[start + index] = checkNotNull(element);  // checkNotNull for GWT (do not optimize).
+      array[start + index] = checkNotNull(element);  // checkNotNull for GWT (do not optimize)
       return oldValue;
     }
 

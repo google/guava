@@ -315,7 +315,7 @@ public final class Booleans {
     int len = boxedArray.length;
     boolean[] array = new boolean[len];
     for (int i = 0; i < len; i++) {
-      // checkNotNull for GWT (do not optimize).
+      // checkNotNull for GWT (do not optimize)
       array[i] = (Boolean) checkNotNull(boxedArray[i]);
     }
     return array;
@@ -403,7 +403,7 @@ public final class Booleans {
     @Override public Boolean set(int index, Boolean element) {
       checkElementIndex(index, size());
       boolean oldValue = array[start + index];
-      array[start + index] = checkNotNull(element);  // checkNotNull for GWT (do not optimize).
+      array[start + index] = checkNotNull(element);  // checkNotNull for GWT (do not optimize)
       return oldValue;
     }
 

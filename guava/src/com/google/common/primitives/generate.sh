@@ -23,7 +23,7 @@ fi
 
 perl -pe "s/primtyp/$1/g; s/PrimTyp/$2/g; s/WrapperCl/$3/g" << "--EOF--" > $2s.java.gen
 /*
- * Copyright (C) 2008 Google Inc.
+ * Copyright (C) 2008 The Guava Authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -40,13 +40,13 @@ perl -pe "s/primtyp/$1/g; s/PrimTyp/$2/g; s/WrapperCl/$3/g" << "--EOF--" > $2s.j
 
 package com.google.common.primitives;
 
-import com.google.common.annotations.Beta;
-import com.google.common.annotations.GwtCompatible;
-import com.google.common.annotations.GwtIncompatible;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkElementIndex;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkPositionIndexes;
+
+import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.GwtIncompatible;
 
 import java.io.Serializable;
 import java.util.AbstractList;
@@ -62,7 +62,7 @@ import java.util.RandomAccess;
  * already found in either {@link WrapperCl} or {@link Arrays}.
  *
  * @author Kevin Bourrillion
- * @since 1
+ * @since Guava release 01
  */
 @GwtCompatible
 public final class PrimTyps {
@@ -330,7 +330,7 @@ public final class PrimTyps {
    * bytes, in big-endian order; equivalent to {@code
    * PrimTyps.fromByteArray(new byte[] { ? })}.
    *
-   * @since 7
+   * @since Guava release 07
    */
   @GwtIncompatible("doesn't work")
   public static primtyp fromBytes(byte b1, byte b2, byte b3, byte b4) {
@@ -406,7 +406,7 @@ public final class PrimTyps {
    *
    * @see <a href="http://en.wikipedia.org/wiki/Lexicographical_order">
    *     Lexicographical order article at Wikipedia</a>
-   * @since 2
+   * @since Guava release 02
    */
   public static Comparator<primtyp[]> lexicographicalComparator() {
     return LexicographicalComparator.INSTANCE;
@@ -415,6 +415,7 @@ public final class PrimTyps {
   private enum LexicographicalComparator implements Comparator<primtyp[]> {
     INSTANCE;
 
+    @Override
     public int compare(primtyp[] left, primtyp[] right) {
       int minLength = Math.min(left.length, right.length);
       for (int i = 0; i < minLength; i++) {
@@ -538,7 +539,7 @@ public final class PrimTyps {
     @Override public WrapperCl set(int index, WrapperCl element) {
       checkElementIndex(index, size());
       primtyp oldValue = array[start + index];
-      array[start + index] = checkNotNull(element);  // checkNotNull for GWT (do not optimize).
+      array[start + index] = checkNotNull(element);  // checkNotNull for GWT (do not optimize)
       return oldValue;
     }
 

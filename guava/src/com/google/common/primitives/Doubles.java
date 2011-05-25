@@ -353,7 +353,7 @@ public final class Doubles {
     int len = boxedArray.length;
     double[] array = new double[len];
     for (int i = 0; i < len; i++) {
-      // checkNotNull for GWT (do not optimize).
+      // checkNotNull for GWT (do not optimize)
       array[i] = (Double) checkNotNull(boxedArray[i]);
     }
     return array;
@@ -444,7 +444,7 @@ public final class Doubles {
     @Override public Double set(int index, Double element) {
       checkElementIndex(index, size());
       double oldValue = array[start + index];
-      array[start + index] = checkNotNull(element);  // checkNotNull for GWT (do not optimize).
+      array[start + index] = checkNotNull(element);  // checkNotNull for GWT (do not optimize)
       return oldValue;
     }
 

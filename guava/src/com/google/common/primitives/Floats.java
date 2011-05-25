@@ -441,7 +441,7 @@ public final class Floats {
     @Override public Float set(int index, Float element) {
       checkElementIndex(index, size());
       float oldValue = array[start + index];
-      array[start + index] = checkNotNull(element);  // checkNotNull for GWT (do not optimize).
+      array[start + index] = checkNotNull(element);  // checkNotNull for GWT (do not optimize)
       return oldValue;
     }
 
