@@ -126,12 +126,6 @@ public final class Futures {
   }
 
   /**
-   * <b>No longer accessible outside the package.</b> Prefer to create {@code
-   * ListenableFuture} instances with {@link SettableFuture}, {@link
-   * MoreExecutors#listeningDecorator(java.util.concurrent.ExecutorService)},
-   * {@link ListenableFutureTask}, {@link AbstractFuture}, and other utilities
-   * over creating plain {@code Future} instances to be upgraded to {@code
-   * ListenableFuture} after the fact.
    *
    * <p>Creates a {@link ListenableFuture} out of a normal {@link Future}. The
    * returned future will create a thread to wait for the source future to
@@ -142,7 +136,14 @@ public final class Futures {
    * ListenableFuture#addListener} by taking a thread from an internal,
    * unbounded pool at the first call to {@code addListener} and holding it
    * until the future is {@linkplain Future#isDone() done}.
+   * @deprecated Prefer to create {@code ListenableFuture} instances with {@link SettableFuture},
+   *     {@link MoreExecutors#listeningDecorator(java.util.concurrent.ExecutorService)}, {@link
+   *     ListenableFutureTask}, {@link AbstractFuture}, and other utilities over creating plain
+   *     {@code Future} instances to be upgraded to {@code ListenableFuture} after the fact. <b>This
+   *     method is scheduled for deletion in Guava release 11.</b>
    */
+  @Deprecated
+  public
   static <V> ListenableFuture<V> makeListenable(
       Future<V> future) {
     if (future instanceof ListenableFuture<?>) {
@@ -176,6 +177,7 @@ public final class Futures {
    * {@link ExecutionException} with the actual cause of the exception.
    * See {@link Future#get()} for details on the exceptions thrown.
    */
+  @SuppressWarnings("deprecation") // makeListenable will soon be non-public
   public static <V, X extends Exception> CheckedFuture<V, X> makeChecked(
       Future<V> future, Function<Exception, X> mapper) {
     return new MappingCheckedFuture<V, X>(makeListenable(future), mapper);
