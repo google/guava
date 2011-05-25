@@ -34,6 +34,7 @@ public class TestModuleEntryPoint implements EntryPoint {
   public void onModuleLoad() {
     // TODO: Auto generate this list.
     // Files covered by GWT_SRCS
+    @SuppressWarnings("unused")
     List<Class<?>> allClasses = Arrays.<Class<?>>asList(
         AbstractIndexedListIterator.class,
         AbstractIterator.class,

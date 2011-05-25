@@ -290,13 +290,9 @@ public abstract class ImmutableMultimap<K, V>
   // deserialized.
   @GwtIncompatible("java serialization is not supported")
   static class FieldSettersHolder {
-    // Eclipse doesn't like the raw ImmutableMultimap
-    @SuppressWarnings("unchecked")
     static final Serialization.FieldSetter<ImmutableMultimap>
         MAP_FIELD_SETTER = Serialization.getFieldSetter(
         ImmutableMultimap.class, "map");
-    // Eclipse doesn't like the raw ImmutableMultimap
-    @SuppressWarnings("unchecked")
     static final Serialization.FieldSetter<ImmutableMultimap>
         SIZE_FIELD_SETTER = Serialization.getFieldSetter(
         ImmutableMultimap.class, "size");

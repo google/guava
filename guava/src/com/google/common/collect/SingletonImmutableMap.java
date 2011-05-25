@@ -54,7 +54,7 @@ final class SingletonImmutableMap<K, V> extends ImmutableMap<K, V> {
         ? (entry = Maps.immutableEntry(singleKey, singleValue)) : e;
   }
 
-  @Override public V get(Object key) {
+  @Override public V get(@Nullable Object key) {
     return singleKey.equals(key) ? singleValue : null;
   }
 
@@ -67,11 +67,11 @@ final class SingletonImmutableMap<K, V> extends ImmutableMap<K, V> {
     return false;
   }
 
-  @Override public boolean containsKey(Object key) {
+  @Override public boolean containsKey(@Nullable Object key) {
     return singleKey.equals(key);
   }
 
-  @Override public boolean containsValue(Object value) {
+  @Override public boolean containsValue(@Nullable Object value) {
     return singleValue.equals(value);
   }
 

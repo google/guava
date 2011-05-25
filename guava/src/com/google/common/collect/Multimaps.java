@@ -557,8 +557,7 @@ public final class Multimaps {
       throw new UnsupportedOperationException();
     }
 
-    @Override public boolean putAll(K key,
-        @SuppressWarnings("hiding") Iterable<? extends V> values) {
+    @Override public boolean putAll(K key, Iterable<? extends V> values) {
       throw new UnsupportedOperationException();
     }
 
@@ -575,8 +574,8 @@ public final class Multimaps {
       throw new UnsupportedOperationException();
     }
 
-    @Override public Collection<V> replaceValues(K key,
-        @SuppressWarnings("hiding") Iterable<? extends V> values) {
+    @Override public Collection<V> replaceValues(
+        K key, Iterable<? extends V> values) {
       throw new UnsupportedOperationException();
     }
 
@@ -646,7 +645,7 @@ public final class Multimaps {
       throw new UnsupportedOperationException();
     }
     @Override public List<V> replaceValues(
-        K key, @SuppressWarnings("hiding") Iterable<? extends V> values) {
+        K key, Iterable<? extends V> values) {
       throw new UnsupportedOperationException();
     }
     private static final long serialVersionUID = 0;
@@ -674,7 +673,7 @@ public final class Multimaps {
       throw new UnsupportedOperationException();
     }
     @Override public Set<V> replaceValues(
-        K key, @SuppressWarnings("hiding") Iterable<? extends V> values) {
+        K key, Iterable<? extends V> values) {
       throw new UnsupportedOperationException();
     }
     private static final long serialVersionUID = 0;
@@ -695,7 +694,7 @@ public final class Multimaps {
       throw new UnsupportedOperationException();
     }
     @Override public SortedSet<V> replaceValues(
-        K key, @SuppressWarnings("hiding") Iterable<? extends V> values) {
+        K key, Iterable<? extends V> values) {
       throw new UnsupportedOperationException();
     }
     @Override
@@ -1434,7 +1433,6 @@ public final class Multimaps {
             });
       }
 
-      @SuppressWarnings("unchecked")
       @Override public boolean contains(Object o) {
         if (o instanceof Entry) {
           Entry<?, ?> entry = (Entry<?, ?>) o;

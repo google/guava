@@ -34,7 +34,7 @@ final class EmptyImmutableMap extends ImmutableMap<Object, Object> {
 
   private EmptyImmutableMap() {}
 
-  @Override public Object get(Object key) {
+  @Override public Object get(@Nullable Object key) {
     return null;
   }
 
@@ -47,11 +47,11 @@ final class EmptyImmutableMap extends ImmutableMap<Object, Object> {
     return true;
   }
 
-  @Override public boolean containsKey(Object key) {
+  @Override public boolean containsKey(@Nullable Object key) {
     return false;
   }
 
-  @Override public boolean containsValue(Object value) {
+  @Override public boolean containsValue(@Nullable Object value) {
     return false;
   }
 

@@ -668,7 +668,7 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    * loading the value for this key, simply waits for that thread to finish and returns its
    * loaded value. Note that multiple threads can concurrently load values for distinct keys.
    *
-   * <p>{@link Cache#get} in the returned cache implementation will throw {@link
+   * <p>{@link Cache} lookup methods in the returned cache implementation will throw {@link
    * NullPointerException} if the key is null.
    *
    * <p>The {@code asMap()} view of the returned cache supports removal operations, but no other
@@ -681,6 +681,7 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    * @since Guava release 10
    */
   @Beta
+  @Override
   public <K, V> Cache<K, V> makeCache(CacheLoader<? super K, V> loader) {
     return useNullCache()
         ? new ComputingCache<K, V>(this, CACHE_STATS_COUNTER, loader)

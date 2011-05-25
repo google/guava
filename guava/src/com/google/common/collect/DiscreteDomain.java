@@ -19,7 +19,6 @@ package com.google.common.collect;
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 
-import java.math.BigInteger;
 import java.util.NoSuchElementException;
 
 /**
@@ -36,7 +35,6 @@ import java.util.NoSuchElementException;
  * @author Kevin Bourrillion
  * @since Guava release 10
  */
-@SuppressWarnings("unchecked") // allow ungenerified Comparable types
 @GwtCompatible
 @Beta
 public abstract class DiscreteDomain<C extends Comparable> {

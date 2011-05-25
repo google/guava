@@ -87,15 +87,9 @@ import java.util.SortedSet;
 public abstract class ImmutableSortedSet<E>
     extends ImmutableSortedSetFauxverideShim<E> implements SortedSet<E> {
 
-  /*
-   * TODO(cpovirk): find a way to remove this @SuppressWarnings even for
-   * eclipse?
-   */
-  @SuppressWarnings("unchecked")
   private static final Comparator<Comparable> NATURAL_ORDER =
       Ordering.natural();
 
-  @SuppressWarnings("unchecked")
   private static final ImmutableSortedSet<Comparable> NATURAL_EMPTY_SET =
       new EmptyImmutableSortedSet<Comparable>(NATURAL_ORDER);
 

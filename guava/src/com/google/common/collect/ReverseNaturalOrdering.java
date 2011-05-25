@@ -35,9 +35,7 @@ final class ReverseNaturalOrdering
       return 0;
     }
 
-    @SuppressWarnings("unchecked") // we're permitted to throw CCE
-    int result = right.compareTo(left);
-    return result;
+    return right.compareTo(left);
   }
 
   @Override public <S extends Comparable> Ordering<S> reverse() {

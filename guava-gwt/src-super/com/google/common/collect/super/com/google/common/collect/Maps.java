@@ -190,7 +190,6 @@ public final class Maps {
    *
    * @return a new, empty {@code TreeMap}
    */
-  @SuppressWarnings("unchecked") // eclipse doesn't like the raw Comparable
   public static <K extends Comparable, V> TreeMap<K, V> newTreeMap() {
     return new TreeMap<K, V>();
   }

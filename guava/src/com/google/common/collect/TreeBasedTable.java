@@ -91,7 +91,6 @@ public class TreeBasedTable<R, C, V> extends StandardRowSortedTable<R, C, V> {
    * and the same for {@code C}. That's necessary to support classes defined
    * without generics.
    */
-  @SuppressWarnings("unchecked") // eclipse doesn't like the raw Comparable
   public static <R extends Comparable, C extends Comparable, V>
       TreeBasedTable<R, C, V> create() {
     return new TreeBasedTable<R, C, V>(Ordering.natural(),

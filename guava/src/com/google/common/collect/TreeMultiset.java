@@ -67,7 +67,6 @@ public final class TreeMultiset<E> extends AbstractMapBasedMultiset<E> {
    * more specific {@code <E extends Comparable<? super E>>}, to support
    * classes defined without generics.
    */
-  @SuppressWarnings("unchecked") // eclipse doesn't like the raw Comparable
   public static <E extends Comparable> TreeMultiset<E> create() {
     return new TreeMultiset<E>();
   }
@@ -97,7 +96,6 @@ public final class TreeMultiset<E> extends AbstractMapBasedMultiset<E> {
    * more specific {@code <E extends Comparable<? super E>>}, to support
    * classes defined without generics.
    */
-  @SuppressWarnings("unchecked") // eclipse doesn't like the raw Comparable
   public static <E extends Comparable> TreeMultiset<E> create(
       Iterable<? extends E> elements) {
     TreeMultiset<E> multiset = create();

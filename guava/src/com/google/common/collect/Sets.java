@@ -281,7 +281,6 @@ public final class Sets {
    *
    * @return a new, empty {@code TreeSet}
    */
-  @SuppressWarnings("unchecked")  // allow ungenerified Comparable types
   public static <E extends Comparable> TreeSet<E> newTreeSet() {
     return new TreeSet<E>();
   }
@@ -301,7 +300,6 @@ public final class Sets {
    * @param elements the elements that the set should contain
    * @return a new {@code TreeSet} containing those elements (minus duplicates)
    */
-  @SuppressWarnings("unchecked")  // allow ungenerified Comparable types
   public static <E extends Comparable> TreeSet<E> newTreeSet(
       Iterable<? extends E> elements) {
     TreeSet<E> set = newTreeSet();
@@ -968,7 +966,6 @@ public final class Sets {
         return choices.contains(target);
       }
 
-      @SuppressWarnings("unchecked") // javac rejects "CartesianSet<?>.Axis"
       @Override public boolean equals(Object obj) {
         if (obj instanceof CartesianSet.Axis) {
           CartesianSet.Axis that = (CartesianSet.Axis) obj;

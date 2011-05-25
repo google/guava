@@ -94,18 +94,18 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
 
     /**
      * Records a single miss. This should be called when a cache request returns an uncached (newly
-     * created) value or null. Multiple concurrent calls to {@link Cache#get} on an absent value
-     * should result in multiple calls to this method, despite all being served by the results of a
-     * single creation.
+     * created) value or null. Multiple concurrent calls to {@link Cache} lookup methods on an
+     * absent value should result in multiple calls to this method, despite all being served by the
+     * results of a single creation.
      */
     public void recordMiss();
 
     /**
      * Records the creation of a new value. This should be called when a cache request triggers the
      * creation of a new value. This differs from {@link #recordMiss} in the case of concurrent
-     * calls to {@link Cache#get} on an absent value, in which case only a single call to this
-     * method should occur. Note that the creating thread should call both {@link #recordCreate} and
-     * {@link #recordMiss}.
+     * calls to {@link Cache} lookup methods on an absent value, in which case only a single call to
+     * this method should occur. Note that the creating thread should call both {@link
+     * #recordCreate} and {@link #recordMiss}.
      *
      * @param createTime the number of nanoseconds the cache spent creating the new value
      */

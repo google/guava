@@ -246,8 +246,6 @@ public class ImmutableMultiset<E> extends ImmutableCollection<E>
   // holder class makes sure they are not initialized unless an instance is
   // deserialized.
   @GwtIncompatible("java serialization is not supported.")
-  @SuppressWarnings("unchecked")
-  // eclipse doesn't like the raw types here, but they're harmless
   private static class FieldSettersHolder {
     static final FieldSetter<ImmutableMultiset> MAP_FIELD_SETTER
         = Serialization.getFieldSetter(ImmutableMultiset.class, "map");

@@ -139,7 +139,7 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
     }
   }
 
-  @Override public V get(Object key) {
+  @Override public V get(@Nullable Object key) {
     if (key == null) {
       return null;
     }
@@ -171,7 +171,7 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
     return false;
   }
 
-  @Override public boolean containsValue(Object value) {
+  @Override public boolean containsValue(@Nullable Object value) {
     if (value == null) {
       return false;
     }

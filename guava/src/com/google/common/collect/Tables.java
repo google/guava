@@ -251,7 +251,6 @@ public final class Tables {
     }
 
     // Will cast TRANSPOSE_CELL to a type that always succeeds
-    @SuppressWarnings("unchecked") // eclipse doesn't like the raw type
     private static final Function<Cell<?, ?, ?>, Cell<?, ?, ?>> TRANSPOSE_CELL =
         new Function<Cell<?, ?, ?>, Cell<?, ?, ?>>() {
           @Override

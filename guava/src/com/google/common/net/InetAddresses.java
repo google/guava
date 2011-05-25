@@ -813,7 +813,7 @@ public final class InetAddresses {
     Inet6Address ip6 = (Inet6Address) ip;
     long addressAsLong = 0;
     if (hasEmbeddedIPv4ClientAddress(ip6)) {
-      addressAsLong = (long) getEmbeddedIPv4ClientAddress(ip6).hashCode();
+      addressAsLong = getEmbeddedIPv4ClientAddress(ip6).hashCode();
     } else {
 
       // Just extract the high 64 bits (assuming the rest is user-modifiable).

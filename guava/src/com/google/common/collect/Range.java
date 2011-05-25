@@ -110,7 +110,6 @@ import javax.annotation.Nullable;
  * @author Gregory Kick
  * @since Guava release 10
  */
-@SuppressWarnings("unchecked") // allow ungenerified Comparable types
 @GwtCompatible
 @Beta
 public final class Range<C extends Comparable> implements Predicate<C> {
@@ -246,8 +245,7 @@ public final class Range<C extends Comparable> implements Predicate<C> {
 
     // this optimizes testing equality of two range-backed sets
     if (values instanceof SortedSet) {
-      @SuppressWarnings("unchecked") // bugs.sun.com/view_bug.do?bug_id=6558557
-      SortedSet<? extends C> set = (SortedSet<? extends C>) values;
+      SortedSet<? extends C> set = cast(values);
       Comparator<?> comparator = set.comparator();
       if (Ordering.natural().equals(comparator) || comparator == null) {
         return contains(set.first()) && contains(set.last());
@@ -464,5 +462,12 @@ public final class Range<C extends Comparable> implements Predicate<C> {
     sb.append('\u2025');
     upperBound.describeAsUpperBound(sb);
     return sb.toString();
+  }
+
+  /**
+   * Used to avoid http://bugs.sun.com/view_bug.do?bug_id=6558557
+   */
+  private static <T> SortedSet<T> cast(Iterable<T> iterable) {
+    return (SortedSet<T>) iterable;
   }
 }

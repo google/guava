@@ -18,7 +18,6 @@ package com.google.common.collect;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Supplier;
-import com.google.common.collect.AbstractCache.StatsCounter;
 import com.google.common.collect.CustomConcurrentHashMap.Segment;
 
 import java.util.Map;
@@ -83,6 +82,7 @@ class ComputingCache<K, V> extends AbstractCache<K, V> {
       this.delegate = delegate;
     }
 
+    @Override
     protected ConcurrentMap<K, V> delegate() {
       return delegate;
     }

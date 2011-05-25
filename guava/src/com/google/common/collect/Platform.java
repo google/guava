@@ -20,7 +20,6 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 
 import java.lang.reflect.Array;
-import java.util.logging.Logger;
 
 /**
  * Methods factored out so that they can be emulated differently in GWT.
@@ -29,9 +28,6 @@ import java.util.logging.Logger;
  */
 @GwtCompatible(emulated = true)
 class Platform {
-  private static final Logger logger =
-      Logger.getLogger(Platform.class.getCanonicalName());
-
   /**
    * Clone the given array using {@link Object#clone()}.  It is factored out so
    * that it can be emulated in GWT.

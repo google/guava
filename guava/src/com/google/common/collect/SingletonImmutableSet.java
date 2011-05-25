@@ -75,7 +75,6 @@ final class SingletonImmutableSet<E> extends ImmutableSet<E> {
     return new Object[] { element };
   }
 
-  @SuppressWarnings({"unchecked"})
   @Override public <T> T[] toArray(T[] array) {
     if (array.length == 0) {
       array = ObjectArrays.newArray(array, 1);

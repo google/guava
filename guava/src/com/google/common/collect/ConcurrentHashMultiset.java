@@ -66,8 +66,6 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E>
   // holder class makes sure it is not initialized unless an instance is
   // deserialized.
   private static class FieldSettersHolder {
-    @SuppressWarnings("unchecked")
-    // eclipse doesn't like the raw type here, but it's harmless
     static final FieldSetter<ConcurrentHashMultiset> COUNT_MAP_FIELD_SETTER
         = Serialization.getFieldSetter(
             ConcurrentHashMultiset.class, "countMap");

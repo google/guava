@@ -72,7 +72,6 @@ public class TreeMultimap<K, V> extends AbstractSortedSetMultimap<K, V> {
    * Creates an empty {@code TreeMultimap} ordered by the natural ordering of
    * its keys and values.
    */
-  @SuppressWarnings("unchecked") // eclipse doesn't like the raw Comparable
   public static <K extends Comparable, V extends Comparable>
       TreeMultimap<K, V> create() {
     return new TreeMultimap<K, V>(Ordering.natural(), Ordering.natural());
@@ -99,7 +98,6 @@ public class TreeMultimap<K, V> extends AbstractSortedSetMultimap<K, V> {
    *
    * @param multimap the multimap whose contents are copied to this multimap
    */
-  @SuppressWarnings("unchecked") // eclipse doesn't like the raw Comparable
   public static <K extends Comparable, V extends Comparable>
       TreeMultimap<K, V> create(Multimap<? extends K, ? extends V> multimap) {
     return new TreeMultimap<K, V>(Ordering.natural(), Ordering.natural(),

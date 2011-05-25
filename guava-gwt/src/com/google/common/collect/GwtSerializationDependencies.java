@@ -112,9 +112,7 @@ final class GwtSerializationDependencies {
 
   static final class TreeMultimapDependencies<K, V>
       extends TreeMultimap<K, V> {
-    @SuppressWarnings("hiding")
     Comparator<? super K> keyComparator;
-    @SuppressWarnings("hiding")
     Comparator<? super V> valueComparator;
     K key;
     V value;

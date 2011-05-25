@@ -104,7 +104,6 @@ public abstract class ComparisonChain {
     InactiveComparisonChain(int result) {
       this.result = result;
     }
-    @SuppressWarnings("unchecked")
     @Override public ComparisonChain compare(
         @Nullable Comparable left, @Nullable Comparable right) {
       return this;

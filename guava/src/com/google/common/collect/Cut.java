@@ -234,7 +234,6 @@ abstract class Cut<C extends Comparable> implements Comparable<Cut<C>> {
         return new BelowValue<C>(next);
       }
 
-      @SuppressWarnings("unchecked")
       Cut<C> aboveAll = (Cut<C>) ABOVE_ALL;
       return aboveAll;
     }

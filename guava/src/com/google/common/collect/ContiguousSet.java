@@ -93,7 +93,6 @@ final class ContiguousSet<C extends Comparable> extends ImmutableSortedSet<C> {
     return right != null && compareOrThrow(left, right) == 0;
   }
 
-  @SuppressWarnings("unchecked") // this method may throw CCE
   private static int compareOrThrow(Comparable left, Comparable right) {
     return left.compareTo(right);
   }

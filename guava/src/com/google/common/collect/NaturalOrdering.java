@@ -37,18 +37,14 @@ final class NaturalOrdering
       return 0;
     }
 
-    @SuppressWarnings("unchecked") // we're permitted to throw CCE
-    int result = left.compareTo(right);
-    return result;
+    return left.compareTo(right);
   }
 
-  @SuppressWarnings("unchecked") // TODO(kevinb): the right way to explain this??
   @Override public <S extends Comparable> Ordering<S> reverse() {
     return (Ordering<S>) ReverseNaturalOrdering.INSTANCE;
   }
 
   // Override to remove a level of indirection from inner loop
-  @SuppressWarnings("unchecked") // TODO(kevinb): the right way to explain this??
   @Override public int binarySearch(
       List<? extends Comparable> sortedList, Comparable key) {
     return Collections.binarySearch((List) sortedList, key);

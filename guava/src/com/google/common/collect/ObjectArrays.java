@@ -39,7 +39,6 @@ public final class ObjectArrays {
    * @param type the component type
    * @param length the length of the new array
    */
-  @SuppressWarnings("unchecked")
   @GwtIncompatible("Array.newInstance(Class, int)")
   public static <T> T[] newArray(Class<T> type, int length) {
     return Platform.newArray(type, length);

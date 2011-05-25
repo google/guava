@@ -143,7 +143,10 @@ public abstract class Optional<T> implements BaseHolder<T> {
       return reference;
     }
 
-    @Override @Nullable public T get(@Nullable T defaultValue) {
+    @Deprecated
+    @Override
+    @Nullable
+    public T get(@Nullable T defaultValue) {
       return reference;
     }
 
@@ -187,7 +190,10 @@ public abstract class Optional<T> implements BaseHolder<T> {
       throw new IllegalStateException("value is absent");
     }
 
-    @Override @Nullable public Object get(@Nullable Object defaultValue) {
+    @Deprecated
+    @Override
+    @Nullable
+    public Object get(@Nullable Object defaultValue) {
       return defaultValue;
     }
 

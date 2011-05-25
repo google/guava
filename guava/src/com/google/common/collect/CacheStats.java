@@ -77,15 +77,15 @@ public final class CacheStats {
   }
 
   /**
-   * Returns the number of times {@link Cache#get} has returned either a cached or uncached value.
-   * This is defined as {@code hitCount() + missCount()}.
+   * Returns the number of times {@link Cache} lookup methods have returned either a cached or
+   * uncached value. This is defined as {@code hitCount() + missCount()}.
    */
   public long requestCount() {
     return hitCount + missCount;
   }
 
   /**
-   * Returns the number of times {@link Cache#get} has returned a cached value.
+   * Returns the number of times {@link Cache} lookup methods have returned a cached value.
    */
   public long hitCount() {
     return hitCount;
@@ -102,9 +102,9 @@ public final class CacheStats {
   }
 
   /**
-   * Returns the number of times {@link Cache#get} has returned an uncached (newly created) value,
-   * or null. Multiple concurrent calls to {@link Cache#get} on an absent value can result in
-   * multiple misses, all returning the results of a single creation.
+   * Returns the number of times {@link Cache} lookup methods have returned an uncached (newly
+   * created) value, or null. Multiple concurrent calls to {@link Cache} lookup methods on an absent
+   * value can result in multiple misses, all returning the results of a single creation.
    */
   public long missCount() {
     return missCount;
@@ -121,10 +121,10 @@ public final class CacheStats {
   }
 
   /**
-   * Returns the number of times {@link Cache#get} has successfully created a new value. This
-   * differs from {@link #missCount} only in the case of concurrent calls to {@link Cache#get} on an
-   * absent value, in which case multiple simultaneous misses will result in a single creation.
-   * Thus, the returned value can never exceed the value of {@code missCount()}.
+   * Returns the number of times {@link Cache} lookup methods have successfully created a new value.
+   * This differs from {@link #missCount} only in the case of concurrent calls to {@link Cache}
+   * lookup methods on an absent value, in which case multiple simultaneous misses will result in a
+   * single creation. Thus, the returned value can never exceed the value of {@code missCount()}.
    */
   public long createCount() {
     return createCount;
