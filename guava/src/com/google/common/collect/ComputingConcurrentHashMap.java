@@ -199,13 +199,6 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V> {
     }
   }
 
-  @SuppressWarnings("serial") // can never be serialized
-  static final class AsynchronousExecutionException extends ExecutionException {
-    AsynchronousExecutionException(Throwable cause) {
-      super(cause);
-    }
-  }
-
   /**
    * Used to provide computation exceptions to other threads.
    */
@@ -233,7 +226,7 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V> {
 
     @Override
     public V waitForValue() throws ExecutionException {
-      throw new AsynchronousExecutionException(t);
+      throw new ExecutionException(t);
     }
 
     @Override
@@ -388,12 +381,6 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V> {
       V value;
       try {
         value = compute((K) key);
-      } catch (AsynchronousExecutionException e) {
-        Throwable cause = e.getCause();
-        if (cause instanceof ComputationException) {
-          throw new AsynchronousComputationException(cause.getCause());
-        }
-        throw new AsynchronousComputationException(cause);
       } catch (ExecutionException e) {
         Throwable cause = e.getCause();
         Throwables.propagateIfInstanceOf(cause, ComputationException.class);

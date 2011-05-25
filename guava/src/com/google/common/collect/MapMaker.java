@@ -1059,7 +1059,7 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
   }
 
   /** Computes on retrieval and evicts the result. */
-  static final class NullCache<K, V> implements Cache<K, V> {
+  static final class NullCache<K, V> extends AbstractCache<K, V> {
     final NullConcurrentMap<K, V> map;
     final CacheLoader<? super K, V> loader;
 
@@ -1069,15 +1069,6 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
     NullCache(MapMaker mapMaker, CacheLoader<? super K, V> loader) {
       this.map = new NullConcurrentMap<K, V>(mapMaker);
       this.loader = checkNotNull(loader);
-    }
-
-    @Override
-    public V get(K key) {
-      try {
-        return getChecked(key);
-      } catch (ExecutionException e) {
-        throw new ComputationException(e.getCause());
-      }
     }
 
     @Override
@@ -1098,12 +1089,6 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
       } catch (Throwable t) {
         throw new ExecutionException(t);
       }
-    }
-
-    @Deprecated
-    @Override
-    public final V apply(K key) {
-      return get(key);
     }
 
     @Override

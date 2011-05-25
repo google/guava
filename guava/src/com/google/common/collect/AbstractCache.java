@@ -20,6 +20,7 @@ import com.google.common.annotations.Beta;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.atomic.AtomicLong;
 
 /**
@@ -27,7 +28,7 @@ import java.util.concurrent.atomic.AtomicLong;
  * effort required to implement this interface.
  *
  * <p>To implement a cache, the programmer needs only to extend this class and provide an
- * implementation for the {@code get} method.
+ * implementation for the {@code getChecked} method.
  *
  * @author Charles Fry
  * @since Guava release 10
@@ -38,10 +39,19 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
   /** Constructor for use by subclasses. */
   protected AbstractCache() {}
 
+  @Override
+  public V getUnchecked(K key) {
+    try {
+      return getChecked(key);
+    } catch (ExecutionException e) {
+      throw new ComputationException(e.getCause());
+    }
+  }
+
   @Deprecated
   @Override
   public final V apply(K key) {
-    return get(key);
+    return getUnchecked(key);
   }
 
   @Override

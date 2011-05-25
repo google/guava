@@ -19,7 +19,6 @@ package com.google.common.collect;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Supplier;
 import com.google.common.collect.AbstractCache.StatsCounter;
-import com.google.common.collect.ComputingConcurrentHashMap.AsynchronousExecutionException;
 import com.google.common.collect.CustomConcurrentHashMap.Segment;
 
 import java.util.Map;
@@ -42,21 +41,6 @@ class ComputingCache<K, V> extends AbstractCache<K, V> {
   }
 
   // Cache methods
-
-  @Override
-  public V get(K key) {
-    try {
-      return map.compute(key);
-    } catch (AsynchronousExecutionException e) {
-      // Wasting the existing exception instance may be costly, but we should not need to optimize
-      // for the exception case, and this makes the code a lot cleaner. The other obvious
-      // alternative would be to introduce computeChecked which mimicked the compute codepath
-      // but threw different exceptions.
-      throw new AsynchronousComputationException(e.getCause());
-    } catch (ExecutionException e) {
-      throw new ComputationException(e.getCause());
-    }
-  }
 
   @Override
   public V getChecked(K key) throws ExecutionException {

@@ -29,9 +29,10 @@ import javax.annotation.Nullable;
  * A semi-persistent mapping from keys to values. Values are automatically created by the cache as
  * a function of the keys, and are stored in the cache until either evicted or manually invalidated.
  *
- * <p>All methods other than {@link #get} are optional.
+ * <p>All methods other than {@link #getChecked} and {@link #getUnchecked} are optional.
  *
- * <p>When evaluated as a {@link Function}, a cache yields the same result as invoking {@link #get}.
+ * <p>When evaluated as a {@link Function}, a cache yields the same result as invoking {@link
+ * #getUnchecked}.
  *
  * @author Charles Fry
  * @since Guava release 10
@@ -46,24 +47,8 @@ public interface Cache<K, V> extends Function<K, V> {
    * <p>The implementation may support {@code null} as a valid cached value, or may return {@code
    * null} without caching it, or may not permit null results at all.
    *
-   * <p>This method is identical to {@link #getChecked} except that exceptions which occur during
-   * cache loading are unchecked.
-   *
-   * @throws NullPointerException if the specified key is null and this cache does not permit null
-   *     keys (optional)
-   * @throws ComputationException wraps errors which occur while loading the response
-   */
-  @Nullable V get(@Nullable K key);
-
-  /**
-   * Returns the value associated with the given key, creating or retrieving that value if
-   * necessary. No state associated with this cache is modified until computation completes.
-   *
-   * <p>The implementation may support {@code null} as a valid cached value, or may return {@code
-   * null} without caching it, or may not permit null results at all.
-   *
-   * <p>This method is identical to {@link #get} except that exceptions which occur during cache
-   * loading are checked.
+   * <p>This method is identical to {@link #getUnchecked} except that it throws a checked exception
+   * when an error occurs during cache loading.
    *
    * @throws NullPointerException if the specified key is null and this cache does not permit null
    *     keys (optional)
@@ -72,9 +57,26 @@ public interface Cache<K, V> extends Function<K, V> {
   @Nullable V getChecked(@Nullable K key) throws ExecutionException;
 
   /**
-   * Provided to satisfy the {@code Function} interface; use {@link #get} instead.
+   * Returns the value associated with the given key, creating or retrieving that value if
+   * necessary. No state associated with this cache is modified until computation completes.
    *
-   * @deprecated Use {@link #get} instead.
+   * <p>The implementation may support {@code null} as a valid cached value, or may return {@code
+   * null} without caching it, or may not permit null results at all.
+   *
+   * <p>This method is identical to {@link #getChecked} except that it throws an unchecked exception
+   * when an error occurs during cache loading.
+   *
+   * @throws NullPointerException if the specified key is null and this cache does not permit null
+   *     keys (optional)
+   * @throws ComputationException wraps errors which occur while loading the response
+   */
+  @Nullable V getUnchecked(@Nullable K key);
+
+  /**
+   * Provided to satisfy the {@code Function} interface; use {@link #getChecked} or
+   * {@link #getUnchecked} instead.
+   *
+   * @deprecated Use {@link #getChecked} or {@link #getUnchecked} instead.
    */
   @Deprecated
   @Override
@@ -125,9 +127,9 @@ public interface Cache<K, V> extends Function<K, V> {
    * Returns a view of the entries stored in this cache as a thread-safe map. Assume that none of
    * the returned map's optional operations will be implemented, unless specified otherwise.
    *
-   * <p>Operations on the returned map will never trigger a computation. So, unlike {@link
-   * Cache#get}, this map's {@link Map#get get} method will just return {@code null} immediately for
-   * a key that is not already cached.
+   * <p>Operations on the returned map will never trigger a computation. So, unlike
+   * {@link #getChecked} and {@link #getUnchecked}, this map's {@link Map#get get} method
+   * will just return {@code null} immediately for a key that is not already cached.
    *
    * @throws UnsupportedOperationException if this operation is not supported by the cache
    *     implementation
