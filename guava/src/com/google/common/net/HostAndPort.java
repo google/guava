@@ -63,7 +63,7 @@ public final class HostAndPort {
   private final String host;
 
   /** Validated port number in the range [0..65535], or NO_PORT */
-  private int port;
+  private final int port;
 
   /** True if the parsed host has colons, but no surrounding brackets. */
   private final boolean hasBracketlessColons;

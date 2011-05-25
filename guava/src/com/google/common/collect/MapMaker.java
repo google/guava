@@ -362,9 +362,9 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
   }
 
   /**
-   * Specifies that each key (not value) stored in the map should be strongly referenced.
+   * Specifies that each value (not key) stored in the map should be strongly referenced.
    *
-   * @throws IllegalStateException if the key strength was already set
+   * @throws IllegalStateException if the value strength was already set
    */
   @Override
   MapMaker strongValues() {
