@@ -206,7 +206,7 @@ public final class UnsignedBytes {
 
     static final Comparator<byte[]> BEST_COMPARATOR = getBestComparator();
 
-    @SuppressWarnings("unused") // only access this class via reflection!
+    @VisibleForTesting
     enum UnsafeComparator implements Comparator<byte[]> {
       INSTANCE;
 

@@ -945,7 +945,7 @@ public final class InetAddresses {
    * Returns true if the InetAddress is either 255.255.255.255 for IPv4 or
    * ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff for IPv6.
    *
-   * @returns true if the InetAddress is either 255.255.255.255 for IPv4 or
+   * @return true if the InetAddress is either 255.255.255.255 for IPv4 or
    *          ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff for IPv6.
    * @since Guava release 10
    */
