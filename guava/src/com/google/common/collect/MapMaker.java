@@ -613,19 +613,28 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    * @deprecated use {@link #removalListener}, which provides additional information about the
    *     entry being evicted; note that {@link #evictionListener} only notifies on removals due to
    *     eviction, while {@link #removalListener} also notifies on explicit removal (providing the
-   *     {@link RemovalCause} to indicate the specific cause of removal.
+   *     {@link RemovalCause} to indicate the specific cause of removal. <b>This method is scheduled
+   *     for deletion in Guava release 11.</b>
    * @since Guava release 07
    */
   @Beta
   @Deprecated
   @GwtIncompatible("To be supported")
-  public <K, V> GenericMapMaker<K, V> evictionListener(MapEvictionListener<K, V> listener) {
+  public
+  <K, V> GenericMapMaker<K, V> evictionListener(final MapEvictionListener<K, V> listener) {
     checkState(this.removalListener == null);
 
     // safely limiting the kinds of maps this can produce
     @SuppressWarnings("unchecked")
     GenericMapMaker<K, V> me = (GenericMapMaker<K, V>) this;
-    me.removalListener = new EvictionToRemovalListener<K, V>(listener);
+    me.removalListener = new RemovalListener<K, V>() {
+      @Override
+      public void onRemoval(RemovalNotification<K, V> notification) {
+        if (notification.wasEvicted()) {
+          listener.onEviction(notification.getKey(), notification.getValue());
+        }
+      }
+    };
     useCustomMap = true;
     return me;
   }
@@ -921,23 +930,6 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
      * {@link #EXPLICIT} nor {@link #REPLACED}).
      */
     abstract boolean wasEvicted();
-  }
-
-  static final class EvictionToRemovalListener<K, V>
-      implements RemovalListener<K, V>, Serializable {
-    private static final long serialVersionUID = 0;
-    private final MapEvictionListener<K, V> evictionListener;
-
-    public EvictionToRemovalListener(MapEvictionListener<K, V> evictionListener) {
-      this.evictionListener = checkNotNull(evictionListener);
-    }
-
-    @Override
-    public void onRemoval(RemovalNotification<K, V> notification) {
-      if (notification.wasEvicted()) {
-        evictionListener.onEviction(notification.getKey(), notification.getValue());
-      }
-    }
   }
 
   /** A map that is always empty and evicts on insertion. */
