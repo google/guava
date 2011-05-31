@@ -113,7 +113,7 @@ class EmptyImmutableSortedSet<E> extends ImmutableSortedSet<E> {
     return this;
   }
 
-  @Override int indexOf(Object target) {
+  @Override int indexOf(@Nullable Object target) {
     return -1;
   }
 }

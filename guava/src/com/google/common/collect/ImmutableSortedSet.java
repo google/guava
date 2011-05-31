@@ -33,6 +33,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.SortedSet;
 
+import javax.annotation.Nullable;
+
 /**
  * An immutable {@code SortedSet} that stores its elements in a sorted array.
  * Some instances are ordered by an explicit comparator, while others follow the
@@ -707,7 +709,7 @@ public abstract class ImmutableSortedSet<E>
   /**
    * Returns the position of an element within the set, or -1 if not present.
    */
-  abstract int indexOf(Object target);
+  abstract int indexOf(@Nullable Object target);
 
   /*
    * This class is used to serialize all ImmutableSortedSet instances,

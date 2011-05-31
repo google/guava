@@ -107,11 +107,11 @@ final class EmptyImmutableList extends ImmutableList<Object> {
     throw new AssertionError("unreachable");
   }
 
-  @Override public int indexOf(Object target) {
+  @Override public int indexOf(@Nullable Object target) {
     return -1;
   }
 
-  @Override public int lastIndexOf(Object target) {
+  @Override public int lastIndexOf(@Nullable Object target) {
     return -1;
   }
 

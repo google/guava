@@ -52,6 +52,7 @@ final class ContiguousSet<C extends Comparable> extends ImmutableSortedSet<C> {
   }
 
   // Abstract method doesn't exist in GWT emulation
+  // TODO: ImmutableSortedSet.indexOf and contains allow null; shouldn't we?
   /* @Override */ int indexOf(Object target) {
     return contains(target) ? (int) domain.distance(first(), (C) target) : -1;
   }

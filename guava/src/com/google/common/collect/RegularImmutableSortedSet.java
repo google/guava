@@ -216,7 +216,7 @@ final class RegularImmutableSortedSet<E> extends ImmutableSortedSet<E> {
     }
   }
 
-  @Override int indexOf(Object target) {
+  @Override int indexOf(@Nullable Object target) {
     if (target == null) {
       return -1;
     }

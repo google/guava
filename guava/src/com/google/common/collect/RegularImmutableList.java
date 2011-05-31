@@ -58,7 +58,7 @@ class RegularImmutableList<E> extends ImmutableList<E> {
     return offset != 0 || size != array.length;
   }
 
-  @Override public boolean contains(Object target) {
+  @Override public boolean contains(@Nullable Object target) {
     return indexOf(target) != -1;
   }
 
@@ -92,7 +92,7 @@ class RegularImmutableList<E> extends ImmutableList<E> {
     return (E) array[index + offset];
   }
 
-  @Override public int indexOf(Object target) {
+  @Override public int indexOf(@Nullable Object target) {
     if (target != null) {
       for (int i = offset; i < offset + size; i++) {
         if (array[i].equals(target)) {
@@ -103,7 +103,7 @@ class RegularImmutableList<E> extends ImmutableList<E> {
     return -1;
   }
 
-  @Override public int lastIndexOf(Object target) {
+  @Override public int lastIndexOf(@Nullable Object target) {
     if (target != null) {
       for (int i = offset + size - 1; i >= offset; i--) {
         if (array[i].equals(target)) {

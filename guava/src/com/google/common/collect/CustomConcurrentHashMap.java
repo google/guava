@@ -2356,7 +2356,7 @@ class CustomConcurrentHashMap<K, V>
       enqueueNotification(entry.getKey(), entry.getHash(), entry.getValueReference().get(), cause);
     }
 
-    void enqueueNotification(K key, int hash, V value, RemovalCause cause) {
+    void enqueueNotification(@Nullable K key, int hash, @Nullable V value, RemovalCause cause) {
       if (cause.wasEvicted()) {
         statsCounter.recordEviction();
       }

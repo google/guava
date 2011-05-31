@@ -94,7 +94,7 @@ abstract class TransformedImmutableList<D, E> extends ImmutableList<E> {
     return new TransformedView(backingList.subList(fromIndex, toIndex));
   }
 
-  @Override public boolean equals(Object obj) {
+  @Override public boolean equals(@Nullable Object obj) {
     if (obj == this) {
       return true;
     }

@@ -41,15 +41,16 @@ final class ImmutableSortedAsList<E> extends ImmutableList<E> {
   // Override contains(), indexOf(), and lastIndexOf() to be O(log N) instead of
   // O(N).
 
-  @Override public boolean contains(Object target) {
+  @Override public boolean contains(@Nullable Object target) {
+    // TODO: why not contains(target)?
     return backingSet.indexOf(target) >= 0;
   }
 
-  @Override public int indexOf(Object target) {
+  @Override public int indexOf(@Nullable Object target) {
     return backingSet.indexOf(target);
   }
 
-  @Override public int lastIndexOf(Object target) {
+  @Override public int lastIndexOf(@Nullable Object target) {
     return backingSet.indexOf(target);
   }
 
