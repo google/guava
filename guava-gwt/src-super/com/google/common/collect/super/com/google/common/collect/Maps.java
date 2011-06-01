@@ -19,7 +19,6 @@ package com.google.common.collect;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Function;
 import com.google.common.base.Joiner.MapJoiner;
@@ -790,7 +789,6 @@ public final class Maps {
    *
    * @since Guava release 07
    */
-  @Beta
   public static <K, V1, V2> Map<K, V2> transformEntries(
       Map<K, V1> fromMap,
       EntryTransformer<? super K, ? super V1, V2> transformer) {
@@ -807,7 +805,6 @@ public final class Maps {
    * @param <V2> the value type of the output entry
    * @since Guava release 07
    */
-  @Beta
   public interface EntryTransformer<K, V1, V2> {
     /**
      * Determines an output value based on a key-value pair. This method is

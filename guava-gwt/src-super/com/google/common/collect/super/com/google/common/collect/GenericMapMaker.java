@@ -33,7 +33,6 @@ import java.util.concurrent.TimeUnit;
  * @author Kevin Bourrillion
  * @since Guava release 07
  */
-@Beta
 @GwtCompatible(emulated = true)
 public abstract class GenericMapMaker<K0, V0> {
 
