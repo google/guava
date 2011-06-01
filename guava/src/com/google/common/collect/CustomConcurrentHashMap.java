@@ -38,6 +38,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.lang.ref.WeakReference;
 import java.util.AbstractCollection;
 import java.util.AbstractMap;
 import java.util.AbstractQueue;
@@ -48,10 +49,11 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Queue;
 import java.util.Set;
+import java.util.concurrent.CancellationException;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Executor;
+import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReferenceArray;
@@ -129,6 +131,8 @@ class CustomConcurrentHashMap<K, V>
   // TODO(user): empirically optimize this
   static final int CLEANUP_MAX = 16;
 
+  static final long CLEANUP_EXECUTOR_DELAY_SECS = 60;
+
   // Fields
 
   /**
@@ -183,14 +187,17 @@ class CustomConcurrentHashMap<K, V>
   /** Factory used to create new entries. */
   final transient EntryFactory entryFactory;
 
-  /** Performs map housekeeping operations. */
-  final Executor cleanupExecutor;
+  /** Performs routine cleanup. */
+  final ScheduledExecutorService cleanupExecutor;
 
   /** Measures time in a testable way. */
   final Ticker ticker;
 
   /**
    * Creates a new, empty map with the specified strategy, initial capacity and concurrency level.
+   *
+   * @throws RejectedExecutionException if a cleanupExecutor was specified but rejects the cleanup
+   *     task
    */
   CustomConcurrentHashMap(MapMaker builder,
       Supplier<? extends StatsCounter> statsCounterSupplier) {
@@ -265,25 +272,10 @@ class CustomConcurrentHashMap<K, V>
 
     // schedule cleanup after construction is complete
     if (cleanupExecutor != null) {
-      cleanupExecutor.execute(cleanupTask);
+      cleanupExecutor.scheduleWithFixedDelay(new CleanupMapTask(this),
+          CLEANUP_EXECUTOR_DELAY_SECS, CLEANUP_EXECUTOR_DELAY_SECS, TimeUnit.SECONDS);
     }
   }
-
-  final Runnable cleanupTask = new Runnable() {
-    @Override
-    public void run() {
-      // TODO(user): should we sleep between runs? use a scheduled executor? have a dirty
-      // flag to indicate when cleanup is required? enqueue one cleanup task per queue so they
-      // can wait on the queues?
-      try {
-        for (Segment<K, V> segment : segments) {
-          segment.runCleanup();
-        }
-      } finally {
-        cleanupExecutor.execute(cleanupTask);
-      }
-    }
-  };
 
   boolean evictsBySize() {
     return maximumSize != MapMaker.UNSET_INT;
@@ -3098,277 +3090,296 @@ class CustomConcurrentHashMap<K, V>
       }
     }
 
-    // Queues
+  }
 
-    /**
-     * A custom queue for managing eviction order. Note that this is tightly integrated with {@code
-     * ReferenceEntry}, upon which it relies to perform its linking.
-     *
-     * <p>Note that this entire implementation makes the assumption that all elements which are in
-     * the map are also in this queue, and that all elements not in the queue are not in the map.
-     *
-     * <p>The benefits of creating our own queue are that (1) we can replace elements in the middle
-     * of the queue as part of copyEvictableEntry, and (2) the contains method is highly optimized
-     * for the current model.
-     */
-    static final class EvictionQueue<K, V> extends AbstractQueue<ReferenceEntry<K, V>> {
-      final ReferenceEntry<K, V> head = new AbstractReferenceEntry<K, V>() {
+  // Queues
 
-        ReferenceEntry<K, V> nextEvictable = this;
+  /**
+   * A custom queue for managing eviction order. Note that this is tightly integrated with {@code
+   * ReferenceEntry}, upon which it relies to perform its linking.
+   *
+   * <p>Note that this entire implementation makes the assumption that all elements which are in
+   * the map are also in this queue, and that all elements not in the queue are not in the map.
+   *
+   * <p>The benefits of creating our own queue are that (1) we can replace elements in the middle
+   * of the queue as part of copyEvictableEntry, and (2) the contains method is highly optimized
+   * for the current model.
+   */
+  static final class EvictionQueue<K, V> extends AbstractQueue<ReferenceEntry<K, V>> {
+    final ReferenceEntry<K, V> head = new AbstractReferenceEntry<K, V>() {
 
-        @Override
-        public ReferenceEntry<K, V> getNextEvictable() {
-          return nextEvictable;
-        }
-
-        @Override
-        public void setNextEvictable(ReferenceEntry<K, V> next) {
-          this.nextEvictable = next;
-        }
-
-        ReferenceEntry<K, V> previousEvictable = this;
-
-        @Override
-        public ReferenceEntry<K, V> getPreviousEvictable() {
-          return previousEvictable;
-        }
-
-        @Override
-        public void setPreviousEvictable(ReferenceEntry<K, V> previous) {
-          this.previousEvictable = previous;
-        }
-
-        @Override
-        public void notifyKeyReclaimed() {}
-      };
-
-      // implements Queue
+      ReferenceEntry<K, V> nextEvictable = this;
 
       @Override
-      public boolean offer(ReferenceEntry<K, V> entry) {
-        // unlink
-        connectEvictables(entry.getPreviousEvictable(), entry.getNextEvictable());
-
-        // add to tail
-        connectEvictables(head.getPreviousEvictable(), entry);
-        connectEvictables(entry, head);
-
-        return true;
+      public ReferenceEntry<K, V> getNextEvictable() {
+        return nextEvictable;
       }
 
       @Override
-      public ReferenceEntry<K, V> peek() {
-        ReferenceEntry<K, V> next = head.getNextEvictable();
-        return (next == head) ? null : next;
+      public void setNextEvictable(ReferenceEntry<K, V> next) {
+        this.nextEvictable = next;
+      }
+
+      ReferenceEntry<K, V> previousEvictable = this;
+
+      @Override
+      public ReferenceEntry<K, V> getPreviousEvictable() {
+        return previousEvictable;
       }
 
       @Override
-      public ReferenceEntry<K, V> poll() {
-        ReferenceEntry<K, V> next = head.getNextEvictable();
-        if (next == head) {
-          return null;
-        }
-
-        remove(next);
-        return next;
+      public void setPreviousEvictable(ReferenceEntry<K, V> previous) {
+        this.previousEvictable = previous;
       }
 
       @Override
-      @SuppressWarnings("unchecked")
-      public boolean remove(Object o) {
-        ReferenceEntry<K, V> e = (ReferenceEntry) o;
-        ReferenceEntry<K, V> previous = e.getPreviousEvictable();
-        ReferenceEntry<K, V> next = e.getNextEvictable();
-        connectEvictables(previous, next);
-        nullifyEvictable(e);
+      public void notifyKeyReclaimed() {}
+    };
 
-        return next != NullEntry.INSTANCE;
-      }
+    // implements Queue
 
-      @Override
-      @SuppressWarnings("unchecked")
-      public boolean contains(Object o) {
-        ReferenceEntry<K, V> e = (ReferenceEntry) o;
-        return e.getNextEvictable() != NullEntry.INSTANCE;
-      }
+    @Override
+    public boolean offer(ReferenceEntry<K, V> entry) {
+      // unlink
+      connectEvictables(entry.getPreviousEvictable(), entry.getNextEvictable());
 
-      @Override
-      public boolean isEmpty() {
-        return head.getNextEvictable() == head;
-      }
+      // add to tail
+      connectEvictables(head.getPreviousEvictable(), entry);
+      connectEvictables(entry, head);
 
-      @Override
-      public int size() {
-        int size = 0;
-        for (ReferenceEntry<K, V> e = head.getNextEvictable(); e != head;
-        e = e.getNextEvictable()) {
-          size++;
-        }
-        return size;
-      }
-
-      @Override
-      public void clear() {
-        ReferenceEntry<K, V> e = head.getNextEvictable();
-        while (e != head) {
-          ReferenceEntry<K, V> next = e.getNextEvictable();
-          nullifyEvictable(e);
-          e = next;
-        }
-
-        head.setNextEvictable(head);
-        head.setPreviousEvictable(head);
-      }
-
-      @Override
-      public Iterator<ReferenceEntry<K, V>> iterator() {
-        return new AbstractLinkedIterator<ReferenceEntry<K, V>>(peek()) {
-          @Override
-          protected ReferenceEntry<K, V> computeNext(ReferenceEntry<K, V> previous) {
-            ReferenceEntry<K, V> next = previous.getNextEvictable();
-            return (next == head) ? null : next;
-          }
-        };
-      }
+      return true;
     }
 
-    /**
-     * A custom queue for managing expiration order. Note that this is tightly integrated with
-     * {@code ReferenceEntry}, upon which it reliese to perform its linking.
-     *
-     * <p>Note that this entire implementation makes the assumption that all elements which are in
-     * the map are also in this queue, and that all elements not in the queue are not in the map.
-     *
-     * <p>The benefits of creating our own queue are that (1) we can replace elements in the middle
-     * of the queue as part of copyEvictableEntry, and (2) the contains method is highly optimized
-     * for the current model.
-     */
-    static final class ExpirationQueue<K, V> extends AbstractQueue<ReferenceEntry<K, V>> {
-      final ReferenceEntry<K, V> head = new AbstractReferenceEntry<K, V>() {
+    @Override
+    public ReferenceEntry<K, V> peek() {
+      ReferenceEntry<K, V> next = head.getNextEvictable();
+      return (next == head) ? null : next;
+    }
 
+    @Override
+    public ReferenceEntry<K, V> poll() {
+      ReferenceEntry<K, V> next = head.getNextEvictable();
+      if (next == head) {
+        return null;
+      }
+
+      remove(next);
+      return next;
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public boolean remove(Object o) {
+      ReferenceEntry<K, V> e = (ReferenceEntry) o;
+      ReferenceEntry<K, V> previous = e.getPreviousEvictable();
+      ReferenceEntry<K, V> next = e.getNextEvictable();
+      connectEvictables(previous, next);
+      nullifyEvictable(e);
+
+      return next != NullEntry.INSTANCE;
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public boolean contains(Object o) {
+      ReferenceEntry<K, V> e = (ReferenceEntry) o;
+      return e.getNextEvictable() != NullEntry.INSTANCE;
+    }
+
+    @Override
+    public boolean isEmpty() {
+      return head.getNextEvictable() == head;
+    }
+
+    @Override
+    public int size() {
+      int size = 0;
+      for (ReferenceEntry<K, V> e = head.getNextEvictable(); e != head; e = e.getNextEvictable()) {
+        size++;
+      }
+      return size;
+    }
+
+    @Override
+    public void clear() {
+      ReferenceEntry<K, V> e = head.getNextEvictable();
+      while (e != head) {
+        ReferenceEntry<K, V> next = e.getNextEvictable();
+        nullifyEvictable(e);
+        e = next;
+      }
+
+      head.setNextEvictable(head);
+      head.setPreviousEvictable(head);
+    }
+
+    @Override
+    public Iterator<ReferenceEntry<K, V>> iterator() {
+      return new AbstractLinkedIterator<ReferenceEntry<K, V>>(peek()) {
         @Override
-        public long getExpirationTime() {
-          return Long.MAX_VALUE;
+        protected ReferenceEntry<K, V> computeNext(ReferenceEntry<K, V> previous) {
+          ReferenceEntry<K, V> next = previous.getNextEvictable();
+          return (next == head) ? null : next;
         }
-
-        @Override
-        public void setExpirationTime(long time) {}
-
-        ReferenceEntry<K, V> nextExpirable = this;
-
-        @Override
-        public ReferenceEntry<K, V> getNextExpirable() {
-          return nextExpirable;
-        }
-
-        @Override
-        public void setNextExpirable(ReferenceEntry<K, V> next) {
-          this.nextExpirable = next;
-        }
-
-        ReferenceEntry<K, V> previousExpirable = this;
-
-        @Override
-        public ReferenceEntry<K, V> getPreviousExpirable() {
-          return previousExpirable;
-        }
-
-        @Override
-        public void setPreviousExpirable(ReferenceEntry<K, V> previous) {
-          this.previousExpirable = previous;
-        }
-
-        @Override
-        public void notifyKeyReclaimed() {}
       };
+    }
+  }
 
-      // implements Queue
+  /**
+   * A custom queue for managing expiration order. Note that this is tightly integrated with
+   * {@code ReferenceEntry}, upon which it reliese to perform its linking.
+   *
+   * <p>Note that this entire implementation makes the assumption that all elements which are in
+   * the map are also in this queue, and that all elements not in the queue are not in the map.
+   *
+   * <p>The benefits of creating our own queue are that (1) we can replace elements in the middle
+   * of the queue as part of copyEvictableEntry, and (2) the contains method is highly optimized
+   * for the current model.
+   */
+  static final class ExpirationQueue<K, V> extends AbstractQueue<ReferenceEntry<K, V>> {
+    final ReferenceEntry<K, V> head = new AbstractReferenceEntry<K, V>() {
 
       @Override
-      public boolean offer(ReferenceEntry<K, V> entry) {
-        // unlink
-        connectExpirables(entry.getPreviousExpirable(), entry.getNextExpirable());
-
-        // add to tail
-        connectExpirables(head.getPreviousExpirable(), entry);
-        connectExpirables(entry, head);
-
-        return true;
+      public long getExpirationTime() {
+        return Long.MAX_VALUE;
       }
 
       @Override
-      public ReferenceEntry<K, V> peek() {
-        ReferenceEntry<K, V> next = head.getNextExpirable();
-        return (next == head) ? null : next;
+      public void setExpirationTime(long time) {}
+
+      ReferenceEntry<K, V> nextExpirable = this;
+
+      @Override
+      public ReferenceEntry<K, V> getNextExpirable() {
+        return nextExpirable;
       }
 
       @Override
-      public ReferenceEntry<K, V> poll() {
-        ReferenceEntry<K, V> next = head.getNextExpirable();
-        if (next == head) {
-          return null;
-        }
+      public void setNextExpirable(ReferenceEntry<K, V> next) {
+        this.nextExpirable = next;
+      }
 
-        remove(next);
-        return next;
+      ReferenceEntry<K, V> previousExpirable = this;
+
+      @Override
+      public ReferenceEntry<K, V> getPreviousExpirable() {
+        return previousExpirable;
       }
 
       @Override
-      @SuppressWarnings("unchecked")
-      public boolean remove(Object o) {
-        ReferenceEntry<K, V> e = (ReferenceEntry) o;
-        ReferenceEntry<K, V> previous = e.getPreviousExpirable();
+      public void setPreviousExpirable(ReferenceEntry<K, V> previous) {
+        this.previousExpirable = previous;
+      }
+
+      @Override
+      public void notifyKeyReclaimed() {}
+    };
+
+    // implements Queue
+
+    @Override
+    public boolean offer(ReferenceEntry<K, V> entry) {
+      // unlink
+      connectExpirables(entry.getPreviousExpirable(), entry.getNextExpirable());
+
+      // add to tail
+      connectExpirables(head.getPreviousExpirable(), entry);
+      connectExpirables(entry, head);
+
+      return true;
+    }
+
+    @Override
+    public ReferenceEntry<K, V> peek() {
+      ReferenceEntry<K, V> next = head.getNextExpirable();
+      return (next == head) ? null : next;
+    }
+
+    @Override
+    public ReferenceEntry<K, V> poll() {
+      ReferenceEntry<K, V> next = head.getNextExpirable();
+      if (next == head) {
+        return null;
+      }
+
+      remove(next);
+      return next;
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public boolean remove(Object o) {
+      ReferenceEntry<K, V> e = (ReferenceEntry) o;
+      ReferenceEntry<K, V> previous = e.getPreviousExpirable();
+      ReferenceEntry<K, V> next = e.getNextExpirable();
+      connectExpirables(previous, next);
+      nullifyExpirable(e);
+
+      return next != NullEntry.INSTANCE;
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public boolean contains(Object o) {
+      ReferenceEntry<K, V> e = (ReferenceEntry) o;
+      return e.getNextExpirable() != NullEntry.INSTANCE;
+    }
+
+    @Override
+    public boolean isEmpty() {
+      return head.getNextExpirable() == head;
+    }
+
+    @Override
+    public int size() {
+      int size = 0;
+      for (ReferenceEntry<K, V> e = head.getNextExpirable(); e != head; e = e.getNextExpirable()) {
+        size++;
+      }
+      return size;
+    }
+
+    @Override
+    public void clear() {
+      ReferenceEntry<K, V> e = head.getNextExpirable();
+      while (e != head) {
         ReferenceEntry<K, V> next = e.getNextExpirable();
-        connectExpirables(previous, next);
         nullifyExpirable(e);
-
-        return next != NullEntry.INSTANCE;
+        e = next;
       }
 
-      @Override
-      @SuppressWarnings("unchecked")
-      public boolean contains(Object o) {
-        ReferenceEntry<K, V> e = (ReferenceEntry) o;
-        return e.getNextExpirable() != NullEntry.INSTANCE;
-      }
+      head.setNextExpirable(head);
+      head.setPreviousExpirable(head);
+    }
 
-      @Override
-      public boolean isEmpty() {
-        return head.getNextExpirable() == head;
-      }
-
-      @Override
-      public int size() {
-        int size = 0;
-        for (ReferenceEntry<K, V> e = head.getNextExpirable(); e != head;
-        e = e.getNextExpirable()) {
-          size++;
+    @Override
+    public Iterator<ReferenceEntry<K, V>> iterator() {
+      return new AbstractLinkedIterator<ReferenceEntry<K, V>>(peek()) {
+        @Override
+        protected ReferenceEntry<K, V> computeNext(ReferenceEntry<K, V> previous) {
+          ReferenceEntry<K, V> next = previous.getNextExpirable();
+          return (next == head) ? null : next;
         }
-        return size;
+      };
+    }
+  }
+
+  static final class CleanupMapTask implements Runnable {
+    final WeakReference<CustomConcurrentHashMap<?, ?>> mapReference;
+
+    public CleanupMapTask(CustomConcurrentHashMap<?, ?> map) {
+      this.mapReference = new WeakReference<CustomConcurrentHashMap<?, ?>>(map);
+    }
+
+    @Override
+    public void run() {
+      CustomConcurrentHashMap<?, ?> map = mapReference.get();
+      if (map == null) {
+        throw new CancellationException();
       }
 
-      @Override
-      public void clear() {
-        ReferenceEntry<K, V> e = head.getNextExpirable();
-        while (e != head) {
-          ReferenceEntry<K, V> next = e.getNextExpirable();
-          nullifyExpirable(e);
-          e = next;
-        }
-
-        head.setNextExpirable(head);
-        head.setPreviousExpirable(head);
-      }
-
-      @Override
-      public Iterator<ReferenceEntry<K, V>> iterator() {
-        return new AbstractLinkedIterator<ReferenceEntry<K, V>>(peek()) {
-          @Override
-          protected ReferenceEntry<K, V> computeNext(ReferenceEntry<K, V> previous) {
-            ReferenceEntry<K, V> next = previous.getNextExpirable();
-            return (next == head) ? null : next;
-          }
-        };
+      for (Segment<?, ?> segment : map.segments) {
+        segment.runCleanup();
       }
     }
   }

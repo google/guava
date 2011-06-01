@@ -48,7 +48,7 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Executor;
+import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -174,7 +174,7 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
   Equivalence<Object> keyEquivalence;
   Equivalence<Object> valueEquivalence;
 
-  Executor cleanupExecutor;
+  ScheduledExecutorService cleanupExecutor;
   Ticker ticker;
 
   /**
@@ -521,7 +521,7 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
         ? DEFAULT_EXPIRATION_NANOS : expireAfterAccessNanos;
   }
 
-  Executor getCleanupExecutor() {
+  ScheduledExecutorService getCleanupExecutor() {
     return cleanupExecutor;
   }
 
