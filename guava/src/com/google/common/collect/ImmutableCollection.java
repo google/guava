@@ -16,6 +16,7 @@
 
 package com.google.common.collect;
 
+import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 
 import java.io.Serializable;
@@ -268,8 +269,15 @@ public abstract class ImmutableCollection<E>
 
   /**
    * Abstract base class for builders of {@link ImmutableCollection} types.
+   *
+   * @since Guava release 10
    */
-  abstract static class Builder<E> {
+  @Beta
+  public abstract static class Builder<E> {
+
+    Builder() {
+    }
+
     /**
      * Adds {@code element} to the {@code ImmutableCollection} being built.
      *
