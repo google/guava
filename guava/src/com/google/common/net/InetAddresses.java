@@ -183,11 +183,7 @@ public final class InetAddresses {
    *         IP string literal
    */
   public static InetAddress forString(String ipString) {
-    byte[] addr = textToNumericFormatV4(ipString);
-    if (addr == null) {
-      // Scanning for IPv4 string literal failed; try IPv6.
-      addr = textToNumericFormatV6(ipString);
-    }
+    byte[] addr = ipStringToBytes(ipString);
 
     // The argument was malformed, i.e. not an IP string literal.
     if (addr == null) {
@@ -224,22 +220,43 @@ public final class InetAddresses {
    * @return {@code true} if the argument is a valid IP string literal
    */
   public static boolean isInetAddress(String ipString) {
-    try {
-      forString(ipString);
-      return true;
-    } catch (IllegalArgumentException e) {
-      return false;
+    return ipStringToBytes(ipString) != null;
+  }
+
+  private static byte[] ipStringToBytes(String ipString) {
+    // Make a first pass to categorize the characters in this string.
+    boolean hasColon = false;
+    boolean hasDot = false;
+    for (int i = 0; i < ipString.length(); i++) {
+      char c = ipString.charAt(i);
+      if (c == '.') {
+        hasDot = true;
+      } else if (c == ':') {
+        if (hasDot) {
+          return null;  // Colons must not appear after dots.
+        }
+        hasColon = true;
+      } else if (Character.digit(c, 16) == -1) {
+        return null;  // Everything else must be a decimal or hex digit.
+      }
     }
+
+    // Now decide which address family to parse.
+    if (hasColon) {
+      if (hasDot) {
+        ipString = convertDottedQuadToHex(ipString);
+        if (ipString == null) {
+          return null;
+        }
+      }
+      return textToNumericFormatV6(ipString);
+    } else if (hasDot) {
+      return textToNumericFormatV4(ipString);
+    }
+    return null;
   }
 
   private static byte[] textToNumericFormatV4(String ipString) {
-    if (ipString.contains(":")) {
-      // For the special mapped address cases (e.g. "::ffff:192.0.2.1") passing
-      // InetAddress.getByAddress() the output of textToNumericFormatV6()
-      // below will "do the right thing", i.e. construct an Inet4Address.
-      return null;
-    }
-
     String[] address = ipString.split("\\.", IPV4_PART_COUNT + 1);
     if (address.length != IPV4_PART_COUNT) {
       return null;
@@ -258,74 +275,69 @@ public final class InetAddresses {
   }
 
   private static byte[] textToNumericFormatV6(String ipString) {
-    if (!ipString.contains(":")) {
+    // An address can have [2..8] colons, and N colons make N+1 parts.
+    String[] parts = ipString.split(":", IPV6_PART_COUNT + 2);
+    if (parts.length < 3 || parts.length > IPV6_PART_COUNT + 1) {
       return null;
     }
-    if (ipString.contains(":::")) {
-      return null;
-    }
 
-    if (ipString.contains(".")) {
-      ipString = convertDottedQuadToHex(ipString);
-      if (ipString == null) {
-        return null;
-      }
-    }
-
-    ByteBuffer rawBytes = ByteBuffer.allocate(2 * IPV6_PART_COUNT);
-    // Keep a record of the number of parts specified above/before a "::"
-    // (partsHi), and below/after any "::" (partsLo).
-    int partsHi = 0;
-    int partsLo = 0;
-
-    String[] addressHalves = ipString.split("::", 2);  // At most 1 "::".
-    // Parse parts above any "::", or the whole string if no "::" present.
-    if (!addressHalves[0].equals("")) {
-      String[] parts = addressHalves[0].split(":", IPV6_PART_COUNT);
-      try {
-        for (int i = 0; i < parts.length; i++) {
-          rawBytes.putShort(2 * i, parseHextet(parts[i]));
+    // Disregarding the endpoints, find "::" with nothing in between.
+    // This indicates that a run of zeroes has been skipped.
+    int skipIndex = -1;
+    for (int i = 1; i < parts.length - 1; i++) {
+      if (parts[i].length() == 0) {
+        if (skipIndex >= 0) {
+          return null;  // Can't have more than one ::
         }
-        partsHi = parts.length;
-      } catch (NumberFormatException ex) {
-        return null;
+        skipIndex = i;
       }
+    }
+
+    // Now check the endpoints, and determine the number of parts to copy from
+    // above/before the "::" (partsHi), and below/after the "::" (partsLo).
+    int partsHi;
+    if (parts[0].length() == 0) {
+      if (!ipString.startsWith("::")) {
+        return null;  // ^: requires ^::
+      }
+      partsHi = 0;
     } else {
-      // A leading "::".  At least one 16bit segment must be zero.
-      partsHi = 1;
+      // If a :: wasn't found, then partsHi includes everything.
+      partsHi = skipIndex >= 0 ? skipIndex : parts.length;
     }
-
-    // Parse parts below "::" (if any), into the tail end of the byte array,
-    // working backwards.
-    if (addressHalves.length > 1) {
-      if (!addressHalves[1].equals("")) {
-        String[] parts = addressHalves[1].split(":", IPV6_PART_COUNT);
-        try {
-          for (int i = 0; i < parts.length; i++) {
-            int partsIndex = parts.length - i - 1;
-            int bytesIndex = 2 * (IPV6_PART_COUNT - i - 1);
-            rawBytes.putShort(bytesIndex, parseHextet(parts[partsIndex]));
-          }
-          partsLo = parts.length;
-        } catch (NumberFormatException ex) {
-          return null;
-        }
-      } else {
-        // A trailing "::".  At least one 16bit segment must be zero.
-        partsLo = 1;
+    int partsLo;
+    if (parts[parts.length - 1].length() == 0) {
+      if (!ipString.endsWith("::")) {
+        return null;  // :$ requires ::$
       }
+      partsLo = 0;
+    } else {
+      // If a :: wasn't found, then partsLo includes nothing.
+      partsLo = skipIndex >= 0 ? parts.length - skipIndex - 1 : 0;
     }
 
-    // Some extra sanity checks.
-    int totalParts = partsHi + partsLo;
-    if (totalParts > IPV6_PART_COUNT) {
-      return null;
-    }
-    if (addressHalves.length == 1 && totalParts != IPV6_PART_COUNT) {
-      // If no "::" shortening is used then all bytes must have been specified.
+    // If we found a ::, then we must have skipped at least one part.
+    // Otherwise, we must have exactly the right number of parts.
+    int partsSkipped = IPV6_PART_COUNT - (partsHi + partsLo);
+    if (!(skipIndex >= 0 ? partsSkipped >= 1 : partsSkipped == 0)) {
       return null;
     }
 
+    // Now parse the hextets into a byte array.
+    ByteBuffer rawBytes = ByteBuffer.allocate(2 * IPV6_PART_COUNT);
+    try {
+      for (int i = 0; i < partsHi; i++) {
+        rawBytes.putShort(parseHextet(parts[i]));
+      }
+      for (int i = 0; i < partsSkipped; i++) {
+        rawBytes.putShort((short) 0);
+      }
+      for (int i = partsLo; i > 0; i--) {
+        rawBytes.putShort(parseHextet(parts[parts.length - i]));
+      }
+    } catch (NumberFormatException ex) {
+      return null;
+    }
     return rawBytes.array();
   }
 
@@ -343,21 +355,20 @@ public final class InetAddresses {
   }
 
   private static byte parseOctet(String ipPart) {
+    // Note: we already verified that this string contains only hex digits.
     int octet = Integer.parseInt(ipPart);
-    // Disallow +/-, and values that don't fit in 8 bits.
-    // Also disallow leading zeroes, because no clear standard exists on
+    // Disallow leading zeroes, because no clear standard exists on
     // whether these should be interpreted as decimal or octal.
-    int firstDigit = Character.digit(ipPart.charAt(0), 10);
-    if (firstDigit == -1 || octet > 255 || (firstDigit == 0 && ipPart.length() > 1)) {
+    if (octet > 255 || (ipPart.startsWith("0") && ipPart.length() > 1)) {
       throw new NumberFormatException();
     }
     return (byte) octet;
   }
 
   private static short parseHextet(String ipPart) {
+    // Note: we already verified that this string contains only hex digits.
     int hextet = Integer.parseInt(ipPart, 16);
-    // Disallow +/-, and values that don't fit in 16 bits.
-    if (Character.digit(ipPart.charAt(0), 16) == -1 || hextet > 0xffff) {
+    if (hextet > 0xffff) {
       throw new NumberFormatException();
     }
     return (short) hextet;
