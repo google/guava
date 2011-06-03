@@ -29,14 +29,18 @@ import javax.annotation.Nullable;
  * <p>Cache statistics are incremented according to the following rules:
  *
  * <ul>
- * <li>A cache lookup that encounters an existing cache entry will increment {@code hitCount}.
- * <li>The first cache lookup that encounters a missing cache entry will create a new entry. After
- *     successful creation it will increment {@code missCount} and {@code createCount}, and add the
- *     total creation time, in nanoseconds, to {@code totalCreateTime}.
+ * <li>When a cache lookup encounters an existing cache entry {@code hitCount} is incremented.
+ * <li>When a cache lookup first encounters a missing cache entry, a new entry is created.
+ * <ul>
+ * <li>After successful creation {@code missCount} and {@code createSuccessCount} are
+ *     incremented, and the total creation time, in nanoseconds, is added to
+ *     {@code totalCreateTime}.
+ * <li>When an exception is thrown during creation {@code missCount} and {@code
+ *     createExceptionCount} are incremented, and the total creation time, in nanoseconds, is
+ *     added to {@code totalCreateTime}.
  * <li>Cache lookups that encounter a missing cache entry that is pending creation will await
- *     successful creation and then increment {@code missCount}.
- * <li>No stats are modified when entry creation throws an exception, neither for the creating
- *     thread nor for waiting threads.
+ *     creation (whether successful or not) and then increment {@code missCount}.
+ * </ul>
  * <li>When an entry is evicted from the cache, {@code evictionCount} is incremented.
  * <li>No stats are modified when a cache entry is invalidated or manually removed.
  * <li>No stats are modified by operations invoked on the {@linkplain Cache#asMap asMap} view of
@@ -50,10 +54,10 @@ import javax.annotation.Nullable;
 public final class CacheStats {
   private final long hitCount;
   private final long missCount;
-  private final long createCount;
+  private final long createSuccessCount;
+  private final long createExceptionCount;
   private final long totalCreateTime;
   private final long evictionCount;
-  // TODO(user): add createExceptionCount?
 
   /**
    * Constructs a new {@code CacheStats} instance.
@@ -61,24 +65,26 @@ public final class CacheStats {
    * <p>Five parameters of the same type in a row is a bad thing, but this class is not constructed
    * by end users and is too fine-grained for a builder.
    */
-  public CacheStats(long hitCount, long missCount, long createCount, long totalCreateTime,
-      long evictionCount) {
+  public CacheStats(long hitCount, long missCount, long createSuccessCount,
+      long createExceptionCount, long totalCreateTime, long evictionCount) {
     checkArgument(hitCount >= 0);
     checkArgument(missCount >= 0);
-    checkArgument(createCount >= 0);
+    checkArgument(createSuccessCount >= 0);
+    checkArgument(createExceptionCount >= 0);
     checkArgument(totalCreateTime >= 0);
     checkArgument(evictionCount >= 0);
 
     this.hitCount = hitCount;
     this.missCount = missCount;
-    this.createCount = createCount;
+    this.createSuccessCount = createSuccessCount;
+    this.createExceptionCount = createExceptionCount;
     this.totalCreateTime = totalCreateTime;
     this.evictionCount = evictionCount;
   }
 
   /**
    * Returns the number of times {@link Cache} lookup methods have returned either a cached or
-   * uncached value. This is defined as {@code hitCount() + missCount()}.
+   * uncached value. This is defined as {@code hitCount + missCount}.
    */
   public long requestCount() {
     return hitCount + missCount;
@@ -93,8 +99,8 @@ public final class CacheStats {
 
   /**
    * Returns the ratio of cache requests which were hits. This is defined as
-   * {@code hitCount() / requestCount()}, or {@code 1.0} when {@code requestCount() == 0}.
-   * Note that {@code hitRate() + missRate() =~ 1.0}.
+   * {@code hitCount / requestCount}, or {@code 1.0} when {@code requestCount == 0}.
+   * Note that {@code hitRate + missRate =~ 1.0}.
    */
   public double hitRate() {
     long requestCount = requestCount();
@@ -112,8 +118,12 @@ public final class CacheStats {
 
   /**
    * Returns the ratio of cache requests which were misses. This is defined as
-   * {@code missCount() / requestCount()}, or {@code 0.0} when {@code requestCount() == 0}.
-   * Note that {@code hitRate() + missRate() =~ 1.0}.
+   * {@code missCount / requestCount}, or {@code 0.0} when {@code requestCount == 0}.
+   * Note that {@code hitRate + missRate =~ 1.0}. Cache misses include all requests which
+   * weren't cache hits, including requests which resulted in either successful or failed creation
+   * attempts, and requests which waited for other threads to finish creation. It is thus the case
+   * that {@code missCount &gt;= createSuccessCount + createExceptionCount}. Multiple
+   * concurrent misses for the same key will result in a single creation.
    */
   public double missRate() {
     long requestCount = requestCount();
@@ -121,19 +131,50 @@ public final class CacheStats {
   }
 
   /**
-   * Returns the number of times {@link Cache} lookup methods have successfully created a new value.
-   * This differs from {@link #missCount} only in the case of concurrent calls to {@link Cache}
-   * lookup methods on an absent value, in which case multiple simultaneous misses will result in a
-   * single creation. Thus, the returned value can never exceed the value of {@code missCount()}.
+   * Returns the total number of times that {@link Cache} lookup methods attempted to create new
+   * values. This includes both successful creations, as well as those that threw exceptions. This
+   * is defined as {@code createSuccessCount + createExceptionCount}.
    */
   public long createCount() {
-    return createCount;
+    return createSuccessCount + createExceptionCount;
+  }
+
+  /**
+   * Returns the number of times {@link Cache} lookup methods have successfully created a new value.
+   * This is always incremented in conjunction with {@link #missCount}, though {@code missCount}
+   * is also incremented when an exception is encountered during creation (see
+   * {@link #createExceptionCount}). Multiple concurrent misses for the same key will result in a
+   * single creation.
+   */
+  public long createSuccessCount() {
+    return createSuccessCount;
+  }
+
+  /**
+   * Returns the number of times {@link Cache} lookup methods threw an exception while creating a
+   * new value. This is always incremented in conjunction with {@code missCount}, though
+   * {@code missCount} is also incremented when creation completes successfully (see
+   * {@link #createSuccessCount}). Multiple concurrent misses for the same key will result in a
+   * single creation.
+   */
+  public long createExceptionCount() {
+    return createExceptionCount;
+  }
+
+  /**
+   * Returns the ratio of cache creates which threw exceptions. This is defined as
+   * {@code createExceptionCount / (createSuccessCount + createExceptionCount)}, or
+   * {@code 0.0} when {@code createSuccessCount + createExceptionCount == 0}.
+   */
+  public double createExceptionRate() {
+    long totalCreateCount = createSuccessCount + createExceptionCount;
+    return (totalCreateCount == 0) ? 0.0 : createExceptionCount / totalCreateCount;
   }
 
   /**
    * Returns the total number of nanoseconds the cache has spent creating new values. This can be
-   * used to calculate the miss penalty. This value is increased every time {@code createCount()}
-   * is incremented.
+   * used to calculate the miss penalty. This value is increased every time
+   * {@code createSuccessCount} or {@code createExceptionCount} is incremented.
    */
   public long totalCreateTime() {
     return totalCreateTime;
@@ -141,10 +182,13 @@ public final class CacheStats {
 
   /**
    * Returns the average time spent creating new values. This is defined as
-   * {@code totalCreateTime() / createCount()}.
+   * {@code totalCreateTime / (createSuccessCount + createExceptionCount)}.
    */
   public double averageCreatePenalty() {
-    return (createCount == 0) ? 0.0 : (double) totalCreateTime / createCount;
+    long totalCreateCount = createSuccessCount + createExceptionCount;
+    return (totalCreateCount == 0)
+        ? 0.0
+        : (double) totalCreateTime / totalCreateCount;
   }
 
   /**
@@ -157,24 +201,23 @@ public final class CacheStats {
 
   /**
    * Returns a new {@code CacheStats} representing the difference between this {@code CacheStats}
-   * and {@code other}.
-   *
-   * @throws IllegalArgumentException if any value in {@code other} is greater than the
-   *     corresponding value in this instance (this will not happen if {@code other} was retrieved
-   *     from the same cache at an earlier time)
+   * and {@code other}. Negative values, which aren't supported by {@code CacheStats} will be
+   * rounded up to zero.
    */
   public CacheStats minus(CacheStats other) {
     return new CacheStats(
-        hitCount - other.hitCount,
-        missCount - other.missCount,
-        createCount - other.createCount,
-        totalCreateTime - other.totalCreateTime,
-        evictionCount - other.evictionCount);
+        Math.max(0, hitCount - other.hitCount),
+        Math.max(0, missCount - other.missCount),
+        Math.max(0, createSuccessCount - other.createSuccessCount),
+        Math.max(0, createExceptionCount - other.createExceptionCount),
+        Math.max(0, totalCreateTime - other.totalCreateTime),
+        Math.max(0, evictionCount - other.evictionCount));
   }
 
   @Override
   public int hashCode() {
-    return Objects.hashCode(hitCount, missCount, createCount, totalCreateTime, evictionCount);
+    return Objects.hashCode(hitCount, missCount, createSuccessCount, createExceptionCount,
+        totalCreateTime, evictionCount);
   }
 
   @Override
@@ -183,7 +226,8 @@ public final class CacheStats {
       CacheStats other = (CacheStats) object;
       return hitCount == other.hitCount
           && missCount == other.missCount
-          && createCount == other.createCount
+          && createSuccessCount == other.createSuccessCount
+          && createExceptionCount == other.createExceptionCount
           && totalCreateTime == other.totalCreateTime
           && evictionCount == other.evictionCount;
     }
@@ -195,7 +239,8 @@ public final class CacheStats {
     return Objects.toStringHelper(this)
         .add("hitCount", hitCount)
         .add("missCount", missCount)
-        .add("createCount", createCount)
+        .add("createSuccessCount", createSuccessCount)
+        .add("createExceptionCount", createExceptionCount)
         .add("totalCreateTime", totalCreateTime)
         .add("evictionCount", evictionCount)
         .toString();

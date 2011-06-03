@@ -93,23 +93,34 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
     public void recordHit();
 
     /**
-     * Records a single miss. This should be called when a cache request returns an uncached (newly
-     * created) value or null. Multiple concurrent calls to {@link Cache} lookup methods on an
-     * absent value should result in multiple calls to this method, despite all being served by the
-     * results of a single creation.
-     */
-    public void recordMiss();
-
-    /**
-     * Records the creation of a new value. This should be called when a cache request triggers the
-     * creation of a new value. This differs from {@link #recordMiss} in the case of concurrent
-     * calls to {@link Cache} lookup methods on an absent value, in which case only a single call to
-     * this method should occur. Note that the creating thread should call both {@link
-     * #recordCreate} and {@link #recordMiss}.
+     * Records the successful creation of a new value. This should be called when a cache request
+     * triggers the creation of a new value, and that creation completes succesfully. In contrast to
+     * {@link #recordConcurrentMiss}, this method should only be called by the creating thread.
      *
      * @param createTime the number of nanoseconds the cache spent creating the new value
      */
-    public void recordCreate(long createTime);
+    public void recordCreateSuccess(long createTime);
+
+    /**
+     * Records the failed creation of a new value. This should be called when a cache request
+     * triggers the creation of a new value, but that creation throws an exception. In contrast to
+     * {@link #recordConcurrentMiss}, this method should only be called by the creating thread.
+     *
+     * @param createTime the number of nanoseconds the cache spent creating the new value prior to
+     *     an exception being thrown
+     */
+    public void recordCreateException(long createTime);
+
+    /**
+     * Records a single concurrent miss. This should be called when a cache request returns a
+     * value which was created by a different thread. In contrast to {@link #recordCreateSuccess}
+     * and {@link #recordCreateException}, this method should never be called by the creating
+     * thread. Multiple concurrent calls to {@link Cache} lookup methods with the same key on an
+     * absent value should result in a single call to either {@code recordCreateSuccess} or
+     * {@code recordCreateException} and multiple calls to this method, despite all being served by
+     * the results of a single creation.
+     */
+    public void recordConcurrentMiss();
 
     /**
      * Records the eviction of an entry from the cache. This should only been called when an entry
@@ -134,7 +145,8 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
   public static class SimpleStatsCounter implements StatsCounter {
     private final AtomicLong hitCount = new AtomicLong();
     private final AtomicLong missCount = new AtomicLong();
-    private final AtomicLong createCount = new AtomicLong();
+    private final AtomicLong createSuccessCount = new AtomicLong();
+    private final AtomicLong createExceptionCount = new AtomicLong();
     private final AtomicLong totalCreateTime = new AtomicLong();
     private final AtomicLong evictionCount = new AtomicLong();
 
@@ -144,14 +156,22 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
     }
 
     @Override
-    public void recordMiss() {
+    public void recordCreateSuccess(long createTime) {
       missCount.incrementAndGet();
+      createSuccessCount.incrementAndGet();
+      totalCreateTime.addAndGet(createTime);
     }
 
     @Override
-    public void recordCreate(long createTime) {
-      createCount.incrementAndGet();
+    public void recordCreateException(long createTime) {
+      missCount.incrementAndGet();
+      createExceptionCount.incrementAndGet();
       totalCreateTime.addAndGet(createTime);
+    }
+
+    @Override
+    public void recordConcurrentMiss() {
+      missCount.incrementAndGet();
     }
 
     @Override
@@ -164,7 +184,8 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
       return new CacheStats(
           hitCount.get(),
           missCount.get(),
-          createCount.get(),
+          createSuccessCount.get(),
+          createExceptionCount.get(),
           totalCreateTime.get(),
           evictionCount.get());
     }
@@ -176,7 +197,8 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
       CacheStats otherStats = other.snapshot();
       hitCount.addAndGet(otherStats.hitCount());
       missCount.addAndGet(otherStats.missCount());
-      createCount.addAndGet(otherStats.createCount());
+      createSuccessCount.addAndGet(otherStats.createSuccessCount());
+      createExceptionCount.addAndGet(otherStats.createExceptionCount());
       totalCreateTime.addAndGet(otherStats.totalCreateTime());
       evictionCount.addAndGet(otherStats.evictionCount());
     }

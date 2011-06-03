@@ -50,7 +50,6 @@ import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * <p>A builder of {@link ConcurrentMap} or {@link Cache} instances having any combination of the
@@ -131,20 +130,23 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
         public void recordHit() {}
 
         @Override
-        public void recordMiss() {}
+        public void recordCreateSuccess(long createTime) {}
+
+        @Override
+        public void recordCreateException(long createTime) {}
+
+        @Override
+        public void recordConcurrentMiss() {}
 
         @Override
         public void recordEviction() {}
-
-        @Override
-        public void recordCreate(long createTime) {}
 
         @Override
         public CacheStats snapshot() {
           return EMPTY_STATS;
         }
       });
-  static final CacheStats EMPTY_STATS = new CacheStats(0, 0, 0, 0, 0);
+  static final CacheStats EMPTY_STATS = new CacheStats(0, 0, 0, 0, 0, 0);
 
   static final Supplier<SimpleStatsCounter> CACHE_STATS_COUNTER =
       new Supplier<SimpleStatsCounter>() {
@@ -694,7 +696,7 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
   public <K, V> Cache<K, V> makeCache(CacheLoader<? super K, V> loader) {
     return useNullCache()
         ? new ComputingCache<K, V>(this, CACHE_STATS_COUNTER, loader)
-        : new NullCache<K, V>(this, loader);
+        : new NullCache<K, V>(this, CACHE_STATS_COUNTER, loader);
   }
 
   /**
@@ -752,7 +754,7 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
   <K, V> ConcurrentMap<K, V> makeComputingMap(
       CacheLoader<? super K, ? extends V> loader) {
     return useNullCache()
-        ? new ComputingMapAdapter<K, V>(this, CACHE_STATS_COUNTER, loader)
+        ? new ComputingMapAdapter<K, V>(this, DEFAULT_STATS_COUNTER, loader)
         : new NullComputingConcurrentMap<K, V>(this, loader);
   }
 
@@ -1056,31 +1058,36 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
     final NullConcurrentMap<K, V> map;
     final CacheLoader<? super K, V> loader;
 
-    final AtomicLong computeCount = new AtomicLong();
-    final AtomicLong computeTime = new AtomicLong();
+    final StatsCounter statsCounter;
 
-    NullCache(MapMaker mapMaker, CacheLoader<? super K, V> loader) {
+    NullCache(MapMaker mapMaker, Supplier<? extends StatsCounter> statsCounterSupplier,
+        CacheLoader<? super K, V> loader) {
       this.map = new NullConcurrentMap<K, V>(mapMaker);
+      this.statsCounter = statsCounterSupplier.get();
       this.loader = checkNotNull(loader);
     }
 
     @Override
     public V getChecked(K key) throws ExecutionException {
-      long start = System.nanoTime();
       V value = compute(key);
-      long end = System.nanoTime();
-      computeCount.incrementAndGet();
-      computeTime.addAndGet(end - start);
       map.notifyRemoval(key, value);
       return value;
     }
 
     private V compute(K key) throws ExecutionException {
       checkNotNull(key);
+      long start = System.nanoTime();
       try {
-        return loader.load(key);
+        V value = loader.load(key);
+        long end = System.nanoTime();
+        statsCounter.recordCreateSuccess(end - start);
+        return value;
       } catch (Throwable t) {
+        long end = System.nanoTime();
+        statsCounter.recordCreateException(end - start);
         throw new ExecutionException(t);
+      } finally {
+        statsCounter.recordEviction();
       }
     }
 
@@ -1096,9 +1103,7 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
 
     @Override
     public CacheStats stats() {
-      long count = computeCount.get();
-      long time = computeTime.get();
-      return new CacheStats(0, count, count, time, count);
+      return statsCounter.snapshot();
     }
 
     @Override

@@ -151,16 +151,16 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V> {
               // This thread solely created the entry.
 
               V value = null;
+              long start = System.nanoTime();
+              long end = 0;
               try {
-                long start;
-                long end;
                 // Synchronizes on the entry to allow failing fast when a recursive computation is
                 // detected. This is not fool-proof since the entry may be copied when the segment
                 // is written to.
                 synchronized (e) {
-                  start = System.nanoTime();
                   value = computingValueReference.compute(key, hash);
                   end = System.nanoTime();
+                  statsCounter.recordCreateSuccess(end - start);
                 }
                 if (value != null) {
                   // putIfAbsent
@@ -170,10 +170,12 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V> {
                     enqueueNotification(key, hash, value, RemovalCause.REPLACED);
                   }
                 }
-                statsCounter.recordMiss();
-                statsCounter.recordCreate(end - start);
                 return value;
               } finally {
+                if (end == 0) {
+                  end = System.nanoTime();
+                  statsCounter.recordCreateException(end - start);
+                }
                 if (value == null) {
                   clearValue(key, hash, computingValueReference);
                 }
@@ -187,7 +189,7 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V> {
           // don't consider expiration as we're concurrent with computation
           if (value != null) {
             recordRead(e);
-            statsCounter.recordMiss();
+            statsCounter.recordConcurrentMiss();
             return value;
           }
           // else computing thread will clearValue
