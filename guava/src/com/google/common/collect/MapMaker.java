@@ -51,6 +51,8 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+import javax.annotation.Nullable;
+
 /**
  * <p>A builder of {@link ConcurrentMap} or {@link Cache} instances having any combination of the
  * following features:
@@ -950,20 +952,17 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
     // implements ConcurrentMap
 
     @Override
-    public boolean containsKey(Object key) {
-      checkNotNull(key);
+    public boolean containsKey(@Nullable Object key) {
       return false;
     }
 
     @Override
-    public boolean containsValue(Object value) {
-      checkNotNull(value);
+    public boolean containsValue(@Nullable Object value) {
       return false;
     }
 
     @Override
-    public V get(Object key) {
-      checkNotNull(key);
+    public V get(@Nullable Object key) {
       return null;
     }
 
@@ -987,15 +986,12 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
     }
 
     @Override
-    public V remove(Object key) {
-      checkNotNull(key);
+    public V remove(@Nullable Object key) {
       return null;
     }
 
     @Override
-    public boolean remove(Object key, Object value) {
-      checkNotNull(key);
-      checkNotNull(value);
+    public boolean remove(@Nullable Object key, @Nullable Object value) {
       return false;
     }
 
@@ -1007,9 +1003,8 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
     }
 
     @Override
-    public boolean replace(K key, V oldValue, V newValue) {
+    public boolean replace(K key, @Nullable V oldValue, V newValue) {
       checkNotNull(key);
-      checkNotNull(oldValue);
       checkNotNull(newValue);
       return false;
     }

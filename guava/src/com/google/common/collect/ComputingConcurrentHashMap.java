@@ -70,7 +70,7 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V> {
   }
 
   V compute(K key) throws ExecutionException {
-    int hash = hash(key);
+    int hash = hash(checkNotNull(key));
     return segmentFor(hash).compute(key, hash, loader);
   }
 

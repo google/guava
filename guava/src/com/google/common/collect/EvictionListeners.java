@@ -43,7 +43,9 @@ final class EvictionListeners {
    * @param listener the backing listener
    * @param executor the executor with which eviciton notifications are
    *     asynchronously executed
+   * @deprecated <b>This method is scheduled for deletion in Guava release 11.</b>
    */
+  @Deprecated
   public static <K, V> MapEvictionListener<K, V> asynchronous(
       final MapEvictionListener<K, V> listener, final Executor executor) {
     return new MapEvictionListener<K, V>() {

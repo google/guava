@@ -23,6 +23,8 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.ExecutionException;
 
+import javax.annotation.Nullable;
+
 /**
  * Exposes a {@link ComputingConcurrentHashMap} as a {@code Cache}.
  *
@@ -45,7 +47,7 @@ class ComputingCache<K, V> extends AbstractCache<K, V> {
   }
 
   @Override
-  public void invalidate(Object key) {
+  public void invalidate(@Nullable Object key) {
     map.remove(key);
   }
 

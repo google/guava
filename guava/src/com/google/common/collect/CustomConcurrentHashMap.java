@@ -1918,7 +1918,7 @@ class CustomConcurrentHashMap<K, V>
   }
 
   int hash(Object key) {
-    int h = keyEquivalence.hash(checkNotNull(key));
+    int h = keyEquivalence.hash(key);
     return rehash(h);
   }
 
@@ -2535,7 +2535,6 @@ class CustomConcurrentHashMap<K, V>
     }
 
     V put(K key, int hash, V value, boolean onlyIfAbsent) {
-      checkNotNull(value);
       lock();
       try {
         preWriteCleanup();
@@ -2676,8 +2675,6 @@ class CustomConcurrentHashMap<K, V>
     }
 
     boolean replace(K key, int hash, V oldValue, V newValue) {
-      checkNotNull(oldValue);
-      checkNotNull(newValue);
       lock();
       try {
         preWriteCleanup();
@@ -2729,7 +2726,6 @@ class CustomConcurrentHashMap<K, V>
     }
 
     V replace(K key, int hash, V newValue) {
-      checkNotNull(newValue);
       lock();
       try {
         preWriteCleanup();
@@ -2817,7 +2813,6 @@ class CustomConcurrentHashMap<K, V>
     }
 
     boolean remove(Object key, int hash, Object value) {
-      checkNotNull(value);
       lock();
       try {
         preWriteCleanup();
@@ -3482,7 +3477,10 @@ class CustomConcurrentHashMap<K, V>
   }
 
   @Override
-  public V get(Object key) {
+  public V get(@Nullable Object key) {
+    if (key == null) {
+      return null;
+    }
     int hash = hash(key);
     return segmentFor(hash).get(key, hash);
   }
@@ -3497,14 +3495,19 @@ class CustomConcurrentHashMap<K, V>
   }
 
   @Override
-  public boolean containsKey(Object key) {
+  public boolean containsKey(@Nullable Object key) {
+    if (key == null) {
+      return false;
+    }
     int hash = hash(key);
     return segmentFor(hash).containsKey(key, hash);
   }
 
   @Override
-  public boolean containsValue(Object value) {
-    checkNotNull(value); // as does ConcurrentHashMap
+  public boolean containsValue(@Nullable Object value) {
+    if (value == null) {
+      return false;
+    }
 
     // This implementation is patterned after ConcurrentHashMap, but without the locking. The only
     // way for it to return a false negative would be for the target value to jump around in the map
@@ -3541,12 +3544,16 @@ class CustomConcurrentHashMap<K, V>
 
   @Override
   public V put(K key, V value) {
+    checkNotNull(key);
+    checkNotNull(value);
     int hash = hash(key);
     return segmentFor(hash).put(key, hash, value, false);
   }
 
   @Override
   public V putIfAbsent(K key, V value) {
+    checkNotNull(key);
+    checkNotNull(value);
     int hash = hash(key);
     return segmentFor(hash).put(key, hash, value, true);
   }
@@ -3559,42 +3566,38 @@ class CustomConcurrentHashMap<K, V>
   }
 
   @Override
-  public V remove(Object key) {
+  public V remove(@Nullable Object key) {
+    if (key == null) {
+      return null;
+    }
     int hash = hash(key);
     return segmentFor(hash).remove(key, hash);
   }
 
-  /**
-   * {@inheritDoc}
-   *
-   * @throws NullPointerException if the specified key is null
-   */
   @Override
-  public boolean remove(Object key, Object value) {
+  public boolean remove(@Nullable Object key, @Nullable Object value) {
+    if (key == null || value == null) {
+      return false;
+    }
     int hash = hash(key);
     return segmentFor(hash).remove(key, hash, value);
   }
 
-  /**
-   * {@inheritDoc}
-   *
-   * @throws NullPointerException if any of the arguments are null
-   */
   @Override
-  public boolean replace(K key, V oldValue, V newValue) {
+  public boolean replace(K key, @Nullable V oldValue, V newValue) {
+    checkNotNull(key);
+    checkNotNull(newValue);
+    if (oldValue == null) {
+      return false;
+    }
     int hash = hash(key);
     return segmentFor(hash).replace(key, hash, oldValue, newValue);
   }
 
-  /**
-   * {@inheritDoc}
-   *
-   * @return the previous value associated with the specified key, or {@code null} if there was no
-   *         mapping for the key
-   * @throws NullPointerException if the specified key or value is null
-   */
   @Override
   public V replace(K key, V value) {
+    checkNotNull(key);
+    checkNotNull(value);
     int hash = hash(key);
     return segmentFor(hash).replace(key, hash, value);
   }
