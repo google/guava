@@ -460,6 +460,11 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    * maximumSize}{@code (0)}. It can be useful in testing, or to disable caching temporarily without
    * a code change.
    *
+   * <p>Expired entries may be counted by {@link Map#size}, but will never be visible to read or
+   * write operations. Expired entries are currently cleaned up during write operations, or during
+   * occasional read operations in the absense of writes; though this behavior may change in the
+   * future.
+   *
    * @param duration the length of time after an entry is created that it should be automatically
    *     removed
    * @param unit the unit that {@code duration} is expressed in
@@ -499,6 +504,11 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    * evicted immediately. This has a very similar effect to invoking {@link #maximumSize
    * maximumSize}{@code (0)}. It can be useful in testing, or to disable caching temporarily without
    * a code change.
+   *
+   * <p>Expired entries may be counted by {@link Map#size}, but will never be visible to read or
+   * write operations. Expired entries are currently cleaned up during write operations, or during
+   * occasional read operations in the absense of writes; though this behavior may change in the
+   * future.
    *
    * @param duration the length of time after an entry is last accessed that it should be
    *     automatically removed
@@ -707,6 +717,11 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    * function, or, if another thread is currently computing the value for this key, simply waits for
    * that thread to finish and returns its computed value. Note that the function may be executed
    * concurrently by multiple threads, but only for distinct keys.
+   *
+   * <p>New code should use {@link #makeCache}, which supports {@linkplain CacheStats statistics}
+   * collection and {@linkplain Cache#getChecked checked exceptions}, introduces the
+   * {@link CacheLoader} interface for loading entries into the cache, and more cleanly separates
+   * computation from the cache's {@code Map} view.
    *
    * <p>If an entry's value has not finished computing yet, query methods besides {@code get} return
    * immediately as if an entry doesn't exist. In other words, an entry isn't externally visible
