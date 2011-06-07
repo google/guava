@@ -56,10 +56,17 @@ public abstract class GenericMapMaker<K0, V0> {
   // No subclasses but our own
   GenericMapMaker() {}
 
-  // TODO(kevinb): undo this indirection once keyEquiv is made package-private
-  @GwtIncompatible("To be removed when #keyEquivalence is supported")
-  abstract GenericMapMaker<K0, V0> privateKeyEquivalence(
-      Equivalence<Object> equivalence);
+  /**
+   * See {@link MapMaker#keyEquivalence}.
+   */
+  @GwtIncompatible("To be supported")
+  abstract GenericMapMaker<K0, V0> keyEquivalence(Equivalence<Object> equivalence);
+
+  /**
+   * See {@link MapMaker#valueEquivalence}.
+   */
+  @GwtIncompatible("To be supported")
+  abstract GenericMapMaker<K0, V0> valueEquivalence(Equivalence<Object> equivalence);
 
   /**
    * See {@link MapMaker#initialCapacity}.

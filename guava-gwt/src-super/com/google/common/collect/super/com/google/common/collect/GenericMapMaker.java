@@ -41,8 +41,6 @@ public abstract class GenericMapMaker<K0, V0> {
   // No subclasses but our own
   GenericMapMaker() {}
 
-  // TODO(kevinb): undo this indirection once keyEquiv is made package-private
-
   /**
    * See {@link MapMaker#initialCapacity}.
    */

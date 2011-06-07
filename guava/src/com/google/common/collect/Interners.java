@@ -62,7 +62,7 @@ public final class Interners {
     CustomInterner(GenericMapMaker<? super E, Object> mm) {
       this.map = mm
           .strongValues()
-          .privateKeyEquivalence(Equivalences.equals())
+          .keyEquivalence(Equivalences.equals())
           .makeCustomMap();
     }
 

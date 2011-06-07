@@ -26,6 +26,7 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Ascii;
 import com.google.common.base.Equivalence;
+import com.google.common.base.Equivalences;
 import com.google.common.base.Function;
 import com.google.common.base.Objects;
 import com.google.common.base.Supplier;
@@ -191,8 +192,16 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
     return (nullRemovalCause == null);
   }
 
+  /**
+   * Sets a custom {@code Equivalence} strategy for comparing keys.
+   *
+   * <p>By default, the map uses {@link Equivalences#identity} to determine key equality when
+   * {@link #weakKeys} or {@link #softKeys} is specified, and {@link Equivalences#equals()}
+   * otherwise.
+   */
+  @GwtIncompatible("To be supported")
   @Override
-  MapMaker privateKeyEquivalence(Equivalence<Object> equivalence) {
+  MapMaker keyEquivalence(Equivalence<Object> equivalence) {
     checkState(keyEquivalence == null, "key equivalence was already set to %s", keyEquivalence);
     keyEquivalence = checkNotNull(equivalence);
     this.useCustomMap = true;
@@ -203,7 +212,16 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
     return firstNonNull(keyEquivalence, getKeyStrength().defaultEquivalence());
   }
 
-  MapMaker privateValueEquivalence(Equivalence<Object> equivalence) {
+  /**
+   * Sets a custom {@code Equivalence} strategy for comparing values.
+   *
+   * <p>By default, the map uses {@link Equivalences#identity} to determine value equality when
+   * {@link #weakValues} or {@link #softValues} is specified, and {@link Equivalences#equals()}
+   * otherwise.
+   */
+  @GwtIncompatible("To be supported")
+  @Override
+  MapMaker valueEquivalence(Equivalence<Object> equivalence) {
     checkState(valueEquivalence == null,
         "value equivalence was already set to %s", valueEquivalence);
     this.valueEquivalence = checkNotNull(equivalence);

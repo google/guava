@@ -3990,8 +3990,8 @@ class CustomConcurrentHashMap<K, V>
           .initialCapacity(size)
           .setKeyStrength(keyStrength)
           .setValueStrength(valueStrength)
-          .privateKeyEquivalence(keyEquivalence)
-          .privateValueEquivalence(valueEquivalence)
+          .keyEquivalence(keyEquivalence)
+          .valueEquivalence(valueEquivalence)
           .concurrencyLevel(concurrencyLevel);
       mapMaker.removalListener(removalListener);
       if (expireAfterWriteNanos > 0) {
