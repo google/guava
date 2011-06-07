@@ -16,6 +16,8 @@
 
 package com.google.common.util.concurrent;
 
+import com.google.common.annotations.Beta;
+
 import java.util.concurrent.Callable;
 
 import javax.annotation.Nullable;
@@ -37,6 +39,19 @@ public final class Callables {
     return new Callable<T>() {
       @Override public T call() {
         return value;
+      }
+    };
+  }
+
+  /**
+   * Creates a {@code Callable} which immediately throws a specified exception.
+   * @since Guava release 10
+   */
+  @Beta
+  public static <T> Callable<T> throwing(final Exception exception) {
+    return new Callable<T>() {
+      @Override public T call() throws Exception {
+        throw exception;
       }
     };
   }
