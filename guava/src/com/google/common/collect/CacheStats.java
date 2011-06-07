@@ -168,7 +168,9 @@ public final class CacheStats {
    */
   public double createExceptionRate() {
     long totalCreateCount = createSuccessCount + createExceptionCount;
-    return (totalCreateCount == 0) ? 0.0 : createExceptionCount / totalCreateCount;
+    return (totalCreateCount == 0)
+        ? 0.0
+        : (double) createExceptionCount / totalCreateCount;
   }
 
   /**
