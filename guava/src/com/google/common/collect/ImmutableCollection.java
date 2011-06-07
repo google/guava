@@ -16,7 +16,6 @@
 
 package com.google.common.collect;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 
 import java.io.Serializable;
@@ -272,7 +271,6 @@ public abstract class ImmutableCollection<E>
    *
    * @since Guava release 10
    */
-  @Beta
   public abstract static class Builder<E> {
 
     Builder() {
