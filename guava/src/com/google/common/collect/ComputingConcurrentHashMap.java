@@ -30,6 +30,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.lang.ref.ReferenceQueue;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.atomic.AtomicReferenceArray;
@@ -137,7 +138,7 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V> {
                 computingValueReference = new ComputingValueReference<K, V>(loader);
 
                 if (e == null) {
-                  e = map.newEntry(key, hash, first);
+                  e = newEntry(key, hash, first);
                   table.set(index, e);
                 }
                 e.setValueReference(computingValueReference);
@@ -217,7 +218,12 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V> {
     }
 
     @Override
-    public ValueReference<K, V> copyFor(ReferenceEntry<K, V> entry) {
+    public ReferenceEntry<K, V> getEntry() {
+      return null;
+    }
+
+    @Override
+    public ValueReference<K, V> copyFor(ReferenceQueue<V> queue, ReferenceEntry<K, V> entry) {
       return this;
     }
 
@@ -230,9 +236,6 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V> {
     public V waitForValue() throws ExecutionException {
       throw new ExecutionException(t);
     }
-
-    @Override
-    public void notifyValueReclaimed() {}
 
     @Override
     public void clear(ValueReference<K, V> newValue) {}
@@ -254,7 +257,12 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V> {
     }
 
     @Override
-    public ValueReference<K, V> copyFor(ReferenceEntry<K, V> entry) {
+    public ReferenceEntry<K, V> getEntry() {
+      return null;
+    }
+
+    @Override
+    public ValueReference<K, V> copyFor(ReferenceQueue<V> queue, ReferenceEntry<K, V> entry) {
       return this;
     }
 
@@ -267,9 +275,6 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V> {
     public V waitForValue() {
       return get();
     }
-
-    @Override
-    public void notifyValueReclaimed() {}
 
     @Override
     public void clear(ValueReference<K, V> newValue) {}
@@ -293,7 +298,12 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V> {
     }
 
     @Override
-    public ValueReference<K, V> copyFor(ReferenceEntry<K, V> entry) {
+    public ReferenceEntry<K, V> getEntry() {
+      return null;
+    }
+
+    @Override
+    public ValueReference<K, V> copyFor(ReferenceQueue<V> queue, ReferenceEntry<K, V> entry) {
       return this;
     }
 
@@ -336,9 +346,6 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V> {
 
       // TODO(user): could also cancel computation if we had a thread handle
     }
-
-    @Override
-    public void notifyValueReclaimed() {}
 
     V compute(K key, int hash) throws ExecutionException {
       V value;

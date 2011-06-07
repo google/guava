@@ -16,7 +16,6 @@
 
 package com.google.common.collect;
 
-import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Supplier;
 import com.google.common.collect.CustomConcurrentHashMap.Segment;
 
@@ -30,7 +29,6 @@ import java.util.concurrent.ExecutionException;
  * @author Charles Fry
  */
 class ComputingCache<K, V> extends AbstractCache<K, V> {
-  @VisibleForTesting
   final ComputingConcurrentHashMap<K, V> map;
 
   ComputingCache(MapMaker builder,
