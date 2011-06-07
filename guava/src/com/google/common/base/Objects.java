@@ -174,13 +174,15 @@ public final class Objects {
   public static final class ToStringHelper {
     private final StringBuilder builder;
     private String separator = "";
+    private String cachedString = null;
 
     /**
      * Use {@link Objects#toStringHelper(Object)} to create an instance.
      */
     private ToStringHelper(String className) {
+      checkNotNull(className);
       this.builder = new StringBuilder(32)
-          .append(checkNotNull(className))
+          .append(className)
           .append('{');
     }
 
@@ -190,8 +192,10 @@ public final class Objects {
      * is used.
      */
     public ToStringHelper add(String name, @Nullable Object value) {
+      checkNotNull(name);
+      cachedString = null;
       builder.append(separator)
-          .append(checkNotNull(name))
+          .append(name)
           .append('=')
           .append(value);
       separator = ", ";
@@ -205,6 +209,7 @@ public final class Objects {
      * and give value a readable name.
      */
     public ToStringHelper addValue(@Nullable Object value) {
+      cachedString = null;
       builder.append(separator).append(value);
       separator = ", ";
       return this;
@@ -215,7 +220,10 @@ public final class Objects {
      * Objects#toStringHelper(Object)}.
      */
     @Override public String toString() {
-      return builder.append('}').toString();
+      if (cachedString == null) {
+        cachedString = builder.toString();
+      }
+      return cachedString + '}';
     }
   }
 }

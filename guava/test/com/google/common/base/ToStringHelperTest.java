@@ -157,6 +157,24 @@ public class ToStringHelperTest extends TestCase {
   }
 
   @GwtIncompatible("Class names are obfuscated in GWT")
+  public void testToString_ToStringTwice() {
+    Objects.ToStringHelper helper = Objects.toStringHelper(new TestClass())
+        .add("field1", 1)
+        .addValue("value1")
+        .add("field2", "value2");
+    final String expected = "TestClass{field1=1, value1, field2=value2}";
+
+    assertEquals(expected, helper.toString());
+    // Call toString again
+    assertEquals(expected, helper.toString());
+
+    // Make sure the cached value is reset when we modify the helper at all
+    final String expected2 = "TestClass{field1=1, value1, field2=value2, 2}";
+    helper.addValue(2);
+    assertEquals(expected2, helper.toString());
+  }
+
+  @GwtIncompatible("Class names are obfuscated in GWT")
   public void testToString_addValue() {
     String toTest = Objects.toStringHelper(new TestClass())
         .add("field1", 1)
