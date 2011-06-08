@@ -410,11 +410,11 @@ public final class Futures {
    * <p>An example use of this method is to convert a serializable object
    * returned from an RPC into a POJO.
    *
-   * @param future The future to compose
-   * @param function A Function to compose the results of the provided future
+   * @param future The future to transform
+   * @param function A Function to transform the results of the provided future
    *     to the results of the returned future.  This will be run in the thread
    *     that notifies input it is complete.
-   * @return A future that holds result of the composition.
+   * @return A future that holds result of the transformation.
    * @since Guava release 09 (in release 01 as {@code compose})
    */
   public static <I, O> ListenableFuture<O> transform(ListenableFuture<I> future,
@@ -448,11 +448,11 @@ public final class Futures {
    * <p>An example use of this method is to convert a serializable object
    * returned from an RPC into a POJO.
    *
-   * @param future The future to compose
-   * @param function A Function to compose the results of the provided future
+   * @param future The future to transform
+   * @param function A Function to transform the results of the provided future
    *     to the results of the returned future.
    * @param exec Executor to run the function in.
-   * @return A future that holds result of the composition.
+   * @return A future that holds result of the transformation.
    * @since Guava release 09 (in release 02 as {@code compose})
    */
   public static <I, O> ListenableFuture<O> transform(ListenableFuture<I> future,
@@ -466,6 +466,72 @@ public final class Futures {
             }
         };
     return chain(future, wrapperFunction, exec);
+  }
+
+  /**
+   * Like {@link #transform(ListenableFuture, Function)} except that the
+   * transformation {@code function} is invoked on each call to
+   * {@link Future#get() get()} on the returned future.
+   *
+   * <p>The returned {@code Future} reflects the input input's cancellation
+   * state directly, and any attempt to cancel the returned Future is likewise
+   * passed through to the input Future.
+   *
+   * <p>Note that calls to {@linkplain Future#get(long, TimeUnit) timed get}
+   * only apply the timeout to the execution of the underlying {@code Future},
+   * <em>not</em> to the execution of the transformation function.
+   *
+   * <p>The primary audience of this method is callers of {@code transform}
+   * who don't have a {@code ListenableFuture} available and
+   * do not mind repeated, lazy function evaluation.
+   *
+   * @param future The future to transform
+   * @param function A Function to transform the results of the provided future
+   *     to the results of the returned future.
+   * @return A future that returns the result of the transformation.
+   * @since Guava release 10
+   */
+  @Beta
+  public static <I, O> Future<O> lazyTransform(final Future<I> future,
+      final Function<? super I, ? extends O> function) {
+    checkNotNull(future);
+    checkNotNull(function);
+    return new Future<O>() {
+
+      @Override
+      public boolean cancel(boolean mayInterruptIfRunning) {
+        return future.cancel(mayInterruptIfRunning);
+      }
+
+      @Override
+      public boolean isCancelled() {
+        return future.isCancelled();
+      }
+
+      @Override
+      public boolean isDone() {
+        return future.isDone();
+      }
+
+      @Override
+      public O get() throws InterruptedException, ExecutionException {
+        return applyTransformation(future.get());
+      }
+
+      @Override
+      public O get(long timeout, TimeUnit unit)
+          throws InterruptedException, ExecutionException, TimeoutException {
+        return applyTransformation(future.get(timeout, unit));
+      }
+
+      private O applyTransformation(I input) throws ExecutionException {
+        try {
+          return function.apply(input);
+        } catch (Throwable t) {
+          throw new ExecutionException(t);
+        }
+      }
+    };
   }
 
   /**
@@ -493,11 +559,11 @@ public final class Futures {
    * (Exception: If the input future is a {@link ListenableFuture}, timeouts
    * will be strictly enforced.)
    *
-   * @param future The future to compose
-   * @param function A Function to compose the results of the provided future
+   * @param future The future to transform
+   * @param function A Function to transform the results of the provided future
    *     to the results of the returned future.  This will be run in the thread
    *     that calls one of the varieties of {@code get()}.
-   * @return A future that computes result of the composition.
+   * @return A future that computes result of the transformation
    * @since Guava release 09 (in release 01 as {@code compose})
    */
   public static <I, O> Future<O> transform(final Future<I> future,
