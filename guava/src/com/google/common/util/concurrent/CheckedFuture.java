@@ -25,10 +25,9 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 /**
- * A {@code CheckedFuture} is an extension of {@link Future} that includes
- * versions of the {@code get} methods that can throw a checked exception and
- * allows listeners to be attached to the future.  This makes it easier to
- * create a future that executes logic which can throw an exception.
+ * A {@code CheckedFuture} is a {@link ListenableFuture} that includes versions
+ * of the {@code get} methods that can throw a checked exception.  This makes it
+ * easier to create a future that executes logic which can throw an exception.
  *
  * <p>Common implementations include {@link
  * com.google.common.labs.concurrent.ValueCheckedFuture} and {@link

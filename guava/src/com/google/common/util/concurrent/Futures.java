@@ -294,13 +294,19 @@ public final class Futures {
    *       chain(queryFuture, queryFunction);
    * }</pre>
    *
-   * <p>Successful cancellation of either the input future or the result of
-   * function application will cause the returned future to be cancelled.
-   * Cancelling the returned future will succeed if it is currently running.
-   * In this case, attempts will be made to cancel the input future and the
-   * result of the function, however there is no guarantee of success.
+   * <p>Note: This overload of {@code chain} should be used only when creating
+   * the derived future is fast and lightweight, as it does not accept an {@code
+   * Executor} to perform the the work in. Consequently, the chaining function
+   * may run in the thread that calls {@code chain} or in an internal thread of
+   * the system responsible for the input {@code Future}, such an an RPC network
+   * thread.
    *
-   * <p>TODO: Add a version that accepts a normal {@code Future}
+   * <p>The returned {@code Future} attempts to keep its cancellation state in
+   * sync with that of the input future and that of the future returned by the
+   * chain function. That is, if the returned {@code Future} is cancelled, it
+   * will attempt to cancel the other two, and if either of the other two is
+   * cancelled, the returned {@code Future} will receive a callback in which it
+   * will attempt to cancel itself.
    *
    * <p>The typical use for this method would be when a RPC call is dependent on
    * the results of another RPC.  One would call the first RPC (input), create a
@@ -338,17 +344,12 @@ public final class Futures {
    *       chain(queryFuture, queryFunction, executor);
    * }</pre>
    *
-   * <p>Successful cancellation of either the input future or the result of
-   * function application will cause the returned future to be cancelled.
-   * Cancelling the returned future will succeed if it is currently running.
-   * In this case, attempts will be made to cancel the input future and the
-   * result of the function, however there is no guarantee of success.
-   *
-   * <p>This version allows an arbitrary executor to be passed in for running
-   * the chained Function. When using {@link MoreExecutors#sameThreadExecutor},
-   * the thread chained Function executes in will be whichever thread set the
-   * result of the input Future, which may be the network thread in the case of
-   * RPC-based Futures.
+   * <p>The returned {@code Future} attempts to keep its cancellation state in
+   * sync with that of the input future and that of the future returned by the
+   * chain function. That is, if the returned {@code Future} is cancelled, it
+   * will attempt to cancel the other two, and if either of the other two is
+   * cancelled, the returned {@code Future} will receive a callback in which it
+   * will attempt to cancel itself.
    *
    * @param input The future to chain
    * @param function A function to chain the results of the provided future
@@ -382,10 +383,17 @@ public final class Futures {
    *       transform(queryFuture, rowsFunction);
    * }</pre>
    *
-   * <p>Successful cancellation of the input future will cause the returned
-   * future to be cancelled.  Cancelling the returned future will succeed if it
-   * is currently running.  In this case, an attempt will be made to cancel the
-   * input future, however there is no guarantee of success.
+   * <p>Note: This overload of {@code transform} should be used only for fast,
+   * lightweight transformations, as it does not accept an {@code Executor} to
+   * perform the the work in. Consequently, the transformation may run in the
+   * thread that calls {@code transform} or in an internal thread of the system
+   * responsible for the input {@code Future}, such an an RPC network thread.
+   *
+   * <p>The returned {@code Future} attempts to keep its cancellation state in
+   * sync with that of the input future. That is, if the returned {@code Future}
+   * is cancelled, it will attempt to cancel the input, and if the input is
+   * cancelled, the returned {@code Future} will receive a callback in which it
+   * will attempt to cancel itself.
    *
    * <p>An example use of this method is to convert a serializable object
    * returned from an RPC into a POJO.
@@ -419,19 +427,14 @@ public final class Futures {
    *       transform(queryFuture, rowsFunction, executor);
    * }</pre>
    *
-   * <p>Successful cancellation of the input future will cause the returned
-   * future to be cancelled.  Cancelling the returned future will succeed if it
-   * is currently running.  In this case, an attempt will be made to cancel the
-   * input future, however there is no guarantee of success.
+   * <p>The returned {@code Future} attempts to keep its cancellation state in
+   * sync with that of the input future. That is, if the returned {@code Future}
+   * is cancelled, it will attempt to cancel the input, and if the input is
+   * cancelled, the returned {@code Future} will receive a callback in which it
+   * will attempt to cancel itself.
    *
    * <p>An example use of this method is to convert a serializable object
    * returned from an RPC into a POJO.
-   *
-   * <p>This version allows an arbitrary executor to be passed in for running
-   * the chained Function. When using {@link MoreExecutors#sameThreadExecutor},
-   * the thread chained Function executes in will be whichever thread set the
-   * result of the input Future, which may be the network thread in the case of
-   * RPC-based Futures.
    *
    * @param future The future to compose
    * @param function A Function to compose the results of the provided future
