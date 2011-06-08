@@ -473,7 +473,7 @@ public final class Futures {
    * transformation {@code function} is invoked on each call to
    * {@link Future#get() get()} on the returned future.
    *
-   * <p>The returned {@code Future} reflects the input input's cancellation
+   * <p>The returned {@code Future} reflects the input's cancellation
    * state directly, and any attempt to cancel the returned Future is likewise
    * passed through to the input Future.
    *
