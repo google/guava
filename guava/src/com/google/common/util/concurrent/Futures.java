@@ -136,11 +136,12 @@ public final class Futures {
    * ListenableFuture#addListener} by taking a thread from an internal,
    * unbounded pool at the first call to {@code addListener} and holding it
    * until the future is {@linkplain Future#isDone() done}.
-   * @deprecated Prefer to create {@code ListenableFuture} instances with {@link SettableFuture},
-   *     {@link MoreExecutors#listeningDecorator(java.util.concurrent.ExecutorService)}, {@link
-   *     ListenableFutureTask}, {@link AbstractFuture}, and other utilities over creating plain
-   *     {@code Future} instances to be upgraded to {@code ListenableFuture} after the fact. <b>This
-   *     method is scheduled for deletion in Guava release 11.</b>
+   * @deprecated Prefer to create {@code ListenableFuture} instances with {@link
+   *     SettableFuture}, {@link MoreExecutors#listeningDecorator(
+   *     java.util.concurrent.ExecutorService)}, {@link ListenableFutureTask},
+   *     {@link AbstractFuture}, and other utilities over creating plain {@code
+   *     Future} instances to be upgraded to {@code ListenableFuture} after the
+   *     fact. <b>This method is scheduled for deletion in Guava release 11.</b>
    */
   @Deprecated
   public
@@ -176,9 +177,20 @@ public final class Futures {
    * {@link InterruptedException}, a {@link CancellationException}, or an
    * {@link ExecutionException} with the actual cause of the exception.
    * See {@link Future#get()} for details on the exceptions thrown.
+   *
+   * @deprecated Use {@link #makeChecked(ListenableFuture, Function)} by
+   *     ensuring that your input implements {@code ListenableFuture} by
+   *     creating it with {@link SettableFuture}, {@link
+   *     MoreExecutors#listeningDecorator(
+   *     java.util.concurrent.ExecutorService)}, {@link ListenableFutureTask},
+   *     {@link AbstractFuture}, and other utilities instead of creating plain
+   *     {@code Future} instances to be upgraded to {@code ListenableFuture}
+   *     after the fact. <b>This method is scheduled for deletion in Guava
+   *     release 11.</b>
    */
-  @SuppressWarnings("deprecation") // makeListenable will soon be non-public
-  public static <V, X extends Exception> CheckedFuture<V, X> makeChecked(
+  @Deprecated
+  public
+  static <V, X extends Exception> CheckedFuture<V, X> makeChecked(
       Future<V> future, Function<Exception, X> mapper) {
     return new MappingCheckedFuture<V, X>(makeListenable(future), mapper);
   }
