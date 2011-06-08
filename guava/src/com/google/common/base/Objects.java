@@ -173,17 +173,14 @@ public final class Objects {
    */
   public static final class ToStringHelper {
     private final StringBuilder builder;
-    private String separator = "";
-    private String cachedString = null;
+    private boolean needsSeparator = false;
 
     /**
      * Use {@link Objects#toStringHelper(Object)} to create an instance.
      */
     private ToStringHelper(String className) {
       checkNotNull(className);
-      this.builder = new StringBuilder(32)
-          .append(className)
-          .append('{');
+      this.builder = new StringBuilder(32).append(className).append('{');
     }
 
     /**
@@ -193,12 +190,7 @@ public final class Objects {
      */
     public ToStringHelper add(String name, @Nullable Object value) {
       checkNotNull(name);
-      cachedString = null;
-      builder.append(separator)
-          .append(name)
-          .append('=')
-          .append(value);
-      separator = ", ";
+      maybeAppendSeparator().append(name).append('=').append(value);
       return this;
     }
 
@@ -209,9 +201,7 @@ public final class Objects {
      * and give value a readable name.
      */
     public ToStringHelper addValue(@Nullable Object value) {
-      cachedString = null;
-      builder.append(separator).append(value);
-      separator = ", ";
+      maybeAppendSeparator().append(value);
       return this;
     }
 
@@ -220,10 +210,22 @@ public final class Objects {
      * Objects#toStringHelper(Object)}.
      */
     @Override public String toString() {
-      if (cachedString == null) {
-        cachedString = builder.toString();
+      try {
+        return builder.append('}').toString();
+      } finally {
+        // Slice off the closing brace in case there are additional calls to
+        // #add or #addValue.
+        builder.setLength(builder.length() - 1);
       }
-      return cachedString + '}';
+    }
+
+    private StringBuilder maybeAppendSeparator() {
+      if (needsSeparator) {
+        return builder.append(", ");
+      } else {
+        needsSeparator = true;
+        return builder;
+      }
     }
   }
 }
