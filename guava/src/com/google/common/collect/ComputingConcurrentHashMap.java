@@ -69,9 +69,9 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V> {
     return (ComputingSegment<K, V>) super.segmentFor(hash);
   }
 
-  V compute(K key) throws ExecutionException {
+  V getOrCompute(K key) throws ExecutionException {
     int hash = hash(checkNotNull(key));
-    return segmentFor(hash).compute(key, hash, loader);
+    return segmentFor(hash).getOrCompute(key, hash, loader);
   }
 
   @SuppressWarnings("serial") // This class is never serialized.
@@ -81,7 +81,7 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V> {
       super(map, initialCapacity, maxSegmentSize, statsCounter);
     }
 
-    V compute(K key, int hash, CacheLoader<? super K, ? extends V> loader)
+    V getOrCompute(K key, int hash, CacheLoader<? super K, ? extends V> loader)
         throws ExecutionException {
       try {
         outer: while (true) {
@@ -150,44 +150,14 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V> {
 
             if (computingValueReference != null) {
               // This thread solely created the entry.
-
-              V value = null;
-              long start = System.nanoTime();
-              long end = 0;
-              try {
-                // Synchronizes on the entry to allow failing fast when a recursive computation is
-                // detected. This is not fool-proof since the entry may be copied when the segment
-                // is written to.
-                synchronized (e) {
-                  value = computingValueReference.compute(key, hash);
-                  end = System.nanoTime();
-                  statsCounter.recordCreateSuccess(end - start);
-                }
-                if (value != null) {
-                  // putIfAbsent
-                  V oldValue = put(key, hash, value, true);
-                  if (oldValue != null) {
-                    // the computed value was already clobbered
-                    enqueueNotification(key, hash, value, RemovalCause.REPLACED);
-                  }
-                }
-                return value;
-              } finally {
-                if (end == 0) {
-                  end = System.nanoTime();
-                  statsCounter.recordCreateException(end - start);
-                }
-                if (value == null) {
-                  clearValue(key, hash, computingValueReference);
-                }
-              }
+              return compute(key, hash, e, computingValueReference);
             }
           }
 
           // The entry already exists. Wait for the computation.
           checkState(!Thread.holdsLock(e), "Recursive computation");
-          V value = e.getValueReference().waitForValue();
           // don't consider expiration as we're concurrent with computation
+          V value = e.getValueReference().waitForValue();
           if (value != null) {
             recordRead(e);
             statsCounter.recordConcurrentMiss();
@@ -198,6 +168,41 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V> {
         }
       } finally {
         postReadCleanup();
+      }
+    }
+
+    V compute(K key, int hash, ReferenceEntry<K, V> e,
+        ComputingValueReference<K, V> computingValueReference)
+        throws ExecutionException {
+      V value = null;
+      long start = System.nanoTime();
+      long end = 0;
+      try {
+        // Synchronizes on the entry to allow failing fast when a recursive computation is
+        // detected. This is not fool-proof since the entry may be copied when the segment
+        // is written to.
+        synchronized (e) {
+          value = computingValueReference.compute(key, hash);
+          end = System.nanoTime();
+          statsCounter.recordCreateSuccess(end - start);
+        }
+        if (value != null) {
+          // putIfAbsent
+          V oldValue = put(key, hash, value, true);
+          if (oldValue != null) {
+            // the computed value was already clobbered
+            enqueueNotification(key, hash, value, RemovalCause.REPLACED);
+          }
+        }
+        return value;
+      } finally {
+        if (end == 0) {
+          end = System.nanoTime();
+          statsCounter.recordCreateException(end - start);
+        }
+        if (value == null) {
+          clearValue(key, hash, computingValueReference);
+        }
       }
     }
   }
@@ -389,7 +394,7 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V> {
     public V get(Object key) {
       V value;
       try {
-        value = compute((K) key);
+        value = getOrCompute((K) key);
       } catch (ExecutionException e) {
         Throwable cause = e.getCause();
         Throwables.propagateIfInstanceOf(cause, ComputationException.class);

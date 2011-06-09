@@ -43,7 +43,7 @@ class ComputingCache<K, V> extends AbstractCache<K, V> {
 
   @Override
   public V getChecked(K key) throws ExecutionException {
-    return map.compute(key);
+    return map.getOrCompute(key);
   }
 
   @Override
