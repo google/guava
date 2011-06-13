@@ -774,7 +774,7 @@ public final class Files {
         } else if (!rooted) {
           /* /.. is / but ./../ is .. */
           if (name[q] != name[0] || 
-              (name.length >= q+3 && name[0] == '.' && name[name.length - 1] != '/')) {
+              (q != 0 && name.length >= q+3 && name[0] == '.' && name[name.length - 1] != '/')) {
             name[q++] = '/';
           }
           name[q++] = '.';
