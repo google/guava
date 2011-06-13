@@ -23,8 +23,10 @@ import java.util.logging.Logger;
 
 /**
  * Simple utility for when you want to create a {@link TearDown} that may throw
- * an exception but should not fail a test when it does. Use it just like a
- * {@link TearDown}, except override {@link #sloppyTearDown()} instead.
+ * an exception but should not fail a test when it does. (The behavior of a
+ * {@code TearDown} that throws an exception varies; see its documentation for
+ * details.) Use it just like a {@code TearDown}, except override {@link
+ * #sloppyTearDown()} instead.
  *
  * @author Luiz-Otavio Zorzella
  */

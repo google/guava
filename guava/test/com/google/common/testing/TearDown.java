@@ -26,18 +26,19 @@ import com.google.common.annotations.Beta;
 @Beta
 public interface TearDown {
   /**
-   * Performs a <b>single</b> tear-down operation. See
-   * {@link com.google.common.testing.junit3.TearDownTestCase} and
-   * {@link com.google.common.testing.junit4.TearDownTestCase} for example.
+   * Performs a <b>single</b> tear-down operation. See test-libraries-for-java's
+   * {@code com.google.common.testing.junit3.TearDownTestCase} and
+   * {@code com.google.common.testing.junit4.TearDownTestCase} for example.
    *
-   * <p>If you want to not fail a test when a {@link TearDown} throws an
-   * exception, you should implement a {@link SloppyTearDown} instead.
+   * <p>A failing {@link TearDown} may or may not fail a tl4j test, depending on
+   * the version of JUnit test case you are running under. To avoid failing in
+   * the face of an exception regardless of JUnit version, implement a {@link
+   * SloppyTearDown} instead.
    *
-   * <p> Note that, for backwards compatibility, JUnit 3's
-   * {@link com.google.common.testing.junit3.TearDownTestCase} currently does
-   * not fail a test when an exception is thrown from one of its
-   * {@link TearDown}s, but this is subject to change. Also, Junit 4's
-   * {@link com.google.common.testing.junit4.TearDownTestCase} will.
+   * <p>tl4j details: For backwards compatibility, {@code
+   * junit3.TearDownTestCase} currently does not fail a test when an exception
+   * is thrown from one of its {@link TearDown}s, but this is subject to
+   * change. Also, {@code junit4.TearDownTestCase} will.
    *
    * @throws Exception for any reason. {@code TearDownTestCase} ensures that
    *     any exception thrown will not interfere with other TearDown
