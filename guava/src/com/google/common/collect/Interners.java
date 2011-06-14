@@ -21,8 +21,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Equivalences;
-import com.google.common.base.FinalizableReferenceQueue;
-import com.google.common.base.FinalizableWeakReference;
 import com.google.common.base.Function;
 import com.google.common.collect.CustomConcurrentHashMap.ReferenceEntry;
 
@@ -101,112 +99,7 @@ public final class Interners {
    */
   @GwtIncompatible("java.lang.ref.WeakReference")
   public static <E> Interner<E> newWeakInterner() {
-    // note: we don't currently replace this with the above generic implementation, which appears
-    // to perform slightly worse than this
-    return new WeakInterner<E>();
-  }
-
-  private static class WeakInterner<E> implements Interner<E> {
-    private final ConcurrentMap<InternReference, InternReference> map = new MapMaker().makeMap();
-
-    @Override public E intern(final E sample) {
-      final int hashCode = sample.hashCode();
-
-      // TODO(kevinb): stop using the dummy instance; use custom Equivalence?
-      Object fakeReference = new Object() {
-        @Override public int hashCode() {
-          return hashCode;
-        }
-        @Override public boolean equals(Object object) {
-          if (object.hashCode() != hashCode) {
-            return false;
-          }
-          /*
-           * Implicitly an unchecked cast to WeakInterner<?>.InternReference, though until
-           * OpenJDK 7, the compiler doesn't recognize this. If we could explicitly cast to the
-           * wildcard type WeakInterner<?>.InternReference, that would be sufficient for our
-           * purposes. The compiler, however, rejects such casts (or rather, it does until
-           * OpenJDK 7).
-           *
-           * See Sun bug 6665356.
-           */
-          @SuppressWarnings("unchecked")
-          InternReference that = (InternReference) object;
-          return sample.equals(that.get());
-        }
-      };
-
-      // Fast-path; avoid creating the reference if possible
-      InternReference existingRef = map.get(fakeReference);
-      if (existingRef != null) {
-        E canonical = existingRef.get();
-        if (canonical != null) {
-          return canonical;
-        }
-      }
-
-      InternReference newRef = new InternReference(sample, hashCode);
-      while (true) {
-        InternReference sneakyRef = map.putIfAbsent(newRef, newRef);
-        if (sneakyRef == null) {
-          return sample;
-        } else {
-          E canonical = sneakyRef.get();
-          if (canonical != null) {
-            return canonical;
-          }
-        }
-      }
-    }
-
-    private static final FinalizableReferenceQueue frq = new FinalizableReferenceQueue();
-
-    class InternReference extends FinalizableWeakReference<E> {
-      final int hashCode;
-
-      InternReference(E key, int hash) {
-        super(key, frq);
-        hashCode = hash;
-      }
-      @Override public void finalizeReferent() {
-        map.remove(this);
-      }
-      @Override public E get() {
-        E referent = super.get();
-        if (referent == null) {
-          finalizeReferent();
-        }
-        return referent;
-      }
-      @Override public int hashCode() {
-        return hashCode;
-      }
-      @Override public boolean equals(Object object) {
-        if (object == this) {
-          return true;
-        }
-        if (object instanceof WeakInterner.InternReference) {
-          /*
-           * On the following line, Eclipse wants a type parameter, producing
-           * WeakInterner<?>.InternReference. The problem is that javac rejects that form. Omitting
-           * WeakInterner satisfies both, though this seems odd, since we are inside a
-           * WeakInterner<E> and thus the WeakInterner<E> is implied, yet there is no reason to
-           * believe that the other object's WeakInterner has type E. That's right -- we've found a
-           * way to perform an unchecked cast without receiving a warning from either Eclipse or
-           * javac. Taking advantage of that seems questionable, even though we don't depend upon
-           * the type of that.get(), so we'll just suppress the warning.
-           */
-          @SuppressWarnings("unchecked")
-          WeakInterner.InternReference that = (WeakInterner.InternReference) object;
-          if (that.hashCode != hashCode) {
-            return false;
-          }
-          E referent = super.get();
-          return referent != null && referent.equals(that.get());
-        }
-        return object.equals(this);
-      }
-    }
+    return new CustomInterner<E>(new MapMaker().weakKeys());
   }
 
   /**
