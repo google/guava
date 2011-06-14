@@ -36,7 +36,6 @@ import com.google.common.collect.AbstractCache.SimpleStatsCounter;
 import com.google.common.collect.AbstractCache.StatsCounter;
 import com.google.common.collect.ComputingConcurrentHashMap.ComputingMapAdapter;
 import com.google.common.collect.CustomConcurrentHashMap.Strength;
-import com.google.common.collect.ComputingCache.CacheAsMap;
 
 import java.io.Serializable;
 import java.lang.ref.SoftReference;
@@ -1147,4 +1146,43 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
       return (am != null) ? am : (asMap = new CacheAsMap<K, V>(map));
     }
   }
+
+  static final class CacheAsMap<K, V> extends ForwardingConcurrentMap<K, V> {
+    private final ConcurrentMap<K, V> delegate;
+
+    CacheAsMap(ConcurrentMap<K, V> delegate) {
+      this.delegate = delegate;
+    }
+
+    @Override
+    protected ConcurrentMap<K, V> delegate() {
+      return delegate;
+    }
+
+    @Override
+    public V put(K key, V value) {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void putAll(Map<? extends K, ? extends V> map) {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public V putIfAbsent(K key, V value) {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public V replace(K key, V value) {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public boolean replace(K key, V oldValue, V newValue) {
+      throw new UnsupportedOperationException();
+    }
+  }
+
 }

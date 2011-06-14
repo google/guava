@@ -69,12 +69,9 @@ public final class Interners {
     @Override public E intern(E sample) {
       while (true) {
         // trying to read the canonical...
-        ReferenceEntry<E, Dummy> entry = map.getEntry(sample);
+        ReferenceEntry<E, Dummy> entry = map.getLiveEntry(sample);
         if (entry != null) {
-          E canonical = entry.getKey();
-          if (canonical != null) { // only matters if weak/soft keys are used
-            return canonical;
-          }
+          return entry.getKey();
         }
 
         // didn't see it, trying to put it instead...

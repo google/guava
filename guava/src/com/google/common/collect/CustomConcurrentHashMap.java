@@ -1958,6 +1958,26 @@ class CustomConcurrentHashMap<K, V>
     return new Segment<K, V>(this, initialCapacity, maxSegmentSize, statsCounter);
   }
 
+  /**
+   * Gets the value from an entry. Returns null if the entry is invalid, partially-collected,
+   * computing, or expired. Unlike {@link Segment#getLiveValue} this method does not attempt to
+   * cleanup stale entries.
+   */
+  V getLiveValue(ReferenceEntry<K, V> entry) {
+    if (entry.getKey() == null) {
+      return null;
+    }
+    V value = entry.getValueReference().get();
+    if (value == null) {
+      return null;
+    }
+
+    if (expires() && isExpired(entry)) {
+      return null;
+    }
+    return value;
+  }
+
   // expiration
 
   /**
@@ -2439,10 +2459,6 @@ class CustomConcurrentHashMap<K, V>
 
     // Specialized implementations of map methods
 
-    /**
-     * Returns the entry for a given key. Note that the entry may not be live. This is used in
-     * Interners and for testing.
-     */
     ReferenceEntry<K, V> getEntry(Object key, int hash) {
       if (count != 0) { // read-volatile
         for (ReferenceEntry<K, V> e = getFirst(hash); e != null; e = e.getNext()) {
@@ -2452,6 +2468,7 @@ class CustomConcurrentHashMap<K, V>
 
           K entryKey = e.getKey();
           if (entryKey == null) {
+            tryDrainReferenceQueues();
             continue;
           }
 
@@ -2464,17 +2481,31 @@ class CustomConcurrentHashMap<K, V>
       return null;
     }
 
+    ReferenceEntry<K, V> getLiveEntry(Object key, int hash) {
+      ReferenceEntry<K, V> e = getEntry(key, hash);
+      if (e == null) {
+        return null;
+      } else if (map.expires() && map.isExpired(e)) {
+        tryExpireEntries();
+        return null;
+      }
+      return e;
+    }
+
     V get(Object key, int hash) {
       try {
-        ReferenceEntry<K, V> e = getEntry(key, hash);
-        if (e != null) {
-          V value = getLiveValue(e);
-          if (value != null) {
-            recordRead(e);
-          }
-          return value;
+        ReferenceEntry<K, V> e = getLiveEntry(key, hash);
+        if (e == null) {
+          return null;
         }
-        return null;
+
+        V value = e.getValueReference().get();
+        if (value != null) {
+          recordRead(e);
+        } else {
+          tryDrainReferenceQueues();
+        }
+        return value;
       } finally {
         postReadCleanup();
       }
@@ -2483,20 +2514,11 @@ class CustomConcurrentHashMap<K, V>
     boolean containsKey(Object key, int hash) {
       try {
         if (count != 0) { // read-volatile
-          for (ReferenceEntry<K, V> e = getFirst(hash); e != null; e = e.getNext()) {
-            if (e.getHash() != hash) {
-              continue;
-            }
-
-            K entryKey = e.getKey();
-            if (entryKey == null) {
-              continue;
-            }
-
-            if (map.keyEquivalence.equivalent(key, entryKey)) {
-              return getLiveValue(e) != null;
-            }
+          ReferenceEntry<K, V> e = getLiveEntry(key, hash);
+          if (e == null) {
+            return false;
           }
+          return e.getValueReference().get() != null;
         }
 
         return false;
@@ -3486,12 +3508,26 @@ class CustomConcurrentHashMap<K, V>
   }
 
   /**
-   * This method is a convenience for testing. Code should call {@link Segment#getEntry} directly.
+   * Returns the internal entry for the specified key. The entry may be computing, expired, or
+   * partially collected. Does not impact recency ordering.
    */
-  @VisibleForTesting
-  ReferenceEntry<K, V> getEntry(Object key) {
+  ReferenceEntry<K, V> getEntry(@Nullable Object key) {
+    if (key == null) {
+      return null;
+    }
     int hash = hash(key);
     return segmentFor(hash).getEntry(key, hash);
+  }
+
+  /**
+   * Returns the live internal entry for the specified key. Does not impact recency ordering.
+   */
+  ReferenceEntry<K, V> getLiveEntry(@Nullable Object key) {
+    if (key == null) {
+      return null;
+    }
+    int hash = hash(key);
+    return segmentFor(hash).getLiveEntry(key, hash);
   }
 
   @Override
@@ -3709,13 +3745,12 @@ class CustomConcurrentHashMap<K, V>
     boolean advanceTo(ReferenceEntry<K, V> entry) {
       try {
         K key = entry.getKey();
-        // TODO(user): call getLiveValue when it's moved out of Segment
-        V value = entry.getValueReference().get();
-        if (key != null && value != null && !(expires() && isExpired(entry))) {
+        V value = getLiveValue(entry);
+        if (value != null) {
           nextExternal = new WriteThroughEntry(key, value);
           return true;
         } else {
-          // Skip partially reclaimed entry.
+          // Skip stale entry.
           return false;
         }
       } finally {

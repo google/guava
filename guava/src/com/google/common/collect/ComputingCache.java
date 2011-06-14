@@ -17,6 +17,7 @@
 package com.google.common.collect;
 
 import com.google.common.base.Supplier;
+import com.google.common.collect.CustomConcurrentHashMap.ReferenceEntry;
 import com.google.common.collect.CustomConcurrentHashMap.Segment;
 
 import java.util.Map;
@@ -76,15 +77,21 @@ class ComputingCache<K, V> extends AbstractCache<K, V> {
   // TODO(user): activeEntries
 
   static final class CacheAsMap<K, V> extends ForwardingConcurrentMap<K, V> {
-    private final ConcurrentMap<K, V> delegate;
+    private final ComputingConcurrentHashMap<K, V> delegate;
 
-    CacheAsMap(ConcurrentMap<K, V> delegate) {
+    CacheAsMap(ComputingConcurrentHashMap<K, V> delegate) {
       this.delegate = delegate;
     }
 
     @Override
     protected ConcurrentMap<K, V> delegate() {
       return delegate;
+    }
+
+    @Override
+    public V get(@Nullable Object key) {
+      ReferenceEntry<K, V> e = delegate.getEntry(key);
+      return (e == null) ? null : e.getValueReference().get();
     }
 
     @Override

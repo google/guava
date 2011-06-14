@@ -85,6 +85,7 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V> {
         throws ExecutionException {
       try {
         outer: while (true) {
+          // don't call getLiveEntry, which would ignore computing values
           ReferenceEntry<K, V> e = getEntry(key, hash);
           if (e != null) {
             V value = getLiveValue(e);
