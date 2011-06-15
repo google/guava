@@ -29,14 +29,20 @@ import java.lang.ref.ReferenceQueue;
  * @author Bob Lee
  * @since Guava release 02 (imported from Google Collections Library)
  */
-public abstract class FinalizablePhantomReference<T> extends PhantomReference<T>
+public
+abstract class FinalizablePhantomReference<T> extends PhantomReference<T>
     implements FinalizableReference {
   /**
    * Constructs a new finalizable phantom reference.
    *
    * @param referent to phantom reference
    * @param queue that should finalize the referent
+   * @deprecated FinalizableReferenceQueue is an unsound mechanism for cleaning up references,
+   *     because (1) it's single thread can be easily overloaded, and (2) it's insistance on running
+   *     a background thread is problematic in certain environments. <b>This class is scheduled for
+   *     deletion in December 2012.</b>
    */
+  @Deprecated
   protected FinalizablePhantomReference(T referent, FinalizableReferenceQueue queue) {
     super(referent, queue.queue);
     queue.cleanUp();
