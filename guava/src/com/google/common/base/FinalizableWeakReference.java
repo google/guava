@@ -27,8 +27,7 @@ import java.lang.ref.WeakReference;
  * @author Bob Lee
  * @since Guava release 02 (imported from Google Collections Library)
  */
-public
-abstract class FinalizableWeakReference<T> extends WeakReference<T>
+public abstract class FinalizableWeakReference<T> extends WeakReference<T>
     implements FinalizableReference {
   /**
    * Constructs a new finalizable weak reference.

@@ -37,8 +37,7 @@ import java.util.logging.Logger;
  * @author Bob Lee
  * @since Guava release 02 (imported from Google Collections Library)
  */
-public
-class FinalizableReferenceQueue {
+public class FinalizableReferenceQueue {
   /*
    * The Finalizer thread keeps a phantom reference to this object. When the client (for example, a
    * map built by MapMaker) no longer has a strong reference to this object, the garbage collector

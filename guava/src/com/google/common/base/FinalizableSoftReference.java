@@ -27,8 +27,7 @@ import java.lang.ref.SoftReference;
  * @author Bob Lee
  * @since Guava release 02 (imported from Google Collections Library)
  */
-public
-abstract class FinalizableSoftReference<T> extends SoftReference<T>
+public abstract class FinalizableSoftReference<T> extends SoftReference<T>
     implements FinalizableReference {
   /**
    * Constructs a new finalizable soft reference.
