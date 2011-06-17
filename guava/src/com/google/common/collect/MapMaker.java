@@ -708,14 +708,19 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    * loading the value for this key, simply waits for that thread to finish and returns its
    * loaded value. Note that multiple threads can concurrently load values for distinct keys.
    *
-   * <p>{@link Cache} lookup methods in the returned cache implementation will throw {@link
-   * NullPointerException} if the key is null.
+   * <p>The returned {@link Cache} implements the optional operations {@link Cache#invalidate},
+   * {@link Cache#invalidateAll}, {@link Cache#size}, {@link Cache#stats}, and {@link Cache#asMap},
+   * with the following qualifications:
    *
-   * <p>The {@code asMap()} view of the returned cache supports removal operations, but no other
-   * modifications.
+   * <ul>
+   * <li>The {@code invalidateAll} method will invalidate all cached entries prior to returning, and
+   *     removal notifications will be issued for all invalidated entries.
+   * <li>The {@code asMap} view supports removal operations, but no other modifications.
+   * </ul>
    *
    * <p>This method does not alter the state of this {@code MapMaker} instance, so it can be invoked
    * again to create multiple independent caches.
+   *
    * @param loader the cache loader used to obtain new values
    * @return a cache having the requested features
    * @since Guava release 10
@@ -736,8 +741,8 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    * concurrently by multiple threads, but only for distinct keys.
    *
    * <p>New code should use {@link #makeCache}, which supports {@linkplain CacheStats statistics}
-   * collection and {@linkplain Cache#getChecked checked exceptions}, introduces the
-   * {@link CacheLoader} interface for loading entries into the cache, and more cleanly separates
+   * collection, introduces the {@link CacheLoader} interface for loading entries into the cache
+   * (allowing checked exceptions to be thrown in the process), and more cleanly separates
    * computation from the cache's {@code Map} view.
    *
    * <p>If an entry's value has not finished computing yet, query methods besides {@code get} return
@@ -1095,7 +1100,7 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
     }
 
     @Override
-    public V getChecked(K key) throws ExecutionException {
+    public V get(K key) throws ExecutionException {
       V value = compute(key);
       map.notifyRemoval(key, value);
       return value;

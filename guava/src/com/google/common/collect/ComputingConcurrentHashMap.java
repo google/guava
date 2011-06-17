@@ -185,9 +185,11 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V> {
         synchronized (e) {
           value = computingValueReference.compute(key, hash);
           end = System.nanoTime();
-          statsCounter.recordCreateSuccess(end - start);
         }
         if (value != null) {
+          // a null return value is an Error, so don't count it in the stats
+          statsCounter.recordCreateSuccess(end - start);
+
           // putIfAbsent
           V oldValue = put(key, hash, value, true);
           if (oldValue != null) {

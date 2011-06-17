@@ -23,12 +23,14 @@ import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.atomic.AtomicLong;
 
+import javax.annotation.Nullable;
+
 /**
  * This class provides a skeletal implementation of the {@code Cache} interface to minimize the
  * effort required to implement this interface.
  *
  * <p>To implement a cache, the programmer needs only to extend this class and provide an
- * implementation for the {@code getChecked} method.
+ * implementation for the {@code get} method.
  *
  * @author Charles Fry
  * @since Guava release 10
@@ -40,16 +42,17 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
   protected AbstractCache() {}
 
   @Override
+  @Nullable
   public V getUnchecked(K key) {
     try {
-      return getChecked(key);
+      return get(key);
     } catch (ExecutionException e) {
-      throw new ComputationException(e.getCause());
+      throw new UncheckedExecutionException(e.getCause());
     }
   }
 
-  @Deprecated
   @Override
+  @Nullable
   public final V apply(K key) {
     return getUnchecked(key);
   }
@@ -60,7 +63,12 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
   }
 
   @Override
-  public void invalidate(Object key) {
+  public void invalidate(@Nullable Object key) {
+    throw new UnsupportedOperationException();
+  }
+
+  @Override
+  public void invalidateAll() {
     throw new UnsupportedOperationException();
   }
 

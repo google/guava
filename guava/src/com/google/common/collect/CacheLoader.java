@@ -23,7 +23,6 @@ import com.google.common.base.Function;
 import com.google.common.base.Supplier;
 
 import java.io.Serializable;
-import javax.annotation.Nullable;
 
 /**
  * Computes or retrieves values, based on a key, for use in populating a {@code Cache}.
@@ -84,13 +83,10 @@ public abstract class CacheLoader<K, V> {
   /**
    * Computes or retrieves the value corresponding to {@code key}.
    *
-   * @return the value associated with {@code key}, or {code null} if the value can't be loaded
-   * @throws NullPointerException if {@code key} is {@code null} and this loader does not accept
-   *     {@code null} keys; note that some cache implementations, including those produced by
-   *     {@link MapMaker}, will guarantee never to pass {@code null} into this method
+   * @param key the key whose value should be loaded; will never be null
+   * @return the value associated with {@code key}; <b>may not be null</b>
    */
-  @Nullable
-  public abstract V load(@Nullable K key) throws Exception;
+  public abstract V load(K key) throws Exception;
 
   // TODO(user): loadAll
 

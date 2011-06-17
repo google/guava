@@ -43,13 +43,22 @@ class ComputingCache<K, V> extends AbstractCache<K, V> {
   // Cache methods
 
   @Override
-  public V getChecked(K key) throws ExecutionException {
-    return map.getOrCompute(key);
+  public V get(K key) throws ExecutionException {
+    V value = map.getOrCompute(key);
+    if (value == null) {
+      throw new NullPointerException(map.loader + " returned null for key " + key + ".");
+    }
+    return value;
   }
 
   @Override
   public void invalidate(@Nullable Object key) {
     map.remove(key);
+  }
+
+  @Override
+  public void invalidateAll() {
+    map.clear();
   }
 
   @Override
