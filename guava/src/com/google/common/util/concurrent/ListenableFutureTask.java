@@ -45,6 +45,38 @@ public class ListenableFutureTask<V> extends FutureTask<V>
    * @param  callable the callable task
    * @throws NullPointerException if callable is null
    */
+  @SuppressWarnings("deprecation") // will be un-deprecated when private
+  public static <V> ListenableFutureTask<V> create(Callable<V> callable) {
+    return new ListenableFutureTask<V>(callable);
+  }
+
+  /**
+   * Creates a {@code ListenableFutureTask} that will upon running, execute the
+   * given {@code Runnable}, and arrange that {@code get} will return the
+   * given result on successful completion.
+   *
+   * @param  runnable the runnable task
+   * @param result the result to return on successful completion. If
+   * you don't need a particular result, consider using
+   * constructions of the form:
+   * {@code ListenableFuture<?> f =
+   *     ListenableFutureTask.create(runnable, null)}
+   * @throws NullPointerException if runnable is null
+   */
+  @SuppressWarnings("deprecation") // will be un-deprecated when private
+  public static <V> ListenableFutureTask<V> create(Runnable runnable, V result) {
+    return new ListenableFutureTask<V>(runnable, result);
+  }
+
+  /**
+   * Creates a {@code ListenableFutureTask} that will upon running, execute the
+   * given {@code Callable}.
+   *
+   * @param  callable the callable task
+   * @throws NullPointerException if callable is null
+   * @deprecated Use {@link #create(Callable)} instead.
+   */
+  @Deprecated
   public ListenableFutureTask(Callable<V> callable) {
     super(callable);
   }
@@ -59,9 +91,11 @@ public class ListenableFutureTask<V> extends FutureTask<V>
    * you don't need a particular result, consider using
    * constructions of the form:
    * {@code ListenableFuture<?> f =
-   *     new ListenableFutureTask<Object>(runnable, null)}
+   *     ListenableFutureTask.create(runnable, null)}
    * @throws NullPointerException if runnable is null
+   * @deprecated Use {@link #create(Runnable, Object)} instead.
    */
+  @Deprecated
   public ListenableFutureTask(Runnable runnable, V result) {
     super(runnable, result);
   }

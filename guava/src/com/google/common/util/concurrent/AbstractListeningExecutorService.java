@@ -47,7 +47,7 @@ abstract class AbstractListeningExecutorService implements ListeningExecutorServ
    *         cancellation of the underlying task.
    */
   private <T> ListenableFutureTask<T> newTaskFor(Runnable runnable, T value) {
-    return new ListenableFutureTask<T>(runnable, value);
+    return ListenableFutureTask.create(runnable, value);
   }
 
   /**
@@ -59,7 +59,7 @@ abstract class AbstractListeningExecutorService implements ListeningExecutorServ
    *         for cancellation of the underlying task.
    */
   private <T> ListenableFutureTask<T> newTaskFor(Callable<T> callable) {
-    return new ListenableFutureTask<T>(callable);
+    return ListenableFutureTask.create(callable);
   }
 
   /**
