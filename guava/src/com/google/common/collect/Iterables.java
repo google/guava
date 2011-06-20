@@ -306,7 +306,8 @@ public final class Iterables {
 
   /**
    * Returns the number of elements in the specified iterable that equal the
-   * specified object.
+   * specified object. This implementation avoids a full iteration when the
+   * iterable is a {@link Multiset} or {@link Set}.
    *
    * @see Collections#frequency
    */
