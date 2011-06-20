@@ -34,6 +34,7 @@ import java.util.NoSuchElementException;
  *
  * @author Kevin Bourrillion
  * @since Guava release 10
+ * @see DiscreteDomains
  */
 @GwtCompatible
 @Beta
