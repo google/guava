@@ -27,17 +27,17 @@ import java.util.concurrent.FutureTask;
  * interface.  Subclasses must make sure to call {@code super.done()} if they
  * also override the {@link #done()} method, otherwise the listeners will not
  * be called.
- * 
+ *
  * @author Sven Mawson
  * @since Guava release 01
  */
 @Beta
-public class ListenableFutureTask<V> extends FutureTask<V>
+public final class ListenableFutureTask<V> extends FutureTask<V>
     implements ListenableFuture<V> {
 
   // The execution list to hold our listeners.
   private final ExecutionList executionList = new ExecutionList();
-  
+
   /**
    * Creates a {@code ListenableFutureTask} that will upon running, execute the
    * given {@code Callable}.
@@ -104,7 +104,7 @@ public class ListenableFutureTask<V> extends FutureTask<V>
   public void addListener(Runnable listener, Executor exec) {
     executionList.add(listener, exec);
   }
-  
+
   @Override
   protected void done() {
     executionList.run();
