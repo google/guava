@@ -16,16 +16,24 @@
 
 package com.google.common.util.concurrent;
 
+import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
+import static java.lang.Thread.currentThread;
+import static java.util.Arrays.asList;
 import static java.util.concurrent.TimeUnit.NANOSECONDS;
 
 import com.google.common.annotations.Beta;
 import com.google.common.base.Function;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Ordering;
+import com.google.common.collect.UncheckedExecutionException;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.UndeclaredThrowableException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.CancellationException;
@@ -310,7 +318,7 @@ public final class Futures {
    * the derived future is fast and lightweight, as it does not accept an {@code
    * Executor} to perform the the work in. Consequently, the chaining function
    * may run in the thread that calls {@code chain} or in an internal thread of
-   * the system responsible for the input {@code Future}, such an an RPC network
+   * the system responsible for the input {@code Future}, such as an RPC network
    * thread.
    *
    * <p>The returned {@code Future} attempts to keep its cancellation state in
@@ -399,7 +407,7 @@ public final class Futures {
    * lightweight transformations, as it does not accept an {@code Executor} to
    * perform the the work in. Consequently, the transformation may run in the
    * thread that calls {@code transform} or in an internal thread of the system
-   * responsible for the input {@code Future}, such an an RPC network thread.
+   * responsible for the input {@code Future}, such as an RPC network thread.
    *
    * <p>The returned {@code Future} attempts to keep its cancellation state in
    * sync with that of the input future. That is, if the returned {@code Future}
@@ -879,9 +887,9 @@ public final class Futures {
    * @since Guava release 10
    */
   @Beta
-  public static <T> ListenableFuture<List<T>> allAsList(
-      ListenableFuture<? extends T>... futures) {
-    return new ListFuture<T>(ImmutableList.copyOf(futures), true,
+  public static <V> ListenableFuture<List<V>> allAsList(
+      ListenableFuture<? extends V>... futures) {
+    return new ListFuture<V>(ImmutableList.copyOf(futures), true,
         MoreExecutors.sameThreadExecutor());
   }
 
@@ -902,9 +910,9 @@ public final class Futures {
    * @since Guava release 10
    */
   @Beta
-  public static <T> ListenableFuture<List<T>> allAsList(
-      Iterable<? extends ListenableFuture<? extends T>> futures) {
-    return new ListFuture<T>(ImmutableList.copyOf(futures), true,
+  public static <V> ListenableFuture<List<V>> allAsList(
+      Iterable<? extends ListenableFuture<? extends V>> futures) {
+    return new ListFuture<V>(ImmutableList.copyOf(futures), true,
         MoreExecutors.sameThreadExecutor());
   }
 
@@ -922,9 +930,9 @@ public final class Futures {
    * @since Guava release 10
    */
   @Beta
-  public static <T> ListenableFuture<List<T>> successfulAsList(
-      ListenableFuture<? extends T>... futures) {
-    return new ListFuture<T>(ImmutableList.copyOf(futures), false,
+  public static <V> ListenableFuture<List<V>> successfulAsList(
+      ListenableFuture<? extends V>... futures) {
+    return new ListFuture<V>(ImmutableList.copyOf(futures), false,
         MoreExecutors.sameThreadExecutor());
   }
 
@@ -942,10 +950,275 @@ public final class Futures {
    * @since Guava release 10
    */
   @Beta
-  public static <T> ListenableFuture<List<T>> successfulAsList(
-      Iterable<? extends ListenableFuture<? extends T>> futures) {
-    return new ListFuture<T>(ImmutableList.copyOf(futures), false,
+  public static <V> ListenableFuture<List<V>> successfulAsList(
+      Iterable<? extends ListenableFuture<? extends V>> futures) {
+    return new ListFuture<V>(ImmutableList.copyOf(futures), false,
         MoreExecutors.sameThreadExecutor());
+  }
+
+  /**
+   * Returns the result of {@link Future#get()}, converting most exceptions to a
+   * new instance of the given checked exception type. This reduces boilerplate
+   * for a common use of {@code Future} in which it is unnecessary to
+   * programmatically distinguish between exception types or to extract other
+   * information from the exception instance.
+   *
+   * <p>Exceptions from {@code Future.get} are treated as follows:
+   * <ul>
+   * <li>Any {@link InterruptedException} is wrapped in an {@code X} (after
+   *     restoring the interrupt).
+   * <li>Any {@link CancellationException} is propagated untouched.
+   * <li>Any {@link ExecutionException} has its <i>cause</i> wrapped in an
+   *     {@code X}.
+   * <li>Any {@link RuntimeException} other than {@code CancellationException}
+   *     ({@code get} implementations are discouraged from throwing such
+   *     exceptions) is wrapped in an {@code X}.
+   * </ul>
+   *
+   * The overall principle is to wrap any checked exception (or its cause) in a
+   * checked exception, to pass through {@code CancellationException}, and to
+   * treat any other {@code RuntimeException} as a checked exception. (Throwing
+   * any other {@code RuntimeException} is questionable behavior for a {@code
+   * Future}, and the class documentation does not specify how such an exception
+   * should be interpreted. The policy of this method is to treat it as an
+   * exception during computation that would, under a stricter {@code Future}
+   * implementation, have been wrapped in an {@code ExecutionException}.)
+   *
+   * <p>Instances of {@code exceptionClass} are created by choosing an arbitrary
+   * public constructor that accepts zero or more arguments, all of type {@code
+   * String} or {@code Throwable} (preferring constructors with at least one
+   * {@code String}) and calling the constructor via reflection. If the
+   * exception did not already have a cause, one is set by calling {@link
+   * Throwable#initCause(Throwable)} on it. If no such constructor exists, an
+   * {@code IllegalArgumentException} is thrown.
+   *
+   * @throws X if {@code get} throws a checked exception or a {@code
+   *         RuntimeException} other than {@code CancellationException}
+   * @throws CancellationException if {@code get} throws a {@code
+   *         CancellationException}
+   * @throws IllegalArgumentException if {@code exceptionClass} extends {@code
+   *         RuntimeException} or does not have a suitable constructor
+   * @since Guava release 10
+   */
+  @Beta
+  public static <V, X extends Exception> V get(
+      Future<V> future, Class<X> exceptionClass) throws X {
+    checkNotNull(future);
+    checkArgument(!RuntimeException.class.isAssignableFrom(exceptionClass),
+        "Futures.get exception type (%s) must not be a RuntimeException",
+        exceptionClass);
+    try {
+      return future.get();
+    } catch (InterruptedException e) {
+      currentThread().interrupt();
+      throw newWithCause(exceptionClass, e);
+    } catch (CancellationException e) {
+      throw e;
+    } catch (ExecutionException e) {
+      throw newWithCause(exceptionClass, e.getCause());
+    } catch (RuntimeException e) {
+      throw newWithCause(exceptionClass, e);
+    }
+  }
+
+  /**
+   * Returns the result of {@link Future#get(long, TimeUnit)}, converting most
+   * exceptions to a new instance of the given checked exception type. This
+   * reduces boilerplate for a common use of {@code Future} in which it is
+   * unnecessary to programmatically distinguish between exception types or to
+   * extract other information from the exception instance.
+   *
+   * <p>Exceptions from {@code Future.get} are treated as follows:
+   * <ul>
+   * <li>Any {@link InterruptedException} is wrapped in an {@code X} (after
+   *     restoring the interrupt).
+   * <li>Any {@link TimeoutException} is wrapped in an {@code X}.
+   * <li>Any {@link CancellationException} is propagated untouched.
+   * <li>Any {@link ExecutionException} has its <i>cause</i> wrapped in an
+   *     {@code X}.
+   * <li>Any {@link RuntimeException} other than {@code CancellationException}
+   *     ({@code get} implementations are discouraged from throwing such
+   *     exceptions) is wrapped in an {@code X}.
+   * </ul>
+   *
+   * The overall principle is to wrap any checked exception (or its cause) in a
+   * checked exception, to pass through {@code CancellationException}, and to
+   * treat any other {@code RuntimeException} as a checked exception. (Throwing
+   * any other {@code RuntimeException} is questionable behavior for a {@code
+   * Future}, and the class documentation does not specify how such an exception
+   * should be interpreted. The policy of this method is to treat it as an
+   * exception during computation that would, under a stricter {@code Future}
+   * implementation, have been wrapped in an {@code ExecutionException}.)
+   *
+   * <p>Instances of {@code exceptionClass} are created by choosing an arbitrary
+   * public constructor that accepts zero or more arguments, all of type {@code
+   * String} or {@code Throwable} (preferring constructors with at least one
+   * {@code String}) and calling the constructor via reflection. If the
+   * exception did not already have a cause, one is set by calling {@link
+   * Throwable#initCause(Throwable)} on it. If no such constructor exists, an
+   * {@code IllegalArgumentException} is thrown.
+   *
+   * @throws X if {@code get} throws a checked exception or a {@code
+   *         RuntimeException} other than {@code CancellationException}
+   * @throws CancellationException if {@code get} throws a {@code
+   *         CancellationException}
+   * @throws IllegalArgumentException if {@code exceptionClass} extends {@code
+   *         RuntimeException} or does not have a suitable constructor
+   * @since Guava release 10
+   */
+  @Beta
+  public static <V, X extends Exception> V get(
+      Future<V> future, long timeout, TimeUnit unit, Class<X> exceptionClass)
+      throws X {
+    checkNotNull(future);
+    checkNotNull(unit);
+    checkArgument(!RuntimeException.class.isAssignableFrom(exceptionClass),
+        "Futures.get exception type (%s) must not be a RuntimeException",
+        exceptionClass);
+    try {
+      return future.get(timeout, unit);
+    } catch (InterruptedException e) {
+      currentThread().interrupt();
+      throw newWithCause(exceptionClass, e);
+    } catch (CancellationException e) {
+      throw e;
+    } catch (TimeoutException e) {
+      throw newWithCause(exceptionClass, e);
+    } catch (ExecutionException e) {
+      throw newWithCause(exceptionClass, e.getCause());
+    } catch (RuntimeException e) {
+      throw newWithCause(exceptionClass, e);
+    }
+  }
+
+  /**
+   * Returns the result of calling {@link Future#get()} uninterruptibly on a
+   * task known not to throw a checked exception. This makes {@code Future} more
+   * suitable for lightweight, fast-running tasks that, barring bugs in the
+   * code, will not fail.
+   *
+   * <p>Exceptions from {@code Future.get} are treated as follows:
+   * <ul>
+   * <li>Any {@link InterruptedException} causes a retry of the {@code get}
+   *     call. The interrupt is restored before {@code getUnchecked} returns.
+   * <li>Any {@link CancellationException} is propagated untouched.
+   * <li>Any {@link ExecutionException} has its <i>cause</i> wrapped in an
+   *     {@link UncheckedExecutionException}.
+   * <li>Any {@link RuntimeException} other than {@code CancellationException}
+   *     ({@code get} implementations are discouraged from throwing such
+   *     exceptions) is wrapped in an {@code UncheckedExecutionException}.
+   * </ul>
+   *
+   * The overall principle is to eliminate all checked exceptions: to loop to
+   * avoid {@code InterruptedException}, to pass through {@code
+   * CancellationException}, and to wrap any exception from the underlying
+   * computation in an {@code UncheckedExecutionException}. (This primarily
+   * means wrapping the cause of any {@code ExecutionException} but also
+   * wrapping any {@code RuntimeException} other than {@code
+   * CancellationException}. Throwing any other {@code RuntimeException} is
+   * questionable behavior for a {@code Future}, and the class documentation
+   * does not specify how such an exception should be interpreted. The policy of
+   * this method is to treat it as an exception during computation that would,
+   * under a stricter {@code Future} implementation, have been wrapped in an
+   * {@code ExecutionException}.)
+   *
+   * @throws UncheckedExecutionException if {@code get} throws a checked
+   *         exception or a {@code RuntimeException} other than {@code
+   *         CancellationException}
+   * @throws CancellationException if {@code get} throws a {@code
+   *         CancellationException}
+   * @throws IllegalArgumentException if {@code exceptionClass} does not have a
+   *         suitable constructor
+   * @since Guava release 10
+   */
+  @Beta
+  public static <V> V getUnchecked(Future<V> future) {
+    checkNotNull(future);
+    try {
+      return makeUninterruptible(future).get();
+    } catch (CancellationException e) {
+      throw e;
+    } catch (ExecutionException e) {
+      throw newWithCause(UncheckedExecutionException.class, e.getCause());
+    } catch (RuntimeException e) {
+      throw newWithCause(UncheckedExecutionException.class, e);
+    }
+  }
+
+  /*
+   * TODO(user): FutureChecker interface for these to be static methods on? If
+   * so, refer to it in the (static-method) Futures.get documentation
+   */
+
+  /*
+   * Arguably we don't need a timed getUnchecked because any operation slow
+   * enough to require a timeout is heavyweight enough to throw a checked
+   * exception and therefore be inappropriate to use with getUnchecked. Further,
+   * it's not clear that converting the checked TimeoutException to a
+   * RuntimeException -- especially to an UncheckedExecutionException, since it
+   * wasn't thrown by the computation -- makes sense, and if we don't convert
+   * it, the user still has to write a try-catch block.
+   *
+   * If you think you would use this method, let us know.
+   */
+
+  private static <X extends Exception> X newWithCause(
+      Class<X> exceptionClass, Throwable cause) {
+    // getConstructors() guarantees this as long as we don't modify the array.
+    @SuppressWarnings("unchecked")
+    List<Constructor<X>> constructors =
+        (List) Arrays.asList(exceptionClass.getConstructors());
+    for (Constructor<X> constructor : preferringStrings(constructors)) {
+      @Nullable X instance = newFromConstructor(constructor, cause);
+      if (instance != null) {
+        if (instance.getCause() == null) {
+          instance.initCause(cause);
+        }
+        return instance;
+      }
+    }
+    throw new IllegalArgumentException(
+        "No appropriate constructor for exception of type " + exceptionClass
+            + " in response to chained exception", cause);
+  }
+
+  private static <X extends Exception> List<Constructor<X>>
+      preferringStrings(List<Constructor<X>> constructors) {
+    return WITH_STRING_PARAM_FIRST.sortedCopy(constructors);
+  }
+
+  private static final Ordering<Constructor<?>> WITH_STRING_PARAM_FIRST =
+      Ordering.natural().onResultOf(new Function<Constructor<?>, Boolean>() {
+        @Override public Boolean apply(Constructor<?> input) {
+          return asList(input.getParameterTypes()).contains(String.class);
+        }
+      }).reverse();
+
+  @Nullable private static <X> X newFromConstructor(
+      Constructor<X> constructor, Throwable cause) {
+    Class<?>[] paramTypes = constructor.getParameterTypes();
+    Object[] params = new Object[paramTypes.length];
+    for (int i = 0; i < paramTypes.length; i++) {
+      Class<?> paramType = paramTypes[i];
+      if (paramType.equals(String.class)) {
+        params[i] = cause.toString();
+      } else if (paramType.equals(Throwable.class)) {
+        params[i] = cause;
+      } else {
+        return null;
+      }
+    }
+    try {
+      return constructor.newInstance(params);
+    } catch (IllegalArgumentException e) {
+      return null;
+    } catch (InstantiationException e) {
+      return null;
+    } catch (IllegalAccessException e) {
+      return null;
+    } catch (InvocationTargetException e) {
+      return null;
+    }
   }
 
   /**
@@ -954,11 +1227,11 @@ public final class Futures {
    * each component future to fill out the value in the List when that future
    * completes.
    */
-  private static class ListFuture<T> extends AbstractFuture<List<T>> {
-    ImmutableList<? extends ListenableFuture<? extends T>> futures;
+  private static class ListFuture<V> extends AbstractFuture<List<V>> {
+    ImmutableList<? extends ListenableFuture<? extends V>> futures;
     final boolean allMustSucceed;
     final AtomicInteger remaining;
-    List<T> values;
+    List<V> values;
 
     /**
      * Constructor.
@@ -970,7 +1243,7 @@ public final class Futures {
      *        futures.
      */
     ListFuture(
-        final ImmutableList<? extends ListenableFuture<? extends T>> futures,
+        final ImmutableList<? extends ListenableFuture<? extends V>> futures,
         final boolean allMustSucceed, final Executor listenerExecutor) {
       this.futures = futures;
       this.values = Lists.newArrayListWithCapacity(futures.size());
@@ -1014,9 +1287,9 @@ public final class Futures {
       // setOneValue(), transitively call our cleanup listener, and set
       // this.futures to null.
       // We store a reference to futures to avoid the NPE.
-      ImmutableList<? extends ListenableFuture<? extends T>> localFutures = futures;
+      ImmutableList<? extends ListenableFuture<? extends V>> localFutures = futures;
       for (int i = 0; i < localFutures.size(); i++) {
-        final ListenableFuture<? extends T> listenable = localFutures.get(i);
+        final ListenableFuture<? extends V> listenable = localFutures.get(i);
         final int index = i;
         listenable.addListener(new Runnable() {
           @Override
@@ -1030,8 +1303,8 @@ public final class Futures {
     /**
      * Sets the value at the given index to that of the given future.
      */
-    private void setOneValue(int index, Future<? extends T> future) {
-      List<T> localValues = values;
+    private void setOneValue(int index, Future<? extends V> future) {
+      List<V> localValues = values;
       if (isDone() || localValues == null) {
         // Some other future failed or has been cancelled, causing this one to
         // also be cancelled or have an exception set. This should only happen
@@ -1079,7 +1352,7 @@ public final class Futures {
     }
 
     @Override
-    public List<T> get() throws InterruptedException, ExecutionException {
+    public List<V> get() throws InterruptedException, ExecutionException {
       callAllGets();
 
       // This may still block in spite of the calls above, as the listeners may
@@ -1093,9 +1366,9 @@ public final class Futures {
      * called.
      */
     private void callAllGets() throws InterruptedException {
-      List<? extends ListenableFuture<? extends T>> oldFutures = futures;
+      List<? extends ListenableFuture<? extends V>> oldFutures = futures;
       if (oldFutures != null && !isDone()) {
-        for (ListenableFuture<? extends T> future : oldFutures) {
+        for (ListenableFuture<? extends V> future : oldFutures) {
           // We wait for a little while for the future, but if it's not done,
           // we check that no other futures caused a cancellation or failure.
           // This can introduce a delay of up to 10ms in reporting an exception.
@@ -1210,10 +1483,9 @@ public final class Futures {
             } catch (Error e) {
               throw e;
             } catch (InterruptedException e) {
-              // This thread was interrupted.  This should never happen, so we
-              // throw an IllegalStateException.
               Thread.currentThread().interrupt();
-              throw new IllegalStateException("Adapter thread interrupted!", e);
+              // Threads from our private pool are never interrupted.
+              throw new AssertionError(e);
             } catch (Throwable e) {
               // ExecutionException / CancellationException / RuntimeException
               // The task is done, run the listeners.

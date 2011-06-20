@@ -17,23 +17,44 @@
 package com.google.common.collect;
 
 /**
- * Unchecked version of {@link java.util.concurrent.ExecutionException}.
+ * Unchecked version of {@link java.util.concurrent.ExecutionException}. As with
+ * {@code ExecutionException}, the exception's {@linkplain #getCause() cause}
+ * comes from a failed task, possibly run in another thread.
+ *
+ * <p>{@code UncheckedExecutionException} is intended for users of {@code
+ * Future} and similar classes who know that their tasks will never throw a
+ * checked exception. They have the option of removing {@code throws
+ * ExecutionException} from their signatures, wrapping any exceptions that do
+ * occur in an {@code UncheckedExecutionException}.
  *
  * @author fry@google.com (Charles Fry)
+ * @since Guava release 10
  */
 // TODO(user): move to common.util.concurrent
 public class UncheckedExecutionException extends RuntimeException {
   /**
-   * Creates a new instance with the given cause.
+   * Creates a new instance with {@code null} as its detail message.
    */
-  public UncheckedExecutionException(Throwable cause) {
-    super(cause);
+  protected UncheckedExecutionException() {}
+
+  /**
+   * Creates a new instance with the given detail message.
+   */
+  protected UncheckedExecutionException(String message) {
+    super(message);
+  }
+
+  /**
+   * Creates a new instance with the given detail message and cause.
+   */
+  public UncheckedExecutionException(String message, Throwable cause) {
+    super(message, cause);
   }
 
   /**
    * Creates a new instance with the given cause.
    */
-  public UncheckedExecutionException(String message, Throwable cause) {
-    super(message, cause);
+  public UncheckedExecutionException(Throwable cause) {
+    super(cause);
   }
 }
