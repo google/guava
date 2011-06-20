@@ -29,7 +29,8 @@ import java.lang.ref.ReferenceQueue;
  * @author Bob Lee
  * @since Guava release 02 (imported from Google Collections Library)
  */
-public abstract class FinalizablePhantomReference<T> extends PhantomReference<T>
+public
+abstract class FinalizablePhantomReference<T> extends PhantomReference<T>
     implements FinalizableReference {
   /**
    * Constructs a new finalizable phantom reference.
