@@ -805,7 +805,9 @@ public final class Futures {
           sourceResult = makeUninterruptible(inputFuture).get();
         } catch (CancellationException e) {
           // Cancel this future and return.
-          cancel();
+          // At this point, inputFuture is cancelled and outputFuture doesn't
+          // exist, so the value of mayInterruptIfRunning is irrelevant.
+          cancel(false);
           return;
         } catch (ExecutionException e) {
           // Set the cause of the exception as this future's exception
@@ -819,9 +821,9 @@ public final class Futures {
           // Handles the case where cancel was called while the function was
           // being applied.
           try {
-            // There is a gap in cancel(boolean) between calling cancel() and
-            // storing the value of mayInterruptIfRunning, so this thread needs
-            // to block, waiting for that value.
+            // There is a gap in cancel(boolean) between calling sync.cancel()
+            // and storing the value of mayInterruptIfRunning, so this thread
+            // needs to block, waiting for that value.
             outputFuture.cancel(mayInterruptIfRunningChannel.take());
           } catch (InterruptedException ignored) {
             Thread.currentThread().interrupt();
@@ -839,7 +841,9 @@ public final class Futures {
                 set(makeUninterruptible(outputFuture).get());
               } catch (CancellationException e) {
                 // Cancel this future and return.
-                cancel();
+                // At this point, inputFuture and outputFuture are done, so the
+                // value of mayInterruptIfRunning is irrelevant.
+                cancel(false);
                 return;
               } catch (ExecutionException e) {
                 // Set the cause of the exception as this future's exception
@@ -1322,7 +1326,9 @@ public final class Futures {
         if (allMustSucceed) {
           // Set ourselves as cancelled. Let the input futures keep running
           // as some of them may be used elsewhere.
-          cancel();
+          // (Currently we don't override interruptTask, so
+          // mayInterruptIfRunning==false isn't technically necessary.)
+          cancel(false);
         }
       } catch (ExecutionException e) {
         if (allMustSucceed) {
