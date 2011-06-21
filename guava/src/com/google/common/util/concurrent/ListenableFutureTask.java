@@ -45,7 +45,6 @@ public final class ListenableFutureTask<V> extends FutureTask<V>
    * @param  callable the callable task
    * @throws NullPointerException if callable is null
    */
-  @SuppressWarnings("deprecation") // will be un-deprecated when private
   public static <V> ListenableFutureTask<V> create(Callable<V> callable) {
     return new ListenableFutureTask<V>(callable);
   }
@@ -63,7 +62,6 @@ public final class ListenableFutureTask<V> extends FutureTask<V>
    *     ListenableFutureTask.create(runnable, null)}
    * @throws NullPointerException if runnable is null
    */
-  @SuppressWarnings("deprecation") // will be un-deprecated when private
   public static <V> ListenableFutureTask<V> create(Runnable runnable, V result) {
     return new ListenableFutureTask<V>(runnable, result);
   }
@@ -74,10 +72,8 @@ public final class ListenableFutureTask<V> extends FutureTask<V>
    *
    * @param  callable the callable task
    * @throws NullPointerException if callable is null
-   * @deprecated Use {@link #create(Callable)} instead.
    */
-  @Deprecated
-  public ListenableFutureTask(Callable<V> callable) {
+  private ListenableFutureTask(Callable<V> callable) {
     super(callable);
   }
 
@@ -93,10 +89,8 @@ public final class ListenableFutureTask<V> extends FutureTask<V>
    * {@code ListenableFuture<?> f =
    *     ListenableFutureTask.create(runnable, null)}
    * @throws NullPointerException if runnable is null
-   * @deprecated Use {@link #create(Runnable, Object)} instead.
    */
-  @Deprecated
-  public ListenableFutureTask(Runnable runnable, V result) {
+  private ListenableFutureTask(Runnable runnable, V result) {
     super(runnable, result);
   }
 
