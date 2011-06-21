@@ -114,7 +114,7 @@ public abstract class ForwardingMultiset<E> extends ForwardingCollection<E>
   /**
    * A sensible definition of {@link #clear} in terms of the {@code iterator}
    * method of {@link #entrySet}. If you override {@link #entrySet}, you may
-   * wish to override {@link #contains} to forward to this implementation.
+   * wish to override {@link #clear} to forward to this implementation.
    *
    * @since Guava release 07
    */
