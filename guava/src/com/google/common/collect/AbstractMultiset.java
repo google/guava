@@ -110,6 +110,12 @@ abstract class AbstractMultiset<E> extends AbstractCollection<E>
 
   // Bulk Operations
 
+  /**
+   * {@inheritDoc}
+   * 
+   * <p>This implementation is highly efficient when {@code elementsToAdd}
+   * is itself a {@link Multiset}.
+   */
   @Override public boolean addAll(Collection<? extends E> elementsToAdd) {
     return Multisets.addAllImpl(this, elementsToAdd);
   }

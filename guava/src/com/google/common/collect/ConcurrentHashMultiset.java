@@ -83,6 +83,9 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E>
    * Creates a new {@code ConcurrentHashMultiset} containing the specified
    * elements, using the default initial capacity, load factor, and concurrency
    * settings.
+   * 
+   * <p>This implementation is highly efficient when {@code elements} is itself
+   * a {@link Multiset}.
    *
    * @param elements the elements that the multiset should contain
    */

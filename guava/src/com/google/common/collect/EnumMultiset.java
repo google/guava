@@ -43,7 +43,10 @@ public final class EnumMultiset<E extends Enum<E>> extends AbstractMapBasedMulti
 
   /**
    * Creates a new {@code EnumMultiset} containing the specified elements.
-   *
+   * 
+   * <p>This implementation is highly efficient when {@code elements} is itself
+   * a {@link Multiset}.
+   * 
    * @param elements the elements that the multiset should contain
    * @throws IllegalArgumentException if {@code elements} is empty
    */
