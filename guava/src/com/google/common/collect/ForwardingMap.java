@@ -196,7 +196,11 @@ public abstract class ForwardingMap<K, V> extends ForwardingObject
    * @since Guava release 07
    */
   @Beta protected Set<K> standardKeySet() {
-    return Maps.keySetImpl(this);
+    return new Maps.KeySet<K, V>() {
+      @Override Map<K, V> map() {
+        return ForwardingMap.this;
+      }
+    };
   }
 
   /**
@@ -220,7 +224,11 @@ public abstract class ForwardingMap<K, V> extends ForwardingObject
    * @since Guava release 07
    */
   @Beta protected Collection<V> standardValues() {
-    return Maps.valuesImpl(this);
+    return new Maps.Values<K, V>() {
+      @Override Map<K, V> map() {
+        return ForwardingMap.this;
+      }
+    };
   }
 
   /**
@@ -250,8 +258,16 @@ public abstract class ForwardingMap<K, V> extends ForwardingObject
    * @since Guava release 07
    */
   @Beta protected Set<Entry<K, V>> standardEntrySet(
-      Supplier<Iterator<Entry<K, V>>> entryIteratorSupplier) {
-    return Maps.entrySetImpl(this, entryIteratorSupplier);
+      final Supplier<Iterator<Entry<K, V>>> entryIteratorSupplier) {
+    return new Maps.EntrySet<K, V>() {
+      @Override Map<K, V> map() {
+        return ForwardingMap.this;
+      }
+
+      @Override public Iterator<Map.Entry<K, V>> iterator() {
+        return entryIteratorSupplier.get();
+      }
+    };
   }
 
   /**

@@ -26,7 +26,6 @@ import com.google.common.base.Joiner.MapJoiner;
 import com.google.common.base.Objects;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
-import com.google.common.base.Supplier;
 import com.google.common.collect.MapDifference.ValueDifference;
 import com.google.common.primitives.Ints;
 
@@ -900,180 +899,46 @@ public final class Maps {
       return fromMap.keySet();
     }
 
-    EntrySet entrySet;
+    Set<Entry<K, V2>> entrySet;
 
     @Override public Set<Entry<K, V2>> entrySet() {
-      EntrySet result = entrySet;
+      Set<Entry<K, V2>> result = entrySet;
       if (result == null) {
-        entrySet = result = new EntrySet();
+        entrySet = result = new EntrySet<K, V2>() {
+          @Override Map<K, V2> map() {
+            return TransformedEntriesMap.this;
+          }
+
+          @Override public Iterator<Entry<K, V2>> iterator() {
+            final Iterator<Entry<K, V1>> backingIterator =
+                fromMap.entrySet().iterator();
+            return Iterators.transform(backingIterator,
+                new Function<Entry<K, V1>, Entry<K, V2>>() {
+                  @Override public Entry<K, V2> apply(Entry<K, V1> entry) {
+                    return immutableEntry(
+                        entry.getKey(),
+                        transformer.transformEntry(entry.getKey(),
+                            entry.getValue()));
+                  }
+                });
+          }
+        };
       }
       return result;
     }
 
-    // The overrides of remove(), removeAll(), and retainAll() in EntrySet and
-    // Values are needed when the backing map views have iterators that don't
-    // support remove().
-    // TODO(jlevy): See if similar logic is needed elsewhere.
+    Collection<V2> values;
 
-    class EntrySet extends AbstractSet<Entry<K, V2>> {
-      @Override public int size() {
-        return TransformedEntriesMap.this.size();
-      }
-
-      @Override public Iterator<Entry<K, V2>> iterator() {
-        final Iterator<Entry<K, V1>> mapIterator =
-            fromMap.entrySet().iterator();
-
-        return new Iterator<Entry<K, V2>>() {
-          @Override
-          public boolean hasNext() {
-            return mapIterator.hasNext();
-          }
-
-          @Override
-          public Entry<K, V2> next() {
-            final Entry<K, V1> entry = mapIterator.next();
-            return new AbstractMapEntry<K, V2>() {
-              @Override public K getKey() {
-                return entry.getKey();
-              }
-
-              @Override public V2 getValue() {
-                return transformer.transformEntry(
-                    entry.getKey(), entry.getValue());
-              }
-            };
-          }
-
-          @Override
-          public void remove() {
-            mapIterator.remove();
+    @Override public Collection<V2> values() {
+      Collection<V2> result = values;
+      if (result == null) {
+        return values = new Values<K, V2>() {
+          @Override Map<K, V2> map() {
+            return TransformedEntriesMap.this;
           }
         };
       }
-
-      @Override public void clear() {
-        fromMap.clear();
-      }
-
-      @Override public boolean contains(Object o) {
-        if (!(o instanceof Entry)) {
-          return false;
-        }
-        Entry<?, ?> entry = (Entry<?, ?>) o;
-        Object entryKey = entry.getKey();
-        Object entryValue = entry.getValue();
-        V2 mapValue = TransformedEntriesMap.this.get(entryKey);
-        if (mapValue != null) {
-          return mapValue.equals(entryValue);
-        }
-        return entryValue == null && containsKey(entryKey);
-      }
-
-      @Override public boolean remove(Object o) {
-        if (contains(o)) {
-          Entry<?, ?> entry = (Entry<?, ?>) o;
-          Object key = entry.getKey();
-          fromMap.remove(key);
-          return true;
-        }
-        return false;
-      }
-
-      @Override public boolean removeAll(Collection<?> c) {
-        try {
-          return super.removeAll(c);
-        } catch (UnsupportedOperationException e) {
-          boolean changed = true;
-          for (Object o : c) {
-            changed |= remove(o);
-          }
-          return changed;
-        }
-      }
-
-      @Override public boolean retainAll(Collection<?> c) {
-        try {
-          return super.retainAll(c);
-        } catch (UnsupportedOperationException e) {
-          Set<Object> keys = Sets.newHashSetWithExpectedSize(c.size());
-          for (Object o : c) {
-            if (contains(o)) {
-              Entry<?, ?> entry = (Entry<?, ?>) o;
-              keys.add(entry.getKey());
-            }
-          }
-          return fromMap.keySet().retainAll(keys);
-        }
-      }
-    }
-
-    Values values;
-
-    @Override public Collection<V2> values() {
-      return (values == null) ? values = new Values(super.values()) : values;
-    }
-
-    class Values extends ForwardingCollection<V2> {
-      final Collection<V2> delegate;
-
-      public Values(Collection<V2> delegate) {
-        this.delegate = delegate;
-      }
-
-      @Override protected Collection<V2> delegate() {
-        return delegate;
-      }
-
-      @Override public boolean remove(Object o) {
-        try {
-          return super.remove(o);
-        } catch (UnsupportedOperationException e) {
-          for (Entry<K, V2> entry : entrySet()) {
-            if (Objects.equal(o, entry.getValue())) {
-              fromMap.remove(entry.getKey());
-              return true;
-            }
-          }
-          return false;
-        }
-      }
-
-      @Override public boolean removeAll(Collection<?> c) {
-        try {
-          return super.removeAll(c);
-        } catch (UnsupportedOperationException e) {
-          Set<Object> keys = Sets.newHashSetWithExpectedSize(c.size());
-          for (Entry<K, V2> entry : entrySet()) {
-            if (c.contains(entry.getValue())) {
-              keys.add(entry.getKey());
-            }
-          }
-          return fromMap.keySet().removeAll(keys);
-        }
-      }
-
-      @Override public boolean retainAll(Collection<?> c) {
-        try {
-          return super.retainAll(c);
-        } catch (UnsupportedOperationException e) {
-          Set<Object> keys = Sets.newHashSetWithExpectedSize(c.size());
-          for (Entry<K, V2> entry : entrySet()) {
-            if (c.contains(entry.getValue())) {
-              keys.add(entry.getKey());
-            }
-          }
-          return fromMap.keySet().retainAll(keys);
-        }
-      }
-
-      @Override public void clear() {
-        try {
-          super.clear();
-        } catch (UnsupportedOperationException e) {
-          fromMap.clear();
-        }
-      }
+      return result;
     }
   }
 
@@ -1518,7 +1383,7 @@ public final class Maps {
    * implementation.
    */
   @GwtCompatible
-  abstract static class ImprovedAbstractMap<K, V> extends AbstractMap<K, V> {
+  static abstract class ImprovedAbstractMap<K, V> extends AbstractMap<K, V> {
     /**
      * Creates the entry set to be returned by {@link #entrySet()}. This method
      * is invoked at most once on a given map, at the time when {@code entrySet}
@@ -1541,22 +1406,9 @@ public final class Maps {
     @Override public Set<K> keySet() {
       Set<K> result = keySet;
       if (result == null) {
-        final Set<K> delegate = super.keySet();
-        keySet = result = new ForwardingSet<K>() {
-          @Override protected Set<K> delegate() {
-            return delegate;
-          }
-
-          @Override public boolean isEmpty() {
-            return ImprovedAbstractMap.this.isEmpty();
-          }
-
-          @Override public boolean remove(Object object) {
-            if (contains(object)) {
-              ImprovedAbstractMap.this.remove(object);
-              return true;
-            }
-            return false;
+        return keySet = new KeySet<K, V>() {
+          @Override Map<K, V> map() {
+            return ImprovedAbstractMap.this;
           }
         };
       }
@@ -1568,14 +1420,9 @@ public final class Maps {
     @Override public Collection<V> values() {
       Collection<V> result = values;
       if (result == null) {
-        final Collection<V> delegate = super.values();
-        values = result = new ForwardingCollection<V>() {
-          @Override protected Collection<V> delegate() {
-            return delegate;
-          }
-
-          @Override public boolean isEmpty() {
-            return ImprovedAbstractMap.this.isEmpty();
+        return values = new Values<K, V>(){
+          @Override Map<K, V> map() {
+            return ImprovedAbstractMap.this;
           }
         };
       }
@@ -1618,66 +1465,6 @@ public final class Maps {
       return map.containsKey(key);
     } catch (ClassCastException e) {
       return false;
-    }
-  }
-
-  /**
-   * An implementation of {@link Map#entrySet}.
-   */
-  static <K, V> Set<Entry<K, V>> entrySetImpl(
-      Map<K, V> map, Supplier<Iterator<Entry<K, V>>> entryIteratorSupplier) {
-    return new EntrySetImpl<K, V>(map, entryIteratorSupplier);
-  }
-
-  private static class EntrySetImpl<K, V> extends AbstractSet<Entry<K, V>> {
-    private final Map<K, V> map;
-    private final Supplier<Iterator<Entry<K, V>>> entryIteratorSupplier;
-
-    EntrySetImpl(
-        Map<K, V> map, Supplier<Iterator<Entry<K, V>>> entryIteratorSupplier) {
-      this.map = checkNotNull(map);
-      this.entryIteratorSupplier = checkNotNull(entryIteratorSupplier);
-    }
-
-    @Override public Iterator<Entry<K, V>> iterator() {
-      return entryIteratorSupplier.get();
-    }
-
-    @Override public int size() {
-      return map.size();
-    }
-
-    @Override public void clear() {
-      map.clear();
-    }
-
-    @Override public boolean contains(Object o) {
-      if (o instanceof Entry) {
-        Entry<?, ?> entry = (Entry<?, ?>) o;
-        Object key = entry.getKey();
-        if (map.containsKey(key)) {
-          V value = map.get(entry.getKey());
-          return Objects.equal(value, entry.getValue());
-        }
-      }
-      return false;
-    }
-
-    @Override public boolean isEmpty() {
-      return map.isEmpty();
-    }
-
-    @Override public boolean remove(Object o) {
-      if (contains(o)) {
-        Entry<?, ?> entry = (Entry<?, ?>) o;
-        map.remove(entry.getKey());
-        return true;
-      }
-      return false;
-    }
-
-    @Override public int hashCode() {
-      return map.hashCode();
     }
   }
 
@@ -1763,13 +1550,6 @@ public final class Maps {
   }
 
   /**
-   * An implementation of {@link Map#keySet}.
-   */
-  static <K, V> Set<K> keySetImpl(final Map<K, V> map) {
-    return new AbstractMapWrapper<K, V>(map).keySet();
-  }
-
-  /**
    * An admittedly inefficient implementation of {@link Map#containsKey}.
    */
   static boolean containsKeyImpl(Map<?, ?> map, @Nullable Object key) {
@@ -1779,13 +1559,6 @@ public final class Maps {
       }
     }
     return false;
-  }
-
-  /**
-   * An implementation of {@link Map#values}.
-   */
-  static <K, V> Collection<V> valuesImpl(Map<K, V> map) {
-    return new AbstractMapWrapper<K, V>(map).values();
   }
 
   /**
@@ -1800,44 +1573,176 @@ public final class Maps {
     return false;
   }
 
-  /**
-   * A wrapper on a map that supplies the {@code ImprovedAbstractMap}
-   * implementations of {@code keySet()} and {@code values()}.
-   */
-  private static final class AbstractMapWrapper<K, V>
-      extends ImprovedAbstractMap<K, V>{
-    private final Map<K, V> map;
+  static abstract class KeySet<K, V> extends AbstractSet<K> {
+    abstract Map<K, V> map();
 
-    AbstractMapWrapper(Map<K, V> map) {
-      this.map = checkNotNull(map);
-    }
-
-    @Override public void clear() {
-      map.clear();
-    }
-
-    @Override public boolean containsKey(Object key) {
-      return map.containsKey(key);
-    }
-
-    @Override public V remove(Object key) {
-      return map.remove(key);
-    }
-
-    @Override public boolean containsValue(Object value) {
-      return map.containsValue(value);
-    }
-
-    @Override protected Set<Entry<K, V>> createEntrySet() {
-      return map.entrySet();
-    }
-
-    @Override public boolean isEmpty() {
-      return map.isEmpty();
+    @Override public Iterator<K> iterator() {
+      return Iterators.transform(map().entrySet().iterator(),
+          new Function<Map.Entry<K, V>, K>() {
+            @Override public K apply(Entry<K, V> entry) {
+              return entry.getKey();
+            }
+          });
     }
 
     @Override public int size() {
-      return map.size();
+      return map().size();
+    }
+
+    @Override public boolean isEmpty() {
+      return map().isEmpty();
+    }
+
+    @Override public boolean contains(Object o) {
+      return map().containsKey(o);
+    }
+
+    @Override public boolean remove(Object o) {
+      if (contains(o)) {
+        map().remove(o);
+        return true;
+      }
+      return false;
+    }
+
+    @Override public void clear() {
+      map().clear();
+    }
+  }
+
+  static abstract class Values<K, V> extends AbstractCollection<V> {
+    abstract Map<K, V> map();
+
+    @Override public Iterator<V> iterator() {
+      return Iterators.transform(map().entrySet().iterator(),
+          new Function<Entry<K, V>, V>() {
+            @Override public V apply(Entry<K, V> entry) {
+              return entry.getValue();
+            }
+          });
+    }
+
+    @Override public boolean remove(Object o) {
+      try {
+        return super.remove(o);
+      } catch (UnsupportedOperationException e) {
+        for (Entry<K, V> entry : map().entrySet()) {
+          if (Objects.equal(o, entry.getValue())) {
+            map().remove(entry.getKey());
+            return true;
+          }
+        }
+        return false;
+      }
+    }
+
+    @Override public boolean removeAll(Collection<?> c) {
+      try {
+        return super.removeAll(c);
+      } catch (UnsupportedOperationException e) {
+        Set<K> toRemove = Sets.newHashSet();
+        for (Entry<K, V> entry : map().entrySet()) {
+          if (c.contains(entry.getValue())) {
+            toRemove.add(entry.getKey());
+          }
+        }
+        return map().keySet().removeAll(toRemove);
+      }
+    }
+
+    @Override public boolean retainAll(Collection<?> c) {
+      try {
+        return super.retainAll(c);
+      } catch (UnsupportedOperationException e) {
+        Set<K> toRetain = Sets.newHashSet();
+        for (Entry<K, V> entry : map().entrySet()) {
+          if (c.contains(entry.getValue())) {
+            toRetain.add(entry.getKey());
+          }
+        }
+        return map().keySet().retainAll(toRetain);
+      }
+    }
+
+    @Override public int size() {
+      return map().size();
+    }
+
+    @Override public boolean isEmpty() {
+      return map().isEmpty();
+    }
+
+    @Override public boolean contains(@Nullable Object o) {
+      return map().containsValue(o);
+    }
+
+    @Override public void clear() {
+      map().clear();
+    }
+  }
+
+  static abstract class EntrySet<K, V> extends AbstractSet<Entry<K, V>> {
+    abstract Map<K, V> map();
+
+    @Override public int size() {
+      return map().size();
+    }
+
+    @Override public void clear() {
+      map().clear();
+    }
+
+    @Override public boolean contains(Object o) {
+      if (o instanceof Entry) {
+        Entry<?, ?> entry = (Entry<?, ?>) o;
+        Object key = entry.getKey();
+        V value = map().get(key);
+        return Objects.equal(value, entry.getValue())
+            && (value != null || map().containsKey(key));
+      }
+      return false;
+    }
+
+    @Override public boolean isEmpty() {
+      return map().isEmpty();
+    }
+
+    @Override public boolean remove(Object o) {
+      if (contains(o)) {
+        Entry<?, ?> entry = (Entry<?, ?>) o;
+        map().remove(entry.getKey());
+        return true;
+      }
+      return false;
+    }
+
+    @Override public boolean removeAll(Collection<?> c) {
+      try {
+        return super.removeAll(c);
+      } catch (UnsupportedOperationException e) {
+        // if the iterators don't support remove
+        boolean changed = true;
+        for (Object o : c) {
+          changed |= remove(o);
+        }
+        return changed;
+      }
+    }
+
+    @Override public boolean retainAll(Collection<?> c) {
+      try {
+        return super.retainAll(c);
+      } catch (UnsupportedOperationException e) {
+        // if the iterators don't support remove
+        Set<Object> keys = Sets.newHashSetWithExpectedSize(c.size());
+        for (Object o : c) {
+          if (contains(o)) {
+            Entry<?, ?> entry = (Entry<?, ?>) o;
+            keys.add(entry.getKey());
+          }
+        }
+        return map().keySet().retainAll(keys);
+      }
     }
   }
 }
