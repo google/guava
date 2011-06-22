@@ -25,7 +25,6 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.annotations.GwtIncompatible;
 
 import java.util.concurrent.TimeUnit;
 
@@ -162,33 +161,6 @@ public final class Stopwatch {
     return elapsedTime(MILLISECONDS);
   }
 
-  /**
-   * Returns a string representation of the current elapsed time; equivalent to
-   * {@code toString(4)} (four significant figures).
-   */
-  @GwtIncompatible("String.format()")
-  @Override public String toString() {
-    return toString(4);
-  }
-
-  /**
-   * Returns a string representation of the current elapsed time, choosing an
-   * appropriate unit and using the specified number of significant figures.
-   * For example, at the instant when {@code elapsedTime(NANOSECONDS)} would
-   * return {1234567}, {@code toString(4)} returns {@code "1.235 ms"}.
-   */
-  @GwtIncompatible("String.format()")
-  public String toString(int significantDigits) {
-    long nanos = elapsedNanos();
-
-    TimeUnit unit = chooseUnit(nanos);
-    double value = (double) nanos / NANOSECONDS.convert(1, unit);
-
-    // Too bad this functionality is not exposed as a regular method call
-    return String.format("%." + significantDigits + "g %s",
-        value, abbreviate(unit));
-  }
-
   private static TimeUnit chooseUnit(long nanos) {
     if (SECONDS.convert(nanos, NANOSECONDS) > 0) {
       return SECONDS;
@@ -207,7 +179,7 @@ public final class Stopwatch {
       case NANOSECONDS:
         return "ns";
       case MICROSECONDS:
-        return "\u03bcs"; // μs
+        return "\u03bcs"; // ?s
       case MILLISECONDS:
         return "ms";
       case SECONDS:
@@ -217,3 +189,4 @@ public final class Stopwatch {
     }
   }
 }
+

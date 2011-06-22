@@ -17,6 +17,7 @@
 package com.google.common.testing;
 
 import com.google.common.annotations.Beta;
+import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Ticker;
 
 import java.util.concurrent.TimeUnit;
@@ -30,6 +31,7 @@ import java.util.concurrent.atomic.AtomicLong;
  * @author Jige Yu
  */
 @Beta
+@GwtCompatible
 public class FakeTicker extends Ticker {
 
   private final AtomicLong nanos = new AtomicLong();

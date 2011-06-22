@@ -17,6 +17,7 @@
 package com.google.common.base;
 
 import com.google.common.annotations.Beta;
+import com.google.common.annotations.GwtCompatible;
 
 /**
  * A time source; returns a time value representing the number of nanoseconds
@@ -26,6 +27,7 @@ import com.google.common.annotations.Beta;
  * @since Guava release 09
  */
 @Beta
+@GwtCompatible
 public abstract class Ticker {
   /**
    * Constructor for use by subclasses.
@@ -48,7 +50,7 @@ public abstract class Ticker {
   private static final Ticker SYSTEM_TICKER = new Ticker() {
     @Override
     public long read() {
-      return System.nanoTime();
+      return Platform.systemNanoTime();
     }
   };
 }
