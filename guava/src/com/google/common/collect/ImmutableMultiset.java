@@ -19,20 +19,14 @@ package com.google.common.collect;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.annotations.GwtIncompatible;
-import com.google.common.collect.Serialization.FieldSetter;
 import com.google.common.primitives.Ints;
 
-import java.io.IOException;
-import java.io.InvalidObjectException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import javax.annotation.Nullable;
@@ -46,11 +40,13 @@ import javax.annotation.Nullable;
  * consecutive in the iteration order.
  *
  * @author Jared Levy
+ * @author Louis Wasserman
  * @since Guava release 02 (imported from Google Collections Library)
  */
-@GwtCompatible(serializable = true, emulated = true)
+@GwtCompatible(serializable = true)
+@SuppressWarnings("serial") // we're overriding default serialization
 // TODO(user): write an efficient asList() implementation
-public class ImmutableMultiset<E> extends ImmutableCollection<E>
+public abstract class ImmutableMultiset<E> extends ImmutableCollection<E>
     implements Multiset<E> {
 
   /**
@@ -219,7 +215,8 @@ public class ImmutableMultiset<E> extends ImmutableCollection<E>
     if (size == 0) {
       return of();
     }
-    return new ImmutableMultiset<E>(builder.build(), Ints.saturatedCast(size));
+    return new RegularImmutableMultiset<E>(builder.build(),
+        Ints.saturatedCast(size));
   }
 
   /**
@@ -239,38 +236,8 @@ public class ImmutableMultiset<E> extends ImmutableCollection<E>
     return copyOfInternal(multiset);
   }
 
-  private final transient ImmutableMap<E, Integer> map;
-  private final transient int size;
-
-  // These constants allow the deserialization code to set final fields. This
-  // holder class makes sure they are not initialized unless an instance is
-  // deserialized.
-  @GwtIncompatible("java serialization is not supported.")
-  private static class FieldSettersHolder {
-    static final FieldSetter<ImmutableMultiset> MAP_FIELD_SETTER
-        = Serialization.getFieldSetter(ImmutableMultiset.class, "map");
-    static final FieldSetter<ImmutableMultiset> SIZE_FIELD_SETTER
-        = Serialization.getFieldSetter(ImmutableMultiset.class, "size");
-  }
-
-  ImmutableMultiset(ImmutableMap<E, Integer> map, int size) {
-    this.map = map;
-    this.size = size;
-  }
-
-  @Override boolean isPartialView() {
-    return map.isPartialView();
-  }
-
-  @Override
-  public int count(@Nullable Object element) {
-    Integer value = map.get(element);
-    return (value == null) ? 0 : value;
-  }
-
   @Override public UnmodifiableIterator<E> iterator() {
-    final Iterator<Map.Entry<E, Integer>> mapIterator
-        = map.entrySet().iterator();
+    final Iterator<Entry<E>> entryIterator = entryIterator();
 
     return new UnmodifiableIterator<E>() {
       int remaining;
@@ -278,15 +245,15 @@ public class ImmutableMultiset<E> extends ImmutableCollection<E>
 
       @Override
       public boolean hasNext() {
-        return (remaining > 0) || mapIterator.hasNext();
+        return (remaining > 0) || entryIterator.hasNext();
       }
 
       @Override
       public E next() {
         if (remaining <= 0) {
-          Map.Entry<E, Integer> entry = mapIterator.next();
-          element = entry.getKey();
-          remaining = entry.getValue();
+          Entry<E> entry = entryIterator.next();
+          element = entry.getElement();
+          remaining = entry.getCount();
         }
         remaining--;
         return element;
@@ -295,12 +262,8 @@ public class ImmutableMultiset<E> extends ImmutableCollection<E>
   }
 
   @Override
-  public int size() {
-    return size;
-  }
-
-  @Override public boolean contains(@Nullable Object element) {
-    return map.containsKey(element);
+  public boolean contains(@Nullable Object object) {
+    return count(object) > 0;
   }
 
   /**
@@ -309,7 +272,7 @@ public class ImmutableMultiset<E> extends ImmutableCollection<E>
    * @throws UnsupportedOperationException always
    */
   @Override
-  public int add(E element, int occurrences) {
+  public final int add(E element, int occurrences) {
     throw new UnsupportedOperationException();
   }
 
@@ -319,7 +282,7 @@ public class ImmutableMultiset<E> extends ImmutableCollection<E>
    * @throws UnsupportedOperationException always
    */
   @Override
-  public int remove(Object element, int occurrences) {
+  public final int remove(Object element, int occurrences) {
     throw new UnsupportedOperationException();
   }
 
@@ -329,7 +292,7 @@ public class ImmutableMultiset<E> extends ImmutableCollection<E>
    * @throws UnsupportedOperationException always
    */
   @Override
-  public int setCount(E element, int count) {
+  public final int setCount(E element, int count) {
     throw new UnsupportedOperationException();
   }
 
@@ -339,7 +302,7 @@ public class ImmutableMultiset<E> extends ImmutableCollection<E>
    * @throws UnsupportedOperationException always
    */
   @Override
-  public boolean setCount(E element, int oldCount, int newCount) {
+  public final boolean setCount(E element, int oldCount, int newCount) {
     throw new UnsupportedOperationException();
   }
 
@@ -363,17 +326,11 @@ public class ImmutableMultiset<E> extends ImmutableCollection<E>
   }
 
   @Override public int hashCode() {
-    // could cache this, but not considered worthwhile to do so
-    return map.hashCode();
+    return Sets.hashCodeImpl(entrySet());
   }
 
   @Override public String toString() {
     return entrySet().toString();
-  }
-
-  @Override
-  public Set<E> elementSet() {
-    return map.keySet();
   }
 
   private transient ImmutableSet<Entry<E>> entrySet;
@@ -381,43 +338,41 @@ public class ImmutableMultiset<E> extends ImmutableCollection<E>
   @Override
   public Set<Entry<E>> entrySet() {
     ImmutableSet<Entry<E>> es = entrySet;
-    return (es == null) ? (entrySet = new EntrySet<E>(this)) : es;
+    return (es == null) ? (entrySet = createEntrySet()) : es;
   }
 
-  private static class EntrySet<E> extends ImmutableSet<Entry<E>> {
+  abstract UnmodifiableIterator<Entry<E>> entryIterator();
+
+  abstract int distinctElements();
+
+  ImmutableSet<Entry<E>> createEntrySet() {
+    return new EntrySet<E>(this);
+  }
+
+  static class EntrySet<E> extends ImmutableSet<Entry<E>> {
     final ImmutableMultiset<E> multiset;
 
     public EntrySet(ImmutableMultiset<E> multiset) {
       this.multiset = multiset;
     }
 
-    @Override public UnmodifiableIterator<Entry<E>> iterator() {
-      final Iterator<Map.Entry<E, Integer>> mapIterator
-          = multiset.map.entrySet().iterator();
-      return new UnmodifiableIterator<Entry<E>>() {
-        @Override
-        public boolean hasNext() {
-          return mapIterator.hasNext();
-        }
-        @Override
-        public Entry<E> next() {
-          Map.Entry<E, Integer> mapEntry = mapIterator.next();
-          return
-              Multisets.immutableEntry(mapEntry.getKey(), mapEntry.getValue());
-        }
-      };
+    @Override
+    public UnmodifiableIterator<Entry<E>> iterator() {
+      return multiset.entryIterator();
     }
 
     @Override
     public int size() {
-      return multiset.map.size();
+      return multiset.distinctElements();
     }
 
-    @Override boolean isPartialView() {
+    @Override
+    boolean isPartialView() {
       return multiset.isPartialView();
     }
 
-    @Override public boolean contains(Object o) {
+    @Override
+    public boolean contains(Object o) {
       if (o instanceof Entry) {
         Entry<?> entry = (Entry<?>) o;
         if (entry.getCount() <= 0) {
@@ -429,14 +384,22 @@ public class ImmutableMultiset<E> extends ImmutableCollection<E>
       return false;
     }
 
-    // TODO(hhchan): Revert once this class is emulated in GWT.
-    @Override public Object[] toArray() {
+    /*
+     * TODO(hhchan): Revert once we have a separate, manual emulation of this
+     * class.
+     */
+    @Override
+    public Object[] toArray() {
       Object[] newArray = new Object[size()];
       return toArray(newArray);
     }
 
-    // TODO(hhchan): Revert once this class is emulated in GWT.
-    @Override public <T> T[] toArray(T[] other) {
+    /*
+     * TODO(hhchan): Revert once we have a separate, manual emulation of this
+     * class.
+     */
+    @Override
+    public <T> T[] toArray(T[] other) {
       int size = size();
       if (other.length < size) {
         other = ObjectArrays.newArray(other, size);
@@ -453,56 +416,47 @@ public class ImmutableMultiset<E> extends ImmutableCollection<E>
       return other;
     }
 
-    @Override public int hashCode() {
-      return multiset.map.hashCode();
-    }
-
-    @GwtIncompatible("not needed in emulated source.")
-    @Override Object writeReplace() {
-      return this;
+    @Override
+    public int hashCode() {
+      return multiset.hashCode();
     }
 
     private static final long serialVersionUID = 0;
   }
 
-  /**
-   * @serialData the number of distinct elements, the first element, its count,
-   *     the second element, its count, and so on
-   */
-  @GwtIncompatible("java.io.ObjectOutputStream")
-  private void writeObject(ObjectOutputStream stream) throws IOException {
-    stream.defaultWriteObject();
-    Serialization.writeMultiset(this, stream);
-  }
+  private static class SerializedForm implements Serializable {
+    final Object[] elements;
+    final int[] counts;
 
-  @GwtIncompatible("java.io.ObjectInputStream")
-  private void readObject(ObjectInputStream stream)
-      throws IOException, ClassNotFoundException {
-    stream.defaultReadObject();
-    int entryCount = stream.readInt();
-    ImmutableMap.Builder<E, Integer> builder = ImmutableMap.builder();
-    long tmpSize = 0;
-    for (int i = 0; i < entryCount; i++) {
-      @SuppressWarnings("unchecked") // reading data stored by writeMultiset
-      E element = (E) stream.readObject();
-      int count = stream.readInt();
-      if (count <= 0) {
-        throw new InvalidObjectException("Invalid count " + count);
+    SerializedForm(Multiset<?> multiset) {
+      int distinct = multiset.entrySet().size();
+      elements = new Object[distinct];
+      counts = new int[distinct];
+      int i = 0;
+      for (Entry<?> entry : multiset.entrySet()) {
+        elements[i] = entry.getElement();
+        counts[i] = entry.getCount();
+        i++;
       }
-      builder.put(element, count);
-      tmpSize += count;
     }
 
-    FieldSettersHolder.MAP_FIELD_SETTER.set(this, builder.build());
-    FieldSettersHolder.SIZE_FIELD_SETTER.set(this, Ints.saturatedCast(tmpSize));
+    Object readResolve() {
+      LinkedHashMultiset<Object> multiset =
+          LinkedHashMultiset.create(elements.length);
+      for (int i = 0; i < elements.length; i++) {
+        multiset.add(elements[i], counts[i]);
+      }
+      return ImmutableMultiset.copyOf(multiset);
+    }
+
+    private static final long serialVersionUID = 0;
   }
 
-  @GwtIncompatible("java serialization not supported.")
-  @Override Object writeReplace() {
-    return this;
+  // We can't label this with @Override, because it doesn't override anything
+  // in the GWT emulated version.
+  Object writeReplace() {
+    return new SerializedForm(this);
   }
-
-  private static final long serialVersionUID = 0;
 
   /**
    * Returns a new builder. The generated builder is equivalent to the builder

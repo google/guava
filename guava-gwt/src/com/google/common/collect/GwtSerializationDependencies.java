@@ -59,15 +59,6 @@ import java.util.TreeMap;
 final class GwtSerializationDependencies {
   private GwtSerializationDependencies() {}
 
-  static final class ImmutableMultisetDependencies<E>
-      extends ImmutableMultiset<E> {
-    E element;
-
-    ImmutableMultisetDependencies() {
-      super(null, 0);
-    }
-  }
-
   static final class ImmutableListMultimapDependencies<K, V>
       extends ImmutableListMultimap<K, V> {
     K key;

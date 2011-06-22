@@ -153,24 +153,38 @@ public final class Multisets {
 
   /**
    * Returns an immutable multiset entry with the specified element and count.
+   * The entry will be serializable if {@code e} is.
    *
    * @param e the element to be associated with the returned entry
    * @param n the count to be associated with the returned entry
    * @throws IllegalArgumentException if {@code n} is negative
    */
-  public static <E> Multiset.Entry<E> immutableEntry(
-      @Nullable final E e, final int n) {
-    checkArgument(n >= 0);
-    return new AbstractEntry<E>() {
-      @Override
-      public E getElement() {
-        return e;
-      }
-      @Override
-      public int getCount() {
-        return n;
-      }
-    };
+  public static <E> Multiset.Entry<E> immutableEntry(@Nullable E e, int n) {
+    return new ImmutableEntry<E>(e, n);
+  }
+
+  static final class ImmutableEntry<E> extends AbstractEntry<E> implements
+      Serializable {
+    @Nullable final E element;
+    final int count;
+
+    ImmutableEntry(@Nullable E element, int count) {
+      this.element = element;
+      this.count = count;
+      checkArgument(count >= 0);
+    }
+
+    @Override
+    @Nullable public E getElement() {
+      return element;
+    }
+
+    @Override
+    public int getCount() {
+      return count;
+    }
+
+    private static final long serialVersionUID = 0;
   }
 
   /**

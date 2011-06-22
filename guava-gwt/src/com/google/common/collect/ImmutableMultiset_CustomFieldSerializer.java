@@ -16,29 +16,11 @@
 
 package com.google.common.collect;
 
-import com.google.gwt.user.client.rpc.SerializationException;
-import com.google.gwt.user.client.rpc.SerializationStreamReader;
-import com.google.gwt.user.client.rpc.SerializationStreamWriter;
-
 /**
- * This class implements the GWT serialization of {@link ImmutableMultiset}.
+ * Even though {@link ImmutableMultiset} cannot be instantiated, we still need
+ * a custom field serializer to unify the type signature of
+ * {@code ImmutableMultiset[]} on server and client side.
  *
  * @author Chris Povirk
  */
-public class ImmutableMultiset_CustomFieldSerializer {
-
-  public static void deserialize(SerializationStreamReader reader,
-      ImmutableMultiset<?> instance) {
-  }
-
-  public static ImmutableMultiset<Object> instantiate(
-      SerializationStreamReader reader) throws SerializationException {
-    return Multiset_CustomFieldSerializerBase.instantiate(
-        reader, ImmutableMultiset.builder());
-  }
-
-  public static void serialize(SerializationStreamWriter writer,
-      ImmutableMultiset<?> instance) throws SerializationException {
-    Multiset_CustomFieldSerializerBase.serialize(writer, instance);
-  }
-}
+public class ImmutableMultiset_CustomFieldSerializer {}
