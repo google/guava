@@ -26,12 +26,18 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * <p>A list of ({@code Runnable}, {@code Executor}) pairs that guarantees that
- * every {@code Runnable} that is added using the {@link #add} method will be
- * executed in its associated {@code Executor} after {@link #run()} is called.
- * Any {@code Runnable} added after the call to {@code run} is still guaranteed
- * to execute. There is no guarantee that listeners will be executed in the
- * order that they are added.
+ * <p>A list of listeners, each with an associated {@code Executor}, that
+ * guarantees that every {@code Runnable} that is {@linkplain #add added} will
+ * be executed after {@link #run()} is called. Any {@code Runnable} added after
+ * the call to {@code run} is still guaranteed to execute. There is no
+ * guarantee, however, that listeners will be executed in the order that they
+ * are added.
+ *
+ * <p>Exceptions thrown by a listener will be propagated up to the executor.
+ * Any exception thrown during {@code Executor.execute} (e.g., a {@code
+ * RejectedExecutionException} or an exception thrown by {@linkplain
+ * MoreExecutors#sameThreadExecutor inline execution}) will be caught and
+ * logged.
  *
  * @author Nishant Thakkar
  * @author Sven Mawson
@@ -56,11 +62,22 @@ public final class ExecutionList {
   }
 
   /**
-   * Add the runnable/executor pair to the list of pairs to execute.  Executes
-   * the pair immediately if we've already started execution.
+   * Adds the {@code Runnable} and accompanying {@code Executor} to the list of
+   * listeners to execute. If execution has already begun, the listener is
+   * executed immediately.
+   *
+   * <p>Note: For fast, lightweight listeners that would be safe to execute in
+   * any thread, consider {@link MoreExecutors#sameThreadExecutor}. For heavier
+   * listeners, {@code sameThreadExecutor()} carries some caveats: First, the
+   * thread that the listener runs in depends on whether the {@code Future} is
+   * done at the time it is added. In particular, if added late, listeners will
+   * run in the thread that calls {@code addListener}. Second, listeners may
+   * run in an internal thread of the system responsible for the input {@code
+   * Future}, such as an RPC network thread. Finally, during the execution of a
+   * listener, the thread cannot submit any additional listeners for execution,
+   * even if those listeners are to run in other executors.
    */
   public void add(Runnable runnable, Executor executor) {
-
     // Fail fast on a null.  We throw NPE here because the contract of
     // Executor states that it throws NPE on null listener, so we propagate
     // that contract up into the add method as well.
@@ -80,25 +97,26 @@ public final class ExecutionList {
       }
     }
 
-    // Execute the runnable immediately.  Because of scheduling this may end up
+    // Execute the runnable immediately. Because of scheduling this may end up
     // getting called before some of the previously added runnables, but we're
-    // ok with that.  If we want to change the contract to guarantee ordering
+    // OK with that.  If we want to change the contract to guarantee ordering
     // among runnables we'd have to modify the logic here to allow it.
     if (executeImmediate) {
-      executor.execute(runnable);
+      new RunnableExecutorPair(runnable, executor).execute();
     }
   }
 
   /**
-   * Runs this execution list, executing all pairs in the order they were
-   * added.  Pairs added after this method has started executing the list will
-   * be executed immediately.
+   * Runs this execution list, executing all existing pairs in the order they
+   * were added. However, note that listeners added after this point may be
+   * executed before those previously added, and note that the execution order
+   * of all listeners is ultimately chosen by the implementations of the
+   * supplied executors.
    *
    * <p>This method is idempotent. Calling it several times in parallel is
    * semantically equivalent to calling it exactly once.
    */
   public void run() {
-
     // Lock while we update our state so the add method above will finish adding
     // any listeners before we start to run them.
     synchronized (runnables) {

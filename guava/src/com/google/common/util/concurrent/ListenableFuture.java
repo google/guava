@@ -64,11 +64,22 @@ public interface ListenableFuture<V> extends Future<V> {
    * listener added through this method is guaranteed to be called once the
    * computation is complete.
    *
-   * <p>Listeners cannot throw checked exceptions and should not throw {@code
-   * RuntimeException} unless their executors are prepared to handle it.
-   * Listeners that will execute in {@link MoreExecutors#sameThreadExecutor}
-   * should take special care, since they may run during the call to {@code
-   * addListener} or during the call that sets the future's value.
+   * <p>Exceptions thrown by a listener will be propagated up to the executor.
+   * Any exception thrown during {@code Executor.execute} (e.g., a {@code
+   * RejectedExecutionException} or an exception thrown by {@linkplain
+   * MoreExecutors#sameThreadExecutor inline execution}) will be caught and
+   * logged.
+   *
+   * <p>Note: For fast, lightweight listeners that would be safe to execute in
+   * any thread, consider {@link MoreExecutors#sameThreadExecutor}. For heavier
+   * listeners, {@code sameThreadExecutor()} carries some caveats: First, the
+   * thread that the listener runs in depends on whether the {@code Future} is
+   * done at the time it is added. In particular, if added late, listeners will
+   * run in the thread that calls {@code addListener}. Second, listeners may
+   * run in an internal thread of the system responsible for the input {@code
+   * Future}, such as an RPC network thread. Finally, during the execution of a
+   * listener, the thread cannot submit any additional listeners for execution,
+   * even if those listeners are to run in other executors.
    *
    * @param listener the listener to run when the computation is complete
    * @param executor the executor to run the listener in

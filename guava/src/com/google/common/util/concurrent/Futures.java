@@ -314,12 +314,18 @@ public final class Futures {
    *       chain(queryFuture, queryFunction);
    * }</pre>
    *
-   * <p>Note: This overload of {@code chain} should be used only when creating
-   * the derived future is fast and lightweight, as it does not accept an {@code
-   * Executor} to perform the the work in. Consequently, the chaining function
-   * may run in the thread that calls {@code chain} or in an internal thread of
-   * the system responsible for the input {@code Future}, such as an RPC network
-   * thread.
+   * <p>Note: This overload of {@code chain} is designed for cases in which the
+   * work of creating the derived future is fast and lightweight, as the method
+   * does not accept an {@code Executor} to perform the the work in. For heavier
+   * derivations, this overload carries some caveats: First, the thread that the
+   * derivation runs in depends on whether the input {@code Future} is done at
+   * the time {@code chain} is called. In particular, if called late, {@code
+   * chain} will run the derivation in the thread that calls {@code chain}.
+   * Second, derivations may run in an internal thread of the system responsible
+   * for the input {@code Future}, such as an RPC network thread. Finally,
+   * during the execution of a derivation, the thread cannot submit any
+   * listeners for execution, even if those listeners are to run in other
+   * executors.
    *
    * <p>The returned {@code Future} attempts to keep its cancellation state in
    * sync with that of the input future and that of the future returned by the
@@ -371,6 +377,19 @@ public final class Futures {
    * cancelled, the returned {@code Future} will receive a callback in which it
    * will attempt to cancel itself.
    *
+   * <p>Note: For cases in which the work of creating the derived future is fast
+   * and lightweight, consider {@linkplain Futures#chain(ListenableFuture,
+   * Function) the other overload} or explicit use of {@link
+   * MoreExecutors#sameThreadExecutor}. For heavier derivations, this choice
+   * carries some caveats: First, the thread that the derivation runs in depends
+   * on whether the input {@code Future} is done at the time {@code chain} is
+   * called. In particular, if called late, {@code chain} will run the
+   * derivation in the thread that calls {@code chain}. Second, derivations may
+   * run in an internal thread of the system responsible for the input {@code
+   * Future}, such as an RPC network thread. Finally, during the execution of a
+   * derivation, the thread cannot submit any listeners for execution, even if
+   * those listeners are to run in other executors.
+   *
    * @param input The future to chain
    * @param function A function to chain the results of the provided future
    *     to the results of the returned future.
@@ -403,11 +422,18 @@ public final class Futures {
    *       transform(queryFuture, rowsFunction);
    * }</pre>
    *
-   * <p>Note: This overload of {@code transform} should be used only for fast,
-   * lightweight transformations, as it does not accept an {@code Executor} to
-   * perform the the work in. Consequently, the transformation may run in the
-   * thread that calls {@code transform} or in an internal thread of the system
-   * responsible for the input {@code Future}, such as an RPC network thread.
+   * <p>Note: This overload of {@code transform} is designed for cases in which
+   * the transformation is fast and lightweight, as the method does not accept
+   * an {@code Executor} to perform the the work in. For heavier
+   * transformations, this overload carries some caveats: First, the thread that
+   * the transformation runs in depends on whether the input {@code Future} is
+   * done at the time {@code transform} is called. In particular, if called
+   * late, {@code transform} will perform the transformation in the thread that
+   * calls {@code transform}. Second, transformations may run in an internal
+   * thread of the system responsible for the input {@code Future}, such as an
+   * RPC network thread. Finally, during the execution of a transformation, the
+   * thread cannot submit any listeners for execution, even if those listeners
+   * are to run in other executors.
    *
    * <p>The returned {@code Future} attempts to keep its cancellation state in
    * sync with that of the input future. That is, if the returned {@code Future}
@@ -455,6 +481,20 @@ public final class Futures {
    *
    * <p>An example use of this method is to convert a serializable object
    * returned from an RPC into a POJO.
+   *
+   * <p>Note: For cases in which the transformation is fast and lightweight,
+   * consider {@linkplain Futures#transform(ListenableFuture, Function) the
+   * other overload} or explicit use of {@link
+   * MoreExecutors#sameThreadExecutor}. For heavier transformations, this choice
+   * carries some caveats: First, the thread that the transformation runs in
+   * depends on whether the input {@code Future} is done at the time {@code
+   * transform} is called. In particular, if called late, {@code transform} will
+   * perform the transformation in the thread that calls {@code transform}.
+   * Second, transformations may run in an internal thread of the system
+   * responsible for the input {@code Future}, such as an RPC network thread.
+   * Finally, during the execution of a transformation, the thread cannot submit
+   * any listeners for execution, even if those listeners are to run in other
+   * executors.
    *
    * @param future The future to transform
    * @param function A Function to transform the results of the provided future
