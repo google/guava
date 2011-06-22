@@ -1183,9 +1183,9 @@ public final class Futures {
     } catch (CancellationException e) {
       throw e;
     } catch (ExecutionException e) {
-      throw newWithCause(UncheckedExecutionException.class, e.getCause());
+      throw new UncheckedExecutionException(e.getCause());
     } catch (RuntimeException e) {
-      throw newWithCause(UncheckedExecutionException.class, e);
+      throw new UncheckedExecutionException(e);
     }
   }
 
