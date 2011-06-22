@@ -1,13 +1,27 @@
-// Copyright 2011 Google Inc. All Rights Reserved.
+/*
+ * Copyright (C) 2011 The Guava Authors
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ */
 
 package com.google.common.collect;
 
 import com.google.common.annotations.Beta;
+import com.google.common.collect.Range.BoundType;
 
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.Iterator;
-import java.util.NoSuchElementException;
 import java.util.SortedSet;
 
 /**
@@ -16,94 +30,21 @@ import java.util.SortedSet;
  * this implementation uses {@link Comparable#compareTo} or
  * {@link Comparator#compare} instead of {@link Object#equals} to determine
  * equivalence of instances.
- *
- * <p><b>Warning:</b> The comparison must be <i>consistent with equals</i> as
+ * 
+ * <p>
+ * <b>Warning:</b> The comparison must be <i>consistent with equals</i> as
  * explained by the {@link Comparable} class specification. Otherwise, the
  * resulting multiset will violate the {@link Collection} contract, which it is
  * specified in terms of {@link Object#equals}.
- *
+ * 
  * @author Louis Wasserman
  */
-@Beta
-interface SortedMultiset<E> extends Multiset<E> {
+@Beta interface SortedMultiset<E> extends Multiset<E> {
   /**
    * Returns the comparator that orders this multiset, or
    * {@link Ordering#natural()} if the natural ordering of the elements is used.
    */
   Comparator<? super E> comparator();
-
-  /**
-   * Returns the greatest element in this multiset that is strictly less than
-   * the specified element, or {@code null} if there is no such element.
-   */
-  E lower(E e);
-
-  /**
-   * Returns the greatest element in this multiset that is less than or equal to
-   * the specified element, or {@code null} if there is no such element.
-   */
-  E floor(E e);
-
-  /**
-   * Returns the lowest element in this multiset that is greater than or equal
-   * to the specified element, or {@code null} if there is no such element.
-   */
-  E ceiling(E e);
-
-  /**
-   * Returns the lowest element in this multiset that is strictly greater than
-   * the specified element, or {@code null} if there is no such element.
-   */
-  E higher(E e);
-
-  /**
-   * Returns the entry of the greatest element in this multiset that is strictly
-   * less than the specified element, or {@code null} if there is no such
-   * element.
-   *
-   * <p>Equivalent to {@code headMultiset(e, false).lastEntry()}.
-   */
-  Entry<E> lowerEntry(E e);
-
-  /**
-   * Returns the entry of the greatest element in this multiset that is less
-   * than or equal to the specified element, or {@code null} if there is no such
-   * element.
-   * <p>Equivalent to {@code headMultiset(e, true).lastEntry()}.
-   */
-  Entry<E> floorEntry(E e);
-
-  /**
-   * Returns the entry of the lowest element in this multiset that is greater
-   * than or equal to the specified element, or {@code null} if there is no such
-   * element.
-   * <p>Equivalent to {@code tailMultiset(e, true).firstEntry()}.
-   */
-  Entry<E> ceilingEntry(E e);
-
-  /**
-   * Returns the entry of the lowest element in this multiset that is strictly
-   * greater than the specified element, or {@code null} if there is no such
-   * element.
-   * <p>Equivalent to {@code tailMultiset(e, false).firstEntry()}.
-   */
-  Entry<E> higherEntry(E e);
-
-  /**
-   * Returns the first element in this multiset. Equivalent to {@code
-   * elementSet().first()}.
-   *
-   * @throws NoSuchElementException if this multiset is empty
-   */
-  E first();
-
-  /**
-   * Returns the last element in this multiset. Equivalent to {@code
-   * elementSet().last()}.
-   *
-   * @throws NoSuchElementException if this multiset is empty
-   */
-  E last();
 
   /**
    * Returns the entry of the first element in this multiset, or {@code null} if
@@ -135,14 +76,13 @@ interface SortedMultiset<E> extends Multiset<E> {
   @Override SortedSet<E> elementSet();
 
   /**
-   * Returns a descending view of the distinct elements in this multiset.
+   * {@inheritDoc}
+   * 
+   * <p>
+   * The iterator returns the elements in ascending order according to this
+   * multiset's comparator.
    */
-  SortedSet<E> descendingElementSet();
-
-  /**
-   * Returns an iterator over this multiset in descending order.
-   */
-  Iterator<E> descendingIterator();
+  @Override Iterator<E> iterator();
 
   /**
    * Returns a descending view of this multiset. Modifications made to either
@@ -151,55 +91,42 @@ interface SortedMultiset<E> extends Multiset<E> {
   SortedMultiset<E> descendingMultiset();
 
   /**
-   * Equivalent to {@code headMultiset(toElement, false)}.
-   */
-  SortedMultiset<E> headMultiset(E toElement);
-
-  /**
-   * Returns a view of this multiset restricted to the elements less than (or
-   * equal to, if {@code inclusive}) {@code toElement}. The returned multiset is
-   * a view of this multiset, so changes to one will be reflected in the other.
-   * The returned multiset supports all operations that this multiset supports.
-   *
+   * Returns a view of this multiset restricted to the elements less than
+   * {@code upperBound}, optionally including {@code upperBound} itself. The
+   * returned multiset is a view of this multiset, so changes to one will be
+   * reflected in the other. The returned multiset supports all operations that
+   * this multiset supports.
+   * 
    * <p>The returned multiset will throw an {@link IllegalArgumentException} on
    * attempts to add elements outside its range.
    */
-  SortedMultiset<E> headMultiset(E toElement, boolean inclusive);
+  SortedMultiset<E> headMultiset(E upperBound, BoundType boundType);
 
   /**
-   * Returns a view of this multiset restricted to the range between {@code
-   * fromElement} and {@code toElement}. The returned multiset is a view of this
-   * multiset, so changes to one will be reflected in the other. The returned
-   * multiset supports all operations that this multiset supports.
-   *
+   * Returns a view of this multiset restricted to the range between
+   * {@code lowerBound} and {@code upperBound}. The returned multiset is a view
+   * of this multiset, so changes to one will be reflected in the other. The
+   * returned multiset supports all operations that this multiset supports.
+   * 
    * <p>The returned multiset will throw an {@link IllegalArgumentException} on
    * attempts to add elements outside its range.
    * 
-   * @throws IllegalArgumentException if {@code fromElement} is greater than
-   *         {@code toElement}
+   * <p>This method is equivalent to
+   * {@code tailMultiset(lowerBound, lowerBoundType).headMultiset(upperBound,
+   * upperBoundType)}.
    */
-  SortedMultiset<E> subMultiset(
-      E fromElement, boolean fromInclusive, E toElement, boolean toInclusive);
+  SortedMultiset<E> subMultiset(E lowerBound, BoundType lowerBoundType,
+      E upperBound, BoundType upperBoundType);
 
   /**
-   * Equivalent to {@code subMultiset(fromElement, true, toElement, false)}.
-   */
-  SortedMultiset<E> subMultiset(E fromElement, E toElement);
-
-  /**
-   * Equivalent to {@code tailMultiset(fromElement, true)}.
-   */
-  SortedMultiset<E> tailMultiset(E fromElement);
-
-  /**
-   * Returns a view of this multiset restricted to the elements greater than (or
-   * equal to, if {@code inclusive}) {@code fromElement}. The returned multiset
-   * is a view of this multiset, so changes to one will be reflected in the
-   * other. The returned multiset supports all operations that this multiset
-   * supports.
-   *
+   * Returns a view of this multiset restricted to the elements greater than
+   * {@code lowerBound}, optionally including {@code lowerBound} itself. The
+   * returned multiset is a view of this multiset, so changes to one will be
+   * reflected in the other. The returned multiset supports all operations that
+   * this multiset supports.
+   * 
    * <p>The returned multiset will throw an {@link IllegalArgumentException} on
    * attempts to add elements outside its range.
    */
-  SortedMultiset<E> tailMultiset(E fromElement, boolean inclusive);
+  SortedMultiset<E> tailMultiset(E lowerBound, BoundType boundType);
 }
