@@ -244,14 +244,14 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E>
     return copyOf(elements);
   }
 
- /**
-  * Returns an immutable set containing the given elements, in order. Repeated
-  * occurrences of an element (according to {@link Object#equals}) after the
-  * first are ignored.
-  *
-  * @throws NullPointerException if any of {@code elements} is null
-  * @since Guava release 03
-  */
+  /**
+   * Returns an immutable set containing the given elements, in order. Repeated
+   * occurrences of an element (according to {@link Object#equals}) after the
+   * first are ignored.
+   *
+   * @throws NullPointerException if any of {@code elements} is null
+   * @since Guava release 03
+   */
   public static <E> ImmutableSet<E> copyOf(E[] elements) {
     // TODO(benyu): could we delegate to
     // copyFromCollection(Arrays.asList(elements))?

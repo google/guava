@@ -58,12 +58,12 @@ public class FunctionsTest extends TestCase {
     assertEquals("3", Functions.toStringFunction().apply(3));
     assertEquals("hiya", Functions.toStringFunction().apply("hiya"));
     assertEquals("I'm a string",
-                 Functions.toStringFunction().apply(
-                     new Object() {
-                       @Override public String toString() {
-                         return "I'm a string";
-                       }
-                     }));
+        Functions.toStringFunction().apply(
+            new Object() {
+              @Override public String toString() {
+                return "I'm a string";
+              }
+            }));
     try {
       Functions.toStringFunction().apply(null);
       fail("expected NullPointerException");

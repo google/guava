@@ -117,7 +117,7 @@ public final class Ranges {
    * endpoint}.
    */
   public static <C extends Comparable<?>> Range<C> lessThan(C endpoint) {
-   return create(Ranges.<C>noLowerBound(), new BelowValue<C>(endpoint));
+    return create(Ranges.<C>noLowerBound(), new BelowValue<C>(endpoint));
   }
 
   /**

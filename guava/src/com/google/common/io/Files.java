@@ -80,7 +80,7 @@ public final class Files {
    */
   public static BufferedWriter newWriter(File file, Charset charset)
       throws FileNotFoundException {
-   return new BufferedWriter(
+    return new BufferedWriter(
         new OutputStreamWriter(new FileOutputStream(file), charset));
   }
 
@@ -726,17 +726,17 @@ public final class Files {
     }
   }
    
- /**
-  * Returns the lexically cleaned form of the path name:
-  * 
-  * <ul>
-  * <li>empty string becomes .
-  * <li>fold out ../ when possible
-  * <li>fold out ./ when possible
-  * <li>collapse multiple slashes
-  * </li>delete trailing slashes (unless the path is just "/")
-  * </ul>
-  */
+  /**
+   * Returns the lexically cleaned form of the path name:
+   * 
+   * <ul>
+   * <li>empty string becomes .
+   * <li>fold out ../ when possible
+   * <li>fold out ./ when possible
+   * <li>collapse multiple slashes
+   * </li>delete trailing slashes (unless the path is just "/")
+   * </ul>
+   */
   public static String simplifyPath(String pathname) {
     if (pathname.length() == 0) {
       return ".";
@@ -763,13 +763,12 @@ public final class Files {
         /* don't count the separator in case it is null */
         p += 1;
       } else if (name[p] == '.'
-          && ((p + 1) < name.length  && name[p + 1] == '.')
+          && ((p + 1) < name.length && name[p + 1] == '.')
           && sep(name, p + 2)) {
         p += 2;
         if (q > dotdot) {
           /* can backtrack */
           while (--q > dotdot && name[q] != '/') {
-
           }
         } else if (!rooted) {
           /* /.. is / but ./../ is .. */

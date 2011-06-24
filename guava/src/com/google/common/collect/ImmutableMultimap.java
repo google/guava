@@ -249,8 +249,8 @@ public abstract class ImmutableMultimap<K, V>
     public ImmutableMultimap<K, V> build() {
       if (valueComparator != null) {
         for (Collection<V> values : builderMultimap.asMap().values()) {
-           List<V> list = (List <V>) values;
-           Collections.sort(list, valueComparator);
+          List<V> list = (List <V>) values;
+          Collections.sort(list, valueComparator);
         }
       }
       return copyOf(builderMultimap);

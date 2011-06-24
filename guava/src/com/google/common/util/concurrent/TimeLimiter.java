@@ -76,7 +76,7 @@ public interface TimeLimiter {
    *     class, enum, or annotation type, rather than an interface
    */
   <T> T newProxy(T target, Class<T> interfaceType,
-     long timeoutDuration, TimeUnit timeoutUnit);
+      long timeoutDuration, TimeUnit timeoutUnit);
 
   /**
    * Invokes a specified Callable, timing out after the specified time limit.

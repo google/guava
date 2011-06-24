@@ -41,4 +41,3 @@ import java.lang.annotation.Target;
 @GwtCompatible
 @Beta
 public @interface Beta {}
-

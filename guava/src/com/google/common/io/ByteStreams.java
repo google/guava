@@ -837,7 +837,7 @@ public final class ByteStreams {
    *     stream data
    */
   public static InputSupplier<InputStream> join(
-     final Iterable<? extends InputSupplier<? extends InputStream>> suppliers) {
+      final Iterable<? extends InputSupplier<? extends InputStream>> suppliers) {
     return new InputSupplier<InputStream>() {
       @Override public InputStream getInput() throws IOException {
         return new MultiInputStream(suppliers.iterator());

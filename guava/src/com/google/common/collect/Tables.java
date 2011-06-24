@@ -400,7 +400,7 @@ public final class Tables {
     @Override public V2 remove(Object rowKey, Object columnKey) {
       return contains(rowKey, columnKey)
           ? function.apply(fromTable.remove(rowKey, columnKey)) : null;
-   }
+    }
 
     @Override public Map<C, V2> row(R rowKey) {
       return Maps.transformValues(fromTable.row(rowKey), function);
@@ -431,13 +431,13 @@ public final class Tables {
         return Sets.hashCodeImpl(this);
       }
       @Override public boolean contains(Object obj) {
-         if (obj instanceof Cell) {
-           Cell<?, ?, ?> cell = (Cell<?, ?, ?>) obj;
-           return Objects.equal(cell.getValue(), get(cell.getRowKey(), cell.getColumnKey()))
-               && (cell.getValue() != null
-                   || fromTable.contains(cell.getRowKey(), cell.getColumnKey()));
-         }
-         return false;
+        if (obj instanceof Cell) {
+          Cell<?, ?, ?> cell = (Cell<?, ?, ?>) obj;
+          return Objects.equal(cell.getValue(), get(cell.getRowKey(), cell.getColumnKey()))
+              && (cell.getValue() != null
+                  || fromTable.contains(cell.getRowKey(), cell.getColumnKey()));
+        }
+        return false;
       }
       @Override public boolean remove(Object obj) {
         if (contains(obj)) {

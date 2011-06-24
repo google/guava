@@ -594,9 +594,9 @@ public final class InetAddresses {
                       @Nullable Inet4Address client,
                       int port, int flags) {
       Preconditions.checkArgument((port >= 0) && (port <= 0xffff),
-          "port '%d' is out of range (0 <= port <= 0xffff)", port);
+          "port '%s' is out of range (0 <= port <= 0xffff)", port);
       Preconditions.checkArgument((flags >= 0) && (flags <= 0xffff),
-          "flags '%d' is out of range (0 <= flags <= 0xffff)", flags);
+          "flags '%s' is out of range (0 <= flags <= 0xffff)", flags);
 
       if (server != null) {
         this.server = server;

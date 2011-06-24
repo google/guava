@@ -310,7 +310,7 @@ public final class UnsignedBytes {
 
             y = x << 8;
             if (y == 0) {
-              n +=  8;
+              n += 8;
             }
             return (int) (((lw >>> n) & 0xFFL) - ((rw >>> n) & 0xFFL));
           }

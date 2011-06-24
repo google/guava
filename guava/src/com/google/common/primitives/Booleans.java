@@ -62,7 +62,7 @@ public final class Booleans {
    *
    * @param a the first {@code boolean} to compare
    * @param b the second {@code boolean} to compare
-   * @return a positive number if only {@code a} is {@code true},  a negative
+   * @return a positive number if only {@code a} is {@code true}, a negative
    *     number if only {@code b} is true, or zero if {@code a == b}
    */
   public static int compare(boolean a, boolean b) {

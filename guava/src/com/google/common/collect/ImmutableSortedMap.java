@@ -431,7 +431,7 @@ public class ImmutableSortedMap<K, V>
     int i;
     try {
       i = SortedLists.binarySearch(Lists.transform(entries, keyFunction), key,
-              unsafeComparator(), EQUAL, false);
+          unsafeComparator(), EQUAL, false);
     } catch (ClassCastException e) {
       return null;
     }
