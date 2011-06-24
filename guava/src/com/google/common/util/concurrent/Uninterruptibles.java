@@ -19,6 +19,7 @@ package com.google.common.util.concurrent;
 import static java.util.concurrent.TimeUnit.NANOSECONDS;
 
 import com.google.common.annotations.Beta;
+import com.google.common.base.Preconditions;
 
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
@@ -53,7 +54,7 @@ public final class Uninterruptibles {
         try {
           latch.await();
           return;
-        } catch (InterruptedException ignored) {
+        } catch (InterruptedException e) {
           interrupted = true;
         }
       }
@@ -67,7 +68,7 @@ public final class Uninterruptibles {
   /**
    * Invokes
    * {@code latch.}{@link CountDownLatch#await(long, TimeUnit)
-   * await(long, TimeUnit)} uninterruptibly.
+   * await(timeout, unit)} uninterruptibly.
    */
   public static boolean awaitUninterruptibly(CountDownLatch latch,
       long timeout, TimeUnit unit) {
@@ -92,6 +93,55 @@ public final class Uninterruptibles {
     }
   }
 
+  /**
+   * Invokes {@code toJoin.}{@link Thread#join() join()} uninterruptibly.
+   */
+  public static void joinUninterruptibly(Thread toJoin) {
+    boolean interrupted = false;
+    try {
+      while (true) {
+        try {
+          toJoin.join();
+          return;
+        } catch (InterruptedException e) {
+          interrupted = true;
+        }
+      }
+    } finally {
+      if (interrupted) {
+        Thread.currentThread().interrupt();
+      }
+    }
+  }
+
+  /**
+   * Invokes
+   * {@code unit.}{@link TimeUnit#timedJoin(Thread, long)
+   * timedJoin(toJoin, timeout)} uninterruptibly.
+   */
+  public static void joinUninterruptibly(Thread toJoin,
+      long timeout, TimeUnit unit) {
+    Preconditions.checkNotNull(toJoin);
+    boolean interrupted = false;
+    try {
+      long remainingNanos = unit.toNanos(timeout);
+      long end = System.nanoTime() + remainingNanos;
+      while (true) {
+        try {
+          // TimeUnit.timedJoin() treats negative timeouts just like zero.
+          NANOSECONDS.timedJoin(toJoin, remainingNanos);
+          return;
+        } catch (InterruptedException e) {
+          interrupted = true;
+          remainingNanos = end - System.nanoTime();
+        }
+      }
+    } finally {
+      if (interrupted) {
+        Thread.currentThread().interrupt();
+      }
+    }
+  }
   // TODO(user): Support Sleeper somehow (wrapper or interface method)?
   /**
    * Invokes {@code unit.}{@link TimeUnit#sleep(long) sleep(sleepFor)}
@@ -119,7 +169,7 @@ public final class Uninterruptibles {
     }
   }
 
-  // TODO(user): Add support for joinUninterruptibly and waitUninterruptibly.
+  // TODO(user): Add support for waitUninterruptibly.
 
   private Uninterruptibles() {}
 }
