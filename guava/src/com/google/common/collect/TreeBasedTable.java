@@ -16,6 +16,7 @@
 
 package com.google.common.collect;
 
+import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.Beta;
@@ -27,6 +28,7 @@ import java.io.Serializable;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.Set;
@@ -57,11 +59,17 @@ import javax.annotation.Nullable;
  * provided. However, {@code column(columnKey).size()} takes longer, since an
  * iteration across all row keys occurs.
  *
+ * <p>Because a {@code TreeBasedTable} has unique sorted values for a given
+ * row, both {@code row(rowKey)} and {@code rowMap().get(rowKey)} are {@link
+ * SortedMap} instances, instead of the {@link Map} specified in the {@link
+ * Table} interface.
+ *
  * <p>Note that this implementation is not synchronized. If multiple threads
  * access this table concurrently and one of the threads modifies the table, it
  * must be synchronized externally.
  *
  * @author Jared Levy
+ * @author Louis Wasserman
  * @since Guava release 07
  */
 @GwtCompatible(serializable = true)
@@ -148,6 +156,132 @@ public class TreeBasedTable<R, C, V> extends StandardRowSortedTable<R, C, V> {
    */
   public Comparator<? super C> columnComparator() {
     return columnComparator;
+  }
+
+  // TODO(user): make column return a SortedMap
+
+  /**
+   * {@inheritDoc}
+   *
+   * <p>Because a {@code TreeBasedTable} has unique sorted values for a given
+   * row, this method returns a {@link SortedMap}, instead of the {@link Map}
+   * specified in the {@link Table} interface.
+   */
+  @Override
+  public SortedMap<C, V> row(R rowKey) {
+    return new TreeRow(rowKey);
+  }
+
+  private class TreeRow extends Row implements SortedMap<C, V> {
+    @Nullable final C lowerBound;
+    @Nullable final C upperBound;
+
+    TreeRow(R rowKey) {
+      this(rowKey, null, null);
+    }
+
+    TreeRow(R rowKey, @Nullable C lowerBound, @Nullable C upperBound) {
+      super(rowKey);
+      this.lowerBound = lowerBound;
+      this.upperBound = upperBound;
+      checkArgument(lowerBound == null || upperBound == null
+          || compare(lowerBound, upperBound) <= 0);
+    }
+
+    @Override public Comparator<? super C> comparator() {
+      return columnComparator();
+    }
+
+    int compare(Object a, Object b) {
+      // pretend we can compare anything
+      @SuppressWarnings({"rawtypes", "unchecked"})
+      Comparator<Object> cmp = (Comparator) comparator();
+      return cmp.compare(a, b);
+    }
+
+    boolean rangeContains(@Nullable Object o) {
+      return o != null && (lowerBound == null || compare(lowerBound, o) <= 0)
+          && (upperBound == null || compare(upperBound, o) > 0);
+    }
+
+    @Override public SortedMap<C, V> subMap(C fromKey, C toKey) {
+      checkArgument(rangeContains(checkNotNull(fromKey))
+          && rangeContains(checkNotNull(toKey)));
+      return new TreeRow(rowKey, fromKey, toKey);
+    }
+
+    @Override public SortedMap<C, V> headMap(C toKey) {
+      checkArgument(rangeContains(checkNotNull(toKey)));
+      return new TreeRow(rowKey, lowerBound, toKey);
+    }
+
+    @Override public SortedMap<C, V> tailMap(C fromKey) {
+      checkArgument(rangeContains(checkNotNull(fromKey)));
+      return new TreeRow(rowKey, fromKey, upperBound);
+    }
+
+    @Override public C firstKey() {
+      SortedMap<C, V> backing = backingRowMap();
+      if (backing == null) {
+        throw new NoSuchElementException();
+      }
+      return backingRowMap().firstKey();
+    }
+
+    @Override public C lastKey() {
+      SortedMap<C, V> backing = backingRowMap();
+      if (backing == null) {
+        throw new NoSuchElementException();
+      }
+      return backingRowMap().lastKey();
+    }
+
+    transient SortedMap<C, V> wholeRow;
+
+    // If the row was previously empty, we check if there's a new row here every time we're queried.
+    SortedMap<C, V> wholeRow() {
+      return (wholeRow == null || (wholeRow.isEmpty() && backingMap.containsKey(rowKey)))
+          ? wholeRow = (SortedMap<C, V>) backingMap.get(rowKey)
+          : wholeRow;
+    }
+
+    @Override
+    SortedMap<C, V> backingRowMap() {
+      return (SortedMap<C, V>) super.backingRowMap();
+    }
+
+    @Override
+    SortedMap<C, V> computeBackingRowMap() {
+      SortedMap<C, V> map = wholeRow();
+      if (map != null) {
+        if (lowerBound != null) {
+          map = map.tailMap(lowerBound);
+        }
+        if (upperBound != null) {
+          map = map.headMap(upperBound);
+        }
+        return map;
+      }
+      return null;
+    }
+
+    @Override
+    void maintainEmptyInvariant() {
+      if (wholeRow() != null && wholeRow.isEmpty()) {
+        backingMap.remove(rowKey);
+        wholeRow = null;
+        backingRowMap = null;
+      }
+    }
+
+    @Override public boolean containsKey(Object key) {
+      return rangeContains(key) && super.containsKey(key);
+    }
+
+    @Override public V put(C key, V value) {
+      checkArgument(rangeContains(checkNotNull(key)));
+      return super.put(key, value);
+    }
   }
 
   // rowKeySet() and rowMap() are defined here so they appear in the Javadoc.

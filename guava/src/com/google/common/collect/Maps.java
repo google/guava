@@ -1605,6 +1605,12 @@ public final class Maps {
       return false;
     }
 
+    @Override
+    public boolean removeAll(Collection<?> c) {
+      // TODO(user): find out why this is necessary to make GWT tests pass.  I mean, really.
+      return super.removeAll(checkNotNull(c));
+    }
+
     @Override public void clear() {
       map().clear();
     }
@@ -1638,7 +1644,7 @@ public final class Maps {
 
     @Override public boolean removeAll(Collection<?> c) {
       try {
-        return super.removeAll(c);
+        return super.removeAll(checkNotNull(c));
       } catch (UnsupportedOperationException e) {
         Set<K> toRemove = Sets.newHashSet();
         for (Entry<K, V> entry : map().entrySet()) {
@@ -1652,7 +1658,7 @@ public final class Maps {
 
     @Override public boolean retainAll(Collection<?> c) {
       try {
-        return super.retainAll(c);
+        return super.retainAll(checkNotNull(c));
       } catch (UnsupportedOperationException e) {
         Set<K> toRetain = Sets.newHashSet();
         for (Entry<K, V> entry : map().entrySet()) {
@@ -1718,7 +1724,7 @@ public final class Maps {
 
     @Override public boolean removeAll(Collection<?> c) {
       try {
-        return super.removeAll(c);
+        return super.removeAll(checkNotNull(c));
       } catch (UnsupportedOperationException e) {
         // if the iterators don't support remove
         boolean changed = true;
@@ -1731,7 +1737,7 @@ public final class Maps {
 
     @Override public boolean retainAll(Collection<?> c) {
       try {
-        return super.retainAll(c);
+        return super.retainAll(checkNotNull(c));
       } catch (UnsupportedOperationException e) {
         // if the iterators don't support remove
         Set<Object> keys = Sets.newHashSetWithExpectedSize(c.size());

@@ -27,6 +27,7 @@ import com.google.common.base.Supplier;
 
 import java.io.Serializable;
 import java.util.AbstractCollection;
+import java.util.AbstractMap;
 import java.util.AbstractSet;
 import java.util.Collection;
 import java.util.Iterator;
@@ -332,68 +333,122 @@ class StandardTable<R, C, V> implements Table<R, C, V>, Serializable {
     return new Row(rowKey);
   }
 
-  private class Row extends Maps.ImprovedAbstractMap<C, V> {
-    /*
-     * TODO(jlevy): To avoid making repeated calls to backingMap.get(), this
-     * class could store a delegate the way AbstractMultimap.WrappedCollection
-     * does. For that to work, all calls to backingMap.remove() and
-     * backing.clear() must call clear() on each non-empty removed map.
-     */
-
+  class Row extends AbstractMap<C, V> {
     final R rowKey;
 
     Row(R rowKey) {
       this.rowKey = checkNotNull(rowKey);
     }
 
-    @Override protected Set<Entry<C, V>> createEntrySet() {
-      return new RowEntrySet();
+    Map<C, V> backingRowMap;
+
+    Map<C, V> backingRowMap() {
+      return (backingRowMap == null || (backingRowMap.isEmpty() && backingMap.containsKey(rowKey)))
+          ? backingRowMap = computeBackingRowMap()
+          : backingRowMap;
     }
 
-    @Override public boolean containsKey(Object key) {
-      return contains(rowKey, key);
+    Map<C, V> computeBackingRowMap() {
+      return backingMap.get(rowKey);
     }
 
-    @Override public V get(Object key) {
-      return StandardTable.this.get(rowKey, key);
+    // Call this every time we perform a removal.
+    void maintainEmptyInvariant() {
+      if (backingRowMap() != null && backingRowMap.isEmpty()) {
+        backingMap.remove(rowKey);
+        backingRowMap = null;
+      }
     }
 
-    @Override public V put(C key, V value) {
+    @Override
+    public boolean containsKey(Object key) {
+      Map<C, V> backingRowMap = backingRowMap();
+      return (key == null || backingRowMap == null) ? false : Maps.safeContainsKey(backingRowMap,
+          key);
+    }
+
+    @Override
+    public V get(Object key) {
+      Map<C, V> backingRowMap = backingRowMap();
+      return (key == null || backingRowMap == null) ? null : Maps.safeGet(backingRowMap, key);
+    }
+
+    @Override
+    public V put(C key, V value) {
+      checkNotNull(key);
+      checkNotNull(value);
+      if (backingRowMap != null && !backingRowMap.isEmpty()) {
+        return backingRowMap.put(key, value);
+      }
       return StandardTable.this.put(rowKey, key, value);
     }
 
-    @Override public V remove(Object key) {
-      return StandardTable.this.remove(rowKey, key);
+    @Override
+    public V remove(Object key) {
+      try {
+        Map<C, V> backingRowMap = backingRowMap();
+        if (backingRowMap == null) {
+          return null;
+        }
+        V result = backingRowMap.remove(key);
+        maintainEmptyInvariant();
+        return result;
+      } catch (ClassCastException e) {
+        return null;
+      }
     }
 
-    private class RowEntrySet extends AbstractSet<Entry<C, V>> {
-      @Override public void clear() {
-        backingMap.remove(rowKey);
+    @Override
+    public void clear() {
+      Map<C, V> backingRowMap = backingRowMap();
+      if (backingRowMap != null) {
+        backingRowMap.clear();
+      }
+      maintainEmptyInvariant();
+    }
+
+    Set<C> keySet;
+
+    @Override
+    public Set<C> keySet() {
+      Set<C> result = keySet;
+      if (result == null) {
+        return keySet = new Maps.KeySet<C, V>() {
+          @Override
+          Map<C, V> map() {
+            return Row.this;
+          }
+        };
+      }
+      return result;
+    }
+
+    Set<Entry<C, V>> entrySet;
+
+    @Override
+    public Set<Entry<C, V>> entrySet() {
+      Set<Entry<C, V>> result = entrySet;
+      if (result == null) {
+        return entrySet = new RowEntrySet();
+      }
+      return result;
+    }
+
+    private class RowEntrySet extends Maps.EntrySet<C, V> {
+      @Override
+      Map<C, V> map() {
+        return Row.this;
       }
 
-      @Override public boolean contains(Object o) {
-        if (o instanceof Entry) {
-          Entry<?, ?> entry = (Entry<?, ?>) o;
-          return containsMapping(rowKey, entry.getKey(), entry.getValue());
-        }
-        return false;
-      }
-
-      @Override public boolean remove(Object o) {
-        if (o instanceof Entry) {
-          Entry<?, ?> entry = (Entry<?, ?>) o;
-          return removeMapping(rowKey, entry.getKey(), entry.getValue());
-        }
-        return false;
-      }
-
-      @Override public int size() {
-        Map<C, V> map = backingMap.get(rowKey);
+      @Override
+      public int size() {
+        Map<C, V> map = backingRowMap();
         return (map == null) ? 0 : map.size();
       }
 
-      @Override public Iterator<Entry<C, V>> iterator() {
-        final Map<C, V> map = backingMap.get(rowKey);
+      @Override
+      public Iterator<Entry<C, V>> iterator() {
+        final Map<C, V> map = backingRowMap();
         if (map == null) {
           return Iterators.emptyModifiableIterator();
         }
@@ -411,13 +466,18 @@ class StandardTable<R, C, V> implements Table<R, C, V>, Serializable {
               @Override public V setValue(V value) {
                 return super.setValue(checkNotNull(value));
               }
+              @Override
+              public boolean equals(Object object) {
+                // TODO(user): identify why this changes the outcome of GWT tests
+                return standardEquals(object);
+              }
             };
           }
-          @Override public void remove() {
+
+          @Override
+          public void remove() {
             iterator.remove();
-            if (map.isEmpty()) {
-              backingMap.remove(rowKey);
-            }
+            maintainEmptyInvariant();
           }
         };
       }
@@ -796,7 +856,7 @@ class StandardTable<R, C, V> implements Table<R, C, V>, Serializable {
       return false;
     }
   }
-  
+
   /**
    * Creates an iterator that returns each column value with duplicates
    * omitted.
