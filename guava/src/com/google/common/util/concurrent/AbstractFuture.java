@@ -190,7 +190,11 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
    * successfully changed.
    *
    * @return true if the state was successfully changed.
+   * @deprecated Call {@code cancel(false)} for exact equivalence, but consider
+   *             whether you have an appropriate {@code mayInterruptIfRunning}
+   *             value to use instead of a fixed {@code false}.
    */
+  @Deprecated
   protected final boolean cancel() {
     boolean result = sync.cancel();
     if (result) {
