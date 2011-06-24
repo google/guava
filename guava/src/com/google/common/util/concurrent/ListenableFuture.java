@@ -81,6 +81,10 @@ public interface ListenableFuture<V> extends Future<V> {
    * listener, the thread cannot submit any additional listeners for execution,
    * even if those listeners are to run in other executors.
    *
+   * <p>This is the most general listener interface.
+   * For common operations performed using listeners,
+   * see {@link com.google.common.util.concurrent.Futures}
+   *
    * @param listener the listener to run when the computation is complete
    * @param executor the executor to run the listener in
    * @throws NullPointerException if the executor or listener was null

@@ -302,7 +302,7 @@ public final class Futures {
    * applying the given {@code Function} to the result of the original {@code
    * Future}. Example:
    *
-   * <pre>   {@code
+   * <pre>   <code>
    *   ListenableFuture<RowKey> rowKeyFuture = indexService.lookUp(query);
    *   Function<RowKey, ListenableFuture<QueryResult>> queryFunction =
    *       new Function<RowKey, ListenableFuture<QueryResult>>() {
@@ -312,7 +312,7 @@ public final class Futures {
    *       };
    *   ListenableFuture<QueryResult> queryFuture =
    *       chain(queryFuture, queryFunction);
-   * }</pre>
+   * </code></pre>
    *
    * <p>Note: This overload of {@code chain} is designed for cases in which the
    * work of creating the derived future is fast and lightweight, as the method
