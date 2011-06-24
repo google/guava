@@ -71,6 +71,7 @@ import java.util.List;
  *
  * @author Jim McMaster
  * @author Jige Yu
+ * @since Guava release 10
  */
 @Beta
 @GwtCompatible

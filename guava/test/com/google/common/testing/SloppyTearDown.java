@@ -29,6 +29,7 @@ import java.util.logging.Logger;
  * #sloppyTearDown()} instead.
  *
  * @author Luiz-Otavio Zorzella
+ * @since Guava release 10
  */
 @Beta
 public abstract class SloppyTearDown implements TearDown {

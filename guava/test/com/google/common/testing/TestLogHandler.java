@@ -49,6 +49,7 @@ import java.util.logging.LogRecord;
  * </pre>
  *
  * @author Kevin Bourrillion
+ * @since Guava release 10
  */
 @Beta
 public class TestLogHandler extends Handler {
