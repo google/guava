@@ -28,7 +28,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
-import java.util.AbstractSet;
+
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -401,46 +401,41 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E>
     return result;
   }
 
-  private class EntrySet extends AbstractSet<Multiset.Entry<E>> {
-    @Override public int size() {
-      return countMap.size();
-    }
+  @Override int distinctElements() {
+    return countMap.size();
+  }
 
-    @Override public boolean isEmpty() {
-      return countMap.isEmpty();
-    }
+  @Override public boolean isEmpty() {
+    return countMap.isEmpty();
+  }
 
-    @Override public boolean contains(Object object) {
-      if (object instanceof Multiset.Entry) {
-        Multiset.Entry<?> entry = (Multiset.Entry<?>) object;
-        Object element = entry.getElement();
-        int entryCount = entry.getCount();
-        return entryCount > 0 && count(element) == entryCount;
+  @Override Iterator<Entry<E>> entryIterator() {
+    final Iterator<Map.Entry<E, Integer>> backingIterator =
+        countMap.entrySet().iterator();
+    return new Iterator<Multiset.Entry<E>>() {
+      @Override public boolean hasNext() {
+        return backingIterator.hasNext();
       }
-      return false;
-    }
 
-    @Override public Iterator<Multiset.Entry<E>> iterator() {
-      final Iterator<Map.Entry<E, Integer>> backingIterator
-          = countMap.entrySet().iterator();
-      return new Iterator<Multiset.Entry<E>>() {
-        @Override
-        public boolean hasNext() {
-          return backingIterator.hasNext();
-        }
+      @Override public Multiset.Entry<E> next() {
+        Map.Entry<E, Integer> backingEntry = backingIterator.next();
+        return Multisets.immutableEntry(backingEntry.getKey(),
+            backingEntry.getValue());
+      }
 
-        @Override
-        public Multiset.Entry<E> next() {
-          Map.Entry<E, Integer> backingEntry = backingIterator.next();
-          return Multisets.immutableEntry(
-              backingEntry.getKey(), backingEntry.getValue());
-        }
+      @Override public void remove() {
+        backingIterator.remove();
+      }
+    };
+  }
 
-        @Override
-        public void remove() {
-          backingIterator.remove();
-        }
-      };
+  @Override public void clear() {
+    countMap.clear();
+  }
+
+  private class EntrySet extends AbstractMultiset<E>.EntrySet {
+    @Override Multiset<E> multiset() {
+      return ConcurrentHashMultiset.this;
     }
 
     /*
@@ -456,15 +451,10 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E>
       return snapshot().toArray(array);
     }
 
-    /*
-     * We'd love to use 'new ArrayList(this)' or 'list.addAll(this)', but
-     * either of these would recurse back to us again!
-     */
     private List<Multiset.Entry<E>> snapshot() {
       List<Multiset.Entry<E>> list = Lists.newArrayListWithExpectedSize(size());
-      for (Multiset.Entry<E> entry : this) {
-        list.add(entry);
-      }
+      // Not Iterables.addAll(list, this), because that'll forward right back here.
+      Iterators.addAll(list, iterator());
       return list;
     }
 
@@ -476,10 +466,6 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E>
         return countMap.remove(element, entryCount);
       }
       return false;
-    }
-
-    @Override public void clear() {
-      countMap.clear();
     }
 
     /**
@@ -516,3 +502,4 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E>
 
   private static final long serialVersionUID = 1;
 }
+

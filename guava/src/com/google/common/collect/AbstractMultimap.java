@@ -1037,39 +1037,14 @@ abstract class AbstractMultimap<K, V> implements Multimap<K, V>, Serializable {
       return AbstractMultimap.this.keySet();
     }
 
-    transient Set<Multiset.Entry<K>> entrySet;
-
-    @Override public Set<Multiset.Entry<K>> entrySet() {
-      Set<Multiset.Entry<K>> result = entrySet;
-      return (result == null) ? entrySet = new EntrySet() : result;
+    @Override
+    Iterator<Entry<K>> entryIterator() {
+      return new MultisetEntryIterator();
     }
 
-    private class EntrySet extends AbstractSet<Multiset.Entry<K>> {
-      @Override public Iterator<Multiset.Entry<K>> iterator() {
-        return new MultisetEntryIterator();
-      }
-      @Override public int size() {
-        return map.size();
-      }
-
-      // The following methods are included for better performance.
-
-      @Override public boolean contains(Object o) {
-        if (!(o instanceof Multiset.Entry)) {
-          return false;
-        }
-        Multiset.Entry<?> entry = (Multiset.Entry<?>) o;
-        Collection<V> collection = map.get(entry.getElement());
-        return (collection != null) &&
-            (collection.size() == entry.getCount());
-      }
-      @Override public void clear() {
-        AbstractMultimap.this.clear();
-      }
-      @Override public boolean remove(Object o) {
-        return contains(o) &&
-            (removeValuesForKey(((Multiset.Entry<?>) o).getElement()) > 0);
-      }
+    @Override
+    int distinctElements() {
+      return map.size();
     }
 
     @Override public Iterator<K> iterator() {

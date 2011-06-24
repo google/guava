@@ -962,6 +962,17 @@ public final class Iterators {
   // Methods only in Iterators, not in Iterables
 
   /**
+   * Clears the iterator using its remove method.
+   */
+  static void clear(Iterator<?> iterator) {
+    checkNotNull(iterator);
+    while (iterator.hasNext()) {
+      iterator.next();
+      iterator.remove();
+    }
+  }
+
+  /**
    * Returns an iterator containing the elements of {@code array} in order. The
    * returned iterator is a view of the array; subsequent changes to the array
    * will be reflected in the iterator.

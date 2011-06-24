@@ -46,9 +46,6 @@ import javax.annotation.Nullable;
 @GwtCompatible
 abstract class AbstractMultiset<E> extends AbstractCollection<E>
     implements Multiset<E> {
-  @Override
-  public abstract Set<Entry<E>> entrySet();
-
   // Query Operations
 
   @Override public int size() {
@@ -129,7 +126,7 @@ abstract class AbstractMultiset<E> extends AbstractCollection<E>
   }
 
   @Override public void clear() {
-    entrySet().clear();
+    Iterators.clear(entryIterator());
   }
 
   // Views
@@ -150,7 +147,43 @@ abstract class AbstractMultiset<E> extends AbstractCollection<E>
    * returned by {@link #elementSet()}.
    */
   Set<E> createElementSet() {
-    return Multisets.elementSetImpl(this);
+    return new ElementSet();
+  }
+
+  class ElementSet extends Multisets.ElementSet<E> {
+    @Override
+    Multiset<E> multiset() {
+      return AbstractMultiset.this;
+    }
+  }
+
+  abstract Iterator<Entry<E>> entryIterator();
+  
+  abstract int distinctElements();
+
+  private transient Set<Entry<E>> entrySet;
+  
+  @Override public Set<Entry<E>> entrySet() {
+    Set<Entry<E>> result = entrySet;
+    return (result == null) ? entrySet = createEntrySet() : result;
+  }
+
+  class EntrySet extends Multisets.EntrySet<E> {
+    @Override Multiset<E> multiset() {
+      return AbstractMultiset.this;
+    }
+
+    @Override public Iterator<Entry<E>> iterator() {
+      return entryIterator();
+    }
+
+    @Override public int size() {
+      return distinctElements();
+    }
+  }
+
+  Set<Entry<E>> createEntrySet() {
+    return new EntrySet();
   }
 
   // Object methods

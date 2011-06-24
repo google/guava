@@ -242,7 +242,11 @@ public abstract class ForwardingMultiset<E> extends ForwardingCollection<E>
    * @since Guava release 07
    */
   @Beta protected Set<E> standardElementSet() {
-    return Multisets.elementSetImpl(this);
+    return new Multisets.ElementSet<E>() {
+      @Override Multiset<E> multiset() {
+        return ForwardingMultiset.this;
+      }
+    };
   }
 
   /**
