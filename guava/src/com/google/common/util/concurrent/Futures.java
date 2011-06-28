@@ -28,7 +28,6 @@ import com.google.common.base.Function;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Ordering;
-import com.google.common.collect.UncheckedExecutionException;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;

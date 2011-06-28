@@ -99,7 +99,7 @@ import javax.annotation.Nullable;
  * created, it is undefined which of these changes, if any, are reflected in that iterator. These
  * iterators never throw {@link ConcurrentModificationException}.
  *
- * <p>If strong or weak references were requested, it is possible for a key or value present in the
+ * <p>If soft or weak references were requested, it is possible for a key or value present in the
  * the map to be reclaimed by the garbage collector. If this happens, the entry automatically
  * disappears from the map. A partially-reclaimed entry is never exposed to the user. Any {@link
  * java.util.Map.Entry} instance retrieved from the map's {@linkplain Map#entrySet entry set} is a

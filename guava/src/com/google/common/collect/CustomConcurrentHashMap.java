@@ -25,6 +25,8 @@ import com.google.common.base.Equivalences;
 import com.google.common.base.Supplier;
 import com.google.common.base.Ticker;
 import com.google.common.collect.AbstractCache.StatsCounter;
+import com.google.common.collect.AbstractMapEntry;
+import com.google.common.collect.ForwardingConcurrentMap;
 import com.google.common.collect.GenericMapMaker.NullListener;
 import com.google.common.collect.MapMaker.RemovalCause;
 import com.google.common.collect.MapMaker.RemovalListener;
