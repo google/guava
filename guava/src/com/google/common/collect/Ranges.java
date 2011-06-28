@@ -22,7 +22,6 @@ import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.Cut.AboveValue;
 import com.google.common.collect.Cut.BelowValue;
-import com.google.common.collect.Range.BoundType;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;

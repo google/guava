@@ -113,24 +113,6 @@ import javax.annotation.Nullable;
 @GwtCompatible
 @Beta
 public final class Range<C extends Comparable> implements Predicate<C> {
-
-  /**
-   * Indicates whether an endpoint of a range is contained in the range itself
-   * ("closed") or not ("open"). Note that when a range is unbounded on a side,
-   * it is neither open nor closed, for the bound simply does not exist.
-   */
-  public enum BoundType {
-    /**
-     * The range does not contain the endpoint.
-     */
-    OPEN,
-
-    /**
-     * The range does contain the endpoint.
-     */
-    CLOSED
-  }
-
   final Cut<C> lowerBound;
   final Cut<C> upperBound;
 
