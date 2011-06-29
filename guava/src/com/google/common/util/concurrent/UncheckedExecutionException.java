@@ -16,8 +16,6 @@
 
 package com.google.common.util.concurrent;
 
-import com.google.common.annotations.GwtCompatible;
-
 /**
  * Unchecked version of {@link java.util.concurrent.ExecutionException}. As with
  * {@code ExecutionException}, the exception's {@linkplain #getCause() cause}
@@ -32,7 +30,6 @@ import com.google.common.annotations.GwtCompatible;
  * @author fry@google.com (Charles Fry)
  * @since Guava release 10
  */
-@GwtCompatible
 public class UncheckedExecutionException extends RuntimeException {
   /**
    * Creates a new instance with {@code null} as its detail message.
