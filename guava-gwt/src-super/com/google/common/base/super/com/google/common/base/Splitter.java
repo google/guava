@@ -85,6 +85,7 @@ import java.util.NoSuchElementException;
  * @author Julien Silland
  * @author Jesse Wilson
  * @author Kevin Bourrillion
+ * @author Louis Wasserman
  * @since Guava release 01
  */
 @GwtCompatible(emulated = true)

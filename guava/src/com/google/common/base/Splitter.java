@@ -88,6 +88,7 @@ import java.util.regex.Pattern;
  * @author Julien Silland
  * @author Jesse Wilson
  * @author Kevin Bourrillion
+ * @author Louis Wasserman
  * @since Guava release 01
  */
 @GwtCompatible(emulated = true)

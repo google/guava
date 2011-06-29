@@ -19,12 +19,14 @@ package com.google.common.base;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.Lists;
+import com.google.testing.util.MoreAsserts;
 import com.google.testing.util.NullPointerTester;
 
 import junit.framework.TestCase;
 
 import java.util.Arrays;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.regex.Pattern;
 
 /**
@@ -524,5 +526,107 @@ public class SplitterTest extends TestCase {
   private void assertContentsInOrder(
       Iterable<String> actual, String... expected) {
     assertEquals(Arrays.asList(expected), Lists.newArrayList(actual));
+  }
+
+  public void testMapSplitter_trimmedBoth() {
+    Map<String, String> m = Splitter.on(',')
+        .trimResults()
+        .withKeyValueSeparator(Splitter.on(':').trimResults())
+        .split("boy  : tom , girl: tina , cat  : kitty , dog: tommy ");
+    assertEquals("tom", m.get("boy"));
+    assertEquals("tina", m.get("girl"));
+    assertEquals("kitty", m.get("cat"));
+    assertEquals("tommy", m.get("dog"));
+  }
+
+  public void testMapSplitter_trimmedEntries() {
+    Map<String, String> m = Splitter.on(',')
+        .trimResults()
+        .withKeyValueSeparator(":")
+        .split("boy  : tom , girl: tina , cat  : kitty , dog: tommy ");
+    assertEquals(" tom", m.get("boy  "));
+    assertEquals(" tina", m.get("girl"));
+    assertEquals(" kitty", m.get("cat  "));
+    assertEquals(" tommy", m.get("dog"));
+  }
+
+  public void testMapSplitter_trimmedKeyValue() {
+    Map<String, String> m = Splitter.on(',')
+        .withKeyValueSeparator(Splitter.on(':').trimResults())
+        .split("boy  : tom , girl: tina , cat  : kitty , dog: tommy ");
+    assertEquals("tom", m.get("boy"));
+    assertEquals("tina", m.get("girl"));
+    assertEquals("kitty", m.get("cat"));
+    assertEquals("tommy", m.get("dog"));
+  }
+
+  public void testMapSplitter_notTrimmed() {
+    Map<String, String> m = Splitter.on(',')
+        .withKeyValueSeparator(":")
+        .split(" boy:tom , girl: tina , cat :kitty , dog:  tommy ");
+    assertEquals("tom ", m.get(" boy"));
+    assertEquals(" tina ", m.get(" girl"));
+    assertEquals("kitty ", m.get(" cat "));
+    assertEquals("  tommy ", m.get(" dog"));
+  }
+
+  public void testMapSplitter_multiCharacterSeparator() {
+
+    // try different delimiters.
+    Map<String, String> m = Splitter.on(",")
+        .withKeyValueSeparator(":^&")
+        .split("boy:^&tom,girl:^&tina,cat:^&kitty,dog:^&tommy");
+    assertEquals("tom", m.get("boy"));
+    assertEquals("tina", m.get("girl"));
+    assertEquals("kitty", m.get("cat"));
+    assertEquals("tommy", m.get("dog"));
+  }
+
+  public void testMapSplitter_emptySeparator() {
+    try {
+      Splitter.on(",").withKeyValueSeparator("");
+      fail("Should be impossible to use an empty separator.");
+    } catch (IllegalArgumentException expected) {
+      // Pass
+    }
+  }
+
+  public void testMapSplitter_malformedEntry() {
+    try {
+      Splitter.on(",").withKeyValueSeparator("=").split("a=1,b,c=2");
+      fail("Shouldn't accept malformed entry \"b\"");
+    } catch(IllegalArgumentException expected) {
+      // Pass
+    }
+  }
+
+  public void testMapSplitter_orderedResults() {
+    Map<String, String> m = Splitter.on(",")
+        .withKeyValueSeparator(":")
+        .split("boy:tom,girl:tina,cat:kitty,dog:tommy");
+    MoreAsserts.assertContentsInOrder(m.keySet(), "boy", "girl", "cat", "dog");
+
+    assertEquals("tom", m.get("boy"));
+    assertEquals("tina", m.get("girl"));
+    assertEquals("kitty", m.get("cat"));
+    assertEquals("tommy", m.get("dog"));
+
+    // try in a different order
+    m = Splitter.on(",")
+        .withKeyValueSeparator(":")
+        .split("girl:tina,boy:tom,dog:tommy,cat:kitty");
+    MoreAsserts.assertContentsInOrder(m.keySet(), "girl", "boy", "dog", "cat");
+
+    assertEquals("tom", m.get("boy"));
+    assertEquals("tina", m.get("girl"));
+    assertEquals("kitty", m.get("cat"));
+    assertEquals("tommy", m.get("dog"));
+  }
+
+  public void testMapSplitter_duplicateKeys() {
+    try {
+      Splitter.on(",").withKeyValueSeparator(":").split("a:1,b:2,a:3");
+      fail("Expected IllegalArgumentException");
+    } catch (IllegalArgumentException expected) {}
   }
 }
