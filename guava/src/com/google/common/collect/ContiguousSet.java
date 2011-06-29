@@ -43,12 +43,17 @@ final class ContiguousSet<C extends Comparable> extends ImmutableSortedSet<C> {
   }
 
   @Override public ImmutableSortedSet<C> headSet(C toElement) {
-    return headSetImpl(checkNotNull(toElement));
+    return headSet(toElement, false);
   }
 
+  @Override ImmutableSortedSet<C> headSet(C toElement, boolean inclusive) {
+    return headSetImpl(checkNotNull(toElement), inclusive);
+  }
+  
   // Abstract method doesn't exist in GWT emulation
-  /* @Override */ ImmutableSortedSet<C> headSetImpl(C toElement) {
-    return range.intersection(Ranges.lessThan(toElement)).asSet(domain);
+  /* @Override */ ImmutableSortedSet<C> headSetImpl(C toElement, boolean inclusive) {
+    return range.intersection(inclusive ? Ranges.atMost(toElement) : Ranges.lessThan(toElement))
+        .asSet(domain);
   }
 
   // Abstract method doesn't exist in GWT emulation
@@ -58,24 +63,49 @@ final class ContiguousSet<C extends Comparable> extends ImmutableSortedSet<C> {
   }
 
   @Override public ImmutableSortedSet<C> subSet(C fromElement, C toElement) {
+    return subSet(fromElement, true, toElement, false);
+  }
+  
+  @Override ImmutableSortedSet<C> subSet(C fromElement, boolean fromInclusive, C toElement,
+      boolean toInclusive) {
     checkNotNull(fromElement);
     checkNotNull(toElement);
     checkArgument(comparator().compare(fromElement, toElement) <= 0);
-    return subSetImpl(fromElement, toElement);
+    return subSetImpl(fromElement, fromInclusive, toElement, toInclusive);
   }
 
   // Abstract method doesn't exist in GWT emulation
-  /* @Override */ ImmutableSortedSet<C> subSetImpl(C fromElement, C toElement) {
-    return range.intersection(Ranges.closedOpen(fromElement, toElement)).asSet(domain);
+  /* @Override */ImmutableSortedSet<C> subSetImpl(C fromElement, boolean fromInclusive,
+      C toElement, boolean toInclusive) {
+    Range<C> subRange;
+    if (fromInclusive) {
+      if (toInclusive) {
+        subRange = Ranges.closed(fromElement, toElement);
+      } else {
+        subRange = Ranges.closedOpen(fromElement, toElement);
+      }
+    } else {
+      if (toInclusive) {
+        subRange = Ranges.openClosed(fromElement, toElement);
+      } else {
+        subRange = Ranges.open(fromElement, toElement);
+      }
+    }
+    return range.intersection(subRange).asSet(domain);
   }
 
   @Override public ImmutableSortedSet<C> tailSet(C fromElement) {
-    return tailSetImpl(checkNotNull(fromElement));
+    return tailSet(fromElement, true);
   }
 
+  @Override ImmutableSortedSet<C> tailSet(C fromElement, boolean inclusive){
+    return tailSetImpl(checkNotNull(fromElement), inclusive);
+  }
+  
   // Abstract method doesn't exist in GWT emulation
-  /* @Override */ ImmutableSortedSet<C> tailSetImpl(C fromElement) {
-    return range.intersection(Ranges.atLeast(fromElement)).asSet(domain);
+  /* @Override */ ImmutableSortedSet<C> tailSetImpl(C fromElement, boolean inclusive) {
+    return range.intersection(
+        inclusive ? Ranges.atLeast(fromElement) : Ranges.greaterThan(fromElement)).asSet(domain);
   }
 
   @Override public UnmodifiableIterator<C> iterator() {
@@ -169,3 +199,4 @@ final class ContiguousSet<C extends Comparable> extends ImmutableSortedSet<C> {
 
   private static final long serialVersionUID = 0;
 }
+

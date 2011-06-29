@@ -17,6 +17,7 @@
 package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkArgument;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -290,7 +291,35 @@ public abstract class ImmutableSortedSet<E>
 
   public ImmutableSortedSet<E> headSet(E toElement) {
     checkNotNull(toElement);
-    return unsafeDelegateSortedSet(sortedDelegate.headSet(toElement), true);
+    try {
+      return unsafeDelegateSortedSet(sortedDelegate.headSet(toElement), true);
+    } catch (IllegalArgumentException e) {
+      return emptySet(comparator());
+    }
+  }
+
+  E higher(E e) {
+    checkNotNull(e);
+    Iterator<E> iterator = tailSet(e).iterator();
+    while (iterator.hasNext()) {
+      E higher = iterator.next();
+      if (comparator().compare(e, higher) < 0) {
+        return higher;
+      }
+    }
+    return null;
+  }
+
+  ImmutableSortedSet<E> headSet(E toElement, boolean inclusive) {
+    checkNotNull(toElement);
+    if (inclusive) {
+      E tmp = higher(toElement);
+      if (tmp == null) {
+        return this;
+      }
+      toElement = tmp;
+    }
+    return headSet(toElement);
   }
 
   public E last() {
@@ -298,15 +327,40 @@ public abstract class ImmutableSortedSet<E>
   }
 
   public ImmutableSortedSet<E> subSet(E fromElement, E toElement) {
+    return subSet(fromElement, true, toElement, false);
+  }
+
+  ImmutableSortedSet<E> subSet(E fromElement, boolean fromInclusive, E toElement,
+      boolean toInclusive) {
     checkNotNull(fromElement);
     checkNotNull(toElement);
-    return unsafeDelegateSortedSet(
-        sortedDelegate.subSet(fromElement, toElement), true);
+    int cmp = comparator().compare(fromElement, toElement);
+    checkArgument(cmp <= 0, "fromElement (%s) is less than toElement (%s)", fromElement, toElement);
+    if (cmp == 0 && !(fromInclusive && toInclusive)) {
+      return emptySet(comparator());
+    }
+    return tailSet(fromElement, fromInclusive).headSet(toElement, toInclusive);
   }
 
   public ImmutableSortedSet<E> tailSet(E fromElement) {
     checkNotNull(fromElement);
-    return unsafeDelegateSortedSet(sortedDelegate.tailSet(fromElement), true);
+    try {
+      return unsafeDelegateSortedSet(sortedDelegate.tailSet(fromElement), true);
+    } catch (IllegalArgumentException e) {
+      return emptySet(comparator());
+    }
+  }
+
+  ImmutableSortedSet<E> tailSet(E fromElement, boolean inclusive) {
+    checkNotNull(fromElement);
+    if (!inclusive) {
+      E tmp = higher(fromElement);
+      if (tmp == null) {
+        return emptySet(comparator());
+      }
+      fromElement = tmp;
+    }
+    return tailSet(fromElement);
   }
 
   public static <E> Builder<E> orderedBy(Comparator<E> comparator) {

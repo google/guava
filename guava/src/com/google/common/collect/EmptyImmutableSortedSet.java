@@ -101,15 +101,19 @@ class EmptyImmutableSortedSet<E> extends ImmutableSortedSet<E> {
     throw new NoSuchElementException();
   }
 
-  @Override ImmutableSortedSet<E> headSetImpl(E toElement) {
+  @Override
+  ImmutableSortedSet<E> headSetImpl(E toElement, boolean inclusive) {
     return this;
   }
 
-  @Override ImmutableSortedSet<E> subSetImpl(E fromElement, E toElement) {
+  @Override
+  ImmutableSortedSet<E> subSetImpl(E fromElement, boolean fromInclusive, E toElement,
+      boolean toInclusive) {
     return this;
   }
 
-  @Override ImmutableSortedSet<E> tailSetImpl(E fromElement) {
+  @Override
+  ImmutableSortedSet<E> tailSetImpl(E fromElement, boolean inclusive) {
     return this;
   }
 

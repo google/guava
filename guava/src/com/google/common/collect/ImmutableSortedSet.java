@@ -658,7 +658,11 @@ public abstract class ImmutableSortedSet<E>
    */
   @Override
   public ImmutableSortedSet<E> headSet(E toElement) {
-    return headSetImpl(checkNotNull(toElement));
+    return headSet(toElement, false);
+  }
+
+  ImmutableSortedSet<E> headSet(E toElement, boolean inclusive) {
+    return headSetImpl(checkNotNull(toElement), inclusive);
   }
 
   /**
@@ -676,10 +680,15 @@ public abstract class ImmutableSortedSet<E>
    */
   @Override
   public ImmutableSortedSet<E> subSet(E fromElement, E toElement) {
+    return subSet(fromElement, true, toElement, false);
+  }
+
+  ImmutableSortedSet<E> subSet(E fromElement, boolean fromInclusive, E toElement,
+      boolean toInclusive) {
     checkNotNull(fromElement);
     checkNotNull(toElement);
     checkArgument(comparator.compare(fromElement, toElement) <= 0);
-    return subSetImpl(fromElement, toElement);
+    return subSetImpl(fromElement, fromInclusive, toElement, toInclusive);
   }
 
   /**
@@ -695,16 +704,23 @@ public abstract class ImmutableSortedSet<E>
    */
   @Override
   public ImmutableSortedSet<E> tailSet(E fromElement) {
-    return tailSetImpl(checkNotNull(fromElement));
+    return tailSet(fromElement, true);
+  }
+
+  ImmutableSortedSet<E> tailSet(E fromElement, boolean inclusive) {
+    return tailSetImpl(checkNotNull(fromElement), inclusive);
   }
 
   /*
    * These methods perform most headSet, subSet, and tailSet logic, besides
    * parameter validation.
    */
-  abstract ImmutableSortedSet<E> headSetImpl(E toElement);
-  abstract ImmutableSortedSet<E> subSetImpl(E fromElement, E toElement);
-  abstract ImmutableSortedSet<E> tailSetImpl(E fromElement);
+  abstract ImmutableSortedSet<E> headSetImpl(E toElement, boolean inclusive);
+
+  abstract ImmutableSortedSet<E> subSetImpl(E fromElement, boolean fromInclusive, E toElement,
+      boolean toInclusive);
+
+  abstract ImmutableSortedSet<E> tailSetImpl(E fromElement, boolean inclusive);
 
   /**
    * Returns the position of an element within the set, or -1 if not present.

@@ -19,6 +19,7 @@ package com.google.common.collect;
 import static com.google.common.base.Preconditions.checkArgument;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.collect.SortedLists.Relation;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -189,26 +190,40 @@ final class RegularImmutableSortedSet<E> extends ImmutableSortedSet<E> {
     return elements.get(size() - 1);
   }
 
-  @Override ImmutableSortedSet<E> headSetImpl(E toElement) {
-    return createSubset(0, findSubsetIndex(toElement));
+  @Override
+  ImmutableSortedSet<E> headSetImpl(E toElement, boolean inclusive) {
+    int index = index(toElement, inclusive ? Relation.HIGHER : Relation.CEILING);
+    return createSubset(0, index);
   }
 
-  @Override ImmutableSortedSet<E> subSetImpl(E fromElement, E toElement) {
-    return createSubset(
-        findSubsetIndex(fromElement), findSubsetIndex(toElement));
+  @Override
+  ImmutableSortedSet<E> subSetImpl(E fromElement, boolean fromInclusive, E toElement,
+      boolean toInclusive) {
+    return tailSetImpl(fromElement, fromInclusive).headSetImpl(toElement, toInclusive);
   }
 
-  @Override ImmutableSortedSet<E> tailSetImpl(E fromElement) {
-    return createSubset(findSubsetIndex(fromElement), size());
+  @Override
+  ImmutableSortedSet<E> tailSetImpl(E fromElement, boolean inclusive) {
+    int index = index(fromElement, inclusive ? Relation.LOWER : Relation.FLOOR);
+    return createSubset(index + 1, size());
   }
 
-  private int findSubsetIndex(E element) {
-    int index = binarySearch(element);
-    return (index >= 0) ? index : (-index - 1);
+  private int index(Object key, Relation relation) {
+    return SortedLists.binarySearch(elements, key, unsafeComparator(), relation, false);
+  }
+
+  // Pretend the comparator can compare anything. If it turns out it can't
+  // compare two elements, it'll throw a CCE. Only methods that are specified to
+  // throw CCE should call this.
+  @SuppressWarnings("unchecked")
+  Comparator<Object> unsafeComparator() {
+    return (Comparator<Object>) comparator;
   }
 
   private ImmutableSortedSet<E> createSubset(int newFromIndex, int newToIndex) {
-    if (newFromIndex < newToIndex) {
+    if (newFromIndex == 0 && newToIndex == size()) {
+      return this;
+    } else if (newFromIndex < newToIndex) {
       return new RegularImmutableSortedSet<E>(
           elements.subList(newFromIndex, newToIndex), comparator);
     } else {
@@ -222,7 +237,7 @@ final class RegularImmutableSortedSet<E> extends ImmutableSortedSet<E> {
     }
     int position;
     try {
-      position = binarySearch(target);
+      position = index(target, Relation.EQUAL);
     } catch (ClassCastException e) {
       return -1;
     }

@@ -18,11 +18,10 @@ package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.common.collect.SortedLists.Relation.CEILING;
-import static com.google.common.collect.SortedLists.Relation.EQUAL;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Function;
+import com.google.common.collect.SortedLists.Relation;
 
 import java.io.Serializable;
 import java.util.Arrays;
@@ -430,8 +429,7 @@ public class ImmutableSortedMap<K, V>
     }
     int i;
     try {
-      i = SortedLists.binarySearch(Lists.transform(entries, keyFunction), key,
-          unsafeComparator(), EQUAL, false);
+      i = index(key, Relation.EQUAL);
     } catch (ClassCastException e) {
       return null;
     }
@@ -641,8 +639,13 @@ public class ImmutableSortedMap<K, V>
    */
   @Override
   public ImmutableSortedMap<K, V> headMap(K toKey) {
-    int newToIndex = findSubmapIndex(checkNotNull(toKey));
-    return createSubmap(0, newToIndex);
+    return headMap(toKey, false);
+  }
+
+  ImmutableSortedMap<K, V> headMap(K toKey, boolean inclusive){
+    checkNotNull(toKey);
+    int index = index(toKey, inclusive ? Relation.HIGHER : Relation.CEILING);
+    return createSubmap(0, index);
   }
 
   /**
@@ -660,12 +663,15 @@ public class ImmutableSortedMap<K, V>
    */
   @Override
   public ImmutableSortedMap<K, V> subMap(K fromKey, K toKey) {
+    return subMap(fromKey, true, toKey, false);
+  }
+
+  ImmutableSortedMap<K, V> subMap(K fromKey, boolean fromInclusive, K toKey,
+      boolean toInclusive) {
     checkNotNull(fromKey);
     checkNotNull(toKey);
     checkArgument(comparator.compare(fromKey, toKey) <= 0);
-    int newFromIndex = findSubmapIndex(fromKey);
-    int newToIndex = findSubmapIndex(toKey);
-    return createSubmap(newFromIndex, newToIndex);
+    return tailMap(fromKey, fromInclusive).headMap(toKey, toInclusive);
   }
 
   /**
@@ -680,13 +686,26 @@ public class ImmutableSortedMap<K, V>
    */
   @Override
   public ImmutableSortedMap<K, V> tailMap(K fromKey) {
-    int newFromIndex = findSubmapIndex(checkNotNull(fromKey));
-    return createSubmap(newFromIndex, size());
+    return tailMap(fromKey, true);
   }
 
-  private int findSubmapIndex(K key) {
-    return SortedLists.binarySearch(
-        Lists.transform(entries, keyFunction), key, comparator, CEILING, false);
+  ImmutableSortedMap<K, V> tailMap(K fromKey, boolean inclusive) {
+    checkNotNull(fromKey);
+    int index = index(fromKey, inclusive ? Relation.LOWER : Relation.FLOOR);
+    return createSubmap(index + 1, size());
+  }
+
+  private ImmutableList<K> keyList() {
+    return new TransformedImmutableList<Entry<K, V>, K>(entries) {
+      @Override
+      K transform(Entry<K, V> entry) {
+        return entry.getKey();
+      }
+    };
+  }
+
+  private int index(Object key, Relation relation) {
+    return SortedLists.binarySearch(keyList(), key, unsafeComparator(), relation, false);
   }
 
   private ImmutableSortedMap<K, V> createSubmap(
@@ -727,3 +746,4 @@ public class ImmutableSortedMap<K, V>
   // warning go away (and suppressing would suppress for all nested classes too)
   private static final long serialVersionUID = 0;
 }
+

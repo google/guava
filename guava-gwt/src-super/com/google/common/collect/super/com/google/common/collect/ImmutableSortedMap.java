@@ -19,8 +19,11 @@ package com.google.common.collect;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import com.google.common.collect.ImmutableSortedSet;
+
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.SortedMap;
 
@@ -43,7 +46,7 @@ public class ImmutableSortedMap<K, V>
   private static final Comparator NATURAL_ORDER = Ordering.natural();
 
   @SuppressWarnings("unchecked")
-  private static final ImmutableMap<Object, Object> NATURAL_EMPTY_MAP
+  private static final ImmutableSortedMap<Object, Object> NATURAL_EMPTY_MAP
       = create(NATURAL_ORDER);
 
   // This reference is only used by GWT compiler to infer the keys and values
@@ -245,9 +248,32 @@ public class ImmutableSortedMap<K, V>
     return sortedDelegate.lastKey();
   }
 
+  K higher(K k) {
+    Iterator<K> iterator = keySet().tailSet(k).iterator();
+    while (iterator.hasNext()) {
+      K tmp = iterator.next();
+      if (comparator().compare(k, tmp) < 0) {
+        return tmp;
+      }
+    }
+    return null;
+  }
+
   public ImmutableSortedMap<K, V> headMap(K toKey) {
     checkNotNull(toKey);
     return new ImmutableSortedMap<K, V>(sortedDelegate.headMap(toKey));
+  }
+
+  ImmutableSortedMap<K, V> headMap(K toKey, boolean inclusive) {
+    checkNotNull(toKey);
+    if (inclusive) {
+      K tmp = higher(toKey);
+      if (tmp == null) {
+        return this;
+      }
+      toKey = tmp;
+    }
+    return headMap(toKey);
   }
 
   public ImmutableSortedMap<K, V> subMap(K fromKey, K toKey) {
@@ -257,8 +283,33 @@ public class ImmutableSortedMap<K, V>
     return new ImmutableSortedMap<K, V>(sortedDelegate.subMap(fromKey, toKey));
   }
 
+  ImmutableSortedMap<K, V> subMap(K fromKey, boolean fromInclusive, K toKey, boolean toInclusive){
+    checkNotNull(fromKey);
+    checkNotNull(toKey);
+    checkArgument(comparator.compare(fromKey, toKey) <= 0);
+    return tailMap(fromKey, fromInclusive).headMap(toKey, toInclusive);
+  }
+  
   public ImmutableSortedMap<K, V> tailMap(K fromKey) {
     checkNotNull(fromKey);
     return new ImmutableSortedMap<K, V>(sortedDelegate.tailMap(fromKey));
+  }
+
+  public ImmutableSortedMap<K, V> tailMap(K fromKey, boolean inclusive) {
+    checkNotNull(fromKey);
+    if (!inclusive) {
+      fromKey = higher(fromKey);
+      if (fromKey == null) {
+        return emptyMap(comparator());
+      }
+    }
+    return tailMap(fromKey);
+  }
+
+  static <K, V> ImmutableSortedMap<K, V> emptyMap(Comparator<? super K> comparator) {
+    if (comparator == NATURAL_ORDER) {
+      return (ImmutableSortedMap) NATURAL_EMPTY_MAP;
+    }
+    return create(comparator);
   }
 }
