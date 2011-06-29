@@ -22,9 +22,7 @@ import static com.google.common.base.Preconditions.checkState;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Equivalence;
 import com.google.common.base.Equivalences;
-import com.google.common.base.Supplier;
 import com.google.common.base.Ticker;
-import com.google.common.collect.AbstractCache.StatsCounter;
 import com.google.common.collect.AbstractMapEntry;
 import com.google.common.collect.ForwardingConcurrentMap;
 import com.google.common.collect.GenericMapMaker.NullListener;
@@ -202,8 +200,7 @@ class CustomConcurrentHashMap<K, V>
    * @throws RejectedExecutionException if a cleanupExecutor was specified but rejects the cleanup
    *     task
    */
-  CustomConcurrentHashMap(MapMaker builder,
-      Supplier<? extends StatsCounter> statsCounterSupplier) {
+  CustomConcurrentHashMap(MapMaker builder) {
     concurrencyLevel = Math.min(builder.getConcurrencyLevel(), MAX_SEGMENTS);
 
     keyStrength = builder.getKeyStrength();
@@ -264,12 +261,12 @@ class CustomConcurrentHashMap<K, V>
           maximumSegmentSize--;
         }
         this.segments[i] =
-            createSegment(segmentSize, maximumSegmentSize, statsCounterSupplier.get());
+            createSegment(segmentSize, maximumSegmentSize);
       }
     } else {
       for (int i = 0; i < this.segments.length; ++i) {
         this.segments[i] =
-            createSegment(segmentSize, MapMaker.UNSET_INT, statsCounterSupplier.get());
+            createSegment(segmentSize, MapMaker.UNSET_INT);
       }
     }
 
@@ -1955,9 +1952,8 @@ class CustomConcurrentHashMap<K, V>
     return segments[(hash >>> segmentShift) & segmentMask];
   }
 
-  Segment<K, V> createSegment(
-      int initialCapacity, int maxSegmentSize, StatsCounter statsCounter) {
-    return new Segment<K, V>(this, initialCapacity, maxSegmentSize, statsCounter);
+  Segment<K, V> createSegment(int initialCapacity, int maxSegmentSize) {
+    return new Segment<K, V>(this, initialCapacity, maxSegmentSize);
   }
 
   /**
@@ -2157,14 +2153,9 @@ class CustomConcurrentHashMap<K, V>
     @GuardedBy("Segment.this")
     final Queue<ReferenceEntry<K, V>> expirationQueue;
 
-    /** Accumulates cache statistics. */
-    final StatsCounter statsCounter;
-
-    Segment(CustomConcurrentHashMap<K, V> map, int initialCapacity, int maxSegmentSize,
-        StatsCounter statsCounter) {
+    Segment(CustomConcurrentHashMap<K, V> map, int initialCapacity, int maxSegmentSize) {
       this.map = map;
       this.maxSegmentSize = maxSegmentSize;
-      this.statsCounter = statsCounter;
       initTable(newEntryArray(initialCapacity));
 
       keyReferenceQueue = map.usesKeyReferences()
@@ -2421,9 +2412,6 @@ class CustomConcurrentHashMap<K, V>
     }
 
     void enqueueNotification(@Nullable K key, int hash, @Nullable V value, RemovalCause cause) {
-      if (cause.wasEvicted()) {
-        statsCounter.recordEviction();
-      }
       if (map.removalNotificationQueue != DISCARDING_QUEUE) {
         RemovalNotification<K, V> notification = new RemovalNotification<K, V>(key, value, cause);
         map.removalNotificationQueue.offer(notification);

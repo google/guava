@@ -174,16 +174,6 @@ public abstract class GenericMapMaker<K0, V0> {
   abstract <K, V> CustomConcurrentHashMap<K, V> makeCustomMap();
 
   /**
-   * See {@link MapMaker#makeCache}.
-   *
-   * @since Guava release 10
-   */
-  @Beta
-  @GwtIncompatible("To be supported")
-  public abstract <K extends K0, V extends V0> Cache<K, V> makeCache(
-      CacheLoader<? super K, V> loader);
-
-  /**
    * See {@link MapMaker#makeComputingMap}.
    */
   public abstract <K extends K0, V extends V0> ConcurrentMap<K, V> makeComputingMap(

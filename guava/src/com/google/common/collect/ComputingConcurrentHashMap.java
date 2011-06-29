@@ -20,9 +20,8 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 
 import com.google.common.base.Equivalence;
-import com.google.common.base.Supplier;
+import com.google.common.base.Function;
 import com.google.common.base.Throwables;
-import com.google.common.collect.AbstractCache.StatsCounter;
 import com.google.common.collect.MapMaker.RemovalCause;
 import com.google.common.collect.MapMaker.RemovalListener;
 
@@ -45,23 +44,21 @@ import javax.annotation.concurrent.GuardedBy;
  * @author Charles Fry
  */
 class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V> {
-  final CacheLoader<? super K, ? extends V> loader;
+  final Function<? super K, ? extends V> computingFunction;
 
   /**
    * Creates a new, empty map with the specified strategy, initial capacity, load factor and
    * concurrency level.
    */
   ComputingConcurrentHashMap(MapMaker builder,
-      Supplier<? extends StatsCounter> statsCounterSupplier,
-      CacheLoader<? super K, ? extends V> loader) {
-    super(builder, statsCounterSupplier);
-    this.loader = checkNotNull(loader);
+      Function<? super K, ? extends V> computingFunction) {
+    super(builder);
+    this.computingFunction = checkNotNull(computingFunction);
   }
 
   @Override
-  Segment<K, V> createSegment(int initialCapacity, int maxSegmentSize,
-      StatsCounter statsCounter) {
-    return new ComputingSegment<K, V>(this, initialCapacity, maxSegmentSize, statsCounter);
+  Segment<K, V> createSegment(int initialCapacity, int maxSegmentSize) {
+    return new ComputingSegment<K, V>(this, initialCapacity, maxSegmentSize);
   }
 
   @Override
@@ -71,17 +68,16 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V> {
 
   V getOrCompute(K key) throws ExecutionException {
     int hash = hash(checkNotNull(key));
-    return segmentFor(hash).getOrCompute(key, hash, loader);
+    return segmentFor(hash).getOrCompute(key, hash, computingFunction);
   }
 
   @SuppressWarnings("serial") // This class is never serialized.
   static final class ComputingSegment<K, V> extends Segment<K, V> {
-    ComputingSegment(CustomConcurrentHashMap<K, V> map, int initialCapacity, int maxSegmentSize,
-        StatsCounter statsCounter) {
-      super(map, initialCapacity, maxSegmentSize, statsCounter);
+    ComputingSegment(CustomConcurrentHashMap<K, V> map, int initialCapacity, int maxSegmentSize) {
+      super(map, initialCapacity, maxSegmentSize);
     }
 
-    V getOrCompute(K key, int hash, CacheLoader<? super K, ? extends V> loader)
+    V getOrCompute(K key, int hash, Function<? super K, ? extends V> computingFunction)
         throws ExecutionException {
       try {
         outer: while (true) {
@@ -91,7 +87,6 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V> {
             V value = getLiveValue(e);
             if (value != null) {
               recordRead(e);
-              statsCounter.recordHit();
               return value;
             }
           }
@@ -122,7 +117,6 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V> {
                     V value = getLiveValue(e);
                     if (value != null) {
                       recordLockedRead(e);
-                      statsCounter.recordHit();
                       return value;
                     }
                     // immediately reuse partially collected entries
@@ -136,7 +130,7 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V> {
               }
 
               if (createNewEntry) {
-                computingValueReference = new ComputingValueReference<K, V>(loader);
+                computingValueReference = new ComputingValueReference<K, V>(computingFunction);
 
                 if (e == null) {
                   e = newEntry(key, hash, first);
@@ -161,7 +155,6 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V> {
           V value = e.getValueReference().waitForValue();
           if (value != null) {
             recordRead(e);
-            statsCounter.recordConcurrentMiss();
             return value;
           }
           // else computing thread will clearValue
@@ -187,9 +180,6 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V> {
           end = System.nanoTime();
         }
         if (value != null) {
-          // a null return value is an Error, so don't count it in the stats
-          statsCounter.recordCreateSuccess(end - start);
-
           // putIfAbsent
           V oldValue = put(key, hash, value, true);
           if (oldValue != null) {
@@ -201,7 +191,6 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V> {
       } finally {
         if (end == 0) {
           end = System.nanoTime();
-          statsCounter.recordCreateException(end - start);
         }
         if (value == null) {
           clearValue(key, hash, computingValueReference);
@@ -289,13 +278,13 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V> {
   }
 
   private static final class ComputingValueReference<K, V> implements ValueReference<K, V> {
-    final CacheLoader<? super K, ? extends V> loader;
+    final Function<? super K, ? extends V> computingFunction;
 
     @GuardedBy("ComputingValueReference.this") // writes
     volatile ValueReference<K, V> computedReference = unset();
 
-    public ComputingValueReference(CacheLoader<? super K, ? extends V> loader) {
-      this.loader = loader;
+    public ComputingValueReference(Function<? super K, ? extends V> computingFunction) {
+      this.computingFunction = computingFunction;
     }
 
     @Override
@@ -358,7 +347,7 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V> {
     V compute(K key, int hash) throws ExecutionException {
       V value;
       try {
-        value = loader.load(key);
+        value = computingFunction.apply(key);
       } catch (Throwable t) {
         setValueReference(new ComputationExceptionReference<K, V>(t));
         throw new ExecutionException(t);
@@ -387,9 +376,8 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V> {
     private static final long serialVersionUID = 0;
 
     ComputingMapAdapter(MapMaker mapMaker,
-        Supplier<? extends StatsCounter> statsCounterSupplier,
-        CacheLoader<? super K, ? extends V> loader) {
-      super(mapMaker, statsCounterSupplier, loader);
+        Function<? super K, ? extends V> computingFunction) {
+      super(mapMaker, computingFunction);
     }
 
     @SuppressWarnings("unchecked") // unsafe, which is one advantage of Cache over Map
@@ -405,7 +393,7 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V> {
       }
 
       if (value == null) {
-        throw new NullPointerException(loader + " returned null for key " + key + ".");
+        throw new NullPointerException(computingFunction + " returned null for key " + key + ".");
       }
       return value;
     }
@@ -419,21 +407,21 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V> {
   Object writeReplace() {
     return new ComputingSerializationProxy<K, V>(keyStrength, valueStrength, keyEquivalence,
         valueEquivalence, expireAfterWriteNanos, expireAfterAccessNanos, maximumSize,
-        concurrencyLevel, removalListener, this, loader);
+        concurrencyLevel, removalListener, this, computingFunction);
   }
 
   static final class ComputingSerializationProxy<K, V> extends AbstractSerializationProxy<K, V> {
 
-    final CacheLoader<? super K, ? extends V> loader;
+    final Function<? super K, ? extends V> computingFunction;
 
     ComputingSerializationProxy(Strength keyStrength, Strength valueStrength,
         Equivalence<Object> keyEquivalence, Equivalence<Object> valueEquivalence,
         long expireAfterWriteNanos, long expireAfterAccessNanos, int maximumSize,
         int concurrencyLevel, RemovalListener<? super K, ? super V> removalListener,
-        ConcurrentMap<K, V> delegate, CacheLoader<? super K, ? extends V> loader) {
+        ConcurrentMap<K, V> delegate, Function<? super K, ? extends V> computingFunction) {
       super(keyStrength, valueStrength, keyEquivalence, valueEquivalence, expireAfterWriteNanos,
           expireAfterAccessNanos, maximumSize, concurrencyLevel, removalListener, delegate);
-      this.loader = loader;
+      this.computingFunction = computingFunction;
     }
 
     private void writeObject(ObjectOutputStream out) throws IOException {
@@ -444,7 +432,7 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V> {
     private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
       in.defaultReadObject();
       MapMaker mapMaker = readMapMaker(in);
-      delegate = mapMaker.makeComputingMap(loader);
+      delegate = mapMaker.makeComputingMap(computingFunction);
       readEntries(in);
     }
 

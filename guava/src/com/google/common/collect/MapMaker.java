@@ -29,11 +29,7 @@ import com.google.common.base.Equivalence;
 import com.google.common.base.Equivalences;
 import com.google.common.base.Function;
 import com.google.common.base.Objects;
-import com.google.common.base.Supplier;
-import com.google.common.base.Suppliers;
 import com.google.common.base.Ticker;
-import com.google.common.collect.AbstractCache.SimpleStatsCounter;
-import com.google.common.collect.AbstractCache.StatsCounter;
 import com.google.common.collect.ComputingConcurrentHashMap.ComputingMapAdapter;
 import com.google.common.collect.CustomConcurrentHashMap.Strength;
 
@@ -47,15 +43,13 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import javax.annotation.Nullable;
 
 /**
- * <p>A builder of {@link ConcurrentMap} or {@link Cache} instances having any combination of the
- * following features:
+ * <p>A builder of {@link ConcurrentMap} instances having any combination of the following features:
  *
  * <ul>
  * <li>keys or values automatically wrapped in {@linkplain WeakReference weak} or {@linkplain
@@ -126,38 +120,6 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
   private static final int DEFAULT_CONCURRENCY_LEVEL = 4;
   private static final int DEFAULT_EXPIRATION_NANOS = 0;
 
-  static final Supplier<? extends StatsCounter> DEFAULT_STATS_COUNTER = Suppliers.ofInstance(
-      new StatsCounter() {
-        @Override
-        public void recordHit() {}
-
-        @Override
-        public void recordCreateSuccess(long createTime) {}
-
-        @Override
-        public void recordCreateException(long createTime) {}
-
-        @Override
-        public void recordConcurrentMiss() {}
-
-        @Override
-        public void recordEviction() {}
-
-        @Override
-        public CacheStats snapshot() {
-          return EMPTY_STATS;
-        }
-      });
-  static final CacheStats EMPTY_STATS = new CacheStats(0, 0, 0, 0, 0, 0);
-
-  static final Supplier<SimpleStatsCounter> CACHE_STATS_COUNTER =
-      new Supplier<SimpleStatsCounter>() {
-    @Override
-    public SimpleStatsCounter get() {
-      return new SimpleStatsCounter();
-    }
-  };
-
   static final int UNSET_INT = -1;
 
   // TODO(kevinb): dispense with this after benchmarking
@@ -187,7 +149,7 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    */
   public MapMaker() {}
 
-  private boolean useNullCache() {
+  private boolean useNullMap() {
     return (nullRemovalCause == null);
   }
 
@@ -595,7 +557,7 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    * maps whose key or value types are incompatible with the types accepted by the listener already
    * provided; the {@code MapMaker} type cannot do this. For best results, simply use the standard
    * method-chaining idiom, as illustrated in the documentation at top, configuring a {@code
-   * MapMaker} and building your {@link Map} or {@link Cache} all in a single statement.
+   * MapMaker} and building your {@link Map} all in a single statement.
    *
    * <p><b>Warning:</b> if you ignore the above advice, and use this {@code MapMaker} to build a map
    * or cache whose key or value type is incompatible with the listener, you will likely experience
@@ -688,7 +650,7 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
       return new ConcurrentHashMap<K, V>(getInitialCapacity(), 0.75f, getConcurrencyLevel());
     }
     return (nullRemovalCause == null)
-        ? new CustomConcurrentHashMap<K, V>(this, DEFAULT_STATS_COUNTER)
+        ? new CustomConcurrentHashMap<K, V>(this)
         : new NullConcurrentMap<K, V>(this);
   }
 
@@ -699,38 +661,7 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
   @Override
   @GwtIncompatible("CustomConcurrentHashMap")
   <K, V> CustomConcurrentHashMap<K, V> makeCustomMap() {
-    return new CustomConcurrentHashMap<K, V>(this, DEFAULT_STATS_COUNTER);
-  }
-
-  /**
-   * Builds a cache, which either returns an already-loaded value for a given key or atomically
-   * computes or retrieves it using the supplied {@code CacheLoader}. If another thread is currently
-   * loading the value for this key, simply waits for that thread to finish and returns its
-   * loaded value. Note that multiple threads can concurrently load values for distinct keys.
-   *
-   * <p>The returned {@link Cache} implements the optional operations {@link Cache#invalidate},
-   * {@link Cache#invalidateAll}, {@link Cache#size}, {@link Cache#stats}, and {@link Cache#asMap},
-   * with the following qualifications:
-   *
-   * <ul>
-   * <li>The {@code invalidateAll} method will invalidate all cached entries prior to returning, and
-   *     removal notifications will be issued for all invalidated entries.
-   * <li>The {@code asMap} view supports removal operations, but no other modifications.
-   * </ul>
-   *
-   * <p>This method does not alter the state of this {@code MapMaker} instance, so it can be invoked
-   * again to create multiple independent caches.
-   *
-   * @param loader the cache loader used to obtain new values
-   * @return a cache having the requested features
-   * @since Guava release 10
-   */
-  @Beta
-  @Override
-  public <K, V> Cache<K, V> makeCache(CacheLoader<? super K, V> loader) {
-    return useNullCache()
-        ? new ComputingCache<K, V>(this, CACHE_STATS_COUNTER, loader)
-        : new NullCache<K, V>(this, CACHE_STATS_COUNTER, loader);
+    return new CustomConcurrentHashMap<K, V>(this);
   }
 
   /**
@@ -740,8 +671,9 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    * that thread to finish and returns its computed value. Note that the function may be executed
    * concurrently by multiple threads, but only for distinct keys.
    *
-   * <p>New code should use {@link #makeCache}, which supports {@linkplain CacheStats statistics}
-   * collection, introduces the {@link CacheLoader} interface for loading entries into the cache
+   * <p>New code should use {@link com.google.common.cache.CacheBuilder}, which supports
+   * {@linkplain com.google.common.cache.CacheStats statistics} collection, introduces the
+   * {@link com.google.common.CacheLoader} interface for loading entries into the cache
    * (allowing checked exceptions to be thrown in the process), and more cleanly separates
    * computation from the cache's {@code Map} view.
    *
@@ -786,15 +718,9 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
   @Override
   public <K, V> ConcurrentMap<K, V> makeComputingMap(
       Function<? super K, ? extends V> computingFunction) {
-    CacheLoader<? super K, ? extends V> loader = CacheLoader.from(computingFunction);
-    return makeComputingMap(loader);
-  }
-
-  <K, V> ConcurrentMap<K, V> makeComputingMap(
-      CacheLoader<? super K, ? extends V> loader) {
-    return useNullCache()
-        ? new ComputingMapAdapter<K, V>(this, DEFAULT_STATS_COUNTER, loader)
-        : new NullComputingConcurrentMap<K, V>(this, loader);
+    return useNullMap()
+        ? new ComputingMapAdapter<K, V>(this, computingFunction)
+        : new NullComputingConcurrentMap<K, V>(this, computingFunction);
   }
 
   /**
@@ -908,9 +834,8 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
   @Beta
   public enum RemovalCause {
     /**
-     * The entry was manually removed by the user. This can result from the user invoking {@link
-     * Cache#invalidate}, {@link Map#remove}, {@link ConcurrentMap#remove}, or {@link
-     * java.util.Iterator#remove}.
+     * The entry was manually removed by the user. This can result from the user invoking
+     * {@link Map#remove}, {@link ConcurrentMap#remove}, or {@link java.util.Iterator#remove}.
      */
     EXPLICIT {
       @Override
@@ -1056,11 +981,12 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
   static final class NullComputingConcurrentMap<K, V> extends NullConcurrentMap<K, V> {
     private static final long serialVersionUID = 0;
 
-    final CacheLoader<? super K, ? extends V> loader;
+    final Function<? super K, ? extends V> computingFunction;
 
-    NullComputingConcurrentMap(MapMaker mapMaker, CacheLoader<? super K, ? extends V> loader) {
+    NullComputingConcurrentMap(
+        MapMaker mapMaker, Function<? super K, ? extends V> computingFunction) {
       super(mapMaker);
-      this.loader = checkNotNull(loader);
+      this.computingFunction = checkNotNull(computingFunction);
     }
 
     @SuppressWarnings("unchecked") // unsafe, which is why Cache is preferred
@@ -1068,7 +994,7 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
     public V get(Object k) {
       K key = (K) k;
       V value = compute(key);
-      checkNotNull(value, loader + " returned null for key " + key + ".");
+      checkNotNull(value, computingFunction + " returned null for key " + key + ".");
       notifyRemoval(key, value);
       return value;
     }
@@ -1076,117 +1002,12 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
     private V compute(K key) {
       checkNotNull(key);
       try {
-        return loader.load(key);
+        return computingFunction.apply(key);
       } catch (ComputationException e) {
         throw e;
       } catch (Throwable t) {
         throw new ComputationException(t);
       }
-    }
-  }
-
-  /** Computes on retrieval and evicts the result. */
-  static final class NullCache<K, V> extends AbstractCache<K, V> {
-    final NullConcurrentMap<K, V> map;
-    final CacheLoader<? super K, V> loader;
-
-    final StatsCounter statsCounter;
-
-    NullCache(MapMaker mapMaker, Supplier<? extends StatsCounter> statsCounterSupplier,
-        CacheLoader<? super K, V> loader) {
-      this.map = new NullConcurrentMap<K, V>(mapMaker);
-      this.statsCounter = statsCounterSupplier.get();
-      this.loader = checkNotNull(loader);
-    }
-
-    @Override
-    public V get(K key) throws ExecutionException {
-      V value = compute(key);
-      map.notifyRemoval(key, value);
-      return value;
-    }
-
-    private V compute(K key) throws ExecutionException {
-      checkNotNull(key);
-      long start = System.nanoTime();
-      try {
-        V value = loader.load(key);
-        long end = System.nanoTime();
-        statsCounter.recordCreateSuccess(end - start);
-        return value;
-      } catch (Throwable t) {
-        long end = System.nanoTime();
-        statsCounter.recordCreateException(end - start);
-        throw new ExecutionException(t);
-      } finally {
-        statsCounter.recordEviction();
-      }
-    }
-
-    @Override
-    public int size() {
-      return 0;
-    }
-
-    @Override
-    public void invalidate(Object key) {
-      checkNotNull(key);
-    }
-
-    @Override
-    public CacheStats stats() {
-      return statsCounter.snapshot();
-    }
-
-    @Override
-    public ImmutableList<Map.Entry<K, V>> activeEntries(int limit) {
-      return ImmutableList.of();
-    }
-
-    ConcurrentMap<K, V> asMap;
-
-    @Override
-    public ConcurrentMap<K, V> asMap() {
-      ConcurrentMap<K, V> am = asMap;
-      return (am != null) ? am : (asMap = new CacheAsMap<K, V>(map));
-    }
-  }
-
-  static final class CacheAsMap<K, V> extends ForwardingConcurrentMap<K, V> {
-    private final ConcurrentMap<K, V> delegate;
-
-    CacheAsMap(ConcurrentMap<K, V> delegate) {
-      this.delegate = delegate;
-    }
-
-    @Override
-    protected ConcurrentMap<K, V> delegate() {
-      return delegate;
-    }
-
-    @Override
-    public V put(K key, V value) {
-      throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public void putAll(Map<? extends K, ? extends V> map) {
-      throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public V putIfAbsent(K key, V value) {
-      throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public V replace(K key, V value) {
-      throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public boolean replace(K key, V oldValue, V newValue) {
-      throw new UnsupportedOperationException();
     }
   }
 
