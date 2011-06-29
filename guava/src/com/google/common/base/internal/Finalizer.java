@@ -52,7 +52,8 @@ import java.util.logging.Logger;
  *     deletion in December 2012.</b>
  */
 @Deprecated
-public class Finalizer extends Thread {
+public
+class Finalizer extends Thread {
 
   private static final Logger logger
       = Logger.getLogger(Finalizer.class.getName());
