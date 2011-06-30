@@ -1687,8 +1687,7 @@ public final class Maps {
     @Override public boolean remove(Object o) {
       if (contains(o)) {
         Entry<?, ?> entry = (Entry<?, ?>) o;
-        map().remove(entry.getKey());
-        return true;
+        return map().keySet().remove(entry.getKey());
       }
       return false;
     }

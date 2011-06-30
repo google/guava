@@ -16,6 +16,7 @@
 
 package com.google.common.collect;
 
+import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 
@@ -33,6 +34,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.util.AbstractCollection;
 import java.util.AbstractSet;
 import java.util.Collection;
 import java.util.Collections;
@@ -1738,5 +1740,301 @@ public final class Multimaps {
       builder.put(keyFunction.apply(value), value);
     }
     return builder.build();
+  }
+
+  static abstract class Keys<K, V> extends AbstractMultiset<K> {
+    abstract Multimap<K, V> multimap();
+
+    private Set<Multiset.Entry<K>> entrySet;
+
+    @Override public Set<Multiset.Entry<K>> entrySet() {
+      return (entrySet == null) ? entrySet = createEntrySet() : entrySet;
+    }
+ 
+    @Override Iterator<Multiset.Entry<K>> entryIterator() {
+      final Iterator<Map.Entry<K, Collection<V>>> backingIterator =
+          multimap().asMap().entrySet().iterator();
+      return new Iterator<Multiset.Entry<K>>() {
+        @Override public boolean hasNext() {
+          return backingIterator.hasNext();
+        }
+
+        @Override public Multiset.Entry<K> next() {
+          final Map.Entry<K, Collection<V>> backingEntry =
+              backingIterator.next();
+          return new Multisets.AbstractEntry<K>() {
+            @Override public K getElement() {
+              return backingEntry.getKey();
+            }
+
+            @Override public int getCount() {
+              return backingEntry.getValue().size();
+            }
+          };
+        }
+
+        @Override public void remove() {
+          backingIterator.remove();
+        }
+      };
+    }
+
+    @Override int distinctElements() {
+      return multimap().asMap().size();
+    }
+
+    @Override Set<Multiset.Entry<K>> createEntrySet() {
+      return new KeysEntrySet();
+    }
+
+    class KeysEntrySet extends Multisets.EntrySet<K> {
+      @Override Multiset<K> multiset() {
+        return Keys.this;
+      }
+
+      @Override public Iterator<Multiset.Entry<K>> iterator() {
+        return entryIterator();
+      }
+
+      @Override public int size() {
+        return distinctElements();
+      }
+
+      @Override public boolean isEmpty() {
+        return multimap().isEmpty();
+      }
+
+      @Override public boolean contains(@Nullable Object o) {
+        if (o instanceof Multiset.Entry<?>) {
+          Multiset.Entry<?> entry = (Multiset.Entry<?>) o;
+          Collection<V> collection = multimap().asMap().get(entry.getElement());
+          return collection != null && collection.size() == entry.getCount();
+        }
+        return false;
+      }
+
+      @Override public boolean remove(@Nullable Object o) {
+        if (o instanceof Multiset.Entry<?>) {
+          Multiset.Entry<?> entry = (Multiset.Entry<?>) o;
+          Collection<V> collection = multimap().asMap().get(entry.getElement());
+          if (collection != null && collection.size() == entry.getCount()) {
+            collection.clear();
+            return true;
+          }
+        }
+        return false;
+      }
+    }
+
+    @Override public boolean contains(@Nullable Object element) {
+      return multimap().containsKey(element);
+    }
+
+    @Override public Iterator<K> iterator() {
+      return Iterators.transform(multimap().entries().iterator(),
+          new Function<Map.Entry<K, V>, K>() {
+            @Override public K apply(Map.Entry<K, V> entry) {
+              return entry.getKey();
+            }
+          });
+    }
+
+    @Override public int count(@Nullable Object element) {
+      try {
+        if (multimap().containsKey(element)) {
+          Collection<V> values = multimap().asMap().get(element);
+          return (values == null) ? 0 : values.size();
+        }
+        return 0;
+      } catch (ClassCastException e) {
+        return 0;
+      } catch (NullPointerException e) {
+        return 0;
+      }
+    }
+
+    @Override public int remove(@Nullable Object element, int occurrences) {
+      checkArgument(occurrences >= 0);
+      if (occurrences == 0) {
+        return count(element);
+      }
+
+      Collection<V> values;
+      try {
+        values = multimap().asMap().get(element);
+      } catch (ClassCastException e) {
+        return 0;
+      } catch (NullPointerException e) {
+        return 0;
+      }
+
+      if (values == null) {
+        return 0;
+      }
+
+      int oldCount = values.size();
+      if (occurrences >= oldCount) {
+        values.clear();
+      } else {
+        Iterator<V> iterator = values.iterator();
+        for (int i = 0; i < occurrences; i++) {
+          iterator.next();
+          iterator.remove();
+        }
+      }
+      return oldCount;
+    }
+
+    @Override public void clear() {
+      multimap().clear();
+    }
+
+    @Override public Set<K> elementSet() {
+      return multimap().keySet();
+    }
+  }
+
+  static abstract class Values<K, V> extends AbstractCollection<V> {
+    abstract Multimap<K, V> multimap();
+
+    @Override public Iterator<V> iterator() {
+      final Iterator<Map.Entry<K, V>> backingIterator =
+          multimap().entries().iterator();
+      return new Iterator<V>() {
+        @Override public boolean hasNext() {
+          return backingIterator.hasNext();
+        }
+
+        @Override public V next() {
+          return backingIterator.next().getValue();
+        }
+
+        @Override public void remove() {
+          backingIterator.remove();
+        }
+      };
+    }
+
+    @Override public int size() {
+      return multimap().size();
+    }
+
+    @Override public boolean contains(@Nullable Object o) {
+      return multimap().containsValue(o);
+    }
+
+    @Override public void clear() {
+      multimap().clear();
+    }
+  }
+
+  /**
+   * A skeleton implementation of {@link Multimap#entries()}.
+   */
+  static abstract class Entries<K, V> extends
+      AbstractCollection<Map.Entry<K, V>> {
+    abstract Multimap<K, V> multimap();
+
+    @Override public int size() {
+      return multimap().size();
+    }
+
+    @Override public boolean contains(@Nullable Object o) {
+      if (o instanceof Map.Entry<?, ?>) {
+        Map.Entry<?, ?> entry = (Map.Entry<?, ?>) o;
+        return multimap().containsEntry(entry.getKey(), entry.getValue());
+      }
+      return false;
+    }
+
+    @Override public boolean remove(@Nullable Object o) {
+      if (o instanceof Map.Entry<?, ?>) {
+        Map.Entry<?, ?> entry = (Map.Entry<?, ?>) o;
+        return multimap().remove(entry.getKey(), entry.getValue());
+      }
+      return false;
+    }
+
+    @Override public void clear() {
+      multimap().clear();
+    }
+  }
+
+  /**
+   * A skeleton implementation of {@link SetMultimap#entries()}.
+   */
+  static abstract class EntrySet<K, V> extends Entries<K, V> implements
+      Set<Map.Entry<K, V>> {
+    @Override public int hashCode() {
+      return Sets.hashCodeImpl(this);
+    }
+
+    @Override public boolean equals(@Nullable Object obj) {
+      return Sets.equalsImpl(this, obj);
+    }
+  }
+
+  /**
+   * A skeleton implementation of {@link Multimap#asMap()}.
+   */
+  static abstract class AsMap<K, V> extends
+      Maps.ImprovedAbstractMap<K, Collection<V>> {
+    abstract Multimap<K, V> multimap();
+
+    @Override public abstract int size();
+
+    abstract Iterator<Entry<K, Collection<V>>> entryIterator();
+
+    @Override protected Set<Entry<K, Collection<V>>> createEntrySet() {
+      return new EntrySet();
+    }
+
+    void removeValuesForKey(Object key){
+      multimap().removeAll(key);
+    }
+    
+    class EntrySet extends Maps.EntrySet<K, Collection<V>> {
+      @Override Map<K, Collection<V>> map() {
+        return AsMap.this;
+      }
+
+      @Override public Iterator<Entry<K, Collection<V>>> iterator() {
+        return entryIterator();
+      }
+
+      @Override public boolean remove(Object o) {
+        if (!contains(o)) {
+          return false;
+        }
+        Map.Entry<?, ?> entry = (Map.Entry<?, ?>) o;
+        removeValuesForKey(entry.getKey());
+        return true;
+      }
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override public Collection<V> get(Object key) {
+      return containsKey(key) ? multimap().get((K) key) : null;
+    }
+
+    @Override public Collection<V> remove(Object key) {
+      return containsKey(key) ? multimap().removeAll(key) : null;
+    }
+
+    @Override public Set<K> keySet() {
+      return multimap().keySet();
+    }
+
+    @Override public boolean isEmpty() {
+      return multimap().isEmpty();
+    }
+
+    @Override public boolean containsKey(Object key) {
+      return multimap().containsKey(key);
+    }
+
+    @Override public void clear() {
+      multimap().clear();
+    }
   }
 }
