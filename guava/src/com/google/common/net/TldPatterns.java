@@ -4085,7 +4085,6 @@ class TldPatterns {
       "\u0627\u0644\u064a\u0645\u0646",
       "xn--mgb2ddes",
       "xxx",
-      "blogspot.com",
       "tp",
       "yt",
       "ng"
