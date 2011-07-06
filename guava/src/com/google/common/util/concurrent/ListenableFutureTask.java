@@ -22,6 +22,8 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.Executor;
 import java.util.concurrent.FutureTask;
 
+import javax.annotation.Nullable;
+
 /**
  * A {@link FutureTask} that also implements the {@link ListenableFuture}
  * interface.  Subclasses must make sure to call {@code super.done()} if they
@@ -42,8 +44,7 @@ public final class ListenableFutureTask<V> extends FutureTask<V>
    * Creates a {@code ListenableFutureTask} that will upon running, execute the
    * given {@code Callable}.
    *
-   * @param  callable the callable task
-   * @throws NullPointerException if callable is null
+   * @param callable the callable task
    */
   public static <V> ListenableFutureTask<V> create(Callable<V> callable) {
     return new ListenableFutureTask<V>(callable);
@@ -54,15 +55,15 @@ public final class ListenableFutureTask<V> extends FutureTask<V>
    * given {@code Runnable}, and arrange that {@code get} will return the
    * given result on successful completion.
    *
-   * @param  runnable the runnable task
+   * @param runnable the runnable task
    * @param result the result to return on successful completion. If
    * you don't need a particular result, consider using
    * constructions of the form:
    * {@code ListenableFuture<?> f =
    *     ListenableFutureTask.create(runnable, null)}
-   * @throws NullPointerException if runnable is null
    */
-  public static <V> ListenableFutureTask<V> create(Runnable runnable, V result) {
+  public static <V> ListenableFutureTask<V> create(
+      Runnable runnable, @Nullable V result) {
     return new ListenableFutureTask<V>(runnable, result);
   }
 
@@ -70,8 +71,7 @@ public final class ListenableFutureTask<V> extends FutureTask<V>
    * Creates a {@code ListenableFutureTask} that will upon running, execute the
    * given {@code Callable}.
    *
-   * @param  callable the callable task
-   * @throws NullPointerException if callable is null
+   * @param callable the callable task
    */
   private ListenableFutureTask(Callable<V> callable) {
     super(callable);
@@ -82,15 +82,14 @@ public final class ListenableFutureTask<V> extends FutureTask<V>
    * given {@code Runnable}, and arrange that {@code get} will return the
    * given result on successful completion.
    *
-   * @param  runnable the runnable task
+   * @param runnable the runnable task
    * @param result the result to return on successful completion. If
    * you don't need a particular result, consider using
    * constructions of the form:
    * {@code ListenableFuture<?> f =
    *     ListenableFutureTask.create(runnable, null)}
-   * @throws NullPointerException if runnable is null
    */
-  private ListenableFutureTask(Runnable runnable, V result) {
+  private ListenableFutureTask(Runnable runnable, @Nullable V result) {
     super(runnable, result);
   }
 

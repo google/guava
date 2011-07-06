@@ -50,6 +50,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+import javax.annotation.CheckReturnValue;
 import javax.annotation.Nullable;
 
 /**
@@ -537,6 +538,7 @@ public final class CacheBuilder<K0, V0> {
    *
    * @throws IllegalStateException if a removal listener was already set
    */
+  @CheckReturnValue
   public <K extends K0, V extends V0> CacheBuilder<K, V> removalListener(
       RemovalListener<K, V> listener) {
     checkState(this.removalListener == null);

@@ -27,6 +27,8 @@ import java.util.concurrent.RejectedExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
+import javax.annotation.Nullable;
+
 /**
  * Provides default implementations of {@link ListeningExecutorService} execution methods. This
  * class implements the <tt>submit</tt>, <tt>invokeAny</tt> and <tt>invokeAll</tt> methods using a
@@ -46,7 +48,7 @@ abstract class AbstractListeningExecutorService implements ListeningExecutorServ
    *         which, as a <tt>Future</tt>, will yield the given value as its result and provide for
    *         cancellation of the underlying task.
    */
-  private <T> ListenableFutureTask<T> newTaskFor(Runnable runnable, T value) {
+  private <T> ListenableFutureTask<T> newTaskFor(Runnable runnable, @Nullable T value) {
     return ListenableFutureTask.create(runnable, value);
   }
 

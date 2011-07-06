@@ -27,6 +27,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import javax.annotation.CheckReturnValue;
 import javax.annotation.Nullable;
 
 /**
@@ -178,6 +179,7 @@ public class Joiner {
    * Returns a joiner with the same behavior as this one, except automatically substituting {@code
    * nullText} for any provided null elements.
    */
+  @CheckReturnValue
   public Joiner useForNull(final String nullText) {
     checkNotNull(nullText);
     return new Joiner(this) {
@@ -200,6 +202,7 @@ public class Joiner {
    * Returns a joiner with the same behavior as this joiner, except automatically skipping over any
    * provided null elements.
    */
+  @CheckReturnValue
   public Joiner skipNulls() {
     return new Joiner(this) {
       @Override public <A extends Appendable> A appendTo(A appendable, Iterable<?> parts)
@@ -240,6 +243,7 @@ public class Joiner {
    * Returns a {@code MapJoiner} using the given key-value separator, and the same configuration as
    * this {@code Joiner} otherwise.
    */
+  @CheckReturnValue
   public MapJoiner withKeyValueSeparator(String keyValueSeparator) {
     return new MapJoiner(this, keyValueSeparator);
   }
@@ -308,6 +312,7 @@ public class Joiner {
      * Returns a map joiner with the same behavior as this one, except automatically substituting
      * {@code nullText} for any provided null keys or values.
      */
+    @CheckReturnValue
     public MapJoiner useForNull(String nullText) {
       return new MapJoiner(joiner.useForNull(nullText), keyValueSeparator);
     }

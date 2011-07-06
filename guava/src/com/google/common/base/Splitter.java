@@ -29,6 +29,8 @@ import java.util.NoSuchElementException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.annotation.CheckReturnValue;
+
 /**
  * An object that divides strings (or other instances of {@code CharSequence})
  * into substrings, by recognizing a <i>separator</i> (a.k.a. "delimiter")
@@ -294,6 +296,7 @@ public final class Splitter {
    *
    * @return a splitter with the desired configuration
    */
+  @CheckReturnValue
   public Splitter omitEmptyStrings() {
     return new Splitter(strategy, true, trimmer, limit);
   }
@@ -318,6 +321,7 @@ public final class Splitter {
    * @since Guava release 09
    */
   @Beta
+  @CheckReturnValue
   public Splitter limit(int limit) {
     checkArgument(limit > 0, "must be greater then zero: %s", limit);
     return new Splitter(strategy, omitEmptyStrings, trimmer, limit);
@@ -333,6 +337,7 @@ public final class Splitter {
    *
    * @return a splitter with the desired configuration
    */
+  @CheckReturnValue
   public Splitter trimResults() {
     return trimResults(CharMatcher.WHITESPACE);
   }
@@ -349,6 +354,7 @@ public final class Splitter {
    * @return a splitter with the desired configuration
    */
   // TODO(kevinb): throw if a trimmer was already specified!
+  @CheckReturnValue
   public Splitter trimResults(CharMatcher trimmer) {
     checkNotNull(trimmer);
     return new Splitter(strategy, omitEmptyStrings, trimmer, limit);
