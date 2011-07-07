@@ -20,6 +20,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 
+import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Function;
 import com.google.common.base.Objects;
@@ -183,7 +184,7 @@ public final class Multisets {
     public int getCount() {
       return count;
     }
-    
+
     private static final long serialVersionUID = 0;
   }
 
@@ -406,6 +407,107 @@ public final class Multisets {
   }
 
   /**
+   * Modifies {@code multisetToModify} so that its count for an element
+   * {@code e} is at most {@code multisetToRetain.count(e)}.
+   *
+   * <p>To be precise, {@code multisetToModify.count(e)} is set to
+   * {@code Math.min(multisetToModify.count(e),
+   * multisetToRetain.count(e))}. This is similar to
+   * {@link #intersection(Multiset, Multiset) intersection}
+   * {@code (multisetToModify, multisetToRetain)}, but mutates
+   * {@code multisetToModify} instead of returning a view.
+   *
+   * <p>In contrast, {@code multisetToModify.retainAll(multisetToRetain)} keeps
+   * all occurrences of elements that appear at all in {@code
+   * multisetToRetain}, and deletes all occurrences of all other elements.
+   *
+   * @return {@code true} if {@code multisetToModify} was changed as a result
+   *         of this operation
+   * @since Guava release 10
+   */
+  @Beta public static boolean retainOccurrences(Multiset<?> multisetToModify,
+      Multiset<?> multisetToRetain) {
+    return retainOccurrencesImpl(multisetToModify, multisetToRetain);
+  }
+
+  /**
+   * Delegate implementation which cares about the element type.
+   */
+  private static <E> boolean retainOccurrencesImpl(
+      Multiset<E> multisetToModify, Multiset<?> occurrencesToRetain) {
+    checkNotNull(multisetToModify);
+    checkNotNull(occurrencesToRetain);
+    // Avoiding ConcurrentModificationExceptions is tricky.
+    Iterator<Entry<E>> entryIterator = multisetToModify.entrySet().iterator();
+    boolean changed = false;
+    while (entryIterator.hasNext()) {
+      Entry<E> entry = entryIterator.next();
+      int retainCount = occurrencesToRetain.count(entry.getElement());
+      if (retainCount == 0) {
+        entryIterator.remove();
+        changed = true;
+      } else if (retainCount < entry.getCount()) {
+        multisetToModify.setCount(entry.getElement(), retainCount);
+        changed = true;
+      }
+    }
+    return changed;
+  }
+
+  /**
+   * For each occurrence of an element {@code e} in {@code occurrencesToRemove},
+   * removes one occurrence of {@code e} in {@code multisetToModify}.
+   *
+   * <p>Equivalently, this method modifies {@code multisetToModify} so that
+   * {@code multisetToModify.count(e)} is set to
+   * {@code Math.max(0, multisetToModify.count(e) -
+   * occurrencesToRemove.count(e))}.
+   *
+   * <p>This is <i>not</i> the same as {@code multisetToModify.}
+   * {@link Multiset#removeAll removeAll}{@code (occurrencesToRemove)}, which
+   * removes all occurrences of elements that appear in
+   * {@code occurrencesToRemove}. However, this operation <i>is</i> equivalent
+   * to, albeit more efficient than, the following: <pre>   {@code
+   *
+   *   for (E e : occurrencesToRemove) {
+   *     multisetToModify.remove(e);
+   *   }}</pre>
+   *
+   * @return {@code true} if {@code multisetToModify} was changed as a result of
+   *         this operation
+   * @since Guava release 10
+   */
+  @Beta public static boolean removeOccurrences(
+      Multiset<?> multisetToModify, Multiset<?> occurrencesToRemove) {
+    return removeOccurrencesImpl(multisetToModify, occurrencesToRemove);
+  }
+
+  /**
+   * Delegate that cares about the element types in occurrencesToRemove.
+   */
+  private static <E> boolean removeOccurrencesImpl(
+      Multiset<E> multisetToModify, Multiset<?> occurrencesToRemove) {
+    // TODO(user): generalize to removing an Iterable, perhaps
+    checkNotNull(multisetToModify);
+    checkNotNull(occurrencesToRemove);
+
+    boolean changed = false;
+    Iterator<Entry<E>> entryIterator = multisetToModify.entrySet().iterator();
+    while (entryIterator.hasNext()) {
+      Entry<E> entry = entryIterator.next();
+      int removeCount = occurrencesToRemove.count(entry.getElement());
+      if (removeCount >= entry.getCount()) {
+        entryIterator.remove();
+        changed = true;
+      } else if (removeCount > 0) {
+        multisetToModify.remove(entry.getElement(), removeCount);
+        changed = true;
+      }
+    }
+    return changed;
+  }
+
+  /**
    * Implementation of the {@code equals}, {@code hashCode}, and
    * {@code toString} methods of {@link Multiset.Entry}.
    */
@@ -444,7 +546,7 @@ public final class Multisets {
       int n = getCount();
       return (n == 1) ? text : (text + " x " + n);
     }
-  } 
+  }
 
   /**
    * An implementation of {@link Multiset#equals}.
@@ -604,6 +706,7 @@ public final class Multisets {
         }
         int count = multiset().count(entry.getElement());
         return count == entry.getCount();
+
       }
       return false;
     }
@@ -674,7 +777,7 @@ public final class Multisets {
       canRemove = false;
     }
   }
-  
+
   /**
    * An implementation of {@link Multiset#size}.
    */
