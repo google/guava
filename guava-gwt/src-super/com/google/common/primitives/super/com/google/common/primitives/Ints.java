@@ -49,6 +49,11 @@ public final class Ints {
   public static final int BYTES = Integer.SIZE / Byte.SIZE;
 
   /**
+   * The largest power of two that can be represented as an {@code int}.
+   */
+  public static final int MAX_POWER_OF_TWO = 1 << (Integer.SIZE - 2);
+
+  /**
    * Returns a hash code for {@code value}; equal to the result of invoking
    * {@code ((Integer) value).hashCode()}.
    *

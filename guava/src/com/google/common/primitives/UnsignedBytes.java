@@ -45,6 +45,11 @@ public final class UnsignedBytes {
   private UnsignedBytes() {}
 
   /**
+   * The largest power of two that can be represented as an unsigned {@code byte}.
+   */
+  public static final byte MAX_POWER_OF_TWO = (byte) (1 << 7);
+
+  /**
    * Returns the value of the given byte as an integer, when treated as
    * unsigned. That is, returns {@code value + 256} if {@code value} is
    * negative; {@code value} itself otherwise.

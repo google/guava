@@ -37,6 +37,11 @@ public final class SignedBytes {
   private SignedBytes() {}
 
   /**
+   * The largest power of two that can be represented as a signed {@code byte}. 
+   */
+  public static final byte MAX_POWER_OF_TWO = 1 << 6;
+  
+  /**
    * Returns the {@code byte} value that is equal to {@code value}, if possible.
    *
    * @param value any value in the range of the {@code byte} type

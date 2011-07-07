@@ -49,6 +49,11 @@ public final class Shorts {
   public static final int BYTES = Short.SIZE / Byte.SIZE;
 
   /**
+   * The largest power of two that can be represented as a {@code short}.
+   */
+  public static final short MAX_POWER_OF_TWO = 1 << (Short.SIZE - 2);
+
+  /**
    * Returns a hash code for {@code value}; equal to the result of invoking
    * {@code ((Short) value).hashCode()}.
    *
