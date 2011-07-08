@@ -20,6 +20,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.primitives.Ints;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -207,7 +208,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E>
   }
 
   // We use power-of-2 tables, and this is the highest int that's a power of 2
-  static final int MAX_TABLE_SIZE = 1 << 30;
+  static final int MAX_TABLE_SIZE = Ints.MAX_POWER_OF_TWO;
 
   // If the set has this many elements, it will "max out" the table size
   static final int CUTOFF = 1 << 29;

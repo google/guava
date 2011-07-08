@@ -20,6 +20,7 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Preconditions;
+import com.google.common.primitives.Ints;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -127,7 +128,7 @@ public final class LinkedHashMultimap<K, V> extends AbstractSetMultimap<K, V> {
     Preconditions.checkArgument(expectedValuesPerKey >= 0);
     this.expectedValuesPerKey = expectedValuesPerKey;
     linkedEntries = new LinkedHashSet<Map.Entry<K, V>>(
-        (int) Math.min(1 << 30, ((long) expectedKeys) * expectedValuesPerKey));
+        (int) Math.min(Ints.MAX_POWER_OF_TWO, ((long) expectedKeys) * expectedValuesPerKey));
   }
 
   private LinkedHashMultimap(Multimap<? extends K, ? extends V> multimap) {

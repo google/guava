@@ -24,6 +24,7 @@ import com.google.common.base.Function;
 import com.google.common.base.Joiner;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
+import com.google.common.primitives.Ints;
 
 import java.util.AbstractCollection;
 import java.util.ArrayList;
@@ -323,7 +324,7 @@ public final class Collections2 {
    */
   static StringBuilder newStringBuilderForCollection(int size) {
     checkArgument(size >= 0, "size must be non-negative");
-    return new StringBuilder((int) Math.min(size * 8L, 1 << 30));
+    return new StringBuilder((int) Math.min(size * 8L, Ints.MAX_POWER_OF_TWO));
   }
 
   /**

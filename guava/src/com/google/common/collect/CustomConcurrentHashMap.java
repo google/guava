@@ -108,7 +108,7 @@ class CustomConcurrentHashMap<K, V>
    * constructors with arguments. MUST be a power of two <= 1<<30 to ensure that entries are
    * indexable using ints.
    */
-  static final int MAXIMUM_CAPACITY = 1 << 30;
+  static final int MAXIMUM_CAPACITY = Ints.MAX_POWER_OF_TWO;
 
   /** The maximum number of segments to allow; used to bound constructor arguments. */
   static final int MAX_SEGMENTS = 1 << 16; // slightly conservative
