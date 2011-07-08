@@ -109,14 +109,14 @@ import javax.annotation.Nullable;
  * <p>The caches produced by {@code CacheBuilder} are serializable, and the deserialized caches
  * retain all the configuration properties of the original cache.
  *
- * @param <K0> the base key type for all caches created by this builder
- * @param <V0> the base value type for all caches created by this builder
+ * @param <K> the base key type for all caches created by this builder
+ * @param <V> the base value type for all caches created by this builder
  * @author Charles Fry
  * @author Kevin Bourrillion
  * @since Guava release 10
  */
 @Beta
-public final class CacheBuilder<K0, V0> {
+public final class CacheBuilder<K, V> {
   private static final int DEFAULT_INITIAL_CAPACITY = 16;
   private static final int DEFAULT_CONCURRENCY_LEVEL = 4;
   private static final int DEFAULT_EXPIRATION_NANOS = 0;
@@ -177,7 +177,7 @@ public final class CacheBuilder<K0, V0> {
   Equivalence<Object> keyEquivalence;
   Equivalence<Object> valueEquivalence;
 
-  RemovalListener<K0, V0> removalListener;
+  RemovalListener<K, V> removalListener;
 
   ScheduledExecutorService cleanupExecutor;
   Ticker ticker;
@@ -204,7 +204,7 @@ public final class CacheBuilder<K0, V0> {
    * {@link #weakKeys} or {@link #softKeys} is specified, and {@link Equivalences#equals()}
    * otherwise.
    */
-  CacheBuilder<K0, V0> keyEquivalence(Equivalence<Object> equivalence) {
+  CacheBuilder<K, V> keyEquivalence(Equivalence<Object> equivalence) {
     checkState(keyEquivalence == null, "key equivalence was already set to %s", keyEquivalence);
     keyEquivalence = checkNotNull(equivalence);
     return this;
@@ -221,7 +221,7 @@ public final class CacheBuilder<K0, V0> {
    * {@link #weakValues} or {@link #softValues} is specified, and {@link Equivalences#equals()}
    * otherwise.
    */
-  CacheBuilder<K0, V0> valueEquivalence(Equivalence<Object> equivalence) {
+  CacheBuilder<K, V> valueEquivalence(Equivalence<Object> equivalence) {
     checkState(valueEquivalence == null,
         "value equivalence was already set to %s", valueEquivalence);
     this.valueEquivalence = checkNotNull(equivalence);
@@ -242,7 +242,7 @@ public final class CacheBuilder<K0, V0> {
    * @throws IllegalArgumentException if {@code initialCapacity} is negative
    * @throws IllegalStateException if an initial capacity was already set
    */
-  public CacheBuilder<K0, V0> initialCapacity(int initialCapacity) {
+  public CacheBuilder<K, V> initialCapacity(int initialCapacity) {
     checkState(this.initialCapacity == UNSET_INT, "initial capacity was already set to %s",
         this.initialCapacity);
     checkArgument(initialCapacity >= 0);
@@ -272,7 +272,7 @@ public final class CacheBuilder<K0, V0> {
    * @throws IllegalArgumentException if {@code concurrencyLevel} is nonpositive
    * @throws IllegalStateException if a concurrency level was already set
    */
-  public CacheBuilder<K0, V0> concurrencyLevel(int concurrencyLevel) {
+  public CacheBuilder<K, V> concurrencyLevel(int concurrencyLevel) {
     checkState(this.concurrencyLevel == UNSET_INT, "concurrency level was already set to %s",
         this.concurrencyLevel);
     checkArgument(concurrencyLevel > 0);
@@ -299,7 +299,7 @@ public final class CacheBuilder<K0, V0> {
    * @throws IllegalArgumentException if {@code size} is negative
    * @throws IllegalStateException if a maximum size was already set
    */
-  public CacheBuilder<K0, V0> maximumSize(int size) {
+  public CacheBuilder<K, V> maximumSize(int size) {
     checkState(this.maximumSize == UNSET_INT, "maximum size was already set to %s",
         this.maximumSize);
     checkArgument(size >= 0, "maximum size must not be negative");
@@ -316,7 +316,7 @@ public final class CacheBuilder<K0, V0> {
    *
    * @throws IllegalStateException if the key strength was already set
    */
-  CacheBuilder<K0, V0> strongKeys() {
+  CacheBuilder<K, V> strongKeys() {
     return setKeyStrength(Strength.STRONG);
   }
 
@@ -329,7 +329,7 @@ public final class CacheBuilder<K0, V0> {
    *
    * @throws IllegalStateException if the key strength was already set
    */
-  public CacheBuilder<K0, V0> weakKeys() {
+  public CacheBuilder<K, V> weakKeys() {
     return setKeyStrength(Strength.WEAK);
   }
 
@@ -348,11 +348,11 @@ public final class CacheBuilder<K0, V0> {
    *
    * @throws IllegalStateException if the key strength was already set
    */
-  public CacheBuilder<K0, V0> softKeys() {
+  public CacheBuilder<K, V> softKeys() {
     return setKeyStrength(Strength.SOFT);
   }
 
-  CacheBuilder<K0, V0> setKeyStrength(Strength strength) {
+  CacheBuilder<K, V> setKeyStrength(Strength strength) {
     checkState(keyStrength == null, "Key strength was already set to %s", keyStrength);
     keyStrength = checkNotNull(strength);
     return this;
@@ -367,7 +367,7 @@ public final class CacheBuilder<K0, V0> {
    *
    * @throws IllegalStateException if the value strength was already set
    */
-  CacheBuilder<K0, V0> strongValues() {
+  CacheBuilder<K, V> strongValues() {
     return setValueStrength(Strength.STRONG);
   }
 
@@ -383,7 +383,7 @@ public final class CacheBuilder<K0, V0> {
    *
    * @throws IllegalStateException if the value strength was already set
    */
-  public CacheBuilder<K0, V0> weakValues() {
+  public CacheBuilder<K, V> weakValues() {
     return setValueStrength(Strength.WEAK);
   }
 
@@ -402,11 +402,11 @@ public final class CacheBuilder<K0, V0> {
    *
    * @throws IllegalStateException if the value strength was already set
    */
-  public CacheBuilder<K0, V0> softValues() {
+  public CacheBuilder<K, V> softValues() {
     return setValueStrength(Strength.SOFT);
   }
 
-  CacheBuilder<K0, V0> setValueStrength(Strength strength) {
+  CacheBuilder<K, V> setValueStrength(Strength strength) {
     checkState(valueStrength == null, "Value strength was already set to %s", valueStrength);
     valueStrength = checkNotNull(strength);
     return this;
@@ -435,7 +435,7 @@ public final class CacheBuilder<K0, V0> {
    * @throws IllegalArgumentException if {@code duration} is negative
    * @throws IllegalStateException if the time to live or time to idle was already set
    */
-  public CacheBuilder<K0, V0> expireAfterWrite(long duration, TimeUnit unit) {
+  public CacheBuilder<K, V> expireAfterWrite(long duration, TimeUnit unit) {
     checkExpiration(duration, unit);
     this.expireAfterWriteNanos = unit.toNanos(duration);
     if (duration == 0 && this.nullRemovalCause == null) {
@@ -476,7 +476,7 @@ public final class CacheBuilder<K0, V0> {
    * @throws IllegalArgumentException if {@code duration} is negative
    * @throws IllegalStateException if the time to idle or time to live was already set
    */
-  public CacheBuilder<K0, V0> expireAfterAccess(long duration, TimeUnit unit) {
+  public CacheBuilder<K, V> expireAfterAccess(long duration, TimeUnit unit) {
     checkExpiration(duration, unit);
     this.expireAfterAccessNanos = unit.toNanos(duration);
     if (duration == 0 && this.nullRemovalCause == null) {
@@ -504,7 +504,7 @@ public final class CacheBuilder<K0, V0> {
    *
    * @throws IllegalStateException if a ticker was already set
    */
-  public CacheBuilder<K0, V0> ticker(Ticker ticker) {
+  public CacheBuilder<K, V> ticker(Ticker ticker) {
     checkState(this.ticker == null);
     this.ticker = checkNotNull(ticker);
     return this;
@@ -524,7 +524,7 @@ public final class CacheBuilder<K0, V0> {
    * methods (even read-only methods).
    *
    * <p><b>Important note:</b> Instead of returning <em>this</em> as a {@code CacheBuilder}
-   * instance, this method returns {@code CacheBuilder<K, V>}. From this point on, either the
+   * instance, this method returns {@code CacheBuilder<K1, V1>}. From this point on, either the
    * original reference or the returned reference may be used to complete configuration and build
    * the cache, but only the "generic" one is type-safe. That is, it will properly prevent you from
    * building caches whose key or value types are incompatible with the types accepted by the
@@ -539,36 +539,36 @@ public final class CacheBuilder<K0, V0> {
    * @throws IllegalStateException if a removal listener was already set
    */
   @CheckReturnValue
-  public <K extends K0, V extends V0> CacheBuilder<K, V> removalListener(
-      RemovalListener<K, V> listener) {
+  public <K1 extends K, V1 extends V> CacheBuilder<K1, V1> removalListener(
+      RemovalListener<K1, V1> listener) {
     checkState(this.removalListener == null);
 
     // safely limiting the kinds of caches this can produce
     @SuppressWarnings("unchecked")
-    CacheBuilder<K, V> me = (CacheBuilder<K, V>) this;
+    CacheBuilder<K1, V1> me = (CacheBuilder<K1, V1>) this;
     me.removalListener = checkNotNull(listener);
     return me;
   }
 
   // Make a safe contravariant cast now so we don't have to do it over and over.
   @SuppressWarnings("unchecked")
-  <K extends K0, V extends V0> RemovalListener<K, V> getRemovalListener() {
-    return (RemovalListener<K, V>) Objects.firstNonNull(removalListener, NullListener.INSTANCE);
+  <K1 extends K, V1 extends V> RemovalListener<K1, V1> getRemovalListener() {
+    return (RemovalListener<K1, V1>) Objects.firstNonNull(removalListener, NullListener.INSTANCE);
   }
 
   /**
    * Returns a CustomConcurrentHashMap for the benefit of internal callers that use features of
    * that class not exposed through ConcurrentMap.
    */
-  <K extends K0, V extends V0> CustomConcurrentHashMap<K, V> makeCustomMap() {
-    return new CustomConcurrentHashMap<K, V>(this, DEFAULT_STATS_COUNTER);
+  <K1 extends K, V1 extends V> CustomConcurrentHashMap<K1, V1> makeCustomMap() {
+    return new CustomConcurrentHashMap<K1, V1>(this, DEFAULT_STATS_COUNTER);
   }
 
-  <K extends K0, V extends V0> ConcurrentMap<K, V> makeComputingMap(
-      CacheLoader<? super K, ? extends V> loader) {
+  <K1 extends K, V1 extends V> ConcurrentMap<K1, V1> makeComputingMap(
+      CacheLoader<? super K1, ? extends V1> loader) {
     return useNullCache()
-        ? new ComputingConcurrentHashMap<K, V>(this, DEFAULT_STATS_COUNTER, loader)
-        : new NullComputingConcurrentMap<K, V>(this, loader);
+        ? new ComputingConcurrentHashMap<K1, V1>(this, DEFAULT_STATS_COUNTER, loader)
+        : new NullComputingConcurrentMap<K1, V1>(this, loader);
   }
 
   /**
@@ -583,10 +583,10 @@ public final class CacheBuilder<K0, V0> {
    * @param loader the cache loader used to obtain new values
    * @return a cache having the requested features
    */
-  public <K extends K0, V extends V0> Cache<K, V> build(CacheLoader<? super K, V> loader) {
+  public <K1 extends K, V1 extends V> Cache<K1, V1> build(CacheLoader<? super K1, V1> loader) {
     return useNullCache()
-        ? new ComputingCache<K, V>(this, CACHE_STATS_COUNTER, loader)
-        : new NullCache<K, V>(this, CACHE_STATS_COUNTER, loader);
+        ? new ComputingCache<K1, V1>(this, CACHE_STATS_COUNTER, loader)
+        : new NullCache<K1, V1>(this, CACHE_STATS_COUNTER, loader);
   }
 
   /**
