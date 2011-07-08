@@ -407,6 +407,25 @@ public final class Multisets {
   }
 
   /**
+   * Returns {@code true} if {@code subMultiset.count(o) <= superMultiset.count(o)} for all
+   * {@code o}.
+   *
+   * @since Guava release 10
+   */
+  @Beta
+  public static boolean containsOccurrences(Multiset<?> superMultiset, Multiset<?> subMultiset) {
+    checkNotNull(superMultiset);
+    checkNotNull(subMultiset);
+    for (Entry<?> entry : subMultiset.entrySet()) {
+      int superCount = superMultiset.count(entry.getElement());
+      if (superCount < entry.getCount()) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  /**
    * Modifies {@code multisetToModify} so that its count for an element
    * {@code e} is at most {@code multisetToRetain.count(e)}.
    *
