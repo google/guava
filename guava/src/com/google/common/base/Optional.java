@@ -96,14 +96,6 @@ public abstract class Optional<T> implements BaseHolder<T> {
   private Optional() {}
 
   /**
-   * Returns the contained non-null reference if it is present; {@code defaultValue} otherwise.
-   *
-   * @deprecated use {@code orNull()} for {@code get(null)}; {@code or(T)} otherwise
-   */
-  // TODO(kevinb): remove
-  @Deprecated @Nullable public abstract T get(@Nullable T defaultValue);
-
-  /**
    * Returns this {@code Optional} if it has a value present; {@code secondChoice}
    * otherwise.
    */
@@ -140,13 +132,6 @@ public abstract class Optional<T> implements BaseHolder<T> {
     }
 
     @Override public T get() {
-      return reference;
-    }
-
-    @Deprecated
-    @Override
-    @Nullable
-    public T get(@Nullable T defaultValue) {
       return reference;
     }
 
@@ -188,13 +173,6 @@ public abstract class Optional<T> implements BaseHolder<T> {
 
     @Override public Object get() {
       throw new IllegalStateException("value is absent");
-    }
-
-    @Deprecated
-    @Override
-    @Nullable
-    public Object get(@Nullable Object defaultValue) {
-      return defaultValue;
     }
 
     @Override public Object or(Object defaultValue) {
