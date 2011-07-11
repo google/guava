@@ -357,7 +357,7 @@ public final class Range<C extends Comparable> implements Predicate<C> {
    */
   // TODO(kevinb): commit in spec to which methods are efficient?
   @GwtCompatible(serializable = false)
-  public ImmutableSortedSet<C> asSet(DiscreteDomain<C> domain) {
+  public ContiguousSet<C> asSet(DiscreteDomain<C> domain) {
     checkNotNull(domain);
     Range<C> effectiveRange = this;
     try {
@@ -371,7 +371,9 @@ public final class Range<C extends Comparable> implements Predicate<C> {
       throw new IllegalArgumentException(e);
     }
     return effectiveRange.isEmpty()
-        ? ImmutableSortedSet.<C>of() : new ContiguousSet<C>(effectiveRange, domain);
+        || (lowerBound.leastValueAbove(domain).compareTo(upperBound.greatestValueBelow(domain)) > 0)
+            ? new EmptyContiguousSet<C>(domain)
+            : new RegularContiguousSet<C>(effectiveRange, domain);
   }
 
   /**
@@ -438,7 +440,7 @@ public final class Range<C extends Comparable> implements Predicate<C> {
     return toString(lowerBound, upperBound);
   }
 
-  private static String toString(Cut lowerBound, Cut upperBound) {
+  private static String toString(Cut<?> lowerBound, Cut<?> upperBound) {
     StringBuilder sb = new StringBuilder();
     lowerBound.describeAsLowerBound(sb);
     sb.append('\u2025');

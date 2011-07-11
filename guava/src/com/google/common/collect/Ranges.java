@@ -169,6 +169,10 @@ public final class Ranges {
    */
   public static <C extends Comparable<?>> Range<C> encloseAll(
       Iterable<C> values) {
+    checkNotNull(values);
+    if (values instanceof ContiguousSet) {
+      return ((ContiguousSet<C>) values).range();
+    }
     Iterator<C> valueIterator = values.iterator();
     C min = checkNotNull(valueIterator.next());
     C max = min;

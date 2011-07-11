@@ -21,9 +21,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
 
-import java.util.Collection;
-
-import javax.annotation.Nullable;
+import java.util.NoSuchElementException;
 
 /**
  * A sorted set of contiguous values in a given {@link DiscreteDomain}.
@@ -32,41 +30,30 @@ import javax.annotation.Nullable;
  */
 @GwtCompatible
 @SuppressWarnings("unchecked") // allow ungenerified Comparable types
-final class ContiguousSet<C extends Comparable> extends ImmutableSortedSet<C> {
-  private final Range<C> range;
-  private final DiscreteDomain<C> domain;
+public abstract class ContiguousSet<C extends Comparable> extends ImmutableSortedSet<C> {
+  final DiscreteDomain<C> domain;
 
-  ContiguousSet(Range<C> range, DiscreteDomain<C> domain) {
+  ContiguousSet(DiscreteDomain<C> domain) {
     super(Ordering.natural());
-    this.range = range;
     this.domain = domain;
   }
 
-  @Override public ImmutableSortedSet<C> headSet(C toElement) {
-    return headSet(toElement, false);
+  @Override public ContiguousSet<C> headSet(C toElement) {
+    return headSet(checkNotNull(toElement), false);
   }
 
-  @Override ImmutableSortedSet<C> headSet(C toElement, boolean inclusive) {
+  @Override ContiguousSet<C> headSet(C toElement, boolean inclusive) {
     return headSetImpl(checkNotNull(toElement), inclusive);
   }
-  
-  // Abstract method doesn't exist in GWT emulation
-  /* @Override */ ImmutableSortedSet<C> headSetImpl(C toElement, boolean inclusive) {
-    return range.intersection(inclusive ? Ranges.atMost(toElement) : Ranges.lessThan(toElement))
-        .asSet(domain);
-  }
 
-  // Abstract method doesn't exist in GWT emulation
-  // TODO: ImmutableSortedSet.indexOf and contains allow null; shouldn't we?
-  /* @Override */ int indexOf(Object target) {
-    return contains(target) ? (int) domain.distance(first(), (C) target) : -1;
-  }
-
-  @Override public ImmutableSortedSet<C> subSet(C fromElement, C toElement) {
+  @Override public ContiguousSet<C> subSet(C fromElement, C toElement) {
+    checkNotNull(fromElement);
+    checkNotNull(toElement);
+    checkArgument(comparator().compare(fromElement, toElement) <= 0);
     return subSet(fromElement, true, toElement, false);
   }
-  
-  @Override ImmutableSortedSet<C> subSet(C fromElement, boolean fromInclusive, C toElement,
+
+  @Override ContiguousSet<C> subSet(C fromElement, boolean fromInclusive, C toElement,
       boolean toInclusive) {
     checkNotNull(fromElement);
     checkNotNull(toElement);
@@ -74,129 +61,46 @@ final class ContiguousSet<C extends Comparable> extends ImmutableSortedSet<C> {
     return subSetImpl(fromElement, fromInclusive, toElement, toInclusive);
   }
 
-  // Abstract method doesn't exist in GWT emulation
-  /* @Override */ImmutableSortedSet<C> subSetImpl(C fromElement, boolean fromInclusive,
-      C toElement, boolean toInclusive) {
-    Range<C> subRange;
-    if (fromInclusive) {
-      if (toInclusive) {
-        subRange = Ranges.closed(fromElement, toElement);
-      } else {
-        subRange = Ranges.closedOpen(fromElement, toElement);
-      }
-    } else {
-      if (toInclusive) {
-        subRange = Ranges.openClosed(fromElement, toElement);
-      } else {
-        subRange = Ranges.open(fromElement, toElement);
-      }
-    }
-    return range.intersection(subRange).asSet(domain);
+  @Override public ContiguousSet<C> tailSet(C fromElement) {
+    return tailSet(checkNotNull(fromElement), true);
   }
 
-  @Override public ImmutableSortedSet<C> tailSet(C fromElement) {
-    return tailSet(fromElement, true);
-  }
-
-  @Override ImmutableSortedSet<C> tailSet(C fromElement, boolean inclusive){
+  @Override ContiguousSet<C> tailSet(C fromElement, boolean inclusive){
     return tailSetImpl(checkNotNull(fromElement), inclusive);
   }
-  
-  // Abstract method doesn't exist in GWT emulation
-  /* @Override */ ImmutableSortedSet<C> tailSetImpl(C fromElement, boolean inclusive) {
-    return range.intersection(
-        inclusive ? Ranges.atLeast(fromElement) : Ranges.greaterThan(fromElement)).asSet(domain);
-  }
 
-  @Override public UnmodifiableIterator<C> iterator() {
-    return new AbstractLinkedIterator<C>(first()) {
-      final C last = last();
+  /*
+   * These methods perform most headSet, subSet, and tailSet logic, besides parameter validation.
+   */
+  /*@Override*/ abstract ContiguousSet<C> headSetImpl(C toElement, boolean inclusive);
 
-      @Override
-      protected C computeNext(C previous) {
-        return equalsOrThrow(previous, last) ? null : domain.next(previous);
-      }
-    };
-  }
+  /*@Override*/ abstract ContiguousSet<C> subSetImpl(C fromElement, boolean fromInclusive,
+      C toElement, boolean toInclusive);
 
-  private static boolean equalsOrThrow(Comparable<?> left,
-      @Nullable Comparable<?> right) {
-    return right != null && compareOrThrow(left, right) == 0;
-  }
-
-  private static int compareOrThrow(Comparable left, Comparable right) {
-    return left.compareTo(right);
-  }
-
-  @Override boolean isPartialView() {
-    return false;
-  }
-
-  @Override public C first() {
-    return range.lowerBound.leastValueAbove(domain);
-  }
-
-  @Override public C last() {
-    return range.upperBound.greatestValueBelow(domain);
-  }
-
-  @Override public int size() {
-    long distance = domain.distance(first(), last());
-    return (distance >= Integer.MAX_VALUE) ? Integer.MAX_VALUE : (int) distance + 1;
-  }
-
-  @Override public boolean contains(Object object) {
-    try {
-      return range.contains((C) object);
-    } catch (ClassCastException e) {
-      return false;
-    }
-  }
-
-  @Override public boolean containsAll(Collection<?> targets) {
-    try {
-      return range.containsAll((Iterable<? extends C>) targets);
-    } catch (ClassCastException e) {
-      return false;
-    }
-  }
-
-  // copied to make sure not to use the GWT-emulated version
-  @Override public Object[] toArray() {
-    return ObjectArrays.toArrayImpl(this);
-  }
-
-  // copied to make sure not to use the GWT-emulated version
-  @Override public <T> T[] toArray(T[] other) {
-    return ObjectArrays.toArrayImpl(this, other);
-  }
-
-  @Override public boolean equals(Object object) {
-    if (object == this) {
-      return true;
-    } else if (object instanceof ContiguousSet) {
-      ContiguousSet<?> that = (ContiguousSet<?>) object;
-      if (this.domain.equals(that.domain)) {
-        return this.first().equals(that.first())
-            && this.last().equals(that.last());
-      }
-    }
-    return super.equals(object);
-  }
-
-  // copied to make sure not to use the GWT-emulated version
-  @Override public int hashCode() {
-    return Sets.hashCodeImpl(this);
-  }
+  /*@Override*/ abstract ContiguousSet<C> tailSetImpl(C fromElement, boolean inclusive);
 
   /**
-   * Returns a short-hand representation of the contents such as
-   * {@code "[1‥100]}"}.
+   * Returns the set of values that are contained in both this set and the other.
+   *
+   * <p>This method should always be used instead of
+   * {@link Sets#intersection} for {@link ContiguousSet} instances.
    */
-  @Override public String toString() {
-    return Ranges.closed(first(), last()).toString();
-  }
+  public abstract ContiguousSet<C> intersection(ContiguousSet<C> other);
 
-  private static final long serialVersionUID = 0;
+  /**
+   * Returns a range, closed on both ends, whose endpoints are the minimum and maximum values
+   * contained in this set.  This is equivalent to {@code range(CLOSED, CLOSED)}.
+   *
+   * @throws NoSuchElementException if this set is empty
+   */
+  public abstract Range<C> range();
+
+  /**
+   * Returns the minimal range with the given boundary types for which all values in this set are
+   * {@linkplain Range#contains(Comparable) contained} within the range.
+   *
+   * @throws NoSuchElementException if this set is empty
+   */
+  public abstract Range<C> range(BoundType lowerBoundType, BoundType upperBoundType);
 }
 

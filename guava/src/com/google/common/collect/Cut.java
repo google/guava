@@ -23,6 +23,8 @@ import com.google.common.primitives.Booleans;
 
 import java.util.NoSuchElementException;
 
+import javax.annotation.Nullable;
+
 /**
  * Implementation detail for the internal structure of {@link Range} instances.
  * Represents a unique way of "cutting" a "number line" (actually of instances
@@ -46,6 +48,9 @@ abstract class Cut<C extends Comparable> implements Comparable<Cut<C>> {
 
   abstract BoundType typeAsLowerBound();
   abstract BoundType typeAsUpperBound();
+
+  abstract Cut<C> withLowerBoundType(BoundType boundType, DiscreteDomain<C> domain);
+  abstract Cut<C> withUpperBoundType(BoundType boundType, DiscreteDomain<C> domain);
 
   abstract void describeAsLowerBound(StringBuilder sb);
   abstract void describeAsUpperBound(StringBuilder sb);
@@ -110,6 +115,14 @@ abstract class Cut<C extends Comparable> implements Comparable<Cut<C>> {
         @Override BoundType typeAsUpperBound() {
           throw new AssertionError("this statement should be unreachable");
         }
+        @Override Cut<Comparable<?>> withLowerBoundType(BoundType boundType,
+            DiscreteDomain<Comparable<?>> domain) {
+          throw new IllegalStateException();
+        }
+        @Override Cut<Comparable<?>> withUpperBoundType(BoundType boundType,
+            DiscreteDomain<Comparable<?>> domain) {
+          throw new AssertionError("this statement should be unreachable");
+        }
         @Override void describeAsLowerBound(StringBuilder sb) {
           sb.append("(-\u221e");
         }
@@ -151,6 +164,14 @@ abstract class Cut<C extends Comparable> implements Comparable<Cut<C>> {
         @Override BoundType typeAsUpperBound() {
           throw new IllegalStateException();
         }
+        @Override Cut<Comparable<?>> withLowerBoundType(BoundType boundType,
+            DiscreteDomain<Comparable<?>> domain) {
+          throw new AssertionError("this statement should be unreachable");
+        }
+        @Override Cut<Comparable<?>> withUpperBoundType(BoundType boundType,
+            DiscreteDomain<Comparable<?>> domain) {
+          throw new IllegalStateException();
+        }
         @Override void describeAsLowerBound(StringBuilder sb) {
           throw new AssertionError();
         }
@@ -184,6 +205,28 @@ abstract class Cut<C extends Comparable> implements Comparable<Cut<C>> {
     @Override BoundType typeAsUpperBound() {
       return BoundType.OPEN;
     }
+    @Override Cut<C> withLowerBoundType(BoundType boundType, DiscreteDomain<C> domain) {
+      switch (boundType) {
+        case CLOSED:
+          return this;
+        case OPEN:
+          @Nullable C previous = domain.previous(endpoint);
+          return (Cut<C>) ((previous == null) ? BELOW_ALL : new AboveValue<C>(previous));
+        default:
+          throw new AssertionError();
+      }
+    }
+    @Override Cut<C> withUpperBoundType(BoundType boundType, DiscreteDomain<C> domain) {
+      switch (boundType) {
+        case CLOSED:
+          @Nullable C previous = domain.previous(endpoint);
+          return (Cut<C>) ((previous == null) ? ABOVE_ALL : new AboveValue<C>(previous));
+        case OPEN:
+          return this;
+        default:
+          throw new AssertionError();
+      }
+    }
     @Override void describeAsLowerBound(StringBuilder sb) {
       sb.append('[').append(endpoint);
     }
@@ -214,6 +257,28 @@ abstract class Cut<C extends Comparable> implements Comparable<Cut<C>> {
     }
     @Override BoundType typeAsUpperBound() {
       return BoundType.CLOSED;
+    }
+    @Override Cut<C> withLowerBoundType(BoundType boundType, DiscreteDomain<C> domain) {
+      switch (boundType) {
+        case OPEN:
+          return this;
+        case CLOSED:
+          @Nullable C next = domain.next(endpoint);
+          return (Cut<C>) ((next == null) ? BELOW_ALL : new BelowValue<C>(next));
+        default:
+          throw new AssertionError();
+      }
+    }
+    @Override Cut<C> withUpperBoundType(BoundType boundType, DiscreteDomain<C> domain) {
+      switch (boundType) {
+        case OPEN:
+          @Nullable C next = domain.next(endpoint);
+          return (Cut<C>) ((next == null) ? ABOVE_ALL : new BelowValue<C>(next));
+        case CLOSED:
+          return this;
+        default:
+          throw new AssertionError();
+      }
     }
     @Override void describeAsLowerBound(StringBuilder sb) {
       sb.append('(').append(endpoint);
