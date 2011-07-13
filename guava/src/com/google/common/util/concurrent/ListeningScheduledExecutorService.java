@@ -18,16 +18,18 @@ package com.google.common.util.concurrent;
 
 import com.google.common.annotations.Beta;
 
-import java.util.concurrent.Callable;
 import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.ScheduledFuture;
-import java.util.concurrent.TimeUnit;
 
 /**
  * A {@link ScheduledExecutorService} that returns {@link ListenableFuture}
- * instances from its {@code ExecutorService} methods.
- * To create an instance from an existing {@link ScheduledExecutorService}, 
- * call {@link MoreExecutors#listeningDecorator(ScheduledExecutorService)}.
+ * instances from its {@code ExecutorService} methods.  Futures returned by the
+ * {@code schedule*} methods, by contrast, need not implement {@code
+ * ListenableFuture}.  (To create an instance from an existing {@link
+ * ScheduledExecutorService}, call {@link
+ * MoreExecutors#listeningDecorator(ScheduledExecutorService)}.
+ *
+ * <p>TODO(cpovirk): make at least the one-time schedule() methods return a
+ * ListenableFuture, too? But then we'll need ListenableScheduledFuture...
  *
  * @author Chris Povirk
  * @since Guava release 10
@@ -35,27 +37,4 @@ import java.util.concurrent.TimeUnit;
 @Beta
 public interface ListeningScheduledExecutorService
     extends ScheduledExecutorService, ListeningExecutorService {
-  /**
-   * Helper interface to implement both {@link ListenableFuture} and
-   * {@link ScheduledFuture}. 
-   */
-  public interface ListenableScheduledFuture<V> 
-      extends ScheduledFuture<V>, ListenableFuture<V> {
-  }
-
-  @Override
-  public ListenableScheduledFuture<?> schedule(
-      Runnable command, long delay, TimeUnit unit);
-
-  @Override
-  public <V> ListenableScheduledFuture<V> schedule(
-      Callable<V> callable, long delay, TimeUnit unit);
-
-  @Override
-  public ListenableScheduledFuture<?> scheduleAtFixedRate(
-      Runnable command, long initialDelay, long period, TimeUnit unit);
-
-  @Override
-  public ListenableScheduledFuture<?> scheduleWithFixedDelay(
-      Runnable command, long initialDelay, long delay, TimeUnit unit);
 }
