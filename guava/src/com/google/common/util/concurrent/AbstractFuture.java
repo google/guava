@@ -178,31 +178,6 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
     return result;
   }
 
-  /**
-   * <b>Soon to be deprecated.</b> Most implementations will be satisfied with
-   * the default implementation of {@link #cancel(boolean)}. Those that are not
-   * can delegate to {@code super.cancel(mayInterruptIfRunning)} to get the
-   * behavior of this method.
-   *
-   * <p>Subclasses can invoke this method to mark the future as cancelled.
-   * This will set the state of the future to {@link
-   * AbstractFuture.Sync#CANCELLED} and call {@link #done()} if the state was
-   * successfully changed.
-   *
-   * @return true if the state was successfully changed.
-   * @deprecated Call {@code cancel(false)} for exact equivalence, but consider
-   *             whether you have an appropriate {@code mayInterruptIfRunning}
-   *             value to use instead of a fixed {@code false}.
-   */
-  @Deprecated
-  protected final boolean cancel() {
-    boolean result = sync.cancel();
-    if (result) {
-      done();
-    }
-    return result;
-  }
-
   /*
    * Called by the success, failed, or cancelled methods to indicate that the
    * value is now available and the latch can be released.
