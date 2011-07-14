@@ -19,6 +19,7 @@ package com.google.common.util.concurrent;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
+import static com.google.common.util.concurrent.Uninterruptibles.getUninterruptibly;
 import static java.lang.Thread.currentThread;
 import static java.util.Arrays.asList;
 import static java.util.concurrent.TimeUnit.NANOSECONDS;
@@ -63,6 +64,8 @@ public final class Futures {
   private Futures() {}
 
   /**
+   *    * <b> Soon to be removed, use
+   * {@link Uninterruptibles#getUninterruptibly(Future) getUninterruptibly}</b>
    * Returns an uninterruptible view of a {@code Future}. If a thread is
    * interrupted during an attempt to {@code get()} from the returned future, it
    * continues to wait on the result until it is available or the timeout
@@ -841,7 +844,7 @@ public final class Futures {
       try {
         I sourceResult;
         try {
-          sourceResult = makeUninterruptible(inputFuture).get();
+          sourceResult = getUninterruptibly(inputFuture);
         } catch (CancellationException e) {
           // Cancel this future and return.
           // At this point, inputFuture is cancelled and outputFuture doesn't
@@ -877,7 +880,7 @@ public final class Futures {
                 // Here it would have been nice to have had an
                 // UninterruptibleListenableFuture, but we don't want to start a
                 // combinatorial explosion of interfaces, so we have to make do.
-                set(makeUninterruptible(outputFuture).get());
+                set(getUninterruptibly(outputFuture));
               } catch (CancellationException e) {
                 // Cancel this future and return.
                 // At this point, inputFuture and outputFuture are done, so the
@@ -1178,7 +1181,7 @@ public final class Futures {
   public static <V> V getUnchecked(Future<V> future) {
     checkNotNull(future);
     try {
-      return makeUninterruptible(future).get();
+      return getUninterruptibly(future);
     } catch (CancellationException e) {
       throw e;
     } catch (ExecutionException e) {
@@ -1360,7 +1363,7 @@ public final class Futures {
       try {
         checkState(future.isDone(),
             "Tried to set value from future which is not done");
-        localValues.set(index, makeUninterruptible(future).get());
+        localValues.set(index, getUninterruptibly(future));
       } catch (CancellationException e) {
         if (allMustSucceed) {
           // Set ourselves as cancelled. Let the input futures keep running

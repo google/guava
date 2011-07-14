@@ -22,16 +22,16 @@ import com.google.common.annotations.Beta;
 import com.google.common.base.Preconditions;
 
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 /**
  * Utilities for treating interruptible operations as uninterruptible.
  * In all cases, if a thread is interrupted during such a call, the call
  * continues to block until the result is available or the timeout elapses,
  * and only then re-interrupts the thread.
- *
- * <p>For operations involving {@link java.util.concurrent.Future},
- * see {@link UninterruptibleFuture}.
  *
  * @author Anthony Zana
  * @since Guava release 10
@@ -41,7 +41,6 @@ public final class Uninterruptibles {
 
   // Implementation Note: As of 3-7-11, the logic for each blocking/timeout
   // methods is identical, save for method being invoked.
-  // (Which is also identical to the logic in Futures.makeUninterruptiple)
 
   /**
    * Invokes {@code latch.}{@link CountDownLatch#await() await()}
@@ -105,6 +104,66 @@ public final class Uninterruptibles {
           return;
         } catch (InterruptedException e) {
           interrupted = true;
+        }
+      }
+    } finally {
+      if (interrupted) {
+        Thread.currentThread().interrupt();
+      }
+    }
+  }
+
+  /**
+   * Invokes {@code future.}{@link Future#get() get()} uninterruptibly.
+   * To get uninterruptibility and remove checked exceptions, see
+   * {@link Futures#getUnchecked}.
+   *
+   * <p>If instead, you wish to treat {@link InterruptedException} uniformly
+   * with other exceptions, see {@link Futures#get(Future, Class) Futures.get}
+   * or {@link Futures#makeChecked}.
+   */
+  public static <V> V getUninterruptibly(Future<V> future)
+      throws ExecutionException {
+    boolean interrupted = false;
+    try {
+      while (true) {
+        try {
+          return future.get();
+        } catch (InterruptedException ignored) {
+          interrupted = true;
+        }
+      }
+    } finally {
+      if (interrupted) {
+        Thread.currentThread().interrupt();
+      }
+    }
+  }
+
+  /**
+   * Invokes
+   * {@code future.}{@link Future#get(long, TimeUnit) get(timeout, unit)}
+   * uninterruptibly.
+   *
+   * <p>If instead, you wish to treat {@link InterruptedException} uniformly
+   * with other exceptions, see {@link Futures#get(Future, Class) Futures.get}
+   * or {@link Futures#makeChecked}.
+   */
+  public static <V> V getUninterruptibly(
+      Future<V> future, long timeout,  TimeUnit unit)
+          throws ExecutionException, TimeoutException {
+    boolean interrupted = false;
+    try {
+      long remainingNanos = unit.toNanos(timeout);
+      long end = System.nanoTime() + remainingNanos;
+
+      while (true) {
+        try {
+          // Future treats negative timeouts just like zero.
+          return future.get(remainingNanos, NANOSECONDS);
+        } catch (InterruptedException e) {
+          interrupted = true;
+          remainingNanos = end - System.nanoTime();
         }
       }
     } finally {
