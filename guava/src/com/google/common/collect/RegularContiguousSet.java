@@ -78,12 +78,7 @@ final class RegularContiguousSet<C extends Comparable> extends ContiguousSet<C> 
   }
 
   private static boolean equalsOrThrow(Comparable<?> left, @Nullable Comparable<?> right) {
-    return right != null && compareOrThrow(left, right) == 0;
-  }
-
-  @SuppressWarnings("unchecked") // this method may throw CCE
-  private static int compareOrThrow(Comparable left, Comparable right) {
-    return left.compareTo(right);
+    return right != null && Range.compareOrThrow(left, right) == 0;
   }
 
   @Override boolean isPartialView() {

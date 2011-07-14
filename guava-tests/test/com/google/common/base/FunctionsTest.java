@@ -16,11 +16,6 @@
 
 package com.google.common.base;
 
-import java.io.Serializable;
-import java.util.Map;
-
-import junit.framework.TestCase;
-
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.ImmutableMap;
@@ -28,6 +23,11 @@ import com.google.common.collect.Maps;
 import com.google.common.testing.EqualsTester;
 import com.google.common.testing.NullPointerTester;
 import com.google.common.testing.SerializableTester;
+
+import junit.framework.TestCase;
+
+import java.io.Serializable;
+import java.util.Map;
 
 /**
  * Tests for {@link Functions}.

@@ -16,10 +16,11 @@
 
 package com.google.common.base;
 
-import junit.framework.TestCase;
-
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.testing.EqualsTester;
+import com.google.testing.util.EqualsTester;
+import com.google.testing.util.EquivalenceTester;
+
+import junit.framework.TestCase;
 
 /**
  * Unit test for {@link Equivalences}.

@@ -35,7 +35,6 @@ import javax.annotation.Nullable;
  *
  * @author Kevin Bourrillion
  */
-@SuppressWarnings("unchecked") // allow ungenerified Comparable types
 @GwtCompatible
 abstract class Cut<C extends Comparable> implements Comparable<Cut<C>> {
   final C endpoint;
@@ -74,7 +73,7 @@ abstract class Cut<C extends Comparable> implements Comparable<Cut<C>> {
     if (that == ABOVE_ALL) {
       return -1;
     }
-    int result = compareOrThrow(endpoint, that.endpoint);
+    int result = Range.compareOrThrow(endpoint, that.endpoint);
     if (result != 0) {
       return result;
     }
@@ -99,6 +98,15 @@ abstract class Cut<C extends Comparable> implements Comparable<Cut<C>> {
       }
     }
     return false;
+  }
+
+  /*
+   * The implementation neither produces nor consumes any non-null instance of
+   * type C, so casting the type parameter is safe.
+   */
+  @SuppressWarnings("unchecked")
+  static <C extends Comparable> Cut<C> belowAll() {
+    return (Cut<C>) BELOW_ALL;
   }
 
   static final Cut<Comparable<?>> BELOW_ALL =
@@ -140,7 +148,7 @@ abstract class Cut<C extends Comparable> implements Comparable<Cut<C>> {
         @Override Cut<Comparable<?>> canonical(
             DiscreteDomain<Comparable<?>> domain) {
           try {
-            return new BelowValue<Comparable<?>>(domain.minValue());
+            return Cut.<Comparable<?>>belowValue(domain.minValue());
           } catch (NoSuchElementException e) {
             return this;
           }
@@ -149,6 +157,15 @@ abstract class Cut<C extends Comparable> implements Comparable<Cut<C>> {
           return (o == this) ? 0 : -1;
         }
       };
+
+  /*
+   * The implementation neither produces nor consumes any non-null instance of
+   * type C, so casting the type parameter is safe.
+   */
+  @SuppressWarnings("unchecked")
+  static <C extends Comparable> Cut<C> aboveAll() {
+    return (Cut<C>) ABOVE_ALL;
+  }
 
   static final Cut<Comparable<?>> ABOVE_ALL =
       new Cut<Comparable<?>>(null) {
@@ -191,13 +208,17 @@ abstract class Cut<C extends Comparable> implements Comparable<Cut<C>> {
         }
       };
 
-  static final class BelowValue<C extends Comparable> extends Cut<C> {
+  static <C extends Comparable> Cut<C> belowValue(C endpoint) {
+    return new BelowValue<C>(endpoint);
+  }
+
+  private static final class BelowValue<C extends Comparable> extends Cut<C> {
     BelowValue(C endpoint) {
       super(checkNotNull(endpoint));
     }
 
     @Override boolean isLessThan(C value) {
-      return compareOrThrow(endpoint, value) <= 0;
+      return Range.compareOrThrow(endpoint, value) <= 0;
     }
     @Override BoundType typeAsLowerBound() {
       return BoundType.CLOSED;
@@ -211,7 +232,7 @@ abstract class Cut<C extends Comparable> implements Comparable<Cut<C>> {
           return this;
         case OPEN:
           @Nullable C previous = domain.previous(endpoint);
-          return (Cut<C>) ((previous == null) ? BELOW_ALL : new AboveValue<C>(previous));
+          return (previous == null) ? Cut.<C>belowAll() : new AboveValue<C>(previous);
         default:
           throw new AssertionError();
       }
@@ -220,7 +241,7 @@ abstract class Cut<C extends Comparable> implements Comparable<Cut<C>> {
       switch (boundType) {
         case CLOSED:
           @Nullable C previous = domain.previous(endpoint);
-          return (Cut<C>) ((previous == null) ? ABOVE_ALL : new AboveValue<C>(previous));
+          return (previous == null) ? Cut.<C>aboveAll() : new AboveValue<C>(previous);
         case OPEN:
           return this;
         default:
@@ -244,13 +265,17 @@ abstract class Cut<C extends Comparable> implements Comparable<Cut<C>> {
     }
   }
 
-  static final class AboveValue<C extends Comparable> extends Cut<C> {
+  static <C extends Comparable> Cut<C> aboveValue(C endpoint) {
+    return new AboveValue<C>(endpoint);
+  }
+
+  private static final class AboveValue<C extends Comparable> extends Cut<C> {
     AboveValue(C endpoint) {
       super(checkNotNull(endpoint));
     }
 
     @Override boolean isLessThan(C value) {
-      return compareOrThrow(endpoint, value) < 0;
+      return Range.compareOrThrow(endpoint, value) < 0;
     }
     @Override BoundType typeAsLowerBound() {
       return BoundType.OPEN;
@@ -264,7 +289,7 @@ abstract class Cut<C extends Comparable> implements Comparable<Cut<C>> {
           return this;
         case CLOSED:
           @Nullable C next = domain.next(endpoint);
-          return (Cut<C>) ((next == null) ? BELOW_ALL : new BelowValue<C>(next));
+          return (next == null) ? Cut.<C>belowAll() : belowValue(next);
         default:
           throw new AssertionError();
       }
@@ -273,7 +298,7 @@ abstract class Cut<C extends Comparable> implements Comparable<Cut<C>> {
       switch (boundType) {
         case OPEN:
           @Nullable C next = domain.next(endpoint);
-          return (Cut<C>) ((next == null) ? ABOVE_ALL : new BelowValue<C>(next));
+          return (next == null) ? Cut.<C>aboveAll() : belowValue(next);
         case CLOSED:
           return this;
         default:
@@ -294,20 +319,10 @@ abstract class Cut<C extends Comparable> implements Comparable<Cut<C>> {
     }
     @Override Cut<C> canonical(DiscreteDomain<C> domain) {
       C next = leastValueAbove(domain);
-      if (next != null) {
-        return new BelowValue<C>(next);
-      }
-
-      Cut<C> aboveAll = (Cut<C>) ABOVE_ALL;
-      return aboveAll;
+      return (next != null) ? belowValue(next) : Cut.<C>aboveAll();
     }
     @Override public int hashCode() {
       return ~endpoint.hashCode();
     }
-  }
-
-  @SuppressWarnings("unchecked") // this method may throw CCE
-  private static int compareOrThrow(Comparable left, Comparable right) {
-    return left.compareTo(right);
   }
 }

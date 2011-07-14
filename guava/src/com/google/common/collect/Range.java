@@ -23,6 +23,7 @@ import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Predicate;
 
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.NoSuchElementException;
 import java.util.Set;
@@ -30,11 +31,6 @@ import java.util.SortedSet;
 
 import javax.annotation.Nullable;
 
-/*
- * NOTE: if the two dot ellipsis in the documentation looks strange (too high),
- * it seems to be a weird issue with eclipse.  It is the correct character and
- * looks right everywhere else.
- */
 /**
  * A range, sometimes known as an <i>interval</i>, is a <i>convex</i>
  * (informally, "contiguous" or "unbroken") portion of a particular domain.
@@ -73,7 +69,7 @@ import javax.annotation.Nullable;
  * <ul>
  * <li>{@code [a‥a]} : singleton range
  * <li>{@code [a‥a); (a‥a]} : {@linkplain #isEmpty empty}, but valid
- * <li>{@code (a‥a)} : invalid
+ * <li>{@code (a‥a)} : <b>invalid</b>
  * </ul>
  *
  * <p>Instances of this type can be obtained using the static factory methods in
@@ -184,9 +180,9 @@ public final class Range<C extends Comparable> implements Predicate<C> {
   }
 
   /**
-   * Returns {@code true} if this range is of the form {@code [v, v)} or {@code
-   * (v, v]}. (This does not encompass ranges of the form {@code (v, v)},
-   * because such ranges are <i>invalid</i> and can't be constructed at all.)
+   * Returns {@code true} if this range is of the form {@code [v‥v)} or {@code
+   * (v‥v]}. (This does not encompass ranges of the form {@code (v‥v)}, because
+   * such ranges are <i>invalid</i> and can't be constructed at all.)
    *
    * <p>Note that certain discrete ranges such as the integer range {@code
    * (3‥4)} are <b>not</b> considered empty, even though they contain no actual
@@ -197,7 +193,7 @@ public final class Range<C extends Comparable> implements Predicate<C> {
   }
 
   /**
-   * Returns {@code true} if {@code point} is within the bounds of this
+   * Returns {@code true} if {@code value} is within the bounds of this
    * range. For example, on the range {@code [0‥2)}, {@code contains(1)}
    * is true, while {@code contains(2)} is false.
    */
@@ -208,11 +204,11 @@ public final class Range<C extends Comparable> implements Predicate<C> {
   }
 
   /**
-   * Provided to satisfy the {@code Predicate} interface; use {@link #contains} instead.
-   *
-   * @deprecated Use {@link #contains} instead.
+   * Equivalent to {@link #contains}; provided only to satisfy the {@link
+   * Predicate} interface. When using a reference of type {@code Range}, always
+   * invoke {@link #contains} directly instead.
    */
-  @Deprecated @Override public boolean apply(C input) {
+  @Override public boolean apply(C input) {
     return contains(input);
   }
 
@@ -338,22 +334,20 @@ public final class Range<C extends Comparable> implements Predicate<C> {
    * given domain {@linkplain Range#contains contained} by this range.
    *
    * <p><b>Note</b>: {@code a.asSet().equals(b.asSet())} does not imply {@code
-   * a.equals(b)}! For example, {@code a} and {@code b} could be {@code [2, 4]}
-   * and {@code (1, 5)}, or the empty ranges {@code [3, 3)} and {@code [4,
-   * 4)}.
+   * a.equals(b)}! For example, {@code a} and {@code b} could be {@code [2‥4]}
+   * and {@code (1‥5)}, or the empty ranges {@code [3‥3)} and {@code [4‥4)}.
    *
    * <p><b>Warning:</b> Be extremely careful what you do with the {@code asSet}
    * view of a large range (such as {@code Ranges.greaterThan(0)}). Certain
    * operations on such a set can be performed efficiently, but others (such as
-   * {@link Set#hashCode}!) will cause major performance problems.
+   * {@link Set#hashCode} or {@link Collections#frequency}) can cause major
+   * performance problems.
    *
-   * <p>The set's {@link Object#toString} method returns a short-hand form of
-   * set's contents such as {@code "[1‥100]}"}.
+   * <p>The returned set's {@link Object#toString} method returns a short-hand
+   * form of set's contents such as {@code "[1‥100]}"}.
    *
-   * <p>Note that a range without an explicit upper bound cannot be viewed as a
-   * set over a domain without an maximum.  (Similarly for the lower
-   * bound and a domain without a minimum).  This method will throw an
-   * {@link IllegalArgumentException} in either case.
+   * @throws IllegalArgumentException if neither this range nor the domain has a
+   *     lower bound, or if neither has an upper bound
    */
   // TODO(kevinb): commit in spec to which methods are efficient?
   @GwtCompatible(serializable = false)
@@ -362,18 +356,26 @@ public final class Range<C extends Comparable> implements Predicate<C> {
     Range<C> effectiveRange = this;
     try {
       if (!hasLowerBound()) {
-        effectiveRange = effectiveRange.intersection(Ranges.atLeast(domain.minValue()));
+        effectiveRange = effectiveRange.intersection(
+            Ranges.atLeast(domain.minValue()));
       }
       if (!hasUpperBound()) {
-        effectiveRange = effectiveRange.intersection(Ranges.atMost(domain.maxValue()));
+        effectiveRange = effectiveRange.intersection(
+            Ranges.atMost(domain.maxValue()));
       }
     } catch (NoSuchElementException e) {
       throw new IllegalArgumentException(e);
     }
-    return effectiveRange.isEmpty()
-        || (lowerBound.leastValueAbove(domain).compareTo(upperBound.greatestValueBelow(domain)) > 0)
-            ? new EmptyContiguousSet<C>(domain)
-            : new RegularContiguousSet<C>(effectiveRange, domain);
+
+    // Per class spec, we are allowed to throw CCE if necessary
+    boolean empty = effectiveRange.isEmpty()
+        || compareOrThrow(
+            lowerBound.leastValueAbove(domain),
+            upperBound.greatestValueBelow(domain)) > 0;
+
+    return empty
+        ? new EmptyContiguousSet<C>(domain)
+        : new RegularContiguousSet<C>(effectiveRange, domain);
   }
 
   /**
@@ -395,10 +397,10 @@ public final class Range<C extends Comparable> implements Predicate<C> {
    * of the following canonical forms:
    *
    * <ul>
-   * <li>[start, end)
-   * <li>[start, +∞)
-   * <li>(-∞, end) (only if type {@code C} is unbounded below)
-   * <li>(-∞, +∞) (only if type {@code C} is unbounded below)
+   * <li>[start‥end)
+   * <li>[start‥+∞)
+   * <li>(-∞‥end) (only if type {@code C} is unbounded below)
+   * <li>(-∞‥+∞) (only if type {@code C} is unbounded below)
    * </ul>
    */
   public Range<C> canonical(DiscreteDomain<C> domain) {
@@ -441,7 +443,7 @@ public final class Range<C extends Comparable> implements Predicate<C> {
   }
 
   private static String toString(Cut<?> lowerBound, Cut<?> upperBound) {
-    StringBuilder sb = new StringBuilder();
+    StringBuilder sb = new StringBuilder(16);
     lowerBound.describeAsLowerBound(sb);
     sb.append('\u2025');
     upperBound.describeAsUpperBound(sb);
@@ -453,5 +455,10 @@ public final class Range<C extends Comparable> implements Predicate<C> {
    */
   private static <T> SortedSet<T> cast(Iterable<T> iterable) {
     return (SortedSet<T>) iterable;
+  }
+
+  @SuppressWarnings("unchecked") // this method may throw CCE
+  static int compareOrThrow(Comparable left, Comparable right) {
+    return left.compareTo(right);
   }
 }

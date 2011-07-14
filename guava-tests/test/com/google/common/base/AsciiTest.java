@@ -16,9 +16,9 @@
 
 package com.google.common.base;
 
-import junit.framework.TestCase;
-
 import com.google.common.annotations.GwtCompatible;
+
+import junit.framework.TestCase;
 
 /**
  * Unit test for {@link Ascii}.

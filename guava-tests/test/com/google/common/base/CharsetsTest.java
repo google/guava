@@ -16,9 +16,9 @@
 
 package com.google.common.base;
 
-import java.nio.charset.Charset;
-
 import junit.framework.TestCase;
+
+import java.nio.charset.Charset;
 
 /**
  * Unit test for {@link Charsets}.

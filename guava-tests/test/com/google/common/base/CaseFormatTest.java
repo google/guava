@@ -21,9 +21,10 @@ import static com.google.common.base.CaseFormat.LOWER_HYPHEN;
 import static com.google.common.base.CaseFormat.LOWER_UNDERSCORE;
 import static com.google.common.base.CaseFormat.UPPER_CAMEL;
 import static com.google.common.base.CaseFormat.UPPER_UNDERSCORE;
-import junit.framework.TestCase;
 
 import com.google.common.annotations.GwtCompatible;
+
+import junit.framework.TestCase;
 
 /**
  * Unit test for {@link CaseFormat}.
