@@ -16,14 +16,14 @@
 
 package com.google.common.base;
 
-import com.google.common.annotations.GwtCompatible;
-import com.google.common.annotations.GwtIncompatible;
-import com.google.common.collect.ImmutableMap;
+import java.util.Arrays;
+import java.util.Map;
 
 import junit.framework.TestCase;
 
-import java.util.Arrays;
-import java.util.Map;
+import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.GwtIncompatible;
+import com.google.common.collect.ImmutableMap;
 
 /**
  * Tests for {@link Objects#toStringHelper(Object)}.

@@ -16,14 +16,7 @@
 
 package com.google.common.base;
 
-import static com.google.testing.util.SerializableTester.reserialize;
-
-import com.google.common.annotations.GwtCompatible;
-import com.google.common.annotations.GwtIncompatible;
-import com.google.common.collect.Lists;
-import com.google.testing.util.NullPointerTester;
-
-import junit.framework.TestCase;
+import static com.google.common.testing.SerializableTester.reserialize;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -32,6 +25,13 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
+
+import junit.framework.TestCase;
+
+import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.GwtIncompatible;
+import com.google.common.collect.Lists;
+import com.google.common.testing.NullPointerTester;
 
 /**
  * Tests com.google.common.base.Suppliers.
