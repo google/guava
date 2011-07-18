@@ -139,6 +139,10 @@ public final class Objects {
   private static String simpleName(Class<?> clazz) {
     String name = clazz.getName();
 
+    // the nth anonymous class has a class name ending in "Outer$n"
+    // and local inner classes have names ending in "Outer.$1Inner"
+    name = name.replaceAll("\\$[0-9]+", "\\$");
+
     // we want the name of the inner class all by its lonesome
     int start = name.lastIndexOf('$');
 

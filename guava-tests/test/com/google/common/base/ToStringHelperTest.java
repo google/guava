@@ -41,7 +41,7 @@ public class ToStringHelperTest extends TestCase {
 
   public void testConstructorLenient_instance() {
     String toTest = Objects.toStringHelper(this).toString();
-    assertTrue(toTest, toTest.matches(".+\\{\\}"));
+    assertTrue(toTest, toTest.matches(".*\\{\\}"));
   }
 
   @GwtIncompatible("Class names are obfuscated in GWT")
@@ -52,12 +52,12 @@ public class ToStringHelperTest extends TestCase {
 
   public void testConstructorLenient_innerClass() {
     String toTest = Objects.toStringHelper(new TestClass()).toString();
-    assertTrue(toTest, toTest.matches(".+\\{\\}"));
+    assertTrue(toTest, toTest.matches(".*\\{\\}"));
   }
 
   public void testConstructor_anonymousClass() {
     String toTest = Objects.toStringHelper(new Object() {}).toString();
-    assertTrue(toTest, toTest.matches("[0-9]+\\{\\}"));
+    assertEquals("{}", toTest);
   }
 
   @GwtIncompatible("Class names are obfuscated in GWT")
@@ -68,12 +68,61 @@ public class ToStringHelperTest extends TestCase {
 
   public void testConstructorLenient_classObject() {
     String toTest = Objects.toStringHelper(TestClass.class).toString();
-    assertTrue(toTest.matches(".+\\{\\}"));
+    assertTrue(toTest, toTest.matches(".*\\{\\}"));
   }
 
   public void testConstructor_stringObject() {
     String toTest = Objects.toStringHelper("FooBar").toString();
     assertEquals("FooBar{}", toTest);
+  }
+
+  @GwtIncompatible("Class names are obfuscated in GWT")
+  public void testToStringHelper_localInnerClass() {
+    // Local inner classes have names ending like "Outer.$1Inner"
+    class LocalInnerClass {}
+    String toTest = Objects.toStringHelper(new LocalInnerClass()).toString();
+    assertEquals("LocalInnerClass{}", toTest);
+  }
+
+  public void testToStringHelperLenient_localInnerClass() {
+    class LocalInnerClass {}
+    String toTest = Objects.toStringHelper(new LocalInnerClass()).toString();
+    assertTrue(toTest, toTest.matches(".*\\{\\}"));
+  }
+
+  @GwtIncompatible("Class names are obfuscated in GWT")
+  public void testToStringHelper_localInnerNestedClass() {
+    class LocalInnerClass {
+      class LocalInnerNestedClass {}
+    }
+    String toTest = Objects.toStringHelper(new LocalInnerClass().new LocalInnerNestedClass())
+        .toString();
+    assertEquals("LocalInnerNestedClass{}", toTest);
+  }
+
+  public void testToStringHelperLenient_localInnerNestedClass() {
+    class LocalInnerClass {
+      class LocalInnerNestedClass {}
+    }
+    String toTest = Objects.toStringHelper(new LocalInnerClass().new LocalInnerNestedClass())
+        .toString();
+    assertTrue(toTest, toTest.matches(".*\\{\\}"));
+  }
+
+  public void testToStringHelper_moreThanNineAnonymousClasses() {
+    // The nth anonymous class has a name ending like "Outer.$n"
+    Object o1 = new Object() {};
+    Object o2 = new Object() {};
+    Object o3 = new Object() {};
+    Object o4 = new Object() {};
+    Object o5 = new Object() {};
+    Object o6 = new Object() {};
+    Object o7 = new Object() {};
+    Object o8 = new Object() {};
+    Object o9 = new Object() {};
+    Object o10 = new Object() {};
+    String toTest = Objects.toStringHelper(o10).toString();
+    assertEquals("{}", toTest);
   }
 
   // all remaining test are on an inner class with various fields
@@ -89,7 +138,7 @@ public class ToStringHelperTest extends TestCase {
     String toTest = Objects.toStringHelper(new TestClass())
         .add("field1", "Hello")
         .toString();
-    assertTrue(toTest, toTest.matches(".+\\{field1\\=Hello\\}"));
+    assertTrue(toTest, toTest.matches(".*\\{field1\\=Hello\\}"));
   }
 
   @GwtIncompatible("Class names are obfuscated in GWT")
@@ -123,7 +172,7 @@ public class ToStringHelperTest extends TestCase {
         .add("field2", Arrays.asList("abc", "def", "ghi"))
         .add("field3", map)
         .toString();
-    final String expectedRegex = ".+\\{"
+    final String expectedRegex = ".*\\{"
         + "field1\\=This is string\\., "
         + "field2\\=\\[abc, def, ghi\\], "
         + "field3=\\{abc\\=1, def\\=2, ghi\\=3\\}\\}";
@@ -153,7 +202,7 @@ public class ToStringHelperTest extends TestCase {
     final String result = Objects.toStringHelper(new TestClass())
         .add("Hello", null)
         .toString();
-    assertTrue(result, result.matches(".+\\{Hello\\=null\\}"));
+    assertTrue(result, result.matches(".*\\{Hello\\=null\\}"));
   }
 
   @GwtIncompatible("Class names are obfuscated in GWT")
@@ -194,7 +243,7 @@ public class ToStringHelperTest extends TestCase {
         .add("field2", "value2")
         .addValue(2)
         .toString();
-    final String expected = ".+\\{field1\\=1, value1, field2\\=value2, 2\\}";
+    final String expected = ".*\\{field1\\=1, value1, field2\\=value2, 2\\}";
 
     assertTrue(toTest, toTest.matches(expected));
   }
@@ -217,7 +266,7 @@ public class ToStringHelperTest extends TestCase {
         .addValue("Hello")
         .addValue(null)
         .toString();
-    final String expected = ".+\\{null, Hello, null\\}";
+    final String expected = ".*\\{null, Hello, null\\}";
 
     assertTrue(result, result.matches(expected));
   }
