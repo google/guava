@@ -19,7 +19,6 @@ package com.google.common.collect;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.BoundType.CLOSED;
-import static com.google.common.collect.BoundType.OPEN;
 
 import com.google.common.annotations.GwtCompatible;
 
@@ -44,8 +43,8 @@ final class RegularContiguousSet<C extends Comparable> extends ContiguousSet<C> 
 
   // Abstract method doesn't exist in GWT emulation
   /* @Override */ ContiguousSet<C> headSetImpl(C toElement, boolean inclusive) {
-    return range.intersection(
-        inclusive ? Ranges.atMost(toElement) : Ranges.lessThan(toElement)).asSet(domain);
+    return range.intersection(Ranges.upTo(toElement, BoundType.forBoolean(inclusive)))
+        .asSet(domain);
   }
 
   // Abstract method doesn't exist in GWT emulation
@@ -56,14 +55,14 @@ final class RegularContiguousSet<C extends Comparable> extends ContiguousSet<C> 
   // Abstract method doesn't exist in GWT emulation
   /* @Override */ ContiguousSet<C> subSetImpl(C fromElement, boolean fromInclusive, C toElement,
       boolean toInclusive) {
-    return range.intersection(Ranges.range(fromElement, fromInclusive ? CLOSED : OPEN,
-        toElement, toInclusive ? CLOSED : OPEN)).asSet(domain);
+    return range.intersection(Ranges.range(fromElement, BoundType.forBoolean(fromInclusive),
+        toElement, BoundType.forBoolean(toInclusive))).asSet(domain);
   }
 
   // Abstract method doesn't exist in GWT emulation
   /* @Override */ ContiguousSet<C> tailSetImpl(C fromElement, boolean inclusive) {
-    return range.intersection(
-        inclusive ? Ranges.atLeast(fromElement) : Ranges.greaterThan(fromElement)).asSet(domain);
+    return range.intersection(Ranges.downTo(fromElement, BoundType.forBoolean(inclusive)))
+        .asSet(domain);
   }
 
   @Override public UnmodifiableIterator<C> iterator() {
@@ -174,7 +173,7 @@ final class RegularContiguousSet<C extends Comparable> extends ContiguousSet<C> 
    * {@code "[1‥100]}"}.
    */
   @Override public String toString() {
-    return Ranges.closed(first(), last()).toString();
+    return range().toString();
   }
 
   private static final long serialVersionUID = 0;

@@ -25,7 +25,42 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 /**
- * Static methods pertaining to {@link Range} instances.
+ * Static methods pertaining to {@link Range} instances.  Each of the
+ * {@link Range nine types of ranges} can be constructed with a corresponding
+ * factory method:
+ *
+ * <dl>
+ * <dt>{@code (a‥b)}
+ * <dd>{@link #open}
+ * <dt>{@code [a‥b]}
+ * <dd>{@link #closed}
+ * <dt>{@code [a‥b)}
+ * <dd>{@link #closedOpen}
+ * <dt>{@code (a‥b]}
+ * <dd>{@link #openClosed}
+ * <dt>{@code (a‥+∞)}
+ * <dd>{@link #greaterThan}
+ * <dt>{@code [a‥+∞)}
+ * <dd>{@link #atLeast}
+ * <dt>{@code (-∞‥b)}
+ * <dd>{@link #lessThan}
+ * <dt>{@code (-∞‥b]}
+ * <dd>{@link #atMost}
+ * <dt>{@code (-∞‥+∞)}
+ * <dd>{@link #all}
+ * </dl>
+ *
+ * <p>Additionally, {@link Range} instances can be constructed by passing the
+ * {@link BoundType bound types} explicitly.
+ *
+ * <dl>
+ * <dt>Bounded on both ends
+ * <dd>{@link #range}
+ * <dt>Unbounded on top ({@code (a‥+∞)} or {@code (a‥+∞)})
+ * <dd>{@link #downTo}
+ * <dt>Unbounded on bottom ({@code (-∞‥b)} or {@code (-∞‥b]})
+ * <dd>{@link #upTo}
+ * </dl>
  *
  * @author Kevin Bourrillion
  * @author Gregory Kick
@@ -118,6 +153,29 @@ public final class Ranges {
   }
 
   /**
+   * Returns a range that contains all values less than or equal to
+   * {@code endpoint}.
+   */
+  public static <C extends Comparable<?>> Range<C> atMost(C endpoint) {
+    return create(Cut.<C>belowAll(), Cut.aboveValue(endpoint));
+  }
+
+  /**
+   * Returns a range with no lower bound up to the given endpoint, which may be
+   * either inclusive (closed) or exclusive (open).
+   */
+  public static <C extends Comparable<?>> Range<C> upTo(C endpoint, BoundType boundType) {
+    switch (boundType) {
+      case OPEN:
+        return lessThan(endpoint);
+      case CLOSED:
+        return atMost(endpoint);
+      default:
+        throw new AssertionError();
+    }
+  }
+
+  /**
    * Returns a range that contains all values strictly greater than {@code
    * endpoint}.
    */
@@ -134,11 +192,18 @@ public final class Ranges {
   }
 
   /**
-   * Returns a range that contains all values less than or equal to
-   * {@code endpoint}.
+   * Returns a range from the given endpoint, which may be either inclusive
+   * (closed) or exclusive (open), with no upper bound.
    */
-  public static <C extends Comparable<?>> Range<C> atMost(C endpoint) {
-    return create(Cut.<C>belowAll(), Cut.aboveValue(endpoint));
+  public static <C extends Comparable<?>> Range<C> downTo(C endpoint, BoundType boundType) {
+    switch (boundType) {
+      case OPEN:
+        return greaterThan(endpoint);
+      case CLOSED:
+        return atLeast(endpoint);
+      default:
+        throw new AssertionError();
+    }
   }
 
   /** Returns a range that contains every value of type {@code C}. */

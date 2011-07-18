@@ -35,5 +35,12 @@ public enum BoundType {
   /**
    * The endpoint value <i>is</i> considered part of the set ("inclusive").
    */
-  CLOSED
+  CLOSED;
+
+  /**
+   * Returns the bound type corresponding to a boolean value for inclusivity.
+   */
+  static BoundType forBoolean(boolean inclusive) {
+    return inclusive ? CLOSED : OPEN;
+  }
 }
