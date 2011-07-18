@@ -182,12 +182,4 @@ class RegularImmutableList<E> extends ImmutableList<E> {
     }
     return sb.append(']').toString();
   }
-
-  int offset() {
-    return offset;
-  }
-
-  Object[] array() {
-    return array;
-  }
 }

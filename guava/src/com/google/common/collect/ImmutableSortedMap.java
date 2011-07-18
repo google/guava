@@ -20,7 +20,6 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.base.Function;
 import com.google.common.collect.SortedLists.Relation;
 
 import java.io.Serializable;
@@ -407,14 +406,6 @@ public class ImmutableSortedMap<K, V>
     return entries.size();
   }
   
-  transient final Function<Entry<K, V>, K> keyFunction =
-      new Function<Entry<K, V>, K>() {
-
-        @Override public K apply(Entry<K, V> entry) {
-          return entry.getKey();
-        }
-      };
-      
   // Pretend the comparator can compare anything. If it turns out it can't
   // compare two elements, it'll throw a CCE. Only methods that are specified to
   // throw CCE should call this.
