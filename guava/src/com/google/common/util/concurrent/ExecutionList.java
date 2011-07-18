@@ -28,8 +28,8 @@ import java.util.logging.Logger;
 /**
  * <p>A list of listeners, each with an associated {@code Executor}, that
  * guarantees that every {@code Runnable} that is {@linkplain #add added} will
- * be executed after {@link #run()} is called. Any {@code Runnable} added after
- * the call to {@code run} is still guaranteed to execute. There is no
+ * be executed after {@link #execute()} is called. Any {@code Runnable} added
+ * after the call to {@code execute} is still guaranteed to execute. There is no
  * guarantee, however, that listeners will be executed in the order that they
  * are added.
  *
@@ -107,6 +107,16 @@ public final class ExecutionList {
   }
 
   /**
+   * Equivalent to {@link #execute}.
+   *
+   * @deprecated Use {@link #execute}.
+   */
+  @Deprecated
+  public void run() {
+    execute();
+  }
+
+  /**
    * Runs this execution list, executing all existing pairs in the order they
    * were added. However, note that listeners added after this point may be
    * executed before those previously added, and note that the execution order
@@ -116,7 +126,7 @@ public final class ExecutionList {
    * <p>This method is idempotent. Calling it several times in parallel is
    * semantically equivalent to calling it exactly once.
    */
-  public void run() {
+  public void execute() {
     // Lock while we update our state so the add method above will finish adding
     // any listeners before we start to run them.
     synchronized (runnables) {
