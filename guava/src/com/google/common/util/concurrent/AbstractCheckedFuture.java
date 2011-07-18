@@ -20,7 +20,6 @@ import com.google.common.annotations.Beta;
 
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
@@ -33,16 +32,13 @@ import java.util.concurrent.TimeoutException;
  */
 @Beta
 public abstract class AbstractCheckedFuture<V, X extends Exception>
+    extends ForwardingListenableFuture.SimpleForwardingListenableFuture<V>
     implements CheckedFuture<V, X> {
-
-  /** The delegate, used to pass along all our methods. */
-  protected final ListenableFuture<V> delegate;
-
   /**
    * Constructs an {@code AbstractCheckedFuture} that wraps a delegate.
    */
   protected AbstractCheckedFuture(ListenableFuture<V> delegate) {
-    this.delegate = delegate;
+    super(delegate);
   }
 
   /**
@@ -113,38 +109,5 @@ public abstract class AbstractCheckedFuture<V, X extends Exception>
     } catch (ExecutionException e) {
       throw mapException(e);
     }
-  }
-
-  // Delegate methods for methods defined in the ListenableFuture interface.
-
-  @Override
-  public boolean cancel(boolean mayInterruptIfRunning) {
-    return delegate.cancel(mayInterruptIfRunning);
-  }
-
-  @Override
-  public boolean isCancelled() {
-    return delegate.isCancelled();
-  }
-
-  @Override
-  public boolean isDone() {
-    return delegate.isDone();
-  }
-
-  @Override
-  public V get() throws InterruptedException, ExecutionException {
-    return delegate.get();
-  }
-
-  @Override
-  public V get(long timeout, TimeUnit unit) throws InterruptedException,
-      ExecutionException, TimeoutException {
-    return delegate.get(timeout, unit);
-  }
-
-  @Override
-  public void addListener(Runnable listener, Executor exec) {
-    delegate.addListener(listener, exec);
   }
 }
