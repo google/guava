@@ -43,7 +43,6 @@ import java.util.logging.Logger;
  * @author Sven Mawson
  * @since Guava release 01
  */
-@Beta
 public final class ExecutionList {
 
   // Logger to log exceptions caught when running runnables.
@@ -127,6 +126,8 @@ public final class ExecutionList {
    *
    * <p>This method is idempotent. Calling it several times in parallel is
    * semantically equivalent to calling it exactly once.
+   *
+   * @since Guava release 10 (present in release 01 as {@code run})
    */
   public void execute() {
     // Lock while we update our state so the add method above will finish adding

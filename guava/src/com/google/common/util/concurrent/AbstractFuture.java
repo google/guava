@@ -64,7 +64,6 @@ import javax.annotation.Nullable;
  * @author Sven Mawson
  * @since Guava release 01
  */
-@Beta
 public abstract class AbstractFuture<V> implements ListenableFuture<V> {
 
   /** Synchronization control for AbstractFutures. */

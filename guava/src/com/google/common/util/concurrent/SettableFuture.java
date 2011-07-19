@@ -16,8 +16,6 @@
 
 package com.google.common.util.concurrent;
 
-import com.google.common.annotations.Beta;
-
 import javax.annotation.Nullable;
 
 /**
@@ -27,7 +25,6 @@ import javax.annotation.Nullable;
  * @author Sven Mawson
  * @since Guava release 09 (in release 01 as {@code ValueFuture})
  */
-@Beta
 public final class SettableFuture<V> extends AbstractFuture<V> {
 
   /**

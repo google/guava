@@ -16,8 +16,6 @@
 
 package com.google.common.util.concurrent;
 
-import com.google.common.annotations.Beta;
-
 import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.Callable;
@@ -33,7 +31,6 @@ import java.util.concurrent.TimeUnit;
  * @author Chris Povirk
  * @since Guava release 10
  */
-@Beta
 public interface ListeningExecutorService extends ExecutorService {
   /**
    * @return a {@code ListenableFuture} representing pending completion of the task

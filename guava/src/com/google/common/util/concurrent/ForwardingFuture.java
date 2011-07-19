@@ -16,7 +16,6 @@
 
 package com.google.common.util.concurrent;
 
-import com.google.common.annotations.Beta;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ForwardingObject;
 
@@ -70,14 +69,16 @@ public abstract class ForwardingFuture<V> extends ForwardingObject
     return delegate().get(timeout, unit);
   }
 
-  // TODO(cpovirk): Use Standard Javadoc form for SimpleForwarding*
+  /*
+   * TODO(cpovirk): Use standard Javadoc form for SimpleForwarding* class and
+   * constructor
+   */
   /**
    * A simplified version of {@link ForwardingFuture} where subclasses
    * can pass in an already constructed {@link Future} as the delegate.
    * 
    * @since Guava release 09
    */
-  @Beta
   public abstract static class SimpleForwardingFuture<V> 
       extends ForwardingFuture<V> {
     private final Future<V> delegate;

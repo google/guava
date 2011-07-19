@@ -16,7 +16,6 @@
 
 package com.google.common.util.concurrent;
 
-import com.google.common.annotations.Beta;
 import com.google.common.base.Preconditions;
 
 import java.util.concurrent.Executor;
@@ -34,7 +33,6 @@ import java.util.concurrent.Executor;
  * @author Shardul Deo
  * @since Guava release 04
  */
-@Beta
 public abstract class ForwardingListenableFuture<V> extends ForwardingFuture<V>
     implements ListenableFuture<V> {
 
@@ -49,7 +47,10 @@ public abstract class ForwardingListenableFuture<V> extends ForwardingFuture<V>
     delegate().addListener(listener, exec);
   }
 
-  // TODO(cpovirk): Use Standard Javadoc form for SimpleForwarding*
+  /*
+   * TODO(cpovirk): Use standard Javadoc form for SimpleForwarding* class and
+   * constructor
+   */
   /**
    * A simplified version of {@link ForwardingListenableFuture} where subclasses
    * can pass in an already constructed {@link ListenableFuture} 
@@ -57,7 +58,6 @@ public abstract class ForwardingListenableFuture<V> extends ForwardingFuture<V>
    * 
    * @since Guava release 09
    */
-  @Beta
   public abstract static class SimpleForwardingListenableFuture<V>
       extends ForwardingListenableFuture<V> {
     private final ListenableFuture<V> delegate;

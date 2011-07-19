@@ -33,7 +33,6 @@ import javax.annotation.Nullable;
  * @author Sven Mawson
  * @since Guava release 01
  */
-@Beta
 public final class ListenableFutureTask<V> extends FutureTask<V>
     implements ListenableFuture<V> {
 
