@@ -24,7 +24,9 @@ import com.google.common.annotations.GwtCompatible;
  * elapsed since some fixed but arbitrary point in time.
  *
  * @author Kevin Bourrillion
- * @since Guava release 09
+ * @since Guava release 10
+ *     (<a href="http://code.google.com/p/guava-libraries/wiki/Compatibility"
+ *     >mostly source-compatible</a> since Guava release 09)
  */
 @Beta
 @GwtCompatible
@@ -42,6 +44,8 @@ public abstract class Ticker {
 
   /**
    * A ticker that reads the current time using {@link System#nanoTime}.
+   *
+   * @since Guava release 10
    */
   public static Ticker systemTicker() {
     return SYSTEM_TICKER;

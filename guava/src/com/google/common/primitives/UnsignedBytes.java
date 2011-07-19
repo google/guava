@@ -46,6 +46,8 @@ public final class UnsignedBytes {
 
   /**
    * The largest power of two that can be represented as an unsigned {@code byte}.
+   *
+   * @since Guava release 10
    */
   public static final byte MAX_POWER_OF_TWO = (byte) (1 << 7);
 

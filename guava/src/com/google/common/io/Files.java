@@ -736,6 +736,8 @@ public final class Files {
    * <li>collapse multiple slashes
    * </li>delete trailing slashes (unless the path is just "/")
    * </ul>
+   *
+   * @since Guava release 10
    */
   public static String simplifyPath(String pathname) {
     if (pathname.length() == 0) {

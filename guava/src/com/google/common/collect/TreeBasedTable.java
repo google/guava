@@ -166,6 +166,9 @@ public class TreeBasedTable<R, C, V> extends StandardRowSortedTable<R, C, V> {
    * <p>Because a {@code TreeBasedTable} has unique sorted values for a given
    * row, this method returns a {@link SortedMap}, instead of the {@link Map}
    * specified in the {@link Table} interface.
+   * @since Guava release 10
+   *     (<a href="http://code.google.com/p/guava-libraries/wiki/Compatibility"
+   *     >mostly source-compatible</a> since Guava release 07)
    */
   @Override
   public SortedMap<C, V> row(R rowKey) {
@@ -238,11 +241,16 @@ public class TreeBasedTable<R, C, V> extends StandardRowSortedTable<R, C, V> {
 
     transient SortedMap<C, V> wholeRow;
 
-    // If the row was previously empty, we check if there's a new row here every time we're queried.
+    /*
+     * If the row was previously empty, we check if there's a new row here every
+     * time we're queried.
+     */
     SortedMap<C, V> wholeRow() {
-      return (wholeRow == null || (wholeRow.isEmpty() && backingMap.containsKey(rowKey)))
-          ? wholeRow = (SortedMap<C, V>) backingMap.get(rowKey)
-          : wholeRow;
+      if (wholeRow == null
+          || (wholeRow.isEmpty() && backingMap.containsKey(rowKey))) {
+        wholeRow = (SortedMap<C, V>) backingMap.get(rowKey);
+      }
+      return wholeRow;
     }
 
     @Override

@@ -236,6 +236,8 @@ public abstract class ImmutableMultiset<E> extends ImmutableCollection<E>
     return copyOfInternal(multiset);
   }
 
+  ImmutableMultiset() {}
+
   @Override public UnmodifiableIterator<E> iterator() {
     final Iterator<Entry<E>> entryIterator = entryIterator();
 

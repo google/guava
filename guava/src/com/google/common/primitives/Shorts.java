@@ -52,6 +52,8 @@ public final class Shorts {
 
   /**
    * The largest power of two that can be represented as a {@code short}.
+   *
+   * @since Guava release 10
    */
   public static final short MAX_POWER_OF_TWO = 1 << (Short.SIZE - 2);
 

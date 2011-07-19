@@ -31,11 +31,18 @@ import javax.annotation.Nullable;
  * Equivalences#equals equals equivalence}.
  *
  * @author Bob Lee
- * @since Guava release 04
+ * @author Ben Yu
+ * @since Guava release 10 (<a href="http://code.google.com/p/guava-libraries/wiki/Compatibility"
+ *        >mostly source-compatible</a> since Guava release 04)
  */
 @Beta
 @GwtCompatible
 public abstract class Equivalence<T> {
+  /**
+   * Constructor for use by subclasses.
+   */
+  protected Equivalence() {}
+
   /**
    * Returns {@code true} if the given objects are considered equivalent.
    *

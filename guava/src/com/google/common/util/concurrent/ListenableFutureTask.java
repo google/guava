@@ -45,6 +45,7 @@ public final class ListenableFutureTask<V> extends FutureTask<V>
    * given {@code Callable}.
    *
    * @param callable the callable task
+   * @since Guava release 10
    */
   public static <V> ListenableFutureTask<V> create(Callable<V> callable) {
     return new ListenableFutureTask<V>(callable);
@@ -56,11 +57,11 @@ public final class ListenableFutureTask<V> extends FutureTask<V>
    * given result on successful completion.
    *
    * @param runnable the runnable task
-   * @param result the result to return on successful completion. If
-   * you don't need a particular result, consider using
-   * constructions of the form:
-   * {@code ListenableFuture<?> f =
-   *     ListenableFutureTask.create(runnable, null)}
+   * @param result the result to return on successful completion. If you don't
+   *     need a particular result, consider using constructions of the form:
+   *     {@code ListenableFuture<?> f = ListenableFutureTask.create(runnable,
+   *     null)}
+   * @since Guava release 10
    */
   public static <V> ListenableFutureTask<V> create(
       Runnable runnable, @Nullable V result) {

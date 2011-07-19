@@ -38,6 +38,8 @@ public final class SignedBytes {
 
   /**
    * The largest power of two that can be represented as a signed {@code byte}. 
+   *
+   * @since Guava release 10
    */
   public static final byte MAX_POWER_OF_TWO = 1 << 6;
   

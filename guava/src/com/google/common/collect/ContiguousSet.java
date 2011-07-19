@@ -19,6 +19,7 @@ package com.google.common.collect;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 
 import java.util.NoSuchElementException;
@@ -27,7 +28,9 @@ import java.util.NoSuchElementException;
  * A sorted set of contiguous values in a given {@link DiscreteDomain}.
  *
  * @author gak@google.com (Gregory Kick)
+ * @since Guava release 10
  */
+@Beta
 @GwtCompatible
 @SuppressWarnings("unchecked") // allow ungenerified Comparable types
 public abstract class ContiguousSet<C extends Comparable> extends ImmutableSortedSet<C> {
@@ -103,4 +106,3 @@ public abstract class ContiguousSet<C extends Comparable> extends ImmutableSorte
    */
   public abstract Range<C> range(BoundType lowerBoundType, BoundType upperBoundType);
 }
-

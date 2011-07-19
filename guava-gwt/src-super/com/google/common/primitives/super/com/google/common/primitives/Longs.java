@@ -50,6 +50,8 @@ public final class Longs {
 
   /**
    * The largest power of two that can be represented as a {@code long}.
+   *
+   * @since Guava release 10
    */
   public static final long MAX_POWER_OF_TWO = 1L << (Long.SIZE - 2);
 
