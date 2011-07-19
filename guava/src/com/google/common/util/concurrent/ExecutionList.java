@@ -109,10 +109,12 @@ public final class ExecutionList {
   /**
    * Equivalent to {@link #execute}.
    *
-   * @deprecated Use {@link #execute}.
+   * @deprecated Use {@link #execute}. This method will be removed in Guava
+   * release 11.
    */
-  @Deprecated
-  public void run() {
+  @Beta @Deprecated
+  public
+  void run() {
     execute();
   }
 
