@@ -24,6 +24,8 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 /**
+ * <b>Soon to be removed (in Guava release 11),
+ * prefer using {@link Uninterruptibles#getUninterruptibly(Future)}</b>.
  * A {@code Future} whose {@code get} calls cannot be interrupted. If a thread
  * is interrupted during such a call, the call continues to block until the
  * result is available or the timeout elapses, and only then re-interrupts the
@@ -34,6 +36,8 @@ import java.util.concurrent.TimeoutException;
  * @since Guava release 01
  */
 @Beta
+// TODO(user): Make this package-private internally
+@Deprecated
 public interface UninterruptibleFuture<V> extends Future<V> {
   @Override V get() throws ExecutionException;
 

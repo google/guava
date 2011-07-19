@@ -133,8 +133,8 @@ public final class SimpleTimeLimiter implements TimeLimiter {
           throw e;
         }
       } else {
-        Future<T> uninterruptible = Futures.makeUninterruptible(future);
-        return uninterruptible.get(timeoutDuration, timeoutUnit);
+        return Uninterruptibles.getUninterruptibly(future, 
+            timeoutDuration, timeoutUnit);
       }
     } catch (ExecutionException e) {
       throw Throwables.throwCause(e, true);

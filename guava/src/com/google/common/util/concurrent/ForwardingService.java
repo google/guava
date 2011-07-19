@@ -69,7 +69,7 @@ public abstract class ForwardingService extends ForwardingObject
    */
   protected State standardStartAndWait() {
     try {
-      return Futures.makeUninterruptible(start()).get();
+      return Uninterruptibles.getUninterruptibly(start());
     } catch (ExecutionException e) {
       throw Throwables.propagate(e.getCause());
     }
@@ -83,7 +83,7 @@ public abstract class ForwardingService extends ForwardingObject
    */
   protected State standardStopAndWait() {
     try {
-      return Futures.makeUninterruptible(stop()).get();
+      return Uninterruptibles.getUninterruptibly(stop());
     } catch (ExecutionException e) {
       throw Throwables.propagate(e.getCause());
     }

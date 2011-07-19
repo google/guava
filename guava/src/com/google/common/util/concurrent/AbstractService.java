@@ -128,7 +128,7 @@ public abstract class AbstractService implements Service {
   @Override
   public State startAndWait() {
     try {
-      return Futures.makeUninterruptible(start()).get();
+      return Uninterruptibles.getUninterruptibly(start());
     } catch (ExecutionException e) {
       throw Throwables.propagate(e.getCause());
     }
@@ -137,7 +137,7 @@ public abstract class AbstractService implements Service {
   @Override
   public State stopAndWait() {
     try {
-      return Futures.makeUninterruptible(stop()).get();
+      return Uninterruptibles.getUninterruptibly(stop());
     } catch (ExecutionException e) {
       throw Throwables.propagate(e.getCause());
     }

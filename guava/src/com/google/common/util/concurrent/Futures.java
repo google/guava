@@ -64,13 +64,15 @@ public final class Futures {
   private Futures() {}
 
   /**
-   *    * <b> Soon to be removed, use
+   * <b>Soon to be removed (for Guava release 11), use
    * {@link Uninterruptibles#getUninterruptibly(Future) getUninterruptibly}</b>
    * Returns an uninterruptible view of a {@code Future}. If a thread is
    * interrupted during an attempt to {@code get()} from the returned future, it
    * continues to wait on the result until it is available or the timeout
    * elapses, and only then re-interrupts the thread.
    */
+  // TODO(user): Make this package-private internally
+  @Deprecated
   public static <V> UninterruptibleFuture<V> makeUninterruptible(
       final Future<V> future) {
     checkNotNull(future);
@@ -94,43 +96,12 @@ public final class Futures {
       @Override
       public V get(long timeout, TimeUnit unit)
           throws TimeoutException, ExecutionException {
-        boolean interrupted = false;
-        try {
-          long remainingNanos = unit.toNanos(timeout);
-          long end = System.nanoTime() + remainingNanos;
-
-          while (true) {
-            try {
-              // Future treats negative timeouts just like zero.
-              return future.get(remainingNanos, NANOSECONDS);
-            } catch (InterruptedException e) {
-              interrupted = true;
-              remainingNanos = end - System.nanoTime();
-            }
-          }
-        } finally {
-          if (interrupted) {
-            Thread.currentThread().interrupt();
-          }
-        }
+        return Uninterruptibles.getUninterruptibly(future, timeout, unit);
       }
 
       @Override
       public V get() throws ExecutionException {
-        boolean interrupted = false;
-        try {
-          while (true) {
-            try {
-              return future.get();
-            } catch (InterruptedException ignored) {
-              interrupted = true;
-            }
-          }
-        } finally {
-          if (interrupted) {
-            Thread.currentThread().interrupt();
-          }
-        }
+        return Uninterruptibles.getUninterruptibly(future);
       }
     };
   }
