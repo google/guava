@@ -719,6 +719,7 @@ public final class Multisets {
 
     @Override public boolean contains(@Nullable Object o) {
       if (o instanceof Entry) {
+        @SuppressWarnings("cast")
         Entry<?> entry = (Entry<?>) o;
         if (entry.getCount() <= 0) {
           return false;
@@ -730,6 +731,7 @@ public final class Multisets {
       return false;
     }
 
+    @SuppressWarnings("cast")
     @Override public boolean remove(Object o) {
       return contains(o)
           && multiset().elementSet().remove(((Entry<?>) o).getElement());
