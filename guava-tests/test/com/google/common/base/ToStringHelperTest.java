@@ -55,9 +55,15 @@ public class ToStringHelperTest extends TestCase {
     assertTrue(toTest, toTest.matches(".*\\{\\}"));
   }
 
+  @GwtIncompatible("Class names are obfuscated in GWT")
   public void testConstructor_anonymousClass() {
     String toTest = Objects.toStringHelper(new Object() {}).toString();
     assertEquals("{}", toTest);
+  }
+
+  public void testConstructorLenient_anonymousClass() {
+    String toTest = Objects.toStringHelper(new Object() {}).toString();
+    assertTrue(toTest, toTest.matches(".*\\{\\}"));
   }
 
   @GwtIncompatible("Class names are obfuscated in GWT")
@@ -109,6 +115,7 @@ public class ToStringHelperTest extends TestCase {
     assertTrue(toTest, toTest.matches(".*\\{\\}"));
   }
 
+  @GwtIncompatible("Class names are obfuscated in GWT")
   public void testToStringHelper_moreThanNineAnonymousClasses() {
     // The nth anonymous class has a name ending like "Outer.$n"
     Object o1 = new Object() {};
@@ -123,6 +130,22 @@ public class ToStringHelperTest extends TestCase {
     Object o10 = new Object() {};
     String toTest = Objects.toStringHelper(o10).toString();
     assertEquals("{}", toTest);
+  }
+
+  public void testToStringHelperLenient_moreThanNineAnonymousClasses() {
+    // The nth anonymous class has a name ending like "Outer.$n"
+    Object o1 = new Object() {};
+    Object o2 = new Object() {};
+    Object o3 = new Object() {};
+    Object o4 = new Object() {};
+    Object o5 = new Object() {};
+    Object o6 = new Object() {};
+    Object o7 = new Object() {};
+    Object o8 = new Object() {};
+    Object o9 = new Object() {};
+    Object o10 = new Object() {};
+    String toTest = Objects.toStringHelper(o10).toString();
+    assertTrue(toTest, toTest.matches(".*\\{\\}"));
   }
 
   // all remaining test are on an inner class with various fields
