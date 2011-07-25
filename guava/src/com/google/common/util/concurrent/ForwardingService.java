@@ -17,10 +17,7 @@
 package com.google.common.util.concurrent;
 
 import com.google.common.annotations.Beta;
-import com.google.common.base.Throwables;
 import com.google.common.collect.ForwardingObject;
-
-import java.util.concurrent.ExecutionException;
 
 /**
  * A {@link Service} that forwards all method calls to another service.
@@ -68,11 +65,7 @@ public abstract class ForwardingService extends ForwardingObject
    * @since Guava release 09
    */
   protected State standardStartAndWait() {
-    try {
-      return Uninterruptibles.getUninterruptibly(start());
-    } catch (ExecutionException e) {
-      throw Throwables.propagate(e.getCause());
-    }
+    return Futures.getUnchecked(start());
   }
 
   /**
@@ -82,10 +75,6 @@ public abstract class ForwardingService extends ForwardingObject
    * @since Guava release 09
    */
   protected State standardStopAndWait() {
-    try {
-      return Uninterruptibles.getUninterruptibly(stop());
-    } catch (ExecutionException e) {
-      throw Throwables.propagate(e.getCause());
-    }
+    return Futures.getUnchecked(stop());
   }
 }

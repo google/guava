@@ -71,7 +71,7 @@ public interface Service {
    * no checked exceptions, and it cannot be {@linkplain Thread#interrupt
    * interrupted}.
    *
-   * @throws RuntimeException if startup failed
+   * @throws UncheckedExecutionException if startup failed
    * @return the state of the service when startup finished.
    */
   State startAndWait();
@@ -111,7 +111,7 @@ public interface Service {
    * terminated} without having been started nor stopped. Unlike calling {@code
    * stop().get()}, this method throws no checked exceptions.
    *
-   * @throws RuntimeException if shutdown failed
+   * @throws UncheckedExecutionException if shutdown failed
    * @return the state of the service when shutdown finished.
    */
   State stopAndWait();

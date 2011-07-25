@@ -19,7 +19,6 @@ package com.google.common.util.concurrent;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.Beta;
-import com.google.common.base.Throwables;
 import com.google.common.util.concurrent.Service.State; // javadoc needs this
 
 import java.util.concurrent.ExecutionException;
@@ -127,20 +126,12 @@ public abstract class AbstractService implements Service {
 
   @Override
   public State startAndWait() {
-    try {
-      return Uninterruptibles.getUninterruptibly(start());
-    } catch (ExecutionException e) {
-      throw Throwables.propagate(e.getCause());
-    }
+    return Futures.getUnchecked(start());
   }
 
   @Override
   public State stopAndWait() {
-    try {
-      return Uninterruptibles.getUninterruptibly(stop());
-    } catch (ExecutionException e) {
-      throw Throwables.propagate(e.getCause());
-    }
+    return Futures.getUnchecked(stop());
   }
 
   /**
