@@ -74,7 +74,7 @@ import javax.annotation.Nullable;
  */
 @Beta
 @GwtCompatible(emulated = true)
-public class InternetDomainName {
+public final class InternetDomainName {
 
   private static final CharMatcher DOTS_MATCHER =
       CharMatcher.anyOf(".\u3002\uFF0E\uFF61");
@@ -132,9 +132,9 @@ public class InternetDomainName {
   private final int publicSuffixIndex;
 
   /**
-   * Private constructor used to implement {@link #fromLenient(String)}.
+   * Constructor used to implement {@link #from(String)}, and from subclasses.
    */
-  private InternetDomainName(String name) {
+  InternetDomainName(String name) {
     // Normalize:
     // * ASCII characters to lowercase
     // * All dot-like characters to '.'
@@ -188,6 +188,20 @@ public class InternetDomainName {
   }
 
   /**
+   * A deprecated synonym for {@link #from(String)}.
+   *
+   * @param domain A domain name (not IP address)
+   * @throws IllegalArgumentException if {@code name} is not syntactically valid
+   *     according to {@link #isValidLenient}
+   * @since Guava release 08 (previously named {@code from})
+   * @deprecated Use {@link #from(String)}
+   */
+  @Deprecated
+  public static InternetDomainName fromLenient(String domain) {
+    return from(domain);
+  }
+
+  /**
    * Returns an instance of {@link InternetDomainName} after lenient
    * validation.  Specifically, validation against <a
    * href="http://www.ietf.org/rfc/rfc3490.txt">RFC 3490</a>
@@ -204,9 +218,9 @@ public class InternetDomainName {
    * @param domain A domain name (not IP address)
    * @throws IllegalArgumentException if {@code name} is not syntactically valid
    *     according to {@link #isValidLenient}
-   * @since Guava release 08 (previously named {@code from})
+   * @since Guava release 10 (previously named {@code fromLenient})
    */
-  public static InternetDomainName fromLenient(String domain) {
+  public static InternetDomainName from(String domain) {
     return new InternetDomainName(checkNotNull(domain));
   }
 
@@ -458,28 +472,32 @@ public class InternetDomainName {
    * <p>TODO: Reasonable candidate for addition to public API.
    */
   private InternetDomainName ancestor(int levels) {
-    return fromInternal(DOT_JOINER.join(parts.subList(levels, parts.size())));
+    return from(DOT_JOINER.join(parts.subList(levels, parts.size())));
   }
 
   /**
    * Creates and returns a new {@code InternetDomainName} by prepending the
    * argument and a dot to the current name. For example, {@code
    * InternetDomainName.fromLenient("foo.com").child("www.bar")} returns a new
-   * {@code InternetDomainName} with the value {@code www.bar.foo.com}.
+   * {@code InternetDomainName} with the value {@code www.bar.foo.com}. Only
+   * lenient validation is performed, as described {@link #from(String) here}.
    *
    * @throws NullPointerException if leftParts is null
    * @throws IllegalArgumentException if the resulting name is not valid
    */
   public InternetDomainName child(String leftParts) {
-    return fromInternal(checkNotNull(leftParts) + "." + name);
+    return from(checkNotNull(leftParts) + "." + name);
   }
 
   /**
-   * Returns a new {@link InternetDomainName} instance with the given {@code
-   * name}, using the same validation as the instance on which it is called.
+   * A deprecated synonym for {@link #isValid(String)}.
+   *
+   * @since Guava release 08 (previously named {@code isValid})
+   * @deprecated Use {@link #isValid(String)} instead
    */
-  InternetDomainName fromInternal(String name) {
-    return fromLenient(name);
+  @Deprecated
+  public static boolean isValidLenient(String name) {
+    return isValid(name);
   }
 
   /**
@@ -492,27 +510,24 @@ public class InternetDomainName {
    *
    * <pre>   {@code
    *
-   *   if (InternetDomainName.isValidLenient(name)) {
-   *     domainName = InternetDomainName.fromLenient(name);
-   *   } else {
-   *     domainName = DEFAULT_DOMAIN;
-   *   }}</pre>
+   *   domainName = InternetDomainName.isValid(name)
+   *       ? InternetDomainName.from(name)
+   *       : DEFAULT_DOMAIN;
+   *   }</pre>
    *
    * <pre>   {@code
    *
    *   try {
-   *     domainName = InternetDomainName.fromLenient(name);
+   *     domainName = InternetDomainName.from(name);
    *   } catch (IllegalArgumentException e) {
    *     domainName = DEFAULT_DOMAIN;
    *   }}</pre>
    *
-   * The latter form is preferred as it avoids doing validation twice.
-   *
-   * @since Guava release 08 (previously named {@code isValid})
+   * @since Guava release 08 (previously named {@code isValidLenient})
    */
-  public static boolean isValidLenient(String name) {
+  public static boolean isValid(String name) {
     try {
-      fromLenient(name);
+      from(name);
       return true;
     } catch (IllegalArgumentException e) {
       return false;
