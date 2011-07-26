@@ -145,6 +145,8 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
   /** The segments, each of which is a specialized hash table. */
   final transient Segment<K, V>[] segments;
 
+  final CacheLoader<? super K, ? extends V> loader;
+
   /** The concurrency level. */
   final int concurrencyLevel;
 
@@ -195,7 +197,10 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
    *     task
    */
   CustomConcurrentHashMap(CacheBuilder<? super K, ? super V> builder,
-      Supplier<? extends StatsCounter> statsCounterSupplier) {
+      Supplier<? extends StatsCounter> statsCounterSupplier,
+      CacheLoader<? super K, ? extends V> loader) {
+    this.loader = checkNotNull(loader);
+
     concurrencyLevel = Math.min(builder.getConcurrencyLevel(), MAX_SEGMENTS);
 
     keyStrength = builder.getKeyStrength();
@@ -2214,6 +2219,136 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
       entry.setValueReference(valueReference);
     }
 
+    // computation
+
+    V getOrCompute(K key, int hash, CacheLoader<? super K, ? extends V> loader)
+        throws ExecutionException {
+      try {
+        outer: while (true) {
+          // don't call getLiveEntry, which would ignore computing values
+          ReferenceEntry<K, V> e = getEntry(key, hash);
+          if (e != null) {
+            V value = getLiveValue(e);
+            if (value != null) {
+              recordRead(e);
+              statsCounter.recordHit();
+              return value;
+            }
+          }
+
+          // at this point e is either null, computing, or expired;
+          // avoid locking if it's already computing
+          if (e == null || !e.getValueReference().isComputingReference()) {
+            ComputingValueReference<K, V> computingValueReference = null;
+            lock();
+            try {
+              preWriteCleanup();
+
+              int newCount = this.count - 1;
+              AtomicReferenceArray<ReferenceEntry<K, V>> table = this.table;
+              int index = hash & (table.length() - 1);
+              ReferenceEntry<K, V> first = table.get(index);
+
+              boolean createNewEntry = true;
+              for (e = first; e != null; e = e.getNext()) {
+                K entryKey = e.getKey();
+                if (e.getHash() == hash && entryKey != null
+                    && map.keyEquivalence.equivalent(key, entryKey)) {
+                  ValueReference<K, V> valueReference = e.getValueReference();
+                  if (valueReference.isComputingReference()) {
+                    createNewEntry = false;
+                  } else {
+                    // never return expired entries
+                    V value = getLiveValue(e);
+                    if (value != null) {
+                      recordLockedRead(e);
+                      statsCounter.recordHit();
+                      return value;
+                    }
+                    // immediately reuse partially collected entries
+                    enqueueNotification(entryKey, hash, value, RemovalCause.COLLECTED);
+                    evictionQueue.remove(e);
+                    expirationQueue.remove(e);
+                    this.count = newCount; // write-volatile
+                  }
+                  break;
+                }
+              }
+
+              if (createNewEntry) {
+                computingValueReference = new ComputingValueReference<K, V>(loader);
+
+                if (e == null) {
+                  e = newEntry(key, hash, first);
+                  table.set(index, e);
+                }
+                e.setValueReference(computingValueReference);
+              }
+            } finally {
+              unlock();
+              postWriteCleanup();
+            }
+
+            if (computingValueReference != null) {
+              // This thread solely created the entry.
+              return compute(key, hash, e, computingValueReference);
+            }
+          }
+
+          // The entry already exists. Wait for the computation.
+          checkState(!Thread.holdsLock(e), "Recursive computation");
+          // don't consider expiration as we're concurrent with computation
+          V value = e.getValueReference().waitForValue();
+          if (value != null) {
+            recordRead(e);
+            statsCounter.recordConcurrentMiss();
+            return value;
+          }
+          // else computing thread will clearValue
+          continue outer;
+        }
+      } finally {
+        postReadCleanup();
+      }
+    }
+
+    V compute(K key, int hash, ReferenceEntry<K, V> e,
+        ComputingValueReference<K, V> computingValueReference)
+        throws ExecutionException {
+      V value = null;
+      long start = System.nanoTime();
+      long end = 0;
+      try {
+        // Synchronizes on the entry to allow failing fast when a recursive computation is
+        // detected. This is not fool-proof since the entry may be copied when the segment
+        // is written to.
+        synchronized (e) {
+          value = computingValueReference.compute(key, hash);
+          end = System.nanoTime();
+        }
+        if (value != null) {
+          // a null return value is an Error, so don't count it in the stats
+          statsCounter.recordCreateSuccess(end - start);
+
+          // putIfAbsent
+          V oldValue = put(key, hash, value, true);
+          if (oldValue != null) {
+            // the computed value was already clobbered
+            enqueueNotification(key, hash, value, RemovalCause.REPLACED);
+          }
+        }
+        return value;
+      } finally {
+        if (end == 0) {
+          end = System.nanoTime();
+          statsCounter.recordCreateException(end - start);
+        }
+        if (value == null) {
+          clearValue(key, hash, computingValueReference);
+        }
+      }
+    }
+
     // reference queues, for garbage collection cleanup
 
     /**
@@ -3162,6 +3297,174 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
 
   }
 
+  /**
+   * Used to provide computation exceptions to other threads.
+   */
+  private static final class ComputationExceptionReference<K, V> implements ValueReference<K, V> {
+    final Throwable t;
+
+    ComputationExceptionReference(Throwable t) {
+      this.t = t;
+    }
+
+    @Override
+    public V get() {
+      return null;
+    }
+
+    @Override
+    public ReferenceEntry<K, V> getEntry() {
+      return null;
+    }
+
+    @Override
+    public ValueReference<K, V> copyFor(ReferenceQueue<V> queue, ReferenceEntry<K, V> entry) {
+      return this;
+    }
+
+    @Override
+    public boolean isComputingReference() {
+      return false;
+    }
+
+    @Override
+    public V waitForValue() throws ExecutionException {
+      throw new ExecutionException(t);
+    }
+
+    @Override
+    public void clear(ValueReference<K, V> newValue) {}
+  }
+
+  /**
+   * Used to provide computation result to other threads.
+   */
+  private static final class ComputedReference<K, V> implements ValueReference<K, V> {
+    final V value;
+
+    ComputedReference(@Nullable V value) {
+      this.value = value;
+    }
+
+    @Override
+    public V get() {
+      return value;
+    }
+
+    @Override
+    public ReferenceEntry<K, V> getEntry() {
+      return null;
+    }
+
+    @Override
+    public ValueReference<K, V> copyFor(ReferenceQueue<V> queue, ReferenceEntry<K, V> entry) {
+      return this;
+    }
+
+    @Override
+    public boolean isComputingReference() {
+      return false;
+    }
+
+    @Override
+    public V waitForValue() {
+      return get();
+    }
+
+    @Override
+    public void clear(ValueReference<K, V> newValue) {}
+  }
+
+  private static final class ComputingValueReference<K, V> implements ValueReference<K, V> {
+    final CacheLoader<? super K, ? extends V> loader;
+
+    @GuardedBy("ComputingValueReference.this") // writes
+    volatile ValueReference<K, V> computedReference = unset();
+
+    public ComputingValueReference(CacheLoader<? super K, ? extends V> loader) {
+      this.loader = loader;
+    }
+
+    @Override
+    public V get() {
+      // All computation lookups go through waitForValue. This method thus is
+      // only used by put, to whom we always want to appear absent.
+      return null;
+    }
+
+    @Override
+    public ReferenceEntry<K, V> getEntry() {
+      return null;
+    }
+
+    @Override
+    public ValueReference<K, V> copyFor(ReferenceQueue<V> queue, ReferenceEntry<K, V> entry) {
+      return this;
+    }
+
+    @Override
+    public boolean isComputingReference() {
+      return true;
+    }
+
+    /**
+     * Waits for a computation to complete. Returns the result of the computation.
+     */
+    @Override
+    public V waitForValue() throws ExecutionException {
+      if (computedReference == UNSET) {
+        boolean interrupted = false;
+        try {
+          synchronized (this) {
+            while (computedReference == UNSET) {
+              try {
+                wait();
+              } catch (InterruptedException ie) {
+                interrupted = true;
+              }
+            }
+          }
+        } finally {
+          if (interrupted) {
+            Thread.currentThread().interrupt();
+          }
+        }
+      }
+      return computedReference.waitForValue();
+    }
+
+    @Override
+    public void clear(ValueReference<K, V> newValue) {
+      // The pending computation was clobbered by a manual write. Unblock all
+      // pending gets, and have them return the new value.
+      setValueReference(newValue);
+
+      // TODO(user): could also cancel computation if we had a thread handle
+    }
+
+    V compute(K key, int hash) throws ExecutionException {
+      V value;
+      try {
+        value = loader.load(key);
+      } catch (Throwable t) {
+        setValueReference(new ComputationExceptionReference<K, V>(t));
+        throw new ExecutionException(t);
+      }
+
+      setValueReference(new ComputedReference<K, V>(value));
+      return value;
+    }
+
+    void setValueReference(ValueReference<K, V> valueReference) {
+      synchronized (this) {
+        if (computedReference == UNSET) {
+          computedReference = valueReference;
+          notifyAll();
+        }
+      }
+    }
+  }
+
   // Queues
 
   /**
@@ -3499,6 +3802,11 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
     }
     int hash = hash(key);
     return segmentFor(hash).get(key, hash);
+  }
+
+  V getOrCompute(K key) throws ExecutionException {
+    int hash = hash(checkNotNull(key));
+    return segmentFor(hash).getOrCompute(key, hash, loader);
   }
 
   /**

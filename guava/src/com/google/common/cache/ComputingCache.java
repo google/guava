@@ -28,17 +28,17 @@ import java.util.concurrent.ExecutionException;
 import javax.annotation.Nullable;
 
 /**
- * Exposes a {@link ComputingConcurrentHashMap} as a {@code Cache}.
+ * Exposes a {@link CustomConcurrentHashMap} as a {@code Cache}.
  *
  * @author Charles Fry
  */
 class ComputingCache<K, V> extends AbstractCache<K, V> {
-  final ComputingConcurrentHashMap<K, V> map;
+  final CustomConcurrentHashMap<K, V> map;
 
   ComputingCache(CacheBuilder<? super K, ? super V> builder,
       Supplier<? extends StatsCounter> statsCounterSupplier,
       CacheLoader<? super K, V> loader) {
-    this.map = new ComputingConcurrentHashMap<K, V>(builder, statsCounterSupplier, loader);
+    this.map = new CustomConcurrentHashMap<K, V>(builder, statsCounterSupplier, loader);
   }
 
   // Cache methods
@@ -87,9 +87,9 @@ class ComputingCache<K, V> extends AbstractCache<K, V> {
   // TODO(user): activeEntries
 
   static final class CacheAsMap<K, V> extends ForwardingConcurrentMap<K, V> {
-    private final ComputingConcurrentHashMap<K, V> delegate;
+    private final CustomConcurrentHashMap<K, V> delegate;
 
-    CacheAsMap(ComputingConcurrentHashMap<K, V> delegate) {
+    CacheAsMap(CustomConcurrentHashMap<K, V> delegate) {
       this.delegate = delegate;
     }
 

@@ -557,21 +557,6 @@ public final class CacheBuilder<K, V> {
   }
 
   /**
-   * Returns a CustomConcurrentHashMap for the benefit of internal callers that use features of
-   * that class not exposed through ConcurrentMap.
-   */
-  <K1 extends K, V1 extends V> CustomConcurrentHashMap<K1, V1> makeCustomMap() {
-    return new CustomConcurrentHashMap<K1, V1>(this, DEFAULT_STATS_COUNTER);
-  }
-
-  <K1 extends K, V1 extends V> ConcurrentMap<K1, V1> makeComputingMap(
-      CacheLoader<? super K1, ? extends V1> loader) {
-    return useNullCache()
-        ? new ComputingConcurrentHashMap<K1, V1>(this, DEFAULT_STATS_COUNTER, loader)
-        : new NullComputingConcurrentMap<K1, V1>(this, loader);
-  }
-
-  /**
    * Builds a cache, which either returns an already-loaded value for a given key or atomically
    * computes or retrieves it using the supplied {@code CacheLoader}. If another thread is currently
    * loading the value for this key, simply waits for that thread to finish and returns its
