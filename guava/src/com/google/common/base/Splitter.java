@@ -24,7 +24,10 @@ import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 
+import java.util.Collections;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -320,7 +323,6 @@ public final class Splitter {
    * @return a splitter with the desired configuration
    * @since Guava release 09
    */
-  @Beta
   @CheckReturnValue
   public Splitter limit(int limit) {
     checkArgument(limit > 0, "must be greater then zero: %s", limit);
@@ -372,9 +374,88 @@ public final class Splitter {
 
     return new Iterable<String>() {
       @Override public Iterator<String> iterator() {
-        return strategy.iterator(Splitter.this, sequence);
+        return spliterator(sequence);
       }
     };
+  }
+
+  private Iterator<String> spliterator(CharSequence sequence) {
+    return strategy.iterator(this, sequence);
+  }
+
+  /**
+   * Returns a {@code MapSplitter} which splits entries based on this splitter,
+   * and splits entries into keys and values using the specified separator.
+   *
+   * @since Guava release 10
+   */
+  @CheckReturnValue
+  @Beta
+  public MapSplitter withKeyValueSeparator(String separator) {
+    return withKeyValueSeparator(on(separator));
+  }
+
+  /**
+   * Returns a {@code MapSplitter} which splits entries based on this splitter,
+   * and splits entries into keys and values using the specified key-value
+   * splitter.
+   *
+   * @since Guava release 10
+   */
+  @CheckReturnValue
+  @Beta
+  public MapSplitter withKeyValueSeparator(Splitter keyValueSplitter) {
+    return new MapSplitter(this, keyValueSplitter);
+  }
+
+  /**
+   * An object that splits strings into maps as {@code Splitter} splits
+   * iterables and lists. Like {@code Splitter}, it is thread-safe and
+   * immutable.
+   *
+   * @since Guava release 10
+   */
+  @Beta
+  public static final class MapSplitter {
+    private static final String INVALID_ENTRY_MESSAGE =
+        "Chunk [%s] is not a valid entry";
+    private final Splitter outerSplitter;
+    private final Splitter entrySplitter;
+
+    private MapSplitter(Splitter outerSplitter, Splitter entrySplitter) {
+      this.outerSplitter = outerSplitter; // only "this" is passed
+      this.entrySplitter = checkNotNull(entrySplitter);
+    }
+
+    /**
+     * Splits {@code sequence} into substrings, splits each substring into
+     * an entry, and returns an unmodifiable map with each of the entries. For
+     * example, <code>
+     * Splitter.on(';').trimResults().withKeyValueSeparator("=>")
+     * .split("a=>b ; c=>b")
+     * </code> will return a mapping from {@code "a"} to {@code "b"} and
+     * {@code "c"} to {@code b}.
+     *
+     * @throws IllegalArgumentException if the specified sequence does not split
+     *         into valid map entries, or if there are duplicate keys
+     */
+    public Map<String, String> split(CharSequence sequence) {
+      Map<String, String> map = new LinkedHashMap<String, String>();
+      for (String entry : outerSplitter.split(sequence)) {
+        Iterator<String> entryFields = entrySplitter.spliterator(entry);
+
+        checkArgument(entryFields.hasNext(), INVALID_ENTRY_MESSAGE, entry);
+        String key = entryFields.next();
+        checkArgument(!map.containsKey(key), "Duplicate key [%s] found.", key);
+
+        checkArgument(entryFields.hasNext(), INVALID_ENTRY_MESSAGE, entry);
+        String value = entryFields.next();
+        map.put(key, value);
+
+        checkArgument(!entryFields.hasNext(), INVALID_ENTRY_MESSAGE, entry);
+      }
+      return Collections.unmodifiableMap(map);
+    }
   }
 
   private interface Strategy {

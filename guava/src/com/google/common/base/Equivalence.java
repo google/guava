@@ -104,7 +104,6 @@ public abstract class Equivalence<T> {
    * 
    * @since Guava release 10
    */
-  @Beta
   public final <F> Equivalence<F> onResultOf(Function<F, ? extends T> function) {
     return new FunctionalEquivalence<F, T>(function, this);
   }
@@ -116,7 +115,6 @@ public abstract class Equivalence<T> {
    * 
    * @since Guava release 10
    */
-  @Beta
   public final <S extends T> EquivalenceWrapper<S> wrap(@Nullable S reference) {
     return new EquivalenceWrapper<S>(this, reference);
   }
@@ -132,7 +130,6 @@ public abstract class Equivalence<T> {
    *
    * @since Guava release 10
    */
-  @Beta
   @GwtCompatible(serializable = true)
   public final <S extends T> Equivalence<Iterable<S>> pairwise() {
     // Ideally, the returned equivalence would support Iterable<? extends T>. However,
@@ -146,7 +143,6 @@ public abstract class Equivalence<T> {
    * 
    * @since Guava release 10
    */
-  @Beta
   public final Predicate<T> equivalentTo(@Nullable T target) {
     return new EquivalentToPredicate<T>(this, target);
   }
