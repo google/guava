@@ -254,7 +254,7 @@ public final class Multisets {
     @Override public Set<Entry<E>> entrySet() {
       Set<Entry<E>> es = entrySet;
       if (es == null) {
-        es = new EntrySet<E>() {
+        es = entrySet = new EntrySet<E>() {
           @Override Multiset<E> multiset() {
             return SetMultiset.this;
           }
