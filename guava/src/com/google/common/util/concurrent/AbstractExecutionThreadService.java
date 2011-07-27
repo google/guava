@@ -148,7 +148,15 @@ public abstract class AbstractExecutionThreadService implements Service {
     return delegate.stopAndWait();
   }
 
-  private String getServiceName() {
+  /**
+   * Returns the name of this service. {@link AbstractExecutionThreadService} may include the name
+   * in debugging output.
+   *
+   * <p>Subclasses may override this method.
+   *
+   * @since Guava release 10
+   */
+  protected String getServiceName() {
     return getClass().getSimpleName();
   }
 }
