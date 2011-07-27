@@ -16,8 +16,8 @@ package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
-import static com.google.common.collect.BSTSide.LEFT;
-import static com.google.common.collect.BSTSide.RIGHT;
+import static com.google.common.collect.BstSide.LEFT;
+import static com.google.common.collect.BstSide.RIGHT;
 
 import com.google.common.annotations.GwtCompatible;
 
@@ -29,10 +29,10 @@ import javax.annotation.Nullable;
  * A reusable abstraction for a node in a binary search tree. Null keys are disallowed.
  *
  * <p>The node is considered to be immutable. Any subclass with mutable fields must create a new
- * {@code BSTNode} object upon any mutation, as the {@code BST} classes assume that two nodes
+ * {@code BstNode} object upon any mutation, as the {@code Bst} classes assume that two nodes
  * {@code a} and {@code b} represent exactly the same tree if and only if {@code a == b}.
  *
- * <p>A {@code BSTNode} can be considered to be an <i>entry</i>, containing a key and possibly some
+ * <p>A {@code BstNode} can be considered to be an <i>entry</i>, containing a key and possibly some
  * value data, or it can be considered to be a <i>subtree</i>, representative of it and all its
  * descendants.
  *
@@ -41,8 +41,8 @@ import javax.annotation.Nullable;
  * @param <N> The type of the nodes in this tree.
  */
 @GwtCompatible
-class BSTNode<K, N extends BSTNode<K, N>> {
-  static <N extends BSTNode<?, N>> int countOrZero(@Nullable N node) {
+class BstNode<K, N extends BstNode<K, N>> {
+  static <N extends BstNode<?, N>> int countOrZero(@Nullable N node) {
     return (node == null) ? 0 : node.count();
   }
 
@@ -70,7 +70,7 @@ class BSTNode<K, N extends BSTNode<K, N>> {
   @Nullable
   private final N right;
 
-  BSTNode(K key, @Nullable N left, @Nullable N right) {
+  BstNode(K key, @Nullable N left, @Nullable N right) {
     this.key = checkNotNull(key);
     this.count = 1 + countOrZero(left) + countOrZero(right);
     this.left = left;
@@ -95,7 +95,7 @@ class BSTNode<K, N extends BSTNode<K, N>> {
    * Returns the child on the specified side, or {@code null} if there is no such child.
    */
   @Nullable
-  public final N childOrNull(BSTSide side) {
+  public final N childOrNull(BstSide side) {
     switch (side) {
       case LEFT:
         return left;
@@ -109,7 +109,7 @@ class BSTNode<K, N extends BSTNode<K, N>> {
   /**
    * Returns {@code true} if this node has a child on the specified side.
    */
-  public final boolean hasChild(BSTSide side) {
+  public final boolean hasChild(BstSide side) {
     return childOrNull(side) != null;
   }
 
@@ -118,7 +118,7 @@ class BSTNode<K, N extends BSTNode<K, N>> {
    *
    * @throws IllegalStateException if this node has no such child
    */
-  public final N getChild(BSTSide side) {
+  public final N getChild(BstSide side) {
     N child = childOrNull(side);
     checkState(child != null);
     return child;

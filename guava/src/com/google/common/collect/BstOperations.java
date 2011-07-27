@@ -15,8 +15,8 @@
 package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.common.collect.BSTSide.LEFT;
-import static com.google.common.collect.BSTSide.RIGHT;
+import static com.google.common.collect.BstSide.LEFT;
+import static com.google.common.collect.BstSide.RIGHT;
 
 import com.google.common.annotations.GwtCompatible;
 
@@ -30,14 +30,14 @@ import javax.annotation.Nullable;
  * @author Louis Wasserman
  */
 @GwtCompatible
-final class BSTOperations {
-  private BSTOperations() {}
+final class BstOperations {
+  private BstOperations() {}
 
   /**
    * Returns the node with key {@code key} in {@code tree}, if any.
    */
   @Nullable
-  static <K, N extends BSTNode<K, N>> N seek(
+  static <K, N extends BstNode<K, N>> N seek(
       Comparator<? super K> comparator, @Nullable N tree, K key) {
     checkNotNull(comparator);
     if (tree == null) {
@@ -47,7 +47,7 @@ final class BSTOperations {
     if (cmp == 0) {
       return tree;
     } else {
-      BSTSide side = (cmp < 0) ? LEFT : RIGHT;
+      BstSide side = (cmp < 0) ? LEFT : RIGHT;
       return seek(comparator, tree.childOrNull(side), key);
     }
   }
@@ -56,21 +56,21 @@ final class BSTOperations {
    * Returns the result of performing the mutation specified by {@code mutationRule} in {@code
    * tree} at the location with key {@code key}.
    */
-  static <K, N extends BSTNode<K, N>> BSTMutationResult<K, N> mutate(
-      Comparator<? super K> comparator, BSTMutationRule<K, N> mutationRule, @Nullable N tree,
+  static <K, N extends BstNode<K, N>> BstMutationResult<K, N> mutate(
+      Comparator<? super K> comparator, BstMutationRule<K, N> mutationRule, @Nullable N tree,
       K key) {
     checkNotNull(comparator);
     checkNotNull(mutationRule);
     checkNotNull(key);
-    BSTBalancePolicy<N> rebalancePolicy = mutationRule.getBalancePolicy();
-    BSTNodeFactory<N> nodeFactory = mutationRule.getNodeFactory();
-    BSTModifier<K, N> modifier = mutationRule.getModifier();
+    BstBalancePolicy<N> rebalancePolicy = mutationRule.getBalancePolicy();
+    BstNodeFactory<N> nodeFactory = mutationRule.getNodeFactory();
+    BstModifier<K, N> modifier = mutationRule.getModifier();
 
     if (tree != null) {
       int cmp = comparator.compare(key, tree.getKey());
       if (cmp != 0) {
-        BSTSide side = (cmp < 0) ? LEFT : RIGHT;
-        BSTMutationResult<K, N> mutation =
+        BstSide side = (cmp < 0) ? LEFT : RIGHT;
+        BstMutationResult<K, N> mutation =
             mutate(comparator, mutationRule, tree.childOrNull(side), key);
         return mutation.lift(tree, side, nodeFactory, rebalancePolicy);
       }
@@ -78,7 +78,7 @@ final class BSTOperations {
     // We're modifying this node
     N newTree = modifier.modify(key, tree);
     if (newTree == tree) {
-      return BSTMutationResult.identity(key, tree, tree);
+      return BstMutationResult.identity(key, tree, tree);
     } else if (newTree == null) {
       newTree =
           rebalancePolicy.combine(nodeFactory, tree.childOrNull(LEFT), tree.childOrNull(RIGHT));
@@ -91,6 +91,6 @@ final class BSTOperations {
       }
       newTree = rebalancePolicy.balance(nodeFactory, newTree, left, right);
     }
-    return BSTMutationResult.mutationResult(key, tree, newTree, tree, newTree);
+    return BstMutationResult.mutationResult(key, tree, newTree, tree, newTree);
   }
 }

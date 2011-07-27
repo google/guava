@@ -20,42 +20,42 @@ import com.google.common.annotations.GwtCompatible;
 
 /**
  * A rule for a local mutation to a binary search tree, that changes at most one entry. In addition
- * to specifying how it modifies a particular entry via a {@code BSTModifier}, it specifies a
- * {@link BSTBalancePolicy} for rebalancing the tree after the modification is performed and a
- * {@link BSTNodeFactory} for constructing newly rebalanced nodes.
+ * to specifying how it modifies a particular entry via a {@code BstModifier}, it specifies a
+ * {@link BstBalancePolicy} for rebalancing the tree after the modification is performed and a
+ * {@link BstNodeFactory} for constructing newly rebalanced nodes.
  *
  * @author Louis Wasserman
  * @param <K> The key type of the nodes in binary search trees that this rule can modify.
  * @param <N> The type of the nodes in binary search trees that this rule can modify.
  */
 @GwtCompatible
-final class BSTMutationRule<K, N extends BSTNode<K, N>> {
+final class BstMutationRule<K, N extends BstNode<K, N>> {
   /**
-   * Constructs a {@code BSTMutationRule} with the specified modifier, balance policy, and node
+   * Constructs a {@code BstMutationRule} with the specified modifier, balance policy, and node
    * factory.
    */
-  public static <K, N extends BSTNode<K, N>> BSTMutationRule<K, N> createRule(
-      BSTModifier<K, N> modifier, BSTBalancePolicy<N> balancePolicy,
-      BSTNodeFactory<N> nodeFactory) {
-    return new BSTMutationRule<K, N>(modifier, balancePolicy, nodeFactory);
+  public static <K, N extends BstNode<K, N>> BstMutationRule<K, N> createRule(
+      BstModifier<K, N> modifier, BstBalancePolicy<N> balancePolicy,
+      BstNodeFactory<N> nodeFactory) {
+    return new BstMutationRule<K, N>(modifier, balancePolicy, nodeFactory);
   }
 
-  private final BSTModifier<K, N> modifier;
-  private final BSTBalancePolicy<N> balancePolicy;
-  private final BSTNodeFactory<N> nodeFactory;
+  private final BstModifier<K, N> modifier;
+  private final BstBalancePolicy<N> balancePolicy;
+  private final BstNodeFactory<N> nodeFactory;
 
-  private BSTMutationRule(BSTModifier<K, N> modifier, BSTBalancePolicy<N> balancePolicy,
-      BSTNodeFactory<N> nodeFactory) {
+  private BstMutationRule(BstModifier<K, N> modifier, BstBalancePolicy<N> balancePolicy,
+      BstNodeFactory<N> nodeFactory) {
     this.balancePolicy = checkNotNull(balancePolicy);
     this.nodeFactory = checkNotNull(nodeFactory);
     this.modifier = checkNotNull(modifier);
   }
 
   /**
-   * Returns the {@link BSTModifier} that specifies the change to a targeted entry in a binary
+   * Returns the {@link BstModifier} that specifies the change to a targeted entry in a binary
    * search tree.
    */
-  public BSTModifier<K, N> getModifier() {
+  public BstModifier<K, N> getModifier() {
     return modifier;
   }
 
@@ -63,7 +63,7 @@ final class BSTMutationRule<K, N extends BSTNode<K, N>> {
    * Returns the policy used to rebalance nodes in the tree after this modification has been
    * performed.
    */
-  public BSTBalancePolicy<N> getBalancePolicy() {
+  public BstBalancePolicy<N> getBalancePolicy() {
     return balancePolicy;
   }
 
@@ -71,7 +71,7 @@ final class BSTMutationRule<K, N extends BSTNode<K, N>> {
    * Returns the node factory used to create new nodes in the tree after this modification has been
    * performed.
    */
-  public BSTNodeFactory<N> getNodeFactory() {
+  public BstNodeFactory<N> getNodeFactory() {
     return nodeFactory;
   }
 }

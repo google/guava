@@ -15,8 +15,8 @@
 package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.common.collect.BSTSide.LEFT;
-import static com.google.common.collect.BSTSide.RIGHT;
+import static com.google.common.collect.BstSide.LEFT;
+import static com.google.common.collect.BstSide.RIGHT;
 
 import com.google.common.annotations.GwtCompatible;
 
@@ -30,9 +30,9 @@ import javax.annotation.Nullable;
  * @param <N> The type of the nodes in the modified binary search tree.
  */
 @GwtCompatible
-final class BSTMutationResult<K, N extends BSTNode<K, N>> {
+final class BstMutationResult<K, N extends BstNode<K, N>> {
   /**
-   * Creates a {@code BSTMutationResult}.
+   * Creates a {@code BstMutationResult}.
    *
    * @param targetKey The key targeted for modification. If {@code originalTarget} or {@code
    *        changedTarget} are non-null, their keys must compare as equal to {@code targetKey}.
@@ -41,10 +41,10 @@ final class BSTMutationResult<K, N extends BSTNode<K, N>> {
    * @param originalTarget The node in the original subtree with key {@code targetKey}, if any.
    * @param changedTarget The node with key {@code targetKey} after the modification.
    */
-  public static <K, N extends BSTNode<K, N>> BSTMutationResult<K, N> mutationResult(K targetKey,
+  public static <K, N extends BstNode<K, N>> BstMutationResult<K, N> mutationResult(K targetKey,
       @Nullable N originalRoot, @Nullable N changedRoot, @Nullable N originalTarget,
       @Nullable N changedTarget) {
-    return new BSTMutationResult<K, N>(
+    return new BstMutationResult<K, N>(
         targetKey, originalRoot, changedRoot, originalTarget, changedTarget);
   }
 
@@ -55,7 +55,7 @@ final class BSTMutationResult<K, N extends BSTNode<K, N>> {
    * @param root The subtree that was to be modified.
    * @param target The node in the subtree with key {@code targetKey}, if any.
    */
-  public static <K, N extends BSTNode<K, N>> BSTMutationResult<K, N> identity(
+  public static <K, N extends BstNode<K, N>> BstMutationResult<K, N> identity(
       K targetKey, @Nullable N root, @Nullable N target) {
     return mutationResult(targetKey, root, root, target, target);
   }
@@ -74,7 +74,7 @@ final class BSTMutationResult<K, N extends BSTNode<K, N>> {
   @Nullable
   private final N changedTarget;
 
-  private BSTMutationResult(K targetKey, @Nullable N originalRoot, @Nullable N changedRoot,
+  private BstMutationResult(K targetKey, @Nullable N originalRoot, @Nullable N changedRoot,
       @Nullable N originalTarget, @Nullable N changedTarget) {
     assert (originalTarget == null | originalRoot != null);
     assert (changedTarget == null | changedRoot != null);
@@ -139,11 +139,11 @@ final class BSTMutationResult<K, N extends BSTNode<K, N>> {
 
   /**
    * If this mutation was to an immediate child subtree of the specified root on the specified
-   * side, returns the {@code BSTMutationResult} of applying the mutation to the appropriate child
+   * side, returns the {@code BstMutationResult} of applying the mutation to the appropriate child
    * of the specified root and rebalancing using the specified mutation rule.
    */
-  public BSTMutationResult<K, N> lift(N liftOriginalRoot, BSTSide side,
-      BSTNodeFactory<N> nodeFactory, BSTBalancePolicy<N> balancePolicy) {
+  public BstMutationResult<K, N> lift(N liftOriginalRoot, BstSide side,
+      BstNodeFactory<N> nodeFactory, BstBalancePolicy<N> balancePolicy) {
     checkNotNull(liftOriginalRoot);
     checkNotNull(side);
     checkNotNull(nodeFactory);

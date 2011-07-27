@@ -15,8 +15,8 @@
 package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.common.collect.BSTSide.LEFT;
-import static com.google.common.collect.BSTSide.RIGHT;
+import static com.google.common.collect.BstSide.LEFT;
+import static com.google.common.collect.BstSide.RIGHT;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Optional;
@@ -26,55 +26,55 @@ import java.util.NoSuchElementException;
 import javax.annotation.Nullable;
 
 /**
- * A {@code BSTPath} supporting inorder traversal operations.
+ * A {@code BstPath} supporting inorder traversal operations.
  *
  * @author Louis Wasserman
  */
 @GwtCompatible
-final class BSTInOrderPath<N extends BSTNode<?, N>> extends BSTPath<N, BSTInOrderPath<N>> {
+final class BstInOrderPath<N extends BstNode<?, N>> extends BstPath<N, BstInOrderPath<N>> {
   /**
-   * The factory to use to construct {@code BSTInOrderPath} values.
+   * The factory to use to construct {@code BstInOrderPath} values.
    */
-  public static <N extends BSTNode<?, N>> BSTPathFactory<N, BSTInOrderPath<N>> inOrderFactory() {
-    return new BSTPathFactory<N, BSTInOrderPath<N>>() {
+  public static <N extends BstNode<?, N>> BstPathFactory<N, BstInOrderPath<N>> inOrderFactory() {
+    return new BstPathFactory<N, BstInOrderPath<N>>() {
       @Override
-      public BSTInOrderPath<N> extension(BSTInOrderPath<N> path, BSTSide side) {
-        return BSTInOrderPath.extension(path, side);
+      public BstInOrderPath<N> extension(BstInOrderPath<N> path, BstSide side) {
+        return BstInOrderPath.extension(path, side);
       }
 
       @Override
-      public BSTInOrderPath<N> initialPath(N root) {
-        return new BSTInOrderPath<N>(root, null, null);
+      public BstInOrderPath<N> initialPath(N root) {
+        return new BstInOrderPath<N>(root, null, null);
       }
     };
   }
 
-  private static <N extends BSTNode<?, N>> BSTInOrderPath<N> extension(
-      BSTInOrderPath<N> path, BSTSide side) {
+  private static <N extends BstNode<?, N>> BstInOrderPath<N> extension(
+      BstInOrderPath<N> path, BstSide side) {
     checkNotNull(path);
     N tip = path.getTip();
-    return new BSTInOrderPath<N>(tip.getChild(side), side, path);
+    return new BstInOrderPath<N>(tip.getChild(side), side, path);
   }
 
-  private final BSTSide side;
-  private transient Optional<BSTInOrderPath<N>> prevInOrder;
-  private transient Optional<BSTInOrderPath<N>> nextInOrder;
+  private final BstSide side;
+  private transient Optional<BstInOrderPath<N>> prevInOrder;
+  private transient Optional<BstInOrderPath<N>> nextInOrder;
 
-  private BSTInOrderPath(N tip, @Nullable BSTSide side, @Nullable BSTInOrderPath<N> tail) {
+  private BstInOrderPath(N tip, @Nullable BstSide side, @Nullable BstInOrderPath<N> tail) {
     super(tip, tail);
     this.side = side;
     assert (side == null) == (tail == null);
   }
 
-  private Optional<BSTInOrderPath<N>> computeNextInOrder() {
+  private Optional<BstInOrderPath<N>> computeNextInOrder() {
     if (getTip().hasChild(RIGHT)) {
-      BSTInOrderPath<N> path = extension(this, RIGHT);
+      BstInOrderPath<N> path = extension(this, RIGHT);
       while (path.getTip().hasChild(LEFT)) {
         path = extension(path, LEFT);
       }
       return Optional.of(path);
     } else {
-      BSTInOrderPath<N> current = this;
+      BstInOrderPath<N> current = this;
       while (current.side == RIGHT) {
         current = current.getPrefix();
       }
@@ -86,15 +86,15 @@ final class BSTInOrderPath<N extends BSTNode<?, N>> extends BSTPath<N, BSTInOrde
     }
   }
 
-  private Optional<BSTInOrderPath<N>> computePrevInOrder() {
+  private Optional<BstInOrderPath<N>> computePrevInOrder() {
     if (getTip().hasChild(LEFT)) {
-      BSTInOrderPath<N> path = extension(this, LEFT);
+      BstInOrderPath<N> path = extension(this, LEFT);
       while (path.getTip().hasChild(RIGHT)) {
         path = extension(path, RIGHT);
       }
       return Optional.of(path);
     } else {
-      BSTInOrderPath<N> current = this;
+      BstInOrderPath<N> current = this;
       while (current.side == LEFT) {
         current = current.getPrefix();
       }
@@ -106,13 +106,13 @@ final class BSTInOrderPath<N extends BSTNode<?, N>> extends BSTPath<N, BSTInOrde
     }
   }
 
-  private Optional<BSTInOrderPath<N>> nextInOrder() {
-    Optional<BSTInOrderPath<N>> result = nextInOrder;
+  private Optional<BstInOrderPath<N>> nextInOrder() {
+    Optional<BstInOrderPath<N>> result = nextInOrder;
     return (result == null) ? nextInOrder = computeNextInOrder() : result;
   }
 
-  private Optional<BSTInOrderPath<N>> prevInOrder() {
-    Optional<BSTInOrderPath<N>> result = prevInOrder;
+  private Optional<BstInOrderPath<N>> prevInOrder() {
+    Optional<BstInOrderPath<N>> result = prevInOrder;
     return (result == null) ? prevInOrder = computePrevInOrder() : result;
   }
 
@@ -135,7 +135,7 @@ final class BSTInOrderPath<N extends BSTNode<?, N>> extends BSTPath<N, BSTInOrde
    *
    * @throws NoSuchElementException if this would be the last path in an in-order traversal
    */
-  public BSTInOrderPath<N> next() {
+  public BstInOrderPath<N> next() {
     if (!hasNext()) {
       throw new NoSuchElementException();
     }
@@ -147,7 +147,7 @@ final class BSTInOrderPath<N extends BSTNode<?, N>> extends BSTPath<N, BSTInOrde
    *
    * @throws NoSuchElementException if this would be the first path in an in-order traversal
    */
-  public BSTInOrderPath<N> prev() {
+  public BstInOrderPath<N> prev() {
     if (!hasPrev()) {
       throw new NoSuchElementException();
     }
@@ -158,7 +158,7 @@ final class BSTInOrderPath<N extends BSTNode<?, N>> extends BSTPath<N, BSTInOrde
    * Returns the direction this path went in relative to its tail path, or {@code null} if this
    * path has no tail.
    */
-  public BSTSide getSide() {
+  public BstSide getSide() {
     return side;
   }
 }

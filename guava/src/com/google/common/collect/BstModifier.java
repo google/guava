@@ -24,7 +24,7 @@ import javax.annotation.Nullable;
  * @author Louis Wasserman
  */
 @GwtCompatible
-interface BSTModifier<K, N extends BSTNode<K, N>> {
+interface BstModifier<K, N extends BstNode<K, N>> {
 
   /**
    * Given a target key and the original entry (if any) with the specified key, returns the entry

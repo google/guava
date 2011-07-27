@@ -29,18 +29,18 @@ import javax.annotation.Nullable;
  * @param <P> This path type, and the path type of all suffix paths.
  */
 @GwtCompatible
-abstract class BSTPath<N extends BSTNode<?, N>, P extends BSTPath<N, P>> {
+abstract class BstPath<N extends BstNode<?, N>, P extends BstPath<N, P>> {
   private final N tip;
   @Nullable
   private final P prefix;
 
-  BSTPath(N tip, @Nullable P prefix) {
+  BstPath(N tip, @Nullable P prefix) {
     this.tip = checkNotNull(tip);
     this.prefix = prefix;
   }
 
   /**
-   * Return the end of this {@code BSTPath}, the deepest node in the path.
+   * Return the end of this {@code BstPath}, the deepest node in the path.
    */
   public final N getTip() {
     return tip;
