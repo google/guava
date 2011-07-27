@@ -25,12 +25,11 @@ import javax.annotation.Nullable;
  * A path to a node in a binary search tree, originating at the root.
  *
  * @author Louis Wasserman
- * @param <K> The key type of nodes in this binary search tree.
  * @param <N> The type of nodes in this binary search tree.
  * @param <P> This path type, and the path type of all suffix paths.
  */
 @GwtCompatible
-abstract class BSTPath<K, N extends BSTNode<K, N>, P extends BSTPath<K, N, P>> {
+abstract class BSTPath<N extends BSTNode<?, N>, P extends BSTPath<N, P>> {
   private final N tip;
   @Nullable
   private final P prefix;

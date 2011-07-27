@@ -29,7 +29,7 @@ import javax.annotation.Nullable;
  * @param <N> The type of the tree nodes constructed with this {@code BSTNodeFactory}.
  */
 @GwtCompatible
-abstract class BSTNodeFactory<K, N extends BSTNode<K, N>> {
+abstract class BSTNodeFactory<N extends BSTNode<?, N>> {
   /**
    * Returns a new {@code N} with the key and value data from {@code source}, with left child
    * {@code left}, and right child {@code right}. If {@code left} or {@code right} is null, the

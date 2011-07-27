@@ -35,17 +35,17 @@ final class BSTMutationRule<K, N extends BSTNode<K, N>> {
    * factory.
    */
   public static <K, N extends BSTNode<K, N>> BSTMutationRule<K, N> createRule(
-      BSTModifier<K, N> modifier, BSTBalancePolicy<K, N> balancePolicy,
-      BSTNodeFactory<K, N> nodeFactory) {
+      BSTModifier<K, N> modifier, BSTBalancePolicy<N> balancePolicy,
+      BSTNodeFactory<N> nodeFactory) {
     return new BSTMutationRule<K, N>(modifier, balancePolicy, nodeFactory);
   }
 
   private final BSTModifier<K, N> modifier;
-  private final BSTBalancePolicy<K, N> balancePolicy;
-  private final BSTNodeFactory<K, N> nodeFactory;
+  private final BSTBalancePolicy<N> balancePolicy;
+  private final BSTNodeFactory<N> nodeFactory;
 
-  private BSTMutationRule(BSTModifier<K, N> modifier, BSTBalancePolicy<K, N> balancePolicy,
-      BSTNodeFactory<K, N> nodeFactory) {
+  private BSTMutationRule(BSTModifier<K, N> modifier, BSTBalancePolicy<N> balancePolicy,
+      BSTNodeFactory<N> nodeFactory) {
     this.balancePolicy = checkNotNull(balancePolicy);
     this.nodeFactory = checkNotNull(nodeFactory);
     this.modifier = checkNotNull(modifier);
@@ -63,7 +63,7 @@ final class BSTMutationRule<K, N extends BSTNode<K, N>> {
    * Returns the policy used to rebalance nodes in the tree after this modification has been
    * performed.
    */
-  public BSTBalancePolicy<K, N> getBalancePolicy() {
+  public BSTBalancePolicy<N> getBalancePolicy() {
     return balancePolicy;
   }
 
@@ -71,7 +71,7 @@ final class BSTMutationRule<K, N extends BSTNode<K, N>> {
    * Returns the node factory used to create new nodes in the tree after this modification has been
    * performed.
    */
-  public BSTNodeFactory<K, N> getNodeFactory() {
+  public BSTNodeFactory<N> getNodeFactory() {
     return nodeFactory;
   }
 }

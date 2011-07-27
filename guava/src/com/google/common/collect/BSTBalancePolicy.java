@@ -22,20 +22,18 @@ import javax.annotation.Nullable;
  * A local balancing policy for modified nodes in binary search trees.
  *
  * @author Louis Wasserman
- * @param <K> The key type associated with the trees that this {@code BSTRebalancePolicy} can
- *        rebalance.
  * @param <N> The type of the nodes in the trees that this {@code BSTRebalancePolicy} can
  *        rebalance.
  */
 @GwtCompatible
-interface BSTBalancePolicy<K, N extends BSTNode<K, N>> {
+interface BSTBalancePolicy<N extends BSTNode<?, N>> {
   /**
    * Constructs a locally balanced tree around the key and value data in {@code source}, and the
    * subtrees {@code left} and {@code right}. It is guaranteed that the resulting tree will have
    * the same inorder traversal order as the subtree {@code left}, then the entry {@code source},
    * then the subtree {@code right}.
    */
-  N balance(BSTNodeFactory<K, N> nodeFactory, N source, @Nullable N left, @Nullable N right);
+  N balance(BSTNodeFactory<N> nodeFactory, N source, @Nullable N left, @Nullable N right);
 
   /**
    * Constructs a locally balanced tree around the subtrees {@code left} and {@code right}. It is
@@ -43,5 +41,5 @@ interface BSTBalancePolicy<K, N extends BSTNode<K, N>> {
    * {@code left}, then the subtree {@code right}.
    */
   @Nullable
-  N combine(BSTNodeFactory<K, N> nodeFactory, @Nullable N left, @Nullable N right);
+  N combine(BSTNodeFactory<N> nodeFactory, @Nullable N left, @Nullable N right);
 }

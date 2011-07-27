@@ -143,7 +143,7 @@ final class BSTMutationResult<K, N extends BSTNode<K, N>> {
    * of the specified root and rebalancing using the specified mutation rule.
    */
   public BSTMutationResult<K, N> lift(N liftOriginalRoot, BSTSide side,
-      BSTNodeFactory<K, N> nodeFactory, BSTBalancePolicy<K, N> balancePolicy) {
+      BSTNodeFactory<N> nodeFactory, BSTBalancePolicy<N> balancePolicy) {
     checkNotNull(liftOriginalRoot);
     checkNotNull(side);
     checkNotNull(nodeFactory);
