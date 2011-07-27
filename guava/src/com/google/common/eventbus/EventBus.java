@@ -18,9 +18,14 @@ package com.google.common.eventbus;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.VisibleForTesting;
+import com.google.common.base.Throwables;
+import com.google.common.cache.Cache;
+import com.google.common.cache.CacheBuilder;
+import com.google.common.cache.CacheLoader;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Sets;
+
 import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
 import java.util.List;
@@ -29,6 +34,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.CopyOnWriteArraySet;
+import java.util.concurrent.ExecutionException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -137,6 +143,38 @@ public class EventBus {
       return false;
     }
   };
+
+  /**
+   * A thread-safe cache for flattenHierarch(). The Class class is immutable.
+   */
+  private Cache<Class<?>, Set<Class<?>>> flattenHierarchyCache =
+      CacheBuilder.newBuilder()
+          .weakKeys()
+          .build(new CacheLoader<Class<?>, Set<Class<?>>>() {
+            @Override
+            public Set<Class<?>> load(Class<?> concreteClass) throws Exception {
+              List<Class<?>> parents = Lists.newLinkedList();
+              Set<Class<?>> classes = Sets.newHashSet();
+
+              parents.add(concreteClass);
+
+              while (!parents.isEmpty()) {
+                Class<?> clazz = parents.remove(0);
+                classes.add(clazz);
+
+                Class<?> parent = clazz.getSuperclass();
+                if (parent != null) {
+                  parents.add(parent);
+                }
+
+                for (Class<?> iface : clazz.getInterfaces()) {
+                  parents.add(iface);
+                }
+              }
+
+              return classes;
+            }
+          });
 
   /**
    * Creates a new EventBus named "default".
@@ -340,26 +378,11 @@ public class EventBus {
    */
   @VisibleForTesting
   Set<Class<?>> flattenHierarchy(Class<?> concreteClass) {
-    List<Class<?>> parents = Lists.newLinkedList();
-    Set<Class<?>> classes = Sets.newHashSet();
-
-    parents.add(concreteClass);
-
-    while (!parents.isEmpty()) {
-      Class<?> clazz = parents.remove(0);
-      classes.add(clazz);
-
-      Class<?> parent = clazz.getSuperclass();
-      if (parent != null) {
-        parents.add(parent);
-      }
-
-      for (Class<?> iface : clazz.getInterfaces()) {
-        parents.add(iface);
-      }
+    try {
+      return flattenHierarchyCache.get(concreteClass);
+    } catch (ExecutionException e) {
+      throw Throwables.propagate(e.getCause());
     }
-
-    return classes;
   }
 
   /** simple struct representing an event and it's handler */
