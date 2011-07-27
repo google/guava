@@ -31,48 +31,97 @@ import javax.annotation.Nullable;
 @GwtCompatible
 final class BstRangeOps {
   /**
-   * Returns the number of nodes in the specified tree in the specified range. Assumes that the
-   * tree satisfies the binary search ordering property relative to {@code range.comparator()}.
+   * An integer-valued function on binary search tree nodes that adds between nodes.
    */
-  public static <K, N extends BstNode<K, N>> int countInRange(
-      GeneralRange<K> range, @Nullable N root) {
+  public interface BstAggregate<N extends BstNode<?, N>> {
+    /**
+     * The total value on an entire subtree. Must be equal to the sum of the {@link #entryValue
+     * entryValue} of this node and all its descendants.
+     */
+    int treeValue(@Nullable N tree);
+
+    /**
+     * The value on a single entry, ignoring its descendants.
+     */
+    int entryValue(N entry);
+  }
+
+  private enum CountAggregate implements BstAggregate {
+    INSTANCE {
+      @Override
+      public int entryValue(BstNode entry) {
+        return 1;
+      }
+
+      @SuppressWarnings("unchecked")
+      @Override
+      public int treeValue(@Nullable BstNode tree) {
+        return countOrZero(tree);
+      }
+    };
+  }
+
+  /**
+   * Returns a {@link BstAggregate} counting the number of nodes.
+   */
+  @SuppressWarnings("unchecked")
+  public static <N extends BstNode<?, N>> BstAggregate<N> countAggregate() {
+    return CountAggregate.INSTANCE;
+  }
+
+  /**
+   * Returns the total value of the specified aggregation function on the specified tree restricted
+   * to the specified range. Assumes that the tree satisfies the binary search ordering property
+   * relative to {@code range.comparator()}.
+   */
+  public static <K, N extends BstNode<K, N>> int totalInRange(
+      BstAggregate<? super N> aggregate, GeneralRange<K> range, @Nullable N root) {
+    checkNotNull(aggregate);
+    checkNotNull(range);
     if (root == null || range.isEmpty()) {
       return 0;
     }
-    int totalCount = root.count();
+    int total = aggregate.treeValue(root);
     if (range.hasLowerBound()) {
-      totalCount -= countTooLow(range, root);
+      total -= totalTooLow(aggregate, range, root);
     }
     if (range.hasUpperBound()) {
-      totalCount -= countTooHigh(range, root);
+      total -= totalTooHigh(aggregate, range, root);
     }
-    return totalCount;
+    return total;
   }
 
-  // Returns the number of nodes strictly below the specified range.
-  private static <K, N extends BstNode<K, N>> int countTooLow(
-      GeneralRange<K> range, @Nullable N root) {
-    if (root == null) {
-      return 0;
-    } else if (range.tooLow(root.getKey())) {
-      return 1 + countOrZero(root.childOrNull(LEFT)) + countTooLow(range, root.childOrNull(RIGHT));
-    } else {
-      return countTooLow(range, root.childOrNull(LEFT));
+  // Returns total value strictly below the specified range.
+  private static <K, N extends BstNode<K, N>> int totalTooLow(
+      BstAggregate<? super N> aggregate, GeneralRange<K> range, @Nullable N root) {
+    int accum = 0;
+    while (root != null) {
+      if (range.tooLow(root.getKey())) {
+        accum += aggregate.entryValue(root);
+        accum += aggregate.treeValue(root.childOrNull(LEFT));
+        root = root.childOrNull(RIGHT);
+      } else {
+        root = root.childOrNull(LEFT);
+      }
     }
+    return accum;
   }
 
   // Returns the number of nodes strictly above the specified range.
   @Nullable
-  private static <K, N extends BstNode<K, N>> int countTooHigh(
-      GeneralRange<K> range, @Nullable N root) {
-    if (root == null) {
-      return 0;
-    } else if (range.tooHigh(root.getKey())) {
-      return 1 + countOrZero(root.childOrNull(RIGHT))
-          + countTooHigh(range, root.childOrNull(LEFT));
-    } else {
-      return countTooHigh(range, root.childOrNull(RIGHT));
+  private static <K, N extends BstNode<K, N>> int totalTooHigh(
+      BstAggregate<? super N> aggregate, GeneralRange<K> range, @Nullable N root) {
+    int accum = 0;
+    while (root != null) {
+      if (range.tooHigh(root.getKey())) {
+        accum += aggregate.entryValue(root);
+        accum += aggregate.treeValue(root.childOrNull(RIGHT));
+        root = root.childOrNull(LEFT);
+      } else {
+        root = root.childOrNull(RIGHT);
+      }
     }
+    return accum;
   }
 
   /**
@@ -130,68 +179,56 @@ final class BstRangeOps {
   }
 
   /**
-   * Returns the leftmost path in the specified tree that is within the specified range.
+   * Returns the furthest path to the specified side in the specified tree that falls into the
+   * specified range.
    */
   @Nullable
-  public static <K, N extends BstNode<K, N>, P extends BstPath<N, P>> P firstPath(
-      GeneralRange<K> range, BstPathFactory<N, P> pathFactory, @Nullable N root) {
+  public static <K, N extends BstNode<K, N>, P extends BstPath<N, P>> P furthestPath(
+      GeneralRange<K> range, BstSide side, BstPathFactory<N, P> pathFactory, @Nullable N root) {
     checkNotNull(range);
     checkNotNull(pathFactory);
-    return (root == null) ? null : firstPath(pathFactory.initialPath(root), range, pathFactory);
+    checkNotNull(side);
+    if (root == null) {
+      return null;
+    }
+    P path = pathFactory.initialPath(root);
+    return furthestPath(range, side, pathFactory, path);
+  }
+
+  private static <K, N extends BstNode<K, N>, P extends BstPath<N, P>> P furthestPath(
+      GeneralRange<K> range, BstSide side, BstPathFactory<N, P> pathFactory, P currentPath) {
+    N tip = currentPath.getTip();
+    K tipKey = tip.getKey();
+    if (beyond(range, tipKey, side)) {
+      if (tip.hasChild(side.other())) {
+        currentPath = pathFactory.extension(currentPath, side.other());
+        return furthestPath(range, side, pathFactory, currentPath);
+      } else {
+        return null;
+      }
+    } else if (tip.hasChild(side)) {
+      P alphaPath = pathFactory.extension(currentPath, side);
+      alphaPath = furthestPath(range, side, pathFactory, alphaPath);
+      if (alphaPath != null) {
+        return alphaPath;
+      }
+    }
+    return beyond(range, tipKey, side.other()) ? null : currentPath;
   }
 
   /**
-   * Returns the rightmost path in the specified tree that is within the specified range.
+   * Returns {@code true} if {@code key} is beyond the specified side of the specified range.
    */
-  @Nullable
-  public static <K, N extends BstNode<K, N>, P extends BstPath<N, P>> P lastPath(
-      GeneralRange<K> range, BstPathFactory<N, P> pathFactory, @Nullable N root) {
+  public static <K> boolean beyond(GeneralRange<K> range, K key, BstSide side) {
     checkNotNull(range);
-    checkNotNull(pathFactory);
-    return (root == null) ? null : lastPath(pathFactory.initialPath(root), range, pathFactory);
-  }
-
-  @Nullable
-  private static <K, N extends BstNode<K, N>, P extends BstPath<N, P>> P firstPath(
-      P currentPath, GeneralRange<K> range, BstPathFactory<N, P> pathFactory) {
-    K tipKey = currentPath.getTip().getKey();
-    if (range.tooLow(tipKey)) {
-      if (currentPath.getTip().hasChild(RIGHT)) {
-        return firstPath(pathFactory.extension(currentPath, RIGHT), range, pathFactory);
-      } else {
-        return null;
-      }
-    } else {
-      P leftPath = currentPath.getTip().hasChild(LEFT)
-          ? firstPath(pathFactory.extension(currentPath, LEFT), range, pathFactory)
-          : null;
-      if (leftPath != null) {
-        return leftPath;
-      } else {
-        return range.tooHigh(tipKey) ? null : currentPath;
-      }
-    }
-  }
-
-  @Nullable
-  private static <K, N extends BstNode<K, N>, P extends BstPath<N, P>> P lastPath(
-      P currentPath, GeneralRange<K> range, BstPathFactory<N, P> pathFactory) {
-    K tipKey = currentPath.getTip().getKey();
-    if (range.tooHigh(tipKey)) {
-      if (currentPath.getTip().hasChild(LEFT)) {
-        return lastPath(pathFactory.extension(currentPath, LEFT), range, pathFactory);
-      } else {
-        return null;
-      }
-    } else {
-      P rightPath = currentPath.getTip().hasChild(RIGHT)
-          ? lastPath(pathFactory.extension(currentPath, RIGHT), range, pathFactory)
-          : null;
-      if (rightPath != null) {
-        return rightPath;
-      } else {
-        return range.tooLow(tipKey) ? null : currentPath;
-      }
+    checkNotNull(key);
+    switch (side) {
+      case LEFT:
+        return range.tooLow(key);
+      case RIGHT:
+        return range.tooHigh(key);
+      default:
+        throw new AssertionError();
     }
   }
 
