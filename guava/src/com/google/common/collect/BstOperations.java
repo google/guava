@@ -37,7 +37,7 @@ final class BstOperations {
    * Returns the node with key {@code key} in {@code tree}, if any.
    */
   @Nullable
-  static <K, N extends BstNode<K, N>> N seek(
+  public static <K, N extends BstNode<K, N>> N seek(
       Comparator<? super K> comparator, @Nullable N tree, K key) {
     checkNotNull(comparator);
     if (tree == null) {
@@ -56,7 +56,7 @@ final class BstOperations {
    * Returns the result of performing the mutation specified by {@code mutationRule} in {@code
    * tree} at the location with key {@code key}.
    */
-  static <K, N extends BstNode<K, N>> BstMutationResult<K, N> mutate(
+  public static <K, N extends BstNode<K, N>> BstMutationResult<K, N> mutate(
       Comparator<? super K> comparator, BstMutationRule<K, N> mutationRule, @Nullable N tree,
       K key) {
     checkNotNull(comparator);
