@@ -459,7 +459,9 @@ public final class CacheBuilder<K, V> {
 
   /**
    * Specifies that each entry should be automatically removed from the cache once a fixed duration
-   * has elapsed after the entry's last read or write access.
+   * has elapsed after the entry's creation, or last access. Access time is reset by
+   * {@link Cache#get} and {@link Cache#getUnchecked}, but not by operations on the view returned by
+   * {@link Cache#asMap}.
    *
    * <p>When {@code duration} is zero, elements will be evicted immediately after being loaded into
    * the cache. This has the same effect as invoking {@link #maximumSize maximumSize}{@code (0)}. It

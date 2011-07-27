@@ -100,6 +100,7 @@ class ComputingCache<K, V> extends AbstractCache<K, V> {
 
     @Override
     public V get(@Nullable Object key) {
+      // does not impact recency ordering
       ReferenceEntry<K, V> e = delegate.getEntry(key);
       return (e == null) ? null : e.getValueReference().get();
     }

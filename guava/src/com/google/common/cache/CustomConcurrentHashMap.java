@@ -3811,9 +3811,10 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
 
   /**
    * Returns the internal entry for the specified key. The entry may be computing, expired, or
-   * partially collected. Does not impact recency ordering.
+   * partially collected.
    */
   ReferenceEntry<K, V> getEntry(@Nullable Object key) {
+    // does not impact recency ordering
     if (key == null) {
       return null;
     }
@@ -3822,9 +3823,10 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
   }
 
   /**
-   * Returns the live internal entry for the specified key. Does not impact recency ordering.
+   * Returns the live internal entry for the specified key.
    */
   ReferenceEntry<K, V> getLiveEntry(@Nullable Object key) {
+    // does not impact recency ordering
     if (key == null) {
       return null;
     }
@@ -3834,6 +3836,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
 
   @Override
   public boolean containsKey(@Nullable Object key) {
+    // does not impact recency ordering
     if (key == null) {
       return false;
     }
@@ -3843,6 +3846,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
 
   @Override
   public boolean containsValue(@Nullable Object value) {
+    // does not impact recency ordering
     if (value == null) {
       return false;
     }
@@ -3951,6 +3955,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
 
   @Override
   public Set<K> keySet() {
+    // does not impact recency ordering
     Set<K> ks = keySet;
     return (ks != null) ? ks : (keySet = new KeySet());
   }
@@ -3959,6 +3964,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
 
   @Override
   public Collection<V> values() {
+    // does not impact recency ordering
     Collection<V> vs = values;
     return (vs != null) ? vs : (values = new Values());
   }
@@ -3967,6 +3973,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
 
   @Override
   public Set<Entry<K, V>> entrySet() {
+    // does not impact recency ordering
     Set<Entry<K, V>> es = entrySet;
     return (es != null) ? es : (entrySet = new EntrySet());
   }
