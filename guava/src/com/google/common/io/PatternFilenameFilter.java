@@ -24,8 +24,11 @@ import java.io.FilenameFilter;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
+import javax.annotation.Nullable;
+
 /**
- * File name filter that only accepts files matching a regular expression.
+ * File name filter that only accepts files matching a regular expression. This class is thread-safe
+ * and immutable.
  *
  * @author Apple Chow
  * @since Guava release 01
@@ -53,7 +56,7 @@ public final class PatternFilenameFilter implements FilenameFilter {
     this.pattern = Preconditions.checkNotNull(pattern);
   }
 
-  @Override public boolean accept(File dir, String fileName) {
+  @Override public boolean accept(@Nullable File dir, String fileName) {
     return pattern.matcher(fileName).matches();
   }
 }

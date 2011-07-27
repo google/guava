@@ -65,8 +65,9 @@ public final class FileBackedOutputStream extends OutputStream {
   }
 
   /**
-   * Creates a new instance that uses the given file threshold.
-   * Equivalent to {@code ThresholdOutputStream(fileThreshold, false)}.
+   * Creates a new instance that uses the given file threshold, and does
+   * not reset the data when the {@link InputSupplier} returned by
+   * {@link #getSupplier} is finalized.
    *
    * @param fileThreshold the number of bytes before the stream should
    *     switch to buffering to a file
