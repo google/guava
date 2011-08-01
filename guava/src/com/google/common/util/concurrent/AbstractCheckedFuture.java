@@ -52,6 +52,10 @@ public abstract class AbstractCheckedFuture<V, X extends Exception>
    * the exception. If an implementation of {@link #mapException(Exception)}
    * wishes to swallow the interrupt, it can do so by calling
    * {@link Thread#interrupted()}.
+   *
+   * <p>Subclasses may choose to throw, rather than return, a subclass of
+   * {@code RuntimeException} to allow creating a CheckedFuture that throws
+   * both checked and unchecked exceptions.
    */
   protected abstract X mapException(Exception e);
 
