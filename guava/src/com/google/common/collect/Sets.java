@@ -174,19 +174,22 @@ public final class Sets {
    * @return a new {@code HashSet} containing those elements (minus duplicates)
    */
   public static <E> HashSet<E> newHashSet(E... elements) {
-    int capacity = Maps.capacity(elements.length);
-    HashSet<E> set = new HashSet<E>(capacity);
+    HashSet<E> set = newHashSetWithExpectedSize(elements.length);
     Collections.addAll(set, elements);
     return set;
   }
 
   /**
-   * Creates an empty {@code HashSet} instance with enough capacity to hold the
-   * specified number of elements without rehashing.
+   * Creates a {@code HashSet} instance, with a high enough "initial capacity"
+   * that it <i>should</i> hold {@code expectedSize} elements without growth.
+   * This behavior cannot be broadly guaranteed, but it is observed to be true
+   * for OpenJDK 1.6. It also can't be guaranteed that the method isn't
+   * inadvertently <i>oversizing</i> the returned set.
    *
-   * @param expectedSize the expected size
+   * @param expectedSize the number of elements you expect to add to the
+   *        returned set
    * @return a new, empty {@code HashSet} with enough capacity to hold {@code
-   *     expectedSize} elements without rehashing
+   *         expectedSize} elements without resizing
    * @throws IllegalArgumentException if {@code expectedSize} is negative
    */
   public static <E> HashSet<E> newHashSetWithExpectedSize(int expectedSize) {

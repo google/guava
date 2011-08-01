@@ -70,7 +70,7 @@ public final class HashMultiset<E> extends AbstractMapBasedMultiset<E> {
   }
 
   private HashMultiset(int distinctElements) {
-    super(new HashMap<E, AtomicInteger>(Maps.capacity(distinctElements)));
+    super(Maps.<E, AtomicInteger>newHashMapWithExpectedSize(distinctElements));
   }
 }
 

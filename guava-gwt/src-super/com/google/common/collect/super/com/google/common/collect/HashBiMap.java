@@ -70,8 +70,9 @@ public final class HashBiMap<K, V> extends AbstractBiMap<K, V> {
   }
 
   private HashBiMap(int expectedSize) {
-    super(new HashMap<K, V>(Maps.capacity(expectedSize)),
-        new HashMap<V, K>(Maps.capacity(expectedSize)));
+    super(
+        Maps.<K, V>newHashMapWithExpectedSize(expectedSize),
+        Maps.<V, K>newHashMapWithExpectedSize(expectedSize));
   }
 
   // Override these two methods to show that keys and values may be null

@@ -79,37 +79,37 @@ public final class Maps {
   }
 
   /**
-   * Creates a {@code HashMap} instance with enough capacity to hold the
-   * specified number of elements without rehashing.
+   * Creates a {@code HashMap} instance, with a high enough "initial capacity"
+   * that it <i>should</i> hold {@code expectedSize} elements without growth.
+   * This behavior cannot be broadly guaranteed, but it is observed to be true
+   * for OpenJDK 1.6. It also can't be guaranteed that the method isn't
+   * inadvertently <i>oversizing</i> the returned map.
    *
-   * @param expectedSize the expected size
+   * @param expectedSize the number of elements you expect to add to the
+   *        returned map
    * @return a new, empty {@code HashMap} with enough capacity to hold {@code
-   *         expectedSize} elements without rehashing
+   *         expectedSize} elements without resizing
    * @throws IllegalArgumentException if {@code expectedSize} is negative
    */
   public static <K, V> HashMap<K, V> newHashMapWithExpectedSize(
       int expectedSize) {
-    /*
-     * The HashMap is constructed with an initialCapacity that's greater than
-     * expectedSize. The larger value is necessary because HashMap resizes its
-     * internal array if the map size exceeds loadFactor * initialCapacity.
-     */
     return new HashMap<K, V>(capacity(expectedSize));
   }
 
   /**
-   * Returns an appropriate value for the "capacity" (in reality, "minimum table
-   * size") parameter of a {@link HashMap} constructor, such that the resulting
-   * table will be between 25% and 50% full when it contains {@code
-   * expectedSize} entries, unless {@code expectedSize} is greater than
-   * {@link Integer#MAX_VALUE} / 2.
-   *
-   * @throws IllegalArgumentException if {@code expectedSize} is negative
+   * Returns a capacity that is sufficient to keep the map from being resized as
+   * long as it grows no larger than expectedSize and the load factor is >= its
+   * default (0.75).
    */
   static int capacity(int expectedSize) {
-    checkArgument(expectedSize >= 0);
-    // Avoid the int overflow if expectedSize > (Integer.MAX_VALUE / 2)
-    return Ints.saturatedCast(Math.max(expectedSize * 2L, 16L));
+    if (expectedSize < 3) {
+      checkArgument(expectedSize >= 0);
+      return expectedSize + 1;
+    }
+    if (expectedSize < Ints.MAX_POWER_OF_TWO) {
+      return expectedSize + expectedSize / 3;
+    }
+    return Integer.MAX_VALUE; // any large value
   }
 
   /**

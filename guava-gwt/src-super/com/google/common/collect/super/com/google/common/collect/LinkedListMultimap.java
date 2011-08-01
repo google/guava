@@ -32,7 +32,6 @@ import java.util.AbstractMap;
 import java.util.AbstractSequentialList;
 import java.util.AbstractSet;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
@@ -359,7 +358,7 @@ public final class LinkedListMultimap<K, V>
 
   /** An {@code Iterator} over distinct keys in key head order. */
   private class DistinctKeyIterator implements Iterator<K> {
-    final Set<K> seenKeys = new HashSet<K>(Maps.capacity(keySet().size()));
+    final Set<K> seenKeys = Sets.<K>newHashSetWithExpectedSize(keySet().size());
     Node<K, V> next = head;
     Node<K, V> current;
 
