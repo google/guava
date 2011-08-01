@@ -20,6 +20,7 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Joiner.MapJoiner;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.testing.NullPointerTester;
@@ -30,6 +31,7 @@ import junit.framework.TestCase;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Unit test for {@link Joiner}.
@@ -223,6 +225,30 @@ public class JoinerTest extends TestCase {
     StringBuilder sb = new StringBuilder();
     j.appendTo(sb, ImmutableMap.of(1, 2, 3, 4, 5, 6));
     assertEquals("1:2;3:4;5:6", sb.toString());
+  }
+
+  public void testEntries() {
+    MapJoiner j = Joiner.on(";").withKeyValueSeparator(":");
+    assertEquals("", j.join(ImmutableMultimap.of().entries()));
+    assertEquals(":", j.join(ImmutableMultimap.of("", "").entries()));
+    assertEquals("1:a;1:b", j.join(ImmutableMultimap.of("1", "a", "1", "b").entries()));
+
+    Map<String, String> mapWithNulls = Maps.newLinkedHashMap();
+    mapWithNulls.put("a", null);
+    mapWithNulls.put(null, "b");
+    Set<Map.Entry<String, String>> entriesWithNulls = mapWithNulls.entrySet();
+
+    try {
+      j.join(entriesWithNulls);
+      fail();
+    } catch (NullPointerException expected) {
+    }
+
+    assertEquals("a:00;00:b", j.useForNull("00").join(entriesWithNulls));
+
+    StringBuilder sb = new StringBuilder();
+    j.appendTo(sb, ImmutableMultimap.of(1, 2, 3, 4, 5, 6, 1, 3, 5, 10).entries());
+    assertEquals("1:2;1:3;3:4;5:6;5:10", sb.toString());
   }
 
   public void test_skipNulls_onMap() {

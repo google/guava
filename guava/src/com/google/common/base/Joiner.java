@@ -18,6 +18,7 @@ package com.google.common.base;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 
 import java.io.IOException;
@@ -252,6 +253,18 @@ public class Joiner {
    * An object that joins map entries in the same manner as {@code Joiner} joins iterables and
    * arrays. Like {@code Joiner}, it is thread-safe and immutable.
    *
+   * <p>In addition to operating on {@code Map} instances, {@code MapJoiner} can operate on {@code
+   * Multimap} entries in two distinct modes:
+   *
+   * <ul>
+   * <li>To output a separate entry for each key-value pair, pass {@code multimap.entries()} to a
+   *     {@code MapJoiner} method that accepts entries as input, and receive output of the form
+   *     {@code key1=A&key1=B&key2=C}.
+   * <li>To output a single entry for each key, pass {@code multimap.asMap()} to a {@code MapJoiner}
+   *     method that accepts a map as input, and receive output of the form {@code
+   *     key1=[A, B]&key2=C}.
+   * </ul>
+   *
    * @since Guava release 02 (imported from Google Collections Library)
    */
   public final static class MapJoiner {
@@ -268,8 +281,37 @@ public class Joiner {
      * configured separator and key-value separator, to {@code appendable}.
      */
     public <A extends Appendable> A appendTo(A appendable, Map<?, ?> map) throws IOException {
+      return appendTo(appendable, map.entrySet());
+    }
+
+    /**
+     * Appends the string representation of each entry of {@code map}, using the previously
+     * configured separator and key-value separator, to {@code builder}. Identical to {@link
+     * #appendTo(Appendable, Map)}, except that it does not throw {@link IOException}.
+     */
+    public StringBuilder appendTo(StringBuilder builder, Map<?, ?> map) {
+      return appendTo(builder, map.entrySet());
+    }
+
+    /**
+     * Returns a string containing the string representation of each entry of {@code map}, using the
+     * previously configured separator and key-value separator.
+     */
+    public String join(Map<?, ?> map) {
+      return join(map.entrySet());
+    }
+
+    /**
+     * Appends the string representation of each entry in {@code entries}, using the previously
+     * configured separator and key-value separator, to {@code appendable}.
+     *
+     * @since Guava release 10
+     */
+    @Beta
+    public <A extends Appendable> A appendTo(A appendable, Iterable<? extends Entry<?, ?>> entries)
+        throws IOException {
       checkNotNull(appendable);
-      Iterator<? extends Map.Entry<?, ?>> iterator = map.entrySet().iterator();
+      Iterator<? extends Map.Entry<?, ?>> iterator = entries.iterator();
       if (iterator.hasNext()) {
         Entry<?, ?> entry = iterator.next();
         appendable.append(joiner.toString(entry.getKey()));
@@ -287,13 +329,16 @@ public class Joiner {
     }
 
     /**
-     * Appends the string representation of each entry of {@code map}, using the previously
+     * Appends the string representation of each entry in {@code entries}, using the previously
      * configured separator and key-value separator, to {@code builder}. Identical to {@link
-     * #appendTo(Appendable, Map)}, except that it does not throw {@link IOException}.
+     * #appendTo(Appendable, Iterable)}, except that it does not throw {@link IOException}.
+     *
+     * @since Guava release 10
      */
-    public StringBuilder appendTo(StringBuilder builder, Map<?, ?> map) {
+    @Beta
+    public StringBuilder appendTo(StringBuilder builder, Iterable<? extends Entry<?, ?>> entries) {
       try {
-        appendTo((Appendable) builder, map);
+        appendTo((Appendable) builder, entries);
       } catch (IOException impossible) {
         throw new AssertionError(impossible);
       }
@@ -301,11 +346,14 @@ public class Joiner {
     }
 
     /**
-     * Returns a string containing the string representation of each entry of {@code map}, using the
-     * previously configured separator and key-value separator.
+     * Returns a string containing the string representation of each entry in {@code entries}, using
+     * the previously configured separator and key-value separator.
+     *
+     * @since Guava release 10
      */
-    public String join(Map<?, ?> map) {
-      return appendTo(new StringBuilder(), map).toString();
+    @Beta
+    public String join(Iterable<? extends Entry<?, ?>> entries) {
+      return appendTo(new StringBuilder(), entries).toString();
     }
 
     /**
