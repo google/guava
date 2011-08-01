@@ -26,6 +26,7 @@ import com.google.common.base.Suppliers;
 import com.google.common.collect.Iterators;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.google.common.testing.GuavaAsserts.TestAssertionFailure;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
@@ -203,7 +204,8 @@ public final class NullPointerTester {
           method.invoke(instance, params);
         }
         @Override public String toString() {
-          return method.getName();
+          return method.getName()
+              + "(" + Arrays.toString(getParameterTypes()) + ")";
         }
       }, paramIndex, method.getDeclaringClass());
   }
@@ -253,9 +255,14 @@ public final class NullPointerTester {
           Arrays.toString(params) + " for " + testedClass);
     } catch (InvocationTargetException e) {
       Throwable cause = e.getCause();
-      GuavaAsserts.assertTrue("wrong exception thrown from " + func + ": " + cause,
-                        cause instanceof NullPointerException
-                            || cause instanceof UnsupportedOperationException);
+      if (cause instanceof NullPointerException ||
+          cause instanceof UnsupportedOperationException) {
+        return;
+      }
+      TestAssertionFailure error = new TestAssertionFailure(
+          "wrong exception thrown from " + func + ": " + cause);
+      error.initCause(cause);
+      throw error;
     }
   }
 
@@ -304,6 +311,6 @@ public final class NullPointerTester {
   }
 
   private boolean isIgnored(Member member) {
-    return ignoredMembers.contains(member);
+    return member.isSynthetic() || ignoredMembers.contains(member);
   }
 }

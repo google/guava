@@ -22,11 +22,12 @@ import static com.google.common.testing.GuavaAsserts.assertTrue;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.base.Objects;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
+import com.google.common.testing.RelationshipTester.RelationshipAssertion;
 
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -69,6 +70,20 @@ import java.util.List;
  * <li>Invoke {@link #testEquals} on the EqualsTester.
  * </ol>
  *
+ * <p>When a test fails, the error message labels the objects involved in
+ * the failed comparison as follows:
+ * <ul>
+ *       {@link #addEqualObject(Object...)}, numbered starting from 1.
+ *   <li>"{@code [unequal object }<i>i</i>{@code ]}" refers to the
+ *       <i>i</i><sup>th</sup> object passed to the method
+ *       {@link #addNotEqualObject(Object...)}, numbered starting from 1.
+ *   <li>"{@code [group }<i>i</i>{@code , item }<i>j</i>{@code ]}" refers to the
+ *       <i>j</i><sup>th</sup> item in the <i>i</i><sup>th</sup> equality group,
+ *       where both equality groups and the items within equality groups are
+ *       numbered starting from 1.  When either a constructor argument or an
+ *       equal object is provided, that becomes group 1.
+ * </ul>
+ *
  * @author Jim McMaster
  * @author Jige Yu
  * @since Guava release 10
@@ -76,6 +91,8 @@ import java.util.List;
 @Beta
 @GwtCompatible
 public final class EqualsTester {
+  private static final int REPETITIONS = 3;
+
   private final List<Object> defaultEqualObjects = Lists.newArrayList();
   private final List<Object> defaultNotEqualObjects = Lists.newArrayList();
   private final List<List<Object>> equalityGroups = Lists.newArrayList();
@@ -83,9 +100,7 @@ public final class EqualsTester {
   /**
    * Constructs an empty EqualsTester instance
    */
-  public EqualsTester() {
-    equalityGroups.add(defaultEqualObjects);
-  }
+  public EqualsTester() {}
 
   /**
    * Constructs a new EqualsTester for a given reference object
@@ -93,9 +108,7 @@ public final class EqualsTester {
    * @param reference reference object for comparison
    */
   public EqualsTester(Object reference) {
-    this();
-    checkNotNull(reference, "Reference object cannot be null");
-    defaultEqualObjects.add(reference);
+    defaultEqualObjects.add(checkNotNull(reference, "Reference object cannot be null"));
   }
 
   /**
@@ -113,7 +126,7 @@ public final class EqualsTester {
    */
   public EqualsTester addEqualObject(Object... equalObjects) {
     checkNotNull(equalObjects);
-    Collections.addAll(defaultEqualObjects, equalObjects);
+    defaultEqualObjects.addAll(ImmutableList.copyOf(equalObjects));
     return this;
   }
 
@@ -122,7 +135,7 @@ public final class EqualsTester {
    */
   public EqualsTester addNotEqualObject(Object... notEqualObjects) {
     checkNotNull(notEqualObjects);
-    Collections.addAll(defaultNotEqualObjects, notEqualObjects);
+    defaultNotEqualObjects.addAll(ImmutableList.copyOf(notEqualObjects));
     return this;
   }
 
@@ -130,54 +143,74 @@ public final class EqualsTester {
    * Run tests on equals method, throwing a failure on an invalid test
    */
   public EqualsTester testEquals() {
-    assertEquality();
-    assertInequality();
+    RelationshipTester<Object> delegate = new RelationshipTester<Object>(
+        new RelationshipAssertion<Object>() {
+          @Override public void assertRelated(Object item, Object related) {
+            assertEquals("$ITEM must be equal to $RELATED", item, related);
+            int itemHash = item.hashCode();
+            int relatedHash = related.hashCode();
+            assertEquals("the hash (" + itemHash + ") of $ITEM must be equal to the hash ("
+                + relatedHash +") of $RELATED", itemHash, relatedHash);
+          }
+
+          @Override public void assertUnrelated(Object item, Object unrelated) {
+            // TODO(cpovirk): should this implementation (and
+            // RelationshipAssertions in general) accept null inputs?
+            assertTrue("$ITEM must be unequal to $UNRELATED", !Objects.equal(item, unrelated));
+          }
+        });
+    if (!defaultEqualObjects.isEmpty()) {
+      delegate.addRelatedGroup(defaultEqualObjects);
+    }
+    for (List<Object> group : equalityGroups) {
+      delegate.addRelatedGroup(group);
+    }
+    for (int run = 0; run < REPETITIONS; run++) {
+      testItems();
+      delegate.test();
+      testLegacyDefaultNotEqualsObjects();
+    }
     return this;
   }
 
-  private void assertEquality() {
-    // Objects in defaultNotEqualObjects don't have to be equal to each other
-    // for backward compatibility
-    for (Iterable<Object> group : equalityGroups) {
-      for (Object reference : group) {
-        assertTrue(reference != null);
-        assertTrue(reference + " is expected to be equal to itself",
-            reference.equals(reference));
-        assertTrue(!reference.equals(NotAnInstance.SINGLETON));
-        for (Object right : group) {
-          if (reference != right) {
-            assertEquals(reference + " is expected to be equal to " + right,
-                reference, right);
-            assertEquals(
-                reference + " hash code is expected to be equal to "
-                + right + " hash code",
-                reference.hashCode(), right.hashCode());
-          }
+  /**
+   * This method exists just to test the not equals objects with the inconsistent legacy behavior.
+   * When {@link #addNotEqualObject(Object...)} is gone, this can go away too.
+   */
+  private void testLegacyDefaultNotEqualsObjects() {
+    for (int i = 0; i < defaultEqualObjects.size(); i++) {
+      Object reference = defaultEqualObjects.get(i);
+      for (int notEqualsItemNumber = 0; notEqualsItemNumber < defaultNotEqualObjects.size();
+          notEqualsItemNumber++) {
+        Object notEqualObject = defaultNotEqualObjects.get(notEqualsItemNumber);
+        String message = reference + " [group 1, item " + (i + 1) + "] must be unequal to "
+            + notEqualObject + " [unequal object " + (notEqualsItemNumber + 1) + "]";
+        assertTrue(message, !reference.equals(notEqualObject));
+      }
+    }
+    for (int groupNumber = 0; groupNumber < equalityGroups.size(); groupNumber++) {
+      List<Object> equalityGroup = equalityGroups.get(groupNumber);
+      for (int itemNumber = 0; itemNumber < equalityGroup.size(); itemNumber++) {
+        Object reference = equalityGroup.get(itemNumber);
+        for (int notEqualsItemNumber = 0; notEqualsItemNumber < defaultNotEqualObjects.size();
+            notEqualsItemNumber++) {
+          Object notEqualObject = defaultNotEqualObjects.get(notEqualsItemNumber);
+          String message = reference + " [group " + (groupNumber + 1) + ", item " + (itemNumber + 1)
+              + "] must be unequal to " + notEqualObject + " [unequal object "
+              + (notEqualsItemNumber + 1) + "]";
+          assertTrue(message, !reference.equals(notEqualObject));
         }
       }
     }
   }
 
-  private void assertInequality() {
-    // defaultNotEqualObjects should participate in inequality test with other
-    // equality groups.
-    Iterable<List<Object>> inequalityGroups = Iterables.concat(
-        equalityGroups, Collections.singletonList(defaultNotEqualObjects));
-    for (Iterable<Object> group : inequalityGroups) {
-      for (Iterable<Object> anotherGroup : inequalityGroups) {
-        // compare every two equality groups
-        if (group == anotherGroup) {
-          // same group, ignore
-          continue;
-        }
-        for (Object left : group) {
-          for (Object right : anotherGroup) {
-            // No two objects from different equality group can be equal
-            assertTrue("Should not be equal: <" + left +"> and <" + right + ">",
-                !left.equals(right));
-          }
-        }
-      }
+  private void testItems() {
+    for (Object item : Iterables.concat(defaultEqualObjects, Iterables.concat(equalityGroups))) {
+      assertTrue(item + " must be unequal to null", !item.equals(null));
+      assertTrue(item + " must be unequal to an arbitrary object of another class",
+          !item.equals(NotAnInstance.EQUAL_TO_NOTHING));
+      assertEquals(item + " must be equal to itself", item, item);
+      assertEquals("the hash of " + item + " must be consistent", item.hashCode(), item.hashCode());
     }
   }
 
@@ -186,12 +219,7 @@ public final class EqualsTester {
    * of an incompatible class.  Since it is a private inner class, the
    * invoker can never pass in an instance to the tester
    */
-  private static final class NotAnInstance {
-
-    static final NotAnInstance SINGLETON = new NotAnInstance();
-
-    @Override public String toString() {
-      return "equal_to_nothing";
-    }
+  private enum NotAnInstance {
+    EQUAL_TO_NOTHING;
   }
 }
