@@ -327,7 +327,7 @@
            source="1.5"
            target="1.5"
            bootclasspath="@{bootclasspath}">
-        <compilerarg value="-Xlint:all"/>
+        <compilerarg value="-Xlint:all,-serial"/>
         <compilerarg value="-XDignore.symbol.file"/>
         <classpath>
           <classpath-elements />
