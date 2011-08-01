@@ -53,7 +53,6 @@ import java.util.concurrent.CancellationException;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReferenceArray;
@@ -188,17 +187,11 @@ class CustomConcurrentHashMap<K, V>
   /** Factory used to create new entries. */
   final transient EntryFactory entryFactory;
 
-  /** Performs routine cleanup. */
-  final ScheduledExecutorService cleanupExecutor;
-
   /** Measures time in a testable way. */
   final Ticker ticker;
 
   /**
    * Creates a new, empty map with the specified strategy, initial capacity and concurrency level.
-   *
-   * @throws RejectedExecutionException if a cleanupExecutor was specified but rejects the cleanup
-   *     task
    */
   CustomConcurrentHashMap(MapMaker builder) {
     concurrencyLevel = Math.min(builder.getConcurrencyLevel(), MAX_SEGMENTS);
@@ -214,7 +207,6 @@ class CustomConcurrentHashMap<K, V>
     expireAfterWriteNanos = builder.getExpireAfterWriteNanos();
 
     entryFactory = EntryFactory.getFactory(keyStrength, expires(), evictsBySize());
-    cleanupExecutor = builder.getCleanupExecutor();
     ticker = builder.getTicker();
 
     removalListener = builder.getRemovalListener();
@@ -269,12 +261,6 @@ class CustomConcurrentHashMap<K, V>
             createSegment(segmentSize, MapMaker.UNSET_INT);
       }
     }
-
-    // schedule cleanup after construction is complete
-    if (cleanupExecutor != null) {
-      cleanupExecutor.scheduleWithFixedDelay(new CleanupMapTask(this),
-          CLEANUP_EXECUTOR_DELAY_SECS, CLEANUP_EXECUTOR_DELAY_SECS, TimeUnit.SECONDS);
-    }
   }
 
   boolean evictsBySize() {
@@ -299,10 +285,6 @@ class CustomConcurrentHashMap<K, V>
 
   boolean usesValueReferences() {
     return valueStrength != Strength.STRONG;
-  }
-
-  boolean isInlineCleanup() {
-    return cleanupExecutor == null;
   }
 
   enum Strength {

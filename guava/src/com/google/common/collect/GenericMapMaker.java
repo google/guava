@@ -22,7 +22,6 @@ import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Equivalence;
 import com.google.common.base.Function;
 import com.google.common.base.Objects;
-import com.google.common.base.Ticker;
 import com.google.common.collect.MapMaker.RemovalListener;
 import com.google.common.collect.MapMaker.RemovalNotification;
 
@@ -80,6 +79,7 @@ public abstract class GenericMapMaker<K0, V0> {
    * @since Guava release 08
    */
   @Beta
+  @Deprecated
   public abstract GenericMapMaker<K0, V0> maximumSize(int maximumSize);
 
   /**
@@ -134,6 +134,7 @@ public abstract class GenericMapMaker<K0, V0> {
    *
    * @since Guava release 08
    */
+  @Deprecated
   public abstract GenericMapMaker<K0, V0> expireAfterWrite(long duration, TimeUnit unit);
 
   /**
@@ -142,16 +143,8 @@ public abstract class GenericMapMaker<K0, V0> {
    * @since Guava release 08
    */
   @GwtIncompatible("To be supported")
+  @Deprecated
   public abstract GenericMapMaker<K0, V0> expireAfterAccess(long duration, TimeUnit unit);
-
-  /**
-   * See {@link MapMaker#ticker}.
-   *
-   * @since Guava release 10
-   */
-  @Beta
-  @GwtIncompatible("To be supported")
-  public abstract GenericMapMaker<K0, V0> ticker(Ticker ticker);
 
   /*
    * Note that MapMaker's removalListener() is not here, because once you're interacting with a

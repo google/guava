@@ -43,7 +43,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
-import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import javax.annotation.Nullable;
@@ -140,7 +139,6 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
   Equivalence<Object> keyEquivalence;
   Equivalence<Object> valueEquivalence;
 
-  ScheduledExecutorService cleanupExecutor;
   Ticker ticker;
 
   /**
@@ -235,6 +233,7 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    */
   @Beta
   @Override
+  @Deprecated
   public MapMaker maximumSize(int size) {
     checkState(this.maximumSize == UNSET_INT, "maximum size was already set to %s",
         this.maximumSize);
@@ -420,8 +419,11 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
   /**
    * Old name of {@link #expireAfterWrite}.
    *
-   * @deprecated use {@link #expireAfterWrite}, which behaves exactly the same. <b>This method is
-   *     scheduled for deletion in July 2012.</b>
+   * @deprecated Caching functionality in {@code MapMaker} is being moved to
+   *     {@link com.google.common.cache.CacheBuilder}. Functionality equivalent to
+   *     {@link MapMaker#expiration} is provided by
+   *     {@link com.google.common.cache.CacheBuilder#expireAfterWrite}.
+   *     <b>This method is scheduled for deletion in July 2012.</b>
    */
   @Deprecated
   @Override
@@ -452,6 +454,7 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    * @since Guava release 08
    */
   @Override
+  @Deprecated
   public MapMaker expireAfterWrite(long duration, TimeUnit unit) {
     checkExpiration(duration, unit);
     this.expireAfterWriteNanos = unit.toNanos(duration);
@@ -498,6 +501,7 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    */
   @GwtIncompatible("To be supported")
   @Override
+  @Deprecated
   public MapMaker expireAfterAccess(long duration, TimeUnit unit) {
     checkExpiration(duration, unit);
     this.expireAfterAccessNanos = unit.toNanos(duration);
@@ -512,29 +516,6 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
   long getExpireAfterAccessNanos() {
     return (expireAfterAccessNanos == UNSET_INT)
         ? DEFAULT_EXPIRATION_NANOS : expireAfterAccessNanos;
-  }
-
-  ScheduledExecutorService getCleanupExecutor() {
-    return cleanupExecutor;
-  }
-
-  /**
-   * Specifies a nanosecond-precision time source for use in determining when entries should be
-   * expired. By default, {@link System#nanoTime} is used.
-   *
-   * <p>The primary intent of this method is to facilitate testing of maps which have been
-   * configured with {@link #expireAfterWrite} or {@link #expireAfterAccess}.
-   *
-   * @throws IllegalStateException if a ticker was already set
-   * @since Guava release 10
-   */
-  @Override
-  @Beta
-  @GwtIncompatible("To be supported")
-  public MapMaker ticker(Ticker ticker) {
-    checkState(this.ticker == null);
-    this.ticker = checkNotNull(ticker);
-    return this;
   }
 
   Ticker getTicker() {
@@ -564,11 +545,9 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    * a {@link ClassCastException} at some <i>undefined</i> point in the future.
    *
    * @throws IllegalStateException if a removal listener was already set
-   * @since Guava release 10
    */
-  @Beta
   @GwtIncompatible("To be supported")
-  public <K, V> GenericMapMaker<K, V> removalListener(RemovalListener<K, V> listener) {
+  <K, V> GenericMapMaker<K, V> removalListener(RemovalListener<K, V> listener) {
     checkState(this.removalListener == null);
 
     // safely limiting the kinds of maps this can produce
@@ -603,11 +582,15 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    * {@link ClassCastException} at an undefined point in the future.
    *
    * @throws IllegalStateException if an eviction listener was already set
-   * @deprecated use {@link #removalListener}, which provides additional information about the
-   *     entry being evicted; note that {@link #evictionListener} only notifies on removals due to
-   *     eviction, while {@link #removalListener} also notifies on explicit removal (providing the
-   *     {@link RemovalCause} to indicate the specific cause of removal. <b>This method is scheduled
-   *     for deletion in Guava release 11.</b>
+   * @deprecated Caching functionality in {@code MapMaker} is being moved to
+   *     {@link com.google.common.cache.CacheBuilder}. Functionality similar to
+   *     {@link MapMaker#evictionListener} is provided by
+   *     {@link com.google.common.cache.CacheBuilder#removalListener} which also provides
+   *     additional information about the entry being evicted; note that {@code evictionListener}
+   *     only notifies on removals due to eviction, while {@code removalListener} also notifies on
+   *     explicit removal (providing the {@link @link com.google.common.cache.RemovalCause} to
+   *     indicate the specific cause of removal. <b>This method is scheduled for deletion in Guava
+   *     release 11.</b>
    * @since Guava release 07
    */
   @Beta
@@ -760,9 +743,6 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
     if (removalListener != null) {
       s.addValue("removalListener");
     }
-    if (cleanupExecutor != null) {
-      s.addValue("cleanupExecutor");
-    }
     return s.toString();
   }
 
@@ -780,10 +760,8 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    *     example {@code Object} if any key is acceptable
    * @param <V> the most general type of values this listener can listen for; for
    *     example {@code Object} if any key is acceptable
-   * @since Guava release 10
    */
-  @Beta
-  public interface RemovalListener<K, V> {
+  interface RemovalListener<K, V> {
     /**
      * Notifies the listener that a removal occurred at some point in the past.
      */
@@ -796,11 +774,8 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    *
    * <p>Like other {Map.Entry} instances associated with MapMaker this class holds strong references
    * to the key and value, regardless of the type of references the map may be using.
-   *
-   * @since Guava release 10
    */
-  @Beta
-  public static final class RemovalNotification<K, V> extends ImmutableEntry<K, V> {
+  static final class RemovalNotification<K, V> extends ImmutableEntry<K, V> {
     private static final long serialVersionUID = 0;
 
     private final RemovalCause cause;
@@ -828,11 +803,8 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
 
   /**
    * The reason why an entry was removed.
-   *
-   * @since Guava release 10
    */
-  @Beta
-  public enum RemovalCause {
+  enum RemovalCause {
     /**
      * The entry was manually removed by the user. This can result from the user invoking
      * {@link Map#remove}, {@link ConcurrentMap#remove}, or {@link java.util.Iterator#remove}.

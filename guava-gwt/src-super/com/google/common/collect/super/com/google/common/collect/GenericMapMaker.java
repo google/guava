@@ -53,6 +53,7 @@ public abstract class GenericMapMaker<K0, V0> {
    * @since Guava release 08
    */
   @Beta
+  @Deprecated
   public abstract GenericMapMaker<K0, V0> maximumSize(int maximumSize);
 
   /**
@@ -82,6 +83,7 @@ public abstract class GenericMapMaker<K0, V0> {
    *
    * @since Guava release 08
    */
+  @Deprecated
   public abstract GenericMapMaker<K0, V0> expireAfterWrite(long duration, TimeUnit unit);
 
   /*
