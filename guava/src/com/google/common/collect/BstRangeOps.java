@@ -83,42 +83,25 @@ final class BstRangeOps {
     }
     int total = aggregate.treeValue(root);
     if (range.hasLowerBound()) {
-      total -= totalTooLow(aggregate, range, root);
+      total -= totalBeyondRangeToSide(aggregate, range, LEFT, root);
     }
     if (range.hasUpperBound()) {
-      total -= totalTooHigh(aggregate, range, root);
+      total -= totalBeyondRangeToSide(aggregate, range, RIGHT, root);
     }
     return total;
   }
 
-  // Returns total value strictly below the specified range.
-  private static <K, N extends BstNode<K, N>> int totalTooLow(
-      BstAggregate<? super N> aggregate, GeneralRange<K> range, @Nullable N root) {
+  // Returns total value strictly to the specified side of the specified range.
+  private static <K, N extends BstNode<K, N>> int totalBeyondRangeToSide(
+      BstAggregate<? super N> aggregate, GeneralRange<K> range, BstSide side, @Nullable N root) {
     int accum = 0;
     while (root != null) {
-      if (range.tooLow(root.getKey())) {
+      if (beyond(range, root.getKey(), side)) {
         accum += aggregate.entryValue(root);
-        accum += aggregate.treeValue(root.childOrNull(LEFT));
-        root = root.childOrNull(RIGHT);
+        accum += aggregate.treeValue(root.childOrNull(side));
+        root = root.childOrNull(side.other());
       } else {
-        root = root.childOrNull(LEFT);
-      }
-    }
-    return accum;
-  }
-
-  // Returns the number of nodes strictly above the specified range.
-  @Nullable
-  private static <K, N extends BstNode<K, N>> int totalTooHigh(
-      BstAggregate<? super N> aggregate, GeneralRange<K> range, @Nullable N root) {
-    int accum = 0;
-    while (root != null) {
-      if (range.tooHigh(root.getKey())) {
-        accum += aggregate.entryValue(root);
-        accum += aggregate.treeValue(root.childOrNull(RIGHT));
-        root = root.childOrNull(LEFT);
-      } else {
-        root = root.childOrNull(RIGHT);
+        root = root.childOrNull(side);
       }
     }
     return accum;
@@ -135,46 +118,43 @@ final class BstRangeOps {
     checkNotNull(range);
     checkNotNull(balancePolicy);
     checkNotNull(nodeFactory);
-    N higher =
-        range.hasUpperBound() ? subTreeTooHigh(range, balancePolicy, nodeFactory, root) : null;
-    N lower =
-        range.hasLowerBound() ? subTreeTooLow(range, balancePolicy, nodeFactory, root) : null;
+    N higher = range.hasUpperBound()
+        ? subTreeBeyondRangeToSide(range, balancePolicy, nodeFactory, RIGHT, root)
+        : null;
+    N lower = range.hasLowerBound()
+        ? subTreeBeyondRangeToSide(range, balancePolicy, nodeFactory, LEFT, root)
+        : null;
     return balancePolicy.combine(nodeFactory, lower, higher);
   }
 
   /*
-   * Returns a balanced tree containing all nodes in the specified tree that are strictly below the
-   * specified range.
+   * Returns a balanced tree containing all nodes in the specified tree that are strictly to the
+   * specified side of the specified range.
    */
   @Nullable
-  private static <K, N extends BstNode<K, N>> N subTreeTooLow(GeneralRange<K> range,
-      BstBalancePolicy<N> balancePolicy, BstNodeFactory<N> nodeFactory, @Nullable N root) {
+  private static <K, N extends BstNode<K, N>> N subTreeBeyondRangeToSide(GeneralRange<K> range,
+      BstBalancePolicy<N> balancePolicy, BstNodeFactory<N> nodeFactory, BstSide side,
+      @Nullable N root) {
     if (root == null) {
       return null;
     }
-    if (range.tooLow(root.getKey())) {
-      N right = subTreeTooLow(range, balancePolicy, nodeFactory, root.childOrNull(RIGHT));
-      return balancePolicy.balance(nodeFactory, root, root.childOrNull(LEFT), right);
+    if (beyond(range, root.getKey(), side)) {
+      N left = root.childOrNull(LEFT);
+      N right = root.childOrNull(RIGHT);
+      switch (side) {
+        case LEFT:
+          right = subTreeBeyondRangeToSide(range, balancePolicy, nodeFactory, LEFT, right);
+          break;
+        case RIGHT:
+          left = subTreeBeyondRangeToSide(range, balancePolicy, nodeFactory, RIGHT, left);
+          break;
+        default:
+          throw new AssertionError();
+      }
+      return balancePolicy.balance(nodeFactory, root, left, right);
     } else {
-      return subTreeTooLow(range, balancePolicy, nodeFactory, root.childOrNull(LEFT));
-    }
-  }
-
-  /*
-   * Returns a balanced tree containing all nodes in the specified tree that are strictly above the
-   * specified range.
-   */
-  @Nullable
-  private static <K, N extends BstNode<K, N>> N subTreeTooHigh(GeneralRange<K> range,
-      BstBalancePolicy<N> balancePolicy, BstNodeFactory<N> nodeFactory, @Nullable N root) {
-    if (root == null) {
-      return null;
-    }
-    if (range.tooHigh(root.getKey())) {
-      N left = subTreeTooHigh(range, balancePolicy, nodeFactory, root.childOrNull(LEFT));
-      return balancePolicy.balance(nodeFactory, root, left, root.childOrNull(RIGHT));
-    } else {
-      return subTreeTooHigh(range, balancePolicy, nodeFactory, root.childOrNull(RIGHT));
+      return subTreeBeyondRangeToSide(
+          range, balancePolicy, nodeFactory, side, root.childOrNull(side));
     }
   }
 
