@@ -169,7 +169,7 @@ public abstract class Equivalence<T> {
    * @since Guava release 10
    */
   @Beta
-  public static final class Wrapper<T> {
+  public static final class Wrapper<T> implements Serializable {
     private final Equivalence<? super T> equivalence;
     @Nullable private final T reference;
 
@@ -221,6 +221,8 @@ public abstract class Equivalence<T> {
     @Override public String toString() {
       return equivalence + ".wrap(" + reference + ")";
     }
+
+    private static final long serialVersionUID = 0;
   }
 
   /**

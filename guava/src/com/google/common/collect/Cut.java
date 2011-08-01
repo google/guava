@@ -21,6 +21,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.primitives.Booleans;
 
+import java.io.Serializable;
 import java.util.NoSuchElementException;
 
 import javax.annotation.Nullable;
@@ -36,7 +37,7 @@ import javax.annotation.Nullable;
  * @author Kevin Bourrillion
  */
 @GwtCompatible
-abstract class Cut<C extends Comparable> implements Comparable<Cut<C>> {
+abstract class Cut<C extends Comparable> implements Comparable<Cut<C>>, Serializable {
   final C endpoint;
 
   Cut(C endpoint) {
@@ -67,10 +68,10 @@ abstract class Cut<C extends Comparable> implements Comparable<Cut<C>> {
   // note: overriden by {BELOW,ABOVE}_ALL
   @Override
   public int compareTo(Cut<C> that) {
-    if (that == BELOW_ALL) {
+    if (that == belowAll()) {
       return 1;
     }
-    if (that == ABOVE_ALL) {
+    if (that == aboveAll()) {
       return -1;
     }
     int result = Range.compareOrThrow(endpoint, that.endpoint);
@@ -106,57 +107,67 @@ abstract class Cut<C extends Comparable> implements Comparable<Cut<C>> {
    */
   @SuppressWarnings("unchecked")
   static <C extends Comparable> Cut<C> belowAll() {
-    return (Cut<C>) BELOW_ALL;
+    return (Cut<C>) BelowAll.INSTANCE;
   }
 
-  static final Cut<Comparable<?>> BELOW_ALL =
-      new Cut<Comparable<?>>(null) {
-        @Override Comparable<?> endpoint() {
-          throw new IllegalStateException("range unbounded on this side");
-        }
-        @Override boolean isLessThan(Comparable<?> value) {
-          return true;
-        }
-        @Override BoundType typeAsLowerBound() {
-          throw new IllegalStateException();
-        }
-        @Override BoundType typeAsUpperBound() {
-          throw new AssertionError("this statement should be unreachable");
-        }
-        @Override Cut<Comparable<?>> withLowerBoundType(BoundType boundType,
-            DiscreteDomain<Comparable<?>> domain) {
-          throw new IllegalStateException();
-        }
-        @Override Cut<Comparable<?>> withUpperBoundType(BoundType boundType,
-            DiscreteDomain<Comparable<?>> domain) {
-          throw new AssertionError("this statement should be unreachable");
-        }
-        @Override void describeAsLowerBound(StringBuilder sb) {
-          sb.append("(-\u221e");
-        }
-        @Override void describeAsUpperBound(StringBuilder sb) {
-          throw new AssertionError();
-        }
-        @Override Comparable<?> leastValueAbove(
-            DiscreteDomain<Comparable<?>> domain) {
-          return domain.minValue();
-        }
-        @Override Comparable<?> greatestValueBelow(
-            DiscreteDomain<Comparable<?>> domain) {
-          throw new AssertionError();
-        }
-        @Override Cut<Comparable<?>> canonical(
-            DiscreteDomain<Comparable<?>> domain) {
-          try {
-            return Cut.<Comparable<?>>belowValue(domain.minValue());
-          } catch (NoSuchElementException e) {
-            return this;
-          }
-        }
-        @Override public int compareTo(Cut<Comparable<?>> o) {
-          return (o == this) ? 0 : -1;
-        }
-      };
+  private static final long serialVersionUID = 0;
+
+  private static final class BelowAll extends Cut<Comparable<?>> {
+    private static final BelowAll INSTANCE = new BelowAll();
+
+    private BelowAll() {
+      super(null);
+    }
+    @Override Comparable<?> endpoint() {
+      throw new IllegalStateException("range unbounded on this side");
+    }
+    @Override boolean isLessThan(Comparable<?> value) {
+      return true;
+    }
+    @Override BoundType typeAsLowerBound() {
+      throw new IllegalStateException();
+    }
+    @Override BoundType typeAsUpperBound() {
+      throw new AssertionError("this statement should be unreachable");
+    }
+    @Override Cut<Comparable<?>> withLowerBoundType(BoundType boundType,
+        DiscreteDomain<Comparable<?>> domain) {
+      throw new IllegalStateException();
+    }
+    @Override Cut<Comparable<?>> withUpperBoundType(BoundType boundType,
+        DiscreteDomain<Comparable<?>> domain) {
+      throw new AssertionError("this statement should be unreachable");
+    }
+    @Override void describeAsLowerBound(StringBuilder sb) {
+      sb.append("(-\u221e");
+    }
+    @Override void describeAsUpperBound(StringBuilder sb) {
+      throw new AssertionError();
+    }
+    @Override Comparable<?> leastValueAbove(
+        DiscreteDomain<Comparable<?>> domain) {
+      return domain.minValue();
+    }
+    @Override Comparable<?> greatestValueBelow(
+        DiscreteDomain<Comparable<?>> domain) {
+      throw new AssertionError();
+    }
+    @Override Cut<Comparable<?>> canonical(
+        DiscreteDomain<Comparable<?>> domain) {
+      try {
+        return Cut.<Comparable<?>>belowValue(domain.minValue());
+      } catch (NoSuchElementException e) {
+        return this;
+      }
+    }
+    @Override public int compareTo(Cut<Comparable<?>> o) {
+      return (o == this) ? 0 : -1;
+    }
+    private Object readResolve() {
+      return INSTANCE;
+    }
+    private static final long serialVersionUID = 0;
+  }
 
   /*
    * The implementation neither produces nor consumes any non-null instance of
@@ -164,49 +175,57 @@ abstract class Cut<C extends Comparable> implements Comparable<Cut<C>> {
    */
   @SuppressWarnings("unchecked")
   static <C extends Comparable> Cut<C> aboveAll() {
-    return (Cut<C>) ABOVE_ALL;
+    return (Cut<C>) AboveAll.INSTANCE;
   }
 
-  static final Cut<Comparable<?>> ABOVE_ALL =
-      new Cut<Comparable<?>>(null) {
-        @Override Comparable<?> endpoint() {
-          throw new IllegalStateException("range unbounded on this side");
-        }
-        @Override boolean isLessThan(Comparable<?> value) {
-          return false;
-        }
-        @Override BoundType typeAsLowerBound() {
-          throw new AssertionError("this statement should be unreachable");
-        }
-        @Override BoundType typeAsUpperBound() {
-          throw new IllegalStateException();
-        }
-        @Override Cut<Comparable<?>> withLowerBoundType(BoundType boundType,
-            DiscreteDomain<Comparable<?>> domain) {
-          throw new AssertionError("this statement should be unreachable");
-        }
-        @Override Cut<Comparable<?>> withUpperBoundType(BoundType boundType,
-            DiscreteDomain<Comparable<?>> domain) {
-          throw new IllegalStateException();
-        }
-        @Override void describeAsLowerBound(StringBuilder sb) {
-          throw new AssertionError();
-        }
-        @Override void describeAsUpperBound(StringBuilder sb) {
-          sb.append("+\u221e)");
-        }
-        @Override Comparable<?> leastValueAbove(
-            DiscreteDomain<Comparable<?>> domain) {
-          throw new AssertionError();
-        }
-        @Override Comparable<?> greatestValueBelow(
-            DiscreteDomain<Comparable<?>> domain) {
-          return domain.maxValue();
-        }
-        @Override public int compareTo(Cut<Comparable<?>> o) {
-          return (o == this) ? 0 : 1;
-        }
-      };
+  private static final class AboveAll extends Cut<Comparable<?>> {
+    private static final AboveAll INSTANCE = new AboveAll();
+
+    private AboveAll() {
+      super(null);
+    }
+    @Override Comparable<?> endpoint() {
+      throw new IllegalStateException("range unbounded on this side");
+    }
+    @Override boolean isLessThan(Comparable<?> value) {
+      return false;
+    }
+    @Override BoundType typeAsLowerBound() {
+      throw new AssertionError("this statement should be unreachable");
+    }
+    @Override BoundType typeAsUpperBound() {
+      throw new IllegalStateException();
+    }
+    @Override Cut<Comparable<?>> withLowerBoundType(BoundType boundType,
+        DiscreteDomain<Comparable<?>> domain) {
+      throw new AssertionError("this statement should be unreachable");
+    }
+    @Override Cut<Comparable<?>> withUpperBoundType(BoundType boundType,
+        DiscreteDomain<Comparable<?>> domain) {
+      throw new IllegalStateException();
+    }
+    @Override void describeAsLowerBound(StringBuilder sb) {
+      throw new AssertionError();
+    }
+    @Override void describeAsUpperBound(StringBuilder sb) {
+      sb.append("+\u221e)");
+    }
+    @Override Comparable<?> leastValueAbove(
+        DiscreteDomain<Comparable<?>> domain) {
+      throw new AssertionError();
+    }
+    @Override Comparable<?> greatestValueBelow(
+        DiscreteDomain<Comparable<?>> domain) {
+      return domain.maxValue();
+    }
+    @Override public int compareTo(Cut<Comparable<?>> o) {
+      return (o == this) ? 0 : 1;
+    }
+    private Object readResolve() {
+      return INSTANCE;
+    }
+    private static final long serialVersionUID = 0;
+  }
 
   static <C extends Comparable> Cut<C> belowValue(C endpoint) {
     return new BelowValue<C>(endpoint);
@@ -263,6 +282,7 @@ abstract class Cut<C extends Comparable> implements Comparable<Cut<C>> {
     @Override public int hashCode() {
       return endpoint.hashCode();
     }
+    private static final long serialVersionUID = 0;
   }
 
   static <C extends Comparable> Cut<C> aboveValue(C endpoint) {
@@ -324,5 +344,6 @@ abstract class Cut<C extends Comparable> implements Comparable<Cut<C>> {
     @Override public int hashCode() {
       return ~endpoint.hashCode();
     }
+    private static final long serialVersionUID = 0;
   }
 }

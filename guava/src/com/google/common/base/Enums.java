@@ -21,6 +21,10 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 
+import java.io.Serializable;
+
+import javax.annotation.Nullable;
+
 /**
  * Utility methods for working with {@link Enum} instances.
  *
@@ -51,7 +55,7 @@ public final class Enums {
    * constant, or {@code null} if the constant does not exist.
    */
   private static final class ValueOfFunction<T extends Enum<T>> implements
-      Function<String, T> {
+      Function<String, T>, Serializable {
 
     private final Class<T> enumClass;
 
@@ -67,5 +71,20 @@ public final class Enums {
         return null;
       }
     }
+
+    @Override public boolean equals(@Nullable Object obj) {
+      return obj instanceof ValueOfFunction &&
+          enumClass.equals(((ValueOfFunction) obj).enumClass);
+    }
+
+    @Override public int hashCode() {
+      return enumClass.hashCode();
+    }
+
+    @Override public String toString() {
+      return "Enums.valueOf(" + enumClass + ")";
+    }
+
+    private static final long serialVersionUID = 0;
   }
 }

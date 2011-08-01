@@ -23,6 +23,7 @@ import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Predicate;
 
+import java.io.Serializable;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.NoSuchElementException;
@@ -108,7 +109,8 @@ import javax.annotation.Nullable;
  */
 @GwtCompatible
 @Beta
-public final class Range<C extends Comparable> implements Predicate<C> {
+public final class Range<C extends Comparable>
+    implements Predicate<C>, Serializable {
   final Cut<C> lowerBound;
   final Cut<C> upperBound;
 
@@ -125,7 +127,7 @@ public final class Range<C extends Comparable> implements Predicate<C> {
    * Returns {@code true} if this range has a lower endpoint.
    */
   public boolean hasLowerBound() {
-    return lowerBound != Cut.BELOW_ALL;
+    return lowerBound != Cut.belowAll();
   }
 
   /**
@@ -154,7 +156,7 @@ public final class Range<C extends Comparable> implements Predicate<C> {
    * Returns {@code true} if this range has an upper endpoint.
    */
   public boolean hasUpperBound() {
-    return upperBound != Cut.ABOVE_ALL;
+    return upperBound != Cut.aboveAll();
   }
 
   /**
@@ -461,4 +463,6 @@ public final class Range<C extends Comparable> implements Predicate<C> {
   static int compareOrThrow(Comparable left, Comparable right) {
     return left.compareTo(right);
   }
+
+  private static final long serialVersionUID = 0;
 }

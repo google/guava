@@ -21,6 +21,8 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 
+import java.io.Serializable;
+
 import javax.annotation.Nullable;
 
 /**
@@ -65,16 +67,14 @@ import javax.annotation.Nullable;
  */
 @Beta
 @GwtCompatible
-public abstract class Optional<T> implements BaseHolder<T> {
+public abstract class Optional<T> implements BaseHolder<T>, Serializable {
   /**
    * Returns an {@code Optional} instance with no contained reference.
    */
   @SuppressWarnings("unchecked")
   public static <T> Optional<T> absent() {
-    return (Optional<T>) ABSENT;
+    return (Optional<T>) Absent.INSTANCE;
   }
-
-  private static final Optional<Object> ABSENT = new Absent();
 
   /**
    * Returns an {@code Optional} instance containing the given non-null reference.
@@ -125,6 +125,8 @@ public abstract class Optional<T> implements BaseHolder<T> {
    */
   @Override public abstract String toString();
 
+  private static final long serialVersionUID = 0;
+
   private static final class Present<T> extends Optional<T> {
     private final T reference;
 
@@ -174,9 +176,13 @@ public abstract class Optional<T> implements BaseHolder<T> {
     @Override public String toString() {
       return "Optional.of(" + reference + ")";
     }
+
+    private static final long serialVersionUID = 0;
   }
 
   private static final class Absent extends Optional<Object> {
+    private static final Absent INSTANCE = new Absent();
+
     @Override public boolean isPresent() {
       return false;
     }
@@ -213,5 +219,11 @@ public abstract class Optional<T> implements BaseHolder<T> {
     @Override public String toString() {
       return "Optional.absent()";
     }
+
+    private Object readResolve() {
+      return INSTANCE;
+    }
+
+    private static final long serialVersionUID = 0;
   }
 }

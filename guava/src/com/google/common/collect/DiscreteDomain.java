@@ -39,7 +39,8 @@ import java.util.NoSuchElementException;
 @GwtCompatible
 @Beta
 public abstract class DiscreteDomain<C extends Comparable> {
-  DiscreteDomain() {}
+  /** Constructor for use by subclasses. */
+  protected DiscreteDomain() {}
 
   /**
    * Returns the unique least value of type {@code C} that is greater than

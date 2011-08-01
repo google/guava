@@ -17,6 +17,8 @@
 package com.google.common.base;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.GwtIncompatible;
+import com.google.common.testing.SerializableTester;
 import com.google.testing.util.EqualsTester;
 import com.google.testing.util.EquivalenceTester;
 
@@ -28,7 +30,7 @@ import junit.framework.TestCase;
  * @author Kurt Alfred Kluever
  * @author Jige Yu
  */
-@GwtCompatible
+@GwtCompatible(emulated = true)
 public class EquivalencesTest extends TestCase {
 
   public void testEqualsEquivalent() {
@@ -51,5 +53,11 @@ public class EquivalencesTest extends TestCase {
         .addEqualityGroup(Equivalences.equals(), Equivalences.equals())
         .addEqualityGroup(Equivalences.identity(), Equivalences.identity())
         .testEquals();
+  }
+
+  @GwtIncompatible("SerializableTester")
+  public void testSerialization() {
+    SerializableTester.reserializeAndAssert(Equivalences.equals());
+    SerializableTester.reserializeAndAssert(Equivalences.identity());
   }
 }
