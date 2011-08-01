@@ -46,7 +46,6 @@ import java.util.concurrent.locks.ReentrantLock;
  * @author Justin Mahoney
  * @since Guava release 03
  */
-@Beta
 public final class MoreExecutors {
   private MoreExecutors() {}
 
@@ -65,6 +64,7 @@ public final class MoreExecutors {
    * @param timeUnit unit of time for the time parameter
    * @return an unmodifiable version of the input which will not hang the JVM
    */
+  @Beta
   public static ExecutorService getExitingExecutorService(
       ThreadPoolExecutor executor, long terminationTimeout, TimeUnit timeUnit) {
     executor.setThreadFactory(new ThreadFactoryBuilder()
@@ -95,6 +95,7 @@ public final class MoreExecutors {
    * @param timeUnit unit of time for the time parameter
    * @return an unmodifiable version of the input which will not hang the JVM
    */
+  @Beta
   public static ScheduledExecutorService getExitingScheduledExecutorService(
       ScheduledThreadPoolExecutor executor, long terminationTimeout,
       TimeUnit timeUnit) {
@@ -122,6 +123,7 @@ public final class MoreExecutors {
    *        before terminating the JVM
    * @param timeUnit unit of time for the time parameter
    */
+  @Beta
   public static void addDelayedShutdownHook(
       final ExecutorService service, final long terminationTimeout,
       final TimeUnit timeUnit) {
@@ -158,6 +160,7 @@ public final class MoreExecutors {
    *        application is finished
    * @return an unmodifiable version of the input which will not hang the JVM
    */
+  @Beta
   public static ExecutorService getExitingExecutorService(
       ThreadPoolExecutor executor) {
     return getExitingExecutorService(executor, 120, TimeUnit.SECONDS);
@@ -178,6 +181,7 @@ public final class MoreExecutors {
    *        application is finished
    * @return an unmodifiable version of the input which will not hang the JVM
    */
+  @Beta
   public static ScheduledExecutorService getExitingScheduledExecutorService(
       ScheduledThreadPoolExecutor executor) {
     return getExitingScheduledExecutorService(executor, 120, TimeUnit.SECONDS);
