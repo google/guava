@@ -93,4 +93,38 @@ final class BstOperations {
     }
     return BstMutationResult.mutationResult(key, tree, newTree, tree, newTree);
   }
+
+  public static <K, N extends BstNode<K, N>> BstMutationResult<K, N> mutate(
+      BstInOrderPath<N> path, BstMutationRule<K, N> mutationRule) {
+    checkNotNull(path);
+    checkNotNull(mutationRule);
+    BstBalancePolicy<N> balancePolicy = mutationRule.getBalancePolicy();
+    BstNodeFactory<N> nodeFactory = mutationRule.getNodeFactory();
+    BstModifier<K, N> modifier = mutationRule.getModifier();
+
+    N target = path.getTip();
+    K key = target.getKey();
+    N changedTarget = modifier.modify(key, target);
+    if (target == changedTarget) {
+      BstInOrderPath<N> rootPath = path;
+      while (rootPath.hasPrefix()) {
+        rootPath = rootPath.getPrefix();
+      }
+      return BstMutationResult.identity(key, rootPath.getTip(), target);
+    } else if (changedTarget == null) {
+      changedTarget =
+          balancePolicy.combine(nodeFactory, target.childOrNull(LEFT), target.childOrNull(RIGHT));
+    } else {
+      changedTarget = balancePolicy.balance(
+          nodeFactory, changedTarget, target.childOrNull(LEFT), target.childOrNull(RIGHT));
+    }
+    BstMutationResult<K, N> result =
+        BstMutationResult.mutationResult(key, target, changedTarget, target, changedTarget);
+    while (path.hasPrefix()) {
+      BstInOrderPath<N> prefix = path.getPrefix();
+      result = result.lift(prefix.getTip(), path.getSideOfExtension(), nodeFactory, balancePolicy);
+      path = prefix;
+    }
+    return result;
+  }
 }
