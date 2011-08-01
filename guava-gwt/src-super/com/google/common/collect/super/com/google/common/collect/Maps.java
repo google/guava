@@ -19,10 +19,14 @@ package com.google.common.collect;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.base.Equivalence;
+import com.google.common.base.Equivalences;
 import com.google.common.base.Function;
 import com.google.common.base.Joiner.MapJoiner;
 import com.google.common.base.Objects;
+import com.google.common.base.Preconditions;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import com.google.common.collect.MapDifference.ValueDifference;
@@ -311,6 +315,34 @@ public final class Maps {
    */
   public static <K, V> MapDifference<K, V> difference(
       Map<? extends K, ? extends V> left, Map<? extends K, ? extends V> right) {
+    return difference(left, right, Equivalences.equals());
+  }
+
+  /**
+   * Computes the difference between two maps. This difference is an immutable
+   * snapshot of the state of the maps at the time this method is called. It
+   * will never change, even if the maps change at a later time.
+   *
+   * <p>Values are compared using a provided equivalence, in the case of
+   * equality, the value on the 'left' is returned in the difference.
+   *
+   * <p>Since this method uses {@code HashMap} instances internally, the keys of
+   * the supplied maps must be well-behaved with respect to
+   * {@link Object#equals} and {@link Object#hashCode}.
+   *
+   * @param left the map to treat as the "left" map for purposes of comparison
+   * @param right the map to treat as the "right" map for purposes of comparison
+   * @param valueEquivalence the equivalence relationship to use to compare
+   *    values
+   * @return the difference between the two maps
+   * @since Guava release 10
+   */
+  @Beta
+  public static <K, V> MapDifference<K, V> difference(
+      Map<? extends K, ? extends V> left, Map<? extends K, ? extends V> right,
+      Equivalence<? super V> equivalence) {
+    Preconditions.checkNotNull(equivalence);
+
     Map<K, V> onlyOnLeft = newHashMap();
     Map<K, V> onlyOnRight = new HashMap<K, V>(right); // will whittle it down
     Map<K, V> onBoth = newHashMap();
@@ -322,7 +354,7 @@ public final class Maps {
       V leftValue = entry.getValue();
       if (right.containsKey(leftKey)) {
         V rightValue = onlyOnRight.remove(leftKey);
-        if (Objects.equal(leftValue, rightValue)) {
+        if (equivalence.equivalent(leftValue, rightValue)) {
           onBoth.put(leftKey, leftValue);
         } else {
           eq = false;
