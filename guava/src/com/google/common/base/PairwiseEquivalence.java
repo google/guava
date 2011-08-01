@@ -24,7 +24,7 @@ import java.util.Iterator;
 import javax.annotation.Nullable;
 
 @GwtCompatible(serializable = true)
-final class PairwiseEquivalence<T> extends AbstractEquivalence<Iterable<T>>
+final class PairwiseEquivalence<T> extends Equivalence<Iterable<T>>
     implements Serializable {
 
   final Equivalence<? super T> elementEquivalence;
@@ -34,7 +34,7 @@ final class PairwiseEquivalence<T> extends AbstractEquivalence<Iterable<T>>
   }
 
   @Override
-  protected boolean equivalentNonNull(Iterable<T> iterableA, Iterable<T> iterableB) {
+  protected boolean doEquivalent(Iterable<T> iterableA, Iterable<T> iterableB) {
     Iterator<T> iteratorA = iterableA.iterator();
     Iterator<T> iteratorB = iterableB.iterator();
 
@@ -48,7 +48,7 @@ final class PairwiseEquivalence<T> extends AbstractEquivalence<Iterable<T>>
   }
 
   @Override
-  protected int hashNonNull(Iterable<T> iterable) {
+  protected int doHash(Iterable<T> iterable) {
     int hash = 78721;
     for (T element : iterable) {
       hash = hash * 24943 + elementEquivalence.hash(element);

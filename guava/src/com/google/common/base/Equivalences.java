@@ -79,15 +79,15 @@ public final class Equivalences {
     return new PairwiseEquivalence<T>(elementEquivalence);
   }
 
-  private static final class Equals extends AbstractEquivalence<Object>
+  private static final class Equals extends Equivalence<Object>
       implements Serializable {
 
     static final Equals INSTANCE = new Equals();
 
-    @Override protected boolean equivalentNonNull(Object a, Object b) {
+    @Override protected boolean doEquivalent(Object a, Object b) {
       return a.equals(b);
     }
-    @Override public int hashNonNull(Object o) {
+    @Override public int doHash(Object o) {
       return o.hashCode();
     }
 
@@ -97,16 +97,16 @@ public final class Equivalences {
     private static final long serialVersionUID = 1;
   }
 
-  private static final class Identity extends AbstractEquivalence<Object>
+  private static final class Identity extends Equivalence<Object>
       implements Serializable {
 
     static final Identity INSTANCE = new Identity();
 
-    @Override protected boolean equivalentNonNull(Object a, Object b) {
+    @Override protected boolean doEquivalent(Object a, Object b) {
       return false;
     }
 
-    @Override protected int hashNonNull(Object o) {
+    @Override protected int doHash(Object o) {
       return System.identityHashCode(o);
     }
 

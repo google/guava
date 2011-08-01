@@ -19,7 +19,7 @@ import javax.annotation.Nullable;
  */
 @Beta
 @GwtCompatible
-final class FunctionalEquivalence<F, T> extends AbstractEquivalence<F>
+final class FunctionalEquivalence<F, T> extends Equivalence<F>
     implements Serializable {
 
   private static final long serialVersionUID = 0;
@@ -33,11 +33,11 @@ final class FunctionalEquivalence<F, T> extends AbstractEquivalence<F>
     this.resultEquivalence = checkNotNull(resultEquivalence);
   }
 
-  @Override protected boolean equivalentNonNull(F a, F b) {
+  @Override protected boolean doEquivalent(F a, F b) {
     return resultEquivalence.equivalent(function.apply(a), function.apply(b));
   }
 
-  @Override protected int hashNonNull(F a) {
+  @Override protected int doHash(F a) {
     return resultEquivalence.hash(function.apply(a));
   }
 

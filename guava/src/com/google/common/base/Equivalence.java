@@ -45,29 +45,45 @@ public abstract class Equivalence<T> {
   protected Equivalence() {}
 
   /**
-   * Returns {@code true} if the given objects are considered equivalent.
+   * Returns {@code true} if the given objects are considered equivalent.ß
    *
    * <p>The {@code equivalent} method implements an equivalence relation on object references:
    *
    * <ul>
    * <li>It is <i>reflexive</i>: for any reference {@code x}, including null, {@code
-   *     equivalent(x, x)} should return {@code true}.
+   *     equivalent(x, x)} returns {@code true}.
    * <li>It is <i>symmetric</i>: for any references {@code x} and {@code y}, {@code
    *     equivalent(x, y) == equivalent(y, x)}.
    * <li>It is <i>transitive</i>: for any references {@code x}, {@code y}, and {@code z}, if
    *     {@code equivalent(x, y)} returns {@code true} and {@code equivalent(y, z)} returns {@code
-   *     true}, then {@code equivalent(x, z)} should return {@code true}.
+   *     true}, then {@code equivalent(x, z)} returns {@code true}.
    * <li>It is <i>consistent</i>: for any references {@code x} and {@code y}, multiple invocations
    *     of {@code equivalent(x, y)} consistently return {@code true} or consistently return {@code
    *     false} (provided that neither {@code x} nor {@code y} is modified).
    * </ul>
    */
-  public abstract boolean equivalent(@Nullable T a, @Nullable T b);
+  public final boolean equivalent(@Nullable T a, @Nullable T b) {
+    if (a == b) {
+      return true;
+    }
+    if (a == null || b == null) {
+      return false;
+    }
+    return doEquivalent(a, b);
+  }
 
   /**
-   * Returns a hash code for {@code object}.
+   * Returns {@code true} if {@code a} and {@code b} are considered equivalent.
    *
-   * <p>The {@code hash} must have the following properties:
+   * <p>Called by {@link #equivalent}. {@code a} and {@code b} are not the same
+   * object and are not nulls.
+   */
+  protected abstract boolean doEquivalent(T a, T b);
+
+  /**
+   * Returns a hash code for {@code t}.
+   *
+   * <p>The {@code hash} has the following properties:
    * <ul>
    * <li>It is <i>consistent</i>: for any reference {@code x}, multiple invocations of
    *     {@code hash(x}} consistently return the same value provided {@code x} remains unchanged
@@ -80,7 +96,19 @@ public abstract class Equivalence<T> {
    * <li>{@code hash(null)} is {@code 0}.
    * </ul>
    */
-  public abstract int hash(@Nullable T t);
+  public final int hash(@Nullable T t) {
+    if (t == null) {
+      return 0;
+    }
+    return doHash(t);
+  }
+
+  /**
+   * Returns a hash code for non-null object {@code t}.
+   *
+   * <p>Called by {@link #hash}.
+   */
+  protected abstract int doHash(T t);
 
   /**
    * Returns a new equivalence relation for {@code F} which evaluates equivalence by first applying
