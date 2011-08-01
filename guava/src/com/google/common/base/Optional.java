@@ -102,6 +102,11 @@ public abstract class Optional<T> implements BaseHolder<T> {
   public abstract Optional<T> or(Optional<? extends T> secondChoice);
 
   /**
+   * Returns the contained instance if it is present; {@code supplier.get()} otherwise.
+   */
+  @Nullable public abstract T or(Supplier<? extends T> supplier);
+
+  /**
    * Returns {@code true} if {@code object} is an {@code Optional} instance, and either
    * the contained references are {@linkplain Object#equals equal} to each other or both
    * are absent. Note that {@code Optional} instances of differing parameterized types can
@@ -145,6 +150,11 @@ public abstract class Optional<T> implements BaseHolder<T> {
       return this;
     }
 
+    @Override public T or(Supplier<? extends T> supplier) {
+      checkNotNull(supplier);
+      return reference;
+    }
+
     @Override public T orNull() {
       return reference;
     }
@@ -182,6 +192,10 @@ public abstract class Optional<T> implements BaseHolder<T> {
     @SuppressWarnings("unchecked") // safe covariant cast
     @Override public Optional<Object> or(Optional<?> secondChoice) {
       return (Optional) checkNotNull(secondChoice);
+    }
+
+    @Override @Nullable public Object or(Supplier<?> supplier) {
+      return supplier.get();
     }
 
     @Override @Nullable public Object orNull() {
