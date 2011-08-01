@@ -27,7 +27,10 @@ import javax.annotation.Nullable;
  *
  * @author Charles Fry
  * @since Guava release 07
- * @deprecated <b>This class is scheduled for deletion in Guava release 11.</b>
+ * @deprecated Caching functionality in {@code MapMaker} is being moved to
+ *     {@link com.google.common.cache.CacheBuilder}. Functionality similar to
+ *     {@code EvictionListeners} is provided by {@link com.google.common.cache.RemovalListeners}.
+ *     <b>This class is scheduled for deletion in Guava release 11.</b>
  */
 @Beta
 @Deprecated
@@ -43,7 +46,11 @@ final class EvictionListeners {
    * @param listener the backing listener
    * @param executor the executor with which eviciton notifications are
    *     asynchronously executed
-   * @deprecated <b>This method is scheduled for deletion in Guava release 11.</b>
+   * @deprecated Caching functionality in {@code MapMaker} is being moved to
+   *     {@link com.google.common.cache.CacheBuilder}. Functionality similar to
+   *     {@code EvictionListeners#asynchronous} is provided by
+   *     {@link com.google.common.cache.RemovalListeners#asynchronous}.
+   *     <b>This method is scheduled for deletion in Guava release 11.</b>
    */
   @Deprecated
   public static <K, V> MapEvictionListener<K, V> asynchronous(
