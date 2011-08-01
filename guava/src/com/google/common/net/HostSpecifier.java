@@ -98,8 +98,8 @@ public final class HostSpecifier {
 
     // It is not any kind of IP address; must be a domain name or invalid.
 
-    // TODO(user): different lenient and strict versions of this?
-    final InternetDomainName domain = InternetDomainName.fromLenient(host);
+    // TODO(user): different versions of this for different factories?
+    final InternetDomainName domain = InternetDomainName.from(host);
 
     if (domain.hasPublicSuffix()) {
       return new HostSpecifier(domain.name());
