@@ -313,17 +313,17 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    * be garbage-collected in a <i>globally</i> least-recently-used manner, in response to memory
    * demand.
    *
-   * <p><b>Warning:</b> in most circumstances it is better to set a per-cache {@linkplain
-   * #maximumSize maximum size} instead of using soft references. You should only use this method if
-   * you are well familiar with the practical consequences of soft references.
-   *
    * <p><b>Warning:</b> when this method is used, the resulting map will use identity ({@code ==})
    * comparison to determine equality of keys, which is a technical violation of the {@link Map}
    * specification, and may not be what you expect.
    *
    * @throws IllegalStateException if the key strength was already set
    * @see SoftReference
+   * @deprecated use {@link #softValues} to create a memory-sensitive map, or {@link #weakKeys} to
+   *     create a map that doesn't hold strong references to the keys.
+   *     <b>This method is scheduled for deletion in January 2013.</b>
    */
+  @Deprecated
   @GwtIncompatible("java.lang.ref.SoftReference")
   @Override
   public MapMaker softKeys() {

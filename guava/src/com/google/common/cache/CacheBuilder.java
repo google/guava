@@ -98,7 +98,7 @@ import javax.annotation.Nullable;
  *
  * <p><b>Note:</b> by default, the returned cache uses equality comparisons (the
  * {@link Object#equals equals} method) to determine equality for keys or values. However, if
- * {@link #weakKeys} or {@link #softKeys} was specified, the cache uses identity ({@code ==})
+ * {@link #weakKeys} was specified, the cache uses identity ({@code ==})
  * comparisons instead for keys. Likewise, if {@link #weakValues} or {@link #softValues} was
  * specified, the cache uses identity comparisons for values.
  *
@@ -201,8 +201,7 @@ public final class CacheBuilder<K, V> {
    * Sets a custom {@code Equivalence} strategy for comparing keys.
    *
    * <p>By default, the cache uses {@link Equivalences#identity} to determine key equality when
-   * {@link #weakKeys} or {@link #softKeys} is specified, and {@link Equivalences#equals()}
-   * otherwise.
+   * {@link #weakKeys} is specified, and {@link Equivalences#equals()} otherwise.
    */
   CacheBuilder<K, V> keyEquivalence(Equivalence<Object> equivalence) {
     checkState(keyEquivalence == null, "key equivalence was already set to %s", keyEquivalence);
@@ -331,25 +330,6 @@ public final class CacheBuilder<K, V> {
    */
   public CacheBuilder<K, V> weakKeys() {
     return setKeyStrength(Strength.WEAK);
-  }
-
-  /**
-   * Specifies that each key (not value) stored in the cache should be wrapped in a
-   * {@link SoftReference} (by default, strong references are used). Softly-referenced objects will
-   * be garbage-collected in a <i>globally</i> least-recently-used manner, in response to memory
-   * demand.
-   *
-   * <p><b>Warning:</b> in most circumstances it is better to set a per-cache {@linkplain
-   * #maximumSize maximum size} instead of using soft references. You should only use this method if
-   * you are well familiar with the practical consequences of soft references.
-   *
-   * <p><b>Warning:</b> when this method is used, the resulting cache will use identity ({@code ==})
-   * comparison to determine equality of keys.
-   *
-   * @throws IllegalStateException if the key strength was already set
-   */
-  public CacheBuilder<K, V> softKeys() {
-    return setKeyStrength(Strength.SOFT);
   }
 
   CacheBuilder<K, V> setKeyStrength(Strength strength) {

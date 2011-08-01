@@ -53,8 +53,7 @@ public enum RemovalCause {
 
   /**
    * The entry was removed automatically because its key or value was garbage-collected. This
-   * can occur when using {@link #softKeys}, {@link #softValues}, {@link #weakKeys}, or {@link
-   * #weakValues}.
+   * can occur when using {@link #weakKeys}, {@link #weakValues}, or {@link #softValues}.
    */
   COLLECTED {
     @Override
