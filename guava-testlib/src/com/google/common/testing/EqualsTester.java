@@ -103,39 +103,12 @@ public final class EqualsTester {
   public EqualsTester() {}
 
   /**
-   * Constructs a new EqualsTester for a given reference object
-   *
-   * @param reference reference object for comparison
-   */
-  public EqualsTester(Object reference) {
-    defaultEqualObjects.add(checkNotNull(reference, "Reference object cannot be null"));
-  }
-
-  /**
    * Adds {@code equalityGroup} with objects that are supposed to be equal to
    * each other and not equal to any other equality groups added to this tester.
    */
   public EqualsTester addEqualityGroup(Object... equalityGroup) {
     checkNotNull(equalityGroup);
     equalityGroups.add(ImmutableList.copyOf(equalityGroup));
-    return this;
-  }
-
-  /**
-   * Add one or more objects that should be equal to the reference object
-   */
-  public EqualsTester addEqualObject(Object... equalObjects) {
-    checkNotNull(equalObjects);
-    defaultEqualObjects.addAll(ImmutableList.copyOf(equalObjects));
-    return this;
-  }
-
-  /**
-   * Add one or more objects that should not be equal to the reference object.
-   */
-  public EqualsTester addNotEqualObject(Object... notEqualObjects) {
-    checkNotNull(notEqualObjects);
-    defaultNotEqualObjects.addAll(ImmutableList.copyOf(notEqualObjects));
     return this;
   }
 

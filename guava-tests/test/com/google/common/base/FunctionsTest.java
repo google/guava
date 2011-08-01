@@ -100,10 +100,9 @@ public class FunctionsTest extends TestCase {
     } catch (IllegalArgumentException expected) {
     }
 
-    new EqualsTester(function)
-        .addEqualObject(Functions.forMap(map))
-        .addEqualObject(Functions.forMap(map))
-        .addNotEqualObject(Functions.forMap(map, 42))
+    new EqualsTester()
+        .addEqualityGroup(function, Functions.forMap(map))
+        .addEqualityGroup(Functions.forMap(map, 42))
         .testEquals();
   }
 
@@ -143,12 +142,14 @@ public class FunctionsTest extends TestCase {
     assertEquals(42, function.apply("Two").intValue());
     assertEquals(3, function.apply("Three").intValue());
 
-    new EqualsTester(function)
-        .addEqualObject(Functions.forMap(map, 42))
-        .addEqualObject(SerializableTester.reserialize(function))
-        .addNotEqualObject(Functions.forMap(map))
-        .addNotEqualObject(Functions.forMap(map, null))
-        .addNotEqualObject(Functions.forMap(map, 43))
+    new EqualsTester()
+        .addEqualityGroup(
+            function,
+            Functions.forMap(map, 42),
+            SerializableTester.reserialize(function))
+        .addEqualityGroup(Functions.forMap(map))
+        .addEqualityGroup(Functions.forMap(map, null))
+        .addEqualityGroup(Functions.forMap(map, 43))
         .testEquals();
   }
 
@@ -165,8 +166,9 @@ public class FunctionsTest extends TestCase {
     assertNull(function.apply("Two"));
 
     // check basic sanity of equals and hashCode
-    new EqualsTester(function)
-        .addNotEqualObject(Functions.forMap(map, 1))
+    new EqualsTester()
+        .addEqualityGroup(function)
+        .addEqualityGroup(Functions.forMap(map, 1))
         .testEquals();
   }
 
@@ -179,9 +181,9 @@ public class FunctionsTest extends TestCase {
     assertNull(function.apply("Two"));
 
     // check basic sanity of equals and hashCode
-    new EqualsTester(function)
-        .addEqualObject(SerializableTester.reserialize(function))
-        .addNotEqualObject(Functions.forMap(map, 1))
+    new EqualsTester()
+        .addEqualityGroup(function, SerializableTester.reserialize(function))
+        .addEqualityGroup(Functions.forMap(map, 1))
         .testEquals();
   }
 
@@ -228,12 +230,13 @@ public class FunctionsTest extends TestCase {
     } catch (IllegalArgumentException e) {
     }
 
-    new EqualsTester(japaneseToSpanish)
-        .addEqualObject(
+    new EqualsTester()
+        .addEqualityGroup(
+            japaneseToSpanish,
             Functions.compose(integerToSpanish, japaneseToInteger))
-        .addNotEqualObject(japaneseToInteger)
-        .addNotEqualObject(integerToSpanish)
-        .addNotEqualObject(
+        .addEqualityGroup(japaneseToInteger)
+        .addEqualityGroup(integerToSpanish)
+        .addEqualityGroup(
             Functions.compose(japaneseToInteger, integerToSpanish))
         .testEquals();
   }
@@ -257,14 +260,14 @@ public class FunctionsTest extends TestCase {
     Function<String, String> japaneseToSpanish =
         Functions.compose(integerToSpanish, japaneseToInteger);
 
-    new EqualsTester(japaneseToSpanish)
-        .addEqualObject(
-            Functions.compose(integerToSpanish, japaneseToInteger))
-        .addEqualObject(
+    new EqualsTester()
+        .addEqualityGroup(
+            japaneseToSpanish,
+            Functions.compose(integerToSpanish, japaneseToInteger),
             SerializableTester.reserialize(japaneseToSpanish))
-        .addNotEqualObject(japaneseToInteger)
-        .addNotEqualObject(integerToSpanish)
-        .addNotEqualObject(
+        .addEqualityGroup(japaneseToInteger)
+        .addEqualityGroup(integerToSpanish)
+        .addEqualityGroup(
             Functions.compose(japaneseToInteger, integerToSpanish))
         .testEquals();
   }
@@ -336,10 +339,11 @@ public class FunctionsTest extends TestCase {
     assertTrue(alwaysTrue.apply(0));
     assertFalse(alwaysFalse.apply(0));
 
-    new EqualsTester(alwaysTrue)
-        .addEqualObject(Functions.forPredicate(Predicates.alwaysTrue()))
-        .addNotEqualObject(alwaysFalse)
-        .addNotEqualObject(Functions.identity())
+    new EqualsTester()
+        .addEqualityGroup(
+            alwaysTrue, Functions.forPredicate(Predicates.alwaysTrue()))
+        .addEqualityGroup(alwaysFalse)
+        .addEqualityGroup(Functions.identity())
         .testEquals();
   }
 
@@ -357,18 +361,18 @@ public class FunctionsTest extends TestCase {
     assertEquals(null, g.apply(2));
     assertEquals(null, g.apply(null));
 
-    new EqualsTester(f)
-        .addEqualObject(Functions.constant("correct"))
-        .addNotEqualObject(Functions.constant("incorrect"))
-        .addNotEqualObject(Functions.toStringFunction())
-        .addNotEqualObject(g)
+    new EqualsTester()
+        .addEqualityGroup(f, Functions.constant("correct"))
+        .addEqualityGroup(Functions.constant("incorrect"))
+        .addEqualityGroup(Functions.toStringFunction())
+        .addEqualityGroup(g)
         .testEquals();
 
-    new EqualsTester(g)
-        .addEqualObject(Functions.constant(null))
-        .addNotEqualObject(Functions.constant("incorrect"))
-        .addNotEqualObject(Functions.toStringFunction())
-        .addNotEqualObject(f)
+    new EqualsTester()
+        .addEqualityGroup(g, Functions.constant(null))
+        .addEqualityGroup(Functions.constant("incorrect"))
+        .addEqualityGroup(Functions.toStringFunction())
+        .addEqualityGroup(f)
         .testEquals();
   }
 
@@ -410,11 +414,11 @@ public class FunctionsTest extends TestCase {
     assertEquals(1, (int) function.apply(null));
     assertEquals(2, (int) function.apply("foo"));
     
-    new EqualsTester(function)
-        .addEqualObject(Functions.forSupplier(supplier))
-        .addNotEqualObject(Functions.forSupplier(new CountingSupplier()))
-        .addNotEqualObject(Functions.forSupplier(Suppliers.ofInstance(12)))
-        .addNotEqualObject(Functions.toStringFunction())
+    new EqualsTester()
+        .addEqualityGroup(function, Functions.forSupplier(supplier))
+        .addEqualityGroup(Functions.forSupplier(new CountingSupplier()))
+        .addEqualityGroup(Functions.forSupplier(Suppliers.ofInstance(12)))
+        .addEqualityGroup(Functions.toStringFunction())
         .testEquals();
   }
 

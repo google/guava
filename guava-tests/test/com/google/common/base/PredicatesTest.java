@@ -89,10 +89,10 @@ public class PredicatesTest extends TestCase {
   }
 
   public void testAlwaysTrue_equality() throws Exception {
-    new EqualsTester(TRUE)
-        .addEqualObject(Predicates.alwaysTrue())
-        .addNotEqualObject(isOdd())
-        .addNotEqualObject(Predicates.alwaysFalse())
+    new EqualsTester()
+        .addEqualityGroup(TRUE, Predicates.alwaysTrue())
+        .addEqualityGroup(isOdd())
+        .addEqualityGroup(Predicates.alwaysFalse())
         .testEquals();
   }
 
@@ -110,10 +110,10 @@ public class PredicatesTest extends TestCase {
   }
 
   public void testAlwaysFalse_equality() throws Exception {
-    new EqualsTester(FALSE)
-        .addEqualObject(Predicates.alwaysFalse())
-        .addNotEqualObject(isOdd())
-        .addNotEqualObject(Predicates.alwaysTrue())
+    new EqualsTester()
+        .addEqualityGroup(FALSE, Predicates.alwaysFalse())
+        .addEqualityGroup(isOdd())
+        .addEqualityGroup(Predicates.alwaysTrue())
         .testEquals();
   }
 
@@ -133,40 +133,40 @@ public class PredicatesTest extends TestCase {
   }
 
   public void testNot_equality() {
-    new EqualsTester(Predicates.not(isOdd()))
-        .addEqualObject(Predicates.not(isOdd()))
-        .addNotEqualObject(Predicates.not(TRUE))
-        .addNotEqualObject(isOdd())
+    new EqualsTester()
+        .addEqualityGroup(Predicates.not(isOdd()), Predicates.not(isOdd()))
+        .addEqualityGroup(Predicates.not(TRUE))
+        .addEqualityGroup(isOdd())
         .testEquals();
   }
 
   public void testNot_equalityForNotOfKnownValues() {
     /* Would be nice to have .addEqualObject(Predicates.not(FALSE)). */
-    new EqualsTester(TRUE)
-        .addEqualObject(Predicates.alwaysTrue())
-        .addNotEqualObject(FALSE)
-        .addNotEqualObject(Predicates.not(TRUE))
+    new EqualsTester()
+        .addEqualityGroup(TRUE, Predicates.alwaysTrue())
+        .addEqualityGroup(FALSE)
+        .addEqualityGroup(Predicates.not(TRUE))
         .testEquals();
 
     /* Would be nice to have .addEqualObject(Predicates.not(TRUE)). */
-    new EqualsTester(FALSE)
-        .addEqualObject(Predicates.alwaysFalse())
-        .addNotEqualObject(TRUE)
-        .addNotEqualObject(Predicates.not(FALSE))
+    new EqualsTester()
+        .addEqualityGroup(FALSE, Predicates.alwaysFalse())
+        .addEqualityGroup(TRUE)
+        .addEqualityGroup(Predicates.not(FALSE))
         .testEquals();
 
     /* Would be nice to have .addEqualObject(Predicates.not(notNull())). */
-    new EqualsTester(Predicates.isNull())
-        .addEqualObject(Predicates.isNull())
-        .addNotEqualObject(Predicates.notNull())
-        .addNotEqualObject(Predicates.not(Predicates.isNull()))
+    new EqualsTester()
+        .addEqualityGroup(Predicates.isNull(), Predicates.isNull())
+        .addEqualityGroup(Predicates.notNull())
+        .addEqualityGroup(Predicates.not(Predicates.isNull()))
         .testEquals();
 
     /* Would be nice to have .addEqualObject(Predicates.not(isNull())). */
-    new EqualsTester(Predicates.notNull())
-        .addEqualObject(Predicates.notNull())
-        .addNotEqualObject(Predicates.isNull())
-        .addNotEqualObject(Predicates.not(Predicates.notNull()))
+    new EqualsTester()
+        .addEqualityGroup(Predicates.notNull(), Predicates.notNull())
+        .addEqualityGroup(Predicates.isNull())
+        .addEqualityGroup(Predicates.not(Predicates.notNull()))
         .testEquals();
   }
 
@@ -186,10 +186,10 @@ public class PredicatesTest extends TestCase {
 
   @SuppressWarnings("unchecked")
   public void testAnd_equalityNoArgs() {
-    new EqualsTester(Predicates.and())
-        .addEqualObject(Predicates.and())
-        .addNotEqualObject(Predicates.and(FALSE))
-        .addNotEqualObject(Predicates.or())
+    new EqualsTester()
+        .addEqualityGroup(Predicates.and(), Predicates.and())
+        .addEqualityGroup(Predicates.and(FALSE))
+        .addEqualityGroup(Predicates.or())
         .testEquals();
   }
 
@@ -206,12 +206,14 @@ public class PredicatesTest extends TestCase {
 
   @SuppressWarnings("unchecked")
   public void testAnd_equalityOneArg() {
-    new EqualsTester(Predicates.and(NEVER_REACHED))
-        .addEqualObject(Predicates.and(NEVER_REACHED))
-        .addNotEqualObject(Predicates.and(NEVER_REACHED, FALSE))
-        .addNotEqualObject(Predicates.and(isOdd()))
-        .addNotEqualObject(Predicates.and())
-        .addNotEqualObject(Predicates.or(NEVER_REACHED))
+    Object[] notEqualObjects = {Predicates.and(NEVER_REACHED, FALSE)};
+    new EqualsTester()
+        .addEqualityGroup(
+            Predicates.and(NEVER_REACHED), Predicates.and(NEVER_REACHED))
+        .addEqualityGroup(notEqualObjects)
+        .addEqualityGroup(Predicates.and(isOdd()))
+        .addEqualityGroup(Predicates.and())
+        .addEqualityGroup(Predicates.or(NEVER_REACHED))
         .testEquals();
   }
 
@@ -229,11 +231,13 @@ public class PredicatesTest extends TestCase {
 
   @SuppressWarnings("unchecked")
   public void testAnd_equalityBinary() {
-    new EqualsTester(Predicates.and(TRUE, NEVER_REACHED))
-        .addEqualObject(Predicates.and(TRUE, NEVER_REACHED))
-        .addNotEqualObject(Predicates.and(NEVER_REACHED, TRUE))
-        .addNotEqualObject(Predicates.and(TRUE))
-        .addNotEqualObject(Predicates.or(TRUE, NEVER_REACHED))
+    new EqualsTester()
+        .addEqualityGroup(
+            Predicates.and(TRUE, NEVER_REACHED),
+            Predicates.and(TRUE, NEVER_REACHED))
+        .addEqualityGroup(Predicates.and(NEVER_REACHED, TRUE))
+        .addEqualityGroup(Predicates.and(TRUE))
+        .addEqualityGroup(Predicates.or(TRUE, NEVER_REACHED))
         .testEquals();
   }
 
@@ -252,11 +256,13 @@ public class PredicatesTest extends TestCase {
 
   @SuppressWarnings("unchecked")
   public void testAnd_equalityTernary() {
-    new EqualsTester(Predicates.and(TRUE, isOdd(), NEVER_REACHED))
-        .addEqualObject(Predicates.and(TRUE, isOdd(), NEVER_REACHED))
-        .addNotEqualObject(Predicates.and(isOdd(), NEVER_REACHED, TRUE))
-        .addNotEqualObject(Predicates.and(TRUE))
-        .addNotEqualObject(Predicates.or(TRUE, isOdd(), NEVER_REACHED))
+    new EqualsTester()
+        .addEqualityGroup(
+            Predicates.and(TRUE, isOdd(), NEVER_REACHED),
+            Predicates.and(TRUE, isOdd(), NEVER_REACHED))
+        .addEqualityGroup(Predicates.and(isOdd(), NEVER_REACHED, TRUE))
+        .addEqualityGroup(Predicates.and(TRUE))
+        .addEqualityGroup(Predicates.or(TRUE, isOdd(), NEVER_REACHED))
         .testEquals();
   }
 
@@ -277,11 +283,13 @@ public class PredicatesTest extends TestCase {
 
   @SuppressWarnings("unchecked")
   public void testAnd_equalityIterable() {
-    new EqualsTester(Predicates.and(Arrays.asList(TRUE, NEVER_REACHED)))
-        .addEqualObject(Predicates.and(Arrays.asList(TRUE, NEVER_REACHED)))
-        .addEqualObject(Predicates.and(TRUE, NEVER_REACHED))
-        .addNotEqualObject(Predicates.and(FALSE, NEVER_REACHED))
-        .addNotEqualObject(Predicates.or(TRUE, NEVER_REACHED))
+    new EqualsTester()
+        .addEqualityGroup(
+            Predicates.and(Arrays.asList(TRUE, NEVER_REACHED)),
+            Predicates.and(Arrays.asList(TRUE, NEVER_REACHED)),
+            Predicates.and(TRUE, NEVER_REACHED))
+        .addEqualityGroup(Predicates.and(FALSE, NEVER_REACHED))
+        .addEqualityGroup(Predicates.or(TRUE, NEVER_REACHED))
         .testEquals();
   }
 
@@ -335,10 +343,10 @@ public class PredicatesTest extends TestCase {
 
   @SuppressWarnings("unchecked")
   public void testOr_equalityNoArgs() {
-    new EqualsTester(Predicates.or())
-        .addEqualObject(Predicates.or())
-        .addNotEqualObject(Predicates.or(TRUE))
-        .addNotEqualObject(Predicates.and())
+    new EqualsTester()
+        .addEqualityGroup(Predicates.or(), Predicates.or())
+        .addEqualityGroup(Predicates.or(TRUE))
+        .addEqualityGroup(Predicates.and())
         .testEquals();
   }
 
@@ -356,12 +364,13 @@ public class PredicatesTest extends TestCase {
 
   @SuppressWarnings("unchecked")
   public void testOr_equalityOneArg() {
-    new EqualsTester(Predicates.or(NEVER_REACHED))
-        .addEqualObject(Predicates.or(NEVER_REACHED))
-        .addNotEqualObject(Predicates.or(NEVER_REACHED, TRUE))
-        .addNotEqualObject(Predicates.or(TRUE))
-        .addNotEqualObject(Predicates.or())
-        .addNotEqualObject(Predicates.and(NEVER_REACHED))
+    new EqualsTester()
+        .addEqualityGroup(
+            Predicates.or(NEVER_REACHED), Predicates.or(NEVER_REACHED))
+        .addEqualityGroup(Predicates.or(NEVER_REACHED, TRUE))
+        .addEqualityGroup(Predicates.or(TRUE))
+        .addEqualityGroup(Predicates.or())
+        .addEqualityGroup(Predicates.and(NEVER_REACHED))
         .testEquals();
   }
 
@@ -383,12 +392,14 @@ public class PredicatesTest extends TestCase {
 
   @SuppressWarnings("unchecked")
   public void testOr_equalityBinary() {
-    new EqualsTester(Predicates.or(FALSE, NEVER_REACHED))
-    .addEqualObject(Predicates.or(FALSE, NEVER_REACHED))
-    .addNotEqualObject(Predicates.or(NEVER_REACHED, FALSE))
-    .addNotEqualObject(Predicates.or(TRUE))
-    .addNotEqualObject(Predicates.and(FALSE, NEVER_REACHED))
-    .testEquals();
+    new EqualsTester()
+        .addEqualityGroup(
+            Predicates.or(FALSE, NEVER_REACHED),
+            Predicates.or(FALSE, NEVER_REACHED))
+        .addEqualityGroup(Predicates.or(NEVER_REACHED, FALSE))
+        .addEqualityGroup(Predicates.or(TRUE))
+        .addEqualityGroup(Predicates.and(FALSE, NEVER_REACHED))
+        .testEquals();
   }
 
   @GwtIncompatible("SerializableTester")
@@ -406,11 +417,13 @@ public class PredicatesTest extends TestCase {
 
   @SuppressWarnings("unchecked")
   public void testOr_equalityTernary() {
-    new EqualsTester(Predicates.or(FALSE, NEVER_REACHED, TRUE))
-        .addEqualObject(Predicates.or(FALSE, NEVER_REACHED, TRUE))
-        .addNotEqualObject(Predicates.or(TRUE, NEVER_REACHED, FALSE))
-        .addNotEqualObject(Predicates.or(TRUE))
-        .addNotEqualObject(Predicates.and(FALSE, NEVER_REACHED, TRUE))
+    new EqualsTester()
+        .addEqualityGroup(
+            Predicates.or(FALSE, NEVER_REACHED, TRUE),
+            Predicates.or(FALSE, NEVER_REACHED, TRUE))
+        .addEqualityGroup(Predicates.or(TRUE, NEVER_REACHED, FALSE))
+        .addEqualityGroup(Predicates.or(TRUE))
+        .addEqualityGroup(Predicates.and(FALSE, NEVER_REACHED, TRUE))
         .testEquals();
   }
 
@@ -438,11 +451,13 @@ public class PredicatesTest extends TestCase {
 
   @SuppressWarnings("unchecked")
   public void testOr_equalityIterable() {
-    new EqualsTester(Predicates.or(Arrays.asList(FALSE, NEVER_REACHED)))
-        .addEqualObject(Predicates.or(Arrays.asList(FALSE, NEVER_REACHED)))
-        .addEqualObject(Predicates.or(FALSE, NEVER_REACHED))
-        .addNotEqualObject(Predicates.or(TRUE, NEVER_REACHED))
-        .addNotEqualObject(Predicates.and(FALSE, NEVER_REACHED))
+    new EqualsTester()
+        .addEqualityGroup(
+            Predicates.or(Arrays.asList(FALSE, NEVER_REACHED)),
+            Predicates.or(Arrays.asList(FALSE, NEVER_REACHED)),
+            Predicates.or(FALSE, NEVER_REACHED))
+        .addEqualityGroup(Predicates.or(TRUE, NEVER_REACHED))
+        .addEqualityGroup(Predicates.and(FALSE, NEVER_REACHED))
         .testEquals();
   }
 
@@ -500,10 +515,10 @@ public class PredicatesTest extends TestCase {
   }
 
   public void testIsEqualTo_equality() {
-    new EqualsTester(Predicates.equalTo(1))
-        .addEqualObject(Predicates.equalTo(1))
-        .addNotEqualObject(Predicates.equalTo(2))
-        .addNotEqualObject(Predicates.equalTo(null))
+    new EqualsTester()
+        .addEqualityGroup(Predicates.equalTo(1), Predicates.equalTo(1))
+        .addEqualityGroup(Predicates.equalTo(2))
+        .addEqualityGroup(Predicates.equalTo(null))
         .testEquals();
   }
 
@@ -519,10 +534,10 @@ public class PredicatesTest extends TestCase {
   }
 
   public void testIsEqualToNull_equality() {
-    new EqualsTester(Predicates.equalTo(null))
-        .addEqualObject(Predicates.equalTo(null))
-        .addNotEqualObject(Predicates.equalTo(1))
-        .addNotEqualObject(Predicates.equalTo("null"))
+    new EqualsTester()
+        .addEqualityGroup(Predicates.equalTo(null), Predicates.equalTo(null))
+        .addEqualityGroup(Predicates.equalTo(1))
+        .addEqualityGroup(Predicates.equalTo("null"))
         .testEquals();
   }
 
@@ -570,10 +585,12 @@ public class PredicatesTest extends TestCase {
 
   @GwtIncompatible("Predicates.instanceOf")
   public void testIsInstanceOf_equality() {
-    new EqualsTester(Predicates.instanceOf(Integer.class))
-        .addEqualObject(Predicates.instanceOf(Integer.class))
-        .addNotEqualObject(Predicates.instanceOf(Number.class))
-        .addNotEqualObject(Predicates.instanceOf(Float.class))
+    new EqualsTester()
+        .addEqualityGroup(
+            Predicates.instanceOf(Integer.class),
+            Predicates.instanceOf(Integer.class))
+        .addEqualityGroup(Predicates.instanceOf(Number.class))
+        .addEqualityGroup(Predicates.instanceOf(Float.class))
         .testEquals();
   }
 
@@ -646,9 +663,9 @@ public class PredicatesTest extends TestCase {
   }
 
   public void testIsNull_equality() {
-    new EqualsTester(Predicates.isNull())
-        .addEqualObject(Predicates.isNull())
-        .addNotEqualObject(Predicates.notNull())
+    new EqualsTester()
+        .addEqualityGroup(Predicates.isNull(), Predicates.isNull())
+        .addEqualityGroup(Predicates.notNull())
         .testEquals();
   }
 
@@ -667,9 +684,9 @@ public class PredicatesTest extends TestCase {
   }
 
   public void testNotNull_equality() {
-    new EqualsTester(Predicates.notNull())
-        .addEqualObject(Predicates.notNull())
-        .addNotEqualObject(Predicates.isNull())
+    new EqualsTester()
+        .addEqualityGroup(Predicates.notNull(), Predicates.notNull())
+        .addEqualityGroup(Predicates.isNull())
         .testEquals();
   }
 
@@ -694,11 +711,10 @@ public class PredicatesTest extends TestCase {
     Collection<Integer> differentOrder = ImmutableSet.of(5, 1);
     Collection<Integer> differentNums = ImmutableSet.of(1, 3, 5);
 
-    new EqualsTester(Predicates.in(nums))
-        .addEqualObject(Predicates.in(nums))
-        .addEqualObject(Predicates.in(sameOrder))
-        .addEqualObject(Predicates.in(differentOrder))
-        .addNotEqualObject(Predicates.in(differentNums))
+    new EqualsTester()
+        .addEqualityGroup(Predicates.in(nums), Predicates.in(nums),
+            Predicates.in(sameOrder), Predicates.in(differentOrder))
+        .addEqualityGroup(Predicates.in(differentNums))
         .testEquals();
   }
 
@@ -793,12 +809,12 @@ public class PredicatesTest extends TestCase {
     assertTrue(trimEqualsFoo.apply("   Foo   "));
     assertFalse(trimEqualsFoo.apply("Foo-b-que"));
 
-    new EqualsTester(trimEqualsFoo)
-        .addEqualObject(Predicates.compose(equalsFoo, trim))
-        .addNotEqualObject(equalsFoo)
-        .addNotEqualObject(trim)
-        .addNotEqualObject(Predicates.compose(equalsFoo, identity))
-        .addNotEqualObject(Predicates.compose(equalsBar, trim))
+    new EqualsTester()
+        .addEqualityGroup(trimEqualsFoo, Predicates.compose(equalsFoo, trim))
+        .addEqualityGroup(equalsFoo)
+        .addEqualityGroup(trim)
+        .addEqualityGroup(Predicates.compose(equalsFoo, identity))
+        .addEqualityGroup(Predicates.compose(equalsBar, trim))
         .testEquals();
   }
 
