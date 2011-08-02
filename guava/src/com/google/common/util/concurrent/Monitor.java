@@ -217,7 +217,10 @@ public final class Monitor {
    * 
    * <p>If a {@code Guard} is passed into any method of a {@code Monitor} other than the one it is
    * associated with, an {@link IllegalMonitorStateException} is thrown.
+   *
+   * @since Guava release 10
    */
+  @Beta
   public abstract static class Guard {
     
     final Monitor monitor;

@@ -1,5 +1,5 @@
 /*
- * This file is a modified version of 
+ * This file is a modified version of
  * http://gee.cs.oswego.edu/cgi-bin/viewcvs.cgi/jsr166/src/main/java/util/concurrent/AbstractExecutorService.java?revision=1.35
  * which contained the following notice:
  *
@@ -37,7 +37,6 @@ import java.util.concurrent.TimeoutException;
  *
  * @author Doug Lea
  */
-/* MOE: begin_strip */ public /* MOE: end_strip */
 abstract class AbstractListeningExecutorService implements ListeningExecutorService {
   @Override public ListenableFuture<?> submit(Runnable task) {
     ListenableFutureTask<Void> ftask = ListenableFutureTask.create(task, null);
