@@ -48,7 +48,7 @@ import javax.annotation.Nullable;
  * ("constant sets") and also lets you easily make a "defensive copy" of a set
  * provided to your class by a caller.
  *
- * <p>The sets returned by {@link #headSet}, {@link #tailSet}, and
+ * <p>The sets returned by the {@link #headSet}, {@link #tailSet}, and
  * {@link #subSet} methods share the same array as the original set, preventing
  * that array from being garbage collected. If this is a concern, the data may
  * be copied into a correctly-sized array by calling {@link #copyOfSorted}.
@@ -255,7 +255,7 @@ public abstract class ImmutableSortedSet<E>
    */
   public static <E> ImmutableSortedSet<E> copyOf(
       Iterable<? extends E> elements) {
-    // Hack around K not being a subtype of Comparable.
+    // Hack around E not being a subtype of Comparable.
     // Unsafe, see ImmutableSortedSetFauxverideShim.
     @SuppressWarnings("unchecked")
     Ordering<E> naturalOrder = (Ordering<E>) Ordering.<Comparable>natural();
@@ -293,7 +293,7 @@ public abstract class ImmutableSortedSet<E>
    */
   public static <E> ImmutableSortedSet<E> copyOf(
       Collection<? extends E> elements) {
-    // Hack around K not being a subtype of Comparable.
+    // Hack around E not being a subtype of Comparable.
     // Unsafe, see ImmutableSortedSetFauxverideShim.
     @SuppressWarnings("unchecked")
     Ordering<E> naturalOrder = (Ordering<E>) Ordering.<Comparable>natural();
@@ -313,7 +313,7 @@ public abstract class ImmutableSortedSet<E>
    */
   public static <E> ImmutableSortedSet<E> copyOf(
       Iterator<? extends E> elements) {
-    // Hack around K not being a subtype of Comparable.
+    // Hack around E not being a subtype of Comparable.
     // Unsafe, see ImmutableSortedSetFauxverideShim.
     @SuppressWarnings("unchecked")
     Ordering<E> naturalOrder = (Ordering<E>) Ordering.<Comparable>natural();
@@ -388,7 +388,7 @@ public abstract class ImmutableSortedSet<E>
    * the data when it is safe to do so. The exact circumstances under which a
    * copy will or will not be performed are undocumented and subject to change.
    *
-   * <p>This method is safe to use even when {@code elements} is a synchronized
+   * <p>This method is safe to use even when {@code sortedSet} is a synchronized
    * or concurrent collection that is currently being modified by another
    * thread.
    *
@@ -404,6 +404,7 @@ public abstract class ImmutableSortedSet<E>
     return copyOfInternal(comparator, sortedSet, true);
   }
 
+  // TODO(user): replace with SortedCollections redirect
   private static <E> ImmutableSortedSet<E> copyOfInternal(
       Comparator<? super E> comparator, Iterable<? extends E> elements,
       boolean fromSortedSet) {

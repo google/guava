@@ -18,8 +18,6 @@ package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
 
-import java.util.Set;
-
 import javax.annotation.Nullable;
 
 /**
@@ -38,7 +36,7 @@ final class EmptyImmutableMultiset extends ImmutableMultiset<Object> {
   }
 
   @Override
-  public Set<Object> elementSet() {
+  public ImmutableSet<Object> elementSet() {
     return ImmutableSet.of();
   }
 
