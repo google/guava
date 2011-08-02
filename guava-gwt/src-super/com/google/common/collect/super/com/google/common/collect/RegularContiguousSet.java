@@ -21,7 +21,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.BoundType.CLOSED;
 
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.annotations.GwtIncompatible;
 
 import java.io.Serializable;
 import java.util.Collection;
@@ -173,31 +172,12 @@ final class RegularContiguousSet<C extends Comparable>
 
   /**
    * Returns a short-hand representation of the contents such as
-   * {@code "[1‥100]}"}.
+   * {@code "[1?100]}"}.
    */
   @Override public String toString() {
     return range().toString();
   }
 
-  @GwtIncompatible("serialization")
-  private static final class SerializedForm<C extends Comparable> implements Serializable {
-    final Range<C> range;
-    final DiscreteDomain<C> domain;
-
-    private SerializedForm(Range<C> range, DiscreteDomain<C> domain) {
-      this.range = range;
-      this.domain = domain;
-    }
-
-    private Object readResolve() {
-      return new RegularContiguousSet<C>(range, domain);
-    }
-  }
-
-  @GwtIncompatible("serialization")
-  @Override Object writeReplace() {
-    return new SerializedForm<C>(range, domain);
-  }
-
   private static final long serialVersionUID = 0;
 }
+
