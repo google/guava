@@ -23,7 +23,7 @@ import java.io.Serializable;
 import java.math.BigInteger;
 
 /**
- * Factories for common {@link DiscreteDomain}s.
+ * Factories for common {@link DiscreteDomain} instances.
  *
  * @author gak@google.com (Gregory Kick)
  * @since Guava release 10
@@ -33,13 +33,16 @@ import java.math.BigInteger;
 public final class DiscreteDomains {
   private DiscreteDomains() {}
 
+  /**
+   * Returns the discrete domain for values of type {@code Integer}.
+   */
   public static DiscreteDomain<Integer> integers() {
-    return Integers.INSTANCE;
+    return IntegerDomain.INSTANCE;
   }
 
-  private static final class Integers extends DiscreteDomain<Integer>
+  private static final class IntegerDomain extends DiscreteDomain<Integer>
       implements Serializable {
-    private static final Integers INSTANCE = new Integers();
+    private static final IntegerDomain INSTANCE = new IntegerDomain();
 
     @Override public Integer next(Integer value) {
       int i = value;
@@ -70,13 +73,16 @@ public final class DiscreteDomains {
     private static final long serialVersionUID = 0;
   }
 
+  /**
+   * Returns the discrete domain for values of type {@code Long}.
+   */
   public static DiscreteDomain<Long> longs() {
-    return Longs.INSTANCE;
+    return LongDomain.INSTANCE;
   }
 
-  private static final class Longs extends DiscreteDomain<Long>
+  private static final class LongDomain extends DiscreteDomain<Long>
       implements Serializable {
-    private static final Longs INSTANCE = new Longs();
+    private static final LongDomain INSTANCE = new LongDomain();
 
     @Override public Long next(Long value) {
       long l = value;
@@ -114,13 +120,17 @@ public final class DiscreteDomains {
     private static final long serialVersionUID = 0;
   }
 
+  /**
+   * Returns the discrete domain for values of type {@code BigInteger}.
+   */
+  // TODO(kevinb): make sure it's tested, and make it public
   static DiscreteDomain<BigInteger> bigIntegers() {
-    return BigIntegers.INSTANCE;
+    return BigIntegerDomain.INSTANCE;
   }
 
-  private static final class BigIntegers extends DiscreteDomain<BigInteger>
+  private static final class BigIntegerDomain extends DiscreteDomain<BigInteger>
       implements Serializable {
-    private static final BigIntegers INSTANCE = new BigIntegers();
+    private static final BigIntegerDomain INSTANCE = new BigIntegerDomain();
 
     private static final BigInteger MIN_LONG =
         BigInteger.valueOf(Long.MIN_VALUE);
