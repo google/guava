@@ -18,6 +18,7 @@ package com.google.common.cache;
 
 import com.google.common.annotations.Beta;
 import com.google.common.collect.ImmutableList;
+import com.google.common.util.concurrent.ExecutionError;
 import com.google.common.util.concurrent.UncheckedExecutionException;
 
 import java.util.Map;
@@ -49,7 +50,8 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
     try {
       return get(key);
     } catch (ExecutionException e) {
-      throw new UncheckedExecutionException(e.getCause());
+      wrapAndThrowUnchecked(e.getCause());
+      throw new AssertionError();
     }
   }
 
@@ -211,6 +213,30 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
       createExceptionCount.addAndGet(otherStats.createExceptionCount());
       totalCreateTime.addAndGet(otherStats.totalCreateTime());
       evictionCount.addAndGet(otherStats.evictionCount());
+    }
+  }
+
+  // This code also appears in common.util.concurrent.
+  static void wrapAndThrowUnchecked(Throwable cause) {
+    if (cause instanceof Error) {
+      throw new ExecutionError((Error) cause);
+    }
+    if (cause instanceof Exception) {
+      throw new UncheckedExecutionException((Exception) cause);
+    }
+    /*
+     * It's a non-Error, non-Exception Throwable. From my survey of such
+     * classes, I believe that most users intended to extend Exception, so we'll
+     * treat it like an Exception.
+     */
+    throw new UncheckedExecutionExceptionForThrowable(cause);
+  }
+
+  private static final class UncheckedExecutionExceptionForThrowable
+      extends UncheckedExecutionException {
+    UncheckedExecutionExceptionForThrowable(Throwable cause) {
+      super(cause.toString());
+      initCause(cause);
     }
   }
 }

@@ -19,6 +19,7 @@ package com.google.common.cache;
 import com.google.common.annotations.Beta;
 import com.google.common.base.Function;
 import com.google.common.collect.ImmutableList;
+import com.google.common.util.concurrent.ExecutionError;
 import com.google.common.util.concurrent.UncheckedExecutionException;
 
 import java.util.Map;
@@ -50,7 +51,11 @@ public interface Cache<K, V> extends Function<K, V> {
    * <p>The implementation may support {@code null} as a valid cached value, or may return {@code
    * null} without caching it, or may not permit null results at all.
    *
-   * @throws ExecutionException wraps errors which occur while loading the response
+   * @throws ExecutionException if an exception was thrown while loading the response
+   */
+  /*
+   * TODO(cpovirk): throw ExecutionError instead for an Error (and maybe UncheckedExecutionException
+   * for RuntimeException?)
    */
   @Nullable V get(K key) throws ExecutionException;
 
@@ -63,7 +68,8 @@ public interface Cache<K, V> extends Function<K, V> {
    * <p>The implementation may support {@code null} as a valid cached value, or may return {@code
    * null} without caching it, or may not permit null results at all.
    *
-   * @throws UncheckedExecutionException wraps errors which occur while loading the response
+   * @throws UncheckedExecutionException if an exception was thrown while loading the response
+   * @throws ExecutionError if an error was thrown while loading the response
    */
   @Nullable V getUnchecked(K key);
 
@@ -71,7 +77,8 @@ public interface Cache<K, V> extends Function<K, V> {
    * Discouraged. Provided to satisfy the {@code Function} interface; use {@link #get} or
    * {@link #getUnchecked} instead.
    *
-   * @throws UncheckedExecutionException wraps errors which occur while loading the response
+   * @throws UncheckedExecutionException if an exception was thrown while loading the response
+   * @throws ExecutionError if an error was thrown while loading the response
    */
   @Override
   @Nullable V apply(K key);

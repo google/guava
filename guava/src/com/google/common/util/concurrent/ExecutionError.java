@@ -19,47 +19,42 @@ package com.google.common.util.concurrent;
 import com.google.common.annotations.Beta;
 
 /**
- * Unchecked variant of {@link java.util.concurrent.ExecutionException}. As with
- * {@code ExecutionException}, the exception's {@linkplain #getCause() cause}
- * comes from a failed task, possibly run in another thread.
- *
- * <p>{@code UncheckedExecutionException} is intended as an alternative to
- * {@code ExecutionException} when the exception thrown by a task is an
- * unchecked exception. This allows the client code to continue to distinguish
- * between checked and unchecked exceptions, even when they come from other
+ * {@link Error} variant of {@link java.util.concurrent.ExecutionException}. As
+ * with {@code ExecutionException}, the error's {@linkplain #getCause() cause}
+ * comes from a failed task, possibly run in another thread. That cause should
+ * itself be an {@code Error}; if not, use {@code ExecutionException} or {@link
+ * UncheckedExecutionException}. This allows the client code to continue to
+ * distinguish between exceptions and errors, even when they come from other
  * threads.
  *
- * <p>When wrapping an {@code Error} from another thread, prefer {@link
- * ExecutionError}.
- *
- * @author fry@google.com (Charles Fry)
+ * @author cpovirk@google.com (Chris Povirk)
  * @since Guava release 10
  */
 @Beta
-public class UncheckedExecutionException extends RuntimeException {
+public class ExecutionError extends Error {
   /**
    * Creates a new instance with {@code null} as its detail message.
    */
-  protected UncheckedExecutionException() {}
+  protected ExecutionError() {}
 
   /**
    * Creates a new instance with the given detail message.
    */
-  protected UncheckedExecutionException(String message) {
+  protected ExecutionError(String message) {
     super(message);
   }
 
   /**
    * Creates a new instance with the given detail message and cause.
    */
-  public UncheckedExecutionException(String message, Exception cause) {
+  public ExecutionError(String message, Error cause) {
     super(message, cause);
   }
 
   /**
    * Creates a new instance with the given cause.
    */
-  public UncheckedExecutionException(Exception cause) {
+  public ExecutionError(Error cause) {
     super(cause);
   }
 

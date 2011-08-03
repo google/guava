@@ -656,7 +656,7 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    *
    * <p>New code should use {@link com.google.common.cache.CacheBuilder}, which supports
    * {@linkplain com.google.common.cache.CacheStats statistics} collection, introduces the
-   * {@link com.google.common.CacheLoader} interface for loading entries into the cache
+   * {@link com.google.common.cache.CacheLoader} interface for loading entries into the cache
    * (allowing checked exceptions to be thrown in the process), and more cleanly separates
    * computation from the cache's {@code Map} view.
    *

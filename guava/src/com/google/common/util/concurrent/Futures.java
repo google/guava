@@ -982,24 +982,23 @@ public final class Futures {
    *
    * <p>Exceptions from {@code Future.get} are treated as follows:
    * <ul>
+   * <li>Any {@link ExecutionException} has its <i>cause</i> wrapped in an
+   *     {@code X} if the cause is a checked exception, an {@link
+   *     UncheckedExecutionException} if the cause is a {@code
+   *     RuntimeException}, or an {@link ExecutionError} if the cause is an
+   *     {@code Error}.
    * <li>Any {@link InterruptedException} is wrapped in an {@code X} (after
    *     restoring the interrupt).
-   * <li>Any {@link CancellationException} is propagated untouched.
-   * <li>Any {@link ExecutionException} has its <i>cause</i> wrapped in an
-   *     {@code X}.
-   * <li>Any {@link RuntimeException} other than {@code CancellationException}
-   *     ({@code get} implementations are discouraged from throwing such
-   *     exceptions) is wrapped in an {@code X}.
+   * <li>Any {@link CancellationException} is propagated untouched, as is any
+   *     other {@link RuntimeException} (though {@code get} implementations are
+   *     discouraged from throwing such exceptions).
    * </ul>
    *
-   * The overall principle is to wrap any checked exception (or its cause) in a
-   * checked exception, to pass through {@code CancellationException}, and to
-   * treat any other {@code RuntimeException} as a checked exception. (Throwing
-   * any other {@code RuntimeException} is questionable behavior for a {@code
-   * Future}, and the class documentation does not specify how such an exception
-   * should be interpreted. The policy of this method is to treat it as an
-   * exception during computation that would, under a stricter {@code Future}
-   * implementation, have been wrapped in an {@code ExecutionException}.)
+   * The overall principle is to continue to treat every checked exception as a
+   * checked exception, every unchecked exception as an unchecked exception, and
+   * every error as an error. In addition, the cause of any {@code
+   * ExecutionException} is wrapped in order to ensure that the new stack trace
+   * matches that of the current thread.
    *
    * <p>Instances of {@code exceptionClass} are created by choosing an arbitrary
    * public constructor that accepts zero or more arguments, all of type {@code
@@ -1009,8 +1008,12 @@ public final class Futures {
    * Throwable#initCause(Throwable)} on it. If no such constructor exists, an
    * {@code IllegalArgumentException} is thrown.
    *
-   * @throws X if {@code get} throws a checked exception or a {@code
-   *         RuntimeException} other than {@code CancellationException}
+   * @throws X if {@code get} throws any checked exception except for an {@code
+   *         ExecutionException} whose cause is not itself a checked exception
+   * @throws UncheckedExecutionException if {@code get} throws an {@code
+   *         ExecutionException} with a {@code RuntimeException} as its cause
+   * @throws ExecutionError if {@code get} throws an {@code ExecutionException}
+   *         with an {@code Error} as its cause
    * @throws CancellationException if {@code get} throws a {@code
    *         CancellationException}
    * @throws IllegalArgumentException if {@code exceptionClass} extends {@code
@@ -1029,12 +1032,9 @@ public final class Futures {
     } catch (InterruptedException e) {
       currentThread().interrupt();
       throw newWithCause(exceptionClass, e);
-    } catch (CancellationException e) {
-      throw e;
     } catch (ExecutionException e) {
-      throw newWithCause(exceptionClass, e.getCause());
-    } catch (RuntimeException e) {
-      throw newWithCause(exceptionClass, e);
+      wrapAndThrowExceptionOrError(e.getCause(), exceptionClass);
+      throw new AssertionError();
     }
   }
 
@@ -1047,25 +1047,24 @@ public final class Futures {
    *
    * <p>Exceptions from {@code Future.get} are treated as follows:
    * <ul>
+   * <li>Any {@link ExecutionException} has its <i>cause</i> wrapped in an
+   *     {@code X} if the cause is a checked exception, an {@link
+   *     UncheckedExecutionException} if the cause is a {@code
+   *     RuntimeException}, or an {@link ExecutionError} if the cause is an
+   *     {@code Error}.
    * <li>Any {@link InterruptedException} is wrapped in an {@code X} (after
    *     restoring the interrupt).
    * <li>Any {@link TimeoutException} is wrapped in an {@code X}.
-   * <li>Any {@link CancellationException} is propagated untouched.
-   * <li>Any {@link ExecutionException} has its <i>cause</i> wrapped in an
-   *     {@code X}.
-   * <li>Any {@link RuntimeException} other than {@code CancellationException}
-   *     ({@code get} implementations are discouraged from throwing such
-   *     exceptions) is wrapped in an {@code X}.
+   * <li>Any {@link CancellationException} is propagated untouched, as is any
+   *     other {@link RuntimeException} (though {@code get} implementations are
+   *     discouraged from throwing such exceptions).
    * </ul>
    *
-   * The overall principle is to wrap any checked exception (or its cause) in a
-   * checked exception, to pass through {@code CancellationException}, and to
-   * treat any other {@code RuntimeException} as a checked exception. (Throwing
-   * any other {@code RuntimeException} is questionable behavior for a {@code
-   * Future}, and the class documentation does not specify how such an exception
-   * should be interpreted. The policy of this method is to treat it as an
-   * exception during computation that would, under a stricter {@code Future}
-   * implementation, have been wrapped in an {@code ExecutionException}.)
+   * The overall principle is to continue to treat every checked exception as a
+   * checked exception, every unchecked exception as an unchecked exception, and
+   * every error as an error. In addition, the cause of any {@code
+   * ExecutionException} is wrapped in order to ensure that the new stack trace
+   * matches that of the current thread.
    *
    * <p>Instances of {@code exceptionClass} are created by choosing an arbitrary
    * public constructor that accepts zero or more arguments, all of type {@code
@@ -1075,8 +1074,12 @@ public final class Futures {
    * Throwable#initCause(Throwable)} on it. If no such constructor exists, an
    * {@code IllegalArgumentException} is thrown.
    *
-   * @throws X if {@code get} throws a checked exception or a {@code
-   *         RuntimeException} other than {@code CancellationException}
+   * @throws X if {@code get} throws any checked exception except for an {@code
+   *         ExecutionException} whose cause is not itself a checked exception
+   * @throws UncheckedExecutionException if {@code get} throws an {@code
+   *         ExecutionException} with a {@code RuntimeException} as its cause
+   * @throws ExecutionError if {@code get} throws an {@code ExecutionException}
+   *         with an {@code Error} as its cause
    * @throws CancellationException if {@code get} throws a {@code
    *         CancellationException}
    * @throws IllegalArgumentException if {@code exceptionClass} extends {@code
@@ -1097,15 +1100,23 @@ public final class Futures {
     } catch (InterruptedException e) {
       currentThread().interrupt();
       throw newWithCause(exceptionClass, e);
-    } catch (CancellationException e) {
-      throw e;
     } catch (TimeoutException e) {
       throw newWithCause(exceptionClass, e);
     } catch (ExecutionException e) {
-      throw newWithCause(exceptionClass, e.getCause());
-    } catch (RuntimeException e) {
-      throw newWithCause(exceptionClass, e);
+      wrapAndThrowExceptionOrError(e.getCause(), exceptionClass);
+      throw new AssertionError();
     }
+  }
+
+  private static <X extends Exception> void wrapAndThrowExceptionOrError(
+      Throwable cause, Class<X> exceptionClass) throws X {
+    if (cause instanceof Error) {
+      throw new ExecutionError((Error) cause);
+    }
+    if (cause instanceof RuntimeException) {
+      throw new UncheckedExecutionException((RuntimeException) cause);
+    }
+    throw newWithCause(exceptionClass, cause);
   }
 
   /**
@@ -1116,36 +1127,29 @@ public final class Futures {
    *
    * <p>Exceptions from {@code Future.get} are treated as follows:
    * <ul>
+   * <li>Any {@link ExecutionException} has its <i>cause</i> wrapped in an
+   *     {@link UncheckedExecutionException} (if the cause is an {@code
+   *     Exception}) or {@link ExecutionError} (if the cause is an {@code
+   *     Error}).
    * <li>Any {@link InterruptedException} causes a retry of the {@code get}
    *     call. The interrupt is restored before {@code getUnchecked} returns.
-   * <li>Any {@link CancellationException} is propagated untouched.
-   * <li>Any {@link ExecutionException} has its <i>cause</i> wrapped in an
-   *     {@link UncheckedExecutionException}.
-   * <li>Any {@link RuntimeException} other than {@code CancellationException}
-   *     ({@code get} implementations are discouraged from throwing such
-   *     exceptions) is wrapped in an {@code UncheckedExecutionException}.
+   * <li>Any {@link CancellationException} is propagated untouched. So is any
+   *     other {@link RuntimeException} ({@code get} implementations are
+   *     discouraged from throwing such exceptions).
    * </ul>
    *
    * The overall principle is to eliminate all checked exceptions: to loop to
    * avoid {@code InterruptedException}, to pass through {@code
    * CancellationException}, and to wrap any exception from the underlying
-   * computation in an {@code UncheckedExecutionException}. (This primarily
-   * means wrapping the cause of any {@code ExecutionException} but also
-   * wrapping any {@code RuntimeException} other than {@code
-   * CancellationException}. Throwing any other {@code RuntimeException} is
-   * questionable behavior for a {@code Future}, and the class documentation
-   * does not specify how such an exception should be interpreted. The policy of
-   * this method is to treat it as an exception during computation that would,
-   * under a stricter {@code Future} implementation, have been wrapped in an
-   * {@code ExecutionException}.)
+   * computation in an {@code UncheckedExecutionException} or {@code
+   * ExecutionError}.
    *
-   * @throws UncheckedExecutionException if {@code get} throws a checked
-   *         exception or a {@code RuntimeException} other than {@code
-   *         CancellationException}
+   * @throws UncheckedExecutionException if {@code get} throws an {@code
+   *         ExecutionException} with an {@code Exception} as its cause
+   * @throws ExecutionError if {@code get} throws an {@code ExecutionException}
+   *         with an {@code Error} as its cause
    * @throws CancellationException if {@code get} throws a {@code
    *         CancellationException}
-   * @throws IllegalArgumentException if {@code exceptionClass} does not have a
-   *         suitable constructor
    * @since Guava release 10
    */
   @Beta
@@ -1156,9 +1160,32 @@ public final class Futures {
     } catch (CancellationException e) {
       throw e;
     } catch (ExecutionException e) {
-      throw new UncheckedExecutionException(e.getCause());
-    } catch (RuntimeException e) {
-      throw new UncheckedExecutionException(e);
+      wrapAndThrowUnchecked(e.getCause());
+      throw new AssertionError();
+    }
+  }
+
+  // This code also appears in common.cache.
+  private static void wrapAndThrowUnchecked(Throwable cause) {
+    if (cause instanceof Error) {
+      throw new ExecutionError((Error) cause);
+    }
+    if (cause instanceof Exception) {
+      throw new UncheckedExecutionException((Exception) cause);
+    }
+    /*
+     * It's a non-Error, non-Exception Throwable. From my survey of such
+     * classes, I believe that most users intended to extend Exception, so we'll
+     * treat it like an Exception.
+     */
+    throw new UncheckedExecutionExceptionForThrowable(cause);
+  }
+
+  private static final class UncheckedExecutionExceptionForThrowable
+      extends UncheckedExecutionException {
+    UncheckedExecutionExceptionForThrowable(Throwable cause) {
+      super(cause.toString());
+      initCause(cause);
     }
   }
 

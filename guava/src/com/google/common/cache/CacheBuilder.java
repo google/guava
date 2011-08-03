@@ -20,6 +20,7 @@ import static com.google.common.base.Objects.firstNonNull;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
+import static com.google.common.cache.AbstractCache.wrapAndThrowUnchecked;
 
 import com.google.common.annotations.Beta;
 import com.google.common.base.Ascii;
@@ -708,7 +709,8 @@ public final class CacheBuilder<K, V> {
       } catch (UncheckedExecutionException e) {
         throw e;
       } catch (Throwable t) {
-        throw new UncheckedExecutionException(t);
+        wrapAndThrowUnchecked(t);
+        throw new AssertionError();
       }
     }
   }
