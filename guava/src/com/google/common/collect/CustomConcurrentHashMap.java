@@ -57,6 +57,8 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReferenceArray;
 import java.util.concurrent.locks.ReentrantLock;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.annotation.Nullable;
 import javax.annotation.concurrent.GuardedBy;
@@ -134,6 +136,8 @@ class CustomConcurrentHashMap<K, V>
   static final long CLEANUP_EXECUTOR_DELAY_SECS = 60;
 
   // Fields
+
+  private static final Logger logger = Logger.getLogger(CustomConcurrentHashMap.class.getName());
 
   /**
    * Mask value for indexing into segments. The upper bits of a key's hash code are used to choose
@@ -678,7 +682,6 @@ class CustomConcurrentHashMap<K, V>
    * Invalid:
    * - Expired: time expired (key/value may still be set)
    * - Collected: key/value was partially collected, but not yet cleaned up
-   * - Unset: marked as unset, awaiting cleanup or reuse
    */
   interface ReferenceEntry<K, V> {
     /**
@@ -1993,13 +1996,16 @@ class CustomConcurrentHashMap<K, V>
   /**
    * Notifies listeners that an entry has been automatically removed due to expiration, eviction,
    * or eligibility for garbage collection. This should be called every time expireEntries or
-   * evictEntry is called (once the lock is released). It must only be called from user threads
-   * (e.g. not from garbage collection callbacks).
+   * evictEntry is called (once the lock is released).
    */
   void processPendingNotifications() {
     RemovalNotification<K, V> notification;
     while ((notification = removalNotificationQueue.poll()) != null) {
-      removalListener.onRemoval(notification);
+      try {
+        removalListener.onRemoval(notification);
+      } catch (Exception e) {
+        logger.log(Level.WARNING, "Exception thrown by removal listener", e);
+      }
     }
   }
 
@@ -2190,9 +2196,9 @@ class CustomConcurrentHashMap<K, V>
      */
     @GuardedBy("Segment.this")
     void setValue(ReferenceEntry<K, V> entry, V value) {
-      recordWrite(entry);
       ValueReference<K, V> valueReference = map.valueStrength.referenceValue(this, entry, value);
       entry.setValueReference(valueReference);
+      recordWrite(entry);
     }
 
     // reference queues, for garbage collection cleanup
@@ -2211,9 +2217,8 @@ class CustomConcurrentHashMap<K, V>
     }
 
     /**
-     * Drain the key and value reference queues, cleaning up internal entries
-     * containing garbage collected keys or values. This is done under lock
-     * as an optimization, as unsetting entries requires the lock.
+     * Drain the key and value reference queues, cleaning up internal entries containing garbage
+     * collected keys or values.
      */
     @GuardedBy("Segment.this")
     void drainReferenceQueues() {
@@ -2916,9 +2921,7 @@ class CustomConcurrentHashMap<K, V>
     }
 
     /**
-     * Half-removes an entry from the map by moving it into the unset state, sending the removal
-     * notification, and enqueueing subsequent cleanup. This should be called when an entry's key
-     * has been garbage collected, and that entry is now invalid.
+     * Removes an entry whose key has been garbage collected.
      */
     boolean reclaimKey(ReferenceEntry<K, V> entry, int hash) {
       lock();
@@ -2949,9 +2952,7 @@ class CustomConcurrentHashMap<K, V>
     }
 
     /**
-     * Half-removes an entry from the map by moving it into the unset state, sending the removal
-     * notification, and enqueueing subsequent cleanup. This should be called when an entry's value
-     * has been garbage collected, and that entry is now invalid.
+     * Removes an entry whose value has been garbage collected.
      */
     boolean reclaimValue(K key, int hash, ValueReference<K, V> valueReference) {
       lock();
