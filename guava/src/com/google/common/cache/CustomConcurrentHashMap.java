@@ -3020,7 +3020,10 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
           if (map.removalNotificationQueue != DISCARDING_QUEUE) {
             for (int i = 0; i < table.length(); ++i) {
               for (ReferenceEntry<K, V> e = table.get(i); e != null; e = e.getNext()) {
-                enqueueNotification(e, RemovalCause.EXPLICIT);
+                // Computing references aren't actually in the map yet.
+                if (!e.getValueReference().isComputingReference()) {
+                  enqueueNotification(e, RemovalCause.EXPLICIT);
+                }
               }
             }
           }
