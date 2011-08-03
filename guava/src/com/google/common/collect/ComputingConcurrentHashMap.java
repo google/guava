@@ -113,14 +113,19 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V> {
                   if (valueReference.isComputingReference()) {
                     createNewEntry = false;
                   } else {
-                    // never return expired entries
-                    V value = getLiveValue(e);
-                    if (value != null) {
+                    V value = e.getValueReference().get();
+                    if (value == null) {
+                      enqueueNotification(entryKey, hash, value, RemovalCause.COLLECTED);
+                    } else if (map.expires() && map.isExpired(e)) {
+                      // This is a duplicate check, as preWriteCleanup already purged expired
+                      // entries, but let's accomodate an incorrect expiration queue.
+                      enqueueNotification(entryKey, hash, value, RemovalCause.EXPIRED);
+                    } else {
                       recordLockedRead(e);
                       return value;
                     }
-                    // immediately reuse partially collected entries
-                    enqueueNotification(entryKey, hash, value, RemovalCause.COLLECTED);
+
+                    // immediately reuse invalid entries
                     evictionQueue.remove(e);
                     expirationQueue.remove(e);
                     this.count = newCount; // write-volatile
