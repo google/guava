@@ -226,6 +226,10 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    * expireAfterWrite}{@code (0, unit)} or {@link #expireAfterAccess expireAfterAccess}{@code (0,
    * unit)}. It can be useful in testing, or to disable caching temporarily without a code change.
    *
+   * <p>Caching functionality in {@code MapMaker} is being moved to
+   * {@link com.google.common.cache.CacheBuilder}.
+   * <b>This method is scheduled for deletion in Guava release 11.</b>
+   *
    * @param size the maximum size of the map
    * @throws IllegalArgumentException if {@code size} is negative
    * @throws IllegalStateException if a maximum size was already set
@@ -446,6 +450,10 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    * occasional read operations in the absense of writes; though this behavior may change in the
    * future.
    *
+   * <p>Caching functionality in {@code MapMaker} is being moved to
+   * {@link com.google.common.cache.CacheBuilder}.
+   * <b>This method is scheduled for deletion in Guava release 11.</b>
+   *
    * @param duration the length of time after an entry is created that it should be automatically
    *     removed
    * @param unit the unit that {@code duration} is expressed in
@@ -491,6 +499,10 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    * write operations. Expired entries are currently cleaned up during write operations, or during
    * occasional read operations in the absense of writes; though this behavior may change in the
    * future.
+   *
+   * <p>Caching functionality in {@code MapMaker} is being moved to
+   * {@link com.google.common.cache.CacheBuilder}.
+   * <b>This method is scheduled for deletion in Guava release 11.</b>
    *
    * @param duration the length of time after an entry is last accessed that it should be
    *     automatically removed
