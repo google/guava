@@ -2246,6 +2246,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
           // at this point e is either null, computing, or expired;
           // avoid locking if it's already computing
           if (e == null || !e.getValueReference().isComputingReference()) {
+            boolean createNewEntry = true;
             ComputingValueReference<K, V> computingValueReference = null;
             lock();
             try {
@@ -2256,7 +2257,6 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
               int index = hash & (table.length() - 1);
               ReferenceEntry<K, V> first = table.get(index);
 
-              boolean createNewEntry = true;
               for (e = first; e != null; e = e.getNext()) {
                 K entryKey = e.getKey();
                 if (e.getHash() == hash && entryKey != null
@@ -2292,16 +2292,18 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
 
                 if (e == null) {
                   e = newEntry(key, hash, first);
+                  e.setValueReference(computingValueReference);
                   table.set(index, e);
+                } else {
+                  e.setValueReference(computingValueReference);
                 }
-                e.setValueReference(computingValueReference);
               }
             } finally {
               unlock();
               postWriteCleanup();
             }
 
-            if (computingValueReference != null) {
+            if (createNewEntry) {
               // This thread solely created the entry.
               return compute(key, hash, e, computingValueReference);
             }
@@ -2724,7 +2726,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
             if (entryValue == null) {
               ++modCount;
               setValue(e, value);
-              if (isCollected(valueReference)) {
+              if (!valueReference.isComputingReference()) {
                 enqueueNotification(key, hash, entryValue, RemovalCause.COLLECTED);
                 newCount = this.count; // count remains unchanged
               } else if (evictEntries()) { // evictEntries after setting new value

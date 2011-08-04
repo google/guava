@@ -2561,7 +2561,7 @@ class CustomConcurrentHashMap<K, V>
             if (entryValue == null) {
               ++modCount;
               setValue(e, value);
-              if (isCollected(valueReference)) {
+              if (!valueReference.isComputingReference()) {
                 enqueueNotification(key, hash, entryValue, RemovalCause.COLLECTED);
                 newCount = this.count; // count remains unchanged
               } else if (evictEntries()) { // evictEntries after setting new value
