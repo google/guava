@@ -882,6 +882,47 @@ public final class InetAddresses {
   }
 
   /**
+   * Evaluates whether the argument is an "IPv4 mapped" IPv6 address.
+   *
+   * <p>An "IPv4 mapped" address is anything in the range ::ffff:0:0/96
+   * (sometimes written as ::ffff:0.0.0.0/96), with the last 32 bits
+   * interpreted as an IPv4 address.
+   *
+   * <p>For more on IPv4 mapped addresses see section 2.5.5.2 of
+   * <a target="_parent"
+   *    href="http://tools.ietf.org/html/rfc4291#section-2.5.5.2"
+   *    >http://tools.ietf.org/html/rfc4291</a>
+   *
+   * <p>Note: This method takes a {@code String} argument because
+   * {@link InetAddress} automatically collapses mapped addresses to IPv4.
+   * (It is actually possible to avoid this using one of the obscure
+   * {@link Inet6Address} methods, but it would be unwise to depend on such
+   * a poorly-documented feature.)
+   *
+   * @param ipString {@code String} to be examined for embedded IPv4-mapped
+   *     IPv6 address format
+   * @return {@code true} if the argument is a valid "mapped" address
+   * @since Guava release 10
+   */
+  public static boolean isMappedIPv4Address(String ipString) {
+    byte[] bytes = ipStringToBytes(ipString);
+    if (bytes != null && bytes.length == 16) {
+      for (int i = 0; i < 10; i++) {
+        if (bytes[i] != 0) {
+          return false;
+        }
+      }
+      for (int i = 10; i < 12; i++) {
+        if (bytes[i] != (byte) 0xff) {
+          return false;
+        }
+      }
+      return true;
+    }
+    return false;
+  }
+
+  /**
    * Coerces an IPv6 address into an IPv4 address.
    *
    * <p>HACK: As long as applications continue to use IPv4 addresses for
