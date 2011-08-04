@@ -15,7 +15,6 @@
 package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.common.collect.BstNode.countOrZero;
 import static com.google.common.collect.BstSide.LEFT;
 import static com.google.common.collect.BstSide.RIGHT;
 import static com.google.common.collect.BstUtilities.extractMax;
@@ -44,7 +43,9 @@ final class BstCountBasedBalancePolicies {
   /**
    * Returns a balance policy that does no balancing or the bare minimum (for {@code combine}).
    */
-  public static <N extends BstNode<?, N>> BstBalancePolicy<N> noRebalancePolicy() {
+  public static <N extends BstNode<?, N>> BstBalancePolicy<N> noRebalancePolicy(
+      final BstAggregate<N> countAggregate) {
+    checkNotNull(countAggregate);
     return new BstBalancePolicy<N>() {
       @Override
       public N balance(
@@ -59,7 +60,7 @@ final class BstCountBasedBalancePolicies {
           return right;
         } else if (right == null) {
           return left;
-        } else if (left.count() > right.count()) {
+        } else if (countAggregate.treeValue(left) > countAggregate.treeValue(right)) {
           return nodeFactory.createNode(
               left, left.childOrNull(LEFT), combine(nodeFactory, left.childOrNull(RIGHT), right));
         } else {
@@ -75,13 +76,15 @@ final class BstCountBasedBalancePolicies {
    * removed) away from being balanced. {@code balance} takes {@code O(1)} time, and {@code
    * combine} takes {@code O(log n)} time.
    */
-  public static <K, N extends BstNode<K, N>> BstBalancePolicy<N> singleRebalancePolicy() {
+  public static <K, N extends BstNode<K, N>> BstBalancePolicy<N> singleRebalancePolicy(
+      final BstAggregate<N> countAggregate) {
+    checkNotNull(countAggregate);
     return new BstBalancePolicy<N>() {
       @Override
       public N balance(
           BstNodeFactory<N> nodeFactory, N source, @Nullable N left, @Nullable N right) {
-        int countL = countOrZero(left);
-        int countR = countOrZero(right);
+        int countL = countAggregate.treeValue(left);
+        int countR = countAggregate.treeValue(right);
         if (countL + countR > 1) {
           if (countR >= SINGLE_ROTATE_RATIO * countL) {
             return rotateL(nodeFactory, source, left, right);
@@ -96,7 +99,7 @@ final class BstCountBasedBalancePolicies {
         checkNotNull(right);
         N rl = right.childOrNull(LEFT);
         N rr = right.childOrNull(RIGHT);
-        if (countOrZero(rl) >= SECOND_ROTATE_RATIO * countOrZero(rr)) {
+        if (countAggregate.treeValue(rl) >= SECOND_ROTATE_RATIO * countAggregate.treeValue(rr)) {
           right = singleR(nodeFactory, right, rl, rr);
         }
         return singleL(nodeFactory, source, left, right);
@@ -106,7 +109,7 @@ final class BstCountBasedBalancePolicies {
         checkNotNull(left);
         N lr = left.childOrNull(RIGHT);
         N ll = left.childOrNull(LEFT);
-        if (countOrZero(lr) >= SECOND_ROTATE_RATIO * countOrZero(ll)) {
+        if (countAggregate.treeValue(lr) >= SECOND_ROTATE_RATIO * countAggregate.treeValue(ll)) {
           left = singleL(nodeFactory, left, ll, lr);
         }
         return singleR(nodeFactory, source, left, right);
@@ -134,7 +137,7 @@ final class BstCountBasedBalancePolicies {
           return left;
         }
         N newRootSource;
-        if (left.count() > right.count()) {
+        if (countAggregate.treeValue(left) > countAggregate.treeValue(right)) {
           BstMutationResult<K, N> extractLeftMax = extractMax(left, nodeFactory, this);
           newRootSource = extractLeftMax.getOriginalTarget();
           left = extractLeftMax.getChangedRoot();
@@ -153,9 +156,11 @@ final class BstCountBasedBalancePolicies {
    * and performs a full rebalancing as necessary. Both {@code balance} and {@code combine} take
    * {@code O(log n)} time.
    */
-  public static <K, N extends BstNode<K, N>> BstBalancePolicy<N> fullRebalancePolicy() {
+  public static <K, N extends BstNode<K, N>> BstBalancePolicy<N> fullRebalancePolicy(
+      final BstAggregate<N> countAggregate) {
+    checkNotNull(countAggregate);
     final BstBalancePolicy<N> singleBalancePolicy =
-        BstCountBasedBalancePolicies.<K, N>singleRebalancePolicy();
+        BstCountBasedBalancePolicies.<K, N>singleRebalancePolicy(countAggregate);
     return new BstBalancePolicy<N>() {
       @Override
       public N balance(
@@ -165,8 +170,8 @@ final class BstCountBasedBalancePolicies {
         } else if (right == null) {
           return insertMax(left, source, nodeFactory, singleBalancePolicy);
         }
-        int countL = left.count();
-        int countR = right.count();
+        int countL = countAggregate.treeValue(left);
+        int countR = countAggregate.treeValue(right);
         if (SINGLE_ROTATE_RATIO * countL <= countR) {
           N resultLeft = balance(nodeFactory, source, left, right.childOrNull(LEFT));
           return singleBalancePolicy.balance(
@@ -188,8 +193,8 @@ final class BstCountBasedBalancePolicies {
         } else if (right == null) {
           return left;
         }
-        int countL = left.count();
-        int countR = right.count();
+        int countL = countAggregate.treeValue(left);
+        int countR = countAggregate.treeValue(right);
         if (SINGLE_ROTATE_RATIO * countL <= countR) {
           N resultLeft = combine(nodeFactory, left, right.childOrNull(LEFT));
           return singleBalancePolicy.balance(

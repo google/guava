@@ -42,20 +42,11 @@ import javax.annotation.Nullable;
  */
 @GwtCompatible
 class BstNode<K, N extends BstNode<K, N>> {
-  static <N extends BstNode<?, N>> int countOrZero(@Nullable N node) {
-    return (node == null) ? 0 : node.count();
-  }
-
   /**
    * The key on which this binary search tree is ordered. All descendants of the left subtree of
    * this node must have keys strictly less than {@code this.key}.
    */
   private final K key;
-
-  /**
-   * The total count of nodes in this subtree.
-   */
-  private final int count;
 
   /**
    * The left child of this node. A {@code null} value indicates that this node has no left child.
@@ -72,7 +63,6 @@ class BstNode<K, N extends BstNode<K, N>> {
 
   BstNode(K key, @Nullable N left, @Nullable N right) {
     this.key = checkNotNull(key);
-    this.count = 1 + countOrZero(left) + countOrZero(right);
     this.left = left;
     this.right = right;
   }
@@ -82,13 +72,6 @@ class BstNode<K, N extends BstNode<K, N>> {
    */
   public final K getKey() {
     return key;
-  }
-
-  /**
-   * Returns the total count of nodes in this subtree.
-   */
-  public final int count() {
-    return count;
   }
 
   /**

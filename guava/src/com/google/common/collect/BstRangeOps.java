@@ -15,7 +15,6 @@
 package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.common.collect.BstNode.countOrZero;
 import static com.google.common.collect.BstSide.LEFT;
 import static com.google.common.collect.BstSide.RIGHT;
 
@@ -30,45 +29,6 @@ import javax.annotation.Nullable;
  */
 @GwtCompatible
 final class BstRangeOps {
-  /**
-   * An integer-valued function on binary search tree nodes that adds between nodes.
-   */
-  public interface BstAggregate<N extends BstNode<?, N>> {
-    /**
-     * The total value on an entire subtree. Must be equal to the sum of the {@link #entryValue
-     * entryValue} of this node and all its descendants.
-     */
-    int treeValue(@Nullable N tree);
-
-    /**
-     * The value on a single entry, ignoring its descendants.
-     */
-    int entryValue(N entry);
-  }
-
-  private enum CountAggregate implements BstAggregate {
-    INSTANCE {
-      @Override
-      public int entryValue(BstNode entry) {
-        return 1;
-      }
-
-      @SuppressWarnings("unchecked")
-      @Override
-      public int treeValue(@Nullable BstNode tree) {
-        return countOrZero(tree);
-      }
-    };
-  }
-
-  /**
-   * Returns a {@link BstAggregate} counting the number of nodes.
-   */
-  @SuppressWarnings("unchecked")
-  public static <N extends BstNode<?, N>> BstAggregate<N> countAggregate() {
-    return CountAggregate.INSTANCE;
-  }
-
   /**
    * Returns the total value of the specified aggregation function on the specified tree restricted
    * to the specified range. Assumes that the tree satisfies the binary search ordering property
