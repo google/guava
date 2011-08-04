@@ -271,15 +271,6 @@ public final class UnsignedBytes {
         }
       }
 
-      /**
-       * Returns true if x1 is less than x2, when both values are treated as
-       * unsigned.
-       */
-      // TODO(kevinb): Should be a common method in primitives.UnsignedLongs.
-      static boolean lessThanUnsigned(long x1, long x2) {
-        return (x1 + Long.MIN_VALUE) < (x2 + Long.MIN_VALUE);
-      }
-
       @Override public int compare(byte[] left, byte[] right) {
         int minLength = Math.min(left.length, right.length);
         int minWords = minLength / Longs.BYTES;
@@ -296,7 +287,7 @@ public final class UnsignedBytes {
 
           if (diff != 0) {
             if (!littleEndian) {
-              return lessThanUnsigned(lw, rw) ? -1 : 1;
+              return UnsignedLongs.compare(lw, rw);
             }
 
             // Use binary search
@@ -368,3 +359,4 @@ public final class UnsignedBytes {
     }
   }
 }
+
