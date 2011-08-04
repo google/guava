@@ -194,13 +194,28 @@ public abstract class ForwardingMap<K, V> extends ForwardingObject
    * implementation.
    *
    * @since Guava release 07
+   * @deprecated Use the {@code StandardKeySet} constructor instead.  This
+   *             method will be removed in Guava release 11.
    */
-  @Beta protected Set<K> standardKeySet() {
-    return new Maps.KeySet<K, V>() {
-      @Override Map<K, V> map() {
-        return ForwardingMap.this;
-      }
-    };
+  @Beta @Deprecated protected Set<K> standardKeySet() {
+    return new StandardKeySet();
+  }
+
+  /**
+   * A sensible implementation of {@link #keySet} in terms of the following methods:
+   * {@link #clear}, {@link #containsKey}, {@link #isEmpty}, {@link #remove},
+   * {@link #size}, and the {@code iterator} method of {@link #entrySet}. In
+   * many cases, you may wish to override {@link #keySet} to forward to this
+   * implementation or a subclass thereof.
+   *
+   * @since Guava release 10
+   */
+  @Beta
+  protected class StandardKeySet extends Maps.KeySet<K, V>{
+    @Override
+    Map<K, V> map() {
+      return ForwardingMap.this;
+    }
   }
 
   /**
@@ -222,13 +237,28 @@ public abstract class ForwardingMap<K, V> extends ForwardingObject
    * may wish to override {@link #values} to forward to this implementation.
    *
    * @since Guava release 07
+   * @deprecated Use the {@code StandardValues} constructor instead.  This
+   *             method will be removed in Guava release 11.
    */
-  @Beta protected Collection<V> standardValues() {
-    return new Maps.Values<K, V>() {
-      @Override Map<K, V> map() {
-        return ForwardingMap.this;
-      }
-    };
+  @Beta @Deprecated protected Collection<V> standardValues() {
+    return new StandardValues();
+  }
+
+  /**
+   * A sensible implementation of {@link #values} in terms of the following
+   * methods: {@link #clear}, {@link #containsValue}, {@link #isEmpty},
+   * {@link #size}, and the {@code iterator} method of {@link #entrySet}. In
+   * many cases, you may wish to override {@link #values} to forward to this
+   * implementation or a subclass thereof.
+   *
+   * @since Guava release 10
+   */
+  @Beta
+  protected class StandardValues extends Maps.Values<K, V> {
+    @Override
+    Map<K, V> map() {
+      return ForwardingMap.this;
+    }
   }
 
   /**
@@ -256,18 +286,33 @@ public abstract class ForwardingMap<K, V> extends ForwardingObject
    *        traverse the entire entry set.
    *
    * @since Guava release 07
+   * @deprecated Use {@code StandardEntrySet} instead.  This method will be
+   *             removed in Guava release 11.
    */
-  @Beta protected Set<Entry<K, V>> standardEntrySet(
+  @Deprecated @Beta protected Set<Entry<K, V>> standardEntrySet(
       final Supplier<Iterator<Entry<K, V>>> entryIteratorSupplier) {
-    return new Maps.EntrySet<K, V>() {
-      @Override Map<K, V> map() {
-        return ForwardingMap.this;
-      }
-
+    return new StandardEntrySet() {
       @Override public Iterator<Map.Entry<K, V>> iterator() {
         return entryIteratorSupplier.get();
       }
     };
+  }
+
+  /**
+   * A sensible implementation of {@link #entrySet} in terms of the following
+   * methods: {@link #clear}, {@link #containsKey}, {@link #get}, {@link
+   * #isEmpty}, {@link #remove}, and {@link #size}. In many cases, you may
+   * wish to override {@link #entrySet} to forward to this implementation
+   * or a subclass thereof.
+   *
+   * @since Guava release 10
+   */
+  @Beta
+  protected abstract class StandardEntrySet extends Maps.EntrySet<K, V> {
+    @Override
+    Map<K, V> map() {
+      return ForwardingMap.this;
+    }
   }
 
   /**
