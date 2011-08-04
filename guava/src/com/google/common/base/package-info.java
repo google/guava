@@ -25,6 +25,7 @@
  * <h3>String-related utilities</h3>
  *
  * <ul>
+ * <li>{@link com.google.common.base.Ascii}
  * <li>{@link com.google.common.base.CaseFormat}
  * <li>{@link com.google.common.base.CharMatcher}
  * <li>{@link com.google.common.base.Charsets}
@@ -33,13 +34,15 @@
  * <li>{@link com.google.common.base.Strings}
  * </ul>
  *
- * <h3>Functional types</h3>
+ * <h3>Function types</h3>
  *
  * <ul>
  * <li>{@link com.google.common.base.Function},
  *     {@link com.google.common.base.Functions}
  * <li>{@link com.google.common.base.Predicate},
  *     {@link com.google.common.base.Predicates}
+ * <li>{@link com.google.common.base.Equivalence},
+ *     {@link com.google.common.base.Equivalences}
  * <li>{@link com.google.common.base.Supplier},
  *     {@link com.google.common.base.Suppliers}
  * </ul>
@@ -48,11 +51,14 @@
  *
  * <ul>
  * <li>{@link com.google.common.base.Defaults}
- * <li>{@link com.google.common.base.FinalizableReference} and subtypes
+ * <li>{@link com.google.common.base.Enums}
  * <li>{@link com.google.common.base.Objects}
+ * <li>{@link com.google.common.base.Optional}
  * <li>{@link com.google.common.base.Preconditions}
+ * <li>{@link com.google.common.base.Stopwatch}
  * <li>{@link com.google.common.base.Throwables}
  * </ul>
+ *
  */
 @ParametersAreNonnullByDefault
 package com.google.common.base;
