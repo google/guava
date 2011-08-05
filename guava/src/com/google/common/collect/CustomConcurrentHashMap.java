@@ -3995,6 +3995,7 @@ class CustomConcurrentHashMap<K, V>
       out.writeObject(null); // terminate entries
     }
 
+    @SuppressWarnings("deprecation") // serialization of deprecated feature
     MapMaker readMapMaker(ObjectInputStream in) throws IOException {
       int size = in.readInt();
       MapMaker mapMaker = new MapMaker()
