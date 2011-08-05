@@ -52,6 +52,8 @@ public final class SerializableTester {
    * {@code Object}. For example, it might be declared as a {@code List}.
    *
    * @return the re-serialized object
+   * @throws RuntimeException if the specified object was not successfully
+   *     serialized or deserialized
    */
   @SuppressWarnings("unchecked")
   public static <T> T reserialize(T object) {
