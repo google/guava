@@ -68,7 +68,7 @@ public final class Multisets {
     return new UnmodifiableMultiset<E>(checkNotNull(multiset));
   }
 
-  private static class UnmodifiableMultiset<E>
+  static class UnmodifiableMultiset<E>
       extends ForwardingMultiset<E> implements Serializable {
     final Multiset<? extends E> delegate;
 
@@ -84,11 +84,14 @@ public final class Multisets {
 
     transient Set<E> elementSet;
 
-    @Override public Set<E> elementSet() {
+    Set<E> createElementSet() {
+      return Collections.<E>unmodifiableSet(delegate.elementSet());
+    }
+
+    @Override
+    public Set<E> elementSet() {
       Set<E> es = elementSet;
-      return (es == null)
-          ? elementSet = Collections.<E>unmodifiableSet(delegate.elementSet())
-          : es;
+      return (es == null) ? elementSet = createElementSet() : es;
     }
 
     transient Set<Multiset.Entry<E>> entrySet;
