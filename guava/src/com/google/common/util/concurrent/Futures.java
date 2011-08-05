@@ -275,7 +275,7 @@ public final class Futures {
    * applying the given {@code Function} to the result of the original {@code
    * Future}. Example:
    *
-   * <pre>   <code>
+   * <pre>   {@code
    *   ListenableFuture<RowKey> rowKeyFuture = indexService.lookUp(query);
    *   Function<RowKey, ListenableFuture<QueryResult>> queryFunction =
    *       new Function<RowKey, ListenableFuture<QueryResult>>() {
@@ -285,7 +285,7 @@ public final class Futures {
    *       };
    *   ListenableFuture<QueryResult> queryFuture =
    *       chain(queryFuture, queryFunction);
-   * </code></pre>
+   * }</pre>
    *
    * <p>Note: This overload of {@code chain} is designed for cases in which the
    * work of creating the derived future is fast and lightweight, as the method
@@ -1143,6 +1143,9 @@ public final class Futures {
    * CancellationException}, and to wrap any exception from the underlying
    * computation in an {@code UncheckedExecutionException} or {@code
    * ExecutionError}.
+   *
+   * <p>For an uninterruptible {@code get} that preserves other exceptions, see
+   * {@link Uninterruptibles#getUninterruptibly(Future)}.
    *
    * @throws UncheckedExecutionException if {@code get} throws an {@code
    *         ExecutionException} with an {@code Exception} as its cause
