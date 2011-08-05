@@ -1160,8 +1160,6 @@ public final class Futures {
     checkNotNull(future);
     try {
       return getUninterruptibly(future);
-    } catch (CancellationException e) {
-      throw e;
     } catch (ExecutionException e) {
       wrapAndThrowUnchecked(e.getCause());
       throw new AssertionError();
