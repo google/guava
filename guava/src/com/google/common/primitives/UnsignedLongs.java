@@ -19,6 +19,8 @@ package com.google.common.primitives;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import com.google.common.annotations.Beta;
+
 import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -32,15 +34,17 @@ import java.util.Comparator;
  * <p>In addition, this class provides several static methods for converting a {@code long} to a
  * {@code String} and a {@code String} to a {@code long} that treat the long as an unsigned number.
  *
+ * @author Louis Wasserman
  * @author Brian Milch
  * @author Peter Epstein
- * @author Louis Wasserman
+ * @since Guava release 10
  */
+@Beta
 public final class UnsignedLongs {
   // TODO(user): verify GWT compatibility
   private UnsignedLongs() {}
 
-  public static final long MAX_VALUE = -1L; // Equivalent to 0xffffffffffffffffL
+  public static final long MAX_VALUE = -1L; // Equivalent to 2^64 - 1
 
   public static BigInteger toBigInteger(long unsigned) {
     BigInteger result = BigInteger.valueOf(unsigned & Long.MAX_VALUE);
@@ -201,8 +205,7 @@ public final class UnsignedLongs {
    * @param dividend the dividend (numerator)
    * @param divisor  the divisor (denominator)
    * @throws ArithmeticException if divisor is 0
-   */
-  public static long divide(long dividend, long divisor) {
+   */ static long divide(long dividend, long divisor) {
     if (divisor < 0) { // i.e., divisor >= 2^63:
       if (dividend + Long.MIN_VALUE < divisor + Long.MIN_VALUE) {
         return 0; // dividend < divisor
@@ -237,7 +240,7 @@ public final class UnsignedLongs {
    * @param divisor  the divisor (denominator)
    * @throws ArithmeticException if divisor is 0
    */
-  public static long remainder(long dividend, long divisor) {
+  static long remainder(long dividend, long divisor) {
     if (divisor < 0) { // i.e., divisor >= 2^63:
       if (dividend + Long.MIN_VALUE < divisor + Long.MIN_VALUE) {
         return dividend; // dividend < divisor
@@ -271,8 +274,8 @@ public final class UnsignedLongs {
    * unsigned integer, or if the value represented is too large to fit in an
    * unsigned long.
    */
-  public static long parseLong(String s) throws NumberFormatException {
-    return parseLong(s, 10);
+  public static long parseUnsignedLong(String s) {
+    return parseUnsignedLong(s, 10);
   }
 
   /**
@@ -288,8 +291,7 @@ public final class UnsignedLongs {
    * too large to fit in an unsigned long.  Also thrown if supplied radix is
    * invalid.
    */
-  public static long parseLong(String s, int radix)
-      throws NumberFormatException {
+  public static long parseUnsignedLong(String s, int radix) {
     if (s == null) {
       throw new NumberFormatException("null string");
     }
