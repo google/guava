@@ -2331,16 +2331,15 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
         throws ExecutionException {
       V value = null;
       long start = System.nanoTime();
-      long end = 0;
       try {
         // Synchronizes on the entry to allow failing fast when a recursive computation is
         // detected. This is not fool-proof since the entry may be copied when the segment
         // is written to.
         synchronized (e) {
           value = computingValueReference.compute(key, hash);
-          end = System.nanoTime();
         }
         if (value != null) {
+          long end = System.nanoTime();
           // a null return value is an Error, so don't count it in the stats
           statsCounter.recordCreateSuccess(end - start);
 
@@ -2353,11 +2352,10 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
         }
         return value;
       } finally {
-        if (end == 0) {
-          end = System.nanoTime();
-          statsCounter.recordCreateException(end - start);
-        }
         if (value == null) {
+          // The compute call returned null or threw an exception; we treat them the same way.
+          long end = System.nanoTime();
+          statsCounter.recordCreateException(end - start);
           clearValue(key, hash, computingValueReference);
         }
       }
