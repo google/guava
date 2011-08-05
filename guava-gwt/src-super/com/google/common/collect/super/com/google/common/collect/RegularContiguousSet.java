@@ -22,7 +22,6 @@ import static com.google.common.collect.BoundType.CLOSED;
 
 import com.google.common.annotations.GwtCompatible;
 
-import java.io.Serializable;
 import java.util.Collection;
 
 import javax.annotation.Nullable;
@@ -34,8 +33,7 @@ import javax.annotation.Nullable;
  */
 @GwtCompatible(emulated = true)
 @SuppressWarnings("unchecked") // allow ungenerified Comparable types
-final class RegularContiguousSet<C extends Comparable>
-    extends ContiguousSet<C> implements Serializable {
+final class RegularContiguousSet<C extends Comparable> extends ContiguousSet<C> {
   private final Range<C> range;
 
   RegularContiguousSet(Range<C> range, DiscreteDomain<C> domain) {

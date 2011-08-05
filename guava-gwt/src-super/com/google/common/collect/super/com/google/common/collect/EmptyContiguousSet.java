@@ -3,9 +3,7 @@
 package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.annotations.GwtIncompatible;
 
-import java.io.Serializable;
 import java.util.NoSuchElementException;
 import java.util.Set;
 
@@ -96,25 +94,5 @@ final class EmptyContiguousSet<C extends Comparable> extends ContiguousSet<C> {
   @Override public int hashCode() {
     return 0;
   }
-
-  @GwtIncompatible("serialization")
-  private static final class SerializedForm<C extends Comparable> implements Serializable {
-    private final DiscreteDomain<C> domain;
-
-    private SerializedForm(DiscreteDomain<C> domain) {
-      this.domain = domain;
-    }
-
-    private Object readResolve() {
-      return new EmptyContiguousSet<C>(domain);
-    }
-
-    private static final long serialVersionUID = 0;
-  }
-
-  @GwtIncompatible("serialization")
-  @Override
-  Object writeReplace() {
-    return new SerializedForm<C>(domain);
-  }
 }
+
