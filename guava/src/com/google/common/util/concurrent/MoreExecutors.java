@@ -19,16 +19,15 @@ package com.google.common.util.concurrent;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.Beta;
-import com.google.common.util.concurrent.ForwardingListenableFuture.SimpleForwardingListenableFuture;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.Callable;
-import java.util.concurrent.Delayed;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.RejectedExecutionException;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -404,7 +403,7 @@ public final class MoreExecutors {
 
   private static class ListeningDecorator
       extends AbstractListeningExecutorService {
-    private final ExecutorService delegate;
+    final ExecutorService delegate;
 
     ListeningDecorator(ExecutorService delegate) {
       this.delegate = checkNotNull(delegate);
@@ -452,64 +451,28 @@ public final class MoreExecutors {
     }
 
     @Override
-    public ListenableScheduledFuture<?> schedule(
+    public ScheduledFuture<?> schedule(
         Runnable command, long delay, TimeUnit unit) {
-      ListenableFutureTask<Void> task = 
-          ListenableFutureTask.create(command, null);
-      Delayed delayed = delegate.schedule(task, delay, unit);
-      return new ListenableScheduledTask<Void>(task, delayed);
+      return delegate.schedule(command, delay, unit);
     }
 
     @Override
-    public <V> ListenableScheduledFuture<V> schedule(
+    public <V> ScheduledFuture<V> schedule(
         Callable<V> callable, long delay, TimeUnit unit) {
-      ListenableFutureTask<V> task = ListenableFutureTask.create(callable);
-      Delayed delayed = delegate.schedule(task, delay, unit);
-      return new ListenableScheduledTask<V>(task, delayed);
+      return delegate.schedule(callable, delay, unit);
     }
 
     @Override
-    public ListenableScheduledFuture<?> scheduleAtFixedRate(
+    public ScheduledFuture<?> scheduleAtFixedRate(
         Runnable command, long initialDelay, long period, TimeUnit unit) {
-      ListenableFutureTask<Void> task =
-          ListenableFutureTask.create(command, null);
-      Delayed delayed = 
-          delegate.scheduleAtFixedRate(task, initialDelay, period, unit);
-      return new ListenableScheduledTask<Void>(task, delayed);
+      return delegate.scheduleAtFixedRate(command, initialDelay, period, unit);
     }
 
     @Override
-    public ListenableScheduledFuture<?> scheduleWithFixedDelay(
+    public ScheduledFuture<?> scheduleWithFixedDelay(
         Runnable command, long initialDelay, long delay, TimeUnit unit) {
-      ListenableFutureTask<Object> task = 
-          ListenableFutureTask.create(command, null);
-      Delayed delayed = 
-          delegate.scheduleWithFixedDelay(task, initialDelay, delay, unit);
-      return new ListenableScheduledTask<Object>(task, delayed);
-    }
-
-    private static final class ListenableScheduledTask<V> 
-        extends SimpleForwardingListenableFuture<V> 
-        implements ListenableScheduledFuture<V> {
-       
-      private final Delayed delayedDelegate;
-
-      public ListenableScheduledTask(
-          ListenableFuture<V> futureDelegate,  Delayed delayedDelegate) {
-        super(futureDelegate);
-        this.delayedDelegate = delayedDelegate;
-      }
-
-      @Override
-      public long getDelay(TimeUnit unit) {
-        return delayedDelegate.getDelay(unit);
-      }
-
-      @Override
-      public int compareTo(Delayed other) {
-        return delayedDelegate.compareTo(other);
-      }
-      
+      return delegate.scheduleWithFixedDelay(
+          command, initialDelay, delay, unit);
     }
   }
 }
