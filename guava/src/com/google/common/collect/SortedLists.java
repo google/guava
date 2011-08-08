@@ -18,43 +18,47 @@ package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import com.google.common.annotations.Beta;
+import com.google.common.annotations.GwtCompatible;
+import com.google.common.base.Function;
+
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.RandomAccess;
 
 import javax.annotation.Nullable;
 
 /**
  * Static methods pertaining to sorted {@link List} instances.
- * 
+ *
  * In this documentation, the terms <em>greatest</em>, <em>greater</em>,
- * <em>least</em>, and <em>lest</em> are considered to refer to the comparator 
- * on the elements, and the terms <em>first</em> and <em>last</em> are 
- * considered to refer to the elements' ordering in a list. 
+ * <em>least</em>, and <em>lest</em> are considered to refer to the comparator
+ * on the elements, and the terms <em>first</em> and <em>last</em> are
+ * considered to refer to the elements' ordering in a list.
  *
  * @author Louis Wasserman
- * @see Lists
- * @see Collections
  */
-final class SortedLists {
-
+@GwtCompatible
+@Beta final class SortedLists {
   private SortedLists() {}
 
   /**
    * A comparison relationship between a value and an element in a collection.
    */
-  enum Relation {
+  @Beta
+  public enum Relation {
 
     /**
      * The relation that specifies the greatest element strictly less than the
-     * value.  In the case of duplicates, the last such element is 
+     * value.  In the case of duplicates, the last such element is
      * chosen.
      *
      * <p>In the {@link SortedLists#binarySearch binarySearch} methods, {@code
      * -1} is considered to be the index of negative infinity. That is, if there
      * is no element in the list lower than a given value, {@code -1} is
      * returned as the index of the lower element.  For example: <pre> {@code
-     * 
+     *
      * Integer low = 1;
      * Integer mid = 2;
      * Integer high = 3;
@@ -66,7 +70,8 @@ final class SortedLists {
      */
     LOWER {
 
-      @Override Relation reverse() {
+      @Override
+      public Relation reverse() {
         return HIGHER;
       }
 
@@ -95,7 +100,7 @@ final class SortedLists {
      * is considered to be the index of negative infinity. That is, if there is
      * no element in the list less than or equal to a given value, {@code -1} is
      * returned as the index of the floor element.  For example: <pre> {@code
-     * 
+     *
      * Integer low = 1;
      * Integer mid = 2;
      * Integer high = 3;
@@ -107,7 +112,8 @@ final class SortedLists {
      */
     FLOOR {
 
-      @Override Relation reverse() {
+      @Override
+      public Relation reverse() {
         return CEILING;
       }
 
@@ -122,7 +128,7 @@ final class SortedLists {
         upper = index;
         // Everything between lower and upper inclusive compares at <= 0.
         while (lower < upper) {
-          int middle = lower + (upper - lower) / 2;
+          int middle = (lower + upper) >>> 1;
           int c = comparator.compare(list.get(middle), e);
           if (c < 0) {
             lower = middle + 1;
@@ -147,7 +153,7 @@ final class SortedLists {
      * In the {@link SortedLists#binarySearch binarySearch} methods, if there is
      * no element that compares as equal to a given value, {@code -1} is
      * returned to indicate failure. For example: <pre> {@code
-     * 
+     *
      * Integer low = 1;
      * Integer mid = 2;
      * Integer high = 3;
@@ -159,7 +165,8 @@ final class SortedLists {
      */
     EQUAL {
 
-      @Override Relation reverse() {
+      @Override
+      public Relation reverse() {
         return this;
       }
 
@@ -180,7 +187,7 @@ final class SortedLists {
      * the value. In the case of duplicates, the last element equal to the
      * value is chosen, or if no such element exists, among the least
      * elements greater than or equal to the value, the first is chosen.
-     
+
      *
      * <p>
      * In the {@link SortedLists#binarySearch binarySearch} methods, {@code
@@ -188,7 +195,7 @@ final class SortedLists {
      * if there is no element in the list greater than or equal to a given
      * value, {@code -1} is returned as the index of the ceiling element.
      * For example: <pre> {@code
-     * 
+     *
      * Integer low = 1;
      * Integer mid = 2;
      * Integer high = 3;
@@ -200,7 +207,8 @@ final class SortedLists {
      */
     CEILING {
 
-      @Override Relation reverse() {
+      @Override
+      public Relation reverse() {
         return FLOOR;
       }
 
@@ -215,7 +223,7 @@ final class SortedLists {
         lower = index;
         // Everything between lower and upper inclusive compares at >= 0.
         while (lower < upper) {
-          int middle = lower + (upper - lower + 1) / 2;
+          int middle = (lower + upper + 1) >>> 1;
           int c = comparator.compare(list.get(middle), e);
           if (c > 0) {
             upper = middle - 1;
@@ -236,12 +244,12 @@ final class SortedLists {
      * The relation that specifies the least element strictly greater than the
      * value.  In the case of duplicates, the first such element is chosen.
      *
-     * <p>
-     * In the {@link SortedLists#binarySearch binarySearch} methods, {@code
+     * <p>In the {@link SortedLists#binarySearch binarySearch} methods, {@code
      * list.size()} is considered to be the index of positive infinity. That is,
-     * if there is no element in the list greater than a given value, {@code -1}
-     * is returned as the index of the higher element. For example: <pre> {@code
-     * 
+     * if there is no element in the list greater than a given value, {@code
+     * list.size()} is returned as the index of the higher element. For example:
+     * <pre> {@code
+     *
      * Integer low = 1;
      * Integer mid = 2;
      * Integer high = 3;
@@ -253,7 +261,8 @@ final class SortedLists {
      */
     HIGHER {
 
-      @Override Relation reverse() {
+      @Override
+      public Relation reverse() {
         return LOWER;
       }
 
@@ -275,7 +284,7 @@ final class SortedLists {
      * The reverse order counterpart of the relation. Useful for descending
      * views.
      */
-    abstract Relation reverse();
+    public abstract Relation reverse();
 
     /**
      * Given that {@code list.get(lower - 1) < list.get(index) = e <
@@ -302,6 +311,41 @@ final class SortedLists {
   }
 
   /**
+   * Searches the specified naturally ordered list for the specified object using the binary
+   * search algorithm.
+   *
+   * <p>Equivalent to {@link #binarySearch(List, Object, Comparator, Relation) binarySearch}{@code
+   * (list, key, Ordering.natural(), relation)}.
+   */
+  public static <E extends Comparable> int binarySearch(
+      List<? extends E> list, E e, Relation relation) {
+    checkNotNull(e);
+    return binarySearch(list, checkNotNull(e), Ordering.natural(), relation);
+  }
+
+  /**
+   * Binary searches the list for the specified key, using the specified key function.
+   *
+   * <p>Equivalent to {@link #binarySearch(List, Function, Object, Comparator, Relation)
+   * binarySearch} {@code (list, keyFunction, key, Ordering.natural(), relation)}.
+   */
+  public static <E, K extends Comparable> int binarySearch(List<E> list,
+      Function<? super E, K> keyFunction, K key, Relation relation) {
+    return binarySearch(list, keyFunction, key, Ordering.natural(), relation);
+  }
+
+  /**
+   * Binary searches the list for the specified key, using the specified key function.
+   *
+   * <p>Equivalent to {@link #binarySearch(List, Object, Comparator, Relation) binarySearch}
+   * {@code (Lists.transform(list, keyFunction), key, keyComparator, relation)}.
+   */
+  public static <E, K> int binarySearch(List<E> list, Function<? super E, K> keyFunction, K key,
+      Comparator<? super K> keyComparator, Relation relation) {
+    return binarySearch(Lists.transform(list, keyFunction), key, keyComparator, relation);
+  }
+
+  /**
    * Searches the specified list for the specified object using the binary
    * search algorithm. The list must be sorted into ascending order according to
    * the specified comparator (as by the {@link Collections#sort(List,
@@ -319,8 +363,8 @@ final class SortedLists {
    * <p>If there are duplicate elements, see the documentation on the relation
    * for more details.
    *
-   * <p>This method runs in log(n) time for a random access list (which
-   * provides near-constant-time positional access).
+   * <p>This method runs in log(n) time on random-access lists, which offer
+   * near-constant-time access to each list element.
    *
    * @param list the list to be searched.
    * @param e the value to be searched for.
@@ -331,30 +375,34 @@ final class SortedLists {
    *         the search key was not in the list), returns {@code -1}, or if
    *         positive infinity has the specified relation, returns {@code
    *         list.size()}.
-   * @throws NullPointerException if {@code key} is null and the specified 
+   * @throws NullPointerException if {@code key} is null and the specified
    *         comparator does not accept null values.
    * @throws ClassCastException if the list contains elements that are not
    *         <i>mutually comparable</i> using the specified comparator, or the
    *         search key is not mutually comparable with the elements of the list
    *         using this comparator.
    */
-  static <E> int binarySearch(List<? extends E> list, @Nullable E e,
-      Comparator<? super E> comparator, Relation relation) {
+  public static <E> int binarySearch(
+      List<? extends E> list, @Nullable E e, Comparator<? super E> comparator, Relation relation) {
     return binarySearch(list, e, comparator, relation, true);
   }
-  
+
   static <E> int binarySearch(List<? extends E> list, @Nullable E e,
-      Comparator<? super E> comparator, Relation relation,
-      boolean worryAboutDuplicates) {
+      Comparator<? super E> comparator, Relation relation, boolean worryAboutDuplicates) {
 
     checkNotNull(comparator);
     checkNotNull(relation);
+    checkNotNull(list);
+    if (!(list instanceof RandomAccess)) {
+      list = Lists.newArrayList(list);
+    }
+    // TODO(user): benchmark when it's best to do a linear search
 
     int lower = 0;
     int upper = list.size() - 1;
 
     while (lower <= upper) {
-      int middle = lower + (upper - lower) / 2;
+      int middle = (lower + upper) >>> 1;
       int c = comparator.compare(e, list.get(middle));
       if (c < 0) {
         upper = middle - 1;
