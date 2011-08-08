@@ -18,7 +18,7 @@ package com.google.common.base;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
-import com.google.testing.util.NullPointerTester;
+import com.google.common.testing.NullPointerTester;
 
 import junit.framework.TestCase;
 

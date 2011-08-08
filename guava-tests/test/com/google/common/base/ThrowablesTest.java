@@ -22,7 +22,7 @@ import static java.util.regex.Pattern.quote;
 
 import com.google.common.collect.Iterables;
 import com.google.common.collect.ObjectArrays;
-import com.google.testing.util.NullPointerTester;
+import com.google.common.testing.NullPointerTester;
 
 import junit.framework.TestCase;
 

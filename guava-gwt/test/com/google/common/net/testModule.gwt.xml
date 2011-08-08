@@ -3,6 +3,7 @@
   <inherits name="com.google.gwt.user.User"/>
   <inherits name="com.google.gwt.junit.JUnit"/>
   <inherits name="com.google.common.net.Net"/>
+  <inherits name="com.google.common.testing.Testing"/>
    
   <source path=""/>
     
