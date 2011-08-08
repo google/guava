@@ -63,20 +63,13 @@ import java.util.List;
  * reference instance and pass to addEqualObject(). Multiple instances can be
  * used to test subclasses.
  *
- * <li>Create one or more new instances that should not be equal to the
- * reference instance and pass to addNotEqualObject. For complete testing,
- * you should add one instance that varies in each aspect checked by equals().
- *
  * <li>Invoke {@link #testEquals} on the EqualsTester.
  * </ol>
  *
  * <p>When a test fails, the error message labels the objects involved in
  * the failed comparison as follows:
  * <ul>
- *       {@link #addEqualObject(Object...)}, numbered starting from 1.
- *   <li>"{@code [unequal object }<i>i</i>{@code ]}" refers to the
- *       <i>i</i><sup>th</sup> object passed to the method
- *       {@link #addNotEqualObject(Object...)}, numbered starting from 1.
+ *   <li>{@link #addEqualObject(Object...)}, numbered starting from 1.
  *   <li>"{@code [group }<i>i</i>{@code , item }<i>j</i>{@code ]}" refers to the
  *       <i>j</i><sup>th</sup> item in the <i>i</i><sup>th</sup> equality group,
  *       where both equality groups and the items within equality groups are
@@ -94,7 +87,6 @@ public final class EqualsTester {
   private static final int REPETITIONS = 3;
 
   private final List<Object> defaultEqualObjects = Lists.newArrayList();
-  private final List<Object> defaultNotEqualObjects = Lists.newArrayList();
   private final List<List<Object>> equalityGroups = Lists.newArrayList();
 
   /**
@@ -141,40 +133,8 @@ public final class EqualsTester {
     for (int run = 0; run < REPETITIONS; run++) {
       testItems();
       delegate.test();
-      testLegacyDefaultNotEqualsObjects();
     }
     return this;
-  }
-
-  /**
-   * This method exists just to test the not equals objects with the inconsistent legacy behavior.
-   * When {@link #addNotEqualObject(Object...)} is gone, this can go away too.
-   */
-  private void testLegacyDefaultNotEqualsObjects() {
-    for (int i = 0; i < defaultEqualObjects.size(); i++) {
-      Object reference = defaultEqualObjects.get(i);
-      for (int notEqualsItemNumber = 0; notEqualsItemNumber < defaultNotEqualObjects.size();
-          notEqualsItemNumber++) {
-        Object notEqualObject = defaultNotEqualObjects.get(notEqualsItemNumber);
-        String message = reference + " [group 1, item " + (i + 1) + "] must be unequal to "
-            + notEqualObject + " [unequal object " + (notEqualsItemNumber + 1) + "]";
-        assertTrue(message, !reference.equals(notEqualObject));
-      }
-    }
-    for (int groupNumber = 0; groupNumber < equalityGroups.size(); groupNumber++) {
-      List<Object> equalityGroup = equalityGroups.get(groupNumber);
-      for (int itemNumber = 0; itemNumber < equalityGroup.size(); itemNumber++) {
-        Object reference = equalityGroup.get(itemNumber);
-        for (int notEqualsItemNumber = 0; notEqualsItemNumber < defaultNotEqualObjects.size();
-            notEqualsItemNumber++) {
-          Object notEqualObject = defaultNotEqualObjects.get(notEqualsItemNumber);
-          String message = reference + " [group " + (groupNumber + 1) + ", item " + (itemNumber + 1)
-              + "] must be unequal to " + notEqualObject + " [unequal object "
-              + (notEqualsItemNumber + 1) + "]";
-          assertTrue(message, !reference.equals(notEqualObject));
-        }
-      }
-    }
   }
 
   private void testItems() {
