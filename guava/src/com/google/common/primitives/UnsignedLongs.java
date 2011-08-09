@@ -20,6 +20,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.Beta;
+import com.google.common.annotations.GwtCompatible;
 
 import java.math.BigInteger;
 import java.util.Arrays;
@@ -40,8 +41,8 @@ import java.util.Comparator;
  * @since Guava release 10
  */
 @Beta
+@GwtCompatible
 public final class UnsignedLongs {
-  // TODO(user): verify GWT compatibility
   private UnsignedLongs() {}
 
   public static final long MAX_VALUE = -1L; // Equivalent to 2^64 - 1
@@ -273,6 +274,7 @@ public final class UnsignedLongs {
    * @throws NumberFormatException if the string does not contain a valid
    * unsigned integer, or if the value represented is too large to fit in an
    * unsigned long.
+   * @throws NullPointerException if {@code s} is null
    */
   public static long parseUnsignedLong(String s) {
     return parseUnsignedLong(s, 10);
@@ -290,11 +292,10 @@ public final class UnsignedLongs {
    * unsigned integer with the given radix, or if the value represented is
    * too large to fit in an unsigned long.  Also thrown if supplied radix is
    * invalid.
+   * @throws NullPointerException if {@code s} is null
    */
   public static long parseUnsignedLong(String s, int radix) {
-    if (s == null) {
-      throw new NumberFormatException("null string");
-    }
+    checkNotNull(s);
     if (s.length() == 0) {
       throw new NumberFormatException("empty string");
     }
