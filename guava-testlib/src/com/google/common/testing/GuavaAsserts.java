@@ -147,9 +147,11 @@ public final class GuavaAsserts {
    * Assert the equality of two objects
    */
   public static void assertEquals(String message, Object o1, Object o2) {
-    if (o1 != o2) { // TODO(kevinb): why?
-      assertTrue(message, o1.equals(o2));
+    if (o1 == null) {
+      assertTrue(message, o2 == null);
+      return;
     }
+    assertTrue(message, o1.equals(o2));
   }
   
   /**
