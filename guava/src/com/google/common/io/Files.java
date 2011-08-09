@@ -725,17 +725,24 @@ public final class Files {
       Closeables.close(channel, threw);
     }
   }
-   
+
   /**
-   * Returns the lexically cleaned form of the path name:
-   * 
+   * Returns the lexically cleaned form of the path name, <i>usually</i> (but
+   * not always) equivalent to the original. The following heuristics are used:
+   *
    * <ul>
    * <li>empty string becomes .
    * <li>fold out ../ when possible
    * <li>fold out ./ when possible
    * <li>collapse multiple slashes
-   * </li>delete trailing slashes (unless the path is just "/")
+   * <li>delete trailing slashes (unless the path is just "/")
    * </ul>
+   *
+   * These heuristics do not always match the behavior of the filesystem. In
+   * particular, consider the path {@code a/../b}, which {@code simplifyPath}
+   * will change to {@code b}. If {@code a} is a symlink to {@code x}, {@code
+   * a/../b} may refer to a sibling of {@code x}, rather than the sibling of
+   * {@code a} referred to by {@code b}.
    *
    * @since Guava release 10
    */
