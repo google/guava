@@ -168,14 +168,6 @@ final class RegularContiguousSet<C extends Comparable> extends ContiguousSet<C> 
     return Sets.hashCodeImpl(this);
   }
 
-  /**
-   * Returns a short-hand representation of the contents such as
-   * {@code "[1?100]}"}.
-   */
-  @Override public String toString() {
-    return range().toString();
-  }
-
   private static final long serialVersionUID = 0;
 }
 

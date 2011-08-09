@@ -170,14 +170,6 @@ final class RegularContiguousSet<C extends Comparable> extends ContiguousSet<C> 
     return Sets.hashCodeImpl(this);
   }
 
-  /**
-   * Returns a short-hand representation of the contents such as
-   * {@code "[1‥100]}"}.
-   */
-  @Override public String toString() {
-    return range().toString();
-  }
-
   @GwtIncompatible("serialization")
   private static final class SerializedForm<C extends Comparable> implements Serializable {
     final Range<C> range;
