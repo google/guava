@@ -52,14 +52,14 @@ public class UncheckedExecutionException extends RuntimeException {
   /**
    * Creates a new instance with the given detail message and cause.
    */
-  public UncheckedExecutionException(String message, Exception cause) {
+  public UncheckedExecutionException(String message, Throwable cause) {
     super(message, cause);
   }
 
   /**
    * Creates a new instance with the given cause.
    */
-  public UncheckedExecutionException(Exception cause) {
+  public UncheckedExecutionException(Throwable cause) {
     super(cause);
   }
 

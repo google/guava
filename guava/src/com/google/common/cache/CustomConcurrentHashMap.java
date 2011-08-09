@@ -29,6 +29,8 @@ import com.google.common.cache.CacheBuilder.NullListener;
 import com.google.common.collect.AbstractLinkedIterator;
 import com.google.common.collect.Iterators;
 import com.google.common.primitives.Ints;
+import com.google.common.util.concurrent.ExecutionError;
+import com.google.common.util.concurrent.UncheckedExecutionException;
 
 import java.lang.ref.Reference;
 import java.lang.ref.ReferenceQueue;
@@ -616,6 +618,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
      * case of FutureValueReference).
      *
      * @throws ExecutionException if the computing thread throws an exception
+     * @throws ExecutionError if the computing thread throws an error
      */
     V waitForValue() throws ExecutionException;
 
@@ -3307,16 +3310,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
 
   }
 
-  /**
-   * Used to provide computation exceptions to other threads.
-   */
-  private static final class ComputationExceptionReference<K, V> implements ValueReference<K, V> {
-    final Throwable t;
-
-    ComputationExceptionReference(Throwable t) {
-      this.t = t;
-    }
-
+  private static abstract class AbstractValueReference<K, V> implements ValueReference<K, V> {
     @Override
     public V get() {
       return null;
@@ -3339,7 +3333,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
 
     @Override
     public V waitForValue() throws ExecutionException {
-      throw new ExecutionException(t);
+      return null;
     }
 
     @Override
@@ -3347,9 +3341,60 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
   }
 
   /**
+   * Used to propogate unchecked computation exceptions to other threads.
+   */
+  private static final class UncheckedComputationExceptionReference<K, V>
+      extends AbstractValueReference<K, V> {
+    final RuntimeException e;
+
+    UncheckedComputationExceptionReference(RuntimeException e) {
+      this.e = e;
+    }
+
+    @Override
+    public V waitForValue() {
+      throw new UncheckedExecutionException(e);
+    }
+  }
+
+  /**
+   * Used to propogate computation exceptions to other threads.
+   */
+  private static final class ComputationExceptionReference<K, V>
+      extends AbstractValueReference<K, V> {
+    final Exception e;
+
+    ComputationExceptionReference(Exception e) {
+      this.e = e;
+    }
+
+    @Override
+    public V waitForValue() throws ExecutionException {
+      throw new ExecutionException(e);
+    }
+  }
+
+  /**
+   * Used to propogate computation errors to other threads.
+   */
+  private static final class ComputationErrorReference<K, V>
+      extends AbstractValueReference<K, V> {
+    final Error e;
+
+    ComputationErrorReference(Error e) {
+      this.e = e;
+    }
+
+    @Override
+    public V waitForValue() {
+      throw new ExecutionError(e);
+    }
+  }
+
+  /**
    * Used to provide computation result to other threads.
    */
-  private static final class ComputedReference<K, V> implements ValueReference<K, V> {
+  private static final class ComputedReference<K, V> extends AbstractValueReference<K, V> {
     final V value;
 
     ComputedReference(@Nullable V value) {
@@ -3362,30 +3407,12 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
     }
 
     @Override
-    public ReferenceEntry<K, V> getEntry() {
-      return null;
-    }
-
-    @Override
-    public ValueReference<K, V> copyFor(ReferenceQueue<V> queue, ReferenceEntry<K, V> entry) {
-      return this;
-    }
-
-    @Override
-    public boolean isComputingReference() {
-      return false;
-    }
-
-    @Override
     public V waitForValue() {
-      return get();
+      return value;
     }
-
-    @Override
-    public void clear(ValueReference<K, V> newValue) {}
   }
 
-  private static final class ComputingValueReference<K, V> implements ValueReference<K, V> {
+  private static final class ComputingValueReference<K, V> extends AbstractValueReference<K, V> {
     final CacheLoader<? super K, ? extends V> loader;
 
     @GuardedBy("ComputingValueReference.this") // writes
@@ -3393,23 +3420,6 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
 
     public ComputingValueReference(CacheLoader<? super K, ? extends V> loader) {
       this.loader = loader;
-    }
-
-    @Override
-    public V get() {
-      // All computation lookups go through waitForValue. This method thus is
-      // only used by put, to whom we always want to appear absent.
-      return null;
-    }
-
-    @Override
-    public ReferenceEntry<K, V> getEntry() {
-      return null;
-    }
-
-    @Override
-    public ValueReference<K, V> copyFor(ReferenceQueue<V> queue, ReferenceEntry<K, V> entry) {
-      return this;
     }
 
     @Override
@@ -3453,16 +3463,20 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
     }
 
     V compute(K key, int hash) throws ExecutionException {
-      V value;
       try {
-        value = loader.load(key);
-      } catch (Throwable t) {
-        setValueReference(new ComputationExceptionReference<K, V>(t));
-        throw new ExecutionException(t);
+        V value = loader.load(key);
+        setValueReference(new ComputedReference<K, V>(value));
+        return value;
+      } catch (RuntimeException e) {
+        setValueReference(new UncheckedComputationExceptionReference<K, V>(e));
+        throw new UncheckedExecutionException(e);
+      } catch (Exception e) {
+        setValueReference(new ComputationExceptionReference<K, V>(e));
+        throw new ExecutionException(e);
+      } catch (Error e) {
+        setValueReference(new ComputationErrorReference<K, V>(e));
+        throw new ExecutionError(e);
       }
-
-      setValueReference(new ComputedReference<K, V>(value));
-      return value;
     }
 
     void setValueReference(ValueReference<K, V> valueReference) {

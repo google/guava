@@ -51,11 +51,10 @@ public interface Cache<K, V> extends Function<K, V> {
    * <p>The implementation may support {@code null} as a valid cached value, or may return {@code
    * null} without caching it, or may not permit null results at all.
    *
-   * @throws ExecutionException if an exception was thrown while loading the response
-   */
-  /*
-   * TODO(cpovirk): throw ExecutionError instead for an Error (and maybe UncheckedExecutionException
-   * for RuntimeException?)
+   * @throws ExecutionException if a checked exception was thrown while loading the response
+   * @throws UncheckedExecutionException if an unchecked exception was thrown while loading the
+   *     response
+   * @throws ExecutionError if an error was thrown while loading the response
    */
   @Nullable V get(K key) throws ExecutionException;
 
@@ -63,12 +62,16 @@ public interface Cache<K, V> extends Function<K, V> {
    * Returns the value associated with the given key, creating or retrieving that value if
    * necessary. No state associated with this cache is modified until computation completes. Unlike
    * {@link #get}, this method does not throw a checked exception, and thus should only be used in
-   * situations where exceptions are not thrown by the cache loader.
+   * situations where checked exceptions are not thrown by the cache loader.
+   *
+   * <p><b>Warning:</b> this method silently converts checked exceptions to unchecked exceptions.
+   * The {@link #get} method should be preferred for cache loaders which throw checked exceptions.
    *
    * <p>The implementation may support {@code null} as a valid cached value, or may return {@code
    * null} without caching it, or may not permit null results at all.
    *
-   * @throws UncheckedExecutionException if an exception was thrown while loading the response
+   * @throws UncheckedExecutionException if an exception was thrown while loading the response,
+   *     regardless of whether the exception was checked or unchecked
    * @throws ExecutionError if an error was thrown while loading the response
    */
   @Nullable V getUnchecked(K key);

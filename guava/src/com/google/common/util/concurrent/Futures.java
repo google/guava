@@ -1166,28 +1166,16 @@ public final class Futures {
     }
   }
 
-  // This code also appears in common.cache.
   private static void wrapAndThrowUnchecked(Throwable cause) {
     if (cause instanceof Error) {
       throw new ExecutionError((Error) cause);
-    }
-    if (cause instanceof Exception) {
-      throw new UncheckedExecutionException((Exception) cause);
     }
     /*
      * It's a non-Error, non-Exception Throwable. From my survey of such
      * classes, I believe that most users intended to extend Exception, so we'll
      * treat it like an Exception.
      */
-    throw new UncheckedExecutionExceptionForThrowable(cause);
-  }
-
-  private static final class UncheckedExecutionExceptionForThrowable
-      extends UncheckedExecutionException {
-    UncheckedExecutionExceptionForThrowable(Throwable cause) {
-      super(cause.toString());
-      initCause(cause);
-    }
+    throw new UncheckedExecutionException(cause);
   }
 
   /*

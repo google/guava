@@ -20,7 +20,6 @@ import static com.google.common.base.Objects.firstNonNull;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
-import static com.google.common.cache.AbstractCache.wrapAndThrowUnchecked;
 
 import com.google.common.annotations.Beta;
 import com.google.common.base.Ascii;
@@ -35,6 +34,7 @@ import com.google.common.cache.AbstractCache.StatsCounter;
 import com.google.common.cache.CustomConcurrentHashMap.Strength;
 import com.google.common.collect.ForwardingConcurrentMap;
 import com.google.common.collect.ImmutableList;
+import com.google.common.util.concurrent.ExecutionError;
 import com.google.common.util.concurrent.UncheckedExecutionException;
 
 import java.io.Serializable;
@@ -706,11 +706,10 @@ public final class CacheBuilder<K, V> {
       checkNotNull(key);
       try {
         return loader.load(key);
-      } catch (UncheckedExecutionException e) {
-        throw e;
-      } catch (Throwable t) {
-        wrapAndThrowUnchecked(t);
-        throw new AssertionError();
+      } catch (Exception e) {
+        throw new UncheckedExecutionException(e);
+      } catch (Error e) {
+        throw new ExecutionError(e);
       }
     }
   }
@@ -745,10 +744,18 @@ public final class CacheBuilder<K, V> {
         long end = System.nanoTime();
         statsCounter.recordCreateSuccess(end - start);
         return value;
-      } catch (Throwable t) {
+      } catch (RuntimeException e) {
         long end = System.nanoTime();
         statsCounter.recordCreateException(end - start);
-        throw new ExecutionException(t);
+        throw new UncheckedExecutionException(e);
+      } catch (Exception e) {
+        long end = System.nanoTime();
+        statsCounter.recordCreateException(end - start);
+        throw new ExecutionException(e);
+      } catch (Error e) {
+        long end = System.nanoTime();
+        statsCounter.recordCreateException(end - start);
+        throw new ExecutionError(e);
       } finally {
         statsCounter.recordEviction();
       }
