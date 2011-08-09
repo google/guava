@@ -24,7 +24,7 @@ import javax.annotation.Nullable;
  * @author Louis Wasserman
  */
 @GwtCompatible
-public interface BstAggregate<N extends BstNode<?, N>> {
+interface BstAggregate<N extends BstNode<?, N>> {
   /**
    * The total value on an entire subtree. Must be equal to the sum of the {@link #entryValue
    * entryValue} of this node and all its descendants.

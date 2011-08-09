@@ -44,7 +44,8 @@
  *     methods are rarely defined in common interfaces, so in addition to
  *     knowing every possible producer, you must also know its type.</li>
  * <li><strong>...with EventBus:</strong> pass your object to the
- *     {@link EventBus#register(Object)} method on an EventBus.  You'll need to
+ *     {@link com.google.common.eventbus.EventBus#register(Object)} method on an
+ *     EventBus.  You'll need to
  *     make sure that your object shares an EventBus instance with the event
  *     producers.</li>
  * </ul>
@@ -61,7 +62,8 @@
  * <ul>
  * <li><strong>...in traditional Java events:</strong> add code to each
  *     event-dispatching method (perhaps using AOP).</li>
- * <li><strong>...with EventBus:</strong> subscribe to {@link DeadEvent}.  The
+ * <li><strong>...with EventBus:</strong> subscribe to {@link
+ *     com.google.common.eventbus.DeadEvent}.  The
  *     EventBus will notify you of any events that were posted but not
  *     delivered.  (Handy for debugging.)</li>
  * </ul>
@@ -81,7 +83,7 @@
  *     dispatch events to each event listener, including error isolation and
  *     (if desired) asynchronicity.</li>
  * <li><strong>...with EventBus:</strong> pass the event object to an EventBus's
- *     {@link EventBus#post(Object)} method.</li>
+ *     {@link com.google.common.eventbus.EventBus#post(Object)} method.</li>
  * </ul>
  *
  * <h2>Glossary</h2>
@@ -96,7 +98,7 @@
  *     <em>handler methods</em>.</dt>
  * <dt>Handler method</dt><dd>A public method that the EventBus should use to
  *     deliver <em>posted</em> events.  Handler methods are marked by the
- *     {@link Subscribe} annotation.</dd>
+ *     {@link com.google.common.eventbus.Subscribe} annotation.</dd>
  * <dt>Posting an event</dt><dd>Making the event available to any
  *     <em>listeners</em> through the EventBus.</dt>
  * </dl>

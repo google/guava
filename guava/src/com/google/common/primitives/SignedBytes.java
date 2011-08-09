@@ -32,6 +32,8 @@ import java.util.Comparator;
  * @author Kevin Bourrillion
  * @since Guava release 01
  */
+// TODO(kevinb): how to prevent warning on UnsignedBytes when building GWT
+// javadoc?
 @GwtCompatible
 public final class SignedBytes {
   private SignedBytes() {}

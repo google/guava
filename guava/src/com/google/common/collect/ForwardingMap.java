@@ -202,16 +202,18 @@ public abstract class ForwardingMap<K, V> extends ForwardingObject
   }
 
   /**
-   * A sensible implementation of {@link #keySet} in terms of the following methods:
-   * {@link #clear}, {@link #containsKey}, {@link #isEmpty}, {@link #remove},
-   * {@link #size}, and the {@code iterator} method of {@link #entrySet}. In
-   * many cases, you may wish to override {@link #keySet} to forward to this
-   * implementation or a subclass thereof.
+   * A sensible implementation of {@link Map#keySet} in terms of the following
+   * methods: {@link ForwardingMap#clear}, {@link ForwardingMap#containsKey},
+   * {@link ForwardingMap#isEmpty}, {@link ForwardingMap#remove}, {@link
+   * ForwardingMap#size}, and the {@link Set#iterator} method of {@link
+   * ForwardingMap#entrySet}. In many cases, you may wish to override {@link
+   * ForwardingMap#keySet} to forward to this implementation or a subclass
+   * thereof.
    *
    * @since Guava release 10
    */
   @Beta
-  protected class StandardKeySet extends Maps.KeySet<K, V>{
+  protected class StandardKeySet extends Maps.KeySet<K, V> {
     @Override
     Map<K, V> map() {
       return ForwardingMap.this;
@@ -245,10 +247,11 @@ public abstract class ForwardingMap<K, V> extends ForwardingObject
   }
 
   /**
-   * A sensible implementation of {@link #values} in terms of the following
-   * methods: {@link #clear}, {@link #containsValue}, {@link #isEmpty},
-   * {@link #size}, and the {@code iterator} method of {@link #entrySet}. In
-   * many cases, you may wish to override {@link #values} to forward to this
+   * A sensible implementation of {@link Map#values} in terms of the following
+   * methods: {@link ForwardingMap#clear}, {@link ForwardingMap#containsValue},
+   * {@link ForwardingMap#isEmpty}, {@link ForwardingMap#size}, and the {@link
+   * Set#iterator} method of {@link ForwardingMap#entrySet}. In many cases, you
+   * may wish to override {@link ForwardingMap#values} to forward to this
    * implementation or a subclass thereof.
    *
    * @since Guava release 10
@@ -299,10 +302,11 @@ public abstract class ForwardingMap<K, V> extends ForwardingObject
   }
 
   /**
-   * A sensible implementation of {@link #entrySet} in terms of the following
-   * methods: {@link #clear}, {@link #containsKey}, {@link #get}, {@link
-   * #isEmpty}, {@link #remove}, and {@link #size}. In many cases, you may
-   * wish to override {@link #entrySet} to forward to this implementation
+   * A sensible implementation of {@link Map#entrySet} in terms of the following
+   * methods: {@link ForwardingMap#clear}, {@link ForwardingMap#containsKey},
+   * {@link ForwardingMap#get}, {@link ForwardingMap#isEmpty}, {@link
+   * ForwardingMap#remove}, and {@link ForwardingMap#size}. In many cases, you
+   * may wish to override {@link #entrySet} to forward to this implementation
    * or a subclass thereof.
    *
    * @since Guava release 10

@@ -18,6 +18,10 @@ package com.google.common.cache;
 
 import com.google.common.annotations.Beta;
 
+import java.util.Iterator;
+import java.util.Map;
+import java.util.concurrent.ConcurrentMap;
+
 /**
  * The reason why a cached entry was removed.
  *
@@ -29,7 +33,7 @@ public enum RemovalCause {
   /**
    * The entry was manually removed by the user. This can result from the user invoking {@link
    * Cache#invalidate}, {@link Map#remove}, {@link ConcurrentMap#remove}, or {@link
-   * java.util.Iterator#remove}.
+   * Iterator#remove}.
    */
   EXPLICIT {
     @Override
@@ -53,7 +57,8 @@ public enum RemovalCause {
 
   /**
    * The entry was removed automatically because its key or value was garbage-collected. This
-   * can occur when using {@link #weakKeys}, {@link #weakValues}, or {@link #softValues}.
+   * can occur when using {@link CacheBuilder#weakKeys}, {@link CacheBuilder#weakValues}, or
+   * {@link CacheBuilder#softValues}.
    */
   COLLECTED {
     @Override
@@ -64,7 +69,7 @@ public enum RemovalCause {
 
   /**
    * The entry's expiration timestamp has passed. This can occur when using {@link
-   * #expireAfterWrite} or {@link #expireAfterAccess}.
+   * CacheBuilder#expireAfterWrite} or {@link CacheBuilder#expireAfterAccess}.
    */
   EXPIRED {
     @Override
@@ -75,7 +80,7 @@ public enum RemovalCause {
 
   /**
    * The entry was evicted due to size constraints. This can occur when using {@link
-   * #maximumSize}.
+   * CacheBuilder#maximumSize}.
    */
   SIZE {
     @Override

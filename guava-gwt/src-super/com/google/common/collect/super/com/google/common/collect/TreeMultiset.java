@@ -36,8 +36,8 @@ import javax.annotation.Nullable;
  *
  * <p><b>Warning:</b> The comparison must be <i>consistent with equals</i> as
  * explained by the {@link Comparable} class specification. Otherwise, the
- * resulting multiset will violate the {@link Collection} contract, which it is
- * specified in terms of {@link Object#equals}.
+ * resulting multiset will violate the {@link java.util.Collection} contract,
+ * which is specified in terms of {@link Object#equals}.
  *
  * @author Neal Kanodia
  * @author Jared Levy

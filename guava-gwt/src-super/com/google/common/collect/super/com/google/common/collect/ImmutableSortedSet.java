@@ -113,7 +113,6 @@ public abstract class ImmutableSortedSet<E>
     return ofInternal(Ordering.natural(), (E[]) all.toArray(new Comparable[0]));
   }
 
-  /** @Deprecated */
   @Deprecated
   public
   static <E extends Comparable<? super E>> ImmutableSortedSet<E> of(

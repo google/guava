@@ -490,7 +490,7 @@ public final class InetAddresses {
    * a URI containing an IPv6 string literal is of the form
    * {@code "http://[2001:db8::1]:8888/index.html"}.
    *
-   * <p>Use of either {@link InetAddresses#toAddrString()},
+   * <p>Use of either {@link InetAddresses#toAddrString},
    * {@link InetAddress#getHostAddress()}, or this method is recommended over
    * {@link InetAddress#toString()} when an IP address string literal is
    * desired.  This is because {@link InetAddress#toString()} prints the

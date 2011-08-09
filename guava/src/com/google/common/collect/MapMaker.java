@@ -596,11 +596,12 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    * @throws IllegalStateException if an eviction listener was already set
    * @deprecated Caching functionality in {@code MapMaker} is being moved to
    *     {@link com.google.common.cache.CacheBuilder}. Functionality similar to
-   *     {@link MapMaker#evictionListener} is provided by
-   *     {@link com.google.common.cache.CacheBuilder#removalListener} which also provides
+   *     {@link MapMaker#evictionListener} is provided by {@link
+   *  com.google.common.cache.CacheBuilder#removalListener(com.google.common.cache.RemovalListener)}
+   *     which also provides
    *     additional information about the entry being evicted; note that {@code evictionListener}
    *     only notifies on removals due to eviction, while {@code removalListener} also notifies on
-   *     explicit removal (providing the {@link @link com.google.common.cache.RemovalCause} to
+   *     explicit removal (providing the {@link com.google.common.cache.RemovalCause} to
    *     indicate the specific cause of removal. <b>This method is scheduled for deletion in Guava
    *     release 11.</b>
    * @since Guava release 07

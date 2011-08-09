@@ -72,6 +72,8 @@ public final class Collections2 {
    * with equals. (See {@link Iterables#filter(Iterable, Class)} for related
    * functionality.)
    */
+  // TODO(kevinb): how can we omit that Iterables link when building gwt
+  // javadoc?
   public static <E> Collection<E> filter(
       Collection<E> unfiltered, Predicate<? super E> predicate) {
     if (unfiltered instanceof FilteredCollection) {

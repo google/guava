@@ -25,7 +25,6 @@ import com.google.common.annotations.GwtCompatible;
 
 import java.io.Serializable;
 import java.util.AbstractList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -33,14 +32,16 @@ import java.util.RandomAccess;
 
 /**
  * Static utility methods pertaining to {@code byte} primitives, that are not
- * already found in either {@link Byte} or {@link Arrays}, <i>and interpret
- * bytes as neither signed nor unsigned</i>. The methods which specifically
- * treat bytes as signed or unsigned are found in {@link SignedBytes} and {@link
- * UnsignedBytes}.
+ * already found in either {@link Byte} or {@link java.util.Arrays}, <i>and
+ * interpret bytes as neither signed nor unsigned</i>. The methods which
+ * specifically treat bytes as signed or unsigned are found in {@link
+ * SignedBytes} and {@link UnsignedBytes}.
  *
  * @author Kevin Bourrillion
  * @since Guava release 01
  */
+// TODO(kevinb): how to prevent warning on UnsignedBytes when building GWT
+// javadoc?
 @GwtCompatible
 public final class Bytes {
   private Bytes() {}

@@ -343,8 +343,8 @@ public final class Maps {
   @Beta
   public static <K, V> MapDifference<K, V> difference(
       Map<? extends K, ? extends V> left, Map<? extends K, ? extends V> right,
-      Equivalence<? super V> equivalence) {
-    Preconditions.checkNotNull(equivalence);
+      Equivalence<? super V> valueEquivalence) {
+    Preconditions.checkNotNull(valueEquivalence);
 
     Map<K, V> onlyOnLeft = newHashMap();
     Map<K, V> onlyOnRight = new HashMap<K, V>(right); // will whittle it down
@@ -357,7 +357,7 @@ public final class Maps {
       V leftValue = entry.getValue();
       if (right.containsKey(leftKey)) {
         V rightValue = onlyOnRight.remove(leftKey);
-        if (equivalence.equivalent(leftValue, rightValue)) {
+        if (valueEquivalence.equivalent(leftValue, rightValue)) {
           onBoth.put(leftKey, leftValue);
         } else {
           eq = false;
@@ -1605,7 +1605,7 @@ public final class Maps {
     return false;
   }
 
-  static abstract class KeySet<K, V> extends AbstractSet<K> {
+  abstract static class KeySet<K, V> extends AbstractSet<K> {
     abstract Map<K, V> map();
 
     @Override public Iterator<K> iterator() {
@@ -1648,7 +1648,7 @@ public final class Maps {
     }
   }
 
-  static abstract class Values<K, V> extends AbstractCollection<V> {
+  abstract static class Values<K, V> extends AbstractCollection<V> {
     abstract Map<K, V> map();
 
     @Override public Iterator<V> iterator() {
@@ -1719,7 +1719,7 @@ public final class Maps {
     }
   }
 
-  static abstract class EntrySet<K, V> extends AbstractSet<Entry<K, V>> {
+  abstract static class EntrySet<K, V> extends AbstractSet<Entry<K, V>> {
     abstract Map<K, V> map();
 
     @Override public int size() {

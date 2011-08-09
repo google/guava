@@ -29,9 +29,8 @@ import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.TimeUnit;
 
 /**
- * A class exactly like {@link MapMaker}, except restricted in the types of maps it can build. This
- * type is returned by {@link MapMaker#removalListener} to prevent the user from trying to build a
- * map that's incompatible with the key and value types of the listener.
+ * A class exactly like {@link MapMaker}, except restricted in the types of maps it can build.
+ * For the most part, you should probably just ignore the existence of this class.
  *
  * @param <K0> the base type for all key types of maps built by this map maker
  * @param <V0> the base type for all value types of maps built by this map maker

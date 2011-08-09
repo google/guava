@@ -77,6 +77,8 @@ public abstract class Equivalence<T> {
    *
    * <p>Called by {@link #equivalent}. {@code a} and {@code b} are not the same
    * object and are not nulls.
+   *
+   * @since Guava release 10 (previously, subclasses would override equivalent())
    */
   protected abstract boolean doEquivalent(T a, T b);
 
@@ -107,6 +109,8 @@ public abstract class Equivalence<T> {
    * Returns a hash code for non-null object {@code t}.
    *
    * <p>Called by {@link #hash}.
+   *
+   * @since Guava release 10 (previously, subclasses would override hash())
    */
   protected abstract int doHash(T t);
 

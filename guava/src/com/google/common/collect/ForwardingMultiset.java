@@ -248,12 +248,17 @@ public abstract class ForwardingMultiset<E> extends ForwardingCollection<E>
   }
 
   /**
-   * A sensible implementation of {@link #elementSet} in terms of the following
-   * methods: {@link #clear}, {@link #contains}, {@link #containsAll},
-   * {@link #count}, {@link #isEmpty}, the {@code size()} and {@code iterator()}
-   * methods of {@link #entrySet}, and {@link #remove(Object, int)}.  In many
-   * situations, you may wish to override {@link #elementSet} to forward to this
-   * implementation or a subclass thereof.
+   * A sensible implementation of {@link Multiset#elementSet} in terms of the
+   * following methods: {@link ForwardingMultiset#clear}, {@link
+   * ForwardingMultiset#contains}, {@link ForwardingMultiset#containsAll},
+   * {@link ForwardingMultiset#count}, {@link ForwardingMultiset#isEmpty}, the
+   * {@link Set#size} and {@link Set#iterator} methods of {@link
+   * ForwardingMultiset#entrySet}, and {@link ForwardingMultiset#remove(Object,
+   * int)}.  In many situations, you may wish to override {@link
+   * ForwardingMultiset#elementSet} to forward to this implementation or a
+   * subclass thereof.
+   *
+   * @since Guava release 10
    */
   @Beta
   protected class StandardElementSet extends Multisets.ElementSet<E> {

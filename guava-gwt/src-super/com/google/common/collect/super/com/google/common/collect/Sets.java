@@ -327,7 +327,7 @@ public final class Sets {
    * determine whether a provided object matches an element in the set. For
    * example, {@code contains} returns {@code false} when passed an object that
    * equals a set member, but isn't the same instance. This behavior is similar
-   * to the way {@link IdentityHashMap} handles key lookups.
+   * to the way {@code IdentityHashMap} handles key lookups.
    *
    * @since Guava release 08
    */
@@ -402,8 +402,8 @@ public final class Sets {
    * backing map. In essence, this factory method provides a {@link Set}
    * implementation corresponding to any {@link Map} implementation. There is no
    * need to use this method on a {@link Map} implementation that already has a
-   * corresponding {@link Set} implementation (such as {@link HashMap} or
-   * {@link TreeMap}).
+   * corresponding {@link Set} implementation (such as {@link java.util.HashMap}
+   * or {@link java.util.TreeMap}).
    *
    * <p>Each method invocation on the set returned by this method results in
    * exactly one method invocation on the backing map or its <tt>keySet</tt>
@@ -541,7 +541,7 @@ public final class Sets {
    *
    * <p>Results are undefined if {@code set1} and {@code set2} are sets based on
    * different equivalence relations (as {@link HashSet}, {@link TreeSet}, and
-   * the {@link Map#keySet} of an {@link IdentityHashMap} all are).
+   * the {@link Map#keySet} of an {@code IdentityHashMap} all are).
    *
    * <p><b>Note:</b> The returned view performs better when {@code set1} is the
    * smaller of the two sets. If you have reason to believe one of your sets
@@ -712,6 +712,7 @@ public final class Sets {
    * with equals. (See {@link Iterables#filter(Iterable, Class)} for related
    * functionality.)
    */
+  // TODO(kevinb): how to omit that last sentence when building GWT javadoc?
   public static <E> Set<E> filter(
       Set<E> unfiltered, Predicate<? super E> predicate) {
     if (unfiltered instanceof FilteredSet) {
