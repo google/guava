@@ -152,6 +152,30 @@ public final class ByteStreams {
   }
 
   /**
+   * Opens an output stream from the supplier, copies all bytes from the input
+   * to the output, and closes the output stream. Does not close or flush the
+   * output stream.
+   *
+   * @param from the input stream to read from
+   * @param to the output factory
+   * @return the number of bytes copied
+   * @throws IOException if an I/O error occurs
+   * @since Guava release 10
+   */
+  public static long copy(InputStream from,
+      OutputSupplier<? extends OutputStream> to) throws IOException {
+    boolean threw = true;
+    OutputStream out = to.getOutput();
+    try {
+      long count = copy(from, out);
+      threw = false;
+      return count;
+    } finally {
+      Closeables.close(out, threw);
+    }
+  }
+
+  /**
    * Copies all bytes from the input stream to the output stream.
    * Does not close or flush either stream.
    *
