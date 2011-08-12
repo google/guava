@@ -40,13 +40,10 @@ import java.util.concurrent.CancellationException;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
-import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.annotation.Nullable;
@@ -117,30 +114,21 @@ public final class Futures {
    * ListenableFuture#addListener} by taking a thread from an internal,
    * unbounded pool at the first call to {@code addListener} and holding it
    * until the future is {@linkplain Future#isDone() done}.
+   *
    * @deprecated Prefer to create {@code ListenableFuture} instances with {@link
    *     SettableFuture}, {@link MoreExecutors#listeningDecorator(
    *     java.util.concurrent.ExecutorService)}, {@link ListenableFutureTask},
    *     {@link AbstractFuture}, and other utilities over creating plain {@code
    *     Future} instances to be upgraded to {@code ListenableFuture} after the
-   *     fact. <b>This method is scheduled for deletion in Guava release 11.</b>
+   *     fact. If this is not possible, the functionality of {@code
+   *     makeListenable} is now available as {@link
+   *     JdkFutureAdapters#listenInPoolThread}. <b>This method is scheduled
+   *     for deletion in Guava release 11.</b>
    */
   @Deprecated
   public
-  static <V> ListenableFuture<V> makeListenable(
-      Future<V> future) {
-    if (future instanceof ListenableFuture<?>) {
-      return (ListenableFuture<V>) future;
-    }
-    return new ListenableFutureAdapter<V>(future);
-  }
-
-  static <V> ListenableFuture<V> makeListenable(
-      Future<V> future, Executor executor) {
-    checkNotNull(executor);
-    if (future instanceof ListenableFuture<?>) {
-      return (ListenableFuture<V>) future;
-    }
-    return new ListenableFutureAdapter<V>(future, executor);
+  static <V> ListenableFuture<V> makeListenable(Future<V> future) {
+    return JdkFutureAdapters.listenInPoolThread(future);
   }
 
   /**
@@ -1447,88 +1435,6 @@ public final class Futures {
     @Override
     protected X mapException(Exception e) {
       return mapper.apply(e);
-    }
-  }
-
-  /**
-   * An adapter to turn a {@link Future} into a {@link ListenableFuture}.  This
-   * will wait on the future to finish, and when it completes, run the
-   * listeners.  This implementation will wait on the source future
-   * indefinitely, so if the source future never completes, the adapter will
-   * never complete either.
-   *
-   * <p>If the delegate future is interrupted or throws an unexpected unchecked
-   * exception, the listeners will not be invoked.
-   */
-  private static class ListenableFutureAdapter<V> extends ForwardingFuture<V>
-      implements ListenableFuture<V> {
-
-    private static final ThreadFactory threadFactory =
-        new ThreadFactoryBuilder()
-            .setNameFormat("ListenableFutureAdapter-thread-%d")
-            .build();
-    private static final Executor defaultAdapterExecutor =
-        Executors.newCachedThreadPool(threadFactory);
-
-    private final Executor adapterExecutor;
-
-    // The execution list to hold our listeners.
-    private final ExecutionList executionList = new ExecutionList();
-
-    // This allows us to only start up a thread waiting on the delegate future
-    // when the first listener is added.
-    private final AtomicBoolean hasListeners = new AtomicBoolean(false);
-
-    // The delegate future.
-    private final Future<V> delegate;
-
-    ListenableFutureAdapter(Future<V> delegate) {
-      this(delegate, defaultAdapterExecutor);
-    }
-
-    ListenableFutureAdapter(Future<V> delegate, Executor adapterExecutor) {
-      this.delegate = checkNotNull(delegate);
-      this.adapterExecutor = checkNotNull(adapterExecutor);
-    }
-
-    @Override
-    protected Future<V> delegate() {
-      return delegate;
-    }
-
-    @Override
-    public void addListener(Runnable listener, Executor exec) {
-      executionList.add(listener, exec);
-
-      // When a listener is first added, we run a task that will wait for
-      // the delegate to finish, and when it is done will run the listeners.
-      if (hasListeners.compareAndSet(false, true)) {
-        if (delegate.isDone()) {
-          // If the delegate is already done, run the execution list
-          // immediately on the current thread.
-          executionList.execute();
-          return;
-        }
-
-        adapterExecutor.execute(new Runnable() {
-          @Override
-          public void run() {
-            try {
-              delegate.get();
-            } catch (Error e) {
-              throw e;
-            } catch (InterruptedException e) {
-              Thread.currentThread().interrupt();
-              // Threads from our private pool are never interrupted.
-              throw new AssertionError(e);
-            } catch (Throwable e) {
-              // ExecutionException / CancellationException / RuntimeException
-              // The task is done, run the listeners.
-            }
-            executionList.execute();
-          }
-        });
-      }
     }
   }
 }
