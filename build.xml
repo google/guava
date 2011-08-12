@@ -299,6 +299,7 @@
           <pathelement location="guava-gwt/test" />
           <pathelement location="build/gwt-test-classes" />
           <pathelement location="lib/jsr305.jar"/>
+          <pathelement location="lib/libtruth-gwt.jar"/>
           <pathelement location="${gwthome}/gwt-user.jar"/>
           <pathelement location="${gwthome}/gwt-dev.jar"/>
         </classpath>

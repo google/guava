@@ -83,6 +83,20 @@ final class GwtSerializationDependencies {
     }
   }
 
+  /*
+   * We support an interface declared in terms of LinkedListMultimap because it
+   * supports entry ordering not supported by other implementations.
+   */
+  static final class LinkedListMultimapDependencies<K, V>
+      extends LinkedListMultimap<K, V> {
+    K key;
+    V value;
+
+    LinkedListMultimapDependencies() {
+      super();
+    }
+  }
+
   static final class HashBasedTableDependencies<R, C, V>
       extends HashBasedTable<R, C, V> {
     HashMap<R, HashMap<C, V>> data;

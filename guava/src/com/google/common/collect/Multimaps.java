@@ -1268,7 +1268,6 @@ public final class Multimaps {
    * @since Guava release 07
    */
   @Beta
-  @GwtIncompatible(value = "untested")
   public static <K, V1, V2> Multimap<K, V2> transformValues(
       Multimap<K, V1> fromMultimap, final Function<? super V1, V2> function) {
     checkNotNull(function);
@@ -1338,14 +1337,12 @@ public final class Multimaps {
    * @since Guava release 07
    */
   @Beta
-  @GwtIncompatible(value = "untested")
   public static <K, V1, V2> Multimap<K, V2> transformEntries(
       Multimap<K, V1> fromMap,
       EntryTransformer<? super K, ? super V1, V2> transformer) {
     return new TransformedEntriesMultimap<K, V1, V2>(fromMap, transformer);
   }
 
-  @GwtIncompatible(value = "untested")
   private static class TransformedEntriesMultimap<K, V1, V2>
       implements Multimap<K, V2> {
     final Multimap<K, V1> fromMultimap;
@@ -1580,7 +1577,6 @@ public final class Multimaps {
    * @since Guava release 07
    */
   @Beta
-  @GwtIncompatible(value = "untested")
   public static <K, V1, V2> ListMultimap<K, V2> transformValues(
       ListMultimap<K, V1> fromMultimap,
       final Function<? super V1, V2> function) {
@@ -1648,14 +1644,12 @@ public final class Multimaps {
    * @since Guava release 07
    */
   @Beta
-  @GwtIncompatible(value = "untested")
   public static <K, V1, V2> ListMultimap<K, V2> transformEntries(
       ListMultimap<K, V1> fromMap,
       EntryTransformer<? super K, ? super V1, V2> transformer) {
     return new TransformedEntriesListMultimap<K, V1, V2>(fromMap, transformer);
   }
   
-  @GwtIncompatible(value = "untested")
   private static final class TransformedEntriesListMultimap<K, V1, V2>
       extends TransformedEntriesMultimap<K, V1, V2>
       implements ListMultimap<K, V2> {

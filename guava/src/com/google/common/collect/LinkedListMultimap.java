@@ -99,7 +99,7 @@ import javax.annotation.Nullable;
  * @since Guava release 02 (imported from Google Collections Library)
  */
 @GwtCompatible(serializable = true, emulated = true)
-public final class LinkedListMultimap<K, V>
+public class LinkedListMultimap<K, V>
     implements ListMultimap<K, V>, Serializable {
   /*
    * Order is maintained using a linked list containing all key-value pairs. In
@@ -163,7 +163,7 @@ public final class LinkedListMultimap<K, V>
     return new LinkedListMultimap<K, V>(multimap);
   }
 
-  private LinkedListMultimap() {
+  LinkedListMultimap() {
     keyCount = LinkedHashMultiset.create();
     keyToKeyHead = Maps.newHashMap();
     keyToKeyTail = Maps.newHashMap();

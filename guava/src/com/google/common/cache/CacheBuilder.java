@@ -58,10 +58,11 @@ import javax.annotation.Nullable;
  * <p>A builder of {@link Cache} instances having any combination of the following features:
  *
  * <ul>
- * <li>keys or values automatically wrapped in {@linkplain WeakReference weak} or {@linkplain
- *     SoftReference soft} references
  * <li>least-recently-used eviction when a maximum size is exceeded
  * <li>time-based expiration of entries, measured since last access or last write
+ * <li>keys automatically wrapped in {@linkplain WeakReference weak} references
+ * <li>values automatically wrapped in {@linkplain WeakReference weak} or
+ *     {@linkplain SoftReference soft} references
  * <li>notification of evicted (or otherwise removed) entries
  * </ul>
  *

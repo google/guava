@@ -16,12 +16,14 @@ package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.collect.BoundType.CLOSED;
 import static com.google.common.collect.BoundType.OPEN;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Objects;
 import com.google.common.base.Optional;
 
+import java.io.Serializable;
 import java.util.Comparator;
 
 import javax.annotation.Nullable;
@@ -35,24 +37,53 @@ import javax.annotation.Nullable;
  *
  * @author Louis Wasserman
  */
-@GwtCompatible
-final class GeneralRange<T> {
+@GwtCompatible(serializable = true)
+final class GeneralRange<T> implements Serializable {
+  /**
+   * Converts a Range to a GeneralRange.
+   */
+  static <T extends Comparable> GeneralRange<T> from(Range<T> range) {
+    Optional<T> lowerEndpoint =
+        range.hasLowerBound() ? Optional.of(range.lowerEndpoint()) : Optional.<T>absent();
+    BoundType lowerBoundType = range.hasLowerBound() ? range.lowerBoundType() : OPEN;
+    Optional<T> upperEndpoint =
+        range.hasUpperBound() ? Optional.of(range.upperEndpoint()) : Optional.<T>absent();
+    BoundType upperBoundType = range.hasUpperBound() ? range.upperBoundType() : OPEN;
+    return new GeneralRange<T>(
+        Ordering.natural(), lowerEndpoint, lowerBoundType, upperEndpoint, upperBoundType);
+  }
+
+  /**
+   * Returns the whole range relative to the specified comparator.
+   */
   static <T> GeneralRange<T> all(Comparator<? super T> comparator) {
     return new GeneralRange<T>(comparator, Optional.<T>absent(), OPEN, Optional.<T>absent(), OPEN);
   }
 
+  /**
+   * Returns everything above the endpoint relative to the specified comparator, with the specified
+   * endpoint behavior.
+   */
   static <T> GeneralRange<T> downTo(
       Comparator<? super T> comparator, T endpoint, BoundType boundType) {
     return new GeneralRange<T>(
         comparator, Optional.of(endpoint), boundType, Optional.<T>absent(), OPEN);
   }
 
+  /**
+   * Returns everything below the endpoint relative to the specified comparator, with the specified
+   * endpoint behavior.
+   */
   static <T> GeneralRange<T> upTo(
       Comparator<? super T> comparator, T endpoint, BoundType boundType) {
     return new GeneralRange<T>(
         comparator, Optional.<T>absent(), OPEN, Optional.of(endpoint), boundType);
   }
 
+  /**
+   * Returns everything between the endpoints relative to the specified comparator, with the
+   * specified endpoint behavior.
+   */
   static <T> GeneralRange<T> range(Comparator<? super T> comparator, T lower, BoundType lowerType,
       T upper, BoundType upperType) {
     return new GeneralRange<T>(
@@ -72,6 +103,15 @@ final class GeneralRange<T> {
     this.lowerBoundType = checkNotNull(lowerBoundType);
     this.upperEndpoint = checkNotNull(upperEndpoint);
     this.upperBoundType = checkNotNull(upperBoundType);
+    if (lowerEndpoint.isPresent() && upperEndpoint.isPresent()) {
+      int cmp = comparator.compare(lowerEndpoint.get(), upperEndpoint.get());
+      // be consistent with Range
+      checkArgument(
+          cmp <= 0, "lowerEndpoint (%s) > upperEndpoint (%s)", lowerEndpoint, upperEndpoint);
+      if (cmp == 0) {
+        checkArgument(lowerBoundType != OPEN | upperBoundType != OPEN);
+      }
+    }
   }
 
   Comparator<? super T> comparator() {
@@ -114,6 +154,9 @@ final class GeneralRange<T> {
     return !tooLow(t) && !tooHigh(t);
   }
 
+  /**
+   * Returns the intersection of the two ranges, or an empty range if their intersection is empty.
+   */
   GeneralRange<T> intersect(GeneralRange<T> other) {
     checkNotNull(other);
     checkArgument(comparator.equals(other.comparator));
@@ -144,6 +187,16 @@ final class GeneralRange<T> {
       }
     }
 
+    if (lowEnd.isPresent() && upEnd.isPresent()) {
+      int cmp = comparator.compare(lowEnd.get(), upEnd.get());
+      if (cmp > 0 || (cmp == 0 && lowType == OPEN && upType == OPEN)) {
+        // force allowed empty range
+        lowEnd = upEnd;
+        lowType = OPEN;
+        upType = CLOSED;
+      }
+    }
+
     return new GeneralRange<T>(comparator, lowEnd, lowType, upEnd, upType);
   }
 
@@ -162,5 +215,56 @@ final class GeneralRange<T> {
   public int hashCode() {
     return Objects.hashCode(
         comparator, lowerEndpoint, lowerBoundType, upperEndpoint, upperBoundType);
+  }
+
+  private transient GeneralRange<T> reverse;
+
+  /**
+   * Returns the same range relative to the reversed comparator.
+   */
+  public GeneralRange<T> reverse() {
+    GeneralRange<T> result = reverse;
+    if (result == null) {
+      result =
+          new GeneralRange<T>(Ordering.from(comparator).reverse(), upperEndpoint, upperBoundType,
+              lowerEndpoint, lowerBoundType);
+      result.reverse = this;
+      return this.reverse = result;
+    }
+    return result;
+  }
+
+  @Override
+  public String toString() {
+    StringBuilder builder = new StringBuilder();
+    builder.append(comparator).append(":");
+    switch (lowerBoundType) {
+      case CLOSED:
+        builder.append('[');
+        break;
+      case OPEN:
+        builder.append('(');
+        break;
+    }
+    if (hasLowerBound()) {
+      builder.append(lowerEndpoint.get());
+    } else {
+      builder.append("-\u221e");
+    }
+    builder.append(',');
+    if (hasUpperBound()) {
+      builder.append(upperEndpoint.get());
+    } else {
+      builder.append("\u221e");
+    }
+    switch (upperBoundType) {
+      case CLOSED:
+        builder.append(']');
+        break;
+      case OPEN:
+        builder.append(')');
+        break;
+    }
+    return builder.toString();
   }
 }

@@ -16,15 +16,15 @@
 
 package com.google.common.base;
 
+import static org.junit.contrib.truth.Truth.ASSERT;
+
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
-import com.google.common.collect.Lists;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.testing.NullPointerTester;
-import com.google.testing.util.MoreAsserts;
 
 import junit.framework.TestCase;
 
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.regex.Pattern;
@@ -35,9 +35,11 @@ import java.util.regex.Pattern;
 @GwtCompatible(emulated = true)
 public class SplitterTest extends TestCase {
 
+  private static final Splitter COMMA_SPLITTER = Splitter.on(',');
+
   public void testSplitNullString() {
     try {
-      Splitter.on(',').split(null);
+      COMMA_SPLITTER.split(null);
       fail();
     } catch (NullPointerException expected) {
     }
@@ -45,44 +47,44 @@ public class SplitterTest extends TestCase {
 
   public void testCharacterSimpleSplit() {
     String simple = "a,b,c";
-    Iterable<String> letters = Splitter.on(',').split(simple);
-    assertContentsInOrder(letters, "a", "b", "c");
+    Iterable<String> letters = COMMA_SPLITTER.split(simple);
+    ASSERT.that(letters).hasContentsInOrder("a", "b", "c");
   }
 
   public void testCharacterSimpleSplitWithNoDelimiter() {
     String simple = "a,b,c";
     Iterable<String> letters = Splitter.on('.').split(simple);
-    assertContentsInOrder(letters, "a,b,c");
+    ASSERT.that(letters).hasContentsInOrder("a,b,c");
   }
 
   public void testCharacterSplitWithDoubleDelimiter() {
     String doubled = "a,,b,c";
-    Iterable<String> letters = Splitter.on(',').split(doubled);
-    assertContentsInOrder(letters, "a", "", "b", "c");
+    Iterable<String> letters = COMMA_SPLITTER.split(doubled);
+    ASSERT.that(letters).hasContentsInOrder("a", "", "b", "c");
   }
 
   public void testCharacterSplitWithDoubleDelimiterAndSpace() {
     String doubled = "a,, b,c";
-    Iterable<String> letters = Splitter.on(',').split(doubled);
-    assertContentsInOrder(letters, "a", "", " b", "c");
+    Iterable<String> letters = COMMA_SPLITTER.split(doubled);
+    ASSERT.that(letters).hasContentsInOrder("a", "", " b", "c");
   }
 
   public void testCharacterSplitWithTrailingDelimiter() {
     String trailing = "a,b,c,";
-    Iterable<String> letters = Splitter.on(',').split(trailing);
-    assertContentsInOrder(letters, "a", "b", "c", "");
+    Iterable<String> letters = COMMA_SPLITTER.split(trailing);
+    ASSERT.that(letters).hasContentsInOrder("a", "b", "c", "");
   }
 
   public void testCharacterSplitWithLeadingDelimiter() {
     String leading = ",a,b,c";
-    Iterable<String> letters = Splitter.on(',').split(leading);
-    assertContentsInOrder(letters, "", "a", "b", "c");
+    Iterable<String> letters = COMMA_SPLITTER.split(leading);
+    ASSERT.that(letters).hasContentsInOrder("", "a", "b", "c");
   }
 
   public void testCharacterSplitWithMulitpleLetters() {
     Iterable<String> testCharacteringMotto = Splitter.on('-').split(
         "Testing-rocks-Debugging-sucks");
-    assertContentsInOrder(testCharacteringMotto,
+    ASSERT.that(testCharacteringMotto).hasContentsInOrder(
         "Testing", "rocks", "Debugging", "sucks");
   }
 
@@ -90,7 +92,7 @@ public class SplitterTest extends TestCase {
     Iterable<String> testCharacteringMotto = Splitter
         .on(CharMatcher.WHITESPACE)
         .split("Testing\nrocks\tDebugging sucks");
-    assertContentsInOrder(testCharacteringMotto,
+    ASSERT.that(testCharacteringMotto).hasContentsInOrder(
         "Testing", "rocks", "Debugging", "sucks");
   }
 
@@ -98,93 +100,92 @@ public class SplitterTest extends TestCase {
     String doubled = "a..b.c";
     Iterable<String> letters = Splitter.on('.')
         .omitEmptyStrings().split(doubled);
-    assertContentsInOrder(letters, "a", "b", "c");
+    ASSERT.that(letters).hasContentsInOrder("a", "b", "c");
   }
 
   public void testCharacterSplitEmptyToken() {
     String emptyToken = "a. .c";
     Iterable<String> letters = Splitter.on('.').trimResults()
         .split(emptyToken);
-    assertContentsInOrder(letters, "a", "", "c");
+    ASSERT.that(letters).hasContentsInOrder("a", "", "c");
   }
 
   public void testCharacterSplitEmptyTokenOmitEmptyStrings() {
     String emptyToken = "a. .c";
     Iterable<String> letters = Splitter.on('.')
         .omitEmptyStrings().trimResults().split(emptyToken);
-    assertContentsInOrder(letters, "a", "c");
+    ASSERT.that(letters).hasContentsInOrder("a", "c");
   }
 
   public void testCharacterSplitOnEmptyString() {
     Iterable<String> nothing = Splitter.on('.').split("");
-    assertContentsInOrder(nothing, "");
+    ASSERT.that(nothing).hasContentsInOrder("");
   }
 
   public void testCharacterSplitOnEmptyStringOmitEmptyStrings() {
-    assertFalse(
-        Splitter.on('.').omitEmptyStrings().split("").iterator().hasNext());
+    ASSERT.that(Splitter.on('.').omitEmptyStrings().split("")).isEmpty();
   }
 
   public void testCharacterSplitOnOnlyDelimiter() {
     Iterable<String> blankblank = Splitter.on('.').split(".");
-    assertContentsInOrder(blankblank, "", "");
+    ASSERT.that(blankblank).hasContentsInOrder("", "");
   }
 
   public void testCharacterSplitOnOnlyDelimitersOmitEmptyStrings() {
     Iterable<String> empty = Splitter.on('.').omitEmptyStrings().split("...");
-    assertContentsInOrder(empty);
+    ASSERT.that(empty);
   }
 
   public void testCharacterSplitWithTrim() {
     String jacksons = "arfo(Marlon)aorf, (Michael)orfa, afro(Jackie)orfa, "
         + "ofar(Jemaine), aff(Tito)";
-    Iterable<String> family = Splitter.on(',')
+    Iterable<String> family = COMMA_SPLITTER
         .trimResults(CharMatcher.anyOf("afro").or(CharMatcher.WHITESPACE))
         .split(jacksons);
-    assertContentsInOrder(family,
+    ASSERT.that(family).hasContentsInOrder(
         "(Marlon)", "(Michael)", "(Jackie)", "(Jemaine)", "(Tito)");
   }
 
   public void testStringSimpleSplit() {
     String simple = "a,b,c";
     Iterable<String> letters = Splitter.on(",").split(simple);
-    assertContentsInOrder(letters, "a", "b", "c");
+    ASSERT.that(letters).hasContentsInOrder("a", "b", "c");
   }
 
   public void testStringSimpleSplitWithNoDelimiter() {
     String simple = "a,b,c";
     Iterable<String> letters = Splitter.on(".").split(simple);
-    assertContentsInOrder(letters, "a,b,c");
+    ASSERT.that(letters).hasContentsInOrder("a,b,c");
   }
 
   public void testStringSplitWithDoubleDelimiter() {
     String doubled = "a,,b,c";
     Iterable<String> letters = Splitter.on(",").split(doubled);
-    assertContentsInOrder(letters, "a", "", "b", "c");
+    ASSERT.that(letters).hasContentsInOrder("a", "", "b", "c");
   }
 
   public void testStringSplitWithDoubleDelimiterAndSpace() {
     String doubled = "a,, b,c";
     Iterable<String> letters = Splitter.on(",").split(doubled);
-    assertContentsInOrder(letters, "a", "", " b", "c");
+    ASSERT.that(letters).hasContentsInOrder("a", "", " b", "c");
   }
 
   public void testStringSplitWithTrailingDelimiter() {
     String trailing = "a,b,c,";
     Iterable<String> letters = Splitter.on(",").split(trailing);
-    assertContentsInOrder(letters, "a", "b", "c", "");
+    ASSERT.that(letters).hasContentsInOrder("a", "b", "c", "");
   }
 
   public void testStringSplitWithLeadingDelimiter() {
     String leading = ",a,b,c";
     Iterable<String> letters = Splitter.on(",").split(leading);
-    assertContentsInOrder(letters, "", "a", "b", "c");
+    ASSERT.that(letters).hasContentsInOrder("", "a", "b", "c");
   }
 
   public void testStringSplitWithMultipleLetters() {
     Iterable<String> testStringingMotto = Splitter.on("-").split(
         "Testing-rocks-Debugging-sucks");
-    assertContentsInOrder(testStringingMotto,
+    ASSERT.that(testStringingMotto).hasContentsInOrder(
         "Testing", "rocks", "Debugging", "sucks");
   }
 
@@ -192,46 +193,46 @@ public class SplitterTest extends TestCase {
     String doubled = "a..b.c";
     Iterable<String> letters = Splitter.on(".")
         .omitEmptyStrings().split(doubled);
-    assertContentsInOrder(letters, "a", "b", "c");
+    ASSERT.that(letters).hasContentsInOrder("a", "b", "c");
   }
 
   public void testStringSplitEmptyToken() {
     String emptyToken = "a. .c";
     Iterable<String> letters = Splitter.on(".").trimResults()
         .split(emptyToken);
-    assertContentsInOrder(letters, "a", "", "c");
+    ASSERT.that(letters).hasContentsInOrder("a", "", "c");
   }
 
   public void testStringSplitEmptyTokenOmitEmptyStrings() {
     String emptyToken = "a. .c";
     Iterable<String> letters = Splitter.on(".")
         .omitEmptyStrings().trimResults().split(emptyToken);
-    assertContentsInOrder(letters, "a", "c");
+    ASSERT.that(letters).hasContentsInOrder("a", "c");
   }
 
   public void testStringSplitWithLongDelimiter() {
     String longDelimiter = "a, b, c";
     Iterable<String> letters = Splitter.on(", ").split(longDelimiter);
-    assertContentsInOrder(letters, "a", "b", "c");
+    ASSERT.that(letters).hasContentsInOrder("a", "b", "c");
   }
 
   public void testStringSplitWithLongLeadingDelimiter() {
     String longDelimiter = ", a, b, c";
     Iterable<String> letters = Splitter.on(", ").split(longDelimiter);
-    assertContentsInOrder(letters, "", "a", "b", "c");
+    ASSERT.that(letters).hasContentsInOrder("", "a", "b", "c");
   }
 
   public void testStringSplitWithLongTrailingDelimiter() {
     String longDelimiter = "a, b, c, ";
     Iterable<String> letters = Splitter.on(", ").split(longDelimiter);
-    assertContentsInOrder(letters, "a", "b", "c", "");
+    ASSERT.that(letters).hasContentsInOrder("a", "b", "c", "");
   }
 
   public void testStringSplitWithDelimiterSubstringInValue() {
     String fourCommasAndFourSpaces = ",,,,    ";
-    Iterable<String> threeCommasThenTreeSpaces = Splitter.on(", ").split(
+    Iterable<String> threeCommasThenThreeSpaces = Splitter.on(", ").split(
         fourCommasAndFourSpaces);
-    assertContentsInOrder(threeCommasThenTreeSpaces, ",,,", "   ");
+    ASSERT.that(threeCommasThenThreeSpaces).hasContentsInOrder(",,,", "   ");
   }
 
   public void testStringSplitWithEmptyString() {
@@ -244,22 +245,21 @@ public class SplitterTest extends TestCase {
 
   public void testStringSplitOnEmptyString() {
     Iterable<String> notMuch = Splitter.on(".").split("");
-    assertContentsInOrder(notMuch, "");
+    ASSERT.that(notMuch).hasContentsInOrder("");
   }
 
   public void testStringSplitOnEmptyStringOmitEmptyString() {
-    assertFalse(
-        Splitter.on(".").omitEmptyStrings().split("").iterator().hasNext());
+    ASSERT.that(Splitter.on(".").omitEmptyStrings().split("")).isEmpty();
   }
 
   public void testStringSplitOnOnlyDelimiter() {
     Iterable<String> blankblank = Splitter.on(".").split(".");
-    assertContentsInOrder(blankblank, "", "");
+    ASSERT.that(blankblank).hasContentsInOrder("", "");
   }
 
   public void testStringSplitOnOnlyDelimitersOmitEmptyStrings() {
     Iterable<String> empty = Splitter.on(".").omitEmptyStrings().split("...");
-    assertContentsInOrder(empty);
+    ASSERT.that(empty).isEmpty();
   }
 
   public void testStringSplitWithTrim() {
@@ -268,7 +268,7 @@ public class SplitterTest extends TestCase {
     Iterable<String> family = Splitter.on(",")
         .trimResults(CharMatcher.anyOf("afro").or(CharMatcher.WHITESPACE))
         .split(jacksons);
-    assertContentsInOrder(family,
+    ASSERT.that(family).hasContentsInOrder(
         "(Marlon)", "(Michael)", "(Jackie)", "(Jemaine)", "(Tito)");
   }
 
@@ -276,50 +276,51 @@ public class SplitterTest extends TestCase {
   public void testPatternSimpleSplit() {
     String simple = "a,b,c";
     Iterable<String> letters = Splitter.onPattern(",").split(simple);
-    assertContentsInOrder(letters, "a", "b", "c");
+    ASSERT.that(letters).hasContentsInOrder("a", "b", "c");
   }
 
   @GwtIncompatible("Splitter.onPattern")
   public void testPatternSimpleSplitWithNoDelimiter() {
     String simple = "a,b,c";
     Iterable<String> letters = Splitter.onPattern("foo").split(simple);
-    assertContentsInOrder(letters, "a,b,c");
+    ASSERT.that(letters).hasContentsInOrder("a,b,c");
   }
 
   @GwtIncompatible("Splitter.onPattern")
   public void testPatternSplitWithDoubleDelimiter() {
     String doubled = "a,,b,c";
     Iterable<String> letters = Splitter.onPattern(",").split(doubled);
-    assertContentsInOrder(letters, "a", "", "b", "c");
+    ASSERT.that(letters).hasContentsInOrder("a", "", "b", "c");
   }
 
   @GwtIncompatible("Splitter.onPattern")
   public void testPatternSplitWithDoubleDelimiterAndSpace() {
     String doubled = "a,, b,c";
     Iterable<String> letters = Splitter.onPattern(",").split(doubled);
-    assertContentsInOrder(letters, "a", "", " b", "c");
+    ASSERT.that(letters).hasContentsInOrder("a", "", " b", "c");
   }
 
   @GwtIncompatible("Splitter.onPattern")
   public void testPatternSplitWithTrailingDelimiter() {
     String trailing = "a,b,c,";
     Iterable<String> letters = Splitter.onPattern(",").split(trailing);
-    assertContentsInOrder(letters, "a", "b", "c", "");
+    ASSERT.that(letters).hasContentsInOrder("a", "b", "c", "");
   }
 
   @GwtIncompatible("Splitter.onPattern")
   public void testPatternSplitWithLeadingDelimiter() {
     String leading = ",a,b,c";
     Iterable<String> letters = Splitter.onPattern(",").split(leading);
-    assertContentsInOrder(letters, "", "a", "b", "c");
+    ASSERT.that(letters).hasContentsInOrder("", "a", "b", "c");
   }
 
+  // TODO(kevinb): the name of this method suggests it might not actually be testing what it
+  // intends to be testing?
   @GwtIncompatible("Splitter.onPattern")
   public void testPatternSplitWithMultipleLetters() {
     Iterable<String> testPatterningMotto = Splitter.onPattern("-").split(
         "Testing-rocks-Debugging-sucks");
-    assertContentsInOrder(testPatterningMotto,
-        "Testing", "rocks", "Debugging", "sucks");
+    ASSERT.that(testPatterningMotto).hasContentsInOrder("Testing", "rocks", "Debugging", "sucks");
   }
 
   @GwtIncompatible("java.util.regex.Pattern")
@@ -332,15 +333,14 @@ public class SplitterTest extends TestCase {
     String doubled = "a..b.c";
     Iterable<String> letters = Splitter.on(literalDotPattern())
         .omitEmptyStrings().split(doubled);
-    assertContentsInOrder(letters, "a", "b", "c");
+    ASSERT.that(letters).hasContentsInOrder("a", "b", "c");
   }
 
   @GwtIncompatible("java.util.regex.Pattern")
   public void testPatternSplitEmptyToken() {
     String emptyToken = "a. .c";
-    Iterable<String> letters = Splitter.on(literalDotPattern()).trimResults()
-        .split(emptyToken);
-    assertContentsInOrder(letters, "a", "", "c");
+    Iterable<String> letters = Splitter.on(literalDotPattern()).trimResults().split(emptyToken);
+    ASSERT.that(letters).hasContentsInOrder("a", "", "c");
   }
 
   @GwtIncompatible("java.util.regex.Pattern")
@@ -348,21 +348,21 @@ public class SplitterTest extends TestCase {
     String emptyToken = "a. .c";
     Iterable<String> letters = Splitter.on(literalDotPattern())
         .omitEmptyStrings().trimResults().split(emptyToken);
-    assertContentsInOrder(letters, "a", "c");
+    ASSERT.that(letters).hasContentsInOrder("a", "c");
   }
 
   @GwtIncompatible("java.util.regex.Pattern")
   public void testPatternSplitOnOnlyDelimiter() {
     Iterable<String> blankblank = Splitter.on(literalDotPattern()).split(".");
 
-    assertContentsInOrder(blankblank, "", "");
+    ASSERT.that(blankblank).hasContentsInOrder("", "");
   }
 
   @GwtIncompatible("java.util.regex.Pattern")
   public void testPatternSplitOnOnlyDelimitersOmitEmptyStrings() {
     Iterable<String> empty = Splitter.on(literalDotPattern()).omitEmptyStrings()
         .split("...");
-    assertContentsInOrder(empty);
+    ASSERT.that(empty).isEmpty();
   }
 
   @GwtIncompatible("java.util.regex.Pattern")
@@ -370,7 +370,7 @@ public class SplitterTest extends TestCase {
     String longDelimiter = "a, b,   c";
     Iterable<String> letters = Splitter.on(Pattern.compile(",\\s*"))
         .split(longDelimiter);
-    assertContentsInOrder(letters, "a", "b", "c");
+    ASSERT.that(letters).hasContentsInOrder("a", "b", "c");
   }
 
   @GwtIncompatible("java.util.regex.Pattern")
@@ -378,7 +378,7 @@ public class SplitterTest extends TestCase {
     String longDelimiter = ", a, b, c";
     Iterable<String> letters = Splitter.on(Pattern.compile(", "))
         .split(longDelimiter);
-    assertContentsInOrder(letters, "", "a", "b", "c");
+    ASSERT.that(letters).hasContentsInOrder("", "a", "b", "c");
   }
 
   @GwtIncompatible("java.util.regex.Pattern")
@@ -386,7 +386,7 @@ public class SplitterTest extends TestCase {
     String longDelimiter = "a, b, c/ ";
     Iterable<String> letters = Splitter.on(Pattern.compile("[,/]\\s"))
         .split(longDelimiter);
-    assertContentsInOrder(letters, "a", "b", "c", "");
+    ASSERT.that(letters).hasContentsInOrder("a", "b", "c", "");
   }
 
   @GwtIncompatible("java.util.regex.Pattern")
@@ -405,12 +405,15 @@ public class SplitterTest extends TestCase {
     Iterable<String> family = Splitter.on(Pattern.compile(","))
         .trimResults(CharMatcher.anyOf("afro").or(CharMatcher.WHITESPACE))
         .split(jacksons);
-    assertContentsInOrder(family,
+    ASSERT.that(family).hasContentsInOrder(
         "(Marlon)", "(Michael)", "(Jackie)", "(Jemaine)", "(Tito)");
   }
 
-  public void testSplitterIterableIsUnmodifiable() {
-    assertIteratorIsUnmodifiable(Splitter.on(',').split("a,b").iterator());
+  public void testSplitterIterableIsUnmodifiable_char() {
+    assertIteratorIsUnmodifiable(COMMA_SPLITTER.split("a,b").iterator());
+  }
+
+  public void testSplitterIterableIsUnmodifiable_string() {
     assertIteratorIsUnmodifiable(Splitter.on(",").split("a,b").iterator());
   }
 
@@ -429,14 +432,17 @@ public class SplitterTest extends TestCase {
     }
   }
 
-  public void testSplitterIterableIsLazy() {
-    assertSplitterIterableIsLazy(Splitter.on(','));
+  public void testSplitterIterableIsLazy_char() {
+    assertSplitterIterableIsLazy(COMMA_SPLITTER);
+  }
+
+  public void testSplitterIterableIsLazy_string() {
     assertSplitterIterableIsLazy(Splitter.on(","));
   }
 
   @GwtIncompatible("java.util.regex.Pattern")
   public void testSplitterIterableIsLazy_pattern() {
-    assertSplitterIterableIsLazy(Splitter.on(Pattern.compile(",")));
+    assertSplitterIterableIsLazy(Splitter.onPattern(","));
   }
 
   /**
@@ -460,42 +466,41 @@ public class SplitterTest extends TestCase {
   public void testAtEachSimpleSplit() {
     String simple = "abcde";
     Iterable<String> letters = Splitter.fixedLength(2).split(simple);
-    assertContentsInOrder(letters, "ab", "cd", "e");
+    ASSERT.that(letters).hasContentsInOrder("ab", "cd", "e");
   }
 
   public void testAtEachSplitEqualChunkLength() {
     String simple = "abcdef";
     Iterable<String> letters = Splitter.fixedLength(2).split(simple);
-    assertContentsInOrder(letters, "ab", "cd", "ef");
+    ASSERT.that(letters).hasContentsInOrder("ab", "cd", "ef");
   }
 
   public void testAtEachSplitOnlyOneChunk() {
     String simple = "abc";
     Iterable<String> letters = Splitter.fixedLength(3).split(simple);
-    assertContentsInOrder(letters, "abc");
+    ASSERT.that(letters).hasContentsInOrder("abc");
   }
 
   public void testAtEachSplitSmallerString() {
     String simple = "ab";
     Iterable<String> letters = Splitter.fixedLength(3).split(simple);
-    assertContentsInOrder(letters, "ab");
+    ASSERT.that(letters).hasContentsInOrder("ab");
   }
 
   public void testAtEachSplitEmptyString() {
     String simple = "";
     Iterable<String> letters = Splitter.fixedLength(3).split(simple);
-    assertContentsInOrder(letters, "");
+    ASSERT.that(letters).hasContentsInOrder("");
   }
 
   public void testAtEachSplitEmptyStringWithOmitEmptyStrings() {
-    assertFalse(Splitter.fixedLength(3).omitEmptyStrings().split("").iterator()
-        .hasNext());
+    ASSERT.that(Splitter.fixedLength(3).omitEmptyStrings().split("")).isEmpty();
   }
 
   public void testAtEachSplitIntoChars() {
     String simple = "abcd";
     Iterable<String> letters = Splitter.fixedLength(1).split(simple);
-    assertContentsInOrder(letters, "a", "b", "c", "d");
+    ASSERT.that(letters).hasContentsInOrder("a", "b", "c", "d");
   }
 
   public void testAtEachSplitZeroChunkLen() {
@@ -522,81 +527,62 @@ public class SplitterTest extends TestCase {
     tester.testAllPublicInstanceMethods(Splitter.on(",").trimResults());
   }
 
-  // TODO: use common one when we settle where that is...
-  private void assertContentsInOrder(
-      Iterable<String> actual, String... expected) {
-    assertEquals(Arrays.asList(expected), Lists.newArrayList(actual));
-  }
-
   public void testMapSplitter_trimmedBoth() {
-    Map<String, String> m = Splitter.on(',')
+    Map<String, String> m = COMMA_SPLITTER
         .trimResults()
         .withKeyValueSeparator(Splitter.on(':').trimResults())
         .split("boy  : tom , girl: tina , cat  : kitty , dog: tommy ");
-    assertEquals("tom", m.get("boy"));
-    assertEquals("tina", m.get("girl"));
-    assertEquals("kitty", m.get("cat"));
-    assertEquals("tommy", m.get("dog"));
+    ASSERT.that(m).isEqualTo(
+        ImmutableMap.of("boy", "tom", "girl", "tina", "cat", "kitty", "dog", "tommy"));
   }
 
   public void testMapSplitter_trimmedEntries() {
-    Map<String, String> m = Splitter.on(',')
+    Map<String, String> m = COMMA_SPLITTER
         .trimResults()
         .withKeyValueSeparator(":")
         .split("boy  : tom , girl: tina , cat  : kitty , dog: tommy ");
-    assertEquals(" tom", m.get("boy  "));
-    assertEquals(" tina", m.get("girl"));
-    assertEquals(" kitty", m.get("cat  "));
-    assertEquals(" tommy", m.get("dog"));
+    ASSERT.that(m).isEqualTo(
+        ImmutableMap.of("boy  ", " tom", "girl", " tina", "cat  ", " kitty", "dog", " tommy"));
   }
 
   public void testMapSplitter_trimmedKeyValue() {
-    Map<String, String> m = Splitter.on(',')
+    Map<String, String> m = COMMA_SPLITTER
         .withKeyValueSeparator(Splitter.on(':').trimResults())
         .split("boy  : tom , girl: tina , cat  : kitty , dog: tommy ");
-    assertEquals("tom", m.get("boy"));
-    assertEquals("tina", m.get("girl"));
-    assertEquals("kitty", m.get("cat"));
-    assertEquals("tommy", m.get("dog"));
+    ASSERT.that(m).isEqualTo(
+        ImmutableMap.of("boy", "tom", "girl", "tina", "cat", "kitty", "dog", "tommy"));
   }
 
   public void testMapSplitter_notTrimmed() {
-    Map<String, String> m = Splitter.on(',')
+    Map<String, String> m = COMMA_SPLITTER
         .withKeyValueSeparator(":")
         .split(" boy:tom , girl: tina , cat :kitty , dog:  tommy ");
-    assertEquals("tom ", m.get(" boy"));
-    assertEquals(" tina ", m.get(" girl"));
-    assertEquals("kitty ", m.get(" cat "));
-    assertEquals("  tommy ", m.get(" dog"));
+    ASSERT.that(m).isEqualTo(
+        ImmutableMap.of(" boy", "tom ", " girl", " tina ", " cat ", "kitty ", " dog", "  tommy "));
   }
 
   public void testMapSplitter_multiCharacterSeparator() {
-
     // try different delimiters.
     Map<String, String> m = Splitter.on(",")
         .withKeyValueSeparator(":^&")
         .split("boy:^&tom,girl:^&tina,cat:^&kitty,dog:^&tommy");
-    assertEquals("tom", m.get("boy"));
-    assertEquals("tina", m.get("girl"));
-    assertEquals("kitty", m.get("cat"));
-    assertEquals("tommy", m.get("dog"));
+    ASSERT.that(m).isEqualTo(
+        ImmutableMap.of("boy", "tom", "girl", "tina", "cat", "kitty", "dog", "tommy"));
   }
 
   public void testMapSplitter_emptySeparator() {
     try {
-      Splitter.on(",").withKeyValueSeparator("");
-      fail("Should be impossible to use an empty separator.");
+      COMMA_SPLITTER.withKeyValueSeparator("");
+      fail();
     } catch (IllegalArgumentException expected) {
-      // Pass
     }
   }
 
   public void testMapSplitter_malformedEntry() {
     try {
-      Splitter.on(",").withKeyValueSeparator("=").split("a=1,b,c=2");
-      fail("Shouldn't accept malformed entry \"b\"");
+      COMMA_SPLITTER.withKeyValueSeparator("=").split("a=1,b,c=2");
+      fail();
     } catch(IllegalArgumentException expected) {
-      // Pass
     }
   }
 
@@ -604,29 +590,26 @@ public class SplitterTest extends TestCase {
     Map<String, String> m = Splitter.on(",")
         .withKeyValueSeparator(":")
         .split("boy:tom,girl:tina,cat:kitty,dog:tommy");
-    MoreAsserts.assertContentsInOrder(m.keySet(), "boy", "girl", "cat", "dog");
 
-    assertEquals("tom", m.get("boy"));
-    assertEquals("tina", m.get("girl"));
-    assertEquals("kitty", m.get("cat"));
-    assertEquals("tommy", m.get("dog"));
+    ASSERT.that(m.keySet()).hasContentsInOrder("boy", "girl", "cat", "dog");
+    ASSERT.that(m).isEqualTo(
+        ImmutableMap.of("boy", "tom", "girl", "tina", "cat", "kitty", "dog", "tommy"));
 
     // try in a different order
     m = Splitter.on(",")
         .withKeyValueSeparator(":")
         .split("girl:tina,boy:tom,dog:tommy,cat:kitty");
-    MoreAsserts.assertContentsInOrder(m.keySet(), "girl", "boy", "dog", "cat");
 
-    assertEquals("tom", m.get("boy"));
-    assertEquals("tina", m.get("girl"));
-    assertEquals("kitty", m.get("cat"));
-    assertEquals("tommy", m.get("dog"));
+    ASSERT.that(m.keySet()).hasContentsInOrder("girl", "boy", "dog", "cat");
+    ASSERT.that(m).isEqualTo(
+        ImmutableMap.of("boy", "tom", "girl", "tina", "cat", "kitty", "dog", "tommy"));
   }
 
   public void testMapSplitter_duplicateKeys() {
     try {
       Splitter.on(",").withKeyValueSeparator(":").split("a:1,b:2,a:3");
-      fail("Expected IllegalArgumentException");
-    } catch (IllegalArgumentException expected) {}
+      fail();
+    } catch (IllegalArgumentException expected) {
+    }
   }
 }

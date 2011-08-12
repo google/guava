@@ -20,11 +20,14 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 
+import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Function;
 import com.google.common.base.Joiner;
 import com.google.common.base.Joiner.MapJoiner;
 import com.google.common.base.Supplier;
+import com.google.common.collect.Collections2.TransformedCollection;
+import com.google.common.collect.Maps.EntryTransformer;
 
 import java.io.Serializable;
 import java.util.AbstractCollection;
@@ -1129,6 +1132,465 @@ public final class Multimaps {
       }
     }
     private static final long serialVersionUID = 7845222491160860175L;
+  }
+  
+  /**
+   * Returns a view of a multimap where each value is transformed by a function.
+   * All other properties of the multimap, such as iteration order, are left 
+   * intact. For example, the code: <pre>   {@code
+   *
+   * Multimap<String, Integer> multimap =
+   *     ImmutableSetMultimap.of("a", 2, "b", -3, "b", -3, "a", 4, "c", 6);
+   * Function<Integer, String> square = new Function<Integer, String>() {
+   *     public String apply(Integer in) {
+   *       return Integer.toString(in * in);
+   *     }
+   * };
+   * Multimap<String, String> transformed =
+   *     Multimaps.transformValues(multimap, square);
+   *   System.out.println(transformed);}</pre>
+   *
+   * ... prints {@code {a=[4, 16], b=[9, 9], c=[6]}}.
+   *
+   * <p>Changes in the underlying multimap are reflected in this view. 
+   * Conversely, this view supports removal operations, and these are reflected 
+   * in the underlying multimap.
+   *
+   * <p>It's acceptable for the underlying multimap to contain null keys, and 
+   * even null values provided that the function is capable of accepting null 
+   * input.  The transformed multimap might contain null values, if the function
+   * sometimes gives a null result.
+   *
+   * <p>The returned multimap is not thread-safe or serializable, even if the
+   * underlying multimap is.  The {@code equals} and {@code hashCode} methods
+   * of the returned multimap are meaningless, since there is not a definition 
+   * of {@code equals} or {@code hashCode} for general collections, and 
+   * {@code get()} will return a general {@code Collection} as opposed to a 
+   * {@code List} or a {@code Set}.
+   *
+   * <p>The function is applied lazily, invoked when needed. This is necessary
+   * for the returned multimap to be a view, but it means that the function will
+   * be applied many times for bulk operations like 
+   * {@link Multimap#containsValue} and {@code Multimap.toString()}. For this to
+   * perform well, {@code function} should be fast. To avoid lazy evaluation 
+   * when the returned multimap doesn't need to be a view, copy the returned 
+   * multimap into a new multimap of your choosing.
+   *
+   * @since Guava release 07
+   */
+  @Beta
+  public static <K, V1, V2> Multimap<K, V2> transformValues(
+      Multimap<K, V1> fromMultimap, final Function<? super V1, V2> function) {
+    checkNotNull(function);
+    EntryTransformer<K, V1, V2> transformer =
+        new EntryTransformer<K, V1, V2>() {
+          @Override
+          public V2 transformEntry(K key, V1 value) {
+            return function.apply(value);
+          }
+        };
+    return transformEntries(fromMultimap, transformer);
+  }
+
+  /**
+   * Returns a view of a multimap whose values are derived from the original 
+   * multimap's entries. In contrast to {@link #transformValues}, this method's
+   * entry-transformation logic may depend on the key as well as the value.
+   *
+   * <p>All other properties of the transformed multimap, such as iteration 
+   * order, are left intact. For example, the code: <pre>   {@code
+   *
+   *   SetMultimap<String, Integer> multimap =
+   *       ImmutableSetMultimap.of("a", 1, "a", 4, "b", -6);
+   *   EntryTransformer<String, Integer, String> transformer =
+   *       new EntryTransformer<String, Integer, String>() {
+   *         public String transformEntry(String key, Integer value) {
+   *            return (value >= 0) ? key : "no" + key;
+   *         }
+   *       };
+   *   Multimap<String, String> transformed =
+   *       Multimaps.transformEntries(multimap, transformer);
+   *   System.out.println(transformed);}</pre>
+   *
+   * ... prints {@code {a=[a, a], b=[nob]}}.
+   *
+   * <p>Changes in the underlying multimap are reflected in this view. 
+   * Conversely, this view supports removal operations, and these are reflected 
+   * in the underlying multimap.
+   *
+   * <p>It's acceptable for the underlying multimap to contain null keys and 
+   * null values provided that the transformer is capable of accepting null 
+   * inputs. The transformed multimap might contain null values if the 
+   * transformer sometimes gives a null result.
+   *
+   * <p>The returned multimap is not thread-safe or serializable, even if the
+   * underlying multimap is.  The {@code equals} and {@code hashCode} methods
+   * of the returned multimap are meaningless, since there is not a definition 
+   * of {@code equals} or {@code hashCode} for general collections, and 
+   * {@code get()} will return a general {@code Collection} as opposed to a 
+   * {@code List} or a {@code Set}.
+   *
+   * <p>The transformer is applied lazily, invoked when needed. This is
+   * necessary for the returned multimap to be a view, but it means that the
+   * transformer will be applied many times for bulk operations like {@link
+   * Multimap#containsValue} and {@link Object#toString}. For this to perform 
+   * well, {@code transformer} should be fast. To avoid lazy evaluation when the
+   * returned multimap doesn't need to be a view, copy the returned multimap 
+   * into a new multimap of your choosing.
+   *
+   * <p><b>Warning:</b> This method assumes that for any instance {@code k} of
+   * {@code EntryTransformer} key type {@code K}, {@code k.equals(k2)} implies
+   * that {@code k2} is also of type {@code K}. Using an {@code
+   * EntryTransformer} key type for which this may not hold, such as {@code
+   * ArrayList}, may risk a {@code ClassCastException} when calling methods on
+   * the transformed multimap.
+   *
+   * @since Guava release 07
+   */
+  @Beta
+  public static <K, V1, V2> Multimap<K, V2> transformEntries(
+      Multimap<K, V1> fromMap,
+      EntryTransformer<? super K, ? super V1, V2> transformer) {
+    return new TransformedEntriesMultimap<K, V1, V2>(fromMap, transformer);
+  }
+
+  private static class TransformedEntriesMultimap<K, V1, V2>
+      implements Multimap<K, V2> {
+    final Multimap<K, V1> fromMultimap;
+    final EntryTransformer<? super K, ? super V1, V2> transformer;
+
+    TransformedEntriesMultimap(Multimap<K, V1> fromMultimap,
+        final EntryTransformer<? super K, ? super V1, V2> transformer) {
+      this.fromMultimap = checkNotNull(fromMultimap);
+      this.transformer = checkNotNull(transformer);
+    }
+
+    Collection<V2> transform(final K key, Collection<V1> values) {
+      return Collections2.transform(values, new Function<V1, V2>() {
+        @Override public V2 apply(V1 value) {
+          return transformer.transformEntry(key, value);
+        }
+      });
+    }
+
+    private transient Map<K, Collection<V2>> asMap;
+    
+    @Override public Map<K, Collection<V2>> asMap() {
+      if (asMap == null) {
+        Map<K, Collection<V2>> aM = Maps.transformEntries(fromMultimap.asMap(),
+            new EntryTransformer<K, Collection<V1>, Collection<V2>>() {
+
+              @Override public Collection<V2> transformEntry(
+                  K key, Collection<V1> value) {
+                return transform(key, value);
+              }
+            });
+        asMap = aM;
+        return aM;
+      }
+      return asMap;
+    }
+
+    @Override public void clear() {
+      fromMultimap.clear();
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override public boolean containsEntry(Object key, Object value) {
+      Collection<V2> values = get((K) key);
+      return values.contains(value);
+    }
+
+    @Override public boolean containsKey(Object key) {
+      return fromMultimap.containsKey(key);
+    }
+
+    @Override public boolean containsValue(Object value) {
+      return values().contains(value);
+    }
+
+    private transient Collection<Entry<K, V2>> entries;
+    
+    @Override public Collection<Entry<K, V2>> entries() {
+      if (entries == null) {
+        Collection<Entry<K, V2>> es = new TransformedEntries(transformer);
+        entries = es;
+        return es;
+      }
+      return entries;
+    }
+
+    private class TransformedEntries
+        extends TransformedCollection<Entry<K, V1>, Entry<K, V2>> {
+
+      TransformedEntries(
+          final EntryTransformer<? super K, ? super V1, V2> transformer) {
+        super(fromMultimap.entries(),
+            new Function<Entry<K, V1>, Entry<K, V2>>() {
+              @Override public Entry<K, V2> apply(final Entry<K, V1> entry) {
+                return new AbstractMapEntry<K, V2>() {
+
+                  @Override public K getKey() {
+                    return entry.getKey();
+                  }
+
+                  @Override public V2 getValue() {
+                    return transformer.transformEntry(
+                        entry.getKey(), entry.getValue());
+                  }
+                };
+              }
+            });
+      }
+
+      @Override public boolean contains(Object o) {
+        if (o instanceof Entry) {
+          Entry<?, ?> entry = (Entry<?, ?>) o;
+          return containsEntry(entry.getKey(), entry.getValue());
+        }
+        return false;
+      }
+
+      @SuppressWarnings("unchecked")
+      @Override public boolean remove(Object o) {
+        if (o instanceof Entry) {
+          Entry<?, ?> entry = (Entry<?, ?>) o;
+          Collection<V2> values = get((K) entry.getKey());
+          return values.remove(entry.getValue());
+        }
+        return false;
+      }
+
+    }
+
+    @Override public Collection<V2> get(final K key) {
+      return transform(key, fromMultimap.get(key));
+    }
+
+    @Override public boolean isEmpty() {
+      return fromMultimap.isEmpty();
+    }
+
+    @Override public Set<K> keySet() {
+      return fromMultimap.keySet();
+    }
+
+    @Override public Multiset<K> keys() {
+      return fromMultimap.keys();
+    }
+
+    @Override public boolean put(K key, V2 value) {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override public boolean putAll(K key, Iterable<? extends V2> values) {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override public boolean putAll(
+        Multimap<? extends K, ? extends V2> multimap) {
+      throw new UnsupportedOperationException();
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override public boolean remove(Object key, Object value) {
+      return get((K) key).remove(value);
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override public Collection<V2> removeAll(Object key) {
+      return transform((K) key, fromMultimap.removeAll(key));
+    }
+
+    @Override public Collection<V2> replaceValues(
+        K key, Iterable<? extends V2> values) {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override public int size() {
+      return fromMultimap.size();
+    }
+
+    private transient Collection<V2> values;
+    
+    @Override public Collection<V2> values() {
+      if (values == null) {
+        Collection<V2> vs = Collections2.transform(
+            fromMultimap.entries(), new Function<Entry<K, V1>, V2>() {
+
+              @Override public V2 apply(Entry<K, V1> entry) {
+                return transformer.transformEntry(
+                    entry.getKey(), entry.getValue());
+              }
+            });
+        values = vs;
+        return vs;
+      }
+      return values;
+    }
+
+    @Override public boolean equals(Object obj) {
+      if (obj instanceof Multimap) {
+        Multimap<?, ?> other = (Multimap<?, ?>) obj;
+        return asMap().equals(other.asMap());
+      }
+      return false;
+    }
+
+    @Override public int hashCode() {
+      return asMap().hashCode();
+    }
+
+    @Override public String toString() {
+      return asMap().toString();
+    }
+  }
+  
+  /**
+   * Returns a view of a {@code ListMultimap} where each value is transformed by
+   * a function. All other properties of the multimap, such as iteration order, 
+   * are left intact. For example, the code: <pre>   {@code
+   *
+   *   ListMultimap<String, Integer> multimap 
+   *        = ImmutableListMultimap.of("a", 4, "a", 16, "b", 9);
+   *   Function<Integer, Double> sqrt =
+   *       new Function<Integer, Double>() {
+   *         public Double apply(Integer in) {
+   *           return Math.sqrt((int) in);
+   *         }
+   *       };
+   *   ListMultimap<String, Double> transformed = Multimaps.transformValues(map,
+   *       sqrt);
+   *   System.out.println(transformed);}</pre>
+   *
+   * ... prints {@code {a=[2.0, 4.0], b=[3.0]}}.
+   *
+   * <p>Changes in the underlying multimap are reflected in this view. 
+   * Conversely, this view supports removal operations, and these are reflected 
+   * in the underlying multimap.
+   *
+   * <p>It's acceptable for the underlying multimap to contain null keys, and 
+   * even null values provided that the function is capable of accepting null 
+   * input.  The transformed multimap might contain null values, if the function
+   * sometimes gives a null result.
+   *
+   * <p>The returned multimap is not thread-safe or serializable, even if the
+   * underlying multimap is.
+   *
+   * <p>The function is applied lazily, invoked when needed. This is necessary
+   * for the returned multimap to be a view, but it means that the function will
+   * be applied many times for bulk operations like 
+   * {@link Multimap#containsValue} and {@code Multimap.toString()}. For this to
+   * perform well, {@code function} should be fast. To avoid lazy evaluation 
+   * when the returned multimap doesn't need to be a view, copy the returned 
+   * multimap into a new multimap of your choosing.
+   *
+   * @since Guava release 07
+   */
+  @Beta
+  public static <K, V1, V2> ListMultimap<K, V2> transformValues(
+      ListMultimap<K, V1> fromMultimap,
+      final Function<? super V1, V2> function) {
+    checkNotNull(function);
+    EntryTransformer<K, V1, V2> transformer =
+        new EntryTransformer<K, V1, V2>() {
+          @Override
+          public V2 transformEntry(K key, V1 value) {
+            return function.apply(value);
+          }
+        };
+    return transformEntries(fromMultimap, transformer);
+  }
+
+  /**
+   * Returns a view of a {@code ListMultimap} whose values are derived from the 
+   * original multimap's entries. In contrast to 
+   * {@link #transformValues(ListMultimap, Function)}, this method's 
+   * entry-transformation logic may depend on the key as well as the value.
+   *
+   * <p>All other properties of the transformed multimap, such as iteration 
+   * order, are left intact. For example, the code: <pre>   {@code
+   *
+   *   Multimap<String, Integer> multimap =
+   *       ImmutableMultimap.of("a", 1, "a", 4, "b", 6);
+   *   EntryTransformer<String, Integer, String> transformer =
+   *       new EntryTransformer<String, Integer, String>() {
+   *         public String transformEntry(String key, Integer value) {
+   *           return key + value;
+   *         }
+   *       };
+   *   Multimap<String, String> transformed =
+   *       Multimaps.transformEntries(multimap, transformer);
+   *   System.out.println(transformed);}</pre>
+   *
+   * ... prints {@code {"a"=["a1", "a4"], "b"=["b6"]}}.
+   *
+   * <p>Changes in the underlying multimap are reflected in this view. 
+   * Conversely, this view supports removal operations, and these are reflected 
+   * in the underlying multimap.
+   *
+   * <p>It's acceptable for the underlying multimap to contain null keys and 
+   * null values provided that the transformer is capable of accepting null 
+   * inputs. The transformed multimap might contain null values if the 
+   * transformer sometimes gives a null result.
+   *
+   * <p>The returned multimap is not thread-safe or serializable, even if the
+   * underlying multimap is.
+   *
+   * <p>The transformer is applied lazily, invoked when needed. This is
+   * necessary for the returned multimap to be a view, but it means that the
+   * transformer will be applied many times for bulk operations like {@link
+   * Multimap#containsValue} and {@link Object#toString}. For this to perform 
+   * well, {@code transformer} should be fast. To avoid lazy evaluation when the
+   * returned multimap doesn't need to be a view, copy the returned multimap 
+   * into a new multimap of your choosing.
+   *
+   * <p><b>Warning:</b> This method assumes that for any instance {@code k} of
+   * {@code EntryTransformer} key type {@code K}, {@code k.equals(k2)} implies
+   * that {@code k2} is also of type {@code K}. Using an {@code
+   * EntryTransformer} key type for which this may not hold, such as {@code
+   * ArrayList}, may risk a {@code ClassCastException} when calling methods on
+   * the transformed multimap.
+   *
+   * @since Guava release 07
+   */
+  @Beta
+  public static <K, V1, V2> ListMultimap<K, V2> transformEntries(
+      ListMultimap<K, V1> fromMap,
+      EntryTransformer<? super K, ? super V1, V2> transformer) {
+    return new TransformedEntriesListMultimap<K, V1, V2>(fromMap, transformer);
+  }
+  
+  private static final class TransformedEntriesListMultimap<K, V1, V2>
+      extends TransformedEntriesMultimap<K, V1, V2>
+      implements ListMultimap<K, V2> {
+
+    TransformedEntriesListMultimap(ListMultimap<K, V1> fromMultimap,
+        EntryTransformer<? super K, ? super V1, V2> transformer) {
+      super(fromMultimap, transformer);
+    }
+
+    @Override List<V2> transform(final K key, Collection<V1> values) {
+      return Lists.transform((List<V1>) values, new Function<V1, V2>() {
+        @Override public V2 apply(V1 value) {
+          return transformer.transformEntry(key, value);
+        }
+      });
+    }
+
+    @Override public List<V2> get(K key) {
+      return transform(key, fromMultimap.get(key));
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override public List<V2> removeAll(Object key) {
+      return transform((K) key, fromMultimap.removeAll(key));
+    }
+
+    @Override public List<V2> replaceValues(
+        K key, Iterable<? extends V2> values) {
+      throw new UnsupportedOperationException();
+    }
   }
 
   /**

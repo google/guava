@@ -708,10 +708,15 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    * containsValue} are implemented as bulk read operations, and thus may fail to observe concurrent
    * writes.
    *
+   * <p>Caching functionality in {@code MapMaker} is being moved to
+   * {@link com.google.common.cache.CacheBuilder}.
+   * <b>This method is scheduled for deletion in February 2013.</b>
+   *
    * @param computingFunction the function used to compute new values
    * @return a serializable concurrent map having the requested features
    */
   @Override
+  @Deprecated
   public <K, V> ConcurrentMap<K, V> makeComputingMap(
       Function<? super K, ? extends V> computingFunction) {
     return useNullMap()
