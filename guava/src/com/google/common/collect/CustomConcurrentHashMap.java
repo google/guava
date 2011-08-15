@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2009 The Guava Authors
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.collect;
@@ -23,8 +21,6 @@ import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Equivalence;
 import com.google.common.base.Equivalences;
 import com.google.common.base.Ticker;
-import com.google.common.collect.AbstractMapEntry;
-import com.google.common.collect.ForwardingConcurrentMap;
 import com.google.common.collect.GenericMapMaker.NullListener;
 import com.google.common.collect.MapMaker.RemovalCause;
 import com.google.common.collect.MapMaker.RemovalListener;
@@ -621,7 +617,7 @@ class CustomConcurrentHashMap<K, V>
     void clear(@Nullable ValueReference<K, V> newValue);
 
     /**
-     * Returns true if the value type is a computing reference (regardless of whether or not
+     * Returns {@code true} if the value type is a computing reference (regardless of whether or not
      * computation has completed). This is necessary to distiguish between partially-collected
      * entries and computing entries, which need to be cleaned up differently.
      */
@@ -1942,9 +1938,9 @@ class CustomConcurrentHashMap<K, V>
   }
 
   /**
-   * Gets the value from an entry. Returns null if the entry is invalid, partially-collected,
-   * computing, or expired. Unlike {@link Segment#getLiveValue} this method does not attempt to
-   * cleanup stale entries.
+   * Gets the value from an entry. Returns {@code null} if the entry is invalid,
+   * partially-collected, computing, or expired. Unlike {@link Segment#getLiveValue} this method
+   * does not attempt to clean up stale entries.
    */
   V getLiveValue(ReferenceEntry<K, V> entry) {
     if (entry.getKey() == null) {
@@ -1964,14 +1960,14 @@ class CustomConcurrentHashMap<K, V>
   // expiration
 
   /**
-   * Returns true if the entry has expired.
+   * Returns {@code true} if the entry has expired.
    */
   boolean isExpired(ReferenceEntry<K, V> entry) {
     return isExpired(entry, ticker.read());
   }
 
   /**
-   * Returns true if the entry has expired.
+   * Returns {@code true} if the entry has expired.
    */
   boolean isExpired(ReferenceEntry<K, V> entry, long now) {
     // if the expiration time had overflowed, this "undoes" the overflow
@@ -2409,7 +2405,7 @@ class CustomConcurrentHashMap<K, V>
      * Performs eviction if the segment is full. This should only be called prior to adding a new
      * entry and increasing {@code count}.
      *
-     * @return true if eviction occurred
+     * @return {@code true} if eviction occurred
      */
     @GuardedBy("Segment.this")
     boolean evictEntries() {
@@ -3046,8 +3042,8 @@ class CustomConcurrentHashMap<K, V>
     }
 
     /**
-     * Returns true if the entry has been partially collected, meaning that either the key is null,
-     * or the value is null and it is not computing.
+     * Returns {@code true} if the entry has been partially collected, meaning that either the key
+     * is null, or the value is null and it is not computing.
      */
     boolean isCollected(ReferenceEntry<K, V> entry) {
       if (entry.getKey() == null) {
@@ -3057,8 +3053,8 @@ class CustomConcurrentHashMap<K, V>
     }
 
     /**
-     * Returns true if the value has been partially collected, meaning that the value is null and
-     * it is not computing.
+     * Returns {@code true} if the value has been partially collected, meaning that the value is
+     * null and it is not computing.
      */
     boolean isCollected(ValueReference<K, V> valueReference) {
       if (valueReference.isComputingReference()) {
@@ -3068,8 +3064,8 @@ class CustomConcurrentHashMap<K, V>
     }
 
     /**
-     * Gets the value from an entry. Returns null if the entry is invalid, partially-collected,
-     * computing, or expired.
+     * Gets the value from an entry. Returns {@code null} if the entry is invalid,
+     * partially-collected, computing, or expired.
      */
     V getLiveValue(ReferenceEntry<K, V> entry) {
       if (entry.getKey() == null) {
@@ -3687,7 +3683,7 @@ class CustomConcurrentHashMap<K, V>
     }
 
     /**
-     * Finds the next entry in the current chain. Returns true if an entry was found.
+     * Finds the next entry in the current chain. Returns {@code true} if an entry was found.
      */
     boolean nextInChain() {
       if (nextEntry != null) {
@@ -3701,7 +3697,7 @@ class CustomConcurrentHashMap<K, V>
     }
 
     /**
-     * Finds the next entry in the current table. Returns true if an entry was found.
+     * Finds the next entry in the current table. Returns {@code true} if an entry was found.
      */
     boolean nextInTable() {
       while (nextTableIndex >= 0) {
@@ -3715,8 +3711,8 @@ class CustomConcurrentHashMap<K, V>
     }
 
     /**
-     * Advances to the given entry. Returns true if the entry was valid, false if it should be
-     * skipped.
+     * Advances to the given entry. Returns {@code true} if the entry was valid, {@code false} if it
+     * should be skipped.
      */
     boolean advanceTo(ReferenceEntry<K, V> entry) {
       try {

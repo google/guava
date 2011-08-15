@@ -28,7 +28,6 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
-
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -453,7 +452,7 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E>
 
     private List<Multiset.Entry<E>> snapshot() {
       List<Multiset.Entry<E>> list = Lists.newArrayListWithExpectedSize(size());
-      // Not Iterables.addAll(list, this), because that'll forward right back here.
+      // not Iterables.addAll(list, this), because that'll forward back here
       Iterators.addAll(list, iterator());
       return list;
     }

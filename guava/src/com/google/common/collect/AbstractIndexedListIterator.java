@@ -61,7 +61,7 @@ abstract class AbstractIndexedListIterator<E>
    * the element at that index, if available. Calls to {@link #previous()} can
    * retrieve the preceding {@code position} elements.
    *
-   * @throws IndexOutOfBoundsException if {@code index} is negative or is
+   * @throws IndexOutOfBoundsException if {@code position} is negative or is
    *         greater than {@code size}
    * @throws IllegalArgumentException if {@code size} is negative
    */

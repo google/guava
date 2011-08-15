@@ -396,11 +396,13 @@ public final class Tables {
     return new TransformedTable<R, C, V1, V2>(fromTable, function);
   }
 
-  private static class TransformedTable<R, C, V1, V2> implements Table<R, C, V2> {
+  private static class TransformedTable<R, C, V1, V2>
+      implements Table<R, C, V2> {
     final Table<R, C, V1> fromTable;
     final Function<? super V1, V2> function;
 
-    TransformedTable(Table<R, C, V1> fromTable, Function<? super V1, V2> function) {
+    TransformedTable(
+        Table<R, C, V1> fromTable, Function<? super V1, V2> function) {
       this.fromTable = checkNotNull(fromTable);
       this.function = checkNotNull(function);
     }
@@ -444,7 +446,8 @@ public final class Tables {
       throw new UnsupportedOperationException();
     }
 
-    @Override public void putAll(Table<? extends R, ? extends C, ? extends V2> table) {
+    @Override public void putAll(
+        Table<? extends R, ? extends C, ? extends V2> table) {
       throw new UnsupportedOperationException();
     }
 
@@ -465,7 +468,8 @@ public final class Tables {
       return new Function<Cell<R, C, V1>, Cell<R, C, V2>>() {
         @Override public Cell<R, C, V2> apply(Cell<R, C, V1> cell) {
           return immutableCell(
-              cell.getRowKey(), cell.getColumnKey(), function.apply(cell.getValue()));
+              cell.getRowKey(), cell.getColumnKey(),
+              function.apply(cell.getValue()));
         }
       };
     }
@@ -484,9 +488,12 @@ public final class Tables {
       @Override public boolean contains(Object obj) {
         if (obj instanceof Cell) {
           Cell<?, ?, ?> cell = (Cell<?, ?, ?>) obj;
-          return Objects.equal(cell.getValue(), get(cell.getRowKey(), cell.getColumnKey()))
-              && (cell.getValue() != null
-                  || fromTable.contains(cell.getRowKey(), cell.getColumnKey()));
+          if (!Objects.equal(
+              cell.getValue(), get(cell.getRowKey(), cell.getColumnKey()))) {
+            return false;
+          }
+          return cell.getValue() != null
+              || fromTable.contains(cell.getRowKey(), cell.getColumnKey());
         }
         return false;
       }
@@ -523,11 +530,12 @@ public final class Tables {
     }
 
     Map<R, Map<C, V2>> createRowMap() {
-      Function<Map<C, V1>, Map<C, V2>> rowFunction = new Function<Map<C, V1>, Map<C, V2>>() {
-        @Override public Map<C, V2> apply(Map<C, V1> row) {
-          return Maps.transformValues(row, function);
-        }
-      };
+      Function<Map<C, V1>, Map<C, V2>> rowFunction =
+          new Function<Map<C, V1>, Map<C, V2>>() {
+            @Override public Map<C, V2> apply(Map<C, V1> row) {
+              return Maps.transformValues(row, function);
+            }
+          };
       return Maps.transformValues(fromTable.rowMap(), rowFunction);
     }
 
@@ -538,11 +546,12 @@ public final class Tables {
     }
 
     Map<C, Map<R, V2>> createColumnMap() {
-      Function<Map<R, V1>, Map<R, V2>> columnFunction = new Function<Map<R, V1>, Map<R, V2>>() {
-        @Override public Map<R, V2> apply(Map<R, V1> column) {
-          return Maps.transformValues(column, function);
-        }
-      };
+      Function<Map<R, V1>, Map<R, V2>> columnFunction =
+          new Function<Map<R, V1>, Map<R, V2>>() {
+            @Override public Map<R, V2> apply(Map<R, V1> column) {
+              return Maps.transformValues(column, function);
+            }
+          };
       return Maps.transformValues(fromTable.columnMap(), columnFunction);
     }
 

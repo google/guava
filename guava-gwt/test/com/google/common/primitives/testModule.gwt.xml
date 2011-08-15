@@ -4,6 +4,7 @@
   <inherits name="com.google.gwt.junit.JUnit"/>
   <inherits name="com.google.common.primitives.Primitives"/>
   <inherits name="com.google.common.testing.Testing"/>
+  <inherits name="org.junit.contrib.truth.Truth"/>
   <entry-point class="com.google.common.primitives.TestModuleEntryPoint"/>
    
   <source path=""/>

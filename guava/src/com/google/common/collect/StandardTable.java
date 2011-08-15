@@ -73,7 +73,8 @@ class StandardTable<R, C, V> implements Table<R, C, V>, Serializable {
 
   // Accessors
 
-  @Override public boolean contains(@Nullable Object rowKey, @Nullable Object columnKey) {
+  @Override public boolean contains(
+      @Nullable Object rowKey, @Nullable Object columnKey) {
     if ((rowKey == null) || (columnKey == null)) {
       return false;
     }
@@ -173,13 +174,15 @@ class StandardTable<R, C, V> implements Table<R, C, V>, Serializable {
     return getOrCreate(rowKey).put(columnKey, value);
   }
 
-  @Override public void putAll(Table<? extends R, ? extends C, ? extends V> table) {
+  @Override public void putAll(
+      Table<? extends R, ? extends C, ? extends V> table) {
     for (Cell<? extends R, ? extends C, ? extends V> cell : table.cellSet()) {
       put(cell.getRowKey(), cell.getColumnKey(), cell.getValue());
     }
   }
 
-  @Override public V remove(@Nullable Object rowKey, @Nullable Object columnKey) {
+  @Override public V remove(
+      @Nullable Object rowKey, @Nullable Object columnKey) {
     if ((rowKey == null) || (columnKey == null)) {
       return null;
     }
@@ -343,7 +346,8 @@ class StandardTable<R, C, V> implements Table<R, C, V>, Serializable {
     Map<C, V> backingRowMap;
 
     Map<C, V> backingRowMap() {
-      return (backingRowMap == null || (backingRowMap.isEmpty() && backingMap.containsKey(rowKey)))
+      return (backingRowMap == null
+              || (backingRowMap.isEmpty() && backingMap.containsKey(rowKey)))
           ? backingRowMap = computeBackingRowMap()
           : backingRowMap;
     }
@@ -363,14 +367,16 @@ class StandardTable<R, C, V> implements Table<R, C, V>, Serializable {
     @Override
     public boolean containsKey(Object key) {
       Map<C, V> backingRowMap = backingRowMap();
-      return (key == null || backingRowMap == null) ? false : Maps.safeContainsKey(backingRowMap,
-          key);
+      return (key != null && backingRowMap != null)
+          && Maps.safeContainsKey(backingRowMap, key);
     }
 
     @Override
     public V get(Object key) {
       Map<C, V> backingRowMap = backingRowMap();
-      return (key == null || backingRowMap == null) ? null : Maps.safeGet(backingRowMap, key);
+      return (key != null && backingRowMap != null)
+          ? Maps.safeGet(backingRowMap, key)
+          : null;
     }
 
     @Override
@@ -468,7 +474,7 @@ class StandardTable<R, C, V> implements Table<R, C, V>, Serializable {
               }
               @Override
               public boolean equals(Object object) {
-                // TODO(user): identify why this changes the outcome of GWT tests
+                // TODO(user): identify why this affects GWT tests
                 return standardEquals(object);
               }
             };

@@ -1689,7 +1689,7 @@ public final class Multimaps {
    * yielding a multimap with the same size as the input iterable. The key used
    * to store that value in the multimap will be the result of calling the
    * function on that value. The resulting multimap is created as an immutable
-   * snapshot. In the returned multimap, keys appear in the order they are first 
+   * snapshot. In the returned multimap, keys appear in the order they are first
    * encountered, and the values corresponding to each key appear in the same 
    * order as they are encountered.
    *

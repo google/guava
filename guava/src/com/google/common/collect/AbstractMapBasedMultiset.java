@@ -321,11 +321,11 @@ abstract class AbstractMapBasedMultiset<E> extends AbstractMultiset<E>
     return new MapBasedElementSet(backingMap);
   }
 
-  // TODO(user): once TreeMultiset is replaced with a SortedMultiset implementation,
-  // replace this with a subclass of Multisets.ElementSet.
+  // TODO(user): once TreeMultiset is replaced with a SortedMultiset
+  // implementation, replace this with a subclass of Multisets.ElementSet.
   class MapBasedElementSet extends ForwardingSet<E> {
 
-    // This mapping is the usually the same as {@code backingMap}, but can be a
+    // This mapping is the usually the same as 'backingMap', but can be a
     // submap in some implementations.
     private final Map<E, AtomicInteger> map;
     private final Set<E> delegate;

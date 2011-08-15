@@ -74,7 +74,7 @@ import javax.annotation.Nullable;
  * For this reason, and to avoid general confusion, it is strongly recommended
  * to place only immutable objects into this collection.
  *
- * <p><b>Note</b>: Although this class is not final, it cannot be subclassed as
+ * <p><b>Note:</b> Although this class is not final, it cannot be subclassed as
  * it has no public or protected constructors. Thus, instances of this type are
  * guaranteed to be immutable.
  *
@@ -684,8 +684,8 @@ public abstract class ImmutableSortedSet<E>
     return subSet(fromElement, true, toElement, false);
   }
 
-  ImmutableSortedSet<E> subSet(E fromElement, boolean fromInclusive, E toElement,
-      boolean toInclusive) {
+  ImmutableSortedSet<E> subSet(
+      E fromElement, boolean fromInclusive, E toElement, boolean toInclusive) {
     checkNotNull(fromElement);
     checkNotNull(toElement);
     checkArgument(comparator.compare(fromElement, toElement) <= 0);
@@ -718,8 +718,8 @@ public abstract class ImmutableSortedSet<E>
    */
   abstract ImmutableSortedSet<E> headSetImpl(E toElement, boolean inclusive);
 
-  abstract ImmutableSortedSet<E> subSetImpl(E fromElement, boolean fromInclusive, E toElement,
-      boolean toInclusive);
+  abstract ImmutableSortedSet<E> subSetImpl(
+      E fromElement, boolean fromInclusive, E toElement, boolean toInclusive);
 
   abstract ImmutableSortedSet<E> tailSetImpl(E fromElement, boolean inclusive);
 

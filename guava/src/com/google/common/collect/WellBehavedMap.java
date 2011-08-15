@@ -58,7 +58,8 @@ final class WellBehavedMap<K, V> extends ForwardingMap<K, V> {
     if (es != null) {
       return es;
     }
-    return entrySet = Sets.transform(delegate.keySet(), new KeyToEntryConverter<K, V>(this));
+    return entrySet = Sets.transform(
+        delegate.keySet(), new KeyToEntryConverter<K, V>(this));
   }
   
   private static class KeyToEntryConverter<K, V> 

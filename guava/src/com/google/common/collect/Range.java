@@ -134,7 +134,7 @@ public final class Range<C extends Comparable>
    * Returns the lower endpoint of this range.
    *
    * @throws IllegalStateException if this range is unbounded below (that is,
-   *     {@link #hasLowerBound()} is false)
+   *     {@link #hasLowerBound()} returns {@code false})
    */
   public C lowerEndpoint() {
     return lowerBound.endpoint();
@@ -146,7 +146,7 @@ public final class Range<C extends Comparable>
    * not.
    *
    * @throws IllegalStateException if this range is unbounded below (that is,
-   *     {@link #hasLowerBound()} is false)
+   *     {@link #hasLowerBound()} returns {@code false})
    */
   public BoundType lowerBoundType() {
     return lowerBound.typeAsLowerBound();
@@ -163,7 +163,7 @@ public final class Range<C extends Comparable>
    * Returns the upper endpoint of this range.
    *
    * @throws IllegalStateException if this range is unbounded above (that is,
-   *     {@link #hasUpperBound()} is false)
+   *     {@link #hasUpperBound()} returns {@code false})
    */
   public C upperEndpoint() {
     return upperBound.endpoint();
@@ -175,7 +175,7 @@ public final class Range<C extends Comparable>
    * not.
    *
    * @throws IllegalStateException if this range is unbounded above (that is,
-   *     {@link #hasUpperBound()} is false)
+   *     {@link #hasUpperBound()} returns {@code false})
    */
   public BoundType upperBoundType() {
     return upperBound.typeAsUpperBound();
@@ -197,7 +197,7 @@ public final class Range<C extends Comparable>
   /**
    * Returns {@code true} if {@code value} is within the bounds of this
    * range. For example, on the range {@code [0‥2)}, {@code contains(1)}
-   * is true, while {@code contains(2)} is false.
+   * returns {@code true}, while {@code contains(2)} returns {@code false}.
    */
   public boolean contains(C value) {
     checkNotNull(value);
@@ -335,7 +335,7 @@ public final class Range<C extends Comparable>
    * Returns an {@link ImmutableSortedSet} containing the same values in the
    * given domain {@linkplain Range#contains contained} by this range.
    *
-   * <p><b>Note</b>: {@code a.asSet().equals(b.asSet())} does not imply {@code
+   * <p><b>Note:</b> {@code a.asSet().equals(b.asSet())} does not imply {@code
    * a.equals(b)}! For example, {@code a} and {@code b} could be {@code [2‥4]}
    * and {@code (1‥5)}, or the empty ranges {@code [3‥3)} and {@code [4‥4)}.
    *

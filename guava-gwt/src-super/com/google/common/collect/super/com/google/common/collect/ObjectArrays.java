@@ -91,9 +91,9 @@ public final class ObjectArrays {
    *
    * <p>If the collection fits in the specified array with room to spare (i.e.,
    * the array has more elements than the collection), the element in the array
-   * immediately following the end of the collection is set to null. This is
-   * useful in determining the length of the collection <i>only</i> if the
-   * caller knows that the collection does not contain any null elements.
+   * immediately following the end of the collection is set to {@code null}.
+   * This is useful in determining the length of the collection <i>only</i> if
+   * the caller knows that the collection does not contain any null elements.
    *
    * <p>This method returns the elements in the order they are returned by the
    * collection's iterator.

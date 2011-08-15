@@ -85,7 +85,8 @@ public class HashBasedTable<R, C, V> extends StandardTable<R, C, V> {
   public static <R, C, V> HashBasedTable<R, C, V> create(
       int expectedRows, int expectedCellsPerRow) {
     checkArgument(expectedCellsPerRow >= 0);
-    Map<R, Map<C, V>> backingMap = Maps.newHashMapWithExpectedSize(expectedRows);
+    Map<R, Map<C, V>> backingMap =
+        Maps.newHashMapWithExpectedSize(expectedRows);
     return new HashBasedTable<R, C, V>(
         backingMap, new Factory<C, V>(expectedCellsPerRow));
   }
@@ -96,7 +97,7 @@ public class HashBasedTable<R, C, V> extends StandardTable<R, C, V> {
    *
    * @param table the table to copy
    * @throws NullPointerException if any of the row keys, column keys, or values
-   *     in {@code table} are null.
+   *     in {@code table} is null
    */
   public static <R, C, V> HashBasedTable<R, C, V> create(
       Table<? extends R, ? extends C, ? extends V> table) {

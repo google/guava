@@ -27,7 +27,7 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
-/** An ordering for a pre-existing {@code comparator}. */
+/** An ordering for a pre-existing comparator. */
 @GwtCompatible(serializable = true)
 final class ComparatorOrdering<T> extends Ordering<T> implements Serializable {
   final Comparator<T> comparator;

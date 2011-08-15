@@ -65,8 +65,10 @@ public final class EnumHashBiMap<K extends Enum<K>, V>
   }
 
   private EnumHashBiMap(Class<K> keyType) {
-    super(WellBehavedMap.wrap(new EnumMap<K, V>(keyType)),
-        Maps.<V, K>newHashMapWithExpectedSize(keyType.getEnumConstants().length));
+    super(WellBehavedMap.wrap(
+        new EnumMap<K, V>(keyType)),
+        Maps.<V, K>newHashMapWithExpectedSize(
+            keyType.getEnumConstants().length));
     this.keyType = keyType;
   }
 

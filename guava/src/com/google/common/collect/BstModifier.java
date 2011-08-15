@@ -45,6 +45,5 @@ interface BstModifier<K, N extends BstNode<K, N>> {
    *        binary search tree.
    * @return the entry (if any) with the specified key after this modification is performed
    */
-  @Nullable
-  N modify(K key, @Nullable N originalEntry);
+  BstModificationResult<N> modify(K key, @Nullable N originalEntry);
 }

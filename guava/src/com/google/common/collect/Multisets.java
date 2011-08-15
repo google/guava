@@ -380,7 +380,8 @@ public final class Multisets {
 
       @Override
       Set<E> createElementSet() {
-        return Sets.intersection(multiset1.elementSet(), multiset2.elementSet());
+        return Sets.intersection(
+            multiset1.elementSet(), multiset2.elementSet());
       }
 
       @Override
@@ -410,13 +411,14 @@ public final class Multisets {
   }
 
   /**
-   * Returns {@code true} if {@code subMultiset.count(o) <= superMultiset.count(o)} for all
-   * {@code o}.
+   * Returns {@code true} if {@code subMultiset.count(o) <=
+   * superMultiset.count(o)} for all {@code o}.
    *
    * @since Guava release 10
    */
   @Beta
-  public static boolean containsOccurrences(Multiset<?> superMultiset, Multiset<?> subMultiset) {
+  public static boolean containsOccurrences(
+      Multiset<?> superMultiset, Multiset<?> subMultiset) {
     checkNotNull(superMultiset);
     checkNotNull(subMultiset);
     for (Entry<?> entry : subMultiset.entrySet()) {

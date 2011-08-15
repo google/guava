@@ -44,7 +44,7 @@ import javax.annotation.Nullable;
  * ("constant maps") and also lets you easily make a "defensive copy" of a map
  * provided to your class by a caller.
  *
- * <p><b>Note</b>: Although this class is not final, it cannot be subclassed as
+ * <p><b>Note:</b> Although this class is not final, it cannot be subclassed as
  * it has no public or protected constructors. Thus, instances of this class are
  * guaranteed to be immutable.
  *
@@ -696,7 +696,8 @@ public class ImmutableSortedMap<K, V>
   }
 
   private int index(Object key, Relation relation) {
-    return SortedLists.binarySearch(keyList(), key, unsafeComparator(), relation, false);
+    return SortedLists.binarySearch(
+        keyList(), key, unsafeComparator(), relation, false);
   }
 
   private ImmutableSortedMap<K, V> createSubmap(

@@ -102,8 +102,8 @@ public interface Multiset<E> extends Collection<E> {
    * of overflow) to the call {@code addAll(Collections.nCopies(element,
    * occurrences))}, which would presumably perform much more poorly.
    *
-   * @param element the element to add occurrences of; may be {@code null} only
-   *     if explicitly allowed by the implementation
+   * @param element the element to add occurrences of; may be null only if
+   *     explicitly allowed by the implementation
    * @param occurrences the number of occurrences of the element to add. May be
    *     zero, in which case no change will be made.
    * @return the count of the element before the operation; possibly zero
@@ -397,7 +397,7 @@ public interface Multiset<E> extends Collection<E> {
   /**
    * {@inheritDoc}
    *
-   * <p><b>Note</b>: This method ignores how often any element might appear in 
+   * <p><b>Note:</b> This method ignores how often any element might appear in
    * {@code c}, and only cares whether or not an element appears at all.
    * If you wish to remove one occurrence in this multiset for every occurrence
    * in {@code c}, see {@link Multisets#removeOccurrences(Multiset, Multiset)}.
@@ -411,8 +411,8 @@ public interface Multiset<E> extends Collection<E> {
 
   /**
    * {@inheritDoc}
-   * 
-   * <p><b>Note</b>: This method ignores how often any element might appear in 
+   *
+   * <p><b>Note:</b> This method ignores how often any element might appear in
    * {@code c}, and only cares whether or not an element appears at all.
    * If you wish to remove one occurrence in this multiset for every occurrence
    * in {@code c}, see {@link Multisets#retainOccurrences(Multiset, Multiset)}.

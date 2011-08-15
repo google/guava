@@ -83,7 +83,8 @@ public final class TreeMultiset<E> extends AbstractMapBasedMultiset<E> {
    *     null value indicates that the elements' <i>natural ordering</i> should
    *     be used.
    */
-  public static <E> TreeMultiset<E> create(Comparator<? super E> comparator) {
+  public static <E> TreeMultiset<E> create(
+      @Nullable Comparator<? super E> comparator) {
     return new TreeMultiset<E>(comparator);
   }
 
@@ -91,9 +92,9 @@ public final class TreeMultiset<E> extends AbstractMapBasedMultiset<E> {
    * Creates an empty multiset containing the given initial elements, sorted
    * according to the elements' natural order.
    *
-   * <p>This implementation is highly efficient when {@code elements} is itself a
-   * {@link Multiset}.
-   * 
+   * <p>This implementation is highly efficient when {@code elements} is itself
+   * a {@link Multiset}.
+   *
    * <p>The type specification is {@code <E extends Comparable>}, instead of the
    * more specific {@code <E extends Comparable<? super E>>}, to support
    * classes defined without generics.
@@ -109,7 +110,7 @@ public final class TreeMultiset<E> extends AbstractMapBasedMultiset<E> {
     super(new TreeMap<E, AtomicInteger>());
   }
 
-  private TreeMultiset(Comparator<? super E> comparator) {
+  private TreeMultiset(@Nullable Comparator<? super E> comparator) {
     super(new TreeMap<E, AtomicInteger>(comparator));
   }
 

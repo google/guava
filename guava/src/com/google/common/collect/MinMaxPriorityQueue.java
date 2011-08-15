@@ -619,7 +619,8 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
         // bubble up alternate levels, violating the invariant.
         int grandparentIndex = getParentIndex(parentIndex);
         int uncleIndex = getRightChildIndex(grandparentIndex);
-        if (uncleIndex != parentIndex && getLeftChildIndex(uncleIndex) >= size) {
+        if (uncleIndex != parentIndex
+            && getLeftChildIndex(uncleIndex) >= size) {
           E uncleElement = elementData(uncleIndex);
           if (ordering.compare(uncleElement, parentElement) < 0) {
             parentIndex = uncleIndex;

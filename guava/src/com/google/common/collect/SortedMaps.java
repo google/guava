@@ -234,7 +234,7 @@ public final class SortedMaps {
         } else {
           eq = false;
           differences.put(
-              leftKey, new ValueDifferenceImpl<V>(leftValue, rightValue));
+              leftKey, ValueDifferenceImpl.create(leftValue, rightValue));
         }
       } else {
         eq = false;

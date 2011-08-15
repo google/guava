@@ -53,7 +53,7 @@ import javax.annotation.Nullable;
  * methods create hash-based instances, the {@link ImmutableSortedSet} subclass
  * performs binary searches instead.
  *
- * <p><b>Note</b>: Although this class is not final, it cannot be subclassed
+ * <p><b>Note:</b> Although this class is not final, it cannot be subclassed
  * outside its package as it has no public or protected constructors. Thus,
  * instances of this type are guaranteed to be immutable.
  *

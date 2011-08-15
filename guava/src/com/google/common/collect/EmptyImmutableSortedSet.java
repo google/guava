@@ -107,8 +107,8 @@ class EmptyImmutableSortedSet<E> extends ImmutableSortedSet<E> {
   }
 
   @Override
-  ImmutableSortedSet<E> subSetImpl(E fromElement, boolean fromInclusive, E toElement,
-      boolean toInclusive) {
+  ImmutableSortedSet<E> subSetImpl(
+      E fromElement, boolean fromInclusive, E toElement, boolean toInclusive) {
     return this;
   }
 

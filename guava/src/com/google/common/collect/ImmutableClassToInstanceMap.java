@@ -62,8 +62,8 @@ public final class ImmutableClassToInstanceMap<B> extends
      * Associates {@code key} with {@code value} in the built map. Duplicate
      * keys are not allowed, and will cause {@link #build} to fail.
      */
-    public <T extends B> Builder<B> put(Class<T> type, T value) {
-      mapBuilder.put(type, value);
+    public <T extends B> Builder<B> put(Class<T> key, T value) {
+      mapBuilder.put(key, value);
       return this;
     }
 

@@ -55,7 +55,7 @@ public interface BiMap<K, V> extends Map<K, V> {
    * <p>Note that a successful call to this method could cause the size of the
    * bimap to increase by one, stay the same, or even decrease by one.
    *
-   * <p><b>Warning</b>: If an existing entry with this value is removed, the key
+   * <p><b>Warning:</b> If an existing entry with this value is removed, the key
    * for that entry is discarded and not returned.
    *
    * @param key the key with which the specified value is to be associated

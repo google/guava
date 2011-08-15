@@ -59,9 +59,9 @@ public final class LinkedHashMultiset<E> extends AbstractMapBasedMultiset<E> {
   /**
    * Creates a new {@code LinkedHashMultiset} containing the specified elements.
    *
-   * <p>This implementation is highly efficient when {@code elements} is itself a
-   * {@link Multiset}.
-   * 
+   * <p>This implementation is highly efficient when {@code elements} is itself
+   * a {@link Multiset}.
+   *
    * @param elements the elements that the multiset should contain
    */
   public static <E> LinkedHashMultiset<E> create(

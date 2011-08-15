@@ -30,7 +30,7 @@ import javax.annotation.Nullable;
  * <p>In addition to the {@link Collection} methods, this class has an {@link
  * #asList()} method, which returns a list view of the collection's elements.
  *
- * <p><b>Note</b>: Although this class is not final, it cannot be subclassed
+ * <p><b>Note:</b> Although this class is not final, it cannot be subclassed
  * outside of this package as it has no public or protected constructors. Thus,
  * instances of this type are guaranteed to be immutable.
  *

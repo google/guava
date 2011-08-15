@@ -21,8 +21,8 @@ package com.google.common.collect;
  *
  * @author Bob Lee
  * @since Guava release 02 (imported from Google Collections Library)
- * @deprecated this class is unused by com.google.common.collect. <b>This class is scheduled for
- *     deletion in November 2012.</b>
+ * @deprecated this class is unused by com.google.common.collect. <b>This class
+ *     is scheduled for deletion in November 2012.</b>
  */
 @Deprecated
 public

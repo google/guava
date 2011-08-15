@@ -15,10 +15,14 @@
 package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.collect.BstModificationResult.ModificationType.IDENTITY;
+import static com.google.common.collect.BstModificationResult.ModificationType.REBUILDING_CHANGE;
+import static com.google.common.collect.BstModificationResult.ModificationType.REBALANCING_CHANGE;
 import static com.google.common.collect.BstSide.LEFT;
 import static com.google.common.collect.BstSide.RIGHT;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.collect.BstModificationResult.ModificationType;
 
 import javax.annotation.Nullable;
 
@@ -38,52 +42,30 @@ final class BstMutationResult<K, N extends BstNode<K, N>> {
    *        changedTarget} are non-null, their keys must compare as equal to {@code targetKey}.
    * @param originalRoot The root of the subtree that was modified.
    * @param changedRoot The root of the subtree, after the modification and any rebalancing.
-   * @param originalTarget The node in the original subtree with key {@code targetKey}, if any.
-   * @param changedTarget The node with key {@code targetKey} after the modification.
+   * @param modificationResult The result of the local modification to an entry.
    */
   public static <K, N extends BstNode<K, N>> BstMutationResult<K, N> mutationResult(K targetKey,
-      @Nullable N originalRoot, @Nullable N changedRoot, @Nullable N originalTarget,
-      @Nullable N changedTarget) {
-    return new BstMutationResult<K, N>(
-        targetKey, originalRoot, changedRoot, originalTarget, changedTarget);
-  }
-
-  /**
-   * Returns the identity mutation.
-   *
-   * @param targetKey The key targeted for modification.
-   * @param root The subtree that was to be modified.
-   * @param target The node in the subtree with key {@code targetKey}, if any.
-   */
-  public static <K, N extends BstNode<K, N>> BstMutationResult<K, N> identity(
-      K targetKey, @Nullable N root, @Nullable N target) {
-    return mutationResult(targetKey, root, root, target, target);
+      @Nullable N originalRoot, @Nullable N changedRoot,
+      BstModificationResult<N> modificationResult) {
+    return new BstMutationResult<K, N>(targetKey, originalRoot, changedRoot, modificationResult);
   }
 
   private final K targetKey;
 
   @Nullable
-  private final N originalRoot;
+  private N originalRoot;
 
   @Nullable
-  private final N changedRoot;
-
-  @Nullable
-  private final N originalTarget;
-
-  @Nullable
-  private final N changedTarget;
+  private N changedRoot;
+  
+  private final BstModificationResult<N> modificationResult;
 
   private BstMutationResult(K targetKey, @Nullable N originalRoot, @Nullable N changedRoot,
-      @Nullable N originalTarget, @Nullable N changedTarget) {
-    assert (originalTarget == null | originalRoot != null);
-    assert (changedTarget == null | changedRoot != null);
-    assert ((originalRoot == changedRoot) == (originalTarget == changedTarget));
+      BstModificationResult<N> modificationResult) {
     this.targetKey = checkNotNull(targetKey);
     this.originalRoot = originalRoot;
     this.changedRoot = changedRoot;
-    this.originalTarget = originalTarget;
-    this.changedTarget = changedTarget;
+    this.modificationResult = checkNotNull(modificationResult);
   }
 
   /**
@@ -116,7 +98,7 @@ final class BstMutationResult<K, N extends BstNode<K, N>> {
    */
   @Nullable
   public N getOriginalTarget() {
-    return originalTarget;
+    return modificationResult.getOriginalTarget();
   }
 
   /**
@@ -126,15 +108,11 @@ final class BstMutationResult<K, N extends BstNode<K, N>> {
    */
   @Nullable
   public N getChangedTarget() {
-    return changedTarget;
+    return modificationResult.getChangedTarget();
   }
 
-  /**
-   * Returns {@code true} if this mutation represents an identity operation, which is to say, no
-   * changes were made at all.
-   */
-  public boolean isIdentity() {
-    return originalTarget == changedTarget;
+  ModificationType modificationType() {
+    return modificationResult.getType();
   }
 
   /**
@@ -144,33 +122,35 @@ final class BstMutationResult<K, N extends BstNode<K, N>> {
    */
   public BstMutationResult<K, N> lift(N liftOriginalRoot, BstSide side,
       BstNodeFactory<N> nodeFactory, BstBalancePolicy<N> balancePolicy) {
-    checkNotNull(liftOriginalRoot);
-    checkNotNull(side);
-    checkNotNull(nodeFactory);
-    checkNotNull(balancePolicy);
-    if (isIdentity()) {
-      return identity(targetKey, liftOriginalRoot, originalTarget);
-    }
-
-    N resultLeft = liftOriginalRoot.childOrNull(LEFT);
-    N resultRight = liftOriginalRoot.childOrNull(RIGHT);
-
-    switch (side) {
-      case LEFT:
-        assert originalRoot == resultLeft;
-        resultLeft = changedRoot;
-        break;
-      case RIGHT:
-        assert originalRoot == resultRight;
-        resultRight = changedRoot;
-        break;
+    assert liftOriginalRoot != null & side != null & nodeFactory != null & balancePolicy != null;
+    switch (modificationType()) {
+      case IDENTITY:
+        this.originalRoot = this.changedRoot = liftOriginalRoot;
+        return this;
+      case REBUILDING_CHANGE:
+      case REBALANCING_CHANGE:
+        this.originalRoot = liftOriginalRoot;
+        N resultLeft = liftOriginalRoot.childOrNull(LEFT);
+        N resultRight = liftOriginalRoot.childOrNull(RIGHT);
+        switch (side) {
+          case LEFT:
+            resultLeft = changedRoot;
+            break;
+          case RIGHT:
+            resultRight = changedRoot;
+            break;
+          default:
+            throw new AssertionError();
+        }
+        if (modificationType() == REBUILDING_CHANGE) {
+          this.changedRoot = nodeFactory.createNode(liftOriginalRoot, resultLeft, resultRight);
+        } else {
+          this.changedRoot =
+              balancePolicy.balance(nodeFactory, liftOriginalRoot, resultLeft, resultRight);
+        }
+        return this;
       default:
         throw new AssertionError();
     }
-
-    N liftChangedRoot =
-        balancePolicy.balance(nodeFactory, liftOriginalRoot, resultLeft, resultRight);
-    return mutationResult(
-        targetKey, liftOriginalRoot, liftChangedRoot, originalTarget, changedTarget);
   }
 }

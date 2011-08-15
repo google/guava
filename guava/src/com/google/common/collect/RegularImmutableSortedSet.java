@@ -192,14 +192,16 @@ final class RegularImmutableSortedSet<E> extends ImmutableSortedSet<E> {
 
   @Override
   ImmutableSortedSet<E> headSetImpl(E toElement, boolean inclusive) {
-    int index = index(toElement, inclusive ? Relation.HIGHER : Relation.CEILING);
+    int index = index(
+        toElement, inclusive ? Relation.HIGHER : Relation.CEILING);
     return createSubset(0, index);
   }
 
   @Override
-  ImmutableSortedSet<E> subSetImpl(E fromElement, boolean fromInclusive, E toElement,
-      boolean toInclusive) {
-    return tailSetImpl(fromElement, fromInclusive).headSetImpl(toElement, toInclusive);
+  ImmutableSortedSet<E> subSetImpl(
+      E fromElement, boolean fromInclusive, E toElement, boolean toInclusive) {
+    return tailSetImpl(fromElement, fromInclusive)
+        .headSetImpl(toElement, toInclusive);
   }
 
   @Override
@@ -209,7 +211,8 @@ final class RegularImmutableSortedSet<E> extends ImmutableSortedSet<E> {
   }
 
   private int index(Object key, Relation relation) {
-    return SortedLists.binarySearch(elements, key, unsafeComparator(), relation, false);
+    return SortedLists.binarySearch(
+        elements, key, unsafeComparator(), relation, false);
   }
 
   // Pretend the comparator can compare anything. If it turns out it can't

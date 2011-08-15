@@ -164,7 +164,8 @@ public final class Ranges {
    * Returns a range with no lower bound up to the given endpoint, which may be
    * either inclusive (closed) or exclusive (open).
    */
-  public static <C extends Comparable<?>> Range<C> upTo(C endpoint, BoundType boundType) {
+  public static <C extends Comparable<?>> Range<C> upTo(
+      C endpoint, BoundType boundType) {
     switch (boundType) {
       case OPEN:
         return lessThan(endpoint);
@@ -195,7 +196,8 @@ public final class Ranges {
    * Returns a range from the given endpoint, which may be either inclusive
    * (closed) or exclusive (open), with no upper bound.
    */
-  public static <C extends Comparable<?>> Range<C> downTo(C endpoint, BoundType boundType) {
+  public static <C extends Comparable<?>> Range<C> downTo(
+      C endpoint, BoundType boundType) {
     switch (boundType) {
       case OPEN:
         return greaterThan(endpoint);

@@ -82,7 +82,7 @@ public interface MapDifference<K, V> {
 
   /**
    * A difference between the mappings from two maps with the same key. The
-   * {@code leftValue()} and {@code rightValue} are not equal, and one but not
+   * {@link #leftValue} and {@link #rightValue} are not equal, and one but not
    * both of them may be null.
    *
    * @since Guava release 02 (imported from Google Collections Library)

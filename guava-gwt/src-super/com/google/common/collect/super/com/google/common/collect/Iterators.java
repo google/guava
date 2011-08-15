@@ -163,7 +163,7 @@ public final class Iterators {
    *
    * @param removeFrom the iterator to (potentially) remove elements from
    * @param elementsToRemove the elements to remove
-   * @return {@code true} if any elements are removed from {@code iterator}
+   * @return {@code true} if any element was removed from {@code iterator}
    */
   public static boolean removeAll(
       Iterator<?> removeFrom, Collection<?> elementsToRemove) {
@@ -209,7 +209,7 @@ public final class Iterators {
    *
    * @param removeFrom the iterator to (potentially) remove elements from
    * @param elementsToRetain the elements to retain
-   * @return {@code true} if any elements are removed from {@code iterator}
+   * @return {@code true} if any element was removed from {@code iterator}
    */
   public static boolean retainAll(
       Iterator<?> removeFrom, Collection<?> elementsToRetain) {
@@ -484,7 +484,7 @@ public final class Iterators {
    *
    * <p>The returned iterator supports {@code remove()} when the corresponding
    * input iterator supports it. The methods of the returned iterator may throw
-   * {@code NullPointerException} if any of the input iterators are null.
+   * {@code NullPointerException} if any of the input iterators is null.
    */
   public static <T> Iterator<T> concat(
       final Iterator<? extends Iterator<? extends T>> inputs) {
@@ -682,8 +682,8 @@ public final class Iterators {
    * elements.
    *
    * <p>More formally, returns the lowest index {@code i} such that
-   * {@code predicate.apply(Iterators.get(iterator, i))} is {@code true}, or
-   * {@code -1} if there is no such index.
+   * {@code predicate.apply(Iterators.get(iterator, i))} returns {@code true},
+   * or {@code -1} if there is no such index.
    *
    * <p>If -1 is returned, the iterator will be left exhausted: its
    * {@code hasNext()} method will return {@code false}.  Otherwise,

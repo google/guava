@@ -49,14 +49,13 @@ class BstNode<K, N extends BstNode<K, N>> {
   private final K key;
 
   /**
-   * The left child of this node. A {@code null} value indicates that this node has no left child.
+   * The left child of this node. A null value indicates that this node has no left child.
    */
   @Nullable
   private final N left;
 
   /**
-   * The right child of this node. A {@code null} value indicates that this node has no right
-   * child.
+   * The right child of this node. A null value indicates that this node has no right child.
    */
   @Nullable
   private final N right;
@@ -108,8 +107,8 @@ class BstNode<K, N extends BstNode<K, N>> {
   }
 
   /**
-   * Returns true if the traditional binary search tree ordering invariant holds with respect to
-   * the specified {@code comparator}.
+   * Returns {@code true} if the traditional binary search tree ordering invariant holds with
+   * respect to the specified {@code comparator}.
    */
   protected final boolean orderingInvariantHolds(Comparator<? super K> comparator) {
     checkNotNull(comparator);

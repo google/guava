@@ -77,7 +77,7 @@ public abstract class Ordering<T> implements Comparator<T> {
    * support legacy types from before Java 5.
    */
   @GwtCompatible(serializable = true)
-  @SuppressWarnings("unchecked") // TODO(kevinb): the right way to explain this??
+  @SuppressWarnings("unchecked") // TODO(kevinb): right way to explain this??
   public static <C extends Comparable> Ordering<C> natural() {
     return (Ordering<C>) NaturalOrdering.INSTANCE;
   }
@@ -394,8 +394,8 @@ public abstract class Ordering<T> implements Comparator<T> {
    * Returns the {@code k} least elements of the given iterable according to
    * this ordering, in order from least to greatest.  If there are fewer than
    * {@code k} elements present, all will be included.
-   * 
-   * <p>The implementation does not necessarily use a <em>stable</em> sorting
+   *
+   * <p>The implementation does not necessarily use a <i>stable</i> sorting
    * algorithm; when multiple elements are equivalent, it is undefined which
    * will come first.
    * 
@@ -435,8 +435,8 @@ public abstract class Ordering<T> implements Comparator<T> {
    * Returns the {@code k} greatest elements of the given iterable according to
    * this ordering, in order from greatest to least. If there are fewer than
    * {@code k} elements present, all will be included.
-   * 
-   * <p>The implementation does not necessarily use a <em>stable</em> sorting
+   *
+   * <p>The implementation does not necessarily use a <i>stable</i> sorting
    * algorithm; when multiple elements are equivalent, it is undefined which
    * will come first.
    * 

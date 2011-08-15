@@ -55,9 +55,9 @@ import java.util.TreeSet;
  * <p>The multimap does not store duplicate key-value pairs. Adding a new
  * key-value pair equal to an existing key-value pair has no effect.
  *
- * <p>Depending on the comparators, null keys and values may or may not be
- * supported. The natural ordering does not support nulls. All optional multimap
- * methods are supported, and all returned views are modifiable.
+ * <p>Null keys and values are permitted (provided, of course, that the
+ * respective comparators support them). All optional multimap methods are
+ * supported, and all returned views are modifiable.
  *
  * <p>This class is not threadsafe when any concurrent operations update the
  * multimap. Concurrent read operations will work correctly. To allow concurrent

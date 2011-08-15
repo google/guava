@@ -293,27 +293,23 @@ public final class InetAddresses {
       }
     }
 
-    // Now check the endpoints, and determine the number of parts to copy from
-    // above/before the "::" (partsHi), and below/after the "::" (partsLo).
-    int partsHi;
-    if (parts[0].length() == 0) {
-      if (!ipString.startsWith("::")) {
+    int partsHi;  // Number of parts to copy from above/before the "::"
+    int partsLo;  // Number of parts to copy from below/after the "::"
+    if (skipIndex >= 0) {
+      // If we found a "::", then check if it also covers the endpoints.
+      partsHi = skipIndex;
+      partsLo = parts.length - skipIndex - 1;
+      if (parts[0].length() == 0 && --partsHi != 0) {
         return null;  // ^: requires ^::
       }
-      partsHi = 0;
-    } else {
-      // If a :: wasn't found, then partsHi includes everything.
-      partsHi = skipIndex >= 0 ? skipIndex : parts.length;
-    }
-    int partsLo;
-    if (parts[parts.length - 1].length() == 0) {
-      if (!ipString.endsWith("::")) {
+      if (parts[parts.length - 1].length() == 0 && --partsLo != 0) {
         return null;  // :$ requires ::$
       }
-      partsLo = 0;
     } else {
-      // If a :: wasn't found, then partsLo includes nothing.
-      partsLo = skipIndex >= 0 ? parts.length - skipIndex - 1 : 0;
+      // Otherwise, allocate the entire address to partsHi.  The endpoints
+      // could still be empty, but parseHextet() will check for that.
+      partsHi = parts.length;
+      partsLo = 0;
     }
 
     // If we found a ::, then we must have skipped at least one part.

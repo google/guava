@@ -59,7 +59,7 @@ abstract class AbstractMapEntry<K, V> implements Entry<K, V> {
   }
 
   /**
-   * Returns a string representation of the form <code>{key}={value}</code>.
+   * Returns a string representation of the form {@code {key}={value}}.
    */
   @Override public String toString() {
     return getKey() + "=" + getValue();

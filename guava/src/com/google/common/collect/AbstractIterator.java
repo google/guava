@@ -112,10 +112,10 @@ public abstract class AbstractIterator<T> extends UnmodifiableIterator<T> {
   protected abstract T computeNext();
 
   /**
-   * Implementations of {@code computeNext} <b>must</b> invoke this method when
+   * Implementations of {@link #computeNext} <b>must</b> invoke this method when
    * there are no elements left in the iteration.
    *
-   * @return {@code null}; a convenience so your {@link #computeNext}
+   * @return {@code null}; a convenience so your {@code computeNext}
    *     implementation can use the simple statement {@code return endOfData();}
    */
   protected final T endOfData() {

@@ -15,12 +15,12 @@
 package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.collect.BstOperations.extractMax;
+import static com.google.common.collect.BstOperations.extractMin;
+import static com.google.common.collect.BstOperations.insertMax;
+import static com.google.common.collect.BstOperations.insertMin;
 import static com.google.common.collect.BstSide.LEFT;
 import static com.google.common.collect.BstSide.RIGHT;
-import static com.google.common.collect.BstUtilities.extractMax;
-import static com.google.common.collect.BstUtilities.extractMin;
-import static com.google.common.collect.BstUtilities.insertMax;
-import static com.google.common.collect.BstUtilities.insertMin;
 
 import com.google.common.annotations.GwtCompatible;
 

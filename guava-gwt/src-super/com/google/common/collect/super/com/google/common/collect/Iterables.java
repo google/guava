@@ -108,7 +108,7 @@ public final class Iterables {
    *
    * @param removeFrom the iterable to (potentially) remove elements from
    * @param elementsToRemove the elements to remove
-   * @return {@code true} if any elements are removed from {@code iterable}
+   * @return {@code true} if any element was removed from {@code iterable}
    */
   public static boolean removeAll(
       Iterable<?> removeFrom, Collection<?> elementsToRemove) {
@@ -126,7 +126,7 @@ public final class Iterables {
    *
    * @param removeFrom the iterable to (potentially) remove elements from
    * @param elementsToRetain the elements to retain
-   * @return {@code true} if any elements are removed from {@code iterable}
+   * @return {@code true} if any element was removed from {@code iterable}
    */
   public static boolean retainAll(
       Iterable<?> removeFrom, Collection<?> elementsToRetain) {
@@ -433,7 +433,7 @@ public final class Iterables {
    * <p>The returned iterable's iterator supports {@code remove()} when the
    * corresponding input iterator supports it. The methods of the returned
    * iterable may throw {@code NullPointerException} if any of the input
-   * iterators are null.
+   * iterators is null.
    */
   public static <T> Iterable<T> concat(
       final Iterable<? extends Iterable<? extends T>> inputs) {
@@ -589,8 +589,8 @@ public final class Iterables {
    * elements.
    *
    * <p>More formally, returns the lowest index {@code i} such that
-   * {@code predicate.apply(Iterables.get(iterable, i))} is {@code true} or
-   * {@code -1} if there is no such index.
+   * {@code predicate.apply(Iterables.get(iterable, i))} returns {@code true},
+   * or {@code -1} if there is no such index.
    *
    * @since Guava release 02
    */
@@ -968,7 +968,7 @@ public final class Iterables {
    * {@code remove} method. At most one element is removed, even if the iterable
    * contains multiple members that equal {@code o}.
    *
-   * <p><b>Warning</b>: Do not use this method for a collection, such as a
+   * <p><b>Warning:</b> Do not use this method for a collection, such as a
    * {@link HashSet}, that has a fast {@code remove} method.
    *
    * @param iterable the iterable from which to remove

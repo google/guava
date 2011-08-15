@@ -191,7 +191,7 @@ abstract class AbstractMultiset<E> extends AbstractCollection<E>
   /**
    * {@inheritDoc}
    *
-   * <p>This implementation returns {@code true} if {@code other} is a multiset
+   * <p>This implementation returns {@code true} if {@code object} is a multiset
    * of the same size and if, for each element, the two multisets have the same
    * count.
    */

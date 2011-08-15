@@ -409,9 +409,9 @@ public final class Sets {
    * or {@link java.util.TreeMap}).
    *
    * <p>Each method invocation on the set returned by this method results in
-   * exactly one method invocation on the backing map or its <tt>keySet</tt>
-   * view, with one exception. The <tt>addAll</tt> method is implemented as a
-   * sequence of <tt>put</tt> invocations on the backing map.
+   * exactly one method invocation on the backing map or its {@code keySet}
+   * view, with one exception. The {@code addAll} method is implemented as a
+   * sequence of {@code put} invocations on the backing map.
    *
    * <p>The specified map must be empty at the time this method is invoked,
    * and should not be accessed directly after this method returns. These
@@ -428,7 +428,7 @@ public final class Sets {
    *
    * @param map the backing map
    * @return the set backed by the map
-   * @throws IllegalArgumentException if <tt>map</tt> is not empty
+   * @throws IllegalArgumentException if {@code map} is not empty
    */
   public static <E> Set<E> newSetFromMap(Map<E, Boolean> map) {
     return new SetFromMap<E>(map);
@@ -1009,8 +1009,7 @@ public final class Sets {
    * @return the power set, as an immutable set of immutable sets
    * @throws IllegalArgumentException if {@code set} has more than 30 unique
    *     elements (causing the power set size to exceed the {@code int} range)
-   * @throws NullPointerException if {@code set} or any of its elements is
-   *     null
+   * @throws NullPointerException if {@code set} is or contains {@code null}
    * @see <a href="http://en.wikipedia.org/wiki/Power_set">Power set article at
    *      Wikipedia</a>
    * @since Guava release 04
@@ -1157,7 +1156,8 @@ public final class Sets {
    * can only invert B's (not any Object) back to A, so we can
    * then delegate the call to the original Set<A>.
    */
-  static <A, B> Set<B> transform(Set<A> set, InvertibleFunction<A, B> bijection) {
+  static <A, B> Set<B> transform(
+      Set<A> set, InvertibleFunction<A, B> bijection) {
     return new TransformedSet<A, B>(
         Preconditions.checkNotNull(set, "set"),
         Preconditions.checkNotNull(bijection, "bijection")
@@ -1239,7 +1239,7 @@ public final class Sets {
 
     @SuppressWarnings("unchecked") // unsafe, passed object *must* be B
     @Override public boolean remove(Object o) {
-      return contains(o) ? delegate.remove(bijection.invert((B) o)) : false;
+      return contains(o) && delegate.remove(bijection.invert((B) o));
     }
 
     @Override public void clear() {

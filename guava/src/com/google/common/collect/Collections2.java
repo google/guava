@@ -87,8 +87,8 @@ public final class Collections2 {
   }
 
   /**
-   * Delegates to {@link Collection#contains}.  Returns {@code false} on {@code
-   * ClassCastException}
+   * Delegates to {@link Collection#contains}. Returns {@code false} if the
+   * {@code contains} method throws a {@code ClassCastException}.
    */
   static boolean safeContains(Collection<?> collection, Object object) {
     try {

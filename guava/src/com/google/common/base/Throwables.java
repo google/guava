@@ -55,7 +55,8 @@ public final class Throwables {
    */
   public static <X extends Throwable> void propagateIfInstanceOf(
       @Nullable Throwable throwable, Class<X> declaredType) throws X {
-    if (declaredType.isInstance(throwable)) {
+    // Check for null is needed to avoid frequent JNI calls to isInstance().
+    if (throwable != null && declaredType.isInstance(throwable)) {
       throw declaredType.cast(throwable);
     }
   }

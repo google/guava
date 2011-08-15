@@ -433,8 +433,8 @@ abstract class AbstractMultimap<K, V> implements Multimap<K, V>, Serializable {
     }
 
     /**
-     * If collection is empty, remove it from {@code map}. For subcollections,
-     * check whether the ancestor collection is empty.
+     * If collection is empty, remove it from {@code AbstractMultimap.this.map}.
+     * For subcollections, check whether the ancestor collection is empty.
      */
     void removeIfEmpty() {
       if (ancestor != null) {

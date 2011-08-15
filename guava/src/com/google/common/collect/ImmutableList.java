@@ -44,7 +44,7 @@ import javax.annotation.Nullable;
  * ("constant lists") and also lets you easily make a "defensive copy" of a list
  * provided to your class by a caller.
  *
- * <p><b>Note</b>: Although this class is not final, it cannot be subclassed as
+ * <p><b>Note:</b> Although this class is not final, it cannot be subclassed as
  * it has no public or protected constructors. Thus, instances of this type are
  * guaranteed to be immutable.
  *

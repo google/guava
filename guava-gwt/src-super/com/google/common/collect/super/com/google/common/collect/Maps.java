@@ -359,7 +359,7 @@ public final class Maps {
         } else {
           eq = false;
           differences.put(
-              leftKey, new ValueDifferenceImpl<V>(leftValue, rightValue));
+              leftKey, ValueDifferenceImpl.create(leftValue, rightValue));
         }
       } else {
         eq = false;
@@ -467,7 +467,11 @@ public final class Maps {
     private final V left;
     private final V right;
 
-    ValueDifferenceImpl(@Nullable V left, @Nullable V right) {
+    static <V> ValueDifference<V> create(@Nullable V left, @Nullable V right) {
+      return new ValueDifferenceImpl<V>(left, right);
+    }
+
+    private ValueDifferenceImpl(@Nullable V left, @Nullable V right) {
       this.left = left;
       this.right = right;
     }
@@ -1610,7 +1614,7 @@ public final class Maps {
 
     @Override
     public boolean removeAll(Collection<?> c) {
-      // TODO(user): find out why this is necessary to make GWT tests pass.  I mean, really.
+      // TODO(user): find out why this is necessary to make GWT tests pass.
       return super.removeAll(checkNotNull(c));
     }
 

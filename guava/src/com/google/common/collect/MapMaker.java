@@ -1,17 +1,15 @@
 /*
  * Copyright (C) 2009 The Guava Authors
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.collect;
@@ -543,7 +541,7 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    * invoke the listener during invocations of any of that map's public methods (even read-only
    * methods).
    *
-   * <p><b>Important note:</b> Instead of returning <em>this</em> as a {@code MapMaker} instance,
+   * <p><b>Important note:</b> Instead of returning <i>this</i> as a {@code MapMaker} instance,
    * this method returns {@code GenericMapMaker<K, V>}. From this point on, either the original
    * reference or the returned reference may be used to complete configuration and build the map,
    * but only the "generic" one is type-safe. That is, it will properly prevent you from building
@@ -580,7 +578,7 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    * during invocations of any of that map's public methods (even read-only methods). The listener
    * will <i>not</i> be invoked on manual removal.
    *
-   * <p><b>Important note:</b> Instead of returning <em>this</em> as a {@code MapMaker} instance,
+   * <p><b>Important note:</b> Instead of returning <i>this</i> as a {@code MapMaker} instance,
    * this method returns {@code GenericMapMaker<K, V>}. From this point on, either the original
    * reference or the returned reference may be used to complete configuration and build the map,
    * but only the "generic" one is type-safe. That is, it will properly prevent you from building
@@ -680,7 +678,8 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    * <p>{@link Map#get} on the returned map will never return {@code null}. It may throw:
    *
    * <ul>
-   * <li>{@link NullPointerException} if the key is null or the computing function returns null
+   * <li>{@link NullPointerException} if the key is null or the computing function returns a null
+   *     result
    * <li>{@link ComputationException} if an exception was thrown by the computing function. If that
    * exception is already of type {@link ComputationException} it is propagated directly; otherwise
    * it is wrapped.
@@ -787,11 +786,11 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
   }
 
   /**
-   * A notification of the removal of a single entry. The key and/or value may be {@code null} if
-   * they were already garbage collected.
+   * A notification of the removal of a single entry. The key or value may be null if it was already
+   * garbage collected.
    *
-   * <p>Like other {Map.Entry} instances associated with MapMaker this class holds strong references
-   * to the key and value, regardless of the type of references the map may be using.
+   * <p>Like other {@code Map.Entry} instances associated with MapMaker, this class holds strong
+   * references to the key and value, regardless of the type of references the map may be using.
    */
   static final class RemovalNotification<K, V> extends ImmutableEntry<K, V> {
     private static final long serialVersionUID = 0;
