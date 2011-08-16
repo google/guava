@@ -39,7 +39,6 @@ public final class RemovalListeners {
    * @param executor the executor with which removal notifications are
    *     asynchronously executed
    */
-  @Deprecated
   public static <K, V> RemovalListener<K, V> asynchronous(
       final RemovalListener<K, V> listener, final Executor executor) {
     return new RemovalListener<K, V>() {

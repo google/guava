@@ -45,7 +45,7 @@ public abstract class Equivalence<T> {
   protected Equivalence() {}
 
   /**
-   * Returns {@code true} if the given objects are considered equivalent.ß
+   * Returns {@code true} if the given objects are considered equivalent.
    *
    * <p>The {@code equivalent} method implements an equivalence relation on object references:
    *
