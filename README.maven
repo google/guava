@@ -1,5 +1,5 @@
 These folders host the maven metadata which are used to 
-build release binaries for hosting in hthe central maven 
+build release binaries for hosting in the central maven 
 repositories.  These are not considered the "canonical" 
 build, but are maintained seperately by (a) volunteer(s) 
 with an interest in easy use of Guava by the Maven build 
