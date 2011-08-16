@@ -27,9 +27,7 @@ import com.google.common.base.Predicates;
 import com.google.common.primitives.Ints;
 
 import java.util.AbstractCollection;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Iterator;
 
 /**
