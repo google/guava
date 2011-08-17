@@ -27,6 +27,13 @@
     	<version>4.8.2</version>
     	<scope>test</scope>
     </dependency>
+    <dependency>
+      <groupId>truth</groupId>
+      <artifactId>truth</artifactId>
+      <version>0.1</version>
+      <scope>system</scope>
+      <systemPath>${basedir}/../lib/libtruth.jar</systemPath>
+    </dependency>
   </dependencies>
   <build>
     <plugins>
@@ -36,10 +43,6 @@
         <configuration>
           <source>1.5</source>
           <target>1.5</target>
-          <testExcludes>
-            <exclude>**/EquivalencesTest.java</exclude>
-            <exclude>**/SplitterTest.java</exclude>
-          </testExcludes>
         </configuration>
       </plugin>
     </plugins>
