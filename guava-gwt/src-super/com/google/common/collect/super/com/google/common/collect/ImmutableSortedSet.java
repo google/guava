@@ -36,7 +36,7 @@ import javax.annotation.Nullable;
  * @author Hayward Chan
  */
 public abstract class ImmutableSortedSet<E>
-    extends ImmutableSet<E> implements SortedSet<E> {
+    extends ImmutableSet<E> implements SortedSet<E>, SortedIterable<E> {
 
   // In the non-emulated source, this is in ImmutableSortedSetFauxverideShim,
   // which overrides ImmutableSet & which ImmutableSortedSet extends.
@@ -257,6 +257,11 @@ public abstract class ImmutableSortedSet<E>
 
   public Comparator<? super E> comparator() {
     return sortedDelegate.comparator();
+  }
+
+  @Override // needed to unify SortedIterable and Collection iterator() methods
+  public UnmodifiableIterator<E> iterator() {
+    return super.iterator();
   }
 
   @Override public boolean contains(@Nullable Object object) {

@@ -791,8 +791,13 @@ public final class Sets {
    */
   public static <B> Set<List<B>> cartesianProduct(
       List<? extends Set<? extends B>> sets) {
+    for (Set<? extends B> set : sets) {
+      if (set.isEmpty()) {
+        return ImmutableSet.of();
+      }
+    }
     CartesianSet<B> cartesianSet = new CartesianSet<B>(sets);
-    return cartesianSet.isEmpty() ? ImmutableSet.<List<B>>of() : cartesianSet;
+    return cartesianSet;
   }
 
   /**
@@ -856,6 +861,8 @@ public final class Sets {
         Axis axis = new Axis(set, (int) dividend); // check overflow at end
         builder.add(axis);
         dividend *= axis.size();
+        checkArgument(dividend <= Integer.MAX_VALUE,
+            "cartesian product is too big");
       }
       this.axes = builder.build();
       size = Ints.checkedCast(dividend);

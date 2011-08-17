@@ -69,7 +69,6 @@ import java.util.List;
  * <p>When a test fails, the error message labels the objects involved in
  * the failed comparison as follows:
  * <ul>
- *   <li>{@link #addEqualObject(Object...)}, numbered starting from 1.
  *   <li>"{@code [group }<i>i</i>{@code , item }<i>j</i>{@code ]}" refers to the
  *       <i>j</i><sup>th</sup> item in the <i>i</i><sup>th</sup> equality group,
  *       where both equality groups and the items within equality groups are

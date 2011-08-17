@@ -519,6 +519,92 @@ public class SplitterTest extends TestCase {
     }
   }
 
+  public void testLimitLarge() {
+    String simple = "abcd";
+    Iterable<String> letters = Splitter.fixedLength(1).limit(100).split(simple);
+    ASSERT.that(letters).hasContentsInOrder("a", "b", "c", "d");
+  }
+
+  public void testLimitOne() {
+    String simple = "abcd";
+    Iterable<String> letters = Splitter.fixedLength(1).limit(1).split(simple);
+    ASSERT.that(letters).hasContentsInOrder("abcd");
+  }
+
+  public void testLimitFixedLength() {
+    String simple = "abcd";
+    Iterable<String> letters = Splitter.fixedLength(1).limit(2).split(simple);
+    ASSERT.that(letters).hasContentsInOrder("a", "bcd");
+  }
+
+  public void testLimitSeparator() {
+    String simple = "a,b,c,d";
+    Iterable<String> items = COMMA_SPLITTER.limit(2).split(simple);
+    ASSERT.that(items).hasContentsInOrder("a", "b,c,d");
+  }
+
+  public void testLimitExtraSeparators() {
+    String text = "a,,,b,,c,d";
+    Iterable<String> items = COMMA_SPLITTER.limit(2).split(text);
+    ASSERT.that(items).hasContentsInOrder("a", ",,b,,c,d");
+  }
+
+  public void testLimitExtraSeparatorsOmitEmpty() {
+    String text = "a,,,b,,c,d";
+    Iterable<String> items = COMMA_SPLITTER.limit(2).omitEmptyStrings().split(text);
+    ASSERT.that(items).hasContentsInOrder("a", "b,,c,d");
+  }
+
+  public void testLimitExtraSeparatorsOmitEmpty3() {
+    String text = "a,,,b,,c,d";
+    Iterable<String> items = COMMA_SPLITTER.limit(3).omitEmptyStrings().split(text);
+    ASSERT.that(items).hasContentsInOrder("a", "b", "c,d");
+  }
+
+  public void testLimitExtraSeparatorsTrim() {
+    String text = ",,a,,  , b ,, c,d ";
+    Iterable<String> items = COMMA_SPLITTER.limit(2).omitEmptyStrings().trimResults().split(text);
+    ASSERT.that(items).hasContentsInOrder("a", "b ,, c,d");
+  }
+
+  public void testLimitExtraSeparatorsTrim3() {
+    String text = ",,a,,  , b ,, c,d ";
+    Iterable<String> items = COMMA_SPLITTER.limit(3).omitEmptyStrings().trimResults().split(text);
+    ASSERT.that(items).hasContentsInOrder("a", "b", "c,d");
+  }
+
+  public void testLimitExtraSeparatorsTrim1() {
+    String text = ",,a,,  , b ,, c,d ";
+    Iterable<String> items = COMMA_SPLITTER.limit(1).omitEmptyStrings().trimResults().split(text);
+    ASSERT.that(items).hasContentsInOrder("a,,  , b ,, c,d");
+  }
+
+  public void testLimitExtraSeparatorsTrim1NoOmit() {
+    String text = ",,a,,  , b ,, c,d ";
+    Iterable<String> items = COMMA_SPLITTER.limit(1).trimResults().split(text);
+    ASSERT.that(items).hasContentsInOrder(",,a,,  , b ,, c,d");
+  }
+
+  public void testLimitExtraSeparatorsTrim1Empty() {
+    String text = "";
+    Iterable<String> items = COMMA_SPLITTER.limit(1).split(text);
+    ASSERT.that(items).hasContentsInOrder("");
+  }
+
+  public void testLimitExtraSeparatorsTrim1EmptyOmit() {
+    String text = "";
+    Iterable<String> items = COMMA_SPLITTER.omitEmptyStrings().limit(1).split(text);
+    ASSERT.that(items).isEmpty();
+  }
+
+  public void testInvalidZeroLimit() {
+    try {
+      COMMA_SPLITTER.limit(0);
+      fail();
+    } catch (IllegalArgumentException expected) {
+    }
+  }
+
   @GwtIncompatible("NullPointerTester")
   public void testNullPointers() throws Exception {
     NullPointerTester tester = new NullPointerTester();

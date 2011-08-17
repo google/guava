@@ -53,7 +53,9 @@ public class MinimalCollection<E> extends AbstractCollection<E> {
 
     if (!allowNulls) {
       for (Object element : contents) {
-        Helpers.checkNotNull(element);
+        if (element == null) {
+          throw new NullPointerException();
+        }
       }
     }
   }
@@ -64,7 +66,10 @@ public class MinimalCollection<E> extends AbstractCollection<E> {
 
   @Override public boolean contains(Object object) {
     if (!allowNulls) {
-      Helpers.checkNotNull(object); // behave badly
+      // behave badly
+      if (object == null) {
+        throw new NullPointerException();
+      }
     }
     Platform.checkCast(type, object);  // behave badly
     return Arrays.asList(contents).contains(object);
@@ -73,7 +78,10 @@ public class MinimalCollection<E> extends AbstractCollection<E> {
   @Override public boolean containsAll(Collection<?> collection) {
     if (!allowNulls) {
       for (Object object : collection) {
-        Helpers.checkNotNull(object); // behave badly
+        // behave badly
+        if (object == null) {
+          throw new NullPointerException();
+        }
       }
     }
     return super.containsAll(collection);

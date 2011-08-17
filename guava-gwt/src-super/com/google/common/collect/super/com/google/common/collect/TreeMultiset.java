@@ -16,6 +16,8 @@
 
 package com.google.common.collect;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import com.google.common.annotations.GwtCompatible;
 
 import java.util.Comparator;
@@ -45,7 +47,8 @@ import javax.annotation.Nullable;
  */
 @GwtCompatible(emulated = true)
 @SuppressWarnings("serial") // we're overriding default serialization
-public final class TreeMultiset<E> extends AbstractMapBasedMultiset<E> {
+public final class TreeMultiset<E> extends AbstractMapBasedMultiset<E>
+    implements SortedIterable<E> {
 
   /**
    * Creates a new, empty multiset, sorted according to the elements' natural
@@ -81,7 +84,10 @@ public final class TreeMultiset<E> extends AbstractMapBasedMultiset<E> {
    */
   public static <E> TreeMultiset<E> create(
       @Nullable Comparator<? super E> comparator) {
-    return new TreeMultiset<E>(comparator);
+
+    return (comparator == null) 
+           ? new TreeMultiset<E>()
+           : new TreeMultiset<E>(comparator);
   }
 
   /**
@@ -102,12 +108,21 @@ public final class TreeMultiset<E> extends AbstractMapBasedMultiset<E> {
     return multiset;
   }
 
+  private final Comparator<? super E> comparator;
+  
+  @SuppressWarnings("unchecked")
   private TreeMultiset() {
-    super(new TreeMap<E, AtomicInteger>());
+    this((Comparator) Ordering.natural());
   }
 
   private TreeMultiset(@Nullable Comparator<? super E> comparator) {
-    super(new TreeMap<E, AtomicInteger>(comparator));
+    super(new TreeMap<E, AtomicInteger>(checkNotNull(comparator)));
+    this.comparator = comparator;
+  }
+
+  @Override
+  public Comparator<? super E> comparator() {
+    return comparator;
   }
 
   /**
@@ -130,13 +145,21 @@ public final class TreeMultiset<E> extends AbstractMapBasedMultiset<E> {
     }
   }
 
+  @Override
+  public int add(E element, int occurrences) {
+    if (element == null) {
+      comparator.compare(element, element);
+    }
+    return super.add(element, occurrences);
+  }
+
   @Override Set<E> createElementSet() {
     return new SortedMapBasedElementSet(
         (SortedMap<E, AtomicInteger>) backingMap());
   }
 
   private class SortedMapBasedElementSet extends MapBasedElementSet
-      implements SortedSet<E> {
+      implements SortedSet<E>, SortedIterable<E> {
 
     SortedMapBasedElementSet(SortedMap<E, AtomicInteger> map) {
       super(map);

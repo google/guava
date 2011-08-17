@@ -38,17 +38,12 @@ import java.util.Set;
 
 // This class is GWT compatible.
 public class Helpers {
-  public static <T> T checkNotNull(T reference) {
-    if (reference == null) {
-      throw new NullPointerException();
-    }
-    return reference;
-  }
-
+  // Clone of Objects.equal
   static boolean equal(Object a, Object b) {
     return a == b || (a != null && a.equals(b));
   }
 
+  // Clone of Lists.newArrayList
   public static <E> List<E> copyToList(Iterable<? extends E> elements) {
     List<E> list = new ArrayList<E>();
     addAll(list, elements);
@@ -59,6 +54,7 @@ public class Helpers {
     return copyToList(Arrays.asList(elements));
   }
 
+  // Clone of Sets.newLinkedHashSet
   public static <E> Set<E> copyToSet(Iterable<? extends E> elements) {
     Set<E> set = new LinkedHashSet<E>();
     addAll(set, elements);
@@ -69,7 +65,8 @@ public class Helpers {
     return copyToSet(Arrays.asList(elements));
   }
 
-  public static <K, V> Entry<K, V> mapEntry(K key, V value) {
+  // Would use Maps.immutableEntry
+  static <K, V> Entry<K, V> mapEntry(K key, V value) {
     return Collections.singletonMap(key, value).entrySet().iterator().next();
   }
 
@@ -269,8 +266,8 @@ public class Helpers {
           Map.Entry<K, V> e = (Map.Entry<K, V>) o;
           e.setValue(value); // muhahaha!
           
-          return Helpers.equal(this.getKey(), e.getKey())
-              && Helpers.equal(this.getValue(), e.getValue());
+          return equal(this.getKey(), e.getKey())
+              && equal(this.getValue(), e.getValue());
         }
         return false;
       }

@@ -86,8 +86,8 @@ import javax.annotation.Nullable;
 // TODO(benyu): benchmark and optimize all creation paths, which are a mess now
 @GwtCompatible(serializable = true, emulated = true)
 @SuppressWarnings("serial") // we're overriding default serialization
-public abstract class ImmutableSortedSet<E>
-    extends ImmutableSortedSetFauxverideShim<E> implements SortedSet<E> {
+public abstract class ImmutableSortedSet<E> extends ImmutableSortedSetFauxverideShim<E>
+    implements SortedSet<E>, SortedIterable<E> {
 
   private static final Comparator<Comparable> NATURAL_ORDER =
       Ordering.natural();
@@ -645,6 +645,9 @@ public abstract class ImmutableSortedSet<E>
   public Comparator<? super E> comparator() {
     return comparator;
   }
+
+  @Override // needed to unify the iterator() methods in Collection and SortedIterable
+  public abstract UnmodifiableIterator<E> iterator();
 
   /**
    * {@inheritDoc}
