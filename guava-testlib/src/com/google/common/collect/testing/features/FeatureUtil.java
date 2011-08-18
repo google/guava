@@ -43,6 +43,10 @@ public class FeatureUtil {
   private static Map<AnnotatedElement, Annotation[]> annotationCache =
       new HashMap<AnnotatedElement, Annotation[]>();
 
+  private static final Map<Class<?>, TesterRequirements>
+      classTesterRequirementsCache =
+          new HashMap<Class<?>, TesterRequirements>();
+
   /**
    * Given a set of features, add to it all the features directly or indirectly
    * implied by any of them, and return it.
@@ -83,7 +87,15 @@ public class FeatureUtil {
    */
   public static TesterRequirements getTesterRequirements(Class<?> testerClass)
       throws ConflictingRequirementsException {
-    return buildTesterRequirements(testerClass);
+    synchronized (classTesterRequirementsCache) {
+      TesterRequirements requirements =
+          classTesterRequirementsCache.get(testerClass);
+      if (requirements == null) {
+        requirements = buildTesterRequirements(testerClass);
+        classTesterRequirementsCache.put(testerClass, requirements);
+      }
+      return requirements;
+    }
   }
 
   /**
@@ -201,7 +213,7 @@ public class FeatureUtil {
    * @throws ConflictingRequirementsException if the requirements are mutually
    *         inconsistent.
    */
-  public static TesterRequirements buildTesterRequirements(
+  private static TesterRequirements buildTesterRequirements(
       Annotation testerAnnotation)
       throws ConflictingRequirementsException {
     Class<? extends Annotation> annotationClass = testerAnnotation.getClass();

@@ -17,9 +17,14 @@
 package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.collect.SortedLists.KeyAbsentBehavior.INVERTED_INSERTION_INDEX;
+import static com.google.common.collect.SortedLists.KeyAbsentBehavior.NEXT_HIGHER;
+import static com.google.common.collect.SortedLists.KeyPresentBehavior.ANY_PRESENT;
+import static com.google.common.collect.SortedLists.KeyPresentBehavior.FIRST_AFTER;
+import static com.google.common.collect.SortedLists.KeyPresentBehavior.FIRST_PRESENT;
 
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.collect.SortedLists.Relation;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -79,7 +84,8 @@ final class RegularImmutableSortedSet<E> extends ImmutableSortedSet<E> {
     // targets.size() < size() / log(size())
     // TODO(kevinb): see if we can share code with OrderedIterator after it
     // graduates from labs.
-    if (!hasSameComparator(targets, comparator()) || (targets.size() <= 1)) {
+    if (!SortedIterables.hasSameComparator(comparator(), targets) 
+        || (targets.size() <= 1)) {
       return super.containsAll(targets);
     }
 
@@ -158,7 +164,7 @@ final class RegularImmutableSortedSet<E> extends ImmutableSortedSet<E> {
       return false;
     }
 
-    if (hasSameComparator(that, comparator)) {
+    if (SortedIterables.hasSameComparator(comparator, that)) {
       Iterator<?> otherIterator = that.iterator();
       try {
         Iterator<E> iterator = iterator();
@@ -192,8 +198,14 @@ final class RegularImmutableSortedSet<E> extends ImmutableSortedSet<E> {
 
   @Override
   ImmutableSortedSet<E> headSetImpl(E toElement, boolean inclusive) {
-    int index = index(
-        toElement, inclusive ? Relation.HIGHER : Relation.CEILING);
+    int index;
+    if (inclusive) {
+      index = SortedLists.binarySearch(
+          elements, checkNotNull(toElement), comparator(), FIRST_AFTER, NEXT_HIGHER);
+    } else {
+      index = SortedLists.binarySearch(
+          elements, checkNotNull(toElement), comparator(), FIRST_PRESENT, NEXT_HIGHER);
+    }
     return createSubset(0, index);
   }
 
@@ -206,13 +218,15 @@ final class RegularImmutableSortedSet<E> extends ImmutableSortedSet<E> {
 
   @Override
   ImmutableSortedSet<E> tailSetImpl(E fromElement, boolean inclusive) {
-    int index = index(fromElement, inclusive ? Relation.LOWER : Relation.FLOOR);
-    return createSubset(index + 1, size());
-  }
-
-  private int index(Object key, Relation relation) {
-    return SortedLists.binarySearch(
-        elements, key, unsafeComparator(), relation, false);
+    int index;
+    if (inclusive) {
+      index = SortedLists.binarySearch(
+          elements, checkNotNull(fromElement), comparator(), FIRST_PRESENT, NEXT_HIGHER);
+    } else {
+      index = SortedLists.binarySearch(
+          elements, checkNotNull(fromElement), comparator(), FIRST_AFTER, NEXT_HIGHER);
+    }
+    return createSubset(index, size());
   }
 
   // Pretend the comparator can compare anything. If it turns out it can't
@@ -234,13 +248,15 @@ final class RegularImmutableSortedSet<E> extends ImmutableSortedSet<E> {
     }
   }
 
+  @SuppressWarnings("unchecked")
   @Override int indexOf(@Nullable Object target) {
     if (target == null) {
       return -1;
     }
     int position;
     try {
-      position = index(target, Relation.EQUAL);
+      position = SortedLists.binarySearch(elements, (E) target, comparator(), 
+          ANY_PRESENT, INVERTED_INSERTION_INDEX);
     } catch (ClassCastException e) {
       return -1;
     }

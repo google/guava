@@ -279,7 +279,10 @@ abstract class ImmutableSortedMultiset<E> extends ImmutableSortedMultisetFauxver
       Comparator<? super E> comparator, Iterable<? extends E> iterable) {
     if (SortedIterables.hasSameComparator(comparator, iterable)
         && iterable instanceof ImmutableSortedMultiset<?>) {
-      return (ImmutableSortedMultiset<E>) iterable;
+      ImmutableSortedMultiset<E> multiset = (ImmutableSortedMultiset<E>) iterable;
+      if (!multiset.isPartialView()) {
+        return (ImmutableSortedMultiset<E>) iterable;
+      }
     }
     ImmutableList<Entry<E>> entries =
         (ImmutableList) ImmutableList.copyOf(SortedIterables.sortedCounts(comparator, iterable));

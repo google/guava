@@ -2339,7 +2339,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
           value = computingValueReference.compute(key, hash);
         }
         long end = System.nanoTime();
-        statsCounter.recordCreateSuccess(end - start);
+        statsCounter.recordLoadSuccess(end - start);
 
         // putIfAbsent
         V oldValue = put(key, hash, value, true);
@@ -2351,7 +2351,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
       } finally {
         if (value == null) {
           long end = System.nanoTime();
-          statsCounter.recordCreateException(end - start);
+          statsCounter.recordLoadException(end - start);
           clearValue(key, hash, computingValueReference);
         }
       }

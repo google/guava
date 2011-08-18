@@ -18,9 +18,14 @@ package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.collect.SortedLists.KeyAbsentBehavior.INVERTED_INSERTION_INDEX;
+import static com.google.common.collect.SortedLists.KeyAbsentBehavior.NEXT_HIGHER;
+import static com.google.common.collect.SortedLists.KeyAbsentBehavior.NEXT_LOWER;
+import static com.google.common.collect.SortedLists.KeyPresentBehavior.ANY_PRESENT;
 
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.collect.SortedLists.Relation;
+import com.google.common.collect.SortedLists.KeyAbsentBehavior;
+import com.google.common.collect.SortedLists.KeyPresentBehavior;
 
 import java.io.Serializable;
 import java.util.Arrays;
@@ -420,7 +425,7 @@ public class ImmutableSortedMap<K, V>
     }
     int i;
     try {
-      i = index(key, Relation.EQUAL);
+      i = index(key, ANY_PRESENT, INVERTED_INSERTION_INDEX);
     } catch (ClassCastException e) {
       return null;
     }
@@ -634,8 +639,12 @@ public class ImmutableSortedMap<K, V>
   }
 
   ImmutableSortedMap<K, V> headMap(K toKey, boolean inclusive){
-    checkNotNull(toKey);
-    int index = index(toKey, inclusive ? Relation.HIGHER : Relation.CEILING);
+    int index;
+    if (inclusive) {
+      index = index(toKey, ANY_PRESENT, NEXT_LOWER) + 1;
+    } else {
+      index = index(toKey, ANY_PRESENT, NEXT_HIGHER);
+    }
     return createSubmap(0, index);
   }
 
@@ -681,9 +690,13 @@ public class ImmutableSortedMap<K, V>
   }
 
   ImmutableSortedMap<K, V> tailMap(K fromKey, boolean inclusive) {
-    checkNotNull(fromKey);
-    int index = index(fromKey, inclusive ? Relation.LOWER : Relation.FLOOR);
-    return createSubmap(index + 1, size());
+    int index;
+    if (inclusive) {
+      index = index(fromKey, ANY_PRESENT, NEXT_HIGHER);
+    } else {
+      index = index(fromKey, ANY_PRESENT, NEXT_LOWER) + 1;
+    }
+    return createSubmap(index, size());
   }
 
   private ImmutableList<K> keyList() {
@@ -695,9 +708,10 @@ public class ImmutableSortedMap<K, V>
     };
   }
 
-  private int index(Object key, Relation relation) {
+  private int index(
+      Object key, KeyPresentBehavior presentBehavior, KeyAbsentBehavior absentBehavior) {
     return SortedLists.binarySearch(
-        keyList(), key, unsafeComparator(), relation, false);
+        keyList(), checkNotNull(key), unsafeComparator(), presentBehavior, absentBehavior);
   }
 
   private ImmutableSortedMap<K, V> createSubmap(

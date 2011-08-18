@@ -102,7 +102,7 @@ public final class ObjectArrays {
   }
 
   /** GWT safe version of Arrays.copyOf. */
-  private static <T> T[] arraysCopyOf(T[] original, int newLength) {
+  static <T> T[] arraysCopyOf(T[] original, int newLength) {
     T[] copy = newArray(original, newLength);
     Platform.unsafeArrayCopy(
         original, 0, copy, 0, Math.min(original.length, newLength));

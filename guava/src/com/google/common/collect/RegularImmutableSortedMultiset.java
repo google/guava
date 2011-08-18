@@ -15,8 +15,11 @@
 package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.collect.SortedLists.KeyAbsentBehavior.INVERTED_INSERTION_INDEX;
+import static com.google.common.collect.SortedLists.KeyAbsentBehavior.NEXT_HIGHER;
+import static com.google.common.collect.SortedLists.KeyAbsentBehavior.NEXT_LOWER;
+import static com.google.common.collect.SortedLists.KeyPresentBehavior.ANY_PRESENT;
 
-import com.google.common.collect.SortedLists.Relation;
 import com.google.common.primitives.Ints;
 
 import java.util.Comparator;
@@ -131,17 +134,15 @@ final class RegularImmutableSortedMultiset<E> extends ImmutableSortedMultiset<E>
     return entries.isPartialView();
   }
 
-  int index(Object key, Relation relation) {
-    return SortedLists.binarySearch(elementList(), key, unsafeComparator(), relation, false);
-  }
-
+  @SuppressWarnings("unchecked")
   @Override
   public int count(@Nullable Object element) {
     if (element == null) {
       return 0;
     }
     try {
-      int index = index(element, Relation.EQUAL);
+      int index = SortedLists.binarySearch(
+          elementList(), (E) element, comparator(), ANY_PRESENT, INVERTED_INSERTION_INDEX);
       return (index >= 0) ? entries.get(index).getCount() : 0;
     } catch (ClassCastException e) {
       return 0;
@@ -150,17 +151,37 @@ final class RegularImmutableSortedMultiset<E> extends ImmutableSortedMultiset<E>
 
   @Override
   public ImmutableSortedMultiset<E> headMultiset(E upperBound, BoundType boundType) {
-    int index =
-        index(checkNotNull(upperBound),
-            checkNotNull(boundType) == BoundType.CLOSED ? Relation.FLOOR : Relation.LOWER);
-    return createSubMultiset(0, index + 1);
+    int index;
+    switch (boundType) {
+      case OPEN:
+        index = SortedLists.binarySearch(
+            elementList(), checkNotNull(upperBound), comparator(), ANY_PRESENT, NEXT_HIGHER);
+        break;
+      case CLOSED:
+        index = SortedLists.binarySearch(
+            elementList(), checkNotNull(upperBound), comparator(), ANY_PRESENT, NEXT_LOWER) + 1;
+        break;
+      default:
+        throw new AssertionError();
+    }
+    return createSubMultiset(0, index);
   }
 
   @Override
   public ImmutableSortedMultiset<E> tailMultiset(E lowerBound, BoundType boundType) {
-    int index =
-        index(checkNotNull(lowerBound),
-            checkNotNull(boundType) == BoundType.CLOSED ? Relation.CEILING : Relation.HIGHER);
+    int index;
+    switch (boundType) {
+      case OPEN:
+        index = SortedLists.binarySearch(
+            elementList(), checkNotNull(lowerBound), comparator(), ANY_PRESENT, NEXT_LOWER) + 1;
+        break;
+      case CLOSED:
+        index = SortedLists.binarySearch(
+            elementList(), checkNotNull(lowerBound), comparator(), ANY_PRESENT, NEXT_HIGHER);
+        break;
+      default:
+        throw new AssertionError();
+    }
     return createSubMultiset(index, distinctElements());
   }
 

@@ -129,10 +129,10 @@ public final class CacheBuilder<K, V> {
         public void recordHit() {}
 
         @Override
-        public void recordCreateSuccess(long createTime) {}
+        public void recordLoadSuccess(long loadTime) {}
 
         @Override
-        public void recordCreateException(long createTime) {}
+        public void recordLoadException(long loadTime) {}
 
         @Override
         public void recordConcurrentMiss() {}
@@ -743,19 +743,19 @@ public final class CacheBuilder<K, V> {
       try {
         V value = loader.load(key);
         long end = System.nanoTime();
-        statsCounter.recordCreateSuccess(end - start);
+        statsCounter.recordLoadSuccess(end - start);
         return value;
       } catch (RuntimeException e) {
         long end = System.nanoTime();
-        statsCounter.recordCreateException(end - start);
+        statsCounter.recordLoadException(end - start);
         throw new UncheckedExecutionException(e);
       } catch (Exception e) {
         long end = System.nanoTime();
-        statsCounter.recordCreateException(end - start);
+        statsCounter.recordLoadException(end - start);
         throw new ExecutionException(e);
       } catch (Error e) {
         long end = System.nanoTime();
-        statsCounter.recordCreateException(end - start);
+        statsCounter.recordLoadException(end - start);
         throw new ExecutionError(e);
       } finally {
         statsCounter.recordEviction();

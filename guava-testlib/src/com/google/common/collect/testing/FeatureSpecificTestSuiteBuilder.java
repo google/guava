@@ -16,6 +16,9 @@
 
 package com.google.common.collect.testing;
 
+import static java.util.Collections.disjoint;
+import static java.util.logging.Level.FINER;
+
 import com.google.common.collect.testing.features.ConflictingRequirementsException;
 import com.google.common.collect.testing.features.Feature;
 import com.google.common.collect.testing.features.FeatureUtil;
@@ -235,23 +238,33 @@ public abstract class FeatureSpecificTestSuiteBuilder<
     } catch (ConflictingRequirementsException e) {
       throw new RuntimeException(e);
     }
-    Set<Feature<?>> missingFeatures =
-        Helpers.copyToSet(requirements.getPresentFeatures());
-    missingFeatures.removeAll(features);
-    if (!missingFeatures.isEmpty()) {
-      logger.finer(Platform.format("%s: skipping because these features " +
-          "are absent: %s", method, missingFeatures));
+    if (!features.containsAll(requirements.getPresentFeatures())) {
+      if (logger.isLoggable(FINER)) {
+        Set<Feature<?>> missingFeatures =
+            Helpers.copyToSet(requirements.getPresentFeatures());
+        missingFeatures.removeAll(features);
+        logger.finer(Platform.format(
+            "%s: skipping because these features are absent: %s",
+           method, missingFeatures));
+      }
       return false;
     }
-    Set<Feature<?>> unwantedFeatures =
-        Helpers.copyToSet(requirements.getAbsentFeatures());
-    unwantedFeatures.retainAll(features);
-    if (!unwantedFeatures.isEmpty()) {
-      logger.finer(Platform.format("%s: skipping because these features " +
-          "are present: %s", method, unwantedFeatures));
+    if (intersect(features, requirements.getAbsentFeatures())) {
+      if (logger.isLoggable(FINER)) {
+        Set<Feature<?>> unwantedFeatures =
+            Helpers.copyToSet(requirements.getAbsentFeatures());
+        unwantedFeatures.retainAll(features);
+        logger.finer(Platform.format(
+            "%s: skipping because these features are present: %s",
+            method, unwantedFeatures));
+      }
       return false;
     }
     return true;
+  }
+
+  private static boolean intersect(Set<?> a, Set<?> b) {
+    return !disjoint(a, b);
   }
 
   private static Method extractMethod(Test test) {

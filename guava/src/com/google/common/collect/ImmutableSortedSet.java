@@ -351,7 +351,7 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSortedSetFauxveride
   public static <E> ImmutableSortedSet<E> copyOf(
       Comparator<? super E> comparator, Iterable<? extends E> elements) {
     checkNotNull(comparator);
-    return copyOfInternal(comparator, elements, false);
+    return copyOfInternal(comparator, elements);
   }
 
   /**
@@ -375,7 +375,7 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSortedSetFauxveride
   public static <E> ImmutableSortedSet<E> copyOf(
       Comparator<? super E> comparator, Collection<? extends E> elements) {
     checkNotNull(comparator);
-    return copyOfInternal(comparator, elements, false);
+    return copyOfInternal(comparator, elements);
   }
 
   /**
@@ -401,85 +401,35 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSortedSetFauxveride
     if (comparator == null) {
       comparator = (Comparator<? super E>) NATURAL_ORDER;
     }
-    return copyOfInternal(comparator, sortedSet, true);
+    return copyOfInternal(comparator, sortedSet);
   }
 
-  // TODO(user): replace with SortedCollections redirect
   private static <E> ImmutableSortedSet<E> copyOfInternal(
-      Comparator<? super E> comparator, Iterable<? extends E> elements,
-      boolean fromSortedSet) {
-    boolean hasSameComparator
-        = fromSortedSet || hasSameComparator(elements, comparator);
+      Comparator<? super E> comparator, Iterable<? extends E> elements) {
+    boolean hasSameComparator =
+        SortedIterables.hasSameComparator(comparator, elements);
 
     if (hasSameComparator && (elements instanceof ImmutableSortedSet)) {
       @SuppressWarnings("unchecked")
       ImmutableSortedSet<E> original = (ImmutableSortedSet<E>) elements;
-      if (original.isEmpty()) {
+      if (!original.isPartialView()) {
         return original;
       }
-      ImmutableList<E> elementsList = original.asList();
-      ImmutableList<E> copiedElementsList = ImmutableList.copyOf(elements);
-      if (elementsList == copiedElementsList) {
-        return original;
-      }
-      return new RegularImmutableSortedSet<E>(copiedElementsList, comparator);
     }
-
-    ImmutableList<E> list =
-        immutableSortedUniqueCopy(comparator, Lists.newArrayList(elements));
-    if (list.isEmpty()) {
-      return emptySet(comparator);
-    }
-    return new RegularImmutableSortedSet<E>(list, comparator);
+    ImmutableList<E> list = ImmutableList.copyOf(
+        SortedIterables.sortedUnique(comparator, elements));
+    return list.isEmpty()
+        ? ImmutableSortedSet.<E>emptySet(comparator)
+        : new RegularImmutableSortedSet<E>(list, comparator);
   }
 
   private static <E> ImmutableSortedSet<E> copyOfInternal(
       Comparator<? super E> comparator, Iterator<? extends E> elements) {
-    if (!elements.hasNext()) {
-      return emptySet(comparator);
-    }
     ImmutableList<E> list =
-        immutableSortedUniqueCopy(comparator, Lists.newArrayList(elements));
-    return new RegularImmutableSortedSet<E>(list, comparator);
-  }
-
-  /**
-   * The list will get modified. Sorts the list, eliminates duplicate elements,
-   * returns an immutable copy.
-   */
-  private static <E> ImmutableList<E> immutableSortedUniqueCopy(
-      Comparator<? super E> comparator, List<E> list) {
-    if (list.isEmpty()) {
-      return ImmutableList.of();
-    }
-    Collections.sort(list, comparator);
-    int size = 1;
-    for (int i = 1; i < list.size(); i++) {
-      E elem = list.get(i);
-      if (comparator.compare(elem, list.get(size - 1)) != 0) {
-        list.set(size++, elem);
-      }
-    }
-    return ImmutableList.copyOf(list.subList(0, size));
-  }
-
-  /**
-   * Returns {@code true} if {@code elements} is a {@code SortedSet} that uses
-   * {@code comparator} to order its elements. Note that equivalent comparators
-   * may still return {@code false}, if {@code equals} doesn't consider them
-   * equal. If one comparator is {@code null} and the other is
-   * {@link Ordering#natural()}, this method returns {@code true}.
-   */
-  static boolean hasSameComparator(
-      Iterable<?> elements, Comparator<?> comparator) {
-    if (elements instanceof SortedSet) {
-      SortedSet<?> sortedSet = (SortedSet<?>) elements;
-      Comparator<?> comparator2 = sortedSet.comparator();
-      return (comparator2 == null)
-          ? comparator == Ordering.natural()
-          : comparator.equals(comparator2);
-    }
-    return false;
+        ImmutableList.copyOf(SortedIterables.sortedUnique(comparator, elements));
+    return list.isEmpty()
+        ? ImmutableSortedSet.<E>emptySet(comparator)
+        : new RegularImmutableSortedSet<E>(list, comparator);
   }
 
   /**
