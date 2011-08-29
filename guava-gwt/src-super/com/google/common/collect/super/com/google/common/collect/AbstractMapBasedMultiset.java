@@ -30,7 +30,6 @@ import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.annotation.Nullable;
 
@@ -47,8 +46,7 @@ import javax.annotation.Nullable;
 abstract class AbstractMapBasedMultiset<E> extends AbstractMultiset<E>
     implements Serializable {
 
-  // TODO(kevinb): test whether a custom IntegerHolder would be faster
-  private transient Map<E, AtomicInteger> backingMap;
+  private transient Map<E, Count> backingMap;
 
   /*
    * Cache the size for efficiency. Using a long lets us avoid the need for
@@ -58,17 +56,17 @@ abstract class AbstractMapBasedMultiset<E> extends AbstractMultiset<E>
   private transient long size;
 
   /** Standard constructor. */
-  protected AbstractMapBasedMultiset(Map<E, AtomicInteger> backingMap) {
+  protected AbstractMapBasedMultiset(Map<E, Count> backingMap) {
     this.backingMap = checkNotNull(backingMap);
     this.size = super.size();
   }
 
-  Map<E, AtomicInteger> backingMap() {
+  Map<E, Count> backingMap() {
     return backingMap;
   }
 
   /** Used during deserialization only. The backing map must be empty. */
-  void setBackingMap(Map<E, AtomicInteger> backingMap) {
+  void setBackingMap(Map<E, Count> backingMap) {
     this.backingMap = backingMap;
   }
 
@@ -88,10 +86,10 @@ abstract class AbstractMapBasedMultiset<E> extends AbstractMultiset<E>
 
   @Override
   Iterator<Entry<E>> entryIterator() {
-    final Iterator<Map.Entry<E, AtomicInteger>> backingEntries =
+    final Iterator<Map.Entry<E, Count>> backingEntries =
         backingMap.entrySet().iterator();
     return new Iterator<Multiset.Entry<E>>() {
-      Map.Entry<E, AtomicInteger> toRemove;
+      Map.Entry<E, Count> toRemove;
 
       @Override
       public boolean hasNext() {
@@ -100,7 +98,7 @@ abstract class AbstractMapBasedMultiset<E> extends AbstractMultiset<E>
 
       @Override
       public Multiset.Entry<E> next() {
-        final Map.Entry<E, AtomicInteger> mapEntry = backingEntries.next();
+        final Map.Entry<E, Count> mapEntry = backingEntries.next();
         toRemove = mapEntry;
         return new Multisets.AbstractEntry<E>() {
           @Override
@@ -111,7 +109,7 @@ abstract class AbstractMapBasedMultiset<E> extends AbstractMultiset<E>
           public int getCount() {
             int count = mapEntry.getValue().get();
             if (count == 0) {
-              AtomicInteger frequency = backingMap.get(getElement());
+              Count frequency = backingMap.get(getElement());
               if (frequency != null) {
                 count = frequency.get();
               }
@@ -134,7 +132,7 @@ abstract class AbstractMapBasedMultiset<E> extends AbstractMultiset<E>
 
   @Override
   public void clear() {
-    for (AtomicInteger frequency : backingMap.values()) {
+    for (Count frequency : backingMap.values()) {
       frequency.set(0);
     }
     backingMap.clear();
@@ -162,8 +160,8 @@ abstract class AbstractMapBasedMultiset<E> extends AbstractMultiset<E>
    * a more efficient remove() call.
    */
   private class MapBasedMultisetIterator implements Iterator<E> {
-    final Iterator<Map.Entry<E, AtomicInteger>> entryIterator;
-    Map.Entry<E, AtomicInteger> currentEntry;
+    final Iterator<Map.Entry<E, Count>> entryIterator;
+    Map.Entry<E, Count> currentEntry;
     int occurrencesLeft;
     boolean canRemove;
 
@@ -205,7 +203,7 @@ abstract class AbstractMapBasedMultiset<E> extends AbstractMultiset<E>
 
   @Override public int count(@Nullable Object element) {
     try {
-      AtomicInteger frequency = backingMap.get(element);
+      Count frequency = backingMap.get(element);
       return (frequency == null) ? 0 : frequency.get();
     } catch (NullPointerException e) {
       return 0;
@@ -229,11 +227,11 @@ abstract class AbstractMapBasedMultiset<E> extends AbstractMultiset<E>
     }
     checkArgument(
         occurrences > 0, "occurrences cannot be negative: %s", occurrences);
-    AtomicInteger frequency = backingMap.get(element);
+    Count frequency = backingMap.get(element);
     int oldCount;
     if (frequency == null) {
       oldCount = 0;
-      backingMap.put(element, new AtomicInteger(occurrences));
+      backingMap.put(element, new Count(occurrences));
     } else {
       oldCount = frequency.get();
       long newCount = (long) oldCount + (long) occurrences;
@@ -251,7 +249,7 @@ abstract class AbstractMapBasedMultiset<E> extends AbstractMultiset<E>
     }
     checkArgument(
         occurrences > 0, "occurrences cannot be negative: %s", occurrences);
-    AtomicInteger frequency = backingMap.get(element);
+    Count frequency = backingMap.get(element);
     if (frequency == null) {
       return 0;
     }
@@ -275,7 +273,7 @@ abstract class AbstractMapBasedMultiset<E> extends AbstractMultiset<E>
   @Override public int setCount(E element, int count) {
     checkNonnegative(count, "count");
 
-    AtomicInteger existingCounter;
+    Count existingCounter;
     int oldCount;
     if (count == 0) {
       existingCounter = backingMap.remove(element);
@@ -285,7 +283,7 @@ abstract class AbstractMapBasedMultiset<E> extends AbstractMultiset<E>
       oldCount = getAndSet(existingCounter, count);
 
       if (existingCounter == null) {
-        backingMap.put(element, new AtomicInteger(count));
+        backingMap.put(element, new Count(count));
       }
     }
 
@@ -293,7 +291,7 @@ abstract class AbstractMapBasedMultiset<E> extends AbstractMultiset<E>
     return oldCount;
   }
 
-  private static int getAndSet(AtomicInteger i, int count) {
+  private static int getAndSet(Count i, int count) {
     if (i == null) {
       return 0;
     }
@@ -302,8 +300,8 @@ abstract class AbstractMapBasedMultiset<E> extends AbstractMultiset<E>
   }
 
   private int removeAllOccurrences(@Nullable Object element,
-      Map<E, AtomicInteger> map) {
-    AtomicInteger frequency = map.remove(element);
+      Map<E, Count> map) {
+    Count frequency = map.remove(element);
     if (frequency == null) {
       return 0;
     }
@@ -324,10 +322,10 @@ abstract class AbstractMapBasedMultiset<E> extends AbstractMultiset<E>
 
     // This mapping is the usually the same as 'backingMap', but can be a
     // submap in some implementations.
-    private final Map<E, AtomicInteger> map;
+    private final Map<E, Count> map;
     private final Set<E> delegate;
 
-    MapBasedElementSet(Map<E, AtomicInteger> map) {
+    MapBasedElementSet(Map<E, Count> map) {
       this.map = map;
       delegate = map.keySet();
     }
@@ -337,10 +335,10 @@ abstract class AbstractMapBasedMultiset<E> extends AbstractMultiset<E>
     }
 
     @Override public Iterator<E> iterator() {
-      final Iterator<Map.Entry<E, AtomicInteger>> entries
+      final Iterator<Map.Entry<E, Count>> entries
           = map.entrySet().iterator();
       return new Iterator<E>() {
-        Map.Entry<E, AtomicInteger> toRemove;
+        Map.Entry<E, Count> toRemove;
 
         @Override
         public boolean hasNext() {
@@ -388,7 +386,7 @@ abstract class AbstractMapBasedMultiset<E> extends AbstractMultiset<E>
       }
     }
 
-    public Map<E, AtomicInteger> getMap() {
+    public Map<E, Count> getMap() {
       return map;
     }
   }

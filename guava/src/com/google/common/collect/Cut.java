@@ -37,7 +37,7 @@ import javax.annotation.Nullable;
 abstract class Cut<C extends Comparable> implements Comparable<Cut<C>>, Serializable {
   final C endpoint;
 
-  Cut(C endpoint) {
+  Cut(@Nullable C endpoint) {
     this.endpoint = endpoint;
   }
 

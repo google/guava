@@ -73,8 +73,9 @@ public final class ExecutionList {
    * run in the thread that calls {@code addListener}. Second, listeners may
    * run in an internal thread of the system responsible for the input {@code
    * Future}, such as an RPC network thread. Finally, during the execution of a
-   * listener, the thread cannot submit any additional listeners for execution,
-   * even if those listeners are to run in other executors.
+   * {@link MoreExecutors#sameThreadExecutor sameThreadExecutor} listener, all
+   * other registered but unexecuted listeners are prevented from running, even
+   * if those listeners are to run in other executors.
    */
   public void add(Runnable runnable, Executor executor) {
     // Fail fast on a null.  We throw NPE here because the contract of

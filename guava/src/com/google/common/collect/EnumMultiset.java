@@ -24,7 +24,6 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.EnumMap;
 import java.util.Iterator;
-import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Multiset implementation backed by an {@link EnumMap}.
@@ -60,7 +59,7 @@ public final class EnumMultiset<E extends Enum<E>> extends AbstractMapBasedMulti
 
   /** Creates an empty {@code EnumMultiset}. */
   private EnumMultiset(Class<E> type) {
-    super(WellBehavedMap.wrap(new EnumMap<E, AtomicInteger>(type)));
+    super(WellBehavedMap.wrap(new EnumMap<E, Count>(type)));
     this.type = type;
   }
 
@@ -82,7 +81,7 @@ public final class EnumMultiset<E extends Enum<E>> extends AbstractMapBasedMulti
     @SuppressWarnings("unchecked") // reading data stored by writeObject
     Class<E> localType = (Class<E>) stream.readObject();
     type = localType;
-    setBackingMap(WellBehavedMap.wrap(new EnumMap<E, AtomicInteger>(type)));
+    setBackingMap(WellBehavedMap.wrap(new EnumMap<E, Count>(type)));
     Serialization.populateMultiset(this, stream);
   }
 

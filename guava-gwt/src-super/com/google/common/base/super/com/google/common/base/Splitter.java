@@ -378,6 +378,9 @@ public final class Splitter {
      * </code> will return a mapping from {@code "a"} to {@code "b"} and
      * {@code "c"} to {@code b}.
      *
+     * <p>The returned map preserves the order of the entries from
+     * {@code sequence}.
+     *
      * @throws IllegalArgumentException if the specified sequence does not split
      *         into valid map entries, or if there are duplicate keys
      */

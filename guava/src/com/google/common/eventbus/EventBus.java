@@ -18,21 +18,24 @@ package com.google.common.eventbus;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.VisibleForTesting;
+import com.google.common.base.Supplier;
 import com.google.common.base.Throwables;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
+import com.google.common.collect.Multimaps;
+import com.google.common.collect.SetMultimap;
 import com.google.common.collect.Sets;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
-import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.concurrent.ExecutionException;
 import java.util.logging.Level;
@@ -107,12 +110,15 @@ public class EventBus {
 
   /**
    * All registered event handlers, indexed by event type.
-   *
-   * <p>This is a concurrent map of sets, a structure that can't currently be
-   * built using {@link Multimap}.  Too bad, really.
    */
-  private final ConcurrentMap<Class<?>, Set<EventHandler>> handlersByType =
-      new ConcurrentHashMap<Class<?>, Set<EventHandler>>();
+  private final SetMultimap<Class<?>, EventHandler> handlersByType =
+      Multimaps.newSetMultimap(new ConcurrentHashMap<Class<?>, Collection<EventHandler>>(),
+          new Supplier<Set<EventHandler>>() {
+            @Override
+            public Set<EventHandler> get() {
+              return new CopyOnWriteArraySet<EventHandler>();
+            }
+          });
 
   /**
    * Logger for event dispatch failures.  Named by the fully-qualified name of
@@ -200,43 +206,27 @@ public class EventBus {
    * {@link AnnotatedHandlerFinder}.
    *
    * @param object  object whose handler methods should be registered.
-   * @throws IllegalArgumentException if no public subscribe methods are found on object
    */
   public void register(Object object) {
-    Multimap<Class<?>, EventHandler> methodsInListener =
-        finder.findAllHandlers(object);
-    if (methodsInListener.isEmpty()) {
-      throw new IllegalArgumentException("no subscribe method found on: " + object);
-    }
-    for (Class<?> eventClass : methodsInListener.keySet()) {
-      Set<EventHandler> currentHandlers =
-          getOrCreateHandlersForEventType(eventClass);
-      currentHandlers.addAll(methodsInListener.get(eventClass));
-    }
+    handlersByType.putAll(finder.findAllHandlers(object));
   }
 
   /**
    * Unregisters all handler methods on a registered {@code object}.
    *
    * @param object  object whose handler methods should be unregistered.
-   * @throws IllegalArgumentException if no public subscribe methods are found on object
-   *                                  or the object was not previously registered.
+   * @throws IllegalArgumentException if the object was not previously registered.
    */
   public void unregister(Object object) {
-    Multimap<Class<?>, EventHandler> methodsInListener =
-        finder.findAllHandlers(object);
-    if (methodsInListener.isEmpty()) {
-      throw new IllegalArgumentException("no subscribe method found on: " + object);
-    }
-
-    for (Class<?> eventClass : methodsInListener.keySet()) {
-      Set<EventHandler> currentHandlers = getHandlersForEventType(eventClass);
-      Collection<EventHandler> eventMethodsInListener = methodsInListener.get(eventClass);
-      if (currentHandlers == null || !currentHandlers.containsAll(eventMethodsInListener)) {
+    Multimap<Class<?>, EventHandler> methodsInListener = finder.findAllHandlers(object);
+    for (Entry<Class<?>, Collection<EventHandler>> entry : methodsInListener.asMap().entrySet()) {
+      Set<EventHandler> currentHandlers = getHandlersForEventType(entry.getKey());
+      Collection<EventHandler> eventMethodsInListener = entry.getValue();
+      
+      if (currentHandlers == null || !currentHandlers.containsAll(entry.getValue())) {
         throw new IllegalArgumentException(
             "missing event handler for an annotated method. Is " + object + " registered?");
       }
-
       currentHandlers.removeAll(eventMethodsInListener);
     }
   }
@@ -325,24 +315,6 @@ public class EventBus {
       logger.log(Level.SEVERE,
           "Could not dispatch event: " + event + " to handler " + wrapper, e);
     }
-  }
-
-  /**
-   * Retrieves a mutable set containing all EventHandlers for {@code type},
-   * creating one if necessary.
-   *
-   * @param type  event type whose handlers are desired.
-   * @return a set of all handlers for {@code type}.
-   */
-  Set<EventHandler> getOrCreateHandlersForEventType(Class<?> type) {
-    Set<EventHandler> handlers = getHandlersForEventType(type);
-
-    if (handlers == null) {
-      handlersByType.putIfAbsent(type, newHandlerSet());
-      handlers = getHandlersForEventType(type);
-    }
-
-    return handlers;
   }
 
   /**

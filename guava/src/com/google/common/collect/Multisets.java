@@ -65,7 +65,25 @@ public final class Multisets {
    */
   public static <E> Multiset<E> unmodifiableMultiset(
       Multiset<? extends E> multiset) {
+    if (multiset instanceof UnmodifiableMultiset ||
+        multiset instanceof ImmutableMultiset) {
+      // Since it's unmodifiable, the covariant cast is safe
+      @SuppressWarnings("unchecked")
+      Multiset<E> result = (Multiset<E>) multiset;
+      return result;
+    }
     return new UnmodifiableMultiset<E>(checkNotNull(multiset));
+  }
+
+  /**
+   * Simply returns its argument.
+   *
+   * @deprecated no need to use this
+   * @since Guava release 10
+   */
+  @Deprecated public static <E> Multiset<E> unmodifiableMultiset(
+      ImmutableMultiset<E> multiset) {
+    return checkNotNull(multiset);
   }
 
   static class UnmodifiableMultiset<E>

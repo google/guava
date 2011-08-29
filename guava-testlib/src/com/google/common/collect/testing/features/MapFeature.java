@@ -34,7 +34,12 @@ import java.util.Set;
 // Enum values use constructors with generic varargs.
 @SuppressWarnings("unchecked")
 public enum MapFeature implements Feature<Map> {
-  ALLOWS_NULL_KEYS,
+  /**
+   * The map does not throw {@code NullPointerException} on calls such as
+   * {@code containsKey(null)}, {@code get(null)}, or {@code remove(null)}.
+   */
+  ALLOWS_NULL_QUERIES,
+  ALLOWS_NULL_KEYS (ALLOWS_NULL_QUERIES),
   ALLOWS_NULL_VALUES,
   RESTRICTS_KEYS,
   RESTRICTS_VALUES,

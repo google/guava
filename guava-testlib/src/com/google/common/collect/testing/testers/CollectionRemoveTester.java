@@ -16,6 +16,7 @@
 
 package com.google.common.collect.testing.testers;
 
+import static com.google.common.collect.testing.features.CollectionFeature.ALLOWS_NULL_QUERIES;
 import static com.google.common.collect.testing.features.CollectionFeature.ALLOWS_NULL_VALUES;
 import static com.google.common.collect.testing.features.CollectionFeature.SUPPORTS_REMOVE;
 import static com.google.common.collect.testing.features.CollectionSize.ZERO;
@@ -95,7 +96,7 @@ public class CollectionRemoveTester<E> extends AbstractCollectionTester<E> {
 
   @CollectionFeature.Require(
       value = SUPPORTS_REMOVE,
-      absent = ALLOWS_NULL_VALUES)
+      absent = ALLOWS_NULL_QUERIES)
   public void testRemove_nullNotSupported() {
     try {
       assertFalse("remove(null) should return false or throw "
@@ -106,8 +107,8 @@ public class CollectionRemoveTester<E> extends AbstractCollectionTester<E> {
     expectUnchanged();
   }
 
-  @CollectionFeature.Require({SUPPORTS_REMOVE, ALLOWS_NULL_VALUES})
-  public void testRemove_nullSupportedMissing() {
+  @CollectionFeature.Require({SUPPORTS_REMOVE, ALLOWS_NULL_QUERIES})
+  public void testRemove_nullAllowed() {
     assertFalse("remove(null) should return false", collection.remove(null));
     expectUnchanged();
   }

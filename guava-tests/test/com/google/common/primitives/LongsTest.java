@@ -1,0 +1,381 @@
+/*
+ * Copyright (C) 2008 The Guava Authors
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package com.google.common.primitives;
+
+import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.GwtIncompatible;
+import com.google.common.collect.testing.Helpers;
+import com.google.common.testing.NullPointerTester;
+import com.google.common.testing.SerializableTester;
+
+import junit.framework.TestCase;
+
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Random;
+
+/**
+ * Unit test for {@link Longs}.
+ *
+ * @author Kevin Bourrillion
+ */
+@GwtCompatible(emulated = true)
+@SuppressWarnings("cast") // redundant casts are intentional and harmless
+public class LongsTest extends TestCase {
+  private static final long[] EMPTY = {};
+  private static final long[] ARRAY1 = {(long) 1};
+  private static final long[] ARRAY234
+      = {(long) 2, (long) 3, (long) 4};
+
+  private static final long LEAST = Long.MIN_VALUE;
+  private static final long GREATEST = Long.MAX_VALUE;
+
+  private static final long[] VALUES =
+      { LEAST, (long) -1, (long) 0, (long) 1, GREATEST };
+
+  @GwtIncompatible("Long.hashCode returns different values in GWT.")
+  public void testHashCode() {
+    for (long value : VALUES) {
+      assertEquals("hashCode for " + value,
+          ((Long) value).hashCode(), Longs.hashCode(value));
+    }
+  }
+
+  public void testCompare() {
+    for (long x : VALUES) {
+      for (long y : VALUES) {
+        // note: spec requires only that the sign is the same
+        assertEquals(x + ", " + y,
+                     Long.valueOf(x).compareTo(y),
+                     Longs.compare(x, y));
+      }
+    }
+  }
+
+  public void testContains() {
+    assertFalse(Longs.contains(EMPTY, (long) 1));
+    assertFalse(Longs.contains(ARRAY1, (long) 2));
+    assertFalse(Longs.contains(ARRAY234, (long) 1));
+    assertTrue(Longs.contains(new long[] {(long) -1}, (long) -1));
+    assertTrue(Longs.contains(ARRAY234, (long) 2));
+    assertTrue(Longs.contains(ARRAY234, (long) 3));
+    assertTrue(Longs.contains(ARRAY234, (long) 4));
+  }
+
+  public void testIndexOf() {
+    assertEquals(-1, Longs.indexOf(EMPTY, (long) 1));
+    assertEquals(-1, Longs.indexOf(ARRAY1, (long) 2));
+    assertEquals(-1, Longs.indexOf(ARRAY234, (long) 1));
+    assertEquals(0, Longs.indexOf(
+        new long[] {(long) -1}, (long) -1));
+    assertEquals(0, Longs.indexOf(ARRAY234, (long) 2));
+    assertEquals(1, Longs.indexOf(ARRAY234, (long) 3));
+    assertEquals(2, Longs.indexOf(ARRAY234, (long) 4));
+    assertEquals(1, Longs.indexOf(
+        new long[] { (long) 2, (long) 3, (long) 2, (long) 3 },
+        (long) 3));
+  }
+
+  public void testIndexOf_arrayTarget() {
+    assertEquals(0, Longs.indexOf(EMPTY, EMPTY));
+    assertEquals(0, Longs.indexOf(ARRAY234, EMPTY));
+    assertEquals(-1, Longs.indexOf(EMPTY, ARRAY234));
+    assertEquals(-1, Longs.indexOf(ARRAY234, ARRAY1));
+    assertEquals(-1, Longs.indexOf(ARRAY1, ARRAY234));
+    assertEquals(0, Longs.indexOf(ARRAY1, ARRAY1));
+    assertEquals(0, Longs.indexOf(ARRAY234, ARRAY234));
+    assertEquals(0, Longs.indexOf(
+        ARRAY234, new long[] { (long) 2, (long) 3 }));
+    assertEquals(1, Longs.indexOf(
+        ARRAY234, new long[] { (long) 3, (long) 4 }));
+    assertEquals(1, Longs.indexOf(ARRAY234, new long[] { (long) 3 }));
+    assertEquals(2, Longs.indexOf(ARRAY234, new long[] { (long) 4 }));
+    assertEquals(1, Longs.indexOf(new long[] { (long) 2, (long) 3,
+        (long) 3, (long) 3, (long) 3 },
+        new long[] { (long) 3 }
+    ));
+    assertEquals(2, Longs.indexOf(
+        new long[] { (long) 2, (long) 3, (long) 2,
+            (long) 3, (long) 4, (long) 2, (long) 3},
+        new long[] { (long) 2, (long) 3, (long) 4}
+    ));
+    assertEquals(1, Longs.indexOf(
+        new long[] { (long) 2, (long) 2, (long) 3,
+            (long) 4, (long) 2, (long) 3, (long) 4},
+        new long[] { (long) 2, (long) 3, (long) 4}
+    ));
+    assertEquals(-1, Longs.indexOf(
+        new long[] { (long) 4, (long) 3, (long) 2},
+        new long[] { (long) 2, (long) 3, (long) 4}
+    ));
+  }
+
+  public void testLastIndexOf() {
+    assertEquals(-1, Longs.lastIndexOf(EMPTY, (long) 1));
+    assertEquals(-1, Longs.lastIndexOf(ARRAY1, (long) 2));
+    assertEquals(-1, Longs.lastIndexOf(ARRAY234, (long) 1));
+    assertEquals(0, Longs.lastIndexOf(
+        new long[] {(long) -1}, (long) -1));
+    assertEquals(0, Longs.lastIndexOf(ARRAY234, (long) 2));
+    assertEquals(1, Longs.lastIndexOf(ARRAY234, (long) 3));
+    assertEquals(2, Longs.lastIndexOf(ARRAY234, (long) 4));
+    assertEquals(3, Longs.lastIndexOf(
+        new long[] { (long) 2, (long) 3, (long) 2, (long) 3 },
+        (long) 3));
+  }
+
+  public void testMax_noArgs() {
+    try {
+      Longs.max();
+      fail();
+    } catch (IllegalArgumentException expected) {
+    }
+  }
+
+  public void testMax() {
+    assertEquals(LEAST, Longs.max(LEAST));
+    assertEquals(GREATEST, Longs.max(GREATEST));
+    assertEquals((long) 9, Longs.max(
+        (long) 8, (long) 6, (long) 7,
+        (long) 5, (long) 3, (long) 0, (long) 9));
+  }
+
+  public void testMin_noArgs() {
+    try {
+      Longs.min();
+      fail();
+    } catch (IllegalArgumentException expected) {
+    }
+  }
+
+  public void testMin() {
+    assertEquals(LEAST, Longs.min(LEAST));
+    assertEquals(GREATEST, Longs.min(GREATEST));
+    assertEquals((long) 0, Longs.min(
+        (long) 8, (long) 6, (long) 7,
+        (long) 5, (long) 3, (long) 0, (long) 9));
+  }
+
+  public void testConcat() {
+    assertTrue(Arrays.equals(EMPTY, Longs.concat()));
+    assertTrue(Arrays.equals(EMPTY, Longs.concat(EMPTY)));
+    assertTrue(Arrays.equals(EMPTY, Longs.concat(EMPTY, EMPTY, EMPTY)));
+    assertTrue(Arrays.equals(ARRAY1, Longs.concat(ARRAY1)));
+    assertNotSame(ARRAY1, Longs.concat(ARRAY1));
+    assertTrue(Arrays.equals(ARRAY1, Longs.concat(EMPTY, ARRAY1, EMPTY)));
+    assertTrue(Arrays.equals(
+        new long[] {(long) 1, (long) 1, (long) 1},
+        Longs.concat(ARRAY1, ARRAY1, ARRAY1)));
+    assertTrue(Arrays.equals(
+        new long[] {(long) 1, (long) 2, (long) 3, (long) 4},
+        Longs.concat(ARRAY1, ARRAY234)));
+  }
+
+  @GwtIncompatible("Longs.toByteArray")
+  public void testToByteArray() {
+    assertTrue(Arrays.equals(
+        new byte[] {0x12, 0x13, 0x14, 0x15, 0x16, 0x17, 0x18, 0x19},
+        Longs.toByteArray(0x1213141516171819L)));
+    assertTrue(Arrays.equals(
+        new byte[] {
+            (byte) 0xFF, (byte) 0xEE, (byte) 0xDD, (byte) 0xCC,
+            (byte) 0xBB, (byte) 0xAA, (byte) 0x99, (byte) 0x88},
+        Longs.toByteArray(0xFFEEDDCCBBAA9988L)));
+  }
+
+  @GwtIncompatible("Longs.fromByteArray")
+  public void testFromByteArray() {
+    assertEquals(0x1213141516171819L, Longs.fromByteArray(
+        new byte[] {0x12, 0x13, 0x14, 0x15, 0x16, 0x17, 0x18, 0x19, 0x33}));
+    assertEquals(0xFFEEDDCCBBAA9988L, Longs.fromByteArray(
+        new byte[] {
+            (byte) 0xFF, (byte) 0xEE, (byte) 0xDD, (byte) 0xCC,
+            (byte) 0xBB, (byte) 0xAA, (byte) 0x99, (byte) 0x88}));
+
+    try {
+      Longs.fromByteArray(new byte[Longs.BYTES - 1]);
+      fail();
+    } catch (IllegalArgumentException expected) {
+    }
+  }
+
+  @GwtIncompatible("Longs.fromBytes")
+  public void testFromBytes() {
+    assertEquals(0x1213141516171819L, Longs.fromBytes(
+        (byte) 0x12, (byte) 0x13, (byte) 0x14, (byte) 0x15,
+        (byte) 0x16, (byte) 0x17, (byte) 0x18, (byte) 0x19));
+    assertEquals(0xFFEEDDCCBBAA9988L, Longs.fromBytes(
+        (byte) 0xFF, (byte) 0xEE, (byte) 0xDD, (byte) 0xCC,
+        (byte) 0xBB, (byte) 0xAA, (byte) 0x99, (byte) 0x88));
+  }
+
+  @GwtIncompatible("Longs.fromByteArray, Longs.toByteArray")
+  public void testByteArrayRoundTrips() {
+    Random r = new Random(5);
+    byte[] b = new byte[Longs.BYTES];
+
+    // total overkill, but, it takes 0.1 sec so why not...
+    for (int i = 0; i < 10000; i++) {
+      long num = r.nextLong();
+      assertEquals(num, Longs.fromByteArray(Longs.toByteArray(num)));
+
+      r.nextBytes(b);
+      long value = Longs.fromByteArray(b);
+      assertTrue("" + value, Arrays.equals(b, Longs.toByteArray(value)));
+    }
+  }
+
+  public void testEnsureCapacity() {
+    assertSame(EMPTY, Longs.ensureCapacity(EMPTY, 0, 1));
+    assertSame(ARRAY1, Longs.ensureCapacity(ARRAY1, 0, 1));
+    assertSame(ARRAY1, Longs.ensureCapacity(ARRAY1, 1, 1));
+    assertTrue(Arrays.equals(
+        new long[] {(long) 1, (long) 0, (long) 0},
+        Longs.ensureCapacity(ARRAY1, 2, 1)));
+  }
+
+  public void testEnsureCapacity_fail() {
+    try {
+      Longs.ensureCapacity(ARRAY1, -1, 1);
+      fail();
+    } catch (IllegalArgumentException expected) {
+    }
+    try {
+      // notice that this should even fail when no growth was needed
+      Longs.ensureCapacity(ARRAY1, 1, -1);
+      fail();
+    } catch (IllegalArgumentException expected) {
+    }
+  }
+
+  public void testJoin() {
+    assertEquals("", Longs.join(",", EMPTY));
+    assertEquals("1", Longs.join(",", ARRAY1));
+    assertEquals("1,2", Longs.join(",", (long) 1, (long) 2));
+    assertEquals("123",
+        Longs.join("", (long) 1, (long) 2, (long) 3));
+  }
+
+  public void testLexicographicalComparator() {
+    List<long[]> ordered = Arrays.asList(
+        new long[] {},
+        new long[] {LEAST},
+        new long[] {LEAST, LEAST},
+        new long[] {LEAST, (long) 1},
+        new long[] {(long) 1},
+        new long[] {(long) 1, LEAST},
+        new long[] {GREATEST, GREATEST - (long) 1},
+        new long[] {GREATEST, GREATEST},
+        new long[] {GREATEST, GREATEST, GREATEST});
+
+    Comparator<long[]> comparator = Longs.lexicographicalComparator();
+    Helpers.testComparator(comparator, ordered);
+  }
+
+  @GwtIncompatible("SerializableTester")
+  public void testLexicographicalComparatorSerializable() {
+    Comparator<long[]> comparator = Longs.lexicographicalComparator();
+    assertSame(comparator, SerializableTester.reserialize(comparator));
+  }
+
+  public void testToArray() {
+    // need explicit type parameter to avoid javac warning!?
+    List<Long> none = Arrays.<Long>asList();
+    assertTrue(Arrays.equals(EMPTY, Longs.toArray(none)));
+
+    List<Long> one = Arrays.asList((long) 1);
+    assertTrue(Arrays.equals(ARRAY1, Longs.toArray(one)));
+
+    long[] array = {(long) 0, (long) 1, 0x0FF1C1AL};
+
+    List<Long> three = Arrays.asList((long) 0, (long) 1, 0x0FF1C1AL);
+    assertTrue(Arrays.equals(array, Longs.toArray(three)));
+
+    assertTrue(Arrays.equals(array, Longs.toArray(Longs.asList(array))));
+  }
+
+  public void testToArray_threadSafe() {
+    for (int delta : new int[] { +1, 0, -1 }) {
+      for (int i = 0; i < VALUES.length; i++) {
+        List<Long> list = Longs.asList(VALUES).subList(0, i);
+        Collection<Long> misleadingSize =
+            Helpers.misleadingSizeCollection(delta);
+        misleadingSize.addAll(list);
+        long[] arr = Longs.toArray(misleadingSize);
+        assertEquals(i, arr.length);
+        for (int j = 0; j < i; j++) {
+          assertEquals(VALUES[j], arr[j]);
+        }
+      }
+    }
+  }
+
+  public void testToArray_withNull() {
+    List<Long> list = Arrays.asList((long) 0, (long) 1, null);
+    try {
+      Longs.toArray(list);
+      fail();
+    } catch (NullPointerException expected) {
+    }
+  }
+
+  public void testAsList_isAView() {
+    long[] array = {(long) 0, (long) 1};
+    List<Long> list = Longs.asList(array);
+    list.set(0, (long) 2);
+    assertTrue(Arrays.equals(new long[] {(long) 2, (long) 1}, array));
+    array[1] = (long) 3;
+    assertEquals(Arrays.asList((long) 2, (long) 3), list);
+  }
+
+  public void testAsList_toArray_roundTrip() {
+    long[] array = { (long) 0, (long) 1, (long) 2 };
+    List<Long> list = Longs.asList(array);
+    long[] newArray = Longs.toArray(list);
+
+    // Make sure it returned a copy
+    list.set(0, (long) 4);
+    assertTrue(Arrays.equals(
+        new long[] { (long) 0, (long) 1, (long) 2 }, newArray));
+    newArray[1] = (long) 5;
+    assertEquals((long) 1, (long) list.get(1));
+  }
+
+  // This test stems from a real bug found by andrewk
+  public void testAsList_subList_toArray_roundTrip() {
+    long[] array = { (long) 0, (long) 1, (long) 2, (long) 3 };
+    List<Long> list = Longs.asList(array);
+    assertTrue(Arrays.equals(new long[] { (long) 1, (long) 2 },
+        Longs.toArray(list.subList(1, 3))));
+    assertTrue(Arrays.equals(new long[] {},
+        Longs.toArray(list.subList(2, 2))));
+  }
+
+  public void testAsListEmpty() {
+    assertSame(Collections.emptyList(), Longs.asList(EMPTY));
+  }
+
+  @GwtIncompatible("NullPointerTester")
+  public void testNulls() throws Exception {
+    NullPointerTester tester = new NullPointerTester();
+    tester.setDefault(long[].class, new long[0]);
+    tester.testAllPublicStaticMethods(Longs.class);
+  }
+}

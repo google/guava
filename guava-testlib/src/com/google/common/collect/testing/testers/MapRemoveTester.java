@@ -18,6 +18,7 @@ package com.google.common.collect.testing.testers;
 
 import static com.google.common.collect.testing.features.CollectionSize.ZERO;
 import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_KEYS;
+import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_QUERIES;
 import static com.google.common.collect.testing.features.MapFeature.SUPPORTS_REMOVE;
 
 import com.google.common.collect.testing.AbstractMapTester;
@@ -95,8 +96,8 @@ public class MapRemoveTester<K, V> extends AbstractMapTester<K, V> {
 
   @MapFeature.Require(
       value = SUPPORTS_REMOVE,
-      absent = ALLOWS_NULL_KEYS)
-  public void testRemove_nullNotSupported() {
+      absent = ALLOWS_NULL_QUERIES)
+  public void testRemove_nullQueriesNotSupported() {
     try {
       assertNull("remove(null) should return null or throw "
           + "NullPointerException",
@@ -106,7 +107,7 @@ public class MapRemoveTester<K, V> extends AbstractMapTester<K, V> {
     expectUnchanged();
   }
 
-  @MapFeature.Require({SUPPORTS_REMOVE, ALLOWS_NULL_KEYS})
+  @MapFeature.Require({SUPPORTS_REMOVE, ALLOWS_NULL_QUERIES})
   public void testRemove_nullSupportedMissing() {
     assertNull("remove(null) should return null", getMap().remove(null));
     expectUnchanged();

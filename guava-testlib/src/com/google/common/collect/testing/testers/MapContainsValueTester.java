@@ -17,7 +17,7 @@
 package com.google.common.collect.testing.testers;
 
 import static com.google.common.collect.testing.features.CollectionSize.ZERO;
-import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_VALUES;
+import static com.google.common.collect.testing.features.MapFeature.*;
 
 import com.google.common.collect.testing.AbstractMapTester;
 import com.google.common.collect.testing.WrongType;
@@ -46,13 +46,13 @@ public class MapContainsValueTester<K, V> extends AbstractMapTester<K, V> {
         getMap().containsValue(samples.e3.getValue()));
   }
 
-  @MapFeature.Require(ALLOWS_NULL_VALUES)
-  public void testContains_nullNotContainedButSupported() {
+  @MapFeature.Require(ALLOWS_NULL_QUERIES)
+  public void testContains_nullNotContainedButAllowed() {
     assertFalse("containsValue(null) should return false",
         getMap().containsValue(null));
   }
 
-  @MapFeature.Require(absent = ALLOWS_NULL_VALUES)
+  @MapFeature.Require(absent = ALLOWS_NULL_QUERIES)
   public void testContains_nullNotContainedAndUnsupported() {
     expectNullValueMissingWhenNullValuesUnsupported(
         "containsValue(null) should return false or throw");

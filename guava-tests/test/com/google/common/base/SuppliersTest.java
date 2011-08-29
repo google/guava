@@ -264,7 +264,7 @@ public class SuppliersTest extends TestCase {
         new AtomicReference<Throwable>(null);
     final int numThreads = 3;
     final Thread[] threads = new Thread[numThreads];
-    final long timeout = TimeUnit.MINUTES.toNanos(1);
+    final long timeout = TimeUnit.SECONDS.toNanos(60);
 
     final Supplier<Boolean> supplier = new Supplier<Boolean>() {
       boolean isWaiting(Thread thread) {
@@ -383,7 +383,7 @@ public class SuppliersTest extends TestCase {
         reserialize(Suppliers.memoize(Suppliers.ofInstance(5))).get());
     assertEquals(Integer.valueOf(5),
         reserialize(Suppliers.memoizeWithExpiration(
-            Suppliers.ofInstance(5), 30, TimeUnit.MINUTES)).get());
+            Suppliers.ofInstance(5), 30, TimeUnit.SECONDS)).get());
     assertEquals(Integer.valueOf(5), reserialize(
         Suppliers.synchronizedSupplier(Suppliers.ofInstance(5))).get());
   }

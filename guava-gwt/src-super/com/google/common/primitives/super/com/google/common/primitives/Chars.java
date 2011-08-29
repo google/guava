@@ -33,7 +33,7 @@ import java.util.RandomAccess;
 
 /**
  * Static utility methods pertaining to {@code char} primitives, that are not
- * already found in either {@link Character} or {@link java.util.Arrays}.
+ * already found in either {@link Character} or {@link Arrays}.
  *
  * <p>All the operations in this class treat {@code char} values strictly
  * numerically; they are neither Unicode-aware nor locale-dependent.
@@ -331,7 +331,7 @@ public final class Chars {
    *
    * <p>The returned comparator is inconsistent with {@link
    * Object#equals(Object)} (since arrays support only identity equality), but
-   * it is consistent with {@link java.util.Arrays#equals(char[], char[])}.
+   * it is consistent with {@link Arrays#equals(char[], char[])}.
    *
    * @see <a href="http://en.wikipedia.org/wiki/Lexicographical_order">
    *     Lexicographical order article at Wikipedia</a>
@@ -388,9 +388,9 @@ public final class Chars {
 
   /**
    * Returns a fixed-size list backed by the specified array, similar to {@link
-   * java.util.Arrays#asList(Object[])}. The list supports {@link List#set(int,
-   * Object)}, but any attempt to set a value to {@code null} will result in a
-   * {@link NullPointerException}.
+   * Arrays#asList(Object[])}. The list supports {@link List#set(int, Object)},
+   * but any attempt to set a value to {@code null} will result in a {@link
+   * NullPointerException}.
    *
    * <p>The returned list maintains the values, but not the identities, of
    * {@code Character} objects written to or read from it.  For example, whether

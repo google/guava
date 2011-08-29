@@ -459,7 +459,22 @@ public final class Multimaps {
    */
   public static <K, V> Multimap<K, V> unmodifiableMultimap(
       Multimap<K, V> delegate) {
+    if (delegate instanceof UnmodifiableMultimap ||
+        delegate instanceof ImmutableMultimap) {
+      return delegate;
+    }
     return new UnmodifiableMultimap<K, V>(delegate);
+  }
+
+  /**
+   * Simply returns its argument.
+   *
+   * @deprecated no need to use this
+   * @since Guava release 10
+   */
+  @Deprecated public static <K, V> Multimap<K, V> unmodifiableMultimap(
+      ImmutableMultimap<K, V> delegate) {
+    return checkNotNull(delegate);
   }
 
   private static class UnmodifiableMultimap<K, V>
@@ -743,7 +758,22 @@ public final class Multimaps {
    */
   public static <K, V> SetMultimap<K, V> unmodifiableSetMultimap(
       SetMultimap<K, V> delegate) {
+    if (delegate instanceof UnmodifiableSetMultimap ||
+        delegate instanceof ImmutableSetMultimap) {
+      return delegate;
+    }
     return new UnmodifiableSetMultimap<K, V>(delegate);
+  }
+
+  /**
+   * Simply returns its argument.
+   *
+   * @deprecated no need to use this
+   * @since Guava release 10
+   */
+  @Deprecated public static <K, V> SetMultimap<K, V> unmodifiableSetMultimap(
+      ImmutableSetMultimap<K, V> delegate) {
+    return checkNotNull(delegate);
   }
 
   /**
@@ -783,6 +813,9 @@ public final class Multimaps {
    */
   public static <K, V> SortedSetMultimap<K, V> unmodifiableSortedSetMultimap(
       SortedSetMultimap<K, V> delegate) {
+    if (delegate instanceof UnmodifiableSortedSetMultimap) {
+      return delegate;
+    }
     return new UnmodifiableSortedSetMultimap<K, V>(delegate);
   }
 
@@ -820,7 +853,22 @@ public final class Multimaps {
    */
   public static <K, V> ListMultimap<K, V> unmodifiableListMultimap(
       ListMultimap<K, V> delegate) {
+    if (delegate instanceof UnmodifiableListMultimap ||
+        delegate instanceof ImmutableListMultimap) {
+      return delegate;
+    }
     return new UnmodifiableListMultimap<K, V>(delegate);
+  }
+
+  /**
+   * Simply returns its argument.
+   *
+   * @deprecated no need to use this
+   * @since Guava release 10
+   */
+  @Deprecated public static <K, V> ListMultimap<K, V> unmodifiableListMultimap(
+      ImmutableListMultimap<K, V> delegate) {
+    return checkNotNull(delegate);
   }
 
   /**
@@ -1690,7 +1738,7 @@ public final class Multimaps {
    * to store that value in the multimap will be the result of calling the
    * function on that value. The resulting multimap is created as an immutable
    * snapshot. In the returned multimap, keys appear in the order they are first
-   * encountered, and the values corresponding to each key appear in the same 
+   * encountered, and the values corresponding to each key appear in the same
    * order as they are encountered.
    *
    * <p>For example, <pre>   {@code
@@ -1726,10 +1774,73 @@ public final class Multimaps {
    */
   public static <K, V> ImmutableListMultimap<K, V> index(
       Iterable<V> values, Function<? super V, K> keyFunction) {
+    return index(values.iterator(), keyFunction);
+  }
+
+  /**
+   * <b>Deprecated.</b>
+   *
+   * @deprecated use {@link #index(linkIterator, Function)} by casting
+   * {@code values} to an {@code Iterator}, or better by implementing only
+   * {@code Iterator} and not {@code Iterable}.
+   */
+  @Deprecated
+  public static <K, V, I extends Object & Iterable<V> & Iterator<V>>
+      ImmutableListMultimap<K, V> index(
+          I values, Function<? super V, K> keyFunction) {
+    Iterable<V> valuesIterable = checkNotNull(values);
+    return index(valuesIterable, keyFunction);
+  }
+
+  /**
+   * Creates an index {@code ImmutableListMultimap} that contains the results of
+   * applying a specified function to each item in an {@code Iterator} of
+   * values. Each value will be stored as a value in the resulting multimap,
+   * yielding a multimap with the same size as the input iterator. The key used
+   * to store that value in the multimap will be the result of calling the
+   * function on that value. The resulting multimap is created as an immutable
+   * snapshot. In the returned multimap, keys appear in the order they are first
+   * encountered, and the values corresponding to each key appear in the same
+   * order as they are encountered.
+   *
+   * <p>For example, <pre>   {@code
+   *
+   *   List<String> badGuys =
+   *       Arrays.asList("Inky", "Blinky", "Pinky", "Pinky", "Clyde");
+   *   Function<String, Integer> stringLengthFunction = ...;
+   *   Multimap<Integer, String> index =
+   *       Multimaps.index(badGuys.iterator(), stringLengthFunction);
+   *   System.out.println(index);}</pre>
+   *
+   * prints <pre>   {@code
+   *
+   *   {4=[Inky], 6=[Blinky], 5=[Pinky, Pinky, Clyde]}}</pre>
+   *
+   * The returned multimap is serializable if its keys and values are all
+   * serializable.
+   *
+   * @param values the values to use when constructing the {@code
+   *     ImmutableListMultimap}
+   * @param keyFunction the function used to produce the key for each value
+   * @return {@code ImmutableListMultimap} mapping the result of evaluating the
+   *     function {@code keyFunction} on each value in the input collection to
+   *     that value
+   * @throws NullPointerException if any of the following cases is true:
+   *     <ul>
+   *     <li>{@code values} is null
+   *     <li>{@code keyFunction} is null
+   *     <li>An element in {@code values} is null
+   *     <li>{@code keyFunction} returns {@code null} for any element of {@code
+   *         values}
+   *     </ul>
+   */
+  public static <K, V> ImmutableListMultimap<K, V> index(
+      Iterator<V> values, Function<? super V, K> keyFunction) {
     checkNotNull(keyFunction);
     ImmutableListMultimap.Builder<K, V> builder
         = ImmutableListMultimap.builder();
-    for (V value : values) {
+    while (values.hasNext()) {
+      V value = values.next();
       checkNotNull(value, values);
       builder.put(keyFunction.apply(value), value);
     }

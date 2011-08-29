@@ -16,11 +16,13 @@
 
 package com.google.common.collect.testing.testers;
 
+import static com.google.common.collect.testing.features.CollectionFeature.ALLOWS_NULL_QUERIES;
 import static com.google.common.collect.testing.features.CollectionSize.ZERO;
 import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_KEYS;
 
 import com.google.common.collect.testing.AbstractMapTester;
 import com.google.common.collect.testing.WrongType;
+import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.MapFeature;
 
@@ -45,19 +47,19 @@ public class MapGetTester<K, V> extends AbstractMapTester<K, V> {
     assertNull("get(notPresent) should return null", get(samples.e3.getKey()));
   }
 
-  @MapFeature.Require(ALLOWS_NULL_KEYS)
-  public void testGet_nullNotContainedButSupported() {
+  @CollectionFeature.Require(ALLOWS_NULL_QUERIES)
+  public void testGet_nullNotContainedButAllowed() {
     assertNull("get(null) should return null", get(null));
   }
 
-  @MapFeature.Require(absent = ALLOWS_NULL_KEYS)
+  @CollectionFeature.Require(absent = ALLOWS_NULL_QUERIES)
   public void testGet_nullNotContainedAndUnsupported() {
     try {
       assertNull("get(null) should return null or throw", get(null));
     } catch (NullPointerException tolerated) {
     }
   }
-
+  
   @MapFeature.Require(ALLOWS_NULL_KEYS)
   @CollectionSize.Require(absent = ZERO)
   public void testGet_nonNullWhenNullContained() {

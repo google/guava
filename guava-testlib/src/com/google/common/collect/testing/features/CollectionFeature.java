@@ -35,8 +35,15 @@ import java.util.SortedSet;
  */
 // Enum values use constructors with generic varargs.
 @SuppressWarnings("unchecked")
-public enum CollectionFeature implements Feature<Collection> {
-  ALLOWS_NULL_VALUES,
+public enum CollectionFeature implements Feature<Collection> {  
+  /**
+   * The collection must not throw {@code NullPointerException} on calls
+   * such as {@code contains(null)} or {@code remove(null)}, but instead
+   * must return a simple {@code false}.
+   */
+  ALLOWS_NULL_QUERIES,
+
+  ALLOWS_NULL_VALUES (ALLOWS_NULL_QUERIES),
 
   /**
    * Indicates that a collection disallows certain elements (other than

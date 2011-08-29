@@ -120,7 +120,10 @@ public class MapTestSuiteBuilder<K, V>
 
   private static Set<Feature<?>> computeEntrySetFeatures(
       Set<Feature<?>> mapFeatures) {
-    return computeCommonDerivedCollectionFeatures(mapFeatures);
+    Set<Feature<?>> entrySetFeatures = 
+        computeCommonDerivedCollectionFeatures(mapFeatures);
+    entrySetFeatures.add(CollectionFeature.ALLOWS_NULL_QUERIES);
+    return entrySetFeatures;
   }
 
   private static Set<Feature<?>> computeKeySetFeatures(
@@ -130,6 +133,8 @@ public class MapTestSuiteBuilder<K, V>
 
     if (mapFeatures.contains(MapFeature.ALLOWS_NULL_KEYS)) {
       keySetFeatures.add(CollectionFeature.ALLOWS_NULL_VALUES);
+    } else if (mapFeatures.contains(MapFeature.ALLOWS_NULL_QUERIES)) {
+      keySetFeatures.add(CollectionFeature.ALLOWS_NULL_QUERIES);
     }
 
     return keySetFeatures;
@@ -139,6 +144,7 @@ public class MapTestSuiteBuilder<K, V>
       Set<Feature<?>> mapFeatures) {
     Set<Feature<?>> valuesCollectionFeatures =
         computeCommonDerivedCollectionFeatures(mapFeatures);
+    valuesCollectionFeatures.add(CollectionFeature.ALLOWS_NULL_QUERIES);
 
     if (mapFeatures.contains(MapFeature.ALLOWS_NULL_VALUES)) {
       valuesCollectionFeatures.add(CollectionFeature.ALLOWS_NULL_VALUES);

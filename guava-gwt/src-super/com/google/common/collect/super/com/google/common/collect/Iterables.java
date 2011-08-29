@@ -56,19 +56,44 @@ public final class Iterables {
   private Iterables() {}
 
   /** Returns an unmodifiable view of {@code iterable}. */
-  public static <T> Iterable<T> unmodifiableIterable(final Iterable<T> iterable)
-  {
+  public static <T> Iterable<T> unmodifiableIterable(
+      final Iterable<T> iterable) {
     checkNotNull(iterable);
-    return new Iterable<T>() {
-      @Override
-      public Iterator<T> iterator() {
-        return Iterators.unmodifiableIterator(iterable.iterator());
-      }
-      @Override public String toString() {
-        return iterable.toString();
-      }
-      // no equals and hashCode; it would break the contract!
-    };
+    if (iterable instanceof UnmodifiableIterable ||
+        iterable instanceof ImmutableCollection) {
+      return iterable;
+    }
+    return new UnmodifiableIterable<T>(iterable);
+  }
+
+  /**
+   * Simply returns its argument.
+   *
+   * @deprecated no need to use this
+   * @since Guava release 10
+   */
+  @Deprecated public static <E> Iterable<E> unmodifiableIterable(
+      ImmutableCollection<E> iterable) {
+    return checkNotNull(iterable);
+  }
+
+  private static final class UnmodifiableIterable<T> implements Iterable<T> {
+    private final Iterable<T> iterable;
+
+    private UnmodifiableIterable(Iterable<T> iterable) {
+      this.iterable = iterable;
+    }
+
+    @Override
+    public Iterator<T> iterator() {
+      return Iterators.unmodifiableIterator(iterable.iterator());
+    }
+
+    @Override
+    public String toString() {
+      return iterable.toString();
+    }
+    // no equals and hashCode; it would break the contract!
   }
 
   /**

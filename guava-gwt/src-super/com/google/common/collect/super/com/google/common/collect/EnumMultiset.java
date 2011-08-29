@@ -20,7 +20,6 @@ import com.google.common.annotations.GwtCompatible;
 
 import java.util.EnumMap;
 import java.util.Iterator;
-import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Multiset implementation backed by an {@link EnumMap}.
@@ -56,7 +55,7 @@ public final class EnumMultiset<E extends Enum<E>> extends AbstractMapBasedMulti
 
   /** Creates an empty {@code EnumMultiset}. */
   private EnumMultiset(Class<E> type) {
-    super(WellBehavedMap.wrap(new EnumMap<E, AtomicInteger>(type)));
+    super(WellBehavedMap.wrap(new EnumMap<E, Count>(type)));
     this.type = type;
   }
 }

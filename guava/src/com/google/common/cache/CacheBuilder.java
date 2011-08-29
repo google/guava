@@ -740,25 +740,28 @@ public final class CacheBuilder<K, V> {
     private V compute(K key) throws ExecutionException {
       checkNotNull(key);
       long start = System.nanoTime();
+      V value = null;
       try {
-        V value = loader.load(key);
-        long end = System.nanoTime();
-        statsCounter.recordLoadSuccess(end - start);
-        return value;
+        value = loader.load(key);
       } catch (RuntimeException e) {
-        long end = System.nanoTime();
-        statsCounter.recordLoadException(end - start);
         throw new UncheckedExecutionException(e);
       } catch (Exception e) {
-        long end = System.nanoTime();
-        statsCounter.recordLoadException(end - start);
         throw new ExecutionException(e);
       } catch (Error e) {
-        long end = System.nanoTime();
-        statsCounter.recordLoadException(end - start);
         throw new ExecutionError(e);
       } finally {
+        long elapsed = System.nanoTime() - start;
+        if (value == null) {
+          statsCounter.recordLoadException(elapsed);
+        } else {
+          statsCounter.recordLoadSuccess(elapsed);
+        }
         statsCounter.recordEviction();
+      }
+      if (value == null) {
+        throw new NullPointerException();
+      } else {
+        return value;
       }
     }
 
@@ -769,7 +772,11 @@ public final class CacheBuilder<K, V> {
 
     @Override
     public void invalidate(Object key) {
-      checkNotNull(key);
+      // no-op
+    }
+
+    @Override public void invalidateAll() {
+      // no-op
     }
 
     @Override

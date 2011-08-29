@@ -434,6 +434,7 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V> {
       writeMapTo(out);
     }
 
+    @SuppressWarnings("deprecation") // self-use
     private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
       in.defaultReadObject();
       MapMaker mapMaker = readMapMaker(in);

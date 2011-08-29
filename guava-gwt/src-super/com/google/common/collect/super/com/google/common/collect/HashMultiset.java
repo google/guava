@@ -19,7 +19,6 @@ package com.google.common.collect;
 import com.google.common.annotations.GwtCompatible;
 
 import java.util.HashMap;
-import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Multiset implementation backed by a {@link HashMap}.
@@ -66,11 +65,11 @@ public final class HashMultiset<E> extends AbstractMapBasedMultiset<E> {
   }
 
   private HashMultiset() {
-    super(new HashMap<E, AtomicInteger>());
+    super(new HashMap<E, Count>());
   }
 
   private HashMultiset(int distinctElements) {
-    super(Maps.<E, AtomicInteger>newHashMapWithExpectedSize(distinctElements));
+    super(Maps.<E, Count>newHashMapWithExpectedSize(distinctElements));
   }
 }
 

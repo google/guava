@@ -63,6 +63,28 @@
     </javac5>
   </target>
 
+  <target name="test.compile" depends="compile" description="Compile Java tests.">
+    <mkdir dir="build/testlibclasses"/>
+    <mkdir dir="build/testclasses"/>
+
+    <javac6 srcdir="guava-testlib/src"
+         destdir="build/testlibclasses">
+      <pathelement location="build/classes" />
+      <pathelement location="lib/jsr305.jar"/>
+      <pathelement location="lib/junit-dep-4.9.jar"/>
+    </javac6>
+
+    <javac6 srcdir="guava-tests/test"
+         destdir="build/testclasses">
+      <pathelement location="build/classes" />
+      <pathelement location="build/testlibclasses" />
+      <pathelement location="lib/easymock-3.0.jar"/>
+      <pathelement location="lib/jsr305.jar"/>
+      <pathelement location="lib/junit-dep-4.9.jar"/>
+      <pathelement location="lib/libtruth.jar"/>
+    </javac6>
+  </target>
+
   <target name="jar" depends="compile" description="Build jar.">
     <mkdir dir="build/dist/guava-${release}"/>
     <jar jarfile="build/dist/guava-${release}/guava-${release}.jar">
@@ -225,9 +247,6 @@
       <fileset dir="guava-gwt/src-super/com/google/common/collect/super"/>
     </copy>
     <copy toDir="build/gwt-javadoc-src">
-      <fileset dir="guava-gwt/src-super/com/google/common/net/super"/>
-    </copy>
-    <copy toDir="build/gwt-javadoc-src">
       <fileset dir="guava-gwt/src-super/com/google/common/primitives/super"/>
     </copy>
 
@@ -282,6 +301,7 @@
       <pathelement location="build/classes" />
       <pathelement location="build/gwt-classes" />
       <pathelement location="lib/jsr305.jar"/>
+      <pathelement location="lib/junit-dep-4.9.jar"/>
       <pathelement location="${gwthome}/gwt-user.jar"/>
       <pathelement location="${gwthome}/gwt-dev.jar"/>
     </javac5>
@@ -328,6 +348,26 @@
            source="1.5"
            target="1.5"
            bootclasspath="@{bootclasspath}">
+        <compilerarg value="-Xlint:all,-serial"/>
+        <compilerarg value="-XDignore.symbol.file"/>
+        <classpath>
+          <classpath-elements />
+        </classpath>
+      </javac>
+    </sequential>
+  </macrodef>
+
+  <macrodef name="javac6">
+    <attribute name="srcdir" />
+    <attribute name="destdir" />
+    <element name="classpath-elements" optional="true" implicit="true" />
+    <sequential>
+      <javac srcdir="@{srcdir}"
+           debug="on"
+           destdir="@{destdir}"
+           encoding="UTF-8"
+           source="1.6"
+           target="1.6">
         <compilerarg value="-Xlint:all,-serial"/>
         <compilerarg value="-XDignore.symbol.file"/>
         <classpath>

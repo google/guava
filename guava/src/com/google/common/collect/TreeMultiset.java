@@ -25,11 +25,11 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Comparator;
+import java.util.Iterator;
 import java.util.Set;
 import java.util.SortedMap;
 import java.util.SortedSet;
 import java.util.TreeMap;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.annotation.Nullable;
 
@@ -95,6 +95,15 @@ public final class TreeMultiset<E> extends AbstractMapBasedMultiset<E>
   }
 
   /**
+   * Returns an iterator over the elements contained in this collection.
+   */
+  @Override
+  public Iterator<E> iterator() {
+    // Needed to avoid Javadoc bug.
+    return super.iterator();
+  }
+
+  /**
    * Creates an empty multiset containing the given initial elements, sorted
    * according to the elements' natural order.
    *
@@ -120,10 +129,13 @@ public final class TreeMultiset<E> extends AbstractMapBasedMultiset<E>
   }
 
   private TreeMultiset(@Nullable Comparator<? super E> comparator) {
-    super(new TreeMap<E, AtomicInteger>(checkNotNull(comparator)));
+    super(new TreeMap<E, Count>(checkNotNull(comparator)));
     this.comparator = comparator;
   }
 
+  /**
+   * Returns the comparator associated with this multiset.
+   */
   @Override
   public Comparator<? super E> comparator() {
     return comparator;
@@ -159,18 +171,18 @@ public final class TreeMultiset<E> extends AbstractMapBasedMultiset<E>
 
   @Override Set<E> createElementSet() {
     return new SortedMapBasedElementSet(
-        (SortedMap<E, AtomicInteger>) backingMap());
+        (SortedMap<E, Count>) backingMap());
   }
 
   private class SortedMapBasedElementSet extends MapBasedElementSet
       implements SortedSet<E>, SortedIterable<E> {
 
-    SortedMapBasedElementSet(SortedMap<E, AtomicInteger> map) {
+    SortedMapBasedElementSet(SortedMap<E, Count> map) {
       super(map);
     }
 
-    SortedMap<E, AtomicInteger> sortedMap() {
-      return (SortedMap<E, AtomicInteger>) getMap();
+    SortedMap<E, Count> sortedMap() {
+      return (SortedMap<E, Count>) getMap();
     }
 
     @Override
@@ -240,7 +252,7 @@ public final class TreeMultiset<E> extends AbstractMapBasedMultiset<E>
     @SuppressWarnings("unchecked") // reading data stored by writeObject
     Comparator<? super E> comparator
         = (Comparator<? super E>) stream.readObject();
-    setBackingMap(new TreeMap<E, AtomicInteger>(comparator));
+    setBackingMap(new TreeMap<E, Count>(comparator));
     Serialization.populateMultiset(this, stream);
   }
 

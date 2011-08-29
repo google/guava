@@ -141,28 +141,24 @@ public class PredicatesTest extends TestCase {
   }
 
   public void testNot_equalityForNotOfKnownValues() {
-    /* Would be nice to have .addEqualObject(Predicates.not(FALSE)). */
     new EqualsTester()
         .addEqualityGroup(TRUE, Predicates.alwaysTrue())
         .addEqualityGroup(FALSE)
         .addEqualityGroup(Predicates.not(TRUE))
         .testEquals();
 
-    /* Would be nice to have .addEqualObject(Predicates.not(TRUE)). */
     new EqualsTester()
         .addEqualityGroup(FALSE, Predicates.alwaysFalse())
         .addEqualityGroup(TRUE)
         .addEqualityGroup(Predicates.not(FALSE))
         .testEquals();
 
-    /* Would be nice to have .addEqualObject(Predicates.not(notNull())). */
     new EqualsTester()
         .addEqualityGroup(Predicates.isNull(), Predicates.isNull())
         .addEqualityGroup(Predicates.notNull())
         .addEqualityGroup(Predicates.not(Predicates.isNull()))
         .testEquals();
 
-    /* Would be nice to have .addEqualObject(Predicates.not(isNull())). */
     new EqualsTester()
         .addEqualityGroup(Predicates.notNull(), Predicates.notNull())
         .addEqualityGroup(Predicates.isNull())

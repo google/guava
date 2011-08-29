@@ -797,7 +797,7 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
 
     private final RemovalCause cause;
 
-    RemovalNotification(K key, V value, RemovalCause cause) {
+    RemovalNotification(@Nullable K key, @Nullable V value, RemovalCause cause) {
       super(key, value);
       this.cause = cause;
     }

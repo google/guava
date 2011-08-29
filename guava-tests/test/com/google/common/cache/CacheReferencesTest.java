@@ -1,0 +1,193 @@
+// Copyright 2011 Google Inc. All Rights Reserved.
+
+package com.google.common.cache;
+
+import static com.google.common.cache.CustomConcurrentHashMap.Strength.STRONG;
+import static com.google.common.cache.TestingRemovalListeners.countingRemovalListener;
+import static com.google.common.collect.Maps.immutableEntry;
+import static org.junit.contrib.truth.Truth.ASSERT;
+
+import com.google.common.base.Function;
+import com.google.common.cache.CustomConcurrentHashMap.Strength;
+import com.google.common.cache.TestingRemovalListeners.CountingRemovalListener;
+import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Iterables;
+
+import junit.framework.TestCase;
+
+import java.lang.ref.WeakReference;
+
+/**
+ * Tests of basic {@link Cache} operations with all possible combinations of key & value strengths.
+ *
+ * @author schmoe@google.com (mike nonemacher)
+ */
+public class CacheReferencesTest extends TestCase {
+
+  private static final CacheLoader<Key,String> KEY_TO_STRING_LOADER =
+      new CacheLoader<Key, String>() {
+        @Override public String load(Key key) {
+          return key.toString();
+        }
+      };
+
+  private CacheBuilderFactory factoryWithAllKeyStrengths() {
+    return new CacheBuilderFactory()
+        .withKeyStrengths(ImmutableSet.of(STRONG, Strength.WEAK))
+        .withValueStrengths(ImmutableSet.of(STRONG, Strength.WEAK, Strength.SOFT));
+  }
+
+  private Iterable<Cache<Key, String>> caches() {
+    CacheBuilderFactory factory = factoryWithAllKeyStrengths();
+    return Iterables.transform(factory.buildAllPermutations(),
+        new Function<CacheBuilder<Object, Object>, Cache<Key, String>>() {
+          @Override public Cache<Key, String> apply(CacheBuilder<Object, Object> builder) {
+            return builder.build(KEY_TO_STRING_LOADER);
+          }
+        });
+  }
+
+  public void testContainsKeyAndValue() {
+    for (Cache<Key, String> cache : caches()) {
+      // maintain strong refs so these won't be collected, regardless of cache's key/value strength
+      Key key = new Key(1);
+      String value = key.toString();
+      assertSame(value, cache.getUnchecked(key));
+      assertTrue(cache.asMap().containsKey(key));
+      assertTrue(cache.asMap().containsValue(value));
+      assertEquals(1, cache.size());
+    }
+  }
+
+  public void testClear() {
+    for (Cache<Key, String> cache : caches()) {
+      Key key = new Key(1);
+      String value = key.toString();
+      assertSame(value, cache.getUnchecked(key));
+      assertFalse(cache.asMap().isEmpty());
+      cache.invalidateAll();
+      assertEquals(0, cache.size());
+      assertTrue(cache.asMap().isEmpty());
+      assertFalse(cache.asMap().containsKey(key));
+      assertFalse(cache.asMap().containsValue(value));
+    }
+  }
+
+  public void testKeySetEntrySetValues() {
+    for (Cache<Key, String> cache : caches()) {
+      Key key1 = new Key(1);
+      String value1 = key1.toString();
+      Key key2 = new Key(2);
+      String value2 = key2.toString();
+      assertSame(value1, cache.getUnchecked(key1));
+      assertSame(value2, cache.getUnchecked(key2));
+      assertEquals(ImmutableSet.of(key1, key2), cache.asMap().keySet());
+      ASSERT.that(cache.asMap().values()).hasContentsAnyOrder(value1, value2);
+      assertEquals(ImmutableSet.of(immutableEntry(key1, value1), immutableEntry(key2, value2)),
+          cache.asMap().entrySet());
+    }
+  }
+
+  public void testInvalidate() {
+    for (Cache<Key, String> cache : caches()) {
+      Key key1 = new Key(1);
+      String value1 = key1.toString();
+      Key key2 = new Key(2);
+      String value2 = key2.toString();
+      assertSame(value1, cache.getUnchecked(key1));
+      assertSame(value2, cache.getUnchecked(key2));
+      cache.invalidate(key1);
+      assertFalse(cache.asMap().containsKey(key1));
+      assertTrue(cache.asMap().containsKey(key2));
+      assertEquals(1, cache.size());
+      assertEquals(ImmutableSet.of(key2), cache.asMap().keySet());
+      ASSERT.that(cache.asMap().values()).hasContentsAnyOrder(value2);
+      assertEquals(ImmutableSet.of(immutableEntry(key2, value2)), cache.asMap().entrySet());
+    }
+  }
+
+  public void testCleanupOnReferenceCollection() {
+    for (CacheBuilder<Object, Object> builder
+        : factoryWithAllKeyStrengths().buildAllPermutations()) {
+      if (builder.keyStrength == STRONG && builder.valueStrength == STRONG) {
+        continue;
+      }
+      CountingRemovalListener<Integer, String> removalListener = countingRemovalListener();
+      CacheLoader<Integer, String> toStringLoader =
+          new CacheLoader<Integer, String>() {
+            @Override public String load(Integer key) {
+              return key.toString();
+            }
+          };
+      Cache<Integer, String> cache =
+          builder.removalListener(removalListener).build(toStringLoader);
+
+      // ints in [-128, 127] have their wrappers precomputed and cached, so they won't be GCed
+      Integer key1 = 1001;
+      Integer key2 = 1002;
+      String value1 = cache.getUnchecked(key1);
+      String value2 = cache.getUnchecked(key2);
+      // make (key1, value1) eligible for collection
+      key1 = null;
+      value1 = null;
+      assertCleanup(cache, removalListener);
+      // make sure the GC isn't going to see key2 or value2 as dead in assertCleanup
+      assertSame(value2, cache.getUnchecked(key2));
+    }
+  }
+
+  private void assertCleanup(
+      Cache<Integer, String> cache, CountingRemovalListener<Integer, String> removalListener) {
+
+    // initialSize will most likely be 2, but it's possible for the GC to have already run, so we'll
+    // observe a size of 1
+    int initialSize = cache.size();
+    assertTrue(initialSize == 1 || initialSize == 2);
+
+    // wait up to 5s
+    byte[] filler = new byte[1024];
+    for (int i = 0; i < 500; i++) {
+      System.gc();
+
+      CacheTesting.drainReferenceQueues(cache);
+      if (cache.size() == 1) {
+        break;
+      }
+      try {
+        Thread.sleep(10);
+      } catch (InterruptedException e) { /* ignore */}
+      try {
+        // Fill up heap so soft references get cleared.
+        filler = new byte[Math.max(filler.length, filler.length * 2)];
+      } catch (OutOfMemoryError e) {}
+    }
+
+    CacheTesting.processPendingNotifications(cache);
+    assertEquals(1, cache.size());
+    assertEquals(1, removalListener.getCount());
+  }
+
+  // A simple type whose .toString() will return the same value each time, but without maintaining
+  // a strong reference to that value.
+  static class Key {
+    private final int value;
+    private WeakReference<String> toString;
+
+    Key(int value) {
+      this.value = value;
+    }
+
+    @Override public synchronized String toString() {
+      String s;
+      if (toString != null) {
+        s = toString.get();
+        if (s != null) {
+          return s;
+        }
+      }
+      s = Integer.toString(value);
+      toString = new WeakReference<String>(s);
+      return s;
+    }
+  }
+}

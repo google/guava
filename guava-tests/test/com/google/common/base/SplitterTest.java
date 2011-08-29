@@ -20,12 +20,15 @@ import static org.junit.contrib.truth.Truth.ASSERT;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.testing.NullPointerTester;
 
 import junit.framework.TestCase;
 
+import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
@@ -613,13 +616,19 @@ public class SplitterTest extends TestCase {
     tester.testAllPublicInstanceMethods(Splitter.on(",").trimResults());
   }
 
+  private static <E> List<E> asList(Collection<E> collection){
+    return ImmutableList.copyOf(collection);
+  }
+
   public void testMapSplitter_trimmedBoth() {
     Map<String, String> m = COMMA_SPLITTER
         .trimResults()
         .withKeyValueSeparator(Splitter.on(':').trimResults())
         .split("boy  : tom , girl: tina , cat  : kitty , dog: tommy ");
-    ASSERT.that(m).isEqualTo(
-        ImmutableMap.of("boy", "tom", "girl", "tina", "cat", "kitty", "dog", "tommy"));
+    ImmutableMap<String, String> expected =
+          ImmutableMap.of("boy", "tom", "girl", "tina", "cat", "kitty", "dog", "tommy");
+    ASSERT.that(m).isEqualTo(expected);
+    ASSERT.that(asList(m.entrySet())).is(asList(expected.entrySet()));
   }
 
   public void testMapSplitter_trimmedEntries() {
@@ -627,33 +636,43 @@ public class SplitterTest extends TestCase {
         .trimResults()
         .withKeyValueSeparator(":")
         .split("boy  : tom , girl: tina , cat  : kitty , dog: tommy ");
-    ASSERT.that(m).isEqualTo(
-        ImmutableMap.of("boy  ", " tom", "girl", " tina", "cat  ", " kitty", "dog", " tommy"));
+    ImmutableMap<String, String> expected =
+        ImmutableMap.of("boy  ", " tom", "girl", " tina", "cat  ", " kitty", "dog", " tommy");
+
+    ASSERT.that(m).isEqualTo(expected);
+    ASSERT.that(asList(m.entrySet())).is(asList(expected.entrySet()));
   }
 
   public void testMapSplitter_trimmedKeyValue() {
-    Map<String, String> m = COMMA_SPLITTER
-        .withKeyValueSeparator(Splitter.on(':').trimResults())
-        .split("boy  : tom , girl: tina , cat  : kitty , dog: tommy ");
-    ASSERT.that(m).isEqualTo(
-        ImmutableMap.of("boy", "tom", "girl", "tina", "cat", "kitty", "dog", "tommy"));
+    Map<String, String> m =
+        COMMA_SPLITTER.withKeyValueSeparator(Splitter.on(':').trimResults()).split(
+            "boy  : tom , girl: tina , cat  : kitty , dog: tommy ");
+    ImmutableMap<String, String> expected =
+        ImmutableMap.of("boy", "tom", "girl", "tina", "cat", "kitty", "dog", "tommy");
+    ASSERT.that(m).isEqualTo(expected);
+    ASSERT.that(asList(m.entrySet())).is(asList(expected.entrySet()));
   }
 
   public void testMapSplitter_notTrimmed() {
-    Map<String, String> m = COMMA_SPLITTER
-        .withKeyValueSeparator(":")
-        .split(" boy:tom , girl: tina , cat :kitty , dog:  tommy ");
-    ASSERT.that(m).isEqualTo(
-        ImmutableMap.of(" boy", "tom ", " girl", " tina ", " cat ", "kitty ", " dog", "  tommy "));
+    Map<String, String> m = COMMA_SPLITTER.withKeyValueSeparator(":").split(
+        " boy:tom , girl: tina , cat :kitty , dog:  tommy ");
+    ImmutableMap<String, String> expected =
+        ImmutableMap.of(" boy", "tom ", " girl", " tina ", " cat ", "kitty ", " dog", "  tommy ");
+    ASSERT.that(m).isEqualTo(expected);
+    ASSERT.that(asList(m.entrySet())).is(asList(expected.entrySet()));
   }
 
   public void testMapSplitter_multiCharacterSeparator() {
     // try different delimiters.
-    Map<String, String> m = Splitter.on(",")
+    Map<String, String> m = Splitter
+        .on(",")
         .withKeyValueSeparator(":^&")
         .split("boy:^&tom,girl:^&tina,cat:^&kitty,dog:^&tommy");
-    ASSERT.that(m).isEqualTo(
-        ImmutableMap.of("boy", "tom", "girl", "tina", "cat", "kitty", "dog", "tommy"));
+    ImmutableMap<String, String> expected =
+        ImmutableMap.of("boy", "tom", "girl", "tina", "cat", "kitty", "dog", "tommy");
+
+    ASSERT.that(m).isEqualTo(expected);
+    ASSERT.that(asList(m.entrySet())).is(asList(expected.entrySet()));
   }
 
   public void testMapSplitter_emptySeparator() {

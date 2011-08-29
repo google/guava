@@ -20,6 +20,8 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkElementIndex;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkPositionIndexes;
+import static java.lang.Double.NEGATIVE_INFINITY;
+import static java.lang.Double.POSITIVE_INFINITY;
 
 import com.google.common.annotations.GwtCompatible;
 
@@ -42,6 +44,12 @@ import java.util.RandomAccess;
 @GwtCompatible
 public final class Doubles {
   private Doubles() {}
+
+  /**
+   * The number of bytes required to represent a primitive {@code double}
+   * value.
+   */
+  public static final int BYTES = Double.SIZE / Byte.SIZE;
 
   /**
    * Returns a hash code for {@code value}; equal to the result of invoking
@@ -70,6 +78,15 @@ public final class Doubles {
    */
   public static int compare(double a, double b) {
     return Double.compare(a, b);
+  }
+
+  /**
+   * Returns {@code true} if {@code value} represents a real number. This is
+   * equivalent to, but not necessarily implemented as,
+   * {@code !(Double.isInfinite(value) || Double.isNaN(value))}.
+   */
+  public static boolean isFinite(double value) {
+    return NEGATIVE_INFINITY < value & value < POSITIVE_INFINITY;
   }
 
   /**

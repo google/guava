@@ -109,6 +109,9 @@ public final class Iterators {
   public static <T> UnmodifiableIterator<T> unmodifiableIterator(
       final Iterator<T> iterator) {
     checkNotNull(iterator);
+    if (iterator instanceof UnmodifiableIterator) {
+      return (UnmodifiableIterator<T>) iterator;
+    }
     return new UnmodifiableIterator<T>() {
       @Override
       public boolean hasNext() {
@@ -119,6 +122,17 @@ public final class Iterators {
         return iterator.next();
       }
     };
+  }
+
+  /**
+   * Simply returns its argument.
+   *
+   * @deprecated no need to use this
+   * @since Guava release 10
+   */
+  @Deprecated public static <T> UnmodifiableIterator<T> unmodifiableIterator(
+      UnmodifiableIterator<T> iterator) {
+    return checkNotNull(iterator);
   }
 
   /**
@@ -1155,5 +1169,16 @@ public final class Iterators {
       return peeking;
     }
     return new PeekingImpl<T>(iterator);
+  }
+
+  /**
+   * Simply returns its argument.
+   *
+   * @deprecated no need to use this
+   * @since Guava release 10
+   */
+  @Deprecated public static <T> PeekingIterator<T> peekingIterator(
+      PeekingIterator<T> iterator) {
+    return checkNotNull(iterator);
   }
 }

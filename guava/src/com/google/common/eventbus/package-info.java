@@ -34,7 +34,7 @@
  *     defined with the event &mdash; such as CustomerChangeEventListener.</li>
  * <li><strong>...with EventBus:</strong> create a method that accepts
  *     CustomerChangeEvent as its sole argument, and mark it with the
- *     {@link Subscribe} annotation.</li>
+ *     {@link com.google.common.eventbus.Subscribe} annotation.</li>
  * </ul>
  *
  * <p>To register your listener methods with the event producers...

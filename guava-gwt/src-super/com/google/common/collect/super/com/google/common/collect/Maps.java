@@ -521,9 +521,44 @@ public final class Maps {
    */
   public static <K, V> ImmutableMap<K, V> uniqueIndex(
       Iterable<V> values, Function<? super V, K> keyFunction) {
+    return uniqueIndex(values.iterator(), keyFunction);
+  }
+
+  /**
+   * <b>Deprecated.</b>
+   *
+   * @deprecated use {@link #uniqueIndex(Iterator, Function)} by casting
+   * {@code values} to an {@code Iterator}, or better by implementing only
+   * {@code Iterator} and not {@code Iterable}.
+   */
+  @Deprecated
+  public static <K, V, I extends Object & Iterable<V> & Iterator<V>>
+      ImmutableMap<K, V> uniqueIndex(
+          I values, Function<? super V, K> keyFunction) {
+    Iterable<V> valuesIterable = checkNotNull(values);
+    return uniqueIndex(valuesIterable, keyFunction);
+  }
+
+  /**
+   * Returns an immutable map for which the {@link Map#values} are the given
+   * elements in the given order, and each key is the product of invoking a
+   * supplied function on its corresponding value.
+   *
+   * @param values the values to use when constructing the {@code Map}
+   * @param keyFunction the function used to produce the key for each value
+   * @return a map mapping the result of evaluating the function {@code
+   *         keyFunction} on each value in the input collection to that value
+   * @throws IllegalArgumentException if {@code keyFunction} produces the same
+   *         key for more than one value in the input collection
+   * @throws NullPointerException if any elements of {@code values} is null, or
+   *         if {@code keyFunction} produces {@code null} for any value
+   */
+  public static <K, V> ImmutableMap<K, V> uniqueIndex(
+      Iterator<V> values, Function<? super V, K> keyFunction) {
     checkNotNull(keyFunction);
     ImmutableMap.Builder<K, V> builder = ImmutableMap.builder();
-    for (V value : values) {
+    while (values.hasNext()) {
+      V value = values.next();
       builder.put(keyFunction.apply(value), value);
     }
     return builder.build();

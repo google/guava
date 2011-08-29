@@ -19,7 +19,6 @@ package com.google.common.collect;
 import com.google.common.annotations.GwtCompatible;
 
 import java.util.LinkedHashMap;
-import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * A {@code Multiset} implementation with predictable iteration order. Its
@@ -73,12 +72,12 @@ public final class LinkedHashMultiset<E> extends AbstractMapBasedMultiset<E> {
   }
 
   private LinkedHashMultiset() {
-    super(new LinkedHashMap<E, AtomicInteger>());
+    super(new LinkedHashMap<E, Count>());
   }
 
   private LinkedHashMultiset(int distinctElements) {
     // Could use newLinkedHashMapWithExpectedSize() if it existed
-    super(new LinkedHashMap<E, AtomicInteger>(Maps.capacity(distinctElements)));
+    super(new LinkedHashMap<E, Count>(Maps.capacity(distinctElements)));
   }
 }
 

@@ -16,11 +16,14 @@
 
 package com.google.common.collect.testing.testers;
 
+import static com.google.common.collect.testing.features.CollectionFeature.ALLOWS_NULL_QUERIES;
+import static com.google.common.collect.testing.features.CollectionFeature.ALLOWS_NULL_VALUES;
 import static com.google.common.collect.testing.features.CollectionSize.ZERO;
 
 import com.google.common.collect.testing.AbstractCollectionTester;
 import com.google.common.collect.testing.MinimalCollection;
 import com.google.common.collect.testing.WrongType;
+import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 
 import java.util.Collection;
@@ -67,6 +70,24 @@ public class CollectionContainsAllTester<E>
   public void testContainsAll_disjoint() {
     assertFalse("containsAll(disjoint) should return false",
         collection.containsAll(MinimalCollection.of(samples.e3)));
+  }
+
+  @CollectionFeature.Require(absent = ALLOWS_NULL_QUERIES)
+  public void testContainsAll_nullNotAllowed() {
+    try {
+      assertFalse(collection.containsAll(MinimalCollection.of((E) null)));
+    } catch (NullPointerException tolerated) {}
+  }
+
+  @CollectionFeature.Require(ALLOWS_NULL_QUERIES)
+  public void testContainsAll_nullAllowed() {
+    assertFalse(collection.containsAll(MinimalCollection.of((E) null)));
+  }
+
+  @CollectionFeature.Require(ALLOWS_NULL_VALUES)
+  public void testContainsAll_nullPresent() {
+    initCollectionWithNullElement();
+    assertTrue(collection.containsAll(MinimalCollection.of((E) null)));
   }
 
   public void testContainsAll_wrongType() {

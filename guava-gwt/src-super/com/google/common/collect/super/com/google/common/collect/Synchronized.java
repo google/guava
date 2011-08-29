@@ -391,6 +391,10 @@ final class Synchronized {
 
   static <E> Multiset<E> multiset(
       Multiset<E> multiset, @Nullable Object mutex) {
+    if (multiset instanceof SynchronizedMultiset ||
+        multiset instanceof ImmutableMultiset) {
+      return multiset;
+    }
     return new SynchronizedMultiset<E>(multiset, mutex);
   }
 
@@ -482,6 +486,10 @@ final class Synchronized {
 
   static <K, V> Multimap<K, V> multimap(
       Multimap<K, V> multimap, @Nullable Object mutex) {
+    if (multimap instanceof SynchronizedMultimap ||
+        multimap instanceof ImmutableMultimap) {
+      return multimap;
+    }
     return new SynchronizedMultimap<K, V>(multimap, mutex);
   }
 
@@ -663,6 +671,10 @@ final class Synchronized {
 
   static <K, V> ListMultimap<K, V> listMultimap(
       ListMultimap<K, V> multimap, @Nullable Object mutex) {
+    if (multimap instanceof SynchronizedListMultimap ||
+        multimap instanceof ImmutableListMultimap) {
+      return multimap;
+    }
     return new SynchronizedListMultimap<K, V>(multimap, mutex);
   }
 
@@ -696,6 +708,10 @@ final class Synchronized {
 
   static <K, V> SetMultimap<K, V> setMultimap(
       SetMultimap<K, V> multimap, @Nullable Object mutex) {
+    if (multimap instanceof SynchronizedSetMultimap ||
+        multimap instanceof ImmutableSetMultimap) {
+      return multimap;
+    }
     return new SynchronizedSetMultimap<K, V>(multimap, mutex);
   }
 
@@ -739,6 +755,9 @@ final class Synchronized {
 
   static <K, V> SortedSetMultimap<K, V> sortedSetMultimap(
       SortedSetMultimap<K, V> multimap, @Nullable Object mutex) {
+    if (multimap instanceof SynchronizedSortedSetMultimap) {
+      return multimap;
+    }
     return new SynchronizedSortedSetMultimap<K, V>(multimap, mutex);
   }
 
@@ -1064,6 +1083,10 @@ final class Synchronized {
   }
 
   static <K, V> BiMap<K, V> biMap(BiMap<K, V> bimap, @Nullable Object mutex) {
+    if (bimap instanceof SynchronizedBiMap ||
+        bimap instanceof ImmutableBiMap) {
+      return bimap;
+    }
     return new SynchronizedBiMap<K, V>(bimap, mutex, null);
   }
 

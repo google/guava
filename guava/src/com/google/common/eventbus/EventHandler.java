@@ -52,6 +52,7 @@ class EventHandler {
 
     this.target = target;
     this.method = method;
+    method.setAccessible(true);
   }
 
   /**

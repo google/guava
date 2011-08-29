@@ -16,6 +16,7 @@
 
 package com.google.common.collect.testing.testers;
 
+import static com.google.common.collect.testing.features.CollectionFeature.ALLOWS_NULL_QUERIES;
 import static com.google.common.collect.testing.features.CollectionFeature.ALLOWS_NULL_VALUES;
 import static com.google.common.collect.testing.features.CollectionSize.ZERO;
 
@@ -46,13 +47,13 @@ public class CollectionContainsTester<E> extends AbstractCollectionTester<E> {
         collection.contains(samples.e3));
   }
 
-  @CollectionFeature.Require(ALLOWS_NULL_VALUES)
-  public void testContains_nullNotContainedButSupported() {
+  @CollectionFeature.Require(ALLOWS_NULL_QUERIES)
+  public void testContains_nullNotContainedButQueriesSupported() {
     assertFalse("contains(null) should return false",
         collection.contains(null));
   }
 
-  @CollectionFeature.Require(absent = ALLOWS_NULL_VALUES)
+  @CollectionFeature.Require(absent = ALLOWS_NULL_QUERIES)
   public void testContains_nullNotContainedAndUnsupported() {
     expectNullMissingWhenNullUnsupported(
         "contains(null) should return false or throw");

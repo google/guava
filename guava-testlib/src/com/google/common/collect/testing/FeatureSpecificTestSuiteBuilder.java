@@ -34,8 +34,10 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.logging.Logger;
 
@@ -282,7 +284,7 @@ public abstract class FeatureSpecificTestSuiteBuilder<
 
   protected TestSuite makeSuiteForTesterClass(
       Class<? extends AbstractTester<?>> testerClass) {
-    final TestSuite candidateTests = new TestSuite(testerClass);
+    final TestSuite candidateTests = getTemplateSuite(testerClass);
     final TestSuite suite = filterSuite(candidateTests);
 
     Enumeration<?> allTests = suite.tests();
@@ -296,6 +298,22 @@ public abstract class FeatureSpecificTestSuiteBuilder<
     }
 
     return suite;
+  }
+
+  private static final Map<Class<? extends AbstractTester<?>>, TestSuite>
+      templateSuiteForClass =
+          new HashMap<Class<? extends AbstractTester<?>>, TestSuite>();
+
+  private static TestSuite getTemplateSuite(
+      Class<? extends AbstractTester<?>> testerClass) {
+    synchronized (templateSuiteForClass) {
+      TestSuite suite = templateSuiteForClass.get(testerClass);
+      if (suite == null) {
+        suite = new TestSuite(testerClass);
+        templateSuiteForClass.put(testerClass, suite);
+      }
+      return suite;
+    }
   }
 
   private TestSuite filterSuite(TestSuite suite) {

@@ -23,7 +23,6 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.LinkedHashMap;
-import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * A {@code Multiset} implementation with predictable iteration order. Its
@@ -77,12 +76,12 @@ public final class LinkedHashMultiset<E> extends AbstractMapBasedMultiset<E> {
   }
 
   private LinkedHashMultiset() {
-    super(new LinkedHashMap<E, AtomicInteger>());
+    super(new LinkedHashMap<E, Count>());
   }
 
   private LinkedHashMultiset(int distinctElements) {
     // Could use newLinkedHashMapWithExpectedSize() if it existed
-    super(new LinkedHashMap<E, AtomicInteger>(Maps.capacity(distinctElements)));
+    super(new LinkedHashMap<E, Count>(Maps.capacity(distinctElements)));
   }
 
   /**
@@ -100,7 +99,7 @@ public final class LinkedHashMultiset<E> extends AbstractMapBasedMultiset<E> {
       throws IOException, ClassNotFoundException {
     stream.defaultReadObject();
     int distinctElements = Serialization.readCount(stream);
-    setBackingMap(new LinkedHashMap<E, AtomicInteger>(
+    setBackingMap(new LinkedHashMap<E, Count>(
         Maps.capacity(distinctElements)));
     Serialization.populateMultiset(this, stream, distinctElements);
   }

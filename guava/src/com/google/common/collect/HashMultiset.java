@@ -23,7 +23,6 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.HashMap;
-import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Multiset implementation backed by a {@link HashMap}.
@@ -70,11 +69,11 @@ public final class HashMultiset<E> extends AbstractMapBasedMultiset<E> {
   }
 
   private HashMultiset() {
-    super(new HashMap<E, AtomicInteger>());
+    super(new HashMap<E, Count>());
   }
 
   private HashMultiset(int distinctElements) {
-    super(Maps.<E, AtomicInteger>newHashMapWithExpectedSize(distinctElements));
+    super(Maps.<E, Count>newHashMapWithExpectedSize(distinctElements));
   }
 
   /**
@@ -93,7 +92,7 @@ public final class HashMultiset<E> extends AbstractMapBasedMultiset<E> {
     stream.defaultReadObject();
     int distinctElements = Serialization.readCount(stream);
     setBackingMap(
-        Maps.<E, AtomicInteger>newHashMapWithExpectedSize(distinctElements));
+        Maps.<E, Count>newHashMapWithExpectedSize(distinctElements));
     Serialization.populateMultiset(this, stream, distinctElements);
   }
 

@@ -503,7 +503,12 @@ public final class Lists {
     }
 
     @Override public int size() {
-      return (list.size() + size - 1) / size;
+      // TODO(user): refactor to common.math.IntMath.divide
+      int result = list.size() / size;
+      if (result * size != list.size()) {
+        result++;
+      }
+      return result;
     }
 
     @Override public boolean isEmpty() {

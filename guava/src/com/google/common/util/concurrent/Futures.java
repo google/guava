@@ -26,6 +26,7 @@ import static java.util.concurrent.TimeUnit.NANOSECONDS;
 
 import com.google.common.annotations.Beta;
 import com.google.common.base.Function;
+import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Ordering;
@@ -61,16 +62,17 @@ public final class Futures {
   private Futures() {}
 
   /**
-   * <b>Soon to be removed (for Guava release 11), use
-   * {@link Uninterruptibles#getUninterruptibly(Future) getUninterruptibly}</b>
    * Returns an uninterruptible view of a {@code Future}. If a thread is
    * interrupted during an attempt to {@code get()} from the returned future, it
    * continues to wait on the result until it is available or the timeout
    * elapses, and only then re-interrupts the thread.
+   * @deprecated Use
+   * {@link Uninterruptibles#getUninterruptibly(Future) getUninterruptibly}.
+   * <b>This method is scheduled for deletion in Guava Release 11.</b>
    */
-  // TODO(user): Make this package-private internally
-  @Deprecated
-  public static <V> UninterruptibleFuture<V> makeUninterruptible(
+  @Deprecated @SuppressWarnings("deprecation")
+  public
+  static <V> UninterruptibleFuture<V> makeUninterruptible(
       final Future<V> future) {
     checkNotNull(future);
     if (future instanceof UninterruptibleFuture<?>) {
@@ -147,15 +149,9 @@ public final class Futures {
    * {@link ExecutionException} with the actual cause of the exception.
    * See {@link Future#get()} for details on the exceptions thrown.
    *
-   * @deprecated Use {@link #makeChecked(ListenableFuture, Function)} by
-   *     ensuring that your input implements {@code ListenableFuture} by
-   *     creating it with {@link SettableFuture}, {@link
-   *     MoreExecutors#listeningDecorator(
-   *     java.util.concurrent.ExecutorService)}, {@link ListenableFutureTask},
-   *     {@link AbstractFuture}, and other utilities instead of creating plain
-   *     {@code Future} instances to be upgraded to {@code ListenableFuture}
-   *     after the fact. <b>This method is scheduled for deletion in Guava
-   *     release 11.</b>
+   * @deprecated Obtain a {@link ListenableFuture}, following the advice in its
+   *     documentation and use {@link #makeChecked(ListenableFuture, Function)}.
+   *     <b>This method is scheduled for deletion in Guava release 11.</b>
    */
   @Deprecated
   public
@@ -284,9 +280,10 @@ public final class Futures {
    * chain} will run the derivation in the thread that calls {@code chain}.
    * Second, derivations may run in an internal thread of the system responsible
    * for the input {@code Future}, such as an RPC network thread. Finally,
-   * during the execution of a derivation, the thread cannot submit any
-   * listeners for execution, even if those listeners are to run in other
-   * executors.
+   * during the execution of a {@link MoreExecutors#sameThreadExecutor
+   * sameThreadExecutor} listener, all other registered but unexecuted
+   * listeners are prevented from running, even if those listeners are to run
+   * in other executors.
    *
    * <p>The returned {@code Future} attempts to keep its cancellation state in
    * sync with that of the input future and that of the future returned by the
@@ -348,8 +345,9 @@ public final class Futures {
    * derivation in the thread that calls {@code chain}. Second, derivations may
    * run in an internal thread of the system responsible for the input {@code
    * Future}, such as an RPC network thread. Finally, during the execution of a
-   * derivation, the thread cannot submit any listeners for execution, even if
-   * those listeners are to run in other executors.
+   * {@link MoreExecutors#sameThreadExecutor sameThreadExecutor} listener, all
+   * other registered but unexecuted listeners are prevented from running, even
+   * if those listeners are to run in other executors.
    *
    * @param input The future to chain
    * @param function A function to chain the results of the provided future
@@ -392,9 +390,10 @@ public final class Futures {
    * late, {@code transform} will perform the transformation in the thread that
    * calls {@code transform}. Second, transformations may run in an internal
    * thread of the system responsible for the input {@code Future}, such as an
-   * RPC network thread. Finally, during the execution of a transformation, the
-   * thread cannot submit any listeners for execution, even if those listeners
-   * are to run in other executors.
+   * RPC network thread. Finally, during the execution of a {@link
+   * MoreExecutors#sameThreadExecutor sameThreadExecutor} listener, all other
+   * registered but unexecuted listeners are prevented from running, even if
+   * those listeners are to run in other executors.
    *
    * <p>The returned {@code Future} attempts to keep its cancellation state in
    * sync with that of the input future. That is, if the returned {@code Future}
@@ -453,9 +452,10 @@ public final class Futures {
    * perform the transformation in the thread that calls {@code transform}.
    * Second, transformations may run in an internal thread of the system
    * responsible for the input {@code Future}, such as an RPC network thread.
-   * Finally, during the execution of a transformation, the thread cannot submit
-   * any listeners for execution, even if those listeners are to run in other
-   * executors.
+   * Finally, during the execution of a {@link MoreExecutors#sameThreadExecutor
+   * sameThreadExecutor} listener, all other registered but unexecuted
+   * listeners are prevented from running, even if those listeners are to run
+   * in other executors.
    *
    * @param future The future to transform
    * @param function A Function to transform the results of the provided future
@@ -574,7 +574,13 @@ public final class Futures {
    *     that calls one of the varieties of {@code get()}.
    * @return A future that computes result of the transformation
    * @since Guava release 09 (in release 01 as {@code compose})
+   * @deprecated Obtain a {@code ListenableFuture} (following the advice in its
+   *     documentation) and use {@link #transform(ListenableFuture, Function)}
+   *     or use {@link #lazyTransform(Future, Function)}, which will apply the
+   *     transformation on each call to {@code get()}.
+   *     <b>This method is scheduled for deletion in Guava release 11.</b>
    */
+  @Deprecated
   public static <I, O> Future<O> transform(final Future<I> future,
       final Function<? super I, ? extends O> function) {
     if (future instanceof ListenableFuture) {
@@ -959,6 +965,123 @@ public final class Futures {
       Iterable<? extends ListenableFuture<? extends V>> futures) {
     return new ListFuture<V>(ImmutableList.copyOf(futures), false,
         MoreExecutors.sameThreadExecutor());
+  }
+
+  /**
+   * Registers separate success and failure callbacks to be run when the {@code
+   * Future}'s computation is {@linkplain java.util.concurrent.Future#isDone()
+   * complete} or, if the computation is already complete, immediately.
+   *
+   * <p>There is no guaranteed ordering of execution of callbacks, but any
+   * callback added through this method is guaranteed to be called once the
+   * computation is complete.
+   *
+   * Example: <pre> {@code
+   * ListenableFuture<QueryResult> future = ...;
+   * addCallback(future,
+   *     new FutureCallback<QueryResult> {
+   *       public void onSuccess(QueryResult result) {
+   *         storeInCache(result);
+   *       }
+   *       public void onFailure(Throwable t) {
+   *         reportError(t);
+   *       }
+   *     });}</pre>
+   *
+   * <p>Note: This overload of {@code addCallback} is designed for cases in
+   * which the callack is fast and lightweight, as the method does not accept
+   * an {@code Executor} to perform the the work in. For heavier
+   * callbacks, this overload carries some caveats: First, the thread that
+   * the callback runs in depends on whether the input {@code Future} is
+   * done at the time {@code addCallback} is called. In particular, if called
+   * late, {@code addCallback} will execute the callback in the thread that
+   * calls {@code addCallback}. Second, callbacks may run in an internal
+   * thread of the system responsible for the input {@code Future}, such as an
+   * RPC network thread. Finally, during the execution of a {@link
+   * MoreExecutors#sameThreadExecutor sameThreadExecutor} listener, all other
+   * registered but unexecuted listeners are prevented from running, even if
+   * those listeners are to run in other executors.
+   *
+   * <p>For a more general interface to attach a completion listener to a
+   * {@code Future}, see {@link ListenableFuture#addListener addListener}.
+   *
+   * @param future The future attach the callback to.
+   * @param callback The callback to invoke when {@code future} is completed.
+   * @since Guava release 10
+   */
+  public static <V> void addCallback(ListenableFuture<V> future,
+      FutureCallback<? super V> callback) {
+    addCallback(future, callback, MoreExecutors.sameThreadExecutor());
+  }
+
+  /**
+   * Registers separate success and failure callbacks to be run when the {@code
+   * Future}'s computation is {@linkplain java.util.concurrent.Future#isDone()
+   * complete} or, if the computation is already complete, immediately.
+   *
+   * <p>The callback is run in {@code executor}.
+   * There is no guaranteed ordering of execution of callbacks, but any
+   * callback added through this method is guaranteed to be called once the
+   * computation is complete.
+   *
+   * Example: <pre> {@code
+   * ListenableFuture<QueryResult> future = ...;
+   * Executor e = ...
+   * addCallback(future, e,
+   *     new FutureCallback<QueryResult> {
+   *       public void onSuccess(QueryResult result) {
+   *         storeInCache(result);
+   *       }
+   *       public void onFailure(Throwable t) {
+   *         reportError(t);
+   *       }
+   *     });}</pre>
+   *
+   * When the callback is fast and lightweight consider the
+   * {@link Futures#addCallback(ListenableFuture, FutureCallback)
+   * other overload} or explicit use of
+   * {@link MoreExecutors#sameThreadExecutor() sameThreadExecutor}. For heavier
+   * callbacks, this choice carries some caveats: First, the thread that
+   * the callback runs in depends on whether the input {@code Future} is
+   * done at the time {@code addCallback} is called. In particular, if called
+   * late, {@code addCallback} will execute the callback in the thread that
+   * calls {@code addCallback}. Second, callbacks may run in an internal
+   * thread of the system responsible for the input {@code Future}, such as an
+   * RPC network thread. Finally, during the execution of a {@link
+   * MoreExecutors#sameThreadExecutor sameThreadExecutor} listener, all other
+   * registered but unexecuted listeners are prevented from running, even if
+   * those listeners are to run in other executors.
+   *
+   * <p>For a more general interface to attach a completion listener to a
+   * {@code Future}, see {@link ListenableFuture#addListener addListener}.
+   *
+   * @param future The future attach the callback to.
+   * @param callback The callback to invoke when {@code future} is completed.
+   * @param executor The executor to run {@code callback} when the future
+   *    completes.
+   * @since Guava release 10
+   */
+  public static <V> void addCallback(final ListenableFuture<V> future,
+      final FutureCallback<? super V> callback, Executor executor) {
+    Preconditions.checkNotNull(callback);
+    Runnable callbackListener = new Runnable() {
+      @Override
+      public void run() {
+        try {
+          // TODO(user): (Before Guava release), validate that this
+          // is the thing for IE.
+          V value = getUninterruptibly(future);
+          callback.onSuccess(value);
+        } catch (ExecutionException e) {
+          callback.onFailure(e.getCause());
+        } catch (RuntimeException e) {
+          callback.onFailure(e);
+        } catch (Error e) {
+          callback.onFailure(e);
+        }
+      }
+    };
+    future.addListener(callbackListener, executor);
   }
 
   /**

@@ -16,6 +16,7 @@
 
 package com.google.common.collect.testing.testers;
 
+import static com.google.common.collect.testing.features.CollectionFeature.ALLOWS_NULL_QUERIES;
 import static com.google.common.collect.testing.features.CollectionFeature.ALLOWS_NULL_VALUES;
 import static com.google.common.collect.testing.features.CollectionFeature.SUPPORTS_REMOVE_ALL;
 import static com.google.common.collect.testing.features.CollectionSize.ZERO;
@@ -145,7 +146,8 @@ public class CollectionRemoveAllTester<E> extends AbstractCollectionTester<E> {
     }
   }
 
-  @CollectionFeature.Require(SUPPORTS_REMOVE_ALL)
+  @CollectionFeature.Require(value = SUPPORTS_REMOVE_ALL,
+      absent = ALLOWS_NULL_QUERIES)
   public void testRemoveAll_containsNullNo() {
     MinimalCollection<?> containsNull = MinimalCollection.of((Object) null);
     try {
@@ -153,6 +155,14 @@ public class CollectionRemoveAllTester<E> extends AbstractCollectionTester<E> {
           collection.removeAll(containsNull));
     } catch (NullPointerException tolerated) {
     }
+    expectUnchanged();
+  }
+
+  @CollectionFeature.Require({SUPPORTS_REMOVE_ALL, ALLOWS_NULL_QUERIES})
+  public void testRemoveAll_containsNullNoButAllowed() {
+    MinimalCollection<?> containsNull = MinimalCollection.of((Object) null);
+    assertFalse("removeAll(containsNull) should return false",
+        collection.removeAll(containsNull));
     expectUnchanged();
   }
 
