@@ -203,7 +203,7 @@ class CacheTesting {
 
   static void checkExpiration(CustomConcurrentHashMap<?, ?> cchm) {
     for (Segment<?, ?> segment : cchm.segments) {
-      if (cchm.expiresAfterWrite()) {
+      if (cchm.expires()) {
         Set<ReferenceEntry<?, ?>> expirables = Sets.newIdentityHashSet();
 
         ReferenceEntry<?, ?> prev = null;
@@ -212,8 +212,7 @@ class CacheTesting {
           if (prev != null) {
             assertSame(prev, current.getPreviousExpirable());
             assertSame(prev.getNextExpirable(), current);
-            // TODO(user): should this be >=?
-            assertTrue(prev.getExpirationTime() > current.getExpirationTime());
+            assertTrue(prev.getExpirationTime() <= current.getExpirationTime());
           }
           assertSame(current, segment.getEntry(current.getKey(), current.getHash()));
           prev = current;

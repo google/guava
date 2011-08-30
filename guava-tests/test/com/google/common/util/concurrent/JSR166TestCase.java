@@ -103,7 +103,7 @@ import java.security.SecurityPermission;
  *
  * </ul>
  */
-class JSR166TestCase extends TestCase {
+abstract class JSR166TestCase extends TestCase {
     protected static final boolean expensiveTests =
         Boolean.getBoolean("jsr166.expensiveTests");
 

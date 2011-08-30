@@ -115,4 +115,12 @@ public class BiMapMapInterfaceTest extends TestCase {
       return Maps.synchronizedBiMap(HashBiMap.<String, Integer>create());
     }
   }
+
+  public void testNothing() {
+    /*
+     * It's a warning if a TestCase subclass contains no tests, so we add one.
+     * Alternatively, we could stop extending TestCase, but I worry that someone
+     * will add a test in the future and not realize that it's being ignored.
+     */
+  }
 }

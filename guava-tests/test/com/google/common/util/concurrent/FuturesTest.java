@@ -1926,6 +1926,15 @@ public class FuturesTest extends TestCase {
     tester.setDefault(Executor.class, MoreExecutors.sameThreadExecutor());
     tester.setDefault(Callable.class, Callables.returning(null));
 
+    FutureCallback<Object> callback =
+        new FutureCallback<Object>() {
+          @Override
+          public void onSuccess(Object result) {}
+          @Override
+          public void onFailure(Throwable t) {}
+        };
+    tester.setDefault(FutureCallback.class, callback);
+
     tester.testAllPublicStaticMethods(Futures.class);
   }
 

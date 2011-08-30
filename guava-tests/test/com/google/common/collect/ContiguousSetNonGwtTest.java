@@ -99,4 +99,12 @@ public class ContiguousSetNonGwtTest extends TestCase {
       return Ordering.natural().sortedCopy(insertionOrder);
     }
   }
+
+  public void testNothing() {
+    /*
+     * It's a warning if a TestCase subclass contains no tests, so we add one.
+     * Alternatively, we could stop extending TestCase, but I worry that someone
+     * will add a test in the future and not realize that it's being ignored.
+     */
+  }
 }

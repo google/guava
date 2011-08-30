@@ -81,7 +81,7 @@
       <pathelement location="lib/easymock-3.0.jar"/>
       <pathelement location="lib/jsr305.jar"/>
       <pathelement location="lib/junit-dep-4.9.jar"/>
-      <pathelement location="lib/libtruth.jar"/>
+      <pathelement location="guava-tests/lib/libtruth.jar"/>
     </javac6>
   </target>
 
@@ -319,7 +319,7 @@
           <pathelement location="guava-gwt/test" />
           <pathelement location="build/gwt-test-classes" />
           <pathelement location="lib/jsr305.jar"/>
-          <pathelement location="lib/libtruth-gwt.jar"/>
+          <pathelement location="guava-tests/lib/libtruth-gwt.jar"/>
           <pathelement location="${gwthome}/gwt-user.jar"/>
           <pathelement location="${gwthome}/gwt-dev.jar"/>
         </classpath>

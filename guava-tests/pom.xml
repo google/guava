@@ -28,11 +28,17 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>truth</groupId>
+      <groupId>org.easymock</groupId>
+      <artifactId>easymock</artifactId>
+      <version>3.0</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.junit.contrib</groupId>
       <artifactId>truth</artifactId>
-      <version>0.1</version>
+      <version>0.5.0-beta1</version>
       <scope>system</scope>
-      <systemPath>${basedir}/../lib/libtruth.jar</systemPath>
+      <systemPath>${basedir}/lib/libtruth.jar</systemPath>
     </dependency>
     <dependency>
       <groupId>org.easymock</groupId>
@@ -41,6 +47,15 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
+  <repositories>
+    <repository>
+      <releases><enabled>true</enabled></releases>
+      <snapshots><enabled>false</enabled></snapshots>
+      <id>truth-github</id>
+      <name>Truth Github Repository</name>
+      <url>https://raw.github.com/truth0/repo/master</url>
+    </repository>
+  </repositories>
   <build>
     <plugins>
       <plugin>
@@ -52,6 +67,14 @@
         </configuration>
       </plugin>
     </plugins>
+    <testResources>
+      <testResource>
+        <directory>${basedir}/test</directory>
+        <excludes>
+          <exclude>**/*.java</exclude>
+        </excludes>
+      </testResource>
+    </testResources>
     <testSourceDirectory>test</testSourceDirectory>
   </build>
 </project>

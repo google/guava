@@ -24,7 +24,7 @@ import java.util.Set;
 import java.util.concurrent.ExecutionException;
 
 /**
- * {@link Cache} tests 
+ * {@link Cache} tests that deal with empty caches.
  *
  * @author schmoe@google.com (mike nonemacher)
  */
