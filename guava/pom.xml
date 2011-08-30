@@ -10,14 +10,14 @@
   <artifactId>guava</artifactId>
   <name>Guava (Google Common Libraries)</name>
   <description>
-    Guava is a suite of core and expanded libraries that include 
-    utility classes, google's collections, io classes, and much 
+    Guava is a suite of core and expanded libraries that include
+    utility classes, google's collections, io classes, and much
     much more.
-    
+
     This project is a complete packaging of all the Guava libraries
     into a single jar.  Individual portions of Guava can be used
     by downloading the appropriate module and its dependencies.
-    
+
     Guava (complete) has only one code dependency - javax.annotation,
     per the JSR-305 spec.
   </description>
@@ -77,6 +77,27 @@
             <phase>verify</phase>
             <goals>
               <goal>jar-no-fork</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>animal-sniffer-maven-plugin</artifactId>
+        <version>1.7</version>
+        <configuration>
+          <signature>
+            <groupId>org.codehaus.mojo.signature</groupId>
+            <artifactId>java15-sun</artifactId>
+            <version>1.0</version>
+          </signature>
+        </configuration>
+        <executions>
+          <execution>
+            <id>check-java15</id>
+            <phase>test</phase>
+            <goals>
+              <goal>check</goal>
             </goals>
           </execution>
         </executions>

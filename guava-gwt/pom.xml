@@ -10,10 +10,10 @@
   <artifactId>guava-gwt</artifactId>
   <name>Guava (Google Common Libraries) GWT compatible libs</name>
   <description>
-    Guava is a suite of core and expanded libraries that include 
-    utility classes, google's collections, io classes, and much 
+    Guava is a suite of core and expanded libraries that include
+    utility classes, google's collections, io classes, and much
     much more.
-    
+
     This project includes GWT-friendly sources.
   </description>
   <dependencies>
@@ -36,18 +36,18 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-    	<groupId>com.google.gwt</groupId>
-    	<artifactId>gwt-dev</artifactId>
-    	<version>2.2.0</version>
-    	<type>jar</type>
-    	<scope>provided</scope>
+      <groupId>com.google.gwt</groupId>
+      <artifactId>gwt-dev</artifactId>
+      <version>2.2.0</version>
+      <type>jar</type>
+      <scope>provided</scope>
     </dependency>
     <dependency>
-    	<groupId>com.google.gwt</groupId>
-    	<artifactId>gwt-user</artifactId>
-    	<version>2.2.0</version>
-    	<type>jar</type>
-    	<scope>provided</scope>
+      <groupId>com.google.gwt</groupId>
+      <artifactId>gwt-user</artifactId>
+      <version>2.2.0</version>
+      <type>jar</type>
+      <scope>provided</scope>
     </dependency>
   </dependencies>
   <build>

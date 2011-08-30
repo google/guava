@@ -16,8 +16,8 @@
   <name>Guava (Google Common Libraries) Maven Parent</name>
   <url>http://code.google.com/p/guava-libraries</url>
   <issueManagement>
-  	<system>code.google.com</system>
-  	<url>http://code.google.com/p/guava-libraries/issues</url>
+    <system>code.google.com</system>
+    <url>http://code.google.com/p/guava-libraries/issues</url>
   </issueManagement>
   <inceptionYear>2010</inceptionYear>
   <licenses>

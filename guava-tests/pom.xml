@@ -22,10 +22,10 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-    	<groupId>junit</groupId>
-    	<artifactId>junit</artifactId>
-    	<version>4.8.2</version>
-    	<scope>test</scope>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.8.2</version>
+      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>truth</groupId>
@@ -33,6 +33,12 @@
       <version>0.1</version>
       <scope>system</scope>
       <systemPath>${basedir}/../lib/libtruth.jar</systemPath>
+    </dependency>
+    <dependency>
+      <groupId>org.easymock</groupId>
+      <artifactId>easymock</artifactId>
+      <version>3.0</version>
+      <scope>test</scope>
     </dependency>
   </dependencies>
   <build>
