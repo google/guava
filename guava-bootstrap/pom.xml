@@ -8,7 +8,7 @@
     <version>r10-SNAPSHOT</version>
   </parent>
   <artifactId>guava-bootstrap</artifactId>
-  <name>Guava (Google Common Libraries) Compilation Bootstrap Classes</name>
+  <name>Guava Compilation Bootstrap Classes</name>
   <description>
     ExecutorService's type parameters changed between JDK5 and JDK6 in a
     way that makes it impossible for our invokeAll/invokeAny methods to

@@ -13,7 +13,7 @@
   <artifactId>guava-parent</artifactId>
   <version>r10-SNAPSHOT</version>
   <packaging>pom</packaging>
-  <name>Guava (Google Common Libraries) Maven Parent</name>
+  <name>Guava Maven Parent</name>
   <url>http://code.google.com/p/guava-libraries</url>
   <issueManagement>
     <system>code.google.com</system>

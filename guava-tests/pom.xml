@@ -8,7 +8,7 @@
     <version>r10-SNAPSHOT</version>
   </parent>
   <artifactId>guava-tests</artifactId>
-  <name>Guava (Google Common Libraries) Unit Tests</name>
+  <name>Guava Unit Tests</name>
   <description>
     The unit tests for the Guava libraries - separated into a 
     separate artifact to allow for the testlibs to depend on guava

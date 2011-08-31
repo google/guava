@@ -8,7 +8,7 @@
     <version>r10-SNAPSHOT</version>
   </parent>
   <artifactId>guava-testlib</artifactId>
-  <name>Guava (Google Common Libraries) Testing Library</name>
+  <name>Guava Testing Library</name>
   <description>
     Guava testlib is a set of java classes used for more convenient
     unit testing - particularly to assist the tests for Guava itself.
