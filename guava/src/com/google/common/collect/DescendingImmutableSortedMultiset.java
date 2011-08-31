@@ -19,7 +19,7 @@ import javax.annotation.Nullable;
 /**
  * A descending wrapper around an {@code ImmutableSortedMultiset}
  * 
- * @author lowasser@google.com (Louis Wasserman)
+ * @author Louis Wasserman
  */
 final class DescendingImmutableSortedMultiset<E> extends ImmutableSortedMultiset<E> {
   private final transient ImmutableSortedMultiset<E> forward;

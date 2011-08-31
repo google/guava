@@ -941,6 +941,7 @@ public class IterablesTest extends TestCase {
     assertEquals("[a, b, c]", iterable.toString());
   }
 
+  @SuppressWarnings("deprecation") // test of deprecated method
   public void testUnmodifiableIterableShortCircuit() {
     List<String> list = newArrayList("a", "b", "c");
     Iterable<String> iterable = Iterables.unmodifiableIterable(list);

@@ -36,8 +36,8 @@ import java.io.InputStream;
  * <b>Note:</b> This class intentionally violates the specification of its
  * supertype {@code DataInput}, which explicitly requires big-endian byte order.
  *
- * @author chrisn@google.com (Chris Nokleberg)
- * @author kbottner@google.com (Keith Bottner)
+ * @author Chris Nokleberg
+ * @author Keith Bottner
  * @since Guava release 08
  */
 @Beta

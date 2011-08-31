@@ -27,7 +27,7 @@ import com.google.common.annotations.Beta;
  * distinguish between exceptions and errors, even when they come from other
  * threads.
  *
- * @author cpovirk@google.com (Chris Povirk)
+ * @author Chris Povirk
  * @since Guava release 10
  */
 @Beta

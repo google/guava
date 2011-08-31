@@ -195,6 +195,7 @@ public class FuturesTest extends TestCase {
     assertSame(barChild, bar);
   }
 
+  @SuppressWarnings("deprecation") // test of deprecated method
   public void testTransform_Future_genericsNull() throws Exception {
     Future<?> nullFuture = Futures.immediateFuture(null);
     Future<?> transformedFuture =
@@ -202,6 +203,7 @@ public class FuturesTest extends TestCase {
     assertNull(transformedFuture.get());
   }
 
+  @SuppressWarnings("deprecation") // test of deprecated method
   public void testTransformValueRemainsMemoized_Future() throws Exception {
 
     class Holder {
@@ -255,6 +257,7 @@ public class FuturesTest extends TestCase {
    * exception. Also, test that that function's result is wrapped in an
    * ExecutionException.
    */
+  @SuppressWarnings("deprecation") // test of deprecated method
   public void testTransformExceptionRemainsMemoized_Future() throws Throwable {
     FutureTask<Integer> input = new FutureTask<Integer>(Callables.returning(0));
     input.run();
@@ -350,6 +353,7 @@ public class FuturesTest extends TestCase {
     };
   }
 
+  @SuppressWarnings("deprecation") // test of deprecated method
   public void testTransform_Future_genericsHierarchy() throws Exception {
     Future<FooChild> future = Futures.immediateFuture(null);
     final BarChild barChild = new BarChild();

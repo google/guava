@@ -32,7 +32,7 @@ import com.google.common.annotations.Beta;
  *     example {@code Object} if any key is acceptable
  * @param <V> the most general type of values this listener can listen for; for
  *     example {@code Object} if any key is acceptable
- * @author fry@google.com (Charles Fry)
+ * @author Charles Fry
  * @since Guava release 10
  */
 @Beta

@@ -51,7 +51,7 @@ import java.util.regex.Pattern;
  * concerned with brackets, colons, and port numbers.  Full validation of the
  * host field (if desired) is the caller's responsibility.
  *
- * @author pmarks@google.com (Paul Marks)
+ * @author Paul Marks
  * @since Guava release 10
  */
 @Beta

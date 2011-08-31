@@ -29,7 +29,7 @@ import java.util.List;
  * Tests a collection of objects according to the rules specified in a
  * {@link RelationshipAssertion}.
  *
- * @author gak@google.com (Gregory Kick)
+ * @author Gregory Kick
  */
 @GwtCompatible
 final class RelationshipTester<T> {

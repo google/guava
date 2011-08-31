@@ -147,9 +147,11 @@
  * <li>{@link com.google.common.collect.Sets}
  * <li>{@link com.google.common.collect.Multisets}
  * <li>{@link com.google.common.collect.Multimaps}
+ * <li>{@link com.google.common.collect.SortedMaps}
+ * <li>{@link com.google.common.collect.Tables}
  * <li>{@link com.google.common.collect.ObjectArrays}
  * </ul>
-
+ *
  * <h2>Comparison</h2>
  *
  * <ul>
@@ -164,7 +166,9 @@
  * <li>{@link com.google.common.collect.AbstractLinkedIterator}
  * <li>{@link com.google.common.collect.ImmutableCollection}
  * <li>{@link com.google.common.collect.UnmodifiableIterator}
+ * <li>{@link com.google.common.collect.UnmodifiableListIterator}
  * </ul>
+ *
  *
  * <h2>Other</h2>
  *
@@ -175,7 +179,9 @@
  *     {@link com.google.common.collect.Constraints}
  * <li>{@link com.google.common.collect.MapConstraint},
  *     {@link com.google.common.collect.MapConstraints}
- * <li>{@link com.google.common.collect.MapDifference}
+ * <li>{@link com.google.common.collect.MapDifference},
+ *     {@link com.google.common.collect.SortedMapDifference}
+ * <li>{@link com.google.common.collect.MinMaxPriorityQueue}
  * <li>{@link com.google.common.collect.PeekingIterator}
  * </ul>
  *

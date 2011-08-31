@@ -37,7 +37,7 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 
 /**
- * @author gak@google.com (Gregory Kick)
+ * @author Gregory Kick
  */
 public class ContiguousSetNonGwtTest extends TestCase {
   public static class BuiltTests extends TestCase {

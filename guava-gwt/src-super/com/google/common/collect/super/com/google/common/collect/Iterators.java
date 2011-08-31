@@ -601,6 +601,9 @@ public final class Iterators {
         for (; count < size && iterator.hasNext(); count++) {
           array[count] = iterator.next();
         }
+        for (int i = count; i < size; i++) {
+          array[i] = null; // for GWT
+        }
 
         @SuppressWarnings("unchecked") // we only put Ts in it
         List<T> list = Collections.unmodifiableList(

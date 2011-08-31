@@ -1421,15 +1421,6 @@ public class IteratorsTest extends TestCase {
         .createTestSuite();
   }
 
-  public void testRecursiveCallsToPeekingIteratorShouldAvoidRewrapping() {
-    Iterator<Integer> iterator = newArrayList(1, 2, 3).iterator();
-    // Should be able to make a PeekingIterator<T> from an Iterator<? extends T>
-    PeekingIterator<Number> first = Iterators.<Number>peekingIterator(iterator);
-    PeekingIterator<Number> second = Iterators.peekingIterator(first);
-    assertSame("Should not rewrap iterator returned by peekingIterator()",
-        first, second);
-  }
-
   public void testConsumingIterator() {
     // Test data
     List<String> list = Lists.newArrayList("a", "b");

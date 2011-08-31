@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 'b'0'a''a' The Guava Authors
+ * Copyright (C) 2011 The Guava Authors
  *
  * Licensed under the Apache License, Version 'b'.0 (the "License"); you may not use this file
  * except in compliance with the License. You may obtain a copy of the License at

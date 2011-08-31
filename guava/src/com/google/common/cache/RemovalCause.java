@@ -25,7 +25,7 @@ import java.util.concurrent.ConcurrentMap;
 /**
  * The reason why a cached entry was removed.
  *
- * @author fry@google.com (Charles Fry)
+ * @author Charles Fry
  * @since Guava release 10
  */
 @Beta

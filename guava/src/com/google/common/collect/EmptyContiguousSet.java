@@ -25,7 +25,7 @@ import javax.annotation.Nullable;
 /**
  * An empty contiguous set.
  *
- * @author gak@google.com (Gregory Kick)
+ * @author Gregory Kick
  */
 @GwtCompatible(emulated = true)
 @SuppressWarnings("unchecked") // allow ungenerified Comparable types

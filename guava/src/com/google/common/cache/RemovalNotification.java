@@ -33,7 +33,7 @@ import javax.annotation.Nullable;
  * strong references to the key and value, regardless of the type of references the cache may be
  * using.
  *
- * @author fry@google.com (Charles Fry)
+ * @author Charles Fry
  * @since Guava release 10
  */
 @Beta

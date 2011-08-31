@@ -25,7 +25,7 @@ import junit.framework.TestCase;
 /**
  * Tests for {@link DiscreteDomains}.
  *
- * @author cpovirk@google.com (Chris Povirk)
+ * @author Chris Povirk
  */
 @GwtIncompatible("SerializableTester")
 public class DiscreteDomainsTest extends TestCase {

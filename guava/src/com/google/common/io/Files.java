@@ -489,7 +489,12 @@ public final class Files {
   }
 
   /**
-   * Deletes all the files within a directory. Does not delete the
+   * <b>Deprecated.</b> This method suffers from poor symlink detection and race
+   * conditions. This functionality can be supported suitably only by shelling
+   * out to an operating system command such as {@code rm -rf} or {@code del
+   * /s}. This method is scheduled to be removed in Guava release 11.
+   *
+   * <p>Deletes all the files within a directory. Does not delete the
    * directory itself.
    *
    * <p>If the file argument is a symbolic link or there is a symbolic
@@ -499,8 +504,8 @@ public final class Files {
    * @param directory the directory to delete the contents of
    * @throws IllegalArgumentException if the argument is not a directory
    * @throws IOException if an I/O error occurs
-   * @see #deleteRecursively
    */
+  @Deprecated
   public static void deleteDirectoryContents(File directory)
       throws IOException {
     Preconditions.checkArgument(directory.isDirectory(),
@@ -519,7 +524,12 @@ public final class Files {
   }
 
   /**
-   * Deletes a file or directory and all contents recursively.
+   * <b>Deprecated.</b> This method suffers from poor symlink detection and race
+   * conditions. This functionality can be supported suitably only by shelling
+   * out to an operating system command such as {@code rm -rf} or {@code del
+   * /s}. This method is scheduled to be removed in Guava release 11.
+   *
+   * <p>Deletes a file or directory and all contents recursively.
    *
    * <p>If the file argument is a symbolic link the link will be deleted
    * but not the target of the link. If the argument is a directory,
@@ -527,8 +537,8 @@ public final class Files {
    *
    * @param file the file to delete
    * @throws IOException if an I/O error occurs
-   * @see #deleteDirectoryContents
    */
+  @Deprecated
   public static void deleteRecursively(File file) throws IOException {
     if (file.isDirectory()) {
       deleteDirectoryContents(file);
@@ -781,7 +791,7 @@ public final class Files {
           }
         } else if (!rooted) {
           /* /.. is / but ./../ is .. */
-          if (name[q] != name[0] || 
+          if (name[q] != name[0] ||
               (q != 0 && name.length >= q+3 && name[0] == '.' && name[name.length - 1] != '/')) {
             name[q++] = '/';
           }
@@ -807,5 +817,5 @@ public final class Files {
   private static boolean sep(char[] a, int pos) {
     return (pos == a.length) || (a[pos] == '/');
   }
-  
+
 }

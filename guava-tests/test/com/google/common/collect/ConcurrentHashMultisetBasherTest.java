@@ -39,7 +39,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * responsible for; after all threads have completed, we sum the per-key deltas and compare to the
  * existing multiset values.
  *
- * @author schmoe@google.com (mike nonemacher)
+ * @author mike nonemacher
  */
 
 public class ConcurrentHashMultisetBasherTest extends TestCase {

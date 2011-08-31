@@ -28,7 +28,7 @@ import java.util.Set;
  * intention of using its {@code entrySet()} method, you should
  * wrap the {@code EnumMap} in this class instead. 
  * 
- * @author andreou@google.com (Dimitris Andreou)
+ * @author Dimitris Andreou
  */
 @GwtCompatible
 final class WellBehavedMap<K, V> extends ForwardingMap<K, V> {

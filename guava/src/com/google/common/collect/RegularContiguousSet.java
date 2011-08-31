@@ -29,7 +29,7 @@ import javax.annotation.Nullable;
 /**
  * An implementation of {@link ContiguousSet} that contains one or more elements.
  *
- * @author gak@google.com (Gregory Kick)
+ * @author Gregory Kick
  */
 @GwtCompatible(emulated = true)
 @SuppressWarnings("unchecked") // allow ungenerified Comparable types

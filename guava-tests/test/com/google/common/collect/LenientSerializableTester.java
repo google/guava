@@ -30,7 +30,7 @@ import java.util.Set;
  * Variant of {@link SerializableTester} that does not require the reserialized object's class to be
  * identical to the original.
  *
- * @author cpovirk@google.com (Chris Povirk)
+ * @author Chris Povirk
  */
 /*
  * The whole thing is really @GwtIncompatible, but GwtJUnitConvertedTestModule doesn't have a

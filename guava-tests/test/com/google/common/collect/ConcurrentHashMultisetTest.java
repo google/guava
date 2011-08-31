@@ -39,6 +39,7 @@ import org.easymock.EasyMock;
 import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -437,7 +438,7 @@ public class ConcurrentHashMultisetTest extends TestCase {
   }
 
   public void testSerializationWithMapMaker3() {
-    MapMaker mapMaker = new MapMaker().maximumSize(99999999);
+    MapMaker mapMaker = new MapMaker().expireAfterWrite(1, TimeUnit.SECONDS);
     multiset = ConcurrentHashMultiset.create(mapMaker);
     multiset.addAll(ImmutableList.of("a", "a", "b", "c", "d", "b"));
     reserializeAndAssert(multiset);
@@ -526,6 +527,7 @@ public class ConcurrentHashMultisetTest extends TestCase {
           }
         };
 
+    @SuppressWarnings("deprecation") // TODO(kevinb): what to do?
     GenericMapMaker<String, Number> mapMaker = new MapMaker()
         .concurrencyLevel(1)
         .maximumSize(1)

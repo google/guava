@@ -58,6 +58,7 @@ public class MapMakerTests extends TestCase {
     };
     QueuingRemovalListener<String, String> listener = new QueuingRemovalListener<String, String>();
 
+    @SuppressWarnings("deprecation") // test of deprecated code
     final ConcurrentMap<String, String> map = new MapMaker()
         .concurrencyLevel(1)
         .removalListener(listener)
@@ -112,6 +113,8 @@ public class MapMakerTests extends TestCase {
     // - clear() happens first: the removal listener is not called, and the map contains the pair
     CountDownLatch computationLatch = new CountDownLatch(1);
     QueuingRemovalListener<String, String> listener = new QueuingRemovalListener<String, String>();
+
+    @SuppressWarnings("deprecation") // test of deprecated code
     final Map<String, String> map = new MapMaker()
         .removalListener(listener)
         .concurrencyLevel(20)

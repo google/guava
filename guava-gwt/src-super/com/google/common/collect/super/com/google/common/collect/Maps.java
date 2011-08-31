@@ -527,9 +527,10 @@ public final class Maps {
   /**
    * <b>Deprecated.</b>
    *
-   * @deprecated use {@link #uniqueIndex(Iterator, Function)} by casting
-   * {@code values} to an {@code Iterator}, or better by implementing only
-   * {@code Iterator} and not {@code Iterable}.
+   * @deprecated use {@link #uniqueIndex(Iterator, Function)} by casting {@code
+   *     values} to {@code Iterator<V>}, or better yet, by implementing only
+   *     {@code Iterator} and not {@code Iterable}. <b>This method is scheduled
+   *     for deletion in March 2012.</b>
    */
   @Deprecated
   public static <K, V, I extends Object & Iterable<V> & Iterator<V>>

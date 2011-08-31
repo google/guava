@@ -218,10 +218,9 @@ public class OrderingTest extends TestCase {
   }
 
   public void testCompound_static() {
-    Comparator<String> comparator = Ordering.compound(
-        Iterables.unmodifiableIterable(ImmutableList.of(
-            byCharAt(0), byCharAt(1), byCharAt(2),
-            byCharAt(3), byCharAt(4), byCharAt(5))));
+    Comparator<String> comparator = Ordering.compound(asList(
+        byCharAt(0), byCharAt(1), byCharAt(2),
+        byCharAt(3), byCharAt(4), byCharAt(5)));
     Helpers.testComparator(comparator, ImmutableList.of(
         "applesauce",
         "apricot",

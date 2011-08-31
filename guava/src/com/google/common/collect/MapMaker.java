@@ -708,7 +708,8 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    * writes.
    *
    * <p>Caching functionality in {@code MapMaker} is being moved to
-   * {@link com.google.common.cache.CacheBuilder}.
+   * {@link com.google.common.cache.CacheBuilder}, with {@link #makeComputingMap} being replaced by
+   * {@link com.google.common.cache.CacheBuilder#build}.
    * <b>This method is scheduled for deletion in February 2013.</b>
    *
    * @param computingFunction the function used to compute new values

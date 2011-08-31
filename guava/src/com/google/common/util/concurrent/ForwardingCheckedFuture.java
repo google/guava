@@ -34,7 +34,7 @@ import java.util.concurrent.TimeoutException;
  * @param <X> The type of the Exception thrown by the Future's 
  *            {@code checkedGet} method
  *
- * @author azana@google.com (Anthony Zana)
+ * @author Anthony Zana
  * @since Guava release 09
  */
 @Beta

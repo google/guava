@@ -19,7 +19,7 @@ import com.google.common.annotations.GwtCompatible;
 /**
  * A side of a binary search tree node, used to index its children.
  *
- * @author lowasser@google.com (Louis Wasserman)
+ * @author Louis Wasserman
  */
 @GwtCompatible
 enum BstSide {

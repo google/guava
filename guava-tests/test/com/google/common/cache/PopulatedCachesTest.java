@@ -32,7 +32,7 @@ import java.util.Set;
 /**
  * {@link Cache} tests that deal with caches that actually contain some key-value mappings.
  *
- * @author schmoe@google.com (mike nonemacher)
+ * @author mike nonemacher
  */
 public class PopulatedCachesTest extends TestCase {
   // we use integers as keys; make sure the range covers some values that ARE cached by
@@ -207,16 +207,17 @@ public class PopulatedCachesTest extends TestCase {
     }
   }
 
+  @SuppressWarnings("unchecked") // generic array creation
   public void testEntrySet_populated() {
     for (Cache<Object, Object> cache : caches()) {
       Set<Entry<Object, Object>> entries = cache.asMap().entrySet();
       List<Entry<Object, Object>> warmed = warmUp(cache, WARMUP_MIN, WARMUP_MAX);
 
-      Entry[] expectedArray = Maps.newHashMap(cache.asMap()).entrySet().toArray(new Entry[0]);
-      ASSERT.that(entries).hasContentsAnyOrder(expectedArray);
-      ASSERT.that(asList(entries.toArray())).hasContentsAnyOrder(expectedArray);
-      ASSERT.that(asList(entries.toArray(new Entry[cache.size()])))
-          .hasContentsAnyOrder(expectedArray);
+      Set<Entry<Object, Object>> entrySet = Maps.newHashMap(cache.asMap()).entrySet();
+      ASSERT.that(entries).is(entrySet);
+      ASSERT.that(entries.toArray()).hasContentsAnyOrder(entrySet.toArray());
+      ASSERT.that(entries.toArray(new Entry[0]))
+          .hasContentsAnyOrder(entrySet.toArray(new Entry[0]));
 
       new EqualsTester()
           .addEqualityGroup(cache.asMap().entrySet(), entries)

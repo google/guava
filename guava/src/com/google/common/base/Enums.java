@@ -28,7 +28,7 @@ import javax.annotation.Nullable;
 /**
  * Utility methods for working with {@link Enum} instances.
  *
- * @author smckay@google.com (Steve McKay)
+ * @author Steve McKay
  *
  * @since Guava release 09
  */

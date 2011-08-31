@@ -32,7 +32,7 @@ import com.google.common.annotations.Beta;
  * <p>When wrapping an {@code Error} from another thread, prefer {@link
  * ExecutionError}.
  *
- * @author fry@google.com (Charles Fry)
+ * @author Charles Fry
  * @since Guava release 10
  */
 @Beta

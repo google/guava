@@ -35,8 +35,8 @@ import java.io.OutputStream;
  * supertype {@code DataOutput}, which explicitly requires big-endian byte
  * order.
  *
- * @author chrisn@google.com (Chris Nokleberg)
- * @author kbottner@google.com (Keith Bottner)
+ * @author Chris Nokleberg
+ * @author Keith Bottner
  * @since Guava release 08
  */
 @Beta
