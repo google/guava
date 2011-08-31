@@ -354,9 +354,13 @@ public final class UnsignedLongs {
    *
    * @param x the value to convert to a string.
    * @param radix the radix to use while working with {@code x}; must be
-   * between Character.MIN_RADIX and Character.MAX_RADIX.
+   * between Character.MIN_RADIX and Character.MAX_RADIX.  Otherwise,
+   * the radix {@code 10} is used.
    */
   public static String toString(long x, int radix) {
+    if(radix < Character.MIN_RADIX | radix > Character.MAX_RADIX){
+      radix = 10;
+    }
     if (x == 0) {
       // Simply return "0"
       return "0";

@@ -296,7 +296,7 @@ public class CacheComputationTest extends TestCase {
 
     int count = 10;
     final AtomicInteger callCount = new AtomicInteger();
-    final CountDownLatch startSignal = new CountDownLatch(count);
+    final CountDownLatch startSignal = new CountDownLatch(count + 1);
     final Object result = new Object();
 
     Cache<String, Object> cache = builder.build(
@@ -326,7 +326,7 @@ public class CacheComputationTest extends TestCase {
 
     int count = 10;
     final AtomicInteger callCount = new AtomicInteger();
-    final CountDownLatch startSignal = new CountDownLatch(count);
+    final CountDownLatch startSignal = new CountDownLatch(count + 1);
 
     Cache<String, String> cache = builder.build(
         new CacheLoader<String, String>() {
@@ -363,7 +363,7 @@ public class CacheComputationTest extends TestCase {
 
     int count = 10;
     final AtomicInteger callCount = new AtomicInteger();
-    final CountDownLatch startSignal = new CountDownLatch(count);
+    final CountDownLatch startSignal = new CountDownLatch(count + 1);
     final RuntimeException e = new RuntimeException();
 
     Cache<String, String> cache = builder.build(
@@ -404,7 +404,7 @@ public class CacheComputationTest extends TestCase {
 
     int count = 10;
     final AtomicInteger callCount = new AtomicInteger();
-    final CountDownLatch startSignal = new CountDownLatch(count);
+    final CountDownLatch startSignal = new CountDownLatch(count + 1);
     final IOException e = new IOException();
 
     Cache<String, String> cache = builder.build(
@@ -459,7 +459,7 @@ public class CacheComputationTest extends TestCase {
     final CountDownLatch gettersComplete = new CountDownLatch(nThreads);
     for (int i = 0; i < nThreads; i++) {
       final int index = i;
-      new Thread(new Runnable() {
+      Thread thread = new Thread(new Runnable() {
         @Override public void run() {
           gettersStartedSignal.countDown();
           Object value = null;
@@ -475,8 +475,15 @@ public class CacheComputationTest extends TestCase {
           }
           gettersComplete.countDown();
         }
-      }).start();
+      });
+      thread.start();
+      // we want to wait until each thread is WAITING - one thread waiting inside CacheLoader.load
+      // (in startSignal.await()), and the others waiting for that thread's result.
+      while (thread.isAlive() && thread.getState() != Thread.State.WAITING) {
+        Thread.yield();
+      }
     }
+    gettersStartedSignal.countDown();
     gettersComplete.await();
 
     List<Object> resultList = Lists.newArrayListWithExpectedSize(nThreads);
