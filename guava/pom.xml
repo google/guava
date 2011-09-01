@@ -109,16 +109,38 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
         <version>2.8</version>
-        <configuration>
-          <encoding>UTF-8</encoding>
-          <docencoding>UTF-8</docencoding>
-          <charset>UTF-8</charset>
-          <additionalparam>-XDignore.symbol.file</additionalparam>
-          <linksource>true</linksource>
-          <links>
-            <link>http://jsr-305.googlecode.com/svn/trunk/javadoc</link>
-          </links>
-        </configuration>
+        <executions>
+          <execution>
+            <id>generate-javadoc</id>
+            <phase>site</phase>
+            <goals><goal>javadoc</goal></goals>
+            <configuration>
+              <encoding>UTF-8</encoding>
+              <docencoding>UTF-8</docencoding>
+              <charset>UTF-8</charset>
+              <additionalparam>-XDignore.symbol.file</additionalparam>
+              <linksource>true</linksource>
+              <links>
+                <link>http://jsr-305.googlecode.com/svn/trunk/javadoc</link>
+              </links>
+            </configuration>
+          </execution>
+          <execution>
+            <id>generate-jdiff</id>
+            <phase>site</phase>
+            <goals><goal>javadoc</goal></goals>
+            <configuration>
+              <doclet>jdiff.JDiff</doclet>
+              <docletPath>${project.basedir}/lib/jdiff.jar</docletPath>
+              <additionalparam>
+                -XDignore.symbol.file -apiname 'Guava ${project.version}'
+              </additionalparam>
+              <useStandardDocletOptions>false</useStandardDocletOptions>
+              <reportOutputDirectory>${project.reporting.outputDirectory}</reportOutputDirectory>
+              <destDir>jdiff</destDir>
+            </configuration>
+          </execution>
+        </executions>
       </plugin>
     </plugins>
     <finalName>${project.artifactId}-${project.version}</finalName>
