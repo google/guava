@@ -11,7 +11,7 @@
   </parent>
   <groupId>com.google.guava</groupId>
   <artifactId>guava-parent</artifactId>
-  <version>r10-SNAPSHOT</version>
+  <version>latest</version>
   <packaging>pom</packaging>
   <name>Guava Maven Parent</name>
   <url>http://code.google.com/p/guava-libraries</url>

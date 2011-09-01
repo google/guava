@@ -5,7 +5,7 @@
   <parent>
     <groupId>com.google.guava</groupId>
     <artifactId>guava-parent</artifactId>
-    <version>r10-SNAPSHOT</version>
+    <version>latest</version>
   </parent>
   <artifactId>guava-bootstrap</artifactId>
   <name>Guava Compilation Bootstrap Classes</name>
