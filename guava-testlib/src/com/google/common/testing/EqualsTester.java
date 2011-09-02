@@ -54,17 +54,6 @@ import java.util.List;
  *     false
  * <li>the hash code of any two equal objects are equal
  * </ul>
- * For backward compatibility, the following usage pattern is also supported:
- * <ol>
- * <li>Create a reference instance of the class under test and use to create a
- * new EqualsTester.
- *
- * <li>Create one or more new instances of the class that should be equal to the
- * reference instance and pass to addEqualObject(). Multiple instances can be
- * used to test subclasses.
- *
- * <li>Invoke {@link #testEquals} on the EqualsTester.
- * </ol>
  *
  * <p>When a test fails, the error message labels the objects involved in
  * the failed comparison as follows:
@@ -85,7 +74,6 @@ import java.util.List;
 public final class EqualsTester {
   private static final int REPETITIONS = 3;
 
-  private final List<Object> defaultEqualObjects = Lists.newArrayList();
   private final List<List<Object>> equalityGroups = Lists.newArrayList();
 
   /**
@@ -123,9 +111,6 @@ public final class EqualsTester {
             assertTrue("$ITEM must be unequal to $UNRELATED", !Objects.equal(item, unrelated));
           }
         });
-    if (!defaultEqualObjects.isEmpty()) {
-      delegate.addRelatedGroup(defaultEqualObjects);
-    }
     for (List<Object> group : equalityGroups) {
       delegate.addRelatedGroup(group);
     }
@@ -137,7 +122,7 @@ public final class EqualsTester {
   }
 
   private void testItems() {
-    for (Object item : Iterables.concat(defaultEqualObjects, Iterables.concat(equalityGroups))) {
+    for (Object item : Iterables.concat(equalityGroups)) {
       assertTrue(item + " must be unequal to null", !item.equals(null));
       assertTrue(item + " must be unequal to an arbitrary object of another class",
           !item.equals(NotAnInstance.EQUAL_TO_NOTHING));

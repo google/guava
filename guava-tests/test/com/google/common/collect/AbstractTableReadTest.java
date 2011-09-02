@@ -33,7 +33,6 @@ import junit.framework.TestCase;
  */
 @GwtCompatible(emulated = true)
 public abstract class AbstractTableReadTest extends TestCase {
-
   protected Table<String, Integer, Character> table;
 
   /**
