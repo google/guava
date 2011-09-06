@@ -31,8 +31,8 @@
     <maven>2.0.9</maven>
   </prerequisites>
   <scm>
-    <connection>scm:svn:http://guava-libraries.googlecode.com/svn/trunk/</connection>
-    <developerConnection>scm:svn:https://guava-libraries.googlecode.com/svn/trunk/</developerConnection>
+    <connection>scm:git:https://code.google.com/p/guava-libraries/</connection>
+    <developerConnection>scm:git:https://code.google.com/p/guava-libraries/</developerConnection>
     <url>http://code.google.com/p/guava-libraries/source/browse</url>
   </scm>
   <developers>
