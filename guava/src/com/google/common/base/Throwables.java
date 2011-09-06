@@ -225,8 +225,24 @@ public final class Throwables {
    * @param combineStackTraces if true the stack trace of the cause will be
    *     replaced by the concatenation of the trace from the exception and the
    *     trace from the cause.
+   * @deprecated For {@code throwCause(e, false)}, use {@code
+   *     propagateIfPossible(e.getCause(), Exception.class); throw e;}. For
+   *     {@code throwCause(e, true)}, there is no exact equivalent. Callers are
+   *     encouraged to consider whether the cause contains all useful stack
+   *     trace context. (It usually does if it comes from within the thread,
+   *     e.g., for an {@code InvocationTargetException}, and it usually does not
+   *     otherwise, e.g., for an {@code ExecutionException}.) If the cause
+   *     contains all useful context, consider throwing it directly if your
+   *     method signature permits or wrapping it in an appropriate exception if
+   *     not. If the cause does not contain all useful context, consider
+   *     propagating the wrapper exception or rewrapping the cause in an
+   *     appropriate exception. For the particular case of exceptions thrown by
+   *     {@code Future.get}, consider {@link
+   *     com.google.common.util.concurrent.Futures#get(java.util.concurrent.Future,
+   *     Class)}. This method is scheduled for removal in Guava release 11.0.
    */
   @Beta
+  @Deprecated
   public static Exception throwCause(Exception exception,
       boolean combineStackTraces) throws Exception {
     Throwable cause = exception.getCause();

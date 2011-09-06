@@ -504,6 +504,7 @@ public class ThrowablesTest extends TestCase {
     assertTrue(getStackTraceAsString(e).matches(expected));
   }
 
+  @SuppressWarnings("deprecation") // test of deprecated method
   public void testThrowCause_NoCombine() {
     SomeCheckedException cause = new SomeCheckedException();
     SomeChainingException outer = new SomeChainingException(cause);
@@ -517,6 +518,7 @@ public class ThrowablesTest extends TestCase {
     }
   }
 
+  @SuppressWarnings("deprecation") // test of deprecated method
   public void testThrowCause_Combine() {
     SomeCheckedException cause = new SomeCheckedException();
     SomeChainingException outer = new SomeChainingException(cause);
@@ -531,6 +533,7 @@ public class ThrowablesTest extends TestCase {
     }
   }
   
+  @SuppressWarnings("deprecation") // test of deprecated method
   public void testThrowCause_Null() {
     SomeCheckedException outer = new SomeCheckedException();
     StackTraceElement[] expectedTrace = outer.getStackTrace();
@@ -543,6 +546,7 @@ public class ThrowablesTest extends TestCase {
     }
   }
 
+  @SuppressWarnings("deprecation") // test of deprecated method
   public void testThrowCause_Error() throws Exception {
     SomeError cause = new SomeError();
     SomeChainingException outer = new SomeChainingException(cause);
@@ -557,6 +561,7 @@ public class ThrowablesTest extends TestCase {
     }
   }
   
+  @SuppressWarnings("deprecation") // test of deprecated method
   public void testThrowCause_Throwable() {
     SomeThrowable cause = new SomeThrowable();
     SomeChainingException outer = new SomeChainingException(cause);
