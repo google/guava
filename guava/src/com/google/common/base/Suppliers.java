@@ -33,7 +33,7 @@ import javax.annotation.Nullable;
  *
  * @author Laurence Gonsalves
  * @author Harry Heymann
- * @since Guava release 02 (imported from Google Collections Library)
+ * @since 2.0 (imported from Google Collections Library)
  */
 @GwtCompatible
 public final class Suppliers {
@@ -135,7 +135,7 @@ public final class Suppliers {
    *     should stop being returned by subsequent {@code get()} calls
    * @param unit the unit that {@code duration} is expressed in
    * @throws IllegalArgumentException if {@code duration} is not positive
-   * @since Guava release 02
+   * @since 2.0
    */
   public static <T> Supplier<T> memoizeWithExpiration(
       Supplier<T> delegate, long duration, TimeUnit unit) {
@@ -235,7 +235,7 @@ public final class Suppliers {
    * Returns a function that accepts a supplier and returns the result of
    * invoking {@link Supplier#get} on that supplier.
    *
-   * @since Guava release 08
+   * @since 8.0
    */
   @Beta
   @SuppressWarnings("unchecked") // SupplierFunction works for any T.

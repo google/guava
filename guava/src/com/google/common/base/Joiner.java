@@ -57,7 +57,7 @@ import javax.annotation.Nullable;
  *   return joiner.join("wrong", null, "wrong");}</pre>
  *
  * @author Kevin Bourrillion
- * @since Guava release 02 (imported from Google Collections Library)
+ * @since 2.0 (imported from Google Collections Library)
  */
 @GwtCompatible
 public class Joiner {
@@ -265,7 +265,7 @@ public class Joiner {
    *     key1=[A, B]&key2=C}.
    * </ul>
    *
-   * @since Guava release 02 (imported from Google Collections Library)
+   * @since 2.0 (imported from Google Collections Library)
    */
   public final static class MapJoiner {
     private final Joiner joiner;
@@ -305,7 +305,7 @@ public class Joiner {
      * Appends the string representation of each entry in {@code entries}, using the previously
      * configured separator and key-value separator, to {@code appendable}.
      *
-     * @since Guava release 10
+     * @since 10.0
      */
     @Beta
     public <A extends Appendable> A appendTo(A appendable, Iterable<? extends Entry<?, ?>> entries)
@@ -333,7 +333,7 @@ public class Joiner {
      * configured separator and key-value separator, to {@code builder}. Identical to {@link
      * #appendTo(Appendable, Iterable)}, except that it does not throw {@link IOException}.
      *
-     * @since Guava release 10
+     * @since 10.0
      */
     @Beta
     public StringBuilder appendTo(StringBuilder builder, Iterable<? extends Entry<?, ?>> entries) {
@@ -349,7 +349,7 @@ public class Joiner {
      * Returns a string containing the string representation of each entry in {@code entries}, using
      * the previously configured separator and key-value separator.
      *
-     * @since Guava release 10
+     * @since 10.0
      */
     @Beta
     public String join(Iterable<? extends Entry<?, ?>> entries) {

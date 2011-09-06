@@ -24,7 +24,7 @@ import java.io.OutputStream;
  * Implementation of {@link OutputStream} that simply discards written bytes.
  *
  * @author Spencer Kimball
- * @since Guava release 01
+ * @since 1.0
  */
 @Beta
 public final class NullOutputStream extends OutputStream {

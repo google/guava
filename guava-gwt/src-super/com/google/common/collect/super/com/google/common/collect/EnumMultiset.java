@@ -25,7 +25,7 @@ import java.util.Iterator;
  * Multiset implementation backed by an {@link EnumMap}.
  *
  * @author Jared Levy
- * @since Guava release 02 (imported from Google Collections Library)
+ * @since 2.0 (imported from Google Collections Library)
  */
 @GwtCompatible(emulated = true)
 public final class EnumMultiset<E extends Enum<E>> extends AbstractMapBasedMultiset<E> {

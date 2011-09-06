@@ -20,7 +20,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.Beta;
-import com.google.common.base.Throwables;
+import com.google.common.collect.ObjectArrays;
 import com.google.common.collect.Sets;
 
 import java.lang.reflect.InvocationHandler;
@@ -42,7 +42,7 @@ import java.util.concurrent.TimeoutException;
  * the thread running the call will be interrupted.
  *
  * @author Kevin Bourrillion
- * @since Guava release 01
+ * @since 1.0
  */
 @Beta
 public final class SimpleTimeLimiter implements TimeLimiter {
@@ -103,7 +103,7 @@ public final class SimpleTimeLimiter implements TimeLimiter {
             try {
               return method.invoke(target, args);
             } catch (InvocationTargetException e) {
-              Throwables.throwCause(e, false);
+              throwCause(e, false);
               throw new AssertionError("can't get here");
             }
           }
@@ -137,11 +137,32 @@ public final class SimpleTimeLimiter implements TimeLimiter {
             timeoutDuration, timeoutUnit);
       }
     } catch (ExecutionException e) {
-      throw Throwables.throwCause(e, true);
+      throw throwCause(e, true);
     } catch (TimeoutException e) {
       future.cancel(true);
       throw new UncheckedTimeoutException(e);
     }
+  }
+
+  private static Exception throwCause(Exception e, boolean combineStackTraces)
+      throws Exception {
+    Throwable cause = e.getCause();
+    if (cause == null) {
+      throw e;
+    }
+    if (combineStackTraces) {
+      StackTraceElement[] combined = ObjectArrays.concat(cause.getStackTrace(),
+          e.getStackTrace(), StackTraceElement.class);
+      cause.setStackTrace(combined);
+    }
+    if (cause instanceof Exception) {
+      throw (Exception) cause;
+    }
+    if (cause instanceof Error) {
+      throw (Error) cause;
+    }
+    // The cause is a weird kind of Throwable, so throw the outer exception.
+    throw e;
   }
 
   private static Set<Method> findInterruptibleMethods(Class<?> interfaceType) {

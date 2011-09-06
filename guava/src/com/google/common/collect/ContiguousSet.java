@@ -26,7 +26,7 @@ import java.util.NoSuchElementException;
  * A sorted set of contiguous values in a given {@link DiscreteDomain}.
  *
  * @author Gregory Kick
- * @since Guava release 10
+ * @since 10.0
  */
 @Beta
 @GwtCompatible

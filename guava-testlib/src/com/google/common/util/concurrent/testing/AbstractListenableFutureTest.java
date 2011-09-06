@@ -35,7 +35,7 @@ import java.util.concurrent.TimeoutException;
  * Tests the two get methods and the addListener method.
  *
  * @author Sven Mawson
- * @since Guava release 10
+ * @since 10.0
  */
 @Beta
 public abstract class AbstractListenableFutureTest extends TestCase {

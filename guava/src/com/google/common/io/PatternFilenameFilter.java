@@ -31,7 +31,7 @@ import javax.annotation.Nullable;
  * and immutable.
  *
  * @author Apple Chow
- * @since Guava release 01
+ * @since 1.0
  */
 @Beta
 public final class PatternFilenameFilter implements FilenameFilter {

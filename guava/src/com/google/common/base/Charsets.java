@@ -23,7 +23,7 @@ import java.nio.charset.Charset;
  * guaranteed to be supported by all Java platform implementations.
  *
  * @author Mike Bostock
- * @since Guava release 01
+ * @since 1.0
  */
 public final class Charsets {
   private Charsets() {}

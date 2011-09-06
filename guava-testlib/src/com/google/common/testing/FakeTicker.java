@@ -29,7 +29,7 @@ import java.util.concurrent.atomic.AtomicLong;
  * This class is thread-safe.
  *
  * @author Jige Yu
- * @since Guava release 10
+ * @since 10.0
  */
 @Beta
 @GwtCompatible

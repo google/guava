@@ -31,9 +31,9 @@ import javax.annotation.Nullable;
  * @param <K> the type of keys being evicted
  * @param <V> the type of values being evicted
  * @author Ben Manes
- * @since Guava release 07
+ * @since 7.0
  * @deprecated use {@link MapMaker.RemovalListener} <b>This class is scheduled
- *     for deletion in Guava release 11.</b>
+ *     for deletion in release 11.0.</b>
  */
 @Beta
 @Deprecated

@@ -38,7 +38,7 @@ import java.io.ObjectOutputStream;
  * diagnose which referenced fields were not serializable.
  *
  * @author Mike Bostock
- * @since Guava release 10
+ * @since 10.0
  */
 @Beta
 public final class SerializableTester {

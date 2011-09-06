@@ -28,7 +28,7 @@ import javax.annotation.Nullable;
  * Helper functions that can operate on any {@code Object}.
  *
  * @author Laurence Gonsalves
- * @since Guava release 02 (imported from Google Collections Library)
+ * @since 2.0 (imported from Google Collections Library)
  */
 @GwtCompatible
 public final class Objects {
@@ -100,7 +100,7 @@ public final class Objects {
    *
    * @param self the object to generate the string for (typically {@code this}),
    *        used only for its class name
-   * @since Guava release 02
+   * @since 2.0
    */
   public static ToStringHelper toStringHelper(Object self) {
     return new ToStringHelper(simpleName(self.getClass()));
@@ -114,7 +114,7 @@ public final class Objects {
    * <p>Note that in GWT, class names are often obfuscated.
    *
    * @param clazz the {@link Class} of the instance
-   * @since Guava release 07 (source-compatible since release 02)
+   * @since 7.0 (source-compatible since 2.0)
    */
   public static ToStringHelper toStringHelper(Class<?> clazz) {
     return new ToStringHelper(simpleName(clazz));
@@ -126,7 +126,7 @@ public final class Objects {
    * of using an instance's {@link Object#getClass()}.
    *
    * @param className the name of the instance type
-   * @since Guava release 07 (source-compatible since release 02)
+   * @since 7.0 (source-compatible since 2.0)
    */
   public static ToStringHelper toStringHelper(String className) {
     return new ToStringHelper(className);
@@ -168,7 +168,7 @@ public final class Objects {
    *     not {@code null}
    * @throws NullPointerException if both {@code first} and {@code second} were
    *     {@code null}
-   * @since Guava release 03
+   * @since 3.0
    */
   public static <T> T firstNonNull(@Nullable T first, @Nullable T second) {
     return first != null ? first : checkNotNull(second);
@@ -178,7 +178,7 @@ public final class Objects {
    * Support class for {@link Objects#toStringHelper}.
    *
    * @author Jason Lee
-   * @since Guava release 02
+   * @since 2.0
    */
   public static final class ToStringHelper {
     private final StringBuilder builder;

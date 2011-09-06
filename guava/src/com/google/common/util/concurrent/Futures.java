@@ -55,7 +55,7 @@ import javax.annotation.Nullable;
  * @author Kevin Bourrillion
  * @author Nishant Thakkar
  * @author Sven Mawson
- * @since Guava release 01
+ * @since 1.0
  */
 @Beta
 public final class Futures {
@@ -125,7 +125,7 @@ public final class Futures {
    *     fact. If this is not possible, the functionality of {@code
    *     makeListenable} is now available as {@link
    *     JdkFutureAdapters#listenInPoolThread}. <b>This method is scheduled
-   *     for deletion in Guava release 11.</b>
+   *     for deletion in release 11.0.</b>
    */
   @Deprecated
   public
@@ -151,7 +151,7 @@ public final class Futures {
    *
    * @deprecated Obtain a {@link ListenableFuture}, following the advice in its
    *     documentation and use {@link #makeChecked(ListenableFuture, Function)}.
-   *     <b>This method is scheduled for deletion in Guava release 11.</b>
+   *     <b>This method is scheduled for deletion in release 11.0.</b>
    */
   @Deprecated
   public
@@ -170,7 +170,7 @@ public final class Futures {
    * {@link ExecutionException} with the actual cause of the exception.
    * See {@link Future#get()} for details on the exceptions thrown.
    *
-   * @since Guava release 09 (source-compatible since release 01)
+   * @since 9.0 (source-compatible since 1.0)
    */
   public static <V, X extends Exception> CheckedFuture<V, X> makeChecked(
       ListenableFuture<V> future, Function<Exception, X> mapper) {
@@ -409,7 +409,7 @@ public final class Futures {
    *     to the results of the returned future.  This will be run in the thread
    *     that notifies input it is complete.
    * @return A future that holds result of the transformation.
-   * @since Guava release 09 (in release 01 as {@code compose})
+   * @since 9.0 (in 1.0 as {@code compose})
    */
   public static <I, O> ListenableFuture<O> transform(ListenableFuture<I> future,
       final Function<? super I, ? extends O> function) {
@@ -462,7 +462,7 @@ public final class Futures {
    *     to the results of the returned future.
    * @param exec Executor to run the function in.
    * @return A future that holds result of the transformation.
-   * @since Guava release 09 (in release 02 as {@code compose})
+   * @since 9.0 (in 2.0 as {@code compose})
    */
   public static <I, O> ListenableFuture<O> transform(ListenableFuture<I> future,
       final Function<? super I, ? extends O> function, Executor exec) {
@@ -498,7 +498,7 @@ public final class Futures {
    * @param function A Function to transform the results of the provided future
    *     to the results of the returned future.
    * @return A future that returns the result of the transformation.
-   * @since Guava release 10
+   * @since 10.0
    */
   @Beta
   public static <I, O> Future<O> lazyTransform(final Future<I> future,
@@ -573,12 +573,12 @@ public final class Futures {
    *     to the results of the returned future.  This will be run in the thread
    *     that calls one of the varieties of {@code get()}.
    * @return A future that computes result of the transformation
-   * @since Guava release 09 (in release 01 as {@code compose})
+   * @since 9.0 (in 1.0 as {@code compose})
    * @deprecated Obtain a {@code ListenableFuture} (following the advice in its
    *     documentation) and use {@link #transform(ListenableFuture, Function)}
    *     or use {@link #lazyTransform(Future, Function)}, which will apply the
    *     transformation on each call to {@code get()}.
-   *     <b>This method is scheduled for deletion in Guava release 11.</b>
+   *     <b>This method is scheduled for deletion in release 11.0.</b>
    */
   @Deprecated
   public static <I, O> Future<O> transform(final Future<I> future,
@@ -895,7 +895,7 @@ public final class Futures {
    * @param futures futures to combine
    * @return a future that provides a list of the results of the component
    *         futures
-   * @since Guava release 10
+   * @since 10.0
    */
   @Beta
   public static <V> ListenableFuture<List<V>> allAsList(
@@ -918,7 +918,7 @@ public final class Futures {
    * @param futures futures to combine
    * @return a future that provides a list of the results of the component
    *         futures
-   * @since Guava release 10
+   * @since 10.0
    */
   @Beta
   public static <V> ListenableFuture<List<V>> allAsList(
@@ -938,7 +938,7 @@ public final class Futures {
    * @param futures futures to combine
    * @return a future that provides a list of the results of the component
    *         futures
-   * @since Guava release 10
+   * @since 10.0
    */
   @Beta
   public static <V> ListenableFuture<List<V>> successfulAsList(
@@ -958,7 +958,7 @@ public final class Futures {
    * @param futures futures to combine
    * @return a future that provides a list of the results of the component
    *         futures
-   * @since Guava release 10
+   * @since 10.0
    */
   @Beta
   public static <V> ListenableFuture<List<V>> successfulAsList(
@@ -1007,7 +1007,7 @@ public final class Futures {
    *
    * @param future The future attach the callback to.
    * @param callback The callback to invoke when {@code future} is completed.
-   * @since Guava release 10
+   * @since 10.0
    */
   public static <V> void addCallback(ListenableFuture<V> future,
       FutureCallback<? super V> callback) {
@@ -1059,7 +1059,7 @@ public final class Futures {
    * @param callback The callback to invoke when {@code future} is completed.
    * @param executor The executor to run {@code callback} when the future
    *    completes.
-   * @since Guava release 10
+   * @since 10.0
    */
   public static <V> void addCallback(final ListenableFuture<V> future,
       final FutureCallback<? super V> callback, Executor executor) {
@@ -1129,7 +1129,7 @@ public final class Futures {
    *         CancellationException}
    * @throws IllegalArgumentException if {@code exceptionClass} extends {@code
    *         RuntimeException} or does not have a suitable constructor
-   * @since Guava release 10
+   * @since 10.0
    */
   @Beta
   public static <V, X extends Exception> V get(
@@ -1195,7 +1195,7 @@ public final class Futures {
    *         CancellationException}
    * @throws IllegalArgumentException if {@code exceptionClass} extends {@code
    *         RuntimeException} or does not have a suitable constructor
-   * @since Guava release 10
+   * @since 10.0
    */
   @Beta
   public static <V, X extends Exception> V get(
@@ -1264,7 +1264,7 @@ public final class Futures {
    *         with an {@code Error} as its cause
    * @throws CancellationException if {@code get} throws a {@code
    *         CancellationException}
-   * @since Guava release 10
+   * @since 10.0
    */
   @Beta
   public static <V> V getUnchecked(Future<V> future) {

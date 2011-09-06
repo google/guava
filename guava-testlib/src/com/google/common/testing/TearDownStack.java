@@ -28,7 +28,7 @@ import java.util.logging.Logger;
  * A {@code TearDownStack} contains a stack of {@link TearDown} instances.
  *
  * @author Kevin Bourrillion
- * @since Guava release 10
+ * @since 10.0
  */
 @Beta
 public class TearDownStack implements TearDownAccepter {

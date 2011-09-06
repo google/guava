@@ -38,7 +38,7 @@ import java.util.Comparator;
  * @author Louis Wasserman
  * @author Brian Milch
  * @author Peter Epstein
- * @since Guava release 10
+ * @since 10.0
  */
 @Beta
 @GwtCompatible

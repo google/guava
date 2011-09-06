@@ -23,7 +23,7 @@ import com.google.common.collect.ForwardingObject;
  * A {@link Service} that forwards all method calls to another service.
  *
  * @author Chris Nokleberg
- * @since Guava release 01
+ * @since 1.0
  */
 @Beta
 public abstract class ForwardingService extends ForwardingObject
@@ -62,7 +62,7 @@ public abstract class ForwardingService extends ForwardingObject
    * A sensible default implementation of {@link #startAndWait()}, in terms of
    * {@link #start}. If you override {@link #start}, you may wish to override
    * {@link #startAndWait()} to forward to this implementation.
-   * @since Guava release 09
+   * @since 9.0
    */
   protected State standardStartAndWait() {
     return Futures.getUnchecked(start());
@@ -72,7 +72,7 @@ public abstract class ForwardingService extends ForwardingObject
    * A sensible default implementation of {@link #stopAndWait()}, in terms of
    * {@link #stop}. If you override {@link #stop}, you may wish to override
    * {@link #stopAndWait()} to forward to this implementation.
-   * @since Guava release 09
+   * @since 9.0
    */
   protected State standardStopAndWait() {
     return Futures.getUnchecked(stop());

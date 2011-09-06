@@ -22,7 +22,7 @@ import java.io.IOException;
  * A factory for readable streams of bytes or characters.
  *
  * @author Chris Nokleberg
- * @since Guava release 01
+ * @since 1.0
  */
 public interface InputSupplier<T> {
 

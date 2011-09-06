@@ -42,7 +42,7 @@ import java.util.zip.Checksum;
  * <p>All method parameters must be non-null unless documented otherwise.
  *
  * @author Chris Nokleberg
- * @since Guava release 01
+ * @since 1.0
  */
 @Beta
 public final class ByteStreams {
@@ -160,7 +160,7 @@ public final class ByteStreams {
    * @param to the output factory
    * @return the number of bytes copied
    * @throws IOException if an I/O error occurs
-   * @since Guava release 10
+   * @since 10.0
    */
   public static long copy(InputStream from,
       OutputSupplier<? extends OutputStream> to) throws IOException {

@@ -44,7 +44,7 @@ import java.util.concurrent.locks.ReentrantLock;
  * @author Eric Fellheimer
  * @author Kyle Littlefield
  * @author Justin Mahoney
- * @since Guava release 03
+ * @since 3.0
  */
 public final class MoreExecutors {
   private MoreExecutors() {}
@@ -217,8 +217,8 @@ public final class MoreExecutors {
    * RejectedExecutionException, although a subset of the tasks may already
    * have been executed.
    *
-   * @since Guava release 10 (<a href="http://code.google.com/p/guava-libraries/wiki/Compatibility"
-   *        >mostly source-compatible</a> since Guava release 03)
+   * @since 10.0 (<a href="http://code.google.com/p/guava-libraries/wiki/Compatibility"
+   *        >mostly source-compatible</a> since 3.0)
    */
   public static ListeningExecutorService sameThreadExecutor() {
     return new SameThreadExecutorService();
@@ -364,7 +364,7 @@ public final class MoreExecutors {
    * ListeningExecutorService}, it is returned untouched, and the rest of this
    * documentation does not apply.
    *
-   * @since Guava release 10
+   * @since 10.0
    */
   public static ListeningExecutorService listeningDecorator(
       ExecutorService delegate) {
@@ -392,7 +392,7 @@ public final class MoreExecutors {
    * ListeningScheduledExecutorService}, it is returned untouched, and the rest
    * of this documentation does not apply.
    *
-   * @since Guava release 10
+   * @since 10.0
    */
   public static ListeningScheduledExecutorService listeningDecorator(
       ScheduledExecutorService delegate) {

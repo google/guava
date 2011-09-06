@@ -24,7 +24,7 @@ import com.google.common.base.Objects;
  * Contains additional assertion methods not found in JUnit.
  *
  * @author Kevin Bourillion
- * @since Guava release 10
+ * @since 10.0
  */
 @Beta
 @GwtCompatible

@@ -57,7 +57,7 @@ import javax.annotation.Nullable;
  * @author Kevin Bourrillion
  * @author Jared Levy
  * @author Chris Povirk
- * @since Guava release 02 (imported from Google Collections Library)
+ * @since 2.0 (imported from Google Collections Library)
  */
 @GwtCompatible(emulated = true)
 public final class Sets {
@@ -332,7 +332,7 @@ public final class Sets {
    * equals a set member, but isn't the same instance. This behavior is similar
    * to the way {@code IdentityHashMap} handles key lookups.
    *
-   * @since Guava release 08
+   * @since 8.0
    */
   public static <E> Set<E> newIdentityHashSet() {
     return Sets.newSetFromMap(Maps.<E, Boolean>newIdentityHashMap());
@@ -511,7 +511,7 @@ public final class Sets {
    * as a plain {@link Set}, or immediately invoke {@link #immutableCopy} or
    * {@link #copyInto} and forget the {@code SetView} itself.
    *
-   * @since Guava release 02 (imported from Google Collections Library)
+   * @since 2.0 (imported from Google Collections Library)
    */
   public abstract static class SetView<E> extends AbstractSet<E> {
     private SetView() {} // no subclasses but our own
@@ -687,7 +687,7 @@ public final class Sets {
    * on different equivalence relations (as {@code HashSet}, {@code TreeSet},
    * and the keySet of an {@code IdentityHashMap} all are).
    *
-   * @since Guava release 03
+   * @since 3.0
    */
   public static <E> SetView<E> symmetricDifference(
       Set<? extends E> set1, Set<? extends E> set2) {
@@ -799,7 +799,7 @@ public final class Sets {
    *     lists
    * @throws NullPointerException if {@code sets}, any one of the {@code sets},
    *     or any element of a provided set is null
-   * @since Guava release 02
+   * @since 2.0
    */
   public static <B> Set<List<B>> cartesianProduct(
       List<? extends Set<? extends B>> sets) {
@@ -855,7 +855,7 @@ public final class Sets {
    *     lists
    * @throws NullPointerException if {@code sets}, any one of the {@code sets},
    *     or any element of a provided set is null
-   * @since Guava release 02
+   * @since 2.0
    */
   public static <B> Set<List<B>> cartesianProduct(
       Set<? extends B>... sets) {
@@ -1019,7 +1019,7 @@ public final class Sets {
    * @throws NullPointerException if {@code set} is or contains {@code null}
    * @see <a href="http://en.wikipedia.org/wiki/Power_set">Power set article at
    *      Wikipedia</a>
-   * @since Guava release 04
+   * @since 4.0
    */
   @GwtCompatible(serializable = false)
   public static <E> Set<Set<E>> powerSet(Set<E> set) {

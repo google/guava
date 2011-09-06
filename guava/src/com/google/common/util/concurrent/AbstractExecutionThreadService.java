@@ -28,7 +28,7 @@ import java.util.concurrent.Executor;
  * threading manually.
  *
  * @author Jesse Wilson
- * @since Guava release 01
+ * @since 1.0
  */
 @Beta
 public abstract class AbstractExecutionThreadService implements Service {
@@ -154,7 +154,7 @@ public abstract class AbstractExecutionThreadService implements Service {
    *
    * <p>Subclasses may override this method.
    *
-   * @since Guava release 10
+   * @since 10.0
    */
   protected String getServiceName() {
     return getClass().getSimpleName();

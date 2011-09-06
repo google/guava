@@ -30,7 +30,7 @@ import javax.annotation.Nullable;
  *
  * @author Steve McKay
  *
- * @since Guava release 09
+ * @since 9.0
  */
 @GwtCompatible
 @Beta

@@ -50,7 +50,7 @@ import javax.annotation.Nullable;
  *
  * @author Kevin Bourrillion
  * @author Jared Levy
- * @since Guava release 02 (imported from Google Collections Library)
+ * @since 2.0 (imported from Google Collections Library)
  */
 @GwtCompatible(emulated = true)
 public final class Iterators {
@@ -130,7 +130,7 @@ public final class Iterators {
    * Simply returns its argument.
    *
    * @deprecated no need to use this
-   * @since Guava release 10
+   * @since 10.0
    */
   @Deprecated public static <T> UnmodifiableIterator<T> unmodifiableIterator(
       UnmodifiableIterator<T> iterator) {
@@ -203,7 +203,7 @@ public final class Iterators {
    * @param predicate a predicate that determines whether an element should
    *     be removed
    * @return {@code true} if any elements were removed from the iterator
-   * @since Guava release 02
+   * @since 2.0
    */
   public static <T> boolean removeIf(
       Iterator<T> removeFrom, Predicate<? super T> predicate) {
@@ -721,7 +721,7 @@ public final class Iterators {
    * returned from this method and the iterator will be left exhausted: its
    * {@code hasNext()} method will return {@code false}.
    *
-   * @since Guava release 07
+   * @since 7.0
    */
   public static <T> T find(Iterator<T> iterator, Predicate<? super T> predicate,
       @Nullable T defaultValue) {
@@ -743,7 +743,7 @@ public final class Iterators {
    * the iterator will be set to the element which satisfies the
    * {@code predicate}.
    *
-   * @since Guava release 02
+   * @since 2.0
    */
   public static <T> int indexOf(
       Iterator<T> iterator, Predicate<? super T> predicate) {
@@ -834,7 +834,7 @@ public final class Iterators {
    *     {@code defaultValue} if {@code iterator} produces fewer than
    *     {@code position + 1} elements.
    * @throws IndexOutOfBoundsException if {@code position} is negative
-   * @since Guava release 04
+   * @since 4.0
    */
   public static <T> T get(Iterator<T> iterator, int position,
       @Nullable T defaultValue) {
@@ -854,7 +854,7 @@ public final class Iterators {
    *
    * @param defaultValue the default value to return if the iterator is empty
    * @return the next element of {@code iterator} or the default value
-   * @since Guava release 07
+   * @since 7.0
    */
   public static <T> T getNext(Iterator<T> iterator, @Nullable T defaultValue) {
     return iterator.hasNext() ? iterator.next() : defaultValue;
@@ -881,7 +881,7 @@ public final class Iterators {
    *
    * @param defaultValue the default value to return if the iterator is empty
    * @return the last element of {@code iterator}
-   * @since Guava release 03
+   * @since 3.0
    */
   public static <T> T getLast(Iterator<T> iterator, @Nullable T defaultValue) {
     return iterator.hasNext() ? getLast(iterator) : defaultValue;
@@ -892,7 +892,7 @@ public final class Iterators {
    * or until {@code hasNext()} returns {@code false}, whichever comes first.
    *
    * @return the number of elements skipped
-   * @since Guava release 03
+   * @since 3.0
    */
   @Beta
   public static <T> int skip(Iterator<T> iterator, int numberToSkip) {
@@ -916,7 +916,7 @@ public final class Iterators {
    * @param iterator the iterator to limit
    * @param limitSize the maximum number of elements in the returned iterator
    * @throws IllegalArgumentException if {@code limitSize} is negative
-   * @since Guava release 03
+   * @since 3.0
    */
   public static <T> Iterator<T> limit(
       final Iterator<T> iterator, final int limitSize) {
@@ -957,7 +957,7 @@ public final class Iterators {
    * @param iterator the iterator to remove and return elements from
    * @return an iterator that removes and returns elements from the
    *     supplied iterator
-   * @since Guava release 02
+   * @since 2.0
    */
   public static <T> Iterator<T> consumingIterator(final Iterator<T> iterator) {
     checkNotNull(iterator);
@@ -1214,7 +1214,7 @@ public final class Iterators {
    * Simply returns its argument.
    *
    * @deprecated no need to use this
-   * @since Guava release 10
+   * @since 10.0
    */
   @Deprecated public static <T> PeekingIterator<T> peekingIterator(
       PeekingIterator<T> iterator) {

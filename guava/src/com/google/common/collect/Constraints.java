@@ -34,7 +34,7 @@ import java.util.SortedSet;
  * @see MapConstraints
  * @author Mike Bostock
  * @author Jared Levy
- * @since Guava release 03
+ * @since 3.0
  */
 @Beta
 @GwtCompatible

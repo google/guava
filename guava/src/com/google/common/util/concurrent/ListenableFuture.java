@@ -77,7 +77,7 @@ import java.util.concurrent.RejectedExecutionException;
  *
  * @author Sven Mawson
  * @author Nishant Thakkar
- * @since Guava release 01
+ * @since 1.0
  */
 public interface ListenableFuture<V> extends Future<V> {
   /**

@@ -30,7 +30,7 @@ import java.util.Comparator;
  * signedness is not an issue are in {@link Bytes}.
  *
  * @author Kevin Bourrillion
- * @since Guava release 01
+ * @since 1.0
  */
 // TODO(kevinb): how to prevent warning on UnsignedBytes when building GWT
 // javadoc?
@@ -41,7 +41,7 @@ public final class SignedBytes {
   /**
    * The largest power of two that can be represented as a signed {@code byte}. 
    *
-   * @since Guava release 10
+   * @since 10.0
    */
   public static final byte MAX_POWER_OF_TWO = 1 << 6;
   
@@ -166,7 +166,7 @@ public final class SignedBytes {
    *
    * @see <a href="http://en.wikipedia.org/wiki/Lexicographical_order">
    *     Lexicographical order article at Wikipedia</a>
-   * @since Guava release 02
+   * @since 2.0
    */
   public static Comparator<byte[]> lexicographicalComparator() {
     return LexicographicalComparator.INSTANCE;

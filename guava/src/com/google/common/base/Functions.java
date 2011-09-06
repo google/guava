@@ -34,7 +34,7 @@ import javax.annotation.Nullable;
  *
  * @author Mike Bostock
  * @author Jared Levy
- * @since Guava release 02 (imported from Google Collections Library)
+ * @since 2.0 (imported from Google Collections Library)
  */
 @GwtCompatible
 public final class Functions {
@@ -311,7 +311,7 @@ public final class Functions {
    * Returns a function that always returns the result of invoking {@link Supplier#get} on {@code
    * supplier}, regardless of its input.
    * 
-   * @since Guava release 10
+   * @since 10.0
    */
   @Beta
   public static <T> Function<Object, T> forSupplier(Supplier<T> supplier) {

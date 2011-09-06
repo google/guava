@@ -75,7 +75,7 @@ import javax.annotation.Nullable;
  * to one cell and a thread that reads from another.
  *
  * @author Jared Levy
- * @since Guava release 10
+ * @since 10.0
  */
 @Beta
 public final class ArrayTable<R, C, V> implements Table<R, C, V>, Serializable {

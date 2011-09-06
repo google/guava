@@ -24,7 +24,7 @@ import javax.annotation.Nullable;
  * Determines an output value based on an input value.
  *
  * @author Kevin Bourrillion
- * @since Guava release 02 (imported from Google Collections Library)
+ * @since 2.0 (imported from Google Collections Library)
  */
 @GwtCompatible
 public interface Function<F, T> {

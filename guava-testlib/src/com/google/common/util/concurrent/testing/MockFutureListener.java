@@ -31,7 +31,7 @@ import java.util.concurrent.TimeUnit;
  * testing ListenableFutures.
  *
  * @author Nishant Thakkar
- * @since Guava release 10
+ * @since 10.0
  */
 @Beta
 public class MockFutureListener implements Runnable {

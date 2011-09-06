@@ -41,7 +41,7 @@ import java.util.logging.Logger;
  *
  * @author Nishant Thakkar
  * @author Sven Mawson
- * @since Guava release 01
+ * @since 1.0
  */
 public final class ExecutionList {
 
@@ -128,7 +128,7 @@ public final class ExecutionList {
    * <p>This method is idempotent. Calling it several times in parallel is
    * semantically equivalent to calling it exactly once.
    *
-   * @since Guava release 10 (present in release 01 as {@code run})
+   * @since 10.0 (present in 1.0 as {@code run})
    */
   public void execute() {
     // Lock while we update our state so the add method above will finish adding

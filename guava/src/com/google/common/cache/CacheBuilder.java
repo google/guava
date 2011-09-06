@@ -48,7 +48,6 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import javax.annotation.CheckReturnValue;
@@ -108,6 +107,16 @@ import javax.annotation.Nullable;
  * the cache to be reclaimed by the garbage collector. If this happens, the entry automatically
  * disappears from the cache. A partially-reclaimed entry is never exposed to the user.
  *
+ * <p>Certain cache configurations will result in the accrual of periodic maintenance tasks which
+ * will be performed during write operations, or during occasional read operations in the absense of
+ * writes. The {@link Cache#cleanUp} method of the returned cache will also perform maintenance, but
+ * calling it should not be necessary with a high throughput cache. Only caches built with
+ * {@linkplain CacheBuilder#removalListener removalListener},
+ * {@linkplain CacheBuilder#expireAfterWrite expireAfterWrite},
+ * {@linkplain CacheBuilder#expireAfterAccess expireAfterAccess},
+ * {@linkplain CacheBuilder#weakKeys weakKeys}, {@linkplain CacheBuilder#weakValues weakValues},
+ * or {@linkplain CacheBuilder#softValues softValues} perform periodic maintenance.
+ *
  * <p>The caches produced by {@code CacheBuilder} are serializable, and the deserialized caches
  * retain all the configuration properties of the original cache.
  *
@@ -115,7 +124,7 @@ import javax.annotation.Nullable;
  * @param <V> the base value type for all caches created by this builder
  * @author Charles Fry
  * @author Kevin Bourrillion
- * @since Guava release 10
+ * @since 10.0
  */
 @Beta
 public final class CacheBuilder<K, V> {
@@ -181,7 +190,6 @@ public final class CacheBuilder<K, V> {
 
   RemovalListener<K, V> removalListener;
 
-  ScheduledExecutorService cleanupExecutor;
   Ticker ticker;
 
   // TODO(user): make constructor private and update tests to use newBuilder
@@ -328,6 +336,10 @@ public final class CacheBuilder<K, V> {
    * <p><b>Warning:</b> when this method is used, the resulting cache will use identity ({@code ==})
    * comparison to determine equality of keys.
    *
+   * <p>Entries with keys that have been garbage collected may be counted by {@link Cache#size}, but
+   * will never be visible to read or write operations. Entries with garbage collected keys are
+   * cleaned up as part of the routine maintenance described in the class javadoc.
+   *
    * @throws IllegalStateException if the key strength was already set
    */
   public CacheBuilder<K, V> weakKeys() {
@@ -363,6 +375,10 @@ public final class CacheBuilder<K, V> {
    * <p><b>Note:</b> when this method is used, the resulting cache will use identity ({@code ==})
    * comparison to determine equality of values.
    *
+   * <p>Entries with values that have been garbage collected may be counted by {@link Cache#size},
+   * but will never be visible to read or write operations. Entries with garbage collected keys are
+   * cleaned up as part of the routine maintenance described in the class javadoc.
+   *
    * @throws IllegalStateException if the value strength was already set
    */
   public CacheBuilder<K, V> weakValues() {
@@ -381,6 +397,10 @@ public final class CacheBuilder<K, V> {
    *
    * <p><b>Note:</b> when this method is used, the resulting cache will use identity ({@code ==})
    * comparison to determine equality of values.
+   *
+   * <p>Entries with values that have been garbage collected may be counted by {@link Cache#size},
+   * but will never be visible to read or write operations. Entries with garbage collected values
+   * are cleaned up as part of the routine maintenance described in the class javadoc.
    *
    * @throws IllegalStateException if the value strength was already set
    */
@@ -407,9 +427,8 @@ public final class CacheBuilder<K, V> {
    * can be useful in testing, or to disable caching temporarily without a code change.
    *
    * <p>Expired entries may be counted by {@link Cache#size}, but will never be visible to read or
-   * write operations. Expired entries are currently cleaned up during write operations, or during
-   * occasional read operations in the absense of writes; though this behavior may change in the
-   * future.
+   * write operations. Expired entries are cleaned up as part of the routine maintenance described
+   * in the class javadoc.
    *
    * @param duration the length of time after an entry is created that it should be automatically
    *     removed
@@ -450,9 +469,8 @@ public final class CacheBuilder<K, V> {
    * can be useful in testing, or to disable caching temporarily without a code change.
    *
    * <p>Expired entries may be counted by {@link Cache#size}, but will never be visible to read or
-   * write operations. Expired entries are currently cleaned up during write operations, or during
-   * occasional read operations in the absense of writes; though this behavior may change in the
-   * future.
+   * write operations. Expired entries are cleaned up as part of the routine maintenance described
+   * in the class javadoc.
    *
    * @param duration the length of time after an entry is last accessed that it should be
    *     automatically removed
@@ -473,10 +491,6 @@ public final class CacheBuilder<K, V> {
   long getExpireAfterAccessNanos() {
     return (expireAfterAccessNanos == UNSET_INT)
         ? DEFAULT_EXPIRATION_NANOS : expireAfterAccessNanos;
-  }
-
-  ScheduledExecutorService getCleanupExecutor() {
-    return cleanupExecutor;
   }
 
   /**
@@ -504,8 +518,8 @@ public final class CacheBuilder<K, V> {
    *
    * <p>Each cache built by this {@code CacheBuilder} after this method is called invokes the
    * supplied listener after removing an element for any reason (see removal causes in {@link
-   * RemovalCause}). It will invoke the listener during invocations of any of that cache's public
-   * methods (even read-only methods).
+   * RemovalCause}). It will invoke the listener as part of the routine maintenance described
+   * in the class javadoc.
    *
    * <p><b>Important note:</b> Instead of returning <em>this</em> as a {@code CacheBuilder}
    * instance, this method returns {@code CacheBuilder<K1, V1>}. From this point on, either the
@@ -594,9 +608,6 @@ public final class CacheBuilder<K, V> {
     }
     if (removalListener != null) {
       s.addValue("removalListener");
-    }
-    if (cleanupExecutor != null) {
-      s.addValue("cleanupExecutor");
     }
     return s.toString();
   }

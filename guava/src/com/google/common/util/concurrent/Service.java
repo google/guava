@@ -42,7 +42,7 @@ import java.util.concurrent.ExecutionException;
  * AbstractIdleService}, which make the threading and state management easier.
  *
  * @author Jesse Wilson
- * @since Guava release 09 (in release 01 as
+ * @since 9.0 (in 1.0 as
  *     {@code com.google.common.base.Service})
  */
 @Beta // TODO(kevinb): make abstract class?
@@ -119,7 +119,7 @@ public interface Service {
   /**
    * The lifecycle states of a service.
    *
-   * @since Guava release 09 (in release 01 as
+   * @since 9.0 (in 1.0 as
    *     {@code com.google.common.base.Service.State})
    */
   @Beta // should come out of Beta when Service does

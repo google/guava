@@ -109,7 +109,7 @@ import javax.annotation.Nullable;
  * @author Bob Lee
  * @author Charles Fry
  * @author Kevin Bourrillion
- * @since Guava release 02 (imported from Google Collections Library)
+ * @since 2.0 (imported from Google Collections Library)
  */
 @GwtCompatible(emulated = true)
 public final class MapMaker extends GenericMapMaker<Object, Object> {
@@ -226,12 +226,12 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    *
    * <p>Caching functionality in {@code MapMaker} is being moved to
    * {@link com.google.common.cache.CacheBuilder}.
-   * <b>This method is scheduled for deletion in Guava release 11.</b>
+   * <b>This method is scheduled for deletion in release 11.0.</b>
    *
    * @param size the maximum size of the map
    * @throws IllegalArgumentException if {@code size} is negative
    * @throws IllegalStateException if a maximum size was already set
-   * @since Guava release 08
+   * @since 8.0
    */
   @Beta
   @Override
@@ -261,7 +261,7 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    * at a time, but since read operations can proceed concurrently, this still yields higher
    * concurrency than full synchronization. Defaults to 4.
    *
-   * <p><b>Note:</b> Prior to Guava release 09, the default was 16. It is possible the default will
+   * <p><b>Note:</b> Prior to release 9.0, the default was 16. It is possible the default will
    * change again in the future. If you care about this value, you should always choose it
    * explicitly.
    *
@@ -450,14 +450,14 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    *
    * <p>Caching functionality in {@code MapMaker} is being moved to
    * {@link com.google.common.cache.CacheBuilder}.
-   * <b>This method is scheduled for deletion in Guava release 11.</b>
+   * <b>This method is scheduled for deletion in release 11.0.</b>
    *
    * @param duration the length of time after an entry is created that it should be automatically
    *     removed
    * @param unit the unit that {@code duration} is expressed in
    * @throws IllegalArgumentException if {@code duration} is negative
    * @throws IllegalStateException if the time to live or time to idle was already set
-   * @since Guava release 08
+   * @since 8.0
    */
   @Override
   @Deprecated
@@ -500,14 +500,14 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    *
    * <p>Caching functionality in {@code MapMaker} is being moved to
    * {@link com.google.common.cache.CacheBuilder}.
-   * <b>This method is scheduled for deletion in Guava release 11.</b>
+   * <b>This method is scheduled for deletion in release 11.0.</b>
    *
    * @param duration the length of time after an entry is last accessed that it should be
    *     automatically removed
    * @param unit the unit that {@code duration} is expressed in
    * @throws IllegalArgumentException if {@code duration} is negative
    * @throws IllegalStateException if the time to idle or time to live was already set
-   * @since Guava release 08
+   * @since 8.0
    */
   @GwtIncompatible("To be supported")
   @Override
@@ -602,7 +602,7 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    *     explicit removal (providing the {@link com.google.common.cache.RemovalCause} to
    *     indicate the specific cause of removal. <b>This method is scheduled for deletion in Guava
    *     release 11.</b>
-   * @since Guava release 07
+   * @since 7.0
    */
   @Beta
   @Deprecated

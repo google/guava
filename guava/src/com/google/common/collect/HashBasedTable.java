@@ -47,7 +47,7 @@ import javax.annotation.Nullable;
  * must be synchronized externally.
  *
  * @author Jared Levy
- * @since Guava release 07
+ * @since 7.0
  */
 @GwtCompatible(serializable = true)
 @Beta

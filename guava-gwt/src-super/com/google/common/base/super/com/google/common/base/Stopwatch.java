@@ -65,7 +65,7 @@ import java.util.concurrent.TimeUnit;
  * <p><b>Note:</b> This class is not thread-safe.
  *
  * @author Kevin Bourrillion
- * @since Guava release 10
+ * @since 10.0
  */
 @Beta
 @GwtCompatible(emulated=true)

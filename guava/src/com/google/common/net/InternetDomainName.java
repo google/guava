@@ -70,7 +70,7 @@ import javax.annotation.Nullable;
  * Punycode-encoded</a> versions.
  *
  * @author Craig Berry
- * @since Guava release 05
+ * @since 5.0
  */
 @Beta
 @GwtCompatible(emulated = true)
@@ -193,7 +193,7 @@ public final class InternetDomainName {
    * @param domain A domain name (not IP address)
    * @throws IllegalArgumentException if {@code name} is not syntactically valid
    *     according to {@link #isValidLenient}
-   * @since Guava release 08 (previously named {@code from})
+   * @since 8.0 (previously named {@code from})
    * @deprecated Use {@link #from(String)}
    */
   @Deprecated
@@ -218,7 +218,7 @@ public final class InternetDomainName {
    * @param domain A domain name (not IP address)
    * @throws IllegalArgumentException if {@code name} is not syntactically valid
    *     according to {@link #isValidLenient}
-   * @since Guava release 10 (previously named {@code fromLenient})
+   * @since 10.0 (previously named {@code fromLenient})
    */
   public static InternetDomainName from(String domain) {
     return new InternetDomainName(checkNotNull(domain));
@@ -336,7 +336,7 @@ public final class InternetDomainName {
    *
    * @return {@code true} if this domain name appears exactly on the public
    *     suffix list
-   * @since Guava release 06
+   * @since 6.0
    */
   public boolean isPublicSuffix() {
     return publicSuffixIndex == 0;
@@ -350,7 +350,7 @@ public final class InternetDomainName {
    * the recommended method for determining whether a domain is potentially an
    * addressable host.
    *
-   * @since Guava release 06
+   * @since 6.0
    */
   public boolean hasPublicSuffix() {
     return publicSuffixIndex != NO_PUBLIC_SUFFIX_FOUND;
@@ -360,7 +360,7 @@ public final class InternetDomainName {
    * Returns the {@linkplain #isPublicSuffix() public suffix} portion of the
    * domain name, or {@code null} if no public suffix is present.
    *
-   * @since Guava release 06
+   * @since 6.0
    */
   public InternetDomainName publicSuffix() {
     return hasPublicSuffix() ? ancestor(publicSuffixIndex) : null;
@@ -383,7 +383,7 @@ public final class InternetDomainName {
    * individual browsers' implementations of cookie controls. See
    * <a href="http://www.ietf.org/rfc/rfc2109.txt">RFC 2109</a> for details.
    *
-   * @since Guava release 06
+   * @since 6.0
    */
   public boolean isUnderPublicSuffix() {
     return publicSuffixIndex > 0;
@@ -407,7 +407,7 @@ public final class InternetDomainName {
    * individual browsers' implementations of cookie controls. See
    * <a href="http://www.ietf.org/rfc/rfc2109.txt">RFC 2109</a> for details.
    *
-   * @since Guava release 06
+   * @since 6.0
    */
   public boolean isTopPrivateDomain() {
     return publicSuffixIndex == 1;
@@ -433,7 +433,7 @@ public final class InternetDomainName {
    *
    * @throws IllegalStateException if this domain does not end with a
    *     public suffix
-   * @since Guava release 06
+   * @since 6.0
    */
   public InternetDomainName topPrivateDomain() {
     if (isTopPrivateDomain()) {
@@ -492,7 +492,7 @@ public final class InternetDomainName {
   /**
    * A deprecated synonym for {@link #isValid(String)}.
    *
-   * @since Guava release 08 (previously named {@code isValid})
+   * @since 8.0 (previously named {@code isValid})
    * @deprecated Use {@link #isValid(String)} instead
    */
   @Deprecated
@@ -523,7 +523,7 @@ public final class InternetDomainName {
    *     domainName = DEFAULT_DOMAIN;
    *   }}</pre>
    *
-   * @since Guava release 08 (previously named {@code isValidLenient})
+   * @since 8.0 (previously named {@code isValidLenient})
    */
   public static boolean isValid(String name) {
     try {

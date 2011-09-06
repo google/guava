@@ -49,7 +49,7 @@ import javax.annotation.Nullable;
  * @param <R> the type of the table row keys
  * @param <C> the type of the table column keys
  * @param <V> the type of the mapped values
- * @since Guava release 07
+ * @since 7.0
  */
 @GwtCompatible
 @Beta
@@ -257,7 +257,7 @@ public interface Table<R, C, V> {
   /**
    * Row key / column key / value triplet corresponding to a mapping in a table.
    *
-   * @since Guava release 07
+   * @since 7.0
    */
   @Beta
   interface Cell<R, C, V> {

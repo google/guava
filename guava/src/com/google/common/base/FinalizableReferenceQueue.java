@@ -35,7 +35,7 @@ import java.util.logging.Logger;
  * finalizeReferent()} on the remaining references.
  *
  * @author Bob Lee
- * @since Guava release 02 (imported from Google Collections Library)
+ * @since 2.0 (imported from Google Collections Library)
  */
 public
 class FinalizableReferenceQueue {

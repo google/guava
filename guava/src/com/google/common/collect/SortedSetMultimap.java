@@ -40,7 +40,7 @@ import javax.annotation.Nullable;
  * values.
  *
  * @author Jared Levy
- * @since Guava release 02 (imported from Google Collections Library)
+ * @since 2.0 (imported from Google Collections Library)
  */
 @GwtCompatible
 public interface SortedSetMultimap<K, V> extends SetMultimap<K, V> {

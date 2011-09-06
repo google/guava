@@ -34,7 +34,7 @@ import java.util.concurrent.TimeoutException;
  * href="http://en.wikipedia.org/wiki/Decorator_pattern">decorator pattern</a>.
  *
  * @author Kurt Alfred Kluever
- * @since Guava release 10
+ * @since 10.0
  */
 public abstract class ForwardingExecutorService extends ForwardingObject
     implements ExecutorService {

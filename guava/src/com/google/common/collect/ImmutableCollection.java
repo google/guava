@@ -35,7 +35,7 @@ import javax.annotation.Nullable;
  * instances of this type are guaranteed to be immutable.
  *
  * @author Jesse Wilson
- * @since Guava release 02 (imported from Google Collections Library)
+ * @since 2.0 (imported from Google Collections Library)
  */
 @GwtCompatible(emulated = true)
 @SuppressWarnings("serial") // we're overriding default serialization
@@ -150,7 +150,7 @@ public abstract class ImmutableCollection<E>
   /**
    * Returns a list view of the collection.
    *
-   * @since Guava release 02
+   * @since 2.0
    */
   public ImmutableList<E> asList() {
     ImmutableList<E> list = asList;
@@ -269,7 +269,7 @@ public abstract class ImmutableCollection<E>
   /**
    * Abstract base class for builders of {@link ImmutableCollection} types.
    *
-   * @since Guava release 10
+   * @since 10.0
    */
   public abstract static class Builder<E> {
 

@@ -43,7 +43,7 @@ import javax.annotation.Nullable;
  *
  * @author Kevin Bourrillion
  * @author Louis Wasserman
- * @since Guava release 02 (imported from Google Collections Library)
+ * @since 2.0 (imported from Google Collections Library)
  */
 @GwtCompatible
 public abstract class ForwardingCollection<E> extends ForwardingObject
@@ -125,7 +125,7 @@ public abstract class ForwardingCollection<E> extends ForwardingObject
    * If you override {@link #iterator}, you may wish to override {@link
    * #contains} to forward to this implementation.
    *
-   * @since Guava release 07
+   * @since 7.0
    */
   @Beta protected boolean standardContains(@Nullable Object object) {
     return Iterators.contains(iterator(), object);
@@ -136,7 +136,7 @@ public abstract class ForwardingCollection<E> extends ForwardingObject
    * . If you override {@link #contains}, you may wish to override {@link
    * #containsAll} to forward to this implementation.
    *
-   * @since Guava release 07
+   * @since 7.0
    */
   @Beta protected boolean standardContainsAll(Collection<?> collection) {
     for (Object o : collection) {
@@ -152,7 +152,7 @@ public abstract class ForwardingCollection<E> extends ForwardingObject
    * override {@link #add}, you may wish to override {@link #addAll} to forward
    * to this implementation.
    *
-   * @since Guava release 07
+   * @since 7.0
    */
   @Beta protected boolean standardAddAll(Collection<? extends E> collection) {
     return Iterators.addAll(this, collection.iterator());
@@ -164,7 +164,7 @@ public abstract class ForwardingCollection<E> extends ForwardingObject
    * #iterator}, you may wish to override {@link #remove} to forward to this
    * implementation.
    *
-   * @since Guava release 07
+   * @since 7.0
    */
   @Beta protected boolean standardRemove(@Nullable Object object) {
     Iterator<E> iterator = iterator();
@@ -183,7 +183,7 @@ public abstract class ForwardingCollection<E> extends ForwardingObject
    * #iterator}, you may wish to override {@link #removeAll} to forward to this
    * implementation.
    *
-   * @since Guava release 07
+   * @since 7.0
    */
   @Beta protected boolean standardRemoveAll(Collection<?> collection) {
     return Iterators.removeAll(iterator(), collection);
@@ -195,7 +195,7 @@ public abstract class ForwardingCollection<E> extends ForwardingObject
    * #iterator}, you may wish to override {@link #retainAll} to forward to this
    * implementation.
    *
-   * @since Guava release 07
+   * @since 7.0
    */
   @Beta protected boolean standardRetainAll(Collection<?> collection) {
     return Iterators.retainAll(iterator(), collection);
@@ -207,7 +207,7 @@ public abstract class ForwardingCollection<E> extends ForwardingObject
    * #iterator}, you may wish to override {@link #clear} to forward to this
    * implementation.
    *
-   * @since Guava release 07
+   * @since 7.0
    */
   @Beta protected void standardClear() {
     Iterator<E> iterator = iterator();
@@ -223,7 +223,7 @@ public abstract class ForwardingCollection<E> extends ForwardingObject
    * to forward to this implementation. Alternately, it may be more efficient to
    * implement {@code isEmpty} as {@code size() == 0}.
    *
-   * @since Guava release 07
+   * @since 7.0
    */
   @Beta protected boolean standardIsEmpty() {
     return !iterator().hasNext();
@@ -234,7 +234,7 @@ public abstract class ForwardingCollection<E> extends ForwardingObject
    * If you override {@link #iterator}, you may wish to override {@link
    * #toString} to forward to this implementation.
    *
-   * @since Guava release 07
+   * @since 7.0
    */
   @Beta protected String standardToString() {
     return Collections2.toStringImpl(this);
@@ -245,7 +245,7 @@ public abstract class ForwardingCollection<E> extends ForwardingObject
    * #toArray(Object[])}. If you override {@link #toArray(Object[])}, you may
    * wish to override {@link #toArray} to forward to this implementation.
    *
-   * @since Guava release 07
+   * @since 7.0
    */
   @Beta protected Object[] standardToArray() {
     Object[] newArray = new Object[size()];
@@ -257,7 +257,7 @@ public abstract class ForwardingCollection<E> extends ForwardingObject
    * #size} and {@link #iterator}. If you override either of these methods, you
    * may wish to override {@link #toArray} to forward to this implementation.
    *
-   * @since Guava release 07
+   * @since 7.0
    */
   @Beta protected <T> T[] standardToArray(T[] array) {
     return ObjectArrays.toArrayImpl(this, array);

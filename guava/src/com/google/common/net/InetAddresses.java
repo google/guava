@@ -113,7 +113,7 @@ import javax.annotation.Nullable;
  * </ul>
  *
  * @author Erik Kline
- * @since Guava release 05
+ * @since 5.0
  */
 @Beta
 public final class InetAddresses {
@@ -385,7 +385,7 @@ public final class InetAddresses {
    *
    * @param ip {@link InetAddress} to be converted to an address string
    * @return {@code String} containing the text-formatted IP address
-   * @since Guava release 10
+   * @since 10.0
    */
   public static String toAddrString(InetAddress ip) {
     Preconditions.checkNotNull(ip);
@@ -666,7 +666,7 @@ public final class InetAddresses {
    * <a target="_parent" href="http://tools.ietf.org/html/rfc4380"
    *    >http://tools.ietf.org/html/rfc4380</a>.
    *
-   * @since Guava release 05
+   * @since 5.0
    */
   @Beta
   public static final class TeredoInfo {
@@ -837,7 +837,7 @@ public final class InetAddresses {
    * @param ip {@link Inet6Address} to be examined for embedded IPv4
    *           client address.
    * @return {@code true} if there is an embedded IPv4 client address.
-   * @since Guava release 07
+   * @since 7.0
    */
   public static boolean hasEmbeddedIPv4ClientAddress(Inet6Address ip) {
     return isCompatIPv4Address(ip) || is6to4Address(ip) ||
@@ -898,7 +898,7 @@ public final class InetAddresses {
    * @param ipString {@code String} to be examined for embedded IPv4-mapped
    *     IPv6 address format
    * @return {@code true} if the argument is a valid "mapped" address
-   * @since Guava release 10
+   * @since 10.0
    */
   public static boolean isMappedIPv4Address(String ipString) {
     byte[] bytes = ipStringToBytes(ipString);
@@ -936,7 +936,7 @@ public final class InetAddresses {
    *
    * @param ip {@link InetAddress} to "coerce"
    * @return {@link Inet4Address} represented "coerced" address
-   * @since Guava release 07
+   * @since 7.0
    */
   public static Inet4Address getCoercedIPv4Address(InetAddress ip) {
     if (ip instanceof Inet4Address) {
@@ -1023,7 +1023,7 @@ public final class InetAddresses {
    *
    * @param ip {@link InetAddress} to convert
    * @return {@code int}, "coerced" if ip is not an IPv4 address
-   * @since Guava release 07
+   * @since 7.0
    */
   public static int coerceToInteger(InetAddress ip) {
     return ByteStreams.newDataInput(getCoercedIPv4Address(ip).getAddress()).readInt();
@@ -1068,7 +1068,7 @@ public final class InetAddresses {
    * @return a new InetAddress that is one more than the passed in address.
    * @throws IllegalArgumentException if InetAddress is at the end of its
    *         range.
-   * @since Guava release 10
+   * @since 10.0
    */
   public static InetAddress increment(InetAddress address) {
     byte[] addr = address.getAddress();
@@ -1095,7 +1095,7 @@ public final class InetAddresses {
    *
    * @return true if the InetAddress is either 255.255.255.255 for IPv4 or
    *          ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff for IPv6.
-   * @since Guava release 10
+   * @since 10.0
    */
   public static boolean isMaximum(InetAddress address) {
     byte[] addr = address.getAddress();

@@ -31,7 +31,7 @@ import java.util.Queue;
  * objects, not just instances of {@link Reader}.
  *
  * @author Chris Nokleberg
- * @since Guava release 01
+ * @since 1.0
  */
 @Beta
 public final class LineReader {

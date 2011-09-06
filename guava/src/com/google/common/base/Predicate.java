@@ -24,7 +24,7 @@ import javax.annotation.Nullable;
  * Determines a true or false value for a given input.
  *
  * @author Kevin Bourrillion
- * @since Guava release 02 (imported from Google Collections Library)
+ * @since 2.0 (imported from Google Collections Library)
  */
 @GwtCompatible
 public interface Predicate<T> {

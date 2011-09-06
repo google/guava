@@ -43,7 +43,7 @@ import javax.annotation.Nullable;
  * Static utility methods pertaining to {@link SortedMap} instances.
  *
  * @author Louis Wasserman
- * @since Guava release 08
+ * @since 8.0
  */
 @Beta
 @GwtCompatible

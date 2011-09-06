@@ -47,7 +47,7 @@ import javax.annotation.Nullable;
  *
  * @author Mark Davis
  * @author Kevin Bourrillion
- * @since Guava release 02
+ * @since 2.0
  */
 @GwtCompatible
 public abstract class ComparisonChain {

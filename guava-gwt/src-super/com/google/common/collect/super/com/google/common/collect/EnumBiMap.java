@@ -29,7 +29,7 @@ import java.util.Map;
  * serializable.
  *
  * @author Mike Bostock
- * @since Guava release 02 (imported from Google Collections Library)
+ * @since 2.0 (imported from Google Collections Library)
  */
 @GwtCompatible(emulated = true)
 public final class EnumBiMap<K extends Enum<K>, V extends Enum<V>>

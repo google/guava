@@ -38,7 +38,7 @@ import javax.annotation.Nullable;
  * Provides static methods that involve a {@code Table}.
  *
  * @author Jared Levy
- * @since Guava release 07
+ * @since 7.0
  */
 @GwtCompatible
 @Beta
@@ -355,7 +355,7 @@ public final class Tables {
    * @param factory supplier of new, empty maps that will each hold all column
    *     key / value mappings for a given row key
    * @throws IllegalArgumentException if {@code backingMap} is not empty
-   * @since Guava release 10
+   * @since 10.0
    */
   public static <R, C, V> Table<R, C, V> newCustomTable(
       Map<R, Map<C, V>> backingMap, Supplier<? extends Map<C, V>> factory) {
@@ -389,7 +389,7 @@ public final class Tables {
    * be fast. To avoid lazy evaluation when the returned table doesn't need to
    * be a view, copy the returned table into a new table of your choosing.
    *
-   * @since Guava release 10
+   * @since 10.0
    */
   public static <R, C, V1, V2> Table<R, C, V2> transformValues(
       Table<R, C, V1> fromTable, Function<? super V1, V2> function) {

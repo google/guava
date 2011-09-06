@@ -29,7 +29,7 @@ import java.util.concurrent.TimeUnit;
  * {@link MoreExecutors#listeningDecorator(ExecutorService)}.
  *
  * @author Chris Povirk
- * @since Guava release 10
+ * @since 10.0
  */
 public interface ListeningExecutorService extends ExecutorService {
   /**

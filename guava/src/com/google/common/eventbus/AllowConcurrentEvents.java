@@ -31,7 +31,7 @@ import java.lang.annotation.Target;
  * in combination with {@link Subscribe}.
  *
  * @author Cliff Biffle
- * @since Guava release 10
+ * @since 10.0
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)

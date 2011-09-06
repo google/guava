@@ -39,7 +39,7 @@ import java.util.RandomAccess;
  * UnsignedBytes}.
  *
  * @author Kevin Bourrillion
- * @since Guava release 01
+ * @since 1.0
  */
 // TODO(kevinb): how to prevent warning on UnsignedBytes when building GWT
 // javadoc?

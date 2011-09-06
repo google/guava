@@ -191,7 +191,7 @@ import javax.annotation.concurrent.GuardedBy;
  *   }}</pre>
  * 
  * @author Justin T. Sampson
- * @since Guava release 10
+ * @since 10.0
  */
 @Beta
 public final class Monitor {
@@ -218,7 +218,7 @@ public final class Monitor {
    * <p>If a {@code Guard} is passed into any method of a {@code Monitor} other than the one it is
    * associated with, an {@link IllegalMonitorStateException} is thrown.
    *
-   * @since Guava release 10
+   * @since 10.0
    */
   @Beta
   public abstract static class Guard {

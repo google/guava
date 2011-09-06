@@ -43,7 +43,7 @@ import javax.annotation.Nullable;
  * @author Mike Bostock
  * @see MapConstraints
  * @see Constraint
- * @since Guava release 03
+ * @since 3.0
  */
 @GwtCompatible
 @Beta

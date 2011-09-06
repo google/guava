@@ -33,8 +33,8 @@ import javax.annotation.Nullable;
  * @author Bob Lee
  * @author Ben Yu
  * @author Gregory Kick
- * @since Guava release 10 (<a href="http://code.google.com/p/guava-libraries/wiki/Compatibility"
- *        >mostly source-compatible</a> since Guava release 04)
+ * @since 10.0 (<a href="http://code.google.com/p/guava-libraries/wiki/Compatibility"
+ *        >mostly source-compatible</a> since 4.0)
  */
 @Beta
 @GwtCompatible
@@ -78,7 +78,7 @@ public abstract class Equivalence<T> {
    * <p>Called by {@link #equivalent}. {@code a} and {@code b} are not the same
    * object and are not nulls.
    *
-   * @since Guava release 10 (previously, subclasses would override equivalent())
+   * @since 10.0 (previously, subclasses would override equivalent())
    */
   protected abstract boolean doEquivalent(T a, T b);
 
@@ -110,7 +110,7 @@ public abstract class Equivalence<T> {
    *
    * <p>Called by {@link #hash}.
    *
-   * @since Guava release 10 (previously, subclasses would override hash())
+   * @since 10.0 (previously, subclasses would override hash())
    */
   protected abstract int doHash(T t);
 
@@ -135,7 +135,7 @@ public abstract class Equivalence<T> {
    * because it's not guaranteed that {@link Object#toString}) always returns the same string
    * instance.
    * 
-   * @since Guava release 10
+   * @since 10.0
    */
   public final <F> Equivalence<F> onResultOf(Function<F, ? extends T> function) {
     return new FunctionalEquivalence<F, T>(function, this);
@@ -146,7 +146,7 @@ public abstract class Equivalence<T> {
    * {@link Wrapper#equals(Object) Object.equals()} such that
    * {@code wrap(this, a).equals(wrap(this, b))} if and only if {@code this.equivalent(a, b)}.
    * 
-   * @since Guava release 10
+   * @since 10.0
    */
   public final <S extends T> Wrapper<S> wrap(@Nullable S reference) {
     return new Wrapper<S>(this, reference);
@@ -170,7 +170,7 @@ public abstract class Equivalence<T> {
    *   equiv.wrap(obj).equals(obj) // always false
    * }</pre>
    *
-   * @since Guava release 10
+   * @since 10.0
    */
   @Beta
   public static final class Wrapper<T> implements Serializable {
@@ -238,7 +238,7 @@ public abstract class Equivalence<T> {
    * <p>Note that this method performs a similar function for equivalences as {@link
    * com.google.common.collect.Ordering#lexicographical} does for orderings.
    *
-   * @since Guava release 10
+   * @since 10.0
    */
   @GwtCompatible(serializable = true)
   public final <S extends T> Equivalence<Iterable<S>> pairwise() {
@@ -251,7 +251,7 @@ public abstract class Equivalence<T> {
    * Returns a predicate that evaluates to true if and only if the input is
    * equivalent to {@code target} according to this equivalence relation.
    * 
-   * @since Guava release 10
+   * @since 10.0
    */
   public final Predicate<T> equivalentTo(@Nullable T target) {
     return new EquivalentToPredicate<T>(this, target);

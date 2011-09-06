@@ -26,7 +26,7 @@ import java.util.Iterator;
  * A {@link Reader} that will concatenates multiple readers
  *
  * @author Bin Zhu
- * @since Guava release 01
+ * @since 1.0
  */
 class MultiReader extends Reader {
   private final Iterator<? extends InputSupplier<? extends Reader>> it;

@@ -26,7 +26,7 @@ import java.util.concurrent.ConcurrentMap;
  * The reason why a cached entry was removed.
  *
  * @author Charles Fry
- * @since Guava release 10
+ * @since 10.0
  */
 @Beta
 public enum RemovalCause {

@@ -29,7 +29,7 @@ import java.io.Serializable;
  * @author Bob Lee
  * @author Kurt Alfred Kluever
  * @author Gregory Kick
- * @since Guava release 04
+ * @since 4.0
  */
 @Beta
 @GwtCompatible
@@ -42,8 +42,8 @@ public final class Equivalences {
    * value is null and {@link Object#equals} returns {@code true}. {@link Equivalence#hash} returns
    * {@code 0} if passed a null value.
    *
-   * @since Guava release 08 (present null-friendly behavior)
-   * @since Guava release 04 (otherwise)
+   * @since 8.0 (present null-friendly behavior)
+   * @since 4.0 (otherwise)
    */
   public static Equivalence<Object> equals() {
     return Equals.INSTANCE;
@@ -64,9 +64,9 @@ public final class Equivalences {
    * elements, and each pair of corresponding elements is equivalent according to
    * {@code elementEquivalence}.  Null iterables are equivalent to one another.
    *
-   * @since Guava release 09
+   * @since 9.0
    * @deprecated use {@link Equivalence#pairwise}, which behaves exactly the same. <b>This method is
-   *     scheduled for deletion Guava release 11.</b>
+   *     scheduled for deletion in release 11.0.</b>
    */
   @Deprecated
   @GwtCompatible(serializable = true)

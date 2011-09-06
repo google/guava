@@ -26,7 +26,7 @@ import java.io.IOException;
  * IllegalStateException}.
  *
  * @author Kevin Bourrillion
- * @since Guava release 01
+ * @since 1.0
  */
 public interface ByteArrayDataInput extends DataInput {
   @Override void readFully(byte b[]);

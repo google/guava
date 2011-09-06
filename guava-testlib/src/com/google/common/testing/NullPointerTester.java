@@ -54,7 +54,7 @@ import javax.annotation.Nullable;
  * values for the parameter types used by the class.
  *
  * @author Kevin Bourrillion
- * @since Guava release 10
+ * @since 10.0
  */
 @Beta
 public final class NullPointerTester {

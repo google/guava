@@ -55,7 +55,7 @@ import javax.annotation.Nullable;
  *
  * @author Jared Levy
  * @author Louis Wasserman
- * @since Guava release 02 (imported from Google Collections Library)
+ * @since 2.0 (imported from Google Collections Library)
  */
 @GwtCompatible(serializable = true, emulated = true)
 public class ImmutableSortedMap<K, V>
@@ -346,7 +346,7 @@ public class ImmutableSortedMap<K, V>
    * multiple times to build multiple maps in series. Each map is a superset of
    * the maps created before it.
    *
-   * @since Guava release 02 (imported from Google Collections Library)
+   * @since 2.0 (imported from Google Collections Library)
    */
   public static class Builder<K, V> extends ImmutableMap.Builder<K, V> {
     private final Comparator<? super K> comparator;

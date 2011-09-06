@@ -36,7 +36,7 @@ import java.util.RandomAccess;
  * already found in either {@link Short} or {@link Arrays}.
  *
  * @author Kevin Bourrillion
- * @since Guava release 01
+ * @since 1.0
  */
 @GwtCompatible(emulated = true)
 public final class Shorts {
@@ -51,7 +51,7 @@ public final class Shorts {
   /**
    * The largest power of two that can be represented as a {@code short}.
    *
-   * @since Guava release 10
+   * @since 10.0
    */
   public static final short MAX_POWER_OF_TWO = 1 << (Short.SIZE - 2);
 
@@ -339,7 +339,7 @@ public final class Shorts {
    *
    * @see <a href="http://en.wikipedia.org/wiki/Lexicographical_order">
    *     Lexicographical order article at Wikipedia</a>
-   * @since Guava release 02
+   * @since 2.0
    */
   public static Comparator<short[]> lexicographicalComparator() {
     return LexicographicalComparator.INSTANCE;

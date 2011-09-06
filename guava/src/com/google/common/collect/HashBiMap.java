@@ -33,7 +33,7 @@ import javax.annotation.Nullable;
  * serializable.
  *
  * @author Mike Bostock
- * @since Guava release 02 (imported from Google Collections Library)
+ * @since 2.0 (imported from Google Collections Library)
  */
 @GwtCompatible(emulated = true)
 public final class HashBiMap<K, V> extends AbstractBiMap<K, V> {

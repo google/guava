@@ -34,7 +34,7 @@ import com.google.common.annotations.GwtCompatible;
  *
  * @author Craig Berry
  * @author Gregory Kick
- * @since Guava release 07
+ * @since 7.0
  */
 @GwtCompatible
 public final class Ascii {
@@ -48,7 +48,7 @@ public final class Ascii {
    * <p>Although RFC 20 names this as "Null", note that it is distinct
    * from the C/C++ "NULL" pointer.
    *
-   * @since Guava release 08
+   * @since 8.0
    */
   public static final byte NUL = 0;
 
@@ -59,7 +59,7 @@ public final class Ascii {
    * referred to as the "heading."  An STX character has the effect of
    * terminating a heading.
    *
-   * @since Guava release 08
+   * @since 8.0
    */
   public static final byte SOH = 1;
 
@@ -70,7 +70,7 @@ public final class Ascii {
    * sequence is referred to as "text."  STX may be used to terminate a
    * sequence of characters started by SOH.
    *
-   * @since Guava release 08
+   * @since 8.0
    */
   public static final byte STX = 2;
 
@@ -79,7 +79,7 @@ public final class Ascii {
    * terminate a sequence of characters started with STX and transmitted
    * as an entity.
    *
-   * @since Guava release 08
+   * @since 8.0
    */
   public static final byte ETX = 3;
 
@@ -88,7 +88,7 @@ public final class Ascii {
    * to indicate the conclusion of a transmission, which may have
    * contained one or more texts and any associated headings.
    *
-   * @since Guava release 08
+   * @since 8.0
    */
   public static final byte EOT = 4;
 
@@ -98,7 +98,7 @@ public final class Ascii {
    * station.  It may be used as a "Who Are You" (WRU) to obtain
    * identification, or may be used to obtain station status, or both.
    *
-   * @since Guava release 08
+   * @since 8.0
    */
   public static final byte ENQ = 5;
 
@@ -106,7 +106,7 @@ public final class Ascii {
    * Acknowledge: A communication control character transmitted
    * by a receiver as an affirmative response to a sender.
    *
-   * @since Guava release 08
+   * @since 8.0
    */
   public static final byte ACK = 6;
 
@@ -114,7 +114,7 @@ public final class Ascii {
    * Bell ('\a'): A character for use when there is a need to call for
    * human attention.  It may control alarm or attention devices.
    *
-   * @since Guava release 08
+   * @since 8.0
    */
   public static final byte BEL = 7;
 
@@ -123,7 +123,7 @@ public final class Ascii {
    * the printing position one printing space backward on the same
    * printing line.  (Applicable also to display devices.)
    *
-   * @since Guava release 08
+   * @since 8.0
    */
   public static final byte BS = 8;
 
@@ -133,7 +133,7 @@ public final class Ascii {
    * predetermined positions along the printing line.  (Applicable also to
    * display devices and the skip function on punched cards.)
    *
-   * @since Guava release 08
+   * @since 8.0
    */
   public static final byte HT = 9;
 
@@ -146,14 +146,14 @@ public final class Ascii {
    * next printing line.  Use of this convention requires agreement
    * between sender and recipient of data.
    *
-   * @since Guava release 08
+   * @since 8.0
    */
   public static final byte LF = 10;
 
   /**
    * Alternate name for {@link #LF}.  ({@code LF} is preferred.)
    *
-   * @since Guava release 08
+   * @since 8.0
    */
   public static final byte NL = 10;
 
@@ -162,7 +162,7 @@ public final class Ascii {
    * movement of the printing position to the next in a series of
    * predetermined printing lines.  (Applicable also to display devices.)
    *
-   * @since Guava release 08
+   * @since 8.0
    */
   public static final byte VT = 11;
 
@@ -171,7 +171,7 @@ public final class Ascii {
    * the printing position to the first pre-determined printing line on
    * the next form or page.  (Applicable also to display devices.)
    *
-   * @since Guava release 08
+   * @since 8.0
    */
   public static final byte FF = 12;
 
@@ -180,7 +180,7 @@ public final class Ascii {
    * movement of the printing position to the first printing position on
    * the same printing line.  (Applicable also to display devices.)
    *
-   * @since Guava release 08
+   * @since 8.0
    */
   public static final byte CR = 13;
 
@@ -190,7 +190,7 @@ public final class Ascii {
    * character set of the standard code table until a Shift In character
    * is reached.
    *
-   * @since Guava release 08
+   * @since 8.0
    */
   public static final byte SO = 14;
 
@@ -199,7 +199,7 @@ public final class Ascii {
    * combinations which follow shall be interpreted according to the
    * standard code table.
    *
-   * @since Guava release 08
+   * @since 8.0
    */
   public static final byte SI = 15;
 
@@ -209,7 +209,7 @@ public final class Ascii {
    * characters.  It is used exclusively to provide supplementary controls
    * in data communication networks.
    *
-   * @since Guava release 08
+   * @since 8.0
    */
   public static final byte DLE = 16;
 
@@ -220,7 +220,7 @@ public final class Ascii {
    * "off."  (If a single "stop" control is required to interrupt or turn
    * off ancillary devices, DC4 is the preferred assignment.)
    *
-   * @since Guava release 08
+   * @since 8.0
    */
   public static final byte DC1 = 17; // aka XON
 
@@ -231,35 +231,35 @@ public final class Ascii {
    * the transmission after the communication has been stopped by the XOFF
    * control code.
    *
-   * @since Guava release 08
+   * @since 8.0
    */
   public static final byte XON = 17; // aka DC1
 
   /**
    * @see #DC1
    *
-   * @since Guava release 08
+   * @since 8.0
    */
   public static final byte DC2 = 18;
 
   /**
    * @see #DC1
    *
-   * @since Guava release 08
+   * @since 8.0
    */
   public static final byte DC3 = 19; // aka XOFF
 
   /**
    * Transmission off. @see #XON
    *
-   * @since Guava release 08
+   * @since 8.0
    */
   public static final byte XOFF = 19; // aka DC3
 
   /**
    * @see #DC1
    *
-   * @since Guava release 08
+   * @since 8.0
    */
   public static final byte DC4 = 20;
 
@@ -267,7 +267,7 @@ public final class Ascii {
    * Negative Acknowledge: A communication control character
    * transmitted by a receiver as a negative response to the sender.
    *
-   * @since Guava release 08
+   * @since 8.0
    */
   public static final byte NAK = 21;
 
@@ -277,7 +277,7 @@ public final class Ascii {
    * character to provide a signal from which synchronism may be achieved
    * or retained.
    *
-   * @since Guava release 08
+   * @since 8.0
    */
   public static final byte SYN = 22;
 
@@ -287,7 +287,7 @@ public final class Ascii {
    * purposes.  ETB is used for blocking data where the block structure is
    * not necessarily related to the processing format.
    *
-   * @since Guava release 08
+   * @since 8.0
    */
   public static final byte ETB = 23;
 
@@ -295,7 +295,7 @@ public final class Ascii {
    * Cancel: A control character used to indicate that the data
    * with which it is sent is in error or is to be disregarded.
    *
-   * @since Guava release 08
+   * @since 8.0
    */
   public static final byte CAN = 24;
 
@@ -306,7 +306,7 @@ public final class Ascii {
    * medium.  (The position of this character does not necessarily
    * correspond to the physical end of the medium.)
    *
-   * @since Guava release 08
+   * @since 8.0
    */
   public static final byte EM = 25;
 
@@ -314,7 +314,7 @@ public final class Ascii {
    * Substitute: A character that may be substituted for a
    * character which is determined to be invalid or in error.
    *
-   * @since Guava release 08
+   * @since 8.0
    */
   public static final byte SUB = 26;
 
@@ -325,7 +325,7 @@ public final class Ascii {
    * interpretation of a limited number of contiguously following
    * characters.
    *
-   * @since Guava release 08
+   * @since 8.0
    */
   public static final byte ESC = 27;
 
@@ -336,28 +336,28 @@ public final class Ascii {
    * and US is least inclusive.  (The content and length of a File, Group,
    * Record, or Unit are not specified.)
    *
-   * @since Guava release 08
+   * @since 8.0
    */
   public static final byte FS = 28;
 
   /**
    * @see #FS
    *
-   * @since Guava release 08
+   * @since 8.0
    */
   public static final byte GS = 29;
 
   /**
    * @see #FS
    *
-   * @since Guava release 08
+   * @since 8.0
    */
   public static final byte RS = 30;
 
   /**
    * @see #FS
    *
-   * @since Guava release 08
+   * @since 8.0
    */
   public static final byte US = 31;
 
@@ -367,14 +367,14 @@ public final class Ascii {
    * movement of the printing position, one printing position forward.
    * (Applicable also to display devices.)
    *
-   * @since Guava release 08
+   * @since 8.0
    */
   public static final byte SP = 32;
 
   /**
    * Alternate name for {@link #SP}.
    *
-   * @since Guava release 08
+   * @since 8.0
    */
   public static final byte SPACE = 32;
 
@@ -382,14 +382,14 @@ public final class Ascii {
    * Delete: This character is used primarily to "erase" or
    * "obliterate" erroneous or unwanted characters in perforated tape.
    *
-   * @since Guava release 08
+   * @since 8.0
    */
   public static final byte DEL = 127;
 
   /**
    * The minimum value of an ASCII character.
    *
-   * @since Guava release 09
+   * @since 9.0
    */
   @Beta
   public static final int MIN = 0;
@@ -397,7 +397,7 @@ public final class Ascii {
   /**
    * The maximum value of an ASCII character.
    *
-   * @since Guava release 09
+   * @since 9.0
    */
   @Beta
   public static final int MAX = 127;

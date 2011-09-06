@@ -44,7 +44,7 @@ import java.util.concurrent.TimeoutException;
  * future will guarantee execution of all listeners when the task completes.
  *
  * @author Sven Mawson
- * @since Guava release 01
+ * @since 1.0
  */
 @Beta
 public interface CheckedFuture<V, X extends Exception>

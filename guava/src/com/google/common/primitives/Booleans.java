@@ -38,7 +38,7 @@ import java.util.RandomAccess;
  * already found in either {@link Boolean} or {@link Arrays}.
  *
  * @author Kevin Bourrillion
- * @since Guava release 01
+ * @since 1.0
  */
 @GwtCompatible
 public final class Booleans {
@@ -267,7 +267,7 @@ public final class Booleans {
    *
    * @see <a href="http://en.wikipedia.org/wiki/Lexicographical_order">
    *     Lexicographical order article at Wikipedia</a>
-   * @since Guava release 02
+   * @since 2.0
    */
   public static Comparator<boolean[]> lexicographicalComparator() {
     return LexicographicalComparator.INSTANCE;

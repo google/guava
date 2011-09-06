@@ -96,7 +96,7 @@ import javax.annotation.Nullable;
  * Multimaps#synchronizedListMultimap}.
  *
  * @author Mike Bostock
- * @since Guava release 02 (imported from Google Collections Library)
+ * @since 2.0 (imported from Google Collections Library)
  */
 @GwtCompatible(serializable = true, emulated = true)
 public class LinkedListMultimap<K, V>

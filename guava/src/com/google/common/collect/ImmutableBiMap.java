@@ -37,7 +37,7 @@ import javax.annotation.Nullable;
  * guaranteed to be immutable.
  *
  * @author Jared Levy
- * @since Guava release 02 (imported from Google Collections Library)
+ * @since 2.0 (imported from Google Collections Library)
  */
 @GwtCompatible(serializable = true, emulated = true)
 public abstract class ImmutableBiMap<K, V> extends ImmutableMap<K, V>
@@ -132,7 +132,7 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableMap<K, V>
    * multiple times to build multiple bimaps in series. Each bimap is a superset
    * of the bimaps created before it.
    *
-   * @since Guava release 02 (imported from Google Collections Library)
+   * @since 2.0 (imported from Google Collections Library)
    */
   public static final class Builder<K, V> extends ImmutableMap.Builder<K, V> {
 

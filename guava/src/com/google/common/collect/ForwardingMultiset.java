@@ -46,7 +46,7 @@ import javax.annotation.Nullable;
  *
  * @author Kevin Bourrillion
  * @author Louis Wasserman
- * @since Guava release 02 (imported from Google Collections Library)
+ * @since 2.0 (imported from Google Collections Library)
  */
 @GwtCompatible
 public abstract class ForwardingMultiset<E> extends ForwardingCollection<E>
@@ -105,7 +105,7 @@ public abstract class ForwardingMultiset<E> extends ForwardingCollection<E>
    * you override {@link #count}, you may wish to override {@link #contains} to
    * forward to this implementation.
    *
-   * @since Guava release 07
+   * @since 7.0
    */
   @Override @Beta protected boolean standardContains(@Nullable Object object) {
     return count(object) > 0;
@@ -116,7 +116,7 @@ public abstract class ForwardingMultiset<E> extends ForwardingCollection<E>
    * method of {@link #entrySet}. If you override {@link #entrySet}, you may
    * wish to override {@link #clear} to forward to this implementation.
    *
-   * @since Guava release 07
+   * @since 7.0
    */
   @Override @Beta protected void standardClear() {
     Iterator<Entry<E>> entryIterator = entrySet().iterator();
@@ -131,7 +131,7 @@ public abstract class ForwardingMultiset<E> extends ForwardingCollection<E>
    * {@link #entrySet}. If you override {@link #entrySet}, you may wish to
    * override {@link #count} to forward to this implementation.
    *
-   * @since Guava release 07
+   * @since 7.0
    */
   @Beta protected int standardCount(@Nullable Object object) {
     for (Entry<?> entry : this.entrySet()) {
@@ -147,7 +147,7 @@ public abstract class ForwardingMultiset<E> extends ForwardingCollection<E>
    * #add(Object, int)}. If you override {@link #add(Object, int)}, you may
    * wish to override {@link #add(Object)} to forward to this implementation.
    *
-   * @since Guava release 07
+   * @since 7.0
    */
   @Beta protected boolean standardAdd(E element) {
     add(element, 1);
@@ -160,7 +160,7 @@ public abstract class ForwardingMultiset<E> extends ForwardingCollection<E>
    * these methods, you may wish to override {@link #addAll(Collection)} to
    * forward to this implementation.
    *
-   * @since Guava release 07
+   * @since 7.0
    */
   @Beta @Override protected boolean standardAddAll(
       Collection<? extends E> elementsToAdd) {
@@ -173,7 +173,7 @@ public abstract class ForwardingMultiset<E> extends ForwardingCollection<E>
    * may wish to override {@link #remove(Object)} to forward to this
    * implementation.
    *
-   * @since Guava release 07
+   * @since 7.0
    */
   @Beta @Override protected boolean standardRemove(Object element) {
     return remove(element, 1) > 0;
@@ -185,7 +185,7 @@ public abstract class ForwardingMultiset<E> extends ForwardingCollection<E>
    * #elementSet}, you may wish to override {@link #removeAll} to forward to
    * this implementation.
    *
-   * @since Guava release 07
+   * @since 7.0
    */
   @Beta @Override protected boolean standardRemoveAll(
       Collection<?> elementsToRemove) {
@@ -198,7 +198,7 @@ public abstract class ForwardingMultiset<E> extends ForwardingCollection<E>
    * #elementSet}, you may wish to override {@link #retainAll} to forward to
    * this implementation.
    *
-   * @since Guava release 07
+   * @since 7.0
    */
   @Beta @Override protected boolean standardRetainAll(
       Collection<?> elementsToRetain) {
@@ -212,7 +212,7 @@ public abstract class ForwardingMultiset<E> extends ForwardingCollection<E>
    * wish to override {@link #setCount(Object, int)} to forward to this
    * implementation.
    *
-   * @since Guava release 07
+   * @since 7.0
    */
   @Beta protected int standardSetCount(E element, int count) {
     return Multisets.setCountImpl(this, element, count);
@@ -224,7 +224,7 @@ public abstract class ForwardingMultiset<E> extends ForwardingCollection<E>
    * either of these methods, you may wish to override {@link #setCount(Object,
    * int, int)} to forward to this implementation.
    *
-   * @since Guava release 07
+   * @since 7.0
    */
   @Beta protected boolean standardSetCount(
       E element, int oldCount, int newCount) {
@@ -239,9 +239,9 @@ public abstract class ForwardingMultiset<E> extends ForwardingCollection<E>
    * situations, you may wish to override {@link #elementSet} to forward to this
    * implementation.
    *
-   * @since Guava release 07
+   * @since 7.0
    * @deprecated Use the {@code StandardElementSet} constructor instead.  This
-   *             method will be removed in Guava release 11.
+   *             method will be removed in release 11.0.
    */
   @Beta @Deprecated protected Set<E> standardElementSet() {
     return new StandardElementSet();
@@ -258,7 +258,7 @@ public abstract class ForwardingMultiset<E> extends ForwardingCollection<E>
    * ForwardingMultiset#elementSet} to forward to this implementation or a
    * subclass thereof.
    *
-   * @since Guava release 10
+   * @since 10.0
    */
   @Beta
   protected class StandardElementSet extends Multisets.ElementSet<E> {
@@ -273,7 +273,7 @@ public abstract class ForwardingMultiset<E> extends ForwardingCollection<E>
    * and {@link #remove(Object)}. If you override either of these methods, you
    * may wish to override {@link #iterator} to forward to this implementation.
    *
-   * @since Guava release 07
+   * @since 7.0
    */
   @Beta protected Iterator<E> standardIterator() {
     return Multisets.iteratorImpl(this);
@@ -284,7 +284,7 @@ public abstract class ForwardingMultiset<E> extends ForwardingCollection<E>
    * {@link #entrySet}. If you override {@link #entrySet}, you may wish to
    * override {@link #size} to forward to this implementation.
    *
-   * @since Guava release 07
+   * @since 7.0
    */
   @Beta protected int standardSize() {
     return Multisets.sizeImpl(this);
@@ -296,7 +296,7 @@ public abstract class ForwardingMultiset<E> extends ForwardingCollection<E>
    * these methods, you may wish to override {@link #size} to forward to this
    * implementation.
    *
-   * @since Guava release 07
+   * @since 7.0
    */
   @Beta protected boolean standardEquals(@Nullable Object object) {
     return Multisets.equalsImpl(this, object);
@@ -307,7 +307,7 @@ public abstract class ForwardingMultiset<E> extends ForwardingCollection<E>
    * . If you override {@link #entrySet}, you may wish to override {@link
    * #hashCode} to forward to this implementation.
    *
-   * @since Guava release 07
+   * @since 7.0
    */
   @Beta protected int standardHashCode() {
     return entrySet().hashCode();
@@ -318,7 +318,7 @@ public abstract class ForwardingMultiset<E> extends ForwardingCollection<E>
    * . If you override {@link #entrySet}, you may wish to override {@link
    * #toString} to forward to this implementation.
    *
-   * @since Guava release 07
+   * @since 7.0
    */
   @Beta @Override protected String standardToString() {
     return entrySet().toString();

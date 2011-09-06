@@ -28,7 +28,7 @@ import java.io.IOException;
  * to pass character data, and call {@link #finish} at the end of stream.
  *
  * @author Chris Nokleberg
- * @since Guava release 01
+ * @since 1.0
  */
 abstract class LineBuffer {
   /** Holds partial line contents. */

@@ -42,7 +42,7 @@ import javax.annotation.CheckReturnValue;
  * treats these just as two separate characters.
  *
  * @author Kevin Bourrillion
- * @since Guava release 01
+ * @since 1.0
  */
 @Beta // Possibly change from chars to code points; decide constants vs. methods
 @GwtCompatible
@@ -78,7 +78,7 @@ public abstract class CharMatcher implements Predicate<Character> {
    * interpreted as a break between words for formatting purposes). See {@link #WHITESPACE} for a
    * discussion of that term.
    *
-   * @since Guava release 02
+   * @since 2.0
    */
   public static final CharMatcher BREAKING_WHITESPACE =
       anyOf(BREAKING_WHITESPACE_CHARS)
@@ -740,7 +740,7 @@ public abstract class CharMatcher implements Predicate<Character> {
    *
    * @param sequence the character sequence to examine, possibly empty
    * @return {@code true} if this matcher matches at least one character in the sequence
-   * @since Guava release 08
+   * @since 8.0
    */
   public boolean matchesAnyOf(CharSequence sequence) {
     return !matchesNoneOf(sequence);

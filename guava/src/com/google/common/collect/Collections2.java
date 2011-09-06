@@ -38,7 +38,7 @@ import java.util.Iterator;
  * @author Chris Povirk
  * @author Mike Bostock
  * @author Jared Levy
- * @since Guava release 02 (imported from Google Collections Library)
+ * @since 2.0 (imported from Google Collections Library)
  */
 @GwtCompatible
 public final class Collections2 {

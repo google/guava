@@ -29,7 +29,7 @@ import java.util.HashMap;
  *
  * @author Kevin Bourrillion
  * @author Jared Levy
- * @since Guava release 02 (imported from Google Collections Library)
+ * @since 2.0 (imported from Google Collections Library)
  */
 @GwtCompatible(serializable = true, emulated = true)
 public final class HashMultiset<E> extends AbstractMapBasedMultiset<E> {

@@ -54,7 +54,7 @@ import javax.annotation.Nullable;
  * these types of exceptions.
  *
  * @author Kevin Bourrillion
- * @since Guava release 02 (imported from Google Collections Library)
+ * @since 2.0 (imported from Google Collections Library)
  */
 @GwtCompatible
 public final class Preconditions {

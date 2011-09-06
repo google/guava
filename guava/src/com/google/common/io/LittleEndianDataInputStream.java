@@ -38,7 +38,7 @@ import java.io.InputStream;
  *
  * @author Chris Nokleberg
  * @author Keith Bottner
- * @since Guava release 08
+ * @since 8.0
  */
 @Beta
 public final class LittleEndianDataInputStream extends FilterInputStream

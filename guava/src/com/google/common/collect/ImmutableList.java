@@ -51,7 +51,7 @@ import javax.annotation.Nullable;
  * @see ImmutableMap
  * @see ImmutableSet
  * @author Kevin Bourrillion
- * @since Guava release 02 (imported from Google Collections Library)
+ * @since 2.0 (imported from Google Collections Library)
  */
 @GwtCompatible(serializable = true, emulated = true)
 @SuppressWarnings("serial") // we're overriding default serialization
@@ -182,7 +182,7 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
    * Returns an immutable list containing the given elements, in order.
    *
    * @throws NullPointerException if any element is null
-   * @since Guava release 03 (source-compatible since release 02)
+   * @since 3.0 (source-compatible since 2.0)
    */
   public static <E> ImmutableList<E> of(
       E e1, E e2, E e3, E e4, E e5, E e6, E e7, E e8, E e9, E e10, E e11, E e12,
@@ -210,7 +210,7 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
    * @deprecated use {@link #copyOf(Object[])}. <b>This method is scheduled for
    *     deletion in October 2011.</b>
    * @throws NullPointerException if any of {@code elements} is null
-   * @since Guava release 02 (changed from varargs in release 03)
+   * @since 2.0 (changed from varargs in 3.0)
    */
   @Deprecated
   public static <E> ImmutableList<E> of(E[] elements) {
@@ -273,7 +273,7 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
    * Returns an immutable list containing the given elements, in order.
    *
    * @throws NullPointerException if any of {@code elements} is null
-   * @since Guava release 03
+   * @since 3.0
    */
   public static <E> ImmutableList<E> copyOf(E[] elements) {
     switch (elements.length) {
@@ -396,7 +396,7 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
   /**
    * Returns this list instance.
    *
-   * @since Guava release 02
+   * @since 2.0
    */
   @Override public ImmutableList<E> asList() {
     return this;
@@ -408,7 +408,7 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
    * ImmutableList.of(3, 2, 1)}.
    *
    * @return a view of this immutable list in reverse order
-   * @since Guava release 07
+   * @since 7.0
    */
   public ImmutableList<E> reverse() {
     return new ReverseImmutableList<E>(this);
@@ -562,7 +562,7 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
    * times to build multiple lists in series. Each new list contains all the
    * elements of the ones created before it.
    *
-   * @since Guava release 02 (imported from Google Collections Library)
+   * @since 2.0 (imported from Google Collections Library)
    */
   public static final class Builder<E> extends ImmutableCollection.Builder<E> {
     private final ArrayList<E> contents = Lists.newArrayList();

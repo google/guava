@@ -38,7 +38,7 @@ import java.util.List;
  *
  * @author Chris Nokleberg
  * @author Ben Yu
- * @since Guava release 01
+ * @since 1.0
  */
 @Beta
 public final class Resources {

@@ -38,7 +38,7 @@ import javax.annotation.Nullable;
  * #getUnchecked}.
  *
  * @author Charles Fry
- * @since Guava release 10
+ * @since 10.0
  */
 @Beta
 public interface Cache<K, V> extends Function<K, V> {
@@ -146,4 +146,10 @@ public interface Cache<K, V> extends Function<K, V> {
    *     implementation
    */
   ConcurrentMap<K, V> asMap();
+
+  /**
+   * Performs any pending maintenance operations needed by the cache. Exactly which activities are
+   * performed -- if any -- is implementation-dependent.
+   */
+  void cleanUp();
 }

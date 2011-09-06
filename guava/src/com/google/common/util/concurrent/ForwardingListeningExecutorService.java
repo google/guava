@@ -25,7 +25,7 @@ import java.util.concurrent.Callable;
  * href="http://en.wikipedia.org/wiki/Decorator_pattern">decorator pattern</a>.
  *
  * @author Isaac Shum
- * @since Guava release 10
+ * @since 10.0
  */
 public abstract class ForwardingListeningExecutorService
     extends ForwardingExecutorService implements ListeningExecutorService {

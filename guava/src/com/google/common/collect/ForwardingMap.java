@@ -54,7 +54,7 @@ import javax.annotation.Nullable;
  * @author Kevin Bourrillion
  * @author Jared Levy
  * @author Louis Wasserman
- * @since Guava release 02 (imported from Google Collections Library)
+ * @since 2.0 (imported from Google Collections Library)
  */
 @GwtCompatible
 public abstract class ForwardingMap<K, V> extends ForwardingObject
@@ -140,7 +140,7 @@ public abstract class ForwardingMap<K, V> extends ForwardingObject
    * may wish to override {@link #putAll(Map)} to forward to this
    * implementation.
    *
-   * @since Guava release 07
+   * @since 7.0
    */
   @Beta protected void standardPutAll(Map<? extends K, ? extends V> map) {
     Maps.putAllImpl(this, map);
@@ -156,7 +156,7 @@ public abstract class ForwardingMap<K, V> extends ForwardingObject
    * keySet().remove}, assuming that approach would not lead to an infinite
    * loop.
    *
-   * @since Guava release 07
+   * @since 7.0
    */
   @Beta protected V standardRemove(@Nullable Object key) {
     Iterator<Entry<K, V>> entryIterator = entrySet().iterator();
@@ -176,7 +176,7 @@ public abstract class ForwardingMap<K, V> extends ForwardingObject
    * method of {@link #entrySet}. In many cases, you may wish to override
    * {@link #clear} to forward to this implementation.
    *
-   * @since Guava release 07
+   * @since 7.0
    */
   @Beta protected void standardClear() {
     Iterator<Entry<K, V>> entryIterator = entrySet().iterator();
@@ -193,9 +193,9 @@ public abstract class ForwardingMap<K, V> extends ForwardingObject
    * many cases, you may wish to override {@link #keySet} to forward to this
    * implementation.
    *
-   * @since Guava release 07
+   * @since 7.0
    * @deprecated Use the {@code StandardKeySet} constructor instead.  This
-   *             method will be removed in Guava release 11.
+   *             method will be removed in release 11.0.
    */
   @Beta @Deprecated protected Set<K> standardKeySet() {
     return new StandardKeySet();
@@ -210,7 +210,7 @@ public abstract class ForwardingMap<K, V> extends ForwardingObject
    * ForwardingMap#keySet} to forward to this implementation or a subclass
    * thereof.
    *
-   * @since Guava release 10
+   * @since 10.0
    */
   @Beta
   protected class StandardKeySet extends Maps.KeySet<K, V> {
@@ -226,7 +226,7 @@ public abstract class ForwardingMap<K, V> extends ForwardingObject
    * #entrySet}, you may wish to override {@link #containsKey} to forward to
    * this implementation.
    *
-   * @since Guava release 07
+   * @since 7.0
    */
   @Beta protected boolean standardContainsKey(@Nullable Object key) {
     return Maps.containsKeyImpl(this, key);
@@ -238,9 +238,9 @@ public abstract class ForwardingMap<K, V> extends ForwardingObject
    * and the {@code iterator} method of {@link #entrySet}. In many cases, you
    * may wish to override {@link #values} to forward to this implementation.
    *
-   * @since Guava release 07
+   * @since 7.0
    * @deprecated Use the {@code StandardValues} constructor instead.  This
-   *             method will be removed in Guava release 11.
+   *             method will be removed in release 11.0.
    */
   @Beta @Deprecated protected Collection<V> standardValues() {
     return new StandardValues();
@@ -254,7 +254,7 @@ public abstract class ForwardingMap<K, V> extends ForwardingObject
    * may wish to override {@link ForwardingMap#values} to forward to this
    * implementation or a subclass thereof.
    *
-   * @since Guava release 10
+   * @since 10.0
    */
   @Beta
   protected class StandardValues extends Maps.Values<K, V> {
@@ -270,7 +270,7 @@ public abstract class ForwardingMap<K, V> extends ForwardingObject
    * you may wish to override {@link #containsValue} to forward to this
    * implementation.
    *
-   * @since Guava release 07
+   * @since 7.0
    */
   @Beta protected boolean standardContainsValue(@Nullable Object value) {
     return Maps.containsValueImpl(this, value);
@@ -288,9 +288,9 @@ public abstract class ForwardingMap<K, V> extends ForwardingObject
    *        Each call to {@code get} must return an iterator that will
    *        traverse the entire entry set.
    *
-   * @since Guava release 07
+   * @since 7.0
    * @deprecated Use {@code StandardEntrySet} instead.  This method will be
-   *             removed in Guava release 11.
+   *             removed in release 11.0.
    */
   @Deprecated @Beta
    protected Set<Entry<K, V>> standardEntrySet(
@@ -310,7 +310,7 @@ public abstract class ForwardingMap<K, V> extends ForwardingObject
    * may wish to override {@link #entrySet} to forward to this implementation
    * or a subclass thereof.
    *
-   * @since Guava release 10
+   * @since 10.0
    */
   @Beta
   protected abstract class StandardEntrySet extends Maps.EntrySet<K, V> {
@@ -325,7 +325,7 @@ public abstract class ForwardingMap<K, V> extends ForwardingObject
    * method of {@link #entrySet}. If you override {@link #entrySet}, you may
    * wish to override {@link #isEmpty} to forward to this implementation.
    *
-   * @since Guava release 07
+   * @since 7.0
    */
   @Beta protected boolean standardIsEmpty() {
     return !entrySet().iterator().hasNext();
@@ -336,7 +336,7 @@ public abstract class ForwardingMap<K, V> extends ForwardingObject
    * method of {@link #entrySet}. If you override {@link #entrySet}, you may
    * wish to override {@link #equals} to forward to this implementation.
    *
-   * @since Guava release 07
+   * @since 7.0
    */
   @Beta protected boolean standardEquals(@Nullable Object object) {
     return Maps.equalsImpl(this, object);
@@ -347,7 +347,7 @@ public abstract class ForwardingMap<K, V> extends ForwardingObject
    * method of {@link #entrySet}. If you override {@link #entrySet}, you may
    * wish to override {@link #hashCode} to forward to this implementation.
    *
-   * @since Guava release 07
+   * @since 7.0
    */
   @Beta protected int standardHashCode() {
     return Sets.hashCodeImpl(entrySet());
@@ -358,7 +358,7 @@ public abstract class ForwardingMap<K, V> extends ForwardingObject
    * method of {@link #entrySet}. If you override {@link #entrySet}, you may
    * wish to override {@link #toString} to forward to this implementation.
    *
-   * @since Guava release 07
+   * @since 7.0
    */
   @Beta protected String standardToString() {
     return Maps.toStringImpl(this);

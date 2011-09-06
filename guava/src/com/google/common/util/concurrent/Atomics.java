@@ -28,7 +28,7 @@ import javax.annotation.Nullable;
  * {@code java.util.concurrent.atomic} package.
  *
  * @author Kurt Alfred Kluever
- * @since Guava release 10
+ * @since 10.0
  */
 @Beta
 public final class Atomics {

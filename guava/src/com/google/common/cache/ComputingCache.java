@@ -80,6 +80,11 @@ class ComputingCache<K, V> extends AbstractCache<K, V> {
     return aggregator.snapshot();
   }
 
+  @Override
+  public void cleanUp() {
+    map.cleanUp();
+  }
+
   // TODO(user): activeEntries
 
   static final class CacheAsMap<K, V> extends ForwardingConcurrentMap<K, V> {

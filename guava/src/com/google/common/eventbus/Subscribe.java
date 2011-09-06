@@ -36,7 +36,7 @@ import java.lang.annotation.Target;
  * with.
  *
  * @author Cliff Biffle
- * @since Guava release 10
+ * @since 10.0
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)

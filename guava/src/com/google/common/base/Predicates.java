@@ -38,7 +38,7 @@ import javax.annotation.Nullable;
  * serializable parameters.
  *
  * @author Kevin Bourrillion
- * @since Guava release 02 (imported from Google Collections Library)
+ * @since 2.0 (imported from Google Collections Library)
  */
 @GwtCompatible(emulated = true)
 public final class Predicates {
@@ -202,7 +202,7 @@ public final class Predicates {
    * tested is assignable from the given class.  The returned predicate
    * does not allow null inputs.
    * 
-   * @since Guava release 10
+   * @since 10.0
    */
   @GwtIncompatible("Class.isAssignableFrom")
   @Beta
@@ -245,7 +245,7 @@ public final class Predicates {
    * {@code Pattern.compile(pattern).matcher(arg).find()}
    *
    * @throws java.util.regex.PatternSyntaxException if the pattern is invalid
-   * @since Guava release 03
+   * @since 3.0
    */
   @GwtIncompatible(value = "java.util.regex.Pattern")
   public static Predicate<CharSequence> containsPattern(String pattern) {
@@ -258,7 +258,7 @@ public final class Predicates {
    * regular expression pattern. The test used is equivalent to
    * {@code regex.matcher(arg).find()}
    *
-   * @since Guava release 03
+   * @since 3.0
    */
   @GwtIncompatible(value = "java.util.regex.Pattern")
   public static Predicate<CharSequence> contains(Pattern pattern) {

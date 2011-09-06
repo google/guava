@@ -28,7 +28,7 @@ import com.google.common.annotations.Beta;
  * threads.
  *
  * @author Chris Povirk
- * @since Guava release 10
+ * @since 10.0
  */
 @Beta
 public class ExecutionError extends Error {

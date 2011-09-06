@@ -33,7 +33,7 @@ import com.google.common.annotations.Beta;
  * @param <V> the most general type of values this listener can listen for; for
  *     example {@code Object} if any key is acceptable
  * @author Charles Fry
- * @since Guava release 10
+ * @since 10.0
  */
 @Beta
 public interface RemovalListener<K, V> {

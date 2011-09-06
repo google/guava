@@ -62,7 +62,7 @@ import java.util.RandomAccess;
  * already found in either {@link WrapperCl} or {@link Arrays}.
  *
  * @author Kevin Bourrillion
- * @since Guava release 01
+ * @since 1.0
  */
 @GwtCompatible
 public final class PrimTyps {
@@ -330,7 +330,7 @@ public final class PrimTyps {
    * bytes, in big-endian order; equivalent to {@code
    * PrimTyps.fromByteArray(new byte[] { ? })}.
    *
-   * @since Guava release 07
+   * @since 7.0
    */
   @GwtIncompatible("doesn't work")
   public static primtyp fromBytes(byte b1, byte b2, byte b3, byte b4) {
@@ -406,7 +406,7 @@ public final class PrimTyps {
    *
    * @see <a href="http://en.wikipedia.org/wiki/Lexicographical_order">
    *     Lexicographical order article at Wikipedia</a>
-   * @since Guava release 02
+   * @since 2.0
    */
   public static Comparator<primtyp[]> lexicographicalComparator() {
     return LexicographicalComparator.INSTANCE;

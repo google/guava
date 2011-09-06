@@ -34,7 +34,7 @@ import javax.annotation.Nullable;
  * using.
  *
  * @author Charles Fry
- * @since Guava release 10
+ * @since 10.0
  */
 @Beta
 public final class RemovalNotification<K, V> implements Entry<K, V> {

@@ -62,7 +62,7 @@ import javax.annotation.Nullable;
  * in different executors.)
  *
  * @author Sven Mawson
- * @since Guava release 01
+ * @since 1.0
  */
 public abstract class AbstractFuture<V> implements ListenableFuture<V> {
 
@@ -126,7 +126,7 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
    *
    * <p>The default implementation does nothing.
    *
-   * @since Guava release 10
+   * @since 10.0
    */
   protected void interruptTask() {
   }
@@ -189,7 +189,7 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
    * at all. Those that are not can delegate to {@code
    * super.cancel(mayInterruptIfRunning)} or, to get behavior exactly equivalent
    * to this method, {@code super.cancel(false)}. This method will be removed in
-   * Guava release 11.
+   * release 11.0.
    */
   @Beta @Deprecated
   protected final boolean cancel() {
@@ -204,7 +204,7 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
    * <b>Deprecated.</b> {@linkplain #addListener Add listeners} (possible executed
    * in {@link MoreExecutors#sameThreadExecutor}) to perform the work currently
    * performed by your {@code done} implementation. This method will be removed
-   * in Guava release 11.
+   * in release 11.0.
    *
    * Called by the success, failed, or cancelled methods to indicate that the
    * value is now available and the latch can be released.

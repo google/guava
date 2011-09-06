@@ -39,7 +39,7 @@ import java.util.concurrent.TimeUnit;
  * Please see {@code SimpleTimeLimiterTest} for more usage examples.
  *
  * @author Kevin Bourrillion
- * @since Guava release 01
+ * @since 1.0
  */
 @Beta
 public interface TimeLimiter {

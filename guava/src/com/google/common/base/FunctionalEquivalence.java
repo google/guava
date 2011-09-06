@@ -29,7 +29,7 @@ import javax.annotation.Nullable;
  * Equivalence applied on functional result.
  *
  * @author Bob Lee
- * @since Guava release 10
+ * @since 10.0
  */
 @Beta
 @GwtCompatible

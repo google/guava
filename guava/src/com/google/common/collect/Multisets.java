@@ -44,7 +44,7 @@ import javax.annotation.Nullable;
  * @author Kevin Bourrillion
  * @author Mike Bostock
  * @author Louis Wasserman
- * @since Guava release 02 (imported from Google Collections Library)
+ * @since 2.0 (imported from Google Collections Library)
  */
 @GwtCompatible
 public final class Multisets {
@@ -79,7 +79,7 @@ public final class Multisets {
    * Simply returns its argument.
    *
    * @deprecated no need to use this
-   * @since Guava release 10
+   * @since 10.0
    */
   @Deprecated public static <E> Multiset<E> unmodifiableMultiset(
       ImmutableMultiset<E> multiset) {
@@ -382,7 +382,7 @@ public final class Multisets {
    * based on different equivalence relations (as {@code HashMultiset} and
    * {@code TreeMultiset} are).
    *
-   * @since Guava release 02
+   * @since 2.0
    */
   public static <E> Multiset<E> intersection(
       final Multiset<E> multiset1, final Multiset<?> multiset2) {
@@ -432,7 +432,7 @@ public final class Multisets {
    * Returns {@code true} if {@code subMultiset.count(o) <=
    * superMultiset.count(o)} for all {@code o}.
    *
-   * @since Guava release 10
+   * @since 10.0
    */
   @Beta
   public static boolean containsOccurrences(
@@ -465,7 +465,7 @@ public final class Multisets {
    *
    * @return {@code true} if {@code multisetToModify} was changed as a result
    *         of this operation
-   * @since Guava release 10
+   * @since 10.0
    */
   @Beta public static boolean retainOccurrences(Multiset<?> multisetToModify,
       Multiset<?> multisetToRetain) {
@@ -517,7 +517,7 @@ public final class Multisets {
    *
    * @return {@code true} if {@code multisetToModify} was changed as a result of
    *         this operation
-   * @since Guava release 10
+   * @since 10.0
    */
   @Beta public static boolean removeOccurrences(
       Multiset<?> multisetToModify, Multiset<?> occurrencesToRemove) {

@@ -57,7 +57,7 @@ import javax.annotation.Nullable;
  * @author Robert Konigsberg
  * @author Mike Bostock
  * @author Louis Wasserman
- * @since Guava release 02 (imported from Google Collections Library)
+ * @since 2.0 (imported from Google Collections Library)
  */
 @GwtCompatible(emulated = true)
 public final class Multimaps {
@@ -470,7 +470,7 @@ public final class Multimaps {
    * Simply returns its argument.
    *
    * @deprecated no need to use this
-   * @since Guava release 10
+   * @since 10.0
    */
   @Deprecated public static <K, V> Multimap<K, V> unmodifiableMultimap(
       ImmutableMultimap<K, V> delegate) {
@@ -769,7 +769,7 @@ public final class Multimaps {
    * Simply returns its argument.
    *
    * @deprecated no need to use this
-   * @since Guava release 10
+   * @since 10.0
    */
   @Deprecated public static <K, V> SetMultimap<K, V> unmodifiableSetMultimap(
       ImmutableSetMultimap<K, V> delegate) {
@@ -864,7 +864,7 @@ public final class Multimaps {
    * Simply returns its argument.
    *
    * @deprecated no need to use this
-   * @since Guava release 10
+   * @since 10.0
    */
   @Deprecated public static <K, V> ListMultimap<K, V> unmodifiableListMultimap(
       ImmutableListMultimap<K, V> delegate) {
@@ -1313,7 +1313,7 @@ public final class Multimaps {
    * when the returned multimap doesn't need to be a view, copy the returned 
    * multimap into a new multimap of your choosing.
    *
-   * @since Guava release 07
+   * @since 7.0
    */
   @Beta
   public static <K, V1, V2> Multimap<K, V2> transformValues(
@@ -1382,7 +1382,7 @@ public final class Multimaps {
    * ArrayList}, may risk a {@code ClassCastException} when calling methods on
    * the transformed multimap.
    *
-   * @since Guava release 07
+   * @since 7.0
    */
   @Beta
   public static <K, V1, V2> Multimap<K, V2> transformEntries(
@@ -1622,7 +1622,7 @@ public final class Multimaps {
    * when the returned multimap doesn't need to be a view, copy the returned 
    * multimap into a new multimap of your choosing.
    *
-   * @since Guava release 07
+   * @since 7.0
    */
   @Beta
   public static <K, V1, V2> ListMultimap<K, V2> transformValues(
@@ -1689,7 +1689,7 @@ public final class Multimaps {
    * ArrayList}, may risk a {@code ClassCastException} when calling methods on
    * the transformed multimap.
    *
-   * @since Guava release 07
+   * @since 7.0
    */
   @Beta
   public static <K, V1, V2> ListMultimap<K, V2> transformEntries(

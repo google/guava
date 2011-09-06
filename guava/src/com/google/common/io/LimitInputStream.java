@@ -27,7 +27,7 @@ import java.io.InputStream;
  * An InputStream that limits the number of bytes which can be read.
  *
  * @author Charles Fry
- * @since Guava release 01
+ * @since 1.0
  */
 @Beta
 public final class LimitInputStream extends FilterInputStream {

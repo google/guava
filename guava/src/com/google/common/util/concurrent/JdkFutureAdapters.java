@@ -32,8 +32,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * Future} instances.
  *
  * @author Sven Mawson
- * @since Guava release 10 (replacing {@code Futures.makeListenable}, which
- *     existed in release 01)
+ * @since 10.0 (replacing {@code Futures.makeListenable}, which
+ *     existed in 1.0)
  */
 @Beta
 public

@@ -33,7 +33,7 @@ import java.util.concurrent.TimeoutException;
  * <p>Most subclasses can just use {@link SimpleForwardingFuture}.
  * 
  * @author Sven Mawson
- * @since Guava release 01
+ * @since 1.0
  */
 public abstract class ForwardingFuture<V> extends ForwardingObject
     implements Future<V> {
@@ -77,7 +77,7 @@ public abstract class ForwardingFuture<V> extends ForwardingObject
    * A simplified version of {@link ForwardingFuture} where subclasses
    * can pass in an already constructed {@link Future} as the delegate.
    * 
-   * @since Guava release 09
+   * @since 9.0
    */
   public abstract static class SimpleForwardingFuture<V> 
       extends ForwardingFuture<V> {

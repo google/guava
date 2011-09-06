@@ -137,7 +137,7 @@ class CacheTesting {
   static void drainRecencyQueue(Segment<?, ?> segment) {
     segment.lock();
     try {
-      segment.runCleanup();
+      segment.cleanUp();
     } finally {
       segment.unlock();
     }
@@ -187,7 +187,7 @@ class CacheTesting {
 
   static void checkValidState(CustomConcurrentHashMap<?, ?> cchm) {
     for (Segment<?, ?> segment : cchm.segments) {
-      segment.runCleanup();
+      segment.cleanUp();
       assertEquals(segment.count, segmentSize(segment));
       assertFalse(segment.isLocked());
       Map<?, ?> table = segmentTable(segment);
@@ -393,7 +393,7 @@ class CacheTesting {
     segment.lock();
     try {
       segment.expireEntries();
-      segment.runCleanup();
+      segment.cleanUp();
     } finally {
       segment.unlock();
     }

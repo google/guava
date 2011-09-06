@@ -23,7 +23,7 @@ import javax.annotation.Nullable;
  * or {@link #setException(Throwable)} call. It may also be cancelled.
  *
  * @author Sven Mawson
- * @since Guava release 09 (in release 01 as {@code ValueFuture})
+ * @since 9.0 (in 1.0 as {@code ValueFuture})
  */
 public final class SettableFuture<V> extends AbstractFuture<V> {
 

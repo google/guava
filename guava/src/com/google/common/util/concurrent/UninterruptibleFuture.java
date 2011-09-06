@@ -31,7 +31,7 @@ import java.util.concurrent.TimeoutException;
  * Futures#makeUninterruptible(Future)}.
  *
  * @author Kevin Bourrillion
- * @since Guava release 01
+ * @since 1.0
  * @deprecated Use
  * {@link Uninterruptibles#getUninterruptibly(Future) getUninterruptibly}.
  * <b>Scheduled for deletion in Guava Release 11</b>.

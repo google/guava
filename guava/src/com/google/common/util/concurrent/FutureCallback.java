@@ -27,7 +27,7 @@ import java.util.concurrent.ExecutionException;
  * <p>To attach to a {@link ListenableFuture} use {@link Futures#addCallback}.
  *
  * @author Anthony Zana
- * @since Guava release 10
+ * @since 10.0
  */
 @Beta
 public interface FutureCallback<V> {

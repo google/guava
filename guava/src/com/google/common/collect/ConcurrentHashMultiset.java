@@ -46,7 +46,7 @@ import javax.annotation.Nullable;
  *
  * @author Cliff L. Biffle
  * @author mike nonemacher
- * @since Guava release 02 (imported from Google Collections Library)
+ * @since 2.0 (imported from Google Collections Library)
  */
 public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> implements Serializable {
 
@@ -116,7 +116,7 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> impleme
    * internally and not exposed externally, so no one else will have a strong reference to the
    * values. Weak keys on the other hand can be useful in some scenarios.
    *
-   * @since Guava release 07
+   * @since 7.0
    */
   @Beta
   public static <E> ConcurrentHashMultiset<E> create(

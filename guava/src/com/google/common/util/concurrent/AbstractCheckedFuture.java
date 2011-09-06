@@ -28,7 +28,7 @@ import java.util.concurrent.TimeoutException;
  * the {@link #checkedGet()} and {@link #checkedGet(long, TimeUnit)} methods.
  *
  * @author Sven Mawson
- * @since Guava release 01
+ * @since 1.0
  */
 @Beta
 public abstract class AbstractCheckedFuture<V, X extends Exception>

@@ -30,7 +30,7 @@ import java.util.Set;
  * href="http://en.wikipedia.org/wiki/Decorator_pattern">decorator pattern</a>.
  *
  * @author Gregory Kick
- * @since Guava release 07
+ * @since 7.0
  */
 @Beta
 @GwtCompatible

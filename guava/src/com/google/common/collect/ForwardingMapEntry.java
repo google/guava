@@ -49,7 +49,7 @@ import javax.annotation.Nullable;
  *
  * @author Mike Bostock
  * @author Louis Wasserman
- * @since Guava release 02 (imported from Google Collections Library)
+ * @since 2.0 (imported from Google Collections Library)
  */
 @GwtCompatible
 public abstract class ForwardingMapEntry<K, V>
@@ -90,7 +90,7 @@ public abstract class ForwardingMapEntry<K, V>
    * methods, you may wish to override {@link #equals(Object)} to forward to
    * this implementation.
    *
-   * @since Guava release 07
+   * @since 7.0
    */
   @Beta protected boolean standardEquals(@Nullable Object object) {
     if (object instanceof Entry) {
@@ -106,7 +106,7 @@ public abstract class ForwardingMapEntry<K, V>
    * and {@link #getValue()}. If you override either of these methods, you may
    * wish to override {@link #hashCode()} to forward to this implementation.
    *
-   * @since Guava release 07
+   * @since 7.0
    */
   @Beta protected int standardHashCode() {
     K k = getKey();
@@ -120,7 +120,7 @@ public abstract class ForwardingMapEntry<K, V>
    * methods, you may wish to override {@link #equals} to forward to this
    * implementation.
    *
-   * @since Guava release 07
+   * @since 7.0
    */
   @Beta protected String standardToString() {
     return getKey() + "=" + getValue();

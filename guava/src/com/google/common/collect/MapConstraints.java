@@ -38,7 +38,7 @@ import javax.annotation.Nullable;
  *
  * @see Constraints
  * @author Mike Bostock
- * @since Guava release 03
+ * @since 3.0
  */
 @Beta
 @GwtCompatible

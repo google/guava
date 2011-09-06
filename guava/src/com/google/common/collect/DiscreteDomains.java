@@ -26,7 +26,7 @@ import java.math.BigInteger;
  * Factories for common {@link DiscreteDomain} instances.
  *
  * @author Gregory Kick
- * @since Guava release 10
+ * @since 10.0
  */
 @GwtCompatible
 @Beta

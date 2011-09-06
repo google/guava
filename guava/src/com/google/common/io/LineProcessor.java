@@ -27,7 +27,7 @@ import java.io.IOException;
  * should return {@code false} when you want to stop processing.
  *
  * @author Miles Barr
- * @since Guava release 01
+ * @since 1.0
  */
 @Beta
 public interface LineProcessor<T> {

@@ -24,7 +24,7 @@ import javax.annotation.Nullable;
  * Static utility methods pertaining to the {@link Callable} interface.
  *
  * @author Isaac Shum
- * @since Guava release 01
+ * @since 1.0
  */
 public final class Callables {
   private Callables() {}

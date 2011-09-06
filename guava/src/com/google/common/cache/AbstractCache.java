@@ -32,10 +32,14 @@ import javax.annotation.Nullable;
  * effort required to implement this interface.
  *
  * <p>To implement a cache, the programmer needs only to extend this class and provide an
- * implementation for the {@code get} method.
+ * implementation for the {@code get} method. This implementation throws an
+ * {@link UnsupportedOperationException} on calls to {@link #size}, {@link #invalidate},
+ * {@link #invalidateAll}, {@link #stats}, {@link #activeEntries}, and {@link #asMap}. The methods
+ * {@link #getUnchecked} and {@link #apply} are implemented in terms of {@link #get}. The method
+ * {@link #cleanUp} is a no-op.
  *
  * @author Charles Fry
- * @since Guava release 10
+ * @since 10.0
  */
 @Beta
 public abstract class AbstractCache<K, V> implements Cache<K, V> {
@@ -58,6 +62,9 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
   public final V apply(K key) {
     return getUnchecked(key);
   }
+
+  @Override
+  public void cleanUp() {}
 
   @Override
   public int size() {
@@ -93,7 +100,7 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
    * Accumulates statistics during the operation of a {@link Cache} for presentation by {@link
    * Cache#stats}. This is solely intended for consumption by {@code Cache} implementors.
    *
-   * @since Guava release 10
+   * @since 10.0
    */
   @Beta
   public interface StatsCounter {
@@ -150,7 +157,7 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
   /**
    * A thread-safe {@link StatsCounter} implementation for use by {@link Cache} implementors.
    *
-   * @since Guava release 10
+   * @since 10.0
    */
   @Beta
   public static class SimpleStatsCounter implements StatsCounter {

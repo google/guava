@@ -62,7 +62,7 @@ import javax.annotation.Nullable;
  *     Optional<S>} for any supertype {@code S} of {@code T}.
  * @author Kurt Alfred Kluever
  * @author Kevin Bourrillion
- * @since Guava release 10
+ * @since 10.0
  */
 @Beta
 @GwtCompatible

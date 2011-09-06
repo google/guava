@@ -31,7 +31,7 @@ import java.util.concurrent.Executor;
  * @param <V> The result type returned by this Future's {@code get} method
  * 
  * @author Shardul Deo
- * @since Guava release 04
+ * @since 4.0
  */
 public abstract class ForwardingListenableFuture<V> extends ForwardingFuture<V>
     implements ListenableFuture<V> {
@@ -56,7 +56,7 @@ public abstract class ForwardingListenableFuture<V> extends ForwardingFuture<V>
    * can pass in an already constructed {@link ListenableFuture} 
    * as the delegate.
    * 
-   * @since Guava release 09
+   * @since 9.0
    */
   public abstract static class SimpleForwardingListenableFuture<V>
       extends ForwardingListenableFuture<V> {

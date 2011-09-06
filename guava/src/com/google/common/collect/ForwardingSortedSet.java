@@ -51,7 +51,7 @@ import javax.annotation.Nullable;
  *
  * @author Mike Bostock
  * @author Louis Wasserman
- * @since Guava release 02 (imported from Google Collections Library)
+ * @since 2.0 (imported from Google Collections Library)
  */
 @GwtCompatible
 public abstract class ForwardingSortedSet<E> extends ForwardingSet<E>
@@ -106,7 +106,7 @@ public abstract class ForwardingSortedSet<E> extends ForwardingSet<E>
    * method of {@link #tailSet}. If you override {@link #tailSet}, you may wish
    * to override {@link #contains} to forward to this implementation.
    *
-   * @since Guava release 07
+   * @since 7.0
    */
   @Override @Beta protected boolean standardContains(@Nullable Object object) {
     try {
@@ -129,7 +129,7 @@ public abstract class ForwardingSortedSet<E> extends ForwardingSet<E>
    * method of {@link #tailSet}. If you override {@link #tailSet}, you may wish
    * to override {@link #remove} to forward to this implementation.
    *
-   * @since Guava release 07
+   * @since 7.0
    */
   @Override @Beta protected boolean standardRemove(@Nullable Object object) {
     try {
@@ -158,7 +158,7 @@ public abstract class ForwardingSortedSet<E> extends ForwardingSet<E>
    * situations, you may wish to override {@link #subSet(Object, Object)} to
    * forward to this implementation.
    *
-   * @since Guava release 07
+   * @since 7.0
    */
   @Beta protected SortedSet<E> standardSubSet(E fromElement, E toElement) {
     return tailSet(fromElement).headSet(toElement);

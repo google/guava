@@ -103,7 +103,7 @@ import java.util.logging.Logger;
  * <p>This class is safe for concurrent use.
  *
  * @author Cliff Biffle
- * @since Guava release 10
+ * @since 10.0
  */
 @Beta
 public class EventBus {

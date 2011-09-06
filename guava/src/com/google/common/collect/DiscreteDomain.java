@@ -33,7 +33,7 @@ import java.util.NoSuchElementException;
  * "strings of length 5."
  *
  * @author Kevin Bourrillion
- * @since Guava release 10
+ * @since 10.0
  * @see DiscreteDomains
  */
 @GwtCompatible

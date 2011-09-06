@@ -70,7 +70,7 @@ import javax.annotation.Nullable;
  *
  * @author Jared Levy
  * @author Louis Wasserman
- * @since Guava release 07
+ * @since 7.0
  */
 @GwtCompatible(serializable = true)
 @Beta
@@ -166,9 +166,9 @@ public class TreeBasedTable<R, C, V> extends StandardRowSortedTable<R, C, V> {
    * <p>Because a {@code TreeBasedTable} has unique sorted values for a given
    * row, this method returns a {@link SortedMap}, instead of the {@link Map}
    * specified in the {@link Table} interface.
-   * @since Guava release 10
+   * @since 10.0
    *     (<a href="http://code.google.com/p/guava-libraries/wiki/Compatibility"
-   *     >mostly source-compatible</a> since Guava release 07)
+   *     >mostly source-compatible</a> since 7.0)
    */
   @Override
   public SortedMap<C, V> row(R rowKey) {

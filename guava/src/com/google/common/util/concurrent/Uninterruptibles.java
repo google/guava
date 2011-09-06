@@ -34,7 +34,7 @@ import java.util.concurrent.TimeoutException;
  * and only then re-interrupts the thread.
  *
  * @author Anthony Zana
- * @since Guava release 10
+ * @since 10.0
  */
 @Beta
 public final class Uninterruptibles {

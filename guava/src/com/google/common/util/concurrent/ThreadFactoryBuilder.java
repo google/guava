@@ -40,7 +40,7 @@ import java.util.concurrent.atomic.AtomicLong;
  * Executors#defaultThreadFactory()}{@code )}.
  *
  * @author Kurt Alfred Kluever
- * @since Guava release 04
+ * @since 4.0
  */
 public final class ThreadFactoryBuilder {
   private String nameFormat = null;

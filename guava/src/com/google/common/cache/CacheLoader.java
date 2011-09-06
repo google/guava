@@ -28,7 +28,7 @@ import java.io.Serializable;
  * Computes or retrieves values, based on a key, for use in populating a {@code Cache}.
  *
  * @author Charles Fry
- * @since Guava release 10
+ * @since 10.0
  */
 @Beta
 public abstract class CacheLoader<K, V> {

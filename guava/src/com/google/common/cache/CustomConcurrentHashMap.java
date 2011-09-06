@@ -46,12 +46,9 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Queue;
 import java.util.Set;
-import java.util.concurrent.CancellationException;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReferenceArray;
 import java.util.concurrent.locks.ReentrantLock;
@@ -130,8 +127,6 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
   // TODO(user): empirically optimize this
   static final int DRAIN_MAX = 16;
 
-  static final long CLEANUP_EXECUTOR_DELAY_SECS = 60;
-
   // Fields
 
   private static final Logger logger = Logger.getLogger(CustomConcurrentHashMap.class.getName());
@@ -190,17 +185,11 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
   /** Factory used to create new entries. */
   final transient EntryFactory entryFactory;
 
-  /** Performs routine cleanup. */
-  final ScheduledExecutorService cleanupExecutor;
-
   /** Measures time in a testable way. */
   final Ticker ticker;
 
   /**
    * Creates a new, empty map with the specified strategy, initial capacity and concurrency level.
-   *
-   * @throws RejectedExecutionException if a cleanupExecutor was specified but rejects the cleanup
-   *     task
    */
   CustomConcurrentHashMap(CacheBuilder<? super K, ? super V> builder,
       Supplier<? extends StatsCounter> statsCounterSupplier,
@@ -220,7 +209,6 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
     expireAfterWriteNanos = builder.getExpireAfterWriteNanos();
 
     entryFactory = EntryFactory.getFactory(keyStrength, expires(), evictsBySize());
-    cleanupExecutor = builder.getCleanupExecutor();
     ticker = builder.getTicker();
 
     removalListener = builder.getRemovalListener();
@@ -275,12 +263,6 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
             createSegment(segmentSize, CacheBuilder.UNSET_INT, statsCounterSupplier.get());
       }
     }
-
-    // schedule cleanup after construction is complete
-    if (cleanupExecutor != null) {
-      cleanupExecutor.scheduleWithFixedDelay(new CleanupMapTask(this),
-          CLEANUP_EXECUTOR_DELAY_SECS, CLEANUP_EXECUTOR_DELAY_SECS, TimeUnit.SECONDS);
-    }
   }
 
   boolean evictsBySize() {
@@ -305,10 +287,6 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
 
   boolean usesValueReferences() {
     return valueStrength != Strength.STRONG;
-  }
-
-  boolean isInlineCleanup() {
-    return cleanupExecutor == null;
   }
 
   enum Strength {
@@ -3250,13 +3228,12 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
     }
 
     /**
-     * Performs routine cleanup following a read. Normally cleanup happens during writes, or from
-     * the cleanupExecutor. If cleanup is not observed after a sufficient number of reads, try
-     * cleaning up from the read thread.
+     * Performs routine cleanup following a read. Normally cleanup happens during writes. If cleanup
+     * is not observed after a sufficient number of reads, try cleaning up from the read thread.
      */
     void postReadCleanup() {
       if ((readCount.incrementAndGet() & DRAIN_THRESHOLD) == 0) {
-        runCleanup();
+        cleanUp();
       }
     }
 
@@ -3278,7 +3255,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
       runUnlockedCleanup();
     }
 
-    void runCleanup() {
+    void cleanUp() {
       runLockedCleanup();
       runUnlockedCleanup();
     }
@@ -3750,23 +3727,11 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
     }
   }
 
-  static final class CleanupMapTask implements Runnable {
-    final WeakReference<CustomConcurrentHashMap<?, ?>> mapReference;
+  // Cache support
 
-    public CleanupMapTask(CustomConcurrentHashMap<?, ?> map) {
-      this.mapReference = new WeakReference<CustomConcurrentHashMap<?, ?>>(map);
-    }
-
-    @Override
-    public void run() {
-      CustomConcurrentHashMap<?, ?> map = mapReference.get();
-      if (map == null) {
-        throw new CancellationException();
-      }
-
-      for (Segment<?, ?> segment : map.segments) {
-        segment.runCleanup();
-      }
+  public void cleanUp() {
+    for (Segment<?, ?> segment : segments) {
+      segment.cleanUp();
     }
   }
 

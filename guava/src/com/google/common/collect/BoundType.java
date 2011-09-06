@@ -22,7 +22,7 @@ import com.google.common.annotations.GwtCompatible;
  * ("open"). If a range is unbounded on a side, it is neither open nor closed on that side; the
  * bound simply does not exist.
  *
- * @since Guava release 10
+ * @since 10.0
  */
 @Beta
 @GwtCompatible

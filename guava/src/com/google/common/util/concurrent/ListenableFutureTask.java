@@ -31,7 +31,7 @@ import javax.annotation.Nullable;
  * be called.
  *
  * @author Sven Mawson
- * @since Guava release 01
+ * @since 1.0
  */
 public final class ListenableFutureTask<V> extends FutureTask<V>
     implements ListenableFuture<V> {
@@ -44,7 +44,7 @@ public final class ListenableFutureTask<V> extends FutureTask<V>
    * given {@code Callable}.
    *
    * @param callable the callable task
-   * @since Guava release 10
+   * @since 10.0
    */
   public static <V> ListenableFutureTask<V> create(Callable<V> callable) {
     return new ListenableFutureTask<V>(callable);
@@ -60,7 +60,7 @@ public final class ListenableFutureTask<V> extends FutureTask<V>
    *     need a particular result, consider using constructions of the form:
    *     {@code ListenableFuture<?> f = ListenableFutureTask.create(runnable,
    *     null)}
-   * @since Guava release 10
+   * @since 10.0
    */
   public static <V> ListenableFutureTask<V> create(
       Runnable runnable, @Nullable V result) {
@@ -69,7 +69,7 @@ public final class ListenableFutureTask<V> extends FutureTask<V>
 
   /**
    * <b>Deprecated.</b> Use {@link #create(Callable)} instead. This method will be
-   * removed in Guava release 11.
+   * removed in release 11.0.
    *
    * Creates a {@code ListenableFutureTask} that will upon running, execute the
    * given {@code Callable}.
@@ -83,7 +83,7 @@ public final class ListenableFutureTask<V> extends FutureTask<V>
 
   /**
    * <b>Deprecated. Use {@link #create(Runnable, Object)} instead. This method
-   * will be removed in Guava release 11.</b>
+   * will be removed in release 11.0.</b>
    *
    * Creates a {@code ListenableFutureTask} that will upon running, execute the
    * given {@code Runnable}, and arrange that {@code get} will return the

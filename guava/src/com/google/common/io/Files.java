@@ -46,7 +46,7 @@ import java.util.zip.Checksum;
  * <p>All method parameters must be non-null unless documented otherwise.
  *
  * @author Chris Nokleberg
- * @since Guava release 01
+ * @since 1.0
  */
 @Beta
 public final class Files {
@@ -444,7 +444,7 @@ public final class Files {
    * @throws IOException if an I/O error occurs, or if any necessary but
    *     nonexistent parent directories of the specified file could not be
    *     created.
-   * @since Guava release 04
+   * @since 4.0
    */
   public static void createParentDirs(File file) throws IOException {
     File parent = file.getCanonicalFile().getParentFile();
@@ -492,7 +492,7 @@ public final class Files {
    * <b>Deprecated.</b> This method suffers from poor symlink detection and race
    * conditions. This functionality can be supported suitably only by shelling
    * out to an operating system command such as {@code rm -rf} or {@code del
-   * /s}. This method is scheduled to be removed in Guava release 11.
+   * /s}. This method is scheduled to be removed in release 11.0.
    *
    * <p>Deletes all the files within a directory. Does not delete the
    * directory itself.
@@ -527,7 +527,7 @@ public final class Files {
    * <b>Deprecated.</b> This method suffers from poor symlink detection and race
    * conditions. This functionality can be supported suitably only by shelling
    * out to an operating system command such as {@code rm -rf} or {@code del
-   * /s}. This method is scheduled to be removed in Guava release 11.
+   * /s}. This method is scheduled to be removed in release 11.0.
    *
    * <p>Deletes a file or directory and all contents recursively.
    *
@@ -654,7 +654,7 @@ public final class Files {
    * @throws IOException if an I/O error occurs
    *
    * @see FileChannel#map(MapMode, long, long)
-   * @since Guava release 02
+   * @since 2.0
    */
   public static MappedByteBuffer map(File file) throws IOException {
     return map(file, MapMode.READ_ONLY);
@@ -676,7 +676,7 @@ public final class Files {
    * @throws IOException if an I/O error occurs
    *
    * @see FileChannel#map(MapMode, long, long)
-   * @since Guava release 02
+   * @since 2.0
    */
   public static MappedByteBuffer map(File file, MapMode mode)
       throws IOException {
@@ -705,7 +705,7 @@ public final class Files {
    * @throws IOException if an I/O error occurs
    *
    * @see FileChannel#map(MapMode, long, long)
-   * @since Guava release 02
+   * @since 2.0
    */
   public static MappedByteBuffer map(File file, MapMode mode, long size)
       throws FileNotFoundException, IOException {
@@ -754,7 +754,7 @@ public final class Files {
    * a/../b} may refer to a sibling of {@code x}, rather than the sibling of
    * {@code a} referred to by {@code b}.
    *
-   * @since Guava release 10
+   * @since 10.0
    */
   public static String simplifyPath(String pathname) {
     if (pathname.length() == 0) {

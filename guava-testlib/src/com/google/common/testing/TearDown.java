@@ -22,7 +22,7 @@ import com.google.common.annotations.Beta;
  * An object that can perform a {@link #tearDown} operation.
  *
  * @author Kevin Bourrillion
- * @since Guava release 10
+ * @since 10.0
  */
 @Beta
 public interface TearDown {

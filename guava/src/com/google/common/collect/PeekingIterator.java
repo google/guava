@@ -25,7 +25,7 @@ import java.util.NoSuchElementException;
  * An iterator that supports a one-element lookahead while iterating.
  *
  * @author Mick Killianey
- * @since Guava release 02 (imported from Google Collections Library)
+ * @since 2.0 (imported from Google Collections Library)
  */
 @GwtCompatible
 public interface PeekingIterator<E> extends Iterator<E> {

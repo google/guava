@@ -31,7 +31,7 @@ import java.util.concurrent.TimeUnit;
  * @author Raimundo Mirisola
  *
  * @param <E> the type of elements held in this collection
- * @since Guava release 04
+ * @since 4.0
  */
 public abstract class ForwardingBlockingQueue<E> extends ForwardingQueue<E>
     implements BlockingQueue<E> {

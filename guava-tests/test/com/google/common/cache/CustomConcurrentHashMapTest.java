@@ -96,7 +96,6 @@ public class CustomConcurrentHashMapTest extends TestCase {
     assertEquals(CacheBuilder.UNSET_INT, map.maximumSize);
 
     assertSame(EntryFactory.STRONG, map.entryFactory);
-    assertNull(map.cleanupExecutor);
     assertSame(CacheBuilder.NullListener.INSTANCE, map.removalListener);
     assertSame(DISCARDING_QUEUE, map.removalNotificationQueue);
     assertSame(Ticker.systemTicker(), map.ticker);
@@ -112,7 +111,6 @@ public class CustomConcurrentHashMapTest extends TestCase {
     assertFalse(map.expires());
     assertFalse(map.expiresAfterWrite());
     assertFalse(map.expiresAfterAccess());
-    assertTrue(map.isInlineCleanup());
   }
 
   public void testComputingFunction() {

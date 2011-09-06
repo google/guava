@@ -94,7 +94,7 @@ import javax.annotation.CheckReturnValue;
  * @author Jesse Wilson
  * @author Kevin Bourrillion
  * @author Louis Wasserman
- * @since Guava release 01
+ * @since 1.0
  */
 @GwtCompatible(emulated = true)
 public final class Splitter {
@@ -321,7 +321,7 @@ public final class Splitter {
    *
    * @param limit the maximum number of items returns
    * @return a splitter with the desired configuration
-   * @since Guava release 09
+   * @since 9.0
    */
   @CheckReturnValue
   public Splitter limit(int limit) {
@@ -387,7 +387,7 @@ public final class Splitter {
    * Returns a {@code MapSplitter} which splits entries based on this splitter,
    * and splits entries into keys and values using the specified separator.
    *
-   * @since Guava release 10
+   * @since 10.0
    */
   @CheckReturnValue
   @Beta
@@ -400,7 +400,7 @@ public final class Splitter {
    * and splits entries into keys and values using the specified key-value
    * splitter.
    *
-   * @since Guava release 10
+   * @since 10.0
    */
   @CheckReturnValue
   @Beta
@@ -413,7 +413,7 @@ public final class Splitter {
    * iterables and lists. Like {@code Splitter}, it is thread-safe and
    * immutable.
    *
-   * @since Guava release 10
+   * @since 10.0
    */
   @Beta
   public static final class MapSplitter {

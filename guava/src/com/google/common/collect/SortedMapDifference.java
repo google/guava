@@ -25,7 +25,7 @@ import java.util.SortedMap;
  * An object representing the differences between two sorted maps.
  *
  * @author Louis Wasserman
- * @since Guava release 08
+ * @since 8.0
  */
 @Beta
 @GwtCompatible

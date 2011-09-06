@@ -52,7 +52,7 @@ import java.util.regex.Pattern;
  * host field (if desired) is the caller's responsibility.
  *
  * @author Paul Marks
- * @since Guava release 10
+ * @since 10.0
  */
 @Beta
 public final class HostAndPort {

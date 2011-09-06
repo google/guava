@@ -71,7 +71,7 @@ import javax.annotation.Nullable;
  * implementation.
  *
  * @author Kevin Bourrillion
- * @since Guava release 02 (imported from Google Collections Library)
+ * @since 2.0 (imported from Google Collections Library)
  */
 @GwtCompatible
 public interface Multiset<E> extends Collection<E> {
@@ -217,7 +217,7 @@ public interface Multiset<E> extends Collection<E> {
    * snapshots. Note that this type is unrelated to the similarly-named type
    * {@code Map.Entry}.
    *
-   * @since Guava release 02 (imported from Google Collections Library)
+   * @since 2.0 (imported from Google Collections Library)
    */
   interface Entry<E> {
 

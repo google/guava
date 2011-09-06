@@ -31,7 +31,7 @@ import javax.annotation.Nullable;
  * List}.
  *
  * @author Jared Levy
- * @since Guava release 02 (imported from Google Collections Library)
+ * @since 2.0 (imported from Google Collections Library)
  */
 @GwtCompatible
 abstract class AbstractListMultimap<K, V>

@@ -32,7 +32,7 @@ import java.util.concurrent.ScheduledExecutorService;
  * ListenableFuture, too? But then we'll need ListenableScheduledFuture...
  *
  * @author Chris Povirk
- * @since Guava release 10
+ * @since 10.0
  */
 @Beta
 public interface ListeningScheduledExecutorService

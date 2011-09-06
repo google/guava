@@ -39,7 +39,7 @@ import java.util.Comparator;
  * @author Kevin Bourrillion
  * @author Martin Buchholz
  * @author Hiroshi Yamauchi
- * @since Guava release 01
+ * @since 1.0
  */
 public final class UnsignedBytes {
   private UnsignedBytes() {}
@@ -47,7 +47,7 @@ public final class UnsignedBytes {
   /**
    * The largest power of two that can be represented as an unsigned {@code byte}.
    *
-   * @since Guava release 10
+   * @since 10.0
    */
   public static final byte MAX_POWER_OF_TWO = (byte) (1 << 7);
 
@@ -56,7 +56,7 @@ public final class UnsignedBytes {
    * unsigned. That is, returns {@code value + 256} if {@code value} is
    * negative; {@code value} itself otherwise.
    *
-   * @since Guava release 06
+   * @since 6.0
    */
   public static int toInt(byte value) {
     return value & 0xFF;
@@ -188,7 +188,7 @@ public final class UnsignedBytes {
    *
    * @see <a href="http://en.wikipedia.org/wiki/Lexicographical_order">
    *     Lexicographical order article at Wikipedia</a>
-   * @since Guava release 02
+   * @since 2.0
    */
   public static Comparator<byte[]> lexicographicalComparator() {
     return LexicographicalComparatorHolder.BEST_COMPARATOR;

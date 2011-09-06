@@ -36,7 +36,7 @@ import java.util.RandomAccess;
  * already found in either {@link Long} or {@link Arrays}.
  *
  * @author Kevin Bourrillion
- * @since Guava release 01
+ * @since 1.0
  */
 @GwtCompatible(emulated = true)
 public final class Longs {
@@ -51,7 +51,7 @@ public final class Longs {
   /**
    * The largest power of two that can be represented as a {@code long}.
    *
-   * @since Guava release 10
+   * @since 10.0
    */
   public static final long MAX_POWER_OF_TWO = 1L << (Long.SIZE - 2);
 
@@ -311,7 +311,7 @@ public final class Longs {
    *
    * @see <a href="http://en.wikipedia.org/wiki/Lexicographical_order">
    *     Lexicographical order article at Wikipedia</a>
-   * @since Guava release 02
+   * @since 2.0
    */
   public static Comparator<long[]> lexicographicalComparator() {
     return LexicographicalComparator.INSTANCE;

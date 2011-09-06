@@ -28,7 +28,7 @@ import java.util.concurrent.TimeUnit;
  * {@link CheckedFuture#checkedGet(long, TimeUnit)} methods work correctly.
  *
  * @author Sven Mawson
- * @since Guava release 10
+ * @since 10.0
  */
 @Beta
 public abstract class AbstractCheckedFutureTest
