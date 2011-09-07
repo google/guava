@@ -1696,6 +1696,7 @@ public final class Multimaps {
    *     {@code Iterator} and not {@code Iterable}. <b>This method is scheduled
    *     for deletion in March 2012.</b>
    */
+  @Beta
   @Deprecated
   public static <K, V, I extends Object & Iterable<V> & Iterator<V>>
       ImmutableListMultimap<K, V> index(

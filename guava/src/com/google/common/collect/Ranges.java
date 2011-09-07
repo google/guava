@@ -30,23 +30,23 @@ import java.util.NoSuchElementException;
  * factory method:
  *
  * <dl>
- * <dt>{@code (a‥b)}
+ * <dt>{@code (a..b)}
  * <dd>{@link #open}
- * <dt>{@code [a‥b]}
+ * <dt>{@code [a..b]}
  * <dd>{@link #closed}
- * <dt>{@code [a‥b)}
+ * <dt>{@code [a..b)}
  * <dd>{@link #closedOpen}
- * <dt>{@code (a‥b]}
+ * <dt>{@code (a..b]}
  * <dd>{@link #openClosed}
- * <dt>{@code (a‥+∞)}
+ * <dt>{@code (a..+∞)}
  * <dd>{@link #greaterThan}
- * <dt>{@code [a‥+∞)}
+ * <dt>{@code [a..+∞)}
  * <dd>{@link #atLeast}
- * <dt>{@code (-∞‥b)}
+ * <dt>{@code (-∞..b)}
  * <dd>{@link #lessThan}
- * <dt>{@code (-∞‥b]}
+ * <dt>{@code (-∞..b]}
  * <dd>{@link #atMost}
- * <dt>{@code (-∞‥+∞)}
+ * <dt>{@code (-∞..+∞)}
  * <dd>{@link #all}
  * </dl>
  *
@@ -56,9 +56,9 @@ import java.util.NoSuchElementException;
  * <dl>
  * <dt>Bounded on both ends
  * <dd>{@link #range}
- * <dt>Unbounded on top ({@code (a‥+∞)} or {@code (a‥+∞)})
+ * <dt>Unbounded on top ({@code (a..+∞)} or {@code (a..+∞)})
  * <dd>{@link #downTo}
- * <dt>Unbounded on bottom ({@code (-∞‥b)} or {@code (-∞‥b]})
+ * <dt>Unbounded on bottom ({@code (-∞..b)} or {@code (-∞..b]})
  * <dd>{@link #upTo}
  * </dl>
  *

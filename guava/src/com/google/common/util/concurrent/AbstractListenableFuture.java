@@ -23,8 +23,8 @@ import com.google.common.annotations.Beta;
  *
  * @author Sven Mawson
  * @since 1.0
- * @deprecated Use {@link AbstractFuture}. <b>This class is scheduled for deletion in release
- *     11.0.</b>
+ * @deprecated Use {@link AbstractFuture}. <b>This class is scheduled for deletion from Guava in
+ *     Guava release 11.0.</b>
  */
 @Beta
 @Deprecated

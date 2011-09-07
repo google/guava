@@ -226,7 +226,7 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    *
    * <p>Caching functionality in {@code MapMaker} is being moved to
    * {@link com.google.common.cache.CacheBuilder}.
-   * <b>This method is scheduled for deletion in release 11.0.</b>
+   * <b>This method is scheduled for deletion from Guava in Guava release 11.0.</b>
    *
    * @param size the maximum size of the map
    * @throws IllegalArgumentException if {@code size} is negative
@@ -261,7 +261,7 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    * at a time, but since read operations can proceed concurrently, this still yields higher
    * concurrency than full synchronization. Defaults to 4.
    *
-   * <p><b>Note:</b> Prior to release 9.0, the default was 16. It is possible the default will
+   * <p><b>Note:</b> Prior to Guava release 9.0, the default was 16. It is possible the default will
    * change again in the future. If you care about this value, you should always choose it
    * explicitly.
    *
@@ -450,7 +450,7 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    *
    * <p>Caching functionality in {@code MapMaker} is being moved to
    * {@link com.google.common.cache.CacheBuilder}.
-   * <b>This method is scheduled for deletion in release 11.0.</b>
+   * <b>This method is scheduled for deletion from Guava in Guava release 11.0.</b>
    *
    * @param duration the length of time after an entry is created that it should be automatically
    *     removed
@@ -500,7 +500,7 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    *
    * <p>Caching functionality in {@code MapMaker} is being moved to
    * {@link com.google.common.cache.CacheBuilder}.
-   * <b>This method is scheduled for deletion in release 11.0.</b>
+   * <b>This method is scheduled for deletion from Guava in Guava release 11.0.</b>
    *
    * @param duration the length of time after an entry is last accessed that it should be
    *     automatically removed

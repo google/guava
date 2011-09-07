@@ -31,7 +31,7 @@ import javax.annotation.Nullable;
  *     {@link com.google.common.cache.CacheBuilder}. Functionality similar to
  *     {@code EvictionListeners} is provided by {@link
  *     com.google.common.cache.RemovalListeners}. <b>This class is scheduled for
- *     deletion in release 11.0.</b>
+ *     deletion from Guava in Guava release 11.0.</b>
  */
 @Beta
 @Deprecated
@@ -51,7 +51,7 @@ final class EvictionListeners {
    *     {@link com.google.common.cache.CacheBuilder}. Functionality similar to
    *     {@code EvictionListeners#asynchronous} is provided by
    *     {@link com.google.common.cache.RemovalListeners#asynchronous}.
-   *     <b>This method is scheduled for deletion in release 11.0.</b>
+   *     <b>This method is scheduled for deletion from Guava in Guava release 11.0.</b>
    */
   @Deprecated
   public static <K, V> MapEvictionListener<K, V> asynchronous(

@@ -535,6 +535,7 @@ public final class Maps {
    *     {@code Iterator} and not {@code Iterable}. <b>This method is scheduled
    *     for deletion in March 2012.</b>
    */
+  @Beta
   @Deprecated
   public static <K, V, I extends Object & Iterable<V> & Iterator<V>>
       ImmutableMap<K, V> uniqueIndex(

@@ -33,7 +33,7 @@ import javax.annotation.Nullable;
  * @author Ben Manes
  * @since 7.0
  * @deprecated use {@link MapMaker.RemovalListener} <b>This class is scheduled
- *     for deletion in release 11.0.</b>
+ *     for deletion from Guava in Guava release 11.0.</b>
  */
 @Beta
 @Deprecated

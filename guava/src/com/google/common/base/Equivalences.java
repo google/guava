@@ -66,7 +66,7 @@ public final class Equivalences {
    *
    * @since 9.0
    * @deprecated use {@link Equivalence#pairwise}, which behaves exactly the same. <b>This method is
-   *     scheduled for deletion in release 11.0.</b>
+   *     scheduled for deletion from Guava in Guava release 11.0.</b>
    */
   @Deprecated
   @GwtCompatible(serializable = true)

@@ -125,7 +125,7 @@ public final class Futures {
    *     fact. If this is not possible, the functionality of {@code
    *     makeListenable} is now available as {@link
    *     JdkFutureAdapters#listenInPoolThread}. <b>This method is scheduled
-   *     for deletion in release 11.0.</b>
+   *     for deletion from Guava in Guava release 11.0.</b>
    */
   @Deprecated
   public
@@ -151,7 +151,8 @@ public final class Futures {
    *
    * @deprecated Obtain a {@link ListenableFuture}, following the advice in its
    *     documentation and use {@link #makeChecked(ListenableFuture, Function)}.
-   *     <b>This method is scheduled for deletion in release 11.0.</b>
+   *     <b>This method is scheduled for deletion from Guava in Guava release
+   *     11.0.</b>
    */
   @Deprecated
   public
@@ -578,7 +579,8 @@ public final class Futures {
    *     documentation) and use {@link #transform(ListenableFuture, Function)}
    *     or use {@link #lazyTransform(Future, Function)}, which will apply the
    *     transformation on each call to {@code get()}.
-   *     <b>This method is scheduled for deletion in release 11.0.</b>
+   *     <b>This method is scheduled for deletion from Guava in Guava release
+   *     11.0.</b>
    */
   @Deprecated
   public static <I, O> Future<O> transform(final Future<I> future,

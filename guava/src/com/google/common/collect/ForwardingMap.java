@@ -195,7 +195,7 @@ public abstract class ForwardingMap<K, V> extends ForwardingObject
    *
    * @since 7.0
    * @deprecated Use the {@code StandardKeySet} constructor instead.  This
-   *             method will be removed in release 11.0.
+   *             method will be removed from Guava in Guava release 11.0.
    */
   @Beta @Deprecated protected Set<K> standardKeySet() {
     return new StandardKeySet();
@@ -240,7 +240,7 @@ public abstract class ForwardingMap<K, V> extends ForwardingObject
    *
    * @since 7.0
    * @deprecated Use the {@code StandardValues} constructor instead.  This
-   *             method will be removed in release 11.0.
+   *             method will be removed from Guava in Guava release 11.0.
    */
   @Beta @Deprecated protected Collection<V> standardValues() {
     return new StandardValues();
@@ -290,7 +290,7 @@ public abstract class ForwardingMap<K, V> extends ForwardingObject
    *
    * @since 7.0
    * @deprecated Use {@code StandardEntrySet} instead.  This method will be
-   *             removed in release 11.0.
+   *             removed from Guava in Guava release 11.0.
    */
   @Deprecated @Beta
    protected Set<Entry<K, V>> standardEntrySet(

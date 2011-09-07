@@ -102,14 +102,14 @@ public abstract class ContiguousSet<C extends Comparable> extends ImmutableSorte
    *
    * <p>Note that this method will return ranges with unbounded endpoints if {@link BoundType#OPEN}
    * is requested for a domain minimum or maximum.  For example, if {@code set} was created from the
-   * range {@code [1‥Integer.MAX_VALUE]} then {@code set.range(CLOSED, OPEN)} must return
-   * {@code [1‥∞)}.
+   * range {@code [1..Integer.MAX_VALUE]} then {@code set.range(CLOSED, OPEN)} must return
+   * {@code [1..∞)}.
    *
    * @throws NoSuchElementException if this set is empty
    */
   public abstract Range<C> range(BoundType lowerBoundType, BoundType upperBoundType);
 
-  /** Returns a short-hand representation of the contents such as {@code "[1‥100]"}. */
+  /** Returns a short-hand representation of the contents such as {@code "[1..100]"}. */
   @Override public String toString() {
     return range().toString();
   }

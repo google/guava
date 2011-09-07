@@ -188,8 +188,8 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
    * implementation of {@link #cancel(boolean)} and not need to call this method
    * at all. Those that are not can delegate to {@code
    * super.cancel(mayInterruptIfRunning)} or, to get behavior exactly equivalent
-   * to this method, {@code super.cancel(false)}. This method will be removed in
-   * release 11.0.
+   * to this method, {@code super.cancel(false)}. This method will be removed
+   * from Guava in Guava release 11.0.
    */
   @Beta @Deprecated
   protected final boolean cancel() {
@@ -204,7 +204,7 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
    * <b>Deprecated.</b> {@linkplain #addListener Add listeners} (possible executed
    * in {@link MoreExecutors#sameThreadExecutor}) to perform the work currently
    * performed by your {@code done} implementation. This method will be removed
-   * in release 11.0.
+   * from Guava in Guava release 11.0.
    *
    * Called by the success, failed, or cancelled methods to indicate that the
    * value is now available and the latch can be released.

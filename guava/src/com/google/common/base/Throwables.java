@@ -239,7 +239,7 @@ public final class Throwables {
    *     appropriate exception. For the particular case of exceptions thrown by
    *     {@code Future.get}, consider {@link
    *     com.google.common.util.concurrent.Futures#get(java.util.concurrent.Future,
-   *     Class)}. This method is scheduled for removal in Guava release 11.0.
+   *     Class)}. This method will be removed from Guava in Guava release 11.0.
    */
   @Beta
   @Deprecated

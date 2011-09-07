@@ -492,7 +492,8 @@ public final class Files {
    * <b>Deprecated.</b> This method suffers from poor symlink detection and race
    * conditions. This functionality can be supported suitably only by shelling
    * out to an operating system command such as {@code rm -rf} or {@code del
-   * /s}. This method is scheduled to be removed in release 11.0.
+   * /s}. This method is scheduled to be removed from Guava in Guava release
+   * 11.0.
    *
    * <p>Deletes all the files within a directory. Does not delete the
    * directory itself.
@@ -527,7 +528,8 @@ public final class Files {
    * <b>Deprecated.</b> This method suffers from poor symlink detection and race
    * conditions. This functionality can be supported suitably only by shelling
    * out to an operating system command such as {@code rm -rf} or {@code del
-   * /s}. This method is scheduled to be removed in release 11.0.
+   * /s}. This method is scheduled to be removed from Guava in Guava release
+   * 11.0.
    *
    * <p>Deletes a file or directory and all contents recursively.
    *

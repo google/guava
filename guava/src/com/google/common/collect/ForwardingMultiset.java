@@ -241,7 +241,7 @@ public abstract class ForwardingMultiset<E> extends ForwardingCollection<E>
    *
    * @since 7.0
    * @deprecated Use the {@code StandardElementSet} constructor instead.  This
-   *             method will be removed in release 11.0.
+   *             method will be removed from Guava in Guava release 11.0.
    */
   @Beta @Deprecated protected Set<E> standardElementSet() {
     return new StandardElementSet();

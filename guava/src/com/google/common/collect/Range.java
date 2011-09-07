@@ -45,15 +45,15 @@ import javax.annotation.Nullable;
  * types of ranges:
  *
  * <ul>
- * <li>{@code (a‥b) = {x | a < x < b}}
- * <li>{@code [a‥b] = {x | a <= x <= b}}
- * <li>{@code [a‥b) = {x | a <= x < b}}
- * <li>{@code (a‥b] = {x | a < x <= b}}
- * <li>{@code (a‥+∞) = {x | x > a}}
- * <li>{@code [a‥+∞) = {x | x >= a}}
- * <li>{@code (-∞‥b) = {x | x < b}}
- * <li>{@code (-∞‥b] = {x | x <= b}}
- * <li>{@code (-∞‥+∞) = all values}
+ * <li>{@code (a..b) = {x | a < x < b}}
+ * <li>{@code [a..b] = {x | a <= x <= b}}
+ * <li>{@code [a..b) = {x | a <= x < b}}
+ * <li>{@code (a..b] = {x | a < x <= b}}
+ * <li>{@code (a..+∞) = {x | x > a}}
+ * <li>{@code [a..+∞) = {x | x >= a}}
+ * <li>{@code (-∞..b) = {x | x < b}}
+ * <li>{@code (-∞..b] = {x | x <= b}}
+ * <li>{@code (-∞..+∞) = all values}
  * </ul>
  *
  * (The notation {@code {x | statement}} is read "the set of all <i>x</i> such
@@ -68,9 +68,9 @@ import javax.annotation.Nullable;
  * be equal only if at least one of the bounds is closed:
  *
  * <ul>
- * <li>{@code [a‥a]} : singleton range
- * <li>{@code [a‥a); (a‥a]} : {@linkplain #isEmpty empty}, but valid
- * <li>{@code (a‥a)} : <b>invalid</b>
+ * <li>{@code [a..a]} : singleton range
+ * <li>{@code [a..a); (a..a]} : {@linkplain #isEmpty empty}, but valid
+ * <li>{@code (a..a)} : <b>invalid</b>
  * </ul>
  *
  * <p>Instances of this type can be obtained using the static factory methods in
@@ -182,12 +182,12 @@ public final class Range<C extends Comparable>
   }
 
   /**
-   * Returns {@code true} if this range is of the form {@code [v‥v)} or {@code
-   * (v‥v]}. (This does not encompass ranges of the form {@code (v‥v)}, because
-   * such ranges are <i>invalid</i> and can't be constructed at all.)
+   * Returns {@code true} if this range is of the form {@code [v..v)} or {@code
+   * (v..v]}. (This does not encompass ranges of the form {@code (v..v)},
+   * because such ranges are <i>invalid</i> and can't be constructed at all.)
    *
    * <p>Note that certain discrete ranges such as the integer range {@code
-   * (3‥4)} are <b>not</b> considered empty, even though they contain no actual
+   * (3..4)} are <b>not</b> considered empty, even though they contain no actual
    * values.
    */
   public boolean isEmpty() {
@@ -196,7 +196,7 @@ public final class Range<C extends Comparable>
 
   /**
    * Returns {@code true} if {@code value} is within the bounds of this
-   * range. For example, on the range {@code [0‥2)}, {@code contains(1)}
+   * range. For example, on the range {@code [0..2)}, {@code contains(1)}
    * returns {@code true}, while {@code contains(2)} returns {@code false}.
    */
   public boolean contains(C value) {
@@ -245,14 +245,14 @@ public final class Range<C extends Comparable>
    * the bounds of this range. Examples:
    *
    * <ul>
-   * <li>{@code [3‥6]} encloses {@code [4‥5]}
-   * <li>{@code (3‥6)} encloses {@code (3‥6)}
-   * <li>{@code [3‥6]} encloses {@code [4‥4)} (even though the latter is
+   * <li>{@code [3..6]} encloses {@code [4..5]}
+   * <li>{@code (3..6)} encloses {@code (3..6)}
+   * <li>{@code [3..6]} encloses {@code [4..4)} (even though the latter is
    *     empty)
-   * <li>{@code (3‥6]} does not enclose {@code [3‥6]}
-   * <li>{@code [4‥5]} does not enclose {@code (3‥6)} (even though it contains
+   * <li>{@code (3..6]} does not enclose {@code [3..6]}
+   * <li>{@code [4..5]} does not enclose {@code (3..6)} (even though it contains
    *     every value contained by the latter range)
-   * <li>{@code [3‥6]} does not enclose {@code (1‥1]} (even though it contains
+   * <li>{@code [3..6]} does not enclose {@code (1..1]} (even though it contains
    *     every value contained by the latter range)
    * </ul>
    *
@@ -284,9 +284,9 @@ public final class Range<C extends Comparable>
   /**
    * Returns the maximal range {@linkplain #encloses enclosed} by both this
    * range and {@code other}, if such a range exists. For example, the
-   * intersection of {@code [1‥5]} and {@code (3‥7)} is {@code (3‥5]}. The
-   * resulting range may be empty; for example, {@code [1‥5)} intersected with
-   * {@code [5‥7)} yields the empty range {@code [5‥5)}.
+   * intersection of {@code [1..5]} and {@code (3..7)} is {@code (3..5]}. The
+   * resulting range may be empty; for example, {@code [1..5)} intersected with
+   * {@code [5..7)} yields the empty range {@code [5..5)}.
    *
    * <p>The intersection operation has the following properties:
    *
@@ -311,8 +311,8 @@ public final class Range<C extends Comparable>
 
   /**
    * Returns the minimal range that {@linkplain #encloses encloses} both this
-   * range and {@code other}. For example, the span of {@code [1‥3]} and
-   * {@code (5‥7)} is {@code [1‥7)}. Note that the span may contain values
+   * range and {@code other}. For example, the span of {@code [1..3]} and
+   * {@code (5..7)} is {@code [1..7)}. Note that the span may contain values
    * that are not contained by either original range.
    *
    * <p>The span operation has the following properties:
@@ -336,8 +336,8 @@ public final class Range<C extends Comparable>
    * given domain {@linkplain Range#contains contained} by this range.
    *
    * <p><b>Note:</b> {@code a.asSet().equals(b.asSet())} does not imply {@code
-   * a.equals(b)}! For example, {@code a} and {@code b} could be {@code [2‥4]}
-   * and {@code (1‥5)}, or the empty ranges {@code [3‥3)} and {@code [4‥4)}.
+   * a.equals(b)}! For example, {@code a} and {@code b} could be {@code [2..4]}
+   * and {@code (1..5)}, or the empty ranges {@code [3..3)} and {@code [4..4)}.
    *
    * <p><b>Warning:</b> Be extremely careful what you do with the {@code asSet}
    * view of a large range (such as {@code Ranges.greaterThan(0)}). Certain
@@ -346,7 +346,7 @@ public final class Range<C extends Comparable>
    * performance problems.
    *
    * <p>The returned set's {@link Object#toString} method returns a short-hand
-   * form of set's contents such as {@code "[1‥100]}"}.
+   * form of set's contents such as {@code "[1..100]}"}.
    *
    * @throws IllegalArgumentException if neither this range nor the domain has a
    *     lower bound, or if neither has an upper bound
@@ -399,10 +399,10 @@ public final class Range<C extends Comparable>
    * of the following canonical forms:
    *
    * <ul>
-   * <li>[start‥end)
-   * <li>[start‥+∞)
-   * <li>(-∞‥end) (only if type {@code C} is unbounded below)
-   * <li>(-∞‥+∞) (only if type {@code C} is unbounded below)
+   * <li>[start..end)
+   * <li>[start..+∞)
+   * <li>(-∞..end) (only if type {@code C} is unbounded below)
+   * <li>(-∞..+∞) (only if type {@code C} is unbounded below)
    * </ul>
    */
   public Range<C> canonical(DiscreteDomain<C> domain) {
@@ -416,10 +416,10 @@ public final class Range<C extends Comparable>
   /**
    * Returns {@code true} if {@code object} is a range having the same
    * endpoints and bound types as this range. Note that discrete ranges
-   * such as {@code (1‥4)} and {@code [2‥3]} are <b>not</b> equal to one
+   * such as {@code (1..4)} and {@code [2..3]} are <b>not</b> equal to one
    * another, despite the fact that they each contain precisely the same set of
    * values. Similarly, empty ranges are not equal unless they have exactly
-   * the same representation, so {@code [3‥3)}, {@code (3‥3]}, {@code (4‥4]}
+   * the same representation, so {@code [3..3)}, {@code (3..3]}, {@code (4..4]}
    * are all unequal.
    */
   @Override public boolean equals(@Nullable Object object) {
@@ -437,7 +437,7 @@ public final class Range<C extends Comparable>
   }
 
   /**
-   * Returns a string representation of this range, such as {@code "[3‥5)"}
+   * Returns a string representation of this range, such as {@code "[3..5)"}
    * (other examples are listed in the class documentation).
    */
   @Override public String toString() {

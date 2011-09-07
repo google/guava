@@ -69,7 +69,7 @@ public final class ListenableFutureTask<V> extends FutureTask<V>
 
   /**
    * <b>Deprecated.</b> Use {@link #create(Callable)} instead. This method will be
-   * removed in release 11.0.
+   * removed from Guava in Guava release 11.0.
    *
    * Creates a {@code ListenableFutureTask} that will upon running, execute the
    * given {@code Callable}.
@@ -83,7 +83,7 @@ public final class ListenableFutureTask<V> extends FutureTask<V>
 
   /**
    * <b>Deprecated. Use {@link #create(Runnable, Object)} instead. This method
-   * will be removed in release 11.0.</b>
+   * will be removed from Guava in Guava release 11.0.</b>
    *
    * Creates a {@code ListenableFutureTask} that will upon running, execute the
    * given {@code Runnable}, and arrange that {@code get} will return the
