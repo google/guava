@@ -17,6 +17,11 @@
 /**
  * Concurrency utilities.
  *
+ * <p>Commonly used types include {@link ListenableFuture} and {@link Service}.
+ *
+ * <p>Commonly used utilities include {@link Futures}, {@link MoreExecutors},
+ * and {@link ThreadFactoryBuilder}.
+ *
  * <p>This package is a part of the open-source
  * <a href="http://guava-libraries.googlecode.com">Guava libraries</a>.
  */

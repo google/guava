@@ -88,6 +88,6 @@ public abstract class CacheLoader<K, V> {
    */
   public abstract V load(K key) throws Exception;
 
-  // TODO(user): loadAll
+  // TODO(fry): loadAll
 
 }

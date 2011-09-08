@@ -192,7 +192,7 @@ public final class CacheBuilder<K, V> {
 
   Ticker ticker;
 
-  // TODO(user): make constructor private and update tests to use newBuilder
+  // TODO(fry): make constructor private and update tests to use newBuilder
   CacheBuilder() {}
 
   /**
@@ -691,7 +691,7 @@ public final class CacheBuilder<K, V> {
     }
   }
 
-  // TODO(user): remove, as no code path can hit this
+  // TODO(fry): remove, as no code path can hit this
   /** Computes on retrieval and evicts the result. */
   static final class NullComputingConcurrentMap<K, V> extends NullConcurrentMap<K, V> {
     private static final long serialVersionUID = 0;

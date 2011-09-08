@@ -85,7 +85,7 @@ class ComputingCache<K, V> extends AbstractCache<K, V> {
     map.cleanUp();
   }
 
-  // TODO(user): activeEntries
+  // TODO(fry): activeEntries
 
   static final class CacheAsMap<K, V> extends ForwardingConcurrentMap<K, V> {
     private final CustomConcurrentHashMap<K, V> delegate;

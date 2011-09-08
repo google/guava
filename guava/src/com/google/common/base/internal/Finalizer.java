@@ -119,7 +119,7 @@ class Finalizer extends Thread {
           + " by reference finalizer thread.", t);
     }
 
-    // TODO(user): Priority?
+    // TODO(fry): Priority?
   }
 
   /**

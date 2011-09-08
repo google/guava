@@ -33,7 +33,7 @@ import java.util.concurrent.TimeUnit;
  */
 public class MapMaker extends GenericMapMaker<Object, Object> {
 
-  // TODO(user,user): ConcurrentHashMap never throws a CME when mutating the map during iteration, but
+  // TODO(fry,user): ConcurrentHashMap never throws a CME when mutating the map during iteration, but
   // this implementation (based on a LHM) does. This will all be replaced soon anyways, so leaving
   // it as is for now.
   private static class ExpiringComputingMap<K, V> extends LinkedHashMap<K, V>

@@ -19,6 +19,7 @@ package com.google.common.util.concurrent;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
+import static com.google.common.util.concurrent.MoreExecutors.sameThreadExecutor;
 import static com.google.common.util.concurrent.Uninterruptibles.getUninterruptibly;
 import static java.lang.Thread.currentThread;
 import static java.util.Arrays.asList;
@@ -278,13 +279,13 @@ public final class Futures {
    * derivations, this overload carries some caveats: First, the thread that the
    * derivation runs in depends on whether the input {@code Future} is done at
    * the time {@code chain} is called. In particular, if called late, {@code
-   * chain} will run the derivation in the thread that calls {@code chain}.
+   * chain} will run the derivation in the thread that called {@code chain}.
    * Second, derivations may run in an internal thread of the system responsible
    * for the input {@code Future}, such as an RPC network thread. Finally,
    * during the execution of a {@link MoreExecutors#sameThreadExecutor
-   * sameThreadExecutor} listener, all other registered but unexecuted
-   * listeners are prevented from running, even if those listeners are to run
-   * in other executors.
+   * sameThreadExecutor} {@code chain} function, all other registered but
+   * unexecuted listeners are prevented from running, even if those listeners
+   * are to run in other executors.
    *
    * <p>The returned {@code Future} attempts to keep its cancellation state in
    * sync with that of the input future and that of the future returned by the
@@ -343,12 +344,12 @@ public final class Futures {
    * carries some caveats: First, the thread that the derivation runs in depends
    * on whether the input {@code Future} is done at the time {@code chain} is
    * called. In particular, if called late, {@code chain} will run the
-   * derivation in the thread that calls {@code chain}. Second, derivations may
+   * derivation in the thread that called {@code chain}. Second, derivations may
    * run in an internal thread of the system responsible for the input {@code
    * Future}, such as an RPC network thread. Finally, during the execution of a
-   * {@link MoreExecutors#sameThreadExecutor sameThreadExecutor} listener, all
-   * other registered but unexecuted listeners are prevented from running, even
-   * if those listeners are to run in other executors.
+   * {@link MoreExecutors#sameThreadExecutor sameThreadExecutor} {@code chain}
+   * function, all other registered but unexecuted listeners are prevented from
+   * running, even if those listeners are to run in other executors.
    *
    * @param input The future to chain
    * @param function A function to chain the results of the provided future
@@ -389,12 +390,12 @@ public final class Futures {
    * the transformation runs in depends on whether the input {@code Future} is
    * done at the time {@code transform} is called. In particular, if called
    * late, {@code transform} will perform the transformation in the thread that
-   * calls {@code transform}. Second, transformations may run in an internal
+   * called {@code transform}. Second, transformations may run in an internal
    * thread of the system responsible for the input {@code Future}, such as an
    * RPC network thread. Finally, during the execution of a {@link
-   * MoreExecutors#sameThreadExecutor sameThreadExecutor} listener, all other
-   * registered but unexecuted listeners are prevented from running, even if
-   * those listeners are to run in other executors.
+   * MoreExecutors#sameThreadExecutor sameThreadExecutor} transformation, all
+   * other registered but unexecuted listeners are prevented from running, even
+   * if those listeners are to run in other executors.
    *
    * <p>The returned {@code Future} attempts to keep its cancellation state in
    * sync with that of the input future. That is, if the returned {@code Future}
@@ -450,11 +451,11 @@ public final class Futures {
    * carries some caveats: First, the thread that the transformation runs in
    * depends on whether the input {@code Future} is done at the time {@code
    * transform} is called. In particular, if called late, {@code transform} will
-   * perform the transformation in the thread that calls {@code transform}.
+   * perform the transformation in the thread that called {@code transform}.
    * Second, transformations may run in an internal thread of the system
    * responsible for the input {@code Future}, such as an RPC network thread.
    * Finally, during the execution of a {@link MoreExecutors#sameThreadExecutor
-   * sameThreadExecutor} listener, all other registered but unexecuted
+   * sameThreadExecutor} transformation, all other registered but unexecuted
    * listeners are prevented from running, even if those listeners are to run
    * in other executors.
    *
@@ -997,10 +998,10 @@ public final class Futures {
    * the callback runs in depends on whether the input {@code Future} is
    * done at the time {@code addCallback} is called. In particular, if called
    * late, {@code addCallback} will execute the callback in the thread that
-   * calls {@code addCallback}. Second, callbacks may run in an internal
+   * called {@code addCallback}. Second, callbacks may run in an internal
    * thread of the system responsible for the input {@code Future}, such as an
    * RPC network thread. Finally, during the execution of a {@link
-   * MoreExecutors#sameThreadExecutor sameThreadExecutor} listener, all other
+   * MoreExecutors#sameThreadExecutor sameThreadExecutor} callback, all other
    * registered but unexecuted listeners are prevented from running, even if
    * those listeners are to run in other executors.
    *
@@ -1039,18 +1040,18 @@ public final class Futures {
    *       }
    *     });}</pre>
    *
-   * When the callback is fast and lightweight consider the
-   * {@link Futures#addCallback(ListenableFuture, FutureCallback)
-   * other overload} or explicit use of
+   * When the callback is fast and lightweight consider
+   * {@linkplain Futures#addCallback(ListenableFuture, FutureCallback)
+   * the other overload} or explicit use of
    * {@link MoreExecutors#sameThreadExecutor() sameThreadExecutor}. For heavier
    * callbacks, this choice carries some caveats: First, the thread that
    * the callback runs in depends on whether the input {@code Future} is
    * done at the time {@code addCallback} is called. In particular, if called
    * late, {@code addCallback} will execute the callback in the thread that
-   * calls {@code addCallback}. Second, callbacks may run in an internal
+   * called {@code addCallback}. Second, callbacks may run in an internal
    * thread of the system responsible for the input {@code Future}, such as an
    * RPC network thread. Finally, during the execution of a {@link
-   * MoreExecutors#sameThreadExecutor sameThreadExecutor} listener, all other
+   * MoreExecutors#sameThreadExecutor sameThreadExecutor} callback, all other
    * registered but unexecuted listeners are prevented from running, even if
    * those listeners are to run in other executors.
    *

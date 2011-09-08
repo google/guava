@@ -42,8 +42,13 @@
  * <li>{@link com.google.common.primitives.Floats}
  * <li>{@link com.google.common.primitives.Ints}
  * <li>{@link com.google.common.primitives.Longs}
+ *   <ul>
+ *     <li>{@link com.google.common.primitives.UnsignedLongs}
+ *   </ul>
  * <li>{@link com.google.common.primitives.Shorts}
  * </ul>
+ *
+ *
  */
 @ParametersAreNonnullByDefault
 package com.google.common.primitives;

@@ -101,7 +101,7 @@ public interface ListenableFuture<V> extends Future<V> {
    * listeners, {@code sameThreadExecutor()} carries some caveats: First, the
    * thread that the listener runs in depends on whether the {@code Future} is
    * done at the time it is added. In particular, if added late, listeners will
-   * run in the thread that calls {@code addListener}. Second, listeners may
+   * run in the thread that called {@code addListener}. Second, listeners may
    * run in an internal thread of the system responsible for the input {@code
    * Future}, such as an RPC network thread. Finally, during the execution of a
    * {@link MoreExecutors#sameThreadExecutor sameThreadExecutor} listener, all

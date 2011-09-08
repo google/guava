@@ -76,7 +76,7 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> impleme
    * initial capacity, load factor, and concurrency settings.
    */
   public static <E> ConcurrentHashMultiset<E> create() {
-    // TODO(user): provide a way to use this class with other (possibly arbitrary)
+    // TODO(schmoe): provide a way to use this class with other (possibly arbitrary)
     // ConcurrentMap implementors. One possibility is to extract most of this class into
     // an AbstractConcurrentMapMultiset.
     return new ConcurrentHashMultiset<E>(new ConcurrentHashMap<E, AtomicInteger>());
@@ -86,7 +86,7 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> impleme
    * Creates a new {@code ConcurrentHashMultiset} containing the specified
    * elements, using the default initial capacity, load factor, and concurrency
    * settings.
-   *
+   * 
    * <p>This implementation is highly efficient when {@code elements} is itself
    * a {@link Multiset}.
    *
@@ -115,7 +115,7 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> impleme
    * <p>Finally, soft/weak values can be used but are not very useful: the values are created
    * internally and not exposed externally, so no one else will have a strong reference to the
    * values. Weak keys on the other hand can be useful in some scenarios.
-   *
+   * 
    * @since 7.0
    */
   @Beta
@@ -589,3 +589,4 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> impleme
 
   private static final long serialVersionUID = 1;
 }
+

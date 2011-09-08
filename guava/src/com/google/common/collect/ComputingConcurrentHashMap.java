@@ -346,7 +346,7 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V> {
       // pending gets, and have them return the new value.
       setValueReference(newValue);
 
-      // TODO(user): could also cancel computation if we had a thread handle
+      // TODO(fry): could also cancel computation if we had a thread handle
     }
 
     V compute(K key, int hash) throws ExecutionException {

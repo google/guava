@@ -124,7 +124,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
    * Maximum number of entries to be drained in a single cleanup run. This applies independently to
    * the cleanup queue and both reference queues.
    */
-  // TODO(user): empirically optimize this
+  // TODO(fry): empirically optimize this
   static final int DRAIN_MAX = 16;
 
   // Fields
@@ -173,7 +173,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
   final long expireAfterWriteNanos;
 
   /** Entries waiting to be consumed by the removal listener. */
-  // TODO(user): define a new type which creates event objects and automates the clear logic
+  // TODO(fry): define a new type which creates event objects and automates the clear logic
   final Queue<RemovalNotification<K, V>> removalNotificationQueue;
 
   /**
@@ -561,7 +561,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
 
     @GuardedBy("Segment.this")
     <K, V> void copyExpirableEntry(ReferenceEntry<K, V> original, ReferenceEntry<K, V> newEntry) {
-      // TODO(user): when we link values instead of entries this method can go
+      // TODO(fry): when we link values instead of entries this method can go
       // away, as can connectExpirables, nullifyExpirable.
       newEntry.setExpirationTime(original.getExpirationTime());
 
@@ -573,7 +573,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
 
     @GuardedBy("Segment.this")
     <K, V> void copyEvictableEntry(ReferenceEntry<K, V> original, ReferenceEntry<K, V> newEntry) {
-      // TODO(user): when we link values instead of entries this method can go
+      // TODO(fry): when we link values instead of entries this method can go
       // away, as can connectEvictables, nullifyEvictable.
       connectEvictables(original.getPreviousEvictable(), newEntry);
       connectEvictables(newEntry, original.getNextEvictable());
@@ -1925,7 +1925,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
    * @return the segment
    */
   Segment<K, V> segmentFor(int hash) {
-    // TODO(user): Lazily create segments?
+    // TODO(fry): Lazily create segments?
     return segments[(hash >>> segmentShift) & segmentMask];
   }
 
@@ -2031,7 +2031,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
   static class Segment<K, V> extends ReentrantLock {
 
     /*
-     * TODO(user): Consider copying variables (like evictsBySize) from outer class into this class.
+     * TODO(fry): Consider copying variables (like evictsBySize) from outer class into this class.
      * It will require more memory but will reduce indirection.
      */
 
@@ -3412,7 +3412,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
       // pending gets, and have them return the new value.
       setComputedValue(new ComputedReference<V>(newValue));
 
-      // TODO(user): could also cancel computation if we had a thread handle
+      // TODO(fry): could also cancel computation if we had a thread handle
     }
 
     V compute(K key, int hash) throws ExecutionException {

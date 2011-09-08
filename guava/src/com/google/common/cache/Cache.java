@@ -87,7 +87,7 @@ public interface Cache<K, V> extends Function<K, V> {
   @Override
   @Nullable V apply(K key);
 
-  // TODO(user): add bulk operations
+  // TODO(fry): add bulk operations
 
   /**
    * Discards any cached value for key {@code key}, possibly asynchronously, so that a future

@@ -846,7 +846,7 @@ public class CustomConcurrentHashMapTest extends TestCase {
     CustomConcurrentHashMap<Object, Object> map =
         makeMap(createCacheBuilder().concurrencyLevel(1).expireAfterAccess(99999, SECONDS));
     Segment<Object, Object> segment = map.segments[0];
-    // TODO(user): check recency ordering
+    // TODO(fry): check recency ordering
 
     Object key = new Object();
     int hash = map.hash(key);
@@ -921,7 +921,7 @@ public class CustomConcurrentHashMapTest extends TestCase {
     CustomConcurrentHashMap<Object, Object> map =
         makeMap(createCacheBuilder().concurrencyLevel(1).expireAfterAccess(99999, SECONDS));
     Segment<Object, Object> segment = map.segments[0];
-    // TODO(user): check recency ordering
+    // TODO(fry): check recency ordering
 
     Object key = new Object();
     int hash = map.hash(key);
@@ -965,7 +965,7 @@ public class CustomConcurrentHashMapTest extends TestCase {
     CustomConcurrentHashMap<Object, Object> map =
         makeMap(createCacheBuilder().concurrencyLevel(1).expireAfterAccess(99999, SECONDS));
     Segment<Object, Object> segment = map.segments[0];
-    // TODO(user): check recency ordering
+    // TODO(fry): check recency ordering
 
     Object key = new Object();
     int hash = map.hash(key);
@@ -1004,7 +1004,7 @@ public class CustomConcurrentHashMapTest extends TestCase {
     CustomConcurrentHashMap<Object, Object> map =
         makeMap(createCacheBuilder().concurrencyLevel(1).expireAfterAccess(99999, SECONDS));
     Segment<Object, Object> segment = map.segments[0];
-    // TODO(user): check recency ordering
+    // TODO(fry): check recency ordering
 
     Object key = new Object();
     int hash = map.hash(key);
@@ -1036,7 +1036,7 @@ public class CustomConcurrentHashMapTest extends TestCase {
     CustomConcurrentHashMap<Object, Object> map =
         makeMap(createCacheBuilder().concurrencyLevel(1).expireAfterAccess(99999, SECONDS));
     Segment<Object, Object> segment = map.segments[0];
-    // TODO(user): check recency ordering
+    // TODO(fry): check recency ordering
 
     Object key = new Object();
     int hash = map.hash(key);
