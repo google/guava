@@ -19,6 +19,7 @@ package com.google.common.util.concurrent;
 import com.google.common.annotations.Beta;
 
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 
 /**
  * A callback for accepting the results of a {@link java.util.concurrent.Future}
@@ -40,9 +41,9 @@ public interface FutureCallback<V> {
   /**
    * Invoked when a {@code Future} computation fails or is canceled.
    *
-   * <p>If the future's {@link java.util.concurrent.Future#get() get} method
-   * throws an {@link ExecutionException}, then the cause is passed to this
-   * method. Any other thrown object is passed unaltered.
+   * <p>If the future's {@link Future#get() get} method throws an {@link
+   * ExecutionException}, then the cause is passed to this method. Any other
+   * thrown object is passed unaltered.
    */
   void onFailure(Throwable t);
 }
