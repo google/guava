@@ -60,11 +60,11 @@ public final class Tables {
     return new ImmutableCell<R, C, V>(rowKey, columnKey, value);
   }
 
-  private static class ImmutableCell<R, C, V>
+  static final class ImmutableCell<R, C, V>
       extends AbstractCell<R, C, V> implements Serializable {
-    final R rowKey;
-    final C columnKey;
-    final V value;
+    private final R rowKey;
+    private final C columnKey;
+    private final V value;
 
     ImmutableCell(
         @Nullable R rowKey, @Nullable C columnKey, @Nullable V value) {
