@@ -21,6 +21,8 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.util.concurrent.MoreExecutors.sameThreadExecutor;
 import static com.google.common.util.concurrent.Uninterruptibles.getUninterruptibly;
+import static com.google.common.util.concurrent.Uninterruptibles.putUninterruptibly;
+import static com.google.common.util.concurrent.Uninterruptibles.takeUninterruptibly;
 import static java.lang.Thread.currentThread;
 import static java.util.Arrays.asList;
 import static java.util.concurrent.TimeUnit.NANOSECONDS;
@@ -786,13 +788,9 @@ public final class Futures {
        * !mayInterruptIfRunning, so we can't move it into interruptTask().
        */
       if (super.cancel(mayInterruptIfRunning)) {
-        try {
-          // This should never block since only one thread is allowed to cancel
-          // this Future.
-          mayInterruptIfRunningChannel.put(mayInterruptIfRunning);
-        } catch (InterruptedException ignored) {
-          Thread.currentThread().interrupt();
-        }
+        // This should never block since only one thread is allowed to cancel
+        // this Future.
+        putUninterruptibly(mayInterruptIfRunningChannel, mayInterruptIfRunning);
         cancel(inputFuture, mayInterruptIfRunning);
         cancel(outputFuture, mayInterruptIfRunning);
         return true;
@@ -830,14 +828,11 @@ public final class Futures {
         if (isCancelled()) {
           // Handles the case where cancel was called while the function was
           // being applied.
-          try {
-            // There is a gap in cancel(boolean) between calling sync.cancel()
-            // and storing the value of mayInterruptIfRunning, so this thread
-            // needs to block, waiting for that value.
-            outputFuture.cancel(mayInterruptIfRunningChannel.take());
-          } catch (InterruptedException ignored) {
-            Thread.currentThread().interrupt();
-          }
+          // There is a gap in cancel(boolean) between calling sync.cancel()
+          // and storing the value of mayInterruptIfRunning, so this thread
+          // needs to block, waiting for that value.
+          outputFuture.cancel(
+              takeUninterruptibly(mayInterruptIfRunningChannel));
           this.outputFuture = null;
           return;
         }

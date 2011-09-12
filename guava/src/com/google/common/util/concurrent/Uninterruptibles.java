@@ -21,6 +21,7 @@ import static java.util.concurrent.TimeUnit.NANOSECONDS;
 import com.google.common.annotations.Beta;
 import com.google.common.base.Preconditions;
 
+import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
@@ -129,7 +130,7 @@ public final class Uninterruptibles {
       while (true) {
         try {
           return future.get();
-        } catch (InterruptedException ignored) {
+        } catch (InterruptedException e) {
           interrupted = true;
         }
       }
@@ -201,6 +202,49 @@ public final class Uninterruptibles {
       }
     }
   }
+
+  /**
+   * Invokes {@code queue.}{@link BlockingQueue#take() take()} uninterruptibly.
+   */
+  public static <E> E takeUninterruptibly(BlockingQueue<E> queue) {
+    boolean interrupted = false;
+    try {
+      while (true) {
+        try {
+          return queue.take();
+        } catch (InterruptedException e) {
+          interrupted = true;
+        }
+      }
+    } finally {
+      if (interrupted) {
+        Thread.currentThread().interrupt();
+      }
+    }
+  }
+
+  /**
+   * Invokes {@code queue.}{@link BlockingQueue#put(Object) put(element)}
+   * uninterruptibly.
+   */
+  public static <E> void putUninterruptibly(BlockingQueue<E> queue, E element) {
+    boolean interrupted = false;
+    try {
+      while (true) {
+        try {
+          queue.put(element);
+          return;
+        } catch (InterruptedException e) {
+          interrupted = true;
+        }
+      }
+    } finally {
+      if (interrupted) {
+        Thread.currentThread().interrupt();
+      }
+    }
+  }
+
   // TODO(user): Support Sleeper somehow (wrapper or interface method)?
   /**
    * Invokes {@code unit.}{@link TimeUnit#sleep(long) sleep(sleepFor)}
