@@ -27,15 +27,9 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
 /**
- * Helper class for testing whether a class is serializable.
+ * Tests serialization and deserialization of an object, optionally asserting
+ * that the resulting object is equal to the original.
  *
- * <p>Unlike {@link com.google.common.util.SerializationChecker}, this class
- * tests not only whether serialization succeeds, but also whether the
- * serialized form is <i>correct</i>: i.e., whether an equivalent object can be
- * reconstructed by <i>deserializing</i> the serialized form.
- *
- * <p>If serialization fails, you can use {@code SerializationChecker} to
- * diagnose which referenced fields were not serializable.
  *
  * @author Mike Bostock
  * @since 10.0
@@ -94,7 +88,7 @@ public final class SerializableTester {
    * @return the re-serialized object
    * @throws RuntimeException if the specified object was not successfully
    *     serialized or deserialized
-   * @throws GuavaAsserts.TestAssertionFailure if the re-serialized object is 
+   * @throws GuavaAsserts.TestAssertionFailure if the re-serialized object is
    *     not equal to the original object, or if the hashcodes are different.
    */
   public static <T> T reserializeAndAssert(T object) {
