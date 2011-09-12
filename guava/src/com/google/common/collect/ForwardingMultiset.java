@@ -262,6 +262,8 @@ public abstract class ForwardingMultiset<E> extends ForwardingCollection<E>
    */
   @Beta
   protected class StandardElementSet extends Multisets.ElementSet<E> {
+    public StandardElementSet() {}
+
     @Override
     Multiset<E> multiset() {
       return ForwardingMultiset.this;

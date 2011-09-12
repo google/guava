@@ -214,6 +214,8 @@ public abstract class ForwardingMap<K, V> extends ForwardingObject
    */
   @Beta
   protected class StandardKeySet extends Maps.KeySet<K, V> {
+    public StandardKeySet() {}
+
     @Override
     Map<K, V> map() {
       return ForwardingMap.this;
@@ -258,6 +260,8 @@ public abstract class ForwardingMap<K, V> extends ForwardingObject
    */
   @Beta
   protected class StandardValues extends Maps.Values<K, V> {
+    public StandardValues() {}
+
     @Override
     Map<K, V> map() {
       return ForwardingMap.this;
@@ -314,6 +318,8 @@ public abstract class ForwardingMap<K, V> extends ForwardingObject
    */
   @Beta
   protected abstract class StandardEntrySet extends Maps.EntrySet<K, V> {
+    public StandardEntrySet() {}
+
     @Override
     Map<K, V> map() {
       return ForwardingMap.this;
