@@ -147,6 +147,11 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
   protected void interruptTask() {
   }
 
+  /**
+   * {@inheritDoc}
+   *
+   * @since 10.0
+   */
   @Override
   public void addListener(Runnable listener, Executor exec) {
     executionList.add(listener, exec);

@@ -48,6 +48,8 @@ public final class Floats {
   /**
    * The number of bytes required to represent a primitive {@code float}
    * value.
+   *
+   * @since 10.0
    */
   public static final int BYTES = Float.SIZE / Byte.SIZE;
 
@@ -81,6 +83,8 @@ public final class Floats {
    * Returns {@code true} if {@code value} represents a real number. This is
    * equivalent to, but not necessarily implemented as,
    * {@code !(Float.isInfinite(value) || Float.isNaN(value))}.
+   *
+   * @since 10.0
    */
   public static boolean isFinite(float value) {
     return NEGATIVE_INFINITY < value & value < POSITIVE_INFINITY;

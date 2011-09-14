@@ -185,6 +185,11 @@ public final class TreeMultiset<E> extends AbstractMapBasedMultiset<E>
       return (SortedMap<E, Count>) getMap();
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @since 10.0
+     */
     @Override
     public Comparator<? super E> comparator() {
       return sortedMap().comparator();
@@ -259,4 +264,3 @@ public final class TreeMultiset<E> extends AbstractMapBasedMultiset<E>
   @GwtIncompatible("not needed in emulated source")
   private static final long serialVersionUID = 0;
 }
-
