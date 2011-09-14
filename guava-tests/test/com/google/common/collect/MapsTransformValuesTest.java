@@ -16,17 +16,17 @@
 
 package com.google.common.collect;
 
-import com.google.common.annotations.GwtCompatible;
-import com.google.common.base.Function;
-import com.google.common.base.Functions;
-import com.google.common.collect.testing.MapInterfaceTest;
-
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
 import javax.annotation.Nullable;
+
+import com.google.common.annotations.GwtCompatible;
+import com.google.common.base.Function;
+import com.google.common.base.Functions;
+import com.google.common.collect.testing.MapInterfaceTest;
 
 /**
  * Tests for {@link Maps#transformValues}.
@@ -35,16 +35,32 @@ import javax.annotation.Nullable;
  */
 @GwtCompatible
 public class MapsTransformValuesTest extends MapInterfaceTest<String, String> {
+
+  /**
+   * Constructor that assigns {@code supportsIteratorRemove} the same value as
+   * {@code supportsRemove}.
+   */
+  protected MapsTransformValuesTest(
+      boolean allowsNullKeys,
+      boolean allowsNullValues,
+      boolean supportsPut,
+      boolean supportsRemove,
+      boolean supportsClear) {
+    super(allowsNullKeys, allowsNullValues, supportsPut, supportsRemove,
+        supportsClear, supportsRemove);
+  }
+
   public MapsTransformValuesTest() {
-    super(true, true, false /*supportsPut*/, true, true);
+    super(false, true, false, true, true);
   }
 
-  @Override protected Map<String, String> makeEmptyMap() {
-    return Maps.transformValues(
-        Maps.<String, String>newHashMap(), Functions.<String>identity());
+  protected Map<String, String> makeEmptyMap() {
+    return Maps.transformValues(Maps.<String, String>newHashMap(), 
+        Functions.<String>identity());
   }
 
-  @Override protected Map<String, String> makePopulatedMap() {
+  @Override
+  protected Map<String, String> makePopulatedMap() {
     Map<String, Integer> underlying = Maps.newHashMap();
     underlying.put("a", 1);
     underlying.put("b", 2);

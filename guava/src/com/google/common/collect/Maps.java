@@ -842,6 +842,56 @@ public final class Maps {
   }
 
   /**
+   * Returns a view of a sorted map where each value is transformed by a
+   * function. All other properties of the map, such as iteration order, are
+   * left intact. For example, the code: <pre>   {@code
+   *
+   *   SortedMap<String, Integer> map = ImmutableSortedMap.of("a", 4, "b", 9);
+   *   Function<Integer, Double> sqrt =
+   *       new Function<Integer, Double>() {
+   *         public Double apply(Integer in) {
+   *           return Math.sqrt((int) in);
+   *         }
+   *       };
+   *   SortedMap<String, Double> transformed =
+   *        Maps.transformSortedValues(map, sqrt);
+   *   System.out.println(transformed);}</pre>
+   *
+   * ... prints {@code {a=2.0, b=3.0}}.
+   *
+   * <p>Changes in the underlying map are reflected in this view. Conversely,
+   * this view supports removal operations, and these are reflected in the
+   * underlying map.
+   *
+   * <p>It's acceptable for the underlying map to contain null keys, and even
+   * null values provided that the function is capable of accepting null input.
+   * The transformed map might contain null values, if the function sometimes
+   * gives a null result.
+   *
+   * <p>The returned map is not thread-safe or serializable, even if the
+   * underlying map is.
+   *
+   * <p>The function is applied lazily, invoked when needed. This is necessary
+   * for the returned map to be a view, but it means that the function will be
+   * applied many times for bulk operations like {@link Map#containsValue} and
+   * {@code Map.toString()}. For this to perform well, {@code function} should
+   * be fast. To avoid lazy evaluation when the returned map doesn't need to be
+   * a view, copy the returned map into a new map of your choosing.
+   */
+  public static <K, V1, V2> SortedMap<K, V2> transformValues(
+      SortedMap<K, V1> fromMap, final Function<? super V1, V2> function) {
+    checkNotNull(function);
+    EntryTransformer<K, V1, V2> transformer =
+        new EntryTransformer<K, V1, V2>() {
+          @Override
+          public V2 transformEntry(K key, V1 value) {
+            return function.apply(value);
+          }
+        };
+    return transformEntries(fromMap, transformer);
+  }
+
+  /**
    * Returns a view of a map whose values are derived from the original map's
    * entries. In contrast to {@link #transformValues}, this method's
    * entry-transformation logic may depend on the key as well as the value.
@@ -896,6 +946,62 @@ public final class Maps {
       Map<K, V1> fromMap,
       EntryTransformer<? super K, ? super V1, V2> transformer) {
     return new TransformedEntriesMap<K, V1, V2>(fromMap, transformer);
+  }
+
+  /**
+   * Returns a view of a sorted map whose values are derived from the original
+   * sorted map's entries. In contrast to {@link #transformValues}, this
+   * method's entry-transformation logic may depend on the key as well as the
+   * value.
+   *
+   * <p>All other properties of the transformed map, such as iteration order,
+   * are left intact. For example, the code: <pre>   {@code
+   *
+   *   Map<String, Boolean> options =
+   *       ImmutableSortedMap.of("verbose", true, "sort", false);
+   *   EntryTransformer<String, Boolean, String> flagPrefixer =
+   *       new EntryTransformer<String, Boolean, String>() {
+   *         public String transformEntry(String key, Boolean value) {
+   *           return value ? key : "yes" + key;
+   *         }
+   *       };
+   *   SortedMap<String, String> transformed =
+   *       LabsMaps.transformSortedEntries(options, flagPrefixer);
+   *   System.out.println(transformed);}</pre>
+   *
+   * ... prints {@code {sort=yessort, verbose=verbose}}.
+   *
+   * <p>Changes in the underlying map are reflected in this view. Conversely,
+   * this view supports removal operations, and these are reflected in the
+   * underlying map.
+   *
+   * <p>It's acceptable for the underlying map to contain null keys and null
+   * values provided that the transformer is capable of accepting null inputs.
+   * The transformed map might contain null values if the transformer sometimes
+   * gives a null result.
+   *
+   * <p>The returned map is not thread-safe or serializable, even if the
+   * underlying map is.
+   *
+   * <p>The transformer is applied lazily, invoked when needed. This is
+   * necessary for the returned map to be a view, but it means that the
+   * transformer will be applied many times for bulk operations like {@link
+   * Map#containsValue} and {@link Object#toString}. For this to perform well,
+   * {@code transformer} should be fast. To avoid lazy evaluation when the
+   * returned map doesn't need to be a view, copy the returned map into a new
+   * map of your choosing.
+   *
+   * <p><b>Warning:</b> This method assumes that for any instance {@code k} of
+   * {@code EntryTransformer} key type {@code K}, {@code k.equals(k2)} implies
+   * that {@code k2} is also of type {@code K}. Using an {@code
+   * EntryTransformer} key type for which this may not hold, such as {@code
+   * ArrayList}, may risk a {@code ClassCastException} when calling methods on
+   * the transformed map.
+   */
+  public static <K, V1, V2> SortedMap<K, V2> transformEntries(
+      final SortedMap<K, V1> fromMap,
+      EntryTransformer<? super K, ? super V1, V2> transformer) {
+    return new TransformedEntriesSortedMap<K, V1, V2>(fromMap, transformer);
   }
 
   /**
@@ -1015,6 +1121,45 @@ public final class Maps {
       }
       return result;
     }
+  }
+
+  static class TransformedEntriesSortedMap<K, V1, V2>
+      extends TransformedEntriesMap<K, V1, V2> implements SortedMap<K, V2> {
+
+    protected SortedMap<K, V1> fromMap() {
+      return (SortedMap<K, V1>) fromMap;
+    }
+
+    TransformedEntriesSortedMap(SortedMap<K, V1> fromMap,
+        EntryTransformer<? super K, ? super V1, V2> transformer) {
+      super(fromMap, transformer);
+    }
+
+    @Override public Comparator<? super K> comparator() {
+      return fromMap().comparator();
+    }
+
+    @Override public K firstKey() {
+      return fromMap().firstKey();
+    }
+
+    @Override public SortedMap<K, V2> headMap(K toKey) {
+      return transformEntries(fromMap().headMap(toKey), transformer);
+    }
+
+    @Override public K lastKey() {
+      return fromMap().lastKey();
+    }
+
+    @Override public SortedMap<K, V2> subMap(K fromKey, K toKey) {
+      return transformEntries(
+          fromMap().subMap(fromKey, toKey), transformer);
+    }
+
+    @Override public SortedMap<K, V2> tailMap(K fromKey) {
+      return transformEntries(fromMap().tailMap(fromKey), transformer);
+    }
+
   }
 
   /**

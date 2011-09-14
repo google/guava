@@ -315,6 +315,7 @@ public class MapsTest extends TestCase {
     tester.setDefault(BiMap.class, ImmutableBiMap.of());
     tester.setDefault(EntryTransformer.class, ALWAYS_NULL);
     tester.setDefault(Equivalence.class, Equivalences.equals());
+    tester.setDefault(SortedMap.class, Maps.newTreeMap());
     tester.ignore(Maps.class.getDeclaredMethod("uniqueIndex", Object.class, Function.class));
     tester.testAllPublicStaticMethods(Maps.class);
   }

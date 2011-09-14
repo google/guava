@@ -302,7 +302,9 @@ public abstract class MapInterfaceTest<K, V> extends TestCase {
       return;
     }
     assertFalse(map.containsKey(unmappedKey));
-    assertFalse(map.containsKey(new IncompatibleKeyType()));
+    try {
+      assertFalse(map.containsKey(new IncompatibleKeyType()));
+    } catch (ClassCastException tolerated) {}
     assertTrue(map.containsKey(map.keySet().iterator().next()));
     if (allowsNullKeys) {
       map.containsKey(null);
@@ -391,7 +393,9 @@ public abstract class MapInterfaceTest<K, V> extends TestCase {
     }
     Entry<IncompatibleKeyType, V> entry
         = mapEntry(new IncompatibleKeyType(), unmappedValue);
-    assertFalse(entrySet.contains(entry));
+    try {
+      assertFalse(entrySet.contains(entry));
+    } catch (ClassCastException tolerated) {}
   }
 
   public void testEntrySetContainsEntryNullKeyPresent() {
@@ -439,8 +443,16 @@ public abstract class MapInterfaceTest<K, V> extends TestCase {
       return;
     }
     Entry<K, V> entry = mapEntry(null, unmappedValue);
-    assertFalse(entrySet.contains(entry));
-    assertFalse(entrySet.contains(mapEntry(null, null)));
+    try {
+      assertFalse(entrySet.contains(entry));
+    } catch (NullPointerException e) {
+      assertFalse(allowsNullKeys);
+    }
+    try {
+      assertFalse(entrySet.contains(mapEntry(null, null)));
+    } catch (NullPointerException e) {
+      assertFalse(allowsNullKeys && allowsNullValues);
+    }
   }
 
   public void testEntrySetIteratorRemove() {
@@ -607,8 +619,12 @@ public abstract class MapInterfaceTest<K, V> extends TestCase {
         = mapEntry(null, getValueNotInPopulatedMap());
     int initialSize = map.size();
     if (supportsRemove) {
-      boolean didRemove = entrySet.remove(entry);
-      assertFalse(didRemove);
+      try {
+        boolean didRemove = entrySet.remove(entry);
+        assertFalse(didRemove);
+      } catch (NullPointerException e) {
+        assertFalse(allowsNullKeys);
+      }
     } else {
       try {
         boolean didRemove = entrySet.remove(entry);

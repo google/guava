@@ -18,6 +18,14 @@ package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.SortedMap;
+
+import javax.annotation.Nullable;
+
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -28,16 +36,7 @@ import com.google.common.base.Predicates;
 import com.google.common.collect.MapDifference.ValueDifference;
 import com.google.common.collect.Maps.EntryTransformer;
 import com.google.common.collect.Maps.MapDifferenceImpl;
-import com.google.common.collect.Maps.TransformedEntriesMap;
 import com.google.common.collect.Maps.ValueDifferenceImpl;
-
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.SortedMap;
-
-import javax.annotation.Nullable;
 
 /**
  * Static utility methods pertaining to {@link SortedMap} instances.
@@ -86,18 +85,12 @@ public final class SortedMaps {
    * {@code Map.toString()}. For this to perform well, {@code function} should
    * be fast. To avoid lazy evaluation when the returned map doesn't need to be
    * a view, copy the returned map into a new map of your choosing.
+   * 
+   * @deprecated Use {@link Maps#transformValues(SortedMap, Function)}
    */
-  public static <K, V1, V2> SortedMap<K, V2> transformValues(
+  @Deprecated public static <K, V1, V2> SortedMap<K, V2> transformValues(
       SortedMap<K, V1> fromMap, final Function<? super V1, V2> function) {
-    checkNotNull(function);
-    EntryTransformer<K, V1, V2> transformer =
-        new EntryTransformer<K, V1, V2>() {
-          @Override
-          public V2 transformEntry(K key, V1 value) {
-            return function.apply(value);
-          }
-        };
-    return transformEntries(fromMap, transformer);
+    return Maps.transformValues(fromMap, function);
   }
 
   /**
@@ -149,50 +142,13 @@ public final class SortedMaps {
    * EntryTransformer} key type for which this may not hold, such as {@code
    * ArrayList}, may risk a {@code ClassCastException} when calling methods on
    * the transformed map.
+   * 
+   * @deprecated Use {@link Maps#transformEntries(SortedMap, EntryTransformer)}
    */
-  public static <K, V1, V2> SortedMap<K, V2> transformEntries(
+  @Deprecated public static <K, V1, V2> SortedMap<K, V2> transformEntries(
       final SortedMap<K, V1> fromMap,
       EntryTransformer<? super K, ? super V1, V2> transformer) {
-    return new TransformedEntriesSortedMap<K, V1, V2>(fromMap, transformer);
-  }
-
-  static class TransformedEntriesSortedMap<K, V1, V2>
-      extends TransformedEntriesMap<K, V1, V2> implements SortedMap<K, V2> {
-
-    protected SortedMap<K, V1> fromMap() {
-      return (SortedMap<K, V1>) fromMap;
-    }
-
-    TransformedEntriesSortedMap(SortedMap<K, V1> fromMap,
-        EntryTransformer<? super K, ? super V1, V2> transformer) {
-      super(fromMap, transformer);
-    }
-
-    @Override public Comparator<? super K> comparator() {
-      return fromMap().comparator();
-    }
-
-    @Override public K firstKey() {
-      return fromMap().firstKey();
-    }
-
-    @Override public SortedMap<K, V2> headMap(K toKey) {
-      return transformEntries(fromMap().headMap(toKey), transformer);
-    }
-
-    @Override public K lastKey() {
-      return fromMap().lastKey();
-    }
-
-    @Override public SortedMap<K, V2> subMap(K fromKey, K toKey) {
-      return transformEntries(
-          fromMap().subMap(fromKey, toKey), transformer);
-    }
-
-    @Override public SortedMap<K, V2> tailMap(K fromKey) {
-      return transformEntries(fromMap().tailMap(fromKey), transformer);
-    }
-
+    return Maps.transformEntries(fromMap, transformer);
   }
 
   /**
