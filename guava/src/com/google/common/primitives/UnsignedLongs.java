@@ -35,9 +35,13 @@ import java.util.Comparator;
  * <p>In addition, this class provides several static methods for converting a {@code long} to a
  * {@code String} and a {@code String} to a {@code long} that treat the long as an unsigned number.
  *
+ * <p>Users of these utilities must be <i>extremely careful</i> not to mix up signed and unsigned
+ * long values. When possible, it is recommended that the {@link UnsignedLong} wrapper class be
+ * used, at a small efficiency penalty, to enforce the distinction in the type system.
+ *
  * @author Louis Wasserman
  * @author Brian Milch
- * @author Peter Epstein
+ * @author Colin Evans
  * @since 10.0
  */
 @Beta
@@ -47,104 +51,73 @@ public final class UnsignedLongs {
 
   public static final long MAX_VALUE = -1L; // Equivalent to 2^64 - 1
 
-  public static BigInteger toBigInteger(long unsigned) {
-    BigInteger result = BigInteger.valueOf(unsigned & Long.MAX_VALUE);
-    if (unsigned < 0) {
-      result = result.setBit(63);
-    }
-    return result;
-  }
-
   /**
-   * Returns the {@code long} value that, when treated as unsigned, is equal to {@code value}, if
-   * possible.
-   *
-   * @param value a value between 0 inclusive and 2^64 exclusive
-   * @return the {@code long} value that, when treated as unsigned, equals {@code value}
-   * @throws IllegalArgumentException if {@code value} is negative or greater than or equal to 2^64
+   * A (self-inverse) bijection which converts the ordering on unsigned longs
+   * to the ordering on longs, that is, {@code a <= b} as unsigned longs if and
+   * only if {@code rotate(a) <= rotate(b)} as signed longs.
    */
-  public static long checkedCast(BigInteger value) {
-    checkNotNull(value);
-    checkArgument(value.signum() >= 0 && value.bitLength() <= 64, "out of range: %s", value);
-    return value.longValue();
+  private static long flip(long a) {
+    return a ^ Long.MIN_VALUE;
   }
 
   /**
-   * Returns the {@code long} value that, when treated as unsigned, is nearest in value to
-   * {@code value}.
-   *
-   * @param value any {@code BigInteger} value
-   * @return {@link #MAX_VALUE} if {@code value >= 2^64}, {@code 0} if {@code value <= 0}, and
-   *         {@code value.longValue()} otherwise
-   */
-  public static long saturatedCast(BigInteger value) {
-    checkNotNull(value);
-    if (value.signum() < 0) {
-      return 0;
-    } else if (value.bitLength() > 64) {
-      return MAX_VALUE;
-    } else {
-      return value.longValue();
-    }
-  }
-
-  /**
-   * Compares the two specified {@code long} values, treating them as unsigned values between
-   * {@code 0} and {@code 2^64 - 1} inclusive.
+   * Compares the two specified {@code long} values, treating them as unsigned
+   * values between {@code 0} and {@code 2^64 - 1} inclusive.
    *
    * @param a the first unsigned {@code long} to compare
    * @param b the second unsigned {@code long} to compare
-   * @return a negative value if {@code a} is less than {@code b}; a positive value if {@code a} is
-   *         greater than {@code b}; or zero if they are equal
+   * @return a negative value if {@code a} is less than {@code b}; a positive
+   *         value if {@code a} is greater than {@code b}; or zero if they are
+   *         equal
    */
   public static int compare(long a, long b) {
-    return Longs.compare(a + Long.MIN_VALUE, b + Long.MIN_VALUE);
+    return Longs.compare(flip(a), flip(b));
   }
 
   /**
    * Returns the least value present in {@code array}.
    *
    * @param array a <i>nonempty</i> array of unsigned {@code long} values
-   * @return the value present in {@code array} that is less than or equal to every other value in
-   *         the array according to {@link #compare}
+   * @return the value present in {@code array} that is less than or equal to
+   *         every other value in the array according to {@link #compare}
    * @throws IllegalArgumentException if {@code array} is empty
    */
   public static long min(long... array) {
     checkArgument(array.length > 0);
-    long min = array[0] + Long.MIN_VALUE;
+    long min = flip(array[0]);
     for (int i = 1; i < array.length; i++) {
-      long next = array[i] + Long.MIN_VALUE;
+      long next = flip(array[i]);
       if (next < min) {
         min = next;
       }
     }
-    return min - Long.MIN_VALUE;
+    return flip(min);
   }
 
   /**
    * Returns the greatest value present in {@code array}.
    *
    * @param array a <i>nonempty</i> array of unsigned {@code long} values
-   * @return the value present in {@code array} that is greater than or equal to every other value
-   *         in the array according to {@link #compare}
+   * @return the value present in {@code array} that is greater than or equal
+   *         to every other value in the array according to {@link #compare}
    * @throws IllegalArgumentException if {@code array} is empty
    */
   public static long max(long... array) {
     checkArgument(array.length > 0);
-    long max = array[0] + Long.MIN_VALUE;
+    long max = flip(array[0]);
     for (int i = 1; i < array.length; i++) {
-      long next = array[i] + Long.MIN_VALUE;
+      long next = flip(array[i]);
       if (next > max) {
         max = next;
       }
     }
-    return max - Long.MIN_VALUE;
+    return flip(max);
   }
 
   /**
-   * Returns a string containing the supplied unsigned {@code long} values separated
-   * by {@code separator}. For example, {@code join("-", 1, 2, 3)} returns
-   * the string {@code "1-2-3"}.
+   * Returns a string containing the supplied unsigned {@code long} values
+   * separated by {@code separator}. For example, {@code join("-", 1, 2, 3)}
+   * returns the string {@code "1-2-3"}.
    *
    * @param separator the text that should appear between consecutive values in
    *     the resulting string (but not at the start or end)
@@ -206,9 +179,10 @@ public final class UnsignedLongs {
    * @param dividend the dividend (numerator)
    * @param divisor  the divisor (denominator)
    * @throws ArithmeticException if divisor is 0
-   */ static long divide(long dividend, long divisor) {
+   */
+  public static long divide(long dividend, long divisor) {
     if (divisor < 0) { // i.e., divisor >= 2^63:
-      if (dividend + Long.MIN_VALUE < divisor + Long.MIN_VALUE) {
+      if (compare(dividend, divisor) < 0) {
         return 0; // dividend < divisor
       } else {
         return 1; // dividend >= divisor
@@ -229,8 +203,7 @@ public final class UnsignedLongs {
      */
     long quotient = ((dividend >>> 1) / divisor) << 1;
     long rem = dividend - quotient * divisor;
-    return quotient +
-        (rem + Long.MIN_VALUE >= divisor + Long.MIN_VALUE ? 1 : 0);
+    return quotient + (compare(rem, divisor) >= 0 ? 1 : 0);
   }
 
   /**
@@ -243,7 +216,7 @@ public final class UnsignedLongs {
    */
   static long remainder(long dividend, long divisor) {
     if (divisor < 0) { // i.e., divisor >= 2^63:
-      if (dividend + Long.MIN_VALUE < divisor + Long.MIN_VALUE) {
+      if (compare(dividend, divisor) < 0) {
         return dividend; // dividend < divisor
       } else {
         return dividend - divisor; // dividend >= divisor
@@ -264,8 +237,7 @@ public final class UnsignedLongs {
      */
     long quotient = ((dividend >>> 1) / divisor) << 1;
     long rem = dividend - quotient * divisor;
-    return rem -
-        (rem + Long.MIN_VALUE >= divisor + Long.MIN_VALUE ? divisor : 0);
+    return rem - (compare(rem, divisor) >= 0 ? divisor : 0);
   }
 
   /**
@@ -320,10 +292,11 @@ public final class UnsignedLongs {
   }
 
   /**
-   * Returns true if (current * radix) + digit is a number too large to be represented by an
-   * unsigned long. This is useful for detecting overflow while parsing a string representation of
-   * a number. Does not verify whether supplied radix is valid, passing an invalid radix will give
-   * undefined results or an ArrayIndexOutOfBoundsException.
+   * Returns true if (current * radix) + digit is a number too large to be
+   * represented by an unsigned long. This is useful for detecting overflow
+   * while parsing a string representation of a number. Does not verify whether
+   * supplied radix is valid, passing an invalid radix will give undefined
+   * results or an ArrayIndexOutOfBoundsException.
    */
   private static boolean overflowInParse(long current, int digit, int radix) {
     if (current >= 0) {
@@ -349,18 +322,18 @@ public final class UnsignedLongs {
   }
 
   /**
-   * Returns a string representation of {@code x} for the given
-   * radix, where {@code x} is treated as unsigned.
+   * Returns a string representation of {@code x} for the given radix, where
+   * {@code x} is treated as unsigned.
    *
    * @param x the value to convert to a string.
-   * @param radix the radix to use while working with {@code x}; must be
-   * between Character.MIN_RADIX and Character.MAX_RADIX.  Otherwise,
-   * the radix {@code 10} is used.
+   * @param radix the radix to use while working with {@code x}
+   * @throws IllegalArgumentException if {@code radix} is not between
+   *         {@link Character#MIN_RADIX} and {@link Character#MAX_RADIX}.
    */
   public static String toString(long x, int radix) {
-    if(radix < Character.MIN_RADIX | radix > Character.MAX_RADIX){
-      radix = 10;
-    }
+    checkArgument(radix >= Character.MIN_RADIX && radix <= Character.MAX_RADIX,
+        "radix (%s) must be between Character.MIN_RADIX and Character.MAX_RADIX",
+        radix);
     if (x == 0) {
       // Simply return "0"
       return "0";
