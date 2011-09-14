@@ -1691,6 +1691,7 @@ public final class Multimaps {
   /**
    * <b>Deprecated.</b>
    *
+   * @since 10.0
    * @deprecated use {@link #index(Iterator, Function)} by casting {@code
    *     values} to {@code Iterator<V>}, or better yet, by implementing only
    *     {@code Iterator} and not {@code Iterable}. <b>This method is scheduled
@@ -1746,6 +1747,7 @@ public final class Multimaps {
    *     <li>{@code keyFunction} returns {@code null} for any element of {@code
    *         values}
    *     </ul>
+   * @since 10.0
    */
   public static <K, V> ImmutableListMultimap<K, V> index(
       Iterator<V> values, Function<? super V, K> keyFunction) {

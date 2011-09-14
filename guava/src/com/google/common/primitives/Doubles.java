@@ -48,6 +48,8 @@ public final class Doubles {
   /**
    * The number of bytes required to represent a primitive {@code double}
    * value.
+   *
+   * @since 10.0
    */
   public static final int BYTES = Double.SIZE / Byte.SIZE;
 
@@ -84,6 +86,8 @@ public final class Doubles {
    * Returns {@code true} if {@code value} represents a real number. This is
    * equivalent to, but not necessarily implemented as,
    * {@code !(Double.isInfinite(value) || Double.isNaN(value))}.
+   *
+   * @since 10.0
    */
   public static boolean isFinite(double value) {
     return NEGATIVE_INFINITY < value & value < POSITIVE_INFINITY;

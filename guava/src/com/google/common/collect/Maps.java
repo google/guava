@@ -530,6 +530,7 @@ public final class Maps {
   /**
    * <b>Deprecated.</b>
    *
+   * @since 10.0
    * @deprecated use {@link #uniqueIndex(Iterator, Function)} by casting {@code
    *     values} to {@code Iterator<V>}, or better yet, by implementing only
    *     {@code Iterator} and not {@code Iterable}. <b>This method is scheduled
@@ -557,6 +558,7 @@ public final class Maps {
    *         key for more than one value in the input collection
    * @throws NullPointerException if any elements of {@code values} is null, or
    *         if {@code keyFunction} produces {@code null} for any value
+   * @since 10.0
    */
   public static <K, V> ImmutableMap<K, V> uniqueIndex(
       Iterator<V> values, Function<? super V, K> keyFunction) {
