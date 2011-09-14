@@ -121,7 +121,7 @@ public final class TreeMultiset<E> extends AbstractMapBasedMultiset<E>
     return multiset;
   }
 
-  private final Comparator<? super E> comparator;
+  private @GwtTransient final Comparator<? super E> comparator;
   
   @SuppressWarnings("unchecked")
   private TreeMultiset() {

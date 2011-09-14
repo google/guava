@@ -62,8 +62,8 @@ import javax.annotation.Nullable;
  */
 @GwtCompatible
 class StandardTable<R, C, V> implements Table<R, C, V>, Serializable {
-  final Map<R, Map<C, V>> backingMap;
-  final Supplier<? extends Map<C, V>> factory;
+  @GwtTransient final Map<R, Map<C, V>> backingMap;
+  @GwtTransient final Supplier<? extends Map<C, V>> factory;
 
   StandardTable(Map<R, Map<C, V>> backingMap,
       Supplier<? extends Map<C, V>> factory) {
