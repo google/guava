@@ -117,6 +117,16 @@ public class RangeTest extends TestCase {
     reserializeAndAssertUnlessGwt(range);
   }
 
+  public void testIsConnected() {
+    assertTrue(Ranges.closed(3, 5).isConnected(Ranges.open(5, 6)));
+    assertTrue(Ranges.closed(3, 5).isConnected(Ranges.openClosed(5, 5)));
+    assertTrue(Ranges.open(3, 5).isConnected(Ranges.closed(5, 6)));
+    assertTrue(Ranges.closed(3, 7).isConnected(Ranges.open(6, 8)));
+    assertTrue(Ranges.open(3, 7).isConnected(Ranges.closed(5, 6)));
+    assertFalse(Ranges.closed(3, 5).isConnected(Ranges.closed(7, 8)));
+    assertFalse(Ranges.closed(3, 5).isConnected(Ranges.closedOpen(7, 7)));
+  }
+
   private static void checkContains(Range<Integer> range) {
     assertFalse(range.contains(4));
     assertTrue(range.contains(5));
@@ -353,7 +363,7 @@ public class RangeTest extends TestCase {
         range.intersection(Ranges.atMost(3)));
     assertEquals(Ranges.closedOpen(4, 4),
         range.intersection(Ranges.atLeast(4)));
-
+    
     try {
       range.intersection(Ranges.lessThan(3));
       fail();
@@ -364,6 +374,10 @@ public class RangeTest extends TestCase {
       fail();
     } catch (IllegalArgumentException expected) {
     }
+
+    range = Ranges.closed(3, 4);
+    assertEquals(Ranges.openClosed(4, 4),
+        range.intersection(Ranges.greaterThan(4)));
   }
 
   public void testIntersection_singleton() {
