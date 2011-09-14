@@ -803,7 +803,7 @@ public final class Files {
         }
       } else {
         /* real path element */
-        if (name[q] != name[firstNonSlash]) {
+        if (name[q] != name[firstNonSlash] || name[q] == '.') {
           name[q++] = '/';
         }
         while ((q < name.length && p < name.length) &&
