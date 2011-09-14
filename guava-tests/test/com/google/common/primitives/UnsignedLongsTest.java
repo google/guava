@@ -16,7 +16,6 @@ package com.google.common.primitives;
 
 import static java.math.BigInteger.ONE;
 import static java.math.BigInteger.ZERO;
-import static java.math.BigInteger.valueOf;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -34,42 +33,6 @@ import java.math.BigInteger;
  */
 @GwtCompatible(emulated = true)
 public class UnsignedLongsTest extends TestCase {
-  public void testToBigInteger() {
-    assertEquals(ZERO, UnsignedLongs.toBigInteger(0));
-    assertEquals(ONE, UnsignedLongs.toBigInteger(1));
-    assertEquals(valueOf(Long.MAX_VALUE), UnsignedLongs.toBigInteger(Long.MAX_VALUE));
-    assertEquals(ONE.shiftLeft(63), UnsignedLongs.toBigInteger(Long.MIN_VALUE));
-    assertEquals(ONE.shiftLeft(64).subtract(ONE), UnsignedLongs.toBigInteger(-1L));
-  }
-
-  public void testCheckedCast() {
-    assertEquals(0, UnsignedLongs.checkedCast(ZERO));
-    assertEquals(1, UnsignedLongs.checkedCast(ONE));
-    assertEquals(Long.MAX_VALUE, UnsignedLongs.checkedCast(valueOf(Long.MAX_VALUE)));
-    assertEquals(Long.MIN_VALUE, UnsignedLongs.checkedCast(ONE.shiftLeft(63)));
-    assertEquals(-1L, UnsignedLongs.checkedCast(ONE.shiftLeft(64).subtract(ONE)));
-    assertCastFails(ONE.shiftLeft(64));
-    assertCastFails(ONE.negate());
-    assertCastFails(ONE.shiftLeft(100));
-  }
-
-  private void assertCastFails(BigInteger value) {
-    try {
-      UnsignedLongs.checkedCast(value);
-      fail("Cast to long should have failed: " + value);
-    } catch (IllegalArgumentException expected) {}
-  }
-
-  public void testSaturatedCast() {
-    assertEquals(0, UnsignedLongs.saturatedCast(ZERO));
-    assertEquals(1, UnsignedLongs.saturatedCast(ONE));
-    assertEquals(Long.MAX_VALUE, UnsignedLongs.saturatedCast(valueOf(Long.MAX_VALUE)));
-    assertEquals(Long.MIN_VALUE, UnsignedLongs.saturatedCast(ONE.shiftLeft(63)));
-    assertEquals(-1L, UnsignedLongs.saturatedCast(ONE.shiftLeft(64).subtract(ONE)));
-    assertEquals(-1L, UnsignedLongs.saturatedCast(ONE.shiftLeft(64)));
-    assertEquals(0, UnsignedLongs.saturatedCast(ONE.negate()));
-    assertEquals(-1L, UnsignedLongs.saturatedCast(ONE.shiftLeft(100)));
-  }
 
   public void testCompare() {
     // max value
