@@ -274,6 +274,8 @@ public final class Range<C extends Comparable>
    *     {@code encloses} is always true
    * <li>there also exist {@linkplain #isEmpty minimal} ranges, for
    *     which {@code encloses(b)} is always false when {@code !equals(b)}
+   * <li>if {@code a.encloses(b)}, then {@link #isConnected a.isConnected(b)}
+   *     is {@code true}. 
    * </ul>
    */
   public boolean encloses(Range<C> other) {
@@ -283,10 +285,15 @@ public final class Range<C extends Comparable>
 
   /**
    * Returns the maximal range {@linkplain #encloses enclosed} by both this
-   * range and {@code other}, if such a range exists. For example, the
-   * intersection of {@code [1..5]} and {@code (3..7)} is {@code (3..5]}. The
-   * resulting range may be empty; for example, {@code [1..5)} intersected with
-   * {@code [5..7)} yields the empty range {@code [5..5)}.
+   * range and {@code other}, if such a range exists.
+   * 
+   * <p>For example, the intersection of {@code [1..5]} and {@code (3..7)} is
+   * {@code (3..5]}. The resulting range may be empty; for example, 
+   * {@code [1..5)} intersected with {@code [5..7)} yields the empty range
+   * {@code [5..5)}.
+   * 
+   * <p>Generally, the intersection exists if and only if this range and 
+   * {@code other} are {@linkplain #isConnected connected}.
    *
    * <p>The intersection operation has the following properties:
    *
@@ -310,6 +317,36 @@ public final class Range<C extends Comparable>
   }
 
   /**
+   * Returns {@code true} if there exists a (possibly empty) range which is
+   * {@linkplain #encloses enclosed} by both this range and {@code other}.
+   * 
+   * <p>For example,
+   * <ul>
+   * <li>{@code [2, 4)} and {@code [5, 7)} are not connected
+   * <li>{@code [2, 4)} and {@code [3, 5)} are connected, because both enclose
+   *     {@code [3, 4)}
+   * <li>{@code [2, 4)} and {@code [4, 6)} are connected, because both enclose
+   *     the empty range {@code [4, 4)}
+   * </ul>
+   * 
+   * <p>Note that this range and {@code other} have a well-defined {@linkplain
+   * #span union} and {@linkplain #intersection intersection} (as a single,
+   * possibly-empty range) if and only if this method returns {@code true}.
+   * 
+   * <p>The connectedness relation has the following properties:
+   *
+   * <ul>
+   * <li>symmetric: {@code a.isConnected(b)} produces the same result as
+   *     {@code b.isConnected(a)}
+   * <li>reflexive: {@code a.isConnected(a)} returns {@code true}
+   * </ul>
+   */
+  public boolean isConnected(Range<C> other) {
+    return lowerBound.compareTo(other.upperBound) <= 0
+        && other.lowerBound.compareTo(upperBound) <= 0;
+  }
+
+  /**
    * Returns the minimal range that {@linkplain #encloses encloses} both this
    * range and {@code other}. For example, the span of {@code [1..3]} and
    * {@code (5..7)} is {@code [1..7)}. Note that the span may contain values
@@ -324,6 +361,10 @@ public final class Range<C extends Comparable>
    * <li>associative: {@code a.span(b).span(c)} equals {@code a.span(b.span(c))}
    * <li>idempotent: {@code a.span(a)} equals {@code a}
    * </ul>
+   * 
+   * <p>Note that the returned range is also called the <i>union</i> of this
+   * range and {@code other} if and only if the ranges are 
+   * {@linkplain #isConnected connected}.
    */
   public Range<C> span(Range<C> other) {
     Cut<C> newLower = Ordering.natural().min(lowerBound, other.lowerBound);
