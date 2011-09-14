@@ -450,13 +450,17 @@ public final class ArrayTable<R, C, V> implements Table<R, C, V>, Serializable {
   private transient CellSet cellSet;
 
   /**
-   * {@inheritDoc}
+   * Returns an unmodifiable set of all row key / column key / value
+   * triplets. Changes to the table will update the returned set.
    *
    * <p>The returned set's iterator traverses the mappings with the first row
    * key, the mappings with the second row key, and so on.
    *
    * <p>The value in the returned cells may change if the table subsequently
    * changes.
+   *
+   * @return set of table cells consisting of row key / column key / value
+   *     triplets
    */
   @Override
   public Set<Cell<R, C, V>> cellSet() {
@@ -800,10 +804,13 @@ public final class ArrayTable<R, C, V> implements Table<R, C, V>, Serializable {
   private transient Collection<V> values;
 
   /**
-   * {@inheritDoc}
+   * Returns an unmodifiable collection of all values, which may contain
+   * duplicates. Changes to the table will update the returned collection.
    *
    * <p>The returned collection's iterator traverses the values of the first row
    * key, the values of the second row key, and so on.
+   *
+   * @return collection of values
    */
   @Override
   public Collection<V> values() {
