@@ -101,5 +101,12 @@ public class CleanPathTest extends TestCase {
   public void testMadbotsBug() {
     assertEquals("../this", Files.simplifyPath("../this"));
     assertEquals("../this/is/ok", Files.simplifyPath("../this/is/ok"));
+    assertEquals("../ok", Files.simplifyPath("../this/../ok"));
+  }
+  
+  // https://code.google.com/p/guava-libraries/issues/detail?id=705
+  public void test705() {
+    assertEquals("../b", Files.simplifyPath("x/../../b"));
+    assertEquals("b", Files.simplifyPath("x/../b"));
   }
 }
