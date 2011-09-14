@@ -66,7 +66,7 @@ import javax.annotation.Nullable;
  */
 @Beta
 @GwtCompatible
-public abstract class Optional<T> implements BaseHolder<T>, Serializable {
+public abstract class Optional<T> implements Serializable {
   /**
    * Returns an {@code Optional} instance with no contained reference.
    */
@@ -95,6 +95,29 @@ public abstract class Optional<T> implements BaseHolder<T>, Serializable {
   private Optional() {}
 
   /**
+   * Returns {@code true} if this holder contains a (non-null) instance.
+   */
+  public abstract boolean isPresent();
+
+  // TODO(kevinb): isAbsent too?
+
+  /**
+   * Returns the contained instance, which must be present. If the instance might be
+   * absent, use {@link #or(Object)} or {@link #orNull} instead.
+   *
+   * @throws IllegalStateException if the instance is absent ({@link #isPresent} returns
+   *     {@code false})
+   */
+  public abstract T get();
+
+  /**
+   * Returns the contained instance if it is present; {@code defaultValue} otherwise. If
+   * no default value should be required because the instance is known to be present, use
+   * {@link #get()} instead. For a default value of {@code null}, use {@link #orNull}.
+   */
+  public abstract T or(T defaultValue);
+
+  /**
    * Returns this {@code Optional} if it has a value present; {@code secondChoice}
    * otherwise.
    */
@@ -104,6 +127,12 @@ public abstract class Optional<T> implements BaseHolder<T>, Serializable {
    * Returns the contained instance if it is present; {@code supplier.get()} otherwise.
    */
   @Nullable public abstract T or(Supplier<? extends T> supplier);
+
+  /**
+   * Returns the contained instance if it is present; {@code null} otherwise. If the
+   * instance is known to be present, use {@link #get()} instead.
+   */
+  @Nullable public abstract T orNull();
 
   /**
    * Returns {@code true} if {@code object} is an {@code Optional} instance, and either
