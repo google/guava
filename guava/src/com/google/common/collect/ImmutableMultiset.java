@@ -19,6 +19,7 @@ package com.google.common.collect;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.collect.Multiset.Entry;
 import com.google.common.primitives.Ints;
 
 import java.io.Serializable;
@@ -200,10 +201,14 @@ public abstract class ImmutableMultiset<E> extends ImmutableCollection<E>
 
   private static <E> ImmutableMultiset<E> copyOfInternal(
       Multiset<? extends E> multiset) {
+    return copyFromEntries(multiset.entrySet());
+  }
+
+  static <E, E2 extends E> ImmutableMultiset<E> copyFromEntries(
+      Collection<Entry<E2>> entries) {
     long size = 0;
     ImmutableMap.Builder<E, Integer> builder = ImmutableMap.builder();
-
-    for (Entry<? extends E> entry : multiset.entrySet()) {
+    for (Entry<E2> entry : entries) {
       int count = entry.getCount();
       if (count > 0) {
         // Since ImmutableMap.Builder throws an NPE if an element is null, no
@@ -216,8 +221,7 @@ public abstract class ImmutableMultiset<E> extends ImmutableCollection<E>
     if (size == 0) {
       return of();
     }
-    return new RegularImmutableMultiset<E>(builder.build(),
-        Ints.saturatedCast(size));
+    return new RegularImmutableMultiset<E>(builder.build(), Ints.saturatedCast(size));
   }
 
   /**

@@ -20,22 +20,23 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 
+import java.io.Serializable;
+import java.util.AbstractSet;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Set;
+
+import javax.annotation.Nullable;
+
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Function;
 import com.google.common.base.Objects;
 import com.google.common.collect.Multiset.Entry;
 import com.google.common.primitives.Ints;
-
-import java.io.Serializable;
-import java.util.AbstractSet;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.NoSuchElementException;
-import java.util.Set;
-
-import javax.annotation.Nullable;
 
 /**
  * Provides static utility methods for creating and working with {@link
@@ -842,5 +843,25 @@ public final class Multisets {
    */
   static <T> Multiset<T> cast(Iterable<T> iterable) {
     return (Multiset<T>) iterable;
+  }
+
+  private static final Ordering<Entry<?>> DECREASING_COUNT_ORDERING = new Ordering<Entry<?>>() {
+    @Override
+    public int compare(Entry<?> entry1, Entry<?> entry2) {
+      return Ints.compare(entry2.getCount(), entry1.getCount());
+    }
+  };
+
+  /**
+   * Returns a copy of {@code multiset} as an {@link ImmutableMultiset} whose iteration order is
+   * highest count first, with ties broken by the iteration order of the original multiset.
+   *
+   * @since 11.0
+   */
+  @Beta
+  public static <E> ImmutableMultiset<E> copyHighestCountFirst(Multiset<E> multiset) {
+    List<Entry<E>> sortedEntries =
+        Multisets.DECREASING_COUNT_ORDERING.sortedCopy(multiset.entrySet());
+    return ImmutableMultiset.copyFromEntries(sortedEntries);
   }
 }

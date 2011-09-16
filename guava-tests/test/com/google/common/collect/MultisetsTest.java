@@ -16,26 +16,27 @@
 
 package com.google.common.collect;
 
-import static com.google.common.testing.SerializableTester.reserializeAndAssert;
 import static org.junit.contrib.truth.Truth.ASSERT;
-
-import com.google.common.annotations.GwtCompatible;
-import com.google.common.annotations.GwtIncompatible;
-import com.google.common.collect.testing.DerivedComparable;
-import com.google.common.testing.NullPointerTester;
-
-import junit.framework.TestCase;
+import static com.google.common.testing.SerializableTester.reserializeAndAssert;
 
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
+import junit.framework.TestCase;
+
+import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.GwtIncompatible;
+import com.google.common.collect.testing.DerivedComparable;
+import com.google.common.testing.NullPointerTester;
+
 /**
  * Tests for {@link Multisets}.
  *
  * @author Mike Bostock
  * @author Jared Levy
+ * @author Louis Wasserman
  */
 @GwtCompatible(emulated = true)
 public class MultisetsTest extends TestCase {
@@ -224,7 +225,28 @@ public class MultisetsTest extends TestCase {
     assertSame(immutable, Multisets.unmodifiableMultiset(immutable));
     assertSame(immutable, Multisets.unmodifiableMultiset((Multiset<String>) immutable));
   }
+  
+  public void testHighestCountFirst() {
+    Multiset<String> multiset = HashMultiset.create(
+        Arrays.asList("a", "a", "a", "b", "c", "c"));
+    ImmutableMultiset<String> sortedMultiset = 
+        Multisets.copyHighestCountFirst(multiset);
 
+    ASSERT.that(sortedMultiset.entrySet()).hasContentsInOrder(
+        Multisets.immutableEntry("a", 3), Multisets.immutableEntry("c", 2),
+        Multisets.immutableEntry("b", 1));
+
+    ASSERT.that(sortedMultiset).hasContentsInOrder(
+        "a",
+        "a",
+        "a",
+        "c",
+        "c",
+        "b");
+    
+    ASSERT.that(Multisets.copyHighestCountFirst(ImmutableMultiset.of())).isEmpty();
+  }
+  
   @GwtIncompatible("NullPointerTester")
   public void testNullPointers() throws Exception {
     NullPointerTester tester = new NullPointerTester();
