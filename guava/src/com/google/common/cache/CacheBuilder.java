@@ -118,7 +118,8 @@ import javax.annotation.Nullable;
  * or {@linkplain CacheBuilder#softValues softValues} perform periodic maintenance.
  *
  * <p>The caches produced by {@code CacheBuilder} are serializable, and the deserialized caches
- * retain all the configuration properties of the original cache.
+ * retain all the configuration properties of the original cache. Note that the serialized form does
+ * <i>not</i> include cache contents, but only configuration.
  *
  * @param <K> the base key type for all caches created by this builder
  * @param <V> the base value type for all caches created by this builder
@@ -188,7 +189,7 @@ public final class CacheBuilder<K, V> {
   Equivalence<Object> keyEquivalence;
   Equivalence<Object> valueEquivalence;
 
-  RemovalListener<K, V> removalListener;
+  RemovalListener<? super K, ? super V> removalListener;
 
   Ticker ticker;
 
@@ -538,7 +539,7 @@ public final class CacheBuilder<K, V> {
    */
   @CheckReturnValue
   public <K1 extends K, V1 extends V> CacheBuilder<K1, V1> removalListener(
-      RemovalListener<K1, V1> listener) {
+      RemovalListener<? super K1, ? super V1> listener) {
     checkState(this.removalListener == null);
 
     // safely limiting the kinds of caches this can produce

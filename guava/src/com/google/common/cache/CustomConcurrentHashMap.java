@@ -18,6 +18,7 @@ package com.google.common.cache;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
+import static com.google.common.cache.CacheBuilder.UNSET_INT;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Equivalence;
@@ -32,6 +33,9 @@ import com.google.common.primitives.Ints;
 import com.google.common.util.concurrent.ExecutionError;
 import com.google.common.util.concurrent.UncheckedExecutionException;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.Serializable;
 import java.lang.ref.Reference;
 import java.lang.ref.ReferenceQueue;
 import java.lang.ref.SoftReference;
@@ -49,6 +53,7 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReferenceArray;
 import java.util.concurrent.locks.ReentrantLock;
@@ -135,18 +140,18 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
    * Mask value for indexing into segments. The upper bits of a key's hash code are used to choose
    * the segment.
    */
-  final transient int segmentMask;
+  final int segmentMask;
 
   /**
    * Shift value for indexing within segments. Helps prevent entries that end up in the same segment
    * from also ending up in the same bucket.
    */
-  final transient int segmentShift;
+  final int segmentShift;
 
   /** The segments, each of which is a specialized hash table. */
-  final transient Segment<K, V>[] segments;
+  final Segment<K, V>[] segments;
 
-  final CacheLoader<? super K, ? extends V> loader;
+  final CacheLoader<? super K, V> loader;
 
   /** The concurrency level. */
   final int concurrencyLevel;
@@ -163,7 +168,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
   /** Strategy for referencing values. */
   final Strength valueStrength;
 
-  /** The maximum size of this map. CacheBuilder.UNSET_INT if there is no maximum. */
+  /** The maximum size of this map. UNSET_INT if there is no maximum. */
   final int maximumSize;
 
   /** How long after the last access to an entry the map will retain that entry. */
@@ -183,7 +188,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
   final RemovalListener<K, V> removalListener;
 
   /** Factory used to create new entries. */
-  final transient EntryFactory entryFactory;
+  final EntryFactory entryFactory;
 
   /** Measures time in a testable way. */
   final Ticker ticker;
@@ -193,7 +198,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
    */
   CustomConcurrentHashMap(CacheBuilder<? super K, ? super V> builder,
       Supplier<? extends StatsCounter> statsCounterSupplier,
-      CacheLoader<? super K, ? extends V> loader) {
+      CacheLoader<? super K, V> loader) {
     this.loader = checkNotNull(loader);
 
     concurrencyLevel = Math.min(builder.getConcurrencyLevel(), MAX_SEGMENTS);
@@ -260,13 +265,13 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
     } else {
       for (int i = 0; i < this.segments.length; ++i) {
         this.segments[i] =
-            createSegment(segmentSize, CacheBuilder.UNSET_INT, statsCounterSupplier.get());
+            createSegment(segmentSize, UNSET_INT, statsCounterSupplier.get());
       }
     }
   }
 
   boolean evictsBySize() {
-    return maximumSize != CacheBuilder.UNSET_INT;
+    return maximumSize != UNSET_INT;
   }
 
   boolean expires() {
@@ -2091,7 +2096,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
     volatile AtomicReferenceArray<ReferenceEntry<K, V>> table;
 
     /**
-     * The maximum size of this map. CacheBuilder.UNSET_INT if there is no maximum.
+     * The maximum size of this map. UNSET_INT if there is no maximum.
      */
     final int maxSegmentSize;
 
@@ -2203,7 +2208,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
 
     // computation
 
-    V getOrCompute(K key, int hash, CacheLoader<? super K, ? extends V> loader)
+    V getOrCompute(K key, int hash, CacheLoader<? super K, V> loader)
         throws ExecutionException {
       try {
         outer: while (true) {
@@ -3355,7 +3360,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
   private static final class ComputedNull<K, V> implements ComputedValue<V> {
     final String msg;
 
-    public ComputedNull(CacheLoader<? super K, ? extends V> loader, K key) {
+    public ComputedNull(CacheLoader<? super K, V> loader, K key) {
       this.msg = loader + " returned null for key " + key + ".";
     }
 
@@ -3366,12 +3371,12 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
   }
 
   static final class ComputingValueReference<K, V> implements ValueReference<K, V> {
-    final CacheLoader<? super K, ? extends V> loader;
+    final CacheLoader<? super K, V> loader;
 
     @GuardedBy("ComputingValueReference.this") // writes
     volatile ComputedValue<V> computedValue = null;
 
-    public ComputingValueReference(CacheLoader<? super K, ? extends V> loader) {
+    public ComputingValueReference(CacheLoader<? super K, V> loader) {
       this.loader = loader;
     }
 
@@ -4256,4 +4261,90 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
     }
   }
 
+  // Serialization Support
+
+  Cache<K, V> cacheSerializationProxy() {
+    return new SerializationProxy<K, V>(loader, keyStrength, valueStrength, keyEquivalence,
+        valueEquivalence, expireAfterWriteNanos, expireAfterAccessNanos, maximumSize,
+        concurrencyLevel, removalListener, ticker);
+  }
+
+  /**
+   * Serializes the configuration of a CustomConcurrentHashMap, reconsitituting it as a Cache using
+   * CacheBuilder upon deserialization. An instance of this class is fit for use by the writeReplace
+   * of ComputingCache.
+   *
+   * Unfortunately, readResolve() doesn't get called when a circular dependency is present, so the
+   * proxy must be able to behave as the cache itself.
+   */
+  static final class SerializationProxy<K, V>
+      extends ForwardingCache<K, V> implements Serializable {
+    private static final long serialVersionUID = 1;
+
+    final CacheLoader<? super K, V> loader;
+    final Strength keyStrength;
+    final Strength valueStrength;
+    final Equivalence<Object> keyEquivalence;
+    final Equivalence<Object> valueEquivalence;
+    final long expireAfterWriteNanos;
+    final long expireAfterAccessNanos;
+    final int maximumSize;
+    final int concurrencyLevel;
+    final RemovalListener<? super K, ? super V> removalListener;
+    final Ticker ticker;
+
+    transient Cache<K, V> delegate;
+
+    SerializationProxy(CacheLoader<? super K, V> loader,
+        Strength keyStrength, Strength valueStrength,
+        Equivalence<Object> keyEquivalence, Equivalence<Object> valueEquivalence,
+        long expireAfterWriteNanos, long expireAfterAccessNanos, int maximumSize,
+        int concurrencyLevel, RemovalListener<? super K, ? super V> removalListener,
+        Ticker ticker) {
+      this.loader = loader;
+      this.keyStrength = keyStrength;
+      this.valueStrength = valueStrength;
+      this.keyEquivalence = keyEquivalence;
+      this.valueEquivalence = valueEquivalence;
+      this.expireAfterWriteNanos = expireAfterWriteNanos;
+      this.expireAfterAccessNanos = expireAfterAccessNanos;
+      this.maximumSize = maximumSize;
+      this.concurrencyLevel = concurrencyLevel;
+      this.removalListener = removalListener;
+      this.ticker = ticker;
+    }
+
+    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
+      in.defaultReadObject();
+      CacheBuilder<Object, Object> builder = CacheBuilder.newBuilder()
+          .setKeyStrength(keyStrength)
+          .setValueStrength(valueStrength)
+          .keyEquivalence(keyEquivalence)
+          .valueEquivalence(valueEquivalence)
+          .concurrencyLevel(concurrencyLevel);
+      builder.removalListener(removalListener);
+      if (expireAfterWriteNanos > 0) {
+        builder.expireAfterWrite(expireAfterWriteNanos, TimeUnit.NANOSECONDS);
+      }
+      if (expireAfterAccessNanos > 0) {
+        builder.expireAfterAccess(expireAfterAccessNanos, TimeUnit.NANOSECONDS);
+      }
+      if (maximumSize != UNSET_INT) {
+        builder.maximumSize(maximumSize);
+      }
+      if (ticker != Ticker.systemTicker()) {
+        builder.ticker(ticker);
+      }
+      this.delegate = builder.build(loader);
+    }
+
+    private Object readResolve() {
+      return delegate;
+    }
+
+    @Override
+    protected Cache<K, V> delegate() {
+      return delegate;
+    }
+  }
 }
