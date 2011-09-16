@@ -44,8 +44,8 @@ final class BstMutationResult<K, N extends BstNode<K, N>> {
    * @param changedRoot The root of the subtree, after the modification and any rebalancing.
    * @param modificationResult The result of the local modification to an entry.
    */
-  public static <K, N extends BstNode<K, N>> BstMutationResult<K, N> mutationResult(K targetKey,
-      @Nullable N originalRoot, @Nullable N changedRoot,
+  public static <K, N extends BstNode<K, N>> BstMutationResult<K, N> mutationResult(
+      @Nullable K targetKey, @Nullable N originalRoot, @Nullable N changedRoot,
       BstModificationResult<N> modificationResult) {
     return new BstMutationResult<K, N>(targetKey, originalRoot, changedRoot, modificationResult);
   }
@@ -60,9 +60,10 @@ final class BstMutationResult<K, N extends BstNode<K, N>> {
   
   private final BstModificationResult<N> modificationResult;
 
-  private BstMutationResult(K targetKey, @Nullable N originalRoot, @Nullable N changedRoot,
-      BstModificationResult<N> modificationResult) {
-    this.targetKey = checkNotNull(targetKey);
+  private BstMutationResult(@Nullable K targetKey, @Nullable N originalRoot,
+                            @Nullable N changedRoot,
+                            BstModificationResult<N> modificationResult) {
+    this.targetKey = targetKey;
     this.originalRoot = originalRoot;
     this.changedRoot = changedRoot;
     this.modificationResult = checkNotNull(modificationResult);

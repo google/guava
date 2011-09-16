@@ -26,7 +26,7 @@ import java.util.Comparator;
 import javax.annotation.Nullable;
 
 /**
- * A reusable abstraction for a node in a binary search tree. Null keys are disallowed.
+ * A reusable abstraction for a node in a binary search tree. Null keys are allowed.
  *
  * <p>The node is considered to be immutable. Any subclass with mutable fields must create a new
  * {@code BstNode} object upon any mutation, as the {@code Bst} classes assume that two nodes
@@ -60,8 +60,8 @@ class BstNode<K, N extends BstNode<K, N>> {
   @Nullable
   private final N right;
 
-  BstNode(K key, @Nullable N left, @Nullable N right) {
-    this.key = checkNotNull(key);
+  BstNode(@Nullable K key, @Nullable N left, @Nullable N right) {
+    this.key = key;
     this.left = left;
     this.right = right;
   }
@@ -69,6 +69,7 @@ class BstNode<K, N extends BstNode<K, N>> {
   /**
    * Returns the ordered key associated with this node.
    */
+  @Nullable
   public final K getKey() {
     return key;
   }

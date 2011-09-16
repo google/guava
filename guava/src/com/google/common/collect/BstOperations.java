@@ -38,7 +38,7 @@ final class BstOperations {
    */
   @Nullable
   public static <K, N extends BstNode<K, N>> N seek(
-      Comparator<? super K> comparator, @Nullable N tree, K key) {
+      Comparator<? super K> comparator, @Nullable N tree, @Nullable K key) {
     checkNotNull(comparator);
     if (tree == null) {
       return null;
@@ -67,10 +67,9 @@ final class BstOperations {
    */
   public static <K, N extends BstNode<K, N>> BstMutationResult<K, N> mutate(
       Comparator<? super K> comparator, BstMutationRule<K, N> mutationRule, @Nullable N tree,
-      K key) {
+      @Nullable K key) {
     checkNotNull(comparator);
     checkNotNull(mutationRule);
-    checkNotNull(key);
 
     if (tree != null) {
       int cmp = comparator.compare(key, tree.getKey());
