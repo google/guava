@@ -41,6 +41,9 @@
  * <li>{@link com.google.common.primitives.Doubles}
  * <li>{@link com.google.common.primitives.Floats}
  * <li>{@link com.google.common.primitives.Ints}
+ *   <ul>
+ *     <li>{@link com.google.common.primitives.UnsignedInts}
+ *   </ul>
  * <li>{@link com.google.common.primitives.Longs}
  *   <ul>
  *     <li>{@link com.google.common.primitives.UnsignedLongs}
