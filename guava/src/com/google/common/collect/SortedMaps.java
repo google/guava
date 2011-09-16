@@ -18,7 +18,6 @@ package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -30,13 +29,9 @@ import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Function;
-import com.google.common.base.Objects;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
-import com.google.common.collect.MapDifference.ValueDifference;
 import com.google.common.collect.Maps.EntryTransformer;
-import com.google.common.collect.Maps.MapDifferenceImpl;
-import com.google.common.collect.Maps.ValueDifferenceImpl;
 
 /**
  * Static utility methods pertaining to {@link SortedMap} instances.
@@ -168,76 +163,13 @@ public final class SortedMaps {
    * @param left the map to treat as the "left" map for purposes of comparison
    * @param right the map to treat as the "right" map for purposes of comparison
    * @return the difference between the two maps
+   * @deprecated Use {@link Maps#difference(SortedMap, Map)}
    */
-  public static <K, V> SortedMapDifference<K, V> difference(
+  @Deprecated public static <K, V> SortedMapDifference<K, V> difference(
       SortedMap<K, ? extends V> left, Map<? extends K, ? extends V> right) {
-    Comparator<? super K> comparator = orNaturalOrder(left.comparator());
-    SortedMap<K, V> onlyOnLeft = Maps.newTreeMap(comparator);
-    SortedMap<K, V> onlyOnRight = Maps.newTreeMap(comparator);
-    onlyOnRight.putAll(right); // will whittle it down
-    SortedMap<K, V> onBoth = Maps.newTreeMap(comparator);
-    SortedMap<K, MapDifference.ValueDifference<V>> differences =
-        Maps.newTreeMap(comparator);
-    boolean eq = true;
-
-    for (Entry<? extends K, ? extends V> entry : left.entrySet()) {
-      K leftKey = entry.getKey();
-      V leftValue = entry.getValue();
-      if (right.containsKey(leftKey)) {
-        V rightValue = onlyOnRight.remove(leftKey);
-        if (Objects.equal(leftValue, rightValue)) {
-          onBoth.put(leftKey, leftValue);
-        } else {
-          eq = false;
-          differences.put(
-              leftKey, ValueDifferenceImpl.create(leftValue, rightValue));
-        }
-      } else {
-        eq = false;
-        onlyOnLeft.put(leftKey, leftValue);
-      }
-    }
-
-    boolean areEqual = eq && onlyOnRight.isEmpty();
-    return sortedMapDifference(
-        areEqual, onlyOnLeft, onlyOnRight, onBoth, differences);
+    return Maps.difference(left, right);
   }
-
-  private static <K, V> SortedMapDifference<K, V> sortedMapDifference(
-      boolean areEqual, SortedMap<K, V> onlyOnLeft, SortedMap<K, V> onlyOnRight,
-      SortedMap<K, V> onBoth, SortedMap<K, ValueDifference<V>> differences) {
-    return new SortedMapDifferenceImpl<K, V>(areEqual,
-        Collections.unmodifiableSortedMap(onlyOnLeft),
-        Collections.unmodifiableSortedMap(onlyOnRight),
-        Collections.unmodifiableSortedMap(onBoth),
-        Collections.unmodifiableSortedMap(differences));
-  }
-
-  static class SortedMapDifferenceImpl<K, V> extends MapDifferenceImpl<K, V>
-      implements SortedMapDifference<K, V> {
-    SortedMapDifferenceImpl(boolean areEqual, SortedMap<K, V> onlyOnLeft,
-        SortedMap<K, V> onlyOnRight, SortedMap<K, V> onBoth,
-        SortedMap<K, ValueDifference<V>> differences) {
-      super(areEqual, onlyOnLeft, onlyOnRight, onBoth, differences);
-    }
-
-    @Override public SortedMap<K, ValueDifference<V>> entriesDiffering() {
-      return (SortedMap<K, ValueDifference<V>>) super.entriesDiffering();
-    }
-
-    @Override public SortedMap<K, V> entriesInCommon() {
-      return (SortedMap<K, V>) super.entriesInCommon();
-    }
-
-    @Override public SortedMap<K, V> entriesOnlyOnLeft() {
-      return (SortedMap<K, V>) super.entriesOnlyOnLeft();
-    }
-
-    @Override public SortedMap<K, V> entriesOnlyOnRight() {
-      return (SortedMap<K, V>) super.entriesOnlyOnRight();
-    }
-  }
-
+  
   /**
    * Returns the specified comparator if not null; otherwise returns {@code
    * Ordering.natural()}. This method is an abomination of generics; the only

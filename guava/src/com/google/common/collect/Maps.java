@@ -316,8 +316,14 @@ public final class Maps {
    * @param right the map to treat as the "right" map for purposes of comparison
    * @return the difference between the two maps
    */
+  @SuppressWarnings("unchecked")
   public static <K, V> MapDifference<K, V> difference(
       Map<? extends K, ? extends V> left, Map<? extends K, ? extends V> right) {
+    if (left instanceof SortedMap) {
+      SortedMap<K, ? extends V> sortedLeft = (SortedMap<K, ? extends V>) left;
+      SortedMapDifference<K, V> result = difference(sortedLeft, right);
+      return result;
+    }
     return difference(left, right, Equivalences.equals());
   }
 
@@ -508,6 +514,110 @@ public final class Maps {
     }
   }
 
+  /**
+   * Computes the difference between two sorted maps, using the comparator of
+   * the left map, or {@code Ordering.natural()} if the left map uses the
+   * natural ordering of its elements. This difference is an immutable snapshot
+   * of the state of the maps at the time this method is called. It will never
+   * change, even if the maps change at a later time.
+   *
+   * <p>Since this method uses {@code TreeMap} instances internally, the keys of
+   * the right map must all compare as distinct according to the comparator
+   * of the left map.
+   *
+   * <p><b>Note:</b>If you only need to know whether two sorted maps have the
+   * same mappings, call {@code left.equals(right)} instead of this method.
+   *
+   * @param left the map to treat as the "left" map for purposes of comparison
+   * @param right the map to treat as the "right" map for purposes of comparison
+   * @return the difference between the two maps
+   * @since 11.0
+   */
+  @Beta
+  public static <K, V> SortedMapDifference<K, V> difference(
+      SortedMap<K, ? extends V> left, Map<? extends K, ? extends V> right) {
+    checkNotNull(left);
+    checkNotNull(right);
+    Comparator<? super K> comparator = orNaturalOrder(left.comparator());
+    SortedMap<K, V> onlyOnLeft = Maps.newTreeMap(comparator);
+    SortedMap<K, V> onlyOnRight = Maps.newTreeMap(comparator);
+    onlyOnRight.putAll(right); // will whittle it down
+    SortedMap<K, V> onBoth = Maps.newTreeMap(comparator);
+    SortedMap<K, MapDifference.ValueDifference<V>> differences =
+        Maps.newTreeMap(comparator);
+    boolean eq = true;
+
+    for (Entry<? extends K, ? extends V> entry : left.entrySet()) {
+      K leftKey = entry.getKey();
+      V leftValue = entry.getValue();
+      if (right.containsKey(leftKey)) {
+        V rightValue = onlyOnRight.remove(leftKey);
+        if (Objects.equal(leftValue, rightValue)) {
+          onBoth.put(leftKey, leftValue);
+        } else {
+          eq = false;
+          differences.put(
+              leftKey, ValueDifferenceImpl.create(leftValue, rightValue));
+        }
+      } else {
+        eq = false;
+        onlyOnLeft.put(leftKey, leftValue);
+      }
+    }
+
+    boolean areEqual = eq && onlyOnRight.isEmpty();
+    return sortedMapDifference(
+        areEqual, onlyOnLeft, onlyOnRight, onBoth, differences);
+  }
+
+  private static <K, V> SortedMapDifference<K, V> sortedMapDifference(
+      boolean areEqual, SortedMap<K, V> onlyOnLeft, SortedMap<K, V> onlyOnRight,
+      SortedMap<K, V> onBoth, SortedMap<K, ValueDifference<V>> differences) {
+    return new SortedMapDifferenceImpl<K, V>(areEqual,
+        Collections.unmodifiableSortedMap(onlyOnLeft),
+        Collections.unmodifiableSortedMap(onlyOnRight),
+        Collections.unmodifiableSortedMap(onBoth),
+        Collections.unmodifiableSortedMap(differences));
+  }
+
+  static class SortedMapDifferenceImpl<K, V> extends MapDifferenceImpl<K, V>
+      implements SortedMapDifference<K, V> {
+    SortedMapDifferenceImpl(boolean areEqual, SortedMap<K, V> onlyOnLeft,
+        SortedMap<K, V> onlyOnRight, SortedMap<K, V> onBoth,
+        SortedMap<K, ValueDifference<V>> differences) {
+      super(areEqual, onlyOnLeft, onlyOnRight, onBoth, differences);
+    }
+
+    @Override public SortedMap<K, ValueDifference<V>> entriesDiffering() {
+      return (SortedMap<K, ValueDifference<V>>) super.entriesDiffering();
+    }
+
+    @Override public SortedMap<K, V> entriesInCommon() {
+      return (SortedMap<K, V>) super.entriesInCommon();
+    }
+
+    @Override public SortedMap<K, V> entriesOnlyOnLeft() {
+      return (SortedMap<K, V>) super.entriesOnlyOnLeft();
+    }
+
+    @Override public SortedMap<K, V> entriesOnlyOnRight() {
+      return (SortedMap<K, V>) super.entriesOnlyOnRight();
+    }
+  }
+
+  /**
+   * Returns the specified comparator if not null; otherwise returns {@code
+   * Ordering.natural()}. This method is an abomination of generics; the only
+   * purpose of this method is to contain the ugly type-casting in one place.
+   */
+  @SuppressWarnings("unchecked")
+  static <E> Comparator<? super E> orNaturalOrder(
+      @Nullable Comparator<? super E> comparator) {
+    if (comparator != null) { // can't use ? : because of javac bug 5080917
+      return comparator;
+    }
+    return (Comparator<E>) Ordering.natural();
+  }
   /**
    * Returns an immutable map for which the {@link Map#values} are the given
    * elements in the given order, and each key is the product of invoking a
@@ -877,7 +987,10 @@ public final class Maps {
    * {@code Map.toString()}. For this to perform well, {@code function} should
    * be fast. To avoid lazy evaluation when the returned map doesn't need to be
    * a view, copy the returned map into a new map of your choosing.
+   *
+   * @since 11.0
    */
+  @Beta
   public static <K, V1, V2> SortedMap<K, V2> transformValues(
       SortedMap<K, V1> fromMap, final Function<? super V1, V2> function) {
     checkNotNull(function);
@@ -945,6 +1058,9 @@ public final class Maps {
   public static <K, V1, V2> Map<K, V2> transformEntries(
       Map<K, V1> fromMap,
       EntryTransformer<? super K, ? super V1, V2> transformer) {
+    if (fromMap instanceof SortedMap) {
+      return transformEntries((SortedMap<K, V1>) fromMap, transformer);
+    }
     return new TransformedEntriesMap<K, V1, V2>(fromMap, transformer);
   }
 
@@ -997,7 +1113,10 @@ public final class Maps {
    * EntryTransformer} key type for which this may not hold, such as {@code
    * ArrayList}, may risk a {@code ClassCastException} when calling methods on
    * the transformed map.
+   *
+   * @since 11.0
    */
+  @Beta
   public static <K, V1, V2> SortedMap<K, V2> transformEntries(
       final SortedMap<K, V1> fromMap,
       EntryTransformer<? super K, ? super V1, V2> transformer) {

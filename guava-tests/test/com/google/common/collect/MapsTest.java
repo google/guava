@@ -455,6 +455,149 @@ public class MapsTest extends TestCase {
         + "value differences={3=(F, c), 5=(G, e)}", diff2.toString());
   }
 
+  private static final SortedMap<Integer, Integer> SORTED_EMPTY = Maps.newTreeMap();
+  private static final SortedMap<Integer, Integer> SORTED_SINGLETON =
+      ImmutableSortedMap.of(1, 2);
+
+  public void testMapDifferenceOfSortedMapIsSorted() {
+    Map<Integer, Integer> map = SORTED_SINGLETON;
+    MapDifference<Integer, Integer> difference = Maps.difference(map, EMPTY);
+    assertTrue(difference instanceof SortedMapDifference);
+  }
+
+  public void testSortedMapDifferenceEmptyEmpty() {
+    SortedMapDifference<Integer, Integer> diff =
+        Maps.difference(SORTED_EMPTY, SORTED_EMPTY);
+    assertTrue(diff.areEqual());
+    assertEquals(SORTED_EMPTY, diff.entriesOnlyOnLeft());
+    assertEquals(SORTED_EMPTY, diff.entriesOnlyOnRight());
+    assertEquals(SORTED_EMPTY, diff.entriesInCommon());
+    assertEquals(SORTED_EMPTY, diff.entriesDiffering());
+    assertEquals("equal", diff.toString());
+  }
+
+  public void testSortedMapDifferenceEmptySingleton() {
+    SortedMapDifference<Integer, Integer> diff =
+        Maps.difference(SORTED_EMPTY, SORTED_SINGLETON);
+    assertFalse(diff.areEqual());
+    assertEquals(SORTED_EMPTY, diff.entriesOnlyOnLeft());
+    assertEquals(SORTED_SINGLETON, diff.entriesOnlyOnRight());
+    assertEquals(SORTED_EMPTY, diff.entriesInCommon());
+    assertEquals(SORTED_EMPTY, diff.entriesDiffering());
+    assertEquals("not equal: only on right={1=2}", diff.toString());
+  }
+
+  public void testSortedMapDifferenceSingletonEmpty() {
+    SortedMapDifference<Integer, Integer> diff =
+        Maps.difference(SORTED_SINGLETON, SORTED_EMPTY);
+    assertFalse(diff.areEqual());
+    assertEquals(SORTED_SINGLETON, diff.entriesOnlyOnLeft());
+    assertEquals(SORTED_EMPTY, diff.entriesOnlyOnRight());
+    assertEquals(SORTED_EMPTY, diff.entriesInCommon());
+    assertEquals(SORTED_EMPTY, diff.entriesDiffering());
+    assertEquals("not equal: only on left={1=2}", diff.toString());
+  }
+
+  public void testSortedMapDifferenceTypical() {
+    SortedMap<Integer, String> left =
+        ImmutableSortedMap.<Integer, String>reverseOrder()
+        .put(1, "a").put(2, "b").put(3, "c").put(4, "d").put(5, "e")
+        .build();
+
+    SortedMap<Integer, String> right =
+        ImmutableSortedMap.of(1, "a", 3, "f", 5, "g", 6, "z");
+
+    SortedMapDifference<Integer, String> diff1 =
+        Maps.difference(left, right);
+    assertFalse(diff1.areEqual());
+    ASSERT.that(diff1.entriesOnlyOnLeft().entrySet()).hasContentsInOrder(
+        Maps.immutableEntry(4, "d"), Maps.immutableEntry(2, "b"));
+    ASSERT.that(diff1.entriesOnlyOnRight().entrySet()).hasContentsInOrder(
+        Maps.immutableEntry(6, "z"));
+    ASSERT.that(diff1.entriesInCommon().entrySet()).hasContentsInOrder(
+        Maps.immutableEntry(1, "a"));
+    ASSERT.that(diff1.entriesDiffering().entrySet()).hasContentsInOrder(
+        Maps.immutableEntry(5, ValueDifferenceImpl.create("e", "g")),
+        Maps.immutableEntry(3, ValueDifferenceImpl.create("c", "f")));
+    assertEquals("not equal: only on left={4=d, 2=b}: only on right={6=z}: "
+        + "value differences={5=(e, g), 3=(c, f)}", diff1.toString());
+
+    SortedMapDifference<Integer, String> diff2 =
+        Maps.difference(right, left);
+    assertFalse(diff2.areEqual());
+    ASSERT.that(diff2.entriesOnlyOnLeft().entrySet()).hasContentsInOrder(
+        Maps.immutableEntry(6, "z"));
+    ASSERT.that(diff2.entriesOnlyOnRight().entrySet()).hasContentsInOrder(
+        Maps.immutableEntry(2, "b"), Maps.immutableEntry(4, "d"));
+    ASSERT.that(diff1.entriesInCommon().entrySet()).hasContentsInOrder(
+        Maps.immutableEntry(1, "a"));
+    assertEquals(ImmutableMap.of(
+            3, ValueDifferenceImpl.create("f", "c"),
+            5, ValueDifferenceImpl.create("g", "e")),
+        diff2.entriesDiffering());
+    assertEquals("not equal: only on left={6=z}: only on right={2=b, 4=d}: "
+        + "value differences={3=(f, c), 5=(g, e)}", diff2.toString());
+  }
+
+  public void testSortedMapDifferenceImmutable() {
+    SortedMap<Integer, String> left = Maps.newTreeMap(
+        ImmutableSortedMap.of(1, "a", 2, "b", 3, "c", 4, "d", 5, "e"));
+    SortedMap<Integer, String> right =
+        Maps.newTreeMap(ImmutableSortedMap.of(1, "a", 3, "f", 5, "g", 6, "z"));
+
+    SortedMapDifference<Integer, String> diff1 =
+        Maps.difference(left, right);
+    left.put(6, "z");
+    assertFalse(diff1.areEqual());
+    ASSERT.that(diff1.entriesOnlyOnLeft().entrySet()).hasContentsInOrder(
+        Maps.immutableEntry(2, "b"), Maps.immutableEntry(4, "d"));
+    ASSERT.that(diff1.entriesOnlyOnRight().entrySet()).hasContentsInOrder(
+        Maps.immutableEntry(6, "z"));
+    ASSERT.that(diff1.entriesInCommon().entrySet()).hasContentsInOrder(
+        Maps.immutableEntry(1, "a"));
+    ASSERT.that(diff1.entriesDiffering().entrySet()).hasContentsInOrder(
+        Maps.immutableEntry(3, ValueDifferenceImpl.create("c", "f")),
+        Maps.immutableEntry(5, ValueDifferenceImpl.create("e", "g")));
+    try {
+      diff1.entriesInCommon().put(7, "x");
+      fail();
+    } catch (UnsupportedOperationException expected) {
+    }
+    try {
+      diff1.entriesOnlyOnLeft().put(7, "x");
+      fail();
+    } catch (UnsupportedOperationException expected) {
+    }
+    try {
+      diff1.entriesOnlyOnRight().put(7, "x");
+      fail();
+    } catch (UnsupportedOperationException expected) {
+    }
+  }
+
+  public void testSortedMapDifferenceEquals() {
+    SortedMap<Integer, String> left =
+        ImmutableSortedMap.of(1, "a", 2, "b", 3, "c", 4, "d", 5, "e");
+    SortedMap<Integer, String> right =
+        ImmutableSortedMap.of(1, "a", 3, "f", 5, "g", 6, "z");
+    SortedMap<Integer, String> right2 =
+        ImmutableSortedMap.of(1, "a", 3, "h", 5, "g", 6, "z");
+    SortedMapDifference<Integer, String> original =
+        Maps.difference(left, right);
+    SortedMapDifference<Integer, String> same =
+        Maps.difference(left, right);
+    SortedMapDifference<Integer, String> reverse =
+        Maps.difference(right, left);
+    SortedMapDifference<Integer, String> diff2 =
+        Maps.difference(left, right2);
+
+    new EqualsTester()
+        .addEqualityGroup(original, same)
+        .addEqualityGroup(reverse)
+        .addEqualityGroup(diff2)
+        .testEquals();
+  }
+
   private static final BiMap<Integer, String> INT_TO_STRING_MAP =
       new ImmutableBiMap.Builder<Integer, String>()
           .put(1, "one")
