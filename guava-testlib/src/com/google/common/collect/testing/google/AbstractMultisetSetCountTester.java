@@ -17,6 +17,7 @@
 package com.google.common.collect.testing.google;
 
 import static com.google.common.collect.testing.features.CollectionFeature.ALLOWS_NULL_VALUES;
+import static com.google.common.collect.testing.features.CollectionFeature.RESTRICTS_ELEMENTS;
 import static com.google.common.collect.testing.features.CollectionFeature.SUPPORTS_ADD;
 import static com.google.common.collect.testing.features.CollectionFeature.SUPPORTS_REMOVE;
 import static com.google.common.collect.testing.features.CollectionSize.SEVERAL;
@@ -262,7 +263,8 @@ public abstract class AbstractMultisetSetCountTester<E>
     assertSetCount(null, 0);
   }
 
-  @CollectionFeature.Require({SUPPORTS_ADD, ALLOWS_NULL_VALUES})
+  @CollectionFeature.Require(value = {SUPPORTS_ADD, ALLOWS_NULL_VALUES},
+      absent = RESTRICTS_ELEMENTS)
   public void testSetCount_addNull_nullSupported() {
     assertSetCount(null, 1);
   }

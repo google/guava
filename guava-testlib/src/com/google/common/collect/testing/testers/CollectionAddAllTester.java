@@ -17,6 +17,7 @@
 package com.google.common.collect.testing.testers;
 
 import static com.google.common.collect.testing.features.CollectionFeature.ALLOWS_NULL_VALUES;
+import static com.google.common.collect.testing.features.CollectionFeature.RESTRICTS_ELEMENTS;
 import static com.google.common.collect.testing.features.CollectionFeature.SUPPORTS_ADD_ALL;
 import static com.google.common.collect.testing.features.CollectionSize.ZERO;
 import static java.util.Collections.singletonList;
@@ -107,8 +108,8 @@ public class CollectionAddAllTester<E> extends AbstractCollectionTester<E> {
     expectUnchanged();
   }
 
-  @CollectionFeature.Require({SUPPORTS_ADD_ALL,
-      ALLOWS_NULL_VALUES})
+  @CollectionFeature.Require(value = {SUPPORTS_ADD_ALL,
+      ALLOWS_NULL_VALUES}, absent = RESTRICTS_ELEMENTS)
   public void testAddAll_nullSupported() {
     List<E> containsNull = singletonList(null);
     assertTrue("addAll(containsNull) should return true", collection
