@@ -25,6 +25,8 @@ import static com.google.common.cache.TestingRemovalListeners.countingRemovalLis
 import static com.google.common.cache.TestingRemovalListeners.queuingRemovalListener;
 import static com.google.common.collect.Lists.newArrayList;
 import static java.util.concurrent.TimeUnit.SECONDS;
+import static java.util.concurrent.TimeUnit.NANOSECONDS;
+import static org.easymock.EasyMock.createMock;
 
 import com.google.common.base.Equivalence;
 import com.google.common.base.Suppliers;
@@ -44,9 +46,11 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.testing.FakeTicker;
 import com.google.common.testing.NullPointerTester;
+import com.google.common.testing.SerializableTester;
 
 import junit.framework.TestCase;
 
+import java.io.Serializable;
 import java.lang.ref.Reference;
 import java.lang.ref.ReferenceQueue;
 import java.util.Iterator;
@@ -72,7 +76,7 @@ public class CustomConcurrentHashMapTest extends TestCase {
   }
 
   private static <K, V> CustomConcurrentHashMap<K, V> makeComputingMap(
-      CacheBuilder<K, V> builder, CacheLoader<? super K, ? extends V> loader) {
+      CacheBuilder<K, V> builder, CacheLoader<? super K, V> loader) {
     return new CustomConcurrentHashMap<K, V>(
         builder, CacheBuilder.DEFAULT_STATS_COUNTER, loader);
   }
@@ -2044,6 +2048,50 @@ public class CustomConcurrentHashMapTest extends TestCase {
     }
   }
 
+  public void testNullParameters() throws Exception {
+    NullPointerTester tester = new NullPointerTester();
+    tester.testAllPublicInstanceMethods(makeMap(createCacheBuilder()));
+    CacheLoader<Object, Object> loader = identityLoader();
+    tester.testAllPublicInstanceMethods(makeComputingMap(createCacheBuilder(), loader));
+  }
+
+  @SuppressWarnings("unchecked") // createMock
+  public void testSerializationProxy() {
+    CacheLoader<Object, Object> loader = new SerializableCacheLoader();
+    RemovalListener<Object, Object> listener = new SerializableRemovalListener<Object, Object>();
+    Ticker ticker = new SerializableTicker();
+    ComputingCache<Object, Object> one = (ComputingCache) CacheBuilder.newBuilder()
+        .weakKeys()
+        .softValues()
+        .expireAfterAccess(123, NANOSECONDS)
+        .maximumSize(789)
+        .concurrencyLevel(12)
+        .removalListener(listener)
+        .ticker(ticker)
+        .build(loader);
+    // add a non-serializable entry
+    one.getUnchecked(new Object());
+    assertEquals(1, one.size());
+    assertFalse(one.asMap().isEmpty());
+    ComputingCache<Object, Object> two = SerializableTester.reserialize(one);
+    assertEquals(0, two.size());
+    assertTrue(two.asMap().isEmpty());
+
+    CustomConcurrentHashMap<Object, Object> mapOne = one.map;
+    CustomConcurrentHashMap<Object, Object> mapTwo = two.map;
+
+    assertEquals(mapOne.loader, mapTwo.loader);
+    assertEquals(mapOne.keyStrength, mapTwo.keyStrength);
+    assertEquals(mapOne.keyStrength, mapTwo.keyStrength);
+    assertEquals(mapOne.valueEquivalence, mapTwo.valueEquivalence);
+    assertEquals(mapOne.valueEquivalence, mapTwo.valueEquivalence);
+    assertEquals(mapOne.maximumSize, mapTwo.maximumSize);
+    assertEquals(mapOne.expireAfterAccessNanos, mapTwo.expireAfterAccessNanos);
+    assertEquals(mapOne.expireAfterWriteNanos, mapTwo.expireAfterWriteNanos);
+    assertEquals(mapOne.removalListener, mapTwo.removalListener);
+    assertEquals(mapOne.ticker, mapTwo.ticker);
+  }
+
   // utility methods
 
   /**
@@ -2270,11 +2318,46 @@ public class CustomConcurrentHashMapTest extends TestCase {
     }
   }
 
-  public void testNullParameters() throws Exception {
-    NullPointerTester tester = new NullPointerTester();
-    tester.testAllPublicInstanceMethods(makeMap(createCacheBuilder()));
-    CacheLoader<Object, Object> loader = identityLoader();
-    tester.testAllPublicInstanceMethods(makeComputingMap(createCacheBuilder(), loader));
+  private static class SerializableCacheLoader
+      extends CacheLoader<Object, Object> implements Serializable {
+    public Object load(Object key) {
+      return new Object();
+    }
+
+    public int hashCode() {
+      return 42;
+    }
+
+    public boolean equals(Object o) {
+      return (o instanceof SerializableCacheLoader);
+    }
+  }
+
+  private static class SerializableRemovalListener<K, V>
+      implements RemovalListener<K, V>, Serializable {
+    public void onRemoval(RemovalNotification<K, V> notification) {}
+
+    public int hashCode() {
+      return 42;
+    }
+
+    public boolean equals(Object o) {
+      return (o instanceof SerializableRemovalListener);
+    }
+  }
+
+  private static class SerializableTicker extends Ticker implements Serializable {
+    public long read() {
+      return 42;
+    }
+
+    public int hashCode() {
+      return 42;
+    }
+
+    public boolean equals(Object o) {
+      return (o instanceof SerializableTicker);
+    }
   }
 
 }

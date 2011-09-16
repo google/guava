@@ -21,6 +21,7 @@ import com.google.common.cache.CustomConcurrentHashMap.ReferenceEntry;
 import com.google.common.cache.CustomConcurrentHashMap.Segment;
 import com.google.common.collect.ForwardingConcurrentMap;
 
+import java.io.Serializable;
 import java.util.Map;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.ExecutionException;
@@ -32,7 +33,7 @@ import javax.annotation.Nullable;
  *
  * @author Charles Fry
  */
-class ComputingCache<K, V> extends AbstractCache<K, V> {
+class ComputingCache<K, V> extends AbstractCache<K, V> implements Serializable {
   final CustomConcurrentHashMap<K, V> map;
 
   ComputingCache(CacheBuilder<? super K, ? super V> builder,
@@ -86,6 +87,16 @@ class ComputingCache<K, V> extends AbstractCache<K, V> {
   }
 
   // TODO(fry): activeEntries
+
+  // Serialization Support
+
+  private static final long serialVersionUID = 1;
+
+  Object writeReplace() {
+    return map.cacheSerializationProxy();
+  }
+
+  // Inner Classes
 
   static final class CacheAsMap<K, V> extends ForwardingConcurrentMap<K, V> {
     private final CustomConcurrentHashMap<K, V> delegate;
