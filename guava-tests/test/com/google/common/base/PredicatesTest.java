@@ -16,6 +16,8 @@
 
 package com.google.common.base;
 
+import static com.google.common.base.CharMatcher.WHITESPACE;
+
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.ImmutableSet;
@@ -790,7 +792,7 @@ public class PredicatesTest extends TestCase {
 
     @Override
     public String apply(String string) {
-      return string.trim();
+      return WHITESPACE.trimFrom(string);
     }
   }
 

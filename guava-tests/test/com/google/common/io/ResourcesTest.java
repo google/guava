@@ -16,6 +16,7 @@
 
 package com.google.common.io;
 
+import static com.google.common.base.CharMatcher.WHITESPACE;
 import static org.junit.contrib.truth.Truth.ASSERT;
 
 import com.google.common.base.Charsets;
@@ -72,7 +73,7 @@ public class ResourcesTest extends IoTestCase {
           List<String> collector = new ArrayList<String>();
           @Override
           public boolean processLine(String line) {
-            collector.add(line.toLowerCase().trim());
+            collector.add(WHITESPACE.trimFrom(line));
             return true;
           }
 
@@ -84,8 +85,8 @@ public class ResourcesTest extends IoTestCase {
     List<String> result = Resources.readLines(resource, Charsets.US_ASCII,
         collectAndLowercaseAndTrim);
     assertEquals(3600, result.size());
-    assertEquals("alice's adventures in wonderland", result.get(0));
-    assertEquals("the end", result.get(result.size() - 1));
+    assertEquals("ALICE'S ADVENTURES IN WONDERLAND", result.get(0));
+    assertEquals("THE END", result.get(result.size() - 1));
   }
 
   public void testCopyToOutputStream() throws IOException {
