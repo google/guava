@@ -61,8 +61,7 @@ final class BstMutationResult<K, N extends BstNode<K, N>> {
   private final BstModificationResult<N> modificationResult;
 
   private BstMutationResult(@Nullable K targetKey, @Nullable N originalRoot,
-                            @Nullable N changedRoot,
-                            BstModificationResult<N> modificationResult) {
+      @Nullable N changedRoot, BstModificationResult<N> modificationResult) {
     this.targetKey = targetKey;
     this.originalRoot = originalRoot;
     this.changedRoot = changedRoot;

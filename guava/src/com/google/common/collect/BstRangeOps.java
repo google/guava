@@ -159,9 +159,8 @@ final class BstRangeOps {
   /**
    * Returns {@code true} if {@code key} is beyond the specified side of the specified range.
    */
-  public static <K> boolean beyond(GeneralRange<K> range, K key, BstSide side) {
+  public static <K> boolean beyond(GeneralRange<K> range, @Nullable K key, BstSide side) {
     checkNotNull(range);
-    checkNotNull(key);
     switch (side) {
       case LEFT:
         return range.tooLow(key);

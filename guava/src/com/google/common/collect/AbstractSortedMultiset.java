@@ -35,6 +35,12 @@ import java.util.SortedSet;
 abstract class AbstractSortedMultiset<E> extends AbstractMultiset<E> implements SortedMultiset<E> {
   final Comparator<? super E> comparator;
 
+  // needed for serialization
+  @SuppressWarnings("unchecked")
+  AbstractSortedMultiset() {
+    this((Comparator) Ordering.natural());
+  }
+  
   AbstractSortedMultiset(Comparator<? super E> comparator) {
     this.comparator = checkNotNull(comparator);
   }

@@ -26,6 +26,7 @@ import com.google.common.collect.testing.AnEnum;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.google.MultisetTestSuiteBuilder;
+import com.google.common.collect.testing.google.SortedMultisetTestSuiteBuilder;
 import com.google.common.collect.testing.google.TestEnumMultisetGenerator;
 import com.google.common.collect.testing.google.TestStringMultisetGenerator;
 
@@ -33,6 +34,7 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -59,6 +61,44 @@ public class MultisetCollectionTest extends TestCase {
         .withFeatures(CollectionSize.ANY, CollectionFeature.KNOWN_ORDER,
             CollectionFeature.ALLOWS_NULL_QUERIES)
         .named("UnmodifiableTreeMultiset")
+        .createTestSuite());
+
+    suite.addTest(SortedMultisetTestSuiteBuilder
+        .using(new TestStringMultisetGenerator() {
+          @Override
+          protected Multiset<String> create(String[] elements) {
+            return TreeMultiset.create(Arrays.asList(elements));
+          }
+
+          @Override
+          public List<String> order(List<String> insertionOrder) {
+            return Ordering.natural().sortedCopy(insertionOrder);
+          }
+        })
+        .withFeatures(CollectionSize.ANY, CollectionFeature.KNOWN_ORDER,
+            CollectionFeature.GENERAL_PURPOSE,
+            CollectionFeature.ALLOWS_NULL_QUERIES)
+        .named("TreeMultiset, Ordering.natural")
+        .createTestSuite());
+
+    suite.addTest(SortedMultisetTestSuiteBuilder
+        .using(new TestStringMultisetGenerator() {
+          @Override
+          protected Multiset<String> create(String[] elements) {
+            Multiset<String> result = TreeMultiset.create(Ordering.natural().nullsFirst());
+            result.addAll(Arrays.asList(elements));
+            return result;
+          }
+
+          @Override
+          public List<String> order(List<String> insertionOrder) {
+            return Ordering.natural().nullsFirst().sortedCopy(insertionOrder);
+          }
+        })
+        .withFeatures(CollectionSize.ANY, CollectionFeature.KNOWN_ORDER,
+            CollectionFeature.GENERAL_PURPOSE,
+            CollectionFeature.ALLOWS_NULL_VALUES)
+        .named("TreeMultiset, Ordering.natural.nullsFirst")
         .createTestSuite());
 
     suite.addTest(MultisetTestSuiteBuilder.using(forSetGenerator())

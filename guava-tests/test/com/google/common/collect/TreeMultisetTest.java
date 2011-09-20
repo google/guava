@@ -309,10 +309,8 @@ public class TreeMultisetTest extends AbstractMultisetTest {
   }
 
   @Override public void testToStringNull() {
-    try {
-      super.testToStringNull();
-      fail("exception expected");
-    } catch (NullPointerException expected) {}
+    c = ms = TreeMultiset.create(Ordering.natural().nullsFirst());
+    super.testToStringNull();
   }
 }
 
