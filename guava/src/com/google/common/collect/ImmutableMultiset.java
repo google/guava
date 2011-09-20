@@ -204,11 +204,11 @@ public abstract class ImmutableMultiset<E> extends ImmutableCollection<E>
     return copyFromEntries(multiset.entrySet());
   }
 
-  static <E, E2 extends E> ImmutableMultiset<E> copyFromEntries(
-      Collection<Entry<E2>> entries) {
+  static <E> ImmutableMultiset<E> copyFromEntries(
+      Collection<? extends Entry<? extends E>> entries) {
     long size = 0;
     ImmutableMap.Builder<E, Integer> builder = ImmutableMap.builder();
-    for (Entry<E2> entry : entries) {
+    for (Entry<? extends E> entry : entries) {
       int count = entry.getCount();
       if (count > 0) {
         // Since ImmutableMap.Builder throws an NPE if an element is null, no
