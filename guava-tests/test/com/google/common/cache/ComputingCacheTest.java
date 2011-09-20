@@ -227,23 +227,23 @@ public class ComputingCacheTest extends TestCase {
     Object three = new Object();
 
     ConcurrentMap<Object, Object> map = cache.asMap();
-    try {
-      map.put(one, two);
-    } catch (UnsupportedOperationException expected) {}
-    try {
-      Map<Object, Object> newMap = ImmutableMap.of(one, two);
-      map.putAll(newMap);
-    } catch (UnsupportedOperationException expected) {}
-    try {
-      map.putIfAbsent(one, two);
-    } catch (UnsupportedOperationException expected) {}
-    try {
-      map.replace(one, two);
-    } catch (UnsupportedOperationException expected) {}
-    try {
-      map.replace(one, two, three);
-    } catch (UnsupportedOperationException expected) {}
+    assertNull(map.put(one, two));
+    assertSame(two, map.get(one));
+    map.putAll(ImmutableMap.of(two, three));
+    assertSame(three, map.get(two));
+    assertSame(two, map.putIfAbsent(one, three));
+    assertSame(two, map.get(one));
+    assertNull(map.putIfAbsent(three, one));
+    assertSame(one, map.get(three));
+    assertSame(two, map.replace(one, three));
+    assertSame(three, map.get(one));
+    assertFalse(map.replace(one, two, three));
+    assertSame(three, map.get(one));
+    assertTrue(map.replace(one, three, two));
+    assertSame(two, map.get(one));
+    assertEquals(3, map.size());
 
+    map.clear();
     assertTrue(map.isEmpty());
     assertEquals(0, map.size());
 
