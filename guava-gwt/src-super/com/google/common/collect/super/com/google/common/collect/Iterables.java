@@ -631,6 +631,10 @@ public final class Iterables {
    * <p>The returned iterable's iterator supports {@code remove()} if the
    * provided iterator does. After a successful {@code remove()} call,
    * {@code fromIterable} no longer contains the corresponding element.
+   *
+   * <p>If the input {@code Iterable} is known to be a {@code List} or other
+   * {@code Collection}, consider {@link Lists#transform} and {@link
+   * Collections2#transform}.
    */
   public static <F, T> Iterable<T> transform(final Iterable<F> fromIterable,
       final Function<? super F, ? extends T> function) {

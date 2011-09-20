@@ -31,6 +31,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
+import java.util.List;
 
 /**
  * Provides static methods for working with {@code Collection} instances.
@@ -251,6 +252,10 @@ public final class Collections2 {
    *
    * <p>When a live view is <i>not</i> needed, it may be faster to copy the
    * transformed collection and use the copy.
+   *
+   * <p>If the input {@code Collection} is known to be a {@code List}, consider
+   * {@link Lists#transform}. If only an {@code Iterable} is available, use
+   * {@link Iterables#transform}.
    */
   public static <F, T> Collection<T> transform(Collection<F> fromCollection,
       Function<? super F, T> function) {
