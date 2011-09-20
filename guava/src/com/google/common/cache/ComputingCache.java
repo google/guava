@@ -22,7 +22,6 @@ import com.google.common.cache.CustomConcurrentHashMap.Segment;
 import com.google.common.collect.ForwardingConcurrentMap;
 
 import java.io.Serializable;
-import java.util.Map;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.ExecutionException;
 
@@ -115,31 +114,6 @@ class ComputingCache<K, V> extends AbstractCache<K, V> implements Serializable {
       // does not impact recency ordering
       ReferenceEntry<K, V> e = delegate.getEntry(key);
       return (e == null) ? null : e.getValueReference().get();
-    }
-
-    @Override
-    public V put(K key, V value) {
-      throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public void putAll(Map<? extends K, ? extends V> map) {
-      throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public V putIfAbsent(K key, V value) {
-      throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public V replace(K key, V value) {
-      throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public boolean replace(K key, V oldValue, V newValue) {
-      throw new UnsupportedOperationException();
     }
   }
 }

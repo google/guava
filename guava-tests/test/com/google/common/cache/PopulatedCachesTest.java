@@ -67,59 +67,75 @@ public class PopulatedCachesTest extends TestCase {
     }
   }
 
-  public void testPut_fails() {
+  public void testPut_populated() {
     for (Cache<Object, Object> cache : caches()) {
       // don't let the entries get GCed
       List<Entry<Object, Object>> warmed = warmUp(cache);
-      try {
-        cache.asMap().put(-1, -1);
-        fail("asMap().put() should have triggered UnsupportedOperationException");
-      } catch (UnsupportedOperationException expected) {
+      for (int i = WARMUP_MIN; i < WARMUP_MAX; i++) {
+        Entry<Object, Object> entry = warmed.get(i - WARMUP_MIN);
+        Object newValue = new Object();
+        assertSame(entry.getValue(), cache.asMap().put(entry.getKey(), newValue));
+        Object newKey = new Object();
+        assertNull(cache.asMap().put(newKey, entry.getValue()));
+        // this getUnchecked() call shouldn't be a cache miss; verified below
+        assertEquals(newValue, cache.getUnchecked(entry.getKey()));
+        assertEquals(entry.getValue(), cache.getUnchecked(newKey));
       }
+      assertEquals(WARMUP_SIZE, cache.stats().missCount());
       checkValidState(cache);
     }
   }
 
-  public void testPutIfAbsent_fails() {
+  public void testPutIfAbsent_populated() {
     for (Cache<Object, Object> cache : caches()) {
       // don't let the entries get GCed
       List<Entry<Object, Object>> warmed = warmUp(cache);
-      try {
-        cache.asMap().putIfAbsent(-1, -1);
-        fail("asMap().putIfAbsent() should have triggered UnsupportedOperationException");
-      } catch (UnsupportedOperationException expected) {
+      for (int i = WARMUP_MIN; i < WARMUP_MAX; i++) {
+        Entry<Object, Object> entry = warmed.get(i - WARMUP_MIN);
+        Object newValue = new Object();
+        assertSame(entry.getValue(), cache.asMap().putIfAbsent(entry.getKey(), newValue));
+        Object newKey = new Object();
+        assertNull(cache.asMap().putIfAbsent(newKey, entry.getValue()));
+        // this getUnchecked() call shouldn't be a cache miss; verified below
+        assertEquals(entry.getValue(), cache.getUnchecked(entry.getKey()));
+        assertEquals(entry.getValue(), cache.getUnchecked(newKey));
       }
+      assertEquals(WARMUP_SIZE, cache.stats().missCount());
       checkValidState(cache);
     }
   }
 
-  public void testPutAll_fails() {
+  public void testPutAll_populated() {
     for (Cache<Object, Object> cache : caches()) {
       // don't let the entries get GCed
       List<Entry<Object, Object>> warmed = warmUp(cache);
-      try {
-        cache.asMap().putAll(ImmutableMap.of());
-        fail("asMap().putAll() should have triggered UnsupportedOperationException");
-      } catch (UnsupportedOperationException expected) {
-      }
+      Object newKey = new Object();
+      Object newValue = new Object();
+      cache.asMap().putAll(ImmutableMap.of(newKey, newValue));
+      // this getUnchecked() call shouldn't be a cache miss; verified below
+      assertEquals(newValue, cache.getUnchecked(newKey));
+      assertEquals(WARMUP_SIZE, cache.stats().missCount());
       checkValidState(cache);
     }
   }
 
-  public void testReplace_fails() {
+  public void testReplace_populated() {
     for (Cache<Object, Object> cache : caches()) {
       // don't let the entries get GCed
       List<Entry<Object, Object>> warmed = warmUp(cache);
-      try {
-        cache.asMap().replace(warmed.get(1).getKey(), 2);
-        fail("asMap().replace() should have triggered UnsupportedOperationException");
-      } catch (UnsupportedOperationException expected) {
+      for (int i = WARMUP_MIN; i < WARMUP_MAX; i++) {
+        Entry<Object, Object> entry = warmed.get(i - WARMUP_MIN);
+        Object newValue = new Object();
+        assertSame(entry.getValue(), cache.asMap().replace(entry.getKey(), newValue));
+        assertTrue(cache.asMap().replace(entry.getKey(), newValue, entry.getValue()));
+        Object newKey = new Object();
+        assertNull(cache.asMap().replace(newKey, entry.getValue()));
+        assertFalse(cache.asMap().replace(newKey, entry.getValue(), newValue));
+        // this getUnchecked() call shouldn't be a cache miss; verified below
+        assertEquals(entry.getValue(), cache.getUnchecked(entry.getKey()));
+        assertFalse(cache.asMap().containsKey(newKey));
       }
-      try {
-        cache.asMap().replace(warmed.get(1).getKey(), warmed.get(1).getValue(), 2);
-        fail("asMap().replace() should have triggered UnsupportedOperationException");
-      } catch (UnsupportedOperationException expected) {
-      }
+      assertEquals(WARMUP_SIZE, cache.stats().missCount());
       checkValidState(cache);
     }
   }

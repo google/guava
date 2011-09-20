@@ -90,7 +90,6 @@ import javax.annotation.Nullable;
  * <ul>
  * <li>The {@code invalidateAll} method will invalidate all cached entries prior to returning, and
  *     removal notifications will be issued for all invalidated entries.
- * <li>The {@code asMap} view supports removal operations, but no other modifications.
  * <li>The {@code asMap} view (and its collection views) have <i>weakly consistent iterators</i>.
  *     This means that they are safe for concurrent use, but if other threads modify the cache after
  *     the iterator is created, it is undefined which of these changes, if any, are reflected in
