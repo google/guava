@@ -1223,7 +1223,7 @@ public final class Futures {
       throw new ExecutionError((Error) cause);
     }
     if (cause instanceof RuntimeException) {
-      throw new UncheckedExecutionException((RuntimeException) cause);
+      throw new UncheckedExecutionException(cause);
     }
     throw newWithCause(exceptionClass, cause);
   }
@@ -1232,7 +1232,8 @@ public final class Futures {
    * Returns the result of calling {@link Future#get()} uninterruptibly on a
    * task known not to throw a checked exception. This makes {@code Future} more
    * suitable for lightweight, fast-running tasks that, barring bugs in the
-   * code, will not fail.
+   * code, will not fail. This gives it exception-handling behavior similar to
+   * that of {@code ForkJoinTask.join}.
    *
    * <p>Exceptions from {@code Future.get} are treated as follows:
    * <ul>

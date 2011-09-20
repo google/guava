@@ -336,6 +336,9 @@ public final class Lists {
    * but serialization will succeed only when {@code fromList} and
    * {@code function} are serializable. The returned list is threadsafe if the
    * supplied list and function are.
+   *
+   * <p>If only a {@code Collection} or {@code Iterable} input is available, use
+   * {@link Collections2#transform} or {@link Iterables#transform}.
    */
   public static <F, T> List<T> transform(
       List<F> fromList, Function<? super F, ? extends T> function) {
