@@ -15,15 +15,14 @@
 package com.google.common.primitives;
 
 import static java.math.BigInteger.ONE;
-import static java.math.BigInteger.ZERO;
+
+import java.math.BigInteger;
+
+import junit.framework.TestCase;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.testing.NullPointerTester;
-
-import junit.framework.TestCase;
-
-import java.math.BigInteger;
 
 /**
  * Tests for UnsignedLongs
@@ -53,6 +52,27 @@ public class UnsignedLongsTest extends TestCase {
 
     // same value
     assertTrue((UnsignedLongs.compare(0xff1a618b7f65ea12L, 0xff1a618b7f65ea12L) == 0));
+  }
+
+  public void testDivide() {
+    assertEquals(2, UnsignedLongs.divide(14, 5));
+    assertEquals(0, UnsignedLongs.divide(0, 50));
+    assertEquals(1, UnsignedLongs.divide(0xfffffffffffffffeL, 0xfffffffffffffffdL));
+    assertEquals(0, UnsignedLongs.divide(0xfffffffffffffffdL, 0xfffffffffffffffeL));
+    assertEquals(281479271743488L, UnsignedLongs.divide(0xfffffffffffffffeL, 65535));
+    assertEquals(0x7fffffffffffffffL, UnsignedLongs.divide(0xfffffffffffffffeL, 2));
+    assertEquals(3689348814741910322L, UnsignedLongs.divide(0xfffffffffffffffeL, 5));
+  }
+
+  public void testRemainder() {
+    assertEquals(4, UnsignedLongs.remainder(14, 5));
+    assertEquals(0, UnsignedLongs.remainder(0, 50));
+    assertEquals(1, UnsignedLongs.remainder(0xfffffffffffffffeL, 0xfffffffffffffffdL));
+    assertEquals(0xfffffffffffffffdL,
+        UnsignedLongs.remainder(0xfffffffffffffffdL, 0xfffffffffffffffeL));
+    assertEquals(65534L, UnsignedLongs.remainder(0xfffffffffffffffeL, 65535));
+    assertEquals(0, UnsignedLongs.remainder(0xfffffffffffffffeL, 2));
+    assertEquals(4, UnsignedLongs.remainder(0xfffffffffffffffeL, 5));
   }
 
   public void testParseLong() {
