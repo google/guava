@@ -153,7 +153,7 @@ public class CacheReferencesTest extends TestCase {
 
     // initialSize will most likely be 2, but it's possible for the GC to have already run, so we'll
     // observe a size of 1
-    int initialSize = cache.size();
+    long initialSize = cache.size();
     assertTrue(initialSize == 1 || initialSize == 2);
 
     // wait up to 5s

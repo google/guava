@@ -33,7 +33,6 @@ import com.google.common.cache.AbstractCache.SimpleStatsCounter;
 import com.google.common.cache.AbstractCache.StatsCounter;
 import com.google.common.cache.CustomConcurrentHashMap.Strength;
 import com.google.common.collect.ForwardingConcurrentMap;
-import com.google.common.collect.ImmutableList;
 import com.google.common.util.concurrent.ExecutionError;
 import com.google.common.util.concurrent.UncheckedExecutionException;
 
@@ -777,7 +776,7 @@ public final class CacheBuilder<K, V> {
     }
 
     @Override
-    public int size() {
+    public long size() {
       return 0;
     }
 
@@ -793,11 +792,6 @@ public final class CacheBuilder<K, V> {
     @Override
     public CacheStats stats() {
       return statsCounter.snapshot();
-    }
-
-    @Override
-    public ImmutableList<Map.Entry<K, V>> activeEntries(int limit) {
-      return ImmutableList.of();
     }
 
     ConcurrentMap<K, V> asMap;

@@ -3774,14 +3774,18 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
     return true;
   }
 
-  @Override
-  public int size() {
+  long longSize() {
     Segment<K, V>[] segments = this.segments;
     long sum = 0;
     for (int i = 0; i < segments.length; ++i) {
       sum += segments[i].count;
     }
-    return Ints.saturatedCast(sum);
+    return sum;
+  }
+
+  @Override
+  public int size() {
+    return Ints.saturatedCast(longSize());
   }
 
   @Override

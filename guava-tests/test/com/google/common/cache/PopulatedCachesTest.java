@@ -179,7 +179,7 @@ public class PopulatedCachesTest extends TestCase {
       Object[] expectedArray = Maps.newHashMap(cache.asMap()).keySet().toArray(new Object[0]);
       ASSERT.that(keys).hasContentsAnyOrder(expectedArray);
       ASSERT.that(asList(keys.toArray())).hasContentsAnyOrder(expectedArray);
-      ASSERT.that(asList(keys.toArray(new Object[cache.size()])))
+      ASSERT.that(asList(keys.toArray(new Object[(int) cache.size()])))
           .hasContentsAnyOrder(expectedArray);
 
       new EqualsTester()
@@ -207,7 +207,7 @@ public class PopulatedCachesTest extends TestCase {
       Object[] expectedArray = Maps.newHashMap(cache.asMap()).values().toArray(new Object[0]);
       ASSERT.that(values).hasContentsAnyOrder(expectedArray);
       ASSERT.that(asList(values.toArray())).hasContentsAnyOrder(expectedArray);
-      ASSERT.that(asList(values.toArray(new Object[cache.size()])))
+      ASSERT.that(asList(values.toArray(new Object[(int) cache.size()])))
           .hasContentsAnyOrder(expectedArray);
 
       assertEquals(WARMUP_SIZE, values.size());
