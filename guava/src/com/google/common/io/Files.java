@@ -803,7 +803,8 @@ public final class Files {
         }
       } else {
         /* real path element */
-        if (name[q] != name[firstNonSlash] || name[q] == '.') {
+        if (name[q] != name[firstNonSlash]   /* don't prefix ./b paths with / */
+            || (name[q] == '.' && q != 0 && (sep(name, q + 1) || sep(name, q + 2)))) {
           name[q++] = '/';
         }
         while ((q < name.length && p < name.length) &&
@@ -817,7 +818,7 @@ public final class Files {
   }
 
   private static boolean sep(char[] a, int pos) {
-    return (pos == a.length) || (a[pos] == '/');
+    return (pos >= a.length) || (a[pos] == '/');
   }
 
 }

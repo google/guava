@@ -109,4 +109,35 @@ public class CleanPathTest extends TestCase {
     assertEquals("../b", Files.simplifyPath("x/../../b"));
     assertEquals("b", Files.simplifyPath("x/../b"));
   }
+  
+  // https://code.google.com/p/guava-libraries/issues/detail?id=716
+  public void test716() {
+    assertEquals("b", Files.simplifyPath("./b"));
+    assertEquals("b", Files.simplifyPath("./b/."));
+    assertEquals("b", Files.simplifyPath("././b/./."));
+    assertEquals("b", Files.simplifyPath("././b"));
+    assertEquals("a/b", Files.simplifyPath("./a/b"));
+  }
+  
+  public void testHiddenFiles() {
+    assertEquals(".b", Files.simplifyPath(".b"));
+    assertEquals(".b", Files.simplifyPath("./.b"));
+    assertEquals(".metadata/b", Files.simplifyPath(".metadata/b"));
+    assertEquals(".metadata/b", Files.simplifyPath("./.metadata/b"));
+  }
+  
+  // https://code.google.com/p/guava-libraries/issues/detail?id=716
+  public void testMultipleDotFilenames() {
+    assertEquals("..a", Files.simplifyPath("..a"));
+    assertEquals("/..a", Files.simplifyPath("/..a"));
+    assertEquals("/..a/..b", Files.simplifyPath("/..a/..b"));
+    assertEquals("/.....a/..b", Files.simplifyPath("/.....a/..b"));
+    assertEquals("..../....", Files.simplifyPath("..../...."));
+    assertEquals("..a../..b..", Files.simplifyPath("..a../..b.."));
+  }
+
+  public void testSlashDot() {
+    assertEquals("/", Files.simplifyPath("/."));    
+  }
+  
 }
