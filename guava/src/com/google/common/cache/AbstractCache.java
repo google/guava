@@ -17,10 +17,8 @@
 package com.google.common.cache;
 
 import com.google.common.annotations.Beta;
-import com.google.common.collect.ImmutableList;
 import com.google.common.util.concurrent.UncheckedExecutionException;
 
-import java.util.Map;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.atomic.AtomicLong;
@@ -34,7 +32,7 @@ import javax.annotation.Nullable;
  * <p>To implement a cache, the programmer needs only to extend this class and provide an
  * implementation for the {@code get} method. This implementation throws an
  * {@link UnsupportedOperationException} on calls to {@link #size}, {@link #invalidate},
- * {@link #invalidateAll}, {@link #stats}, {@link #activeEntries}, and {@link #asMap}. The methods
+ * {@link #invalidateAll}, {@link #stats}, and {@link #asMap}. The methods
  * {@link #getUnchecked} and {@link #apply} are implemented in terms of {@link #get}. The method
  * {@link #cleanUp} is a no-op.
  *
@@ -67,7 +65,7 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
   public void cleanUp() {}
 
   @Override
-  public int size() {
+  public long size() {
     throw new UnsupportedOperationException();
   }
 
@@ -83,11 +81,6 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
 
   @Override
   public CacheStats stats() {
-    throw new UnsupportedOperationException();
-  }
-
-  @Override
-  public ImmutableList<Map.Entry<K, V>> activeEntries(int limit) {
     throw new UnsupportedOperationException();
   }
 

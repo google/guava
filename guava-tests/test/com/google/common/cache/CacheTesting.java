@@ -188,9 +188,9 @@ class CacheTesting {
   static void checkValidState(CustomConcurrentHashMap<?, ?> cchm) {
     for (Segment<?, ?> segment : cchm.segments) {
       segment.cleanUp();
-      assertEquals(segment.count, segmentSize(segment));
       assertFalse(segment.isLocked());
       Map<?, ?> table = segmentTable(segment);
+      // check count after we have a strong reference to all entries
       assertEquals(segment.count, table.size());
       for (Entry entry : table.entrySet()) {
         assertNotNull(entry.getKey());

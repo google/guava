@@ -18,7 +18,6 @@ package com.google.common.cache;
 
 import com.google.common.annotations.Beta;
 import com.google.common.base.Function;
-import com.google.common.collect.ImmutableList;
 import com.google.common.util.concurrent.ExecutionError;
 import com.google.common.util.concurrent.UncheckedExecutionException;
 
@@ -107,13 +106,12 @@ public interface Cache<K, V> extends Function<K, V> {
   void invalidateAll();
 
   /**
-   * Returns the approximate number of entries in this cache. If the cache contains more than {@code
-   * Integer.MAX_VALUE} elements, returns {@code Integer.MAX_VALUE}.
+   * Returns the approximate number of entries in this cache.
    *
    * @throws UnsupportedOperationException if this operation is not supported by the cache
    *     implementation
    */
-  int size();
+  long size();
 
   /**
    * Returns a current snapshot of this cache's cumulative statistics. All stats are initialized
@@ -123,16 +121,6 @@ public interface Cache<K, V> extends Function<K, V> {
    *     implementation
    */
   CacheStats stats();
-
-  /**
-   * Returns a list of immutable copies of this cache's most active entries, approximately ordered
-   * from least likely to be evicted to most likely to be evicted.
-   *
-   * @param limit the maximum number of entries to return
-   * @throws UnsupportedOperationException if this operation is not supported by the cache
-   *     implementation
-   */
-  ImmutableList<Map.Entry<K, V>> activeEntries(int limit);
 
   /**
    * Returns a view of the entries stored in this cache as a thread-safe map. Assume that none of

@@ -60,8 +60,8 @@ class ComputingCache<K, V> extends AbstractCache<K, V> implements Serializable {
   }
 
   @Override
-  public int size() {
-    return map.size();
+  public long size() {
+    return map.longSize();
   }
 
   ConcurrentMap<K, V> asMap;
@@ -85,8 +85,6 @@ class ComputingCache<K, V> extends AbstractCache<K, V> implements Serializable {
   public void cleanUp() {
     map.cleanUp();
   }
-
-  // TODO(fry): activeEntries
 
   // Serialization Support
 

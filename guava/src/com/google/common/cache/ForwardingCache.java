@@ -19,11 +19,9 @@ package com.google.common.cache;
 import com.google.common.annotations.Beta;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ForwardingObject;
-import com.google.common.collect.ImmutableList;
 
 import javax.annotation.Nullable;
 
-import java.util.Map;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.ExecutionException;
 
@@ -77,18 +75,13 @@ public abstract class ForwardingCache<K, V> extends ForwardingObject implements 
   }
 
   @Override
-  public int size() {
+  public long size() {
     return delegate().size();
   }
 
   @Override
   public CacheStats stats() {
     return delegate().stats();
-  }
-
-  @Override
-  public ImmutableList<Map.Entry<K, V>> activeEntries(int limit) {
-    return delegate().activeEntries(limit);
   }
 
   @Override

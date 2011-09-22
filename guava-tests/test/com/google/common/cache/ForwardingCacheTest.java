@@ -86,7 +86,7 @@ public class ForwardingCacheTest extends TestCase {
   }
 
   public void testSize() {
-    expect(mock.size()).andReturn(0);
+    expect(mock.size()).andReturn(0L);
     replay(mock);
     forward.size();
     verify(mock);
@@ -96,13 +96,6 @@ public class ForwardingCacheTest extends TestCase {
     expect(mock.stats()).andReturn(null);
     replay(mock);
     assertNull(forward.stats());
-    verify(mock);
-  }
-
-  public void testActiveEntries() {
-    expect(mock.activeEntries(10)).andReturn(null);
-    replay(mock);
-    assertNull(forward.activeEntries(10));
     verify(mock);
   }
 
