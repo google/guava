@@ -16,9 +16,17 @@
 
 package com.google.common.io;
 
+import static com.google.common.base.Charsets.UTF_8;
 import static com.google.common.io.Files.simplifyPath;
 
+import com.google.common.base.CharMatcher;
+import com.google.common.base.Splitter;
+
 import junit.framework.TestCase;
+
+import java.io.IOException;
+import java.net.URL;
+import java.util.Iterator;
 
 /**
  * Unit tests for Files.simplifyPath().
@@ -221,5 +229,19 @@ public class CleanPathTest extends TestCase {
     assertEquals("/a/b/c/h", simplifyPath("/a/b/c/g/../h"));
     assertEquals("/a/b/c/g;x=1/y", simplifyPath("/a/b/c/g;x=1/./y"));
     assertEquals("/a/b/c/y", simplifyPath("/a/b/c/g;x=1/../y"));
+  }
+
+  public void testExtensive() throws IOException {
+    Splitter splitter = Splitter.on(CharMatcher.WHITESPACE);
+    // Inputs are /b/c/<every possible 10-character string of characters "a./">
+    // Expected outputs are from realpath -s.
+    URL url = getClass().getResource("testdata/realpathtests.txt");
+    for (String line : Resources.readLines(url, UTF_8)) {
+      Iterator<String> iterator = splitter.split(line).iterator();
+      String input = iterator.next();
+      String expectedOutput = iterator.next();
+      assertFalse(iterator.hasNext());
+      assertEquals(expectedOutput, simplifyPath(input));
+    }
   }
 }
