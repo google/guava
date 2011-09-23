@@ -23,8 +23,6 @@ import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.atomic.AtomicLong;
 
-import javax.annotation.Nullable;
-
 /**
  * This class provides a skeletal implementation of the {@code Cache} interface to minimize the
  * effort required to implement this interface.
@@ -46,7 +44,6 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
   protected AbstractCache() {}
 
   @Override
-  @Nullable
   public V getUnchecked(K key) {
     try {
       return get(key);
@@ -56,7 +53,6 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
   }
 
   @Override
-  @Nullable
   public final V apply(K key) {
     return getUnchecked(key);
   }
@@ -70,7 +66,7 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
   }
 
   @Override
-  public void invalidate(@Nullable Object key) {
+  public void invalidate(Object key) {
     throw new UnsupportedOperationException();
   }
 
