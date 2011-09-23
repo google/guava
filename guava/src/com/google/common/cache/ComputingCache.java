@@ -16,6 +16,8 @@
 
 package com.google.common.cache;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import com.google.common.base.Supplier;
 import com.google.common.cache.CustomConcurrentHashMap.ReferenceEntry;
 import com.google.common.cache.CustomConcurrentHashMap.Segment;
@@ -49,7 +51,8 @@ class ComputingCache<K, V> extends AbstractCache<K, V> implements Serializable {
   }
 
   @Override
-  public void invalidate(@Nullable Object key) {
+  public void invalidate(Object key) {
+    checkNotNull(key);
     map.remove(key);
   }
 

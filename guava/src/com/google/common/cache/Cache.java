@@ -25,8 +25,6 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.ExecutionException;
 
-import javax.annotation.Nullable;
-
 /**
  * A semi-persistent mapping from keys to values. Values are automatically loaded by the cache,
  * and are stored in the cache until either evicted or manually invalidated.
@@ -45,35 +43,30 @@ public interface Cache<K, V> extends Function<K, V> {
   /**
    * Returns the value associated with the given key, creating or retrieving that value if
    * necessary, and throwing an execution exception on failure. No state associated with this cache
-   * is modified until loading completes.
-   *
-   * <p>The implementation may support {@code null} as a valid cached value, or may return {@code
-   * null} without caching it, or may not permit null results at all.
+   * is modified until loading completes. Note that this method will never return {@code null}.
    *
    * @throws ExecutionException if a checked exception was thrown while loading the response
    * @throws UncheckedExecutionException if an unchecked exception was thrown while loading the
    *     response
    * @throws ExecutionError if an error was thrown while loading the response
    */
-  @Nullable V get(K key) throws ExecutionException;
+  V get(K key) throws ExecutionException;
 
   /**
    * Returns the value associated with the given key, loading that value if necessary. No state
    * associated with this cache is modified until computation completes. Unlike {@link #get}, this
    * method does not throw a checked exception, and thus should only be used in situations where
-   * checked exceptions are not thrown by the cache loader.
+   * checked exceptions are not thrown by the cache loader. Note that this method will never return
+   * {@code null}.
    *
    * <p><b>Warning:</b> this method silently converts checked exceptions to unchecked exceptions.
    * The {@link #get} method should be preferred for cache loaders which throw checked exceptions.
-   *
-   * <p>The implementation may support {@code null} as a valid cached value, or may return {@code
-   * null} without caching it, or may not permit null results at all.
    *
    * @throws UncheckedExecutionException if an exception was thrown while loading the response,
    *     regardless of whether the exception was checked or unchecked
    * @throws ExecutionError if an error was thrown while loading the response
    */
-  @Nullable V getUnchecked(K key);
+  V getUnchecked(K key);
 
   /**
    * Discouraged. Provided to satisfy the {@code Function} interface; use {@link #get} or
@@ -84,7 +77,7 @@ public interface Cache<K, V> extends Function<K, V> {
    * @throws ExecutionError if an error was thrown while loading the response
    */
   @Override
-  @Nullable V apply(K key);
+  V apply(K key);
 
   // TODO(fry): add bulk operations
 
@@ -95,7 +88,7 @@ public interface Cache<K, V> extends Function<K, V> {
    * @throws UnsupportedOperationException if this operation is not supported by the cache
    *     implementation
    */
-  void invalidate(@Nullable Object key);
+  void invalidate(Object key);
 
   /**
    * Discards all entries in the cache, possibly asynchronously.

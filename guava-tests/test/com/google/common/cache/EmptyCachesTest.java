@@ -54,7 +54,6 @@ public class EmptyCachesTest extends TestCase {
       cache.invalidate("a");
       cache.invalidate("b");
       cache.invalidate(0);
-      cache.invalidate(null);
       checkEmpty(cache);
     }
   }
