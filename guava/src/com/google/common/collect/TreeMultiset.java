@@ -135,6 +135,8 @@ public final class TreeMultiset<E> extends AbstractMapBasedMultiset<E>
 
   /**
    * Returns the comparator associated with this multiset.
+   *
+   * @since 11.0
    */
   @Override
   public Comparator<? super E> comparator() {
