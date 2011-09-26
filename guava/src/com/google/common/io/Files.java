@@ -16,6 +16,8 @@
 
 package com.google.common.io;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import com.google.common.annotations.Beta;
 import com.google.common.base.Preconditions;
 
@@ -821,4 +823,16 @@ public final class Files {
     return (pos >= a.length) || (a[pos] == '/');
   }
 
+  /**
+   * Returns the <a href="http://en.wikipedia.org/wiki/Filename_extension">file
+   * extension</a> for the given file name, or the empty string if the file has
+   * no extension.  The result does not include the '{@code .}'.
+   *
+   * @since 11.0
+   */
+  public static String getFileExtension(String fileName) {
+    checkNotNull(fileName);
+    int dotIndex = fileName.lastIndexOf('.');
+    return (dotIndex == -1) ? "" : fileName.substring(dotIndex + 1);
+  }
 }
