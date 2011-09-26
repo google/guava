@@ -353,6 +353,16 @@ public final class TreeMultiset<E> extends AbstractSortedMultiset<E>
         range.intersect(GeneralRange.downTo(comparator, lowerBound, boundType)), rootReference);
   }
 
+  /**
+   * {@inheritDoc}
+   *
+   * @since 11.0
+   */
+  @Override
+  public Comparator<? super E> comparator() {
+    return super.comparator();
+  }
+
   private static final class Node<E> extends BstNode<E, Node<E>> implements Serializable {
     private final int elemOccurrences;
     private final int size;
