@@ -215,9 +215,10 @@ public final class InternetDomainName {
    * <li>Parts other than the final part may start with a digit.
    * </ul>
    *
+   *
    * @param domain A domain name (not IP address)
    * @throws IllegalArgumentException if {@code name} is not syntactically valid
-   *     according to {@link #isValidLenient}
+   *     according to {@link #isValid}
    * @since 10.0 (previously named {@code fromLenient})
    */
   public static InternetDomainName from(String domain) {
@@ -478,7 +479,7 @@ public final class InternetDomainName {
   /**
    * Creates and returns a new {@code InternetDomainName} by prepending the
    * argument and a dot to the current name. For example, {@code
-   * InternetDomainName.fromLenient("foo.com").child("www.bar")} returns a new
+   * InternetDomainName.from("foo.com").child("www.bar")} returns a new
    * {@code InternetDomainName} with the value {@code www.bar.foo.com}. Only
    * lenient validation is performed, as described {@link #from(String) here}.
    *
@@ -549,6 +550,13 @@ public final class InternetDomainName {
     return Objects.toStringHelper(this).add("name", name).toString();
   }
 
+  /**
+   * Equality testing is based on the text supplied by the caller,
+   * after normalization as described in the class documentation. For
+   * example, a non-ASCII Unicode domain name and the Punycode version
+   * of the same domain name would not be considered equal.
+   *
+   */
   @Override
   public boolean equals(@Nullable Object object) {
     if (object == this) {
