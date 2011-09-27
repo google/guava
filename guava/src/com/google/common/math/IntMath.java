@@ -44,6 +44,7 @@ import java.math.RoundingMode;
  * {@code int} values, see {@link com.google.common.primitives.Ints}.
  *
  * @author Louis Wasserman
+ * @since 11.0
  */
 public final class IntMath {
   // NOTE: Whenever both tests are cheap and functional, it's faster to use &, | instead of &&, ||

@@ -45,6 +45,7 @@ import java.math.RoundingMode;
  * {@code long} values, see {@link com.google.common.primitives.Longs}.
  *
  * @author Louis Wasserman
+ * @since 11.0
  */
 public final class LongMath {
   // NOTE: Whenever both tests are cheap and functional, it's faster to use &, | instead of &&, ||

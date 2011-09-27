@@ -41,6 +41,7 @@ import java.util.List;
  * {@link IntMath} and {@link LongMath} respectively.
  *
  * @author Louis Wasserman
+ * @since 11.0
  */
 public final class BigIntegerMath {
   /**
