@@ -48,6 +48,8 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.annotation.CheckReturnValue;
 import javax.annotation.Nullable;
@@ -170,11 +172,26 @@ public final class CacheBuilder<K, V> {
     public void onRemoval(RemovalNotification<Object, Object> notification) {}
   }
 
+  enum OneWeigher implements Weigher<Object, Object> {
+    INSTANCE;
+
+    @Override
+    public int weigh(Object key, Object value) {
+      return 1;
+    }
+  }
+
+  private static final Logger logger = Logger.getLogger(CacheBuilder.class.getName());
+
   static final int UNSET_INT = -1;
+
+  boolean strictParsing = true;
 
   int initialCapacity = UNSET_INT;
   int concurrencyLevel = UNSET_INT;
-  int maximumSize = UNSET_INT;
+  long maximumSize = UNSET_INT;
+  long maximumWeight = UNSET_INT;
+  Weigher<? super K, ? super V> weigher;
 
   Strength keyStrength;
   Strength valueStrength;
@@ -200,6 +217,17 @@ public final class CacheBuilder<K, V> {
    */
   public static CacheBuilder<Object, Object> newBuilder() {
     return new CacheBuilder<Object, Object>();
+  }
+
+  /**
+   * Enables leniant parsing for use with {@code CacheBuilderSpec}. This allows configuration
+   * combinations which don't make sense together, but which can't be forbidden by
+   * {@code CacheBuilderSpec} without making it too fragile.
+   */
+  static CacheBuilder<Object, Object> newLenientBuilder() {
+    CacheBuilder<Object, Object> builder = new CacheBuilder<Object, Object>();
+    builder.strictParsing = false;
+    return builder;
   }
 
   private boolean useNullCache() {
@@ -307,9 +335,12 @@ public final class CacheBuilder<K, V> {
    * @throws IllegalArgumentException if {@code size} is negative
    * @throws IllegalStateException if a maximum size was already set
    */
-  public CacheBuilder<K, V> maximumSize(int size) {
+  public CacheBuilder<K, V> maximumSize(long size) {
     checkState(this.maximumSize == UNSET_INT, "maximum size was already set to %s",
         this.maximumSize);
+    checkState(this.maximumWeight == UNSET_INT, "maximum weight was already set to %s",
+        this.maximumSize);
+    checkState(this.weigher == null, "maximum size can not be combined with weigher");
     checkArgument(size >= 0, "maximum size must not be negative");
     this.maximumSize = size;
     if (maximumSize == 0) {
@@ -317,6 +348,93 @@ public final class CacheBuilder<K, V> {
       this.nullRemovalCause = RemovalCause.SIZE;
     }
     return this;
+  }
+
+  /**
+   * Specifies the maximum weight of entries the cache may contain. Weight is determined using the
+   * {@link Weigher} specified with {@link #weigher}, and use of this method requires a
+   * corresponding call to {@link #weigher} prior to calling {@link #build}.
+   *
+   * <p>Note that the cache <b>may evict an entry before this limit is exceeded</b>. As the cache
+   * size grows close to the maximum, the cache evicts entries that are less likely to be used
+   * again. For example, the cache may evict an entry because it hasn't been used recently or very
+   * often.
+   *
+   * <p>When the maximum weight is zero, elements will be evicted immediately after being
+   * loaded into the cache. This has the same effect as invoking {@link #expireAfterWrite
+   * expireAfterWrite}{@code (0, unit)} or {@link #expireAfterAccess expireAfterAccess}{@code (0,
+   * unit)}. It can be useful in testing, or to disable caching temporarily without a code change.
+   *
+   * @param weight the maximum weight the cache may contain
+   * @param weigher the weigher to use in calculating the weight of cache entries
+   * @throws IllegalArgumentException if {@code size} is negative
+   * @throws IllegalStateException if a maximum size was already set
+   */
+  public CacheBuilder<K, V> maximumWeight(long weight) {
+    checkState(this.maximumWeight == UNSET_INT, "maximum weight was already set to %s",
+        this.maximumWeight);
+    checkState(this.maximumSize == UNSET_INT, "maximum size was already set to %s",
+        this.maximumSize);
+    this.maximumWeight = weight;
+    checkArgument(weight >= 0, "maximum weight must not be negative");
+    if (maximumWeight == 0) {
+      // SIZE trumps EXPIRED
+      this.nullRemovalCause = RemovalCause.SIZE;
+    }
+    return this;
+  }
+
+  /**
+   * Specifies the weigher to use in determining the weight of entries. Entry weight is taken
+   * into consideration by {@link #maximumWeight} when determining which entries to evict, and
+   * use of this method requires a corresponding call to {@link #maximumWeight} prior to calling
+   * {@link #build}. Weights are measured and recorded when entries are inserted into the
+   * cache, and are thus effectively static during the lifetime of a cache entry.
+   *
+   * <p>When the weight of an entry is zero it will not be considered for size-based eviction
+   * (though it still may be evicted by other means).
+   *
+   * <p><b>Important note:</b> Instead of returning <em>this</em> as a {@code CacheBuilder}
+   * instance, this method returns {@code CacheBuilder<K1, V1>}. From this point on, either the
+   * original reference or the returned reference may be used to complete configuration and build
+   * the cache, but only the "generic" one is type-safe. That is, it will properly prevent you from
+   * building caches whose key or value types are incompatible with the types accepted by the
+   * weigher already provided; the {@code CacheBuilder} type cannot do this. For best results,
+   * simply use the standard method-chaining idiom, as illustrated in the documentation at top,
+   * configuring a {@code CacheBuilder} and building your {@link Cache} all in a single statement.
+   *
+   * <p><b>Warning:</b> if you ignore the above advice, and use this {@code CacheBuilder} to build
+   * a cache whose key or value type is incompatible with the weigher, you will likely experience
+   * a {@link ClassCastException} at some <i>undefined</i> point in the future.
+   *
+   * @param weight the maximum weight the cache may contain
+   * @param weigher the weigher to use in calculating the weight of cache entries
+   * @throws IllegalArgumentException if {@code size} is negative
+   * @throws IllegalStateException if a maximum size was already set
+   */
+  public <K1 extends K, V1 extends V> CacheBuilder<K1, V1> weigher(
+      Weigher<? super K1, ? super V1> weigher) {
+    checkState(this.weigher == null);
+    if (strictParsing) {
+      checkState(this.maximumSize == UNSET_INT, "weigher can not be combined with maximum size",
+          this.maximumSize);
+    }
+
+    // safely limiting the kinds of caches this can produce
+    @SuppressWarnings("unchecked")
+    CacheBuilder<K1, V1> me = (CacheBuilder<K1, V1>) this;
+    me.weigher = checkNotNull(weigher);
+    return me;
+  }
+
+  long getMaximumWeight() {
+    return (weigher == null) ? maximumSize : maximumWeight;
+  }
+
+  // Make a safe contravariant cast now so we don't have to do it over and over.
+  @SuppressWarnings("unchecked")
+  <K1 extends K, V1 extends V> Weigher<K1, V1> getWeigher() {
+    return (Weigher<K1, V1>) Objects.firstNonNull(weigher, OneWeigher.INSTANCE);
   }
 
   /**
@@ -566,6 +684,26 @@ public final class CacheBuilder<K, V> {
    * @return a cache having the requested features
    */
   public <K1 extends K, V1 extends V> Cache<K1, V1> build(CacheLoader<? super K1, V1> loader) {
+    if (strictParsing) {
+      if (weigher == null) {
+        checkState(maximumWeight == UNSET_INT, "maximumWeight requires weigher");
+      } else {
+        checkState(maximumWeight != UNSET_INT, "weigher requires maximumWeight");
+      }
+    } else {
+      if (weigher == null) {
+        if (maximumWeight != UNSET_INT) {
+          logger.log(Level.WARNING,
+              "ignoring CacheBuilder.maximumWeight specified without CacheBuilder.weigher");
+        }
+      } else {
+        if (maximumWeight == UNSET_INT) {
+          logger.log(Level.WARNING,
+              "ignoring CacheBuilder.weigher specified without CacheBuilder.maximumWeight");
+        }
+      }
+    }
+
     return useNullCache()
         ? new ComputingCache<K1, V1>(this, CACHE_STATS_COUNTER, loader)
         : new NullCache<K1, V1>(this, CACHE_STATS_COUNTER, loader);
@@ -573,7 +711,7 @@ public final class CacheBuilder<K, V> {
 
   /**
    * Returns a string representation for this CacheBuilder instance. The exact form of the returned
-   * string is not specificed.
+   * string is not specified.
    */
   @Override
   public String toString() {
@@ -584,8 +722,12 @@ public final class CacheBuilder<K, V> {
     if (concurrencyLevel != UNSET_INT) {
       s.add("concurrencyLevel", concurrencyLevel);
     }
-    if (maximumSize != UNSET_INT) {
-      s.add("maximumSize", maximumSize);
+    if (maximumWeight != UNSET_INT) {
+      if (weigher == null) {
+        s.add("maximumSize", maximumWeight);
+      } else {
+        s.add("maximumWeight", maximumWeight);
+      }
     }
     if (expireAfterWriteNanos != UNSET_INT) {
       s.add("expireAfterWrite", expireAfterWriteNanos + "ns");

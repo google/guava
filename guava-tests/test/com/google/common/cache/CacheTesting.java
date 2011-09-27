@@ -168,7 +168,7 @@ class CacheTesting {
     CustomConcurrentHashMap<?, ?> map = toCustomConcurrentHashMap(cache);
     int totalSize = 0;
     for (Segment<?, ?> segment : map.segments) {
-      totalSize += segment.maxSegmentSize;
+      totalSize += segment.maxSegmentWeight;
     }
     return totalSize;
   }

@@ -23,6 +23,7 @@ import static com.google.common.cache.CustomConcurrentHashMap.unset;
 import static com.google.common.cache.TestingCacheLoaders.identityLoader;
 import static com.google.common.cache.TestingRemovalListeners.countingRemovalListener;
 import static com.google.common.cache.TestingRemovalListeners.queuingRemovalListener;
+import static com.google.common.cache.TestingWeighers.constantWeigher;
 import static com.google.common.collect.Lists.newArrayList;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static java.util.concurrent.TimeUnit.NANOSECONDS;
@@ -97,7 +98,7 @@ public class CustomConcurrentHashMapTest extends TestCase {
 
     assertEquals(0, map.expireAfterAccessNanos);
     assertEquals(0, map.expireAfterWriteNanos);
-    assertEquals(CacheBuilder.UNSET_INT, map.maximumSize);
+    assertEquals(CacheBuilder.UNSET_INT, map.maxWeight);
 
     assertSame(EntryFactory.STRONG, map.entryFactory);
     assertSame(CacheBuilder.NullListener.INSTANCE, map.removalListener);
@@ -238,10 +239,10 @@ public class CustomConcurrentHashMapTest extends TestCase {
       checkMaximumSize(8, 8, maxSize);
     }
 
-    checkMaximumSize(1, 8, Integer.MAX_VALUE);
-    checkMaximumSize(2, 8, Integer.MAX_VALUE);
-    checkMaximumSize(4, 8, Integer.MAX_VALUE);
-    checkMaximumSize(8, 8, Integer.MAX_VALUE);
+    checkMaximumSize(1, 8, Long.MAX_VALUE);
+    checkMaximumSize(2, 8, Long.MAX_VALUE);
+    checkMaximumSize(4, 8, Long.MAX_VALUE);
+    checkMaximumSize(8, 8, Long.MAX_VALUE);
 
     // vary initial capacity wrt maximumSize
 
@@ -253,16 +254,27 @@ public class CustomConcurrentHashMapTest extends TestCase {
     }
   }
 
-  private static void checkMaximumSize(int concurrencyLevel, int initialCapacity, int maxSize) {
+  private static void checkMaximumSize(int concurrencyLevel, int initialCapacity, long maxSize) {
     CustomConcurrentHashMap<Object, Object> map = makeMap(createCacheBuilder()
         .concurrencyLevel(concurrencyLevel)
         .initialCapacity(initialCapacity)
         .maximumSize(maxSize));
-    int totalCapacity = 0;
+    long totalCapacity = 0;
     for (int i = 0; i < map.segments.length; i++) {
-      totalCapacity += map.segments[i].maxSegmentSize;
+      totalCapacity += map.segments[i].maxSegmentWeight;
     }
-    assertTrue("totalCapcity=" + totalCapacity + ", maxSize=" + maxSize, totalCapacity <= maxSize);
+    assertTrue("totalCapacity=" + totalCapacity + ", maxSize=" + maxSize, totalCapacity == maxSize);
+
+    map = makeMap(createCacheBuilder()
+        .concurrencyLevel(concurrencyLevel)
+        .initialCapacity(initialCapacity)
+        .maximumWeight(maxSize)
+        .weigher(constantWeigher(1)));
+    totalCapacity = 0;
+    for (int i = 0; i < map.segments.length; i++) {
+      totalCapacity += map.segments[i].maxSegmentWeight;
+    }
+    assertTrue("totalCapacity=" + totalCapacity + ", maxSize=" + maxSize, totalCapacity == maxSize);
   }
 
   public void testSetWeakKeys() {
@@ -773,7 +785,7 @@ public class CustomConcurrentHashMapTest extends TestCase {
       Object valueOne = new Object();
       int hashOne = map.hash(keyOne);
       ReferenceEntry<Object, Object> entryOne = map.newEntry(keyOne, hashOne, null);
-      ValueReference<Object, Object> valueRefOne = map.newValueReference(entryOne, valueOne);
+      ValueReference<Object, Object> valueRefOne = map.newValueReference(entryOne, valueOne, 1);
       assertSame(valueOne, valueRefOne.get());
       entryOne.setValueReference(valueRefOne);
 
@@ -786,7 +798,7 @@ public class CustomConcurrentHashMapTest extends TestCase {
       Object valueTwo = new Object();
       int hashTwo = map.hash(keyTwo);
       ReferenceEntry<Object, Object> entryTwo = map.newEntry(keyTwo, hashTwo, entryOne);
-      ValueReference<Object, Object> valueRefTwo = map.newValueReference(entryTwo, valueTwo);
+      ValueReference<Object, Object> valueRefTwo = map.newValueReference(entryTwo, valueTwo, 1);
       assertSame(valueTwo, valueRefTwo.get());
       entryTwo.setValueReference(valueRefTwo);
 
@@ -805,13 +817,13 @@ public class CustomConcurrentHashMapTest extends TestCase {
       Object valueOne = new Object();
       int hashOne = map.hash(keyOne);
       ReferenceEntry<Object, Object> entryOne = map.newEntry(keyOne, hashOne, null);
-      entryOne.setValueReference(map.newValueReference(entryOne, valueOne));
+      entryOne.setValueReference(map.newValueReference(entryOne, valueOne, 1));
 
       Object keyTwo = new Object();
       Object valueTwo = new Object();
       int hashTwo = map.hash(keyTwo);
       ReferenceEntry<Object, Object> entryTwo = map.newEntry(keyTwo, hashTwo, entryOne);
-      entryTwo.setValueReference(map.newValueReference(entryTwo, valueTwo));
+      entryTwo.setValueReference(map.newValueReference(entryTwo, valueTwo, 1));
       if (map.evictsBySize()) {
         CustomConcurrentHashMap.connectEvictables(entryOne, entryTwo);
       }
@@ -859,7 +871,7 @@ public class CustomConcurrentHashMapTest extends TestCase {
     int index = hash & (table.length() - 1);
 
     ReferenceEntry<Object, Object> entry = map.newEntry(key, hash, null);
-    ValueReference<Object, Object> valueRef = map.newValueReference(entry, value);
+    ValueReference<Object, Object> valueRef = map.newValueReference(entry, value, 1);
     entry.setValueReference(valueRef);
 
     assertNull(segment.get(key, hash));
@@ -881,7 +893,7 @@ public class CustomConcurrentHashMapTest extends TestCase {
     // null key
     DummyEntry<Object, Object> nullEntry = DummyEntry.create(null, hash, entry);
     Object nullValue = new Object();
-    ValueReference<Object, Object> nullValueRef = map.newValueReference(nullEntry, nullValue);
+    ValueReference<Object, Object> nullValueRef = map.newValueReference(nullEntry, nullValue, 1);
     nullEntry.setValueReference(nullValueRef);
     table.set(index, nullEntry);
     // skip the null key
@@ -893,7 +905,7 @@ public class CustomConcurrentHashMapTest extends TestCase {
     // hash collision
     DummyEntry<Object, Object> dummy = DummyEntry.create(new Object(), hash, entry);
     Object dummyValue = new Object();
-    ValueReference<Object, Object> dummyValueRef = map.newValueReference(dummy, dummyValue);
+    ValueReference<Object, Object> dummyValueRef = map.newValueReference(dummy, dummyValue, 1);
     dummy.setValueReference(dummyValueRef);
     table.set(index, dummy);
     assertSame(value, segment.get(key, hash));
@@ -904,7 +916,7 @@ public class CustomConcurrentHashMapTest extends TestCase {
     // key collision
     dummy = DummyEntry.create(key, hash, entry);
     dummyValue = new Object();
-    dummyValueRef = map.newValueReference(dummy, dummyValue);
+    dummyValueRef = map.newValueReference(dummy, dummyValue, 1);
     dummy.setValueReference(dummyValueRef);
     table.set(index, dummy);
     // returns the most recent entry
@@ -1206,7 +1218,7 @@ public class CustomConcurrentHashMapTest extends TestCase {
       int hash = map.hash(key);
       // chain all entries together as we only have a single bucket
       entry = map.newEntry(key, hash, entry);
-      ValueReference<Object, Object> valueRef = map.newValueReference(entry, value);
+      ValueReference<Object, Object> valueRef = map.newValueReference(entry, value, 1);
       entry.setValueReference(valueRef);
     }
     segment.table.set(0, entry);
@@ -1395,7 +1407,7 @@ public class CustomConcurrentHashMapTest extends TestCase {
     Object value = new Object();
     int hash = map.hash(key);
     DummyEntry<Object, Object> entry = createDummyEntry(key, hash, value, null);
-    segment.recordWrite(entry);
+    segment.recordWrite(entry, 1);
     segment.table.set(0, entry);
     segment.readCount.incrementAndGet();
     segment.count = 1;
@@ -1432,7 +1444,7 @@ public class CustomConcurrentHashMapTest extends TestCase {
     assertFalse(segment.removeEntry(entry, hash, RemovalCause.COLLECTED));
 
     // remove live
-    segment.recordWrite(entry);
+    segment.recordWrite(entry, 1);
     table.set(0, entry);
     segment.count = 1;
     assertTrue(segment.removeEntry(entry, hash, RemovalCause.COLLECTED));
@@ -1468,7 +1480,7 @@ public class CustomConcurrentHashMapTest extends TestCase {
     assertFalse(segment.reclaimValue(key, hash, valueRef));
 
     // reclaim live
-    segment.recordWrite(entry);
+    segment.recordWrite(entry, 1);
     table.set(0, entry);
     segment.count = 1;
     assertTrue(segment.reclaimValue(key, hash, valueRef));
@@ -1515,7 +1527,7 @@ public class CustomConcurrentHashMapTest extends TestCase {
     assertFalse(segment.clearValue(key, hash, valueRef));
 
     // clear live
-    segment.recordWrite(entry);
+    segment.recordWrite(entry, 1);
     table.set(0, entry);
     // don't increment count; this is used during computation
     assertTrue(segment.clearValue(key, hash, valueRef));
@@ -1626,7 +1638,7 @@ public class CustomConcurrentHashMapTest extends TestCase {
 
         ReferenceEntry<Object, Object> entry = createDummyEntry(key, hash, value, null);
         // must recordRead for drainRecencyQueue to believe this entry is live
-        segment.recordWrite(entry);
+        segment.recordWrite(entry, 1);
         writeOrder.add(entry);
         readOrder.add(entry);
       }
@@ -1709,7 +1721,7 @@ public class CustomConcurrentHashMapTest extends TestCase {
 
         ReferenceEntry<Object, Object> entry = createDummyEntry(key, hash, value, null);
         // must recordRead for drainRecencyQueue to believe this entry is live
-        segment.recordWrite(entry);
+        segment.recordWrite(entry, 1);
         writeOrder.add(entry);
       }
 
@@ -1723,7 +1735,7 @@ public class CustomConcurrentHashMapTest extends TestCase {
       while (i.hasNext()) {
         ReferenceEntry<Object, Object> entry = i.next();
         if (random.nextBoolean()) {
-          segment.recordWrite(entry);
+          segment.recordWrite(entry, 1);
           writes.add(entry);
           i.remove();
         }
@@ -1902,24 +1914,25 @@ public class CustomConcurrentHashMapTest extends TestCase {
       int index = hash & (table.length() - 1);
       ReferenceEntry<Object, Object> first = table.get(index);
       entry = map.newEntry(key, hash, first);
-      ValueReference<Object, Object> valueRef = map.newValueReference(entry, value);
+      ValueReference<Object, Object> valueRef = map.newValueReference(entry, value, 1);
       entry.setValueReference(valueRef);
-      segment.recordWrite(entry);
+      segment.recordWrite(entry, 1);
       table.set(index, entry);
       originalMap.put(key, value);
     }
     segment.count = originalCount;
-    assertEquals(originalCount, originalMap.size());
+    segment.totalWeight = originalCount;
+    assertEquals(originalCount, map.size());
     assertEquals(originalMap, map);
 
-    for (int i = maxSize - 1; i < originalCount; i++) {
-      assertTrue(segment.evictEntries());
-      Iterator<Object> it = originalMap.keySet().iterator();
+    Iterator<Object> it = originalMap.keySet().iterator();
+    for (int i = 0; i < originalCount - maxSize; i++) {
       it.next();
       it.remove();
-      assertEquals(originalMap, map);
     }
-    assertFalse(segment.evictEntries());
+    segment.evictEntries();
+    assertEquals(maxSize, map.size());
+    assertEquals(originalMap, map);
   }
 
   // reference queues
@@ -2059,12 +2072,14 @@ public class CustomConcurrentHashMapTest extends TestCase {
   public void testSerializationProxy() {
     CacheLoader<Object, Object> loader = new SerializableCacheLoader();
     RemovalListener<Object, Object> listener = new SerializableRemovalListener<Object, Object>();
+    SerializableWeigher<Object, Object> weigher = new SerializableWeigher<Object, Object>();
     Ticker ticker = new SerializableTicker();
     ComputingCache<Object, Object> one = (ComputingCache) CacheBuilder.newBuilder()
         .weakKeys()
         .softValues()
         .expireAfterAccess(123, NANOSECONDS)
-        .maximumSize(789)
+        .maximumWeight(789)
+        .weigher(weigher)
         .concurrencyLevel(12)
         .removalListener(listener)
         .ticker(ticker)
@@ -2085,7 +2100,8 @@ public class CustomConcurrentHashMapTest extends TestCase {
     assertEquals(mapOne.keyStrength, mapTwo.keyStrength);
     assertEquals(mapOne.valueEquivalence, mapTwo.valueEquivalence);
     assertEquals(mapOne.valueEquivalence, mapTwo.valueEquivalence);
-    assertEquals(mapOne.maximumSize, mapTwo.maximumSize);
+    assertEquals(mapOne.maxWeight, mapTwo.maxWeight);
+    assertEquals(mapOne.weigher, mapTwo.weigher);
     assertEquals(mapOne.expireAfterAccessNanos, mapTwo.expireAfterAccessNanos);
     assertEquals(mapOne.expireAfterWriteNanos, mapTwo.expireAfterWriteNanos);
     assertEquals(mapOne.removalListener, mapTwo.removalListener);
@@ -2285,6 +2301,11 @@ public class CustomConcurrentHashMapTest extends TestCase {
     }
 
     @Override
+    public int getWeight() {
+      return 1;
+    }
+
+    @Override
     public ReferenceEntry<K, V> getEntry() {
       return entry;
     }
@@ -2357,6 +2378,20 @@ public class CustomConcurrentHashMapTest extends TestCase {
 
     public boolean equals(Object o) {
       return (o instanceof SerializableTicker);
+    }
+  }
+
+  private static class SerializableWeigher<K, V> implements Weigher<K, V>, Serializable {
+    public int weigh(K key, V value) {
+      return 42;
+    }
+
+    public int hashCode() {
+      return 42;
+    }
+
+    public boolean equals(Object o) {
+      return (o instanceof SerializableWeigher);
     }
   }
 

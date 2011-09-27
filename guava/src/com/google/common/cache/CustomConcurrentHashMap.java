@@ -27,6 +27,7 @@ import com.google.common.base.Supplier;
 import com.google.common.base.Ticker;
 import com.google.common.cache.AbstractCache.StatsCounter;
 import com.google.common.cache.CacheBuilder.NullListener;
+import com.google.common.cache.CacheBuilder.OneWeigher;
 import com.google.common.collect.AbstractLinkedIterator;
 import com.google.common.collect.Iterators;
 import com.google.common.primitives.Ints;
@@ -168,8 +169,11 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
   /** Strategy for referencing values. */
   final Strength valueStrength;
 
-  /** The maximum size of this map. UNSET_INT if there is no maximum. */
-  final int maximumSize;
+  /** The maximum weight of this map. UNSET_INT if there is no maximum. */
+  final long maxWeight;
+
+  /** Weigher to weigh cache entries. */
+  final Weigher<K, V> weigher;
 
   /** How long after the last access to an entry the map will retain that entry. */
   final long expireAfterAccessNanos;
@@ -209,7 +213,8 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
     keyEquivalence = builder.getKeyEquivalence();
     valueEquivalence = builder.getValueEquivalence();
 
-    maximumSize = builder.maximumSize;
+    maxWeight = builder.getMaximumWeight();
+    weigher = builder.getWeigher();
     expireAfterAccessNanos = builder.getExpireAfterAccessNanos();
     expireAfterWriteNanos = builder.getExpireAfterWriteNanos();
 
@@ -222,17 +227,17 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
         : new ConcurrentLinkedQueue<RemovalNotification<K, V>>();
 
     int initialCapacity = Math.min(builder.getInitialCapacity(), MAXIMUM_CAPACITY);
-    if (evictsBySize()) {
-      initialCapacity = Math.min(initialCapacity, maximumSize);
+    if (evictsBySize() && !customWeigher()) {
+      initialCapacity = Math.min(initialCapacity, (int) maxWeight);
     }
 
     // Find power-of-two sizes best matching arguments. Constraints:
-    // (segmentCount <= maximumSize)
-    // && (concurrencyLevel > maximumSize || segmentCount > concurrencyLevel)
+    // (segmentCount <= maxWeight)
+    // && (concurrencyLevel > maxWeight || segmentCount > concurrencyLevel)
     int segmentShift = 0;
     int segmentCount = 1;
     while (segmentCount < concurrencyLevel
-        && (!evictsBySize() || segmentCount * 2 <= maximumSize)) {
+        && (!evictsBySize() || customWeigher() || segmentCount * 2 <= maxWeight)) {
       ++segmentShift;
       segmentCount <<= 1;
     }
@@ -252,15 +257,15 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
     }
 
     if (evictsBySize()) {
-      // Ensure sum of segment max sizes = overall max size
-      int maximumSegmentSize = maximumSize / segmentCount + 1;
-      int remainder = maximumSize % segmentCount;
+      // Ensure sum of segment max weights = overall max weights
+      long maxSegmentWeight = maxWeight / segmentCount + 1;
+      long remainder = maxWeight % segmentCount;
       for (int i = 0; i < this.segments.length; ++i) {
         if (i == remainder) {
-          maximumSegmentSize--;
+          maxSegmentWeight--;
         }
         this.segments[i] =
-            createSegment(segmentSize, maximumSegmentSize, statsCounterSupplier.get());
+            createSegment(segmentSize, maxSegmentWeight, statsCounterSupplier.get());
       }
     } else {
       for (int i = 0; i < this.segments.length; ++i) {
@@ -271,7 +276,11 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
   }
 
   boolean evictsBySize() {
-    return maximumSize != UNSET_INT;
+    return maxWeight != UNSET_INT;
+  }
+
+  boolean customWeigher() {
+    return weigher != OneWeigher.INSTANCE;
   }
 
   boolean expires() {
@@ -303,8 +312,10 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
     STRONG {
       @Override
       <K, V> ValueReference<K, V> referenceValue(
-          Segment<K, V> segment, ReferenceEntry<K, V> entry, V value) {
-        return new StrongValueReference<K, V>(value);
+          Segment<K, V> segment, ReferenceEntry<K, V> entry, V value, int weight) {
+        return (weight == 1)
+            ? new StrongValueReference<K, V>(value)
+            : new WeightedStrongValueReference<K, V>(value, weight);
       }
 
       @Override
@@ -316,8 +327,11 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
     SOFT {
       @Override
       <K, V> ValueReference<K, V> referenceValue(
-          Segment<K, V> segment, ReferenceEntry<K, V> entry, V value) {
-        return new SoftValueReference<K, V>(segment.valueReferenceQueue, value, entry);
+          Segment<K, V> segment, ReferenceEntry<K, V> entry, V value, int weight) {
+        return (weight == 1)
+            ? new SoftValueReference<K, V>(segment.valueReferenceQueue, value, entry)
+            : new WeightedSoftValueReference<K, V>(
+                segment.valueReferenceQueue, value, entry, weight);
       }
 
       @Override
@@ -329,8 +343,11 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
     WEAK {
       @Override
       <K, V> ValueReference<K, V> referenceValue(
-          Segment<K, V> segment, ReferenceEntry<K, V> entry, V value) {
-        return new WeakValueReference<K, V>(segment.valueReferenceQueue, value, entry);
+          Segment<K, V> segment, ReferenceEntry<K, V> entry, V value, int weight) {
+        return (weight == 1)
+            ? new WeakValueReference<K, V>(segment.valueReferenceQueue, value, entry)
+            : new WeightedWeakValueReference<K, V>(
+                segment.valueReferenceQueue, value, entry, weight);
       }
 
       @Override
@@ -343,7 +360,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
      * Creates a reference for the given value according to this value strength.
      */
     abstract <K, V> ValueReference<K, V> referenceValue(
-        Segment<K, V> segment, ReferenceEntry<K, V> entry, V value);
+        Segment<K, V> segment, ReferenceEntry<K, V> entry, V value, int weight);
 
     /**
      * Returns the default equivalence strategy used to compare and hash keys or values referenced
@@ -606,6 +623,11 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
     V waitForValue() throws ExecutionException;
 
     /**
+     * Returns the weight of this entry. This is assumed to be static between calls to setValue.
+     */
+    int getWeight();
+
+    /**
      * Returns the entry associated with this value reference, or {@code null} if this value
      * reference is independent of any entry.
      */
@@ -637,6 +659,11 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
     @Override
     public Object get() {
       return null;
+    }
+
+    @Override
+    public int getWeight() {
+      return 1;
     }
 
     @Override
@@ -1736,7 +1763,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
   /**
    * References a weak value.
    */
-  static final class WeakValueReference<K, V>
+  static class WeakValueReference<K, V>
       extends WeakReference<V> implements ValueReference<K, V> {
     final ReferenceEntry<K, V> entry;
 
@@ -1746,14 +1773,17 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
     }
 
     @Override
+    public int getWeight() {
+      return 1;
+    }
+
+    @Override
     public ReferenceEntry<K, V> getEntry() {
       return entry;
     }
 
     @Override
-    public void notifyNewValue(V newValue) {
-      clear();
-    }
+    public void notifyNewValue(V newValue) {}
 
     @Override
     public ValueReference<K, V> copyFor(
@@ -1775,7 +1805,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
   /**
    * References a soft value.
    */
-  static final class SoftValueReference<K, V>
+  static class SoftValueReference<K, V>
       extends SoftReference<V> implements ValueReference<K, V> {
     final ReferenceEntry<K, V> entry;
 
@@ -1785,14 +1815,17 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
     }
 
     @Override
+    public int getWeight() {
+      return 1;
+    }
+
+    @Override
     public ReferenceEntry<K, V> getEntry() {
       return entry;
     }
 
     @Override
-    public void notifyNewValue(V newValue) {
-      clear();
-    }
+    public void notifyNewValue(V newValue) {}
 
     @Override
     public ValueReference<K, V> copyFor(ReferenceQueue<V> queue, ReferenceEntry<K, V> entry) {
@@ -1813,7 +1846,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
   /**
    * References a strong value.
    */
-  static final class StrongValueReference<K, V> implements ValueReference<K, V> {
+  static class StrongValueReference<K, V> implements ValueReference<K, V> {
     final V referent;
 
     StrongValueReference(V referent) {
@@ -1823,6 +1856,11 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
     @Override
     public V get() {
       return referent;
+    }
+
+    @Override
+    public int getWeight() {
+      return 1;
     }
 
     @Override
@@ -1847,6 +1885,70 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
 
     @Override
     public void notifyNewValue(V newValue) {}
+  }
+
+  /**
+   * References a weak value.
+   */
+  static final class WeightedWeakValueReference<K, V> extends WeakValueReference<K, V> {
+    final int weight;
+
+    WeightedWeakValueReference(ReferenceQueue<V> queue, V referent, ReferenceEntry<K, V> entry,
+        int weight) {
+      super(queue, referent, entry);
+      this.weight = weight;
+    }
+
+    @Override
+    public int getWeight() {
+      return weight;
+    }
+
+    @Override
+    public ValueReference<K, V> copyFor(
+        ReferenceQueue<V> queue, ReferenceEntry<K, V> entry) {
+      return new WeightedWeakValueReference<K, V>(queue, get(), entry, weight);
+    }
+  }
+
+  /**
+   * References a soft value.
+   */
+  static final class WeightedSoftValueReference<K, V> extends SoftValueReference<K, V> {
+    final int weight;
+
+    WeightedSoftValueReference(ReferenceQueue<V> queue, V referent, ReferenceEntry<K, V> entry,
+        int weight) {
+      super(queue, referent, entry);
+      this.weight = weight;
+    }
+
+    @Override
+    public int getWeight() {
+      return weight;
+    }
+    @Override
+    public ValueReference<K, V> copyFor(ReferenceQueue<V> queue, ReferenceEntry<K, V> entry) {
+      return new WeightedSoftValueReference<K, V>(queue, get(), entry, weight);
+    }
+
+  }
+
+  /**
+   * References a strong value.
+   */
+  static final class WeightedStrongValueReference<K, V> extends StrongValueReference<K, V> {
+    final int weight;
+
+    WeightedStrongValueReference(V referent, int weight) {
+      super(referent);
+      this.weight = weight;
+    }
+
+    @Override
+    public int getWeight() {
+      return weight;
+    }
   }
 
   /**
@@ -1893,9 +1995,9 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
    */
   @GuardedBy("Segment.this")
   @VisibleForTesting
-  ValueReference<K, V> newValueReference(ReferenceEntry<K, V> entry, V value) {
+  ValueReference<K, V> newValueReference(ReferenceEntry<K, V> entry, V value, int weight) {
     int hash = entry.getHash();
-    return valueStrength.referenceValue(segmentFor(hash), entry, value);
+    return valueStrength.referenceValue(segmentFor(hash), entry, value, weight);
   }
 
   int hash(Object key) {
@@ -1935,8 +2037,8 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
   }
 
   Segment<K, V> createSegment(
-      int initialCapacity, int maxSegmentSize, StatsCounter statsCounter) {
-    return new Segment<K, V>(this, initialCapacity, maxSegmentSize, statsCounter);
+      int initialCapacity, long maxSegmentWeight, StatsCounter statsCounter) {
+    return new Segment<K, V>(this, initialCapacity, maxSegmentWeight, statsCounter);
   }
 
   /**
@@ -2071,10 +2173,15 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
     final CustomConcurrentHashMap<K, V> map;
 
     /**
-     * The number of live elements in this segment's region. This does not include unset elements
-     * which are awaiting cleanup.
+     * The number of live elements in this segment's region.
      */
     volatile int count;
+
+    /**
+     * The weight of the live elements in this segment's region.
+     */
+    @GuardedBy("Segment.this")
+    int totalWeight;
 
     /**
      * Number of updates that alter the size of the table. This is used during bulk-read methods to
@@ -2096,9 +2203,9 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
     volatile AtomicReferenceArray<ReferenceEntry<K, V>> table;
 
     /**
-     * The maximum size of this map. UNSET_INT if there is no maximum.
+     * The maximum weight of this segment. UNSET_INT if there is no maximum.
      */
-    final int maxSegmentSize;
+    final long maxSegmentWeight;
 
     /**
      * The key reference queue contains entries whose keys have been garbage collected, and which
@@ -2142,10 +2249,10 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
     /** Accumulates cache statistics. */
     final StatsCounter statsCounter;
 
-    Segment(CustomConcurrentHashMap<K, V> map, int initialCapacity, int maxSegmentSize,
+    Segment(CustomConcurrentHashMap<K, V> map, int initialCapacity, long maxSegmentWeight,
         StatsCounter statsCounter) {
       this.map = map;
-      this.maxSegmentSize = maxSegmentSize;
+      this.maxSegmentWeight = maxSegmentWeight;
       this.statsCounter = statsCounter;
       initTable(newEntryArray(initialCapacity));
 
@@ -2174,7 +2281,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
 
     void initTable(AtomicReferenceArray<ReferenceEntry<K, V>> newTable) {
       this.threshold = newTable.length() * 3 / 4; // 0.75
-      if (this.threshold == maxSegmentSize) {
+      if (!map.customWeigher() && this.threshold == maxSegmentWeight) {
         // prevent spurious expansion before eviction
         this.threshold++;
       }
@@ -2198,11 +2305,15 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
      * Sets a new value of an entry. Adds newly created entries at the end of the expiration queue.
      */
     @GuardedBy("Segment.this")
-    void setValue(ReferenceEntry<K, V> entry, V value) {
+    void setValue(ReferenceEntry<K, V> entry, K key, V value) {
       ValueReference<K, V> previous = entry.getValueReference();
-      ValueReference<K, V> valueReference = map.valueStrength.referenceValue(this, entry, value);
+      int weight = map.weigher.weigh(key, value);
+      checkState(weight >= 0, "Weights must be non-negative");
+
+      ValueReference<K, V> valueReference =
+          map.valueStrength.referenceValue(this, entry, value, weight);
       entry.setValueReference(valueReference);
-      recordWrite(entry);
+      recordWrite(entry, weight);
       previous.notifyNewValue(value);
     }
 
@@ -2248,13 +2359,13 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
                   if (valueReference.isComputingReference()) {
                     createNewEntry = false;
                   } else {
-                    V value = e.getValueReference().get();
+                    V value = valueReference.get();
                     if (value == null) {
-                      enqueueNotification(entryKey, hash, value, RemovalCause.COLLECTED);
+                      enqueueNotification(entryKey, hash, valueReference, RemovalCause.COLLECTED);
                     } else if (map.expires() && map.isExpired(e)) {
                       // This is a duplicate check, as preWriteCleanup already purged expired
                       // entries, but let's accomodate an incorrect expiration queue.
-                      enqueueNotification(entryKey, hash, value, RemovalCause.EXPIRED);
+                      enqueueNotification(entryKey, hash, valueReference, RemovalCause.EXPIRED);
                     } else {
                       recordLockedRead(e);
                       statsCounter.recordHit();
@@ -2328,7 +2439,10 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
         V oldValue = put(key, hash, value, true);
         if (oldValue != null) {
           // the computed value was already clobbered
-          enqueueNotification(key, hash, value, RemovalCause.REPLACED);
+          // create 0-weight value reference for removal notification
+          ValueReference<K, V> valueReference =
+              map.valueStrength.referenceValue(this, e, value, 0);
+          enqueueNotification(key, hash, valueReference, RemovalCause.REPLACED);
         }
         return value;
       } finally {
@@ -2454,10 +2568,13 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
      * adding {@code entry} to relevant eviction lists.
      */
     @GuardedBy("Segment.this")
-    void recordWrite(ReferenceEntry<K, V> entry) {
+    void recordWrite(ReferenceEntry<K, V> entry, int weight) {
       // we are already under lock, so drain the recency queue immediately
       drainRecencyQueue();
-      evictionQueue.add(entry);
+      if (weight > 0) {
+        totalWeight += weight;
+        evictionQueue.add(entry);
+      }
       if (map.expires()) {
         // currently CacheBuilder ensures that expireAfterWrite and
         // expireAfterAccess are mutually exclusive
@@ -2533,15 +2650,20 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
 
     // eviction
 
+    @GuardedBy("Segment.this")
     void enqueueNotification(ReferenceEntry<K, V> entry, RemovalCause cause) {
-      enqueueNotification(entry.getKey(), entry.getHash(), entry.getValueReference().get(), cause);
+      enqueueNotification(entry.getKey(), entry.getHash(), entry.getValueReference(), cause);
     }
 
-    void enqueueNotification(@Nullable K key, int hash, @Nullable V value, RemovalCause cause) {
+    @GuardedBy("Segment.this")
+    void enqueueNotification(@Nullable K key, int hash, ValueReference<K, V> valueReference,
+        RemovalCause cause) {
+      totalWeight -= valueReference.getWeight();
       if (cause.wasEvicted()) {
         statsCounter.recordEviction();
       }
       if (map.removalNotificationQueue != DISCARDING_QUEUE) {
+        V value = valueReference.get();
         RemovalNotification<K, V> notification = new RemovalNotification<K, V>(key, value, cause);
         map.removalNotificationQueue.offer(notification);
       }
@@ -2550,21 +2672,20 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
     /**
      * Performs eviction if the segment is full. This should only be called prior to adding a new
      * entry and increasing {@code count}.
-     *
-     * @return true if eviction occurred
      */
     @GuardedBy("Segment.this")
-    boolean evictEntries() {
-      if (map.evictsBySize() && count >= maxSegmentSize) {
-        drainRecencyQueue();
+    void evictEntries() {
+      if (!map.evictsBySize()) {
+        return;
+      }
 
+      drainRecencyQueue();
+      while (totalWeight > maxSegmentWeight) {
         ReferenceEntry<K, V> e = evictionQueue.remove();
         if (!removeEntry(e, e.getHash(), RemovalCause.SIZE)) {
           throw new AssertionError();
         }
-        return true;
       }
-      return false;
     }
 
     /**
@@ -2703,14 +2824,16 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
 
             if (entryValue == null) {
               ++modCount;
-              setValue(e, value);
               if (!valueReference.isComputingReference()) {
-                enqueueNotification(key, hash, entryValue, RemovalCause.COLLECTED);
+                enqueueNotification(key, hash, valueReference, RemovalCause.COLLECTED);
+                setValue(e, key, value);
                 newCount = this.count; // count remains unchanged
-              } else if (evictEntries()) { // evictEntries after setting new value
+              } else {
+                setValue(e, key, value);
                 newCount = this.count + 1;
               }
               this.count = newCount; // write-volatile
+              evictEntries();
               return null;
             } else if (onlyIfAbsent) {
               // Mimic
@@ -2721,8 +2844,9 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
             } else {
               // clobber existing entry, count remains unchanged
               ++modCount;
-              enqueueNotification(key, hash, entryValue, RemovalCause.REPLACED);
-              setValue(e, value);
+              enqueueNotification(key, hash, valueReference, RemovalCause.REPLACED);
+              setValue(e, key, value);
+              evictEntries();
               return entryValue;
             }
           }
@@ -2731,12 +2855,11 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
         // Create a new entry.
         ++modCount;
         ReferenceEntry<K, V> newEntry = newEntry(key, hash, first);
-        setValue(newEntry, value);
+        setValue(newEntry, key, value);
         table.set(index, newEntry);
-        if (evictEntries()) { // evictEntries after setting new value
-          newCount = this.count + 1;
-        }
+        newCount = this.count + 1;
         this.count = newCount; // write-volatile
+        evictEntries();
         return null;
       } finally {
         unlock();
@@ -2837,7 +2960,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
               if (isCollected(valueReference)) {
                 int newCount = this.count - 1;
                 ++modCount;
-                enqueueNotification(entryKey, hash, entryValue, RemovalCause.COLLECTED);
+                enqueueNotification(entryKey, hash, valueReference, RemovalCause.COLLECTED);
                 ReferenceEntry<K, V> newFirst = removeFromChain(first, e);
                 newCount = this.count - 1;
                 table.set(index, newFirst);
@@ -2848,8 +2971,9 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
 
             if (map.valueEquivalence.equivalent(oldValue, entryValue)) {
               ++modCount;
-              enqueueNotification(key, hash, entryValue, RemovalCause.REPLACED);
-              setValue(e, newValue);
+              enqueueNotification(key, hash, valueReference, RemovalCause.REPLACED);
+              setValue(e, key, newValue);
+              evictEntries();
               return true;
             } else {
               // Mimic
@@ -2888,7 +3012,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
               if (isCollected(valueReference)) {
                 int newCount = this.count - 1;
                 ++modCount;
-                enqueueNotification(entryKey, hash, entryValue, RemovalCause.COLLECTED);
+                enqueueNotification(entryKey, hash, valueReference, RemovalCause.COLLECTED);
                 ReferenceEntry<K, V> newFirst = removeFromChain(first, e);
                 newCount = this.count - 1;
                 table.set(index, newFirst);
@@ -2898,8 +3022,9 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
             }
 
             ++modCount;
-            enqueueNotification(key, hash, entryValue, RemovalCause.REPLACED);
-            setValue(e, newValue);
+            enqueueNotification(key, hash, valueReference, RemovalCause.REPLACED);
+            setValue(e, key, newValue);
+            evictEntries();
             return entryValue;
           }
         }
@@ -2938,7 +3063,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
             }
 
             ++modCount;
-            enqueueNotification(entryKey, hash, entryValue, cause);
+            enqueueNotification(entryKey, hash, valueReference, cause);
             ReferenceEntry<K, V> newFirst = removeFromChain(first, e);
             newCount = this.count - 1;
             table.set(index, newFirst);
@@ -2981,7 +3106,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
             }
 
             ++modCount;
-            enqueueNotification(entryKey, hash, entryValue, cause);
+            enqueueNotification(entryKey, hash, valueReference, cause);
             ReferenceEntry<K, V> newFirst = removeFromChain(first, e);
             newCount = this.count - 1;
             table.set(index, newFirst);
@@ -3060,6 +3185,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
       return newFirst;
     }
 
+    @GuardedBy("Segment.this")
     void removeCollectedEntry(ReferenceEntry<K, V> entry) {
       enqueueNotification(entry, RemovalCause.COLLECTED);
       evictionQueue.remove(entry);
@@ -3080,8 +3206,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
         for (ReferenceEntry<K, V> e = first; e != null; e = e.getNext()) {
           if (e == entry) {
             ++modCount;
-            enqueueNotification(
-                e.getKey(), hash, e.getValueReference().get(), RemovalCause.COLLECTED);
+            enqueueNotification(e.getKey(), hash, e.getValueReference(), RemovalCause.COLLECTED);
             ReferenceEntry<K, V> newFirst = removeFromChain(first, e);
             newCount = this.count - 1;
             table.set(index, newFirst);
@@ -3115,7 +3240,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
             ValueReference<K, V> v = e.getValueReference();
             if (v == valueReference) {
               ++modCount;
-              enqueueNotification(key, hash, valueReference.get(), RemovalCause.COLLECTED);
+              enqueueNotification(key, hash, valueReference, RemovalCause.COLLECTED);
               ReferenceEntry<K, V> newFirst = removeFromChain(first, e);
               newCount = this.count - 1;
               table.set(index, newFirst);
@@ -3176,7 +3301,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
       for (ReferenceEntry<K, V> e = first; e != null; e = e.getNext()) {
         if (e == entry) {
           ++modCount;
-          enqueueNotification(e.getKey(), hash, e.getValueReference().get(), cause);
+          enqueueNotification(e.getKey(), hash, e.getValueReference(), cause);
           ReferenceEntry<K, V> newFirst = removeFromChain(first, e);
           newCount = this.count - 1;
           table.set(index, newFirst);
@@ -3383,6 +3508,12 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
     @Override
     public boolean isComputingReference() {
       return true;
+    }
+
+    @Override
+    public int getWeight() {
+      // weights are assumed to be static, so can't be assigned before computation completes
+      throw new AssertionError();
     }
 
     /**
@@ -4269,7 +4400,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
 
   Cache<K, V> cacheSerializationProxy() {
     return new SerializationProxy<K, V>(loader, keyStrength, valueStrength, keyEquivalence,
-        valueEquivalence, expireAfterWriteNanos, expireAfterAccessNanos, maximumSize,
+        valueEquivalence, expireAfterWriteNanos, expireAfterAccessNanos, maxWeight, weigher,
         concurrencyLevel, removalListener, ticker);
   }
 
@@ -4292,7 +4423,8 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
     final Equivalence<Object> valueEquivalence;
     final long expireAfterWriteNanos;
     final long expireAfterAccessNanos;
-    final int maximumSize;
+    final long maxWeight;
+    final Weigher<K, V> weigher;
     final int concurrencyLevel;
     final RemovalListener<? super K, ? super V> removalListener;
     final Ticker ticker;
@@ -4302,8 +4434,9 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
     SerializationProxy(CacheLoader<? super K, V> loader,
         Strength keyStrength, Strength valueStrength,
         Equivalence<Object> keyEquivalence, Equivalence<Object> valueEquivalence,
-        long expireAfterWriteNanos, long expireAfterAccessNanos, int maximumSize,
-        int concurrencyLevel, RemovalListener<? super K, ? super V> removalListener,
+        long expireAfterWriteNanos, long expireAfterAccessNanos, long maxWeight,
+        Weigher<K, V> weigher, int concurrencyLevel,
+        RemovalListener<? super K, ? super V> removalListener,
         Ticker ticker) {
       this.loader = loader;
       this.keyStrength = keyStrength;
@@ -4312,7 +4445,8 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
       this.valueEquivalence = valueEquivalence;
       this.expireAfterWriteNanos = expireAfterWriteNanos;
       this.expireAfterAccessNanos = expireAfterAccessNanos;
-      this.maximumSize = maximumSize;
+      this.maxWeight = maxWeight;
+      this.weigher = weigher;
       this.concurrencyLevel = concurrencyLevel;
       this.removalListener = removalListener;
       this.ticker = ticker;
@@ -4320,7 +4454,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
 
     private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
       in.defaultReadObject();
-      CacheBuilder<Object, Object> builder = CacheBuilder.newBuilder()
+      CacheBuilder<Object, Object> builder = CacheBuilder.newLenientBuilder()
           .setKeyStrength(keyStrength)
           .setValueStrength(valueStrength)
           .keyEquivalence(keyEquivalence)
@@ -4333,8 +4467,15 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
       if (expireAfterAccessNanos > 0) {
         builder.expireAfterAccess(expireAfterAccessNanos, TimeUnit.NANOSECONDS);
       }
-      if (maximumSize != UNSET_INT) {
-        builder.maximumSize(maximumSize);
+      if (weigher != OneWeigher.INSTANCE) {
+        builder.weigher(weigher);
+        if (maxWeight != UNSET_INT) {
+          builder.maximumWeight(maxWeight);
+        }
+      } else {
+        if (maxWeight != UNSET_INT) {
+          builder.maximumSize(maxWeight);
+        }
       }
       if (ticker != Ticker.systemTicker()) {
         builder.ticker(ticker);

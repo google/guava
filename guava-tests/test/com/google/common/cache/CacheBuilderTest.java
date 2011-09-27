@@ -21,6 +21,7 @@ import static com.google.common.cache.TestingCacheLoaders.identityLoader;
 import static com.google.common.cache.TestingRemovalListeners.countingRemovalListener;
 import static com.google.common.cache.TestingRemovalListeners.nullRemovalListener;
 import static com.google.common.cache.TestingRemovalListeners.queuingRemovalListener;
+import static com.google.common.cache.TestingWeighers.constantWeigher;
 import static java.util.concurrent.TimeUnit.NANOSECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
@@ -148,6 +149,64 @@ public class CacheBuilderTest extends TestCase {
       builder.maximumSize(16);
       fail();
     } catch (IllegalStateException expected) {}
+    try {
+      builder.maximumWeight(16);
+      fail();
+    } catch (IllegalStateException expected) {}
+  }
+
+  public void testMaximumWeight_negative() {
+    CacheBuilder<Object, Object> builder = new CacheBuilder<Object, Object>();
+    try {
+      builder.maximumWeight(-1);
+      fail();
+    } catch (IllegalArgumentException expected) {}
+  }
+
+  public void testMaximumWeight_setTwice() {
+    CacheBuilder<Object, Object> builder = new CacheBuilder<Object, Object>().maximumWeight(16);
+    try {
+      // even to the same value is not allowed
+      builder.maximumWeight(16);
+      fail();
+    } catch (IllegalStateException expected) {}
+    try {
+      builder.maximumSize(16);
+      fail();
+    } catch (IllegalStateException expected) {}
+  }
+
+  public void testMaximumWeight_withoutWeigher() {
+    CacheBuilder<Object, Object> builder = new CacheBuilder<Object, Object>()
+        .maximumWeight(1);
+    try {
+      builder.build(identityLoader());
+      fail();
+    } catch (IllegalStateException expected) {}
+  }
+
+  public void testWeigher_withoutMaximumWeight() {
+    CacheBuilder<Object, Object> builder = new CacheBuilder<Object, Object>()
+        .weigher(constantWeigher(42));
+    try {
+      builder.build(identityLoader());
+      fail();
+    } catch (IllegalStateException expected) {}
+  }
+
+  public void testWeigher_withMaximumSize() {
+    try {
+      CacheBuilder<Object, Object> builder = new CacheBuilder<Object, Object>()
+          .weigher(constantWeigher(42))
+          .maximumSize(1);
+      fail();
+    } catch (IllegalStateException expected) {}
+    try {
+      CacheBuilder<Object, Object> builder = new CacheBuilder<Object, Object>()
+          .maximumSize(1)
+          .weigher(constantWeigher(42));
+      fail();
+    } catch (IllegalStateException expected) {}
   }
 
   public void testKeyStrengthSetTwice() {
@@ -164,16 +223,18 @@ public class CacheBuilderTest extends TestCase {
       builder1.weakValues();
       fail();
     } catch (IllegalStateException expected) {}
+    try {
+      builder1.softValues();
+      fail();
+    } catch (IllegalStateException expected) {}
 
     CacheBuilder<Object, Object> builder2 = new CacheBuilder<Object, Object>().softValues();
     try {
       builder2.softValues();
       fail();
     } catch (IllegalStateException expected) {}
-
-    CacheBuilder<Object, Object> builder3 = new CacheBuilder<Object, Object>().weakValues();
     try {
-      builder3.softValues();
+      builder2.weakValues();
       fail();
     } catch (IllegalStateException expected) {}
   }
