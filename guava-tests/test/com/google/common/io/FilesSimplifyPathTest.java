@@ -29,11 +29,11 @@ import java.net.URL;
 import java.util.Iterator;
 
 /**
- * Unit tests for Files.simplifyPath().
+ * Unit tests for {@link Files#simplifyPath}.
  *
  * @author Pablo Bellver
  */
-public class CleanPathTest extends TestCase {
+public class FilesSimplifyPathTest extends TestCase {
 
   public void testSimplify() {
     assertEquals("", simplifyPath("."));
