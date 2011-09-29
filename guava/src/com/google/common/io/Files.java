@@ -758,7 +758,7 @@ public final class Files {
    * a/../b} may refer to a sibling of {@code x}, rather than the sibling of
    * {@code a} referred to by {@code b}.
    *
-   * @since 10.0
+   * @since 11.0
    */
   public static String simplifyPath(String pathname) {
     if (pathname.length() == 0) {
