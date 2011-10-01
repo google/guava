@@ -28,6 +28,7 @@ import com.google.common.base.Equivalences;
 import com.google.common.base.Function;
 import com.google.common.base.Objects;
 import com.google.common.base.Ticker;
+import com.google.common.collect.MapEvictionListener;
 import com.google.common.collect.ComputingConcurrentHashMap.ComputingMapAdapter;
 import com.google.common.collect.CustomConcurrentHashMap.Strength;
 
@@ -569,6 +570,28 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
   }
 
   /**
+   * Class to hold the MapEvictionListener. Enables serialization if the
+   * eviction listener is serializable to begin with.
+   */
+  static final class MapMakerRemovalListener<K, V> implements
+      RemovalListener<K, V>, Serializable {
+    private static final long serialVersionUID = 0;
+
+    private final MapEvictionListener<K, V> listener;
+
+    public MapMakerRemovalListener(final MapEvictionListener<K, V> listener) {
+      this.listener = checkNotNull(listener);
+    }
+
+    @Override
+    public void onRemoval(final RemovalNotification<K, V> notification) {
+      if (notification.wasEvicted()) {
+        listener.onEviction(notification.getKey(), notification.getValue());
+      }
+    }
+  }
+
+  /**
    * Specifies a listener instance, which all maps built using this {@code MapMaker} will notify
    * each time an entry is evicted.
    *
@@ -614,14 +637,7 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
     // safely limiting the kinds of maps this can produce
     @SuppressWarnings("unchecked")
     GenericMapMaker<K, V> me = (GenericMapMaker<K, V>) this;
-    me.removalListener = new RemovalListener<K, V>() {
-      @Override
-      public void onRemoval(RemovalNotification<K, V> notification) {
-        if (notification.wasEvicted()) {
-          listener.onEviction(notification.getKey(), notification.getValue());
-        }
-      }
-    };
+    me.removalListener = new MapMakerRemovalListener<K, V>(listener);
     useCustomMap = true;
     return me;
   }

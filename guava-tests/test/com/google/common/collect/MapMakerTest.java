@@ -17,24 +17,30 @@
 package com.google.common.collect;
 
 import com.google.common.base.Function;
+import com.google.common.collect.MapEvictionListener;
+import com.google.common.collect.MapMaker;
 import com.google.common.collect.CustomConcurrentHashMapTest.QueuingRemovalListener;
 import com.google.common.collect.MapMaker.RemovalNotification;
 import com.google.common.testing.NullPointerTester;
 
 import junit.framework.TestCase;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * @author Charles Fry
  */
-public class MapMakerTests extends TestCase {
+public class MapMakerTest extends TestCase {
 
   public void testNullParameters() throws Exception {
     NullPointerTester tester = new NullPointerTester();
@@ -95,7 +101,28 @@ public class MapMakerTests extends TestCase {
     assertEquals(1, map.size());
     assertEquals("b", map.get("b"));
   }
+  
+  /** Enum to test serialization. */
+  private enum EvictionListener implements MapEvictionListener<Long, String> {
+    /** The enum that be used as an eviction listener. */
+    EVICTION_LISTENER;
 
+    @Override
+    public void onEviction(final Long key, final String value) {
+      System.out.println(value);
+    }
+  }
+  
+  public void testSerialization() throws IOException {
+    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    ObjectOutputStream oos = new ObjectOutputStream(baos);
+    final Map<Long, String> map = new MapMaker()
+      .expireAfterAccess(1, TimeUnit.SECONDS)
+      .evictionListener(EvictionListener.EVICTION_LISTENER)
+      .makeMap();
+    oos.writeObject(map); 
+  }
+  
   // "Basher tests", where we throw a bunch of stuff at a Cache and check basic invariants.
 
   /**
