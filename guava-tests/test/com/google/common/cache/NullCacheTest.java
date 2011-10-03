@@ -17,9 +17,10 @@ package com.google.common.cache;
 import static com.google.common.cache.CacheTesting.checkEmpty;
 import static com.google.common.cache.TestingCacheLoaders.constantLoader;
 import static com.google.common.cache.TestingCacheLoaders.exceptionLoader;
-import static com.google.common.cache.TestingRemovalListeners.countingRemovalListener;
+import static com.google.common.cache.TestingRemovalListeners.queuingRemovalListener;
+import static java.util.concurrent.TimeUnit.SECONDS;
 
-import com.google.common.cache.TestingRemovalListeners.CountingRemovalListener;
+import com.google.common.cache.TestingRemovalListeners.QueuingRemovalListener;
 import com.google.common.util.concurrent.UncheckedExecutionException;
 
 import junit.framework.TestCase;
@@ -30,11 +31,11 @@ import junit.framework.TestCase;
  * @author mike nonemacher
  */
 public class NullCacheTest extends TestCase {
-  CountingRemovalListener<Object, Object> listener;
+  QueuingRemovalListener<Object, Object> listener;
 
   @Override
   protected void setUp() {
-    listener = countingRemovalListener();
+    listener = queuingRemovalListener();
   }
 
   public void testGet() {
@@ -44,8 +45,47 @@ public class NullCacheTest extends TestCase {
         .removalListener(listener)
         .build(constantLoader(computed));
 
-    assertSame(computed, cache.getUnchecked(new Object()));
-    assertEquals(1, listener.getCount());
+    Object key = new Object();
+    assertSame(computed, cache.getUnchecked(key));
+    RemovalNotification<Object, Object> notification = listener.remove();
+    assertSame(key, notification.getKey());
+    assertSame(computed, notification.getValue());
+    assertSame(RemovalCause.SIZE, notification.getCause());
+    assertTrue(listener.isEmpty());
+    checkEmpty(cache);
+  }
+
+  public void testGet_expireAfterWrite() {
+    Object computed = new Object();
+    Cache<Object, Object> cache = CacheBuilder.newBuilder()
+        .expireAfterWrite(0, SECONDS)
+        .removalListener(listener)
+        .build(constantLoader(computed));
+
+    Object key = new Object();
+    assertSame(computed, cache.getUnchecked(key));
+    RemovalNotification<Object, Object> notification = listener.remove();
+    assertSame(key, notification.getKey());
+    assertSame(computed, notification.getValue());
+    assertSame(RemovalCause.SIZE, notification.getCause());
+    assertTrue(listener.isEmpty());
+    checkEmpty(cache);
+  }
+
+  public void testGet_expireAfterAccess() {
+    Object computed = new Object();
+    Cache<Object, Object> cache = CacheBuilder.newBuilder()
+        .expireAfterAccess(0, SECONDS)
+        .removalListener(listener)
+        .build(constantLoader(computed));
+
+    Object key = new Object();
+    assertSame(computed, cache.getUnchecked(key));
+    RemovalNotification<Object, Object> notification = listener.remove();
+    assertSame(key, notification.getKey());
+    assertSame(computed, notification.getValue());
+    assertSame(RemovalCause.SIZE, notification.getCause());
+    assertTrue(listener.isEmpty());
     checkEmpty(cache);
   }
 
@@ -60,7 +100,7 @@ public class NullCacheTest extends TestCase {
       fail();
     } catch (NullPointerException e) { /* expected */}
 
-    assertEquals(0, listener.getCount());
+    assertTrue(listener.isEmpty());
     checkEmpty(cache);
   }
 
@@ -77,6 +117,7 @@ public class NullCacheTest extends TestCase {
     } catch (UncheckedExecutionException uee) {
       assertSame(e, uee.getCause());
     }
+    assertTrue(listener.isEmpty());
     checkEmpty(map);
   }
 }

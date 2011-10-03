@@ -313,9 +313,7 @@ public final class CacheBuilder<K, V> {
    * entry because it hasn't been used recently or very often.
    *
    * <p>When {@code size} is zero, elements will be evicted immediately after being loaded into the
-   * cache. This has the same effect as invoking {@link #expireAfterWrite
-   * expireAfterWrite}{@code (0, unit)} or {@link #expireAfterAccess expireAfterAccess}{@code (0,
-   * unit)}. It can be useful in testing, or to disable caching temporarily without a code change.
+   * cache. This can be useful in testing, or to disable caching temporarily without a code change.
    *
    * @param size the maximum size of the cache
    * @throws IllegalArgumentException if {@code size} is negative
@@ -342,10 +340,9 @@ public final class CacheBuilder<K, V> {
    * again. For example, the cache may evict an entry because it hasn't been used recently or very
    * often.
    *
-   * <p>When the maximum weight is zero, elements will be evicted immediately after being
-   * loaded into the cache. This has the same effect as invoking {@link #expireAfterWrite
-   * expireAfterWrite}{@code (0, unit)} or {@link #expireAfterAccess expireAfterAccess}{@code (0,
-   * unit)}. It can be useful in testing, or to disable caching temporarily without a code change.
+   * <p>When {@code weight} is zero, elements will be evicted immediately after being loaded into
+   * cache. This can be useful in testing, or to disable caching temporarily without a code
+   * change.
    *
    * @param weight the maximum weight the cache may contain
    * @param weigher the weigher to use in calculating the weight of cache entries
@@ -408,6 +405,9 @@ public final class CacheBuilder<K, V> {
   }
 
   long getMaximumWeight() {
+    if (expireAfterWriteNanos == 0 || expireAfterAccessNanos == 0) {
+      return 0;
+    }
     return (weigher == null) ? maximumSize : maximumWeight;
   }
 
@@ -519,6 +519,10 @@ public final class CacheBuilder<K, V> {
    * Specifies that each entry should be automatically removed from the cache once a fixed duration
    * has elapsed after the entry's creation, or the most recent replacement of its value.
    *
+   * <p>When {@code duration} is zero, this method hands off to
+   * {@link #maximumSize maximumSize}{@code (0)}, ignoring any otherwise-specificed maximum size or
+   * weight. This can be useful in testing, or to disable caching temporarily without a code change.
+   *
    * <p>Expired entries may be counted by {@link Cache#size}, but will never be visible to read or
    * write operations. Expired entries are cleaned up as part of the routine maintenance described
    * in the class javadoc.
@@ -552,6 +556,10 @@ public final class CacheBuilder<K, V> {
    * has elapsed after the entry's creation, the most recent replacement of its value, or its last
    * access. Access time is reset by {@link Cache#get} and {@link Cache#getUnchecked}, but not by
    * operations on the view returned by {@link Cache#asMap}.
+   *
+   * <p>When {@code duration} is zero, this method hands off to
+   * {@link #maximumSize maximumSize}{@code (0)}, ignoring any otherwise-specificed maximum size or
+   * weight. This can be useful in testing, or to disable caching temporarily without a code change.
    *
    * <p>Expired entries may be counted by {@link Cache#size}, but will never be visible to read or
    * write operations. Expired entries are cleaned up as part of the routine maintenance described
