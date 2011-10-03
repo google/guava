@@ -109,14 +109,25 @@ public class StringsTest extends TestCase {
     String input = "20";
     assertEquals("", Strings.repeat(input, 0));
     assertEquals("20", Strings.repeat(input, 1));
+    assertEquals("2020", Strings.repeat(input, 2));
     assertEquals("202020", Strings.repeat(input, 3));
 
     assertEquals("", Strings.repeat("", 4));
+
+    for (int i = 0; i < 100; ++i) {
+      assertEquals(2 * i, Strings.repeat(input, i).length());
+    }
 
     try {
       Strings.repeat("x", -1);
       fail();
     } catch (IllegalArgumentException expected) {
+    }
+    try {
+      // Massive string
+      Strings.repeat("12345678", (1 << 30) + 3);
+      fail();
+    } catch (ArrayIndexOutOfBoundsException expected) {
     }
   }
 
