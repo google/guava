@@ -23,10 +23,12 @@ import com.google.common.annotations.VisibleForTesting;
 /**
  * Utilities for {@code double} primitives. Some of these are exposed in JDK 6,
  * but we can't depend on them there.
- * 
+ *
  * @author Louis Wasserman
  */
 final class DoubleUtils {
+  // TODO(user): replace with appropriate calls when we move to JDK 6
+
   private DoubleUtils() {
   }
 
@@ -107,7 +109,7 @@ final class DoubleUtils {
     int exponent = getExponent(d);
     long bits = Double.doubleToRawLongBits(d);
     bits &= SIGNIFICAND_MASK;
-    return (exponent == MIN_DOUBLE_EXPONENT - 1) 
+    return (exponent == MIN_DOUBLE_EXPONENT - 1)
         ? bits << 1
         : bits | IMPLICIT_BIT;
   }
@@ -115,11 +117,11 @@ final class DoubleUtils {
   static boolean isFinite(double d) {
     return getExponent(d) <= MAX_DOUBLE_EXPONENT;
   }
-  
+
   static boolean isNormal(double d) {
     return getExponent(d) >= MIN_DOUBLE_EXPONENT;
   }
-  
+
   /*
    * Returns x scaled by a power of 2 such that it is in the range [1, 2). Assumes x is positive,
    * normal, and finite.

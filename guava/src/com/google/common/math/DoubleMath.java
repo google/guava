@@ -18,7 +18,6 @@ package com.google.common.math;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.math.DoubleUtils.IMPLICIT_BIT;
-import static com.google.common.math.DoubleUtils.MAX_DOUBLE_EXPONENT;
 import static com.google.common.math.DoubleUtils.SIGNIFICAND_BITS;
 import static com.google.common.math.DoubleUtils.getExponent;
 import static com.google.common.math.DoubleUtils.getSignificand;
@@ -42,14 +41,12 @@ import com.google.common.annotations.VisibleForTesting;
  * @since 11.0
  */
 public final class DoubleMath {
-  // TODO(fry): when we move to JDK 6, the changes of CL 24245020 can be reverted
-
   /*
    * This method returns a value y such that rounding y DOWN (towards zero) gives the same result
    * as rounding x according to the specified mode.
    */
   static double roundIntermediate(double x, RoundingMode mode) {
-    if (getExponent(x) == MAX_DOUBLE_EXPONENT + 1) {
+    if (!isFinite(x)) {
       throw new ArithmeticException("input is infinite or NaN");
     }
     switch (mode) {
