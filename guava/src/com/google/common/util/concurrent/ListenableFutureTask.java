@@ -16,8 +16,6 @@
 
 package com.google.common.util.concurrent;
 
-import com.google.common.annotations.Beta;
-
 import java.util.concurrent.Callable;
 import java.util.concurrent.Executor;
 import java.util.concurrent.FutureTask;
@@ -67,37 +65,11 @@ public final class ListenableFutureTask<V> extends FutureTask<V>
     return new ListenableFutureTask<V>(runnable, result);
   }
 
-  /**
-   * <b>Deprecated.</b> Use {@link #create(Callable)} instead. This method will be
-   * removed from Guava in Guava release 11.0.
-   *
-   * Creates a {@code ListenableFutureTask} that will upon running, execute the
-   * given {@code Callable}.
-   *
-   * @param callable the callable task
-   */
-  @Beta @Deprecated public
-  ListenableFutureTask(Callable<V> callable) {
+  private ListenableFutureTask(Callable<V> callable) {
     super(callable);
   }
 
-  /**
-   * <b>Deprecated. Use {@link #create(Runnable, Object)} instead. This method
-   * will be removed from Guava in Guava release 11.0.</b>
-   *
-   * Creates a {@code ListenableFutureTask} that will upon running, execute the
-   * given {@code Runnable}, and arrange that {@code get} will return the
-   * given result on successful completion.
-   *
-   * @param runnable the runnable task
-   * @param result the result to return on successful completion. If
-   * you don't need a particular result, consider using
-   * constructions of the form:
-   * {@code ListenableFuture<?> f =
-   *     ListenableFutureTask.create(runnable, null)}
-   */
-  @Beta @Deprecated public
-  ListenableFutureTask(Runnable runnable, @Nullable V result) {
+  private ListenableFutureTask(Runnable runnable, @Nullable V result) {
     super(runnable, result);
   }
 

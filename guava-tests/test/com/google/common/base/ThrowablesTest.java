@@ -21,13 +21,11 @@ import static java.util.Arrays.asList;
 import static java.util.regex.Pattern.quote;
 
 import com.google.common.collect.Iterables;
-import com.google.common.collect.ObjectArrays;
 import com.google.common.testing.NullPointerTester;
 
 import junit.framework.TestCase;
 
 import java.io.FileNotFoundException;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -502,77 +500,6 @@ public class ThrowablesTest extends TestCase {
     String moreLines = "(?:.*\n?)*";
     String expected = firstLine + "\n" + secondLine + "\n" + moreLines;
     assertTrue(getStackTraceAsString(e).matches(expected));
-  }
-
-  @SuppressWarnings("deprecation") // test of deprecated method
-  public void testThrowCause_NoCombine() {
-    SomeCheckedException cause = new SomeCheckedException();
-    SomeChainingException outer = new SomeChainingException(cause);
-    StackTraceElement[] expectedTrace = cause.getStackTrace();
-    try {
-      Throwables.throwCause(outer, false);
-      fail("Exception not thrown properly");
-    } catch (Exception e) {
-      assertSame(e, cause);
-      assertTrue(Arrays.equals(expectedTrace, e.getStackTrace()));
-    }
-  }
-
-  @SuppressWarnings("deprecation") // test of deprecated method
-  public void testThrowCause_Combine() {
-    SomeCheckedException cause = new SomeCheckedException();
-    SomeChainingException outer = new SomeChainingException(cause);
-    StackTraceElement[] expectedTrace = ObjectArrays.concat(
-        cause.getStackTrace(), outer.getStackTrace(), StackTraceElement.class);
-    try {
-      Throwables.throwCause(outer, true);
-      fail("Exception not thrown properly");
-    } catch (Exception e) {
-      assertSame(e, cause);
-      assertTrue(Arrays.equals(expectedTrace, e.getStackTrace()));
-    }
-  }
-  
-  @SuppressWarnings("deprecation") // test of deprecated method
-  public void testThrowCause_Null() {
-    SomeCheckedException outer = new SomeCheckedException();
-    StackTraceElement[] expectedTrace = outer.getStackTrace();
-    try {
-      Throwables.throwCause(outer, true);
-      fail("Exception not thrown properly");
-    } catch (Exception e) {
-      assertSame(e, outer);
-      assertTrue(Arrays.equals(expectedTrace, e.getStackTrace()));
-    }
-  }
-
-  @SuppressWarnings("deprecation") // test of deprecated method
-  public void testThrowCause_Error() throws Exception {
-    SomeError cause = new SomeError();
-    SomeChainingException outer = new SomeChainingException(cause);
-    StackTraceElement[] expectedTrace = ObjectArrays.concat(
-        cause.getStackTrace(), outer.getStackTrace(), StackTraceElement.class);
-    try {
-      Throwables.throwCause(outer, true);
-      fail("Exception not thrown properly");
-    } catch (Error e) {
-      assertSame(e, cause);
-      assertTrue(Arrays.equals(expectedTrace, e.getStackTrace()));
-    }
-  }
-  
-  @SuppressWarnings("deprecation") // test of deprecated method
-  public void testThrowCause_Throwable() {
-    SomeThrowable cause = new SomeThrowable();
-    SomeChainingException outer = new SomeChainingException(cause);
-    StackTraceElement[] expectedTrace = outer.getStackTrace();
-    try {
-      Throwables.throwCause(outer, true);
-      fail("Exception not thrown properly");
-    } catch (Throwable e) {
-      assertSame(e, outer);
-      assertTrue(Arrays.equals(expectedTrace, e.getStackTrace()));
-    }
   }
 
   public void testGetCausalChain() {

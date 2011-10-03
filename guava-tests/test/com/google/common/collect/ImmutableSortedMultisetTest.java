@@ -1,0 +1,454 @@
+/*
+ * Copyright (C) 2011 The Guava Authors
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
+ */
+
+package com.google.common.collect;
+
+import static java.util.Arrays.asList;
+import static org.junit.contrib.truth.Truth.ASSERT;
+
+import com.google.common.base.Function;
+import com.google.common.collect.testing.MinimalCollection;
+import com.google.common.collect.testing.SetTestSuiteBuilder;
+import com.google.common.collect.testing.TestStringSetGenerator;
+import com.google.common.collect.testing.features.CollectionFeature;
+import com.google.common.collect.testing.features.CollectionSize;
+import com.google.common.collect.testing.google.SortedMultisetTestSuiteBuilder;
+import com.google.common.collect.testing.google.TestStringMultisetGenerator;
+import com.google.common.collect.testing.google.UnmodifiableCollectionTests;
+import com.google.common.testing.NullPointerTester;
+import com.google.common.testing.SerializableTester;
+
+import junit.framework.Test;
+import junit.framework.TestCase;
+import junit.framework.TestSuite;
+
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
+
+/**
+ * Tests for {@link ImmutableSortedMultiset}.
+ * 
+ * @author Louis Wasserman
+ */
+public class ImmutableSortedMultisetTest extends TestCase {
+  public static Test suite() {
+    TestSuite suite = new TestSuite();
+    suite.addTestSuite(ImmutableSortedMultisetTest.class);
+
+    suite.addTest(SortedMultisetTestSuiteBuilder.using(new TestStringMultisetGenerator() {
+      @Override
+      protected Multiset<String> create(String[] elements) {
+        return ImmutableSortedMultiset.copyOf(elements);
+      }
+
+      @Override
+      public List<String> order(List<String> insertionOrder) {
+        return Ordering.natural().sortedCopy(insertionOrder);
+      }
+    }).named("ImmutableSortedMultiset").withFeatures(CollectionSize.ANY,
+        CollectionFeature.ALLOWS_NULL_QUERIES)
+        .createTestSuite());
+
+    suite.addTest(SortedMultisetTestSuiteBuilder.using(new TestStringMultisetGenerator() {
+      @Override
+      protected Multiset<String> create(String[] elements) {
+        return SerializableTester.reserialize(ImmutableSortedMultiset.copyOf(elements));
+      }
+
+      @Override
+      public List<String> order(List<String> insertionOrder) {
+        return Ordering.natural().sortedCopy(insertionOrder);
+      }
+    }).named("ImmutableSortedMultiset, reserialized").withFeatures(CollectionSize.ANY,
+        CollectionFeature.ALLOWS_NULL_QUERIES)
+        .createTestSuite());
+
+    suite.addTest(SetTestSuiteBuilder
+        .using(new TestStringSetGenerator() {
+          @Override
+          protected Set<String> create(String[] elements) {
+            return SerializableTester.reserialize(ImmutableSortedMultiset.copyOf(elements)
+                .elementSet());
+          }
+
+          @Override
+          public List<String> order(List<String> insertionOrder) {
+            return Ordering.natural().immutableSortedCopy(insertionOrder);
+          }
+        }).named("ImmutableSortedMultiset, element set").withFeatures(CollectionSize.ANY,
+            CollectionFeature.ALLOWS_NULL_QUERIES)
+        .createTestSuite());
+
+    return suite;
+  }
+
+  public void testCreation_noArgs() {
+    Multiset<String> multiset = ImmutableSortedMultiset.of();
+    assertTrue(multiset.isEmpty());
+  }
+
+  public void testCreation_oneElement() {
+    Multiset<String> multiset = ImmutableSortedMultiset.of("a");
+    assertEquals(HashMultiset.create(asList("a")), multiset);
+  }
+
+  public void testCreation_twoElements() {
+    Multiset<String> multiset = ImmutableSortedMultiset.of("a", "b");
+    assertEquals(HashMultiset.create(asList("a", "b")), multiset);
+  }
+
+  public void testCreation_threeElements() {
+    Multiset<String> multiset = ImmutableSortedMultiset.of("a", "b", "c");
+    assertEquals(HashMultiset.create(asList("a", "b", "c")), multiset);
+  }
+
+  public void testCreation_fourElements() {
+    Multiset<String> multiset = ImmutableSortedMultiset.of("a", "b", "c", "d");
+    assertEquals(HashMultiset.create(asList("a", "b", "c", "d")), multiset);
+  }
+
+  public void testCreation_fiveElements() {
+    Multiset<String> multiset = ImmutableSortedMultiset.of("a", "b", "c", "d", "e");
+    assertEquals(HashMultiset.create(asList("a", "b", "c", "d", "e")), multiset);
+  }
+
+  public void testCreation_sixElements() {
+    Multiset<String> multiset = ImmutableSortedMultiset.of("a", "b", "c", "d", "e", "f");
+    assertEquals(HashMultiset.create(asList("a", "b", "c", "d", "e", "f")), multiset);
+  }
+
+  public void testCreation_sevenElements() {
+    Multiset<String> multiset = ImmutableSortedMultiset.of("a", "b", "c", "d", "e", "f", "g");
+    assertEquals(HashMultiset.create(asList("a", "b", "c", "d", "e", "f", "g")), multiset);
+  }
+
+  public void testCreation_emptyArray() {
+    String[] array = new String[0];
+    Multiset<String> multiset = ImmutableSortedMultiset.copyOf(array);
+    assertTrue(multiset.isEmpty());
+  }
+
+  public void testCreation_arrayOfOneElement() {
+    String[] array = new String[] {"a"};
+    Multiset<String> multiset = ImmutableSortedMultiset.copyOf(array);
+    assertEquals(HashMultiset.create(asList("a")), multiset);
+  }
+
+  public void testCreation_arrayOfArray() {
+    Comparator<String[]> comparator =
+        Ordering.natural().lexicographical()
+            .onResultOf(new Function<String[], Iterable<Comparable>>() {
+              @Override
+              public Iterable<Comparable> apply(String[] input) {
+                return Arrays.<Comparable>asList(input);
+              }
+            });
+    String[] array = new String[] {"a"};
+    Multiset<String[]> multiset = ImmutableSortedMultiset.orderedBy(comparator).add(array).build();
+    Multiset<String[]> expected = HashMultiset.create();
+    expected.add(array);
+    assertEquals(expected, multiset);
+  }
+
+  public void testCreation_arrayContainingOnlyNull() {
+    String[] array = new String[] {null};
+    try {
+      ImmutableSortedMultiset.copyOf(array);
+      fail();
+    } catch (NullPointerException expected) {}
+  }
+
+  public void testCopyOf_collection_empty() {
+    // "<String>" is required to work around a javac 1.5 bug.
+    Collection<String> c = MinimalCollection.<String>of();
+    Multiset<String> multiset = ImmutableSortedMultiset.copyOf(c);
+    assertTrue(multiset.isEmpty());
+  }
+
+  public void testCopyOf_collection_oneElement() {
+    Collection<String> c = MinimalCollection.of("a");
+    Multiset<String> multiset = ImmutableSortedMultiset.copyOf(c);
+    assertEquals(HashMultiset.create(asList("a")), multiset);
+  }
+
+  public void testCopyOf_collection_general() {
+    Collection<String> c = MinimalCollection.of("a", "b", "a");
+    Multiset<String> multiset = ImmutableSortedMultiset.copyOf(c);
+    assertEquals(HashMultiset.create(asList("a", "b", "a")), multiset);
+  }
+
+  public void testCopyOf_collectionContainingNull() {
+    Collection<String> c = MinimalCollection.of("a", null, "b");
+    try {
+      ImmutableSortedMultiset.copyOf(c);
+      fail();
+    } catch (NullPointerException expected) {}
+  }
+
+  public void testCopyOf_multiset_empty() {
+    Multiset<String> c = HashMultiset.create();
+    Multiset<String> multiset = ImmutableSortedMultiset.copyOf(c);
+    assertTrue(multiset.isEmpty());
+  }
+
+  public void testCopyOf_multiset_oneElement() {
+    Multiset<String> c = HashMultiset.create(asList("a"));
+    Multiset<String> multiset = ImmutableSortedMultiset.copyOf(c);
+    assertEquals(HashMultiset.create(asList("a")), multiset);
+  }
+
+  public void testCopyOf_multiset_general() {
+    Multiset<String> c = HashMultiset.create(asList("a", "b", "a"));
+    Multiset<String> multiset = ImmutableSortedMultiset.copyOf(c);
+    assertEquals(HashMultiset.create(asList("a", "b", "a")), multiset);
+  }
+
+  public void testCopyOf_multisetContainingNull() {
+    Multiset<String> c = HashMultiset.create(asList("a", null, "b"));
+    try {
+      ImmutableSortedMultiset.copyOf(c);
+      fail();
+    } catch (NullPointerException expected) {}
+  }
+
+  public void testCopyOf_iterator_empty() {
+    Iterator<String> iterator = Iterators.emptyIterator();
+    Multiset<String> multiset = ImmutableSortedMultiset.copyOf(iterator);
+    assertTrue(multiset.isEmpty());
+  }
+
+  public void testCopyOf_iterator_oneElement() {
+    Iterator<String> iterator = Iterators.singletonIterator("a");
+    Multiset<String> multiset = ImmutableSortedMultiset.copyOf(iterator);
+    assertEquals(HashMultiset.create(asList("a")), multiset);
+  }
+
+  public void testCopyOf_iterator_general() {
+    Iterator<String> iterator = asList("a", "b", "a").iterator();
+    Multiset<String> multiset = ImmutableSortedMultiset.copyOf(iterator);
+    assertEquals(HashMultiset.create(asList("a", "b", "a")), multiset);
+  }
+
+  public void testCopyOf_iteratorContainingNull() {
+    Iterator<String> iterator = asList("a", null, "b").iterator();
+    try {
+      ImmutableSortedMultiset.copyOf(iterator);
+      fail();
+    } catch (NullPointerException expected) {}
+  }
+
+  private static class CountingIterable implements Iterable<String> {
+    int count = 0;
+
+    @Override
+    public Iterator<String> iterator() {
+      count++;
+      return asList("a", "b", "a").iterator();
+    }
+  }
+
+  public void testCopyOf_plainIterable() {
+    CountingIterable iterable = new CountingIterable();
+    Multiset<String> multiset = ImmutableSortedMultiset.copyOf(iterable);
+    assertEquals(HashMultiset.create(asList("a", "b", "a")), multiset);
+    assertEquals(1, iterable.count);
+  }
+
+  public void testCopyOf_shortcut_empty() {
+    Collection<String> c = ImmutableSortedMultiset.of();
+    assertSame(c, ImmutableSortedMultiset.copyOf(c));
+  }
+
+  public void testCopyOf_shortcut_singleton() {
+    Collection<String> c = ImmutableSortedMultiset.of("a");
+    assertSame(c, ImmutableSortedMultiset.copyOf(c));
+  }
+
+  public void testCopyOf_shortcut_immutableMultiset() {
+    Collection<String> c = ImmutableSortedMultiset.of("a", "b", "c");
+    assertSame(c, ImmutableSortedMultiset.copyOf(c));
+  }
+
+  public void testBuilderAdd() {
+    ImmutableSortedMultiset<String> multiset =
+        ImmutableSortedMultiset.<String>naturalOrder().add("a").add("b").add("a").add("c").build();
+    assertEquals(HashMultiset.create(asList("a", "b", "a", "c")), multiset);
+  }
+
+  public void testBuilderAddAll() {
+    List<String> a = asList("a", "b");
+    List<String> b = asList("c", "d");
+    ImmutableSortedMultiset<String> multiset =
+        ImmutableSortedMultiset.<String>naturalOrder().addAll(a).addAll(b).build();
+    assertEquals(HashMultiset.create(asList("a", "b", "c", "d")), multiset);
+  }
+
+  public void testBuilderAddAllMultiset() {
+    Multiset<String> a = HashMultiset.create(asList("a", "b", "b"));
+    Multiset<String> b = HashMultiset.create(asList("c", "b"));
+    ImmutableSortedMultiset<String> multiset =
+        ImmutableSortedMultiset.<String>naturalOrder().addAll(a).addAll(b).build();
+    assertEquals(HashMultiset.create(asList("a", "b", "b", "b", "c")), multiset);
+  }
+
+  public void testBuilderAddAllIterator() {
+    Iterator<String> iterator = asList("a", "b", "a", "c").iterator();
+    ImmutableSortedMultiset<String> multiset =
+        ImmutableSortedMultiset.<String>naturalOrder().addAll(iterator).build();
+    assertEquals(HashMultiset.create(asList("a", "b", "a", "c")), multiset);
+  }
+
+  public void testBuilderAddCopies() {
+    ImmutableSortedMultiset<String> multiset =
+        ImmutableSortedMultiset.<String>naturalOrder().addCopies("a", 2).addCopies("b", 3)
+            .addCopies("c", 0).build();
+    assertEquals(HashMultiset.create(asList("a", "a", "b", "b", "b")), multiset);
+  }
+
+  public void testBuilderSetCount() {
+    ImmutableSortedMultiset<String> multiset =
+        ImmutableSortedMultiset.<String>naturalOrder().add("a").setCount("a", 2).setCount("b", 3)
+            .build();
+    assertEquals(HashMultiset.create(asList("a", "a", "b", "b", "b")), multiset);
+  }
+
+  public void testBuilderAddHandlesNullsCorrectly() {
+    ImmutableSortedMultiset.Builder<String> builder = ImmutableSortedMultiset.naturalOrder();
+    try {
+      builder.add((String) null);
+      fail("expected NullPointerException");
+    } catch (NullPointerException expected) {}
+  }
+
+  public void testBuilderAddAllHandlesNullsCorrectly() {
+    ImmutableSortedMultiset.Builder<String> builder = ImmutableSortedMultiset.naturalOrder();
+    try {
+      builder.addAll((Collection<String>) null);
+      fail("expected NullPointerException");
+    } catch (NullPointerException expected) {}
+
+    builder = ImmutableSortedMultiset.naturalOrder();
+    List<String> listWithNulls = asList("a", null, "b");
+    try {
+      builder.addAll(listWithNulls);
+      fail("expected NullPointerException");
+    } catch (NullPointerException expected) {}
+
+    builder = ImmutableSortedMultiset.naturalOrder();
+    Multiset<String> multisetWithNull = LinkedHashMultiset.create(asList("a", null, "b"));
+    try {
+      builder.addAll(multisetWithNull);
+      fail("expected NullPointerException");
+    } catch (NullPointerException expected) {}
+  }
+
+  public void testBuilderAddCopiesHandlesNullsCorrectly() {
+    ImmutableSortedMultiset.Builder<String> builder = ImmutableSortedMultiset.naturalOrder();
+    try {
+      builder.addCopies(null, 2);
+      fail("expected NullPointerException");
+    } catch (NullPointerException expected) {}
+  }
+
+  public void testBuilderAddCopiesIllegal() {
+    ImmutableSortedMultiset.Builder<String> builder = ImmutableSortedMultiset.naturalOrder();
+    try {
+      builder.addCopies("a", -2);
+      fail("expected IllegalArgumentException");
+    } catch (IllegalArgumentException expected) {}
+  }
+
+  public void testBuilderSetCountHandlesNullsCorrectly() {
+    ImmutableSortedMultiset.Builder<String> builder =
+        new ImmutableSortedMultiset.Builder<String>(Ordering.natural().nullsFirst());
+    try {
+      builder.setCount(null, 2);
+      fail("expected NullPointerException");
+    } catch (NullPointerException expected) {}
+  }
+
+  public void testBuilderSetCountIllegal() {
+    ImmutableSortedMultiset.Builder<String> builder = ImmutableSortedMultiset.naturalOrder();
+    try {
+      builder.setCount("a", -2);
+      fail("expected IllegalArgumentException");
+    } catch (IllegalArgumentException expected) {}
+  }
+
+  public void testNullPointers() throws Exception {
+    NullPointerTester tester = new NullPointerTester();
+    tester.setDefault(Comparator.class, Ordering.natural());
+    tester.setDefault(Comparable.class, "");
+    tester.setDefault(Iterator.class, Iterators.emptyIterator());
+    tester.setDefault(Iterable.class, Collections.emptySet());
+    tester.setDefault(Comparable[].class, new Comparable[0]);
+    tester.testAllPublicStaticMethods(ImmutableSortedMultiset.class);
+  }
+
+  public void testSerialization_empty() {
+    Collection<String> c = ImmutableSortedMultiset.of();
+    assertSame(c, SerializableTester.reserialize(c));
+  }
+
+  public void testSerialization_multiple() {
+    Collection<String> c = ImmutableSortedMultiset.of("a", "b", "a");
+    Collection<String> copy = SerializableTester.reserializeAndAssert(c);
+    ASSERT.that(copy).hasContentsInOrder("a", "a", "b");
+  }
+
+  public void testSerialization_elementSet() {
+    Multiset<String> c = ImmutableSortedMultiset.of("a", "b", "a");
+    Collection<String> copy = SerializableTester.reserializeAndAssert(c.elementSet());
+    ASSERT.that(copy).hasContentsInOrder("a", "b");
+  }
+
+  public void testSerialization_entrySet() {
+    Multiset<String> c = ImmutableSortedMultiset.of("a", "b", "c");
+    SerializableTester.reserializeAndAssert(c.entrySet());
+  }
+
+  public void testEquals_immutableMultiset() {
+    Collection<String> c = ImmutableSortedMultiset.of("a", "b", "a");
+    assertEquals(c, ImmutableSortedMultiset.of("a", "b", "a"));
+    assertEquals(c, ImmutableSortedMultiset.of("a", "a", "b"));
+    ASSERT.that(c).isNotEqualTo(ImmutableSortedMultiset.of("a", "b"));
+    ASSERT.that(c).isNotEqualTo(ImmutableSortedMultiset.of("a", "b", "c", "d"));
+  }
+
+  public void testIterationOrder() {
+    Collection<String> c = ImmutableSortedMultiset.of("a", "b", "a");
+    ASSERT.that(c).hasContentsInOrder("a", "a", "b");
+  }
+
+  public void testMultisetWrites() {
+    Multiset<String> multiset = ImmutableSortedMultiset.of("a", "b", "a");
+    UnmodifiableCollectionTests.assertMultisetIsUnmodifiable(multiset, "test");
+  }
+
+  public void testAsList() {
+    ImmutableSortedMultiset<String> multiset = ImmutableSortedMultiset.of("a", "a", "b", "b", "b");
+    ImmutableList<String> list = multiset.asList();
+    assertEquals(ImmutableList.of("a", "a", "b", "b", "b"), list);
+    assertTrue(list instanceof ImmutableAsList);
+    ImmutableList<String> copy = SerializableTester.reserializeAndAssert(list);
+    assertTrue(copy instanceof ImmutableAsList);
+    assertEquals(2, list.indexOf("b"));
+    assertEquals(4, list.lastIndexOf("b"));
+  }
+}

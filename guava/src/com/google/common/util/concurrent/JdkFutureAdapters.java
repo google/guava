@@ -29,15 +29,15 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * Utilities necessary for working with libraries that supply plain {@link
- * Future} instances.
+ * Future} instances. Note that, whenver possible, it is strongly preferred to
+ * modify those libraries to return {@code ListenableFuture} directly.
  *
  * @author Sven Mawson
  * @since 10.0 (replacing {@code Futures.makeListenable}, which
  *     existed in 1.0)
  */
 @Beta
-public
-final class JdkFutureAdapters {
+public final class JdkFutureAdapters {
   /**
    * Assigns a thread to the given {@link Future} to provide {@link
    * ListenableFuture} functionality.

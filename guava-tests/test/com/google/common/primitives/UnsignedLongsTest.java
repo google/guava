@@ -1,11 +1,11 @@
 /*
  * Copyright (C) 2011 The Guava Authors
- *
+ * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
- *
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software distributed under the
  * License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
  * express or implied. See the License for the specific language governing permissions and
@@ -17,6 +17,7 @@ package com.google.common.primitives;
 import static java.math.BigInteger.ONE;
 
 import java.math.BigInteger;
+import java.util.Random;
 
 import junit.framework.TestCase;
 
@@ -26,7 +27,7 @@ import com.google.common.testing.NullPointerTester;
 
 /**
  * Tests for UnsignedLongs
- *
+ * 
  * @author Brian Milch
  * @author Louis Wasserman
  */
@@ -73,6 +74,19 @@ public class UnsignedLongsTest extends TestCase {
     assertEquals(65534L, UnsignedLongs.remainder(0xfffffffffffffffeL, 65535));
     assertEquals(0, UnsignedLongs.remainder(0xfffffffffffffffeL, 2));
     assertEquals(4, UnsignedLongs.remainder(0xfffffffffffffffeL, 5));
+  }
+
+  @GwtIncompatible("Too slow in GWT (~3min fully optimized)")
+  public void testDivideRemainderEuclideanProperty() {
+    // Use a seed so that the test is deterministic:
+    Random r = new Random(0L);
+    for (int i = 0; i < 1000000; i++) {
+      long dividend = r.nextLong();
+      long divisor = r.nextLong();
+      // Test that the Euclidean property is preserved:
+      assertTrue(dividend - (divisor * UnsignedLongs.divide(dividend, divisor) 
+          + UnsignedLongs.remainder(dividend, divisor)) == 0);
+    }
   }
 
   public void testParseLong() {

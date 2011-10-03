@@ -569,64 +569,6 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
   }
 
   /**
-   * Specifies a listener instance, which all maps built using this {@code MapMaker} will notify
-   * each time an entry is evicted.
-   *
-   * <p>A map built by this map maker will invoke the supplied listener after it evicts an entry,
-   * whether it does so due to timed expiration, exceeding the maximum size, or discovering that the
-   * key or value has been reclaimed by the garbage collector. It will invoke the listener
-   * during invocations of any of that map's public methods (even read-only methods). The listener
-   * will <i>not</i> be invoked on manual removal.
-   *
-   * <p><b>Important note:</b> Instead of returning <i>this</i> as a {@code MapMaker} instance,
-   * this method returns {@code GenericMapMaker<K, V>}. From this point on, either the original
-   * reference or the returned reference may be used to complete configuration and build the map,
-   * but only the "generic" one is type-safe. That is, it will properly prevent you from building
-   * maps whose key or value types are incompatible with the types accepted by the listener already
-   * provided; the {@code MapMaker} type cannot do this. For best results, simply use the standard
-   * method-chaining idiom, as illustrated in the documentation at top, configuring a {@code
-   * MapMaker} and building your {@link Map} all in a single statement.
-   *
-   * <p><b>Warning:</b> if you ignore the above advice, and use this {@code MapMaker} to build maps
-   * whose key or value types are incompatible with the listener, you will likely experience a
-   * {@link ClassCastException} at an undefined point in the future.
-   *
-   * @throws IllegalStateException if an eviction listener was already set
-   * @deprecated Caching functionality in {@code MapMaker} is being moved to
-   *     {@link com.google.common.cache.CacheBuilder}. Functionality similar to
-   *     {@link MapMaker#evictionListener} is provided by {@link
-   *  com.google.common.cache.CacheBuilder#removalListener(com.google.common.cache.RemovalListener)}
-   *     which also provides
-   *     additional information about the entry being evicted; note that {@code evictionListener}
-   *     only notifies on removals due to eviction, while {@code removalListener} also notifies on
-   *     explicit removal (providing the {@link com.google.common.cache.RemovalCause} to
-   *     indicate the specific cause of removal. <b>This method is scheduled for deletion in Guava
-   *     release 11.</b>
-   * @since 7.0
-   */
-  @Beta
-  @Deprecated
-  @GwtIncompatible("To be supported")
-  public
-  <K, V> GenericMapMaker<K, V> evictionListener(final MapEvictionListener<K, V> listener) {
-    checkState(this.removalListener == null);
-
-    // safely limiting the kinds of maps this can produce
-    @SuppressWarnings("unchecked")
-    GenericMapMaker<K, V> me = (GenericMapMaker<K, V>) this;
-    me.removalListener = new RemovalListener<K, V>() {
-      @Override
-      public void onRemoval(RemovalNotification<K, V> notification) {
-        if (notification.wasEvicted()) {
-          listener.onEviction(notification.getKey(), notification.getValue());
-        }
-      }
-    };
-    useCustomMap = true;
-    return me;
-  }
-
-  /**
    * Builds a thread-safe map, without on-demand computation of values. This method does not alter
    * the state of this {@code MapMaker} instance, so it can be invoked again to create multiple
    * independent maps.

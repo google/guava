@@ -1,11 +1,11 @@
 /*
  * Copyright (C) 2011 The Guava Authors
- *
+ * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
- *
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software distributed under the
  * License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
  * express or implied. See the License for the specific language governing permissions and
@@ -13,6 +13,8 @@
  */
 
 package com.google.common.primitives;
+
+import java.util.Random;
 
 import junit.framework.TestCase;
 
@@ -22,7 +24,7 @@ import com.google.common.testing.NullPointerTester;
 
 /**
  * Tests for UnsignedInts
- *
+ * 
  * @author Louis Wasserman
  */
 @GwtCompatible(emulated = true)
@@ -66,6 +68,33 @@ public class UnsignedIntsTest extends TestCase {
           assertEquals(0, b);
         }
       }
+    }
+  }
+
+  public void testRemainder() {
+    for (long a : UNSIGNED_INTS) {
+      for (long b : UNSIGNED_INTS) {
+        try {
+          assertEquals((int) (a % b), UnsignedInts.remainder((int) a, (int) b));
+          assertFalse(b == 0);
+        } catch (ArithmeticException e) {
+          assertEquals(0, b);
+        }
+      }
+    }
+  }
+
+  @GwtIncompatible("Too slow in GWT (~3min fully optimized)")
+  public void testDivideRemainderEuclideanProperty() {
+    // Use a seed so that the test is deterministic:
+    Random r = new Random(0L);
+    for (int i = 0; i < 1000000; i++) {
+      int dividend = r.nextInt();
+      int divisor = r.nextInt();
+      // Test that the Euclidean property is preserved:
+      assertTrue(dividend
+          - (divisor * UnsignedInts.divide(dividend, divisor) + UnsignedInts.remainder(dividend,
+              divisor)) == 0);
     }
   }
 

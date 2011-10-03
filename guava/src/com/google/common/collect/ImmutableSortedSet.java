@@ -176,7 +176,7 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSortedSetFauxveride
       E e1, E e2, E e3, E e4, E e5) {
     return copyOf(Ordering.natural(), Arrays.asList(e1, e2, e3, e4, e5));
   }
-
+  
   /**
    * Returns an immutable sorted set containing the given elements sorted by
    * their natural ordering. When multiple elements are equivalent according to
@@ -196,23 +196,6 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSortedSetFauxveride
   }
 
   // TODO(kevinb): Consider factory methods that reject duplicates
-
-  /**
-   * Returns an immutable sorted set containing the given elements sorted by
-   * their natural ordering. When multiple elements are equivalent according to
-   * {@link Comparable#compareTo}, only the first one specified is included.
-   *
-   * @throws NullPointerException if any of {@code elements} is null
-   * @deprecated use {@link #copyOf(Comparable[])}. <b>This method is scheduled
-   *     for deletion in October 2011.</b>
-   * @since 2.0 (changed from varargs in 3.0)
-   */
-  @Deprecated
-  public
-  static <E extends Comparable<? super E>> ImmutableSortedSet<E> of(
-      E[] elements) {
-    return copyOf(elements);
-  }
 
   /**
    * Returns an immutable sorted set containing the given elements sorted by
@@ -713,3 +696,4 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSortedSetFauxveride
     return new SerializedForm<E>(comparator, toArray());
   }
 }
+

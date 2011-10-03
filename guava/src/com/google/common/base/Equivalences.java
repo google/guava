@@ -58,30 +58,9 @@ public final class Equivalences {
     return Identity.INSTANCE;
   }
 
-  /**
-   * Returns an equivalence over iterables based on the equivalence of their elements.  More
-   * specifically, two iterables are considered equivalent if they both contain the same number of
-   * elements, and each pair of corresponding elements is equivalent according to
-   * {@code elementEquivalence}.  Null iterables are equivalent to one another.
-   *
-   * @since 9.0
-   * @deprecated use {@link Equivalence#pairwise}, which behaves exactly the same. <b>This method is
-   *     scheduled for deletion from Guava in Guava release 11.0.</b>
-   */
-  @Deprecated
-  @GwtCompatible(serializable = true)
-  public
-  static <T> Equivalence<Iterable<T>> pairwise(Equivalence<? super T> elementEquivalence) {
-    /*
-     * Ideally, the returned equivalence would support {@code Iterable<? extends T>}.  However, the
-     * need for this is so rare that it's not worth making callers deal with the ugly wildcard.
-     */
-    return new PairwiseEquivalence<T>(elementEquivalence);
-  }
-
   private static final class Equals extends Equivalence<Object>
       implements Serializable {
-
+    
     static final Equals INSTANCE = new Equals();
 
     @Override protected boolean doEquivalent(Object a, Object b) {
@@ -93,15 +72,15 @@ public final class Equivalences {
 
     private Object readResolve() {
       return INSTANCE;
-    }
+    } 
     private static final long serialVersionUID = 1;
   }
-
+  
   private static final class Identity extends Equivalence<Object>
       implements Serializable {
-
+    
     static final Identity INSTANCE = new Identity();
-
+    
     @Override protected boolean doEquivalent(Object a, Object b) {
       return false;
     }
@@ -109,7 +88,7 @@ public final class Equivalences {
     @Override protected int doHash(Object o) {
       return System.identityHashCode(o);
     }
-
+ 
     private Object readResolve() {
       return INSTANCE;
     }

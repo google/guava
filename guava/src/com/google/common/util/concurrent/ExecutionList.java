@@ -16,7 +16,6 @@
 
 package com.google.common.util.concurrent;
 
-import com.google.common.annotations.Beta;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 
@@ -104,18 +103,6 @@ public final class ExecutionList {
     if (executeImmediate) {
       new RunnableExecutorPair(runnable, executor).execute();
     }
-  }
-
-  /**
-   * Equivalent to {@link #execute}.
-   *
-   * @deprecated Use {@link #execute}. This method will be removed in Guava
-   * release 11.
-   */
-  @Beta @Deprecated
-  public
-  void run() {
-    execute();
   }
 
   /**

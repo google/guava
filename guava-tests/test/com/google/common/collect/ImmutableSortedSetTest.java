@@ -804,13 +804,6 @@ public class ImmutableSortedSetTest extends AbstractImmutableSetTest {
     return asList(elements).iterator();
   }
 
-  @SuppressWarnings("deprecation")
-  public void testCreation_deprecatedOf() {
-    ImmutableSortedSet<String> set = ImmutableSortedSet.of(new String[] {
-        "c", "b", "a"});
-    ASSERT.that(set).hasContentsInOrder("a", "b", "c");
-  }
-
   // In GWT, java.util.TreeSet throws ClassCastException when the comparator
   // throws it, unlike JDK6.  Therefore, we accept ClassCastException as a
   // valid result thrown by java.util.TreeSet#equals.
@@ -920,4 +913,3 @@ public class ImmutableSortedSetTest extends AbstractImmutableSetTest {
       Ordering.natural().immutableSortedCopy(NUMBER_NAMES);
 
 }
-

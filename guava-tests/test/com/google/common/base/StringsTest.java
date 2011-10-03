@@ -129,6 +129,86 @@ public class StringsTest extends TestCase {
     }
   }
 
+  public void testCommonPrefix() {
+    assertEquals("", Strings.commonPrefix("", ""));
+    assertEquals("", Strings.commonPrefix("abc", ""));
+    assertEquals("", Strings.commonPrefix("", "abc"));
+    assertEquals("", Strings.commonPrefix("abcde", "xyz"));
+    assertEquals("", Strings.commonPrefix("xyz", "abcde"));
+    assertEquals("", Strings.commonPrefix("xyz", "abcxyz"));
+    assertEquals("a", Strings.commonPrefix("abc", "aaaaa"));
+    assertEquals("aa", Strings.commonPrefix("aa", "aaaaa"));
+    assertEquals("abc",
+        Strings.commonPrefix(new StringBuffer("abcdef"), "abcxyz"));
+
+    // Identical valid surrogate pairs.
+    assertEquals("abc\uD8AB\uDCAB",
+        Strings.commonPrefix("abc\uD8AB\uDCABdef", "abc\uD8AB\uDCABxyz"));
+    // Differing valid surrogate pairs.
+    assertEquals("abc",
+        Strings.commonPrefix("abc\uD8AB\uDCABdef", "abc\uD8AB\uDCACxyz"));
+    // One invalid pair.
+    assertEquals("abc",
+        Strings.commonPrefix("abc\uD8AB\uDCABdef", "abc\uD8AB\uD8ABxyz"));
+    // Two identical invalid pairs.
+    assertEquals("abc\uD8AB\uD8AC",
+        Strings.commonPrefix("abc\uD8AB\uD8ACdef", "abc\uD8AB\uD8ACxyz"));
+    // Two differing invalid pairs.
+    assertEquals("abc\uD8AB",
+        Strings.commonPrefix("abc\uD8AB\uD8ABdef", "abc\uD8AB\uD8ACxyz"));
+    // One orphan high surrogate.
+    assertEquals("", Strings.commonPrefix("\uD8AB\uDCAB", "\uD8AB"));
+    // Two orphan high surrogates.
+    assertEquals("\uD8AB", Strings.commonPrefix("\uD8AB", "\uD8AB"));
+  }
+
+  public void testCommonSuffix() {
+    assertEquals("", Strings.commonSuffix("", ""));
+    assertEquals("", Strings.commonSuffix("abc", ""));
+    assertEquals("", Strings.commonSuffix("", "abc"));
+    assertEquals("", Strings.commonSuffix("abcde", "xyz"));
+    assertEquals("", Strings.commonSuffix("xyz", "abcde"));
+    assertEquals("", Strings.commonSuffix("xyz", "xyzabc"));
+    assertEquals("c", Strings.commonSuffix("abc", "ccccc"));
+    assertEquals("aa", Strings.commonSuffix("aa", "aaaaa"));
+    assertEquals("abc",
+        Strings.commonSuffix(new StringBuffer("xyzabc"), "xxxabc"));
+
+    // Identical valid surrogate pairs.
+    assertEquals("\uD8AB\uDCABdef",
+        Strings.commonSuffix("abc\uD8AB\uDCABdef", "xyz\uD8AB\uDCABdef"));
+    // Differing valid surrogate pairs.
+    assertEquals("def",
+        Strings.commonSuffix("abc\uD8AB\uDCABdef", "abc\uD8AC\uDCABdef"));
+    // One invalid pair.
+    assertEquals("def",
+        Strings.commonSuffix("abc\uD8AB\uDCABdef", "xyz\uDCAB\uDCABdef"));
+    // Two identical invalid pairs.
+    assertEquals("\uD8AB\uD8ABdef",
+        Strings.commonSuffix("abc\uD8AB\uD8ABdef", "xyz\uD8AB\uD8ABdef"));
+    // Two differing invalid pairs.
+    assertEquals("\uDCABdef",
+        Strings.commonSuffix("abc\uDCAB\uDCABdef", "abc\uDCAC\uDCABdef"));
+    // One orphan low surrogate.
+    assertEquals("", Strings.commonSuffix("x\uD8AB\uDCAB", "\uDCAB"));
+    // Two orphan low surrogates.
+    assertEquals("\uDCAB", Strings.commonSuffix("\uDCAB", "\uDCAB"));
+  }
+
+  public void testValidSurrogatePairAt() {
+    assertTrue(Strings.validSurrogatePairAt("\uD8AB\uDCAB", 0));
+    assertTrue(Strings.validSurrogatePairAt("abc\uD8AB\uDCAB", 3));
+    assertTrue(Strings.validSurrogatePairAt("abc\uD8AB\uDCABxyz", 3));
+    assertFalse(Strings.validSurrogatePairAt("\uD8AB\uD8AB", 0));
+    assertFalse(Strings.validSurrogatePairAt("\uDCAB\uDCAB", 0));
+    assertFalse(Strings.validSurrogatePairAt("\uD8AB\uDCAB", -1));
+    assertFalse(Strings.validSurrogatePairAt("\uD8AB\uDCAB", 1));
+    assertFalse(Strings.validSurrogatePairAt("\uD8AB\uDCAB", -2));
+    assertFalse(Strings.validSurrogatePairAt("\uD8AB\uDCAB", 2));
+    assertFalse(Strings.validSurrogatePairAt("x\uDCAB", 0));
+    assertFalse(Strings.validSurrogatePairAt("\uD8ABx", 0));
+  }
+
   @GwtIncompatible("NullPointerTester")
   public void testNullPointers() throws Exception {
     NullPointerTester tester = new NullPointerTester();

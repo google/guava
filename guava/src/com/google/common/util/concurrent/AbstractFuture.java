@@ -18,8 +18,6 @@ package com.google.common.util.concurrent;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import com.google.common.annotations.Beta;
-
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
@@ -128,7 +126,7 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
     if (!sync.cancel()) {
       return false;
     }
-    done();
+    executionList.execute();
     if (mayInterruptIfRunning) {
       interruptTask();
     }
@@ -160,7 +158,7 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
   /**
    * Subclasses should invoke this method to set the result of the computation
    * to {@code value}.  This will set the state of the future to
-   * {@link AbstractFuture.Sync#COMPLETED} and call {@link #done()} if the
+   * {@link AbstractFuture.Sync#COMPLETED} and invoke the listeners if the
    * state was successfully changed.
    *
    * @param value the value that was the result of the task.
@@ -169,7 +167,7 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
   protected boolean set(@Nullable V value) {
     boolean result = sync.set(value);
     if (result) {
-      done();
+      executionList.execute();
     }
     return result;
   }
@@ -177,7 +175,7 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
   /**
    * Subclasses should invoke this method to set the result of the computation
    * to an error, {@code throwable}.  This will set the state of the future to
-   * {@link AbstractFuture.Sync#COMPLETED} and call {@link #done()} if the
+   * {@link AbstractFuture.Sync#COMPLETED} and invoke the listeners if the
    * state was successfully changed.
    *
    * @param throwable the exception that the task failed with.
@@ -187,7 +185,7 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
   protected boolean setException(Throwable throwable) {
     boolean result = sync.setException(checkNotNull(throwable));
     if (result) {
-      done();
+      executionList.execute();
     }
 
     // If it's an Error, we want to make sure it reaches the top of the
@@ -196,43 +194,6 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
       throw (Error) throwable;
     }
     return result;
-  }
-
-  /**
-   * <p>Subclasses can invoke this method to mark the future as cancelled.
-   * This will set the state of the future to {@link
-   * AbstractFuture.Sync#CANCELLED} and call {@link #done()} if the state was
-   * successfully changed.
-   *
-   * @return true if the state was successfully changed.
-   * @deprecated Most implementations will be satisfied with the default
-   * implementation of {@link #cancel(boolean)} and not need to call this method
-   * at all. Those that are not can delegate to {@code
-   * super.cancel(mayInterruptIfRunning)} or, to get behavior exactly equivalent
-   * to this method, {@code super.cancel(false)}. This method will be removed
-   * from Guava in Guava release 11.0.
-   */
-  @Beta @Deprecated
-  protected final boolean cancel() {
-    boolean result = sync.cancel();
-    if (result) {
-      done();
-    }
-    return result;
-  }
-
-  /**
-   * <b>Deprecated.</b> {@linkplain #addListener Add listeners} (possible executed
-   * in {@link MoreExecutors#sameThreadExecutor}) to perform the work currently
-   * performed by your {@code done} implementation. This method will be removed
-   * from Guava in Guava release 11.0.
-   *
-   * Called by the success, failed, or cancelled methods to indicate that the
-   * value is now available and the latch can be released.
-   */
-  @Beta @Deprecated protected
-  void done() {
-    executionList.execute();
   }
 
   /**

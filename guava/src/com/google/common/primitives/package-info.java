@@ -51,7 +51,11 @@
  * <li>{@link com.google.common.primitives.Shorts}
  * </ul>
  *
- *
+ * <h3>Value types</h3>
+ * <ul>
+ *   <li>{@link com.google.common.primitives.UnsignedInteger}
+ *   <li>{@link com.google.common.primitives.UnsignedLong}
+ * </ul>
  */
 @ParametersAreNonnullByDefault
 package com.google.common.primitives;

@@ -19,7 +19,6 @@ package com.google.common.collect;
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Objects;
-import com.google.common.base.Supplier;
 
 import java.util.Collection;
 import java.util.Iterator;
@@ -187,21 +186,6 @@ public abstract class ForwardingMap<K, V> extends ForwardingObject
   }
 
   /**
-   * A sensible definition of {@link #keySet} in terms of the following methods:
-   * {@link #clear}, {@link #containsKey}, {@link #isEmpty}, {@link #remove},
-   * {@link #size}, and the {@code iterator} method of {@link #entrySet}. In
-   * many cases, you may wish to override {@link #keySet} to forward to this
-   * implementation.
-   *
-   * @since 7.0
-   * @deprecated Use the {@code StandardKeySet} constructor instead.  This
-   *             method will be removed from Guava in Guava release 11.0.
-   */
-  @Beta @Deprecated protected Set<K> standardKeySet() {
-    return new StandardKeySet();
-  }
-
-  /**
    * A sensible implementation of {@link Map#keySet} in terms of the following
    * methods: {@link ForwardingMap#clear}, {@link ForwardingMap#containsKey},
    * {@link ForwardingMap#isEmpty}, {@link ForwardingMap#remove}, {@link
@@ -235,20 +219,6 @@ public abstract class ForwardingMap<K, V> extends ForwardingObject
   }
 
   /**
-   * A sensible definition of {@link #values} in terms of the following methods:
-   * {@link #clear}, {@link #containsValue}, {@link #isEmpty}, {@link #size},
-   * and the {@code iterator} method of {@link #entrySet}. In many cases, you
-   * may wish to override {@link #values} to forward to this implementation.
-   *
-   * @since 7.0
-   * @deprecated Use the {@code StandardValues} constructor instead.  This
-   *             method will be removed from Guava in Guava release 11.0.
-   */
-  @Beta @Deprecated protected Collection<V> standardValues() {
-    return new StandardValues();
-  }
-
-  /**
    * A sensible implementation of {@link Map#values} in terms of the following
    * methods: {@link ForwardingMap#clear}, {@link ForwardingMap#containsValue},
    * {@link ForwardingMap#isEmpty}, {@link ForwardingMap#size}, and the {@link
@@ -278,32 +248,6 @@ public abstract class ForwardingMap<K, V> extends ForwardingObject
    */
   @Beta protected boolean standardContainsValue(@Nullable Object value) {
     return Maps.containsValueImpl(this, value);
-  }
-
-  /**
-   * A sensible definition of {@link #entrySet} in terms of the specified {@code
-   * Supplier}, which is used to generate iterators over the entry set, and in
-   * terms of the following methods: {@link #clear}, {@link #containsKey},
-   * {@link #get}, {@link #isEmpty}, {@link #remove}, and {@link #size}. In many
-   * cases, you may wish to override {@link #entrySet} to forward to this
-   * implementation.
-   *
-   * @param entryIteratorSupplier A creator for iterators over the entry set.
-   *        Each call to {@code get} must return an iterator that will
-   *        traverse the entire entry set.
-   *
-   * @since 7.0
-   * @deprecated Use {@code StandardEntrySet} instead.  This method will be
-   *             removed from Guava in Guava release 11.0.
-   */
-  @Deprecated @Beta
-   protected Set<Entry<K, V>> standardEntrySet(
-      final Supplier<Iterator<Entry<K, V>>> entryIteratorSupplier) {
-    return new StandardEntrySet() {
-      @Override public Iterator<Map.Entry<K, V>> iterator() {
-        return entryIteratorSupplier.get();
-      }
-    };
   }
 
   /**

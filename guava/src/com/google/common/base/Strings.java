@@ -19,7 +19,9 @@ package com.google.common.base;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.VisibleForTesting;
 
 import java.util.Formatter;
 
@@ -160,5 +162,66 @@ public final class Strings {
       builder.append(string);
     }
     return builder.toString();
+  }
+
+  /**
+   * Returns the longest string {@code prefix} such that
+   * {@code a.toString().startsWith(prefix) && b.toString().startsWith(prefix)},
+   * taking care not to split surrogate pairs. If {@code a} and {@code b} have
+   * no common prefix, returns the empty string.
+   *
+   * @since 11.0
+   */
+  @Beta
+  public static String commonPrefix(CharSequence a, CharSequence b) {
+    checkNotNull(a);
+    checkNotNull(b);
+
+    int maxPrefixLength = Math.min(a.length(), b.length());
+    int p = 0;
+    while (p < maxPrefixLength && a.charAt(p) == b.charAt(p)) {
+      p++;
+    }
+    if (validSurrogatePairAt(a, p - 1) || validSurrogatePairAt(b, p - 1)) {
+      p--;
+    }
+    return a.subSequence(0, p).toString();
+  }
+
+  /**
+   * Returns the longest string {@code suffix} such that
+   * {@code a.toString().endsWith(suffix) && b.toString().endsWith(suffix)},
+   * taking care not to split surrogate pairs. If {@code a} and {@code b} have
+   * no common suffix, returns the empty string.
+   *
+   * @since 11.0
+   */
+  @Beta
+  public static String commonSuffix(CharSequence a, CharSequence b) {
+    checkNotNull(a);
+    checkNotNull(b);
+
+    int maxSuffixLength = Math.min(a.length(), b.length());
+    int s = 0;
+    while (s < maxSuffixLength
+        && a.charAt(a.length() - s - 1) == b.charAt(b.length() - s - 1)) {
+      s++;
+    }
+    if (validSurrogatePairAt(a, a.length() - s - 1)
+        || validSurrogatePairAt(b, b.length() - s - 1)) {
+      s--;
+    }
+    return a.subSequence(a.length() - s, a.length()).toString();
+  }
+
+  /**
+   * True when a valid surrogate pair starts at the given {@code index} in the
+   * given {@code string}. Out-of-range indexes return false.
+   */
+  @VisibleForTesting
+  static boolean validSurrogatePairAt(CharSequence string, int index) {
+    return index >= 0 && index <= (string.length() - 2)
+        && Character.isHighSurrogate(string.charAt(index))
+        && Character.isLowSurrogate(string.charAt(index + 1));
   }
 }
