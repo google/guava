@@ -35,12 +35,15 @@ import java.util.Iterator;
  */
 public class FilesSimplifyPathTest extends TestCase {
 
-  public void testSimplify() {
-    assertEquals("", simplifyPath("."));
+  public void testSimplifyEmptyString() {
+    assertEquals(".", simplifyPath(""));
   }
 
-  public void testSimplify1() {
-    assertEquals(".", simplifyPath(""));
+  public void testSimplifyDot() {
+    assertEquals(".", simplifyPath("."));
+  }
+  
+  public void testSimplifyWhiteSpace() {
     assertEquals(" ", simplifyPath(" "));
   }
 
