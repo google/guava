@@ -33,26 +33,18 @@ import com.google.common.cache.AbstractCache.SimpleStatsCounter;
 import com.google.common.cache.AbstractCache.StatsCounter;
 import com.google.common.cache.CustomConcurrentHashMap.Strength;
 import com.google.common.collect.ForwardingConcurrentMap;
-import com.google.common.util.concurrent.ExecutionError;
-import com.google.common.util.concurrent.UncheckedExecutionException;
 
-import java.io.Serializable;
 import java.lang.ref.SoftReference;
 import java.lang.ref.WeakReference;
-import java.util.AbstractMap;
-import java.util.Collections;
 import java.util.ConcurrentModificationException;
 import java.util.Map;
-import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.annotation.CheckReturnValue;
-import javax.annotation.Nullable;
 
 /**
  * <p>A builder of {@link Cache} instances having any combination of the following features:
@@ -199,8 +191,6 @@ public final class CacheBuilder<K, V> {
   long expireAfterWriteNanos = UNSET_INT;
   long expireAfterAccessNanos = UNSET_INT;
 
-  RemovalCause nullRemovalCause;
-
   Equivalence<Object> keyEquivalence;
   Equivalence<Object> valueEquivalence;
 
@@ -228,10 +218,6 @@ public final class CacheBuilder<K, V> {
     CacheBuilder<Object, Object> builder = new CacheBuilder<Object, Object>();
     builder.strictParsing = false;
     return builder;
-  }
-
-  private boolean useNullCache() {
-    return (nullRemovalCause == null);
   }
 
   /**
@@ -343,10 +329,6 @@ public final class CacheBuilder<K, V> {
     checkState(this.weigher == null, "maximum size can not be combined with weigher");
     checkArgument(size >= 0, "maximum size must not be negative");
     this.maximumSize = size;
-    if (maximumSize == 0) {
-      // SIZE trumps EXPIRED
-      this.nullRemovalCause = RemovalCause.SIZE;
-    }
     return this;
   }
 
@@ -378,10 +360,6 @@ public final class CacheBuilder<K, V> {
         this.maximumSize);
     this.maximumWeight = weight;
     checkArgument(weight >= 0, "maximum weight must not be negative");
-    if (maximumWeight == 0) {
-      // SIZE trumps EXPIRED
-      this.nullRemovalCause = RemovalCause.SIZE;
-    }
     return this;
   }
 
@@ -541,10 +519,6 @@ public final class CacheBuilder<K, V> {
    * Specifies that each entry should be automatically removed from the cache once a fixed duration
    * has elapsed after the entry's creation, or the most recent replacement of its value.
    *
-   * <p>When {@code duration} is zero, elements will be evicted immediately after being loaded into
-   * the cache. This has the same effect as invoking {@link #maximumSize maximumSize}{@code (0)}. It
-   * can be useful in testing, or to disable caching temporarily without a code change.
-   *
    * <p>Expired entries may be counted by {@link Cache#size}, but will never be visible to read or
    * write operations. Expired entries are cleaned up as part of the routine maintenance described
    * in the class javadoc.
@@ -558,10 +532,6 @@ public final class CacheBuilder<K, V> {
   public CacheBuilder<K, V> expireAfterWrite(long duration, TimeUnit unit) {
     checkExpiration(duration, unit);
     this.expireAfterWriteNanos = unit.toNanos(duration);
-    if (duration == 0 && this.nullRemovalCause == null) {
-      // SIZE trumps EXPIRED
-      this.nullRemovalCause = RemovalCause.EXPIRED;
-    }
     return this;
   }
 
@@ -583,10 +553,6 @@ public final class CacheBuilder<K, V> {
    * access. Access time is reset by {@link Cache#get} and {@link Cache#getUnchecked}, but not by
    * operations on the view returned by {@link Cache#asMap}.
    *
-   * <p>When {@code duration} is zero, elements will be evicted immediately after being loaded into
-   * the cache. This has the same effect as invoking {@link #maximumSize maximumSize}{@code (0)}. It
-   * can be useful in testing, or to disable caching temporarily without a code change.
-   *
    * <p>Expired entries may be counted by {@link Cache#size}, but will never be visible to read or
    * write operations. Expired entries are cleaned up as part of the routine maintenance described
    * in the class javadoc.
@@ -600,10 +566,6 @@ public final class CacheBuilder<K, V> {
   public CacheBuilder<K, V> expireAfterAccess(long duration, TimeUnit unit) {
     checkExpiration(duration, unit);
     this.expireAfterAccessNanos = unit.toNanos(duration);
-    if (duration == 0 && this.nullRemovalCause == null) {
-      // SIZE trumps EXPIRED
-      this.nullRemovalCause = RemovalCause.EXPIRED;
-    }
     return this;
   }
 
@@ -706,9 +668,7 @@ public final class CacheBuilder<K, V> {
       }
     }
 
-    return useNullCache()
-        ? new LocalCache<K1, V1>(this, CACHE_STATS_COUNTER, loader)
-        : new NullCache<K1, V1>(this, CACHE_STATS_COUNTER, loader);
+    return new LocalCache<K1, V1>(this, CACHE_STATS_COUNTER, loader);
   }
 
   /**
@@ -753,205 +713,6 @@ public final class CacheBuilder<K, V> {
       s.addValue("removalListener");
     }
     return s.toString();
-  }
-
-  /** A map that is always empty and evicts on insertion. */
-  static class NullConcurrentMap<K, V> extends AbstractMap<K, V>
-      implements ConcurrentMap<K, V>, Serializable {
-    private static final long serialVersionUID = 0;
-
-    private final RemovalListener<K, V> removalListener;
-    private final RemovalCause removalCause;
-
-    NullConcurrentMap(CacheBuilder<? super K, ? super V> builder) {
-      removalListener = builder.getRemovalListener();
-      removalCause = builder.nullRemovalCause;
-    }
-
-    // implements ConcurrentMap
-
-    @Override
-    public boolean containsKey(@Nullable Object key) {
-      return false;
-    }
-
-    @Override
-    public boolean containsValue(@Nullable Object value) {
-      return false;
-    }
-
-    @Override
-    public V get(@Nullable Object key) {
-      return null;
-    }
-
-    void notifyRemoval(K key, V value) {
-      RemovalNotification<K, V> notification =
-          new RemovalNotification<K, V>(key, value, removalCause);
-      removalListener.onRemoval(notification);
-    }
-
-    @Override
-    public V put(K key, V value) {
-      checkNotNull(key);
-      checkNotNull(value);
-      notifyRemoval(key, value);
-      return null;
-    }
-
-    @Override
-    public V putIfAbsent(K key, V value) {
-      return put(key, value);
-    }
-
-    @Override
-    public V remove(@Nullable Object key) {
-      return null;
-    }
-
-    @Override
-    public boolean remove(@Nullable Object key, @Nullable Object value) {
-      return false;
-    }
-
-    @Override
-    public V replace(K key, V value) {
-      checkNotNull(key);
-      checkNotNull(value);
-      return null;
-    }
-
-    @Override
-    public boolean replace(K key, @Nullable V oldValue, V newValue) {
-      checkNotNull(key);
-      checkNotNull(newValue);
-      return false;
-    }
-
-    @Override
-    public Set<Entry<K, V>> entrySet() {
-      return Collections.emptySet();
-    }
-  }
-
-  // TODO(fry): remove, as no code path can hit this
-  /** Computes on retrieval and evicts the result. */
-  static final class NullComputingConcurrentMap<K, V> extends NullConcurrentMap<K, V> {
-    private static final long serialVersionUID = 0;
-
-    final CacheLoader<? super K, ? extends V> loader;
-
-    NullComputingConcurrentMap(CacheBuilder<? super K, ? super V> builder,
-        CacheLoader<? super K, ? extends V> loader) {
-      super(builder);
-      this.loader = checkNotNull(loader);
-    }
-
-    @SuppressWarnings("unchecked") // unsafe, which is why Cache is preferred
-    @Override
-    public V get(Object k) {
-      K key = (K) k;
-      V value = compute(key);
-      checkNotNull(value, loader + " returned null for key " + key + ".");
-      notifyRemoval(key, value);
-      return value;
-    }
-
-    private V compute(K key) {
-      checkNotNull(key);
-      try {
-        return loader.load(key);
-      } catch (Exception e) {
-        throw new UncheckedExecutionException(e);
-      } catch (Error e) {
-        throw new ExecutionError(e);
-      }
-    }
-  }
-
-  /** Computes on retrieval and evicts the result. */
-  static final class NullCache<K, V> extends AbstractCache<K, V> {
-    final NullConcurrentMap<K, V> map;
-    final CacheLoader<? super K, V> loader;
-
-    final StatsCounter statsCounter;
-
-    NullCache(CacheBuilder<? super K, ? super V> builder,
-        Supplier<? extends StatsCounter> statsCounterSupplier,
-        CacheLoader<? super K, V> loader) {
-      this.map = new NullConcurrentMap<K, V>(builder);
-      this.statsCounter = statsCounterSupplier.get();
-      this.loader = checkNotNull(loader);
-    }
-
-    @Override
-    public V get(K key) throws ExecutionException {
-      V value = compute(key);
-      map.notifyRemoval(key, value);
-      return value;
-    }
-
-    private V compute(K key) throws ExecutionException {
-      checkNotNull(key);
-      long start = System.nanoTime();
-      V value = null;
-      try {
-        value = loader.load(key);
-      } catch (RuntimeException e) {
-        throw new UncheckedExecutionException(e);
-      } catch (Exception e) {
-        throw new ExecutionException(e);
-      } catch (Error e) {
-        throw new ExecutionError(e);
-      } finally {
-        long elapsed = System.nanoTime() - start;
-        statsCounter.recordMiss();
-        if (value == null) {
-          statsCounter.recordLoadException(elapsed);
-        } else {
-          statsCounter.recordLoadSuccess(elapsed);
-        }
-        statsCounter.recordEviction();
-      }
-      if (value == null) {
-        throw new NullPointerException();
-      } else {
-        return value;
-      }
-    }
-
-    @Override
-    public void refresh(K key) throws ExecutionException {
-      // the old value is always gone by now
-      get(key);
-    }
-
-    @Override
-    public long size() {
-      return 0;
-    }
-
-    @Override
-    public void invalidate(Object key) {
-      // no-op
-    }
-
-    @Override public void invalidateAll() {
-      // no-op
-    }
-
-    @Override
-    public CacheStats stats() {
-      return statsCounter.snapshot();
-    }
-
-    ConcurrentMap<K, V> asMap;
-
-    @Override
-    public ConcurrentMap<K, V> asMap() {
-      ConcurrentMap<K, V> am = asMap;
-      return (am != null) ? am : (asMap = new CacheAsMap<K, V>(map));
-    }
   }
 
   static final class CacheAsMap<K, V> extends ForwardingConcurrentMap<K, V> {

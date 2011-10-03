@@ -21,7 +21,6 @@ import static com.google.common.cache.CustomConcurrentHashMapTest.SMALL_MAX_SIZE
 import static com.google.common.cache.TestingCacheLoaders.identityLoader;
 import static org.junit.contrib.truth.Truth.ASSERT;
 
-import com.google.common.cache.CacheBuilder.NullCache;
 import com.google.common.cache.CustomConcurrentHashMap.Segment;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
@@ -47,14 +46,6 @@ public class LocalCacheTest extends TestCase {
   private static <K, V> LocalCache<K, V> makeCache(
       CacheBuilder<K, V> builder, CacheLoader<? super K, V> loader) {
     return new LocalCache<K, V>(builder, CacheBuilder.CACHE_STATS_COUNTER, loader);
-  }
-
-  private static <K, V> NullCache<K, V> makeNullCache(
-      CacheBuilder<K, V> builder, CacheLoader<? super K, V> loader) {
-    if (builder.nullRemovalCause == null) {
-      builder.nullRemovalCause = RemovalCause.SIZE;
-    }
-    return new NullCache<K, V>(builder, CacheBuilder.CACHE_STATS_COUNTER, loader);
   }
 
   private CacheBuilder<Object, Object> createCacheBuilder() {
@@ -181,38 +172,6 @@ public class LocalCacheTest extends TestCase {
     map.clear();
 
     assertEquals(EMPTY_STATS, cache.stats());
-  }
-
-  public void testNullStats() {
-    CacheBuilder<Object, Object> builder = createCacheBuilder();
-    NullCache<Object, Object> cache = makeNullCache(builder, identityLoader());
-    assertEquals(EMPTY_STATS, cache.stats());
-
-    Object one = new Object();
-    cache.getUnchecked(one);
-    CacheStats stats = cache.stats();
-    assertEquals(1, stats.requestCount());
-    assertEquals(0, stats.hitCount());
-    assertEquals(0.0, stats.hitRate());
-    assertEquals(1, stats.missCount());
-    assertEquals(1.0, stats.missRate());
-    assertEquals(1, stats.loadCount());
-    long totalLoadTime = stats.totalLoadTime();
-    assertTrue(totalLoadTime > 0);
-    assertTrue(stats.averageLoadPenalty() > 0.0);
-    assertEquals(1, stats.evictionCount());
-
-    cache.getUnchecked(one);
-    stats = cache.stats();
-    assertEquals(2, stats.requestCount());
-    assertEquals(0, stats.hitCount());
-    assertEquals(0.0, stats.hitRate());
-    assertEquals(2, stats.missCount());
-    assertEquals(1.0, stats.missRate());
-    assertEquals(2, stats.loadCount());
-    assertTrue(stats.totalLoadTime() > totalLoadTime);
-    totalLoadTime = stats.totalLoadTime();
-    assertEquals(2, stats.evictionCount());
   }
 
   // asMap tests
