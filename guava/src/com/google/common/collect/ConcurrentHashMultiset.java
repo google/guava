@@ -23,6 +23,7 @@ import static com.google.common.collect.Multisets.checkNonnegative;
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.Serialization.FieldSetter;
+import com.google.common.math.IntMath;
 import com.google.common.primitives.Ints;
 
 import java.io.IOException;
@@ -242,13 +243,15 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> impleme
       while (true) {
         int oldValue = existingCounter.get();
         if (oldValue != 0) {
-          checkArgument(occurrences <= Integer.MAX_VALUE - oldValue,
-              "Overflow adding %s occurrences to a count of %s",
-              occurrences, oldValue);
-          int newValue = oldValue + occurrences;
-          if (existingCounter.compareAndSet(oldValue, newValue)) {
-            // newValue can't == 0, so no need to check & remove
-            return oldValue;
+          try {
+            int newValue = IntMath.checkedAdd(oldValue, occurrences);
+            if (existingCounter.compareAndSet(oldValue, newValue)) {
+              // newValue can't == 0, so no need to check & remove
+              return oldValue;
+            }
+          } catch (ArithmeticException overflow) {
+            throw new IllegalArgumentException("Overflow adding " + occurrences
+                + " occurrences to a count of " + oldValue);
           }
         } else {
           // In the case of a concurrent remove, we might observe a zero value, which means another

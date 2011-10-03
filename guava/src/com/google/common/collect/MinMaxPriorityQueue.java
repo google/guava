@@ -23,6 +23,7 @@ import static com.google.common.base.Preconditions.checkState;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.VisibleForTesting;
+import com.google.common.math.IntMath;
 
 import java.util.AbstractQueue;
 import java.util.ArrayList;
@@ -928,10 +929,7 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
     int oldCapacity = queue.length;
     int newCapacity = (oldCapacity < 64)
         ? (oldCapacity + 1) * 2
-        : (oldCapacity / 2) * 3;
-    if (newCapacity < 0) {
-      newCapacity = Integer.MAX_VALUE; // overflow - hotspot will throw OOME
-    }
+        : IntMath.checkedMultiply(oldCapacity / 2, 3);
     return capAtMaximumSize(newCapacity, maximumSize);
   }
 

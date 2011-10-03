@@ -27,7 +27,7 @@ import com.google.common.base.Preconditions;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import com.google.common.collect.Collections2.FilteredCollection;
-import com.google.common.primitives.Ints;
+import com.google.common.math.IntMath;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -867,17 +867,19 @@ public final class Sets {
     final int size;
 
     CartesianSet(List<? extends Set<? extends B>> sets) {
-      long dividend = 1;
+      int dividend = 1;
       ImmutableList.Builder<Axis> builder = ImmutableList.builder();
-      for (Set<? extends B> set : sets) {
-        Axis axis = new Axis(set, (int) dividend); // check overflow at end
-        builder.add(axis);
-        dividend *= axis.size();
-        checkArgument(dividend <= Integer.MAX_VALUE,
-            "cartesian product is too big");
+      try {
+        for (Set<? extends B> set : sets) {
+          Axis axis = new Axis(set, dividend);
+          builder.add(axis);
+          dividend = IntMath.checkedMultiply(dividend, axis.size());
+        }
+      } catch (ArithmeticException overflow) {
+        throw new IllegalArgumentException("cartesian product too big");
       }
       this.axes = builder.build();
-      size = Ints.checkedCast(dividend);
+      size = dividend;
     }
 
     @Override public int size() {
