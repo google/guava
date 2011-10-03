@@ -83,8 +83,8 @@ final class BstCountBasedBalancePolicies {
       @Override
       public N balance(
           BstNodeFactory<N> nodeFactory, N source, @Nullable N left, @Nullable N right) {
-        int countL = countAggregate.treeValue(left);
-        int countR = countAggregate.treeValue(right);
+        long countL = countAggregate.treeValue(left);
+        long countR = countAggregate.treeValue(right);
         if (countL + countR > 1) {
           if (countR >= SINGLE_ROTATE_RATIO * countL) {
             return rotateL(nodeFactory, source, left, right);
@@ -170,8 +170,8 @@ final class BstCountBasedBalancePolicies {
         } else if (right == null) {
           return insertMax(left, source, nodeFactory, singleBalancePolicy);
         }
-        int countL = countAggregate.treeValue(left);
-        int countR = countAggregate.treeValue(right);
+        long countL = countAggregate.treeValue(left);
+        long countR = countAggregate.treeValue(right);
         if (SINGLE_ROTATE_RATIO * countL <= countR) {
           N resultLeft = balance(nodeFactory, source, left, right.childOrNull(LEFT));
           return singleBalancePolicy.balance(
@@ -193,8 +193,8 @@ final class BstCountBasedBalancePolicies {
         } else if (right == null) {
           return left;
         }
-        int countL = countAggregate.treeValue(left);
-        int countR = countAggregate.treeValue(right);
+        long countL = countAggregate.treeValue(left);
+        long countR = countAggregate.treeValue(right);
         if (SINGLE_ROTATE_RATIO * countL <= countR) {
           N resultLeft = combine(nodeFactory, left, right.childOrNull(LEFT));
           return singleBalancePolicy.balance(

@@ -60,7 +60,7 @@ public class BstRangeOpsTest extends TestCase {
   public void testCountInRangeLowerBound() {
     for (char c : "abcdefg".toCharArray()) {
       for (BoundType type : BoundType.values()) {
-        int count = BstRangeOps.totalInRange(
+        long count = BstRangeOps.totalInRange(
             countAggregate, GeneralRange.downTo(Ordering.natural(), c, type), ROOT);
         char d = c;
         if (type == BoundType.OPEN) {
@@ -74,7 +74,7 @@ public class BstRangeOpsTest extends TestCase {
   public void testCountInRangeUpperBound() {
     for (char c : "abcdefg".toCharArray()) {
       for (BoundType type : BoundType.values()) {
-        int count = BstRangeOps.totalInRange(
+        long count = BstRangeOps.totalInRange(
             countAggregate, GeneralRange.upTo(Ordering.natural(), c, type), ROOT);
         char d = c;
         if (type == BoundType.CLOSED) {
@@ -94,7 +94,7 @@ public class BstRangeOpsTest extends TestCase {
             if (i == j && lb == BoundType.OPEN && ub == BoundType.OPEN) {
               continue;
             }
-            int count = BstRangeOps.totalInRange(countAggregate, GeneralRange.range(
+            long count = BstRangeOps.totalInRange(countAggregate, GeneralRange.range(
                 Ordering.natural(), chars.charAt(i), lb, chars.charAt(j), ub), ROOT);
             char lo = chars.charAt(i);
             if (lb == BoundType.OPEN) {

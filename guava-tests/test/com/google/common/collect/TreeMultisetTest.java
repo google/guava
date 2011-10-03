@@ -16,13 +16,10 @@
 
 package com.google.common.collect;
 
+import static com.google.common.collect.BoundType.CLOSED;
 import static com.google.common.collect.Lists.newArrayList;
 import static com.google.common.collect.testing.IteratorFeature.MODIFIABLE;
 import static org.junit.contrib.truth.Truth.ASSERT;
-
-import com.google.common.annotations.GwtCompatible;
-import com.google.common.annotations.GwtIncompatible;
-import com.google.common.collect.testing.IteratorTester;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -31,6 +28,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.SortedSet;
+
+import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.GwtIncompatible;
+import com.google.common.collect.testing.IteratorTester;
 
 /**
  * Unit test for {@link TreeMultiset}.
@@ -306,6 +307,25 @@ public class TreeMultisetTest extends AbstractMultisetTest {
     assertEquals("a", elementSet.first());
     assertEquals("foo", elementSet.last());
     assertEquals(DEGENERATE_COMPARATOR, elementSet.comparator());
+  }
+
+  public void testSubMultisetSize() {
+    TreeMultiset<String> ms = TreeMultiset.create();
+    ms.add("a", Integer.MAX_VALUE);
+    ms.add("b", Integer.MAX_VALUE);
+    ms.add("c", 3);
+
+    assertEquals(Integer.MAX_VALUE, ms.count("a"));
+    assertEquals(Integer.MAX_VALUE, ms.count("b"));
+    assertEquals(3, ms.count("c"));
+
+    assertEquals(Integer.MAX_VALUE, ms.headMultiset("c", CLOSED).size());
+    assertEquals(Integer.MAX_VALUE, ms.headMultiset("b", CLOSED).size());
+    assertEquals(Integer.MAX_VALUE, ms.headMultiset("a", CLOSED).size());
+
+    assertEquals(3, ms.tailMultiset("c", CLOSED).size());
+    assertEquals(Integer.MAX_VALUE, ms.tailMultiset("b", CLOSED).size());
+    assertEquals(Integer.MAX_VALUE, ms.tailMultiset("a", CLOSED).size());
   }
 
   @Override public void testToStringNull() {

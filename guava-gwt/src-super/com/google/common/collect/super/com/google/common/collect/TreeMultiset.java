@@ -161,13 +161,13 @@ public final class TreeMultiset<E> extends AbstractSortedMultiset<E>
   @Override
   int distinctElements() {
     Node<E> root = rootReference.get();
-    return BstRangeOps.totalInRange(distinctAggregate(), range, root);
+    return Ints.checkedCast(BstRangeOps.totalInRange(distinctAggregate(), range, root));
   }
 
   @Override
   public int size() {
     Node<E> root = rootReference.get();
-    return BstRangeOps.totalInRange(sizeAggregate(), range, root);
+    return Ints.saturatedCast(BstRangeOps.totalInRange(sizeAggregate(), range, root));
   }
 
   @Override
@@ -176,7 +176,7 @@ public final class TreeMultiset<E> extends AbstractSortedMultiset<E>
       E e = checkElement(element);
       if (range.contains(e)) {
         Node<E> node = BstOperations.seek(comparator(), rootReference.get(), e);
-        return (node == null) ? 0 : node.elemOccurrences;
+        return countOrZero(node);
       }
       return 0;
     } catch (ClassCastException e) {
@@ -199,7 +199,7 @@ public final class TreeMultiset<E> extends AbstractSortedMultiset<E>
       throw new ConcurrentModificationException();
     }
     Node<E> original = mutationResult.getOriginalTarget();
-    return (original == null) ? 0 : original.elemOccurrences;
+    return countOrZero(original);
   }
 
   @Override
@@ -288,7 +288,7 @@ public final class TreeMultiset<E> extends AbstractSortedMultiset<E>
       public Entry<E> next() {
         BstInOrderPath<Node<E>> path = pathIterator.next();
         return new LiveEntry(
-            toRemove = path.getTip().getKey(), path.getTip().elemOccurrences);
+            toRemove = path.getTip().getKey(), path.getTip().elemCount());
       }
 
       @Override
@@ -364,17 +364,21 @@ public final class TreeMultiset<E> extends AbstractSortedMultiset<E>
   }
 
   private static final class Node<E> extends BstNode<E, Node<E>> implements Serializable {
-    private final int elemOccurrences;
-    private final int size;
+    private final long size;
     private final int distinct;
 
-    private Node(E key, int elemCount, @Nullable Node<E> left, @Nullable Node<E> right) {
+    private Node(E key, int elemCount, @Nullable Node<E> left,
+        @Nullable Node<E> right) {
       super(key, left, right);
       checkArgument(elemCount > 0);
-      this.elemOccurrences = elemCount;
-      long totalSize = (long) elemCount + sizeOrZero(left) + sizeOrZero(right);
-      this.size = Ints.saturatedCast(totalSize);
+      this.size = (long) elemCount + sizeOrZero(left) + sizeOrZero(right);
       this.distinct = 1 + distinctOrZero(left) + distinctOrZero(right);
+    }
+
+    int elemCount() {
+      long result = size - sizeOrZero(childOrNull(LEFT))
+          - sizeOrZero(childOrNull(RIGHT));
+      return Ints.checkedCast(result);
     }
 
     private Node(E key, int elemCount) {
@@ -384,12 +388,16 @@ public final class TreeMultiset<E> extends AbstractSortedMultiset<E>
     private static final long serialVersionUID = 0;
   }
 
-  private static int sizeOrZero(@Nullable Node<?> node) {
+  private static long sizeOrZero(@Nullable Node<?> node) {
     return (node == null) ? 0 : node.size;
   }
 
   private static int distinctOrZero(@Nullable Node<?> node) {
     return (node == null) ? 0 : node.distinct;
+  }
+
+  private static int countOrZero(@Nullable Node<?> entry) {
+    return (entry == null) ? 0 : entry.elemCount();
   }
 
   @SuppressWarnings("unchecked")
@@ -405,7 +413,7 @@ public final class TreeMultiset<E> extends AbstractSortedMultiset<E>
     }
 
     @Override
-    public int treeValue(@Nullable Node<Object> tree) {
+    public long treeValue(@Nullable Node<Object> tree) {
       return distinctOrZero(tree);
     }
   };
@@ -419,11 +427,11 @@ public final class TreeMultiset<E> extends AbstractSortedMultiset<E>
       new BstAggregate<Node<Object>>() {
         @Override
         public int entryValue(Node<Object> entry) {
-          return entry.elemOccurrences;
+          return entry.elemCount();
         }
 
         @Override
-        public int treeValue(@Nullable Node<Object> tree) {
+        public long treeValue(@Nullable Node<Object> tree) {
           return sizeOrZero(tree);
         }
       };
@@ -438,7 +446,7 @@ public final class TreeMultiset<E> extends AbstractSortedMultiset<E>
         @Override
         public Node<Object> createNode(Node<Object> source, @Nullable Node<Object> left,
             @Nullable Node<Object> right) {
-          return new Node<Object>(source.getKey(), source.elemOccurrences, left, right);
+          return new Node<Object>(source.getKey(), source.elemCount(), left, right);
         }
       };
 
@@ -448,7 +456,7 @@ public final class TreeMultiset<E> extends AbstractSortedMultiset<E>
     @Nullable
     @Override
     public BstModificationResult<Node<E>> modify(E key, @Nullable Node<E> originalEntry) {
-      int oldCount = (originalEntry == null) ? 0 : originalEntry.elemOccurrences;
+      int oldCount = countOrZero(originalEntry);
       int newCount = newCount(oldCount);
       if (oldCount == newCount) {
         return BstModificationResult.identity(originalEntry);

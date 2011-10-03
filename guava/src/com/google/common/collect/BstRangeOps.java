@@ -34,14 +34,14 @@ final class BstRangeOps {
    * to the specified range. Assumes that the tree satisfies the binary search ordering property
    * relative to {@code range.comparator()}.
    */
-  public static <K, N extends BstNode<K, N>> int totalInRange(
+  public static <K, N extends BstNode<K, N>> long totalInRange(
       BstAggregate<? super N> aggregate, GeneralRange<K> range, @Nullable N root) {
     checkNotNull(aggregate);
     checkNotNull(range);
     if (root == null || range.isEmpty()) {
       return 0;
     }
-    int total = aggregate.treeValue(root);
+    long total = aggregate.treeValue(root);
     if (range.hasLowerBound()) {
       total -= totalBeyondRangeToSide(aggregate, range, LEFT, root);
     }
@@ -52,9 +52,9 @@ final class BstRangeOps {
   }
 
   // Returns total value strictly to the specified side of the specified range.
-  private static <K, N extends BstNode<K, N>> int totalBeyondRangeToSide(
+  private static <K, N extends BstNode<K, N>> long totalBeyondRangeToSide(
       BstAggregate<? super N> aggregate, GeneralRange<K> range, BstSide side, @Nullable N root) {
-    int accum = 0;
+    long accum = 0;
     while (root != null) {
       if (beyond(range, root.getKey(), side)) {
         accum += aggregate.entryValue(root);

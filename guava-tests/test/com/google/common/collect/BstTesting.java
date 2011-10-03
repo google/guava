@@ -106,7 +106,7 @@ public class BstTesting {
     }
 
     @Override
-    public int treeValue(@Nullable SimpleNode tree) {
+    public long treeValue(@Nullable SimpleNode tree) {
       if (tree == null) {
         return 0;
       } else {

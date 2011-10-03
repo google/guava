@@ -21,6 +21,9 @@ import javax.annotation.Nullable;
 /**
  * An integer-valued function on binary search tree nodes that adds between nodes.
  * 
+ * <p>The value of individual entries must fit into an {@code int}, but the value of an entire
+ * tree can require a {@code long}.
+ * 
  * @author Louis Wasserman
  */
 @GwtCompatible
@@ -29,7 +32,7 @@ interface BstAggregate<N extends BstNode<?, N>> {
    * The total value on an entire subtree. Must be equal to the sum of the {@link #entryValue
    * entryValue} of this node and all its descendants.
    */
-  int treeValue(@Nullable N tree);
+  long treeValue(@Nullable N tree);
 
   /**
    * The value on a single entry, ignoring its descendants.
