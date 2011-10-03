@@ -34,7 +34,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 /**
  * @author Charles Fry
  */
-public class MapMakerTests extends TestCase {
+public class MapMakerTest extends TestCase {
 
   public void testNullParameters() throws Exception {
     NullPointerTester tester = new NullPointerTester();
