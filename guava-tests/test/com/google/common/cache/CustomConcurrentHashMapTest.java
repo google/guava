@@ -25,15 +25,16 @@ import static com.google.common.cache.TestingRemovalListeners.countingRemovalLis
 import static com.google.common.cache.TestingRemovalListeners.queuingRemovalListener;
 import static com.google.common.cache.TestingWeighers.constantWeigher;
 import static com.google.common.collect.Lists.newArrayList;
-import static java.util.concurrent.TimeUnit.SECONDS;
+import static com.google.common.collect.Maps.immutableEntry;
 import static java.util.concurrent.TimeUnit.NANOSECONDS;
+import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.easymock.EasyMock.createMock;
 
 import com.google.common.base.Equivalence;
 import com.google.common.base.Suppliers;
 import com.google.common.base.Ticker;
-import com.google.common.cache.CustomConcurrentHashMap.LoadingValueReference;
 import com.google.common.cache.CustomConcurrentHashMap.EntryFactory;
+import com.google.common.cache.CustomConcurrentHashMap.LoadingValueReference;
 import com.google.common.cache.CustomConcurrentHashMap.ReferenceEntry;
 import com.google.common.cache.CustomConcurrentHashMap.Segment;
 import com.google.common.cache.CustomConcurrentHashMap.Strength;
@@ -564,7 +565,6 @@ public class CustomConcurrentHashMapTest extends TestCase {
   }
 
   public void testRemovalListener_replaced_computing() {
-    // TODO(user): May be a good candidate to play with the MultithreadedTestCase
     final CountDownLatch startSignal = new CountDownLatch(1);
     final CountDownLatch computingSignal = new CountDownLatch(1);
     final CountDownLatch doneSignal = new CountDownLatch(1);
@@ -617,6 +617,25 @@ public class CustomConcurrentHashMapTest extends TestCase {
     assertNotNull(map.putIfAbsent(one, new Object())); // force notifications
     assertNotified(listener, one, computedObject, RemovalCause.REPLACED);
     assertTrue(listener.isEmpty());
+  }
+
+  public void testSegmentRefresh_duplicate() throws ExecutionException {
+    CustomConcurrentHashMap<Object, Object> map = makeMap(createCacheBuilder()
+        .concurrencyLevel(1));
+    Segment<Object, Object> segment = map.segments[0];
+
+    Object key = new Object();
+    int hash = map.hash(key);
+    AtomicReferenceArray<ReferenceEntry<Object, Object>> table = segment.table;
+    int index = hash & (table.length() - 1);
+
+    // already computing
+    DummyEntry<Object, Object> entry = DummyEntry.create(key, hash, null);
+    DummyValueReference<Object, Object> valueRef = DummyValueReference.create(null, entry);
+    valueRef.setComputing(true);
+    entry.setValueReference(valueRef);
+    table.set(index, entry);
+    assertFalse(segment.refresh(key, hash, null));
   }
 
   // Removal listener tests
@@ -1118,6 +1137,84 @@ public class CustomConcurrentHashMapTest extends TestCase {
     }
   }
 
+  public void testSegmentStoreComputedValue() {
+    QueuingRemovalListener<Object, Object> listener = queuingRemovalListener();
+    CustomConcurrentHashMap<Object, Object> map = makeMap(createCacheBuilder()
+        .concurrencyLevel(1)
+        .removalListener(listener));
+    Segment<Object, Object> segment = map.segments[0];
+
+    Object key = new Object();
+    int hash = map.hash(key);
+    AtomicReferenceArray<ReferenceEntry<Object, Object>> table = segment.table;
+    int index = hash & (table.length() - 1);
+
+    DummyEntry<Object, Object> entry = DummyEntry.create(key, hash, null);
+    LoadingValueReference<Object, Object> valueRef = new LoadingValueReference<Object, Object>();
+    entry.setValueReference(valueRef);
+
+    // absent
+    Object value = new Object();
+    assertTrue(listener.isEmpty());
+    assertEquals(0, segment.count);
+    assertNull(segment.get(key, hash));
+    assertTrue(segment.storeLoadedValue(key, hash, valueRef, value));
+    assertSame(value, segment.get(key, hash));
+    assertEquals(1, segment.count);
+    assertTrue(listener.isEmpty());
+
+    // clobbered
+    Object value2 = new Object();
+    assertFalse(segment.storeLoadedValue(key, hash, valueRef, value2));
+    assertEquals(1, segment.count);
+    assertSame(value, segment.get(key, hash));
+    RemovalNotification<Object, Object> notification = listener.remove();
+    assertEquals(immutableEntry(key, value2), notification);
+    assertEquals(RemovalCause.REPLACED, notification.getCause());
+    assertTrue(listener.isEmpty());
+
+    // inactive
+    Object value3 = new Object();
+    map.clear();
+    listener.clear();
+    assertEquals(0, segment.count);
+    table.set(index, entry);
+    assertTrue(segment.storeLoadedValue(key, hash, valueRef, value3));
+    assertSame(value3, segment.get(key, hash));
+    assertEquals(1, segment.count);
+    assertTrue(listener.isEmpty());
+
+    // replaced
+    Object value4 = new Object();
+    DummyValueReference<Object, Object> value3Ref = DummyValueReference.create(value3, entry);
+    valueRef = new LoadingValueReference<Object, Object>(value3Ref);
+    entry.setValueReference(valueRef);
+    table.set(index, entry);
+    assertSame(value3, segment.get(key, hash));
+    assertEquals(1, segment.count);
+    assertTrue(segment.storeLoadedValue(key, hash, valueRef, value4));
+    assertSame(value4, segment.get(key, hash));
+    assertEquals(1, segment.count);
+    notification = listener.remove();
+    assertEquals(immutableEntry(key, value3), notification);
+    assertEquals(RemovalCause.REPLACED, notification.getCause());
+    assertTrue(listener.isEmpty());
+
+    // collected
+    entry.setValueReference(valueRef);
+    table.set(index, entry);
+    assertSame(value3, segment.get(key, hash));
+    assertEquals(1, segment.count);
+    value3Ref.clear();
+    assertTrue(segment.storeLoadedValue(key, hash, valueRef, value4));
+    assertSame(value4, segment.get(key, hash));
+    assertEquals(1, segment.count);
+    notification = listener.remove();
+    assertEquals(immutableEntry(key, null), notification);
+    assertEquals(RemovalCause.COLLECTED, notification.getCause());
+    assertTrue(listener.isEmpty());
+  }
+
   public void testSegmentRemove() {
     CustomConcurrentHashMap<Object, Object> map = makeMap(createCacheBuilder().concurrencyLevel(1));
     Segment<Object, Object> segment = map.segments[0];
@@ -1290,7 +1387,7 @@ public class CustomConcurrentHashMapTest extends TestCase {
     assertNull(table.get(0));
   }
 
-  public void testRemoveFromChain() {
+  public void testRemoveEntryFromChain() {
     CustomConcurrentHashMap<Object, Object> map = makeMap(createCacheBuilder().concurrencyLevel(1));
     Segment<Object, Object> segment = map.segments[0];
 
@@ -1310,20 +1407,20 @@ public class CustomConcurrentHashMapTest extends TestCase {
       createDummyEntry(keyThree, hashThree, valueThree, entryTwo);
 
     // alone
-    assertNull(segment.removeFromChain(entryOne, entryOne));
+    assertNull(segment.removeEntryFromChain(entryOne, entryOne));
 
     // head
-    assertSame(entryOne, segment.removeFromChain(entryTwo, entryTwo));
+    assertSame(entryOne, segment.removeEntryFromChain(entryTwo, entryTwo));
 
     // middle
-    ReferenceEntry<Object, Object> newFirst = segment.removeFromChain(entryThree, entryTwo);
+    ReferenceEntry<Object, Object> newFirst = segment.removeEntryFromChain(entryThree, entryTwo);
     assertSame(keyThree, newFirst.getKey());
     assertSame(valueThree, newFirst.getValueReference().get());
     assertEquals(hashThree, newFirst.getHash());
     assertSame(entryOne, newFirst.getNext());
 
     // tail (remaining entries are copied in reverse order)
-    newFirst = segment.removeFromChain(entryThree, entryOne);
+    newFirst = segment.removeEntryFromChain(entryThree, entryOne);
     assertSame(keyTwo, newFirst.getKey());
     assertSame(valueTwo, newFirst.getValueReference().get());
     assertEquals(hashTwo, newFirst.getHash());
@@ -1505,7 +1602,7 @@ public class CustomConcurrentHashMapTest extends TestCase {
     assertSame(value, listener.getLastEvictedValue());
   }
 
-  public void testClearValue() {
+  public void testRemoveComputingValue() {
     CustomConcurrentHashMap<Object, Object> map = makeMap(createCacheBuilder()
         .concurrencyLevel(1)
         .initialCapacity(1)
@@ -1517,34 +1614,41 @@ public class CustomConcurrentHashMapTest extends TestCase {
     assertEquals(1, table.length());
 
     Object key = new Object();
-    Object value = new Object();
     int hash = map.hash(key);
     DummyEntry<Object, Object> entry = DummyEntry.create(key, hash, null);
-    DummyValueReference<Object, Object> valueRef = DummyValueReference.create(value, entry);
+    LoadingValueReference<Object, Object> valueRef = new LoadingValueReference<Object, Object>();
     entry.setValueReference(valueRef);
 
-    // clear absent
-    assertFalse(segment.clearValue(key, hash, valueRef));
+    // absent
+    assertFalse(segment.removeLoadingValue(key, hash, valueRef));
 
-    // clear live
-    segment.recordWrite(entry, 1);
+    // live
     table.set(0, entry);
     // don't increment count; this is used during computation
-    assertTrue(segment.clearValue(key, hash, valueRef));
-    // no notification sent with clearValue
+    assertTrue(segment.removeLoadingValue(key, hash, valueRef));
+    // no notification sent with removeLoadingValue
     assertTrue(map.removalNotificationQueue.isEmpty());
-    assertFalse(segment.evictionQueue.contains(entry));
-    assertFalse(segment.expirationQueue.contains(entry));
     assertEquals(0, segment.count);
     assertNull(table.get(0));
 
-    // clear wrong value reference
+    // active
+    Object value = new Object();
+    DummyValueReference<Object, Object> previousRef = DummyValueReference.create(value, entry);
+    valueRef = new LoadingValueReference<Object, Object>(previousRef);
+    entry.setValueReference(valueRef);
+    table.set(0, entry);
+    segment.count = 1;
+    assertTrue(segment.removeLoadingValue(key, hash, valueRef));
+    assertSame(entry, table.get(0));
+    assertSame(value, segment.get(key, hash));
+
+    // wrong value reference
     table.set(0, entry);
     DummyValueReference<Object, Object> otherValueRef = DummyValueReference.create(value, entry);
     entry.setValueReference(otherValueRef);
-    assertFalse(segment.clearValue(key, hash, valueRef));
+    assertFalse(segment.removeLoadingValue(key, hash, valueRef));
     entry.setValueReference(valueRef);
-    assertTrue(segment.clearValue(key, hash, valueRef));
+    assertTrue(segment.removeLoadingValue(key, hash, valueRef));
   }
 
   private static <K, V> void assertNotificationEnqueued(
@@ -2068,12 +2172,12 @@ public class CustomConcurrentHashMapTest extends TestCase {
     tester.testAllPublicInstanceMethods(makeComputingMap(createCacheBuilder(), loader));
   }
 
-  @SuppressWarnings("unchecked") // createMock
   public void testSerializationProxy() {
     CacheLoader<Object, Object> loader = new SerializableCacheLoader();
     RemovalListener<Object, Object> listener = new SerializableRemovalListener<Object, Object>();
     SerializableWeigher<Object, Object> weigher = new SerializableWeigher<Object, Object>();
     Ticker ticker = new SerializableTicker();
+    @SuppressWarnings("unchecked") // createMock
     LocalCache<Object, Object> one = (LocalCache) CacheBuilder.newBuilder()
         .weakKeys()
         .softValues()
@@ -2324,6 +2428,11 @@ public class CustomConcurrentHashMapTest extends TestCase {
     @Override
     public boolean isLoading() {
       return computing;
+    }
+
+    @Override
+    public boolean isActive() {
+      return !computing;
     }
 
     @Override

@@ -80,7 +80,7 @@ public enum RemovalCause {
 
   /**
    * The entry was evicted due to size constraints. This can occur when using {@link
-   * CacheBuilder#maximumSize}.
+   * CacheBuilder#maximumSize} or {@link CacheBuilder#maximumWeight}.
    */
   SIZE {
     @Override

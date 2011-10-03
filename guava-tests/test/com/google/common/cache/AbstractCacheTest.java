@@ -165,17 +165,17 @@ public class AbstractCacheTest extends TestCase {
       counter.recordLoadException(i);
     }
     for (int i = 0; i < 23; i++) {
-      counter.recordConcurrentMiss();
+      counter.recordMiss();
     }
     for (int i = 0; i < 27; i++) {
       counter.recordEviction();
     }
     CacheStats stats = counter.snapshot();
-    int requestCount = 11 + 13 + 17 + 23;
+    int requestCount = 11 + 23;
     assertEquals(requestCount, stats.requestCount());
     assertEquals(11, stats.hitCount());
     assertEquals(11.0/requestCount, stats.hitRate());
-    int missCount = 13 + 17 + 23;
+    int missCount = 23;
     assertEquals(missCount, stats.missCount());
     assertEquals(((double) missCount)/requestCount, stats.missRate());
     assertEquals(13, stats.loadSuccessCount());
@@ -202,7 +202,7 @@ public class AbstractCacheTest extends TestCase {
       totalLoadTime += i;
     }
     for (int i = 0; i < 19; i++) {
-      counter1.recordConcurrentMiss();
+      counter1.recordMiss();
     }
     for (int i = 0; i < 23; i++) {
       counter1.recordEviction();
@@ -221,14 +221,14 @@ public class AbstractCacheTest extends TestCase {
       totalLoadTime += i;
     }
     for (int i = 0; i < 41; i++) {
-      counter2.recordConcurrentMiss();
+      counter2.recordMiss();
     }
     for (int i = 0; i < 43; i++) {
       counter2.recordEviction();
     }
 
     counter1.incrementBy(counter2);
-    assertEquals(new CacheStats(38, 60 + 44 + 54, 44, 54, totalLoadTime, 66),
+    assertEquals(new CacheStats(38, 60, 44, 54, totalLoadTime, 66),
         counter1.snapshot());
   }
 

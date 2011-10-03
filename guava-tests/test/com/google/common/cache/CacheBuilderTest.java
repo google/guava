@@ -368,7 +368,7 @@ public class CacheBuilderTest extends TestCase {
 
     // wait for the computingEntry to be created
     computationStarted.await();
-    cache.asMap().clear();
+    cache.invalidateAll();
     // let the computation proceed
     computingLatch.countDown();
     // don't check cache.size() until we know the get("b") call is complete
@@ -441,7 +441,7 @@ public class CacheBuilderTest extends TestCase {
     while (computedCount.get() < nThreads) {
       Thread.yield();
     }
-    cache.asMap().clear();
+    cache.invalidateAll();
     tasksFinished.await();
 
     // Check all of the removal notifications we received: they should have had correctly-associated

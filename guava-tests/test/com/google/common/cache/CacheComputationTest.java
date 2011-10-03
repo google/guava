@@ -43,19 +43,35 @@ import java.util.concurrent.atomic.AtomicReferenceArray;
  * @author mike nonemacher
  */
 public class CacheComputationTest extends TestCase {
-  public void testComputerThatReturnsNull() {
+  public void testComputerThatReturnsNull_compute() throws ExecutionException {
     Cache<Object, Object> cache = CacheBuilder.newBuilder().build(constantLoader(null));
     CacheStats stats = cache.stats();
     assertEquals(0, stats.missCount());
     assertEquals(0, stats.loadCount());
 
     try {
-      cache.getUnchecked(new Object());
+      cache.get(new Object());
       fail();
     } catch (NullPointerException expected) {}
     stats = cache.stats();
     assertEquals(1, stats.missCount());
     assertEquals(1, stats.loadCount());
+
+    try {
+      cache.getUnchecked(new Object());
+      fail();
+    } catch (NullPointerException expected) {}
+    stats = cache.stats();
+    assertEquals(2, stats.missCount());
+    assertEquals(2, stats.loadCount());
+
+    try {
+      cache.refresh(new Object());
+      fail();
+    } catch (NullPointerException expected) {}
+    stats = cache.stats();
+    assertEquals(2, stats.missCount());
+    assertEquals(3, stats.loadCount());
   }
 
   public void testComputeError() throws ExecutionException {
@@ -88,6 +104,17 @@ public class CacheComputationTest extends TestCase {
     assertEquals(2, stats.missCount());
     assertEquals(0, stats.loadSuccessCount());
     assertEquals(2, stats.loadExceptionCount());
+
+    try {
+      cache.refresh(new Object());
+      fail();
+    } catch (ExecutionError expected) {
+      assertSame(e, expected.getCause());
+    }
+    stats = cache.stats();
+    assertEquals(2, stats.missCount());
+    assertEquals(0, stats.loadSuccessCount());
+    assertEquals(3, stats.loadExceptionCount());
   }
 
   public void testComputeCheckedException() {
@@ -120,6 +147,17 @@ public class CacheComputationTest extends TestCase {
     assertEquals(2, stats.missCount());
     assertEquals(0, stats.loadSuccessCount());
     assertEquals(2, stats.loadExceptionCount());
+
+    try {
+      cache.refresh(new Object());
+      fail();
+    } catch (ExecutionException expected) {
+      assertSame(e, expected.getCause());
+    }
+    stats = cache.stats();
+    assertEquals(2, stats.missCount());
+    assertEquals(0, stats.loadSuccessCount());
+    assertEquals(3, stats.loadExceptionCount());
   }
 
   public void testComputeUncheckedException() throws ExecutionException {
@@ -152,11 +190,22 @@ public class CacheComputationTest extends TestCase {
     assertEquals(2, stats.missCount());
     assertEquals(0, stats.loadSuccessCount());
     assertEquals(2, stats.loadExceptionCount());
+
+    try {
+      cache.refresh(new Object());
+      fail();
+    } catch (UncheckedExecutionException expected) {
+      assertSame(e, expected.getCause());
+    }
+    stats = cache.stats();
+    assertEquals(2, stats.missCount());
+    assertEquals(0, stats.loadSuccessCount());
+    assertEquals(3, stats.loadExceptionCount());
   }
 
-  public void testRecomputeAfterFailure() {
+  public void testRecomputeAfterFailure() throws ExecutionException {
+    final AtomicInteger count = new AtomicInteger();
     CacheLoader<Integer, String> failOnceFunction = new CacheLoader<Integer, String>() {
-      private final AtomicInteger count = new AtomicInteger();
 
       @Override
       public String load(Integer key) {
@@ -181,11 +230,24 @@ public class CacheComputationTest extends TestCase {
 
     assertEquals("1", cache.getUnchecked(1));
     assertEquals(0, removalListener.getCount());
+
+    count.set(0);
+    try {
+      cache.refresh(2);
+      fail();
+    } catch (UncheckedExecutionException e) {
+      // expected
+    }
+
+    assertEquals("2", cache.getUnchecked(2));
+    assertEquals(0, removalListener.getCount());
+
   }
 
-  public void testRecomputeAfterValueReclamation() throws InterruptedException {
+  public void testRecomputeAfterValueReclamation() throws InterruptedException, ExecutionException {
     CountingLoader countingLoader = new CountingLoader();
     Cache<Object, Object> cache = CacheBuilder.newBuilder().weakValues().build(countingLoader);
+    ConcurrentMap<Object, Object> map = cache.asMap();
 
     int iterations = 10;
     WeakReference<Object> ref = new WeakReference<Object>(null);
@@ -202,9 +264,23 @@ public class CacheComputationTest extends TestCase {
       System.gc();
     }
     assertEquals(expectedComputations, countingLoader.getCount());
+
+    for (int i = 0; i < iterations; i++) {
+      // The entry should get garbage collected and recomputed.
+      Object oldValue = ref.get();
+      if (oldValue == null) {
+        expectedComputations++;
+      }
+      cache.refresh(1);
+      ref = new WeakReference<Object>(map.get(1));
+      oldValue = null;
+      Thread.sleep(i);
+      System.gc();
+    }
+    assertEquals(expectedComputations, countingLoader.getCount());
   }
 
-  public void testRecomputeAfterSimulatedValueReclamation() {
+  public void testRecomputeAfterSimulatedValueReclamation() throws ExecutionException {
     CountingLoader countingLoader = new CountingLoader();
     Cache<Object, Object> cache = CacheBuilder.newBuilder()
         .concurrencyLevel(1)
@@ -220,9 +296,14 @@ public class CacheComputationTest extends TestCase {
     assertNotNull(cache.getUnchecked(key));
     assertEquals(1, cache.size());
     assertEquals(2, countingLoader.getCount());
+
+    CacheTesting.simulateValueReclamation(cache, key);
+    cache.refresh(key);
+    assertEquals(1, cache.size());
+    assertEquals(3, countingLoader.getCount());
   }
 
-  public void testRecomputeAfterSimulatedKeyReclamation() {
+  public void testRecomputeAfterSimulatedKeyReclamation() throws ExecutionException {
     CountingLoader countingLoader = new CountingLoader();
     Cache<Object, Object> cache = CacheBuilder.newBuilder()
         .concurrencyLevel(1)
@@ -231,12 +312,17 @@ public class CacheComputationTest extends TestCase {
 
     Object key = new Object();
     assertNotNull(cache.getUnchecked(key));
+    assertEquals(1, cache.size());
 
     CacheTesting.simulateKeyReclamation(cache, key);
 
     // this blocks if computation can't deal with partially-collected values
     assertNotNull(cache.getUnchecked(key));
     assertEquals(2, countingLoader.getCount());
+
+    CacheTesting.simulateKeyReclamation(cache, key);
+    cache.refresh(key);
+    assertEquals(3, countingLoader.getCount());
   }
 
   /**
@@ -253,13 +339,6 @@ public class CacheComputationTest extends TestCase {
         CacheBuilder.newBuilder().build(exceptionLoader(ee));
 
     try {
-      cacheUnchecked.getUnchecked(new Object());
-      fail();
-    } catch (UncheckedExecutionException caughtUee) {
-      assertSame(uee, caughtUee.getCause());
-    }
-
-    try {
       cacheUnchecked.get(new Object());
       fail();
     } catch (ExecutionException e) {
@@ -269,10 +348,19 @@ public class CacheComputationTest extends TestCase {
     }
 
     try {
-      cacheChecked.getUnchecked(new Object());
+      cacheUnchecked.getUnchecked(new Object());
       fail();
     } catch (UncheckedExecutionException caughtUee) {
-      assertSame(ee, caughtUee.getCause());
+      assertSame(uee, caughtUee.getCause());
+    }
+
+    try {
+      cacheUnchecked.refresh(new Object());
+      fail();
+    } catch (ExecutionException e) {
+      fail();
+    } catch (UncheckedExecutionException caughtEe) {
+      assertSame(uee, caughtEe.getCause());
     }
 
     try {
@@ -281,6 +369,20 @@ public class CacheComputationTest extends TestCase {
     } catch (ExecutionException caughtEe) {
       assertSame(ee, caughtEe.getCause());
     }
+
+    try {
+      cacheChecked.getUnchecked(new Object());
+      fail();
+    } catch (UncheckedExecutionException caughtUee) {
+      assertSame(ee, caughtUee.getCause());
+    }
+    try {
+      cacheChecked.refresh(new Object());
+      fail();
+    } catch (ExecutionException caughtEe) {
+      assertSame(ee, caughtEe.getCause());
+    }
+
   }
 
   public void testConcurrentComputation() throws InterruptedException {
@@ -435,13 +537,13 @@ public class CacheComputationTest extends TestCase {
       // doConcurrentGet alternates between calling getUnchecked and calling get. If we call get(),
       // we should get an ExecutionException; if we call getUnchecked(), we should get an
       // UncheckedExecutionException.
-      if (i % 2 == 0) {
-        assertTrue(result.get(i) instanceof UncheckedExecutionException);
-        assertSame(e, ((UncheckedExecutionException) result.get(i)).getCause());
-      } else {
+      int mod = i % 3;
+      if (mod == 0 || mod == 2) {
         assertTrue(result.get(i) instanceof ExecutionException);
         assertSame(e, ((ExecutionException) result.get(i)).getCause());
-
+      } else {
+        assertTrue(result.get(i) instanceof UncheckedExecutionException);
+        assertSame(e, ((UncheckedExecutionException) result.get(i)).getCause());
       }
     }
 
@@ -476,9 +578,13 @@ public class CacheComputationTest extends TestCase {
           gettersStartedSignal.countDown();
           Object value = null;
           try {
-            if (index % 2 == 0) {
+            int mod = index % 3;
+            if (mod == 0) {
+              value = cache.get(key);
+            } else if (mod == 1) {
               value = cache.getUnchecked(key);
             } else {
+              cache.refresh(key);
               value = cache.get(key);
             }
             result.set(index, value);
@@ -505,157 +611,121 @@ public class CacheComputationTest extends TestCase {
     return resultList;
   }
 
-  public void testAsMapDuringComputation() throws InterruptedException {
-    final AtomicInteger callCount = new AtomicInteger();
-    final CountDownLatch getStartedSignal = new CountDownLatch(1);
+  public void testAsMapDuringComputation() throws InterruptedException, ExecutionException {
+    final CountDownLatch getStartedSignal = new CountDownLatch(2);
     final CountDownLatch letGetFinishSignal = new CountDownLatch(1);
-    final CountDownLatch getFinishedSignal = new CountDownLatch(1);
-    final String singleKey = "bar";
+    final CountDownLatch getFinishedSignal = new CountDownLatch(2);
+    final String getKey = "get";
+    final String refreshKey = "refresh";
+    final String suffix = "Suffix";
 
     CacheLoader<String, String> computeFunction = new CacheLoader<String, String>() {
       @Override
       public String load(String key) throws InterruptedException {
-        callCount.incrementAndGet();
         getStartedSignal.countDown();
         letGetFinishSignal.await();
-        return key + "foo";
+        return key + suffix;
       }
     };
 
     final Cache<String, String> cache = CacheBuilder.newBuilder().build(computeFunction);
+    ConcurrentMap<String,String> map = cache.asMap();
+    map.put(refreshKey, refreshKey);
+    assertEquals(1, map.size());
+    assertFalse(map.containsKey(getKey));
+    assertSame(refreshKey, map.get(refreshKey));
 
     new Thread() {
       @Override
       public void run() {
-        cache.getUnchecked(singleKey);
+        cache.getUnchecked(getKey);
+        getFinishedSignal.countDown();
+      }
+    }.start();
+    new Thread() {
+      @Override
+      public void run() {
+        try {
+          cache.refresh(refreshKey);
+        } catch (ExecutionException e) {
+          throw new UncheckedExecutionException(e);
+        }
         getFinishedSignal.countDown();
       }
     }.start();
 
     getStartedSignal.await();
 
-    // computation is in progress; asMap shouldn't contain anything
-    ConcurrentMap<String,String> map = cache.asMap();
-    assertEquals(0, map.size());
-    assertFalse(map.containsKey(singleKey));
+    // computation is in progress; asMap shouldn't have changed
+    assertEquals(1, map.size());
+    assertFalse(map.containsKey(getKey));
+    assertSame(refreshKey, map.get(refreshKey));
 
     // let computation complete
     letGetFinishSignal.countDown();
     getFinishedSignal.await();
 
     // asMap view should have been updated
-    assertEquals(1, cache.size());
-    assertTrue(map.containsKey(singleKey));
+    assertEquals(2, cache.size());
+    assertEquals(getKey + suffix, map.get(getKey));
+    assertEquals(refreshKey + suffix, map.get(refreshKey));
   }
 
-  public void testInvalidateDuringComputation() throws InterruptedException {
+  public void testInvalidateDuringComputation() throws InterruptedException, ExecutionException {
     // computation starts; invalidate() is called on the key being computed, computation finishes
-    final CountDownLatch computationStarted = new CountDownLatch(1);
+    final CountDownLatch computationStarted = new CountDownLatch(2);
     final CountDownLatch letGetFinishSignal = new CountDownLatch(1);
-    final CountDownLatch getFinishedSignal = new CountDownLatch(1);
-    final String singleKey = "bar";
+    final CountDownLatch getFinishedSignal = new CountDownLatch(2);
+    final String getKey = "get";
+    final String refreshKey = "refresh";
+    final String suffix = "Suffix";
 
     CacheLoader<String, String> computeFunction = new CacheLoader<String, String>() {
       @Override
       public String load(String key) throws InterruptedException {
         computationStarted.countDown();
         letGetFinishSignal.await();
-        return key + "foo";
+        return key + suffix;
       }
     };
 
     final Cache<String, String> cache = CacheBuilder.newBuilder().build(computeFunction);
+    ConcurrentMap<String,String> map = cache.asMap();
+    map.put(refreshKey, refreshKey);
 
     new Thread() {
       @Override
       public void run() {
-        cache.getUnchecked(singleKey);
+        cache.getUnchecked(getKey);
+        getFinishedSignal.countDown();
+      }
+    }.start();
+    new Thread() {
+      @Override
+      public void run() {
+        try {
+          cache.refresh(refreshKey);
+        } catch (ExecutionException e) {
+          throw new UncheckedExecutionException(e);
+        }
         getFinishedSignal.countDown();
       }
     }.start();
 
-    // let computation complete
     computationStarted.await();
-    cache.invalidate(singleKey);
+    cache.invalidate(getKey);
+    cache.invalidate(refreshKey);
+    assertFalse(map.containsKey(getKey));
+    assertFalse(map.containsKey(refreshKey));
 
+    // let computation complete
     letGetFinishSignal.countDown();
     getFinishedSignal.await();
 
     // results should be visible
-    assertEquals("barfoo", cache.getUnchecked(singleKey));
-    assertEquals(1, cache.size());
-  }
-
-  public void testKeyCollectedDuringComputation() throws InterruptedException {
-    final int count = 2;
-    final AtomicInteger callCount = new AtomicInteger();
-    // tells the computing thread when to start computing
-    final CountDownLatch computeSignal = new CountDownLatch(1);
-    // tells the main thread when computation is pending
-    final CountDownLatch secondSignal = new CountDownLatch(1);
-    // tells the main thread when the second get has started
-    final CountDownLatch thirdSignal = new CountDownLatch(1);
-    // tells the test when all gets have returned
-    final CountDownLatch doneSignal = new CountDownLatch(count);
-
-    CacheLoader<String, String> computeFunction = new CacheLoader<String, String>() {
-      @Override
-      public String load(String key) throws InterruptedException {
-        callCount.incrementAndGet();
-        secondSignal.countDown();
-        computeSignal.await();
-        return key + "foo";
-      }
-    };
-
-    final Cache<String, String> cache = CacheBuilder.newBuilder()
-        .weakKeys()
-        .build(computeFunction);
-
-    final AtomicReferenceArray<String> result = new AtomicReferenceArray<String>(2);
-
-    final String key = "bar";
-
-    // start computing thread
-    new Thread() {
-      @Override
-      public void run() {
-        result.set(0, cache.getUnchecked(key));
-        doneSignal.countDown();
-      }
-    }.start();
-
-    // wait for computation to start
-    secondSignal.await();
-
-    // start waiting thread
-    new Thread() {
-      @Override
-      public void run() {
-        thirdSignal.countDown();
-        result.set(1, cache.getUnchecked(key));
-        doneSignal.countDown();
-      }
-    }.start();
-
-    // give the second get a chance to run; it is okay for this to be racy
-    // as the end result should be the same either way
-    thirdSignal.await();
-    Thread.yield();
-
-    // Clear key during computation. Note that the computer maintains a
-    // reference to it, so this should never happen.
-    CacheTesting.simulateKeyReclamation(cache, key);
-
-    // let computation finish
-    computeSignal.countDown();
-
-    doneSignal.await();
-    // race condition: the second thread may not have shared the computation (but typically does)
-    assertTrue(callCount.get() == 1 || callCount.get() == 2);
-    assertEquals("barfoo", result.get(0));
-    assertEquals("barfoo", result.get(1));
-    assertEquals("barfoo", cache.getUnchecked(key));
+    assertEquals(2, cache.size());
+    assertEquals(getKey + suffix, map.get(getKey));
+    assertEquals(refreshKey + suffix, map.get(refreshKey));
   }
 
   public void testExpandDuringComputation() throws InterruptedException {
@@ -744,5 +814,95 @@ public class CacheComputationTest extends TestCase {
     assertEquals("barfoo", result.get(1));
     assertEquals("barfoo", result.get(2));
     assertEquals("barfoo", cache.getUnchecked(key));
+  }
+
+  public void testExpandDuringRefresh() throws InterruptedException, ExecutionException {
+    final AtomicInteger callCount = new AtomicInteger();
+    // tells the computing thread when to start computing
+    final CountDownLatch computeSignal = new CountDownLatch(1);
+    // tells the main thread when computation is pending
+    final CountDownLatch secondSignal = new CountDownLatch(1);
+    // tells the main thread when the second get has started
+    final CountDownLatch thirdSignal = new CountDownLatch(1);
+    // tells the main thread when the third get has started
+    final CountDownLatch fourthSignal = new CountDownLatch(1);
+    // tells the test when all gets have returned
+    final CountDownLatch doneSignal = new CountDownLatch(3);
+    final String suffix = "Suffix";
+
+    CacheLoader<String, String> computeFunction = new CacheLoader<String, String>() {
+      @Override
+      public String load(String key) throws InterruptedException {
+        callCount.incrementAndGet();
+        secondSignal.countDown();
+        computeSignal.await();
+        return key + suffix;
+      }
+    };
+
+    final AtomicReferenceArray<String> result = new AtomicReferenceArray<String>(2);
+
+    final Cache<String, String> cache = CacheBuilder.newBuilder()
+        .build(computeFunction);
+    final String key = "bar";
+    cache.asMap().put(key, key);
+
+    // start computing thread
+    new Thread() {
+      @Override
+      public void run() {
+        try {
+          cache.refresh(key);
+        } catch (ExecutionException e) {
+          throw new UncheckedExecutionException(e);
+        }
+        doneSignal.countDown();
+      }
+    }.start();
+
+    // wait for computation to start
+    secondSignal.await();
+
+    // start waiting thread
+    new Thread() {
+      @Override
+      public void run() {
+        thirdSignal.countDown();
+        result.set(0, cache.getUnchecked(key));
+        doneSignal.countDown();
+      }
+    }.start();
+
+    // give the second get a chance to run; it is okay for this to be racy
+    // as the end result should be the same either way
+    thirdSignal.await();
+    Thread.yield();
+
+    // Expand!
+    CacheTesting.forceExpandSegment(cache, key);
+
+    // start another waiting thread
+    new Thread() {
+      @Override
+      public void run() {
+        fourthSignal.countDown();
+        result.set(1, cache.getUnchecked(key));
+        doneSignal.countDown();
+      }
+    }.start();
+
+    // give the third get a chance to run; it is okay for this to be racy
+    // as the end result should be the same either way
+    fourthSignal.await();
+    Thread.yield();
+
+    // let computation finish
+    computeSignal.countDown();
+    doneSignal.await();
+
+    assertTrue(callCount.get() == 1);
+    assertEquals(key, result.get(0));
+    assertEquals(key, result.get(1));
+    assertEquals(key + suffix, cache.getUnchecked(key));
   }
 }

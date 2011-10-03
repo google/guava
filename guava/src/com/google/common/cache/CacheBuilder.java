@@ -139,13 +139,13 @@ public final class CacheBuilder<K, V> {
         public void recordHit() {}
 
         @Override
+        public void recordMiss() {}
+
+        @Override
         public void recordLoadSuccess(long loadTime) {}
 
         @Override
         public void recordLoadException(long loadTime) {}
-
-        @Override
-        public void recordConcurrentMiss() {}
 
         @Override
         public void recordEviction() {}
@@ -369,6 +369,7 @@ public final class CacheBuilder<K, V> {
    * @param weigher the weigher to use in calculating the weight of cache entries
    * @throws IllegalArgumentException if {@code size} is negative
    * @throws IllegalStateException if a maximum size was already set
+   * @since 11.0
    */
   public CacheBuilder<K, V> maximumWeight(long weight) {
     checkState(this.maximumWeight == UNSET_INT, "maximum weight was already set to %s",
@@ -411,6 +412,7 @@ public final class CacheBuilder<K, V> {
    * @param weigher the weigher to use in calculating the weight of cache entries
    * @throws IllegalArgumentException if {@code size} is negative
    * @throws IllegalStateException if a maximum size was already set
+   * @since 11.0
    */
   public <K1 extends K, V1 extends V> CacheBuilder<K1, V1> weigher(
       Weigher<? super K1, ? super V1> weigher) {
@@ -577,9 +579,9 @@ public final class CacheBuilder<K, V> {
 
   /**
    * Specifies that each entry should be automatically removed from the cache once a fixed duration
-   * has elapsed after the entry's creation, or last access. Access time is reset by
-   * {@link Cache#get} and {@link Cache#getUnchecked}, but not by operations on the view returned by
-   * {@link Cache#asMap}.
+   * has elapsed after the entry's creation, the most recent replacement of its value, or its last
+   * access. Access time is reset by {@link Cache#get} and {@link Cache#getUnchecked}, but not by
+   * operations on the view returned by {@link Cache#asMap}.
    *
    * <p>When {@code duration} is zero, elements will be evicted immediately after being loaded into
    * the cache. This has the same effect as invoking {@link #maximumSize maximumSize}{@code (0)}. It
@@ -903,6 +905,7 @@ public final class CacheBuilder<K, V> {
         throw new ExecutionError(e);
       } finally {
         long elapsed = System.nanoTime() - start;
+        statsCounter.recordMiss();
         if (value == null) {
           statsCounter.recordLoadException(elapsed);
         } else {
@@ -915,6 +918,12 @@ public final class CacheBuilder<K, V> {
       } else {
         return value;
       }
+    }
+
+    @Override
+    public void refresh(K key) throws ExecutionException {
+      // the old value is always gone by now
+      get(key);
     }
 
     @Override

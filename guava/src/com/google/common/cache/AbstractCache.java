@@ -66,6 +66,11 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
   }
 
   @Override
+  public void refresh(K key) throws ExecutionException {
+    throw new UnsupportedOperationException();
+  }
+
+  @Override
   public void invalidate(Object key) {
     throw new UnsupportedOperationException();
   }
@@ -99,6 +104,16 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
     public void recordHit();
 
     /**
+     * Records a single miss. This should be called when a cache request returns a value that was
+     * not found in the cache. This method should be called by the loading thread, as well as by
+     * threads blocking on the load. Multiple concurrent calls to {@link Cache} lookup methods with
+     * the same key on an absent value should result in a single call to either
+     * {@code recordLoadSuccess} or {@code recordLoadException} and multiple calls to this method,
+     * despite all being served by the results of a single load operation.
+     */
+    public void recordMiss();
+
+    /**
      * Records the successful load of a new entry. This should be called when a cache request
      * causes an entry to be loaded, and the loading completes succesfully. In contrast to
      * {@link #recordConcurrentMiss}, this method should only be called by the loading thread.
@@ -117,17 +132,6 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
      *     value prior to an exception being thrown
      */
     public void recordLoadException(long loadTime);
-
-    /**
-     * Records a single concurrent miss. This should be called when a cache request returns a
-     * value which was loaded by a different thread. In contrast to {@link #recordLoadSuccess}
-     * and {@link #recordLoadException}, this method should never be called by the loading
-     * thread. Multiple concurrent calls to {@link Cache} lookup methods with the same key on an
-     * absent value should result in a single call to either {@code recordLoadSuccess} or
-     * {@code recordLoadException} and multiple calls to this method, despite all being served by
-     * the results of a single load operation.
-     */
-    public void recordConcurrentMiss();
 
     /**
      * Records the eviction of an entry from the cache. This should only been called when an entry
@@ -163,22 +167,20 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
     }
 
     @Override
-    public void recordLoadSuccess(long loadTime) {
+    public void recordMiss() {
       missCount.incrementAndGet();
+    }
+
+    @Override
+    public void recordLoadSuccess(long loadTime) {
       loadSuccessCount.incrementAndGet();
       totalLoadTime.addAndGet(loadTime);
     }
 
     @Override
     public void recordLoadException(long loadTime) {
-      missCount.incrementAndGet();
       loadExceptionCount.incrementAndGet();
       totalLoadTime.addAndGet(loadTime);
-    }
-
-    @Override
-    public void recordConcurrentMiss() {
-      missCount.incrementAndGet();
     }
 
     @Override

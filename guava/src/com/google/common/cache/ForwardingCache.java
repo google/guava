@@ -20,10 +20,10 @@ import com.google.common.annotations.Beta;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ForwardingObject;
 
-import javax.annotation.Nullable;
-
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.ExecutionException;
+
+import javax.annotation.Nullable;
 
 /**
  * A cache which forwards all its method calls to another cache. Subclasses should override one or
@@ -57,11 +57,15 @@ public abstract class ForwardingCache<K, V> extends ForwardingObject implements 
     return delegate().getUnchecked(key);
   }
 
-  @Deprecated
   @Override
   @Nullable
   public V apply(@Nullable K key) {
     return delegate().apply(key);
+  }
+
+  @Override
+  public void refresh(K key) throws ExecutionException {
+    delegate().refresh(key);
   }
 
   @Override

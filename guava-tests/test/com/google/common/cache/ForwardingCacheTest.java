@@ -78,6 +78,13 @@ public class ForwardingCacheTest extends TestCase {
     verify(mock);
   }
 
+  public void testRefresh() throws ExecutionException {
+    mock.refresh("key");
+    replay(mock);
+    forward.refresh("key");
+    verify(mock);
+  }
+
   public void testInvalidateAll() {
     mock.invalidateAll();
     replay(mock);
@@ -111,5 +118,15 @@ public class ForwardingCacheTest extends TestCase {
     replay(mock);
     forward.cleanUp();
     verify(mock);
+  }
+
+  /**
+   * Make sure that all methods are forwarded.
+   */
+  private static class OnlyGet<K, V> extends ForwardingCache<K, V> {
+    @Override
+    protected Cache<K, V> delegate() {
+      return null;
+    }
   }
 }

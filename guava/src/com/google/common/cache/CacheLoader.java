@@ -27,11 +27,41 @@ import java.io.Serializable;
 /**
  * Computes or retrieves values, based on a key, for use in populating a {@code Cache}.
  *
+ * <p>Most implementations will only need to implement {@link #load}. Other methods may be
+ * overridden as desired.
+ *
  * @author Charles Fry
  * @since 10.0
  */
 @Beta
 public abstract class CacheLoader<K, V> {
+
+  /**
+   * Computes or retrieves the value corresponding to {@code key}.
+   *
+   * @param key the non-null key whose value should be loaded
+   * @return the value associated with {@code key}; <b>may not be null</b>
+   */
+  public abstract V load(K key) throws Exception;
+
+  /**
+   * Computes or retrieves a replacement value corresponding to an already-cached {@code key}. This
+   * method is called when an existing cache entry is refreshed, such as through a call to
+   * {@link Cache#refresh}.
+   *
+   * <p>This implementation simply delegates to {@link #load}. This method should be overriden when
+   * the new value can be computed more efficiently from the old value.
+   *
+   * @param key the non-null key whose value should be loaded
+   * @param oldValue the non-null old value corresponding to {@code key}
+   * @return the new value associated with {@code key}; <b>may not be null</b>
+   * @since 11.0
+   */
+  public V reload(K key, V oldValue) throws Exception {
+    return load(key);
+  }
+
+  // TODO(fry): loadAll
 
   /**
    * Returns a {@code CacheLoader} which creates values by applying a {@code Function} to the key.
@@ -79,15 +109,5 @@ public abstract class CacheLoader<K, V> {
 
     private static final long serialVersionUID = 0;
   }
-
-  /**
-   * Computes or retrieves the value corresponding to {@code key}.
-   *
-   * @param key the key whose value should be loaded; will never be null
-   * @return the value associated with {@code key}; <b>may not be null</b>
-   */
-  public abstract V load(K key) throws Exception;
-
-  // TODO(fry): loadAll
 
 }

@@ -51,6 +51,11 @@ class LocalCache<K, V> extends AbstractCache<K, V> implements Serializable {
   }
 
   @Override
+  public void refresh(K key) throws ExecutionException {
+    map.refresh(key);
+  }
+
+  @Override
   public void invalidate(Object key) {
     checkNotNull(key);
     map.remove(key);
