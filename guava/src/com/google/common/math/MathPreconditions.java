@@ -18,6 +18,8 @@ package com.google.common.math;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import com.google.common.annotations.GwtCompatible;
+
 import java.math.BigInteger;
 
 /**
@@ -25,6 +27,7 @@ import java.math.BigInteger;
  * 
  * @author Louis Wasserman
  */
+@GwtCompatible
 final class MathPreconditions {
   static int checkPositive(String role, int x) {
     if (x <= 0) {

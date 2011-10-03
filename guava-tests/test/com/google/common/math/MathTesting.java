@@ -27,6 +27,7 @@ import static java.math.RoundingMode.HALF_UP;
 import static java.math.RoundingMode.UP;
 import static java.util.Arrays.asList;
 
+import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
 import com.google.common.collect.ImmutableList;
@@ -42,6 +43,7 @@ import java.math.RoundingMode;
  * 
  * @author lowasser@google.com (Louis Wasserman)
  */
+@GwtCompatible
 public class MathTesting {
   static final ImmutableSet<RoundingMode> ALL_ROUNDING_MODES = ImmutableSet.copyOf(RoundingMode
       .values());

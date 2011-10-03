@@ -27,6 +27,8 @@ import static java.math.RoundingMode.HALF_EVEN;
 import static java.math.RoundingMode.HALF_UP;
 
 import com.google.common.annotations.Beta;
+import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.VisibleForTesting;
 
 import java.math.BigInteger;
@@ -46,6 +48,7 @@ import java.math.RoundingMode;
  * @author Louis Wasserman
  * @since 11.0
  */
+@GwtCompatible(emulated = true)
 public final class IntMath {
   // NOTE: Whenever both tests are cheap and functional, it's faster to use &, | instead of &&, ||
 
@@ -67,6 +70,7 @@ public final class IntMath {
    * @throws ArithmeticException if {@code mode} is {@link RoundingMode#UNNECESSARY} and {@code x}
    *         is not a power of two
    */
+  @GwtIncompatible("need BigIntegerMath to adequately test")
   @SuppressWarnings("fallthrough")
   public static int log2(int x, RoundingMode mode) {
     checkPositive("x", x);
@@ -107,6 +111,7 @@ public final class IntMath {
    * @throws ArithmeticException if {@code mode} is {@link RoundingMode#UNNECESSARY} and {@code x}
    *         is not a power of ten
    */
+  @GwtIncompatible("need BigIntegerMath to adequately test")
   @SuppressWarnings("fallthrough")
   public static int log10(int x, RoundingMode mode) {
     checkPositive("x", x);
@@ -157,6 +162,7 @@ public final class IntMath {
    *
    * @throws IllegalArgumentException if {@code k < 0}
    */
+  @GwtIncompatible("failing tests")
   public static int pow(int b, int k) {
     checkNonNegative("exponent", k);
     switch (b) {
@@ -195,6 +201,7 @@ public final class IntMath {
    * @throws ArithmeticException if {@code mode} is {@link RoundingMode#UNNECESSARY} and
    *         {@code sqrt(x)} is not an integer
    */
+  @GwtIncompatible("need BigIntegerMath to adequately test")
   @SuppressWarnings("fallthrough")
   public static int sqrt(int x, RoundingMode mode) {
     checkNonNegative("x", x);
@@ -236,10 +243,14 @@ public final class IntMath {
    * @throws ArithmeticException if {@code q == 0}, or if {@code mode == UNNECESSARY} and {@code a}
    *         is not an integer multiple of {@code b}
    */
+  @GwtIncompatible("failing tests")
   @SuppressWarnings("fallthrough")
   public static int divide(int p, int q, RoundingMode mode) {
     checkNotNull(mode);
-    int div = p / q; // throws if q == 0
+    if (q == 0) {
+      throw new ArithmeticException("/ by zero"); // for GWT
+    }
+    int div = p / q;
     int rem = p - q * div; // equal to p % q
 
     if (rem == 0) {
@@ -377,6 +388,7 @@ public final class IntMath {
    * @throws ArithmeticException if {@code b} to the {@code k}th power overflows in signed
    *         {@code int} arithmetic
    */
+  @GwtIncompatible("failing tests")
   public static int checkedPow(int b, int k) {
     checkNonNegative("exponent", k);
     switch (b) {
@@ -420,6 +432,7 @@ public final class IntMath {
    *
    * @throws IllegalArgumentException if {@code n < 0}
    */
+  @GwtIncompatible("need BigIntegerMath to adequately test")
   public static int factorial(int n) {
     checkNonNegative("n", n);
     return (n < FACTORIALS.length) ? FACTORIALS[n] : Integer.MAX_VALUE;
@@ -446,6 +459,7 @@ public final class IntMath {
    *
    * @throws IllegalArgumentException if {@code n < 0}, {@code k < 0} or {@code k > n}
    */
+  @GwtIncompatible("need BigIntegerMath to adequately test")
   public static int binomial(int n, int k) {
     checkNonNegative("n", n);
     checkNonNegative("k", k);
