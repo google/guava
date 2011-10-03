@@ -37,9 +37,9 @@ import java.util.concurrent.ExecutionException;
  * {@link State#FAILED}, and its behavior is undefined. Such a service cannot be
  * started nor stopped.
  *
- * <p>Implementors of this interface are strongly encouraged to extend {@link
- * AbstractService}, {@link AbstractExecutionThreadService}, or {@link
- * AbstractIdleService}, which make the threading and state management easier.
+ * <p>Implementors of this interface are strongly encouraged to extend one of 
+ * the abstract classes in this package which implement this interface and 
+ * make the threading and state management easier.
  *
  * @author Jesse Wilson
  * @since 9.0 (in 1.0 as

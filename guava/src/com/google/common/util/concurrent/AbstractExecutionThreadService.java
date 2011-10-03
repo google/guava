@@ -20,6 +20,8 @@ import com.google.common.annotations.Beta;
 import com.google.common.base.Throwables;
 
 import java.util.concurrent.Executor;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Base class for services that can implement {@link #startUp}, {@link #run} and
@@ -32,7 +34,9 @@ import java.util.concurrent.Executor;
  */
 @Beta
 public abstract class AbstractExecutionThreadService implements Service {
-
+  private static final Logger logger = Logger.getLogger(
+      AbstractExecutionThreadService.class.getName());
+  
   /* use AbstractService for state management */
   private final Service delegate = new AbstractService() {
     @Override protected final void doStart() {
@@ -49,7 +53,10 @@ public abstract class AbstractExecutionThreadService implements Service {
               } catch (Throwable t) {
                 try {
                   shutDown();
-                } catch (Exception ignored) {}
+                } catch (Exception ignored) {
+                  logger.log(Level.WARNING, 
+                      "Error while attempting to shut down the service after failure.", ignored);
+                }
                 throw t;
               }
             }
@@ -108,6 +115,9 @@ public abstract class AbstractExecutionThreadService implements Service {
    * priority. The returned executor's {@link Executor#execute(Runnable)
    * execute()} method is called when this service is started, and should return
    * promptly.
+   * 
+   * <p>The default implementation returns a new {@link Executor} that sets the 
+   * name of its threads to the string returned by {@link #getServiceName}
    */
   protected Executor executor() {
     return new Executor() {
