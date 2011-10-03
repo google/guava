@@ -305,7 +305,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
 
   enum Strength {
     /*
-     * TODO(kevinb): If we strongly reference the value and aren't computing, we needn't wrap the
+     * TODO(kevinb): If we strongly reference the value and aren't loading, we needn't wrap the
      * value. This could save ~8 bytes per entry.
      */
 
@@ -614,11 +614,11 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
     V get();
 
     /**
-     * Waits for a value that may still be computing. Unlike get(), this method can block (in the
+     * Waits for a value that may still be loading. Unlike get(), this method can block (in the
      * case of FutureValueReference).
      *
-     * @throws ExecutionException if the computing thread throws an exception
-     * @throws ExecutionError if the computing thread throws an error
+     * @throws ExecutionException if the loading thread throws an exception
+     * @throws ExecutionError if the loading thread throws an error
      */
     V waitForValue() throws ExecutionException;
 
@@ -639,17 +639,16 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
     ValueReference<K, V> copyFor(ReferenceQueue<V> queue, ReferenceEntry<K, V> entry);
 
     /**
-     * Notifify pending computations that a new value was set. This is only relevant to computing
+     * Notifify pending loads that a new value was set. This is only relevant to loading
      * value references.
      */
     void notifyNewValue(V newValue);
 
     /**
-     * Returns true if the value type is a computing reference (regardless of whether or not
-     * computation has completed). This is necessary to distiguish between partially-collected
-     * entries and computing entries, which need to be cleaned up differently.
+     * Returns true if a new value is currently loading, regardless of whether or not there is an
+     * existing value.
      */
-    boolean isComputingReference();
+    boolean isLoading();
   }
 
   /**
@@ -678,7 +677,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
     }
 
     @Override
-    public boolean isComputingReference() {
+    public boolean isLoading() {
       return false;
     }
 
@@ -692,7 +691,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
   };
 
   /**
-   * Singleton placeholder that indicates a value is being computed.
+   * Singleton placeholder that indicates a value is being loaded.
    */
   @SuppressWarnings("unchecked") // impl never uses a parameter or returns any non-null value
   static <K, V> ValueReference<K, V> unset() {
@@ -706,7 +705,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
    *
    * Valid:
    * - Live: valid key/value are set
-   * - Computing: computation is pending
+   * - Loading: loading is pending
    *
    * Invalid:
    * - Expired: time expired (key/value may still be set)
@@ -1792,7 +1791,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
     }
 
     @Override
-    public boolean isComputingReference() {
+    public boolean isLoading() {
       return false;
     }
 
@@ -1833,7 +1832,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
     }
 
     @Override
-    public boolean isComputingReference() {
+    public boolean isLoading() {
       return false;
     }
 
@@ -1874,7 +1873,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
     }
 
     @Override
-    public boolean isComputingReference() {
+    public boolean isLoading() {
       return false;
     }
 
@@ -2043,7 +2042,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
 
   /**
    * Gets the value from an entry. Returns null if the entry is invalid, partially-collected,
-   * computing, or expired. Unlike {@link Segment#getLiveValue} this method does not attempt to
+   * loading, or expired. Unlike {@link Segment#getLiveValue} this method does not attempt to
    * cleanup stale entries.
    */
   V getLiveValue(ReferenceEntry<K, V> entry) {
@@ -2186,7 +2185,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
     /**
      * Number of updates that alter the size of the table. This is used during bulk-read methods to
      * make sure they see a consistent snapshot: If modCounts change during a traversal of segments
-     * computing size or checking containsValue, then we might have an inconsistent view of state
+     * loading size or checking containsValue, then we might have an inconsistent view of state
      * so (usually) must retry.
      */
     int modCount;
@@ -2317,13 +2316,13 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
       previous.notifyNewValue(value);
     }
 
-    // computation
+    // loading
 
-    V getOrCompute(K key, int hash, CacheLoader<? super K, V> loader)
+    V getOrLoad(K key, int hash, CacheLoader<? super K, V> loader)
         throws ExecutionException {
       try {
         outer: while (true) {
-          // don't call getLiveEntry, which would ignore computing values
+          // don't call getLiveEntry, which would ignore loading values
           ReferenceEntry<K, V> e = null;
           if (count != 0) { // read-volatile
             e = getEntry(key, hash);
@@ -2337,11 +2336,11 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
             }
           }
 
-          // at this point e is either null, computing, or expired;
-          // avoid locking if it's already computing
-          if (e == null || !e.getValueReference().isComputingReference()) {
+          // at this point e is either null, loading, or expired;
+          // avoid locking if it's already loading
+          if (e == null || !e.getValueReference().isLoading()) {
             boolean createNewEntry = true;
-            ComputingValueReference<K, V> computingValueReference = null;
+            LoadingValueReference<K, V> loadingValueReference = null;
             lock();
             try {
               preWriteCleanup();
@@ -2356,7 +2355,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
                 if (e.getHash() == hash && entryKey != null
                     && map.keyEquivalence.equivalent(key, entryKey)) {
                   ValueReference<K, V> valueReference = e.getValueReference();
-                  if (valueReference.isComputingReference()) {
+                  if (valueReference.isLoading()) {
                     createNewEntry = false;
                   } else {
                     V value = valueReference.get();
@@ -2382,14 +2381,14 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
               }
 
               if (createNewEntry) {
-                computingValueReference = new ComputingValueReference<K, V>(loader);
+                loadingValueReference = new LoadingValueReference<K, V>(loader);
 
                 if (e == null) {
                   e = newEntry(key, hash, first);
-                  e.setValueReference(computingValueReference);
+                  e.setValueReference(loadingValueReference);
                   table.set(index, e);
                 } else {
-                  e.setValueReference(computingValueReference);
+                  e.setValueReference(loadingValueReference);
                 }
               }
             } finally {
@@ -2399,20 +2398,20 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
 
             if (createNewEntry) {
               // This thread solely created the entry.
-              return compute(key, hash, e, computingValueReference);
+              return load(key, hash, e, loadingValueReference);
             }
           }
 
-          // The entry already exists. Wait for the computation.
-          checkState(!Thread.holdsLock(e), "Recursive computation");
-          // don't consider expiration as we're concurrent with computation
+          // The entry already exists. Wait for loading.
+          checkState(!Thread.holdsLock(e), "Recursive load");
+          // don't consider expiration as we're concurrent with loading
           V value = e.getValueReference().waitForValue();
           if (value != null) {
             recordRead(e);
             statsCounter.recordConcurrentMiss();
             return value;
           }
-          // else computing thread will clearValue
+          // else loading thread will clearValue
           continue outer;
         }
       } finally {
@@ -2420,8 +2419,8 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
       }
     }
 
-    V compute(K key, int hash, ReferenceEntry<K, V> e,
-        ComputingValueReference<K, V> computingValueReference)
+    V load(K key, int hash, ReferenceEntry<K, V> e,
+        LoadingValueReference<K, V> loadingValueReference)
         throws ExecutionException {
       V value = null;
       long start = System.nanoTime();
@@ -2430,7 +2429,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
         // detected. This is not fool-proof since the entry may be copied when the segment
         // is written to.
         synchronized (e) {
-          value = computingValueReference.compute(key, hash);
+          value = loadingValueReference.load(key, hash);
         }
         long end = System.nanoTime();
         statsCounter.recordLoadSuccess(end - start);
@@ -2438,7 +2437,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
         // putIfAbsent
         V oldValue = put(key, hash, value, true);
         if (oldValue != null) {
-          // the computed value was already clobbered
+          // the loaded value was already clobbered
           // create 0-weight value reference for removal notification
           ValueReference<K, V> valueReference =
               map.valueStrength.referenceValue(this, e, value, 0);
@@ -2449,7 +2448,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
         if (value == null) {
           long end = System.nanoTime();
           statsCounter.recordLoadException(end - start);
-          clearValue(key, hash, computingValueReference);
+          clearValue(key, hash, loadingValueReference);
         }
       }
     }
@@ -2824,7 +2823,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
 
             if (entryValue == null) {
               ++modCount;
-              if (!valueReference.isComputingReference()) {
+              if (!valueReference.isLoading()) {
                 enqueueNotification(key, hash, valueReference, RemovalCause.COLLECTED);
                 setValue(e, key, value);
                 newCount = this.count; // count remains unchanged
@@ -3059,6 +3058,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
             } else if (isCollected(valueReference)) {
               cause = RemovalCause.COLLECTED;
             } else {
+              // currently loading
               return null;
             }
 
@@ -3102,6 +3102,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
             } else if (isCollected(valueReference)) {
               cause = RemovalCause.COLLECTED;
             } else {
+              // currently loading
               return false;
             }
 
@@ -3130,8 +3131,8 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
           if (map.removalNotificationQueue != DISCARDING_QUEUE) {
             for (int i = 0; i < table.length(); ++i) {
               for (ReferenceEntry<K, V> e = table.get(i); e != null; e = e.getNext()) {
-                // Computing references aren't actually in the map yet.
-                if (!e.getValueReference().isComputingReference()) {
+                // Loading references aren't actually in the map yet.
+                if (!e.getValueReference().isLoading()) {
                   enqueueNotification(e, RemovalCause.EXPLICIT);
                 }
               }
@@ -3329,7 +3330,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
      * it is not computing.
      */
     boolean isCollected(ValueReference<K, V> valueReference) {
-      if (valueReference.isComputingReference()) {
+      if (valueReference.isLoading()) {
         return false;
       }
       return (valueReference.get() == null);
@@ -3337,7 +3338,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
 
     /**
      * Gets the value from an entry. Returns null if the entry is invalid, partially-collected,
-     * computing, or expired.
+     * loading, or expired.
      */
     V getLiveValue(ReferenceEntry<K, V> entry) {
       if (entry.getKey() == null) {
@@ -3411,17 +3412,17 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
 
   }
 
-  private interface ComputedValue<V> {
+  private interface LoadedValue<V> {
     V get() throws ExecutionException;
   }
 
   /**
-   * Used to propogate unchecked computation exceptions to other threads.
+   * Used to propogate unchecked loading exceptions to other threads.
    */
-  private static final class ComputedUncheckedException<V> implements ComputedValue<V> {
+  private static final class LoadedUncheckedException<V> implements LoadedValue<V> {
     final RuntimeException e;
 
-    ComputedUncheckedException(RuntimeException e) {
+    LoadedUncheckedException(RuntimeException e) {
       this.e = e;
     }
 
@@ -3432,12 +3433,12 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
   }
 
   /**
-   * Used to propogate computation exceptions to other threads.
+   * Used to propogate loading exceptions to other threads.
    */
-  private static final class ComputedException<V> implements ComputedValue<V> {
+  private static final class LoadedException<V> implements LoadedValue<V> {
     final Exception e;
 
-    ComputedException(Exception e) {
+    LoadedException(Exception e) {
       this.e = e;
     }
 
@@ -3448,12 +3449,12 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
   }
 
   /**
-   * Used to propogate computation errors to other threads.
+   * Used to propogate loading errors to other threads.
    */
-  private static final class ComputedError<V> implements ComputedValue<V> {
+  private static final class LoadedError<V> implements LoadedValue<V> {
     final Error e;
 
-    ComputedError(Error e) {
+    LoadedError(Error e) {
       this.e = e;
     }
 
@@ -3464,12 +3465,12 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
   }
 
   /**
-   * Used to provide computation result to other threads.
+   * Used to provide loaded result to other threads.
    */
-  private static final class ComputedReference<V> implements ComputedValue<V> {
+  private static final class LoadedReference<V> implements LoadedValue<V> {
     final V value;
 
-    ComputedReference(V value) {
+    LoadedReference(V value) {
       this.value = checkNotNull(value);
     }
 
@@ -3480,12 +3481,12 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
   }
 
   /**
-   * Used to provide null computation result to other threads.
+   * Used to provide null loaded result to other threads.
    */
-  private static final class ComputedNull<K, V> implements ComputedValue<V> {
+  private static final class LoadedNull<K, V> implements LoadedValue<V> {
     final String msg;
 
-    public ComputedNull(CacheLoader<? super K, V> loader, K key) {
+    public LoadedNull(CacheLoader<? super K, V> loader, K key) {
       this.msg = loader + " returned null for key " + key + ".";
     }
 
@@ -3495,18 +3496,18 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
     }
   }
 
-  static final class ComputingValueReference<K, V> implements ValueReference<K, V> {
+  static final class LoadingValueReference<K, V> implements ValueReference<K, V> {
     final CacheLoader<? super K, V> loader;
 
-    @GuardedBy("ComputingValueReference.this") // writes
-    volatile ComputedValue<V> computedValue = null;
+    @GuardedBy("LoadingValueReference.this") // writes
+    volatile LoadedValue<V> loadedValue = null;
 
-    public ComputingValueReference(CacheLoader<? super K, V> loader) {
+    public LoadingValueReference(CacheLoader<? super K, V> loader) {
       this.loader = loader;
     }
 
     @Override
-    public boolean isComputingReference() {
+    public boolean isLoading() {
       return true;
     }
 
@@ -3521,11 +3522,11 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
      */
     @Override
     public V waitForValue() throws ExecutionException {
-      if (computedValue == null) {
+      if (loadedValue == null) {
         boolean interrupted = false;
         try {
           synchronized (this) {
-            while (computedValue == null) {
+            while (loadedValue == null) {
               try {
                 wait();
               } catch (InterruptedException ie) {
@@ -3539,43 +3540,43 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
           }
         }
       }
-      return computedValue.get();
+      return loadedValue.get();
     }
 
     @Override
     public void notifyNewValue(V newValue) {
       // The pending computation was clobbered by a manual write. Unblock all
       // pending gets, and have them return the new value.
-      setComputedValue(new ComputedReference<V>(newValue));
+      setLoadedValue(new LoadedReference<V>(newValue));
 
-      // TODO(fry): could also cancel computation if we had a thread handle
+      // TODO(fry): could also cancel loading if we had a thread handle
     }
 
-    V compute(K key, int hash) throws ExecutionException {
-      ComputedValue<V> valueWrapper;
+    V load(K key, int hash) throws ExecutionException {
+      LoadedValue<V> valueWrapper;
       try {
         V value = loader.load(key);
         if (value == null) {
-          valueWrapper = new ComputedNull<K, V>(loader, key);
+          valueWrapper = new LoadedNull<K, V>(loader, key);
         } else {
-          valueWrapper = new ComputedReference<V>(value);
+          valueWrapper = new LoadedReference<V>(value);
         }
       } catch (RuntimeException e) {
-        valueWrapper = new ComputedUncheckedException<V>(e);
+        valueWrapper = new LoadedUncheckedException<V>(e);
       } catch (Exception e) {
-        valueWrapper = new ComputedException<V>(e);
+        valueWrapper = new LoadedException<V>(e);
       } catch (Error e) {
-        valueWrapper = new ComputedError<V>(e);
+        valueWrapper = new LoadedError<V>(e);
       }
 
-      setComputedValue(valueWrapper);
+      setLoadedValue(valueWrapper);
       return valueWrapper.get();
     }
 
-    void setComputedValue(ComputedValue<V> newValue) {
+    void setLoadedValue(LoadedValue<V> newValue) {
       synchronized (this) {
-        if (this.computedValue == null) {
-          this.computedValue = newValue;
+        if (this.loadedValue == null) {
+          this.loadedValue = newValue;
           notifyAll();
         }
       }
@@ -3928,13 +3929,13 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
     return segmentFor(hash).get(key, hash);
   }
 
-  V getOrCompute(K key) throws ExecutionException {
+  V getOrLoad(K key) throws ExecutionException {
     int hash = hash(checkNotNull(key));
-    return segmentFor(hash).getOrCompute(key, hash, loader);
+    return segmentFor(hash).getOrLoad(key, hash, loader);
   }
 
   /**
-   * Returns the internal entry for the specified key. The entry may be computing, expired, or
+   * Returns the internal entry for the specified key. The entry may be loading, expired, or
    * partially collected.
    */
   ReferenceEntry<K, V> getEntry(@Nullable Object key) {
@@ -4407,7 +4408,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
   /**
    * Serializes the configuration of a CustomConcurrentHashMap, reconsitituting it as a Cache using
    * CacheBuilder upon deserialization. An instance of this class is fit for use by the writeReplace
-   * of ComputingCache.
+   * of LocalCache.
    *
    * Unfortunately, readResolve() doesn't get called when a circular dependency is present, so the
    * proxy must be able to behave as the cache itself.

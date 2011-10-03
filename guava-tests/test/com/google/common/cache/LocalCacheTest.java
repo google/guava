@@ -42,11 +42,11 @@ import java.util.concurrent.atomic.AtomicReference;
 /**
  * @author Charles Fry
  */
-public class ComputingCacheTest extends TestCase {
+public class LocalCacheTest extends TestCase {
 
-  private static <K, V> ComputingCache<K, V> makeCache(
+  private static <K, V> LocalCache<K, V> makeCache(
       CacheBuilder<K, V> builder, CacheLoader<? super K, V> loader) {
-    return new ComputingCache<K, V>(builder, CacheBuilder.CACHE_STATS_COUNTER, loader);
+    return new LocalCache<K, V>(builder, CacheBuilder.CACHE_STATS_COUNTER, loader);
   }
 
   private static <K, V> NullCache<K, V> makeNullCache(
@@ -70,7 +70,7 @@ public class ComputingCacheTest extends TestCase {
         return new Object();
       }
     };
-    ComputingCache<Object, Object> cache = makeCache(createCacheBuilder(), loader);
+    LocalCache<Object, Object> cache = makeCache(createCacheBuilder(), loader);
     assertSame(loader, cache.map.loader);
   }
 
@@ -88,7 +88,7 @@ public class ComputingCacheTest extends TestCase {
     CacheBuilder<Object, Object> builder = createCacheBuilder()
         .concurrencyLevel(1)
         .maximumSize(2);
-    ComputingCache<Object, Object> cache = makeCache(builder, identityLoader());
+    LocalCache<Object, Object> cache = makeCache(builder, identityLoader());
     assertEquals(EMPTY_STATS, cache.stats());
 
     Object one = new Object();
@@ -147,7 +147,7 @@ public class ComputingCacheTest extends TestCase {
   public void testStatsNoops() {
     CacheBuilder<Object, Object> builder = createCacheBuilder()
         .concurrencyLevel(1);
-    ComputingCache<Object, Object> cache = makeCache(builder, identityLoader());
+    LocalCache<Object, Object> cache = makeCache(builder, identityLoader());
     ConcurrentMap<Object, Object> map = cache.map; // mofidiable map view
     assertEquals(EMPTY_STATS, cache.stats());
 
@@ -219,7 +219,7 @@ public class ComputingCacheTest extends TestCase {
 
   public void testAsMap() {
     CacheBuilder<Object, Object> builder = createCacheBuilder();
-    ComputingCache<Object, Object> cache = makeCache(builder, identityLoader());
+    LocalCache<Object, Object> cache = makeCache(builder, identityLoader());
     assertEquals(EMPTY_STATS, cache.stats());
 
     Object one = new Object();
@@ -278,7 +278,7 @@ public class ComputingCacheTest extends TestCase {
     CacheBuilder<Object, Object> builder = createCacheBuilder()
         .concurrencyLevel(1)
         .maximumSize(SMALL_MAX_SIZE);
-    ComputingCache<Object, Object> cache = makeCache(builder, identityLoader());
+    LocalCache<Object, Object> cache = makeCache(builder, identityLoader());
     Segment<Object, Object> segment = cache.map.segments[0];
     ConcurrentMap<Object, Object> map = cache.asMap();
 

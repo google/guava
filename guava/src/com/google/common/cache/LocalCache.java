@@ -34,10 +34,10 @@ import javax.annotation.Nullable;
  *
  * @author Charles Fry
  */
-class ComputingCache<K, V> extends AbstractCache<K, V> implements Serializable {
+class LocalCache<K, V> extends AbstractCache<K, V> implements Serializable {
   final CustomConcurrentHashMap<K, V> map;
 
-  ComputingCache(CacheBuilder<? super K, ? super V> builder,
+  LocalCache(CacheBuilder<? super K, ? super V> builder,
       Supplier<? extends StatsCounter> statsCounterSupplier,
       CacheLoader<? super K, V> loader) {
     this.map = new CustomConcurrentHashMap<K, V>(builder, statsCounterSupplier, loader);
@@ -47,7 +47,7 @@ class ComputingCache<K, V> extends AbstractCache<K, V> implements Serializable {
 
   @Override
   public V get(K key) throws ExecutionException {
-    return map.getOrCompute(key);
+    return map.getOrLoad(key);
   }
 
   @Override

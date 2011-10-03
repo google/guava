@@ -32,7 +32,7 @@ import static org.easymock.EasyMock.createMock;
 import com.google.common.base.Equivalence;
 import com.google.common.base.Suppliers;
 import com.google.common.base.Ticker;
-import com.google.common.cache.CustomConcurrentHashMap.ComputingValueReference;
+import com.google.common.cache.CustomConcurrentHashMap.LoadingValueReference;
 import com.google.common.cache.CustomConcurrentHashMap.EntryFactory;
 import com.google.common.cache.CustomConcurrentHashMap.ReferenceEntry;
 import com.google.common.cache.CustomConcurrentHashMap.Segment;
@@ -345,9 +345,9 @@ public class CustomConcurrentHashMapTest extends TestCase {
     assertEquals(0, loader.getCount());
 
     Object key = new Object();
-    Object value = map.getOrCompute(key);
+    Object value = map.getOrLoad(key);
     assertEquals(1, loader.getCount());
-    assertEquals(value, map.getOrCompute(key));
+    assertEquals(value, map.getOrLoad(key));
     assertEquals(1, loader.getCount());
   }
 
@@ -363,7 +363,7 @@ public class CustomConcurrentHashMapTest extends TestCase {
         Object key = new Object();
         int hash = map.hash(key);
 
-        map.getOrCompute(key);
+        map.getOrLoad(key);
         ReferenceEntry<Object, Object> entry = segment.getEntry(key, hash);
         writeOrder.add(entry);
         readOrder.add(entry);
@@ -380,7 +380,7 @@ public class CustomConcurrentHashMapTest extends TestCase {
       while (i.hasNext()) {
         ReferenceEntry<Object, Object> entry = i.next();
         if (random.nextBoolean()) {
-          map.getOrCompute(entry.getKey());
+          map.getOrLoad(entry.getKey());
           reads.add(entry);
           i.remove();
           assertTrue(segment.recencyQueue.size() <= DRAIN_THRESHOLD);
@@ -404,7 +404,7 @@ public class CustomConcurrentHashMapTest extends TestCase {
     Object value = new Object();
     map.put(key, value);
 
-    assertEquals(value, map.getOrCompute(key));
+    assertEquals(value, map.getOrLoad(key));
     assertEquals(0, loader.getCount());
   }
 
@@ -427,12 +427,12 @@ public class CustomConcurrentHashMapTest extends TestCase {
     table.set(index, entry);
     segment.count++;
 
-    assertSame(value, map.getOrCompute(key));
+    assertSame(value, map.getOrLoad(key));
     assertEquals(0, loader.getCount());
     assertEquals(1, segment.count);
 
     entry.clearKey();
-    assertNotSame(value, map.getOrCompute(key));
+    assertNotSame(value, map.getOrLoad(key));
     assertEquals(1, loader.getCount());
     assertEquals(2, segment.count);
   }
@@ -456,12 +456,12 @@ public class CustomConcurrentHashMapTest extends TestCase {
     table.set(index, entry);
     segment.count++;
 
-    assertSame(value, map.getOrCompute(key));
+    assertSame(value, map.getOrLoad(key));
     assertEquals(0, loader.getCount());
     assertEquals(1, segment.count);
 
     valueRef.clear();
-    assertNotSame(value, map.getOrCompute(key));
+    assertNotSame(value, map.getOrLoad(key));
     assertEquals(1, loader.getCount());
     assertEquals(1, segment.count);
   }
@@ -474,10 +474,10 @@ public class CustomConcurrentHashMapTest extends TestCase {
     assertEquals(0, loader.getCount());
 
     Object key = new Object();
-    Object one = map.getOrCompute(key);
+    Object one = map.getOrLoad(key);
     assertEquals(1, loader.getCount());
 
-    Object two = map.getOrCompute(key);
+    Object two = map.getOrLoad(key);
     assertNotSame(one, two);
     assertEquals(2, loader.getCount());
   }
@@ -514,7 +514,7 @@ public class CustomConcurrentHashMapTest extends TestCase {
       @Override
       public void run() {
         try {
-          map.getOrCompute(one);
+          map.getOrLoad(one);
         } catch (ExecutionException e) {
           throw new RuntimeException(e);
         }
@@ -532,7 +532,7 @@ public class CustomConcurrentHashMapTest extends TestCase {
       @Override
       public void run() {
         try {
-          map.getOrCompute(one);
+          map.getOrLoad(one);
         } catch (ExecutionException e) {
           throw new RuntimeException(e);
         }
@@ -545,9 +545,9 @@ public class CustomConcurrentHashMapTest extends TestCase {
     table.set(index, newEntry);
 
     @SuppressWarnings("unchecked")
-    ComputingValueReference<Object, Object> valueReference =
-        (ComputingValueReference) newEntry.getValueReference();
-    assertNull(valueReference.computedValue);
+    LoadingValueReference<Object, Object> valueReference =
+        (LoadingValueReference) newEntry.getValueReference();
+    assertNull(valueReference.loadedValue);
     startSignal.countDown();
 
     try {
@@ -591,7 +591,7 @@ public class CustomConcurrentHashMapTest extends TestCase {
       @Override
       public void run() {
         try {
-          map.getOrCompute(one);
+          map.getOrLoad(one);
         } catch (ExecutionException e) {
           throw new RuntimeException(e);
         }
@@ -2074,7 +2074,7 @@ public class CustomConcurrentHashMapTest extends TestCase {
     RemovalListener<Object, Object> listener = new SerializableRemovalListener<Object, Object>();
     SerializableWeigher<Object, Object> weigher = new SerializableWeigher<Object, Object>();
     Ticker ticker = new SerializableTicker();
-    ComputingCache<Object, Object> one = (ComputingCache) CacheBuilder.newBuilder()
+    LocalCache<Object, Object> one = (LocalCache) CacheBuilder.newBuilder()
         .weakKeys()
         .softValues()
         .expireAfterAccess(123, NANOSECONDS)
@@ -2088,7 +2088,7 @@ public class CustomConcurrentHashMapTest extends TestCase {
     one.getUnchecked(new Object());
     assertEquals(1, one.size());
     assertFalse(one.asMap().isEmpty());
-    ComputingCache<Object, Object> two = SerializableTester.reserialize(one);
+    LocalCache<Object, Object> two = SerializableTester.reserialize(one);
     assertEquals(0, two.size());
     assertTrue(two.asMap().isEmpty());
 
@@ -2322,7 +2322,7 @@ public class CustomConcurrentHashMapTest extends TestCase {
     }
 
     @Override
-    public boolean isComputingReference() {
+    public boolean isLoading() {
       return computing;
     }
 

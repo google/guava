@@ -705,7 +705,7 @@ public final class CacheBuilder<K, V> {
     }
 
     return useNullCache()
-        ? new ComputingCache<K1, V1>(this, CACHE_STATS_COUNTER, loader)
+        ? new LocalCache<K1, V1>(this, CACHE_STATS_COUNTER, loader)
         : new NullCache<K1, V1>(this, CACHE_STATS_COUNTER, loader);
   }
 

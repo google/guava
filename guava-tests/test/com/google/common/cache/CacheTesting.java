@@ -56,7 +56,7 @@ class CacheTesting {
   /**
    * Poke into the Cache internals to simulate garbage collection of the value associated with the
    * given key. This assumes that the associated entry is a WeakValueReference or a
-   * SoftValueReference (and not a ComputingValueReference), and throws an IllegalStateException
+   * SoftValueReference (and not a LoadingValueReference), and throws an IllegalStateException
    * if that assumption does not hold.
    */
   @SuppressWarnings("unchecked")  // the instanceof check and the cast generate this warning
@@ -110,8 +110,8 @@ class CacheTesting {
    * IllegalArgumentException if this is a Cache type that doesn't have a CustomConcurrentHashMap.
    */
   static <K, V> CustomConcurrentHashMap<K, V> toCustomConcurrentHashMap(Cache<K, V> cache) {
-    if (cache instanceof ComputingCache) {
-      return ((ComputingCache<K, V>) cache).map;
+    if (cache instanceof LocalCache) {
+      return ((LocalCache<K, V>) cache).map;
     }
     throw new IllegalArgumentException("Cache of type " + cache.getClass()
         + " doesn't have a CustomConcurrentHashMap.");
@@ -122,7 +122,7 @@ class CacheTesting {
    * {@link #toCustomConcurrentHashMap} without throwing an exception.
    */
   static boolean hasCustomConcurrentHashMap(Cache<?, ?> cache) {
-    return (cache instanceof ComputingCache);
+    return (cache instanceof LocalCache);
   }
 
   static void drainRecencyQueues(Cache<?, ?> cache) {
