@@ -1023,7 +1023,10 @@ public final class Iterables {
    *
    * @return {@code true} if the iterable contains no elements
    */
-  public static <T> boolean isEmpty(Iterable<T> iterable) {
+  public static boolean isEmpty(Iterable<?> iterable) {
+    if (iterable instanceof Collection) {
+      return ((Collection<?>) iterable).isEmpty();
+    }
     return !iterable.iterator().hasNext();
   }
 
