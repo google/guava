@@ -107,6 +107,11 @@ public class FilesSimplifyPathTest extends TestCase {
     assertEquals("../../..", simplifyPath("a/../../../.."));
   }
   
+  public void testSimplifyRootedDotDots() {
+    assertEquals("/", simplifyPath("/../../.."));
+    assertEquals("/", simplifyPath("/../../../"));
+  }
+  
   // b/4558855
   public void testMadbotsBug() {
     assertEquals("../this", simplifyPath("../this"));
@@ -148,6 +153,23 @@ public class FilesSimplifyPathTest extends TestCase {
 
   public void testSlashDot() {
     assertEquals("/", simplifyPath("/."));    
+  }
+
+  // http://code.google.com/p/guava-libraries/issues/detail?id=722
+  public void testInitialSlashDotDot() {
+    assertEquals("/c", simplifyPath("/../c"));
+  }
+    
+  // http://code.google.com/p/guava-libraries/issues/detail?id=722
+  public void testInitialSlashDot() {  
+    assertEquals("/a", simplifyPath("/./a"));
+    assertEquals("/.a", simplifyPath("/.a/a/.."));
+  }
+
+  // http://code.google.com/p/guava-libraries/issues/detail?id=722
+  public void testConsecutiveParentsAfterPresent() {
+    assertEquals("../..", simplifyPath("./../../"));
+    assertEquals("../..", simplifyPath("./.././../"));
   }
 
   /*
@@ -244,4 +266,5 @@ public class FilesSimplifyPathTest extends TestCase {
       assertEquals(expectedOutput, simplifyPath(input));
     }
   }
+
 }

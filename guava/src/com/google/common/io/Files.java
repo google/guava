@@ -19,7 +19,9 @@ package com.google.common.io;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.Beta;
+import com.google.common.base.Joiner;
 import com.google.common.base.Preconditions;
+import com.google.common.base.Splitter;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -39,6 +41,7 @@ import java.nio.channels.FileChannel;
 import java.nio.channels.FileChannel.MapMode;
 import java.nio.charset.Charset;
 import java.security.MessageDigest;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.zip.Checksum;
 
@@ -746,8 +749,9 @@ public final class Files {
    *
    * <ul>
    * <li>empty string becomes .
+   * <li>. becomes ????
+   * <li>fold out ./
    * <li>fold out ../ when possible
-   * <li>fold out ./ when possible
    * <li>collapse multiple slashes
    * <li>delete trailing slashes (unless the path is just "/")
    * </ul>
@@ -764,63 +768,40 @@ public final class Files {
     if (pathname.length() == 0) {
       return ".";
     }
-    char[] name = pathname.toCharArray();
-    // In place, rewrite name to compress multiple /, eliminate ., and process ..
 
-    boolean rooted = (name[0] == '/');
+    // split the path apart
+    Iterable<String> components = Splitter.on('/').omitEmptyStrings().split(pathname);
+    List<String> path = new ArrayList<String>();
 
-    // invariants:
-    //  p points at beginning of path element we're considering.
-    //  q points just past the last path element we wrote (no slash).
-    //  dotdot points just past the point where .. cannot backtrack
-    //    any further (no slash).
-    int firstNonSlash = rooted ? 1 : 0;
-    int p = firstNonSlash;
-    int q = firstNonSlash;
-    int dotdot = firstNonSlash;
-    while (p < name.length) {
-      if (name[p] == '/') {
-        /* null element */
-        p++;
-      } else if (name[p] == '.' && sep(name, p + 1)) {
-        /* don't count the separator in case it is null */
-        p += 1;
-      } else if (name[p] == '.'
-          && ((p + 1) < name.length && name[p + 1] == '.')
-          && sep(name, p + 2)) {
-        p += 2;
-        if (q > dotdot) {
-          /* can backtrack */
-          while (--q > dotdot && name[q] != '/') {
-          }
-        } else if (!rooted) {
-          /* /.. is / but ./../ is .. */
-          if (name[q] != name[0] ||
-              (q != 0 && name.length >= q+3 && name[0] == '.' && name[name.length - 1] != '/')) {
-            name[q++] = '/';
-          }
-          name[q++] = '.';
-          name[q++] = '.';
-          dotdot = q;
+    // resolve ., .., and //
+    for (String component : components) {
+      if (component.equals(".")) {
+        continue;
+      } else if (component.equals("..")) {
+        if (path.size() > 0 && !path.get(path.size() - 1).equals("..")) {
+          path.remove(path.size() - 1);
+        } else {
+          path.add("..");
         }
       } else {
-        /* real path element */
-        if (name[q] != name[firstNonSlash]   /* don't prefix ./b paths with / */
-            || (name[q] == '.' && q != 0 && (sep(name, q + 1) || sep(name, q + 2)))) {
-          name[q++] = '/';
-        }
-        while ((q < name.length && p < name.length) &&
-            (name[q] = name[p]) != '/') {
-          p++;
-          q++;
-        }
+        path.add(component);
       }
     }
-    return new String(name, 0, q);
-  }
 
-  private static boolean sep(char[] a, int pos) {
-    return (pos >= a.length) || (a[pos] == '/');
+    // put it back together
+    String result = Joiner.on('/').join(path);
+    if (pathname.charAt(0) == '/') {
+      result = "/" + result;
+    }
+
+    while (result.startsWith("/../")) {
+      result = result.substring(3);
+    }
+    if (result.equals("/..")) {
+      result = "/";
+    }
+
+    return result;
   }
 
   /**
