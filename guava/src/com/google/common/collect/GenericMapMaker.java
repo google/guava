@@ -74,12 +74,8 @@ public abstract class GenericMapMaker<K0, V0> {
 
   /**
    * See {@link MapMaker#maximumSize}.
-   *
-   * @since 8.0
    */
-  @Beta
-  @Deprecated
-  public abstract GenericMapMaker<K0, V0> maximumSize(int maximumSize);
+  abstract GenericMapMaker<K0, V0> maximumSize(int maximumSize);
 
   /**
    * See {@link MapMaker#strongKeys}.
@@ -130,20 +126,14 @@ public abstract class GenericMapMaker<K0, V0> {
 
   /**
    * See {@link MapMaker#expireAfterWrite}.
-   *
-   * @since 8.0
    */
-  @Deprecated
-  public abstract GenericMapMaker<K0, V0> expireAfterWrite(long duration, TimeUnit unit);
+  abstract GenericMapMaker<K0, V0> expireAfterWrite(long duration, TimeUnit unit);
 
   /**
    * See {@link MapMaker#expireAfterAccess}.
-   *
-   * @since 8.0
    */
   @GwtIncompatible("To be supported")
-  @Deprecated
-  public abstract GenericMapMaker<K0, V0> expireAfterAccess(long duration, TimeUnit unit);
+  abstract GenericMapMaker<K0, V0> expireAfterAccess(long duration, TimeUnit unit);
 
   /*
    * Note that MapMaker's removalListener() is not here, because once you're interacting with a

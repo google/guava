@@ -19,7 +19,6 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Ascii;
@@ -226,17 +225,13 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    *
    * <p>Caching functionality in {@code MapMaker} is being moved to
    * {@link com.google.common.cache.CacheBuilder}.
-   * <b>This method is scheduled for deletion from Guava in Guava release 11.0.</b>
    *
    * @param size the maximum size of the map
    * @throws IllegalArgumentException if {@code size} is negative
    * @throws IllegalStateException if a maximum size was already set
-   * @since 8.0
    */
-  @Beta
   @Override
-  @Deprecated
-  public MapMaker maximumSize(int size) {
+  MapMaker maximumSize(int size) {
     checkState(this.maximumSize == UNSET_INT, "maximum size was already set to %s",
         this.maximumSize);
     checkArgument(size >= 0, "maximum size must not be negative");
@@ -450,18 +445,15 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    *
    * <p>Caching functionality in {@code MapMaker} is being moved to
    * {@link com.google.common.cache.CacheBuilder}.
-   * <b>This method is scheduled for deletion from Guava in Guava release 11.0.</b>
    *
    * @param duration the length of time after an entry is created that it should be automatically
    *     removed
    * @param unit the unit that {@code duration} is expressed in
    * @throws IllegalArgumentException if {@code duration} is negative
    * @throws IllegalStateException if the time to live or time to idle was already set
-   * @since 8.0
    */
   @Override
-  @Deprecated
-  public MapMaker expireAfterWrite(long duration, TimeUnit unit) {
+  MapMaker expireAfterWrite(long duration, TimeUnit unit) {
     checkExpiration(duration, unit);
     this.expireAfterWriteNanos = unit.toNanos(duration);
     if (duration == 0 && this.nullRemovalCause == null) {
@@ -500,19 +492,16 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    *
    * <p>Caching functionality in {@code MapMaker} is being moved to
    * {@link com.google.common.cache.CacheBuilder}.
-   * <b>This method is scheduled for deletion from Guava in Guava release 11.0.</b>
    *
    * @param duration the length of time after an entry is last accessed that it should be
    *     automatically removed
    * @param unit the unit that {@code duration} is expressed in
    * @throws IllegalArgumentException if {@code duration} is negative
    * @throws IllegalStateException if the time to idle or time to live was already set
-   * @since 8.0
    */
   @GwtIncompatible("To be supported")
   @Override
-  @Deprecated
-  public MapMaker expireAfterAccess(long duration, TimeUnit unit) {
+  MapMaker expireAfterAccess(long duration, TimeUnit unit) {
     checkExpiration(duration, unit);
     this.expireAfterAccessNanos = unit.toNanos(duration);
     if (duration == 0 && this.nullRemovalCause == null) {

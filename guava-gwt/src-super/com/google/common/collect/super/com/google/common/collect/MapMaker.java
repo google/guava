@@ -190,7 +190,7 @@ public class MapMaker extends GenericMapMaker<Object, Object> {
   }
 
   @Override
-  public MapMaker expireAfterWrite(long duration, TimeUnit unit) {
+  MapMaker expireAfterWrite(long duration, TimeUnit unit) {
     if (expirationMillis != 0) {
       throw new IllegalStateException(
           "expiration time of " + expirationMillis + " ns was already set");
@@ -204,7 +204,7 @@ public class MapMaker extends GenericMapMaker<Object, Object> {
   }
 
   @Override
-  public MapMaker maximumSize(int maximumSize) {
+  MapMaker maximumSize(int maximumSize) {
     if (this.maximumSize != -1) {
       throw new IllegalStateException("maximum size of " + maximumSize + " was already set");
     }
