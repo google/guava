@@ -87,11 +87,15 @@ public class PopulatedCachesTest extends TestCase {
         Entry<Object, Object> entry = warmed.get(i - WARMUP_MIN);
         Object newValue = new Object();
         assertSame(entry.getValue(), cache.asMap().put(entry.getKey(), newValue));
+        // don't let the new entry get GCed
+        warmed.add(entryOf(entry.getKey(), newValue));
         Object newKey = new Object();
         assertNull(cache.asMap().put(newKey, entry.getValue()));
         // this getUnchecked() call shouldn't be a cache miss; verified below
         assertEquals(newValue, cache.getUnchecked(entry.getKey()));
         assertEquals(entry.getValue(), cache.getUnchecked(newKey));
+        // don't let the new entry get GCed
+        warmed.add(entryOf(newKey, entry.getValue()));
       }
       assertEquals(WARMUP_SIZE, cache.stats().missCount());
       checkValidState(cache);
@@ -111,6 +115,8 @@ public class PopulatedCachesTest extends TestCase {
         // this getUnchecked() call shouldn't be a cache miss; verified below
         assertEquals(entry.getValue(), cache.getUnchecked(entry.getKey()));
         assertEquals(entry.getValue(), cache.getUnchecked(newKey));
+        // don't let the new entry get GCed
+        warmed.add(entryOf(newKey, entry.getValue()));
       }
       assertEquals(WARMUP_SIZE, cache.stats().missCount());
       checkValidState(cache);
