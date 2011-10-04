@@ -215,7 +215,7 @@ public final class CacheBuilder<K, V> {
    * {@code CacheBuilderSpec} without making it too fragile.
    */
   static CacheBuilder<Object, Object> newLenientBuilder() {
-    CacheBuilder<Object, Object> builder = new CacheBuilder<Object, Object>();
+    CacheBuilder<Object, Object> builder = newBuilder();
     builder.strictParsing = false;
     return builder;
   }
