@@ -23,17 +23,11 @@ package com.google.common.base;
  * @author Bob Lee
  * @since 2.0 (imported from Google Collections Library)
  */
-public
-interface FinalizableReference {
+public interface FinalizableReference {
   /**
    * Invoked on a background thread after the referent has been garbage collected unless security
    * restrictions prevented starting a background thread, in which case this method is invoked when
    * new references are created.
-   * @deprecated FinalizableReferenceQueue is an unsound mechanism for cleaning up references,
-   *     because (1) it's single thread can be easily overloaded, and (2) it's insistance on running
-   *     a background thread is problematic in certain environments. <b>This class is scheduled for
-   *     deletion in December 2012.</b>
    */
-  @Deprecated
   void finalizeReferent();
 }

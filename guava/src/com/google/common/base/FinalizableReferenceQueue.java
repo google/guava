@@ -37,8 +37,7 @@ import java.util.logging.Logger;
  * @author Bob Lee
  * @since 2.0 (imported from Google Collections Library)
  */
-public
-class FinalizableReferenceQueue {
+public class FinalizableReferenceQueue {
   /*
    * The Finalizer thread keeps a phantom reference to this object. When the client (for example, a
    * map built by MapMaker) no longer has a strong reference to this object, the garbage collector
@@ -99,13 +98,7 @@ class FinalizableReferenceQueue {
 
   /**
    * Constructs a new queue.
-   *
-   * @deprecated FinalizableReferenceQueue is an unsound mechanism for cleaning up references,
-   *     because (1) it's single thread can be easily overloaded, and (2) it's insistance on running
-   *     a background thread is problematic in certain environments. <b>This class is scheduled for
-   *     deletion in December 2012.</b>
    */
-  @Deprecated
   @SuppressWarnings("unchecked")
   public FinalizableReferenceQueue() {
     // We could start the finalizer lazily, but I'd rather it blow up early.
@@ -132,7 +125,6 @@ class FinalizableReferenceQueue {
    * FinalizableReference#finalizeReferent()} on them until the queue is empty. This method is a
    * no-op if the background thread was created successfully.
    */
-  @SuppressWarnings("deprecation")
   void cleanUp() {
     if (threadStarted) {
       return;
