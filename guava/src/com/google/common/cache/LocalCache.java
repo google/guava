@@ -19,15 +19,11 @@ package com.google.common.cache;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.base.Supplier;
-import com.google.common.cache.CustomConcurrentHashMap.ReferenceEntry;
 import com.google.common.cache.CustomConcurrentHashMap.Segment;
-import com.google.common.collect.ForwardingConcurrentMap;
 
 import java.io.Serializable;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.ExecutionException;
-
-import javax.annotation.Nullable;
 
 /**
  * Exposes a {@link CustomConcurrentHashMap} as a {@code Cache}.
@@ -71,12 +67,9 @@ class LocalCache<K, V> extends AbstractCache<K, V> implements Serializable {
     return map.longSize();
   }
 
-  ConcurrentMap<K, V> asMap;
-
   @Override
   public ConcurrentMap<K, V> asMap() {
-    ConcurrentMap<K, V> am = asMap;
-    return (am != null) ? am : (asMap = new CacheAsMap<K, V>(map));
+    return map;
   }
 
   @Override
@@ -101,25 +94,4 @@ class LocalCache<K, V> extends AbstractCache<K, V> implements Serializable {
     return map.cacheSerializationProxy();
   }
 
-  // Inner Classes
-
-  static final class CacheAsMap<K, V> extends ForwardingConcurrentMap<K, V> {
-    private final CustomConcurrentHashMap<K, V> delegate;
-
-    CacheAsMap(CustomConcurrentHashMap<K, V> delegate) {
-      this.delegate = delegate;
-    }
-
-    @Override
-    protected ConcurrentMap<K, V> delegate() {
-      return delegate;
-    }
-
-    @Override
-    public V get(@Nullable Object key) {
-      // does not impact recency ordering
-      ReferenceEntry<K, V> e = delegate.getEntry(key);
-      return (e == null) ? null : e.getValueReference().get();
-    }
-  }
 }
