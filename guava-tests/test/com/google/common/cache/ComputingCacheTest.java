@@ -286,7 +286,7 @@ public class ComputingCacheTest extends TestCase {
     assertSame(one, cache.getUnchecked(one));
     assertTrue(segment.recencyQueue.isEmpty());
     assertSame(one, map.get(one));
-    assertTrue(segment.recencyQueue.isEmpty());
+    assertSame(one, segment.recencyQueue.peek().getKey());
     assertSame(one, cache.getUnchecked(one));
     assertFalse(segment.recencyQueue.isEmpty());
   }
