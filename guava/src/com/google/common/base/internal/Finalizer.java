@@ -45,15 +45,8 @@ import java.util.logging.Logger;
  * in its own class loader. That way, this class doesn't prevent the main
  * class loader from getting garbage collected, and this class can detect when
  * the main class loader has been garbage collected and stop itself.
- *
- * @deprecated FinalizableReferenceQueue is an unsound mechanism for cleaning up references,
- *     because (1) it's single thread can be easily overloaded, and (2) it's insistance on running
- *     a background thread is problematic in certain environments. <b>This class is scheduled for
- *     deletion in December 2012.</b>
  */
-@Deprecated
-public
-class Finalizer extends Thread {
+public class Finalizer extends Thread {
 
   private static final Logger logger
       = Logger.getLogger(Finalizer.class.getName());

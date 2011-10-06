@@ -27,20 +27,14 @@ import java.lang.ref.WeakReference;
  * @author Bob Lee
  * @since 2.0 (imported from Google Collections Library)
  */
-public
-abstract class FinalizableWeakReference<T> extends WeakReference<T>
+public abstract class FinalizableWeakReference<T> extends WeakReference<T>
     implements FinalizableReference {
   /**
    * Constructs a new finalizable weak reference.
    *
    * @param referent to weakly reference
    * @param queue that should finalize the referent
-   * @deprecated FinalizableReferenceQueue is an unsound mechanism for cleaning up references,
-   *     because (1) it's single thread can be easily overloaded, and (2) it's insistance on running
-   *     a background thread is problematic in certain environments. <b>This class is scheduled for
-   *     deletion in December 2012.</b>
    */
-  @Deprecated
   protected FinalizableWeakReference(T referent, FinalizableReferenceQueue queue) {
     super(referent, queue.queue);
     queue.cleanUp();
