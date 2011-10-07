@@ -198,18 +198,166 @@ public final class Objects {
      * is used.
      */
     public ToStringHelper add(String name, @Nullable Object value) {
-      checkNotNull(name);
-      maybeAppendSeparator().append(name).append('=').append(value);
+      checkNameAndAppend(name).append(value);
       return this;
     }
 
     /**
-     * Adds a value to the formatted output in {@code value} format.
+     * Adds a name/value pair to the formatted output in {@code name=value}
+     * format.
+     *
+     * @since 11.0 (source-compatible since 2.0)
+     */
+    public ToStringHelper add(String name, boolean value) {
+      checkNameAndAppend(name).append(value);
+      return this;
+    }
+
+    /**
+     * Adds a name/value pair to the formatted output in {@code name=value}
+     * format.
+     *
+     * @since 11.0 (source-compatible since 2.0)
+     */
+    public ToStringHelper add(String name, char value) {
+      checkNameAndAppend(name).append(value);
+      return this;
+    }
+
+    /**
+     * Adds a name/value pair to the formatted output in {@code name=value}
+     * format.
+     *
+     * @since 11.0 (source-compatible since 2.0)
+     */
+    public ToStringHelper add(String name, double value) {
+      checkNameAndAppend(name).append(value);
+      return this;
+    }
+
+    /**
+     * Adds a name/value pair to the formatted output in {@code name=value}
+     * format.
+     *
+     * @since 11.0 (source-compatible since 2.0)
+     */
+    public ToStringHelper add(String name, float value) {
+      checkNameAndAppend(name).append(value);
+      return this;
+    }
+
+    /**
+     * Adds a name/value pair to the formatted output in {@code name=value}
+     * format.
+     *
+     * @since 11.0 (source-compatible since 2.0)
+     */
+    public ToStringHelper add(String name, int value) {
+      checkNameAndAppend(name).append(value);
+      return this;
+    }
+
+    /**
+     * Adds a name/value pair to the formatted output in {@code name=value}
+     * format.
+     *
+     * @since 11.0 (source-compatible since 2.0)
+     */
+    public ToStringHelper add(String name, long value) {
+      checkNameAndAppend(name).append(value);
+      return this;
+    }
+
+    private StringBuilder checkNameAndAppend(String name) {
+      checkNotNull(name);
+      return maybeAppendSeparator().append(name).append('=');
+    }
+
+    /**
+     * Adds an unnamed value to the formatted output.
      *
      * <p>It is strongly encouraged to use {@link #add(String, Object)} instead
      * and give value a readable name.
      */
     public ToStringHelper addValue(@Nullable Object value) {
+      maybeAppendSeparator().append(value);
+      return this;
+    }
+
+    /**
+     * Adds an unnamed value to the formatted output.
+     *
+     * <p>It is strongly encouraged to use {@link #add(String, boolean)} instead
+     * and give value a readable name.
+     *
+     * @since 11.0 (source-compatible since 2.0)
+     */
+    public ToStringHelper addValue(boolean value) {
+      maybeAppendSeparator().append(value);
+      return this;
+    }
+
+    /**
+     * Adds an unnamed value to the formatted output.
+     *
+     * <p>It is strongly encouraged to use {@link #add(String, char)} instead
+     * and give value a readable name.
+     *
+     * @since 11.0 (source-compatible since 2.0)
+     */
+    public ToStringHelper addValue(char value) {
+      maybeAppendSeparator().append(value);
+      return this;
+    }
+
+    /**
+     * Adds an unnamed value to the formatted output.
+     *
+     * <p>It is strongly encouraged to use {@link #add(String, double)} instead
+     * and give value a readable name.
+     *
+     * @since 11.0 (source-compatible since 2.0)
+     */
+    public ToStringHelper addValue(double value) {
+      maybeAppendSeparator().append(value);
+      return this;
+    }
+
+    /**
+     * Adds an unnamed value to the formatted output.
+     *
+     * <p>It is strongly encouraged to use {@link #add(String, float)} instead
+     * and give value a readable name.
+     *
+     * @since 11.0 (source-compatible since 2.0)
+     */
+    public ToStringHelper addValue(float value) {
+      maybeAppendSeparator().append(value);
+      return this;
+    }
+
+    /**
+     * Adds an unnamed value to the formatted output.
+     *
+     * <p>It is strongly encouraged to use {@link #add(String, int)} instead
+     * and give value a readable name.
+     *
+     * @since 11.0 (source-compatible since 2.0)
+     */
+    public ToStringHelper addValue(int value) {
+      maybeAppendSeparator().append(value);
+      return this;
+    }
+
+    /**
+     * Adds an unnamed value to the formatted output.
+     *
+     * <p>It is strongly encouraged to use {@link #add(String, long)} instead
+     * and give value a readable name.
+     *
+     * @since 11.0 (source-compatible since 2.0)
+     */
+    public ToStringHelper addValue(long value) {
       maybeAppendSeparator().append(value);
       return this;
     }

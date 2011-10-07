@@ -157,11 +157,41 @@ public class ToStringHelperTest extends TestCase {
     assertEquals("TestClass{field1=Hello}", toTest);
   }
 
+  @GwtIncompatible("Class names are obfuscated in GWT")
+  public void testToString_oneIntegerField() {
+    String toTest = Objects.toStringHelper(new TestClass())
+        .add("field1", new Integer(42))
+        .toString();
+    assertEquals("TestClass{field1=42}", toTest);
+  }
+
+  @GwtIncompatible("Class names are obfuscated in GWT")
+  public void testToString_nullInteger() {
+    String toTest = Objects.toStringHelper(new TestClass())
+        .add("field1", (Integer) null)
+        .toString();
+    assertEquals("TestClass{field1=null}", toTest);
+  }
+
   public void testToStringLenient_oneField() {
     String toTest = Objects.toStringHelper(new TestClass())
         .add("field1", "Hello")
         .toString();
     assertTrue(toTest, toTest.matches(".*\\{field1\\=Hello\\}"));
+  }
+
+  public void testToStringLenient_oneIntegerField() {
+    String toTest = Objects.toStringHelper(new TestClass())
+        .add("field1", new Integer(42))
+        .toString();
+    assertTrue(toTest, toTest.matches(".*\\{field1\\=42\\}"));
+  }
+
+  public void testToStringLenient_nullInteger() {
+    String toTest = Objects.toStringHelper(new TestClass())
+        .add("field1", (Integer) null)
+        .toString();
+    assertTrue(toTest, toTest.matches(".*\\{field1\\=null\\}"));
   }
 
   @GwtIncompatible("Class names are obfuscated in GWT")
