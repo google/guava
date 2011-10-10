@@ -44,7 +44,7 @@ import com.google.common.primitives.Ints;
  * resulting multiset will violate the {@link java.util.Collection} contract,
  * which is specified in terms of {@link Object#equals}.
  *
- * @author Neal Kanodia
+ * @author Louis Wasserman
  * @author Jared Levy
  * @since 2.0 (imported from Google Collections Library)
  */
