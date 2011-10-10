@@ -17,11 +17,13 @@ package com.google.common.cache;
 import static com.google.common.cache.TestingCacheLoaders.constantLoader;
 import static com.google.common.cache.TestingCacheLoaders.errorLoader;
 import static com.google.common.cache.TestingCacheLoaders.exceptionLoader;
+import static com.google.common.cache.TestingCacheLoaders.identityLoader;
 import static com.google.common.cache.TestingRemovalListeners.countingRemovalListener;
 
 import com.google.common.cache.TestingCacheLoaders.CountingLoader;
 import com.google.common.cache.TestingRemovalListeners.CountingRemovalListener;
 import com.google.common.collect.Lists;
+import com.google.common.util.concurrent.Callables;
 import com.google.common.util.concurrent.ExecutionError;
 import com.google.common.util.concurrent.UncheckedExecutionException;
 
@@ -30,6 +32,7 @@ import junit.framework.TestCase;
 import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.util.List;
+import java.util.concurrent.Callable;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutionException;
@@ -43,7 +46,57 @@ import java.util.concurrent.atomic.AtomicReferenceArray;
  * @author mike nonemacher
  */
 public class CacheComputationTest extends TestCase {
-  public void testComputerThatReturnsNull_compute() throws ExecutionException {
+  public void testCompute() throws ExecutionException {
+    Cache<Object, Object> cache = CacheBuilder.newBuilder().build(identityLoader());
+    CacheStats stats = cache.stats();
+    assertEquals(0, stats.missCount());
+    assertEquals(0, stats.loadCount());
+    assertEquals(0, stats.hitCount());
+
+    Object key = new Object();
+    assertSame(key, cache.get(key));
+    stats = cache.stats();
+    assertEquals(1, stats.missCount());
+    assertEquals(1, stats.loadCount());
+    assertEquals(0, stats.hitCount());
+
+    key = new Object();
+    assertSame(key, cache.getUnchecked(key));
+    stats = cache.stats();
+    assertEquals(2, stats.missCount());
+    assertEquals(2, stats.loadCount());
+    assertEquals(0, stats.hitCount());
+
+    key = new Object();
+    cache.refresh(key);
+    stats = cache.stats();
+    assertEquals(2, stats.missCount());
+    assertEquals(3, stats.loadCount());
+    assertEquals(0, stats.hitCount());
+
+    assertSame(key, cache.get(key));
+    stats = cache.stats();
+    assertEquals(2, stats.missCount());
+    assertEquals(3, stats.loadCount());
+    assertEquals(1, stats.hitCount());
+
+    Object value = new Object();
+    // callable is not called
+    assertSame(key, cache.get(key, Callables.throwing(new Exception())));
+    stats = cache.stats();
+    assertEquals(2, stats.missCount());
+    assertEquals(3, stats.loadCount());
+    assertEquals(2, stats.hitCount());
+
+    key = new Object();
+    assertSame(value, cache.get(key, Callables.returning(value)));
+    stats = cache.stats();
+    assertEquals(3, stats.missCount());
+    assertEquals(4, stats.loadCount());
+    assertEquals(2, stats.hitCount());
+  }
+
+  public void testComputeNull() throws ExecutionException {
     Cache<Object, Object> cache = CacheBuilder.newBuilder().build(constantLoader(null));
     CacheStats stats = cache.stats();
     assertEquals(0, stats.missCount());
@@ -72,6 +125,14 @@ public class CacheComputationTest extends TestCase {
     stats = cache.stats();
     assertEquals(2, stats.missCount());
     assertEquals(3, stats.loadCount());
+
+    try {
+      cache.get(new Object(), Callables.returning(null));
+      fail();
+    } catch (NullPointerException expected) {}
+    stats = cache.stats();
+    assertEquals(3, stats.missCount());
+    assertEquals(4, stats.loadCount());
   }
 
   public void testComputeError() throws ExecutionException {
@@ -115,6 +176,23 @@ public class CacheComputationTest extends TestCase {
     assertEquals(2, stats.missCount());
     assertEquals(0, stats.loadSuccessCount());
     assertEquals(3, stats.loadExceptionCount());
+
+    final Error callableError = new Error();
+    try {
+      cache.get(new Object(), new Callable<Object>() {
+        @Override
+        public Object call() {
+          throw callableError;
+        }
+      });
+      fail();
+    } catch (ExecutionError expected) {
+      assertSame(callableError, expected.getCause());
+    }
+    stats = cache.stats();
+    assertEquals(3, stats.missCount());
+    assertEquals(0, stats.loadSuccessCount());
+    assertEquals(4, stats.loadExceptionCount());
   }
 
   public void testComputeCheckedException() {
@@ -158,6 +236,18 @@ public class CacheComputationTest extends TestCase {
     assertEquals(2, stats.missCount());
     assertEquals(0, stats.loadSuccessCount());
     assertEquals(3, stats.loadExceptionCount());
+
+    Exception callableException = new Exception();
+    try {
+      cache.get(new Object(), Callables.throwing(callableException));
+      fail();
+    } catch (ExecutionException expected) {
+      assertSame(callableException, expected.getCause());
+    }
+    stats = cache.stats();
+    assertEquals(3, stats.missCount());
+    assertEquals(0, stats.loadSuccessCount());
+    assertEquals(4, stats.loadExceptionCount());
   }
 
   public void testComputeUncheckedException() throws ExecutionException {
@@ -201,6 +291,18 @@ public class CacheComputationTest extends TestCase {
     assertEquals(2, stats.missCount());
     assertEquals(0, stats.loadSuccessCount());
     assertEquals(3, stats.loadExceptionCount());
+
+    Exception callableException = new RuntimeException();
+    try {
+      cache.get(new Object(), Callables.throwing(callableException));
+      fail();
+    } catch (UncheckedExecutionException expected) {
+      assertSame(callableException, expected.getCause());
+    }
+    stats = cache.stats();
+    assertEquals(3, stats.missCount());
+    assertEquals(0, stats.loadSuccessCount());
+    assertEquals(4, stats.loadExceptionCount());
   }
 
   public void testRecomputeAfterFailure() throws ExecutionException {

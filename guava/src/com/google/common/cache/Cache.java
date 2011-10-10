@@ -22,6 +22,7 @@ import com.google.common.util.concurrent.ExecutionError;
 import com.google.common.util.concurrent.UncheckedExecutionException;
 
 import java.util.Map;
+import java.util.concurrent.Callable;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.ExecutionException;
 
@@ -41,9 +42,8 @@ import java.util.concurrent.ExecutionException;
 public interface Cache<K, V> extends Function<K, V> {
 
   /**
-   * Returns the value associated with the given key, creating or retrieving that value if
-   * necessary, and throwing an execution exception on failure. No state associated with this cache
-   * is modified until loading completes. Note that this method will never return {@code null}.
+   * Returns the value associated with {@code key} in this cache, first loading that value if
+   * necessary. No observable state associated with this cache is modified until loading completes.
    *
    * @throws ExecutionException if a checked exception was thrown while loading the response
    * @throws UncheckedExecutionException if an unchecked exception was thrown while loading the
@@ -53,20 +53,40 @@ public interface Cache<K, V> extends Function<K, V> {
   V get(K key) throws ExecutionException;
 
   /**
-   * Returns the value associated with the given key, loading that value if necessary. No state
-   * associated with this cache is modified until computation completes. Unlike {@link #get}, this
-   * method does not throw a checked exception, and thus should only be used in situations where
-   * checked exceptions are not thrown by the cache loader. Note that this method will never return
-   * {@code null}.
+   * Returns the value associated with {@code key} in this cache, first loading that value if
+   * necessary. No observable state associated with this cache is modified until computation
+   * completes. Unlike {@link #get}, this method does not throw a checked exception, and thus should
+   * only be used in situations where checked exceptions are not thrown by the cache loader.
    *
-   * <p><b>Warning:</b> this method silently converts checked exceptions to unchecked exceptions.
-   * The {@link #get} method should be preferred for cache loaders which throw checked exceptions.
+   * <p><b>Warning:</b> this method silently converts checked exceptions to unchecked exceptions,
+   * and should not be used with cache loaders which throw checked exceptions.
    *
    * @throws UncheckedExecutionException if an exception was thrown while loading the response,
    *     regardless of whether the exception was checked or unchecked
    * @throws ExecutionError if an error was thrown while loading the response
    */
   V getUnchecked(K key);
+
+  /**
+   * Returns the value associated with {@code key} in this cache, obtaining that value from
+   * {@code valueLoader} if necessary. No observable state associated with this cache is modified
+   * until loading completes.
+   *
+   * <p>This method functions identically to {@link #get(Object)}, simply using a different
+   * mechanism to load the value if missing. This method provides a simple substitute for the
+   * conventional "if cached, return; otherwise create, cache and return" pattern.
+   *
+   * <p><b>Warning:</b> as with {@link CacheLoader#load}, {@code valueLoader} <b>must not</b> return
+   * {@code null}; it may either return a non-null value or throw an exception.
+   *
+   * @throws ExecutionException if a checked exception was thrown while loading the response
+   * @throws UncheckedExecutionException if an unchecked exception was thrown while loading the
+   *     response
+   * @throws ExecutionError if an error was thrown while loading the response
+   * @throws UnsupportedOperationException if this operation is not supported by the cache
+   *     implementation
+   */
+  V get(K key, Callable<V> valueLoader) throws ExecutionException;
 
   /**
    * Discouraged. Provided to satisfy the {@code Function} interface; use {@link #get} or

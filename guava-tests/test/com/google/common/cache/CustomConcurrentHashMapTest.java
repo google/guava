@@ -127,7 +127,7 @@ public class CustomConcurrentHashMapTest extends TestCase {
       }
     };
     CustomConcurrentHashMap<Object, Object> map = makeComputingMap(createCacheBuilder(), loader);
-    assertSame(loader, map.loader);
+    assertSame(loader, map.defaultLoader);
   }
 
   public void testSetKeyEquivalence() {
@@ -2199,7 +2199,7 @@ public class CustomConcurrentHashMapTest extends TestCase {
     CustomConcurrentHashMap<Object, Object> mapOne = one.map;
     CustomConcurrentHashMap<Object, Object> mapTwo = two.map;
 
-    assertEquals(mapOne.loader, mapTwo.loader);
+    assertEquals(mapOne.defaultLoader, mapTwo.defaultLoader);
     assertEquals(mapOne.keyStrength, mapTwo.keyStrength);
     assertEquals(mapOne.keyStrength, mapTwo.keyStrength);
     assertEquals(mapOne.valueEquivalence, mapTwo.valueEquivalence);

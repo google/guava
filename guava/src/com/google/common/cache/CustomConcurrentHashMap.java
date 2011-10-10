@@ -152,7 +152,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
   /** The segments, each of which is a specialized hash table. */
   final Segment<K, V>[] segments;
 
-  final CacheLoader<? super K, V> loader;
+  final CacheLoader<? super K, V> defaultLoader;
 
   /** The concurrency level. */
   final int concurrencyLevel;
@@ -203,7 +203,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
   CustomConcurrentHashMap(CacheBuilder<? super K, ? super V> builder,
       Supplier<? extends StatsCounter> statsCounterSupplier,
       CacheLoader<? super K, V> loader) {
-    this.loader = checkNotNull(loader);
+    this.defaultLoader = checkNotNull(loader);
 
     concurrencyLevel = Math.min(builder.getConcurrencyLevel(), MAX_SEGMENTS);
 
@@ -4076,6 +4076,10 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
   }
 
   V getOrLoad(K key) throws ExecutionException {
+    return getOrLoad(key, defaultLoader);
+  }
+
+  V getOrLoad(K key, CacheLoader<? super K, V> loader) throws ExecutionException {
     int hash = hash(checkNotNull(key));
     return segmentFor(hash).getOrLoad(key, hash, loader);
   }
@@ -4107,7 +4111,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
 
   void refresh(K key) throws ExecutionException {
     int hash = hash(checkNotNull(key));
-    segmentFor(hash).refresh(key, hash, loader);
+    segmentFor(hash).refresh(key, hash, defaultLoader);
   }
 
   @Override
@@ -4551,7 +4555,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
   // Serialization Support
 
   Cache<K, V> cacheSerializationProxy() {
-    return new SerializationProxy<K, V>(loader, keyStrength, valueStrength, keyEquivalence,
+    return new SerializationProxy<K, V>(defaultLoader, keyStrength, valueStrength, keyEquivalence,
         valueEquivalence, expireAfterWriteNanos, expireAfterAccessNanos, maxWeight, weigher,
         concurrencyLevel, removalListener, ticker);
   }

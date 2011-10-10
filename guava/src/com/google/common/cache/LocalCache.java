@@ -22,6 +22,7 @@ import com.google.common.base.Supplier;
 import com.google.common.cache.CustomConcurrentHashMap.Segment;
 
 import java.io.Serializable;
+import java.util.concurrent.Callable;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.ExecutionException;
 
@@ -44,6 +45,17 @@ class LocalCache<K, V> extends AbstractCache<K, V> implements Serializable {
   @Override
   public V get(K key) throws ExecutionException {
     return map.getOrLoad(key);
+  }
+
+  @Override
+  public V get(K key, final Callable<V> valueLoader) throws ExecutionException {
+    checkNotNull(valueLoader);
+    return map.getOrLoad(key, new CacheLoader<Object, V>() {
+      @Override
+      public V load(Object key) throws Exception {
+        return valueLoader.call();
+      }
+    });
   }
 
   @Override

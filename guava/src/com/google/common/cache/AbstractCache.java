@@ -19,6 +19,7 @@ package com.google.common.cache;
 import com.google.common.annotations.Beta;
 import com.google.common.util.concurrent.UncheckedExecutionException;
 
+import java.util.concurrent.Callable;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.atomic.AtomicLong;
@@ -50,6 +51,11 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
     } catch (ExecutionException e) {
       throw new UncheckedExecutionException(e.getCause());
     }
+  }
+
+  @Override
+  public V get(K key, Callable<V> valueLoader) throws ExecutionException {
+    throw new UnsupportedOperationException();
   }
 
   @Override

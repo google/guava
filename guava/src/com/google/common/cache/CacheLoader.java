@@ -40,7 +40,7 @@ public abstract class CacheLoader<K, V> {
    * Computes or retrieves the value corresponding to {@code key}.
    *
    * @param key the non-null key whose value should be loaded
-   * @return the value associated with {@code key}; <b>may not be null</b>
+   * @return the value associated with {@code key}; <b>must not be null</b>
    */
   public abstract V load(K key) throws Exception;
 
@@ -54,7 +54,7 @@ public abstract class CacheLoader<K, V> {
    *
    * @param key the non-null key whose value should be loaded
    * @param oldValue the non-null old value corresponding to {@code key}
-   * @return the new value associated with {@code key}; <b>may not be null</b>
+   * @return the new value associated with {@code key}; <b>must not be null</b>
    * @since 11.0
    */
   public V reload(K key, V oldValue) throws Exception {
