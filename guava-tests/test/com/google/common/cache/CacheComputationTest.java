@@ -82,7 +82,7 @@ public class CacheComputationTest extends TestCase {
 
     Object value = new Object();
     // callable is not called
-    assertSame(key, cache.get(key, Callables.throwing(new Exception())));
+    assertSame(key, cache.get(key, throwing(new Exception())));
     stats = cache.stats();
     assertEquals(2, stats.missCount());
     assertEquals(3, stats.loadCount());
@@ -239,7 +239,7 @@ public class CacheComputationTest extends TestCase {
 
     Exception callableException = new Exception();
     try {
-      cache.get(new Object(), Callables.throwing(callableException));
+      cache.get(new Object(), throwing(callableException));
       fail();
     } catch (ExecutionException expected) {
       assertSame(callableException, expected.getCause());
@@ -294,7 +294,7 @@ public class CacheComputationTest extends TestCase {
 
     Exception callableException = new RuntimeException();
     try {
-      cache.get(new Object(), Callables.throwing(callableException));
+      cache.get(new Object(), throwing(callableException));
       fail();
     } catch (UncheckedExecutionException expected) {
       assertSame(callableException, expected.getCause());
@@ -1006,5 +1006,13 @@ public class CacheComputationTest extends TestCase {
     assertEquals(key, result.get(0));
     assertEquals(key, result.get(1));
     assertEquals(key + suffix, cache.getUnchecked(key));
+  }
+
+  static <T> Callable<T> throwing(final Exception exception) {
+    return new Callable<T>() {
+      @Override public T call() throws Exception {
+        throw exception;
+      }
+    };
   }
 }
