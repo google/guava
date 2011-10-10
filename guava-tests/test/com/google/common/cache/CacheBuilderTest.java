@@ -45,7 +45,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
- * Legacy unit tests for MapMaker.
+ * Unit tests for CacheBuilder.
  */
 public class CacheBuilderTest extends TestCase {
 

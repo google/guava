@@ -61,10 +61,9 @@ import javax.annotation.CheckReturnValue;
  * <p>Usage example: <pre>   {@code
  *
  *   Cache<Key, Graph> graphs = CacheBuilder.newBuilder()
- *       .concurrencyLevel(4)
- *       .weakKeys()
  *       .maximumSize(10000)
  *       .expireAfterWrite(10, TimeUnit.MINUTES)
+ *       .removalListener(MY_LISTENER)
  *       .build(
  *           new CacheLoader<Key, Graph>() {
  *             public Graph load(Key key) throws AnyException {

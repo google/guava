@@ -36,8 +36,8 @@ import javax.annotation.Nullable;
  * @author mike nonemacher
  */
 class CacheBuilderFactory {
-  // Default values contain only 'null', which means don't call the MapMaker method (just give the
-  // MapMaker default).
+  // Default values contain only 'null', which means don't call the CacheBuilder method (just give
+  // the CacheBuilder default).
   private Set<Integer> concurrencyLevels = Sets.newHashSet((Integer) null);
   private Set<Integer> initialCapacities = Sets.newHashSet((Integer) null);
   private Set<Integer> maximumSizes = Sets.newHashSet((Integer) null);
