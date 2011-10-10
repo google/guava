@@ -646,7 +646,8 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
 
     /**
      * Returns true if a new value is currently loading, regardless of whether or not there is an
-     * existing value.
+     * existing value. It is assumed that the return value of this method is constant for any given
+     * ValueReference instance.
      */
     boolean isLoading();
 
@@ -2347,106 +2348,119 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
 
     // loading
 
-    V getOrLoad(K key, int hash, CacheLoader<? super K, V> loader)
-        throws ExecutionException {
+    V getOrLoad(K key, int hash, CacheLoader<? super K, V> loader) throws ExecutionException {
       try {
-        outer: while (true) {
-          // don't call getLiveEntry, which would ignore loading values
-          ReferenceEntry<K, V> e = null;
-          if (count != 0) { // read-volatile
-            e = getEntry(key, hash);
-            if (e != null) {
-              V value = getLiveValue(e);
-              if (value != null) {
-                recordRead(e);
+        // don't call getLiveEntry, which would ignore loading values
+        if (count != 0) { // read-volatile
+          ReferenceEntry<K, V> e = getEntry(key, hash);
+          if (e != null) {
+            V value = getLiveValue(e);
+            if (value != null) {
+              recordRead(e);
+              statsCounter.recordHit();
+              return value;
+            }
+            ValueReference<K, V> valueReference = e.getValueReference();
+            if (valueReference.isLoading()) {
+              return waitForLoadingValue(e, valueReference);
+            }
+          }
+        }
+
+        // at this point e is either null or expired;
+        return lockedGetOrLoad(key, hash, loader);
+      } finally {
+        postReadCleanup();
+      }
+    }
+
+    V lockedGetOrLoad(K key, int hash, CacheLoader<? super K, V> loader) throws ExecutionException {
+      ReferenceEntry<K, V> e;
+      ValueReference<K, V> valueReference = null;
+      LoadingValueReference<K, V> loadingValueReference = null;
+      boolean createNewEntry = true;
+
+      lock();
+      try {
+        preWriteCleanup();
+
+        int newCount = this.count - 1;
+        AtomicReferenceArray<ReferenceEntry<K, V>> table = this.table;
+        int index = hash & (table.length() - 1);
+        ReferenceEntry<K, V> first = table.get(index);
+
+        for (e = first; e != null; e = e.getNext()) {
+          K entryKey = e.getKey();
+          if (e.getHash() == hash && entryKey != null
+              && map.keyEquivalence.equivalent(key, entryKey)) {
+            valueReference = e.getValueReference();
+            if (valueReference.isLoading()) {
+              createNewEntry = false;
+            } else {
+              V value = valueReference.get();
+              if (value == null) {
+                enqueueNotification(entryKey, hash, valueReference, RemovalCause.COLLECTED);
+              } else if (map.expires() && map.isExpired(e)) {
+                // This is a duplicate check, as preWriteCleanup already purged expired
+                // entries, but let's accomodate an incorrect expiration queue.
+                enqueueNotification(entryKey, hash, valueReference, RemovalCause.EXPIRED);
+              } else {
+                recordLockedRead(e);
                 statsCounter.recordHit();
                 return value;
               }
+
+              // immediately reuse invalid entries
+              evictionQueue.remove(e);
+              expirationQueue.remove(e);
+              this.count = newCount; // write-volatile
             }
+            break;
           }
+        }
 
-          // at this point e is either null, loading, or expired;
-          // avoid locking if it's already loading
-          if (e == null || !e.getValueReference().isLoading()) {
-            boolean createNewEntry = true;
-            LoadingValueReference<K, V> loadingValueReference = null;
-            lock();
-            try {
-              preWriteCleanup();
+        if (createNewEntry) {
+          loadingValueReference = new LoadingValueReference<K, V>();
 
-              int newCount = this.count - 1;
-              AtomicReferenceArray<ReferenceEntry<K, V>> table = this.table;
-              int index = hash & (table.length() - 1);
-              ReferenceEntry<K, V> first = table.get(index);
-
-              for (e = first; e != null; e = e.getNext()) {
-                K entryKey = e.getKey();
-                if (e.getHash() == hash && entryKey != null
-                    && map.keyEquivalence.equivalent(key, entryKey)) {
-                  ValueReference<K, V> valueReference = e.getValueReference();
-                  if (valueReference.isLoading()) {
-                    createNewEntry = false;
-                  } else {
-                    V value = valueReference.get();
-                    if (value == null) {
-                      enqueueNotification(entryKey, hash, valueReference, RemovalCause.COLLECTED);
-                    } else if (map.expires() && map.isExpired(e)) {
-                      // This is a duplicate check, as preWriteCleanup already purged expired
-                      // entries, but let's accomodate an incorrect expiration queue.
-                      enqueueNotification(entryKey, hash, valueReference, RemovalCause.EXPIRED);
-                    } else {
-                      recordLockedRead(e);
-                      statsCounter.recordHit();
-                      return value;
-                    }
-
-                    // immediately reuse invalid entries
-                    evictionQueue.remove(e);
-                    expirationQueue.remove(e);
-                    this.count = newCount; // write-volatile
-                  }
-                  break;
-                }
-              }
-
-              if (createNewEntry) {
-                loadingValueReference = new LoadingValueReference<K, V>();
-
-                if (e == null) {
-                  e = newEntry(key, hash, first);
-                  e.setValueReference(loadingValueReference);
-                  table.set(index, e);
-                } else {
-                  e.setValueReference(loadingValueReference);
-                }
-              }
-            } finally {
-              unlock();
-              postWriteCleanup();
-            }
-
-            if (createNewEntry) {
-              try {
-                return load(key, hash, e, loadingValueReference, loader);
-              } finally {
-                statsCounter.recordMiss();
-              }
-            }
-          }
-
-          // The entry already exists. Wait for loading.
-          checkState(!Thread.holdsLock(e), "Recursive load");
-          // don't consider expiration as we're concurrent with loading
-          try {
-            V value = e.getValueReference().waitForValue();
-            recordRead(e);
-            return value;
-          } finally {
-            statsCounter.recordMiss();
+          if (e == null) {
+            e = newEntry(key, hash, first);
+            e.setValueReference(loadingValueReference);
+            table.set(index, e);
+          } else {
+            e.setValueReference(loadingValueReference);
           }
         }
       } finally {
-        postReadCleanup();
+        unlock();
+        postWriteCleanup();
+      }
+
+      if (createNewEntry) {
+        try {
+          return load(key, hash, e, loadingValueReference, loader);
+        } finally {
+          statsCounter.recordMiss();
+        }
+      } else {
+        // The entry already exists. Wait for loading.
+        return waitForLoadingValue(e, valueReference);
+      }
+    }
+
+    V waitForLoadingValue(ReferenceEntry<K, V> e, ValueReference<K, V> valueReference)
+        throws ExecutionException {
+      if (!valueReference.isLoading()) {
+        throw new AssertionError();
+      }
+
+      checkState(!Thread.holdsLock(e), "Recursive load");
+      // don't consider expiration as we're concurrent with loading
+      try {
+        V value = valueReference.waitForValue();
+        recordRead(e);
+        return value;
+      } finally {
+        statsCounter.recordMiss();
       }
     }
 
