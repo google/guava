@@ -4610,12 +4610,13 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
 
     private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
       in.defaultReadObject();
-      CacheBuilder<Object, Object> builder = CacheBuilder.newLenientBuilder()
+      CacheBuilder<Object, Object> builder = CacheBuilder.newBuilder()
           .setKeyStrength(keyStrength)
           .setValueStrength(valueStrength)
           .keyEquivalence(keyEquivalence)
           .valueEquivalence(valueEquivalence)
           .concurrencyLevel(concurrencyLevel);
+      builder.strictParsing = false;
       builder.removalListener(removalListener);
       if (expireAfterWriteNanos > 0) {
         builder.expireAfterWrite(expireAfterWriteNanos, TimeUnit.NANOSECONDS);

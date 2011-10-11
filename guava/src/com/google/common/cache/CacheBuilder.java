@@ -209,17 +209,6 @@ public final class CacheBuilder<K, V> {
   }
 
   /**
-   * Enables leniant parsing for use with {@code CacheBuilderSpec}. This allows configuration
-   * combinations which don't make sense together, but which can't be forbidden by
-   * {@code CacheBuilderSpec} without making it too fragile.
-   */
-  static CacheBuilder<Object, Object> newLenientBuilder() {
-    CacheBuilder<Object, Object> builder = newBuilder();
-    builder.strictParsing = false;
-    return builder;
-  }
-
-  /**
    * Sets a custom {@code Equivalence} strategy for comparing keys.
    *
    * <p>By default, the cache uses {@link Equivalences#identity} to determine key equality when
