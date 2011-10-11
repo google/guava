@@ -357,16 +357,16 @@ public class IteratorsTest extends TestCase {
   public void testFind_withDefault_notPresent() {
     Iterable<String> list = Lists.newArrayList("cool", "pants");
     Iterator<String> iterator = list.iterator();
-    assertEquals("woot", Iterators.find(iterator,
-        Predicates.alwaysFalse(), "woot"));
+    assertEquals("woot",
+        Iterators.find(iterator, Predicates.alwaysFalse(), "woot"));
     assertFalse(iterator.hasNext());
   }
 
   public void testFind_withDefault_notPresent_nullReturn() {
     Iterable<String> list = Lists.newArrayList("cool", "pants");
     Iterator<String> iterator = list.iterator();
-    assertNull(Iterators.find(iterator, Predicates.alwaysFalse(),
-        null));
+    assertNull(
+        Iterators.find(iterator, Predicates.alwaysFalse(), null));
     assertFalse(iterator.hasNext());
   }
 
@@ -376,6 +376,43 @@ public class IteratorsTest extends TestCase {
     assertEquals("cool",
         Iterators.find(iterator, Predicates.alwaysTrue(), "woot"));
     assertEquals("pants", iterator.next());
+  }
+
+  public void testTryFind_firstElement() {
+    Iterable<String> list = Lists.newArrayList("cool", "pants");
+    Iterator<String> iterator = list.iterator();
+    assertEquals("cool",
+        Iterators.tryFind(iterator, Predicates.equalTo("cool")).get());
+  }
+
+  public void testTryFind_lastElement() {
+    Iterable<String> list = Lists.newArrayList("cool", "pants");
+    Iterator<String> iterator = list.iterator();
+    assertEquals("pants",
+        Iterators.tryFind(iterator, Predicates.equalTo("pants")).get());
+  }
+
+  public void testTryFind_alwaysTrue() {
+    Iterable<String> list = Lists.newArrayList("cool", "pants");
+    Iterator<String> iterator = list.iterator();
+    assertEquals("cool",
+        Iterators.tryFind(iterator, Predicates.alwaysTrue()).get());
+  }
+
+  public void testTryFind_alwaysFalse_orDefault() {
+    Iterable<String> list = Lists.newArrayList("cool", "pants");
+    Iterator<String> iterator = list.iterator();
+    assertEquals("woot",
+        Iterators.tryFind(iterator, Predicates.alwaysFalse()).or("woot"));
+    assertFalse(iterator.hasNext());
+  }
+
+  public void testTryFind_alwaysFalse_isPresent() {
+    Iterable<String> list = Lists.newArrayList("cool", "pants");
+    Iterator<String> iterator = list.iterator();
+    assertFalse(
+        Iterators.tryFind(iterator, Predicates.alwaysFalse()).isPresent());
+    assertFalse(iterator.hasNext());
   }
 
   public void testTransform() {

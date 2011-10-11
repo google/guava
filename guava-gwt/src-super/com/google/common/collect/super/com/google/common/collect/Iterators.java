@@ -24,6 +24,7 @@ import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Function;
 import com.google.common.base.Objects;
+import com.google.common.base.Optional;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Predicate;
 
@@ -668,8 +669,11 @@ public final class Iterators {
 
   /**
    * Returns the first element in {@code iterator} that satisfies the given
-   * predicate.  If no such element is found, the iterator will be left
-   * exhausted: its {@code hasNext()} method will return {@code false}.
+   * predicate; use this method only when such an element is known to exist. If
+   * no such element is found, the iterator will be left exhausted: its {@code
+   * hasNext()} method will return {@code false}. If it is possible that
+   * <i>no</i> element will match, use {@link #tryFind)} or {@link
+   * #find(Iterator, Predicate, T)} instead.
    *
    * @throws NoSuchElementException if no element in {@code iterator} matches
    *     the given predicate
@@ -681,9 +685,11 @@ public final class Iterators {
 
   /**
    * Returns the first element in {@code iterator} that satisfies the given
-   * predicate.  If no such element is found, {@code defaultValue} will be
+   * predicate. If no such element is found, {@code defaultValue} will be
    * returned from this method and the iterator will be left exhausted: its
-   * {@code hasNext()} method will return {@code false}.
+   * {@code hasNext()} method will return {@code false}. Note that this can
+   * usually be handled more naturally using {@code
+   * tryFind(iterator, predicate).or(defaultValue)}.
    *
    * @since 7.0
    */
@@ -691,6 +697,27 @@ public final class Iterators {
       @Nullable T defaultValue) {
     UnmodifiableIterator<T> filteredIterator = filter(iterator, predicate);
     return filteredIterator.hasNext() ? filteredIterator.next() : defaultValue;
+  }
+
+  /**
+   * Returns an {@link Optional} containing the first element in {@code
+   * iterator} that satisfies the given predicate, if such an element exists. If
+   * no such element is found, an empty {@link Optional} will be returned from
+   * this method and the the iterator will be left exhausted: its {@code
+   * hasNext()} method will return {@code false}.
+   *
+   * <p><b>Warning:</b> avoid using a {@code predicate} that matches {@code
+   * null}. If {@code null} is matched in {@code iterator}, a
+   * NullPointerException will be thrown.
+   *
+   * @since 11.0
+   */
+  public static <T> Optional<T> tryFind(
+      Iterator<T> iterator, Predicate<? super T> predicate) {
+    UnmodifiableIterator<T> filteredIterator = filter(iterator, predicate);
+    return filteredIterator.hasNext()
+        ? Optional.of(filteredIterator.next())
+        : Optional.<T>absent();
   }
 
   /**

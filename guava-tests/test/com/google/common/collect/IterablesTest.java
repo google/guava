@@ -28,6 +28,7 @@ import static org.junit.contrib.truth.Truth.ASSERT;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Function;
+import com.google.common.base.Optional;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import com.google.common.collect.testing.IteratorTester;
@@ -267,6 +268,20 @@ public class IterablesTest extends TestCase {
     assertNull(Iterables.find(list, Predicates.alwaysFalse(), null));
     assertEquals("cool",
         Iterables.find(list, Predicates.alwaysTrue(), "woot"));
+    assertCanIterateAgain(list);
+  }
+
+  public void testTryFind() {
+    Iterable<String> list = newArrayList("cool", "pants");
+    assertEquals(Optional.of("cool"),
+        Iterables.tryFind(list, Predicates.equalTo("cool")));
+    assertEquals(Optional.of("pants"),
+        Iterables.tryFind(list, Predicates.equalTo("pants")));
+    assertEquals(Optional.of("cool"),
+        Iterables.tryFind(list, Predicates.alwaysTrue()));
+    assertEquals(Optional.absent(),
+        Iterables.tryFind(list, Predicates.alwaysFalse()));
+    assertCanIterateAgain(list);
   }
 
   private static class TypeA {}
@@ -407,7 +422,8 @@ public class IterablesTest extends TestCase {
     int n = 4;
     Iterable<Integer> repeated
         = Iterables.concat(Collections.nCopies(n, iterable));
-    ASSERT.that(repeated).hasContentsInOrder(1, 2, 3, 1, 2, 3, 1, 2, 3, 1, 2, 3);
+    ASSERT.that(repeated).hasContentsInOrder(
+        1, 2, 3, 1, 2, 3, 1, 2, 3, 1, 2, 3);
   }
 
   public void testPartition_badSize() {
@@ -505,7 +521,8 @@ public class IterablesTest extends TestCase {
     List<String> freshlyAdded = newArrayList("freshly", "added");
 
     boolean changed = Iterables.addAll(alreadyThere, freshlyAdded);
-    ASSERT.that(alreadyThere).hasContentsInOrder("already", "there", "freshly", "added");
+    ASSERT.that(alreadyThere).hasContentsInOrder(
+        "already", "there", "freshly", "added");
     assertTrue(changed);
   }
 

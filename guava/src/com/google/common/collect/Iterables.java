@@ -23,6 +23,7 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Function;
 import com.google.common.base.Objects;
+import com.google.common.base.Optional;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Predicate;
 
@@ -628,7 +629,9 @@ public final class Iterables {
 
   /**
    * Returns the first element in {@code iterable} that satisfies the given
-   * predicate.
+   * predicate; use this method only when such an element is known to exist. If
+   * it is possible that <i>no</i> element will match, use {@link
+   * #tryFind)} or {@link #find(Iterable, Predicate, T)} instead.
    *
    * @throws NoSuchElementException if no element in {@code iterable} matches
    *     the given predicate
@@ -640,13 +643,30 @@ public final class Iterables {
 
   /**
    * Returns the first element in {@code iterable} that satisfies the given
-   * predicate, or {@code defaultValue} if none found.
+   * predicate, or {@code defaultValue} if none found. Note that this can
+   * usually be handled more naturally using {@code
+   * tryFind(iterable, predicate).or(defaultValue)}.
    *
    * @since 7.0
    */
   public static <T> T find(Iterable<T> iterable,
       Predicate<? super T> predicate, @Nullable T defaultValue) {
     return Iterators.find(iterable.iterator(), predicate, defaultValue);
+  }
+
+  /**
+   * Returns an {@link Optional} containing the first element in {@code
+   * iterable} that satisfies the given predicate, if such an element exists.
+   *
+   * <p><b>Warning:</b> avoid using a {@code predicate} that matches {@code
+   * null}. If {@code null} is matched in {@code iterable}, a
+   * NullPointerException will be thrown.
+   *
+   * @since 11.0
+   */
+  public static <T> Optional<T> tryFind(Iterable<T> iterable,
+      Predicate<? super T> predicate) {
+    return Iterators.tryFind(iterable.iterator(), predicate);
   }
 
   /**
