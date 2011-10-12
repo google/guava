@@ -215,23 +215,42 @@ class CacheTesting {
 
   static void checkExpiration(CustomConcurrentHashMap<?, ?> cchm) {
     for (Segment<?, ?> segment : cchm.segments) {
-      if (cchm.expires()) {
-        Set<ReferenceEntry<?, ?>> expirables = Sets.newIdentityHashSet();
+      if (cchm.usesWriteQueue()) {
+        Set<ReferenceEntry<?, ?>> entries = Sets.newIdentityHashSet();
 
         ReferenceEntry<?, ?> prev = null;
-        for (ReferenceEntry<?, ?> current : segment.expirationQueue) {
-          assertTrue(expirables.add(current));
+        for (ReferenceEntry<?, ?> current : segment.writeQueue) {
+          assertTrue(entries.add(current));
           if (prev != null) {
-            assertSame(prev, current.getPreviousExpirable());
-            assertSame(prev.getNextExpirable(), current);
-            assertTrue(prev.getExpirationTime() <= current.getExpirationTime());
+            assertSame(prev, current.getPreviousInWriteQueue());
+            assertSame(prev.getNextInWriteQueue(), current);
+            assertTrue(prev.getWriteTime() <= current.getWriteTime());
           }
           assertSame(current, segment.getEntry(current.getKey(), current.getHash()));
           prev = current;
         }
-        assertEquals(segment.count, expirables.size());
+        assertEquals(segment.count, entries.size());
       } else {
-        assertTrue(segment.expirationQueue.isEmpty());
+        assertTrue(segment.writeQueue.isEmpty());
+      }
+
+      if (cchm.usesAccessQueue()) {
+        Set<ReferenceEntry<?, ?>> entries = Sets.newIdentityHashSet();
+
+        ReferenceEntry<?, ?> prev = null;
+        for (ReferenceEntry<?, ?> current : segment.accessQueue) {
+          assertTrue(entries.add(current));
+          if (prev != null) {
+            assertSame(prev, current.getPreviousInAccessQueue());
+            assertSame(prev.getNextInAccessQueue(), current);
+            assertTrue(prev.getAccessTime() <= current.getAccessTime());
+          }
+          assertSame(current, segment.getEntry(current.getKey(), current.getHash()));
+          prev = current;
+        }
+        assertEquals(segment.count, entries.size());
+      } else {
+        assertTrue(segment.accessQueue.isEmpty());
       }
     }
   }
@@ -255,10 +274,10 @@ class CacheTesting {
         assertEquals(0, segment.readCount.get());
 
         ReferenceEntry<?, ?> prev = null;
-        for (ReferenceEntry<?, ?> current : segment.evictionQueue) {
+        for (ReferenceEntry<?, ?> current : segment.accessQueue) {
           if (prev != null) {
-            assertSame(prev, current.getPreviousEvictable());
-            assertSame(prev.getNextEvictable(), current);
+            assertSame(prev, current.getPreviousInAccessQueue());
+            assertSame(prev.getNextInAccessQueue(), current);
           }
           assertSame(current, segment.getEntry(current.getKey(), current.getHash()));
           prev = current;
@@ -291,31 +310,35 @@ class CacheTesting {
     return map;
   }
 
+  static int writeQueueSize(Cache<?, ?> cache) {
+    CustomConcurrentHashMap<?, ?> cchm = toCustomConcurrentHashMap(cache);
+
+    int size = 0;
+    for (Segment<?, ?> segment : cchm.segments) {
+      size += writeQueueSize(segment);
+    }
+    return size;
+  }
+
+  static int writeQueueSize(Segment<?, ?> segment) {
+    return segment.writeQueue.size();
+  }
+
+  static int accessQueueSize(Cache<?, ?> cache) {
+    CustomConcurrentHashMap<?, ?> cchm = toCustomConcurrentHashMap(cache);
+    int size = 0;
+    for (Segment<?, ?> segment : cchm.segments) {
+      size += accessQueueSize(segment);
+    }
+    return size;
+  }
+
+  static int accessQueueSize(Segment<?, ?> segment) {
+    return segment.accessQueue.size();
+  }
+
   static int expirationQueueSize(Cache<?, ?> cache) {
-    CustomConcurrentHashMap<?, ?> cchm = toCustomConcurrentHashMap(cache);
-
-    int size = 0;
-    for (Segment<?, ?> segment : cchm.segments) {
-      size += expirationQueueSize(segment);
-    }
-    return size;
-  }
-
-  static int expirationQueueSize(Segment<?, ?> segment) {
-    return segment.expirationQueue.size();
-  }
-
-  static int evictionQueueSize(Cache<?, ?> cache) {
-    CustomConcurrentHashMap<?, ?> cchm = toCustomConcurrentHashMap(cache);
-    int size = 0;
-    for (Segment<?, ?> segment : cchm.segments) {
-      size += evictionQueueSize(segment);
-    }
-    return size;
-  }
-
-  static int evictionQueueSize(Segment<?, ?> segment) {
-    return segment.evictionQueue.size();
+    return Math.max(accessQueueSize(cache), writeQueueSize(cache));
   }
 
   static void processPendingNotifications(Cache<?, ?> cache) {
@@ -345,17 +368,17 @@ class CacheTesting {
       CustomConcurrentHashMap<Integer, Integer> cchm = toCustomConcurrentHashMap(cache);
       Segment<?, ?> segment = cchm.segments[0];
       drainRecencyQueue(segment);
-      assertEquals(maxSize, evictionQueueSize(cache));
+      assertEquals(maxSize, accessQueueSize(cache));
       assertEquals(maxSize, cache.size());
 
-      ReferenceEntry<?, ?> originalHead = segment.evictionQueue.peek();
+      ReferenceEntry<?, ?> originalHead = segment.accessQueue.peek();
       @SuppressWarnings("unchecked")
       ReferenceEntry<Integer, Integer> entry = (ReferenceEntry) originalHead;
       operation.accept(entry);
       drainRecencyQueue(segment);
 
-      assertNotSame(originalHead, segment.evictionQueue.peek());
-      assertEquals(cache.size(), evictionQueueSize(cache));
+      assertNotSame(originalHead, segment.accessQueue.peek());
+      assertEquals(cache.size(), accessQueueSize(cache));
     }
   }
 
@@ -383,7 +406,8 @@ class CacheTesting {
 
     for (Segment<?, ?> segment : cchm.segments) {
       expireEntries(segment);
-      assertEquals("Expiration queue must be empty by now", 0, expirationQueueSize(segment));
+      assertEquals("Expiration queue must be empty by now", 0, writeQueueSize(segment));
+      assertEquals("Expiration queue must be empty by now", 0, accessQueueSize(segment));
       assertEquals("Segments must be empty by now", 0, segmentSize(segment));
     }
     cchm.processPendingNotifications();
@@ -424,8 +448,8 @@ class CacheTesting {
       for (CustomConcurrentHashMap.Segment segment : cchm.segments) {
         assertEquals(0, segment.count);
         assertEquals(0, segmentSize(segment));
-        assertTrue(segment.expirationQueue.isEmpty());
-        assertTrue(segment.evictionQueue.isEmpty());
+        assertTrue(segment.writeQueue.isEmpty());
+        assertTrue(segment.accessQueue.isEmpty());
       }
     }
   }

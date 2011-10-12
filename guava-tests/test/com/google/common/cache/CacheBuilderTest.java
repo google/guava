@@ -262,7 +262,7 @@ public class CacheBuilderTest extends TestCase {
     } catch (IllegalStateException expected) {}
 
     try {
-      builder.expireAfterAccess(3600, SECONDS);
+      builder.expireAfterWrite(3600, SECONDS);
       fail();
     } catch (IllegalStateException expected) {}
   }
@@ -290,7 +290,22 @@ public class CacheBuilderTest extends TestCase {
     } catch (IllegalStateException expected) {}
 
     try {
-      builder.expireAfterWrite(3600, SECONDS);
+      builder.expireAfterAccess(3600, SECONDS);
+      fail();
+    } catch (IllegalStateException expected) {}
+  }
+
+  public void testTimeToIdleAndToLive() {
+    CacheBuilder<Object, Object> builder =
+        CacheBuilder.newBuilder().expireAfterAccess(1, NANOSECONDS);
+    try {
+      builder.expireAfterWrite(1, NANOSECONDS);
+      fail();
+    } catch (IllegalStateException expected) {}
+
+    builder = CacheBuilder.newBuilder().expireAfterWrite(1, NANOSECONDS);
+    try {
+      builder.expireAfterAccess(1, NANOSECONDS);
       fail();
     } catch (IllegalStateException expected) {}
   }

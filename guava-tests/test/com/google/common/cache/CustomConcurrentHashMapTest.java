@@ -26,6 +26,7 @@ import static com.google.common.cache.TestingRemovalListeners.queuingRemovalList
 import static com.google.common.cache.TestingWeighers.constantWeigher;
 import static com.google.common.collect.Lists.newArrayList;
 import static com.google.common.collect.Maps.immutableEntry;
+import static java.util.concurrent.TimeUnit.HOURS;
 import static java.util.concurrent.TimeUnit.NANOSECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.easymock.EasyMock.createMock;
@@ -336,6 +337,25 @@ public class CustomConcurrentHashMapTest extends TestCase {
     };
     CustomConcurrentHashMap<Object, Object> map = makeMap(createCacheBuilder().ticker(testTicker));
     assertSame(testTicker, map.ticker);
+  }
+
+  public void testEntryFactory() {
+    assertSame(EntryFactory.STRONG,
+        EntryFactory.getFactory(Strength.STRONG, false, false));
+    assertSame(EntryFactory.STRONG_ACCESS,
+        EntryFactory.getFactory(Strength.STRONG, true, false));
+    assertSame(EntryFactory.STRONG_WRITE,
+        EntryFactory.getFactory(Strength.STRONG, false, true));
+    assertSame(EntryFactory.STRONG_ACCESS_WRITE,
+        EntryFactory.getFactory(Strength.STRONG, true, true));
+    assertSame(EntryFactory.WEAK,
+        EntryFactory.getFactory(Strength.WEAK, false, false));
+    assertSame(EntryFactory.WEAK_ACCESS,
+        EntryFactory.getFactory(Strength.WEAK, true, false));
+    assertSame(EntryFactory.WEAK_WRITE,
+        EntryFactory.getFactory(Strength.WEAK, false, true));
+    assertSame(EntryFactory.WEAK_ACCESS_WRITE,
+        EntryFactory.getFactory(Strength.WEAK, true, true));
   }
 
   // computation tests
@@ -843,11 +863,11 @@ public class CustomConcurrentHashMapTest extends TestCase {
       int hashTwo = map.hash(keyTwo);
       ReferenceEntry<Object, Object> entryTwo = map.newEntry(keyTwo, hashTwo, entryOne);
       entryTwo.setValueReference(map.newValueReference(entryTwo, valueTwo, 1));
-      if (map.evictsBySize()) {
-        CustomConcurrentHashMap.connectEvictables(entryOne, entryTwo);
+      if (map.usesAccessQueue()) {
+        CustomConcurrentHashMap.connectAccessOrder(entryOne, entryTwo);
       }
-      if (map.expires()) {
-        CustomConcurrentHashMap.connectExpirables(entryOne, entryTwo);
+      if (map.usesWriteQueue()) {
+        CustomConcurrentHashMap.connectWriteOrder(entryOne, entryTwo);
       }
       assertConnected(map, entryOne, entryTwo);
 
@@ -869,17 +889,17 @@ public class CustomConcurrentHashMapTest extends TestCase {
 
   private static <K, V> void assertConnected(
       CustomConcurrentHashMap<K, V> map, ReferenceEntry<K, V> one, ReferenceEntry<K, V> two) {
-    if (map.evictsBySize()) {
-      assertSame(two, one.getNextEvictable());
+    if (map.usesWriteQueue()) {
+      assertSame(two, one.getNextInWriteQueue());
     }
-    if (map.expires()) {
-      assertSame(two, one.getNextExpirable());
+    if (map.usesAccessQueue()) {
+      assertSame(two, one.getNextInAccessQueue());
     }
   }
 
   public void testSegmentGetAndContains() {
     CustomConcurrentHashMap<Object, Object> map =
-        makeMap(createCacheBuilder().concurrencyLevel(1).expireAfterAccess(99999, SECONDS));
+        makeMap(createCacheBuilder().concurrencyLevel(1).expireAfterAccess(1, HOURS));
     Segment<Object, Object> segment = map.segments[0];
     // TODO(fry): check recency ordering
 
@@ -945,7 +965,7 @@ public class CustomConcurrentHashMapTest extends TestCase {
     assertTrue(segment.containsValue(dummyValue));
 
     // expired
-    dummy.setExpirationTime(0);
+    dummy.setAccessTime(0);
     assertNull(segment.get(key, hash));
     assertFalse(segment.containsKey(key, hash));
     assertTrue(segment.containsValue(value));
@@ -1381,8 +1401,8 @@ public class CustomConcurrentHashMapTest extends TestCase {
     assertSame(keyOne, listener.getLastEvictedKey());
     assertSame(valueOne, listener.getLastEvictedValue());
     assertTrue(map.removalNotificationQueue.isEmpty());
-    assertFalse(segment.evictionQueue.contains(entryOne));
-    assertFalse(segment.expirationQueue.contains(entryOne));
+    assertFalse(segment.accessQueue.contains(entryOne));
+    assertFalse(segment.writeQueue.contains(entryOne));
     assertEquals(0, segment.count);
     assertNull(table.get(0));
   }
@@ -1510,13 +1530,13 @@ public class CustomConcurrentHashMapTest extends TestCase {
     segment.count = 1;
 
     assertSame(entry, table.get(0));
-    assertSame(entry, segment.evictionQueue.peek());
-    assertSame(entry, segment.expirationQueue.peek());
+    assertSame(entry, segment.accessQueue.peek());
+    assertSame(entry, segment.writeQueue.peek());
 
     segment.clear();
     assertNull(table.get(0));
-    assertTrue(segment.evictionQueue.isEmpty());
-    assertTrue(segment.expirationQueue.isEmpty());
+    assertTrue(segment.accessQueue.isEmpty());
+    assertTrue(segment.writeQueue.isEmpty());
     assertEquals(0, segment.readCount.get());
     assertEquals(0, segment.count);
   }
@@ -1547,8 +1567,8 @@ public class CustomConcurrentHashMapTest extends TestCase {
     assertTrue(segment.removeEntry(entry, hash, RemovalCause.COLLECTED));
     assertNotificationEnqueued(map, key, value, hash);
     assertTrue(map.removalNotificationQueue.isEmpty());
-    assertFalse(segment.evictionQueue.contains(entry));
-    assertFalse(segment.expirationQueue.contains(entry));
+    assertFalse(segment.accessQueue.contains(entry));
+    assertFalse(segment.writeQueue.contains(entry));
     assertEquals(0, segment.count);
     assertNull(table.get(0));
   }
@@ -1585,8 +1605,8 @@ public class CustomConcurrentHashMapTest extends TestCase {
     assertSame(key, listener.getLastEvictedKey());
     assertSame(value, listener.getLastEvictedValue());
     assertTrue(map.removalNotificationQueue.isEmpty());
-    assertFalse(segment.evictionQueue.contains(entry));
-    assertFalse(segment.expirationQueue.contains(entry));
+    assertFalse(segment.accessQueue.contains(entry));
+    assertFalse(segment.writeQueue.contains(entry));
     assertEquals(0, segment.count);
     assertNull(table.get(0));
 
@@ -1862,14 +1882,11 @@ public class CustomConcurrentHashMapTest extends TestCase {
   static <K, V> void checkEvictionQueues(CustomConcurrentHashMap<K, V> map,
       Segment<K, V> segment, List<ReferenceEntry<K, V>> readOrder,
       List<ReferenceEntry<K, V>> writeOrder) {
-    if (map.evictsBySize()) {
-      assertSameEntries(readOrder, ImmutableList.copyOf(segment.evictionQueue));
-    }
-    if (map.expiresAfterAccess()) {
-      assertSameEntries(readOrder, ImmutableList.copyOf(segment.expirationQueue));
+    if (map.evictsBySize() || map.expiresAfterAccess()) {
+      assertSameEntries(readOrder, ImmutableList.copyOf(segment.accessQueue));
     }
     if (map.expiresAfterWrite()) {
-      assertSameEntries(writeOrder, ImmutableList.copyOf(segment.expirationQueue));
+      assertSameEntries(writeOrder, ImmutableList.copyOf(segment.writeQueue));
     }
   }
 
@@ -1891,18 +1908,28 @@ public class CustomConcurrentHashMapTest extends TestCase {
     }
 
     for (Segment<K, V> segment : map.segments) {
-      long lastExpirationTime = 0;
+      long lastAccessTime = 0;
+      long lastWriteTime = 0;
       for (ReferenceEntry<K, V> e : segment.recencyQueue) {
-        long expirationTime = e.getExpirationTime();
-        assertTrue(expirationTime >= lastExpirationTime);
-        lastExpirationTime = expirationTime;
+        long accessTime = e.getAccessTime();
+        assertTrue(accessTime >= lastAccessTime);
+        lastAccessTime = accessTime;
+        long writeTime = e.getWriteTime();
+        assertTrue(writeTime >= lastWriteTime);
+        lastWriteTime = writeTime;
       }
 
-      lastExpirationTime = 0;
-      for (ReferenceEntry<K, V> e : segment.expirationQueue) {
-        long expirationTime = e.getExpirationTime();
-        assertTrue(expirationTime >= lastExpirationTime);
-        lastExpirationTime = expirationTime;
+      lastAccessTime = 0;
+      lastWriteTime = 0;
+      for (ReferenceEntry<K, V> e : segment.accessQueue) {
+        long accessTime = e.getAccessTime();
+        assertTrue(accessTime >= lastAccessTime);
+        lastAccessTime = accessTime;
+      }
+      for (ReferenceEntry<K, V> e : segment.writeQueue) {
+        long writeTime = e.getWriteTime();
+        assertTrue(writeTime >= lastWriteTime);
+        lastWriteTime = writeTime;
       }
     }
   }
@@ -1921,29 +1948,29 @@ public class CustomConcurrentHashMapTest extends TestCase {
     ReferenceEntry<Object, Object> entry = map.getEntry(key);
     assertTrue(map.isLive(entry));
 
-    segment.expirationQueue.add(entry);
+    segment.writeQueue.add(entry);
     assertSame(value, map.get(key));
-    assertSame(entry, segment.expirationQueue.peek());
-    assertEquals(1, segment.expirationQueue.size());
+    assertSame(entry, segment.writeQueue.peek());
+    assertEquals(1, segment.writeQueue.size());
 
     segment.recordRead(entry);
     segment.expireEntries();
     assertSame(value, map.get(key));
-    assertSame(entry, segment.expirationQueue.peek());
-    assertEquals(1, segment.expirationQueue.size());
+    assertSame(entry, segment.writeQueue.peek());
+    assertEquals(1, segment.writeQueue.size());
 
     ticker.advance(1);
     segment.recordRead(entry);
     segment.expireEntries();
     assertSame(value, map.get(key));
-    assertSame(entry, segment.expirationQueue.peek());
-    assertEquals(1, segment.expirationQueue.size());
+    assertSame(entry, segment.writeQueue.peek());
+    assertEquals(1, segment.writeQueue.size());
 
     ticker.advance(1);
     assertNull(map.get(key));
     segment.expireEntries();
     assertNull(map.get(key));
-    assertTrue(segment.expirationQueue.isEmpty());
+    assertTrue(segment.writeQueue.isEmpty());
   }
 
   public void testExpireAfterAccess() {
@@ -1960,36 +1987,36 @@ public class CustomConcurrentHashMapTest extends TestCase {
     ReferenceEntry<Object, Object> entry = map.getEntry(key);
     assertTrue(map.isLive(entry));
 
-    segment.expirationQueue.add(entry);
+    segment.accessQueue.add(entry);
     assertSame(value, map.get(key));
-    assertSame(entry, segment.expirationQueue.peek());
-    assertEquals(1, segment.expirationQueue.size());
+    assertSame(entry, segment.accessQueue.peek());
+    assertEquals(1, segment.accessQueue.size());
 
     segment.recordRead(entry);
     segment.expireEntries();
     assertTrue(map.containsKey(key));
-    assertSame(entry, segment.expirationQueue.peek());
-    assertEquals(1, segment.expirationQueue.size());
+    assertSame(entry, segment.accessQueue.peek());
+    assertEquals(1, segment.accessQueue.size());
 
     ticker.advance(1);
     segment.recordRead(entry);
     segment.expireEntries();
     assertTrue(map.containsKey(key));
-    assertSame(entry, segment.expirationQueue.peek());
-    assertEquals(1, segment.expirationQueue.size());
+    assertSame(entry, segment.accessQueue.peek());
+    assertEquals(1, segment.accessQueue.size());
 
     ticker.advance(1);
     segment.recordRead(entry);
     segment.expireEntries();
     assertTrue(map.containsKey(key));
-    assertSame(entry, segment.expirationQueue.peek());
-    assertEquals(1, segment.expirationQueue.size());
+    assertSame(entry, segment.accessQueue.peek());
+    assertEquals(1, segment.accessQueue.size());
 
     ticker.advance(1);
     segment.expireEntries();
     assertTrue(map.containsKey(key));
-    assertSame(entry, segment.expirationQueue.peek());
-    assertEquals(1, segment.expirationQueue.size());
+    assertSame(entry, segment.accessQueue.peek());
+    assertEquals(1, segment.accessQueue.size());
 
     ticker.advance(1);
     assertFalse(map.containsKey(key));
@@ -1997,7 +2024,7 @@ public class CustomConcurrentHashMapTest extends TestCase {
     segment.expireEntries();
     assertFalse(map.containsKey(key));
     assertNull(map.get(key));
-    assertTrue(segment.expirationQueue.isEmpty());
+    assertTrue(segment.accessQueue.isEmpty());
   }
 
   public void testEvictEntries() {
@@ -2325,64 +2352,76 @@ public class CustomConcurrentHashMapTest extends TestCase {
       return key;
     }
 
-    private long expirationTime = Long.MAX_VALUE;
+    private long accessTime = Long.MAX_VALUE;
 
     @Override
-    public long getExpirationTime() {
-      return expirationTime;
+    public long getAccessTime() {
+      return accessTime;
     }
 
     @Override
-    public void setExpirationTime(long time) {
-      this.expirationTime = time;
+    public void setAccessTime(long time) {
+      this.accessTime = time;
     }
 
-    private ReferenceEntry<K, V> nextExpirable = nullEntry();
+    private ReferenceEntry<K, V> nextAccess = nullEntry();
 
     @Override
-    public ReferenceEntry<K, V> getNextExpirable() {
-      return nextExpirable;
-    }
-
-    @Override
-    public void setNextExpirable(ReferenceEntry<K, V> next) {
-      this.nextExpirable = next;
-    }
-
-    private ReferenceEntry<K, V> previousExpirable = nullEntry();
-
-    @Override
-    public ReferenceEntry<K, V> getPreviousExpirable() {
-      return previousExpirable;
+    public ReferenceEntry<K, V> getNextInAccessQueue() {
+      return nextAccess;
     }
 
     @Override
-    public void setPreviousExpirable(ReferenceEntry<K, V> previous) {
-      this.previousExpirable = previous;
+    public void setNextInAccessQueue(ReferenceEntry<K, V> next) {
+      this.nextAccess = next;
     }
 
-    private ReferenceEntry<K, V> nextEvictable = nullEntry();
+    private ReferenceEntry<K, V> previousAccess = nullEntry();
 
     @Override
-    public ReferenceEntry<K, V> getNextEvictable() {
-      return nextEvictable;
-    }
-
-    @Override
-    public void setNextEvictable(ReferenceEntry<K, V> next) {
-      this.nextEvictable = next;
-    }
-
-    private ReferenceEntry<K, V> previousEvictable = nullEntry();
-
-    @Override
-    public ReferenceEntry<K, V> getPreviousEvictable() {
-      return previousEvictable;
+    public ReferenceEntry<K, V> getPreviousInAccessQueue() {
+      return previousAccess;
     }
 
     @Override
-    public void setPreviousEvictable(ReferenceEntry<K, V> previous) {
-      this.previousEvictable = previous;
+    public void setPreviousInAccessQueue(ReferenceEntry<K, V> previous) {
+      this.previousAccess = previous;
+    }
+
+    private long writeTime = Long.MAX_VALUE;
+
+    @Override
+    public long getWriteTime() {
+      return writeTime;
+    }
+
+    @Override
+    public void setWriteTime(long time) {
+      this.writeTime = time;
+    }
+
+    private ReferenceEntry<K, V> nextWrite = nullEntry();
+
+    @Override
+    public ReferenceEntry<K, V> getNextInWriteQueue() {
+      return nextWrite;
+    }
+
+    @Override
+    public void setNextInWriteQueue(ReferenceEntry<K, V> next) {
+      this.nextWrite = next;
+    }
+
+    private ReferenceEntry<K, V> previousWrite = nullEntry();
+
+    @Override
+    public ReferenceEntry<K, V> getPreviousInWriteQueue() {
+      return previousWrite;
+    }
+
+    @Override
+    public void setPreviousInWriteQueue(ReferenceEntry<K, V> previous) {
+      this.previousWrite = previous;
     }
   }
 

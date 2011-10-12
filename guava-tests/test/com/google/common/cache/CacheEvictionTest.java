@@ -100,7 +100,7 @@ public class CacheEvictionTest extends TestCase {
       assertTrue(cache.size() <= MAX_SIZE);
     }
 
-    assertEquals(MAX_SIZE, CacheTesting.evictionQueueSize(cache));
+    assertEquals(MAX_SIZE, CacheTesting.accessQueueSize(cache));
     assertEquals(MAX_SIZE, cache.size());
     CacheTesting.processPendingNotifications(cache);
     assertEquals(MAX_SIZE, removalListener.getCount());
@@ -120,7 +120,7 @@ public class CacheEvictionTest extends TestCase {
       assertTrue(cache.size() <= MAX_SIZE);
     }
 
-    assertEquals(MAX_SIZE, CacheTesting.evictionQueueSize(cache));
+    assertEquals(MAX_SIZE, CacheTesting.accessQueueSize(cache));
     assertEquals(MAX_SIZE, cache.size());
     CacheTesting.processPendingNotifications(cache);
     assertEquals(MAX_SIZE, removalListener.getCount());

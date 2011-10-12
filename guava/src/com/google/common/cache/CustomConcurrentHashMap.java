@@ -70,8 +70,8 @@ import javax.annotation.concurrent.GuardedBy;
  * <p>This implementation is heavily derived from revision 1.96 of <a
  * href="http://tinyurl.com/ConcurrentHashMap">ConcurrentHashMap.java</a>.
  *
- * @author Bob Lee
  * @author Charles Fry
+ * @author Bob Lee ({@code com.google.common.collect.CustomConcurrentHashMap})
  * @author Doug Lea ({@code ConcurrentHashMap})
  */
 class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> {
@@ -218,7 +218,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
     expireAfterAccessNanos = builder.getExpireAfterAccessNanos();
     expireAfterWriteNanos = builder.getExpireAfterWriteNanos();
 
-    entryFactory = EntryFactory.getFactory(keyStrength, expires(), evictsBySize());
+    entryFactory = EntryFactory.getFactory(keyStrength, usesAccessQueue(), usesWriteQueue());
     ticker = builder.getTicker();
 
     removalListener = builder.getRemovalListener();
@@ -276,7 +276,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
   }
 
   boolean evictsBySize() {
-    return maxWeight != UNSET_INT;
+    return maxWeight >= 0;
   }
 
   boolean customWeigher() {
@@ -293,6 +293,14 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
 
   boolean expiresAfterAccess() {
     return expireAfterAccessNanos > 0;
+  }
+
+  boolean usesAccessQueue() {
+    return expiresAfterAccess() || evictsBySize();
+  }
+
+  boolean usesWriteQueue() {
+    return expiresAfterWrite();
   }
 
   boolean usesKeyReferences() {
@@ -381,103 +389,49 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
         return new StrongEntry<K, V>(key, hash, next);
       }
     },
-    STRONG_EXPIRABLE {
+    STRONG_ACCESS {
       @Override
       <K, V> ReferenceEntry<K, V> newEntry(
           Segment<K, V> segment, K key, int hash, @Nullable ReferenceEntry<K, V> next) {
-        return new StrongExpirableEntry<K, V>(key, hash, next);
+        return new StrongAccessEntry<K, V>(key, hash, next);
       }
 
       @Override
       <K, V> ReferenceEntry<K, V> copyEntry(
           Segment<K, V> segment, ReferenceEntry<K, V> original, ReferenceEntry<K, V> newNext) {
         ReferenceEntry<K, V> newEntry = super.copyEntry(segment, original, newNext);
-        copyExpirableEntry(original, newEntry);
+        copyAccessEntry(original, newEntry);
         return newEntry;
       }
     },
-    STRONG_EVICTABLE {
+    STRONG_WRITE {
       @Override
       <K, V> ReferenceEntry<K, V> newEntry(
           Segment<K, V> segment, K key, int hash, @Nullable ReferenceEntry<K, V> next) {
-        return new StrongEvictableEntry<K, V>(key, hash, next);
+        return new StrongWriteEntry<K, V>(key, hash, next);
       }
 
       @Override
       <K, V> ReferenceEntry<K, V> copyEntry(
           Segment<K, V> segment, ReferenceEntry<K, V> original, ReferenceEntry<K, V> newNext) {
         ReferenceEntry<K, V> newEntry = super.copyEntry(segment, original, newNext);
-        copyEvictableEntry(original, newEntry);
+        copyWriteEntry(original, newEntry);
         return newEntry;
       }
     },
-    STRONG_EXPIRABLE_EVICTABLE {
+    STRONG_ACCESS_WRITE {
       @Override
       <K, V> ReferenceEntry<K, V> newEntry(
           Segment<K, V> segment, K key, int hash, @Nullable ReferenceEntry<K, V> next) {
-        return new StrongExpirableEvictableEntry<K, V>(key, hash, next);
+        return new StrongAccessWriteEntry<K, V>(key, hash, next);
       }
 
       @Override
       <K, V> ReferenceEntry<K, V> copyEntry(
           Segment<K, V> segment, ReferenceEntry<K, V> original, ReferenceEntry<K, V> newNext) {
         ReferenceEntry<K, V> newEntry = super.copyEntry(segment, original, newNext);
-        copyExpirableEntry(original, newEntry);
-        copyEvictableEntry(original, newEntry);
-        return newEntry;
-      }
-    },
-
-    SOFT {
-      @Override
-      <K, V> ReferenceEntry<K, V> newEntry(
-          Segment<K, V> segment, K key, int hash, @Nullable ReferenceEntry<K, V> next) {
-        return new SoftEntry<K, V>(segment.keyReferenceQueue, key, hash, next);
-      }
-    },
-    SOFT_EXPIRABLE {
-      @Override
-      <K, V> ReferenceEntry<K, V> newEntry(
-          Segment<K, V> segment, K key, int hash, @Nullable ReferenceEntry<K, V> next) {
-        return new SoftExpirableEntry<K, V>(segment.keyReferenceQueue, key, hash, next);
-      }
-
-      @Override
-      <K, V> ReferenceEntry<K, V> copyEntry(
-          Segment<K, V> segment, ReferenceEntry<K, V> original, ReferenceEntry<K, V> newNext) {
-        ReferenceEntry<K, V> newEntry = super.copyEntry(segment, original, newNext);
-        copyExpirableEntry(original, newEntry);
-        return newEntry;
-      }
-    },
-    SOFT_EVICTABLE {
-      @Override
-      <K, V> ReferenceEntry<K, V> newEntry(
-          Segment<K, V> segment, K key, int hash, @Nullable ReferenceEntry<K, V> next) {
-        return new SoftEvictableEntry<K, V>(segment.keyReferenceQueue, key, hash, next);
-      }
-
-      @Override
-      <K, V> ReferenceEntry<K, V> copyEntry(
-          Segment<K, V> segment, ReferenceEntry<K, V> original, ReferenceEntry<K, V> newNext) {
-        ReferenceEntry<K, V> newEntry = super.copyEntry(segment, original, newNext);
-        copyEvictableEntry(original, newEntry);
-        return newEntry;
-      }
-    },
-    SOFT_EXPIRABLE_EVICTABLE {
-      @Override
-      <K, V> ReferenceEntry<K, V> newEntry(
-          Segment<K, V> segment, K key, int hash, @Nullable ReferenceEntry<K, V> next) {
-        return new SoftExpirableEvictableEntry<K, V>(segment.keyReferenceQueue, key, hash, next);
-      }
-
-      @Override
-      <K, V> ReferenceEntry<K, V> copyEntry(
-          Segment<K, V> segment, ReferenceEntry<K, V> original, ReferenceEntry<K, V> newNext) {
-        ReferenceEntry<K, V> newEntry = super.copyEntry(segment, original, newNext);
-        copyExpirableEntry(original, newEntry);
-        copyEvictableEntry(original, newEntry);
+        copyAccessEntry(original, newEntry);
+        copyWriteEntry(original, newEntry);
         return newEntry;
       }
     },
@@ -489,49 +443,49 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
         return new WeakEntry<K, V>(segment.keyReferenceQueue, key, hash, next);
       }
     },
-    WEAK_EXPIRABLE {
+    WEAK_ACCESS {
       @Override
       <K, V> ReferenceEntry<K, V> newEntry(
           Segment<K, V> segment, K key, int hash, @Nullable ReferenceEntry<K, V> next) {
-        return new WeakExpirableEntry<K, V>(segment.keyReferenceQueue, key, hash, next);
+        return new WeakAccessEntry<K, V>(segment.keyReferenceQueue, key, hash, next);
       }
 
       @Override
       <K, V> ReferenceEntry<K, V> copyEntry(
           Segment<K, V> segment, ReferenceEntry<K, V> original, ReferenceEntry<K, V> newNext) {
         ReferenceEntry<K, V> newEntry = super.copyEntry(segment, original, newNext);
-        copyExpirableEntry(original, newEntry);
+        copyAccessEntry(original, newEntry);
         return newEntry;
       }
     },
-    WEAK_EVICTABLE {
+    WEAK_WRITE {
       @Override
       <K, V> ReferenceEntry<K, V> newEntry(
           Segment<K, V> segment, K key, int hash, @Nullable ReferenceEntry<K, V> next) {
-        return new WeakEvictableEntry<K, V>(segment.keyReferenceQueue, key, hash, next);
+        return new WeakWriteEntry<K, V>(segment.keyReferenceQueue, key, hash, next);
       }
 
       @Override
       <K, V> ReferenceEntry<K, V> copyEntry(
           Segment<K, V> segment, ReferenceEntry<K, V> original, ReferenceEntry<K, V> newNext) {
         ReferenceEntry<K, V> newEntry = super.copyEntry(segment, original, newNext);
-        copyEvictableEntry(original, newEntry);
+        copyWriteEntry(original, newEntry);
         return newEntry;
       }
     },
-    WEAK_EXPIRABLE_EVICTABLE {
+    WEAK_ACCESS_WRITE {
       @Override
       <K, V> ReferenceEntry<K, V> newEntry(
           Segment<K, V> segment, K key, int hash, @Nullable ReferenceEntry<K, V> next) {
-        return new WeakExpirableEvictableEntry<K, V>(segment.keyReferenceQueue, key, hash, next);
+        return new WeakAccessWriteEntry<K, V>(segment.keyReferenceQueue, key, hash, next);
       }
 
       @Override
       <K, V> ReferenceEntry<K, V> copyEntry(
           Segment<K, V> segment, ReferenceEntry<K, V> original, ReferenceEntry<K, V> newNext) {
         ReferenceEntry<K, V> newEntry = super.copyEntry(segment, original, newNext);
-        copyExpirableEntry(original, newEntry);
-        copyEvictableEntry(original, newEntry);
+        copyAccessEntry(original, newEntry);
+        copyWriteEntry(original, newEntry);
         return newEntry;
       }
     };
@@ -539,23 +493,24 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
     /**
      * Masks used to compute indices in the following table.
      */
-    static final int EXPIRABLE_MASK = 1;
-    static final int EVICTABLE_MASK = 2;
+    static final int ACCESS_MASK = 1;
+    static final int WRITE_MASK = 2;
+    static final int WEAK_MASK = 4;
 
     /**
-     * Look-up table for factories. First dimension is the reference type. The second dimension is
-     * the result of OR-ing the feature masks.
+     * Look-up table for factories.
      */
-    static final EntryFactory[][] factories = {
-      { STRONG, STRONG_EXPIRABLE, STRONG_EVICTABLE, STRONG_EXPIRABLE_EVICTABLE },
-      { SOFT, SOFT_EXPIRABLE, SOFT_EVICTABLE, SOFT_EXPIRABLE_EVICTABLE },
-      { WEAK, WEAK_EXPIRABLE, WEAK_EVICTABLE, WEAK_EXPIRABLE_EVICTABLE }
+    static final EntryFactory[] factories = {
+      STRONG, STRONG_ACCESS, STRONG_WRITE, STRONG_ACCESS_WRITE,
+      WEAK, WEAK_ACCESS, WEAK_WRITE, WEAK_ACCESS_WRITE,
     };
 
-    static EntryFactory getFactory(Strength keyStrength, boolean expireAfterWrite,
-        boolean evictsBySize) {
-      int flags = (expireAfterWrite ? EXPIRABLE_MASK : 0) | (evictsBySize ? EVICTABLE_MASK : 0);
-      return factories[keyStrength.ordinal()][flags];
+    static EntryFactory getFactory(Strength keyStrength, boolean usesAccessQueue,
+        boolean usesWriteQueue) {
+      int flags = ((keyStrength == Strength.WEAK) ? WEAK_MASK : 0)
+          | (usesAccessQueue ? ACCESS_MASK : 0)
+          | (usesWriteQueue ? WRITE_MASK : 0);
+      return factories[flags];
     }
 
     /**
@@ -582,25 +537,27 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
     }
 
     @GuardedBy("Segment.this")
-    <K, V> void copyExpirableEntry(ReferenceEntry<K, V> original, ReferenceEntry<K, V> newEntry) {
+    <K, V> void copyAccessEntry(ReferenceEntry<K, V> original, ReferenceEntry<K, V> newEntry) {
       // TODO(fry): when we link values instead of entries this method can go
-      // away, as can connectExpirables, nullifyExpirable.
-      newEntry.setExpirationTime(original.getExpirationTime());
+      // away, as can connectAccessOrder, nullifyAccessOrder.
+      newEntry.setAccessTime(original.getAccessTime());
 
-      connectExpirables(original.getPreviousExpirable(), newEntry);
-      connectExpirables(newEntry, original.getNextExpirable());
+      connectAccessOrder(original.getPreviousInAccessQueue(), newEntry);
+      connectAccessOrder(newEntry, original.getNextInAccessQueue());
 
-      nullifyExpirable(original);
+      nullifyAccessOrder(original);
     }
 
     @GuardedBy("Segment.this")
-    <K, V> void copyEvictableEntry(ReferenceEntry<K, V> original, ReferenceEntry<K, V> newEntry) {
+    <K, V> void copyWriteEntry(ReferenceEntry<K, V> original, ReferenceEntry<K, V> newEntry) {
       // TODO(fry): when we link values instead of entries this method can go
-      // away, as can connectEvictables, nullifyEvictable.
-      connectEvictables(original.getPreviousEvictable(), newEntry);
-      connectEvictables(newEntry, original.getNextEvictable());
+      // away, as can connectWriteOrder, nullifyWriteOrder.
+      newEntry.setWriteTime(original.getWriteTime());
 
-      nullifyEvictable(original);
+      connectWriteOrder(original.getPreviousInWriteQueue(), newEntry);
+      connectWriteOrder(newEntry, original.getNextInWriteQueue());
+
+      nullifyWriteOrder(original);
     }
   }
 
@@ -609,7 +566,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
    */
   interface ValueReference<K, V> {
     /**
-     * Gets the value. Does not block or throw exceptions.
+     * Returns the value. Does not block or throw exceptions.
      */
     V get();
 
@@ -729,7 +686,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
    */
   interface ReferenceEntry<K, V> {
     /**
-     * Gets the value reference from this entry.
+     * Returns the value reference from this entry.
      */
     ValueReference<K, V> getValueReference();
 
@@ -739,81 +696,91 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
     void setValueReference(ValueReference<K, V> valueReference);
 
     /**
-     * Gets the next entry in the chain.
+     * Returns the next entry in the chain.
      */
     ReferenceEntry<K, V> getNext();
 
     /**
-     * Gets the entry's hash.
+     * Returns the entry's hash.
      */
     int getHash();
 
     /**
-     * Gets the key for this entry.
+     * Returns the key for this entry.
      */
     K getKey();
 
     /*
-     * Used by entries that are expirable. Expirable entries are maintained in a doubly-linked list.
+     * Used by entries that use access order. Access entries are maintained in a doubly-linked list.
      * New entries are added at the tail of the list at write time; stale entries are expired from
      * the head of the list.
      */
 
     /**
-     * Gets the entry expiration time in ns.
+     * Returns the time that this entry was last accessed, in ns.
      */
-    long getExpirationTime();
+    long getAccessTime();
 
     /**
-     * Sets the entry expiration time in ns.
+     * Sets the entry access time in ns.
      */
-    void setExpirationTime(long time);
+    void setAccessTime(long time);
 
     /**
-     * Gets the next entry in the recency list.
+     * Returns the next entry in the access queue.
      */
-    ReferenceEntry<K, V> getNextExpirable();
+    ReferenceEntry<K, V> getNextInAccessQueue();
 
     /**
-     * Sets the next entry in the recency list.
+     * Sets the next entry in the access queue.
      */
-    void setNextExpirable(ReferenceEntry<K, V> next);
+    void setNextInAccessQueue(ReferenceEntry<K, V> next);
 
     /**
-     * Gets the previous entry in the recency list.
+     * Returns the previous entry in the access queue.
      */
-    ReferenceEntry<K, V> getPreviousExpirable();
+    ReferenceEntry<K, V> getPreviousInAccessQueue();
 
     /**
-     * Sets the previous entry in the recency list.
+     * Sets the previous entry in the access queue.
      */
-    void setPreviousExpirable(ReferenceEntry<K, V> previous);
+    void setPreviousInAccessQueue(ReferenceEntry<K, V> previous);
 
     /*
-     * Implemented by entries that are evictable. Evictable entries are maintained in a
+     * Implemented by entries that use write order. Write entries are maintained in a
      * doubly-linked list. New entries are added at the tail of the list at write time and stale
      * entries are expired from the head of the list.
      */
 
     /**
-     * Gets the next entry in the recency list.
+     * Returns the time that this entry was last written, in ns.
      */
-    ReferenceEntry<K, V> getNextEvictable();
+    long getWriteTime();
 
     /**
-     * Sets the next entry in the recency list.
+     * Sets the entry write time in ns.
      */
-    void setNextEvictable(ReferenceEntry<K, V> next);
+    void setWriteTime(long time);
 
     /**
-     * Gets the previous entry in the recency list.
+     * Returns the next entry in the write queue.
      */
-    ReferenceEntry<K, V> getPreviousEvictable();
+    ReferenceEntry<K, V> getNextInWriteQueue();
 
     /**
-     * Sets the previous entry in the recency list.
+     * Sets the next entry in the write queue.
      */
-    void setPreviousEvictable(ReferenceEntry<K, V> previous);
+    void setNextInWriteQueue(ReferenceEntry<K, V> next);
+
+    /**
+     * Returns the previous entry in the write queue.
+     */
+    ReferenceEntry<K, V> getPreviousInWriteQueue();
+
+    /**
+     * Sets the previous entry in the write queue.
+     */
+    void setPreviousInWriteQueue(ReferenceEntry<K, V> previous);
   }
 
   private enum NullEntry implements ReferenceEntry<Object, Object> {
@@ -843,44 +810,52 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
     }
 
     @Override
-    public long getExpirationTime() {
+    public long getAccessTime() {
       return 0;
     }
 
     @Override
-    public void setExpirationTime(long time) {}
+    public void setAccessTime(long time) {}
 
     @Override
-    public ReferenceEntry<Object, Object> getNextExpirable() {
+    public ReferenceEntry<Object, Object> getNextInAccessQueue() {
       return this;
     }
 
     @Override
-    public void setNextExpirable(ReferenceEntry<Object, Object> next) {}
+    public void setNextInAccessQueue(ReferenceEntry<Object, Object> next) {}
 
     @Override
-    public ReferenceEntry<Object, Object> getPreviousExpirable() {
+    public ReferenceEntry<Object, Object> getPreviousInAccessQueue() {
       return this;
     }
 
     @Override
-    public void setPreviousExpirable(ReferenceEntry<Object, Object> previous) {}
+    public void setPreviousInAccessQueue(ReferenceEntry<Object, Object> previous) {}
 
     @Override
-    public ReferenceEntry<Object, Object> getNextEvictable() {
+    public long getWriteTime() {
+      return 0;
+    }
+
+    @Override
+    public void setWriteTime(long time) {}
+
+    @Override
+    public ReferenceEntry<Object, Object> getNextInWriteQueue() {
       return this;
     }
 
     @Override
-    public void setNextEvictable(ReferenceEntry<Object, Object> next) {}
+    public void setNextInWriteQueue(ReferenceEntry<Object, Object> next) {}
 
     @Override
-    public ReferenceEntry<Object, Object> getPreviousEvictable() {
+    public ReferenceEntry<Object, Object> getPreviousInWriteQueue() {
       return this;
     }
 
     @Override
-    public void setPreviousEvictable(ReferenceEntry<Object, Object> previous) {}
+    public void setPreviousInWriteQueue(ReferenceEntry<Object, Object> previous) {}
   }
 
   static abstract class AbstractReferenceEntry<K, V> implements ReferenceEntry<K, V> {
@@ -910,52 +885,62 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
     }
 
     @Override
-    public long getExpirationTime() {
+    public long getAccessTime() {
       throw new UnsupportedOperationException();
     }
 
     @Override
-    public void setExpirationTime(long time) {
+    public void setAccessTime(long time) {
       throw new UnsupportedOperationException();
     }
 
     @Override
-    public ReferenceEntry<K, V> getNextExpirable() {
+    public ReferenceEntry<K, V> getNextInAccessQueue() {
       throw new UnsupportedOperationException();
     }
 
     @Override
-    public void setNextExpirable(ReferenceEntry<K, V> next) {
+    public void setNextInAccessQueue(ReferenceEntry<K, V> next) {
       throw new UnsupportedOperationException();
     }
 
     @Override
-    public ReferenceEntry<K, V> getPreviousExpirable() {
+    public ReferenceEntry<K, V> getPreviousInAccessQueue() {
       throw new UnsupportedOperationException();
     }
 
     @Override
-    public void setPreviousExpirable(ReferenceEntry<K, V> previous) {
+    public void setPreviousInAccessQueue(ReferenceEntry<K, V> previous) {
       throw new UnsupportedOperationException();
     }
 
     @Override
-    public ReferenceEntry<K, V> getNextEvictable() {
+    public long getWriteTime() {
       throw new UnsupportedOperationException();
     }
 
     @Override
-    public void setNextEvictable(ReferenceEntry<K, V> next) {
+    public void setWriteTime(long time) {
       throw new UnsupportedOperationException();
     }
 
     @Override
-    public ReferenceEntry<K, V> getPreviousEvictable() {
+    public ReferenceEntry<K, V> getNextInWriteQueue() {
       throw new UnsupportedOperationException();
     }
 
     @Override
-    public void setPreviousEvictable(ReferenceEntry<K, V> previous) {
+    public void setNextInWriteQueue(ReferenceEntry<K, V> next) {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public ReferenceEntry<K, V> getPreviousInWriteQueue() {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void setPreviousInWriteQueue(ReferenceEntry<K, V> previous) {
       throw new UnsupportedOperationException();
     }
   }
@@ -1025,57 +1010,67 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
       return this.key;
     }
 
-    // null expiration
+    // null access
 
     @Override
-    public long getExpirationTime() {
+    public long getAccessTime() {
       throw new UnsupportedOperationException();
     }
 
     @Override
-    public void setExpirationTime(long time) {
+    public void setAccessTime(long time) {
       throw new UnsupportedOperationException();
     }
 
     @Override
-    public ReferenceEntry<K, V> getNextExpirable() {
+    public ReferenceEntry<K, V> getNextInAccessQueue() {
       throw new UnsupportedOperationException();
     }
 
     @Override
-    public void setNextExpirable(ReferenceEntry<K, V> next) {
+    public void setNextInAccessQueue(ReferenceEntry<K, V> next) {
       throw new UnsupportedOperationException();
     }
 
     @Override
-    public ReferenceEntry<K, V> getPreviousExpirable() {
+    public ReferenceEntry<K, V> getPreviousInAccessQueue() {
       throw new UnsupportedOperationException();
     }
 
     @Override
-    public void setPreviousExpirable(ReferenceEntry<K, V> previous) {
+    public void setPreviousInAccessQueue(ReferenceEntry<K, V> previous) {
       throw new UnsupportedOperationException();
     }
 
-    // null eviction
+    // null write
 
     @Override
-    public ReferenceEntry<K, V> getNextEvictable() {
-      throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public void setNextEvictable(ReferenceEntry<K, V> next) {
+    public long getWriteTime() {
       throw new UnsupportedOperationException();
     }
 
     @Override
-    public ReferenceEntry<K, V> getPreviousEvictable() {
+    public void setWriteTime(long time) {
       throw new UnsupportedOperationException();
     }
 
     @Override
-    public void setPreviousEvictable(ReferenceEntry<K, V> previous) {
+    public ReferenceEntry<K, V> getNextInWriteQueue() {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void setNextInWriteQueue(ReferenceEntry<K, V> next) {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public ReferenceEntry<K, V> getPreviousInWriteQueue() {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void setPreviousInWriteQueue(ReferenceEntry<K, V> previous) {
       throw new UnsupportedOperationException();
     }
 
@@ -1106,415 +1101,184 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
     }
   }
 
-  static final class StrongExpirableEntry<K, V> extends StrongEntry<K, V>
+  static final class StrongAccessEntry<K, V> extends StrongEntry<K, V>
       implements ReferenceEntry<K, V> {
-    StrongExpirableEntry(K key, int hash, @Nullable ReferenceEntry<K, V> next) {
+    StrongAccessEntry(K key, int hash, @Nullable ReferenceEntry<K, V> next) {
       super(key, hash, next);
     }
 
-    // The code below is exactly the same for each expirable entry type.
+    // The code below is exactly the same for each access entry type.
 
-    volatile long time = Long.MAX_VALUE;
+    volatile long accessTime = Long.MAX_VALUE;
 
     @Override
-    public long getExpirationTime() {
-      return time;
+    public long getAccessTime() {
+      return accessTime;
     }
 
     @Override
-    public void setExpirationTime(long time) {
-      this.time = time;
-    }
-
-    @GuardedBy("Segment.this")
-    ReferenceEntry<K, V> nextExpirable = nullEntry();
-
-    @Override
-    public ReferenceEntry<K, V> getNextExpirable() {
-      return nextExpirable;
-    }
-
-    @Override
-    public void setNextExpirable(ReferenceEntry<K, V> next) {
-      this.nextExpirable = next;
+    public void setAccessTime(long time) {
+      this.accessTime = time;
     }
 
     @GuardedBy("Segment.this")
-    ReferenceEntry<K, V> previousExpirable = nullEntry();
+    ReferenceEntry<K, V> nextAccess = nullEntry();
 
     @Override
-    public ReferenceEntry<K, V> getPreviousExpirable() {
-      return previousExpirable;
+    public ReferenceEntry<K, V> getNextInAccessQueue() {
+      return nextAccess;
     }
 
     @Override
-    public void setPreviousExpirable(ReferenceEntry<K, V> previous) {
-      this.previousExpirable = previous;
+    public void setNextInAccessQueue(ReferenceEntry<K, V> next) {
+      this.nextAccess = next;
+    }
+
+    @GuardedBy("Segment.this")
+    ReferenceEntry<K, V> previousAccess = nullEntry();
+
+    @Override
+    public ReferenceEntry<K, V> getPreviousInAccessQueue() {
+      return previousAccess;
+    }
+
+    @Override
+    public void setPreviousInAccessQueue(ReferenceEntry<K, V> previous) {
+      this.previousAccess = previous;
     }
   }
 
-  static final class StrongEvictableEntry<K, V>
+  static final class StrongWriteEntry<K, V>
       extends StrongEntry<K, V> implements ReferenceEntry<K, V> {
-    StrongEvictableEntry(K key, int hash, @Nullable ReferenceEntry<K, V> next) {
+    StrongWriteEntry(K key, int hash, @Nullable ReferenceEntry<K, V> next) {
       super(key, hash, next);
     }
 
-    // The code below is exactly the same for each evictable entry type.
+    // The code below is exactly the same for each write entry type.
+
+    volatile long writeTime = Long.MAX_VALUE;
+
+    @Override
+    public long getWriteTime() {
+      return writeTime;
+    }
+
+    @Override
+    public void setWriteTime(long time) {
+      this.writeTime = time;
+    }
 
     @GuardedBy("Segment.this")
-    ReferenceEntry<K, V> nextEvictable = nullEntry();
+    ReferenceEntry<K, V> nextWrite = nullEntry();
 
     @Override
-    public ReferenceEntry<K, V> getNextEvictable() {
-      return nextEvictable;
+    public ReferenceEntry<K, V> getNextInWriteQueue() {
+      return nextWrite;
     }
 
     @Override
-    public void setNextEvictable(ReferenceEntry<K, V> next) {
-      this.nextEvictable = next;
+    public void setNextInWriteQueue(ReferenceEntry<K, V> next) {
+      this.nextWrite = next;
     }
 
     @GuardedBy("Segment.this")
-    ReferenceEntry<K, V> previousEvictable = nullEntry();
+    ReferenceEntry<K, V> previousWrite = nullEntry();
 
     @Override
-    public ReferenceEntry<K, V> getPreviousEvictable() {
-      return previousEvictable;
+    public ReferenceEntry<K, V> getPreviousInWriteQueue() {
+      return previousWrite;
     }
 
     @Override
-    public void setPreviousEvictable(ReferenceEntry<K, V> previous) {
-      this.previousEvictable = previous;
+    public void setPreviousInWriteQueue(ReferenceEntry<K, V> previous) {
+      this.previousWrite = previous;
     }
   }
 
-  static final class StrongExpirableEvictableEntry<K, V>
+  static final class StrongAccessWriteEntry<K, V>
       extends StrongEntry<K, V> implements ReferenceEntry<K, V> {
-    StrongExpirableEvictableEntry(K key, int hash, @Nullable ReferenceEntry<K, V> next) {
+    StrongAccessWriteEntry(K key, int hash, @Nullable ReferenceEntry<K, V> next) {
       super(key, hash, next);
     }
 
-    // The code below is exactly the same for each expirable entry type.
+    // The code below is exactly the same for each access entry type.
 
-    volatile long time = Long.MAX_VALUE;
+    volatile long accessTime = Long.MAX_VALUE;
 
     @Override
-    public long getExpirationTime() {
-      return time;
+    public long getAccessTime() {
+      return accessTime;
     }
 
     @Override
-    public void setExpirationTime(long time) {
-      this.time = time;
+    public void setAccessTime(long time) {
+      this.accessTime = time;
     }
 
     @GuardedBy("Segment.this")
-    ReferenceEntry<K, V> nextExpirable = nullEntry();
+    ReferenceEntry<K, V> nextAccess = nullEntry();
 
     @Override
-    public ReferenceEntry<K, V> getNextExpirable() {
-      return nextExpirable;
+    public ReferenceEntry<K, V> getNextInAccessQueue() {
+      return nextAccess;
     }
 
     @Override
-    public void setNextExpirable(ReferenceEntry<K, V> next) {
-      this.nextExpirable = next;
+    public void setNextInAccessQueue(ReferenceEntry<K, V> next) {
+      this.nextAccess = next;
     }
 
     @GuardedBy("Segment.this")
-    ReferenceEntry<K, V> previousExpirable = nullEntry();
+    ReferenceEntry<K, V> previousAccess = nullEntry();
 
     @Override
-    public ReferenceEntry<K, V> getPreviousExpirable() {
-      return previousExpirable;
-    }
-
-    @Override
-    public void setPreviousExpirable(ReferenceEntry<K, V> previous) {
-      this.previousExpirable = previous;
-    }
-
-    // The code below is exactly the same for each evictable entry type.
-
-    @GuardedBy("Segment.this")
-    ReferenceEntry<K, V> nextEvictable = nullEntry();
-
-    @Override
-    public ReferenceEntry<K, V> getNextEvictable() {
-      return nextEvictable;
+    public ReferenceEntry<K, V> getPreviousInAccessQueue() {
+      return previousAccess;
     }
 
     @Override
-    public void setNextEvictable(ReferenceEntry<K, V> next) {
-      this.nextEvictable = next;
+    public void setPreviousInAccessQueue(ReferenceEntry<K, V> previous) {
+      this.previousAccess = previous;
     }
 
-    @GuardedBy("Segment.this")
-    ReferenceEntry<K, V> previousEvictable = nullEntry();
+    // The code below is exactly the same for each write entry type.
+
+    volatile long writeTime = Long.MAX_VALUE;
 
     @Override
-    public ReferenceEntry<K, V> getPreviousEvictable() {
-      return previousEvictable;
-    }
-
-    @Override
-    public void setPreviousEvictable(ReferenceEntry<K, V> previous) {
-      this.previousEvictable = previous;
-    }
-  }
-
-  /**
-   * Used for softly-referenced keys.
-   */
-  static class SoftEntry<K, V> extends SoftReference<K> implements ReferenceEntry<K, V> {
-    SoftEntry(ReferenceQueue<K> queue, K key, int hash, @Nullable ReferenceEntry<K, V> next) {
-      super(key, queue);
-      this.hash = hash;
-      this.next = next;
+    public long getWriteTime() {
+      return writeTime;
     }
 
     @Override
-    public K getKey() {
-      return get();
-    }
-
-    // null expiration
-    @Override
-    public long getExpirationTime() {
-      throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public void setExpirationTime(long time) {
-      throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public ReferenceEntry<K, V> getNextExpirable() {
-      throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public void setNextExpirable(ReferenceEntry<K, V> next) {
-      throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public ReferenceEntry<K, V> getPreviousExpirable() {
-      throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public void setPreviousExpirable(ReferenceEntry<K, V> previous) {
-      throw new UnsupportedOperationException();
-    }
-
-    // null eviction
-
-    @Override
-    public ReferenceEntry<K, V> getNextEvictable() {
-      throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public void setNextEvictable(ReferenceEntry<K, V> next) {
-      throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public ReferenceEntry<K, V> getPreviousEvictable() {
-      throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public void setPreviousEvictable(ReferenceEntry<K, V> previous) {
-      throw new UnsupportedOperationException();
-    }
-
-    // The code below is exactly the same for each entry type.
-
-    final int hash;
-    final ReferenceEntry<K, V> next;
-    volatile ValueReference<K, V> valueReference = unset();
-
-    @Override
-    public ValueReference<K, V> getValueReference() {
-      return valueReference;
-    }
-
-    @Override
-    public void setValueReference(ValueReference<K, V> valueReference) {
-      this.valueReference = valueReference;
-    }
-
-    @Override
-    public int getHash() {
-      return hash;
-    }
-
-    @Override
-    public ReferenceEntry<K, V> getNext() {
-      return next;
-    }
-  }
-
-  static final class SoftExpirableEntry<K, V>
-      extends SoftEntry<K, V> implements ReferenceEntry<K, V> {
-    SoftExpirableEntry(
-        ReferenceQueue<K> queue, K key, int hash, @Nullable ReferenceEntry<K, V> next) {
-      super(queue, key, hash, next);
-    }
-
-    // The code below is exactly the same for each expirable entry type.
-
-    volatile long time = Long.MAX_VALUE;
-
-    @Override
-    public long getExpirationTime() {
-      return time;
-    }
-
-    @Override
-    public void setExpirationTime(long time) {
-      this.time = time;
+    public void setWriteTime(long time) {
+      this.writeTime = time;
     }
 
     @GuardedBy("Segment.this")
-    ReferenceEntry<K, V> nextExpirable = nullEntry();
+    ReferenceEntry<K, V> nextWrite = nullEntry();
 
     @Override
-    public ReferenceEntry<K, V> getNextExpirable() {
-      return nextExpirable;
+    public ReferenceEntry<K, V> getNextInWriteQueue() {
+      return nextWrite;
     }
 
     @Override
-    public void setNextExpirable(ReferenceEntry<K, V> next) {
-      this.nextExpirable = next;
+    public void setNextInWriteQueue(ReferenceEntry<K, V> next) {
+      this.nextWrite = next;
     }
 
     @GuardedBy("Segment.this")
-    ReferenceEntry<K, V> previousExpirable = nullEntry();
+    ReferenceEntry<K, V> previousWrite = nullEntry();
 
     @Override
-    public ReferenceEntry<K, V> getPreviousExpirable() {
-      return previousExpirable;
-    }
-
-    @Override
-    public void setPreviousExpirable(ReferenceEntry<K, V> previous) {
-      this.previousExpirable = previous;
-    }
-  }
-
-  static final class SoftEvictableEntry<K, V>
-      extends SoftEntry<K, V> implements ReferenceEntry<K, V> {
-    SoftEvictableEntry(
-        ReferenceQueue<K> queue, K key, int hash, @Nullable ReferenceEntry<K, V> next) {
-      super(queue, key, hash, next);
-    }
-
-    // The code below is exactly the same for each evictable entry type.
-
-    @GuardedBy("Segment.this")
-    ReferenceEntry<K, V> nextEvictable = nullEntry();
-
-    @Override
-    public ReferenceEntry<K, V> getNextEvictable() {
-      return nextEvictable;
+    public ReferenceEntry<K, V> getPreviousInWriteQueue() {
+      return previousWrite;
     }
 
     @Override
-    public void setNextEvictable(ReferenceEntry<K, V> next) {
-      this.nextEvictable = next;
-    }
-
-    @GuardedBy("Segment.this")
-    ReferenceEntry<K, V> previousEvictable = nullEntry();
-
-    @Override
-    public ReferenceEntry<K, V> getPreviousEvictable() {
-      return previousEvictable;
-    }
-
-    @Override
-    public void setPreviousEvictable(ReferenceEntry<K, V> previous) {
-      this.previousEvictable = previous;
-    }
-  }
-
-  static final class SoftExpirableEvictableEntry<K, V>
-      extends SoftEntry<K, V> implements ReferenceEntry<K, V> {
-    SoftExpirableEvictableEntry(
-        ReferenceQueue<K> queue, K key, int hash, @Nullable ReferenceEntry<K, V> next) {
-      super(queue, key, hash, next);
-    }
-
-    // The code below is exactly the same for each expirable entry type.
-
-    volatile long time = Long.MAX_VALUE;
-
-    @Override
-    public long getExpirationTime() {
-      return time;
-    }
-
-    @Override
-    public void setExpirationTime(long time) {
-      this.time = time;
-    }
-
-    @GuardedBy("Segment.this")
-    ReferenceEntry<K, V> nextExpirable = nullEntry();
-
-    @Override
-    public ReferenceEntry<K, V> getNextExpirable() {
-      return nextExpirable;
-    }
-
-    @Override
-    public void setNextExpirable(ReferenceEntry<K, V> next) {
-      this.nextExpirable = next;
-    }
-
-    @GuardedBy("Segment.this")
-    ReferenceEntry<K, V> previousExpirable = nullEntry();
-
-    @Override
-    public ReferenceEntry<K, V> getPreviousExpirable() {
-      return previousExpirable;
-    }
-
-    @Override
-    public void setPreviousExpirable(ReferenceEntry<K, V> previous) {
-      this.previousExpirable = previous;
-    }
-
-    // The code below is exactly the same for each evictable entry type.
-
-    @GuardedBy("Segment.this")
-    ReferenceEntry<K, V> nextEvictable = nullEntry();
-
-    @Override
-    public ReferenceEntry<K, V> getNextEvictable() {
-      return nextEvictable;
-    }
-
-    @Override
-    public void setNextEvictable(ReferenceEntry<K, V> next) {
-      this.nextEvictable = next;
-    }
-
-    @GuardedBy("Segment.this")
-    ReferenceEntry<K, V> previousEvictable = nullEntry();
-
-    @Override
-    public ReferenceEntry<K, V> getPreviousEvictable() {
-      return previousEvictable;
-    }
-
-    @Override
-    public void setPreviousEvictable(ReferenceEntry<K, V> previous) {
-      this.previousEvictable = previous;
+    public void setPreviousInWriteQueue(ReferenceEntry<K, V> previous) {
+      this.previousWrite = previous;
     }
   }
 
@@ -1533,57 +1297,67 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
       return get();
     }
 
-    // null expiration
+    // null access
 
     @Override
-    public long getExpirationTime() {
+    public long getAccessTime() {
       throw new UnsupportedOperationException();
     }
 
     @Override
-    public void setExpirationTime(long time) {
+    public void setAccessTime(long time) {
       throw new UnsupportedOperationException();
     }
 
     @Override
-    public ReferenceEntry<K, V> getNextExpirable() {
+    public ReferenceEntry<K, V> getNextInAccessQueue() {
       throw new UnsupportedOperationException();
     }
 
     @Override
-    public void setNextExpirable(ReferenceEntry<K, V> next) {
+    public void setNextInAccessQueue(ReferenceEntry<K, V> next) {
       throw new UnsupportedOperationException();
     }
 
     @Override
-    public ReferenceEntry<K, V> getPreviousExpirable() {
+    public ReferenceEntry<K, V> getPreviousInAccessQueue() {
       throw new UnsupportedOperationException();
     }
 
     @Override
-    public void setPreviousExpirable(ReferenceEntry<K, V> previous) {
+    public void setPreviousInAccessQueue(ReferenceEntry<K, V> previous) {
       throw new UnsupportedOperationException();
     }
 
-    // null eviction
+    // null write
 
     @Override
-    public ReferenceEntry<K, V> getNextEvictable() {
-      throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public void setNextEvictable(ReferenceEntry<K, V> next) {
+    public long getWriteTime() {
       throw new UnsupportedOperationException();
     }
 
     @Override
-    public ReferenceEntry<K, V> getPreviousEvictable() {
+    public void setWriteTime(long time) {
       throw new UnsupportedOperationException();
     }
 
     @Override
-    public void setPreviousEvictable(ReferenceEntry<K, V> previous) {
+    public ReferenceEntry<K, V> getNextInWriteQueue() {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void setNextInWriteQueue(ReferenceEntry<K, V> next) {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public ReferenceEntry<K, V> getPreviousInWriteQueue() {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void setPreviousInWriteQueue(ReferenceEntry<K, V> previous) {
       throw new UnsupportedOperationException();
     }
 
@@ -1614,163 +1388,187 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
     }
   }
 
-  static final class WeakExpirableEntry<K, V>
+  static final class WeakAccessEntry<K, V>
       extends WeakEntry<K, V> implements ReferenceEntry<K, V> {
-    WeakExpirableEntry(
+    WeakAccessEntry(
         ReferenceQueue<K> queue, K key, int hash, @Nullable ReferenceEntry<K, V> next) {
       super(queue, key, hash, next);
     }
 
-    // The code below is exactly the same for each expirable entry type.
+    // The code below is exactly the same for each access entry type.
 
-    volatile long time = Long.MAX_VALUE;
+    volatile long accessTime = Long.MAX_VALUE;
 
     @Override
-    public long getExpirationTime() {
-      return time;
+    public long getAccessTime() {
+      return accessTime;
     }
 
     @Override
-    public void setExpirationTime(long time) {
-      this.time = time;
-    }
-
-    @GuardedBy("Segment.this")
-    ReferenceEntry<K, V> nextExpirable = nullEntry();
-
-    @Override
-    public ReferenceEntry<K, V> getNextExpirable() {
-      return nextExpirable;
-    }
-
-    @Override
-    public void setNextExpirable(ReferenceEntry<K, V> next) {
-      this.nextExpirable = next;
+    public void setAccessTime(long time) {
+      this.accessTime = time;
     }
 
     @GuardedBy("Segment.this")
-    ReferenceEntry<K, V> previousExpirable = nullEntry();
+    ReferenceEntry<K, V> nextAccess = nullEntry();
 
     @Override
-    public ReferenceEntry<K, V> getPreviousExpirable() {
-      return previousExpirable;
+    public ReferenceEntry<K, V> getNextInAccessQueue() {
+      return nextAccess;
     }
 
     @Override
-    public void setPreviousExpirable(ReferenceEntry<K, V> previous) {
-      this.previousExpirable = previous;
+    public void setNextInAccessQueue(ReferenceEntry<K, V> next) {
+      this.nextAccess = next;
+    }
+
+    @GuardedBy("Segment.this")
+    ReferenceEntry<K, V> previousAccess = nullEntry();
+
+    @Override
+    public ReferenceEntry<K, V> getPreviousInAccessQueue() {
+      return previousAccess;
+    }
+
+    @Override
+    public void setPreviousInAccessQueue(ReferenceEntry<K, V> previous) {
+      this.previousAccess = previous;
     }
   }
 
-  static final class WeakEvictableEntry<K, V>
+  static final class WeakWriteEntry<K, V>
       extends WeakEntry<K, V> implements ReferenceEntry<K, V> {
-    WeakEvictableEntry(
+    WeakWriteEntry(
         ReferenceQueue<K> queue, K key, int hash, @Nullable ReferenceEntry<K, V> next) {
       super(queue, key, hash, next);
     }
 
-    // The code below is exactly the same for each evictable entry type.
+    // The code below is exactly the same for each write entry type.
+
+    volatile long writeTime = Long.MAX_VALUE;
+
+    @Override
+    public long getWriteTime() {
+      return writeTime;
+    }
+
+    @Override
+    public void setWriteTime(long time) {
+      this.writeTime = time;
+    }
 
     @GuardedBy("Segment.this")
-    ReferenceEntry<K, V> nextEvictable = nullEntry();
+    ReferenceEntry<K, V> nextWrite = nullEntry();
 
     @Override
-    public ReferenceEntry<K, V> getNextEvictable() {
-      return nextEvictable;
+    public ReferenceEntry<K, V> getNextInWriteQueue() {
+      return nextWrite;
     }
 
     @Override
-    public void setNextEvictable(ReferenceEntry<K, V> next) {
-      this.nextEvictable = next;
+    public void setNextInWriteQueue(ReferenceEntry<K, V> next) {
+      this.nextWrite = next;
     }
 
     @GuardedBy("Segment.this")
-    ReferenceEntry<K, V> previousEvictable = nullEntry();
+    ReferenceEntry<K, V> previousWrite = nullEntry();
 
     @Override
-    public ReferenceEntry<K, V> getPreviousEvictable() {
-      return previousEvictable;
+    public ReferenceEntry<K, V> getPreviousInWriteQueue() {
+      return previousWrite;
     }
 
     @Override
-    public void setPreviousEvictable(ReferenceEntry<K, V> previous) {
-      this.previousEvictable = previous;
+    public void setPreviousInWriteQueue(ReferenceEntry<K, V> previous) {
+      this.previousWrite = previous;
     }
   }
 
-  static final class WeakExpirableEvictableEntry<K, V>
+  static final class WeakAccessWriteEntry<K, V>
       extends WeakEntry<K, V> implements ReferenceEntry<K, V> {
-    WeakExpirableEvictableEntry(
+    WeakAccessWriteEntry(
         ReferenceQueue<K> queue, K key, int hash, @Nullable ReferenceEntry<K, V> next) {
       super(queue, key, hash, next);
     }
 
-    // The code below is exactly the same for each expirable entry type.
+    // The code below is exactly the same for each access entry type.
 
-    volatile long time = Long.MAX_VALUE;
+    volatile long accessTime = Long.MAX_VALUE;
 
     @Override
-    public long getExpirationTime() {
-      return time;
+    public long getAccessTime() {
+      return accessTime;
     }
 
     @Override
-    public void setExpirationTime(long time) {
-      this.time = time;
-    }
-
-    @GuardedBy("Segment.this")
-    ReferenceEntry<K, V> nextExpirable = nullEntry();
-
-    @Override
-    public ReferenceEntry<K, V> getNextExpirable() {
-      return nextExpirable;
-    }
-
-    @Override
-    public void setNextExpirable(ReferenceEntry<K, V> next) {
-      this.nextExpirable = next;
+    public void setAccessTime(long time) {
+      this.accessTime = time;
     }
 
     @GuardedBy("Segment.this")
-    ReferenceEntry<K, V> previousExpirable = nullEntry();
+    ReferenceEntry<K, V> nextAccess = nullEntry();
 
     @Override
-    public ReferenceEntry<K, V> getPreviousExpirable() {
-      return previousExpirable;
+    public ReferenceEntry<K, V> getNextInAccessQueue() {
+      return nextAccess;
     }
 
     @Override
-    public void setPreviousExpirable(ReferenceEntry<K, V> previous) {
-      this.previousExpirable = previous;
-    }
-
-    // The code below is exactly the same for each evictable entry type.
-
-    @GuardedBy("Segment.this")
-    ReferenceEntry<K, V> nextEvictable = nullEntry();
-
-    @Override
-    public ReferenceEntry<K, V> getNextEvictable() {
-      return nextEvictable;
-    }
-
-    @Override
-    public void setNextEvictable(ReferenceEntry<K, V> next) {
-      this.nextEvictable = next;
+    public void setNextInAccessQueue(ReferenceEntry<K, V> next) {
+      this.nextAccess = next;
     }
 
     @GuardedBy("Segment.this")
-    ReferenceEntry<K, V> previousEvictable = nullEntry();
+    ReferenceEntry<K, V> previousAccess = nullEntry();
 
     @Override
-    public ReferenceEntry<K, V> getPreviousEvictable() {
-      return previousEvictable;
+    public ReferenceEntry<K, V> getPreviousInAccessQueue() {
+      return previousAccess;
     }
 
     @Override
-    public void setPreviousEvictable(ReferenceEntry<K, V> previous) {
-      this.previousEvictable = previous;
+    public void setPreviousInAccessQueue(ReferenceEntry<K, V> previous) {
+      this.previousAccess = previous;
+    }
+
+    // The code below is exactly the same for each write entry type.
+
+    volatile long writeTime = Long.MAX_VALUE;
+
+    @Override
+    public long getWriteTime() {
+      return writeTime;
+    }
+
+    @Override
+    public void setWriteTime(long time) {
+      this.writeTime = time;
+    }
+
+    @GuardedBy("Segment.this")
+    ReferenceEntry<K, V> nextWrite = nullEntry();
+
+    @Override
+    public ReferenceEntry<K, V> getNextInWriteQueue() {
+      return nextWrite;
+    }
+
+    @Override
+    public void setNextInWriteQueue(ReferenceEntry<K, V> next) {
+      this.nextWrite = next;
+    }
+
+    @GuardedBy("Segment.this")
+    ReferenceEntry<K, V> previousWrite = nullEntry();
+
+    @Override
+    public ReferenceEntry<K, V> getPreviousInWriteQueue() {
+      return previousWrite;
+    }
+
+    @Override
+    public void setPreviousInWriteQueue(ReferenceEntry<K, V> previous) {
+      this.previousWrite = previous;
     }
   }
 
@@ -2084,7 +1882,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
       return null;
     }
 
-    if (expires() && isExpired(entry)) {
+    if (isExpired(entry)) {
       return null;
     }
     return value;
@@ -2096,6 +1894,9 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
    * Returns true if the entry has expired.
    */
   boolean isExpired(ReferenceEntry<K, V> entry) {
+    if (!expires()) {
+      return false;
+    }
     return isExpired(entry, ticker.read());
   }
 
@@ -2103,24 +1904,44 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
    * Returns true if the entry has expired.
    */
   boolean isExpired(ReferenceEntry<K, V> entry, long now) {
-    // if the expiration time had overflowed, this "undoes" the overflow
-    return now - entry.getExpirationTime() > 0;
+    if (expiresAfterAccess()
+        && (now - entry.getAccessTime() > expireAfterAccessNanos)) {
+      return true;
+    }
+    if (expiresAfterWrite()
+        && (now - entry.getWriteTime() > expireAfterWriteNanos)) {
+      return true;
+    }
+    return false;
+  }
+
+  // queues
+
+  @GuardedBy("Segment.this")
+  static <K, V> void connectAccessOrder(ReferenceEntry<K, V> previous, ReferenceEntry<K, V> next) {
+    previous.setNextInAccessQueue(next);
+    next.setPreviousInAccessQueue(previous);
   }
 
   @GuardedBy("Segment.this")
-  static <K, V> void connectExpirables(ReferenceEntry<K, V> previous, ReferenceEntry<K, V> next) {
-    previous.setNextExpirable(next);
-    next.setPreviousExpirable(previous);
-  }
-
-  @GuardedBy("Segment.this")
-  static <K, V> void nullifyExpirable(ReferenceEntry<K, V> nulled) {
+  static <K, V> void nullifyAccessOrder(ReferenceEntry<K, V> nulled) {
     ReferenceEntry<K, V> nullEntry = nullEntry();
-    nulled.setNextExpirable(nullEntry);
-    nulled.setPreviousExpirable(nullEntry);
+    nulled.setNextInAccessQueue(nullEntry);
+    nulled.setPreviousInAccessQueue(nullEntry);
   }
 
-  // eviction
+  @GuardedBy("Segment.this")
+  static <K, V> void connectWriteOrder(ReferenceEntry<K, V> previous, ReferenceEntry<K, V> next) {
+    previous.setNextInWriteQueue(next);
+    next.setPreviousInWriteQueue(previous);
+  }
+
+  @GuardedBy("Segment.this")
+  static <K, V> void nullifyWriteOrder(ReferenceEntry<K, V> nulled) {
+    ReferenceEntry<K, V> nullEntry = nullEntry();
+    nulled.setNextInWriteQueue(nullEntry);
+    nulled.setPreviousInWriteQueue(nullEntry);
+  }
 
   /**
    * Notifies listeners that an entry has been automatically removed due to expiration, eviction,
@@ -2136,20 +1957,6 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
         logger.log(Level.WARNING, "Exception thrown by removal listener", e);
       }
     }
-  }
-
-  /** Links the evitables together. */
-  @GuardedBy("Segment.this")
-  static <K, V> void connectEvictables(ReferenceEntry<K, V> previous, ReferenceEntry<K, V> next) {
-    previous.setNextEvictable(next);
-    next.setPreviousEvictable(previous);
-  }
-
-  @GuardedBy("Segment.this")
-  static <K, V> void nullifyEvictable(ReferenceEntry<K, V> nulled) {
-    ReferenceEntry<K, V> nullEntry = nullEntry();
-    nulled.setNextEvictable(nullEntry);
-    nulled.setPreviousEvictable(nullEntry);
   }
 
   @SuppressWarnings("unchecked")
@@ -2249,7 +2056,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
     final ReferenceQueue<V> valueReferenceQueue;
 
     /**
-     * The recency queue is used to record which entries were accessed for updating the eviction
+     * The recency queue is used to record which entries were accessed for updating the access
      * list's ordering. It is drained as a batch operation when either the DRAIN_THRESHOLD is
      * crossed or a write occurs on the segment.
      */
@@ -2262,18 +2069,18 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
     final AtomicInteger readCount = new AtomicInteger();
 
     /**
-     * A queue of elements currently in the map, ordered by access time. Elements are added to the
-     * tail of the queue on access/write.
+     * A queue of elements currently in the map, ordered by write time. Elements are added to the
+     * tail of the queue on write.
      */
     @GuardedBy("Segment.this")
-    final Queue<ReferenceEntry<K, V>> evictionQueue;
+    final Queue<ReferenceEntry<K, V>> writeQueue;
 
     /**
-     * A queue of elements currently in the map, ordered by expiration time (either access or write
-     * time). Elements are added to the tail of the queue on access/write.
+     * A queue of elements currently in the map, ordered by access time. Elements are added to the
+     * tail of the queue on access (note that writes count as accesses).
      */
     @GuardedBy("Segment.this")
-    final Queue<ReferenceEntry<K, V>> expirationQueue;
+    final Queue<ReferenceEntry<K, V>> accessQueue;
 
     /** Accumulates cache statistics. */
     final StatsCounter statsCounter;
@@ -2291,16 +2098,16 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
       valueReferenceQueue = map.usesValueReferences()
            ? new ReferenceQueue<V>() : null;
 
-      recencyQueue = (map.evictsBySize() || map.expiresAfterAccess())
+      recencyQueue = map.usesAccessQueue()
           ? new ConcurrentLinkedQueue<ReferenceEntry<K, V>>()
           : CustomConcurrentHashMap.<ReferenceEntry<K, V>>discardingQueue();
 
-      evictionQueue = map.evictsBySize()
-          ? new EvictionQueue<K, V>()
+      writeQueue = map.usesWriteQueue()
+          ? new WriteQueue<K, V>()
           : CustomConcurrentHashMap.<ReferenceEntry<K, V>>discardingQueue();
 
-      expirationQueue = map.expires()
-          ? new ExpirationQueue<K, V>()
+      accessQueue = map.usesAccessQueue()
+          ? new AccessQueue<K, V>()
           : CustomConcurrentHashMap.<ReferenceEntry<K, V>>discardingQueue();
     }
 
@@ -2331,7 +2138,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
     }
 
     /**
-     * Sets a new value of an entry. Adds newly created entries at the end of the expiration queue.
+     * Sets a new value of an entry. Adds newly created entries at the end of the access queue.
      */
     @GuardedBy("Segment.this")
     void setValue(ReferenceEntry<K, V> entry, K key, V value) {
@@ -2411,8 +2218,8 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
               }
 
               // immediately reuse invalid entries
-              evictionQueue.remove(e);
-              expirationQueue.remove(e);
+              writeQueue.remove(e);
+              accessQueue.remove(e);
               this.count = newCount; // write-volatile
             }
             break;
@@ -2628,7 +2435,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
      */
     void recordRead(ReferenceEntry<K, V> entry) {
       if (map.expiresAfterAccess()) {
-        recordExpirationTime(entry, map.expireAfterAccessNanos);
+        entry.setAccessTime(map.ticker.read());
       }
       recencyQueue.add(entry);
     }
@@ -2642,11 +2449,10 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
      */
     @GuardedBy("Segment.this")
     void recordLockedRead(ReferenceEntry<K, V> entry) {
-      evictionQueue.add(entry);
       if (map.expiresAfterAccess()) {
-        recordExpirationTime(entry, map.expireAfterAccessNanos);
-        expirationQueue.add(entry);
+        entry.setAccessTime(map.ticker.read());
       }
+      accessQueue.add(entry);
     }
 
     /**
@@ -2657,19 +2463,19 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
     void recordWrite(ReferenceEntry<K, V> entry, int weight) {
       // we are already under lock, so drain the recency queue immediately
       drainRecencyQueue();
-      if (weight > 0) {
-        totalWeight += weight;
-        evictionQueue.add(entry);
-      }
+      totalWeight += weight;
+
       if (map.expires()) {
-        // currently CacheBuilder ensures that expireAfterWrite and
-        // expireAfterAccess are mutually exclusive
-        long expiration = map.expiresAfterAccess()
-            ? map.expireAfterAccessNanos
-            : map.expireAfterWriteNanos;
-        recordExpirationTime(entry, expiration);
-        expirationQueue.add(entry);
+        long time = map.ticker.read();
+        if (map.expiresAfterAccess()) {
+          entry.setAccessTime(time);
+        }
+        if (map.expiresAfterWrite()) {
+          entry.setWriteTime(time);
+        }
       }
+      accessQueue.add(entry);
+      writeQueue.add(entry);
     }
 
     /**
@@ -2686,21 +2492,13 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
         // the map . This can occur when the entry was concurrently read while a
         // writer is removing it from the segment or after a clear has removed
         // all of the segment's entries.
-        if (evictionQueue.contains(e)) {
-          evictionQueue.add(e);
-        }
-        if (map.expiresAfterAccess() && expirationQueue.contains(e)) {
-          expirationQueue.add(e);
+        if (accessQueue.contains(e)) {
+          accessQueue.add(e);
         }
       }
     }
 
     // expiration
-
-    void recordExpirationTime(ReferenceEntry<K, V> entry, long expirationNanos) {
-      // might overflow, but that's okay (see isExpired())
-      entry.setExpirationTime(map.ticker.read() + expirationNanos);
-    }
 
     /**
      * Cleanup expired entries when the lock is available.
@@ -2720,14 +2518,14 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
     void expireEntries() {
       drainRecencyQueue();
 
-      if (expirationQueue.isEmpty()) {
-        // There's no point in calling nanoTime() if we have no entries to
-        // expire.
-        return;
-      }
       long now = map.ticker.read();
       ReferenceEntry<K, V> e;
-      while ((e = expirationQueue.peek()) != null && map.isExpired(e, now)) {
+      while ((e = writeQueue.peek()) != null && map.isExpired(e, now)) {
+        if (!removeEntry(e, e.getHash(), RemovalCause.EXPIRED)) {
+          throw new AssertionError();
+        }
+      }
+      while ((e = accessQueue.peek()) != null && map.isExpired(e, now)) {
         if (!removeEntry(e, e.getHash(), RemovalCause.EXPIRED)) {
           throw new AssertionError();
         }
@@ -2767,11 +2565,22 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
 
       drainRecencyQueue();
       while (totalWeight > maxSegmentWeight) {
-        ReferenceEntry<K, V> e = evictionQueue.remove();
+        ReferenceEntry<K, V> e = getNextEvictable();
         if (!removeEntry(e, e.getHash(), RemovalCause.SIZE)) {
           throw new AssertionError();
         }
       }
+    }
+
+    // TODO(fry): instead implement this with an eviction head
+    ReferenceEntry<K, V> getNextEvictable() {
+      for (ReferenceEntry<K, V> e : accessQueue) {
+        int weight = e.getValueReference().getWeight();
+        if (weight > 0) {
+          return e;
+        }
+      }
+      throw new AssertionError();
     }
 
     /**
@@ -2809,7 +2618,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
       ReferenceEntry<K, V> e = getEntry(key, hash);
       if (e == null) {
         return null;
-      } else if (map.expires() && map.isExpired(e)) {
+      } else if (map.isExpired(e)) {
         tryExpireEntries();
         return null;
       }
@@ -3278,8 +3087,8 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
             table.set(i, null);
           }
           clearReferenceQueues();
-          evictionQueue.clear();
-          expirationQueue.clear();
+          writeQueue.clear();
+          accessQueue.clear();
           readCount.set(0);
 
           ++modCount;
@@ -3296,8 +3105,8 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
         ReferenceEntry<K, V> entry, @Nullable K key, int hash, ValueReference<K, V> valueReference,
         RemovalCause cause) {
       enqueueNotification(key, hash, valueReference, cause);
-      evictionQueue.remove(entry);
-      expirationQueue.remove(entry);
+      writeQueue.remove(entry);
+      accessQueue.remove(entry);
 
       if (valueReference.isLoading()) {
         valueReference.notifyNewValue(null);
@@ -3327,8 +3136,8 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
     @GuardedBy("Segment.this")
     void removeCollectedEntry(ReferenceEntry<K, V> entry) {
       enqueueNotification(entry, RemovalCause.COLLECTED);
-      evictionQueue.remove(entry);
-      expirationQueue.remove(entry);
+      writeQueue.remove(entry);
+      accessQueue.remove(entry);
     }
 
     /**
@@ -3480,7 +3289,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
         return null;
       }
 
-      if (map.expires() && map.isExpired(entry)) {
+      if (map.isExpired(entry)) {
         tryExpireEntries();
         return null;
       }
@@ -3754,34 +3563,42 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
    * the map are also in this queue, and that all elements not in the queue are not in the map.
    *
    * <p>The benefits of creating our own queue are that (1) we can replace elements in the middle
-   * of the queue as part of copyEvictableEntry, and (2) the contains method is highly optimized
+   * of the queue as part of copyWriteEntry, and (2) the contains method is highly optimized
    * for the current model.
    */
-  static final class EvictionQueue<K, V> extends AbstractQueue<ReferenceEntry<K, V>> {
+  static final class WriteQueue<K, V> extends AbstractQueue<ReferenceEntry<K, V>> {
     final ReferenceEntry<K, V> head = new AbstractReferenceEntry<K, V>() {
 
-      ReferenceEntry<K, V> nextEvictable = this;
-
       @Override
-      public ReferenceEntry<K, V> getNextEvictable() {
-        return nextEvictable;
+      public long getWriteTime() {
+        return Long.MAX_VALUE;
       }
 
       @Override
-      public void setNextEvictable(ReferenceEntry<K, V> next) {
-        this.nextEvictable = next;
-      }
+      public void setWriteTime(long time) {}
 
-      ReferenceEntry<K, V> previousEvictable = this;
+      ReferenceEntry<K, V> nextWrite = this;
 
       @Override
-      public ReferenceEntry<K, V> getPreviousEvictable() {
-        return previousEvictable;
+      public ReferenceEntry<K, V> getNextInWriteQueue() {
+        return nextWrite;
       }
 
       @Override
-      public void setPreviousEvictable(ReferenceEntry<K, V> previous) {
-        this.previousEvictable = previous;
+      public void setNextInWriteQueue(ReferenceEntry<K, V> next) {
+        this.nextWrite = next;
+      }
+
+      ReferenceEntry<K, V> previousWrite = this;
+
+      @Override
+      public ReferenceEntry<K, V> getPreviousInWriteQueue() {
+        return previousWrite;
+      }
+
+      @Override
+      public void setPreviousInWriteQueue(ReferenceEntry<K, V> previous) {
+        this.previousWrite = previous;
       }
     };
 
@@ -3790,24 +3607,24 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
     @Override
     public boolean offer(ReferenceEntry<K, V> entry) {
       // unlink
-      connectEvictables(entry.getPreviousEvictable(), entry.getNextEvictable());
+      connectWriteOrder(entry.getPreviousInWriteQueue(), entry.getNextInWriteQueue());
 
       // add to tail
-      connectEvictables(head.getPreviousEvictable(), entry);
-      connectEvictables(entry, head);
+      connectWriteOrder(head.getPreviousInWriteQueue(), entry);
+      connectWriteOrder(entry, head);
 
       return true;
     }
 
     @Override
     public ReferenceEntry<K, V> peek() {
-      ReferenceEntry<K, V> next = head.getNextEvictable();
+      ReferenceEntry<K, V> next = head.getNextInWriteQueue();
       return (next == head) ? null : next;
     }
 
     @Override
     public ReferenceEntry<K, V> poll() {
-      ReferenceEntry<K, V> next = head.getNextEvictable();
+      ReferenceEntry<K, V> next = head.getNextInWriteQueue();
       if (next == head) {
         return null;
       }
@@ -3820,10 +3637,10 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
     @SuppressWarnings("unchecked")
     public boolean remove(Object o) {
       ReferenceEntry<K, V> e = (ReferenceEntry) o;
-      ReferenceEntry<K, V> previous = e.getPreviousEvictable();
-      ReferenceEntry<K, V> next = e.getNextEvictable();
-      connectEvictables(previous, next);
-      nullifyEvictable(e);
+      ReferenceEntry<K, V> previous = e.getPreviousInWriteQueue();
+      ReferenceEntry<K, V> next = e.getNextInWriteQueue();
+      connectWriteOrder(previous, next);
+      nullifyWriteOrder(e);
 
       return next != NullEntry.INSTANCE;
     }
@@ -3832,18 +3649,19 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
     @SuppressWarnings("unchecked")
     public boolean contains(Object o) {
       ReferenceEntry<K, V> e = (ReferenceEntry) o;
-      return e.getNextEvictable() != NullEntry.INSTANCE;
+      return e.getNextInWriteQueue() != NullEntry.INSTANCE;
     }
 
     @Override
     public boolean isEmpty() {
-      return head.getNextEvictable() == head;
+      return head.getNextInWriteQueue() == head;
     }
 
     @Override
     public int size() {
       int size = 0;
-      for (ReferenceEntry<K, V> e = head.getNextEvictable(); e != head; e = e.getNextEvictable()) {
+      for (ReferenceEntry<K, V> e = head.getNextInWriteQueue(); e != head;
+          e = e.getNextInWriteQueue()) {
         size++;
       }
       return size;
@@ -3851,15 +3669,15 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
 
     @Override
     public void clear() {
-      ReferenceEntry<K, V> e = head.getNextEvictable();
+      ReferenceEntry<K, V> e = head.getNextInWriteQueue();
       while (e != head) {
-        ReferenceEntry<K, V> next = e.getNextEvictable();
-        nullifyEvictable(e);
+        ReferenceEntry<K, V> next = e.getNextInWriteQueue();
+        nullifyWriteOrder(e);
         e = next;
       }
 
-      head.setNextEvictable(head);
-      head.setPreviousEvictable(head);
+      head.setNextInWriteQueue(head);
+      head.setPreviousInWriteQueue(head);
     }
 
     @Override
@@ -3867,7 +3685,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
       return new AbstractLinkedIterator<ReferenceEntry<K, V>>(peek()) {
         @Override
         protected ReferenceEntry<K, V> computeNext(ReferenceEntry<K, V> previous) {
-          ReferenceEntry<K, V> next = previous.getNextEvictable();
+          ReferenceEntry<K, V> next = previous.getNextInWriteQueue();
           return (next == head) ? null : next;
         }
       };
@@ -3875,49 +3693,49 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
   }
 
   /**
-   * A custom queue for managing expiration order. Note that this is tightly integrated with
+   * A custom queue for managing access order. Note that this is tightly integrated with
    * {@code ReferenceEntry}, upon which it reliese to perform its linking.
    *
    * <p>Note that this entire implementation makes the assumption that all elements which are in
    * the map are also in this queue, and that all elements not in the queue are not in the map.
    *
    * <p>The benefits of creating our own queue are that (1) we can replace elements in the middle
-   * of the queue as part of copyEvictableEntry, and (2) the contains method is highly optimized
+   * of the queue as part of copyWriteEntry, and (2) the contains method is highly optimized
    * for the current model.
    */
-  static final class ExpirationQueue<K, V> extends AbstractQueue<ReferenceEntry<K, V>> {
+  static final class AccessQueue<K, V> extends AbstractQueue<ReferenceEntry<K, V>> {
     final ReferenceEntry<K, V> head = new AbstractReferenceEntry<K, V>() {
 
       @Override
-      public long getExpirationTime() {
+      public long getAccessTime() {
         return Long.MAX_VALUE;
       }
 
       @Override
-      public void setExpirationTime(long time) {}
+      public void setAccessTime(long time) {}
 
-      ReferenceEntry<K, V> nextExpirable = this;
+      ReferenceEntry<K, V> nextAccess = this;
 
       @Override
-      public ReferenceEntry<K, V> getNextExpirable() {
-        return nextExpirable;
+      public ReferenceEntry<K, V> getNextInAccessQueue() {
+        return nextAccess;
       }
 
       @Override
-      public void setNextExpirable(ReferenceEntry<K, V> next) {
-        this.nextExpirable = next;
+      public void setNextInAccessQueue(ReferenceEntry<K, V> next) {
+        this.nextAccess = next;
       }
 
-      ReferenceEntry<K, V> previousExpirable = this;
+      ReferenceEntry<K, V> previousAccess = this;
 
       @Override
-      public ReferenceEntry<K, V> getPreviousExpirable() {
-        return previousExpirable;
+      public ReferenceEntry<K, V> getPreviousInAccessQueue() {
+        return previousAccess;
       }
 
       @Override
-      public void setPreviousExpirable(ReferenceEntry<K, V> previous) {
-        this.previousExpirable = previous;
+      public void setPreviousInAccessQueue(ReferenceEntry<K, V> previous) {
+        this.previousAccess = previous;
       }
     };
 
@@ -3926,24 +3744,24 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
     @Override
     public boolean offer(ReferenceEntry<K, V> entry) {
       // unlink
-      connectExpirables(entry.getPreviousExpirable(), entry.getNextExpirable());
+      connectAccessOrder(entry.getPreviousInAccessQueue(), entry.getNextInAccessQueue());
 
       // add to tail
-      connectExpirables(head.getPreviousExpirable(), entry);
-      connectExpirables(entry, head);
+      connectAccessOrder(head.getPreviousInAccessQueue(), entry);
+      connectAccessOrder(entry, head);
 
       return true;
     }
 
     @Override
     public ReferenceEntry<K, V> peek() {
-      ReferenceEntry<K, V> next = head.getNextExpirable();
+      ReferenceEntry<K, V> next = head.getNextInAccessQueue();
       return (next == head) ? null : next;
     }
 
     @Override
     public ReferenceEntry<K, V> poll() {
-      ReferenceEntry<K, V> next = head.getNextExpirable();
+      ReferenceEntry<K, V> next = head.getNextInAccessQueue();
       if (next == head) {
         return null;
       }
@@ -3956,10 +3774,10 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
     @SuppressWarnings("unchecked")
     public boolean remove(Object o) {
       ReferenceEntry<K, V> e = (ReferenceEntry) o;
-      ReferenceEntry<K, V> previous = e.getPreviousExpirable();
-      ReferenceEntry<K, V> next = e.getNextExpirable();
-      connectExpirables(previous, next);
-      nullifyExpirable(e);
+      ReferenceEntry<K, V> previous = e.getPreviousInAccessQueue();
+      ReferenceEntry<K, V> next = e.getNextInAccessQueue();
+      connectAccessOrder(previous, next);
+      nullifyAccessOrder(e);
 
       return next != NullEntry.INSTANCE;
     }
@@ -3968,18 +3786,19 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
     @SuppressWarnings("unchecked")
     public boolean contains(Object o) {
       ReferenceEntry<K, V> e = (ReferenceEntry) o;
-      return e.getNextExpirable() != NullEntry.INSTANCE;
+      return e.getNextInAccessQueue() != NullEntry.INSTANCE;
     }
 
     @Override
     public boolean isEmpty() {
-      return head.getNextExpirable() == head;
+      return head.getNextInAccessQueue() == head;
     }
 
     @Override
     public int size() {
       int size = 0;
-      for (ReferenceEntry<K, V> e = head.getNextExpirable(); e != head; e = e.getNextExpirable()) {
+      for (ReferenceEntry<K, V> e = head.getNextInAccessQueue(); e != head;
+          e = e.getNextInAccessQueue()) {
         size++;
       }
       return size;
@@ -3987,15 +3806,15 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
 
     @Override
     public void clear() {
-      ReferenceEntry<K, V> e = head.getNextExpirable();
+      ReferenceEntry<K, V> e = head.getNextInAccessQueue();
       while (e != head) {
-        ReferenceEntry<K, V> next = e.getNextExpirable();
-        nullifyExpirable(e);
+        ReferenceEntry<K, V> next = e.getNextInAccessQueue();
+        nullifyAccessOrder(e);
         e = next;
       }
 
-      head.setNextExpirable(head);
-      head.setPreviousExpirable(head);
+      head.setNextInAccessQueue(head);
+      head.setPreviousInAccessQueue(head);
     }
 
     @Override
@@ -4003,7 +3822,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
       return new AbstractLinkedIterator<ReferenceEntry<K, V>>(peek()) {
         @Override
         protected ReferenceEntry<K, V> computeNext(ReferenceEntry<K, V> previous) {
-          ReferenceEntry<K, V> next = previous.getNextExpirable();
+          ReferenceEntry<K, V> next = previous.getNextInAccessQueue();
           return (next == head) ? null : next;
         }
       };
