@@ -65,7 +65,7 @@ public final class UnsignedInts {
   }
 
   /**
-   * Returns the value of the given {@code int} as a {@code long}, when treated as unsigned.?
+   * Returns the value of the given {@code int} as a {@code long}, when treated as unsigned.
    */
   public static long toLong(int value) {
     return value & INT_MASK;
@@ -179,7 +179,7 @@ public final class UnsignedInts {
   }
 
   /**
-   * Returns dividend % divisor, where the dividend and divisor are treated as unsigned 64-bit
+   * Returns dividend % divisor, where the dividend and divisor are treated as unsigned 32-bit
    * quantities.
    * 
    * @param dividend the dividend (numerator)
