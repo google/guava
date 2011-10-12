@@ -41,9 +41,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 import javax.annotation.Nullable;
 
 /**
- * A multiset that supports concurrent modifications and that provides atomic
- * versions of most {@code Multiset} operations (exceptions where noted). Null
- * elements are not supported.
+ * A multiset that supports concurrent modifications and that provides atomic versions of most
+ * {@code Multiset} operations (exceptions where noted). Null elements are not supported.
  *
  * @author Cliff L. Biffle
  * @author mike nonemacher
@@ -64,9 +63,8 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> impleme
   /** The number of occurrences of each element. */
   private final transient ConcurrentMap<E, AtomicInteger> countMap;
 
-  // This constant allows the deserialization code to set a final field. This
-  // holder class makes sure it is not initialized unless an instance is
-  // deserialized.
+  // This constant allows the deserialization code to set a final field. This holder class
+  // makes sure it is not initialized unless an instance is deserialized.
   private static class FieldSettersHolder {
     static final FieldSetter<ConcurrentHashMultiset> COUNT_MAP_FIELD_SETTER =
         Serialization.getFieldSetter(ConcurrentHashMultiset.class, "countMap");
@@ -84,12 +82,10 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> impleme
   }
 
   /**
-   * Creates a new {@code ConcurrentHashMultiset} containing the specified
-   * elements, using the default initial capacity, load factor, and concurrency
-   * settings.
-   * 
-   * <p>This implementation is highly efficient when {@code elements} is itself
-   * a {@link Multiset}.
+   * Creates a new {@code ConcurrentHashMultiset} containing the specified elements, using
+   * the default initial capacity, load factor, and concurrency settings.
+   *
+   * <p>This implementation is highly efficient when {@code elements} is itself a {@link Multiset}.
    *
    * @param elements the elements that the multiset should contain
    */
@@ -126,8 +122,7 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> impleme
   }
 
   /**
-   * Creates an instance using {@code countMap} to store elements and their
-   * counts.
+   * Creates an instance using {@code countMap} to store elements and their counts.
    *
    * <p>This instance will assume ownership of {@code countMap}, and other code
    * should not maintain references to the map or modify it in any way.
@@ -172,9 +167,8 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> impleme
   /**
    * {@inheritDoc}
    *
-   * <p>If the data in the multiset is modified by any other threads during this
-   * method, it is undefined which (if any) of these modifications will be
-   * reflected in the result.
+   * <p>If the data in the multiset is modified by any other threads during this method,
+   * it is undefined which (if any) of these modifications will be reflected in the result.
    */
   @Override public int size() {
     long sum = 0L;
@@ -219,8 +213,7 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> impleme
    *
    * @param element the element to add
    * @param occurrences the number of occurrences to add
-   * @return the previous count of the element before the operation; possibly
-   *     zero
+   * @return the previous count of the element before the operation; possibly zero
    * @throws IllegalArgumentException if {@code occurrences} is negative, or if
    *     the resulting amount would exceed {@link Integer#MAX_VALUE}
    */
@@ -271,9 +264,8 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> impleme
   }
 
   /**
-   * Removes a number of occurrences of the specified element from this
-   * multiset. If the multiset contains fewer than this number of occurrences to
-   * begin with, all occurrences will be removed.
+   * Removes a number of occurrences of the specified element from this multiset. If the multiset
+   * contains fewer than this number of occurrences to begin with, all occurrences will be removed.
    *
    * @param element the element whose occurrences should be removed
    * @param occurrences the number of occurrences of the element to remove
@@ -309,16 +301,15 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> impleme
   }
 
   /**
-   * Removes exactly the specified number of occurrences of {@code element}, or
-   * makes no change if this is not possible.
+   * Removes exactly the specified number of occurrences of {@code element}, or makes no
+   * change if this is not possible.
    *
-   * <p>This method, in contrast to {@link #remove(Object, int)}, has no effect
-   * when the element count is smaller than {@code occurrences}.
+   * <p>This method, in contrast to {@link #remove(Object, int)}, has no effect when the
+   * element count is smaller than {@code occurrences}.
    *
    * @param element the element to remove
    * @param occurrences the number of occurrences of {@code element} to remove
-   * @return {@code true} if the removal was possible (including if {@code
-   *     occurrences} is zero)
+   * @return {@code true} if the removal was possible (including if {@code occurrences} is zero)
    */
   public boolean removeExactly(@Nullable Object element, int occurrences) {
     if (occurrences == 0) {
@@ -348,8 +339,8 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> impleme
   }
 
   /**
-   * Adds or removes occurrences of {@code element} such that the {@link #count}
-   * of the element becomes {@code count}.
+   * Adds or removes occurrences of {@code element} such that the {@link #count} of the
+   * element becomes {@code count}.
    *
    * @return the count of {@code element} in the multiset before this call
    * @throws IllegalArgumentException if {@code count} is negative
@@ -398,10 +389,9 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> impleme
   }
 
   /**
-   * Sets the number of occurrences of {@code element} to {@code newCount}, but
-   * only if the count is currently {@code expectedOldCount}. If {@code element} does
-   * not appear in the multiset exactly {@code expectedOldCount} times, no changes will
-   * be made.
+   * Sets the number of occurrences of {@code element} to {@code newCount}, but only if
+   * the count is currently {@code expectedOldCount}. If {@code element} does not appear
+   * in the multiset exactly {@code expectedOldCount} times, no changes will be made.
    *
    * @return {@code true} if the change was successful. This usually indicates
    *     that the multiset has been modified, but not always: in the case that
@@ -592,4 +582,3 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> impleme
 
   private static final long serialVersionUID = 1;
 }
-
