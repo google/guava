@@ -123,9 +123,12 @@ public abstract class Optional<T> implements Serializable {
   public abstract Optional<T> or(Optional<? extends T> secondChoice);
 
   /**
-   * Returns the contained instance if it is present; {@code supplier.get()} otherwise.
+   * Returns the contained instance if it is present; {@code supplier.get()} otherwise. If the
+   * supplier returns {@code null}, a {@link NullPointerException} will be thrown.
+   *
+   * @throws NullPointerException if the supplier returns {@code null}
    */
-  @Nullable public abstract T or(Supplier<? extends T> supplier);
+  public abstract T or(Supplier<? extends T> supplier);
 
   /**
    * Returns the contained instance if it is present; {@code null} otherwise. If the
@@ -227,8 +230,9 @@ public abstract class Optional<T> implements Serializable {
       return (Optional) checkNotNull(secondChoice);
     }
 
-    @Override @Nullable public Object or(Supplier<?> supplier) {
-      return supplier.get();
+    @Override public Object or(Supplier<?> supplier) {
+      return checkNotNull(supplier.get(),
+          "use orNull() instead of a Supplier that returns null");
     }
 
     @Override @Nullable public Object orNull() {

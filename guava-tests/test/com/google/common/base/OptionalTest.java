@@ -95,7 +95,13 @@ public final class OptionalTest extends TestCase {
   }
 
   public void testOr_NullSupplier_absent() {
-    assertEquals(null, Optional.absent().or(Suppliers.ofInstance(null)));
+    Supplier<Object> nullSupplier = Suppliers.ofInstance(null);
+    Optional<Object> absentOptional = Optional.absent();
+    try {
+      absentOptional.or(nullSupplier);
+      fail();
+    } catch (NullPointerException expected) {
+    }
   }
 
   public void testOr_Optional_present() {
