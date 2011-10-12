@@ -296,18 +296,9 @@ public class CacheBuilderTest extends TestCase {
   }
 
   public void testTimeToIdleAndToLive() {
-    CacheBuilder<Object, Object> builder =
-        CacheBuilder.newBuilder().expireAfterAccess(1, NANOSECONDS);
-    try {
-      builder.expireAfterWrite(1, NANOSECONDS);
-      fail();
-    } catch (IllegalStateException expected) {}
-
-    builder = CacheBuilder.newBuilder().expireAfterWrite(1, NANOSECONDS);
-    try {
-      builder.expireAfterAccess(1, NANOSECONDS);
-      fail();
-    } catch (IllegalStateException expected) {}
+    CacheBuilder.newBuilder().expireAfterAccess(1, NANOSECONDS).build(identityLoader());
+    CacheBuilder.newBuilder().expireAfterWrite(1, NANOSECONDS).build(identityLoader());
+    // well, it didn't blow up.
   }
 
   public void testTicker_setTwice() {

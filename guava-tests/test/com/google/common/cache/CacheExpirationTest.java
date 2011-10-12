@@ -14,15 +14,23 @@
 
 package com.google.common.cache;
 
+import static com.google.common.cache.TestingCacheLoaders.identityLoader;
 import static com.google.common.cache.TestingRemovalListeners.countingRemovalListener;
+import static java.util.Arrays.asList;
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
+import static org.junit.contrib.truth.Truth.ASSERT;
 
+import com.google.common.cache.TestingCacheLoaders.IdentityLoader;
 import com.google.common.cache.TestingRemovalListeners.CountingRemovalListener;
 import com.google.common.collect.Iterators;
 import com.google.common.testing.FakeTicker;
+import com.google.common.util.concurrent.Callables;
 
 import junit.framework.TestCase;
 
-import java.util.concurrent.TimeUnit;
+import java.util.List;
+import java.util.Set;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -43,7 +51,7 @@ public class CacheExpirationTest extends TestCase {
     CountingRemovalListener<String, Integer> removalListener = countingRemovalListener();
     WatchedCreatorLoader loader = new WatchedCreatorLoader();
     Cache<String, Integer> cache = CacheBuilder.newBuilder()
-        .expireAfterWrite(EXPIRING_TIME, TimeUnit.MILLISECONDS)
+        .expireAfterWrite(EXPIRING_TIME, MILLISECONDS)
         .removalListener(removalListener)
         .ticker(ticker)
         .build(loader);
@@ -55,7 +63,7 @@ public class CacheExpirationTest extends TestCase {
     CountingRemovalListener<String, Integer> removalListener = countingRemovalListener();
     WatchedCreatorLoader loader = new WatchedCreatorLoader();
     Cache<String, Integer> cache = CacheBuilder.newBuilder()
-        .expireAfterAccess(EXPIRING_TIME, TimeUnit.MILLISECONDS)
+        .expireAfterAccess(EXPIRING_TIME, MILLISECONDS)
         .removalListener(removalListener)
         .ticker(ticker)
         .build(loader);
@@ -92,7 +100,7 @@ public class CacheExpirationTest extends TestCase {
     CountingRemovalListener<String, Integer> removalListener = countingRemovalListener();
     WatchedCreatorLoader loader = new WatchedCreatorLoader();
     Cache<String, Integer> cache = CacheBuilder.newBuilder()
-        .expireAfterWrite(EXPIRING_TIME, TimeUnit.MILLISECONDS)
+        .expireAfterWrite(EXPIRING_TIME, MILLISECONDS)
         .removalListener(removalListener)
         .ticker(ticker)
         .build(loader);
@@ -104,7 +112,7 @@ public class CacheExpirationTest extends TestCase {
     CountingRemovalListener<String, Integer> removalListener = countingRemovalListener();
     WatchedCreatorLoader loader = new WatchedCreatorLoader();
     Cache<String, Integer> cache = CacheBuilder.newBuilder()
-        .expireAfterAccess(EXPIRING_TIME, TimeUnit.MILLISECONDS)
+        .expireAfterAccess(EXPIRING_TIME, MILLISECONDS)
         .removalListener(removalListener)
         .ticker(ticker)
         .build(loader);
@@ -125,7 +133,7 @@ public class CacheExpirationTest extends TestCase {
     }
 
     // wait for entries to expire, but don't call expireEntries
-    ticker.advance(EXPIRING_TIME * 10, TimeUnit.MILLISECONDS);
+    ticker.advance(EXPIRING_TIME * 10, MILLISECONDS);
 
     // add a single unexpired entry
     cache.getUnchecked(KEY_PREFIX + 11);
@@ -186,14 +194,14 @@ public class CacheExpirationTest extends TestCase {
 
     Cache<Integer, AtomicInteger> cache = CacheBuilder.newBuilder()
         .removalListener(removalListener)
-        .expireAfterWrite(10, TimeUnit.MILLISECONDS)
+        .expireAfterWrite(10, MILLISECONDS)
         .ticker(ticker)
         .build(loader);
 
     // Increment 100 times
     for (int i = 0; i < 100; ++i) {
       cache.getUnchecked(10).incrementAndGet();
-      ticker.advance(1, TimeUnit.MILLISECONDS);
+      ticker.advance(1, MILLISECONDS);
     }
 
     assertEquals(evictionCount.get() + 1, applyCount.get());
@@ -206,7 +214,7 @@ public class CacheExpirationTest extends TestCase {
     CountingRemovalListener<String, Integer> removalListener = countingRemovalListener();
     WatchedCreatorLoader loader = new WatchedCreatorLoader();
     Cache<String, Integer> cache = CacheBuilder.newBuilder()
-        .expireAfterWrite(EXPIRING_TIME, TimeUnit.MILLISECONDS)
+        .expireAfterWrite(EXPIRING_TIME, MILLISECONDS)
         .removalListener(removalListener)
         .ticker(ticker)
         .build(loader);
@@ -218,11 +226,172 @@ public class CacheExpirationTest extends TestCase {
     CountingRemovalListener<String, Integer> removalListener = countingRemovalListener();
     WatchedCreatorLoader loader = new WatchedCreatorLoader();
     Cache<String, Integer> cache = CacheBuilder.newBuilder()
-        .expireAfterAccess(EXPIRING_TIME, TimeUnit.MILLISECONDS)
+        .expireAfterAccess(EXPIRING_TIME, MILLISECONDS)
         .removalListener(removalListener)
         .ticker(ticker)
         .build(loader);
     runRemovalScheduler(cache, removalListener, loader, ticker, KEY_PREFIX, EXPIRING_TIME);
+  }
+
+  public void testRemovalScheduler_expireAfterBoth() {
+    FakeTicker ticker = new FakeTicker();
+    CountingRemovalListener<String, Integer> removalListener = countingRemovalListener();
+    WatchedCreatorLoader loader = new WatchedCreatorLoader();
+    Cache<String, Integer> cache = CacheBuilder.newBuilder()
+        .expireAfterAccess(EXPIRING_TIME, MILLISECONDS)
+        .expireAfterWrite(EXPIRING_TIME, MILLISECONDS)
+        .removalListener(removalListener)
+        .ticker(ticker)
+        .build(loader);
+    runRemovalScheduler(cache, removalListener, loader, ticker, KEY_PREFIX, EXPIRING_TIME);
+  }
+
+  public void testExpirationOrder_access() {
+    // test lru within a single segment
+    FakeTicker ticker = new FakeTicker();
+    IdentityLoader<Integer> loader = identityLoader();
+    Cache<Integer, Integer> cache = CacheBuilder.newBuilder()
+        .concurrencyLevel(1)
+        .expireAfterAccess(10, MILLISECONDS)
+        .ticker(ticker)
+        .build(loader);
+    for (int i = 0; i < 10; i++) {
+      cache.getUnchecked(i);
+      ticker.advance(1, MILLISECONDS);
+    }
+    Set<Integer> keySet = cache.asMap().keySet();
+    ASSERT.that(keySet).hasContentsAnyOrder(0, 1, 2, 3, 4, 5, 6, 7, 8, 9);
+
+    // 0 expires
+    ticker.advance(1, MILLISECONDS);
+    ASSERT.that(keySet).hasContentsAnyOrder(1, 2, 3, 4, 5, 6, 7, 8, 9);
+
+    // reorder
+    getAll(cache, asList(0, 1, 2));
+    CacheTesting.drainRecencyQueues(cache);
+    ticker.advance(2, MILLISECONDS);
+    ASSERT.that(keySet).hasContentsAnyOrder(3, 4, 5, 6, 7, 8, 9, 0, 1, 2);
+
+    // 3 expires
+    ticker.advance(1, MILLISECONDS);
+    ASSERT.that(keySet).hasContentsAnyOrder(4, 5, 6, 7, 8, 9, 0, 1, 2);
+
+    // reorder
+    getAll(cache, asList(5, 7, 9));
+    CacheTesting.drainRecencyQueues(cache);
+    ASSERT.that(keySet).hasContentsAnyOrder(4, 6, 8, 0, 1, 2, 5, 7, 9);
+
+    // 4 expires
+    ticker.advance(1, MILLISECONDS);
+    ASSERT.that(keySet).hasContentsAnyOrder(6, 8, 0, 1, 2, 5, 7, 9);
+    ticker.advance(1, MILLISECONDS);
+    ASSERT.that(keySet).hasContentsAnyOrder(6, 8, 0, 1, 2, 5, 7, 9);
+
+    // 6 expires
+    ticker.advance(1, MILLISECONDS);
+    ASSERT.that(keySet).hasContentsAnyOrder(8, 0, 1, 2, 5, 7, 9);
+    ticker.advance(1, MILLISECONDS);
+    ASSERT.that(keySet).hasContentsAnyOrder(8, 0, 1, 2, 5, 7, 9);
+
+    // 8 expires
+    ticker.advance(1, MILLISECONDS);
+    ASSERT.that(keySet).hasContentsAnyOrder(0, 1, 2, 5, 7, 9);
+  }
+
+  public void testExpirationOrder_write() throws ExecutionException {
+    // test lru within a single segment
+    FakeTicker ticker = new FakeTicker();
+    IdentityLoader<Integer> loader = identityLoader();
+    Cache<Integer, Integer> cache = CacheBuilder.newBuilder()
+        .concurrencyLevel(1)
+        .expireAfterWrite(10, MILLISECONDS)
+        .ticker(ticker)
+        .build(loader);
+    for (int i = 0; i < 10; i++) {
+      cache.getUnchecked(i);
+      ticker.advance(1, MILLISECONDS);
+    }
+    Set<Integer> keySet = cache.asMap().keySet();
+    ASSERT.that(keySet).hasContentsAnyOrder(0, 1, 2, 3, 4, 5, 6, 7, 8, 9);
+
+    // 0 expires
+    ticker.advance(1, MILLISECONDS);
+    ASSERT.that(keySet).hasContentsAnyOrder(1, 2, 3, 4, 5, 6, 7, 8, 9);
+
+    // get doesn't stop 1 from expiring
+    getAll(cache, asList(0, 1, 2));
+    CacheTesting.drainRecencyQueues(cache);
+    ticker.advance(1, MILLISECONDS);
+    ASSERT.that(keySet).hasContentsAnyOrder(2, 3, 4, 5, 6, 7, 8, 9, 0);
+
+    // get(K, Callable) doesn't stop 2 from expiring
+    cache.get(2, Callables.returning(-2));
+    CacheTesting.drainRecencyQueues(cache);
+    ticker.advance(1, MILLISECONDS);
+    ASSERT.that(keySet).hasContentsAnyOrder(3, 4, 5, 6, 7, 8, 9, 0);
+
+    // asMap.put saves 3
+    cache.asMap().put(3, -3);
+    ticker.advance(1, MILLISECONDS);
+    ASSERT.that(keySet).hasContentsAnyOrder(4, 5, 6, 7, 8, 9, 0, 3);
+
+    // asMap.replace saves 4
+    cache.asMap().replace(4, -4);
+    ticker.advance(1, MILLISECONDS);
+    ASSERT.that(keySet).hasContentsAnyOrder(5, 6, 7, 8, 9, 0, 3, 4);
+
+    // 5 expires
+    ticker.advance(1, MILLISECONDS);
+    ASSERT.that(keySet).hasContentsAnyOrder(6, 7, 8, 9, 0, 3, 4);
+  }
+
+  public void testExpirationOrder_writeAccess() throws ExecutionException {
+    // test lru within a single segment
+    FakeTicker ticker = new FakeTicker();
+    IdentityLoader<Integer> loader = identityLoader();
+    Cache<Integer, Integer> cache = CacheBuilder.newBuilder()
+        .concurrencyLevel(1)
+        .expireAfterWrite(4, MILLISECONDS)
+        .expireAfterAccess(2, MILLISECONDS)
+        .ticker(ticker)
+        .build(loader);
+    for (int i = 0; i < 5; i++) {
+      cache.getUnchecked(i);
+    }
+    ticker.advance(1, MILLISECONDS);
+    for (int i = 5; i < 10; i++) {
+      cache.getUnchecked(i);
+    }
+    ticker.advance(1, MILLISECONDS);
+
+    Set<Integer> keySet = cache.asMap().keySet();
+    ASSERT.that(keySet).hasContentsAnyOrder(0, 1, 2, 3, 4, 5, 6, 7, 8, 9);
+
+    // get saves 1, 3; 0, 2, 4 expire
+    getAll(cache, asList(1, 3));
+    CacheTesting.drainRecencyQueues(cache);
+    ticker.advance(1, MILLISECONDS);
+    ASSERT.that(keySet).hasContentsAnyOrder(5, 6, 7, 8, 9, 1, 3);
+
+    // get saves 6, 8; 5, 7, 9 expire
+    getAll(cache, asList(6, 8));
+    CacheTesting.drainRecencyQueues(cache);
+    ticker.advance(1, MILLISECONDS);
+    ASSERT.that(keySet).hasContentsAnyOrder(1, 3, 6, 8);
+
+    // get fails to save 1, put saves 3
+    cache.asMap().put(3, -3);
+    getAll(cache, asList(1));
+    CacheTesting.drainRecencyQueues(cache);
+    ticker.advance(1, MILLISECONDS);
+    ASSERT.that(keySet).hasContentsAnyOrder(6, 8, 3);
+
+    // get(K, Callable) fails to save 8, replace saves 6
+    cache.asMap().replace(6, -6);
+    cache.get(8, Callables.returning(-8));
+    CacheTesting.drainRecencyQueues(cache);
+    ticker.advance(1, MILLISECONDS);
+    ASSERT.that(keySet).hasContentsAnyOrder(3, 6);
   }
 
   private void runRemovalScheduler(Cache<String, Integer> cache,
@@ -240,7 +409,7 @@ public class CacheExpirationTest extends TestCase {
     assertEquals(0, removalListener.getCount());
 
     // wait, so that entries have just 10 ms to live
-    ticker.advance(ttl * 2 / 3, TimeUnit.MILLISECONDS);
+    ticker.advance(ttl * 2 / 3, MILLISECONDS);
 
     assertEquals(10, CacheTesting.expirationQueueSize(cache));
     assertEquals(0, removalListener.getCount());
@@ -257,7 +426,7 @@ public class CacheExpirationTest extends TestCase {
     assertEquals(10, removalListener.getCount());  // these are the invalidated ones
 
     // old timeouts must expire after this wait
-    ticker.advance(ttl * 2 / 3, TimeUnit.MILLISECONDS);
+    ticker.advance(ttl * 2 / 3, MILLISECONDS);
 
     assertEquals(10, CacheTesting.expirationQueueSize(cache));
     assertEquals(10, removalListener.getCount());
@@ -269,6 +438,12 @@ public class CacheExpirationTest extends TestCase {
       assertFalse("Creator should NOT have been called @#" + i, loader.wasCalled());
     }
     assertEquals(10, removalListener.getCount());
+  }
+
+  private void getAll(Cache<Integer, Integer> cache, List<Integer> keys) {
+    for (int i : keys) {
+      cache.getUnchecked(i);
+    }
   }
 
   private static class WatchedCreatorLoader extends CacheLoader<String, Integer> {

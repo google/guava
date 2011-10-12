@@ -522,17 +522,11 @@ public final class CacheBuilder<K, V> {
    * @throws IllegalStateException if the time to live or time to idle was already set
    */
   public CacheBuilder<K, V> expireAfterWrite(long duration, TimeUnit unit) {
-    checkExpiration(duration, unit);
-    this.expireAfterWriteNanos = unit.toNanos(duration);
-    return this;
-  }
-
-  private void checkExpiration(long duration, TimeUnit unit) {
     checkState(expireAfterWriteNanos == UNSET_INT, "expireAfterWrite was already set to %s ns",
         expireAfterWriteNanos);
-    checkState(expireAfterAccessNanos == UNSET_INT, "expireAfterAccess was already set to %s ns",
-        expireAfterAccessNanos);
     checkArgument(duration >= 0, "duration cannot be negative: %s %s", duration, unit);
+    this.expireAfterWriteNanos = unit.toNanos(duration);
+    return this;
   }
 
   long getExpireAfterWriteNanos() {
@@ -560,7 +554,9 @@ public final class CacheBuilder<K, V> {
    * @throws IllegalStateException if the time to idle or time to live was already set
    */
   public CacheBuilder<K, V> expireAfterAccess(long duration, TimeUnit unit) {
-    checkExpiration(duration, unit);
+    checkState(expireAfterAccessNanos == UNSET_INT, "expireAfterAccess was already set to %s ns",
+        expireAfterAccessNanos);
+    checkArgument(duration >= 0, "duration cannot be negative: %s %s", duration, unit);
     this.expireAfterAccessNanos = unit.toNanos(duration);
     return this;
   }

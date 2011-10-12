@@ -169,18 +169,22 @@ public class CacheEvictionTest extends TestCase {
 
     // re-order
     getAll(cache, asList(0, 1, 2));
+    CacheTesting.drainRecencyQueues(cache);
     ASSERT.that(keySet).hasContentsAnyOrder(3, 4, 5, 6, 7, 8, 9, 0, 1, 2);
 
     // evict 3, 4, 5
     getAll(cache, asList(10, 11, 12));
+    CacheTesting.drainRecencyQueues(cache);
     ASSERT.that(keySet).hasContentsAnyOrder(6, 7, 8, 9, 0, 1, 2, 10, 11, 12);
 
     // re-order
     getAll(cache, asList(6, 7, 8));
+    CacheTesting.drainRecencyQueues(cache);
     ASSERT.that(keySet).hasContentsAnyOrder(9, 0, 1, 2, 10, 11, 12, 6, 7, 8);
 
     // evict 9, 0, 1
     getAll(cache, asList(13, 14, 15));
+    CacheTesting.drainRecencyQueues(cache);
     ASSERT.that(keySet).hasContentsAnyOrder(2, 10, 11, 12, 6, 7, 8, 13, 14, 15);
   }
 
@@ -198,26 +202,32 @@ public class CacheEvictionTest extends TestCase {
 
     // re-order
     getAll(cache, asList(0, 1, 2));
+    CacheTesting.drainRecencyQueues(cache);
     ASSERT.that(keySet).hasContentsAnyOrder(3, 4, 5, 6, 7, 8, 9, 0, 1, 2);
 
     // evict 3, 4, 5
     getAll(cache, asList(10));
+    CacheTesting.drainRecencyQueues(cache);
     ASSERT.that(keySet).hasContentsAnyOrder(6, 7, 8, 9, 0, 1, 2, 10);
 
     // re-order
     getAll(cache, asList(6, 7, 8));
+    CacheTesting.drainRecencyQueues(cache);
     ASSERT.that(keySet).hasContentsAnyOrder(9, 0, 1, 2, 10, 6, 7, 8);
 
     // evict 9, 1, 2, 10
     getAll(cache, asList(15));
+    CacheTesting.drainRecencyQueues(cache);
     ASSERT.that(keySet).hasContentsAnyOrder(0, 6, 7, 8, 15);
 
     // fill empty space
     getAll(cache, asList(9));
+    CacheTesting.drainRecencyQueues(cache);
     ASSERT.that(keySet).hasContentsAnyOrder(0, 6, 7, 8, 15, 9);
 
     // evict 6
     getAll(cache, asList(1));
+    CacheTesting.drainRecencyQueues(cache);
     ASSERT.that(keySet).hasContentsAnyOrder(0, 7, 8, 15, 9, 1);
   }
 
@@ -235,10 +245,12 @@ public class CacheEvictionTest extends TestCase {
 
     // add an at-the-maximum-weight entry
     getAll(cache, asList(45));
+    CacheTesting.drainRecencyQueues(cache);
     ASSERT.that(keySet).hasContentsAnyOrder(0, 45);
 
     // add an over-the-maximum-weight entry
     getAll(cache, asList(46));
+    CacheTesting.drainRecencyQueues(cache);
     ASSERT.that(keySet).hasContentsAnyOrder(0);
   }
 
@@ -246,6 +258,5 @@ public class CacheEvictionTest extends TestCase {
     for (int i : keys) {
       cache.getUnchecked(i);
     }
-    CacheTesting.drainRecencyQueues(cache);
   }
 }

@@ -2264,6 +2264,9 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
       // don't consider expiration as we're concurrent with loading
       try {
         V value = valueReference.waitForValue();
+        if (value == null) {
+          throw new AssertionError();
+        }
         recordRead(e);
         return value;
       } finally {
@@ -2282,6 +2285,9 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
         // the time.
         synchronized (entry) {
           value = loadingValueReference.load(key, hash, loader);
+        }
+        if (value == null) {
+          throw new AssertionError();
         }
         long end = System.nanoTime();
         statsCounter.recordLoadSuccess(end - start);
