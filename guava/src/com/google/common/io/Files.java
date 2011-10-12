@@ -749,7 +749,7 @@ public final class Files {
    *
    * <ul>
    * <li>empty string becomes .
-   * <li>. becomes ????
+   * <li>. stays as .
    * <li>fold out ./
    * <li>fold out ../ when possible
    * <li>collapse multiple slashes

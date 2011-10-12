@@ -211,7 +211,7 @@ public abstract class ImmutableTable<R, C, V> implements Table<R, C, V> {
     public Builder<R, C, V> putAll(
         Table<? extends R, ? extends C, ? extends V> table) {
       for (Cell<? extends R, ? extends C, ? extends V> cell : table.cellSet()) {
-        put(cell.getRowKey(), cell.getColumnKey(), cell.getValue());
+        put(cell);
       }
       return this;
     }
