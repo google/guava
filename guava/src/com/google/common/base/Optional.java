@@ -22,6 +22,8 @@ import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 
 import java.io.Serializable;
+import java.util.Collections;
+import java.util.Set;
 
 import javax.annotation.Nullable;
 
@@ -135,6 +137,13 @@ public abstract class Optional<T> implements Serializable {
    * instance is known to be present, use {@link #get()} instead.
    */
   @Nullable public abstract T orNull();
+  
+  /**
+   * Returns an immutable singleton {@link Set} whose only element is the
+   * contained instance if it is present; an empty immutable {@link Set}
+   * otherwise.
+   */
+  public abstract Set<T> asSet(); 
 
   /**
    * Returns {@code true} if {@code object} is an {@code Optional} instance, and either
@@ -190,6 +199,10 @@ public abstract class Optional<T> implements Serializable {
     @Override public T orNull() {
       return reference;
     }
+    
+    @Override public Set<T> asSet() {
+      return Collections.singleton(reference);
+    }
 
     @Override public boolean equals(@Nullable Object object) {
       if (object instanceof Present) {
@@ -237,6 +250,10 @@ public abstract class Optional<T> implements Serializable {
 
     @Override @Nullable public Object orNull() {
       return null;
+    }
+    
+    @Override public Set<Object> asSet() {
+      return Collections.emptySet();
     }
 
     @Override public boolean equals(@Nullable Object object) {

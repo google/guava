@@ -23,6 +23,9 @@ import com.google.common.testing.SerializableTester;
 
 import junit.framework.TestCase;
 
+import java.util.Collections;
+import java.util.Set;
+
 /**
  * Unit test for {@link Optional}.
  *
@@ -118,6 +121,33 @@ public final class OptionalTest extends TestCase {
 
   public void testOrNull_absent() {
     assertNull(Optional.absent().orNull());
+  }
+  
+  public void testAsSet_present() {
+    Set<String> expected = Collections.singleton("a");
+    assertEquals(expected, Optional.of("a").asSet());
+  }
+  
+  public void testAsSet_absent() {
+    assertTrue("Returned set should be empty", Optional.absent().asSet().isEmpty());
+  }
+  
+  public void testAsSet_presentIsImmutable() {
+    Set<String> presentAsSet = Optional.of("a").asSet();
+    try {
+      presentAsSet.add("b");
+      fail();
+    } catch (UnsupportedOperationException expected) {
+    }
+  }
+
+  public void testAsSet_absentIsImmutable() {
+    Set<Object> absentAsSet = Optional.absent().asSet();
+    try {
+      absentAsSet.add("foo");
+      fail();
+    } catch (UnsupportedOperationException expected) {
+    }
   }
 
   // TODO(kevinb): use EqualsTester
