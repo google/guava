@@ -16,6 +16,7 @@
 
 package com.google.common.cache;
 
+import static com.google.common.cache.CacheBuilder.NULL_TICKER;
 import static com.google.common.cache.CustomConcurrentHashMap.DISCARDING_QUEUE;
 import static com.google.common.cache.CustomConcurrentHashMap.DRAIN_THRESHOLD;
 import static com.google.common.cache.CustomConcurrentHashMap.nullEntry;
@@ -105,7 +106,7 @@ public class CustomConcurrentHashMapTest extends TestCase {
     assertSame(EntryFactory.STRONG, map.entryFactory);
     assertSame(CacheBuilder.NullListener.INSTANCE, map.removalListener);
     assertSame(DISCARDING_QUEUE, map.removalNotificationQueue);
-    assertSame(Ticker.systemTicker(), map.ticker);
+    assertSame(NULL_TICKER, map.ticker);
 
     assertEquals(4, map.concurrencyLevel);
 
@@ -1349,7 +1350,7 @@ public class CustomConcurrentHashMapTest extends TestCase {
         segment.expand();
       }
       assertEquals(i, segment.table.length());
-      assertEquals(originalCount, countLiveEntries(map));
+      assertEquals(originalCount, countLiveEntries(map, 0));
       assertEquals(originalCount, segment.count);
       assertEquals(originalMap, map);
     }
@@ -1477,7 +1478,7 @@ public class CustomConcurrentHashMapTest extends TestCase {
     segment.count = originalCount;
     int liveCount = originalCount / 3;
     assertEquals(1, segment.table.length());
-    assertEquals(liveCount, countLiveEntries(map));
+    assertEquals(liveCount, countLiveEntries(map, 0));
     ImmutableMap<Object, Object> originalMap = ImmutableMap.copyOf(map);
     assertEquals(liveCount, originalMap.size());
     // can't compare map contents until cleanup occurs
@@ -1487,7 +1488,7 @@ public class CustomConcurrentHashMapTest extends TestCase {
         segment.expand();
       }
       assertEquals(i, segment.table.length());
-      assertEquals(liveCount, countLiveEntries(map));
+      assertEquals(liveCount, countLiveEntries(map, 0));
       // expansion cleanup is sloppy, with a goal of avoiding unnecessary copies
       assertTrue(segment.count >= liveCount);
       assertTrue(segment.count <= originalCount);
@@ -1495,13 +1496,13 @@ public class CustomConcurrentHashMapTest extends TestCase {
     }
   }
 
-  private static <K, V> int countLiveEntries(CustomConcurrentHashMap<K, V> map) {
+  private static <K, V> int countLiveEntries(CustomConcurrentHashMap<K, V> map, long now) {
     int result = 0;
     for (Segment<K, V> segment : map.segments) {
       AtomicReferenceArray<ReferenceEntry<K, V>> table = segment.table;
       for (int i = 0; i < table.length(); i++) {
         for (ReferenceEntry<K, V> e = table.get(i); e != null; e = e.getNext()) {
-          if (map.isLive(e)) {
+          if (map.isLive(e, now)) {
             result++;
           }
         }
@@ -1524,7 +1525,7 @@ public class CustomConcurrentHashMapTest extends TestCase {
     Object value = new Object();
     int hash = map.hash(key);
     DummyEntry<Object, Object> entry = createDummyEntry(key, hash, value, null);
-    segment.recordWrite(entry, 1);
+    segment.recordWrite(entry, 1, map.ticker.read());
     segment.table.set(0, entry);
     segment.readCount.incrementAndGet();
     segment.count = 1;
@@ -1561,7 +1562,7 @@ public class CustomConcurrentHashMapTest extends TestCase {
     assertFalse(segment.removeEntry(entry, hash, RemovalCause.COLLECTED));
 
     // remove live
-    segment.recordWrite(entry, 1);
+    segment.recordWrite(entry, 1, map.ticker.read());
     table.set(0, entry);
     segment.count = 1;
     assertTrue(segment.removeEntry(entry, hash, RemovalCause.COLLECTED));
@@ -1597,7 +1598,7 @@ public class CustomConcurrentHashMapTest extends TestCase {
     assertFalse(segment.reclaimValue(key, hash, valueRef));
 
     // reclaim live
-    segment.recordWrite(entry, 1);
+    segment.recordWrite(entry, 1, map.ticker.read());
     table.set(0, entry);
     segment.count = 1;
     assertTrue(segment.reclaimValue(key, hash, valueRef));
@@ -1762,7 +1763,7 @@ public class CustomConcurrentHashMapTest extends TestCase {
 
         ReferenceEntry<Object, Object> entry = createDummyEntry(key, hash, value, null);
         // must recordRead for drainRecencyQueue to believe this entry is live
-        segment.recordWrite(entry, 1);
+        segment.recordWrite(entry, 1, map.ticker.read());
         writeOrder.add(entry);
         readOrder.add(entry);
       }
@@ -1777,7 +1778,7 @@ public class CustomConcurrentHashMapTest extends TestCase {
       while (i.hasNext()) {
         ReferenceEntry<Object, Object> entry = i.next();
         if (random.nextBoolean()) {
-          segment.recordRead(entry);
+          segment.recordRead(entry, map.ticker.read());
           reads.add(entry);
           i.remove();
         }
@@ -1845,7 +1846,7 @@ public class CustomConcurrentHashMapTest extends TestCase {
 
         ReferenceEntry<Object, Object> entry = createDummyEntry(key, hash, value, null);
         // must recordRead for drainRecencyQueue to believe this entry is live
-        segment.recordWrite(entry, 1);
+        segment.recordWrite(entry, 1, map.ticker.read());
         writeOrder.add(entry);
       }
 
@@ -1859,7 +1860,7 @@ public class CustomConcurrentHashMapTest extends TestCase {
       while (i.hasNext()) {
         ReferenceEntry<Object, Object> entry = i.next();
         if (random.nextBoolean()) {
-          segment.recordWrite(entry, 1);
+          segment.recordWrite(entry, 1, map.ticker.read());
           writes.add(entry);
           i.remove();
         }
@@ -1946,29 +1947,29 @@ public class CustomConcurrentHashMapTest extends TestCase {
     Object value = new Object();
     map.put(key, value);
     ReferenceEntry<Object, Object> entry = map.getEntry(key);
-    assertTrue(map.isLive(entry));
+    assertTrue(map.isLive(entry, ticker.read()));
 
     segment.writeQueue.add(entry);
     assertSame(value, map.get(key));
     assertSame(entry, segment.writeQueue.peek());
     assertEquals(1, segment.writeQueue.size());
 
-    segment.recordRead(entry);
-    segment.expireEntries();
+    segment.recordRead(entry, ticker.read());
+    segment.expireEntries(ticker.read());
     assertSame(value, map.get(key));
     assertSame(entry, segment.writeQueue.peek());
     assertEquals(1, segment.writeQueue.size());
 
     ticker.advance(1);
-    segment.recordRead(entry);
-    segment.expireEntries();
+    segment.recordRead(entry, ticker.read());
+    segment.expireEntries(ticker.read());
     assertSame(value, map.get(key));
     assertSame(entry, segment.writeQueue.peek());
     assertEquals(1, segment.writeQueue.size());
 
     ticker.advance(1);
     assertNull(map.get(key));
-    segment.expireEntries();
+    segment.expireEntries(ticker.read());
     assertNull(map.get(key));
     assertTrue(segment.writeQueue.isEmpty());
   }
@@ -1985,35 +1986,35 @@ public class CustomConcurrentHashMapTest extends TestCase {
     Object value = new Object();
     map.put(key, value);
     ReferenceEntry<Object, Object> entry = map.getEntry(key);
-    assertTrue(map.isLive(entry));
+    assertTrue(map.isLive(entry, ticker.read()));
 
     segment.accessQueue.add(entry);
     assertSame(value, map.get(key));
     assertSame(entry, segment.accessQueue.peek());
     assertEquals(1, segment.accessQueue.size());
 
-    segment.recordRead(entry);
-    segment.expireEntries();
+    segment.recordRead(entry, ticker.read());
+    segment.expireEntries(ticker.read());
     assertTrue(map.containsKey(key));
     assertSame(entry, segment.accessQueue.peek());
     assertEquals(1, segment.accessQueue.size());
 
     ticker.advance(1);
-    segment.recordRead(entry);
-    segment.expireEntries();
+    segment.recordRead(entry, ticker.read());
+    segment.expireEntries(ticker.read());
     assertTrue(map.containsKey(key));
     assertSame(entry, segment.accessQueue.peek());
     assertEquals(1, segment.accessQueue.size());
 
     ticker.advance(1);
-    segment.recordRead(entry);
-    segment.expireEntries();
+    segment.recordRead(entry, ticker.read());
+    segment.expireEntries(ticker.read());
     assertTrue(map.containsKey(key));
     assertSame(entry, segment.accessQueue.peek());
     assertEquals(1, segment.accessQueue.size());
 
     ticker.advance(1);
-    segment.expireEntries();
+    segment.expireEntries(ticker.read());
     assertTrue(map.containsKey(key));
     assertSame(entry, segment.accessQueue.peek());
     assertEquals(1, segment.accessQueue.size());
@@ -2021,7 +2022,7 @@ public class CustomConcurrentHashMapTest extends TestCase {
     ticker.advance(1);
     assertFalse(map.containsKey(key));
     assertNull(map.get(key));
-    segment.expireEntries();
+    segment.expireEntries(ticker.read());
     assertFalse(map.containsKey(key));
     assertNull(map.get(key));
     assertTrue(segment.accessQueue.isEmpty());
@@ -2047,7 +2048,7 @@ public class CustomConcurrentHashMapTest extends TestCase {
       entry = map.newEntry(key, hash, first);
       ValueReference<Object, Object> valueRef = map.newValueReference(entry, value, 1);
       entry.setValueReference(valueRef);
-      segment.recordWrite(entry, 1);
+      segment.recordWrite(entry, 1, map.ticker.read());
       table.set(index, entry);
       originalMap.put(key, value);
     }

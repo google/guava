@@ -172,6 +172,13 @@ public final class CacheBuilder<K, V> {
     }
   }
 
+  static final Ticker NULL_TICKER = new Ticker() {
+    @Override
+    public long read() {
+      return 0;
+    }
+  };
+
   private static final Logger logger = Logger.getLogger(CacheBuilder.class.getName());
 
   static final int UNSET_INT = -1;
@@ -581,8 +588,11 @@ public final class CacheBuilder<K, V> {
     return this;
   }
 
-  Ticker getTicker() {
-    return firstNonNull(ticker, Ticker.systemTicker());
+  Ticker getTicker(boolean recordsTime) {
+    if (ticker != null) {
+      return ticker;
+    }
+    return recordsTime ? Ticker.systemTicker() : NULL_TICKER;
   }
 
   /**

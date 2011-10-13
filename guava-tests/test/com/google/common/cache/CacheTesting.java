@@ -404,8 +404,9 @@ class CacheTesting {
 
     ticker.advance(2 * expiringTime, TimeUnit.MILLISECONDS);
 
+    long now = ticker.read();
     for (Segment<?, ?> segment : cchm.segments) {
-      expireEntries(segment);
+      expireEntries(segment, now);
       assertEquals("Expiration queue must be empty by now", 0, writeQueueSize(segment));
       assertEquals("Expiration queue must be empty by now", 0, accessQueueSize(segment));
       assertEquals("Segments must be empty by now", 0, segmentSize(segment));
@@ -413,10 +414,10 @@ class CacheTesting {
     cchm.processPendingNotifications();
   }
 
-  static void expireEntries(Segment<?, ?> segment) {
+  static void expireEntries(Segment<?, ?> segment, long now) {
     segment.lock();
     try {
-      segment.expireEntries();
+      segment.expireEntries(now);
       segment.cleanUp();
     } finally {
       segment.unlock();

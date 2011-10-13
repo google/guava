@@ -18,6 +18,7 @@ package com.google.common.cache;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
+import static com.google.common.cache.CacheBuilder.NULL_TICKER;
 import static com.google.common.cache.CacheBuilder.UNSET_INT;
 
 import com.google.common.annotations.VisibleForTesting;
@@ -219,7 +220,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
     expireAfterWriteNanos = builder.getExpireAfterWriteNanos();
 
     entryFactory = EntryFactory.getFactory(keyStrength, usesAccessQueue(), usesWriteQueue());
-    ticker = builder.getTicker();
+    ticker = builder.getTicker(recordsTime());
 
     removalListener = builder.getRemovalListener();
     removalNotificationQueue = (removalListener == NullListener.INSTANCE)
@@ -301,6 +302,18 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
 
   boolean usesWriteQueue() {
     return expiresAfterWrite();
+  }
+
+  boolean recordsWrite() {
+    return expiresAfterWrite();
+  }
+
+  boolean recordsAccess() {
+    return expiresAfterAccess();
+  }
+
+  boolean recordsTime() {
+    return recordsWrite() || recordsAccess();
   }
 
   boolean usesKeyReferences() {
@@ -1848,8 +1861,8 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
    * instead.
    */
   @VisibleForTesting
-  boolean isLive(ReferenceEntry<K, V> entry) {
-    return segmentFor(entry.getHash()).getLiveValue(entry) != null;
+  boolean isLive(ReferenceEntry<K, V> entry, long now) {
+    return segmentFor(entry.getHash()).getLiveValue(entry, now) != null;
   }
 
   /**
@@ -1873,7 +1886,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
    * loading, or expired. Unlike {@link Segment#getLiveValue} this method does not attempt to
    * cleanup stale entries.
    */
-  V getLiveValue(ReferenceEntry<K, V> entry) {
+  V getLiveValue(ReferenceEntry<K, V> entry, long now) {
     if (entry.getKey() == null) {
       return null;
     }
@@ -1882,23 +1895,13 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
       return null;
     }
 
-    if (isExpired(entry)) {
+    if (isExpired(entry, now)) {
       return null;
     }
     return value;
   }
 
   // expiration
-
-  /**
-   * Returns true if the entry has expired.
-   */
-  boolean isExpired(ReferenceEntry<K, V> entry) {
-    if (!expires()) {
-      return false;
-    }
-    return isExpired(entry, ticker.read());
-  }
 
   /**
    * Returns true if the entry has expired.
@@ -2141,7 +2144,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
      * Sets a new value of an entry. Adds newly created entries at the end of the access queue.
      */
     @GuardedBy("Segment.this")
-    void setValue(ReferenceEntry<K, V> entry, K key, V value) {
+    void setValue(ReferenceEntry<K, V> entry, K key, V value, long now) {
       ValueReference<K, V> previous = entry.getValueReference();
       int weight = map.weigher.weigh(key, value);
       checkState(weight >= 0, "Weights must be non-negative");
@@ -2149,7 +2152,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
       ValueReference<K, V> valueReference =
           map.valueStrength.referenceValue(this, entry, value, weight);
       entry.setValueReference(valueReference);
-      recordWrite(entry, weight);
+      recordWrite(entry, weight, now);
       previous.notifyNewValue(value);
     }
 
@@ -2157,13 +2160,14 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
 
     V getOrLoad(K key, int hash, CacheLoader<? super K, V> loader) throws ExecutionException {
       try {
-        // don't call getLiveEntry, which would ignore loading values
         if (count != 0) { // read-volatile
+          // don't call getLiveEntry, which would ignore loading values
           ReferenceEntry<K, V> e = getEntry(key, hash);
           if (e != null) {
-            V value = getLiveValue(e);
+            long now = map.ticker.read();
+            V value = getLiveValue(e, now);
             if (value != null) {
-              recordRead(e);
+              recordRead(e, now);
               statsCounter.recordHit();
               return value;
             }
@@ -2181,7 +2185,8 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
       }
     }
 
-    V lockedGetOrLoad(K key, int hash, CacheLoader<? super K, V> loader) throws ExecutionException {
+    V lockedGetOrLoad(K key, int hash, CacheLoader<? super K, V> loader)
+        throws ExecutionException {
       ReferenceEntry<K, V> e;
       ValueReference<K, V> valueReference = null;
       LoadingValueReference<K, V> loadingValueReference = null;
@@ -2189,7 +2194,9 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
 
       lock();
       try {
-        preWriteCleanup();
+        // re-read ticker once inside the lock
+        long now = map.ticker.read();
+        preWriteCleanup(now);
 
         int newCount = this.count - 1;
         AtomicReferenceArray<ReferenceEntry<K, V>> table = this.table;
@@ -2207,12 +2214,12 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
               V value = valueReference.get();
               if (value == null) {
                 enqueueNotification(entryKey, hash, valueReference, RemovalCause.COLLECTED);
-              } else if (map.expires() && map.isExpired(e)) {
+              } else if (map.isExpired(e, now)) {
                 // This is a duplicate check, as preWriteCleanup already purged expired
                 // entries, but let's accomodate an incorrect expiration queue.
                 enqueueNotification(entryKey, hash, valueReference, RemovalCause.EXPIRED);
               } else {
-                recordLockedRead(e);
+                recordLockedRead(e, now);
                 statsCounter.recordHit();
                 return value;
               }
@@ -2267,7 +2274,9 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
         if (value == null) {
           throw new AssertionError();
         }
-        recordRead(e);
+        // re-read ticker now that loading has completed
+        long now = map.ticker.read();
+        recordRead(e, now);
         return value;
       } finally {
         statsCounter.recordMiss();
@@ -2308,7 +2317,8 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
 
       lock();
       try {
-        preWriteCleanup();
+        long now = map.ticker.read();
+        preWriteCleanup(now);
 
         AtomicReferenceArray<ReferenceEntry<K, V>> table = this.table;
         int index = hash & (table.length() - 1);
@@ -2439,9 +2449,9 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
      *
      * <p>Note: locked reads should use {@link #recordLockedRead}.
      */
-    void recordRead(ReferenceEntry<K, V> entry) {
-      if (map.expiresAfterAccess()) {
-        entry.setAccessTime(map.ticker.read());
+    void recordRead(ReferenceEntry<K, V> entry, long now) {
+      if (map.recordsAccess()) {
+        entry.setAccessTime(now);
       }
       recencyQueue.add(entry);
     }
@@ -2454,9 +2464,9 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
      * eviction queues. Unlocked reads should use {@link #recordRead}.
      */
     @GuardedBy("Segment.this")
-    void recordLockedRead(ReferenceEntry<K, V> entry) {
-      if (map.expiresAfterAccess()) {
-        entry.setAccessTime(map.ticker.read());
+    void recordLockedRead(ReferenceEntry<K, V> entry, long now) {
+      if (map.recordsAccess()) {
+        entry.setAccessTime(now);
       }
       accessQueue.add(entry);
     }
@@ -2466,19 +2476,16 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
      * adding {@code entry} to relevant eviction lists.
      */
     @GuardedBy("Segment.this")
-    void recordWrite(ReferenceEntry<K, V> entry, int weight) {
+    void recordWrite(ReferenceEntry<K, V> entry, int weight, long now) {
       // we are already under lock, so drain the recency queue immediately
       drainRecencyQueue();
       totalWeight += weight;
 
-      if (map.expires()) {
-        long time = map.ticker.read();
-        if (map.expiresAfterAccess()) {
-          entry.setAccessTime(time);
-        }
-        if (map.expiresAfterWrite()) {
-          entry.setWriteTime(time);
-        }
+      if (map.recordsAccess()) {
+        entry.setAccessTime(now);
+      }
+      if (map.recordsWrite()) {
+        entry.setWriteTime(now);
       }
       accessQueue.add(entry);
       writeQueue.add(entry);
@@ -2509,10 +2516,10 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
     /**
      * Cleanup expired entries when the lock is available.
      */
-    void tryExpireEntries() {
+    void tryExpireEntries(long now) {
       if (tryLock()) {
         try {
-          expireEntries();
+          expireEntries(now);
         } finally {
           unlock();
           // don't call postWriteCleanup as we're in a read
@@ -2521,10 +2528,9 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
     }
 
     @GuardedBy("Segment.this")
-    void expireEntries() {
+    void expireEntries(long now) {
       drainRecencyQueue();
 
-      long now = map.ticker.read();
       ReferenceEntry<K, V> e;
       while ((e = writeQueue.peek()) != null && map.isExpired(e, now)) {
         if (!removeEntry(e, e.getHash(), RemovalCause.EXPIRED)) {
@@ -2620,12 +2626,12 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
       return null;
     }
 
-    ReferenceEntry<K, V> getLiveEntry(Object key, int hash) {
+    ReferenceEntry<K, V> getLiveEntry(Object key, int hash, long now) {
       ReferenceEntry<K, V> e = getEntry(key, hash);
       if (e == null) {
         return null;
-      } else if (map.isExpired(e)) {
-        tryExpireEntries();
+      } else if (map.isExpired(e, now)) {
+        tryExpireEntries(now);
         return null;
       }
       return e;
@@ -2634,14 +2640,15 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
     V get(Object key, int hash) {
       try {
         if (count != 0) { // read-volatile
-          ReferenceEntry<K, V> e = getLiveEntry(key, hash);
+          long now = map.ticker.read();
+          ReferenceEntry<K, V> e = getLiveEntry(key, hash, now);
           if (e == null) {
             return null;
           }
 
           V value = e.getValueReference().get();
           if (value != null) {
-            recordRead(e);
+            recordRead(e, now);
           } else {
             tryDrainReferenceQueues();
           }
@@ -2656,7 +2663,8 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
     boolean containsKey(Object key, int hash) {
       try {
         if (count != 0) { // read-volatile
-          ReferenceEntry<K, V> e = getLiveEntry(key, hash);
+          long now = map.ticker.read();
+          ReferenceEntry<K, V> e = getLiveEntry(key, hash, now);
           if (e == null) {
             return false;
           }
@@ -2677,11 +2685,12 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
     boolean containsValue(Object value) {
       try {
         if (count != 0) { // read-volatile
+          long now = map.ticker.read();
           AtomicReferenceArray<ReferenceEntry<K, V>> table = this.table;
           int length = table.length();
           for (int i = 0; i < length; ++i) {
             for (ReferenceEntry<K, V> e = table.get(i); e != null; e = e.getNext()) {
-              V entryValue = getLiveValue(e);
+              V entryValue = getLiveValue(e, now);
               if (entryValue == null) {
                 continue;
               }
@@ -2701,7 +2710,8 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
     V put(K key, int hash, V value, boolean onlyIfAbsent) {
       lock();
       try {
-        preWriteCleanup();
+        long now = map.ticker.read();
+        preWriteCleanup(now);
 
         int newCount = this.count + 1;
         if (newCount > this.threshold) { // ensure capacity
@@ -2727,10 +2737,10 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
               ++modCount;
               if (valueReference.isActive()) {
                 enqueueNotification(key, hash, valueReference, RemovalCause.COLLECTED);
-                setValue(e, key, value);
+                setValue(e, key, value, now);
                 newCount = this.count; // count remains unchanged
               } else {
-                setValue(e, key, value);
+                setValue(e, key, value, now);
                 newCount = this.count + 1;
               }
               this.count = newCount; // write-volatile
@@ -2740,13 +2750,13 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
               // Mimic
               // "if (!map.containsKey(key)) ...
               // else return map.get(key);
-              recordLockedRead(e);
+              recordLockedRead(e, now);
               return entryValue;
             } else {
               // clobber existing entry, count remains unchanged
               ++modCount;
               enqueueNotification(key, hash, valueReference, RemovalCause.REPLACED);
-              setValue(e, key, value);
+              setValue(e, key, value, now);
               evictEntries();
               return entryValue;
             }
@@ -2756,7 +2766,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
         // Create a new entry.
         ++modCount;
         ReferenceEntry<K, V> newEntry = newEntry(key, hash, first);
-        setValue(newEntry, key, value);
+        setValue(newEntry, key, value, now);
         table.set(index, newEntry);
         newCount = this.count + 1;
         this.count = newCount; // write-volatile
@@ -2843,7 +2853,8 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
     boolean replace(K key, int hash, V oldValue, V newValue) {
       lock();
       try {
-        preWriteCleanup();
+        long now = map.ticker.read();
+        preWriteCleanup(now);
 
         AtomicReferenceArray<ReferenceEntry<K, V>> table = this.table;
         int index = hash & (table.length() - 1);
@@ -2872,13 +2883,13 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
             if (map.valueEquivalence.equivalent(oldValue, entryValue)) {
               ++modCount;
               enqueueNotification(key, hash, valueReference, RemovalCause.REPLACED);
-              setValue(e, key, newValue);
+              setValue(e, key, newValue, now);
               evictEntries();
               return true;
             } else {
               // Mimic
               // "if (map.containsKey(key) && map.get(key).equals(oldValue))..."
-              recordLockedRead(e);
+              recordLockedRead(e, now);
               return false;
             }
           }
@@ -2894,7 +2905,8 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
     V replace(K key, int hash, V newValue) {
       lock();
       try {
-        preWriteCleanup();
+        long now = map.ticker.read();
+        preWriteCleanup(now);
 
         AtomicReferenceArray<ReferenceEntry<K, V>> table = this.table;
         int index = hash & (table.length() - 1);
@@ -2922,7 +2934,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
 
             ++modCount;
             enqueueNotification(key, hash, valueReference, RemovalCause.REPLACED);
-            setValue(e, key, newValue);
+            setValue(e, key, newValue, now);
             evictEntries();
             return entryValue;
           }
@@ -2938,7 +2950,8 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
     V remove(Object key, int hash) {
       lock();
       try {
-        preWriteCleanup();
+        long now = map.ticker.read();
+        preWriteCleanup(now);
 
         int newCount = this.count - 1;
         AtomicReferenceArray<ReferenceEntry<K, V>> table = this.table;
@@ -2983,7 +2996,8 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
         V newValue) {
       lock();
       try {
-        preWriteCleanup();
+        long now = map.ticker.read();
+        preWriteCleanup(now);
 
         int newCount = this.count + 1;
         AtomicReferenceArray<ReferenceEntry<K, V>> table = this.table;
@@ -3004,7 +3018,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
                 enqueueNotification(key, hash, oldValueReference, cause);
                 newCount--;
               }
-              setValue(e, key, newValue);
+              setValue(e, key, newValue, now);
               this.count = newCount; // write-volatile
               evictEntries();
               return true;
@@ -3019,7 +3033,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
 
         ++modCount;
         ReferenceEntry<K, V> newEntry = newEntry(key, hash, first);
-        setValue(newEntry, key, newValue);
+        setValue(newEntry, key, newValue, now);
         table.set(index, newEntry);
         this.count = newCount; // write-volatile
         evictEntries();
@@ -3033,7 +3047,8 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
     boolean remove(Object key, int hash, Object value) {
       lock();
       try {
-        preWriteCleanup();
+        long now = map.ticker.read();
+        preWriteCleanup(now);
 
         int newCount = this.count - 1;
         AtomicReferenceArray<ReferenceEntry<K, V>> table = this.table;
@@ -3284,7 +3299,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
      * Gets the value from an entry. Returns null if the entry is invalid, partially-collected,
      * loading, or expired.
      */
-    V getLiveValue(ReferenceEntry<K, V> entry) {
+    V getLiveValue(ReferenceEntry<K, V> entry, long now) {
       if (entry.getKey() == null) {
         tryDrainReferenceQueues();
         return null;
@@ -3295,8 +3310,8 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
         return null;
       }
 
-      if (map.isExpired(entry)) {
-        tryExpireEntries();
+      if (map.isExpired(entry, now)) {
+        tryExpireEntries(now);
         return null;
       }
       return value;
@@ -3319,8 +3334,8 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
      * <p>Post-condition: expireEntries has been run.
      */
     @GuardedBy("Segment.this")
-    void preWriteCleanup() {
-      runLockedCleanup();
+    void preWriteCleanup(long now) {
+      runLockedCleanup(now);
     }
 
     /**
@@ -3331,15 +3346,16 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
     }
 
     void cleanUp() {
-      runLockedCleanup();
+      long now = map.ticker.read();
+      runLockedCleanup(now);
       runUnlockedCleanup();
     }
 
-    void runLockedCleanup() {
+    void runLockedCleanup(long now) {
       if (tryLock()) {
         try {
           drainReferenceQueues();
-          expireEntries(); // calls drainRecencyQueue
+          expireEntries(now); // calls drainRecencyQueue
           readCount.set(0);
         } finally {
           unlock();
@@ -3931,7 +3947,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
       return null;
     }
     int hash = hash(key);
-    return segmentFor(hash).getLiveEntry(key, hash);
+    return segmentFor(hash).getLiveEntry(key, hash, ticker.read());
   }
 
   void refresh(K key) throws ExecutionException {
@@ -3961,6 +3977,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
     // such that none of the subsequent iterations observed it, despite the fact that at every point
     // in time it was present somewhere int the map. This becomes increasingly unlikely as
     // CONTAINS_VALUE_RETRIES increases, though without locking it is theoretically possible.
+    long now = ticker.read();
     final Segment<K,V>[] segments = this.segments;
     long last = -1L;
     for (int i = 0; i < CONTAINS_VALUE_RETRIES; i++) {
@@ -3973,7 +3990,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
         AtomicReferenceArray<ReferenceEntry<K, V>> table = segment.table;
         for (int j = 0 ; j < table.length(); j++) {
           for (ReferenceEntry<K, V> e = table.get(j); e != null; e = e.getNext()) {
-            V v = segment.getLiveValue(e);
+            V v = segment.getLiveValue(e, now);
             if (v != null && valueEquivalence.equivalent(value, v)) {
               return true;
             }
@@ -4158,8 +4175,9 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
      */
     boolean advanceTo(ReferenceEntry<K, V> entry) {
       try {
+        long now = ticker.read();
         K key = entry.getKey();
-        V value = getLiveValue(entry);
+        V value = getLiveValue(entry, now);
         if (value != null) {
           nextExternal = new WriteThroughEntry(key, value);
           return true;
@@ -4430,7 +4448,8 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
       this.weigher = weigher;
       this.concurrencyLevel = concurrencyLevel;
       this.removalListener = removalListener;
-      this.ticker = ticker;
+      this.ticker = (ticker == Ticker.systemTicker() || ticker == NULL_TICKER)
+          ? null : ticker;
     }
 
     private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
@@ -4459,7 +4478,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
           builder.maximumSize(maxWeight);
         }
       }
-      if (ticker != Ticker.systemTicker()) {
+      if (ticker != null) {
         builder.ticker(ticker);
       }
       this.delegate = builder.build(loader);
