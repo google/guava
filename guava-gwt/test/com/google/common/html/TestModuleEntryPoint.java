@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008 The Guava Authors
+ * Copyright (C) 2010 The Guava Authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,19 +14,17 @@
  * limitations under the License.
  */
 
-package com.google.common.collect;
+package com.google.common.html;
 
-import com.google.gwt.junit.client.GWTTestCase;
+import com.google.gwt.core.client.EntryPoint;
 
 /**
+ * A dummy entry point of the test module.
+ *
  * @author Hayward Chan
  */
-public class ModuleGwtTestCase extends GWTTestCase {
+public class TestModuleEntryPoint implements EntryPoint {
 
-  public static final String MODULE_NAME
-      = "com.google.common.collect.testModule";
-
-  @Override public String getModuleName() {
-    return MODULE_NAME;
+  @Override public void onModuleLoad() {
   }
 }

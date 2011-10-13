@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008 The Guava Authors
+ * Copyright (C) 2009 The Guava Authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,19 +14,20 @@
  * limitations under the License.
  */
 
-package com.google.common.net;
-
-import com.google.gwt.junit.client.GWTTestCase;
+package com.google.common.escape;
 
 /**
- * @author Hayward Chan
+ * @author Jesse Wilson
  */
-public class ModuleGwtTestCase extends GWTTestCase {
+class Platform {
 
-  public static final String MODULE_NAME
-      = "com.google.common.net.testModule";
+  private static final char[] CHAR_BUFFER = new char[1024];
 
-  @Override public String getModuleName() {
-    return MODULE_NAME;
+  static char[] charBufferFromThreadLocal() {
+    // ThreadLocal is not available to GWT, so we always reuse the same
+    // instance.  It is always safe to return the same instance because
+    // javascript is single-threaded, and only used by blocks that doesn't
+    // involve async callbacks.
+    return CHAR_BUFFER;
   }
 }
