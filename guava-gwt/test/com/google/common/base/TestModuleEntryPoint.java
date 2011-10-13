@@ -19,7 +19,7 @@ package com.google.common.base;
 import com.google.gwt.core.client.EntryPoint;
 
 /**
- * An empty entry point for testing GWT compatibility.
+ * A dummy entry point of the test module.
  *
  * @author Hayward Chan
  */

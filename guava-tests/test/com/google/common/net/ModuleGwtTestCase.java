@@ -14,17 +14,17 @@
  * limitations under the License.
  */
 
-package com.google.common.collect;
+package com.google.common.net;
 
 import com.google.gwt.junit.client.GWTTestCase;
 
 /**
  * @author Hayward Chan
  */
-public class CollectGwtTestCase extends GWTTestCase {
+public class ModuleGwtTestCase extends GWTTestCase {
 
   public static final String MODULE_NAME
-      = "com.google.common.collect.testModule";
+      = "com.google.common.net.testModule";
 
   @Override public String getModuleName() {
     return MODULE_NAME;

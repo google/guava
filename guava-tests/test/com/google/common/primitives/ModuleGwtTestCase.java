@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2010 The Guava Authors
+ * Copyright (C) 2008 The Guava Authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,15 +16,17 @@
 
 package com.google.common.primitives;
 
-import com.google.gwt.core.client.EntryPoint;
+import com.google.gwt.junit.client.GWTTestCase;
 
 /**
- * A dummy entry point of the test module.
- *
  * @author Hayward Chan
  */
-public class TestModuleEntryPoint implements EntryPoint {
+public class ModuleGwtTestCase extends GWTTestCase {
 
-  @Override public void onModuleLoad() {
+  public static final String MODULE_NAME
+      = "com.google.common.primitives.testModule";
+
+  @Override public String getModuleName() {
+    return MODULE_NAME;
   }
 }

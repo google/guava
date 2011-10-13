@@ -5,9 +5,12 @@
   <inherits name="com.google.common.net.Net"/>
   <inherits name="com.google.common.testing.Testing"/>
   <inherits name="org.junit.contrib.truth.Truth"/>
+  <entry-point class="com.google.common.net.TestModuleEntryPoint"/>
    
   <source path=""/>
     
+  <add-linker name="std"/>
+   
   <super-source path="super"/>
    
 </module>
