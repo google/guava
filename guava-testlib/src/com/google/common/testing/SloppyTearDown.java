@@ -17,6 +17,7 @@
 package com.google.common.testing;
 
 import com.google.common.annotations.Beta;
+import com.google.common.annotations.GwtCompatible;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -32,6 +33,7 @@ import java.util.logging.Logger;
  * @since 10.0
  */
 @Beta
+@GwtCompatible
 public abstract class SloppyTearDown implements TearDown {
   public static final Logger logger =
       Logger.getLogger(SloppyTearDown.class.getName());

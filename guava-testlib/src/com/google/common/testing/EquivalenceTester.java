@@ -20,6 +20,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.testing.GuavaAsserts.assertEquals;
 import static com.google.common.testing.GuavaAsserts.assertTrue;
 
+import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Equivalence;
 import com.google.common.collect.ImmutableList;
@@ -51,10 +52,12 @@ import java.util.List;
  * arbitrary class without having to explicitly add another equivalence group.
  *
  * @author Gregory Kick
+ * @since 10.0
  *
  * TODO(gak): turn this into a test suite so that each test can fail
  * independently
  */
+@Beta
 @GwtCompatible public final class EquivalenceTester<T> {
   private static final int REPETITIONS = 3;
 
