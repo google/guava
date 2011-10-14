@@ -17,10 +17,15 @@
 package com.google.common.net;
 
 import com.google.common.base.Ascii;
+import com.google.common.base.Joiner;
+import com.google.common.base.Splitter;
+import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Lists;
 
 import junit.framework.TestCase;
 
 import java.lang.reflect.Field;
+import java.util.List;
 
 /**
  * Tests for the HttpHeaders class.
@@ -41,34 +46,25 @@ public class HttpHeadersTest extends TestCase {
     }
   }
 
+  private static final ImmutableSet<String> UPPERCASE_ACRONYMS = ImmutableSet.of(
+      "ID", "DNT", "GFE", "IP", "MD5", "P3P", "TE", "UID", "URL", "WWW", "XSS");
+
+  private static final Splitter SPLITTER = Splitter.on('_');
+  private static final Joiner JOINER = Joiner.on('-');
+
   private static String upperToHttpHeaderName(String constantName) {
     // Special case some of the weird HTTP Header names...
-    if (constantName.equals("TE")) {
-      return "TE";
-    } else if (constantName.equals("CONTENT_MD5")) {
-      return "Content-MD5";
-    } else if (constantName.equals("ETAG")) {
+    if (constantName.equals("ETAG")) {
       return "ETag";
-    } else if (constantName.equals("P3P")) {
-      return "P3P";
-    } else if (constantName.equals("WWW_AUTHENTICATE")) {
-      return "WWW-Authenticate";
-    } else if (constantName.equals("X_XSS_PROTECTION")) {
-      return "X-XSS-Protection";
-    } else if (constantName.equals("X_USER_IP")) {
-      return "X-User-IP";
-    } else if (constantName.equals("DNT")) {
-      return "DNT";
-    } else if (constantName.equals("LAST_EVENT_ID")) {
-      return "Last-Event-ID";
     }
 
-    boolean toLower = false;
-    StringBuilder builder = new StringBuilder(constantName.length());
-    for (char c : constantName.replace('_', '-').toCharArray()) {
-      builder.append(toLower ? Ascii.toLowerCase(c) : c);
-      toLower = (c != '-');
+    List<String> parts = Lists.newArrayList();
+    for (String part : SPLITTER.split(constantName)) {
+      if (!UPPERCASE_ACRONYMS.contains(part)) {
+        part = part.charAt(0) + Ascii.toLowerCase(part.substring(1));
+      }
+      parts.add(part);
     }
-    return builder.toString();
+    return JOINER.join(parts);
   }
 }
