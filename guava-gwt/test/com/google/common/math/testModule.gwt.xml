@@ -7,11 +7,13 @@
   <inherits name="com.google.common.math.Math"/>
   <inherits name="com.google.common.testing.Testing"/>
   <inherits name="com.google.common.annotations.Annotations"/>
-  <inherits name="truth.Truth-gwt"/>
+  <inherits name="org.junit.contrib.truth.Truth"/>
   <entry-point class="com.google.common.math.TestModuleEntryPoint"/>
    
   <source path=""/>
     
+  <add-linker name="std"/>
+   
   <super-source path="super"/>
    
 </module>
