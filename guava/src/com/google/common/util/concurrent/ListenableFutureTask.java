@@ -24,9 +24,9 @@ import javax.annotation.Nullable;
 
 /**
  * A {@link FutureTask} that also implements the {@link ListenableFuture}
- * interface.  Subclasses must make sure to call {@code super.done()} if they
- * also override the {@link #done()} method, otherwise the listeners will not
- * be called.
+ * interface.  Unlike {@code FutureTask}, {@code ListenableFutureTask} does not
+ * provide an overrideable {@link FutureTask#done() done()} method.  For similar
+ * functionality, call {@link #addListener}.
  *
  * @author Sven Mawson
  * @since 1.0
@@ -78,6 +78,9 @@ public final class ListenableFutureTask<V> extends FutureTask<V>
     executionList.add(listener, exec);
   }
 
+  /**
+   * Internal implementation detail used to invoke the listeners.
+   */
   @Override
   protected void done() {
     executionList.execute();
