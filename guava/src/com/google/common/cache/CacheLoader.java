@@ -35,6 +35,10 @@ import java.io.Serializable;
  */
 @Beta
 public abstract class CacheLoader<K, V> {
+  /**
+   * Constructor for use by subclasses.
+   */
+  protected CacheLoader() {}
 
   /**
    * Computes or retrieves the value corresponding to {@code key}.

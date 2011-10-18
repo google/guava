@@ -550,6 +550,13 @@ public abstract class CharMatcher implements Predicate<Character> {
     };
   }
 
+  // Constructors
+
+  /**
+   * Constructor for use by subclasses.
+   */
+  protected CharMatcher() {}
+
   // Abstract methods
 
   /** Determines a true or false value for the given character. */
