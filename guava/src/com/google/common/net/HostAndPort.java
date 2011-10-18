@@ -16,9 +16,12 @@
 
 package com.google.common.net;
 
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkState;
+
 import com.google.common.annotations.Beta;
 import com.google.common.base.Objects;
-import com.google.common.base.Preconditions;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -98,7 +101,7 @@ public final class HostAndPort {
    *         {@link #withDefaultPort(int)} to prevent this from occurring.
    */
   public int getPort() {
-    Preconditions.checkState(hasPort());
+    checkState(hasPort());
     return port;
   }
 
@@ -122,9 +125,9 @@ public final class HostAndPort {
    *     or {@code port} is out of range.
    */
   public static HostAndPort fromParts(String host, int port) {
-    Preconditions.checkArgument(isValidPort(port));
+    checkArgument(isValidPort(port));
     HostAndPort parsedHost = fromString(host);
-    Preconditions.checkArgument(!parsedHost.hasPort());
+    checkArgument(!parsedHost.hasPort());
     return new HostAndPort(parsedHost.host, port, parsedHost.hasBracketlessColons);
   }
 
@@ -141,7 +144,7 @@ public final class HostAndPort {
    * @throws IllegalArgumentException if nothing meaningful could be parsed.
    */
   public static HostAndPort fromString(String hostPortString) {
-    Preconditions.checkNotNull(hostPortString);
+    checkNotNull(hostPortString);
     String host;
     String portString = null;
     boolean hasBracketlessColons = false;
@@ -149,8 +152,7 @@ public final class HostAndPort {
     if (hostPortString.startsWith("[")) {
       // Parse a bracketed host, typically an IPv6 literal.
       Matcher matcher = BRACKET_PATTERN.matcher(hostPortString);
-      Preconditions.checkArgument(matcher.matches(),
-          "Invalid bracketed host/port: %s", hostPortString);
+      checkArgument(matcher.matches(), "Invalid bracketed host/port: %s", hostPortString);
       host = matcher.group(1);
       portString = matcher.group(2);  // could be null
     } else {
@@ -169,13 +171,14 @@ public final class HostAndPort {
     int port = NO_PORT;
     if (portString != null) {
       // Try to parse the whole port string as a number.
+      // JDK7 accepts leading plus signs. We don't want to.
+      checkArgument(!portString.startsWith("+"), "Unparseable port number: %s", hostPortString);
       try {
         port = Integer.parseInt(portString);
       } catch (NumberFormatException e) {
         throw new IllegalArgumentException("Unparseable port number: " + hostPortString);
       }
-      Preconditions.checkArgument(isValidPort(port),
-          "Port number out of range: %s", hostPortString);
+      checkArgument(isValidPort(port), "Port number out of range: %s", hostPortString);
     }
 
     return new HostAndPort(host, port, hasBracketlessColons);
@@ -192,7 +195,7 @@ public final class HostAndPort {
    * @return a HostAndPort instance, guaranteed to have a defined port.
    */
   public HostAndPort withDefaultPort(int defaultPort) {
-    Preconditions.checkArgument(isValidPort(defaultPort));
+    checkArgument(isValidPort(defaultPort));
     if (hasPort() || port == defaultPort) {
       return this;
     }
@@ -215,8 +218,7 @@ public final class HostAndPort {
    * @throws IllegalArgumentException if bracketless IPv6 is detected.
    */
   public HostAndPort requireBracketsForIPv6() {
-    Preconditions.checkArgument(!hasBracketlessColons,
-        "Possible bracketless IPv6 literal: %s", host);
+    checkArgument(!hasBracketlessColons, "Possible bracketless IPv6 literal: %s", host);
     return this;
   }
 
