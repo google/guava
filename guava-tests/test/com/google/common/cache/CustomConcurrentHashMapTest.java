@@ -27,7 +27,6 @@ import static com.google.common.cache.TestingRemovalListeners.queuingRemovalList
 import static com.google.common.cache.TestingWeighers.constantWeigher;
 import static com.google.common.collect.Lists.newArrayList;
 import static com.google.common.collect.Maps.immutableEntry;
-import static java.util.concurrent.TimeUnit.HOURS;
 import static java.util.concurrent.TimeUnit.NANOSECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.easymock.EasyMock.createMock;
@@ -490,7 +489,7 @@ public class CustomConcurrentHashMapTest extends TestCase {
 
   public void testComputeExpiredEntry() throws ExecutionException {
     CacheBuilder<Object, Object> builder = createCacheBuilder()
-        .expireAfterWrite(1, TimeUnit.NANOSECONDS);
+        .expireAfterWrite(1, NANOSECONDS);
     CountingLoader loader = new CountingLoader();
     CustomConcurrentHashMap<Object, Object> map = makeComputingMap(builder, loader);
     assertEquals(0, loader.getCount());
@@ -761,7 +760,7 @@ public class CustomConcurrentHashMapTest extends TestCase {
     QueuingRemovalListener<Object, Object> listener = queuingRemovalListener();
     CustomConcurrentHashMap<Object, Object> map = makeMap(createCacheBuilder()
         .concurrencyLevel(1)
-        .expireAfterWrite(2, TimeUnit.NANOSECONDS)
+        .expireAfterWrite(2, NANOSECONDS)
         .ticker(ticker)
         .removalListener(listener));
     assertTrue(listener.isEmpty());
@@ -899,8 +898,11 @@ public class CustomConcurrentHashMapTest extends TestCase {
   }
 
   public void testSegmentGetAndContains() {
-    CustomConcurrentHashMap<Object, Object> map =
-        makeMap(createCacheBuilder().concurrencyLevel(1).expireAfterAccess(1, HOURS));
+    FakeTicker ticker = new FakeTicker();
+    CustomConcurrentHashMap<Object, Object> map = makeMap(createCacheBuilder()
+        .concurrencyLevel(1)
+        .expireAfterAccess(1, NANOSECONDS)
+        .ticker(ticker));
     Segment<Object, Object> segment = map.segments[0];
     // TODO(fry): check recency ordering
 
@@ -966,7 +968,7 @@ public class CustomConcurrentHashMapTest extends TestCase {
     assertTrue(segment.containsValue(dummyValue));
 
     // expired
-    dummy.setAccessTime(0);
+    dummy.setAccessTime(ticker.read() - 2);
     assertNull(segment.get(key, hash));
     assertFalse(segment.containsKey(key, hash));
     assertTrue(segment.containsValue(value));
@@ -1940,7 +1942,7 @@ public class CustomConcurrentHashMapTest extends TestCase {
     CustomConcurrentHashMap<Object, Object> map = makeMap(createCacheBuilder()
         .concurrencyLevel(1)
         .ticker(ticker)
-        .expireAfterWrite(1, TimeUnit.NANOSECONDS));
+        .expireAfterWrite(1, NANOSECONDS));
     Segment<Object, Object> segment = map.segments[0];
 
     Object key = new Object();
@@ -1979,7 +1981,7 @@ public class CustomConcurrentHashMapTest extends TestCase {
     CustomConcurrentHashMap<Object, Object> map = makeMap(createCacheBuilder()
         .concurrencyLevel(1)
         .ticker(ticker)
-        .expireAfterAccess(1, TimeUnit.NANOSECONDS));
+        .expireAfterAccess(1, NANOSECONDS));
     Segment<Object, Object> segment = map.segments[0];
 
     Object key = new Object();
