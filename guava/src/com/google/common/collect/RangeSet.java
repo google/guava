@@ -32,6 +32,8 @@ import javax.annotation.Nullable;
  * <p>It is guaranteed that {@linkplain Range#isConnected connected} ranges will be
  * {@linkplain Range#span coalesced} together, and that {@linkplain Range#isEmpty empty} ranges
  * will never be held in a {@code RangeSet}.
+ *
+ * <p>For a {@link Set} whose contents are specified by a {@link Range}, see {@link ContiguousSet}.
  * 
  * @author Kevin Bourrillion
  * @author Louis Wasserman
@@ -104,9 +106,6 @@ public abstract class RangeSet<C extends Comparable> {
   public Range<C> span() {
     Range<C> firstRange = firstRange();
     Range<C> lastRange = lastRange();
-    if (firstRange == null) {
-      throw new NoSuchElementException();
-    }
     return new Range<C>(firstRange.lowerBound, lastRange.upperBound);
   }
 
@@ -175,7 +174,7 @@ public abstract class RangeSet<C extends Comparable> {
                 prevCut = posInfinity;
                 return result;
               }
-              return null;
+              return endOfData();
             }
           };
         }
