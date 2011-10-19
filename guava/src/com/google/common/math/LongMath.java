@@ -526,7 +526,9 @@ public final class LongMath {
   @VisibleForTesting static final long FLOOR_SQRT_MAX_LONG = 3037000499L;
 
   /**
-   * Returns {@code n!}, or {@link Long#MAX_VALUE} if the result does not fit in a {@code long}.
+   * Returns {@code n!}, that is, the product of the first {@code n} positive
+   * integers, {@code 1} if {@code n == 0}, or {@link Long#MAX_VALUE} if the
+   * result does not fit in a {@code long}.
    *
    * @throws IllegalArgumentException if {@code n < 0}
    */

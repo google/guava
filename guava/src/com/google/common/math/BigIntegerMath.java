@@ -231,47 +231,97 @@ public final class BigIntegerMath {
   }
 
   /**
-   * Returns {@code n!}. Warning: the result takes <i>O(n log n)</i> memory.
+   * Returns {@code n!}, that is, the product of the first {@code n} positive
+   * integers, or {@code 1} if {@code n == 0}.
    *
    * <p><b>Warning</b>: the result takes <i>O(n log n)</i> space, so use cautiously.
+   *
+   * <p>This uses an efficient binary recursive algorithm to compute the factorial
+   * with balanced multiplies.  It also removes all the 2s from the intermediate
+   * products (shifting them back in at the end).
    *
    * @throws IllegalArgumentException if {@code n < 0}
    */
   public static BigInteger factorial(int n) {
     checkNonNegative("n", n);
+
+    // If the factorial is small enough, just use LongMath to do it.
     if (n < LongMath.FACTORIALS.length) {
-      return BigInteger.valueOf(LongMath.factorial(n));
-    } else {
-      int k = LongMath.FACTORIALS.length - 1;
-      return BigInteger.valueOf(LongMath.factorial(k)).multiply(factorial(k, n));
+      return BigInteger.valueOf(LongMath.FACTORIALS[n]);
     }
-  }
 
-  /**
-   * Returns the product of {@code n1} exclusive through {@code n2} inclusive.
-   */
-  private static BigInteger factorial(int n1, int n2) {
-    assert n1 <= n2;
-    if (IntMath.log2(n2, CEILING) * (n2 - n1) < Long.SIZE - 1) {
-      // the result will definitely fit into a long
-      long result = 1;
-      for (int i = n1 + 1; i <= n2; i++) {
-        result *= i;
+    // Pre-allocate space for our list of intermediate BigIntegers.
+    double approxSize = n * Math.log(n) / Math.log(2.0) / Long.SIZE;
+    ArrayList<BigInteger> bignums = new ArrayList<BigInteger>((int) Math.ceil(approxSize));
+
+    // Start from the pre-computed maximum long factorial.
+    int startingNumber = LongMath.FACTORIALS.length;
+    long product = LongMath.FACTORIALS[startingNumber - 1];
+    // Strip off 2s from this value.
+    int shift = Long.numberOfTrailingZeros(product);
+    product >>= shift;
+
+    // Use floor(log2(num)) + 1 to prevent overflow of multiplication.
+    int productBits = Long.SIZE - Long.numberOfLeadingZeros(product);
+    int bits = Long.SIZE - Long.numberOfLeadingZeros(startingNumber);
+    // Check for the next power of two boundary, to save us a CLZ operation.
+    int nextPowerOfTwo = 1 << (bits - 1);
+
+    // Iteratively multiply the longs as big as they can go.
+    for (long num = startingNumber; num <= n; num++) {
+      // Check to see if the floor(log2(num)) + 1 has changed.
+      if ((num & nextPowerOfTwo) != 0) {
+        nextPowerOfTwo <<= 1;
+        bits++;
       }
-      return BigInteger.valueOf(result);
+      // Get rid of the 2s in num.
+      int tz = Long.numberOfTrailingZeros(num);
+      long normalizedNum = num >> tz;
+      shift += tz;
+      // Adjust floor(log2(num)) + 1.
+      int normalizedBits = bits - tz;
+      // If it won't fit in a long, then we store off the intermediate product.
+      if (normalizedBits + productBits >= Long.SIZE) {
+        bignums.add(BigInteger.valueOf(product));
+        product = 1;
+        productBits = 0;
+      }
+      product *= normalizedNum;
+      productBits = Long.SIZE - Long.numberOfLeadingZeros(product);
     }
-
-    /*
-     * We want each multiplication to have both sides with approximately the same number of digits.
-     * Currently, we just divide the range in half.
-     */
-    int mid = (n1 + n2) >>> 1;
-    return factorial(n1, mid).multiply(factorial(mid, n2));
+    // Check for leftovers.
+    if (product > 1) {
+      bignums.add(BigInteger.valueOf(product));
+    }
+    // Efficiently multiply all the intermediate products together.
+    return listProduct(bignums).shiftLeft(shift);
   }
 
-  /**
+  static BigInteger listProduct(List<BigInteger> nums) {
+    return listProduct(nums, 0, nums.size());
+  }
+  static BigInteger listProduct(List<BigInteger> nums, int start, int end) {
+    if ((end - start) == 0) {
+      return BigInteger.ONE;
+    }
+    if ((end - start) == 1) {
+      return nums.get(start);
+    }
+    if ((end - start) == 2) {
+      return nums.get(start).multiply(nums.get(start + 1));
+    }
+    if ((end - start) == 3) {
+      return nums.get(start).multiply(nums.get(start + 1)).multiply(nums.get(start + 2));
+    }
+
+    // Otherwise, split the list in half and recursively do this.
+    int m = (end + start) >>> 1;
+    return listProduct(nums, start, m).multiply(listProduct(nums, m, end));
+  }
+
+ /**
    * Returns {@code n} choose {@code k}, also known as the binomial coefficient of {@code n} and
-   * {@code k}.
+   * {@code k}, that is, {@code n! / (k! (n - k)!)}.
    *
    * <p><b>Warning</b>: the result can take as much as <i>O(k log n)</i> space.
    *

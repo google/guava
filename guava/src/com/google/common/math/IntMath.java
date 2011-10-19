@@ -428,7 +428,9 @@ public final class IntMath {
   @VisibleForTesting static final int FLOOR_SQRT_MAX_INT = 46340;
 
   /**
-   * Returns {@code n!}, or {@link Integer#MAX_VALUE} if the result does not fit in an {@code int}.
+   * Returns {@code n!}, that is, the product of the first {@code n} positive
+   * integers, {@code 1} if {@code n == 0}, or {@link Integer#MAX_VALUE} if the
+   * result does not fit in a {@code int}.
    *
    * @throws IllegalArgumentException if {@code n < 0}
    */

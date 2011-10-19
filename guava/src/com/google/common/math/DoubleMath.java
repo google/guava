@@ -256,11 +256,14 @@ public final class DoubleMath {
         && (x == 0.0 || SIGNIFICAND_BITS
             - Long.numberOfTrailingZeros(getSignificand(x)) <= getExponent(x));
   }
-  
+
   /**
-   * Return {@code n!} as a {@code double}, or {@link Double#POSITIVE_INFINITY} if
-   * {@code n! > Double.MAX_VALUE}.  The result is within 1 ulp of the true value.
-   * 
+   * Returns {@code n!}, that is, the product of the first {@code n} positive
+   * integers, {@code 1} if {@code n == 0}, or e n!}, or
+   * {@link Double#POSITIVE_INFINITY} if {@code n! > Double.MAX_VALUE}.
+   *
+   * <p>The result is within 1 ulp of the true value.
+   *
    * @throws IllegalArgumentException if {@code n < 0}
    */
   public static double factorial(int n) {

@@ -388,7 +388,7 @@ public class BigIntegerMathTest extends TestCase {
 
   public void testFactorial() {
     BigInteger expected = BigInteger.ONE;
-    for (int i = 1; i <= 100; i++) {
+    for (int i = 1; i <= 300; i++) {
       expected = expected.multiply(BigInteger.valueOf(i));
       assertEquals(expected, BigIntegerMath.factorial(i));
     }
