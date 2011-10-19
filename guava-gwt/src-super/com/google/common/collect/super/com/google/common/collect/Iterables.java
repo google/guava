@@ -1060,7 +1060,7 @@ public final class Iterables {
    * @since 11.0
    */
   @Beta
-  public static <T> UnmodifiableIterable<T> mergeSorted(
+  public static <T> Iterable<T> mergeSorted(
       final Iterable<? extends Iterable<? extends T>> iterables,
       final Comparator<? super T> comparator) {
     checkNotNull(iterables, "iterables");
