@@ -70,7 +70,6 @@ import javax.annotation.Nullable;
  *             }
  *           });}</pre>
  *
- *
  * These features are all optional; {@code new MapMaker().makeMap()} returns a valid concurrent map
  * that behaves similarly to a {@link ConcurrentHashMap}.
  *

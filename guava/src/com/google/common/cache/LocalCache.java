@@ -19,7 +19,7 @@ package com.google.common.cache;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.base.Supplier;
-import com.google.common.cache.CustomConcurrentHashMap.Segment;
+import com.google.common.cache.LocalCacheAsMap.Segment;
 
 import java.io.Serializable;
 import java.util.concurrent.Callable;
@@ -27,17 +27,17 @@ import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.ExecutionException;
 
 /**
- * Exposes a {@link CustomConcurrentHashMap} as a {@code Cache}.
+ * Exposes a {@link LocalCacheAsMap} as a {@code Cache}.
  *
  * @author Charles Fry
  */
 class LocalCache<K, V> extends AbstractCache<K, V> implements Serializable {
-  final CustomConcurrentHashMap<K, V> map;
+  final LocalCacheAsMap<K, V> map;
 
   LocalCache(CacheBuilder<? super K, ? super V> builder,
       Supplier<? extends StatsCounter> statsCounterSupplier,
       CacheLoader<? super K, V> loader) {
-    this.map = new CustomConcurrentHashMap<K, V>(builder, statsCounterSupplier, loader);
+    this.map = new LocalCacheAsMap<K, V>(builder, statsCounterSupplier, loader);
   }
 
   // Cache methods

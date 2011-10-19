@@ -79,7 +79,7 @@ public class CacheBuilderTest extends TestCase {
 
   public void testInitialCapacity_small() {
     Cache<?, ?> cache = CacheBuilder.newBuilder().initialCapacity(5).build(identityLoader());
-    CustomConcurrentHashMap<?, ?> map = CacheTesting.toCustomConcurrentHashMap(cache);
+    LocalCacheAsMap<?, ?> map = CacheTesting.toLocalCacheAsMap(cache);
 
     assertEquals(4, map.segments.length);
     assertEquals(2, map.segments[0].table.length());
@@ -90,7 +90,7 @@ public class CacheBuilderTest extends TestCase {
 
   public void testInitialCapacity_smallest() {
     Cache<?, ?> cache = CacheBuilder.newBuilder().initialCapacity(0).build(identityLoader());
-    CustomConcurrentHashMap<?, ?> map = CacheTesting.toCustomConcurrentHashMap(cache);
+    LocalCacheAsMap<?, ?> map = CacheTesting.toLocalCacheAsMap(cache);
 
     assertEquals(4, map.segments.length);
     // 1 is as low as it goes, not 0. it feels dirty to know this/test this.
@@ -125,7 +125,7 @@ public class CacheBuilderTest extends TestCase {
 
   public void testConcurrencyLevel_small() {
     Cache<?, ?> cache = CacheBuilder.newBuilder().concurrencyLevel(1).build(identityLoader());
-    CustomConcurrentHashMap<?, ?> map = CacheTesting.toCustomConcurrentHashMap(cache);
+    LocalCacheAsMap<?, ?> map = CacheTesting.toLocalCacheAsMap(cache);
     assertEquals(1, map.segments.length);
   }
 
@@ -556,7 +556,7 @@ public class CacheBuilderTest extends TestCase {
 
   public void testSizingDefaults() {
     Cache<?, ?> cache = CacheBuilder.newBuilder().build(identityLoader());
-    CustomConcurrentHashMap<?, ?> map = CacheTesting.toCustomConcurrentHashMap(cache);
+    LocalCacheAsMap<?, ?> map = CacheTesting.toLocalCacheAsMap(cache);
     assertEquals(4, map.segments.length); // concurrency level
     assertEquals(4, map.segments[0].table.length()); // capacity / conc level
   }

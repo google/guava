@@ -72,10 +72,10 @@ import javax.annotation.concurrent.GuardedBy;
  * href="http://tinyurl.com/ConcurrentHashMap">ConcurrentHashMap.java</a>.
  *
  * @author Charles Fry
- * @author Bob Lee ({@code com.google.common.collect.CustomConcurrentHashMap})
+ * @author Bob Lee ({@code com.google.common.collect.LocalCacheAsMap})
  * @author Doug Lea ({@code ConcurrentHashMap})
  */
-class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> {
+class LocalCacheAsMap<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> {
 
   /*
    * The basic strategy is to subdivide the table among Segments, each of which itself is a
@@ -136,7 +136,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
 
   // Fields
 
-  private static final Logger logger = Logger.getLogger(CustomConcurrentHashMap.class.getName());
+  private static final Logger logger = Logger.getLogger(LocalCacheAsMap.class.getName());
 
   /**
    * Mask value for indexing into segments. The upper bits of a key's hash code are used to choose
@@ -201,7 +201,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
   /**
    * Creates a new, empty map with the specified strategy, initial capacity and concurrency level.
    */
-  CustomConcurrentHashMap(CacheBuilder<? super K, ? super V> builder,
+  LocalCacheAsMap(CacheBuilder<? super K, ? super V> builder,
       Supplier<? extends StatsCounter> statsCounterSupplier,
       CacheLoader<? super K, V> loader) {
     this.defaultLoader = checkNotNull(loader);
@@ -224,7 +224,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
 
     removalListener = builder.getRemovalListener();
     removalNotificationQueue = (removalListener == NullListener.INSTANCE)
-        ? CustomConcurrentHashMap.<RemovalNotification<K, V>>discardingQueue()
+        ? LocalCacheAsMap.<RemovalNotification<K, V>>discardingQueue()
         : new ConcurrentLinkedQueue<RemovalNotification<K, V>>();
 
     int initialCapacity = Math.min(builder.getInitialCapacity(), MAXIMUM_CAPACITY);
@@ -2009,7 +2009,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
      * comments.
      */
 
-    final CustomConcurrentHashMap<K, V> map;
+    final LocalCacheAsMap<K, V> map;
 
     /**
      * The number of live elements in this segment's region.
@@ -2088,7 +2088,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
     /** Accumulates cache statistics. */
     final StatsCounter statsCounter;
 
-    Segment(CustomConcurrentHashMap<K, V> map, int initialCapacity, long maxSegmentWeight,
+    Segment(LocalCacheAsMap<K, V> map, int initialCapacity, long maxSegmentWeight,
         StatsCounter statsCounter) {
       this.map = map;
       this.maxSegmentWeight = maxSegmentWeight;
@@ -2103,15 +2103,15 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
 
       recencyQueue = map.usesAccessQueue()
           ? new ConcurrentLinkedQueue<ReferenceEntry<K, V>>()
-          : CustomConcurrentHashMap.<ReferenceEntry<K, V>>discardingQueue();
+          : LocalCacheAsMap.<ReferenceEntry<K, V>>discardingQueue();
 
       writeQueue = map.usesWriteQueue()
           ? new WriteQueue<K, V>()
-          : CustomConcurrentHashMap.<ReferenceEntry<K, V>>discardingQueue();
+          : LocalCacheAsMap.<ReferenceEntry<K, V>>discardingQueue();
 
       accessQueue = map.usesAccessQueue()
           ? new AccessQueue<K, V>()
-          : CustomConcurrentHashMap.<ReferenceEntry<K, V>>discardingQueue();
+          : LocalCacheAsMap.<ReferenceEntry<K, V>>discardingQueue();
     }
 
     AtomicReferenceArray<ReferenceEntry<K, V>> newEntryArray(int size) {
@@ -2679,7 +2679,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
 
     /**
      * This method is a convenience for testing. Code should call {@link
-     * CustomConcurrentHashMap#containsValue} directly.
+     * LocalCacheAsMap#containsValue} directly.
      */
     @VisibleForTesting
     boolean containsValue(Object value) {
@@ -4205,7 +4205,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
 
     public void remove() {
       checkState(lastReturned != null);
-      CustomConcurrentHashMap.this.remove(lastReturned.getKey());
+      LocalCacheAsMap.this.remove(lastReturned.getKey());
       lastReturned = null;
     }
   }
@@ -4295,27 +4295,27 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
 
     @Override
     public int size() {
-      return CustomConcurrentHashMap.this.size();
+      return LocalCacheAsMap.this.size();
     }
 
     @Override
     public boolean isEmpty() {
-      return CustomConcurrentHashMap.this.isEmpty();
+      return LocalCacheAsMap.this.isEmpty();
     }
 
     @Override
     public boolean contains(Object o) {
-      return CustomConcurrentHashMap.this.containsKey(o);
+      return LocalCacheAsMap.this.containsKey(o);
     }
 
     @Override
     public boolean remove(Object o) {
-      return CustomConcurrentHashMap.this.remove(o) != null;
+      return LocalCacheAsMap.this.remove(o) != null;
     }
 
     @Override
     public void clear() {
-      CustomConcurrentHashMap.this.clear();
+      LocalCacheAsMap.this.clear();
     }
   }
 
@@ -4328,22 +4328,22 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
 
     @Override
     public int size() {
-      return CustomConcurrentHashMap.this.size();
+      return LocalCacheAsMap.this.size();
     }
 
     @Override
     public boolean isEmpty() {
-      return CustomConcurrentHashMap.this.isEmpty();
+      return LocalCacheAsMap.this.isEmpty();
     }
 
     @Override
     public boolean contains(Object o) {
-      return CustomConcurrentHashMap.this.containsValue(o);
+      return LocalCacheAsMap.this.containsValue(o);
     }
 
     @Override
     public void clear() {
-      CustomConcurrentHashMap.this.clear();
+      LocalCacheAsMap.this.clear();
     }
   }
 
@@ -4364,7 +4364,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
       if (key == null) {
         return false;
       }
-      V v = CustomConcurrentHashMap.this.get(key);
+      V v = LocalCacheAsMap.this.get(key);
 
       return v != null && valueEquivalence.equivalent(e.getValue(), v);
     }
@@ -4376,22 +4376,22 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
       }
       Entry<?, ?> e = (Entry<?, ?>) o;
       Object key = e.getKey();
-      return key != null && CustomConcurrentHashMap.this.remove(key, e.getValue());
+      return key != null && LocalCacheAsMap.this.remove(key, e.getValue());
     }
 
     @Override
     public int size() {
-      return CustomConcurrentHashMap.this.size();
+      return LocalCacheAsMap.this.size();
     }
 
     @Override
     public boolean isEmpty() {
-      return CustomConcurrentHashMap.this.isEmpty();
+      return LocalCacheAsMap.this.isEmpty();
     }
 
     @Override
     public void clear() {
-      CustomConcurrentHashMap.this.clear();
+      LocalCacheAsMap.this.clear();
     }
   }
 
@@ -4404,7 +4404,7 @@ class CustomConcurrentHashMap<K, V> extends AbstractMap<K, V> implements Concurr
   }
 
   /**
-   * Serializes the configuration of a CustomConcurrentHashMap, reconsitituting it as a Cache using
+   * Serializes the configuration of a LocalCacheAsMap, reconsitituting it as a Cache using
    * CacheBuilder upon deserialization. An instance of this class is fit for use by the writeReplace
    * of LocalCache.
    *

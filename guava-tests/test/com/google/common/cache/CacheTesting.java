@@ -23,9 +23,9 @@ import static junit.framework.Assert.assertSame;
 import static junit.framework.Assert.assertTrue;
 
 import com.google.common.base.Preconditions;
-import com.google.common.cache.CustomConcurrentHashMap.ReferenceEntry;
-import com.google.common.cache.CustomConcurrentHashMap.Segment;
-import com.google.common.cache.CustomConcurrentHashMap.ValueReference;
+import com.google.common.cache.LocalCacheAsMap.ReferenceEntry;
+import com.google.common.cache.LocalCacheAsMap.Segment;
+import com.google.common.cache.LocalCacheAsMap.ValueReference;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
@@ -90,7 +90,7 @@ class CacheTesting {
   }
 
   static <K, V> ReferenceEntry<K, V> getReferenceEntry(Cache<K, V> cache, K key) {
-    CustomConcurrentHashMap<K, V> map = toCustomConcurrentHashMap(cache);
+    LocalCacheAsMap<K, V> map = toLocalCacheAsMap(cache);
     return map.getEntry(key);
   }
 
@@ -99,35 +99,35 @@ class CacheTesting {
    * {@link Segment#expand()}.
    */
   static <K, V> void forceExpandSegment(Cache<K, V> cache, K key) {
-    CustomConcurrentHashMap<K, V> map = toCustomConcurrentHashMap(cache);
+    LocalCacheAsMap<K, V> map = toLocalCacheAsMap(cache);
     int hash = map.hash(key);
     Segment<K, V> segment = map.segmentFor(hash);
     segment.expand();
   }
 
   /**
-   * Gets the {@link CustomConcurrentHashMap} used by the given {@link Cache}, if any, or throws an
-   * IllegalArgumentException if this is a Cache type that doesn't have a CustomConcurrentHashMap.
+   * Gets the {@link LocalCacheAsMap} used by the given {@link Cache}, if any, or throws an
+   * IllegalArgumentException if this is a Cache type that doesn't have a LocalCacheAsMap.
    */
-  static <K, V> CustomConcurrentHashMap<K, V> toCustomConcurrentHashMap(Cache<K, V> cache) {
+  static <K, V> LocalCacheAsMap<K, V> toLocalCacheAsMap(Cache<K, V> cache) {
     if (cache instanceof LocalCache) {
       return ((LocalCache<K, V>) cache).map;
     }
     throw new IllegalArgumentException("Cache of type " + cache.getClass()
-        + " doesn't have a CustomConcurrentHashMap.");
+        + " doesn't have a LocalCacheAsMap.");
   }
 
   /**
-   * Determines whether the given cache can be converted to a CustomConcurrentHashMap by
-   * {@link #toCustomConcurrentHashMap} without throwing an exception.
+   * Determines whether the given cache can be converted to a LocalCacheAsMap by
+   * {@link #toLocalCacheAsMap} without throwing an exception.
    */
-  static boolean hasCustomConcurrentHashMap(Cache<?, ?> cache) {
+  static boolean hasLocalCacheAsMap(Cache<?, ?> cache) {
     return (cache instanceof LocalCache);
   }
 
   static void drainRecencyQueues(Cache<?, ?> cache) {
-    if (hasCustomConcurrentHashMap(cache)) {
-      CustomConcurrentHashMap<?, ?> map = toCustomConcurrentHashMap(cache);
+    if (hasLocalCacheAsMap(cache)) {
+      LocalCacheAsMap<?, ?> map = toLocalCacheAsMap(cache);
       for (Segment segment : map.segments) {
         drainRecencyQueue(segment);
       }
@@ -144,18 +144,18 @@ class CacheTesting {
   }
 
   static void drainReferenceQueues(Cache<?, ?> cache) {
-    if (hasCustomConcurrentHashMap(cache)) {
-      drainReferenceQueues(toCustomConcurrentHashMap(cache));
+    if (hasLocalCacheAsMap(cache)) {
+      drainReferenceQueues(toLocalCacheAsMap(cache));
     }
   }
 
-  static void drainReferenceQueues(CustomConcurrentHashMap<?, ?> cchm) {
-    for (CustomConcurrentHashMap.Segment segment : cchm.segments) {
+  static void drainReferenceQueues(LocalCacheAsMap<?, ?> cchm) {
+    for (LocalCacheAsMap.Segment segment : cchm.segments) {
       drainReferenceQueue(segment);
     }
   }
 
-  static void drainReferenceQueue(CustomConcurrentHashMap.Segment<?, ?> segment) {
+  static void drainReferenceQueue(LocalCacheAsMap.Segment<?, ?> segment) {
     segment.lock();
     try {
       segment.drainReferenceQueues();
@@ -165,7 +165,7 @@ class CacheTesting {
   }
 
   static int getTotalSegmentSize(Cache<?, ?> cache) {
-    CustomConcurrentHashMap<?, ?> map = toCustomConcurrentHashMap(cache);
+    LocalCacheAsMap<?, ?> map = toLocalCacheAsMap(cache);
     int totalSize = 0;
     for (Segment<?, ?> segment : map.segments) {
       totalSize += segment.maxSegmentWeight;
@@ -180,12 +180,12 @@ class CacheTesting {
    * (see {@link #checkEviction}, {@link #checkExpiration}).
    */
   static void checkValidState(Cache<?, ?> cache) {
-    if (hasCustomConcurrentHashMap(cache)) {
-      checkValidState(toCustomConcurrentHashMap(cache));
+    if (hasLocalCacheAsMap(cache)) {
+      checkValidState(toLocalCacheAsMap(cache));
     }
   }
 
-  static void checkValidState(CustomConcurrentHashMap<?, ?> cchm) {
+  static void checkValidState(LocalCacheAsMap<?, ?> cchm) {
     for (Segment<?, ?> segment : cchm.segments) {
       segment.cleanUp();
       assertFalse(segment.isLocked());
@@ -208,12 +208,12 @@ class CacheTesting {
    * by expiration time.
    */
   static void checkExpiration(Cache<?, ?> cache) {
-    if (hasCustomConcurrentHashMap(cache)) {
-      checkExpiration(toCustomConcurrentHashMap(cache));
+    if (hasLocalCacheAsMap(cache)) {
+      checkExpiration(toLocalCacheAsMap(cache));
     }
   }
 
-  static void checkExpiration(CustomConcurrentHashMap<?, ?> cchm) {
+  static void checkExpiration(LocalCacheAsMap<?, ?> cchm) {
     for (Segment<?, ?> segment : cchm.segments) {
       if (cchm.usesWriteQueue()) {
         Set<ReferenceEntry<?, ?>> entries = Sets.newIdentityHashSet();
@@ -261,12 +261,12 @@ class CacheTesting {
    * segment's eviction (recency) queue.
    */
   static void checkEviction(Cache<?, ?> cache) {
-    if (hasCustomConcurrentHashMap(cache)) {
-      checkEviction(toCustomConcurrentHashMap(cache));
+    if (hasLocalCacheAsMap(cache)) {
+      checkEviction(toLocalCacheAsMap(cache));
     }
   }
 
-  static void checkEviction(CustomConcurrentHashMap<?, ?> map) {
+  static void checkEviction(LocalCacheAsMap<?, ?> map) {
     if (map.evictsBySize()) {
       for (Segment<?, ?> segment : map.segments) {
         drainRecencyQueue(segment);
@@ -311,7 +311,7 @@ class CacheTesting {
   }
 
   static int writeQueueSize(Cache<?, ?> cache) {
-    CustomConcurrentHashMap<?, ?> cchm = toCustomConcurrentHashMap(cache);
+    LocalCacheAsMap<?, ?> cchm = toLocalCacheAsMap(cache);
 
     int size = 0;
     for (Segment<?, ?> segment : cchm.segments) {
@@ -325,7 +325,7 @@ class CacheTesting {
   }
 
   static int accessQueueSize(Cache<?, ?> cache) {
-    CustomConcurrentHashMap<?, ?> cchm = toCustomConcurrentHashMap(cache);
+    LocalCacheAsMap<?, ?> cchm = toLocalCacheAsMap(cache);
     int size = 0;
     for (Segment<?, ?> segment : cchm.segments) {
       size += accessQueueSize(segment);
@@ -342,8 +342,8 @@ class CacheTesting {
   }
 
   static void processPendingNotifications(Cache<?, ?> cache) {
-    if (hasCustomConcurrentHashMap(cache)) {
-      CustomConcurrentHashMap<?, ?> cchm = toCustomConcurrentHashMap(cache);
+    if (hasLocalCacheAsMap(cache)) {
+      LocalCacheAsMap<?, ?> cchm = toLocalCacheAsMap(cache);
       cchm.processPendingNotifications();
     }
   }
@@ -362,10 +362,10 @@ class CacheTesting {
   static void checkRecency(Cache<Integer, Integer> cache, int maxSize,
       Receiver<ReferenceEntry<Integer, Integer>> operation) {
 
-    if (hasCustomConcurrentHashMap(cache)) {
+    if (hasLocalCacheAsMap(cache)) {
       warmUp(cache, 0, 2 * maxSize);
 
-      CustomConcurrentHashMap<Integer, Integer> cchm = toCustomConcurrentHashMap(cache);
+      LocalCacheAsMap<Integer, Integer> cchm = toLocalCacheAsMap(cache);
       Segment<?, ?> segment = cchm.segments[0];
       drainRecencyQueue(segment);
       assertEquals(maxSize, accessQueueSize(cache));
@@ -392,11 +392,11 @@ class CacheTesting {
   }
 
   static void expireEntries(Cache<?, ?> cache, long expiringTime, FakeTicker ticker) {
-    expireEntries(toCustomConcurrentHashMap(cache), expiringTime, ticker);
+    expireEntries(toLocalCacheAsMap(cache), expiringTime, ticker);
   }
 
   static void expireEntries(
-      CustomConcurrentHashMap<?, ?> cchm, long expiringTime, FakeTicker ticker) {
+      LocalCacheAsMap<?, ?> cchm, long expiringTime, FakeTicker ticker) {
 
     for (Segment<?, ?> segment : cchm.segments) {
       drainRecencyQueue(segment);
@@ -440,13 +440,13 @@ class CacheTesting {
     assertEquals(ImmutableMap.of().hashCode(), map.hashCode());
     assertEquals(ImmutableMap.of().toString(), map.toString());
 
-    if (map instanceof CustomConcurrentHashMap) {
-      CustomConcurrentHashMap<?, ?> cchm = (CustomConcurrentHashMap<?, ?>) map;
+    if (map instanceof LocalCacheAsMap) {
+      LocalCacheAsMap<?, ?> cchm = (LocalCacheAsMap<?, ?>) map;
 
       checkValidState(cchm);
       assertTrue(cchm.isEmpty());
       assertEquals(0, cchm.size());
-      for (CustomConcurrentHashMap.Segment segment : cchm.segments) {
+      for (LocalCacheAsMap.Segment segment : cchm.segments) {
         assertEquals(0, segment.count);
         assertEquals(0, segmentSize(segment));
         assertTrue(segment.writeQueue.isEmpty());
