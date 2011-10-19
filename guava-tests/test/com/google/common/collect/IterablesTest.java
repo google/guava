@@ -1289,4 +1289,87 @@ public class IterablesTest extends TestCase {
         Lists.newArrayList("bob", "charlie", "henry", "apple", "lemon");
     assertEquals(3, Iterables.indexOf(sequences, STARTSWITH_A));
   }
+
+  public void testMergeSorted_empty() {
+    // Setup
+    Iterable<Iterable<Integer>> elements = ImmutableList.of();
+
+    // Test
+    Iterable<Integer> iterable =
+        Iterables.mergeSorted(elements, Ordering.natural());
+
+    // Verify
+    Iterator<Integer> iterator = iterable.iterator();
+    assertFalse(iterator.hasNext());
+    try {
+      iterator.next();
+      fail("next() on empty iterator should throw NoSuchElementException");
+    } catch (NoSuchElementException e) {
+      // Huzzah!
+    }
+  }
+
+  public void testMergeSorted_single_empty() {
+    // Setup
+    Iterable<Integer> iterable0 = ImmutableList.of();
+    Iterable<Iterable<Integer>> iterables = ImmutableList.of(iterable0);
+
+    // Test & Verify
+    verifyMergeSorted(iterables, ImmutableList.<Integer>of());
+  }
+
+  public void testMergeSorted_single() {
+    // Setup
+    Iterable<Integer> iterable0 = ImmutableList.of(1, 2, 3);
+    Iterable<Iterable<Integer>> iterables = ImmutableList.of(iterable0);
+
+    // Test & Verify
+    verifyMergeSorted(iterables, iterable0);
+  }
+
+  public void testMergeSorted_pyramid() {
+    List<Iterable<Integer>> iterables = Lists.newLinkedList();
+    List<Integer> allIntegers = Lists.newArrayList();
+
+    // Creates iterators like: {{}, {0}, {0, 1}, {0, 1, 2}, ...}
+    for (int i = 0; i < 10; i++) {
+      List<Integer> list = Lists.newLinkedList();
+      for (int j = 0; j < i; j++) {
+        list.add(j);
+        allIntegers.add(j);
+      }
+      iterables.add(Ordering.natural().sortedCopy(list));
+    }
+
+    verifyMergeSorted(iterables, allIntegers);
+  }
+
+  // Like the pyramid, but creates more unique values, along with repeated ones.
+  public void testMergeSorted_skipping_pyramid() {
+    List<Iterable<Integer>> iterables = Lists.newLinkedList();
+    List<Integer> allIntegers = Lists.newArrayList();
+
+    for (int i = 0; i < 20; i++) {
+      List<Integer> list = Lists.newLinkedList();
+      for (int j = 0; j < i; j++) {
+        list.add(j * i);
+        allIntegers.add(j * i);
+      }
+      iterables.add(Ordering.natural().sortedCopy(list));
+    }
+
+    verifyMergeSorted(iterables, allIntegers);
+  }
+
+  private void verifyMergeSorted(Iterable<Iterable<Integer>> iterables,
+      Iterable<Integer> unsortedExpected) {
+    Iterable<Integer> expected =
+        Ordering.natural().sortedCopy(unsortedExpected);
+
+    Iterable<Integer> mergedIterator =
+        Iterables.mergeSorted(iterables, Ordering.natural());
+
+    assertEquals(Lists.newLinkedList(expected),
+        Lists.newLinkedList(mergedIterator));
+  }
 }

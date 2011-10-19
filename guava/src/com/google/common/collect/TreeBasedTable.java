@@ -29,8 +29,6 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.NoSuchElementException;
-import java.util.PriorityQueue;
-import java.util.Queue;
 import java.util.Set;
 import java.util.SortedMap;
 import java.util.SortedSet;
@@ -338,85 +336,40 @@ public class TreeBasedTable<R, C, V> extends StandardRowSortedTable<R, C, V> {
    * Overridden column iterator to return columns values in globally sorted
    * order.
    */
-  @Override Iterator<C> createColumnKeyIterator() {
-    return new MergingIterator<C>(
-        Iterables.transform(backingMap.values(),
+  @Override
+  Iterator<C> createColumnKeyIterator() {
+    final Comparator<? super C> comparator = columnComparator();
+
+    final Iterator<C> merged =
+        Iterators.mergeSorted(Iterables.transform(backingMap.values(),
             new Function<Map<C, V>, Iterator<C>>() {
-                @Override
-                public Iterator<C> apply(Map<C, V> input) {
-                  return input.keySet().iterator();
-                }
-              }), columnComparator());
-  }
+              @Override
+              public Iterator<C> apply(Map<C, V> input) {
+                return input.keySet().iterator();
+              }
+            }), comparator);
 
-  /**
-   * An iterator that performs a lazy N-way merge, calculating the next value
-   * each time the iterator is polled. This amortizes the sorting cost over the
-   * iteration and requires less memory than sorting all elements at once.
-   * Duplicate values are omitted.
-   *
-   * <p>Retrieving a single element takes approximately O(log(M)) time, where M
-   * is the number of iterators. (Retrieving all elements takes approximately
-   * O(N*log(M)) time, where N is the total number of elements.)
-   */
-  // TODO(user): Push this into OrderedIterators or somewhere more generic.
-  private static class MergingIterator<T> extends AbstractIterator<T> {
-    private final Queue<PeekingIterator<T>> queue;
-    private final Comparator<? super T> comparator;
+    return new AbstractIterator<C>() {
+      C lastValue;
 
-    // The last value we returned, used for removing duplicate values.
-    private T lastValue = null;
+      @Override
+      protected C computeNext() {
+        while (merged.hasNext()) {
+          C next = merged.next();
+          boolean duplicate =
+              lastValue != null && comparator.compare(next, lastValue) == 0;
 
-    public MergingIterator(
-        Iterable<? extends Iterator<T>> iterators,
-        Comparator<? super T> itemComparator) {
-//    checkNotNull(iterators, "iterators");
-//    checkNotNull(comparator, "comparator");
-      this.comparator = itemComparator;
-
-      // A comparator that's used by the heap, allowing the heap
-      // to be sorted based on the top of each iterator.
-      Comparator<PeekingIterator<T>> heapComparator =
-          new Comparator<PeekingIterator<T>>() {
-            @Override
-            public int compare(PeekingIterator<T> o1, PeekingIterator<T> o2) {
-              return comparator.compare(o1.peek(), o2.peek());
-            }
-          };
-
-      // Construct the heap with a minimum size of 1, because
-      // Because PriorityQueue will fail if it's 0.
-      queue = new PriorityQueue<PeekingIterator<T>>(
-          Math.max(1, Iterables.size(iterators)), heapComparator);
-      for (Iterator<T> iterator : iterators) {
-        if (iterator.hasNext()) {
-          queue.add(Iterators.peekingIterator(iterator));
+          // Keep looping till we find a non-duplicate value.
+          if (!duplicate) {
+            lastValue = next;
+            return lastValue;
+          }
         }
+
+        lastValue = null; // clear reference to unused data
+        return endOfData();
       }
-    }
-
-    @Override protected T computeNext() {
-      while (!queue.isEmpty()) {
-        PeekingIterator<T> nextIter = queue.poll();
-
-        T next = nextIter.next();
-        boolean duplicate =
-            lastValue != null
-            && comparator.compare(next, lastValue) == 0;
-
-        if (nextIter.hasNext()) {
-          queue.add(nextIter);
-        }
-        // Keep looping till we find a non-duplicate value.
-        if (!duplicate) {
-          lastValue = next;
-          return lastValue;
-        }
-      }
-
-      lastValue = null; // clear reference to unused data
-      return endOfData();
-    }
+    };
   }
 
   private static final long serialVersionUID = 0;

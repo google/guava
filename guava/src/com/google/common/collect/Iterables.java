@@ -19,6 +19,7 @@ package com.google.common.collect;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Function;
@@ -30,6 +31,7 @@ import com.google.common.base.Predicate;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -1085,5 +1087,46 @@ public final class Iterables {
     @Override public String toString() {
       return Iterables.toString(this);
     }
+  }
+
+  /**
+   * Returns an iterable over the merged contents of all given
+   * {@code iterables}. Equivalent entries will not be de-duplicated.
+   *
+   * <p>Callers must ensure that the source {@code iterables} are in
+   * non-descending order as this method does not sort its input.
+   *
+   * <p>For any equivalent elements across all {@code iterables}, it is
+   * undefined which element is returned first.
+   *
+   * @since 11.0
+   */
+  @Beta
+  public static <T> UnmodifiableIterable<T> mergeSorted(
+      final Iterable<? extends Iterable<? extends T>> iterables,
+      final Comparator<? super T> comparator) {
+    checkNotNull(iterables, "iterables");
+    checkNotNull(comparator, "comparator");
+    Iterable<T> iterable = new Iterable<T>() {
+      @Override
+      public Iterator<T> iterator() {
+        return Iterators.mergeSorted(
+            Iterables.transform(iterables, Iterables.<T>toIterator()),
+            comparator);
+      }
+    };
+    return new UnmodifiableIterable<T>(iterable);
+  }
+
+  // TODO(user): Is this the best place for this? Move to fluent functions?
+  // Useful as a public method?
+  private static <T> Function<Iterable<? extends T>, Iterator<? extends T>>
+      toIterator() {
+    return new Function<Iterable<? extends T>, Iterator<? extends T>>() {
+      @Override
+      public Iterator<? extends T> apply(Iterable<? extends T> iterable) {
+        return iterable.iterator();
+      }
+    };
   }
 }

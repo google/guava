@@ -33,10 +33,13 @@ import com.google.common.base.Predicates;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.PriorityQueue;
+import java.util.Queue;
 
 import javax.annotation.Nullable;
 
@@ -1246,5 +1249,85 @@ public final class Iterators {
   @Deprecated public static <T> PeekingIterator<T> peekingIterator(
       PeekingIterator<T> iterator) {
     return checkNotNull(iterator);
+  }
+
+  /**
+   * Returns an iterator over the merged contents of all given
+   * {@code iterators}, traversing every element of the input iterators.
+   * Equivalent entries will not be de-duplicated.
+   *
+   * <p>Callers must ensure that the source {@code iterators} are in
+   * non-descending order as this method does not sort its input.
+   *
+   * <p>For any equivalent elements across all {@code iterators}, it is
+   * undefined which element is returned first.
+   *
+   * @since 11.0
+   */
+  @Beta
+  public static <T> UnmodifiableIterator<T> mergeSorted(
+      Iterable<? extends Iterator<? extends T>> iterators,
+      Comparator<? super T> comparator) {
+    checkNotNull(iterators, "iterators");
+    checkNotNull(comparator, "comparator");
+
+    return new MergingIterator<T>(iterators, comparator);
+  }
+
+  /**
+   * An iterator that performs a lazy N-way merge, calculating the next value
+   * each time the iterator is polled. This amortizes the sorting cost over the
+   * iteration and requires less memory than sorting all elements at once.
+   *
+   * <p>Retrieving a single element takes approximately O(log(M)) time, where M
+   * is the number of iterators. (Retrieving all elements takes approximately
+   * O(N*log(M)) time, where N is the total number of elements.)
+   */
+  private static class MergingIterator<T> extends AbstractIterator<T> {
+    final Queue<PeekingIterator<T>> queue;
+    final Comparator<? super T> comparator;
+
+    public MergingIterator(Iterable<? extends Iterator<? extends T>> iterators,
+        Comparator<? super T> itemComparator) {
+      this.comparator = itemComparator;
+
+      // A comparator that's used by the heap, allowing the heap
+      // to be sorted based on the top of each iterator.
+      Comparator<PeekingIterator<T>> heapComparator =
+          new Comparator<PeekingIterator<T>>() {
+            @Override
+            public int compare(PeekingIterator<T> o1, PeekingIterator<T> o2) {
+              return comparator.compare(o1.peek(), o2.peek());
+            }
+          };
+
+      // Construct the heap with a minimum size of 1, because
+      // PriorityQueue will fail if it's 0.
+      queue = new PriorityQueue<PeekingIterator<T>>(
+          Math.max(1, Iterables.size(iterators)),
+          heapComparator);
+
+      for (Iterator<? extends T> iterator : iterators) {
+        if (iterator.hasNext()) {
+          queue.add(Iterators.peekingIterator(iterator));
+        }
+      }
+    }
+
+    @Override
+    protected T computeNext() {
+      if (queue.isEmpty()) {
+        return endOfData();
+      }
+
+      PeekingIterator<T> nextIter = queue.poll();
+      T next = nextIter.next();
+
+      if (nextIter.hasNext()) {
+        queue.add(nextIter);
+      }
+
+      return next;
+    }
   }
 }
