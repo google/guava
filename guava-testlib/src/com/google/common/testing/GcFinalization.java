@@ -16,7 +16,6 @@
 
 package com.google.common.testing;
 
-import static java.util.concurrent.TimeUnit.NANOSECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.google.common.annotations.Beta;
@@ -88,18 +87,19 @@ public final class GcFinalization {
    * 10 seconds ought to be long enough for any object to be GC'ed and finalized.  Unless we have a
    * gigantic heap, in which case we scale by heap size.
    */
-  private static long timeoutNanos() {
+  private static long timeoutSeconds() {
     // This class can make no hard guarantees.  The methods in this class are inherently flaky, but
     // we try hard to make them robust in practice.  We could additionally try to add in a system
     // load timeout multiplier.  Or we could try to use a CPU time bound instead of wall clock time
     // bound.  But these ideas are harder to implement.  We do not try to detect or handle a
     // user-specified -XX:+DisableExplicitGC.
     //
-    // TODO: Consider using java/lang/management/OperatingSystemMXBean.html#getSystemLoadAverage()
+    // TODO(user): Consider using
+    // java/lang/management/OperatingSystemMXBean.html#getSystemLoadAverage()
     //
-    // TODO: Consider scaling by number of mutator threads, e.g. using Thread#activeCount()
-    long seconds = Math.max(10L, Runtime.getRuntime().totalMemory() / (32L * 1024L * 1024L));
-    return NANOSECONDS.convert(seconds, SECONDS);
+    // TODO(user): Consider scaling by number of mutator threads,
+    // e.g. using Thread#activeCount()
+    return Math.max(10L, Runtime.getRuntime().totalMemory() / (32L * 1024L * 1024L));
   }
 
   /**
@@ -113,7 +113,8 @@ public final class GcFinalization {
     if (future.isDone()) {
       return;
     }
-    final long deadline = System.nanoTime() + timeoutNanos();
+    final long timeoutSeconds = timeoutSeconds();
+    final long deadline = System.nanoTime() + SECONDS.toNanos(timeoutSeconds);
     do {
       System.runFinalization();
       if (future.isDone()) {
@@ -131,7 +132,9 @@ public final class GcFinalization {
         /* OK */
       }
     } while (System.nanoTime() - deadline < 0);
-    throw new TimeoutException("Future not done within timeout");
+    throw new TimeoutException(
+        String.format("Future not done within timeout of %d seconds",
+                      timeoutSeconds));
   }
 
   /**
@@ -145,7 +148,8 @@ public final class GcFinalization {
     if (latch.getCount() == 0) {
       return;
     }
-    final long deadline = System.nanoTime() + timeoutNanos();
+    final long timeoutSeconds = timeoutSeconds();
+    final long deadline = System.nanoTime() + SECONDS.toNanos(timeoutSeconds);
     do {
       System.runFinalization();
       if (latch.getCount() == 0) {
@@ -156,7 +160,9 @@ public final class GcFinalization {
         return;
       }
     } while (System.nanoTime() - deadline < 0);
-    throw new TimeoutException("CountDownLatch failed to count down within timeout");
+    throw new TimeoutException(
+        String.format("CountDownLatch failed to count down within timeout of %d seconds",
+                      timeoutSeconds));
   }
 
   /**
@@ -194,7 +200,8 @@ public final class GcFinalization {
     if (predicate.isDone()) {
       return;
     }
-    final long deadline = System.nanoTime() + timeoutNanos();
+    final long timeoutSeconds = timeoutSeconds();
+    final long deadline = System.nanoTime() + SECONDS.toNanos(timeoutSeconds);
     do {
       System.runFinalization();
       if (predicate.isDone()) {
@@ -207,7 +214,9 @@ public final class GcFinalization {
         return;
       }
     } while (System.nanoTime() - deadline < 0);
-    throw new TimeoutException("Predicate did not become true within timeout");
+    throw new TimeoutException(
+        String.format("Predicate did not become true within timeout of %d seconds",
+                      timeoutSeconds));
   }
 
   /**
