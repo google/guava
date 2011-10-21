@@ -20,6 +20,7 @@ import static com.google.common.cache.TestingCacheLoaders.exceptionLoader;
 import static com.google.common.cache.TestingRemovalListeners.queuingRemovalListener;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
+import com.google.common.cache.CacheLoader.InvalidCacheLoadException;
 import com.google.common.cache.TestingRemovalListeners.QueuingRemovalListener;
 import com.google.common.util.concurrent.UncheckedExecutionException;
 
@@ -98,7 +99,7 @@ public class NullCacheTest extends TestCase {
     try {
       cache.getUnchecked(new Object());
       fail();
-    } catch (NullPointerException e) { /* expected */}
+    } catch (InvalidCacheLoadException e) { /* expected */}
 
     assertTrue(listener.isEmpty());
     checkEmpty(cache);

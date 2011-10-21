@@ -20,6 +20,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.base.Supplier;
 import com.google.common.cache.LocalCacheAsMap.Segment;
+import com.google.common.collect.ImmutableMap;
 
 import java.io.Serializable;
 import java.util.concurrent.Callable;
@@ -48,6 +49,11 @@ class LocalCache<K, V> extends AbstractCache<K, V> implements Serializable {
   }
 
   @Override
+  public ImmutableMap<K, V> getAll(Iterable<? extends K> keys) throws ExecutionException {
+    return map.getOrLoadAll(keys);
+  }
+
+  @Override
   public V get(K key, final Callable<V> valueLoader) throws ExecutionException {
     checkNotNull(valueLoader);
     return map.getOrLoad(key, new CacheLoader<Object, V>() {
@@ -70,6 +76,11 @@ class LocalCache<K, V> extends AbstractCache<K, V> implements Serializable {
   }
 
   @Override
+  public void invalidateAll(Iterable<?> keys) {
+    map.invalidateAll(keys);
+  }
+
+  @Override
   public void invalidateAll() {
     map.clear();
   }
@@ -87,6 +98,7 @@ class LocalCache<K, V> extends AbstractCache<K, V> implements Serializable {
   @Override
   public CacheStats stats() {
     SimpleStatsCounter aggregator = new SimpleStatsCounter();
+    aggregator.incrementBy(map.globalStatsCounter);
     for (Segment<K, V> segment : map.segments) {
       aggregator.incrementBy(segment.statsCounter);
     }

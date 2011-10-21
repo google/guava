@@ -156,7 +156,7 @@ public class AbstractCacheTest extends TestCase {
   public void testSingleSimpleStats() {
     StatsCounter counter = new SimpleStatsCounter();
     for (int i = 0; i < 11; i++) {
-      counter.recordHit();
+      counter.recordHits(1);
     }
     for (int i = 0; i < 13; i++) {
       counter.recordLoadSuccess(i);
@@ -165,7 +165,7 @@ public class AbstractCacheTest extends TestCase {
       counter.recordLoadException(i);
     }
     for (int i = 0; i < 23; i++) {
-      counter.recordMiss();
+      counter.recordMisses(1);
     }
     for (int i = 0; i < 27; i++) {
       counter.recordEviction();
@@ -191,7 +191,7 @@ public class AbstractCacheTest extends TestCase {
 
     SimpleStatsCounter counter1 = new SimpleStatsCounter();
     for (int i = 0; i < 11; i++) {
-      counter1.recordHit();
+      counter1.recordHits(1);
     }
     for (int i = 0; i < 13; i++) {
       counter1.recordLoadSuccess(i);
@@ -202,7 +202,7 @@ public class AbstractCacheTest extends TestCase {
       totalLoadTime += i;
     }
     for (int i = 0; i < 19; i++) {
-      counter1.recordMiss();
+      counter1.recordMisses(1);
     }
     for (int i = 0; i < 23; i++) {
       counter1.recordEviction();
@@ -210,7 +210,7 @@ public class AbstractCacheTest extends TestCase {
 
     SimpleStatsCounter counter2 = new SimpleStatsCounter();
     for (int i = 0; i < 27; i++) {
-      counter2.recordHit();
+      counter2.recordHits(1);
     }
     for (int i = 0; i < 31; i++) {
       counter2.recordLoadSuccess(i);
@@ -221,7 +221,7 @@ public class AbstractCacheTest extends TestCase {
       totalLoadTime += i;
     }
     for (int i = 0; i < 41; i++) {
-      counter2.recordMiss();
+      counter2.recordMisses(1);
     }
     for (int i = 0; i < 43; i++) {
       counter2.recordEviction();

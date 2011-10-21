@@ -14,6 +14,9 @@
 
 package com.google.common.cache;
 
+import com.google.common.collect.Maps;
+
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -22,6 +25,28 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @author mike nonemacher
  */
 class TestingCacheLoaders {
+
+  /**
+   * Returns a {@link CacheLoader} that implements a naive {@link CacheLoader#loadAll}, delegating
+   * {@link CacheLoader#load} calls to {@code loader}.
+   */
+  static <K, V> CacheLoader<K, V> bulkLoader(final CacheLoader<K, V> loader) {
+    return new CacheLoader<K, V>() {
+      @Override
+      public V load(K key) throws Exception {
+        return loader.load(key);
+      }
+
+      @Override
+      public Map<K, V> loadAll(Iterable<? extends K> keys) throws Exception {
+        Map<K, V> result = Maps.newHashMap(); // allow nulls
+        for (K key : keys) {
+          result.put(key, load(key));
+        }
+        return result;
+      }
+    };
+  }
 
   /**
    * Returns a {@link CacheLoader} that returns the given {@code constant} for every request.
@@ -35,7 +60,6 @@ class TestingCacheLoaders {
    */
   static <K, V> CacheLoader<K, V> errorLoader(final Error e) {
     return new CacheLoader<K, V>() {
-
       @Override
       public V load(K key) {
         throw e;
@@ -48,7 +72,6 @@ class TestingCacheLoaders {
    */
   static <K, V> CacheLoader<K, V> exceptionLoader(final Exception e) {
     return new CacheLoader<K, V>() {
-
       @Override
       public V load(K key) throws Exception {
         throw e;

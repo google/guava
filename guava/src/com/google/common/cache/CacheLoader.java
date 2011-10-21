@@ -23,6 +23,7 @@ import com.google.common.base.Function;
 import com.google.common.base.Supplier;
 
 import java.io.Serializable;
+import java.util.Map;
 
 /**
  * Computes or retrieves values, based on a key, for use in populating a {@code Cache}.
@@ -65,7 +66,28 @@ public abstract class CacheLoader<K, V> {
     return load(key);
   }
 
-  // TODO(fry): loadAll
+  /**
+   * Computes or retrieves the values corresponding to {@code keys}. This method is called by
+   * {@link Cache#getAll}.
+   *
+   * <p>If the returned map doesn't contain all requested {@code keys} then the entries it does
+   * contain will be cached, but {@code getAll} will throw an exception. If the returned map
+   * contains extra keys not present in {@code keys} then all returned entries will be cached,
+   * but only the entries for {@code keys} will be returned from {@code getAll}.
+   *
+   * <p>This method should be overriden when bulk retrieval is significantly more efficient than
+   * many individual lookups. Note that {@link Cache#getAll} will defer to individual calls to
+   * {@link Cache#get} if this method is not overriden.
+   *
+   * @param keys the unique, non-null keys whose values should be loaded
+   * @return a map from each key in {@code keys} to the value associated with that key;
+   *     <b>may not contain null values</b>
+   * @since 11.0
+   */
+  public Map<K, V> loadAll(Iterable<? extends K> keys) throws Exception {
+    // This will be caught by getAll(), causing it to fall back to multiple calls to Cache.get
+    throw new UnsupportedLoadingOperationException();
+  }
 
   /**
    * Returns a {@code CacheLoader} which creates values by applying a {@code Function} to the key.
@@ -114,4 +136,14 @@ public abstract class CacheLoader<K, V> {
     private static final long serialVersionUID = 0;
   }
 
+  static final class UnsupportedLoadingOperationException extends UnsupportedOperationException {}
+
+  /**
+   * Thrown to indicate that an invalid response was returned from a call to {@link CacheLoader}.
+   */
+  public static final class InvalidCacheLoadException extends RuntimeException {
+    public InvalidCacheLoadException(String message) {
+      super(message);
+    }
+  }
 }

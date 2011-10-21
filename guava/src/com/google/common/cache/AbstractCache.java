@@ -17,8 +17,11 @@
 package com.google.common.cache;
 
 import com.google.common.annotations.Beta;
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Maps;
 import com.google.common.util.concurrent.UncheckedExecutionException;
 
+import java.util.Map;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.ExecutionException;
@@ -29,11 +32,10 @@ import java.util.concurrent.atomic.AtomicLong;
  * effort required to implement this interface.
  *
  * <p>To implement a cache, the programmer needs only to extend this class and provide an
- * implementation for the {@code get} method. This implementation throws an
- * {@link UnsupportedOperationException} on calls to {@link #size}, {@link #invalidate},
- * {@link #invalidateAll}, {@link #stats}, and {@link #asMap}. The methods
- * {@link #getUnchecked} and {@link #apply} are implemented in terms of {@link #get}. The method
- * {@link #cleanUp} is a no-op.
+ * implementation for the {@code get} method. {@link #getUnchecked}, {@link #get(K, Callable)},
+ * and {@link #getAll} are implemented in terms of {@code get}; {@link #invalidateAll(Iterable)} is
+ * implemented in terms of {@link #invalidate}. The method {@link #cleanUp} is a no-op. All other
+ * methods throw an {@link UnsupportedOperationException}.
  *
  * @author Charles Fry
  * @since 10.0
@@ -59,8 +61,26 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
   }
 
   @Override
+  public ImmutableMap<K, V> getAll(Iterable<? extends K> keys) throws ExecutionException {
+    Map<K, V> result = Maps.newLinkedHashMap();
+    for (K key : keys) {
+      if (!result.containsKey(key)) {
+        result.put(key, get(key));
+      }
+    }
+    return ImmutableMap.copyOf(result);
+  }
+
+  @Override
   public final V apply(K key) {
     return getUnchecked(key);
+  }
+
+  @Override
+  public void invalidateAll(Iterable<?> keys) {
+    for (Object key : keys) {
+      invalidate(key);
+    }
   }
 
   @Override
@@ -105,19 +125,23 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
   @Beta
   public interface StatsCounter {
     /**
-     * Records a single hit. This should be called when a cache request returns a cached value.
+     * Records cache hits. This should be called when a cache request returns a cached value.
+     *
+     * @param count the number of hits to record
      */
-    public void recordHit();
+    public void recordHits(int count);
 
     /**
-     * Records a single miss. This should be called when a cache request returns a value that was
+     * Records cache misses. This should be called when a cache request returns a value that was
      * not found in the cache. This method should be called by the loading thread, as well as by
      * threads blocking on the load. Multiple concurrent calls to {@link Cache} lookup methods with
      * the same key on an absent value should result in a single call to either
      * {@code recordLoadSuccess} or {@code recordLoadException} and multiple calls to this method,
      * despite all being served by the results of a single load operation.
+     *
+     * @param count the number of misses to record
      */
-    public void recordMiss();
+    public void recordMisses(int count);
 
     /**
      * Records the successful load of a new entry. This should be called when a cache request
@@ -168,13 +192,13 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
     private final AtomicLong evictionCount = new AtomicLong();
 
     @Override
-    public void recordHit() {
-      hitCount.incrementAndGet();
+    public void recordHits(int count) {
+      hitCount.addAndGet(count);
     }
 
     @Override
-    public void recordMiss() {
-      missCount.incrementAndGet();
+    public void recordMisses(int count) {
+      missCount.addAndGet(count);
     }
 
     @Override

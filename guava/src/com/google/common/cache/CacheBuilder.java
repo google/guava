@@ -32,14 +32,11 @@ import com.google.common.base.Ticker;
 import com.google.common.cache.AbstractCache.SimpleStatsCounter;
 import com.google.common.cache.AbstractCache.StatsCounter;
 import com.google.common.cache.LocalCacheAsMap.Strength;
-import com.google.common.collect.ForwardingConcurrentMap;
 
 import java.lang.ref.SoftReference;
 import java.lang.ref.WeakReference;
 import java.util.ConcurrentModificationException;
-import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -127,10 +124,10 @@ public final class CacheBuilder<K, V> {
   static final Supplier<? extends StatsCounter> DEFAULT_STATS_COUNTER = Suppliers.ofInstance(
       new StatsCounter() {
         @Override
-        public void recordHit() {}
+        public void recordHits(int count) {}
 
         @Override
-        public void recordMiss() {}
+        public void recordMisses(int count) {}
 
         @Override
         public void recordLoadSuccess(long loadTime) {}
@@ -318,7 +315,7 @@ public final class CacheBuilder<K, V> {
     checkState(this.maximumSize == UNSET_INT, "maximum size was already set to %s",
         this.maximumSize);
     checkState(this.maximumWeight == UNSET_INT, "maximum weight was already set to %s",
-        this.maximumSize);
+        this.maximumWeight);
     checkState(this.weigher == null, "maximum size can not be combined with weigher");
     checkArgument(size >= 0, "maximum size must not be negative");
     this.maximumSize = size;
@@ -716,43 +713,4 @@ public final class CacheBuilder<K, V> {
     }
     return s.toString();
   }
-
-  static final class CacheAsMap<K, V> extends ForwardingConcurrentMap<K, V> {
-    private final ConcurrentMap<K, V> delegate;
-
-    CacheAsMap(ConcurrentMap<K, V> delegate) {
-      this.delegate = delegate;
-    }
-
-    @Override
-    protected ConcurrentMap<K, V> delegate() {
-      return delegate;
-    }
-
-    @Override
-    public V put(K key, V value) {
-      throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public void putAll(Map<? extends K, ? extends V> map) {
-      throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public V putIfAbsent(K key, V value) {
-      throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public V replace(K key, V value) {
-      throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public boolean replace(K key, V oldValue, V newValue) {
-      throw new UnsupportedOperationException();
-    }
-  }
-
 }

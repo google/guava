@@ -20,6 +20,7 @@ import com.google.common.annotations.Beta;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ForwardingObject;
 
+import java.util.Map;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.ExecutionException;
@@ -60,6 +61,11 @@ public abstract class ForwardingCache<K, V> extends ForwardingObject implements 
   }
 
   @Override
+  public Map<K, V> getAll(Iterable<? extends K> keys) throws ExecutionException {
+    return delegate().getAll(keys);
+  }
+
+  @Override
   public V apply(K key) {
     return delegate().apply(key);
   }
@@ -72,6 +78,11 @@ public abstract class ForwardingCache<K, V> extends ForwardingObject implements 
   @Override
   public void invalidate(Object key) {
     delegate().invalidate(key);
+  }
+
+  @Override
+  public void invalidateAll(Iterable<?> keys) {
+    delegate().invalidateAll(keys);
   }
 
   @Override
