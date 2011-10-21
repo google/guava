@@ -37,6 +37,7 @@ import com.google.common.annotations.VisibleForTesting;
  * @author Louis Wasserman
  * @since 11.0
  */
+@Beta
 @GwtCompatible(emulated = true)
 public final class IntMath {
   // NOTE: Whenever both tests are cheap and functional, it's faster to use &, | instead of &&, ||
@@ -105,7 +106,6 @@ public final class IntMath {
    * 
    * @throws IllegalArgumentException if {@code a < 0} or {@code b < 0}
    */
-  @Beta
   public static int gcd(int a, int b) {
     /*
      * The reason we require both arguments to be >= 0 is because otherwise, what do you return on

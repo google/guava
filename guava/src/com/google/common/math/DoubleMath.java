@@ -33,6 +33,7 @@ import java.math.BigInteger;
 import java.math.RoundingMode;
 
 import com.google.common.annotations.VisibleForTesting;
+import com.google.common.annotations.Beta;
 
 /**
  * A class for arithmetic on doubles that is not covered by {@link java.lang.Math}.
@@ -40,6 +41,7 @@ import com.google.common.annotations.VisibleForTesting;
  * @author Louis Wasserman
  * @since 11.0
  */
+@Beta
 public final class DoubleMath {
   /*
    * This method returns a value y such that rounding y DOWN (towards zero) gives the same result

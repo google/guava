@@ -23,6 +23,7 @@ import static com.google.common.math.MathPreconditions.checkPositive;
 import static com.google.common.math.MathPreconditions.checkRoundingUnnecessary;
 import static java.math.RoundingMode.CEILING;
 
+import com.google.common.annotations.Beta;
 import com.google.common.annotations.VisibleForTesting;
 
 import java.math.BigDecimal;
@@ -43,6 +44,7 @@ import java.util.List;
  * @author Louis Wasserman
  * @since 11.0
  */
+@Beta
 public final class BigIntegerMath {
   /**
    * Returns {@code true} if {@code x} represents a power of two.
