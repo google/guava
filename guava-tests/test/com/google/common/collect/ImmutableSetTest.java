@@ -114,12 +114,6 @@ public class ImmutableSetTest extends AbstractImmutableSetTest {
     assertEquals(Collections.singleton(array), set);
   }
 
-  @SuppressWarnings("deprecation")
-  public void testCreation_deprecatedOf() {
-    Set<String> set = ImmutableSet.of(new String[] {"one", "two", "three"});
-    assertEquals(of("one", "two", "three"), set);
-  }
-
   @GwtIncompatible("NullPointerTester")
   public void testNullPointers() throws Exception {
     NullPointerTester tester = new NullPointerTester();

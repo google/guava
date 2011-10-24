@@ -140,21 +140,6 @@ abstract class ImmutableSortedSetFauxverideShim<E> extends ImmutableSet<E> {
    *
    * @throws UnsupportedOperationException always
    * @deprecated <b>Pass parameters of type {@code Comparable} to use {@link
-   *     ImmutableSortedSet#of(Comparable[])}.</b>
-   */
-  // NOTE: This one is "really" deprecated - we must remove it when we remove
-  // the corresponding Immutable(Sorted)Set methods!
-  @Deprecated public static <E> ImmutableSortedSet<E> of(E[] elements) {
-    throw new UnsupportedOperationException();
-  }
-  
-  /**
-   * Not supported. <b>You are attempting to create a set that may contain
-   * non-{@code Comparable} elements.</b> Proper calls will resolve to the
-   * version in {@code ImmutableSortedSet}, not this dummy version.
-   *
-   * @throws UnsupportedOperationException always
-   * @deprecated <b>Pass parameters of type {@code Comparable} to use {@link
    *     ImmutableSortedSet#copyOf(Comparable[])}.</b>
    */
   @Deprecated public static <E> ImmutableSortedSet<E> copyOf(E[] elements) {

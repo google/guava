@@ -205,19 +205,6 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
   }
 
   /**
-   * Returns an immutable list containing the given elements, in order.
-   *
-   * @deprecated use {@link #copyOf(Object[])}. <b>This method is scheduled for
-   *     deletion in October 2011.</b>
-   * @throws NullPointerException if any of {@code elements} is null
-   * @since 2.0 (changed from varargs in 3.0)
-   */
-  @Deprecated
-  public static <E> ImmutableList<E> of(E[] elements) {
-    return copyOf(elements);
-  }
-
-  /**
    * Returns an immutable list containing the given elements, in order. If
    * {@code elements} is a {@link Collection}, this method behaves exactly as
    * {@link #copyOf(Collection)}; otherwise, it behaves exactly as {@code

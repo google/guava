@@ -243,21 +243,6 @@ public class ImmutableListTest extends TestCase {
       ImmutableList.of(a, a);
     }
 
-    @SuppressWarnings("deprecation")
-    public void testCreation_deprecatedOf() {
-      List<String> list = ImmutableList.of(new String[] { "1", "2", "3" } );
-      assertEquals(asList("1", "2", "3"), list);
-    }
-    
-    @SuppressWarnings("deprecation")    
-    public void testCreation_deprecratedOf_nullArray() {
-      try {
-        ImmutableList.of((String[]) null);
-        fail();
-      } catch(NullPointerException expected) {        
-      }
-    }    
-
     public void testCreation_arrayOfArray() {
       String[] array = new String[] { "a" };
       List<String[]> list = ImmutableList.<String[]>of(array);

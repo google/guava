@@ -234,22 +234,6 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E>
    * occurrences of an element (according to {@link Object#equals}) after the
    * first are ignored.
    *
-   * @deprecated use {@link #copyOf(Object[])}. <b>This method is scheduled for
-   *     deletion in October 2011.</b>
-   * @throws NullPointerException if any of {@code elements} is null
-   * @since 2.0 (changed from varargs in 3.0)
-   */
-  // TODO(kevinb): when this is removed, remember to remove from ISS and ISSFS
-  @Deprecated
-  public static <E> ImmutableSet<E> of(E[] elements) {
-    return copyOf(elements);
-  }
-
-  /**
-   * Returns an immutable set containing the given elements, in order. Repeated
-   * occurrences of an element (according to {@link Object#equals}) after the
-   * first are ignored.
-   *
    * @throws NullPointerException if any of {@code elements} is null
    * @since 3.0
    */
