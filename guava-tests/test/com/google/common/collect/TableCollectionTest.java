@@ -46,14 +46,27 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.SortedMap;
 
 /**
  * Collection tests for {@link Table} implementations.
  *
  * @author Jared Levy
+ * @author Louis Wasserman
  */
 @GwtCompatible(emulated = true)
 public class TableCollectionTest extends TestCase {
+
+  private static final Feature<?>[] COLLECTION_FEATURES = {
+    CollectionSize.ANY,
+    CollectionFeature.ALLOWS_NULL_QUERIES
+  };
+
+  private static final Feature<?>[] COLLECTION_FEATURES_ORDER = {
+    CollectionSize.ANY,
+    CollectionFeature.KNOWN_ORDER,
+    CollectionFeature.ALLOWS_NULL_QUERIES
+  };
 
   private static final Feature<?>[] COLLECTION_FEATURES_REMOVE = {
     CollectionSize.ANY,
@@ -76,11 +89,15 @@ public class TableCollectionTest extends TestCase {
     suite.addTestSuite(TreeRowTests.class);
     suite.addTestSuite(TransposeRowTests.class);
     suite.addTestSuite(TransformValueRowTests.class);
+    suite.addTestSuite(UnmodifiableHashRowTests.class);
+    suite.addTestSuite(UnmodifiableTreeRowTests.class);
     suite.addTestSuite(ArrayColumnTests.class);
     suite.addTestSuite(HashColumnTests.class);
     suite.addTestSuite(TreeColumnTests.class);
     suite.addTestSuite(TransposeColumnTests.class);
     suite.addTestSuite(TransformValueColumnTests.class);
+    suite.addTestSuite(UnmodifiableHashColumnTests.class);
+    suite.addTestSuite(UnmodifiableTreeColumnTests.class);
     suite.addTestSuite(ArrayRowMapTests.class);
     suite.addTestSuite(HashRowMapTests.class);
     suite.addTestSuite(TreeRowMapTests.class);
@@ -88,10 +105,14 @@ public class TableCollectionTest extends TestCase {
     suite.addTestSuite(TreeRowMapTailMapTests.class);
     suite.addTestSuite(TreeRowMapSubMapTests.class);
     suite.addTestSuite(TransformValueRowMapTests.class);
+    suite.addTestSuite(UnmodifiableHashRowMapTests.class);
+    suite.addTestSuite(UnmodifiableTreeRowMapTests.class);
     suite.addTestSuite(ArrayColumnMapTests.class);
     suite.addTestSuite(HashColumnMapTests.class);
     suite.addTestSuite(TreeColumnMapTests.class);
     suite.addTestSuite(TransformValueColumnMapTests.class);
+    suite.addTestSuite(UnmodifiableHashColumnMapTests.class);
+    suite.addTestSuite(UnmodifiableTreeColumnMapTests.class);
 
     // Not testing rowKeySet() or columnKeySet() of Table.transformValues()
     // since the transformation doesn't affect the row and column key sets.
@@ -193,6 +214,33 @@ public class TableCollectionTest extends TestCase {
         .named("TreeBasedTable.rowKeySet.subSet")
         .withFeatures(COLLECTION_FEATURES_REMOVE_ORDER)
         .createTestSuite());
+    
+    suite.addTest(SetTestSuiteBuilder.using(new TestStringSetGenerator() {
+          @Override protected Set<String> create(String[] elements) {
+            Table<String, Integer, Character> table = HashBasedTable.create();
+            populateForRowKeySet(table, elements);
+            return Tables.unmodifiableTable(table).rowKeySet();
+          }
+        })
+        .named("unmodifiableTable[HashBasedTable].rowKeySet")
+        .withFeatures(COLLECTION_FEATURES)
+        .createTestSuite());
+
+    suite.addTest(SetTestSuiteBuilder.using(new TestStringSetGenerator() {
+          @Override protected Set<String> create(String[] elements) {
+            RowSortedTable<String, Integer, Character> table = TreeBasedTable.create();
+            populateForRowKeySet(table, elements);
+            return Tables.unmodifiableRowSortedTable(table).rowKeySet();
+          }
+
+          @Override public List<String> order(List<String> insertionOrder) {
+            Collections.sort(insertionOrder);
+            return insertionOrder;
+          }
+        })
+        .named("unmodifiableRowSortedTable[TreeBasedTable].rowKeySet")
+        .withFeatures(COLLECTION_FEATURES_ORDER)
+        .createTestSuite());
 
     suite.addTest(SetTestSuiteBuilder.using(new TestStringSetGenerator() {
           @Override protected Set<String> create(String[] elements) {
@@ -236,6 +284,35 @@ public class TableCollectionTest extends TestCase {
         })
         .named("TreeBasedTable.columnKeySet")
         .withFeatures(COLLECTION_FEATURES_REMOVE_ORDER)
+        .suppressing(getIteratorKnownOrderRemoveSupportedMethod())
+        .createTestSuite());
+
+    suite.addTest(SetTestSuiteBuilder.using(new TestStringSetGenerator() {
+          @Override protected Set<String> create(String[] elements) {
+            Table<Integer, String, Character> table = HashBasedTable.create();
+            populateForColumnKeySet(table, elements);
+            return Tables.unmodifiableTable(table).columnKeySet();
+          }
+        })
+        .named("unmodifiableTable[HashBasedTable].columnKeySet")
+        .withFeatures(COLLECTION_FEATURES)
+        .suppressing(getIteratorUnknownOrderRemoveSupportedMethod())
+        .createTestSuite());
+
+    suite.addTest(SetTestSuiteBuilder.using(new TestStringSetGenerator() {
+          @Override protected Set<String> create(String[] elements) {
+            RowSortedTable<Integer, String, Character> table = TreeBasedTable.create();
+            populateForColumnKeySet(table, elements);
+            return Tables.unmodifiableRowSortedTable(table).columnKeySet();
+          }
+
+          @Override public List<String> order(List<String> insertionOrder) {
+            Collections.sort(insertionOrder);
+            return insertionOrder;
+          }
+        })
+        .named("unmodifiableRowSortedTable[TreeBasedTable].columnKeySet")
+        .withFeatures(COLLECTION_FEATURES_ORDER)
         .suppressing(getIteratorKnownOrderRemoveSupportedMethod())
         .createTestSuite());
 
@@ -305,6 +382,34 @@ public class TableCollectionTest extends TestCase {
         })
         .named("TransformValues.values")
         .withFeatures(COLLECTION_FEATURES_REMOVE)
+        .createTestSuite());
+
+    suite.addTest(CollectionTestSuiteBuilder.using(
+        new TestStringCollectionGenerator() {
+          @Override protected Collection<String> create(String[] elements) {
+            Table<Integer, Character, String> table = HashBasedTable.create();
+            table.put(1, 'a', "foo");
+            table.clear();
+            populateForValues(table, elements);
+            return Tables.unmodifiableTable(table).values();
+          }
+        })
+        .named("unmodifiableTable[HashBasedTable].values")
+        .withFeatures(COLLECTION_FEATURES)
+        .createTestSuite());
+
+    suite.addTest(CollectionTestSuiteBuilder.using(
+        new TestStringCollectionGenerator() {
+          @Override protected Collection<String> create(String[] elements) {
+            RowSortedTable<Integer, Character, String> table = TreeBasedTable.create();
+            table.put(1, 'a', "foo");
+            table.clear();
+            populateForValues(table, elements);
+            return Tables.unmodifiableRowSortedTable(table).values();
+          }
+        })
+        .named("unmodifiableTable[TreeBasedTable].values")
+        .withFeatures(COLLECTION_FEATURES_ORDER)
         .createTestSuite());
 
     suite.addTest(SetTestSuiteBuilder.using(new TestCellSetGenerator() {
@@ -397,8 +502,50 @@ public class TableCollectionTest extends TestCase {
           }
         })
         .named("TransformValues.cellSet")
-        .withFeatures(CollectionSize.ANY, CollectionFeature.REMOVE_OPERATIONS,
-            CollectionFeature.ALLOWS_NULL_QUERIES)
+        .withFeatures(CollectionSize.ANY, CollectionFeature.ALLOWS_NULL_QUERIES)
+        .createTestSuite());
+
+    suite.addTest(SetTestSuiteBuilder.using(new TestCellSetGenerator() {
+          @Override Table<String, Integer, Character> createTable() {
+            return Tables.unmodifiableTable(HashBasedTable.<String, Integer, Character> create());
+          }
+          @Override
+          public Set<Cell<String, Integer, Character>> create(
+              Object... elements) {
+            Table<String, Integer, Character> table = HashBasedTable.create();
+            for (Object element : elements) {
+              @SuppressWarnings("unchecked")
+              Cell<String, Integer, Character> cell
+                  = (Cell<String, Integer, Character>) element;
+              table.put(cell.getRowKey(), cell.getColumnKey(), cell.getValue());
+            }
+            return Tables.unmodifiableTable(table).cellSet();
+          }
+        })
+        .named("unmodifiableTable[HashBasedTable].cellSet")
+        .withFeatures(CollectionSize.ANY, CollectionFeature.ALLOWS_NULL_QUERIES)
+        .createTestSuite());
+
+    suite.addTest(SetTestSuiteBuilder.using(new TestCellSetGenerator() {
+          @Override RowSortedTable<String, Integer, Character> createTable() {
+            return Tables.unmodifiableRowSortedTable(TreeBasedTable
+                .<String, Integer, Character> create());
+          }
+          @Override
+          public Set<Cell<String, Integer, Character>> create(
+              Object... elements) {
+            RowSortedTable<String, Integer, Character> table = TreeBasedTable.create();
+            for (Object element : elements) {
+              @SuppressWarnings("unchecked")
+              Cell<String, Integer, Character> cell
+                  = (Cell<String, Integer, Character>) element;
+              table.put(cell.getRowKey(), cell.getColumnKey(), cell.getValue());
+            }
+            return Tables.unmodifiableRowSortedTable(table).cellSet();
+          }
+        })
+        .named("unmodifiableRowSortedTable[TreeBasedTable].cellSet")
+        .withFeatures(CollectionSize.ANY, CollectionFeature.ALLOWS_NULL_QUERIES)
         .createTestSuite());
 
     suite.addTest(SetTestSuiteBuilder.using(new TestStringSetGenerator() {
@@ -456,6 +603,34 @@ public class TableCollectionTest extends TestCase {
         .withFeatures(COLLECTION_FEATURES_REMOVE)
         .suppressing(getIteratorUnknownOrderRemoveSupportedMethod())
     .createTestSuite());
+
+    suite.addTest(SetTestSuiteBuilder.using(new TestStringSetGenerator() {
+          @Override protected Set<String> create(String[] elements) {
+            Table<String, Integer, Character> table = HashBasedTable.create();
+            populateForRowKeySet(table, elements);
+            return Tables.unmodifiableTable(table).column(1).keySet();
+          }
+        })
+        .named("unmodifiableTable[HashBasedTable].column.keySet")
+        .withFeatures(COLLECTION_FEATURES)
+        .suppressing(getIteratorUnknownOrderRemoveSupportedMethod())
+    .createTestSuite());
+
+    suite.addTest(SetTestSuiteBuilder.using(new TestStringSetGenerator() {
+          @Override protected Set<String> create(String[] elements) {
+            RowSortedTable<String, Integer, Character> table = TreeBasedTable.create();
+            populateForRowKeySet(table, elements);
+            return Tables.unmodifiableRowSortedTable(table).column(1).keySet();
+          }
+          @Override public List<String> order(List<String> insertionOrder) {
+            Collections.sort(insertionOrder);
+            return insertionOrder;
+          }
+        })
+        .named("unmodifiableRowSortedTable[TreeBasedTable].column.keySet")
+        .withFeatures(COLLECTION_FEATURES_ORDER)
+        .suppressing(getIteratorKnownOrderRemoveSupportedMethod())
+        .createTestSuite());
 
     return suite;
   }
@@ -642,6 +817,46 @@ public class TableCollectionTest extends TestCase {
     }
   }
 
+  public static class UnmodifiableHashRowTests extends RowTests {
+    public UnmodifiableHashRowTests() {
+      super(false, false, false, false, false);
+    }
+
+    @Override Table<Character, String, Integer> makeTable() {
+      Table<Character, String, Integer> table = HashBasedTable.create();
+      return Tables.unmodifiableTable(table);
+    }
+
+    @Override protected Map<String, Integer> makePopulatedMap() {
+      Table<Character, String, Integer> table = HashBasedTable.create();
+      table.put('a', "one", 1);
+      table.put('a', "two", 2);
+      table.put('a', "three", 3);
+      table.put('b', "four", 4);
+      return Tables.unmodifiableTable(table).row('a');
+    }
+  }
+
+  public static class UnmodifiableTreeRowTests extends RowTests {
+    public UnmodifiableTreeRowTests() {
+      super(false, false, false, false, false);
+    }
+
+    @Override Table<Character, String, Integer> makeTable() {
+      RowSortedTable<Character, String, Integer> table = TreeBasedTable.create();
+      return Tables.unmodifiableRowSortedTable(table);
+    }
+
+    @Override protected Map<String, Integer> makePopulatedMap() {
+      RowSortedTable<Character, String, Integer> table = TreeBasedTable.create();
+      table.put('a', "one", 1);
+      table.put('a', "two", 2);
+      table.put('a', "three", 3);
+      table.put('b', "four", 4);
+      return Tables.unmodifiableRowSortedTable(table).row('a');
+    }
+  }
+
   private static abstract class ColumnTests extends MapTests {
     ColumnTests(boolean allowsNullValues, boolean supportsPut, boolean supportsRemove,
         boolean supportsClear, boolean supportsIteratorRemove) {
@@ -733,6 +948,46 @@ public class TableCollectionTest extends TestCase {
       table.put("three", 'a', 3);
       table.put("four", 'b', 4);
       return Tables.transformValues(table, DIVIDE_BY_2).column('a');
+    }
+  }
+
+  public static class UnmodifiableHashColumnTests extends ColumnTests {
+    public UnmodifiableHashColumnTests() {
+      super(false, false, false, false, false);
+    }
+
+    @Override Table<String, Character, Integer> makeTable() {
+      Table<String, Character, Integer> table = HashBasedTable.create();
+      return Tables.unmodifiableTable(table);
+    }
+
+    @Override protected Map<String, Integer> makePopulatedMap() {
+      Table<String, Character, Integer> table = HashBasedTable.create();
+      table.put("one", 'a', 1);
+      table.put("two", 'a', 2);
+      table.put("three", 'a', 3);
+      table.put("four", 'b', 4);
+      return Tables.unmodifiableTable(table).column('a');
+    }
+  }
+
+  public static class UnmodifiableTreeColumnTests extends ColumnTests {
+    public UnmodifiableTreeColumnTests() {
+      super(false, false, false, false, false);
+    }
+
+    @Override Table<String, Character, Integer> makeTable() {
+      RowSortedTable<String, Character, Integer> table = TreeBasedTable.create();
+      return Tables.unmodifiableRowSortedTable(table);
+    }
+
+    @Override protected Map<String, Integer> makePopulatedMap() {
+      RowSortedTable<String, Character, Integer> table = TreeBasedTable.create();
+      table.put("one", 'a', 1);
+      table.put("two", 'a', 2);
+      table.put("three", 'a', 3);
+      table.put("four", 'b', 4);
+      return Tables.unmodifiableRowSortedTable(table).column('a');
     }
   }
 
@@ -965,6 +1220,46 @@ public class TableCollectionTest extends TestCase {
     }
   }
 
+  public static class UnmodifiableHashRowMapTests extends RowMapTests {
+    public UnmodifiableHashRowMapTests() {
+      super(false, false, false, false);
+    }
+
+    @Override Table<String, Integer, Character> makeTable() {
+      Table<String, Integer, Character> original = HashBasedTable.create();
+      return Tables.unmodifiableTable(original);
+    }
+
+    @Override
+    protected Map<String, Map<Integer, Character>> makePopulatedMap() {
+      Table<String, Integer, Character> table = HashBasedTable.create();
+      table.put("foo", 1, 'a');
+      table.put("bar", 1, 'b');
+      table.put("foo", 3, 'c');
+      return Tables.unmodifiableTable(table).rowMap();
+    }
+  }
+
+  public static class UnmodifiableTreeRowMapTests extends RowMapTests {
+    public UnmodifiableTreeRowMapTests() {
+      super(false, false, false, false);
+    }
+
+    @Override RowSortedTable<String, Integer, Character> makeTable() {
+      RowSortedTable<String, Integer, Character> original = TreeBasedTable.create();
+      return Tables.unmodifiableRowSortedTable(original);
+    }
+
+    @Override
+    protected SortedMap<String, Map<Integer, Character>> makePopulatedMap() {
+      RowSortedTable<String, Integer, Character> table = TreeBasedTable.create();
+      table.put("foo", 1, 'a');
+      table.put("bar", 1, 'b');
+      table.put("foo", 3, 'c');
+      return Tables.unmodifiableRowSortedTable(table).rowMap();
+    }
+  }
+
   private static abstract class ColumnMapTests extends MapMapTests {
     ColumnMapTests(boolean allowsNullValues, boolean supportsRemove,
         boolean supportsClear, boolean supportsIteratorRemove) {
@@ -1041,6 +1336,46 @@ public class TableCollectionTest extends TestCase {
       table.put(1, "bar", "banana");
       table.put(3, "foo", "cat");
       return Tables.transformValues(table, FIRST_CHARACTER).columnMap();
+    }
+  }
+
+  public static class UnmodifiableHashColumnMapTests extends ColumnMapTests {
+    public UnmodifiableHashColumnMapTests() {
+      super(false, false, false, false);
+    }
+
+    @Override Table<Integer, String, Character> makeTable() {
+      Table<Integer, String, Character> original = HashBasedTable.create();
+      return Tables.unmodifiableTable(original);
+    }
+
+    @Override
+    protected Map<String, Map<Integer, Character>> makePopulatedMap() {
+      Table<Integer, String, Character> table = HashBasedTable.create();
+      table.put(1, "foo", 'a');
+      table.put(1, "bar", 'b');
+      table.put(3, "foo", 'c');
+      return Tables.unmodifiableTable(table).columnMap();
+    }
+  }
+
+  public static class UnmodifiableTreeColumnMapTests extends ColumnMapTests {
+    public UnmodifiableTreeColumnMapTests() {
+      super(false, false, false, false);
+    }
+
+    @Override Table<Integer, String, Character> makeTable() {
+      RowSortedTable<Integer, String, Character> original = TreeBasedTable.create();
+      return Tables.unmodifiableRowSortedTable(original);
+    }
+
+    @Override
+    protected Map<String, Map<Integer, Character>> makePopulatedMap() {
+      RowSortedTable<Integer, String, Character> table = TreeBasedTable.create();
+      table.put(1, "foo", 'a');
+      table.put(1, "bar", 'b');
+      table.put(3, "foo", 'c');
+      return Tables.unmodifiableRowSortedTable(table).columnMap();
     }
   }
 }

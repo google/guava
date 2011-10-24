@@ -29,8 +29,11 @@ import com.google.common.collect.Table.Cell;
 
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
+import java.util.SortedMap;
+import java.util.SortedSet;
 
 import javax.annotation.Nullable;
 
@@ -38,6 +41,7 @@ import javax.annotation.Nullable;
  * Provides static methods that involve a {@code Table}.
  *
  * @author Jared Levy
+ * @author Louis Wasserman
  * @since 7.0
  */
 @GwtCompatible
@@ -580,4 +584,164 @@ public final class Tables {
       return rowMap().toString();
     }
   }
+  
+  /**
+   * Returns an unmodifiable view of the specified table. This method allows modules to provide
+   * users with "read-only" access to internal tables. Query operations on the returned table
+   * "read through" to the specified table, and attempts to modify the returned table, whether
+   * direct or via its collection views, result in an {@code UnsupportedOperationException}.
+   * 
+   * <p>The returned table will be serializable if the specified table is serializable.
+   *
+   * <p>Consider using an {@link ImmutableTable}, which is guaranteed never to change.
+   * 
+   * @param table
+   *          the table for which an unmodifiable view is to be returned
+   * @return an unmodifiable view of the specified table
+   * @since 11.0
+   */
+  public static <R, C, V> Table<R, C, V> unmodifiableTable(
+      Table<? extends R, ? extends C, ? extends V> table) {
+    return new UnmodifiableTable<R, C, V>(table);
+  }
+  
+  private static class UnmodifiableTable<R, C, V>
+      extends ForwardingTable<R, C, V> implements Serializable {
+    final Table<? extends R, ? extends C, ? extends V> delegate;
+
+    UnmodifiableTable(Table<? extends R, ? extends C, ? extends V> delegate) {
+      this.delegate = checkNotNull(delegate);
+    }
+
+    @SuppressWarnings("unchecked") // safe, covariant cast
+    @Override
+    protected Table<R, C, V> delegate() {
+      return (Table<R, C, V>) delegate;
+    }
+
+    @Override
+    public Set<Cell<R, C, V>> cellSet() {
+      return Collections.unmodifiableSet(super.cellSet());
+    }
+
+    @Override
+    public void clear() {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Map<R, V> column(@Nullable C columnKey) {
+      return Collections.unmodifiableMap(super.column(columnKey));
+    }
+
+    @Override
+    public Set<C> columnKeySet() {
+      return Collections.unmodifiableSet(super.columnKeySet());
+    }
+
+    @Override
+    public Map<C, Map<R, V>> columnMap() {
+      Function<Map<R, V>, Map<R, V>> wrapper = unmodifiableWrapper();
+      return Collections.unmodifiableMap(Maps.transformValues(super.columnMap(), wrapper));
+    }
+
+    @Override
+    public V put(@Nullable R rowKey, @Nullable C columnKey, @Nullable V value) {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void putAll(Table<? extends R, ? extends C, ? extends V> table) {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public V remove(@Nullable Object rowKey, @Nullable Object columnKey) {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Map<C, V> row(@Nullable R rowKey) {
+      return Collections.unmodifiableMap(super.row(rowKey));
+    }
+
+    @Override
+    public Set<R> rowKeySet() {
+      return Collections.unmodifiableSet(super.rowKeySet());
+    }
+
+    @Override
+    public Map<R, Map<C, V>> rowMap() {
+      Function<Map<C, V>, Map<C, V>> wrapper = unmodifiableWrapper();
+      return Collections.unmodifiableMap(Maps.transformValues(super.rowMap(), wrapper));
+    }
+
+    @Override
+    public Collection<V> values() {
+      return Collections.unmodifiableCollection(super.values());
+    }
+    
+    private static final long serialVersionUID = 0;
+  }
+
+  /**
+   * Returns an unmodifiable view of the specified row-sorted table. This method allows modules to
+   * provide users with "read-only" access to internal tables. Query operations on the returned
+   * table "read through" to the specified table, and attemps to modify the returned table, whether
+   * direct or via its collection views, result in an {@code UnsupportedOperationException}.
+   * 
+   * <p>The returned table will be serializable if the specified table is serializable.
+   * 
+   * @param table the row-sorted table for which an unmodifiable view is to be returned
+   * @return an unmodifiable view of the specified table
+   * @since 11.0
+   */
+  public static <R, C, V> RowSortedTable<R, C, V> unmodifiableRowSortedTable(
+      RowSortedTable<R, ? extends C, ? extends V> table) {
+    /*
+     * It's not ? extends R, because it's technically not covariant in R. Specifically,
+     * table.rowMap().comparator() could return a comparator that only works for the ? extends R.
+     * Collections.unmodifiableSortedMap makes the same distinction.
+     */
+    return new UnmodifiableRowSortedMap<R, C, V>(table);
+  }
+  
+  static final class UnmodifiableRowSortedMap<R, C, V> extends UnmodifiableTable<R, C, V>
+      implements RowSortedTable<R, C, V> {
+
+    public UnmodifiableRowSortedMap(RowSortedTable<R, ? extends C, ? extends V> delegate) {
+      super(delegate);
+    }
+
+    @Override
+    protected RowSortedTable<R, C, V> delegate() {
+      return (RowSortedTable<R, C, V>) super.delegate();
+    }
+
+    @Override
+    public SortedMap<R, Map<C, V>> rowMap() {
+      Function<Map<C, V>, Map<C, V>> wrapper = unmodifiableWrapper();
+      return Collections.unmodifiableSortedMap(Maps.transformValues(delegate().rowMap(), wrapper));
+    }
+
+    @Override
+    public SortedSet<R> rowKeySet() {
+      return Collections.unmodifiableSortedSet(delegate().rowKeySet());
+    }
+
+    private static final long serialVersionUID = 0;
+  }
+
+  @SuppressWarnings("unchecked")
+  private static <K, V> Function<Map<K, V>, Map<K, V>> unmodifiableWrapper() {
+    return (Function) UNMODIFIABLE_WRAPPER;
+  }
+
+  private static final Function<? extends Map<?, ?>, ? extends Map<?, ?>> UNMODIFIABLE_WRAPPER =
+      new Function<Map<Object, Object>, Map<Object, Object>>() {
+        @Override
+        public Map<Object, Object> apply(Map<Object, Object> input) {
+          return Collections.unmodifiableMap(input);
+        }
+      };
 }

@@ -846,7 +846,7 @@ public final class Maps {
    * Returns an unmodifiable view of the specified bimap. This method allows
    * modules to provide users with "read-only" access to internal bimaps. Query
    * operations on the returned bimap "read through" to the specified bimap, and
-   * attemps to modify the returned map, whether direct or via its collection
+   * attempts to modify the returned map, whether direct or via its collection
    * views, result in an {@code UnsupportedOperationException}.
    *
    * <p>The returned bimap will be serializable if the specified bimap is
