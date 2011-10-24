@@ -183,7 +183,8 @@ public class MathTesting {
     // Add boundary values manually to avoid over/under flow.
     bigValues.add(BigInteger.valueOf(Long.MAX_VALUE).add(ONE));
     // Now add values near 2^N for lots of values of N.
-    for (int exponent : asList(64, 65, 71, 72, 73, 79, 80, 81, 255, 256, 257, 511, 512, 513)) {
+    for (int exponent : asList(64, 65, 71, 72, 73, 79, 80, 81, 255, 256, 257, 511, 512, 513,
+        Double.MAX_EXPONENT - 1, Double.MAX_EXPONENT, Double.MAX_EXPONENT + 1)) {
       BigInteger x = ONE.shiftLeft(exponent);
       bigValues.add(x, x.add(ONE), x.subtract(ONE));
     }

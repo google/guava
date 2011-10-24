@@ -208,14 +208,48 @@ public final class BigIntegerMath {
   }
 
   private static BigInteger sqrtFloor(BigInteger x) {
-    // Hackers's Delight, Figure 11-1
-    int s = (log2(x, CEILING) + 1) >> 1;
-    BigInteger sqrt0 = BigInteger.ZERO.setBit(s);
-    BigInteger sqrt1 = sqrt0.add(x.shiftRight(s)).shiftRight(1);
-    while (sqrt1.compareTo(sqrt0) < 0) {
+    /*
+     * Adapted from Hacker's Delight, Figure 11-1.
+     *
+     * Using DoubleUtils.bigToDouble, getting a double approximation of x is extremely fast, and
+     * then we can get a double approximation of the square root. Then, we iteratively improve this
+     * guess with an application of Newton's method, which sets guess := (guess + (x / guess)) / 2.
+     * This iteration has the following two properties:
+     *
+     * a) every iteration (except potentially the first) has guess >= floor(sqrt(x)). This is
+     * because guess' is the arithmetic mean of guess and x / guess, sqrt(x) is the geometric mean,
+     * and the arithmetic mean is always higher than the geometric mean.
+     *
+     * b) this iteration converges to floor(sqrt(x)). In fact, the number of correct digits doubles
+     * with each iteration, so this algorithm takes O(log(digits)) iterations.
+     *
+     * We start out with a double-precision approximation, which may be higher or lower than the
+     * true value. Therefore, we perform at least one Newton iteration to get a guess that's
+     * definitely >= floor(sqrt(x)), and then continue the iteration until we reach a fixed point.
+     */
+    BigInteger sqrt0;
+    BigInteger sqrt1;
+    double asDouble = DoubleUtils.bigToDouble(x);
+    if (!Double.isInfinite(asDouble)) {
+      double sqrt0Double = Math.sqrt(asDouble);
+      sqrt0 = DoubleMath.roundToBigInteger(sqrt0Double, RoundingMode.HALF_EVEN);
+      sqrt1 = sqrt0.add(x.divide(sqrt0)).shiftRight(1);
+    } else {
+      // Too big for double precision!  Use a less accurate initial approximation,
+      // specifically 2^(log2(x) / 2).
+      int logFloor = log2(x, RoundingMode.FLOOR);
+      int halfLogFloor = logFloor >> 1;
+      sqrt0 = BigInteger.ZERO.setBit(halfLogFloor);
+      // In exchange, we can use a right-shift instead of a divide.
+      sqrt1 = sqrt0.add(x.shiftRight(halfLogFloor)).shiftRight(1);
+    }
+    if (sqrt0.equals(sqrt1)) {
+      return sqrt0;
+    }
+    do {
       sqrt0 = sqrt1;
       sqrt1 = sqrt0.add(x.divide(sqrt0)).shiftRight(1);
-    }
+    } while (sqrt1.compareTo(sqrt0) < 0);
     return sqrt0;
   }
 
