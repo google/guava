@@ -154,8 +154,8 @@ public abstract class GenericMapMaker<K0, V0> {
   /**
    * See {@link MapMaker#makeCustomMap}.
    */
-  @GwtIncompatible("CustomConcurrentHashMap")
-  abstract <K, V> CustomConcurrentHashMap<K, V> makeCustomMap();
+  @GwtIncompatible("MapMakerInternalMap")
+  abstract <K, V> MapMakerInternalMap<K, V> makeCustomMap();
 
   /**
    * See {@link MapMaker#makeComputingMap}.

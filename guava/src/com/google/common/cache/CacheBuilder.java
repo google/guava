@@ -31,7 +31,7 @@ import com.google.common.base.Suppliers;
 import com.google.common.base.Ticker;
 import com.google.common.cache.AbstractCache.SimpleStatsCounter;
 import com.google.common.cache.AbstractCache.StatsCounter;
-import com.google.common.cache.LocalCacheAsMap.Strength;
+import com.google.common.cache.LocalCacheInternalMap.Strength;
 
 import java.lang.ref.SoftReference;
 import java.lang.ref.WeakReference;

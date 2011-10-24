@@ -54,7 +54,7 @@ public class ConcurrentHashMultisetBasherTest extends TestCase {
 
   public void testAddAndRemove_MapMakerMap() throws Exception {
     MapMaker mapMaker = new MapMaker();
-    // force MapMaker to use its own CustomConcurrentHashMap
+    // force MapMaker to use its own MapMakerInternalMap
     mapMaker.useCustomMap = true;
     testAddAndRemove(mapMaker.<String, AtomicInteger>makeMap());
   }

@@ -28,7 +28,7 @@ import com.google.common.base.Function;
 import com.google.common.base.Objects;
 import com.google.common.base.Ticker;
 import com.google.common.collect.ComputingConcurrentHashMap.ComputingMapAdapter;
-import com.google.common.collect.CustomConcurrentHashMap.Strength;
+import com.google.common.collect.MapMakerInternalMap.Strength;
 
 import java.io.Serializable;
 import java.lang.ref.SoftReference;
@@ -574,18 +574,18 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
       return new ConcurrentHashMap<K, V>(getInitialCapacity(), 0.75f, getConcurrencyLevel());
     }
     return (nullRemovalCause == null)
-        ? new CustomConcurrentHashMap<K, V>(this)
+        ? new MapMakerInternalMap<K, V>(this)
         : new NullConcurrentMap<K, V>(this);
   }
 
   /**
-   * Returns a CustomConcurrentHashMap for the benefit of internal callers that use features of
+   * Returns a MapMakerInternalMap for the benefit of internal callers that use features of
    * that class not exposed through ConcurrentMap.
    */
   @Override
-  @GwtIncompatible("CustomConcurrentHashMap")
-  <K, V> CustomConcurrentHashMap<K, V> makeCustomMap() {
-    return new CustomConcurrentHashMap<K, V>(this);
+  @GwtIncompatible("MapMakerInternalMap")
+  <K, V> MapMakerInternalMap<K, V> makeCustomMap() {
+    return new MapMakerInternalMap<K, V>(this);
   }
 
   /**

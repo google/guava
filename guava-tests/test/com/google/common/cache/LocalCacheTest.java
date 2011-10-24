@@ -17,11 +17,11 @@
 package com.google.common.cache;
 
 import static com.google.common.cache.CacheBuilder.EMPTY_STATS;
-import static com.google.common.cache.LocalCacheAsMapTest.SMALL_MAX_SIZE;
+import static com.google.common.cache.LocalCacheInternalMapTest.SMALL_MAX_SIZE;
 import static com.google.common.cache.TestingCacheLoaders.identityLoader;
 import static org.junit.contrib.truth.Truth.ASSERT;
 
-import com.google.common.cache.LocalCacheAsMap.Segment;
+import com.google.common.cache.LocalCacheInternalMap.Segment;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Maps;

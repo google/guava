@@ -16,9 +16,9 @@
 
 package com.google.common.collect;
 
-import static com.google.common.collect.CustomConcurrentHashMap.Strength.SOFT;
-import static com.google.common.collect.CustomConcurrentHashMap.Strength.STRONG;
-import static com.google.common.collect.CustomConcurrentHashMap.Strength.WEAK;
+import static com.google.common.collect.MapMakerInternalMap.Strength.SOFT;
+import static com.google.common.collect.MapMakerInternalMap.Strength.STRONG;
+import static com.google.common.collect.MapMakerInternalMap.Strength.WEAK;
 import static com.google.common.collect.testing.IteratorFeature.SUPPORTS_REMOVE;
 import static com.google.common.testing.SerializableTester.reserializeAndAssert;
 import static java.util.Arrays.asList;
@@ -353,7 +353,7 @@ public class ConcurrentHashMultisetTest extends TestCase {
   }
 
   private void testIdentityKeyEquality(
-      CustomConcurrentHashMap.Strength keyStrength) {
+      MapMakerInternalMap.Strength keyStrength) {
 
     MapMaker mapMaker = new MapMaker()
         .setKeyStrength(keyStrength)
@@ -396,7 +396,7 @@ public class ConcurrentHashMultisetTest extends TestCase {
   }
 
   private void testLogicalKeyEquality(
-      CustomConcurrentHashMap.Strength keyStrength) {
+      MapMakerInternalMap.Strength keyStrength) {
 
     MapMaker mapMaker = new MapMaker()
         .setKeyStrength(keyStrength)

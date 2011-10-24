@@ -14,13 +14,13 @@
 
 package com.google.common.cache;
 
-import static com.google.common.cache.LocalCacheAsMap.Strength.STRONG;
+import static com.google.common.cache.LocalCacheInternalMap.Strength.STRONG;
 import static com.google.common.cache.TestingRemovalListeners.countingRemovalListener;
 import static com.google.common.collect.Maps.immutableEntry;
 import static org.junit.contrib.truth.Truth.ASSERT;
 
 import com.google.common.base.Function;
-import com.google.common.cache.LocalCacheAsMap.Strength;
+import com.google.common.cache.LocalCacheInternalMap.Strength;
 import com.google.common.cache.TestingRemovalListeners.CountingRemovalListener;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;

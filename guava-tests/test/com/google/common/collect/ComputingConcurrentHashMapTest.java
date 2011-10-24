@@ -16,22 +16,22 @@
 
 package com.google.common.collect;
 
-import static com.google.common.collect.CustomConcurrentHashMap.DRAIN_THRESHOLD;
-import static com.google.common.collect.CustomConcurrentHashMapTest.SMALL_MAX_SIZE;
-import static com.google.common.collect.CustomConcurrentHashMapTest.allEvictingMakers;
-import static com.google.common.collect.CustomConcurrentHashMapTest.assertNotified;
-import static com.google.common.collect.CustomConcurrentHashMapTest.checkAndDrainRecencyQueue;
-import static com.google.common.collect.CustomConcurrentHashMapTest.checkEvictionQueues;
-import static com.google.common.collect.CustomConcurrentHashMapTest.checkExpirationTimes;
+import static com.google.common.collect.MapMakerInternalMap.DRAIN_THRESHOLD;
+import static com.google.common.collect.MapMakerInternalMapTest.SMALL_MAX_SIZE;
+import static com.google.common.collect.MapMakerInternalMapTest.allEvictingMakers;
+import static com.google.common.collect.MapMakerInternalMapTest.assertNotified;
+import static com.google.common.collect.MapMakerInternalMapTest.checkAndDrainRecencyQueue;
+import static com.google.common.collect.MapMakerInternalMapTest.checkEvictionQueues;
+import static com.google.common.collect.MapMakerInternalMapTest.checkExpirationTimes;
 
 import com.google.common.base.Function;
 import com.google.common.collect.ComputingConcurrentHashMap.ComputingMapAdapter;
-import com.google.common.collect.CustomConcurrentHashMap.ReferenceEntry;
-import com.google.common.collect.CustomConcurrentHashMap.Segment;
-import com.google.common.collect.CustomConcurrentHashMapTest.DummyEntry;
-import com.google.common.collect.CustomConcurrentHashMapTest.DummyValueReference;
-import com.google.common.collect.CustomConcurrentHashMapTest.QueuingRemovalListener;
 import com.google.common.collect.MapMaker.RemovalCause;
+import com.google.common.collect.MapMakerInternalMap.ReferenceEntry;
+import com.google.common.collect.MapMakerInternalMap.Segment;
+import com.google.common.collect.MapMakerInternalMapTest.DummyEntry;
+import com.google.common.collect.MapMakerInternalMapTest.DummyValueReference;
+import com.google.common.collect.MapMakerInternalMapTest.QueuingRemovalListener;
 import com.google.common.testing.NullPointerTester;
 
 import junit.framework.TestCase;

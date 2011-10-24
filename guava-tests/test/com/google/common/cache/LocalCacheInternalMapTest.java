@@ -14,29 +14,47 @@
  * limitations under the License.
  */
 
-package com.google.common.collect;
+package com.google.common.cache;
 
-import static com.google.common.collect.CustomConcurrentHashMap.DISCARDING_QUEUE;
-import static com.google.common.collect.CustomConcurrentHashMap.DRAIN_THRESHOLD;
-import static com.google.common.collect.CustomConcurrentHashMap.nullEntry;
-import static com.google.common.collect.CustomConcurrentHashMap.unset;
+import static com.google.common.cache.CacheBuilder.NULL_TICKER;
+import static com.google.common.cache.LocalCacheInternalMap.DISCARDING_QUEUE;
+import static com.google.common.cache.LocalCacheInternalMap.DRAIN_THRESHOLD;
+import static com.google.common.cache.LocalCacheInternalMap.nullEntry;
+import static com.google.common.cache.LocalCacheInternalMap.unset;
+import static com.google.common.cache.TestingCacheLoaders.identityLoader;
+import static com.google.common.cache.TestingRemovalListeners.countingRemovalListener;
+import static com.google.common.cache.TestingRemovalListeners.queuingRemovalListener;
+import static com.google.common.cache.TestingWeighers.constantWeigher;
 import static com.google.common.collect.Lists.newArrayList;
+import static com.google.common.collect.Maps.immutableEntry;
+import static java.util.concurrent.TimeUnit.HOURS;
+import static java.util.concurrent.TimeUnit.NANOSECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
+import static org.easymock.EasyMock.createMock;
 
 import com.google.common.base.Equivalence;
+import com.google.common.base.Suppliers;
 import com.google.common.base.Ticker;
-import com.google.common.collect.CustomConcurrentHashMap.EntryFactory;
-import com.google.common.collect.CustomConcurrentHashMap.ReferenceEntry;
-import com.google.common.collect.CustomConcurrentHashMap.Segment;
-import com.google.common.collect.CustomConcurrentHashMap.Strength;
-import com.google.common.collect.CustomConcurrentHashMap.ValueReference;
-import com.google.common.collect.MapMaker.RemovalCause;
-import com.google.common.collect.MapMaker.RemovalListener;
-import com.google.common.collect.MapMaker.RemovalNotification;
+import com.google.common.cache.LocalCacheInternalMap.EntryFactory;
+import com.google.common.cache.LocalCacheInternalMap.LoadingValueReference;
+import com.google.common.cache.LocalCacheInternalMap.ReferenceEntry;
+import com.google.common.cache.LocalCacheInternalMap.Segment;
+import com.google.common.cache.LocalCacheInternalMap.Strength;
+import com.google.common.cache.LocalCacheInternalMap.ValueReference;
+import com.google.common.cache.TestingCacheLoaders.CountingLoader;
+import com.google.common.cache.TestingRemovalListeners.CountingRemovalListener;
+import com.google.common.cache.TestingRemovalListeners.QueuingRemovalListener;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import com.google.common.testing.FakeTicker;
 import com.google.common.testing.NullPointerTester;
+import com.google.common.testing.SerializableTester;
 
 import junit.framework.TestCase;
 
+import java.io.Serializable;
 import java.lang.ref.Reference;
 import java.lang.ref.ReferenceQueue;
 import java.util.Iterator;
@@ -44,37 +62,37 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
-import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReferenceArray;
 
 /**
  * @author Charles Fry
  */
-@SuppressWarnings("deprecation") // many tests of deprecated methods
-public class CustomConcurrentHashMapTest extends TestCase {
+public class LocalCacheInternalMapTest extends TestCase {
 
   static final int SMALL_MAX_SIZE = DRAIN_THRESHOLD * 5;
 
-  private static <K, V> CustomConcurrentHashMap<K, V> makeMap(GenericMapMaker<K, V> maker) {
-    return new CustomConcurrentHashMap<K, V>((MapMaker) maker);
+  private static <K, V> LocalCacheInternalMap<K, V> makeMap(CacheBuilder<K, V> builder) {
+    return new LocalCacheInternalMap<K, V>(builder, CacheBuilder.DEFAULT_STATS_COUNTER,
+        CacheLoader.from(Suppliers.<V>ofInstance(null)));
   }
 
-  private static <K, V> CustomConcurrentHashMap<K, V> makeMap(MapMaker maker) {
-    return new CustomConcurrentHashMap<K, V>(maker);
+  private static <K, V> LocalCacheInternalMap<K, V> makeComputingMap(
+      CacheBuilder<K, V> builder, CacheLoader<? super K, V> loader) {
+    return new LocalCacheInternalMap<K, V>(
+        builder, CacheBuilder.DEFAULT_STATS_COUNTER, loader);
   }
 
-  private static MapMaker createMapMaker() {
-    MapMaker maker = new MapMaker();
-    maker.useCustomMap = true;
-    return maker;
+  private static CacheBuilder<Object, Object> createCacheBuilder() {
+    return new CacheBuilder<Object, Object>();
   }
 
   // constructor tests
 
   public void testDefaults() {
-    CustomConcurrentHashMap<Object, Object> map = makeMap(createMapMaker());
+    LocalCacheInternalMap<Object, Object> map = makeMap(createCacheBuilder());
 
     assertSame(Strength.STRONG, map.keyStrength);
     assertSame(Strength.STRONG, map.valueStrength);
@@ -83,12 +101,12 @@ public class CustomConcurrentHashMapTest extends TestCase {
 
     assertEquals(0, map.expireAfterAccessNanos);
     assertEquals(0, map.expireAfterWriteNanos);
-    assertEquals(MapMaker.UNSET_INT, map.maximumSize);
+    assertEquals(CacheBuilder.UNSET_INT, map.maxWeight);
 
     assertSame(EntryFactory.STRONG, map.entryFactory);
-    assertSame(MapMaker.NullListener.INSTANCE, map.removalListener);
+    assertSame(CacheBuilder.NullListener.INSTANCE, map.removalListener);
     assertSame(DISCARDING_QUEUE, map.removalNotificationQueue);
-    assertSame(Ticker.systemTicker(), map.ticker);
+    assertSame(NULL_TICKER, map.ticker);
 
     assertEquals(4, map.concurrencyLevel);
 
@@ -101,6 +119,17 @@ public class CustomConcurrentHashMapTest extends TestCase {
     assertFalse(map.expires());
     assertFalse(map.expiresAfterWrite());
     assertFalse(map.expiresAfterAccess());
+  }
+
+  public void testComputingFunction() {
+    CacheLoader<Object, Object> loader = new CacheLoader<Object, Object>() {
+      @Override
+      public Object load(Object from) {
+        return from;
+      }
+    };
+    LocalCacheInternalMap<Object, Object> map = makeComputingMap(createCacheBuilder(), loader);
+    assertSame(loader, map.defaultLoader);
   }
 
   public void testSetKeyEquivalence() {
@@ -116,8 +145,8 @@ public class CustomConcurrentHashMapTest extends TestCase {
       }
     };
 
-    CustomConcurrentHashMap<Object, Object> map =
-        makeMap(createMapMaker().keyEquivalence(testEquivalence));
+    LocalCacheInternalMap<Object, Object> map =
+        makeMap(createCacheBuilder().keyEquivalence(testEquivalence));
     assertSame(testEquivalence, map.keyEquivalence);
     assertSame(map.valueStrength.defaultEquivalence(), map.valueEquivalence);
   }
@@ -135,8 +164,8 @@ public class CustomConcurrentHashMapTest extends TestCase {
       }
     };
 
-    CustomConcurrentHashMap<Object, Object> map =
-        makeMap(createMapMaker().valueEquivalence(testEquivalence));
+    LocalCacheInternalMap<Object, Object> map =
+        makeMap(createCacheBuilder().valueEquivalence(testEquivalence));
     assertSame(testEquivalence, map.valueEquivalence);
     assertSame(map.keyStrength.defaultEquivalence(), map.keyEquivalence);
   }
@@ -155,8 +184,8 @@ public class CustomConcurrentHashMapTest extends TestCase {
   }
 
   private static void checkConcurrencyLevel(int concurrencyLevel, int segmentCount) {
-    CustomConcurrentHashMap<Object, Object> map =
-        makeMap(createMapMaker().concurrencyLevel(concurrencyLevel));
+    LocalCacheInternalMap<Object, Object> map =
+        makeMap(createCacheBuilder().concurrencyLevel(concurrencyLevel));
     assertEquals(segmentCount, map.segments.length);
   }
 
@@ -196,8 +225,8 @@ public class CustomConcurrentHashMapTest extends TestCase {
 
   private static void checkInitialCapacity(
       int concurrencyLevel, int initialCapacity, int segmentSize) {
-    CustomConcurrentHashMap<Object, Object> map = makeMap(
-        createMapMaker().concurrencyLevel(concurrencyLevel).initialCapacity(initialCapacity));
+    LocalCacheInternalMap<Object, Object> map = makeMap(
+        createCacheBuilder().concurrencyLevel(concurrencyLevel).initialCapacity(initialCapacity));
     for (int i = 0; i < map.segments.length; i++) {
       assertEquals(segmentSize, map.segments[i].table.length());
     }
@@ -213,10 +242,10 @@ public class CustomConcurrentHashMapTest extends TestCase {
       checkMaximumSize(8, 8, maxSize);
     }
 
-    checkMaximumSize(1, 8, Integer.MAX_VALUE);
-    checkMaximumSize(2, 8, Integer.MAX_VALUE);
-    checkMaximumSize(4, 8, Integer.MAX_VALUE);
-    checkMaximumSize(8, 8, Integer.MAX_VALUE);
+    checkMaximumSize(1, 8, Long.MAX_VALUE);
+    checkMaximumSize(2, 8, Long.MAX_VALUE);
+    checkMaximumSize(4, 8, Long.MAX_VALUE);
+    checkMaximumSize(8, 8, Long.MAX_VALUE);
 
     // vary initial capacity wrt maximumSize
 
@@ -228,45 +257,49 @@ public class CustomConcurrentHashMapTest extends TestCase {
     }
   }
 
-  private static void checkMaximumSize(int concurrencyLevel, int initialCapacity, int maxSize) {
-    CustomConcurrentHashMap<Object, Object> map = makeMap(createMapMaker()
+  private static void checkMaximumSize(int concurrencyLevel, int initialCapacity, long maxSize) {
+    LocalCacheInternalMap<Object, Object> map = makeMap(createCacheBuilder()
         .concurrencyLevel(concurrencyLevel)
         .initialCapacity(initialCapacity)
         .maximumSize(maxSize));
-    int totalCapacity = 0;
+    long totalCapacity = 0;
     for (int i = 0; i < map.segments.length; i++) {
-      totalCapacity += map.segments[i].maxSegmentSize;
+      totalCapacity += map.segments[i].maxSegmentWeight;
     }
-    assertTrue("totalCapcity=" + totalCapacity + ", maxSize=" + maxSize, totalCapacity <= maxSize);
+    assertTrue("totalCapacity=" + totalCapacity + ", maxSize=" + maxSize, totalCapacity == maxSize);
+
+    map = makeMap(createCacheBuilder()
+        .concurrencyLevel(concurrencyLevel)
+        .initialCapacity(initialCapacity)
+        .maximumWeight(maxSize)
+        .weigher(constantWeigher(1)));
+    totalCapacity = 0;
+    for (int i = 0; i < map.segments.length; i++) {
+      totalCapacity += map.segments[i].maxSegmentWeight;
+    }
+    assertTrue("totalCapacity=" + totalCapacity + ", maxSize=" + maxSize, totalCapacity == maxSize);
   }
 
   public void testSetWeakKeys() {
-    CustomConcurrentHashMap<Object, Object> map = makeMap(createMapMaker().weakKeys());
+    LocalCacheInternalMap<Object, Object> map = makeMap(createCacheBuilder().weakKeys());
     checkStrength(map, Strength.WEAK, Strength.STRONG);
     assertSame(EntryFactory.WEAK, map.entryFactory);
   }
 
-  @SuppressWarnings("deprecation")
-  public void testSetSoftKeys() {
-    CustomConcurrentHashMap<Object, Object> map = makeMap(createMapMaker().softKeys());
-    checkStrength(map, Strength.SOFT, Strength.STRONG);
-    assertSame(EntryFactory.SOFT, map.entryFactory);
-  }
-
   public void testSetWeakValues() {
-    CustomConcurrentHashMap<Object, Object> map = makeMap(createMapMaker().weakValues());
+    LocalCacheInternalMap<Object, Object> map = makeMap(createCacheBuilder().weakValues());
     checkStrength(map, Strength.STRONG, Strength.WEAK);
     assertSame(EntryFactory.STRONG, map.entryFactory);
   }
 
   public void testSetSoftValues() {
-    CustomConcurrentHashMap<Object, Object> map = makeMap(createMapMaker().softValues());
+    LocalCacheInternalMap<Object, Object> map = makeMap(createCacheBuilder().softValues());
     checkStrength(map, Strength.STRONG, Strength.SOFT);
     assertSame(EntryFactory.STRONG, map.entryFactory);
   }
 
   private static void checkStrength(
-      CustomConcurrentHashMap<Object, Object> map, Strength keyStrength, Strength valueStrength) {
+      LocalCacheInternalMap<Object, Object> map, Strength keyStrength, Strength valueStrength) {
     assertSame(keyStrength, map.keyStrength);
     assertSame(valueStrength, map.valueStrength);
     assertSame(keyStrength.defaultEquivalence(), map.keyEquivalence);
@@ -275,36 +308,362 @@ public class CustomConcurrentHashMapTest extends TestCase {
 
   public void testSetExpireAfterWrite() {
     long duration = 42;
-    TimeUnit unit = SECONDS;
-    CustomConcurrentHashMap<Object, Object> map =
-        makeMap(createMapMaker().expireAfterWrite(duration, unit));
+    TimeUnit unit = TimeUnit.SECONDS;
+    LocalCacheInternalMap<Object, Object> map =
+        makeMap(createCacheBuilder().expireAfterWrite(duration, unit));
     assertEquals(unit.toNanos(duration), map.expireAfterWriteNanos);
   }
 
   public void testSetExpireAfterAccess() {
     long duration = 42;
-    TimeUnit unit = SECONDS;
-    CustomConcurrentHashMap<Object, Object> map =
-        makeMap(createMapMaker().expireAfterAccess(duration, unit));
+    TimeUnit unit = TimeUnit.SECONDS;
+    LocalCacheInternalMap<Object, Object> map =
+        makeMap(createCacheBuilder().expireAfterAccess(duration, unit));
     assertEquals(unit.toNanos(duration), map.expireAfterAccessNanos);
   }
 
   public void testSetRemovalListener() {
-    RemovalListener<Object, Object> testListener = new RemovalListener<Object, Object>() {
-      @Override
-      public void onRemoval(RemovalNotification<Object, Object> notification) {}
-    };
-    CustomConcurrentHashMap<Object, Object> map =
-        makeMap(createMapMaker().removalListener(testListener));
+    RemovalListener<Object, Object> testListener = TestingRemovalListeners.nullRemovalListener();
+    LocalCacheInternalMap<Object, Object> map =
+        makeMap(createCacheBuilder().removalListener(testListener));
     assertSame(testListener, map.removalListener);
+  }
+
+  public void testSetTicker() {
+    Ticker testTicker = new Ticker() {
+      @Override
+      public long read() {
+        return 0;
+      }
+    };
+    LocalCacheInternalMap<Object, Object> map = makeMap(createCacheBuilder().ticker(testTicker));
+    assertSame(testTicker, map.ticker);
+  }
+
+  public void testEntryFactory() {
+    assertSame(EntryFactory.STRONG,
+        EntryFactory.getFactory(Strength.STRONG, false, false));
+    assertSame(EntryFactory.STRONG_ACCESS,
+        EntryFactory.getFactory(Strength.STRONG, true, false));
+    assertSame(EntryFactory.STRONG_WRITE,
+        EntryFactory.getFactory(Strength.STRONG, false, true));
+    assertSame(EntryFactory.STRONG_ACCESS_WRITE,
+        EntryFactory.getFactory(Strength.STRONG, true, true));
+    assertSame(EntryFactory.WEAK,
+        EntryFactory.getFactory(Strength.WEAK, false, false));
+    assertSame(EntryFactory.WEAK_ACCESS,
+        EntryFactory.getFactory(Strength.WEAK, true, false));
+    assertSame(EntryFactory.WEAK_WRITE,
+        EntryFactory.getFactory(Strength.WEAK, false, true));
+    assertSame(EntryFactory.WEAK_ACCESS_WRITE,
+        EntryFactory.getFactory(Strength.WEAK, true, true));
+  }
+
+  // computation tests
+
+  public void testCompute() throws ExecutionException {
+    CountingLoader loader = new CountingLoader();
+    LocalCacheInternalMap<Object, Object> map = makeComputingMap(createCacheBuilder(), loader);
+    assertEquals(0, loader.getCount());
+
+    Object key = new Object();
+    Object value = map.getOrLoad(key);
+    assertEquals(1, loader.getCount());
+    assertEquals(value, map.getOrLoad(key));
+    assertEquals(1, loader.getCount());
+  }
+
+  public void testRecordReadOnCompute() throws ExecutionException {
+    CountingLoader loader = new CountingLoader();
+    for (CacheBuilder<Object, Object> builder : allEvictingMakers()) {
+      LocalCacheInternalMap<Object, Object> map =
+          makeComputingMap(builder.concurrencyLevel(1), loader);
+      Segment<Object, Object> segment = map.segments[0];
+      List<ReferenceEntry<Object, Object>> writeOrder = Lists.newLinkedList();
+      List<ReferenceEntry<Object, Object>> readOrder = Lists.newLinkedList();
+      for (int i = 0; i < SMALL_MAX_SIZE; i++) {
+        Object key = new Object();
+        int hash = map.hash(key);
+
+        map.getOrLoad(key);
+        ReferenceEntry<Object, Object> entry = segment.getEntry(key, hash);
+        writeOrder.add(entry);
+        readOrder.add(entry);
+      }
+
+      checkEvictionQueues(map, segment, readOrder, writeOrder);
+      checkExpirationTimes(map);
+      assertTrue(segment.recencyQueue.isEmpty());
+
+      // access some of the elements
+      Random random = new Random();
+      List<ReferenceEntry<Object, Object>> reads = Lists.newArrayList();
+      Iterator<ReferenceEntry<Object, Object>> i = readOrder.iterator();
+      while (i.hasNext()) {
+        ReferenceEntry<Object, Object> entry = i.next();
+        if (random.nextBoolean()) {
+          map.getOrLoad(entry.getKey());
+          reads.add(entry);
+          i.remove();
+          assertTrue(segment.recencyQueue.size() <= DRAIN_THRESHOLD);
+        }
+      }
+      int undrainedIndex = reads.size() - segment.recencyQueue.size();
+      checkAndDrainRecencyQueue(map, segment, reads.subList(undrainedIndex, reads.size()));
+      readOrder.addAll(reads);
+
+      checkEvictionQueues(map, segment, readOrder, writeOrder);
+      checkExpirationTimes(map);
+    }
+  }
+
+  public void testComputeExistingEntry() throws ExecutionException {
+    CountingLoader loader = new CountingLoader();
+    LocalCacheInternalMap<Object, Object> map = makeComputingMap(createCacheBuilder(), loader);
+    assertEquals(0, loader.getCount());
+
+    Object key = new Object();
+    Object value = new Object();
+    map.put(key, value);
+
+    assertEquals(value, map.getOrLoad(key));
+    assertEquals(0, loader.getCount());
+  }
+
+  public void testComputePartiallyCollectedKey() throws ExecutionException {
+    CacheBuilder<Object, Object> builder = createCacheBuilder().concurrencyLevel(1);
+    CountingLoader loader = new CountingLoader();
+    LocalCacheInternalMap<Object, Object> map = makeComputingMap(builder, loader);
+    Segment<Object, Object> segment = map.segments[0];
+    AtomicReferenceArray<ReferenceEntry<Object, Object>> table = segment.table;
+    assertEquals(0, loader.getCount());
+
+    Object key = new Object();
+    int hash = map.hash(key);
+    Object value = new Object();
+    int index = hash & (table.length() - 1);
+
+    DummyEntry<Object, Object> entry = DummyEntry.create(key, hash, null);
+    DummyValueReference<Object, Object> valueRef = DummyValueReference.create(value, entry);
+    entry.setValueReference(valueRef);
+    table.set(index, entry);
+    segment.count++;
+
+    assertSame(value, map.getOrLoad(key));
+    assertEquals(0, loader.getCount());
+    assertEquals(1, segment.count);
+
+    entry.clearKey();
+    assertNotSame(value, map.getOrLoad(key));
+    assertEquals(1, loader.getCount());
+    assertEquals(2, segment.count);
+  }
+
+  public void testComputePartiallyCollectedValue() throws ExecutionException {
+    CacheBuilder<Object, Object> builder = createCacheBuilder().concurrencyLevel(1);
+    CountingLoader loader = new CountingLoader();
+    LocalCacheInternalMap<Object, Object> map = makeComputingMap(builder, loader);
+    Segment<Object, Object> segment = map.segments[0];
+    AtomicReferenceArray<ReferenceEntry<Object, Object>> table = segment.table;
+    assertEquals(0, loader.getCount());
+
+    Object key = new Object();
+    int hash = map.hash(key);
+    Object value = new Object();
+    int index = hash & (table.length() - 1);
+
+    DummyEntry<Object, Object> entry = DummyEntry.create(key, hash, null);
+    DummyValueReference<Object, Object> valueRef = DummyValueReference.create(value, entry);
+    entry.setValueReference(valueRef);
+    table.set(index, entry);
+    segment.count++;
+
+    assertSame(value, map.getOrLoad(key));
+    assertEquals(0, loader.getCount());
+    assertEquals(1, segment.count);
+
+    valueRef.clear();
+    assertNotSame(value, map.getOrLoad(key));
+    assertEquals(1, loader.getCount());
+    assertEquals(1, segment.count);
+  }
+
+  public void testComputeExpiredEntry() throws ExecutionException {
+    CacheBuilder<Object, Object> builder = createCacheBuilder()
+        .expireAfterWrite(1, TimeUnit.NANOSECONDS);
+    CountingLoader loader = new CountingLoader();
+    LocalCacheInternalMap<Object, Object> map = makeComputingMap(builder, loader);
+    assertEquals(0, loader.getCount());
+
+    Object key = new Object();
+    Object one = map.getOrLoad(key);
+    assertEquals(1, loader.getCount());
+
+    Object two = map.getOrLoad(key);
+    assertNotSame(one, two);
+    assertEquals(2, loader.getCount());
+  }
+
+  public void testCopyEntry_computing() {
+    final CountDownLatch startSignal = new CountDownLatch(1);
+    final CountDownLatch computingSignal = new CountDownLatch(1);
+    final CountDownLatch doneSignal = new CountDownLatch(2);
+    final Object computedObject = new Object();
+
+    CacheLoader<Object, Object> loader = new CacheLoader<Object, Object>() {
+      @Override
+      public Object load(Object key) throws Exception {
+        computingSignal.countDown();
+        startSignal.await();
+        return computedObject;
+      }
+    };
+
+    QueuingRemovalListener<Object, Object> listener = queuingRemovalListener();
+    CacheBuilder<Object, Object> builder = createCacheBuilder()
+        .concurrencyLevel(1)
+        .removalListener(listener);
+    final LocalCacheInternalMap<Object, Object> map = makeComputingMap(builder, loader);
+    Segment<Object, Object> segment = map.segments[0];
+    AtomicReferenceArray<ReferenceEntry<Object, Object>> table = segment.table;
+    assertTrue(listener.isEmpty());
+
+    final Object one = new Object();
+    int hash = map.hash(one);
+    int index = hash & (table.length() - 1);
+
+    new Thread() {
+      @Override
+      public void run() {
+        try {
+          map.getOrLoad(one);
+        } catch (ExecutionException e) {
+          throw new RuntimeException(e);
+        }
+        doneSignal.countDown();
+      }
+    }.start();
+
+    try {
+      computingSignal.await();
+    } catch (InterruptedException e) {
+      throw new RuntimeException(e);
+    }
+
+    new Thread() {
+      @Override
+      public void run() {
+        try {
+          map.getOrLoad(one);
+        } catch (ExecutionException e) {
+          throw new RuntimeException(e);
+        }
+        doneSignal.countDown();
+      }
+    }.start();
+
+    ReferenceEntry<Object, Object> entry = segment.getEntry(one, hash);
+    ReferenceEntry<Object, Object> newEntry = segment.copyEntry(entry, null);
+    table.set(index, newEntry);
+
+    @SuppressWarnings("unchecked")
+    LoadingValueReference<Object, Object> valueReference =
+        (LoadingValueReference) newEntry.getValueReference();
+    assertNull(valueReference.loadedValue);
+    startSignal.countDown();
+
+    try {
+      doneSignal.await();
+    } catch (InterruptedException e) {
+      throw new RuntimeException(e);
+    }
+
+    assertNotNull(map.putIfAbsent(one, new Object())); // force notifications
+    assertTrue(listener.isEmpty());
+    assertTrue(map.containsKey(one));
+    assertEquals(1, map.size());
+    assertSame(computedObject, map.get(one));
+  }
+
+  public void testRemovalListener_replaced_computing() {
+    final CountDownLatch startSignal = new CountDownLatch(1);
+    final CountDownLatch computingSignal = new CountDownLatch(1);
+    final CountDownLatch doneSignal = new CountDownLatch(1);
+    final Object computedObject = new Object();
+
+    CacheLoader<Object, Object> loader = new CacheLoader<Object, Object>() {
+      @Override
+      public Object load(Object key) throws Exception {
+        computingSignal.countDown();
+        startSignal.await();
+        return computedObject;
+      }
+    };
+
+    QueuingRemovalListener<Object, Object> listener = queuingRemovalListener();
+    CacheBuilder<Object, Object> builder = createCacheBuilder().removalListener(listener);
+    final LocalCacheInternalMap<Object, Object> map = makeComputingMap(builder, loader);
+    assertTrue(listener.isEmpty());
+
+    final Object one = new Object();
+    final Object two = new Object();
+
+    new Thread() {
+      @Override
+      public void run() {
+        try {
+          map.getOrLoad(one);
+        } catch (ExecutionException e) {
+          throw new RuntimeException(e);
+        }
+        doneSignal.countDown();
+      }
+    }.start();
+
+    try {
+      computingSignal.await();
+    } catch (InterruptedException e) {
+      throw new RuntimeException(e);
+    }
+
+    map.put(one, two);
+    startSignal.countDown();
+
+    try {
+      doneSignal.await();
+    } catch (InterruptedException e) {
+      throw new RuntimeException(e);
+    }
+
+    assertNotNull(map.putIfAbsent(one, new Object())); // force notifications
+    assertNotified(listener, one, computedObject, RemovalCause.REPLACED);
+    assertTrue(listener.isEmpty());
+  }
+
+  public void testSegmentRefresh_duplicate() throws ExecutionException {
+    LocalCacheInternalMap<Object, Object> map = makeMap(createCacheBuilder()
+        .concurrencyLevel(1));
+    Segment<Object, Object> segment = map.segments[0];
+
+    Object key = new Object();
+    int hash = map.hash(key);
+    AtomicReferenceArray<ReferenceEntry<Object, Object>> table = segment.table;
+    int index = hash & (table.length() - 1);
+
+    // already computing
+    DummyEntry<Object, Object> entry = DummyEntry.create(key, hash, null);
+    DummyValueReference<Object, Object> valueRef = DummyValueReference.create(null, entry);
+    valueRef.setComputing(true);
+    entry.setValueReference(valueRef);
+    table.set(index, entry);
+    assertFalse(segment.refresh(key, hash, null));
   }
 
   // Removal listener tests
 
   public void testRemovalListener_explicit() {
-    QueuingRemovalListener<Object, Object> listener =
-        new QueuingRemovalListener<Object, Object>();
-    CustomConcurrentHashMap<Object, Object> map = makeMap(createMapMaker()
+    QueuingRemovalListener<Object, Object> listener = queuingRemovalListener();
+    LocalCacheInternalMap<Object, Object> map = makeMap(createCacheBuilder()
         .removalListener(listener));
     assertTrue(listener.isEmpty());
 
@@ -345,9 +704,8 @@ public class CustomConcurrentHashMapTest extends TestCase {
   }
 
   public void testRemovalListener_replaced() {
-    QueuingRemovalListener<Object, Object> listener =
-        new QueuingRemovalListener<Object, Object>();
-    CustomConcurrentHashMap<Object, Object> map = makeMap(createMapMaker()
+    QueuingRemovalListener<Object, Object> listener = queuingRemovalListener();
+    LocalCacheInternalMap<Object, Object> map = makeMap(createCacheBuilder()
         .removalListener(listener));
     assertTrue(listener.isEmpty());
 
@@ -374,9 +732,8 @@ public class CustomConcurrentHashMapTest extends TestCase {
   }
 
   public void testRemovalListener_collected() {
-    QueuingRemovalListener<Object, Object> listener =
-        new QueuingRemovalListener<Object, Object>();
-    CustomConcurrentHashMap<Object, Object> map = makeMap(createMapMaker()
+    QueuingRemovalListener<Object, Object> listener = queuingRemovalListener();
+    LocalCacheInternalMap<Object, Object> map = makeMap(createCacheBuilder()
         .concurrencyLevel(1)
         .softValues()
         .removalListener(listener));
@@ -399,10 +756,38 @@ public class CustomConcurrentHashMapTest extends TestCase {
     assertTrue(listener.isEmpty());
   }
 
+  public void testRemovalListener_expired() {
+    FakeTicker ticker = new FakeTicker();
+    QueuingRemovalListener<Object, Object> listener = queuingRemovalListener();
+    LocalCacheInternalMap<Object, Object> map = makeMap(createCacheBuilder()
+        .concurrencyLevel(1)
+        .expireAfterWrite(2, TimeUnit.NANOSECONDS)
+        .ticker(ticker)
+        .removalListener(listener));
+    assertTrue(listener.isEmpty());
+
+    Object one = new Object();
+    Object two = new Object();
+    Object three = new Object();
+    Object four = new Object();
+    Object five = new Object();
+
+    map.put(one, two);
+    ticker.advance(1);
+    map.put(two, three);
+    ticker.advance(1);
+    map.put(three, four);
+    assertTrue(listener.isEmpty());
+    ticker.advance(1);
+    map.put(four, five);
+    assertNotified(listener, one, two, RemovalCause.EXPIRED);
+
+    assertTrue(listener.isEmpty());
+  }
+
   public void testRemovalListener_size() {
-    QueuingRemovalListener<Object, Object> listener =
-        new QueuingRemovalListener<Object, Object>();
-    CustomConcurrentHashMap<Object, Object> map = makeMap(createMapMaker()
+    QueuingRemovalListener<Object, Object> listener = queuingRemovalListener();
+    LocalCacheInternalMap<Object, Object> map = makeMap(createCacheBuilder()
         .concurrencyLevel(1)
         .maximumSize(2)
         .removalListener(listener));
@@ -433,14 +818,14 @@ public class CustomConcurrentHashMapTest extends TestCase {
   // Segment core tests
 
   public void testNewEntry() {
-    for (MapMaker maker : allEntryTypeMakers()) {
-      CustomConcurrentHashMap<Object, Object> map = makeMap(maker);
+    for (CacheBuilder<Object, Object> builder : allEntryTypeMakers()) {
+      LocalCacheInternalMap<Object, Object> map = makeMap(builder);
 
       Object keyOne = new Object();
       Object valueOne = new Object();
       int hashOne = map.hash(keyOne);
       ReferenceEntry<Object, Object> entryOne = map.newEntry(keyOne, hashOne, null);
-      ValueReference<Object, Object> valueRefOne = map.newValueReference(entryOne, valueOne);
+      ValueReference<Object, Object> valueRefOne = map.newValueReference(entryOne, valueOne, 1);
       assertSame(valueOne, valueRefOne.get());
       entryOne.setValueReference(valueRefOne);
 
@@ -453,7 +838,7 @@ public class CustomConcurrentHashMapTest extends TestCase {
       Object valueTwo = new Object();
       int hashTwo = map.hash(keyTwo);
       ReferenceEntry<Object, Object> entryTwo = map.newEntry(keyTwo, hashTwo, entryOne);
-      ValueReference<Object, Object> valueRefTwo = map.newValueReference(entryTwo, valueTwo);
+      ValueReference<Object, Object> valueRefTwo = map.newValueReference(entryTwo, valueTwo, 1);
       assertSame(valueTwo, valueRefTwo.get());
       entryTwo.setValueReference(valueRefTwo);
 
@@ -465,25 +850,25 @@ public class CustomConcurrentHashMapTest extends TestCase {
   }
 
   public void testCopyEntry() {
-    for (MapMaker maker : allEntryTypeMakers()) {
-      CustomConcurrentHashMap<Object, Object> map = makeMap(maker);
+    for (CacheBuilder<Object, Object> builder : allEntryTypeMakers()) {
+      LocalCacheInternalMap<Object, Object> map = makeMap(builder);
 
       Object keyOne = new Object();
       Object valueOne = new Object();
       int hashOne = map.hash(keyOne);
       ReferenceEntry<Object, Object> entryOne = map.newEntry(keyOne, hashOne, null);
-      entryOne.setValueReference(map.newValueReference(entryOne, valueOne));
+      entryOne.setValueReference(map.newValueReference(entryOne, valueOne, 1));
 
       Object keyTwo = new Object();
       Object valueTwo = new Object();
       int hashTwo = map.hash(keyTwo);
       ReferenceEntry<Object, Object> entryTwo = map.newEntry(keyTwo, hashTwo, entryOne);
-      entryTwo.setValueReference(map.newValueReference(entryTwo, valueTwo));
-      if (map.evictsBySize()) {
-        CustomConcurrentHashMap.connectEvictables(entryOne, entryTwo);
+      entryTwo.setValueReference(map.newValueReference(entryTwo, valueTwo, 1));
+      if (map.usesAccessQueue()) {
+        LocalCacheInternalMap.connectAccessOrder(entryOne, entryTwo);
       }
-      if (map.expires()) {
-        CustomConcurrentHashMap.connectExpirables(entryOne, entryTwo);
+      if (map.usesWriteQueue()) {
+        LocalCacheInternalMap.connectWriteOrder(entryOne, entryTwo);
       }
       assertConnected(map, entryOne, entryTwo);
 
@@ -504,18 +889,18 @@ public class CustomConcurrentHashMapTest extends TestCase {
   }
 
   private static <K, V> void assertConnected(
-      CustomConcurrentHashMap<K, V> map, ReferenceEntry<K, V> one, ReferenceEntry<K, V> two) {
-    if (map.evictsBySize()) {
-      assertSame(two, one.getNextEvictable());
+      LocalCacheInternalMap<K, V> map, ReferenceEntry<K, V> one, ReferenceEntry<K, V> two) {
+    if (map.usesWriteQueue()) {
+      assertSame(two, one.getNextInWriteQueue());
     }
-    if (map.expires()) {
-      assertSame(two, one.getNextExpirable());
+    if (map.usesAccessQueue()) {
+      assertSame(two, one.getNextInAccessQueue());
     }
   }
 
   public void testSegmentGetAndContains() {
-    CustomConcurrentHashMap<Object, Object> map =
-        makeMap(createMapMaker().concurrencyLevel(1).expireAfterAccess(99999, SECONDS));
+    LocalCacheInternalMap<Object, Object> map =
+        makeMap(createCacheBuilder().concurrencyLevel(1).expireAfterAccess(1, HOURS));
     Segment<Object, Object> segment = map.segments[0];
     // TODO(fry): check recency ordering
 
@@ -526,7 +911,7 @@ public class CustomConcurrentHashMapTest extends TestCase {
     int index = hash & (table.length() - 1);
 
     ReferenceEntry<Object, Object> entry = map.newEntry(key, hash, null);
-    ValueReference<Object, Object> valueRef = map.newValueReference(entry, value);
+    ValueReference<Object, Object> valueRef = map.newValueReference(entry, value, 1);
     entry.setValueReference(valueRef);
 
     assertNull(segment.get(key, hash));
@@ -548,7 +933,7 @@ public class CustomConcurrentHashMapTest extends TestCase {
     // null key
     DummyEntry<Object, Object> nullEntry = DummyEntry.create(null, hash, entry);
     Object nullValue = new Object();
-    ValueReference<Object, Object> nullValueRef = map.newValueReference(nullEntry, nullValue);
+    ValueReference<Object, Object> nullValueRef = map.newValueReference(nullEntry, nullValue, 1);
     nullEntry.setValueReference(nullValueRef);
     table.set(index, nullEntry);
     // skip the null key
@@ -560,7 +945,7 @@ public class CustomConcurrentHashMapTest extends TestCase {
     // hash collision
     DummyEntry<Object, Object> dummy = DummyEntry.create(new Object(), hash, entry);
     Object dummyValue = new Object();
-    ValueReference<Object, Object> dummyValueRef = map.newValueReference(dummy, dummyValue);
+    ValueReference<Object, Object> dummyValueRef = map.newValueReference(dummy, dummyValue, 1);
     dummy.setValueReference(dummyValueRef);
     table.set(index, dummy);
     assertSame(value, segment.get(key, hash));
@@ -571,7 +956,7 @@ public class CustomConcurrentHashMapTest extends TestCase {
     // key collision
     dummy = DummyEntry.create(key, hash, entry);
     dummyValue = new Object();
-    dummyValueRef = map.newValueReference(dummy, dummyValue);
+    dummyValueRef = map.newValueReference(dummy, dummyValue, 1);
     dummy.setValueReference(dummyValueRef);
     table.set(index, dummy);
     // returns the most recent entry
@@ -581,7 +966,7 @@ public class CustomConcurrentHashMapTest extends TestCase {
     assertTrue(segment.containsValue(dummyValue));
 
     // expired
-    dummy.setExpirationTime(0);
+    dummy.setAccessTime(0);
     assertNull(segment.get(key, hash));
     assertFalse(segment.containsKey(key, hash));
     assertTrue(segment.containsValue(value));
@@ -589,8 +974,8 @@ public class CustomConcurrentHashMapTest extends TestCase {
   }
 
   public void testSegmentReplaceValue() {
-    CustomConcurrentHashMap<Object, Object> map =
-        makeMap(createMapMaker().concurrencyLevel(1).expireAfterAccess(99999, SECONDS));
+    LocalCacheInternalMap<Object, Object> map =
+        makeMap(createCacheBuilder().concurrencyLevel(1).expireAfterAccess(99999, SECONDS));
     Segment<Object, Object> segment = map.segments[0];
     // TODO(fry): check recency ordering
 
@@ -626,15 +1011,15 @@ public class CustomConcurrentHashMapTest extends TestCase {
     // cleared
     entry.setValueReference(oldValueRef);
     assertSame(oldValue, segment.get(key, hash));
-    oldValueRef.clear(null);
+    oldValueRef.clear();
     assertFalse(segment.replace(key, hash, oldValue, newValue));
     assertEquals(0, segment.count);
     assertNull(segment.get(key, hash));
   }
 
   public void testSegmentReplace() {
-    CustomConcurrentHashMap<Object, Object> map =
-        makeMap(createMapMaker().concurrencyLevel(1).expireAfterAccess(99999, SECONDS));
+    LocalCacheInternalMap<Object, Object> map =
+        makeMap(createCacheBuilder().concurrencyLevel(1).expireAfterAccess(99999, SECONDS));
     Segment<Object, Object> segment = map.segments[0];
     // TODO(fry): check recency ordering
 
@@ -665,15 +1050,15 @@ public class CustomConcurrentHashMapTest extends TestCase {
     // cleared
     entry.setValueReference(oldValueRef);
     assertSame(oldValue, segment.get(key, hash));
-    oldValueRef.clear(null);
+    oldValueRef.clear();
     assertNull(segment.replace(key, hash, newValue));
     assertEquals(0, segment.count);
     assertNull(segment.get(key, hash));
   }
 
   public void testSegmentPut() {
-    CustomConcurrentHashMap<Object, Object> map =
-        makeMap(createMapMaker().concurrencyLevel(1).expireAfterAccess(99999, SECONDS));
+    LocalCacheInternalMap<Object, Object> map =
+        makeMap(createCacheBuilder().concurrencyLevel(1).expireAfterAccess(99999, SECONDS));
     Segment<Object, Object> segment = map.segments[0];
     // TODO(fry): check recency ordering
 
@@ -697,15 +1082,15 @@ public class CustomConcurrentHashMapTest extends TestCase {
     DummyValueReference<Object, Object> oldValueRef = DummyValueReference.create(oldValue, entry);
     entry.setValueReference(oldValueRef);
     assertSame(oldValue, segment.get(key, hash));
-    oldValueRef.clear(null);
+    oldValueRef.clear();
     assertNull(segment.put(key, hash, newValue, false));
     assertEquals(1, segment.count);
     assertSame(newValue, segment.get(key, hash));
   }
 
   public void testSegmentPutIfAbsent() {
-    CustomConcurrentHashMap<Object, Object> map =
-        makeMap(createMapMaker().concurrencyLevel(1).expireAfterAccess(99999, SECONDS));
+    LocalCacheInternalMap<Object, Object> map =
+        makeMap(createCacheBuilder().concurrencyLevel(1).expireAfterAccess(99999, SECONDS));
     Segment<Object, Object> segment = map.segments[0];
     // TODO(fry): check recency ordering
 
@@ -729,15 +1114,15 @@ public class CustomConcurrentHashMapTest extends TestCase {
     DummyValueReference<Object, Object> oldValueRef = DummyValueReference.create(oldValue, entry);
     entry.setValueReference(oldValueRef);
     assertSame(oldValue, segment.get(key, hash));
-    oldValueRef.clear(null);
+    oldValueRef.clear();
     assertNull(segment.put(key, hash, newValue, true));
     assertEquals(1, segment.count);
     assertSame(newValue, segment.get(key, hash));
   }
 
   public void testSegmentPut_expand() {
-    CustomConcurrentHashMap<Object, Object> map =
-        makeMap(createMapMaker().concurrencyLevel(1).initialCapacity(1));
+    LocalCacheInternalMap<Object, Object> map =
+        makeMap(createCacheBuilder().concurrencyLevel(1).initialCapacity(1));
     Segment<Object, Object> segment = map.segments[0];
     assertEquals(1, segment.table.length());
 
@@ -753,8 +1138,8 @@ public class CustomConcurrentHashMapTest extends TestCase {
 
   public void testSegmentPut_evict() {
     int maxSize = 10;
-    CustomConcurrentHashMap<Object, Object> map =
-        makeMap(createMapMaker().concurrencyLevel(1).maximumSize(maxSize));
+    LocalCacheInternalMap<Object, Object> map =
+        makeMap(createCacheBuilder().concurrencyLevel(1).maximumSize(maxSize));
 
     // manually add elements to avoid eviction
     int originalCount = 1024;
@@ -773,8 +1158,86 @@ public class CustomConcurrentHashMapTest extends TestCase {
     }
   }
 
+  public void testSegmentStoreComputedValue() {
+    QueuingRemovalListener<Object, Object> listener = queuingRemovalListener();
+    LocalCacheInternalMap<Object, Object> map = makeMap(createCacheBuilder()
+        .concurrencyLevel(1)
+        .removalListener(listener));
+    Segment<Object, Object> segment = map.segments[0];
+
+    Object key = new Object();
+    int hash = map.hash(key);
+    AtomicReferenceArray<ReferenceEntry<Object, Object>> table = segment.table;
+    int index = hash & (table.length() - 1);
+
+    DummyEntry<Object, Object> entry = DummyEntry.create(key, hash, null);
+    LoadingValueReference<Object, Object> valueRef = new LoadingValueReference<Object, Object>();
+    entry.setValueReference(valueRef);
+
+    // absent
+    Object value = new Object();
+    assertTrue(listener.isEmpty());
+    assertEquals(0, segment.count);
+    assertNull(segment.get(key, hash));
+    assertTrue(segment.storeLoadedValue(key, hash, valueRef, value));
+    assertSame(value, segment.get(key, hash));
+    assertEquals(1, segment.count);
+    assertTrue(listener.isEmpty());
+
+    // clobbered
+    Object value2 = new Object();
+    assertFalse(segment.storeLoadedValue(key, hash, valueRef, value2));
+    assertEquals(1, segment.count);
+    assertSame(value, segment.get(key, hash));
+    RemovalNotification<Object, Object> notification = listener.remove();
+    assertEquals(immutableEntry(key, value2), notification);
+    assertEquals(RemovalCause.REPLACED, notification.getCause());
+    assertTrue(listener.isEmpty());
+
+    // inactive
+    Object value3 = new Object();
+    map.clear();
+    listener.clear();
+    assertEquals(0, segment.count);
+    table.set(index, entry);
+    assertTrue(segment.storeLoadedValue(key, hash, valueRef, value3));
+    assertSame(value3, segment.get(key, hash));
+    assertEquals(1, segment.count);
+    assertTrue(listener.isEmpty());
+
+    // replaced
+    Object value4 = new Object();
+    DummyValueReference<Object, Object> value3Ref = DummyValueReference.create(value3, entry);
+    valueRef = new LoadingValueReference<Object, Object>(value3Ref);
+    entry.setValueReference(valueRef);
+    table.set(index, entry);
+    assertSame(value3, segment.get(key, hash));
+    assertEquals(1, segment.count);
+    assertTrue(segment.storeLoadedValue(key, hash, valueRef, value4));
+    assertSame(value4, segment.get(key, hash));
+    assertEquals(1, segment.count);
+    notification = listener.remove();
+    assertEquals(immutableEntry(key, value3), notification);
+    assertEquals(RemovalCause.REPLACED, notification.getCause());
+    assertTrue(listener.isEmpty());
+
+    // collected
+    entry.setValueReference(valueRef);
+    table.set(index, entry);
+    assertSame(value3, segment.get(key, hash));
+    assertEquals(1, segment.count);
+    value3Ref.clear();
+    assertTrue(segment.storeLoadedValue(key, hash, valueRef, value4));
+    assertSame(value4, segment.get(key, hash));
+    assertEquals(1, segment.count);
+    notification = listener.remove();
+    assertEquals(immutableEntry(key, null), notification);
+    assertEquals(RemovalCause.COLLECTED, notification.getCause());
+    assertTrue(listener.isEmpty());
+  }
+
   public void testSegmentRemove() {
-    CustomConcurrentHashMap<Object, Object> map = makeMap(createMapMaker().concurrencyLevel(1));
+    LocalCacheInternalMap<Object, Object> map = makeMap(createCacheBuilder().concurrencyLevel(1));
     Segment<Object, Object> segment = map.segments[0];
 
     Object key = new Object();
@@ -806,14 +1269,14 @@ public class CustomConcurrentHashMapTest extends TestCase {
     segment.count++;
     assertEquals(1, segment.count);
     assertSame(oldValue, segment.get(key, hash));
-    oldValueRef.clear(null);
+    oldValueRef.clear();
     assertNull(segment.remove(key, hash));
     assertEquals(0, segment.count);
     assertNull(segment.get(key, hash));
   }
 
   public void testSegmentRemoveValue() {
-    CustomConcurrentHashMap<Object, Object> map = makeMap(createMapMaker().concurrencyLevel(1));
+    LocalCacheInternalMap<Object, Object> map = makeMap(createCacheBuilder().concurrencyLevel(1));
     Segment<Object, Object> segment = map.segments[0];
 
     Object key = new Object();
@@ -852,15 +1315,15 @@ public class CustomConcurrentHashMapTest extends TestCase {
 
     // cleared
     assertSame(oldValue, segment.get(key, hash));
-    oldValueRef.clear(null);
+    oldValueRef.clear();
     assertFalse(segment.remove(key, hash, oldValue));
     assertEquals(0, segment.count);
     assertNull(segment.get(key, hash));
   }
 
   public void testExpand() {
-    CustomConcurrentHashMap<Object, Object> map =
-        makeMap(createMapMaker().concurrencyLevel(1).initialCapacity(1));
+    LocalCacheInternalMap<Object, Object> map =
+        makeMap(createCacheBuilder().concurrencyLevel(1).initialCapacity(1));
     Segment<Object, Object> segment = map.segments[0];
     assertEquals(1, segment.table.length());
 
@@ -873,7 +1336,7 @@ public class CustomConcurrentHashMapTest extends TestCase {
       int hash = map.hash(key);
       // chain all entries together as we only have a single bucket
       entry = map.newEntry(key, hash, entry);
-      ValueReference<Object, Object> valueRef = map.newValueReference(entry, value);
+      ValueReference<Object, Object> valueRef = map.newValueReference(entry, value, 1);
       entry.setValueReference(valueRef);
     }
     segment.table.set(0, entry);
@@ -887,16 +1350,15 @@ public class CustomConcurrentHashMapTest extends TestCase {
         segment.expand();
       }
       assertEquals(i, segment.table.length());
-      assertEquals(originalCount, countLiveEntries(map));
+      assertEquals(originalCount, countLiveEntries(map, 0));
       assertEquals(originalCount, segment.count);
       assertEquals(originalMap, map);
     }
   }
 
   public void testReclaimKey() {
-    CountingRemovalListener<Object, Object> listener =
-        new CountingRemovalListener<Object, Object>();
-    CustomConcurrentHashMap<Object, Object> map = makeMap(createMapMaker()
+    CountingRemovalListener<Object, Object> listener = countingRemovalListener();
+    LocalCacheInternalMap<Object, Object> map = makeMap(createCacheBuilder()
         .concurrencyLevel(1)
         .initialCapacity(1)
         .maximumSize(SMALL_MAX_SIZE)
@@ -919,7 +1381,7 @@ public class CustomConcurrentHashMapTest extends TestCase {
     Object valueThree = new Object();
     int hashThree = map.hash(keyThree);
     DummyEntry<Object, Object> entryThree =
-        createDummyEntry(keyThree, hashThree, valueThree, entryTwo);
+      createDummyEntry(keyThree, hashThree, valueThree, entryTwo);
 
     // absent
     assertEquals(0, listener.getCount());
@@ -940,14 +1402,14 @@ public class CustomConcurrentHashMapTest extends TestCase {
     assertSame(keyOne, listener.getLastEvictedKey());
     assertSame(valueOne, listener.getLastEvictedValue());
     assertTrue(map.removalNotificationQueue.isEmpty());
-    assertFalse(segment.evictionQueue.contains(entryOne));
-    assertFalse(segment.expirationQueue.contains(entryOne));
+    assertFalse(segment.accessQueue.contains(entryOne));
+    assertFalse(segment.writeQueue.contains(entryOne));
     assertEquals(0, segment.count);
     assertNull(table.get(0));
   }
 
-  public void testRemoveFromChain() {
-    CustomConcurrentHashMap<Object, Object> map = makeMap(createMapMaker().concurrencyLevel(1));
+  public void testRemoveEntryFromChain() {
+    LocalCacheInternalMap<Object, Object> map = makeMap(createCacheBuilder().concurrencyLevel(1));
     Segment<Object, Object> segment = map.segments[0];
 
     // create 3 objects and chain them together
@@ -963,23 +1425,23 @@ public class CustomConcurrentHashMapTest extends TestCase {
     Object valueThree = new Object();
     int hashThree = map.hash(keyThree);
     DummyEntry<Object, Object> entryThree =
-        createDummyEntry(keyThree, hashThree, valueThree, entryTwo);
+      createDummyEntry(keyThree, hashThree, valueThree, entryTwo);
 
     // alone
-    assertNull(segment.removeFromChain(entryOne, entryOne));
+    assertNull(segment.removeEntryFromChain(entryOne, entryOne));
 
     // head
-    assertSame(entryOne, segment.removeFromChain(entryTwo, entryTwo));
+    assertSame(entryOne, segment.removeEntryFromChain(entryTwo, entryTwo));
 
     // middle
-    ReferenceEntry<Object, Object> newFirst = segment.removeFromChain(entryThree, entryTwo);
+    ReferenceEntry<Object, Object> newFirst = segment.removeEntryFromChain(entryThree, entryTwo);
     assertSame(keyThree, newFirst.getKey());
     assertSame(valueThree, newFirst.getValueReference().get());
     assertEquals(hashThree, newFirst.getHash());
     assertSame(entryOne, newFirst.getNext());
 
     // tail (remaining entries are copied in reverse order)
-    newFirst = segment.removeFromChain(entryThree, entryOne);
+    newFirst = segment.removeEntryFromChain(entryThree, entryOne);
     assertSame(keyTwo, newFirst.getKey());
     assertSame(valueTwo, newFirst.getValueReference().get());
     assertEquals(hashTwo, newFirst.getHash());
@@ -991,8 +1453,8 @@ public class CustomConcurrentHashMapTest extends TestCase {
   }
 
   public void testExpand_cleanup() {
-    CustomConcurrentHashMap<Object, Object> map =
-        makeMap(createMapMaker().concurrencyLevel(1).initialCapacity(1));
+    LocalCacheInternalMap<Object, Object> map =
+        makeMap(createCacheBuilder().concurrencyLevel(1).initialCapacity(1));
     Segment<Object, Object> segment = map.segments[0];
     assertEquals(1, segment.table.length());
 
@@ -1016,7 +1478,7 @@ public class CustomConcurrentHashMapTest extends TestCase {
     segment.count = originalCount;
     int liveCount = originalCount / 3;
     assertEquals(1, segment.table.length());
-    assertEquals(liveCount, countLiveEntries(map));
+    assertEquals(liveCount, countLiveEntries(map, 0));
     ImmutableMap<Object, Object> originalMap = ImmutableMap.copyOf(map);
     assertEquals(liveCount, originalMap.size());
     // can't compare map contents until cleanup occurs
@@ -1026,7 +1488,7 @@ public class CustomConcurrentHashMapTest extends TestCase {
         segment.expand();
       }
       assertEquals(i, segment.table.length());
-      assertEquals(liveCount, countLiveEntries(map));
+      assertEquals(liveCount, countLiveEntries(map, 0));
       // expansion cleanup is sloppy, with a goal of avoiding unnecessary copies
       assertTrue(segment.count >= liveCount);
       assertTrue(segment.count <= originalCount);
@@ -1034,13 +1496,13 @@ public class CustomConcurrentHashMapTest extends TestCase {
     }
   }
 
-  private static <K, V> int countLiveEntries(CustomConcurrentHashMap<K, V> map) {
+  private static <K, V> int countLiveEntries(LocalCacheInternalMap<K, V> map, long now) {
     int result = 0;
     for (Segment<K, V> segment : map.segments) {
       AtomicReferenceArray<ReferenceEntry<K, V>> table = segment.table;
       for (int i = 0; i < table.length(); i++) {
         for (ReferenceEntry<K, V> e = table.get(i); e != null; e = e.getNext()) {
-          if (map.isLive(e)) {
+          if (map.isLive(e, now)) {
             result++;
           }
         }
@@ -1050,7 +1512,7 @@ public class CustomConcurrentHashMapTest extends TestCase {
   }
 
   public void testClear() {
-    CustomConcurrentHashMap<Object, Object> map = makeMap(createMapMaker()
+    LocalCacheInternalMap<Object, Object> map = makeMap(createCacheBuilder()
         .concurrencyLevel(1)
         .initialCapacity(1)
         .maximumSize(SMALL_MAX_SIZE)
@@ -1063,30 +1525,30 @@ public class CustomConcurrentHashMapTest extends TestCase {
     Object value = new Object();
     int hash = map.hash(key);
     DummyEntry<Object, Object> entry = createDummyEntry(key, hash, value, null);
-    segment.recordWrite(entry);
+    segment.recordWrite(entry, 1, map.ticker.read());
     segment.table.set(0, entry);
     segment.readCount.incrementAndGet();
     segment.count = 1;
 
     assertSame(entry, table.get(0));
-    assertSame(entry, segment.evictionQueue.peek());
-    assertSame(entry, segment.expirationQueue.peek());
+    assertSame(entry, segment.accessQueue.peek());
+    assertSame(entry, segment.writeQueue.peek());
 
     segment.clear();
     assertNull(table.get(0));
-    assertTrue(segment.evictionQueue.isEmpty());
-    assertTrue(segment.expirationQueue.isEmpty());
+    assertTrue(segment.accessQueue.isEmpty());
+    assertTrue(segment.writeQueue.isEmpty());
     assertEquals(0, segment.readCount.get());
     assertEquals(0, segment.count);
   }
 
   public void testRemoveEntry() {
-    CustomConcurrentHashMap<Object, Object> map = makeMap(createMapMaker()
+    LocalCacheInternalMap<Object, Object> map = makeMap(createCacheBuilder()
         .concurrencyLevel(1)
         .initialCapacity(1)
         .maximumSize(SMALL_MAX_SIZE)
         .expireAfterWrite(99999, SECONDS)
-        .removalListener(new CountingRemovalListener<Object, Object>()));
+        .removalListener(countingRemovalListener()));
     Segment<Object, Object> segment = map.segments[0];
     AtomicReferenceArray<ReferenceEntry<Object, Object>> table = segment.table;
     assertEquals(1, table.length());
@@ -1100,22 +1562,22 @@ public class CustomConcurrentHashMapTest extends TestCase {
     assertFalse(segment.removeEntry(entry, hash, RemovalCause.COLLECTED));
 
     // remove live
-    segment.recordWrite(entry);
+    segment.recordWrite(entry, 1, map.ticker.read());
     table.set(0, entry);
     segment.count = 1;
     assertTrue(segment.removeEntry(entry, hash, RemovalCause.COLLECTED));
     assertNotificationEnqueued(map, key, value, hash);
     assertTrue(map.removalNotificationQueue.isEmpty());
-    assertFalse(segment.evictionQueue.contains(entry));
-    assertFalse(segment.expirationQueue.contains(entry));
+    assertFalse(segment.accessQueue.contains(entry));
+    assertFalse(segment.writeQueue.contains(entry));
     assertEquals(0, segment.count);
     assertNull(table.get(0));
   }
 
   public void testReclaimValue() {
     CountingRemovalListener<Object, Object> listener =
-        new CountingRemovalListener<Object, Object>();
-    CustomConcurrentHashMap<Object, Object> map = makeMap(createMapMaker()
+        countingRemovalListener();
+    LocalCacheInternalMap<Object, Object> map = makeMap(createCacheBuilder()
         .concurrencyLevel(1)
         .initialCapacity(1)
         .maximumSize(SMALL_MAX_SIZE)
@@ -1136,7 +1598,7 @@ public class CustomConcurrentHashMapTest extends TestCase {
     assertFalse(segment.reclaimValue(key, hash, valueRef));
 
     // reclaim live
-    segment.recordWrite(entry);
+    segment.recordWrite(entry, 1, map.ticker.read());
     table.set(0, entry);
     segment.count = 1;
     assertTrue(segment.reclaimValue(key, hash, valueRef));
@@ -1144,8 +1606,8 @@ public class CustomConcurrentHashMapTest extends TestCase {
     assertSame(key, listener.getLastEvictedKey());
     assertSame(value, listener.getLastEvictedValue());
     assertTrue(map.removalNotificationQueue.isEmpty());
-    assertFalse(segment.evictionQueue.contains(entry));
-    assertFalse(segment.expirationQueue.contains(entry));
+    assertFalse(segment.accessQueue.contains(entry));
+    assertFalse(segment.writeQueue.contains(entry));
     assertEquals(0, segment.count);
     assertNull(table.get(0));
 
@@ -1161,50 +1623,57 @@ public class CustomConcurrentHashMapTest extends TestCase {
     assertSame(value, listener.getLastEvictedValue());
   }
 
-  public void testClearValue() {
-    CustomConcurrentHashMap<Object, Object> map = makeMap(createMapMaker()
+  public void testRemoveComputingValue() {
+    LocalCacheInternalMap<Object, Object> map = makeMap(createCacheBuilder()
         .concurrencyLevel(1)
         .initialCapacity(1)
         .maximumSize(SMALL_MAX_SIZE)
         .expireAfterWrite(99999, SECONDS)
-        .removalListener(new CountingRemovalListener<Object, Object>()));
+        .removalListener(countingRemovalListener()));
     Segment<Object, Object> segment = map.segments[0];
     AtomicReferenceArray<ReferenceEntry<Object, Object>> table = segment.table;
     assertEquals(1, table.length());
 
     Object key = new Object();
-    Object value = new Object();
     int hash = map.hash(key);
     DummyEntry<Object, Object> entry = DummyEntry.create(key, hash, null);
-    DummyValueReference<Object, Object> valueRef = DummyValueReference.create(value, entry);
+    LoadingValueReference<Object, Object> valueRef = new LoadingValueReference<Object, Object>();
     entry.setValueReference(valueRef);
 
-    // clear absent
-    assertFalse(segment.clearValue(key, hash, valueRef));
+    // absent
+    assertFalse(segment.removeLoadingValue(key, hash, valueRef));
 
-    // clear live
-    segment.recordWrite(entry);
+    // live
     table.set(0, entry);
     // don't increment count; this is used during computation
-    assertTrue(segment.clearValue(key, hash, valueRef));
-    // no notification sent with clearValue
+    assertTrue(segment.removeLoadingValue(key, hash, valueRef));
+    // no notification sent with removeLoadingValue
     assertTrue(map.removalNotificationQueue.isEmpty());
-    assertFalse(segment.evictionQueue.contains(entry));
-    assertFalse(segment.expirationQueue.contains(entry));
     assertEquals(0, segment.count);
     assertNull(table.get(0));
 
-    // clear wrong value reference
+    // active
+    Object value = new Object();
+    DummyValueReference<Object, Object> previousRef = DummyValueReference.create(value, entry);
+    valueRef = new LoadingValueReference<Object, Object>(previousRef);
+    entry.setValueReference(valueRef);
+    table.set(0, entry);
+    segment.count = 1;
+    assertTrue(segment.removeLoadingValue(key, hash, valueRef));
+    assertSame(entry, table.get(0));
+    assertSame(value, segment.get(key, hash));
+
+    // wrong value reference
     table.set(0, entry);
     DummyValueReference<Object, Object> otherValueRef = DummyValueReference.create(value, entry);
     entry.setValueReference(otherValueRef);
-    assertFalse(segment.clearValue(key, hash, valueRef));
+    assertFalse(segment.removeLoadingValue(key, hash, valueRef));
     entry.setValueReference(valueRef);
-    assertTrue(segment.clearValue(key, hash, valueRef));
+    assertTrue(segment.removeLoadingValue(key, hash, valueRef));
   }
 
   private static <K, V> void assertNotificationEnqueued(
-      CustomConcurrentHashMap<K, V> map, K key, V value, int hash) {
+      LocalCacheInternalMap<K, V> map, K key, V value, int hash) {
     RemovalNotification<K, V> notification = map.removalNotificationQueue.poll();
     assertSame(key, notification.getKey());
     assertSame(value, notification.getValue());
@@ -1213,8 +1682,8 @@ public class CustomConcurrentHashMapTest extends TestCase {
   // Segment eviction tests
 
   public void testDrainRecencyQueueOnWrite() {
-    for (MapMaker maker : allEvictingMakers()) {
-      CustomConcurrentHashMap<Object, Object> map = makeMap(maker.concurrencyLevel(1));
+    for (CacheBuilder<Object, Object> builder : allEvictingMakers()) {
+      LocalCacheInternalMap<Object, Object> map = makeMap(builder.concurrencyLevel(1));
       Segment<Object, Object> segment = map.segments[0];
 
       if (segment.recencyQueue != DISCARDING_QUEUE) {
@@ -1238,8 +1707,8 @@ public class CustomConcurrentHashMapTest extends TestCase {
   }
 
   public void testDrainRecencyQueueOnRead() {
-    for (MapMaker maker : allEvictingMakers()) {
-      CustomConcurrentHashMap<Object, Object> map = makeMap(maker.concurrencyLevel(1));
+    for (CacheBuilder<Object, Object> builder : allEvictingMakers()) {
+      LocalCacheInternalMap<Object, Object> map = makeMap(builder.concurrencyLevel(1));
       Segment<Object, Object> segment = map.segments[0];
 
       if (segment.recencyQueue != DISCARDING_QUEUE) {
@@ -1282,8 +1751,8 @@ public class CustomConcurrentHashMapTest extends TestCase {
   }
 
   public void testRecordRead() {
-    for (MapMaker maker : allEvictingMakers()) {
-      CustomConcurrentHashMap<Object, Object> map = makeMap(maker.concurrencyLevel(1));
+    for (CacheBuilder<Object, Object> builder : allEvictingMakers()) {
+      LocalCacheInternalMap<Object, Object> map = makeMap(builder.concurrencyLevel(1));
       Segment<Object, Object> segment = map.segments[0];
       List<ReferenceEntry<Object, Object>> writeOrder = Lists.newLinkedList();
       List<ReferenceEntry<Object, Object>> readOrder = Lists.newLinkedList();
@@ -1294,7 +1763,7 @@ public class CustomConcurrentHashMapTest extends TestCase {
 
         ReferenceEntry<Object, Object> entry = createDummyEntry(key, hash, value, null);
         // must recordRead for drainRecencyQueue to believe this entry is live
-        segment.recordWrite(entry);
+        segment.recordWrite(entry, 1, map.ticker.read());
         writeOrder.add(entry);
         readOrder.add(entry);
       }
@@ -1309,7 +1778,7 @@ public class CustomConcurrentHashMapTest extends TestCase {
       while (i.hasNext()) {
         ReferenceEntry<Object, Object> entry = i.next();
         if (random.nextBoolean()) {
-          segment.recordRead(entry);
+          segment.recordRead(entry, map.ticker.read());
           reads.add(entry);
           i.remove();
         }
@@ -1323,8 +1792,8 @@ public class CustomConcurrentHashMapTest extends TestCase {
   }
 
   public void testRecordReadOnGet() {
-    for (MapMaker maker : allEvictingMakers()) {
-      CustomConcurrentHashMap<Object, Object> map = makeMap(maker.concurrencyLevel(1));
+    for (CacheBuilder<Object, Object> builder : allEvictingMakers()) {
+      LocalCacheInternalMap<Object, Object> map = makeMap(builder.concurrencyLevel(1));
       Segment<Object, Object> segment = map.segments[0];
       List<ReferenceEntry<Object, Object>> writeOrder = Lists.newLinkedList();
       List<ReferenceEntry<Object, Object>> readOrder = Lists.newLinkedList();
@@ -1366,8 +1835,8 @@ public class CustomConcurrentHashMapTest extends TestCase {
   }
 
   public void testRecordWrite() {
-    for (MapMaker maker : allEvictingMakers()) {
-      CustomConcurrentHashMap<Object, Object> map = makeMap(maker.concurrencyLevel(1));
+    for (CacheBuilder<Object, Object> builder : allEvictingMakers()) {
+      LocalCacheInternalMap<Object, Object> map = makeMap(builder.concurrencyLevel(1));
       Segment<Object, Object> segment = map.segments[0];
       List<ReferenceEntry<Object, Object>> writeOrder = Lists.newLinkedList();
       for (int i = 0; i < DRAIN_THRESHOLD * 2; i++) {
@@ -1377,7 +1846,7 @@ public class CustomConcurrentHashMapTest extends TestCase {
 
         ReferenceEntry<Object, Object> entry = createDummyEntry(key, hash, value, null);
         // must recordRead for drainRecencyQueue to believe this entry is live
-        segment.recordWrite(entry);
+        segment.recordWrite(entry, 1, map.ticker.read());
         writeOrder.add(entry);
       }
 
@@ -1391,7 +1860,7 @@ public class CustomConcurrentHashMapTest extends TestCase {
       while (i.hasNext()) {
         ReferenceEntry<Object, Object> entry = i.next();
         if (random.nextBoolean()) {
-          segment.recordWrite(entry);
+          segment.recordWrite(entry, 1, map.ticker.read());
           writes.add(entry);
           i.remove();
         }
@@ -1403,7 +1872,7 @@ public class CustomConcurrentHashMapTest extends TestCase {
     }
   }
 
-  static <K, V> void checkAndDrainRecencyQueue(CustomConcurrentHashMap<K, V> map,
+  static <K, V> void checkAndDrainRecencyQueue(LocalCacheInternalMap<K, V> map,
       Segment<K, V> segment, List<ReferenceEntry<K, V>> reads) {
     if (map.evictsBySize() || map.expiresAfterAccess()) {
       assertSameEntries(reads, ImmutableList.copyOf(segment.recencyQueue));
@@ -1411,17 +1880,14 @@ public class CustomConcurrentHashMapTest extends TestCase {
     segment.drainRecencyQueue();
   }
 
-  static <K, V> void checkEvictionQueues(CustomConcurrentHashMap<K, V> map,
+  static <K, V> void checkEvictionQueues(LocalCacheInternalMap<K, V> map,
       Segment<K, V> segment, List<ReferenceEntry<K, V>> readOrder,
       List<ReferenceEntry<K, V>> writeOrder) {
-    if (map.evictsBySize()) {
-      assertSameEntries(readOrder, ImmutableList.copyOf(segment.evictionQueue));
-    }
-    if (map.expiresAfterAccess()) {
-      assertSameEntries(readOrder, ImmutableList.copyOf(segment.expirationQueue));
+    if (map.evictsBySize() || map.expiresAfterAccess()) {
+      assertSameEntries(readOrder, ImmutableList.copyOf(segment.accessQueue));
     }
     if (map.expiresAfterWrite()) {
-      assertSameEntries(writeOrder, ImmutableList.copyOf(segment.expirationQueue));
+      assertSameEntries(writeOrder, ImmutableList.copyOf(segment.writeQueue));
     }
   }
 
@@ -1437,32 +1903,135 @@ public class CustomConcurrentHashMapTest extends TestCase {
     }
   }
 
-  static <K, V> void checkExpirationTimes(CustomConcurrentHashMap<K, V> map) {
+  static <K, V> void checkExpirationTimes(LocalCacheInternalMap<K, V> map) {
     if (!map.expires()) {
       return;
     }
 
     for (Segment<K, V> segment : map.segments) {
-      long lastExpirationTime = 0;
+      long lastAccessTime = 0;
+      long lastWriteTime = 0;
       for (ReferenceEntry<K, V> e : segment.recencyQueue) {
-        long expirationTime = e.getExpirationTime();
-        assertTrue(expirationTime >= lastExpirationTime);
-        lastExpirationTime = expirationTime;
+        long accessTime = e.getAccessTime();
+        assertTrue(accessTime >= lastAccessTime);
+        lastAccessTime = accessTime;
+        long writeTime = e.getWriteTime();
+        assertTrue(writeTime >= lastWriteTime);
+        lastWriteTime = writeTime;
       }
 
-      lastExpirationTime = 0;
-      for (ReferenceEntry<K, V> e : segment.expirationQueue) {
-        long expirationTime = e.getExpirationTime();
-        assertTrue(expirationTime >= lastExpirationTime);
-        lastExpirationTime = expirationTime;
+      lastAccessTime = 0;
+      lastWriteTime = 0;
+      for (ReferenceEntry<K, V> e : segment.accessQueue) {
+        long accessTime = e.getAccessTime();
+        assertTrue(accessTime >= lastAccessTime);
+        lastAccessTime = accessTime;
+      }
+      for (ReferenceEntry<K, V> e : segment.writeQueue) {
+        long writeTime = e.getWriteTime();
+        assertTrue(writeTime >= lastWriteTime);
+        lastWriteTime = writeTime;
       }
     }
   }
 
+  public void testExpireAfterWrite() {
+    FakeTicker ticker = new FakeTicker();
+    LocalCacheInternalMap<Object, Object> map = makeMap(createCacheBuilder()
+        .concurrencyLevel(1)
+        .ticker(ticker)
+        .expireAfterWrite(1, TimeUnit.NANOSECONDS));
+    Segment<Object, Object> segment = map.segments[0];
+
+    Object key = new Object();
+    Object value = new Object();
+    map.put(key, value);
+    ReferenceEntry<Object, Object> entry = map.getEntry(key);
+    assertTrue(map.isLive(entry, ticker.read()));
+
+    segment.writeQueue.add(entry);
+    assertSame(value, map.get(key));
+    assertSame(entry, segment.writeQueue.peek());
+    assertEquals(1, segment.writeQueue.size());
+
+    segment.recordRead(entry, ticker.read());
+    segment.expireEntries(ticker.read());
+    assertSame(value, map.get(key));
+    assertSame(entry, segment.writeQueue.peek());
+    assertEquals(1, segment.writeQueue.size());
+
+    ticker.advance(1);
+    segment.recordRead(entry, ticker.read());
+    segment.expireEntries(ticker.read());
+    assertSame(value, map.get(key));
+    assertSame(entry, segment.writeQueue.peek());
+    assertEquals(1, segment.writeQueue.size());
+
+    ticker.advance(1);
+    assertNull(map.get(key));
+    segment.expireEntries(ticker.read());
+    assertNull(map.get(key));
+    assertTrue(segment.writeQueue.isEmpty());
+  }
+
+  public void testExpireAfterAccess() {
+    FakeTicker ticker = new FakeTicker();
+    LocalCacheInternalMap<Object, Object> map = makeMap(createCacheBuilder()
+        .concurrencyLevel(1)
+        .ticker(ticker)
+        .expireAfterAccess(1, TimeUnit.NANOSECONDS));
+    Segment<Object, Object> segment = map.segments[0];
+
+    Object key = new Object();
+    Object value = new Object();
+    map.put(key, value);
+    ReferenceEntry<Object, Object> entry = map.getEntry(key);
+    assertTrue(map.isLive(entry, ticker.read()));
+
+    segment.accessQueue.add(entry);
+    assertSame(value, map.get(key));
+    assertSame(entry, segment.accessQueue.peek());
+    assertEquals(1, segment.accessQueue.size());
+
+    segment.recordRead(entry, ticker.read());
+    segment.expireEntries(ticker.read());
+    assertTrue(map.containsKey(key));
+    assertSame(entry, segment.accessQueue.peek());
+    assertEquals(1, segment.accessQueue.size());
+
+    ticker.advance(1);
+    segment.recordRead(entry, ticker.read());
+    segment.expireEntries(ticker.read());
+    assertTrue(map.containsKey(key));
+    assertSame(entry, segment.accessQueue.peek());
+    assertEquals(1, segment.accessQueue.size());
+
+    ticker.advance(1);
+    segment.recordRead(entry, ticker.read());
+    segment.expireEntries(ticker.read());
+    assertTrue(map.containsKey(key));
+    assertSame(entry, segment.accessQueue.peek());
+    assertEquals(1, segment.accessQueue.size());
+
+    ticker.advance(1);
+    segment.expireEntries(ticker.read());
+    assertTrue(map.containsKey(key));
+    assertSame(entry, segment.accessQueue.peek());
+    assertEquals(1, segment.accessQueue.size());
+
+    ticker.advance(1);
+    assertFalse(map.containsKey(key));
+    assertNull(map.get(key));
+    segment.expireEntries(ticker.read());
+    assertFalse(map.containsKey(key));
+    assertNull(map.get(key));
+    assertTrue(segment.accessQueue.isEmpty());
+  }
+
   public void testEvictEntries() {
     int maxSize = 10;
-    CustomConcurrentHashMap<Object, Object> map =
-        makeMap(createMapMaker().concurrencyLevel(1).maximumSize(maxSize));
+    LocalCacheInternalMap<Object, Object> map =
+        makeMap(createCacheBuilder().concurrencyLevel(1).maximumSize(maxSize));
     Segment<Object, Object> segment = map.segments[0];
 
     // manually add elements to avoid eviction
@@ -1477,32 +2046,33 @@ public class CustomConcurrentHashMapTest extends TestCase {
       int index = hash & (table.length() - 1);
       ReferenceEntry<Object, Object> first = table.get(index);
       entry = map.newEntry(key, hash, first);
-      ValueReference<Object, Object> valueRef = map.newValueReference(entry, value);
+      ValueReference<Object, Object> valueRef = map.newValueReference(entry, value, 1);
       entry.setValueReference(valueRef);
-      segment.recordWrite(entry);
+      segment.recordWrite(entry, 1, map.ticker.read());
       table.set(index, entry);
       originalMap.put(key, value);
     }
     segment.count = originalCount;
-    assertEquals(originalCount, originalMap.size());
+    segment.totalWeight = originalCount;
+    assertEquals(originalCount, map.size());
     assertEquals(originalMap, map);
 
-    for (int i = maxSize - 1; i < originalCount; i++) {
-      assertTrue(segment.evictEntries());
-      Iterator<Object> it = originalMap.keySet().iterator();
+    Iterator<Object> it = originalMap.keySet().iterator();
+    for (int i = 0; i < originalCount - maxSize; i++) {
       it.next();
       it.remove();
-      assertEquals(originalMap, map);
     }
-    assertFalse(segment.evictEntries());
+    segment.evictEntries();
+    assertEquals(maxSize, map.size());
+    assertEquals(originalMap, map);
   }
 
   // reference queues
 
   public void testDrainKeyReferenceQueueOnWrite() {
-    for (MapMaker maker : allKeyValueStrengthMakers()) {
-      CustomConcurrentHashMap<Object, Object> map =
-          makeMap(maker.concurrencyLevel(1));
+    for (CacheBuilder<Object, Object> builder : allKeyValueStrengthMakers()) {
+      LocalCacheInternalMap<Object, Object> map =
+          makeMap(builder.concurrencyLevel(1));
       if (map.usesKeyReferences()) {
         Segment<Object, Object> segment = map.segments[0];
 
@@ -1530,9 +2100,9 @@ public class CustomConcurrentHashMapTest extends TestCase {
   }
 
   public void testDrainValueReferenceQueueOnWrite() {
-    for (MapMaker maker : allKeyValueStrengthMakers()) {
-      CustomConcurrentHashMap<Object, Object> map =
-          makeMap(maker.concurrencyLevel(1));
+    for (CacheBuilder<Object, Object> builder : allKeyValueStrengthMakers()) {
+      LocalCacheInternalMap<Object, Object> map =
+          makeMap(builder.concurrencyLevel(1));
       if (map.usesValueReferences()) {
         Segment<Object, Object> segment = map.segments[0];
 
@@ -1561,9 +2131,9 @@ public class CustomConcurrentHashMapTest extends TestCase {
   }
 
   public void testDrainKeyReferenceQueueOnRead() {
-    for (MapMaker maker : allKeyValueStrengthMakers()) {
-      CustomConcurrentHashMap<Object, Object> map =
-          makeMap(maker.concurrencyLevel(1));
+    for (CacheBuilder<Object, Object> builder : allKeyValueStrengthMakers()) {
+      LocalCacheInternalMap<Object, Object> map =
+          makeMap(builder.concurrencyLevel(1));
       if (map.usesKeyReferences()) {
         Segment<Object, Object> segment = map.segments[0];
 
@@ -1592,9 +2162,9 @@ public class CustomConcurrentHashMapTest extends TestCase {
   }
 
   public void testDrainValueReferenceQueueOnRead() {
-    for (MapMaker maker : allKeyValueStrengthMakers()) {
-      CustomConcurrentHashMap<Object, Object> map =
-          makeMap(maker.concurrencyLevel(1));
+    for (CacheBuilder<Object, Object> builder : allKeyValueStrengthMakers()) {
+      LocalCacheInternalMap<Object, Object> map =
+          makeMap(builder.concurrencyLevel(1));
       if (map.usesValueReferences()) {
         Segment<Object, Object> segment = map.segments[0];
 
@@ -1623,28 +2193,77 @@ public class CustomConcurrentHashMapTest extends TestCase {
     }
   }
 
+  public void testNullParameters() throws Exception {
+    NullPointerTester tester = new NullPointerTester();
+    tester.testAllPublicInstanceMethods(makeMap(createCacheBuilder()));
+    CacheLoader<Object, Object> loader = identityLoader();
+    tester.testAllPublicInstanceMethods(makeComputingMap(createCacheBuilder(), loader));
+  }
+
+  public void testSerializationProxy() {
+    CacheLoader<Object, Object> loader = new SerializableCacheLoader();
+    RemovalListener<Object, Object> listener = new SerializableRemovalListener<Object, Object>();
+    SerializableWeigher<Object, Object> weigher = new SerializableWeigher<Object, Object>();
+    Ticker ticker = new SerializableTicker();
+    @SuppressWarnings("unchecked") // createMock
+    LocalCache<Object, Object> one = (LocalCache) CacheBuilder.newBuilder()
+        .weakKeys()
+        .softValues()
+        .expireAfterAccess(123, NANOSECONDS)
+        .maximumWeight(789)
+        .weigher(weigher)
+        .concurrencyLevel(12)
+        .removalListener(listener)
+        .ticker(ticker)
+        .build(loader);
+    // add a non-serializable entry
+    one.getUnchecked(new Object());
+    assertEquals(1, one.size());
+    assertFalse(one.asMap().isEmpty());
+    LocalCache<Object, Object> two = SerializableTester.reserialize(one);
+    assertEquals(0, two.size());
+    assertTrue(two.asMap().isEmpty());
+
+    LocalCacheInternalMap<Object, Object> mapOne = one.map;
+    LocalCacheInternalMap<Object, Object> mapTwo = two.map;
+
+    assertEquals(mapOne.defaultLoader, mapTwo.defaultLoader);
+    assertEquals(mapOne.keyStrength, mapTwo.keyStrength);
+    assertEquals(mapOne.keyStrength, mapTwo.keyStrength);
+    assertEquals(mapOne.valueEquivalence, mapTwo.valueEquivalence);
+    assertEquals(mapOne.valueEquivalence, mapTwo.valueEquivalence);
+    assertEquals(mapOne.maxWeight, mapTwo.maxWeight);
+    assertEquals(mapOne.weigher, mapTwo.weigher);
+    assertEquals(mapOne.expireAfterAccessNanos, mapTwo.expireAfterAccessNanos);
+    assertEquals(mapOne.expireAfterWriteNanos, mapTwo.expireAfterWriteNanos);
+    assertEquals(mapOne.removalListener, mapTwo.removalListener);
+    assertEquals(mapOne.ticker, mapTwo.ticker);
+  }
+
   // utility methods
 
   /**
    * Returns an iterable containing all combinations of maximumSize, expireAfterAccess/Write,
-   * weak/softKeys and weak/softValues.
+   * weakKeys and weak/softValues.
    */
-  private static Iterable<MapMaker> allEntryTypeMakers() {
-    List<MapMaker> result = newArrayList(allKeyValueStrengthMakers());
-    for (MapMaker maker : allKeyValueStrengthMakers()) {
-      result.add(maker.maximumSize(SMALL_MAX_SIZE));
+  @SuppressWarnings("unchecked") // varargs
+  private static Iterable<CacheBuilder<Object, Object>> allEntryTypeMakers() {
+    List<CacheBuilder<Object, Object>> result =
+        newArrayList(allKeyValueStrengthMakers());
+    for (CacheBuilder<Object, Object> builder : allKeyValueStrengthMakers()) {
+      result.add(builder.maximumSize(SMALL_MAX_SIZE));
     }
-    for (MapMaker maker : allKeyValueStrengthMakers()) {
-      result.add(maker.expireAfterAccess(99999, SECONDS));
+    for (CacheBuilder<Object, Object> builder : allKeyValueStrengthMakers()) {
+      result.add(builder.expireAfterAccess(99999, SECONDS));
     }
-    for (MapMaker maker : allKeyValueStrengthMakers()) {
-      result.add(maker.expireAfterWrite(99999, SECONDS));
+    for (CacheBuilder<Object, Object> builder : allKeyValueStrengthMakers()) {
+      result.add(builder.expireAfterWrite(99999, SECONDS));
     }
-    for (MapMaker maker : allKeyValueStrengthMakers()) {
-      result.add(maker.maximumSize(SMALL_MAX_SIZE).expireAfterAccess(99999, SECONDS));
+    for (CacheBuilder<Object, Object> builder : allKeyValueStrengthMakers()) {
+      result.add(builder.maximumSize(SMALL_MAX_SIZE).expireAfterAccess(99999, SECONDS));
     }
-    for (MapMaker maker : allKeyValueStrengthMakers()) {
-      result.add(maker.maximumSize(SMALL_MAX_SIZE).expireAfterWrite(99999, SECONDS));
+    for (CacheBuilder<Object, Object> builder : allKeyValueStrengthMakers()) {
+      result.add(builder.maximumSize(SMALL_MAX_SIZE).expireAfterWrite(99999, SECONDS));
     }
     return result;
   }
@@ -1652,67 +2271,30 @@ public class CustomConcurrentHashMapTest extends TestCase {
   /**
    * Returns an iterable containing all combinations of maximumSize and expireAfterAccess/Write.
    */
-  static Iterable<MapMaker> allEvictingMakers() {
-    return ImmutableList.of(createMapMaker().maximumSize(SMALL_MAX_SIZE),
-        createMapMaker().expireAfterAccess(99999, SECONDS),
-        createMapMaker().expireAfterWrite(99999, SECONDS),
-        createMapMaker()
+  @SuppressWarnings("unchecked") // varargs
+  static Iterable<CacheBuilder<Object, Object>> allEvictingMakers() {
+    return ImmutableList.of(createCacheBuilder().maximumSize(SMALL_MAX_SIZE),
+        createCacheBuilder().expireAfterAccess(99999, SECONDS),
+        createCacheBuilder().expireAfterWrite(99999, SECONDS),
+        createCacheBuilder()
             .maximumSize(SMALL_MAX_SIZE)
             .expireAfterAccess(SMALL_MAX_SIZE, TimeUnit.SECONDS),
-        createMapMaker()
+        createCacheBuilder()
             .maximumSize(SMALL_MAX_SIZE)
             .expireAfterWrite(SMALL_MAX_SIZE, TimeUnit.SECONDS));
   }
 
   /**
-   * Returns an iterable containing all combinations weak/softKeys and weak/softValues.
+   * Returns an iterable containing all combinations weakKeys and weak/softValues.
    */
-  @SuppressWarnings("deprecation")
-  private static Iterable<MapMaker> allKeyValueStrengthMakers() {
-    return ImmutableList.of(createMapMaker(),
-        createMapMaker().weakValues(),
-        createMapMaker().softValues(),
-        createMapMaker().weakKeys(),
-        createMapMaker().weakKeys().weakValues(),
-        createMapMaker().weakKeys().softValues(),
-        createMapMaker().softKeys(),
-        createMapMaker().softKeys().weakValues(),
-        createMapMaker().softKeys().softValues());
-  }
-
-  // listeners
-
-  private static class CountingRemovalListener<K, V> implements RemovalListener<K, V> {
-    private final AtomicInteger count = new AtomicInteger();
-    private K lastKey;
-    private V lastValue;
-
-    @Override
-    public void onRemoval(RemovalNotification<K, V> notification) {
-      count.incrementAndGet();
-      lastKey = notification.getKey();
-      lastValue = notification.getValue();
-    }
-
-    public int getCount() {
-      return count.get();
-    }
-
-    public K getLastEvictedKey() {
-      return lastKey;
-    }
-
-    public V getLastEvictedValue() {
-      return lastValue;
-    }
-  }
-
-  static class QueuingRemovalListener<K, V>
-      extends ConcurrentLinkedQueue<RemovalNotification<K, V>> implements RemovalListener<K, V> {
-    @Override
-    public void onRemoval(RemovalNotification<K, V> notification) {
-      add(notification);
-    }
+  @SuppressWarnings("unchecked") // varargs
+  private static Iterable<CacheBuilder<Object, Object>> allKeyValueStrengthMakers() {
+    return ImmutableList.of(createCacheBuilder(),
+        createCacheBuilder().weakValues(),
+        createCacheBuilder().softValues(),
+        createCacheBuilder().weakKeys(),
+        createCacheBuilder().weakKeys().weakValues(),
+        createCacheBuilder().weakKeys().softValues());
   }
 
   // entries and values
@@ -1771,64 +2353,76 @@ public class CustomConcurrentHashMapTest extends TestCase {
       return key;
     }
 
-    private long expirationTime = Long.MAX_VALUE;
+    private long accessTime = Long.MAX_VALUE;
 
     @Override
-    public long getExpirationTime() {
-      return expirationTime;
+    public long getAccessTime() {
+      return accessTime;
     }
 
     @Override
-    public void setExpirationTime(long time) {
-      this.expirationTime = time;
+    public void setAccessTime(long time) {
+      this.accessTime = time;
     }
 
-    private ReferenceEntry<K, V> nextExpirable = nullEntry();
+    private ReferenceEntry<K, V> nextAccess = nullEntry();
 
     @Override
-    public ReferenceEntry<K, V> getNextExpirable() {
-      return nextExpirable;
-    }
-
-    @Override
-    public void setNextExpirable(ReferenceEntry<K, V> next) {
-      this.nextExpirable = next;
-    }
-
-    private ReferenceEntry<K, V> previousExpirable = nullEntry();
-
-    @Override
-    public ReferenceEntry<K, V> getPreviousExpirable() {
-      return previousExpirable;
+    public ReferenceEntry<K, V> getNextInAccessQueue() {
+      return nextAccess;
     }
 
     @Override
-    public void setPreviousExpirable(ReferenceEntry<K, V> previous) {
-      this.previousExpirable = previous;
+    public void setNextInAccessQueue(ReferenceEntry<K, V> next) {
+      this.nextAccess = next;
     }
 
-    private ReferenceEntry<K, V> nextEvictable = nullEntry();
+    private ReferenceEntry<K, V> previousAccess = nullEntry();
 
     @Override
-    public ReferenceEntry<K, V> getNextEvictable() {
-      return nextEvictable;
-    }
-
-    @Override
-    public void setNextEvictable(ReferenceEntry<K, V> next) {
-      this.nextEvictable = next;
-    }
-
-    private ReferenceEntry<K, V> previousEvictable = nullEntry();
-
-    @Override
-    public ReferenceEntry<K, V> getPreviousEvictable() {
-      return previousEvictable;
+    public ReferenceEntry<K, V> getPreviousInAccessQueue() {
+      return previousAccess;
     }
 
     @Override
-    public void setPreviousEvictable(ReferenceEntry<K, V> previous) {
-      this.previousEvictable = previous;
+    public void setPreviousInAccessQueue(ReferenceEntry<K, V> previous) {
+      this.previousAccess = previous;
+    }
+
+    private long writeTime = Long.MAX_VALUE;
+
+    @Override
+    public long getWriteTime() {
+      return writeTime;
+    }
+
+    @Override
+    public void setWriteTime(long time) {
+      this.writeTime = time;
+    }
+
+    private ReferenceEntry<K, V> nextWrite = nullEntry();
+
+    @Override
+    public ReferenceEntry<K, V> getNextInWriteQueue() {
+      return nextWrite;
+    }
+
+    @Override
+    public void setNextInWriteQueue(ReferenceEntry<K, V> next) {
+      this.nextWrite = next;
+    }
+
+    private ReferenceEntry<K, V> previousWrite = nullEntry();
+
+    @Override
+    public ReferenceEntry<K, V> getPreviousInWriteQueue() {
+      return previousWrite;
+    }
+
+    @Override
+    public void setPreviousInWriteQueue(ReferenceEntry<K, V> previous) {
+      this.previousWrite = previous;
     }
   }
 
@@ -1851,6 +2445,11 @@ public class CustomConcurrentHashMapTest extends TestCase {
     }
 
     @Override
+    public int getWeight() {
+      return 1;
+    }
+
+    @Override
     public ReferenceEntry<K, V> getEntry() {
       return entry;
     }
@@ -1867,8 +2466,13 @@ public class CustomConcurrentHashMapTest extends TestCase {
     }
 
     @Override
-    public boolean isComputingReference() {
+    public boolean isLoading() {
       return computing;
+    }
+
+    @Override
+    public boolean isActive() {
+      return !computing;
     }
 
     @Override
@@ -1877,14 +2481,67 @@ public class CustomConcurrentHashMapTest extends TestCase {
     }
 
     @Override
-    public void clear(ValueReference<K, V> newValue) {
+    public void notifyNewValue(V newValue) {}
+
+    public void clear() {
       value = null;
     }
   }
 
-  public void testNullParameters() throws Exception {
-    NullPointerTester tester = new NullPointerTester();
-    tester.testAllPublicInstanceMethods(makeMap(createMapMaker()));
+  private static class SerializableCacheLoader
+      extends CacheLoader<Object, Object> implements Serializable {
+    public Object load(Object key) {
+      return new Object();
+    }
+
+    public int hashCode() {
+      return 42;
+    }
+
+    public boolean equals(Object o) {
+      return (o instanceof SerializableCacheLoader);
+    }
+  }
+
+  private static class SerializableRemovalListener<K, V>
+      implements RemovalListener<K, V>, Serializable {
+    public void onRemoval(RemovalNotification<K, V> notification) {}
+
+    public int hashCode() {
+      return 42;
+    }
+
+    public boolean equals(Object o) {
+      return (o instanceof SerializableRemovalListener);
+    }
+  }
+
+  private static class SerializableTicker extends Ticker implements Serializable {
+    public long read() {
+      return 42;
+    }
+
+    public int hashCode() {
+      return 42;
+    }
+
+    public boolean equals(Object o) {
+      return (o instanceof SerializableTicker);
+    }
+  }
+
+  private static class SerializableWeigher<K, V> implements Weigher<K, V>, Serializable {
+    public int weigh(K key, V value) {
+      return 42;
+    }
+
+    public int hashCode() {
+      return 42;
+    }
+
+    public boolean equals(Object o) {
+      return (o instanceof SerializableWeigher);
+    }
   }
 
 }

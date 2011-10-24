@@ -17,8 +17,8 @@
 package com.google.common.collect;
 
 import com.google.common.base.Function;
-import com.google.common.collect.CustomConcurrentHashMapTest.QueuingRemovalListener;
 import com.google.common.collect.MapMaker.RemovalNotification;
+import com.google.common.collect.MapMakerInternalMapTest.QueuingRemovalListener;
 import com.google.common.testing.NullPointerTester;
 
 import junit.framework.TestCase;

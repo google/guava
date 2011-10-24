@@ -1,35 +1,49 @@
 /*
  * Copyright (C) 2009 The Guava Authors
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
- * in compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License
- * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
- * or implied. See the License for the specific language governing permissions and limitations under
- * the License.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
-package com.google.common.collect;
+package com.google.common.cache;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
+import static com.google.common.cache.CacheBuilder.NULL_TICKER;
+import static com.google.common.cache.CacheBuilder.UNSET_INT;
+import static java.util.concurrent.TimeUnit.NANOSECONDS;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Equivalence;
 import com.google.common.base.Equivalences;
+import com.google.common.base.Stopwatch;
+import com.google.common.base.Supplier;
 import com.google.common.base.Ticker;
-import com.google.common.collect.GenericMapMaker.NullListener;
-import com.google.common.collect.MapMaker.RemovalCause;
-import com.google.common.collect.MapMaker.RemovalListener;
-import com.google.common.collect.MapMaker.RemovalNotification;
+import com.google.common.cache.AbstractCache.StatsCounter;
+import com.google.common.cache.CacheBuilder.NullListener;
+import com.google.common.cache.CacheBuilder.OneWeigher;
+import com.google.common.cache.CacheLoader.InvalidCacheLoadException;
+import com.google.common.cache.CacheLoader.UnsupportedLoadingOperationException;
+import com.google.common.collect.AbstractLinkedIterator;
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Iterators;
+import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 import com.google.common.primitives.Ints;
+import com.google.common.util.concurrent.ExecutionError;
+import com.google.common.util.concurrent.UncheckedExecutionException;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.lang.ref.Reference;
 import java.lang.ref.ReferenceQueue;
@@ -45,7 +59,6 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Queue;
 import java.util.Set;
-import java.util.concurrent.CancellationException;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.ExecutionException;
@@ -60,17 +73,16 @@ import javax.annotation.Nullable;
 import javax.annotation.concurrent.GuardedBy;
 
 /**
- * The concurrent hash map implementation built by {@link MapMaker}.
+ * The concurrent hash map implementation built by {@link CacheBuilder}.
  *
  * <p>This implementation is heavily derived from revision 1.96 of <a
  * href="http://tinyurl.com/ConcurrentHashMap">ConcurrentHashMap.java</a>.
  *
- * @author Bob Lee
  * @author Charles Fry
+ * @author Bob Lee ({@code com.google.common.collect.LocalCacheInternalMap})
  * @author Doug Lea ({@code ConcurrentHashMap})
  */
-class CustomConcurrentHashMap<K, V>
-    extends AbstractMap<K, V> implements ConcurrentMap<K, V>, Serializable {
+class LocalCacheInternalMap<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> {
 
   /*
    * The basic strategy is to subdivide the table among Segments, each of which itself is a
@@ -105,7 +117,7 @@ class CustomConcurrentHashMap<K, V>
    * constructors with arguments. MUST be a power of two <= 1<<30 to ensure that entries are
    * indexable using ints.
    */
-  static final int MAXIMUM_CAPACITY = Ints.MAX_POWER_OF_TWO;
+  static final int MAXIMUM_CAPACITY = 1 << 30;
 
   /** The maximum number of segments to allow; used to bound constructor arguments. */
   static final int MAX_SEGMENTS = 1 << 16; // slightly conservative
@@ -129,26 +141,26 @@ class CustomConcurrentHashMap<K, V>
   // TODO(fry): empirically optimize this
   static final int DRAIN_MAX = 16;
 
-  static final long CLEANUP_EXECUTOR_DELAY_SECS = 60;
-
   // Fields
 
-  private static final Logger logger = Logger.getLogger(CustomConcurrentHashMap.class.getName());
+  private static final Logger logger = Logger.getLogger(LocalCacheInternalMap.class.getName());
 
   /**
    * Mask value for indexing into segments. The upper bits of a key's hash code are used to choose
    * the segment.
    */
-  final transient int segmentMask;
+  final int segmentMask;
 
   /**
    * Shift value for indexing within segments. Helps prevent entries that end up in the same segment
    * from also ending up in the same bucket.
    */
-  final transient int segmentShift;
+  final int segmentShift;
 
   /** The segments, each of which is a specialized hash table. */
-  final transient Segment<K, V>[] segments;
+  final Segment<K, V>[] segments;
+
+  final CacheLoader<? super K, V> defaultLoader;
 
   /** The concurrency level. */
   final int concurrencyLevel;
@@ -165,8 +177,11 @@ class CustomConcurrentHashMap<K, V>
   /** Strategy for referencing values. */
   final Strength valueStrength;
 
-  /** The maximum size of this map. MapMaker.UNSET_INT if there is no maximum. */
-  final int maximumSize;
+  /** The maximum weight of this map. UNSET_INT if there is no maximum. */
+  final long maxWeight;
+
+  /** Weigher to weigh cache entries. */
+  final Weigher<K, V> weigher;
 
   /** How long after the last access to an entry the map will retain that entry. */
   final long expireAfterAccessNanos;
@@ -185,15 +200,25 @@ class CustomConcurrentHashMap<K, V>
   final RemovalListener<K, V> removalListener;
 
   /** Factory used to create new entries. */
-  final transient EntryFactory entryFactory;
+  final EntryFactory entryFactory;
 
   /** Measures time in a testable way. */
   final Ticker ticker;
 
   /**
+   * Accumulates global cache statistics. Note that there are also per-segments stats counters
+   * which must be aggregated to obtain a global stats view.
+   */
+  final StatsCounter globalStatsCounter;
+
+  /**
    * Creates a new, empty map with the specified strategy, initial capacity and concurrency level.
    */
-  CustomConcurrentHashMap(MapMaker builder) {
+  LocalCacheInternalMap(CacheBuilder<? super K, ? super V> builder,
+      Supplier<? extends StatsCounter> statsCounterSupplier,
+      CacheLoader<? super K, V> loader) {
+    this.defaultLoader = checkNotNull(loader);
+
     concurrencyLevel = Math.min(builder.getConcurrencyLevel(), MAX_SEGMENTS);
 
     keyStrength = builder.getKeyStrength();
@@ -202,30 +227,33 @@ class CustomConcurrentHashMap<K, V>
     keyEquivalence = builder.getKeyEquivalence();
     valueEquivalence = builder.getValueEquivalence();
 
-    maximumSize = builder.maximumSize;
+    maxWeight = builder.getMaximumWeight();
+    weigher = builder.getWeigher();
     expireAfterAccessNanos = builder.getExpireAfterAccessNanos();
     expireAfterWriteNanos = builder.getExpireAfterWriteNanos();
 
-    entryFactory = EntryFactory.getFactory(keyStrength, expires(), evictsBySize());
-    ticker = builder.getTicker();
+    entryFactory = EntryFactory.getFactory(keyStrength, usesAccessQueue(), usesWriteQueue());
+    ticker = builder.getTicker(recordsTime());
 
     removalListener = builder.getRemovalListener();
     removalNotificationQueue = (removalListener == NullListener.INSTANCE)
-        ? CustomConcurrentHashMap.<RemovalNotification<K, V>>discardingQueue()
+        ? LocalCacheInternalMap.<RemovalNotification<K, V>>discardingQueue()
         : new ConcurrentLinkedQueue<RemovalNotification<K, V>>();
 
+    globalStatsCounter = statsCounterSupplier.get();
+
     int initialCapacity = Math.min(builder.getInitialCapacity(), MAXIMUM_CAPACITY);
-    if (evictsBySize()) {
-      initialCapacity = Math.min(initialCapacity, maximumSize);
+    if (evictsBySize() && !customWeigher()) {
+      initialCapacity = Math.min(initialCapacity, (int) maxWeight);
     }
 
     // Find power-of-two sizes best matching arguments. Constraints:
-    // (segmentCount <= maximumSize)
-    // && (concurrencyLevel > maximumSize || segmentCount > concurrencyLevel)
+    // (segmentCount <= maxWeight)
+    // && (concurrencyLevel > maxWeight || segmentCount > concurrencyLevel)
     int segmentShift = 0;
     int segmentCount = 1;
     while (segmentCount < concurrencyLevel
-        && (!evictsBySize() || segmentCount * 2 <= maximumSize)) {
+        && (!evictsBySize() || customWeigher() || segmentCount * 2 <= maxWeight)) {
       ++segmentShift;
       segmentCount <<= 1;
     }
@@ -245,26 +273,30 @@ class CustomConcurrentHashMap<K, V>
     }
 
     if (evictsBySize()) {
-      // Ensure sum of segment max sizes = overall max size
-      int maximumSegmentSize = maximumSize / segmentCount + 1;
-      int remainder = maximumSize % segmentCount;
+      // Ensure sum of segment max weights = overall max weights
+      long maxSegmentWeight = maxWeight / segmentCount + 1;
+      long remainder = maxWeight % segmentCount;
       for (int i = 0; i < this.segments.length; ++i) {
         if (i == remainder) {
-          maximumSegmentSize--;
+          maxSegmentWeight--;
         }
         this.segments[i] =
-            createSegment(segmentSize, maximumSegmentSize);
+            createSegment(segmentSize, maxSegmentWeight, statsCounterSupplier.get());
       }
     } else {
       for (int i = 0; i < this.segments.length; ++i) {
         this.segments[i] =
-            createSegment(segmentSize, MapMaker.UNSET_INT);
+            createSegment(segmentSize, UNSET_INT, statsCounterSupplier.get());
       }
     }
   }
 
   boolean evictsBySize() {
-    return maximumSize != MapMaker.UNSET_INT;
+    return maxWeight >= 0;
+  }
+
+  boolean customWeigher() {
+    return weigher != OneWeigher.INSTANCE;
   }
 
   boolean expires() {
@@ -279,6 +311,26 @@ class CustomConcurrentHashMap<K, V>
     return expireAfterAccessNanos > 0;
   }
 
+  boolean usesAccessQueue() {
+    return expiresAfterAccess() || evictsBySize();
+  }
+
+  boolean usesWriteQueue() {
+    return expiresAfterWrite();
+  }
+
+  boolean recordsWrite() {
+    return expiresAfterWrite();
+  }
+
+  boolean recordsAccess() {
+    return expiresAfterAccess();
+  }
+
+  boolean recordsTime() {
+    return recordsWrite() || recordsAccess();
+  }
+
   boolean usesKeyReferences() {
     return keyStrength != Strength.STRONG;
   }
@@ -289,15 +341,17 @@ class CustomConcurrentHashMap<K, V>
 
   enum Strength {
     /*
-     * TODO(kevinb): If we strongly reference the value and aren't computing, we needn't wrap the
+     * TODO(kevinb): If we strongly reference the value and aren't loading, we needn't wrap the
      * value. This could save ~8 bytes per entry.
      */
 
     STRONG {
       @Override
       <K, V> ValueReference<K, V> referenceValue(
-          Segment<K, V> segment, ReferenceEntry<K, V> entry, V value) {
-        return new StrongValueReference<K, V>(value);
+          Segment<K, V> segment, ReferenceEntry<K, V> entry, V value, int weight) {
+        return (weight == 1)
+            ? new StrongValueReference<K, V>(value)
+            : new WeightedStrongValueReference<K, V>(value, weight);
       }
 
       @Override
@@ -309,8 +363,11 @@ class CustomConcurrentHashMap<K, V>
     SOFT {
       @Override
       <K, V> ValueReference<K, V> referenceValue(
-          Segment<K, V> segment, ReferenceEntry<K, V> entry, V value) {
-        return new SoftValueReference<K, V>(segment.valueReferenceQueue, value, entry);
+          Segment<K, V> segment, ReferenceEntry<K, V> entry, V value, int weight) {
+        return (weight == 1)
+            ? new SoftValueReference<K, V>(segment.valueReferenceQueue, value, entry)
+            : new WeightedSoftValueReference<K, V>(
+                segment.valueReferenceQueue, value, entry, weight);
       }
 
       @Override
@@ -322,8 +379,11 @@ class CustomConcurrentHashMap<K, V>
     WEAK {
       @Override
       <K, V> ValueReference<K, V> referenceValue(
-          Segment<K, V> segment, ReferenceEntry<K, V> entry, V value) {
-        return new WeakValueReference<K, V>(segment.valueReferenceQueue, value, entry);
+          Segment<K, V> segment, ReferenceEntry<K, V> entry, V value, int weight) {
+        return (weight == 1)
+            ? new WeakValueReference<K, V>(segment.valueReferenceQueue, value, entry)
+            : new WeightedWeakValueReference<K, V>(
+                segment.valueReferenceQueue, value, entry, weight);
       }
 
       @Override
@@ -336,7 +396,7 @@ class CustomConcurrentHashMap<K, V>
      * Creates a reference for the given value according to this value strength.
      */
     abstract <K, V> ValueReference<K, V> referenceValue(
-        Segment<K, V> segment, ReferenceEntry<K, V> entry, V value);
+        Segment<K, V> segment, ReferenceEntry<K, V> entry, V value, int weight);
 
     /**
      * Returns the default equivalence strategy used to compare and hash keys or values referenced
@@ -357,103 +417,49 @@ class CustomConcurrentHashMap<K, V>
         return new StrongEntry<K, V>(key, hash, next);
       }
     },
-    STRONG_EXPIRABLE {
+    STRONG_ACCESS {
       @Override
       <K, V> ReferenceEntry<K, V> newEntry(
           Segment<K, V> segment, K key, int hash, @Nullable ReferenceEntry<K, V> next) {
-        return new StrongExpirableEntry<K, V>(key, hash, next);
+        return new StrongAccessEntry<K, V>(key, hash, next);
       }
 
       @Override
       <K, V> ReferenceEntry<K, V> copyEntry(
           Segment<K, V> segment, ReferenceEntry<K, V> original, ReferenceEntry<K, V> newNext) {
         ReferenceEntry<K, V> newEntry = super.copyEntry(segment, original, newNext);
-        copyExpirableEntry(original, newEntry);
+        copyAccessEntry(original, newEntry);
         return newEntry;
       }
     },
-    STRONG_EVICTABLE {
+    STRONG_WRITE {
       @Override
       <K, V> ReferenceEntry<K, V> newEntry(
           Segment<K, V> segment, K key, int hash, @Nullable ReferenceEntry<K, V> next) {
-        return new StrongEvictableEntry<K, V>(key, hash, next);
+        return new StrongWriteEntry<K, V>(key, hash, next);
       }
 
       @Override
       <K, V> ReferenceEntry<K, V> copyEntry(
           Segment<K, V> segment, ReferenceEntry<K, V> original, ReferenceEntry<K, V> newNext) {
         ReferenceEntry<K, V> newEntry = super.copyEntry(segment, original, newNext);
-        copyEvictableEntry(original, newEntry);
+        copyWriteEntry(original, newEntry);
         return newEntry;
       }
     },
-    STRONG_EXPIRABLE_EVICTABLE {
+    STRONG_ACCESS_WRITE {
       @Override
       <K, V> ReferenceEntry<K, V> newEntry(
           Segment<K, V> segment, K key, int hash, @Nullable ReferenceEntry<K, V> next) {
-        return new StrongExpirableEvictableEntry<K, V>(key, hash, next);
+        return new StrongAccessWriteEntry<K, V>(key, hash, next);
       }
 
       @Override
       <K, V> ReferenceEntry<K, V> copyEntry(
           Segment<K, V> segment, ReferenceEntry<K, V> original, ReferenceEntry<K, V> newNext) {
         ReferenceEntry<K, V> newEntry = super.copyEntry(segment, original, newNext);
-        copyExpirableEntry(original, newEntry);
-        copyEvictableEntry(original, newEntry);
-        return newEntry;
-      }
-    },
-
-    SOFT {
-      @Override
-      <K, V> ReferenceEntry<K, V> newEntry(
-          Segment<K, V> segment, K key, int hash, @Nullable ReferenceEntry<K, V> next) {
-        return new SoftEntry<K, V>(segment.keyReferenceQueue, key, hash, next);
-      }
-    },
-    SOFT_EXPIRABLE {
-      @Override
-      <K, V> ReferenceEntry<K, V> newEntry(
-          Segment<K, V> segment, K key, int hash, @Nullable ReferenceEntry<K, V> next) {
-        return new SoftExpirableEntry<K, V>(segment.keyReferenceQueue, key, hash, next);
-      }
-
-      @Override
-      <K, V> ReferenceEntry<K, V> copyEntry(
-          Segment<K, V> segment, ReferenceEntry<K, V> original, ReferenceEntry<K, V> newNext) {
-        ReferenceEntry<K, V> newEntry = super.copyEntry(segment, original, newNext);
-        copyExpirableEntry(original, newEntry);
-        return newEntry;
-      }
-    },
-    SOFT_EVICTABLE {
-      @Override
-      <K, V> ReferenceEntry<K, V> newEntry(
-          Segment<K, V> segment, K key, int hash, @Nullable ReferenceEntry<K, V> next) {
-        return new SoftEvictableEntry<K, V>(segment.keyReferenceQueue, key, hash, next);
-      }
-
-      @Override
-      <K, V> ReferenceEntry<K, V> copyEntry(
-          Segment<K, V> segment, ReferenceEntry<K, V> original, ReferenceEntry<K, V> newNext) {
-        ReferenceEntry<K, V> newEntry = super.copyEntry(segment, original, newNext);
-        copyEvictableEntry(original, newEntry);
-        return newEntry;
-      }
-    },
-    SOFT_EXPIRABLE_EVICTABLE {
-      @Override
-      <K, V> ReferenceEntry<K, V> newEntry(
-          Segment<K, V> segment, K key, int hash, @Nullable ReferenceEntry<K, V> next) {
-        return new SoftExpirableEvictableEntry<K, V>(segment.keyReferenceQueue, key, hash, next);
-      }
-
-      @Override
-      <K, V> ReferenceEntry<K, V> copyEntry(
-          Segment<K, V> segment, ReferenceEntry<K, V> original, ReferenceEntry<K, V> newNext) {
-        ReferenceEntry<K, V> newEntry = super.copyEntry(segment, original, newNext);
-        copyExpirableEntry(original, newEntry);
-        copyEvictableEntry(original, newEntry);
+        copyAccessEntry(original, newEntry);
+        copyWriteEntry(original, newEntry);
         return newEntry;
       }
     },
@@ -465,49 +471,49 @@ class CustomConcurrentHashMap<K, V>
         return new WeakEntry<K, V>(segment.keyReferenceQueue, key, hash, next);
       }
     },
-    WEAK_EXPIRABLE {
+    WEAK_ACCESS {
       @Override
       <K, V> ReferenceEntry<K, V> newEntry(
           Segment<K, V> segment, K key, int hash, @Nullable ReferenceEntry<K, V> next) {
-        return new WeakExpirableEntry<K, V>(segment.keyReferenceQueue, key, hash, next);
+        return new WeakAccessEntry<K, V>(segment.keyReferenceQueue, key, hash, next);
       }
 
       @Override
       <K, V> ReferenceEntry<K, V> copyEntry(
           Segment<K, V> segment, ReferenceEntry<K, V> original, ReferenceEntry<K, V> newNext) {
         ReferenceEntry<K, V> newEntry = super.copyEntry(segment, original, newNext);
-        copyExpirableEntry(original, newEntry);
+        copyAccessEntry(original, newEntry);
         return newEntry;
       }
     },
-    WEAK_EVICTABLE {
+    WEAK_WRITE {
       @Override
       <K, V> ReferenceEntry<K, V> newEntry(
           Segment<K, V> segment, K key, int hash, @Nullable ReferenceEntry<K, V> next) {
-        return new WeakEvictableEntry<K, V>(segment.keyReferenceQueue, key, hash, next);
+        return new WeakWriteEntry<K, V>(segment.keyReferenceQueue, key, hash, next);
       }
 
       @Override
       <K, V> ReferenceEntry<K, V> copyEntry(
           Segment<K, V> segment, ReferenceEntry<K, V> original, ReferenceEntry<K, V> newNext) {
         ReferenceEntry<K, V> newEntry = super.copyEntry(segment, original, newNext);
-        copyEvictableEntry(original, newEntry);
+        copyWriteEntry(original, newEntry);
         return newEntry;
       }
     },
-    WEAK_EXPIRABLE_EVICTABLE {
+    WEAK_ACCESS_WRITE {
       @Override
       <K, V> ReferenceEntry<K, V> newEntry(
           Segment<K, V> segment, K key, int hash, @Nullable ReferenceEntry<K, V> next) {
-        return new WeakExpirableEvictableEntry<K, V>(segment.keyReferenceQueue, key, hash, next);
+        return new WeakAccessWriteEntry<K, V>(segment.keyReferenceQueue, key, hash, next);
       }
 
       @Override
       <K, V> ReferenceEntry<K, V> copyEntry(
           Segment<K, V> segment, ReferenceEntry<K, V> original, ReferenceEntry<K, V> newNext) {
         ReferenceEntry<K, V> newEntry = super.copyEntry(segment, original, newNext);
-        copyExpirableEntry(original, newEntry);
-        copyEvictableEntry(original, newEntry);
+        copyAccessEntry(original, newEntry);
+        copyWriteEntry(original, newEntry);
         return newEntry;
       }
     };
@@ -515,23 +521,24 @@ class CustomConcurrentHashMap<K, V>
     /**
      * Masks used to compute indices in the following table.
      */
-    static final int EXPIRABLE_MASK = 1;
-    static final int EVICTABLE_MASK = 2;
+    static final int ACCESS_MASK = 1;
+    static final int WRITE_MASK = 2;
+    static final int WEAK_MASK = 4;
 
     /**
-     * Look-up table for factories. First dimension is the reference type. The second dimension is
-     * the result of OR-ing the feature masks.
+     * Look-up table for factories.
      */
-    static final EntryFactory[][] factories = {
-      { STRONG, STRONG_EXPIRABLE, STRONG_EVICTABLE, STRONG_EXPIRABLE_EVICTABLE },
-      { SOFT, SOFT_EXPIRABLE, SOFT_EVICTABLE, SOFT_EXPIRABLE_EVICTABLE },
-      { WEAK, WEAK_EXPIRABLE, WEAK_EVICTABLE, WEAK_EXPIRABLE_EVICTABLE }
+    static final EntryFactory[] factories = {
+      STRONG, STRONG_ACCESS, STRONG_WRITE, STRONG_ACCESS_WRITE,
+      WEAK, WEAK_ACCESS, WEAK_WRITE, WEAK_ACCESS_WRITE,
     };
 
-    static EntryFactory getFactory(Strength keyStrength, boolean expireAfterWrite,
-        boolean evictsBySize) {
-      int flags = (expireAfterWrite ? EXPIRABLE_MASK : 0) | (evictsBySize ? EVICTABLE_MASK : 0);
-      return factories[keyStrength.ordinal()][flags];
+    static EntryFactory getFactory(Strength keyStrength, boolean usesAccessQueue,
+        boolean usesWriteQueue) {
+      int flags = ((keyStrength == Strength.WEAK) ? WEAK_MASK : 0)
+          | (usesAccessQueue ? ACCESS_MASK : 0)
+          | (usesWriteQueue ? WRITE_MASK : 0);
+      return factories[flags];
     }
 
     /**
@@ -558,25 +565,27 @@ class CustomConcurrentHashMap<K, V>
     }
 
     @GuardedBy("Segment.this")
-    <K, V> void copyExpirableEntry(ReferenceEntry<K, V> original, ReferenceEntry<K, V> newEntry) {
+    <K, V> void copyAccessEntry(ReferenceEntry<K, V> original, ReferenceEntry<K, V> newEntry) {
       // TODO(fry): when we link values instead of entries this method can go
-      // away, as can connectExpirables, nullifyExpirable.
-      newEntry.setExpirationTime(original.getExpirationTime());
+      // away, as can connectAccessOrder, nullifyAccessOrder.
+      newEntry.setAccessTime(original.getAccessTime());
 
-      connectExpirables(original.getPreviousExpirable(), newEntry);
-      connectExpirables(newEntry, original.getNextExpirable());
+      connectAccessOrder(original.getPreviousInAccessQueue(), newEntry);
+      connectAccessOrder(newEntry, original.getNextInAccessQueue());
 
-      nullifyExpirable(original);
+      nullifyAccessOrder(original);
     }
 
     @GuardedBy("Segment.this")
-    <K, V> void copyEvictableEntry(ReferenceEntry<K, V> original, ReferenceEntry<K, V> newEntry) {
+    <K, V> void copyWriteEntry(ReferenceEntry<K, V> original, ReferenceEntry<K, V> newEntry) {
       // TODO(fry): when we link values instead of entries this method can go
-      // away, as can connectEvictables, nullifyEvictable.
-      connectEvictables(original.getPreviousEvictable(), newEntry);
-      connectEvictables(newEntry, original.getNextEvictable());
+      // away, as can connectWriteOrder, nullifyWriteOrder.
+      newEntry.setWriteTime(original.getWriteTime());
 
-      nullifyEvictable(original);
+      connectWriteOrder(original.getPreviousInWriteQueue(), newEntry);
+      connectWriteOrder(newEntry, original.getNextInWriteQueue());
+
+      nullifyWriteOrder(original);
     }
   }
 
@@ -585,22 +594,30 @@ class CustomConcurrentHashMap<K, V>
    */
   interface ValueReference<K, V> {
     /**
-     * Gets the value. Does not block or throw exceptions.
+     * Returns the value. Does not block or throw exceptions.
      */
+    @Nullable
     V get();
 
     /**
-     * Waits for a value that may still be computing. Unlike get(), this method can block (in the
+     * Waits for a value that may still be loading. Unlike get(), this method can block (in the
      * case of FutureValueReference).
      *
-     * @throws ExecutionException if the computing thread throws an exception
+     * @throws ExecutionException if the loading thread throws an exception
+     * @throws ExecutionError if the loading thread throws an error
      */
     V waitForValue() throws ExecutionException;
+
+    /**
+     * Returns the weight of this entry. This is assumed to be static between calls to setValue.
+     */
+    int getWeight();
 
     /**
      * Returns the entry associated with this value reference, or {@code null} if this value
      * reference is independent of any entry.
      */
+    @Nullable
     ReferenceEntry<K, V> getEntry();
 
     /**
@@ -609,19 +626,26 @@ class CustomConcurrentHashMap<K, V>
     ValueReference<K, V> copyFor(ReferenceQueue<V> queue, ReferenceEntry<K, V> entry);
 
     /**
-     * Clears this reference object.
-     *
-     * @param newValue the new value reference which will replace this one; this is only used during
-     *     computation to immediately notify blocked threads of the new value
+     * Notifify pending loads that a new value was set. This is only relevant to loading
+     * value references.
      */
-    void clear(@Nullable ValueReference<K, V> newValue);
+    void notifyNewValue(V newValue);
 
     /**
-     * Returns {@code true} if the value type is a computing reference (regardless of whether or not
-     * computation has completed). This is necessary to distiguish between partially-collected
-     * entries and computing entries, which need to be cleaned up differently.
+     * Returns true if a new value is currently loading, regardless of whether or not there is an
+     * existing value. It is assumed that the return value of this method is constant for any given
+     * ValueReference instance.
      */
-    boolean isComputingReference();
+    boolean isLoading();
+
+    /**
+     * Returns true if this reference contains an active value, meaning one that is still considered
+     * present in the cache. Active values consist of live values, which are returned by cache
+     * lookups, and dead values, which have been evicted but awaiting removal. Non-active values
+     * consist strictly of loading values, though during refresh a value may be both active and
+     * loading.
+     */
+    boolean isActive();
   }
 
   /**
@@ -631,6 +655,11 @@ class CustomConcurrentHashMap<K, V>
     @Override
     public Object get() {
       return null;
+    }
+
+    @Override
+    public int getWeight() {
+      return 0;
     }
 
     @Override
@@ -645,7 +674,12 @@ class CustomConcurrentHashMap<K, V>
     }
 
     @Override
-    public boolean isComputingReference() {
+    public boolean isLoading() {
+      return false;
+    }
+
+    @Override
+    public boolean isActive() {
       return false;
     }
 
@@ -655,11 +689,11 @@ class CustomConcurrentHashMap<K, V>
     }
 
     @Override
-    public void clear(ValueReference<Object, Object> newValue) {}
+    public void notifyNewValue(Object newValue) {}
   };
 
   /**
-   * Singleton placeholder that indicates a value is being computed.
+   * Singleton placeholder that indicates a value is being loaded.
    */
   @SuppressWarnings("unchecked") // impl never uses a parameter or returns any non-null value
   static <K, V> ValueReference<K, V> unset() {
@@ -673,15 +707,16 @@ class CustomConcurrentHashMap<K, V>
    *
    * Valid:
    * - Live: valid key/value are set
-   * - Computing: computation is pending
+   * - Loading: loading is pending
    *
    * Invalid:
    * - Expired: time expired (key/value may still be set)
    * - Collected: key/value was partially collected, but not yet cleaned up
+   * - Unset: marked as unset, awaiting cleanup or reuse
    */
   interface ReferenceEntry<K, V> {
     /**
-     * Gets the value reference from this entry.
+     * Returns the value reference from this entry.
      */
     ValueReference<K, V> getValueReference();
 
@@ -691,81 +726,93 @@ class CustomConcurrentHashMap<K, V>
     void setValueReference(ValueReference<K, V> valueReference);
 
     /**
-     * Gets the next entry in the chain.
+     * Returns the next entry in the chain.
      */
+    @Nullable
     ReferenceEntry<K, V> getNext();
 
     /**
-     * Gets the entry's hash.
+     * Returns the entry's hash.
      */
     int getHash();
 
     /**
-     * Gets the key for this entry.
+     * Returns the key for this entry.
      */
+    @Nullable
     K getKey();
 
     /*
-     * Used by entries that are expirable. Expirable entries are maintained in a doubly-linked list.
+     * Used by entries that use access order. Access entries are maintained in a doubly-linked list.
      * New entries are added at the tail of the list at write time; stale entries are expired from
      * the head of the list.
      */
 
     /**
-     * Gets the entry expiration time in ns.
+     * Returns the time that this entry was last accessed, in ns.
      */
-    long getExpirationTime();
+    long getAccessTime();
 
     /**
-     * Sets the entry expiration time in ns.
+     * Sets the entry access time in ns.
      */
-    void setExpirationTime(long time);
+    void setAccessTime(long time);
 
     /**
-     * Gets the next entry in the recency list.
+     * Returns the next entry in the access queue.
      */
-    ReferenceEntry<K, V> getNextExpirable();
+    ReferenceEntry<K, V> getNextInAccessQueue();
 
     /**
-     * Sets the next entry in the recency list.
+     * Sets the next entry in the access queue.
      */
-    void setNextExpirable(ReferenceEntry<K, V> next);
+    void setNextInAccessQueue(ReferenceEntry<K, V> next);
 
     /**
-     * Gets the previous entry in the recency list.
+     * Returns the previous entry in the access queue.
      */
-    ReferenceEntry<K, V> getPreviousExpirable();
+    ReferenceEntry<K, V> getPreviousInAccessQueue();
 
     /**
-     * Sets the previous entry in the recency list.
+     * Sets the previous entry in the access queue.
      */
-    void setPreviousExpirable(ReferenceEntry<K, V> previous);
+    void setPreviousInAccessQueue(ReferenceEntry<K, V> previous);
 
     /*
-     * Implemented by entries that are evictable. Evictable entries are maintained in a
+     * Implemented by entries that use write order. Write entries are maintained in a
      * doubly-linked list. New entries are added at the tail of the list at write time and stale
      * entries are expired from the head of the list.
      */
 
     /**
-     * Gets the next entry in the recency list.
+     * Returns the time that this entry was last written, in ns.
      */
-    ReferenceEntry<K, V> getNextEvictable();
+    long getWriteTime();
 
     /**
-     * Sets the next entry in the recency list.
+     * Sets the entry write time in ns.
      */
-    void setNextEvictable(ReferenceEntry<K, V> next);
+    void setWriteTime(long time);
 
     /**
-     * Gets the previous entry in the recency list.
+     * Returns the next entry in the write queue.
      */
-    ReferenceEntry<K, V> getPreviousEvictable();
+    ReferenceEntry<K, V> getNextInWriteQueue();
 
     /**
-     * Sets the previous entry in the recency list.
+     * Sets the next entry in the write queue.
      */
-    void setPreviousEvictable(ReferenceEntry<K, V> previous);
+    void setNextInWriteQueue(ReferenceEntry<K, V> next);
+
+    /**
+     * Returns the previous entry in the write queue.
+     */
+    ReferenceEntry<K, V> getPreviousInWriteQueue();
+
+    /**
+     * Sets the previous entry in the write queue.
+     */
+    void setPreviousInWriteQueue(ReferenceEntry<K, V> previous);
   }
 
   private enum NullEntry implements ReferenceEntry<Object, Object> {
@@ -795,44 +842,52 @@ class CustomConcurrentHashMap<K, V>
     }
 
     @Override
-    public long getExpirationTime() {
+    public long getAccessTime() {
       return 0;
     }
 
     @Override
-    public void setExpirationTime(long time) {}
+    public void setAccessTime(long time) {}
 
     @Override
-    public ReferenceEntry<Object, Object> getNextExpirable() {
+    public ReferenceEntry<Object, Object> getNextInAccessQueue() {
       return this;
     }
 
     @Override
-    public void setNextExpirable(ReferenceEntry<Object, Object> next) {}
+    public void setNextInAccessQueue(ReferenceEntry<Object, Object> next) {}
 
     @Override
-    public ReferenceEntry<Object, Object> getPreviousExpirable() {
+    public ReferenceEntry<Object, Object> getPreviousInAccessQueue() {
       return this;
     }
 
     @Override
-    public void setPreviousExpirable(ReferenceEntry<Object, Object> previous) {}
+    public void setPreviousInAccessQueue(ReferenceEntry<Object, Object> previous) {}
 
     @Override
-    public ReferenceEntry<Object, Object> getNextEvictable() {
+    public long getWriteTime() {
+      return 0;
+    }
+
+    @Override
+    public void setWriteTime(long time) {}
+
+    @Override
+    public ReferenceEntry<Object, Object> getNextInWriteQueue() {
       return this;
     }
 
     @Override
-    public void setNextEvictable(ReferenceEntry<Object, Object> next) {}
+    public void setNextInWriteQueue(ReferenceEntry<Object, Object> next) {}
 
     @Override
-    public ReferenceEntry<Object, Object> getPreviousEvictable() {
+    public ReferenceEntry<Object, Object> getPreviousInWriteQueue() {
       return this;
     }
 
     @Override
-    public void setPreviousEvictable(ReferenceEntry<Object, Object> previous) {}
+    public void setPreviousInWriteQueue(ReferenceEntry<Object, Object> previous) {}
   }
 
   static abstract class AbstractReferenceEntry<K, V> implements ReferenceEntry<K, V> {
@@ -862,52 +917,62 @@ class CustomConcurrentHashMap<K, V>
     }
 
     @Override
-    public long getExpirationTime() {
+    public long getAccessTime() {
       throw new UnsupportedOperationException();
     }
 
     @Override
-    public void setExpirationTime(long time) {
+    public void setAccessTime(long time) {
       throw new UnsupportedOperationException();
     }
 
     @Override
-    public ReferenceEntry<K, V> getNextExpirable() {
+    public ReferenceEntry<K, V> getNextInAccessQueue() {
       throw new UnsupportedOperationException();
     }
 
     @Override
-    public void setNextExpirable(ReferenceEntry<K, V> next) {
+    public void setNextInAccessQueue(ReferenceEntry<K, V> next) {
       throw new UnsupportedOperationException();
     }
 
     @Override
-    public ReferenceEntry<K, V> getPreviousExpirable() {
+    public ReferenceEntry<K, V> getPreviousInAccessQueue() {
       throw new UnsupportedOperationException();
     }
 
     @Override
-    public void setPreviousExpirable(ReferenceEntry<K, V> previous) {
+    public void setPreviousInAccessQueue(ReferenceEntry<K, V> previous) {
       throw new UnsupportedOperationException();
     }
 
     @Override
-    public ReferenceEntry<K, V> getNextEvictable() {
+    public long getWriteTime() {
       throw new UnsupportedOperationException();
     }
 
     @Override
-    public void setNextEvictable(ReferenceEntry<K, V> next) {
+    public void setWriteTime(long time) {
       throw new UnsupportedOperationException();
     }
 
     @Override
-    public ReferenceEntry<K, V> getPreviousEvictable() {
+    public ReferenceEntry<K, V> getNextInWriteQueue() {
       throw new UnsupportedOperationException();
     }
 
     @Override
-    public void setPreviousEvictable(ReferenceEntry<K, V> previous) {
+    public void setNextInWriteQueue(ReferenceEntry<K, V> next) {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public ReferenceEntry<K, V> getPreviousInWriteQueue() {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void setPreviousInWriteQueue(ReferenceEntry<K, V> previous) {
       throw new UnsupportedOperationException();
     }
   }
@@ -977,57 +1042,67 @@ class CustomConcurrentHashMap<K, V>
       return this.key;
     }
 
-    // null expiration
+    // null access
 
     @Override
-    public long getExpirationTime() {
+    public long getAccessTime() {
       throw new UnsupportedOperationException();
     }
 
     @Override
-    public void setExpirationTime(long time) {
+    public void setAccessTime(long time) {
       throw new UnsupportedOperationException();
     }
 
     @Override
-    public ReferenceEntry<K, V> getNextExpirable() {
+    public ReferenceEntry<K, V> getNextInAccessQueue() {
       throw new UnsupportedOperationException();
     }
 
     @Override
-    public void setNextExpirable(ReferenceEntry<K, V> next) {
+    public void setNextInAccessQueue(ReferenceEntry<K, V> next) {
       throw new UnsupportedOperationException();
     }
 
     @Override
-    public ReferenceEntry<K, V> getPreviousExpirable() {
+    public ReferenceEntry<K, V> getPreviousInAccessQueue() {
       throw new UnsupportedOperationException();
     }
 
     @Override
-    public void setPreviousExpirable(ReferenceEntry<K, V> previous) {
+    public void setPreviousInAccessQueue(ReferenceEntry<K, V> previous) {
       throw new UnsupportedOperationException();
     }
 
-    // null eviction
+    // null write
 
     @Override
-    public ReferenceEntry<K, V> getNextEvictable() {
-      throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public void setNextEvictable(ReferenceEntry<K, V> next) {
+    public long getWriteTime() {
       throw new UnsupportedOperationException();
     }
 
     @Override
-    public ReferenceEntry<K, V> getPreviousEvictable() {
+    public void setWriteTime(long time) {
       throw new UnsupportedOperationException();
     }
 
     @Override
-    public void setPreviousEvictable(ReferenceEntry<K, V> previous) {
+    public ReferenceEntry<K, V> getNextInWriteQueue() {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void setNextInWriteQueue(ReferenceEntry<K, V> next) {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public ReferenceEntry<K, V> getPreviousInWriteQueue() {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void setPreviousInWriteQueue(ReferenceEntry<K, V> previous) {
       throw new UnsupportedOperationException();
     }
 
@@ -1044,9 +1119,7 @@ class CustomConcurrentHashMap<K, V>
 
     @Override
     public void setValueReference(ValueReference<K, V> valueReference) {
-      ValueReference<K, V> previous = this.valueReference;
       this.valueReference = valueReference;
-      previous.clear(valueReference);
     }
 
     @Override
@@ -1060,417 +1133,184 @@ class CustomConcurrentHashMap<K, V>
     }
   }
 
-  static final class StrongExpirableEntry<K, V> extends StrongEntry<K, V>
+  static final class StrongAccessEntry<K, V> extends StrongEntry<K, V>
       implements ReferenceEntry<K, V> {
-    StrongExpirableEntry(K key, int hash, @Nullable ReferenceEntry<K, V> next) {
+    StrongAccessEntry(K key, int hash, @Nullable ReferenceEntry<K, V> next) {
       super(key, hash, next);
     }
 
-    // The code below is exactly the same for each expirable entry type.
+    // The code below is exactly the same for each access entry type.
 
-    volatile long time = Long.MAX_VALUE;
+    volatile long accessTime = Long.MAX_VALUE;
 
     @Override
-    public long getExpirationTime() {
-      return time;
+    public long getAccessTime() {
+      return accessTime;
     }
 
     @Override
-    public void setExpirationTime(long time) {
-      this.time = time;
-    }
-
-    @GuardedBy("Segment.this")
-    ReferenceEntry<K, V> nextExpirable = nullEntry();
-
-    @Override
-    public ReferenceEntry<K, V> getNextExpirable() {
-      return nextExpirable;
-    }
-
-    @Override
-    public void setNextExpirable(ReferenceEntry<K, V> next) {
-      this.nextExpirable = next;
+    public void setAccessTime(long time) {
+      this.accessTime = time;
     }
 
     @GuardedBy("Segment.this")
-    ReferenceEntry<K, V> previousExpirable = nullEntry();
+    ReferenceEntry<K, V> nextAccess = nullEntry();
 
     @Override
-    public ReferenceEntry<K, V> getPreviousExpirable() {
-      return previousExpirable;
+    public ReferenceEntry<K, V> getNextInAccessQueue() {
+      return nextAccess;
     }
 
     @Override
-    public void setPreviousExpirable(ReferenceEntry<K, V> previous) {
-      this.previousExpirable = previous;
+    public void setNextInAccessQueue(ReferenceEntry<K, V> next) {
+      this.nextAccess = next;
+    }
+
+    @GuardedBy("Segment.this")
+    ReferenceEntry<K, V> previousAccess = nullEntry();
+
+    @Override
+    public ReferenceEntry<K, V> getPreviousInAccessQueue() {
+      return previousAccess;
+    }
+
+    @Override
+    public void setPreviousInAccessQueue(ReferenceEntry<K, V> previous) {
+      this.previousAccess = previous;
     }
   }
 
-  static final class StrongEvictableEntry<K, V>
+  static final class StrongWriteEntry<K, V>
       extends StrongEntry<K, V> implements ReferenceEntry<K, V> {
-    StrongEvictableEntry(K key, int hash, @Nullable ReferenceEntry<K, V> next) {
+    StrongWriteEntry(K key, int hash, @Nullable ReferenceEntry<K, V> next) {
       super(key, hash, next);
     }
 
-    // The code below is exactly the same for each evictable entry type.
+    // The code below is exactly the same for each write entry type.
+
+    volatile long writeTime = Long.MAX_VALUE;
+
+    @Override
+    public long getWriteTime() {
+      return writeTime;
+    }
+
+    @Override
+    public void setWriteTime(long time) {
+      this.writeTime = time;
+    }
 
     @GuardedBy("Segment.this")
-    ReferenceEntry<K, V> nextEvictable = nullEntry();
+    ReferenceEntry<K, V> nextWrite = nullEntry();
 
     @Override
-    public ReferenceEntry<K, V> getNextEvictable() {
-      return nextEvictable;
+    public ReferenceEntry<K, V> getNextInWriteQueue() {
+      return nextWrite;
     }
 
     @Override
-    public void setNextEvictable(ReferenceEntry<K, V> next) {
-      this.nextEvictable = next;
+    public void setNextInWriteQueue(ReferenceEntry<K, V> next) {
+      this.nextWrite = next;
     }
 
     @GuardedBy("Segment.this")
-    ReferenceEntry<K, V> previousEvictable = nullEntry();
+    ReferenceEntry<K, V> previousWrite = nullEntry();
 
     @Override
-    public ReferenceEntry<K, V> getPreviousEvictable() {
-      return previousEvictable;
+    public ReferenceEntry<K, V> getPreviousInWriteQueue() {
+      return previousWrite;
     }
 
     @Override
-    public void setPreviousEvictable(ReferenceEntry<K, V> previous) {
-      this.previousEvictable = previous;
+    public void setPreviousInWriteQueue(ReferenceEntry<K, V> previous) {
+      this.previousWrite = previous;
     }
   }
 
-  static final class StrongExpirableEvictableEntry<K, V>
+  static final class StrongAccessWriteEntry<K, V>
       extends StrongEntry<K, V> implements ReferenceEntry<K, V> {
-    StrongExpirableEvictableEntry(K key, int hash, @Nullable ReferenceEntry<K, V> next) {
+    StrongAccessWriteEntry(K key, int hash, @Nullable ReferenceEntry<K, V> next) {
       super(key, hash, next);
     }
 
-    // The code below is exactly the same for each expirable entry type.
+    // The code below is exactly the same for each access entry type.
 
-    volatile long time = Long.MAX_VALUE;
+    volatile long accessTime = Long.MAX_VALUE;
 
     @Override
-    public long getExpirationTime() {
-      return time;
+    public long getAccessTime() {
+      return accessTime;
     }
 
     @Override
-    public void setExpirationTime(long time) {
-      this.time = time;
+    public void setAccessTime(long time) {
+      this.accessTime = time;
     }
 
     @GuardedBy("Segment.this")
-    ReferenceEntry<K, V> nextExpirable = nullEntry();
+    ReferenceEntry<K, V> nextAccess = nullEntry();
 
     @Override
-    public ReferenceEntry<K, V> getNextExpirable() {
-      return nextExpirable;
+    public ReferenceEntry<K, V> getNextInAccessQueue() {
+      return nextAccess;
     }
 
     @Override
-    public void setNextExpirable(ReferenceEntry<K, V> next) {
-      this.nextExpirable = next;
+    public void setNextInAccessQueue(ReferenceEntry<K, V> next) {
+      this.nextAccess = next;
     }
 
     @GuardedBy("Segment.this")
-    ReferenceEntry<K, V> previousExpirable = nullEntry();
+    ReferenceEntry<K, V> previousAccess = nullEntry();
 
     @Override
-    public ReferenceEntry<K, V> getPreviousExpirable() {
-      return previousExpirable;
-    }
-
-    @Override
-    public void setPreviousExpirable(ReferenceEntry<K, V> previous) {
-      this.previousExpirable = previous;
-    }
-
-    // The code below is exactly the same for each evictable entry type.
-
-    @GuardedBy("Segment.this")
-    ReferenceEntry<K, V> nextEvictable = nullEntry();
-
-    @Override
-    public ReferenceEntry<K, V> getNextEvictable() {
-      return nextEvictable;
+    public ReferenceEntry<K, V> getPreviousInAccessQueue() {
+      return previousAccess;
     }
 
     @Override
-    public void setNextEvictable(ReferenceEntry<K, V> next) {
-      this.nextEvictable = next;
+    public void setPreviousInAccessQueue(ReferenceEntry<K, V> previous) {
+      this.previousAccess = previous;
     }
 
-    @GuardedBy("Segment.this")
-    ReferenceEntry<K, V> previousEvictable = nullEntry();
+    // The code below is exactly the same for each write entry type.
+
+    volatile long writeTime = Long.MAX_VALUE;
 
     @Override
-    public ReferenceEntry<K, V> getPreviousEvictable() {
-      return previousEvictable;
-    }
-
-    @Override
-    public void setPreviousEvictable(ReferenceEntry<K, V> previous) {
-      this.previousEvictable = previous;
-    }
-  }
-
-  /**
-   * Used for softly-referenced keys.
-   */
-  static class SoftEntry<K, V> extends SoftReference<K> implements ReferenceEntry<K, V> {
-    SoftEntry(ReferenceQueue<K> queue, K key, int hash, @Nullable ReferenceEntry<K, V> next) {
-      super(key, queue);
-      this.hash = hash;
-      this.next = next;
+    public long getWriteTime() {
+      return writeTime;
     }
 
     @Override
-    public K getKey() {
-      return get();
-    }
-
-    // null expiration
-    @Override
-    public long getExpirationTime() {
-      throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public void setExpirationTime(long time) {
-      throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public ReferenceEntry<K, V> getNextExpirable() {
-      throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public void setNextExpirable(ReferenceEntry<K, V> next) {
-      throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public ReferenceEntry<K, V> getPreviousExpirable() {
-      throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public void setPreviousExpirable(ReferenceEntry<K, V> previous) {
-      throw new UnsupportedOperationException();
-    }
-
-    // null eviction
-
-    @Override
-    public ReferenceEntry<K, V> getNextEvictable() {
-      throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public void setNextEvictable(ReferenceEntry<K, V> next) {
-      throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public ReferenceEntry<K, V> getPreviousEvictable() {
-      throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public void setPreviousEvictable(ReferenceEntry<K, V> previous) {
-      throw new UnsupportedOperationException();
-    }
-
-    // The code below is exactly the same for each entry type.
-
-    final int hash;
-    final ReferenceEntry<K, V> next;
-    volatile ValueReference<K, V> valueReference = unset();
-
-    @Override
-    public ValueReference<K, V> getValueReference() {
-      return valueReference;
-    }
-
-    @Override
-    public void setValueReference(ValueReference<K, V> valueReference) {
-      ValueReference<K, V> previous = this.valueReference;
-      this.valueReference = valueReference;
-      previous.clear(valueReference);
-    }
-
-    @Override
-    public int getHash() {
-      return hash;
-    }
-
-    @Override
-    public ReferenceEntry<K, V> getNext() {
-      return next;
-    }
-  }
-
-  static final class SoftExpirableEntry<K, V>
-      extends SoftEntry<K, V> implements ReferenceEntry<K, V> {
-    SoftExpirableEntry(
-        ReferenceQueue<K> queue, K key, int hash, @Nullable ReferenceEntry<K, V> next) {
-      super(queue, key, hash, next);
-    }
-
-    // The code below is exactly the same for each expirable entry type.
-
-    volatile long time = Long.MAX_VALUE;
-
-    @Override
-    public long getExpirationTime() {
-      return time;
-    }
-
-    @Override
-    public void setExpirationTime(long time) {
-      this.time = time;
+    public void setWriteTime(long time) {
+      this.writeTime = time;
     }
 
     @GuardedBy("Segment.this")
-    ReferenceEntry<K, V> nextExpirable = nullEntry();
+    ReferenceEntry<K, V> nextWrite = nullEntry();
 
     @Override
-    public ReferenceEntry<K, V> getNextExpirable() {
-      return nextExpirable;
+    public ReferenceEntry<K, V> getNextInWriteQueue() {
+      return nextWrite;
     }
 
     @Override
-    public void setNextExpirable(ReferenceEntry<K, V> next) {
-      this.nextExpirable = next;
+    public void setNextInWriteQueue(ReferenceEntry<K, V> next) {
+      this.nextWrite = next;
     }
 
     @GuardedBy("Segment.this")
-    ReferenceEntry<K, V> previousExpirable = nullEntry();
+    ReferenceEntry<K, V> previousWrite = nullEntry();
 
     @Override
-    public ReferenceEntry<K, V> getPreviousExpirable() {
-      return previousExpirable;
-    }
-
-    @Override
-    public void setPreviousExpirable(ReferenceEntry<K, V> previous) {
-      this.previousExpirable = previous;
-    }
-  }
-
-  static final class SoftEvictableEntry<K, V>
-      extends SoftEntry<K, V> implements ReferenceEntry<K, V> {
-    SoftEvictableEntry(
-        ReferenceQueue<K> queue, K key, int hash, @Nullable ReferenceEntry<K, V> next) {
-      super(queue, key, hash, next);
-    }
-
-    // The code below is exactly the same for each evictable entry type.
-
-    @GuardedBy("Segment.this")
-    ReferenceEntry<K, V> nextEvictable = nullEntry();
-
-    @Override
-    public ReferenceEntry<K, V> getNextEvictable() {
-      return nextEvictable;
+    public ReferenceEntry<K, V> getPreviousInWriteQueue() {
+      return previousWrite;
     }
 
     @Override
-    public void setNextEvictable(ReferenceEntry<K, V> next) {
-      this.nextEvictable = next;
-    }
-
-    @GuardedBy("Segment.this")
-    ReferenceEntry<K, V> previousEvictable = nullEntry();
-
-    @Override
-    public ReferenceEntry<K, V> getPreviousEvictable() {
-      return previousEvictable;
-    }
-
-    @Override
-    public void setPreviousEvictable(ReferenceEntry<K, V> previous) {
-      this.previousEvictable = previous;
-    }
-  }
-
-  static final class SoftExpirableEvictableEntry<K, V>
-      extends SoftEntry<K, V> implements ReferenceEntry<K, V> {
-    SoftExpirableEvictableEntry(
-        ReferenceQueue<K> queue, K key, int hash, @Nullable ReferenceEntry<K, V> next) {
-      super(queue, key, hash, next);
-    }
-
-    // The code below is exactly the same for each expirable entry type.
-
-    volatile long time = Long.MAX_VALUE;
-
-    @Override
-    public long getExpirationTime() {
-      return time;
-    }
-
-    @Override
-    public void setExpirationTime(long time) {
-      this.time = time;
-    }
-
-    @GuardedBy("Segment.this")
-    ReferenceEntry<K, V> nextExpirable = nullEntry();
-
-    @Override
-    public ReferenceEntry<K, V> getNextExpirable() {
-      return nextExpirable;
-    }
-
-    @Override
-    public void setNextExpirable(ReferenceEntry<K, V> next) {
-      this.nextExpirable = next;
-    }
-
-    @GuardedBy("Segment.this")
-    ReferenceEntry<K, V> previousExpirable = nullEntry();
-
-    @Override
-    public ReferenceEntry<K, V> getPreviousExpirable() {
-      return previousExpirable;
-    }
-
-    @Override
-    public void setPreviousExpirable(ReferenceEntry<K, V> previous) {
-      this.previousExpirable = previous;
-    }
-
-    // The code below is exactly the same for each evictable entry type.
-
-    @GuardedBy("Segment.this")
-    ReferenceEntry<K, V> nextEvictable = nullEntry();
-
-    @Override
-    public ReferenceEntry<K, V> getNextEvictable() {
-      return nextEvictable;
-    }
-
-    @Override
-    public void setNextEvictable(ReferenceEntry<K, V> next) {
-      this.nextEvictable = next;
-    }
-
-    @GuardedBy("Segment.this")
-    ReferenceEntry<K, V> previousEvictable = nullEntry();
-
-    @Override
-    public ReferenceEntry<K, V> getPreviousEvictable() {
-      return previousEvictable;
-    }
-
-    @Override
-    public void setPreviousEvictable(ReferenceEntry<K, V> previous) {
-      this.previousEvictable = previous;
+    public void setPreviousInWriteQueue(ReferenceEntry<K, V> previous) {
+      this.previousWrite = previous;
     }
   }
 
@@ -1489,57 +1329,67 @@ class CustomConcurrentHashMap<K, V>
       return get();
     }
 
-    // null expiration
+    // null access
 
     @Override
-    public long getExpirationTime() {
+    public long getAccessTime() {
       throw new UnsupportedOperationException();
     }
 
     @Override
-    public void setExpirationTime(long time) {
+    public void setAccessTime(long time) {
       throw new UnsupportedOperationException();
     }
 
     @Override
-    public ReferenceEntry<K, V> getNextExpirable() {
+    public ReferenceEntry<K, V> getNextInAccessQueue() {
       throw new UnsupportedOperationException();
     }
 
     @Override
-    public void setNextExpirable(ReferenceEntry<K, V> next) {
+    public void setNextInAccessQueue(ReferenceEntry<K, V> next) {
       throw new UnsupportedOperationException();
     }
 
     @Override
-    public ReferenceEntry<K, V> getPreviousExpirable() {
+    public ReferenceEntry<K, V> getPreviousInAccessQueue() {
       throw new UnsupportedOperationException();
     }
 
     @Override
-    public void setPreviousExpirable(ReferenceEntry<K, V> previous) {
+    public void setPreviousInAccessQueue(ReferenceEntry<K, V> previous) {
       throw new UnsupportedOperationException();
     }
 
-    // null eviction
+    // null write
 
     @Override
-    public ReferenceEntry<K, V> getNextEvictable() {
-      throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public void setNextEvictable(ReferenceEntry<K, V> next) {
+    public long getWriteTime() {
       throw new UnsupportedOperationException();
     }
 
     @Override
-    public ReferenceEntry<K, V> getPreviousEvictable() {
+    public void setWriteTime(long time) {
       throw new UnsupportedOperationException();
     }
 
     @Override
-    public void setPreviousEvictable(ReferenceEntry<K, V> previous) {
+    public ReferenceEntry<K, V> getNextInWriteQueue() {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void setNextInWriteQueue(ReferenceEntry<K, V> next) {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public ReferenceEntry<K, V> getPreviousInWriteQueue() {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void setPreviousInWriteQueue(ReferenceEntry<K, V> previous) {
       throw new UnsupportedOperationException();
     }
 
@@ -1556,9 +1406,7 @@ class CustomConcurrentHashMap<K, V>
 
     @Override
     public void setValueReference(ValueReference<K, V> valueReference) {
-      ValueReference<K, V> previous = this.valueReference;
       this.valueReference = valueReference;
-      previous.clear(valueReference);
     }
 
     @Override
@@ -1572,170 +1420,194 @@ class CustomConcurrentHashMap<K, V>
     }
   }
 
-  static final class WeakExpirableEntry<K, V>
+  static final class WeakAccessEntry<K, V>
       extends WeakEntry<K, V> implements ReferenceEntry<K, V> {
-    WeakExpirableEntry(
+    WeakAccessEntry(
         ReferenceQueue<K> queue, K key, int hash, @Nullable ReferenceEntry<K, V> next) {
       super(queue, key, hash, next);
     }
 
-    // The code below is exactly the same for each expirable entry type.
+    // The code below is exactly the same for each access entry type.
 
-    volatile long time = Long.MAX_VALUE;
+    volatile long accessTime = Long.MAX_VALUE;
 
     @Override
-    public long getExpirationTime() {
-      return time;
+    public long getAccessTime() {
+      return accessTime;
     }
 
     @Override
-    public void setExpirationTime(long time) {
-      this.time = time;
-    }
-
-    @GuardedBy("Segment.this")
-    ReferenceEntry<K, V> nextExpirable = nullEntry();
-
-    @Override
-    public ReferenceEntry<K, V> getNextExpirable() {
-      return nextExpirable;
-    }
-
-    @Override
-    public void setNextExpirable(ReferenceEntry<K, V> next) {
-      this.nextExpirable = next;
+    public void setAccessTime(long time) {
+      this.accessTime = time;
     }
 
     @GuardedBy("Segment.this")
-    ReferenceEntry<K, V> previousExpirable = nullEntry();
+    ReferenceEntry<K, V> nextAccess = nullEntry();
 
     @Override
-    public ReferenceEntry<K, V> getPreviousExpirable() {
-      return previousExpirable;
+    public ReferenceEntry<K, V> getNextInAccessQueue() {
+      return nextAccess;
     }
 
     @Override
-    public void setPreviousExpirable(ReferenceEntry<K, V> previous) {
-      this.previousExpirable = previous;
+    public void setNextInAccessQueue(ReferenceEntry<K, V> next) {
+      this.nextAccess = next;
+    }
+
+    @GuardedBy("Segment.this")
+    ReferenceEntry<K, V> previousAccess = nullEntry();
+
+    @Override
+    public ReferenceEntry<K, V> getPreviousInAccessQueue() {
+      return previousAccess;
+    }
+
+    @Override
+    public void setPreviousInAccessQueue(ReferenceEntry<K, V> previous) {
+      this.previousAccess = previous;
     }
   }
 
-  static final class WeakEvictableEntry<K, V>
+  static final class WeakWriteEntry<K, V>
       extends WeakEntry<K, V> implements ReferenceEntry<K, V> {
-    WeakEvictableEntry(
+    WeakWriteEntry(
         ReferenceQueue<K> queue, K key, int hash, @Nullable ReferenceEntry<K, V> next) {
       super(queue, key, hash, next);
     }
 
-    // The code below is exactly the same for each evictable entry type.
+    // The code below is exactly the same for each write entry type.
+
+    volatile long writeTime = Long.MAX_VALUE;
+
+    @Override
+    public long getWriteTime() {
+      return writeTime;
+    }
+
+    @Override
+    public void setWriteTime(long time) {
+      this.writeTime = time;
+    }
 
     @GuardedBy("Segment.this")
-    ReferenceEntry<K, V> nextEvictable = nullEntry();
+    ReferenceEntry<K, V> nextWrite = nullEntry();
 
     @Override
-    public ReferenceEntry<K, V> getNextEvictable() {
-      return nextEvictable;
+    public ReferenceEntry<K, V> getNextInWriteQueue() {
+      return nextWrite;
     }
 
     @Override
-    public void setNextEvictable(ReferenceEntry<K, V> next) {
-      this.nextEvictable = next;
+    public void setNextInWriteQueue(ReferenceEntry<K, V> next) {
+      this.nextWrite = next;
     }
 
     @GuardedBy("Segment.this")
-    ReferenceEntry<K, V> previousEvictable = nullEntry();
+    ReferenceEntry<K, V> previousWrite = nullEntry();
 
     @Override
-    public ReferenceEntry<K, V> getPreviousEvictable() {
-      return previousEvictable;
+    public ReferenceEntry<K, V> getPreviousInWriteQueue() {
+      return previousWrite;
     }
 
     @Override
-    public void setPreviousEvictable(ReferenceEntry<K, V> previous) {
-      this.previousEvictable = previous;
+    public void setPreviousInWriteQueue(ReferenceEntry<K, V> previous) {
+      this.previousWrite = previous;
     }
   }
 
-  static final class WeakExpirableEvictableEntry<K, V>
+  static final class WeakAccessWriteEntry<K, V>
       extends WeakEntry<K, V> implements ReferenceEntry<K, V> {
-    WeakExpirableEvictableEntry(
+    WeakAccessWriteEntry(
         ReferenceQueue<K> queue, K key, int hash, @Nullable ReferenceEntry<K, V> next) {
       super(queue, key, hash, next);
     }
 
-    // The code below is exactly the same for each expirable entry type.
+    // The code below is exactly the same for each access entry type.
 
-    volatile long time = Long.MAX_VALUE;
+    volatile long accessTime = Long.MAX_VALUE;
 
     @Override
-    public long getExpirationTime() {
-      return time;
+    public long getAccessTime() {
+      return accessTime;
     }
 
     @Override
-    public void setExpirationTime(long time) {
-      this.time = time;
-    }
-
-    @GuardedBy("Segment.this")
-    ReferenceEntry<K, V> nextExpirable = nullEntry();
-
-    @Override
-    public ReferenceEntry<K, V> getNextExpirable() {
-      return nextExpirable;
-    }
-
-    @Override
-    public void setNextExpirable(ReferenceEntry<K, V> next) {
-      this.nextExpirable = next;
+    public void setAccessTime(long time) {
+      this.accessTime = time;
     }
 
     @GuardedBy("Segment.this")
-    ReferenceEntry<K, V> previousExpirable = nullEntry();
+    ReferenceEntry<K, V> nextAccess = nullEntry();
 
     @Override
-    public ReferenceEntry<K, V> getPreviousExpirable() {
-      return previousExpirable;
+    public ReferenceEntry<K, V> getNextInAccessQueue() {
+      return nextAccess;
     }
 
     @Override
-    public void setPreviousExpirable(ReferenceEntry<K, V> previous) {
-      this.previousExpirable = previous;
-    }
-
-    // The code below is exactly the same for each evictable entry type.
-
-    @GuardedBy("Segment.this")
-    ReferenceEntry<K, V> nextEvictable = nullEntry();
-
-    @Override
-    public ReferenceEntry<K, V> getNextEvictable() {
-      return nextEvictable;
-    }
-
-    @Override
-    public void setNextEvictable(ReferenceEntry<K, V> next) {
-      this.nextEvictable = next;
+    public void setNextInAccessQueue(ReferenceEntry<K, V> next) {
+      this.nextAccess = next;
     }
 
     @GuardedBy("Segment.this")
-    ReferenceEntry<K, V> previousEvictable = nullEntry();
+    ReferenceEntry<K, V> previousAccess = nullEntry();
 
     @Override
-    public ReferenceEntry<K, V> getPreviousEvictable() {
-      return previousEvictable;
+    public ReferenceEntry<K, V> getPreviousInAccessQueue() {
+      return previousAccess;
     }
 
     @Override
-    public void setPreviousEvictable(ReferenceEntry<K, V> previous) {
-      this.previousEvictable = previous;
+    public void setPreviousInAccessQueue(ReferenceEntry<K, V> previous) {
+      this.previousAccess = previous;
+    }
+
+    // The code below is exactly the same for each write entry type.
+
+    volatile long writeTime = Long.MAX_VALUE;
+
+    @Override
+    public long getWriteTime() {
+      return writeTime;
+    }
+
+    @Override
+    public void setWriteTime(long time) {
+      this.writeTime = time;
+    }
+
+    @GuardedBy("Segment.this")
+    ReferenceEntry<K, V> nextWrite = nullEntry();
+
+    @Override
+    public ReferenceEntry<K, V> getNextInWriteQueue() {
+      return nextWrite;
+    }
+
+    @Override
+    public void setNextInWriteQueue(ReferenceEntry<K, V> next) {
+      this.nextWrite = next;
+    }
+
+    @GuardedBy("Segment.this")
+    ReferenceEntry<K, V> previousWrite = nullEntry();
+
+    @Override
+    public ReferenceEntry<K, V> getPreviousInWriteQueue() {
+      return previousWrite;
+    }
+
+    @Override
+    public void setPreviousInWriteQueue(ReferenceEntry<K, V> previous) {
+      this.previousWrite = previous;
     }
   }
 
   /**
    * References a weak value.
    */
-  static final class WeakValueReference<K, V>
+  static class WeakValueReference<K, V>
       extends WeakReference<V> implements ValueReference<K, V> {
     final ReferenceEntry<K, V> entry;
 
@@ -1745,14 +1617,17 @@ class CustomConcurrentHashMap<K, V>
     }
 
     @Override
+    public int getWeight() {
+      return 1;
+    }
+
+    @Override
     public ReferenceEntry<K, V> getEntry() {
       return entry;
     }
 
     @Override
-    public void clear(ValueReference<K, V> newValue) {
-      clear();
-    }
+    public void notifyNewValue(V newValue) {}
 
     @Override
     public ValueReference<K, V> copyFor(
@@ -1761,8 +1636,13 @@ class CustomConcurrentHashMap<K, V>
     }
 
     @Override
-    public boolean isComputingReference() {
+    public boolean isLoading() {
       return false;
+    }
+
+    @Override
+    public boolean isActive() {
+      return true;
     }
 
     @Override
@@ -1774,7 +1654,7 @@ class CustomConcurrentHashMap<K, V>
   /**
    * References a soft value.
    */
-  static final class SoftValueReference<K, V>
+  static class SoftValueReference<K, V>
       extends SoftReference<V> implements ValueReference<K, V> {
     final ReferenceEntry<K, V> entry;
 
@@ -1784,14 +1664,17 @@ class CustomConcurrentHashMap<K, V>
     }
 
     @Override
+    public int getWeight() {
+      return 1;
+    }
+
+    @Override
     public ReferenceEntry<K, V> getEntry() {
       return entry;
     }
 
     @Override
-    public void clear(ValueReference<K, V> newValue) {
-      clear();
-    }
+    public void notifyNewValue(V newValue) {}
 
     @Override
     public ValueReference<K, V> copyFor(ReferenceQueue<V> queue, ReferenceEntry<K, V> entry) {
@@ -1799,8 +1682,13 @@ class CustomConcurrentHashMap<K, V>
     }
 
     @Override
-    public boolean isComputingReference() {
+    public boolean isLoading() {
       return false;
+    }
+
+    @Override
+    public boolean isActive() {
+      return true;
     }
 
     @Override
@@ -1812,7 +1700,7 @@ class CustomConcurrentHashMap<K, V>
   /**
    * References a strong value.
    */
-  static final class StrongValueReference<K, V> implements ValueReference<K, V> {
+  static class StrongValueReference<K, V> implements ValueReference<K, V> {
     final V referent;
 
     StrongValueReference(V referent) {
@@ -1822,6 +1710,11 @@ class CustomConcurrentHashMap<K, V>
     @Override
     public V get() {
       return referent;
+    }
+
+    @Override
+    public int getWeight() {
+      return 1;
     }
 
     @Override
@@ -1835,8 +1728,13 @@ class CustomConcurrentHashMap<K, V>
     }
 
     @Override
-    public boolean isComputingReference() {
+    public boolean isLoading() {
       return false;
+    }
+
+    @Override
+    public boolean isActive() {
+      return true;
     }
 
     @Override
@@ -1845,7 +1743,71 @@ class CustomConcurrentHashMap<K, V>
     }
 
     @Override
-    public void clear(ValueReference<K, V> newValue) {}
+    public void notifyNewValue(V newValue) {}
+  }
+
+  /**
+   * References a weak value.
+   */
+  static final class WeightedWeakValueReference<K, V> extends WeakValueReference<K, V> {
+    final int weight;
+
+    WeightedWeakValueReference(ReferenceQueue<V> queue, V referent, ReferenceEntry<K, V> entry,
+        int weight) {
+      super(queue, referent, entry);
+      this.weight = weight;
+    }
+
+    @Override
+    public int getWeight() {
+      return weight;
+    }
+
+    @Override
+    public ValueReference<K, V> copyFor(
+        ReferenceQueue<V> queue, ReferenceEntry<K, V> entry) {
+      return new WeightedWeakValueReference<K, V>(queue, get(), entry, weight);
+    }
+  }
+
+  /**
+   * References a soft value.
+   */
+  static final class WeightedSoftValueReference<K, V> extends SoftValueReference<K, V> {
+    final int weight;
+
+    WeightedSoftValueReference(ReferenceQueue<V> queue, V referent, ReferenceEntry<K, V> entry,
+        int weight) {
+      super(queue, referent, entry);
+      this.weight = weight;
+    }
+
+    @Override
+    public int getWeight() {
+      return weight;
+    }
+    @Override
+    public ValueReference<K, V> copyFor(ReferenceQueue<V> queue, ReferenceEntry<K, V> entry) {
+      return new WeightedSoftValueReference<K, V>(queue, get(), entry, weight);
+    }
+
+  }
+
+  /**
+   * References a strong value.
+   */
+  static final class WeightedStrongValueReference<K, V> extends StrongValueReference<K, V> {
+    final int weight;
+
+    WeightedStrongValueReference(V referent, int weight) {
+      super(referent);
+      this.weight = weight;
+    }
+
+    @Override
+    public int getWeight() {
+      return weight;
+    }
   }
 
   /**
@@ -1892,9 +1854,9 @@ class CustomConcurrentHashMap<K, V>
    */
   @GuardedBy("Segment.this")
   @VisibleForTesting
-  ValueReference<K, V> newValueReference(ReferenceEntry<K, V> entry, V value) {
+  ValueReference<K, V> newValueReference(ReferenceEntry<K, V> entry, V value, int weight) {
     int hash = entry.getHash();
-    return valueStrength.referenceValue(segmentFor(hash), entry, value);
+    return valueStrength.referenceValue(segmentFor(hash), entry, value, weight);
   }
 
   int hash(Object key) {
@@ -1918,8 +1880,8 @@ class CustomConcurrentHashMap<K, V>
    * instead.
    */
   @VisibleForTesting
-  boolean isLive(ReferenceEntry<K, V> entry) {
-    return segmentFor(entry.getHash()).getLiveValue(entry) != null;
+  boolean isLive(ReferenceEntry<K, V> entry, long now) {
+    return segmentFor(entry.getHash()).getLiveValue(entry, now) != null;
   }
 
   /**
@@ -1933,16 +1895,18 @@ class CustomConcurrentHashMap<K, V>
     return segments[(hash >>> segmentShift) & segmentMask];
   }
 
-  Segment<K, V> createSegment(int initialCapacity, int maxSegmentSize) {
-    return new Segment<K, V>(this, initialCapacity, maxSegmentSize);
+  Segment<K, V> createSegment(
+      int initialCapacity, long maxSegmentWeight, StatsCounter statsCounter) {
+    return new Segment<K, V>(this, initialCapacity, maxSegmentWeight, statsCounter);
   }
 
   /**
-   * Gets the value from an entry. Returns {@code null} if the entry is invalid,
-   * partially-collected, computing, or expired. Unlike {@link Segment#getLiveValue} this method
-   * does not attempt to clean up stale entries.
+   * Gets the value from an entry. Returns null if the entry is invalid, partially-collected,
+   * loading, or expired. Unlike {@link Segment#getLiveValue} this method does not attempt to
+   * cleanup stale entries.
    */
-  V getLiveValue(ReferenceEntry<K, V> entry) {
+  @Nullable
+  V getLiveValue(ReferenceEntry<K, V> entry, long now) {
     if (entry.getKey() == null) {
       return null;
     }
@@ -1951,7 +1915,7 @@ class CustomConcurrentHashMap<K, V>
       return null;
     }
 
-    if (expires() && isExpired(entry)) {
+    if (isExpired(entry, now)) {
       return null;
     }
     return value;
@@ -1960,34 +1924,47 @@ class CustomConcurrentHashMap<K, V>
   // expiration
 
   /**
-   * Returns {@code true} if the entry has expired.
-   */
-  boolean isExpired(ReferenceEntry<K, V> entry) {
-    return isExpired(entry, ticker.read());
-  }
-
-  /**
-   * Returns {@code true} if the entry has expired.
+   * Returns true if the entry has expired.
    */
   boolean isExpired(ReferenceEntry<K, V> entry, long now) {
-    // if the expiration time had overflowed, this "undoes" the overflow
-    return now - entry.getExpirationTime() > 0;
+    if (expiresAfterAccess()
+        && (now - entry.getAccessTime() > expireAfterAccessNanos)) {
+      return true;
+    }
+    if (expiresAfterWrite()
+        && (now - entry.getWriteTime() > expireAfterWriteNanos)) {
+      return true;
+    }
+    return false;
+  }
+
+  // queues
+
+  @GuardedBy("Segment.this")
+  static <K, V> void connectAccessOrder(ReferenceEntry<K, V> previous, ReferenceEntry<K, V> next) {
+    previous.setNextInAccessQueue(next);
+    next.setPreviousInAccessQueue(previous);
   }
 
   @GuardedBy("Segment.this")
-  static <K, V> void connectExpirables(ReferenceEntry<K, V> previous, ReferenceEntry<K, V> next) {
-    previous.setNextExpirable(next);
-    next.setPreviousExpirable(previous);
-  }
-
-  @GuardedBy("Segment.this")
-  static <K, V> void nullifyExpirable(ReferenceEntry<K, V> nulled) {
+  static <K, V> void nullifyAccessOrder(ReferenceEntry<K, V> nulled) {
     ReferenceEntry<K, V> nullEntry = nullEntry();
-    nulled.setNextExpirable(nullEntry);
-    nulled.setPreviousExpirable(nullEntry);
+    nulled.setNextInAccessQueue(nullEntry);
+    nulled.setPreviousInAccessQueue(nullEntry);
   }
 
-  // eviction
+  @GuardedBy("Segment.this")
+  static <K, V> void connectWriteOrder(ReferenceEntry<K, V> previous, ReferenceEntry<K, V> next) {
+    previous.setNextInWriteQueue(next);
+    next.setPreviousInWriteQueue(previous);
+  }
+
+  @GuardedBy("Segment.this")
+  static <K, V> void nullifyWriteOrder(ReferenceEntry<K, V> nulled) {
+    ReferenceEntry<K, V> nullEntry = nullEntry();
+    nulled.setNextInWriteQueue(nullEntry);
+    nulled.setPreviousInWriteQueue(nullEntry);
+  }
 
   /**
    * Notifies listeners that an entry has been automatically removed due to expiration, eviction,
@@ -2003,20 +1980,6 @@ class CustomConcurrentHashMap<K, V>
         logger.log(Level.WARNING, "Exception thrown by removal listener", e);
       }
     }
-  }
-
-  /** Links the evitables together. */
-  @GuardedBy("Segment.this")
-  static <K, V> void connectEvictables(ReferenceEntry<K, V> previous, ReferenceEntry<K, V> next) {
-    previous.setNextEvictable(next);
-    next.setPreviousEvictable(previous);
-  }
-
-  @GuardedBy("Segment.this")
-  static <K, V> void nullifyEvictable(ReferenceEntry<K, V> nulled) {
-    ReferenceEntry<K, V> nullEntry = nullEntry();
-    nulled.setNextEvictable(nullEntry);
-    nulled.setPreviousEvictable(nullEntry);
   }
 
   @SuppressWarnings("unchecked")
@@ -2066,18 +2029,23 @@ class CustomConcurrentHashMap<K, V>
      * comments.
      */
 
-    final CustomConcurrentHashMap<K, V> map;
+    final LocalCacheInternalMap<K, V> map;
 
     /**
-     * The number of live elements in this segment's region. This does not include unset elements
-     * which are awaiting cleanup.
+     * The number of live elements in this segment's region.
      */
     volatile int count;
 
     /**
+     * The weight of the live elements in this segment's region.
+     */
+    @GuardedBy("Segment.this")
+    int totalWeight;
+
+    /**
      * Number of updates that alter the size of the table. This is used during bulk-read methods to
      * make sure they see a consistent snapshot: If modCounts change during a traversal of segments
-     * computing size or checking containsValue, then we might have an inconsistent view of state
+     * loading size or checking containsValue, then we might have an inconsistent view of state
      * so (usually) must retry.
      */
     int modCount;
@@ -2094,9 +2062,9 @@ class CustomConcurrentHashMap<K, V>
     volatile AtomicReferenceArray<ReferenceEntry<K, V>> table;
 
     /**
-     * The maximum size of this map. MapMaker.UNSET_INT if there is no maximum.
+     * The maximum weight of this segment. UNSET_INT if there is no maximum.
      */
-    final int maxSegmentSize;
+    final long maxSegmentWeight;
 
     /**
      * The key reference queue contains entries whose keys have been garbage collected, and which
@@ -2111,7 +2079,7 @@ class CustomConcurrentHashMap<K, V>
     final ReferenceQueue<V> valueReferenceQueue;
 
     /**
-     * The recency queue is used to record which entries were accessed for updating the eviction
+     * The recency queue is used to record which entries were accessed for updating the access
      * list's ordering. It is drained as a batch operation when either the DRAIN_THRESHOLD is
      * crossed or a write occurs on the segment.
      */
@@ -2124,22 +2092,27 @@ class CustomConcurrentHashMap<K, V>
     final AtomicInteger readCount = new AtomicInteger();
 
     /**
-     * A queue of elements currently in the map, ordered by access time. Elements are added to the
-     * tail of the queue on access/write.
+     * A queue of elements currently in the map, ordered by write time. Elements are added to the
+     * tail of the queue on write.
      */
     @GuardedBy("Segment.this")
-    final Queue<ReferenceEntry<K, V>> evictionQueue;
+    final Queue<ReferenceEntry<K, V>> writeQueue;
 
     /**
-     * A queue of elements currently in the map, ordered by expiration time (either access or write
-     * time). Elements are added to the tail of the queue on access/write.
+     * A queue of elements currently in the map, ordered by access time. Elements are added to the
+     * tail of the queue on access (note that writes count as accesses).
      */
     @GuardedBy("Segment.this")
-    final Queue<ReferenceEntry<K, V>> expirationQueue;
+    final Queue<ReferenceEntry<K, V>> accessQueue;
 
-    Segment(CustomConcurrentHashMap<K, V> map, int initialCapacity, int maxSegmentSize) {
+    /** Accumulates cache statistics. */
+    final StatsCounter statsCounter;
+
+    Segment(LocalCacheInternalMap<K, V> map, int initialCapacity, long maxSegmentWeight,
+        StatsCounter statsCounter) {
       this.map = map;
-      this.maxSegmentSize = maxSegmentSize;
+      this.maxSegmentWeight = maxSegmentWeight;
+      this.statsCounter = statsCounter;
       initTable(newEntryArray(initialCapacity));
 
       keyReferenceQueue = map.usesKeyReferences()
@@ -2148,17 +2121,17 @@ class CustomConcurrentHashMap<K, V>
       valueReferenceQueue = map.usesValueReferences()
            ? new ReferenceQueue<V>() : null;
 
-      recencyQueue = (map.evictsBySize() || map.expiresAfterAccess())
+      recencyQueue = map.usesAccessQueue()
           ? new ConcurrentLinkedQueue<ReferenceEntry<K, V>>()
-          : CustomConcurrentHashMap.<ReferenceEntry<K, V>>discardingQueue();
+          : LocalCacheInternalMap.<ReferenceEntry<K, V>>discardingQueue();
 
-      evictionQueue = map.evictsBySize()
-          ? new EvictionQueue<K, V>()
-          : CustomConcurrentHashMap.<ReferenceEntry<K, V>>discardingQueue();
+      writeQueue = map.usesWriteQueue()
+          ? new WriteQueue<K, V>()
+          : LocalCacheInternalMap.<ReferenceEntry<K, V>>discardingQueue();
 
-      expirationQueue = map.expires()
-          ? new ExpirationQueue<K, V>()
-          : CustomConcurrentHashMap.<ReferenceEntry<K, V>>discardingQueue();
+      accessQueue = map.usesAccessQueue()
+          ? new AccessQueue<K, V>()
+          : LocalCacheInternalMap.<ReferenceEntry<K, V>>discardingQueue();
     }
 
     AtomicReferenceArray<ReferenceEntry<K, V>> newEntryArray(int size) {
@@ -2167,7 +2140,7 @@ class CustomConcurrentHashMap<K, V>
 
     void initTable(AtomicReferenceArray<ReferenceEntry<K, V>> newTable) {
       this.threshold = newTable.length() * 3 / 4; // 0.75
-      if (this.threshold == maxSegmentSize) {
+      if (!map.customWeigher() && this.threshold == maxSegmentWeight) {
         // prevent spurious expansion before eviction
         this.threshold++;
       }
@@ -2188,13 +2161,224 @@ class CustomConcurrentHashMap<K, V>
     }
 
     /**
-     * Sets a new value of an entry. Adds newly created entries at the end of the expiration queue.
+     * Sets a new value of an entry. Adds newly created entries at the end of the access queue.
      */
     @GuardedBy("Segment.this")
-    void setValue(ReferenceEntry<K, V> entry, V value) {
-      ValueReference<K, V> valueReference = map.valueStrength.referenceValue(this, entry, value);
+    void setValue(ReferenceEntry<K, V> entry, K key, V value, long now) {
+      ValueReference<K, V> previous = entry.getValueReference();
+      int weight = map.weigher.weigh(key, value);
+      checkState(weight >= 0, "Weights must be non-negative");
+
+      ValueReference<K, V> valueReference =
+          map.valueStrength.referenceValue(this, entry, value, weight);
       entry.setValueReference(valueReference);
-      recordWrite(entry);
+      recordWrite(entry, weight, now);
+      previous.notifyNewValue(value);
+    }
+
+    // loading
+
+    V getOrLoad(K key, int hash, CacheLoader<? super K, V> loader) throws ExecutionException {
+      try {
+        if (count != 0) { // read-volatile
+          // don't call getLiveEntry, which would ignore loading values
+          ReferenceEntry<K, V> e = getEntry(key, hash);
+          if (e != null) {
+            long now = map.ticker.read();
+            V value = getLiveValue(e, now);
+            if (value != null) {
+              recordRead(e, now);
+              statsCounter.recordHits(1);
+              return value;
+            }
+            ValueReference<K, V> valueReference = e.getValueReference();
+            if (valueReference.isLoading()) {
+              return waitForLoadingValue(e, valueReference);
+            }
+          }
+        }
+
+        // at this point e is either null or expired;
+        return lockedGetOrLoad(key, hash, loader);
+      } finally {
+        postReadCleanup();
+      }
+    }
+
+    V lockedGetOrLoad(K key, int hash, CacheLoader<? super K, V> loader)
+        throws ExecutionException {
+      ReferenceEntry<K, V> e;
+      ValueReference<K, V> valueReference = null;
+      LoadingValueReference<K, V> loadingValueReference = null;
+      boolean createNewEntry = true;
+
+      lock();
+      try {
+        // re-read ticker once inside the lock
+        long now = map.ticker.read();
+        preWriteCleanup(now);
+
+        int newCount = this.count - 1;
+        AtomicReferenceArray<ReferenceEntry<K, V>> table = this.table;
+        int index = hash & (table.length() - 1);
+        ReferenceEntry<K, V> first = table.get(index);
+
+        for (e = first; e != null; e = e.getNext()) {
+          K entryKey = e.getKey();
+          if (e.getHash() == hash && entryKey != null
+              && map.keyEquivalence.equivalent(key, entryKey)) {
+            valueReference = e.getValueReference();
+            if (valueReference.isLoading()) {
+              createNewEntry = false;
+            } else {
+              V value = valueReference.get();
+              if (value == null) {
+                enqueueNotification(entryKey, hash, valueReference, RemovalCause.COLLECTED);
+              } else if (map.isExpired(e, now)) {
+                // This is a duplicate check, as preWriteCleanup already purged expired
+                // entries, but let's accomodate an incorrect expiration queue.
+                enqueueNotification(entryKey, hash, valueReference, RemovalCause.EXPIRED);
+              } else {
+                recordLockedRead(e, now);
+                statsCounter.recordHits(1);
+                return value;
+              }
+
+              // immediately reuse invalid entries
+              writeQueue.remove(e);
+              accessQueue.remove(e);
+              this.count = newCount; // write-volatile
+            }
+            break;
+          }
+        }
+
+        if (createNewEntry) {
+          loadingValueReference = new LoadingValueReference<K, V>();
+
+          if (e == null) {
+            e = newEntry(key, hash, first);
+            e.setValueReference(loadingValueReference);
+            table.set(index, e);
+          } else {
+            e.setValueReference(loadingValueReference);
+          }
+        }
+      } finally {
+        unlock();
+        postWriteCleanup();
+      }
+
+      if (createNewEntry) {
+        try {
+          return loadEntry(key, hash, e, loadingValueReference, loader);
+        } finally {
+          statsCounter.recordMisses(1);
+        }
+      } else {
+        // The entry already exists. Wait for loading.
+        return waitForLoadingValue(e, valueReference);
+      }
+    }
+
+    V waitForLoadingValue(ReferenceEntry<K, V> e, ValueReference<K, V> valueReference)
+        throws ExecutionException {
+      if (!valueReference.isLoading()) {
+        throw new AssertionError();
+      }
+
+      checkState(!Thread.holdsLock(e), "Recursive load");
+      // don't consider expiration as we're concurrent with loading
+      try {
+        V value = valueReference.waitForValue();
+        if (value == null) {
+          throw new AssertionError();
+        }
+        // re-read ticker now that loading has completed
+        long now = map.ticker.read();
+        recordRead(e, now);
+        return value;
+      } finally {
+        statsCounter.recordMisses(1);
+      }
+    }
+
+    V loadEntry(K key, int hash, ReferenceEntry<K, V> entry,
+        LoadingValueReference<K, V> loadingValueReference, CacheLoader<? super K, V> loader)
+        throws ExecutionException {
+      V value = null;
+      Stopwatch stopwatch = new Stopwatch().start();
+      try {
+        // Synchronizes on the entry to allow failing fast when a recursive load is
+        // detected. This may be circumvented when an entry is copied, but will fail fast most of
+        // the time.
+        synchronized (entry) {
+          value = loadingValueReference.load(key, hash, loader);
+        }
+        if (value == null) {
+          throw new AssertionError();
+        }
+        statsCounter.recordLoadSuccess(stopwatch.elapsedTime(NANOSECONDS));
+        storeLoadedValue(key, hash, loadingValueReference, value);
+        return value;
+      } finally {
+        if (value == null) {
+          statsCounter.recordLoadException(stopwatch.elapsedTime(NANOSECONDS));
+          removeLoadingValue(key, hash, loadingValueReference);
+        }
+      }
+    }
+
+    boolean refresh(K key, int hash, CacheLoader<? super K, V> loader) throws ExecutionException {
+      ReferenceEntry<K, V> e = null;
+      LoadingValueReference<K, V> loadingValueReference = null;
+
+      lock();
+      try {
+        long now = map.ticker.read();
+        preWriteCleanup(now);
+
+        AtomicReferenceArray<ReferenceEntry<K, V>> table = this.table;
+        int index = hash & (table.length() - 1);
+        ReferenceEntry<K, V> first = table.get(index);
+
+        // Look for an existing entry.
+        for (e = first; e != null; e = e.getNext()) {
+          K entryKey = e.getKey();
+          if (e.getHash() == hash && entryKey != null
+              && map.keyEquivalence.equivalent(key, entryKey)) {
+            // We found an existing entry.
+
+            ValueReference<K, V> valueReference = e.getValueReference();
+            if (valueReference.isLoading()) {
+              // refresh is a no-op if loading is pending
+              return false;
+            }
+
+            // continue returning old value while loading
+            loadingValueReference = new LoadingValueReference<K, V>(valueReference);
+            break;
+          }
+        }
+
+        ++modCount;
+        if (loadingValueReference == null) {
+          loadingValueReference = new LoadingValueReference<K, V>();
+        }
+        if (e == null) {
+          e = newEntry(key, hash, first);
+          e.setValueReference(loadingValueReference);
+          table.set(index, e);
+        } else {
+          e.setValueReference(loadingValueReference);
+        }
+      } finally {
+        unlock();
+        postWriteCleanup();
+      }
+
+      loadEntry(key, hash, e, loadingValueReference, loader);
+      return true;
     }
 
     // reference queues, for garbage collection cleanup
@@ -2283,9 +2467,9 @@ class CustomConcurrentHashMap<K, V>
      *
      * <p>Note: locked reads should use {@link #recordLockedRead}.
      */
-    void recordRead(ReferenceEntry<K, V> entry) {
-      if (map.expiresAfterAccess()) {
-        recordExpirationTime(entry, map.expireAfterAccessNanos);
+    void recordRead(ReferenceEntry<K, V> entry, long now) {
+      if (map.recordsAccess()) {
+        entry.setAccessTime(now);
       }
       recencyQueue.add(entry);
     }
@@ -2298,12 +2482,11 @@ class CustomConcurrentHashMap<K, V>
      * eviction queues. Unlocked reads should use {@link #recordRead}.
      */
     @GuardedBy("Segment.this")
-    void recordLockedRead(ReferenceEntry<K, V> entry) {
-      evictionQueue.add(entry);
-      if (map.expiresAfterAccess()) {
-        recordExpirationTime(entry, map.expireAfterAccessNanos);
-        expirationQueue.add(entry);
+    void recordLockedRead(ReferenceEntry<K, V> entry, long now) {
+      if (map.recordsAccess()) {
+        entry.setAccessTime(now);
       }
+      accessQueue.add(entry);
     }
 
     /**
@@ -2311,19 +2494,19 @@ class CustomConcurrentHashMap<K, V>
      * adding {@code entry} to relevant eviction lists.
      */
     @GuardedBy("Segment.this")
-    void recordWrite(ReferenceEntry<K, V> entry) {
+    void recordWrite(ReferenceEntry<K, V> entry, int weight, long now) {
       // we are already under lock, so drain the recency queue immediately
       drainRecencyQueue();
-      evictionQueue.add(entry);
-      if (map.expires()) {
-        // currently MapMaker ensures that expireAfterWrite and
-        // expireAfterAccess are mutually exclusive
-        long expiration = map.expiresAfterAccess()
-            ? map.expireAfterAccessNanos
-            : map.expireAfterWriteNanos;
-        recordExpirationTime(entry, expiration);
-        expirationQueue.add(entry);
+      totalWeight += weight;
+
+      if (map.recordsAccess()) {
+        entry.setAccessTime(now);
       }
+      if (map.recordsWrite()) {
+        entry.setWriteTime(now);
+      }
+      accessQueue.add(entry);
+      writeQueue.add(entry);
     }
 
     /**
@@ -2340,29 +2523,21 @@ class CustomConcurrentHashMap<K, V>
         // the map . This can occur when the entry was concurrently read while a
         // writer is removing it from the segment or after a clear has removed
         // all of the segment's entries.
-        if (evictionQueue.contains(e)) {
-          evictionQueue.add(e);
-        }
-        if (map.expiresAfterAccess() && expirationQueue.contains(e)) {
-          expirationQueue.add(e);
+        if (accessQueue.contains(e)) {
+          accessQueue.add(e);
         }
       }
     }
 
     // expiration
 
-    void recordExpirationTime(ReferenceEntry<K, V> entry, long expirationNanos) {
-      // might overflow, but that's okay (see isExpired())
-      entry.setExpirationTime(map.ticker.read() + expirationNanos);
-    }
-
     /**
      * Cleanup expired entries when the lock is available.
      */
-    void tryExpireEntries() {
+    void tryExpireEntries(long now) {
       if (tryLock()) {
         try {
-          expireEntries();
+          expireEntries(now);
         } finally {
           unlock();
           // don't call postWriteCleanup as we're in a read
@@ -2371,17 +2546,16 @@ class CustomConcurrentHashMap<K, V>
     }
 
     @GuardedBy("Segment.this")
-    void expireEntries() {
+    void expireEntries(long now) {
       drainRecencyQueue();
 
-      if (expirationQueue.isEmpty()) {
-        // There's no point in calling nanoTime() if we have no entries to
-        // expire.
-        return;
-      }
-      long now = map.ticker.read();
       ReferenceEntry<K, V> e;
-      while ((e = expirationQueue.peek()) != null && map.isExpired(e, now)) {
+      while ((e = writeQueue.peek()) != null && map.isExpired(e, now)) {
+        if (!removeEntry(e, e.getHash(), RemovalCause.EXPIRED)) {
+          throw new AssertionError();
+        }
+      }
+      while ((e = accessQueue.peek()) != null && map.isExpired(e, now)) {
         if (!removeEntry(e, e.getHash(), RemovalCause.EXPIRED)) {
           throw new AssertionError();
         }
@@ -2390,12 +2564,20 @@ class CustomConcurrentHashMap<K, V>
 
     // eviction
 
+    @GuardedBy("Segment.this")
     void enqueueNotification(ReferenceEntry<K, V> entry, RemovalCause cause) {
-      enqueueNotification(entry.getKey(), entry.getHash(), entry.getValueReference().get(), cause);
+      enqueueNotification(entry.getKey(), entry.getHash(), entry.getValueReference(), cause);
     }
 
-    void enqueueNotification(@Nullable K key, int hash, @Nullable V value, RemovalCause cause) {
+    @GuardedBy("Segment.this")
+    void enqueueNotification(@Nullable K key, int hash, ValueReference<K, V> valueReference,
+        RemovalCause cause) {
+      totalWeight -= valueReference.getWeight();
+      if (cause.wasEvicted()) {
+        statsCounter.recordEviction();
+      }
       if (map.removalNotificationQueue != DISCARDING_QUEUE) {
+        V value = valueReference.get();
         RemovalNotification<K, V> notification = new RemovalNotification<K, V>(key, value, cause);
         map.removalNotificationQueue.offer(notification);
       }
@@ -2404,21 +2586,31 @@ class CustomConcurrentHashMap<K, V>
     /**
      * Performs eviction if the segment is full. This should only be called prior to adding a new
      * entry and increasing {@code count}.
-     *
-     * @return {@code true} if eviction occurred
      */
     @GuardedBy("Segment.this")
-    boolean evictEntries() {
-      if (map.evictsBySize() && count >= maxSegmentSize) {
-        drainRecencyQueue();
+    void evictEntries() {
+      if (!map.evictsBySize()) {
+        return;
+      }
 
-        ReferenceEntry<K, V> e = evictionQueue.remove();
+      drainRecencyQueue();
+      while (totalWeight > maxSegmentWeight) {
+        ReferenceEntry<K, V> e = getNextEvictable();
         if (!removeEntry(e, e.getHash(), RemovalCause.SIZE)) {
           throw new AssertionError();
         }
-        return true;
       }
-      return false;
+    }
+
+    // TODO(fry): instead implement this with an eviction head
+    ReferenceEntry<K, V> getNextEvictable() {
+      for (ReferenceEntry<K, V> e : accessQueue) {
+        int weight = e.getValueReference().getWeight();
+        if (weight > 0) {
+          return e;
+        }
+      }
+      throw new AssertionError();
     }
 
     /**
@@ -2432,53 +2624,58 @@ class CustomConcurrentHashMap<K, V>
 
     // Specialized implementations of map methods
 
+    @Nullable
     ReferenceEntry<K, V> getEntry(Object key, int hash) {
-      if (count != 0) { // read-volatile
-        for (ReferenceEntry<K, V> e = getFirst(hash); e != null; e = e.getNext()) {
-          if (e.getHash() != hash) {
-            continue;
-          }
+      for (ReferenceEntry<K, V> e = getFirst(hash); e != null; e = e.getNext()) {
+        if (e.getHash() != hash) {
+          continue;
+        }
 
-          K entryKey = e.getKey();
-          if (entryKey == null) {
-            tryDrainReferenceQueues();
-            continue;
-          }
+        K entryKey = e.getKey();
+        if (entryKey == null) {
+          tryDrainReferenceQueues();
+          continue;
+        }
 
-          if (map.keyEquivalence.equivalent(key, entryKey)) {
-            return e;
-          }
+        if (map.keyEquivalence.equivalent(key, entryKey)) {
+          return e;
         }
       }
 
       return null;
     }
 
-    ReferenceEntry<K, V> getLiveEntry(Object key, int hash) {
+    @Nullable
+    ReferenceEntry<K, V> getLiveEntry(Object key, int hash, long now) {
       ReferenceEntry<K, V> e = getEntry(key, hash);
       if (e == null) {
         return null;
-      } else if (map.expires() && map.isExpired(e)) {
-        tryExpireEntries();
+      } else if (map.isExpired(e, now)) {
+        tryExpireEntries(now);
         return null;
       }
       return e;
     }
 
+    @Nullable
     V get(Object key, int hash) {
       try {
-        ReferenceEntry<K, V> e = getLiveEntry(key, hash);
-        if (e == null) {
-          return null;
-        }
+        if (count != 0) { // read-volatile
+          long now = map.ticker.read();
+          ReferenceEntry<K, V> e = getLiveEntry(key, hash, now);
+          if (e == null) {
+            return null;
+          }
 
-        V value = e.getValueReference().get();
-        if (value != null) {
-          recordRead(e);
-        } else {
-          tryDrainReferenceQueues();
+          V value = e.getValueReference().get();
+          if (value != null) {
+            recordRead(e, now);
+          } else {
+            tryDrainReferenceQueues();
+          }
+          return value;
         }
-        return value;
+        return null;
       } finally {
         postReadCleanup();
       }
@@ -2487,7 +2684,8 @@ class CustomConcurrentHashMap<K, V>
     boolean containsKey(Object key, int hash) {
       try {
         if (count != 0) { // read-volatile
-          ReferenceEntry<K, V> e = getLiveEntry(key, hash);
+          long now = map.ticker.read();
+          ReferenceEntry<K, V> e = getLiveEntry(key, hash, now);
           if (e == null) {
             return false;
           }
@@ -2502,17 +2700,18 @@ class CustomConcurrentHashMap<K, V>
 
     /**
      * This method is a convenience for testing. Code should call {@link
-     * CustomConcurrentHashMap#containsValue} directly.
+     * LocalCacheInternalMap#containsValue} directly.
      */
     @VisibleForTesting
     boolean containsValue(Object value) {
       try {
         if (count != 0) { // read-volatile
+          long now = map.ticker.read();
           AtomicReferenceArray<ReferenceEntry<K, V>> table = this.table;
           int length = table.length();
           for (int i = 0; i < length; ++i) {
             for (ReferenceEntry<K, V> e = table.get(i); e != null; e = e.getNext()) {
-              V entryValue = getLiveValue(e);
+              V entryValue = getLiveValue(e, now);
               if (entryValue == null) {
                 continue;
               }
@@ -2529,10 +2728,12 @@ class CustomConcurrentHashMap<K, V>
       }
     }
 
+    @Nullable
     V put(K key, int hash, V value, boolean onlyIfAbsent) {
       lock();
       try {
-        preWriteCleanup();
+        long now = map.ticker.read();
+        preWriteCleanup(now);
 
         int newCount = this.count + 1;
         if (newCount > this.threshold) { // ensure capacity
@@ -2556,26 +2757,29 @@ class CustomConcurrentHashMap<K, V>
 
             if (entryValue == null) {
               ++modCount;
-              setValue(e, value);
-              if (!valueReference.isComputingReference()) {
-                enqueueNotification(key, hash, entryValue, RemovalCause.COLLECTED);
+              if (valueReference.isActive()) {
+                enqueueNotification(key, hash, valueReference, RemovalCause.COLLECTED);
+                setValue(e, key, value, now);
                 newCount = this.count; // count remains unchanged
-              } else if (evictEntries()) { // evictEntries after setting new value
+              } else {
+                setValue(e, key, value, now);
                 newCount = this.count + 1;
               }
               this.count = newCount; // write-volatile
+              evictEntries();
               return null;
             } else if (onlyIfAbsent) {
               // Mimic
               // "if (!map.containsKey(key)) ...
               // else return map.get(key);
-              recordLockedRead(e);
+              recordLockedRead(e, now);
               return entryValue;
             } else {
               // clobber existing entry, count remains unchanged
               ++modCount;
-              enqueueNotification(key, hash, entryValue, RemovalCause.REPLACED);
-              setValue(e, value);
+              enqueueNotification(key, hash, valueReference, RemovalCause.REPLACED);
+              setValue(e, key, value, now);
+              evictEntries();
               return entryValue;
             }
           }
@@ -2584,12 +2788,11 @@ class CustomConcurrentHashMap<K, V>
         // Create a new entry.
         ++modCount;
         ReferenceEntry<K, V> newEntry = newEntry(key, hash, first);
-        setValue(newEntry, value);
+        setValue(newEntry, key, value, now);
         table.set(index, newEntry);
-        if (evictEntries()) { // evictEntries after setting new value
-          newCount = this.count + 1;
-        }
+        newCount = this.count + 1;
         this.count = newCount; // write-volatile
+        evictEntries();
         return null;
       } finally {
         unlock();
@@ -2672,7 +2875,8 @@ class CustomConcurrentHashMap<K, V>
     boolean replace(K key, int hash, V oldValue, V newValue) {
       lock();
       try {
-        preWriteCleanup();
+        long now = map.ticker.read();
+        preWriteCleanup(now);
 
         AtomicReferenceArray<ReferenceEntry<K, V>> table = this.table;
         int index = hash & (table.length() - 1);
@@ -2682,16 +2886,15 @@ class CustomConcurrentHashMap<K, V>
           K entryKey = e.getKey();
           if (e.getHash() == hash && entryKey != null
               && map.keyEquivalence.equivalent(key, entryKey)) {
-            // If the value disappeared, this entry is partially collected,
-            // and we should pretend like it doesn't exist.
             ValueReference<K, V> valueReference = e.getValueReference();
             V entryValue = valueReference.get();
             if (entryValue == null) {
-              if (isCollected(valueReference)) {
+              if (valueReference.isActive()) {
+                // If the value disappeared, this entry is partially collected.
                 int newCount = this.count - 1;
                 ++modCount;
-                enqueueNotification(entryKey, hash, entryValue, RemovalCause.COLLECTED);
-                ReferenceEntry<K, V> newFirst = removeFromChain(first, e);
+                ReferenceEntry<K, V> newFirst = removeValueFromChain(
+                    first, e, entryKey, hash, valueReference, RemovalCause.COLLECTED);
                 newCount = this.count - 1;
                 table.set(index, newFirst);
                 this.count = newCount; // write-volatile
@@ -2701,13 +2904,14 @@ class CustomConcurrentHashMap<K, V>
 
             if (map.valueEquivalence.equivalent(oldValue, entryValue)) {
               ++modCount;
-              enqueueNotification(key, hash, entryValue, RemovalCause.REPLACED);
-              setValue(e, newValue);
+              enqueueNotification(key, hash, valueReference, RemovalCause.REPLACED);
+              setValue(e, key, newValue, now);
+              evictEntries();
               return true;
             } else {
               // Mimic
               // "if (map.containsKey(key) && map.get(key).equals(oldValue))..."
-              recordLockedRead(e);
+              recordLockedRead(e, now);
               return false;
             }
           }
@@ -2720,10 +2924,12 @@ class CustomConcurrentHashMap<K, V>
       }
     }
 
+    @Nullable
     V replace(K key, int hash, V newValue) {
       lock();
       try {
-        preWriteCleanup();
+        long now = map.ticker.read();
+        preWriteCleanup(now);
 
         AtomicReferenceArray<ReferenceEntry<K, V>> table = this.table;
         int index = hash & (table.length() - 1);
@@ -2733,16 +2939,15 @@ class CustomConcurrentHashMap<K, V>
           K entryKey = e.getKey();
           if (e.getHash() == hash && entryKey != null
               && map.keyEquivalence.equivalent(key, entryKey)) {
-            // If the value disappeared, this entry is partially collected,
-            // and we should pretend like it doesn't exist.
             ValueReference<K, V> valueReference = e.getValueReference();
             V entryValue = valueReference.get();
             if (entryValue == null) {
-              if (isCollected(valueReference)) {
+              if (valueReference.isActive()) {
+                // If the value disappeared, this entry is partially collected.
                 int newCount = this.count - 1;
                 ++modCount;
-                enqueueNotification(entryKey, hash, entryValue, RemovalCause.COLLECTED);
-                ReferenceEntry<K, V> newFirst = removeFromChain(first, e);
+                ReferenceEntry<K, V> newFirst = removeValueFromChain(
+                    first, e, entryKey, hash, valueReference, RemovalCause.COLLECTED);
                 newCount = this.count - 1;
                 table.set(index, newFirst);
                 this.count = newCount; // write-volatile
@@ -2751,8 +2956,9 @@ class CustomConcurrentHashMap<K, V>
             }
 
             ++modCount;
-            enqueueNotification(key, hash, entryValue, RemovalCause.REPLACED);
-            setValue(e, newValue);
+            enqueueNotification(key, hash, valueReference, RemovalCause.REPLACED);
+            setValue(e, key, newValue, now);
+            evictEntries();
             return entryValue;
           }
         }
@@ -2764,10 +2970,12 @@ class CustomConcurrentHashMap<K, V>
       }
     }
 
+    @Nullable
     V remove(Object key, int hash) {
       lock();
       try {
-        preWriteCleanup();
+        long now = map.ticker.read();
+        preWriteCleanup(now);
 
         int newCount = this.count - 1;
         AtomicReferenceArray<ReferenceEntry<K, V>> table = this.table;
@@ -2784,15 +2992,16 @@ class CustomConcurrentHashMap<K, V>
             RemovalCause cause;
             if (entryValue != null) {
               cause = RemovalCause.EXPLICIT;
-            } else if (isCollected(valueReference)) {
+            } else if (valueReference.isActive()) {
               cause = RemovalCause.COLLECTED;
             } else {
+              // currently loading
               return null;
             }
 
             ++modCount;
-            enqueueNotification(entryKey, hash, entryValue, cause);
-            ReferenceEntry<K, V> newFirst = removeFromChain(first, e);
+            ReferenceEntry<K, V> newFirst = removeValueFromChain(
+                first, e, entryKey, hash, valueReference, cause);
             newCount = this.count - 1;
             table.set(index, newFirst);
             this.count = newCount; // write-volatile
@@ -2807,10 +3016,63 @@ class CustomConcurrentHashMap<K, V>
       }
     }
 
+    boolean storeLoadedValue(K key, int hash, LoadingValueReference<K, V> oldValueReference,
+        V newValue) {
+      lock();
+      try {
+        long now = map.ticker.read();
+        preWriteCleanup(now);
+
+        int newCount = this.count + 1;
+        AtomicReferenceArray<ReferenceEntry<K, V>> table = this.table;
+        int index = hash & (table.length() - 1);
+        ReferenceEntry<K, V> first = table.get(index);
+
+        for (ReferenceEntry<K, V> e = first; e != null; e = e.getNext()) {
+          K entryKey = e.getKey();
+          if (e.getHash() == hash && entryKey != null
+              && map.keyEquivalence.equivalent(key, entryKey)) {
+            ValueReference<K, V> valueReference = e.getValueReference();
+            V entryValue = valueReference.get();
+            if (entryValue == null || oldValueReference == valueReference) {
+              ++modCount;
+              if (oldValueReference.isActive()) {
+                RemovalCause cause =
+                    (entryValue == null) ? RemovalCause.COLLECTED : RemovalCause.REPLACED;
+                enqueueNotification(key, hash, oldValueReference, cause);
+                newCount--;
+              }
+              setValue(e, key, newValue, now);
+              this.count = newCount; // write-volatile
+              evictEntries();
+              return true;
+            }
+
+            // the loaded value was already clobbered
+            valueReference = new WeightedStrongValueReference<K, V>(newValue, 0);
+            enqueueNotification(key, hash, valueReference, RemovalCause.REPLACED);
+            return false;
+          }
+        }
+
+        ++modCount;
+        ReferenceEntry<K, V> newEntry = newEntry(key, hash, first);
+        setValue(newEntry, key, newValue, now);
+        table.set(index, newEntry);
+        this.count = newCount; // write-volatile
+        evictEntries();
+        return true;
+      } finally {
+        unlock();
+        postWriteCleanup();
+      }
+    }
+
     boolean remove(Object key, int hash, Object value) {
       lock();
       try {
-        preWriteCleanup();
+        long now = map.ticker.read();
+        preWriteCleanup(now);
 
         int newCount = this.count - 1;
         AtomicReferenceArray<ReferenceEntry<K, V>> table = this.table;
@@ -2827,15 +3089,16 @@ class CustomConcurrentHashMap<K, V>
             RemovalCause cause;
             if (map.valueEquivalence.equivalent(value, entryValue)) {
               cause = RemovalCause.EXPLICIT;
-            } else if (isCollected(valueReference)) {
+            } else if (entryValue == null && valueReference.isActive()) {
               cause = RemovalCause.COLLECTED;
             } else {
+              // currently loading
               return false;
             }
 
             ++modCount;
-            enqueueNotification(entryKey, hash, entryValue, cause);
-            ReferenceEntry<K, V> newFirst = removeFromChain(first, e);
+            ReferenceEntry<K, V> newFirst = removeValueFromChain(
+                first, e, entryKey, hash, valueReference, cause);
             newCount = this.count - 1;
             table.set(index, newFirst);
             this.count = newCount; // write-volatile
@@ -2851,15 +3114,15 @@ class CustomConcurrentHashMap<K, V>
     }
 
     void clear() {
-      if (count != 0) {
+      if (count != 0) { // read-volatile
         lock();
         try {
           AtomicReferenceArray<ReferenceEntry<K, V>> table = this.table;
           if (map.removalNotificationQueue != DISCARDING_QUEUE) {
             for (int i = 0; i < table.length(); ++i) {
               for (ReferenceEntry<K, V> e = table.get(i); e != null; e = e.getNext()) {
-                // Computing references aren't actually in the map yet.
-                if (!e.getValueReference().isComputingReference()) {
+                // Loading references aren't actually in the map yet.
+                if (e.getValueReference().isActive()) {
                   enqueueNotification(e, RemovalCause.EXPLICIT);
                 }
               }
@@ -2869,8 +3132,8 @@ class CustomConcurrentHashMap<K, V>
             table.set(i, null);
           }
           clearReferenceQueues();
-          evictionQueue.clear();
-          expirationQueue.clear();
+          writeQueue.clear();
+          accessQueue.clear();
           readCount.set(0);
 
           ++modCount;
@@ -2882,23 +3145,27 @@ class CustomConcurrentHashMap<K, V>
       }
     }
 
-    /**
-     * Removes an entry from within a table. All entries following the removed node can stay, but
-     * all preceding ones need to be cloned.
-     *
-     * <p>This method does not decrement count for the removed entry, but does decrement count for
-     * all partially collected entries which are skipped. As such callers which are modifying count
-     * must re-read it after calling removeFromChain.
-     *
-     * @param first the first entry of the table
-     * @param entry the entry being removed from the table
-     * @return the new first entry for the table
-     */
     @GuardedBy("Segment.this")
-    ReferenceEntry<K, V> removeFromChain(ReferenceEntry<K, V> first, ReferenceEntry<K, V> entry) {
-      evictionQueue.remove(entry);
-      expirationQueue.remove(entry);
+    @Nullable
+    ReferenceEntry<K, V> removeValueFromChain(ReferenceEntry<K, V> first,
+        ReferenceEntry<K, V> entry, @Nullable K key, int hash, ValueReference<K, V> valueReference,
+        RemovalCause cause) {
+      enqueueNotification(key, hash, valueReference, cause);
+      writeQueue.remove(entry);
+      accessQueue.remove(entry);
 
+      if (valueReference.isLoading()) {
+        valueReference.notifyNewValue(null);
+        return first;
+      } else {
+        return removeEntryFromChain(first, entry);
+      }
+    }
+
+    @GuardedBy("Segment.this")
+    @Nullable
+    ReferenceEntry<K, V> removeEntryFromChain(ReferenceEntry<K, V> first,
+        ReferenceEntry<K, V> entry) {
       int newCount = count;
       ReferenceEntry<K, V> newFirst = entry.getNext();
       for (ReferenceEntry<K, V> e = first; e != entry; e = e.getNext()) {
@@ -2913,10 +3180,11 @@ class CustomConcurrentHashMap<K, V>
       return newFirst;
     }
 
+    @GuardedBy("Segment.this")
     void removeCollectedEntry(ReferenceEntry<K, V> entry) {
       enqueueNotification(entry, RemovalCause.COLLECTED);
-      evictionQueue.remove(entry);
-      expirationQueue.remove(entry);
+      writeQueue.remove(entry);
+      accessQueue.remove(entry);
     }
 
     /**
@@ -2933,9 +3201,8 @@ class CustomConcurrentHashMap<K, V>
         for (ReferenceEntry<K, V> e = first; e != null; e = e.getNext()) {
           if (e == entry) {
             ++modCount;
-            enqueueNotification(
-                e.getKey(), hash, e.getValueReference().get(), RemovalCause.COLLECTED);
-            ReferenceEntry<K, V> newFirst = removeFromChain(first, e);
+            ReferenceEntry<K, V> newFirst = removeValueFromChain(
+                first, e, e.getKey(), hash, e.getValueReference(), RemovalCause.COLLECTED);
             newCount = this.count - 1;
             table.set(index, newFirst);
             this.count = newCount; // write-volatile
@@ -2968,8 +3235,8 @@ class CustomConcurrentHashMap<K, V>
             ValueReference<K, V> v = e.getValueReference();
             if (v == valueReference) {
               ++modCount;
-              enqueueNotification(key, hash, valueReference.get(), RemovalCause.COLLECTED);
-              ReferenceEntry<K, V> newFirst = removeFromChain(first, e);
+              ReferenceEntry<K, V> newFirst = removeValueFromChain(
+                  first, e, entryKey, hash, valueReference, RemovalCause.COLLECTED);
               newCount = this.count - 1;
               table.set(index, newFirst);
               this.count = newCount; // write-volatile
@@ -2988,10 +3255,7 @@ class CustomConcurrentHashMap<K, V>
       }
     }
 
-    /**
-     * Clears a value that has not yet been set, and thus does not require count to be modified.
-     */
-    boolean clearValue(K key, int hash, ValueReference<K, V> valueReference) {
+    boolean removeLoadingValue(K key, int hash, LoadingValueReference<K, V> valueReference) {
       lock();
       try {
         AtomicReferenceArray<ReferenceEntry<K, V>> table = this.table;
@@ -3004,8 +3268,12 @@ class CustomConcurrentHashMap<K, V>
               && map.keyEquivalence.equivalent(key, entryKey)) {
             ValueReference<K, V> v = e.getValueReference();
             if (v == valueReference) {
-              ReferenceEntry<K, V> newFirst = removeFromChain(first, e);
-              table.set(index, newFirst);
+              if (valueReference.isActive()) {
+                e.setValueReference(valueReference.getOldValue());
+              } else {
+                ReferenceEntry<K, V> newFirst = removeEntryFromChain(first, e);
+                table.set(index, newFirst);
+              }
               return true;
             }
             return false;
@@ -3029,8 +3297,8 @@ class CustomConcurrentHashMap<K, V>
       for (ReferenceEntry<K, V> e = first; e != null; e = e.getNext()) {
         if (e == entry) {
           ++modCount;
-          enqueueNotification(e.getKey(), hash, e.getValueReference().get(), cause);
-          ReferenceEntry<K, V> newFirst = removeFromChain(first, e);
+          ReferenceEntry<K, V> newFirst = removeValueFromChain(
+              first, e, e.getKey(), hash, e.getValueReference(), cause);
           newCount = this.count - 1;
           table.set(index, newFirst);
           this.count = newCount; // write-volatile
@@ -3042,32 +3310,23 @@ class CustomConcurrentHashMap<K, V>
     }
 
     /**
-     * Returns {@code true} if the entry has been partially collected, meaning that either the key
-     * is null, or the value is null and it is not computing.
+     * Returns true if the entry has been partially collected, meaning that either the key is null,
+     * or the value is active but null.
      */
     boolean isCollected(ReferenceEntry<K, V> entry) {
       if (entry.getKey() == null) {
         return true;
       }
-      return isCollected(entry.getValueReference());
+      ValueReference<K, V> valueReference = entry.getValueReference();
+      return (valueReference.get() == null) && valueReference.isActive();
     }
 
     /**
-     * Returns {@code true} if the value has been partially collected, meaning that the value is
-     * null and it is not computing.
+     * Gets the value from an entry. Returns null if the entry is invalid, partially-collected,
+     * loading, or expired.
      */
-    boolean isCollected(ValueReference<K, V> valueReference) {
-      if (valueReference.isComputingReference()) {
-        return false;
-      }
-      return (valueReference.get() == null);
-    }
-
-    /**
-     * Gets the value from an entry. Returns {@code null} if the entry is invalid,
-     * partially-collected, computing, or expired.
-     */
-    V getLiveValue(ReferenceEntry<K, V> entry) {
+    @Nullable
+    V getLiveValue(ReferenceEntry<K, V> entry, long now) {
       if (entry.getKey() == null) {
         tryDrainReferenceQueues();
         return null;
@@ -3078,21 +3337,20 @@ class CustomConcurrentHashMap<K, V>
         return null;
       }
 
-      if (map.expires() && map.isExpired(entry)) {
-        tryExpireEntries();
+      if (map.isExpired(entry, now)) {
+        tryExpireEntries(now);
         return null;
       }
       return value;
     }
 
     /**
-     * Performs routine cleanup following a read. Normally cleanup happens during writes, or from
-     * the cleanupExecutor. If cleanup is not observed after a sufficient number of reads, try
-     * cleaning up from the read thread.
+     * Performs routine cleanup following a read. Normally cleanup happens during writes. If cleanup
+     * is not observed after a sufficient number of reads, try cleaning up from the read thread.
      */
     void postReadCleanup() {
       if ((readCount.incrementAndGet() & DRAIN_THRESHOLD) == 0) {
-        runCleanup();
+        cleanUp();
       }
     }
 
@@ -3103,8 +3361,8 @@ class CustomConcurrentHashMap<K, V>
      * <p>Post-condition: expireEntries has been run.
      */
     @GuardedBy("Segment.this")
-    void preWriteCleanup() {
-      runLockedCleanup();
+    void preWriteCleanup(long now) {
+      runLockedCleanup(now);
     }
 
     /**
@@ -3114,16 +3372,17 @@ class CustomConcurrentHashMap<K, V>
       runUnlockedCleanup();
     }
 
-    void runCleanup() {
-      runLockedCleanup();
+    void cleanUp() {
+      long now = map.ticker.read();
+      runLockedCleanup(now);
       runUnlockedCleanup();
     }
 
-    void runLockedCleanup() {
+    void runLockedCleanup(long now) {
       if (tryLock()) {
         try {
           drainReferenceQueues();
-          expireEntries(); // calls drainRecencyQueue
+          expireEntries(now); // calls drainRecencyQueue
           readCount.set(0);
         } finally {
           unlock();
@@ -3140,6 +3399,209 @@ class CustomConcurrentHashMap<K, V>
 
   }
 
+  private interface LoadedValue<V> {
+    V get() throws ExecutionException;
+  }
+
+  /**
+   * Used to propogate unchecked loading exceptions to other threads.
+   */
+  private static final class LoadedUncheckedException<V> implements LoadedValue<V> {
+    final RuntimeException e;
+
+    LoadedUncheckedException(RuntimeException e) {
+      this.e = e;
+    }
+
+    @Override
+    public V get() {
+      throw new UncheckedExecutionException(e);
+    }
+  }
+
+  /**
+   * Used to propogate loading exceptions to other threads.
+   */
+  private static final class LoadedException<V> implements LoadedValue<V> {
+    final Exception e;
+
+    LoadedException(Exception e) {
+      this.e = e;
+    }
+
+    @Override
+    public V get() throws ExecutionException {
+      throw new ExecutionException(e);
+    }
+  }
+
+  /**
+   * Used to propogate loading errors to other threads.
+   */
+  private static final class LoadedError<V> implements LoadedValue<V> {
+    final Error e;
+
+    LoadedError(Error e) {
+      this.e = e;
+    }
+
+    @Override
+    public V get() {
+      throw new ExecutionError(e);
+    }
+  }
+
+  /**
+   * Used to provide loaded result to other threads.
+   */
+  private static final class LoadedReference<V> implements LoadedValue<V> {
+    final V value;
+
+    LoadedReference(V value) {
+      this.value = checkNotNull(value);
+    }
+
+    @Override
+    public V get() {
+      return value;
+    }
+  }
+
+  /**
+   * Used to provide null loaded result to other threads.
+   */
+  private static final class LoadedNull<K, V> implements LoadedValue<V> {
+    final String msg;
+
+    public LoadedNull(CacheLoader<? super K, V> loader, K key) {
+      this.msg = loader + " returned null for key " + key + ".";
+    }
+
+    @Override
+    public V get() {
+      throw new InvalidCacheLoadException(msg);
+    }
+  }
+
+  static class LoadingValueReference<K, V> implements ValueReference<K, V> {
+
+    volatile ValueReference<K, V> oldValue;
+
+    @GuardedBy("LoadingValueReference.this") // writes
+    volatile LoadedValue<V> loadedValue = null;
+
+    public LoadingValueReference() {
+      this.oldValue = unset();
+    }
+
+    public LoadingValueReference(ValueReference<K, V> oldValue) {
+      this.oldValue = oldValue;
+    }
+
+    @Override
+    public boolean isLoading() {
+      return true;
+    }
+
+    @Override
+    public boolean isActive() {
+      return oldValue.isActive();
+    }
+
+    @Override
+    public int getWeight() {
+      return oldValue.getWeight();
+    }
+
+    @Override
+    public void notifyNewValue(V newValue) {
+      if (newValue != null) {
+        // The pending load was clobbered by a manual write.
+        // Unblock all pending gets, and have them return the new value.
+        setLoadedValue(new LoadedReference<V>(newValue));
+      } else {
+        // The pending load was removed. Delay notifications until loading completes.
+        oldValue = unset();
+      }
+
+      // TODO(fry): could also cancel loading if we had a thread handle
+    }
+
+    void setLoadedValue(LoadedValue<V> newValue) {
+      synchronized (this) {
+        if (loadedValue == null) {
+          loadedValue = newValue;
+          notifyAll();
+        }
+      }
+    }
+
+    V load(K key, int hash, CacheLoader<? super K, V> loader) throws ExecutionException {
+      LoadedValue<V> valueWrapper;
+      try {
+        V previousValue = oldValue.get();
+        V newValue = (previousValue == null)
+            ? loader.load(key)
+            : loader.reload(key, previousValue);
+
+        valueWrapper = (newValue != null)
+            ? new LoadedReference<V>(newValue)
+            : new LoadedNull<K, V>(loader, key);
+      } catch (RuntimeException e) {
+        valueWrapper = new LoadedUncheckedException<V>(e);
+      } catch (Exception e) {
+        valueWrapper = new LoadedException<V>(e);
+      } catch (Error e) {
+        valueWrapper = new LoadedError<V>(e);
+      }
+
+      setLoadedValue(valueWrapper);
+      return valueWrapper.get();
+    }
+
+    @Override
+    public V waitForValue() throws ExecutionException {
+      if (loadedValue == null) {
+        boolean interrupted = false;
+        try {
+          synchronized (this) {
+            while (loadedValue == null) {
+              try {
+                wait();
+              } catch (InterruptedException ie) {
+                interrupted = true;
+              }
+            }
+          }
+        } finally {
+          if (interrupted) {
+            Thread.currentThread().interrupt();
+          }
+        }
+      }
+      return loadedValue.get();
+    }
+
+    @Override
+    public V get() {
+      return oldValue.get();
+    }
+
+    ValueReference<K, V> getOldValue() {
+      return oldValue;
+    }
+
+    @Override
+    public ReferenceEntry<K, V> getEntry() {
+      return null;
+    }
+
+    @Override
+    public ValueReference<K, V> copyFor(ReferenceQueue<V> queue, ReferenceEntry<K, V> entry) {
+      return this;
+    }
+  }
+
   // Queues
 
   /**
@@ -3150,34 +3612,42 @@ class CustomConcurrentHashMap<K, V>
    * the map are also in this queue, and that all elements not in the queue are not in the map.
    *
    * <p>The benefits of creating our own queue are that (1) we can replace elements in the middle
-   * of the queue as part of copyEvictableEntry, and (2) the contains method is highly optimized
+   * of the queue as part of copyWriteEntry, and (2) the contains method is highly optimized
    * for the current model.
    */
-  static final class EvictionQueue<K, V> extends AbstractQueue<ReferenceEntry<K, V>> {
+  static final class WriteQueue<K, V> extends AbstractQueue<ReferenceEntry<K, V>> {
     final ReferenceEntry<K, V> head = new AbstractReferenceEntry<K, V>() {
 
-      ReferenceEntry<K, V> nextEvictable = this;
-
       @Override
-      public ReferenceEntry<K, V> getNextEvictable() {
-        return nextEvictable;
+      public long getWriteTime() {
+        return Long.MAX_VALUE;
       }
 
       @Override
-      public void setNextEvictable(ReferenceEntry<K, V> next) {
-        this.nextEvictable = next;
-      }
+      public void setWriteTime(long time) {}
 
-      ReferenceEntry<K, V> previousEvictable = this;
+      ReferenceEntry<K, V> nextWrite = this;
 
       @Override
-      public ReferenceEntry<K, V> getPreviousEvictable() {
-        return previousEvictable;
+      public ReferenceEntry<K, V> getNextInWriteQueue() {
+        return nextWrite;
       }
 
       @Override
-      public void setPreviousEvictable(ReferenceEntry<K, V> previous) {
-        this.previousEvictable = previous;
+      public void setNextInWriteQueue(ReferenceEntry<K, V> next) {
+        this.nextWrite = next;
+      }
+
+      ReferenceEntry<K, V> previousWrite = this;
+
+      @Override
+      public ReferenceEntry<K, V> getPreviousInWriteQueue() {
+        return previousWrite;
+      }
+
+      @Override
+      public void setPreviousInWriteQueue(ReferenceEntry<K, V> previous) {
+        this.previousWrite = previous;
       }
     };
 
@@ -3186,24 +3656,24 @@ class CustomConcurrentHashMap<K, V>
     @Override
     public boolean offer(ReferenceEntry<K, V> entry) {
       // unlink
-      connectEvictables(entry.getPreviousEvictable(), entry.getNextEvictable());
+      connectWriteOrder(entry.getPreviousInWriteQueue(), entry.getNextInWriteQueue());
 
       // add to tail
-      connectEvictables(head.getPreviousEvictable(), entry);
-      connectEvictables(entry, head);
+      connectWriteOrder(head.getPreviousInWriteQueue(), entry);
+      connectWriteOrder(entry, head);
 
       return true;
     }
 
     @Override
     public ReferenceEntry<K, V> peek() {
-      ReferenceEntry<K, V> next = head.getNextEvictable();
+      ReferenceEntry<K, V> next = head.getNextInWriteQueue();
       return (next == head) ? null : next;
     }
 
     @Override
     public ReferenceEntry<K, V> poll() {
-      ReferenceEntry<K, V> next = head.getNextEvictable();
+      ReferenceEntry<K, V> next = head.getNextInWriteQueue();
       if (next == head) {
         return null;
       }
@@ -3216,10 +3686,10 @@ class CustomConcurrentHashMap<K, V>
     @SuppressWarnings("unchecked")
     public boolean remove(Object o) {
       ReferenceEntry<K, V> e = (ReferenceEntry) o;
-      ReferenceEntry<K, V> previous = e.getPreviousEvictable();
-      ReferenceEntry<K, V> next = e.getNextEvictable();
-      connectEvictables(previous, next);
-      nullifyEvictable(e);
+      ReferenceEntry<K, V> previous = e.getPreviousInWriteQueue();
+      ReferenceEntry<K, V> next = e.getNextInWriteQueue();
+      connectWriteOrder(previous, next);
+      nullifyWriteOrder(e);
 
       return next != NullEntry.INSTANCE;
     }
@@ -3228,18 +3698,19 @@ class CustomConcurrentHashMap<K, V>
     @SuppressWarnings("unchecked")
     public boolean contains(Object o) {
       ReferenceEntry<K, V> e = (ReferenceEntry) o;
-      return e.getNextEvictable() != NullEntry.INSTANCE;
+      return e.getNextInWriteQueue() != NullEntry.INSTANCE;
     }
 
     @Override
     public boolean isEmpty() {
-      return head.getNextEvictable() == head;
+      return head.getNextInWriteQueue() == head;
     }
 
     @Override
     public int size() {
       int size = 0;
-      for (ReferenceEntry<K, V> e = head.getNextEvictable(); e != head; e = e.getNextEvictable()) {
+      for (ReferenceEntry<K, V> e = head.getNextInWriteQueue(); e != head;
+          e = e.getNextInWriteQueue()) {
         size++;
       }
       return size;
@@ -3247,15 +3718,15 @@ class CustomConcurrentHashMap<K, V>
 
     @Override
     public void clear() {
-      ReferenceEntry<K, V> e = head.getNextEvictable();
+      ReferenceEntry<K, V> e = head.getNextInWriteQueue();
       while (e != head) {
-        ReferenceEntry<K, V> next = e.getNextEvictable();
-        nullifyEvictable(e);
+        ReferenceEntry<K, V> next = e.getNextInWriteQueue();
+        nullifyWriteOrder(e);
         e = next;
       }
 
-      head.setNextEvictable(head);
-      head.setPreviousEvictable(head);
+      head.setNextInWriteQueue(head);
+      head.setPreviousInWriteQueue(head);
     }
 
     @Override
@@ -3263,7 +3734,7 @@ class CustomConcurrentHashMap<K, V>
       return new AbstractLinkedIterator<ReferenceEntry<K, V>>(peek()) {
         @Override
         protected ReferenceEntry<K, V> computeNext(ReferenceEntry<K, V> previous) {
-          ReferenceEntry<K, V> next = previous.getNextEvictable();
+          ReferenceEntry<K, V> next = previous.getNextInWriteQueue();
           return (next == head) ? null : next;
         }
       };
@@ -3271,49 +3742,49 @@ class CustomConcurrentHashMap<K, V>
   }
 
   /**
-   * A custom queue for managing expiration order. Note that this is tightly integrated with
+   * A custom queue for managing access order. Note that this is tightly integrated with
    * {@code ReferenceEntry}, upon which it reliese to perform its linking.
    *
    * <p>Note that this entire implementation makes the assumption that all elements which are in
    * the map are also in this queue, and that all elements not in the queue are not in the map.
    *
    * <p>The benefits of creating our own queue are that (1) we can replace elements in the middle
-   * of the queue as part of copyEvictableEntry, and (2) the contains method is highly optimized
+   * of the queue as part of copyWriteEntry, and (2) the contains method is highly optimized
    * for the current model.
    */
-  static final class ExpirationQueue<K, V> extends AbstractQueue<ReferenceEntry<K, V>> {
+  static final class AccessQueue<K, V> extends AbstractQueue<ReferenceEntry<K, V>> {
     final ReferenceEntry<K, V> head = new AbstractReferenceEntry<K, V>() {
 
       @Override
-      public long getExpirationTime() {
+      public long getAccessTime() {
         return Long.MAX_VALUE;
       }
 
       @Override
-      public void setExpirationTime(long time) {}
+      public void setAccessTime(long time) {}
 
-      ReferenceEntry<K, V> nextExpirable = this;
+      ReferenceEntry<K, V> nextAccess = this;
 
       @Override
-      public ReferenceEntry<K, V> getNextExpirable() {
-        return nextExpirable;
+      public ReferenceEntry<K, V> getNextInAccessQueue() {
+        return nextAccess;
       }
 
       @Override
-      public void setNextExpirable(ReferenceEntry<K, V> next) {
-        this.nextExpirable = next;
+      public void setNextInAccessQueue(ReferenceEntry<K, V> next) {
+        this.nextAccess = next;
       }
 
-      ReferenceEntry<K, V> previousExpirable = this;
+      ReferenceEntry<K, V> previousAccess = this;
 
       @Override
-      public ReferenceEntry<K, V> getPreviousExpirable() {
-        return previousExpirable;
+      public ReferenceEntry<K, V> getPreviousInAccessQueue() {
+        return previousAccess;
       }
 
       @Override
-      public void setPreviousExpirable(ReferenceEntry<K, V> previous) {
-        this.previousExpirable = previous;
+      public void setPreviousInAccessQueue(ReferenceEntry<K, V> previous) {
+        this.previousAccess = previous;
       }
     };
 
@@ -3322,24 +3793,24 @@ class CustomConcurrentHashMap<K, V>
     @Override
     public boolean offer(ReferenceEntry<K, V> entry) {
       // unlink
-      connectExpirables(entry.getPreviousExpirable(), entry.getNextExpirable());
+      connectAccessOrder(entry.getPreviousInAccessQueue(), entry.getNextInAccessQueue());
 
       // add to tail
-      connectExpirables(head.getPreviousExpirable(), entry);
-      connectExpirables(entry, head);
+      connectAccessOrder(head.getPreviousInAccessQueue(), entry);
+      connectAccessOrder(entry, head);
 
       return true;
     }
 
     @Override
     public ReferenceEntry<K, V> peek() {
-      ReferenceEntry<K, V> next = head.getNextExpirable();
+      ReferenceEntry<K, V> next = head.getNextInAccessQueue();
       return (next == head) ? null : next;
     }
 
     @Override
     public ReferenceEntry<K, V> poll() {
-      ReferenceEntry<K, V> next = head.getNextExpirable();
+      ReferenceEntry<K, V> next = head.getNextInAccessQueue();
       if (next == head) {
         return null;
       }
@@ -3352,10 +3823,10 @@ class CustomConcurrentHashMap<K, V>
     @SuppressWarnings("unchecked")
     public boolean remove(Object o) {
       ReferenceEntry<K, V> e = (ReferenceEntry) o;
-      ReferenceEntry<K, V> previous = e.getPreviousExpirable();
-      ReferenceEntry<K, V> next = e.getNextExpirable();
-      connectExpirables(previous, next);
-      nullifyExpirable(e);
+      ReferenceEntry<K, V> previous = e.getPreviousInAccessQueue();
+      ReferenceEntry<K, V> next = e.getNextInAccessQueue();
+      connectAccessOrder(previous, next);
+      nullifyAccessOrder(e);
 
       return next != NullEntry.INSTANCE;
     }
@@ -3364,18 +3835,19 @@ class CustomConcurrentHashMap<K, V>
     @SuppressWarnings("unchecked")
     public boolean contains(Object o) {
       ReferenceEntry<K, V> e = (ReferenceEntry) o;
-      return e.getNextExpirable() != NullEntry.INSTANCE;
+      return e.getNextInAccessQueue() != NullEntry.INSTANCE;
     }
 
     @Override
     public boolean isEmpty() {
-      return head.getNextExpirable() == head;
+      return head.getNextInAccessQueue() == head;
     }
 
     @Override
     public int size() {
       int size = 0;
-      for (ReferenceEntry<K, V> e = head.getNextExpirable(); e != head; e = e.getNextExpirable()) {
+      for (ReferenceEntry<K, V> e = head.getNextInAccessQueue(); e != head;
+          e = e.getNextInAccessQueue()) {
         size++;
       }
       return size;
@@ -3383,15 +3855,15 @@ class CustomConcurrentHashMap<K, V>
 
     @Override
     public void clear() {
-      ReferenceEntry<K, V> e = head.getNextExpirable();
+      ReferenceEntry<K, V> e = head.getNextInAccessQueue();
       while (e != head) {
-        ReferenceEntry<K, V> next = e.getNextExpirable();
-        nullifyExpirable(e);
+        ReferenceEntry<K, V> next = e.getNextInAccessQueue();
+        nullifyAccessOrder(e);
         e = next;
       }
 
-      head.setNextExpirable(head);
-      head.setPreviousExpirable(head);
+      head.setNextInAccessQueue(head);
+      head.setPreviousInAccessQueue(head);
     }
 
     @Override
@@ -3399,30 +3871,18 @@ class CustomConcurrentHashMap<K, V>
       return new AbstractLinkedIterator<ReferenceEntry<K, V>>(peek()) {
         @Override
         protected ReferenceEntry<K, V> computeNext(ReferenceEntry<K, V> previous) {
-          ReferenceEntry<K, V> next = previous.getNextExpirable();
+          ReferenceEntry<K, V> next = previous.getNextInAccessQueue();
           return (next == head) ? null : next;
         }
       };
     }
   }
 
-  static final class CleanupMapTask implements Runnable {
-    final WeakReference<CustomConcurrentHashMap<?, ?>> mapReference;
+  // Cache support
 
-    public CleanupMapTask(CustomConcurrentHashMap<?, ?> map) {
-      this.mapReference = new WeakReference<CustomConcurrentHashMap<?, ?>>(map);
-    }
-
-    @Override
-    public void run() {
-      CustomConcurrentHashMap<?, ?> map = mapReference.get();
-      if (map == null) {
-        throw new CancellationException();
-      }
-
-      for (Segment<?, ?> segment : map.segments) {
-        segment.runCleanup();
-      }
+  public void cleanUp() {
+    for (Segment<?, ?> segment : segments) {
+      segment.cleanUp();
     }
   }
 
@@ -3460,14 +3920,18 @@ class CustomConcurrentHashMap<K, V>
     return true;
   }
 
-  @Override
-  public int size() {
+  long longSize() {
     Segment<K, V>[] segments = this.segments;
     long sum = 0;
     for (int i = 0; i < segments.length; ++i) {
       sum += segments[i].count;
     }
-    return Ints.saturatedCast(sum);
+    return sum;
+  }
+
+  @Override
+  public int size() {
+    return Ints.saturatedCast(longSize());
   }
 
   @Override
@@ -3479,11 +3943,127 @@ class CustomConcurrentHashMap<K, V>
     return segmentFor(hash).get(key, hash);
   }
 
+  V getOrLoad(K key) throws ExecutionException {
+    return getOrLoad(key, defaultLoader);
+  }
+
+  V getOrLoad(K key, CacheLoader<? super K, V> loader) throws ExecutionException {
+    int hash = hash(checkNotNull(key));
+    return segmentFor(hash).getOrLoad(key, hash, loader);
+  }
+
+  // TODO(fry): return a map with keyEquivalence?
+  ImmutableMap<K, V> getOrLoadAll(Iterable<? extends K> keys) throws ExecutionException {
+    int hits = 0;
+    int misses = 0;
+
+    Map<K, V> result = Maps.newLinkedHashMap();
+    Set<K> keysToLoad = Sets.newLinkedHashSet();
+    for (K key : keys) {
+      V value = get(key);
+      result.put(key, value);
+      if (value == null) {
+        misses++;
+        keysToLoad.add(key);
+      } else {
+        hits++;
+      }
+    }
+
+    try {
+      if (keysToLoad.isEmpty()) {
+        return ImmutableMap.copyOf(result);
+      }
+
+      try {
+        Map<K, V> newEntries = loadAll(keysToLoad, defaultLoader);
+        for (K key : keysToLoad) {
+          V value = newEntries.get(key);
+          if (value == null) {
+            throw new InvalidCacheLoadException("loadAll failed to return a value for " + key);
+          }
+          result.put(key, value);
+        }
+        return ImmutableMap.copyOf(result);
+      } catch (UnsupportedLoadingOperationException e) {
+        // loadAll not implemented, fallback to load
+        for (K key : keysToLoad) {
+          misses--; // getOrLoad will count this miss
+          result.put(key, getOrLoad(key));
+        }
+        return ImmutableMap.copyOf(result);
+      }
+    } finally {
+      globalStatsCounter.recordHits(hits);
+      globalStatsCounter.recordMisses(misses);
+    }
+  }
+
   /**
-   * Returns the internal entry for the specified key. The entry may be computing, expired, or
-   * partially collected. Does not impact recency ordering.
+   * Returns the result of calling {@link CacheLoader#loadAll}, or null if {@code loader} doesn't
+   * implement {@code loadAll}.
+   */
+  @Nullable
+  Map<K, V> loadAll(Set<? extends K> keys, CacheLoader<? super K, V> loader)
+      throws ExecutionException {
+    Stopwatch stopwatch = new Stopwatch().start();
+    Map<K, V> result;
+    boolean success = false;
+    try {
+      @SuppressWarnings("unchecked") // safe since all keys extend K
+      Map<K, V> map = (Map<K, V>) loader.loadAll(keys);
+      result = map;
+      success = true;
+    } catch (UnsupportedLoadingOperationException e) {
+      success = true;
+      throw e;
+    } catch (RuntimeException e) {
+      throw new UncheckedExecutionException(e);
+    } catch (Exception e) {
+      throw new ExecutionException(e);
+    } catch (Error e) {
+      throw new ExecutionError(e);
+    } finally {
+      if (!success) {
+        globalStatsCounter.recordLoadException(stopwatch.elapsedTime(NANOSECONDS));
+      }
+    }
+
+    if (result == null) {
+      globalStatsCounter.recordLoadException(stopwatch.elapsedTime(NANOSECONDS));
+      throw new InvalidCacheLoadException(loader + " returned null map from loadAll");
+    }
+
+    stopwatch.stop();
+    // TODO(fry): batch by segment
+    boolean nullsPresent = false;
+    for (Map.Entry<K, V> entry : result.entrySet()) {
+      K key = entry.getKey();
+      V value = entry.getValue();
+      if (key == null || value == null) {
+        // delay failure until non-null entries are stored
+        nullsPresent = true;
+      } else {
+        put(key, value);
+      }
+    }
+
+    if (nullsPresent) {
+      globalStatsCounter.recordLoadException(stopwatch.elapsedTime(NANOSECONDS));
+      throw new InvalidCacheLoadException(loader + " returned null keys or values from loadAll");
+    }
+
+    // TODO(fry): record count of loaded entries
+    globalStatsCounter.recordLoadSuccess(stopwatch.elapsedTime(NANOSECONDS));
+    return result;
+  }
+
+  /**
+   * Returns the internal entry for the specified key. The entry may be loading, expired, or
+   * partially collected.
    */
   ReferenceEntry<K, V> getEntry(@Nullable Object key) {
+    // does not impact recency ordering
     if (key == null) {
       return null;
     }
@@ -3492,18 +4072,25 @@ class CustomConcurrentHashMap<K, V>
   }
 
   /**
-   * Returns the live internal entry for the specified key. Does not impact recency ordering.
+   * Returns the live internal entry for the specified key.
    */
   ReferenceEntry<K, V> getLiveEntry(@Nullable Object key) {
+    // does not impact recency ordering
     if (key == null) {
       return null;
     }
     int hash = hash(key);
-    return segmentFor(hash).getLiveEntry(key, hash);
+    return segmentFor(hash).getLiveEntry(key, hash, ticker.read());
+  }
+
+  void refresh(K key) throws ExecutionException {
+    int hash = hash(checkNotNull(key));
+    segmentFor(hash).refresh(key, hash, defaultLoader);
   }
 
   @Override
   public boolean containsKey(@Nullable Object key) {
+    // does not impact recency ordering
     if (key == null) {
       return false;
     }
@@ -3513,6 +4100,7 @@ class CustomConcurrentHashMap<K, V>
 
   @Override
   public boolean containsValue(@Nullable Object value) {
+    // does not impact recency ordering
     if (value == null) {
       return false;
     }
@@ -3522,6 +4110,7 @@ class CustomConcurrentHashMap<K, V>
     // such that none of the subsequent iterations observed it, despite the fact that at every point
     // in time it was present somewhere int the map. This becomes increasingly unlikely as
     // CONTAINS_VALUE_RETRIES increases, though without locking it is theoretically possible.
+    long now = ticker.read();
     final Segment<K,V>[] segments = this.segments;
     long last = -1L;
     for (int i = 0; i < CONTAINS_VALUE_RETRIES; i++) {
@@ -3534,7 +4123,7 @@ class CustomConcurrentHashMap<K, V>
         AtomicReferenceArray<ReferenceEntry<K, V>> table = segment.table;
         for (int j = 0 ; j < table.length(); j++) {
           for (ReferenceEntry<K, V> e = table.get(j); e != null; e = e.getNext()) {
-            V v = segment.getLiveValue(e);
+            V v = segment.getLiveValue(e, now);
             if (v != null && valueEquivalence.equivalent(value, v)) {
               return true;
             }
@@ -3617,10 +4206,18 @@ class CustomConcurrentHashMap<K, V>
     }
   }
 
+  void invalidateAll(Iterable<?> keys) {
+    // TODO(fry): batch by segment
+    for (Object key : keys) {
+      remove(key);
+    }
+  }
+
   Set<K> keySet;
 
   @Override
   public Set<K> keySet() {
+    // does not impact recency ordering
     Set<K> ks = keySet;
     return (ks != null) ? ks : (keySet = new KeySet());
   }
@@ -3629,6 +4226,7 @@ class CustomConcurrentHashMap<K, V>
 
   @Override
   public Collection<V> values() {
+    // does not impact recency ordering
     Collection<V> vs = values;
     return (vs != null) ? vs : (values = new Values());
   }
@@ -3637,6 +4235,7 @@ class CustomConcurrentHashMap<K, V>
 
   @Override
   public Set<Entry<K, V>> entrySet() {
+    // does not impact recency ordering
     Set<Entry<K, V>> es = entrySet;
     return (es != null) ? es : (entrySet = new EntrySet());
   }
@@ -3683,7 +4282,7 @@ class CustomConcurrentHashMap<K, V>
     }
 
     /**
-     * Finds the next entry in the current chain. Returns {@code true} if an entry was found.
+     * Finds the next entry in the current chain. Returns true if an entry was found.
      */
     boolean nextInChain() {
       if (nextEntry != null) {
@@ -3697,7 +4296,7 @@ class CustomConcurrentHashMap<K, V>
     }
 
     /**
-     * Finds the next entry in the current table. Returns {@code true} if an entry was found.
+     * Finds the next entry in the current table. Returns true if an entry was found.
      */
     boolean nextInTable() {
       while (nextTableIndex >= 0) {
@@ -3711,13 +4310,14 @@ class CustomConcurrentHashMap<K, V>
     }
 
     /**
-     * Advances to the given entry. Returns {@code true} if the entry was valid, {@code false} if it
-     * should be skipped.
+     * Advances to the given entry. Returns true if the entry was valid, false if it should be
+     * skipped.
      */
     boolean advanceTo(ReferenceEntry<K, V> entry) {
       try {
+        long now = ticker.read();
         K key = entry.getKey();
-        V value = getLiveValue(entry);
+        V value = getLiveValue(entry, now);
         if (value != null) {
           nextExternal = new WriteThroughEntry(key, value);
           return true;
@@ -3745,7 +4345,7 @@ class CustomConcurrentHashMap<K, V>
 
     public void remove() {
       checkState(lastReturned != null);
-      CustomConcurrentHashMap.this.remove(lastReturned.getKey());
+      LocalCacheInternalMap.this.remove(lastReturned.getKey());
       lastReturned = null;
     }
   }
@@ -3770,7 +4370,7 @@ class CustomConcurrentHashMap<K, V>
    * Custom Entry class used by EntryIterator.next(), that relays setValue changes to the
    * underlying map.
    */
-  final class WriteThroughEntry extends AbstractMapEntry<K, V> {
+  final class WriteThroughEntry implements Entry<K, V> {
     final K key; // non-null
     V value; // non-null
 
@@ -3807,9 +4407,14 @@ class CustomConcurrentHashMap<K, V>
 
     @Override
     public V setValue(V newValue) {
-      V oldValue = put(key, newValue);
-      value = newValue; // only if put succeeds
-      return oldValue;
+      throw new UnsupportedOperationException();
+    }
+
+    /**
+     * Returns a string representation of the form <code>{key}={value}</code>.
+     */
+    @Override public String toString() {
+      return getKey() + "=" + getValue();
     }
   }
 
@@ -3830,27 +4435,27 @@ class CustomConcurrentHashMap<K, V>
 
     @Override
     public int size() {
-      return CustomConcurrentHashMap.this.size();
+      return LocalCacheInternalMap.this.size();
     }
 
     @Override
     public boolean isEmpty() {
-      return CustomConcurrentHashMap.this.isEmpty();
+      return LocalCacheInternalMap.this.isEmpty();
     }
 
     @Override
     public boolean contains(Object o) {
-      return CustomConcurrentHashMap.this.containsKey(o);
+      return LocalCacheInternalMap.this.containsKey(o);
     }
 
     @Override
     public boolean remove(Object o) {
-      return CustomConcurrentHashMap.this.remove(o) != null;
+      return LocalCacheInternalMap.this.remove(o) != null;
     }
 
     @Override
     public void clear() {
-      CustomConcurrentHashMap.this.clear();
+      LocalCacheInternalMap.this.clear();
     }
   }
 
@@ -3863,22 +4468,22 @@ class CustomConcurrentHashMap<K, V>
 
     @Override
     public int size() {
-      return CustomConcurrentHashMap.this.size();
+      return LocalCacheInternalMap.this.size();
     }
 
     @Override
     public boolean isEmpty() {
-      return CustomConcurrentHashMap.this.isEmpty();
+      return LocalCacheInternalMap.this.isEmpty();
     }
 
     @Override
     public boolean contains(Object o) {
-      return CustomConcurrentHashMap.this.containsValue(o);
+      return LocalCacheInternalMap.this.containsValue(o);
     }
 
     @Override
     public void clear() {
-      CustomConcurrentHashMap.this.clear();
+      LocalCacheInternalMap.this.clear();
     }
   }
 
@@ -3899,7 +4504,7 @@ class CustomConcurrentHashMap<K, V>
       if (key == null) {
         return false;
       }
-      V v = CustomConcurrentHashMap.this.get(key);
+      V v = LocalCacheInternalMap.this.get(key);
 
       return v != null && valueEquivalence.equivalent(e.getValue(), v);
     }
@@ -3911,151 +4516,120 @@ class CustomConcurrentHashMap<K, V>
       }
       Entry<?, ?> e = (Entry<?, ?>) o;
       Object key = e.getKey();
-      return key != null && CustomConcurrentHashMap.this.remove(key, e.getValue());
+      return key != null && LocalCacheInternalMap.this.remove(key, e.getValue());
     }
 
     @Override
     public int size() {
-      return CustomConcurrentHashMap.this.size();
+      return LocalCacheInternalMap.this.size();
     }
 
     @Override
     public boolean isEmpty() {
-      return CustomConcurrentHashMap.this.isEmpty();
+      return LocalCacheInternalMap.this.isEmpty();
     }
 
     @Override
     public void clear() {
-      CustomConcurrentHashMap.this.clear();
+      LocalCacheInternalMap.this.clear();
     }
   }
 
   // Serialization Support
 
-  private static final long serialVersionUID = 5;
-
-  Object writeReplace() {
-    return new SerializationProxy<K, V>(keyStrength, valueStrength, keyEquivalence,
-        valueEquivalence, expireAfterWriteNanos, expireAfterAccessNanos, maximumSize,
-        concurrencyLevel, removalListener, this);
+  Cache<K, V> cacheSerializationProxy() {
+    return new SerializationProxy<K, V>(defaultLoader, keyStrength, valueStrength, keyEquivalence,
+        valueEquivalence, expireAfterWriteNanos, expireAfterAccessNanos, maxWeight, weigher,
+        concurrencyLevel, removalListener, ticker);
   }
 
   /**
-   * The actual object that gets serialized. Unfortunately, readResolve() doesn't get called when a
-   * circular dependency is present, so the proxy must be able to behave as the map itself.
+   * Serializes the configuration of a LocalCacheInternalMap, reconsitituting it as a Cache using
+   * CacheBuilder upon deserialization. An instance of this class is fit for use by the writeReplace
+   * of LocalCache.
+   *
+   * Unfortunately, readResolve() doesn't get called when a circular dependency is present, so the
+   * proxy must be able to behave as the cache itself.
    */
-  abstract static class AbstractSerializationProxy<K, V>
-      extends ForwardingConcurrentMap<K, V> implements Serializable {
-    private static final long serialVersionUID = 3;
+  static final class SerializationProxy<K, V>
+      extends ForwardingCache<K, V> implements Serializable {
+    private static final long serialVersionUID = 1;
 
+    final CacheLoader<? super K, V> loader;
     final Strength keyStrength;
     final Strength valueStrength;
     final Equivalence<Object> keyEquivalence;
     final Equivalence<Object> valueEquivalence;
     final long expireAfterWriteNanos;
     final long expireAfterAccessNanos;
-    final int maximumSize;
+    final long maxWeight;
+    final Weigher<K, V> weigher;
     final int concurrencyLevel;
     final RemovalListener<? super K, ? super V> removalListener;
+    final Ticker ticker;
 
-    transient ConcurrentMap<K, V> delegate;
+    transient Cache<K, V> delegate;
 
-    AbstractSerializationProxy(Strength keyStrength, Strength valueStrength,
+    SerializationProxy(CacheLoader<? super K, V> loader,
+        Strength keyStrength, Strength valueStrength,
         Equivalence<Object> keyEquivalence, Equivalence<Object> valueEquivalence,
-        long expireAfterWriteNanos, long expireAfterAccessNanos, int maximumSize,
-        int concurrencyLevel, RemovalListener<? super K, ? super V> removalListener,
-        ConcurrentMap<K, V> delegate) {
+        long expireAfterWriteNanos, long expireAfterAccessNanos, long maxWeight,
+        Weigher<K, V> weigher, int concurrencyLevel,
+        RemovalListener<? super K, ? super V> removalListener,
+        Ticker ticker) {
+      this.loader = loader;
       this.keyStrength = keyStrength;
       this.valueStrength = valueStrength;
       this.keyEquivalence = keyEquivalence;
       this.valueEquivalence = valueEquivalence;
       this.expireAfterWriteNanos = expireAfterWriteNanos;
       this.expireAfterAccessNanos = expireAfterAccessNanos;
-      this.maximumSize = maximumSize;
+      this.maxWeight = maxWeight;
+      this.weigher = weigher;
       this.concurrencyLevel = concurrencyLevel;
       this.removalListener = removalListener;
-      this.delegate = delegate;
+      this.ticker = (ticker == Ticker.systemTicker() || ticker == NULL_TICKER)
+          ? null : ticker;
     }
 
-    @Override
-    protected ConcurrentMap<K, V> delegate() {
-      return delegate;
-    }
-
-    void writeMapTo(ObjectOutputStream out) throws IOException {
-      out.writeInt(delegate.size());
-      for (Entry<K, V> entry : delegate.entrySet()) {
-        out.writeObject(entry.getKey());
-        out.writeObject(entry.getValue());
-      }
-      out.writeObject(null); // terminate entries
-    }
-
-    @SuppressWarnings("deprecation") // serialization of deprecated feature
-    MapMaker readMapMaker(ObjectInputStream in) throws IOException {
-      int size = in.readInt();
-      MapMaker mapMaker = new MapMaker()
-          .initialCapacity(size)
+    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
+      in.defaultReadObject();
+      CacheBuilder<Object, Object> builder = CacheBuilder.newBuilder()
           .setKeyStrength(keyStrength)
           .setValueStrength(valueStrength)
           .keyEquivalence(keyEquivalence)
           .valueEquivalence(valueEquivalence)
           .concurrencyLevel(concurrencyLevel);
-      mapMaker.removalListener(removalListener);
+      builder.strictParsing = false;
+      builder.removalListener(removalListener);
       if (expireAfterWriteNanos > 0) {
-        mapMaker.expireAfterWrite(expireAfterWriteNanos, TimeUnit.NANOSECONDS);
+        builder.expireAfterWrite(expireAfterWriteNanos, TimeUnit.NANOSECONDS);
       }
       if (expireAfterAccessNanos > 0) {
-        mapMaker.expireAfterAccess(expireAfterAccessNanos, TimeUnit.NANOSECONDS);
+        builder.expireAfterAccess(expireAfterAccessNanos, TimeUnit.NANOSECONDS);
       }
-      if (maximumSize != MapMaker.UNSET_INT) {
-        mapMaker.maximumSize(maximumSize);
-      }
-      return mapMaker;
-    }
-
-    @SuppressWarnings("unchecked")
-    void readEntries(ObjectInputStream in) throws IOException, ClassNotFoundException {
-      while (true) {
-        K key = (K) in.readObject();
-        if (key == null) {
-          break; // terminator
+      if (weigher != OneWeigher.INSTANCE) {
+        builder.weigher(weigher);
+        if (maxWeight != UNSET_INT) {
+          builder.maximumWeight(maxWeight);
         }
-        V value = (V) in.readObject();
-        delegate.put(key, value);
+      } else {
+        if (maxWeight != UNSET_INT) {
+          builder.maximumSize(maxWeight);
+        }
       }
-    }
-  }
-
-  /**
-   * The actual object that gets serialized. Unfortunately, readResolve() doesn't get called when a
-   * circular dependency is present, so the proxy must be able to behave as the map itself.
-   */
-  private static final class SerializationProxy<K, V> extends AbstractSerializationProxy<K, V> {
-    private static final long serialVersionUID = 3;
-
-    SerializationProxy(Strength keyStrength, Strength valueStrength,
-        Equivalence<Object> keyEquivalence, Equivalence<Object> valueEquivalence,
-        long expireAfterWriteNanos, long expireAfterAccessNanos, int maximumSize,
-        int concurrencyLevel, RemovalListener<? super K, ? super V> removalListener,
-        ConcurrentMap<K, V> delegate) {
-      super(keyStrength, valueStrength, keyEquivalence, valueEquivalence, expireAfterWriteNanos,
-          expireAfterAccessNanos, maximumSize, concurrencyLevel, removalListener, delegate);
-    }
-
-    private void writeObject(ObjectOutputStream out) throws IOException {
-      out.defaultWriteObject();
-      writeMapTo(out);
-    }
-
-    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
-      in.defaultReadObject();
-      MapMaker mapMaker = readMapMaker(in);
-      delegate = mapMaker.makeMap();
-      readEntries(in);
+      if (ticker != null) {
+        builder.ticker(ticker);
+      }
+      this.delegate = builder.build(loader);
     }
 
     private Object readResolve() {
+      return delegate;
+    }
+
+    @Override
+    protected Cache<K, V> delegate() {
       return delegate;
     }
   }

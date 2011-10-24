@@ -23,9 +23,9 @@ import static junit.framework.Assert.assertSame;
 import static junit.framework.Assert.assertTrue;
 
 import com.google.common.base.Preconditions;
-import com.google.common.cache.LocalCacheAsMap.ReferenceEntry;
-import com.google.common.cache.LocalCacheAsMap.Segment;
-import com.google.common.cache.LocalCacheAsMap.ValueReference;
+import com.google.common.cache.LocalCacheInternalMap.ReferenceEntry;
+import com.google.common.cache.LocalCacheInternalMap.Segment;
+import com.google.common.cache.LocalCacheInternalMap.ValueReference;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
@@ -90,7 +90,7 @@ class CacheTesting {
   }
 
   static <K, V> ReferenceEntry<K, V> getReferenceEntry(Cache<K, V> cache, K key) {
-    LocalCacheAsMap<K, V> map = toLocalCacheAsMap(cache);
+    LocalCacheInternalMap<K, V> map = toLocalCacheInternalMap(cache);
     return map.getEntry(key);
   }
 
@@ -99,35 +99,35 @@ class CacheTesting {
    * {@link Segment#expand()}.
    */
   static <K, V> void forceExpandSegment(Cache<K, V> cache, K key) {
-    LocalCacheAsMap<K, V> map = toLocalCacheAsMap(cache);
+    LocalCacheInternalMap<K, V> map = toLocalCacheInternalMap(cache);
     int hash = map.hash(key);
     Segment<K, V> segment = map.segmentFor(hash);
     segment.expand();
   }
 
   /**
-   * Gets the {@link LocalCacheAsMap} used by the given {@link Cache}, if any, or throws an
-   * IllegalArgumentException if this is a Cache type that doesn't have a LocalCacheAsMap.
+   * Gets the {@link LocalCacheInternalMap} used by the given {@link Cache}, if any, or throws an
+   * IllegalArgumentException if this is a Cache type that doesn't have a LocalCacheInternalMap.
    */
-  static <K, V> LocalCacheAsMap<K, V> toLocalCacheAsMap(Cache<K, V> cache) {
+  static <K, V> LocalCacheInternalMap<K, V> toLocalCacheInternalMap(Cache<K, V> cache) {
     if (cache instanceof LocalCache) {
       return ((LocalCache<K, V>) cache).map;
     }
     throw new IllegalArgumentException("Cache of type " + cache.getClass()
-        + " doesn't have a LocalCacheAsMap.");
+        + " doesn't have a LocalCacheInternalMap.");
   }
 
   /**
-   * Determines whether the given cache can be converted to a LocalCacheAsMap by
-   * {@link #toLocalCacheAsMap} without throwing an exception.
+   * Determines whether the given cache can be converted to a LocalCacheInternalMap by
+   * {@link #toLocalCacheInternalMap} without throwing an exception.
    */
-  static boolean hasLocalCacheAsMap(Cache<?, ?> cache) {
+  static boolean hasLocalCacheInternalMap(Cache<?, ?> cache) {
     return (cache instanceof LocalCache);
   }
 
   static void drainRecencyQueues(Cache<?, ?> cache) {
-    if (hasLocalCacheAsMap(cache)) {
-      LocalCacheAsMap<?, ?> map = toLocalCacheAsMap(cache);
+    if (hasLocalCacheInternalMap(cache)) {
+      LocalCacheInternalMap<?, ?> map = toLocalCacheInternalMap(cache);
       for (Segment segment : map.segments) {
         drainRecencyQueue(segment);
       }
@@ -144,18 +144,18 @@ class CacheTesting {
   }
 
   static void drainReferenceQueues(Cache<?, ?> cache) {
-    if (hasLocalCacheAsMap(cache)) {
-      drainReferenceQueues(toLocalCacheAsMap(cache));
+    if (hasLocalCacheInternalMap(cache)) {
+      drainReferenceQueues(toLocalCacheInternalMap(cache));
     }
   }
 
-  static void drainReferenceQueues(LocalCacheAsMap<?, ?> cchm) {
-    for (LocalCacheAsMap.Segment segment : cchm.segments) {
+  static void drainReferenceQueues(LocalCacheInternalMap<?, ?> cchm) {
+    for (LocalCacheInternalMap.Segment segment : cchm.segments) {
       drainReferenceQueue(segment);
     }
   }
 
-  static void drainReferenceQueue(LocalCacheAsMap.Segment<?, ?> segment) {
+  static void drainReferenceQueue(LocalCacheInternalMap.Segment<?, ?> segment) {
     segment.lock();
     try {
       segment.drainReferenceQueues();
@@ -165,7 +165,7 @@ class CacheTesting {
   }
 
   static int getTotalSegmentSize(Cache<?, ?> cache) {
-    LocalCacheAsMap<?, ?> map = toLocalCacheAsMap(cache);
+    LocalCacheInternalMap<?, ?> map = toLocalCacheInternalMap(cache);
     int totalSize = 0;
     for (Segment<?, ?> segment : map.segments) {
       totalSize += segment.maxSegmentWeight;
@@ -180,12 +180,12 @@ class CacheTesting {
    * (see {@link #checkEviction}, {@link #checkExpiration}).
    */
   static void checkValidState(Cache<?, ?> cache) {
-    if (hasLocalCacheAsMap(cache)) {
-      checkValidState(toLocalCacheAsMap(cache));
+    if (hasLocalCacheInternalMap(cache)) {
+      checkValidState(toLocalCacheInternalMap(cache));
     }
   }
 
-  static void checkValidState(LocalCacheAsMap<?, ?> cchm) {
+  static void checkValidState(LocalCacheInternalMap<?, ?> cchm) {
     for (Segment<?, ?> segment : cchm.segments) {
       segment.cleanUp();
       assertFalse(segment.isLocked());
@@ -208,12 +208,12 @@ class CacheTesting {
    * by expiration time.
    */
   static void checkExpiration(Cache<?, ?> cache) {
-    if (hasLocalCacheAsMap(cache)) {
-      checkExpiration(toLocalCacheAsMap(cache));
+    if (hasLocalCacheInternalMap(cache)) {
+      checkExpiration(toLocalCacheInternalMap(cache));
     }
   }
 
-  static void checkExpiration(LocalCacheAsMap<?, ?> cchm) {
+  static void checkExpiration(LocalCacheInternalMap<?, ?> cchm) {
     for (Segment<?, ?> segment : cchm.segments) {
       if (cchm.usesWriteQueue()) {
         Set<ReferenceEntry<?, ?>> entries = Sets.newIdentityHashSet();
@@ -261,12 +261,12 @@ class CacheTesting {
    * segment's eviction (recency) queue.
    */
   static void checkEviction(Cache<?, ?> cache) {
-    if (hasLocalCacheAsMap(cache)) {
-      checkEviction(toLocalCacheAsMap(cache));
+    if (hasLocalCacheInternalMap(cache)) {
+      checkEviction(toLocalCacheInternalMap(cache));
     }
   }
 
-  static void checkEviction(LocalCacheAsMap<?, ?> map) {
+  static void checkEviction(LocalCacheInternalMap<?, ?> map) {
     if (map.evictsBySize()) {
       for (Segment<?, ?> segment : map.segments) {
         drainRecencyQueue(segment);
@@ -311,7 +311,7 @@ class CacheTesting {
   }
 
   static int writeQueueSize(Cache<?, ?> cache) {
-    LocalCacheAsMap<?, ?> cchm = toLocalCacheAsMap(cache);
+    LocalCacheInternalMap<?, ?> cchm = toLocalCacheInternalMap(cache);
 
     int size = 0;
     for (Segment<?, ?> segment : cchm.segments) {
@@ -325,7 +325,7 @@ class CacheTesting {
   }
 
   static int accessQueueSize(Cache<?, ?> cache) {
-    LocalCacheAsMap<?, ?> cchm = toLocalCacheAsMap(cache);
+    LocalCacheInternalMap<?, ?> cchm = toLocalCacheInternalMap(cache);
     int size = 0;
     for (Segment<?, ?> segment : cchm.segments) {
       size += accessQueueSize(segment);
@@ -342,8 +342,8 @@ class CacheTesting {
   }
 
   static void processPendingNotifications(Cache<?, ?> cache) {
-    if (hasLocalCacheAsMap(cache)) {
-      LocalCacheAsMap<?, ?> cchm = toLocalCacheAsMap(cache);
+    if (hasLocalCacheInternalMap(cache)) {
+      LocalCacheInternalMap<?, ?> cchm = toLocalCacheInternalMap(cache);
       cchm.processPendingNotifications();
     }
   }
@@ -362,10 +362,10 @@ class CacheTesting {
   static void checkRecency(Cache<Integer, Integer> cache, int maxSize,
       Receiver<ReferenceEntry<Integer, Integer>> operation) {
 
-    if (hasLocalCacheAsMap(cache)) {
+    if (hasLocalCacheInternalMap(cache)) {
       warmUp(cache, 0, 2 * maxSize);
 
-      LocalCacheAsMap<Integer, Integer> cchm = toLocalCacheAsMap(cache);
+      LocalCacheInternalMap<Integer, Integer> cchm = toLocalCacheInternalMap(cache);
       Segment<?, ?> segment = cchm.segments[0];
       drainRecencyQueue(segment);
       assertEquals(maxSize, accessQueueSize(cache));
@@ -392,11 +392,11 @@ class CacheTesting {
   }
 
   static void expireEntries(Cache<?, ?> cache, long expiringTime, FakeTicker ticker) {
-    expireEntries(toLocalCacheAsMap(cache), expiringTime, ticker);
+    expireEntries(toLocalCacheInternalMap(cache), expiringTime, ticker);
   }
 
   static void expireEntries(
-      LocalCacheAsMap<?, ?> cchm, long expiringTime, FakeTicker ticker) {
+      LocalCacheInternalMap<?, ?> cchm, long expiringTime, FakeTicker ticker) {
 
     for (Segment<?, ?> segment : cchm.segments) {
       drainRecencyQueue(segment);
@@ -440,13 +440,13 @@ class CacheTesting {
     assertEquals(ImmutableMap.of().hashCode(), map.hashCode());
     assertEquals(ImmutableMap.of().toString(), map.toString());
 
-    if (map instanceof LocalCacheAsMap) {
-      LocalCacheAsMap<?, ?> cchm = (LocalCacheAsMap<?, ?>) map;
+    if (map instanceof LocalCacheInternalMap) {
+      LocalCacheInternalMap<?, ?> cchm = (LocalCacheInternalMap<?, ?>) map;
 
       checkValidState(cchm);
       assertTrue(cchm.isEmpty());
       assertEquals(0, cchm.size());
-      for (LocalCacheAsMap.Segment segment : cchm.segments) {
+      for (LocalCacheInternalMap.Segment segment : cchm.segments) {
         assertEquals(0, segment.count);
         assertEquals(0, segmentSize(segment));
         assertTrue(segment.writeQueue.isEmpty());

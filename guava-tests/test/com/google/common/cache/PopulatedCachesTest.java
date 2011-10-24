@@ -24,7 +24,7 @@ import static org.junit.contrib.truth.Truth.ASSERT;
 
 import com.google.common.base.Function;
 import com.google.common.cache.CacheBuilderFactory.ExpirationSpec;
-import com.google.common.cache.LocalCacheAsMap.Strength;
+import com.google.common.cache.LocalCacheInternalMap.Strength;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;

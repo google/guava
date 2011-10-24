@@ -36,12 +36,12 @@ import javax.annotation.Nullable;
 import javax.annotation.concurrent.GuardedBy;
 
 /**
- * Adds computing functionality to {@link CustomConcurrentHashMap}.
+ * Adds computing functionality to {@link MapMakerInternalMap}.
  *
  * @author Bob Lee
  * @author Charles Fry
  */
-class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V> {
+class ComputingConcurrentHashMap<K, V> extends MapMakerInternalMap<K, V> {
   final Function<? super K, ? extends V> computingFunction;
 
   /**
@@ -71,7 +71,7 @@ class ComputingConcurrentHashMap<K, V> extends CustomConcurrentHashMap<K, V> {
 
   @SuppressWarnings("serial") // This class is never serialized.
   static final class ComputingSegment<K, V> extends Segment<K, V> {
-    ComputingSegment(CustomConcurrentHashMap<K, V> map, int initialCapacity, int maxSegmentSize) {
+    ComputingSegment(MapMakerInternalMap<K, V> map, int initialCapacity, int maxSegmentSize) {
       super(map, initialCapacity, maxSegmentSize);
     }
 

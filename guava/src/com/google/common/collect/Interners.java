@@ -20,7 +20,7 @@ import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Equivalences;
 import com.google.common.base.Function;
-import com.google.common.collect.CustomConcurrentHashMap.ReferenceEntry;
+import com.google.common.collect.MapMakerInternalMap.ReferenceEntry;
 
 import java.util.concurrent.ConcurrentMap;
 
@@ -53,7 +53,7 @@ public final class Interners {
 
   private static class CustomInterner<E> implements Interner<E> {
     // MapMaker is our friend, we know about this type
-    private final CustomConcurrentHashMap<E, Dummy> map;
+    private final MapMakerInternalMap<E, Dummy> map;
 
     CustomInterner(GenericMapMaker<? super E, Object> mm) {
       this.map = mm
