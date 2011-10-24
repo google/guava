@@ -22,7 +22,7 @@ import static java.util.Arrays.asList;
 import static org.junit.contrib.truth.Truth.ASSERT;
 
 import com.google.common.cache.CacheTesting.Receiver;
-import com.google.common.cache.LocalCacheInternalMap.ReferenceEntry;
+import com.google.common.cache.LocalCache.ReferenceEntry;
 import com.google.common.cache.TestingCacheLoaders.IdentityLoader;
 import com.google.common.cache.TestingRemovalListeners.CountingRemovalListener;
 

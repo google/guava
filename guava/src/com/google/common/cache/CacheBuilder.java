@@ -31,7 +31,7 @@ import com.google.common.base.Suppliers;
 import com.google.common.base.Ticker;
 import com.google.common.cache.AbstractCache.SimpleStatsCounter;
 import com.google.common.cache.AbstractCache.StatsCounter;
-import com.google.common.cache.LocalCacheInternalMap.Strength;
+import com.google.common.cache.LocalCache.Strength;
 
 import java.lang.ref.SoftReference;
 import java.lang.ref.WeakReference;
@@ -667,7 +667,7 @@ public final class CacheBuilder<K, V> {
       }
     }
 
-    return new LocalCache<K1, V1>(this, CACHE_STATS_COUNTER, loader);
+    return new LocalCache.AutoLocalCache<K1, V1>(this, CACHE_STATS_COUNTER, loader);
   }
 
   /**

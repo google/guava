@@ -22,7 +22,7 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.google.common.base.Function;
 import com.google.common.cache.CacheBuilderFactory.ExpirationSpec;
-import com.google.common.cache.LocalCacheInternalMap.Strength;
+import com.google.common.cache.LocalCache.Strength;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Maps;
