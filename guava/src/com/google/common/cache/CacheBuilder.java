@@ -121,7 +121,7 @@ public final class CacheBuilder<K, V> {
   private static final int DEFAULT_CONCURRENCY_LEVEL = 4;
   private static final int DEFAULT_EXPIRATION_NANOS = 0;
 
-  static final Supplier<? extends StatsCounter> DEFAULT_STATS_COUNTER = Suppliers.ofInstance(
+  static final Supplier<? extends StatsCounter> NULL_STATS_COUNTER = Suppliers.ofInstance(
       new StatsCounter() {
         @Override
         public void recordHits(int count) {}
@@ -198,8 +198,9 @@ public final class CacheBuilder<K, V> {
   Equivalence<Object> valueEquivalence;
 
   RemovalListener<? super K, ? super V> removalListener;
-
   Ticker ticker;
+
+  Supplier<? extends StatsCounter> statsCounterSupplier = CACHE_STATS_COUNTER;
 
   // TODO(fry): make constructor private and update tests to use newBuilder
   CacheBuilder() {}
@@ -635,6 +636,19 @@ public final class CacheBuilder<K, V> {
   }
 
   /**
+   * Disable the accumulation of {@link CacheStats} during the operation of the cache.
+   */
+  CacheBuilder<K, V> disableStats() {
+    checkState(statsCounterSupplier == CACHE_STATS_COUNTER);
+    statsCounterSupplier = NULL_STATS_COUNTER;
+    return this;
+  }
+
+  Supplier<? extends StatsCounter> getStatsCounterSupplier() {
+    return statsCounterSupplier;
+  }
+
+  /**
    * Builds a cache, which either returns an already-loaded value for a given key or atomically
    * computes or retrieves it using the supplied {@code CacheLoader}. If another thread is currently
    * loading the value for this key, simply waits for that thread to finish and returns its
@@ -667,7 +681,7 @@ public final class CacheBuilder<K, V> {
       }
     }
 
-    return new LocalCache.AutoLocalCache<K1, V1>(this, CACHE_STATS_COUNTER, loader);
+    return new LocalCache.AutoLocalCache<K1, V1>(this, loader);
   }
 
   /**

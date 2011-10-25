@@ -76,14 +76,12 @@ public class LocalCacheTest extends TestCase {
   static final int SMALL_MAX_SIZE = DRAIN_THRESHOLD * 5;
 
   private static <K, V> LocalCache<K, V> makeMap(CacheBuilder<K, V> builder) {
-    return new LocalCache<K, V>(builder, CacheBuilder.DEFAULT_STATS_COUNTER,
-        CacheLoader.from(Suppliers.<V>ofInstance(null)));
+    return new LocalCache<K, V>(builder, CacheLoader.from(Suppliers.<V>ofInstance(null)));
   }
 
   private static <K, V> LocalCache<K, V> makeComputingMap(
       CacheBuilder<K, V> builder, CacheLoader<? super K, V> loader) {
-    return new LocalCache<K, V>(
-        builder, CacheBuilder.DEFAULT_STATS_COUNTER, loader);
+    return new LocalCache<K, V>(builder, loader);
   }
 
   private static CacheBuilder<Object, Object> createCacheBuilder() {

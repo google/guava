@@ -48,7 +48,7 @@ public class AutoLocalCacheTest extends TestCase {
 
   private static <K, V> AutoLocalCache<K, V> makeCache(
       CacheBuilder<K, V> builder, CacheLoader<? super K, V> loader) {
-    return new AutoLocalCache<K, V>(builder, CacheBuilder.CACHE_STATS_COUNTER, loader);
+    return new AutoLocalCache<K, V>(builder, loader);
   }
 
   private CacheBuilder<Object, Object> createCacheBuilder() {
@@ -175,6 +175,30 @@ public class AutoLocalCacheTest extends TestCase {
 
     map.clear();
 
+    assertEquals(EMPTY_STATS, cache.stats());
+  }
+
+  public void testDisableStats() {
+    CacheBuilder<Object, Object> builder = createCacheBuilder()
+        .concurrencyLevel(1)
+        .maximumSize(2)
+        .disableStats();
+    AutoLocalCache<Object, Object> cache = makeCache(builder, identityLoader());
+    assertEquals(EMPTY_STATS, cache.stats());
+
+    Object one = new Object();
+    cache.getUnchecked(one);
+    assertEquals(EMPTY_STATS, cache.stats());
+
+    cache.getUnchecked(one);
+    assertEquals(EMPTY_STATS, cache.stats());
+
+    Object two = new Object();
+    cache.getUnchecked(two);
+    assertEquals(EMPTY_STATS, cache.stats());
+
+    Object three = new Object();
+    cache.getUnchecked(three);
     assertEquals(EMPTY_STATS, cache.stats());
   }
 

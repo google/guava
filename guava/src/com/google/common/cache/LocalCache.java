@@ -26,7 +26,6 @@ import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Equivalence;
 import com.google.common.base.Equivalences;
 import com.google.common.base.Stopwatch;
-import com.google.common.base.Supplier;
 import com.google.common.base.Ticker;
 import com.google.common.cache.AbstractCache.StatsCounter;
 import com.google.common.cache.CacheBuilder.NullListener;
@@ -216,7 +215,6 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
    * Creates a new, empty map with the specified strategy, initial capacity and concurrency level.
    */
   LocalCache(CacheBuilder<? super K, ? super V> builder,
-      Supplier<? extends StatsCounter> statsCounterSupplier,
       CacheLoader<? super K, V> loader) {
     this.defaultLoader = checkNotNull(loader);
 
@@ -241,7 +239,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
         ? LocalCache.<RemovalNotification<K, V>>discardingQueue()
         : new ConcurrentLinkedQueue<RemovalNotification<K, V>>();
 
-    globalStatsCounter = statsCounterSupplier.get();
+    globalStatsCounter = builder.getStatsCounterSupplier().get();
 
     int initialCapacity = Math.min(builder.getInitialCapacity(), MAXIMUM_CAPACITY);
     if (evictsBySize() && !customWeigher()) {
@@ -282,12 +280,12 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
           maxSegmentWeight--;
         }
         this.segments[i] =
-            createSegment(segmentSize, maxSegmentWeight, statsCounterSupplier.get());
+            createSegment(segmentSize, maxSegmentWeight, builder.getStatsCounterSupplier().get());
       }
     } else {
       for (int i = 0; i < this.segments.length; ++i) {
         this.segments[i] =
-            createSegment(segmentSize, UNSET_INT, statsCounterSupplier.get());
+            createSegment(segmentSize, UNSET_INT, builder.getStatsCounterSupplier().get());
       }
     }
   }
@@ -4639,9 +4637,8 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
     final LocalCache<K, V> map;
 
     AutoLocalCache(CacheBuilder<? super K, ? super V> builder,
-        Supplier<? extends StatsCounter> statsCounterSupplier,
         CacheLoader<? super K, V> loader) {
-      this.map = new LocalCache<K, V>(builder, statsCounterSupplier, loader);
+      this.map = new LocalCache<K, V>(builder, loader);
     }
 
     // Cache methods
