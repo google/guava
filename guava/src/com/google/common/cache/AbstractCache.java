@@ -61,6 +61,11 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
   }
 
   @Override
+  public V getIfPresent(K key) {
+    throw new UnsupportedOperationException();
+  }
+
+  @Override
   public ImmutableMap<K, V> getAll(Iterable<? extends K> keys) throws ExecutionException {
     Map<K, V> result = Maps.newLinkedHashMap();
     for (K key : keys) {
@@ -72,8 +77,24 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
   }
 
   @Override
+  public ImmutableMap<K, V> getAllPresent(Iterable<? extends K> keys) {
+    Map<K, V> result = Maps.newLinkedHashMap();
+    for (K key : keys) {
+      if (!result.containsKey(key)) {
+        result.put(key, getIfPresent(key));
+      }
+    }
+    return ImmutableMap.copyOf(result);
+  }
+
+  @Override
   public final V apply(K key) {
     return getUnchecked(key);
+  }
+
+  @Override
+  public void put(K key, V value) {
+    throw new UnsupportedOperationException();
   }
 
   @Override

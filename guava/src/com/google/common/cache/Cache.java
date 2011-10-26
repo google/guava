@@ -18,13 +18,15 @@ package com.google.common.cache;
 
 import com.google.common.annotations.Beta;
 import com.google.common.base.Function;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.util.concurrent.ExecutionError;
 import com.google.common.util.concurrent.UncheckedExecutionException;
 
-import java.util.Map;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.ExecutionException;
+
+import javax.annotation.Nullable;
 
 /**
  * A semi-persistent mapping from keys to values. Values are automatically loaded by the cache,
@@ -68,6 +70,13 @@ public interface Cache<K, V> extends Function<K, V> {
   V getUnchecked(K key);
 
   /**
+   * Returns the value associated with {@code key} in this cache, or {@code null} if there is no
+   * cached value for {@code key}.
+   */
+  @Nullable
+  V getIfPresent(K key);
+
+  /**
    * Returns the value associated with {@code key} in this cache, obtaining that value from
    * {@code valueLoader} if necessary. No observable state associated with this cache is modified
    * until loading completes.
@@ -75,6 +84,9 @@ public interface Cache<K, V> extends Function<K, V> {
    * <p>This method functions identically to {@link #get(Object)}, simply using a different
    * mechanism to load the value if missing. This method provides a simple substitute for the
    * conventional "if cached, return; otherwise create, cache and return" pattern.
+   *
+   * <p>Note that if all access to the cache is via this method, it may make more sense to implement
+   * a {@link CacheLoader} and use {@link #get(Object)}.
    *
    * <p><b>Warning:</b> as with {@link CacheLoader#load}, {@code valueLoader} <b>must not</b> return
    * {@code null}; it may either return a non-null value or throw an exception.
@@ -109,7 +121,13 @@ public interface Cache<K, V> extends Function<K, V> {
    * @throws ExecutionError if an error was thrown while loading the values
    * @since 11.0
    */
-  Map<K, V> getAll(Iterable<? extends K> keys) throws ExecutionException;
+  ImmutableMap<K, V> getAll(Iterable<? extends K> keys) throws ExecutionException;
+
+  /**
+   * Returns a map of the values associated with {@code keys} in this cache. The returned map will
+   * only contain entries which are already present in the cache.
+   */
+  ImmutableMap<K, V> getAllPresent(Iterable<? extends K> keys);
 
   /**
    * Discouraged. Provided to satisfy the {@code Function} interface; use {@link #get} or
@@ -137,6 +155,15 @@ public interface Cache<K, V> extends Function<K, V> {
    * @since 11.0
    */
   void refresh(K key) throws ExecutionException;
+
+  /**
+   * Associates {@code value} with {@code key} in this cache. If the cache previously contained a
+   * value associated with {@code key}, the old value is replaced by {@code value}.
+   *
+   * <p>Prefer {@link #get(K, Callable)} when using the conventional "if cached, return; otherwise
+   * create, cache and return" pattern.
+   */
+  void put(K key, V value);
 
   /**
    * Discards any cached value for key {@code key}, possibly asynchronously, so that a future

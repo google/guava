@@ -19,11 +19,13 @@ package com.google.common.cache;
 import com.google.common.annotations.Beta;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ForwardingObject;
+import com.google.common.collect.ImmutableMap;
 
-import java.util.Map;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.ExecutionException;
+
+import javax.annotation.Nullable;
 
 /**
  * A cache which forwards all its method calls to another cache. Subclasses should override one or
@@ -56,13 +58,24 @@ public abstract class ForwardingCache<K, V> extends ForwardingObject implements 
   }
 
   @Override
+  @Nullable
+  public V getIfPresent(K key) {
+    return delegate().getIfPresent(key);
+  }
+
+  @Override
   public V get(K key, Callable<V> valueLoader) throws ExecutionException {
     return delegate().get(key, valueLoader);
   }
 
   @Override
-  public Map<K, V> getAll(Iterable<? extends K> keys) throws ExecutionException {
+  public ImmutableMap<K, V> getAll(Iterable<? extends K> keys) throws ExecutionException {
     return delegate().getAll(keys);
+  }
+
+  @Override
+  public ImmutableMap<K, V> getAllPresent(Iterable<? extends K> keys) {
+    return delegate().getAllPresent(keys);
   }
 
   @Override
@@ -73,6 +86,11 @@ public abstract class ForwardingCache<K, V> extends ForwardingObject implements 
   @Override
   public void refresh(K key) throws ExecutionException {
     delegate().refresh(key);
+  }
+
+  @Override
+  public void put(K key, V value) {
+    delegate().put(key, value);
   }
 
   @Override

@@ -147,6 +147,14 @@ public class CacheLoadingTest extends TestCase {
     assertEquals(4, stats.loadSuccessCount());
     assertEquals(0, stats.loadExceptionCount());
     assertEquals(3, stats.hitCount());
+
+    // duplicate keys are ignored, and don't impact stats
+    assertEquals(ImmutableMap.of(4, 4, 5, 5), cache.getAll(asList(4, 5)));
+    stats = cache.stats();
+    assertEquals(5, stats.missCount());
+    assertEquals(5, stats.loadSuccessCount());
+    assertEquals(0, stats.loadExceptionCount());
+    assertEquals(4, stats.hitCount());
   }
 
   public void testBulkLoad_loadAll() throws ExecutionException {
@@ -185,6 +193,14 @@ public class CacheLoadingTest extends TestCase {
     assertEquals(2, stats.loadSuccessCount());
     assertEquals(0, stats.loadExceptionCount());
     assertEquals(3, stats.hitCount());
+
+    // duplicate keys are ignored, and don't impact stats
+    assertEquals(ImmutableMap.of(4, 4, 5, 5), cache.getAll(asList(4, 5)));
+    stats = cache.stats();
+    assertEquals(5, stats.missCount());
+    assertEquals(3, stats.loadSuccessCount());
+    assertEquals(0, stats.loadExceptionCount());
+    assertEquals(4, stats.hitCount());
   }
 
   public void testBulkLoad_extra() throws ExecutionException {

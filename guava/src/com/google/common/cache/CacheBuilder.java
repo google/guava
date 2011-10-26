@@ -661,27 +661,41 @@ public final class CacheBuilder<K, V> {
    * @return a cache having the requested features
    */
   public <K1 extends K, V1 extends V> Cache<K1, V1> build(CacheLoader<? super K1, V1> loader) {
-    if (strictParsing) {
-      if (weigher == null) {
-        checkState(maximumWeight == UNSET_INT, "maximumWeight requires weigher");
-      } else {
-        checkState(maximumWeight != UNSET_INT, "weigher requires maximumWeight");
-      }
+    checkWeightWithWeigher();
+    return new LocalCache.AutoLocalCache<K1, V1>(this, loader);
+  }
+
+  /**
+   * Builds a cache which does not automatically load values when keys are requested. The returned
+   * cache will throw an {@link UnsupportedOperationException} for all methods which depend on
+   * automatically loading values: {@link Cache#get}, {@link Cache#getUnchecked},
+   * {@link Cache#getAll}, {@link Cache#apply}, and {@link Cache#refresh}.
+   *
+   * <p>Prefer {@link #build(CacheLoader)} when the cache creation and the cache loading code are
+   * collocated.
+   *
+   * <p>This method does not alter the state of this {@code CacheBuilder} instance, so it can be
+   * invoked again to create multiple independent caches.
+   *
+   * @return a cache having the requested features
+   */
+  public <K1 extends K, V1 extends V> Cache<K1, V1> build() {
+    checkWeightWithWeigher();
+    return new LocalCache.ManualLocalCache<K1, V1>(this);
+  }
+
+  private void checkWeightWithWeigher() {
+    if (weigher == null) {
+      checkState(maximumWeight == UNSET_INT, "maximumWeight requires weigher");
     } else {
-      if (weigher == null) {
-        if (maximumWeight != UNSET_INT) {
-          logger.log(Level.WARNING,
-              "ignoring CacheBuilder.maximumWeight specified without CacheBuilder.weigher");
-        }
+      if (strictParsing) {
+        checkState(maximumWeight != UNSET_INT, "weigher requires maximumWeight");
       } else {
         if (maximumWeight == UNSET_INT) {
-          logger.log(Level.WARNING,
-              "ignoring CacheBuilder.weigher specified without CacheBuilder.maximumWeight");
+          logger.log(Level.WARNING, "ignoring weigher specified without maximumWeight");
         }
       }
     }
-
-    return new LocalCache.AutoLocalCache<K1, V1>(this, loader);
   }
 
   /**

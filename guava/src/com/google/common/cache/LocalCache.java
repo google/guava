@@ -160,8 +160,6 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
   /** The segments, each of which is a specialized hash table. */
   final Segment<K, V>[] segments;
 
-  final CacheLoader<? super K, V> defaultLoader;
-
   /** The concurrency level. */
   final int concurrencyLevel;
 
@@ -214,10 +212,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
   /**
    * Creates a new, empty map with the specified strategy, initial capacity and concurrency level.
    */
-  LocalCache(CacheBuilder<? super K, ? super V> builder,
-      CacheLoader<? super K, V> loader) {
-    this.defaultLoader = checkNotNull(loader);
-
+  LocalCache(CacheBuilder<? super K, ? super V> builder) {
     concurrencyLevel = Math.min(builder.getConcurrencyLevel(), MAX_SEGMENTS);
 
     keyStrength = builder.getKeyStrength();
@@ -628,7 +623,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
      * Notifify pending loads that a new value was set. This is only relevant to loading
      * value references.
      */
-    void notifyNewValue(V newValue);
+    void notifyNewValue(@Nullable V newValue);
 
     /**
      * Returns true if a new value is currently loading, regardless of whether or not there is an
@@ -2177,7 +2172,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
 
     // loading
 
-    V getOrLoad(K key, int hash, CacheLoader<? super K, V> loader) throws ExecutionException {
+    V get(K key, int hash, CacheLoader<? super K, V> loader) throws ExecutionException {
       try {
         if (count != 0) { // read-volatile
           // don't call getLiveEntry, which would ignore loading values
@@ -3513,7 +3508,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
     }
 
     @Override
-    public void notifyNewValue(V newValue) {
+    public void notifyNewValue(@Nullable V newValue) {
       if (newValue != null) {
         // The pending load was clobbered by a manual write.
         // Unblock all pending gets, and have them return the new value.
@@ -3934,6 +3929,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
   }
 
   @Override
+  @Nullable
   public V get(@Nullable Object key) {
     if (key == null) {
       return null;
@@ -3942,17 +3938,44 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
     return segmentFor(hash).get(key, hash);
   }
 
-  V getOrLoad(K key) throws ExecutionException {
-    return getOrLoad(key, defaultLoader);
-  }
-
-  V getOrLoad(K key, CacheLoader<? super K, V> loader) throws ExecutionException {
+  @Nullable
+  public V getIfPresent(Object key) {
     int hash = hash(checkNotNull(key));
-    return segmentFor(hash).getOrLoad(key, hash, loader);
+    V value = segmentFor(hash).get(key, hash);
+    if (value == null) {
+      globalStatsCounter.recordMisses(1);
+    } else {
+      globalStatsCounter.recordHits(1);
+    }
+    return value;
   }
 
-  // TODO(fry): return a map with keyEquivalence?
-  ImmutableMap<K, V> getOrLoadAll(Iterable<? extends K> keys) throws ExecutionException {
+  V get(K key, CacheLoader<? super K, V> loader) throws ExecutionException {
+    int hash = hash(checkNotNull(key));
+    return segmentFor(hash).get(key, hash, loader);
+  }
+
+  ImmutableMap<K, V> getAll(Iterable<? extends K> keys) {
+    int hits = 0;
+    int misses = 0;
+
+    Map<K, V> result = Maps.newLinkedHashMap();
+    for (K key : keys) {
+      V value = get(key);
+      if (value == null) {
+        misses++;
+      } else {
+        result.put(key, value);
+        hits++;
+      }
+    }
+    globalStatsCounter.recordHits(hits);
+    globalStatsCounter.recordMisses(misses);
+    return ImmutableMap.copyOf(result);
+  }
+
+  ImmutableMap<K, V> getAll(Iterable<? extends K> keys, CacheLoader<? super K, V> loader)
+      throws ExecutionException {
     int hits = 0;
     int misses = 0;
 
@@ -3960,38 +3983,37 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
     Set<K> keysToLoad = Sets.newLinkedHashSet();
     for (K key : keys) {
       V value = get(key);
-      result.put(key, value);
-      if (value == null) {
-        misses++;
-        keysToLoad.add(key);
-      } else {
-        hits++;
+      if (!result.containsKey(key)) {
+        result.put(key, value);
+        if (value == null) {
+          misses++;
+          keysToLoad.add(key);
+        } else {
+          hits++;
+        }
       }
     }
 
     try {
-      if (keysToLoad.isEmpty()) {
-        return ImmutableMap.copyOf(result);
-      }
-
-      try {
-        Map<K, V> newEntries = loadAll(keysToLoad, defaultLoader);
-        for (K key : keysToLoad) {
-          V value = newEntries.get(key);
-          if (value == null) {
-            throw new InvalidCacheLoadException("loadAll failed to return a value for " + key);
+      if (!keysToLoad.isEmpty()) {
+        try {
+          Map<K, V> newEntries = loadAll(keysToLoad, loader);
+          for (K key : keysToLoad) {
+            V value = newEntries.get(key);
+            if (value == null) {
+              throw new InvalidCacheLoadException("loadAll failed to return a value for " + key);
+            }
+            result.put(key, value);
           }
-          result.put(key, value);
+        } catch (UnsupportedLoadingOperationException e) {
+          // loadAll not implemented, fallback to load
+          for (K key : keysToLoad) {
+            misses--; // get will count this miss
+            result.put(key, get(key, loader));
+          }
         }
-        return ImmutableMap.copyOf(result);
-      } catch (UnsupportedLoadingOperationException e) {
-        // loadAll not implemented, fallback to load
-        for (K key : keysToLoad) {
-          misses--; // getOrLoad will count this miss
-          result.put(key, getOrLoad(key));
-        }
-        return ImmutableMap.copyOf(result);
       }
+      return ImmutableMap.copyOf(result);
     } finally {
       globalStatsCounter.recordHits(hits);
       globalStatsCounter.recordMisses(misses);
@@ -4082,9 +4104,9 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
     return segmentFor(hash).getLiveEntry(key, hash, ticker.read());
   }
 
-  void refresh(K key) throws ExecutionException {
+  void refresh(K key, CacheLoader<? super K, V> loader) throws ExecutionException {
     int hash = hash(checkNotNull(key));
-    segmentFor(hash).refresh(key, hash, defaultLoader);
+    segmentFor(hash).refresh(key, hash, loader);
   }
 
   @Override
@@ -4536,8 +4558,8 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
 
   // Serialization Support
 
-  Cache<K, V> cacheSerializationProxy() {
-    return new SerializationProxy<K, V>(defaultLoader, keyStrength, valueStrength, keyEquivalence,
+  Cache<K, V> cacheSerializationProxy(CacheLoader<? super K, V> loader) {
+    return new SerializationProxy<K, V>(loader, keyStrength, valueStrength, keyEquivalence,
         valueEquivalence, expireAfterWriteNanos, expireAfterAccessNanos, maxWeight, weigher,
         concurrencyLevel, removalListener, ticker);
   }
@@ -4620,7 +4642,11 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
       if (ticker != null) {
         builder.ticker(ticker);
       }
-      this.delegate = builder.build(loader);
+      if (loader == null) {
+        this.delegate = builder.build();
+      } else {
+        this.delegate = builder.build(loader);
+      }
     }
 
     private Object readResolve() {
@@ -4633,30 +4659,35 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
     }
   }
 
-  static final class AutoLocalCache<K, V> extends AbstractCache<K, V> implements Serializable {
-    final LocalCache<K, V> map;
+  static class ManualLocalCache<K, V> extends AbstractCache<K, V> implements Serializable {
+    final LocalCache<K, V> localCache;
 
-    AutoLocalCache(CacheBuilder<? super K, ? super V> builder,
-        CacheLoader<? super K, V> loader) {
-      this.map = new LocalCache<K, V>(builder, loader);
+    ManualLocalCache(CacheBuilder<? super K, ? super V> builder) {
+      this.localCache = new LocalCache<K, V>(builder);
     }
 
     // Cache methods
 
     @Override
     public V get(K key) throws ExecutionException {
-      return map.getOrLoad(key);
+      throw new UnsupportedOperationException();
     }
 
     @Override
     public ImmutableMap<K, V> getAll(Iterable<? extends K> keys) throws ExecutionException {
-      return map.getOrLoadAll(keys);
+      throw new UnsupportedOperationException();
+    }
+
+    @Override
+    @Nullable
+    public V getIfPresent(K key) {
+      return localCache.getIfPresent(key);
     }
 
     @Override
     public V get(K key, final Callable<V> valueLoader) throws ExecutionException {
       checkNotNull(valueLoader);
-      return map.getOrLoad(key, new CacheLoader<Object, V>() {
+      return localCache.get(key, new CacheLoader<Object, V>() {
         @Override
         public V load(Object key) throws Exception {
           return valueLoader.call();
@@ -4665,41 +4696,46 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
     }
 
     @Override
-    public void refresh(K key) throws ExecutionException {
-      map.refresh(key);
+    public ImmutableMap<K, V> getAllPresent(Iterable<? extends K> keys) {
+      return localCache.getAll(keys);
+    }
+
+    @Override
+    public void put(K key, V value) {
+      localCache.put(key, value);
     }
 
     @Override
     public void invalidate(Object key) {
       checkNotNull(key);
-      map.remove(key);
+      localCache.remove(key);
     }
 
     @Override
     public void invalidateAll(Iterable<?> keys) {
-      map.invalidateAll(keys);
+      localCache.invalidateAll(keys);
     }
 
     @Override
     public void invalidateAll() {
-      map.clear();
+      localCache.clear();
     }
 
     @Override
     public long size() {
-      return map.longSize();
+      return localCache.longSize();
     }
 
     @Override
     public ConcurrentMap<K, V> asMap() {
-      return map;
+      return localCache;
     }
 
     @Override
     public CacheStats stats() {
       SimpleStatsCounter aggregator = new SimpleStatsCounter();
-      aggregator.incrementBy(map.globalStatsCounter);
-      for (Segment<K, V> segment : map.segments) {
+      aggregator.incrementBy(localCache.globalStatsCounter);
+      for (Segment<K, V> segment : localCache.segments) {
         aggregator.incrementBy(segment.statsCounter);
       }
       return aggregator.snapshot();
@@ -4707,7 +4743,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
 
     @Override
     public void cleanUp() {
-      map.cleanUp();
+      localCache.cleanUp();
     }
 
     // Serialization Support
@@ -4715,8 +4751,41 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
     private static final long serialVersionUID = 1;
 
     Object writeReplace() {
-      return map.cacheSerializationProxy();
+      return localCache.cacheSerializationProxy(null);
+    }
+  }
+
+  static class AutoLocalCache<K, V> extends ManualLocalCache<K, V> {
+    final CacheLoader<? super K, V> loader;
+
+    AutoLocalCache(CacheBuilder<? super K, ? super V> builder, CacheLoader<? super K, V> loader) {
+      super(builder);
+      this.loader = checkNotNull(loader);
     }
 
+    // Cache methods
+
+    @Override
+    public V get(K key) throws ExecutionException {
+      return localCache.get(key, loader);
+    }
+
+    @Override
+    public ImmutableMap<K, V> getAll(Iterable<? extends K> keys) throws ExecutionException {
+      return localCache.getAll(keys, loader);
+    }
+
+    @Override
+    public void refresh(K key) throws ExecutionException {
+      localCache.refresh(key, loader);
+    }
+
+    // Serialization Support
+
+    private static final long serialVersionUID = 1;
+
+    Object writeReplace() {
+      return localCache.cacheSerializationProxy(loader);
+    }
   }
 }

@@ -65,7 +65,7 @@ public class AutoLocalCacheTest extends TestCase {
       }
     };
     AutoLocalCache<Object, Object> cache = makeCache(createCacheBuilder(), loader);
-    assertSame(loader, cache.map.defaultLoader);
+    assertSame(loader, cache.loader);
   }
 
   // null parameters test
@@ -143,7 +143,7 @@ public class AutoLocalCacheTest extends TestCase {
     CacheBuilder<Object, Object> builder = createCacheBuilder()
         .concurrencyLevel(1);
     AutoLocalCache<Object, Object> cache = makeCache(builder, identityLoader());
-    ConcurrentMap<Object, Object> map = cache.map; // mofidiable map view
+    ConcurrentMap<Object, Object> map = cache.localCache; // modifiable map view
     assertEquals(EMPTY_STATS, cache.stats());
 
     Object one = new Object();
@@ -266,7 +266,7 @@ public class AutoLocalCacheTest extends TestCase {
         .concurrencyLevel(1)
         .maximumSize(SMALL_MAX_SIZE);
     AutoLocalCache<Object, Object> cache = makeCache(builder, identityLoader());
-    Segment<Object, Object> segment = cache.map.segments[0];
+    Segment<Object, Object> segment = cache.localCache.segments[0];
     ConcurrentMap<Object, Object> map = cache.asMap();
 
     Object one = new Object();

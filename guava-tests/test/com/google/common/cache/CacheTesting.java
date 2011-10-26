@@ -112,7 +112,7 @@ class CacheTesting {
    */
   static <K, V> LocalCache<K, V> toLocalCache(Cache<K, V> cache) {
     if (cache instanceof AutoLocalCache) {
-      return ((AutoLocalCache<K, V>) cache).map;
+      return ((AutoLocalCache<K, V>) cache).localCache;
     }
     throw new IllegalArgumentException("Cache of type " + cache.getClass()
         + " doesn't have a LocalCache.");
