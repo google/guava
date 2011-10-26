@@ -60,8 +60,8 @@ public interface Service {
    *     the service fails to start, {@link ListenableFuture#get} will throw an
    *     {@link ExecutionException}, and the service's state will be {@link
    *     State#FAILED}. If it has already finished starting, {@link
-   *     ListenableFuture#get} returns immediately. Cancelling the returned
-   *     future is unsupported and always returns {@code false}.
+   *     ListenableFuture#get} returns immediately. Cancelling this future has
+   *     no effect on the service.
    */
   ListenableFuture<State> start();
 
@@ -99,8 +99,7 @@ public interface Service {
    *     until the service has finished shutting down, and either returns
    *     {@link State#TERMINATED} or throws an {@link ExecutionException}. If
    *     it has already finished stopping, {@link ListenableFuture#get} returns
-   *     immediately.  Cancelling this future is unsupported and always returns
-   *     {@code false}.
+   *     immediately.  Cancelling this future has no effect on the service.
    */
   ListenableFuture<State> stop();
 
