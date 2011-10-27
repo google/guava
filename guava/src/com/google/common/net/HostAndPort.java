@@ -26,8 +26,10 @@ import com.google.common.base.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.annotation.concurrent.Immutable;
+
 /**
- * HostAndPort performs high-level segmenting of host:port strings.
+ * An immutable representation of a host and port.
  *
  * <p>Example usage:
  * <pre>
@@ -57,7 +59,7 @@ import java.util.regex.Pattern;
  * @author Paul Marks
  * @since 10.0
  */
-@Beta
+@Beta @Immutable
 public final class HostAndPort {
   /** Magic value indicating the absence of a port number. */
   private static final int NO_PORT = -1;
