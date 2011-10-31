@@ -78,4 +78,24 @@ public class CacheStatsTest extends TestCase {
     assertEquals(new CacheStats(0, 0, 0, 0, 0, 0), one.minus(two));
   }
 
+  public void testPlus() {
+    CacheStats one = new CacheStats(11, 13, 15, 13, 11, 9);
+    CacheStats two = new CacheStats(53, 47, 41, 39, 37, 35);
+
+    CacheStats sum = two.plus(one);
+    assertEquals(124, sum.requestCount());
+    assertEquals(64, sum.hitCount());
+    assertEquals(64.0/124, sum.hitRate());
+    assertEquals(60, sum.missCount());
+    assertEquals(60.0/124, sum.missRate());
+    assertEquals(56, sum.loadSuccessCount());
+    assertEquals(52, sum.loadExceptionCount());
+    assertEquals(52.0/108, sum.loadExceptionRate());
+    assertEquals(56 + 52, sum.loadCount());
+    assertEquals(48, sum.totalLoadTime());
+    assertEquals(48.0/(56 + 52), sum.averageLoadPenalty());
+    assertEquals(44, sum.evictionCount());
+
+    assertEquals(sum, one.plus(two));
+  }
 }

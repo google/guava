@@ -217,6 +217,20 @@ public final class CacheStats {
         Math.max(0, evictionCount - other.evictionCount));
   }
 
+  /**
+   * Returns a new {@code CacheStats} representing the sum of this {@code CacheStats}
+   * and {@code other}.
+   */
+  public CacheStats plus(CacheStats other) {
+    return new CacheStats(
+        hitCount + other.hitCount,
+        missCount + other.missCount,
+        loadSuccessCount + other.loadSuccessCount,
+        loadExceptionCount + other.loadExceptionCount,
+        totalLoadTime + other.totalLoadTime,
+        evictionCount + other.evictionCount);
+  }
+
   @Override
   public int hashCode() {
     return Objects.hashCode(hitCount, missCount, loadSuccessCount, loadExceptionCount,
