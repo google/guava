@@ -1078,8 +1078,7 @@ public final class InetAddresses {
       i--;
     }
 
-    Preconditions.checkArgument(
-        i >= 0, "Incrementing " + address + " would wrap.");
+    Preconditions.checkArgument(i >= 0, "Incrementing %s would wrap.", address);
 
     addr[i]++;
     try {
