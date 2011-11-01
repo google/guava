@@ -22,6 +22,7 @@ import static com.google.common.math.MathPreconditions.checkNonNegative;
 import static com.google.common.math.MathPreconditions.checkPositive;
 import static com.google.common.math.MathPreconditions.checkRoundingUnnecessary;
 import static java.math.RoundingMode.CEILING;
+import static java.math.RoundingMode.FLOOR;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.VisibleForTesting;
@@ -287,8 +288,8 @@ public final class BigIntegerMath {
     }
 
     // Pre-allocate space for our list of intermediate BigIntegers.
-    double approxSize = n * Math.log(n) / Math.log(2.0) / Long.SIZE;
-    ArrayList<BigInteger> bignums = new ArrayList<BigInteger>((int) Math.ceil(approxSize));
+    int approxSize = IntMath.divide(n * IntMath.log2(n, CEILING), Long.SIZE, CEILING);
+    ArrayList<BigInteger> bignums = new ArrayList<BigInteger>(approxSize);
 
     // Start from the pre-computed maximum long factorial.
     int startingNumber = LongMath.FACTORIALS.length;
@@ -298,8 +299,8 @@ public final class BigIntegerMath {
     product >>= shift;
 
     // Use floor(log2(num)) + 1 to prevent overflow of multiplication.
-    int productBits = Long.SIZE - Long.numberOfLeadingZeros(product);
-    int bits = Long.SIZE - Long.numberOfLeadingZeros(startingNumber);
+    int productBits = LongMath.log2(product, FLOOR) + 1;
+    int bits = LongMath.log2(startingNumber, FLOOR) + 1;
     // Check for the next power of two boundary, to save us a CLZ operation.
     int nextPowerOfTwo = 1 << (bits - 1);
 
@@ -323,7 +324,7 @@ public final class BigIntegerMath {
         productBits = 0;
       }
       product *= normalizedNum;
-      productBits = Long.SIZE - Long.numberOfLeadingZeros(product);
+      productBits = LongMath.log2(product, FLOOR) + 1;
     }
     // Check for leftovers.
     if (product > 1) {
@@ -336,23 +337,22 @@ public final class BigIntegerMath {
   static BigInteger listProduct(List<BigInteger> nums) {
     return listProduct(nums, 0, nums.size());
   }
-  static BigInteger listProduct(List<BigInteger> nums, int start, int end) {
-    if ((end - start) == 0) {
-      return BigInteger.ONE;
-    }
-    if ((end - start) == 1) {
-      return nums.get(start);
-    }
-    if ((end - start) == 2) {
-      return nums.get(start).multiply(nums.get(start + 1));
-    }
-    if ((end - start) == 3) {
-      return nums.get(start).multiply(nums.get(start + 1)).multiply(nums.get(start + 2));
-    }
 
-    // Otherwise, split the list in half and recursively do this.
-    int m = (end + start) >>> 1;
-    return listProduct(nums, start, m).multiply(listProduct(nums, m, end));
+  static BigInteger listProduct(List<BigInteger> nums, int start, int end) {
+    switch (end - start) {
+      case 0:
+        return BigInteger.ONE;
+      case 1:
+        return nums.get(start);
+      case 2:
+        return nums.get(start).multiply(nums.get(start + 1));
+      case 3:
+        return nums.get(start).multiply(nums.get(start + 1)).multiply(nums.get(start + 2));
+      default:
+        // Otherwise, split the list in half and recursively do this.
+        int m = (end + start) >>> 1;
+        return listProduct(nums, start, m).multiply(listProduct(nums, m, end));
+    }
   }
 
  /**
