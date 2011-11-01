@@ -353,24 +353,49 @@ public class AbstractServiceTest extends TestCase {
 
     try {
       service.startAndWait();
+      fail();
     } catch (UncheckedExecutionException e) {
       assertEquals(EXCEPTION, e.getCause());
     }
   }
 
-  public void testThrowingServiceStopAndWait() throws Exception {
+  public void testThrowingServiceStopAndWait_stopThrowing() throws Exception {
     StopThrowingService service = new StopThrowingService();
 
     service.startAndWait();
     try {
       service.stopAndWait();
+      fail();
     } catch (UncheckedExecutionException e) {
       assertEquals(EXCEPTION, e.getCause());
     }
   }
 
+  public void testThrowingServiceStopAndWait_runThrowing() throws Exception {
+    RunThrowingService service = new RunThrowingService();
+
+    service.startAndWait();
+    try {
+      service.stopAndWait();
+      fail();
+    } catch (UncheckedExecutionException e) {
+      assertEquals(EXCEPTION, e.getCause().getCause());
+    }
+  }
+
   private static class StartThrowingService extends AbstractService {
     @Override protected void doStart() {
+      notifyFailed(EXCEPTION);
+    }
+
+    @Override protected void doStop() {
+      fail();
+    }
+  }
+
+  private static class RunThrowingService extends AbstractService {
+    @Override protected void doStart() {
+      notifyStarted();
       notifyFailed(EXCEPTION);
     }
 
