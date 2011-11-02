@@ -32,10 +32,10 @@ import java.util.concurrent.atomic.AtomicLong;
  * effort required to implement this interface.
  *
  * <p>To implement a cache, the programmer needs only to extend this class and provide an
- * implementation for the {@code get} method. {@link #getUnchecked}, {@link #get(K, Callable)},
- * and {@link #getAll} are implemented in terms of {@code get}; {@link #invalidateAll(Iterable)} is
- * implemented in terms of {@link #invalidate}. The method {@link #cleanUp} is a no-op. All other
- * methods throw an {@link UnsupportedOperationException}.
+ * implementation for the {@link #getIfPresent} method. {@link #getAllPresent} is implemented in
+ * terms of {@code getIfPresent}; {@link #invalidateAll(Iterable)} is implemented in terms of
+ * {@link #invalidate}. The method {@link #cleanUp} is a no-op. All other methods throw an
+ * {@link UnsupportedOperationException}.
  *
  * @author Charles Fry
  * @since 10.0
@@ -47,33 +47,8 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
   protected AbstractCache() {}
 
   @Override
-  public V getUnchecked(K key) {
-    try {
-      return get(key);
-    } catch (ExecutionException e) {
-      throw new UncheckedExecutionException(e.getCause());
-    }
-  }
-
-  @Override
   public V get(K key, Callable<V> valueLoader) throws ExecutionException {
     throw new UnsupportedOperationException();
-  }
-
-  @Override
-  public V getIfPresent(K key) {
-    throw new UnsupportedOperationException();
-  }
-
-  @Override
-  public ImmutableMap<K, V> getAll(Iterable<? extends K> keys) throws ExecutionException {
-    Map<K, V> result = Maps.newLinkedHashMap();
-    for (K key : keys) {
-      if (!result.containsKey(key)) {
-        result.put(key, get(key));
-      }
-    }
-    return ImmutableMap.copyOf(result);
   }
 
   @Override
@@ -88,20 +63,8 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
   }
 
   @Override
-  public final V apply(K key) {
-    return getUnchecked(key);
-  }
-
-  @Override
   public void put(K key, V value) {
     throw new UnsupportedOperationException();
-  }
-
-  @Override
-  public void invalidateAll(Iterable<?> keys) {
-    for (Object key : keys) {
-      invalidate(key);
-    }
   }
 
   @Override
@@ -113,13 +76,15 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
   }
 
   @Override
-  public void refresh(K key) throws ExecutionException {
+  public void invalidate(Object key) {
     throw new UnsupportedOperationException();
   }
 
   @Override
-  public void invalidate(Object key) {
-    throw new UnsupportedOperationException();
+  public void invalidateAll(Iterable<?> keys) {
+    for (Object key : keys) {
+      invalidate(key);
+    }
   }
 
   @Override
@@ -137,6 +102,42 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
     throw new UnsupportedOperationException();
   }
 
+  // TODO(fry): remove the LoadingCache methods once all users are migrated
+
+  @Override
+  public V get(K key) throws ExecutionException {
+    throw new UnsupportedOperationException();
+  }
+
+  @Override
+  public V getUnchecked(K key) {
+    try {
+      return get(key);
+    } catch (ExecutionException e) {
+      throw new UncheckedExecutionException(e.getCause());
+    }
+  }
+
+  @Override
+  public ImmutableMap<K, V> getAll(Iterable<? extends K> keys) throws ExecutionException {
+    Map<K, V> result = Maps.newLinkedHashMap();
+    for (K key : keys) {
+      if (!result.containsKey(key)) {
+        result.put(key, get(key));
+      }
+    }
+    return ImmutableMap.copyOf(result);
+  }
+
+  @Override
+  public V apply(K key) {
+    return getUnchecked(key);
+  }
+
+  @Override
+  public void refresh(K key) throws ExecutionException {
+    throw new UnsupportedOperationException();
+  }
   /**
    * Accumulates statistics during the operation of a {@link Cache} for presentation by {@link
    * Cache#stats}. This is solely intended for consumption by {@code Cache} implementors.

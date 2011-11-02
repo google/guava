@@ -34,9 +34,10 @@ import static org.easymock.EasyMock.createMock;
 
 import com.google.common.base.Equivalence;
 import com.google.common.base.Ticker;
-import com.google.common.cache.LocalCache.AutoLocalCache;
 import com.google.common.cache.LocalCache.EntryFactory;
+import com.google.common.cache.LocalCache.LocalLoadingCache;
 import com.google.common.cache.LocalCache.LoadingValueReference;
+import com.google.common.cache.LocalCache.LocalManualCache;
 import com.google.common.cache.LocalCache.ReferenceEntry;
 import com.google.common.cache.LocalCache.Segment;
 import com.google.common.cache.LocalCache.Strength;
@@ -2182,13 +2183,13 @@ public class LocalCacheTest extends TestCase {
     tester.testAllPublicInstanceMethods(makeLocalCache(createCacheBuilder()));
   }
 
-  public void testSerializationProxy() {
+  public void testSerializationProxyLoading() {
     CacheLoader<Object, Object> loader = new SerializableCacheLoader();
     RemovalListener<Object, Object> listener = new SerializableRemovalListener<Object, Object>();
     SerializableWeigher<Object, Object> weigher = new SerializableWeigher<Object, Object>();
     Ticker ticker = new SerializableTicker();
     @SuppressWarnings("unchecked") // createMock
-    AutoLocalCache<Object, Object> one = (AutoLocalCache) CacheBuilder.newBuilder()
+    LocalLoadingCache<Object, Object> one = (LocalLoadingCache) CacheBuilder.newBuilder()
         .weakKeys()
         .softValues()
         .expireAfterAccess(123, NANOSECONDS)
@@ -2202,7 +2203,7 @@ public class LocalCacheTest extends TestCase {
     one.getUnchecked(new Object());
     assertEquals(1, one.size());
     assertFalse(one.asMap().isEmpty());
-    AutoLocalCache<Object, Object> two = SerializableTester.reserialize(one);
+    LocalLoadingCache<Object, Object> two = SerializableTester.reserialize(one);
     assertEquals(0, two.size());
     assertTrue(two.asMap().isEmpty());
 
@@ -2220,6 +2221,75 @@ public class LocalCacheTest extends TestCase {
     assertEquals(localCacheOne.expireAfterWriteNanos, localCacheTwo.expireAfterWriteNanos);
     assertEquals(localCacheOne.removalListener, localCacheTwo.removalListener);
     assertEquals(localCacheOne.ticker, localCacheTwo.ticker);
+
+    // serialize the reconstituted version to be sure we haven't lost the ability to reserialize
+    LocalLoadingCache<Object, Object> three = SerializableTester.reserialize(two);
+    LocalCache<Object, Object> localCacheThree = three.localCache;
+
+    assertEquals(two.loader, three.loader);
+    assertEquals(localCacheTwo.keyStrength, localCacheThree.keyStrength);
+    assertEquals(localCacheTwo.keyStrength, localCacheThree.keyStrength);
+    assertEquals(localCacheTwo.valueEquivalence, localCacheThree.valueEquivalence);
+    assertEquals(localCacheTwo.valueEquivalence, localCacheThree.valueEquivalence);
+    assertEquals(localCacheTwo.maxWeight, localCacheThree.maxWeight);
+    assertEquals(localCacheTwo.weigher, localCacheThree.weigher);
+    assertEquals(localCacheTwo.expireAfterAccessNanos, localCacheThree.expireAfterAccessNanos);
+    assertEquals(localCacheTwo.expireAfterWriteNanos, localCacheThree.expireAfterWriteNanos);
+    assertEquals(localCacheTwo.removalListener, localCacheThree.removalListener);
+    assertEquals(localCacheTwo.ticker, localCacheThree.ticker);
+  }
+
+  public void testSerializationProxyManual() {
+    RemovalListener<Object, Object> listener = new SerializableRemovalListener<Object, Object>();
+    SerializableWeigher<Object, Object> weigher = new SerializableWeigher<Object, Object>();
+    Ticker ticker = new SerializableTicker();
+    @SuppressWarnings("unchecked") // createMock
+    LocalManualCache<Object, Object> one = (LocalManualCache) CacheBuilder.newBuilder()
+        .weakKeys()
+        .softValues()
+        .expireAfterAccess(123, NANOSECONDS)
+        .maximumWeight(789)
+        .weigher(weigher)
+        .concurrencyLevel(12)
+        .removalListener(listener)
+        .ticker(ticker)
+        .build();
+    // add a non-serializable entry
+    one.put(new Object(), new Object());
+    assertEquals(1, one.size());
+    assertFalse(one.asMap().isEmpty());
+    LocalManualCache<Object, Object> two = SerializableTester.reserialize(one);
+    assertEquals(0, two.size());
+    assertTrue(two.asMap().isEmpty());
+
+    LocalCache<Object, Object> localCacheOne = one.localCache;
+    LocalCache<Object, Object> localCacheTwo = two.localCache;
+
+    assertEquals(localCacheOne.keyStrength, localCacheTwo.keyStrength);
+    assertEquals(localCacheOne.keyStrength, localCacheTwo.keyStrength);
+    assertEquals(localCacheOne.valueEquivalence, localCacheTwo.valueEquivalence);
+    assertEquals(localCacheOne.valueEquivalence, localCacheTwo.valueEquivalence);
+    assertEquals(localCacheOne.maxWeight, localCacheTwo.maxWeight);
+    assertEquals(localCacheOne.weigher, localCacheTwo.weigher);
+    assertEquals(localCacheOne.expireAfterAccessNanos, localCacheTwo.expireAfterAccessNanos);
+    assertEquals(localCacheOne.expireAfterWriteNanos, localCacheTwo.expireAfterWriteNanos);
+    assertEquals(localCacheOne.removalListener, localCacheTwo.removalListener);
+    assertEquals(localCacheOne.ticker, localCacheTwo.ticker);
+
+    // serialize the reconstituted version to be sure we haven't lost the ability to reserialize
+    LocalManualCache<Object, Object> three = SerializableTester.reserialize(two);
+    LocalCache<Object, Object> localCacheThree = three.localCache;
+
+    assertEquals(localCacheTwo.keyStrength, localCacheThree.keyStrength);
+    assertEquals(localCacheTwo.keyStrength, localCacheThree.keyStrength);
+    assertEquals(localCacheTwo.valueEquivalence, localCacheThree.valueEquivalence);
+    assertEquals(localCacheTwo.valueEquivalence, localCacheThree.valueEquivalence);
+    assertEquals(localCacheTwo.maxWeight, localCacheThree.maxWeight);
+    assertEquals(localCacheTwo.weigher, localCacheThree.weigher);
+    assertEquals(localCacheTwo.expireAfterAccessNanos, localCacheThree.expireAfterAccessNanos);
+    assertEquals(localCacheTwo.expireAfterWriteNanos, localCacheThree.expireAfterWriteNanos);
+    assertEquals(localCacheTwo.removalListener, localCacheThree.removalListener);
+    assertEquals(localCacheTwo.ticker, localCacheThree.ticker);
   }
 
   // utility methods

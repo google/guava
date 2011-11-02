@@ -660,19 +660,17 @@ public final class CacheBuilder<K, V> {
    * @param loader the cache loader used to obtain new values
    * @return a cache having the requested features
    */
-  public <K1 extends K, V1 extends V> Cache<K1, V1> build(CacheLoader<? super K1, V1> loader) {
+  public <K1 extends K, V1 extends V> LoadingCache<K1, V1> build(
+      CacheLoader<? super K1, V1> loader) {
     checkWeightWithWeigher();
-    return new LocalCache.AutoLocalCache<K1, V1>(this, loader);
+    return new LocalCache.LocalLoadingCache<K1, V1>(this, loader);
   }
 
   /**
-   * Builds a cache which does not automatically load values when keys are requested. The returned
-   * cache will throw an {@link UnsupportedOperationException} for all methods which depend on
-   * automatically loading values: {@link Cache#get}, {@link Cache#getUnchecked},
-   * {@link Cache#getAll}, {@link Cache#apply}, and {@link Cache#refresh}.
+   * Builds a cache which does not automatically load values when keys are requested.
    *
-   * <p>Prefer {@link #build(CacheLoader)} when the cache creation and the cache loading code are
-   * collocated.
+   * <p>Consider {@link #build(CacheLoader)} instead, if it is feasible to implement a
+   * {@code CacheLoader}.
    *
    * <p>This method does not alter the state of this {@code CacheBuilder} instance, so it can be
    * invoked again to create multiple independent caches.
@@ -681,7 +679,7 @@ public final class CacheBuilder<K, V> {
    */
   public <K1 extends K, V1 extends V> Cache<K1, V1> build() {
     checkWeightWithWeigher();
-    return new LocalCache.ManualLocalCache<K1, V1>(this);
+    return new LocalCache.LocalManualCache<K1, V1>(this);
   }
 
   private void checkWeightWithWeigher() {

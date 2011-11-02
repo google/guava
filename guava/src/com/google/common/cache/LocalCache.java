@@ -4558,25 +4558,18 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
 
   // Serialization Support
 
-  Cache<K, V> cacheSerializationProxy(CacheLoader<? super K, V> loader) {
-    return new SerializationProxy<K, V>(loader, keyStrength, valueStrength, keyEquivalence,
-        valueEquivalence, expireAfterWriteNanos, expireAfterAccessNanos, maxWeight, weigher,
-        concurrencyLevel, removalListener, ticker);
-  }
-
   /**
    * Serializes the configuration of a LocalCache, reconsitituting it as a Cache using
    * CacheBuilder upon deserialization. An instance of this class is fit for use by the writeReplace
-   * of LocalCache.
+   * of LocalManualCache.
    *
    * Unfortunately, readResolve() doesn't get called when a circular dependency is present, so the
    * proxy must be able to behave as the cache itself.
    */
-  static final class SerializationProxy<K, V>
+  static class ManualSerializationProxy<K, V>
       extends ForwardingCache<K, V> implements Serializable {
     private static final long serialVersionUID = 1;
 
-    final CacheLoader<? super K, V> loader;
     final Strength keyStrength;
     final Strength valueStrength;
     final Equivalence<Object> keyEquivalence;
@@ -4591,14 +4584,28 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
 
     transient Cache<K, V> delegate;
 
-    SerializationProxy(CacheLoader<? super K, V> loader,
+    ManualSerializationProxy(LocalCache<K, V> cache) {
+      this(
+          cache.keyStrength,
+          cache.valueStrength,
+          cache.keyEquivalence,
+          cache.valueEquivalence,
+          cache.expireAfterWriteNanos,
+          cache.expireAfterAccessNanos,
+          cache.maxWeight,
+          cache.weigher,
+          cache.concurrencyLevel,
+          cache.removalListener,
+          cache.ticker);
+    }
+
+    private ManualSerializationProxy(
         Strength keyStrength, Strength valueStrength,
         Equivalence<Object> keyEquivalence, Equivalence<Object> valueEquivalence,
         long expireAfterWriteNanos, long expireAfterAccessNanos, long maxWeight,
         Weigher<K, V> weigher, int concurrencyLevel,
         RemovalListener<? super K, ? super V> removalListener,
         Ticker ticker) {
-      this.loader = loader;
       this.keyStrength = keyStrength;
       this.valueStrength = valueStrength;
       this.keyEquivalence = keyEquivalence;
@@ -4613,8 +4620,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
           ? null : ticker;
     }
 
-    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
-      in.defaultReadObject();
+   CacheBuilder<Object, Object> recreateCacheBuilder() {
       CacheBuilder<Object, Object> builder = CacheBuilder.newBuilder()
           .setKeyStrength(keyStrength)
           .setValueStrength(valueStrength)
@@ -4642,11 +4648,13 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
       if (ticker != null) {
         builder.ticker(ticker);
       }
-      if (loader == null) {
-        this.delegate = builder.build();
-      } else {
-        this.delegate = builder.build(loader);
-      }
+      return builder;
+    }
+
+    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
+      in.defaultReadObject();
+      CacheBuilder<Object, Object> builder = recreateCacheBuilder();
+      this.delegate = builder.build();
     }
 
     private Object readResolve() {
@@ -4659,24 +4667,71 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
     }
   }
 
-  static class ManualLocalCache<K, V> extends AbstractCache<K, V> implements Serializable {
-    final LocalCache<K, V> localCache;
+  /**
+   * Serializes the configuration of a LocalCache, reconsitituting it as an LoadingCache using
+   * CacheBuilder upon deserialization. An instance of this class is fit for use by the writeReplace
+   * of LocalLoadingCache.
+   *
+   * Unfortunately, readResolve() doesn't get called when a circular dependency is present, so the
+   * proxy must be able to behave as the cache itself.
+   */
+  static final class LoadingSerializationProxy<K, V>
+      extends ManualSerializationProxy<K, V> implements LoadingCache<K, V>, Serializable {
+    private static final long serialVersionUID = 1;
 
-    ManualLocalCache(CacheBuilder<? super K, ? super V> builder) {
-      this.localCache = new LocalCache<K, V>(builder);
+    final CacheLoader<? super K, V> loader;
+
+    transient LoadingCache<K, V> autoDelegate;
+
+    LoadingSerializationProxy(LocalCache<K, V> cache, CacheLoader<? super K, V> loader) {
+      super(cache);
+      this.loader = loader;
     }
 
-    // Cache methods
+    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
+      in.defaultReadObject();
+      CacheBuilder<Object, Object> builder = recreateCacheBuilder();
+      this.autoDelegate = builder.build(loader);
+    }
 
     @Override
     public V get(K key) throws ExecutionException {
-      throw new UnsupportedOperationException();
+      return autoDelegate.get(key);
+    }
+
+    @Override
+    public V getUnchecked(K key) {
+      return autoDelegate.getUnchecked(key);
     }
 
     @Override
     public ImmutableMap<K, V> getAll(Iterable<? extends K> keys) throws ExecutionException {
-      throw new UnsupportedOperationException();
+      return autoDelegate.getAll(keys);
     }
+
+    @Override
+    public final V apply(K key) {
+      return autoDelegate.apply(key);
+    }
+
+    @Override
+    public void refresh(K key) throws ExecutionException {
+      autoDelegate.refresh(key);
+    }
+
+    private Object readResolve() {
+      return autoDelegate;
+    }
+  }
+
+  static class LocalManualCache<K, V> extends AbstractCache<K, V> implements Serializable {
+    final LocalCache<K, V> localCache;
+
+    LocalManualCache(CacheBuilder<? super K, ? super V> builder) {
+      this.localCache = new LocalCache<K, V>(builder);
+    }
+
+    // Cache methods
 
     @Override
     @Nullable
@@ -4751,14 +4806,16 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
     private static final long serialVersionUID = 1;
 
     Object writeReplace() {
-      return localCache.cacheSerializationProxy(null);
+      return new ManualSerializationProxy<K, V>(localCache);
     }
   }
 
-  static class AutoLocalCache<K, V> extends ManualLocalCache<K, V> {
+  static class LocalLoadingCache<K, V>
+      extends LocalManualCache<K, V> implements LoadingCache<K, V> {
     final CacheLoader<? super K, V> loader;
 
-    AutoLocalCache(CacheBuilder<? super K, ? super V> builder, CacheLoader<? super K, V> loader) {
+    LocalLoadingCache(CacheBuilder<? super K, ? super V> builder,
+        CacheLoader<? super K, V> loader) {
       super(builder);
       this.loader = checkNotNull(loader);
     }
@@ -4771,6 +4828,15 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
     }
 
     @Override
+    public V getUnchecked(K key) {
+      try {
+        return get(key);
+      } catch (ExecutionException e) {
+        throw new UncheckedExecutionException(e.getCause());
+      }
+    }
+
+    @Override
     public ImmutableMap<K, V> getAll(Iterable<? extends K> keys) throws ExecutionException {
       return localCache.getAll(keys, loader);
     }
@@ -4780,12 +4846,17 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
       localCache.refresh(key, loader);
     }
 
+    @Override
+    public final V apply(K key) {
+      return getUnchecked(key);
+    }
+
     // Serialization Support
 
     private static final long serialVersionUID = 1;
 
     Object writeReplace() {
-      return localCache.cacheSerializationProxy(loader);
+      return new LoadingSerializationProxy<K, V>(localCache, loader);
     }
   }
 }

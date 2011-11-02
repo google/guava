@@ -18,89 +18,30 @@ package com.google.common.cache;
 
 import com.google.common.annotations.Beta;
 import com.google.common.base.Preconditions;
-import com.google.common.collect.ForwardingObject;
 import com.google.common.collect.ImmutableMap;
 
-import java.util.concurrent.Callable;
-import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.ExecutionException;
-
-import javax.annotation.Nullable;
 
 /**
  * A cache which forwards all its method calls to another cache. Subclasses should override one or
  * more methods to modify the behavior of the backing cache as desired per the
  * <a href="http://en.wikipedia.org/wiki/Decorator_pattern">decorator pattern</a>.
  *
+ * <p>Note that {@link #get}, {@link #getUnchecked}, and {@link #apply} all expose the same
+ * underlying functionality, so should probably be overridden as a group.
+ *
  * @author Charles Fry
- * @since 10.0
+ * @since 11.0
  */
 @Beta
-public abstract class ForwardingCache<K, V> extends ForwardingObject implements Cache<K, V> {
+public abstract class ForwardingLoadingCache<K, V>
+    extends ForwardingCache<K, V> implements LoadingCache<K, V> {
 
   /** Constructor for use by subclasses. */
-  protected ForwardingCache() {}
+  protected ForwardingLoadingCache() {}
 
   @Override
-  protected abstract Cache<K, V> delegate();
-
-  @Override
-  @Nullable
-  public V getIfPresent(K key) {
-    return delegate().getIfPresent(key);
-  }
-
-  @Override
-  public V get(K key, Callable<V> valueLoader) throws ExecutionException {
-    return delegate().get(key, valueLoader);
-  }
-
-  @Override
-  public ImmutableMap<K, V> getAllPresent(Iterable<? extends K> keys) {
-    return delegate().getAllPresent(keys);
-  }
-
-  @Override
-  public void put(K key, V value) {
-    delegate().put(key, value);
-  }
-
-  @Override
-  public void invalidate(Object key) {
-    delegate().invalidate(key);
-  }
-
-  @Override
-  public void invalidateAll(Iterable<?> keys) {
-    delegate().invalidateAll(keys);
-  }
-
-  @Override
-  public void invalidateAll() {
-    delegate().invalidateAll();
-  }
-
-  @Override
-  public long size() {
-    return delegate().size();
-  }
-
-  @Override
-  public CacheStats stats() {
-    return delegate().stats();
-  }
-
-  @Override
-  public ConcurrentMap<K, V> asMap() {
-    return delegate().asMap();
-  }
-
-  @Override
-  public void cleanUp() {
-    delegate().cleanUp();
-  }
-
-  // TODO(fry): remove the LoadingCache methods once all users are migrated
+  protected abstract LoadingCache<K, V> delegate();
 
   @Override
   public V get(K key) throws ExecutionException {
@@ -128,21 +69,22 @@ public abstract class ForwardingCache<K, V> extends ForwardingObject implements 
   }
 
   /**
-   * A simplified version of {@link ForwardingCache} where subclasses can pass in an already
-   * constructed {@link Cache} as the delegete.
+   * A simplified version of {@link ForwardingLoadingCache} where subclasses can pass in an already
+   * constructed {@link LoadingCache} as the delegete.
    *
    * @since 10.0
    */
   @Beta
-  public abstract static class SimpleForwardingCache<K, V> extends ForwardingCache<K, V> {
-    private final Cache<K, V> delegate;
+  public abstract static class SimpleForwardingLoadingCache<K, V>
+      extends ForwardingLoadingCache<K, V> {
+    private final LoadingCache<K, V> delegate;
 
-    protected SimpleForwardingCache(Cache<K, V> delegate) {
+    protected SimpleForwardingLoadingCache(LoadingCache<K, V> delegate) {
       this.delegate = Preconditions.checkNotNull(delegate);
     }
 
     @Override
-    protected final Cache<K, V> delegate() {
+    protected final LoadingCache<K, V> delegate() {
       return delegate;
     }
   }

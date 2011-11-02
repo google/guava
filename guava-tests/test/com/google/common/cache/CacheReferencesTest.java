@@ -30,7 +30,8 @@ import junit.framework.TestCase;
 import java.lang.ref.WeakReference;
 
 /**
- * Tests of basic {@link Cache} operations with all possible combinations of key & value strengths.
+ * Tests of basic {@link LoadingCache} operations with all possible combinations of key & value
+ * strengths.
  *
  * @author mike nonemacher
  */
@@ -49,18 +50,18 @@ public class CacheReferencesTest extends TestCase {
         .withValueStrengths(ImmutableSet.of(STRONG, Strength.WEAK, Strength.SOFT));
   }
 
-  private Iterable<Cache<Key, String>> caches() {
+  private Iterable<LoadingCache<Key, String>> caches() {
     CacheBuilderFactory factory = factoryWithAllKeyStrengths();
     return Iterables.transform(factory.buildAllPermutations(),
-        new Function<CacheBuilder<Object, Object>, Cache<Key, String>>() {
-          @Override public Cache<Key, String> apply(CacheBuilder<Object, Object> builder) {
+        new Function<CacheBuilder<Object, Object>, LoadingCache<Key, String>>() {
+          @Override public LoadingCache<Key, String> apply(CacheBuilder<Object, Object> builder) {
             return builder.build(KEY_TO_STRING_LOADER);
           }
         });
   }
 
   public void testContainsKeyAndValue() {
-    for (Cache<Key, String> cache : caches()) {
+    for (LoadingCache<Key, String> cache : caches()) {
       // maintain strong refs so these won't be collected, regardless of cache's key/value strength
       Key key = new Key(1);
       String value = key.toString();
@@ -72,7 +73,7 @@ public class CacheReferencesTest extends TestCase {
   }
 
   public void testClear() {
-    for (Cache<Key, String> cache : caches()) {
+    for (LoadingCache<Key, String> cache : caches()) {
       Key key = new Key(1);
       String value = key.toString();
       assertSame(value, cache.getUnchecked(key));
@@ -86,7 +87,7 @@ public class CacheReferencesTest extends TestCase {
   }
 
   public void testKeySetEntrySetValues() {
-    for (Cache<Key, String> cache : caches()) {
+    for (LoadingCache<Key, String> cache : caches()) {
       Key key1 = new Key(1);
       String value1 = key1.toString();
       Key key2 = new Key(2);
@@ -101,7 +102,7 @@ public class CacheReferencesTest extends TestCase {
   }
 
   public void testInvalidate() {
-    for (Cache<Key, String> cache : caches()) {
+    for (LoadingCache<Key, String> cache : caches()) {
       Key key1 = new Key(1);
       String value1 = key1.toString();
       Key key2 = new Key(2);
@@ -131,7 +132,7 @@ public class CacheReferencesTest extends TestCase {
               return key.toString();
             }
           };
-      Cache<Integer, String> cache =
+      LoadingCache<Integer, String> cache =
           builder.removalListener(removalListener).build(toStringLoader);
 
       // ints in [-128, 127] have their wrappers precomputed and cached, so they won't be GCed
@@ -148,8 +149,8 @@ public class CacheReferencesTest extends TestCase {
     }
   }
 
-  private void assertCleanup(
-      Cache<Integer, String> cache, CountingRemovalListener<Integer, String> removalListener) {
+  private void assertCleanup(LoadingCache<Integer, String> cache,
+      CountingRemovalListener<Integer, String> removalListener) {
 
     // initialSize will most likely be 2, but it's possible for the GC to have already run, so we'll
     // observe a size of 1

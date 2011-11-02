@@ -36,19 +36,19 @@ import java.util.Set;
 import java.util.concurrent.ExecutionException;
 
 /**
- * {@link Cache} tests that deal with empty caches.
+ * {@link LoadingCache} tests that deal with empty caches.
  *
  * @author mike nonemacher
  */
 public class EmptyCachesTest extends TestCase {
   public void testEmpty() {
-    for (Cache<Object, Object> cache : caches()) {
+    for (LoadingCache<Object, Object> cache : caches()) {
       checkEmpty(cache);
     }
   }
 
   public void testInvalidate_empty() {
-    for (Cache<Object, Object> cache : caches()) {
+    for (LoadingCache<Object, Object> cache : caches()) {
       cache.getUnchecked("a");
       cache.getUnchecked("b");
       cache.invalidate("a");
@@ -59,7 +59,7 @@ public class EmptyCachesTest extends TestCase {
   }
 
   public void testInvalidateAll_empty() {
-    for (Cache<Object, Object> cache : caches()) {
+    for (LoadingCache<Object, Object> cache : caches()) {
       cache.getUnchecked("a");
       cache.getUnchecked("b");
       cache.getUnchecked("c");
@@ -69,7 +69,7 @@ public class EmptyCachesTest extends TestCase {
   }
 
   public void testEquals_null() {
-    for (Cache<Object, Object> cache : caches()) {
+    for (LoadingCache<Object, Object> cache : caches()) {
       assertFalse(cache.equals(null));
     }
   }
@@ -86,7 +86,7 @@ public class EmptyCachesTest extends TestCase {
   }
 
   public void testGet_null() throws ExecutionException {
-    for (Cache<Object, Object> cache : caches()) {
+    for (LoadingCache<Object, Object> cache : caches()) {
       try {
         cache.get(null);
         fail("Expected NullPointerException");
@@ -98,7 +98,7 @@ public class EmptyCachesTest extends TestCase {
   }
 
   public void testGetUnchecked_null() {
-    for (Cache<Object, Object> cache : caches()) {
+    for (LoadingCache<Object, Object> cache : caches()) {
       try {
         cache.getUnchecked(null);
         fail("Expected NullPointerException");
@@ -112,7 +112,7 @@ public class EmptyCachesTest extends TestCase {
   /* ---------------- Key Set -------------- */
 
   public void testKeySet_nullToArray() {
-    for (Cache<Object, Object> cache : caches()) {
+    for (LoadingCache<Object, Object> cache : caches()) {
       Set<Object> keys = cache.asMap().keySet();
       try {
         keys.toArray(null);
@@ -125,7 +125,7 @@ public class EmptyCachesTest extends TestCase {
   }
 
   public void testKeySet_addNotSupported() {
-    for (Cache<Object, Object> cache : caches()) {
+    for (LoadingCache<Object, Object> cache : caches()) {
       try {
         cache.asMap().keySet().add(1);
         fail();
@@ -143,7 +143,7 @@ public class EmptyCachesTest extends TestCase {
   }
 
   public void testKeySet_clear() {
-    for (Cache<Object, Object> cache : caches()) {
+    for (LoadingCache<Object, Object> cache : caches()) {
       warmUp(cache, 0, 100);
 
       Set<Object> keys = cache.asMap().keySet();
@@ -154,7 +154,7 @@ public class EmptyCachesTest extends TestCase {
   }
 
   public void testKeySet_empty_remove() {
-    for (Cache<Object, Object> cache : caches()) {
+    for (LoadingCache<Object, Object> cache : caches()) {
       Set<Object> keys = cache.asMap().keySet();
       assertFalse(keys.remove(null));
       assertFalse(keys.remove(6));
@@ -167,7 +167,7 @@ public class EmptyCachesTest extends TestCase {
   }
 
   public void testKeySet_remove() {
-    for (Cache<Object, Object> cache : caches()) {
+    for (LoadingCache<Object, Object> cache : caches()) {
       cache.getUnchecked(1);
       cache.getUnchecked(2);
 
@@ -189,7 +189,7 @@ public class EmptyCachesTest extends TestCase {
   /* ---------------- Values -------------- */
 
   public void testValues_nullToArray() {
-    for (Cache<Object, Object> cache : caches()) {
+    for (LoadingCache<Object, Object> cache : caches()) {
       Collection<Object> values = cache.asMap().values();
       try {
         values.toArray(null);
@@ -202,7 +202,7 @@ public class EmptyCachesTest extends TestCase {
   }
 
   public void testValues_addNotSupported() {
-    for (Cache<Object, Object> cache : caches()) {
+    for (LoadingCache<Object, Object> cache : caches()) {
       try {
         cache.asMap().values().add(1);
         fail();
@@ -220,7 +220,7 @@ public class EmptyCachesTest extends TestCase {
   }
 
   public void testValues_clear() {
-    for (Cache<Object, Object> cache : caches()) {
+    for (LoadingCache<Object, Object> cache : caches()) {
       warmUp(cache, 0, 100);
 
       Collection<Object> values = cache.asMap().values();
@@ -231,7 +231,7 @@ public class EmptyCachesTest extends TestCase {
   }
 
   public void testValues_empty_remove() {
-    for (Cache<Object, Object> cache : caches()) {
+    for (LoadingCache<Object, Object> cache : caches()) {
       Collection<Object> values = cache.asMap().values();
       assertFalse(values.remove(null));
       assertFalse(values.remove(6));
@@ -244,7 +244,7 @@ public class EmptyCachesTest extends TestCase {
   }
 
   public void testValues_remove() {
-    for (Cache<Object, Object> cache : caches()) {
+    for (LoadingCache<Object, Object> cache : caches()) {
       cache.getUnchecked(1);
       cache.getUnchecked(2);
 
@@ -266,7 +266,7 @@ public class EmptyCachesTest extends TestCase {
   /* ---------------- Entry Set -------------- */
 
   public void testEntrySet_nullToArray() {
-    for (Cache<Object, Object> cache : caches()) {
+    for (LoadingCache<Object, Object> cache : caches()) {
       Set<Entry<Object, Object>> entries = cache.asMap().entrySet();
       try {
         entries.toArray(null);
@@ -279,7 +279,7 @@ public class EmptyCachesTest extends TestCase {
   }
 
   public void testEntrySet_addNotSupported() {
-    for (Cache<Object, Object> cache : caches()) {
+    for (LoadingCache<Object, Object> cache : caches()) {
       try {
         cache.asMap().entrySet().add(entryOf(1, 1));
         fail();
@@ -297,7 +297,7 @@ public class EmptyCachesTest extends TestCase {
   }
 
   public void testEntrySet_clear() {
-    for (Cache<Object, Object> cache : caches()) {
+    for (LoadingCache<Object, Object> cache : caches()) {
       warmUp(cache, 0, 100);
 
       Set<Entry<Object, Object>> entrySet = cache.asMap().entrySet();
@@ -308,7 +308,7 @@ public class EmptyCachesTest extends TestCase {
   }
 
   public void testEntrySet_empty_remove() {
-    for (Cache<Object, Object> cache : caches()) {
+    for (LoadingCache<Object, Object> cache : caches()) {
       Set<Entry<Object, Object>> entrySet = cache.asMap().entrySet();
       assertFalse(entrySet.remove(null));
       assertFalse(entrySet.remove(entryOf(6, 6)));
@@ -321,7 +321,7 @@ public class EmptyCachesTest extends TestCase {
   }
 
   public void testEntrySet_remove() {
-    for (Cache<Object, Object> cache : caches()) {
+    for (LoadingCache<Object, Object> cache : caches()) {
       cache.getUnchecked(1);
       cache.getUnchecked(2);
 
@@ -345,12 +345,13 @@ public class EmptyCachesTest extends TestCase {
   /**
    * Most of the tests in this class run against every one of these caches.
    */
-  private Iterable<Cache<Object, Object>> caches() {
-    // lots of different ways to configure a Cache
+  private Iterable<LoadingCache<Object, Object>> caches() {
+    // lots of different ways to configure a LoadingCache
     CacheBuilderFactory factory = cacheFactory();
     return Iterables.transform(factory.buildAllPermutations(),
-        new Function<CacheBuilder<Object, Object>, Cache<Object, Object>>() {
-          @Override public Cache<Object, Object> apply(CacheBuilder<Object, Object> builder) {
+        new Function<CacheBuilder<Object, Object>, LoadingCache<Object, Object>>() {
+          @Override public LoadingCache<Object, Object> apply(
+              CacheBuilder<Object, Object> builder) {
             return builder.build(identityLoader());
           }
         });
@@ -372,7 +373,7 @@ public class EmptyCachesTest extends TestCase {
             ExpirationSpec.afterWrite(1, DAYS)));
   }
 
-  private void warmUp(Cache<Object, Object> cache, int minimum, int maximum) {
+  private void warmUp(LoadingCache<Object, Object> cache, int minimum, int maximum) {
     for (int i = minimum; i < maximum; i++) {
       cache.getUnchecked(i);
     }

@@ -29,13 +29,13 @@ import junit.framework.TestCase;
 import java.util.concurrent.ExecutionException;
 
 /**
- * Unit test for {@link ForwardingCache}.
+ * Unit test for {@link ForwardingLoadingCache}.
  *
  * @author Charles Fry
  */
-public class ForwardingCacheTest extends TestCase {
-  private Cache<String, Boolean> forward;
-  private Cache<String, Boolean> mock;
+public class ForwardingLoadingCacheTest extends TestCase {
+  private LoadingCache<String, Boolean> forward;
+  private LoadingCache<String, Boolean> mock;
 
   @SuppressWarnings("unchecked") // createMock
   @Override public void setUp() throws Exception {
@@ -45,27 +45,39 @@ public class ForwardingCacheTest extends TestCase {
      * type arguments. The created proxy only records calls and returns null, so
      * the type is irrelevant at runtime.
      */
-    mock = createMock(Cache.class);
-    forward = new ForwardingCache<String, Boolean>() {
-      @Override protected Cache<String, Boolean> delegate() {
+    mock = createMock(LoadingCache.class);
+    forward = new ForwardingLoadingCache<String, Boolean>() {
+      @Override protected LoadingCache<String, Boolean> delegate() {
         return mock;
       }
     };
   }
 
-  public void testGetIfPresent() throws ExecutionException {
-    expect(mock.getIfPresent("key")).andReturn(Boolean.TRUE);
+  public void testGet() throws ExecutionException {
+    expect(mock.get("key")).andReturn(Boolean.TRUE);
     replay(mock);
-    assertSame(Boolean.TRUE, forward.getIfPresent("key"));
+    assertSame(Boolean.TRUE, forward.get("key"));
     verify(mock);
   }
 
-  public void testGetAllPresent() throws ExecutionException {
-    expect(mock.getAllPresent(ImmutableList.of("key")))
-        .andReturn(ImmutableMap.of("key", Boolean.TRUE));
+  public void testGetUnchecked() {
+    expect(mock.getUnchecked("key")).andReturn(Boolean.TRUE);
     replay(mock);
-    assertEquals(ImmutableMap.of("key", Boolean.TRUE),
-        forward.getAllPresent(ImmutableList.of("key")));
+    assertSame(Boolean.TRUE, forward.getUnchecked("key"));
+    verify(mock);
+  }
+
+  public void testGetAll() throws ExecutionException {
+    expect(mock.getAll(ImmutableList.of("key"))).andReturn(ImmutableMap.of("key", Boolean.TRUE));
+    replay(mock);
+    assertEquals(ImmutableMap.of("key", Boolean.TRUE), forward.getAll(ImmutableList.of("key")));
+    verify(mock);
+  }
+
+  public void testApply() {
+    expect(mock.apply("key")).andReturn(Boolean.TRUE);
+    replay(mock);
+    assertSame(Boolean.TRUE, forward.apply("key"));
     verify(mock);
   }
 
@@ -76,10 +88,10 @@ public class ForwardingCacheTest extends TestCase {
     verify(mock);
   }
 
-  public void testInvalidateAllIterable() {
-    mock.invalidateAll(ImmutableList.of("key"));
+  public void testRefresh() throws ExecutionException {
+    mock.refresh("key");
     replay(mock);
-    forward.invalidateAll(ImmutableList.of("key"));
+    forward.refresh("key");
     verify(mock);
   }
 
@@ -121,9 +133,9 @@ public class ForwardingCacheTest extends TestCase {
   /**
    * Make sure that all methods are forwarded.
    */
-  private static class OnlyGet<K, V> extends ForwardingCache<K, V> {
+  private static class OnlyGet<K, V> extends ForwardingLoadingCache<K, V> {
     @Override
-    protected Cache<K, V> delegate() {
+    protected LoadingCache<K, V> delegate() {
       return null;
     }
   }

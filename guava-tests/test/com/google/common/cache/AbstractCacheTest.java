@@ -18,12 +18,12 @@ package com.google.common.cache;
 
 import com.google.common.cache.AbstractCache.SimpleStatsCounter;
 import com.google.common.cache.AbstractCache.StatsCounter;
-import com.google.common.util.concurrent.ExecutionError;
-import com.google.common.util.concurrent.UncheckedExecutionException;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Lists;
 
 import junit.framework.TestCase;
 
-import java.util.concurrent.ExecutionException;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
 /**
@@ -33,108 +33,39 @@ import java.util.concurrent.atomic.AtomicReference;
  */
 public class AbstractCacheTest extends TestCase {
 
-  public void testGetUnchecked_checked() {
-    final Exception cause = new Exception();
+  public void testGetAllPresent() {
     final AtomicReference<Object> valueRef = new AtomicReference<Object>();
     Cache<Object, Object> cache = new AbstractCache<Object, Object>() {
       @Override
-      public Object get(Object key) throws ExecutionException {
-        Object v = valueRef.get();
-        if (v == null) {
-          throw new ExecutionException(cause);
-        }
-        return v;
+      public Object getIfPresent(Object key) {
+        return valueRef.get();
       }
     };
 
-    try {
-      cache.getUnchecked(new Object());
-      fail();
-    } catch (UncheckedExecutionException expected) {
-      assertEquals(cause, expected.getCause());
-    }
+    assertNull(cache.getIfPresent(new Object()));
 
     Object newValue = new Object();
     valueRef.set(newValue);
-    assertSame(newValue, cache.getUnchecked(new Object()));
+    assertSame(newValue, cache.getIfPresent(new Object()));
   }
 
-  public void testGetUnchecked_unchecked() {
-    final RuntimeException cause = new RuntimeException();
-    final AtomicReference<Object> valueRef = new AtomicReference<Object>();
-    Cache<Object, Object> cache = new AbstractCache<Object, Object>() {
+  public void testInvalidateAll() {
+    final List<Object> invalidated = Lists.newArrayList();
+    Cache<Integer, Integer> cache = new AbstractCache<Integer, Integer>() {
       @Override
-      public Object get(Object key) throws ExecutionException {
-        Object v = valueRef.get();
-        if (v == null) {
-          throw new ExecutionException(cause);
-        }
-        return v;
+      public Integer getIfPresent(Integer key) {
+        throw new UnsupportedOperationException();
+      }
+
+      @Override
+      public void invalidate(Object key) {
+        invalidated.add(key);
       }
     };
 
-    try {
-      cache.getUnchecked(new Object());
-      fail();
-    } catch (UncheckedExecutionException expected) {
-      assertEquals(cause, expected.getCause());
-    }
-
-    Object newValue = new Object();
-    valueRef.set(newValue);
-    assertSame(newValue, cache.getUnchecked(new Object()));
-  }
-
-  public void testGetUnchecked_error() {
-    final Error cause = new Error();
-    final AtomicReference<Object> valueRef = new AtomicReference<Object>();
-    Cache<Object, Object> cache = new AbstractCache<Object, Object>() {
-      @Override
-      public Object get(Object key) throws ExecutionException {
-        Object v = valueRef.get();
-        if (v == null) {
-          throw new ExecutionError(cause);
-        }
-        return v;
-      }
-    };
-
-    try {
-      cache.getUnchecked(new Object());
-      fail();
-    } catch (ExecutionError expected) {
-      assertEquals(cause, expected.getCause());
-    }
-
-    Object newValue = new Object();
-    valueRef.set(newValue);
-    assertSame(newValue, cache.getUnchecked(new Object()));
-  }
-
-  public void testGetUnchecked_otherThrowable() {
-    final Throwable cause = new Throwable();
-    final AtomicReference<Object> valueRef = new AtomicReference<Object>();
-    Cache<Object, Object> cache = new AbstractCache<Object, Object>() {
-      @Override
-      public Object get(Object key) throws ExecutionException {
-        Object v = valueRef.get();
-        if (v == null) {
-          throw new ExecutionException(cause);
-        }
-        return v;
-      }
-    };
-
-    try {
-      cache.getUnchecked(new Object());
-      fail();
-    } catch (UncheckedExecutionException expected) {
-      assertEquals(cause, expected.getCause());
-    }
-
-    Object newValue = new Object();
-    valueRef.set(newValue);
-    assertSame(newValue, cache.getUnchecked(new Object()));
+    List<Integer> toInvalidate = ImmutableList.of(1, 2, 3, 4);
+    cache.invalidateAll(toInvalidate);
+    assertEquals(toInvalidate, invalidated);
   }
 
   public void testEmptySimpleStats() {

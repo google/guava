@@ -21,7 +21,7 @@ import static com.google.common.cache.LocalCacheTest.SMALL_MAX_SIZE;
 import static com.google.common.cache.TestingCacheLoaders.identityLoader;
 import static org.junit.contrib.truth.Truth.ASSERT;
 
-import com.google.common.cache.LocalCache.AutoLocalCache;
+import com.google.common.cache.LocalCache.LocalLoadingCache;
 import com.google.common.cache.LocalCache.Segment;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
@@ -44,11 +44,11 @@ import java.util.concurrent.atomic.AtomicReference;
 /**
  * @author Charles Fry
  */
-public class AutoLocalCacheTest extends TestCase {
+public class LocalLoadingCacheTest extends TestCase {
 
-  private static <K, V> AutoLocalCache<K, V> makeCache(
+  private static <K, V> LocalLoadingCache<K, V> makeCache(
       CacheBuilder<K, V> builder, CacheLoader<? super K, V> loader) {
-    return new AutoLocalCache<K, V>(builder, loader);
+    return new LocalLoadingCache<K, V>(builder, loader);
   }
 
   private CacheBuilder<Object, Object> createCacheBuilder() {
@@ -64,7 +64,7 @@ public class AutoLocalCacheTest extends TestCase {
         return new Object();
       }
     };
-    AutoLocalCache<Object, Object> cache = makeCache(createCacheBuilder(), loader);
+    LocalLoadingCache<Object, Object> cache = makeCache(createCacheBuilder(), loader);
     assertSame(loader, cache.loader);
   }
 
@@ -83,7 +83,7 @@ public class AutoLocalCacheTest extends TestCase {
     CacheBuilder<Object, Object> builder = createCacheBuilder()
         .concurrencyLevel(1)
         .maximumSize(2);
-    AutoLocalCache<Object, Object> cache = makeCache(builder, identityLoader());
+    LocalLoadingCache<Object, Object> cache = makeCache(builder, identityLoader());
     assertEquals(EMPTY_STATS, cache.stats());
 
     Object one = new Object();
@@ -142,7 +142,7 @@ public class AutoLocalCacheTest extends TestCase {
   public void testStatsNoops() {
     CacheBuilder<Object, Object> builder = createCacheBuilder()
         .concurrencyLevel(1);
-    AutoLocalCache<Object, Object> cache = makeCache(builder, identityLoader());
+    LocalLoadingCache<Object, Object> cache = makeCache(builder, identityLoader());
     ConcurrentMap<Object, Object> map = cache.localCache; // modifiable map view
     assertEquals(EMPTY_STATS, cache.stats());
 
@@ -183,7 +183,7 @@ public class AutoLocalCacheTest extends TestCase {
         .concurrencyLevel(1)
         .maximumSize(2)
         .disableStats();
-    AutoLocalCache<Object, Object> cache = makeCache(builder, identityLoader());
+    LocalLoadingCache<Object, Object> cache = makeCache(builder, identityLoader());
     assertEquals(EMPTY_STATS, cache.stats());
 
     Object one = new Object();
@@ -206,7 +206,7 @@ public class AutoLocalCacheTest extends TestCase {
 
   public void testAsMap() {
     CacheBuilder<Object, Object> builder = createCacheBuilder();
-    AutoLocalCache<Object, Object> cache = makeCache(builder, identityLoader());
+    LocalLoadingCache<Object, Object> cache = makeCache(builder, identityLoader());
     assertEquals(EMPTY_STATS, cache.stats());
 
     Object one = new Object();
@@ -265,7 +265,7 @@ public class AutoLocalCacheTest extends TestCase {
     CacheBuilder<Object, Object> builder = createCacheBuilder()
         .concurrencyLevel(1)
         .maximumSize(SMALL_MAX_SIZE);
-    AutoLocalCache<Object, Object> cache = makeCache(builder, identityLoader());
+    LocalLoadingCache<Object, Object> cache = makeCache(builder, identityLoader());
     Segment<Object, Object> segment = cache.localCache.segments[0];
     ConcurrentMap<Object, Object> map = cache.asMap();
 
@@ -279,8 +279,8 @@ public class AutoLocalCacheTest extends TestCase {
   }
 
   public void testRecursiveComputation() throws InterruptedException {
-    final AtomicReference<Cache<Integer, String>> cacheRef =
-        new AtomicReference<Cache<Integer, String>>();
+    final AtomicReference<LoadingCache<Integer, String>> cacheRef =
+        new AtomicReference<LoadingCache<Integer, String>>();
     CacheLoader<Integer, String> recursiveLoader = new CacheLoader<Integer, String>() {
       @Override
       public String load(Integer key) {
@@ -292,7 +292,7 @@ public class AutoLocalCacheTest extends TestCase {
       }
     };
 
-    Cache<Integer, String> recursiveCache = new CacheBuilder<Integer, String>()
+    LoadingCache<Integer, String> recursiveCache = new CacheBuilder<Integer, String>()
         .weakKeys()
         .weakValues()
         .build(recursiveLoader);

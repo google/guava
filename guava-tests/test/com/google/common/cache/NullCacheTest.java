@@ -27,7 +27,7 @@ import com.google.common.util.concurrent.UncheckedExecutionException;
 import junit.framework.TestCase;
 
 /**
- * {@link Cache} tests for caches with a maximum size of zero.
+ * {@link LoadingCache} tests for caches with a maximum size of zero.
  *
  * @author mike nonemacher
  */
@@ -41,7 +41,7 @@ public class NullCacheTest extends TestCase {
 
   public void testGet() {
     Object computed = new Object();
-    Cache<Object, Object> cache = CacheBuilder.newBuilder()
+    LoadingCache<Object, Object> cache = CacheBuilder.newBuilder()
         .maximumSize(0)
         .removalListener(listener)
         .build(constantLoader(computed));
@@ -58,7 +58,7 @@ public class NullCacheTest extends TestCase {
 
   public void testGet_expireAfterWrite() {
     Object computed = new Object();
-    Cache<Object, Object> cache = CacheBuilder.newBuilder()
+    LoadingCache<Object, Object> cache = CacheBuilder.newBuilder()
         .expireAfterWrite(0, SECONDS)
         .removalListener(listener)
         .build(constantLoader(computed));
@@ -75,7 +75,7 @@ public class NullCacheTest extends TestCase {
 
   public void testGet_expireAfterAccess() {
     Object computed = new Object();
-    Cache<Object, Object> cache = CacheBuilder.newBuilder()
+    LoadingCache<Object, Object> cache = CacheBuilder.newBuilder()
         .expireAfterAccess(0, SECONDS)
         .removalListener(listener)
         .build(constantLoader(computed));
@@ -91,7 +91,7 @@ public class NullCacheTest extends TestCase {
   }
 
   public void testGet_computeNull() {
-    Cache<Object, Object> cache = CacheBuilder.newBuilder()
+    LoadingCache<Object, Object> cache = CacheBuilder.newBuilder()
         .maximumSize(0)
         .removalListener(listener)
         .build(constantLoader(null));
@@ -107,7 +107,7 @@ public class NullCacheTest extends TestCase {
 
   public void testGet_runtimeException() {
     final RuntimeException e = new RuntimeException();
-    Cache<Object, Object> map = CacheBuilder.newBuilder()
+    LoadingCache<Object, Object> map = CacheBuilder.newBuilder()
         .maximumSize(0)
         .removalListener(listener)
         .build(exceptionLoader(e));

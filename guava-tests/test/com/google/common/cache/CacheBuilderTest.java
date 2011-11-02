@@ -52,7 +52,7 @@ public class CacheBuilderTest extends TestCase {
   public void testNewBuilder() {
     CacheLoader<Object, Integer> loader = constantLoader(1);
 
-    Cache<String, Integer> cache = CacheBuilder.newBuilder()
+    LoadingCache<String, Integer> cache = CacheBuilder.newBuilder()
         .removalListener(countingRemovalListener())
         .build(loader);
 
@@ -78,7 +78,9 @@ public class CacheBuilderTest extends TestCase {
   }
 
   public void testInitialCapacity_small() {
-    Cache<?, ?> cache = CacheBuilder.newBuilder().initialCapacity(5).build(identityLoader());
+    LoadingCache<?, ?> cache = CacheBuilder.newBuilder()
+        .initialCapacity(5)
+        .build(identityLoader());
     LocalCache<?, ?> map = CacheTesting.toLocalCache(cache);
 
     assertEquals(4, map.segments.length);
@@ -89,7 +91,9 @@ public class CacheBuilderTest extends TestCase {
   }
 
   public void testInitialCapacity_smallest() {
-    Cache<?, ?> cache = CacheBuilder.newBuilder().initialCapacity(0).build(identityLoader());
+    LoadingCache<?, ?> cache = CacheBuilder.newBuilder()
+        .initialCapacity(0)
+        .build(identityLoader());
     LocalCache<?, ?> map = CacheTesting.toLocalCache(cache);
 
     assertEquals(4, map.segments.length);
@@ -124,7 +128,9 @@ public class CacheBuilderTest extends TestCase {
   }
 
   public void testConcurrencyLevel_small() {
-    Cache<?, ?> cache = CacheBuilder.newBuilder().concurrencyLevel(1).build(identityLoader());
+    LoadingCache<?, ?> cache = CacheBuilder.newBuilder()
+        .concurrencyLevel(1)
+        .build(identityLoader());
     LocalCache<?, ?> map = CacheTesting.toLocalCache(cache);
     assertEquals(1, map.segments.length);
   }
@@ -248,7 +254,9 @@ public class CacheBuilderTest extends TestCase {
   }
 
   public void testTimeToLive_small() {
-    CacheBuilder.newBuilder().expireAfterWrite(1, NANOSECONDS).build(identityLoader());
+    CacheBuilder.newBuilder()
+        .expireAfterWrite(1, NANOSECONDS)
+        .build(identityLoader());
     // well, it didn't blow up.
   }
 
@@ -276,7 +284,9 @@ public class CacheBuilderTest extends TestCase {
   }
 
   public void testTimeToIdle_small() {
-    CacheBuilder.newBuilder().expireAfterAccess(1, NANOSECONDS).build(identityLoader());
+    CacheBuilder.newBuilder()
+        .expireAfterAccess(1, NANOSECONDS)
+        .build(identityLoader());
     // well, it didn't blow up.
   }
 
@@ -296,8 +306,12 @@ public class CacheBuilderTest extends TestCase {
   }
 
   public void testTimeToIdleAndToLive() {
-    CacheBuilder.newBuilder().expireAfterAccess(1, NANOSECONDS).build(identityLoader());
-    CacheBuilder.newBuilder().expireAfterWrite(1, NANOSECONDS).build(identityLoader());
+    CacheBuilder.newBuilder()
+        .expireAfterAccess(1, NANOSECONDS)
+        .build(identityLoader());
+    CacheBuilder.newBuilder()
+        .expireAfterWrite(1, NANOSECONDS)
+        .build(identityLoader());
     // well, it didn't blow up.
   }
 
@@ -325,7 +339,7 @@ public class CacheBuilderTest extends TestCase {
 
   public void testNullCache() {
     CountingRemovalListener<Object, Object> listener = countingRemovalListener();
-    Cache<Object, Object> nullCache = new CacheBuilder<Object, Object>()
+    LoadingCache<Object, Object> nullCache = new CacheBuilder<Object, Object>()
         .maximumSize(0)
         .removalListener(listener)
         .build(identityLoader());
@@ -353,7 +367,7 @@ public class CacheBuilderTest extends TestCase {
     };
     QueuingRemovalListener<String, String> listener = queuingRemovalListener();
 
-    final Cache<String, String> cache = CacheBuilder.newBuilder()
+    final LoadingCache<String, String> cache = CacheBuilder.newBuilder()
         .concurrencyLevel(1)
         .removalListener(listener)
         .build(computingFunction);
@@ -391,7 +405,7 @@ public class CacheBuilderTest extends TestCase {
     assertEquals("b", cache.getUnchecked("b"));
   }
 
-  // "Basher tests", where we throw a bunch of stuff at a Cache and check basic invariants.
+  // "Basher tests", where we throw a bunch of stuff at a LoadingCache and check basic invariants.
 
   /**
    * This is a less carefully-controlled version of {@link #testRemovalNotification_clear} - this is
@@ -409,10 +423,11 @@ public class CacheBuilderTest extends TestCase {
     AtomicBoolean computationShouldWait = new AtomicBoolean();
     CountDownLatch computationLatch = new CountDownLatch(1);
     QueuingRemovalListener<String, String> listener = queuingRemovalListener();
-    final Cache <String, String> cache = CacheBuilder.newBuilder()
+    final LoadingCache <String, String> cache = CacheBuilder.newBuilder()
         .removalListener(listener)
         .concurrencyLevel(20)
-        .build(new DelayingIdentityLoader<String>(computationShouldWait, computationLatch));
+        .build(
+            new DelayingIdentityLoader<String>(computationShouldWait, computationLatch));
 
     int nThreads = 100;
     int nTasks = 1000;
@@ -508,7 +523,7 @@ public class CacheBuilderTest extends TestCase {
             }
           }
         };
-    final Cache<String, String> cache = CacheBuilder.newBuilder()
+    final LoadingCache<String, String> cache = CacheBuilder.newBuilder()
         .concurrencyLevel(2)
         .expireAfterWrite(100, TimeUnit.MILLISECONDS)
         .removalListener(removalListener)
@@ -555,7 +570,7 @@ public class CacheBuilderTest extends TestCase {
   }
 
   public void testSizingDefaults() {
-    Cache<?, ?> cache = CacheBuilder.newBuilder().build(identityLoader());
+    LoadingCache<?, ?> cache = CacheBuilder.newBuilder().build(identityLoader());
     LocalCache<?, ?> map = CacheTesting.toLocalCache(cache);
     assertEquals(4, map.segments.length); // concurrency level
     assertEquals(4, map.segments[0].table.length()); // capacity / conc level

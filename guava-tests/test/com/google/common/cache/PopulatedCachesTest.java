@@ -42,7 +42,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 /**
- * {@link Cache} tests that deal with caches that actually contain some key-value mappings.
+ * {@link LoadingCache} tests that deal with caches that actually contain some key-value mappings.
  *
  * @author mike nonemacher
  */
@@ -54,7 +54,7 @@ public class PopulatedCachesTest extends TestCase {
   static final int WARMUP_SIZE = WARMUP_MAX - WARMUP_MIN;
 
   public void testSize_populated() {
-    for (Cache<Object, Object> cache : caches()) {
+    for (LoadingCache<Object, Object> cache : caches()) {
       // don't let the entries get GCed
       List<Entry<Object, Object>> warmed = warmUp(cache);
       assertEquals(WARMUP_SIZE, cache.size());
@@ -64,7 +64,7 @@ public class PopulatedCachesTest extends TestCase {
   }
 
   public void testContainsKey_found() {
-    for (Cache<Object, Object> cache : caches()) {
+    for (LoadingCache<Object, Object> cache : caches()) {
       // don't let the entries get GCed
       List<Entry<Object, Object>> warmed = warmUp(cache);
       for (int i = WARMUP_MIN; i < WARMUP_MAX; i++) {
@@ -80,7 +80,7 @@ public class PopulatedCachesTest extends TestCase {
   }
 
   public void testPut_populated() {
-    for (Cache<Object, Object> cache : caches()) {
+    for (LoadingCache<Object, Object> cache : caches()) {
       // don't let the entries get GCed
       List<Entry<Object, Object>> warmed = warmUp(cache);
       for (int i = WARMUP_MIN; i < WARMUP_MAX; i++) {
@@ -103,7 +103,7 @@ public class PopulatedCachesTest extends TestCase {
   }
 
   public void testPutIfAbsent_populated() {
-    for (Cache<Object, Object> cache : caches()) {
+    for (LoadingCache<Object, Object> cache : caches()) {
       // don't let the entries get GCed
       List<Entry<Object, Object>> warmed = warmUp(cache);
       for (int i = WARMUP_MIN; i < WARMUP_MAX; i++) {
@@ -124,7 +124,7 @@ public class PopulatedCachesTest extends TestCase {
   }
 
   public void testPutAll_populated() {
-    for (Cache<Object, Object> cache : caches()) {
+    for (LoadingCache<Object, Object> cache : caches()) {
       // don't let the entries get GCed
       List<Entry<Object, Object>> warmed = warmUp(cache);
       Object newKey = new Object();
@@ -138,7 +138,7 @@ public class PopulatedCachesTest extends TestCase {
   }
 
   public void testReplace_populated() {
-    for (Cache<Object, Object> cache : caches()) {
+    for (LoadingCache<Object, Object> cache : caches()) {
       // don't let the entries get GCed
       List<Entry<Object, Object>> warmed = warmUp(cache);
       for (int i = WARMUP_MIN; i < WARMUP_MAX; i++) {
@@ -159,7 +159,7 @@ public class PopulatedCachesTest extends TestCase {
   }
 
   public void testRemove_byKey() {
-    for (Cache<Object, Object> cache : caches()) {
+    for (LoadingCache<Object, Object> cache : caches()) {
       // don't let the entries get GCed
       List<Entry<Object, Object>> warmed = warmUp(cache);
       for (int i = WARMUP_MIN; i < WARMUP_MAX; i++) {
@@ -174,7 +174,7 @@ public class PopulatedCachesTest extends TestCase {
   }
 
   public void testRemove_byKeyAndValue() {
-    for (Cache<Object, Object> cache : caches()) {
+    for (LoadingCache<Object, Object> cache : caches()) {
       // don't let the entries get GCed
       List<Entry<Object, Object>> warmed = warmUp(cache);
       for (int i = WARMUP_MIN; i < WARMUP_MAX; i++) {
@@ -190,7 +190,7 @@ public class PopulatedCachesTest extends TestCase {
   }
 
   public void testKeySet_populated() {
-    for (Cache<Object, Object> cache : caches()) {
+    for (LoadingCache<Object, Object> cache : caches()) {
       Set<Object> keys = cache.asMap().keySet();
       List<Entry<Object, Object>> warmed = warmUp(cache);
 
@@ -218,7 +218,7 @@ public class PopulatedCachesTest extends TestCase {
   }
 
   public void testValues_populated() {
-    for (Cache<Object, Object> cache : caches()) {
+    for (LoadingCache<Object, Object> cache : caches()) {
       Collection<Object> values = cache.asMap().values();
       List<Entry<Object, Object>> warmed = warmUp(cache);
 
@@ -243,7 +243,7 @@ public class PopulatedCachesTest extends TestCase {
 
   @SuppressWarnings("unchecked") // generic array creation
   public void testEntrySet_populated() {
-    for (Cache<Object, Object> cache : caches()) {
+    for (LoadingCache<Object, Object> cache : caches()) {
       Set<Entry<Object, Object>> entries = cache.asMap().entrySet();
       List<Entry<Object, Object>> warmed = warmUp(cache, WARMUP_MIN, WARMUP_MAX);
 
@@ -271,7 +271,7 @@ public class PopulatedCachesTest extends TestCase {
   }
 
   public void testWriteThroughEntry() {
-    for (Cache<Object, Object> cache : caches()) {
+    for (LoadingCache<Object, Object> cache : caches()) {
       cache.getUnchecked(1);
       Entry<Object, Object> entry = Iterables.getOnlyElement(cache.asMap().entrySet());
       try {
@@ -293,12 +293,13 @@ public class PopulatedCachesTest extends TestCase {
   /**
    * Most of the tests in this class run against every one of these caches.
    */
-  private Iterable<Cache<Object, Object>> caches() {
-    // lots of different ways to configure a Cache
+  private Iterable<LoadingCache<Object, Object>> caches() {
+    // lots of different ways to configure a LoadingCache
     CacheBuilderFactory factory = cacheFactory();
     return Iterables.transform(factory.buildAllPermutations(),
-        new Function<CacheBuilder<Object, Object>, Cache<Object, Object>>() {
-          @Override public Cache<Object, Object> apply(CacheBuilder<Object, Object> builder) {
+        new Function<CacheBuilder<Object, Object>, LoadingCache<Object, Object>>() {
+          @Override public LoadingCache<Object, Object> apply(
+              CacheBuilder<Object, Object> builder) {
             return builder.build(identityLoader());
           }
         });
@@ -324,7 +325,7 @@ public class PopulatedCachesTest extends TestCase {
             ExpirationSpec.afterWrite(1, DAYS)));
   }
 
-  private List<Map.Entry<Object, Object>> warmUp(Cache<Object, Object> cache) {
+  private List<Map.Entry<Object, Object>> warmUp(LoadingCache<Object, Object> cache) {
     return warmUp(cache, WARMUP_MIN, WARMUP_MAX);
   }
 
@@ -333,7 +334,7 @@ public class PopulatedCachesTest extends TestCase {
    * soft references until the caller drops the reference to the returned entries.
    */
   private List<Map.Entry<Object, Object>> warmUp(
-      Cache<Object, Object> cache, int minimum, int maximum) {
+      LoadingCache<Object, Object> cache, int minimum, int maximum) {
 
     List<Map.Entry<Object, Object>> entries = Lists.newArrayList();
     for (int i = minimum; i < maximum; i++) {

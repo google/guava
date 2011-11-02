@@ -43,7 +43,9 @@ public class CacheEvictionTest extends TestCase {
   public void testEviction_setMaxSegmentSize() {
     IdentityLoader<Object> loader = identityLoader();
     for (int i = 1; i < 1000; i++) {
-      Cache<Object, Object> cache = CacheBuilder.newBuilder().maximumSize(i).build(loader);
+      LoadingCache<Object, Object> cache = CacheBuilder.newBuilder()
+          .maximumSize(i)
+          .build(loader);
       assertEquals(i, CacheTesting.getTotalSegmentSize(cache));
     }
   }
@@ -51,15 +53,17 @@ public class CacheEvictionTest extends TestCase {
   public void testEviction_setMaxSegmentWeight() {
     IdentityLoader<Object> loader = identityLoader();
     for (int i = 1; i < 1000; i++) {
-      Cache<Object, Object> cache =
-          CacheBuilder.newBuilder().maximumWeight(i).weigher(constantWeigher(1)).build(loader);
+      LoadingCache<Object, Object> cache = CacheBuilder.newBuilder()
+          .maximumWeight(i)
+          .weigher(constantWeigher(1))
+          .build(loader);
       assertEquals(i, CacheTesting.getTotalSegmentSize(cache));
     }
   }
 
   public void testEviction_maxSizeOneSegment() {
     IdentityLoader<Integer> loader = identityLoader();
-    Cache<Integer, Integer> cache = CacheBuilder.newBuilder()
+    LoadingCache<Integer, Integer> cache = CacheBuilder.newBuilder()
         .concurrencyLevel(1)
         .maximumSize(MAX_SIZE)
         .build(loader);
@@ -74,7 +78,7 @@ public class CacheEvictionTest extends TestCase {
 
   public void testEviction_maxWeightOneSegment() {
     IdentityLoader<Integer> loader = identityLoader();
-    Cache<Integer, Integer> cache = CacheBuilder.newBuilder()
+    LoadingCache<Integer, Integer> cache = CacheBuilder.newBuilder()
         .concurrencyLevel(1)
         .maximumWeight(2 * MAX_SIZE)
         .weigher(constantWeigher(2))
@@ -91,7 +95,7 @@ public class CacheEvictionTest extends TestCase {
   public void testEviction_maxSize() {
     CountingRemovalListener<Integer, Integer> removalListener = countingRemovalListener();
     IdentityLoader<Integer> loader = identityLoader();
-    Cache<Integer, Integer> cache = CacheBuilder.newBuilder()
+    LoadingCache<Integer, Integer> cache = CacheBuilder.newBuilder()
         .maximumSize(MAX_SIZE)
         .removalListener(removalListener)
         .build(loader);
@@ -110,7 +114,7 @@ public class CacheEvictionTest extends TestCase {
   public void testEviction_maxWeight() {
     CountingRemovalListener<Integer, Integer> removalListener = countingRemovalListener();
     IdentityLoader<Integer> loader = identityLoader();
-    Cache<Integer, Integer> cache = CacheBuilder.newBuilder()
+    LoadingCache<Integer, Integer> cache = CacheBuilder.newBuilder()
         .maximumWeight(2 * MAX_SIZE)
         .weigher(constantWeigher(2))
         .removalListener(removalListener)
@@ -129,7 +133,7 @@ public class CacheEvictionTest extends TestCase {
 
   public void testUpdateRecency_onGet() {
     IdentityLoader<Integer> loader = identityLoader();
-    final Cache<Integer, Integer> cache =
+    final LoadingCache<Integer, Integer> cache =
         CacheBuilder.newBuilder().maximumSize(MAX_SIZE).build(loader);
     CacheTesting.checkRecency(cache, MAX_SIZE,
         new Receiver<ReferenceEntry<Integer, Integer>>() {
@@ -142,7 +146,7 @@ public class CacheEvictionTest extends TestCase {
 
   public void testUpdateRecency_onInvalidate() {
     IdentityLoader<Integer> loader = identityLoader();
-    final Cache<Integer, Integer> cache = CacheBuilder.newBuilder()
+    final LoadingCache<Integer, Integer> cache = CacheBuilder.newBuilder()
         .maximumSize(MAX_SIZE)
         .concurrencyLevel(1)
         .build(loader);
@@ -159,7 +163,7 @@ public class CacheEvictionTest extends TestCase {
   public void testEviction_lru() {
     // test lru within a single segment
     IdentityLoader<Integer> loader = identityLoader();
-    Cache<Integer, Integer> cache = CacheBuilder.newBuilder()
+    LoadingCache<Integer, Integer> cache = CacheBuilder.newBuilder()
         .concurrencyLevel(1)
         .maximumSize(10)
         .build(loader);
@@ -191,7 +195,7 @@ public class CacheEvictionTest extends TestCase {
   public void testEviction_weightedLru() {
     // test weighted lru within a single segment
     IdentityLoader<Integer> loader = identityLoader();
-    Cache<Integer, Integer> cache = CacheBuilder.newBuilder()
+    LoadingCache<Integer, Integer> cache = CacheBuilder.newBuilder()
         .concurrencyLevel(1)
         .maximumWeight(45)
         .weigher(intKeyWeigher())
@@ -234,7 +238,7 @@ public class CacheEvictionTest extends TestCase {
   public void testEviction_overweight() {
     // test weighted lru within a single segment
     IdentityLoader<Integer> loader = identityLoader();
-    Cache<Integer, Integer> cache = CacheBuilder.newBuilder()
+    LoadingCache<Integer, Integer> cache = CacheBuilder.newBuilder()
         .concurrencyLevel(1)
         .maximumWeight(45)
         .weigher(intKeyWeigher())
@@ -254,7 +258,7 @@ public class CacheEvictionTest extends TestCase {
     ASSERT.that(keySet).hasContentsAnyOrder(0);
   }
 
-  private void getAll(Cache<Integer, Integer> cache, List<Integer> keys) {
+  private void getAll(LoadingCache<Integer, Integer> cache, List<Integer> keys) {
     for (int i : keys) {
       cache.getUnchecked(i);
     }

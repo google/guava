@@ -23,7 +23,7 @@ import static junit.framework.Assert.assertSame;
 import static junit.framework.Assert.assertTrue;
 
 import com.google.common.base.Preconditions;
-import com.google.common.cache.LocalCache.AutoLocalCache;
+import com.google.common.cache.LocalCache.LocalLoadingCache;
 import com.google.common.cache.LocalCache.ReferenceEntry;
 import com.google.common.cache.LocalCache.Segment;
 import com.google.common.cache.LocalCache.ValueReference;
@@ -111,8 +111,8 @@ class CacheTesting {
    * IllegalArgumentException if this is a Cache type that doesn't have a LocalCache.
    */
   static <K, V> LocalCache<K, V> toLocalCache(Cache<K, V> cache) {
-    if (cache instanceof AutoLocalCache) {
-      return ((AutoLocalCache<K, V>) cache).localCache;
+    if (cache instanceof LocalLoadingCache) {
+      return ((LocalLoadingCache<K, V>) cache).localCache;
     }
     throw new IllegalArgumentException("Cache of type " + cache.getClass()
         + " doesn't have a LocalCache.");
@@ -123,7 +123,7 @@ class CacheTesting {
    * {@link #toLocalCache} without throwing an exception.
    */
   static boolean hasLocalCache(Cache<?, ?> cache) {
-    return (cache instanceof AutoLocalCache);
+    return (cache instanceof LocalLoadingCache);
   }
 
   static void drainRecencyQueues(Cache<?, ?> cache) {
@@ -360,7 +360,7 @@ class CacheTesting {
    * eviction queue, and then reverify that all items in the cache are in the eviction queue, and
    * verify that the head of the eviction queue has changed as a result of the operation.
    */
-  static void checkRecency(Cache<Integer, Integer> cache, int maxSize,
+  static void checkRecency(LoadingCache<Integer, Integer> cache, int maxSize,
       Receiver<ReferenceEntry<Integer, Integer>> operation) {
 
     if (hasLocalCache(cache)) {
@@ -386,7 +386,7 @@ class CacheTesting {
   /**
    * Warms the given cache by getting all values in {@code [start, end)}, in order.
    */
-  static void warmUp(Cache<Integer, Integer> map, int start, int end) {
+  static void warmUp(LoadingCache<Integer, Integer> map, int start, int end) {
     for (int i = start; i < end; i++) {
       map.getUnchecked(i);
     }

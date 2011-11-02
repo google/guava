@@ -21,37 +21,10 @@ import com.google.common.collect.ImmutableMap;
 
 import junit.framework.TestCase;
 
-import java.util.concurrent.ExecutionException;
-
 /**
  * @author Charles Fry
  */
 public class CacheManualTest extends TestCase {
-
-  public void testLoadingMethods() throws ExecutionException {
-    Cache<Object, Object> cache = CacheBuilder.newBuilder().build();
-
-    try {
-      cache.get(new Object());
-      fail();
-    } catch (UnsupportedOperationException expected) {}
-
-    try {
-      cache.getUnchecked(new Object());
-      fail();
-    } catch (UnsupportedOperationException expected) {}
-
-    try {
-      Object[] lookupKeys = new Object[] { new Object(), new Object(), new Object() };
-      cache.getAll(asList(lookupKeys));
-      fail();
-    } catch (UnsupportedOperationException expected) {}
-
-    try {
-      cache.refresh(new Object());
-      fail();
-    } catch (UnsupportedOperationException expected) {}
-  }
 
   public void testGetIfPresent() {
     Cache<Object, Object> cache = CacheBuilder.newBuilder().build();
@@ -130,8 +103,7 @@ public class CacheManualTest extends TestCase {
   }
 
   public void testGetAllPresent() {
-    Cache<Integer, Integer> cache =
-        CacheBuilder.newBuilder().build(TestingCacheLoaders.<Integer>identityLoader());
+    Cache<Integer, Integer> cache = CacheBuilder.newBuilder().build();
     CacheStats stats = cache.stats();
     assertEquals(0, stats.missCount());
     assertEquals(0, stats.loadSuccessCount());
