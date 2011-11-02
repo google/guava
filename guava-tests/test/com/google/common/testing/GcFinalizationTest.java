@@ -20,7 +20,7 @@ import java.util.concurrent.CountDownLatch;
 
 public class GcFinalizationTest extends TestCase {
 
-  public void testAwait_CountDownLatch() throws Exception {
+  public void testAwait_CountDownLatch() {
     final CountDownLatch latch = new CountDownLatch(1);
     Object x = new Object() {
       protected void finalize() { latch.countDown(); }
@@ -30,7 +30,7 @@ public class GcFinalizationTest extends TestCase {
     assertEquals(0, latch.getCount());
   }
 
-  public void testAwaitDone_Future() throws Exception {
+  public void testAwaitDone_Future() {
     final SettableFuture<Void> future = SettableFuture.create();
     Object x = new Object() {
       protected void finalize() { future.set(null); }
@@ -41,7 +41,7 @@ public class GcFinalizationTest extends TestCase {
     assertFalse(future.isCancelled());
   }
 
-  public void testAwaitDone_Future_Cancel() throws Exception {
+  public void testAwaitDone_Future_Cancel() {
     final SettableFuture<Void> future = SettableFuture.create();
     Object x = new Object() {
       protected void finalize() { future.cancel(false); }
@@ -52,13 +52,13 @@ public class GcFinalizationTest extends TestCase {
     assertTrue(future.isCancelled());
   }
 
-  public void testAwaitClear() throws Exception {
+  public void testAwaitClear() {
     final WeakReference<Object> ref = new WeakReference<Object>(new Object());
     GcFinalization.awaitClear(ref);
     assertNull(ref.get());
   }
 
-  public void testAwaitDone_FinalizationPredicate() throws Exception {
+  public void testAwaitDone_FinalizationPredicate() {
     final WeakHashMap<Object, Object> map = new WeakHashMap<Object, Object>();
     map.put(new Object(), Boolean.TRUE);
     GcFinalization.awaitDone(new FinalizationPredicate() {

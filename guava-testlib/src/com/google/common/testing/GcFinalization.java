@@ -46,7 +46,8 @@ import java.util.concurrent.TimeoutException;
  * well for ordinary tests.
  *
  * <p>Failure of the expected event to occur within an implementation-defined "reasonable" time
- * period will result in a {@link TimeoutException}.
+ * period or an interrupt while waiting for the expected event will result in a {@link
+ * RuntimeException}.
  *
  * <p>Here's an example that tests a {@code finalize} method:
  *
@@ -74,6 +75,9 @@ import java.util.concurrent.TimeoutException;
  *
  * <p>This class cannot currently be used to test soft references, since this class does not try to
  * create the memory pressure required to cause soft references to be cleared.
+ *
+ * <p>This class only provides testing utilities.  It is not designed for direct use in production
+ * or for benchmarking.
  *
  * @author schmoe@google.com (mike nonemacher)
  * @author martinrb@google.com (Martin Buchholz)
@@ -106,10 +110,9 @@ public final class GcFinalization {
    * Waits until the given future {@linkplain Future#isDone is done}, invoking the garbage
    * collector as necessary to try to ensure that this will happen.
    *
-   * @throws InterruptedException if interrupted while waiting
-   * @throws TimeoutException if timed out
+   * @throws RuntimeException if timed out or interrupted while waiting
    */
-  public static void awaitDone(Future<?> future) throws InterruptedException, TimeoutException {
+  public static void awaitDone(Future<?> future) {
     if (future.isDone()) {
       return;
     }
@@ -128,23 +131,25 @@ public final class GcFinalization {
         return;
       } catch (ExecutionException ok) {
         return;
+      } catch (InterruptedException ie) {
+        RuntimeException ae = new RuntimeException("Unexpected interrupt while waiting for future");
+        ae.initCause(ie);
+        throw ae;
       } catch (TimeoutException tryHarder) {
         /* OK */
       }
     } while (System.nanoTime() - deadline < 0);
-    throw new TimeoutException(
-        String.format("Future not done within timeout of %d seconds",
-                      timeoutSeconds));
+    throw new RuntimeException(
+        String.format("Future not done within %d second timeout", timeoutSeconds));
   }
 
   /**
    * Waits until the given latch has {@linkplain CountDownLatch#countDown counted down} to zero,
    * invoking the garbage collector as necessary to try to ensure that this will happen.
    *
-   * @throws InterruptedException if interrupted while waiting
-   * @throws TimeoutException if timed out
+   * @throws RuntimeException if timed out or interrupted while waiting
    */
-  public static void await(CountDownLatch latch) throws InterruptedException, TimeoutException {
+  public static void await(CountDownLatch latch) {
     if (latch.getCount() == 0) {
       return;
     }
@@ -156,13 +161,18 @@ public final class GcFinalization {
         return;
       }
       System.gc();
-      if (latch.await(1L, SECONDS)) {
-        return;
+      try {
+        if (latch.await(1L, SECONDS)) {
+          return;
+        }
+      } catch (InterruptedException ie) {
+        RuntimeException ae = new RuntimeException("Unexpected interrupt while waiting for latch");
+        ae.initCause(ie);
+        throw ae;
       }
     } while (System.nanoTime() - deadline < 0);
-    throw new TimeoutException(
-        String.format("CountDownLatch failed to count down within timeout of %d seconds",
-                      timeoutSeconds));
+    throw new RuntimeException(
+        String.format("Latch failed to count down within %d second timeout", timeoutSeconds));
   }
 
   /**
@@ -192,11 +202,9 @@ public final class GcFinalization {
    * Waits until the given predicate returns true, invoking the garbage collector as necessary to
    * try to ensure that this will happen.
    *
-   * @throws InterruptedException if interrupted while waiting
-   * @throws TimeoutException if timed out
+   * @throws RuntimeException if timed out or interrupted while waiting
    */
-  public static void awaitDone(FinalizationPredicate predicate)
-      throws InterruptedException, TimeoutException {
+  public static void awaitDone(FinalizationPredicate predicate) {
     if (predicate.isDone()) {
       return;
     }
@@ -214,9 +222,8 @@ public final class GcFinalization {
         return;
       }
     } while (System.nanoTime() - deadline < 0);
-    throw new TimeoutException(
-        String.format("Predicate did not become true within timeout of %d seconds",
-                      timeoutSeconds));
+    throw new RuntimeException(
+        String.format("Predicate did not become true within %d second timeout", timeoutSeconds));
   }
 
   /**
@@ -232,11 +239,9 @@ public final class GcFinalization {
    *   });
    * }</pre>
    *
-   * @throws InterruptedException if interrupted while waiting
-   * @throws TimeoutException if timed out
+   * @throws RuntimeException if timed out or interrupted while waiting
    */
-  public static void awaitClear(final WeakReference<?> ref)
-      throws InterruptedException, TimeoutException {
+  public static void awaitClear(final WeakReference<?> ref) {
     awaitDone(new FinalizationPredicate() {
       public boolean isDone() {
         return ref.get() == null;
