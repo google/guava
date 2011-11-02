@@ -133,8 +133,10 @@ public interface Cache<K, V> extends Function<K, V> {
    * @throws UncheckedExecutionException if an unchecked exception was thrown while loading the
    *     value
    * @throws ExecutionError if an error was thrown while loading the value
+   * @deprecated This method has been split out into the {@link LoadingCache} interface, and will be
+   * removed in Guava release 12.0.
    */
-  V get(K key) throws ExecutionException;
+  @Deprecated V get(K key) throws ExecutionException;
 
   /**
    * Returns the value associated with {@code key} in this cache, first loading that value if
@@ -148,31 +150,10 @@ public interface Cache<K, V> extends Function<K, V> {
    * @throws UncheckedExecutionException if an exception was thrown while loading the value,
    *     regardless of whether the exception was checked or unchecked
    * @throws ExecutionError if an error was thrown while loading the value
+   * @deprecated This method has been split out into the {@link LoadingCache} interface, and will be
+   * removed in Guava release 12.0.
    */
-  V getUnchecked(K key);
-
-  /**
-   * Returns a map of the values associated with {@code keys}, creating or retrieving those values
-   * if necessary. The returned map contains entries that were already cached, combined with newly
-   * loaded entries; it will never contain null keys or values.
-   *
-   * <p>Caches loaded by a {@link CacheLoader} will issue a single request to
-   * {@link CacheLoader#loadAll} for all keys which are not already present in the cache. All
-   * entries returned by {@link CacheLoader#loadAll} will be stored in the cache, over-writing
-   * any previously cached values. This method will throw an exception if
-   * {@link CacheLoader#loadAll} returns {@code null}, returns a map containing null keys or values,
-   * or fails to return an entry for each requested key.
-   *
-   * <p>Note that duplicate elements in {@code keys}, as determined by {@link Object#equals}, will
-   * be ignored.
-   *
-   * @throws ExecutionException if a checked exception was thrown while loading the values
-   * @throws UncheckedExecutionException if an unchecked exception was thrown while loading the
-   *     values
-   * @throws ExecutionError if an error was thrown while loading the values
-   * @since 11.0
-   */
-  ImmutableMap<K, V> getAll(Iterable<? extends K> keys) throws ExecutionException;
+  @Deprecated V getUnchecked(K key);
 
   /**
    * Discouraged. Provided to satisfy the {@code Function} interface; use {@link #get} or
@@ -181,20 +162,8 @@ public interface Cache<K, V> extends Function<K, V> {
    * @throws UncheckedExecutionException if an exception was thrown while loading the value,
    *     regardless of whether the exception was checked or unchecked
    * @throws ExecutionError if an error was thrown while loading the value
+   * @deprecated This method has been split out into the {@link LoadingCache} interface, and will be
+   * removed in Guava release 12.0.
    */
-  V apply(K key);
-
-  /**
-   * Loads a new value for key {@code key}. While the new value is loading the previous value (if
-   * any) will continue to be returned by {@code get(key)} unless it is evicted. If the new
-   * value is loaded succesfully it will replace the previous value in the cache; if an exception is
-   * thrown while refreshing the previous value will remain.
-   *
-   * @throws ExecutionException if a checked exception was thrown while refreshing the entry
-   * @throws UncheckedExecutionException if an unchecked exception was thrown while refreshing the
-   *     entry
-   * @throws ExecutionError if an error was thrown while refreshing the entry
-   * @since 11.0
-   */
-  void refresh(K key) throws ExecutionException;
+  @Deprecated V apply(K key);
 }

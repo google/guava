@@ -100,31 +100,22 @@ public abstract class ForwardingCache<K, V> extends ForwardingObject implements 
     delegate().cleanUp();
   }
 
-  // TODO(fry): remove the LoadingCache methods once all users are migrated
-
+  @Deprecated
   @Override
   public V get(K key) throws ExecutionException {
     return delegate().get(key);
   }
 
+  @Deprecated
   @Override
   public V getUnchecked(K key) {
     return delegate().getUnchecked(key);
   }
 
-  @Override
-  public ImmutableMap<K, V> getAll(Iterable<? extends K> keys) throws ExecutionException {
-    return delegate().getAll(keys);
-  }
-
+  @Deprecated
   @Override
   public V apply(K key) {
     return delegate().apply(key);
-  }
-
-  @Override
-  public void refresh(K key) throws ExecutionException {
-    delegate().refresh(key);
   }
 
   /**

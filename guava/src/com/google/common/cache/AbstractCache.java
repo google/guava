@@ -102,13 +102,13 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
     throw new UnsupportedOperationException();
   }
 
-  // TODO(fry): remove the LoadingCache methods once all users are migrated
-
+  @Deprecated
   @Override
   public V get(K key) throws ExecutionException {
     throw new UnsupportedOperationException();
   }
 
+  @Deprecated
   @Override
   public V getUnchecked(K key) {
     try {
@@ -118,26 +118,12 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
     }
   }
 
-  @Override
-  public ImmutableMap<K, V> getAll(Iterable<? extends K> keys) throws ExecutionException {
-    Map<K, V> result = Maps.newLinkedHashMap();
-    for (K key : keys) {
-      if (!result.containsKey(key)) {
-        result.put(key, get(key));
-      }
-    }
-    return ImmutableMap.copyOf(result);
-  }
-
+  @Deprecated
   @Override
   public V apply(K key) {
     return getUnchecked(key);
   }
 
-  @Override
-  public void refresh(K key) throws ExecutionException {
-    throw new UnsupportedOperationException();
-  }
   /**
    * Accumulates statistics during the operation of a {@link Cache} for presentation by {@link
    * Cache#stats}. This is solely intended for consumption by {@code Cache} implementors.
