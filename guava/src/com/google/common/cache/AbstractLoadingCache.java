@@ -72,7 +72,7 @@ public abstract class AbstractLoadingCache<K, V>
   }
 
   @Override
-  public void refresh(K key) throws ExecutionException {
+  public void refresh(K key) {
     throw new UnsupportedOperationException();
   }
 }

@@ -56,6 +56,13 @@ class TestingCacheLoaders {
   }
 
   /**
+   * Returns a {@link CacheLoader} that returns the given {@code constant} for every request.
+   */
+  static IncrementingLoader incrementingLoader() {
+    return new IncrementingLoader();
+  }
+
+  /**
    * Returns a {@link CacheLoader} that throws the given error for every request.
    */
   static <K, V> CacheLoader<K, V> errorLoader(final Error e) {
@@ -114,6 +121,37 @@ class TestingCacheLoaders {
     @Override
     public V load(K key) {
       return constant;
+    }
+  }
+
+  /**
+   * Returns a {@code new Object()} for every request, and increments a counter for every request.
+   * An {@code Integer} loader that returns the key for {@code load} requests, and increments the
+   * old value on {@code reload} requests. The load counts are accessible via {@link #getLoadCount}
+   * and {@link #getReloadCount}.
+   */
+  static class IncrementingLoader extends CacheLoader<Integer, Integer> {
+    private final AtomicInteger countLoad = new AtomicInteger();
+    private final AtomicInteger countReload = new AtomicInteger();
+
+    @Override
+    public Integer load(Integer key) {
+      countLoad.incrementAndGet();
+      return key;
+    }
+
+    @Override
+    public Integer reload(Integer key, Integer oldValue) {
+      countReload.incrementAndGet();
+      return oldValue + 1;
+    }
+
+    public int getLoadCount() {
+      return countLoad.get();
+    }
+
+    public int getReloadCount() {
+      return countReload.get();
     }
   }
 

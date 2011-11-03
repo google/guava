@@ -268,11 +268,6 @@ public class CacheBuilderTest extends TestCase {
       builder.expireAfterWrite(3600, SECONDS);
       fail();
     } catch (IllegalStateException expected) {}
-
-    try {
-      builder.expireAfterWrite(3600, SECONDS);
-      fail();
-    } catch (IllegalStateException expected) {}
   }
 
   public void testTimeToIdle_negative() {
@@ -298,21 +293,32 @@ public class CacheBuilderTest extends TestCase {
       builder.expireAfterAccess(3600, SECONDS);
       fail();
     } catch (IllegalStateException expected) {}
-
-    try {
-      builder.expireAfterAccess(3600, SECONDS);
-      fail();
-    } catch (IllegalStateException expected) {}
   }
 
   public void testTimeToIdleAndToLive() {
     CacheBuilder.newBuilder()
+        .expireAfterWrite(1, NANOSECONDS)
         .expireAfterAccess(1, NANOSECONDS)
         .build(identityLoader());
-    CacheBuilder.newBuilder()
-        .expireAfterWrite(1, NANOSECONDS)
-        .build(identityLoader());
     // well, it didn't blow up.
+  }
+
+  public void testRefresh_zero() {
+    CacheBuilder<Object, Object> builder = new CacheBuilder<Object, Object>();
+    try {
+      builder.refreshInterval(0, SECONDS);
+      fail();
+    } catch (IllegalArgumentException expected) {}
+  }
+
+  public void testRefresh_setTwice() {
+    CacheBuilder<Object, Object> builder =
+        new CacheBuilder<Object, Object>().refreshInterval(3600, SECONDS);
+    try {
+      // even to the same value is not allowed
+      builder.refreshInterval(3600, SECONDS);
+      fail();
+    } catch (IllegalStateException expected) {}
   }
 
   public void testTicker_setTwice() {

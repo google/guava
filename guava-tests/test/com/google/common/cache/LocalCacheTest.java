@@ -28,6 +28,7 @@ import static com.google.common.cache.TestingWeighers.constantWeigher;
 import static com.google.common.collect.Lists.newArrayList;
 import static com.google.common.collect.Maps.immutableEntry;
 import static java.util.concurrent.TimeUnit.HOURS;
+import static java.util.concurrent.TimeUnit.MINUTES;
 import static java.util.concurrent.TimeUnit.NANOSECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.easymock.EasyMock.createMock;
@@ -35,8 +36,8 @@ import static org.easymock.EasyMock.createMock;
 import com.google.common.base.Equivalence;
 import com.google.common.base.Ticker;
 import com.google.common.cache.LocalCache.EntryFactory;
-import com.google.common.cache.LocalCache.LocalLoadingCache;
 import com.google.common.cache.LocalCache.LoadingValueReference;
+import com.google.common.cache.LocalCache.LocalLoadingCache;
 import com.google.common.cache.LocalCache.LocalManualCache;
 import com.google.common.cache.LocalCache.ReferenceEntry;
 import com.google.common.cache.LocalCache.Segment;
@@ -52,6 +53,7 @@ import com.google.common.collect.Maps;
 import com.google.common.testing.FakeTicker;
 import com.google.common.testing.NullPointerTester;
 import com.google.common.testing.SerializableTester;
+import com.google.common.testing.TestLogHandler;
 
 import junit.framework.TestCase;
 
@@ -67,6 +69,7 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReferenceArray;
+import java.util.logging.LogRecord;
 
 /**
  * @author Charles Fry
@@ -74,6 +77,37 @@ import java.util.concurrent.atomic.AtomicReferenceArray;
 public class LocalCacheTest extends TestCase {
 
   static final int SMALL_MAX_SIZE = DRAIN_THRESHOLD * 5;
+
+  TestLogHandler logHandler;
+
+  @Override
+  public void setUp() throws Exception {
+    super.setUp();
+    logHandler = new TestLogHandler();
+    LocalCache.logger.addHandler(logHandler);
+  }
+
+  @Override
+  public void tearDown() throws Exception {
+    super.tearDown();
+    LocalCache.logger.removeHandler(logHandler);
+  }
+
+  private Throwable popLoggedThrowable() {
+    List<LogRecord> logRecords = logHandler.getStoredLogRecords();
+    assertSame(1, logRecords.size());
+    LogRecord logRecord = logRecords.get(0);
+    logHandler.clear();
+    return logRecord.getThrown();
+  }
+
+  private void checkNothingLogged() {
+    assertTrue(logHandler.getStoredLogRecords().isEmpty());
+  }
+
+  private void checkLogged(Throwable t) {
+    assertSame(t, popLoggedThrowable());
+  }
 
   private static <K, V> LocalCache<K, V> makeLocalCache(CacheBuilder<K, V> builder) {
     return new LocalCache<K, V>(builder);
@@ -95,6 +129,7 @@ public class LocalCacheTest extends TestCase {
 
     assertEquals(0, map.expireAfterAccessNanos);
     assertEquals(0, map.expireAfterWriteNanos);
+    assertEquals(0, map.refreshNanos);
     assertEquals(CacheBuilder.UNSET_INT, map.maxWeight);
 
     assertSame(EntryFactory.STRONG, map.entryFactory);
@@ -113,6 +148,7 @@ public class LocalCacheTest extends TestCase {
     assertFalse(map.expires());
     assertFalse(map.expiresAfterWrite());
     assertFalse(map.expiresAfterAccess());
+    assertFalse(map.refreshes());
   }
 
   public void testSetKeyEquivalence() {
@@ -263,6 +299,18 @@ public class LocalCacheTest extends TestCase {
     assertTrue("totalCapacity=" + totalCapacity + ", maxSize=" + maxSize, totalCapacity == maxSize);
   }
 
+  public void testSetWeigher() {
+    Weigher<Object, Object> testWeigher = new Weigher<Object, Object>() {
+      @Override
+      public int weigh(Object key, Object value) {
+        return 42;
+      }
+    };
+    LocalCache<Object, Object> map =
+        makeLocalCache(createCacheBuilder().maximumWeight(1).weigher(testWeigher));
+    assertSame(testWeigher, map.weigher);
+  }
+
   public void testSetWeakKeys() {
     LocalCache<Object, Object> map = makeLocalCache(createCacheBuilder().weakKeys());
     checkStrength(map, Strength.WEAK, Strength.STRONG);
@@ -303,6 +351,14 @@ public class LocalCacheTest extends TestCase {
     LocalCache<Object, Object> map =
         makeLocalCache(createCacheBuilder().expireAfterAccess(duration, unit));
     assertEquals(unit.toNanos(duration), map.expireAfterAccessNanos);
+  }
+
+  public void testSetRefresh() {
+    long duration = 42;
+    TimeUnit unit = TimeUnit.SECONDS;
+    LocalCache<Object, Object> map =
+        makeLocalCache(createCacheBuilder().refreshInterval(duration, unit));
+    assertEquals(unit.toNanos(duration), map.refreshNanos);
   }
 
   public void testSetRemovalListener() {
@@ -568,6 +624,25 @@ public class LocalCacheTest extends TestCase {
     assertSame(computedObject, map.get(one));
   }
 
+  public void testRemovalListenerCheckedException() {
+    final RuntimeException e = new RuntimeException();
+    RemovalListener<Object, Object> listener = new RemovalListener<Object, Object>() {
+      @Override
+      public void onRemoval(RemovalNotification<Object, Object> notification) {
+        throw e;
+      }
+    };
+
+    CacheBuilder<Object, Object> builder = createCacheBuilder().removalListener(listener);
+    final LocalCache<Object, Object> cache = makeLocalCache(builder);
+    Object key = new Object();
+    cache.put(key, new Object());
+    checkNothingLogged();
+
+    cache.remove(key);
+    checkLogged(e);
+  }
+
   public void testRemovalListener_replaced_computing() {
     final CountDownLatch startSignal = new CountDownLatch(1);
     final CountDownLatch computingSignal = new CountDownLatch(1);
@@ -639,7 +714,7 @@ public class LocalCacheTest extends TestCase {
     valueRef.setComputing(true);
     entry.setValueReference(valueRef);
     table.set(index, entry);
-    assertFalse(segment.refresh(key, hash, null));
+    assertNull(segment.refresh(key, hash, identityLoader()));
   }
 
   // Removal listener tests
@@ -2192,7 +2267,8 @@ public class LocalCacheTest extends TestCase {
     LocalLoadingCache<Object, Object> one = (LocalLoadingCache) CacheBuilder.newBuilder()
         .weakKeys()
         .softValues()
-        .expireAfterAccess(123, NANOSECONDS)
+        .expireAfterAccess(123, SECONDS)
+        .expireAfterWrite(456, MINUTES)
         .maximumWeight(789)
         .weigher(weigher)
         .concurrencyLevel(12)
@@ -2210,7 +2286,6 @@ public class LocalCacheTest extends TestCase {
     LocalCache<Object, Object> localCacheOne = one.localCache;
     LocalCache<Object, Object> localCacheTwo = two.localCache;
 
-    assertEquals(one.loader, two.loader);
     assertEquals(localCacheOne.keyStrength, localCacheTwo.keyStrength);
     assertEquals(localCacheOne.keyStrength, localCacheTwo.keyStrength);
     assertEquals(localCacheOne.valueEquivalence, localCacheTwo.valueEquivalence);
@@ -2219,6 +2294,7 @@ public class LocalCacheTest extends TestCase {
     assertEquals(localCacheOne.weigher, localCacheTwo.weigher);
     assertEquals(localCacheOne.expireAfterAccessNanos, localCacheTwo.expireAfterAccessNanos);
     assertEquals(localCacheOne.expireAfterWriteNanos, localCacheTwo.expireAfterWriteNanos);
+    assertEquals(localCacheOne.refreshNanos, localCacheTwo.refreshNanos);
     assertEquals(localCacheOne.removalListener, localCacheTwo.removalListener);
     assertEquals(localCacheOne.ticker, localCacheTwo.ticker);
 
@@ -2542,14 +2618,17 @@ public class LocalCacheTest extends TestCase {
 
   private static class SerializableCacheLoader
       extends CacheLoader<Object, Object> implements Serializable {
+    @Override
     public Object load(Object key) {
       return new Object();
     }
 
+    @Override
     public int hashCode() {
       return 42;
     }
 
+    @Override
     public boolean equals(Object o) {
       return (o instanceof SerializableCacheLoader);
     }
@@ -2557,40 +2636,49 @@ public class LocalCacheTest extends TestCase {
 
   private static class SerializableRemovalListener<K, V>
       implements RemovalListener<K, V>, Serializable {
+    @Override
     public void onRemoval(RemovalNotification<K, V> notification) {}
 
+    @Override
     public int hashCode() {
       return 42;
     }
 
+    @Override
     public boolean equals(Object o) {
       return (o instanceof SerializableRemovalListener);
     }
   }
 
   private static class SerializableTicker extends Ticker implements Serializable {
+    @Override
     public long read() {
       return 42;
     }
 
+    @Override
     public int hashCode() {
       return 42;
     }
 
+    @Override
     public boolean equals(Object o) {
       return (o instanceof SerializableTicker);
     }
   }
 
   private static class SerializableWeigher<K, V> implements Weigher<K, V>, Serializable {
+    @Override
     public int weigh(K key, V value) {
       return 42;
     }
 
+    @Override
     public int hashCode() {
       return 42;
     }
 
+    @Override
     public boolean equals(Object o) {
       return (o instanceof SerializableWeigher);
     }

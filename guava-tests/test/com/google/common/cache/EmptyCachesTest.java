@@ -21,7 +21,7 @@ import static java.util.concurrent.TimeUnit.DAYS;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.google.common.base.Function;
-import com.google.common.cache.CacheBuilderFactory.ExpirationSpec;
+import com.google.common.cache.CacheBuilderFactory.DurationSpec;
 import com.google.common.cache.LocalCache.Strength;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
@@ -364,13 +364,17 @@ public class EmptyCachesTest extends TestCase {
         .withConcurrencyLevels(ImmutableSet.of(1, 4, 16, 64))
         .withMaximumSizes(ImmutableSet.of(0, 1, 10, 100, 1000))
         .withInitialCapacities(ImmutableSet.of(0, 1, 10, 100, 1000))
-        .withExpirations(ImmutableSet.of(
-            ExpirationSpec.afterAccess(0, SECONDS),
-            ExpirationSpec.afterAccess(1, SECONDS),
-            ExpirationSpec.afterAccess(1, DAYS),
-            ExpirationSpec.afterWrite(0, SECONDS),
-            ExpirationSpec.afterWrite(1, SECONDS),
-            ExpirationSpec.afterWrite(1, DAYS)));
+        .withExpireAfterWrites(ImmutableSet.of(
+            DurationSpec.of(0, SECONDS),
+            DurationSpec.of(1, SECONDS),
+            DurationSpec.of(1, DAYS)))
+        .withExpireAfterAccesses(ImmutableSet.of(
+            DurationSpec.of(0, SECONDS),
+            DurationSpec.of(1, SECONDS),
+            DurationSpec.of(1, DAYS)))
+        .withRefreshes(ImmutableSet.of(
+            DurationSpec.of(1, SECONDS),
+            DurationSpec.of(1, DAYS)));
   }
 
   private void warmUp(LoadingCache<Object, Object> cache, int minimum, int maximum) {

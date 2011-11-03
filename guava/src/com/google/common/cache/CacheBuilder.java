@@ -120,6 +120,7 @@ public final class CacheBuilder<K, V> {
   private static final int DEFAULT_INITIAL_CAPACITY = 16;
   private static final int DEFAULT_CONCURRENCY_LEVEL = 4;
   private static final int DEFAULT_EXPIRATION_NANOS = 0;
+  private static final int DEFAULT_REFRESH_NANOS = 0;
 
   static final Supplier<? extends StatsCounter> NULL_STATS_COUNTER = Suppliers.ofInstance(
       new StatsCounter() {
@@ -193,6 +194,7 @@ public final class CacheBuilder<K, V> {
 
   long expireAfterWriteNanos = UNSET_INT;
   long expireAfterAccessNanos = UNSET_INT;
+  long refreshNanos = UNSET_INT;
 
   Equivalence<Object> keyEquivalence;
   Equivalence<Object> valueEquivalence;
@@ -211,6 +213,14 @@ public final class CacheBuilder<K, V> {
    */
   public static CacheBuilder<Object, Object> newBuilder() {
     return new CacheBuilder<Object, Object>();
+  }
+
+  /**
+   * Enables lenient parsing. Useful for tests and spec parsing.
+   */
+  CacheBuilder<K, V> lenientParsing() {
+    strictParsing = false;
+    return this;
   }
 
   /**
@@ -572,6 +582,33 @@ public final class CacheBuilder<K, V> {
   }
 
   /**
+   * Specifies that active entries are eligible for automatic refresh once a fixed duration has
+   * elapsed after the entry's creation, or the most recent replacement of its value. Refreshes are
+   * performed by calling {@link Cache#refresh}.
+   *
+   * <p>Currently automatic refreshes are performed inline when the first stale request for an entry
+   * occurs.
+   *
+   * @param duration the length of time after an entry is created that it should be considered
+   *     stale, and thus eligible for refresh
+   * @param unit the unit that {@code duration} is expressed in
+   * @throws IllegalArgumentException if {@code duration} is negative
+   * @throws IllegalStateException if the refresh interval was already set
+   * @since 11.0
+   */
+  public CacheBuilder<K, V> refreshInterval(long duration, TimeUnit unit) {
+    checkNotNull(unit);
+    checkState(refreshNanos == UNSET_INT, "refresh was already set to %s ns", refreshNanos);
+    checkArgument(duration > 0, "duration must be positive: %s %s", duration, unit);
+    this.refreshNanos = unit.toNanos(duration);
+    return this;
+  }
+
+  long getRefreshNanos() {
+    return (refreshNanos == UNSET_INT) ? DEFAULT_REFRESH_NANOS : refreshNanos;
+  }
+
+  /**
    * Specifies a nanosecond-precision time source for use in determining when entries should be
    * expired. By default, {@link System#nanoTime} is used.
    *
@@ -601,6 +638,10 @@ public final class CacheBuilder<K, V> {
    * supplied listener after removing an element for any reason (see removal causes in {@link
    * RemovalCause}). It will invoke the listener as part of the routine maintenance described
    * in the class javadoc.
+   *
+   * <p><b>Note:</b> <i>all exceptions thrown by {@code listener} will be logged and then
+   * swallowed</i>. If they need to be acted upon then they should be dealt with appropriately prior
+   * to being thrown.
    *
    * <p><b>Important note:</b> Instead of returning <em>this</em> as a {@code CacheBuilder}
    * instance, this method returns {@code CacheBuilder<K1, V1>}. From this point on, either the
@@ -676,6 +717,7 @@ public final class CacheBuilder<K, V> {
    * invoked again to create multiple independent caches.
    *
    * @return a cache having the requested features
+   * @since 11.0
    */
   public <K1 extends K, V1 extends V> Cache<K1, V1> build() {
     checkWeightWithWeigher();

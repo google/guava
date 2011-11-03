@@ -57,6 +57,10 @@ public abstract class CacheLoader<K, V> {
    * <p>This implementation simply delegates to {@link #load}. This method should be overriden when
    * the new value can be computed more efficiently from the old value.
    *
+   * <p><b>Note:</b> <i>all exceptions thrown by this method will be logged and then swallowed</i>.
+   * If they need to be acted upon then they should be dealt with appropriately prior to being
+   * thrown.
+   *
    * @param key the non-null key whose value should be loaded
    * @param oldValue the non-null old value corresponding to {@code key}
    * @return the new value associated with {@code key}; <b>must not be null</b>

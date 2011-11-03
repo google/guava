@@ -19,11 +19,12 @@ import static com.google.common.cache.CacheTesting.checkValidState;
 import static com.google.common.cache.TestingCacheLoaders.identityLoader;
 import static java.util.Arrays.asList;
 import static java.util.concurrent.TimeUnit.DAYS;
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.junit.contrib.truth.Truth.ASSERT;
 
 import com.google.common.base.Function;
-import com.google.common.cache.CacheBuilderFactory.ExpirationSpec;
+import com.google.common.cache.CacheBuilderFactory.DurationSpec;
 import com.google.common.cache.LocalCache.Strength;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
@@ -308,7 +309,7 @@ public class PopulatedCachesTest extends TestCase {
   private CacheBuilderFactory cacheFactory() {
     // This is trickier than expected. We plan to put 15 values in each of these (WARMUP_MIN to
     // WARMUP_MAX), but the tests assume no values get evicted. Even with a maximumSize of 100, one
-    // of the values gets evicted. With weak/soft keys, we use identity equality, which means using
+    // of the values gets evicted. With weak keys, we use identity equality, which means using
     // System.identityHashCode, which means the assignment of keys to segments is nondeterministic,
     // so more than (maximumSize / #segments) keys could get assigned to the same segment, which
     // would cause one to be evicted.
@@ -318,11 +319,18 @@ public class PopulatedCachesTest extends TestCase {
         .withConcurrencyLevels(ImmutableSet.of(1, 4, 16, 64))
         .withMaximumSizes(ImmutableSet.of(400, 1000))
         .withInitialCapacities(ImmutableSet.of(0, 1, 10, 100, 1000))
-        .withExpirations(ImmutableSet.of(
-            ExpirationSpec.afterAccess(10, SECONDS),
-            ExpirationSpec.afterAccess(1, DAYS),
-            ExpirationSpec.afterWrite(10, SECONDS),
-            ExpirationSpec.afterWrite(1, DAYS)));
+        .withExpireAfterWrites(ImmutableSet.of(
+            // DurationSpec.of(500, MILLISECONDS),
+            DurationSpec.of(1, SECONDS),
+            DurationSpec.of(1, DAYS)))
+        .withExpireAfterAccesses(ImmutableSet.of(
+            // DurationSpec.of(500, MILLISECONDS),
+            DurationSpec.of(1, SECONDS),
+            DurationSpec.of(1, DAYS)))
+        .withRefreshes(ImmutableSet.of(
+            // DurationSpec.of(500, MILLISECONDS),
+            DurationSpec.of(1, SECONDS),
+            DurationSpec.of(1, DAYS)));
   }
 
   private List<Map.Entry<Object, Object>> warmUp(LoadingCache<Object, Object> cache) {

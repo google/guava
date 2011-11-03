@@ -64,7 +64,7 @@ public abstract class ForwardingLoadingCache<K, V>
   }
 
   @Override
-  public void refresh(K key) throws ExecutionException {
+  public void refresh(K key) {
     delegate().refresh(key);
   }
 

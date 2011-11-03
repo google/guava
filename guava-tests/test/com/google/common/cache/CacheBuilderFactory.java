@@ -41,7 +41,9 @@ class CacheBuilderFactory {
   private Set<Integer> concurrencyLevels = Sets.newHashSet((Integer) null);
   private Set<Integer> initialCapacities = Sets.newHashSet((Integer) null);
   private Set<Integer> maximumSizes = Sets.newHashSet((Integer) null);
-  private Set<ExpirationSpec> expirations = Sets.newHashSet((ExpirationSpec) null);
+  private Set<DurationSpec> expireAfterWrites = Sets.newHashSet((DurationSpec) null);
+  private Set<DurationSpec> expireAfterAccesses = Sets.newHashSet((DurationSpec) null);
+  private Set<DurationSpec> refreshes = Sets.newHashSet((DurationSpec) null);
   private Set<Strength> keyStrengths = Sets.newHashSet((Strength) null);
   private Set<Strength> valueStrengths = Sets.newHashSet((Strength) null);
 
@@ -60,8 +62,18 @@ class CacheBuilderFactory {
     return this;
   }
 
-  CacheBuilderFactory withExpirations(Set<ExpirationSpec> expirations) {
-    this.expirations = Sets.newLinkedHashSet(expirations);
+  CacheBuilderFactory withExpireAfterWrites(Set<DurationSpec> durations) {
+    this.expireAfterWrites = Sets.newLinkedHashSet(durations);
+    return this;
+  }
+
+  CacheBuilderFactory withExpireAfterAccesses(Set<DurationSpec> durations) {
+    this.expireAfterAccesses = Sets.newLinkedHashSet(durations);
+    return this;
+  }
+
+  CacheBuilderFactory withRefreshes(Set<DurationSpec> durations) {
+    this.refreshes = Sets.newLinkedHashSet(durations);
     return this;
   }
 
@@ -79,7 +91,8 @@ class CacheBuilderFactory {
   Iterable<CacheBuilder<Object, Object>> buildAllPermutations() {
     @SuppressWarnings("unchecked")
     Iterable<List<Object>> combinations = buildCartesianProduct(concurrencyLevels,
-        initialCapacities, maximumSizes, expirations, keyStrengths, valueStrengths);
+        initialCapacities, maximumSizes, expireAfterWrites, expireAfterAccesses, refreshes,
+        keyStrengths, valueStrengths);
     return Iterables.transform(combinations,
         new Function<List<Object>, CacheBuilder<Object, Object>>() {
           @Override public CacheBuilder<Object, Object> apply(List<Object> combination) {
@@ -87,9 +100,11 @@ class CacheBuilderFactory {
                 (Integer) combination.get(0),
                 (Integer) combination.get(1),
                 (Integer) combination.get(2),
-                (ExpirationSpec) combination.get(3),
-                (Strength) combination.get(4),
-                (Strength) combination.get(5));
+                (DurationSpec) combination.get(3),
+                (DurationSpec) combination.get(4),
+                (DurationSpec) combination.get(5),
+                (Strength) combination.get(6),
+                (Strength) combination.get(7));
           }
         });
   }
@@ -133,7 +148,8 @@ class CacheBuilderFactory {
 
   private CacheBuilder<Object, Object> createCacheBuilder(
       Integer concurrencyLevel, Integer initialCapacity, Integer maximumSize,
-      ExpirationSpec expiration, Strength keyStrength, Strength valueStrength) {
+      DurationSpec expireAfterWrite, DurationSpec expireAfterAccess, DurationSpec refresh,
+      Strength keyStrength, Strength valueStrength) {
 
     CacheBuilder<Object, Object> builder = CacheBuilder.newBuilder();
     if (concurrencyLevel != null) {
@@ -145,13 +161,14 @@ class CacheBuilderFactory {
     if (maximumSize != null) {
       builder.maximumSize(maximumSize);
     }
-    if (expiration != null) {
-      if (expiration.expireAfterAccessMillis != null) {
-        builder.expireAfterAccess(expiration.expireAfterAccessMillis, TimeUnit.MILLISECONDS);
-      }
-      if (expiration.expireAfterWriteMillis != null) {
-        builder.expireAfterWrite(expiration.expireAfterWriteMillis, TimeUnit.MILLISECONDS);
-      }
+    if (expireAfterWrite != null) {
+      builder.expireAfterWrite(expireAfterWrite.duration, expireAfterWrite.unit);
+    }
+    if (expireAfterAccess != null) {
+      builder.expireAfterAccess(expireAfterAccess.duration, expireAfterAccess.unit);
+    }
+    if (refresh != null) {
+      builder.refreshInterval(refresh.duration, refresh.unit);
     }
     if (keyStrength != null) {
       builder.setKeyStrength(keyStrength);
@@ -162,43 +179,29 @@ class CacheBuilderFactory {
     return builder;
   }
 
-  /**
-   * CacheBuilder doesn't allow expireAfterAccess and expireAfterWrite, so this encapsulates a
-   * single expiration specification. It has an {@code expireAfterAccess} and an
-   * {@code expireAfterWrite}, at least one of which will be null.
-   */
-  static class ExpirationSpec {
-    @Nullable
-    private final Long expireAfterAccessMillis;
-    @Nullable
-    private final Long expireAfterWriteMillis;
+  static class DurationSpec {
+    private final long duration;
+    private final TimeUnit unit;
 
-    private ExpirationSpec(Long expireAfterAccessMillis, Long expireAfterWriteMillis) {
-      Preconditions.checkArgument(
-          expireAfterAccessMillis == null || expireAfterWriteMillis == null);
-      this.expireAfterAccessMillis = expireAfterAccessMillis;
-      this.expireAfterWriteMillis = expireAfterWriteMillis;
+    private DurationSpec(long duration, TimeUnit unit) {
+      this.duration = duration;
+      this.unit = unit;
     }
 
-    public static ExpirationSpec afterAccess(long afterAccess, TimeUnit unit) {
-      return new ExpirationSpec(unit.toMillis(afterAccess), null);
-    }
-
-    public static ExpirationSpec afterWrite(long afterWrite, TimeUnit unit) {
-      return new ExpirationSpec(null, unit.toMillis(afterWrite));
+    public static DurationSpec of(long duration, TimeUnit unit) {
+      return new DurationSpec(duration, unit);
     }
 
     @Override
     public int hashCode() {
-      return Objects.hashCode(expireAfterAccessMillis, expireAfterWriteMillis);
+      return Objects.hashCode(duration, unit);
     }
 
     @Override
     public boolean equals(Object o) {
-      if (o instanceof ExpirationSpec) {
-        ExpirationSpec that = (ExpirationSpec) o;
-        return Objects.equal(this.expireAfterAccessMillis, that.expireAfterAccessMillis)
-            && Objects.equal(this.expireAfterWriteMillis, that.expireAfterWriteMillis);
+      if (o instanceof DurationSpec) {
+        DurationSpec that = (DurationSpec) o;
+        return unit.toNanos(duration) == that.unit.toNanos(that.duration);
       }
       return false;
     }
@@ -206,8 +209,8 @@ class CacheBuilderFactory {
     @Override
     public String toString() {
       return Objects.toStringHelper(this)
-          .add("expireAfterAccessMillis", expireAfterAccessMillis)
-          .add("expireAfterWriteMillis", expireAfterWriteMillis)
+          .add("duration", duration)
+          .add("unit", unit)
           .toString();
     }
   }
