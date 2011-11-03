@@ -110,24 +110,6 @@ public abstract class CharMatcher implements Predicate<Character> {
   }
 
   /**
-   * Determines whether a character is whitespace according to {@link Character#isWhitespace(char)
-   * Java's definition}; it is usually preferable to use {@link #WHITESPACE}. (See a
-   * <a href="http://spreadsheets.google.com/pub?key=pd8dAQyHbdewRsnE5x5GzKQ">comparison of several
-   * definitions of "whitespace"</a>.)
-   */
-  public static final CharMatcher JAVA_WHITESPACE =
-      inRange('\u0009', (char) 13)  // \\u000d doesn't work as a char literal
-          .or(inRange('\u001c', '\u0020'))
-          .or(is('\u1680'))
-          .or(is('\u180e'))
-          .or(inRange('\u2000', '\u2006'))
-          .or(inRange('\u2008', '\u200b'))
-          .or(inRange('\u2028', '\u2029'))
-          .or(is('\u205f'))
-          .or(is('\u3000'))
-          .precomputed();
-
-  /**
    * Determines whether a character is a digit according to {@link Character#isDigit(char) Java's
    * definition}. If you only care to match ASCII digits, you can use {@code inRange('0', '9')}.
    */

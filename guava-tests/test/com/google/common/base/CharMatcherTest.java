@@ -74,19 +74,6 @@ public class CharMatcherTest extends TestCase {
   // The next tests require ICU4J and have, at least for now, been sliced out
   // of the open-source view of the tests.
 
-  // For GWT-compatibility reasons, CharMatcher.JAVA_WHITESPACE doesn't actually
-  // use Character.isWhitespace. This test ensures that its custom
-  // implementation stays in sync with the implementation of
-  // Character.isWhitespace.
-
-  @GwtIncompatible("Character.isWhitespace")
-  public void testJavaWhitespace() {
-    for (int c = 0; c <= Character.MAX_VALUE; c++) {
-      assertEquals("" + c, Character.isWhitespace(c),
-          CharMatcher.JAVA_WHITESPACE.matches((char) c));
-    }
-  }
-
   @GwtIncompatible("Character.isISOControl")
   public void testJavaIsoControl() {
     for (int c = 0; c <= Character.MAX_VALUE; c++) {
