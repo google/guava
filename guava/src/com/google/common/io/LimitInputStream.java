@@ -52,7 +52,7 @@ public final class LimitInputStream extends FilterInputStream {
     return (int) Math.min(in.available(), left);
   }
 
-  @Override public void mark(int readlimit) {
+  @Override public synchronized void mark(int readlimit) {
     in.mark(readlimit);
     mark = left;
     // it's okay to mark even if mark isn't supported, as reset won't work
@@ -83,7 +83,7 @@ public final class LimitInputStream extends FilterInputStream {
     return result;
   }
 
-  @Override public void reset() throws IOException {
+  @Override public synchronized void reset() throws IOException {
     if (!in.markSupported()) {
       throw new IOException("Mark not supported");
     }
