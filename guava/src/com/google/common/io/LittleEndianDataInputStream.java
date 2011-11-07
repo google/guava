@@ -54,7 +54,7 @@ public final class LittleEndianDataInputStream extends FilterInputStream
   }
 
   /**
-   * This method will throw a {@link UnsupportedOperationException}.
+   * This method will throw an {@link UnsupportedOperationException}.
    */
   @Override
   public String readLine() {
@@ -91,8 +91,8 @@ public final class LittleEndianDataInputStream extends FilterInputStream
    * {@link DataInputStream#readUnsignedShort()}, except using little-endian
    * byte order.
    *
-   * @return the next two bytes of the input stream, interpreted as an {@code
-   *         int} in little-endian byte order
+   * @return the next two bytes of the input stream, interpreted as an 
+   *         unsigned 16-bit integer in little-endian byte order
    * @throws IOException if an I/O error occurs
    */
   @Override
@@ -107,8 +107,8 @@ public final class LittleEndianDataInputStream extends FilterInputStream
    * Reads an integer as specified by {@link DataInputStream#readInt()}, except
    * using little-endian byte order.
    *
-   * @return the next four bytes of the input stream, interpreted as an {@code
-   *         int} in little-endian byte order
+   * @return the next four bytes of the input stream, interpreted as an 
+   *         {@code int} in little-endian byte order
    * @throws IOException if an I/O error occurs
    */
   @Override
@@ -125,8 +125,8 @@ public final class LittleEndianDataInputStream extends FilterInputStream
    * Reads a {@code long} as specified by {@link DataInputStream#readLong()},
    * except using little-endian byte order.
    *
-   * @return the next eight bytes of the input stream, interpreted as a {@code
-   *         long} in little-endian byte order
+   * @return the next eight bytes of the input stream, interpreted as a 
+   *         {@code long} in little-endian byte order
    * @throws IOException if an I/O error occurs
    */
   @Override
@@ -147,8 +147,8 @@ public final class LittleEndianDataInputStream extends FilterInputStream
    * Reads a {@code float} as specified by {@link DataInputStream#readFloat()},
    * except using little-endian byte order.
    *
-   * @return the next four bytes of the input stream, interpreted as an {@code
-   *         float} in little-endian byte order
+   * @return the next four bytes of the input stream, interpreted as a
+   *         {@code float} in little-endian byte order
    * @throws IOException if an I/O error occurs
    */
   @Override
@@ -161,8 +161,8 @@ public final class LittleEndianDataInputStream extends FilterInputStream
    * {@link DataInputStream#readDouble()}, except using little-endian byte
    * order.
    *
-   * @return the next eight bytes of the input stream, interpreted as an {@code
-   *         int} in little-endian byte order
+   * @return the next eight bytes of the input stream, interpreted as a
+   *         {@code double} in little-endian byte order
    * @throws IOException if an I/O error occurs
    */
   @Override
@@ -179,8 +179,8 @@ public final class LittleEndianDataInputStream extends FilterInputStream
    * Reads a {@code short} as specified by {@link DataInputStream#readShort()},
    * except using little-endian byte order.
    *
-   * @return the next two bytes of the input stream, interpreted as an {@code
-   *         short} in little-endian byte order.
+   * @return the next two bytes of the input stream, interpreted as a
+   *         {@code short} in little-endian byte order.
    * @throws IOException if an I/O error occurs.
    */
   @Override
@@ -192,8 +192,8 @@ public final class LittleEndianDataInputStream extends FilterInputStream
    * Reads a char as specified by {@link DataInputStream#readChar()}, except
    * using little-endian byte order.
    *
-   * @return the next two bytes of the input stream, interpreted as an {@code
-   *         char} in little-endian byte order
+   * @return the next two bytes of the input stream, interpreted as a 
+   *         {@code char} in little-endian byte order
    * @throws IOException if an I/O error occurs
    */
   @Override
