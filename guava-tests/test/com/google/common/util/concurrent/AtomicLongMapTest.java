@@ -5,7 +5,6 @@ package com.google.common.util.concurrent;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Sets;
 import com.google.common.testing.NullPointerTester;
-import com.google.testing.util.TestUtil;
 
 import junit.framework.TestCase;
 
@@ -26,12 +25,7 @@ public class AtomicLongMapTest extends TestCase {
   private static final int ITERATIONS = 100;
   private static final int MAX_ADDEND = 100;
 
-  Random random;
-
-  @Override
-  protected void setUp() {
-    random = new Random(TestUtil.getRandomSeed());
-  }
+  private Random random = new Random(301);
 
   public void testNulls() throws Exception {
     NullPointerTester tester = new NullPointerTester();
