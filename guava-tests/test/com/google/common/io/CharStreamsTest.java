@@ -52,6 +52,23 @@ public class CharStreamsTest extends IoTestCase {
         CharStreams.toString(CharStreams.newReaderSupplier(TEXT)));
   }
 
+  public void testSkipFully_blockingRead() throws IOException {
+    Reader reader = new NonSkippingReader("abcdef");
+    CharStreams.skipFully(reader, 6);
+    assertEquals(-1, reader.read());
+  }
+  
+  private static class NonSkippingReader extends StringReader {
+    NonSkippingReader(String s) {
+      super(s);
+    }
+    
+    @Override
+    public long skip(long n) {
+      return 0;
+    }
+  }
+  
   public void testReadLines_fromReadable() throws IOException {
     byte[] bytes = "a\nb\nc".getBytes(Charsets.UTF_8.name());
     List<String> lines = CharStreams.readLines(
