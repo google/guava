@@ -58,6 +58,13 @@ public class ResourcesTest extends IoTestCase {
     ASSERT.that(Resources.toString(resource, Charsets.US_ASCII))
         .isNotEqualTo(I18N);
   }
+  
+  public void testToToByteArray() throws IOException {
+    URL url = getClass().getResource("/com/google/common/io/Resources.class");
+    byte[] data = Resources.toByteArray(url);
+    assertEquals(0xCAFEBABE,
+        new DataInputStream(new ByteArrayInputStream(data)).readInt());
+  }
 
   public void testReadLines() throws IOException {
     // TODO(chrisn): Check in a better resource
