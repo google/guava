@@ -31,7 +31,6 @@ import java.util.concurrent.Future;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
-@SuppressWarnings("divzero")
 public class AbstractListeningExecutorServiceTest extends JSR166TestCase {
     /**
      * A no-frills implementation of AbstractExecutorService, designed
@@ -231,7 +230,9 @@ public class AbstractListeningExecutorServiceTest extends JSR166TestCase {
                                    new ArrayBlockingQueue<Runnable>(10));
 
         Callable<Object> c = new Callable<Object>() {
-            public Object call() { return 5/0; }};
+            public Object call() {
+                throw new ArithmeticException("/ by zero");
+            }};
 
         try {
             p.submit(c).get();
@@ -277,7 +278,9 @@ public class AbstractListeningExecutorServiceTest extends JSR166TestCase {
         ExecutorService e = new DirectExecutorService();
         List<Callable<Integer>> l = new ArrayList<Callable<Integer>>();
         l.add(new Callable<Integer>() {
-                  public Integer call() { return 5/0; }});
+            public Integer call() {
+                throw new ArithmeticException("/ by zero");
+            }});
         l.add(null);
         try {
             e.invokeAny(l);
@@ -457,7 +460,9 @@ public class AbstractListeningExecutorServiceTest extends JSR166TestCase {
         ExecutorService e = new DirectExecutorService();
         List<Callable<Integer>> l = new ArrayList<Callable<Integer>>();
         l.add(new Callable<Integer>() {
-                  public Integer call() { return 5/0; }});
+            public Integer call() {
+                throw new ArithmeticException("/ by zero");
+            }});
         l.add(null);
         try {
             e.invokeAny(l, MEDIUM_DELAY_MS, MILLISECONDS);
