@@ -191,7 +191,8 @@ class CacheTesting {
       segment.cleanUp();
       assertFalse(segment.isLocked());
       Map<?, ?> table = segmentTable(segment);
-      // check count after we have a strong reference to all entries
+      // cleanup and then check count after we have a strong reference to all entries
+      segment.cleanUp();
       assertEquals(segment.count, table.size());
       for (Entry entry : table.entrySet()) {
         assertNotNull(entry.getKey());
@@ -227,7 +228,10 @@ class CacheTesting {
             assertSame(prev.getNextInWriteQueue(), current);
             assertTrue(prev.getWriteTime() <= current.getWriteTime());
           }
-          assertSame(current, segment.getEntry(current.getKey(), current.getHash()));
+          Object key = current.getKey();
+          if (key != null) {
+            assertSame(current, segment.getEntry(key, current.getHash()));
+          }
           prev = current;
         }
         assertEquals(segment.count, entries.size());
@@ -246,7 +250,10 @@ class CacheTesting {
             assertSame(prev.getNextInAccessQueue(), current);
             assertTrue(prev.getAccessTime() <= current.getAccessTime());
           }
-          assertSame(current, segment.getEntry(current.getKey(), current.getHash()));
+          Object key = current.getKey();
+          if (key != null) {
+            assertSame(current, segment.getEntry(key, current.getHash()));
+          }
           prev = current;
         }
         assertEquals(segment.count, entries.size());
@@ -280,7 +287,10 @@ class CacheTesting {
             assertSame(prev, current.getPreviousInAccessQueue());
             assertSame(prev.getNextInAccessQueue(), current);
           }
-          assertSame(current, segment.getEntry(current.getKey(), current.getHash()));
+          Object key = current.getKey();
+          if (key != null) {
+            assertSame(current, segment.getEntry(key, current.getHash()));
+          }
           prev = current;
         }
       }
