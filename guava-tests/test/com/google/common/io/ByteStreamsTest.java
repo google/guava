@@ -18,7 +18,7 @@ package com.google.common.io;
 
 import com.google.common.base.Charsets;
 import com.google.common.base.Preconditions;
-import com.google.testing.util.MoreAsserts;
+import com.google.common.primitives.Bytes;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -32,6 +32,7 @@ import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
 import java.nio.channels.WritableByteChannel;
 import java.util.Arrays;
+import java.util.Random;
 
 /**
  * Unit test for {@link ByteStreams}.
@@ -76,6 +77,32 @@ public class ByteStreamsTest extends IoTestCase {
     assertEquals(50, subRange.length);
     assertEquals(100, subRange[0]);
     assertEquals((byte) 149, subRange[subRange.length - 1]);
+  }
+
+  public void testEqual() throws IOException {
+    equalHelper(false, 0, 1);
+    equalHelper(false, 400, 10000);
+    equalHelper(false, 0x2000, 0x2001);
+    equalHelper(false, new byte[]{ 0 }, new byte[]{ 1 });
+
+    byte[] mutate = newPreFilledByteArray(10000);
+    mutate[9000] = 0;
+    equalHelper(false, mutate, newPreFilledByteArray(10000));
+
+    equalHelper(true, 0, 0);
+    equalHelper(true, 1, 1);
+    equalHelper(true, 400, 400);
+
+    final byte[] tenK = newPreFilledByteArray(10000);
+    equalHelper(true, tenK, tenK);
+    assertTrue(ByteStreams.equal(ByteStreams.newInputStreamSupplier(tenK),
+        new InputSupplier<InputStream>() {
+          @Override
+          public InputStream getInput() {
+            return new RandomAmountInputStream(new ByteArrayInputStream(tenK),
+                new Random(301));
+          }
+        }));
   }
 
   private void equalHelper(boolean expect, int size1, int size2)
@@ -397,7 +424,7 @@ public class ByteStreamsTest extends IoTestCase {
     ByteArrayDataInput in = ByteStreams.newDataInput(BYTES);
     byte[] actual = new byte[BYTES.length];
     in.readFully(actual);
-    MoreAsserts.assertEquals(BYTES, actual);
+    assertEquals(BYTES, actual);
   }
 
   public void testNewDataInput_readFullyAndThenSome() {
@@ -513,7 +540,7 @@ public class ByteStreamsTest extends IoTestCase {
     ByteArrayDataOutput out = ByteStreams.newDataOutput();
     out.write(BYTES, 4, 2);
     byte[] expected = {BYTES[4], BYTES[5]};
-    MoreAsserts.assertEquals(expected, out.toByteArray());
+    assertEquals(expected, out.toByteArray());
   }
 
   public void testNewDataOutput_writeBoolean() {
@@ -521,7 +548,7 @@ public class ByteStreamsTest extends IoTestCase {
     out.writeBoolean(true);
     out.writeBoolean(false);
     byte[] expected = {(byte) 1, (byte) 0};
-    MoreAsserts.assertEquals(expected, out.toByteArray());
+    assertEquals(expected, out.toByteArray());
   }
 
   public void testNewDataOutput_writeChar() {
@@ -535,7 +562,7 @@ public class ByteStreamsTest extends IoTestCase {
     out.writeChars("r\u00C9sum\u00C9");
     // need to remove byte order mark before comparing
     byte[] expected = Arrays.copyOfRange("r\u00C9sum\u00C9".getBytes(Charsets.UTF_16), 2, 14);
-    MoreAsserts.assertEquals(expected, out.toByteArray());
+    assertEquals(expected, out.toByteArray());
   }
 
   public void testNewDataOutput_writeUTF() {
@@ -546,7 +573,7 @@ public class ByteStreamsTest extends IoTestCase {
     // writeUTF writes the length of the string in 2 bytes
     assertEquals(0, actual[0]);
     assertEquals(expected.length, actual[1]);
-    MoreAsserts.assertEquals(expected, Arrays.copyOfRange(actual, 2, actual.length));
+    assertEquals(expected, Arrays.copyOfRange(actual, 2, actual.length));
   }
 
   public void testNewDataOutput_writeShort() {
@@ -558,14 +585,14 @@ public class ByteStreamsTest extends IoTestCase {
   public void testNewDataOutput_writeDouble() {
     ByteArrayDataOutput out = ByteStreams.newDataOutput();
     out.writeDouble(Double.longBitsToDouble(0x1234567876543210L));
-    MoreAsserts.assertEquals(BYTES, out.toByteArray());
+    assertEquals(BYTES, out.toByteArray());
   }
 
   public void testNewDataOutput_writeFloat() {
     ByteArrayDataOutput out = ByteStreams.newDataOutput();
     out.writeFloat(Float.intBitsToFloat(0x12345678));
     out.writeFloat(Float.intBitsToFloat(0x76543210));
-    MoreAsserts.assertEquals(BYTES, out.toByteArray());
+    assertEquals(BYTES, out.toByteArray());
   }
 
   public void testLength() throws IOException {
@@ -717,5 +744,9 @@ public class ByteStreamsTest extends IoTestCase {
       out[i] = in[from + i];
     }
     return out;
+  }
+
+  private static void assertEquals(byte[] expected, byte[] actual) {
+    assertEquals(Bytes.asList(expected), Bytes.asList(actual));
   }
 }

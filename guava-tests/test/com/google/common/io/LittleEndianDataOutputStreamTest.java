@@ -17,7 +17,7 @@
 package com.google.common.io;
 
 import com.google.common.base.Charsets;
-import com.google.testing.util.MoreAsserts;
+import com.google.common.primitives.Bytes;
 
 import junit.framework.TestCase;
 
@@ -94,7 +94,7 @@ public class LittleEndianDataOutputStreamTest extends TestCase {
     /* Read in various values NORMALLY */
     byte[] b = new byte[6];
     in.readFully(b);
-    MoreAsserts.assertEquals("r\u00C9sum\u00C9".getBytes(Charsets.ISO_8859_1), b);
+    assertEquals("r\u00C9sum\u00C9".getBytes(Charsets.ISO_8859_1), b);
   }
   
   @SuppressWarnings("deprecation") // testing a deprecated method
@@ -112,7 +112,7 @@ public class LittleEndianDataOutputStreamTest extends TestCase {
     byte[] b = new byte[3];
     in.readFully(b);
     byte[] expected = {(byte) 0xAA, (byte) 0xBB, (byte) 0xCC};
-    MoreAsserts.assertEquals(expected, b);
+    assertEquals(expected, b);
   }
 
   public void testWriteChars() throws IOException {
@@ -141,5 +141,8 @@ public class LittleEndianDataOutputStreamTest extends TestCase {
     assertEquals((byte) 0xC9, actual[10]);
     assertEquals(0, actual[11]);
   }
-  
+
+  private static void assertEquals(byte[] expected, byte[] actual) {
+    assertEquals(Bytes.asList(expected), Bytes.asList(actual));
+  }
 }
