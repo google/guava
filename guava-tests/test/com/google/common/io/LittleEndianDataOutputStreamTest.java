@@ -16,6 +16,9 @@
 
 package com.google.common.io;
 
+import com.google.common.base.Charsets;
+import com.google.testing.util.MoreAsserts;
+
 import junit.framework.TestCase;
 
 import java.io.ByteArrayInputStream;
@@ -31,11 +34,10 @@ import java.io.IOException;
  */
 public class LittleEndianDataOutputStreamTest extends TestCase {
 
+  private ByteArrayOutputStream baos = new ByteArrayOutputStream();
+  private LittleEndianDataOutputStream out = new LittleEndianDataOutputStream(baos);
+  
   public void testWriteLittleEndian() throws IOException {
-
-    /* Setup output streams. */
-    ByteArrayOutputStream baos = new ByteArrayOutputStream();
-    LittleEndianDataOutputStream out = new LittleEndianDataOutputStream(baos);
 
     /* Write out various test values in LITTLE ENDIAN FORMAT */
     out.write(new byte[] { -100, 100 });
@@ -56,8 +58,7 @@ public class LittleEndianDataOutputStreamTest extends TestCase {
     byte[] data = baos.toByteArray();
 
     /* Setup input streams */
-    DataInputStream dis = new DataInputStream(new ByteArrayInputStream(data));
-    DataInput in = dis;
+    DataInput in = new DataInputStream(new ByteArrayInputStream(data));
 
     /* Read in various values NORMALLY */
     byte[] b = new byte[2];
@@ -78,4 +79,67 @@ public class LittleEndianDataOutputStreamTest extends TestCase {
     assertEquals(0xBEBAFECA, Float.floatToIntBits(in.readFloat()));
     assertEquals(0xBEBAFECAEFBEADDEL, Double.doubleToLongBits(in.readDouble()));
   }
+  
+  @SuppressWarnings("deprecation") // testing a deprecated method
+  public void testWriteBytes() throws IOException {
+    
+    /* Write out various test values in LITTLE ENDIAN FORMAT */
+    out.writeBytes("r\u00C9sum\u00C9");
+
+    byte[] data = baos.toByteArray();
+
+    /* Setup input streams */
+    DataInput in = new DataInputStream(new ByteArrayInputStream(data));
+
+    /* Read in various values NORMALLY */
+    byte[] b = new byte[6];
+    in.readFully(b);
+    MoreAsserts.assertEquals("r\u00C9sum\u00C9".getBytes(Charsets.ISO_8859_1), b);
+  }
+  
+  @SuppressWarnings("deprecation") // testing a deprecated method
+  public void testWriteBytes_discardHighOrderBytes() throws IOException {
+    
+    /* Write out various test values in LITTLE ENDIAN FORMAT */
+    out.writeBytes("\uAAAA\uAABB\uAACC");
+
+    byte[] data = baos.toByteArray();
+
+    /* Setup input streams */
+    DataInput in = new DataInputStream(new ByteArrayInputStream(data));
+
+    /* Read in various values NORMALLY */
+    byte[] b = new byte[3];
+    in.readFully(b);
+    byte[] expected = {(byte) 0xAA, (byte) 0xBB, (byte) 0xCC};
+    MoreAsserts.assertEquals(expected, b);
+  }
+
+  public void testWriteChars() throws IOException {
+
+    /* Write out various test values in LITTLE ENDIAN FORMAT */
+    out.writeChars("r\u00C9sum\u00C9");
+
+    byte[] data = baos.toByteArray();
+
+    /* Setup input streams */
+    DataInput in = new DataInputStream(new ByteArrayInputStream(data));
+
+    /* Read in various values NORMALLY */
+    byte[] actual = new byte[12];
+    in.readFully(actual);
+    assertEquals('r', actual[0]);
+    assertEquals(0, actual[1]);
+    assertEquals((byte) 0xC9, actual[2]);
+    assertEquals(0, actual[3]);
+    assertEquals('s', actual[4]);
+    assertEquals(0, actual[5]);
+    assertEquals('u', actual[6]);
+    assertEquals(0, actual[7]);
+    assertEquals('m', actual[8]);
+    assertEquals(0, actual[9]);
+    assertEquals((byte) 0xC9, actual[10]);
+    assertEquals(0, actual[11]);
+  }
+  
 }
