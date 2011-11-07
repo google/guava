@@ -23,7 +23,7 @@ import java.io.Reader;
 import java.util.Iterator;
 
 /**
- * A {@link Reader} that will concatenates multiple readers
+ * A {@link Reader} that concatenates multiple readers.
  *
  * @author Bin Zhu
  * @since 1.0
