@@ -18,6 +18,7 @@ package com.google.common.io;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 
 /**
  * Unit tests for {@link CountingInputStream}.
@@ -82,5 +83,37 @@ public class CountingInputStreamTest extends IoTestCase {
     assertEquals(10, counter.getCount());
     assertEquals(10, counter.skip(100));
     assertEquals(20, counter.getCount());
+  }
+  
+  public void testMarkNotSet() {
+    try {
+      counter.reset();
+      fail();
+    } catch (IOException expected) {
+      assertEquals("Mark not set", expected.getMessage());
+    }
+  }
+  
+  public void testMarkNotSupported() {
+    counter = new CountingInputStream(new UnmarkableInputStream());
+
+    try {
+      counter.reset();
+      fail();
+    } catch (IOException expected) {
+      assertEquals("Mark not supported", expected.getMessage());
+    }
+  }
+  
+  private static class UnmarkableInputStream extends InputStream {
+    @Override
+    public int read() throws IOException {
+      return 0;
+    }
+    
+    @Override
+    public boolean markSupported() {
+      return false;
+    }    
   }
 }

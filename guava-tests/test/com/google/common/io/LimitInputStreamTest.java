@@ -17,6 +17,7 @@
 package com.google.common.io;
 
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 
 /**
@@ -92,5 +93,41 @@ public class LimitInputStreamTest extends IoTestCase {
     lin.skip(3);
     assertEquals(0, lin.available());
   }
+  
+  
+  public void testMarkNotSet() {
+    byte[] big = newPreFilledByteArray(5);
+    InputStream bin = new ByteArrayInputStream(big);
+    InputStream lin = new LimitInputStream(bin, 2);
 
+    try {
+      lin.reset();
+      fail();
+    } catch (IOException expected) {
+      assertEquals("Mark not set", expected.getMessage());
+    }
+  }
+  
+  public void testMarkNotSupported() {
+    InputStream lin = new LimitInputStream(new UnmarkableInputStream(), 2);
+
+    try {
+      lin.reset();
+      fail();
+    } catch (IOException expected) {
+      assertEquals("Mark not supported", expected.getMessage());
+    }
+  }
+  
+  private static class UnmarkableInputStream extends InputStream {
+    @Override
+    public int read() throws IOException {
+      return 0;
+    }
+    
+    @Override
+    public boolean markSupported() {
+      return false;
+    }    
+  }
 }
