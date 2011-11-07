@@ -16,7 +16,9 @@
 
 package com.google.common.io;
 
+import com.google.common.base.Charsets;
 import com.google.common.base.Preconditions;
+import com.google.testing.util.MoreAsserts;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -366,6 +368,7 @@ public class ByteStreamsTest extends IoTestCase {
     in.close();
   }
 
+  // TODO(user): rename; violates rule that only immutable things can be all caps
   private static final byte[] BYTES = new byte[] {
       0x12, 0x34, 0x56, 0x78, 0x76, 0x54, 0x32, 0x10 };
 
@@ -387,6 +390,65 @@ public class ByteStreamsTest extends IoTestCase {
       in.readInt();
       fail();
     } catch (IllegalStateException expected) {
+    }
+  }
+
+  public void testNewDataInput_readFully() {
+    ByteArrayDataInput in = ByteStreams.newDataInput(BYTES);
+    byte[] actual = new byte[BYTES.length];
+    in.readFully(actual);
+    MoreAsserts.assertEquals(BYTES, actual);
+  }
+
+  public void testNewDataInput_readFullyAndThenSome() {
+    ByteArrayDataInput in = ByteStreams.newDataInput(BYTES);
+    byte[] actual = new byte[BYTES.length * 2];
+    try {
+      in.readFully(actual);
+      fail();
+    } catch (IllegalStateException ex) {
+      assertTrue(ex.getCause() instanceof EOFException);
+    }
+  }
+
+  public void testNewDataInput_readFullyWithOffset() {
+    ByteArrayDataInput in = ByteStreams.newDataInput(BYTES);
+    byte[] actual = new byte[4];
+    in.readFully(actual, 2, 2);
+    assertEquals(0, actual[0]);
+    assertEquals(0, actual[1]);
+    assertEquals(BYTES[0], actual[2]);
+    assertEquals(BYTES[1], actual[3]);
+  }
+
+  public void testNewDataInput_readBoolean() {
+    ByteArrayDataInput in = ByteStreams.newDataInput(BYTES);
+    assertTrue(in.readBoolean());
+  }
+
+  public void testNewDataInput_readByte() {
+    ByteArrayDataInput in = ByteStreams.newDataInput(BYTES);
+    for (int i = 0; i < BYTES.length; i++) {
+      assertEquals(BYTES[i], in.readByte());
+    }
+    try {
+      in.readByte();
+      fail();
+    } catch (IllegalStateException ex) {
+      assertTrue(ex.getCause() instanceof EOFException);
+    }
+  }
+
+  public void testNewDataInput_readUnsignedByte() {
+    ByteArrayDataInput in = ByteStreams.newDataInput(BYTES);
+    for (int i = 0; i < BYTES.length; i++) {
+      assertEquals(BYTES[i], in.readUnsignedByte());
+    }
+    try {
+      in.readUnsignedByte();
+      fail();
+    } catch (IllegalStateException ex) {
+      assertTrue(ex.getCause() instanceof EOFException);
     }
   }
 
@@ -421,6 +483,13 @@ public class ByteStreamsTest extends IoTestCase {
     assertTrue(Arrays.equals(BYTES, out.toByteArray()));
   }
 
+  public void testNewDataOutput_sized() {
+    ByteArrayDataOutput out = ByteStreams.newDataOutput(4);
+    out.writeInt(0x12345678);
+    out.writeInt(0x76543210);
+    assertTrue(Arrays.equals(BYTES, out.toByteArray()));
+  }
+
   public void testNewDataOutput_writeLong() {
     ByteArrayDataOutput out = ByteStreams.newDataOutput();
     out.writeLong(0x1234567876543210L);
@@ -440,16 +509,63 @@ public class ByteStreamsTest extends IoTestCase {
     assertTrue(Arrays.equals(new byte[] {0x12, 0x34}, out.toByteArray()));
   }
 
+  public void testNewDataOutput_writeByteOffset() {
+    ByteArrayDataOutput out = ByteStreams.newDataOutput();
+    out.write(BYTES, 4, 2);
+    byte[] expected = {BYTES[4], BYTES[5]};
+    MoreAsserts.assertEquals(expected, out.toByteArray());
+  }
+
+  public void testNewDataOutput_writeBoolean() {
+    ByteArrayDataOutput out = ByteStreams.newDataOutput();
+    out.writeBoolean(true);
+    out.writeBoolean(false);
+    byte[] expected = {(byte) 1, (byte) 0};
+    MoreAsserts.assertEquals(expected, out.toByteArray());
+  }
+
   public void testNewDataOutput_writeChar() {
     ByteArrayDataOutput out = ByteStreams.newDataOutput();
     out.writeChar('a');
     assertTrue(Arrays.equals(new byte[] {0, 97}, out.toByteArray()));
   }
 
+  public void testNewDataOutput_writeChars() {
+    ByteArrayDataOutput out = ByteStreams.newDataOutput();
+    out.writeChars("r\u00C9sum\u00C9");
+    // need to remove byte order mark before comparing
+    byte[] expected = Arrays.copyOfRange("r\u00C9sum\u00C9".getBytes(Charsets.UTF_16), 2, 14);
+    MoreAsserts.assertEquals(expected, out.toByteArray());
+  }
+
+  public void testNewDataOutput_writeUTF() {
+    ByteArrayDataOutput out = ByteStreams.newDataOutput();
+    out.writeUTF("r\u00C9sum\u00C9");
+    byte[] expected ="r\u00C9sum\u00C9".getBytes(Charsets.UTF_8);
+    byte[] actual = out.toByteArray();
+    // writeUTF writes the length of the string in 2 bytes
+    assertEquals(0, actual[0]);
+    assertEquals(expected.length, actual[1]);
+    MoreAsserts.assertEquals(expected, Arrays.copyOfRange(actual, 2, actual.length));
+  }
+
   public void testNewDataOutput_writeShort() {
     ByteArrayDataOutput out = ByteStreams.newDataOutput();
     out.writeShort(0x1234);
     assertTrue(Arrays.equals(new byte[] {0x12, 0x34}, out.toByteArray()));
+  }
+
+  public void testNewDataOutput_writeDouble() {
+    ByteArrayDataOutput out = ByteStreams.newDataOutput();
+    out.writeDouble(Double.longBitsToDouble(0x1234567876543210L));
+    MoreAsserts.assertEquals(BYTES, out.toByteArray());
+  }
+
+  public void testNewDataOutput_writeFloat() {
+    ByteArrayDataOutput out = ByteStreams.newDataOutput();
+    out.writeFloat(Float.intBitsToFloat(0x12345678));
+    out.writeFloat(Float.intBitsToFloat(0x76543210));
+    MoreAsserts.assertEquals(BYTES, out.toByteArray());
   }
 
   public void testLength() throws IOException {
