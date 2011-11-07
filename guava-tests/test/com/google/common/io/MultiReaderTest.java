@@ -16,6 +16,10 @@
 
 package com.google.common.io;
 
+import com.google.common.collect.ImmutableList;
+
+import junit.framework.TestCase;
+
 import java.io.FilterReader;
 import java.io.IOException;
 import java.io.Reader;
@@ -24,7 +28,7 @@ import java.io.StringReader;
 /**
  * @author ricebin
  */
-public class MultiReaderTest extends IoTestCase {
+public class MultiReaderTest extends TestCase {
 
   public void testOnlyOneOpen() throws Exception {
     String testString = "abcdefgh";
@@ -50,6 +54,18 @@ public class MultiReaderTest extends IoTestCase {
     assertEquals(testString.length() * 3, result.length());
   }
 
+  public void testReady() throws Exception {
+    InputSupplier<Reader> supplier = newReader("a");
+    Iterable<? extends InputSupplier<? extends Reader>> list = ImmutableList.of(supplier, supplier);
+    Reader joinedReader = CharStreams.join(list).getInput();
+
+    assertTrue(joinedReader.ready());
+    assertEquals('a', joinedReader.read());
+    assertEquals('a', joinedReader.read());
+    assertEquals(-1, joinedReader.read());
+    assertFalse(joinedReader.ready());    
+  }
+
   public void testSimple() throws Exception {
     String testString = "abcdefgh";
     InputSupplier<Reader> supplier = newReader(testString);
@@ -60,6 +76,7 @@ public class MultiReaderTest extends IoTestCase {
     assertEquals(expectedString, CharStreams.toString(joinedReader));
   }
 
+  
   private static InputSupplier<Reader> newReader(final String text) {
     return new InputSupplier<Reader>() {
       @Override
@@ -85,6 +102,15 @@ public class MultiReaderTest extends IoTestCase {
     CharStreams.skipFully(joinedReader, 1);
     assertEquals(expected.charAt(9), joinedReader.read());
     assertEquals(-1, joinedReader.read());
+  }
+  
+  public void testSkipZero() throws Exception {
+    InputSupplier<Reader> supplier = newReader("a");
+    Iterable<? extends InputSupplier<? extends Reader>> list = ImmutableList.of(supplier, supplier);
+    Reader joinedReader = CharStreams.join(list).getInput();
+
+    assertEquals(0, joinedReader.skip(0));
+    assertEquals('a', joinedReader.read());
   }
 
 }
