@@ -16,7 +16,7 @@
 
 package com.google.common.io;
 
-import com.google.testing.util.MoreAsserts;
+import com.google.common.primitives.Bytes;
 
 import junit.framework.TestCase;
 
@@ -70,7 +70,7 @@ public class LittleEndianDataInputStreamTest extends TestCase {
     DataInput in = new LittleEndianDataInputStream(new ByteArrayInputStream(data));
     byte[] b = new byte[data.length];
     in.readFully(b);
-    MoreAsserts.assertEquals(data, b);
+    assertEquals(Bytes.asList(data), Bytes.asList(b));
   }
   
   public void testReadUnsignedByte_eof() throws IOException {
