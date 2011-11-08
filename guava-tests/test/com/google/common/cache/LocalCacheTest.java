@@ -608,7 +608,7 @@ public class LocalCacheTest extends TestCase {
     @SuppressWarnings("unchecked")
     LoadingValueReference<Object, Object> valueReference =
         (LoadingValueReference) newEntry.getValueReference();
-    assertNull(valueReference.loadedValue);
+    assertFalse(valueReference.futureValue.isDone());
     startSignal.countDown();
 
     try {
@@ -617,7 +617,7 @@ public class LocalCacheTest extends TestCase {
       throw new RuntimeException(e);
     }
 
-    assertNotNull(map.putIfAbsent(one, new Object())); // force notifications
+    map.cleanUp(); // force notifications
     assertTrue(listener.isEmpty());
     assertTrue(map.containsKey(one));
     assertEquals(1, map.size());
@@ -685,6 +685,7 @@ public class LocalCacheTest extends TestCase {
     }
 
     map.put(one, two);
+    assertSame(two, map.get(one));
     startSignal.countDown();
 
     try {
@@ -693,7 +694,7 @@ public class LocalCacheTest extends TestCase {
       throw new RuntimeException(e);
     }
 
-    assertNotNull(map.putIfAbsent(one, new Object())); // force notifications
+    map.cleanUp(); // force notifications
     assertNotified(listener, one, computedObject, RemovalCause.REPLACED);
     assertTrue(listener.isEmpty());
   }
@@ -708,10 +709,10 @@ public class LocalCacheTest extends TestCase {
     AtomicReferenceArray<ReferenceEntry<Object, Object>> table = segment.table;
     int index = hash & (table.length() - 1);
 
-    // already computing
+    // already loading
     DummyEntry<Object, Object> entry = DummyEntry.create(key, hash, null);
     DummyValueReference<Object, Object> valueRef = DummyValueReference.create(null, entry);
-    valueRef.setComputing(true);
+    valueRef.setLoading(true);
     entry.setValueReference(valueRef);
     table.set(index, entry);
     assertNull(segment.refresh(key, hash, identityLoader()));
@@ -2557,6 +2558,12 @@ public class LocalCacheTest extends TestCase {
   static class DummyValueReference<K, V> implements ValueReference<K, V> {
     final ReferenceEntry<K, V> entry;
     private V value;
+    boolean loading = false;
+
+    public DummyValueReference(ReferenceEntry<K, V> entry) {
+      this(null, entry);
+      this.loading = true;
+    }
 
     public DummyValueReference(V value, ReferenceEntry<K, V> entry) {
       this.value = value;
@@ -2565,6 +2572,10 @@ public class LocalCacheTest extends TestCase {
 
     public static <K, V> DummyValueReference<K, V> create(V value, ReferenceEntry<K, V> entry) {
       return new DummyValueReference<K, V>(value, entry);
+    }
+
+    public static <K, V> DummyValueReference<K, V> createLoading(ReferenceEntry<K, V> entry) {
+      return new DummyValueReference<K, V>(entry);
     }
 
     @Override
@@ -2587,20 +2598,18 @@ public class LocalCacheTest extends TestCase {
       return new DummyValueReference<K, V>(value, entry);
     }
 
-    boolean computing = false;
-
-    public void setComputing(boolean computing) {
-      this.computing = computing;
+    public void setLoading(boolean loading) {
+      this.loading = loading;
     }
 
     @Override
     public boolean isLoading() {
-      return computing;
+      return loading;
     }
 
     @Override
     public boolean isActive() {
-      return !computing;
+      return !loading;
     }
 
     @Override

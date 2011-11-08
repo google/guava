@@ -102,9 +102,9 @@ public interface LoadingCache<K, V> extends Cache<K, V>, Function<K, V> {
   /**
    * Loads a new value for key {@code key}, possibly asynchronously. While the new value is loading
    * the previous value (if any) will continue to be returned by {@code get(key)} unless it is
-   * evicted. If the new value is loaded succesfully it will replace the previous value in the
+   * evicted. If the new value is loaded successfully it will replace the previous value in the
    * cache; if an exception is thrown while refreshing the previous value will remain, <i>and the
-   * exception will be logged and swallowed</i>.
+   * exception will be logged (using {@link java.util.logging.Logger}) and swallowed</i>.
    *
    * @since 11.0
    */

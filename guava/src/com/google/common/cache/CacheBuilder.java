@@ -639,9 +639,8 @@ public final class CacheBuilder<K, V> {
    * RemovalCause}). It will invoke the listener as part of the routine maintenance described
    * in the class javadoc.
    *
-   * <p><b>Note:</b> <i>all exceptions thrown by {@code listener} will be logged and then
-   * swallowed</i>. If they need to be acted upon then they should be dealt with appropriately prior
-   * to being thrown.
+   * <p><b>Note:</b> <i>all exceptions thrown by {@code listener} will be logged (using
+   * {@link java.util.logging.Logger})and then swallowed</i>.
    *
    * <p><b>Important note:</b> Instead of returning <em>this</em> as a {@code CacheBuilder}
    * instance, this method returns {@code CacheBuilder<K1, V1>}. From this point on, either the

@@ -15,6 +15,8 @@
 package com.google.common.cache;
 
 import com.google.common.collect.Maps;
+import com.google.common.util.concurrent.Futures;
+import com.google.common.util.concurrent.ListenableFuture;
 
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -141,9 +143,9 @@ class TestingCacheLoaders {
     }
 
     @Override
-    public Integer reload(Integer key, Integer oldValue) {
+    public ListenableFuture<Integer> reload(Integer key, Integer oldValue) {
       countReload.incrementAndGet();
-      return oldValue + 1;
+      return Futures.immediateFuture(oldValue + 1);
     }
 
     public int getLoadCount() {

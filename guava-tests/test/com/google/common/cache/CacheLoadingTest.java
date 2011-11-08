@@ -36,6 +36,8 @@ import com.google.common.testing.FakeTicker;
 import com.google.common.testing.TestLogHandler;
 import com.google.common.util.concurrent.Callables;
 import com.google.common.util.concurrent.ExecutionError;
+import com.google.common.util.concurrent.Futures;
+import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.UncheckedExecutionException;
 
 import junit.framework.TestCase;
@@ -163,8 +165,8 @@ public class CacheLoadingTest extends TestCase {
       }
 
       @Override
-      public Object reload(Object key, Object oldValue) {
-        return two;
+      public ListenableFuture<Object> reload(Object key, Object oldValue) {
+        return Futures.immediateFuture(two);
       }
     };
 
@@ -210,8 +212,8 @@ public class CacheLoadingTest extends TestCase {
       }
 
       @Override
-      public Object reload(Object key, Object oldValue) {
-        return two;
+      public ListenableFuture<Object> reload(Object key, Object oldValue) {
+        return Futures.immediateFuture(two);
       }
     };
 
@@ -590,8 +592,53 @@ public class CacheLoadingTest extends TestCase {
       }
 
       @Override
-      public Object reload(Object key, Object oldValue) {
+      public ListenableFuture<Object> reload(Object key, Object oldValue) {
         return null;
+      }
+    };
+
+    LoadingCache<Object, Object> cache = CacheBuilder.newBuilder().build(loader);
+    Object key = new Object();
+    CacheStats stats = cache.stats();
+    assertEquals(0, stats.missCount());
+    assertEquals(0, stats.loadSuccessCount());
+    assertEquals(0, stats.loadExceptionCount());
+    assertEquals(0, stats.hitCount());
+
+    assertSame(one, cache.getUnchecked(key));
+    stats = cache.stats();
+    assertEquals(1, stats.missCount());
+    assertEquals(1, stats.loadSuccessCount());
+    assertEquals(0, stats.loadExceptionCount());
+    assertEquals(0, stats.hitCount());
+
+    cache.refresh(key);
+    checkLoggedInvalidLoad();
+    stats = cache.stats();
+    assertEquals(1, stats.missCount());
+    assertEquals(1, stats.loadSuccessCount());
+    assertEquals(1, stats.loadExceptionCount());
+    assertEquals(0, stats.hitCount());
+
+    assertSame(one, cache.getUnchecked(key));
+    stats = cache.stats();
+    assertEquals(1, stats.missCount());
+    assertEquals(1, stats.loadSuccessCount());
+    assertEquals(1, stats.loadExceptionCount());
+    assertEquals(1, stats.hitCount());
+  }
+
+  public void testReloadNullFuture() throws ExecutionException {
+    final Object one = new Object();
+    CacheLoader<Object, Object> loader = new CacheLoader<Object, Object>() {
+      @Override
+      public Object load(Object key) {
+        return one;
+      }
+
+      @Override
+      public ListenableFuture<Object> reload(Object key, Object oldValue) {
+        return Futures.immediateFuture(null);
       }
     };
 
@@ -636,8 +683,8 @@ public class CacheLoadingTest extends TestCase {
       }
 
       @Override
-      public Object reload(Object key, Object oldValue) {
-        return null;
+      public ListenableFuture<Object> reload(Object key, Object oldValue) {
+        return Futures.immediateFuture(null);
       }
     };
 
@@ -819,8 +866,54 @@ public class CacheLoadingTest extends TestCase {
       }
 
       @Override
-      public Object reload(Object key, Object oldValue) {
+      public ListenableFuture<Object> reload(Object key, Object oldValue) {
         throw e;
+      }
+    };
+
+    LoadingCache<Object, Object> cache = CacheBuilder.newBuilder().build(loader);
+    Object key = new Object();
+    CacheStats stats = cache.stats();
+    assertEquals(0, stats.missCount());
+    assertEquals(0, stats.loadSuccessCount());
+    assertEquals(0, stats.loadExceptionCount());
+    assertEquals(0, stats.hitCount());
+
+    assertSame(one, cache.getUnchecked(key));
+    stats = cache.stats();
+    assertEquals(1, stats.missCount());
+    assertEquals(1, stats.loadSuccessCount());
+    assertEquals(0, stats.loadExceptionCount());
+    assertEquals(0, stats.hitCount());
+
+    cache.refresh(key);
+    checkLoggedCause(e);
+    stats = cache.stats();
+    assertEquals(1, stats.missCount());
+    assertEquals(1, stats.loadSuccessCount());
+    assertEquals(1, stats.loadExceptionCount());
+    assertEquals(0, stats.hitCount());
+
+    assertSame(one, cache.getUnchecked(key));
+    stats = cache.stats();
+    assertEquals(1, stats.missCount());
+    assertEquals(1, stats.loadSuccessCount());
+    assertEquals(1, stats.loadExceptionCount());
+    assertEquals(1, stats.hitCount());
+  }
+
+  public void testReloadFutureError() throws ExecutionException {
+    final Object one = new Object();
+    final Error e = new Error();
+    CacheLoader<Object, Object> loader = new CacheLoader<Object, Object>() {
+      @Override
+      public Object load(Object key) {
+        return one;
+      }
+
+      @Override
+      public ListenableFuture<Object> reload(Object key, Object oldValue) {
+        return Futures.immediateFailedFuture(e);
       }
     };
 
@@ -866,8 +959,8 @@ public class CacheLoadingTest extends TestCase {
       }
 
       @Override
-      public Object reload(Object key, Object oldValue) {
-        throw e;
+      public ListenableFuture<Object> reload(Object key, Object oldValue) {
+        return Futures.immediateFailedFuture(e);
       }
     };
 
@@ -1017,8 +1110,54 @@ public class CacheLoadingTest extends TestCase {
       }
 
       @Override
-      public Object reload(Object key, Object oldValue) throws Exception {
+      public ListenableFuture<Object> reload(Object key, Object oldValue) throws Exception {
         throw e;
+      }
+    };
+
+    LoadingCache<Object, Object> cache = CacheBuilder.newBuilder().build(loader);
+    Object key = new Object();
+    CacheStats stats = cache.stats();
+    assertEquals(0, stats.missCount());
+    assertEquals(0, stats.loadSuccessCount());
+    assertEquals(0, stats.loadExceptionCount());
+    assertEquals(0, stats.hitCount());
+
+    assertSame(one, cache.getUnchecked(key));
+    stats = cache.stats();
+    assertEquals(1, stats.missCount());
+    assertEquals(1, stats.loadSuccessCount());
+    assertEquals(0, stats.loadExceptionCount());
+    assertEquals(0, stats.hitCount());
+
+    cache.refresh(key);
+    checkLoggedCause(e);
+    stats = cache.stats();
+    assertEquals(1, stats.missCount());
+    assertEquals(1, stats.loadSuccessCount());
+    assertEquals(1, stats.loadExceptionCount());
+    assertEquals(0, stats.hitCount());
+
+    assertSame(one, cache.getUnchecked(key));
+    stats = cache.stats();
+    assertEquals(1, stats.missCount());
+    assertEquals(1, stats.loadSuccessCount());
+    assertEquals(1, stats.loadExceptionCount());
+    assertEquals(1, stats.hitCount());
+  }
+
+  public void testReloadFutureCheckedException() {
+    final Object one = new Object();
+    final Exception e = new Exception();
+    CacheLoader<Object, Object> loader = new CacheLoader<Object, Object>() {
+      @Override
+      public Object load(Object key) {
+        return one;
+      }
+
+      @Override
+      public ListenableFuture<Object> reload(Object key, Object oldValue) {
+        return Futures.immediateFailedFuture(e);
       }
     };
 
@@ -1064,8 +1203,8 @@ public class CacheLoadingTest extends TestCase {
       }
 
       @Override
-      public Object reload(Object key, Object oldValue) throws Exception {
-        throw e;
+      public ListenableFuture<Object> reload(Object key, Object oldValue) {
+        return Futures.immediateFailedFuture(e);
       }
     };
 
@@ -1215,8 +1354,54 @@ public class CacheLoadingTest extends TestCase {
       }
 
       @Override
-      public Object reload(Object key, Object oldValue) throws Exception {
+      public ListenableFuture<Object> reload(Object key, Object oldValue) throws Exception {
         throw e;
+      }
+    };
+
+    LoadingCache<Object, Object> cache = CacheBuilder.newBuilder().build(loader);
+    Object key = new Object();
+    CacheStats stats = cache.stats();
+    assertEquals(0, stats.missCount());
+    assertEquals(0, stats.loadSuccessCount());
+    assertEquals(0, stats.loadExceptionCount());
+    assertEquals(0, stats.hitCount());
+
+    assertSame(one, cache.getUnchecked(key));
+    stats = cache.stats();
+    assertEquals(1, stats.missCount());
+    assertEquals(1, stats.loadSuccessCount());
+    assertEquals(0, stats.loadExceptionCount());
+    assertEquals(0, stats.hitCount());
+
+    cache.refresh(key);
+    checkLoggedCause(e);
+    stats = cache.stats();
+    assertEquals(1, stats.missCount());
+    assertEquals(1, stats.loadSuccessCount());
+    assertEquals(1, stats.loadExceptionCount());
+    assertEquals(0, stats.hitCount());
+
+    assertSame(one, cache.getUnchecked(key));
+    stats = cache.stats();
+    assertEquals(1, stats.missCount());
+    assertEquals(1, stats.loadSuccessCount());
+    assertEquals(1, stats.loadExceptionCount());
+    assertEquals(1, stats.hitCount());
+  }
+
+  public void testReloadFutureUncheckedException() throws ExecutionException {
+    final Object one = new Object();
+    final Exception e = new RuntimeException();
+    CacheLoader<Object, Object> loader = new CacheLoader<Object, Object>() {
+      @Override
+      public Object load(Object key) {
+        return one;
+      }
+
+      @Override
+      public ListenableFuture<Object> reload(Object key, Object oldValue) {
+        return Futures.immediateFailedFuture(e);
       }
     };
 
@@ -1262,8 +1447,8 @@ public class CacheLoadingTest extends TestCase {
       }
 
       @Override
-      public Object reload(Object key, Object oldValue) throws Exception {
-        throw e;
+      public ListenableFuture<Object> reload(Object key, Object oldValue) {
+        return Futures.immediateFailedFuture(e);
       }
     };
 

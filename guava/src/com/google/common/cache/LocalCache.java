@@ -20,6 +20,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.cache.CacheBuilder.NULL_TICKER;
 import static com.google.common.cache.CacheBuilder.UNSET_INT;
+import static com.google.common.util.concurrent.Uninterruptibles.getUninterruptibly;
 import static java.util.concurrent.TimeUnit.NANOSECONDS;
 
 import com.google.common.annotations.VisibleForTesting;
@@ -39,6 +40,11 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.common.primitives.Ints;
 import com.google.common.util.concurrent.ExecutionError;
+import com.google.common.util.concurrent.Futures;
+import com.google.common.util.concurrent.ListenableFuture;
+import com.google.common.util.concurrent.ListeningExecutorService;
+import com.google.common.util.concurrent.MoreExecutors;
+import com.google.common.util.concurrent.SettableFuture;
 import com.google.common.util.concurrent.UncheckedExecutionException;
 
 import java.io.IOException;
@@ -144,6 +150,8 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
   // Fields
 
   static final Logger logger = Logger.getLogger(LocalCache.class.getName());
+
+  static final ListeningExecutorService sameThreadExecutor = MoreExecutors.sameThreadExecutor();
 
   /**
    * Mask value for indexing into segments. The upper bits of a key's hash code are used to choose
@@ -2203,13 +2211,21 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
             }
             ValueReference<K, V> valueReference = e.getValueReference();
             if (valueReference.isLoading()) {
-              return waitForLoadingValue(e, valueReference);
+              return waitForLoadingValue(e, key, valueReference);
             }
           }
         }
 
         // at this point e is either null or expired;
         return lockedGetOrLoad(key, hash, loader);
+      } catch (ExecutionException ee) {
+        Throwable cause = ee.getCause();
+        if (cause instanceof Error) {
+          throw new ExecutionError((Error) cause);
+        } else if (cause instanceof RuntimeException) {
+          throw new UncheckedExecutionException(cause);
+        }
+        throw ee;
       } finally {
         postReadCleanup();
       }
@@ -2283,21 +2299,21 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
       if (createNewEntry) {
         try {
           // Synchronizes on the entry to allow failing fast when a recursive load is
-          // detected. This may be circumvented when an entry is copied, but will fail fast most of
-          // the time.
+          // detected. This may be circumvented when an entry is copied, but will fail fast most
+          // of the time.
           synchronized (e) {
-            return loadEntry(key, hash, loadingValueReference, loader);
+            return loadSync(key, hash, loadingValueReference, loader);
           }
         } finally {
           statsCounter.recordMisses(1);
         }
       } else {
         // The entry already exists. Wait for loading.
-        return waitForLoadingValue(e, valueReference);
+        return waitForLoadingValue(e, key, valueReference);
       }
     }
 
-    V waitForLoadingValue(ReferenceEntry<K, V> e, ValueReference<K, V> valueReference)
+    V waitForLoadingValue(ReferenceEntry<K, V> e, K key, ValueReference<K, V> valueReference)
         throws ExecutionException {
       if (!valueReference.isLoading()) {
         throw new AssertionError();
@@ -2308,7 +2324,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
       try {
         V value = valueReference.waitForValue();
         if (value == null) {
-          throw new AssertionError();
+          throw new InvalidCacheLoadException("CacheLoader returned null for key " + key + ".");
         }
         // re-read ticker now that loading has completed
         long now = map.ticker.read();
@@ -2319,22 +2335,51 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
       }
     }
 
-    V loadEntry(K key, int hash, LoadingValueReference<K, V> loadingValueReference,
-        CacheLoader<? super K, V> loader)
-        throws ExecutionException {
+    // at most one of loadSync/loadAsync may be called for any given LoadingValueReference
+
+    V loadSync(K key, int hash, LoadingValueReference<K, V> loadingValueReference,
+        CacheLoader<? super K, V> loader) throws ExecutionException {
+      ListenableFuture<V> loadingFuture = loadingValueReference.loadFuture(key, loader);
+      return getAndRecordStats(key, hash, loadingValueReference, loadingFuture);
+    }
+
+    ListenableFuture<V> loadAsync(final K key, final int hash,
+        final LoadingValueReference<K, V> loadingValueReference, CacheLoader<? super K, V> loader) {
+      final ListenableFuture<V> loadingFuture = loadingValueReference.loadFuture(key, loader);
+      loadingFuture.addListener(
+          new Runnable() {
+            @Override
+            public void run() {
+              try {
+                V newValue = getAndRecordStats(key, hash, loadingValueReference, loadingFuture);
+                // update loadingFuture for the sake of other pending requests
+                loadingValueReference.set(newValue);
+              } catch (Throwable t) {
+                logger.log(Level.WARNING, "Exception thrown during refresh", t);
+                loadingValueReference.setException(t);
+              }
+            }
+          }, sameThreadExecutor);
+      return loadingFuture;
+    }
+
+    /**
+     * Waits uninterruptibly for {@code newValue} to be loaded, and then records loading stats.
+     */
+    V getAndRecordStats(K key, int hash, LoadingValueReference<K, V> loadingValueReference,
+        ListenableFuture<V> newValue) throws ExecutionException {
       V value = null;
-      Stopwatch stopwatch = new Stopwatch().start();
       try {
-        value = loadingValueReference.load(key, hash, loader);
+        value = getUninterruptibly(newValue);
         if (value == null) {
-          throw new AssertionError();
+          throw new InvalidCacheLoadException("CacheLoader returned null for key " + key + ".");
         }
-        statsCounter.recordLoadSuccess(stopwatch.elapsedTime(NANOSECONDS));
+        statsCounter.recordLoadSuccess(loadingValueReference.elapsedNanos());
         storeLoadedValue(key, hash, loadingValueReference, value);
         return value;
       } finally {
         if (value == null) {
-          statsCounter.recordLoadException(stopwatch.elapsedTime(NANOSECONDS));
+          statsCounter.recordLoadException(loadingValueReference.elapsedNanos());
           removeLoadingValue(key, hash, loadingValueReference);
         }
       }
@@ -2358,20 +2403,22 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
      * refresh.
      */
     @Nullable
-    V refresh(final K key, final int hash, CacheLoader<? super K, V> loader) {
+    V refresh(K key, int hash, CacheLoader<? super K, V> loader) {
       final LoadingValueReference<K, V> loadingValueReference =
           insertLoadingValueReference(key, hash);
       if (loadingValueReference == null) {
         return null;
       }
 
-      try {
-        return loadEntry(key, hash, loadingValueReference, loader);
-      } catch (Throwable t) {
-        // don't let refresh exceptions propogate
-        logger.log(Level.WARNING, "Exception thrown during refresh", t);
-        return null;
+      ListenableFuture<V> result = loadAsync(key, hash, loadingValueReference, loader);
+      if (result.isDone()) {
+        try {
+          return result.get();
+        } catch (Throwable t) {
+          // don't let refresh exceptions propagate; error was already logged
+        }
       }
+      return null;
     }
 
     /**
@@ -3442,99 +3489,15 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
 
   }
 
-  private interface LoadedValue<V> {
-    V get() throws ExecutionException;
-  }
-
-  /**
-   * Used to propogate unchecked loading exceptions to other threads.
-   */
-  private static final class LoadedUncheckedException<V> implements LoadedValue<V> {
-    final RuntimeException e;
-
-    LoadedUncheckedException(RuntimeException e) {
-      this.e = e;
-    }
-
-    @Override
-    public V get() {
-      throw new UncheckedExecutionException(e);
-    }
-  }
-
-  /**
-   * Used to propogate loading exceptions to other threads.
-   */
-  private static final class LoadedException<V> implements LoadedValue<V> {
-    final Exception e;
-
-    LoadedException(Exception e) {
-      this.e = e;
-    }
-
-    @Override
-    public V get() throws ExecutionException {
-      throw new ExecutionException(e);
-    }
-  }
-
-  /**
-   * Used to propogate loading errors to other threads.
-   */
-  private static final class LoadedError<V> implements LoadedValue<V> {
-    final Error e;
-
-    LoadedError(Error e) {
-      this.e = e;
-    }
-
-    @Override
-    public V get() {
-      throw new ExecutionError(e);
-    }
-  }
-
-  /**
-   * Used to provide loaded result to other threads.
-   */
-  private static final class LoadedReference<V> implements LoadedValue<V> {
-    final V value;
-
-    LoadedReference(V value) {
-      this.value = checkNotNull(value);
-    }
-
-    @Override
-    public V get() {
-      return value;
-    }
-  }
-
-  /**
-   * Used to provide null loaded result to other threads.
-   */
-  private static final class LoadedNull<K, V> implements LoadedValue<V> {
-    final String msg;
-
-    public LoadedNull(CacheLoader<? super K, V> loader, K key) {
-      this.msg = loader + " returned null for key " + key + ".";
-    }
-
-    @Override
-    public V get() {
-      throw new InvalidCacheLoadException(msg);
-    }
-  }
-
   static class LoadingValueReference<K, V> implements ValueReference<K, V> {
-
     volatile ValueReference<K, V> oldValue;
 
-    @GuardedBy("LoadingValueReference.this") // writes
-    volatile LoadedValue<V> loadedValue = null;
+    // TODO(fry): rename get, then extend AbstractFuture instead of containing SettableFuture
+    final SettableFuture<V> futureValue = SettableFuture.create();
+    final Stopwatch stopwatch = new Stopwatch();
 
     public LoadingValueReference() {
-      this.oldValue = unset();
+      this(LocalCache.<K, V>unset());
     }
 
     public LoadingValueReference(ValueReference<K, V> oldValue) {
@@ -3556,73 +3519,67 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
       return oldValue.getWeight();
     }
 
+    public boolean set(@Nullable V newValue) {
+      return futureValue.set(newValue);
+    }
+
+    public boolean setException(Throwable t) {
+      return setException(futureValue, t);
+    }
+
+    private static boolean setException(SettableFuture<?> future, Throwable t) {
+      try {
+        return future.setException(t);
+      } catch (Error e) {
+        // the error will already be propagated by the loading thread
+        return false;
+      }
+    }
+
+    private ListenableFuture<V> fullyFailedFuture(Throwable t) {
+      SettableFuture<V> future = SettableFuture.create();
+      setException(future, t);
+      return future;
+    }
+
     @Override
     public void notifyNewValue(@Nullable V newValue) {
       if (newValue != null) {
         // The pending load was clobbered by a manual write.
         // Unblock all pending gets, and have them return the new value.
-        setLoadedValue(new LoadedReference<V>(newValue));
+        set(newValue);
       } else {
         // The pending load was removed. Delay notifications until loading completes.
         oldValue = unset();
       }
 
-      // TODO(fry): could also cancel loading if we had a thread handle
+      // TODO(fry): could also cancel loading if we had a handle on its future
     }
 
-    void setLoadedValue(LoadedValue<V> newValue) {
-      synchronized (this) {
-        if (loadedValue == null) {
-          loadedValue = newValue;
-          notifyAll();
-        }
-      }
-    }
-
-    V load(K key, int hash, CacheLoader<? super K, V> loader) throws ExecutionException {
-      LoadedValue<V> valueWrapper;
+    public ListenableFuture<V> loadFuture(K key, CacheLoader<? super K, V> loader) {
+      stopwatch.start();
+      V previousValue = oldValue.get();
       try {
-        V previousValue = oldValue.get();
-        V newValue = (previousValue == null)
-            ? loader.load(key)
-            : loader.reload(key, previousValue);
-
-        valueWrapper = (newValue != null)
-            ? new LoadedReference<V>(newValue)
-            : new LoadedNull<K, V>(loader, key);
-      } catch (RuntimeException e) {
-        valueWrapper = new LoadedUncheckedException<V>(e);
-      } catch (Exception e) {
-        valueWrapper = new LoadedException<V>(e);
-      } catch (Error e) {
-        valueWrapper = new LoadedError<V>(e);
+        if (previousValue == null) {
+          V newValue = loader.load(key);
+          return set(newValue) ? futureValue : Futures.immediateFuture(newValue);
+        } else {
+          ListenableFuture<V> newValue = loader.reload(key, previousValue);
+          // rely on loadAsync to call set in order to avoid adding a second listener here
+          return newValue != null ? newValue : Futures.<V>immediateFuture(null);
+        }
+      } catch (Throwable t) {
+        return setException(t) ? futureValue : fullyFailedFuture(t);
       }
+    }
 
-      setLoadedValue(valueWrapper);
-      return valueWrapper.get();
+    public long elapsedNanos() {
+      return stopwatch.elapsedTime(NANOSECONDS);
     }
 
     @Override
     public V waitForValue() throws ExecutionException {
-      if (loadedValue == null) {
-        boolean interrupted = false;
-        try {
-          synchronized (this) {
-            while (loadedValue == null) {
-              try {
-                wait();
-              } catch (InterruptedException ie) {
-                interrupted = true;
-              }
-            }
-          }
-        } finally {
-          if (interrupted) {
-            Thread.currentThread().interrupt();
-          }
-        }
-      }
-      return loadedValue.get();
+      return getUninterruptibly(futureValue);
     }
 
     @Override
@@ -3630,7 +3587,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
       return oldValue.get();
     }
 
-    ValueReference<K, V> getOldValue() {
+    public ValueReference<K, V> getOldValue() {
       return oldValue;
     }
 

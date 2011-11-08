@@ -21,6 +21,8 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.annotations.Beta;
 import com.google.common.base.Function;
 import com.google.common.base.Supplier;
+import com.google.common.util.concurrent.Futures;
+import com.google.common.util.concurrent.ListenableFuture;
 
 import java.io.Serializable;
 import java.util.Map;
@@ -58,16 +60,15 @@ public abstract class CacheLoader<K, V> {
    * the new value can be computed more efficiently from the old value.
    *
    * <p><b>Note:</b> <i>all exceptions thrown by this method will be logged and then swallowed</i>.
-   * If they need to be acted upon then they should be dealt with appropriately prior to being
-   * thrown.
    *
    * @param key the non-null key whose value should be loaded
    * @param oldValue the non-null old value corresponding to {@code key}
-   * @return the new value associated with {@code key}; <b>must not be null</b>
+   * @return the future new value associated with {@code key};
+   *     <b>must not be null, must not return null</b>
    * @since 11.0
    */
-  public V reload(K key, V oldValue) throws Exception {
-    return load(key);
+  public ListenableFuture<V> reload(K key, V oldValue) throws Exception {
+    return Futures.immediateFuture(load(key));
   }
 
   /**
