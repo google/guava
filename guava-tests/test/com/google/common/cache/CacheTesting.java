@@ -193,7 +193,8 @@ class CacheTesting {
       Map<?, ?> table = segmentTable(segment);
       // cleanup and then check count after we have a strong reference to all entries
       segment.cleanUp();
-      assertEquals(segment.count, table.size());
+      // under high memory pressure keys/values may be nulled out but not yet enqueued
+      assertTrue(table.size() <= segment.count);
       for (Entry entry : table.entrySet()) {
         assertNotNull(entry.getKey());
         assertNotNull(entry.getValue());
