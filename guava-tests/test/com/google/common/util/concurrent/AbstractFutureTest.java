@@ -22,12 +22,16 @@ import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
 
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * Tests for {@link AbstractFuture}.
  *
  * @author Brian Stoler
  */
+
 public class AbstractFutureTest extends TestCase {
   public void testSuccess() throws ExecutionException, InterruptedException {
     final Object value = new Object();
@@ -84,6 +88,49 @@ public class AbstractFutureTest extends TestCase {
     assertFalse(future.cancel(true));
     assertFalse(future.isCancelled());
     assertTrue(future.isDone());
+  }
+
+  public void testCompletionFinishesWithDone() {
+    ExecutorService executor = Executors.newFixedThreadPool(10);
+    for (int i = 0; i < 50000; i++) {
+      final AbstractFuture<String> future = new AbstractFuture<String>() {};
+      final AtomicReference<String> errorMessage = new AtomicReference<String>();
+      executor.execute(new Runnable() {
+        @Override
+        public void run() {
+          future.set("success");
+          if (!future.isDone()) {
+            errorMessage.set("Set call exited before future was complete.");
+          }
+        }
+      });
+      executor.execute(new Runnable() {
+        @Override
+        public void run() {
+          future.setException(new IllegalArgumentException("failure"));
+          if (!future.isDone()) {
+            errorMessage.set("SetException call exited before future was complete.");
+          }
+        }
+      });
+      executor.execute(new Runnable() {
+        @Override
+        public void run() {
+          future.cancel(true);
+          if (!future.isDone()) {
+            errorMessage.set("Cancel call exited before future was complete.");
+          }
+        }
+      });
+      try {
+        future.get();
+      } catch (Throwable t) {
+        // Ignore, we just wanted to block.
+      }
+      String error = errorMessage.get();
+      assertNull(error, error);
+    }
+    executor.shutdown();
   }
 
   private void checkStackTrace(ExecutionException e) {
