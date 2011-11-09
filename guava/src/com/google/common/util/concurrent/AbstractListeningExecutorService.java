@@ -29,11 +29,12 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 /**
- * Provides default implementations of {@link ListeningExecutorService} execution methods. This
- * class implements the {@code submit}, {@code invokeAny} and  {@code invokeAll} methods using a
- * {@link ListenableFutureTask} returned by {@code newTaskFor}.  For example, the implementation of
- * {@code submit(Runnable)} creates an associated {@code ListenableFutureTask} that is executed
- * and returned.
+ * Implements {@link ListeningExecutorService} execution methods atop the abstract {@link #execute}
+ * method. More concretely, the {@code submit}, {@code invokeAny} and {@code invokeAll} methods
+ * create {@link ListenableFutureTask} instances and pass them to {@link #execute}.
+ *
+ * <p>In addition to {@link #execute}, subclasses must implement all methods related to shutdown and
+ * termination.
  *
  * @author Doug Lea
  */

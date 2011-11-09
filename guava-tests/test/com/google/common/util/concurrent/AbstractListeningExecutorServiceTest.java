@@ -20,7 +20,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-import java.util.concurrent.AbstractExecutorService;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.Callable;
 import java.util.concurrent.CountDownLatch;
@@ -33,7 +32,7 @@ import java.util.concurrent.TimeUnit;
 
 public class AbstractListeningExecutorServiceTest extends JSR166TestCase {
     /**
-     * A no-frills implementation of AbstractExecutorService, designed
+     * A no-frills implementation of AbstractListeningExecutorService, designed
      * to test the submit methods only.
      */
     static class DirectExecutorService

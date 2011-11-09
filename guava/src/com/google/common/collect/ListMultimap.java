@@ -82,6 +82,9 @@ public interface ListMultimap<K, V> extends Multimap<K, V> {
    * <p>Two {@code ListMultimap} instances are equal if, for each key, they
    * contain the same values in the same order. If the value orderings disagree,
    * the multimaps will not be considered equal.
+   *
+   * <p>An empty {@code ListMultimap} is equal to any other empty {@code
+   * Multimap}, including an empty {@code SetMultimap}.
    */
   @Override
   boolean equals(@Nullable Object obj);
