@@ -23,6 +23,7 @@ import static com.google.common.math.MathPreconditions.checkPositive;
 import static com.google.common.math.MathPreconditions.checkRoundingUnnecessary;
 import static java.math.RoundingMode.CEILING;
 import static java.math.RoundingMode.FLOOR;
+import static java.math.RoundingMode.HALF_EVEN;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.VisibleForTesting;
@@ -229,21 +230,18 @@ public final class BigIntegerMath {
      * definitely >= floor(sqrt(x)), and then continue the iteration until we reach a fixed point.
      */
     BigInteger sqrt0;
-    BigInteger sqrt1;
-    double asDouble = DoubleUtils.bigToDouble(x);
-    if (!Double.isInfinite(asDouble)) {
-      double sqrt0Double = Math.sqrt(asDouble);
-      sqrt0 = DoubleMath.roundToBigInteger(sqrt0Double, RoundingMode.HALF_EVEN);
-      sqrt1 = sqrt0.add(x.divide(sqrt0)).shiftRight(1);
+    int log2 = log2(x, FLOOR);
+    if(log2 < DoubleUtils.MAX_DOUBLE_EXPONENT) {
+      sqrt0 = sqrtApproxWithDoubles(x);
     } else {
-      // Too big for double precision!  Use a less accurate initial approximation,
-      // specifically 2^(log2(x) / 2).
-      int logFloor = log2(x, RoundingMode.FLOOR);
-      int halfLogFloor = logFloor >> 1;
-      sqrt0 = BigInteger.ZERO.setBit(halfLogFloor);
-      // In exchange, we can use a right-shift instead of a divide.
-      sqrt1 = sqrt0.add(x.shiftRight(halfLogFloor)).shiftRight(1);
+      int shift = (log2 - DoubleUtils.SIGNIFICAND_BITS) & ~1; // even!
+      /*
+       * We have that x / 2^shift < 2^54. Our initial approximation to sqrtFloor(x) will be
+       * 2^(shift/2) * sqrtApproxWithDoubles(x / 2^shift).
+       */
+      sqrt0 = sqrtApproxWithDoubles(x.shiftRight(shift)).shiftLeft(shift >> 1);
     }
+    BigInteger sqrt1 = sqrt0.add(x.divide(sqrt0)).shiftRight(1);
     if (sqrt0.equals(sqrt1)) {
       return sqrt0;
     }
@@ -252,6 +250,10 @@ public final class BigIntegerMath {
       sqrt1 = sqrt0.add(x.divide(sqrt0)).shiftRight(1);
     } while (sqrt1.compareTo(sqrt0) < 0);
     return sqrt0;
+  }
+
+  private static BigInteger sqrtApproxWithDoubles(BigInteger x) {
+    return DoubleMath.roundToBigInteger(Math.sqrt(DoubleUtils.bigToDouble(x)), HALF_EVEN);
   }
 
   /**
