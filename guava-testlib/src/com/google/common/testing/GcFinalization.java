@@ -132,9 +132,7 @@ public final class GcFinalization {
       } catch (ExecutionException ok) {
         return;
       } catch (InterruptedException ie) {
-        RuntimeException ae = new RuntimeException("Unexpected interrupt while waiting for future");
-        ae.initCause(ie);
-        throw ae;
+        throw new RuntimeException("Unexpected interrupt while waiting for future", ie);
       } catch (TimeoutException tryHarder) {
         /* OK */
       }
@@ -166,9 +164,7 @@ public final class GcFinalization {
           return;
         }
       } catch (InterruptedException ie) {
-        RuntimeException ae = new RuntimeException("Unexpected interrupt while waiting for latch");
-        ae.initCause(ie);
-        throw ae;
+        throw new RuntimeException("Unexpected interrupt while waiting for latch", ie);
       }
     } while (System.nanoTime() - deadline < 0);
     throw new RuntimeException(

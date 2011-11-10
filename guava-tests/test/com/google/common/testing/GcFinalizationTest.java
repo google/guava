@@ -10,6 +10,7 @@ import junit.framework.TestCase;
 import java.lang.ref.WeakReference;
 import java.util.WeakHashMap;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * Tests for {@link GcFinalization}.
@@ -19,6 +20,10 @@ import java.util.concurrent.CountDownLatch;
  */
 
 public class GcFinalizationTest extends TestCase {
+
+  //----------------------------------------------------------------
+  // Ordinary tests of successful method execution
+  //----------------------------------------------------------------
 
   public void testAwait_CountDownLatch() {
     final CountDownLatch latch = new CountDownLatch(1);
@@ -68,4 +73,102 @@ public class GcFinalizationTest extends TestCase {
     });
     assertTrue(map.isEmpty());
   }
+
+  //----------------------------------------------------------------
+  // Test that interrupts result in RuntimeException, not InterruptedException.
+  // Trickier than it looks, because runFinalization swallows interrupts.
+  //----------------------------------------------------------------
+
+  class Interruptenator extends Thread {
+    final AtomicBoolean shutdown;
+    Interruptenator(final Thread interruptee) {
+      this(interruptee, new AtomicBoolean(false));
+    }
+    Interruptenator(final Thread interruptee,
+                    final AtomicBoolean shutdown) {
+      super(new Runnable() {
+          public void run() {
+            while (!shutdown.get()) {
+              interruptee.interrupt();
+              Thread.yield();
+            }}});
+      this.shutdown = shutdown;
+      start();
+    }
+    void shutdown() {
+      shutdown.set(true);
+      while (this.isAlive()) {
+        Thread.yield();
+      }
+    }
+  }
+
+  void assertWrapsInterruptedException(RuntimeException e) {
+    assertTrue(e.getMessage().contains("Unexpected interrupt"));
+    assertTrue(e.getCause() instanceof InterruptedException);
+  }
+
+  public void testAwait_CountDownLatch_Interrupted() {
+    Interruptenator interruptenator = new Interruptenator(Thread.currentThread());
+    try {
+      final CountDownLatch latch = new CountDownLatch(1);
+      try {
+        GcFinalization.await(latch);
+        fail("should throw");
+      } catch (RuntimeException expected) {
+        assertWrapsInterruptedException(expected);
+      }
+    } finally {
+      interruptenator.shutdown();
+    }
+  }
+
+  public void testAwaitDone_Future_Interrupted_Interrupted() {
+    Interruptenator interruptenator = new Interruptenator(Thread.currentThread());
+    try {
+      final SettableFuture<Void> future = SettableFuture.create();
+      try {
+        GcFinalization.awaitDone(future);
+        fail("should throw");
+      } catch (RuntimeException expected) {
+        assertWrapsInterruptedException(expected);
+      }
+    } finally {
+      interruptenator.shutdown();
+    }
+  }
+
+  public void testAwaitClear_Interrupted() {
+    Interruptenator interruptenator = new Interruptenator(Thread.currentThread());
+    try {
+      final WeakReference<Object> ref = new WeakReference<Object>(Boolean.TRUE);
+      try {
+        GcFinalization.awaitClear(ref);
+        fail("should throw");
+      } catch (RuntimeException expected) {
+        assertWrapsInterruptedException(expected);
+      }
+    } finally {
+      interruptenator.shutdown();
+    }
+  }
+
+  public void testAwaitDone_FinalizationPredicate_Interrupted() {
+    Interruptenator interruptenator = new Interruptenator(Thread.currentThread());
+    try {
+      try {
+        GcFinalization.awaitDone(new FinalizationPredicate() {
+            public boolean isDone() {
+              return false;
+            }
+          });
+        fail("should throw");
+      } catch (RuntimeException expected) {
+        assertWrapsInterruptedException(expected);
+      }
+    } finally {
+      interruptenator.shutdown();
+    }
+  }
+
 }
