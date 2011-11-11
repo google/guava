@@ -38,8 +38,11 @@ import com.google.common.collect.Maps.EntryTransformer;
  *
  * @author Louis Wasserman
  * @since 8.0
+ * @deprecated Use the identical methods in {@link Maps}. This class is
+ *             scheduled for deletion from Guava in Guava release 12.0.
  */
 @Beta
+@Deprecated
 @GwtCompatible
 public final class SortedMaps {
   private SortedMaps() {}
@@ -80,7 +83,7 @@ public final class SortedMaps {
    * {@code Map.toString()}. For this to perform well, {@code function} should
    * be fast. To avoid lazy evaluation when the returned map doesn't need to be
    * a view, copy the returned map into a new map of your choosing.
-   * 
+   *
    * @deprecated Use {@link Maps#transformValues(SortedMap, Function)}
    */
   @Deprecated public static <K, V1, V2> SortedMap<K, V2> transformValues(
@@ -137,7 +140,7 @@ public final class SortedMaps {
    * EntryTransformer} key type for which this may not hold, such as {@code
    * ArrayList}, may risk a {@code ClassCastException} when calling methods on
    * the transformed map.
-   * 
+   *
    * @deprecated Use {@link Maps#transformEntries(SortedMap, EntryTransformer)}
    */
   @Deprecated public static <K, V1, V2> SortedMap<K, V2> transformEntries(
@@ -169,7 +172,7 @@ public final class SortedMaps {
       SortedMap<K, ? extends V> left, Map<? extends K, ? extends V> right) {
     return Maps.difference(left, right);
   }
-  
+
   /**
    * Returns the specified comparator if not null; otherwise returns {@code
    * Ordering.natural()}. This method is an abomination of generics; the only
@@ -183,7 +186,7 @@ public final class SortedMaps {
     }
     return (Comparator<E>) Ordering.natural();
   }
-  
+
   /**
    * Returns a sorted map containing the mappings in {@code unfiltered} whose
    * keys satisfy a predicate. The returned map is a live view of {@code
@@ -226,7 +229,7 @@ public final class SortedMaps {
     };
     return filterEntries(unfiltered, entryPredicate);
   }
-    
+
   /**
    * Returns a sorted map containing the mappings in {@code unfiltered} whose
    * values satisfy a predicate. The returned map is a live view of {@code
@@ -236,7 +239,7 @@ public final class SortedMaps {
    * values()} views have iterators that don't support {@code remove()}, but all
    * other methods are supported by the map and its views. When given a value
    * that doesn't satisfy the predicate, the map's {@code put()}, {@code
-   * putAll()}, and {@link Entry#setValue} methods throw an {@link 
+   * putAll()}, and {@link Entry#setValue} methods throw an {@link
    * IllegalArgumentException}.
    *
    * <p>When methods such as {@code removeAll()} and {@code clear()} are called
@@ -301,7 +304,7 @@ public final class SortedMaps {
    */
   @GwtIncompatible("untested")
   public static <K, V> SortedMap<K, V> filterEntries(
-      SortedMap<K, V> unfiltered, 
+      SortedMap<K, V> unfiltered,
       Predicate<? super Entry<K, V>> entryPredicate) {
     checkNotNull(entryPredicate);
     return (unfiltered instanceof FilteredSortedMap)
@@ -314,13 +317,13 @@ public final class SortedMaps {
    * filtering a filtered sorted map.
    */
   private static <K, V> SortedMap<K, V> filterFiltered(
-      FilteredSortedMap<K, V> map, 
+      FilteredSortedMap<K, V> map,
       Predicate<? super Entry<K, V>> entryPredicate) {
     Predicate<Entry<K, V>> predicate
         = Predicates.and(map.predicate, entryPredicate);
     return new FilteredSortedMap<K, V>(map.sortedMap(), predicate);
   }
-  
+
   private static class FilteredSortedMap<K, V>
       extends Maps.FilteredEntryMap<K, V> implements SortedMap<K, V> {
 
@@ -332,7 +335,7 @@ public final class SortedMaps {
     SortedMap<K, V> sortedMap() {
       return (SortedMap<K, V>) unfiltered;
     }
-    
+
     @Override public Comparator<? super K> comparator() {
       return sortedMap().comparator();
     }

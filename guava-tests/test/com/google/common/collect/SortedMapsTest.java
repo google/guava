@@ -39,6 +39,7 @@ import java.util.SortedMap;
  * @author Louis Wasserman
  */
 @GwtCompatible(emulated = true)
+@SuppressWarnings("deprecation")
 public class SortedMapsTest extends TestCase {
 
   private static final EntryTransformer<Object, Object, Object> ALWAYS_NULL =

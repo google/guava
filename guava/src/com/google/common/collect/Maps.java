@@ -1311,6 +1311,9 @@ public final class Maps {
    */
   public static <K, V> Map<K, V> filterKeys(
       Map<K, V> unfiltered, final Predicate<? super K> keyPredicate) {
+    if (unfiltered instanceof SortedMap) {
+      return filterKeys((SortedMap<K, V>) unfiltered, keyPredicate);
+    }
     checkNotNull(keyPredicate);
     Predicate<Entry<K, V>> entryPredicate =
         new Predicate<Entry<K, V>>() {
@@ -1323,6 +1326,51 @@ public final class Maps {
         ? filterFiltered((AbstractFilteredMap<K, V>) unfiltered, entryPredicate)
         : new FilteredKeyMap<K, V>(
             checkNotNull(unfiltered), keyPredicate, entryPredicate);
+  }
+
+  /**
+   * Returns a sorted map containing the mappings in {@code unfiltered} whose
+   * keys satisfy a predicate. The returned map is a live view of {@code
+   * unfiltered}; changes to one affect the other.
+   *
+   * <p>The resulting map's {@code keySet()}, {@code entrySet()}, and {@code
+   * values()} views have iterators that don't support {@code remove()}, but all
+   * other methods are supported by the map and its views. When given a key that
+   * doesn't satisfy the predicate, the map's {@code put()} and {@code putAll()}
+   * methods throw an {@link IllegalArgumentException}.
+   *
+   * <p>When methods such as {@code removeAll()} and {@code clear()} are called
+   * on the filtered map or its views, only mappings whose keys satisfy the
+   * filter will be removed from the underlying map.
+   *
+   * <p>The returned map isn't threadsafe or serializable, even if {@code
+   * unfiltered} is.
+   *
+   * <p>Many of the filtered map's methods, such as {@code size()},
+   * iterate across every key/value mapping in the underlying map and determine
+   * which satisfy the filter. When a live view is <i>not</i> needed, it may be
+   * faster to copy the filtered map and use the copy.
+   *
+   * <p><b>Warning:</b> {@code keyPredicate} must be <i>consistent with
+   * equals</i>, as documented at {@link Predicate#apply}. Do not provide a
+   * predicate such as {@code Predicates.instanceOf(ArrayList.class)}, which is
+   * inconsistent with equals.
+   *
+   * @since 11.0
+   */
+  @Beta
+  public static <K, V> SortedMap<K, V> filterKeys(
+      SortedMap<K, V> unfiltered, final Predicate<? super K> keyPredicate) {
+    // TODO: Return a subclass of Maps.FilteredKeyMap for slightly better
+    // performance.
+    checkNotNull(keyPredicate);
+    Predicate<Entry<K, V>> entryPredicate = new Predicate<Entry<K, V>>() {
+      @Override
+      public boolean apply(Entry<K, V> input) {
+        return keyPredicate.apply(input.getKey());
+      }
+    };
+    return filterEntries(unfiltered, entryPredicate);
   }
 
   /**
@@ -1356,6 +1404,54 @@ public final class Maps {
    */
   public static <K, V> Map<K, V> filterValues(
       Map<K, V> unfiltered, final Predicate<? super V> valuePredicate) {
+    if (unfiltered instanceof SortedMap) {
+      return filterValues((SortedMap<K, V>) unfiltered, valuePredicate);
+    }
+    checkNotNull(valuePredicate);
+    Predicate<Entry<K, V>> entryPredicate =
+        new Predicate<Entry<K, V>>() {
+          @Override
+          public boolean apply(Entry<K, V> input) {
+            return valuePredicate.apply(input.getValue());
+          }
+        };
+    return filterEntries(unfiltered, entryPredicate);
+  }
+
+  /**
+   * Returns a sorted map containing the mappings in {@code unfiltered} whose
+   * values satisfy a predicate. The returned map is a live view of {@code
+   * unfiltered}; changes to one affect the other.
+   *
+   * <p>The resulting map's {@code keySet()}, {@code entrySet()}, and {@code
+   * values()} views have iterators that don't support {@code remove()}, but all
+   * other methods are supported by the map and its views. When given a value
+   * that doesn't satisfy the predicate, the map's {@code put()}, {@code
+   * putAll()}, and {@link Entry#setValue} methods throw an {@link
+   * IllegalArgumentException}.
+   *
+   * <p>When methods such as {@code removeAll()} and {@code clear()} are called
+   * on the filtered map or its views, only mappings whose values satisfy the
+   * filter will be removed from the underlying map.
+   *
+   * <p>The returned map isn't threadsafe or serializable, even if {@code
+   * unfiltered} is.
+   *
+   * <p>Many of the filtered map's methods, such as {@code size()},
+   * iterate across every key/value mapping in the underlying map and determine
+   * which satisfy the filter. When a live view is <i>not</i> needed, it may be
+   * faster to copy the filtered map and use the copy.
+   *
+   * <p><b>Warning:</b> {@code valuePredicate} must be <i>consistent with
+   * equals</i>, as documented at {@link Predicate#apply}. Do not provide a
+   * predicate such as {@code Predicates.instanceOf(ArrayList.class)}, which is
+   * inconsistent with equals.
+   *
+   * @since 11.0
+   */
+  @Beta
+  public static <K, V> SortedMap<K, V> filterValues(
+      SortedMap<K, V> unfiltered, final Predicate<? super V> valuePredicate) {
     checkNotNull(valuePredicate);
     Predicate<Entry<K, V>> entryPredicate =
         new Predicate<Entry<K, V>>() {
@@ -1398,10 +1494,54 @@ public final class Maps {
    */
   public static <K, V> Map<K, V> filterEntries(
       Map<K, V> unfiltered, Predicate<? super Entry<K, V>> entryPredicate) {
+    if (unfiltered instanceof SortedMap) {
+      return filterEntries((SortedMap<K, V>) unfiltered, entryPredicate);
+    }
     checkNotNull(entryPredicate);
     return (unfiltered instanceof AbstractFilteredMap)
         ? filterFiltered((AbstractFilteredMap<K, V>) unfiltered, entryPredicate)
         : new FilteredEntryMap<K, V>(checkNotNull(unfiltered), entryPredicate);
+  }
+
+  /**
+   * Returns a sorted map containing the mappings in {@code unfiltered} that
+   * satisfy a predicate. The returned map is a live view of {@code unfiltered};
+   * changes to one affect the other.
+   *
+   * <p>The resulting map's {@code keySet()}, {@code entrySet()}, and {@code
+   * values()} views have iterators that don't support {@code remove()}, but all
+   * other methods are supported by the map and its views. When given a
+   * key/value pair that doesn't satisfy the predicate, the map's {@code put()}
+   * and {@code putAll()} methods throw an {@link IllegalArgumentException}.
+   * Similarly, the map's entries have a {@link Entry#setValue} method that
+   * throws an {@link IllegalArgumentException} when the existing key and the
+   * provided value don't satisfy the predicate.
+   *
+   * <p>When methods such as {@code removeAll()} and {@code clear()} are called
+   * on the filtered map or its views, only mappings that satisfy the filter
+   * will be removed from the underlying map.
+   *
+   * <p>The returned map isn't threadsafe or serializable, even if {@code
+   * unfiltered} is.
+   *
+   * <p>Many of the filtered map's methods, such as {@code size()},
+   * iterate across every key/value mapping in the underlying map and determine
+   * which satisfy the filter. When a live view is <i>not</i> needed, it may be
+   * faster to copy the filtered map and use the copy.
+   *
+   * <p><b>Warning:</b> {@code entryPredicate} must be <i>consistent with
+   * equals</i>, as documented at {@link Predicate#apply}.
+   *
+   * @since 11.0
+   */
+  @Beta
+  public static <K, V> SortedMap<K, V> filterEntries(
+      SortedMap<K, V> unfiltered,
+      Predicate<? super Entry<K, V>> entryPredicate) {
+    checkNotNull(entryPredicate);
+    return (unfiltered instanceof FilteredEntrySortedMap)
+        ? filterFiltered((FilteredEntrySortedMap<K, V>) unfiltered, entryPredicate)
+        : new FilteredEntrySortedMap<K, V>(checkNotNull(unfiltered), entryPredicate);
   }
 
   /**
@@ -1547,6 +1687,65 @@ public final class Maps {
       @Override public <T> T[] toArray(T[] array) {
         return Lists.newArrayList(iterator()).toArray(array);
       }
+    }
+  }
+  /**
+   * Support {@code clear()}, {@code removeAll()}, and {@code retainAll()} when
+   * filtering a filtered sorted map.
+   */
+  private static <K, V> SortedMap<K, V> filterFiltered(
+      FilteredEntrySortedMap<K, V> map,
+      Predicate<? super Entry<K, V>> entryPredicate) {
+    Predicate<Entry<K, V>> predicate
+        = Predicates.and(map.predicate, entryPredicate);
+    return new FilteredEntrySortedMap<K, V>(map.sortedMap(), predicate);
+  }
+
+  private static class FilteredEntrySortedMap<K, V>
+      extends FilteredEntryMap<K, V> implements SortedMap<K, V> {
+
+    FilteredEntrySortedMap(SortedMap<K, V> unfiltered,
+        Predicate<? super Entry<K, V>> entryPredicate) {
+      super(unfiltered, entryPredicate);
+    }
+
+    SortedMap<K, V> sortedMap() {
+      return (SortedMap<K, V>) unfiltered;
+    }
+
+    @Override public Comparator<? super K> comparator() {
+      return sortedMap().comparator();
+    }
+
+    @Override public K firstKey() {
+      // correctly throws NoSuchElementException when filtered map is empty.
+      return keySet().iterator().next();
+    }
+
+    @Override public K lastKey() {
+      SortedMap<K, V> headMap = sortedMap();
+      while (true) {
+        // correctly throws NoSuchElementException when filtered map is empty.
+        K key = headMap.lastKey();
+        if (apply(key, unfiltered.get(key))) {
+          return key;
+        }
+        headMap = sortedMap().headMap(key);
+      }
+    }
+
+    @Override public SortedMap<K, V> headMap(K toKey) {
+      return new FilteredEntrySortedMap<K, V>(sortedMap().headMap(toKey), predicate);
+    }
+
+    @Override public SortedMap<K, V> subMap(K fromKey, K toKey) {
+      return new FilteredEntrySortedMap<K, V>(
+          sortedMap().subMap(fromKey, toKey), predicate);
+    }
+
+    @Override public SortedMap<K, V> tailMap(K fromKey) {
+      return new FilteredEntrySortedMap<K, V>(
+          sortedMap().tailMap(fromKey), predicate);
     }
   }
 
