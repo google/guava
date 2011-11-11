@@ -44,8 +44,7 @@ public class SerializableTesterTest extends TestCase {
       errorNotThrown = true;
     } catch (TestAssertionFailure error) {
       // expected
-      assertContains("Equals/Hashcode mismatch.  original=",
-          error.getMessage());
+      assertContains("must be equal to", error.getMessage());
     }
     assertFalse(errorNotThrown);
   }
@@ -59,8 +58,7 @@ public class SerializableTesterTest extends TestCase {
       errorNotThrown = true;
     } catch (TestAssertionFailure error) {
       // expected
-      assertContains("Equals/Hashcode mismatch.  original=",
-          error.getMessage());
+      assertContains("must be equal to the hash", error.getMessage());
     }
     assertFalse(errorNotThrown);
   }
@@ -90,7 +88,7 @@ public class SerializableTesterTest extends TestCase {
 
     @Override
     public boolean equals(Object other) {
-      return true;
+      return (other instanceof ClassWhichIsAlwaysEqualButHasDifferentHashcodes);
     }
   }
 

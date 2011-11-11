@@ -93,9 +93,9 @@ public final class SerializableTester {
    */
   public static <T> T reserializeAndAssert(T object) {
     T copy = reserialize(object);
-    GuavaAsserts.checkEqualsAndHashCodeMethods(
-        "Equals/Hashcode mismatch.  original=" + object + ", copy=" + copy,
-        object, copy, true);
+    new EqualsTester()
+        .addEqualityGroup(object, copy)
+        .testEquals();
     GuavaAsserts.assertEquals(object.getClass(), copy.getClass());
     return copy;
   }
