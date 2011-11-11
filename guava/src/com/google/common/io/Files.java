@@ -277,8 +277,11 @@ public final class Files {
    * @param from the source file
    * @param to the destination file
    * @throws IOException if an I/O error occurs
+   * @throws IllegalArgumentException if {@code from.equals(to)}
    */
   public static void copy(File from, File to) throws IOException {
+    Preconditions.checkArgument(!from.equals(to),
+        "Source %s and destination %s must be different", from, to);
     copy(newInputStreamSupplier(from), to);
   }
 
@@ -476,6 +479,7 @@ public final class Files {
    * @param from the source file
    * @param to the destination file
    * @throws IOException if an I/O error occurs
+   * @throws IllegalArgumentException if {@code from.equals(to)}
    */
   public static void move(File from, File to) throws IOException {
     Preconditions.checkNotNull(to);
@@ -770,7 +774,8 @@ public final class Files {
     }
 
     // split the path apart
-    Iterable<String> components = Splitter.on('/').omitEmptyStrings().split(pathname);
+    Iterable<String> components =
+        Splitter.on('/').omitEmptyStrings().split(pathname);
     List<String> path = new ArrayList<String>();
 
     // resolve ., .., and //
