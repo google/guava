@@ -21,6 +21,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.annotations.GwtCompatible;
 
 import java.io.Serializable;
+import java.util.Iterator;
 
 import javax.annotation.Nullable;
 
@@ -42,7 +43,7 @@ final class ReverseOrdering<T> extends Ordering<T> implements Serializable {
     return (Ordering<S>) forwardOrder;
   }
 
-  // Override the six min/max methods to "hoist" delegation outside loops
+  // Override the min/max methods to "hoist" delegation outside loops
 
   @Override public <E extends T> E min(E a, E b) {
     return forwardOrder.max(a, b);
@@ -50,6 +51,10 @@ final class ReverseOrdering<T> extends Ordering<T> implements Serializable {
 
   @Override public <E extends T> E min(E a, E b, E c, E... rest) {
     return forwardOrder.max(a, b, c, rest);
+  }
+
+  @Override public <E extends T> E min(Iterator<E> iterator) {
+    return forwardOrder.max(iterator);
   }
 
   @Override public <E extends T> E min(Iterable<E> iterable) {
@@ -62,6 +67,10 @@ final class ReverseOrdering<T> extends Ordering<T> implements Serializable {
 
   @Override public <E extends T> E max(E a, E b, E c, E... rest) {
     return forwardOrder.min(a, b, c, rest);
+  }
+
+  @Override public <E extends T> E max(Iterator<E> iterator) {
+    return forwardOrder.min(iterator);
   }
 
   @Override public <E extends T> E max(Iterable<E> iterable) {

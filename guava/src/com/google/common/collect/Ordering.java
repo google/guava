@@ -387,7 +387,7 @@ public abstract class Ordering<T> implements Comparator<T> {
   }
 
   // Regular instance methods
-  
+
   // Override to add @Nullable
   @Override public abstract int compare(@Nullable T left, @Nullable T right);
 
@@ -399,7 +399,7 @@ public abstract class Ordering<T> implements Comparator<T> {
    * <p>The implementation does not necessarily use a <i>stable</i> sorting
    * algorithm; when multiple elements are equivalent, it is undefined which
    * will come first.
-   * 
+   *
    * @return an immutable {@code RandomAccess} list of the {@code k} least
    *     elements in ascending order
    * @throws IllegalArgumentException if {@code k} is negative
@@ -408,11 +408,11 @@ public abstract class Ordering<T> implements Comparator<T> {
   @Beta
   public <E extends T> List<E> leastOf(Iterable<E> iterable, int k) {
     checkArgument(k >= 0, "%d is negative", k);
-    
+
     // values is not an E[], but we use it as such for readability. Hack.
     @SuppressWarnings("unchecked")
     E[] values = (E[]) Iterables.toArray(iterable);
-    
+
     // TODO(nshupe): also sort whole list if k is *near* values.length?
     // TODO(kevinb): benchmark this impl against hand-coded heap
     E[] resultArray;
@@ -431,7 +431,7 @@ public abstract class Ordering<T> implements Comparator<T> {
 
     return Collections.unmodifiableList(Arrays.asList(resultArray));
   }
-  
+
   /**
    * Returns the {@code k} greatest elements of the given iterable according to
    * this ordering, in order from greatest to least. If there are fewer than
@@ -440,7 +440,7 @@ public abstract class Ordering<T> implements Comparator<T> {
    * <p>The implementation does not necessarily use a <i>stable</i> sorting
    * algorithm; when multiple elements are equivalent, it is undefined which
    * will come first.
-   * 
+   *
    * @return an immutable {@code RandomAccess} list of the {@code k} greatest
    *     elements in <i>descending order</i>
    * @throws IllegalArgumentException if {@code k} is negative
@@ -464,14 +464,14 @@ public abstract class Ordering<T> implements Comparator<T> {
       }
     }
   }
-  
+
   private <E extends T> int partition(
       E[] values, int left, int right, int pivotIndex) {
     E pivotValue = values[pivotIndex];
 
     values[pivotIndex] = values[right];
     values[right] = pivotValue;
- 
+
     int storeIndex = left;
     for (int i = left; i < right; i++) {
       if (compare(values[i], pivotValue) < 0) {
@@ -578,16 +578,19 @@ public abstract class Ordering<T> implements Comparator<T> {
 
   /**
    * Returns the greatest of the specified values according to this ordering. If
-   * there are multiple greatest values, the first of those is returned.
+   * there are multiple greatest values, the first of those is returned. The
+   * iterator will be left exhausted: its {@code hasNext()} method will return
+   * {@code false}.
    *
-   * @param iterable the iterable whose maximum element is to be determined
-   * @throws NoSuchElementException if {@code iterable} is empty
+   * @param iterator the iterator whose maximum element is to be determined
+   * @throws NoSuchElementException if {@code iterator} is empty
    * @throws ClassCastException if the parameters are not <i>mutually
    *     comparable</i> under this ordering.
+   *
+   * @since 11.0
    */
-  public <E extends T> E max(Iterable<E> iterable) {
-    Iterator<E> iterator = iterable.iterator();
-
+  @Beta
+  public <E extends T> E max(Iterator<E> iterator) {
     // let this throw NoSuchElementException as necessary
     E maxSoFar = iterator.next();
 
@@ -596,6 +599,19 @@ public abstract class Ordering<T> implements Comparator<T> {
     }
 
     return maxSoFar;
+  }
+
+  /**
+   * Returns the greatest of the specified values according to this ordering. If
+   * there are multiple greatest values, the first of those is returned.
+   *
+   * @param iterable the iterable whose maximum element is to be determined
+   * @throws NoSuchElementException if {@code iterable} is empty
+   * @throws ClassCastException if the parameters are not <i>mutually
+   *     comparable</i> under this ordering.
+   */
+  public <E extends T> E max(Iterable<E> iterable) {
+    return max(iterable.iterator());
   }
 
   /**
@@ -639,16 +655,19 @@ public abstract class Ordering<T> implements Comparator<T> {
 
   /**
    * Returns the least of the specified values according to this ordering. If
-   * there are multiple least values, the first of those is returned.
+   * there are multiple least values, the first of those is returned. The
+   * iterator will be left exhausted: its {@code hasNext()} method will return
+   * {@code false}.
    *
-   * @param iterable the iterable whose minimum element is to be determined
-   * @throws NoSuchElementException if {@code iterable} is empty
+   * @param iterator the iterator whose minimum element is to be determined
+   * @throws NoSuchElementException if {@code iterator} is empty
    * @throws ClassCastException if the parameters are not <i>mutually
    *     comparable</i> under this ordering.
+   *
+   * @since 11.0
    */
-  public <E extends T> E min(Iterable<E> iterable) {
-    Iterator<E> iterator = iterable.iterator();
-
+  @Beta
+  public <E extends T> E min(Iterator<E> iterator) {
     // let this throw NoSuchElementException as necessary
     E minSoFar = iterator.next();
 
@@ -657,6 +676,19 @@ public abstract class Ordering<T> implements Comparator<T> {
     }
 
     return minSoFar;
+  }
+
+  /**
+   * Returns the least of the specified values according to this ordering. If
+   * there are multiple least values, the first of those is returned.
+   *
+   * @param iterable the iterable whose minimum element is to be determined
+   * @throws NoSuchElementException if {@code iterable} is empty
+   * @throws ClassCastException if the parameters are not <i>mutually
+   *     comparable</i> under this ordering.
+   */
+  public <E extends T> E min(Iterable<E> iterable) {
+    return min(iterable.iterator());
   }
 
   /**

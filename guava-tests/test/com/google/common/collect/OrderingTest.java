@@ -34,6 +34,7 @@ import junit.framework.TestCase;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 import java.util.RandomAccess;
@@ -544,6 +545,33 @@ public class OrderingTest extends TestCase {
     } catch (UnsupportedOperationException expected) {
       // pass
     }
+  }
+
+  public void testIteratorMinAndMax() {
+    List<Integer> ints = Lists.newArrayList(5, 3, 0, 9);
+    assertEquals(9, (int) numberOrdering.max(ints.iterator()));
+    assertEquals(0, (int) numberOrdering.min(ints.iterator()));
+
+    // when the values are the same, the first argument should be returned
+    Integer a = new Integer(4);
+    Integer b = new Integer(4);
+    ints = Lists.newArrayList(a, b, b);
+    assertSame(a, numberOrdering.max(ints.iterator()));
+    assertSame(a, numberOrdering.min(ints.iterator()));
+  }
+
+  public void testIteratorMinExhaustsIterator() {
+    List<Integer> ints = Lists.newArrayList(9, 0, 3, 5);
+    Iterator<Integer> iterator = ints.iterator();
+    assertEquals(0, (int) numberOrdering.min(iterator));
+    assertFalse(iterator.hasNext());
+  }
+
+  public void testIteratorMaxExhaustsIterator() {
+    List<Integer> ints = Lists.newArrayList(9, 0, 3, 5);
+    Iterator<Integer> iterator = ints.iterator();
+    assertEquals(9, (int) numberOrdering.max(iterator));
+    assertFalse(iterator.hasNext());
   }
 
   public void testIterableMinAndMax() {

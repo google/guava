@@ -21,6 +21,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.annotations.GwtCompatible;
 
 import java.io.Serializable;
+import java.util.Iterator;
 
 /** An ordering that uses the reverse of the natural order of the values. */
 @GwtCompatible(serializable = true)
@@ -42,7 +43,7 @@ final class ReverseNaturalOrdering
     return Ordering.natural();
   }
 
-  // Override the six min/max methods to "hoist" delegation outside loops
+  // Override the min/max methods to "hoist" delegation outside loops
 
   @Override public <E extends Comparable> E min(E a, E b) {
     return NaturalOrdering.INSTANCE.max(a, b);
@@ -50,6 +51,10 @@ final class ReverseNaturalOrdering
 
   @Override public <E extends Comparable> E min(E a, E b, E c, E... rest) {
     return NaturalOrdering.INSTANCE.max(a, b, c, rest);
+  }
+
+  @Override public <E extends Comparable> E min(Iterator<E> iterator) {
+    return NaturalOrdering.INSTANCE.max(iterator);
   }
 
   @Override public <E extends Comparable> E min(Iterable<E> iterable) {
@@ -62,6 +67,10 @@ final class ReverseNaturalOrdering
 
   @Override public <E extends Comparable> E max(E a, E b, E c, E... rest) {
     return NaturalOrdering.INSTANCE.min(a, b, c, rest);
+  }
+
+  @Override public <E extends Comparable> E max(Iterator<E> iterator) {
+    return NaturalOrdering.INSTANCE.min(iterator);
   }
 
   @Override public <E extends Comparable> E max(Iterable<E> iterable) {
