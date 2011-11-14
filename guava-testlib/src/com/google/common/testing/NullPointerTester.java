@@ -42,6 +42,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
 
@@ -83,6 +85,7 @@ public final class NullPointerTester {
     setDefault(Pattern.class, Pattern.compile(""));
     setDefault(Predicate.class, Predicates.alwaysTrue());
     setDefault(Set.class, Collections.emptySet());
+    setDefault(SortedSet.class, new TreeSet());
     setDefault(String.class, "");
     setDefault(Supplier.class, Suppliers.ofInstance(1));
     setDefault(Throwable.class, new Exception());

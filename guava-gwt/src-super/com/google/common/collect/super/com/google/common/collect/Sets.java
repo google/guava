@@ -19,6 +19,7 @@ package com.google.common.collect;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Function;
 import com.google.common.base.Objects;
@@ -715,6 +716,9 @@ public final class Sets {
   // TODO(kevinb): how to omit that last sentence when building GWT javadoc?
   public static <E> Set<E> filter(
       Set<E> unfiltered, Predicate<? super E> predicate) {
+    if (unfiltered instanceof SortedSet) {
+      return filter((SortedSet<E>) unfiltered, predicate);
+    }
     if (unfiltered instanceof FilteredSet) {
       // Support clear(), removeAll(), and retainAll() when filtering a filtered
       // collection.
@@ -741,6 +745,114 @@ public final class Sets {
 
     @Override public int hashCode() {
       return hashCodeImpl(this);
+    }
+  }
+
+  /**
+   * Returns the elements of a {@code SortedSet}, {@code unfiltered}, that
+   * satisfy a predicate. The returned set is a live view of {@code unfiltered};
+   * changes to one affect the other.
+   *
+   * <p>The resulting set's iterator does not support {@code remove()}, but all
+   * other set methods are supported. When given an element that doesn't satisfy
+   * the predicate, the set's {@code add()} and {@code addAll()} methods throw
+   * an {@link IllegalArgumentException}. When methods such as
+   * {@code removeAll()} and {@code clear()} are called on the filtered set,
+   * only elements that satisfy the filter will be removed from the underlying
+   * set.
+   *
+   * <p>The returned set isn't threadsafe or serializable, even if
+   * {@code unfiltered} is.
+   *
+   * <p>Many of the filtered set's methods, such as {@code size()}, iterate across
+   * every element in the underlying set and determine which elements satisfy
+   * the filter. When a live view is <i>not</i> needed, it may be faster to copy
+   * {@code Iterables.filter(unfiltered, predicate)} and use the copy.
+   *
+   * <p><b>Warning:</b> {@code predicate} must be <i>consistent with equals</i>,
+   * as documented at {@link Predicate#apply}. Do not provide a predicate such as
+   * {@code Predicates.instanceOf(ArrayList.class)}, which is inconsistent with
+   * equals. (See {@link Iterables#filter(Iterable, Class)} for related
+   * functionality.)
+   *
+   * @since 11.0
+   */
+  @Beta
+  @SuppressWarnings("unchecked")
+  public static <E> SortedSet<E> filter(
+      SortedSet<E> unfiltered, Predicate<? super E> predicate) {
+    if (unfiltered instanceof FilteredSet) {
+      // Support clear(), removeAll(), and retainAll() when filtering a filtered
+      // collection.
+      FilteredSet<E> filtered = (FilteredSet<E>) unfiltered;
+      Predicate<E> combinedPredicate
+          = Predicates.<E>and(filtered.predicate, predicate);
+      return new FilteredSortedSet<E>(
+          (SortedSet<E>) filtered.unfiltered, combinedPredicate);
+    }
+
+    return new FilteredSortedSet<E>(
+        checkNotNull(unfiltered), checkNotNull(predicate));
+  }
+
+  private static class FilteredSortedSet<E> extends FilteredCollection<E>
+      implements SortedSet<E> {
+
+    FilteredSortedSet(SortedSet<E> unfiltered, Predicate<? super E> predicate) {
+      super(unfiltered, predicate);
+    }
+
+    @Override public boolean equals(@Nullable Object object) {
+      return equalsImpl(this, object);
+    }
+
+    @Override public int hashCode() {
+      return hashCodeImpl(this);
+    }
+
+    @Override
+    public Comparator<? super E> comparator() {
+      return ((SortedSet<E>) unfiltered).comparator();
+    }
+
+    @Override
+    public SortedSet<E> subSet(E fromElement, E toElement) {
+      return new FilteredSortedSet<E>(((SortedSet<E>) unfiltered).subSet(fromElement, toElement),
+          predicate);
+    }
+
+    @Override
+    public SortedSet<E> headSet(E toElement) {
+      return new FilteredSortedSet<E>(((SortedSet<E>) unfiltered).headSet(toElement), predicate);
+    }
+
+    @Override
+    public SortedSet<E> tailSet(E fromElement) {
+      return new FilteredSortedSet<E>(((SortedSet<E>) unfiltered).tailSet(fromElement), predicate);
+    }
+
+    @Override
+    public E first() {
+      Iterator<E> iterator = unfiltered.iterator();
+      while (iterator.hasNext()) {
+        E e = iterator.next();
+        if (predicate.apply(e)) {
+          return e;
+        }
+      }
+      throw new NoSuchElementException();
+    }
+
+    @Override
+    public E last() {
+      SortedSet<E> sortedUnfiltered = (SortedSet<E>) unfiltered;
+      while (true) {
+        E element = sortedUnfiltered.last();
+        if (predicate.apply(element)) {
+          return element;
+        }
+        sortedUnfiltered = sortedUnfiltered.headSet(element);
+      }
     }
   }
 

@@ -30,6 +30,8 @@ import static org.junit.contrib.truth.Truth.ASSERT;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.base.Predicate;
+import com.google.common.base.Predicates;
 import com.google.common.collect.testing.AnEnum;
 import com.google.common.collect.testing.IteratorTester;
 import com.google.common.collect.testing.MinimalIterable;
@@ -1012,5 +1014,78 @@ public class SetsTest extends TestCase {
     filtered.clear();
     assertTrue(filtered.isEmpty());
     assertEquals(ImmutableSet.of("b", "apple", "banana"), unfiltered);
+  }
+
+  public void testFilterSorted() {
+    SortedSet<Long> sorted = Sets.newTreeSet();
+    for (long i = 1; i < 11; i++) {
+      sorted.add(i);
+    }
+    SortedSet<Long> filteredEven = Sets.filter(sorted, new Predicate<Long>() {
+      @Override
+      public boolean apply(Long input) {
+        return input % 2 == 0;
+      }
+    });
+
+    assertEquals("filteredSortedSet", ImmutableSet.of(2L, 4L, 6L, 8L, 10L), filteredEven);
+    assertEquals("First", 2L, filteredEven.first().longValue());
+    assertEquals("Last", 10L, filteredEven.last().longValue());
+    assertEquals("subSet", ImmutableSet.of(4L, 6L), filteredEven.subSet(4L, 8L));
+    assertEquals("headSet", ImmutableSet.of(2L, 4L), filteredEven.headSet(5L));
+    assertEquals("tailSet", ImmutableSet.of(8L, 10L), filteredEven.tailSet(7L));
+    assertEquals("comparator", sorted.comparator(), filteredEven.comparator());
+
+    sorted.add(12L);
+    sorted.add(0L);
+    assertEquals("addingElementsToSet", ImmutableSet.of(0L, 2L, 4L, 6L, 8L, 10L, 12L),
+        filteredEven);
+    assertEquals("FirstOnModifiedSortedSet", 0L, filteredEven.first().longValue());
+    assertEquals("LastOnModifiedSortedSet", 12L, filteredEven.last().longValue());
+  }
+
+  static SortedSet<Long> filteredEmpty = Sets.filter(new TreeSet<Long>(), Predicates.alwaysTrue());
+  public void testFilteredSortedEmpty_size() {
+    assertEquals("filterEmptySize", 0, filteredEmpty.size());
+  }
+
+  public void testFilteredSortedEmpty_first() {
+    try {
+      filteredEmpty.first();
+      fail("CallFirstOnEmptySetThrowsException");
+    } catch (NoSuchElementException expected) {}
+  }
+
+  public void testFilteredSortedEmpty_last() {
+    try {
+      filteredEmpty.last();
+      fail("CallLastOnEmptySetThrowsException");
+    } catch (NoSuchElementException expected) {}
+  }
+
+  static SortedSet<Long> sorted = Sets.newTreeSet();
+  static {
+    for (long i = 1; i < 11; i++) {
+      sorted.add(i);
+    }
+  }
+  static SortedSet<Long> filterAllElements = Sets.filter(sorted, Predicates.alwaysFalse());
+
+  public void testFilteredSortedAllFiltered_size() {
+    assertEquals("filterAllElementsSize", 0, filterAllElements.size());
+  }
+
+  public void testFilteredSortedAllFiltered_first() {
+    try {
+      filterAllElements.first();
+      fail("CallFirstOnSetWithAllElementsFilteredThrowsException");
+    } catch (NoSuchElementException expected) {}
+  }
+
+  public void testFilteredSortedAllFiltered_last() {
+    try {
+      filterAllElements.last();
+      fail("CallLastOnSetWithAllElementsFilteredThrowsException");
+    } catch (NoSuchElementException expected) {}
   }
 }
