@@ -20,6 +20,7 @@ import static org.junit.contrib.truth.Truth.ASSERT;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.collect.ImmutableSetMultimap.Builder;
 import com.google.common.collect.testing.google.UnmodifiableCollectionTests;
 import com.google.common.testing.EqualsTester;
 import com.google.common.testing.SerializableTester;
@@ -38,6 +39,50 @@ import java.util.Map.Entry;
  */
 @GwtCompatible(emulated = true)
 public class ImmutableSetMultimapTest extends TestCase {
+
+  public void testBuilder_withImmutableEntry() {
+    ImmutableSetMultimap<String, Integer> multimap = new Builder<String, Integer>()
+        .put(Maps.immutableEntry("one", 1))
+        .build();
+    assertEquals(ImmutableSet.of(1), multimap.get("one"));
+  }
+
+  public void testBuilder_withImmutableEntryAndNullContents() {
+    Builder<String, Integer> builder = new Builder<String, Integer>();
+    try {
+      builder.put(Maps.immutableEntry("one", (Integer) null));
+      fail();
+    } catch (NullPointerException expected) {
+    }
+    try {
+      builder.put(Maps.immutableEntry((String) null, 1));
+      fail();
+    } catch (NullPointerException expected) {
+    }
+  }
+
+  private static class StringHolder {
+    String string;
+  }
+
+  public void testBuilder_withMutableEntry() {
+    ImmutableSetMultimap.Builder<String, Integer> builder =
+        new Builder<String, Integer>();
+    final StringHolder holder = new StringHolder();
+    holder.string = "one";
+    Entry<String, Integer> entry = new AbstractMapEntry<String, Integer>() {
+      @Override public String getKey() {
+        return holder.string;
+      }
+      @Override public Integer getValue() {
+        return 1;
+      }
+    };
+
+    builder.put(entry);
+    holder.string = "two";
+    assertEquals(ImmutableSet.of(1), builder.build().get("one"));
+  }
 
   public void testBuilderPutAllIterable() {
     ImmutableSetMultimap.Builder<String, Integer> builder

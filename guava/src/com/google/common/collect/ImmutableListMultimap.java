@@ -26,7 +26,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Collection;
 import java.util.Comparator;
-import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.annotation.Nullable;
 
@@ -165,6 +165,17 @@ public class ImmutableListMultimap<K, V>
       return this;
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @since 11.0
+     */
+    @Override public Builder<K, V> put(
+        Entry<? extends K, ? extends V> entry) {
+      super.put(entry);
+      return this;
+    }
+
     @Override public Builder<K, V> putAll(K key, Iterable<? extends V> values) {
       super.putAll(key, values);
       return this;
@@ -242,7 +253,7 @@ public class ImmutableListMultimap<K, V>
     ImmutableMap.Builder<K, ImmutableList<V>> builder = ImmutableMap.builder();
     int size = 0;
 
-    for (Map.Entry<? extends K, ? extends Collection<? extends V>> entry
+    for (Entry<? extends K, ? extends Collection<? extends V>> entry
         : multimap.asMap().entrySet()) {
       ImmutableList<V> list = ImmutableList.copyOf(entry.getValue());
       if (!list.isEmpty()) {

@@ -30,7 +30,7 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.Map.Entry;
 import java.util.TreeMap;
 
 import javax.annotation.Nullable;
@@ -179,6 +179,17 @@ public abstract class ImmutableMultimap<K, V>
     }
 
     /**
+     * Adds an entry to the built multimap.
+     * 
+     * @since 11.0
+     */
+    public Builder<K, V> put(Entry<? extends K, ? extends V> entry) {
+      builderMultimap.put(
+          checkNotNull(entry.getKey()), checkNotNull(entry.getValue()));
+      return this;
+    }
+
+    /**
      * Stores a collection of values with the same key in the built multimap.
      *
      * @throws NullPointerException if {@code key}, {@code values}, or any
@@ -213,7 +224,7 @@ public abstract class ImmutableMultimap<K, V>
      *     null. The builder is left in an invalid state.
      */
     public Builder<K, V> putAll(Multimap<? extends K, ? extends V> multimap) {
-      for (Map.Entry<? extends K, ? extends Collection<? extends V>> entry
+      for (Entry<? extends K, ? extends Collection<? extends V>> entry
           : multimap.asMap().entrySet()) {
         putAll(entry.getKey(), entry.getValue());
       }
@@ -461,7 +472,7 @@ public abstract class ImmutableMultimap<K, V>
     return (ImmutableMap) map;
   }
 
-  private transient ImmutableCollection<Map.Entry<K, V>> entries;
+  private transient ImmutableCollection<Entry<K, V>> entries;
 
   /**
    * Returns an immutable collection of all key-value pairs in the multimap. Its
@@ -469,25 +480,25 @@ public abstract class ImmutableMultimap<K, V>
    * key, and so on.
    */
   @Override
-  public ImmutableCollection<Map.Entry<K, V>> entries() {
-    ImmutableCollection<Map.Entry<K, V>> result = entries;
+  public ImmutableCollection<Entry<K, V>> entries() {
+    ImmutableCollection<Entry<K, V>> result = entries;
     return (result == null)
         ? (entries = new EntryCollection<K, V>(this)) : result;
   }
 
   private static class EntryCollection<K, V>
-      extends ImmutableCollection<Map.Entry<K, V>> {
+      extends ImmutableCollection<Entry<K, V>> {
     final ImmutableMultimap<K, V> multimap;
 
     EntryCollection(ImmutableMultimap<K, V> multimap) {
       this.multimap = multimap;
     }
 
-    @Override public UnmodifiableIterator<Map.Entry<K, V>> iterator() {
-      final Iterator<? extends Map.Entry<K, ? extends ImmutableCollection<V>>>
+    @Override public UnmodifiableIterator<Entry<K, V>> iterator() {
+      final Iterator<? extends Entry<K, ? extends ImmutableCollection<V>>>
           mapIterator = this.multimap.map.entrySet().iterator();
 
-      return new UnmodifiableIterator<Map.Entry<K, V>>() {
+      return new UnmodifiableIterator<Entry<K, V>>() {
         K key;
         Iterator<V> valueIterator;
 
@@ -498,9 +509,9 @@ public abstract class ImmutableMultimap<K, V>
         }
 
         @Override
-        public Map.Entry<K, V> next() {
+        public Entry<K, V> next() {
           if (key == null || !valueIterator.hasNext()) {
-            Map.Entry<K, ? extends ImmutableCollection<V>> entry
+            Entry<K, ? extends ImmutableCollection<V>> entry
                 = mapIterator.next();
             key = entry.getKey();
             valueIterator = entry.getValue().iterator();
@@ -520,8 +531,8 @@ public abstract class ImmutableMultimap<K, V>
     }
 
     @Override public boolean contains(Object object) {
-      if (object instanceof Map.Entry) {
-        Map.Entry<?, ?> entry = (Map.Entry<?, ?>) object;
+      if (object instanceof Entry) {
+        Entry<?, ?> entry = (Entry<?, ?>) object;
         return multimap.containsEntry(entry.getKey(), entry.getValue());
       }
       return false;
@@ -546,7 +557,7 @@ public abstract class ImmutableMultimap<K, V>
 
   private ImmutableMultiset<K> createKeys() {
     ImmutableMultiset.Builder<K> builder = ImmutableMultiset.builder();
-    for (Map.Entry<K, ? extends ImmutableCollection<V>> entry
+    for (Entry<K, ? extends ImmutableCollection<V>> entry
         : map.entrySet()) {
       builder.addCopies(entry.getKey(), entry.getValue().size());
     }
@@ -574,7 +585,7 @@ public abstract class ImmutableMultimap<K, V>
     }
 
     @Override public UnmodifiableIterator<V> iterator() {
-      final Iterator<? extends Map.Entry<?, V>> entryIterator
+      final Iterator<? extends Entry<?, V>> entryIterator
           = multimap.entries().iterator();
       return new UnmodifiableIterator<V>() {
         @Override

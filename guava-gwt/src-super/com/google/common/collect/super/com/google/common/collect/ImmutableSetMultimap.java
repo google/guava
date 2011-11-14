@@ -25,7 +25,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.Map.Entry;
 import java.util.TreeMap;
 
 import javax.annotation.Nullable;
@@ -204,6 +204,17 @@ public class ImmutableSetMultimap<K, V>
       return this;
     }
 
+    /**
+     * Adds an entry to the built multimap if it is not already present.
+     *
+     * @since 11.0
+     */
+    @Override public Builder<K, V> put(Entry<? extends K, ? extends V> entry) {
+      builderMultimap.put(
+          checkNotNull(entry.getKey()), checkNotNull(entry.getValue()));
+      return this;
+    }
+
     @Override public Builder<K, V> putAll(K key, Iterable<? extends V> values) {
       Collection<V> collection = builderMultimap.get(checkNotNull(key));
       for (V value : values) {
@@ -218,7 +229,7 @@ public class ImmutableSetMultimap<K, V>
 
     @Override public Builder<K, V> putAll(
         Multimap<? extends K, ? extends V> multimap) {
-      for (Map.Entry<? extends K, ? extends Collection<? extends V>> entry
+      for (Entry<? extends K, ? extends Collection<? extends V>> entry
           : multimap.asMap().entrySet()) {
         putAll(entry.getKey(), entry.getValue());
       }
@@ -302,7 +313,7 @@ public class ImmutableSetMultimap<K, V>
     ImmutableMap.Builder<K, ImmutableSet<V>> builder = ImmutableMap.builder();
     int size = 0;
 
-    for (Map.Entry<? extends K, ? extends Collection<? extends V>> entry
+    for (Entry<? extends K, ? extends Collection<? extends V>> entry
         : multimap.asMap().entrySet()) {
       K key = entry.getKey();
       Collection<? extends V> values = entry.getValue();
@@ -368,7 +379,7 @@ public class ImmutableSetMultimap<K, V>
     throw new UnsupportedOperationException();
   }
 
-  private transient ImmutableSet<Map.Entry<K, V>> entries;
+  private transient ImmutableSet<Entry<K, V>> entries;
 
   /**
    * Returns an immutable collection of all key-value pairs in the multimap.
@@ -376,8 +387,8 @@ public class ImmutableSetMultimap<K, V>
    * second key, and so on.
    */
   // TODO(kevinb): Fix this so that two copies of the entries are not created.
-  @Override public ImmutableSet<Map.Entry<K, V>> entries() {
-    ImmutableSet<Map.Entry<K, V>> result = entries;
+  @Override public ImmutableSet<Entry<K, V>> entries() {
+    ImmutableSet<Entry<K, V>> result = entries;
     return (result == null)
         ? (entries = ImmutableSet.copyOf(super.entries()))
         : result;
