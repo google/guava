@@ -20,6 +20,8 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.Beta;
 
+import junit.framework.AssertionFailedError;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -88,8 +90,8 @@ public final class SerializableTester {
    * @return the re-serialized object
    * @throws RuntimeException if the specified object was not successfully
    *     serialized or deserialized
-   * @throws GuavaAsserts.TestAssertionFailure if the re-serialized object is
-   *     not equal to the original object, or if the hashcodes are different.
+   * @throws AssertionFailedError if the re-serialized object is not equal to
+   *     the original object, or if the hashcodes are different.
    */
   public static <T> T reserializeAndAssert(T object) {
     T copy = reserialize(object);

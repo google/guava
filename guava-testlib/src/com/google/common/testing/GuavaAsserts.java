@@ -20,6 +20,8 @@ import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Objects;
 
+import junit.framework.AssertionFailedError;
+
 /**
  * Contains additional assertion methods not found in JUnit.
  *
@@ -55,7 +57,7 @@ public final class GuavaAsserts {
    * @throws RuntimeException always
    */
   public static void fail() {
-    throw new TestAssertionFailure();
+    throw new AssertionFailedError();
   }
 
   /**
@@ -64,7 +66,7 @@ public final class GuavaAsserts {
    * @throws RuntimeException always
    */
   public static void fail(String message) {
-    throw new TestAssertionFailure(message);
+    throw new AssertionFailedError(message);
   }
 
   /**
@@ -105,22 +107,5 @@ public final class GuavaAsserts {
       return;
     }
     assertTrue(message, o1.equals(o2));
-  }
-  
-  /**
-   * An error thrown when test assertions are shown to be invalid.
-   * 
-   * @author cgruber@google.com (Christian Gruber)
-   */
-  public static class TestAssertionFailure extends AssertionError {
-
-    public TestAssertionFailure() {
-      super();
-    }
-
-    public TestAssertionFailure(String errorMessage) {
-      super(errorMessage);
-    }
-    
   }
 }

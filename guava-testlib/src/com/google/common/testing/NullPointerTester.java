@@ -26,7 +26,8 @@ import com.google.common.base.Suppliers;
 import com.google.common.collect.Iterators;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.google.common.testing.GuavaAsserts.TestAssertionFailure;
+
+import junit.framework.AssertionFailedError;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
@@ -262,7 +263,7 @@ public final class NullPointerTester {
           cause instanceof UnsupportedOperationException) {
         return;
       }
-      TestAssertionFailure error = new TestAssertionFailure(
+      AssertionFailedError error = new AssertionFailedError(
           "wrong exception thrown from " + func + ": " + cause);
       error.initCause(cause);
       throw error;

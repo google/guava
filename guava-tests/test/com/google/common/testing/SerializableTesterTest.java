@@ -16,8 +16,7 @@
 
 package com.google.common.testing;
 
-import com.google.common.testing.GuavaAsserts.TestAssertionFailure;
-
+import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
 
 import java.io.Serializable;
@@ -42,7 +41,7 @@ public class SerializableTesterTest extends TestCase {
     try {
       SerializableTester.reserializeAndAssert(orig);
       errorNotThrown = true;
-    } catch (TestAssertionFailure error) {
+    } catch (AssertionFailedError error) {
       // expected
       assertContains("must be equal to", error.getMessage());
     }
@@ -56,7 +55,7 @@ public class SerializableTesterTest extends TestCase {
     try {
       SerializableTester.reserializeAndAssert(orig);
       errorNotThrown = true;
-    } catch (TestAssertionFailure error) {
+    } catch (AssertionFailedError error) {
       // expected
       assertContains("must be equal to the hash", error.getMessage());
     }
@@ -70,7 +69,7 @@ public class SerializableTesterTest extends TestCase {
     try {
       SerializableTester.reserializeAndAssert(orig);
       errorNotThrown = true;
-    } catch (TestAssertionFailure error) {
+    } catch (AssertionFailedError error) {
       // expected
       assertContains("Expected 'class ", error.getMessage());
     }

@@ -10,6 +10,8 @@
   <inherits name="com.google.common.base.Base"/>
    
   <inherits name="com.google.common.collect.Collect"/>
+   
+  <inherits name="com.google.gwt.junit.JUnit"/>
     
   <inherits name="java.util.Util"/>
    

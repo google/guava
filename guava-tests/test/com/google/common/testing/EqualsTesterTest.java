@@ -20,8 +20,8 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Sets;
-import com.google.common.testing.GuavaAsserts.TestAssertionFailure;
 
+import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
 
 import java.util.Set;
@@ -89,7 +89,7 @@ public class EqualsTesterTest extends TestCase {
     equalsTester.addEqualityGroup(equalObject1, notEqualObject1);
     try {
       equalsTester.testEquals();
-    } catch (TestAssertionFailure e) {
+    } catch (AssertionFailedError e) {
       assertErrorMessage(
         e,
         equalObject1 + " [group 1, item 1] must be equal to "
@@ -125,7 +125,7 @@ public class EqualsTesterTest extends TestCase {
     equalsTester.addEqualityGroup(obj);
     try {
       equalsTester.testEquals();
-    } catch (TestAssertionFailure e) {
+    } catch (AssertionFailedError e) {
       assertErrorMessage(
           e, obj + " must be equal to itself");
       return;
@@ -141,7 +141,7 @@ public class EqualsTesterTest extends TestCase {
     equalsTester.addEqualityGroup(obj);
     try {
       equalsTester.testEquals();
-    } catch (TestAssertionFailure e) {
+    } catch (AssertionFailedError e) {
       assertErrorMessage(
           e, obj + " must be unequal to null");
       return;
@@ -158,7 +158,7 @@ public class EqualsTesterTest extends TestCase {
     equalsTester.addEqualityGroup(obj);
     try {
       equalsTester.testEquals();
-    } catch (TestAssertionFailure e) {
+    } catch (AssertionFailedError e) {
       assertErrorMessage(
           e,
           obj
@@ -176,7 +176,7 @@ public class EqualsTesterTest extends TestCase {
     equalsTester.addEqualityGroup(reference, notEqualObject1);
     try {
       equalsTester.testEquals();
-    } catch (TestAssertionFailure e) {
+    } catch (AssertionFailedError e) {
       assertErrorMessage(e, reference.toString() + " [group 1, item 1]");
       assertErrorMessage(e, notEqualObject1.toString() + " [group 1, item 2]");
       return;
@@ -194,7 +194,7 @@ public class EqualsTesterTest extends TestCase {
     equalsTester.addEqualityGroup(a, b);
     try {
       equalsTester.testEquals();
-    } catch (TestAssertionFailure e) {
+    } catch (AssertionFailedError e) {
       assertErrorMessage(
           e, "the hash (" + a.hashCode() + ") of " + a
           + " [group 1, item 1] must be equal to the hash (" + b.hashCode() + ") of " + b);
@@ -226,7 +226,7 @@ public class EqualsTesterTest extends TestCase {
         .addEqualityGroup(named("foo").addPeers("bar"), named("bar"));
     try {
       tester.testEquals();
-    } catch (TestAssertionFailure e) {
+    } catch (AssertionFailedError e) {
       assertErrorMessage(
           e,
           "bar [group 1, item 2] must be equal to foo [group 1, item 1]");
@@ -243,7 +243,7 @@ public class EqualsTesterTest extends TestCase {
             named("baz").addPeers("foo"));
     try {
       tester.testEquals();
-    } catch (TestAssertionFailure e) {
+    } catch (AssertionFailedError e) {
       assertErrorMessage(
           e,
           "bar [group 1, item 2] must be equal to baz [group 1, item 3]");
@@ -257,7 +257,7 @@ public class EqualsTesterTest extends TestCase {
         .addEqualityGroup(named("foo"), named("bar"));
     try {
       tester.testEquals();
-    } catch (TestAssertionFailure e) {
+    } catch (AssertionFailedError e) {
       assertErrorMessage(
           e,
           "foo [group 1, item 1] must be equal to bar [group 1, item 2]");
@@ -276,7 +276,7 @@ public class EqualsTesterTest extends TestCase {
             named("x").addPeers("baz", "bar"));
     try {
       tester.testEquals();
-    } catch (TestAssertionFailure e) {
+    } catch (AssertionFailedError e) {
       assertErrorMessage(
           e,
           "bar [group 1, item 2] must be unequal to x [group 2, item 2]");

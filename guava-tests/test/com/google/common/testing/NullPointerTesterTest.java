@@ -20,8 +20,8 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
-import com.google.common.testing.GuavaAsserts.TestAssertionFailure;
 
+import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
 
 import java.lang.reflect.Constructor;
@@ -125,7 +125,7 @@ public class NullPointerTesterTest extends TestCase {
       Method method = OneArg.class.getMethod(methodName, String.class);
       try {
         tester.testMethodParameter(OneArg.class, method, 0);
-      } catch (TestAssertionFailure unexpected) {
+      } catch (AssertionFailedError unexpected) {
         fail("Should not have flagged method " + methodName);
       }
     }
@@ -137,7 +137,7 @@ public class NullPointerTesterTest extends TestCase {
       boolean foundProblem = false;
       try {
         tester.testMethodParameter(OneArg.class, method, 0);
-      } catch (TestAssertionFailure expected) {
+      } catch (AssertionFailedError expected) {
         foundProblem = true;
       }
       assertTrue("Should report error in method " + methodName, foundProblem);
@@ -150,7 +150,7 @@ public class NullPointerTesterTest extends TestCase {
       Method method = OneArg.class.getMethod(methodName, String.class);
       try {
         tester.testMethodParameter(foo, method, 0);
-      } catch (TestAssertionFailure unexpected) {
+      } catch (AssertionFailedError unexpected) {
         fail("Should not have flagged method " + methodName);
       }
     }
@@ -163,7 +163,7 @@ public class NullPointerTesterTest extends TestCase {
       boolean foundProblem = false;
       try {
         tester.testMethodParameter(foo, method, 0);
-      } catch (TestAssertionFailure expected) {
+      } catch (AssertionFailedError expected) {
         foundProblem = true;
       }
       assertTrue("Should report error in method " + methodName, foundProblem);
@@ -249,7 +249,7 @@ public class NullPointerTesterTest extends TestCase {
   public void verifyBarPass(Method method, TwoArg bar) throws Exception {
     try {
       tester.testMethod(bar, method);
-    } catch (TestAssertionFailure incorrectError) {
+    } catch (AssertionFailedError incorrectError) {
       String errorMessage = String.format(
           "Should not have flagged method %s for %s", method.getName(), bar);
       assertNull(errorMessage, incorrectError);
@@ -259,7 +259,7 @@ public class NullPointerTesterTest extends TestCase {
   public void verifyBarFail(Method method, TwoArg bar) throws Exception {
     try {
       tester.testMethod(bar, method);
-    } catch (TestAssertionFailure expected) {
+    } catch (AssertionFailedError expected) {
       return; // good...we wanted a failure
     }
     String errorMessage = String.format(
@@ -330,7 +330,7 @@ public class NullPointerTesterTest extends TestCase {
    * to succeed/fail.
    *
    * Add naughty classes to failClasses to verify that NullPointerTest
-   * raises an TestAssertionFailure.
+   * raises an AssertionFailedError.
    *
    * Add acceptable classes to passClasses to verify that NullPointerTest
    * doesn't complain.
@@ -542,7 +542,7 @@ public class NullPointerTesterTest extends TestCase {
       Object instance = passClass.newInstance();
       try {
         tester.testAllPublicInstanceMethods(instance);
-      } catch (TestAssertionFailure e) {
+      } catch (AssertionFailedError e) {
         assertNull("Should not detect problem in " + passClass.getSimpleName(),
             e);
       }
@@ -555,7 +555,7 @@ public class NullPointerTesterTest extends TestCase {
       boolean foundProblem = false;
       try {
         tester.testAllPublicInstanceMethods(instance);
-      } catch (TestAssertionFailure e) {
+      } catch (AssertionFailedError e) {
         foundProblem = true;
       }
       assertTrue("Should detect problem in " + failClass.getSimpleName(),

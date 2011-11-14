@@ -21,7 +21,8 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
-import com.google.common.testing.GuavaAsserts.TestAssertionFailure;
+
+import junit.framework.AssertionFailedError;
 
 import java.util.List;
 
@@ -76,9 +77,9 @@ final class RelationshipTester<T> {
     T related = group.get(relatedItemNumber);
     try {
       assertion.assertRelated(item, related);
-    } catch (TestAssertionFailure e) {
+    } catch (AssertionFailedError e) {
       // TODO(gak): special handling for ComparisonFailure?
-      throw new TestAssertionFailure(e.getMessage()
+      throw new AssertionFailedError(e.getMessage()
           .replace("$ITEM", itemString(item, groupNumber, itemNumber))
           .replace("$RELATED", itemString(related, groupNumber, relatedItemNumber)));
     }
@@ -90,9 +91,9 @@ final class RelationshipTester<T> {
     T unrelated = groups.get(unrelatedGroupNumber).get(unrelatedItemNumber);
     try {
       assertion.assertUnrelated(item, unrelated);
-    } catch (TestAssertionFailure e) {
+    } catch (AssertionFailedError e) {
       // TODO(gak): special handling for ComparisonFailure?
-      throw new TestAssertionFailure(e.getMessage()
+      throw new AssertionFailedError(e.getMessage()
           .replace("$ITEM", itemString(item, groupNumber, itemNumber))
           .replace("$UNRELATED", itemString(unrelated, unrelatedGroupNumber, unrelatedItemNumber)));
     }
@@ -111,7 +112,7 @@ final class RelationshipTester<T> {
 
   /**
    * A strategy for testing the relationship between objects.  Methods are expected to throw
-   * {@link TestAssertionFailure} whenever the relationship is violated.
+   * {@link AssertionFailedError} whenever the relationship is violated.
    *
    * <p>As a convenience, any occurrence of {@code $ITEM}, {@code $RELATED} or {@code $UNRELATED} in
    * the error message will be replaced with a string that combines the {@link Object#toString()},

@@ -23,8 +23,8 @@ import com.google.common.base.Equivalence;
 import com.google.common.base.Objects;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableTable;
-import com.google.common.testing.GuavaAsserts.TestAssertionFailure;
 
+import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
 
 /**
@@ -100,7 +100,7 @@ public class EquivalenceTesterTest extends TestCase {
 
     try {
       tester.addEquivalenceGroup(group1Item1, group1Item2).test();
-    } catch (TestAssertionFailure expected) {
+    } catch (AssertionFailedError expected) {
       assertEquals("TestObject{group=1, item=2} [group 1, item 2] must be equivalent to "
           + "TestObject{group=1, item=1} [group 1, item 1]", expected.getMessage());
       return;
@@ -128,7 +128,7 @@ public class EquivalenceTesterTest extends TestCase {
 
     try {
       tester.addEquivalenceGroup(group1Item1, group1Item2, group1Item3).test();
-    } catch (TestAssertionFailure expected) {
+    } catch (AssertionFailedError expected) {
       assertEquals("TestObject{group=1, item=2} [group 1, item 2] must be equivalent to "
           + "TestObject{group=1, item=3} [group 1, item 3]", expected.getMessage());
       return;
@@ -150,7 +150,7 @@ public class EquivalenceTesterTest extends TestCase {
 
     try {
       tester.addEquivalenceGroup(group1Item1).addEquivalenceGroup(group2Item1).test();
-    } catch (TestAssertionFailure expected) {
+    } catch (AssertionFailedError expected) {
       assertEquals("TestObject{group=1, item=1} [group 1, item 1] must be inequivalent to "
           + "TestObject{group=2, item=1} [group 2, item 1]", expected.getMessage());
       return;
@@ -172,7 +172,7 @@ public class EquivalenceTesterTest extends TestCase {
 
     try {
       tester.addEquivalenceGroup(group1Item1, group1Item2).test();
-    } catch (TestAssertionFailure expected) {
+    } catch (AssertionFailedError expected) {
       String expectedMessage =
           "the hash (1) of TestObject{group=1, item=1} [group 1, item 1] must be "
           + "equal to the hash (2) of TestObject{group=1, item=2} [group 1, item 2]";
