@@ -370,6 +370,19 @@ public class ImmutableSortedMap<K, V>
     }
 
     /**
+     * Adds the given {@code entry} to the map, making it immutable if
+     * necessary. Duplicate keys, according to the comparator (which might be
+     * the keys' natural order), are not allowed, and will cause {@link #build}
+     * to fail.
+     *
+     * @since 11.0
+     */
+    @Override public Builder<K, V> put(Entry<? extends K, ? extends V> entry) {
+      super.put(entry);
+      return this;
+    }
+
+    /**
      * Associates all of the given map's keys and values in the built map.
      * Duplicate keys, according to the comparator (which might be the keys'
      * natural order), are not allowed, and will cause {@link #build} to fail.
@@ -752,4 +765,3 @@ public class ImmutableSortedMap<K, V>
   // warning go away (and suppressing would suppress for all nested classes too)
   private static final long serialVersionUID = 0;
 }
-

@@ -339,6 +339,52 @@ public class ImmutableSortedMapTest extends TestCase {
           "five", 5, "four", 4, "one", 1, "three", 3, "two", 2);
     }
 
+    public void testBuilder_withImmutableEntry() {
+      ImmutableSortedMap<String, Integer> map =
+          ImmutableSortedMap.<String, Integer>naturalOrder()
+              .put(Maps.immutableEntry("one", 1))
+              .build();
+      assertMapEquals(map, "one", 1);
+    }
+
+    public void testBuilder_withImmutableEntryAndNullContents() {
+      Builder<String, Integer> builder =
+          ImmutableSortedMap.naturalOrder();
+      try {
+        builder.put(Maps.immutableEntry("one", (Integer) null));
+        fail();
+      } catch (NullPointerException expected) {
+      }
+      try {
+        builder.put(Maps.immutableEntry((String) null, 1));
+        fail();
+      } catch (NullPointerException expected) {
+      }
+    }
+
+    private static class StringHolder {
+      String string;
+    }
+
+    public void testBuilder_withMutableEntry() {
+      ImmutableSortedMap.Builder<String, Integer> builder =
+          ImmutableSortedMap.naturalOrder();
+      final StringHolder holder = new StringHolder();
+      holder.string = "one";
+      Entry<String, Integer> entry = new AbstractMapEntry<String, Integer>() {
+        @Override public String getKey() {
+          return holder.string;
+        }
+        @Override public Integer getValue() {
+          return 1;
+        }
+      };
+
+      builder.put(entry);
+      holder.string = "two";
+      assertMapEquals(builder.build(), "one", 1);
+    }
+
     public void testBuilderPutAllWithEmptyMap() {
       ImmutableSortedMap<String, Integer> map
           = ImmutableSortedMap.<String, Integer>naturalOrder()

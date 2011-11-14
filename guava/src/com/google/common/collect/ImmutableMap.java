@@ -180,6 +180,26 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
     }
 
     /**
+     * Adds the given {@code entry} to the map, making it immutable if
+     * necessary. Duplicate keys are not allowed, and will cause {@link #build}
+     * to fail.
+     *
+     * @since 11.0
+     */
+    public Builder<K, V> put(Entry<? extends K, ? extends V> entry) {
+      if (entry instanceof ImmutableEntry<?, ?>) {
+        checkNotNull(entry.getKey());
+        checkNotNull(entry.getValue());
+        @SuppressWarnings("unchecked") // all supported methods are covariant
+        Entry<K, V> immutableEntry = (Entry<K, V>) entry;
+        entries.add(immutableEntry);
+      } else {
+        entries.add(entryOf(entry.getKey(), entry.getValue()));
+      }
+      return this;
+    }
+
+    /**
      * Associates all of the given map's keys and values in the built map.
      * Duplicate keys are not allowed, and will cause {@link #build} to fail.
      *

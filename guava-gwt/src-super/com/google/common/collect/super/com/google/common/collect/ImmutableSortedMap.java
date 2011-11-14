@@ -203,6 +203,11 @@ public class ImmutableSortedMap<K, V>
       return this;
     }
 
+    @Override public Builder<K, V> put(Entry<? extends K, ? extends V> entry) {
+      super.put(entry);
+      return this;
+    }
+
     @Override public Builder<K, V> putAll(Map<? extends K, ? extends V> map) {
       for (Entry<? extends K, ? extends V> entry : map.entrySet()) {
         put(entry.getKey(), entry.getValue());
