@@ -22,7 +22,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Arrays;
 
-// TODO(chrisn): Find some way to reliably test finalize functionality
 /**
  * Unit tests for {@link FileBackedOutputStream}.
  *
@@ -31,20 +30,35 @@ import java.util.Arrays;
 public class FileBackedOutputStreamTest extends IoTestCase {
 
   public void testThreshold() throws Exception {
-    testThreshold(0, 100, true);
-    testThreshold(10, 100, true);
-    testThreshold(100, 100, true);
-    testThreshold(1000, 100, true);
-    testThreshold(0, 100, false);
-    testThreshold(10, 100, false);
-    testThreshold(100, 100, false);
-    testThreshold(1000, 100, false);
+    testThreshold(0, 100, true, false);
+    testThreshold(10, 100, true, false);
+    testThreshold(100, 100, true, false);
+    testThreshold(1000, 100, true, false);
+    testThreshold(0, 100, false, false);
+    testThreshold(10, 100, false, false);
+    testThreshold(100, 100, false, false);
+    testThreshold(1000, 100, false, false);
   }
 
-  private void testThreshold(int fileThreshold, int dataSize, boolean singleByte)
-      throws Exception {
+  // TODO(user): Add an @VisibleForTesting invokeFinalize method inside
+  // FileBackedOutputStream and use that to test that the file was actually deleted
+  // on finalize
+
+  public void testThreshold_resetOnFinalize() throws Exception {
+    testThreshold(0, 100, true, true);
+    testThreshold(10, 100, true, true);
+    testThreshold(100, 100, true, true);
+    testThreshold(1000, 100, true, true);
+    testThreshold(0, 100, false, true);
+    testThreshold(10, 100, false, true);
+    testThreshold(100, 100, false, true);
+    testThreshold(1000, 100, false, true);
+  }
+
+  private void testThreshold(int fileThreshold, int dataSize, boolean singleByte,
+      boolean resetOnFinalize) throws IOException {
     byte[] data = newPreFilledByteArray(dataSize);
-    FileBackedOutputStream out = new FileBackedOutputStream(fileThreshold);
+    FileBackedOutputStream out = new FileBackedOutputStream(fileThreshold, resetOnFinalize);
     InputSupplier<InputStream> supplier = out.getSupplier();
     int chunk1 = Math.min(dataSize, fileThreshold);
     int chunk2 = dataSize - chunk1;
