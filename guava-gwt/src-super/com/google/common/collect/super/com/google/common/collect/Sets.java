@@ -833,14 +833,7 @@ public final class Sets {
 
     @Override
     public E first() {
-      Iterator<E> iterator = unfiltered.iterator();
-      while (iterator.hasNext()) {
-        E e = iterator.next();
-        if (predicate.apply(e)) {
-          return e;
-        }
-      }
-      throw new NoSuchElementException();
+      return iterator().next();
     }
 
     @Override
