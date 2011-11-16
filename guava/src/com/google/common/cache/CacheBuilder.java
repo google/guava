@@ -44,9 +44,11 @@ import java.util.logging.Logger;
 import javax.annotation.CheckReturnValue;
 
 /**
- * <p>A builder of {@link Cache} instances having any combination of the following features:
+ * <p>A builder of {@link LoadingCache} and {@link Cache} instances having any combination of the
+ * following features:
  *
  * <ul>
+ * <li>automatic loading of entries into the cache
  * <li>least-recently-used eviction when a maximum size is exceeded
  * <li>time-based expiration of entries, measured since last access or last write
  * <li>keys automatically wrapped in {@linkplain WeakReference weak} references
@@ -57,7 +59,7 @@ import javax.annotation.CheckReturnValue;
  *
  * <p>Usage example: <pre>   {@code
  *
- *   Cache<Key, Graph> graphs = CacheBuilder.newBuilder()
+ *   LoadingCache<Key, Graph> graphs = CacheBuilder.newBuilder()
  *       .maximumSize(10000)
  *       .expireAfterWrite(10, TimeUnit.MINUTES)
  *       .removalListener(MY_LISTENER)
@@ -72,18 +74,12 @@ import javax.annotation.CheckReturnValue;
  * These features are all optional.
  *
  * <p>The returned cache is implemented as a hash table with similar performance characteristics to
- * {@link ConcurrentHashMap}. It implements the optional operations {@link Cache#invalidate},
- * {@link Cache#invalidateAll}, {@link Cache#size}, {@link Cache#stats}, and {@link Cache#asMap},
- * with the following qualifications:
- *
- * <ul>
- * <li>The {@code invalidateAll} method will invalidate all cached entries prior to returning, and
- *     removal notifications will be issued for all invalidated entries.
- * <li>The {@code asMap} view (and its collection views) have <i>weakly consistent iterators</i>.
- *     This means that they are safe for concurrent use, but if other threads modify the cache after
- *     the iterator is created, it is undefined which of these changes, if any, are reflected in
- *     that iterator. These iterators never throw {@link ConcurrentModificationException}.
- * </ul>
+ * {@link ConcurrentHashMap}. It implements all optional operations of the {@link LoadingCache} and
+ * {@link Cache} interfaces. The {@code asMap} view (and its collection views) have <i>weakly
+ * consistent iterators</i>. This means that they are safe for concurrent use, but if other threads
+ * modify the cache after the iterator is created, it is undefined which of these changes, if any,
+ * are reflected in that iterator. These iterators never throw {@link
+ * ConcurrentModificationException}.
  *
  * <p><b>Note:</b> by default, the returned cache uses equality comparisons (the
  * {@link Object#equals equals} method) to determine equality for keys or values. However, if
@@ -91,19 +87,36 @@ import javax.annotation.CheckReturnValue;
  * comparisons instead for keys. Likewise, if {@link #weakValues} or {@link #softValues} was
  * specified, the cache uses identity comparisons for values.
  *
- * <p>If soft or weak references were requested, it is possible for a key or value present in the
- * the cache to be reclaimed by the garbage collector. If this happens, the entry automatically
- * disappears from the cache. A partially-reclaimed entry is never exposed to the user.
+ * <p>Entries are automatically evicted from the cache when any of
+ * {@linkplain #maximumSize maximumSize}, {@linkplain #maximumWeight maximumWeight},
+ * {@linkplain #expireAfterWrite expireAfterWrite},
+ * {@linkplain #expireAfterAccess expireAfterAccess}, {@linkplain #weakKeys weakKeys},
+ * {@linkplain #weakValues weakValues}, or {@linkplain #softValues softValues} are requested.
+ *
+ * <p>If {@linkplain #maximumSize maximumSize} or {@linkplain #maximumWeight maximumWeight} is
+ * requested entries may be evicted on each cache modification.
+ *
+ * <p>If {@linkplain #expireAfterWrite expireAfterWrite} or
+ * {@linkplain #expireAfterAccess expireAfterAccess} is requested entries may be evicted on each
+ * cache modification, on occasional cache accesses, or on calls to {@link Cache#cleanUp}. Expired
+ * entries may be counted in {@link Cache#size}, but will never be visible to read or write
+ * operations.
+ *
+ * <p>If {@linkplain #weakKeys weakKeys}, {@linkplain #weakValues weakValues}, or
+ * {@linkplain #softValues softValues} are requested, it is possible for a key or value present in
+ * the cache to be reclaimed by the garbage collector. Reclaimed entries may be removed from the
+ * cache on each cache modification, on occasional cache accesses, or on calls to
+ * {@link Cache#cleanUp}. Reclaimed entries may be counted in {@link Cache#size}, but will never be
+ * visible to read or write operations.
  *
  * <p>Certain cache configurations will result in the accrual of periodic maintenance tasks which
  * will be performed during write operations, or during occasional read operations in the absense of
  * writes. The {@link Cache#cleanUp} method of the returned cache will also perform maintenance, but
  * calling it should not be necessary with a high throughput cache. Only caches built with
- * {@linkplain CacheBuilder#removalListener removalListener},
- * {@linkplain CacheBuilder#expireAfterWrite expireAfterWrite},
- * {@linkplain CacheBuilder#expireAfterAccess expireAfterAccess},
- * {@linkplain CacheBuilder#weakKeys weakKeys}, {@linkplain CacheBuilder#weakValues weakValues},
- * or {@linkplain CacheBuilder#softValues softValues} perform periodic maintenance.
+ * {@linkplain #removalListener removalListener}, {@linkplain #expireAfterWrite expireAfterWrite},
+ * {@linkplain #expireAfterAccess expireAfterAccess}, {@linkplain #weakKeys weakKeys},
+ * {@linkplain #weakValues weakValues}, or {@linkplain #softValues softValues} perform periodic
+ * maintenance.
  *
  * <p>The caches produced by {@code CacheBuilder} are serializable, and the deserialized caches
  * retain all the configuration properties of the original cache. Note that the serialized form does
@@ -436,8 +449,8 @@ public final class CacheBuilder<K, V> {
    * <p><b>Warning:</b> when this method is used, the resulting cache will use identity ({@code ==})
    * comparison to determine equality of keys.
    *
-   * <p>Entries with keys that have been garbage collected may be counted by {@link Cache#size}, but
-   * will never be visible to read or write operations. Entries with garbage collected keys are
+   * <p>Entries with keys that have been garbage collected may be counted in {@link Cache#size},
+   * but will never be visible to read or write operations. Entries with garbage collected keys are
    * cleaned up as part of the routine maintenance described in the class javadoc.
    *
    * @throws IllegalStateException if the key strength was already set
@@ -475,7 +488,7 @@ public final class CacheBuilder<K, V> {
    * <p><b>Note:</b> when this method is used, the resulting cache will use identity ({@code ==})
    * comparison to determine equality of values.
    *
-   * <p>Entries with values that have been garbage collected may be counted by {@link Cache#size},
+   * <p>Entries with values that have been garbage collected may be counted in {@link Cache#size},
    * but will never be visible to read or write operations. Entries with garbage collected keys are
    * cleaned up as part of the routine maintenance described in the class javadoc.
    *
@@ -498,7 +511,7 @@ public final class CacheBuilder<K, V> {
    * <p><b>Note:</b> when this method is used, the resulting cache will use identity ({@code ==})
    * comparison to determine equality of values.
    *
-   * <p>Entries with values that have been garbage collected may be counted by {@link Cache#size},
+   * <p>Entries with values that have been garbage collected may be counted in {@link Cache#size},
    * but will never be visible to read or write operations. Entries with garbage collected values
    * are cleaned up as part of the routine maintenance described in the class javadoc.
    *
@@ -526,7 +539,7 @@ public final class CacheBuilder<K, V> {
    * {@link #maximumSize maximumSize}{@code (0)}, ignoring any otherwise-specificed maximum size or
    * weight. This can be useful in testing, or to disable caching temporarily without a code change.
    *
-   * <p>Expired entries may be counted by {@link Cache#size}, but will never be visible to read or
+   * <p>Expired entries may be counted in {@link Cache#size}, but will never be visible to read or
    * write operations. Expired entries are cleaned up as part of the routine maintenance described
    * in the class javadoc.
    *
@@ -558,7 +571,7 @@ public final class CacheBuilder<K, V> {
    * {@link #maximumSize maximumSize}{@code (0)}, ignoring any otherwise-specificed maximum size or
    * weight. This can be useful in testing, or to disable caching temporarily without a code change.
    *
-   * <p>Expired entries may be counted by {@link Cache#size}, but will never be visible to read or
+   * <p>Expired entries may be counted in {@link Cache#size}, but will never be visible to read or
    * write operations. Expired entries are cleaned up as part of the routine maintenance described
    * in the class javadoc.
    *
@@ -583,11 +596,16 @@ public final class CacheBuilder<K, V> {
 
   /**
    * Specifies that active entries are eligible for automatic refresh once a fixed duration has
-   * elapsed after the entry's creation, or the most recent replacement of its value. Refreshes are
-   * performed by calling {@link Cache#refresh}.
+   * elapsed after the entry's creation, or the most recent replacement of its value. The semantics
+   * of refreshes are specified in {@link LoadingCache#refresh}, and are performed by calling
+   * {@link CacheLoader.reload}.
    *
-   * <p>Currently automatic refreshes are performed inline when the first stale request for an entry
-   * occurs.
+   * <p>Refreshes will only be asynchronous if the implementation of {@link CacheLoader.reload} is
+   * asynchronous.
+   *
+   * <p>Currently automatic refreshes are performed when the first stale request for an entry
+   * occurs. If the refresh completes immediately then the new value will be returned; otherwise the
+   * old value will continue to be returned until the refresh completes.
    *
    * @param duration the length of time after an entry is created that it should be considered
    *     stale, and thus eligible for refresh
@@ -720,7 +738,12 @@ public final class CacheBuilder<K, V> {
    */
   public <K1 extends K, V1 extends V> Cache<K1, V1> build() {
     checkWeightWithWeigher();
+    checkNonLoadingCache();
     return new LocalCache.LocalManualCache<K1, V1>(this);
+  }
+
+  private void checkNonLoadingCache() {
+    checkState(refreshNanos == UNSET_INT, "refreshInterval requires a LoadingCache");
   }
 
   private void checkWeightWithWeigher() {

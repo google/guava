@@ -28,6 +28,9 @@ import java.util.concurrent.ExecutionException;
  * A semi-persistent mapping from keys to values. Values are automatically loaded by the cache,
  * and are stored in the cache until either evicted or manually invalidated.
  *
+ * <p>Implementations of this interface are expected to be thread-safe, and can be safely accessed
+ * by multiple concurrent threads.
+ *
  * <p>All methods other than {@link #get} and {@link #getUnchecked} are optional.
  *
  * <p>When evaluated as a {@link Function}, a cache yields the same result as invoking
@@ -43,6 +46,19 @@ public interface LoadingCache<K, V> extends Cache<K, V>, Function<K, V> {
    * Returns the value associated with {@code key} in this cache, first loading that value if
    * necessary. No observable state associated with this cache is modified until loading completes.
    *
+   * <p>If another call to {@link #get} or {@link #getUnchecked} is currently loading the value for
+   * {@code key}, simply waits for that thread to finish and returns its loaded value. Note that
+   * multiple threads can concurrently load values for distinct keys.
+   *
+   * <p>Caches loaded by a {@link CacheLoader} will call {@link CacheLoader#load} to load new values
+   * into the cache. Newly loaded values are added to the cache using
+   * {@code Cache.asMap().putIfAbsent} after loading has completed; if another value was associated
+   * with {@code key} while the new value was loading then a removal notification will be sent for
+   * the new value.
+   *
+   * <p>If the cache loader associated with this cache is known not to throw checked
+   * exceptions, then prefer {@link #getUnchecked} over this method.
+   *
    * @throws ExecutionException if a checked exception was thrown while loading the value
    * @throws UncheckedExecutionException if an unchecked exception was thrown while loading the
    *     value
@@ -52,12 +68,23 @@ public interface LoadingCache<K, V> extends Cache<K, V>, Function<K, V> {
 
   /**
    * Returns the value associated with {@code key} in this cache, first loading that value if
-   * necessary. No observable state associated with this cache is modified until computation
+   * necessary. No observable state associated with this cache is modified until loading
    * completes. Unlike {@link #get}, this method does not throw a checked exception, and thus should
    * only be used in situations where checked exceptions are not thrown by the cache loader.
    *
+   * <p>If another call to {@link #get} or {@link #getUnchecked} is currently loading the value for
+   * {@code key}, simply waits for that thread to finish and returns its loaded value. Note that
+   * multiple threads can concurrently load values for distinct keys.
+   *
+   * <p>Caches loaded by a {@link CacheLoader} will call {@link CacheLoader#load} to load new values
+   * into the cache. Newly loaded values are added to the cache using
+   * {@code Cache.asMap().putIfAbsent} after loading has completed; if another value was associated
+   * with {@code key} while the new value was loading then a removal notification will be sent for
+   * the new value.
+   *
    * <p><b>Warning:</b> this method silently converts checked exceptions to unchecked exceptions,
-   * and should not be used with cache loaders which throw checked exceptions.
+   * and should not be used with cache loaders which throw checked exceptions. In such cases use
+   * {@link #get} instead.
    *
    * @throws UncheckedExecutionException if an exception was thrown while loading the value,
    *     regardless of whether the exception was checked or unchecked
@@ -105,6 +132,13 @@ public interface LoadingCache<K, V> extends Cache<K, V>, Function<K, V> {
    * evicted. If the new value is loaded successfully it will replace the previous value in the
    * cache; if an exception is thrown while refreshing the previous value will remain, <i>and the
    * exception will be logged (using {@link java.util.logging.Logger}) and swallowed</i>.
+   *
+   * <p>Caches loaded by a {@link CacheLoader} will call {@link CacheLoader#reload} if the
+   * cache currently contains a value for {@code key}, and {@link CacheLoader#load} otherwise.
+   *
+   * <p>Returns without doing anything if another thread is currently loading the value for
+   * {@code key}. If the cache loader associated with this cache performs refresh asynchronously
+   * then this method may return before refresh completes.
    *
    * @since 11.0
    */
