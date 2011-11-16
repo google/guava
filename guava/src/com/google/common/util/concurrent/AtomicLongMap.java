@@ -26,8 +26,12 @@ import java.util.concurrent.atomic.AtomicLong;
  * <p>Instances of this class may be used by multiple threads concurrently. All operations are
  * atomic unless otherwise noted.
  *
- * <p>Unlike {@link com.google.common.collect.Multiset}, values may be negative, and zeroes are
- * not automatically removed.
+ * <p><b>Note:</b> If your values are always positive and less than 2^31, you may wish to use a
+ * {@link com.google.common.collect.Multiset} such as
+ * {@link com.google.common.collect.ConcurrentHashMultiset} instead.
+ *
+ * <b>Warning:</b> Unlike {@code Multiset}, entries whose values are zero are not automatically
+ * removed from the map. Instead they must be removed manually with {@link #removeAllZeros}.
  *
  * @author Charles Fry
  * @since 11.0

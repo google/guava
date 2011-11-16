@@ -70,6 +70,11 @@ import javax.annotation.Nullable;
  * should be considered "the same," <i>unless specified otherwise</i> by the
  * implementation.
  *
+ * <p>If your values may be zero, negative, or outside the range of an int, you
+ * may wish to use {@link com.google.common.util.concurrent.AtomicLongMap}
+ * instead. Note, however, that unlike {@code Multiset}, {@code AtomicLongMap}
+ * does not automatically remove zeros.
+ *
  * @author Kevin Bourrillion
  * @since 2.0 (imported from Google Collections Library)
  */
