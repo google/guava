@@ -17,8 +17,8 @@
 package com.google.common.testing;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.common.testing.GuavaAsserts.assertEquals;
-import static com.google.common.testing.GuavaAsserts.assertTrue;
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertTrue;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;

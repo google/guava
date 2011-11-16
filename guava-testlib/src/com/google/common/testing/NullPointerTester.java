@@ -27,6 +27,7 @@ import com.google.common.collect.Iterators;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
+import junit.framework.Assert;
 import junit.framework.AssertionFailedError;
 
 import java.lang.annotation.Annotation;
@@ -255,7 +256,7 @@ public final class NullPointerTester {
     Object[] params = buildParamList(func, paramIndex);
     try {
       func.invoke(instance, params);
-      GuavaAsserts.fail("No exception thrown from " + func +
+      Assert.fail("No exception thrown from " + func +
           Arrays.toString(params) + " for " + testedClass);
     } catch (InvocationTargetException e) {
       Throwable cause = e.getCause();
@@ -292,7 +293,7 @@ public final class NullPointerTester {
       if (i != indexOfParamToSetToNull) {
         params[i] = defaults.get(types[i]);
         if (!parameterIsPrimitiveOrNullable(func, indexOfParamToSetToNull)) {
-          GuavaAsserts.assertTrue("No default value found for " + types[i].getName(),
+          Assert.assertTrue("No default value found for " + types[i].getName(),
               params[i] != null);
         }
       }

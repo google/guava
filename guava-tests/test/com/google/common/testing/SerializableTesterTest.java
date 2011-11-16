@@ -71,7 +71,7 @@ public class SerializableTesterTest extends TestCase {
       errorNotThrown = true;
     } catch (AssertionFailedError error) {
       // expected
-      assertContains("Expected 'class ", error.getMessage());
+      assertContains("expected:<class ", error.getMessage());
     }
     assertFalse(errorNotThrown);
   }

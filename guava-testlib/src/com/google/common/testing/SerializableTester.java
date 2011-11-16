@@ -16,6 +16,7 @@
 
 package com.google.common.testing;
 
+import junit.framework.Assert;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.Beta;
@@ -98,7 +99,7 @@ public final class SerializableTester {
     new EqualsTester()
         .addEqualityGroup(object, copy)
         .testEquals();
-    GuavaAsserts.assertEquals(object.getClass(), copy.getClass());
+    Assert.assertEquals(object.getClass(), copy.getClass());
     return copy;
   }
 }
