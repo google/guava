@@ -120,6 +120,7 @@ public class GcFinalizationTest extends TestCase {
       }
     } finally {
       interruptenator.shutdown();
+      Thread.interrupted();
     }
   }
 
@@ -135,6 +136,7 @@ public class GcFinalizationTest extends TestCase {
       }
     } finally {
       interruptenator.shutdown();
+      Thread.interrupted();
     }
   }
 
@@ -150,6 +152,7 @@ public class GcFinalizationTest extends TestCase {
       }
     } finally {
       interruptenator.shutdown();
+      Thread.interrupted();
     }
   }
 
@@ -168,6 +171,7 @@ public class GcFinalizationTest extends TestCase {
       }
     } finally {
       interruptenator.shutdown();
+      Thread.interrupted();
     }
   }
 
