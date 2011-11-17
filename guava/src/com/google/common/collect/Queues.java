@@ -55,30 +55,6 @@ public final class Queues {
 
   // ArrayDeque
 
-  /**
-   * Creates an empty {@code ArrayDeque} instance.
-   *
-   * @return a new, empty {@code ArrayDeque}
-   */
-  public static <E> ArrayDeque<E> newArrayDeque() {
-    return new ArrayDeque<E>();
-  }
-
-  /**
-   * Creates an {@code ArrayDeque} instance containing the given elements.
-   *
-   * @param elements the elements that the queue should contain, in order
-   * @return a new {@code ArrayDeque} containing those elements
-   */
-  public static <E> ArrayDeque<E> newArrayDeque(Iterable<? extends E> elements) {
-    if (elements instanceof Collection) {
-      return new ArrayDeque<E>(Collections2.cast(elements));
-    }
-    ArrayDeque<E> deque = new ArrayDeque<E>();
-    Iterables.addAll(deque, elements);
-    return deque;
-  }
-
   // ConcurrentLinkedQueue
 
   /**
@@ -107,41 +83,6 @@ public final class Queues {
   }
 
   // LinkedBlockingDeque
-
-  /**
-   * Creates an empty {@code LinkedBlockingDeque} instance.
-   *
-   * @return a new, empty {@code LinkedBlockingDeque}
-   */
-  public static <E> LinkedBlockingDeque<E> newLinkedBlockingDeque() {
-    return new LinkedBlockingDeque<E>();
-  }
-
-  /**
-   * Creates a {@code LinkedBlockingDeque} with the given (fixed) capacity.
-   *
-   * @param capacity the capacity of this deque
-   * @return a new, empty {@code LinkedBlockingDeque}
-   * @throws IllegalArgumentException if {@code capacity} is less than 1
-   */
-  public static <E> LinkedBlockingDeque<E> newLinkedBlockingDeque(int capacity) {
-    return new LinkedBlockingDeque<E>(capacity);
-  }
-
-  /**
-   * Creates an {@code LinkedBlockingDeque} instance containing the given elements.
-   *
-   * @param elements the elements that the queue should contain, in order
-   * @return a new {@code LinkedBlockingDeque} containing those elements
-   */
-  public static <E> LinkedBlockingDeque<E> newLinkedBlockingDeque(Iterable<? extends E> elements) {
-    if (elements instanceof Collection) {
-      return new LinkedBlockingDeque<E>(Collections2.cast(elements));
-    }
-    LinkedBlockingDeque<E> deque = new LinkedBlockingDeque<E>();
-    Iterables.addAll(deque, elements);
-    return deque;
-  }
 
   // LinkedBlockingQueue
 
@@ -245,11 +186,11 @@ public final class Queues {
   public static <E> SynchronousQueue<E> newSynchronousQueue() {
     return new SynchronousQueue<E>();
   }
-  
+
   /**
-   * As {@link BlockingQueue#drainTo(Collection, int)}, but waiting up to the specified wait time 
+   * As {@link BlockingQueue#drainTo(Collection, int)}, but waiting up to the specified wait time
    * if necessary for {@code maxElements} elements to become available.
-   * 
+   *
    * @param q the blocking queue to be drained
    * @param buffer where to add the transferred elements
    * @param maxElements the maximum number of elements to be transferred
@@ -261,10 +202,10 @@ public final class Queues {
   public static <E> int drain(BlockingQueue<E> q, Collection<? super E> buffer, int maxElements,
       long timeout, TimeUnit unit) throws InterruptedException {
     Preconditions.checkNotNull(buffer);
-    
+
     long remainingNanos = unit.toNanos(timeout);
     long end = System.nanoTime() + unit.toNanos(timeout);
-    
+
     int added = 0;
     while (added < maxElements) {
       // we could rely solely on #poll, but #drainTo might be more efficient when there are multiple
@@ -280,18 +221,18 @@ public final class Queues {
         if (added >= maxElements) {
           break; // simply avoiding an extra nanoTime() invocation
         }
-        remainingNanos = end - System.nanoTime(); 
+        remainingNanos = end - System.nanoTime();
       }
     }
     return added;
   }
-  
+
   /**
    * As {@linkplain #drain(BlockingQueue, Collection, int, long, TimeUnit)}, but with a different
    * behavior in case it is interrupted while waiting. In that case, the operation will continue as
-   * usual, and in the end the thread's interruption status will be set (no {@code 
-   * InterruptedException} is thrown). 
-   * 
+   * usual, and in the end the thread's interruption status will be set (no {@code
+   * InterruptedException} is thrown).
+   *
    * @param q the blocking queue to be drained
    * @param buffer where to add the transferred elements
    * @param maxElements the maximum number of elements to be transferred
@@ -299,18 +240,18 @@ public final class Queues {
    * @param unit a {@code TimeUnit} determining how to interpret the timeout parameter
    * @return the number of elements transferred
    */
-  public static <E> int drainUninterruptibly(BlockingQueue<E> q, Collection<? super E> buffer, 
+  public static <E> int drainUninterruptibly(BlockingQueue<E> q, Collection<? super E> buffer,
       int maxElements, long timeout, TimeUnit unit) {
     Preconditions.checkNotNull(buffer);
-    
+
     long remainingNanos = unit.toNanos(timeout);
     long end = System.nanoTime() + unit.toNanos(timeout);
-    
+
     int added = 0;
     boolean interrupted = false;
     try {
       while (added < maxElements) {
-        // we could rely solely on #poll, but #drainTo might be more efficient when there are 
+        // we could rely solely on #poll, but #drainTo might be more efficient when there are
         // multiple elements already available (e.g. LinkedBlockingQueue#drainTo locks only once)
         added += q.drainTo(buffer, maxElements - added);
         if (added < maxElements) { // not enough elements immediately available; will have to poll
@@ -331,7 +272,7 @@ public final class Queues {
           if (added >= maxElements) {
             break; // simply avoiding an extra nanoTime() invocation
           }
-          remainingNanos = end - System.nanoTime(); 
+          remainingNanos = end - System.nanoTime();
         }
       }
     } finally {

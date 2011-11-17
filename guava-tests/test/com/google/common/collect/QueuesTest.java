@@ -28,7 +28,6 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
-import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.PriorityBlockingQueue;
 import java.util.concurrent.SynchronousQueue;
@@ -53,8 +52,6 @@ public class QueuesTest extends TestCase {
         new LinkedBlockingQueue<Object>(10),
         new SynchronousQueue<Object>(),
         new ArrayBlockingQueue<Object>(10),
-        new LinkedBlockingDeque<Object>(),
-        new LinkedBlockingDeque<Object>(10),
         new PriorityBlockingQueue<Object>(10, Ordering.arbitrary()));
   }
 
@@ -212,17 +209,6 @@ public class QueuesTest extends TestCase {
     assertTrue(Thread.interrupted());
     assertEquals(100, elements);
     assertEquals(100, buf.size());
-  }
-
-  public void testNewLinkedBlockingDequeCapacity() {
-    try {
-      Queues.newLinkedBlockingDeque(0);
-      fail("Should have thrown IllegalArgumentException");
-    } catch (IllegalArgumentException expected) {
-      // any capacity less than 1 should throw IllegalArgumentException
-    }
-    assertEquals(1, Queues.newLinkedBlockingDeque(1).remainingCapacity());
-    assertEquals(11, Queues.newLinkedBlockingDeque(11).remainingCapacity());
   }
 
   public void testNewLinkedBlockingQueueCapacity() {
