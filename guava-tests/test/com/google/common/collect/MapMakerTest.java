@@ -16,6 +16,8 @@
 
 package com.google.common.collect;
 
+import static com.google.common.util.concurrent.Uninterruptibles.awaitUninterruptibly;
+
 import com.google.common.base.Function;
 import com.google.common.collect.MapMaker.RemovalNotification;
 import com.google.common.collect.MapMakerInternalMapTest.QueuingRemovalListener;
@@ -46,16 +48,7 @@ public class MapMakerTest extends TestCase {
     // notification.
 
     final CountDownLatch computingLatch = new CountDownLatch(1);
-    Function<String, String> computingFunction = new Function<String, String>() {
-      @Override public String apply(String key) {
-        try {
-          computingLatch.await();
-        } catch (InterruptedException e) {
-          Thread.currentThread().interrupt();
-        }
-        return key;
-      }
-    };
+    Function<String, String> computingFunction = new DelayingIdentityLoader(computingLatch);
     QueuingRemovalListener<String, String> listener = new QueuingRemovalListener<String, String>();
 
     @SuppressWarnings("deprecation") // test of deprecated code
@@ -185,18 +178,7 @@ public class MapMakerTest extends TestCase {
     }
 
     @Override public T apply(T key) {
-      boolean interrupted = false;
-      while (true) {
-        try {
-          delayLatch.await();
-          break;
-        } catch (InterruptedException e) {
-          interrupted = true;
-        }
-      }
-      if (interrupted) {
-        Thread.currentThread().interrupt();
-      }
+      awaitUninterruptibly(delayLatch);
       return key;
     }
   }
