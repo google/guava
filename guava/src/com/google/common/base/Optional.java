@@ -100,8 +100,6 @@ public abstract class Optional<T> implements Serializable {
    */
   public abstract boolean isPresent();
 
-  // TODO(kevinb): isAbsent too?
-
   /**
    * Returns the contained instance, which must be present. If the instance might be
    * absent, use {@link #or(Object)} or {@link #orNull} instead.
