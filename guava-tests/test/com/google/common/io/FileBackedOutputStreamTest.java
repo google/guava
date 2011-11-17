@@ -16,6 +16,8 @@
 
 package com.google.common.io;
 
+import com.google.common.testing.GcFinalization;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -40,9 +42,27 @@ public class FileBackedOutputStreamTest extends IoTestCase {
     testThreshold(1000, 100, false, false);
   }
 
-  // TODO(user): Add an @VisibleForTesting invokeFinalize method inside
-  // FileBackedOutputStream and use that to test that the file was actually deleted
-  // on finalize
+  public void testFinalizeDeletesFile() throws Exception {
+    byte[] data = newPreFilledByteArray(100);
+    FileBackedOutputStream out = new FileBackedOutputStream(0, true);
+
+    write(out, data, 0, 100, true);
+    final File file = out.getFile();
+    assertEquals(100, file.length());
+    assertTrue(file.exists());
+    out.close();
+
+    // Make sure that finalize deletes the file
+    out = null;
+
+    // times out and throws RuntimeException on failure
+    GcFinalization.awaitDone(new GcFinalization.FinalizationPredicate() {
+      @Override
+      public boolean isDone() {
+        return !file.exists();
+      }
+    });
+  }
 
   public void testThreshold_resetOnFinalize() throws Exception {
     testThreshold(0, 100, true, true);
