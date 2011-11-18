@@ -41,6 +41,9 @@ import java.util.concurrent.TimeoutException;
  * {@link Future} or as an asynchronous callback mechanism as needed. This
  * allows multiple callbacks to be registered for a particular task, and the
  * future will guarantee execution of all listeners when the task completes.
+ * 
+ * <p>For a simpler alternative to CheckedFuture, consider accessing Future 
+ * values with {@link Futures#get(Future, Class) Futures.get()}.
  *
  * @author Sven Mawson
  * @since 1.0
