@@ -448,6 +448,59 @@ public class ByteStreamsTest extends IoTestCase {
     assertEquals(BYTES[1], actual[3]);
   }
 
+  public void testNewDataInput_readLine() {
+    ByteArrayDataInput in = ByteStreams.newDataInput(
+        "This is a line\r\nThis too\rand this\nand also this".getBytes(Charsets.UTF_8));
+    assertEquals("This is a line", in.readLine());
+    assertEquals("This too", in.readLine());
+    assertEquals("and this", in.readLine());
+    assertEquals("and also this", in.readLine());
+  }
+
+  public void testNewDataInput_readFloat() {
+    byte[] data = {0x12, 0x34, 0x56, 0x78, 0x76, 0x54, 0x32, 0x10};
+    ByteArrayDataInput in = ByteStreams.newDataInput(data);
+    assertEquals(Float.intBitsToFloat(0x12345678), in.readFloat(), 0.0);
+    assertEquals(Float.intBitsToFloat(0x76543210), in.readFloat(), 0.0);
+  }
+
+  public void testNewDataInput_readDouble() {
+    byte[] data = {0x12, 0x34, 0x56, 0x78, 0x76, 0x54, 0x32, 0x10};
+    ByteArrayDataInput in = ByteStreams.newDataInput(data);
+    assertEquals(Double.longBitsToDouble(0x1234567876543210L), in.readDouble(), 0.0);
+  }
+
+  public void testNewDataInput_readUTF() {
+    byte[] data = new byte[17];
+    data[1] = 15;
+    System.arraycopy("Kilroy was here".getBytes(Charsets.UTF_8), 0, data, 2, 15);
+    ByteArrayDataInput in = ByteStreams.newDataInput(data);
+    assertEquals("Kilroy was here", in.readUTF());
+  }
+
+  public void testNewDataInput_readChar() {
+    byte[] data = "qed".getBytes(Charsets.UTF_16BE);
+    ByteArrayDataInput in = ByteStreams.newDataInput(data);
+    assertEquals('q', in.readChar());
+    assertEquals('e', in.readChar());
+    assertEquals('d', in.readChar());
+  }
+
+  public void testNewDataInput_readUnsignedShort() {
+    byte[] data = {0, 0, 0, 1, (byte) 0xFF, (byte) 0xFF, 0x12, 0x34};
+    ByteArrayDataInput in = ByteStreams.newDataInput(data);
+    assertEquals(0, in.readUnsignedShort());
+    assertEquals(1, in.readUnsignedShort());
+    assertEquals(65535, in.readUnsignedShort());
+    assertEquals(0x1234, in.readUnsignedShort());
+  }
+
+  public void testNewDataInput_readLong() {
+    byte[] data = {0x12, 0x34, 0x56, 0x78, 0x76, 0x54, 0x32, 0x10};
+    ByteArrayDataInput in = ByteStreams.newDataInput(data);
+    assertEquals(0x1234567876543210L, in.readLong());
+  }
+
   public void testNewDataInput_readBoolean() {
     ByteArrayDataInput in = ByteStreams.newDataInput(BYTES);
     assertTrue(in.readBoolean());
