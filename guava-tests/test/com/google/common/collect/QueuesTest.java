@@ -16,7 +16,6 @@
 
 package com.google.common.collect;
 
-import com.google.common.annotations.Beta;
 import com.google.common.util.concurrent.Uninterruptibles;
 
 import junit.framework.TestCase;
@@ -37,9 +36,7 @@ import java.util.concurrent.TimeUnit;
  * Tests for {@link Queues}.
  *
  * @author Dimitris Andreou
- * @since 11.0
  */
-@Beta
 
 public class QueuesTest extends TestCase {
   /*
