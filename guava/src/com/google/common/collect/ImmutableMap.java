@@ -187,14 +187,18 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
      * @since 11.0
      */
     public Builder<K, V> put(Entry<? extends K, ? extends V> entry) {
+      K key = entry.getKey();
+      V value = entry.getValue();
       if (entry instanceof ImmutableEntry<?, ?>) {
-        checkNotNull(entry.getKey());
-        checkNotNull(entry.getValue());
+        checkNotNull(key);
+        checkNotNull(value);
         @SuppressWarnings("unchecked") // all supported methods are covariant
         Entry<K, V> immutableEntry = (Entry<K, V>) entry;
         entries.add(immutableEntry);
       } else {
-        entries.add(entryOf(entry.getKey(), entry.getValue()));
+        // Directly calling entryOf(entry.getKey(), entry.getValue()) can cause
+        // compilation error in Eclipse.
+        entries.add(entryOf(key, value));
       }
       return this;
     }
