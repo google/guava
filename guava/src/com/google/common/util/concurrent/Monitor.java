@@ -36,7 +36,14 @@ import javax.annotation.concurrent.GuardedBy;
  * <p>This class is intended as a replacement for {@link ReentrantLock}. Code using {@code Monitor}
  * is less error-prone and more readable than code using {@code ReentrantLock}, without significant
  * performance loss. {@code Monitor} even has the potential for performance gain by optimizing the
- * evaluation and signaling of conditions.
+ * evaluation and signaling of conditions.  Signaling is entirely
+ * <a href="http://en.wikipedia.org/wiki/Monitor_(synchronization)#Implicit_signaling">
+ * implicit</a>.
+ * By eliminating explicit signaling, this class can guarantee that only one thread is awakened
+ * when a condition becomes true (no "signaling storms" due to use of {@link
+ * java.util.concurrent.locks.Condition#signalAll Condition.signalAll}) and that no signals are lost
+ * (no "hangs" due to incorrect use of {@link java.util.concurrent.locks.Condition#signal
+ * Condition.signal}).
  *
  * <p>A thread is said to <i>occupy</i> a monitor if it has <i>entered</i> the monitor but not yet
  * <i>left</i>. Only one thread may occupy a given monitor at any moment. A monitor is also
