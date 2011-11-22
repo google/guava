@@ -1301,11 +1301,7 @@ public final class Iterators {
             }
           };
 
-      // Construct the heap with a minimum size of 1, because
-      // PriorityQueue will fail if it's 0.
-      queue = new PriorityQueue<PeekingIterator<T>>(
-          Math.max(1, Iterables.size(iterators)),
-          heapComparator);
+      queue = new PriorityQueue<PeekingIterator<T>>(2, heapComparator);
 
       for (Iterator<? extends T> iterator : iterators) {
         if (iterator.hasNext()) {
