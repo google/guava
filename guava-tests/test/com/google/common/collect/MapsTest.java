@@ -1113,6 +1113,20 @@ public class MapsTest extends TestCase {
     assertEquals(ImmutableMap.of("a", 2.0, "b", 3.0), transformed);
   }
 
+  public void testTransformValuesSecretlySorted() {
+    Map<String, Integer> map = ImmutableSortedMap.of("a", 4, "b", 9);
+    Function<Integer, Double> sqrt = new Function<Integer, Double>() {
+      @Override
+      public Double apply(Integer in) {
+        return Math.sqrt(in);
+      }
+    };
+    Map<String, Double> transformed = Maps.transformValues(map, sqrt);
+
+    assertEquals(ImmutableMap.of("a", 2.0, "b", 3.0), transformed);
+    assertTrue(transformed instanceof SortedMap);
+  }
+
   public void testTransformEntries() {
     Map<String, String> map = ImmutableMap.of("a", "4", "b", "9");
     EntryTransformer<String, String, String> concat =
@@ -1125,6 +1139,21 @@ public class MapsTest extends TestCase {
     Map<String, String> transformed = Maps.transformEntries(map, concat);
 
     assertEquals(ImmutableMap.of("a", "a4", "b", "b9"), transformed);
+  }
+
+  public void testTransformEntriesSecretlySorted() {
+    Map<String, String> map = ImmutableSortedMap.of("a", "4", "b", "9");
+    EntryTransformer<String, String, String> concat =
+        new EntryTransformer<String, String, String>() {
+          @Override
+          public String transformEntry(String key, String value) {
+            return key + value;
+          }
+        };
+    Map<String, String> transformed = Maps.transformEntries(map, concat);
+
+    assertEquals(ImmutableMap.of("a", "a4", "b", "b9"), transformed);
+    assertTrue(transformed instanceof SortedMap);
   }
 
   public void testTransformEntriesGenerics() {
