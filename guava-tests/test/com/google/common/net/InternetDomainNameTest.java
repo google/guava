@@ -21,6 +21,7 @@ import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
+import com.google.common.testing.EqualsTester;
 import com.google.common.testing.NullPointerTester;
 
 import junit.framework.TestCase;
@@ -35,6 +36,10 @@ import java.util.Locale;
  */
 @GwtCompatible(emulated = true)
 public final class InternetDomainNameTest extends TestCase {
+  private static final InternetDomainName UNICODE_EXAMPLE =
+      InternetDomainName.from("j\u00f8rpeland.no");
+  private static final InternetDomainName PUNYCODE_EXAMPLE =
+      InternetDomainName.from("xn--jrpeland-54a.no");
 
   /**
    * The Greek letter delta, used in unicode testing.
@@ -371,6 +376,20 @@ public final class InternetDomainNameTest extends TestCase {
 
     // Behold the weirdness!
     assertFalse(domain.publicSuffix().isPublicSuffix());
+  }
+
+  public void testEquality() {
+    new EqualsTester()
+        .addEqualityGroup(
+            idn("google.com"), idn("google.com"), idn("GOOGLE.COM"))
+        .addEqualityGroup(idn("www.google.com"))
+        .addEqualityGroup(UNICODE_EXAMPLE)
+        .addEqualityGroup(PUNYCODE_EXAMPLE)
+        .testEquals();
+  }
+
+  private static InternetDomainName idn(String domain) {
+    return InternetDomainName.from(domain);
   }
 
   @GwtIncompatible("NullPointerTester")

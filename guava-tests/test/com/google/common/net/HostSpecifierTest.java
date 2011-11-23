@@ -17,6 +17,7 @@
 package com.google.common.net;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.testing.EqualsTester;
 import com.google.common.testing.NullPointerTester;
 
 import junit.framework.TestCase;
@@ -69,6 +70,21 @@ public final class HostSpecifierTest extends TestCase {
     for (String spec : BAD_DOMAINS) {
       assertBad(spec);
     }
+  }
+
+  public void testEquality() {
+    new EqualsTester()
+        .addEqualityGroup(spec("1.2.3.4"), spec("1.2.3.4"))
+        .addEqualityGroup(
+            spec("2001:db8::1"), spec("2001:db8::1"), spec("[2001:db8::1]"))
+        .addEqualityGroup(spec("2001:db8::2"))
+        .addEqualityGroup(spec("google.com"), spec("google.com"))
+        .addEqualityGroup(spec("www.google.com"))
+        .testEquals();
+  }
+
+  private static HostSpecifier spec(String specifier) {
+    return HostSpecifier.fromValid(specifier);
   }
 
   public void testNulls() throws Exception {

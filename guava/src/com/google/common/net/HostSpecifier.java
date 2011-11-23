@@ -68,8 +68,6 @@ public final class HostSpecifier {
    * <li>A IPv4 address string, like {@code 127.0.0.1}
    * <li>An IPv6 address string with or without brackets, like
    *     {@code [2001:db8::1]} or {@code 2001:db8::1}
-   * <li>An IPv6 address string enclosed in square brackets, like
-   *     {[2001:db8::1]}
    * </ul>
    *
    * @throws IllegalArgumentException if the specifier is not valid.
