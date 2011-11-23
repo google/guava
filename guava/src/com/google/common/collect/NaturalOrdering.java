@@ -32,7 +32,8 @@ final class NaturalOrdering
   static final NaturalOrdering INSTANCE = new NaturalOrdering();
 
   @Override public int compare(Comparable left, Comparable right) {
-    checkNotNull(right); // left null is caught later
+    checkNotNull(left); // for GWT
+    checkNotNull(right);
     if (left == right) {
       return 0;
     }

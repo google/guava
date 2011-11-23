@@ -16,33 +16,37 @@
 
 package com.google.common.testing;
 
-import junit.framework.Assert;
-import static com.google.common.base.Preconditions.checkNotNull;
-
 import com.google.common.annotations.Beta;
+import com.google.common.annotations.GwtCompatible;
 
+import junit.framework.Assert;
 import junit.framework.AssertionFailedError;
-
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 
 /**
  * Tests serialization and deserialization of an object, optionally asserting
  * that the resulting object is equal to the original.
+ *
+ * <p><b>GWT warning:</b> Under GWT, both methods simply returns their input,
+ * as proper GWT serialization tests require more setup.  This no-op behavior
+ * allows test authors to intersperse {@code SerializableTester} calls with
+ * other, GWT-compatible tests.
  *
  *
  * @author Mike Bostock
  * @since 10.0
  */
 @Beta
+@GwtCompatible // but no-op!
 public final class SerializableTester {
   private SerializableTester() {}
 
   /**
    * Serializes and deserializes the specified object.
+   *
+   * <p><b>GWT warning:</b> Under GWT, this method simply returns its input, as
+   * proper GWT serialization tests require more setup.  This no-op behavior
+   * allows test authors to intersperse {@code SerializableTester} calls with
+   * other, GWT-compatible tests.
    *
    * <p>Note that the specified object may not be known by the compiler to be a
    * {@link java.io.Serializable} instance, and is thus declared an
@@ -54,19 +58,7 @@ public final class SerializableTester {
    */
   @SuppressWarnings("unchecked")
   public static <T> T reserialize(T object) {
-    checkNotNull(object);
-    ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-    try {
-      ObjectOutputStream out = new ObjectOutputStream(bytes);
-      out.writeObject(object);
-      ObjectInputStream in = new ObjectInputStream(
-          new ByteArrayInputStream(bytes.toByteArray()));
-      return (T) in.readObject();
-    } catch (IOException e) {
-      throw new RuntimeException(e);
-    } catch (ClassNotFoundException e) {
-      throw new RuntimeException(e);
-    }
+    return Platform.reserialize(object);
   }
 
   /**
@@ -74,6 +66,11 @@ public final class SerializableTester {
    * re-serialized object is equal to the provided object, that the hashcodes
    * are identical, and that the class of the re-serialized object is identical
    * to that of the original.
+   *
+   * <p><b>GWT warning:</b> Under GWT, this method simply returns its input, as
+   * proper GWT serialization tests require more setup.  This no-op behavior
+   * allows test authors to intersperse {@code SerializableTester} calls with
+   * other, GWT-compatible tests.
    *
    * <p>Note that the specified object may not be known by the compiler to be a
    * {@link java.io.Serializable} instance, and is thus declared an

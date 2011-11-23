@@ -19,15 +19,13 @@ package com.google.common.collect;
 import static com.google.common.collect.BoundType.CLOSED;
 import static com.google.common.collect.BoundType.OPEN;
 import static com.google.common.collect.DiscreteDomains.integers;
-import static com.google.common.collect.RangeTest.SerializableTesterWrapper.TheRealThing.reserializeAndAssertUnlessGwt;
+import static com.google.common.testing.SerializableTester.reserializeAndAssert;
 import static java.util.Arrays.asList;
 
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Predicate;
 import com.google.common.collect.testing.Helpers;
 import com.google.common.testing.EqualsTester;
-import com.google.common.testing.SerializableTester;
 
 import junit.framework.TestCase;
 
@@ -38,7 +36,7 @@ import java.util.Collections;
  *
  * @author Kevin Bourrillion
  */
-@GwtCompatible(emulated = true)
+@GwtCompatible
 public class RangeTest extends TestCase {
   public void testOpen() {
     Range<Integer> range = Ranges.open(4, 8);
@@ -51,7 +49,7 @@ public class RangeTest extends TestCase {
     assertEquals(OPEN, range.upperBoundType());
     assertFalse(range.isEmpty());
     assertEquals("(4\u20258)", range.toString());
-    reserializeAndAssertUnlessGwt(range);
+    reserializeAndAssert(range);
   }
 
   public void testOpen_invalid() {
@@ -78,7 +76,7 @@ public class RangeTest extends TestCase {
     assertEquals(CLOSED, range.upperBoundType());
     assertFalse(range.isEmpty());
     assertEquals("[5\u20257]", range.toString());
-    reserializeAndAssertUnlessGwt(range);
+    reserializeAndAssert(range);
   }
 
   public void testClosed_invalid() {
@@ -100,7 +98,7 @@ public class RangeTest extends TestCase {
     assertEquals(CLOSED, range.upperBoundType());
     assertFalse(range.isEmpty());
     assertEquals("(4\u20257]", range.toString());
-    reserializeAndAssertUnlessGwt(range);
+    reserializeAndAssert(range);
   }
 
   public void testClosedOpen() {
@@ -114,7 +112,7 @@ public class RangeTest extends TestCase {
     assertEquals(OPEN, range.upperBoundType());
     assertFalse(range.isEmpty());
     assertEquals("[5\u20258)", range.toString());
-    reserializeAndAssertUnlessGwt(range);
+    reserializeAndAssert(range);
   }
 
   public void testIsConnected() {
@@ -147,7 +145,7 @@ public class RangeTest extends TestCase {
     assertEquals(CLOSED, range.upperBoundType());
     assertFalse(range.isEmpty());
     assertEquals("[4\u20254]", range.toString());
-    reserializeAndAssertUnlessGwt(range);
+    reserializeAndAssert(range);
   }
 
   public void testEmpty1() {
@@ -163,7 +161,7 @@ public class RangeTest extends TestCase {
     assertEquals(OPEN, range.upperBoundType());
     assertTrue(range.isEmpty());
     assertEquals("[4\u20254)", range.toString());
-    reserializeAndAssertUnlessGwt(range);
+    reserializeAndAssert(range);
   }
 
   public void testEmpty2() {
@@ -179,7 +177,7 @@ public class RangeTest extends TestCase {
     assertEquals(CLOSED, range.upperBoundType());
     assertTrue(range.isEmpty());
     assertEquals("(4\u20254]", range.toString());
-    reserializeAndAssertUnlessGwt(range);
+    reserializeAndAssert(range);
   }
 
   public void testLessThan() {
@@ -193,7 +191,7 @@ public class RangeTest extends TestCase {
     assertEquals(OPEN, range.upperBoundType());
     assertFalse(range.isEmpty());
     assertEquals("(-\u221e\u20255)", range.toString());
-    reserializeAndAssertUnlessGwt(range);
+    reserializeAndAssert(range);
   }
 
   public void testGreaterThan() {
@@ -207,7 +205,7 @@ public class RangeTest extends TestCase {
     assertUnboundedAbove(range);
     assertFalse(range.isEmpty());
     assertEquals("(5\u2025+\u221e)", range.toString());
-    reserializeAndAssertUnlessGwt(range);
+    reserializeAndAssert(range);
   }
 
   public void testAtLeast() {
@@ -221,7 +219,7 @@ public class RangeTest extends TestCase {
     assertUnboundedAbove(range);
     assertFalse(range.isEmpty());
     assertEquals("[6\u2025+\u221e)", range.toString());
-    reserializeAndAssertUnlessGwt(range);
+    reserializeAndAssert(range);
   }
 
   public void testAtMost() {
@@ -235,7 +233,7 @@ public class RangeTest extends TestCase {
     assertEquals(CLOSED, range.upperBoundType());
     assertFalse(range.isEmpty());
     assertEquals("(-\u221e\u20254]", range.toString());
-    reserializeAndAssertUnlessGwt(range);
+    reserializeAndAssert(range);
   }
 
   public void testAll() {
@@ -246,7 +244,7 @@ public class RangeTest extends TestCase {
     assertUnboundedAbove(range);
     assertFalse(range.isEmpty());
     assertEquals("(-\u221e\u2025+\u221e)", range.toString());
-    reserializeAndAssertUnlessGwt(range);
+    reserializeAndAssert(range);
   }
 
   private static void assertUnboundedBelow(Range<Integer> range) {
@@ -602,35 +600,5 @@ public class RangeTest extends TestCase {
     assertEquals(Ranges.atLeast(1), Ranges.greaterThan(0).canonical(UNBOUNDED_DOMAIN));
 
     assertEquals(Ranges.all(), Ranges.<Integer>all().canonical(UNBOUNDED_DOMAIN));
-  }
-
-  /*
-   * Give two fields the same name, and mark one @GwtIncompatible. The @GwtIncompatible takes
-   * precedence under plain Java. It actually does something, and the GWT one does not.
-   *
-   * Yeah, this is evil, and we should probably just emulate ST to be a no-op under
-   * GWT. TODO(cpovirk): do that
-   */
-
-  abstract static class SerializableTesterWrapper {
-    abstract void test(Object object);
-
-    @SuppressWarnings("unused") // used under GWT
-    private static final SerializableTesterWrapper INSTANCE = new SerializableTesterWrapper() {
-      @Override public void test(Object object) {}
-    };
-
-    static final class TheRealThing {
-      @GwtIncompatible("SerializableTester")
-      private static final SerializableTesterWrapper INSTANCE = new SerializableTesterWrapper() {
-        @Override public void test(Object object) {
-          SerializableTester.reserializeAndAssert(object);
-        }
-      };
-
-      static void reserializeAndAssertUnlessGwt(Object object) {
-        INSTANCE.test(object);
-      }
-    }
   }
 }

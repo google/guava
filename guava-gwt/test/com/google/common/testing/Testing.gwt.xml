@@ -3,7 +3,7 @@
    
   <source path=""/>
    
-  <!-- super-source path="super"/ -->
+  <super-source path="super"/>
    
   <inherits name="com.google.common.annotations.Annotations"/>
    

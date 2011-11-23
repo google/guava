@@ -16,11 +16,14 @@
 
 package com.google.common.collect;
 
+import static com.google.common.collect.Lists.newArrayList;
 import static com.google.common.testing.SerializableTester.reserialize;
 import static com.google.common.testing.SerializableTester.reserializeAndAssert;
 import static java.util.Arrays.asList;
 import static org.junit.contrib.truth.Truth.ASSERT;
 
+import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Function;
 import com.google.common.base.Functions;
 import com.google.common.collect.Ordering.ArbitraryOrdering;
@@ -46,7 +49,9 @@ import javax.annotation.Nullable;
  *
  * @author Jesse Wilson
  */
+@GwtCompatible(emulated = true)
 public class OrderingTest extends TestCase {
+  // TODO(cpovirk): some of these are inexplicably slow (20-30s) under GWT
 
   private final Ordering<Number> numberOrdering = new NumberOrdering();
 
@@ -178,7 +183,7 @@ public class OrderingTest extends TestCase {
     };
 
     // Don't let the elements be in such a predictable order
-    Collections.shuffle(list, new Random(1));
+    list = shuffledCopy(list, new Random(1));
 
     Collections.sort(list, arbitrary);
 
@@ -510,17 +515,27 @@ public class OrderingTest extends TestCase {
     assertEquals(ImmutableList.of(-1, 3, foo, bar), result);
   }
 
+  @GwtIncompatible("slow")
   public void testLeastOf_reconcileAgainstSortAndSublist() {
+    runLeastOfComparison(1000, 300, 20);
+  }
+
+  public void testLeastOf_reconcileAgainstSortAndSublistSmall() {
+    runLeastOfComparison(10, 30, 2);
+  }
+
+  private static void runLeastOfComparison(
+      int iterations, int elements, int seeds) {
     Random random = new Random(42);
     Ordering<Integer> ordering = Ordering.natural();
 
-    for (int i = 0; i < 1000; i++) {
+    for (int i = 0; i < iterations; i++) {
       List<Integer> list = Lists.newArrayList();
-      for (int j = 0; j < 300; j++) {
+      for (int j = 0; j < elements; j++) {
         list.add(random.nextInt(10 * i + j + 1));
       }
 
-      for (int seed = 1; seed < 20; seed++) {
+      for (int seed = 1; seed < seeds; seed++) {
         int k = random.nextInt(10 * seed);
         assertEquals(ordering.sortedCopy(list).subList(0, k),
             ordering.leastOf(list, k));
@@ -710,7 +725,7 @@ public class OrderingTest extends TestCase {
 
     void testMinAndMax() {
       List<T> shuffledList = Lists.newArrayList(strictlyOrderedList);
-      Collections.shuffle(shuffledList, new Random(5));
+      shuffledList = shuffledCopy(shuffledList, new Random(5));
 
       assertEquals(strictlyOrderedList.get(0), ordering.min(shuffledList));
       assertEquals(strictlyOrderedList.get(strictlyOrderedList.size() - 1),
@@ -859,11 +874,21 @@ public class OrderingTest extends TestCase {
     }
   }
 
+  @GwtIncompatible("NullPointerTester")
   public void testNullPointerExceptions() throws Exception {
     NullPointerTester tester = new NullPointerTester();
     tester.testAllPublicStaticMethods(Ordering.class);
 
     // any Ordering<Object> instance that accepts nulls should be good enough
     tester.testAllPublicInstanceMethods(Ordering.usingToString().nullsFirst());
+  }
+
+  private static <T> List<T> shuffledCopy(List<T> in, Random random) {
+    List<T> mutable = newArrayList(in);
+    List<T> out = newArrayList();
+    while (!mutable.isEmpty()) {
+      out.add(mutable.remove(random.nextInt(mutable.size())));
+    }
+    return out;
   }
 }
