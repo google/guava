@@ -360,12 +360,15 @@ public final class Monitor {
     }
     final ReentrantLock lock = this.lock;
     boolean reentrant = lock.isHeldByCurrentThread();
+    boolean success = false;
     lock.lockInterruptibly();
     try {
       waitInterruptibly(guard, reentrant);
-    } catch (Throwable throwable) {
-      lock.unlock();
-      throw Throwables.propagate(throwable);
+      success = true;
+    } finally {
+      if (!success) {
+        lock.unlock();
+      }
     }
   }
 
@@ -378,12 +381,15 @@ public final class Monitor {
     }
     final ReentrantLock lock = this.lock;
     boolean reentrant = lock.isHeldByCurrentThread();
+    boolean success = false;
     lock.lock();
     try {
       waitUninterruptibly(guard, reentrant);
-    } catch (Throwable throwable) {
-      lock.unlock();
-      throw Throwables.propagate(throwable);
+      success = true;
+    } finally {
+      if (!success) {
+        lock.unlock();
+      }
     }
   }
 
@@ -404,20 +410,16 @@ public final class Monitor {
     if (!lock.tryLock(time, unit)) {
       return false;
     }
-    boolean satisfied;
+    boolean satisfied = false;
     try {
       long remainingNanos = unit.toNanos(time) - (System.nanoTime() - startNanos);
       satisfied = waitInterruptibly(guard, remainingNanos, reentrant);
-    } catch (Throwable throwable) {
-      lock.unlock();
-      throw Throwables.propagate(throwable);
+    } finally {
+      if (!satisfied) {
+        lock.unlock();
+      }
     }
-    if (satisfied) {
-      return true;
-    } else {
-      lock.unlock();
-      return false;
-    }
+    return satisfied;
   }
 
   /**
@@ -450,19 +452,15 @@ public final class Monitor {
           remainingNanos = (timeoutNanos - (System.nanoTime() - startNanos));
         }
       }
-      boolean satisfied;
+      boolean satisfied = false;
       try {
         satisfied = waitUninterruptibly(guard, remainingNanos, reentrant);
-      } catch (Throwable throwable) {
-        lock.unlock();
-        throw Throwables.propagate(throwable);
+      } finally {
+        if (!satisfied) {
+          lock.unlock();
+        }
       }
-      if (satisfied) {
-        return true;
-      } else {
-        lock.unlock();
-        return false;
-      }
+      return satisfied;
     } finally {
       if (interruptIgnored) {
         Thread.currentThread().interrupt();
@@ -482,19 +480,15 @@ public final class Monitor {
     }
     final ReentrantLock lock = this.lock;
     lock.lock();
-    boolean satisfied;
+    boolean satisfied = false;
     try {
       satisfied = guard.isSatisfied();
-    } catch (Throwable throwable) {
-      lock.unlock();
-      throw Throwables.propagate(throwable);
+    } finally {
+      if (!satisfied) {
+        lock.unlock();
+      }
     }
-    if (satisfied) {
-      return true;
-    } else {
-      lock.unlock();
-      return false;
-    }
+    return satisfied;
   }
 
   /**
@@ -509,19 +503,15 @@ public final class Monitor {
     }
     final ReentrantLock lock = this.lock;
     lock.lockInterruptibly();
-    boolean satisfied;
+    boolean satisfied = false;
     try {
       satisfied = guard.isSatisfied();
-    } catch (Throwable throwable) {
-      lock.unlock();
-      throw Throwables.propagate(throwable);
+    } finally {
+      if (!satisfied) {
+        lock.unlock();
+      }
     }
-    if (satisfied) {
-      return true;
-    } else {
-      lock.unlock();
-      return false;
-    }
+    return satisfied;
   }
 
   /**
@@ -538,19 +528,15 @@ public final class Monitor {
     if (!enter(time, unit)) {
       return false;
     }
-    boolean satisfied;
+    boolean satisfied = false;
     try {
       satisfied = guard.isSatisfied();
-    } catch (Throwable throwable) {
-      lock.unlock();
-      throw Throwables.propagate(throwable);
+    } finally {
+      if (!satisfied) {
+        lock.unlock();
+      }
     }
-    if (satisfied) {
-      return true;
-    } else {
-      lock.unlock();
-      return false;
-    }
+    return satisfied;
   }
 
   /**
@@ -568,19 +554,15 @@ public final class Monitor {
     if (!lock.tryLock(time, unit)) {
       return false;
     }
-    boolean satisfied;
+    boolean satisfied = false;
     try {
       satisfied = guard.isSatisfied();
-    } catch (Throwable throwable) {
-      lock.unlock();
-      throw Throwables.propagate(throwable);
+    } finally {
+      if (!satisfied) {
+        lock.unlock();
+      }
     }
-    if (satisfied) {
-      return true;
-    } else {
-      lock.unlock();
-      return false;
-    }
+    return satisfied;
   }
 
   /**
@@ -599,19 +581,15 @@ public final class Monitor {
     if (!lock.tryLock()) {
       return false;
     }
-    boolean satisfied;
+    boolean satisfied = false;
     try {
       satisfied = guard.isSatisfied();
-    } catch (Throwable throwable) {
-      lock.unlock();
-      throw Throwables.propagate(throwable);
+    } finally {
+      if (!satisfied) {
+        lock.unlock();
+      }
     }
-    if (satisfied) {
-      return true;
-    } else {
-      lock.unlock();
-      return false;
-    }
+    return satisfied;
   }
 
   /**
