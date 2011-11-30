@@ -129,14 +129,14 @@ public final class HttpHeaders {
   public static final String AGE = "Age";
   /** The HTTP Allow header field name. */
   public static final String ALLOW = "Allow";
+  /** The HTTP Content-Disposition header field name. */
+  public static final String CONTENT_DISPOSITION = "Content-Disposition";
   /** The HTTP Content-Encoding header field name. */
   public static final String CONTENT_ENCODING = "Content-Encoding";
   /** The HTTP Content-Language header field name. */
   public static final String CONTENT_LANGUAGE = "Content-Language";
   /** The HTTP Content-Location header field name. */
   public static final String CONTENT_LOCATION = "Content-Location";
-  /** The HTTP Content-Disposition header field name. */
-  public static final String CONTENT_DISPOSITION = "Content-Disposition";
   /** The HTTP Content-MD5 header field name. */
   public static final String CONTENT_MD5 = "Content-MD5";
   /** The HTTP Content-Range header field name. */
