@@ -88,6 +88,7 @@ public final class JdkFutureAdapters {
 
     private static final ThreadFactory threadFactory =
         new ThreadFactoryBuilder()
+            .setDaemon(true)
             .setNameFormat("ListenableFutureAdapter-thread-%d")
             .build();
     private static final Executor defaultAdapterExecutor =
