@@ -18,7 +18,6 @@ package com.google.common.base;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.common.base.Preconditions.checkState;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
@@ -27,7 +26,6 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.NoSuchElementException;
 
 import javax.annotation.CheckReturnValue;
 
@@ -478,63 +476,6 @@ public final class Splitter {
         return toSplit.subSequence(start, end).toString();
       }
       return endOfData();
-    }
-  }
-
-  /*
-   * Copied from common.collect.AbstractIterator. TODO(kevinb): un-fork if these
-   * packages are ever combined into a single library.
-   */
-  private abstract static class AbstractIterator<T> implements Iterator<T> {
-    State state = State.NOT_READY;
-
-    enum State {
-      READY, NOT_READY, DONE, FAILED,
-    }
-
-    T next;
-
-    protected abstract T computeNext();
-
-    protected final T endOfData() {
-      state = State.DONE;
-      return null;
-    }
-
-    @Override
-    public final boolean hasNext() {
-      checkState(state != State.FAILED);
-      switch (state) {
-        case DONE:
-          return false;
-        case READY:
-          return true;
-        default:
-      }
-      return tryToComputeNext();
-    }
-
-    boolean tryToComputeNext() {
-      state = State.FAILED; // temporary pessimism
-      next = computeNext();
-      if (state != State.DONE) {
-        state = State.READY;
-        return true;
-      }
-      return false;
-    }
-
-    @Override
-    public final T next() {
-      if (!hasNext()) {
-        throw new NoSuchElementException();
-      }
-      state = State.NOT_READY;
-      return next;
-    }
-
-    @Override public void remove() {
-      throw new UnsupportedOperationException();
     }
   }
 }
