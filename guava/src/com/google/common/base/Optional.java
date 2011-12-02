@@ -23,6 +23,7 @@ import com.google.common.annotations.GwtCompatible;
 
 import java.io.Serializable;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.Set;
 
 import javax.annotation.Nullable;
@@ -161,6 +162,31 @@ public abstract class Optional<T> implements Serializable {
    * representation is unspecified.
    */
   @Override public abstract String toString();
+
+  /**
+   * Returns the value of each present instance from the supplied {@code optionals}, in order,
+   * skipping over occurrences of {@link Optional#absent}. Iterators are unmodifiable and are
+   * evaluated lazily.
+   */
+  public static <T> Iterable<T> presentInstances(Iterable<Optional<T>> optionals) {
+    checkNotNull(optionals);
+    final Iterator<Optional<T>> iterator = checkNotNull(optionals.iterator());
+    return new Iterable<T>() {
+      @Override public Iterator<T> iterator() {
+        return new AbstractIterator<T>() {
+          @Override protected T computeNext() {
+            while (iterator.hasNext()) {
+              Optional<T> optional = iterator.next();
+              if (optional.isPresent()) {
+                return optional.get();
+              }
+            }
+            return endOfData();
+          }
+        };
+      };
+    };
+  }
 
   private static final long serialVersionUID = 0;
 

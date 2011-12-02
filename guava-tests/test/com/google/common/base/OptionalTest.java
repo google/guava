@@ -16,14 +16,18 @@
 
 package com.google.common.base;
 
+import static org.junit.contrib.truth.Truth.ASSERT;
+
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.collect.ImmutableList;
 import com.google.common.testing.NullPointerTester;
 import com.google.common.testing.SerializableTester;
 
 import junit.framework.TestCase;
 
 import java.util.Collections;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -170,6 +174,24 @@ public final class OptionalTest extends TestCase {
 
   public void testToString_present() {
     assertEquals("Optional.of(training)", Optional.of("training").toString());
+  }
+
+  public void testPresentInstances_allPresent() {
+    List<Optional<String>> optionals =
+        ImmutableList.of(Optional.of("a"), Optional.of("b"), Optional.of("c"));
+    ASSERT.that(Optional.presentInstances(optionals)).hasContentsInOrder("a", "b", "c");
+  }
+  
+  public void testPresentInstances_allAbsent() {
+    List<Optional<Object>> optionals =
+        ImmutableList.of(Optional.absent(), Optional.absent());
+    ASSERT.that(Optional.presentInstances(optionals)).isEmpty();
+  }
+  
+  public void testPresentInstances_somePresent() {
+    List<Optional<String>> optionals =
+        ImmutableList.of(Optional.of("a"), Optional.<String>absent(), Optional.of("c"));
+    ASSERT.that(Optional.presentInstances(optionals)).hasContentsInOrder("a", "c");
   }
 
   @GwtIncompatible("SerializableTester")
