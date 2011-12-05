@@ -221,9 +221,15 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
   final StatsCounter globalStatsCounter;
 
   /**
+   * The default cache loader to use on loading operations.
+   */
+  @Nullable
+  final CacheLoader<? super K, V> defaultLoader;
+
+  /**
    * Creates a new, empty map with the specified strategy, initial capacity and concurrency level.
    */
-  LocalCache(CacheBuilder<? super K, ? super V> builder) {
+  LocalCache(CacheBuilder<? super K, ? super V> builder, CacheLoader<? super K, V> loader) {
     concurrencyLevel = Math.min(builder.getConcurrencyLevel(), MAX_SEGMENTS);
 
     keyStrength = builder.getKeyStrength();
@@ -246,6 +252,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
     ticker = builder.getTicker(recordsTime());
     entryFactory = EntryFactory.getFactory(keyStrength, usesAccessEntries(), usesWriteEntries());
     globalStatsCounter = builder.getStatsCounterSupplier().get();
+    defaultLoader = loader;
 
     int initialCapacity = Math.min(builder.getInitialCapacity(), MAXIMUM_CAPACITY);
     if (evictsBySize() && !customWeigher()) {
@@ -2782,11 +2789,9 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
           V value = e.getValueReference().get();
           if (value != null) {
             recordRead(e, now);
-            // only refresh on getOrLoad
-          } else {
-            tryDrainReferenceQueues();
+            return scheduleRefresh(e, e.getKey(), hash, value, now, map.defaultLoader);
           }
-          return value;
+          tryDrainReferenceQueues();
         }
         return null;
       } finally {
@@ -3961,7 +3966,11 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
     return segmentFor(hash).get(key, hash, loader);
   }
 
-  ImmutableMap<K, V> getAll(Iterable<? extends K> keys) {
+  V getOrLoad(K key) throws ExecutionException {
+    return get(key, defaultLoader);
+  }
+
+  ImmutableMap<K, V> getAllPresent(Iterable<? extends K> keys) {
     int hits = 0;
     int misses = 0;
 
@@ -3980,7 +3989,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
     return ImmutableMap.copyOf(result);
   }
 
-  ImmutableMap<K, V> getAll(Iterable<? extends K> keys, CacheLoader<? super K, V> loader)
+  ImmutableMap<K, V> getAll(Iterable<? extends K> keys)
       throws ExecutionException {
     int hits = 0;
     int misses = 0;
@@ -4003,7 +4012,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
     try {
       if (!keysToLoad.isEmpty()) {
         try {
-          Map<K, V> newEntries = loadAll(keysToLoad, loader);
+          Map<K, V> newEntries = loadAll(keysToLoad, defaultLoader);
           for (K key : keysToLoad) {
             V value = newEntries.get(key);
             if (value == null) {
@@ -4015,7 +4024,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
           // loadAll not implemented, fallback to load
           for (K key : keysToLoad) {
             misses--; // get will count this miss
-            result.put(key, get(key, loader));
+            result.put(key, get(key, defaultLoader));
           }
         }
       }
@@ -4110,9 +4119,9 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
     return segmentFor(hash).getLiveEntry(key, hash, ticker.read());
   }
 
-  void refresh(K key, CacheLoader<? super K, V> loader) {
+  void refresh(K key) {
     int hash = hash(checkNotNull(key));
-    segmentFor(hash).refresh(key, hash, loader);
+    segmentFor(hash).refresh(key, hash, defaultLoader);
   }
 
   @Override
@@ -4587,6 +4596,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
     final int concurrencyLevel;
     final RemovalListener<? super K, ? super V> removalListener;
     final Ticker ticker;
+    final CacheLoader<? super K, V> loader;
 
     transient Cache<K, V> delegate;
 
@@ -4602,7 +4612,8 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
           cache.weigher,
           cache.concurrencyLevel,
           cache.removalListener,
-          cache.ticker);
+          cache.ticker,
+          cache.defaultLoader);
     }
 
     private ManualSerializationProxy(
@@ -4611,7 +4622,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
         long expireAfterWriteNanos, long expireAfterAccessNanos, long maxWeight,
         Weigher<K, V> weigher, int concurrencyLevel,
         RemovalListener<? super K, ? super V> removalListener,
-        Ticker ticker) {
+        Ticker ticker, CacheLoader<? super K, V> loader) {
       this.keyStrength = keyStrength;
       this.valueStrength = valueStrength;
       this.keyEquivalence = keyEquivalence;
@@ -4624,6 +4635,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
       this.removalListener = removalListener;
       this.ticker = (ticker == Ticker.systemTicker() || ticker == NULL_TICKER)
           ? null : ticker;
+      this.loader = loader;
     }
 
    CacheBuilder<Object, Object> recreateCacheBuilder() {
@@ -4685,13 +4697,10 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
       extends ManualSerializationProxy<K, V> implements LoadingCache<K, V>, Serializable {
     private static final long serialVersionUID = 1;
 
-    final CacheLoader<? super K, V> loader;
-
     transient LoadingCache<K, V> autoDelegate;
 
-    LoadingSerializationProxy(LocalCache<K, V> cache, CacheLoader<? super K, V> loader) {
+    LoadingSerializationProxy(LocalCache<K, V> cache) {
       super(cache);
-      this.loader = loader;
     }
 
     private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
@@ -4734,7 +4743,12 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
     final LocalCache<K, V> localCache;
 
     LocalManualCache(CacheBuilder<? super K, ? super V> builder) {
-      this.localCache = new LocalCache<K, V>(builder);
+      this(builder, null);
+    }
+
+    protected LocalManualCache(CacheBuilder<? super K, ? super V> builder,
+        CacheLoader<? super K, V> loader) {
+      this.localCache = new LocalCache<K, V>(builder, loader);
     }
 
     // Cache methods
@@ -4758,7 +4772,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
 
     @Override
     public ImmutableMap<K, V> getAllPresent(Iterable<? extends K> keys) {
-      return localCache.getAll(keys);
+      return localCache.getAllPresent(keys);
     }
 
     @Override
@@ -4818,19 +4832,17 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
 
   static class LocalLoadingCache<K, V>
       extends LocalManualCache<K, V> implements LoadingCache<K, V> {
-    final CacheLoader<? super K, V> loader;
 
     LocalLoadingCache(CacheBuilder<? super K, ? super V> builder,
         CacheLoader<? super K, V> loader) {
-      super(builder);
-      this.loader = checkNotNull(loader);
+      super(builder, checkNotNull(loader));
     }
 
     // Cache methods
 
     @Override
     public V get(K key) throws ExecutionException {
-      return localCache.get(key, loader);
+      return localCache.getOrLoad(key);
     }
 
     @Override
@@ -4844,12 +4856,12 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
 
     @Override
     public ImmutableMap<K, V> getAll(Iterable<? extends K> keys) throws ExecutionException {
-      return localCache.getAll(keys, loader);
+      return localCache.getAll(keys);
     }
 
     @Override
     public void refresh(K key) {
-      localCache.refresh(key, loader);
+      localCache.refresh(key);
     }
 
     @Override
@@ -4862,7 +4874,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
     private static final long serialVersionUID = 1;
 
     Object writeReplace() {
-      return new LoadingSerializationProxy<K, V>(localCache, loader);
+      return new LoadingSerializationProxy<K, V>(localCache);
     }
   }
 }

@@ -65,7 +65,7 @@ public class LocalLoadingCacheTest extends TestCase {
       }
     };
     LocalLoadingCache<Object, Object> cache = makeCache(createCacheBuilder(), loader);
-    assertSame(loader, cache.loader);
+    assertSame(loader, cache.localCache.defaultLoader);
   }
 
   // null parameters test

@@ -53,11 +53,11 @@ public abstract class CacheLoader<K, V> {
 
   /**
    * Computes or retrieves a replacement value corresponding to an already-cached {@code key}. This
-   * method is called when an existing cache entry is refreshed, such as through a call to
-   * {@link Cache#refresh}.
+   * method is called when an existing cache entry is refreshed by
+   * {@link CacheBuilder#refreshInterval}, or through a call to {@link Cache#refresh}.
    *
-   * <p>This implementation simply delegates to {@link #load}. This method should be overriden when
-   * the new value can be computed more efficiently from the old value.
+   * <p>This implementation synchronously delegates to {@link #load}. It is recommended that it be
+   * overridden with an asynchronous implementation when using {@link CacheBuilder#refreshInterval}.
    *
    * <p><b>Note:</b> <i>all exceptions thrown by this method will be logged and then swallowed</i>.
    *

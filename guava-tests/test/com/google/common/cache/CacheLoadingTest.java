@@ -260,6 +260,65 @@ public class CacheLoadingTest extends TestCase {
     assertEquals(3, stats.hitCount());
   }
 
+  public void testRefresh_getIfPresent() {
+    final Object one = new Object();
+    final Object two = new Object();
+    FakeTicker ticker = new FakeTicker();
+    CacheLoader<Object, Object> loader = new CacheLoader<Object, Object>() {
+      @Override
+      public Object load(Object key) {
+        return one;
+      }
+
+      @Override
+      public ListenableFuture<Object> reload(Object key, Object oldValue) {
+        return Futures.immediateFuture(two);
+      }
+    };
+
+    LoadingCache<Object, Object> cache = CacheBuilder.newBuilder()
+        .ticker(ticker)
+        .refreshInterval(1, MILLISECONDS)
+        .build(loader);
+    Object key = new Object();
+    CacheStats stats = cache.stats();
+    assertEquals(0, stats.missCount());
+    assertEquals(0, stats.loadSuccessCount());
+    assertEquals(0, stats.loadExceptionCount());
+    assertEquals(0, stats.hitCount());
+
+    assertSame(one, cache.getUnchecked(key));
+    stats = cache.stats();
+    assertEquals(1, stats.missCount());
+    assertEquals(1, stats.loadSuccessCount());
+    assertEquals(0, stats.loadExceptionCount());
+    assertEquals(0, stats.hitCount());
+
+    ticker.advance(1, MILLISECONDS);
+    assertSame(one, cache.getIfPresent(key));
+    stats = cache.stats();
+    assertEquals(1, stats.missCount());
+    assertEquals(1, stats.loadSuccessCount());
+    assertEquals(0, stats.loadExceptionCount());
+    assertEquals(1, stats.hitCount());
+
+    ticker.advance(1, MILLISECONDS);
+    assertSame(two, cache.getIfPresent(key));
+    stats = cache.stats();
+    assertEquals(1, stats.missCount());
+    assertEquals(2, stats.loadSuccessCount());
+    assertEquals(0, stats.loadExceptionCount());
+    assertEquals(2, stats.hitCount());
+
+    ticker.advance(1, MILLISECONDS);
+    assertSame(two, cache.getIfPresent(key));
+    stats = cache.stats();
+    assertEquals(1, stats.missCount());
+    assertEquals(2, stats.loadSuccessCount());
+    assertEquals(0, stats.loadExceptionCount());
+    assertEquals(3, stats.hitCount());
+  }
+
   public void testBulkLoad_default() throws ExecutionException {
     LoadingCache<Integer, Integer> cache = CacheBuilder.newBuilder()
         .build(TestingCacheLoaders.<Integer>identityLoader());

@@ -598,14 +598,18 @@ public final class CacheBuilder<K, V> {
    * Specifies that active entries are eligible for automatic refresh once a fixed duration has
    * elapsed after the entry's creation, or the most recent replacement of its value. The semantics
    * of refreshes are specified in {@link LoadingCache#refresh}, and are performed by calling
-   * {@link CacheLoader.reload}.
+   * {@link CacheLoader#reload}.
    *
-   * <p>Refreshes will only be asynchronous if the implementation of {@link CacheLoader.reload} is
-   * asynchronous.
+   * <p>As the default implementation of {@link CacheLoader#reload} is synchronous, it is
+   * recommended that users of this method override {@link CacheLoader#reload} with an asynchrnous
+   * implementation; otherwise refreshes will block other cache operations.
    *
    * <p>Currently automatic refreshes are performed when the first stale request for an entry
-   * occurs. If the refresh completes immediately then the new value will be returned; otherwise the
-   * old value will continue to be returned until the refresh completes.
+   * occurs. The request triggering refresh will make a blocking call to {@link CacheLoader#reload}
+   * and immediately return the new value if the returned future is complete, and the old value
+   * otherwise.
+   *
+   * <p><b>Note:</b> <i>all exceptions thrown during refresh will be logged and then swallowed</i>.
    *
    * @param duration the length of time after an entry is created that it should be considered
    *     stale, and thus eligible for refresh

@@ -110,7 +110,7 @@ public class LocalCacheTest extends TestCase {
   }
 
   private static <K, V> LocalCache<K, V> makeLocalCache(CacheBuilder<K, V> builder) {
-    return new LocalCache<K, V>(builder);
+    return new LocalCache<K, V>(builder, null);
   }
 
   private static CacheBuilder<Object, Object> createCacheBuilder() {
@@ -2303,7 +2303,7 @@ public class LocalCacheTest extends TestCase {
     LocalLoadingCache<Object, Object> three = SerializableTester.reserialize(two);
     LocalCache<Object, Object> localCacheThree = three.localCache;
 
-    assertEquals(two.loader, three.loader);
+    assertEquals(localCacheTwo.defaultLoader, localCacheThree.defaultLoader);
     assertEquals(localCacheTwo.keyStrength, localCacheThree.keyStrength);
     assertEquals(localCacheTwo.keyStrength, localCacheThree.keyStrength);
     assertEquals(localCacheTwo.valueEquivalence, localCacheThree.valueEquivalence);
