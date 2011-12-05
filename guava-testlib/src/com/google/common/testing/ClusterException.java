@@ -49,7 +49,7 @@ import java.util.Collections;
  *     }
  *   }
  *   if (exceptions.size() > 0) {
- *     throw ExceptionCluster.create(exceptions);
+ *     throw ClusterException.create(exceptions);
  *   }
  * }
  * </pre>
