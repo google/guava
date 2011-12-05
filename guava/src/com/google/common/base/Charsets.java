@@ -29,13 +29,12 @@ public final class Charsets {
   private Charsets() {}
 
   /**
-   * US-ASCII: seven-bit ASCII, a.k.a. ISO646-US, a.k.a the Basic Latin block of the Unicode
-   * character set.
+   * US-ASCII: seven-bit ASCII, the Basic Latin block of the Unicode character set (ISO646-US).
    */
   public static final Charset US_ASCII = Charset.forName("US-ASCII");
 
   /**
-   * ISO-8859-1. ISO Latin Alphabet No. 1, a.k.a. ISO-LATIN-1.
+   * ISO-8859-1: ISO Latin Alphabet Number 1 (ISO-LATIN-1).
    */
   public static final Charset ISO_8859_1 = Charset.forName("ISO-8859-1");
 

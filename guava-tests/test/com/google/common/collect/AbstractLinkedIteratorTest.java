@@ -53,6 +53,23 @@ public class AbstractLinkedIteratorTest extends TestCase {
     ASSERT.that(doubled).hasContentsInOrder(2, 4, 8, 16, 32);
   }
 
+  public void testSampleCode() {
+    Iterable<Integer> actual = new Iterable<Integer>() {
+      @Override
+      public Iterator<Integer> iterator() {
+        Iterator<Integer> powersOfTwo = new AbstractLinkedIterator<Integer>(1) {
+          protected Integer computeNext(Integer previous) {
+            return (previous == 1 << 30) ? null : previous * 2;
+          }
+        };
+        return powersOfTwo;
+      }
+    };
+    ASSERT.that(actual).hasContentsInOrder(1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096,
+        8192, 16384, 32768, 65536, 131072, 262144, 524288, 1048576, 2097152, 4194304, 8388608,
+        16777216, 33554432, 67108864, 134217728, 268435456, 536870912, 1073741824);
+  }
+
   public void testEmpty() {
     Iterator<Object> empty = newEmpty();
     assertFalse(empty.hasNext());

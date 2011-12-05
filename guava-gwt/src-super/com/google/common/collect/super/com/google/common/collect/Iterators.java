@@ -74,7 +74,7 @@ public final class Iterators {
    * Returns the empty iterator.
    *
    * <p>The {@link Iterable} equivalent of this method is {@link
-   * Collections#emptySet}.
+   * ImmutableSet#of()}.
    */
   // Casting to any type is safe since there are no actual elements.
   @SuppressWarnings("unchecked")

@@ -195,7 +195,7 @@ public final class Lists {
    * Creates an empty {@code LinkedList} instance.
    *
    * <p><b>Note:</b> if you need an immutable empty {@link List}, use
-   * {@link Collections#emptyList} instead.
+   * {@link ImmutableList#of()} instead.
    *
    * @return a new, empty {@code LinkedList}
    */

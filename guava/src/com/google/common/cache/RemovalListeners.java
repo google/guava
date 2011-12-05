@@ -32,8 +32,8 @@ public final class RemovalListeners {
   private RemovalListeners() {}
 
   /**
-   * Returns an asynchronous {@code RemovalListener} which processes all
-   * eviction notifications asynchronously, using {@code executor}.
+   * Returns a {@code RemovalListener} which processes all eviction
+   * notifications using {@code executor}.
    *
    * @param listener the backing listener
    * @param executor the executor with which removal notifications are

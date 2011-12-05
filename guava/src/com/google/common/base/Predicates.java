@@ -256,7 +256,7 @@ public final class Predicates {
    * Returns a predicate that evaluates to {@code true} if the
    * {@code CharSequence} being tested contains any match for the given
    * regular expression pattern. The test used is equivalent to
-   * {@code regex.matcher(arg).find()}
+   * {@code pattern.matcher(arg).find()}
    *
    * @since 3.0
    */

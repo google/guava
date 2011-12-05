@@ -41,6 +41,10 @@ import javax.annotation.CheckReturnValue;
  * characters are encoded into a {@code String} using surrogate pairs, and a {@code CharMatcher}
  * treats these just as two separate characters.
  *
+ * <p>Example usages: <pre>
+ *   String trimmed = {@link #WHITESPACE WHITESPACE}.{@link #trimFrom trimFrom}(userInput);
+ *   if ({@link #ASCII ASCII}.{@link #matchesAllOf matchesAllOf}(s)) { ... }</pre>
+ *
  * @author Kevin Bourrillion
  * @since 1.0
  */

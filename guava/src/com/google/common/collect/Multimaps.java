@@ -173,7 +173,8 @@ public final class Multimaps {
    *
    * <p>Note: the multimap assumes complete ownership over of {@code map} and
    * the lists returned by {@code factory}. Those objects should not be manually
-   * updated and they should not use soft, weak, or phantom references.
+   * updated, they should be empty when provided, and they should not use soft,
+   * weak, or phantom references.
    *
    * @param map place to store the mapping from each key to its corresponding
    *     values

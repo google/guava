@@ -103,6 +103,7 @@ public final class Stopwatch {
   /**
    * Starts the stopwatch.
    *
+   * @return this {@code Stopwatch} instance
    * @throws IllegalStateException if the stopwatch is already running.
    */
   public Stopwatch start() {
@@ -116,6 +117,7 @@ public final class Stopwatch {
    * Stops the stopwatch. Future reads will return the fixed duration that had
    * elapsed up to this point.
    *
+   * @return this {@code Stopwatch} instance
    * @throws IllegalStateException if the stopwatch is already stopped.
    */
   public Stopwatch stop() {
@@ -129,6 +131,8 @@ public final class Stopwatch {
   /**
    * Sets the elapsed time for this stopwatch to zero,
    * and places it in a stopped state.
+   *
+   * @return this {@code Stopwatch} instance
    */
   public Stopwatch reset() {
     elapsedNanos = 0;
