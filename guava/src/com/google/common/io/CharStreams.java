@@ -147,19 +147,20 @@ public final class CharStreams {
   public static <R extends Readable & Closeable,
       W extends Appendable & Closeable> long copy(InputSupplier<R> from,
       OutputSupplier<W> to) throws IOException {
-    boolean threw = true;
+    int successfulOps = 0;
     R in = from.getInput();
     try {
       W out = to.getOutput();
       try {
         long count = copy(in, out);
-        threw = false;
+        successfulOps++;
         return count;
       } finally {
-        Closeables.close(out, threw);
+        Closeables.close(out, successfulOps < 1);
+        successfulOps++;
       }
     } finally {
-      Closeables.close(in, threw);
+      Closeables.close(in, successfulOps < 2);
     }
   }
 

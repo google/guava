@@ -112,19 +112,20 @@ public final class ByteStreams {
    */
   public static long copy(InputSupplier<? extends InputStream> from,
       OutputSupplier<? extends OutputStream> to) throws IOException {
-    boolean threw = true;
+    int successfulOps = 0;
     InputStream in = from.getInput();
     try {
       OutputStream out = to.getOutput();
       try {
         long count = copy(in, out);
-        threw = false;
+        successfulOps++;
         return count;
       } finally {
-        Closeables.close(out, threw);
+        Closeables.close(out, successfulOps < 1);
+        successfulOps++;
       }
     } finally {
-      Closeables.close(in, threw);
+      Closeables.close(in, successfulOps < 2);
     }
   }
 

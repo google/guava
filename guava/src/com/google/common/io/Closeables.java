@@ -17,6 +17,7 @@
 package com.google.common.io;
 
 import com.google.common.annotations.Beta;
+import com.google.common.annotations.VisibleForTesting;
 
 import java.io.Closeable;
 import java.io.IOException;
@@ -33,7 +34,7 @@ import javax.annotation.Nullable;
  */
 @Beta
 public final class Closeables {
-  private static final Logger logger
+  @VisibleForTesting static final Logger logger
       = Logger.getLogger(Closeables.class.getName());
 
   private Closeables() {}

@@ -16,8 +16,14 @@
 
 package com.google.common.io;
 
+import static com.google.common.base.Charsets.UTF_8;
+import static com.google.common.io.CharStreams.copy;
+import static com.google.common.io.CharStreams.newReaderSupplier;
+
 import com.google.common.base.Charsets;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
+import com.google.common.testing.TestLogHandler;
 
 import java.io.ByteArrayInputStream;
 import java.io.EOFException;
@@ -41,10 +47,27 @@ public class CharStreamsTest extends IoTestCase {
       = "The quick brown fox jumped over the lazy dog.";
 
   static final InputSupplier<? extends Reader> BROKEN_READ
-      = CharStreams.newReaderSupplier(ByteStreamsTest.BROKEN_READ, Charsets.UTF_8);
+      = CharStreams.newReaderSupplier(ByteStreamsTest.BROKEN_READ, UTF_8);
 
   static final OutputSupplier<? extends Writer> BROKEN_WRITE
-      = CharStreams.newWriterSupplier(ByteStreamsTest.BROKEN_WRITE, Charsets.UTF_8);
+      = CharStreams.newWriterSupplier(ByteStreamsTest.BROKEN_WRITE, UTF_8);
+
+  static final InputSupplier<? extends Reader> BROKEN_CLOSE_INPUT
+      = CharStreams.newReaderSupplier(ByteStreamsTest.BROKEN_CLOSE_INPUT, UTF_8);
+
+  static final OutputSupplier<? extends Writer> BROKEN_CLOSE_OUTPUT
+      = CharStreams.newWriterSupplier(ByteStreamsTest.BROKEN_CLOSE_OUTPUT, UTF_8);
+
+  static final InputSupplier<? extends Reader> BROKEN_GET_INPUT
+      = CharStreams.newReaderSupplier(ByteStreamsTest.BROKEN_GET_INPUT, UTF_8);
+
+  static final OutputSupplier<? extends Writer> BROKEN_GET_OUTPUT
+      = CharStreams.newWriterSupplier(ByteStreamsTest.BROKEN_GET_OUTPUT, UTF_8);
+
+  private static final ImmutableSet<InputSupplier<? extends Reader>> BROKEN_INPUTS =
+      ImmutableSet.of(BROKEN_CLOSE_INPUT, BROKEN_GET_INPUT, BROKEN_READ);
+  private static final ImmutableSet<OutputSupplier<? extends Writer>> BROKEN_OUTPUTS
+      = ImmutableSet.of(BROKEN_CLOSE_OUTPUT, BROKEN_GET_OUTPUT, BROKEN_WRITE);
 
   public void testToString() throws IOException {
     assertEquals(TEXT, CharStreams.toString(new StringReader(TEXT)));
@@ -57,18 +80,18 @@ public class CharStreamsTest extends IoTestCase {
     CharStreams.skipFully(reader, 6);
     assertEquals(-1, reader.read());
   }
-  
+
   private static class NonSkippingReader extends StringReader {
     NonSkippingReader(String s) {
       super(s);
     }
-    
+
     @Override
     public long skip(long n) {
       return 0;
     }
   }
-  
+
   public void testReadLines_fromReadable() throws IOException {
     byte[] bytes = "a\nb\nc".getBytes(Charsets.UTF_8.name());
     List<String> lines = CharStreams.readLines(
@@ -193,6 +216,29 @@ public class CharStreamsTest extends IoTestCase {
       assertEquals("broken write", e.getMessage());
     }
     assertTrue(brokenWrite.areClosed());
+  }
+
+  private static int getAndResetRecords(TestLogHandler logHandler) {
+    int records = logHandler.getStoredLogRecords().size();
+    logHandler.clear();
+    return records;
+  }
+
+  private static void runFailureTest(
+      InputSupplier<? extends Reader> in, OutputSupplier<? extends Writer> out) {
+    try {
+      copy(in, out);
+      fail();
+    } catch (IOException expected) {
+    }
+  }
+
+  private static OutputSupplier<Writer> newStringWriterSupplier() {
+    return new OutputSupplier<Writer>() {
+      @Override public Writer getOutput() {
+        return new StringWriter();
+      }
+    };
   }
 
   public void testSkipFully_EOF() throws IOException {

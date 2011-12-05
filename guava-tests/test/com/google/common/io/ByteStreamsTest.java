@@ -16,9 +16,14 @@
 
 package com.google.common.io;
 
+import static com.google.common.io.ByteStreams.copy;
+import static com.google.common.io.ByteStreams.newInputStreamSupplier;
+
 import com.google.common.base.Charsets;
 import com.google.common.base.Preconditions;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.primitives.Bytes;
+import com.google.common.testing.TestLogHandler;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -41,7 +46,7 @@ import java.util.Random;
  */
 public class ByteStreamsTest extends IoTestCase {
 
-  // Provides an InputStream that throws an IOException on every read.
+  /** Provides an InputStream that throws an IOException on every read. */
   static final InputSupplier<InputStream> BROKEN_READ
       = new InputSupplier<InputStream>() {
         @Override
@@ -54,7 +59,7 @@ public class ByteStreamsTest extends IoTestCase {
         }
       };
 
-  // Provides an OutputStream that throws an IOException on every write.
+  /** Provides an OutputStream that throws an IOException on every write. */
   static final OutputSupplier<OutputStream> BROKEN_WRITE
       = new OutputSupplier<OutputStream>() {
         @Override
@@ -66,6 +71,55 @@ public class ByteStreamsTest extends IoTestCase {
           };
         }
       };
+
+  /** Provides an InputStream that throws an IOException on close. */
+  static final InputSupplier<InputStream> BROKEN_CLOSE_INPUT =
+      new InputSupplier<InputStream>() {
+        @Override
+        public InputStream getInput() {
+          return new FilterInputStream(new ByteArrayInputStream(new byte[10])) {
+            @Override public void close() throws IOException {
+              throw new IOException("broken close input");
+            }
+          };
+        }
+      };
+
+  /** Provides an OutputStream that throws an IOException on every close. */
+  static final OutputSupplier<OutputStream> BROKEN_CLOSE_OUTPUT =
+      new OutputSupplier<OutputStream>() {
+        @Override
+        public OutputStream getOutput() {
+          return new FilterOutputStream(new ByteArrayOutputStream()) {
+            @Override public void close() throws IOException {
+              throw new IOException("broken close output");
+            }
+          };
+        }
+      };
+
+  /** Throws an IOException from getInput. */
+  static final InputSupplier<InputStream> BROKEN_GET_INPUT =
+      new InputSupplier<InputStream>() {
+        @Override
+        public InputStream getInput() throws IOException {
+          throw new IOException("broken get input");
+        }
+      };
+
+  /** Throws an IOException from getOutput. */
+  static final OutputSupplier<OutputStream> BROKEN_GET_OUTPUT =
+      new OutputSupplier<OutputStream>() {
+        @Override
+        public OutputStream getOutput() throws IOException {
+          throw new IOException("broken get output");
+        }
+      };
+
+  private static final ImmutableSet<InputSupplier<InputStream>> BROKEN_INPUTS =
+      ImmutableSet.of(BROKEN_CLOSE_INPUT, BROKEN_GET_INPUT, BROKEN_READ);
+  private static final ImmutableSet<OutputSupplier<OutputStream>> BROKEN_OUTPUTS
+      = ImmutableSet.of(BROKEN_CLOSE_OUTPUT, BROKEN_GET_OUTPUT, BROKEN_WRITE);
 
   public void testByteSuppliers() throws IOException {
     byte[] range = newPreFilledByteArray(200);
@@ -143,7 +197,7 @@ public class ByteStreamsTest extends IoTestCase {
     try {
       ByteStreams.copy(okRead, brokenWrite);
       fail("expected exception");
-    } catch (Exception e) {
+    } catch (IOException e) {
       assertEquals("broken write", e.getMessage());
     }
     assertTrue(okRead.areClosed());
@@ -152,7 +206,7 @@ public class ByteStreamsTest extends IoTestCase {
     try {
       ByteStreams.copy(brokenRead, okWrite);
       fail("expected exception");
-    } catch (Exception e) {
+    } catch (IOException e) {
       assertEquals("broken read", e.getMessage());
     }
     assertTrue(brokenRead.areClosed());
@@ -161,7 +215,7 @@ public class ByteStreamsTest extends IoTestCase {
     try {
       ByteStreams.copy(brokenRead, brokenWrite);
       fail("expected exception");
-    } catch (Exception e) {
+    } catch (IOException e) {
       assertEquals("broken read", e.getMessage());
     }
     assertTrue(brokenRead.areClosed());
@@ -178,7 +232,7 @@ public class ByteStreamsTest extends IoTestCase {
     try {
       ByteStreams.copy(okRead, out);
       fail("expected exception");
-    } catch (Exception e) {
+    } catch (IOException e) {
       assertEquals("broken write", e.getMessage());
     }
     assertTrue(okRead.areClosed());
@@ -189,7 +243,7 @@ public class ByteStreamsTest extends IoTestCase {
     try {
       ByteStreams.copy(brokenRead, out);
       fail("expected exception");
-    } catch (Exception e) {
+    } catch (IOException e) {
       assertEquals("broken read", e.getMessage());
     }
     assertTrue(brokenRead.areClosed());
@@ -200,7 +254,7 @@ public class ByteStreamsTest extends IoTestCase {
     try {
       ByteStreams.copy(brokenRead, out);
       fail("expected exception");
-    } catch (Exception e) {
+    } catch (IOException e) {
       assertEquals("broken read", e.getMessage());
     }
     assertTrue(brokenRead.areClosed());
@@ -218,7 +272,7 @@ public class ByteStreamsTest extends IoTestCase {
     try {
       ByteStreams.copy(in, brokenWrite);
       fail("expected exception");
-    } catch (Exception e) {
+    } catch (IOException e) {
       assertEquals("broken write", e.getMessage());
     }
     assertFalse(okRead.areClosed());
@@ -229,7 +283,7 @@ public class ByteStreamsTest extends IoTestCase {
     try {
       ByteStreams.copy(in, okWrite);
       fail("expected exception");
-    } catch (Exception e) {
+    } catch (IOException e) {
       assertEquals("broken read", e.getMessage());
     }
     assertFalse(brokenRead.areClosed());
@@ -240,7 +294,7 @@ public class ByteStreamsTest extends IoTestCase {
     try {
       ByteStreams.copy(in, brokenWrite);
       fail("expected exception");
-    } catch (Exception e) {
+    } catch (IOException e) {
       assertEquals("broken read", e.getMessage());
     }
     assertFalse(brokenRead.areClosed());
@@ -254,7 +308,7 @@ public class ByteStreamsTest extends IoTestCase {
     try {
       ByteStreams.toByteArray(brokenRead);
       fail("expected exception");
-    } catch (Exception e) {
+    } catch (IOException e) {
       assertEquals("broken read", e.getMessage());
     }
     assertTrue(brokenRead.areClosed());
@@ -263,7 +317,7 @@ public class ByteStreamsTest extends IoTestCase {
     try {
       ByteStreams.equal(brokenRead, okRead);
       fail("expected exception");
-    } catch (Exception e) {
+    } catch (IOException e) {
       assertEquals("broken read", e.getMessage());
     }
     assertTrue(brokenRead.areClosed());
@@ -271,7 +325,7 @@ public class ByteStreamsTest extends IoTestCase {
     try {
       ByteStreams.equal(okRead, brokenRead);
       fail("expected exception");
-    } catch (Exception e) {
+    } catch (IOException e) {
       assertEquals("broken read", e.getMessage());
     }
     assertTrue(brokenRead.areClosed());
@@ -280,10 +334,33 @@ public class ByteStreamsTest extends IoTestCase {
     try {
       ByteStreams.write(new byte[10], brokenWrite);
       fail("expected exception");
-    } catch (Exception e) {
+    } catch (IOException e) {
       assertEquals("broken write", e.getMessage());
     }
     assertTrue(brokenWrite.areClosed());
+  }
+
+  private static int getAndResetRecords(TestLogHandler logHandler) {
+    int records = logHandler.getStoredLogRecords().size();
+    logHandler.clear();
+    return records;
+  }
+
+  private static void runFailureTest(
+      InputSupplier<? extends InputStream> in, OutputSupplier<OutputStream> out) {
+    try {
+      copy(in, out);
+      fail();
+    } catch (IOException expected) {
+    }
+  }
+
+  private static OutputSupplier<OutputStream> newByteArrayOutputStreamSupplier() {
+    return new OutputSupplier<OutputStream>() {
+      @Override public OutputStream getOutput() {
+        return new ByteArrayOutputStream();
+      }
+    };
   }
 
   public void testWriteBytes() throws IOException {
