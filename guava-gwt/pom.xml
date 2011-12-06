@@ -115,10 +115,6 @@
     <resources>
       <resource>
         <directory>src</directory>
-        <includes>
-          <include>**/*CustomFieldSerializer*.java</include>
-          <include>**/*.gwt.xml</include>
-        </includes>
       </resource>
       <resource>
         <directory>src-super</directory>
