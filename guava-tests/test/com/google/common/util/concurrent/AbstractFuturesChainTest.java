@@ -18,7 +18,6 @@ package com.google.common.util.concurrent;
 
 import static com.google.common.util.concurrent.Uninterruptibles.awaitUninterruptibly;
 
-import com.google.common.base.Function;
 import com.google.common.util.concurrent.ForwardingListenableFuture.SimpleForwardingListenableFuture;
 
 import java.lang.reflect.UndeclaredThrowableException;
@@ -27,11 +26,12 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutionException;
 
 /**
- * Unit tests for {@link Futures#chain(ListenableFuture, Function)}.
+ * Base class for unit tests for {@code Futures.chain} and asynchronous {@code
+ * Futures.transform}.
  *
  * @author Nishant Thakkar
  */
-public class FuturesChainTest
+public abstract class AbstractFuturesChainTest
     extends AbstractChainedListenableFutureTest<String> {
   protected static final int SLOW_OUTPUT_VALID_INPUT_DATA = 2;
   protected static final int SLOW_FUNC_VALID_INPUT_DATA = 3;
@@ -43,33 +43,46 @@ public class FuturesChainTest
   // Signals the function so it will complete
   private CountDownLatch funcCompletionLatch;
 
-  @Override protected ListenableFuture<String> buildChainingFuture(
+  @Override protected final ListenableFuture<String> buildChainingFuture(
       ListenableFuture<Integer> inputFuture) {
     outputFuture = SettableFuture.create();
     funcIsWaitingLatch = new CountDownLatch(1);
     funcCompletionLatch = new CountDownLatch(1);
-    return Futures.chain(inputFuture, new ChainingFunction());
+    return chain(inputFuture);
   }
+
+  /**
+   * Overridden by subclasses to return the result of {@code
+   * Futures.chain(inputFuture, f)} or {@code
+   * Futures.transform(inputFuture, f)}, where {@code f} is a {@code Function}
+   * or {@code AsyncFunction} that delegates to {@link #apply}.
+   */
+  abstract ListenableFuture<String> chain(
+      ListenableFuture<Integer> inputFuture);
 
   @Override protected String getSuccessfulResult() {
     return RESULT_DATA;
   }
 
-  private class ChainingFunction
-      implements Function<Integer, ListenableFuture<String>> {
-    @Override
-    public ListenableFuture<String> apply(Integer input) {
-      switch (input) {
-        case VALID_INPUT_DATA: outputFuture.set(RESULT_DATA); break;
-        case SLOW_OUTPUT_VALID_INPUT_DATA: break;  // do nothing to the result
-        case SLOW_FUNC_VALID_INPUT_DATA:
-          funcIsWaitingLatch.countDown();
-          awaitUninterruptibly(funcCompletionLatch);
-          break;
-        default: throw new UndeclaredThrowableException(EXCEPTION);
-      }
-      return outputFuture;
+  /**
+   * Implements the {@code apply} method of the {@code Function} or {@code
+   * AsyncFunction} used in {@link #chain}.
+   */
+  final ListenableFuture<String> apply(Integer input) {
+    switch (input) {
+      case VALID_INPUT_DATA:
+        outputFuture.set(RESULT_DATA);
+        break;
+      case SLOW_OUTPUT_VALID_INPUT_DATA:
+        break;  // do nothing to the result
+      case SLOW_FUNC_VALID_INPUT_DATA:
+        funcIsWaitingLatch.countDown();
+        awaitUninterruptibly(funcCompletionLatch);
+        break;
+      default:
+        throw new UndeclaredThrowableException(EXCEPTION);
     }
+    return outputFuture;
   }
 
   public void testFutureGetThrowsFunctionException() throws Exception {

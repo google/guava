@@ -203,9 +203,30 @@ public class FuturesTest extends TestCase {
     assertNull(transformedFuture.get());
   }
 
+  /**
+   * Tests that the function is invoked only once, even if it throws an
+   * exception.
+   */
   @SuppressWarnings("deprecation") // test of deprecated method
-  public void testTransformValueRemainsMemoized_Future() throws Exception {
+  public void testTransformValueRemainsMemoized_Future() throws Throwable {
+    FutureTask<Integer> input = new FutureTask<Integer>(Callables.returning(0));
+    input.run();
+    assertFalse(input instanceof ListenableFuture);
 
+    Future<Integer> transformedFuture =
+        Futures.transform(input, newOneTimeValueReturner(99));
+
+    for (int i = 0; i < 5; i++) {
+      assertEquals(99, transformedFuture.get().intValue());
+    }
+  }
+
+  /**
+   * {@link ListenableFuture} variant of
+   * {@link #testTransformValueRemainsMemoized_Future()}.
+   */
+  public void testTransformValueRemainsMemoized_ListenableFuture()
+      throws Exception {
     class Holder {
       int value = 2;
     }
@@ -327,6 +348,20 @@ public class FuturesTest extends TestCase {
     }
   }
 
+  private static <I, O> Function<I, O> newOneTimeValueReturner(final O output) {
+    return new Function<I, O>() {
+      int calls = 0;
+
+      @Override
+      public O apply(I arg0) {
+        if (++calls > 1) {
+          fail();
+        }
+        return output;
+      }
+    };
+  }
+
   private static Function<Integer, Integer> newOneTimeExceptionThrower() {
     return new Function<Integer, Integer>() {
       int calls = 0;
@@ -426,11 +461,28 @@ public class FuturesTest extends TestCase {
     }
   }
 
-  public void testChain_genericsNull() throws Exception {
+  public void testChain_genericsWildcard() throws Exception {
     ListenableFuture<?> nullFuture = Futures.immediateFuture(null);
     ListenableFuture<?> chainedFuture =
         Futures.chain(nullFuture, Functions.constant(nullFuture));
     assertNull(chainedFuture.get());
+  }
+
+  public void testTransform_genericsWildcard_AsyncFunction() throws Exception {
+    ListenableFuture<?> nullFuture = Futures.immediateFuture(null);
+    ListenableFuture<?> chainedFuture =
+        Futures.transform(nullFuture, constantAsyncFunction(nullFuture));
+    assertNull(chainedFuture.get());
+  }
+
+  private static <I, O> AsyncFunction<I, O> constantAsyncFunction(
+      final ListenableFuture<O> output) {
+    return new AsyncFunction<I, O>() {
+      @Override
+      public ListenableFuture<O> apply(I input) {
+        return output;
+      }
+    };
   }
 
   public void testChain_genericsHierarchy() throws Exception {
@@ -443,8 +495,23 @@ public class FuturesTest extends TestCase {
             future.set(barChild);
             return future;
           }
-    };
+        };
     Bar bar = Futures.chain(future, function).get();
+    assertSame(barChild, bar);
+  }
+
+  public void testTransform_genericsHierarchy_AsyncFunction() throws Exception {
+    ListenableFuture<FooChild> future = Futures.immediateFuture(null);
+    final BarChild barChild = new BarChild();
+    AsyncFunction<Foo, BarChild> function =
+        new AsyncFunction<Foo, BarChild>() {
+          @Override public AbstractFuture<BarChild> apply(Foo unused) {
+            AbstractFuture<BarChild> future = new AbstractFuture<BarChild>() {};
+            future.set(barChild);
+            return future;
+          }
+        };
+    Bar bar = Futures.transform(future, function).get();
     assertSame(barChild, bar);
   }
 
@@ -474,6 +541,44 @@ public class FuturesTest extends TestCase {
         };
 
     ListenableFuture<Bar> chainFuture = Futures.chain(fooFuture, function);
+    Bar theBar;
+    if (unit != null) {
+      theBar = chainFuture.get(timeout, unit);
+    } else {
+      theBar = chainFuture.get();
+    }
+    assertSame(bar, theBar);
+    assertTrue(fooFuture.getWasGetCalled());
+    assertTrue(barFuture.getWasGetCalled());
+  }
+
+  public void testTransform_delegatesBlockingGet_AsyncFunction() throws Exception {
+    performAsyncFunctionTransformedFutureDelgationTest(0, null);
+  }
+
+  public void testTransform_delegatesTimedGet_AsyncFunction() throws Exception {
+    performAsyncFunctionTransformedFutureDelgationTest(25, TimeUnit.SECONDS);
+  }
+
+  private void performAsyncFunctionTransformedFutureDelgationTest(
+      long timeout, TimeUnit unit)
+      throws InterruptedException, ExecutionException, TimeoutException {
+    final Foo foo = new Foo();
+    MockRequiresGetCallFuture<Foo> fooFuture =
+        new MockRequiresGetCallFuture<Foo>(foo);
+
+    Bar bar = new Bar();
+    final MockRequiresGetCallFuture<Bar> barFuture =
+        new MockRequiresGetCallFuture<Bar>(bar);
+    AsyncFunction<Foo, Bar> function =
+        new AsyncFunction<Foo, Bar>() {
+          @Override public ListenableFuture<Bar> apply(Foo from) {
+            assertSame(foo, from);
+            return barFuture;
+          }
+        };
+
+    ListenableFuture<Bar> chainFuture = Futures.transform(fooFuture, function);
     Bar theBar;
     if (unit != null) {
       theBar = chainFuture.get(timeout, unit);
@@ -1929,6 +2034,12 @@ public class FuturesTest extends TestCase {
     tester.setDefault(Future.class, Futures.immediateFuture(DATA1));
     tester.setDefault(Executor.class, MoreExecutors.sameThreadExecutor());
     tester.setDefault(Callable.class, Callables.returning(null));
+    tester.setDefault(AsyncFunction.class, new AsyncFunction() {
+      @Override
+      public ListenableFuture apply(Object input) throws Exception {
+        return immediateFuture(DATA1);
+      }
+    });
 
     FutureCallback<Object> callback =
         new FutureCallback<Object>() {
