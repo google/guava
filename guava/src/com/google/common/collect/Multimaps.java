@@ -26,6 +26,9 @@ import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Function;
 import com.google.common.base.Joiner;
 import com.google.common.base.Joiner.MapJoiner;
+import com.google.common.base.Objects;
+import com.google.common.base.Predicate;
+import com.google.common.base.Predicates;
 import com.google.common.base.Supplier;
 import com.google.common.collect.Collections2.TransformedCollection;
 import com.google.common.collect.Maps.EntryTransformer;
@@ -1271,10 +1274,10 @@ public final class Multimaps {
     }
     private static final long serialVersionUID = 7845222491160860175L;
   }
-  
+
   /**
    * Returns a view of a multimap where each value is transformed by a function.
-   * All other properties of the multimap, such as iteration order, are left 
+   * All other properties of the multimap, such as iteration order, are left
    * intact. For example, the code: <pre>   {@code
    *
    * Multimap<String, Integer> multimap =
@@ -1290,28 +1293,28 @@ public final class Multimaps {
    *
    * ... prints {@code {a=[4, 16], b=[9, 9], c=[6]}}.
    *
-   * <p>Changes in the underlying multimap are reflected in this view. 
-   * Conversely, this view supports removal operations, and these are reflected 
+   * <p>Changes in the underlying multimap are reflected in this view.
+   * Conversely, this view supports removal operations, and these are reflected
    * in the underlying multimap.
    *
-   * <p>It's acceptable for the underlying multimap to contain null keys, and 
-   * even null values provided that the function is capable of accepting null 
+   * <p>It's acceptable for the underlying multimap to contain null keys, and
+   * even null values provided that the function is capable of accepting null
    * input.  The transformed multimap might contain null values, if the function
    * sometimes gives a null result.
    *
    * <p>The returned multimap is not thread-safe or serializable, even if the
    * underlying multimap is.  The {@code equals} and {@code hashCode} methods
-   * of the returned multimap are meaningless, since there is not a definition 
-   * of {@code equals} or {@code hashCode} for general collections, and 
-   * {@code get()} will return a general {@code Collection} as opposed to a 
+   * of the returned multimap are meaningless, since there is not a definition
+   * of {@code equals} or {@code hashCode} for general collections, and
+   * {@code get()} will return a general {@code Collection} as opposed to a
    * {@code List} or a {@code Set}.
    *
    * <p>The function is applied lazily, invoked when needed. This is necessary
    * for the returned multimap to be a view, but it means that the function will
-   * be applied many times for bulk operations like 
+   * be applied many times for bulk operations like
    * {@link Multimap#containsValue} and {@code Multimap.toString()}. For this to
-   * perform well, {@code function} should be fast. To avoid lazy evaluation 
-   * when the returned multimap doesn't need to be a view, copy the returned 
+   * perform well, {@code function} should be fast. To avoid lazy evaluation
+   * when the returned multimap doesn't need to be a view, copy the returned
    * multimap into a new multimap of your choosing.
    *
    * @since 7.0
@@ -1331,11 +1334,11 @@ public final class Multimaps {
   }
 
   /**
-   * Returns a view of a multimap whose values are derived from the original 
+   * Returns a view of a multimap whose values are derived from the original
    * multimap's entries. In contrast to {@link #transformValues}, this method's
    * entry-transformation logic may depend on the key as well as the value.
    *
-   * <p>All other properties of the transformed multimap, such as iteration 
+   * <p>All other properties of the transformed multimap, such as iteration
    * order, are left intact. For example, the code: <pre>   {@code
    *
    *   SetMultimap<String, Integer> multimap =
@@ -1352,28 +1355,28 @@ public final class Multimaps {
    *
    * ... prints {@code {a=[a, a], b=[nob]}}.
    *
-   * <p>Changes in the underlying multimap are reflected in this view. 
-   * Conversely, this view supports removal operations, and these are reflected 
+   * <p>Changes in the underlying multimap are reflected in this view.
+   * Conversely, this view supports removal operations, and these are reflected
    * in the underlying multimap.
    *
-   * <p>It's acceptable for the underlying multimap to contain null keys and 
-   * null values provided that the transformer is capable of accepting null 
-   * inputs. The transformed multimap might contain null values if the 
+   * <p>It's acceptable for the underlying multimap to contain null keys and
+   * null values provided that the transformer is capable of accepting null
+   * inputs. The transformed multimap might contain null values if the
    * transformer sometimes gives a null result.
    *
    * <p>The returned multimap is not thread-safe or serializable, even if the
    * underlying multimap is.  The {@code equals} and {@code hashCode} methods
-   * of the returned multimap are meaningless, since there is not a definition 
-   * of {@code equals} or {@code hashCode} for general collections, and 
-   * {@code get()} will return a general {@code Collection} as opposed to a 
+   * of the returned multimap are meaningless, since there is not a definition
+   * of {@code equals} or {@code hashCode} for general collections, and
+   * {@code get()} will return a general {@code Collection} as opposed to a
    * {@code List} or a {@code Set}.
    *
    * <p>The transformer is applied lazily, invoked when needed. This is
    * necessary for the returned multimap to be a view, but it means that the
    * transformer will be applied many times for bulk operations like {@link
-   * Multimap#containsValue} and {@link Object#toString}. For this to perform 
+   * Multimap#containsValue} and {@link Object#toString}. For this to perform
    * well, {@code transformer} should be fast. To avoid lazy evaluation when the
-   * returned multimap doesn't need to be a view, copy the returned multimap 
+   * returned multimap doesn't need to be a view, copy the returned multimap
    * into a new multimap of your choosing.
    *
    * <p><b>Warning:</b> This method assumes that for any instance {@code k} of
@@ -1412,7 +1415,7 @@ public final class Multimaps {
     }
 
     private transient Map<K, Collection<V2>> asMap;
-    
+
     @Override public Map<K, Collection<V2>> asMap() {
       if (asMap == null) {
         Map<K, Collection<V2>> aM = Maps.transformEntries(fromMultimap.asMap(),
@@ -1448,7 +1451,7 @@ public final class Multimaps {
     }
 
     private transient Collection<Entry<K, V2>> entries;
-    
+
     @Override public Collection<Entry<K, V2>> entries() {
       if (entries == null) {
         Collection<Entry<K, V2>> es = new TransformedEntries(transformer);
@@ -1550,7 +1553,7 @@ public final class Multimaps {
     }
 
     private transient Collection<V2> values;
-    
+
     @Override public Collection<V2> values() {
       if (values == null) {
         Collection<V2> vs = Collections2.transform(
@@ -1583,13 +1586,13 @@ public final class Multimaps {
       return asMap().toString();
     }
   }
-  
+
   /**
    * Returns a view of a {@code ListMultimap} where each value is transformed by
-   * a function. All other properties of the multimap, such as iteration order, 
+   * a function. All other properties of the multimap, such as iteration order,
    * are left intact. For example, the code: <pre>   {@code
    *
-   *   ListMultimap<String, Integer> multimap 
+   *   ListMultimap<String, Integer> multimap
    *        = ImmutableListMultimap.of("a", 4, "a", 16, "b", 9);
    *   Function<Integer, Double> sqrt =
    *       new Function<Integer, Double>() {
@@ -1603,12 +1606,12 @@ public final class Multimaps {
    *
    * ... prints {@code {a=[2.0, 4.0], b=[3.0]}}.
    *
-   * <p>Changes in the underlying multimap are reflected in this view. 
-   * Conversely, this view supports removal operations, and these are reflected 
+   * <p>Changes in the underlying multimap are reflected in this view.
+   * Conversely, this view supports removal operations, and these are reflected
    * in the underlying multimap.
    *
-   * <p>It's acceptable for the underlying multimap to contain null keys, and 
-   * even null values provided that the function is capable of accepting null 
+   * <p>It's acceptable for the underlying multimap to contain null keys, and
+   * even null values provided that the function is capable of accepting null
    * input.  The transformed multimap might contain null values, if the function
    * sometimes gives a null result.
    *
@@ -1617,10 +1620,10 @@ public final class Multimaps {
    *
    * <p>The function is applied lazily, invoked when needed. This is necessary
    * for the returned multimap to be a view, but it means that the function will
-   * be applied many times for bulk operations like 
+   * be applied many times for bulk operations like
    * {@link Multimap#containsValue} and {@code Multimap.toString()}. For this to
-   * perform well, {@code function} should be fast. To avoid lazy evaluation 
-   * when the returned multimap doesn't need to be a view, copy the returned 
+   * perform well, {@code function} should be fast. To avoid lazy evaluation
+   * when the returned multimap doesn't need to be a view, copy the returned
    * multimap into a new multimap of your choosing.
    *
    * @since 7.0
@@ -1641,12 +1644,12 @@ public final class Multimaps {
   }
 
   /**
-   * Returns a view of a {@code ListMultimap} whose values are derived from the 
-   * original multimap's entries. In contrast to 
-   * {@link #transformValues(ListMultimap, Function)}, this method's 
+   * Returns a view of a {@code ListMultimap} whose values are derived from the
+   * original multimap's entries. In contrast to
+   * {@link #transformValues(ListMultimap, Function)}, this method's
    * entry-transformation logic may depend on the key as well as the value.
    *
-   * <p>All other properties of the transformed multimap, such as iteration 
+   * <p>All other properties of the transformed multimap, such as iteration
    * order, are left intact. For example, the code: <pre>   {@code
    *
    *   Multimap<String, Integer> multimap =
@@ -1663,13 +1666,13 @@ public final class Multimaps {
    *
    * ... prints {@code {"a"=["a1", "a4"], "b"=["b6"]}}.
    *
-   * <p>Changes in the underlying multimap are reflected in this view. 
-   * Conversely, this view supports removal operations, and these are reflected 
+   * <p>Changes in the underlying multimap are reflected in this view.
+   * Conversely, this view supports removal operations, and these are reflected
    * in the underlying multimap.
    *
-   * <p>It's acceptable for the underlying multimap to contain null keys and 
-   * null values provided that the transformer is capable of accepting null 
-   * inputs. The transformed multimap might contain null values if the 
+   * <p>It's acceptable for the underlying multimap to contain null keys and
+   * null values provided that the transformer is capable of accepting null
+   * inputs. The transformed multimap might contain null values if the
    * transformer sometimes gives a null result.
    *
    * <p>The returned multimap is not thread-safe or serializable, even if the
@@ -1678,9 +1681,9 @@ public final class Multimaps {
    * <p>The transformer is applied lazily, invoked when needed. This is
    * necessary for the returned multimap to be a view, but it means that the
    * transformer will be applied many times for bulk operations like {@link
-   * Multimap#containsValue} and {@link Object#toString}. For this to perform 
+   * Multimap#containsValue} and {@link Object#toString}. For this to perform
    * well, {@code transformer} should be fast. To avoid lazy evaluation when the
-   * returned multimap doesn't need to be a view, copy the returned multimap 
+   * returned multimap doesn't need to be a view, copy the returned multimap
    * into a new multimap of your choosing.
    *
    * <p><b>Warning:</b> This method assumes that for any instance {@code k} of
@@ -1698,7 +1701,7 @@ public final class Multimaps {
       EntryTransformer<? super K, ? super V1, V2> transformer) {
     return new TransformedEntriesListMultimap<K, V1, V2>(fromMap, transformer);
   }
-  
+
   private static final class TransformedEntriesListMultimap<K, V1, V2>
       extends TransformedEntriesMultimap<K, V1, V2>
       implements ListMultimap<K, V2> {
@@ -1855,12 +1858,6 @@ public final class Multimaps {
   static abstract class Keys<K, V> extends AbstractMultiset<K> {
     abstract Multimap<K, V> multimap();
 
-    private Set<Multiset.Entry<K>> entrySet;
-
-    @Override public Set<Multiset.Entry<K>> entrySet() {
-      return (entrySet == null) ? entrySet = createEntrySet() : entrySet;
-    }
- 
     @Override Iterator<Multiset.Entry<K>> entryIterator() {
       final Iterator<Map.Entry<K, Collection<V>>> backingIterator =
           multimap().asMap().entrySet().iterator();
@@ -2102,7 +2099,7 @@ public final class Multimaps {
     void removeValuesForKey(Object key){
       multimap().removeAll(key);
     }
-    
+
     class EntrySet extends Maps.EntrySet<K, Collection<V>> {
       @Override Map<K, Collection<V>> map() {
         return AsMap.this;
@@ -2147,4 +2144,609 @@ public final class Multimaps {
       multimap().clear();
     }
   }
+
+  /**
+   * Returns a multimap containing the mappings in {@code unfiltered} whose keys
+   * satisfy a predicate. The returned multimap is a live view of
+   * {@code unfiltered}; changes to one affect the other.
+   *
+   * <p>The resulting multimap's views have iterators that don't support
+   * {@code remove()}, but all other methods are supported by the multimap and
+   * its views. When adding a key that doesn't satisfy the predicate, the
+   * multimap's {@code put()}, {@code putAll()}, and {@replaceValues()} methods
+   * throw an {@link IllegalArgumentException}.
+   *
+   * <p>When methods such as {@code removeAll()} and {@code clear()} are called on
+   * the filtered multimap or its views, only mappings whose keys satisfy the
+   * filter will be removed from the underlying multimap.
+   *
+   * <p>The returned multimap isn't threadsafe or serializable, even if
+   * {@code unfiltered} is.
+   *
+   * <p>Many of the filtered multimap's methods, such as {@code size()}, iterate
+   * across every key/value mapping in the underlying multimap and determine
+   * which satisfy the filter. When a live view is <i>not</i> needed, it may be
+   * faster to copy the filtered multimap and use the copy.
+   *
+   * <p><b>Warning:</b> {@code keyPredicate} must be <i>consistent with equals</i>,
+   * as documented at {@link Predicate#apply}. Do not provide a predicate such
+   * as {@code Predicates.instanceOf(ArrayList.class)}, which is inconsistent
+   * with equals.
+   *
+   * @since Guava release 11
+   */
+  @Beta
+  @GwtIncompatible(value = "untested")
+  public static <K, V> Multimap<K, V> filterKeys(
+    Multimap<K, V> unfiltered, final Predicate<? super K> keyPredicate) {
+    checkNotNull(keyPredicate);
+    Predicate<Entry<K, V>> entryPredicate =
+        new Predicate<Entry<K, V>>() {
+          @Override
+          public boolean apply(Entry<K, V> input) {
+            return keyPredicate.apply(input.getKey());
+          }
+        };
+    return filterEntries(unfiltered, entryPredicate);
+  }
+
+  /**
+   * Returns a multimap containing the mappings in {@code unfiltered} whose values
+   * satisfy a predicate. The returned multimap is a live view of
+   * {@code unfiltered}; changes to one affect the other.
+   *
+   * <p>The resulting multimap's views have iterators that don't support
+   * {@code remove()}, but all other methods are supported by the multimap and
+   * its views. When adding a value that doesn't satisfy the predicate, the
+   * multimap's {@code put()}, {@code putAll()}, and {@replaceValues()} methods
+   * throw an {@link IllegalArgumentException}.
+   *
+   * <p>When methods such as {@code removeAll()} and {@code clear()} are called on
+   * the filtered multimap or its views, only mappings whose value satisfy the
+   * filter will be removed from the underlying multimap.
+   *
+   * <p>The returned multimap isn't threadsafe or serializable, even if
+   * {@code unfiltered} is.
+   *
+   * <p>Many of the filtered multimap's methods, such as {@code size()}, iterate
+   * across every key/value mapping in the underlying multimap and determine
+   * which satisfy the filter. When a live view is <i>not</i> needed, it may be
+   * faster to copy the filtered multimap and use the copy.
+   *
+   * <p><b>Warning:</b> {@code valuePredicate} must be <i>consistent with
+   * equals</i>, as documented at {@link Predicate#apply}. Do not provide a
+   * predicate such as {@code Predicates.instanceOf(ArrayList.class)}, which is
+   * inconsistent with equals.
+   *
+   * @since Guava release 11
+   */
+  @Beta
+  @GwtIncompatible(value = "untested")
+  public static <K, V> Multimap<K, V> filterValues(
+    Multimap<K, V> unfiltered, final Predicate<? super V> valuePredicate) {
+    checkNotNull(valuePredicate);
+    Predicate<Entry<K, V>> entryPredicate =
+        new Predicate<Entry<K, V>>() {
+          @Override
+          public boolean apply(Entry<K, V> input) {
+            return valuePredicate.apply(input.getValue());
+          }
+        };
+    return filterEntries(unfiltered, entryPredicate);
+  }
+
+  /**
+   * Returns a multimap containing the mappings in {@code unfiltered} that
+   * satisfy a predicate. The returned multimap is a live view of
+   * {@code unfiltered}; changes to one affect the other.
+   *
+   * <p>The resulting multimap's views have iterators that don't support
+   * {@code remove()}, but all other methods are supported by the multimap and
+   * its views. When adding a key/value pair that doesn't satisfy the predicate,
+   * multimap's {@code put()}, {@code putAll()}, and {@replaceValues()} methods
+   * throw an {@link IllegalArgumentException}.
+   *
+   * <p>When methods such as {@code removeAll()} and {@code clear()} are called on
+   * the filtered multimap or its views, only mappings whose keys satisfy the
+   * filter will be removed from the underlying multimap.
+   *
+   * <p>The returned multimap isn't threadsafe or serializable, even if
+   * {@code unfiltered} is.
+   *
+   * <p>Many of the filtered multimap's methods, such as {@code size()}, iterate
+   * across every key/value mapping in the underlying multimap and determine
+   * which satisfy the filter. When a live view is <i>not</i> needed, it may be
+   * faster to copy the filtered multimap and use the copy.
+   *
+   * <p><b>Warning:</b> {@code entryPredicate} must be <i>consistent with
+   * equals</i>, as documented at {@link Predicate#apply}.
+   *
+   * @since Guava release 11
+   */
+  @Beta
+  @GwtIncompatible(value = "untested")
+  public static <K, V> Multimap<K, V> filterEntries(
+    Multimap<K, V> unfiltered, Predicate<? super Entry<K, V>> entryPredicate) {
+    checkNotNull(entryPredicate);
+    return (unfiltered instanceof FilteredMultimap)
+        ? filterFiltered((FilteredMultimap<K, V>) unfiltered, entryPredicate)
+        : new FilteredMultimap<K, V>(checkNotNull(unfiltered), entryPredicate);
+  }
+
+  /**
+   * Support removal operations when filtering a filtered multimap. Since a
+   * filtered multimap has iterators that don't support remove, passing one to
+   * the FilteredMultimap constructor would lead to a multimap whose removal
+   * operations would fail. This method combines the predicates to avoid that
+   * problem.
+   */
+  private static <K, V> Multimap<K, V> filterFiltered(FilteredMultimap<K, V> map,
+      Predicate<? super Entry<K, V>> entryPredicate) {
+    Predicate<Entry<K, V>> predicate
+        = Predicates.and(map.predicate, entryPredicate);
+    return new FilteredMultimap<K, V>(map.unfiltered, predicate);
+  }
+
+  private static class FilteredMultimap<K, V> implements Multimap<K, V> {
+    final Multimap<K, V> unfiltered;
+    final Predicate<? super Entry<K, V>> predicate;
+
+    FilteredMultimap(Multimap<K, V> unfiltered, Predicate<? super Entry<K, V>> predicate) {
+      this.unfiltered = unfiltered;
+      this.predicate = predicate;
+    }
+
+    @Override public int size() {
+      return entries().size();
+    }
+
+    @Override public boolean isEmpty() {
+      return entries().isEmpty();
+    }
+
+    @Override public boolean containsKey(Object key) {
+      return asMap().containsKey(key);
+    }
+
+    @Override public boolean containsValue(Object value) {
+      return values().contains(value);
+    }
+
+    // This method should be called only when key is a K and value is a V.
+    @SuppressWarnings("unchecked")
+    boolean satisfiesPredicate(Object key, Object value) {
+      return predicate.apply(Maps.immutableEntry((K) key, (V) value));
+    }
+
+    @Override public boolean containsEntry(Object key, Object value) {
+      return unfiltered.containsEntry(key, value) && satisfiesPredicate(key, value);
+    }
+
+    @Override public boolean put(K key, V value) {
+      checkArgument(satisfiesPredicate(key, value));
+      return unfiltered.put(key, value);
+    }
+
+    @Override public boolean remove(Object key, Object value) {
+      return containsEntry(key, value) ? unfiltered.remove(key, value) : false;
+    }
+
+    @Override public boolean putAll(K key, Iterable<? extends V> values) {
+      for (V value : values) {
+        checkArgument(satisfiesPredicate(key, value));
+      }
+      return unfiltered.putAll(key, values);
+    }
+
+    @Override public boolean putAll(Multimap<? extends K, ? extends V> multimap) {
+      for (Entry<? extends K, ? extends V> entry : multimap.entries()) {
+        checkArgument(satisfiesPredicate(entry.getKey(), entry.getValue()));
+      }
+      return unfiltered.putAll(multimap);
+    }
+
+    @Override public Collection<V> replaceValues(K key, Iterable<? extends V> values) {
+      for (V value : values) {
+        checkArgument(satisfiesPredicate(key, value));
+      }
+      // Not calling unfiltered.replaceValues() since values that don't satisify
+      // the filter should remain in the multimap.
+      Collection<V> oldValues = removeAll(key);
+      unfiltered.putAll(key, values);
+      return oldValues;
+    }
+
+    @Override public Collection<V> removeAll(Object key) {
+      List<V> removed = Lists.newArrayList();
+      Collection<V> values = unfiltered.asMap().get(key);
+      if (values != null) {
+        Iterator<V> iterator = values.iterator();
+        while (iterator.hasNext()) {
+          V value = iterator.next();
+          if (satisfiesPredicate(key, value)) {
+            removed.add(value);
+            iterator.remove();
+          }
+        }
+      }
+      if (unfiltered instanceof SetMultimap) {
+        return Collections.unmodifiableSet(Sets.newLinkedHashSet(removed));
+      } else {
+        return Collections.unmodifiableList(removed);
+      }
+    }
+
+    @Override public void clear() {
+      entries().clear();
+    }
+
+    @Override public boolean equals(@Nullable Object object) {
+      if (object == this) {
+        return true;
+      }
+      if (object instanceof Multimap) {
+        Multimap<?, ?> that = (Multimap<?, ?>) object;
+        return asMap().equals(that.asMap());
+      }
+      return false;
+    }
+
+    @Override public int hashCode() {
+      return asMap().hashCode();
+    }
+
+    @Override public String toString() {
+      return asMap().toString();
+    }
+
+    class ValuePredicate implements Predicate<V> {
+      final K key;
+      ValuePredicate(K key) {
+        this.key = key;
+      }
+      @Override public boolean apply(V value) {
+        return satisfiesPredicate(key, value);
+      }
+    }
+
+    Collection<V> filterCollection(Collection<V> collection, Predicate<V> predicate) {
+      if (collection instanceof Set) {
+        return Sets.filter((Set<V>) collection, predicate);
+      } else {
+        return Collections2.filter(collection, predicate);
+      }
+    }
+
+    @Override public Collection<V> get(K key) {
+      return filterCollection(unfiltered.get(key), new ValuePredicate(key));
+    }
+
+    @Override public Set<K> keySet() {
+      return asMap().keySet();
+    }
+
+    Collection<V> values;
+
+    @Override public Collection<V> values() {
+      return (values == null) ? values = new Values() : values;
+    }
+
+    class Values extends Multimaps.Values<K, V> {
+      @Override Multimap<K, V> multimap() {
+        return FilteredMultimap.this;
+      }
+
+      @Override public boolean contains(@Nullable Object o) {
+        return Iterators.contains(iterator(), o);
+      }
+
+      // Override remove methods since iterator doesn't support remove.
+
+      @Override public boolean remove(Object o) {
+        Iterator<Entry<K, V>> iterator = unfiltered.entries().iterator();
+        while (iterator.hasNext()) {
+          Entry<K, V> entry = iterator.next();
+          if (Objects.equal(o, entry.getValue()) && predicate.apply(entry)) {
+            iterator.remove();
+            return true;
+          }
+        }
+        return false;
+      }
+
+      @Override public boolean removeAll(Collection<?> c) {
+        boolean changed = false;
+        Iterator<Entry<K, V>> iterator = unfiltered.entries().iterator();
+        while (iterator.hasNext()) {
+          Entry<K, V> entry = iterator.next();
+          if (c.contains(entry.getValue()) && predicate.apply(entry)) {
+            iterator.remove();
+            changed = true;
+          }
+        }
+        return changed;
+      }
+
+      @Override public boolean retainAll(Collection<?> c) {
+        boolean changed = false;
+        Iterator<Entry<K, V>> iterator = unfiltered.entries().iterator();
+        while (iterator.hasNext()) {
+          Entry<K, V> entry = iterator.next();
+          if (!c.contains(entry.getValue()) && predicate.apply(entry)) {
+            iterator.remove();
+            changed = true;
+          }
+        }
+        return changed;
+      }
+    }
+
+    Collection<Entry<K, V>> entries;
+
+    @Override public Collection<Entry<K, V>> entries() {
+      return (entries == null)
+          ? entries = Collections2.filter(unfiltered.entries(), predicate)
+          : entries;
+    }
+
+    /**
+     * Remove all filtered asMap() entries that satisfy the predicate.
+     */
+    boolean removeEntriesIf(Predicate<Map.Entry<K, Collection<V>>> removalPredicate) {
+      Iterator<Map.Entry<K, Collection<V>>> iterator = unfiltered.asMap().entrySet().iterator();
+      boolean changed = false;
+      while (iterator.hasNext()) {
+        // Determine whether to remove the filtered values with this key.
+        Map.Entry<K, Collection<V>> entry = iterator.next();
+        K key = entry.getKey();
+        Collection<V> collection = entry.getValue();
+        Predicate<V> valuePredicate = new ValuePredicate(key);
+        Collection<V> filteredCollection = filterCollection(collection, valuePredicate);
+        Map.Entry<K, Collection<V>> filteredEntry = Maps.immutableEntry(key, filteredCollection);
+        if (removalPredicate.apply(filteredEntry) && !filteredCollection.isEmpty()) {
+          changed = true;
+          if (Iterables.all(collection, valuePredicate)) {
+            iterator.remove();  // Remove all values for the key.
+          } else {
+            filteredCollection.clear();  // Remove the filtered values only.
+          }
+        }
+      }
+      return changed;
+    }
+
+    Map<K, Collection<V>> asMap;
+
+    @Override public Map<K, Collection<V>> asMap() {
+      return (asMap == null) ? asMap = createAsMap() : asMap;
+    }
+
+    static final Predicate<Collection<?>> NOT_EMPTY = new Predicate<Collection<?>>() {
+      @Override public boolean apply(Collection<?> input) {
+        return !input.isEmpty();
+      }
+    };
+
+    Map<K, Collection<V>> createAsMap() {
+      // Select the values that satisify the predicate.
+      EntryTransformer<K, Collection<V>, Collection<V>> transformer
+          = new EntryTransformer<K, Collection<V>, Collection<V>>() {
+            @Override public Collection<V> transformEntry(K key, Collection<V> collection) {
+              return filterCollection(collection, new ValuePredicate(key));
+            }
+      };
+      Map<K, Collection<V>> transformed
+          = Maps.transformEntries(unfiltered.asMap(), transformer);
+
+      // Select the keys that have at least one value remaining.
+      Map<K, Collection<V>> filtered = Maps.filterValues(transformed, NOT_EMPTY);
+
+      // Override the removal methods, since removing a map entry should not
+      // affect values that don't satisfy the filter.
+      return new AsMap(filtered);
+    }
+
+    class AsMap extends ForwardingMap<K, Collection<V>> {
+     final Map<K, Collection<V>> delegate;
+
+      AsMap(Map<K, Collection<V>> delegate) {
+        this.delegate = delegate;
+      }
+
+      @Override protected Map<K, Collection<V>> delegate() {
+        return delegate;
+      }
+
+      @Override public Collection<V> remove(Object o) {
+        Collection<V> output = FilteredMultimap.this.removeAll(o);
+        return output.isEmpty() ? null : output;
+      }
+
+      @Override public void clear() {
+        FilteredMultimap.this.clear();
+      }
+
+      Set<K> keySet;
+
+      @Override public Set<K> keySet() {
+        return (keySet == null) ? keySet = new KeySet() : keySet;
+      }
+
+      class KeySet extends Maps.KeySet<K, Collection<V>> {
+        @Override Map<K, Collection<V>> map() {
+          return AsMap.this;
+        }
+
+        @Override public boolean remove(Object o) {
+           Collection<V> collection = delegate.get(o);
+           if (collection == null) {
+             return false;
+           }
+           collection.clear();
+           return true;
+        }
+
+        @Override public boolean removeAll(Collection<?> c) {
+          return Sets.removeAllImpl(this, c);
+        }
+
+        @Override public boolean retainAll(final Collection<?> c) {
+          Predicate<Map.Entry<K, Collection<V>>> removalPredicate
+              = new Predicate<Map.Entry<K, Collection<V>>>() {
+                @Override public boolean apply(Map.Entry<K, Collection<V>> entry) {
+                  return !c.contains(entry.getKey());
+                }
+              };
+          return removeEntriesIf(removalPredicate);
+        }
+      }
+
+      Values asMapValues;
+
+      @Override public Collection<Collection<V>> values() {
+        return (asMapValues == null) ? asMapValues = new Values() : asMapValues;
+      }
+
+      class Values extends Maps.Values<K, Collection<V>> {
+        @Override Map<K, Collection<V>> map() {
+          return AsMap.this;
+        }
+
+        @Override public boolean remove(Object o) {
+          for (Collection<V> collection : this) {
+            if (collection.equals(o)) {
+              collection.clear();
+              return true;
+            }
+          }
+          return false;
+        }
+
+        @Override public boolean removeAll(final Collection<?> c) {
+          Predicate<Map.Entry<K, Collection<V>>> removalPredicate
+              = new Predicate<Map.Entry<K, Collection<V>>>() {
+                @Override public boolean apply(Map.Entry<K, Collection<V>> entry) {
+                  return c.contains(entry.getValue());
+                }
+              };
+          return removeEntriesIf(removalPredicate);
+        }
+
+        @Override public boolean retainAll(final Collection<?> c) {
+          Predicate<Map.Entry<K, Collection<V>>> removalPredicate
+              = new Predicate<Map.Entry<K, Collection<V>>>() {
+                @Override public boolean apply(Map.Entry<K, Collection<V>> entry) {
+                  return !c.contains(entry.getValue());
+                }
+              };
+          return removeEntriesIf(removalPredicate);
+        }
+      }
+
+      EntrySet entrySet;
+
+      @Override public Set<Map.Entry<K, Collection<V>>> entrySet() {
+        return (entrySet == null) ? entrySet = new EntrySet(super.entrySet()) : entrySet;
+      }
+
+      class EntrySet extends Maps.EntrySet<K, Collection<V>> {
+        Set<Map.Entry<K, Collection<V>>> delegateEntries;
+
+        public EntrySet(Set<Map.Entry<K, Collection<V>>> delegateEntries) {
+          this.delegateEntries = delegateEntries;
+        }
+
+        @Override Map<K, Collection<V>> map() {
+          return AsMap.this;
+        }
+
+        @Override public Iterator<Map.Entry<K, Collection<V>>> iterator() {
+          return delegateEntries.iterator();
+        }
+
+        @Override public boolean remove(Object o) {
+          if (o instanceof Entry<?, ?>) {
+            Entry<?, ?> entry = (Entry<?, ?>) o;
+            Collection<V> collection = delegate.get(entry.getKey());
+            if (collection != null && collection.equals(entry.getValue())) {
+              collection.clear();
+              return true;
+            }
+          }
+          return false;
+        }
+
+        @Override public boolean removeAll(Collection<?> c) {
+          return Sets.removeAllImpl(this, c);
+        }
+
+        @Override public boolean retainAll(final Collection<?> c) {
+          Predicate<Map.Entry<K, Collection<V>>> removalPredicate
+              = new Predicate<Map.Entry<K, Collection<V>>>() {
+                @Override public boolean apply(Map.Entry<K, Collection<V>> entry) {
+                  return !c.contains(entry);
+                }
+              };
+          return removeEntriesIf(removalPredicate);
+        }
+      }
+    }
+
+    AbstractMultiset<K> keys;
+
+    @Override public Multiset<K> keys() {
+      return (keys == null) ? keys = new Keys() : keys;
+    }
+
+    class Keys extends Multimaps.Keys<K, V> {
+      @Override Multimap<K, V> multimap() {
+        return FilteredMultimap.this;
+      }
+
+      @Override public int remove(Object o, int occurrences) {
+        checkArgument(occurrences >= 0);
+        Collection<V> values = unfiltered.asMap().get(o);
+        if (values == null) {
+          return 0;
+        }
+        int priorCount = 0;
+        int removed = 0;
+        Iterator<V> iterator = values.iterator();
+        while (iterator.hasNext()) {
+          if (satisfiesPredicate(o, iterator.next())) {
+            priorCount++;
+            if (removed < occurrences) {
+              iterator.remove();
+              removed++;
+            }
+          }
+        }
+        return priorCount;
+      }
+
+      @Override Set<Multiset.Entry<K>> createEntrySet() {
+        return new EntrySet();
+      }
+
+      class EntrySet extends Multimaps.Keys<K, V>.KeysEntrySet {
+        @Override public boolean removeAll(Collection<?> c) {
+          return Sets.removeAllImpl(this, c);
+        }
+
+        @Override public boolean retainAll(final Collection<?> c) {
+          Predicate<Map.Entry<K, Collection<V>>> removalPredicate
+              = new Predicate<Map.Entry<K, Collection<V>>>() {
+                @Override public boolean apply(Map.Entry<K, Collection<V>> entry) {
+                  Multiset.Entry<K> multisetEntry
+                      = Multisets.immutableEntry(entry.getKey(), entry.getValue().size());
+                  return !c.contains(multisetEntry);
+                }
+              };
+          return removeEntriesIf(removalPredicate);
+        }
+      }
+    }
+  }
+
+  // TODO(jlevy): Create methods that filter a SetMultimap or SortedSetMultimap.
 }

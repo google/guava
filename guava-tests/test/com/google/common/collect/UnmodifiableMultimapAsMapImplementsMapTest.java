@@ -33,7 +33,7 @@ public class UnmodifiableMultimapAsMapImplementsMapTest
     extends AbstractMultimapAsMapImplementsMapTest {
 
   public UnmodifiableMultimapAsMapImplementsMapTest() {
-    super(false, true);
+    super(false, true, false);
   }
 
   @Override protected Map<String, Collection<Integer>> makeEmptyMap() {

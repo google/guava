@@ -24,15 +24,15 @@ import java.util.Map;
 
 /**
  * Tests for Multimaps.transformValues().asMap().
- * 
+ *
  * @author Louis Wasserman
  */
 @GwtCompatible
 public class MultimapsTransformValuesAsMapTest
     extends AbstractMultimapAsMapImplementsMapTest {
-  
+
   public MultimapsTransformValuesAsMapTest() {
-    super(true, true);
+    super(true, true, true);
   }
 
   @Override protected Map<String, Collection<Integer>> makeEmptyMap() {

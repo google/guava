@@ -33,7 +33,7 @@ public class ConstrainedMultimapAsMapImplementsMapTest
     extends AbstractMultimapAsMapImplementsMapTest {
 
   public ConstrainedMultimapAsMapImplementsMapTest() {
-    super(true, true);
+    super(true, true, true);
   }
 
   @Override protected Map<String, Collection<Integer>> makeEmptyMap() {

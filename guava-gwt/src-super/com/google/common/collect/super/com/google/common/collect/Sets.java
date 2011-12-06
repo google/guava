@@ -1348,4 +1348,16 @@ public final class Sets {
       delegate.clear();
     }
   }
+
+  /**
+   * Remove each element in an iterable from a set.
+   */
+  static boolean removeAllImpl(Set<?> set, Iterable<?> iterable) {
+    // TODO(jlevy): Have ForwardingSet.standardRemoveAll() call this method.
+    boolean changed = false;
+    for (Object o : iterable) {
+      changed |= set.remove(o);
+    }
+    return changed;
+  }
 }

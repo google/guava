@@ -26,6 +26,7 @@ import static java.lang.reflect.Proxy.newProxyInstance;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Functions;
+import com.google.common.base.Predicate;
 import com.google.common.base.Supplier;
 import com.google.common.collect.testing.CollectionTestSuiteBuilder;
 import com.google.common.collect.testing.ListTestSuiteBuilder;
@@ -42,7 +43,9 @@ import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.Feature;
 import com.google.common.collect.testing.features.ListFeature;
 import com.google.common.collect.testing.google.MultisetTestSuiteBuilder;
+import com.google.common.collect.testing.google.MultisetWritesTester;
 import com.google.common.collect.testing.google.TestStringMultisetGenerator;
+import com.google.common.collect.testing.testers.CollectionIteratorTester;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
@@ -257,6 +260,20 @@ public class MultimapCollectionTest extends TestCase {
     }
   }
 
+  private static final Predicate<Map.Entry<Integer, String>> FILTER_GET_PREDICATE
+      = new Predicate<Map.Entry<Integer, String>>() {
+        @Override public boolean apply(Entry<Integer, String> entry) {
+          return !"badvalue".equals(entry.getValue()) && 55556 != entry.getKey();
+        }
+    };
+
+  private static final Predicate<Map.Entry<String, Integer>> FILTER_KEYSET_PREDICATE
+    = new Predicate<Map.Entry<String, Integer>>() {
+      @Override public boolean apply(Entry<String, Integer> entry) {
+        return !"badkey".equals(entry.getKey()) && 55556 != entry.getValue();
+      }
+  };
+
   public static Test suite() {
     TestSuite suite = new TestSuite();
 
@@ -364,6 +381,21 @@ public class MultimapCollectionTest extends TestCase {
 
     suite.addTest(SetTestSuiteBuilder.using(new TestStringSetGenerator() {
           @Override protected Set<String> create(String[] elements) {
+            SetMultimap<Integer, String> multimap
+                = LinkedHashMultimap.create();
+            populateMultimapForGet(multimap, elements);
+            multimap.put(3, "badvalue");
+            multimap.put(55556, "foo");
+            return (Set<String>) Multimaps.filterEntries(multimap, FILTER_GET_PREDICATE).get(3);
+          }
+        })
+        .named("Multimaps.filterEntries.get")
+        .withFeatures(COLLECTION_FEATURES_ORDER)
+        .suppressing(CollectionIteratorTester.getIteratorKnownOrderRemoveSupportedMethod())
+        .createTestSuite());
+
+    suite.addTest(SetTestSuiteBuilder.using(new TestStringSetGenerator() {
+          @Override protected Set<String> create(String[] elements) {
             Multimap<String, Integer> multimap = HashMultimap.create();
             populateMultimapForKeySet(multimap, elements);
             return multimap.keySet();
@@ -452,6 +484,21 @@ public class MultimapCollectionTest extends TestCase {
         .withFeatures(FOR_MAP_FEATURES_ANY)
         .createTestSuite());
 
+    suite.addTest(SetTestSuiteBuilder.using(
+        new TestStringSetGenerator() {
+        @Override protected Set<String> create(String[] elements) {
+          SetMultimap<String, Integer> multimap = LinkedHashMultimap.create();
+          populateMultimapForKeySet(multimap, elements);
+          multimap.put("badkey", 3);
+          multimap.put("a", 55556);
+          return Multimaps.filterEntries(multimap, FILTER_KEYSET_PREDICATE).keySet();
+          }
+        })
+        .named("Multimaps.filterEntries.keySet")
+        .withFeatures(COLLECTION_FEATURES_REMOVE_ORDER)
+        .suppressing(CollectionIteratorTester.getIteratorKnownOrderRemoveSupportedMethod())
+        .createTestSuite());
+
     suite.addTest(CollectionTestSuiteBuilder.using(
         new TestStringCollectionGenerator() {
           @Override public Collection<String> create(String[] elements) {
@@ -530,6 +577,22 @@ public class MultimapCollectionTest extends TestCase {
         })
         .named("ImmutableListMultimap.values")
         .withFeatures(CollectionSize.ANY)
+        .createTestSuite());
+
+    suite.addTest(CollectionTestSuiteBuilder.using(
+        new TestStringCollectionGenerator() {
+          @Override public Collection<String> create(String[] elements) {
+            Multimap<Integer, String> multimap
+                = LinkedHashMultimap.create();
+            populateMultimapForValues(multimap, elements);
+            multimap.put(3, "badvalue");
+            multimap.put(55556, "foo");
+            return Multimaps.filterEntries(multimap, FILTER_GET_PREDICATE).values();
+          }
+        })
+        .named("Multimaps.filterEntries.values")
+        .withFeatures(COLLECTION_FEATURES_REMOVE_ORDER)
+        .suppressing(CollectionIteratorTester.getIteratorKnownOrderRemoveSupportedMethod())
         .createTestSuite());
 
     // TODO: use collection testers on Multimaps.forMap.values
@@ -650,6 +713,23 @@ public class MultimapCollectionTest extends TestCase {
         .suppressing(getIteratorDuplicateInitializingMethods())
         .createTestSuite());
 
+    suite.addTest(MultisetTestSuiteBuilder.using(
+        new TestStringMultisetGenerator() {
+        @Override protected Multiset<String> create(String[] elements) {
+          SetMultimap<String, Integer> multimap = LinkedHashMultimap.create();
+          populateMultimapForKeys(multimap, elements);
+          multimap.put("badkey", 3);
+          multimap.put("a", 55556);
+          return Multimaps.filterEntries(multimap, FILTER_KEYSET_PREDICATE).keys();
+          }
+        })
+        .named("Multimaps.filterEntries.keys")
+        .withFeatures(COLLECTION_FEATURES_REMOVE_ORDER)
+        .suppressing(CollectionIteratorTester.getIteratorKnownOrderRemoveSupportedMethod())
+        .suppressing(MultisetWritesTester.getEntrySetIteratorMethod())
+        .suppressing(getIteratorDuplicateInitializingMethods())
+        .createTestSuite());
+
     suite.addTest(CollectionTestSuiteBuilder.using(
         new TestEntrySetGenerator() {
           @Override SetMultimap<String, Integer> createMultimap() {
@@ -737,6 +817,21 @@ public class MultimapCollectionTest extends TestCase {
         .withFeatures(CollectionSize.ANY, CollectionFeature.KNOWN_ORDER)
         .createTestSuite());
 
+    suite.addTest(CollectionTestSuiteBuilder.using(
+        new TestEntriesGenerator() {
+          @Override Multimap<String, Integer> createMultimap() {
+            Multimap<String, Integer> multimap = LinkedHashMultimap.create();
+            multimap.put("badkey", 3);
+            multimap.put("a", 55556);
+            return Multimaps.filterEntries(multimap, FILTER_KEYSET_PREDICATE);
+          }
+        })
+        .named("Multimap.filterEntries.entries")
+        .withFeatures(CollectionSize.ANY, CollectionFeature.REMOVE_OPERATIONS,
+            CollectionFeature.KNOWN_ORDER)
+        .suppressing(CollectionIteratorTester.getIteratorKnownOrderRemoveSupportedMethod())
+        .createTestSuite());
+
     suite.addTest(ListTestSuiteBuilder.using(new TestStringListGenerator() {
       @Override protected List<String> create(String[] elements) {
         ListMultimap<Integer, String> multimap = ArrayListMultimap.create();
@@ -786,7 +881,6 @@ public class MultimapCollectionTest extends TestCase {
             COLLECTION_FEATURES_REMOVE).createTestSuite());
 
     suite.addTest(CollectionTestSuiteBuilder.using(new TestEntriesGenerator() {
-
       @Override public Collection<Entry<String, Integer>> create(
           Object... elements) {
         ListMultimap<String, Integer> multimap = ArrayListMultimap.create();
@@ -867,10 +961,9 @@ public class MultimapCollectionTest extends TestCase {
         return Multimaps.transformValues(
             multimap, Functions.<Integer> identity()).entries();
       }
-
-      @Override Multimap<String, Integer> createMultimap() {
-        return Multimaps.transformValues(
-            (Multimap<String, Integer>)
+     @Override Multimap<String, Integer> createMultimap() {
+       return Multimaps.transformValues(
+           (Multimap<String, Integer>)
                 ArrayListMultimap.<String, Integer> create(),
                 Functions.<Integer> identity());
       }

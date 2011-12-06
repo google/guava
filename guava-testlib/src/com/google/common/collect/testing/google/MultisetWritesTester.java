@@ -31,6 +31,7 @@ import com.google.common.collect.testing.WrongType;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 
+import java.lang.reflect.Method;
 import java.util.Collections;
 import java.util.Iterator;
 
@@ -42,6 +43,15 @@ import java.util.Iterator;
  */
 @GwtCompatible
 public class MultisetWritesTester<E> extends AbstractMultisetTester<E> {
+  /**
+   * Returns the {@link Method} instance for
+   * {@link #testEntrySet_iterator()} so that tests of
+   * classes with unmodifiable iterators can suppress it.
+   */
+  public static Method getEntrySetIteratorMethod() {
+    return Platform.getMethod(
+        MultisetWritesTester.class, "testEntrySet_iterator");
+  }
 
   @CollectionFeature.Require(SUPPORTS_ADD)
   public void testAddOccurrences() {

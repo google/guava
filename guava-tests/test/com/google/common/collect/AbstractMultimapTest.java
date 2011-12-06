@@ -21,7 +21,6 @@ import static org.junit.contrib.truth.Truth.ASSERT;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
-import com.google.common.collect.testing.MinimalIterable;
 import com.google.common.testing.SerializableTester;
 
 import junit.framework.TestCase;
@@ -251,11 +250,12 @@ public abstract class AbstractMultimapTest extends TestCase {
     assertTrue(multimap.containsEntry("foo", 3));
     assertSize(2);
 
-    /*
-     * For some reason, javac says "unchecked generic array creation" without
-     * the second <Integer>:
-     */
-    Iterable<Integer> emptyIterable = MinimalIterable.<Integer>of();
+    Iterable<Integer> emptyIterable = new Iterable<Integer>() {
+      @Override
+      public Iterator<Integer> iterator() {
+        return Iterators.emptyIterator();
+      }
+    };
     multimap.putAll("bar", emptyIterable);
     assertSize(2);
     assertEquals(Collections.singleton("foo"), multimap.keySet());

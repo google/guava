@@ -33,7 +33,7 @@ public class SubMapMultimapAsMapImplementsMapTest
     extends AbstractMultimapAsMapImplementsMapTest {
 
   public SubMapMultimapAsMapImplementsMapTest() {
-    super(true, true);
+    super(true, true, true);
   }
 
   private TreeMultimap<String, Integer> createMultimap() {

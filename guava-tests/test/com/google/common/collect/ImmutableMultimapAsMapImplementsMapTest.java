@@ -33,7 +33,7 @@ public class ImmutableMultimapAsMapImplementsMapTest
     extends AbstractMultimapAsMapImplementsMapTest {
 
   public ImmutableMultimapAsMapImplementsMapTest() {
-    super(false, false);
+    super(false, false, false);
   }
 
   @Override protected Map<String, Collection<Integer>> makeEmptyMap() {
