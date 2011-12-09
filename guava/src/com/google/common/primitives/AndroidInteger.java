@@ -17,65 +17,72 @@
 
 package com.google.common.primitives;
 
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
+
+import javax.annotation.CheckForNull;
+
 /**
- * Android {@code Integer.java}, stripped down to {@code parseInt} methods.
+ * Static utility methods derived from Android's {@code Integer.java}.
  */
 final class AndroidInteger {
   /**
-   * Parses the specified string as a signed integer value using the specified
-   * radix. The ASCII character \u002d ('-') is recognized as the minus sign.
-   *
-   * @param string
-   *            the string representation of an integer value.
-   * @param radix
-   *            the radix to use when parsing.
-   * @return the primitive integer value represented by {@code string} using
-   *         {@code radix}.
-   * @throws NumberFormatException
-   *             if {@code string} is {@code null} or has a length of zero,
-   *             {@code radix < Character.MIN_RADIX},
-   *             {@code radix > Character.MAX_RADIX}, or if {@code string}
-   *             can not be parsed as an integer value.
+   * See {@link Ints#tryParse(String)} for the public interface.
    */
-  static int parseInt(String string, int radix) throws NumberFormatException {
-    if (string == null || radix < Character.MIN_RADIX || radix > Character.MAX_RADIX) {
-      throw new NumberFormatException("unable to parse '"+string+"' as integer");
-    }
+  @CheckForNull
+  static Integer tryParse(String string) {
+    return tryParse(string, 10);
+  }
+
+  /**
+   * See {@link Ints#tryParse(String, int)} for the public interface.
+   */
+  @CheckForNull
+  static Integer tryParse(String string, int radix) {
+    checkNotNull(string);
+    checkArgument(radix >= Character.MIN_RADIX,
+        "Invalid radix %s, min radix is %s", radix, Character.MIN_RADIX);
+    checkArgument(radix <= Character.MAX_RADIX,
+        "Invalid radix %s, max radix is %s", radix, Character.MAX_RADIX);
     int length = string.length(), i = 0;
     if (length == 0) {
-      throw new NumberFormatException("unable to parse '"+string+"' as integer");
+      return null;
     }
     boolean negative = string.charAt(i) == '-';
     if (negative && ++i == length) {
-      throw new NumberFormatException("unable to parse '"+string+"' as integer");
+      return null;
     }
-
-    return parse(string, i, radix, negative);
+    return tryParse(string, i, radix, negative);
   }
 
-  private static int parse(String string, int offset, int radix, boolean negative)
-      throws NumberFormatException {
+  @CheckForNull
+  private static Integer tryParse(String string, int offset, int radix,
+      boolean negative) {
     int max = Integer.MIN_VALUE / radix;
     int result = 0, length = string.length();
     while (offset < length) {
       int digit = Character.digit(string.charAt(offset++), radix);
       if (digit == -1) {
-        throw new NumberFormatException("unable to parse '"+string+"' as integer");
+        return null;
       }
       if (max > result) {
-        throw new NumberFormatException("unable to parse '"+string+"' as integer");
+        return null;
       }
       int next = result * radix - digit;
       if (next > result) {
-        throw new NumberFormatException("unable to parse '"+string+"' as integer");
+        return null;
       }
       result = next;
     }
     if (!negative) {
       result = -result;
       if (result < 0) {
-        throw new NumberFormatException("unable to parse '"+string+"' as integer");
+        return null;
       }
+    }
+    // For GWT where ints do not overflow
+    if (result > Integer.MAX_VALUE || result < Integer.MIN_VALUE) {
+      return null;
     }
     return result;
   }

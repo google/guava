@@ -398,4 +398,82 @@ public class IntsTest extends TestCase {
     tester.setDefault(int[].class, new int[0]);
     tester.testAllPublicStaticMethods(Ints.class);
   }
+
+  @GwtIncompatible("AndroidInteger")
+  public void testTryParse() {
+    tryParseAndAssertEquals(0, "0");
+    tryParseAndAssertEquals(0, "-0");
+    tryParseAndAssertEquals(1, "1");
+    tryParseAndAssertEquals(-1, "-1");
+    tryParseAndAssertEquals(8900, "8900");
+    tryParseAndAssertEquals(-8900, "-8900");
+    tryParseAndAssertEquals(GREATEST, Integer.toString(GREATEST));
+    tryParseAndAssertEquals(LEAST, Integer.toString(LEAST));
+    assertNull(Ints.tryParse(""));
+    assertNull(Ints.tryParse("-"));
+    assertNull(Ints.tryParse("+1"));
+    assertNull(Ints.tryParse("9999999999999999"));
+    assertNull("Max integer + 1",
+        Ints.tryParse(Long.toString(((long) GREATEST) + 1)));
+    assertNull("Min integer - 1",
+        Ints.tryParse(Long.toString(((long) LEAST) - 1)));
+  }
+
+  /**
+   * Applies {@link Ints#tryParse(String)} to the given string and asserts that
+   * the result is as expected.
+   */
+  @GwtIncompatible("AndroidInteger")
+  private static void tryParseAndAssertEquals(Integer expected, String value) {
+    assertEquals(expected, Ints.tryParse(value));
+  }
+
+  @GwtIncompatible("AndroidInteger")
+  public void testTryParse_radix() {
+    for (int radix = Character.MIN_RADIX;
+        radix <= Character.MAX_RADIX; radix++) {
+      radixEncodeParseAndAssertEquals(0, radix);
+      radixEncodeParseAndAssertEquals(8000, radix);
+      radixEncodeParseAndAssertEquals(-8000, radix);
+      radixEncodeParseAndAssertEquals(GREATEST, radix);
+      radixEncodeParseAndAssertEquals(LEAST, radix);
+      assertNull("Radix: " + radix, Ints.tryParse("9999999999999999", radix));
+      assertNull("Radix: " + radix,
+          Ints.tryParse(Long.toString((long) GREATEST + 1, radix), radix));
+      assertNull("Radix: " + radix,
+          Ints.tryParse(Long.toString((long) LEAST - 1, radix), radix));
+    }
+    assertNull("Hex string and dec parm", Ints.tryParse("FFFF", 10));
+    assertEquals("Mixed hex case", 65535, (int) Ints.tryParse("ffFF", 16));
+  }
+
+  /**
+   * Encodes the an integer as a string with given radix, then uses
+   * {@link Ints#tryParse(String, int)} to parse the result. Asserts the result
+   * is the same as what we started with.
+   */
+  @GwtIncompatible("AndroidInteger")
+  private static void radixEncodeParseAndAssertEquals(Integer value,
+      int radix) {
+    assertEquals("Radix: " + radix, value,
+        Ints.tryParse(Integer.toString(value, radix), radix));
+  }
+
+  @GwtIncompatible("AndroidInteger")
+  public void testTryParse_radixTooBig() {
+    try {
+      Ints.tryParse("123", Character.MAX_RADIX + 1);
+      fail();
+    } catch (IllegalArgumentException expected) {
+    }
+  }
+
+  @GwtIncompatible("AndroidInteger")
+  public void testTryParse_radixTooSmall() {
+    try {
+      Ints.tryParse("123", Character.MIN_RADIX - 1);
+      fail();
+    } catch (IllegalArgumentException expected) {
+    }
+  }
 }
