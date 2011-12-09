@@ -31,9 +31,9 @@ import java.util.concurrent.ConcurrentMap;
 @Beta
 public enum RemovalCause {
   /**
-   * The entry was manually removed by the user. This can result from the user invoking {@link
-   * Cache#invalidate}, {@link Map#remove}, {@link ConcurrentMap#remove}, or {@link
-   * Iterator#remove}.
+   * The entry was manually removed by the user. This can result from the user invoking
+   * {@link Cache#invalidate}, {@link Cache#invalidateAll(Iterable)}, {@link Cache#invalidateAll()},
+   * {@link Map#remove}, {@link ConcurrentMap#remove}, or {@link Iterator#remove}.
    */
   EXPLICIT {
     @Override
@@ -44,8 +44,8 @@ public enum RemovalCause {
 
   /**
    * The entry itself was not actually removed, but its value was replaced by the user. This can
-   * result from the user invoking {@link Map#put}, {@link Map#putAll},
-   * {@link ConcurrentMap#replace(Object, Object)}, or
+   * result from the user invoking {@link Cache#put}, {@link LoadingCache#refresh}, {@link Map#put},
+   * {@link Map#putAll}, {@link ConcurrentMap#replace(Object, Object)}, or
    * {@link ConcurrentMap#replace(Object, Object, Object)}.
    */
   REPLACED {
@@ -68,8 +68,8 @@ public enum RemovalCause {
   },
 
   /**
-   * The entry's expiration timestamp has passed. This can occur when using {@link
-   * CacheBuilder#expireAfterWrite} or {@link CacheBuilder#expireAfterAccess}.
+   * The entry's expiration timestamp has passed. This can occur when using
+   * {@link CacheBuilder#expireAfterWrite} or {@link CacheBuilder#expireAfterAccess}.
    */
   EXPIRED {
     @Override
@@ -79,8 +79,8 @@ public enum RemovalCause {
   },
 
   /**
-   * The entry was evicted due to size constraints. This can occur when using {@link
-   * CacheBuilder#maximumSize} or {@link CacheBuilder#maximumWeight}.
+   * The entry was evicted due to size constraints. This can occur when using
+   * {@link CacheBuilder#maximumSize} or {@link CacheBuilder#maximumWeight}.
    */
   SIZE {
     @Override
