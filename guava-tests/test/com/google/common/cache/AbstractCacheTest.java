@@ -24,6 +24,7 @@ import com.google.common.collect.Lists;
 import junit.framework.TestCase;
 
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.atomic.AtomicReference;
 
 /**
@@ -40,6 +41,11 @@ public class AbstractCacheTest extends TestCase {
       public Object getIfPresent(Object key) {
         return valueRef.get();
       }
+
+      @Override
+      public Object get(Object key) throws ExecutionException{
+        throw new UnsupportedOperationException();
+      }
     };
 
     assertNull(cache.getIfPresent(new Object()));
@@ -54,6 +60,11 @@ public class AbstractCacheTest extends TestCase {
     Cache<Integer, Integer> cache = new AbstractCache<Integer, Integer>() {
       @Override
       public Integer getIfPresent(Integer key) {
+        throw new UnsupportedOperationException();
+      }
+
+      @Override
+      public Integer get(Integer key) throws ExecutionException{
         throw new UnsupportedOperationException();
       }
 

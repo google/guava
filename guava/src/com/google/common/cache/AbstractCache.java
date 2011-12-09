@@ -118,12 +118,6 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
 
   @Deprecated
   @Override
-  public V get(K key) throws ExecutionException {
-    throw new UnsupportedOperationException();
-  }
-
-  @Deprecated
-  @Override
   public V getUnchecked(K key) {
     try {
       return get(key);
