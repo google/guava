@@ -75,7 +75,7 @@ public abstract class CharEscaper extends Escaper {
    * @return the escaped form of {@code string}
    * @throws NullPointerException if {@code string} is null
    */
-  protected String escapeSlow(String s, int index) {
+  protected final String escapeSlow(String s, int index) {
     int slen = s.length();
 
     // Get a destination buffer and setup some loop variables.

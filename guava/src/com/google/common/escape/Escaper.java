@@ -87,7 +87,7 @@ public abstract class Escaper {
   /**
    * Returns a {@link Function} that invokes {@link #escape(String)} on this escaper.
    */
-  public Function<String, String> asFunction() {
+  public final Function<String, String> asFunction() {
     return asFunction;
   }
 }
