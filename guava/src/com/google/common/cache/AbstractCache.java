@@ -215,11 +215,17 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
     private final AtomicLong totalLoadTime = new AtomicLong();
     private final AtomicLong evictionCount = new AtomicLong();
 
+    /**
+     * @since 11.0
+     */
     @Override
     public void recordHits(int count) {
       hitCount.addAndGet(count);
     }
 
+    /**
+     * @since 11.0
+     */
     @Override
     public void recordMisses(int count) {
       missCount.addAndGet(count);
