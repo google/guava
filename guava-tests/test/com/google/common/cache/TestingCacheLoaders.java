@@ -14,6 +14,8 @@
 
 package com.google.common.cache;
 
+import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.Maps;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
@@ -26,6 +28,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  *
  * @author mike nonemacher
  */
+@GwtCompatible(emulated = true)
 class TestingCacheLoaders {
 
   /**
@@ -142,6 +145,7 @@ class TestingCacheLoaders {
       return key;
     }
 
+    @GwtIncompatible("reload")
     @Override
     public ListenableFuture<Integer> reload(Integer key, Integer oldValue) {
       countReload.incrementAndGet();

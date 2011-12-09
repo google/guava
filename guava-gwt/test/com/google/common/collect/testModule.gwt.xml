@@ -6,6 +6,7 @@
   <inherits name="com.google.common.collect.Collect"/>
   <inherits name="com.google.common.testing.Testing"/>
   <inherits name="org.junit.contrib.truth.Truth"/>
+  <inherits name="com.google.common.annotations.Annotations"/>
   <entry-point class="com.google.common.collect.TestModuleEntryPoint"/>
    
   <source path=""/>

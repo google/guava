@@ -19,6 +19,8 @@ package com.google.common.cache;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.Beta;
+import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Function;
 import com.google.common.base.Supplier;
 import com.google.common.util.concurrent.Futures;
@@ -37,6 +39,7 @@ import java.util.Map;
  * @since 10.0
  */
 @Beta
+@GwtCompatible(emulated = true)
 public abstract class CacheLoader<K, V> {
   /**
    * Constructor for use by subclasses.
@@ -67,6 +70,7 @@ public abstract class CacheLoader<K, V> {
    *     <b>must not be null, must not return null</b>
    * @since 11.0
    */
+  @GwtIncompatible("Futures")
   public ListenableFuture<V> reload(K key, V oldValue) throws Exception {
     return Futures.immediateFuture(load(key));
   }

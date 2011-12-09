@@ -28,6 +28,7 @@ import com.google.common.base.Equivalence;
 import com.google.common.base.Equivalences;
 import com.google.common.base.Stopwatch;
 import com.google.common.base.Ticker;
+import com.google.common.cache.AbstractCache.SimpleStatsCounter;
 import com.google.common.cache.AbstractCache.StatsCounter;
 import com.google.common.cache.CacheBuilder.NullListener;
 import com.google.common.cache.CacheBuilder.OneWeigher;
@@ -4739,7 +4740,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
     }
   }
 
-  static class LocalManualCache<K, V> extends AbstractCache<K, V> implements Serializable {
+  static class LocalManualCache<K, V> implements Cache<K, V>, Serializable {
     final LocalCache<K, V> localCache;
 
     LocalManualCache(CacheBuilder<? super K, ? super V> builder) {

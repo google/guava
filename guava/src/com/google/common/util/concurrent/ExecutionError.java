@@ -16,6 +16,7 @@
 
 package com.google.common.util.concurrent;
 
+import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.Beta;
 
 /**
@@ -31,6 +32,7 @@ import com.google.common.annotations.Beta;
  * @since 10.0
  */
 @Beta
+@GwtCompatible
 public class ExecutionError extends Error {
   /**
    * Creates a new instance with {@code null} as its detail message.

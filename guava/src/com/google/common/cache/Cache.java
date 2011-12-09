@@ -17,6 +17,7 @@
 package com.google.common.cache;
 
 import com.google.common.annotations.Beta;
+import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Function;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.util.concurrent.ExecutionError;
@@ -42,6 +43,7 @@ import javax.annotation.Nullable;
  * @since 10.0
  */
 @Beta
+@GwtCompatible
 public interface Cache<K, V> extends Function<K, V> {
 
   /**

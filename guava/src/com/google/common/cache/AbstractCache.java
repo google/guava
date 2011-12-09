@@ -17,6 +17,7 @@
 package com.google.common.cache;
 
 import com.google.common.annotations.Beta;
+import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 import com.google.common.util.concurrent.UncheckedExecutionException;
@@ -41,6 +42,7 @@ import java.util.concurrent.atomic.AtomicLong;
  * @since 10.0
  */
 @Beta
+@GwtCompatible
 public abstract class AbstractCache<K, V> implements Cache<K, V> {
 
   /** Constructor for use by subclasses. */

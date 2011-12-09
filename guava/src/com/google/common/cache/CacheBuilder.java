@@ -22,6 +22,8 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 
 import com.google.common.annotations.Beta;
+import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Ascii;
 import com.google.common.base.Equivalence;
 import com.google.common.base.Equivalences;
@@ -129,6 +131,7 @@ import javax.annotation.CheckReturnValue;
  * @since 10.0
  */
 @Beta
+@GwtCompatible(emulated = true)
 public final class CacheBuilder<K, V> {
   private static final int DEFAULT_INITIAL_CAPACITY = 16;
   private static final int DEFAULT_CONCURRENCY_LEVEL = 4;
@@ -455,6 +458,7 @@ public final class CacheBuilder<K, V> {
    *
    * @throws IllegalStateException if the key strength was already set
    */
+  @GwtIncompatible("java.lang.ref.WeakReference")
   public CacheBuilder<K, V> weakKeys() {
     return setKeyStrength(Strength.WEAK);
   }
@@ -494,6 +498,7 @@ public final class CacheBuilder<K, V> {
    *
    * @throws IllegalStateException if the value strength was already set
    */
+  @GwtIncompatible("java.lang.ref.WeakReference")
   public CacheBuilder<K, V> weakValues() {
     return setValueStrength(Strength.WEAK);
   }
@@ -517,6 +522,7 @@ public final class CacheBuilder<K, V> {
    *
    * @throws IllegalStateException if the value strength was already set
    */
+  @GwtIncompatible("java.lang.ref.SoftReference")
   public CacheBuilder<K, V> softValues() {
     return setValueStrength(Strength.SOFT);
   }
@@ -618,6 +624,7 @@ public final class CacheBuilder<K, V> {
    * @throws IllegalStateException if the refresh interval was already set
    * @since 11.0
    */
+  @GwtIncompatible("To be supported")
   public CacheBuilder<K, V> refreshInterval(long duration, TimeUnit unit) {
     checkNotNull(unit);
     checkState(refreshNanos == UNSET_INT, "refresh was already set to %s ns", refreshNanos);
@@ -639,6 +646,7 @@ public final class CacheBuilder<K, V> {
    *
    * @throws IllegalStateException if a ticker was already set
    */
+  @GwtIncompatible("To be supported")
   public CacheBuilder<K, V> ticker(Ticker ticker) {
     checkState(this.ticker == null);
     this.ticker = checkNotNull(ticker);
@@ -680,6 +688,7 @@ public final class CacheBuilder<K, V> {
    * @throws IllegalStateException if a removal listener was already set
    */
   @CheckReturnValue
+  @GwtIncompatible("To be supported")
   public <K1 extends K, V1 extends V> CacheBuilder<K1, V1> removalListener(
       RemovalListener<? super K1, ? super V1> listener) {
     checkState(this.removalListener == null);

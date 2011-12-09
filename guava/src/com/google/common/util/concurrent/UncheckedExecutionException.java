@@ -17,6 +17,7 @@
 package com.google.common.util.concurrent;
 
 import com.google.common.annotations.Beta;
+import com.google.common.annotations.GwtCompatible;
 
 /**
  * Unchecked variant of {@link java.util.concurrent.ExecutionException}. As with
@@ -36,6 +37,7 @@ import com.google.common.annotations.Beta;
  * @since 10.0
  */
 @Beta
+@GwtCompatible
 public class UncheckedExecutionException extends RuntimeException {
   /**
    * Creates a new instance with {@code null} as its detail message.
