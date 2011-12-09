@@ -136,13 +136,15 @@ public abstract class Optional<T> implements Serializable {
    * instance is known to be present, use {@link #get()} instead.
    */
   @Nullable public abstract T orNull();
-  
+
   /**
    * Returns an immutable singleton {@link Set} whose only element is the
    * contained instance if it is present; an empty immutable {@link Set}
    * otherwise.
+   *
+   * @since 11.0
    */
-  public abstract Set<T> asSet(); 
+  public abstract Set<T> asSet();
 
   /**
    * Returns {@code true} if {@code object} is an {@code Optional} instance, and either
@@ -167,6 +169,8 @@ public abstract class Optional<T> implements Serializable {
    * Returns the value of each present instance from the supplied {@code optionals}, in order,
    * skipping over occurrences of {@link Optional#absent}. Iterators are unmodifiable and are
    * evaluated lazily.
+   *
+   * @since 11.0
    */
   public static <T> Iterable<T> presentInstances(Iterable<Optional<T>> optionals) {
     checkNotNull(optionals);
@@ -223,7 +227,7 @@ public abstract class Optional<T> implements Serializable {
     @Override public T orNull() {
       return reference;
     }
-    
+
     @Override public Set<T> asSet() {
       return Collections.singleton(reference);
     }
@@ -275,7 +279,7 @@ public abstract class Optional<T> implements Serializable {
     @Override @Nullable public Object orNull() {
       return null;
     }
-    
+
     @Override public Set<Object> asSet() {
       return Collections.emptySet();
     }

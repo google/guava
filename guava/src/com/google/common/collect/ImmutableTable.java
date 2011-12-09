@@ -142,6 +142,8 @@ public abstract class ImmutableTable<R, C, V> implements Table<R, C, V> {
    * <p>Builder instances can be reused - it is safe to call {@link #build}
    * multiple times to build multiple tables in series. Each table is a superset
    * of the tables created before it.
+   *
+   * @since 11.0
    */
   public static final class Builder<R, C, V> {
     private final List<Cell<R, C, V>> cells = Lists.newArrayList();

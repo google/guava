@@ -222,6 +222,8 @@ public final class CacheStats {
   /**
    * Returns a new {@code CacheStats} representing the sum of this {@code CacheStats}
    * and {@code other}.
+   *
+   * @since 11.0
    */
   public CacheStats plus(CacheStats other) {
     return new CacheStats(

@@ -48,11 +48,17 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
   /** Constructor for use by subclasses. */
   protected AbstractCache() {}
 
+  /**
+   * @since 11.0
+   */
   @Override
   public V get(K key, Callable<V> valueLoader) throws ExecutionException {
     throw new UnsupportedOperationException();
   }
 
+  /**
+   * @since 11.0
+   */
   @Override
   public ImmutableMap<K, V> getAllPresent(Iterable<? extends K> keys) {
     Map<K, V> result = Maps.newLinkedHashMap();
@@ -64,6 +70,9 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
     return ImmutableMap.copyOf(result);
   }
 
+  /**
+   * @since 11.0
+   */
   @Override
   public void put(K key, V value) {
     throw new UnsupportedOperationException();
@@ -82,6 +91,9 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
     throw new UnsupportedOperationException();
   }
 
+  /**
+   * @since 11.0
+   */
   @Override
   public void invalidateAll(Iterable<?> keys) {
     for (Object key : keys) {
@@ -138,6 +150,7 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
      * Records cache hits. This should be called when a cache request returns a cached value.
      *
      * @param count the number of hits to record
+     * @since 11.0
      */
     public void recordHits(int count);
 
@@ -150,6 +163,7 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
      * despite all being served by the results of a single load operation.
      *
      * @param count the number of misses to record
+     * @since 11.0
      */
     public void recordMisses(int count);
 

@@ -44,22 +44,34 @@ public abstract class ForwardingCache<K, V> extends ForwardingObject implements 
   @Override
   protected abstract Cache<K, V> delegate();
 
+  /**
+   * @since 11.0
+   */
   @Override
   @Nullable
   public V getIfPresent(K key) {
     return delegate().getIfPresent(key);
   }
 
+  /**
+   * @since 11.0
+   */
   @Override
   public V get(K key, Callable<V> valueLoader) throws ExecutionException {
     return delegate().get(key, valueLoader);
   }
 
+  /**
+   * @since 11.0
+   */
   @Override
   public ImmutableMap<K, V> getAllPresent(Iterable<? extends K> keys) {
     return delegate().getAllPresent(keys);
   }
 
+  /**
+   * @since 11.0
+   */
   @Override
   public void put(K key, V value) {
     delegate().put(key, value);
@@ -70,6 +82,9 @@ public abstract class ForwardingCache<K, V> extends ForwardingObject implements 
     delegate().invalidate(key);
   }
 
+  /**
+   * @since 11.0
+   */
   @Override
   public void invalidateAll(Iterable<?> keys) {
     delegate().invalidateAll(keys);

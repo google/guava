@@ -49,6 +49,8 @@ public interface Cache<K, V> extends Function<K, V> {
   /**
    * Returns the value associated with {@code key} in this cache, or {@code null} if there is no
    * cached value for {@code key}.
+   *
+   * @since 11.0
    */
   @Nullable
   V getIfPresent(K key);
@@ -66,12 +68,16 @@ public interface Cache<K, V> extends Function<K, V> {
    * @throws UncheckedExecutionException if an unchecked exception was thrown while loading the
    *     value
    * @throws ExecutionError if an error was thrown while loading the value
+   *
+   * @since 11.0
    */
   V get(K key, Callable<V> valueLoader) throws ExecutionException;
 
   /**
    * Returns a map of the values associated with {@code keys} in this cache. The returned map will
    * only contain entries which are already present in the cache.
+   *
+   * @since 11.0
    */
   ImmutableMap<K, V> getAllPresent(Iterable<? extends K> keys);
 
@@ -81,6 +87,8 @@ public interface Cache<K, V> extends Function<K, V> {
    *
    * <p>Prefer {@link #get(K, Callable)} when using the conventional "if cached, return; otherwise
    * create, cache and return" pattern.
+   *
+   * @since 11.0
    */
   void put(K key, V value);
 
@@ -91,6 +99,8 @@ public interface Cache<K, V> extends Function<K, V> {
 
   /**
    * Discards any cached values for keys {@code keys}.
+   *
+   * @since 11.0
    */
   void invalidateAll(Iterable<?> keys);
 
