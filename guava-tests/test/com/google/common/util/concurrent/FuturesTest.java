@@ -461,13 +461,6 @@ public class FuturesTest extends TestCase {
     }
   }
 
-  public void testChain_genericsWildcard() throws Exception {
-    ListenableFuture<?> nullFuture = Futures.immediateFuture(null);
-    ListenableFuture<?> chainedFuture =
-        Futures.chain(nullFuture, Functions.constant(nullFuture));
-    assertNull(chainedFuture.get());
-  }
-
   public void testTransform_genericsWildcard_AsyncFunction() throws Exception {
     ListenableFuture<?> nullFuture = Futures.immediateFuture(null);
     ListenableFuture<?> chainedFuture =
@@ -485,21 +478,6 @@ public class FuturesTest extends TestCase {
     };
   }
 
-  public void testChain_genericsHierarchy() throws Exception {
-    ListenableFuture<FooChild> future = Futures.immediateFuture(null);
-    final BarChild barChild = new BarChild();
-    Function<Foo, AbstractFuture<BarChild>> function =
-        new Function<Foo, AbstractFuture<BarChild>>() {
-          @Override public AbstractFuture<BarChild> apply(Foo unused) {
-            AbstractFuture<BarChild> future = new AbstractFuture<BarChild>() {};
-            future.set(barChild);
-            return future;
-          }
-        };
-    Bar bar = Futures.chain(future, function).get();
-    assertSame(barChild, bar);
-  }
-
   public void testTransform_genericsHierarchy_AsyncFunction() throws Exception {
     ListenableFuture<FooChild> future = Futures.immediateFuture(null);
     final BarChild barChild = new BarChild();
@@ -513,43 +491,6 @@ public class FuturesTest extends TestCase {
         };
     Bar bar = Futures.transform(future, function).get();
     assertSame(barChild, bar);
-  }
-
-  public void testChain_delegatesBlockingGet() throws Exception {
-    performChainedFutureDelgationTest(0, null);
-  }
-
-  public void testChain_delegatesTimedGet() throws Exception {
-    performChainedFutureDelgationTest(25, TimeUnit.SECONDS);
-  }
-
-  private void performChainedFutureDelgationTest(long timeout, TimeUnit unit)
-      throws InterruptedException, ExecutionException, TimeoutException {
-    final Foo foo = new Foo();
-    MockRequiresGetCallFuture<Foo> fooFuture =
-        new MockRequiresGetCallFuture<Foo>(foo);
-
-    Bar bar = new Bar();
-    final MockRequiresGetCallFuture<Bar> barFuture =
-        new MockRequiresGetCallFuture<Bar>(bar);
-    Function<Foo, ListenableFuture<Bar>> function =
-        new Function<Foo, ListenableFuture<Bar>>() {
-          @Override public ListenableFuture<Bar> apply(Foo from) {
-            assertSame(foo, from);
-            return barFuture;
-          }
-        };
-
-    ListenableFuture<Bar> chainFuture = Futures.chain(fooFuture, function);
-    Bar theBar;
-    if (unit != null) {
-      theBar = chainFuture.get(timeout, unit);
-    } else {
-      theBar = chainFuture.get();
-    }
-    assertSame(bar, theBar);
-    assertTrue(fooFuture.getWasGetCalled());
-    assertTrue(barFuture.getWasGetCalled());
   }
 
   public void testTransform_delegatesBlockingGet_AsyncFunction() throws Exception {

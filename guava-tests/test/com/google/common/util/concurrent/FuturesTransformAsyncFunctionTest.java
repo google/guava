@@ -26,12 +26,11 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutionException;
 
 /**
- * Base class for unit tests for {@code Futures.chain} and asynchronous {@code
- * Futures.transform}.
+ * Unit tests for {@link Futures#transform(ListenableFuture, AsyncFunction)}.
  *
  * @author Nishant Thakkar
  */
-public abstract class AbstractFuturesChainTest
+public class FuturesTransformAsyncFunctionTest
     extends AbstractChainedListenableFutureTest<String> {
   protected static final int SLOW_OUTPUT_VALID_INPUT_DATA = 2;
   protected static final int SLOW_FUNC_VALID_INPUT_DATA = 3;
@@ -43,46 +42,32 @@ public abstract class AbstractFuturesChainTest
   // Signals the function so it will complete
   private CountDownLatch funcCompletionLatch;
 
-  @Override protected final ListenableFuture<String> buildChainingFuture(
+  @Override protected ListenableFuture<String> buildChainingFuture(
       ListenableFuture<Integer> inputFuture) {
     outputFuture = SettableFuture.create();
     funcIsWaitingLatch = new CountDownLatch(1);
     funcCompletionLatch = new CountDownLatch(1);
-    return chain(inputFuture);
+    return Futures.transform(inputFuture, new ChainingFunction());
   }
-
-  /**
-   * Overridden by subclasses to return the result of {@code
-   * Futures.chain(inputFuture, f)} or {@code
-   * Futures.transform(inputFuture, f)}, where {@code f} is a {@code Function}
-   * or {@code AsyncFunction} that delegates to {@link #apply}.
-   */
-  abstract ListenableFuture<String> chain(
-      ListenableFuture<Integer> inputFuture);
 
   @Override protected String getSuccessfulResult() {
     return RESULT_DATA;
   }
 
-  /**
-   * Implements the {@code apply} method of the {@code Function} or {@code
-   * AsyncFunction} used in {@link #chain}.
-   */
-  final ListenableFuture<String> apply(Integer input) {
-    switch (input) {
-      case VALID_INPUT_DATA:
-        outputFuture.set(RESULT_DATA);
-        break;
-      case SLOW_OUTPUT_VALID_INPUT_DATA:
-        break;  // do nothing to the result
-      case SLOW_FUNC_VALID_INPUT_DATA:
-        funcIsWaitingLatch.countDown();
-        awaitUninterruptibly(funcCompletionLatch);
-        break;
-      default:
-        throw new UndeclaredThrowableException(EXCEPTION);
+  private class ChainingFunction implements AsyncFunction<Integer, String> {
+    @Override
+    public ListenableFuture<String> apply(Integer input) {
+      switch (input) {
+        case VALID_INPUT_DATA: outputFuture.set(RESULT_DATA); break;
+        case SLOW_OUTPUT_VALID_INPUT_DATA: break;  // do nothing to the result
+        case SLOW_FUNC_VALID_INPUT_DATA:
+          funcIsWaitingLatch.countDown();
+          awaitUninterruptibly(funcCompletionLatch);
+          break;
+        default: throw new UndeclaredThrowableException(EXCEPTION);
+      }
+      return outputFuture;
     }
-    return outputFuture;
   }
 
   public void testFutureGetThrowsFunctionException() throws Exception {

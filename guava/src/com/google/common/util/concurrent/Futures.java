@@ -206,7 +206,8 @@ public final class Futures {
    *     scheduled to be removed from Guava in Guava release 12.0.
    */
   @Deprecated
-  public static <I, O> ListenableFuture<O> chain(ListenableFuture<I> input,
+  public static <I, O> ListenableFuture<O> chain(
+      ListenableFuture<I> input,
       Function<? super I, ? extends ListenableFuture<? extends O>> function) {
     return chain(input, function, MoreExecutors.sameThreadExecutor());
   }
@@ -362,19 +363,19 @@ public final class Futures {
    * will attempt to cancel itself.
    *
    * <p>Note: For cases in which the work of creating the derived future is
-   * fast and lightweight, consider {@linkplain Futures#chain(ListenableFuture,
-   * Function) the other overload} or explicit use of {@code
-   * sameThreadExecutor}. For heavier derivations, this choice carries some
-   * caveats: First, the thread that {@code function.apply} runs in depends on
-   * whether the input {@code Future} is done at the time {@code transform} is
-   * called. In particular, if called late, {@code transform} will run the
-   * operation in the thread that called {@code transform}.  Second, {@code
-   * function.apply} may run in an internal thread of the system responsible
-   * for the input {@code Future}, such as an RPC network thread.  Finally,
-   * during the execution of a {@code sameThreadExecutor} {@code
-   * function.apply}, all other registered but unexecuted listeners are
-   * prevented from running, even if those listeners are to run in other
-   * executors.
+   * fast and lightweight, consider {@linkplain
+   * Futures#transform(ListenableFuture, Function) the other overload} or
+   * explicit use of {@code sameThreadExecutor}. For heavier derivations, this
+   * choice carries some caveats: First, the thread that {@code function.apply}
+   * runs in depends on whether the input {@code Future} is done at the time
+   * {@code transform} is called. In particular, if called late, {@code
+   * transform} will run the operation in the thread that called {@code
+   * transform}.  Second, {@code function.apply} may run in an internal thread
+   * of the system responsible for the input {@code Future}, such as an RPC
+   * network thread.  Finally, during the execution of a {@code
+   * sameThreadExecutor} {@code function.apply}, all other registered but
+   * unexecuted listeners are prevented from running, even if those listeners
+   * are to run in other executors.
    *
    * @param input The future to transform
    * @param function A function to transform the result of the input future
