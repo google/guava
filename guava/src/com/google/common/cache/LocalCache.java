@@ -4822,6 +4822,27 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
       localCache.cleanUp();
     }
 
+    /*
+     * These methods have been moved to LoadingCache, but they temporarily
+     * remain in Cache in Guava.
+     */
+
+    public V get(K key) throws ExecutionException {
+      return localCache.getOrLoad(key);
+    }
+
+    public V getUnchecked(K key) {
+      try {
+        return get(key);
+      } catch (ExecutionException e) {
+        throw new UncheckedExecutionException(e.getCause());
+      }
+    }
+
+    public final V apply(K key) {
+      return getUnchecked(key);
+    }
+
     // Serialization Support
 
     private static final long serialVersionUID = 1;
@@ -4842,20 +4863,6 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
     // Cache methods
 
     @Override
-    public V get(K key) throws ExecutionException {
-      return localCache.getOrLoad(key);
-    }
-
-    @Override
-    public V getUnchecked(K key) {
-      try {
-        return get(key);
-      } catch (ExecutionException e) {
-        throw new UncheckedExecutionException(e.getCause());
-      }
-    }
-
-    @Override
     public ImmutableMap<K, V> getAll(Iterable<? extends K> keys) throws ExecutionException {
       return localCache.getAll(keys);
     }
@@ -4863,11 +4870,6 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
     @Override
     public void refresh(K key) {
       localCache.refresh(key);
-    }
-
-    @Override
-    public final V apply(K key) {
-      return getUnchecked(key);
     }
 
     // Serialization Support
