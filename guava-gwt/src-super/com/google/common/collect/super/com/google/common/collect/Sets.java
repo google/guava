@@ -246,6 +246,25 @@ public final class Sets {
   }
 
   /**
+   * Creates a {@code LinkedHashSet} instance, with a high enough "initial
+   * capacity" that it <i>should</i> hold {@code expectedSize} elements without
+   * growth. This behavior cannot be broadly guaranteed, but it is observed to
+   * be true for OpenJDK 1.6. It also can't be guaranteed that the method isn't
+   * inadvertently <i>oversizing</i> the returned set.
+   *
+   * @param expectedSize the number of elements you expect to add to the
+   *        returned set
+   * @return a new, empty {@code LinkedHashSet} with enough capacity to hold
+   *         {@code expectedSize} elements without resizing
+   * @throws IllegalArgumentException if {@code expectedSize} is negative
+   * @since 11.0
+   */
+  public static <E> LinkedHashSet<E> newLinkedHashSetWithExpectedSize(
+      int expectedSize) {
+    return new LinkedHashSet<E>(Maps.capacity(expectedSize));
+  }
+
+  /**
    * Creates a <i>mutable</i> {@code LinkedHashSet} instance containing the
    * given elements in order.
    *

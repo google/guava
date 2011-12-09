@@ -406,6 +406,16 @@ public class SetsTest extends TestCase {
     verifyLinkedHashSetContents(set, LONGER_LIST);
   }
 
+  public void testNewLinkedHashSetWithExpectedSizeSmall() {
+    LinkedHashSet<Integer> set = Sets.newLinkedHashSetWithExpectedSize(0);
+    verifySetContents(set, EMPTY_COLLECTION);
+  }
+
+  public void testNewLinkedHashSetWithExpectedSizeLarge() {
+    LinkedHashSet<Integer> set = Sets.newLinkedHashSetWithExpectedSize(1000);
+    verifySetContents(set, EMPTY_COLLECTION);
+  }
+
   public void testNewTreeSetEmpty() {
     TreeSet<Integer> set = Sets.newTreeSet();
     verifySortedSetContents(set, EMPTY_COLLECTION, null);
