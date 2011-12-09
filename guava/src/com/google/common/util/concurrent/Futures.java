@@ -157,11 +157,6 @@ public final class Futures {
   }
 
   /**
-   * <b>Deprecated.</b> Convert your {@code Function} to a {@code
-   * AsyncFunction}, and use {@link #transform(ListenableFuture,
-   * AsyncFunction)}. This method is scheduled to be removed from Guava in Guava
-   * release 12.0.
-   *
    * <p>Returns a new {@code ListenableFuture} whose result is asynchronously
    * derived from the result of the given {@code Future}. More precisely, the
    * returned {@code Future} takes its result from a {@code Future} produced by
@@ -206,6 +201,9 @@ public final class Futures {
    *     to the results of the returned future.  This will be run in the thread
    *     that notifies input it is complete.
    * @return A future that holds result of the chain.
+   * @deprecated Convert your {@code Function} to a {@code AsyncFunction}, and
+   *     use {@link #transform(ListenableFuture, AsyncFunction)}. This method is
+   *     scheduled to be removed from Guava in Guava release 12.0.
    */
   @Deprecated
   public static <I, O> ListenableFuture<O> chain(ListenableFuture<I> input,
@@ -214,11 +212,6 @@ public final class Futures {
   }
 
   /**
-   * <b>Deprecated.</b> Convert your {@code Function} to a {@code
-   * AsyncFunction}, and use {@link #transform(ListenableFuture, AsyncFunction,
-   * Executor)}. This method is scheduled to be removed from Guava in Guava
-   * release 12.0.
-   *
    * <p>Returns a new {@code ListenableFuture} whose result is asynchronously
    * derived from the result of the given {@code Future}. More precisely, the
    * returned {@code Future} takes its result from a {@code Future} produced by
@@ -263,6 +256,9 @@ public final class Futures {
    *     to the results of the returned future.
    * @param executor Executor to run the function in.
    * @return A future that holds result of the chain.
+   * @deprecated Convert your {@code Function} to a {@code AsyncFunction}, and
+   *     use {@link #transform(ListenableFuture, AsyncFunction, Executor)}. This
+   *     method is scheduled to be removed from Guava in Guava release 12.0.
    */
   @Deprecated
   public static <I, O> ListenableFuture<O> chain(ListenableFuture<I> input,
