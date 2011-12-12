@@ -270,6 +270,7 @@ public final class Monitor {
    * This is an ArrayList rather than, say, a HashSet so that iteration and almost all adds don't
    * incur any object allocation overhead.
    */
+  @GuardedBy("lock")
   private final ArrayList<Guard> activeGuards = Lists.newArrayListWithCapacity(1);
 
   /**
@@ -596,7 +597,6 @@ public final class Monitor {
    * Waits for the guard to be satisfied. Waits indefinitely, but may be interrupted. May be
    * called only by a thread currently occupying this monitor.
    */
-  @GuardedBy("lock")
   public void waitFor(Guard guard) throws InterruptedException {
     if (guard.monitor != this) {
       throw new IllegalMonitorStateException();
@@ -611,7 +611,6 @@ public final class Monitor {
    * Waits for the guard to be satisfied. Waits indefinitely. May be called only by a thread
    * currently occupying this monitor.
    */
-  @GuardedBy("lock")
   public void waitForUninterruptibly(Guard guard) {
     if (guard.monitor != this) {
       throw new IllegalMonitorStateException();
@@ -628,7 +627,6 @@ public final class Monitor {
    *
    * @return whether the guard is now satisfied
    */
-  @GuardedBy("lock")
   public boolean waitFor(Guard guard, long time, TimeUnit unit) throws InterruptedException {
     if (guard.monitor != this) {
       throw new IllegalMonitorStateException();
@@ -645,7 +643,6 @@ public final class Monitor {
    *
    * @return whether the guard is now satisfied
    */
-  @GuardedBy("lock")
   public boolean waitForUninterruptibly(Guard guard, long time, TimeUnit unit) {
     if (guard.monitor != this) {
       throw new IllegalMonitorStateException();
@@ -659,7 +656,6 @@ public final class Monitor {
   /**
    * Leaves this monitor. May be called only by a thread currently occupying this monitor.
    */
-  @GuardedBy("lock")
   public void leave() {
     final ReentrantLock lock = this.lock;
     if (!lock.isHeldByCurrentThread()) {
