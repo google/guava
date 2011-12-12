@@ -206,21 +206,9 @@ public final class Monitor {
 
   /**
    * A boolean condition for which a thread may wait. A {@code Guard} is associated with a single
-   * {@code Monitor}.
-   *
-   * <p>An implementation of this interface must ensure the following:
-   *
-   * <ul>
-   * <li>Calling {@code isSatisfied()} must be thread-safe with its monitor occupied, because the
-   * monitor may check the guard at arbitrary times from a thread occupying the monitor.
-   * <li>Calling {@code isSatisfied()} must not itself have the effect of altering the return value
-   * of this or any other guard's {@code isSatisfied()} method.
-   * <li>No thread that is <i>not</i> occupying the monitor may cause the value returned by {@code
-   * isSatisfied()} to change from true to false.
-   * <li>If any thread that is <i>not</i> occupying the monitor causes the value returned by {@code
-   * isSatisfied()} to change from false to true, {@link Monitor#reevaluateGuards()} must be called
-   * in order to notify any waiting threads.
-   * </ul>
+   * {@code Monitor}. The monitor may check the guard at arbitrary times from any thread occupying
+   * the monitor, so code should not be written to rely on how often a guard might or might not be
+   * checked.
    * 
    * <p>If a {@code Guard} is passed into any method of a {@code Monitor} other than the one it is
    * associated with, an {@link IllegalMonitorStateException} is thrown.
@@ -242,7 +230,9 @@ public final class Monitor {
     }
 
     /**
-     * Evaluates this guard's boolean condition.
+     * Evaluates this guard's boolean condition. This method is always called with the associated
+     * monitor already occupied. Implementations of this method must depend only on state protected
+     * by the associated monitor, and must not modify that state.
      */
     public abstract boolean isSatisfied();
 
@@ -661,23 +651,6 @@ public final class Monitor {
     if (!lock.isHeldByCurrentThread()) {
       throw new IllegalMonitorStateException();
     }
-    try {
-      signalConditionsOfSatisfiedGuards(null);
-    } finally {
-      lock.unlock();
-    }
-  }
-
-  /**
-   * Forces all guards to be reevaluated so that threads waiting inside the monitor for guards
-   * whose conditions have become true <i>outside</i> of the monitor will be notified.
-   *
-   * <p>This never needs to be called by a thread occupying the monitor, because all other monitor
-   * methods ensure that all guards are evaluated whenever necessary.
-   */
-  public void reevaluateGuards() {
-    final ReentrantLock lock = this.lock;
-    lock.lock();
     try {
       signalConditionsOfSatisfiedGuards(null);
     } finally {
