@@ -34,6 +34,10 @@ import javax.annotation.Nullable;
  * {@link #get(K, Callable)} or {@link #put(K, V)}, and are stored in the cache until either
  * evicted or manually invalidated.
  *
+ * <p><b>Note:</b> in release 12.0, all methods moved from {@code Cache} to {@link LoadingCache}
+ * will be deleted from {@code Cache}. As part of this transition {@code Cache} will no longer
+ * extend {@link Function}.
+ *
  * <p>Implementations of this interface are expected to be thread-safe, and can be safely accessed
  * by multiple concurrent threads.
  *
