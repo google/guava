@@ -607,36 +607,8 @@ public final class Ints {
    */
   @Beta
   @CheckForNull
-  @GwtIncompatible("AndroidInteger") // TODO(cpovirk): make guava_licensed work with javacomp
+  @GwtIncompatible("TODO")
   public static Integer tryParse(String string) {
     return AndroidInteger.tryParse(string, 10);
-  }
-
-  /**
-   * Parses the specified string as a signed integer value using the specified
-   * radix. The ASCII character {@code '-'} (<code>'&#92;u002D'</code>) is
-   * recognized as the minus sign.
-   *
-   * <p>Unlike {@link Integer#parseInt(String, int)}, this method returns
-   * {@code null} instead of throwing an exception if parsing fails.
-   *
-   * <p>Note that strings prefixed with ASCII {@code '+'} are rejected, even
-   * under JDK 7, despite the change to {@link Integer#parseInt(String, int)}
-   * for that version.
-   *
-   * @param string the string representation of an integer value
-   * @param radix the radix to use when parsing
-   * @return the integer value represented by {@code string} using
-   *     {@code radix}, or {@code null} if {@code string} has a length of zero
-   *     or cannot be parsed as an integer value
-   * @throws IllegalArgumentException if {@code radix < Character.MIN_RADIX} or
-   *     {@code radix > Character.MAX_RADIX}
-   * @since 11.0
-   */
-  @Beta
-  @CheckForNull
-  @GwtIncompatible("AndroidInteger") // TODO(cpovirk): make guava_licensed work with javacomp
-  public static Integer tryParse(String string, int radix) {
-    return AndroidInteger.tryParse(string, radix);
   }
 }
