@@ -278,6 +278,33 @@ public class ImmutableListMultimap<K, V>
     return (list == null) ? ImmutableList.<V>of() : list;
   }
 
+  private transient ImmutableListMultimap<V, K> inverse;
+
+  /**
+   * {@inheritDoc}
+   *
+   * <p>Because an inverse of a list multimap can contain multiple pairs with the same key and
+   * value, this method returns an {@code ImmutableListMultimap} rather than the
+   * {@code ImmutableMultimap} specified in the {@code ImmutableMultimap} class.
+   *
+   * @since 11
+   */
+  @Beta
+  public ImmutableListMultimap<V, K> inverse() {
+    ImmutableListMultimap<V, K> result = inverse;
+    return (result == null) ? (inverse = invert()) : result;
+  }
+
+  private ImmutableListMultimap<V, K> invert() {
+    Builder<V, K> builder = builder();
+    for (Entry<K, V> entry : entries()) {
+      builder.put(entry.getValue(), entry.getKey());
+    }
+    ImmutableListMultimap<V, K> invertedMultimap = builder.build();
+    invertedMultimap.inverse = this;
+    return invertedMultimap;
+  }
+
   /**
    * Guaranteed to throw an exception and leave the multimap unmodified.
    *

@@ -417,6 +417,28 @@ public class ImmutableSetMultimapTest extends TestCase {
         "one", 1, "two", 2, "three", 3, "four", 4, "five", 5);
   }
 
+  public void testInverse() {
+    assertEquals(
+        ImmutableSetMultimap.<Integer, String>of(),
+        ImmutableSetMultimap.<String, Integer>of().inverse());
+    assertEquals(
+        ImmutableSetMultimap.of(1, "one"),
+        ImmutableSetMultimap.of("one", 1).inverse());
+    assertEquals(
+        ImmutableSetMultimap.of(1, "one", 2, "two"),
+        ImmutableSetMultimap.of("one", 1, "two", 2).inverse());
+    assertEquals(
+        ImmutableSetMultimap.of('o', "of", 'f', "of", 't', "to", 'o', "to"),
+        ImmutableSetMultimap.of("of", 'o', "of", 'f', "to", 't', "to", 'o').inverse());
+  }
+
+  public void testInverseMinimizesWork() {
+    ImmutableSetMultimap<String, Character> multimap =
+        ImmutableSetMultimap.of("of", 'o', "of", 'f', "to", 't', "to", 'o');
+    assertSame(multimap.inverse(), multimap.inverse());
+    assertSame(multimap, multimap.inverse().inverse());
+  }
+
   private static <K, V> void assertMultimapEquals(Multimap<K, V> multimap,
       Object... alternatingKeysAndValues) {
     assertEquals(multimap.size(), alternatingKeysAndValues.length / 2);

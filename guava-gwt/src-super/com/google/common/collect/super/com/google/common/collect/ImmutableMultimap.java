@@ -49,10 +49,14 @@ import javax.annotation.Nullable;
  * it has no public or protected constructors. Thus, instances of this class
  * are guaranteed to be immutable.
  *
+ * <p>In addition to methods defined by {@link Multimap}, an {@link #inverse}
+ * method is also supported.
+ *
  * @author Jared Levy
  * @since 2.0 (imported from Google Collections Library)
  */
 @GwtCompatible(emulated = true)
+// TODO(user): If BiMultimap graduates from labs, this class should implement it.
 public abstract class ImmutableMultimap<K, V>
     implements Multimap<K, V>, Serializable {
 
@@ -128,7 +132,7 @@ public abstract class ImmutableMultimap<K, V>
    * Multimap for {@link ImmutableMultimap.Builder} that sorts key and allows
    * duplicate values,
    */
-  private static class SortedKeyBuilderMultimap<K, V> 
+  private static class SortedKeyBuilderMultimap<K, V>
       extends AbstractMultimap<K, V> {
     SortedKeyBuilderMultimap(
         Comparator<? super K> keyComparator, Multimap<K, V> multimap) {
@@ -140,7 +144,7 @@ public abstract class ImmutableMultimap<K, V>
     }
     private static final long serialVersionUID = 0;
   }
-  
+
   /**
    * A builder for creating immutable multimap instances, especially
    * {@code public static final} multimaps ("constant multimaps"). Example:
@@ -179,7 +183,7 @@ public abstract class ImmutableMultimap<K, V>
 
     /**
      * Adds an entry to the built multimap.
-     * 
+     *
      * @since 11.0
      */
     public Builder<K, V> put(Entry<? extends K, ? extends V> entry) {
@@ -232,7 +236,7 @@ public abstract class ImmutableMultimap<K, V>
 
     /**
      * Specifies the ordering of the generated multimap's keys.
-     * 
+     *
      * @since 8.0
      */
     @Beta
@@ -244,7 +248,7 @@ public abstract class ImmutableMultimap<K, V>
 
     /**
      * Specifies the ordering of the generated multimap's values for each key.
-     * 
+     *
      * @since 8.0
      */
     @Beta
@@ -252,7 +256,7 @@ public abstract class ImmutableMultimap<K, V>
       this.valueComparator = checkNotNull(valueComparator);
       return this;
     }
-    
+
     /**
      * Returns a newly-created immutable multimap.
      */
@@ -346,6 +350,16 @@ public abstract class ImmutableMultimap<K, V>
    */
   @Override
   public abstract ImmutableCollection<V> get(K key);
+
+  /**
+   * Returns an immutable multimap which is the inverse of this one. For every
+   * key-value mapping in the original, the result will have a mapping with
+   * key and value reversed.
+   *
+   * @since 11
+   */
+  @Beta
+  public abstract ImmutableMultimap<V, K> inverse();
 
   /**
    * Guaranteed to throw an exception and leave the multimap unmodified.
@@ -603,4 +617,3 @@ public abstract class ImmutableMultimap<K, V>
 
   private static final long serialVersionUID = 0;
 }
-

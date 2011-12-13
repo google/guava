@@ -360,6 +360,33 @@ public class ImmutableSetMultimap<K, V>
     }
   }
 
+  private transient ImmutableSetMultimap<V, K> inverse;
+
+  /**
+   * {@inheritDoc}
+   *
+   * <p>Because an inverse of a set multimap cannot contain multiple pairs with the same key and
+   * value, this method returns an {@code ImmutableSetMultimap} rather than the
+   * {@code ImmutableMultimap} specified in the {@code ImmutableMultimap} class.
+   *
+   * @since 11
+   */
+  @Beta
+  public ImmutableSetMultimap<V, K> inverse() {
+    ImmutableSetMultimap<V, K> result = inverse;
+    return (result == null) ? (inverse = invert()) : result;
+  }
+
+  private ImmutableSetMultimap<V, K> invert() {
+    Builder<V, K> builder = builder();
+    for (Entry<K, V> entry : entries()) {
+      builder.put(entry.getValue(), entry.getKey());
+    }
+    ImmutableSetMultimap<V, K> invertedMultimap = builder.build();
+    invertedMultimap.inverse = this;
+    return invertedMultimap;
+  }
+
   /**
    * Guaranteed to throw an exception and leave the multimap unmodified.
    *

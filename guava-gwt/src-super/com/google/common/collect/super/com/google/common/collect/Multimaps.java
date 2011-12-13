@@ -304,6 +304,9 @@ public final class Multimaps {
    * Copies each key-value mapping in {@code source} into {@code dest}, with
    * its key and value reversed.
    *
+   * <p>If {@code source} is an {@link ImmutableMultimap}, consider using
+   * {@link ImmutableMultimap#inverse} instead.
+   *
    * @param source any multimap
    * @param dest the multimap to copy into; usually empty
    * @return {@code dest}
