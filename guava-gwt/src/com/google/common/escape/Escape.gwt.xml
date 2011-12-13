@@ -1,5 +1,0 @@
-<module>
-  <source path=""/>
-  <super-source path="super"/>
-  <inherits name="com.google.common.base.Base"/>
-</module>
