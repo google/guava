@@ -69,7 +69,7 @@ public class XmlEscapers {
    *
    * <p><b>Note</b>: Double and single quotes are not escaped, so it is <b>not
    * safe</b> to use this escaper to escape attribute values. Use
-   * {@link #xmlEscaper} if the output can appear in element content or
+   * {@link #xmlContentEscaper} if the output can appear in element content or
    * {@link #xmlAttributeEscaper} in attribute values.
    *
    * <p>This escaper does not escape non-ASCII characters to their numeric
@@ -88,13 +88,13 @@ public class XmlEscapers {
 
   /**
    * Returns an {@link Escaper} instance that escapes special characters in a
-   * string so it can safely be included in an XML document as attribute values.
+   * string so it can safely be included in XML document as an attribute value.
    * See section
    * <a href="http://www.w3.org/TR/2008/REC-xml-20081126/#AVNormalize">3.3.3</a>
    * of the XML specification.
    *
    * <p>This escaper does not escape non-ASCII characters to their numeric
-   * character references (NCR), however horizontal tab {@code '\t'}, line feed
+   * character references (NCR). However, horizontal tab {@code '\t'}, line feed
    * {@code '\n'} and carriage return {@code '\r'} are escaped to a
    * corresponding NCR {@code "&#x9;"}, {@code "&#xA;"}, and {@code "&#xD;"}
    * respectively. Any other non-ASCII characters appearing in the input will
