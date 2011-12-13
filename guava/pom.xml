@@ -114,6 +114,7 @@
           <docencoding>UTF-8</docencoding>
           <charset>UTF-8</charset>
           <additionalparam>-XDignore.symbol.file</additionalparam>
+          <excludePackageNames>com.google.common.base.internal</excludePackageNames>
           <linksource>true</linksource>
           <links>
             <link>http://jsr-305.googlecode.com/svn/trunk/javadoc</link>
