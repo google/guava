@@ -251,6 +251,11 @@ public final class Monitor {
   }
 
   /**
+   * Whether this monitor is fair.
+   */
+  private final boolean fair;
+  
+  /**
    * The lock underlying this monitor.
    */
   private final ReentrantLock lock;
@@ -278,6 +283,7 @@ public final class Monitor {
    *        fast) one
    */
   public Monitor(boolean fair) {
+    this.fair = fair;
     this.lock = new ReentrantLock(fair);
   }
 
@@ -302,6 +308,9 @@ public final class Monitor {
    */
   public boolean enter(long time, TimeUnit unit) {
     final ReentrantLock lock = this.lock;
+    if (!fair && lock.tryLock()) {
+      return true;
+    }
     long startNanos = System.nanoTime();
     long timeoutNanos = unit.toNanos(time);
     long remainingNanos = timeoutNanos;
@@ -397,13 +406,18 @@ public final class Monitor {
     }
     final ReentrantLock lock = this.lock;
     boolean reentrant = lock.isHeldByCurrentThread();
-    long startNanos = System.nanoTime();
-    if (!lock.tryLock(time, unit)) {
-      return false;
+    long remainingNanos;
+    if (!fair && lock.tryLock()) {
+      remainingNanos = unit.toNanos(time);
+    } else {
+      long startNanos = System.nanoTime();
+      if (!lock.tryLock(time, unit)) {
+        return false;
+      }
+      remainingNanos = unit.toNanos(time) - (System.nanoTime() - startNanos);
     }
     boolean satisfied = false;
     try {
-      long remainingNanos = unit.toNanos(time) - (System.nanoTime() - startNanos);
       satisfied = waitInterruptibly(guard, remainingNanos, reentrant);
     } finally {
       if (!satisfied) {
@@ -425,22 +439,27 @@ public final class Monitor {
     }
     final ReentrantLock lock = this.lock;
     boolean reentrant = lock.isHeldByCurrentThread();
-    long startNanos = System.nanoTime();
-    long timeoutNanos = unit.toNanos(time);
-    long remainingNanos = timeoutNanos;
     boolean interruptIgnored = false;
     try {
-      while (true) {
-        try {
-          if (lock.tryLock(remainingNanos, TimeUnit.NANOSECONDS)) {
-            break;
-          } else {
-            return false;
+      long remainingNanos;
+      if (!fair && lock.tryLock()) {
+        remainingNanos = unit.toNanos(time);
+      } else {
+        long startNanos = System.nanoTime();
+        long timeoutNanos = unit.toNanos(time);
+        remainingNanos = timeoutNanos;
+        while (true) {
+          try {
+            if (lock.tryLock(remainingNanos, TimeUnit.NANOSECONDS)) {
+              break;
+            } else {
+              return false;
+            }
+          } catch (InterruptedException ignored) {
+            interruptIgnored = true;
+          } finally {
+            remainingNanos = (timeoutNanos - (System.nanoTime() - startNanos));
           }
-        } catch (InterruptedException ignored) {
-          interruptIgnored = true;
-        } finally {
-          remainingNanos = (timeoutNanos - (System.nanoTime() - startNanos));
         }
       }
       boolean satisfied = false;
