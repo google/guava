@@ -357,7 +357,7 @@ public class LocalCacheTest extends TestCase {
     long duration = 42;
     TimeUnit unit = TimeUnit.SECONDS;
     LocalCache<Object, Object> map =
-        makeLocalCache(createCacheBuilder().refreshInterval(duration, unit));
+        makeLocalCache(createCacheBuilder().refreshAfterWrite(duration, unit));
     assertEquals(unit.toNanos(duration), map.refreshNanos);
   }
 

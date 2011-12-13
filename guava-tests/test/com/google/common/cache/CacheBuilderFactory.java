@@ -168,7 +168,7 @@ class CacheBuilderFactory {
       builder.expireAfterAccess(expireAfterAccess.duration, expireAfterAccess.unit);
     }
     if (refresh != null) {
-      builder.refreshInterval(refresh.duration, refresh.unit);
+      builder.refreshAfterWrite(refresh.duration, refresh.unit);
     }
     if (keyStrength != null) {
       builder.setKeyStrength(keyStrength);

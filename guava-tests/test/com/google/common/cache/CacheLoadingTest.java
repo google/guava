@@ -219,7 +219,7 @@ public class CacheLoadingTest extends TestCase {
 
     LoadingCache<Object, Object> cache = CacheBuilder.newBuilder()
         .ticker(ticker)
-        .refreshInterval(1, MILLISECONDS)
+        .refreshAfterWrite(1, MILLISECONDS)
         .build(loader);
     Object key = new Object();
     CacheStats stats = cache.stats();
@@ -278,7 +278,7 @@ public class CacheLoadingTest extends TestCase {
 
     LoadingCache<Object, Object> cache = CacheBuilder.newBuilder()
         .ticker(ticker)
-        .refreshInterval(1, MILLISECONDS)
+        .refreshAfterWrite(1, MILLISECONDS)
         .build(loader);
     Object key = new Object();
     CacheStats stats = cache.stats();
@@ -749,7 +749,7 @@ public class CacheLoadingTest extends TestCase {
 
     LoadingCache<Object, Object> cache = CacheBuilder.newBuilder()
         .ticker(ticker)
-        .refreshInterval(1, MILLISECONDS)
+        .refreshAfterWrite(1, MILLISECONDS)
         .build(loader);
     Object key = new Object();
     CacheStats stats = cache.stats();
@@ -1025,7 +1025,7 @@ public class CacheLoadingTest extends TestCase {
 
     LoadingCache<Object, Object> cache = CacheBuilder.newBuilder()
         .ticker(ticker)
-        .refreshInterval(1, MILLISECONDS)
+        .refreshAfterWrite(1, MILLISECONDS)
         .build(loader);
     Object key = new Object();
     CacheStats stats = cache.stats();
@@ -1269,7 +1269,7 @@ public class CacheLoadingTest extends TestCase {
 
     LoadingCache<Object, Object> cache = CacheBuilder.newBuilder()
         .ticker(ticker)
-        .refreshInterval(1, MILLISECONDS)
+        .refreshAfterWrite(1, MILLISECONDS)
         .build(loader);
     Object key = new Object();
     CacheStats stats = cache.stats();
@@ -1513,7 +1513,7 @@ public class CacheLoadingTest extends TestCase {
 
     LoadingCache<Object, Object> cache = CacheBuilder.newBuilder()
         .ticker(ticker)
-        .refreshInterval(1, MILLISECONDS)
+        .refreshAfterWrite(1, MILLISECONDS)
         .build(loader);
     Object key = new Object();
     CacheStats stats = cache.stats();

@@ -625,7 +625,7 @@ public final class CacheBuilder<K, V> {
    * @since 11.0
    */
   @GwtIncompatible("To be supported")
-  public CacheBuilder<K, V> refreshInterval(long duration, TimeUnit unit) {
+  public CacheBuilder<K, V> refreshAfterWrite(long duration, TimeUnit unit) {
     checkNotNull(unit);
     checkState(refreshNanos == UNSET_INT, "refresh was already set to %s ns", refreshNanos);
     checkArgument(duration > 0, "duration must be positive: %s %s", duration, unit);
@@ -756,7 +756,7 @@ public final class CacheBuilder<K, V> {
   }
 
   private void checkNonLoadingCache() {
-    checkState(refreshNanos == UNSET_INT, "refreshInterval requires a LoadingCache");
+    checkState(refreshNanos == UNSET_INT, "refreshAfterWrite requires a LoadingCache");
   }
 
   private void checkWeightWithWeigher() {

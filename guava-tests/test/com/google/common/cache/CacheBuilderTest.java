@@ -326,22 +326,22 @@ public class CacheBuilderTest extends TestCase {
     // well, it didn't blow up.
   }
 
-  @GwtIncompatible("refreshInterval")
+  @GwtIncompatible("refreshAfterWrite")
   public void testRefresh_zero() {
     CacheBuilder<Object, Object> builder = new CacheBuilder<Object, Object>();
     try {
-      builder.refreshInterval(0, SECONDS);
+      builder.refreshAfterWrite(0, SECONDS);
       fail();
     } catch (IllegalArgumentException expected) {}
   }
 
-  @GwtIncompatible("refreshInterval")
+  @GwtIncompatible("refreshAfterWrite")
   public void testRefresh_setTwice() {
     CacheBuilder<Object, Object> builder =
-        new CacheBuilder<Object, Object>().refreshInterval(3600, SECONDS);
+        new CacheBuilder<Object, Object>().refreshAfterWrite(3600, SECONDS);
     try {
       // even to the same value is not allowed
-      builder.refreshInterval(3600, SECONDS);
+      builder.refreshAfterWrite(3600, SECONDS);
       fail();
     } catch (IllegalStateException expected) {}
   }

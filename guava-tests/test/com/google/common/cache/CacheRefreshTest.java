@@ -32,7 +32,7 @@ public class CacheRefreshTest extends TestCase {
     FakeTicker ticker = new FakeTicker();
     IncrementingLoader loader = incrementingLoader();
     LoadingCache<Integer, Integer> cache = CacheBuilder.newBuilder()
-        .refreshInterval(3, MILLISECONDS)
+        .refreshAfterWrite(3, MILLISECONDS)
         .expireAfterWrite(6, MILLISECONDS)
         .lenientParsing()
         .ticker(ticker)
