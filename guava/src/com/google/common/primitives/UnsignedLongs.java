@@ -73,7 +73,7 @@ public final class UnsignedLongs {
   }
 
   /**
-   * Returns the least value present in {@code array}.
+   * Returns the least value present in {@code array}, treating values as unsigned.
    * 
    * @param array a <i>nonempty</i> array of unsigned {@code long} values
    * @return the value present in {@code array} that is less than or equal to every other value in
@@ -93,7 +93,7 @@ public final class UnsignedLongs {
   }
 
   /**
-   * Returns the greatest value present in {@code array}.
+   * Returns the greatest value present in {@code array}, treating values as unsigned.
    * 
    * @param array a <i>nonempty</i> array of unsigned {@code long} values
    * @return the value present in {@code array} that is greater than or equal to every other value
@@ -136,13 +136,12 @@ public final class UnsignedLongs {
   }
 
   /**
-   * Returns a comparator that compares two {@code long} arrays lexicographically. That is, it
-   * compares, using {@link #compare(long, long)}), the first pair of values that follow any common
-   * prefix, or when one array is a prefix of the other, treats the shorter array as the lesser.
-   * For example, {@code [] < [1L] < [1L, 2L] < [2L]}. Values are treated as unsigned.
+   * Returns a comparator that compares two arrays of unsigned {@code long} values
+   * lexicographically. That is, it compares, using {@link #compare(long, long)}), the first pair of
+   * values that follow any common prefix, or when one array is a prefix of the other, treats the
+   * shorter array as the lesser. For example, {@code [] < [1L] < [1L, 2L] < [2L] < [1L << 63]}.
    * 
-   * <p>
-   * The returned comparator is inconsistent with {@link Object#equals(Object)} (since arrays
+   * <p>The returned comparator is inconsistent with {@link Object#equals(Object)} (since arrays
    * support only identity equality), but it is consistent with
    * {@link Arrays#equals(long[], long[])}.
    * 

@@ -50,10 +50,18 @@ public final class UnsignedInteger extends Number implements Comparable<Unsigned
     this.value = value & 0xffffffff;
   }
 
+  /**
+   * Returns an {@code UnsignedInteger} that, when treated as signed, is
+   * equal to {@code value}.
+   */
   public static UnsignedInteger asUnsigned(int value) {
     return new UnsignedInteger(value);
   }
 
+  /**
+   * Returns an {@code UnsignedInteger} that is equal to {@code value},
+   * if possible.  The inverse operation of {@link #longValue()}.
+   */
   public static UnsignedInteger valueOf(long value) {
     checkArgument((value & INT_MASK) == value,
         "value (%s) is outside the range for an unsigned integer value", value);
@@ -143,8 +151,7 @@ public final class UnsignedInteger extends Number implements Comparable<Unsigned
    * Returns the value of this {@code UnsignedInteger} as an {@code int}. This is an inverse
    * operation to {@link #asUnsigned}.
    * 
-   * <p>
-   * Note that if this {@code UnsignedInteger} holds a value {@code >= 2^31}, the returned value
+   * <p>Note that if this {@code UnsignedInteger} holds a value {@code >= 2^31}, the returned value
    * will be equal to {@code this - 2^32}.
    */
   @Override
@@ -185,6 +192,11 @@ public final class UnsignedInteger extends Number implements Comparable<Unsigned
     return BigInteger.valueOf(longValue());
   }
 
+  /**
+   * Compares this unsigned integer to another unsigned integer.
+   * Returns {@code 0} if they are equal, a negative number if {@code this < other},
+   * and a positive number if {@code this > other}.
+   */
   @Override
   public int compareTo(UnsignedInteger other) {
     checkNotNull(other);
