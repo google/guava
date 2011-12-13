@@ -228,7 +228,11 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    * @param size the maximum size of the map
    * @throws IllegalArgumentException if {@code size} is negative
    * @throws IllegalStateException if a maximum size was already set
+   * @deprecated Caching functionality in {@code MapMaker} is being moved to
+   *     {@link com.google.common.cache.CacheBuilder}, with {@link #maximumSize} being
+   *     replaced by {@link com.google.common.cache.CacheBuilder#maximumSize}.
    */
+  @Deprecated
   @Override
   MapMaker maximumSize(int size) {
     checkState(this.maximumSize == UNSET_INT, "maximum size was already set to %s",
@@ -442,15 +446,16 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    * occasional read operations in the absense of writes; though this behavior may change in the
    * future.
    *
-   * <p>Caching functionality in {@code MapMaker} is being moved to
-   * {@link com.google.common.cache.CacheBuilder}.
-   *
    * @param duration the length of time after an entry is created that it should be automatically
    *     removed
    * @param unit the unit that {@code duration} is expressed in
    * @throws IllegalArgumentException if {@code duration} is negative
    * @throws IllegalStateException if the time to live or time to idle was already set
+   * @deprecated Caching functionality in {@code MapMaker} is being moved to
+   *     {@link com.google.common.cache.CacheBuilder}, with {@link #expireAfterWrite} being
+   *     replaced by {@link com.google.common.cache.CacheBuilder#expireAfterWrite}.
    */
+  @Deprecated
   @Override
   MapMaker expireAfterWrite(long duration, TimeUnit unit) {
     checkExpiration(duration, unit);
@@ -489,15 +494,16 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    * occasional read operations in the absense of writes; though this behavior may change in the
    * future.
    *
-   * <p>Caching functionality in {@code MapMaker} is being moved to
-   * {@link com.google.common.cache.CacheBuilder}.
-   *
    * @param duration the length of time after an entry is last accessed that it should be
    *     automatically removed
    * @param unit the unit that {@code duration} is expressed in
    * @throws IllegalArgumentException if {@code duration} is negative
    * @throws IllegalStateException if the time to idle or time to live was already set
+   * @deprecated Caching functionality in {@code MapMaker} is being moved to
+   *     {@link com.google.common.cache.CacheBuilder}, with {@link #expireAfterAccess} being
+   *     replaced by {@link com.google.common.cache.CacheBuilder#expireAfterAccess}.
    */
+  @Deprecated
   @GwtIncompatible("To be supported")
   @Override
   MapMaker expireAfterAccess(long duration, TimeUnit unit) {
@@ -543,7 +549,11 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    * a {@link ClassCastException} at some <i>undefined</i> point in the future.
    *
    * @throws IllegalStateException if a removal listener was already set
+   * @deprecated Caching functionality in {@code MapMaker} is being moved to
+   *     {@link com.google.common.cache.CacheBuilder}, with {@link #removalListener} being
+   *     replaced by {@link com.google.common.cache.CacheBuilder#removalListener}.
    */
+  @Deprecated
   @GwtIncompatible("To be supported")
   <K, V> GenericMapMaker<K, V> removalListener(RemovalListener<K, V> listener) {
     checkState(this.removalListener == null);
@@ -637,16 +647,18 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    * containsValue} are implemented as bulk read operations, and thus may fail to observe concurrent
    * writes.
    *
-   * <p>Caching functionality in {@code MapMaker} is being moved to
-   * {@link com.google.common.cache.CacheBuilder}, with {@link #makeComputingMap} being replaced by
-   * {@link com.google.common.cache.CacheBuilder#build}.
-   * <b>This method is scheduled for deletion in February 2013.</b>
-   *
    * @param computingFunction the function used to compute new values
    * @return a serializable concurrent map having the requested features
+   * @deprecated Caching functionality in {@code MapMaker} is being moved to
+   *     {@link com.google.common.cache.CacheBuilder}, with {@link #makeComputingMap} being replaced
+   *     by {@link com.google.common.cache.CacheBuilder#build}. Note that uses of
+   *     {@link #makeComputingMap} with {@code AtomicLong} values can often be migrated to
+   *     {@link AtomicLongMap}.
+   *     <b>This method is scheduled for deletion in February 2013.</b>
+   *
    */
-  @Override
   @Deprecated
+  @Override
   public <K, V> ConcurrentMap<K, V> makeComputingMap(
       Function<? super K, ? extends V> computingFunction) {
     return useNullMap()
