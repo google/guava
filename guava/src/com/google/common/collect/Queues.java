@@ -19,7 +19,6 @@ import com.google.common.base.Preconditions;
 
 import java.util.ArrayDeque;
 import java.util.Collection;
-import java.util.Deque;
 import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.concurrent.ArrayBlockingQueue;
@@ -32,8 +31,9 @@ import java.util.concurrent.SynchronousQueue;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Static utility methods pertaining to {@link Queue} and {@link Deque} instances. Also see this
- * class's counterparts {@link Lists}, {@link Sets}, and {@link Maps}.
+ * Static utility methods pertaining to {@link Queue}
+ * instances. Also see this class's counterparts
+ * {@link Lists}, {@link Sets}, and {@link Maps}.
  *
  * @author Kurt Alfred Kluever
  * @since 11.0

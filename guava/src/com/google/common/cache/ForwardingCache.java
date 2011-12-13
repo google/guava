@@ -57,7 +57,7 @@ public abstract class ForwardingCache<K, V> extends ForwardingObject implements 
    * @since 11.0
    */
   @Override
-  public V get(K key, Callable<V> valueLoader) throws ExecutionException {
+  public V get(K key, Callable<? extends V> valueLoader) throws ExecutionException {
     return delegate().get(key, valueLoader);
   }
 

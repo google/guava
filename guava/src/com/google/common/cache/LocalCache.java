@@ -4761,7 +4761,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
     }
 
     @Override
-    public V get(K key, final Callable<V> valueLoader) throws ExecutionException {
+    public V get(K key, final Callable<? extends V> valueLoader) throws ExecutionException {
       checkNotNull(valueLoader);
       return localCache.get(key, new CacheLoader<Object, V>() {
         @Override

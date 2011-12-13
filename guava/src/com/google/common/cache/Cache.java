@@ -71,7 +71,7 @@ public interface Cache<K, V> extends Function<K, V> {
    *
    * @since 11.0
    */
-  V get(K key, Callable<V> valueLoader) throws ExecutionException;
+  V get(K key, Callable<? extends V> valueLoader) throws ExecutionException;
 
   /**
    * Returns a map of the values associated with {@code keys} in this cache. The returned map will
@@ -141,7 +141,10 @@ public interface Cache<K, V> extends Function<K, V> {
    *     value
    * @throws ExecutionError if an error was thrown while loading the value
    * @deprecated This method has been split out into the {@link LoadingCache} interface, and will be
-   * removed in Guava release 12.0.
+   * removed from {@code Cache} in Guava release 12.0. Note that
+   * {@link CacheBuilder#build(CacheLoader)} now returns a {@code LoadingCache}, so this deprecation
+   * (migration) can be dealt with by simply changing the type of references to the results of
+   * {@link CacheBuilder#build(CacheLoader)}.
    */
   @Deprecated V get(K key) throws ExecutionException;
 
@@ -158,7 +161,10 @@ public interface Cache<K, V> extends Function<K, V> {
    *     regardless of whether the exception was checked or unchecked
    * @throws ExecutionError if an error was thrown while loading the value
    * @deprecated This method has been split out into the {@link LoadingCache} interface, and will be
-   * removed in Guava release 12.0.
+   * removed from {@code Cache} in Guava release 12.0. Note that
+   * {@link CacheBuilder#build(CacheLoader)} now returns a {@code LoadingCache}, so this deprecation
+   * (migration) can be dealt with by simply changing the type of references to the results of
+   * {@link CacheBuilder#build(CacheLoader)}.
    */
   @Deprecated V getUnchecked(K key);
 
@@ -170,7 +176,10 @@ public interface Cache<K, V> extends Function<K, V> {
    *     regardless of whether the exception was checked or unchecked
    * @throws ExecutionError if an error was thrown while loading the value
    * @deprecated This method has been split out into the {@link LoadingCache} interface, and will be
-   * removed in Guava release 12.0.
+   * removed from {@code Cache} in Guava release 12.0. Note that
+   * {@link CacheBuilder#build(CacheLoader)} now returns a {@code LoadingCache}, so this deprecation
+   * (migration) can be dealt with by simply changing the type of references to the results of
+   * {@link CacheBuilder#build(CacheLoader)}.
    */
   @Deprecated V apply(K key);
 }

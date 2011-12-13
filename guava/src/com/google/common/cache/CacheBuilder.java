@@ -570,8 +570,9 @@ public final class CacheBuilder<K, V> {
   /**
    * Specifies that each entry should be automatically removed from the cache once a fixed duration
    * has elapsed after the entry's creation, the most recent replacement of its value, or its last
-   * access. Access time is reset by {@link Cache#get} and {@link Cache#getUnchecked}, but not by
-   * operations on the view returned by {@link Cache#asMap}.
+   * access. Access time is reset by all cache read and write operations (including
+   * {@code Cache.asMap().get(Object)} and {@code Cache.asMap().put(K, V)}), but not by operations
+   * on the collection-views of {@link Cache#asMap}.
    *
    * <p>When {@code duration} is zero, this method hands off to
    * {@link #maximumSize maximumSize}{@code (0)}, ignoring any otherwise-specificed maximum size or
