@@ -19,6 +19,7 @@ package com.google.common.xml;
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.escape.CharEscaper;
+import com.google.common.escape.Escaper;
 import com.google.common.escape.Escapers;
 
 /**
@@ -61,27 +62,6 @@ public class XmlEscapers {
 
   /**
    * Returns an {@link Escaper} instance that escapes special characters in a
-   * string so it can safely be included in an XML document as either element
-   * content or attribute values. See section
-   * <a href="http://www.w3.org/TR/2008/REC-xml-20081126/#syntax">2.4</a> of the
-   * XML specification.
-   *
-   * <p>This escaper does not escape non-ASCII characters to their numeric
-   * character references (NCR). Any non-ASCII characters appearing in the input
-   * will be preserved in the output. Specifically "\r" (carriage return) is
-   * preserved in the output, which may result in it being silently converted to
-   * "\n" when the XML is parsed.
-   *
-   * <p>This escaper does not treat surrogate pairs specially and does not
-   * perform Unicode validation on its input.
-   */
-  public static CharEscaper xmlEscaper() {
-    // TODO(user): Update callers and return Escaper (remove cast below).
-    return XML_ESCAPER;
-  }
-
-  /**
-   * Returns an {@link Escaper} instance that escapes special characters in a
    * string so it can safely be included in an XML document as element content.
    * See section
    * <a href="http://www.w3.org/TR/2008/REC-xml-20081126/#syntax">2.4</a> of the
@@ -89,8 +69,8 @@ public class XmlEscapers {
    *
    * <p><b>Note</b>: Double and single quotes are not escaped, so it is <b>not
    * safe</b> to use this escaper to escape attribute values. Use
-   * {@link #xmlEscaper} for cases where the output can appear in either
-   * attribute values or element content.
+   * {@link #xmlEscaper} if the output can appear in element content or
+   * {@link #xmlAttributeEscaper} in attribute values.
    *
    * <p>This escaper does not escape non-ASCII characters to their numeric
    * character references (NCR). Any non-ASCII characters appearing in the input
@@ -102,13 +82,34 @@ public class XmlEscapers {
    * perform Unicode validation on its input.
    */
   public static CharEscaper xmlContentEscaper() {
-    // TODO(user): Consider removing this to reduce the number of escapers.
     // TODO(user): Update callers and return Escaper (remove cast below).
     return XML_CONTENT_ESCAPER;
   }
 
+  /**
+   * Returns an {@link Escaper} instance that escapes special characters in a
+   * string so it can safely be included in an XML document as attribute values.
+   * See section
+   * <a href="http://www.w3.org/TR/2008/REC-xml-20081126/#AVNormalize">3.3.3</a>
+   * of the XML specification.
+   *
+   * <p>This escaper does not escape non-ASCII characters to their numeric
+   * character references (NCR), however horizontal tab {@code '\t'}, line feed
+   * {@code '\n'} and carriage return {@code '\r'} are escaped to a
+   * corresponding NCR {@code "&#x9;"}, {@code "&#xA;"}, and {@code "&#xD;"}
+   * respectively. Any other non-ASCII characters appearing in the input will
+   * be preserved in the output.
+   *
+   * <p>This escaper does not treat surrogate pairs specially and does not
+   * perform Unicode validation on its input.
+   */
+  public static Escaper xmlAttributeEscaper() {
+    return XML_ATTRIBUTE_ESCAPER;
+  }
+
   private static final CharEscaper XML_ESCAPER;
   private static final CharEscaper XML_CONTENT_ESCAPER;
+  private static final Escaper XML_ATTRIBUTE_ESCAPER;
   static {
     Escapers.Builder builder = Escapers.builder();
     // The char values \uFFFE and \uFFFF are explicitly not allowed in XML
@@ -139,5 +140,9 @@ public class XmlEscapers {
     builder.addEscape('\'', "&apos;");
     builder.addEscape('"', "&quot;");
     XML_ESCAPER = (CharEscaper) builder.build();
+    builder.addEscape('\t', "&#x9;");
+    builder.addEscape('\n', "&#xA;");
+    builder.addEscape('\r', "&#xD;");
+    XML_ATTRIBUTE_ESCAPER = builder.build();
   }
 }

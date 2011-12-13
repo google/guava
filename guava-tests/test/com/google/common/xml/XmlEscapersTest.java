@@ -35,7 +35,7 @@ public class XmlEscapersTest extends TestCase {
 
   public void testXmlEscaper() throws Exception {
     CharEscaper xmlEscaper = XmlEscapers.xmlEscaper();
-    assertBasicXmlEscaper(xmlEscaper, true);
+    assertBasicXmlEscaper(xmlEscaper, true, false);
     // Test quotes are escaped.
     assertEquals("&quot;test&quot;", xmlEscaper.escape("\"test\""));
     assertEquals("&apos;test&apos;", xmlEscaper.escape("\'test'"));
@@ -46,15 +46,28 @@ public class XmlEscapersTest extends TestCase {
 
   public void testXmlContentEscaper() throws Exception {
     CharEscaper xmlContentEscaper = XmlEscapers.xmlContentEscaper();
-    assertBasicXmlEscaper(xmlContentEscaper, false);
+    assertBasicXmlEscaper(xmlContentEscaper, false, false);
     // Test quotes are not escaped.
     assertEquals("\"test\"", xmlContentEscaper.escape("\"test\""));
     assertEquals("'test'", xmlContentEscaper.escape("'test'"));
   }
 
+  public void testXmlAttributeEscaper() throws Exception {
+    CharEscaper xmlAttributeEscaper = (CharEscaper) XmlEscapers.xmlAttributeEscaper();
+    assertBasicXmlEscaper(xmlAttributeEscaper, true, true);
+    // Test quotes are escaped.
+    assertEquals("&quot;test&quot;", xmlAttributeEscaper.escape("\"test\""));
+    assertEquals("&apos;test&apos;", xmlAttributeEscaper.escape("\'test'"));
+    // Test all escapes
+    assertEquals("a&quot;b&lt;c&gt;d&amp;e&quot;f&apos;",
+        xmlAttributeEscaper.escape("a\"b<c>d&e\"f'"));
+    // Test '\t', '\n' and '\r' are escaped.
+    assertEquals("a&#x9;b&#xA;c&#xD;d", xmlAttributeEscaper.escape("a\tb\nc\rd"));
+  }
+
   // Helper to assert common properties of xml escapers.
   private void assertBasicXmlEscaper(CharEscaper xmlEscaper,
-      boolean shouldEscapeQuotes) {
+      boolean shouldEscapeQuotes, boolean shouldEscapeWhitespaceChars) {
     // Simple examples (smoke tests)
     assertEquals("xxx", xmlEscaper.escape("xxx"));
     assertEquals("test &amp; test &amp; test",
@@ -74,7 +87,11 @@ public class XmlEscapersTest extends TestCase {
     for (char ch = 0; ch < 0x20; ch++) {
       if (ch == '\t' || ch == '\n' || ch == '\r') {
         // Only these whitespace chars are permitted in XML,
-        assertUnescaped(xmlEscaper, ch);
+        if (shouldEscapeWhitespaceChars) {
+          assertEscaping(xmlEscaper, "&#x" + Integer.toHexString(ch).toUpperCase() + ";", ch);
+        } else {
+          assertUnescaped(xmlEscaper, ch);
+        }
       } else {
         // and everything else is removed.
         assertEscaping(xmlEscaper, "", ch);
