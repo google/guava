@@ -33,17 +33,6 @@ import junit.framework.TestCase;
 @GwtCompatible
 public class XmlEscapersTest extends TestCase {
 
-  public void testXmlEscaper() throws Exception {
-    CharEscaper xmlEscaper = XmlEscapers.xmlEscaper();
-    assertBasicXmlEscaper(xmlEscaper, true, false);
-    // Test quotes are escaped.
-    assertEquals("&quot;test&quot;", xmlEscaper.escape("\"test\""));
-    assertEquals("&apos;test&apos;", xmlEscaper.escape("\'test'"));
-    // Test all escapes
-    assertEquals("a&quot;b&lt;c&gt;d&amp;e&quot;f&apos;",
-        xmlEscaper.escape("a\"b<c>d&e\"f'"));
-  }
-
   public void testXmlContentEscaper() throws Exception {
     CharEscaper xmlContentEscaper = XmlEscapers.xmlContentEscaper();
     assertBasicXmlEscaper(xmlContentEscaper, false, false);
