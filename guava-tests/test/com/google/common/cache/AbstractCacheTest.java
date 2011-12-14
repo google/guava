@@ -43,9 +43,10 @@ public class AbstractCacheTest extends TestCase {
       }
 
       @Override
-      public Object get(Object key) throws ExecutionException{
+      public Object get(Object key) throws ExecutionException {
         throw new UnsupportedOperationException();
       }
+
     };
 
     assertNull(cache.getIfPresent(new Object()));
@@ -64,7 +65,7 @@ public class AbstractCacheTest extends TestCase {
       }
 
       @Override
-      public Integer get(Integer key) throws ExecutionException{
+      public Integer get(Integer key) throws ExecutionException {
         throw new UnsupportedOperationException();
       }
 
