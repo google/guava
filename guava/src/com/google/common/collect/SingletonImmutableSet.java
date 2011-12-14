@@ -34,11 +34,14 @@ import javax.annotation.Nullable;
 final class SingletonImmutableSet<E> extends ImmutableSet<E> {
 
   final transient E element;
-
-  // Non-volatile because:
-  //   - Integer is immutable and thus thread-safe;
-  //   - no problems if one thread overwrites the cachedHashCode from another.
-  private transient Integer cachedHashCode;
+  // This is transient because it will be recalculated on the first
+  // call to hashCode().
+  //
+  // A race condition is avoided since threads will either see that the value
+  // is zero and recalculate it themselves, or two threads will see it at
+  // the same time, and both recalculate it.  If the cachedHashCode is 0,
+  // it will always be recalculated, unfortunately.
+  private transient int cachedHashCode;
 
   SingletonImmutableSet(E element) {
     this.element = Preconditions.checkNotNull(element);
@@ -99,15 +102,16 @@ final class SingletonImmutableSet<E> extends ImmutableSet<E> {
   }
 
   @Override public final int hashCode() {
-    Integer code = cachedHashCode;
-    if (code == null) {
-      return cachedHashCode = element.hashCode();
+    // Racy single-check.
+    int code = cachedHashCode;
+    if (code == 0) {
+      cachedHashCode = code = element.hashCode();
     }
     return code;
   }
 
   @Override boolean isHashCodeFast() {
-    return false;
+    return cachedHashCode != 0;
   }
 
   @Override public String toString() {
