@@ -498,68 +498,6 @@ public final class Files {
   }
 
   /**
-   * <b>Deprecated.</b> This method suffers from poor symlink detection and race
-   * conditions. This functionality can be supported suitably only by shelling
-   * out to an operating system command such as {@code rm -rf} or {@code del
-   * /s}. This method is scheduled to be removed from Guava in Guava release
-   * 11.0.
-   *
-   * <p>Deletes all the files within a directory. Does not delete the
-   * directory itself.
-   *
-   * <p>If the file argument is a symbolic link or there is a symbolic
-   * link in the path leading to the directory, this method will do
-   * nothing. Symbolic links within the directory are not followed.
-   *
-   * @param directory the directory to delete the contents of
-   * @throws IllegalArgumentException if the argument is not a directory
-   * @throws IOException if an I/O error occurs
-   */
-  @Deprecated
-  public static void deleteDirectoryContents(File directory)
-      throws IOException {
-    Preconditions.checkArgument(directory.isDirectory(),
-        "Not a directory: %s", directory);
-    // Symbolic links will have different canonical and absolute paths
-    if (!directory.getCanonicalPath().equals(directory.getAbsolutePath())) {
-      return;
-    }
-    File[] files = directory.listFiles();
-    if (files == null) {
-      throw new IOException("Error listing files for " + directory);
-    }
-    for (File file : files) {
-      deleteRecursively(file);
-    }
-  }
-
-  /**
-   * <b>Deprecated.</b> This method suffers from poor symlink detection and race
-   * conditions. This functionality can be supported suitably only by shelling
-   * out to an operating system command such as {@code rm -rf} or {@code del
-   * /s}. This method is scheduled to be removed from Guava in Guava release
-   * 11.0.
-   *
-   * <p>Deletes a file or directory and all contents recursively.
-   *
-   * <p>If the file argument is a symbolic link the link will be deleted
-   * but not the target of the link. If the argument is a directory,
-   * symbolic links within the directory will not be followed.
-   *
-   * @param file the file to delete
-   * @throws IOException if an I/O error occurs
-   */
-  @Deprecated
-  public static void deleteRecursively(File file) throws IOException {
-    if (file.isDirectory()) {
-      deleteDirectoryContents(file);
-    }
-    if (!file.delete()) {
-      throw new IOException("Failed to delete " + file);
-    }
-  }
-
-  /**
    * Reads the first line from a file. The line does not include
    * line-termination characters, but does include other leading and
    * trailing whitespace.
