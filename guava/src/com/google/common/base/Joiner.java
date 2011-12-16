@@ -86,17 +86,42 @@ public class Joiner {
   }
 
   /**
+   * <b>Deprecated.</b>
+   *
+   * @since 11.0
+   * @deprecated use {@link #appendTo(Appendable, Iterator)} by casting {@code parts} to
+   *     {@code Iterator<?>}, or better yet, by implementing only {@code Iterator} and not
+   *     {@code Iterable}. <b>This method is scheduled for deletion in June 2013.</b>
+   */
+  @Beta
+  @Deprecated
+  public final <A extends Appendable, I extends Object & Iterable<?> & Iterator<?>> A
+      appendTo(A appendable, I parts) throws IOException {
+    return appendTo(appendable, (Iterator<?>) parts);
+  }
+
+  /**
    * Appends the string representation of each of {@code parts}, using the previously configured
    * separator between each, to {@code appendable}.
    */
   public <A extends Appendable> A appendTo(A appendable, Iterable<?> parts) throws IOException {
+    return appendTo(appendable, parts.iterator());
+  }
+
+  /**
+   * Appends the string representation of each of {@code parts}, using the previously configured
+   * separator between each, to {@code appendable}.
+   *
+   * @since 11.0
+   */
+  @Beta
+  public <A extends Appendable> A appendTo(A appendable, Iterator<?> parts) throws IOException {
     checkNotNull(appendable);
-    Iterator<?> iterator = parts.iterator();
-    if (iterator.hasNext()) {
-      appendable.append(toString(iterator.next()));
-      while (iterator.hasNext()) {
+    if (parts.hasNext()) {
+      appendable.append(toString(parts.next()));
+      while (parts.hasNext()) {
         appendable.append(separator);
-        appendable.append(toString(iterator.next()));
+        appendable.append(toString(parts.next()));
       }
     }
     return appendable;
@@ -120,11 +145,38 @@ public class Joiner {
   }
 
   /**
+   * <b>Deprecated.</b>
+   *
+   * @since 11.0
+   * @deprecated use {@link #appendTo(StringBuilder, Iterator)} by casting {@code parts} to
+   *     {@code Iterator<?>}, or better yet, by implementing only {@code Iterator} and not
+   *     {@code Iterable}. <b>This method is scheduled for deletion in June 2013.</b>
+   */
+  @Beta
+  @Deprecated
+  public final <I extends Object & Iterable<?> & Iterator<?>> StringBuilder
+      appendTo(StringBuilder builder, I parts) {
+    return appendTo(builder, (Iterator<?>) parts);
+  }
+
+  /**
    * Appends the string representation of each of {@code parts}, using the previously configured
    * separator between each, to {@code builder}. Identical to {@link #appendTo(Appendable,
    * Iterable)}, except that it does not throw {@link IOException}.
    */
   public final StringBuilder appendTo(StringBuilder builder, Iterable<?> parts) {
+    return appendTo(builder, parts.iterator());
+  }
+
+  /**
+   * Appends the string representation of each of {@code parts}, using the previously configured
+   * separator between each, to {@code builder}. Identical to {@link #appendTo(Appendable,
+   * Iterable)}, except that it does not throw {@link IOException}.
+   *
+   * @since 11.0
+   */
+  @Beta
+  public final StringBuilder appendTo(StringBuilder builder, Iterator<?> parts) {
     try {
       appendTo((Appendable) builder, parts);
     } catch (IOException impossible) {
@@ -153,10 +205,35 @@ public class Joiner {
   }
 
   /**
+   * <b>Deprecated.</b>
+   *
+   * @since 11.0
+   * @deprecated use {@link #join(Iterator)} by casting {@code parts} to
+   *     {@code Iterator<?>}, or better yet, by implementing only {@code Iterator} and not
+   *     {@code Iterable}. <b>This method is scheduled for deletion in June 2013.</b>
+   */
+  @Beta
+  @Deprecated
+  public final <I extends Object & Iterable<?> & Iterator<?>> String join(I parts) {
+    return join((Iterator<?>) parts);
+  }
+
+  /**
    * Returns a string containing the string representation of each of {@code parts}, using the
    * previously configured separator between each.
    */
   public final String join(Iterable<?> parts) {
+    return join(parts.iterator());
+  }
+
+  /**
+   * Returns a string containing the string representation of each of {@code parts}, using the
+   * previously configured separator between each.
+   *
+   * @since 11.0
+   */
+  @Beta
+  public final String join(Iterator<?> parts) {
     return appendTo(new StringBuilder(), parts).toString();
   }
 
@@ -206,20 +283,19 @@ public class Joiner {
   @CheckReturnValue
   public Joiner skipNulls() {
     return new Joiner(this) {
-      @Override public <A extends Appendable> A appendTo(A appendable, Iterable<?> parts)
+      @Override public <A extends Appendable> A appendTo(A appendable, Iterator<?> parts)
           throws IOException {
         checkNotNull(appendable, "appendable");
         checkNotNull(parts, "parts");
-        Iterator<?> iterator = parts.iterator();
-        while (iterator.hasNext()) {
-          Object part = iterator.next();
+        while (parts.hasNext()) {
+          Object part = parts.next();
           if (part != null) {
             appendable.append(Joiner.this.toString(part));
             break;
           }
         }
-        while (iterator.hasNext()) {
-          Object part = iterator.next();
+        while (parts.hasNext()) {
+          Object part = parts.next();
           if (part != null) {
             appendable.append(separator);
             appendable.append(Joiner.this.toString(part));
@@ -302,6 +378,24 @@ public class Joiner {
     }
 
     /**
+     * <b>Deprecated.</b>
+     *
+     * @since 11.0
+     * @deprecated use {@link #appendTo(Appendable, Iterator)} by casting {@code entries} to
+     *     {@code Iterator<? extends Entry<?, ?>>}, or better yet, by implementing only
+     *     {@code Iterator} and not {@code Iterable}. <b>This method is scheduled for deletion
+     *     in June 2013.</b>
+     */
+    @Beta
+    @Deprecated
+    public <A extends Appendable,
+        I extends Object & Iterable<? extends Entry<?, ?>> & Iterator<? extends Entry<?, ?>>>
+        A appendTo(A appendable, I entries) throws IOException {
+      Iterator<? extends Entry<?, ?>> iterator = entries;
+      return appendTo(appendable, iterator);
+    }
+
+    /**
      * Appends the string representation of each entry in {@code entries}, using the previously
      * configured separator and key-value separator, to {@code appendable}.
      *
@@ -310,22 +404,50 @@ public class Joiner {
     @Beta
     public <A extends Appendable> A appendTo(A appendable, Iterable<? extends Entry<?, ?>> entries)
         throws IOException {
+      return appendTo(appendable, entries.iterator());
+    }
+
+    /**
+     * Appends the string representation of each entry in {@code entries}, using the previously
+     * configured separator and key-value separator, to {@code appendable}.
+     *
+     * @since 11.0
+     */
+    @Beta
+    public <A extends Appendable> A appendTo(A appendable, Iterator<? extends Entry<?, ?>> parts)
+        throws IOException {
       checkNotNull(appendable);
-      Iterator<? extends Map.Entry<?, ?>> iterator = entries.iterator();
-      if (iterator.hasNext()) {
-        Entry<?, ?> entry = iterator.next();
+      if (parts.hasNext()) {
+        Entry<?, ?> entry = parts.next();
         appendable.append(joiner.toString(entry.getKey()));
         appendable.append(keyValueSeparator);
         appendable.append(joiner.toString(entry.getValue()));
-        while (iterator.hasNext()) {
+        while (parts.hasNext()) {
           appendable.append(joiner.separator);
-          Entry<?, ?> e = iterator.next();
+          Entry<?, ?> e = parts.next();
           appendable.append(joiner.toString(e.getKey()));
           appendable.append(keyValueSeparator);
           appendable.append(joiner.toString(e.getValue()));
         }
       }
       return appendable;
+    }
+
+    /**
+     * <b>Deprecated.</b>
+     *
+     * @since 11.0
+     * @deprecated use {@link #appendTo(StringBuilder, Iterator)} by casting {@code entries} to
+     *     {@code Iterator<? extends Entry<?, ?>>}, or better yet, by implementing only
+     *     {@code Iterator} and not {@code Iterable}. <b>This method is scheduled for deletion
+     *     in June 2013.</b>
+     */
+    @Beta
+    @Deprecated
+    public <I extends Object & Iterable<? extends Entry<?, ?>> & Iterator<? extends Entry<?, ?>>>
+        StringBuilder appendTo(StringBuilder builder, I entries) throws IOException {
+      Iterator<? extends Entry<?, ?>> iterator = entries;
+      return appendTo(builder, iterator);
     }
 
     /**
@@ -337,12 +459,41 @@ public class Joiner {
      */
     @Beta
     public StringBuilder appendTo(StringBuilder builder, Iterable<? extends Entry<?, ?>> entries) {
+      return appendTo(builder, entries.iterator());
+    }
+
+    /**
+     * Appends the string representation of each entry in {@code entries}, using the previously
+     * configured separator and key-value separator, to {@code builder}. Identical to {@link
+     * #appendTo(Appendable, Iterable)}, except that it does not throw {@link IOException}.
+     *
+     * @since 11.0
+     */
+    @Beta
+    public StringBuilder appendTo(StringBuilder builder, Iterator<? extends Entry<?, ?>> entries) {
       try {
         appendTo((Appendable) builder, entries);
       } catch (IOException impossible) {
         throw new AssertionError(impossible);
       }
       return builder;
+    }
+
+    /**
+     * <b>Deprecated.</b>
+     *
+     * @since 11.0
+     * @deprecated use {@link #join(Iterator)} by casting {@code entries} to
+     *     {@code Iterator<? extends Entry<?, ?>>}, or better yet, by implementing only
+     *     {@code Iterator} and not {@code Iterable}. <b>This method is scheduled for deletion
+     *     in June 2013.</b>
+     */
+    @Beta
+    @Deprecated
+    public <I extends Object & Iterable<? extends Entry<?, ?>> & Iterator<? extends Entry<?, ?>>>
+        String join(I entries) throws IOException {
+      Iterator<? extends Entry<?, ?>> iterator = entries;
+      return join(iterator);
     }
 
     /**
@@ -353,6 +504,17 @@ public class Joiner {
      */
     @Beta
     public String join(Iterable<? extends Entry<?, ?>> entries) {
+      return join(entries.iterator());
+    }
+
+    /**
+     * Returns a string containing the string representation of each entry in {@code entries}, using
+     * the previously configured separator and key-value separator.
+     *
+     * @since 11.0
+     */
+    @Beta
+    public String join(Iterator<? extends Entry<?, ?>> entries) {
       return appendTo(new StringBuilder(), entries).toString();
     }
 
