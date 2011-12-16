@@ -2176,7 +2176,7 @@ public final class Multimaps {
    * as {@code Predicates.instanceOf(ArrayList.class)}, which is inconsistent
    * with equals.
    *
-   * @since Guava release 11
+   * @since 11.0
    */
   @Beta
   @GwtIncompatible(value = "untested")
@@ -2221,7 +2221,7 @@ public final class Multimaps {
    * predicate such as {@code Predicates.instanceOf(ArrayList.class)}, which is
    * inconsistent with equals.
    *
-   * @since Guava release 11
+   * @since 11.0
    */
   @Beta
   @GwtIncompatible(value = "untested")
@@ -2264,7 +2264,7 @@ public final class Multimaps {
    * <p><b>Warning:</b> {@code entryPredicate} must be <i>consistent with
    * equals</i>, as documented at {@link Predicate#apply}.
    *
-   * @since Guava release 11
+   * @since 11.0
    */
   @Beta
   @GwtIncompatible(value = "untested")
