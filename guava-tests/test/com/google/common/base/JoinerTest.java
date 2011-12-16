@@ -21,15 +21,17 @@ import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Joiner.MapJoiner;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableMultimap;
+import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Iterators;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.testing.NullPointerTester;
 
-import junit.framework.Assert;
 import junit.framework.TestCase;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
@@ -40,20 +42,20 @@ import java.util.Set;
  */
 @GwtCompatible(emulated = true)
 public class JoinerTest extends TestCase {
-  static final Joiner J = Joiner.on("-");
+  private static final Joiner J = Joiner.on("-");
 
   // <Integer> needed to prevent warning :(
-  static final Iterable<Integer> ITERABLE_ = Arrays.<Integer>asList();
-  static final Iterable<Integer> ITERABLE_1 = Arrays.asList(1);
-  static final Iterable<Integer> ITERABLE_12 = Arrays.asList(1, 2);
-  static final Iterable<Integer> ITERABLE_123 = Arrays.asList(1, 2, 3);
-  static final Iterable<Integer> ITERABLE_NULL = Arrays.asList((Integer) null);
-  static final Iterable<Integer> ITERABLE_NULL_NULL
+  private static final Iterable<Integer> ITERABLE_ = Arrays.<Integer>asList();
+  private static final Iterable<Integer> ITERABLE_1 = Arrays.asList(1);
+  private static final Iterable<Integer> ITERABLE_12 = Arrays.asList(1, 2);
+  private static final Iterable<Integer> ITERABLE_123 = Arrays.asList(1, 2, 3);
+  private static final Iterable<Integer> ITERABLE_NULL = Arrays.asList((Integer) null);
+  private static final Iterable<Integer> ITERABLE_NULL_NULL
       = Arrays.asList((Integer) null, null);
-  static final Iterable<Integer> ITERABLE_NULL_1 = Arrays.asList(null, 1);
-  static final Iterable<Integer> ITERABLE_1_NULL = Arrays.asList(1, null);
-  static final Iterable<Integer> ITERABLE_1_NULL_2 = Arrays.asList(1, null, 2);
-  static final Iterable<Integer> ITERABLE_FOUR_NULLS
+  private static final Iterable<Integer> ITERABLE_NULL_1 = Arrays.asList(null, 1);
+  private static final Iterable<Integer> ITERABLE_1_NULL = Arrays.asList(1, null);
+  private static final Iterable<Integer> ITERABLE_1_NULL_2 = Arrays.asList(1, null, 2);
+  private static final Iterable<Integer> ITERABLE_FOUR_NULLS
       = Arrays.asList((Integer) null, null, null, null);
 
   public void testNoSpecialNullBehavior() {
@@ -69,6 +71,17 @@ public class JoinerTest extends TestCase {
     }
     try {
       J.join(ITERABLE_1_NULL_2);
+      fail();
+    } catch (NullPointerException expected) {
+    }
+
+    try {
+      J.join(ITERABLE_NULL.iterator());
+      fail();
+    } catch (NullPointerException expected) {
+    }
+    try {
+      J.join(ITERABLE_1_NULL_2.iterator());
       fail();
     } catch (NullPointerException expected) {
     }
@@ -111,13 +124,19 @@ public class JoinerTest extends TestCase {
   }
 
   private static void checkNoOutput(Joiner joiner, Iterable<Integer> set) {
-    Object[] array = Lists.newArrayList(set).toArray(new Integer[0]);
     assertEquals("", joiner.join(set));
+    assertEquals("", joiner.join(set.iterator()));
+
+    Object[] array = Lists.newArrayList(set).toArray(new Integer[0]);
     assertEquals("", joiner.join(array));
 
-    StringBuilder sb1 = new StringBuilder();
-    assertSame(sb1, joiner.appendTo(sb1, set));
-    assertEquals(0, sb1.length());
+    StringBuilder sb1FromIterable = new StringBuilder();
+    assertSame(sb1FromIterable, joiner.appendTo(sb1FromIterable, set));
+    assertEquals(0, sb1FromIterable.length());
+
+    StringBuilder sb1FromIterator = new StringBuilder();
+    assertSame(sb1FromIterator, joiner.appendTo(sb1FromIterator, set));
+    assertEquals(0, sb1FromIterator.length());
 
     StringBuilder sb2 = new StringBuilder();
     assertSame(sb2, joiner.appendTo(sb2, array));
@@ -125,6 +144,17 @@ public class JoinerTest extends TestCase {
 
     try {
       joiner.appendTo(NASTY_APPENDABLE, set);
+    } catch (IOException e) {
+      throw new AssertionError(e);
+    }
+
+    try {
+      joiner.appendTo(NASTY_APPENDABLE, set.iterator());
+    } catch (IOException e) {
+      throw new AssertionError(e);
+    }
+
+    try {
       joiner.appendTo(NASTY_APPENDABLE, array);
     } catch (IOException e) {
       throw new AssertionError(e);
@@ -137,8 +167,7 @@ public class JoinerTest extends TestCase {
       throw new IOException();
     }
     @Override
-    public Appendable append(CharSequence csq, int start, int end)
-        throws IOException {
+    public Appendable append(CharSequence csq, int start, int end) throws IOException {
       throw new IOException();
     }
     @Override
@@ -147,16 +176,60 @@ public class JoinerTest extends TestCase {
     }
   };
 
-  private static void checkResult(
-      Joiner joiner, Iterable<Integer> parts, String expected) {
-    Integer[] partsArray = Lists.newArrayList(parts).toArray(new Integer[0]);
-
+  private static void checkResult(Joiner joiner, Iterable<Integer> parts, String expected) {
     assertEquals(expected, joiner.join(parts));
+    assertEquals(expected, joiner.join(parts.iterator()));
+
+    StringBuilder sb1FromIterable = new StringBuilder().append('x');
+    joiner.appendTo(sb1FromIterable, parts);
+    assertEquals("x" + expected, sb1FromIterable.toString());
+
+    StringBuilder sb1FromIterator = new StringBuilder().append('x');
+    joiner.appendTo(sb1FromIterator, parts.iterator());
+    assertEquals("x" + expected, sb1FromIterator.toString());
+
+    Integer[] partsArray = Lists.newArrayList(parts).toArray(new Integer[0]);
+    assertEquals(expected, joiner.join(partsArray));
+
+    StringBuilder sb2 = new StringBuilder().append('x');
+    joiner.appendTo(sb2, partsArray);
+    assertEquals("x" + expected, sb2.toString());
+
+    int num = partsArray.length - 2;
+    if (num >= 0) {
+      Object[] rest = new Integer[num];
+      for (int i = 0; i < num; i++) {
+        rest[i] = partsArray[i + 2];
+      }
+
+      assertEquals(expected, joiner.join(partsArray[0], partsArray[1], rest));
+
+      StringBuilder sb3 = new StringBuilder().append('x');
+      joiner.appendTo(sb3, partsArray[0], partsArray[1], rest);
+      assertEquals("x" + expected, sb3.toString());
+    }
+  }
+
+  public void testIterableIterator() {
+    Joiner onChar = Joiner.on('-');
+    checkIterableIterator(onChar, "1-2-3-4");
+
+    Joiner skipNulls = J.skipNulls();
+    checkIterableIterator(skipNulls, "1-2-3-4");
+
+    Joiner zeroForNull = J.useForNull("0");
+    checkIterableIterator(zeroForNull, "1-2-3-4");
+  }
+  
+  private static void checkIterableIterator(Joiner joiner, String expected) {
+    assertEquals(expected, joiner.join(new IterableIterator()));
 
     StringBuilder sb1 = new StringBuilder().append('x');
-    joiner.appendTo(sb1, parts);
+    joiner.appendTo(sb1, new IterableIterator());
     assertEquals("x" + expected, sb1.toString());
 
+    Integer[] partsArray =
+        Lists.newArrayList(new IterableIterator().iterator()).toArray(new Integer[0]);
     assertEquals(expected, joiner.join(partsArray));
 
     StringBuilder sb2 = new StringBuilder().append('x');
@@ -230,8 +303,11 @@ public class JoinerTest extends TestCase {
   public void testEntries() {
     MapJoiner j = Joiner.on(";").withKeyValueSeparator(":");
     assertEquals("", j.join(ImmutableMultimap.of().entries()));
+    assertEquals("", j.join(ImmutableMultimap.of().entries().iterator()));
     assertEquals(":", j.join(ImmutableMultimap.of("", "").entries()));
+    assertEquals(":", j.join(ImmutableMultimap.of("", "").entries().iterator()));
     assertEquals("1:a;1:b", j.join(ImmutableMultimap.of("1", "a", "1", "b").entries()));
+    assertEquals("1:a;1:b", j.join(ImmutableMultimap.of("1", "a", "1", "b").entries().iterator()));
 
     Map<String, String> mapWithNulls = Maps.newLinkedHashMap();
     mapWithNulls.put("a", null);
@@ -244,11 +320,22 @@ public class JoinerTest extends TestCase {
     } catch (NullPointerException expected) {
     }
 
-    assertEquals("a:00;00:b", j.useForNull("00").join(entriesWithNulls));
+    try {
+      j.join(entriesWithNulls.iterator());
+      fail();
+    } catch (NullPointerException expected) {
+    }
 
-    StringBuilder sb = new StringBuilder();
-    j.appendTo(sb, ImmutableMultimap.of(1, 2, 3, 4, 5, 6, 1, 3, 5, 10).entries());
-    assertEquals("1:2;1:3;3:4;5:6;5:10", sb.toString());
+    assertEquals("a:00;00:b", j.useForNull("00").join(entriesWithNulls));
+    assertEquals("a:00;00:b", j.useForNull("00").join(entriesWithNulls.iterator()));
+
+    StringBuilder sb1 = new StringBuilder();
+    j.appendTo(sb1, ImmutableMultimap.of(1, 2, 3, 4, 5, 6, 1, 3, 5, 10).entries());
+    assertEquals("1:2;1:3;3:4;5:6;5:10", sb1.toString());
+
+    StringBuilder sb2 = new StringBuilder();
+    j.appendTo(sb2, ImmutableMultimap.of(1, 2, 3, 4, 5, 6, 1, 3, 5, 10).entries().iterator());
+    assertEquals("1:2;1:3;3:4;5:6;5:10", sb2.toString());
   }
 
   public void test_skipNulls_onMap() {
@@ -274,8 +361,29 @@ public class JoinerTest extends TestCase {
       return "foo".subSequence(start, end);
     }
     @Override public String toString() {
-      Assert.fail("shouldn't be invoked");
+      fail("shouldn't be invoked");
       return null;
+    }
+  }
+
+  // Don't do this.
+  private static class IterableIterator implements Iterable<Integer>, Iterator<Integer> {
+    private static final ImmutableSet<Integer> INTEGERS = ImmutableSet.of(1, 2, 3, 4);
+    private final Iterator<Integer> iterator;
+    public IterableIterator() {
+      this.iterator = iterator();
+    }
+    @Override public Iterator<Integer> iterator() {
+      return INTEGERS.iterator();
+    }
+    @Override public boolean hasNext() {
+      return iterator.hasNext();
+    }
+    @Override public Integer next() {
+      return iterator.next();
+    }
+    @Override public void remove() {
+      iterator.remove();
     }
   }
 
@@ -291,6 +399,9 @@ public class JoinerTest extends TestCase {
   public void testNullPointers() throws Exception {
     NullPointerTester tester = new NullPointerTester();
     tester.setDefault(StringBuilder.class, new StringBuilder());
+    // This is necessary because of the generics hackery we have to temporarily support parameters
+    // which implement both Iterator and Iterable.
+    tester.setDefault(Object.class, Iterators.emptyIterator());
     tester.testAllPublicStaticMethods(Joiner.class);
     tester.testAllPublicInstanceMethods(Joiner.on(","));
     tester.testAllPublicInstanceMethods(Joiner.on(",").skipNulls());
