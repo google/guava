@@ -55,7 +55,6 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
-import java.util.concurrent.FutureTask;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
@@ -195,32 +194,6 @@ public class FuturesTest extends TestCase {
     assertSame(barChild, bar);
   }
 
-  @SuppressWarnings("deprecation") // test of deprecated method
-  public void testTransform_Future_genericsNull() throws Exception {
-    Future<?> nullFuture = Futures.immediateFuture(null);
-    Future<?> transformedFuture =
-        Futures.transform(nullFuture, Functions.constant(null));
-    assertNull(transformedFuture.get());
-  }
-
-  /**
-   * Tests that the function is invoked only once, even if it throws an
-   * exception.
-   */
-  @SuppressWarnings("deprecation") // test of deprecated method
-  public void testTransformValueRemainsMemoized_Future() throws Throwable {
-    FutureTask<Integer> input = new FutureTask<Integer>(Callables.returning(0));
-    input.run();
-    assertFalse(input instanceof ListenableFuture);
-
-    Future<Integer> transformedFuture =
-        Futures.transform(input, newOneTimeValueReturner(99));
-
-    for (int i = 0; i < 5; i++) {
-      assertEquals(99, transformedFuture.get().intValue());
-    }
-  }
-
   /**
    * {@link ListenableFuture} variant of
    * {@link #testTransformValueRemainsMemoized_Future()}.
@@ -272,26 +245,6 @@ public class FuturesTest extends TestCase {
 
   static class MyError extends Error {}
   static class MyRuntimeException extends RuntimeException {}
-
-  /**
-   * Test that the function is invoked only once, even if it throws an
-   * exception. Also, test that that function's result is wrapped in an
-   * ExecutionException.
-   */
-  @SuppressWarnings("deprecation") // test of deprecated method
-  public void testTransformExceptionRemainsMemoized_Future() throws Throwable {
-    FutureTask<Integer> input = new FutureTask<Integer>(Callables.returning(0));
-    input.run();
-    assertFalse(input instanceof ListenableFuture);
-
-    Future<Integer> exceptionComposedFuture =
-        Futures.transform(input, newOneTimeExceptionThrower());
-    Future<Integer> errorComposedFuture =
-        Futures.transform(input, newOneTimeErrorThrower());
-
-    runGetIdempotencyTest(exceptionComposedFuture, MyRuntimeException.class);
-    runGetIdempotencyTest(errorComposedFuture, MyError.class);
-  }
 
   /**
    * {@link ListenableFuture} variant of
@@ -386,19 +339,6 @@ public class FuturesTest extends TestCase {
         throw new MyError();
       }
     };
-  }
-
-  @SuppressWarnings("deprecation") // test of deprecated method
-  public void testTransform_Future_genericsHierarchy() throws Exception {
-    Future<FooChild> future = Futures.immediateFuture(null);
-    final BarChild barChild = new BarChild();
-    Function<Foo, BarChild> function = new Function<Foo, BarChild>() {
-      @Override public BarChild apply(Foo unused) {
-        return barChild;
-      }
-    };
-    Bar bar = Futures.transform(future, function).get();
-    assertSame(barChild, bar);
   }
 
   // TODO(cpovirk): top-level class?
