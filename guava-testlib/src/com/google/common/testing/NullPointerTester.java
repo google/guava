@@ -292,7 +292,7 @@ public final class NullPointerTester {
     for (int i = 0; i < types.length; i++) {
       if (i != indexOfParamToSetToNull) {
         params[i] = defaults.get(types[i]);
-        if (!parameterIsPrimitiveOrNullable(func, indexOfParamToSetToNull)) {
+        if (!parameterIsPrimitiveOrNullable(func, i)) {
           Assert.assertTrue("No default value found for " + types[i].getName(),
               params[i] != null);
         }
