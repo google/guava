@@ -249,7 +249,9 @@ class CacheTesting {
           if (prev != null) {
             assertSame(prev, current.getPreviousInAccessQueue());
             assertSame(prev.getNextInAccessQueue(), current);
-            assertTrue(prev.getAccessTime() <= current.getAccessTime());
+            // read accesses may be slightly misordered
+            assertTrue(prev.getAccessTime() <= current.getAccessTime()
+                || prev.getAccessTime() - current.getAccessTime() < 1000);
           }
           Object key = current.getKey();
           if (key != null) {

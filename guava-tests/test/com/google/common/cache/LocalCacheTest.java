@@ -27,7 +27,6 @@ import static com.google.common.cache.TestingRemovalListeners.queuingRemovalList
 import static com.google.common.cache.TestingWeighers.constantWeigher;
 import static com.google.common.collect.Lists.newArrayList;
 import static com.google.common.collect.Maps.immutableEntry;
-import static java.util.concurrent.TimeUnit.HOURS;
 import static java.util.concurrent.TimeUnit.MINUTES;
 import static java.util.concurrent.TimeUnit.NANOSECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
@@ -958,8 +957,11 @@ public class LocalCacheTest extends TestCase {
   }
 
   public void testSegmentGetAndContains() {
-    LocalCache<Object, Object> map =
-        makeLocalCache(createCacheBuilder().concurrencyLevel(1).expireAfterAccess(1, HOURS));
+    FakeTicker ticker = new FakeTicker();
+    LocalCache<Object, Object> map = makeLocalCache(createCacheBuilder()
+        .concurrencyLevel(1)
+        .ticker(ticker)
+        .expireAfterAccess(1, TimeUnit.NANOSECONDS));
     Segment<Object, Object> segment = map.segments[0];
     // TODO(fry): check recency ordering
 
@@ -1025,7 +1027,7 @@ public class LocalCacheTest extends TestCase {
     assertTrue(segment.containsValue(dummyValue));
 
     // expired
-    dummy.setAccessTime(0);
+    dummy.setAccessTime(ticker.read() - 2);
     assertNull(segment.get(key, hash));
     assertFalse(segment.containsKey(key, hash));
     assertTrue(segment.containsValue(value));
