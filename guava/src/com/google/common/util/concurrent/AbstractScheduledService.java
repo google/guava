@@ -43,6 +43,13 @@ import javax.annotation.concurrent.GuardedBy;
  * it will cancel the periodic task (but not interrupt it) and wait for it to stop before running 
  * the {@link #shutDown} method.  
  * 
+ * <p>Subclasses are guaranteed that the life cycle methods ({@link #runOneIteration}, {@link 
+ * #startUp} and {@link #shutDown}) will never run concurrently. Notably, if any execution of {@link
+ * #runOneIteration} takes longer than its schedule defines, then subsequent executions may start 
+ * late.  Also, all life cycle methods are executed with a lock held, so subclasses can safely 
+ * modify shared state without additional synchronization necessary for visibility to later 
+ * executions of the life cycle methods.
+ * 
  * <h3>Usage Example</h3>
  * 
  * Here is a sketch of a service which crawls a website and uses the scheduling capabilities to 
@@ -67,12 +74,12 @@ import javax.annotation.concurrent.GuardedBy;
  *     saveUris(toCrawl);
  *   }
  * 
- *   protected Schedule schedule() {
- *     return newFixedRateSchedule(0, 1, TimeUnit.SECONDS);
+ *   protected Scheduler scheduler() {
+ *     return Scheduler.newFixedRateSchedule(0, 1, TimeUnit.SECONDS);
  *   }
  * }}</pre>
  * 
- * This class uses the lifecycle methods to read in a list of starting URIs and save the set of 
+ * This class uses the life cycle methods to read in a list of starting URIs and save the set of 
  * outstanding URIs when shutting down.  Also, it takes advantage of the scheduling functionality to
  * rate limit the number of queries we perform.
  * 
