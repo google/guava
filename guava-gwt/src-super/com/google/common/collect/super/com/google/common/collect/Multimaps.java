@@ -2536,4 +2536,3 @@ public final class Multimaps {
 
   // TODO(jlevy): Create methods that filter a SetMultimap or SortedSetMultimap.
 }
-
