@@ -107,8 +107,8 @@ public final class Hashing {
   private static final Murmur3_128HashFunction MURMUR3_128 = new Murmur3_128HashFunction(0);
 
   /**
-   * Returns a hash function implementing the MD5 hash algorithm by delegating to the MD5
-   * {@link MessageDigest}.
+   * Returns a hash function implementing the MD5 hash algorithm (128 hash bits) by delegating to
+   * the MD5 {@link MessageDigest}.
    */
   public static HashFunction md5() {
     return MD5;
@@ -117,8 +117,8 @@ public final class Hashing {
   private static final HashFunction MD5 = new MessageDigestHashFunction("MD5");
 
   /**
-   * Returns a hash function implementing the SHA-1 algorithm by delegating to the SHA-1
-   * {@link MessageDigest}.
+   * Returns a hash function implementing the SHA-1 algorithm (160 hash bits) by delegating to the
+   * SHA-1 {@link MessageDigest}.
    */
   public static HashFunction sha1() {
     return SHA_1;
@@ -127,8 +127,8 @@ public final class Hashing {
   private static final HashFunction SHA_1 = new MessageDigestHashFunction("SHA-1");
 
   /**
-   * Returns a hash function implementing the SHA-256 algorithm by delegating to the SHA-256
-   * {@link MessageDigest}.
+   * Returns a hash function implementing the SHA-256 algorithm (256 hash bits) by delegating to
+   * the SHA-256 {@link MessageDigest}.
    */
   public static HashFunction sha256() {
     return SHA_256;
@@ -137,8 +137,8 @@ public final class Hashing {
   private static final HashFunction SHA_256 = new MessageDigestHashFunction("SHA-256");
 
   /**
-   * Returns a hash function implementing the SHA-512 algorithm by delegating to the SHA-512
-   * {@link MessageDigest}.
+   * Returns a hash function implementing the SHA-512 algorithm (512 hash bits) by delegating to the
+   * SHA-512 {@link MessageDigest}.
    */
   public static HashFunction sha512() {
     return SHA_512;
