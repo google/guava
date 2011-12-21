@@ -57,7 +57,7 @@ import java.util.concurrent.TimeoutException;
  *     ...
  *     protected void finalize() { latch.countDown(); ... }
  *   };
- *   x = null;  // Hint to the JIT that x is unreachable
+ *   x = null;  // Hint to the JIT that x is stack-unreachable
  *   GcFinalization.await(latch);
  * }</pre>
  *
@@ -71,6 +71,23 @@ import java.util.concurrent.TimeoutException;
  *       return map.isEmpty();
  *     }
  *   });
+ * }</pre>
+ *
+ * <p>Even if your non-test code does not use finalization, you can
+ * use this class to test for leaks, by ensuring that objects are no
+ * longer strongly referenced:
+ *
+ * <pre> {@code
+ * // Helper function keeps victim stack-unreachable.
+ * private WeakReference<Foo> fooWeakRef() {
+ *   Foo x = ....;
+ *   WeakReference<Foo> weakRef = new WeakReference<Foo>(x);
+ *   // ... use x ...
+ *   x = null;  // Hint to the JIT that x is stack-unreachable
+ *   return weakRef;
+ * }
+ * public void testFooLeak() {
+ *   GcFinalization.awaitClear(fooWeakRef());
  * }</pre>
  *
  * <p>This class cannot currently be used to test soft references, since this class does not try to
