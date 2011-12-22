@@ -35,12 +35,12 @@ import java.security.NoSuchAlgorithmException;
  * @author andreou@google.com (Dimitris Andreou)
  */
 final class MessageDigestHashFunction extends AbstractStreamingHashFunction {
-  private final MessageDigest algorithm;
+  private final String algorithmName;
   private final int bits;
 
   MessageDigestHashFunction(String algorithmName) {
-    this.algorithm = getMessageDigest(algorithmName);
-    this.bits = algorithm.getDigestLength() * 8;
+    this.algorithmName = algorithmName;
+    this.bits = getMessageDigest(algorithmName).getDigestLength() * 8;
   }
 
   public int bits() {
@@ -56,7 +56,7 @@ final class MessageDigestHashFunction extends AbstractStreamingHashFunction {
   }
 
   @Override public Hasher newHasher() {
-    return new MessageDigestHasher(algorithm);
+    return new MessageDigestHasher(getMessageDigest(algorithmName));
   }
 
   private static class MessageDigestHasher implements Hasher {
