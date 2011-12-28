@@ -193,6 +193,14 @@ public final class OptionalTest extends TestCase {
         ImmutableList.of(Optional.of("a"), Optional.<String>absent(), Optional.of("c"));
     ASSERT.that(Optional.presentInstances(optionals)).hasContentsInOrder("a", "c");
   }
+  
+  public void testPresentInstances_callingIteratorTwice() {
+    List<Optional<String>> optionals =
+        ImmutableList.of(Optional.of("a"), Optional.<String>absent(), Optional.of("c"));
+    Iterable<String> onlyPresent = Optional.presentInstances(optionals);
+    ASSERT.that(onlyPresent).hasContentsInOrder("a", "c");
+    ASSERT.that(onlyPresent).hasContentsInOrder("a", "c");
+  }
 
   @GwtIncompatible("SerializableTester")
   public void testSerialization() {
