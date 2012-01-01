@@ -43,6 +43,40 @@
   <build>
     <plugins>
       <plugin>
+        <artifactId>maven-jar-plugin</artifactId>
+        <configuration>
+          <archive>  
+            <manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
+          </archive> 
+        </configuration>
+      </plugin> 
+      <plugin>
+        <groupId>org.apache.felix</groupId>
+        <artifactId>maven-bundle-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>bundle-manifest</id>
+            <phase>process-classes</phase>
+            <goals>    
+              <goal>manifest</goal>
+            </goals>   
+          </execution>
+        </executions>
+        <configuration>
+          <instructions>
+  	        <Bundle-SymbolicName>${project.groupId}</Bundle-SymbolicName>
+            <Bundle-Name>${project.name}</Bundle-Name>
+    	    <Bundle-Version>${project.version}</Bundle-Version>
+            <Export-Package>com.google.common.*</Export-Package>
+            <Private-Package>com.google.common.base.internal.*</Private-Package>
+            <Import-Package>
+              javax.annotation;resolution:=optional,
+              sun.misc.*;resolution:=optional
+            </Import-Package>
+          </instructions>
+	    </configuration>
+      </plugin>
+      <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
         <version>2.3.2</version>
