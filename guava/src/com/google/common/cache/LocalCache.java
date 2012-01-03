@@ -3237,13 +3237,11 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
         lock();
         try {
           AtomicReferenceArray<ReferenceEntry<K, V>> table = this.table;
-          if (map.removalNotificationQueue != DISCARDING_QUEUE) {
-            for (int i = 0; i < table.length(); ++i) {
-              for (ReferenceEntry<K, V> e = table.get(i); e != null; e = e.getNext()) {
-                // Loading references aren't actually in the map yet.
-                if (e.getValueReference().isActive()) {
-                  enqueueNotification(e, RemovalCause.EXPLICIT);
-                }
+          for (int i = 0; i < table.length(); ++i) {
+            for (ReferenceEntry<K, V> e = table.get(i); e != null; e = e.getNext()) {
+              // Loading references aren't actually in the map yet.
+              if (e.getValueReference().isActive()) {
+                enqueueNotification(e, RemovalCause.EXPLICIT);
               }
             }
           }

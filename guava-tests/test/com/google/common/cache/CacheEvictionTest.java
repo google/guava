@@ -258,6 +258,33 @@ public class CacheEvictionTest extends TestCase {
     ASSERT.that(keySet).hasContentsAnyOrder(0);
   }
 
+  public void testEviction_invalidateAll() {
+    // test that .invalidateAll() resets total weight state correctly
+    IdentityLoader<Integer> loader = identityLoader();
+    LoadingCache<Integer, Integer> cache = CacheBuilder.newBuilder()
+        .concurrencyLevel(1)
+        .maximumSize(10)
+        .build(loader);
+
+    Set<Integer> keySet = cache.asMap().keySet();
+    ASSERT.that(keySet).isEmpty();
+
+    // add 0, 1, 2, 3, 4
+    getAll(cache, asList(0, 1, 2, 3, 4));
+    CacheTesting.drainRecencyQueues(cache);
+    ASSERT.that(keySet).hasContentsAnyOrder(0, 1, 2, 3, 4);
+
+    // invalidate all
+    cache.invalidateAll();
+    CacheTesting.drainRecencyQueues(cache);
+    ASSERT.that(keySet).isEmpty();
+
+    // add 5, 6, 7, 8, 9, 10, 11, 12
+    getAll(cache, asList(5, 6, 7, 8, 9, 10, 11, 12));
+    CacheTesting.drainRecencyQueues(cache);
+    ASSERT.that(keySet).hasContentsAnyOrder(5, 6, 7, 8, 9, 10, 11, 12);
+  }
+
   private void getAll(LoadingCache<Integer, Integer> cache, List<Integer> keys) {
     for (int i : keys) {
       cache.getUnchecked(i);
