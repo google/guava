@@ -2,10 +2,13 @@
 
 package com.google.common.hash;
 
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
+import com.google.common.hash.HashTestUtils.RandomHasherAction;
 
 import junit.framework.TestCase;
 
+import java.util.Random;
 import java.util.Set;
 
 /**
@@ -16,6 +19,18 @@ import java.util.Set;
 public class HashFunctionsTest extends TestCase {
   public void testMd5() {
     assertInvariants(Hashing.md5());
+  }
+
+  public void testSha1() {
+    assertInvariants(Hashing.sha1());
+  }
+
+  public void testSha256() {
+    assertInvariants(Hashing.sha256());
+  }
+
+  public void testSha512() {
+    assertInvariants(Hashing.sha512());
   }
 
   public void testMurmur3_138() {
@@ -53,6 +68,7 @@ public class HashFunctionsTest extends TestCase {
     assertTrue(hashcodes.size() > objects * 0.95); // quite relaxed test
 
     assertHashBytesThrowsCorrectExceptions(hashFunction);
+    assertIndependentHashers(hashFunction);
   }
 
   private static void assertHashBytesThrowsCorrectExceptions(HashFunction hashFunction) {
@@ -70,5 +86,33 @@ public class HashFunctionsTest extends TestCase {
       hashFunction.hashBytes(new byte[64], 0, -1);
       fail();
     } catch (IndexOutOfBoundsException ok) {}
+  }
+
+  private static void assertIndependentHashers(HashFunction hashFunction) {
+    int numActions = 100;
+    // hashcodes from non-overlapping hash computations
+    HashCode expected1 = randomHash(hashFunction, new Random(1L), numActions);
+    HashCode expected2 = randomHash(hashFunction, new Random(2L), numActions);
+
+    // equivalent, but overlapping, computations (should produce the same results as above)
+    Random random1 = new Random(1L);
+    Random random2 = new Random(2L);
+    Hasher hasher1 = hashFunction.newHasher();
+    Hasher hasher2 = hashFunction.newHasher();
+    for (int i = 0; i < numActions; i++) {
+      RandomHasherAction.pickAtRandom(random1).performAction(random1, ImmutableSet.of(hasher1));
+      RandomHasherAction.pickAtRandom(random2).performAction(random2, ImmutableSet.of(hasher2));
+    }
+
+    assertEquals(expected1, hasher1.hash());
+    assertEquals(expected2, hasher2.hash());
+  }
+
+  private static HashCode randomHash(HashFunction hashFunction, Random random, int numActions) {
+    Hasher hasher = hashFunction.newHasher();
+    for (int i = 0; i < numActions; i++) {
+      RandomHasherAction.pickAtRandom(random).performAction(random, ImmutableSet.of(hasher));
+    }
+    return hasher.hash();
   }
 }
