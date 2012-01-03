@@ -1590,6 +1590,7 @@ public class LocalCacheTest extends TestCase {
     segment.table.set(0, entry);
     segment.readCount.incrementAndGet();
     segment.count = 1;
+    segment.totalWeight = 1;
 
     assertSame(entry, table.get(0));
     assertSame(entry, segment.accessQueue.peek());
@@ -1601,6 +1602,43 @@ public class LocalCacheTest extends TestCase {
     assertTrue(segment.writeQueue.isEmpty());
     assertEquals(0, segment.readCount.get());
     assertEquals(0, segment.count);
+    assertEquals(0, segment.totalWeight);
+  }
+
+  public void testClear_notification() {
+    QueuingRemovalListener<Object, Object> listener = queuingRemovalListener();
+    LocalCache<Object, Object> map = makeLocalCache(createCacheBuilder()
+        .concurrencyLevel(1)
+        .initialCapacity(1)
+        .maximumSize(SMALL_MAX_SIZE)
+        .expireAfterWrite(99999, SECONDS)
+        .removalListener(listener));
+    Segment<Object, Object> segment = map.segments[0];
+    AtomicReferenceArray<ReferenceEntry<Object, Object>> table = segment.table;
+    assertEquals(1, table.length());
+
+    Object key = new Object();
+    Object value = new Object();
+    int hash = map.hash(key);
+    DummyEntry<Object, Object> entry = createDummyEntry(key, hash, value, null);
+    segment.recordWrite(entry, 1, map.ticker.read());
+    segment.table.set(0, entry);
+    segment.readCount.incrementAndGet();
+    segment.count = 1;
+    segment.totalWeight = 1;
+
+    assertSame(entry, table.get(0));
+    assertSame(entry, segment.accessQueue.peek());
+    assertSame(entry, segment.writeQueue.peek());
+
+    segment.clear();
+    assertNull(table.get(0));
+    assertTrue(segment.accessQueue.isEmpty());
+    assertTrue(segment.writeQueue.isEmpty());
+    assertEquals(0, segment.readCount.get());
+    assertEquals(0, segment.count);
+    assertEquals(0, segment.totalWeight);
+    assertNotified(listener, key, value, RemovalCause.EXPLICIT);
   }
 
   public void testRemoveEntry() {
