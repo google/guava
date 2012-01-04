@@ -23,13 +23,14 @@ import java.nio.ByteOrder;
 /**
  * See http://smhasher.googlecode.com/svn/trunk/MurmurHash3.cpp
  * MurmurHash3_x64_128
- * 
+ *
  * @author aappleby@google.com (Austin Appleby)
  * @author andreou@google.com (Dimitris Andreou)
  */
 final class Murmur3_128HashFunction extends AbstractStreamingHashFunction implements Serializable {
+  // TODO(user): when the shortcuts are implemented, update BloomFilterStrategies
   private final int seed;
-  
+
   Murmur3_128HashFunction(int seed) {
     this.seed = seed;
   }
@@ -37,7 +38,7 @@ final class Murmur3_128HashFunction extends AbstractStreamingHashFunction implem
   @Override public int bits() {
     return 128;
   }
-  
+
   @Override public Hasher newHasher() {
     return new Murmur3_128Hasher(seed);
   }
@@ -61,7 +62,7 @@ final class Murmur3_128HashFunction extends AbstractStreamingHashFunction implem
       len += 16;
       bmix64(k1, k2);
     }
-    
+
     private void bmix64(long k1, long k2) {
       k1 *= c1;
       k1 = Long.rotateLeft(k1, 31);
@@ -81,13 +82,13 @@ final class Murmur3_128HashFunction extends AbstractStreamingHashFunction implem
       h2 += h1;
       h2 = h2 * 5 + 0x38495ab5;
     }
-    
+
     @Override protected void processRemaining(ByteBuffer bb) {
       long k1 = 0;
       long k2 = 0;
       len += bb.remaining();
       switch (bb.remaining()) {
-        case 15: 
+        case 15:
           k2 ^= (long) toInt(bb.get(14)) << 48; // fall through
         case 14:
           k2 ^= (long) toInt(bb.get(13)) << 40; // fall through
@@ -130,7 +131,7 @@ final class Murmur3_128HashFunction extends AbstractStreamingHashFunction implem
         default:
       }
     }
-    
+
     @Override public HashCode makeHash() {
       h1 ^= len;
       h2 ^= len;
@@ -143,13 +144,13 @@ final class Murmur3_128HashFunction extends AbstractStreamingHashFunction implem
 
       h1 += h2;
       h2 += h1;
-  
+
       ByteBuffer bb = ByteBuffer.wrap(new byte[16]).order(ByteOrder.LITTLE_ENDIAN);
       bb.putLong(h1);
       bb.putLong(h2);
       return HashCodes.fromBytes(bb.array());
     }
-    
+
     private long fmix64(long k) {
       k ^= k >>> 33;
       k *= 0xff51afd7ed558ccdL;
@@ -159,6 +160,6 @@ final class Murmur3_128HashFunction extends AbstractStreamingHashFunction implem
       return k;
     }
   }
-  
+
   private static final long serialVersionUID = 0L;
 }

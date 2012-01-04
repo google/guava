@@ -16,23 +16,23 @@ package com.google.common.hash;
 
 /**
  * Static factories for {@link HashCode} instances.
- *
+ * 
  * @author andreou@google.com (Dimitris Andreou)
  */
 final class HashCodes {
   private HashCodes() { }
-
+  
   /**
-   * Creates a 32-bit {@code HashCode}, of which the bytes will form the passed int, interpreted
+   * Creates a 32-bit {@code HashCode}, of which the bytes will form the passed int, interpreted 
    * in little endian order.
    */
   static HashCode fromInt(int hash) {
     return new IntHashCode(hash);
   }
-
+  
   private static class IntHashCode extends HashCode {
     final int hash;
-
+    
     IntHashCode(int hash) {
       this.hash = hash;
     }
@@ -48,7 +48,7 @@ final class HashCodes {
           (byte) (hash >> 16),
           (byte) (hash >> 24)};
     }
-
+    
     @Override public int asInt() {
       return hash;
     }
@@ -57,18 +57,18 @@ final class HashCodes {
       throw new IllegalStateException("this HashCode only has 32 bits; cannot create a long");
     }
   }
-
+  
   /**
-   * Creates a 64-bit {@code HashCode}, of which the bytes will form the passed long, interpreted
+   * Creates a 64-bit {@code HashCode}, of which the bytes will form the passed long, interpreted 
    * in little endian order.
    */
   static HashCode fromLong(long hash) {
     return new LongHashCode(hash);
   }
-
+  
   private static class LongHashCode extends HashCode {
     final long hash;
-
+    
     LongHashCode(long hash) {
       this.hash = hash;
     }
@@ -97,19 +97,19 @@ final class HashCodes {
       return hash;
     }
   }
-
+  
   /**
-   * Creates a {@code HashCode} from a byte array. The array is <i>not</i> copied defensively,
+   * Creates a {@code HashCode} from a byte array. The array is <i>not</i> copied defensively, 
    * so it must be handed-off so as to preserve the immutability contract of {@code HashCode}.
-   * The array must be at least of length 4 (not checked).
+   * The array must be at least of length 4 (not checked). 
    */
   static HashCode fromBytes(byte[] bytes) {
     return new BytesHashCode(bytes);
   }
-
+  
   private static class BytesHashCode extends HashCode {
     final byte[] bytes;
-
+    
     BytesHashCode(byte[] bytes) {
       this.bytes = bytes;
     }
@@ -142,44 +142,6 @@ final class HashCodes {
           | ((bytes[5] & 0xFFL) << 40)
           | ((bytes[6] & 0xFFL) << 48)
           | ((bytes[7] & 0xFFL) << 56);
-    }
-  }
-
-  /**
-   * Slices a hash code into pieces of the specified number of bits each.
-   */
-  static HashCodeSlicer slice(HashCode hashCode, int bitsPerSlice) {
-    // TODO(user): special case for hashCodes.bits() == 32 or 64
-    return new HashCodeSlicer(hashCode.asBytes(), bitsPerSlice);
-  }
-
-  static class HashCodeSlicer {
-    final byte[] bytes;
-    final int bitsPerSlice;
-    int byteIndex;
-    int bitIndex;
-
-    HashCodeSlicer(byte[] bytes, int bitsPerSlice) {
-      this.bytes = bytes;
-      this.bitsPerSlice = bitsPerSlice;
-    }
-
-    int nextSlice() {
-      // TODO(user): this can be optimized. Especially if we move to int[]
-      // and even more if Mitzenmacher's trick works, then we have cheap
-      // hash bits so no problem with just picking K whole, convenient ints.
-      int slice = 0;
-      for (int i = 0; i < bitsPerSlice; i++) {
-        int nextBit = (bytes[byteIndex] >>> bitIndex) & 1;
-        slice = (slice << 1) | nextBit;
-
-        bitIndex++;
-        if (bitIndex == 8) {
-          bitIndex = 0;
-          byteIndex++;
-        }
-      }
-      return slice;
     }
   }
 }
