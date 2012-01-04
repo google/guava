@@ -27,9 +27,91 @@ import java.util.List;
 import java.util.Random;
 
 /**
- * Unit tests for functions of {@code Hashing} that don't have their own tests.
+ * Unit tests for {@link Hashing}.
+ *
+ * @author andreou@google.com (Dimitris Andreou)
+ * @author kak@google.com (Kurt Alfred Kluever)
  */
 public class HashingTest extends TestCase {
+  public void testMd5() {
+    HashTestUtils.checkAvalanche(Hashing.md5(), 100, 0.4);
+    HashTestUtils.checkNo2BitCharacteristics(Hashing.md5());
+    HashTestUtils.checkNoFunnels(Hashing.md5());
+    HashTestUtils.assertInvariants(Hashing.md5());
+  }
+
+  public void testSha1() {
+    HashTestUtils.checkAvalanche(Hashing.sha1(), 100, 0.4);
+    HashTestUtils.checkNo2BitCharacteristics(Hashing.sha1());
+    HashTestUtils.checkNoFunnels(Hashing.sha1());
+    HashTestUtils.assertInvariants(Hashing.sha1());
+  }
+
+  public void testSha256() {
+    HashTestUtils.checkAvalanche(Hashing.sha256(), 100, 0.4);
+    HashTestUtils.checkNo2BitCharacteristics(Hashing.sha256());
+    HashTestUtils.checkNoFunnels(Hashing.sha256());
+    HashTestUtils.assertInvariants(Hashing.sha256());
+  }
+
+  public void testSha512() {
+    HashTestUtils.checkAvalanche(Hashing.sha512(), 100, 0.4);
+    HashTestUtils.checkNo2BitCharacteristics(Hashing.sha512());
+    HashTestUtils.checkNoFunnels(Hashing.sha512());
+    HashTestUtils.assertInvariants(Hashing.sha512());
+  }
+
+  public void testMurmur3_128() {
+    HashTestUtils.check2BitAvalanche(Hashing.murmur3_128(), 250, 0.20);
+    HashTestUtils.checkAvalanche(Hashing.murmur3_128(), 250, 0.17);
+    HashTestUtils.checkNo2BitCharacteristics(Hashing.murmur3_128());
+    HashTestUtils.checkNoFunnels(Hashing.murmur3_128());
+    HashTestUtils.assertInvariants(Hashing.murmur3_128());
+  }
+
+  public void testMurmur3_32() {
+    HashTestUtils.check2BitAvalanche(Hashing.murmur3_32(), 250, 0.20);
+    HashTestUtils.checkAvalanche(Hashing.murmur3_32(), 250, 0.17);
+    HashTestUtils.checkNo2BitCharacteristics(Hashing.murmur3_32());
+    HashTestUtils.checkNoFunnels(Hashing.murmur3_32());
+    HashTestUtils.assertInvariants(Hashing.murmur3_32());
+  }
+
+  public void testGoodFastHash() {
+    for (int i = 1; i < 200; i += 17) {
+      HashFunction hasher = Hashing.goodFastHash(i);
+      assertTrue(hasher.bits() >= i);
+      HashTestUtils.assertInvariants(hasher);
+    }
+  }
+
+  // goodFastHash(32) uses Murmur3_32. Use the same epsilon bounds.
+  public void testGoodFastHash32() {
+    HashTestUtils.check2BitAvalanche(Hashing.goodFastHash(32), 250, 0.20);
+    HashTestUtils.checkAvalanche(Hashing.goodFastHash(32), 250, 0.17);
+    HashTestUtils.checkNo2BitCharacteristics(Hashing.goodFastHash(32));
+    HashTestUtils.checkNoFunnels(Hashing.goodFastHash(32));
+    HashTestUtils.assertInvariants(Hashing.goodFastHash(32));
+  }
+
+  // goodFastHash(128) uses Murmur3_128. Use the same epsilon bounds.
+  public void testGoodFastHash128() {
+    HashTestUtils.check2BitAvalanche(Hashing.goodFastHash(128), 250, 0.20);
+    HashTestUtils.checkAvalanche(Hashing.goodFastHash(128), 250, 0.17);
+    HashTestUtils.checkNo2BitCharacteristics(Hashing.goodFastHash(128));
+    HashTestUtils.checkNoFunnels(Hashing.goodFastHash(128));
+    HashTestUtils.assertInvariants(Hashing.goodFastHash(128));
+  }
+
+  // goodFastHash(256) uses Murmur3_128. Use the same epsilon bounds.
+  public void testGoodFastHash256() {
+    HashTestUtils.check2BitAvalanche(Hashing.goodFastHash(256), 250, 0.20);
+    HashTestUtils.checkAvalanche(Hashing.goodFastHash(256), 250, 0.17);
+    HashTestUtils.checkNo2BitCharacteristics(Hashing.goodFastHash(256));
+    HashTestUtils.checkNoFunnels(Hashing.goodFastHash(256));
+    HashTestUtils.assertInvariants(Hashing.goodFastHash(256));
+  }
+
   public void testPadToLong() {
     assertEquals(0x1111111111111111L, Hashing.padToLong(HashCodes.fromLong(0x1111111111111111L)));
     assertEquals(0x9999999999999999L, Hashing.padToLong(HashCodes.fromLong(0x9999999999999999L)));
