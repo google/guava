@@ -23,6 +23,7 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.util.concurrent.ExecutionError;
 import com.google.common.util.concurrent.UncheckedExecutionException;
 
+import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.ExecutionException;
 
 /**
@@ -145,4 +146,13 @@ public interface LoadingCache<K, V> extends Cache<K, V>, Function<K, V> {
    * @since 11.0
    */
   void refresh(K key);
+
+  /**
+   * {@inheritDoc}
+   *
+   * <p><b>Note that although the view <i>is</i> modifiable, no method on the returned map will ever
+   * cause entries to be automatically loaded.</b>
+   */
+  @Override
+  ConcurrentMap<K, V> asMap();
 }
