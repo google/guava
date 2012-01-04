@@ -27,10 +27,10 @@ final class BloomFilterStrategies {
     private final int bits;
     private final HashFunction hashFunction;
     
-    private From128ToN(int longs, HashFunction hashFunction) {
+    private From128ToN(int bits, HashFunction hashFunction) {
       super(hashFunction);
       this.hashFunction = hashFunction;
-      this.bits = longs;
+      this.bits = bits;
     }
     
     static From128ToN withBits(int bits, HashFunction hashFunction) {
