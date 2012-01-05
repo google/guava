@@ -18,7 +18,6 @@ package com.google.common.cache;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.base.Function;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.util.concurrent.ExecutionError;
 import com.google.common.util.concurrent.UncheckedExecutionException;
@@ -44,7 +43,7 @@ import javax.annotation.Nullable;
  */
 @Beta
 @GwtCompatible
-public interface Cache<K, V> extends Function<K, V> {
+public interface Cache<K, V> {
 
   /**
    * Returns the value associated with {@code key} in this cache, or {@code null} if there is no
@@ -131,55 +130,4 @@ public interface Cache<K, V> extends Function<K, V> {
    * performed -- if any -- is implementation-dependent.
    */
   void cleanUp();
-
-  /**
-   * Returns the value associated with {@code key} in this cache, first loading that value if
-   * necessary. No observable state associated with this cache is modified until loading completes.
-   *
-   * @throws ExecutionException if a checked exception was thrown while loading the value
-   * @throws UncheckedExecutionException if an unchecked exception was thrown while loading the
-   *     value
-   * @throws ExecutionError if an error was thrown while loading the value
-   * @deprecated This method has been split out into the {@link LoadingCache} interface, and will be
-   * removed from {@code Cache} in Guava release 12.0. Note that
-   * {@link CacheBuilder#build(CacheLoader)} now returns a {@code LoadingCache}, so this deprecation
-   * (migration) can be dealt with by simply changing the type of references to the results of
-   * {@link CacheBuilder#build(CacheLoader)}.
-   */
-  @Deprecated V get(K key) throws ExecutionException;
-
-  /**
-   * Returns the value associated with {@code key} in this cache, first loading that value if
-   * necessary. No observable state associated with this cache is modified until computation
-   * completes. Unlike {@link #get}, this method does not throw a checked exception, and thus should
-   * only be used in situations where checked exceptions are not thrown by the cache loader.
-   *
-   * <p><b>Warning:</b> this method silently converts checked exceptions to unchecked exceptions,
-   * and should not be used with cache loaders which throw checked exceptions.
-   *
-   * @throws UncheckedExecutionException if an exception was thrown while loading the value,
-   *     regardless of whether the exception was checked or unchecked
-   * @throws ExecutionError if an error was thrown while loading the value
-   * @deprecated This method has been split out into the {@link LoadingCache} interface, and will be
-   * removed from {@code Cache} in Guava release 12.0. Note that
-   * {@link CacheBuilder#build(CacheLoader)} now returns a {@code LoadingCache}, so this deprecation
-   * (migration) can be dealt with by simply changing the type of references to the results of
-   * {@link CacheBuilder#build(CacheLoader)}.
-   */
-  @Deprecated V getUnchecked(K key);
-
-  /**
-   * Discouraged. Provided to satisfy the {@code Function} interface; use {@link #get} or
-   * {@link #getUnchecked} instead.
-   *
-   * @throws UncheckedExecutionException if an exception was thrown while loading the value,
-   *     regardless of whether the exception was checked or unchecked
-   * @throws ExecutionError if an error was thrown while loading the value
-   * @deprecated This method has been split out into the {@link LoadingCache} interface, and will be
-   * removed from {@code Cache} in Guava release 12.0. Note that
-   * {@link CacheBuilder#build(CacheLoader)} now returns a {@code LoadingCache}, so this deprecation
-   * (migration) can be dealt with by simply changing the type of references to the results of
-   * {@link CacheBuilder#build(CacheLoader)}.
-   */
-  @Deprecated V apply(K key);
 }

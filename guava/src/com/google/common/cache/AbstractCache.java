@@ -20,7 +20,6 @@ import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
-import com.google.common.util.concurrent.UncheckedExecutionException;
 
 import java.util.Map;
 import java.util.concurrent.Callable;
@@ -114,22 +113,6 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
   @Override
   public ConcurrentMap<K, V> asMap() {
     throw new UnsupportedOperationException();
-  }
-
-  @Deprecated
-  @Override
-  public V getUnchecked(K key) {
-    try {
-      return get(key);
-    } catch (ExecutionException e) {
-      throw new UncheckedExecutionException(e.getCause());
-    }
-  }
-
-  @Deprecated
-  @Override
-  public V apply(K key) {
-    return getUnchecked(key);
   }
 
   /**

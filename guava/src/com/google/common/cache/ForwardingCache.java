@@ -115,24 +115,6 @@ public abstract class ForwardingCache<K, V> extends ForwardingObject implements 
     delegate().cleanUp();
   }
 
-  @Deprecated
-  @Override
-  public V get(K key) throws ExecutionException {
-    return delegate().get(key);
-  }
-
-  @Deprecated
-  @Override
-  public V getUnchecked(K key) {
-    return delegate().getUnchecked(key);
-  }
-
-  @Deprecated
-  @Override
-  public V apply(K key) {
-    return delegate().apply(key);
-  }
-
   /**
    * A simplified version of {@link ForwardingCache} where subclasses can pass in an already
    * constructed {@link Cache} as the delegete.
