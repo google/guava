@@ -28,7 +28,7 @@ public class GcFinalizationTest extends TestCase {
   public void testAwait_CountDownLatch() {
     final CountDownLatch latch = new CountDownLatch(1);
     Object x = new Object() {
-      protected void finalize() { latch.countDown(); }
+      @Override protected void finalize() { latch.countDown(); }
     };
     x = null;  // Hint to the JIT that x is unreachable
     GcFinalization.await(latch);
@@ -38,7 +38,7 @@ public class GcFinalizationTest extends TestCase {
   public void testAwaitDone_Future() {
     final SettableFuture<Void> future = SettableFuture.create();
     Object x = new Object() {
-      protected void finalize() { future.set(null); }
+      @Override protected void finalize() { future.set(null); }
     };
     x = null;  // Hint to the JIT that x is unreachable
     GcFinalization.awaitDone(future);
@@ -49,7 +49,7 @@ public class GcFinalizationTest extends TestCase {
   public void testAwaitDone_Future_Cancel() {
     final SettableFuture<Void> future = SettableFuture.create();
     Object x = new Object() {
-      protected void finalize() { future.cancel(false); }
+      @Override protected void finalize() { future.cancel(false); }
     };
     x = null;  // Hint to the JIT that x is unreachable
     GcFinalization.awaitDone(future);
@@ -173,6 +173,30 @@ public class GcFinalizationTest extends TestCase {
       interruptenator.shutdown();
       Thread.interrupted();
     }
+  }
+
+  /**
+   * awaitFullGc() is not quite as reliable a way to ensure calling of a
+   * specific finalize method as the more direct await* methods, but should be
+   * reliable enough in practice to avoid flakiness of this test.  (And if it
+   * isn't, we'd like to know about it first!)
+   */
+  public void testAwaitFullGc() {
+    final CountDownLatch finalizerRan = new CountDownLatch(1);
+    final WeakReference<Object> ref = new WeakReference<Object>(
+        new Object() {
+          @Override protected void finalize() { finalizerRan.countDown(); }
+        });
+
+    // Don't copy this into your own test!
+    // Use e.g. awaitClear or await(CountDownLatch) instead.
+    GcFinalization.awaitFullGc();
+
+    // If this test turns out to be flaky, add a second call to awaitFullGc()
+    // GcFinalization.awaitFullGc();
+
+    assertEquals(0, finalizerRan.getCount());
+    assertNull(ref.get());
   }
 
 }

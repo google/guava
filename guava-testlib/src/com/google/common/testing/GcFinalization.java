@@ -261,4 +261,40 @@ public final class GcFinalization {
       }
     });
   }
+
+  /**
+   * Tries to perform a "full" garbage collection cycle (including processing of weak references
+   * and invocation of finalize methods) and waits for it to complete.  Ensures that at least one
+   * weak reference has been cleared and one {@code finalize} method has been run before this
+   * method returns.  This method may be useful when testing the garbage collection mechanism
+   * itself, or inhibiting a spontaneous GC initiation in subsequent code.
+   *
+   * <p>In contrast, a plain call to {@link java.lang.System#gc()} does not ensure finalization
+   * processing and may run concurrently, for example, if the JVM flag {@code
+   * -XX:+ExplicitGCInvokesConcurrent} is used.
+   *
+   * <p>Whenever possible, it is preferable to test directly for some observable change resulting
+   * from GC, as with {@link #awaitClear}.  Because there are no guarantees for the order of GC
+   * finalization processing, there may still be some unfinished work for the GC to do after this
+   * method returns.
+   *
+   * <p>This method does not create any memory pressure as would be required to cause soft
+   * references to be processed.
+   *
+   * @throws RuntimeException if timed out or interrupted while waiting
+   * @since 12.0
+   */
+  public static void awaitFullGc() {
+    final CountDownLatch finalizerRan = new CountDownLatch(1);
+    WeakReference<Object> ref = new WeakReference<Object>(
+        new Object() {
+          @Override protected void finalize() { finalizerRan.countDown(); }
+        });
+
+    await(finalizerRan);
+    awaitClear(ref);
+
+    // Hope to catch some stragglers queued up behind our finalizable object
+    System.runFinalization();
+  }
 }
