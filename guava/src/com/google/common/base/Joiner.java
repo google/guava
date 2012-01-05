@@ -95,7 +95,8 @@ public class Joiner {
    */
   @Beta
   @Deprecated
-  public final <A extends Appendable, I extends Object & Iterable<?> & Iterator<?>> A
+  public
+  final <A extends Appendable, I extends Object & Iterable<?> & Iterator<?>> A
       appendTo(A appendable, I parts) throws IOException {
     return appendTo(appendable, (Iterator<?>) parts);
   }
@@ -154,7 +155,8 @@ public class Joiner {
    */
   @Beta
   @Deprecated
-  public final <I extends Object & Iterable<?> & Iterator<?>> StringBuilder
+  public
+  final <I extends Object & Iterable<?> & Iterator<?>> StringBuilder
       appendTo(StringBuilder builder, I parts) {
     return appendTo(builder, (Iterator<?>) parts);
   }
@@ -214,7 +216,8 @@ public class Joiner {
    */
   @Beta
   @Deprecated
-  public final <I extends Object & Iterable<?> & Iterator<?>> String join(I parts) {
+  public
+  final <I extends Object & Iterable<?> & Iterator<?>> String join(I parts) {
     return join((Iterator<?>) parts);
   }
 
@@ -388,7 +391,8 @@ public class Joiner {
      */
     @Beta
     @Deprecated
-    public <A extends Appendable,
+    public
+    <A extends Appendable,
         I extends Object & Iterable<? extends Entry<?, ?>> & Iterator<? extends Entry<?, ?>>>
         A appendTo(A appendable, I entries) throws IOException {
       Iterator<? extends Entry<?, ?>> iterator = entries;
@@ -444,7 +448,8 @@ public class Joiner {
      */
     @Beta
     @Deprecated
-    public <I extends Object & Iterable<? extends Entry<?, ?>> & Iterator<? extends Entry<?, ?>>>
+    public
+    <I extends Object & Iterable<? extends Entry<?, ?>> & Iterator<? extends Entry<?, ?>>>
         StringBuilder appendTo(StringBuilder builder, I entries) throws IOException {
       Iterator<? extends Entry<?, ?>> iterator = entries;
       return appendTo(builder, iterator);
@@ -490,7 +495,8 @@ public class Joiner {
      */
     @Beta
     @Deprecated
-    public <I extends Object & Iterable<? extends Entry<?, ?>> & Iterator<? extends Entry<?, ?>>>
+    public
+    <I extends Object & Iterable<? extends Entry<?, ?>> & Iterator<? extends Entry<?, ?>>>
         String join(I entries) throws IOException {
       Iterator<? extends Entry<?, ?>> iterator = entries;
       return join(iterator);
