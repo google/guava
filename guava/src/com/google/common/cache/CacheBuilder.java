@@ -107,9 +107,9 @@ import javax.annotation.CheckReturnValue;
  *
  * <p>If {@linkplain #weakKeys weakKeys}, {@linkplain #weakValues weakValues}, or
  * {@linkplain #softValues softValues} are requested, it is possible for a key or value present in
- * the cache to be reclaimed by the garbage collector. Reclaimed entries may be removed from the
- * cache on each cache modification, on occasional cache accesses, or on calls to
- * {@link Cache#cleanUp}. Reclaimed entries may be counted in {@link Cache#size}, but will never be
+ * the cache to be reclaimed by the garbage collector. Entries with reclaimed keys or values may be
+ * removed from the cache on each cache modification, on occasional cache accesses, or on calls to
+ * {@link Cache#cleanUp}; such entries may be counted in {@link Cache#size}, but will never be
  * visible to read or write operations.
  *
  * <p>Certain cache configurations will result in the accrual of periodic maintenance tasks which
@@ -452,8 +452,8 @@ public final class CacheBuilder<K, V> {
    * comparison to determine equality of keys.
    *
    * <p>Entries with keys that have been garbage collected may be counted in {@link Cache#size},
-   * but will never be visible to read or write operations. Entries with garbage collected keys are
-   * cleaned up as part of the routine maintenance described in the class javadoc.
+   * but will never be visible to read or write operations; such entries are cleaned up as part of
+   * the routine maintenance described in the class javadoc.
    *
    * @throws IllegalStateException if the key strength was already set
    */
@@ -492,8 +492,8 @@ public final class CacheBuilder<K, V> {
    * comparison to determine equality of values.
    *
    * <p>Entries with values that have been garbage collected may be counted in {@link Cache#size},
-   * but will never be visible to read or write operations. Entries with garbage collected keys are
-   * cleaned up as part of the routine maintenance described in the class javadoc.
+   * but will never be visible to read or write operations; such entries are cleaned up as part of
+   * the routine maintenance described in the class javadoc.
    *
    * @throws IllegalStateException if the value strength was already set
    */
@@ -516,8 +516,8 @@ public final class CacheBuilder<K, V> {
    * comparison to determine equality of values.
    *
    * <p>Entries with values that have been garbage collected may be counted in {@link Cache#size},
-   * but will never be visible to read or write operations. Entries with garbage collected values
-   * are cleaned up as part of the routine maintenance described in the class javadoc.
+   * but will never be visible to read or write operations; such entries are cleaned up as part of
+   * the routine maintenance described in the class javadoc.
    *
    * @throws IllegalStateException if the value strength was already set
    */
