@@ -90,13 +90,14 @@ import javax.annotation.CheckReturnValue;
  * specified, the cache uses identity comparisons for values.
  *
  * <p>Entries are automatically evicted from the cache when any of
- * {@linkplain #maximumSize maximumSize}, {@linkplain #maximumWeight maximumWeight},
+ * {@linkplain #maximumSize(long) maximumSize}, {@linkplain #maximumWeight(long) maximumWeight},
  * {@linkplain #expireAfterWrite expireAfterWrite},
  * {@linkplain #expireAfterAccess expireAfterAccess}, {@linkplain #weakKeys weakKeys},
  * {@linkplain #weakValues weakValues}, or {@linkplain #softValues softValues} are requested.
  *
- * <p>If {@linkplain #maximumSize maximumSize} or {@linkplain #maximumWeight maximumWeight} is
- * requested entries may be evicted on each cache modification.
+ * <p>If {@linkplain #maximumSize(long) maximumSize} or
+ * {@linkplain #maximumWeight(long) maximumWeight} is requested entries may be evicted on each cache
+ * modification.
  *
  * <p>If {@linkplain #expireAfterWrite expireAfterWrite} or
  * {@linkplain #expireAfterAccess expireAfterAccess} is requested entries may be evicted on each
@@ -364,7 +365,6 @@ public final class CacheBuilder<K, V> {
    * change.
    *
    * @param weight the maximum weight the cache may contain
-   * @param weigher the weigher to use in calculating the weight of cache entries
    * @throws IllegalArgumentException if {@code size} is negative
    * @throws IllegalStateException if a maximum size was already set
    * @since 11.0
@@ -381,9 +381,9 @@ public final class CacheBuilder<K, V> {
 
   /**
    * Specifies the weigher to use in determining the weight of entries. Entry weight is taken
-   * into consideration by {@link #maximumWeight} when determining which entries to evict, and
-   * use of this method requires a corresponding call to {@link #maximumWeight} prior to calling
-   * {@link #build}. Weights are measured and recorded when entries are inserted into the
+   * into consideration by {@link #maximumWeight(long)} when determining which entries to evict, and
+   * use of this method requires a corresponding call to {@link #maximumWeight(long)} prior to
+   * calling {@link #build}. Weights are measured and recorded when entries are inserted into the
    * cache, and are thus effectively static during the lifetime of a cache entry.
    *
    * <p>When the weight of an entry is zero it will not be considered for size-based eviction
@@ -402,7 +402,6 @@ public final class CacheBuilder<K, V> {
    * a cache whose key or value type is incompatible with the weigher, you will likely experience
    * a {@link ClassCastException} at some <i>undefined</i> point in the future.
    *
-   * @param weight the maximum weight the cache may contain
    * @param weigher the weigher to use in calculating the weight of cache entries
    * @throws IllegalArgumentException if {@code size} is negative
    * @throws IllegalStateException if a maximum size was already set
@@ -510,8 +509,8 @@ public final class CacheBuilder<K, V> {
    * demand.
    *
    * <p><b>Warning:</b> in most circumstances it is better to set a per-cache {@linkplain
-   * #maximumSize maximum size} instead of using soft references. You should only use this method if
-   * you are well familiar with the practical consequences of soft references.
+   * #maximumSize(long) maximum size} instead of using soft references. You should only use this
+   * method if you are well familiar with the practical consequences of soft references.
    *
    * <p><b>Note:</b> when this method is used, the resulting cache will use identity ({@code ==})
    * comparison to determine equality of values.
@@ -542,8 +541,9 @@ public final class CacheBuilder<K, V> {
    * has elapsed after the entry's creation, or the most recent replacement of its value.
    *
    * <p>When {@code duration} is zero, this method hands off to
-   * {@link #maximumSize maximumSize}{@code (0)}, ignoring any otherwise-specificed maximum size or
-   * weight. This can be useful in testing, or to disable caching temporarily without a code change.
+   * {@link #maximumSize(long) maximumSize}{@code (0)}, ignoring any otherwise-specificed maximum
+   * size or weight. This can be useful in testing, or to disable caching temporarily without a code
+   * change.
    *
    * <p>Expired entries may be counted in {@link Cache#size}, but will never be visible to read or
    * write operations. Expired entries are cleaned up as part of the routine maintenance described
@@ -575,8 +575,9 @@ public final class CacheBuilder<K, V> {
    * on the collection-views of {@link Cache#asMap}.
    *
    * <p>When {@code duration} is zero, this method hands off to
-   * {@link #maximumSize maximumSize}{@code (0)}, ignoring any otherwise-specificed maximum size or
-   * weight. This can be useful in testing, or to disable caching temporarily without a code change.
+   * {@link #maximumSize(long) maximumSize}{@code (0)}, ignoring any otherwise-specificed maximum
+   * size or weight. This can be useful in testing, or to disable caching temporarily without a code
+   * change.
    *
    * <p>Expired entries may be counted in {@link Cache#size}, but will never be visible to read or
    * write operations. Expired entries are cleaned up as part of the routine maintenance described

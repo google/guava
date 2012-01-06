@@ -89,8 +89,8 @@ public interface Cache<K, V> extends Function<K, V> {
    * Associates {@code value} with {@code key} in this cache. If the cache previously contained a
    * value associated with {@code key}, the old value is replaced by {@code value}.
    *
-   * <p>Prefer {@link #get(K, Callable)} when using the conventional "if cached, return; otherwise
-   * create, cache and return" pattern.
+   * <p>Prefer {@link #get(Object, Callable)} when using the conventional "if cached, return;
+   * otherwise create, cache and return" pattern.
    *
    * @since 11.0
    */
