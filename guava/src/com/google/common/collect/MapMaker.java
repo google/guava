@@ -307,7 +307,11 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
   }
 
   /**
-   * Specifies that each key (not value) stored in the map should be wrapped in a
+   * <b>This method is broken.</b> Maps with soft keys offer no functional advantage over maps with
+   * weak keys, and they waste memory by keeping unreachable elements in the map. If your goal is to
+   * create a memory-sensitive map, then consider using soft values instead.
+   *
+   * <p>Specifies that each key (not value) stored in the map should be wrapped in a
    * {@link SoftReference} (by default, strong references are used). Softly-referenced objects will
    * be garbage-collected in a <i>globally</i> least-recently-used manner, in response to memory
    * demand.
