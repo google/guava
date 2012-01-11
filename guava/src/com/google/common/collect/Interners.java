@@ -51,16 +51,24 @@ public final class Interners {
     };
   }
 
-  private static class CustomInterner<E> implements Interner<E> {
-    // MapMaker is our friend, we know about this type
-    private final MapMakerInternalMap<E, Dummy> map;
+  /**
+   * Returns a new thread-safe interner which retains a weak reference to each instance it has
+   * interned, and so does not prevent these instances from being garbage-collected. This most
+   * likely does not perform as well as {@link #newStrongInterner}, but is the best alternative
+   * when the memory usage of that implementation is unacceptable. Note that unlike {@link
+   * String#intern}, using this interner does not consume memory in the permanent generation.
+   */
+  @GwtIncompatible("java.lang.ref.WeakReference")
+  public static <E> Interner<E> newWeakInterner() {
+    return new WeakInterner<E>();
+  }
 
-    CustomInterner(GenericMapMaker<? super E, Object> mm) {
-      this.map = mm
-          .strongValues()
+  private static class WeakInterner<E> implements Interner<E> {
+    // MapMaker is our friend, we know about this type
+    private final MapMakerInternalMap<E, Dummy> map = new MapMaker()
+          .weakKeys()
           .keyEquivalence(Equivalences.equals())
           .makeCustomMap();
-    }
 
     @Override public E intern(E sample) {
       while (true) {
@@ -89,18 +97,6 @@ public final class Interners {
     }
 
     private enum Dummy { VALUE }
-  }
-
-  /**
-   * Returns a new thread-safe interner which retains a weak reference to each instance it has
-   * interned, and so does not prevent these instances from being garbage-collected. This most
-   * likely does not perform as well as {@link #newStrongInterner}, but is the best alternative
-   * when the memory usage of that implementation is unacceptable. Note that unlike {@link
-   * String#intern}, using this interner does not consume memory in the permanent generation.
-   */
-  @GwtIncompatible("java.lang.ref.WeakReference")
-  public static <E> Interner<E> newWeakInterner() {
-    return new CustomInterner<E>(new MapMaker().weakKeys());
   }
 
   /**
