@@ -22,9 +22,10 @@ import java.util.concurrent.ExecutionException;
 
 /**
  * An object with an operational state, plus asynchronous {@link #start()} and
- * {@link #stop()} lifecycle methods to transfer into and out of this state.
- * Example services include webservers, RPC servers and timers. The normal
- * lifecycle of a service is:
+ * {@link #stop()} lifecycle methods to transition between states.
+ * Example services include webservers, RPC servers and timers. 
+ * 
+ * <p>The normal lifecycle of a service is:
  * <ul>
  *   <li>{@link State#NEW} -&gt;</li>
  *   <li>{@link State#STARTING} -&gt;</li>
@@ -32,11 +33,34 @@ import java.util.concurrent.ExecutionException;
  *   <li>{@link State#STOPPING} -&gt;</li>
  *   <li>{@link State#TERMINATED}</li>
  * </ul>
- *
- * If the service fails while starting, running or stopping, its state will be
- * {@link State#FAILED}, and its behavior is undefined. Such a service cannot be
- * started nor stopped.
- *
+ * 
+ * <p>The valid state transitions of a Service are:
+ * <ul>
+ *   <li>{@link State#NEW} -&gt; {@link State#STARTING}: This occurs when 
+ *      start() is called the first time and is the only valid state transition
+ *      from the NEW state.</li>
+ *   <li>{@link State#NEW} -&gt; {@link State#TERMINATED}: This occurs when 
+ *      stop() is called from the NEW state.</li>
+ *   <li>{@link State#STARTING} -&gt; {@link State#RUNNING}: This occurs when 
+ *      a service has successfully started</li>
+ *   <li>{@link State#STARTING} -&gt; {@link State#FAILED}: This occurs when a
+ *      service experiences an unrecoverable error while starting up</li>
+ *   <li>{@link State#STARTING} -&gt; {@link State#STOPPING}: This occurs when 
+ *      stop() is called while a service is starting up.</li>
+ *   <li>{@link State#RUNNING} -&gt; {@link State#STOPPING}: This occurs when 
+ *      stop() is called on a running service.</li>
+ *   <li>{@link State#RUNNING} -&gt; {@link State#FAILED}: This occurs when an 
+ *      unrecoverable error occurs while a service is running.</li>
+ *   <li>{@link State#STOPPING} -&gt; {@link State#FAILED}: This occurs when an
+ *      unrecoverable error occurs while a service is stopping.</li>
+ *   <li>{@link State#STOPPING} -&gt; {@link State#TERMINATED}: This occurs 
+ *      when the service successfully stops.</li>
+ * </ul>
+ * 
+ * <p>N.B. The {@link State#FAILED} and {@link State#TERMINATED} states are 
+ * terminal states, once a service enters either of these states it cannot ever 
+ * leave them. 
+ * 
  * <p>Implementors of this interface are strongly encouraged to extend one of 
  * the abstract classes in this package which implement this interface and 
  * make the threading and state management easier.
