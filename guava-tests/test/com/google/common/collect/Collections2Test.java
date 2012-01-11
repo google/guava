@@ -361,4 +361,13 @@ public class Collections2Test extends TestCase {
     NullPointerTester tester = new NullPointerTester();
     tester.testAllPublicStaticMethods(Collections2.class);
   }
+
+  public void testToStringImplWithNullEntries() throws Exception {
+    List<String> list = Lists.newArrayList();
+    list.add("foo");
+    list.add(null);
+
+    assertEquals(list.toString(), Collections2.toStringImpl(list));
+  }
+
 }

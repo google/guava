@@ -344,6 +344,34 @@ public class ForwardingMapTest extends ForwardingTestCase {
     verify(entrySet, map);
   }
 
+  public void testToStringWithNullKeys() throws Exception {
+    Map<String, String> hashmap = Maps.newHashMap();
+    hashmap.put("foo", "bar");
+    hashmap.put(null, "baz");
+
+    StandardImplForwardingMap<String, String> forwardingMap =
+        new StandardImplForwardingMap<String, String>(
+            Maps.<String, String>newHashMap());
+    forwardingMap.put("foo", "bar");
+    forwardingMap.put(null, "baz");
+
+    assertEquals(hashmap.toString(), forwardingMap.toString());
+  }
+
+  public void testToStringWithNullValues() throws Exception {
+    Map<String, String> hashmap = Maps.newHashMap();
+    hashmap.put("foo", "bar");
+    hashmap.put("baz", null);
+
+    StandardImplForwardingMap<String, String> forwardingMap =
+        new StandardImplForwardingMap<String, String>(
+            Maps.<String, String>newHashMap());
+    forwardingMap.put("foo", "bar");
+    forwardingMap.put("baz", null);
+
+    assertEquals(hashmap.toString(), forwardingMap.toString());
+  }
+
   Map<String, Boolean> forward() {
     return forward;
   }

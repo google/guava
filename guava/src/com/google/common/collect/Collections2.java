@@ -341,7 +341,7 @@ public final class Collections2 {
     return (Collection<T>) iterable;
   }
 
-  static final Joiner STANDARD_JOINER = Joiner.on(", ");
+  static final Joiner STANDARD_JOINER = Joiner.on(", ").useForNull("null");
 
   // TODO(user): Maybe move the mathematical methods to a separate
   // package-permission class.

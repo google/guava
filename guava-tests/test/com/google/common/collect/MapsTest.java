@@ -310,6 +310,22 @@ public class MapsTest extends TestCase {
     } catch (IllegalArgumentException expected) {}
   }
 
+  public void testToStringImplWithNullKeys() throws Exception {
+    Map<String, String> hashmap = Maps.newHashMap();
+    hashmap.put("foo", "bar");
+    hashmap.put(null, "baz");
+
+    assertEquals(hashmap.toString(), Maps.toStringImpl(hashmap));
+  }
+
+  public void testToStringImplWithNullValues() throws Exception {
+    Map<String, String> hashmap = Maps.newHashMap();
+    hashmap.put("foo", "bar");
+    hashmap.put("baz", null);
+
+    assertEquals(hashmap.toString(), Maps.toStringImpl(hashmap));
+  }
+
   @GwtIncompatible("NullPointerTester")
   public void testNullPointerExceptions() throws Exception {
     NullPointerTester tester = new NullPointerTester();
