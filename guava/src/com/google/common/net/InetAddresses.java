@@ -142,32 +142,8 @@ public final class InetAddresses {
         "Byte array has invalid length for an IPv4 address: %s != 4.",
         bytes.length);
 
-    try {
-      InetAddress ipv4 = InetAddress.getByAddress(bytes);
-      if (!(ipv4 instanceof Inet4Address)) {
-        throw new UnknownHostException(
-            String.format("'%s' is not an IPv4 address.",
-                          ipv4.getHostAddress()));
-      }
-
-      return (Inet4Address) ipv4;
-    } catch (UnknownHostException e) {
-
-      /*
-       * This really shouldn't happen in practice since all our byte
-       * sequences should be valid IP addresses.
-       *
-       * However {@link InetAddress#getByAddress} is documented as
-       * potentially throwing this "if IP address is of illegal length".
-       *
-       * This is mapped to IllegalArgumentException since, presumably,
-       * the argument triggered some bizarre processing bug.
-       */
-      throw new IllegalArgumentException(
-          String.format("Host address '%s' is not a valid IPv4 address.",
-                        Arrays.toString(bytes)),
-          e);
-    }
+    // Given a 4-byte array, this cast should always succeed.
+    return (Inet4Address) bytesToInetAddress(bytes);
   }
 
   /**
@@ -191,25 +167,7 @@ public final class InetAddresses {
           String.format("'%s' is not an IP string literal.", ipString));
     }
 
-    try {
-      return InetAddress.getByAddress(addr);
-    } catch (UnknownHostException e) {
-
-      /*
-       * This really shouldn't happen in practice since all our byte
-       * sequences should be valid IP addresses.
-       *
-       * However {@link InetAddress#getByAddress} is documented as
-       * potentially throwing this "if IP address is of illegal length".
-       *
-       * This is mapped to IllegalArgumentException since, presumably,
-       * the argument triggered some processing bug in either
-       * {@link IPAddressUtil#textToNumericFormatV4} or
-       * {@link IPAddressUtil#textToNumericFormatV6}.
-       */
-      throw new IllegalArgumentException(
-          String.format("'%s' is extremely broken.", ipString), e);
-    }
+    return bytesToInetAddress(addr);
   }
 
   /**
@@ -371,6 +329,25 @@ public final class InetAddresses {
   }
 
   /**
+   * Convert a byte array into an InetAddress.
+   *
+   * {@link InetAddress#getByAddress} is documented as throwing a checked
+   * exception "if IP address if of illegal length."  We replace it with
+   * an unchecked exception, for use by callers who already know that addr
+   * is an array of length 4 or 16.
+   *
+   * @param addr the raw 4-byte or 16-byte IP address in big-endian order
+   * @return an InetAddress object created from the raw IP address
+   */
+  private static InetAddress bytesToInetAddress(byte[] addr) {
+    try {
+      return InetAddress.getByAddress(addr);
+    } catch (UnknownHostException e) {
+      throw new AssertionError(e);
+    }
+  }
+
+  /**
    * Returns the string representation of an {@link InetAddress}.
    *
    * <p>For IPv4 addresses, this is identical to
@@ -436,7 +413,7 @@ public final class InetAddresses {
     }
   }
 
-  /** 
+  /**
    * Convert a list of hextets into a human-readable IPv6 address.
    *
    * <p>In order for "::" compression to work, the input should contain negative
@@ -519,30 +496,26 @@ public final class InetAddresses {
    */
   public static InetAddress forUriString(String hostAddr) {
     Preconditions.checkNotNull(hostAddr);
-    Preconditions.checkArgument(hostAddr.length() > 0, "host string is empty");
-    InetAddress retval = null;
 
-    // IPv4 address?
-    try {
-      retval = forString(hostAddr);
-      if (retval instanceof Inet4Address) {
-        return retval;
-      }
-    } catch (IllegalArgumentException e) {
-      // Not a valid IP address, fall through.
+    // Decide if this should be an IPv6 or IPv4 address.
+    String ipString;
+    int expectBytes;
+    if (hostAddr.startsWith("[") && hostAddr.endsWith("]")) {
+      ipString = hostAddr.substring(1, hostAddr.length() - 1);
+      expectBytes = 16;
+    } else {
+      ipString = hostAddr;
+      expectBytes = 4;
     }
 
-    // IPv6 address
-    if (!(hostAddr.startsWith("[") && hostAddr.endsWith("]"))) {
-      throw new IllegalArgumentException("Not a valid address: \"" + hostAddr + '"');
+    // Parse the address, and make sure the length/version is correct.
+    byte[] addr = ipStringToBytes(ipString);
+    if (addr == null || addr.length != expectBytes) {
+      throw new IllegalArgumentException(
+          String.format("Not a valid URI IP literal: '%s'", hostAddr));
     }
 
-    retval = forString(hostAddr.substring(1, hostAddr.length() - 1));
-    if (retval instanceof Inet6Address) {
-      return retval;
-    }
-
-    throw new IllegalArgumentException("Not a valid address: \"" + hostAddr + '"');
+    return bytesToInetAddress(addr);
   }
 
   /**
@@ -1081,11 +1054,7 @@ public final class InetAddresses {
     Preconditions.checkArgument(i >= 0, "Incrementing %s would wrap.", address);
 
     addr[i]++;
-    try {
-      return InetAddress.getByAddress(addr);
-    } catch (UnknownHostException e) {
-      throw new AssertionError(e);
-    }
+    return bytesToInetAddress(addr);
   }
 
   /**

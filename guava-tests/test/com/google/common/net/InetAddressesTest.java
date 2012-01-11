@@ -241,9 +241,15 @@ public class InetAddressesTest extends TestCase {
     assertEquals(expected, InetAddresses.forUriString("[3ffe:0:0:0:0:0:0:1]"));
   }
 
+  public void testForUriStringIPv4Mapped() {
+    Inet4Address expected = (Inet4Address) InetAddresses.forString("192.0.2.1");
+    assertEquals(expected, InetAddresses.forUriString("[::ffff:192.0.2.1]"));
+  }
+
   public void testIsUriInetAddress() {
     assertTrue(InetAddresses.isUriInetAddress("192.168.1.1"));
     assertTrue(InetAddresses.isUriInetAddress("[3ffe:0:0:0:0:0:0:1]"));
+    assertTrue(InetAddresses.isUriInetAddress("[::ffff:192.0.2.1]"));
 
     assertFalse(InetAddresses.isUriInetAddress("[192.168.1.1"));
     assertFalse(InetAddresses.isUriInetAddress("192.168.1.1]"));
@@ -253,6 +259,8 @@ public class InetAddressesTest extends TestCase {
     assertFalse(InetAddresses.isUriInetAddress("1:2e"));
     assertFalse(InetAddresses.isUriInetAddress("[3ffe:0:0:0:0:0:0:1"));
     assertFalse(InetAddresses.isUriInetAddress("3ffe:0:0:0:0:0:0:1]"));
+    assertFalse(InetAddresses.isUriInetAddress("3ffe:0:0:0:0:0:0:1"));
+    assertFalse(InetAddresses.isUriInetAddress("::ffff:192.0.2.1"));
   }
 
   public void testForUriStringBad() {
@@ -314,6 +322,20 @@ public class InetAddressesTest extends TestCase {
 
     try {
       InetAddresses.forUriString("3ffe:0:0:0:0:0:0:1]");
+      fail("expected IllegalArgumentException");  // COV_NF_LINE
+    } catch (IllegalArgumentException e) {
+      // expected
+    }
+
+    try {
+      InetAddresses.forUriString("3ffe:0:0:0:0:0:0:1");
+      fail("expected IllegalArgumentException");  // COV_NF_LINE
+    } catch (IllegalArgumentException e) {
+      // expected
+    }
+
+    try {
+      InetAddresses.forUriString("::ffff:192.0.2.1");
       fail("expected IllegalArgumentException");  // COV_NF_LINE
     } catch (IllegalArgumentException e) {
       // expected
