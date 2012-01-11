@@ -24,12 +24,6 @@ import java.util.Random;
  * @author andreou@google.com (Dimitris Andreou)
  */
 public class AbstractStreamingHasherTest extends TestCase {
-  /** Test we get the HashCode that is created by the sink. Later we ignore the result */
-  public void testSanity() { 
-    Sink sink = new Sink(4);
-    assertEquals(0xDeadBeef, sink.makeHash().asInt());
-  }
-  
   public void testBytes() {
     Sink sink = new Sink(4); // byte order insignificant here
     byte[] expected = { 1, 2, 3, 4, 5, 6, 7, 8 };
@@ -73,6 +67,18 @@ public class AbstractStreamingHasherTest extends TestCase {
     sink.hash();
     sink.assertInvariants(2);
     sink.assertBytes(new byte[] { 1, 2, 0, 0  }); // padded with zeros
+  }
+  
+  public void testString() throws Exception {
+    Random random = new Random();
+    for (int i = 0; i < 100; i++) {
+      byte[] bytes = new byte[64]; 
+      random.nextBytes(bytes);
+      String s = new String(bytes, "UTF-16LE"); // so all random strings are valid
+      assertEquals(
+          new Sink(4).putString(s).hash(),
+          new Sink(4).putBytes(s.getBytes("UTF-16LE")).hash());
+    }
   }
   
   public void testFloat() {
@@ -168,7 +174,7 @@ public class AbstractStreamingHasherTest extends TestCase {
     }
 
     @Override HashCode makeHash() {
-      return HashCodes.fromInt(0xDeadBeef);
+      return HashCodes.fromBytes(out.toByteArray());
     }
 
     @Override protected void process(ByteBuffer bb) {
