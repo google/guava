@@ -18,9 +18,9 @@ package com.google.common.math;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
-import java.math.BigInteger;
-
 import com.google.common.annotations.VisibleForTesting;
+
+import java.math.BigInteger;
 
 /**
  * Utilities for {@code double} primitives. Some of these are exposed in JDK 6,
@@ -75,7 +75,7 @@ final class DoubleUtils {
 
   @VisibleForTesting
   static int getExponent(double d) {
-    // TODO: replace with Math.getExponent in JDK 6
+    // TODO(user): replace with Math.getExponent in JDK 6
     long bits = Double.doubleToRawLongBits(d);
     int exponent = (int) ((bits & EXPONENT_MASK) >> SIGNIFICAND_BITS);
     exponent -= EXPONENT_BIAS;
@@ -86,7 +86,7 @@ final class DoubleUtils {
    * Returns {@code d * 2^scale}.
    */
   static strictfp double scalb(double d, int scale) {
-    // TODO: replace with Math.scalb in JDK 6
+    // TODO(user): replace with Math.scalb in JDK 6
     int exponent = getExponent(d);
     switch (exponent) {
       case MAX_DOUBLE_EXPONENT + 1: // NaN, infinity
@@ -175,6 +175,18 @@ final class DoubleUtils {
      */
     bits |= x.signum() & SIGN_MASK;
     return Double.longBitsToDouble(bits);
+  }
+
+  /**
+   * Returns its argument if it is non-negative, zero if it is negative.
+   */
+  static double ensureNonNegative(double value) {
+    checkArgument(!Double.isNaN(value));
+    if (value > 0.0) {
+      return value;
+    } else {
+      return 0.0;
+    }
   }
 
   private static final long ONE_BITS = Double.doubleToRawLongBits(1.0);
