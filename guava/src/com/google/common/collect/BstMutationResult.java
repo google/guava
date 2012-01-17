@@ -15,9 +15,7 @@
 package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.common.collect.BstModificationResult.ModificationType.IDENTITY;
 import static com.google.common.collect.BstModificationResult.ModificationType.REBUILDING_CHANGE;
-import static com.google.common.collect.BstModificationResult.ModificationType.REBALANCING_CHANGE;
 import static com.google.common.collect.BstSide.LEFT;
 import static com.google.common.collect.BstSide.RIGHT;
 

@@ -93,7 +93,6 @@ final class BstOperations {
     checkNotNull(mutationRule);
     BstBalancePolicy<N> balancePolicy = mutationRule.getBalancePolicy();
     BstNodeFactory<N> nodeFactory = mutationRule.getNodeFactory();
-    BstModifier<K, N> modifier = mutationRule.getModifier();
 
     N target = path.getTip();
     K key = target.getKey();
