@@ -16,7 +16,6 @@
 
 package com.google.common.collect;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 
 import java.util.NoSuchElementException;
@@ -31,22 +30,17 @@ import javax.annotation.Nullable;
  *
  * <p>Example: <pre>   {@code
  *
- *   Iterator<Integer> powersOfTwo = new AbstractLinkedIterator<Integer>(1) {
+ *   Iterator<Integer> powersOfTwo = new AbstractSequentialIterator<Integer>(1) {
  *     protected Integer computeNext(Integer previous) {
  *       return (previous == 1 << 30) ? null : previous * 2;
  *     }
  *   };}</pre>
  *
  * @author Chris Povirk
- * @since 8.0
- * @deprecated This class has been renamed to {@link
- *     AbstractSequentialIterator}.  It is scheduled to be removed in Guava
- *     release 13.0.
+ * @since 12.0 (in Guava as {@code AbstractLinkedIterator} since 8.0)
  */
-@Beta
-@Deprecated
 @GwtCompatible
-public abstract class AbstractLinkedIterator<T>
+public abstract class AbstractSequentialIterator<T>
     extends UnmodifiableIterator<T> {
   private T nextOrNull;
 
@@ -54,7 +48,7 @@ public abstract class AbstractLinkedIterator<T>
    * Creates a new iterator with the given first element, or, if {@code
    * firstOrNull} is null, creates a new empty iterator.
    */
-  protected AbstractLinkedIterator(@Nullable T firstOrNull) {
+  protected AbstractSequentialIterator(@Nullable T firstOrNull) {
     this.nextOrNull = firstOrNull;
   }
 

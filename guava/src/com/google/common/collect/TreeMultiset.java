@@ -22,6 +22,10 @@ import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.BstSide.LEFT;
 import static com.google.common.collect.BstSide.RIGHT;
 
+import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.GwtIncompatible;
+import com.google.common.primitives.Ints;
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -31,10 +35,6 @@ import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 
 import javax.annotation.Nullable;
-
-import com.google.common.annotations.GwtCompatible;
-import com.google.common.annotations.GwtIncompatible;
-import com.google.common.primitives.Ints;
 
 /**
  * A multiset which maintains the ordering of its elements, according to either
@@ -269,7 +269,7 @@ public final class TreeMultiset<E> extends AbstractSortedMultiset<E>
   private Iterator<Entry<E>> iteratorInDirection(
       @Nullable BstInOrderPath<Node<E>> start, final BstSide direction) {
     final Iterator<BstInOrderPath<Node<E>>> pathIterator =
-        new AbstractLinkedIterator<BstInOrderPath<Node<E>>>(start) {
+        new AbstractSequentialIterator<BstInOrderPath<Node<E>>>(start) {
           @Override
           protected BstInOrderPath<Node<E>> computeNext(BstInOrderPath<Node<E>> previous) {
             if (!previous.hasNext(direction)) {

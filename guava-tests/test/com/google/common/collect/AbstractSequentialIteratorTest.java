@@ -29,9 +29,9 @@ import junit.framework.TestCase;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-/** Tests for {@link AbstractLinkedIterator}. */
+/** Tests for {@link AbstractSequentialIterator}. */
 @GwtCompatible(emulated = true)
-public class AbstractLinkedIteratorTest extends TestCase {
+public class AbstractSequentialIteratorTest extends TestCase {
   @GwtIncompatible("Too slow")
   public void testDoublerExhaustive() {
     new IteratorTester<Integer>(3, UNMODIFIABLE, ImmutableList.of(1, 2),
@@ -57,7 +57,7 @@ public class AbstractLinkedIteratorTest extends TestCase {
     Iterable<Integer> actual = new Iterable<Integer>() {
       @Override
       public Iterator<Integer> iterator() {
-        Iterator<Integer> powersOfTwo = new AbstractLinkedIterator<Integer>(1) {
+        Iterator<Integer> powersOfTwo = new AbstractSequentialIterator<Integer>(1) {
           protected Integer computeNext(Integer previous) {
             return (previous == 1 << 30) ? null : previous * 2;
           }
@@ -102,7 +102,7 @@ public class AbstractLinkedIteratorTest extends TestCase {
   }
 
   private static Iterator<Integer> newDoubler(int first, final int last) {
-    return new AbstractLinkedIterator<Integer>(first) {
+    return new AbstractSequentialIterator<Integer>(first) {
       @Override
       protected Integer computeNext(Integer previous) {
         return (previous == last) ? null : previous * 2;
@@ -111,7 +111,7 @@ public class AbstractLinkedIteratorTest extends TestCase {
   }
 
   private static <T> Iterator<T> newEmpty() {
-    return new AbstractLinkedIterator<T>(null) {
+    return new AbstractSequentialIterator<T>(null) {
       @Override
       protected T computeNext(T previous) {
         throw new AssertionFailedError();
@@ -120,7 +120,7 @@ public class AbstractLinkedIteratorTest extends TestCase {
   }
 
   private static Iterator<Object> newBroken() {
-    return new AbstractLinkedIterator<Object>("UNUSED") {
+    return new AbstractSequentialIterator<Object>("UNUSED") {
       @Override
       protected Object computeNext(Object previous) {
         throw new MyException();

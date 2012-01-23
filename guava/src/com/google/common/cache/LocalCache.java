@@ -34,7 +34,7 @@ import com.google.common.cache.CacheBuilder.NullListener;
 import com.google.common.cache.CacheBuilder.OneWeigher;
 import com.google.common.cache.CacheLoader.InvalidCacheLoadException;
 import com.google.common.cache.CacheLoader.UnsupportedLoadingOperationException;
-import com.google.common.collect.AbstractLinkedIterator;
+import com.google.common.collect.AbstractSequentialIterator;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterators;
 import com.google.common.collect.Maps;
@@ -3735,7 +3735,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
 
     @Override
     public Iterator<ReferenceEntry<K, V>> iterator() {
-      return new AbstractLinkedIterator<ReferenceEntry<K, V>>(peek()) {
+      return new AbstractSequentialIterator<ReferenceEntry<K, V>>(peek()) {
         @Override
         protected ReferenceEntry<K, V> computeNext(ReferenceEntry<K, V> previous) {
           ReferenceEntry<K, V> next = previous.getNextInWriteQueue();
@@ -3872,7 +3872,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
 
     @Override
     public Iterator<ReferenceEntry<K, V>> iterator() {
-      return new AbstractLinkedIterator<ReferenceEntry<K, V>>(peek()) {
+      return new AbstractSequentialIterator<ReferenceEntry<K, V>>(peek()) {
         @Override
         protected ReferenceEntry<K, V> computeNext(ReferenceEntry<K, V> previous) {
           ReferenceEntry<K, V> next = previous.getNextInAccessQueue();

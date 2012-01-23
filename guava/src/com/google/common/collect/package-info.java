@@ -166,7 +166,7 @@
  *
  * <ul>
  * <li>{@link com.google.common.collect.AbstractIterator}
- * <li>{@link com.google.common.collect.AbstractLinkedIterator}
+ * <li>{@link com.google.common.collect.AbstractSequentialIterator}
  * <li>{@link com.google.common.collect.ImmutableCollection}
  * <li>{@link com.google.common.collect.UnmodifiableIterator}
  * <li>{@link com.google.common.collect.UnmodifiableListIterator}

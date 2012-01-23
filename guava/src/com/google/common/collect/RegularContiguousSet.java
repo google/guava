@@ -66,7 +66,7 @@ final class RegularContiguousSet<C extends Comparable> extends ContiguousSet<C> 
   }
 
   @Override public UnmodifiableIterator<C> iterator() {
-    return new AbstractLinkedIterator<C>(first()) {
+    return new AbstractSequentialIterator<C>(first()) {
       final C last = last();
 
       @Override

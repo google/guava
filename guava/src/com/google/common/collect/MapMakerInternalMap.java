@@ -3260,7 +3260,7 @@ class MapMakerInternalMap<K, V>
 
     @Override
     public Iterator<ReferenceEntry<K, V>> iterator() {
-      return new AbstractLinkedIterator<ReferenceEntry<K, V>>(peek()) {
+      return new AbstractSequentialIterator<ReferenceEntry<K, V>>(peek()) {
         @Override
         protected ReferenceEntry<K, V> computeNext(ReferenceEntry<K, V> previous) {
           ReferenceEntry<K, V> next = previous.getNextEvictable();
@@ -3396,7 +3396,7 @@ class MapMakerInternalMap<K, V>
 
     @Override
     public Iterator<ReferenceEntry<K, V>> iterator() {
-      return new AbstractLinkedIterator<ReferenceEntry<K, V>>(peek()) {
+      return new AbstractSequentialIterator<ReferenceEntry<K, V>>(peek()) {
         @Override
         protected ReferenceEntry<K, V> computeNext(ReferenceEntry<K, V> previous) {
           ReferenceEntry<K, V> next = previous.getNextExpirable();
