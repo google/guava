@@ -433,76 +433,6 @@ public class FuturesTest extends TestCase {
     assertSame(barChild, bar);
   }
 
-  public void testTransform_delegatesBlockingGet_AsyncFunction() throws Exception {
-    performAsyncFunctionTransformedFutureDelgationTest(0, null);
-  }
-
-  public void testTransform_delegatesTimedGet_AsyncFunction() throws Exception {
-    performAsyncFunctionTransformedFutureDelgationTest(25, TimeUnit.SECONDS);
-  }
-
-  private void performAsyncFunctionTransformedFutureDelgationTest(
-      long timeout, TimeUnit unit)
-      throws InterruptedException, ExecutionException, TimeoutException {
-    final Foo foo = new Foo();
-    MockRequiresGetCallFuture<Foo> fooFuture =
-        new MockRequiresGetCallFuture<Foo>(foo);
-
-    Bar bar = new Bar();
-    final MockRequiresGetCallFuture<Bar> barFuture =
-        new MockRequiresGetCallFuture<Bar>(bar);
-    AsyncFunction<Foo, Bar> function =
-        new AsyncFunction<Foo, Bar>() {
-          @Override public ListenableFuture<Bar> apply(Foo from) {
-            assertSame(foo, from);
-            return barFuture;
-          }
-        };
-
-    ListenableFuture<Bar> chainFuture = Futures.transform(fooFuture, function);
-    Bar theBar;
-    if (unit != null) {
-      theBar = chainFuture.get(timeout, unit);
-    } else {
-      theBar = chainFuture.get();
-    }
-    assertSame(bar, theBar);
-    assertTrue(fooFuture.getWasGetCalled());
-    assertTrue(barFuture.getWasGetCalled());
-  }
-
-  /**
-   * A mock listenable future that requires the caller invoke
-   * either form of get() before the future will make its value
-   * available or invoke listeners.
-   */
-  private static class MockRequiresGetCallFuture<T> extends AbstractFuture<T> {
-
-    private final T value;
-    private boolean getWasCalled;
-
-    MockRequiresGetCallFuture(T value) {
-      this.value = value;
-    }
-
-    @Override public T get() throws InterruptedException, ExecutionException {
-      set(value);
-      getWasCalled = true;
-      return super.get();
-    }
-
-    @Override public T get(long timeout, TimeUnit unit)
-        throws TimeoutException, ExecutionException, InterruptedException {
-      set(value);
-      getWasCalled = true;
-      return super.get(timeout, unit);
-    }
-
-    boolean getWasGetCalled() {
-      return getWasCalled;
-    }
-  }
-
   /**
    * Runnable which can be called a single time, and only after
    * {@link #expectCall} is called.
@@ -656,24 +586,6 @@ public class FuturesTest extends TestCase {
     } catch (CancellationException e) {
       // Expected
     }
-  }
-
-  public void testAllAsList_buggyInputFutures() throws Exception {
-    final Foo foo1 = new Foo();
-    MockRequiresGetCallFuture<Foo> foo1Future =
-        new MockRequiresGetCallFuture<Foo>(foo1);
-    final Foo foo2 = new Foo();
-    MockRequiresGetCallFuture<Foo> foo2Future =
-        new MockRequiresGetCallFuture<Foo>(foo2);
-
-    @SuppressWarnings("unchecked") // array is never modified
-    ListenableFuture<List<Foo>> compound =
-        Futures.allAsList(foo1Future, foo2Future);
-
-    assertFalse(compound.isDone());
-    ASSERT.that(compound.get()).hasContentsAnyOrder(foo1, foo2);
-    assertTrue(foo1Future.getWasGetCalled());
-    assertTrue(foo2Future.getWasGetCalled());
   }
 
   /**
@@ -1238,24 +1150,6 @@ public class FuturesTest extends TestCase {
 
     List<String> results = compound.get();
     ASSERT.that(results).hasContentsInOrder(null, null, DATA3);
-  }
-
-  public void testSuccessfulAsList_buggyInputFutures() throws Exception {
-    final Foo foo1 = new Foo();
-    MockRequiresGetCallFuture<Foo> foo1Future =
-        new MockRequiresGetCallFuture<Foo>(foo1);
-    final Foo foo2 = new Foo();
-    MockRequiresGetCallFuture<Foo> foo2Future =
-        new MockRequiresGetCallFuture<Foo>(foo2);
-
-    @SuppressWarnings("unchecked") // array is never modified
-    ListenableFuture<List<Foo>> compound =
-        Futures.successfulAsList(foo1Future, foo2Future);
-
-    assertFalse(compound.isDone());
-    ASSERT.that(compound.get()).hasContentsAnyOrder(foo1, foo2);
-    assertTrue(foo1Future.getWasGetCalled());
-    assertTrue(foo2Future.getWasGetCalled());
   }
 
   private static class TestException extends Exception {

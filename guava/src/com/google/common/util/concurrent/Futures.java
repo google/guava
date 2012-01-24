@@ -25,7 +25,6 @@ import static com.google.common.util.concurrent.Uninterruptibles.putUninterrupti
 import static com.google.common.util.concurrent.Uninterruptibles.takeUninterruptibly;
 import static java.lang.Thread.currentThread;
 import static java.util.Arrays.asList;
-import static java.util.concurrent.TimeUnit.NANOSECONDS;
 
 import com.google.common.annotations.Beta;
 import com.google.common.base.Function;
@@ -598,90 +597,6 @@ public final class Futures {
         ListenableFuture<? extends I> inputFuture) {
       this.function = checkNotNull(function);
       this.inputFuture = checkNotNull(inputFuture);
-    }
-
-    /**
-     * Delegate the get() to the input and output futures, in case
-     * their implementations defer starting computation until their
-     * own get() is invoked.
-     */
-    @Override
-    public O get() throws InterruptedException, ExecutionException {
-      if (!isDone()) {
-        // Invoking get on the inputFuture will ensure our own run()
-        // method below is invoked as a listener when inputFuture sets
-        // its value.  Therefore when get() returns we should then see
-        // the outputFuture be created.
-        ListenableFuture<? extends I> inputFuture = this.inputFuture;
-        if (inputFuture != null) {
-          inputFuture.get();
-        }
-
-        // If our listener was scheduled to run on an executor we may
-        // need to wait for our listener to finish running before the
-        // outputFuture has been constructed by the function.
-        outputCreated.await();
-
-        // Like above with the inputFuture, we have a listener on
-        // the outputFuture that will set our own value when its
-        // value is set.  Invoking get will ensure the output can
-        // complete and invoke our listener, so that we can later
-        // get the result.
-        ListenableFuture<? extends O> outputFuture = this.outputFuture;
-        if (outputFuture != null) {
-          outputFuture.get();
-        }
-      }
-      return super.get();
-    }
-
-    /**
-     * Delegate the get() to the input and output futures, in case
-     * their implementations defer starting computation until their
-     * own get() is invoked.
-     */
-    @Override
-    public O get(long timeout, TimeUnit unit) throws TimeoutException,
-        ExecutionException, InterruptedException {
-      if (!isDone()) {
-        // Use a single time unit so we can decrease remaining timeout
-        // as we wait for various phases to complete.
-        if (unit != NANOSECONDS) {
-          timeout = NANOSECONDS.convert(timeout, unit);
-          unit = NANOSECONDS;
-        }
-
-        // Invoking get on the inputFuture will ensure our own run()
-        // method below is invoked as a listener when inputFuture sets
-        // its value.  Therefore when get() returns we should then see
-        // the outputFuture be created.
-        ListenableFuture<? extends I> inputFuture = this.inputFuture;
-        if (inputFuture != null) {
-          long start = System.nanoTime();
-          inputFuture.get(timeout, unit);
-          timeout -= Math.max(0, System.nanoTime() - start);
-        }
-
-        // If our listener was scheduled to run on an executor we may
-        // need to wait for our listener to finish running before the
-        // outputFuture has been constructed by the function.
-        long start = System.nanoTime();
-        if (!outputCreated.await(timeout, unit)) {
-          throw new TimeoutException();
-        }
-        timeout -= Math.max(0, System.nanoTime() - start);
-
-        // Like above with the inputFuture, we have a listener on
-        // the outputFuture that will set our own value when its
-        // value is set.  Invoking get will ensure the output can
-        // complete and invoke our listener, so that we can later
-        // get the result.
-        ListenableFuture<? extends O> outputFuture = this.outputFuture;
-        if (outputFuture != null) {
-          outputFuture.get(timeout, unit);
-        }
-      }
-      return super.get(timeout, unit);
     }
 
     @Override
@@ -1399,46 +1314,6 @@ public final class Futures {
       }
     }
 
-    @Override
-    public List<V> get() throws InterruptedException, ExecutionException {
-      callAllGets();
-
-      // This may still block in spite of the calls above, as the listeners may
-      // be scheduled for execution in other threads.
-      return super.get();
-    }
-
-    /**
-     * Calls the get method of all dependency futures to work around a bug in
-     * some ListenableFutures where the listeners aren't called until get() is
-     * called.
-     */
-    private void callAllGets() throws InterruptedException {
-      List<? extends ListenableFuture<? extends V>> oldFutures = futures;
-      if (oldFutures != null && !isDone()) {
-        for (ListenableFuture<? extends V> future : oldFutures) {
-          // We wait for a little while for the future, but if it's not done,
-          // we check that no other futures caused a cancellation or failure.
-          // This can introduce a delay of up to 10ms in reporting an exception.
-          while (!future.isDone()) {
-            try {
-              future.get();
-            } catch (Error e) {
-              throw e;
-            } catch (InterruptedException e) {
-              throw e;
-            } catch (Throwable e) {
-              // ExecutionException / CancellationException / RuntimeException
-              if (allMustSucceed) {
-                return;
-              } else {
-                continue;
-              }
-            }
-          }
-        }
-      }
-    }
   }
 
   /**
