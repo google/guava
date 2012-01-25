@@ -31,13 +31,13 @@ import javax.annotation.Nullable;
  * may have duplicate elements. A multiset is also sometimes called a
  * <i>bag</i>.
  *
- * <p>Elements of a multiset that are equal to one another (see "Note on
- * element equivalence", below) are referred to as <i>occurrences</i> of the
- * same single element. The total number of occurrences of an element in a
- * multiset is called the <i>count</i> of that element (the terms "frequency"
- * and "multiplicity" are equivalent, but not used in this API). Since the count
- * of an element is represented as an {@code int}, a multiset may never contain
- * more than {@link Integer#MAX_VALUE} occurrences of any one element.
+ * <p>Elements of a multiset that are equal to one another are referred to as
+ * <i>occurrences</i> of the same single element. The total number of
+ * occurrences of an element in a multiset is called the <i>count</i> of that
+ * element (the terms "frequency" and "multiplicity" are equivalent, but not
+ * used in this API). Since the count of an element is represented as an {@code
+ * int}, a multiset may never contain more than {@link Integer#MAX_VALUE}
+ * occurrences of any one element.
  *
  * <p>{@code Multiset} refines the specifications of several methods from
  * {@code Collection}. It also defines an additional query operation, {@link

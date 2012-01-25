@@ -155,7 +155,7 @@ public final class ByteStreams {
   /**
    * Opens an output stream from the supplier, copies all bytes from the input
    * to the output, and closes the output stream. Does not close or flush the
-   * output stream.
+   * input stream.
    *
    * @param from the input stream to read from
    * @param to the output factory

@@ -156,133 +156,6 @@ public final class Futures {
   }
 
   /**
-   * <p>Returns a new {@code ListenableFuture} whose result is asynchronously
-   * derived from the result of the given {@code Future}. More precisely, the
-   * returned {@code Future} takes its result from a {@code Future} produced by
-   * applying the given {@code Function} to the result of the original {@code
-   * Future}. Example:
-   *
-   * <pre>   {@code
-   *   ListenableFuture<RowKey> rowKeyFuture = indexService.lookUp(query);
-   *   Function<RowKey, ListenableFuture<QueryResult>> queryFunction =
-   *       new Function<RowKey, ListenableFuture<QueryResult>>() {
-   *         public ListenableFuture<QueryResult> apply(RowKey rowKey) {
-   *           return dataService.read(rowKey);
-   *         }
-   *       };
-   *   ListenableFuture<QueryResult> queryFuture =
-   *       chain(rowKeyFuture, queryFunction);
-   * }</pre>
-   *
-   * <p>Note: This overload of {@code chain} is designed for cases in which the
-   * work of creating the derived future is fast and lightweight, as the method
-   * does not accept an {@code Executor} in which to perform the the work. For
-   * heavier derivations, this overload carries some caveats: First, the thread
-   * that the derivation runs in depends on whether the input {@code Future} is
-   * done at the time {@code chain} is called. In particular, if called late,
-   * {@code chain} will run the derivation in the thread that called {@code
-   * chain}.  Second, derivations may run in an internal thread of the system
-   * responsible for the input {@code Future}, such as an RPC network thread.
-   * Finally, during the execution of a {@code sameThreadExecutor} {@code
-   * chain} function, all other registered but unexecuted listeners are
-   * prevented from running, even if those listeners are to run in other
-   * executors.
-   *
-   * <p>The returned {@code Future} attempts to keep its cancellation state in
-   * sync with that of the input future and that of the future returned by the
-   * chain function. That is, if the returned {@code Future} is cancelled, it
-   * will attempt to cancel the other two, and if either of the other two is
-   * cancelled, the returned {@code Future} will receive a callback in which it
-   * will attempt to cancel itself.
-   *
-   * @param input The future to chain
-   * @param function A function to chain the results of the provided future
-   *     to the results of the returned future.  This will be run in the thread
-   *     that notifies input it is complete.
-   * @return A future that holds result of the chain.
-   * @deprecated Convert your {@code Function} to a {@code AsyncFunction}, and
-   *     use {@link #transform(ListenableFuture, AsyncFunction)}. This method is
-   *     scheduled to be removed from Guava in Guava release 12.0.
-   */
-  @Deprecated
-  public static <I, O> ListenableFuture<O> chain(
-      ListenableFuture<I> input,
-      Function<? super I, ? extends ListenableFuture<? extends O>> function) {
-    return chain(input, function, MoreExecutors.sameThreadExecutor());
-  }
-
-  /**
-   * <p>Returns a new {@code ListenableFuture} whose result is asynchronously
-   * derived from the result of the given {@code Future}. More precisely, the
-   * returned {@code Future} takes its result from a {@code Future} produced by
-   * applying the given {@code Function} to the result of the original {@code
-   * Future}. Example:
-   *
-   * <pre>   {@code
-   *   ListenableFuture<RowKey> rowKeyFuture = indexService.lookUp(query);
-   *   Function<RowKey, ListenableFuture<QueryResult>> queryFunction =
-   *       new Function<RowKey, ListenableFuture<QueryResult>>() {
-   *         public ListenableFuture<QueryResult> apply(RowKey rowKey) {
-   *           return dataService.read(rowKey);
-   *         }
-   *       };
-   *   ListenableFuture<QueryResult> queryFuture =
-   *       chain(rowKeyFuture, queryFunction, executor);
-   * }</pre>
-   *
-   * <p>The returned {@code Future} attempts to keep its cancellation state in
-   * sync with that of the input future and that of the future returned by the
-   * chain function. That is, if the returned {@code Future} is cancelled, it
-   * will attempt to cancel the other two, and if either of the other two is
-   * cancelled, the returned {@code Future} will receive a callback in which it
-   * will attempt to cancel itself.
-   *
-   * <p>Note: For cases in which the work of creating the derived future is
-   * fast and lightweight, consider {@linkplain Futures#chain(ListenableFuture,
-   * Function) the other overload} or explicit use of {@code
-   * sameThreadExecutor}. For heavier derivations, this choice carries some
-   * caveats: First, the thread that the derivation runs in depends on whether
-   * the input {@code Future} is done at the time {@code chain} is called. In
-   * particular, if called late, {@code chain} will run the derivation in the
-   * thread that called {@code chain}. Second, derivations may run in an
-   * internal thread of the system responsible for the input {@code Future},
-   * such as an RPC network thread. Finally, during the execution of a {@code
-   * sameThreadExecutor} {@code chain} function, all other registered but
-   * unexecuted listeners are prevented from running, even if those listeners
-   * are to run in other executors.
-   *
-   * @param input The future to chain
-   * @param function A function to chain the results of the provided future
-   *     to the results of the returned future.
-   * @param executor Executor to run the function in.
-   * @return A future that holds result of the chain.
-   * @deprecated Convert your {@code Function} to a {@code AsyncFunction}, and
-   *     use {@link #transform(ListenableFuture, AsyncFunction, Executor)}. This
-   *     method is scheduled to be removed from Guava in Guava release 12.0.
-   */
-  @Deprecated
-  public static <I, O> ListenableFuture<O> chain(ListenableFuture<I> input,
-      final Function<? super I, ? extends ListenableFuture<? extends O>>
-          function,
-      Executor executor) {
-    checkNotNull(function);
-    ChainingListenableFuture<I, O> chain =
-        new ChainingListenableFuture<I, O>(new AsyncFunction<I, O>() {
-          @Override
-          /*
-           * All methods of ListenableFuture are covariant, and we don't expose
-           * the object anywhere that would allow it to be downcast.
-           */
-          @SuppressWarnings("unchecked")
-          public ListenableFuture<O> apply(I input) {
-            return (ListenableFuture) function.apply(input);
-          }
-        }, input);
-    input.addListener(chain, executor);
-    return chain;
-  }
-
-  /**
    * Returns a new {@code ListenableFuture} whose result is asynchronously
    * derived from the result of the given {@code Future}. More precisely, the
    * returned {@code Future} takes its result from a {@code Future} produced by
@@ -433,16 +306,16 @@ public final class Futures {
    * <p>An example use of this method is to convert a serializable object
    * returned from an RPC into a POJO.
    *
-   * @param future The future to transform
+   * @param input The future to transform
    * @param function A Function to transform the results of the provided future
    *     to the results of the returned future.  This will be run in the thread
    *     that notifies input it is complete.
    * @return A future that holds result of the transformation.
    * @since 9.0 (in 1.0 as {@code compose})
    */
-  public static <I, O> ListenableFuture<O> transform(ListenableFuture<I> future,
+  public static <I, O> ListenableFuture<O> transform(ListenableFuture<I> input,
       final Function<? super I, ? extends O> function) {
-    return transform(future, function, MoreExecutors.sameThreadExecutor());
+    return transform(input, function, MoreExecutors.sameThreadExecutor());
   }
 
   /**
@@ -486,24 +359,24 @@ public final class Futures {
    * listeners are prevented from running, even if those listeners are to run
    * in other executors.
    *
-   * @param future The future to transform
+   * @param input The future to transform
    * @param function A Function to transform the results of the provided future
    *     to the results of the returned future.
    * @param executor Executor to run the function in.
    * @return A future that holds result of the transformation.
    * @since 9.0 (in 2.0 as {@code compose})
    */
-  public static <I, O> ListenableFuture<O> transform(ListenableFuture<I> future,
+  public static <I, O> ListenableFuture<O> transform(ListenableFuture<I> input,
       final Function<? super I, ? extends O> function, Executor executor) {
     checkNotNull(function);
-    Function<I, ListenableFuture<O>> wrapperFunction
-        = new Function<I, ListenableFuture<O>>() {
+    AsyncFunction<I, O> wrapperFunction
+        = new AsyncFunction<I, O>() {
             @Override public ListenableFuture<O> apply(I input) {
               O output = function.apply(input);
               return immediateFuture(output);
             }
         };
-    return chain(future, wrapperFunction, executor);
+    return transform(input, wrapperFunction, executor);
   }
 
   /**
@@ -523,43 +396,43 @@ public final class Futures {
    * who don't have a {@code ListenableFuture} available and
    * do not mind repeated, lazy function evaluation.
    *
-   * @param future The future to transform
+   * @param input The future to transform
    * @param function A Function to transform the results of the provided future
    *     to the results of the returned future.
    * @return A future that returns the result of the transformation.
    * @since 10.0
    */
   @Beta
-  public static <I, O> Future<O> lazyTransform(final Future<I> future,
+  public static <I, O> Future<O> lazyTransform(final Future<I> input,
       final Function<? super I, ? extends O> function) {
-    checkNotNull(future);
+    checkNotNull(input);
     checkNotNull(function);
     return new Future<O>() {
 
       @Override
       public boolean cancel(boolean mayInterruptIfRunning) {
-        return future.cancel(mayInterruptIfRunning);
+        return input.cancel(mayInterruptIfRunning);
       }
 
       @Override
       public boolean isCancelled() {
-        return future.isCancelled();
+        return input.isCancelled();
       }
 
       @Override
       public boolean isDone() {
-        return future.isDone();
+        return input.isDone();
       }
 
       @Override
       public O get() throws InterruptedException, ExecutionException {
-        return applyTransformation(future.get());
+        return applyTransformation(input.get());
       }
 
       @Override
       public O get(long timeout, TimeUnit unit)
           throws InterruptedException, ExecutionException, TimeoutException {
-        return applyTransformation(future.get(timeout, unit));
+        return applyTransformation(input.get(timeout, unit));
       }
 
       private O applyTransformation(I input) throws ExecutionException {

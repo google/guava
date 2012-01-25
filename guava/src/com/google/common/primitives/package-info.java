@@ -15,7 +15,8 @@
  */
 
 /**
- * Static utilities for working with the eight primitive types and {@code void}.
+ * Static utilities for working with the eight primitive types and {@code void},
+ * and value types for treating them as unsigned.
  *
  * <p>This package is a part of the open-source
  * <a href="http://guava-libraries.googlecode.com">Guava libraries</a>.
