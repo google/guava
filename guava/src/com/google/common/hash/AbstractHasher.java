@@ -44,10 +44,6 @@ abstract class AbstractHasher implements Hasher {
   }
 
   @Override public Hasher putString(CharSequence charSequence, Charset charset) {
-    try {
-      return putBytes(charSequence.toString().getBytes(charset.name()));
-    } catch (java.io.UnsupportedEncodingException impossible) {
-      throw new AssertionError(impossible);
-    }
+    return putBytes(charSequence.toString().getBytes(charset));
   }
 }

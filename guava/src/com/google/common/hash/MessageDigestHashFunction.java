@@ -30,7 +30,7 @@ import java.security.NoSuchAlgorithmException;
 
 /**
  * {@link HashFunction} adapter for {@link MessageDigest}s.
- *
+ * 
  * @author kevinb@google.com (Kevin Bourrillion)
  * @author andreou@google.com (Dimitris Andreou)
  */
@@ -87,7 +87,7 @@ final class MessageDigestHashFunction extends AbstractStreamingHashFunction {
       digest.update(bytes, off, len);
       return this;
     }
-
+    
     @Override public Hasher putShort(short s) {
       checkNotDone();
       scratch.putShort(s);
@@ -139,7 +139,7 @@ final class MessageDigestHashFunction extends AbstractStreamingHashFunction {
       scratch.clear();
       return this;
     }
-
+    
     @Override public Hasher putString(CharSequence charSequence) {
       for (int i = 0; i < charSequence.length(); i++) {
         putChar(charSequence.charAt(i));
@@ -148,11 +148,7 @@ final class MessageDigestHashFunction extends AbstractStreamingHashFunction {
     }
 
     @Override public Hasher putString(CharSequence charSequence, Charset charset) {
-      try {
-        return putBytes(charSequence.toString().getBytes(charset.name()));
-      } catch (java.io.UnsupportedEncodingException impossible) {
-        throw new AssertionError(impossible);
-      }
+      return putBytes(charSequence.toString().getBytes(charset));
     }
 
     @Override public <T> Hasher putObject(T instance, Funnel<? super T> funnel) {
@@ -164,7 +160,7 @@ final class MessageDigestHashFunction extends AbstractStreamingHashFunction {
     private void checkNotDone() {
       checkState(!done, "Cannot use Hasher after calling #hash() on it");
     }
-
+    
     public HashCode hash() {
       done = true;
       return HashCodes.fromBytes(digest.digest());
