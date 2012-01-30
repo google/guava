@@ -33,10 +33,9 @@ import java.util.concurrent.ExecutionException;
  * <p>Implementations of this interface are expected to be thread-safe, and can be safely accessed
  * by multiple concurrent threads.
  *
- * <p>All methods other than {@link #get} and {@link #getUnchecked} are optional.
- *
  * <p>When evaluated as a {@link Function}, a cache yields the same result as invoking
  * {@link #getUnchecked}.
+ *
  *
  * @author Charles Fry
  * @since 11.0

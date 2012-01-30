@@ -18,7 +18,6 @@ package com.google.common.cache;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Function;
@@ -38,7 +37,6 @@ import java.util.Map;
  * @author Charles Fry
  * @since 10.0
  */
-@Beta
 @GwtCompatible(emulated = true)
 public abstract class CacheLoader<K, V> {
   /**

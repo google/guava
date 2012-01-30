@@ -131,7 +131,6 @@ import javax.annotation.CheckReturnValue;
  * @author Kevin Bourrillion
  * @since 10.0
  */
-@Beta
 @GwtCompatible(emulated = true)
 public final class CacheBuilder<K, V> {
   private static final int DEFAULT_INITIAL_CAPACITY = 16;
@@ -626,6 +625,7 @@ public final class CacheBuilder<K, V> {
    * @throws IllegalStateException if the refresh interval was already set
    * @since 11.0
    */
+  @Beta
   @GwtIncompatible("To be supported")
   public CacheBuilder<K, V> refreshAfterWrite(long duration, TimeUnit unit) {
     checkNotNull(unit);

@@ -36,7 +36,6 @@ import javax.annotation.Nullable;
  * <p>Implementations of this interface are expected to be thread-safe, and can be safely accessed
  * by multiple concurrent threads.
  *
- * <p>All methods other than {@link #getIfPresent} are optional.
  *
  * @author Charles Fry
  * @since 10.0
