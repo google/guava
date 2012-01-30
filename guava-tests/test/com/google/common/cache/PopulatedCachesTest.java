@@ -47,6 +47,7 @@ import java.util.Set;
  *
  * @author mike nonemacher
  */
+
 public class PopulatedCachesTest extends TestCase {
   // we use integers as keys; make sure the range covers some values that ARE cached by
   // Integer.valueOf(int), and some that are not cached. (127 is the highest cached value.)
@@ -243,6 +244,7 @@ public class PopulatedCachesTest extends TestCase {
   }
 
   @SuppressWarnings("unchecked") // generic array creation
+
   public void testEntrySet_populated() {
     for (LoadingCache<Object, Object> cache : caches()) {
       Set<Entry<Object, Object>> entries = cache.asMap().entrySet();

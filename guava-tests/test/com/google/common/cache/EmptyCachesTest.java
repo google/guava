@@ -40,7 +40,9 @@ import java.util.concurrent.ExecutionException;
  *
  * @author mike nonemacher
  */
+
 public class EmptyCachesTest extends TestCase {
+
   public void testEmpty() {
     for (LoadingCache<Object, Object> cache : caches()) {
       checkEmpty(cache);
