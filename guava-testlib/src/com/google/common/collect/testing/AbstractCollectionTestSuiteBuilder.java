@@ -70,7 +70,8 @@ public abstract class AbstractCollectionTestSuiteBuilder<
     );
   }
 
-  @Override List<TestSuite> createDerivedSuites(FeatureSpecificTestSuiteBuilder<
+  @Override
+  protected List<TestSuite> createDerivedSuites(FeatureSpecificTestSuiteBuilder<
       ?, ? extends OneSizeTestContainerGenerator<Collection<E>, E>>
           parentBuilder) {
     DerivedIteratorTestSuiteBuilder<?> iteratorTestSuiteBuilder =

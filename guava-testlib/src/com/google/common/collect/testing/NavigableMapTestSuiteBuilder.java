@@ -49,7 +49,8 @@ public class NavigableMapTestSuiteBuilder<K, V> extends MapTestSuiteBuilder<K, V
     return testers;
   }
 
-  @Override List<TestSuite> createDerivedSuites(FeatureSpecificTestSuiteBuilder<?,
+  @Override
+  protected List<TestSuite> createDerivedSuites(FeatureSpecificTestSuiteBuilder<?,
       ? extends OneSizeTestContainerGenerator<Map<K, V>, Entry<K, V>>> parentBuilder) {
     List<TestSuite> derivedSuites = super.createDerivedSuites(parentBuilder);
 

@@ -77,7 +77,7 @@ public abstract class FeatureSpecificTestSuiteBuilder<
     return self();
   }
 
-  protected G getSubjectGenerator() {
+  public G getSubjectGenerator() {
     return subjectGenerator;
   }
 
@@ -116,7 +116,7 @@ public abstract class FeatureSpecificTestSuiteBuilder<
     return self();
   }
 
-  protected Set<Feature<?>> getFeatures() {
+  public Set<Feature<?>> getFeatures() {
     return Collections.unmodifiableSet(features);
   }
 
@@ -134,7 +134,7 @@ public abstract class FeatureSpecificTestSuiteBuilder<
     return self();
   }
 
-  protected String getName() {
+  public String getName() {
     return name;
   }
 
@@ -159,7 +159,7 @@ public abstract class FeatureSpecificTestSuiteBuilder<
     return self();
   }
 
-  protected Set<Method> getSuppressedTests() {
+  public Set<Method> getSuppressedTests() {
     return suppressedTests;
   }
 

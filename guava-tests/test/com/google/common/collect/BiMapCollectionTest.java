@@ -16,57 +16,50 @@
 
 package com.google.common.collect;
 
+import static com.google.common.base.Preconditions.checkArgument;
+
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.collect.testing.SetTestSuiteBuilder;
-import com.google.common.collect.testing.TestStringSetGenerator;
-import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
+import com.google.common.collect.testing.features.MapFeature;
+import com.google.common.collect.testing.google.BiMapTestSuiteBuilder;
+import com.google.common.collect.testing.google.TestStringBiMapGenerator;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
-import java.util.Set;
+import java.util.Map.Entry;
 
 /**
  * Collection tests for bimaps.
  *
  * @author Jared Levy
+ * @author Louis Wasserman
  */
 @GwtCompatible
 public class BiMapCollectionTest extends TestCase {
 
+  public static final class HashBiMapGenerator extends TestStringBiMapGenerator {
+    @Override
+    protected BiMap<String, String> create(Entry<String, String>[] entries) {
+      BiMap<String, String> result = HashBiMap.create();
+      for (Entry<String, String> entry : entries) {
+        checkArgument(!result.containsKey(entry.getKey()));
+        result.put(entry.getKey(), entry.getValue());
+      }
+      return result;
+    }
+  }
+
   public static Test suite() {
     TestSuite suite = new TestSuite();
-    suite.addTest(SetTestSuiteBuilder.using(new TestStringSetGenerator() {
-          @Override protected Set<String> create(String[] elements) {
-            BiMap<String, Integer> bimap = HashBiMap.create();
-            for (int i = 0; i < elements.length; i++) {
-              bimap.put(elements[i], i);
-            }
-            return bimap.keySet();
-          }
-        })
-        .named("HashBiMap.keySet")
+    suite.addTest(BiMapTestSuiteBuilder.using(new HashBiMapGenerator())
+        .named("HashBiMap")
         .withFeatures(CollectionSize.ANY,
-            CollectionFeature.ALLOWS_NULL_VALUES,
-            CollectionFeature.REMOVE_OPERATIONS)
-        .createTestSuite());
-
-    suite.addTest(SetTestSuiteBuilder.using(new TestStringSetGenerator() {
-          @Override protected Set<String> create(String[] elements) {
-            BiMap<Integer, String> bimap = HashBiMap.create();
-            for (int i = 0; i < elements.length; i++) {
-              bimap.put(i, elements[i]);
-            }
-            return bimap.values();
-          }
-        })
-        .named("HashBiMap.values")
-        .withFeatures(CollectionSize.ANY,
-            CollectionFeature.ALLOWS_NULL_VALUES,
-            CollectionFeature.REMOVE_OPERATIONS,
-            CollectionFeature.REJECTS_DUPLICATES_AT_CREATION)
+            MapFeature.ALLOWS_NULL_KEYS,
+            MapFeature.ALLOWS_NULL_VALUES,
+            MapFeature.GENERAL_PURPOSE,
+            MapFeature.REJECTS_DUPLICATES_AT_CREATION)
         .createTestSuite());
 
     return suite;

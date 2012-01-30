@@ -66,7 +66,7 @@ public class Helpers {
   }
 
   // Would use Maps.immutableEntry
-  static <K, V> Entry<K, V> mapEntry(K key, V value) {
+  public static <K, V> Entry<K, V> mapEntry(K key, V value) {
     return Collections.singletonMap(key, value).entrySet().iterator().next();
   }
 

@@ -23,16 +23,10 @@ import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableBiMap.Builder;
 import com.google.common.collect.testing.MapInterfaceTest;
-import com.google.common.collect.testing.ReserializingTestSetGenerator;
-import com.google.common.collect.testing.SetTestSuiteBuilder;
-import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
-import com.google.common.collect.testing.google.BiMapGenerators.ImmutableBiMapEntrySetGenerator;
-import com.google.common.collect.testing.google.BiMapGenerators.ImmutableBiMapInverseEntrySetGenerator;
-import com.google.common.collect.testing.google.BiMapGenerators.ImmutableBiMapInverseKeySetGenerator;
-import com.google.common.collect.testing.google.BiMapGenerators.ImmutableBiMapInverseValuesGenerator;
-import com.google.common.collect.testing.google.BiMapGenerators.ImmutableBiMapKeySetGenerator;
-import com.google.common.collect.testing.google.BiMapGenerators.ImmutableBiMapValuesGenerator;
+import com.google.common.collect.testing.features.MapFeature;
+import com.google.common.collect.testing.google.BiMapTestSuiteBuilder;
+import com.google.common.collect.testing.google.TestStringBiMapGenerator;
 import com.google.common.testing.SerializableTester;
 
 import junit.framework.Test;
@@ -64,80 +58,24 @@ public class ImmutableBiMapTest extends TestCase {
     suite.addTestSuite(CreationTests.class);
     suite.addTestSuite(BiMapSpecificTests.class);
 
-    suite.addTest(SetTestSuiteBuilder.using(new ImmutableBiMapKeySetGenerator())
-        .withFeatures(CollectionSize.ANY, CollectionFeature.KNOWN_ORDER,
-            CollectionFeature.ALLOWS_NULL_QUERIES)
-        .named("ImmutableBiMap.keySet")
-        .createTestSuite());
-
-    suite.addTest(SetTestSuiteBuilder.using(
-        new ImmutableBiMapEntrySetGenerator())
-        .withFeatures(CollectionSize.ANY, CollectionFeature.KNOWN_ORDER,
-            CollectionFeature.ALLOWS_NULL_QUERIES)
-        .named("ImmutableBiMap.entrySet")
-        .createTestSuite());
-
-    suite.addTest(SetTestSuiteBuilder.using(new ImmutableBiMapValuesGenerator())
-        .withFeatures(
-            CollectionSize.ANY,
-            CollectionFeature.REJECTS_DUPLICATES_AT_CREATION,
-            CollectionFeature.KNOWN_ORDER,
-            CollectionFeature.ALLOWS_NULL_QUERIES)
-        .named("ImmutableBiMap.values")
-        .createTestSuite());
-
-    suite.addTest(SetTestSuiteBuilder.using(
-        new ImmutableBiMapInverseKeySetGenerator())
-        .withFeatures(
-            CollectionSize.ANY,
-            CollectionFeature.REJECTS_DUPLICATES_AT_CREATION,
-            CollectionFeature.KNOWN_ORDER,
-            CollectionFeature.ALLOWS_NULL_QUERIES)
-        .named("ImmutableBiMap.inverse.keys")
-        .createTestSuite());
-
-    suite.addTest(SetTestSuiteBuilder.using(
-        new ImmutableBiMapInverseEntrySetGenerator())
-        .withFeatures(CollectionSize.ANY, CollectionFeature.KNOWN_ORDER,
-            CollectionFeature.ALLOWS_NULL_QUERIES)
-        .named("ImmutableBiMap.inverse.entrySet")
-        .createTestSuite());
-
-    suite.addTest(SetTestSuiteBuilder.using(
-        new ImmutableBiMapInverseValuesGenerator())
-        .withFeatures(CollectionSize.ANY, CollectionFeature.KNOWN_ORDER,
-            CollectionFeature.ALLOWS_NULL_QUERIES)
-        .named("ImmutableBiMap.inverse.values")
-        .createTestSuite());
-
-    suite.addTest(SetTestSuiteBuilder.using(
-        ReserializingTestSetGenerator.newInstance(
-            new ImmutableBiMapKeySetGenerator()))
-        .withFeatures(CollectionSize.ANY, CollectionFeature.KNOWN_ORDER,
-            CollectionFeature.ALLOWS_NULL_QUERIES)
-        .named("ImmutableBiMap.keySet, reserialized")
-        .createTestSuite());
-
-    suite.addTest(SetTestSuiteBuilder.using(
-        ReserializingTestSetGenerator.newInstance(
-            new ImmutableBiMapEntrySetGenerator()))
-        .withFeatures(CollectionSize.ANY, CollectionFeature.KNOWN_ORDER,
-            CollectionFeature.ALLOWS_NULL_QUERIES)
-        .named("ImmutableBiMap.entrySet, reserialized")
-        .createTestSuite());
-
-    suite.addTest(SetTestSuiteBuilder.using(
-        ReserializingTestSetGenerator.newInstance(
-            new ImmutableBiMapValuesGenerator()))
-        .withFeatures(
-            CollectionSize.ANY,
-            CollectionFeature.REJECTS_DUPLICATES_AT_CREATION,
-            CollectionFeature.KNOWN_ORDER,
-            CollectionFeature.ALLOWS_NULL_QUERIES)
-        .named("ImmutableBiMap.values, reserialized")
+    suite.addTest(BiMapTestSuiteBuilder.using(new ImmutableBiMapGenerator())
+        .named("ImmutableBiMap")
+        .withFeatures(CollectionSize.ANY,
+            MapFeature.REJECTS_DUPLICATES_AT_CREATION)
         .createTestSuite());
 
     return suite;
+  }
+
+  public static final class ImmutableBiMapGenerator extends TestStringBiMapGenerator {
+    @Override
+    protected BiMap<String, String> create(Entry<String, String>[] entries) {
+      ImmutableBiMap.Builder<String, String> result = ImmutableBiMap.builder();
+      for (Entry<String, String> entry : entries) {
+        result.put(entry.getKey(), entry.getValue());
+      }
+      return result.build();
+    }
   }
 
   public static abstract class AbstractMapTests<K, V>
