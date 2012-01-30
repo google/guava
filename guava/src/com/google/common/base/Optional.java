@@ -22,7 +22,6 @@ import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 
 import java.io.Serializable;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.Set;
 
@@ -67,7 +66,7 @@ import javax.annotation.Nullable;
  * @since 10.0
  */
 @Beta
-@GwtCompatible
+@GwtCompatible(serializable = true)
 public abstract class Optional<T> implements Serializable {
   /**
    * Returns an {@code Optional} instance with no contained reference.
@@ -94,7 +93,7 @@ public abstract class Optional<T> implements Serializable {
         : new Present<T>(nullableReference);
   }
 
-  private Optional() {}
+  Optional() {}
 
   /**
    * Returns {@code true} if this holder contains a (non-null) instance.
@@ -194,113 +193,4 @@ public abstract class Optional<T> implements Serializable {
   }
 
   private static final long serialVersionUID = 0;
-
-  private static final class Present<T> extends Optional<T> {
-    private final T reference;
-
-    Present(T reference) {
-      this.reference = reference;
-    }
-
-    @Override public boolean isPresent() {
-      return true;
-    }
-
-    @Override public T get() {
-      return reference;
-    }
-
-    @Override public T or(T defaultValue) {
-      checkNotNull(defaultValue, "use orNull() instead of or(null)");
-      return reference;
-    }
-
-    @Override public Optional<T> or(Optional<? extends T> secondChoice) {
-      checkNotNull(secondChoice);
-      return this;
-    }
-
-    @Override public T or(Supplier<? extends T> supplier) {
-      checkNotNull(supplier);
-      return reference;
-    }
-
-    @Override public T orNull() {
-      return reference;
-    }
-
-    @Override public Set<T> asSet() {
-      return Collections.singleton(reference);
-    }
-
-    @Override public boolean equals(@Nullable Object object) {
-      if (object instanceof Present) {
-        Present<?> other = (Present<?>) object;
-        return reference.equals(other.reference);
-      }
-      return false;
-    }
-
-    @Override public int hashCode() {
-      return 0x598df91c + reference.hashCode();
-    }
-
-    @Override public String toString() {
-      return "Optional.of(" + reference + ")";
-    }
-
-    private static final long serialVersionUID = 0;
-  }
-
-  private static final class Absent extends Optional<Object> {
-    private static final Absent INSTANCE = new Absent();
-
-    @Override public boolean isPresent() {
-      return false;
-    }
-
-    @Override public Object get() {
-      throw new IllegalStateException("value is absent");
-    }
-
-    @Override public Object or(Object defaultValue) {
-      return checkNotNull(defaultValue, "use orNull() instead of or(null)");
-    }
-
-    @SuppressWarnings("unchecked") // safe covariant cast
-    @Override public Optional<Object> or(Optional<?> secondChoice) {
-      return (Optional) checkNotNull(secondChoice);
-    }
-
-    @Override public Object or(Supplier<?> supplier) {
-      return checkNotNull(supplier.get(),
-          "use orNull() instead of a Supplier that returns null");
-    }
-
-    @Override @Nullable public Object orNull() {
-      return null;
-    }
-
-    @Override public Set<Object> asSet() {
-      return Collections.emptySet();
-    }
-
-    @Override public boolean equals(@Nullable Object object) {
-      return object == this;
-    }
-
-    @Override public int hashCode() {
-      return 0x598df91c;
-    }
-
-    @Override public String toString() {
-      return "Optional.absent()";
-    }
-
-    private Object readResolve() {
-      return INSTANCE;
-    }
-
-    private static final long serialVersionUID = 0;
-  }
 }
