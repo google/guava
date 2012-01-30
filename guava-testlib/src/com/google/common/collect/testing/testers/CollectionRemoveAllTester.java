@@ -18,6 +18,7 @@ package com.google.common.collect.testing.testers;
 
 import static com.google.common.collect.testing.features.CollectionFeature.ALLOWS_NULL_QUERIES;
 import static com.google.common.collect.testing.features.CollectionFeature.ALLOWS_NULL_VALUES;
+import static com.google.common.collect.testing.features.CollectionFeature.FAILS_FAST_ON_CONCURRENT_MODIFICATION;
 import static com.google.common.collect.testing.features.CollectionFeature.SUPPORTS_REMOVE_ALL;
 import static com.google.common.collect.testing.features.CollectionSize.ZERO;
 
@@ -28,6 +29,8 @@ import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 
 import java.util.Collections;
+import java.util.ConcurrentModificationException;
+import java.util.Iterator;
 
 /**
  * A generic JUnit test which tests {@code removeAll} operations on a
@@ -69,6 +72,20 @@ public class CollectionRemoveAllTester<E> extends AbstractCollectionTester<E> {
     assertTrue("removeAll(intersectingCollection) should return true",
         collection.removeAll(MinimalCollection.of(samples.e0, samples.e3)));
     expectMissing(samples.e0);
+  }
+
+  @CollectionFeature.Require({SUPPORTS_REMOVE_ALL,
+      FAILS_FAST_ON_CONCURRENT_MODIFICATION})
+  @CollectionSize.Require(absent = ZERO)
+  public void testRemoveAllSomePresentConcurrentWithIteration() {
+    try {
+      Iterator<E> iterator = collection.iterator();
+      assertTrue(collection.removeAll(MinimalCollection.of(samples.e0, samples.e3)));
+      iterator.next();
+      fail("Expected ConcurrentModificationException");
+    } catch (ConcurrentModificationException expected) {
+      // success
+    }
   }
 
   /**

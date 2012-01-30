@@ -19,6 +19,7 @@ package com.google.common.collect.testing;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.SetFeature;
+import com.google.common.collect.testing.testers.CollectionIteratorTester;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
@@ -89,7 +90,8 @@ public class TestsForSetsInJavaUtil {
     return Collections.emptySet();
   }
   protected Collection<Method> suppressForCopyOnWriteArraySet() {
-    return Collections.emptySet();
+    return Collections.singleton(CollectionIteratorTester
+        .getIteratorKnownOrderRemoveSupportedMethod());
   }
   protected Collection<Method> suppressForUnmodifiableSet() {
     return Collections.emptySet();
@@ -143,6 +145,7 @@ public class TestsForSetsInJavaUtil {
         .withFeatures(
             SetFeature.GENERAL_PURPOSE,
             CollectionFeature.ALLOWS_NULL_VALUES,
+            CollectionFeature.FAILS_FAST_ON_CONCURRENT_MODIFICATION,
             CollectionSize.ANY)
         .suppressing(suppressForHashSet())
         .createTestSuite();
@@ -160,6 +163,7 @@ public class TestsForSetsInJavaUtil {
             SetFeature.GENERAL_PURPOSE,
             CollectionFeature.ALLOWS_NULL_VALUES,
             CollectionFeature.KNOWN_ORDER,
+            CollectionFeature.FAILS_FAST_ON_CONCURRENT_MODIFICATION,
             CollectionSize.ANY)
         .suppressing(suppressForLinkedHashSet())
         .createTestSuite();
@@ -179,6 +183,7 @@ public class TestsForSetsInJavaUtil {
             SetFeature.GENERAL_PURPOSE,
             CollectionFeature.KNOWN_ORDER,
             CollectionFeature.RESTRICTS_ELEMENTS,
+            CollectionFeature.FAILS_FAST_ON_CONCURRENT_MODIFICATION,
             CollectionSize.ANY)
         .suppressing(suppressForEnumSet())
         .createTestSuite();
@@ -195,6 +200,7 @@ public class TestsForSetsInJavaUtil {
         .withFeatures(
             SetFeature.GENERAL_PURPOSE,
             CollectionFeature.KNOWN_ORDER,
+            CollectionFeature.FAILS_FAST_ON_CONCURRENT_MODIFICATION,
             CollectionSize.ANY)
         .suppressing(suppressForTreeSetNatural())
         .createTestSuite();
@@ -215,6 +221,7 @@ public class TestsForSetsInJavaUtil {
             SetFeature.GENERAL_PURPOSE,
             CollectionFeature.ALLOWS_NULL_VALUES,
             CollectionFeature.KNOWN_ORDER,
+            CollectionFeature.FAILS_FAST_ON_CONCURRENT_MODIFICATION,
             CollectionSize.ANY)
         .suppressing(suppressForTreeSetWithComparator())
         .createTestSuite();

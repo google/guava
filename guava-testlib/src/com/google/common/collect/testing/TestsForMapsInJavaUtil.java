@@ -137,6 +137,7 @@ public class TestsForMapsInJavaUtil {
             MapFeature.GENERAL_PURPOSE,
             MapFeature.ALLOWS_NULL_KEYS,
             MapFeature.ALLOWS_NULL_VALUES,
+            MapFeature.FAILS_FAST_ON_CONCURRENT_MODIFICATION,
             CollectionSize.ANY)
         .suppressing(suppressForHashMap())
         .createTestSuite();
@@ -155,6 +156,7 @@ public class TestsForMapsInJavaUtil {
             MapFeature.GENERAL_PURPOSE,
             MapFeature.ALLOWS_NULL_KEYS,
             MapFeature.ALLOWS_NULL_VALUES,
+            MapFeature.FAILS_FAST_ON_CONCURRENT_MODIFICATION,
             CollectionFeature.KNOWN_ORDER,
             CollectionSize.ANY)
         .suppressing(suppressForLinkedHashMap())
@@ -175,6 +177,7 @@ public class TestsForMapsInJavaUtil {
             MapFeature.GENERAL_PURPOSE,
             MapFeature.ALLOWS_NULL_KEYS,
             MapFeature.ALLOWS_NULL_VALUES,
+            MapFeature.FAILS_FAST_ON_CONCURRENT_MODIFICATION,
             CollectionFeature.KNOWN_ORDER,
             CollectionSize.ANY)
         .suppressing(suppressForTreeMap())

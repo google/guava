@@ -17,6 +17,7 @@
 package com.google.common.collect.testing.google;
 
 import static com.google.common.collect.testing.features.CollectionFeature.ALLOWS_NULL_VALUES;
+import static com.google.common.collect.testing.features.CollectionFeature.FAILS_FAST_ON_CONCURRENT_MODIFICATION;
 import static com.google.common.collect.testing.features.CollectionFeature.RESTRICTS_ELEMENTS;
 import static com.google.common.collect.testing.features.CollectionFeature.SUPPORTS_ADD;
 import static com.google.common.collect.testing.features.CollectionFeature.SUPPORTS_REMOVE;
@@ -25,11 +26,14 @@ import static com.google.common.collect.testing.features.CollectionSize.ZERO;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.Multiset;
+import com.google.common.collect.Multiset.Entry;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 
 import java.lang.reflect.Method;
 import java.util.Arrays;
+import java.util.ConcurrentModificationException;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -185,6 +189,32 @@ public abstract class AbstractMultisetSetCountTester<E>
     assertSetCount(samples.e3, 1);
   }
 
+  @CollectionFeature.Require({SUPPORTS_ADD,
+      FAILS_FAST_ON_CONCURRENT_MODIFICATION})
+  public void testSetCountZeroToOneConcurrentWithIteration() {
+    try {
+      Iterator<E> iterator = collection.iterator();
+      assertSetCount(samples.e3, 1);
+      iterator.next();
+      fail("Expected ConcurrentModificationException");
+    } catch (ConcurrentModificationException expected) {
+      // success
+    }
+  }
+
+  @CollectionFeature.Require({SUPPORTS_ADD,
+      FAILS_FAST_ON_CONCURRENT_MODIFICATION})
+  public void testSetCountZeroToOneConcurrentWithEntrySetIteration() {
+    try {
+      Iterator<Entry<E>> iterator = getMultiset().entrySet().iterator();
+      assertSetCount(samples.e3, 1);
+      iterator.next();
+      fail("Expected ConcurrentModificationException");
+    } catch (ConcurrentModificationException expected) {
+      // success
+    }
+  }
+
   @CollectionFeature.Require(SUPPORTS_ADD)
   public void testSetCount_zeroToThree_supported() {
     assertSetCount(samples.e3, 3);
@@ -218,6 +248,33 @@ public abstract class AbstractMultisetSetCountTester<E>
   @CollectionFeature.Require(SUPPORTS_REMOVE)
   public void testSetCount_oneToZero_supported() {
     assertSetCount(samples.e0, 0);
+  }
+
+  @CollectionFeature.Require({SUPPORTS_REMOVE,
+      FAILS_FAST_ON_CONCURRENT_MODIFICATION})
+  @CollectionSize.Require(absent = ZERO)
+  public void testSetCountOneToZeroConcurrentWithIteration() {
+    try {
+      Iterator<E> iterator = collection.iterator();
+      assertSetCount(samples.e0, 0);
+      iterator.next();
+      fail("Expected ConcurrentModificationException");
+    } catch (ConcurrentModificationException expected) {
+      // success
+    }
+  }
+
+  @CollectionFeature.Require({SUPPORTS_REMOVE,
+      FAILS_FAST_ON_CONCURRENT_MODIFICATION})
+  public void testSetCountOneToZeroConcurrentWithEntrySetIteration() {
+    try {
+      Iterator<Entry<E>> iterator = getMultiset().entrySet().iterator();
+      assertSetCount(samples.e0, 0);
+      iterator.next();
+      fail("Expected ConcurrentModificationException");
+    } catch (ConcurrentModificationException expected) {
+      // success
+    }
   }
 
   @CollectionSize.Require(SEVERAL)

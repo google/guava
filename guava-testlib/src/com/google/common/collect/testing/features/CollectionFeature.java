@@ -86,6 +86,7 @@ public enum CollectionFeature implements Feature<Collection> {
   SUPPORTS_REMOVE_ALL,
   SUPPORTS_RETAIN_ALL,
   SUPPORTS_CLEAR,
+  FAILS_FAST_ON_CONCURRENT_MODIFICATION,
 
   /**
    * Features supported by general-purpose collections -

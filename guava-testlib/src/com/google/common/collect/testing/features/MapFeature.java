@@ -47,6 +47,7 @@ public enum MapFeature implements Feature<Map> {
   SUPPORTS_PUT_ALL,
   SUPPORTS_REMOVE,
   SUPPORTS_CLEAR,
+  FAILS_FAST_ON_CONCURRENT_MODIFICATION,
   /**
    * Indicates that the constructor or factory method of a map, usually an
    * immutable map, throws an {@link IllegalArgumentException} when presented

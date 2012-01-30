@@ -151,6 +151,7 @@ public class TestsForListsInJavaUtil {
         .withFeatures(
             ListFeature.GENERAL_PURPOSE,
             CollectionFeature.ALLOWS_NULL_VALUES,
+            CollectionFeature.FAILS_FAST_ON_CONCURRENT_MODIFICATION,
             CollectionSize.ANY)
         .suppressing(suppressForArrayList())
         .createTestSuite();
@@ -167,6 +168,7 @@ public class TestsForListsInJavaUtil {
         .withFeatures(
             ListFeature.GENERAL_PURPOSE,
             CollectionFeature.ALLOWS_NULL_VALUES,
+            CollectionFeature.FAILS_FAST_ON_CONCURRENT_MODIFICATION,
             CollectionSize.ANY)
         .suppressing(suppressForLinkedList())
         .createTestSuite();

@@ -168,6 +168,9 @@ public class MapTestSuiteBuilder<K, V>
     if (mapFeatures.contains(MapFeature.REJECTS_DUPLICATES_AT_CREATION)) {
       derivedFeatures.add(CollectionFeature.REJECTS_DUPLICATES_AT_CREATION);
     }
+    if (mapFeatures.contains(MapFeature.FAILS_FAST_ON_CONCURRENT_MODIFICATION)) {
+      derivedFeatures.add(CollectionFeature.FAILS_FAST_ON_CONCURRENT_MODIFICATION);
+    }
     // add the intersection of CollectionSize.values() and mapFeatures
     for (CollectionSize size : CollectionSize.values()) {
       if (mapFeatures.contains(size)) {

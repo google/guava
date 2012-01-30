@@ -18,6 +18,7 @@ package com.google.common.collect.testing.testers;
 
 import static com.google.common.collect.testing.features.CollectionFeature.ALLOWS_NULL_QUERIES;
 import static com.google.common.collect.testing.features.CollectionFeature.ALLOWS_NULL_VALUES;
+import static com.google.common.collect.testing.features.CollectionFeature.FAILS_FAST_ON_CONCURRENT_MODIFICATION;
 import static com.google.common.collect.testing.features.CollectionFeature.SUPPORTS_REMOVE;
 import static com.google.common.collect.testing.features.CollectionSize.ZERO;
 
@@ -26,6 +27,7 @@ import com.google.common.collect.testing.WrongType;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 
+import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 
 /**
@@ -48,6 +50,20 @@ public class CollectionRemoveTester<E> extends AbstractCollectionTester<E> {
     assertEquals("remove(present) should decrease a collection's size by one.",
         initialSize - 1, collection.size());
     expectMissing(samples.e0);
+  }
+
+  @CollectionFeature.Require({SUPPORTS_REMOVE,
+      FAILS_FAST_ON_CONCURRENT_MODIFICATION})
+  @CollectionSize.Require(absent = ZERO)
+  public void testRemovePresentConcurrentWithIteration() {
+    try {
+      Iterator<E> iterator = collection.iterator();
+      assertTrue(collection.remove(samples.e0));
+      iterator.next();
+      fail("Expected ConcurrentModificationException");
+    } catch (ConcurrentModificationException expected) {
+      // success
+    }
   }
 
   @CollectionFeature.Require(SUPPORTS_REMOVE)

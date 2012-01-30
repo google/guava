@@ -17,6 +17,7 @@
 package com.google.common.collect.testing.testers;
 
 import static com.google.common.collect.testing.features.CollectionFeature.ALLOWS_NULL_VALUES;
+import static com.google.common.collect.testing.features.CollectionFeature.FAILS_FAST_ON_CONCURRENT_MODIFICATION;
 import static com.google.common.collect.testing.features.CollectionFeature.RESTRICTS_ELEMENTS;
 import static com.google.common.collect.testing.features.CollectionFeature.SUPPORTS_ADD;
 import static com.google.common.collect.testing.features.CollectionSize.ZERO;
@@ -26,6 +27,8 @@ import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 
 import java.lang.reflect.Method;
+import java.util.ConcurrentModificationException;
+import java.util.Iterator;
 
 /**
  * A generic JUnit test which tests {@code add} operations on a collection.
@@ -89,6 +92,19 @@ public class CollectionAddTester<E> extends AbstractCollectionTester<E> {
         "Should not contain null after unsupported add(null)");
   }
 
+  @CollectionFeature.Require({SUPPORTS_ADD,
+      FAILS_FAST_ON_CONCURRENT_MODIFICATION})
+  public void testAddConcurrentWithIteration() {
+    try {
+      Iterator<E> iterator = collection.iterator();
+      assertTrue(collection.add(samples.e3));
+      iterator.next();
+      fail("Expected ConcurrentModificationException");
+    } catch (ConcurrentModificationException expected) {
+      // success
+    }
+  }
+  
   /**
    * Returns the {@link Method} instance for {@link #testAdd_nullSupported()} so
    * that tests of {@link

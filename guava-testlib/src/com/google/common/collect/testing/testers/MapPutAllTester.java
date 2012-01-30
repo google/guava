@@ -19,6 +19,7 @@ package com.google.common.collect.testing.testers;
 import static com.google.common.collect.testing.features.CollectionSize.ZERO;
 import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_KEYS;
 import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_VALUES;
+import static com.google.common.collect.testing.features.MapFeature.FAILS_FAST_ON_CONCURRENT_MODIFICATION;
 import static com.google.common.collect.testing.features.MapFeature.SUPPORTS_PUT_ALL;
 import static java.util.Collections.singletonList;
 
@@ -28,6 +29,8 @@ import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.MapFeature;
 
 import java.util.Collections;
+import java.util.ConcurrentModificationException;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -91,6 +94,20 @@ public class MapPutAllTester<K, V> extends AbstractMapTester<K, V> {
   public void testPutAll_supportedSomePresent() {
     putAll(MinimalCollection.of(samples.e3, samples.e0));
     expectAdded(samples.e3);
+  }
+
+  @MapFeature.Require({ FAILS_FAST_ON_CONCURRENT_MODIFICATION,
+      SUPPORTS_PUT_ALL })
+  @CollectionSize.Require(absent = ZERO)
+  public void testPutAllSomePresentConcurrentWithEntrySetIteration() {
+    try {
+      Iterator<Entry<K, V>> iterator = getMap().entrySet().iterator();
+      putAll(MinimalCollection.of(samples.e3, samples.e0));
+      iterator.next();
+      fail("Expected ConcurrentModificationException");
+    } catch (ConcurrentModificationException expected) {
+      // success
+    }
   }
 
   @MapFeature.Require(absent = SUPPORTS_PUT_ALL)

@@ -19,12 +19,15 @@ package com.google.common.collect.testing.testers;
 import static com.google.common.collect.testing.features.CollectionSize.ZERO;
 import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_KEYS;
 import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_VALUES;
+import static com.google.common.collect.testing.features.MapFeature.FAILS_FAST_ON_CONCURRENT_MODIFICATION;
 import static com.google.common.collect.testing.features.MapFeature.SUPPORTS_PUT;
 
 import com.google.common.collect.testing.AbstractMapTester;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.MapFeature;
 
+import java.util.ConcurrentModificationException;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -57,6 +60,42 @@ public class MapPutTester<K, V> extends AbstractMapTester<K, V> {
   public void testPut_supportedNotPresent() {
     assertNull("put(notPresent, value) should return null", put(samples.e3));
     expectAdded(samples.e3);
+  }
+
+  @MapFeature.Require({FAILS_FAST_ON_CONCURRENT_MODIFICATION, SUPPORTS_PUT})
+  public void testPutAbsentConcurrentWithEntrySetIteration() {
+    try {
+      Iterator<Entry<K, V>> iterator = getMap().entrySet().iterator();
+      put(samples.e3);
+      iterator.next();
+      fail("Expected ConcurrentModificationException");
+    } catch (ConcurrentModificationException expected) {
+      // success
+    }
+  }
+
+  @MapFeature.Require({FAILS_FAST_ON_CONCURRENT_MODIFICATION, SUPPORTS_PUT})
+  public void testPutAbsentConcurrentWithKeySetIteration() {
+    try {
+      Iterator<K> iterator = getMap().keySet().iterator();
+      put(samples.e3);
+      iterator.next();
+      fail("Expected ConcurrentModificationException");
+    } catch (ConcurrentModificationException expected) {
+      // success
+    }
+  }
+
+  @MapFeature.Require({FAILS_FAST_ON_CONCURRENT_MODIFICATION, SUPPORTS_PUT})
+  public void testPutAbsentConcurrentWithValueIteration() {
+    try {
+      Iterator<V> iterator = getMap().values().iterator();
+      put(samples.e3);
+      iterator.next();
+      fail("Expected ConcurrentModificationException");
+    } catch (ConcurrentModificationException expected) {
+      // success
+    }
   }
 
   @MapFeature.Require(absent = SUPPORTS_PUT)
