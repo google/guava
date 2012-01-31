@@ -20,6 +20,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 
+import com.google.common.base.Function;
 import com.google.common.cache.CacheLoader.InvalidCacheLoadException;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.util.concurrent.ExecutionError;
@@ -111,7 +112,8 @@ public class CacheBuilder<K, V> {
     return new LocalLoadingCache<K1, V1>(this, loader);
   }
 
-  private static class LocalManualCache<K, V> extends AbstractCache<K, V> {
+  private static class LocalManualCache<K, V>
+      extends AbstractCache<K, V> implements Function<K, V> {
     final LocalCache<K, V> localCache;
 
     LocalManualCache(CacheBuilder<? super K, ? super V> builder) {
@@ -124,6 +126,25 @@ public class CacheBuilder<K, V> {
     }
 
     // Cache methods
+
+    @Override
+    public V get(K key) throws ExecutionException {
+      return localCache.getOrLoad(key);
+    }
+
+    @Override
+    public V getUnchecked(K key) {
+      try {
+        return get(key);
+      } catch (ExecutionException e) {
+        throw new UncheckedExecutionException(e.getCause());
+      }
+    }
+
+    @Override
+    public final V apply(K key) {
+      return getUnchecked(key);
+    }
 
     @Override
     @Nullable
@@ -167,25 +188,6 @@ public class CacheBuilder<K, V> {
     }
 
     // Cache methods
-
-    @Override
-    public V get(K key) throws ExecutionException {
-      return localCache.getOrLoad(key);
-    }
-
-    @Override
-    public V getUnchecked(K key) {
-      try {
-        return get(key);
-      } catch (ExecutionException e) {
-        throw new UncheckedExecutionException(e.getCause());
-      }
-    }
-
-    @Override
-    public final V apply(K key) {
-      return getUnchecked(key);
-    }
 
     @Override
     public ImmutableMap<K, V> getAll(Iterable<? extends K> keys) throws ExecutionException {
