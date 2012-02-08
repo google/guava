@@ -57,8 +57,9 @@ import java.util.concurrent.ConcurrentMap;
 import javax.annotation.Nullable;
 
 /**
- * Static utility methods pertaining to {@link Map} instances. Also see this
- * class's counterparts {@link Lists} and {@link Sets}.
+ * Static utility methods pertaining to {@link Map} instances (including instances of
+ * {@link SortedMap}, {@link BiMap}, etc.). Also see this class's counterparts
+ * {@link Lists}, {@link Sets} and {@link Queues}.
  *
  * @author Kevin Bourrillion
  * @author Mike Bostock
@@ -266,38 +267,6 @@ public final class Maps {
    */
   public static <K, V> IdentityHashMap<K, V> newIdentityHashMap() {
     return new IdentityHashMap<K, V>();
-  }
-
-  /**
-   * Returns a synchronized (thread-safe) bimap backed by the specified bimap.
-   * In order to guarantee serial access, it is critical that <b>all</b> access
-   * to the backing bimap is accomplished through the returned bimap.
-   *
-   * <p>It is imperative that the user manually synchronize on the returned map
-   * when accessing any of its collection views: <pre>   {@code
-   *
-   *   BiMap<Long, String> map = Maps.synchronizedBiMap(
-   *       HashBiMap.<Long, String>create());
-   *   ...
-   *   Set<Long> set = map.keySet();  // Needn't be in synchronized block
-   *   ...
-   *   synchronized (map) {  // Synchronizing on map, not set!
-   *     Iterator<Long> it = set.iterator(); // Must be in synchronized block
-   *     while (it.hasNext()) {
-   *       foo(it.next());
-   *     }
-   *   }}</pre>
-   *
-   * Failure to follow this advice may result in non-deterministic behavior.
-   *
-   * <p>The returned bimap will be serializable if the specified bimap is
-   * serializable.
-   *
-   * @param bimap the bimap to be wrapped in a synchronized view
-   * @return a sychronized view of the specified bimap
-   */
-  public static <K, V> BiMap<K, V> synchronizedBiMap(BiMap<K, V> bimap) {
-    return Synchronized.biMap(bimap, null);
   }
 
   /**
@@ -840,6 +809,38 @@ public final class Maps {
     @Override public int hashCode() {
       return Sets.hashCodeImpl(this);
     }
+  }
+
+  /**
+   * Returns a synchronized (thread-safe) bimap backed by the specified bimap.
+   * In order to guarantee serial access, it is critical that <b>all</b> access
+   * to the backing bimap is accomplished through the returned bimap.
+   *
+   * <p>It is imperative that the user manually synchronize on the returned map
+   * when accessing any of its collection views: <pre>   {@code
+   *
+   *   BiMap<Long, String> map = Maps.synchronizedBiMap(
+   *       HashBiMap.<Long, String>create());
+   *   ...
+   *   Set<Long> set = map.keySet();  // Needn't be in synchronized block
+   *   ...
+   *   synchronized (map) {  // Synchronizing on map, not set!
+   *     Iterator<Long> it = set.iterator(); // Must be in synchronized block
+   *     while (it.hasNext()) {
+   *       foo(it.next());
+   *     }
+   *   }}</pre>
+   *
+   * Failure to follow this advice may result in non-deterministic behavior.
+   *
+   * <p>The returned bimap will be serializable if the specified bimap is
+   * serializable.
+   *
+   * @param bimap the bimap to be wrapped in a synchronized view
+   * @return a sychronized view of the specified bimap
+   */
+  public static <K, V> BiMap<K, V> synchronizedBiMap(BiMap<K, V> bimap) {
+    return Synchronized.biMap(bimap, null);
   }
 
   /**
