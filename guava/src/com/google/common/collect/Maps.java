@@ -47,10 +47,14 @@ import java.util.IdentityHashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.Map.Entry;
+import java.util.NavigableMap;
+import java.util.NavigableSet;
 import java.util.Properties;
 import java.util.Set;
 import java.util.SortedMap;
+import java.util.SortedSet;
 import java.util.TreeMap;
 import java.util.concurrent.ConcurrentMap;
 
@@ -2155,6 +2159,106 @@ public final class Maps {
     }
   }
 
+  @Nullable
+  static <K> K keyOrNull(@Nullable Entry<K, ?> entry) {
+    return (entry == null) ? null : entry.getKey();
+  }
+
+  @GwtIncompatible("NavigableMap")
+  abstract static class NavigableKeySet<K, V> extends KeySet<K, V> implements NavigableSet<K> {
+    @Override
+    abstract NavigableMap<K, V> map();
+
+    @Override
+    public Comparator<? super K> comparator() {
+      return map().comparator();
+    }
+
+    @Override
+    public K first() {
+      return map().firstKey();
+    }
+
+    @Override
+    public K last() {
+      return map().lastKey();
+    }
+
+    @Override
+    public K lower(K e) {
+      return map().lowerKey(e);
+    }
+
+    @Override
+    public K floor(K e) {
+      return map().floorKey(e);
+    }
+
+    @Override
+    public K ceiling(K e) {
+      return map().ceilingKey(e);
+    }
+
+    @Override
+    public K higher(K e) {
+      return map().higherKey(e);
+    }
+
+    @Override
+    public K pollFirst() {
+      return keyOrNull(map().pollFirstEntry());
+    }
+
+    @Override
+    public K pollLast() {
+      return keyOrNull(map().pollLastEntry());
+    }
+
+    @Override
+    public NavigableSet<K> descendingSet() {
+      return map().descendingKeySet();
+    }
+
+    @Override
+    public Iterator<K> descendingIterator() {
+      return descendingSet().iterator();
+    }
+
+    @Override
+    public NavigableSet<K> subSet(
+        K fromElement,
+        boolean fromInclusive,
+        K toElement,
+        boolean toInclusive) {
+      return map().subMap(fromElement, fromInclusive, toElement, toInclusive).navigableKeySet();
+    }
+
+    @Override
+    public NavigableSet<K> headSet(K toElement, boolean inclusive) {
+      return map().headMap(toElement, inclusive).navigableKeySet();
+    }
+
+    @Override
+    public NavigableSet<K> tailSet(K fromElement, boolean inclusive) {
+      return map().tailMap(fromElement, inclusive).navigableKeySet();
+    }
+
+    @Override
+    public SortedSet<K> subSet(K fromElement, K toElement) {
+      return subSet(fromElement, true, toElement, false);
+    }
+
+    @Override
+    public SortedSet<K> headSet(K toElement) {
+      return headSet(toElement, false);
+    }
+
+    @Override
+    public SortedSet<K> tailSet(K fromElement) {
+      return tailSet(fromElement, true);
+    }
+  }
+
   abstract static class Values<K, V> extends AbstractCollection<V> {
     abstract Map<K, V> map();
 
@@ -2287,6 +2391,207 @@ public final class Maps {
         }
         return map().keySet().retainAll(keys);
       }
+    }
+  }
+
+  @GwtIncompatible("NavigableMap")
+  static abstract class DescendingMap<K, V> extends ForwardingMap<K, V>
+      implements NavigableMap<K, V> {
+
+    abstract NavigableMap<K, V> forward();
+
+    @Override
+    protected final Map<K, V> delegate() {
+      return forward();
+    }
+
+    private transient Comparator<? super K> comparator;
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public Comparator<? super K> comparator() {
+      Comparator<? super K> result = comparator;
+      if (result == null) {
+        Comparator<? super K> forwardCmp = forward().comparator();
+        if (forwardCmp == null) {
+          forwardCmp = (Comparator) Ordering.natural();
+        }
+        result = comparator = reverse(forwardCmp);
+      }
+      return result;
+    }
+
+    // If we inline this, we get a javac error.
+    private static <T> Ordering<T> reverse(Comparator<T> forward) {
+      return Ordering.from(forward).reverse();
+    }
+
+    @Override
+    public K firstKey() {
+      return forward().lastKey();
+    }
+
+    @Override
+    public K lastKey() {
+      return forward().firstKey();
+    }
+
+    @Override
+    public Entry<K, V> lowerEntry(K key) {
+      return forward().higherEntry(key);
+    }
+
+    @Override
+    public K lowerKey(K key) {
+      return forward().higherKey(key);
+    }
+
+    @Override
+    public Entry<K, V> floorEntry(K key) {
+      return forward().ceilingEntry(key);
+    }
+
+    @Override
+    public K floorKey(K key) {
+      return forward().ceilingKey(key);
+    }
+
+    @Override
+    public Entry<K, V> ceilingEntry(K key) {
+      return forward().floorEntry(key);
+    }
+
+    @Override
+    public K ceilingKey(K key) {
+      return forward().floorKey(key);
+    }
+
+    @Override
+    public Entry<K, V> higherEntry(K key) {
+      return forward().lowerEntry(key);
+    }
+
+    @Override
+    public K higherKey(K key) {
+      return forward().lowerKey(key);
+    }
+
+    @Override
+    public Entry<K, V> firstEntry() {
+      return forward().lastEntry();
+    }
+
+    @Override
+    public Entry<K, V> lastEntry() {
+      return forward().firstEntry();
+    }
+
+    @Override
+    public Entry<K, V> pollFirstEntry() {
+      return forward().pollLastEntry();
+    }
+
+    @Override
+    public Entry<K, V> pollLastEntry() {
+      return forward().pollFirstEntry();
+    }
+
+    @Override
+    public NavigableMap<K, V> descendingMap() {
+      return forward();
+    }
+
+    private transient Set<Entry<K, V>> entrySet;
+
+    @Override
+    public Set<Entry<K, V>> entrySet() {
+      Set<Entry<K, V>> result = entrySet;
+      return (result == null) ? entrySet = createEntrySet() : result;
+    }
+
+    abstract Iterator<Entry<K, V>> entryIterator();
+
+    Set<Entry<K, V>> createEntrySet() {
+      return new EntrySet<K, V>() {
+
+        @Override
+        Map<K, V> map() {
+          return DescendingMap.this;
+        }
+
+        @Override
+        public Iterator<Entry<K, V>> iterator() {
+          return entryIterator();
+        }
+      };
+    }
+
+    @Override
+    public Set<K> keySet() {
+      return navigableKeySet();
+    }
+
+    private transient NavigableSet<K> navigableKeySet;
+
+    @Override
+    public NavigableSet<K> navigableKeySet() {
+      NavigableSet<K> result = navigableKeySet;
+      if (result == null) {
+        result = navigableKeySet = new NavigableKeySet<K, V>() {
+          @Override
+          NavigableMap<K, V> map() {
+            return DescendingMap.this;
+          }
+        };
+      }
+      return result;
+    }
+
+    @Override
+    public NavigableSet<K> descendingKeySet() {
+      return forward().navigableKeySet();
+    }
+
+    @Override
+    public
+        NavigableMap<K, V>
+        subMap(K fromKey, boolean fromInclusive, K toKey, boolean toInclusive) {
+      return forward().subMap(toKey, toInclusive, fromKey, fromInclusive).descendingMap();
+    }
+
+    @Override
+    public NavigableMap<K, V> headMap(K toKey, boolean inclusive) {
+      return forward().tailMap(toKey, inclusive).descendingMap();
+    }
+
+    @Override
+    public NavigableMap<K, V> tailMap(K fromKey, boolean inclusive) {
+      return forward().headMap(fromKey, inclusive).descendingMap();
+    }
+
+    @Override
+    public SortedMap<K, V> subMap(K fromKey, K toKey) {
+      return subMap(fromKey, true, toKey, false);
+    }
+
+    @Override
+    public SortedMap<K, V> headMap(K toKey) {
+      return headMap(toKey, false);
+    }
+
+    @Override
+    public SortedMap<K, V> tailMap(K fromKey) {
+      return tailMap(fromKey, true);
+    }
+
+    @Override
+    public Collection<V> values() {
+      return new Values<K, V>() {
+        @Override
+        Map<K, V> map() {
+          return DescendingMap.this;
+        }
+      };
     }
   }
 }

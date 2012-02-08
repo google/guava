@@ -2126,6 +2126,11 @@ public final class Maps {
     }
   }
 
+  @Nullable
+  static <K> K keyOrNull(@Nullable Entry<K, ?> entry) {
+    return (entry == null) ? null : entry.getKey();
+  }
+
   abstract static class Values<K, V> extends AbstractCollection<V> {
     abstract Map<K, V> map();
 
