@@ -18,8 +18,19 @@ package com.google.common.testing;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableMultimap;
+import com.google.common.collect.ImmutableMultiset;
+import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.ImmutableSortedSet;
+import com.google.common.collect.ImmutableTable;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import com.google.common.collect.Multimap;
+import com.google.common.collect.Multiset;
 import com.google.common.collect.Sets;
+import com.google.common.collect.Table;
 
 import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
@@ -27,7 +38,9 @@ import junit.framework.TestCase;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.SortedSet;
 
 import javax.annotation.Nullable;
 
@@ -246,7 +259,7 @@ public class NullPointerTesterTest extends TestCase {
     }
   }
 
-  public void verifyBarPass(Method method, TwoArg bar) throws Exception {
+  public void verifyBarPass(Method method, TwoArg bar) {
     try {
       tester.testMethod(bar, method);
     } catch (AssertionFailedError incorrectError) {
@@ -256,7 +269,7 @@ public class NullPointerTesterTest extends TestCase {
     }
   }
 
-  public void verifyBarFail(Method method, TwoArg bar) throws Exception {
+  public void verifyBarFail(Method method, TwoArg bar) {
     try {
       tester.testMethod(bar, method);
     } catch (AssertionFailedError expected) {
@@ -567,7 +580,7 @@ public class NullPointerTesterTest extends TestCase {
     private PrivateClassWithPrivateConstructor(@Nullable Integer argument) {}
   }
 
-  public void testPrivateClass() throws Exception {
+  public void testPrivateClass() {
     NullPointerTester tester = new NullPointerTester();
     for (Constructor<?> constructor
         : PrivateClassWithPrivateConstructor.class.getDeclaredConstructors()) {
@@ -587,8 +600,180 @@ public class NullPointerTesterTest extends TestCase {
     }
   }
   
-  public void testBidgeMethodIgnored() throws Exception {
+  public void testBridgeMethodIgnored() {
     new NullPointerTester().testAllPublicInstanceMethods(new StringFoo());
+  }
+
+  private static abstract class DefaultValueChecker {
+    
+    private final Map<Integer, Object> arguments = Maps.newHashMap();
+
+    final DefaultValueChecker runTester() {
+      new NullPointerTester()
+          .testAllPublicInstanceMethods(this);
+      return this;
+    }
+    
+    final void assertNonNullValues(Object... expectedValues) {
+      assertEquals(expectedValues.length, arguments.size());
+      for (int i = 0; i < expectedValues.length; i++) {
+        assertEquals("Default value for parameter #" + i,
+            expectedValues[i], arguments.get(i));
+      }
+    }
+
+    final Object getDefaultParameterValue(int position) {
+      return arguments.get(position);
+    }
+
+    final void calledWith(Object... args) {
+      for (int i = 0; i < args.length; i++) {
+        if (args[i] != null) {
+          arguments.put(i, args[i]);
+        }
+      }
+      for (Object arg : args) {
+        checkNotNull(arg); // to fulfill null check
+      }
+    }
+  }
+
+  private enum Gender {
+    MALE, FEMALE
+  }
+  
+  private static class AllDefaultValuesChecker extends DefaultValueChecker {
+
+    @SuppressWarnings("unused") // called by NullPointerTester
+    public void checkDefaultValuesForTheseTypes(
+        Gender gender,
+        Integer integer, int i,
+        String string, CharSequence charSequence,
+        List<String> list,
+        ImmutableList<Integer> immutableList,
+        Map<String, Integer> map,
+        ImmutableMap<String, String> immutableMap,
+        Set<String> set,
+        ImmutableSet<Integer> immutableSet,
+        SortedSet<Number> sortedSet,
+        ImmutableSortedSet<Number> immutableSortedSet,
+        Multiset<String> multiset,
+        ImmutableMultiset<Integer> immutableMultiset,
+        Multimap<String, Integer> multimap,
+        ImmutableMultimap<String, Integer> immutableMultimap,
+        Table<String, Integer, Exception> table,
+        ImmutableTable<Integer, String, Exception> immutableTable) {
+      calledWith(
+          gender,
+          integer, i,
+          string, charSequence,
+          list, immutableList,
+          map, immutableMap,
+          set, immutableSet,
+          sortedSet, immutableSortedSet,
+          multiset, immutableMultiset,
+          multimap, immutableMultimap,
+          table, immutableTable);
+    }
+
+    final void check() {
+      runTester().assertNonNullValues(
+          Gender.MALE,
+          Integer.valueOf(0), 0,
+          "", "",
+          ImmutableList.of(), ImmutableList.of(),
+          ImmutableMap.of(), ImmutableMap.of(),
+          ImmutableSet.of(), ImmutableSet.of(),
+          ImmutableSortedSet.of(), ImmutableSortedSet.of(),
+          ImmutableMultiset.of(), ImmutableMultiset.of(),
+          ImmutableMultimap.of(), ImmutableMultimap.of(),
+          ImmutableTable.of(), ImmutableTable.of());
+    }
+  }
+
+  public void testDefaultValues() {
+    new AllDefaultValuesChecker().check();
+  }
+
+  private static class ObjectArrayDefaultValueChecker
+      extends DefaultValueChecker {
+
+    @SuppressWarnings("unused") // called by NullPointerTester
+    public void checkArray(Object[] array, String s) {
+      calledWith(array, s);
+    }
+
+    void check() {
+      runTester();
+      Object[] defaultArray = (Object[]) getDefaultParameterValue(0);
+      assertEquals(0, defaultArray.length);
+    }
+  }
+
+  public void testObjectArrayDefaultValue() {
+    new ObjectArrayDefaultValueChecker().check();
+  }
+
+  private static class StringArrayDefaultValueChecker
+      extends DefaultValueChecker {
+
+    @SuppressWarnings("unused") // called by NullPointerTester
+    public void checkArray(String[] array, String s) {
+      calledWith(array, s);
+    }
+
+    void check() {
+      runTester();
+      String[] defaultArray = (String[]) getDefaultParameterValue(0);
+      assertEquals(0, defaultArray.length);
+    }
+  }
+
+  public void testStringArrayDefaultValue() {
+    new StringArrayDefaultValueChecker().check();
+  }
+
+  private static class IntArrayDefaultValueChecker
+      extends DefaultValueChecker {
+
+    @SuppressWarnings("unused") // called by NullPointerTester
+    public void checkArray(int[] array, String s) {
+      calledWith(array, s);
+    }
+
+    void check() {
+      runTester();
+      int[] defaultArray = (int[]) getDefaultParameterValue(0);
+      assertEquals(0, defaultArray.length);
+    }
+  }
+
+  public void testIntArrayDefaultValue() {
+    new IntArrayDefaultValueChecker().check();
+  }
+
+  private enum EmptyEnum {}
+
+  private static class EmptyEnumDefaultValueChecker
+      extends DefaultValueChecker {
+
+    @SuppressWarnings("unused") // called by NullPointerTester
+    public void checkArray(EmptyEnum object, String s) {
+      calledWith(object, s);
+    }
+
+    void check() {
+      try {
+        runTester();
+      } catch (AssertionError expected) {
+        return;
+      }
+      fail("Should have failed because enum has no constant");
+    }
+  }
+
+  public void testEmptyEnumDefaultValue() {
+    new EmptyEnumDefaultValueChecker().check();
   }
 
   /*

@@ -17,20 +17,36 @@
 package com.google.common.testing;
 
 import com.google.common.annotations.Beta;
+import com.google.common.base.Defaults;
 import com.google.common.base.Function;
 import com.google.common.base.Functions;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import com.google.common.base.Supplier;
 import com.google.common.base.Suppliers;
+import com.google.common.collect.ClassToInstanceMap;
+import com.google.common.collect.ImmutableCollection;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableMultimap;
+import com.google.common.collect.ImmutableMultiset;
+import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.ImmutableSortedMap;
+import com.google.common.collect.ImmutableSortedSet;
+import com.google.common.collect.ImmutableTable;
 import com.google.common.collect.Iterators;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
+import com.google.common.collect.Multimap;
+import com.google.common.collect.Multiset;
+import com.google.common.collect.MutableClassToInstanceMap;
+import com.google.common.collect.Table;
+import com.google.common.primitives.Primitives;
 
 import junit.framework.Assert;
 import junit.framework.AssertionFailedError;
 
 import java.lang.annotation.Annotation;
+import java.lang.reflect.Array;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Member;
@@ -44,6 +60,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.SortedMap;
 import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.concurrent.TimeUnit;
@@ -62,7 +79,8 @@ import javax.annotation.Nullable;
  */
 @Beta
 public final class NullPointerTester {
-  private final Map<Class<?>, Object> defaults = Maps.newHashMap();
+  private final ClassToInstanceMap<Object> defaults =
+      MutableClassToInstanceMap.create();
   private final List<Member> ignoredMembers = Lists.newArrayList();
 
   public NullPointerTester() {
@@ -70,36 +88,54 @@ public final class NullPointerTester {
   }
 
   private final void setCommonDefaults() {
+    // miscellaneous value types
+    setDefault(Object.class, new Object());
     setDefault(Appendable.class, new StringBuilder());
     setDefault(CharSequence.class, "");
+    setDefault(String.class, "");
     setDefault(Class.class, Class.class);
+    setDefault(Pattern.class, Pattern.compile(""));
+    setDefault(TimeUnit.class, TimeUnit.SECONDS);
+    setDefault(Throwable.class, new Exception());
+
+    // Collections
     setDefault(Collection.class, Collections.emptySet());
-    setDefault(Comparable.class, 0);
-    setDefault(Comparator.class, Collections.reverseOrder());
-    setDefault(Function.class, Functions.identity());
-    setDefault(Integer.class, 0);
     setDefault(Iterable.class, Collections.emptySet());
     setDefault(Iterator.class, Iterators.emptyIterator());
     setDefault(List.class, Collections.emptyList());
-    setDefault(Map.class, Collections.emptyMap());
-    setDefault(Object.class, new Object());
-    setDefault(Object[].class, new Object[0]);
-    setDefault(Pattern.class, Pattern.compile(""));
-    setDefault(Predicate.class, Predicates.alwaysTrue());
+    setDefault(ImmutableList.class, ImmutableList.of());
     setDefault(Set.class, Collections.emptySet());
+    setDefault(ImmutableSet.class, ImmutableSet.of());
+    // TODO(benyu): should this be ImmutableSortedSet? Not type safe.
     setDefault(SortedSet.class, new TreeSet());
-    setDefault(String.class, "");
+    setDefault(ImmutableSortedSet.class, ImmutableSortedSet.of());
+    setDefault(ImmutableCollection.class, ImmutableList.of());
+    setDefault(Map.class, Collections.emptyMap());
+    setDefault(ImmutableMap.class, ImmutableMap.of());
+    setDefault(SortedMap.class, ImmutableSortedMap.of());
+    setDefault(ImmutableSortedMap.class, ImmutableSortedMap.of());
+    setDefault(Multimap.class, ImmutableMultimap.of());
+    setDefault(ImmutableMultimap.class, ImmutableMultimap.of());
+    setDefault(Multiset.class, ImmutableMultiset.of());
+    setDefault(ImmutableMultiset.class, ImmutableMultiset.of());
+    setDefault(Table.class, ImmutableTable.of());
+    setDefault(ImmutableTable.class, ImmutableTable.of());
+
+    // Function object types
+    setDefault(Comparator.class, Collections.reverseOrder());
+    setDefault(Predicate.class, Predicates.alwaysTrue());
+
+    // The following 3 aren't really safe generically
+    // For example, Comparable<String> can't be 0
+    setDefault(Comparable.class, 0);
+    setDefault(Function.class, Functions.identity());
     setDefault(Supplier.class, Suppliers.ofInstance(1));
-    setDefault(Throwable.class, new Exception());
-    setDefault(TimeUnit.class, TimeUnit.SECONDS);
-    setDefault(int.class, 0);
-    setDefault(long.class, 0L);
-    setDefault(short.class, (short) 0);
+
+    // TODO(benyu): We would have delegated to Defaults.getDefault()
+    // By changing it now risks breaking existing clients, and we don't really
+    // care the default value anyway.
     setDefault(char.class, 'a');
-    setDefault(byte.class, (byte) 0);
-    setDefault(float.class, 0.0f);
-    setDefault(double.class, 0.0d);
-    setDefault(boolean.class, false);
+
   }
 
   /**
@@ -124,10 +160,9 @@ public final class NullPointerTester {
    * Runs {@link #testConstructor} on every public constructor in class {@code
    * c}.
    */
-  public void testAllPublicConstructors(Class<?> c) throws Exception {
+  public void testAllPublicConstructors(Class<?> c) {
     for (Constructor<?> constructor : c.getDeclaredConstructors()) {
-      if (isPublic(constructor) && !isStatic(constructor)
-          && !isIgnored(constructor)) {
+      if (isPublic(constructor) && !isIgnored(constructor)) {
         testConstructor(constructor);
       }
     }
@@ -137,7 +172,7 @@ public final class NullPointerTester {
    * Runs {@link #testMethod} on every public static method in class
    * {@code c}.
    */
-  public void testAllPublicStaticMethods(Class<?> c) throws Exception {
+  public void testAllPublicStaticMethods(Class<?> c) {
     for (Method method : c.getDeclaredMethods()) {
       if (isPublic(method) && isStatic(method) && !isIgnored(method)) {
         testMethod(null, method);
@@ -149,7 +184,7 @@ public final class NullPointerTester {
    * Runs {@link #testMethod} on every public instance method of
    * {@code instance}.
    */
-  public void testAllPublicInstanceMethods(Object instance) throws Exception {
+  public void testAllPublicInstanceMethods(Object instance) {
     Class<?> c = instance.getClass();
     for (Method method : c.getDeclaredMethods()) {
       if (isPublic(method) && !isStatic(method) && !isIgnored(method)) {
@@ -166,7 +201,7 @@ public final class NullPointerTester {
    * @param instance the instance to invoke {@code method} on, or null if
    *     {@code method} is static
    */
-  public void testMethod(Object instance, Method method) throws Exception {
+  public void testMethod(Object instance, Method method) {
     Class<?>[] types = method.getParameterTypes();
     for (int nullIndex = 0; nullIndex < types.length; nullIndex++) {
       testMethodParameter(instance, method, nullIndex);
@@ -178,7 +213,7 @@ public final class NullPointerTester {
    * {@link UnsupportedOperationException} whenever <i>any</i> of its
    * non-{@link Nullable} parameters are null.
    */
-  public void testConstructor(Constructor<?> ctor) throws Exception {
+  public void testConstructor(Constructor<?> ctor) {
     Class<?>[] types = ctor.getParameterTypes();
     for (int nullIndex = 0; nullIndex < types.length; nullIndex++) {
       testConstructorParameter(ctor, nullIndex);
@@ -195,7 +230,7 @@ public final class NullPointerTester {
    *     {@code method} is static
    */
   public void testMethodParameter(Object instance, final Method method,
-      int paramIndex) throws Exception {
+      int paramIndex) {
     method.setAccessible(true);
     testFunctorParameter(instance, new Functor() {
         @Override public Class<?>[] getParameterTypes() {
@@ -222,7 +257,7 @@ public final class NullPointerTester {
    * method does nothing.
    */
   public void testConstructorParameter(final Constructor<?> ctor,
-      int paramIndex) throws Exception {
+      int paramIndex) {
     ctor.setAccessible(true);
     testFunctorParameter(null, new Functor() {
         @Override public Class<?>[] getParameterTypes() {
@@ -249,7 +284,7 @@ public final class NullPointerTester {
    *     {@code func} is static
    */
   private void testFunctorParameter(Object instance, Functor func,
-      int paramIndex, Class<?> testedClass) throws Exception {
+      int paramIndex, Class<?> testedClass) {
     if (parameterIsPrimitiveOrNullable(func, paramIndex)) {
       return; // there's nothing to test
     }
@@ -268,6 +303,10 @@ public final class NullPointerTester {
           "wrong exception thrown from " + func + ": " + cause);
       error.initCause(cause);
       throw error;
+    } catch (IllegalAccessException e) {
+      throw new RuntimeException(e);
+    } catch (InstantiationException e) {
+      throw new RuntimeException(e);
     }
   }
 
@@ -291,9 +330,10 @@ public final class NullPointerTester {
 
     for (int i = 0; i < types.length; i++) {
       if (i != indexOfParamToSetToNull) {
-        params[i] = defaults.get(types[i]);
+        Class<?> type = types[i];
+        params[i] = getDefaultValue(type);
         if (!parameterIsPrimitiveOrNullable(func, i)) {
-          Assert.assertTrue("No default value found for " + types[i].getName(),
+          Assert.assertTrue("No default value found for " + type.getName(),
               params[i] != null);
         }
       }
@@ -301,10 +341,30 @@ public final class NullPointerTester {
     return params;
   }
 
+  private <T> T getDefaultValue(Class<T> type) {
+    T value = defaults.getInstance(type);
+    if (value != null) {
+      return value;
+    }
+    if (type.isEnum()) {
+      T[] constants = type.getEnumConstants();
+      if (constants.length > 0) {
+        return constants[0];
+      }
+    } else if (type.isArray()) {
+      @SuppressWarnings("unchecked") // T[].componentType[] == T[]
+      T emptyArray = (T) Array.newInstance(type.getComponentType(), 0);
+      return emptyArray;
+    }
+    return Defaults.defaultValue(Primitives.unwrap(type));
+  }
+
   private interface Functor {
     Class<?>[] getParameterTypes();
     Annotation[][] getParameterAnnotations();
-    void invoke(Object o, Object[] params) throws Exception;
+    void invoke(Object o, Object[] params)
+        throws InvocationTargetException, IllegalAccessException,
+            InstantiationException;
   }
 
   private static boolean isPublic(Member member) {
