@@ -19,21 +19,19 @@ package com.google.common.math;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.math.DoubleUtils.IMPLICIT_BIT;
 import static com.google.common.math.DoubleUtils.SIGNIFICAND_BITS;
-import static com.google.common.math.DoubleUtils.getExponent;
 import static com.google.common.math.DoubleUtils.getSignificand;
 import static com.google.common.math.DoubleUtils.isFinite;
 import static com.google.common.math.DoubleUtils.isNormal;
-import static com.google.common.math.DoubleUtils.next;
 import static com.google.common.math.DoubleUtils.scaleNormalize;
 import static com.google.common.math.MathPreconditions.checkInRange;
 import static com.google.common.math.MathPreconditions.checkNonNegative;
 import static com.google.common.math.MathPreconditions.checkRoundingUnnecessary;
 
+import com.google.common.annotations.Beta;
+import com.google.common.annotations.VisibleForTesting;
+
 import java.math.BigInteger;
 import java.math.RoundingMode;
-
-import com.google.common.annotations.VisibleForTesting;
-import com.google.common.annotations.Beta;
 
 /**
  * A class for arithmetic on doubles that is not covered by {@link java.lang.Math}.
@@ -83,10 +81,10 @@ public final class DoubleMath {
           return x;
         } else if (x >= 0.0) {
           double z = x + 0.5;
-          return (z == x) ? x : next(z, false); // x + 0.5 - epsilon
+          return (z == x) ? x : DoubleUtils.nextDown(z); // x + 0.5 - epsilon
         } else {
           double z = x - 0.5;
-          return (z == x) ? x : next(z, true); // x - 0.5 + epsilon
+          return (z == x) ? x : Math.nextUp(z); // x - 0.5 + epsilon
         }
 
       default:
@@ -160,7 +158,7 @@ public final class DoubleMath {
     if (MIN_LONG_AS_DOUBLE - x < 1.0 & x < MAX_LONG_AS_DOUBLE_PLUS_ONE) {
       return BigInteger.valueOf((long) x);
     }
-    int exponent = getExponent(x);
+    int exponent = Math.getExponent(x);
     if (exponent < 0) {
       return BigInteger.ZERO;
     }
@@ -210,7 +208,7 @@ public final class DoubleMath {
   @SuppressWarnings("fallthrough")
   public static int log2(double x, RoundingMode mode) {
     checkArgument(x > 0.0 && isFinite(x), "x must be positive and finite");
-    int exponent = getExponent(x);
+    int exponent = Math.getExponent(x);
     if (!isNormal(x)) {
       return log2(x * IMPLICIT_BIT, mode) - SIGNIFICAND_BITS;
       // Do the calculation on a normal value.
@@ -256,7 +254,7 @@ public final class DoubleMath {
   public static boolean isMathematicalInteger(double x) {
     return isFinite(x)
         && (x == 0.0 || SIGNIFICAND_BITS
-            - Long.numberOfTrailingZeros(getSignificand(x)) <= getExponent(x));
+            - Long.numberOfTrailingZeros(getSignificand(x)) <= Math.getExponent(x));
   }
 
   /**

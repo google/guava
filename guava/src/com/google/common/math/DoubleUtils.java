@@ -18,34 +18,20 @@ package com.google.common.math;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
-import com.google.common.annotations.VisibleForTesting;
-
 import java.math.BigInteger;
 
 /**
  * Utilities for {@code double} primitives. Some of these are exposed in JDK 6,
  * but we can't depend on them there.
- *
+ * 
  * @author Louis Wasserman
  */
 final class DoubleUtils {
-  // TODO(user): replace with appropriate calls when we move to JDK 6
-
   private DoubleUtils() {
   }
 
-  static double next(double x, boolean up) {
-    // Math.nextAfter is JDK 6.
-    if (x == 0.0) {
-      return up ? Double.MIN_VALUE : -Double.MIN_VALUE;
-    }
-    long bits = Double.doubleToRawLongBits(x);
-    if ((x < 0.0) == up) {
-      bits--;
-    } else {
-      bits++;
-    }
-    return Double.longBitsToDouble(bits);
+  static double nextDown(double d) {
+    return -Math.nextUp(-d);
   }
 
   // The mask for the significand, according to the {@link
@@ -64,66 +50,29 @@ final class DoubleUtils {
 
   static final int EXPONENT_BIAS = 1023;
 
-  static final int MIN_DOUBLE_EXPONENT = -1022;
-
-  static final int MAX_DOUBLE_EXPONENT = 1023;
-
   /**
    * The implicit 1 bit that is omitted in significands of normal doubles.
    */
   static final long IMPLICIT_BIT = SIGNIFICAND_MASK + 1;
 
-  @VisibleForTesting
-  static int getExponent(double d) {
-    // TODO(user): replace with Math.getExponent in JDK 6
-    long bits = Double.doubleToRawLongBits(d);
-    int exponent = (int) ((bits & EXPONENT_MASK) >> SIGNIFICAND_BITS);
-    exponent -= EXPONENT_BIAS;
-    return exponent;
-  }
-
-  /**
-   * Returns {@code d * 2^scale}.
-   */
-  static strictfp double scalb(double d, int scale) {
-    // TODO(user): replace with Math.scalb in JDK 6
-    int exponent = getExponent(d);
-    switch (exponent) {
-      case MAX_DOUBLE_EXPONENT + 1: // NaN, infinity
-        return d;
-      case MIN_DOUBLE_EXPONENT - 1:
-        return d * StrictMath.pow(2.0, scale);
-      default:
-        int newExponent = exponent + scale;
-        if (MIN_DOUBLE_EXPONENT <= newExponent
-            & newExponent <= MAX_DOUBLE_EXPONENT) {
-          long bits = Double.doubleToRawLongBits(d);
-          bits &= ~EXPONENT_MASK;
-          bits |= ((long) (newExponent + EXPONENT_BIAS)) << SIGNIFICAND_BITS;
-          return Double.longBitsToDouble(bits);
-        }
-        return d * StrictMath.pow(2.0, scale);
-    }
-  }
-
   static long getSignificand(double d) {
     checkArgument(isFinite(d), "not a normal value");
-    int exponent = getExponent(d);
+    int exponent = Math.getExponent(d);
     long bits = Double.doubleToRawLongBits(d);
     bits &= SIGNIFICAND_MASK;
-    return (exponent == MIN_DOUBLE_EXPONENT - 1)
+    return (exponent == Double.MIN_EXPONENT - 1) 
         ? bits << 1
         : bits | IMPLICIT_BIT;
   }
 
   static boolean isFinite(double d) {
-    return getExponent(d) <= MAX_DOUBLE_EXPONENT;
+    return Math.getExponent(d) <= Double.MAX_EXPONENT;
   }
-
+  
   static boolean isNormal(double d) {
-    return getExponent(d) >= MIN_DOUBLE_EXPONENT;
+    return Math.getExponent(d) >= Double.MIN_EXPONENT;
   }
-
+  
   /*
    * Returns x scaled by a power of 2 such that it is in the range [1, 2). Assumes x is positive,
    * normal, and finite.
@@ -140,16 +89,16 @@ final class DoubleUtils {
     // exponent == floor(log2(abs(x)))
     if (exponent < Long.SIZE - 1) {
       return x.longValue();
-    } else if (exponent > MAX_DOUBLE_EXPONENT) {
+    } else if (exponent > Double.MAX_EXPONENT) {
       return x.signum() * Double.POSITIVE_INFINITY;
     }
-
+    
     /*
      * We need the top SIGNIFICAND_BITS + 1 bits, including the "implicit" one bit. To make
      * rounding easier, we pick out the top SIGNIFICAND_BITS + 2 bits, so we have one to help us
      * round up or down. twiceSignifFloor will contain the top SIGNIFICAND_BITS + 2 bits, and
      * signifFloor the top SIGNIFICAND_BITS + 1.
-     *
+     * 
      * It helps to consider the real number signif = absX * 2^(SIGNIFICAND_BITS - exponent).
      */
     int shift = exponent - SIGNIFICAND_BITS - 1;
