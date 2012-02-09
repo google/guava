@@ -1507,4 +1507,138 @@ public final class Sets {
     }
     return changed;
   }
+
+  @GwtIncompatible("NavigableSet")
+  static class DescendingSet<E> extends ForwardingNavigableSet<E> {
+    private final NavigableSet<E> forward;
+
+    DescendingSet(NavigableSet<E> forward) {
+      this.forward = forward;
+    }
+
+    @Override
+    protected NavigableSet<E> delegate() {
+      return forward;
+    }
+
+    @Override
+    public E lower(E e) {
+      return forward.higher(e);
+    }
+
+    @Override
+    public E floor(E e) {
+      return forward.ceiling(e);
+    }
+
+    @Override
+    public E ceiling(E e) {
+      return forward.floor(e);
+    }
+
+    @Override
+    public E higher(E e) {
+      return forward.lower(e);
+    }
+
+    @Override
+    public E pollFirst() {
+      return forward.pollLast();
+    }
+
+    @Override
+    public E pollLast() {
+      return forward.pollFirst();
+    }
+
+    @Override
+    public NavigableSet<E> descendingSet() {
+      return forward;
+    }
+
+    @Override
+    public Iterator<E> descendingIterator() {
+      return forward.iterator();
+    }
+
+    @Override
+    public NavigableSet<E> subSet(
+        E fromElement,
+        boolean fromInclusive,
+        E toElement,
+        boolean toInclusive) {
+      return forward.subSet(toElement, toInclusive, fromElement, fromInclusive).descendingSet();
+    }
+
+    @Override
+    public NavigableSet<E> headSet(E toElement, boolean inclusive) {
+      return forward.tailSet(toElement, inclusive).descendingSet();
+    }
+
+    @Override
+    public NavigableSet<E> tailSet(E fromElement, boolean inclusive) {
+      return forward.headSet(fromElement, inclusive).descendingSet();
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public Comparator<? super E> comparator() {
+      Comparator<? super E> forwardComparator = forward.comparator();
+      if (forwardComparator == null) {
+        return (Comparator) Ordering.natural().reverse();
+      } else {
+        return reverse(forwardComparator);
+      }
+    }
+
+    // If we inline this, we get a javac error.
+    private static <T> Ordering<T> reverse(Comparator<T> forward) {
+      return Ordering.from(forward).reverse();
+    }
+
+    @Override
+    public E first() {
+      return forward.last();
+    }
+
+    @Override
+    public SortedSet<E> headSet(E toElement) {
+      return standardHeadSet(toElement);
+    }
+
+    @Override
+    public E last() {
+      return forward.first();
+    }
+
+    @Override
+    public SortedSet<E> subSet(E fromElement, E toElement) {
+      return standardSubSet(fromElement, toElement);
+    }
+
+    @Override
+    public SortedSet<E> tailSet(E fromElement) {
+      return standardTailSet(fromElement);
+    }
+
+    @Override
+    public Iterator<E> iterator() {
+      return forward.descendingIterator();
+    }
+
+    @Override
+    public Object[] toArray() {
+      return standardToArray();
+    }
+
+    @Override
+    public <T> T[] toArray(T[] array) {
+      return standardToArray(array);
+    }
+
+    @Override
+    public String toString() {
+      return standardToString();
+    }
+  }
 }
