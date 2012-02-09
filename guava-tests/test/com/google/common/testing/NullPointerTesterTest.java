@@ -31,6 +31,7 @@ import com.google.common.collect.Multimap;
 import com.google.common.collect.Multiset;
 import com.google.common.collect.Sets;
 import com.google.common.collect.Table;
+import com.google.common.testing.NullPointerTester.Visibility;
 
 import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
@@ -774,6 +775,54 @@ public class NullPointerTesterTest extends TestCase {
 
   public void testEmptyEnumDefaultValue() {
     new EmptyEnumDefaultValueChecker().check();
+  }
+
+  private static class VisibilityMethods {
+
+    @SuppressWarnings("unused") // Called by reflection
+    private void privateMethod() {}
+
+    @SuppressWarnings("unused") // Called by reflection
+    void packagePrivateMethod() {}
+
+    @SuppressWarnings("unused") // Called by reflection
+    protected void protectedMethod() {}
+
+    @SuppressWarnings("unused") // Called by reflection
+    public void publicMethod() {}
+  }
+
+  public void testVisibility_public() throws Exception {
+    assertFalse(Visibility.PUBLIC.isVisible(
+        VisibilityMethods.class.getDeclaredMethod("privateMethod")));
+    assertFalse(Visibility.PUBLIC.isVisible(
+        VisibilityMethods.class.getDeclaredMethod("packagePrivateMethod")));
+    assertFalse(Visibility.PUBLIC.isVisible(
+        VisibilityMethods.class.getDeclaredMethod("protectedMethod")));
+    assertTrue(Visibility.PUBLIC.isVisible(
+        VisibilityMethods.class.getDeclaredMethod("publicMethod")));
+  }
+
+  public void testVisibility_protected() throws Exception {
+    assertFalse(Visibility.PROTECTED.isVisible(
+        VisibilityMethods.class.getDeclaredMethod("privateMethod")));
+    assertFalse(Visibility.PROTECTED.isVisible(
+        VisibilityMethods.class.getDeclaredMethod("packagePrivateMethod")));
+    assertTrue(Visibility.PROTECTED.isVisible(
+        VisibilityMethods.class.getDeclaredMethod("protectedMethod")));
+    assertTrue(Visibility.PROTECTED.isVisible(
+        VisibilityMethods.class.getDeclaredMethod("publicMethod")));
+  }
+
+  public void testVisibility_package() throws Exception {
+    assertFalse(Visibility.PACKAGE.isVisible(
+        VisibilityMethods.class.getDeclaredMethod("privateMethod")));
+    assertTrue(Visibility.PACKAGE.isVisible(
+        VisibilityMethods.class.getDeclaredMethod("packagePrivateMethod")));
+    assertTrue(Visibility.PACKAGE.isVisible(
+        VisibilityMethods.class.getDeclaredMethod("protectedMethod")));
+    assertTrue(Visibility.PACKAGE.isVisible(
+        VisibilityMethods.class.getDeclaredMethod("publicMethod")));
   }
 
   /*

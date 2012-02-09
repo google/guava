@@ -79,6 +79,7 @@ import javax.annotation.Nullable;
  */
 @Beta
 public final class NullPointerTester {
+
   private final ClassToInstanceMap<Object> defaults =
       MutableClassToInstanceMap.create();
   private final List<Member> ignoredMembers = Lists.newArrayList();
@@ -157,40 +158,69 @@ public final class NullPointerTester {
   }
 
   /**
-   * Runs {@link #testConstructor} on every public constructor in class {@code
-   * c}.
+   * Runs {@link #testConstructor} on every constructor in class {@code c} that
+   * has at least {@code minimalVisibility}.
    */
-  public void testAllPublicConstructors(Class<?> c) {
+  public void testConstructors(Class<?> c, Visibility minimalVisibility) {
     for (Constructor<?> constructor : c.getDeclaredConstructors()) {
-      if (isPublic(constructor) && !isIgnored(constructor)) {
+      if (minimalVisibility.isVisible(constructor) && !isIgnored(constructor)) {
         testConstructor(constructor);
       }
     }
   }
 
   /**
-   * Runs {@link #testMethod} on every public static method in class
-   * {@code c}.
+   * Runs {@link #testConstructor} on every public constructor in class {@code
+   * c}.
    */
-  public void testAllPublicStaticMethods(Class<?> c) {
+  public void testAllPublicConstructors(Class<?> c) {
+    testConstructors(c, Visibility.PUBLIC);
+  }
+
+  /**
+   * Runs {@link #testMethod} on every static method declared in class {@code c}
+   * that has at least {@code minimalVisibility}.
+   */
+  public void testStaticMethods(Class<?> c, Visibility minimalVisibility) {
     for (Method method : c.getDeclaredMethods()) {
-      if (isPublic(method) && isStatic(method) && !isIgnored(method)) {
+      if (minimalVisibility.isVisible(method)
+          && isStatic(method)
+          && !isIgnored(method)) {
         testMethod(null, method);
       }
     }
   }
 
   /**
-   * Runs {@link #testMethod} on every public instance method of
-   * {@code instance}.
+   * Runs {@link #testMethod} on every public static method declared by class
+   * {@code c}.
    */
-  public void testAllPublicInstanceMethods(Object instance) {
+  public void testAllPublicStaticMethods(Class<?> c) {
+    testStaticMethods(c, Visibility.PUBLIC);
+  }
+
+  /**
+   * Runs {@link #testMethod} on every instance method declared by the class
+   * of {@code instance} with at least {@code minimalVisibility}.
+   */
+  public void testInstanceMethods(
+      Object instance, Visibility minimalVisibility) {
     Class<?> c = instance.getClass();
     for (Method method : c.getDeclaredMethods()) {
-      if (isPublic(method) && !isStatic(method) && !isIgnored(method)) {
+      if (minimalVisibility.isVisible(method)
+          && !isStatic(method)
+          && !isIgnored(method)) {
         testMethod(instance, method);
       }
     }
+  }
+
+  /**
+   * Runs {@link #testMethod} on every public instance method declared by the
+   * class of {@code instance}.
+   */
+  public void testAllPublicInstanceMethods(Object instance) {
+    testInstanceMethods(instance, Visibility.PUBLIC);
   }
 
   /**
@@ -272,6 +302,38 @@ public final class NullPointerTester {
           ctor.newInstance(params);
         }
       }, paramIndex, ctor.getDeclaringClass());
+  }
+
+  /** Visibility of any method or constructor. */
+  public enum Visibility {
+
+    PACKAGE {
+      @Override boolean isVisible(int modifiers) {
+        return !Modifier.isPrivate(modifiers);
+      }
+    },
+
+    PROTECTED {
+      @Override boolean isVisible(int modifiers) {
+        return Modifier.isPublic(modifiers) || Modifier.isProtected(modifiers);
+      }
+    },
+
+    PUBLIC {
+      @Override boolean isVisible(int modifiers) {
+        return Modifier.isPublic(modifiers);
+      }
+    };
+
+    abstract boolean isVisible(int modifiers);
+
+    /**
+     * Returns {@code true} if {@code member} is visible under {@code this}
+     * visibility.
+     */
+    final boolean isVisible(Member member) {
+      return isVisible(member.getModifiers());
+    }
   }
 
   /**
@@ -365,10 +427,6 @@ public final class NullPointerTester {
     void invoke(Object o, Object[] params)
         throws InvocationTargetException, IllegalAccessException,
             InstantiationException;
-  }
-
-  private static boolean isPublic(Member member) {
-    return Modifier.isPublic(member.getModifiers());
   }
 
   private static boolean isStatic(Member member) {
