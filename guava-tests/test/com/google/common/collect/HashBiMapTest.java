@@ -18,6 +18,8 @@ package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
 
+import junit.framework.TestCase;
+
 import java.util.IdentityHashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -30,19 +32,7 @@ import java.util.Set;
  * @author Mike Bostock
  */
 @GwtCompatible
-public class HashBiMapTest extends AbstractBiMapTest {
-
-  @Override protected BiMap<Integer, String> create() {
-    return HashBiMap.create();
-  }
-
-  public void testCreate() {
-    BiMap<String, String> bimap = HashBiMap.create();
-    assertEquals(0, bimap.size());
-    bimap.put("canada", "dollar");
-    assertEquals("dollar", bimap.get("canada"));
-    assertEquals("canada", bimap.inverse().get("dollar"));
-  }
+public class HashBiMapTest extends TestCase {
 
   public void testMapConstructor() {
     /* Test with non-empty Map. */
@@ -92,10 +82,12 @@ public class HashBiMapTest extends AbstractBiMapTest {
   // The next two tests verify that map entries are not accessed after they're
   // removed, since IdentityHashMap throws an exception when that occurs.
   public void testIdentityKeySetIteratorRemove() {
-    bimap = new AbstractBiMap<Integer, String>(
+    BiMap<Integer, String> bimap = new AbstractBiMap<Integer, String>(
         new IdentityHashMap<Integer, String>(),
         new IdentityHashMap<String, Integer>()) {};
-    putOneTwoThree();
+    bimap.put(1, "one");
+    bimap.put(2, "two");
+    bimap.put(3, "three");
     Iterator<Integer> iterator = bimap.keySet().iterator();
     iterator.next();
     iterator.next();
@@ -107,10 +99,12 @@ public class HashBiMapTest extends AbstractBiMapTest {
   }
 
   public void testIdentityEntrySetIteratorRemove() {
-    bimap = new AbstractBiMap<Integer, String>(
+    BiMap<Integer, String> bimap = new AbstractBiMap<Integer, String>(
         new IdentityHashMap<Integer, String>(),
         new IdentityHashMap<String, Integer>()) {};
-    putOneTwoThree();
+    bimap.put(1, "one");
+    bimap.put(2, "two");
+    bimap.put(3, "three");
     Iterator<Entry<Integer, String>> iterator = bimap.entrySet().iterator();
     iterator.next();
     iterator.next();

@@ -16,28 +16,104 @@
 
 package com.google.common.collect;
 
+import static com.google.common.base.Preconditions.checkArgument;
+
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.MapConstraintsTest.TestKeyException;
 import com.google.common.collect.MapConstraintsTest.TestValueException;
+import com.google.common.collect.testing.features.CollectionSize;
+import com.google.common.collect.testing.features.MapFeature;
+import com.google.common.collect.testing.google.BiMapTestSuiteBuilder;
+import com.google.common.collect.testing.google.TestStringBiMapGenerator;
+
+import junit.framework.Test;
+import junit.framework.TestCase;
+import junit.framework.TestSuite;
+
+import java.util.Map.Entry;
 
 /**
  * Tests for {@link MapConstraints#constrainedBiMap}.
- *
+ * 
  * @author Jared Levy
+ * @author Louis Wasserman
  */
-@GwtCompatible(emulated = true)
-public class ConstrainedBiMapTest extends AbstractBiMapTest {
+@GwtCompatible
+public class ConstrainedBiMapTest extends TestCase {
 
-  private static final Integer TEST_KEY = 42;
+  private static final String TEST_KEY = "42";
   private static final String TEST_VALUE = "test";
-  private static final MapConstraint<Integer, String> TEST_CONSTRAINT
-      = new TestConstraint();
+  private static final MapConstraint<String, String> TEST_CONSTRAINT = new TestConstraint();
 
-  private static final class TestConstraint
-      implements MapConstraint<Integer, String> {
+  public static Test suite() {
+    TestSuite suite = new TestSuite();
+    suite.addTest(BiMapTestSuiteBuilder
+        .using(new ConstrainedBiMapGenerator())
+        .named("Maps.constrainedBiMap[HashBiMap]")
+        .withFeatures(
+            CollectionSize.ANY,
+            MapFeature.ALLOWS_NULL_KEYS,
+            MapFeature.ALLOWS_NULL_VALUES,
+            MapFeature.GENERAL_PURPOSE,
+            MapFeature.REJECTS_DUPLICATES_AT_CREATION)
+        .createTestSuite());
+    suite.addTestSuite(ConstrainedBiMapTest.class);
+    return suite;
+  }
+
+  public void testPutWithForbiddenKeyForbiddenValue() {
+    BiMap<String, String> map = MapConstraints.constrainedBiMap(
+        HashBiMap.<String, String> create(),
+        TEST_CONSTRAINT);
+    try {
+      map.put(TEST_KEY, TEST_VALUE);
+      fail("Expected IllegalArgumentException");
+    } catch (IllegalArgumentException expected) {
+      // success
+    }
+  }
+
+  public void testPutWithForbiddenKeyAllowedValue() {
+    BiMap<String, String> map = MapConstraints.constrainedBiMap(
+        HashBiMap.<String, String> create(),
+        TEST_CONSTRAINT);
+    try {
+      map.put(TEST_KEY, "allowed");
+      fail("Expected IllegalArgumentException");
+    } catch (IllegalArgumentException expected) {
+      // success
+    }
+  }
+
+  public void testPutWithAllowedKeyForbiddenValue() {
+    BiMap<String, String> map = MapConstraints.constrainedBiMap(
+        HashBiMap.<String, String> create(),
+        TEST_CONSTRAINT);
+    try {
+      map.put("allowed", TEST_VALUE);
+      fail("Expected IllegalArgumentException");
+    } catch (IllegalArgumentException expected) {
+      // success
+    }
+  }
+
+  public static final class ConstrainedBiMapGenerator extends TestStringBiMapGenerator {
     @Override
-    public void checkKeyValue(Integer key, String value) {
+    protected BiMap<String, String> create(Entry<String, String>[] entries) {
+      BiMap<String, String> bimap = MapConstraints.constrainedBiMap(
+          HashBiMap.<String, String> create(),
+          TEST_CONSTRAINT);
+      for (Entry<String, String> entry : entries) {
+        checkArgument(!bimap.containsKey(entry.getKey()));
+        bimap.put(entry.getKey(), entry.getValue());
+      }
+      return bimap;
+    }
+  }
+
+  private static final class TestConstraint implements MapConstraint<String, String> {
+    @Override
+    public void checkKeyValue(String key, String value) {
       if (TEST_KEY.equals(key)) {
         throw new TestKeyException();
       }
@@ -45,24 +121,7 @@ public class ConstrainedBiMapTest extends AbstractBiMapTest {
         throw new TestValueException();
       }
     }
+
     private static final long serialVersionUID = 0;
   }
-
-  @Override protected BiMap<Integer, String> create() {
-    return MapConstraints.constrainedBiMap(
-        HashBiMap.<Integer, String>create(), TEST_CONSTRAINT);
-  }
-
-  // not serializable
-  @GwtIncompatible("SerializableTester")
-  @Override
-  public void testSerialization() {}
-  
-  @GwtIncompatible("SerializableTester")
-  @Override
-  public void testSerializationWithInverseEqual() {}
-  
-  @GwtIncompatible("SerializableTester")
-  @Override
-  public void testSerializationWithInverseSame() {}
 }

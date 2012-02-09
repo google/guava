@@ -45,7 +45,7 @@ abstract class AbstractBiMap<K, V> extends ForwardingMap<K, V>
     implements BiMap<K, V>, Serializable {
 
   private transient Map<K, V> delegate;
-  private transient AbstractBiMap<V, K> inverse;
+  transient AbstractBiMap<V, K> inverse;
 
   /** Package-private constructor for creating a map-backed bimap. */
   AbstractBiMap(Map<K, V> forward, Map<V, K> backward) {
@@ -60,6 +60,20 @@ abstract class AbstractBiMap<K, V> extends ForwardingMap<K, V>
 
   @Override protected Map<K, V> delegate() {
     return delegate;
+  }
+  
+  /**
+   * Returns its input, or throws an exception if this is not a valid key.
+   */
+  K checkKey(K key) {
+    return key;
+  }
+  
+  /**
+   * Returns its input, or throws an exception if this is not a valid value.
+   */
+  V checkValue(V value) {
+    return value;
   }
 
   /**
@@ -98,6 +112,8 @@ abstract class AbstractBiMap<K, V> extends ForwardingMap<K, V>
   }
 
   private V putInBothMaps(@Nullable K key, @Nullable V value, boolean force) {
+    checkKey(key);
+    checkValue(value);
     boolean containedKey = containsKey(key);
     if (containedKey && Objects.equal(value, get(key))) {
       return value;
@@ -378,6 +394,16 @@ abstract class AbstractBiMap<K, V> extends ForwardingMap<K, V>
      * If a bimap and its inverse are serialized together, the deserialized
      * instances have inverse() methods that return the other.
      */
+
+    @Override
+    K checkKey(K key) {
+      return inverse.checkValue(key);
+    }
+
+    @Override
+    V checkValue(V value) {
+      return inverse.checkKey(value);
+    }
   }
 }
 

@@ -17,6 +17,7 @@
 package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -108,6 +109,16 @@ public final class EnumBiMap<K extends Enum<K>, V extends Enum<V>>
   /** Returns the associated value type. */
   public Class<V> valueType() {
     return valueType;
+  }
+
+  @Override
+  K checkKey(K key) {
+    return checkNotNull(key);
+  }
+
+  @Override
+  V checkValue(V value) {
+    return checkNotNull(value);
   }
 
   /**

@@ -17,8 +17,6 @@
 package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.annotations.GwtIncompatible;
-import com.google.common.testing.SerializableTester;
 
 import junit.framework.TestCase;
 
@@ -31,7 +29,7 @@ import java.util.Set;
  *
  * @author Mike Bostock
  */
-@GwtCompatible(emulated = true)
+@GwtCompatible
 public class EnumHashBiMapTest extends TestCase {
   private enum Currency { DOLLAR, PESO, FRANC }
   private enum Country { CANADA, CHILE, SWITZERLAND }
@@ -128,35 +126,8 @@ public class EnumHashBiMapTest extends TestCase {
     assertEquals(Currency.class, bimap.keyType());
   }
 
-  @GwtIncompatible("SerializationTester")
-  public void testSerialization() {
-    Map<Currency, String> map = ImmutableMap.of(
-        Currency.DOLLAR, "dollar",
-        Currency.PESO, "peso",
-        Currency.FRANC, "franc");
-    EnumHashBiMap<Currency, String> bimap
-        = EnumHashBiMap.create(map);
-
-    BiMap<Currency, String> copy =
-        SerializableTester.reserializeAndAssert(bimap);
-    assertEquals(bimap.inverse(), copy.inverse());
-  }
-
-  public void testForcePut() {
-    EnumHashBiMap<Currency, String> bimap =
-        EnumHashBiMap.create(Currency.class);
-    bimap.put(Currency.DOLLAR, "dollar");
-    try {
-      bimap.put(Currency.PESO, "dollar");
-    } catch (IllegalArgumentException expected) {}
-    bimap.forcePut(Currency.PESO, "dollar");
-    assertEquals("dollar", bimap.get(Currency.PESO));
-    assertEquals(Currency.PESO, bimap.inverse().get("dollar"));
-    assertEquals(1, bimap.size());
-    assertEquals(1, bimap.inverse().size());
-  }
-
   public void testEntrySet() {
+    // Bug 3168290
     Map<Currency, String> map = ImmutableMap.of(
         Currency.DOLLAR, "dollar",
         Currency.PESO, "peso",
@@ -168,5 +139,4 @@ public class EnumHashBiMapTest extends TestCase {
     uniqueEntries.addAll(bimap.entrySet());
     assertEquals(3, uniqueEntries.size());
   }
-  /* Remaining behavior tested by AbstractBiMapTest. */
 }

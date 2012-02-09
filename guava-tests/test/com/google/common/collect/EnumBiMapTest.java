@@ -19,8 +19,6 @@ package com.google.common.collect;
 import static org.junit.contrib.truth.Truth.ASSERT;
 
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.annotations.GwtIncompatible;
-import com.google.common.testing.SerializableTester;
 
 import junit.framework.TestCase;
 
@@ -34,7 +32,7 @@ import java.util.Set;
  * @author Mike Bostock
  * @author Jared Levy
  */
-@GwtCompatible(emulated = true)
+@GwtCompatible
 public class EnumBiMapTest extends TestCase {
   private enum Currency { DOLLAR, FRANC, PESO }
   private enum Country { CANADA, CHILE, SWITZERLAND }
@@ -112,19 +110,6 @@ public class EnumBiMapTest extends TestCase {
     assertEquals(Country.class, bimap.valueType());
   }
 
-  @GwtIncompatible("SerializationTester")
-  public void testSerialization() {
-    Map<Currency, Country> map = ImmutableMap.of(
-        Currency.DOLLAR, Country.CANADA,
-        Currency.PESO, Country.CHILE,
-        Currency.FRANC, Country.SWITZERLAND);
-    EnumBiMap<Currency, Country> bimap = EnumBiMap.create(map);
-
-    BiMap<Currency, Country> copy =
-        SerializableTester.reserializeAndAssert(bimap);
-    assertEquals(bimap.inverse(), copy.inverse());
-  }
-
   public void testIterationOrder() {
     // The enum orderings are alphabetical, leading to the bimap and its inverse
     // having inconsistent iteration orderings.
@@ -149,6 +134,7 @@ public class EnumBiMapTest extends TestCase {
   }
 
   public void testEntrySet() {
+    // Bug 3168290
     Map<Currency, Country> map = ImmutableMap.of(
         Currency.DOLLAR, Country.CANADA,
         Currency.PESO, Country.CHILE,

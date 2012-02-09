@@ -16,6 +16,8 @@
 
 package com.google.common.collect;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 
@@ -81,7 +83,12 @@ public final class EnumHashBiMap<K extends Enum<K>, V>
     this.keyType = keyType;
   }
 
-  // Overriding these two methods to show that values may be null (but not keys)
+  // Overriding these three methods to show that values may be null (but not keys)
+
+  @Override
+  K checkKey(K key) {
+    return checkNotNull(key);
+  }
 
   @Override public V put(K key, @Nullable V value) {
     return super.put(key, value);

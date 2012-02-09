@@ -30,6 +30,7 @@ import com.google.common.collect.testing.features.MapFeature;
 @GwtCompatible
 public class BiMapPutTester<K, V> extends AbstractBiMapTester<K, V> {
   
+  @SuppressWarnings("unchecked")
   @MapFeature.Require(SUPPORTS_PUT)
   @CollectionSize.Require(ZERO)
   public void testPutWithSameValueFails() {
@@ -44,12 +45,10 @@ public class BiMapPutTester<K, V> extends AbstractBiMapTester<K, V> {
       // success
     }
     // verify that the bimap is unchanged
-    Helpers.assertContentsAnyOrder(getMap().entrySet(), 
-        Helpers.mapEntry(k0, v0));
-    Helpers.assertContentsAnyOrder(getMap().inverse().entrySet(), 
-        Helpers.mapEntry(v0, k0));
+    expectAdded(samples.e0);
   }
 
+  @SuppressWarnings("unchecked")
   @MapFeature.Require(SUPPORTS_PUT)
   @CollectionSize.Require(ZERO)
   public void testPutPresentKeyDifferentValue() {
@@ -60,21 +59,19 @@ public class BiMapPutTester<K, V> extends AbstractBiMapTester<K, V> {
     getMap().put(k0, v1);
     // verify that the bimap is changed, and that the old inverse mapping 
     // from v1 -> v0 is deleted
-    Helpers.assertContentsAnyOrder(getMap().entrySet(),
-        Helpers.mapEntry(k0, v1));
-    Helpers.assertContentsAnyOrder(getMap().inverse().entrySet(), 
-        Helpers.mapEntry(v1, k0));
+    expectContents(Helpers.mapEntry(k0, v1));
   }
   
+  @SuppressWarnings("unchecked")
   @MapFeature.Require(SUPPORTS_PUT)
   @CollectionSize.Require(ZERO)
   public void putDistinctKeysDistinctValues() {
     getMap().put(samples.e0.getKey(), samples.e0.getValue());
     getMap().put(samples.e1.getKey(), samples.e1.getValue());
-    Helpers.assertContentsAnyOrder(getMap().entrySet(),
-        samples.e0, samples.e1);
+    expectAdded(samples.e0, samples.e1);
   }
 
+  @SuppressWarnings("unchecked")
   @MapFeature.Require(SUPPORTS_PUT)
   @CollectionSize.Require(ZERO)
   public void testForcePutOverwritesOldValueEntry() {
@@ -84,7 +81,19 @@ public class BiMapPutTester<K, V> extends AbstractBiMapTester<K, V> {
     getMap().put(k0, v0);
     getMap().forcePut(k1, v0);
     // verify that the bimap is unchanged
-    Helpers.assertContentsAnyOrder(getMap().entrySet(),
-        Helpers.mapEntry(k1, v0));
+    expectAdded(Helpers.mapEntry(k1, v0));
+  }
+  
+  @SuppressWarnings("unchecked")
+  @MapFeature.Require(SUPPORTS_PUT)
+  @CollectionSize.Require(ZERO)
+  public void testInversePut() {
+    K k0 = samples.e0.getKey();
+    V v0 = samples.e0.getValue();
+    K k1 = samples.e1.getKey();
+    V v1 = samples.e1.getValue();
+    getMap().put(k0, v0);
+    getMap().inverse().put(v1, k1);
+    expectAdded(samples.e0, samples.e1);
   }
 }

@@ -26,6 +26,7 @@ import com.google.common.collect.testing.MapInterfaceTest;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.MapFeature;
+import com.google.common.collect.testing.google.BiMapInverseTester;
 import com.google.common.collect.testing.google.BiMapTestSuiteBuilder;
 import com.google.common.collect.testing.google.TestStringBiMapGenerator;
 import com.google.common.testing.SerializableTester;
@@ -64,6 +65,7 @@ public class ImmutableBiMapTest extends TestCase {
         .withFeatures(CollectionSize.ANY,
             CollectionFeature.SERIALIZABLE,
             MapFeature.REJECTS_DUPLICATES_AT_CREATION)
+        .suppressing(BiMapInverseTester.getInverseSameAfterSerializingMethods())
         .createTestSuite());
 
     return suite;
