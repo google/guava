@@ -16,12 +16,16 @@
 
 package com.google.common.hash;
 
+import static com.google.common.hash.Hashing.ConcatenatedHashFunction;
+
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.common.util.concurrent.AtomicLongMap;
+import com.google.common.testing.NullPointerTester;
 
 import junit.framework.TestCase;
 
+import java.nio.ByteBuffer;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
@@ -185,14 +189,6 @@ public class HashingTest extends TestCase {
     assertEquals(Hashing.consistentHash(equivLong, 5555), Hashing.consistentHash(hashCode, 5555));
   }
 
-  public void testCombineOrdered_null() {
-    try {
-      Hashing.combineOrdered(null);
-      fail();
-    } catch (NullPointerException expected) {
-    }
-  }
-
   public void testCombineOrdered_empty() {
     try {
       Hashing.combineOrdered(Collections.<HashCode>emptySet());
@@ -235,14 +231,6 @@ public class HashingTest extends TestCase {
     assertFalse(hashCode1.equals(hashCode2));
   }
 
-  public void testCombineUnordered_null() {
-    try {
-      Hashing.combineUnordered(null);
-      fail();
-    } catch (NullPointerException expected) {
-    }
-  }
-
   public void testCombineUnordered_empty() {
     try {
       Hashing.combineUnordered(Collections.<HashCode>emptySet());
@@ -282,5 +270,32 @@ public class HashingTest extends TestCase {
     HashCode hashCode2 = Hashing.combineUnordered(hashCodes);
 
     assertEquals(hashCode1, hashCode2);
+  }
+
+  public void testConcatenatedHashFunction_bits() {
+    assertEquals(Hashing.md5().bits(),
+        new ConcatenatedHashFunction(Hashing.md5()).bits());
+    assertEquals(Hashing.md5().bits() + Hashing.murmur3_32().bits(),
+        new ConcatenatedHashFunction(Hashing.md5(), Hashing.murmur3_32()).bits());
+    assertEquals(Hashing.md5().bits() + Hashing.murmur3_32().bits() + Hashing.murmur3_128().bits(),
+        new ConcatenatedHashFunction(
+            Hashing.md5(), Hashing.murmur3_32(), Hashing.murmur3_128()).bits());
+  }
+
+  public void testConcatenatedHashFunction_makeHash() {
+    byte[] md5Hash = Hashing.md5().hashLong(42L).asBytes();
+    byte[] murmur3Hash = Hashing.murmur3_32().hashLong(42L).asBytes();
+    byte[] combined = new byte[md5Hash.length + murmur3Hash.length];
+    ByteBuffer buffer = ByteBuffer.wrap(combined);
+    buffer.put(md5Hash);
+    buffer.put(murmur3Hash);
+
+    assertEquals(HashCodes.fromBytes(combined),
+        new ConcatenatedHashFunction(Hashing.md5(), Hashing.murmur3_32()).hashLong(42L));
+  }
+
+  public void testNullPointers() {
+    NullPointerTester tester = new NullPointerTester();
+    tester.testAllPublicStaticMethods(Hashing.class);
   }
 }

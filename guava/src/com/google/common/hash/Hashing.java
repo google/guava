@@ -17,6 +17,7 @@ package com.google.common.hash;
 import static com.google.common.base.Preconditions.checkArgument;
 
 import com.google.common.annotations.Beta;
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.primitives.UnsignedInts;
 
 import java.nio.ByteBuffer;
@@ -266,21 +267,23 @@ public final class Hashing {
     return (bits + 31) & ~31;
   }
 
-  // TODO(kevinb): probably expose this via a Hashing method at some point?
-  private static class ConcatenatedHashFunction extends AbstractCompositeHashFunction {
-    final int bits;
+  // TODO(kevinb): Maybe expose this class via a static Hashing method?
+  @VisibleForTesting
+  static final class ConcatenatedHashFunction extends AbstractCompositeHashFunction {
+    private final int bits;
 
-    ConcatenatedHashFunction(HashFunction[] functions) {
+    ConcatenatedHashFunction(HashFunction... functions) {
       super(functions);
       int bitSum = 0;
-      for (HashFunction f : this.functions) {
-        bitSum += f.bits();
+      for (HashFunction function : functions) {
+        bitSum += function.bits();
       }
       this.bits = bitSum;
     }
 
     @Override
     HashCode makeHash(Hasher[] hashers) {
+      // TODO(user): Get rid of the ByteBuffer here?
       byte[] bytes = new byte[bits / 8];
       ByteBuffer buffer = ByteBuffer.wrap(bytes);
       for (Hasher hasher : hashers) {
