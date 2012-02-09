@@ -75,6 +75,7 @@ public abstract class CharMatcher implements Predicate<Character> {
   public static final CharMatcher WHITESPACE =
       anyOf(BREAKING_WHITESPACE_CHARS + NON_BREAKING_WHITESPACE_CHARS)
           .or(inRange('\u2000', '\u200a'))
+          .withToString("CharMatcher.WHITESPACE")
           .precomputed();
 
   /**
@@ -88,12 +89,14 @@ public abstract class CharMatcher implements Predicate<Character> {
       anyOf(BREAKING_WHITESPACE_CHARS)
           .or(inRange('\u2000', '\u2006'))
           .or(inRange('\u2008', '\u200a'))
+          .withToString("CharMatcher.BREAKING_WHITESPACE")
           .precomputed();
 
   /**
    * Determines whether a character is ASCII, meaning that its code point is less than 128.
    */
-  public static final CharMatcher ASCII = inRange('\0', '\u007f');
+  public static final CharMatcher ASCII = inRange('\0', '\u007f')
+      .withToString("CharMatcher.ASCII");
 
   /**
    * Determines whether a character is a digit according to
@@ -110,7 +113,7 @@ public abstract class CharMatcher implements Predicate<Character> {
     for (char base : zeroes.toCharArray()) {
       digit = digit.or(inRange(base, (char) (base + 9)));
     }
-    DIGIT = digit.precomputed();
+    DIGIT = digit.withToString("CharMatcher.DIGIT").precomputed();
   }
 
   /**
@@ -120,6 +123,10 @@ public abstract class CharMatcher implements Predicate<Character> {
   public static final CharMatcher JAVA_DIGIT = new CharMatcher() {
     @Override public boolean matches(char c) {
       return Character.isDigit(c);
+    }
+
+    @Override public String toString() {
+      return "CharMatcher.JAVA_DIGIT";
     }
   };
 
@@ -132,6 +139,10 @@ public abstract class CharMatcher implements Predicate<Character> {
     @Override public boolean matches(char c) {
       return Character.isLetter(c);
     }
+
+    @Override public String toString() {
+      return "CharMatcher.JAVA_LETTER";
+    }
   };
 
   /**
@@ -141,6 +152,10 @@ public abstract class CharMatcher implements Predicate<Character> {
   public static final CharMatcher JAVA_LETTER_OR_DIGIT = new CharMatcher() {
     @Override public boolean matches(char c) {
       return Character.isLetterOrDigit(c);
+    }
+
+    @Override public String toString() {
+      return "CharMatcher.JAVA_LETTER_OR_DIGIT";
     }
   };
 
@@ -152,6 +167,10 @@ public abstract class CharMatcher implements Predicate<Character> {
     @Override public boolean matches(char c) {
       return Character.isUpperCase(c);
     }
+
+    @Override public String toString() {
+      return "CharMatcher.JAVA_UPPER_CASE";
+    }
   };
 
   /**
@@ -162,6 +181,10 @@ public abstract class CharMatcher implements Predicate<Character> {
     @Override public boolean matches(char c) {
       return Character.isLowerCase(c);
     }
+
+    @Override public String toString() {
+      return "CharMatcher.JAVA_LOWER_CASE";
+    }
   };
 
   /**
@@ -169,7 +192,8 @@ public abstract class CharMatcher implements Predicate<Character> {
    * Character#isISOControl(char)}.
    */
   public static final CharMatcher JAVA_ISO_CONTROL =
-      inRange('\u0000', '\u001f').or(inRange('\u007f', '\u009f'));
+      inRange('\u0000', '\u001f').or(inRange('\u007f', '\u009f'))
+      .withToString("CharMatcher.JAVA_ISO_CONTROL");
 
   /**
    * Determines whether a character is invisible; that is, if its Unicode category is any of
@@ -188,6 +212,7 @@ public abstract class CharMatcher implements Predicate<Character> {
       .or(is('\u3000'))
       .or(inRange('\ud800', '\uf8ff'))
       .or(anyOf("\ufeff\ufff9\ufffa\ufffb"))
+      .withToString("CharMatcher.INVISIBLE")
       .precomputed();
 
   /**
@@ -211,6 +236,7 @@ public abstract class CharMatcher implements Predicate<Character> {
       .or(inRange('\ufb50', '\ufdff'))
       .or(inRange('\ufe70', '\ufeff'))
       .or(inRange('\uff61', '\uffdc'))
+      .withToString("CharMatcher.SINGLE_WIDTH")
       .precomputed();
 
   /** Matches any character. */
@@ -291,6 +317,10 @@ public abstract class CharMatcher implements Predicate<Character> {
         @Override public CharMatcher precomputed() {
           return this;
         }
+
+        @Override public String toString() {
+          return "CharMatcher.ANY";
+        }
       };
 
   /** Matches no characters. */
@@ -369,6 +399,10 @@ public abstract class CharMatcher implements Predicate<Character> {
         @Override public CharMatcher precomputed() {
           return this;
         }
+
+        @Override public String toString() {
+          return "CharMatcher.NONE";
+        }
       };
 
   // Static factories
@@ -405,6 +439,13 @@ public abstract class CharMatcher implements Predicate<Character> {
       @Override public CharMatcher precomputed() {
         return this;
       }
+
+      @Override public String toString() {
+        return new StringBuilder("CharMatcher.is(")
+            .append(Integer.toHexString(match))
+            .append(")")
+            .toString();
+      }
     };
   }
 
@@ -429,6 +470,13 @@ public abstract class CharMatcher implements Predicate<Character> {
 
       @Override public CharMatcher negate() {
         return is(match);
+      }
+
+      @Override public String toString() {
+        return new StringBuilder("CharMatcher.isNot(")
+            .append(Integer.toHexString(match))
+            .append(")")
+            .toString();
       }
     };
   }
@@ -475,6 +523,10 @@ public abstract class CharMatcher implements Predicate<Character> {
           table.set(c);
         }
       }
+
+      @Override public String toString() {
+        return new StringBuilder("CharMatcher.anyOf(\"").append(chars).append("\")").toString();
+      }
     };
   }
 
@@ -513,6 +565,15 @@ public abstract class CharMatcher implements Predicate<Character> {
       @Override public CharMatcher precomputed() {
         return this;
       }
+
+      @Override public String toString() {
+        return new StringBuilder("CharMatcher.inRange(")
+            .append(Integer.toHexString(startInclusive))
+            .append(", ")
+            .append(Integer.toHexString(endInclusive))
+            .append(")")
+            .toString();
+      }
     };
   }
 
@@ -532,6 +593,13 @@ public abstract class CharMatcher implements Predicate<Character> {
 
       @Override public boolean apply(Character character) {
         return predicate.apply(checkNotNull(character));
+      }
+
+      @Override public String toString() {
+        return new StringBuilder("CharMatcher.forPredicate(")
+            .append(predicate)
+            .append(')')
+            .toString();
       }
     };
   }
@@ -575,6 +643,10 @@ public abstract class CharMatcher implements Predicate<Character> {
       @Override public CharMatcher negate() {
         return original;
       }
+
+      @Override public String toString() {
+        return original + ".negate()";
+      }
     };
   }
 
@@ -605,6 +677,12 @@ public abstract class CharMatcher implements Predicate<Character> {
       List<CharMatcher> newComponents = new ArrayList<CharMatcher>(components);
       newComponents.add(checkNotNull(other));
       return new And(newComponents);
+    }
+
+    @Override public String toString() {
+      StringBuilder builder = new StringBuilder("CharMatcher.and(");
+      Joiner.on(", ").appendTo(builder, components);
+      return builder.append(')').toString();
     }
   }
 
@@ -642,6 +720,12 @@ public abstract class CharMatcher implements Predicate<Character> {
         matcher.setBits(table);
       }
     }
+
+    @Override public String toString() {
+      StringBuilder builder = new StringBuilder("CharMatcher.or(");
+      Joiner.on(", ").appendTo(builder, components);
+      return builder.append(')').toString();
+    }
   }
 
   /**
@@ -671,6 +755,7 @@ public abstract class CharMatcher implements Predicate<Character> {
   CharMatcher precomputedInternal() {
     final LookupTable table = new LookupTable();
     setBits(table);
+    final CharMatcher outer = this;
 
     return new CharMatcher() {
       @Override public boolean matches(char c) {
@@ -681,6 +766,30 @@ public abstract class CharMatcher implements Predicate<Character> {
 
       @Override public CharMatcher precomputed() {
         return this;
+      }
+
+      @Override public String toString() {
+        return outer.toString();
+      }
+    };
+  }
+  
+  CharMatcher withToString(final String toString) {
+    final CharMatcher delegate = this;
+    return new CharMatcher() {
+      @Override
+      public boolean matches(char c) {
+        return delegate.matches(c);
+      }
+
+      @Override
+      void setBits(LookupTable table) {
+        delegate.setBits(table);
+      }
+
+      @Override
+      public String toString() {
+        return toString;
       }
     };
   }
@@ -1144,5 +1253,14 @@ public abstract class CharMatcher implements Predicate<Character> {
    */
   @Override public boolean apply(Character character) {
     return matches(character);
+  }
+
+  /**
+   * Returns a string representation of this {@code CharMatcher}, such as
+   * {@code CharMatcher.or(WHITESPACE, JAVA_DIGIT)}.
+   */
+  @Override
+  public String toString() {
+    return super.toString();
   }
 }
