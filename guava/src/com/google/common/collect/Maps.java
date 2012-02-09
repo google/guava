@@ -1923,6 +1923,155 @@ public final class Maps {
   }
 
   /**
+   * Returns an unmodifiable view of the specified navigable map. Query operations on the returned
+   * map read through to the specified map, and attempts to modify the returned map, whether direct
+   * or via its views, result in an {@code UnsupportedOperationException}.
+   *
+   * <p>The returned navigable map will be serializable if the specified navigable map is
+   * serializable.
+   *
+   * @param map the navigable map for which an unmodifiable view is to be returned
+   * @return an unmodifiable view of the specified navigable map
+   * @since 12.0
+   */
+  @GwtIncompatible("NavigableMap")
+  public static <K, V> NavigableMap<K, V> unmodifiableNavigableMap(NavigableMap<K, V> map) {
+    checkNotNull(map);
+    if (map instanceof UnmodifiableNavigableMap) {
+      return map;
+    } else {
+      return new UnmodifiableNavigableMap<K, V>(map);
+    }
+  }
+
+  @Nullable private static <K, V> Entry<K, V> unmodifiableOrNull(@Nullable Entry<K, V> entry) {
+    return (entry == null) ? null : Maps.unmodifiableEntry(entry);
+  }
+
+  @GwtIncompatible("NavigableMap")
+  static class UnmodifiableNavigableMap<K, V>
+      extends ForwardingSortedMap<K, V> implements NavigableMap<K, V>, Serializable {
+    private final NavigableMap<K, V> delegate;
+
+    UnmodifiableNavigableMap(NavigableMap<K, V> delegate) {
+      this.delegate = delegate;
+    }
+
+    @Override
+    protected SortedMap<K, V> delegate() {
+      return Collections.unmodifiableSortedMap(delegate);
+    }
+
+    @Override
+    public Entry<K, V> lowerEntry(K key) {
+      return unmodifiableOrNull(delegate.lowerEntry(key));
+    }
+
+    @Override
+    public K lowerKey(K key) {
+      return delegate.lowerKey(key);
+    }
+
+    @Override
+    public Entry<K, V> floorEntry(K key) {
+      return unmodifiableOrNull(delegate.floorEntry(key));
+    }
+
+    @Override
+    public K floorKey(K key) {
+      return delegate.floorKey(key);
+    }
+
+    @Override
+    public Entry<K, V> ceilingEntry(K key) {
+      return unmodifiableOrNull(delegate.ceilingEntry(key));
+    }
+
+    @Override
+    public K ceilingKey(K key) {
+      return delegate.ceilingKey(key);
+    }
+
+    @Override
+    public Entry<K, V> higherEntry(K key) {
+      return unmodifiableOrNull(delegate.higherEntry(key));
+    }
+
+    @Override
+    public K higherKey(K key) {
+      return delegate.higherKey(key);
+    }
+
+    @Override
+    public Entry<K, V> firstEntry() {
+      return unmodifiableOrNull(delegate.firstEntry());
+    }
+
+    @Override
+    public Entry<K, V> lastEntry() {
+      return unmodifiableOrNull(delegate.lastEntry());
+    }
+
+    @Override
+    public final Entry<K, V> pollFirstEntry() {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public final Entry<K, V> pollLastEntry() {
+      throw new UnsupportedOperationException();
+    }
+
+    private transient UnmodifiableNavigableMap<K, V> descendingMap;
+
+    @Override
+    public NavigableMap<K, V> descendingMap() {
+      UnmodifiableNavigableMap<K, V> result = descendingMap;
+      if (result == null) {
+        descendingMap = result = new UnmodifiableNavigableMap<K, V>(delegate.descendingMap());
+        result.descendingMap = this;
+      }
+      return result;
+    }
+
+    @Override
+    public Set<K> keySet() {
+      return navigableKeySet();
+    }
+
+    @Override
+    public NavigableSet<K> navigableKeySet() {
+      return Sets.unmodifiableNavigableSet(delegate.navigableKeySet());
+    }
+
+    @Override
+    public NavigableSet<K> descendingKeySet() {
+      return Sets.unmodifiableNavigableSet(delegate.descendingKeySet());
+    }
+
+    @Override
+    public
+        NavigableMap<K, V>
+        subMap(K fromKey, boolean fromInclusive, K toKey, boolean toInclusive) {
+      return Maps.unmodifiableNavigableMap(delegate.subMap(
+          fromKey,
+          fromInclusive,
+          toKey,
+          toInclusive));
+    }
+
+    @Override
+    public NavigableMap<K, V> headMap(K toKey, boolean inclusive) {
+      return Maps.unmodifiableNavigableMap(delegate.headMap(toKey, inclusive));
+    }
+
+    @Override
+    public NavigableMap<K, V> tailMap(K fromKey, boolean inclusive) {
+      return Maps.unmodifiableNavigableMap(delegate.tailMap(fromKey, inclusive));
+    }
+  }
+
+  /**
    * {@code AbstractMap} extension that implements {@link #isEmpty()} as {@code
    * entrySet().isEmpty()} instead of {@code size() == 0} to speed up
    * implementations where {@code size()} is O(n), and it delegates the {@code

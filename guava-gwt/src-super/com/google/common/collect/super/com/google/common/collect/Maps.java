@@ -1889,6 +1889,10 @@ public final class Maps {
     }
   }
 
+  @Nullable private static <K, V> Entry<K, V> unmodifiableOrNull(@Nullable Entry<K, V> entry) {
+    return (entry == null) ? null : Maps.unmodifiableEntry(entry);
+  }
+
   /**
    * {@code AbstractMap} extension that implements {@link #isEmpty()} as {@code
    * entrySet().isEmpty()} instead of {@code size() == 0} to speed up
