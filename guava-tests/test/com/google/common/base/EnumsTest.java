@@ -54,7 +54,7 @@ public class EnumsTest extends TestCase {
     assertNull(function.apply("poodlE"));
   }
 
-  public void testValueOfFunction_nullWhenNotMatchingConstant() {
+  public void testValueOfFunction_nullWhenNoMatchingConstant() {
     Function<String, TestEnum> function = Enums.valueOfFunction(TestEnum.class);
     assertNull(function.apply("WOMBAT"));
   }
@@ -71,6 +71,30 @@ public class EnumsTest extends TestCase {
   public void testValueOfFunction_serialization() {
     Function<String, TestEnum> function = Enums.valueOfFunction(TestEnum.class);
     SerializableTester.reserializeAndAssert(function);
+  }
+
+  public void testGetIfPresent() {
+    assertEquals(Optional.of(TestEnum.CHEETO), Enums.getIfPresent(TestEnum.class, "CHEETO"));
+    assertEquals(Optional.of(TestEnum.HONDA), Enums.getIfPresent(TestEnum.class, "HONDA"));
+    assertEquals(Optional.of(TestEnum.POODLE), Enums.getIfPresent(TestEnum.class, "POODLE"));
+
+    assertTrue(Enums.getIfPresent(TestEnum.class, "CHEETO").isPresent());
+    assertTrue(Enums.getIfPresent(TestEnum.class, "HONDA").isPresent());
+    assertTrue(Enums.getIfPresent(TestEnum.class, "POODLE").isPresent());
+
+    assertEquals(TestEnum.CHEETO, Enums.getIfPresent(TestEnum.class, "CHEETO").get());
+    assertEquals(TestEnum.HONDA, Enums.getIfPresent(TestEnum.class, "HONDA").get());
+    assertEquals(TestEnum.POODLE, Enums.getIfPresent(TestEnum.class, "POODLE").get());
+  }
+
+  public void testGetIfPresent_caseSensitive() {
+    assertFalse(Enums.getIfPresent(TestEnum.class, "cHEETO").isPresent());
+    assertFalse(Enums.getIfPresent(TestEnum.class, "Honda").isPresent());
+    assertFalse(Enums.getIfPresent(TestEnum.class, "poodlE").isPresent());
+  }
+
+  public void testGetIfPresent_whenNoMatchingConstant() {
+    assertEquals(Optional.absent(), Enums.getIfPresent(TestEnum.class, "WOMBAT"));
   }
 
   @GwtIncompatible("NullPointerTester")
