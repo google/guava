@@ -123,10 +123,10 @@ public class ImmutableSetTest extends AbstractImmutableSetTest {
   @GwtIncompatible("ImmutableSet.chooseTableSize")
   public void testChooseTableSize() {
     assertEquals(8, ImmutableSet.chooseTableSize(3));
-    assertEquals(16, ImmutableSet.chooseTableSize(4));
+    assertEquals(8, ImmutableSet.chooseTableSize(4));
 
-    assertEquals(1 << 30, ImmutableSet.chooseTableSize(1 << 28));
-    assertEquals(1 << 30, ImmutableSet.chooseTableSize(1 << 29 - 1));
+    assertEquals(1 << 29, ImmutableSet.chooseTableSize(1 << 28));
+    assertEquals(1 << 29, ImmutableSet.chooseTableSize(1 << 29 - 1));
 
     // Now we hit the cap
     assertEquals(1 << 30, ImmutableSet.chooseTableSize(1 << 29));
@@ -142,12 +142,12 @@ public class ImmutableSetTest extends AbstractImmutableSetTest {
 
   @GwtIncompatible("RegularImmutableSet.table not in emulation")
   public void testResizeTable() {
-    verifyTableSize(100, 2, 8);
-    verifyTableSize(100, 5, 16);
-    verifyTableSize(100, 33, 256);
-    verifyTableSize(17, 17, 64);
-    verifyTableSize(17, 16, 64);
-    verifyTableSize(17, 15, 64);
+    verifyTableSize(100, 2, 4);
+    verifyTableSize(100, 5, 8);
+    verifyTableSize(100, 33, 64);
+    verifyTableSize(17, 17, 32);
+    verifyTableSize(17, 16, 32);
+    verifyTableSize(17, 15, 32);
   }
 
   @GwtIncompatible("RegularImmutableSet.table not in emulation")

@@ -20,6 +20,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.primitives.Ints;
 
 import java.io.Serializable;
@@ -198,7 +199,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E>
       @SuppressWarnings("unchecked") // we are careful to only pass in E
       E element = (E) uniqueElements[0];
       return new SingletonImmutableSet<E>(element, hashCode);
-    } else if (tableSize > 2 * chooseTableSize(uniqueElements.length)) {
+    } else if (tableSize != chooseTableSize(uniqueElements.length)) {
       // Resize the table when the array includes too many duplicates.
       // when this happens, we have already made a copy
       return construct(uniqueElements);
@@ -210,18 +211,29 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E>
   // We use power-of-2 tables, and this is the highest int that's a power of 2
   static final int MAX_TABLE_SIZE = Ints.MAX_POWER_OF_TWO;
 
+  // Represents how tightly we can pack things, as a maximum.
+  private static final double DESIRED_LOAD_FACTOR = 0.7;
+
   // If the set has this many elements, it will "max out" the table size
-  static final int CUTOFF = 1 << 29;
+  private static final int CUTOFF = (int) Math.floor(MAX_TABLE_SIZE * DESIRED_LOAD_FACTOR);
 
   /**
    * Returns an array size suitable for the backing array of a hash table that
-   * uses linear probing in its implementation.  The returned size is the
-   * smallest power of two that can hold setSize elements while being at most
-   * 50% full, if possible.
+   * uses open addressing with linear probing in its implementation.  The
+   * returned size is the smallest power of two that can hold setSize elements
+   * with the desired load factor.
+   *
+   * <p>Do not call this method with setSize < 2.
    */
-  static int chooseTableSize(int setSize) {
+  @VisibleForTesting static int chooseTableSize(int setSize) {
+    // Correct the size for open addressing to match desired load factor.
     if (setSize < CUTOFF) {
-      return Integer.highestOneBit(setSize) << 2;
+      // Round up to the next highest power of 2.
+      int tableSize = Integer.highestOneBit(setSize - 1) << 1;
+      while (tableSize * DESIRED_LOAD_FACTOR < setSize) {
+        tableSize <<= 1;
+      }
+      return tableSize;
     }
 
     // The table can't be completely full or we'll get infinite reprobes
