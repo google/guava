@@ -19,6 +19,7 @@ import com.google.common.base.Preconditions;
 
 import java.util.ArrayDeque;
 import java.util.Collection;
+import java.util.Deque;
 import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.concurrent.ArrayBlockingQueue;
@@ -31,9 +32,8 @@ import java.util.concurrent.SynchronousQueue;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Static utility methods pertaining to {@link Queue}
- * instances. Also see this class's counterparts
- * {@link Lists}, {@link Sets}, and {@link Maps}.
+ * Static utility methods pertaining to {@link Queue} and {@link Deque} instances.
+ * Also see this class's counterparts {@link Lists}, {@link Sets}, and {@link Maps}.
  *
  * @author Kurt Alfred Kluever
  * @since 11.0
@@ -54,6 +54,30 @@ public final class Queues {
   }
 
   // ArrayDeque
+
+  /**
+   * Creates an empty {@code ArrayDeque} instance.
+   *
+   * @return a new, empty {@code ArrayDeque}
+   */
+  public static <E> ArrayDeque<E> newArrayDeque() {
+    return new ArrayDeque<E>();
+  }
+
+  /**
+   * Creates an {@code ArrayDeque} instance containing the given elements.
+   *
+   * @param elements the elements that the queue should contain, in order
+   * @return a new {@code ArrayDeque} containing those elements
+   */
+  public static <E> ArrayDeque<E> newArrayDeque(Iterable<? extends E> elements) {
+    if (elements instanceof Collection) {
+      return new ArrayDeque<E>(Collections2.cast(elements));
+    }
+    ArrayDeque<E> deque = new ArrayDeque<E>();
+    Iterables.addAll(deque, elements);
+    return deque;
+  }
 
   // ConcurrentLinkedQueue
 
@@ -83,6 +107,41 @@ public final class Queues {
   }
 
   // LinkedBlockingDeque
+
+  /**
+   * Creates an empty {@code LinkedBlockingDeque} instance.
+   *
+   * @return a new, empty {@code LinkedBlockingDeque}
+   */
+  public static <E> LinkedBlockingDeque<E> newLinkedBlockingDeque() {
+    return new LinkedBlockingDeque<E>();
+  }
+
+  /**
+   * Creates a {@code LinkedBlockingDeque} with the given (fixed) capacity.
+   *
+   * @param capacity the capacity of this deque
+   * @return a new, empty {@code LinkedBlockingDeque}
+   * @throws IllegalArgumentException if {@code capacity} is less than 1
+   */
+  public static <E> LinkedBlockingDeque<E> newLinkedBlockingDeque(int capacity) {
+    return new LinkedBlockingDeque<E>(capacity);
+  }
+
+  /**
+   * Creates an {@code LinkedBlockingDeque} instance containing the given elements.
+   *
+   * @param elements the elements that the queue should contain, in order
+   * @return a new {@code LinkedBlockingDeque} containing those elements
+   */
+  public static <E> LinkedBlockingDeque<E> newLinkedBlockingDeque(Iterable<? extends E> elements) {
+    if (elements instanceof Collection) {
+      return new LinkedBlockingDeque<E>(Collections2.cast(elements));
+    }
+    LinkedBlockingDeque<E> deque = new LinkedBlockingDeque<E>();
+    Iterables.addAll(deque, elements);
+    return deque;
+  }
 
   // LinkedBlockingQueue
 
@@ -186,12 +245,12 @@ public final class Queues {
   public static <E> SynchronousQueue<E> newSynchronousQueue() {
     return new SynchronousQueue<E>();
   }
-
+  
   /**
-   * Drains the queue as {@link BlockingQueue#drainTo(Collection, int)}, but if the requested
+   * Drains the queue as {@link BlockingQueue#drainTo(Collection, int)}, but if the requested 
    * {@code numElements} elements are not available, it will wait for them up to the specified
    * timeout.
-   *
+   * 
    * @param q the blocking queue to be drained
    * @param buffer where to add the transferred elements
    * @param numElements the number of elements to be waited for
@@ -225,13 +284,13 @@ public final class Queues {
     }
     return added;
   }
-
+  
   /**
-   * Drains the queue as {@linkplain #drain(BlockingQueue, Collection, int, long, TimeUnit)},
-   * but with a different behavior in case it is interrupted while waiting. In that case, the
-   * operation will continue as usual, and in the end the thread's interruption status will be set
-   * (no {@code InterruptedException} is thrown).
-   *
+   * Drains the queue as {@linkplain #drain(BlockingQueue, Collection, int, long, TimeUnit)}, 
+   * but with a different behavior in case it is interrupted while waiting. In that case, the 
+   * operation will continue as usual, and in the end the thread's interruption status will be set 
+   * (no {@code InterruptedException} is thrown). 
+   * 
    * @param q the blocking queue to be drained
    * @param buffer where to add the transferred elements
    * @param numElements the number of elements to be waited for
@@ -239,7 +298,7 @@ public final class Queues {
    * @param unit a {@code TimeUnit} determining how to interpret the timeout parameter
    * @return the number of elements transferred
    */
-  public static <E> int drainUninterruptibly(BlockingQueue<E> q, Collection<? super E> buffer,
+  public static <E> int drainUninterruptibly(BlockingQueue<E> q, Collection<? super E> buffer, 
       int numElements, long timeout, TimeUnit unit) {
     Preconditions.checkNotNull(buffer);
     long deadline = System.nanoTime() + unit.toNanos(timeout);
@@ -247,7 +306,7 @@ public final class Queues {
     boolean interrupted = false;
     try {
       while (added < numElements) {
-        // we could rely solely on #poll, but #drainTo might be more efficient when there are
+        // we could rely solely on #poll, but #drainTo might be more efficient when there are 
         // multiple elements already available (e.g. LinkedBlockingQueue#drainTo locks only once)
         added += q.drainTo(buffer, numElements - added);
         if (added < numElements) { // not enough elements immediately available; will have to poll

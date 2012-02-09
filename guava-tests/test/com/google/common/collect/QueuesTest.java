@@ -208,6 +208,17 @@ public class QueuesTest extends TestCase {
     assertEquals(100, buf.size());
   }
 
+  public void testNewLinkedBlockingDequeCapacity() {
+    try {
+      Queues.newLinkedBlockingDeque(0);
+      fail("Should have thrown IllegalArgumentException");
+    } catch (IllegalArgumentException expected) {
+      // any capacity less than 1 should throw IllegalArgumentException
+    }
+    assertEquals(1, Queues.newLinkedBlockingDeque(1).remainingCapacity());
+    assertEquals(11, Queues.newLinkedBlockingDeque(11).remainingCapacity());
+  }
+
   public void testNewLinkedBlockingQueueCapacity() {
     try {
       Queues.newLinkedBlockingQueue(0);
