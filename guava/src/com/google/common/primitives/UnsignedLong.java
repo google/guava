@@ -33,6 +33,10 @@ import com.google.common.annotations.GwtCompatible;
  *
  * <p><b>Please do not extend this class; it will be made final in the near future.</b>
  *
+ * <p>See the Guava User Guide article on <a href=
+ * "http://code.google.com/p/guava-libraries/wiki/PrimitivesExplained#Unsigned_support">
+ * unsigned primitive utilities</a>.
+ *
  * @author Louis Wasserman
  * @author Colin Evans
  * @since 11.0

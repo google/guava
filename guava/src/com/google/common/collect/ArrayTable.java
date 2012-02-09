@@ -73,6 +73,10 @@ import javax.annotation.Nullable;
  * visible, synchronize access to the table. Unlike other {@code Table}
  * implementations, synchronization is unnecessary between a thread that writes
  * to one cell and a thread that reads from another.
+ * 
+ * <p>See the Guava User Guide article on <a href=
+ * "http://code.google.com/p/guava-libraries/wiki/NewCollectionTypesExplained#Table">
+ * {@code Table}</a>.
  *
  * @author Jared Levy
  * @since 10.0

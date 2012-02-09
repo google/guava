@@ -54,6 +54,11 @@ import javax.annotation.Nullable;
 /**
  * Static utility methods pertaining to the {@link Future} interface.
  *
+ * <p>Many of these methods use the {@link ListenableFuture} API; consult the
+ * Guava User Guide article on <a href=
+ * "http://code.google.com/p/guava-libraries/wiki/ListenableFutureExplained">
+ * {@code ListenableFuture}</a>.
+ *
  * @author Kevin Bourrillion
  * @author Nishant Thakkar
  * @author Sven Mawson

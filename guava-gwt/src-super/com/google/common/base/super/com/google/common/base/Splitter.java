@@ -85,6 +85,10 @@ import javax.annotation.CheckReturnValue;
  * behavior of using five particular whitespace characters as separators, like
  * {@link java.util.StringTokenizer}.
  *
+ * <p>See the Guava User Guide article on <a href=
+ * "http://code.google.com/p/guava-libraries/wiki/StringsExplained#Splitter">
+ * {@code Splitter}</a>.
+ *
  * @author Julien Silland
  * @author Jesse Wilson
  * @author Kevin Bourrillion

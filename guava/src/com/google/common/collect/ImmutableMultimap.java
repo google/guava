@@ -53,6 +53,10 @@ import javax.annotation.Nullable;
  * <p>In addition to methods defined by {@link Multimap}, an {@link #inverse}
  * method is also supported.
  *
+ * <p>See the Guava User Guide article on <a href=
+ * "http://code.google.com/p/guava-libraries/wiki/ImmutableCollectionsExplained">
+ * immutable collections</a>.
+ *
  * @author Jared Levy
  * @since 2.0 (imported from Google Collections Library)
  */

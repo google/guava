@@ -32,6 +32,10 @@ import javax.annotation.Nullable;
  * each return a {@link Set} of values, while {@link #entries} returns a {@code
  * Set} of map entries. Though the method signature doesn't say so explicitly,
  * the map returned by {@link #asMap} has {@code Set} values.
+ * 
+ * <p>See the Guava User Guide article on <a href=
+ * "http://code.google.com/p/guava-libraries/wiki/NewCollectionTypesExplained#Multimap">
+ * {@code Multimap}</a>.
  *
  * @author Jared Levy
  * @since 2.0 (imported from Google Collections Library)

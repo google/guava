@@ -44,6 +44,10 @@ import javax.annotation.Nullable;
  * resulting multiset will violate the {@link java.util.Collection} contract,
  * which is specified in terms of {@link Object#equals}.
  *
+ * <p>See the Guava User Guide article on <a href=
+ * "http://code.google.com/p/guava-libraries/wiki/NewCollectionTypesExplained#Multiset">
+ * {@code Multiset}</a>.
+ *
  * @author Louis Wasserman
  * @author Jared Levy
  * @since 2.0 (imported from Google Collections Library)

@@ -52,6 +52,10 @@ import javax.annotation.Nullable;
  * <p><b>Note:</b> Although this class is not final, it cannot be subclassed as
  * it has no public or protected constructors. Thus, instances of this class are
  * guaranteed to be immutable.
+ * 
+ * <p>See the Guava User Guide article on <a href=
+ * "http://code.google.com/p/guava-libraries/wiki/ImmutableCollectionsExplained">
+ * immutable collections</a>.
  *
  * @author Jared Levy
  * @author Louis Wasserman

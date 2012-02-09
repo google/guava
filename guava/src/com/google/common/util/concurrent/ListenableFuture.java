@@ -29,6 +29,10 @@ import java.util.concurrent.RejectedExecutionException;
  * already completed when the listener is added, the listener will execute
  * immediately.
  *
+ * <p>See the Guava User Guide article on <a href=
+ * "http://code.google.com/p/guava-libraries/wiki/ListenableFutureExplained">
+ * {@code ListenableFuture}</a>.
+ *
  * <h3>Purpose</h3>
  *
  * Most commonly, {@code ListenableFuture} is used as an input to another

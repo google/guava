@@ -65,6 +65,10 @@ import javax.annotation.Nullable;
  * {@link SortedMap}, {@link BiMap}, etc.). Also see this class's counterparts
  * {@link Lists}, {@link Sets} and {@link Queues}.
  *
+ * <p>See the Guava User Guide article on <a href=
+ * "http://code.google.com/p/guava-libraries/wiki/CollectionUtilitiesExplained#Maps">
+ * {@code Maps}</a>.
+ *
  * @author Kevin Bourrillion
  * @author Mike Bostock
  * @author Isaac Shum

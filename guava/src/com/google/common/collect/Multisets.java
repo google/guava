@@ -44,6 +44,10 @@ import com.google.common.primitives.Ints;
  * Provides static utility methods for creating and working with {@link
  * Multiset} instances.
  *
+ * <p>See the Guava User Guide article on <a href=
+ * "http://code.google.com/p/guava-libraries/wiki/CollectionUtilitiesExplained#Multisets">
+ * {@code Multisets}</a>.
+ *
  * @author Kevin Bourrillion
  * @author Mike Bostock
  * @author Louis Wasserman

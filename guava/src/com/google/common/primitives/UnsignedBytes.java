@@ -35,6 +35,10 @@ import java.util.Comparator;
  * as the positive value {@code 256 + b}). The corresponding methods that treat
  * the values as signed are found in {@link SignedBytes}, and the methods for
  * which signedness is not an issue are in {@link Bytes}.
+ * 
+ * <p>See the Guava User Guide article on <a href=
+ * "http://code.google.com/p/guava-libraries/wiki/PrimitivesExplained">
+ * primitive utilities</a>.
  *
  * @author Kevin Bourrillion
  * @author Martin Buchholz

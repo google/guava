@@ -37,6 +37,10 @@ import java.util.RandomAccess;
  * bytes as neither signed nor unsigned</i>. The methods which specifically
  * treat bytes as signed or unsigned are found in {@link SignedBytes} and {@link
  * UnsignedBytes}.
+ * 
+ * <p>See the Guava User Guide article on <a href=
+ * "http://code.google.com/p/guava-libraries/wiki/PrimitivesExplained">
+ * primitive utilities</a>.
  *
  * @author Kevin Bourrillion
  * @since 1.0

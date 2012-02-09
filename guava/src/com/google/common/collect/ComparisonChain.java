@@ -44,6 +44,10 @@ import javax.annotation.Nullable;
  *
  * <p>Once any comparison returns a nonzero value, remaining comparisons are
  * "short-circuited".
+ * 
+ * <p>See the Guava User Guide article on <a href=
+ * "http://code.google.com/p/guava-libraries/wiki/CommonObjectUtilitiesExplained#compare/compareTo">
+ * {@code ComparisonChain}</a>.
  *
  * @author Mark Davis
  * @author Kevin Bourrillion

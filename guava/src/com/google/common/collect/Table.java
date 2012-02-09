@@ -44,6 +44,10 @@ import javax.annotation.Nullable;
  * <p>All methods that modify the table are optional, and the views returned by
  * the table may or may not be modifiable. When modification isn't supported,
  * those methods will throw an {@link UnsupportedOperationException}.
+ * 
+ * <p>See the Guava User Guide article on <a href=
+ * "http://code.google.com/p/guava-libraries/wiki/NewCollectionTypesExplained#Table">
+ * {@code Table}</a>.
  *
  * @author Jared Levy
  * @param <R> the type of the table row keys

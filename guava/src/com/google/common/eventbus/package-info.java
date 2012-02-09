@@ -21,6 +21,10 @@
  * traditional Java in-process event distribution using explicit registration.
  * It is <em>not</em> a general-purpose publish-subscribe system, nor is it
  * intended for interprocess communication.
+ * 
+ * <p>See the Guava User Guide article on <a href=
+ * "http://code.google.com/p/guava-libraries/wiki/EventBusExplained">
+ * {@code EventBus}</a>.
  *
  * <h2>One-Minute Guide</h2>
  *

@@ -57,6 +57,10 @@ import javax.annotation.Nullable;
  *
  * <p>This class is not intended as a direct analogue of any existing "option" or "maybe"
  * construct from other programming environments, though it may bear some similarities.
+ * 
+ * <p>See the Guava User Guide article on <a 
+ * href="http://code.google.com/p/guava-libraries/wiki/UsingAndAvoidingNullExplained#Optional">
+ * using {@code Optional}</a>.
  *
  * @param <T> the type of instance that can be contained. {@code Optional} is naturally
  *     covariant on this type, so it is safe to cast an {@code Optional<T>} to {@code

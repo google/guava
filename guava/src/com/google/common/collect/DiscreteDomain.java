@@ -31,6 +31,10 @@ import java.util.NoSuchElementException;
  * <p>A discrete domain always represents the <i>entire</i> set of values of its
  * type; it cannot represent partial domains such as "prime integers" or
  * "strings of length 5."
+ * 
+ * <p>See the Guava User Guide section on <a href=
+ * "http://code.google.com/p/guava-libraries/wiki/RangesExplained#Discrete_Domains">
+ * {@code DiscreteDomain}</a>.
  *
  * @author Kevin Bourrillion
  * @since 10.0

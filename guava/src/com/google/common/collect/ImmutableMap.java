@@ -47,6 +47,10 @@ import javax.annotation.Nullable;
  * having your element type cache its own hash codes, and by making use of the
  * cached values to short-circuit a slow {@code equals} algorithm.
  *
+ * <p>See the Guava User Guide article on <a href=
+ * "http://code.google.com/p/guava-libraries/wiki/ImmutableCollectionsExplained">
+ * immutable collections</a>.
+ *
  * @author Jesse Wilson
  * @author Kevin Bourrillion
  * @since 2.0 (imported from Google Collections Library)

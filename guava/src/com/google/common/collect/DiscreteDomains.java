@@ -24,6 +24,10 @@ import java.math.BigInteger;
 
 /**
  * Factories for common {@link DiscreteDomain} instances.
+ * 
+ * <p>See the Guava User Guide section on <a href=
+ * "http://code.google.com/p/guava-libraries/wiki/RangesExplained#Discrete_Domains">
+ * {@code DiscreteDomain}</a>.
  *
  * @author Gregory Kick
  * @since 10.0

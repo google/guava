@@ -43,6 +43,10 @@ import javax.annotation.Nullable;
 /**
  * A multiset that supports concurrent modifications and that provides atomic versions of most
  * {@code Multiset} operations (exceptions where noted). Null elements are not supported.
+ * 
+ * <p>See the Guava User Guide article on <a href=
+ * "http://code.google.com/p/guava-libraries/wiki/NewCollectionTypesExplained#Multiset">
+ * {@code Multiset}</a>.
  *
  * @author Cliff L. Biffle
  * @author mike nonemacher

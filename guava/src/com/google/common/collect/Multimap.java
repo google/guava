@@ -49,6 +49,10 @@ import javax.annotation.Nullable;
  * <p>All methods that alter the multimap are optional, and the views returned
  * by the multimap may or may not be modifiable. When modification isn't
  * supported, those methods will throw an {@link UnsupportedOperationException}.
+ * 
+ * <p>See the Guava User Guide article on <a href=
+ * "http://code.google.com/p/guava-libraries/wiki/NewCollectionTypesExplained#Multimap">
+ * {@code Multimap}</a>.
  *
  * @author Jared Levy
  * @param <K> the type of keys maintained by this multimap

@@ -36,6 +36,10 @@ import java.util.RandomAccess;
 /**
  * Static utility methods pertaining to {@code boolean} primitives, that are not
  * already found in either {@link Boolean} or {@link Arrays}.
+ * 
+ * <p>See the Guava User Guide article on <a href=
+ * "http://code.google.com/p/guava-libraries/wiki/PrimitivesExplained">
+ * primitive utilities</a>.
  *
  * @author Kevin Bourrillion
  * @since 1.0

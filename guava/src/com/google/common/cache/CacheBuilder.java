@@ -125,6 +125,10 @@ import javax.annotation.CheckReturnValue;
  * retain all the configuration properties of the original cache. Note that the serialized form does
  * <i>not</i> include cache contents, but only configuration.
  *
+ * <p>See the Guava User Guide article on <a href=
+ * "http://code.google.com/p/guava-libraries/wiki/CachesExplained">caching</a> for a higher-level
+ * explanation.
+ *
  * @param <K> the base key type for all caches created by this builder
  * @param <V> the base value type for all caches created by this builder
  * @author Charles Fry

@@ -34,6 +34,10 @@ import com.google.common.annotations.GwtIncompatible;
  * <p>In some cases, when speed is more important than code readability, it may be faster simply to
  * treat primitive {@code int} values as unsigned, using the methods from {@link UnsignedInts}.
  * 
+ * <p>See the Guava User Guide article on <a href=
+ * "http://code.google.com/p/guava-libraries/wiki/PrimitivesExplained#Unsigned_support">
+ * unsigned primitive utilities</a>.
+ * 
  * @author Louis Wasserman
  * @since 11.0
  */

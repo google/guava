@@ -52,6 +52,10 @@ import javax.annotation.Nullable;
  * produced in this class are <i>lazy</i>, which means that they only advance
  * the backing iteration when absolutely necessary.
  *
+ * <p>See the Guava User Guide section on <a href=
+ * "http://code.google.com/p/guava-libraries/wiki/CollectionUtilitiesExplained#Iterables">
+ * {@code Iterators}</a>.
+ *
  * @author Kevin Bourrillion
  * @author Jared Levy
  * @since 2.0 (imported from Google Collections Library)

@@ -38,6 +38,10 @@ import com.google.common.annotations.GwtCompatible;
  * {@code long} values. When possible, it is recommended that the {@link UnsignedLong} wrapper 
  * class be used, at a small efficiency penalty, to enforce the distinction in the type system.
  * 
+ * <p>See the Guava User Guide article on <a href=
+ * "http://code.google.com/p/guava-libraries/wiki/PrimitivesExplained#Unsigned_support">
+ * unsigned primitive utilities</a>.
+ * 
  * @author Louis Wasserman
  * @author Brian Milch
  * @author Colin Evans

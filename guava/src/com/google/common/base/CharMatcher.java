@@ -44,6 +44,10 @@ import javax.annotation.CheckReturnValue;
  * <p>Example usages: <pre>
  *   String trimmed = {@link #WHITESPACE WHITESPACE}.{@link #trimFrom trimFrom}(userInput);
  *   if ({@link #ASCII ASCII}.{@link #matchesAllOf matchesAllOf}(s)) { ... }</pre>
+ * 
+ * <p>See the Guava User Guide article on <a href=
+ * "http://code.google.com/p/guava-libraries/wiki/StringsExplained#CharMatcher">
+ * {@code CharMatcher}</a>.
  *
  * @author Kevin Bourrillion
  * @since 1.0

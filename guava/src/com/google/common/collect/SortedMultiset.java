@@ -36,6 +36,10 @@ import java.util.SortedSet;
  * resulting multiset will violate the {@link Collection} contract, which it is
  * specified in terms of {@link Object#equals}.
  * 
+ * <p>See the Guava User Guide article on <a href=
+ * "http://code.google.com/p/guava-libraries/wiki/NewCollectionTypesExplained#Multiset">
+ * {@code Multiset}</a>.
+ * 
  * @author Louis Wasserman
  * @since 11.0
  */

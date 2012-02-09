@@ -39,6 +39,10 @@ import javax.annotation.Nullable;
 
 /**
  * Provides static methods that involve a {@code Table}.
+ * 
+ * <p>See the Guava User Guide article on <a href=
+ * "http://code.google.com/p/guava-libraries/wiki/CollectionUtilitiesExplained#Tables">
+ * {@code Tables}</a>.
  *
  * @author Jared Levy
  * @author Louis Wasserman

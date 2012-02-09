@@ -50,6 +50,10 @@ import javax.annotation.Nullable;
  * Static utility methods pertaining to {@link List} instances. Also see this
  * class's counterparts {@link Sets} and {@link Maps}.
  *
+ * <p>See the Guava User Guide article on <a href=
+ * "http://code.google.com/p/guava-libraries/wiki/CollectionUtilitiesExplained#Lists">
+ * {@code Lists}</a>.
+ *
  * @author Kevin Bourrillion
  * @author Mike Bostock
  * @author Louis Wasserman

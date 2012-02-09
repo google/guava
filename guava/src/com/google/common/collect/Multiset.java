@@ -77,6 +77,10 @@ import javax.annotation.Nullable;
  * may wish to use {@link com.google.common.util.concurrent.AtomicLongMap}
  * instead. Note, however, that unlike {@code Multiset}, {@code AtomicLongMap}
  * does not automatically remove zeros.
+ * 
+ * <p>See the Guava User Guide article on <a href=
+ * "http://code.google.com/p/guava-libraries/wiki/NewCollectionTypesExplained#Multiset">
+ * {@code Multiset}</a>.
  *
  * @author Kevin Bourrillion
  * @since 2.0 (imported from Google Collections Library)

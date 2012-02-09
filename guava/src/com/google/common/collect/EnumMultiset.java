@@ -27,6 +27,10 @@ import java.util.Iterator;
 
 /**
  * Multiset implementation backed by an {@link EnumMap}.
+ * 
+ * <p>See the Guava User Guide article on <a href=
+ * "http://code.google.com/p/guava-libraries/wiki/NewCollectionTypesExplained#Multiset">
+ * {@code Multiset}</a>.
  *
  * @author Jared Levy
  * @since 2.0 (imported from Google Collections Library)

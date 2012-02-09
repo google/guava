@@ -58,6 +58,10 @@ import javax.annotation.Nullable;
  * class are serializable if and only if the provided instances that back them
  * are. For example, if {@code ordering} and {@code function} can themselves be
  * serialized, then {@code ordering.onResultOf(function)} can as well.
+ * 
+ * <p>See the Guava User Guide article on <a href=
+ * "http://code.google.com/p/guava-libraries/wiki/OrderingExplained">
+ * {@code Ordering}</a>.
  *
  * @author Jesse Wilson
  * @author Kevin Bourrillion

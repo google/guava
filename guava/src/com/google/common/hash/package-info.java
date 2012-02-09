@@ -15,6 +15,10 @@
 // TODO(user): when things stabilize, flesh this out
 /**
  * Hash functions and related structures.
+ *
+ * <p>See the Guava User Guide article on <a href=
+ * "http://code.google.com/p/guava-libraries/wiki/HashingExplained">
+ * hashing</a>.
  */
 @ParametersAreNonnullByDefault
 package com.google.common.hash;
