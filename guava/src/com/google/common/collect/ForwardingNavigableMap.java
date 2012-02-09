@@ -333,7 +333,10 @@ public abstract class ForwardingNavigableMap<K, V>
    * this {@code NavigableMap}. In many cases, you may wish to override
    * {@link ForwardingNavigableMap#navigableKeySet} to forward to this implementation or a subclass
    * thereof.
+   *
+   * @since 12.0
    */
+  @Beta
   protected class StandardNavigableKeySet extends Maps.NavigableKeySet<K, V> {
     @Override
     NavigableMap<K, V> map() {
