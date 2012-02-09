@@ -25,12 +25,14 @@ import com.google.common.collect.testing.SampleElements;
 import com.google.common.collect.testing.TestCollectionGenerator;
 import com.google.common.collect.testing.TestListGenerator;
 import com.google.common.collect.testing.TestMapEntrySetGenerator;
+import com.google.common.collect.testing.TestStringMapGenerator;
 import com.google.common.collect.testing.TestStringSetGenerator;
 import com.google.common.collect.testing.TestUnhashableCollectionGenerator;
 import com.google.common.collect.testing.UnhashableObject;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
@@ -43,6 +45,17 @@ import java.util.Set;
 @GwtCompatible
 public class MapGenerators {
 
+  public static class ImmutableMapGenerator
+      extends TestStringMapGenerator {
+    @Override protected Map<String, String> create(Entry<String, String>[] entries) {
+      Builder<String, String> builder = ImmutableMap.builder();
+      for (Entry<String, String> entry : entries) {
+        builder.put(entry.getKey(), entry.getValue());
+      }
+      return builder.build();
+    }
+  }
+  
   public static class ImmutableMapKeySetGenerator
       extends TestStringSetGenerator {
     @Override protected Set<String> create(String[] elements) {

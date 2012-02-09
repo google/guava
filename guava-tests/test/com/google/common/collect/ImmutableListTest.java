@@ -28,7 +28,6 @@ import com.google.common.collect.testing.Helpers;
 import com.google.common.collect.testing.ListTestSuiteBuilder;
 import com.google.common.collect.testing.MinimalCollection;
 import com.google.common.collect.testing.MinimalIterable;
-import com.google.common.collect.testing.TestStringListGenerator;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.google.ListGenerators.BuilderAddAllListGenerator;
@@ -72,49 +71,46 @@ public class ImmutableListTest extends TestCase {
     suite.addTest(ListTestSuiteBuilder.using(new ImmutableListOfGenerator())
         .named("ImmutableList")
         .withFeatures(CollectionSize.ANY,
+            CollectionFeature.SERIALIZABLE,
             CollectionFeature.ALLOWS_NULL_QUERIES)
         .createTestSuite());
     suite.addTest(ListTestSuiteBuilder.using(new BuilderAddAllListGenerator())
         .named("ImmutableList, built with Builder.add")
         .withFeatures(CollectionSize.ANY,
+            CollectionFeature.SERIALIZABLE,
             CollectionFeature.ALLOWS_NULL_QUERIES)
         .createTestSuite());
     suite.addTest(ListTestSuiteBuilder.using(new BuilderAddAllListGenerator())
         .named("ImmutableList, built with Builder.addAll")
         .withFeatures(CollectionSize.ANY,
+            CollectionFeature.SERIALIZABLE,
             CollectionFeature.ALLOWS_NULL_QUERIES)
         .createTestSuite());
     suite.addTest(ListTestSuiteBuilder.using(new BuilderReversedListGenerator())
         .named("ImmutableList, reversed")
         .withFeatures(CollectionSize.ANY,
-            CollectionFeature.ALLOWS_NULL_QUERIES)
-        .createTestSuite());
-    suite.addTest(ListTestSuiteBuilder.using(new TestStringListGenerator() {
-          @Override protected List<String> create(String[] elements) {
-            return SerializableTester.reserialize(
-                ImmutableList.copyOf(elements));
-          }
-        })
-        .named("ImmutableList, reserialized")
-        .withFeatures(CollectionSize.ANY,
+            CollectionFeature.SERIALIZABLE,
             CollectionFeature.ALLOWS_NULL_QUERIES)
         .createTestSuite());
     suite.addTest(ListTestSuiteBuilder.using(
         new ImmutableListHeadSubListGenerator())
         .named("ImmutableList, head subList")
         .withFeatures(CollectionSize.ANY,
+            CollectionFeature.SERIALIZABLE,
             CollectionFeature.ALLOWS_NULL_QUERIES)
         .createTestSuite());
     suite.addTest(ListTestSuiteBuilder.using(
         new ImmutableListTailSubListGenerator())
         .named("ImmutableList, tail subList")
         .withFeatures(CollectionSize.ANY,
+            CollectionFeature.SERIALIZABLE,
             CollectionFeature.ALLOWS_NULL_QUERIES)
         .createTestSuite());
     suite.addTest(ListTestSuiteBuilder.using(
         new ImmutableListMiddleSubListGenerator())
         .named("ImmutableList, middle subList")
         .withFeatures(CollectionSize.ANY,
+            CollectionFeature.SERIALIZABLE,
             CollectionFeature.ALLOWS_NULL_QUERIES)
         .createTestSuite());
     suite.addTest(ListTestSuiteBuilder.using(

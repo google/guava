@@ -19,6 +19,7 @@ package com.google.common.collect;
 import static com.google.common.base.Preconditions.checkArgument;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.MapFeature;
 import com.google.common.collect.testing.google.BiMapTestSuiteBuilder;
@@ -56,6 +57,7 @@ public class BiMapCollectionTest extends TestCase {
     suite.addTest(BiMapTestSuiteBuilder.using(new HashBiMapGenerator())
         .named("HashBiMap")
         .withFeatures(CollectionSize.ANY,
+            CollectionFeature.SERIALIZABLE,
             MapFeature.ALLOWS_NULL_KEYS,
             MapFeature.ALLOWS_NULL_VALUES,
             MapFeature.GENERAL_PURPOSE,

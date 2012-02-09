@@ -25,20 +25,17 @@ import com.google.common.collect.ImmutableMap.Builder;
 import com.google.common.collect.testing.CollectionTestSuiteBuilder;
 import com.google.common.collect.testing.ListTestSuiteBuilder;
 import com.google.common.collect.testing.MapInterfaceTest;
+import com.google.common.collect.testing.MapTestSuiteBuilder;
 import com.google.common.collect.testing.MinimalSet;
-import com.google.common.collect.testing.ReserializingTestCollectionGenerator;
-import com.google.common.collect.testing.ReserializingTestSetGenerator;
 import com.google.common.collect.testing.SampleElements.Colliders;
 import com.google.common.collect.testing.SampleElements.Unhashables;
-import com.google.common.collect.testing.SetTestSuiteBuilder;
 import com.google.common.collect.testing.UnhashableObject;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
-import com.google.common.collect.testing.google.MapGenerators.ImmutableMapEntrySetGenerator;
-import com.google.common.collect.testing.google.MapGenerators.ImmutableMapKeySetGenerator;
+import com.google.common.collect.testing.features.MapFeature;
+import com.google.common.collect.testing.google.MapGenerators.ImmutableMapGenerator;
 import com.google.common.collect.testing.google.MapGenerators.ImmutableMapUnhashableValuesGenerator;
 import com.google.common.collect.testing.google.MapGenerators.ImmutableMapValueListGenerator;
-import com.google.common.collect.testing.google.MapGenerators.ImmutableMapValuesGenerator;
 import com.google.common.testing.NullPointerTester;
 import com.google.common.testing.SerializableTester;
 
@@ -67,61 +64,16 @@ public class ImmutableMapTest extends TestCase {
     TestSuite suite = new TestSuite();
     suite.addTestSuite(ImmutableMapTest.class);
 
-    suite.addTest(SetTestSuiteBuilder.using(new ImmutableMapKeySetGenerator())
+    suite.addTest(MapTestSuiteBuilder.using(new ImmutableMapGenerator())
         .withFeatures(
             CollectionSize.ANY,
+            CollectionFeature.SERIALIZABLE_INCLUDING_VIEWS,
             CollectionFeature.KNOWN_ORDER,
-            CollectionFeature.REJECTS_DUPLICATES_AT_CREATION,
+            MapFeature.REJECTS_DUPLICATES_AT_CREATION,
             CollectionFeature.ALLOWS_NULL_QUERIES)
         .named("ImmutableMap.keySet")
         .createTestSuite());
-
-    suite.addTest(SetTestSuiteBuilder.using(new ImmutableMapEntrySetGenerator())
-        .withFeatures(
-            CollectionSize.ANY,
-            CollectionFeature.KNOWN_ORDER,
-            CollectionFeature.REJECTS_DUPLICATES_AT_CREATION,
-            CollectionFeature.ALLOWS_NULL_QUERIES)
-        .named("ImmutableMap.entrySet")
-        .createTestSuite());
-
-    suite.addTest(CollectionTestSuiteBuilder.using(
-        new ImmutableMapValuesGenerator())
-        .withFeatures(CollectionSize.ANY, CollectionFeature.KNOWN_ORDER,
-            CollectionFeature.ALLOWS_NULL_QUERIES)
-        .named("ImmutableMap.values")
-        .createTestSuite());
-
-    suite.addTest(SetTestSuiteBuilder.using(
-        ReserializingTestSetGenerator.newInstance(
-            new ImmutableMapKeySetGenerator()))
-        .withFeatures(
-            CollectionSize.ANY,
-            CollectionFeature.KNOWN_ORDER,
-            CollectionFeature.REJECTS_DUPLICATES_AT_CREATION,
-            CollectionFeature.ALLOWS_NULL_QUERIES)
-        .named("ImmutableMap.keySet, reserialized")
-        .createTestSuite());
-
-    suite.addTest(SetTestSuiteBuilder.using(
-        ReserializingTestSetGenerator.newInstance(
-            new ImmutableMapKeySetGenerator()))
-        .withFeatures(
-            CollectionSize.ANY,
-            CollectionFeature.KNOWN_ORDER,
-            CollectionFeature.REJECTS_DUPLICATES_AT_CREATION,
-            CollectionFeature.ALLOWS_NULL_QUERIES)
-        .named("ImmutableMap.entrySet, reserialized")
-        .createTestSuite());
-
-    suite.addTest(CollectionTestSuiteBuilder.using(
-        ReserializingTestCollectionGenerator.newInstance(
-            new ImmutableMapValuesGenerator()))
-        .withFeatures(CollectionSize.ANY, CollectionFeature.KNOWN_ORDER,
-            CollectionFeature.ALLOWS_NULL_QUERIES)
-        .named("ImmutableMap.values, reserialized")
-        .createTestSuite());
-
+    
     suite.addTest(CollectionTestSuiteBuilder.using(
             new ImmutableMapUnhashableValuesGenerator())
         .withFeatures(CollectionSize.ANY, CollectionFeature.KNOWN_ORDER,
@@ -133,6 +85,7 @@ public class ImmutableMapTest extends TestCase {
         new ImmutableMapValueListGenerator())
         .named("ImmutableMap.values.asList")
         .withFeatures(CollectionSize.ANY,
+            CollectionFeature.SERIALIZABLE,
             CollectionFeature.ALLOWS_NULL_QUERIES)
         .createTestSuite());
 

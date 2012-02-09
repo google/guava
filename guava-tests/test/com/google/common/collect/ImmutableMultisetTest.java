@@ -62,18 +62,7 @@ public class ImmutableMultisetTest extends TestCase {
         })
         .named("ImmutableMultiset")
         .withFeatures(CollectionSize.ANY, 
-            CollectionFeature.ALLOWS_NULL_QUERIES)
-        .createTestSuite());
-
-    suite.addTest(MultisetTestSuiteBuilder.using(
-        new TestStringMultisetGenerator() {
-          @Override protected Multiset<String> create(String[] elements) {
-            return SerializableTester.reserialize(
-                ImmutableMultiset.copyOf(elements));
-          }
-        })
-        .named("ImmutableMultiset, reserialized")
-        .withFeatures(CollectionSize.ANY,
+            CollectionFeature.SERIALIZABLE_INCLUDING_VIEWS,
             CollectionFeature.ALLOWS_NULL_QUERIES)
         .createTestSuite());
 
@@ -85,6 +74,7 @@ public class ImmutableMultisetTest extends TestCase {
         })
         .named("ImmutableMultiset, element set")
         .withFeatures(CollectionSize.ANY,
+            CollectionFeature.SERIALIZABLE,
             CollectionFeature.ALLOWS_NULL_QUERIES)
         .createTestSuite());
 

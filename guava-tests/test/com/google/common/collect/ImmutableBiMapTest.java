@@ -23,6 +23,7 @@ import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableBiMap.Builder;
 import com.google.common.collect.testing.MapInterfaceTest;
+import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.MapFeature;
 import com.google.common.collect.testing.google.BiMapTestSuiteBuilder;
@@ -61,6 +62,7 @@ public class ImmutableBiMapTest extends TestCase {
     suite.addTest(BiMapTestSuiteBuilder.using(new ImmutableBiMapGenerator())
         .named("ImmutableBiMap")
         .withFeatures(CollectionSize.ANY,
+            CollectionFeature.SERIALIZABLE,
             MapFeature.REJECTS_DUPLICATES_AT_CREATION)
         .createTestSuite());
 

@@ -18,6 +18,7 @@ package com.google.common.collect.testing;
 
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.Feature;
+import com.google.common.collect.testing.testers.CollectionSerializationEqualTester;
 import com.google.common.collect.testing.testers.ListAddAllAtIndexTester;
 import com.google.common.collect.testing.testers.ListAddAllTester;
 import com.google.common.collect.testing.testers.ListAddAtIndexTester;
@@ -36,10 +37,15 @@ import com.google.common.collect.testing.testers.ListRetainAllTester;
 import com.google.common.collect.testing.testers.ListSetTester;
 import com.google.common.collect.testing.testers.ListSubListTester;
 import com.google.common.collect.testing.testers.ListToArrayTester;
+import com.google.common.testing.SerializableTester;
 
 import junit.framework.TestSuite;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Creates, based on your criteria, a JUnit test suite that exhaustively tests
@@ -58,6 +64,7 @@ public final class ListTestSuiteBuilder<E> extends
     List<Class<? extends AbstractTester>> testers
         = Helpers.copyToList(super.getTesters());
 
+    testers.add(CollectionSerializationEqualTester.class);
     testers.add(ListAddAllAtIndexTester.class);
     testers.add(ListAddAllTester.class);
     testers.add(ListAddAtIndexTester.class);
@@ -90,5 +97,61 @@ public final class ListTestSuiteBuilder<E> extends
       withFeatures(features);
     }
     return super.createTestSuite();
+  }
+
+  @Override
+  protected
+      List<TestSuite>
+      createDerivedSuites(
+          FeatureSpecificTestSuiteBuilder<
+              ?, ? extends OneSizeTestContainerGenerator<Collection<E>, E>> parentBuilder) {
+    List<TestSuite> derivedSuites = new ArrayList<TestSuite>(
+        super.createDerivedSuites(parentBuilder));
+
+    if (parentBuilder.getFeatures().contains(CollectionFeature.SERIALIZABLE)) {
+      derivedSuites.add(ListTestSuiteBuilder
+          .using(new ReserializedListGenerator<E>(parentBuilder.getSubjectGenerator()))
+          .named(getName() + " reserialized")
+          .withFeatures(computeReserializedCollectionFeatures(parentBuilder.getFeatures()))
+          .createTestSuite());
+    }
+    return derivedSuites;
+  }
+  
+  static class ReserializedListGenerator<E> implements TestListGenerator<E>{
+    final OneSizeTestContainerGenerator<Collection<E>, E> gen;
+
+    private ReserializedListGenerator(OneSizeTestContainerGenerator<Collection<E>, E> gen) {
+      this.gen = gen;
+    }
+
+    @Override
+    public SampleElements<E> samples() {
+      return gen.samples();
+    }
+
+    @Override
+    public List<E> create(Object... elements) {
+      return (List<E>) SerializableTester.reserialize(gen.create(elements));
+    }
+
+    @Override
+    public E[] createArray(int length) {
+      return gen.createArray(length);
+    }
+
+    @Override
+    public Iterable<E> order(List<E> insertionOrder) {
+      return gen.order(insertionOrder);
+    }
+  }
+  
+  private static Set<Feature<?>> computeReserializedCollectionFeatures(
+      Set<Feature<?>> features) {
+    Set<Feature<?>> derivedFeatures = new HashSet<Feature<?>>();
+    derivedFeatures.addAll(features);
+    derivedFeatures.remove(CollectionFeature.SERIALIZABLE);
+    derivedFeatures.remove(CollectionFeature.SERIALIZABLE_INCLUDING_VIEWS);
+    return derivedFeatures;
   }
 }

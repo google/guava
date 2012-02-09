@@ -31,7 +31,9 @@ import com.google.common.collect.testing.testers.MapIsEmptyTester;
 import com.google.common.collect.testing.testers.MapPutAllTester;
 import com.google.common.collect.testing.testers.MapPutTester;
 import com.google.common.collect.testing.testers.MapRemoveTester;
+import com.google.common.collect.testing.testers.MapSerializationTester;
 import com.google.common.collect.testing.testers.MapSizeTester;
+import com.google.common.testing.SerializableTester;
 
 import junit.framework.TestSuite;
 
@@ -73,6 +75,7 @@ public class MapTestSuiteBuilder<K, V>
         MapPutTester.class,
         MapPutAllTester.class,
         MapRemoveTester.class,
+        MapSerializationTester.class,
         MapSizeTester.class
     );
   }
@@ -88,6 +91,15 @@ public class MapTestSuiteBuilder<K, V>
     // reflected in the underlying map.
 
     List<TestSuite> derivedSuites = super.createDerivedSuites(parentBuilder);
+    
+    if (parentBuilder.getFeatures().contains(CollectionFeature.SERIALIZABLE)) {
+      derivedSuites.add(MapTestSuiteBuilder.using(
+              new ReserializedMapGenerator<K, V>(parentBuilder.getSubjectGenerator()))
+          .withFeatures(computeReserializedMapFeatures(parentBuilder.getFeatures()))
+          .named(parentBuilder.getName() + " reserialized")
+          .suppressing(parentBuilder.getSuppressedTests())
+          .createTestSuite());
+    }
 
     derivedSuites.add(SetTestSuiteBuilder.using(
             new MapEntrySetGenerator<K, V>(parentBuilder.getSubjectGenerator()))
@@ -117,6 +129,14 @@ public class MapTestSuiteBuilder<K, V>
 
   protected SetTestSuiteBuilder<K> createDerivedKeySetSuite(TestSetGenerator<K> keySetGenerator) {
     return SetTestSuiteBuilder.using(keySetGenerator);
+  }
+
+  private static Set<Feature<?>> computeReserializedMapFeatures(
+      Set<Feature<?>> mapFeatures) {
+    Set<Feature<?>> derivedFeatures = Helpers.copyToSet(mapFeatures);
+    derivedFeatures.remove(CollectionFeature.SERIALIZABLE);
+    derivedFeatures.remove(CollectionFeature.SERIALIZABLE_INCLUDING_VIEWS);
+    return derivedFeatures;
   }
 
   private static Set<Feature<?>> computeEntrySetFeatures(
@@ -157,6 +177,9 @@ public class MapTestSuiteBuilder<K, V>
   private static Set<Feature<?>> computeCommonDerivedCollectionFeatures(
       Set<Feature<?>> mapFeatures) {
     Set<Feature<?>> derivedFeatures = new HashSet<Feature<?>>();
+    if (mapFeatures.contains(CollectionFeature.SERIALIZABLE_INCLUDING_VIEWS)) {
+      derivedFeatures.add(CollectionFeature.SERIALIZABLE);
+    }
     if (mapFeatures.contains(MapFeature.SUPPORTS_REMOVE)) {
       derivedFeatures.add(CollectionFeature.SUPPORTS_REMOVE);
       derivedFeatures.add(CollectionFeature.SUPPORTS_REMOVE_ALL);
@@ -178,6 +201,51 @@ public class MapTestSuiteBuilder<K, V>
       }
     }
     return derivedFeatures;
+  }
+
+  private static class ReserializedMapGenerator<K, V>
+      implements TestMapGenerator<K, V> {
+    private final OneSizeTestContainerGenerator<Map<K, V>, Map.Entry<K, V>>
+        mapGenerator;
+
+    public ReserializedMapGenerator(
+        OneSizeTestContainerGenerator<
+            Map<K, V>, Map.Entry<K, V>> mapGenerator) {
+      this.mapGenerator = mapGenerator;
+    }
+
+    @Override
+    public SampleElements<Map.Entry<K, V>> samples() {
+      return mapGenerator.samples();
+    }
+
+    @Override
+    public Map.Entry<K, V>[] createArray(int length) {
+      return mapGenerator.createArray(length);
+    }
+
+    @Override
+    public Iterable<Map.Entry<K, V>> order(
+        List<Map.Entry<K, V>> insertionOrder) {
+      return mapGenerator.order(insertionOrder);
+    }
+
+    @Override
+    public Map<K, V> create(Object... elements) {
+      return SerializableTester.reserialize(mapGenerator.create(elements));
+    }
+
+    @Override
+    public K[] createKeyArray(int length) {
+      return ((TestMapGenerator<K, V>) mapGenerator.getInnerGenerator())
+          .createKeyArray(length);
+    }
+
+    @Override
+    public V[] createValueArray(int length) {
+      return ((TestMapGenerator<K, V>) mapGenerator.getInnerGenerator())
+        .createValueArray(length);
+    }
   }
 
   private static class MapEntrySetGenerator<K, V>

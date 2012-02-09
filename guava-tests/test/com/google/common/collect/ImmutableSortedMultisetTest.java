@@ -62,20 +62,7 @@ public class ImmutableSortedMultisetTest extends TestCase {
         return Ordering.natural().sortedCopy(insertionOrder);
       }
     }).named("ImmutableSortedMultiset").withFeatures(CollectionSize.ANY,
-        CollectionFeature.ALLOWS_NULL_QUERIES)
-        .createTestSuite());
-
-    suite.addTest(SortedMultisetTestSuiteBuilder.using(new TestStringMultisetGenerator() {
-      @Override
-      protected Multiset<String> create(String[] elements) {
-        return SerializableTester.reserialize(ImmutableSortedMultiset.copyOf(elements));
-      }
-
-      @Override
-      public List<String> order(List<String> insertionOrder) {
-        return Ordering.natural().sortedCopy(insertionOrder);
-      }
-    }).named("ImmutableSortedMultiset, reserialized").withFeatures(CollectionSize.ANY,
+        CollectionFeature.SERIALIZABLE_INCLUDING_VIEWS,
         CollectionFeature.ALLOWS_NULL_QUERIES)
         .createTestSuite());
 

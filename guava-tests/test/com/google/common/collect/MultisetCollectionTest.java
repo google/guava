@@ -52,6 +52,7 @@ public class MultisetCollectionTest extends TestCase {
     suite.addTest(MultisetTestSuiteBuilder.using(hashMultisetGenerator())
         .withFeatures(CollectionSize.ANY,
             CollectionFeature.ALLOWS_NULL_VALUES,
+            CollectionFeature.SERIALIZABLE,
             CollectionFeature.GENERAL_PURPOSE)
         .named("HashMultiset")
         .createTestSuite());
@@ -59,6 +60,7 @@ public class MultisetCollectionTest extends TestCase {
     suite.addTest(MultisetTestSuiteBuilder.using(
         unmodifiableMultisetGenerator())
         .withFeatures(CollectionSize.ANY, CollectionFeature.KNOWN_ORDER,
+            CollectionFeature.SERIALIZABLE,
             CollectionFeature.ALLOWS_NULL_QUERIES)
         .named("UnmodifiableTreeMultiset")
         .createTestSuite());
@@ -77,6 +79,7 @@ public class MultisetCollectionTest extends TestCase {
         })
         .withFeatures(CollectionSize.ANY, CollectionFeature.KNOWN_ORDER,
             CollectionFeature.GENERAL_PURPOSE,
+            CollectionFeature.SERIALIZABLE,
             CollectionFeature.ALLOWS_NULL_QUERIES)
         .named("TreeMultiset, Ordering.natural")
         .createTestSuite());
@@ -98,12 +101,14 @@ public class MultisetCollectionTest extends TestCase {
         })
         .withFeatures(CollectionSize.ANY, CollectionFeature.KNOWN_ORDER,
             CollectionFeature.GENERAL_PURPOSE,
+            CollectionFeature.SERIALIZABLE,
             CollectionFeature.ALLOWS_NULL_VALUES)
         .named("TreeMultiset, Ordering.natural.nullsFirst")
         .createTestSuite());
 
     suite.addTest(MultisetTestSuiteBuilder.using(forSetGenerator())
         .withFeatures(CollectionSize.ANY, CollectionFeature.ALLOWS_NULL_VALUES,
+            CollectionFeature.SERIALIZABLE,
             CollectionFeature.REMOVE_OPERATIONS)
         .suppressing(getReadsDuplicateInitializingMethods())
         .suppressing(getSetCountDuplicateInitializingMethods())
@@ -115,6 +120,7 @@ public class MultisetCollectionTest extends TestCase {
         concurrentMultisetGenerator())
         .withFeatures(CollectionSize.ANY,
             CollectionFeature.GENERAL_PURPOSE,
+            CollectionFeature.SERIALIZABLE,
             CollectionFeature.ALLOWS_NULL_QUERIES)
         .named("ConcurrentHashMultiset")
         .createTestSuite());

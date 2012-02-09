@@ -23,6 +23,7 @@ import com.google.common.collect.testing.features.MapFeature;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
+import java.io.Serializable;
 import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.Collections;
@@ -44,6 +45,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * @author Kevin Bourrillion
  */
 public class TestsForMapsInJavaUtil {
+
   public static Test suite() {
     return new TestsForMapsInJavaUtil().allTests();
   }
@@ -92,7 +94,7 @@ public class TestsForMapsInJavaUtil {
           })
         .named("emptyMap")
         .withFeatures(
-            CollectionFeature.NONE,
+            CollectionFeature.SERIALIZABLE,
             CollectionSize.ZERO)
         .suppressing(suppressForEmptyMap())
         .createTestSuite();
@@ -111,6 +113,7 @@ public class TestsForMapsInJavaUtil {
         .withFeatures(
             MapFeature.ALLOWS_NULL_KEYS,
             MapFeature.ALLOWS_NULL_VALUES,
+            CollectionFeature.SERIALIZABLE,
             CollectionSize.ONE)
         .suppressing(suppressForSingletonMap())
         .createTestSuite();
@@ -138,6 +141,7 @@ public class TestsForMapsInJavaUtil {
             MapFeature.ALLOWS_NULL_KEYS,
             MapFeature.ALLOWS_NULL_VALUES,
             MapFeature.FAILS_FAST_ON_CONCURRENT_MODIFICATION,
+            CollectionFeature.SERIALIZABLE,
             CollectionSize.ANY)
         .suppressing(suppressForHashMap())
         .createTestSuite();
@@ -158,6 +162,7 @@ public class TestsForMapsInJavaUtil {
             MapFeature.ALLOWS_NULL_VALUES,
             MapFeature.FAILS_FAST_ON_CONCURRENT_MODIFICATION,
             CollectionFeature.KNOWN_ORDER,
+            CollectionFeature.SERIALIZABLE,
             CollectionSize.ANY)
         .suppressing(suppressForLinkedHashMap())
         .createTestSuite();
@@ -179,6 +184,7 @@ public class TestsForMapsInJavaUtil {
             MapFeature.ALLOWS_NULL_VALUES,
             MapFeature.FAILS_FAST_ON_CONCURRENT_MODIFICATION,
             CollectionFeature.KNOWN_ORDER,
+            CollectionFeature.SERIALIZABLE,
             CollectionSize.ANY)
         .suppressing(suppressForTreeMap())
         .createTestSuite();
@@ -199,6 +205,7 @@ public class TestsForMapsInJavaUtil {
             MapFeature.ALLOWS_NULL_VALUES,
             MapFeature.RESTRICTS_KEYS,
             CollectionFeature.KNOWN_ORDER,
+            CollectionFeature.SERIALIZABLE,
             CollectionSize.ANY)
         .suppressing(suppressForEnumMap())
         .createTestSuite();
@@ -215,6 +222,7 @@ public class TestsForMapsInJavaUtil {
         .named("ConcurrentHashMap")
         .withFeatures(
             MapFeature.GENERAL_PURPOSE,
+            CollectionFeature.SERIALIZABLE,
             CollectionSize.ANY)
         .suppressing(suppressForConcurrentHashMap())
         .createTestSuite();
@@ -238,11 +246,13 @@ public class TestsForMapsInJavaUtil {
   }
 
   static <T> Comparator<T> arbitraryNullFriendlyComparator() {
-    return new Comparator<T>() {
-      @Override
-      public int compare(T left, T right) {
-        return String.valueOf(left).compareTo(String.valueOf(right));
-      }
-    };
+    return new NullFriendlyComparator<T>();
+  }
+  
+  private static final class NullFriendlyComparator<T> implements Comparator<T>, Serializable {
+    @Override
+    public int compare(T left, T right) {
+      return String.valueOf(left).compareTo(String.valueOf(right));
+    }
   }
 }

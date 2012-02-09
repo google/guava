@@ -20,6 +20,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 
 import com.google.common.collect.Synchronized.SynchronizedBiMap;
 import com.google.common.collect.Synchronized.SynchronizedSet;
+import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.MapFeature;
 import com.google.common.collect.testing.google.BiMapTestSuiteBuilder;
@@ -53,7 +54,8 @@ public class SynchronizedBiMapTest extends SynchronizedMapTest {
             MapFeature.ALLOWS_NULL_KEYS,
             MapFeature.ALLOWS_NULL_VALUES,
             MapFeature.GENERAL_PURPOSE,
-            MapFeature.REJECTS_DUPLICATES_AT_CREATION)
+            MapFeature.REJECTS_DUPLICATES_AT_CREATION,
+            CollectionFeature.SERIALIZABLE)
         .createTestSuite());
     suite.addTestSuite(AbstractBiMapTests.class);
     return suite;

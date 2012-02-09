@@ -69,6 +69,14 @@ public class ListsTest extends TestCase {
 
   private static final Iterable<Integer> SOME_ITERABLE = new SomeIterable();
 
+  private static final class RemoveFirstFunction
+      implements Function<String, String>, Serializable {
+    @Override
+    public String apply(String from) {
+      return (from.length() == 0) ? from : from.substring(1);
+    }
+  }
+
   private static class SomeIterable implements Iterable<Integer>, Serializable {
     @Override
     public Iterator<Integer> iterator() {
@@ -112,6 +120,7 @@ public class ListsTest extends TestCase {
         })
         .named("Lists.asList, 2 parameter")
         .withFeatures(CollectionSize.SEVERAL, CollectionSize.ONE,
+            CollectionFeature.SERIALIZABLE,
             CollectionFeature.ALLOWS_NULL_VALUES)
         .createTestSuite());
 
@@ -124,16 +133,12 @@ public class ListsTest extends TestCase {
         })
         .named("Lists.asList, 3 parameter")
         .withFeatures(CollectionSize.SEVERAL,
+            CollectionFeature.SERIALIZABLE,
             CollectionFeature.ALLOWS_NULL_VALUES)
         .createTestSuite());
 
     final Function<String, String> removeFirst
-        = new Function<String, String>() {
-            @Override
-            public String apply(String from) {
-              return (from.length() == 0) ? from : from.substring(1);
-            }
-          };
+        = new RemoveFirstFunction();
 
     suite.addTest(ListTestSuiteBuilder.using(new TestStringListGenerator() {
           @Override protected List<String> create(String[] elements) {
@@ -147,6 +152,7 @@ public class ListsTest extends TestCase {
         .named("Lists.transform, random access, no nulls")
         .withFeatures(CollectionSize.ANY,
             ListFeature.REMOVE_OPERATIONS,
+            CollectionFeature.SERIALIZABLE,
             CollectionFeature.ALLOWS_NULL_QUERIES)
         .createTestSuite());
 
@@ -162,6 +168,7 @@ public class ListsTest extends TestCase {
         .named("Lists.transform, sequential access, no nulls")
         .withFeatures(CollectionSize.ANY,
             ListFeature.REMOVE_OPERATIONS,
+            CollectionFeature.SERIALIZABLE,
             CollectionFeature.ALLOWS_NULL_QUERIES)
         .createTestSuite());
 
@@ -174,6 +181,7 @@ public class ListsTest extends TestCase {
         .named("Lists.transform, random access, nulls")
         .withFeatures(CollectionSize.ANY,
             ListFeature.REMOVE_OPERATIONS,
+            CollectionFeature.SERIALIZABLE,
             CollectionFeature.ALLOWS_NULL_VALUES)
         .createTestSuite());
 
@@ -187,6 +195,7 @@ public class ListsTest extends TestCase {
         .named("Lists.transform, sequential access, nulls")
         .withFeatures(CollectionSize.ANY,
             ListFeature.REMOVE_OPERATIONS,
+            CollectionFeature.SERIALIZABLE,
             CollectionFeature.ALLOWS_NULL_VALUES)
         .createTestSuite());
 
@@ -256,7 +265,9 @@ public class ListsTest extends TestCase {
             return new SampleElements<Character>('a', 'b', 'c', 'd', 'e');
           }
         }).named("Lists.charactersOf[String]").withFeatures(
-            CollectionSize.ANY, CollectionFeature.ALLOWS_NULL_QUERIES)
+            CollectionSize.ANY,
+            CollectionFeature.SERIALIZABLE,
+            CollectionFeature.ALLOWS_NULL_QUERIES)
             .createTestSuite());
 
     suite.addTest(
@@ -541,20 +552,6 @@ public class ListsTest extends TestCase {
     assertEquals(asList(5, 7, 8, 3), fromList);
     toList.clear();
     assertEquals(Collections.emptyList(), fromList);
-  }
-
-  @GwtIncompatible("SerializableTester")
-  public void testTransformEqualityRandomAccess() {
-    List<String> list = Lists.transform(SOME_LIST, SOME_FUNCTION);
-    assertEquals(SOME_STRING_LIST, list);
-    SerializableTester.reserializeAndAssert(list);
-  }
-
-  @GwtIncompatible("SerializableTester")
-  public void testTransformEqualitySequential() {
-    List<String> list = Lists.transform(SOME_SEQUENTIAL_LIST, SOME_FUNCTION);
-    assertEquals(SOME_STRING_LIST, list);
-    SerializableTester.reserializeAndAssert(list);
   }
 
   public void testTransformHashCodeRandomAccess() {

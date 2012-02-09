@@ -107,6 +107,8 @@ public enum CollectionFeature implements Feature<Collection> {
       SUPPORTS_REMOVE_ALL,
       SUPPORTS_RETAIN_ALL,
       SUPPORTS_CLEAR),
+      
+  SERIALIZABLE, SERIALIZABLE_INCLUDING_VIEWS(SERIALIZABLE),
 
   /**
    * For documenting collections that support no optional features, such as

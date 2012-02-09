@@ -102,7 +102,7 @@ public class TestsForListsInJavaUtil {
           })
         .named("emptyList")
         .withFeatures(
-            CollectionFeature.NONE,
+            CollectionFeature.SERIALIZABLE,
             CollectionSize.ZERO)
         .suppressing(suppressForEmptyList())
         .createTestSuite();
@@ -117,7 +117,7 @@ public class TestsForListsInJavaUtil {
           })
         .named("singletonList")
         .withFeatures(
-            CollectionFeature.NONE,
+            CollectionFeature.SERIALIZABLE,
             CollectionFeature.ALLOWS_NULL_VALUES,
             CollectionSize.ONE)
         .suppressing(suppressForSingletonList())
@@ -134,6 +134,7 @@ public class TestsForListsInJavaUtil {
         .named("Arrays.asList")
         .withFeatures(
             ListFeature.SUPPORTS_SET,
+            CollectionFeature.SERIALIZABLE,
             CollectionFeature.ALLOWS_NULL_VALUES,
             CollectionSize.ANY)
         .suppressing(suppressForArraysAsList())
@@ -150,6 +151,7 @@ public class TestsForListsInJavaUtil {
         .named("ArrayList")
         .withFeatures(
             ListFeature.GENERAL_PURPOSE,
+            CollectionFeature.SERIALIZABLE,
             CollectionFeature.ALLOWS_NULL_VALUES,
             CollectionFeature.FAILS_FAST_ON_CONCURRENT_MODIFICATION,
             CollectionSize.ANY)
@@ -167,6 +169,7 @@ public class TestsForListsInJavaUtil {
         .named("LinkedList")
         .withFeatures(
             ListFeature.GENERAL_PURPOSE,
+            CollectionFeature.SERIALIZABLE,
             CollectionFeature.ALLOWS_NULL_VALUES,
             CollectionFeature.FAILS_FAST_ON_CONCURRENT_MODIFICATION,
             CollectionSize.ANY)
@@ -185,6 +188,7 @@ public class TestsForListsInJavaUtil {
         .named("CopyOnWriteArrayList")
         .withFeatures(
             ListFeature.GENERAL_PURPOSE,
+            CollectionFeature.SERIALIZABLE,
             CollectionFeature.ALLOWS_NULL_VALUES,
             CollectionSize.ANY)
         .suppressing(suppressForCopyOnWriteArrayList())
@@ -202,7 +206,7 @@ public class TestsForListsInJavaUtil {
           })
         .named("unmodifiableList/ArrayList")
         .withFeatures(
-            CollectionFeature.NONE,
+            CollectionFeature.SERIALIZABLE,
             CollectionFeature.ALLOWS_NULL_VALUES,
             CollectionSize.ANY)
         .suppressing(suppressForUnmodifiableList())
@@ -221,6 +225,7 @@ public class TestsForListsInJavaUtil {
         .named("checkedList/ArrayList")
         .withFeatures(
             ListFeature.GENERAL_PURPOSE,
+            CollectionFeature.SERIALIZABLE,
             CollectionFeature.RESTRICTS_ELEMENTS,
             CollectionFeature.ALLOWS_NULL_VALUES,
             CollectionSize.ANY)

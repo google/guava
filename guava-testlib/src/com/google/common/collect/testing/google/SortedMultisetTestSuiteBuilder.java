@@ -27,6 +27,7 @@ import com.google.common.collect.testing.Helpers;
 import com.google.common.collect.testing.SampleElements;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.Feature;
+import com.google.common.testing.SerializableTester;
 
 import junit.framework.TestSuite;
 
@@ -34,6 +35,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -101,6 +103,10 @@ public class SortedMultisetTestSuiteBuilder<E> extends
       derivedSuites.add(createDescendingSuite(parentBuilder));
     }
 
+    if (parentBuilder.getFeatures().contains(CollectionFeature.SERIALIZABLE)) {
+      derivedSuites.add(createReserializedSuite(parentBuilder));
+    }
+
     if (!parentBuilder.getFeatures().contains(NoRecurse.SUBMULTISET)) {
       derivedSuites.add(createSubMultisetSuite(parentBuilder, Bound.NO_BOUND,
           Bound.EXCLUSIVE));
@@ -129,10 +135,14 @@ public class SortedMultisetTestSuiteBuilder<E> extends
     final TestMultisetGenerator<E> delegate =
         (TestMultisetGenerator<E>) parentBuilder.getSubjectGenerator();
 
-    List<Feature<?>> features = new ArrayList<Feature<?>>();
+    Set<Feature<?>> features = new HashSet<Feature<?>>();
     features.add(NoRecurse.SUBMULTISET);
     features.add(CollectionFeature.RESTRICTS_ELEMENTS);
     features.addAll(parentBuilder.getFeatures());
+
+    if (!features.remove(CollectionFeature.SERIALIZABLE_INCLUDING_VIEWS)) {
+      features.remove(CollectionFeature.SERIALIZABLE);
+    }
 
     SortedMultiset<E> emptyMultiset = (SortedMultiset<E>) delegate.create();
     final Comparator<? super E> comparator = emptyMultiset.comparator();
@@ -224,9 +234,12 @@ public class SortedMultisetTestSuiteBuilder<E> extends
     final TestMultisetGenerator<E> delegate =
         (TestMultisetGenerator<E>) parentBuilder.getSubjectGenerator();
 
-    List<Feature<?>> features = new ArrayList<Feature<?>>();
+    Set<Feature<?>> features = new HashSet<Feature<?>>();
     features.add(NoRecurse.DESCENDING);
     features.addAll(parentBuilder.getFeatures());
+    if (!features.remove(CollectionFeature.SERIALIZABLE_INCLUDING_VIEWS)) {
+      features.remove(CollectionFeature.SERIALIZABLE);
+    }
 
     return SortedMultisetTestSuiteBuilder
         .using(new ForwardingTestMultisetGenerator<E>(delegate) {
@@ -242,6 +255,29 @@ public class SortedMultisetTestSuiteBuilder<E> extends
           }
         })
         .named(parentBuilder.getName() + " descending")
+        .withFeatures(features)
+        .suppressing(parentBuilder.getSuppressedTests())
+        .createTestSuite();
+  }
+
+  private TestSuite createReserializedSuite(
+      SortedMultisetTestSuiteBuilder<E> parentBuilder) {
+    final TestMultisetGenerator<E> delegate =
+        (TestMultisetGenerator<E>) parentBuilder.getSubjectGenerator();
+
+    Set<Feature<?>> features = new HashSet<Feature<?>>();
+    features.addAll(parentBuilder.getFeatures());
+    features.remove(CollectionFeature.SERIALIZABLE);
+    features.remove(CollectionFeature.SERIALIZABLE_INCLUDING_VIEWS);
+
+    return SortedMultisetTestSuiteBuilder
+        .using(new ForwardingTestMultisetGenerator<E>(delegate) {
+          @Override
+          public SortedMultiset<E> create(Object... entries) {
+            return SerializableTester.reserialize(((SortedMultiset<E>) super.create(entries)));
+          }
+        })
+        .named(parentBuilder.getName() + " reserialized")
         .withFeatures(features)
         .suppressing(parentBuilder.getSuppressedTests())
         .createTestSuite();
