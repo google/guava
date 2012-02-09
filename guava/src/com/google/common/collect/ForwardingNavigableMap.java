@@ -55,15 +55,8 @@ import javax.annotation.Nullable;
 public abstract class ForwardingNavigableMap<K, V> 
     extends ForwardingSortedMap<K, V> implements NavigableMap<K, V> {
 
-  @Nullable
-  private static <T> T poll(Iterator<T> iterator) {
-    if (iterator.hasNext()) {
-      T result = iterator.next();
-      iterator.remove();
-      return result;
-    }
-    return null;
-  }
+  /** Constructor for use by subclasses. */
+  protected ForwardingNavigableMap() {}
 
   @Override
   protected abstract NavigableMap<K, V> delegate();
@@ -402,5 +395,15 @@ public abstract class ForwardingNavigableMap<K, V>
    */
   protected SortedMap<K, V> standardTailMap(K fromKey) {
     return tailMap(fromKey, true);
+  }
+
+  @Nullable
+  private static <T> T poll(Iterator<T> iterator) {
+    if (iterator.hasNext()) {
+      T result = iterator.next();
+      iterator.remove();
+      return result;
+    }
+    return null;
   }
 }
