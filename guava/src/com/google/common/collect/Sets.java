@@ -44,6 +44,7 @@ import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.NavigableSet;
 import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.SortedSet;
@@ -1378,6 +1379,121 @@ public final class Sets {
     @Override public void clear() {
       delegate.clear();
     }
+  }
+
+  /**
+   * Returns an unmodifiable view of the specified navigable set. This method
+   * allows modules to provide users with "read-only" access to internal
+   * navigable sets. Query operations on the returned set "read through" to the
+   * specified set, and attempts to modify the returned set, whether direct or
+   * via its collection views, result in an
+   * {@code UnsupportedOperationException}.
+   *
+   * <p>The returned navigable set will be serializable if the specified
+   * navigable set is serializable.
+   *
+   * @param set the navigable set for which an unmodifiable view is to be
+   *        returned
+   * @return an unmodifiable view of the specified navigable set
+   * @since 12.0
+   */
+  @GwtIncompatible("NavigableSet")
+  public static <E> NavigableSet<E> unmodifiableNavigableSet(
+      NavigableSet<E> set) {
+    if (set instanceof ImmutableSortedSet
+        || set instanceof UnmodifiableNavigableSet) {
+      return set;
+    }
+    return new UnmodifiableNavigableSet<E>(set);
+  }
+
+  @GwtIncompatible("NavigableSet")
+  static final class UnmodifiableNavigableSet<E>
+      extends ForwardingSortedSet<E> implements NavigableSet<E>, Serializable {
+    private final NavigableSet<E> delegate;
+
+    UnmodifiableNavigableSet(NavigableSet<E> delegate) {
+      this.delegate = checkNotNull(delegate);
+    }
+
+    @Override
+    protected SortedSet<E> delegate() {
+      return Collections.unmodifiableSortedSet(delegate);
+    }
+
+    @Override
+    public E lower(E e) {
+      return delegate.lower(e);
+    }
+
+    @Override
+    public E floor(E e) {
+      return delegate.floor(e);
+    }
+
+    @Override
+    public E ceiling(E e) {
+      return delegate.ceiling(e);
+    }
+
+    @Override
+    public E higher(E e) {
+      return delegate.higher(e);
+    }
+
+    @Override
+    public E pollFirst() {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public E pollLast() {
+      throw new UnsupportedOperationException();
+    }
+
+    private transient UnmodifiableNavigableSet<E> descendingSet;
+
+    @Override
+    public NavigableSet<E> descendingSet() {
+      UnmodifiableNavigableSet<E> result = descendingSet;
+      if (result == null) {
+        result = descendingSet = new UnmodifiableNavigableSet<E>(
+            delegate.descendingSet());
+        result.descendingSet = this;
+      }
+      return result;
+    }
+
+    @Override
+    public Iterator<E> descendingIterator() {
+      return Iterators.unmodifiableIterator(delegate.descendingIterator());
+    }
+
+    @Override
+    public NavigableSet<E> subSet(
+        E fromElement,
+        boolean fromInclusive,
+        E toElement,
+        boolean toInclusive) {
+      return unmodifiableNavigableSet(delegate.subSet(
+          fromElement,
+          fromInclusive,
+          toElement,
+          toInclusive));
+    }
+
+    @Override
+    public NavigableSet<E> headSet(E toElement, boolean inclusive) {
+      return unmodifiableNavigableSet(delegate.headSet(toElement, inclusive));
+    }
+
+    @Override
+    public NavigableSet<E> tailSet(E fromElement, boolean inclusive) {
+      return unmodifiableNavigableSet(
+          delegate.tailSet(fromElement, inclusive));
+    }
+
+    private static final long serialVersionUID = 0;
   }
 
   /**

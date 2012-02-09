@@ -35,6 +35,8 @@ import com.google.common.base.Predicates;
 import com.google.common.collect.testing.AnEnum;
 import com.google.common.collect.testing.IteratorTester;
 import com.google.common.collect.testing.MinimalIterable;
+import com.google.common.collect.testing.NavigableSetTestSuiteBuilder;
+import com.google.common.collect.testing.SafeTreeSet;
 import com.google.common.collect.testing.SetTestSuiteBuilder;
 import com.google.common.collect.testing.TestEnumSetGenerator;
 import com.google.common.collect.testing.TestStringSetGenerator;
@@ -44,10 +46,6 @@ import com.google.common.collect.testing.features.SetFeature;
 import com.google.common.testing.EqualsTester;
 import com.google.common.testing.NullPointerTester;
 import com.google.common.testing.SerializableTester;
-
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -75,6 +73,10 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 
 import javax.annotation.Nullable;
+
+import junit.framework.Test;
+import junit.framework.TestCase;
+import junit.framework.TestSuite;
 
 /**
  * Unit test for {@code Sets}.
@@ -169,6 +171,36 @@ public class SetsTest extends TestCase {
         .named("Sets.immutableEnumSet")
         .withFeatures(CollectionSize.ONE, CollectionSize.SEVERAL,
             CollectionFeature.ALLOWS_NULL_QUERIES)
+        .createTestSuite());
+
+    suite.addTest(NavigableSetTestSuiteBuilder.using(new TestStringSetGenerator() {
+          @Override protected Set<String> create(String[] elements) {
+            SafeTreeSet<String> set = new SafeTreeSet<String>(Arrays.asList(elements));
+            return Sets.unmodifiableNavigableSet(set);
+          }
+
+          @Override
+          public List<String> order(List<String> insertionOrder) {
+            return Ordering.natural().sortedCopy(insertionOrder);
+          }
+        })
+        .named("Sets.unmodifiableNavigableSet[TreeSet]")
+        .withFeatures(CollectionSize.ANY, CollectionFeature.KNOWN_ORDER)
+        .createTestSuite());
+
+    suite.addTest(NavigableSetTestSuiteBuilder.using(new TestStringSetGenerator() {
+          @Override protected Set<String> create(String[] elements) {
+            SafeTreeSet<String> set = new SafeTreeSet<String>(Arrays.asList(elements));
+            return SerializableTester.reserialize(Sets.unmodifiableNavigableSet(set));
+          }
+
+          @Override
+          public List<String> order(List<String> insertionOrder) {
+            return Ordering.natural().sortedCopy(insertionOrder);
+          }
+        })
+        .named("Sets.unmodifiableNavigableSet[TreeSet], reserialized")
+        .withFeatures(CollectionSize.ANY, CollectionFeature.KNOWN_ORDER)
         .createTestSuite());
 
     suite.addTest(testsForFilter());
