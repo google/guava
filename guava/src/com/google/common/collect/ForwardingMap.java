@@ -198,6 +198,7 @@ public abstract class ForwardingMap<K, V> extends ForwardingObject
    */
   @Beta
   protected class StandardKeySet extends Maps.KeySet<K, V> {
+    /** Constructor for use by subclasses. */
     public StandardKeySet() {}
 
     @Override
@@ -230,6 +231,7 @@ public abstract class ForwardingMap<K, V> extends ForwardingObject
    */
   @Beta
   protected class StandardValues extends Maps.Values<K, V> {
+    /** Constructor for use by subclasses. */
     public StandardValues() {}
 
     @Override
@@ -262,6 +264,7 @@ public abstract class ForwardingMap<K, V> extends ForwardingObject
    */
   @Beta
   protected abstract class StandardEntrySet extends Maps.EntrySet<K, V> {
+    /** Constructor for use by subclasses. */
     public StandardEntrySet() {}
 
     @Override

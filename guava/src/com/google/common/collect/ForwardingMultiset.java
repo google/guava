@@ -246,6 +246,7 @@ public abstract class ForwardingMultiset<E> extends ForwardingCollection<E>
    */
   @Beta
   protected class StandardElementSet extends Multisets.ElementSet<E> {
+    /** Constructor for use by subclasses. */
     public StandardElementSet() {}
 
     @Override

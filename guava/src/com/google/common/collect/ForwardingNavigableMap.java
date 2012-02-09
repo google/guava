@@ -275,6 +275,9 @@ public abstract class ForwardingNavigableMap<K, V>
    */
   @Beta
   protected class StandardDescendingMap extends Maps.DescendingMap<K, V> {
+    /** Constructor for use by subclasses. */
+    public StandardDescendingMap() {}
+
     @Override
     NavigableMap<K, V> forward() {
       return ForwardingNavigableMap.this;
@@ -331,6 +334,9 @@ public abstract class ForwardingNavigableMap<K, V>
    */
   @Beta
   protected class StandardNavigableKeySet extends Maps.NavigableKeySet<K, V> {
+    /** Constructor for use by subclasses. */
+    public StandardNavigableKeySet() {}
+
     @Override
     NavigableMap<K, V> map() {
       return ForwardingNavigableMap.this;

@@ -164,7 +164,8 @@ public abstract class ForwardingNavigableSet<E>
    */
   @Beta
   protected class StandardDescendingSet extends Sets.DescendingSet<E> {
-    protected StandardDescendingSet() {
+    /** Constructor for use by subclasses. */
+    public StandardDescendingSet() {
       super(ForwardingNavigableSet.this);
     }
   }
