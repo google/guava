@@ -45,11 +45,11 @@
       <plugin>
         <artifactId>maven-jar-plugin</artifactId>
         <configuration>
-          <archive>  
+          <archive>
             <manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
-          </archive> 
+          </archive>
         </configuration>
-      </plugin> 
+      </plugin>
       <plugin>
         <groupId>org.apache.felix</groupId>
         <artifactId>maven-bundle-plugin</artifactId>
@@ -57,16 +57,16 @@
           <execution>
             <id>bundle-manifest</id>
             <phase>process-classes</phase>
-            <goals>    
+            <goals>
               <goal>manifest</goal>
-            </goals>   
+            </goals>
           </execution>
         </executions>
         <configuration>
           <instructions>
-  	        <Bundle-SymbolicName>${project.groupId}</Bundle-SymbolicName>
+            <Bundle-SymbolicName>${project.groupId}</Bundle-SymbolicName>
             <Bundle-Name>${project.name}</Bundle-Name>
-    	    <Bundle-Version>${project.version}</Bundle-Version>
+          <Bundle-Version>${project.version}</Bundle-Version>
             <Export-Package>com.google.common.*</Export-Package>
             <Private-Package>com.google.common.base.internal.*</Private-Package>
             <Import-Package>
@@ -74,7 +74,7 @@
               sun.misc.*;resolution:=optional
             </Import-Package>
           </instructions>
-	    </configuration>
+      </configuration>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
