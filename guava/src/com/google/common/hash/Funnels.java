@@ -36,7 +36,7 @@ public final class Funnels {
   private enum ByteArrayFunnel implements Funnel<byte[]> {
     INSTANCE;
 
-    public void funnel(byte[] from, Sink into) {
+    public void funnel(byte[] from, PrimitiveSink into) {
       into.putBytes(from);
     }
 
@@ -55,7 +55,7 @@ public final class Funnels {
   private enum StringFunnel implements Funnel<CharSequence> {
     INSTANCE;
 
-    public void funnel(CharSequence from, Sink into) {
+    public void funnel(CharSequence from, PrimitiveSink into) {
       into.putString(from);
     }
 

@@ -17,7 +17,7 @@ package com.google.common.hash;
 import com.google.common.annotations.Beta;
 
 /**
- * An object which can send data from an object of type {@code T} into a {@code Sink}.
+ * An object which can send data from an object of type {@code T} into a {@code PrimitiveSink}.
  * 
  * @author Dimitris Andreou
  * @since 11.0
@@ -28,6 +28,8 @@ public interface Funnel<T> {
    * Sends a stream of data from the {@code from} object into the sink {@code into}. There
    * is no requirement that this data be complete enough to fully reconstitute the object
    * later.
+   *
+   * @since 12.0 (in 11.0 version, {@code PrimitiveSink} was still called {@code Sink})
    */
-  void funnel(T from, Sink into);
+  void funnel(T from, PrimitiveSink into);
 }

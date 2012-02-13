@@ -17,15 +17,15 @@ import java.nio.ByteBuffer;
  */
 public class FunnelsTest extends TestCase {
   public void testForBytes() {
-    Sink byteSink = EasyMock.createMock(Sink.class);
+    PrimitiveSink bytePrimitiveSink = EasyMock.createMock(PrimitiveSink.class);
 
-    EasyMock.expect(byteSink.putBytes(EasyMock.aryEq(new byte[] { 4, 3, 2, 1})))
-        .andReturn(byteSink).once();
-    EasyMock.replay(byteSink);
+    EasyMock.expect(bytePrimitiveSink.putBytes(EasyMock.aryEq(new byte[] { 4, 3, 2, 1})))
+        .andReturn(bytePrimitiveSink).once();
+    EasyMock.replay(bytePrimitiveSink);
 
-    Funnels.byteArrayFunnel().funnel(new byte[]{4, 3, 2, 1}, byteSink);
+    Funnels.byteArrayFunnel().funnel(new byte[]{4, 3, 2, 1}, bytePrimitiveSink);
 
-    EasyMock.verify(byteSink);
+    EasyMock.verify(bytePrimitiveSink);
   }
 
   public void testForBytes_null() {
@@ -34,14 +34,14 @@ public class FunnelsTest extends TestCase {
 
   public void testForStrings() {
 
-    Sink byteSink = EasyMock.createMock(Sink.class);
+    PrimitiveSink bytePrimitiveSink = EasyMock.createMock(PrimitiveSink.class);
     
-    EasyMock.expect(byteSink.putString("test")).andReturn(byteSink).once();
-    EasyMock.replay(byteSink);
+    EasyMock.expect(bytePrimitiveSink.putString("test")).andReturn(bytePrimitiveSink).once();
+    EasyMock.replay(bytePrimitiveSink);
     
-    Funnels.stringFunnel().funnel("test", byteSink);
+    Funnels.stringFunnel().funnel("test", bytePrimitiveSink);
     
-    EasyMock.verify(byteSink);
+    EasyMock.verify(bytePrimitiveSink);
   }
   
   public void testForStrings_null() {
@@ -49,7 +49,7 @@ public class FunnelsTest extends TestCase {
   }
   
   private static void assertNullsThrowException(Funnel<?> funnel) {
-    Sink byteSink = new AbstractStreamingHasher(4, 4) {
+    PrimitiveSink bytePrimitiveSink = new AbstractStreamingHasher(4, 4) {
       @Override HashCode makeHash() { throw new UnsupportedOperationException(); }
 
       @Override protected void process(ByteBuffer bb) {
@@ -59,7 +59,7 @@ public class FunnelsTest extends TestCase {
       }
     };
     try {
-      funnel.funnel(null, byteSink);
+      funnel.funnel(null, bytePrimitiveSink);
       fail();
     } catch (NullPointerException ok) {}
   }

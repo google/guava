@@ -22,17 +22,17 @@ import java.nio.charset.Charset;
  * An object which can receive a stream of primitive values.
  * 
  * @author Kevin Bourrillion
- * @since 11.0
+ * @since 12.0 (in 11.0 as {@code Sink})
  */
 @Beta
-public interface Sink {
+public interface PrimitiveSink {
   /**
    * Puts a byte into this sink.
    *
    * @param b a byte
    * @return this instance
    */
-  Sink putByte(byte b);
+  PrimitiveSink putByte(byte b);
 
   /**
    * Puts an array of bytes into this sink.
@@ -40,7 +40,7 @@ public interface Sink {
    * @param bytes a byte array
    * @return this instance
    */
-  Sink putBytes(byte[] bytes);
+  PrimitiveSink putBytes(byte[] bytes);
   
   /**
    * Puts a chunk of an array of bytes into this sink. {@code bytes[off]} is the first byte written,
@@ -53,50 +53,50 @@ public interface Sink {
    * @throws IndexOutOfBoundsException if {@code off < 0} or {@code off + len > bytes.length} or
    *   {@code len < 0}
    */
-  Sink putBytes(byte[] bytes, int off, int len);
+  PrimitiveSink putBytes(byte[] bytes, int off, int len);
 
   /**
    * Puts a short into this sink.
    */
-  Sink putShort(short s);
+  PrimitiveSink putShort(short s);
 
   /**
    * Puts an int into this sink.
    */
-  Sink putInt(int i);
+  PrimitiveSink putInt(int i);
 
   /**
    * Puts a long into this sink.
    */
-  Sink putLong(long l);
+  PrimitiveSink putLong(long l);
 
   /**
    * Puts a float into this sink.
    */
-  Sink putFloat(float f);
+  PrimitiveSink putFloat(float f);
 
   /**
    * Puts a double into this sink.
    */
-  Sink putDouble(double d);
+  PrimitiveSink putDouble(double d);
 
   /**
    * Puts a boolean into this sink.
    */
-  Sink putBoolean(boolean b);
+  PrimitiveSink putBoolean(boolean b);
 
   /**
    * Puts a character into this sink.
    */
-  Sink putChar(char c);
+  PrimitiveSink putChar(char c);
 
   /**
    * Puts a string into this sink.
    */
-  Sink putString(CharSequence charSequence);
+  PrimitiveSink putString(CharSequence charSequence);
 
   /**
    * Puts a string into this sink using the given charset.
    */
-  Sink putString(CharSequence charSequence, Charset charset);
+  PrimitiveSink putString(CharSequence charSequence, Charset charset);
 }

@@ -82,98 +82,98 @@ final class HashTestUtils {
   }
   
   static final Funnel<Object> BAD_FUNNEL = new Funnel<Object>() {
-    @Override public void funnel(Object object, Sink byteSink) {
-      byteSink.putInt(object.hashCode());
+    @Override public void funnel(Object object, PrimitiveSink bytePrimitiveSink) {
+      bytePrimitiveSink.putInt(object.hashCode());
     }
   };
   
   static enum RandomHasherAction {
     PUT_BOOLEAN() {
-      @Override void performAction(Random random, Iterable<? extends Sink> sinks) {
+      @Override void performAction(Random random, Iterable<? extends PrimitiveSink> sinks) {
         boolean value = random.nextBoolean();
-        for (Sink sink : sinks) {
+        for (PrimitiveSink sink : sinks) {
           sink.putBoolean(value);
         }
       }
     },
     PUT_BYTE() {
-      @Override void performAction(Random random, Iterable<? extends Sink> sinks) {
+      @Override void performAction(Random random, Iterable<? extends PrimitiveSink> sinks) {
         int value = random.nextInt();
-        for (Sink sink : sinks) {
+        for (PrimitiveSink sink : sinks) {
           sink.putByte((byte) value);
         }
       }
     },
     PUT_SHORT() {
-      @Override void performAction(Random random, Iterable<? extends Sink> sinks) {
+      @Override void performAction(Random random, Iterable<? extends PrimitiveSink> sinks) {
         short value = (short) random.nextInt();
-        for (Sink sink : sinks) {
+        for (PrimitiveSink sink : sinks) {
           sink.putShort(value);
         }
       }
     },
     PUT_CHAR() {
-      @Override void performAction(Random random, Iterable<? extends Sink> sinks) {
+      @Override void performAction(Random random, Iterable<? extends PrimitiveSink> sinks) {
         char value = (char) random.nextInt();
-        for (Sink sink : sinks) {
+        for (PrimitiveSink sink : sinks) {
           sink.putChar(value);
         }
       }
     },
     PUT_INT() {
-      @Override void performAction(Random random, Iterable<? extends Sink> sinks) {
+      @Override void performAction(Random random, Iterable<? extends PrimitiveSink> sinks) {
         int value = random.nextInt();
-        for (Sink sink : sinks) {
+        for (PrimitiveSink sink : sinks) {
           sink.putInt(value);
         }
       }
     },
     PUT_LONG() {
-      @Override void performAction(Random random, Iterable<? extends Sink> sinks) {
+      @Override void performAction(Random random, Iterable<? extends PrimitiveSink> sinks) {
         long value = random.nextLong();
-        for (Sink sink : sinks) {
+        for (PrimitiveSink sink : sinks) {
           sink.putLong(value);
         }
       }
     },
     PUT_FLOAT() {
-      @Override void performAction(Random random, Iterable<? extends Sink> sinks) {
+      @Override void performAction(Random random, Iterable<? extends PrimitiveSink> sinks) {
         float value = random.nextFloat();
-        for (Sink sink : sinks) {
+        for (PrimitiveSink sink : sinks) {
           sink.putFloat(value);
         }
       }
     },
     PUT_DOUBLE() {
-      @Override void performAction(Random random, Iterable<? extends Sink> sinks) {
+      @Override void performAction(Random random, Iterable<? extends PrimitiveSink> sinks) {
         double value = random.nextDouble();
-        for (Sink sink : sinks) {
+        for (PrimitiveSink sink : sinks) {
           sink.putDouble(value);
         }
       }
     },
     PUT_BYTES() {
-      @Override void performAction(Random random, Iterable<? extends Sink> sinks) {
+      @Override void performAction(Random random, Iterable<? extends PrimitiveSink> sinks) {
         byte[] value = new byte[random.nextInt(128)];
         random.nextBytes(value);
-        for (Sink sink : sinks) {
+        for (PrimitiveSink sink : sinks) {
           sink.putBytes(value);
         }
       }
     },
     PUT_BYTES_INT_INT() {
-      @Override void performAction(Random random, Iterable<? extends Sink> sinks) {
+      @Override void performAction(Random random, Iterable<? extends PrimitiveSink> sinks) {
         byte[] value = new byte[random.nextInt(128)];
         random.nextBytes(value);
         int off = random.nextInt(value.length + 1);
         int len = random.nextInt(value.length - off + 1);
-        for (Sink sink : sinks) {
+        for (PrimitiveSink sink : sinks) {
           sink.putBytes(value);
         }
       }
     };
     
-    abstract void performAction(Random random, Iterable<? extends Sink> sinks);
+    abstract void performAction(Random random, Iterable<? extends PrimitiveSink> sinks);
     
     private static final RandomHasherAction[] actions = values();
     

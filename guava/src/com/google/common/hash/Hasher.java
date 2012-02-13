@@ -19,7 +19,7 @@ import com.google.common.annotations.Beta;
 import java.nio.charset.Charset;
 
 /**
- * A {@link Sink} that can compute a hash code after reading the input. Each hasher should
+ * A {@link PrimitiveSink} that can compute a hash code after reading the input. Each hasher should
  * translate all multibyte values ({@link #putInt(int)}, {@link #putLong(long)}, etc) to bytes 
  * in little-endian order.
  *
@@ -27,7 +27,7 @@ import java.nio.charset.Charset;
  * @since 11.0
  */
 @Beta
-public interface Hasher extends Sink {
+public interface Hasher extends PrimitiveSink {
   @Override Hasher putByte(byte b);
   @Override Hasher putBytes(byte[] bytes);
   @Override Hasher putBytes(byte[] bytes, int off, int len);
