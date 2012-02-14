@@ -38,6 +38,12 @@ public final class Hashing {
   private Hashing() {}
 
   /**
+   * Used to randomize goodFastHash() instances, so that programs which persist anything
+   * dependent on hashcodes of those, will fail sooner than later.
+   */
+  private static final int GOOD_FAST_HASH_SEED = (int) System.currentTimeMillis();
+
+  /**
    * Returns a general-purpose, <b>non-cryptographic-strength</b>, streaming hash function that
    * produces hash codes of length at least {@code minimumBits}. Users without specific
    * compatibility requirements and who do not persist the hash codes are encouraged to
@@ -51,15 +57,17 @@ public final class Hashing {
     int bits = checkPositiveAndMakeMultipleOf32(minimumBits);
 
     if (bits == 32) {
-      return murmur3_32();
+      return murmur3_32(GOOD_FAST_HASH_SEED);
     } else if (bits <= 128) {
-      return murmur3_128();
+      return murmur3_128(GOOD_FAST_HASH_SEED);
     } else {
       // Join some 128-bit murmur3s
       int hashFunctionsNeeded = (bits + 127) / 128;
       HashFunction[] hashFunctions = new HashFunction[hashFunctionsNeeded];
+      int seed = GOOD_FAST_HASH_SEED;
       for (int i = 0; i < hashFunctionsNeeded; i++) {
-        hashFunctions[i] = murmur3_128(i * 1500450271 /* a prime; shouldn't matter */);
+        hashFunctions[i] = murmur3_128(seed);
+        seed += 1500450271; // a prime; shouldn't matter
       }
       return new ConcatenatedHashFunction(hashFunctions);
     }

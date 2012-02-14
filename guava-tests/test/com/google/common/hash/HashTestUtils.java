@@ -206,7 +206,8 @@ final class HashTestUtils {
       int same = 0x0; // bitset for output bits with same values
       int diff = 0x0; // bitset for output bits with different values
       int count = 0;
-      int maxCount = (int) (2 * Math.log(2 * keyBits * hashBits) + 0.999);
+      // originally was 2 * Math.log(...), making it try more times to avoid flakiness issues
+      int maxCount = (int) (4 * Math.log(2 * keyBits * hashBits) + 1);
       while (same != 0xffffffff || diff != 0xffffffff) {
         int key1 = rand.nextInt();
         // flip input bit for key2
