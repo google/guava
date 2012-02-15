@@ -24,6 +24,10 @@ import com.google.common.testing.SerializableTester;
 
 import junit.framework.TestCase;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.reflect.Field;
+
 /**
  * Tests for {@link Enums}.
  *
@@ -101,5 +105,24 @@ public class EnumsTest extends TestCase {
   public void testNullPointerExceptions() throws Exception {
     NullPointerTester tester = new NullPointerTester();
     tester.testAllPublicStaticMethods(Enums.class);
+  }
+
+  @Retention(RetentionPolicy.RUNTIME)
+  private @interface ExampleAnnotation {}
+
+  private enum AnEnum {
+    @ExampleAnnotation FOO,
+    BAR
+  }
+
+  @GwtIncompatible("reflection")
+  public void testGetField() {
+    Field foo = Enums.getField(AnEnum.FOO);
+    assertEquals("FOO", foo.getName());
+    assertTrue(foo.isAnnotationPresent(ExampleAnnotation.class));
+
+    Field bar = Enums.getField(AnEnum.BAR);
+    assertEquals("BAR", bar.getName());
+    assertFalse(bar.isAnnotationPresent(ExampleAnnotation.class));
   }
 }

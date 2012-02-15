@@ -20,10 +20,8 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.annotations.GwtIncompatible;
 
 import java.io.Serializable;
-import java.lang.reflect.Field;
 
 import javax.annotation.Nullable;
 
@@ -39,22 +37,6 @@ import javax.annotation.Nullable;
 public final class Enums {
 
   private Enums() {}
-
-  /**
-   * Returns the {@link Field} in which {@code enumValue} is defined.
-   * For example, to get the {@code Description} annotation on the {@code GOLF}
-   * constant of enum {@code Sport}, use
-   * {@code Enums.getField(Sport.GOLF).getAnnotation(Description.class)}.
-   */
-  @GwtIncompatible("reflection")
-  public static Field getField(Enum<?> enumValue) {
-    Class<?> clazz = enumValue.getDeclaringClass();
-    try {
-      return clazz.getDeclaredField(enumValue.name());
-    } catch (NoSuchFieldException impossible) {
-      throw new AssertionError(impossible);
-    }
-  }
 
   /**
    * Returns a {@link Function} that maps an {@link Enum} name to the associated
