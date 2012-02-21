@@ -45,6 +45,8 @@ public final class Enums {
    * For example, to get the {@code Description} annotation on the {@code GOLF}
    * constant of enum {@code Sport}, use
    * {@code Enums.getField(Sport.GOLF).getAnnotation(Description.class)}.
+   *
+   * @since 12.0
    */
   @GwtIncompatible("reflection")
   public static Field getField(Enum<?> enumValue) {
