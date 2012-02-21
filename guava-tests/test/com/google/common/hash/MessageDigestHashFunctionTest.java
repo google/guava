@@ -25,10 +25,10 @@ public class MessageDigestHashFunctionTest extends TestCase {
     assertMessageDigestHashing(HashTestUtils.ascii("foobar"), "SHA1");
   }
 
-  private static void assertMessageDigestHashing(byte[] input, String algorithmName) 
+  private static void assertMessageDigestHashing(byte[] input, String algorithmName)
       throws NoSuchAlgorithmException {
-    HashTestUtils.assertEqualHashes(
-        MessageDigest.getInstance(algorithmName).digest(input),
-        new MessageDigestHashFunction(algorithmName).hashBytes(input).asBytes());
+    assertEquals(
+        HashCodes.fromBytes(MessageDigest.getInstance(algorithmName).digest(input)),
+        new MessageDigestHashFunction(algorithmName).hashBytes(input));
   }
 }

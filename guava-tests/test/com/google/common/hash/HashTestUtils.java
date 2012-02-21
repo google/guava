@@ -2,6 +2,10 @@
 
 package com.google.common.hash;
 
+import static org.junit.Assert.assertEquals;
+
+import com.google.common.base.Charsets;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import com.google.common.primitives.Ints;
@@ -10,6 +14,7 @@ import org.junit.Assert;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
+import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.Random;
 import java.util.Set;
@@ -35,7 +40,7 @@ final class HashTestUtils {
   }
 
   /**
-   * Returns a byte array representation for a sequence of longs, in big-endian order. 
+   * Returns a byte array representation for a sequence of longs, in big-endian order.
    */
   static byte[] toBytes(ByteOrder bo, long... longs) {
     ByteBuffer bb = ByteBuffer.wrap(new byte[longs.length * 8]).order(bo);
@@ -62,31 +67,25 @@ final class HashTestUtils {
       byte[] hash = hashFunction.hash(Arrays.copyOf(key, i), seed);
       System.arraycopy(hash, 0, hashes, i * hashBytes, hash.length);
     }
-    
+
     // Then hash the result array
     byte[] result = hashFunction.hash(hashes, 0);
-    
+
     // interpreted in little-endian order.
-    int verification = Integer.reverseBytes(Ints.fromByteArray(result)); 
+    int verification = Integer.reverseBytes(Ints.fromByteArray(result));
 
     if (expected != verification) {
       throw new AssertionError("Expected: " + Integer.toHexString(expected)
           + " got: " + Integer.toHexString(verification));
     }
   }
-  
-  static void assertEqualHashes(byte[] expectedHash, byte[] actualHash) {
-    if (!Arrays.equals(expectedHash, actualHash)) {
-      Assert.fail(String.format("Should be: %x, was %x", expectedHash, actualHash));
-    }
-  }
-  
+
   static final Funnel<Object> BAD_FUNNEL = new Funnel<Object>() {
     @Override public void funnel(Object object, PrimitiveSink bytePrimitiveSink) {
       bytePrimitiveSink.putInt(object.hashCode());
     }
   };
-  
+
   static enum RandomHasherAction {
     PUT_BOOLEAN() {
       @Override void performAction(Random random, Iterable<? extends PrimitiveSink> sinks) {
@@ -172,11 +171,11 @@ final class HashTestUtils {
         }
       }
     };
-    
+
     abstract void performAction(Random random, Iterable<? extends PrimitiveSink> sinks);
-    
+
     private static final RandomHasherAction[] actions = values();
-    
+
     static RandomHasherAction pickAtRandom(Random random) {
       return actions[random.nextInt(actions.length)];
     }
@@ -362,12 +361,12 @@ final class HashTestUtils {
   }
 
   /**
-   * Checks that a Hasher returns the same HashCode when given the same input, and also 
-   * that the collision rate looks sane. 
+   * Checks that a Hasher returns the same HashCode when given the same input, and also
+   * that the collision rate looks sane.
    */
   static void assertInvariants(HashFunction hashFunction) {
     int objects = 100;
-    Set<HashCode> hashcodes = Sets.newHashSetWithExpectedSize(objects); 
+    Set<HashCode> hashcodes = Sets.newHashSetWithExpectedSize(objects);
     for (int i = 0; i < objects; i++) {
       Object o = new Object();
       HashCode hashcode1 = hashFunction.newHasher().putObject(o, HashTestUtils.BAD_FUNNEL).hash();
@@ -378,14 +377,15 @@ final class HashTestUtils {
       hashcodes.add(hashcode1);
     }
     Assert.assertTrue(hashcodes.size() > objects * 0.95); // quite relaxed test
-    
+
     assertHashBytesThrowsCorrectExceptions(hashFunction);
     assertIndependentHashers(hashFunction);
+    assertShortcutsAreEquivalent(hashFunction, 256);
   }
 
   static void assertHashBytesThrowsCorrectExceptions(HashFunction hashFunction) {
     hashFunction.hashBytes(new byte[64], 0, 0);
-    
+
     try {
       hashFunction.hashBytes(new byte[128], -1, 128);
       Assert.fail();
@@ -399,13 +399,13 @@ final class HashTestUtils {
       Assert.fail();
     } catch (IndexOutOfBoundsException expected) {}
   }
-  
+
   static void assertIndependentHashers(HashFunction hashFunction) {
     int numActions = 100;
-    // hashcodes from non-overlapping hash computations 
+    // hashcodes from non-overlapping hash computations
     HashCode expected1 = randomHash(hashFunction, new Random(1L), numActions);
     HashCode expected2 = randomHash(hashFunction, new Random(2L), numActions);
-    
+
     // equivalent, but overlapping, computations (should produce the same results as above)
     Random random1 = new Random(1L);
     Random random2 = new Random(2L);
@@ -415,16 +415,71 @@ final class HashTestUtils {
       RandomHasherAction.pickAtRandom(random1).performAction(random1, ImmutableSet.of(hasher1));
       RandomHasherAction.pickAtRandom(random2).performAction(random2, ImmutableSet.of(hasher2));
     }
-    
+
     Assert.assertEquals(expected1, hasher1.hash());
     Assert.assertEquals(expected2, hasher2.hash());
   }
-  
+
   static HashCode randomHash(HashFunction hashFunction, Random random, int numActions) {
     Hasher hasher = hashFunction.newHasher();
     for (int i = 0; i < numActions; i++) {
       RandomHasherAction.pickAtRandom(random).performAction(random, ImmutableSet.of(hasher));
     }
     return hasher.hash();
+  }
+
+  private static void assertShortcutsAreEquivalent(HashFunction hashFunction, int trials) {
+    Random random = new Random(42085L);
+    for (int i = 0; i < trials; i++) {
+      assertHashBytesEquivalence(hashFunction, random);
+      assertHashIntEquivalence(hashFunction, random);
+      assertHashLongEquivalence(hashFunction, random);
+      assertHashStringEquivalence(hashFunction, random);
+    }
+  }
+
+  private static void assertHashBytesEquivalence(HashFunction hashFunction, Random random) {
+    int size = random.nextInt(2048);
+    byte[] bytes = new byte[size];
+    random.nextBytes(bytes);
+    assertEquals(hashFunction.hashBytes(bytes),
+        hashFunction.newHasher(size).putBytes(bytes).hash());
+    int off = random.nextInt(size);
+    int len = random.nextInt(size - off);
+    assertEquals(hashFunction.hashBytes(bytes, off, len),
+        hashFunction.newHasher(size).putBytes(bytes, off, len).hash());
+  }
+
+  private static void assertHashIntEquivalence(HashFunction hashFunction, Random random) {
+    int i = random.nextInt();
+    assertEquals(hashFunction.hashInt(i),
+        hashFunction.newHasher().putInt(i).hash());
+  }
+
+  private static void assertHashLongEquivalence(HashFunction hashFunction, Random random) {
+    long l = random.nextLong();
+    assertEquals(hashFunction.hashLong(l),
+        hashFunction.newHasher().putLong(l).hash());
+  }
+
+  private static final ImmutableList<Charset> CHARSETS = ImmutableList.of(
+      Charsets.ISO_8859_1,
+      Charsets.US_ASCII,
+      Charsets.UTF_16,
+      Charsets.UTF_16BE,
+      Charsets.UTF_16LE,
+      Charsets.UTF_8);
+
+  private static void assertHashStringEquivalence(HashFunction hashFunction, Random random) {
+    int size = random.nextInt(2048);
+    byte[] bytes = new byte[size];
+    random.nextBytes(bytes);
+    String string = new String(bytes);
+    assertEquals(hashFunction.hashString(string),
+        hashFunction.newHasher().putString(string).hash());
+    for (Charset charset : CHARSETS) {
+      assertEquals(hashFunction.hashString(string, charset),
+          hashFunction.newHasher().putString(string, charset).hash());
+    }
   }
 }
