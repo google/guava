@@ -72,6 +72,10 @@ final class GwtSerializationDependencies {
       throw new AssertionError();
     }
 
+    @Override public <V> Optional<V> transform(Function<? super T, V> function) {
+      throw new AssertionError();
+    }
+
     @Override public boolean equals(@Nullable Object object) {
       throw new AssertionError();
     }

@@ -128,7 +128,7 @@ public abstract class Optional<T> implements Serializable {
 
   /**
    * Returns the contained instance if it is present; {@code supplier.get()} otherwise. If the
-   * supplier returns {@code null}, a {@link NullPointerException} will be thrown.
+   * supplier returns {@code null}, a {@link NullPointerException} is thrown.
    *
    * @throws NullPointerException if the supplier returns {@code null}
    */
@@ -141,13 +141,23 @@ public abstract class Optional<T> implements Serializable {
   @Nullable public abstract T orNull();
 
   /**
-   * Returns an immutable singleton {@link Set} whose only element is the
-   * contained instance if it is present; an empty immutable {@link Set}
-   * otherwise.
+   * Returns an immutable singleton {@link Set} whose only element is the contained instance
+   * if it is present; an empty immutable {@link Set} otherwise.
    *
    * @since 11.0
    */
   public abstract Set<T> asSet();
+
+  /**
+   * If the instance is present, it is transformed with the given {@link Function}; otherwise,
+   * {@link Optional#absent} is returned. If the function returns {@code null}, a
+   * {@link NullPointerException} is thrown.
+   *
+   * @throws NullPointerException if the function returns {@code null}
+   *
+   * @since 12.0
+   */
+  public abstract <V> Optional<V> transform(Function<? super T, V> function);
 
   /**
    * Returns {@code true} if {@code object} is an {@code Optional} instance, and either

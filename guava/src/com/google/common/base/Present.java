@@ -66,6 +66,11 @@ final class Present<T> extends Optional<T> {
   @Override public Set<T> asSet() {
     return Collections.singleton(reference);
   }
+  
+  @Override public <V> Optional<V> transform(Function<? super T, V> function) {
+    return new Present<V>(checkNotNull(function.apply(reference),
+        "Transformation function cannot return null."));
+  }
 
   @Override public boolean equals(@Nullable Object object) {
     if (object instanceof Present) {

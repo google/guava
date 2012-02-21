@@ -62,6 +62,11 @@ final class Absent extends Optional<Object> {
     return Collections.emptySet();
   }
 
+  @Override public <V> Optional<V> transform(Function<Object, V> function) {
+    checkNotNull(function);
+    return Optional.absent();
+  }
+
   @Override public boolean equals(@Nullable Object object) {
     return object == this;
   }

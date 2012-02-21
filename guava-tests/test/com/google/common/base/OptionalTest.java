@@ -93,15 +93,15 @@ public final class OptionalTest extends TestCase {
     assertEquals("default", Optional.absent().or("default"));
   }
 
-  public void testOr_Supplier_present() {
+  public void testOr_supplier_present() {
     assertEquals("a", Optional.of("a").or(Suppliers.ofInstance("fallback")));
   }
 
-  public void testOr_Supplier_absent() {
+  public void testOr_supplier_absent() {
     assertEquals("fallback", Optional.absent().or(Suppliers.ofInstance("fallback")));
   }
 
-  public void testOr_NullSupplier_absent() {
+  public void testOr_nullSupplier_absent() {
     Supplier<Object> nullSupplier = Suppliers.ofInstance(null);
     Optional<Object> absentOptional = Optional.absent();
     try {
@@ -109,6 +109,11 @@ public final class OptionalTest extends TestCase {
       fail();
     } catch (NullPointerException expected) {
     }
+  }
+
+  public void testOr_nullSupplier_present() {
+    Supplier<String> nullSupplier = Suppliers.ofInstance(null);
+    assertEquals("a", Optional.of("a").or(nullSupplier));
   }
 
   public void testOr_Optional_present() {
@@ -152,6 +157,42 @@ public final class OptionalTest extends TestCase {
       fail();
     } catch (UnsupportedOperationException expected) {
     }
+  }
+
+  public void testTransform_absent() {
+    assertEquals(Optional.absent(), Optional.absent().transform(Functions.identity()));
+    assertEquals(Optional.absent(), Optional.absent().transform(Functions.toStringFunction()));
+  }
+
+  public void testTransform_presentIdentity() {
+    assertEquals(Optional.of("a"), Optional.of("a").transform(Functions.identity()));
+  }
+
+  public void testTransform_presentToString() {
+    assertEquals(Optional.of("42"), Optional.of(42).transform(Functions.toStringFunction()));
+  }
+
+  public void testTransform_present_functionReturnsNull() {
+    try {
+      Optional.of("a").transform(
+          new Function<String, String>() {
+            @Override public String apply(String input) {
+              return null;
+            }
+          });
+      fail("Should throw if Function returns null.");
+    } catch (NullPointerException expected) {
+    }
+  }
+
+  public void testTransform_abssent_functionReturnsNull() {
+    assertEquals(Optional.absent(),
+        Optional.absent().transform(
+          new Function<Object, Object>() {
+            @Override public Object apply(Object input) {
+              return null;
+            }
+          }));
   }
 
   // TODO(kevinb): use EqualsTester
