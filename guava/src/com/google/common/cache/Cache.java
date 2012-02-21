@@ -36,6 +36,10 @@ import javax.annotation.Nullable;
  * <p>Implementations of this interface are expected to be thread-safe, and can be safely accessed
  * by multiple concurrent threads.
  *
+ * <p>Note that while this class is still annotated as {@link Beta}, the API is frozen from a
+ * consumer's standpoint. In other words existing methods are all considered {@code non-Beta} and
+ * won't be changed without going through an 18 month deprecation cycle; however new methods may be
+ * added at any time.
  *
  * @author Charles Fry
  * @since 10.0
