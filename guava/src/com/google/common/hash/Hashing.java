@@ -239,7 +239,7 @@ public final class Hashing {
         resultBytes[i] = (byte) (resultBytes[i] * 37 ^ nextBytes[i]);
       }
     }
-    return HashCodes.fromBytes(resultBytes);
+    return HashCodes.fromBytesNoCopy(resultBytes);
   }
 
   /**
@@ -264,7 +264,7 @@ public final class Hashing {
         resultBytes[i] += nextBytes[i];
       }
     }
-    return HashCodes.fromBytes(resultBytes);
+    return HashCodes.fromBytesNoCopy(resultBytes);
   }
 
   /**
@@ -297,7 +297,7 @@ public final class Hashing {
       for (Hasher hasher : hashers) {
         buffer.put(hasher.hash().asBytes());
       }
-      return HashCodes.fromBytes(bytes);
+      return HashCodes.fromBytesNoCopy(bytes);
     }
 
     @Override

@@ -136,10 +136,16 @@ public class AbstractStreamingHasherTest extends TestCase {
       Control control = new Control();
       Hasher controlSink = control.newHasher(1024);
 
-      Iterable<Hasher> sinksAndControl = Iterables.concat(
-          sinks, Collections.singleton(controlSink));
+      Iterable<Hasher> sinksAndControl =
+          Iterables.concat(sinks, Collections.singleton(controlSink));
       for (int insertion = 0; insertion < totalInsertions; insertion++) {
         RandomHasherAction.pickAtRandom(random).performAction(random, sinksAndControl);
+      }
+      // We need to ensure that at least 4 bytes have been put into the hasher or else
+      // Hasher#hash will throw an ISE.
+      int intToPut = random.nextInt();
+      for (Hasher hasher : sinksAndControl) {
+        hasher.putInt(intToPut);
       }
       for (Sink sink : sinks) {
         sink.hash();

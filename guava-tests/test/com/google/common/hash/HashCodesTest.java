@@ -69,6 +69,34 @@ public class HashCodesTest extends TestCase {
       assertExpectedHashCode(expected, fromBytes);
     }
   }
+
+  public void testFromBytes_copyOccurs() {
+    byte[] bytes = new byte[] { (byte) 0xcd, (byte) 0xab, (byte) 0x00, (byte) 0x00 };
+    HashCode hashCode = HashCodes.fromBytes(bytes);
+    int expectedInt = 0x0000abcd;
+    String expectedToString = "cdab0000";
+
+    assertEquals(expectedInt, hashCode.asInt());
+    assertEquals(expectedToString, hashCode.toString());
+
+    bytes[0] = (byte) 0x00;
+
+    assertEquals(expectedInt, hashCode.asInt());
+    assertEquals(expectedToString, hashCode.toString());
+  }
+
+  public void testFromBytesNoCopy_noCopyOccurs() {
+    byte[] bytes = new byte[] { (byte) 0xcd, (byte) 0xab, (byte) 0x00, (byte) 0x00 };
+    HashCode hashCode = HashCodes.fromBytesNoCopy(bytes);
+
+    assertEquals(0x0000abcd, hashCode.asInt());
+    assertEquals("cdab0000", hashCode.toString());
+
+    bytes[0] = (byte) 0x00;
+
+    assertEquals(0x0000ab00, hashCode.asInt());
+    assertEquals("00ab0000", hashCode.toString());
+  }
   
   private void assertExpectedHashCode(ExpectedHashCode expected, HashCode hash) {
     assertTrue(Arrays.equals(expected.bytes, hash.asBytes()));

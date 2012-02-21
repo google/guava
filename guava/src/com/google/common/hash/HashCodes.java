@@ -14,23 +14,30 @@
 
 package com.google.common.hash;
 
+import static com.google.common.base.Preconditions.checkArgument;
+
+import com.google.common.annotations.Beta;
+
 /**
- * Static factories for {@link HashCode} instances.
- * 
- * @author andreou@google.com (Dimitris Andreou)
+ * Static factories for creating {@link HashCode} instances; most users should never have to use
+ * this.
+ *
+ * @author Dimitris Andreou
+ * @since 12.0
  */
-final class HashCodes {
+@Beta
+public final class HashCodes {
   private HashCodes() { }
-  
+
   /**
    * Creates a 32-bit {@code HashCode}, of which the bytes will form the passed int, interpreted 
    * in little endian order.
    */
-  static HashCode fromInt(int hash) {
+  public static HashCode fromInt(int hash) {
     return new IntHashCode(hash);
   }
   
-  private static class IntHashCode extends HashCode {
+  private static final class IntHashCode extends HashCode {
     final int hash;
     
     IntHashCode(int hash) {
@@ -62,11 +69,11 @@ final class HashCodes {
    * Creates a 64-bit {@code HashCode}, of which the bytes will form the passed long, interpreted 
    * in little endian order.
    */
-  static HashCode fromLong(long hash) {
+  public static HashCode fromLong(long hash) {
     return new LongHashCode(hash);
   }
   
-  private static class LongHashCode extends HashCode {
+  private static final class LongHashCode extends HashCode {
     final long hash;
     
     LongHashCode(long hash) {
@@ -99,15 +106,24 @@ final class HashCodes {
   }
   
   /**
+   * Creates a {@code HashCode} from a byte array. The array is defensively copied to preserve
+   * the immutability contract of {@code HashCode}. The array must be at least of length 4.
+   */
+  public static HashCode fromBytes(byte[] bytes) {
+    checkArgument(bytes.length >= 4, "A HashCode must contain at least 4 bytes.");
+    return fromBytesNoCopy(bytes.clone());
+  }
+
+  /**
    * Creates a {@code HashCode} from a byte array. The array is <i>not</i> copied defensively, 
    * so it must be handed-off so as to preserve the immutability contract of {@code HashCode}.
    * The array must be at least of length 4 (not checked). 
    */
-  static HashCode fromBytes(byte[] bytes) {
+  static HashCode fromBytesNoCopy(byte[] bytes) {
     return new BytesHashCode(bytes);
   }
   
-  private static class BytesHashCode extends HashCode {
+  private static final class BytesHashCode extends HashCode {
     final byte[] bytes;
     
     BytesHashCode(byte[] bytes) {

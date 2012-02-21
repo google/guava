@@ -163,7 +163,7 @@ final class MessageDigestHashFunction extends AbstractStreamingHashFunction {
     
     public HashCode hash() {
       done = true;
-      return HashCodes.fromBytes(digest.digest());
+      return HashCodes.fromBytesNoCopy(digest.digest());
     }
   }
 }

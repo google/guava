@@ -148,7 +148,7 @@ final class Murmur3_128HashFunction extends AbstractStreamingHashFunction implem
       ByteBuffer bb = ByteBuffer.wrap(new byte[16]).order(ByteOrder.LITTLE_ENDIAN);
       bb.putLong(h1);
       bb.putLong(h2);
-      return HashCodes.fromBytes(bb.array());
+      return HashCodes.fromBytesNoCopy(bb.array());
     }
 
     private long fmix64(long k) {
