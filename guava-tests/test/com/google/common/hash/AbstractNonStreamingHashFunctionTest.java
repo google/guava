@@ -23,7 +23,7 @@ public class AbstractNonStreamingHashFunctionTest extends TestCase {
    * and checks that their results are identical, no matter which newHasher version we used.
    */
   public void test() {
-    List<Hasher> hashers = ImmutableList.of( 
+    List<Hasher> hashers = ImmutableList.of(
         new StreamingVersion().newHasher(),
         new StreamingVersion().newHasher(52),
         new NonStreamingVersion().newHasher(),
@@ -40,7 +40,7 @@ public class AbstractNonStreamingHashFunctionTest extends TestCase {
       assertEquals(codes[i - 1], codes[i]);
     }
   }
-  
+
   static class StreamingVersion extends AbstractStreamingHashFunction {
     @Override
     public int bits() {
@@ -72,7 +72,7 @@ public class AbstractNonStreamingHashFunctionTest extends TestCase {
       };
     }
   }
-  
+
   static class NonStreamingVersion extends AbstractNonStreamingHashFunction {
     @Override
     public int bits() {
@@ -88,12 +88,12 @@ public class AbstractNonStreamingHashFunctionTest extends TestCase {
     public HashCode hashBytes(byte[] input, int off, int len) {
       return HashCodes.fromBytes(Arrays.copyOfRange(input, off, off + len));
     }
-    
+
     @Override
     public HashCode hashString(CharSequence input) {
       throw new UnsupportedOperationException();
     }
-    
+
     @Override
     public HashCode hashString(CharSequence input, Charset charset) {
       throw new UnsupportedOperationException();
@@ -101,6 +101,11 @@ public class AbstractNonStreamingHashFunctionTest extends TestCase {
 
     @Override
     public HashCode hashLong(long input) {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public HashCode hashInt(int input) {
       throw new UnsupportedOperationException();
     }
   }

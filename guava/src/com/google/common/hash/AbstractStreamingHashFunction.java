@@ -41,6 +41,10 @@ abstract class AbstractStreamingHashFunction implements HashFunction {
     return newHasher().putString(input, charset).hash();
   }
 
+  @Override public HashCode hashInt(int input) {
+    return newHasher().putInt(input).hash();
+  }
+
   @Override public HashCode hashLong(long input) {
     return newHasher().putLong(input).hash();
   }
