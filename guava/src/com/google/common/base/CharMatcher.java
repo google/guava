@@ -886,8 +886,6 @@ public abstract class CharMatcher implements Predicate<Character> {
     return indexIn(sequence) == -1;
   }
 
-  // TODO(kevinb): add matchesAnyOf()
-
   /**
    * Returns the index of the first matching character in a character sequence, or {@code -1} if no
    * matching character is present.
