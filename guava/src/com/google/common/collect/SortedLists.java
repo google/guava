@@ -200,7 +200,7 @@ import javax.annotation.Nullable;
    * KeyAbsentBehavior)} using {@link Ordering#natural}.
    */
   public static <E, K extends Comparable> int binarySearch(List<E> list,
-      Function<? super E, K> keyFunction, K key, KeyPresentBehavior presentBehavior,
+      Function<? super E, K> keyFunction, @Nullable K key, KeyPresentBehavior presentBehavior,
       KeyAbsentBehavior absentBehavior) {
     return binarySearch(
         list,
@@ -221,7 +221,7 @@ import javax.annotation.Nullable;
   public static <E, K> int binarySearch(
       List<E> list,
       Function<? super E, K> keyFunction,
-      K key,
+      @Nullable K key,
       Comparator<? super K> keyComparator,
       KeyPresentBehavior presentBehavior,
       KeyAbsentBehavior absentBehavior) {

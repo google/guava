@@ -17,54 +17,25 @@
 package com.google.common.testing;
 
 import com.google.common.annotations.Beta;
-import com.google.common.base.Defaults;
 import com.google.common.base.Function;
 import com.google.common.base.Functions;
-import com.google.common.base.Predicate;
-import com.google.common.base.Predicates;
 import com.google.common.base.Supplier;
 import com.google.common.base.Suppliers;
 import com.google.common.collect.ClassToInstanceMap;
-import com.google.common.collect.ImmutableCollection;
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.ImmutableMultimap;
-import com.google.common.collect.ImmutableMultiset;
-import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.ImmutableSortedMap;
-import com.google.common.collect.ImmutableSortedSet;
-import com.google.common.collect.ImmutableTable;
-import com.google.common.collect.Iterators;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Multimap;
-import com.google.common.collect.Multiset;
 import com.google.common.collect.MutableClassToInstanceMap;
-import com.google.common.collect.Table;
-import com.google.common.primitives.Primitives;
 
 import junit.framework.Assert;
 import junit.framework.AssertionFailedError;
 
 import java.lang.annotation.Annotation;
-import java.lang.reflect.Array;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Member;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.SortedMap;
-import java.util.SortedSet;
-import java.util.TreeSet;
-import java.util.concurrent.TimeUnit;
-import java.util.regex.Pattern;
 
 import javax.annotation.Nullable;
 
@@ -89,53 +60,15 @@ public final class NullPointerTester {
   }
 
   private final void setCommonDefaults() {
-    // miscellaneous value types
-    setDefault(Object.class, new Object());
+    // mutable types
     setDefault(Appendable.class, new StringBuilder());
-    setDefault(CharSequence.class, "");
-    setDefault(String.class, "");
-    setDefault(Class.class, Class.class);
-    setDefault(Pattern.class, Pattern.compile(""));
-    setDefault(TimeUnit.class, TimeUnit.SECONDS);
     setDefault(Throwable.class, new Exception());
 
-    // Collections
-    setDefault(Collection.class, Collections.emptySet());
-    setDefault(Iterable.class, Collections.emptySet());
-    setDefault(Iterator.class, Iterators.emptyIterator());
-    setDefault(List.class, Collections.emptyList());
-    setDefault(ImmutableList.class, ImmutableList.of());
-    setDefault(Set.class, Collections.emptySet());
-    setDefault(ImmutableSet.class, ImmutableSet.of());
-    // TODO(benyu): should this be ImmutableSortedSet? Not type safe.
-    setDefault(SortedSet.class, new TreeSet());
-    setDefault(ImmutableSortedSet.class, ImmutableSortedSet.of());
-    setDefault(ImmutableCollection.class, ImmutableList.of());
-    setDefault(Map.class, Collections.emptyMap());
-    setDefault(ImmutableMap.class, ImmutableMap.of());
-    setDefault(SortedMap.class, ImmutableSortedMap.of());
-    setDefault(ImmutableSortedMap.class, ImmutableSortedMap.of());
-    setDefault(Multimap.class, ImmutableMultimap.of());
-    setDefault(ImmutableMultimap.class, ImmutableMultimap.of());
-    setDefault(Multiset.class, ImmutableMultiset.of());
-    setDefault(ImmutableMultiset.class, ImmutableMultiset.of());
-    setDefault(Table.class, ImmutableTable.of());
-    setDefault(ImmutableTable.class, ImmutableTable.of());
-
-    // Function object types
-    setDefault(Comparator.class, Collections.reverseOrder());
-    setDefault(Predicate.class, Predicates.alwaysTrue());
-
-    // The following 3 aren't really safe generically
-    // For example, Comparable<String> can't be 0
-    setDefault(Comparable.class, 0);
+    // The following 4 aren't really safe generically
+    // For example, Comparable<String> can't be 0.
+    setDefault(Class.class, Class.class);
     setDefault(Function.class, Functions.identity());
     setDefault(Supplier.class, Suppliers.ofInstance(1));
-
-    // TODO(benyu): We would have delegated to Defaults.getDefault()
-    // By changing it now risks breaking existing clients, and we don't really
-    // care the default value anyway.
-    setDefault(char.class, 'a');
 
   }
 
@@ -408,17 +341,7 @@ public final class NullPointerTester {
     if (value != null) {
       return value;
     }
-    if (type.isEnum()) {
-      T[] constants = type.getEnumConstants();
-      if (constants.length > 0) {
-        return constants[0];
-      }
-    } else if (type.isArray()) {
-      @SuppressWarnings("unchecked") // T[].componentType[] == T[]
-      T emptyArray = (T) Array.newInstance(type.getComponentType(), 0);
-      return emptyArray;
-    }
-    return Defaults.defaultValue(Primitives.unwrap(type));
+    return NullValues.get(type);
   }
 
   private interface Functor {
