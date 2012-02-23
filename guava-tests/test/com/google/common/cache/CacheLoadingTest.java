@@ -1594,7 +1594,6 @@ public class CacheLoadingTest extends TestCase {
     };
     CountingRemovalListener<Integer, String> removalListener = countingRemovalListener();
     LoadingCache<Integer, String> cache = CacheBuilder.newBuilder()
-        .weakValues()
         .removalListener(removalListener)
         .build(failOnceFunction);
 
