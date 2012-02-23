@@ -4,18 +4,11 @@ package com.google.common.net;
 
 import static com.google.common.base.Charsets.UTF_16;
 import static com.google.common.base.Charsets.UTF_8;
-import static java.lang.reflect.Modifier.isFinal;
-import static java.lang.reflect.Modifier.isPublic;
-import static java.lang.reflect.Modifier.isStatic;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
-import com.google.common.base.Function;
 import com.google.common.base.Optional;
-import com.google.common.base.Predicate;
-import com.google.common.base.Throwables;
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.testing.EqualsTester;
@@ -23,7 +16,6 @@ import com.google.common.testing.NullPointerTester;
 
 import junit.framework.TestCase;
 
-import java.lang.reflect.Field;
 import java.nio.charset.IllegalCharsetNameException;
 import java.nio.charset.UnsupportedCharsetException;
 
@@ -35,6 +27,7 @@ import java.nio.charset.UnsupportedCharsetException;
 @Beta
 @GwtCompatible(emulated = true)
 public class MediaTypeTest extends TestCase {
+
   public void testCreate_invalidType() {
     try {
       MediaType.create("te><t", "plaintext");
@@ -145,7 +138,7 @@ public class MediaTypeTest extends TestCase {
     } catch (IllegalArgumentException expected) {}
   }
 
-  @GwtIncompatible("java.nio.charset.Charset") public void testWithCharset() {
+  public void testWithCharset() {
     assertEquals(MediaType.parse("text/plain; charset=utf-8"),
         MediaType.parse("text/plain").withCharset(UTF_8));
     assertEquals(MediaType.parse("text/plain; charset=utf-8"),
@@ -226,24 +219,26 @@ public class MediaTypeTest extends TestCase {
     } catch (IllegalArgumentException expected) {}
   }
 
-  @GwtIncompatible("java.nio.charset.Charset") public void testGetCharset() {
+  public void testGetCharset() {
     assertEquals(Optional.absent(), MediaType.parse("text/plain").charset());
     assertEquals(Optional.of(UTF_8),
         MediaType.parse("text/plain; charset=utf-8").charset());
+  }
+
+  @GwtIncompatible("Non-UTF-8 Charset") public void testGetCharset_utf16() {
     assertEquals(Optional.of(UTF_16),
         MediaType.parse("text/plain; charset=utf-16").charset());
   }
 
-  @GwtIncompatible("java.nio.charset.Charset") public void testGetCharset_tooMany() {
-    MediaType mediaType = MediaType.parse(
-        "text/plain; charset=utf-8; charset=utf-16");
+  public void testGetCharset_tooMany() {
+    MediaType mediaType = MediaType.parse("text/plain; charset=utf-8; charset=utf-16");
     try {
       mediaType.charset();
       fail();
     } catch (IllegalStateException expected) {}
   }
 
-  @GwtIncompatible("java.nio.charset.Charset") public void testGetCharset_illegalCharset() {
+  public void testGetCharset_illegalCharset() {
     MediaType mediaType = MediaType.parse(
         "text/plain; charset=\"!@#$%^&*()\"");
     try {
@@ -252,7 +247,7 @@ public class MediaTypeTest extends TestCase {
     } catch (IllegalCharsetNameException expected) {}
   }
 
-  @GwtIncompatible("java.nio.charset.Charset") public void testGetCharset_unsupportedCharset() {
+  public void testGetCharset_unsupportedCharset() {
     MediaType mediaType = MediaType.parse(
         "text/plain; charset=utf-wtf");
     try {
@@ -269,6 +264,7 @@ public class MediaTypeTest extends TestCase {
             MediaType.parse("TEXT/PLAIN"),
             MediaType.create("text", "plain").withParameter("a", "1").withoutParameters())
         .addEqualityGroup(
+            MediaType.create("text", "plain").withCharset(UTF_8),
             MediaType.create("text", "plain").withParameter("CHARSET", "UTF-8"),
             MediaType.create("text", "plain").withParameters(
                 ImmutableMultimap.of("charset", "utf-8")),
@@ -292,19 +288,10 @@ public class MediaTypeTest extends TestCase {
         .testEquals();
   }
 
-  @GwtIncompatible("java.nio.charset.Charset") public void testEquals_charset() {
+  @GwtIncompatible("Non-UTF-8 Charset") public void testEquals_nonUtf8Charsets() {
     new EqualsTester()
         .addEqualityGroup(MediaType.create("text", "plain"))
-        .addEqualityGroup(
-            MediaType.create("text", "plain").withCharset(UTF_8),
-            MediaType.create("text", "plain").withParameter("CHARSET", "UTF-8"),
-            MediaType.create("text", "plain").withParameters(
-                ImmutableMultimap.of("charset", "utf-8")),
-            MediaType.parse("text/plain; charset=utf-8"),
-            MediaType.parse("text/plain; CHARSET=utf-8"),
-            MediaType.parse("text/plain; charset=\"utf-8\""),
-            MediaType.parse("text/plain; charset=\"\\u\\tf-\\8\""),
-            MediaType.parse("text/plain; charset=UTF-8"))
+        .addEqualityGroup(MediaType.create("text", "plain").withCharset(UTF_8))
         .addEqualityGroup(MediaType.create("text", "plain").withCharset(UTF_16))
         .testEquals();
   }

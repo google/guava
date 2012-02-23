@@ -18,13 +18,13 @@ package com.google.common.net;
 
 import static com.google.common.base.CharMatcher.ASCII;
 import static com.google.common.base.CharMatcher.JAVA_ISO_CONTROL;
+import static com.google.common.base.Charsets.UTF_8;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Ascii;
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Function;
@@ -74,11 +74,10 @@ import javax.annotation.concurrent.Immutable;
  * @author Gregory Kick
  */
 @Beta
-@GwtCompatible(emulated = true)
+@GwtCompatible
 @Immutable
 public final class MediaType {
   private static final String CHARSET_ATTRIBUTE = "charset";
-  private static final String UTF_8 = "utf-8";
 
   /** Matcher for type, subtype and attributes. */
   private static final CharMatcher TOKEN_MATCHER = ASCII.and(JAVA_ISO_CONTROL.negate())
@@ -107,36 +106,30 @@ public final class MediaType {
 
   /* text types */
   public static final MediaType CACHE_MANIFEST_UTF_8 = new MediaType(TEXT_TYPE, "cache-manifest")
-      .withParameter(CHARSET_ATTRIBUTE, UTF_8);
-  public static final MediaType CSS_UTF_8 = new MediaType(TEXT_TYPE, "css")
-      .withParameter(CHARSET_ATTRIBUTE, UTF_8);
-  public static final MediaType CSV_UTF_8 = new MediaType(TEXT_TYPE, "csv")
-      .withParameter(CHARSET_ATTRIBUTE, UTF_8);
-  public static final MediaType HTML_UTF_8 = new MediaType(TEXT_TYPE, "html")
-      .withParameter(CHARSET_ATTRIBUTE, UTF_8);
+      .withCharset(UTF_8);
+  public static final MediaType CSS_UTF_8 = new MediaType(TEXT_TYPE, "css").withCharset(UTF_8);
+  public static final MediaType CSV_UTF_8 = new MediaType(TEXT_TYPE, "csv").withCharset(UTF_8);
+  public static final MediaType HTML_UTF_8 = new MediaType(TEXT_TYPE, "html").withCharset(UTF_8);
   public static final MediaType I_CALENDAR_UTF_8 = new MediaType(TEXT_TYPE, "calendar")
-      .withParameter(CHARSET_ATTRIBUTE, UTF_8);
+      .withCharset(UTF_8);
   public static final MediaType PLAIN_TEXT_UTF_8 = new MediaType(TEXT_TYPE, "plain")
-      .withParameter(CHARSET_ATTRIBUTE, UTF_8);
+      .withCharset(UTF_8);
   /**
    * <a href="http://www.rfc-editor.org/rfc/rfc4329.txt">RFC 4329</a> declares
    * {link #JAVASCRIPT application/javascript} to be the correct media type for JavaScript, but this
    * may be necessary in certain situations for compatibility.
    */
   public static final MediaType TEXT_JAVASCRIPT_UTF_8 = new MediaType(TEXT_TYPE, "javascript")
-      .withParameter(CHARSET_ATTRIBUTE, UTF_8);
-  public static final MediaType VCARD_UTF_8 = new MediaType(TEXT_TYPE, "vcard")
-      .withParameter(CHARSET_ATTRIBUTE, UTF_8);
-  public static final MediaType XML_UTF_8 = new MediaType(TEXT_TYPE, "xml")
-      .withParameter(CHARSET_ATTRIBUTE, UTF_8);
+      .withCharset(UTF_8);
+  public static final MediaType VCARD_UTF_8 = new MediaType(TEXT_TYPE, "vcard").withCharset(UTF_8);
+  public static final MediaType XML_UTF_8 = new MediaType(TEXT_TYPE, "xml").withCharset(UTF_8);
 
   /* image types */
   public static final MediaType GIF = new MediaType(IMAGE_TYPE, "gif");
   public static final MediaType ICO = new MediaType(IMAGE_TYPE, "vnd.microsoft.icon");
   public static final MediaType JPEG = new MediaType(IMAGE_TYPE, "jpeg");
   public static final MediaType PNG = new MediaType(IMAGE_TYPE, "png");
-  public static final MediaType SVG_UTF_8 = new MediaType(IMAGE_TYPE, "svg+xml")
-      .withParameter(CHARSET_ATTRIBUTE, UTF_8);
+  public static final MediaType SVG_UTF_8 = new MediaType(IMAGE_TYPE, "svg+xml").withCharset(UTF_8);
 
   /* audio types */
   public static final MediaType MP4_AUDIO = new MediaType(AUDIO_TYPE, "mp4");
@@ -154,7 +147,7 @@ public final class MediaType {
 
   /* application types */
   public static final MediaType ATOM_UTF_8 = new MediaType(APPLICATION_TYPE, "atom+xml")
-      .withParameter(CHARSET_ATTRIBUTE, UTF_8);
+      .withCharset(UTF_8);
   public static final MediaType BZIP2 = new MediaType(APPLICATION_TYPE, "x-bzip2");
   public static final MediaType FORM_DATA = new MediaType(APPLICATION_TYPE,
       "x-www-form-urlencoded");
@@ -165,9 +158,9 @@ public final class MediaType {
     * necessary in certain situations for compatibility.
     */
   public static final MediaType JAVASCRIPT_UTF_8 = new MediaType(APPLICATION_TYPE, "javascript")
-      .withParameter(CHARSET_ATTRIBUTE, UTF_8);
+      .withCharset(UTF_8);
   public static final MediaType JSON_UTF_8 = new MediaType(APPLICATION_TYPE, "json")
-      .withParameter(CHARSET_ATTRIBUTE, UTF_8);
+      .withCharset(UTF_8);
   public static final MediaType KML = new MediaType(APPLICATION_TYPE, "vnd.google-earth.kml+xml");
   public static final MediaType KMZ = new MediaType(APPLICATION_TYPE, "vnd.google-earth.kmz");
   public static final MediaType MICROSOFT_EXCEL = new MediaType(APPLICATION_TYPE, "vnd.ms-excel");
@@ -193,12 +186,12 @@ public final class MediaType {
   public static final MediaType PDF = new MediaType(APPLICATION_TYPE, "pdf");
   public static final MediaType POSTSCRIPT = new MediaType(APPLICATION_TYPE, "postscript");
   public static final MediaType RTF_UTF_8 = new MediaType(APPLICATION_TYPE, "rtf")
-      .withParameter(CHARSET_ATTRIBUTE, UTF_8);
+      .withCharset(UTF_8);
   public static final MediaType SHOCKWAVE_FLASH = new MediaType(APPLICATION_TYPE,
       "x-shockwave-flash");
   public static final MediaType TAR = new MediaType(APPLICATION_TYPE, "x-tar");
   public static final MediaType XHTML_UTF_8 = new MediaType(APPLICATION_TYPE, "xhtml+xml")
-      .withParameter(CHARSET_ATTRIBUTE, UTF_8);
+      .withCharset(UTF_8);
   public static final MediaType ZIP = new MediaType(APPLICATION_TYPE, "zip");
 
   private static final ImmutableMap<MediaType, MediaType> KNOWN_TYPES =
@@ -306,9 +299,9 @@ public final class MediaType {
    * @throws IllegalStateException if multiple charset values have been set for this media type
    * @throws IllegalCharsetNameException if a charset value is present, but illegal
    * @throws UnsupportedCharsetException if a charset value is present, but no support is available
-   * in this instance of the Java virtual machine
+   *     in this instance of the Java virtual machine
    */
-  @GwtIncompatible("java.nio.charset.Charset") public Optional<Charset> charset() {
+  public Optional<Charset> charset() {
     ImmutableSet<String> charsetValues = ImmutableSet.copyOf(parameters.get(CHARSET_ATTRIBUTE));
     switch (charsetValues.size()) {
       case 0:
@@ -369,7 +362,6 @@ public final class MediaType {
    * <p>If a charset must be specified that is not supported on this JVM (and thus is not
    * representable as a {@link Charset} instance, use {@link #withParameter}.
    */
-  @GwtIncompatible("java.nio.charset.Charset")
   public MediaType withCharset(Charset charset) {
     checkNotNull(charset);
     return withParameter(CHARSET_ATTRIBUTE, charset.name());
