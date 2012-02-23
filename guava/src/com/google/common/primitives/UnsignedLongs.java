@@ -17,12 +17,12 @@ package com.google.common.primitives;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import com.google.common.annotations.Beta;
+import com.google.common.annotations.GwtCompatible;
+
 import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.Comparator;
-
-import com.google.common.annotations.Beta;
-import com.google.common.annotations.GwtCompatible;
 
 /**
  * Static utility methods pertaining to {@code long} primitives that interpret values as

@@ -17,11 +17,11 @@ package com.google.common.primitives;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import java.util.Arrays;
-import java.util.Comparator;
-
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
+
+import java.util.Arrays;
+import java.util.Comparator;
 
 /**
  * Static utility methods pertaining to {@code int} primitives that interpret values as

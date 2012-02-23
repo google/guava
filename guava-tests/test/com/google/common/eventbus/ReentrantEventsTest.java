@@ -17,8 +17,10 @@
 package com.google.common.eventbus;
 
 import com.google.common.collect.Lists;
-import java.util.List;
+
 import junit.framework.TestCase;
+
+import java.util.List;
 
 /**
  * Validate that {@link EventBus} behaves carefully when listeners publish

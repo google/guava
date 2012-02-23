@@ -14,8 +14,8 @@
 
 package com.google.common.hash;
 
-import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.base.Preconditions.checkPositionIndexes;
+import static com.google.common.base.Preconditions.checkState;
 
 import com.google.common.primitives.Chars;
 import com.google.common.primitives.Ints;

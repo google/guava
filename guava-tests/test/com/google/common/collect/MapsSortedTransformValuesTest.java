@@ -16,12 +16,12 @@
 
 package com.google.common.collect;
 
-import java.util.Map;
-import java.util.SortedMap;
-
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Function;
 import com.google.common.base.Functions;
+
+import java.util.Map;
+import java.util.SortedMap;
 
 /**
  * Tests for {@link Maps#transformValues(SortedMap, Function)}.

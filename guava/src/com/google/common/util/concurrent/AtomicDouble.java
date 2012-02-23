@@ -14,10 +14,11 @@
 
 package com.google.common.util.concurrent;
 
-import com.google.common.annotations.Beta;
-
 import static java.lang.Double.doubleToRawLongBits;
 import static java.lang.Double.longBitsToDouble;
+
+import com.google.common.annotations.Beta;
+
 import java.util.concurrent.atomic.AtomicLongFieldUpdater;
 
 /**

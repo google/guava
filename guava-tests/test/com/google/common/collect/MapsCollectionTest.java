@@ -26,12 +26,12 @@ import com.google.common.collect.testing.google.BiMapTestSuiteBuilder;
 import com.google.common.collect.testing.google.TestStringBiMapGenerator;
 import com.google.common.testing.SerializableTester;
 
-import java.util.Map;
-import java.util.Map.Entry;
-
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
+
+import java.util.Map;
+import java.util.Map.Entry;
 
 /**
  * Test suites for wrappers in {@code Maps}.

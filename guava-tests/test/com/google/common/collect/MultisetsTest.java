@@ -16,20 +16,20 @@
 
 package com.google.common.collect;
 
-import static org.junit.contrib.truth.Truth.ASSERT;
 import static com.google.common.testing.SerializableTester.reserializeAndAssert;
-
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
-
-import junit.framework.TestCase;
+import static org.junit.contrib.truth.Truth.ASSERT;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.testing.DerivedComparable;
 import com.google.common.testing.NullPointerTester;
+
+import junit.framework.TestCase;
+
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Tests for {@link Multisets}.

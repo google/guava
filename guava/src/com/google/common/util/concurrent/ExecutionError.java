@@ -16,8 +16,8 @@
 
 package com.google.common.util.concurrent;
 
-import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.Beta;
+import com.google.common.annotations.GwtCompatible;
 
 /**
  * {@link Error} variant of {@link java.util.concurrent.ExecutionException}. As

@@ -14,14 +14,14 @@
 
 package com.google.common.primitives;
 
-import junit.framework.TestCase;
-
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.testing.EqualsTester;
 import com.google.common.testing.NullPointerTester;
 import com.google.common.testing.SerializableTester;
+
+import junit.framework.TestCase;
 
 /**
  * Tests for {@code UnsignedInteger}.

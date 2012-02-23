@@ -20,13 +20,13 @@ import static com.google.common.primitives.UnsignedInts.INT_MASK;
 import static com.google.common.primitives.UnsignedInts.compare;
 import static com.google.common.primitives.UnsignedInts.toLong;
 
-import java.math.BigInteger;
-
-import javax.annotation.Nullable;
-
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+
+import java.math.BigInteger;
+
+import javax.annotation.Nullable;
 
 /**
  * A wrapper class for unsigned {@code int} values, supporting arithmetic operations.

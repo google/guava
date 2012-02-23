@@ -20,6 +20,13 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 
+import com.google.common.annotations.Beta;
+import com.google.common.annotations.GwtCompatible;
+import com.google.common.base.Function;
+import com.google.common.base.Objects;
+import com.google.common.collect.Multiset.Entry;
+import com.google.common.primitives.Ints;
+
 import java.io.Serializable;
 import java.util.AbstractSet;
 import java.util.Collection;
@@ -32,13 +39,6 @@ import java.util.Set;
 import java.util.SortedSet;
 
 import javax.annotation.Nullable;
-
-import com.google.common.annotations.Beta;
-import com.google.common.annotations.GwtCompatible;
-import com.google.common.base.Function;
-import com.google.common.base.Objects;
-import com.google.common.collect.Multiset.Entry;
-import com.google.common.primitives.Ints;
 
 /**
  * Provides static utility methods for creating and working with {@link

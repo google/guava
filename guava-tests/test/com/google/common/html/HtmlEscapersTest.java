@@ -16,9 +16,9 @@
 
 package com.google.common.html;
 
+import static com.google.common.escape.testing.EscaperAsserts.assertEscaping;
 import static com.google.common.escape.testing.EscaperAsserts.assertUnescaped;
 import static com.google.common.escape.testing.EscaperAsserts.assertUnicodeEscaping;
-import static com.google.common.escape.testing.EscaperAsserts.assertEscaping;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.escape.UnicodeEscaper;

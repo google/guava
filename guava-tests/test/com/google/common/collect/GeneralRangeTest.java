@@ -17,16 +17,16 @@ package com.google.common.collect;
 import static com.google.common.collect.BoundType.CLOSED;
 import static com.google.common.collect.BoundType.OPEN;
 
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.List;
-
-import junit.framework.TestCase;
-
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Objects;
 import com.google.common.testing.NullPointerTester;
+
+import junit.framework.TestCase;
+
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.List;
 
 /**
  * Tests for {@code GeneralRange}.

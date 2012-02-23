@@ -2,10 +2,10 @@
 
 package com.google.common.hash;
 
+import junit.framework.TestCase;
+
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-
-import junit.framework.TestCase;
 
 /**
  * Tests for the MessageDigestHashFunction.

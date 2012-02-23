@@ -19,13 +19,13 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.BoundType.CLOSED;
 import static com.google.common.collect.BoundType.OPEN;
 
+import com.google.common.annotations.GwtCompatible;
+import com.google.common.base.Objects;
+
 import java.io.Serializable;
 import java.util.Comparator;
 
 import javax.annotation.Nullable;
-
-import com.google.common.annotations.GwtCompatible;
-import com.google.common.base.Objects;
 
 /**
  * A generalized interval on any ordering, for internal use. Supports {@code null}. Unlike

@@ -17,13 +17,13 @@ package com.google.common.primitives;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import com.google.common.annotations.Beta;
+import com.google.common.annotations.GwtCompatible;
+
 import java.io.Serializable;
 import java.math.BigInteger;
 
 import javax.annotation.Nullable;
-
-import com.google.common.annotations.Beta;
-import com.google.common.annotations.GwtCompatible;
 
 /**
  * A wrapper class for unsigned {@code long} values, supporting arithmetic operations.

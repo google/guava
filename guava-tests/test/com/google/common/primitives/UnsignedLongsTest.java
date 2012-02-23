@@ -16,14 +16,14 @@ package com.google.common.primitives;
 
 import static java.math.BigInteger.ONE;
 
-import java.math.BigInteger;
-import java.util.Random;
-
-import junit.framework.TestCase;
-
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.testing.NullPointerTester;
+
+import junit.framework.TestCase;
+
+import java.math.BigInteger;
+import java.util.Random;
 
 /**
  * Tests for UnsignedLongs

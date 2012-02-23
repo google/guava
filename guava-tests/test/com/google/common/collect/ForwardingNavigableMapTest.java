@@ -23,6 +23,9 @@ import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.MapFeature;
 
+import junit.framework.Test;
+import junit.framework.TestSuite;
+
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -32,9 +35,6 @@ import java.util.NavigableMap;
 import java.util.NavigableSet;
 import java.util.Set;
 import java.util.SortedMap;
-
-import junit.framework.Test;
-import junit.framework.TestSuite;
 
 /**
  * Tests for {@code ForwardingNavigableMap}.
