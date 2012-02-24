@@ -25,7 +25,6 @@ import static com.google.common.base.Preconditions.checkState;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Function;
 import com.google.common.base.Objects;
@@ -35,7 +34,6 @@ import java.io.Serializable;
 import java.util.AbstractList;
 import java.util.AbstractSequentialList;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
@@ -44,7 +42,6 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.NoSuchElementException;
 import java.util.RandomAccess;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 import javax.annotation.Nullable;
 
@@ -224,40 +221,6 @@ public final class Lists {
       list.add(element);
     }
     return list;
-  }
-
-  /**
-   * Creates an empty {@code CopyOnWriteArrayList} instance.
-   *
-   * <p><b>Note:</b> if you need an immutable empty {@link List}, use
-   * {@link Collections#emptyList} instead.
-   *
-   * @return a new, empty {@code CopyOnWriteArrayList}
-   * @since 12.0
-   */
-  @Beta
-  @GwtIncompatible("CopyOnWriteArrayList")
-  public static <E> CopyOnWriteArrayList<E> newCopyOnWriteArrayList() {
-    return new CopyOnWriteArrayList<E>();
-  }
-
-  /**
-   * Creates a {@code CopyOnWriteArrayList} instance containing the given elements.
-   *
-   * @param elements the elements that the list should contain, in order
-   * @return a new {@code CopyOnWriteArrayList} containing those elements
-   * @since 12.0
-   */
-  @Beta
-  @GwtIncompatible("CopyOnWriteArrayList")
-  public static <E> CopyOnWriteArrayList<E> newCopyOnWriteArrayList(
-      Iterable<? extends E> elements) {
-    // We copy elements to an ArrayList first, rather than incurring the
-    // quadratic cost of adding them to the COWAL directly.
-    Collection<? extends E> elementsCollection = (elements instanceof Collection)
-        ? (Collection<? extends E>) elements
-        : newArrayList(elements);
-    return new CopyOnWriteArrayList<E>(elementsCollection);
   }
 
   /**

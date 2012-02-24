@@ -53,6 +53,7 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.NoSuchElementException;
 import java.util.RandomAccess;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * Unit test for {@code Lists}.
@@ -390,6 +391,19 @@ public class ListsTest extends TestCase {
 
   public void testNewLinkedListFromIterable() {
     LinkedList<Integer> list = Lists.newLinkedList(SOME_ITERABLE);
+    assertEquals(SOME_COLLECTION, list);
+  }
+
+  @GwtIncompatible("CopyOnWriteArrayList")
+  public void testNewCOWALEmpty() {
+    CopyOnWriteArrayList<Integer> list = Lists.newCopyOnWriteArrayList();
+    assertEquals(Collections.emptyList(), list);
+  }
+
+  @GwtIncompatible("CopyOnWriteArrayList")
+  public void testNewCOWALFromIterable() {
+    CopyOnWriteArrayList<Integer> list = Lists.newCopyOnWriteArrayList(
+        SOME_ITERABLE);
     assertEquals(SOME_COLLECTION, list);
   }
 

@@ -75,6 +75,7 @@ import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
+import java.util.concurrent.CopyOnWriteArraySet;
 
 import javax.annotation.Nullable;
 
@@ -509,6 +510,18 @@ public class SetsTest extends TestCase {
     assertTrue(set.contains(value1));
     assertTrue(set.add(value2));
     assertEquals(2, set.size());
+  }
+
+  @GwtIncompatible("CopyOnWriteArraySet")
+  public void testNewCOWASEmpty() {
+    CopyOnWriteArraySet<Integer> set = Sets.newCopyOnWriteArraySet();
+    verifySetContents(set, EMPTY_COLLECTION);
+  }
+
+  @GwtIncompatible("CopyOnWriteArraySet")
+  public void testNewCOWASFromIterable() {
+    CopyOnWriteArraySet<Integer> set = Sets.newCopyOnWriteArraySet(SOME_ITERABLE);
+    verifySetContents(set, SOME_COLLECTION);
   }
 
   public void testComplementOfEnumSet() {

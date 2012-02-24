@@ -49,6 +49,7 @@ import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
+import java.util.concurrent.CopyOnWriteArraySet;
 
 import javax.annotation.Nullable;
 
@@ -361,6 +362,40 @@ public final class Sets {
    */
   public static <E> Set<E> newIdentityHashSet() {
     return Sets.newSetFromMap(Maps.<E, Boolean>newIdentityHashMap());
+  }
+
+  /**
+   * Creates an empty {@code CopyOnWriteArraySet} instance.
+   *
+   * <p><b>Note:</b> if you need an immutable empty {@link Set}, use
+   * {@link Collections#emptySet} instead.
+   *
+   * @return a new, empty {@code CopyOnWriteArraySet}
+   * @since 12.0
+   */
+  @Beta
+  @GwtIncompatible("CopyOnWriteArraySet")
+  public static <E> CopyOnWriteArraySet<E> newCopyOnWriteArraySet() {
+    return new CopyOnWriteArraySet<E>();
+  }
+
+  /**
+   * Creates a {@code CopyOnWriteArraySet} instance containing the given elements.
+   *
+   * @param elements the elements that the set should contain, in order
+   * @return a new {@code CopyOnWriteArraySet} containing those elements
+   * @since 12.0
+   */
+  @Beta
+  @GwtIncompatible("CopyOnWriteArraySet")
+  public static <E> CopyOnWriteArraySet<E> newCopyOnWriteArraySet(
+      Iterable<? extends E> elements) {
+    // We copy elements to an ArrayList first, rather than incurring the
+    // quadratic cost of adding them to the COWAS directly.
+    Collection<? extends E> elementsCollection = (elements instanceof Collection)
+        ? (Collection<? extends E>) elements
+        : Lists.newArrayList(elements);
+    return new CopyOnWriteArraySet<E>(elementsCollection);
   }
 
   /**
