@@ -230,7 +230,9 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    * @throws IllegalStateException if a maximum size was already set
    * @deprecated Caching functionality in {@code MapMaker} is being moved to
    *     {@link com.google.common.cache.CacheBuilder}, with {@link #maximumSize} being
-   *     replaced by {@link com.google.common.cache.CacheBuilder#maximumSize}.
+   *     replaced by {@link com.google.common.cache.CacheBuilder#maximumSize}. Note that {@code
+   *     CacheBuilder} is simply an enhanced API for an implementation which was branched from
+   *     {@code MapMaker}.
    */
   @Deprecated
   @Override
@@ -426,7 +428,9 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    * @deprecated Caching functionality in {@code MapMaker} is being moved to
    *     {@link com.google.common.cache.CacheBuilder}. Functionality equivalent to
    *     {@link MapMaker#expiration} is provided by
-   *     {@link com.google.common.cache.CacheBuilder#expireAfterWrite}.
+   *     {@link com.google.common.cache.CacheBuilder#expireAfterWrite}. Note that {@code
+   *     CacheBuilder} is simply an enhanced API for an implementation which was branched from
+   *     {@code MapMaker}.
    *     <b>This method is scheduled for deletion in July 2012.</b>
    */
   @Deprecated
@@ -457,7 +461,9 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    * @throws IllegalStateException if the time to live or time to idle was already set
    * @deprecated Caching functionality in {@code MapMaker} is being moved to
    *     {@link com.google.common.cache.CacheBuilder}, with {@link #expireAfterWrite} being
-   *     replaced by {@link com.google.common.cache.CacheBuilder#expireAfterWrite}.
+   *     replaced by {@link com.google.common.cache.CacheBuilder#expireAfterWrite}. Note that {@code
+   *     CacheBuilder} is simply an enhanced API for an implementation which was branched from
+   *     {@code MapMaker}.
    */
   @Deprecated
   @Override
@@ -505,7 +511,9 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    * @throws IllegalStateException if the time to idle or time to live was already set
    * @deprecated Caching functionality in {@code MapMaker} is being moved to
    *     {@link com.google.common.cache.CacheBuilder}, with {@link #expireAfterAccess} being
-   *     replaced by {@link com.google.common.cache.CacheBuilder#expireAfterAccess}.
+   *     replaced by {@link com.google.common.cache.CacheBuilder#expireAfterAccess}. Note that
+   *     {@code CacheBuilder} is simply an enhanced API for an implementation which was branched
+   *     from {@code MapMaker}.
    */
   @Deprecated
   @GwtIncompatible("To be supported")
@@ -555,7 +563,9 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    * @throws IllegalStateException if a removal listener was already set
    * @deprecated Caching functionality in {@code MapMaker} is being moved to
    *     {@link com.google.common.cache.CacheBuilder}, with {@link #removalListener} being
-   *     replaced by {@link com.google.common.cache.CacheBuilder#removalListener}.
+   *     replaced by {@link com.google.common.cache.CacheBuilder#removalListener}. Note that {@code
+   *     CacheBuilder} is simply an enhanced API for an implementation which was branched from
+   *     {@code MapMaker}.
    */
   @Deprecated
   @GwtIncompatible("To be supported")
@@ -657,7 +667,8 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    *     {@link com.google.common.cache.CacheBuilder}, with {@link #makeComputingMap} being replaced
    *     by {@link com.google.common.cache.CacheBuilder#build}. Note that uses of
    *     {@link #makeComputingMap} with {@code AtomicLong} values can often be migrated to
-   *     {@link AtomicLongMap}.
+   *     {@link AtomicLongMap}. Note that {@code CacheBuilder} is simply an enhanced API for an
+   *     implementation which was branched from {@code MapMaker}.
    *     <b>This method is scheduled for deletion in February 2013.</b>
    *
    */

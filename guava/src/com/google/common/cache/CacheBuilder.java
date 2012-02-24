@@ -59,6 +59,9 @@ import javax.annotation.CheckReturnValue;
  * <li>notification of evicted (or otherwise removed) entries
  * </ul>
  *
+ * These features are all optional; caches can be created using all or none of them. By default
+ * cache instances created by {@code CacheBuilder} will not perform any type of eviction.
+ *
  * <p>Usage example: <pre>   {@code
  *
  *   LoadingCache<Key, Graph> graphs = CacheBuilder.newBuilder()
@@ -72,8 +75,6 @@ import javax.annotation.CheckReturnValue;
  *             }
  *           });}</pre>
  *
- *
- * These features are all optional.
  *
  * <p>The returned cache is implemented as a hash table with similar performance characteristics to
  * {@link ConcurrentHashMap}. It implements all optional operations of the {@link LoadingCache} and
