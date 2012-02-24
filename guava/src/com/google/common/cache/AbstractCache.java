@@ -32,9 +32,10 @@ import java.util.concurrent.atomic.AtomicLong;
  * effort required to implement this interface.
  *
  * <p>To implement a cache, the programmer needs only to extend this class and provide an
- * implementation for the {@link #getIfPresent} method. {@link #getAllPresent} is implemented in
- * terms of {@code getIfPresent}; {@link #invalidateAll(Iterable)} is implemented in terms of
- * {@link #invalidate}. The method {@link #cleanUp} is a no-op. All other methods throw an
+ * implementation for the {@link #put} and {@link #getIfPresent} methods. {@link #getAllPresent} is
+ * implemented in terms of {@link #getIfPresent}; {@link #putAll} is implemented in terms of
+ * {@link #put}, {@link #invalidateAll(Iterable)} is implemented in terms of {@link #invalidate}.
+ * The method {@link #cleanUp} is a no-op. All other methods throw an
  * {@link UnsupportedOperationException}.
  *
  * @author Charles Fry
@@ -75,6 +76,16 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
   @Override
   public void put(K key, V value) {
     throw new UnsupportedOperationException();
+  }
+
+  /**
+   * @since 12.0
+   */
+  @Override
+  public void putAll(Map<? extends K, ? extends V> m) {
+    for (Map.Entry<? extends K, ? extends V> entry : m.entrySet()) {
+      put(entry.getKey(), entry.getValue());
+    }
   }
 
   @Override

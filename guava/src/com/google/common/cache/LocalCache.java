@@ -4780,6 +4780,11 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
     }
 
     @Override
+    public void putAll(Map<? extends K, ? extends V> m) {
+      localCache.putAll(m);
+    }
+
+    @Override
     public void invalidate(Object key) {
       checkNotNull(key);
       localCache.remove(key);

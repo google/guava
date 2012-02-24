@@ -22,6 +22,7 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.util.concurrent.ExecutionError;
 import com.google.common.util.concurrent.UncheckedExecutionException;
 
+import java.util.Map;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.ExecutionException;
@@ -93,6 +94,16 @@ public interface Cache<K, V> {
    * @since 11.0
    */
   void put(K key, V value);
+
+  /**
+   * Copies all of the mappings from the specified map to the cache. The effect of this call is
+   * equivalent to that of calling {@code put(k, v)} on this map once for each mapping from key
+   * {@code k} to value {@code v} in the specified map. The behavior of this operation is undefined
+   * if the specified map is modified while the operation is in progress.
+   *
+   * @since 12.0
+   */
+  void putAll(Map<? extends K,? extends V> m);
 
   /**
    * Discards any cached value for key {@code key}.
