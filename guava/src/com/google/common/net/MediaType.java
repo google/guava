@@ -40,8 +40,6 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Multimaps;
-import com.google.common.escape.CharEscaper;
-import com.google.common.escape.CharEscaperBuilder;
 
 import java.nio.charset.Charset;
 import java.nio.charset.IllegalCharsetNameException;
@@ -555,11 +553,6 @@ public final class MediaType {
   }
 
   private static final MapJoiner PARAMETER_JOINER = Joiner.on("; ").withKeyValueSeparator("=");
-  private static final CharEscaper VALUE_ESCAPER = new CharEscaperBuilder()
-      .addEscape('"', "\\\"")
-      .addEscape('\r', "\\\r")
-      .addEscape('\\', "\\\\")
-      .toEscaper();
 
   /**
    * Returns the string representation of this media type in the format described in <a
@@ -572,13 +565,23 @@ public final class MediaType {
       Multimap<String, String> quotedParameters = Multimaps.transformValues(parameters,
           new Function<String, String>() {
             @Override public String apply(String value) {
-              return TOKEN_MATCHER.matchesAllOf(value) ? value
-                  : new StringBuilder().append('"').append(VALUE_ESCAPER.escape(value)).append('"')
-                      .toString();
+              return TOKEN_MATCHER.matchesAllOf(value) ? value : escapeAndQuote(value);
             }
           });
       PARAMETER_JOINER.appendTo(builder, quotedParameters.entries());
     }
     return builder.toString();
   }
+
+  private static String escapeAndQuote(String value) {
+    StringBuilder escaped = new StringBuilder(value.length() + 16).append('"');
+    for (char ch : value.toCharArray()) {
+      if (ch == '\r' || ch == '\\' || ch == '"') {
+        escaped.append('\\');
+      }
+      escaped.append(ch);
+    }
+    return escaped.append('"').toString();
+  }
+
 }
