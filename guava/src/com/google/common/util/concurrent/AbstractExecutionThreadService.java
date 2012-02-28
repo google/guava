@@ -78,6 +78,8 @@ public abstract class AbstractExecutionThreadService implements Service {
 
   /**
    * Start the service. This method is invoked on the execution thread.
+   * 
+   * <p>By default this method does nothing.
    */
   protected void startUp() throws Exception {}
 
@@ -99,12 +101,16 @@ public abstract class AbstractExecutionThreadService implements Service {
 
   /**
    * Stop the service. This method is invoked on the execution thread.
+   * 
+   * <p>By default this method does nothing.
    */
   // TODO: consider supporting a TearDownTestCase-like API
   protected void shutDown() throws Exception {}
 
   /**
    * Invoked to request the service to stop.
+   * 
+   * <p>By default this method does nothing.
    */
   protected void triggerShutdown() {}
 

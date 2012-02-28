@@ -236,11 +236,19 @@ public abstract class AbstractScheduledService implements Service {
    */
   protected abstract void runOneIteration() throws Exception;
 
-  /** Start the service. */
-  protected abstract void startUp() throws Exception;
+  /** 
+   * Start the service.
+   * 
+   * <p>By default this method does nothing.
+   */
+  protected void startUp() throws Exception {}
 
-  /** Stop the service. This is guaranteed not to run concurrently with {@link #runOneIteration}. */
-  protected abstract void shutDown() throws Exception;
+  /**
+   * Stop the service. This is guaranteed not to run concurrently with {@link #runOneIteration}.
+   * 
+   * <p>By default this method does nothing. 
+   */
+  protected void shutDown() throws Exception {}
 
   /**
    * Returns the {@link Scheduler} object used to configure this service.  This method will only be

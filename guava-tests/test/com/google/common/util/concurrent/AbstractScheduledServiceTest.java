@@ -65,8 +65,6 @@ public class AbstractScheduledServiceTest extends TestCase {
 
   private class NullService extends AbstractScheduledService {
     @Override protected void runOneIteration() throws Exception { }
-    @Override protected void startUp() throws Exception { }
-    @Override protected void shutDown() throws Exception { }
     @Override protected Scheduler scheduler() { return configuration; }
     @Override protected ScheduledExecutorService executor() { return executor; }
   }
@@ -413,10 +411,6 @@ public class AbstractScheduledServiceTest extends TestCase {
         // use a bunch of threads so that weird overlapping schedules are more likely to happen.
         return Executors.newScheduledThreadPool(10);
       }
-
-      @Override protected void startUp() throws Exception { }
-
-      @Override protected void shutDown() throws Exception { }
 
       @Override protected Scheduler scheduler() {
         return new CustomScheduler() {
