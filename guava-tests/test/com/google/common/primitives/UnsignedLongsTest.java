@@ -131,6 +131,13 @@ public class UnsignedLongsTest extends TestCase {
         // expected
       }
     }
+
+    try {
+      UnsignedLongs.parseUnsignedLong("1234567890abcdef1", 16);
+      fail();
+    } catch (NumberFormatException nfe) {
+      // expected
+    }
   }
 
   public void testParseLongThrowsExceptionForInvalidRadix() {
