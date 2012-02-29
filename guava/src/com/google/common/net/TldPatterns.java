@@ -4397,8 +4397,7 @@ class TldPatterns {
       "tp",
       "yt",
       "ng",
-      "pm",
-      "co.yu"
+      "pm"
   );
 
   /**
