@@ -7,6 +7,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import com.google.common.math.IntMath;
 
 import java.math.RoundingMode;
+import java.util.Arrays;
 
 /**
  * Collections of strategies of generating the {@code k * log(M)} bits required for an element to
@@ -23,20 +24,21 @@ enum BloomFilterStrategies implements BloomFilter.Strategy {
    * performance of a Bloom filter (yet only needs two 32bit hash functions).
    */
   MURMUR128_MITZ_32() {
-    @Override public <T> void put(T object, Funnel<? super T> funnel,
+    @Override public <T> boolean put(T object, Funnel<? super T> funnel,
         int numHashFunctions, BitArray bits) {
       // TODO(user): when the murmur's shortcuts are implemented, update this code
       long hash64 = Hashing.murmur3_128().newHasher().putObject(object, funnel).hash().asLong();
       int hash1 = (int) hash64;
       int hash2 = (int) (hash64 >>> 32);
+      boolean bitsChanged = false;
       for (int i = 1; i <= numHashFunctions; i++) {
         int nextHash = hash1 + i * hash2;
         if (nextHash < 0) {
           nextHash = ~nextHash;
         }
-        // up to here, the code is identical with the next method
-        bits.set(nextHash % bits.size());
+        bitsChanged |= bits.set(nextHash % bits.size());
       }
+      return bitsChanged;
     }
 
     @Override public <T> boolean mightContain(T object, Funnel<? super T> funnel,
@@ -49,7 +51,6 @@ enum BloomFilterStrategies implements BloomFilter.Strategy {
         if (nextHash < 0) {
           nextHash = ~nextHash;
         }
-        // up to here, the code is identical with the previous method
         if (!bits.get(nextHash % bits.size())) {
           return false;
         }
@@ -71,8 +72,11 @@ enum BloomFilterStrategies implements BloomFilter.Strategy {
       this.data = data;
     }
 
-    void set(int index) {
+    /** Returns true if the bit changed value. */
+    boolean set(int index) {
+      boolean wasSet = get(index);
       data[index >> 6] |= (1L << index);
+      return !wasSet;
     }
 
     boolean get(int index) {
@@ -82,6 +86,23 @@ enum BloomFilterStrategies implements BloomFilter.Strategy {
     /** Number of bits */
     int size() {
       return data.length * Long.SIZE;
+    }
+
+    BitArray copy() {
+      return new BitArray(data.clone());
+    }
+
+    @Override public boolean equals(Object o) {
+      if (o instanceof BitArray) {
+        BitArray bitArray = (BitArray) o;
+        return Arrays.equals(data, bitArray.data);
+      }
+
+      return false;
+    }
+
+    @Override public int hashCode() {
+      return Arrays.hashCode(data);
     }
   }
 }

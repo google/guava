@@ -3,6 +3,7 @@
 package com.google.common.hash;
 
 import com.google.common.primitives.Ints;
+import com.google.common.testing.EqualsTester;
 import com.google.common.testing.SerializableTester;
 
 import junit.framework.TestCase;
@@ -77,5 +78,52 @@ public class BloomFilterTest extends TestCase {
     for (int i = 0; i < 10; i++) {
       assertTrue(bf.mightContain(Ints.toByteArray(i)));
     }
+  }
+  
+  public void testCopy() throws Exception {
+    BloomFilter<CharSequence> original = BloomFilter.create(Funnels.stringFunnel(), 100);
+    BloomFilter<CharSequence> copy = original.copy();
+    assertNotSame(original, copy);
+    assertEquals(original, copy);
+  }
+
+  public void testEquals_empty() throws Exception {
+    new EqualsTester()
+        .addEqualityGroup(BloomFilter.create(Funnels.byteArrayFunnel(), 100, 0.01))
+        .addEqualityGroup(BloomFilter.create(Funnels.byteArrayFunnel(), 100, 0.02))
+        .addEqualityGroup(BloomFilter.create(Funnels.byteArrayFunnel(), 200, 0.01))
+        .addEqualityGroup(BloomFilter.create(Funnels.byteArrayFunnel(), 200, 0.02))
+        .addEqualityGroup(BloomFilter.create(Funnels.stringFunnel(), 100, 0.01))
+        .addEqualityGroup(BloomFilter.create(Funnels.stringFunnel(), 100, 0.02))
+        .addEqualityGroup(BloomFilter.create(Funnels.stringFunnel(), 200, 0.01))
+        .addEqualityGroup(BloomFilter.create(Funnels.stringFunnel(), 200, 0.02))
+        .testEquals();
+  }
+
+  public void testEquals() throws Exception {
+    BloomFilter<CharSequence> bf1 = BloomFilter.create(Funnels.stringFunnel(), 100);
+    bf1.put("1");
+    bf1.put("2");
+
+    BloomFilter<CharSequence> bf2 = BloomFilter.create(Funnels.stringFunnel(), 100);
+    bf2.put("1");
+    bf2.put("2");
+
+    new EqualsTester()
+        .addEqualityGroup(bf1, bf2)
+        .testEquals();
+
+    bf2.put("3");
+
+    new EqualsTester()
+        .addEqualityGroup(bf1)
+        .addEqualityGroup(bf2)
+        .testEquals();
+  }
+
+  public void testPutReturnValue() throws Exception {
+    BloomFilter<CharSequence> bf = BloomFilter.create(Funnels.stringFunnel(), 100);
+    assertTrue(bf.put("1"));
+    assertFalse(bf.put("1"));
   }
 }

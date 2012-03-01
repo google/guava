@@ -40,14 +40,20 @@ import java.io.Serializable;
  */
 @Beta
 public final class BloomFilter<T> implements Serializable {
+
   /**
    * A strategy to translate T instances, to {@code numHashFunctions} bit indexes.
+   *
+   * <p>Implementations should be collections of pure functions (i.e. stateless).
    */
   interface Strategy extends java.io.Serializable {
+
     /**
-     * Sets {@code numHashFunctions} bits of the given bit array, by hashing a user element. 
+     * Sets {@code numHashFunctions} bits of the given bit array, by hashing a user element.
+     *
+     * <p>Returns whether any bits changed as a result of this operation.
      */
-    <T> void put(T object, Funnel<? super T> funnel, int numHashFunctions, BitArray bits);
+    <T> boolean put(T object, Funnel<? super T> funnel, int numHashFunctions, BitArray bits);
     
     /**
      * Queries {@code numHashFunctions} bits of the given bit array, by hashing a user element;
@@ -82,7 +88,17 @@ public final class BloomFilter<T> implements Serializable {
     this.funnel = checkNotNull(funnel);
     this.strategy = strategy;
   }
-  
+
+  /**
+   * Creates a new {@code BloomFilter} that's a copy of this instance. The new instance is equal to
+   * this instance but shares no mutable state.
+   *
+   * @since 12.0
+   */
+  public BloomFilter<T> copy() {
+    return new BloomFilter<T>(bits.copy(), numHashFunctions, funnel, strategy);
+  }
+
   /**
    * Returns {@code true} if the element <i>might</i> have been put in this Bloom filter, 
    * {@code false} if this is <i>definitely</i> not the case. 
@@ -94,11 +110,39 @@ public final class BloomFilter<T> implements Serializable {
   /**
    * Puts an element into this {@code BloomFilter}. Ensures that subsequent invocations of 
    * {@link #mightContain(Object)} with the same element will always return {@code true}.
+   * 
+   * @return true if the bloom filter's bits changed as a result of this operation. If the bits
+   *         changed, this is <i>definitely</i> the first time {@code object} has been added to the
+   *         filter. If the bits haven't changed, this <i>might</i> be the first time {@code object}
+   *         has been added to the filter. Note that {@code put(t)} always returns the
+   *         <i>opposite</i> result to what {@code mightContain(t)} would have returned at the time
+   *         it is called."
+   * @since 12.0 (present in 11.0 with {@code void} return type})
    */
-  public void put(T object) {
-    strategy.put(object, funnel, numHashFunctions, bits);
+  public boolean put(T object) {
+    return strategy.put(object, funnel, numHashFunctions, bits);
   }
-  
+
+  /**
+   * {@inheritDoc}
+   *
+   * <p>This implementation uses reference equality to compare funnels.
+   */
+  @Override public boolean equals(Object o) {
+    if (o instanceof BloomFilter) {
+      BloomFilter that = (BloomFilter) o;
+      return this.numHashFunctions == that.numHashFunctions
+          && this.bits.equals(that.bits)
+          && this.funnel == that.funnel
+          && this.strategy == that.strategy;
+    }
+    return false;
+  }
+
+  @Override public int hashCode() {
+    return bits.hashCode();
+  }
+
   @VisibleForTesting int getHashCount() {
     return numHashFunctions;
   }
@@ -119,6 +163,10 @@ public final class BloomFilter<T> implements Serializable {
    * 
    * <p>The constructed {@code BloomFilter<T>} will be serializable if the provided 
    * {@code Funnel<T>} is.
+   *
+   * <p>It is recommended the funnel is implemented as a Java enum. This has the benefit of ensuring
+   * proper serialization and deserialization, which is important since {@link #equals} also relies
+   * on object identity of funnels.
    * 
    * @param funnel the funnel of T's that the constructed {@code BloomFilter<T>} will use
    * @param expectedInsertions the number of expected insertions to the constructed 
