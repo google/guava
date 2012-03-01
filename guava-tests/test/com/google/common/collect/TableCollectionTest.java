@@ -502,7 +502,8 @@ public class TableCollectionTest extends TestCase {
           }
         })
         .named("TransformValues.cellSet")
-        .withFeatures(CollectionSize.ANY, CollectionFeature.ALLOWS_NULL_QUERIES)
+        .withFeatures(CollectionSize.ANY, CollectionFeature.ALLOWS_NULL_QUERIES,
+            CollectionFeature.REMOVE_OPERATIONS)
         .createTestSuite());
 
     suite.addTest(SetTestSuiteBuilder.using(new TestCellSetGenerator() {

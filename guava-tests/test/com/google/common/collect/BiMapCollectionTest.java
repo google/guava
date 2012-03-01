@@ -64,7 +64,8 @@ public class BiMapCollectionTest extends TestCase {
     @Override
     public BiMap<Country, Currency> create(Object... entries) {
       BiMap<Country, Currency> result = EnumBiMap.create(Country.class, Currency.class);
-      for (Entry<Country, Currency> entry : (Entry[]) entries) {
+      for (Object object : entries) {
+        Entry<Country, Currency> entry = (Entry<Country, Currency>) object;
         checkArgument(!result.containsKey(entry.getKey()));
         result.put(entry.getKey(), entry.getValue());
       }

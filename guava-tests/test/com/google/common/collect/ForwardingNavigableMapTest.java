@@ -16,6 +16,8 @@
 
 package com.google.common.collect;
 
+import static com.google.common.collect.Maps.immutableEntry;
+
 import com.google.common.collect.testing.NavigableMapTestSuiteBuilder;
 import com.google.common.collect.testing.SafeTreeMap;
 import com.google.common.collect.testing.TestStringMapGenerator;
@@ -80,7 +82,11 @@ public class ForwardingNavigableMapTest extends ForwardingSortedMapTest {
     }
 
     @Override public Set<K> keySet() {
-      return new StandardKeySet();
+      /*
+       * We can't use StandardKeySet, as NavigableMapTestSuiteBuilder assumes that our keySet is a
+       * NavigableSet. We test StandardKeySet in the superclass, so it's still covered.
+       */
+      return navigableKeySet();
     }
 
     @Override public Collection<V> values() {
@@ -157,10 +163,10 @@ public class ForwardingNavigableMapTest extends ForwardingSortedMapTest {
       return standardFirstEntry();
     }
 
-    @Override
-    public Entry<K, V> lastEntry() {
-      return standardLastEntry();
-    }
+    /*
+     * We can't override lastEntry to delegate to standardLastEntry, as it would create an infinite
+     * loop. Instead, we test standardLastEntry manually below.
+     */
 
     @Override
     public Entry<K, V> pollFirstEntry() {
@@ -205,6 +211,24 @@ public class ForwardingNavigableMapTest extends ForwardingSortedMapTest {
     @Override
     public SortedMap<K, V> tailMap(K fromKey) {
       return standardTailMap(fromKey);
+    }
+  }
+
+  static class StandardLastEntryForwardingNavigableMap<K, V>
+      extends ForwardingNavigableMap<K, V> {
+    private final NavigableMap<K, V> backingMap;
+
+    StandardLastEntryForwardingNavigableMap(NavigableMap<K, V> backingMap) {
+      this.backingMap = backingMap;
+    }
+
+    @Override protected NavigableMap<K, V> delegate() {
+      return backingMap;
+    }
+
+    @Override
+    public Entry<K, V> lastEntry() {
+      return standardLastEntry();
     }
   }
 
@@ -259,6 +283,21 @@ public class ForwardingNavigableMapTest extends ForwardingSortedMapTest {
         return sortedMap;
       }
     };
+  }
+
+  public void testStandardLastEntry() {
+    NavigableMap<String, Integer> forwarding =
+        new StandardLastEntryForwardingNavigableMap<String, Integer>(
+            new SafeTreeMap<String, Integer>());
+    assertNull(forwarding.lastEntry());
+    forwarding.put("b", 2);
+    assertEquals(immutableEntry("b", 2), forwarding.lastEntry());
+    forwarding.put("c", 3);
+    assertEquals(immutableEntry("c", 3), forwarding.lastEntry());
+    forwarding.put("a", 1);
+    assertEquals(immutableEntry("c", 3), forwarding.lastEntry());
+    forwarding.remove("c");
+    assertEquals(immutableEntry("b", 2), forwarding.lastEntry());
   }
 
   public void testLowerEntry() {

@@ -98,6 +98,9 @@ final class RegularContiguousSet<C extends Comparable> extends ContiguousSet<C> 
   }
 
   @Override public boolean contains(Object object) {
+    if (object == null) {
+      return false;
+    }
     try {
       return range.contains((C) object);
     } catch (ClassCastException e) {
@@ -106,11 +109,7 @@ final class RegularContiguousSet<C extends Comparable> extends ContiguousSet<C> 
   }
 
   @Override public boolean containsAll(Collection<?> targets) {
-    try {
-      return range.containsAll((Iterable<? extends C>) targets);
-    } catch (ClassCastException e) {
-      return false;
-    }
+    return Collections2.containsAllImpl(this, targets);
   }
 
   @Override public boolean isEmpty() {

@@ -165,8 +165,9 @@ public class MapTestSuiteBuilder<K, V>
       Set<Feature<?>> mapFeatures) {
     Set<Feature<?>> valuesCollectionFeatures =
         computeCommonDerivedCollectionFeatures(mapFeatures);
-    valuesCollectionFeatures.add(CollectionFeature.ALLOWS_NULL_QUERIES);
-
+    if (mapFeatures.contains(MapFeature.ALLOWS_NULL_QUERIES)) {
+      valuesCollectionFeatures.add(CollectionFeature.ALLOWS_NULL_QUERIES);
+    }
     if (mapFeatures.contains(MapFeature.ALLOWS_NULL_VALUES)) {
       valuesCollectionFeatures.add(CollectionFeature.ALLOWS_NULL_VALUES);
     }

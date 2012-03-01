@@ -63,6 +63,7 @@ public class MapPutTester<K, V> extends AbstractMapTester<K, V> {
   }
 
   @MapFeature.Require({FAILS_FAST_ON_CONCURRENT_MODIFICATION, SUPPORTS_PUT})
+  @CollectionSize.Require(absent = ZERO)
   public void testPutAbsentConcurrentWithEntrySetIteration() {
     try {
       Iterator<Entry<K, V>> iterator = getMap().entrySet().iterator();
@@ -75,6 +76,7 @@ public class MapPutTester<K, V> extends AbstractMapTester<K, V> {
   }
 
   @MapFeature.Require({FAILS_FAST_ON_CONCURRENT_MODIFICATION, SUPPORTS_PUT})
+  @CollectionSize.Require(absent = ZERO)
   public void testPutAbsentConcurrentWithKeySetIteration() {
     try {
       Iterator<K> iterator = getMap().keySet().iterator();
@@ -87,6 +89,7 @@ public class MapPutTester<K, V> extends AbstractMapTester<K, V> {
   }
 
   @MapFeature.Require({FAILS_FAST_ON_CONCURRENT_MODIFICATION, SUPPORTS_PUT})
+  @CollectionSize.Require(absent = ZERO)
   public void testPutAbsentConcurrentWithValueIteration() {
     try {
       Iterator<V> iterator = getMap().values().iterator();

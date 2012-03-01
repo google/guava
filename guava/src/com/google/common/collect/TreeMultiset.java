@@ -24,6 +24,7 @@ import static com.google.common.collect.BstSide.RIGHT;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.base.Optional;
 import com.google.common.primitives.Ints;
 
 import java.io.IOException;
@@ -139,9 +140,12 @@ public final class TreeMultiset<E> extends AbstractSortedMultiset<E>
     this.rootReference = root;
   }
 
-  @SuppressWarnings("unchecked")
   E checkElement(Object o) {
-    return (E) o;
+    @SuppressWarnings("unchecked")
+    E cast = (E) o;
+    // Make sure the object is accepted by the comparator (e.g., the right type, possibly non-null).
+    comparator.compare(cast, cast);
+    return cast;
   }
 
   private transient final GeneralRange<E> range;
@@ -222,15 +226,15 @@ public final class TreeMultiset<E> extends AbstractSortedMultiset<E>
 
   @Override
   public int remove(@Nullable Object element, int occurrences) {
-    if (element == null) {
-      return 0;
-    } else if (occurrences == 0) {
+    if (occurrences == 0) {
       return count(element);
     }
     try {
       E e = checkElement(element);
       return range.contains(e) ? mutate(e, new RemoveModifier(occurrences)) : 0;
     } catch (ClassCastException e) {
+      return 0;
+    } catch (NullPointerException e) {
       return 0;
     }
   }
@@ -285,7 +289,7 @@ public final class TreeMultiset<E> extends AbstractSortedMultiset<E>
           }
         };
     return new Iterator<Entry<E>>() {
-      E toRemove = null;
+      ToRemove<E> toRemove = new ToRemove<E>();
 
       @Override
       public boolean hasNext() {
@@ -296,16 +300,31 @@ public final class TreeMultiset<E> extends AbstractSortedMultiset<E>
       public Entry<E> next() {
         BstInOrderPath<Node<E>> path = pathIterator.next();
         return new LiveEntry(
-            toRemove = path.getTip().getKey(), path.getTip().elemCount());
+            toRemove.setAndGet(path.getTip().getKey()), path.getTip().elemCount());
       }
 
       @Override
       public void remove() {
-        checkState(toRemove != null);
-        setCount(toRemove, 0);
-        toRemove = null;
+        setCount(toRemove.getAndClear(), 0);
       }
     };
+  }
+
+  // If we were ever to resurrect AbstractRemovableIterator, we could use it instead.
+  private static final class ToRemove<E> {
+    @Nullable Optional<E> element;
+
+    E setAndGet(@Nullable E element) {
+      this.element = Optional.fromNullable(element);
+      return element;
+    }
+
+    E getAndClear() {
+      checkState(element != null);
+      E returnValue = element.orNull();
+      element = null;
+      return returnValue;
+    }
   }
 
   class LiveEntry extends Multisets.AbstractEntry<E> {

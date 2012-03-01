@@ -113,6 +113,7 @@ public final class ListTestSuiteBuilder<E> extends
           .using(new ReserializedListGenerator<E>(parentBuilder.getSubjectGenerator()))
           .named(getName() + " reserialized")
           .withFeatures(computeReserializedCollectionFeatures(parentBuilder.getFeatures()))
+          .suppressing(parentBuilder.getSuppressedTests())
           .createTestSuite());
     }
     return derivedSuites;

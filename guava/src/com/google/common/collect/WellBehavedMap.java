@@ -16,8 +16,14 @@
 
 package com.google.common.collect;
 
-import com.google.common.annotations.GwtCompatible;
+import static com.google.common.collect.Iterators.transform;
 
+import com.google.common.annotations.GwtCompatible;
+import com.google.common.base.Function;
+import com.google.common.base.Objects;
+
+import java.util.AbstractSet;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
@@ -27,6 +33,8 @@ import java.util.Set;
  * EnumMap bug</a>. If you want to pass an {@code EnumMap}, with the
  * intention of using its {@code entrySet()} method, you should
  * wrap the {@code EnumMap} in this class instead. 
+ *
+ * <p>This class is not thread-safe even if the underlying map is.
  * 
  * @author Dimitris Andreou
  */
@@ -58,34 +66,53 @@ final class WellBehavedMap<K, V> extends ForwardingMap<K, V> {
     if (es != null) {
       return es;
     }
-    return entrySet = Sets.transform(
-        delegate.keySet(), new KeyToEntryConverter<K, V>(this));
+    return entrySet = new EntrySet();
   }
   
-  private static class KeyToEntryConverter<K, V> 
-      extends Sets.InvertibleFunction<K, Map.Entry<K, V>> {
-    final Map<K, V> map;
-    
-    KeyToEntryConverter(Map<K, V> map) {
-      this.map = map;
+  private final class EntrySet extends AbstractSet<Entry<K, V>> {
+    @Override public int size() {
+      return delegate.size();
     }
 
-    @Override public Map.Entry<K, V> apply(final K key) {
-      return new AbstractMapEntry<K, V>() {
-        @Override public K getKey() {
-          return key;
-        }
-        @Override public V getValue() {
-          return map.get(key);
-        }
-        @Override public V setValue(V value) {
-          return map.put(key, value);
-        }
-      };
+    @Override public Iterator<Entry<K, V>> iterator() {
+      return transform(keySet().iterator(),
+          new Function<K, Entry<K, V>>() {
+            @Override public Entry<K, V> apply(final K key) {
+              return new AbstractMapEntry<K, V>() {
+                @Override public K getKey() {
+                  return key;
+                }
+                @Override public V getValue() {
+                  return get(key);
+                }
+                @Override public V setValue(V value) {
+                  return put(key, value);
+                }
+              };
+            }
+          });
     }
 
-    @Override public K invert(Map.Entry<K, V> entry) {
-      return entry.getKey();
+    @Override public boolean contains(Object o) {
+      if (!(o instanceof Entry)) {
+        return false;
+      }
+      Entry<?, ?> entry = (Entry<?, ?>) o;
+      Object targetKey = entry.getKey();
+      Object targetValue = entry.getValue();
+      if (!containsKey(targetKey)) {
+        return false;
+      }
+      return Objects.equal(get(targetKey), targetValue);
+    }
+
+    @Override public boolean remove(Object o) {
+      if (contains(o)) {
+        Entry<?, ?> entry = (Entry<?, ?>) o;
+        WellBehavedMap.this.remove(entry.getKey());
+        return true;
+      }
+      return false;
     }
   }
 }

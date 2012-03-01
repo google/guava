@@ -94,6 +94,7 @@ public class CollectionAddTester<E> extends AbstractCollectionTester<E> {
 
   @CollectionFeature.Require({SUPPORTS_ADD,
       FAILS_FAST_ON_CONCURRENT_MODIFICATION})
+  @CollectionSize.Require(absent = ZERO)
   public void testAddConcurrentWithIteration() {
     try {
       Iterator<E> iterator = collection.iterator();

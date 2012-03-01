@@ -18,6 +18,7 @@ package com.google.common.collect.testing.testers;
 
 import static com.google.common.collect.testing.features.CollectionFeature.FAILS_FAST_ON_CONCURRENT_MODIFICATION;
 import static com.google.common.collect.testing.features.CollectionFeature.SUPPORTS_CLEAR;
+import static com.google.common.collect.testing.features.CollectionSize.SEVERAL;
 import static com.google.common.collect.testing.features.CollectionSize.ZERO;
 
 import com.google.common.collect.testing.AbstractCollectionTester;
@@ -68,7 +69,7 @@ public class CollectionClearTester<E> extends AbstractCollectionTester<E> {
 
   @CollectionFeature.Require({SUPPORTS_CLEAR,
       FAILS_FAST_ON_CONCURRENT_MODIFICATION})
-  @CollectionSize.Require(absent = ZERO)
+  @CollectionSize.Require(SEVERAL)
   public void testClearConcurrentWithIteration() {
     try {
       Iterator<E> iterator = collection.iterator();

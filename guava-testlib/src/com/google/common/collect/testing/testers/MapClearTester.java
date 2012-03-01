@@ -16,6 +16,7 @@
 
 package com.google.common.collect.testing.testers;
 
+import static com.google.common.collect.testing.features.CollectionSize.SEVERAL;
 import static com.google.common.collect.testing.features.CollectionSize.ZERO;
 import static com.google.common.collect.testing.features.MapFeature.FAILS_FAST_ON_CONCURRENT_MODIFICATION;
 import static com.google.common.collect.testing.features.MapFeature.SUPPORTS_CLEAR;
@@ -48,7 +49,7 @@ public class MapClearTester<K, V> extends AbstractMapTester<K, V> {
 
   @MapFeature.Require({FAILS_FAST_ON_CONCURRENT_MODIFICATION,
       SUPPORTS_CLEAR})
-  @CollectionSize.Require(absent = ZERO)
+  @CollectionSize.Require(SEVERAL)
   public void testClearConcurrentWithEntrySetIteration() {
     try {
       Iterator<Entry<K, V>> iterator = getMap().entrySet().iterator();
@@ -62,7 +63,7 @@ public class MapClearTester<K, V> extends AbstractMapTester<K, V> {
 
   @MapFeature.Require({FAILS_FAST_ON_CONCURRENT_MODIFICATION,
       SUPPORTS_CLEAR})
-  @CollectionSize.Require(absent = ZERO)
+  @CollectionSize.Require(SEVERAL)
   public void testClearConcurrentWithKeySetIteration() {
     try {
       Iterator<K> iterator = getMap().keySet().iterator();
@@ -76,7 +77,7 @@ public class MapClearTester<K, V> extends AbstractMapTester<K, V> {
 
   @MapFeature.Require({FAILS_FAST_ON_CONCURRENT_MODIFICATION,
       SUPPORTS_CLEAR})
-  @CollectionSize.Require(absent = ZERO)
+  @CollectionSize.Require(SEVERAL)
   public void testClearConcurrentWithValuesIteration() {
     try {
       Iterator<V> iterator = getMap().values().iterator();

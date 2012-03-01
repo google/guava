@@ -85,6 +85,7 @@ public class CollectionContainsAllTester<E>
   }
 
   @CollectionFeature.Require(ALLOWS_NULL_VALUES)
+  @CollectionSize.Require(absent = ZERO)
   public void testContainsAll_nullPresent() {
     initCollectionWithNullElement();
     assertTrue(collection.containsAll(MinimalCollection.of((E) null)));

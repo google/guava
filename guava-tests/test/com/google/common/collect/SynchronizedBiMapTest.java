@@ -86,13 +86,14 @@ public class SynchronizedBiMapTest extends SynchronizedMapTest {
     @Override
     protected BiMap<String, String> create(Entry<String, String>[] entries) {
       Object mutex = new Object();
-      BiMap<String, String> result =
+      BiMap<String, String> backing =
           new TestBiMap<String, String>(HashBiMap.<String, String>create(), mutex);
+      BiMap<String, String> result = Synchronized.biMap(backing, mutex);
       for (Entry<String, String> entry : entries) {
         checkArgument(!result.containsKey(entry.getKey()));
         result.put(entry.getKey(), entry.getValue());
       }
-      return Synchronized.biMap(result, mutex);
+      return result;
     }
   }
 

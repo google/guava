@@ -2050,6 +2050,21 @@ public final class Maps {
     }
 
     @Override
+    public SortedMap<K, V> subMap(K fromKey, K toKey) {
+      return subMap(fromKey, true, toKey, false);
+    }
+
+    @Override
+    public SortedMap<K, V> headMap(K toKey) {
+      return headMap(toKey, false);
+    }
+
+    @Override
+    public SortedMap<K, V> tailMap(K fromKey) {
+      return tailMap(fromKey, true);
+    }
+
+    @Override
     public
         NavigableMap<K, V>
         subMap(K fromKey, boolean fromInclusive, K toKey, boolean toInclusive) {

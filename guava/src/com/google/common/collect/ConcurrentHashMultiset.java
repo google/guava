@@ -30,6 +30,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -460,6 +461,13 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> impleme
         } catch (ClassCastException e) {
           return false;
         }
+      }
+      @Override public boolean removeAll(Collection<?> c) {
+        /*
+         * TODO(cpovirk): should we be smart like AbstractSet and iterate over c instead if it's
+         * small? Should standardRemoveAll itself be smart?
+         */
+        return standardRemoveAll(c);
       }
     };
   }

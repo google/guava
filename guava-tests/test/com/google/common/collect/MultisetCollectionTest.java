@@ -34,6 +34,7 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -45,6 +46,37 @@ import java.util.List;
  */
 @GwtIncompatible("suite") // TODO(cpovirk): set up collect/gwt/suites version
 public class MultisetCollectionTest extends TestCase {
+  /**
+   * Compares strings in natural order except that null comes immediately before "b". This works
+   * better than Ordering.natural().nullsFirst() because, if null comes before all other values, it
+   * lies outside the submultiset ranges we test, and the variety of tests that exercise null
+   * handling fail on those submultisets.
+   */
+  private static final class NullsBeforeB extends Ordering<String> implements Serializable {
+    @Override
+    public int compare(String lhs, String rhs) {
+      if (lhs == rhs) {
+        return 0;
+      }
+      if (lhs == null) {
+        // lhs (null) comes just before "b."
+        // If rhs is b, lhs comes first.
+        if (rhs.equals("b")) {
+          return -1;
+        }
+        return "b".compareTo(rhs);
+      }
+      if (rhs == null) {
+        // rhs (null) comes just before "b."
+        // If lhs is b, rhs comes first.
+        if (lhs.equals("b")) {
+          return 1;
+        }
+        return lhs.compareTo("b");
+      }
+      return lhs.compareTo(rhs);
+    }
+  }
 
   public static Test suite() {
     TestSuite suite = new TestSuite();
@@ -83,27 +115,26 @@ public class MultisetCollectionTest extends TestCase {
             CollectionFeature.ALLOWS_NULL_QUERIES)
         .named("TreeMultiset, Ordering.natural")
         .createTestSuite());
-    
 
     suite.addTest(SortedMultisetTestSuiteBuilder
         .using(new TestStringMultisetGenerator() {
           @Override
           protected Multiset<String> create(String[] elements) {
-            Multiset<String> result = TreeMultiset.create(Ordering.natural().nullsFirst());
+            Multiset<String> result = TreeMultiset.create(new NullsBeforeB());
             result.addAll(Arrays.asList(elements));
             return result;
           }
 
           @Override
           public List<String> order(List<String> insertionOrder) {
-            return Ordering.natural().nullsFirst().sortedCopy(insertionOrder);
+            return new NullsBeforeB().sortedCopy(insertionOrder);
           }
         })
         .withFeatures(CollectionSize.ANY, CollectionFeature.KNOWN_ORDER,
             CollectionFeature.GENERAL_PURPOSE,
             CollectionFeature.SERIALIZABLE,
             CollectionFeature.ALLOWS_NULL_VALUES)
-        .named("TreeMultiset, Ordering.natural.nullsFirst")
+        .named("TreeMultiset, NullsBeforeB")
         .createTestSuite());
 
     suite.addTest(MultisetTestSuiteBuilder.using(forSetGenerator())

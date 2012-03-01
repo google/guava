@@ -58,6 +58,7 @@ public class CollectionTestSuiteBuilder<E>
           .using(new ReserializedCollectionGenerator<E>(parentBuilder.getSubjectGenerator()))
           .named(getName() + " reserialized")
           .withFeatures(computeReserializedCollectionFeatures(parentBuilder.getFeatures()))
+          .suppressing(parentBuilder.getSuppressedTests())
           .createTestSuite());
     }
     return derivedSuites;

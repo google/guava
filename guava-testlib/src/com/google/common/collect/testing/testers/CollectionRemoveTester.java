@@ -20,6 +20,7 @@ import static com.google.common.collect.testing.features.CollectionFeature.ALLOW
 import static com.google.common.collect.testing.features.CollectionFeature.ALLOWS_NULL_VALUES;
 import static com.google.common.collect.testing.features.CollectionFeature.FAILS_FAST_ON_CONCURRENT_MODIFICATION;
 import static com.google.common.collect.testing.features.CollectionFeature.SUPPORTS_REMOVE;
+import static com.google.common.collect.testing.features.CollectionSize.SEVERAL;
 import static com.google.common.collect.testing.features.CollectionSize.ZERO;
 
 import com.google.common.collect.testing.AbstractCollectionTester;
@@ -54,7 +55,7 @@ public class CollectionRemoveTester<E> extends AbstractCollectionTester<E> {
 
   @CollectionFeature.Require({SUPPORTS_REMOVE,
       FAILS_FAST_ON_CONCURRENT_MODIFICATION})
-  @CollectionSize.Require(absent = ZERO)
+  @CollectionSize.Require(SEVERAL)
   public void testRemovePresentConcurrentWithIteration() {
     try {
       Iterator<E> iterator = collection.iterator();

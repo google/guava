@@ -88,6 +88,7 @@ public class MultisetTestSuiteBuilder<E> extends
           .using(new ReserializedMultisetGenerator<E>(parentBuilder.getSubjectGenerator()))
           .named(getName() + " reserialized")
           .withFeatures(computeReserializedMultisetFeatures(parentBuilder.getFeatures()))
+          .suppressing(parentBuilder.getSuppressedTests())
           .createTestSuite());
     }
     return derivedSuites;

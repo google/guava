@@ -187,7 +187,6 @@ public class TestsForSetsInJavaUtil {
             CollectionFeature.SERIALIZABLE,
             CollectionFeature.KNOWN_ORDER,
             CollectionFeature.RESTRICTS_ELEMENTS,
-            CollectionFeature.FAILS_FAST_ON_CONCURRENT_MODIFICATION,
             CollectionSize.ANY)
         .suppressing(suppressForEnumSet())
         .createTestSuite();
