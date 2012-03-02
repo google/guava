@@ -510,7 +510,6 @@ public final class Maps {
    * @return the difference between the two maps
    * @since 11.0
    */
-  @Beta
   public static <K, V> SortedMapDifference<K, V> difference(
       SortedMap<K, ? extends V> left, Map<? extends K, ? extends V> right) {
     checkNotNull(left);

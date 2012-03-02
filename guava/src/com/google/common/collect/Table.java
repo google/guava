@@ -16,7 +16,6 @@
 
 package com.google.common.collect;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Objects;
 
@@ -56,7 +55,6 @@ import javax.annotation.Nullable;
  * @since 7.0
  */
 @GwtCompatible
-@Beta
 public interface Table<R, C, V> {
   // TODO(jlevy): Consider adding methods similar to ConcurrentMap methods.
 
@@ -263,7 +261,6 @@ public interface Table<R, C, V> {
    *
    * @since 7.0
    */
-  @Beta
   interface Cell<R, C, V> {
     /**
      * Returns the row key of this cell.

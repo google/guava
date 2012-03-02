@@ -1237,7 +1237,6 @@ public final class Multimaps {
    *
    * @since 7.0
    */
-  @Beta
   public static <K, V1, V2> Multimap<K, V2> transformValues(
       Multimap<K, V1> fromMultimap, final Function<? super V1, V2> function) {
     checkNotNull(function);
@@ -1306,7 +1305,6 @@ public final class Multimaps {
    *
    * @since 7.0
    */
-  @Beta
   public static <K, V1, V2> Multimap<K, V2> transformEntries(
       Multimap<K, V1> fromMap,
       EntryTransformer<? super K, ? super V1, V2> transformer) {
@@ -1546,7 +1544,6 @@ public final class Multimaps {
    *
    * @since 7.0
    */
-  @Beta
   public static <K, V1, V2> ListMultimap<K, V2> transformValues(
       ListMultimap<K, V1> fromMultimap,
       final Function<? super V1, V2> function) {
@@ -1613,7 +1610,6 @@ public final class Multimaps {
    *
    * @since 7.0
    */
-  @Beta
   public static <K, V1, V2> ListMultimap<K, V2> transformEntries(
       ListMultimap<K, V1> fromMap,
       EntryTransformer<? super K, ? super V1, V2> transformer) {

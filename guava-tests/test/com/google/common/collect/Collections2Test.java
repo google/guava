@@ -16,6 +16,7 @@
 
 package com.google.common.collect;
 
+import static com.google.common.collect.Collections2.factorial;
 import static com.google.common.collect.Lists.newArrayList;
 import static com.google.common.collect.Lists.newLinkedList;
 import static com.google.common.collect.testing.testers.CollectionIteratorTester.getIteratorKnownOrderRemoveSupportedMethod;
@@ -38,7 +39,9 @@ import junit.framework.TestSuite;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 /**
  * Tests for {@link Collections2}.
@@ -360,6 +363,282 @@ public class Collections2Test extends TestCase {
   public void testNullPointerExceptions() throws Exception {
     NullPointerTester tester = new NullPointerTester();
     tester.testAllPublicStaticMethods(Collections2.class);
+  }
+
+  public void testOrderedPermutationSetEmpty() {
+    List<Integer> list = newArrayList();
+    Collection<List<Integer>> permutationSet =
+        Collections2.orderedPermutations(list);
+
+    assertEquals(1, permutationSet.size());
+    assertTrue(permutationSet.contains(list));
+
+    Iterator<List<Integer>> permutations = permutationSet.iterator();
+
+    assertNextPermutation(Lists.<Integer>newArrayList(), permutations);
+    assertNoMorePermutations(permutations);
+  }
+
+  public void testOrderedPermutationSetOneElement() {
+    List<Integer> list = newArrayList(1);
+    Iterator<List<Integer>> permutations =
+        Collections2.orderedPermutations(list).iterator();
+
+    assertNextPermutation(newArrayList(1), permutations);
+    assertNoMorePermutations(permutations);
+  }
+
+  public void testOrderedPermutationSetThreeElements() {
+    List<String> list = newArrayList("b", "a", "c");
+    Iterator<List<String>> permutations =
+        Collections2.orderedPermutations(list).iterator();
+
+    assertNextPermutation(newArrayList("a", "b", "c"), permutations);
+    assertNextPermutation(newArrayList("a", "c", "b"), permutations);
+    assertNextPermutation(newArrayList("b", "a", "c"), permutations);
+    assertNextPermutation(newArrayList("b", "c", "a"), permutations);
+    assertNextPermutation(newArrayList("c", "a", "b"), permutations);
+    assertNextPermutation(newArrayList("c", "b", "a"), permutations);
+    assertNoMorePermutations(permutations);
+  }
+
+  public void testOrderedPermutationSetRepeatedElements() {
+    List<Integer> list = newArrayList(1, 1, 2, 2);
+    Iterator<List<Integer>> permutations =
+        Collections2.orderedPermutations(list, Ordering.natural()).iterator();
+
+    assertNextPermutation(newArrayList(1, 1, 2, 2), permutations);
+    assertNextPermutation(newArrayList(1, 2, 1, 2), permutations);
+    assertNextPermutation(newArrayList(1, 2, 2, 1), permutations);
+    assertNextPermutation(newArrayList(2, 1, 1, 2), permutations);
+    assertNextPermutation(newArrayList(2, 1, 2, 1), permutations);
+    assertNextPermutation(newArrayList(2, 2, 1, 1), permutations);
+    assertNoMorePermutations(permutations);
+  }
+
+  public void testOrderedPermutationSetRepeatedElementsSize() {
+    List<Integer> list = newArrayList(1, 1, 1, 1, 2, 2, 3);
+    Collection<List<Integer>> permutations =
+        Collections2.orderedPermutations(list, Ordering.natural());
+
+    assertPermutationsCount(105, permutations);
+  }
+
+  public void testOrderedPermutationSetSizeOverflow() {
+    // 13 elements overflow an int
+    assertEquals(Integer.MAX_VALUE, Collections2.orderedPermutations(
+        newArrayList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13)).size());
+    // 21 elements overflow a long
+    assertEquals(Integer.MAX_VALUE, Collections2.orderedPermutations(
+        newArrayList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15,
+            16, 17, 18, 19, 20, 21)).size());
+    // Force an overflow in the binomial coefficient calculation
+    assertEquals(Integer.MAX_VALUE, Collections2.orderedPermutations(
+        newArrayList(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+            1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2)).size());
+  }
+
+  public void testOrderedPermutationSetContains() {
+    List<Integer> list = newArrayList(3, 2, 1);
+    Collection<List<Integer>> permutationSet =
+        Collections2.orderedPermutations(list);
+
+    assertTrue(permutationSet.contains(newArrayList(1, 2, 3)));
+    assertTrue(permutationSet.contains(newArrayList(2, 3, 1)));
+    assertFalse(permutationSet.contains(newArrayList(1, 2)));
+    assertFalse(permutationSet.contains(newArrayList(1, 1, 2, 3)));
+    assertFalse(permutationSet.contains(newArrayList(1, 2, 3, 4)));
+    assertFalse(permutationSet.contains(null));
+  }
+
+  public void testPermutationSetEmpty() {
+    Collection<List<Integer>> permutationSet =
+        Collections2.permutations(Collections.<Integer> emptyList());
+
+    assertEquals(1, permutationSet.size());
+    assertTrue(permutationSet.contains(Collections.<Integer> emptyList()));
+
+    Iterator<List<Integer>> permutations = permutationSet.iterator();
+    assertNextPermutation(Collections.<Integer> emptyList(), permutations);
+    assertNoMorePermutations(permutations);
+  }
+
+  public void testPermutationSetOneElement() {
+    Iterator<List<Integer>> permutations =
+        Collections2.permutations(Collections.<Integer> singletonList(1))
+        .iterator();
+    assertNextPermutation(newArrayList(1), permutations);
+    assertNoMorePermutations(permutations);
+  }
+
+  public void testPermutationSetTwoElements() {
+    Iterator<List<Integer>> permutations = Collections2.permutations(
+        newArrayList(1, 2)).iterator();
+    assertNextPermutation(newArrayList(1, 2), permutations);
+    assertNextPermutation(newArrayList(2, 1), permutations);
+    assertNoMorePermutations(permutations);
+  }
+
+  public void testPermutationSetThreeElements() {
+    Iterator<List<Integer>> permutations = Collections2.permutations(
+        newArrayList(1, 2, 3)).iterator();
+    assertNextPermutation(newArrayList(1, 2, 3), permutations);
+    assertNextPermutation(newArrayList(1, 3, 2), permutations);
+    assertNextPermutation(newArrayList(3, 1, 2), permutations);
+
+    assertNextPermutation(newArrayList(3, 2, 1), permutations);
+    assertNextPermutation(newArrayList(2, 3, 1), permutations);
+    assertNextPermutation(newArrayList(2, 1, 3), permutations);
+    assertNoMorePermutations(permutations);
+  }
+
+  public void testPermutationSetThreeElementsOutOfOrder() {
+    Iterator<List<Integer>> permutations = Collections2.permutations(
+        newArrayList(3, 2, 1)).iterator();
+    assertNextPermutation(newArrayList(3, 2, 1), permutations);
+    assertNextPermutation(newArrayList(3, 1, 2), permutations);
+    assertNextPermutation(newArrayList(1, 3, 2), permutations);
+
+    assertNextPermutation(newArrayList(1, 2, 3), permutations);
+    assertNextPermutation(newArrayList(2, 1, 3), permutations);
+    assertNextPermutation(newArrayList(2, 3, 1), permutations);
+    assertNoMorePermutations(permutations);
+  }
+
+  public void testPermutationSetThreeRepeatedElements() {
+    Iterator<List<Integer>> permutations = Collections2.permutations(
+        newArrayList(1, 1, 2)).iterator();
+    assertNextPermutation(newArrayList(1, 1, 2), permutations);
+    assertNextPermutation(newArrayList(1, 2, 1), permutations);
+    assertNextPermutation(newArrayList(2, 1, 1), permutations);
+    assertNextPermutation(newArrayList(2, 1, 1), permutations);
+    assertNextPermutation(newArrayList(1, 2, 1), permutations);
+    assertNextPermutation(newArrayList(1, 1, 2), permutations);
+    assertNoMorePermutations(permutations);
+  }
+
+  public void testPermutationSetFourElements() {
+    Iterator<List<Integer>> permutations = Collections2.permutations(
+        newArrayList(1, 2, 3, 4)).iterator();
+    assertNextPermutation(newArrayList(1, 2, 3, 4), permutations);
+    assertNextPermutation(newArrayList(1, 2, 4, 3), permutations);
+    assertNextPermutation(newArrayList(1, 4, 2, 3), permutations);
+    assertNextPermutation(newArrayList(4, 1, 2, 3), permutations);
+
+    assertNextPermutation(newArrayList(4, 1, 3, 2), permutations);
+    assertNextPermutation(newArrayList(1, 4, 3, 2), permutations);
+    assertNextPermutation(newArrayList(1, 3, 4, 2), permutations);
+    assertNextPermutation(newArrayList(1, 3, 2, 4), permutations);
+
+    assertNextPermutation(newArrayList(3, 1, 2, 4), permutations);
+    assertNextPermutation(newArrayList(3, 1, 4, 2), permutations);
+    assertNextPermutation(newArrayList(3, 4, 1, 2), permutations);
+    assertNextPermutation(newArrayList(4, 3, 1, 2), permutations);
+
+    assertNextPermutation(newArrayList(4, 3, 2, 1), permutations);
+    assertNextPermutation(newArrayList(3, 4, 2, 1), permutations);
+    assertNextPermutation(newArrayList(3, 2, 4, 1), permutations);
+    assertNextPermutation(newArrayList(3, 2, 1, 4), permutations);
+
+    assertNextPermutation(newArrayList(2, 3, 1, 4), permutations);
+    assertNextPermutation(newArrayList(2, 3, 4, 1), permutations);
+    assertNextPermutation(newArrayList(2, 4, 3, 1), permutations);
+    assertNextPermutation(newArrayList(4, 2, 3, 1), permutations);
+
+    assertNextPermutation(newArrayList(4, 2, 1, 3), permutations);
+    assertNextPermutation(newArrayList(2, 4, 1, 3), permutations);
+    assertNextPermutation(newArrayList(2, 1, 4, 3), permutations);
+    assertNextPermutation(newArrayList(2, 1, 3, 4), permutations);
+    assertNoMorePermutations(permutations);
+  }
+
+  public void testPermutationSetSize() {
+    assertPermutationsCount(1,
+        Collections2.permutations(Collections.<Integer> emptyList()));
+    assertPermutationsCount(1, Collections2.permutations(newArrayList(1)));
+    assertPermutationsCount(2, Collections2.permutations(newArrayList(1, 2)));
+    assertPermutationsCount(6,
+        Collections2.permutations(newArrayList(1, 2, 3)));
+    assertPermutationsCount(5040,
+        Collections2.permutations(newArrayList(1, 2, 3, 4, 5, 6, 7)));
+    assertPermutationsCount(40320,
+        Collections2.permutations(newArrayList(1, 2, 3, 4, 5, 6, 7, 8)));
+  }
+
+  public void testPermutationSetSizeOverflow() {
+    // 13 elements overflow an int
+    assertEquals(Integer.MAX_VALUE, Collections2.permutations(newArrayList(
+        1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13)).size());
+    // 21 elements overflow a long
+    assertEquals(Integer.MAX_VALUE, Collections2.orderedPermutations(
+        newArrayList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15,
+            16, 17, 18, 19, 20)).size());
+    assertEquals(Integer.MAX_VALUE, Collections2.orderedPermutations(
+        newArrayList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15,
+            16, 17, 18, 19, 20, 21)).size());
+  }
+
+  public void testPermutationSetContains() {
+    List<Integer> list = newArrayList(3, 2, 1);
+    Collection<List<Integer>> permutationSet =
+        Collections2.permutations(list);
+
+    assertTrue(permutationSet.contains(newArrayList(1, 2, 3)));
+    assertTrue(permutationSet.contains(newArrayList(2, 3, 1)));
+    assertFalse(permutationSet.contains(newArrayList(1, 2)));
+    assertFalse(permutationSet.contains(newArrayList(1, 1, 2, 3)));
+    assertFalse(permutationSet.contains(newArrayList(1, 2, 3, 4)));
+    assertFalse(permutationSet.contains(null));
+  }
+
+  public void testFactorials() {
+    // We check the factorials invariant, to make sure that they are not
+    // accidentally modified, since they are hard-coded.
+    for (int i = 1; i <= 20; i++) {
+      assertEquals(i * factorial(i - 1), factorial(i));
+    }
+  }
+
+  public void testFactorials_EdgeValues() {
+    assertEquals(1, factorial(0));
+
+    try {
+        factorial(-1);
+        fail("Expected IllegalArgumentException.");
+    } catch (IllegalArgumentException expected) {}
+
+    try {
+        factorial(21);
+        fail("Expected IllegalArgumentException.");
+    } catch (IllegalArgumentException expected) {}
+  }
+
+  private <T> void assertNextPermutation(List<T> expectedPermutation,
+      Iterator<List<T>> permutations) {
+    assertTrue("Expected another permutation, but there was none.",
+        permutations.hasNext());
+    assertEquals(expectedPermutation, permutations.next());
+  }
+
+  private <T> void assertNoMorePermutations(
+      Iterator<List<T>> permutations) {
+    assertFalse("Expected no more permutations, but there was one.",
+        permutations.hasNext());
+    try {
+      permutations.next();
+      fail("Expected NoSuchElementException.");
+    } catch (NoSuchElementException expected) {}
+  }
+
+  private <T> void assertPermutationsCount(int expected,
+      Collection<List<T>> permutationSet) {
+    assertEquals(expected, permutationSet.size());
+    Iterator<List<T>> permutations = permutationSet.iterator();
+    for (int i = 0; i < expected; i++) {
+      assertTrue(permutations.hasNext());
+      permutations.next();
+    }
+    assertNoMorePermutations(permutations);
   }
 
   public void testToStringImplWithNullEntries() throws Exception {

@@ -18,7 +18,6 @@ package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Supplier;
 
@@ -54,7 +53,6 @@ import javax.annotation.Nullable;
  * @since 7.0
  */
 @GwtCompatible(serializable = true)
-@Beta
 public class HashBasedTable<R, C, V> extends StandardTable<R, C, V> {
   private static class Factory<C, V>
       implements Supplier<Map<C, V>>, Serializable {
