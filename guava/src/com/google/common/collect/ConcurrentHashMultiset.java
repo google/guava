@@ -463,10 +463,6 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> impleme
         }
       }
       @Override public boolean removeAll(Collection<?> c) {
-        /*
-         * TODO(cpovirk): should we be smart like AbstractSet and iterate over c instead if it's
-         * small? Should standardRemoveAll itself be smart?
-         */
         return standardRemoveAll(c);
       }
     };

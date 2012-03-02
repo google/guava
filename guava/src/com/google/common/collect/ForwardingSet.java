@@ -16,9 +16,12 @@
 
 package com.google.common.collect;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 
+import java.util.Collection;
 import java.util.Set;
 
 import javax.annotation.Nullable;
@@ -59,6 +62,31 @@ public abstract class ForwardingSet<E> extends ForwardingCollection<E>
 
   @Override public int hashCode() {
     return delegate().hashCode();
+  }
+
+  /**
+   * A sensible definition of {@link #removeAll} in terms of {@link #iterator} and {@link #remove}.
+   * If you override {@code iterator} or {@code remove}, you may wish to override
+   * {@link #removeAll} to forward to this implementation.
+   *
+   * @since 12.0
+   */
+  @Beta
+  @Override
+  protected boolean standardRemoveAll(Collection<?> collection) {
+    checkNotNull(collection); // for GWT
+    if (collection instanceof Multiset) {
+      collection = ((Multiset<?>) collection).elementSet();
+    }
+    if (collection.size() < size()) {
+      boolean changed = false;
+      for (Object o : collection) {
+        changed |= remove(o);
+      }
+      return changed;
+    } else {
+      return Iterators.removeAll(iterator(), collection);
+    }
   }
 
   /**

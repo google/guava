@@ -20,9 +20,7 @@ import static com.google.common.collect.Iterators.transform;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Function;
-import com.google.common.base.Objects;
 
-import java.util.AbstractSet;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
@@ -69,9 +67,10 @@ final class WellBehavedMap<K, V> extends ForwardingMap<K, V> {
     return entrySet = new EntrySet();
   }
   
-  private final class EntrySet extends AbstractSet<Entry<K, V>> {
-    @Override public int size() {
-      return delegate.size();
+  private final class EntrySet extends Maps.EntrySet<K, V> {
+    @Override
+    Map<K, V> map() {
+      return WellBehavedMap.this;
     }
 
     @Override public Iterator<Entry<K, V>> iterator() {
@@ -91,28 +90,6 @@ final class WellBehavedMap<K, V> extends ForwardingMap<K, V> {
               };
             }
           });
-    }
-
-    @Override public boolean contains(Object o) {
-      if (!(o instanceof Entry)) {
-        return false;
-      }
-      Entry<?, ?> entry = (Entry<?, ?>) o;
-      Object targetKey = entry.getKey();
-      Object targetValue = entry.getValue();
-      if (!containsKey(targetKey)) {
-        return false;
-      }
-      return Objects.equal(get(targetKey), targetValue);
-    }
-
-    @Override public boolean remove(Object o) {
-      if (contains(o)) {
-        Entry<?, ?> entry = (Entry<?, ?>) o;
-        WellBehavedMap.this.remove(entry.getKey());
-        return true;
-      }
-      return false;
     }
   }
 }

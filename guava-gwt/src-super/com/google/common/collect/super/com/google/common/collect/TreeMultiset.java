@@ -285,7 +285,7 @@ public final class TreeMultiset<E> extends AbstractSortedMultiset<E>
           }
         };
     return new Iterator<Entry<E>>() {
-      ToRemove<E> toRemove = new ToRemove<E>();
+      final ToRemove<E> toRemove = new ToRemove<E>();
 
       @Override
       public boolean hasNext() {
