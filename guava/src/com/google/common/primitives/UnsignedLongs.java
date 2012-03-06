@@ -263,7 +263,7 @@ public final class UnsignedLongs {
       throw new NumberFormatException("empty string");
     }
     if (radix < Character.MIN_RADIX || radix > Character.MAX_RADIX) {
-      throw new NumberFormatException("illegal radix:" + radix);
+      throw new NumberFormatException("illegal radix: " + radix);
     }
 
     int max_safe_pos = maxSafeDigits[radix] - 1;
@@ -330,23 +330,17 @@ public final class UnsignedLongs {
       char[] buf = new char[64];
       int i = buf.length;
       if (x < 0) {
-        // Split x into high-order and low-order halves.
-        // Individual digits are generated from the bottom half into which
-        // bits are moved continously from the top half.
-        long top = x >>> 32;
-        long bot = (x & 0xffffffffl) + ((top % radix) << 32);
-        top /= radix;
-        while ((bot > 0) || (top > 0)) {
-          buf[--i] = Character.forDigit((int) (bot % radix), radix);
-          bot = (bot / radix) + ((top % radix) << 32);
-          top /= radix;
-        }
-      } else {
-        // Simple modulo/division approach
-        while (x > 0) {
-          buf[--i] = Character.forDigit((int) (x % radix), radix);
-          x /= radix;
-        }
+        // Separate off the last digit using unsigned division. That will leave
+        // a number that is nonnegative as a signed integer.
+        long quotient = divide(x, radix);
+        long rem = x - quotient * radix;
+        buf[--i] = Character.forDigit((int) rem, radix);
+        x = quotient;
+      }
+      // Simple modulo/division approach
+      while (x > 0) {
+        buf[--i] = Character.forDigit((int) (x % radix), radix);
+        x /= radix;
       }
       // Generate string
       return new String(buf, i, buf.length - i);
