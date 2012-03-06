@@ -128,6 +128,7 @@ public final class MediaType {
   public static final MediaType JPEG = new MediaType(IMAGE_TYPE, "jpeg");
   public static final MediaType PNG = new MediaType(IMAGE_TYPE, "png");
   public static final MediaType SVG_UTF_8 = new MediaType(IMAGE_TYPE, "svg+xml").withCharset(UTF_8);
+  public static final MediaType TIFF = new MediaType(IMAGE_TYPE, "tiff");
 
   /* audio types */
   public static final MediaType MP4_AUDIO = new MediaType(AUDIO_TYPE, "mp4");
@@ -210,6 +211,7 @@ public final class MediaType {
           .put(JPEG, JPEG)
           .put(PNG, PNG)
           .put(SVG_UTF_8, SVG_UTF_8)
+          .put(TIFF, TIFF)
           /* audio types */
           .put(MP4_AUDIO, MP4_AUDIO)
           .put(MPEG_AUDIO, MPEG_AUDIO)

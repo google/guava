@@ -48,11 +48,11 @@ public interface Hasher extends PrimitiveSink {
   @Override Hasher putBoolean(boolean b);
   @Override Hasher putChar(char c);
   /**
-   * Equivalent to {@code putBytes(charSequence.toString().getBytes(Charsets.UTF_16LE)}.
+   * Equivalent to {@code putBytes(charSequence.toString().getBytes(Charsets.UTF_16LE))}.
    */
   @Override Hasher putString(CharSequence charSequence);
   /**
-   * Equivalent to {@code putBytes(charSequence.toString().getBytes(charset)}.
+   * Equivalent to {@code putBytes(charSequence.toString().getBytes(charset))}.
    */
   @Override Hasher putString(CharSequence charSequence, Charset charset);
 
