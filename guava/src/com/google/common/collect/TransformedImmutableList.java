@@ -50,40 +50,8 @@ abstract class TransformedImmutableList<D, E> extends ImmutableList<E> {
 
   abstract E transform(D d);
 
-  @Override public int indexOf(@Nullable Object object) {
-    if (object == null) {
-      return -1;
-    }
-    for (int i = 0; i < size(); i++) {
-      if (get(i).equals(object)) {
-        return i;
-      }
-    }
-    return -1;
-  }
-
-  @Override public int lastIndexOf(@Nullable Object object) {
-    if (object == null) {
-      return -1;
-    }
-    for (int i = size() - 1; i >= 0; i--) {
-      if (get(i).equals(object)) {
-        return i;
-      }
-    }
-    return -1;
-  }
-
   @Override public E get(int index) {
     return transform(backingList.get(index));
-  }
-
-  @Override public UnmodifiableListIterator<E> listIterator(int index) {
-    return new AbstractIndexedListIterator<E>(size(), index) {
-      @Override protected E get(int index) {
-        return TransformedImmutableList.this.get(index);
-      }
-    };
   }
 
   @Override public int size() {
@@ -104,14 +72,6 @@ abstract class TransformedImmutableList<D, E> extends ImmutableList<E> {
           && Iterators.elementsEqual(iterator(), list.iterator());
     }
     return false;
-  }
-
-  @Override public int hashCode() {
-    int hashCode = 1;
-    for (E e : this) {
-      hashCode = 31 * hashCode + (e == null ? 0 : e.hashCode());
-    }
-    return hashCode;
   }
 
   @Override public Object[] toArray() {

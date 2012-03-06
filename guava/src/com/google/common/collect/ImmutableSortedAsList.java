@@ -14,7 +14,7 @@
 
 package com.google.common.collect;
 
-import com.google.common.base.Preconditions;
+import static com.google.common.base.Preconditions.checkPositionIndexes;
 
 import java.util.Comparator;
 
@@ -41,12 +41,7 @@ final class ImmutableSortedAsList<E> extends ImmutableList<E> implements SortedI
     return backingSet.comparator();
   }
 
-  // Override contains(), indexOf(), and lastIndexOf() to be O(log N) instead of O(N).
-
-  @Override public boolean contains(@Nullable Object target) {
-    // TODO: why not contains(target)?
-    return backingSet.indexOf(target) >= 0;
-  }
+  // Override indexOf() and lastIndexOf() to be O(log N) instead of O(N).
 
   @Override public int indexOf(@Nullable Object target) {
     return backingSet.indexOf(target);
@@ -59,7 +54,7 @@ final class ImmutableSortedAsList<E> extends ImmutableList<E> implements SortedI
   // The returned ImmutableSortedAsList maintains the contains(), indexOf(), and
   // lastIndexOf() performance benefits.
   @Override public ImmutableList<E> subList(int fromIndex, int toIndex) {
-    Preconditions.checkPositionIndexes(fromIndex, toIndex, size());
+    checkPositionIndexes(fromIndex, toIndex, size());
     return (fromIndex == toIndex) ? ImmutableList.<E>of()
         : new RegularImmutableSortedSet<E>(
             backingList.subList(fromIndex, toIndex), backingSet.comparator())

@@ -22,7 +22,6 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Preconditions;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 
 import javax.annotation.Nullable;
 
@@ -56,47 +55,7 @@ final class SingletonImmutableList<E> extends ImmutableList<E> {
   }
 
   @Override public int lastIndexOf(@Nullable Object object) {
-    return element.equals(object) ? 0 : -1;
-  }
-
-  @Override public UnmodifiableListIterator<E> listIterator(final int start) {
-    Preconditions.checkPositionIndex(start, 1);
-    return new UnmodifiableListIterator<E>() {
-
-      boolean hasNext = start == 0;
-
-      @Override public boolean hasNext() {
-        return hasNext;
-      }
-
-      @Override public boolean hasPrevious() {
-        return !hasNext;
-      }
-
-      @Override public E next() {
-        if (!hasNext) {
-          throw new NoSuchElementException();
-        }
-        hasNext = false;
-        return element;
-      }
-
-      @Override public int nextIndex() {
-        return hasNext ? 0 : 1;
-      }
-
-      @Override public E previous() {
-        if (hasNext) {
-          throw new NoSuchElementException();
-        }
-        hasNext = true;
-        return element;
-      }
-
-      @Override public int previousIndex() {
-        return hasNext ? -1 : 0;
-      }
-    };
+    return indexOf(object);
   }
 
   @Override

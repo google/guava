@@ -16,10 +16,12 @@
 
 package com.google.common.collect;
 
+import static com.google.common.base.Preconditions.checkElementIndex;
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkPositionIndex;
+import static com.google.common.base.Preconditions.checkPositionIndexes;
 
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.base.Preconditions;
 
 import java.io.InvalidObjectException;
 import java.io.ObjectInputStream;
@@ -323,15 +325,29 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
     return listIterator(0);
   }
 
-  @Override public abstract UnmodifiableListIterator<E> listIterator(int index);
-
-  // Mark these two methods with @Nullable
+  @Override public UnmodifiableListIterator<E> listIterator(int index) {
+    return new AbstractIndexedListIterator<E>(size(), index) {
+      @Override
+      protected E get(int index) {
+        return ImmutableList.this.get(index);
+      }
+    };
+  }
 
   @Override
-  public abstract int indexOf(@Nullable Object object);
+  public int indexOf(@Nullable Object object) {
+    return (object == null) ? -1 : Lists.indexOfImpl(this, object);
+  }
 
   @Override
-  public abstract int lastIndexOf(@Nullable Object object);
+  public int lastIndexOf(@Nullable Object object) {
+    return (object == null) ? -1 : Lists.lastIndexOfImpl(this, object);
+  }
+
+  @Override
+  public boolean contains(@Nullable Object object) {
+    return indexOf(object) >= 0;
+  }
 
   // constrain the return type to ImmutableList<E>
 
@@ -445,18 +461,18 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
     }
 
     @Override public ImmutableList<E> subList(int fromIndex, int toIndex) {
-      Preconditions.checkPositionIndexes(fromIndex, toIndex, size);
+      checkPositionIndexes(fromIndex, toIndex, size);
       return forwardList.subList(
           reversePosition(toIndex), reversePosition(fromIndex)).reverse();
     }
 
     @Override public E get(int index) {
-      Preconditions.checkElementIndex(index, size);
+      checkElementIndex(index, size);
       return forwardList.get(reverseIndex(index));
     }
 
     @Override public UnmodifiableListIterator<E> listIterator(int index) {
-      Preconditions.checkPositionIndex(index, size);
+      checkPositionIndex(index, size);
       final UnmodifiableListIterator<E> forward =
           forwardList.listIterator(reversePosition(index));
       return new UnmodifiableListIterator<E>() {

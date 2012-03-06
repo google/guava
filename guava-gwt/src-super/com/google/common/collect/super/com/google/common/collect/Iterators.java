@@ -1026,6 +1026,18 @@ public final class Iterators {
    */
   static <T> UnmodifiableIterator<T> forArray(
       final T[] array, final int offset, int length) {
+    return forArray(array, offset, length, 0);
+  }
+
+  /**
+   * Returns a list iterator containing the elements in the specified range of
+   * {@code array} in order, starting at the specified index.
+   *
+   * <p>The {@code Iterable} equivalent of this method is {@code
+   * Arrays.asList(array).subList(offset, offset + length).listIterator(index)}.
+   */
+  static <T> UnmodifiableListIterator<T> forArray(
+      final T[] array, final int offset, int length, int index) {
     checkArgument(length >= 0);
     int end = offset + length;
 
@@ -1037,7 +1049,7 @@ public final class Iterators {
      * because the returned Iterator is a ListIterator that may be moved back
      * past the beginning of the iteration.
      */
-    return new AbstractIndexedListIterator<T>(length) {
+    return new AbstractIndexedListIterator<T>(length, index) {
       @Override protected T get(int index) {
         return array[offset + index];
       }

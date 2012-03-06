@@ -58,16 +58,6 @@ class RegularImmutableList<E> extends ImmutableList<E> {
     return offset != 0 || size != array.length;
   }
 
-  @Override public boolean contains(@Nullable Object target) {
-    return indexOf(target) != -1;
-  }
-
-  // The fake cast to E is safe because the creation methods only allow E's
-  @SuppressWarnings("unchecked")
-  @Override public UnmodifiableIterator<E> iterator() {
-    return (UnmodifiableIterator<E>) Iterators.forArray(array, offset, size);
-  }
-
   @Override public Object[] toArray() {
     Object[] newArray = new Object[size()];
     System.arraycopy(array, offset, newArray, 0, size);
@@ -92,28 +82,6 @@ class RegularImmutableList<E> extends ImmutableList<E> {
     return (E) array[index + offset];
   }
 
-  @Override public int indexOf(@Nullable Object target) {
-    if (target != null) {
-      for (int i = offset; i < offset + size; i++) {
-        if (array[i].equals(target)) {
-          return i - offset;
-        }
-      }
-    }
-    return -1;
-  }
-
-  @Override public int lastIndexOf(@Nullable Object target) {
-    if (target != null) {
-      for (int i = offset + size - 1; i >= offset; i--) {
-        if (array[i].equals(target)) {
-          return i - offset;
-        }
-      }
-    }
-    return -1;
-  }
-
   @Override public ImmutableList<E> subList(int fromIndex, int toIndex) {
     Preconditions.checkPositionIndexes(fromIndex, toIndex, size);
     return (fromIndex == toIndex)
@@ -122,15 +90,12 @@ class RegularImmutableList<E> extends ImmutableList<E> {
             array, offset + fromIndex, toIndex - fromIndex);
   }
 
-  @Override public UnmodifiableListIterator<E> listIterator(final int start) {
-    return new AbstractIndexedListIterator<E>(size, start) {
-      // The fake cast to E is safe because the creation methods only allow E's
-      @SuppressWarnings("unchecked")
-      @Override protected E get(int index) {
-        return (E) array[index + offset];
-      }
-
-    };
+  @SuppressWarnings("unchecked")
+  @Override
+  public UnmodifiableListIterator<E> listIterator(int index) {
+    // for performance
+    // The fake cast to E is safe because the creation methods only allow E's
+    return (UnmodifiableListIterator<E>) Iterators.forArray(array, offset, size, index);
   }
 
   @Override public boolean equals(@Nullable Object object) {
@@ -162,16 +127,6 @@ class RegularImmutableList<E> extends ImmutableList<E> {
       }
     }
     return true;
-  }
-
-  @Override public int hashCode() {
-    // not caching hash code since it could change if the elements are mutable
-    // in a way that modifies their hash codes
-    int hashCode = 1;
-    for (int i = offset; i < offset + size; i++) {
-      hashCode = 31 * hashCode + array[i].hashCode();
-    }
-    return hashCode;
   }
 
   @Override public String toString() {

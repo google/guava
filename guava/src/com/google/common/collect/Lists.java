@@ -586,10 +586,6 @@ public final class Lists {
       this.string = string;
     }
 
-    @Override public boolean contains(@Nullable Object object) {
-      return indexOf(object) >= 0;
-    }
-
     @Override public int indexOf(@Nullable Object object) {
       return (object instanceof Character)
           ? string.indexOf((Character) object) : -1;
@@ -598,15 +594,6 @@ public final class Lists {
     @Override public int lastIndexOf(@Nullable Object object) {
       return (object instanceof Character)
           ? string.lastIndexOf((Character) object) : -1;
-    }
-
-    @Override public UnmodifiableListIterator<Character> listIterator(
-        int index) {
-      return new AbstractIndexedListIterator<Character>(size(), index) {
-        @Override protected Character get(int index) {
-          return string.charAt(index);
-        }
-      };
     }
 
     @Override public ImmutableList<Character> subList(
