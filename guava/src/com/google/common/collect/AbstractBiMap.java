@@ -65,14 +65,14 @@ abstract class AbstractBiMap<K, V> extends ForwardingMap<K, V>
   @Override protected Map<K, V> delegate() {
     return delegate;
   }
-  
+
   /**
    * Returns its input, or throws an exception if this is not a valid key.
    */
   K checkKey(K key) {
     return key;
   }
-  
+
   /**
    * Returns its input, or throws an exception if this is not a valid value.
    */
@@ -207,27 +207,7 @@ abstract class AbstractBiMap<K, V> extends ForwardingMap<K, V>
     }
 
     @Override public Iterator<K> iterator() {
-      final Iterator<Entry<K, V>> iterator = delegate.entrySet().iterator();
-      return new Iterator<K>() {
-        Entry<K, V> entry;
-
-        @Override
-        public boolean hasNext() {
-          return iterator.hasNext();
-        }
-        @Override
-        public K next() {
-          entry = iterator.next();
-          return entry.getKey();
-        }
-        @Override
-        public void remove() {
-          checkState(entry != null);
-          V value = entry.getValue();
-          iterator.remove();
-          removeFromInverseMap(value);
-        }
-      };
+      return Maps.keyIterator(entrySet().iterator());
     }
   }
 
@@ -250,23 +230,7 @@ abstract class AbstractBiMap<K, V> extends ForwardingMap<K, V>
     }
 
     @Override public Iterator<V> iterator() {
-      final Iterator<V> iterator = delegate.values().iterator();
-      return new Iterator<V>() {
-        V valueToRemove;
-
-        @Override public boolean hasNext() {
-          return iterator.hasNext();
-        }
-
-        @Override public V next() {
-          return valueToRemove = iterator.next();
-        }
-
-        @Override public void remove() {
-          iterator.remove();
-          removeFromInverseMap(valueToRemove);
-        }
-      };
+      return Maps.valueIterator(entrySet().iterator());
     }
 
     @Override public Object[] toArray() {

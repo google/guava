@@ -18,11 +18,9 @@ package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.common.base.Preconditions.checkState;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.base.Function;
 import com.google.common.base.Objects;
 import com.google.common.collect.Multiset.Entry;
 import com.google.common.primitives.Ints;
@@ -391,12 +389,12 @@ public final class Multisets {
           }
 
           @Override public Iterator<Entry<E>> iterator() {
-            return Iterators.transform(delegate.iterator(),
-                new Function<E, Entry<E>>() {
-                  @Override public Entry<E> apply(E elem) {
-                    return immutableEntry(elem, 1);
-                  }
-                });
+            return new TransformedIterator<E, Entry<E>>(delegate.iterator()) {
+              @Override
+              Entry<E> transform(E e) {
+                return Multisets.immutableEntry(e, 1);
+              }
+            };
           }
 
           @Override public int size() {
@@ -824,12 +822,12 @@ public final class Multisets {
     }
 
     @Override public Iterator<E> iterator() {
-      return Iterators.transform(multiset().entrySet().iterator(),
-          new Function<Entry<E>, E>() {
-            @Override public E apply(Entry<E> entry) {
-              return entry.getElement();
-            }
-          });
+      return new TransformedIterator<Entry<E>, E>(multiset().entrySet().iterator()) {
+        @Override
+        E transform(Entry<E> entry) {
+          return entry.getElement();
+        }
+      };
     }
 
     @Override
@@ -920,8 +918,7 @@ public final class Multisets {
 
     @Override
     public void remove() {
-      checkState(
-          canRemove, "no calls to next() since the last call to remove()");
+      Iterators.checkRemove(canRemove);
       if (totalCount == 1) {
         entryIterator.remove();
       } else {

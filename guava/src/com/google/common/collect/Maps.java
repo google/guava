@@ -50,7 +50,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.NavigableMap;
 import java.util.NavigableSet;
-import java.util.NoSuchElementException;
 import java.util.Properties;
 import java.util.Set;
 import java.util.SortedMap;
@@ -1218,17 +1217,23 @@ public final class Maps {
           }
 
           @Override public Iterator<Entry<K, V2>> iterator() {
-            final Iterator<Entry<K, V1>> backingIterator =
-                fromMap.entrySet().iterator();
-            return Iterators.transform(backingIterator,
-                new Function<Entry<K, V1>, Entry<K, V2>>() {
-                  @Override public Entry<K, V2> apply(Entry<K, V1> entry) {
-                    return immutableEntry(
-                        entry.getKey(),
-                        transformer.transformEntry(entry.getKey(),
-                            entry.getValue()));
+            return new TransformedIterator<Entry<K, V1>, Entry<K, V2>>(
+                fromMap.entrySet().iterator()) {
+              @Override
+              Entry<K, V2> transform(final Entry<K, V1> entry) {
+                return new AbstractMapEntry<K, V2>() {
+                  @Override
+                  public K getKey() {
+                    return entry.getKey();
                   }
-                });
+
+                  @Override
+                  public V2 getValue() {
+                    return transformer.transformEntry(entry.getKey(), entry.getValue());
+                  }
+                };
+              }
+            };
           }
         };
       }
@@ -2283,16 +2288,20 @@ public final class Maps {
     return false;
   }
 
+  static <K, V> Iterator<K> keyIterator(Iterator<Entry<K, V>> entryIterator) {
+    return new TransformedIterator<Entry<K, V>, K>(entryIterator) {
+      @Override
+      K transform(Entry<K, V> entry) {
+        return entry.getKey();
+      }
+    };
+  }
+
   abstract static class KeySet<K, V> extends AbstractSet<K> {
     abstract Map<K, V> map();
 
     @Override public Iterator<K> iterator() {
-      return Iterators.transform(map().entrySet().iterator(),
-          new Function<Map.Entry<K, V>, K>() {
-            @Override public K apply(Entry<K, V> entry) {
-              return entry.getKey();
-            }
-          });
+      return keyIterator(map().entrySet().iterator());
     }
 
     @Override public int size() {
@@ -2426,16 +2435,20 @@ public final class Maps {
     }
   }
 
+  static <K, V> Iterator<V> valueIterator(Iterator<Entry<K, V>> entryIterator) {
+    return new TransformedIterator<Entry<K, V>, V>(entryIterator) {
+      @Override
+      V transform(Entry<K, V> entry) {
+        return entry.getValue();
+      }
+    };
+  }
+
   abstract static class Values<K, V> extends AbstractCollection<V> {
     abstract Map<K, V> map();
 
     @Override public Iterator<V> iterator() {
-      return Iterators.transform(map().entrySet().iterator(),
-          new Function<Entry<K, V>, V>() {
-            @Override public V apply(Entry<K, V> entry) {
-              return entry.getValue();
-            }
-          });
+      return valueIterator(map().entrySet().iterator());
     }
 
     @Override public boolean remove(Object o) {

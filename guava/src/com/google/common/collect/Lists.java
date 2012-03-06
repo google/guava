@@ -255,7 +255,7 @@ public final class Lists {
     // We copy elements to an ArrayList first, rather than incurring the
     // quadratic cost of adding them to the COWAL directly.
     Collection<? extends E> elementsCollection = (elements instanceof Collection)
-        ? (Collection<? extends E>) elements
+        ? Collections2.cast(elements)
         : newArrayList(elements);
     return new CopyOnWriteArrayList<E>(elementsCollection);
   }

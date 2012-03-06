@@ -35,6 +35,7 @@ import java.util.Comparator;
 import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.NoSuchElementException;
 import java.util.PriorityQueue;
 import java.util.Queue;
@@ -767,21 +768,11 @@ public final class Iterators {
    */
   public static <F, T> Iterator<T> transform(final Iterator<F> fromIterator,
       final Function<? super F, ? extends T> function) {
-    checkNotNull(fromIterator);
     checkNotNull(function);
-    return new Iterator<T>() {
+    return new TransformedIterator<F, T>(fromIterator) {
       @Override
-      public boolean hasNext() {
-        return fromIterator.hasNext();
-      }
-      @Override
-      public T next() {
-        F from = fromIterator.next();
+      T transform(F from) {
         return function.apply(from);
-      }
-      @Override
-      public void remove() {
-        fromIterator.remove();
       }
     };
   }
@@ -1305,5 +1296,20 @@ public final class Iterators {
 
       return next;
     }
+  }
+
+  /**
+   * Precondition tester for {@code Iterator.remove()} that throws an exception with a consistent
+   * error message.
+   */
+  static void checkRemove(boolean canRemove) {
+    checkState(canRemove, "no calls to next() since the last call to remove()");
+  }
+
+  /**
+   * Used to avoid http://bugs.sun.com/view_bug.do?bug_id=6558557
+   */
+  static <T> ListIterator<T> cast(Iterator<T> iterator) {
+    return (ListIterator<T>) iterator;
   }
 }

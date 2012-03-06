@@ -16,7 +16,6 @@
 
 package com.google.common.collect;
 
-import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.Maps.keyOrNull;
 
 import com.google.common.annotations.Beta;
@@ -33,26 +32,26 @@ import javax.annotation.Nullable;
  * A navigable map which forwards all its method calls to another navigable map. Subclasses should
  * override one or more methods to modify the behavior of the backing map as desired per the <a
  * href="http://en.wikipedia.org/wiki/Decorator_pattern">decorator pattern</a>.
- * 
+ *
  * <p><i>Warning:</i> The methods of {@code ForwardingNavigableMap} forward <i>indiscriminately</i>
  * to the methods of the delegate. For example, overriding {@link #put} alone <i>will not</i>
  * change the behavior of {@link #putAll}, which can lead to unexpected behavior. In this case, you
  * should override {@code putAll} as well, either providing your own implementation, or delegating
  * to the provided {@code standardPutAll} method.
- * 
+ *
  * <p>Each of the {@code standard} methods uses the map's comparator (or the natural ordering of
  * the elements, if there is no comparator) to test element equality. As a result, if the comparator
  * is not consistent with equals, some of the standard implementations may violate the {@code Map}
  * contract.
- * 
+ *
  * <p>The {@code standard} methods and the collection views they return are not guaranteed to be
  * thread-safe, even when all of the methods that they depend on are thread-safe.
- * 
+ *
  * @author Louis Wasserman
  * @since 12.0
  */
 @Beta
-public abstract class ForwardingNavigableMap<K, V> 
+public abstract class ForwardingNavigableMap<K, V>
     extends ForwardingSortedMap<K, V> implements NavigableMap<K, V> {
 
   /** Constructor for use by subclasses. */
@@ -266,11 +265,11 @@ public abstract class ForwardingNavigableMap<K, V>
    * this {@code NavigableMap}. In many cases, you may wish to override
    * {@link ForwardingNavigableMap#descendingMap} to forward to this implementation or a subclass
    * thereof.
-   * 
+   *
    * <p>In particular, this map iterates over entries with repeated calls to
    * {@link NavigableMap#lowerEntry}. If a more efficient means of iteration is available, you may
    * wish to override the {@code entryIterator()} method of this class.
-   * 
+   *
    * @since 12.0
    */
   @Beta
@@ -309,9 +308,7 @@ public abstract class ForwardingNavigableMap<K, V>
 
         @Override
         public void remove() {
-          checkState(
-              toRemove != null,
-              "Each call to remove() must be preceded by a call to next()");
+          Iterators.checkRemove(toRemove != null);
           forward().remove(toRemove.getKey());
           toRemove = null;
         }

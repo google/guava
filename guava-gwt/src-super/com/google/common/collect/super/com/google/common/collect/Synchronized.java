@@ -194,7 +194,7 @@ final class Synchronized {
 
   static class SynchronizedSet<E>
       extends SynchronizedCollection<E> implements Set<E> {
-    
+
     SynchronizedSet(Set<E> delegate, @Nullable Object mutex) {
       super(delegate, mutex);
     }
@@ -834,7 +834,7 @@ final class Synchronized {
         }
 
         @Override public Map.Entry<K, Collection<V>> next() {
-          final Map.Entry<K, Collection<V>> entry = iterator.next();
+          final Map.Entry<K, Collection<V>> entry = super.next();
           return new ForwardingMapEntry<K, Collection<V>>() {
             @Override protected Map.Entry<K, Collection<V>> delegate() {
               return entry;
@@ -1026,12 +1026,12 @@ final class Synchronized {
 
     private static final long serialVersionUID = 0;
   }
-  
+
   static <K, V> SortedMap<K, V> sortedMap(
       SortedMap<K, V> sortedMap, @Nullable Object mutex) {
     return new SynchronizedSortedMap<K, V>(sortedMap, mutex);
   }
-  
+
   static class SynchronizedSortedMap<K, V> extends SynchronizedMap<K, V>
       implements SortedMap<K, V> {
 
@@ -1195,7 +1195,7 @@ final class Synchronized {
           return iterator;
         }
         @Override public Collection<V> next() {
-          return typePreservingCollection(iterator.next(), mutex);
+          return typePreservingCollection(super.next(), mutex);
         }
       };
     }

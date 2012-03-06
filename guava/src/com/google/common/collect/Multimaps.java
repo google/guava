@@ -629,7 +629,7 @@ public final class Multimaps {
     }
     @Override public Iterator<Collection<V>> iterator() {
       final Iterator<Collection<V>> iterator = delegate.iterator();
-      return new Iterator<Collection<V>>() {
+      return new UnmodifiableIterator<Collection<V>>() {
         @Override
         public boolean hasNext() {
           return iterator.hasNext();
@@ -637,10 +637,6 @@ public final class Multimaps {
         @Override
         public Collection<V> next() {
           return unmodifiableValueCollection(iterator.next());
-        }
-        @Override
-        public void remove() {
-          throw new UnsupportedOperationException();
         }
       };
     }
@@ -1202,28 +1198,20 @@ public final class Multimaps {
       }
 
       @Override public Iterator<Entry<K, Collection<V>>> iterator() {
-        return new Iterator<Entry<K, Collection<V>>>() {
-          final Iterator<K> keys = map.keySet().iterator();
-
+        return new TransformedIterator<K, Entry<K, Collection<V>>>(map.keySet().iterator()) {
           @Override
-          public boolean hasNext() {
-            return keys.hasNext();
-          }
-          @Override
-          public Entry<K, Collection<V>> next() {
-            final K key = keys.next();
+          Entry<K, Collection<V>> transform(final K key) {
             return new AbstractMapEntry<K, Collection<V>>() {
-              @Override public K getKey() {
+              @Override
+              public K getKey() {
                 return key;
               }
-              @Override public Collection<V> getValue() {
+
+              @Override
+              public Collection<V> getValue() {
                 return get(key);
               }
             };
-          }
-          @Override
-          public void remove() {
-            keys.remove();
           }
         };
       }
@@ -1862,29 +1850,22 @@ public final class Multimaps {
     abstract Multimap<K, V> multimap();
 
     @Override Iterator<Multiset.Entry<K>> entryIterator() {
-      final Iterator<Map.Entry<K, Collection<V>>> backingIterator =
-          multimap().asMap().entrySet().iterator();
-      return new Iterator<Multiset.Entry<K>>() {
-        @Override public boolean hasNext() {
-          return backingIterator.hasNext();
-        }
-
-        @Override public Multiset.Entry<K> next() {
-          final Map.Entry<K, Collection<V>> backingEntry =
-              backingIterator.next();
+      return new TransformedIterator<Map.Entry<K, Collection<V>>, Multiset.Entry<K>>(
+          multimap().asMap().entrySet().iterator()) {
+        @Override
+        Multiset.Entry<K> transform(
+            final Map.Entry<K, Collection<V>> backingEntry) {
           return new Multisets.AbstractEntry<K>() {
-            @Override public K getElement() {
+            @Override
+            public K getElement() {
               return backingEntry.getKey();
             }
 
-            @Override public int getCount() {
+            @Override
+            public int getCount() {
               return backingEntry.getValue().size();
             }
           };
-        }
-
-        @Override public void remove() {
-          backingIterator.remove();
         }
       };
     }
@@ -1941,12 +1922,7 @@ public final class Multimaps {
     }
 
     @Override public Iterator<K> iterator() {
-      return Iterators.transform(multimap().entries().iterator(),
-          new Function<Map.Entry<K, V>, K>() {
-            @Override public K apply(Map.Entry<K, V> entry) {
-              return entry.getKey();
-            }
-          });
+      return Maps.keyIterator(multimap().entries().iterator());
     }
 
     @Override public int count(@Nullable Object element) {
@@ -2008,21 +1984,7 @@ public final class Multimaps {
     abstract Multimap<K, V> multimap();
 
     @Override public Iterator<V> iterator() {
-      final Iterator<Map.Entry<K, V>> backingIterator =
-          multimap().entries().iterator();
-      return new Iterator<V>() {
-        @Override public boolean hasNext() {
-          return backingIterator.hasNext();
-        }
-
-        @Override public V next() {
-          return backingIterator.next().getValue();
-        }
-
-        @Override public void remove() {
-          backingIterator.remove();
-        }
-      };
+      return Maps.valueIterator(multimap().entries().iterator());
     }
 
     @Override public int size() {
@@ -2590,7 +2552,7 @@ public final class Multimaps {
         }
 
         @Override public boolean removeAll(Collection<?> c) {
-          return Sets.removeAllImpl(this, c);
+          return Sets.removeAllImpl(this, c.iterator());
         }
 
         @Override public boolean retainAll(final Collection<?> c) {
@@ -2732,8 +2694,9 @@ public final class Multimaps {
       }
 
       class EntrySet extends Multimaps.Keys<K, V>.KeysEntrySet {
-        @Override public boolean removeAll(Collection<?> c) {
-          return Sets.removeAllImpl(this, c);
+        @Override
+        public boolean removeAll(final Collection<?> c) {
+          return Sets.removeAllImpl(this, c.iterator());
         }
 
         @Override public boolean retainAll(final Collection<?> c) {

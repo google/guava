@@ -18,7 +18,6 @@ package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.common.base.Preconditions.checkState;
 
 import com.google.common.annotations.GwtCompatible;
 
@@ -916,7 +915,7 @@ abstract class AbstractMultimap<K, V> implements Multimap<K, V>, Serializable {
         }
         @Override
         public void remove() {
-          checkState(entry != null);
+          Iterators.checkRemove(entry != null);
           Collection<V> collection = entry.getValue();
           entryIterator.remove();
           totalSize -= collection.size();

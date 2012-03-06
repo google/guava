@@ -23,6 +23,7 @@ import com.google.common.annotations.GwtCompatible;
 import junit.framework.TestCase;
 
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
@@ -131,6 +132,61 @@ public class EnumBiMapTest extends TestCase {
     // backward map ordered by country (even for currency values)
     ASSERT.that(bimap.inverse().values())
         .hasContentsInOrder(Currency.DOLLAR, Currency.PESO, Currency.FRANC);
+  }
+
+  public void testKeySetIteratorRemove() {
+    // The enum orderings are alphabetical, leading to the bimap and its inverse
+    // having inconsistent iteration orderings.
+    Map<Currency, Country> map = ImmutableMap.of(
+        Currency.DOLLAR, Country.CANADA,
+        Currency.PESO, Country.CHILE,
+        Currency.FRANC, Country.SWITZERLAND);
+    EnumBiMap<Currency, Country> bimap = EnumBiMap.create(map);
+
+    Iterator<Currency> iter = bimap.keySet().iterator();
+    assertEquals(Currency.DOLLAR, iter.next());
+    iter.remove();
+
+    // forward map ordered by currency
+    ASSERT.that(bimap.keySet())
+        .hasContentsInOrder(Currency.FRANC, Currency.PESO);
+    // forward map ordered by currency (even for country values)
+    ASSERT.that(bimap.values())
+        .hasContentsInOrder(Country.SWITZERLAND, Country.CHILE);
+    // backward map ordered by country
+    ASSERT.that(bimap.inverse().keySet())
+        .hasContentsInOrder(Country.CHILE, Country.SWITZERLAND);
+    // backward map ordered by country (even for currency values)
+    ASSERT.that(bimap.inverse().values())
+        .hasContentsInOrder(Currency.PESO, Currency.FRANC);
+  }
+
+  public void testValuesIteratorRemove() {
+    // The enum orderings are alphabetical, leading to the bimap and its inverse
+    // having inconsistent iteration orderings.
+    Map<Currency, Country> map = ImmutableMap.of(
+        Currency.DOLLAR, Country.CANADA,
+        Currency.PESO, Country.CHILE,
+        Currency.FRANC, Country.SWITZERLAND);
+    EnumBiMap<Currency, Country> bimap = EnumBiMap.create(map);
+
+    Iterator<Currency> iter = bimap.keySet().iterator();
+    assertEquals(Currency.DOLLAR, iter.next());
+    assertEquals(Currency.FRANC, iter.next());
+    iter.remove();
+
+    // forward map ordered by currency
+    ASSERT.that(bimap.keySet())
+        .hasContentsInOrder(Currency.DOLLAR, Currency.PESO);
+    // forward map ordered by currency (even for country values)
+    ASSERT.that(bimap.values())
+        .hasContentsInOrder(Country.CANADA, Country.CHILE);
+    // backward map ordered by country
+    ASSERT.that(bimap.inverse().keySet())
+        .hasContentsInOrder(Country.CANADA, Country.CHILE);
+    // backward map ordered by country (even for currency values)
+    ASSERT.that(bimap.inverse().values())
+        .hasContentsInOrder(Currency.DOLLAR, Currency.PESO);
   }
 
   public void testEntrySet() {

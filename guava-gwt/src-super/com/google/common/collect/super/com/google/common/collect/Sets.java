@@ -1269,12 +1269,22 @@ public final class Sets {
   /**
    * Remove each element in an iterable from a set.
    */
-  static boolean removeAllImpl(Set<?> set, Iterable<?> iterable) {
-    // TODO(jlevy): Have ForwardingSet.standardRemoveAll() call this method.
+  static boolean removeAllImpl(Set<?> set, Iterator<?> iterator) {
     boolean changed = false;
-    for (Object o : iterable) {
-      changed |= set.remove(o);
+    while (iterator.hasNext()) {
+      changed |= set.remove(iterator.next());
     }
     return changed;
+  }
+
+  static boolean removeAllImpl(Set<?> set, Collection<?> collection) {
+    if (collection instanceof Multiset) {
+      collection = ((Multiset<?>) collection).elementSet();
+    }
+    if (collection.size() < set.size()) {
+      return removeAllImpl(set, collection.iterator());
+    } else {
+      return Iterators.removeAll(set.iterator(), collection);
+    }
   }
 }

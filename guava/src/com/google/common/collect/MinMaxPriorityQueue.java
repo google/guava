@@ -26,13 +26,13 @@ import com.google.common.annotations.VisibleForTesting;
 import com.google.common.math.IntMath;
 
 import java.util.AbstractQueue;
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.PriorityQueue;
@@ -747,7 +747,6 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
   private class QueueIterator implements Iterator<E> {
     private int cursor = -1;
     private int expectedModCount = modCount;
-    // TODO(user): Switch to ArrayDeque once Guava supports it.
     private Queue<E> forgetMeNot;
     private List<E> skipMe;
     private E lastFromForgetMeNot;
@@ -788,7 +787,7 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
         MoveDesc<E> moved = removeAt(cursor);
         if (moved != null) {
           if (forgetMeNot == null) {
-            forgetMeNot = new LinkedList<E>();
+            forgetMeNot = new ArrayDeque<E>();
             skipMe = new ArrayList<E>(3);
           }
           forgetMeNot.add(moved.toTrickle);

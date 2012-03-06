@@ -74,19 +74,7 @@ public abstract class ForwardingSet<E> extends ForwardingCollection<E>
   @Beta
   @Override
   protected boolean standardRemoveAll(Collection<?> collection) {
-    checkNotNull(collection); // for GWT
-    if (collection instanceof Multiset) {
-      collection = ((Multiset<?>) collection).elementSet();
-    }
-    if (collection.size() < size()) {
-      boolean changed = false;
-      for (Object o : collection) {
-        changed |= remove(o);
-      }
-      return changed;
-    } else {
-      return Iterators.removeAll(iterator(), collection);
-    }
+    return Sets.removeAllImpl(this, checkNotNull(collection)); // for GWT
   }
 
   /**

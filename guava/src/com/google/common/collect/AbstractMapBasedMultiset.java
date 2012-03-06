@@ -28,7 +28,6 @@ import com.google.common.primitives.Ints;
 import java.io.InvalidObjectException;
 import java.io.ObjectStreamException;
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.Map;
@@ -124,8 +123,7 @@ abstract class AbstractMapBasedMultiset<E> extends AbstractMultiset<E>
 
       @Override
       public void remove() {
-        checkState(toRemove != null,
-            "no calls to next() since the last call to remove()");
+        Iterators.checkRemove(toRemove != null);
         size -= toRemove.getValue().getAndSet(0);
         backingEntries.remove();
         toRemove = null;
@@ -302,95 +300,16 @@ abstract class AbstractMapBasedMultiset<E> extends AbstractMultiset<E>
     return i.getAndSet(count);
   }
 
-  private int removeAllOccurrences(@Nullable Object element,
-      Map<E, Count> map) {
-    Count frequency = map.remove(element);
-    if (frequency == null) {
-      return 0;
-    }
-    int numberRemoved = frequency.getAndSet(0);
-    size -= numberRemoved;
-    return numberRemoved;
-  }
-
   // Views
 
   @Override Set<E> createElementSet() {
-    return new MapBasedElementSet(backingMap);
+    return new MapBasedElementSet();
   }
 
-  // TODO(user): once TreeMultiset is replaced with a SortedMultiset
-  // implementation, replace this with a subclass of Multisets.ElementSet.
-  class MapBasedElementSet extends ForwardingSet<E> {
-
-    // This mapping is the usually the same as 'backingMap', but can be a
-    // submap in some implementations.
-    private final Map<E, Count> map;
-    private final Set<E> delegate;
-
-    MapBasedElementSet(Map<E, Count> map) {
-      this.map = map;
-      delegate = map.keySet();
-    }
-
-    @Override protected Set<E> delegate() {
-      return delegate;
-    }
-
-    @Override public Iterator<E> iterator() {
-      final Iterator<Map.Entry<E, Count>> entries
-          = map.entrySet().iterator();
-      return new Iterator<E>() {
-        Map.Entry<E, Count> toRemove;
-
-        @Override
-        public boolean hasNext() {
-          return entries.hasNext();
-        }
-
-        @Override
-        public E next() {
-          toRemove = entries.next();
-          return toRemove.getKey();
-        }
-
-        @Override
-        public void remove() {
-          checkState(toRemove != null,
-              "no calls to next() since the last call to remove()");
-          size -= toRemove.getValue().getAndSet(0);
-          entries.remove();
-          toRemove = null;
-        }
-      };
-    }
-
-    @Override public boolean remove(Object element) {
-      return removeAllOccurrences(element, map) != 0;
-    }
-
-    @Override public boolean removeAll(Collection<?> elementsToRemove) {
-      return Iterators.removeAll(iterator(), elementsToRemove);
-    }
-
-    @Override public boolean retainAll(Collection<?> elementsToRetain) {
-      return Iterators.retainAll(iterator(), elementsToRetain);
-    }
-
-    @Override public void clear() {
-      if (map == backingMap) {
-        AbstractMapBasedMultiset.this.clear();
-      } else {
-        Iterator<E> i = iterator();
-        while (i.hasNext()) {
-          i.next();
-          i.remove();
-        }
-      }
-    }
-
-    public Map<E, Count> getMap() {
-      return map;
+  class MapBasedElementSet extends Multisets.ElementSet<E> {
+    @Override
+    Multiset<E> multiset() {
+      return AbstractMapBasedMultiset.this;
     }
   }
 
