@@ -93,7 +93,7 @@ public class MinimalCollection<E> extends AbstractCollection<E> {
 
   @Override public Object[] toArray() {
     Object[] result = new Object[contents.length];
-    Platform.unsafeArrayCopy(contents, 0, result, 0, contents.length);
+    System.arraycopy(contents, 0, result, 0, contents.length);
     return result;
   }
 

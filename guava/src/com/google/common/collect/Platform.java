@@ -37,23 +37,6 @@ class Platform {
   }
 
   /**
-   * Wrapper around {@link System#arraycopy} so that it can be emulated
-   * correctly in GWT.
-   *
-   * <p>It is only intended for the case {@code src} and {@code dest} are
-   * different.  It also doesn't validate the types and indices.
-   *
-   * <p>As of GWT 2.0, The built-in {@link System#arraycopy} doesn't work
-   * in general case.  See
-   * http://code.google.com/p/google-web-toolkit/issues/detail?id=3621
-   * for more details.
-   */
-  static void unsafeArrayCopy(
-      Object[] src, int srcPos, Object[] dest, int destPos, int length) {
-    System.arraycopy(src, srcPos, dest, destPos, length);
-  }
-
-  /**
    * Returns a new array of the given length with the specified component type.
    *
    * @param type the component type

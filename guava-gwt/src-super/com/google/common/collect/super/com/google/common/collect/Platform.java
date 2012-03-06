@@ -29,14 +29,6 @@ class Platform {
     return GwtPlatform.clone(array);
   }
 
-  // TODO: Fix System.arraycopy in GWT so that it isn't necessary.
-  static void unsafeArrayCopy(
-      Object[] src, int srcPos, Object[] dest, int destPos, int length) {
-    for (int i = 0; i < length; i++) {
-      dest[destPos + i] = src[srcPos + i];
-    }
-  }
-
   static <T> T[] newArray(Class<T> type, int length) {
     throw new UnsupportedOperationException(
         "Platform.newArray is not supported in GWT yet.");

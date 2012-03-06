@@ -422,7 +422,7 @@ abstract class AbstractIteratorTester<E, I extends Iterator<E>> {
 
   private static List<Object> subListCopy(Object[] source, int size) {
     final Object[] copy = new Object[size];
-    Platform.unsafeArrayCopy(source, 0, copy, 0, size);
+    System.arraycopy(source, 0, copy, 0, size);
     return Arrays.asList(copy);
   }
 

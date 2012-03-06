@@ -115,7 +115,7 @@ public class ListsTest extends TestCase {
     suite.addTest(ListTestSuiteBuilder.using(new TestStringListGenerator() {
           @Override protected List<String> create(String[] elements) {
             String[] rest = new String[elements.length - 1];
-            Platform.unsafeArrayCopy(elements, 1, rest, 0, elements.length - 1);
+            System.arraycopy(elements, 1, rest, 0, elements.length - 1);
             return Lists.asList(elements[0], rest);
           }
         })
@@ -128,7 +128,7 @@ public class ListsTest extends TestCase {
     suite.addTest(ListTestSuiteBuilder.using(new TestStringListGenerator() {
           @Override protected List<String> create(String[] elements) {
             String[] rest = new String[elements.length - 2];
-            Platform.unsafeArrayCopy(elements, 2, rest, 0, elements.length - 2);
+            System.arraycopy(elements, 2, rest, 0, elements.length - 2);
             return Lists.asList(elements[0], elements[1], rest);
           }
         })

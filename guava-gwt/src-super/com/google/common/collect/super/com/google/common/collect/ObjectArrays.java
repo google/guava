@@ -55,7 +55,7 @@ public final class ObjectArrays {
   public static <T> T[] concat(@Nullable T element, T[] array) {
     T[] result = newArray(array, array.length + 1);
     result[0] = element;
-    Platform.unsafeArrayCopy(array, 0, result, 1, array.length);
+    System.arraycopy(array, 0, result, 1, array.length);
     return result;
   }
 
@@ -77,7 +77,7 @@ public final class ObjectArrays {
   /** GWT safe version of Arrays.copyOf. */
   static <T> T[] arraysCopyOf(T[] original, int newLength) {
     T[] copy = newArray(original, newLength);
-    Platform.unsafeArrayCopy(
+    System.arraycopy(
         original, 0, copy, 0, Math.min(original.length, newLength));
     return copy;
   }
