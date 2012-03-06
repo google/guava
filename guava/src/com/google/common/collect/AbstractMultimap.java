@@ -198,9 +198,17 @@ abstract class AbstractMultimap<K, V> implements Multimap<K, V>, Serializable {
 
   @Override
   public boolean put(@Nullable K key, @Nullable V value) {
-    Collection<V> collection = getOrCreateCollection(key);
-
-    if (collection.add(value)) {
+    Collection<V> collection = map.get(key);
+    if (collection == null) {
+      collection = createCollection(key);
+      if (collection.add(value)) {
+        totalSize++;
+        map.put(key, collection);
+        return true;
+      } else {
+        throw new AssertionError("New Collection violated the Collection spec");
+      }
+    } else if (collection.add(value)) {
       totalSize++;
       return true;
     } else {
@@ -241,6 +249,7 @@ abstract class AbstractMultimap<K, V> implements Multimap<K, V>, Serializable {
     if (!values.iterator().hasNext()) {
       return false;
     }
+    // TODO(user): investigate atomic failure?
     Collection<V> collection = getOrCreateCollection(key);
     int oldSize = collection.size();
 
@@ -280,6 +289,7 @@ abstract class AbstractMultimap<K, V> implements Multimap<K, V>, Serializable {
       return removeAll(key);
     }
 
+    // TODO(user): investigate atomic failure?
     Collection<V> collection = getOrCreateCollection(key);
     Collection<V> oldValues = createCollection();
     oldValues.addAll(collection);
@@ -1384,4 +1394,3 @@ abstract class AbstractMultimap<K, V> implements Multimap<K, V>, Serializable {
 
   private static final long serialVersionUID = 2447537837011683357L;
 }
-

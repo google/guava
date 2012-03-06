@@ -16,6 +16,7 @@
 
 package com.google.common.collect;
 
+import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.collect.Maps.immutableEntry;
 import static com.google.common.collect.Sets.newHashSet;
 import static com.google.common.collect.testing.Helpers.nefariousMapEntry;
@@ -549,6 +550,52 @@ public class MultimapsTest extends AbstractMultimapTest {
     private static final long serialVersionUID = 0;
   }
 
+  public void testNewMultimapWithCollectionRejectingNegativeElements() {
+    CountingSupplier<Set<Integer>> factory = new SetSupplier() {
+      @Override
+      public Set<Integer> getImpl() {
+        final Set<Integer> backing = super.getImpl();
+        return new ForwardingSet<Integer>() {
+          @Override
+          protected Set<Integer> delegate() {
+            return backing;
+          }
+
+          @Override
+          public boolean add(Integer element) {
+            checkArgument(element >= 0);
+            return super.add(element);
+          }
+
+          @Override
+          public boolean addAll(Collection<? extends Integer> collection) {
+            return standardAddAll(collection);
+          }
+        };
+      }
+    };
+
+    Map<Color, Collection<Integer>> map = Maps.newEnumMap(Color.class);
+    Multimap<Color, Integer> multimap = Multimaps.newMultimap(map, factory);
+    try {
+      multimap.put(Color.BLUE, -1);
+      fail("Expected IllegalArgumentException");
+    } catch (IllegalArgumentException expected) {
+      // expected
+    }
+    multimap.put(Color.RED, 1);
+    multimap.put(Color.BLUE, 2);
+    try {
+      multimap.put(Color.GREEN, -1);
+      fail("Expected IllegalArgumentException");
+    } catch (IllegalArgumentException expected) {
+      // expected
+    }
+    ASSERT.that(multimap.entries()).hasContentsAnyOrder(
+        Maps.immutableEntry(Color.RED, 1),
+        Maps.immutableEntry(Color.BLUE, 2));
+  }
+
   public void testNewMultimap() {
     // The ubiquitous EnumArrayBlockingQueueMultimap
     CountingSupplier<Queue<Integer>> factory = new QueueSupplier();
@@ -618,15 +665,15 @@ public class MultimapsTest extends AbstractMultimapTest {
     SerializableTester.reserializeAndAssert(multimap);
   }
 
-  private static class SetSupplier extends CountingSupplier<HashSet<Integer>> {
-    @Override public HashSet<Integer> getImpl() {
+  private static class SetSupplier extends CountingSupplier<Set<Integer>> {
+    @Override public Set<Integer> getImpl() {
       return new HashSet<Integer>(4);
     }
     private static final long serialVersionUID = 0;
   }
 
   public void testNewSetMultimap() {
-    CountingSupplier<HashSet<Integer>> factory = new SetSupplier();
+    CountingSupplier<Set<Integer>> factory = new SetSupplier();
     Map<Color, Collection<Integer>> map = Maps.newHashMap();
     SetMultimap<Color, Integer> multimap =
         Multimaps.newSetMultimap(map, factory);
@@ -640,7 +687,7 @@ public class MultimapsTest extends AbstractMultimapTest {
 
   @GwtIncompatible("SerializableTester")
   public void testNewSetMultimapSerialization() {
-    CountingSupplier<HashSet<Integer>> factory = new SetSupplier();
+    CountingSupplier<Set<Integer>> factory = new SetSupplier();
     Map<Color, Collection<Integer>> map = Maps.newHashMap();
     SetMultimap<Color, Integer> multimap = Multimaps.newSetMultimap(map, factory);
     multimap.putAll(Color.BLUE, asList(3, 1, 4));
