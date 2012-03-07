@@ -394,7 +394,7 @@ public final class TreeMultiset<E> extends AbstractSortedMultiset<E>
         @Nullable Node<E> right) {
       super(key, left, right);
       checkArgument(elemCount > 0);
-      this.size = (long) elemCount + sizeOrZero(left) + sizeOrZero(right);
+      this.size = elemCount + sizeOrZero(left) + sizeOrZero(right);
       this.distinct = 1 + distinctOrZero(left) + distinctOrZero(right);
     }
 
