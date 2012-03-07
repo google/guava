@@ -29,10 +29,6 @@ import javax.annotation.Nullable;
 final class Count implements Serializable {
   private int value;
 
-  Count() {
-    this(0);
-  }
-
   Count(int value) {
     this.value = value;
   }
