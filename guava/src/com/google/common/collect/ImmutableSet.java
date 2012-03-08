@@ -57,7 +57,7 @@ import javax.annotation.Nullable;
  * <p><b>Note:</b> Although this class is not final, it cannot be subclassed
  * outside its package as it has no public or protected constructors. Thus,
  * instances of this type are guaranteed to be immutable.
- * 
+ *
  * <p>See the Guava User Guide article on <a href=
  * "http://code.google.com/p/guava-libraries/wiki/ImmutableCollectionsExplained">
  * immutable collections</a>.
@@ -462,10 +462,15 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E>
 
   /** such as ImmutableMap.keySet() */
   abstract static class TransformedImmutableSet<D, E> extends ImmutableSet<E> {
-    final D[] source;
+    final ImmutableCollection<D> source;
     final int hashCode;
 
-    TransformedImmutableSet(D[] source, int hashCode) {
+    TransformedImmutableSet(ImmutableCollection<D> source) {
+      this.source = source;
+      this.hashCode = Sets.hashCodeImpl(this);
+    }
+
+    TransformedImmutableSet(ImmutableCollection<D> source, int hashCode) {
       this.source = source;
       this.hashCode = hashCode;
     }
@@ -474,7 +479,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E>
 
     @Override
     public int size() {
-      return source.length;
+      return source.size();
     }
 
     @Override public boolean isEmpty() {
@@ -482,9 +487,16 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E>
     }
 
     @Override public UnmodifiableIterator<E> iterator() {
-      return new AbstractIndexedListIterator<E>(source.length) {
-        @Override protected E get(int index) {
-          return transform(source[index]);
+      final Iterator<D> backingIterator = source.iterator();
+      return new UnmodifiableIterator<E>() {
+        @Override
+        public boolean hasNext() {
+          return backingIterator.hasNext();
+        }
+
+        @Override
+        public E next() {
+          return transform(backingIterator.next());
         }
       };
     }
@@ -503,8 +515,9 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E>
 
       // Writes will produce ArrayStoreException when the toArray() doc requires
       Object[] objectArray = array;
-      for (int i = 0; i < source.length; i++) {
-        objectArray[i] = transform(source[i]);
+      int i = 0;
+      for (D d : source) {
+        objectArray[i++] = transform(d);
       }
       return array;
     }

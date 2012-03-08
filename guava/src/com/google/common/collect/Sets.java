@@ -1048,25 +1048,13 @@ public final class Sets {
     }
 
     @Override public UnmodifiableIterator<List<B>> iterator() {
-      return new UnmodifiableIterator<List<B>>() {
-        int index;
-
+      return new AbstractIndexedListIterator<List<B>>(size) {
         @Override
-        public boolean hasNext() {
-          return index < size;
-        }
-
-        @Override
-        public List<B> next() {
-          if (!hasNext()) {
-            throw new NoSuchElementException();
-          }
-
+        protected List<B> get(int index) {
           Object[] tuple = new Object[axes.size()];
           for (int i = 0 ; i < tuple.length; i++) {
             tuple[i] = axes.get(i).getForIndex(index);
           }
-          index++;
 
           @SuppressWarnings("unchecked") // only B's are put in here
           List<B> result = (ImmutableList<B>) ImmutableList.copyOf(tuple);

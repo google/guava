@@ -593,18 +593,7 @@ public abstract class ImmutableMultimap<K, V>
     }
 
     @Override public UnmodifiableIterator<V> iterator() {
-      final Iterator<? extends Entry<?, V>> entryIterator
-          = multimap.entries().iterator();
-      return new UnmodifiableIterator<V>() {
-        @Override
-        public boolean hasNext() {
-          return entryIterator.hasNext();
-        }
-        @Override
-        public V next() {
-          return entryIterator.next().getValue();
-        }
-      };
+      return Maps.valueIterator(multimap.entries().iterator());
     }
 
     @Override

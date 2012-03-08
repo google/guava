@@ -24,7 +24,7 @@ import javax.annotation.Nullable;
 
 /**
  * An empty immutable map.
- * 
+ *
  * @author Jesse Wilson
  * @author Kevin Bourrillion
  */
@@ -53,6 +53,10 @@ final class EmptyImmutableMap extends ImmutableMap<Object, Object> {
 
   @Override public boolean containsValue(@Nullable Object value) {
     return false;
+  }
+
+  @Override ImmutableSet<Entry<Object, Object>> createEntrySet() {
+    throw new AssertionError("should never be called");
   }
 
   @Override public ImmutableSet<Entry<Object, Object>> entrySet() {

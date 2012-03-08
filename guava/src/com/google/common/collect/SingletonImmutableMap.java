@@ -79,55 +79,19 @@ final class SingletonImmutableMap<K, V> extends ImmutableMap<K, V> {
     return false;
   }
 
-  private transient ImmutableSet<Entry<K, V>> entrySet;
-
-  @Override public ImmutableSet<Entry<K, V>> entrySet() {
-    ImmutableSet<Entry<K, V>> es = entrySet;
-    return (es == null) ? (entrySet = ImmutableSet.of(entry())) : es;
+  @Override
+  ImmutableSet<Entry<K, V>> createEntrySet() {
+    return ImmutableSet.of(entry());
   }
 
-  private transient ImmutableSet<K> keySet;
-
-  @Override public ImmutableSet<K> keySet() {
-    ImmutableSet<K> ks = keySet;
-    return (ks == null) ? (keySet = ImmutableSet.of(singleKey)) : ks;
+  @Override
+  ImmutableSet<K> createKeySet() {
+    return ImmutableSet.of(singleKey);
   }
 
-  private transient ImmutableCollection<V> values;
-
-  @Override public ImmutableCollection<V> values() {
-    ImmutableCollection<V> v = values;
-    return (v == null) ? (values = new Values<V>(singleValue)) : v;
-  }
-
-  @SuppressWarnings("serial") // uses writeReplace(), not default serialization
-  private static class Values<V> extends ImmutableCollection<V> {
-    final V singleValue;
-
-    Values(V singleValue) {
-      this.singleValue = singleValue;
-    }
-
-    @Override public boolean contains(Object object) {
-      return singleValue.equals(object);
-    }
-
-    @Override public boolean isEmpty() {
-      return false;
-    }
-
-    @Override
-    public int size() {
-      return 1;
-    }
-
-    @Override public UnmodifiableIterator<V> iterator() {
-      return Iterators.singletonIterator(singleValue);
-    }
-
-    @Override boolean isPartialView() {
-      return true;
-    }
+  @Override
+  ImmutableCollection<V> createValues() {
+    return ImmutableList.of(singleValue);
   }
 
   @Override public boolean equals(@Nullable Object object) {

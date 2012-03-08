@@ -231,7 +231,7 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableMap<K, V>
     return inverse().containsKey(value);
   }
 
-  @Override public ImmutableSet<Entry<K, V>> entrySet() {
+  @Override ImmutableSet<Entry<K, V>> createEntrySet() {
     return delegate().entrySet();
   }
 

@@ -2157,6 +2157,21 @@ public final class Maps {
     };
   }
 
+  static <K, V> UnmodifiableIterator<V> valueIterator(
+      final UnmodifiableIterator<Entry<K, V>> entryIterator) {
+    return new UnmodifiableIterator<V>() {
+      @Override
+      public boolean hasNext() {
+        return entryIterator.hasNext();
+      }
+
+      @Override
+      public V next() {
+        return entryIterator.next().getValue();
+      }
+    };
+  }
+
   abstract static class Values<K, V> extends AbstractCollection<V> {
     abstract Map<K, V> map();
 

@@ -27,7 +27,6 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.SortedLists.KeyAbsentBehavior;
 import com.google.common.collect.SortedLists.KeyPresentBehavior;
 
-import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
@@ -52,7 +51,7 @@ import javax.annotation.Nullable;
  * <p><b>Note:</b> Although this class is not final, it cannot be subclassed as
  * it has no public or protected constructors. Thus, instances of this class are
  * guaranteed to be immutable.
- * 
+ *
  * <p>See the Guava User Guide article on <a href=
  * "http://code.google.com/p/guava-libraries/wiki/ImmutableCollectionsExplained">
  * immutable collections</a>.
@@ -234,7 +233,7 @@ public class ImmutableSortedMap<K, V>
       SortedMap<?, ?> sortedMap = (SortedMap<?, ?>) map;
       Comparator<?> comparator2 = sortedMap.comparator();
       sameComparator = (comparator2 == null)
-          ? comparator == NATURAL_ORDER 
+          ? comparator == NATURAL_ORDER
           : comparator.equals(comparator2);
     }
 
@@ -249,7 +248,7 @@ public class ImmutableSortedMap<K, V>
     }
 
     // "adding" type params to an array of a raw type should be safe as
-    // long as no one can ever cast that same array instance back to a 
+    // long as no one can ever cast that same array instance back to a
     // raw type.
     @SuppressWarnings("unchecked")
     Entry<K, V>[] entries = map.entrySet().toArray(new Entry[0]);
@@ -268,7 +267,7 @@ public class ImmutableSortedMap<K, V>
 
     return new ImmutableSortedMap<K, V>(ImmutableList.copyOf(list), comparator);
   }
-  
+
   private static <K, V> void sortEntries(
       List<Entry<K, V>> entries, final Comparator<? super K> comparator) {
     Comparator<Entry<K, V>> entryComparator = new Comparator<Entry<K, V>>() {
@@ -277,7 +276,7 @@ public class ImmutableSortedMap<K, V>
         return comparator.compare(entry1.getKey(), entry2.getKey());
       }
     };
-    
+
     Collections.sort(entries, entryComparator);
   }
 
@@ -427,7 +426,7 @@ public class ImmutableSortedMap<K, V>
   public int size() {
     return entries.size();
   }
-  
+
   // Pretend the comparator can compare anything. If it turns out it can't
   // compare two elements, it'll throw a CCE. Only methods that are specified to
   // throw CCE should call this.
@@ -435,7 +434,7 @@ public class ImmutableSortedMap<K, V>
   Comparator<Object> unsafeComparator() {
     return (Comparator<Object>) comparator;
   }
-  
+
   @Override public V get(@Nullable Object key) {
     if (key == null) {
       return null;
@@ -450,90 +449,52 @@ public class ImmutableSortedMap<K, V>
   }
 
   @Override public boolean containsValue(@Nullable Object value) {
-    if (value == null) {
-      return false;
-    }
-    return Iterators.contains(valueIterator(), value);
+    return value != null && Maps.containsValueImpl(this, value);
   }
 
   @Override boolean isPartialView() {
     return entries.isPartialView();
   }
 
-  private transient ImmutableSet<Entry<K, V>> entrySet;
-
   /**
    * Returns an immutable set of the mappings in this map, sorted by the key
    * ordering.
    */
   @Override public ImmutableSet<Entry<K, V>> entrySet() {
-    ImmutableSet<Entry<K, V>> es = entrySet;
-    return (es == null) ? (entrySet = createEntrySet()) : es;
+    return super.entrySet();
   }
 
-  private ImmutableSet<Entry<K, V>> createEntrySet() {
+  @Override
+  ImmutableSet<Entry<K, V>> createEntrySet() {
     return isEmpty() ? ImmutableSet.<Entry<K, V>>of()
-        : new EntrySet<K, V>(this);
+        : new EntrySet();
   }
 
   @SuppressWarnings("serial") // uses writeReplace(), not default serialization
-  private static class EntrySet<K, V> extends ImmutableSet<Entry<K, V>> {
-    final transient ImmutableSortedMap<K, V> map;
-
-    EntrySet(ImmutableSortedMap<K, V> map) {
-      this.map = map;
-    }
-
-    @Override boolean isPartialView() {
-      return map.isPartialView();
+  private class EntrySet extends ImmutableMap<K, V>.EntrySet {
+    @Override
+    public UnmodifiableIterator<Entry<K, V>> iterator() {
+      return entries.iterator();
     }
 
     @Override
-    public int size() {
-      return map.size();
-    }
-
-    @Override public UnmodifiableIterator<Entry<K, V>> iterator() {
-      return map.entries.iterator();
-    }
-
-    @Override public boolean contains(Object target) {
-      if (target instanceof Entry) {
-        Entry<?, ?> entry = (Entry<?, ?>) target;
-        V mappedValue = map.get(entry.getKey());
-        return mappedValue != null && mappedValue.equals(entry.getValue());
-      }
-      return false;
-    }
-
-    @Override Object writeReplace() {
-      return new EntrySetSerializedForm<K, V>(map);
+    ImmutableList<Entry<K, V>> createAsList() {
+      // TODO(user): make the returned list delegate to the entrySet for contains checks
+      // can't do it right now without rewriting ImmutableAsList
+      return entries;
     }
   }
-
-  private static class EntrySetSerializedForm<K, V> implements Serializable {
-    final ImmutableSortedMap<K, V> map;
-    EntrySetSerializedForm(ImmutableSortedMap<K, V> map) {
-      this.map = map;
-    }
-    Object readResolve() {
-      return map.entrySet();
-    }
-    private static final long serialVersionUID = 0;
-  }
-
-  private transient ImmutableSortedSet<K> keySet;
 
   /**
    * Returns an immutable sorted set of the keys in this map.
    */
   @Override public ImmutableSortedSet<K> keySet() {
-    ImmutableSortedSet<K> ks = keySet;
-    return (ks == null) ? (keySet = createKeySet()) : ks;
+    return (ImmutableSortedSet<K>) super.keySet();
   }
 
+  @Override
   @SuppressWarnings("serial") // does not use default serialization
-  private ImmutableSortedSet<K> createKeySet() {
+  ImmutableSortedSet<K> createKeySet() {
     if (isEmpty()) {
       return ImmutableSortedSet.emptySet(comparator);
     }
@@ -546,71 +507,13 @@ public class ImmutableSortedMap<K, V>
           }
         }, comparator);
   }
-  
-  private transient ImmutableCollection<V> values;
 
   /**
    * Returns an immutable collection of the values in this map, sorted by the
    * ordering of the corresponding keys.
    */
   @Override public ImmutableCollection<V> values() {
-    ImmutableCollection<V> v = values;
-    return (v == null) ? (values = new Values<V>(this)) : v;
-  }
-  
-  UnmodifiableIterator<V> valueIterator(){
-    final UnmodifiableIterator<Entry<K, V>> entryIterator = entries.iterator();
-    return new UnmodifiableIterator<V>() {
-
-      @Override public boolean hasNext() {
-        return entryIterator.hasNext();
-      }
-
-      @Override public V next() {
-        return entryIterator.next().getValue();
-      }
-    };
-  }
-
-  @SuppressWarnings("serial") // uses writeReplace(), not default serialization
-  private static class Values<V> extends ImmutableCollection<V> {
-    private final ImmutableSortedMap<?, V> map;
-
-    Values(ImmutableSortedMap<?, V> map) {
-      this.map = map;
-    }
-
-    @Override
-    public int size() {
-      return map.size();
-    }
-
-    @Override public UnmodifiableIterator<V> iterator() {
-      return map.valueIterator();
-    }
-
-    @Override public boolean contains(Object target) {
-      return map.containsValue(target);
-    }
-
-    @Override boolean isPartialView() {
-      return true;
-    }
-
-    @Override Object writeReplace() {
-      return new ValuesSerializedForm<V>(map);
-    }
-  }
-
-  private static class ValuesSerializedForm<V> implements Serializable {
-    final ImmutableSortedMap<?, V> map;
-    ValuesSerializedForm(ImmutableSortedMap<?, V> map) {
-      this.map = map;
-    }
-    Object readResolve() {
-      return map.values();
-    }
-    private static final long serialVersionUID = 0;
+    return super.values();
   }
 
   /**
