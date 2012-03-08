@@ -62,7 +62,7 @@ import javax.annotation.concurrent.Immutable;
  *
  * <p>Note that this specifically does <strong>not</strong> represent the value of the MIME
  * {@code Content-Type} header and as such has no support for header-specific considerations such as
- * line wrapping and comments.
+ * line folding and comments.
  *
  * <p>For media types that take a charset the predefined constants default to UTF-8 and have a
  * "_UTF_8" suffix. To get a version without a character set, use {@link #withoutParameters}.
@@ -83,6 +83,11 @@ public final class MediaType {
       .and(CharMatcher.noneOf("()<>@,;:\\\"/[]?="));
   private static final CharMatcher QUOTED_TEXT_MATCHER = ASCII
       .and(CharMatcher.noneOf("\"\\\r"));
+  /*
+   * This matches the same characters as linear-white-space from RFC 822, but we make no effort to
+   * enforce any particular rules with regards to line folding as stated in the class docs.
+   */
+  private static final CharMatcher LINEAR_WHITE_SPACE = CharMatcher.anyOf(" \t\r\n");
 
   // TODO(gak): make these public?
   private static final String APPLICATION_TYPE = "application";
@@ -467,7 +472,7 @@ public final class MediaType {
       ImmutableListMultimap.Builder<String, String> parameters = ImmutableListMultimap.builder();
       while (tokenizer.hasMore()) {
         tokenizer.consumeCharacter(';');
-        tokenizer.consumeCharacter(' ');
+        tokenizer.consumeToken(LINEAR_WHITE_SPACE);
         String attribute = tokenizer.consumeToken(TOKEN_MATCHER);
         tokenizer.consumeCharacter('=');
         final String value;
