@@ -49,7 +49,7 @@ import javax.annotation.Nullable;
  * <p><b>Note:</b> Although this class is not final, it cannot be subclassed as
  * it has no public or protected constructors. Thus, instances of this type are
  * guaranteed to be immutable.
- * 
+ *
  * <p>See the Guava User Guide article on <a href=
  * "http://code.google.com/p/guava-libraries/wiki/ImmutableCollectionsExplained">
  * immutable collections</a>.
@@ -295,7 +295,7 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
         return construct(elements);
     }
   }
-  
+
   /** {@code elements} has to be internally created array. */
   private static <E> ImmutableList<E> construct(Object... elements) {
     for (int i = 0; i < elements.length; i++) {
@@ -358,7 +358,58 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
    * returned.)
    */
   @Override
-  public abstract ImmutableList<E> subList(int fromIndex, int toIndex);
+  public ImmutableList<E> subList(int fromIndex, int toIndex) {
+    checkPositionIndexes(fromIndex, toIndex, size());
+    int length = toIndex - fromIndex;
+    switch (length) {
+      case 0:
+        return of();
+      case 1:
+        return of(get(fromIndex));
+      default:
+        return subListUnchecked(fromIndex, toIndex);
+    }
+  }
+
+  /**
+   * Called by the default implementation of {@link #subList} when
+   * {@code toIndex - fromIndex > 1}, after index validation has already been performed.
+   */
+  ImmutableList<E> subListUnchecked(int fromIndex, int toIndex) {
+    return new SubList(fromIndex, toIndex - fromIndex);
+  }
+
+  class SubList extends ImmutableList<E> {
+    transient final int offset;
+    transient final int length;
+
+    SubList(int offset, int length) {
+      this.offset = offset;
+      this.length = length;
+    }
+
+    @Override
+    public int size() {
+      return length;
+    }
+
+    @Override
+    public E get(int index) {
+      checkElementIndex(index, length);
+      return ImmutableList.this.get(index + offset);
+    }
+
+    @Override
+    public ImmutableList<E> subList(int fromIndex, int toIndex) {
+      checkPositionIndexes(fromIndex, toIndex, length);
+      return ImmutableList.this.subList(fromIndex + offset, toIndex + offset);
+    }
+
+    @Override
+    boolean isPartialView() {
+      return true;
+    }
+  }
 
   /**
    * Guaranteed to throw an exception and leave the list unmodified.
@@ -422,8 +473,8 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
   }
 
   private static class ReverseImmutableList<E> extends ImmutableList<E> {
-    private transient final ImmutableList<E> forwardList;
-    private transient final int size;
+    private final transient ImmutableList<E> forwardList;
+    private final transient int size;
 
     ReverseImmutableList(ImmutableList<E> backingList) {
       this.forwardList = backingList;
@@ -514,7 +565,7 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
       return forwardList.isPartialView();
     }
   }
-  
+
   @Override public boolean equals(Object obj) {
     return Lists.equalsImpl(this, obj);
   }

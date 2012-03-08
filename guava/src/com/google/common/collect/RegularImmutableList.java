@@ -82,12 +82,10 @@ class RegularImmutableList<E> extends ImmutableList<E> {
     return (E) array[index + offset];
   }
 
-  @Override public ImmutableList<E> subList(int fromIndex, int toIndex) {
-    Preconditions.checkPositionIndexes(fromIndex, toIndex, size);
-    return (fromIndex == toIndex)
-        ? ImmutableList.<E>of()
-        : new RegularImmutableList<E>(
-            array, offset + fromIndex, toIndex - fromIndex);
+  @Override
+  ImmutableList<E> subListUnchecked(int fromIndex, int toIndex) {
+    return new RegularImmutableList<E>(
+        array, offset + fromIndex, toIndex - fromIndex);
   }
 
   @SuppressWarnings("unchecked")

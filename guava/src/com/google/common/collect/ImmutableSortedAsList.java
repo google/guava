@@ -14,8 +14,6 @@
 
 package com.google.common.collect;
 
-import static com.google.common.base.Preconditions.checkPositionIndexes;
-
 import java.util.Comparator;
 
 import javax.annotation.Nullable;
@@ -51,14 +49,11 @@ final class ImmutableSortedAsList<E> extends ImmutableList<E> implements SortedI
     return backingSet.indexOf(target);
   }
 
-  // The returned ImmutableSortedAsList maintains the contains(), indexOf(), and
-  // lastIndexOf() performance benefits.
-  @Override public ImmutableList<E> subList(int fromIndex, int toIndex) {
-    checkPositionIndexes(fromIndex, toIndex, size());
-    return (fromIndex == toIndex) ? ImmutableList.<E>of()
-        : new RegularImmutableSortedSet<E>(
-            backingList.subList(fromIndex, toIndex), backingSet.comparator())
-            .asList();
+  @Override
+  ImmutableList<E> subListUnchecked(int fromIndex, int toIndex) {
+    return new RegularImmutableSortedSet<E>(
+        backingList.subList(fromIndex, toIndex), backingSet.comparator())
+        .asList();
   }
 
   // The ImmutableAsList serialized form has the correct behavior.
