@@ -112,8 +112,8 @@ public final class Iterables {
   }
 
   /**
-   * Returns {@code true} if {@code iterable} contains {@code element}; that is,
-   * any object for which {@code equals(element)} is true.
+   * Returns {@code true} if {@code iterable} contains any object for which {@code equals(element)}
+   * is true.
    */
   public static boolean contains(Iterable<?> iterable, @Nullable Object element)
   {
@@ -574,8 +574,7 @@ public final class Iterables {
   }
 
   /**
-   * Returns {@code true} if one or more elements in {@code iterable} satisfy
-   * the predicate.
+   * Returns {@code true} if any element in {@code iterable} satisfies the predicate.
    */
   public static <T> boolean any(
       Iterable<T> iterable, Predicate<? super T> predicate) {
