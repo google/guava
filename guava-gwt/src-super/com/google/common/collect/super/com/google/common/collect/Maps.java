@@ -607,24 +607,6 @@ public final class Maps {
   }
 
   /**
-   * <b>Deprecated.</b>
-   *
-   * @since 10.0
-   * @deprecated use {@link #uniqueIndex(Iterator, Function)} by casting {@code
-   *     values} to {@code Iterator<V>}, or better yet, by implementing only
-   *     {@code Iterator} and not {@code Iterable}. <b>This method is scheduled
-   *     for deletion in March 2012.</b>
-   */
-  @Beta
-  @Deprecated
-  public static <K, V, I extends Object & Iterable<V> & Iterator<V>>
-      ImmutableMap<K, V> uniqueIndex(
-          I values, Function<? super V, K> keyFunction) {
-    Iterable<V> valuesIterable = checkNotNull(values);
-    return uniqueIndex(valuesIterable, keyFunction);
-  }
-
-  /**
    * Returns an immutable map for which the {@link Map#values} are the given
    * elements in the given order, and each key is the product of invoking a
    * supplied function on its corresponding value.

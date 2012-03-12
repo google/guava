@@ -761,39 +761,6 @@ public class MultimapsTest extends AbstractMultimapTest {
     assertEquals(stringToObject, outputMap);
   }
 
-  // NOTE: evil, never do this
-  private abstract static class IterableIterator<T>
-      extends ForwardingIterator<T> implements Iterable<T> {
-    @Override
-    public Iterator<T> iterator() {
-      return this;
-    }
-  }
-
-  @SuppressWarnings("deprecation") // that is the purpose of this test
-  public void testIndexIterableIterator() {
-    final Multimap<String, Object> stringToObject =
-        new ImmutableMultimap.Builder<String, Object>()
-            .put("1", 1)
-            .put("1", 1L)
-            .put("1", "1")
-            .put("2", 2)
-            .put("2", 2L)
-            .build();
-
-    IterableIterator<Object> iterIter = new IterableIterator<Object>() {
-      private final Iterator<Object> iterator = stringToObject.values().iterator();
-
-      public Iterator<Object> delegate() {
-        return iterator;
-      }
-    };
-
-    ImmutableMultimap<String, Object> outputMap =
-        Multimaps.index(iterIter, Functions.toStringFunction());
-    assertEquals(stringToObject, outputMap);
-  }
-
   public void testIndex_ordering() {
     final Multimap<Integer, String> expectedIndex =
         new ImmutableListMultimap.Builder<Integer, String>()
@@ -928,7 +895,6 @@ public class MultimapsTest extends AbstractMultimapTest {
     tester.setDefault(Multimap.class, ImmutableMultimap.of());
     tester.setDefault(ListMultimap.class, ImmutableListMultimap.of());
     tester.setDefault(EntryTransformer.class, ALWAYS_NULL);
-    tester.ignore(Multimaps.class.getDeclaredMethod("index", Object.class, Function.class));
     tester.testAllPublicStaticMethods(Multimaps.class);
   }
 }

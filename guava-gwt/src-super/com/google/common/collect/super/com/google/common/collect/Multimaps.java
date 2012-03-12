@@ -20,7 +20,6 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Function;
 import com.google.common.base.Joiner;
@@ -1684,24 +1683,6 @@ public final class Multimaps {
   }
 
   /**
-   * <b>Deprecated.</b>
-   *
-   * @since 10.0
-   * @deprecated use {@link #index(Iterator, Function)} by casting {@code
-   *     values} to {@code Iterator<V>}, or better yet, by implementing only
-   *     {@code Iterator} and not {@code Iterable}. <b>This method is scheduled
-   *     for deletion in March 2012.</b>
-   */
-  @Beta
-  @Deprecated
-  public static <K, V, I extends Object & Iterable<V> & Iterator<V>>
-      ImmutableListMultimap<K, V> index(
-          I values, Function<? super V, K> keyFunction) {
-    Iterable<V> valuesIterable = checkNotNull(values);
-    return index(valuesIterable, keyFunction);
-  }
-
-  /**
    * Creates an index {@code ImmutableListMultimap} that contains the results of
    * applying a specified function to each item in an {@code Iterator} of
    * values. Each value will be stored as a value in the resulting multimap,
@@ -2499,3 +2480,4 @@ public final class Multimaps {
 
   // TODO(jlevy): Create methods that filter a SetMultimap or SortedSetMultimap.
 }
+

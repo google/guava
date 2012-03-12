@@ -333,7 +333,6 @@ public class MapsTest extends TestCase {
     tester.setDefault(EntryTransformer.class, ALWAYS_NULL);
     tester.setDefault(Equivalence.class, Equivalences.equals());
     tester.setDefault(SortedMap.class, Maps.newTreeMap());
-    tester.ignore(Maps.class.getDeclaredMethod("uniqueIndex", Object.class, Function.class));
     tester.testAllPublicStaticMethods(Maps.class);
   }
 
@@ -635,29 +634,6 @@ public class MapsTest extends TestCase {
           @Override
           public Iterator<String> iterator() {
             return INT_TO_STRING_MAP.values().iterator();
-          }
-        },
-        Functions.forMap(INT_TO_STRING_MAP.inverse()));
-    assertEquals(INT_TO_STRING_MAP, outputMap);
-  }
-
-  // NOTE: evil, never do this
-  private abstract static class IterableIterator<T>
-      extends ForwardingIterator<T> implements Iterable<T> {
-    @Override
-    public Iterator<T> iterator() {
-      return this;
-    }
-  }
-
-  @SuppressWarnings("deprecation") // that is the purpose of this test
-  public void testUniqueIndexIterableIterator() {
-    ImmutableMap<Integer, String> outputMap =
-        Maps.uniqueIndex(new IterableIterator<String>() {
-          private final Iterator<String> iterator = INT_TO_STRING_MAP.values().iterator();
-
-          public Iterator<String> delegate() {
-            return iterator;
           }
         },
         Functions.forMap(INT_TO_STRING_MAP.inverse()));

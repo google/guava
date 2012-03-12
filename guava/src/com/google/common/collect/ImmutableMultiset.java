@@ -137,23 +137,6 @@ public abstract class ImmutableMultiset<E> extends ImmutableCollection<E>
    * Returns an immutable multiset containing the given elements.
    *
    * <p>The multiset is ordered by the first occurrence of each element. For
-   * example, {@code ImmutableMultiset.of(2, 3, 1, 3)} yields a multiset with
-   * elements in the order {@code 2, 3, 3, 1}.
-   *
-   * @throws NullPointerException if any of {@code elements} is null
-   * @deprecated use {@link #copyOf(Object[])}. <b>This method is scheduled for
-   *     deletion in January 2012.</b>
-   * @since 2.0 (changed from varargs in 6.0)
-   */
-  @Deprecated
-  public static <E> ImmutableMultiset<E> of(E[] elements) {
-    return copyOf(Arrays.asList(elements));
-  }
-
-  /**
-   * Returns an immutable multiset containing the given elements.
-   *
-   * <p>The multiset is ordered by the first occurrence of each element. For
    * example, {@code ImmutableMultiset.copyOf([2, 3, 1, 3])} yields a multiset
    * with elements in the order {@code 2, 3, 3, 1}.
    *
