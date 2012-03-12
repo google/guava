@@ -488,6 +488,14 @@ public class InetAddressesTest extends TestCase {
     assertEquals(port, teredo.getPort());
     assertEquals(flags, teredo.getFlags());
   }
+  
+  public void testTeredoAddress_nullServer() {
+    InetAddresses.TeredoInfo info = new InetAddresses.TeredoInfo(null, null, 80, 1000);
+    assertEquals(InetAddresses.forString("0.0.0.0"), info.getServer());
+    assertEquals(InetAddresses.forString("0.0.0.0"), info.getClient());
+    assertEquals(80, info.getPort());
+    assertEquals(1000, info.getFlags());
+  }
 
   public void testIsatapAddresses() {
     InetAddress ipv4 = InetAddresses.forString("1.2.3.4");
