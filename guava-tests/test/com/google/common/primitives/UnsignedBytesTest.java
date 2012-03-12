@@ -123,6 +123,8 @@ public class UnsignedBytesTest extends TestCase {
     assertEquals(GREATEST, UnsignedBytes.min(GREATEST));
     assertEquals((byte) 0, UnsignedBytes.min(
         (byte) 0, (byte) -128, (byte) -1, (byte) 127, (byte) 1));
+    assertEquals((byte) 0, UnsignedBytes.min(
+        (byte) -1, (byte) 127, (byte) 1, (byte) -128, (byte) 0));
   }
 
   public void testJoin() {
