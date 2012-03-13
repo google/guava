@@ -103,7 +103,7 @@ public class FluentIterableTest extends TestCase {
   }
 
   public void testContains_nullSetNo() {
-    Iterable<String> set = Sets.newTreeSet("a", "b");
+    Iterable<String> set = ImmutableSortedSet.of("a", "b");
     assertFalse(FluentIterable.from(set).contains(null));
   }
 
@@ -583,7 +583,7 @@ public class FluentIterableTest extends TestCase {
   }
 
   public void testFirst_sortedSet() {
-    SortedSet<String> sortedSet = Sets.newTreeSet("b", "c", "a");
+    SortedSet<String> sortedSet = ImmutableSortedSet.of("b", "c", "a");
     assertEquals("a", FluentIterable.from(sortedSet).first().get());
   }
 
@@ -593,7 +593,7 @@ public class FluentIterableTest extends TestCase {
   }
 
   public void testFirst_iterable() {
-    Set<String> set = Sets.newLinkedHashSet("a", "b", "c");
+    Set<String> set = ImmutableSet.of("a", "b", "c");
     assertEquals("a", FluentIterable.from(set).first().get());
   }
 
@@ -622,7 +622,7 @@ public class FluentIterableTest extends TestCase {
   }
 
   public void testLast_sortedSet() {
-    SortedSet<String> sortedSet = Sets.newTreeSet("b", "c", "a");
+    SortedSet<String> sortedSet = ImmutableSortedSet.of("b", "c", "a");
     assertEquals("c", FluentIterable.from(sortedSet).last().get());
   }
 
@@ -632,7 +632,7 @@ public class FluentIterableTest extends TestCase {
   }
 
   public void testLast_iterable() {
-    Set<String> set = Sets.newLinkedHashSet("a", "b", "c");
+    Set<String> set = ImmutableSet.of("a", "b", "c");
     assertEquals("c", FluentIterable.from(set).last().get());
   }
 
@@ -642,7 +642,7 @@ public class FluentIterableTest extends TestCase {
   }
 
   public void testSkip_simple() {
-    Collection<String> set = Sets.newLinkedHashSet("a", "b", "c", "d", "e");
+    Collection<String> set = ImmutableSet.of("a", "b", "c", "d", "e");
     assertEquals(Lists.newArrayList("c", "d", "e"),
         Lists.newArrayList(FluentIterable.from(set).skip(2)));
     assertEquals("[c, d, e]", FluentIterable.from(set).skip(2).toString());
@@ -656,7 +656,7 @@ public class FluentIterableTest extends TestCase {
   }
 
   public void testSkip_pastEnd() {
-    Collection<String> set = Sets.newLinkedHashSet("a", "b");
+    Collection<String> set = ImmutableSet.of("a", "b");
     assertEquals(Collections.emptyList(), Lists.newArrayList(FluentIterable.from(set).skip(20)));
   }
 
@@ -666,7 +666,7 @@ public class FluentIterableTest extends TestCase {
   }
 
   public void testSkip_skipNone() {
-    Collection<String> set = Sets.newLinkedHashSet("a", "b");
+    Collection<String> set = ImmutableSet.of("a", "b");
     assertEquals(Lists.newArrayList("a", "b"),
         Lists.newArrayList(FluentIterable.from(set).skip(0)));
   }
@@ -681,7 +681,9 @@ public class FluentIterableTest extends TestCase {
     new IteratorTester<Integer>(5, IteratorFeature.MODIFIABLE, Lists.newArrayList(2, 3),
         IteratorTester.KnownOrder.KNOWN_ORDER) {
       @Override protected Iterator<Integer> newTargetIterator() {
-        return FluentIterable.from(Sets.newLinkedHashSet(1, 2, 3)).skip(1).iterator();
+        Collection<Integer> collection = Sets.newLinkedHashSet();
+        Collections.addAll(collection, 1, 2, 3);
+        return FluentIterable.from(collection).skip(1).iterator();
       }
     }.test();
   }
@@ -706,7 +708,8 @@ public class FluentIterableTest extends TestCase {
   }
 
   public void testSkip_structurallyModifiedSkipSome() throws Exception {
-    Collection<String> set = Sets.newLinkedHashSet("a", "b", "c");
+    Collection<String> set = Sets.newLinkedHashSet();
+    Collections.addAll(set, "a", "b", "c");
     FluentIterable<String> tail = FluentIterable.from(set).skip(1);
     set.remove("b");
     set.addAll(Lists.newArrayList("X", "Y", "Z"));
@@ -722,7 +725,8 @@ public class FluentIterableTest extends TestCase {
   }
 
   public void testSkip_structurallyModifiedSkipAll() throws Exception {
-    Collection<String> set = Sets.newLinkedHashSet("a", "b", "c");
+    Collection<String> set = Sets.newLinkedHashSet();
+    Collections.addAll(set, "a", "b", "c");
     FluentIterable<String> tail = FluentIterable.from(set).skip(2);
     set.remove("a");
     set.remove("b");
