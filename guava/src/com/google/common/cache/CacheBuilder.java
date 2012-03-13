@@ -334,11 +334,23 @@ public final class CacheBuilder<K, V> {
    * higher value than you need can waste space and time, and a significantly lower value can lead
    * to thread contention. But overestimates and underestimates within an order of magnitude do not
    * usually have much noticeable impact. A value of one permits only one thread to modify the cache
-   * at a time, but since read operations can proceed concurrently, this still yields higher
-   * concurrency than full synchronization. Defaults to 4.
+   * at a time, but since read operations and cache loading computations can proceed concurrently,
+   * this still yields higher concurrency than full synchronization.
    *
-   * <p><b>Note:</b>The default may change in the future. If you care about this value, you should
-   * always choose it explicitly.
+   * <p> Defaults to 4. <b>Note:</b>The default may change in the future. If you care about this
+   * value, you should always choose it explicitly.
+   *
+   * <p>The current implementation uses the concurrency level to create a fixed number of hashtable
+   * segments, each governed by its own write lock. The segment lock is taken once for each explicit
+   * write, and twice for each cache loading computation (once prior to loading the new value,
+   * and once after loading completes). Much internal cache management is performed at the segment
+   * granularity. For example, access queues and write queues are kept per segment when they are
+   * required by the selected eviction algorithm. As such, when writing unit tests it is not
+   * uncommon to specify {@code concurrencyLevel(1)} in order to achieve more deterministic eviction
+   * behavior.
+   *
+   * <p>Note that future implementations may abandon segment locking in favor of more advanced
+   * concurrency controls.
    *
    * @throws IllegalArgumentException if {@code concurrencyLevel} is nonpositive
    * @throws IllegalStateException if a concurrency level was already set
