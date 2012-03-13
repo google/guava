@@ -353,20 +353,21 @@ public final class Floats {
   }
 
   /**
-   * Copies a collection of {@code Float} instances into a new array of
-   * primitive {@code float} values.
+   * Returns an array containing each value of {@code collection}, converted to
+   * a {@code float} value in the manner of {@link Number#floatValue}.
    *
    * <p>Elements are copied from the argument collection as if by {@code
    * collection.toArray()}.  Calling this method is as thread-safe as calling
    * that method.
    *
-   * @param collection a collection of {@code Float} objects
+   * @param collection a collection of {@code Number} instances
    * @return an array containing the same values as {@code collection}, in the
    *     same order, converted to primitives
    * @throws NullPointerException if {@code collection} or any of its elements
    *     is null
+   * @since 1.0 (parameter was {@code Collection<Float>} before 12.0)
    */
-  public static float[] toArray(Collection<Float> collection) {
+  public static float[] toArray(Collection<? extends Number> collection) {
     if (collection instanceof FloatArrayAsList) {
       return ((FloatArrayAsList) collection).toFloatArray();
     }
@@ -376,7 +377,7 @@ public final class Floats {
     float[] array = new float[len];
     for (int i = 0; i < len; i++) {
       // checkNotNull for GWT (do not optimize)
-      array[i] = (Float) checkNotNull(boxedArray[i]);
+      array[i] = ((Number) checkNotNull(boxedArray[i])).floatValue();
     }
     return array;
   }

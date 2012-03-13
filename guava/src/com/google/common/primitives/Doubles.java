@@ -356,20 +356,21 @@ public final class Doubles {
   }
 
   /**
-   * Copies a collection of {@code Double} instances into a new array of
-   * primitive {@code double} values.
+   * Returns an array containing each value of {@code collection}, converted to
+   * a {@code double} value in the manner of {@link Number#doubleValue}.
    *
    * <p>Elements are copied from the argument collection as if by {@code
    * collection.toArray()}.  Calling this method is as thread-safe as calling
    * that method.
    *
-   * @param collection a collection of {@code Double} objects
+   * @param collection a collection of {@code Number} instances
    * @return an array containing the same values as {@code collection}, in the
    *     same order, converted to primitives
    * @throws NullPointerException if {@code collection} or any of its elements
    *     is null
+   * @since 1.0 (parameter was {@code Collection<Double>} before 12.0)
    */
-  public static double[] toArray(Collection<Double> collection) {
+  public static double[] toArray(Collection<? extends Number> collection) {
     if (collection instanceof DoubleArrayAsList) {
       return ((DoubleArrayAsList) collection).toDoubleArray();
     }
@@ -379,7 +380,7 @@ public final class Doubles {
     double[] array = new double[len];
     for (int i = 0; i < len; i++) {
       // checkNotNull for GWT (do not optimize)
-      array[i] = (Double) checkNotNull(boxedArray[i]);
+      array[i] = ((Number) checkNotNull(boxedArray[i])).doubleValue();
     }
     return array;
   }

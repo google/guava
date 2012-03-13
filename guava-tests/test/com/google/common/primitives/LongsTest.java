@@ -336,6 +336,24 @@ public class LongsTest extends TestCase {
     }
   }
 
+  public void testToArray_withConversion() {
+    long[] array = {(long) 0, (long) 1, (long) 2};
+
+    List<Byte> bytes = Arrays.asList((byte) 0, (byte) 1, (byte) 2);
+    List<Short> shorts = Arrays.asList((short) 0, (short) 1, (short) 2);
+    List<Integer> ints = Arrays.asList(0, 1, 2);
+    List<Float> floats = Arrays.asList((float) 0, (float) 1, (float) 2);
+    List<Long> longs = Arrays.asList((long) 0, (long) 1, (long) 2);
+    List<Double> doubles = Arrays.asList((double) 0, (double) 1, (double) 2);
+
+    assertTrue(Arrays.equals(array, Longs.toArray(bytes)));
+    assertTrue(Arrays.equals(array, Longs.toArray(shorts)));
+    assertTrue(Arrays.equals(array, Longs.toArray(ints)));
+    assertTrue(Arrays.equals(array, Longs.toArray(floats)));
+    assertTrue(Arrays.equals(array, Longs.toArray(longs)));
+    assertTrue(Arrays.equals(array, Longs.toArray(doubles)));
+  }
+
   public void testAsList_isAView() {
     long[] array = {(long) 0, (long) 1};
     List<Long> list = Longs.asList(array);

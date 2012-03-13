@@ -366,20 +366,21 @@ public final class Shorts {
   }
 
   /**
-   * Copies a collection of {@code Short} instances into a new array of
-   * primitive {@code short} values.
+   * Returns an array containing each value of {@code collection}, converted to
+   * a {@code short} value in the manner of {@link Number#shortValue}.
    *
    * <p>Elements are copied from the argument collection as if by {@code
    * collection.toArray()}.  Calling this method is as thread-safe as calling
    * that method.
    *
-   * @param collection a collection of {@code Short} objects
+   * @param collection a collection of {@code Number} instances
    * @return an array containing the same values as {@code collection}, in the
    *     same order, converted to primitives
    * @throws NullPointerException if {@code collection} or any of its elements
    *     is null
+   * @since 1.0 (parameter was {@code Collection<Short>} before 12.0)
    */
-  public static short[] toArray(Collection<Short> collection) {
+  public static short[] toArray(Collection<? extends Number> collection) {
     if (collection instanceof ShortArrayAsList) {
       return ((ShortArrayAsList) collection).toShortArray();
     }
@@ -389,7 +390,7 @@ public final class Shorts {
     short[] array = new short[len];
     for (int i = 0; i < len; i++) {
       // checkNotNull for GWT (do not optimize)
-      array[i] = (Short) checkNotNull(boxedArray[i]);
+      array[i] = ((Number) checkNotNull(boxedArray[i])).shortValue();
     }
     return array;
   }

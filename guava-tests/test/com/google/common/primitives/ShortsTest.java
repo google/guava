@@ -363,6 +363,24 @@ public class ShortsTest extends TestCase {
     }
   }
 
+  public void testToArray_withConversion() {
+    short[] array = {(short) 0, (short) 1, (short) 2};
+
+    List<Byte> bytes = Arrays.asList((byte) 0, (byte) 1, (byte) 2);
+    List<Short> shorts = Arrays.asList((short) 0, (short) 1, (short) 2);
+    List<Integer> ints = Arrays.asList(0, 1, 2);
+    List<Float> floats = Arrays.asList((float) 0, (float) 1, (float) 2);
+    List<Long> longs = Arrays.asList((long) 0, (long) 1, (long) 2);
+    List<Double> doubles = Arrays.asList((double) 0, (double) 1, (double) 2);
+
+    assertTrue(Arrays.equals(array, Shorts.toArray(bytes)));
+    assertTrue(Arrays.equals(array, Shorts.toArray(shorts)));
+    assertTrue(Arrays.equals(array, Shorts.toArray(ints)));
+    assertTrue(Arrays.equals(array, Shorts.toArray(floats)));
+    assertTrue(Arrays.equals(array, Shorts.toArray(longs)));
+    assertTrue(Arrays.equals(array, Shorts.toArray(doubles)));
+  }
+
   public void testAsList_isAView() {
     short[] array = {(short) 0, (short) 1};
     List<Short> list = Shorts.asList(array);
