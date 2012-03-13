@@ -106,8 +106,7 @@ public class FauxveridesTest extends TestCase {
   }
 
   private void doHasAllFauxveridesTest(Class<?> descendant, Class<?> ancestor) {
-    Set<MethodSignature> required =
-        getAllRequiredToFauxveride(descendant, ancestor);
+    Set<MethodSignature> required = getAllRequiredToFauxveride(ancestor);
     Set<MethodSignature> found = getAllFauxveridden(descendant, ancestor);
     required.removeAll(found);
 
@@ -115,8 +114,7 @@ public class FauxveridesTest extends TestCase {
         Collections.emptySet(), newTreeSet(required));
   }
 
-  private static Set<MethodSignature> getAllRequiredToFauxveride(
-      Class<?> descendant, Class<?> ancestor) {
+  private static Set<MethodSignature> getAllRequiredToFauxveride(Class<?> ancestor) {
     return getPublicStaticMethodsBetween(ancestor, Object.class);
   }
 

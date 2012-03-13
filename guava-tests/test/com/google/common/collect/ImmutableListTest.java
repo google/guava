@@ -619,8 +619,7 @@ public class ImmutableListTest extends TestCase {
     @GwtIncompatible("SerializableTester")
     public void testSerialization_singleton() {
       Collection<String> c = ImmutableList.of("a");
-      ImmutableList<String> copy = (SingletonImmutableList<String>)
-          SerializableTester.reserializeAndAssert(c);
+      SerializableTester.reserializeAndAssert(c);
     }
 
     @GwtIncompatible("SerializableTester")

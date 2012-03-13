@@ -17,7 +17,6 @@ package com.google.common.collect;
 import static com.google.common.base.Preconditions.checkArgument;
 
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.collect.Multiset.Entry;
 
 import java.io.Serializable;
 import java.util.Iterator;

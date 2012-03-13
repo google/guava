@@ -705,7 +705,7 @@ public class SetsTest extends TestCase {
   public void testCartesianProductTooBig() {
     Set<Integer> set = Ranges.closed(0, 10000).asSet(DiscreteDomains.integers());
     try {
-      Set<List<Integer>> productSet = Sets.cartesianProduct(set, set, set, set, set);
+      Sets.cartesianProduct(set, set, set, set, set);
       fail("Expected IAE");
     } catch (IllegalArgumentException expected) {}
   }

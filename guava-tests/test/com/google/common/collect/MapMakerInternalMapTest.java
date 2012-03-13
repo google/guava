@@ -1104,7 +1104,7 @@ public class MapMakerInternalMapTest extends TestCase {
     table.set(0, entry);
     segment.count = 1;
     assertTrue(segment.removeEntry(entry, hash, RemovalCause.COLLECTED));
-    assertNotificationEnqueued(map, key, value, hash);
+    assertNotificationEnqueued(map, key, value);
     assertTrue(map.removalNotificationQueue.isEmpty());
     assertFalse(segment.evictionQueue.contains(entry));
     assertFalse(segment.expirationQueue.contains(entry));
@@ -1204,7 +1204,7 @@ public class MapMakerInternalMapTest extends TestCase {
   }
 
   private static <K, V> void assertNotificationEnqueued(
-      MapMakerInternalMap<K, V> map, K key, V value, int hash) {
+      MapMakerInternalMap<K, V> map, K key, V value) {
     RemovalNotification<K, V> notification = map.removalNotificationQueue.poll();
     assertSame(key, notification.getKey());
     assertSame(value, notification.getValue());

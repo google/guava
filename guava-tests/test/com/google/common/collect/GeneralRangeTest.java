@@ -43,7 +43,7 @@ public class GeneralRangeTest extends TestCase {
     for (BoundType lboundType : BoundType.values()) {
       for (BoundType uboundType : BoundType.values()) {
         try {
-          GeneralRange<Integer> range = GeneralRange.range(ORDERING, 4, lboundType, 2, uboundType);
+          GeneralRange.range(ORDERING, 4, lboundType, 2, uboundType);
           fail("Expected IAE");
         } catch (IllegalArgumentException expected) {}
       }

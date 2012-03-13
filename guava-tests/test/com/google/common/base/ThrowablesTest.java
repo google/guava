@@ -442,7 +442,6 @@ public class ThrowablesTest extends TestCase {
     assertSame(cause, Throwables.getRootCause(exception));
   }
 
-  private static class SomeThrowable extends Throwable {}  
   private static class SomeError extends Error {}
   private static class SomeCheckedException extends Exception {}
   private static class SomeOtherCheckedException extends Exception {}
