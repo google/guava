@@ -18,15 +18,16 @@ package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.common.base.Preconditions.checkState;
+import static com.google.common.math.LongMath.binomial;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.annotations.VisibleForTesting;
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Function;
 import com.google.common.base.Joiner;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
+import com.google.common.math.IntMath;
 import com.google.common.primitives.Ints;
 
 import java.util.AbstractCollection;
@@ -47,7 +48,7 @@ import javax.annotation.Nullable;
  * @author Jared Levy
  * @since 2.0 (imported from Google Collections Library)
  */
-@GwtCompatible
+@GwtCompatible(emulated = true)
 public final class Collections2 {
   private Collections2() {}
 
@@ -316,7 +317,7 @@ public final class Collections2 {
     }
     return true;
   }
-
+  
   /**
    * An implementation of {@link Collection#toString()}.
    */
@@ -363,7 +364,7 @@ public final class Collections2 {
    * <p>Duplicate elements are considered equal. For example, the list [1, 1]
    * will have only one permutation, instead of two. This is why the elements
    * have to implement {@link Comparable}.
-   *
+   * 
    * <p>An empty iterable has only one permutation, which is an empty list.
    *
    * <p>This method is equivalent to
@@ -376,6 +377,7 @@ public final class Collections2 {
    *     null elements.
    * @since 12.0
    */
+  @GwtIncompatible("com.google.common.math")
   @Beta public static <E extends Comparable<? super E>>
       Collection<List<E>> orderedPermutations(Iterable<E> elements) {
     return orderedPermutations(elements, Ordering.natural());
@@ -417,7 +419,7 @@ public final class Collections2 {
    *
    * <p>Elements that compare equal are considered equal and no new permutations
    * are created by swapping them.
-   *
+   * 
    * <p>An empty iterable has only one permutation, which is an empty list.
    *
    * @param elements the original iterable whose elements have to be permuted.
@@ -428,11 +430,13 @@ public final class Collections2 {
    *     null elements, or if the specified comparator is null.
    * @since 12.0
    */
+  @GwtIncompatible("com.google.common.math")
   @Beta public static <E> Collection<List<E>> orderedPermutations(
       Iterable<E> elements, Comparator<? super E> comparator) {
     return new OrderedPermutationCollection<E>(elements, comparator);
   }
 
+  @GwtIncompatible("not used by GwtCompatible code (yet)")
   private static final class OrderedPermutationCollection<E>
       extends AbstractCollection<List<E>> {
     final ImmutableList<E> inputList;
@@ -455,37 +459,30 @@ public final class Collections2 {
      * permutations is increased by a factor of (n choose r).</li>
      * </ul>
      */
-    static <E> int calculateSize(List<E> sortedInputList,
-        Comparator<? super E> comparator) {
-      try {
-        long permutations = 1;
-        int n = 1;
-        int r = 1;
-        for (; n < sortedInputList.size(); n++, r++) {
-          int comparison = comparator.compare(sortedInputList.get(n - 1),
-              sortedInputList.get(n));
-          // The list is sorted, this is an invariant.
-          checkState(comparison <= 0);
-          if (comparison < 0) {
-            // We move to the next non-repeated element.
-            permutations *= binomialCoefficient(n, r);
-            r = 0;
-
-            // Return early if we have more than MAX_VALUE permutations.
-            if (!isPositiveInt(permutations)) {
-              return Integer.MAX_VALUE;
-            }
+    private static <E> int calculateSize(
+        List<E> sortedInputList, Comparator<? super E> comparator) {
+      long permutations = 1;
+      int n = 1;
+      int r = 1;
+      while (n < sortedInputList.size()) {
+        int comparison = comparator.compare(
+            sortedInputList.get(n - 1), sortedInputList.get(n));
+        if (comparison < 0) {
+          // We move to the next non-repeated element.
+          permutations *= binomial(n, r);
+          r = 0;
+          if (!isPositiveInt(permutations)) {
+            return Integer.MAX_VALUE;
           }
         }
-        permutations *= binomialCoefficient(n, r);
-        if (!isPositiveInt(permutations)) {
-          return Integer.MAX_VALUE;
-        }
-        return (int) permutations;
-      } catch (IllegalArgumentException e) {
-        // Overflow. Fall back to max size.
+        n++;
+        r++;
+      }
+      permutations *= binomial(n, r);
+      if (!isPositiveInt(permutations)) {
         return Integer.MAX_VALUE;
       }
+      return (int) permutations;
     }
 
     @Override public int size() {
@@ -513,18 +510,19 @@ public final class Collections2 {
     }
   }
 
+  @GwtIncompatible("not used by GwtCompatible code (yet)")
   private static final class OrderedPermutationIterator<E>
       extends AbstractIterator<List<E>> {
 
     List<E> nextPermutation;
     final Comparator<? super E> comparator;
-
+    
     OrderedPermutationIterator(List<E> list,
         Comparator<? super E> comparator) {
       this.nextPermutation = Lists.newArrayList(list);
       this.comparator = comparator;
     }
-
+    
     @Override protected List<E> computeNext() {
       if (nextPermutation == null) {
         return endOfData();
@@ -575,12 +573,12 @@ public final class Collections2 {
    * <p><i>Notes:</i> This is an implementation of the Plain Changes algorithm
    * for permutations generation, described in Knuth's "The Art of Computer
    * Programming", Volume 4, Chapter 7, Section 7.2.1.2.
-   *
+   * 
    * <p>If the input list contains equal elements, some of the generated
    * permutations will be equal.
-   *
+   * 
    * <p>An empty collection has only one permutation, which is an empty list.
-   *
+   * 
    * @param elements the original collection whose elements have to be permuted.
    * @return an immutable {@link Collection} containing all the different
    *     permutations of the original collection.
@@ -588,11 +586,13 @@ public final class Collections2 {
    *     null elements.
    * @since 12.0
    */
+  @GwtIncompatible("com.google.common.math")
   @Beta public static <E> Collection<List<E>> permutations(
       Collection<E> elements) {
     return new PermutationCollection<E>(ImmutableList.copyOf(elements));
   }
 
+  @GwtIncompatible("not used by GwtCompatible code (yet)")
   private static final class PermutationCollection<E>
       extends AbstractCollection<List<E>> {
     final ImmutableList<E> inputList;
@@ -602,7 +602,7 @@ public final class Collections2 {
     }
 
     @Override public int size() {
-      return safeIntFactorial(inputList.size());
+      return IntMath.factorial(inputList.size());
     }
 
     @Override public boolean isEmpty() {
@@ -624,9 +624,9 @@ public final class Collections2 {
     @Override public String toString() {
       return "permutations(" + inputList + ")";
     }
-
   }
 
+  @GwtIncompatible("not used by GwtCompatible code (yet)")
   private static class PermutationIterator<E>
       extends AbstractIterator<List<E>> {
     final List<E> list;
@@ -658,13 +658,13 @@ public final class Collections2 {
     void calculateNextPermutation() {
       j = list.size() - 1;
       int s = 0;
-
+    
       // Handle the special case of an empty list. Skip the calculation of the
       // next permutation.
       if (j == -1) {
         return;
       }
-
+    
       while (true) {
         int q = c[j] + o[j];
         if (q < 0) {
@@ -695,6 +695,7 @@ public final class Collections2 {
   /**
    * Returns {@code true} if the second list is a permutation of the first.
    */
+  @GwtIncompatible("not used by GwtCompatible code (yet)")
   private static boolean isPermutation(List<?> first,
       List<?> second) {
     if (first.size() != second.size()) {
@@ -705,87 +706,8 @@ public final class Collections2 {
     return firstSet.equals(secondSet);
   }
 
-  // TODO(user): Maybe move the mathematical methods to a separate
-  // package-permission class.
-  /**
-   * We could do a better job if we reused a library function here.
-   * We do not check for overflow here. The caller will do it, since the result
-   * will be narrowed to an int anyway.
-   */
-  private static long binomialCoefficient(int n, int k) {
-    checkArgument(n >= k);
-    if (k > n - k) {
-      return factorialQuotient(n, k) / factorial(n - k);
-    } else {
-      return factorialQuotient(n, n - k) / factorial(k);
-    }
-  }
-
+  @GwtIncompatible("not used by GwtCompatible code (yet)")
   private static boolean isPositiveInt(long n) {
     return n >= 0 && n <= Integer.MAX_VALUE;
-  }
-
-  /**
-   * Returns the factorial of n as a int, or Integer.MAX_VALUE if the result
-   * is too large.
-   */
-  private static int safeIntFactorial(int n) {
-    checkArgument(n >= 0);
-    if (n > 12) {
-      return Integer.MAX_VALUE;
-    }
-    return (int) FACTORIALS[n];
-  }
-
-  /** Precalculated factorials */
-  private static final long[] FACTORIALS = {
-                    1L,
-                    1L,
-                    2L,
-                    6L,
-                   24L,
-                  120L,
-                  720L,
-                 5040L,
-                40320L,
-               362880L,
-              3628800L,
-             39916800L,
-            479001600L,
-           6227020800L,
-          87178291200L,
-        1307674368000L,
-       20922789888000L,
-      355687428096000L,
-     6402373705728000L,
-   121645100408832000L,
-  2432902008176640000L };
-
-  /**
-   * We could do a better job if we reused a library function here.
-   */
-  @VisibleForTesting static long factorial(int n) {
-    checkArgument(n >= 0);
-    checkArgument(n <= 20,
-        "Numeric overflow calculating the factorial of: %d", n);
-    return FACTORIALS[n];
-  }
-
-  /**
-   * Returns n! / d!.
-   */
-  private static long factorialQuotient(int n, int d) {
-    checkArgument(n > 0);
-    checkArgument(d > 0);
-    checkArgument(n >= d);
-
-    long result = 1;
-    for (int i = d + 1; i <= n; i++) {
-      result *= i;
-      if (result < 0) {
-        throw new IllegalArgumentException("Numeric overflow");
-      }
-    }
-    return result;
   }
 }

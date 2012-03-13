@@ -16,11 +16,12 @@
 
 package com.google.common.collect;
 
-import static com.google.common.collect.Collections2.factorial;
+import static com.google.common.collect.Iterables.concat;
 import static com.google.common.collect.Lists.newArrayList;
 import static com.google.common.collect.Lists.newLinkedList;
 import static com.google.common.collect.testing.testers.CollectionIteratorTester.getIteratorKnownOrderRemoveSupportedMethod;
 import static java.util.Arrays.asList;
+import static java.util.Collections.nCopies;
 import static org.junit.contrib.truth.Truth.ASSERT;
 
 import com.google.common.annotations.GwtCompatible;
@@ -365,6 +366,7 @@ public class Collections2Test extends TestCase {
     tester.testAllPublicStaticMethods(Collections2.class);
   }
 
+  @GwtIncompatible("permutations")
   public void testOrderedPermutationSetEmpty() {
     List<Integer> list = newArrayList();
     Collection<List<Integer>> permutationSet =
@@ -379,6 +381,7 @@ public class Collections2Test extends TestCase {
     assertNoMorePermutations(permutations);
   }
 
+  @GwtIncompatible("permutations")
   public void testOrderedPermutationSetOneElement() {
     List<Integer> list = newArrayList(1);
     Iterator<List<Integer>> permutations =
@@ -388,6 +391,7 @@ public class Collections2Test extends TestCase {
     assertNoMorePermutations(permutations);
   }
 
+  @GwtIncompatible("permutations")
   public void testOrderedPermutationSetThreeElements() {
     List<String> list = newArrayList("b", "a", "c");
     Iterator<List<String>> permutations =
@@ -402,6 +406,7 @@ public class Collections2Test extends TestCase {
     assertNoMorePermutations(permutations);
   }
 
+  @GwtIncompatible("permutations")
   public void testOrderedPermutationSetRepeatedElements() {
     List<Integer> list = newArrayList(1, 1, 2, 2);
     Iterator<List<Integer>> permutations =
@@ -416,6 +421,7 @@ public class Collections2Test extends TestCase {
     assertNoMorePermutations(permutations);
   }
 
+  @GwtIncompatible("permutations")
   public void testOrderedPermutationSetRepeatedElementsSize() {
     List<Integer> list = newArrayList(1, 1, 1, 1, 2, 2, 3);
     Collection<List<Integer>> permutations =
@@ -424,7 +430,11 @@ public class Collections2Test extends TestCase {
     assertPermutationsCount(105, permutations);
   }
 
+  @GwtIncompatible("permutations")
   public void testOrderedPermutationSetSizeOverflow() {
+    // 12 elements won't overflow
+    assertEquals(479001600 /*12!*/, Collections2.orderedPermutations(
+        newArrayList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12)).size());
     // 13 elements overflow an int
     assertEquals(Integer.MAX_VALUE, Collections2.orderedPermutations(
         newArrayList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13)).size());
@@ -432,12 +442,16 @@ public class Collections2Test extends TestCase {
     assertEquals(Integer.MAX_VALUE, Collections2.orderedPermutations(
         newArrayList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15,
             16, 17, 18, 19, 20, 21)).size());
-    // Force an overflow in the binomial coefficient calculation
+
+    // Almost force an overflow in the binomial coefficient calculation
+    assertEquals(1391975640 /*C(34,14)*/, Collections2.orderedPermutations(
+        concat(nCopies(20, 1), nCopies(14, 2))).size());
+    // Do force an overflow in the binomial coefficient calculation
     assertEquals(Integer.MAX_VALUE, Collections2.orderedPermutations(
-        newArrayList(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-            1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2)).size());
+        concat(nCopies(21, 1), nCopies(14, 2))).size());
   }
 
+  @GwtIncompatible("permutations")
   public void testOrderedPermutationSetContains() {
     List<Integer> list = newArrayList(3, 2, 1);
     Collection<List<Integer>> permutationSet =
@@ -451,9 +465,10 @@ public class Collections2Test extends TestCase {
     assertFalse(permutationSet.contains(null));
   }
 
+  @GwtIncompatible("permutations")
   public void testPermutationSetEmpty() {
     Collection<List<Integer>> permutationSet =
-        Collections2.permutations(Collections.<Integer> emptyList());
+        Collections2.permutations(Collections.<Integer>emptyList());
 
     assertEquals(1, permutationSet.size());
     assertTrue(permutationSet.contains(Collections.<Integer> emptyList()));
@@ -463,6 +478,7 @@ public class Collections2Test extends TestCase {
     assertNoMorePermutations(permutations);
   }
 
+  @GwtIncompatible("permutations")
   public void testPermutationSetOneElement() {
     Iterator<List<Integer>> permutations =
         Collections2.permutations(Collections.<Integer> singletonList(1))
@@ -471,6 +487,7 @@ public class Collections2Test extends TestCase {
     assertNoMorePermutations(permutations);
   }
 
+  @GwtIncompatible("permutations")
   public void testPermutationSetTwoElements() {
     Iterator<List<Integer>> permutations = Collections2.permutations(
         newArrayList(1, 2)).iterator();
@@ -479,6 +496,7 @@ public class Collections2Test extends TestCase {
     assertNoMorePermutations(permutations);
   }
 
+  @GwtIncompatible("permutations")
   public void testPermutationSetThreeElements() {
     Iterator<List<Integer>> permutations = Collections2.permutations(
         newArrayList(1, 2, 3)).iterator();
@@ -492,6 +510,7 @@ public class Collections2Test extends TestCase {
     assertNoMorePermutations(permutations);
   }
 
+  @GwtIncompatible("permutations")
   public void testPermutationSetThreeElementsOutOfOrder() {
     Iterator<List<Integer>> permutations = Collections2.permutations(
         newArrayList(3, 2, 1)).iterator();
@@ -505,6 +524,7 @@ public class Collections2Test extends TestCase {
     assertNoMorePermutations(permutations);
   }
 
+  @GwtIncompatible("permutations")
   public void testPermutationSetThreeRepeatedElements() {
     Iterator<List<Integer>> permutations = Collections2.permutations(
         newArrayList(1, 1, 2)).iterator();
@@ -517,6 +537,7 @@ public class Collections2Test extends TestCase {
     assertNoMorePermutations(permutations);
   }
 
+  @GwtIncompatible("permutations")
   public void testPermutationSetFourElements() {
     Iterator<List<Integer>> permutations = Collections2.permutations(
         newArrayList(1, 2, 3, 4)).iterator();
@@ -552,9 +573,10 @@ public class Collections2Test extends TestCase {
     assertNoMorePermutations(permutations);
   }
 
+  @GwtIncompatible("permutations")
   public void testPermutationSetSize() {
     assertPermutationsCount(1,
-        Collections2.permutations(Collections.<Integer> emptyList()));
+        Collections2.permutations(Collections.<Integer>emptyList()));
     assertPermutationsCount(1, Collections2.permutations(newArrayList(1)));
     assertPermutationsCount(2, Collections2.permutations(newArrayList(1, 2)));
     assertPermutationsCount(6,
@@ -565,6 +587,7 @@ public class Collections2Test extends TestCase {
         Collections2.permutations(newArrayList(1, 2, 3, 4, 5, 6, 7, 8)));
   }
 
+  @GwtIncompatible("permutations")
   public void testPermutationSetSizeOverflow() {
     // 13 elements overflow an int
     assertEquals(Integer.MAX_VALUE, Collections2.permutations(newArrayList(
@@ -578,6 +601,7 @@ public class Collections2Test extends TestCase {
             16, 17, 18, 19, 20, 21)).size());
   }
 
+  @GwtIncompatible("permutations")
   public void testPermutationSetContains() {
     List<Integer> list = newArrayList(3, 2, 1);
     Collection<List<Integer>> permutationSet =
@@ -589,28 +613,6 @@ public class Collections2Test extends TestCase {
     assertFalse(permutationSet.contains(newArrayList(1, 1, 2, 3)));
     assertFalse(permutationSet.contains(newArrayList(1, 2, 3, 4)));
     assertFalse(permutationSet.contains(null));
-  }
-
-  public void testFactorials() {
-    // We check the factorials invariant, to make sure that they are not
-    // accidentally modified, since they are hard-coded.
-    for (int i = 1; i <= 20; i++) {
-      assertEquals(i * factorial(i - 1), factorial(i));
-    }
-  }
-
-  public void testFactorials_EdgeValues() {
-    assertEquals(1, factorial(0));
-
-    try {
-        factorial(-1);
-        fail("Expected IllegalArgumentException.");
-    } catch (IllegalArgumentException expected) {}
-
-    try {
-        factorial(21);
-        fail("Expected IllegalArgumentException.");
-    } catch (IllegalArgumentException expected) {}
   }
 
   private <T> void assertNextPermutation(List<T> expectedPermutation,
