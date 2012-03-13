@@ -4,6 +4,7 @@ package com.google.common.net;
 
 import static com.google.common.base.Charsets.UTF_16;
 import static com.google.common.base.Charsets.UTF_8;
+import static com.google.common.net.MediaType.*;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
@@ -38,6 +39,13 @@ public class MediaTypeTest extends TestCase {
   public void testCreate_invalidSubtype() {
     try {
       MediaType.create("text", "pl@intext");
+      fail();
+    } catch (IllegalArgumentException expected) {}
+  }
+
+  public void testCreate_wildcardTypeDeclaredSubtype() {
+    try {
+      MediaType.create("*", "text");
       fail();
     } catch (IllegalArgumentException expected) {}
   }
@@ -143,6 +151,32 @@ public class MediaTypeTest extends TestCase {
         MediaType.parse("text/plain").withCharset(UTF_8));
     assertEquals(MediaType.parse("text/plain; charset=utf-8"),
         MediaType.parse("text/plain; charset=utf-16").withCharset(UTF_8));
+  }
+
+  public void testHasWildcard() {
+    assertFalse(PLAIN_TEXT_UTF_8.hasWildcard());
+    assertFalse(JPEG.hasWildcard());
+    assertTrue(ANY_TYPE.hasWildcard());
+    assertTrue(ANY_APPLICATION_TYPE.hasWildcard());
+    assertTrue(ANY_AUDIO_TYPE.hasWildcard());
+    assertTrue(ANY_IMAGE_TYPE.hasWildcard());
+    assertTrue(ANY_TEXT_TYPE.hasWildcard());
+    assertTrue(ANY_VIDEO_TYPE.hasWildcard());
+  }
+
+  public void testIs() {
+    assertTrue(PLAIN_TEXT_UTF_8.is(ANY_TYPE));
+    assertTrue(JPEG.is(ANY_TYPE));
+    assertTrue(ANY_TEXT_TYPE.is(ANY_TYPE));
+    assertTrue(PLAIN_TEXT_UTF_8.is(ANY_TEXT_TYPE));
+    assertTrue(PLAIN_TEXT_UTF_8.withoutParameters().is(ANY_TEXT_TYPE));
+    assertFalse(JPEG.is(ANY_TEXT_TYPE));
+    assertTrue(PLAIN_TEXT_UTF_8.is(PLAIN_TEXT_UTF_8));
+    assertTrue(PLAIN_TEXT_UTF_8.is(PLAIN_TEXT_UTF_8.withoutParameters()));
+    assertFalse(PLAIN_TEXT_UTF_8.withoutParameters().is(PLAIN_TEXT_UTF_8));
+    assertFalse(PLAIN_TEXT_UTF_8.is(HTML_UTF_8));
+    assertFalse(PLAIN_TEXT_UTF_8.withParameter("charset", "UTF-16").is(PLAIN_TEXT_UTF_8));
+    assertFalse(PLAIN_TEXT_UTF_8.is(PLAIN_TEXT_UTF_8.withParameter("charset", "UTF-16")));
   }
 
   public void testParse_empty() {

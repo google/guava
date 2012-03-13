@@ -53,8 +53,14 @@ import javax.annotation.concurrent.Immutable;
 
 /**
  * Represents an <a href="http://en.wikipedia.org/wiki/Internet_media_type">Internet Media Type</a>
- * (also known as a MIME Type or Content Type). All values for type, subtype, parameter attributes
- * or parameter values must be valid according to RFCs 2045 and 2046.
+ * (also known as a MIME Type or Content Type). This class also supports the concept of media ranges
+ * <a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.1">defined by HTTP/1.1</a>.
+ * As such, the {@code *} character is treated as a wildcard and is used to represent any acceptable
+ * type or subtype value. A media type may not have wildcard type with a declared subtype. The
+ * {@code *} character has no special meaning as part of a parameter. All values for type, subtype,
+ * parameter attributes or parameter values must be valid according to RFCs
+ * <a href="http://www.ietf.org/rfc/rfc2045.txt">2045</a> and
+ * <a href="http://www.ietf.org/rfc/rfc2046.txt">2046</a>.
  *
  * <p>All portions of the media type that are case-insensitive (type, subtype, parameter attributes)
  * are normalized to lowercase. The value of the {@code charset} parameter is normalized to
@@ -96,6 +102,8 @@ public final class MediaType {
   private static final String TEXT_TYPE = "text";
   private static final String VIDEO_TYPE = "video";
 
+  private static final String WILDCARD = "*";
+
   /*
    * The following constants are grouped by their type and ordered alphabetically by the constant
    * name within that type. The constant name should be a sensible identifier that is closest to the
@@ -106,6 +114,13 @@ public final class MediaType {
    * When adding constants, be sure to add an entry into the KNOWN_TYPES map. For types that
    * take a charset (e.g. all text/* types), default to UTF-8 and suffix with "_UTF_8".
    */
+
+  public static final MediaType ANY_TYPE = new MediaType(WILDCARD, WILDCARD);
+  public static final MediaType ANY_TEXT_TYPE = new MediaType(TEXT_TYPE, WILDCARD);
+  public static final MediaType ANY_IMAGE_TYPE = new MediaType(IMAGE_TYPE, WILDCARD);
+  public static final MediaType ANY_AUDIO_TYPE = new MediaType(AUDIO_TYPE, WILDCARD);
+  public static final MediaType ANY_VIDEO_TYPE = new MediaType(VIDEO_TYPE, WILDCARD);
+  public static final MediaType ANY_APPLICATION_TYPE = new MediaType(APPLICATION_TYPE, WILDCARD);
 
   /* text types */
   public static final MediaType CACHE_MANIFEST_UTF_8 = new MediaType(TEXT_TYPE, "cache-manifest")
@@ -200,6 +215,12 @@ public final class MediaType {
 
   private static final ImmutableMap<MediaType, MediaType> KNOWN_TYPES =
       new ImmutableMap.Builder<MediaType, MediaType>()
+          .put(ANY_TYPE, ANY_TYPE)
+          .put(ANY_TEXT_TYPE, ANY_TEXT_TYPE)
+          .put(ANY_IMAGE_TYPE, ANY_IMAGE_TYPE)
+          .put(ANY_AUDIO_TYPE, ANY_AUDIO_TYPE)
+          .put(ANY_VIDEO_TYPE, ANY_VIDEO_TYPE)
+          .put(ANY_APPLICATION_TYPE, ANY_APPLICATION_TYPE)
           /* text types */
           .put(CACHE_MANIFEST_UTF_8, CACHE_MANIFEST_UTF_8)
           .put(CSS_UTF_8, CSS_UTF_8)
@@ -372,10 +393,48 @@ public final class MediaType {
     return withParameter(CHARSET_ATTRIBUTE, charset.name());
   }
 
+  /** Returns true if either the type or subtype is the wildcard. */
+  public boolean hasWildcard() {
+    return WILDCARD.equals(type) || WILDCARD.equals(subtype);
+  }
+
+  /**
+   * Returns {@code true} if this instance falls within the range (as defined by
+   * <a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html">the HTTP Accept header</a>)
+   * given by the argument according to three criteria:
+   *
+   * <ol>
+   * <li>The type of the argument is the wildcard or equal to the type of this instance.
+   * <li>The subtype of the argument is the wildcard or equal to the subtype of this instance.
+   * <li>All of the parameters present in the argument are present in this instance.
+   * </ol>
+   *
+   * For example: <pre>   {@code
+   *   PLAIN_TEXT_UTF_8.is(PLAIN_TEXT_UTF_8) // true
+   *   PLAIN_TEXT_UTF_8.is(HTML_UTF_8) // false
+   *   PLAIN_TEXT_UTF_8.is(ANY_TYPE) // true
+   *   PLAIN_TEXT_UTF_8.is(ANY_TEXT_TYPE) // true
+   *   PLAIN_TEXT_UTF_8.is(ANY_IMAGE_TYPE) // false
+   *   PLAIN_TEXT_UTF_8.is(ANY_TEXT_TYPE.withCharset(UTF_8)) // true
+   *   PLAIN_TEXT_UTF_8.withoutParameters().is(ANY_TEXT_TYPE.withCharset(UTF_8)) // false
+   *   PLAIN_TEXT_UTF_8.is(ANY_TEXT_TYPE.withCharset(UTF_16)) // false}</pre>
+   *
+   * <p>Note that while it is possible to have the same parameter declared multiple times within a
+   * media type this method does not consider the number of occurrences of a parameter.  For
+   * example, {@code "text/plain; charset=UTF-8"} satisfies
+   * {@code "text/plain; charset=UTF-8; charset=UTF-8"}.
+   */
+  public boolean is(MediaType mediaTypeRange) {
+    return (mediaTypeRange.type.equals(WILDCARD) || mediaTypeRange.type.equals(this.type))
+        && (mediaTypeRange.subtype.equals(WILDCARD) || mediaTypeRange.subtype.equals(this.subtype))
+        && this.parameters.entries().containsAll(mediaTypeRange.parameters.entries());
+  }
+
   /**
    * Creates a new media type with the given type and subtype.
    *
-   * @throws IllegalArgumentException if type or subtype is invalid
+   * @throws IllegalArgumentException if type or subtype is invalid or if a wildcard is used for the
+   * subtype, but not the type.
    */
   public static MediaType create(String type, String subtype) {
     return create(type, subtype, ImmutableListMultimap.<String, String>of());
@@ -433,7 +492,9 @@ public final class MediaType {
     checkNotNull(parameters);
     String normalizedType = normalizeToken(type);
     String normalizedSubtype = normalizeToken(subtype);
-    MediaType mediaType;
+    checkArgument(!WILDCARD.equals(normalizedType) || WILDCARD.equals(normalizedSubtype),
+        "A wildcard subtype cannot be used with a non-wildcard type");
+    final MediaType mediaType;
     if (parameters.isEmpty()) {
       mediaType = new MediaType(normalizedType, normalizedSubtype);
     } else {
