@@ -8,11 +8,12 @@ import com.google.common.testing.SerializableTester;
 
 import junit.framework.TestCase;
 
+import java.util.Arrays;
 import java.util.Random;
 
 /**
  * Tests for SimpleGenericBloomFilter and derived BloomFilter views.
- * 
+ *
  * @author andreou@google.com (Dimitris Andreou)
  */
 public class BloomFilterTest extends TestCase {
@@ -26,9 +27,9 @@ public class BloomFilterTest extends TestCase {
       }
     }
   }
-  
+
   /**
-   * Tests that we never get an optimal hashes number of zero. 
+   * Tests that we never get an optimal hashes number of zero.
    */
   public void testOptimalHashes() {
     for (int n = 1; n < 1000; n++) {
@@ -37,9 +38,9 @@ public class BloomFilterTest extends TestCase {
       }
     }
   }
-  
+
   /**
-   * Tests that we always get a non-negative optimal size.  
+   * Tests that we always get a non-negative optimal size.
    */
   public void testOptimalSize() {
     for (int n = 1; n < 1000; n++) {
@@ -47,18 +48,18 @@ public class BloomFilterTest extends TestCase {
         assertTrue(BloomFilter.optimalNumOfBits(n, fpp) >= 0);
       }
     }
-    
+
     // some random values
-    Random random = new Random(0); 
+    Random random = new Random(0);
     for (int repeats = 0; repeats < 10000; repeats++) {
       assertTrue(BloomFilter.optimalNumOfBits(random.nextInt(1 << 16), random.nextDouble()) >= 0);
     }
-    
+
     // and some crazy values
     assertEquals(Integer.MAX_VALUE, BloomFilter.optimalNumOfBits(
         Integer.MAX_VALUE, Double.MIN_VALUE));
   }
-  
+
   private void checkSanity(BloomFilter<Object> bf) {
     assertFalse(bf.mightContain(new Object()));
     for (int i = 0; i < 100; i++) {
@@ -67,27 +68,15 @@ public class BloomFilterTest extends TestCase {
       assertTrue(bf.mightContain(o));
     }
   }
-  
-  public void testSerialization() {
-    BloomFilter<byte[]> bf = BloomFilter.create(Funnels.byteArrayFunnel(), 100);
-    for (int i = 0; i < 10; i++) {
-      bf.put(Ints.toByteArray(i));
-    }
-    
-    bf = SerializableTester.reserialize(bf);
-    for (int i = 0; i < 10; i++) {
-      assertTrue(bf.mightContain(Ints.toByteArray(i)));
-    }
-  }
-  
-  public void testCopy() throws Exception {
+
+  public void testCopy() {
     BloomFilter<CharSequence> original = BloomFilter.create(Funnels.stringFunnel(), 100);
     BloomFilter<CharSequence> copy = original.copy();
     assertNotSame(original, copy);
     assertEquals(original, copy);
   }
 
-  public void testEquals_empty() throws Exception {
+  public void testEquals_empty() {
     new EqualsTester()
         .addEqualityGroup(BloomFilter.create(Funnels.byteArrayFunnel(), 100, 0.01))
         .addEqualityGroup(BloomFilter.create(Funnels.byteArrayFunnel(), 100, 0.02))
@@ -100,7 +89,7 @@ public class BloomFilterTest extends TestCase {
         .testEquals();
   }
 
-  public void testEquals() throws Exception {
+  public void testEquals() {
     BloomFilter<CharSequence> bf1 = BloomFilter.create(Funnels.stringFunnel(), 100);
     bf1.put("1");
     bf1.put("2");
@@ -121,9 +110,36 @@ public class BloomFilterTest extends TestCase {
         .testEquals();
   }
 
-  public void testPutReturnValue() throws Exception {
-    BloomFilter<CharSequence> bf = BloomFilter.create(Funnels.stringFunnel(), 100);
-    assertTrue(bf.put("1"));
-    assertFalse(bf.put("1"));
+  public void testPutReturnValue() {
+    for (int i = 0; i < 10; i++) {
+      BloomFilter<CharSequence> bf = BloomFilter.create(Funnels.stringFunnel(), 100);
+      for (int j = 0; j < 10; j++) {
+        String value = new Object().toString();
+        boolean mightContain = bf.mightContain(value);
+        boolean put = bf.put(value);
+        assertTrue(mightContain != put);
+      }
+    }
+  }
+
+  public void testJavaSerialization() {
+    BloomFilter<byte[]> bf = BloomFilter.create(Funnels.byteArrayFunnel(), 100);
+    for (int i = 0; i < 10; i++) {
+      bf.put(Ints.toByteArray(i));
+    }
+
+    bf = SerializableTester.reserialize(bf);
+    for (int i = 0; i < 10; i++) {
+      assertTrue(bf.mightContain(Ints.toByteArray(i)));
+    }
+  }
+
+  /**
+   * This test will fail whenever someone updates/reorders the BloomFilterStrategies constants.
+   * Only appending a new constant is allowed.
+   */
+  public void testBloomFilterStrategies() {
+    assertEquals(Arrays.asList(BloomFilterStrategies.values()),
+        Arrays.asList(new BloomFilterStrategies[] {BloomFilterStrategies.MURMUR128_MITZ_32}));
   }
 }

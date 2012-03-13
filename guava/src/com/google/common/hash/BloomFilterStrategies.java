@@ -10,10 +10,13 @@ import java.math.RoundingMode;
 import java.util.Arrays;
 
 /**
- * Collections of strategies of generating the {@code k * log(M)} bits required for an element to
- * be mapped to a {@link BloomFilter} of {@code M} bits and {@code k} hash functions. These
+ * Collections of strategies of generating the k * log(M) bits required for an element to
+ * be mapped to a BloomFilter of M bits and k hash functions. These
  * strategies are part of the serialized form of the Bloom filters that use them, thus they must be
  * preserved as is (no updates allowed, only introduction of new versions).
+ *
+ * Important: the order of the constants cannot change, and they cannot be deleted - we depend
+ * on their ordinal for BloomFilter serialization.
  *
  * @author andreou@google.com (Dimitris Andreou)
  */
@@ -59,6 +62,7 @@ enum BloomFilterStrategies implements BloomFilter.Strategy {
     }
   };
 
+  // Note: We use this instead of java.util.BitSet because we need access to the long[] data field
   static class BitArray {
     final long[] data;
 
