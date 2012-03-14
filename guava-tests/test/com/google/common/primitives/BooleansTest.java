@@ -76,6 +76,7 @@ public class BooleansTest extends TestCase {
     assertEquals(0, Booleans.indexOf(ARRAY_FALSE, ARRAY_FALSE));
     assertEquals(0, Booleans.indexOf(ARRAY_FALSE_TRUE, ARRAY_FALSE));
     assertEquals(1, Booleans.indexOf(ARRAY_FALSE_TRUE, ARRAY_TRUE));
+    assertEquals(0, Booleans.indexOf(ARRAY_TRUE, new boolean[0]));
   }
   
   public void testIndexOf_arrays() {
@@ -256,6 +257,7 @@ public class BooleansTest extends TestCase {
     assertEquals(1, Booleans.asList(ARRAY_FALSE_TRUE).lastIndexOf(true)); 
     List<Boolean> reference = Booleans.asList(ARRAY_FALSE); 
     assertEquals(Booleans.asList(ARRAY_FALSE), reference); 
+    assertEquals(reference, reference); 
   }
   
   public void testAsListHashcode() {
