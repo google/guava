@@ -18,6 +18,7 @@ package com.google.common.cache;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Function;
@@ -100,6 +101,7 @@ public abstract class CacheLoader<K, V> {
   /**
    * Returns a {@code CacheLoader} which creates values by applying a {@code Function} to the key.
    */
+  @Beta
   public static <K, V> CacheLoader<K, V> from(Function<K, V> function) {
     return new FunctionToCacheLoader<K, V>(function);
   }
@@ -124,6 +126,7 @@ public abstract class CacheLoader<K, V> {
    * Returns a {@code CacheLoader} which obtains values from a {@code Supplier} (independent of the
    * key).
    */
+  @Beta
   public static <V> CacheLoader<Object, V> from(Supplier<V> supplier) {
     return new SupplierToCacheLoader<V>(supplier);
   }
