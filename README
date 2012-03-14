@@ -1,7 +1,7 @@
 Guava: Google Core Libraries for Java
 =====================================
 
-Requires JDK 1.5 or higher.
+Requires JDK 1.6 or higher (as of 12.0).
 
 Project page:
   http://guava-libraries.googlecode.com
