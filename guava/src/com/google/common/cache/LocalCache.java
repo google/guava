@@ -3969,17 +3969,20 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
     return get(key, defaultLoader);
   }
 
-  ImmutableMap<K, V> getAllPresent(Iterable<? extends K> keys) {
+  ImmutableMap<K, V> getAllPresent(Iterable<?> keys) {
     int hits = 0;
     int misses = 0;
 
     Map<K, V> result = Maps.newLinkedHashMap();
-    for (K key : keys) {
+    for (Object key : keys) {
       V value = get(key);
       if (value == null) {
         misses++;
       } else {
-        result.put(key, value);
+        // TODO(fry): store entry key instead of query key
+        @SuppressWarnings("unchecked")
+        K castKey = (K) key;
+        result.put(castKey, value);
         hits++;
       }
     }
@@ -3988,8 +3991,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
     return ImmutableMap.copyOf(result);
   }
 
-  ImmutableMap<K, V> getAll(Iterable<? extends K> keys)
-      throws ExecutionException {
+  ImmutableMap<K, V> getAll(Iterable<? extends K> keys) throws ExecutionException {
     int hits = 0;
     int misses = 0;
 
@@ -4754,7 +4756,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
 
     @Override
     @Nullable
-    public V getIfPresent(K key) {
+    public V getIfPresent(Object key) {
       return localCache.getIfPresent(key);
     }
 
@@ -4770,7 +4772,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
     }
 
     @Override
-    public ImmutableMap<K, V> getAllPresent(Iterable<? extends K> keys) {
+    public ImmutableMap<K, V> getAllPresent(Iterable<?> keys) {
       return localCache.getAllPresent(keys);
     }
 

@@ -127,7 +127,7 @@ public class CacheBuilder<K, V> {
 
     @Override
     @Nullable
-    public V getIfPresent(K key) {
+    public V getIfPresent(Object key) {
       return localCache.get(key);
     }
 

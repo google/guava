@@ -53,7 +53,7 @@ public class AbstractCacheTest extends TestCase {
     final List<Object> invalidated = Lists.newArrayList();
     Cache<Integer, Integer> cache = new AbstractCache<Integer, Integer>() {
       @Override
-      public Integer getIfPresent(Integer key) {
+      public Integer getIfPresent(Object key) {
         throw new UnsupportedOperationException();
       }
 

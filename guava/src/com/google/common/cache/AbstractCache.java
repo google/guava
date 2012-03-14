@@ -57,14 +57,22 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
   }
 
   /**
+   * This implementation of {@code getAllPresent} lacks any insight into the internal cache data
+   * structure, and is thus forced to return the query keys instead of the cached keys. This is only
+   * possible with an unsafe cast which requires {@code keys} to actually be of type {@code K}.
+   *
+   * {@inheritDoc}
+   *
    * @since 11.0
    */
   @Override
-  public ImmutableMap<K, V> getAllPresent(Iterable<? extends K> keys) {
+  public ImmutableMap<K, V> getAllPresent(Iterable<?> keys) {
     Map<K, V> result = Maps.newLinkedHashMap();
-    for (K key : keys) {
+    for (Object key : keys) {
       if (!result.containsKey(key)) {
-        result.put(key, getIfPresent(key));
+        @SuppressWarnings("unchecked")
+        K castKey = (K) key;
+        result.put(castKey, getIfPresent(key));
       }
     }
     return ImmutableMap.copyOf(result);

@@ -56,7 +56,7 @@ public interface Cache<K, V> {
    * @since 11.0
    */
   @Nullable
-  V getIfPresent(K key);
+  V getIfPresent(Object key);
 
   /**
    * Returns the value associated with {@code key} in this cache, obtaining that value from
@@ -82,7 +82,7 @@ public interface Cache<K, V> {
    *
    * @since 11.0
    */
-  ImmutableMap<K, V> getAllPresent(Iterable<? extends K> keys);
+  ImmutableMap<K, V> getAllPresent(Iterable<?> keys);
 
   /**
    * Associates {@code value} with {@code key} in this cache. If the cache previously contained a
