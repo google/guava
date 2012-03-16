@@ -87,12 +87,14 @@ public abstract class Ordering<T> implements Comparator<T> {
   }
 
   /**
-   * Returns an ordering for a pre-existing {@code comparator}. Note
-   * that if the comparator is not pre-existing, and you don't require
-   * serialization, you can subclass {@code Ordering} and implement its
-   * {@link #compare(Object, Object) compare} method instead.
+   * Returns an ordering based on an <i>existing</i> comparator instance. Note
+   * that there's no need to create a <i>new</i> comparator just to pass it in
+   * here; simply subclass {@code Ordering} and implement its {@code compareTo}
+   * method directly instead.
    *
    * @param comparator the comparator that defines the order
+   * @return comparator itself if it is already an {@code Ordering}; otherwise
+   *     an ordering that wraps that comparator
    */
   @GwtCompatible(serializable = true)
   public static <T> Ordering<T> from(Comparator<T> comparator) {
