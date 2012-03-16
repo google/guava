@@ -64,10 +64,6 @@ public class FluentIterableTest extends TestCase {
     assertSame(iterable, FluentIterable.from(iterable));
   }
 
-  public void testOf_empty() {
-    assertEquals(ImmutableList.of(), Lists.newArrayList(FluentIterable.of()));
-  }
-
   public void testSize0() {
     assertEquals(0, FluentIterable.<String>of().size());
   }

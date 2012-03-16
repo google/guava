@@ -94,13 +94,6 @@ public final class FluentIterable<E> implements Iterable<E> {
     return Preconditions.checkNotNull(iterable);
   }
 
-  /**
-   * Returns a fluent iterable containing no elements.
-   */
-  public static <E> FluentIterable<E> of() {
-    return FluentIterable.from(ImmutableList.<E>of());
-  }
-
   @Override
   public Iterator<E> iterator() {
     return iterable.iterator();
