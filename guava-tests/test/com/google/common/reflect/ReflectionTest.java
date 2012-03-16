@@ -21,6 +21,7 @@ import com.google.common.testing.NullPointerTester;
 import junit.framework.TestCase;
 
 import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Method;
 import java.lang.reflect.Type;
 import java.util.Map;
 
@@ -39,6 +40,14 @@ public class ReflectionTest extends TestCase {
     } catch (IllegalArgumentException expected) {
     }
   }
+
+  private static final InvocationHandler X_RETURNER = new InvocationHandler() {
+    @Override
+    public Object invoke(Object proxy, Method method, Object[] args)
+        throws Throwable {
+      return "x";
+    }
+  };
 
   private static int classesInitialized = 0;
   private static class A {
