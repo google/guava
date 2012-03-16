@@ -280,7 +280,7 @@ public final class Iterables {
    *     elements
    */
   public static <T> T getOnlyElement(
-      Iterable<? extends T> iterable, @Nullable T defaultValue) {
+      Iterable<T> iterable, @Nullable T defaultValue) {
     return Iterators.getOnlyElement(iterable.iterator(), defaultValue);
   }
 
@@ -654,7 +654,7 @@ public final class Iterables {
    *
    * @since 7.0
    */
-  public static <T> T find(Iterable<? extends T> iterable,
+  public static <T> T find(Iterable<T> iterable,
       Predicate<? super T> predicate, @Nullable T defaultValue) {
     return Iterators.find(iterable.iterator(), predicate, defaultValue);
   }
@@ -759,7 +759,8 @@ public final class Iterables {
    * @throws IndexOutOfBoundsException if {@code position} is negative
    * @since 4.0
    */
-  public static <T> T get(Iterable<? extends T> iterable, int position, @Nullable T defaultValue) {
+  public static <T> T get(Iterable<T> iterable, int position,
+      @Nullable T defaultValue) {
     checkNotNull(iterable);
     checkNonnegativeIndex(position);
 
@@ -779,7 +780,7 @@ public final class Iterables {
    * @return the first element of {@code iterable} or the default value
    * @since 7.0
    */
-  public static <T> T getFirst(Iterable<? extends T> iterable, @Nullable T defaultValue) {
+  public static <T> T getFirst(Iterable<T> iterable, @Nullable T defaultValue) {
     return Iterators.getNext(iterable.iterator(), defaultValue);
   }
 
@@ -820,7 +821,7 @@ public final class Iterables {
    * @return the last element of {@code iterable} or the default value
    * @since 3.0
    */
-  public static <T> T getLast(Iterable<? extends T> iterable, @Nullable T defaultValue) {
+  public static <T> T getLast(Iterable<T> iterable, @Nullable T defaultValue) {
     if (iterable instanceof Collection) {
       Collection<T> collection = (Collection<T>) iterable;
       if (collection.isEmpty()) {
