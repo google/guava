@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008 Google Inc.
+ * Copyright (C) 2008 The Guava Authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -41,9 +41,9 @@ import javax.annotation.Nullable;
  * <li>conversion methods which copy the {@code FluentIterable}'s contents into a new collection or
  * array (for example {@link #toImmutableList})
  * <li>element extraction methods which facilitate the retrieval of certain elements (for example
- * {@link #getLast})
+ * {@link #last})
  * <li>query methods which answer questions about the {@code FluentIterable}'s contents (for example
- * {@link #anyMatches})
+ * {@link #anyMatch})
  * </ul>
  *
  * <p>Here is an example that merges the lists returned by two separate database calls, transforms
