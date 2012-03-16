@@ -18,6 +18,7 @@ package com.google.common.reflect;
 
 import static org.junit.contrib.truth.Truth.ASSERT;
 
+import com.google.common.base.Function;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
@@ -123,6 +124,32 @@ public class TypeTokenTest extends TestCase {
     TypeToken<?> returnType = new TypeToken<List<String>>() {}
         .resolveType(getFromList.getGenericReturnType());
     assertEquals(String.class, returnType.getType());
+  }
+  
+  public <F extends Enum<F> & Function<String, Integer> & Iterable<Long>>
+  void testResolveType_fromTypeVariable() throws Exception {
+    TypeToken<?> f = TypeToken.of(new TypeCapture<F>() {}.capture());
+    assertEquals(String.class,
+        f.resolveType(Function.class.getTypeParameters()[0]).getType());
+    assertEquals(Integer.class,
+        f.resolveType(Function.class.getTypeParameters()[1]).getType());
+    assertEquals(Long.class,
+        f.resolveType(Iterable.class.getTypeParameters()[0]).getType());
+  }
+  
+  public <E extends Comparable<Iterable<String>> & Iterable<Integer>>
+  void testResolveType_fromTypeVariable_onlyDirectBoundsAreUsed() throws Exception {
+    TypeToken<?> e = TypeToken.of(new TypeCapture<E>() {}.capture());
+    assertEquals(Integer.class,
+        e.resolveType(Iterable.class.getTypeParameters()[0]).getType());
+  }
+  
+  public void testResolveType_fromWildcard() throws Exception {
+    ParameterizedType withWildcardType = (ParameterizedType)
+        new TypeCapture<Comparable<? extends Iterable<String>>>() {}.capture();
+    TypeToken<?> wildcardType = TypeToken.of(withWildcardType.getActualTypeArguments()[0]);
+    assertEquals(String.class,
+        wildcardType.resolveType(Iterable.class.getTypeParameters()[0]).getType());
   }
 
   public void testGetTypes_noSuperclass() {

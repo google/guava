@@ -7,9 +7,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 
 import com.google.common.base.Joiner;
-import com.google.common.cache.CacheBuilder;
-import com.google.common.cache.CacheLoader;
-import com.google.common.cache.LoadingCache;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
@@ -33,30 +30,11 @@ import javax.annotation.Nullable;
  * @author benyu@google.com (Jige Yu)
  */
 class TypeResolver {
-
-  private static final
-      LoadingCache<Type, ImmutableMap<TypeVariable<?>, Type>> typeTableCache =
-          CacheBuilder.newBuilder().weakKeys().build(
-              new CacheLoader<Type, ImmutableMap<TypeVariable<?>, Type>>() {
-                @Override public ImmutableMap<TypeVariable<?>, Type> load(
-                    Type contextType) {
-                  return TypeMappingIntrospector.getTypeMappings(contextType);
-                }
-              });
-  
-  private static ImmutableMap<TypeVariable<?>, Type> getTypeTable(Type type) {
-    checkNotNull(type);
-    if (type instanceof Class<?> || type instanceof ParameterizedType) {
-      return typeTableCache.getUnchecked(type);
-    } else {
-      return ImmutableMap.of();
-    }
-  }
   
   private final ImmutableMap<TypeVariable<?>, Type> typeTable;
 
   static TypeResolver accordingTo(Type type) {
-    return new TypeResolver().where(getTypeTable(type));
+    return new TypeResolver().where(TypeMappingIntrospector.getTypeMappings(type));
   }
 
   TypeResolver() {
@@ -218,6 +196,14 @@ class TypeResolver {
         introspectParameterizedType((ParameterizedType) type);
       } else if (type instanceof Class<?>) {
         introspectClass((Class<?>) type);
+      } else if (type instanceof TypeVariable) {
+        for (Type bound : ((TypeVariable<?>) type).getBounds()) {
+          introspect(bound);
+        }
+      } else if (type instanceof WildcardType) {
+        for (Type bound : ((WildcardType) type).getUpperBounds()) {
+          introspect(bound);
+        }
       }
     }
 
