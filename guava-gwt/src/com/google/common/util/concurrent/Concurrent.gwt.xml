@@ -1,4 +1,6 @@
 <module>
   <source path=""/>
   <inherits name="com.google.common.annotations.Annotations"/>
+  <inherits name="com.google.common.base.Base"/>
+  <inherits name="com.google.common.collect.Collect"/>
 </module>

@@ -2,6 +2,8 @@
 
 package com.google.common.util.concurrent;
 
+import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Sets;
 import com.google.common.testing.NullPointerTester;
@@ -21,12 +23,14 @@ import java.util.concurrent.atomic.AtomicLong;
  *
  * @author schmoe@google.com (mike nonemacher)
  */
+@GwtCompatible(emulated = true)
 public class AtomicLongMapTest extends TestCase {
   private static final int ITERATIONS = 100;
   private static final int MAX_ADDEND = 100;
 
   private Random random = new Random(301);
 
+  @GwtIncompatible("NullPointerTester")
   public void testNulls() throws Exception {
     NullPointerTester tester = new NullPointerTester();
     tester.testAllPublicConstructors(AtomicLongMap.class);
@@ -536,6 +540,7 @@ public class AtomicLongMapTest extends TestCase {
     assertFalse(map.replace("a", 1L, 0L));
   }
 
+  @GwtIncompatible("threads")
   public void testModify_basher() throws InterruptedException {
     int nTasks = 3000;
     int nThreads = 100;

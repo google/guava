@@ -5,6 +5,7 @@ package com.google.common.util.concurrent;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.Beta;
+import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Function;
 import com.google.common.collect.Maps;
 
@@ -37,6 +38,7 @@ import java.util.concurrent.atomic.AtomicLong;
  * @since 11.0
  */
 @Beta
+@GwtCompatible
 public final class AtomicLongMap<K> {
   private final ConcurrentHashMap<K, AtomicLong> map;
 
