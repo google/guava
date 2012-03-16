@@ -36,7 +36,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.SortedSet;
 
@@ -62,10 +61,6 @@ public class FluentIterableTest extends TestCase {
   public void testFrom_alreadyFluentIterable() {
     FluentIterable<Integer> iterable = FluentIterable.from(asList(1));
     assertSame(iterable, FluentIterable.from(iterable));
-  }
-
-  public void testSize0() {
-    assertEquals(0, FluentIterable.<String>of().size());
   }
 
   public void testSize1Collection() {
@@ -133,24 +128,8 @@ public class FluentIterableTest extends TestCase {
     assertFalse(FluentIterable.from(iterable).contains("c"));
   }
 
-  public void testToString() {
-    assertEquals("[]", FluentIterable.from(Collections.emptyList()).toString());
-    assertEquals("[]", FluentIterable.<String>of().toString());
-
-    assertEquals("[yam, bam, jam, ham]",
-        FluentIterable.from(asList("yam", "bam", "jam", "ham")).toString());
-  }
-
   public void testGetOnlyElement_noDefaultValid() {
     assertEquals("foo", FluentIterable.from(asList("foo")).getOnlyElement());
-  }
-
-  public void testGetOnlyElement_noDefaultEmpty() {
-    try {
-      FluentIterable.<String>of().getOnlyElement();
-      fail("Invoking getOnlyElement() on empty FluentIterable should cause exception.");
-    } catch (NoSuchElementException expected) {
-    }
   }
 
   public void testGetOnlyElement_noDefaultMultiple() {
@@ -163,14 +142,6 @@ public class FluentIterableTest extends TestCase {
 
   public void testGetOnlyElement_withDefaultSingleton() {
     assertEquals("foo", FluentIterable.from(asList("foo")).getOnlyElement("bar"));
-  }
-
-  public void testGetOnlyElement_withDefaultEmpty() {
-    assertEquals("bar", FluentIterable.<String>of().getOnlyElement("bar"));
-  }
-
-  public void testGetOnlyElement_withDefaultEmptyNull() {
-    assertNull(FluentIterable.<String>of().getOnlyElement(null));
   }
 
   public void testGetOnlyElement_withDefaultMultiple() {
@@ -201,11 +172,6 @@ public class FluentIterableTest extends TestCase {
     }
   }
 
-  public void testCycle_emptyIterable() {
-    FluentIterable<Integer> cycle = FluentIterable.<Integer>of().cycle();
-    assertFalse(cycle.iterator().hasNext());
-  }
-
   public void testCycle_removingAllElementsStopsCycle() {
     FluentIterable<Integer> cycle = fluent(1, 2).cycle();
     Iterator<Integer> iterator = cycle.iterator();
@@ -228,24 +194,10 @@ public class FluentIterableTest extends TestCase {
     assertEquals("[1, 2, 3, 4, 5, 6]", result.toString());
   }
 
-  public void testAppend_toEmpty() {
-    FluentIterable<Integer> result =
-        FluentIterable.<Integer>of().append(Lists.newArrayList(1, 2, 3));
-    assertEquals(asList(1, 2, 3), Lists.newArrayList(result));
-  }
-
   public void testAppend_emptyList() {
     FluentIterable<Integer> result =
         FluentIterable.<Integer>from(asList(1, 2, 3)).append(Lists.<Integer>newArrayList());
     assertEquals(asList(1, 2, 3), Lists.newArrayList(result));
-  }
-
-  public void testAppend_nullPointerException() {
-    try {
-      FluentIterable.<Integer>of().append((List<Integer>) null);
-      fail("Appending null iterable should throw NPE.");
-    } catch (NullPointerException expected) {
-    }
   }
 
   /*
