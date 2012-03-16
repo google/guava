@@ -1,0 +1,52 @@
+// Copyright 2011 Google Inc. All Rights Reserved.
+
+package com.google.common.reflect;
+
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
+
+import java.lang.reflect.Type;
+import java.lang.reflect.TypeVariable;
+
+/**
+ * Captures a free type variable that can be used in {@link TypeToken#where}.
+ * For example: <pre>   {@code
+ *
+ *   static <T> TypeToken<List<T>> listOf(Class<T> elementType) {
+ *     return new TypeToken<List<T>>() {}
+ *         .where(new TypeParameter<T>() {}, elementType);
+ *   }
+ * }</pre>
+ *
+ * @author benyu@google.com (Ben Yu)
+ */
+public abstract class TypeParameter<T> extends TypeCapture<T> {
+
+  final TypeVariable<?> typeVariable;
+
+  private TypeParameter(TypeVariable<?> typeVariable) {
+    this.typeVariable = checkNotNull(typeVariable);
+  }
+
+  protected TypeParameter() {
+    Type type = capture();
+    checkArgument(type instanceof TypeVariable, "%s should be a type variable.", type);
+    this.typeVariable = (TypeVariable<?>) type;
+  }
+
+  @Override public final int hashCode() {
+    return typeVariable.hashCode();
+  }
+
+  @Override public final boolean equals(Object o) {
+    if (o instanceof TypeParameter) {
+      TypeParameter<?> that = (TypeParameter<?>) o;
+      return typeVariable.equals(that.typeVariable);
+    }
+    return false;
+  }
+
+  @Override public String toString() {
+    return typeVariable.toString();
+  }
+}
