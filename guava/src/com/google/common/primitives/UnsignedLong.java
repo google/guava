@@ -1,11 +1,11 @@
 /*
  * Copyright (C) 2011 The Guava Authors
- *
+ * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
- *
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software distributed under the
  * License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
  * express or implied. See the License for the specific language governing permissions and
@@ -27,24 +27,21 @@ import javax.annotation.Nullable;
 
 /**
  * A wrapper class for unsigned {@code long} values, supporting arithmetic operations.
- *
+ * 
  * <p>In some cases, when speed is more important than code readability, it may be faster simply to
  * treat primitive {@code long} values as unsigned, using the methods from {@link UnsignedLongs}.
- *
- * <p><b>Please do not extend this class; it will be made final in the near future.</b>
- *
+ * 
  * <p>See the Guava User Guide article on <a href=
  * "http://code.google.com/p/guava-libraries/wiki/PrimitivesExplained#Unsigned_support">
  * unsigned primitive utilities</a>.
- *
+ * 
  * @author Louis Wasserman
  * @author Colin Evans
  * @since 11.0
  */
 @Beta
 @GwtCompatible(serializable = true)
-public class UnsignedLong extends Number implements Comparable<UnsignedLong>, Serializable {
-  // TODO(user): make final as soon as util.UnsignedLong is migrated over
+public final class UnsignedLong extends Number implements Comparable<UnsignedLong>, Serializable {
 
   private static final long UNSIGNED_MASK = 0x7fffffffffffffffL;
 
@@ -54,14 +51,14 @@ public class UnsignedLong extends Number implements Comparable<UnsignedLong>, Se
 
   private final long value;
 
-  protected UnsignedLong(long value) {
+  private UnsignedLong(long value) {
     this.value = value;
   }
 
   /**
    * Returns an {@code UnsignedLong} that, when treated as signed, is equal to {@code value}. The
    * inverse operation is {@link #longValue()}.
-   *
+   * 
    * <p>Put another way, if {@code value} is negative, the returned result will be equal to
    * {@code 2^64 + value}; otherwise, the returned result will be equal to {@code value}.
    */
@@ -72,7 +69,7 @@ public class UnsignedLong extends Number implements Comparable<UnsignedLong>, Se
   /**
    * Returns a {@code UnsignedLong} representing the same value as the specified {@code BigInteger}
    * . This is the inverse operation of {@link #bigIntegerValue()}.
-   *
+   * 
    * @throws IllegalArgumentException if {@code value} is negative or {@code value >= 2^64}
    */
   public static UnsignedLong valueOf(BigInteger value) {
@@ -85,7 +82,7 @@ public class UnsignedLong extends Number implements Comparable<UnsignedLong>, Se
   /**
    * Returns an {@code UnsignedLong} holding the value of the specified {@code String}, parsed as
    * an unsigned {@code long} value.
-   *
+   * 
    * @throws NumberFormatException if the string does not contain a parsable unsigned {@code long}
    *         value
    */
@@ -96,7 +93,7 @@ public class UnsignedLong extends Number implements Comparable<UnsignedLong>, Se
   /**
    * Returns an {@code UnsignedLong} holding the value of the specified {@code String}, parsed as
    * an unsigned {@code long} value in the specified radix.
-   *
+   * 
    * @throws NumberFormatException if the string does not contain a parsable unsigned {@code long}
    *         value, or {@code radix} is not between {@link Character#MIN_RADIX} and
    *         {@link Character#MAX_RADIX}
@@ -159,7 +156,7 @@ public class UnsignedLong extends Number implements Comparable<UnsignedLong>, Se
   /**
    * Returns the value of this {@code UnsignedLong} as a {@code long}. This is an inverse operation
    * to {@link #asUnsigned}.
-   *
+   * 
    * <p>Note that if this {@code UnsignedLong} holds a value {@code >= 2^63}, the returned value
    * will be equal to {@code this - 2^64}.
    */
