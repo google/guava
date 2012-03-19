@@ -18,6 +18,8 @@ package com.google.common.testing;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import com.google.common.base.Function;
+import com.google.common.base.Supplier;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableMultimap;
@@ -31,6 +33,7 @@ import com.google.common.collect.Multimap;
 import com.google.common.collect.Multiset;
 import com.google.common.collect.Sets;
 import com.google.common.collect.Table;
+import com.google.common.reflect.TypeToken;
 import com.google.common.testing.NullPointerTester.Visibility;
 
 import junit.framework.AssertionFailedError;
@@ -775,6 +778,147 @@ public class NullPointerTesterTest extends TestCase {
 
   public void testEmptyEnumDefaultValue() {
     new EmptyEnumDefaultValueChecker().check();
+  }
+
+  private static class GenericClassTypeDefaultValueChecker
+      extends DefaultValueChecker {
+
+    @SuppressWarnings("unused") // called by NullPointerTester
+    public void checkArray(Class<? extends List<?>> cls, String s) {
+      calledWith(cls, s);
+    }
+
+    void check() {
+      runTester();
+      Class<?> defaultClass = (Class<?>) getDefaultParameterValue(0);
+      assertEquals(List.class, defaultClass);
+    }
+  }
+
+  public void testGenericClassDefaultValue() {
+    new GenericClassTypeDefaultValueChecker().check();
+  }
+
+  private static class NonGenericClassTypeDefaultValueChecker
+      extends DefaultValueChecker {
+
+    @SuppressWarnings("unused") // called by NullPointerTester
+    public void checkArray(Class cls, String s) {
+      calledWith(cls, s);
+    }
+
+    void check() {
+      runTester();
+      Class<?> defaultClass = (Class<?>) getDefaultParameterValue(0);
+      assertEquals(Object.class, defaultClass);
+    }
+  }
+
+  public void testNonGenericClassDefaultValue() {
+    new NonGenericClassTypeDefaultValueChecker().check();
+  }
+
+  private static class GenericTypeTokenDefaultValueChecker
+      extends DefaultValueChecker {
+
+    @SuppressWarnings("unused") // called by NullPointerTester
+    public void checkArray(
+        TypeToken<? extends List<? super Number>> type, String s) {
+      calledWith(type, s);
+    }
+
+    void check() {
+      runTester();
+      TypeToken<?> defaultType = (TypeToken<?>) getDefaultParameterValue(0);
+      assertTrue(new TypeToken<List<? super Number>>() {}
+          .isAssignableFrom(defaultType));
+    }
+  }
+
+  public void testGenericTypeTokenDefaultValue() {
+    new GenericTypeTokenDefaultValueChecker().check();
+  }
+
+  private static class NonGenericTypeTokenDefaultValueChecker
+      extends DefaultValueChecker {
+
+    @SuppressWarnings("unused") // called by NullPointerTester
+    public void checkArray(TypeToken type, String s) {
+      calledWith(type, s);
+    }
+
+    void check() {
+      runTester();
+      TypeToken<?> defaultType = (TypeToken<?>) getDefaultParameterValue(0);
+      assertEquals(new TypeToken<Object>() {}, defaultType);
+    }
+  }
+
+  public void testNonGenericTypeTokenDefaultValue() {
+    new NonGenericTypeTokenDefaultValueChecker().check();
+  }
+
+  private interface FromTo<F, T> extends Function<F, T> {}
+
+  private static class GenericInterfaceDefaultValueChecker
+      extends DefaultValueChecker {
+
+    @SuppressWarnings("unused") // called by NullPointerTester
+    public void checkArray(FromTo<String, Integer> f, String s) {
+      calledWith(f, s);
+    }
+
+    void check() {
+      runTester();
+      FromTo<?, ?> defaultFunction = (FromTo<?, ?>) getDefaultParameterValue(0);
+      assertEquals(0, defaultFunction.apply(null));
+    }
+  }
+
+  public void testGenericInterfaceDefaultValue() {
+    new GenericInterfaceDefaultValueChecker().check();
+  }
+
+  private static class MultipleInterfacesDefaultValueChecker
+      extends DefaultValueChecker {
+
+    @SuppressWarnings("unused") // called by NullPointerTester
+    public <T extends FromTo<String, Integer> & Supplier<Long>> void checkArray(
+        T f, String s) {
+      calledWith(f, s);
+    }
+
+    void check() {
+      runTester();
+      FromTo<?, ?> defaultFunction = (FromTo<?, ?>) getDefaultParameterValue(0);
+      assertEquals(0, defaultFunction.apply(null));
+      Supplier<?> defaultSupplier = (Supplier<?>) defaultFunction;
+      assertEquals(Long.valueOf(0), defaultSupplier.get());
+    }
+  }
+
+  public void testMultipleInterfacesDefaultValue() {
+    new MultipleInterfacesDefaultValueChecker().check();
+  }
+
+  private static class GenericInterface2DefaultValueChecker
+      extends DefaultValueChecker {
+
+    @SuppressWarnings("unused") // called by NullPointerTester
+    public void checkArray(FromTo<String, FromTo<Integer, String>> f, String s) {
+      calledWith(f, s);
+    }
+
+    void check() {
+      runTester();
+      FromTo<?, ?> defaultFunction = (FromTo<?, ?>) getDefaultParameterValue(0);
+      FromTo<?, ?> returnValue = (FromTo<?, ?>) defaultFunction.apply(null);
+      assertEquals("", returnValue.apply(null));
+    }
+  }
+
+  public void tesGenericInterfaceReturnedByGenericMethod() {
+    new GenericInterface2DefaultValueChecker().check();
   }
 
   private static class VisibilityMethods {

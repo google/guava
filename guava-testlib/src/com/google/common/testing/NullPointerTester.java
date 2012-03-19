@@ -17,13 +17,11 @@
 package com.google.common.testing;
 
 import com.google.common.annotations.Beta;
-import com.google.common.base.Function;
-import com.google.common.base.Functions;
-import com.google.common.base.Supplier;
-import com.google.common.base.Suppliers;
 import com.google.common.collect.ClassToInstanceMap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.MutableClassToInstanceMap;
+import com.google.common.reflect.AbstractInvocationHandler;
+import com.google.common.reflect.TypeToken;
 
 import junit.framework.Assert;
 import junit.framework.AssertionFailedError;
@@ -34,8 +32,12 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Member;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Proxy;
+import java.lang.reflect.Type;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 import javax.annotation.Nullable;
 
@@ -63,13 +65,6 @@ public final class NullPointerTester {
     // mutable types
     setDefault(Appendable.class, new StringBuilder());
     setDefault(Throwable.class, new Exception());
-
-    // The following 4 aren't really safe generically
-    // For example, Comparable<String> can't be 0.
-    setDefault(Class.class, Class.class);
-    setDefault(Function.class, Functions.identity());
-    setDefault(Supplier.class, Suppliers.ofInstance(1));
-
   }
 
   /**
@@ -196,15 +191,15 @@ public final class NullPointerTester {
       int paramIndex) {
     method.setAccessible(true);
     testFunctorParameter(instance, new Functor() {
-        @Override public Class<?>[] getParameterTypes() {
-          return method.getParameterTypes();
+        @Override public Type[] getParameterTypes() {
+          return method.getGenericParameterTypes();
         }
         @Override public Annotation[][] getParameterAnnotations() {
           return method.getParameterAnnotations();
         }
-        @Override public void invoke(Object instance, Object[] params)
+        @Override public void invoke(Object object, Object[] params)
             throws InvocationTargetException, IllegalAccessException {
-          method.invoke(instance, params);
+          method.invoke(object, params);
         }
         @Override public String toString() {
           return method.getName()
@@ -223,8 +218,8 @@ public final class NullPointerTester {
       int paramIndex) {
     ctor.setAccessible(true);
     testFunctorParameter(null, new Functor() {
-        @Override public Class<?>[] getParameterTypes() {
-          return ctor.getParameterTypes();
+        @Override public Type[] getParameterTypes() {
+          return ctor.getGenericParameterTypes();
         }
         @Override public Annotation[][] getParameterAnnotations() {
           return ctor.getParameterAnnotations();
@@ -307,7 +302,8 @@ public final class NullPointerTester {
 
   private static boolean parameterIsPrimitiveOrNullable(
       Functor func, int paramIndex) {
-    if (func.getParameterTypes()[paramIndex].isPrimitive()) {
+    if (TypeToken.of(func.getParameterTypes()[paramIndex]).getRawType()
+        .isPrimitive()) {
       return true;
     }
     Annotation[] annotations = func.getParameterAnnotations()[paramIndex];
@@ -320,15 +316,15 @@ public final class NullPointerTester {
   }
 
   private Object[] buildParamList(Functor func, int indexOfParamToSetToNull) {
-    Class<?>[] types = func.getParameterTypes();
+    Type[] types = func.getParameterTypes();
     Object[] params = new Object[types.length];
 
     for (int i = 0; i < types.length; i++) {
       if (i != indexOfParamToSetToNull) {
-        Class<?> type = types[i];
+        TypeToken<?> type = TypeToken.of(types[i]);
         params[i] = getDefaultValue(type);
         if (!parameterIsPrimitiveOrNullable(func, i)) {
-          Assert.assertTrue("No default value found for " + type.getName(),
+          Assert.assertTrue("No default value found for " + type,
               params[i] != null);
         }
       }
@@ -336,16 +332,67 @@ public final class NullPointerTester {
     return params;
   }
 
-  private <T> T getDefaultValue(Class<T> type) {
-    T value = defaults.getInstance(type);
-    if (value != null) {
-      return value;
+  private <T> T getDefaultValue(TypeToken<T> type) {
+    // We assume that all defaults are generics-safe, even if they aren't,
+    // we take the risk.
+    @SuppressWarnings("unchecked")
+    T defaultValue = (T) defaults.getInstance(type.getRawType());
+    if (defaultValue != null) {
+      return defaultValue;
     }
-    return NullValues.get(type);
+    @SuppressWarnings("unchecked") // All null values are generics-safe
+    T nullValue = (T) NullValues.get(type.getRawType());
+    if (nullValue != null) {
+      return nullValue;
+    }
+    if (type.getRawType() == Class.class) {
+      // If parameter is Class<? extends Foo>, we return Foo.class
+      @SuppressWarnings("unchecked")
+      T defaultClass = (T) getFirstTypeParameter(type.getType()).getRawType();
+      return defaultClass;
+    }
+    if (type.getRawType() == TypeToken.class) {
+      // If parameter is TypeToken<? extends Foo>, we return TypeToken<Foo>.
+      @SuppressWarnings("unchecked")
+      T defaultType = (T) getFirstTypeParameter(type.getType());
+      return defaultType;
+    }
+    if (type.getRawType().isInterface()) {
+      return newDefaultReturningProxy(type);
+    }
+    return null;
+  }
+
+  private static TypeToken<?> getFirstTypeParameter(Type type) {
+    if (type instanceof ParameterizedType) {
+      return TypeToken.of(
+          ((ParameterizedType) type).getActualTypeArguments()[0]);
+    } else {
+      return TypeToken.of(Object.class);
+    }
+  }
+
+  @SuppressWarnings("unchecked") // T implemented with dynamic proxy.
+  private <T> T newDefaultReturningProxy(final TypeToken<T> type) {
+    Set<Class<? super T>> interfaceClasses =
+        type.getTypes().interfaces().rawTypes();
+    return (T) Proxy.newProxyInstance(
+        interfaceClasses.iterator().next().getClassLoader(),
+        interfaceClasses.toArray(new Class<?>[interfaceClasses.size()]),
+        new AbstractInvocationHandler() {
+          @Override protected Object handleInvocation(
+              Object proxy, Method method, Object[] args) {
+            return getDefaultValue(
+                type.resolveType(method.getGenericReturnType()));
+          }
+          @Override public String toString() {
+            return "NullPointerTester proxy for " + type;
+          }
+        });
   }
 
   private interface Functor {
-    Class<?>[] getParameterTypes();
+    Type[] getParameterTypes();
     Annotation[][] getParameterAnnotations();
     void invoke(Object o, Object[] params)
         throws InvocationTargetException, IllegalAccessException,
