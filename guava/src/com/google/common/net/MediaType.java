@@ -434,7 +434,7 @@ public final class MediaType {
    * Creates a new media type with the given type and subtype.
    *
    * @throws IllegalArgumentException if type or subtype is invalid or if a wildcard is used for the
-   * subtype, but not the type.
+   * type, but not the subtype.
    */
   public static MediaType create(String type, String subtype) {
     return create(type, subtype, ImmutableListMultimap.<String, String>of());
@@ -493,7 +493,7 @@ public final class MediaType {
     String normalizedType = normalizeToken(type);
     String normalizedSubtype = normalizeToken(subtype);
     checkArgument(!WILDCARD.equals(normalizedType) || WILDCARD.equals(normalizedSubtype),
-        "A wildcard subtype cannot be used with a non-wildcard type");
+        "A wildcard type cannot be used with a non-wildcard subtype");
     final MediaType mediaType;
     if (parameters.isEmpty()) {
       mediaType = new MediaType(normalizedType, normalizedSubtype);
