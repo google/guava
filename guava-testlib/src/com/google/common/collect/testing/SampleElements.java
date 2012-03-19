@@ -62,6 +62,13 @@ public class SampleElements<E> {
     }
   }
 
+  public static class Ints extends SampleElements<Integer> {
+    public Ints() {
+      // elements aren't sorted, to better test SortedSet iteration ordering
+      super(1, 0, 2, 3, 4);
+    }
+  }
+
   public static <K, V> SampleElements<Map.Entry<K, V>> mapEntries(
       SampleElements<K> keys, SampleElements<V> values) {
     return new SampleElements<Map.Entry<K, V>>(

@@ -120,4 +120,9 @@ class EmptyImmutableSortedSet<E> extends ImmutableSortedSet<E> {
   @Override int indexOf(@Nullable Object target) {
     return -1;
   }
+
+  @Override
+  ImmutableSortedSet<E> createDescendingSet() {
+    return new EmptyImmutableSortedSet<E>(Ordering.from(comparator).reverse());
+  }
 }

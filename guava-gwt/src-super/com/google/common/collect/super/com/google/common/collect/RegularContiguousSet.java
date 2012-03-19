@@ -39,28 +39,29 @@ final class RegularContiguousSet<C extends Comparable> extends ContiguousSet<C> 
     this.range = range;
   }
 
-  // Abstract method doesn't exist in GWT emulation
-  /* @Override */ ContiguousSet<C> headSetImpl(C toElement, boolean inclusive) {
-    return range.intersection(Ranges.upTo(toElement, BoundType.forBoolean(inclusive)))
-        .asSet(domain);
+  private ContiguousSet<C> intersectionInCurrentDomain(Range<C> other) {
+    return (range.isConnected(other))
+        ? range.intersection(other).asSet(domain)
+        : new EmptyContiguousSet<C>(domain);
   }
 
-  // Abstract method doesn't exist in GWT emulation
-  /* @Override */ int indexOf(Object target) {
-    return contains(target) ? (int) domain.distance(first(), (C) target) : -1;
+  @Override ContiguousSet<C> headSetImpl(C toElement, boolean inclusive) {
+    return intersectionInCurrentDomain(Ranges.upTo(toElement, BoundType.forBoolean(inclusive)));
   }
 
-  // Abstract method doesn't exist in GWT emulation
-  /* @Override */ ContiguousSet<C> subSetImpl(C fromElement, boolean fromInclusive, C toElement,
+  @Override ContiguousSet<C> subSetImpl(C fromElement, boolean fromInclusive, C toElement,
       boolean toInclusive) {
-    return range.intersection(Ranges.range(fromElement, BoundType.forBoolean(fromInclusive),
-        toElement, BoundType.forBoolean(toInclusive))).asSet(domain);
+    if (fromElement.compareTo(toElement) == 0 && !fromInclusive && !toInclusive) {
+      // Range would reject our attempt to create (x, x).
+      return new EmptyContiguousSet<C>(domain);
+    }
+    return intersectionInCurrentDomain(Ranges.range(
+        fromElement, BoundType.forBoolean(fromInclusive),
+        toElement, BoundType.forBoolean(toInclusive)));
   }
 
-  // Abstract method doesn't exist in GWT emulation
-  /* @Override */ ContiguousSet<C> tailSetImpl(C fromElement, boolean inclusive) {
-    return range.intersection(Ranges.downTo(fromElement, BoundType.forBoolean(inclusive)))
-        .asSet(domain);
+  @Override ContiguousSet<C> tailSetImpl(C fromElement, boolean inclusive) {
+    return intersectionInCurrentDomain(Ranges.downTo(fromElement, BoundType.forBoolean(inclusive)));
   }
 
   @Override public UnmodifiableIterator<C> iterator() {

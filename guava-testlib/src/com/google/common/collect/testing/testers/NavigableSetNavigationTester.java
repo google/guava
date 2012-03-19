@@ -25,21 +25,22 @@ import com.google.common.collect.testing.Helpers;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.NavigableSet;
-import java.util.NoSuchElementException;
+import java.util.TreeSet;
 
 /**
  * A generic JUnit test which tests operations on a NavigableSet. Can't be
- * invoked directly; please see {@code SetTestSuiteBuilder}.
+ * invoked directly; please see {@code NavigableSetTestSuiteBuilder}.
  *
  * @author Jesse Wilson
  * @author Louis Wasserman
  */
-public class SetNavigationTester<E> extends AbstractSetTester<E> {
+public class NavigableSetNavigationTester<E> extends AbstractSetTester<E> {
 
   private NavigableSet<E> navigableSet;
   private List<E> values;
@@ -63,7 +64,7 @@ public class SetNavigationTester<E> extends AbstractSetTester<E> {
       }
     }
   }
-  
+
   /**
    * Resets the contents of navigableSet to have elements a, c, for the
    * navigation tests.
@@ -71,15 +72,6 @@ public class SetNavigationTester<E> extends AbstractSetTester<E> {
   protected void resetWithHole() {
     super.resetContainer(getSubjectGenerator().create(a, c));
     navigableSet = (NavigableSet<E>) getSet();
-  }
-
-  @CollectionSize.Require(ZERO)
-  public void testEmptySetFirst() {
-    try {
-      navigableSet.first();
-      fail();
-    } catch (NoSuchElementException e) {
-    }
   }
 
   @CollectionFeature.Require(SUPPORTS_REMOVE)
@@ -96,24 +88,10 @@ public class SetNavigationTester<E> extends AbstractSetTester<E> {
     assertNull(navigableSet.higher(samples.e0));
   }
 
-  @CollectionSize.Require(ZERO)
-  public void testEmptySetLast() {
-    try {
-      navigableSet.last();
-      fail();
-    } catch (NoSuchElementException e) {
-    }
-  }
-
   @CollectionFeature.Require(SUPPORTS_REMOVE)
   @CollectionSize.Require(ZERO)
   public void testEmptySetPollLast() {
     assertNull(navigableSet.pollLast());
-  }
-
-  @CollectionSize.Require(ONE)
-  public void testSingletonSetFirst() {
-    assertEquals(a, navigableSet.first());
   }
 
   @CollectionFeature.Require(SUPPORTS_REMOVE)
@@ -131,21 +109,11 @@ public class SetNavigationTester<E> extends AbstractSetTester<E> {
     assertNull(navigableSet.higher(samples.e0));
   }
 
-  @CollectionSize.Require(ONE)
-  public void testSingletonSetLast() {
-    assertEquals(a, navigableSet.last());
-  }
-
   @CollectionFeature.Require(SUPPORTS_REMOVE)
   @CollectionSize.Require(ONE)
   public void testSingletonSetPollLast() {
     assertEquals(a, navigableSet.pollLast());
     assertTrue(navigableSet.isEmpty());
-  }
-
-  @CollectionSize.Require(SEVERAL)
-  public void testFirst() {
-    assertEquals(a, navigableSet.first());
   }
 
   @CollectionFeature.Require(SUPPORTS_REMOVE)
@@ -166,14 +134,15 @@ public class SetNavigationTester<E> extends AbstractSetTester<E> {
   }
 
   @CollectionSize.Require(SEVERAL)
-  public void testLower() {
+  public void testLowerHole() {
     resetWithHole();
     assertEquals(null, navigableSet.lower(a));
     assertEquals(a, navigableSet.lower(b));
     assertEquals(a, navigableSet.lower(c));
   }
+
   @CollectionSize.Require(SEVERAL)
-  public void testFloor() {
+  public void testFloorHole() {
     resetWithHole();
     assertEquals(a, navigableSet.floor(a));
     assertEquals(a, navigableSet.floor(b));
@@ -181,7 +150,7 @@ public class SetNavigationTester<E> extends AbstractSetTester<E> {
   }
 
   @CollectionSize.Require(SEVERAL)
-  public void testCeiling() {
+  public void testCeilingHole() {
     resetWithHole();
     assertEquals(a, navigableSet.ceiling(a));
     assertEquals(c, navigableSet.ceiling(b));
@@ -189,16 +158,44 @@ public class SetNavigationTester<E> extends AbstractSetTester<E> {
   }
 
   @CollectionSize.Require(SEVERAL)
-  public void testHigher() {
+  public void testHigherHole() {
     resetWithHole();
     assertEquals(c, navigableSet.higher(a));
     assertEquals(c, navigableSet.higher(b));
     assertEquals(null, navigableSet.higher(c));
   }
 
+  /*
+   * TODO(cpovirk): make "too small" and "too large" elements available for better navigation
+   * testing. At that point, we may be able to eliminate the "hole" tests, which would mean that
+   * ContiguousSet's tests would no longer need to suppress them.
+   */
   @CollectionSize.Require(SEVERAL)
-  public void testLast() {
-    assertEquals(c, navigableSet.last());
+  public void testLower() {
+    assertEquals(null, navigableSet.lower(a));
+    assertEquals(a, navigableSet.lower(b));
+    assertEquals(b, navigableSet.lower(c));
+  }
+
+  @CollectionSize.Require(SEVERAL)
+  public void testFloor() {
+    assertEquals(a, navigableSet.floor(a));
+    assertEquals(b, navigableSet.floor(b));
+    assertEquals(c, navigableSet.floor(c));
+  }
+
+  @CollectionSize.Require(SEVERAL)
+  public void testCeiling() {
+    assertEquals(a, navigableSet.ceiling(a));
+    assertEquals(b, navigableSet.ceiling(b));
+    assertEquals(c, navigableSet.ceiling(c));
+  }
+
+  @CollectionSize.Require(SEVERAL)
+  public void testHigher() {
+    assertEquals(b, navigableSet.higher(a));
+    assertEquals(c, navigableSet.higher(b));
+    assertEquals(null, navigableSet.higher(c));
   }
 
   @CollectionFeature.Require(SUPPORTS_REMOVE)
@@ -226,5 +223,35 @@ public class SetNavigationTester<E> extends AbstractSetTester<E> {
     }
     Collections.reverse(descending);
     assertEquals(values, descending);
+  }
+
+  public void testEmptySubSet() {
+    NavigableSet<E> empty = navigableSet.subSet(samples.e0, false, samples.e0, false);
+    assertEquals(new TreeSet<E>(), empty);
+  }
+
+  /*
+   * TODO(cpovirk): more testing of subSet/headSet/tailSet/descendingSet? and/or generate derived
+   * suites?
+   */
+
+  /**
+   * Returns the {@link Method} instances for the test methods in this class that create a set with
+   * a "hole" in it so that set tests of {@code ContiguousSet} can suppress them with {@code
+   * FeatureSpecificTestSuiteBuilder.suppressing()}.
+   */
+  /*
+   * TODO(cpovirk): or we could make HOLES_FORBIDDEN a feature. Or we could declare that
+   * implementations are permitted to throw IAE if a hole is requested, and we could update
+   * test*Hole to permit IAE. (But might this ignore genuine bugs?) But see the TODO above
+   * testLower, which could make this all unnecessary
+   */
+  public static Method[] getHoleMethods() {
+    return new Method[] {
+        Platform.getMethod(NavigableSetNavigationTester.class, "testLowerHole"),
+        Platform.getMethod(NavigableSetNavigationTester.class, "testFloorHole"),
+        Platform.getMethod(NavigableSetNavigationTester.class, "testCeilingHole"),
+        Platform.getMethod(NavigableSetNavigationTester.class, "testHigherHole"),
+    };
   }
 }

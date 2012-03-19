@@ -17,7 +17,7 @@
 package com.google.common.collect.testing;
 
 import com.google.common.collect.testing.features.Feature;
-import com.google.common.collect.testing.testers.MapNavigationTester;
+import com.google.common.collect.testing.testers.NavigableMapNavigationTester;
 
 import junit.framework.TestSuite;
 
@@ -45,7 +45,7 @@ public class NavigableMapTestSuiteBuilder<K, V> extends MapTestSuiteBuilder<K, V
 
   @Override protected List<Class<? extends AbstractTester>> getTesters() {
     List<Class<? extends AbstractTester>> testers = Helpers.copyToList(super.getTesters());
-    testers.add(MapNavigationTester.class);
+    testers.add(NavigableMapNavigationTester.class);
     return testers;
   }
 

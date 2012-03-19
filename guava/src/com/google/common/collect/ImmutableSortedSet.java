@@ -20,6 +20,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.GwtIncompatible;
 
 import java.io.InvalidObjectException;
 import java.io.ObjectInputStream;
@@ -31,6 +32,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
+import java.util.NavigableSet;
 import java.util.SortedSet;
 
 import javax.annotation.Nullable;
@@ -77,7 +79,7 @@ import javax.annotation.Nullable;
  * <p><b>Note:</b> Although this class is not final, it cannot be subclassed as
  * it has no public or protected constructors. Thus, instances of this type are
  * guaranteed to be immutable.
- * 
+ *
  * <p>See the Guava User Guide article on <a href=
  * "http://code.google.com/p/guava-libraries/wiki/ImmutableCollectionsExplained">
  * immutable collections</a>.
@@ -85,13 +87,13 @@ import javax.annotation.Nullable;
  * @see ImmutableSet
  * @author Jared Levy
  * @author Louis Wasserman
- * @since 2.0 (imported from Google Collections Library)
+ * @since 2.0 (imported from Google Collections Library; implements {@code NavigableSet} since 12.0)
  */
 // TODO(benyu): benchmark and optimize all creation paths, which are a mess now
 @GwtCompatible(serializable = true, emulated = true)
 @SuppressWarnings("serial") // we're overriding default serialization
 public abstract class ImmutableSortedSet<E> extends ImmutableSortedSetFauxverideShim<E>
-    implements SortedSet<E>, SortedIterable<E> {
+    implements NavigableSet<E>, SortedIterable<E> {
 
   private static final Comparator<Comparable> NATURAL_ORDER =
       Ordering.natural();
@@ -180,7 +182,7 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSortedSetFauxveride
       E e1, E e2, E e3, E e4, E e5) {
     return copyOf(Ordering.natural(), Arrays.asList(e1, e2, e3, e4, e5));
   }
-  
+
   /**
    * Returns an immutable sorted set containing the given elements sorted by
    * their natural ordering. When multiple elements are equivalent according to
@@ -602,7 +604,12 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSortedSetFauxveride
     return headSet(toElement, false);
   }
 
-  ImmutableSortedSet<E> headSet(E toElement, boolean inclusive) {
+  /**
+   * @since 12.0
+   */
+  @GwtIncompatible("NavigableSet")
+  @Override
+  public ImmutableSortedSet<E> headSet(E toElement, boolean inclusive) {
     return headSetImpl(checkNotNull(toElement), inclusive);
   }
 
@@ -624,7 +631,12 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSortedSetFauxveride
     return subSet(fromElement, true, toElement, false);
   }
 
-  ImmutableSortedSet<E> subSet(
+  /**
+   * @since 12.0
+   */
+  @GwtIncompatible("NavigableSet")
+  @Override
+  public ImmutableSortedSet<E> subSet(
       E fromElement, boolean fromInclusive, E toElement, boolean toInclusive) {
     checkNotNull(fromElement);
     checkNotNull(toElement);
@@ -648,7 +660,12 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSortedSetFauxveride
     return tailSet(fromElement, true);
   }
 
-  ImmutableSortedSet<E> tailSet(E fromElement, boolean inclusive) {
+  /**
+   * @since 12.0
+   */
+  @GwtIncompatible("NavigableSet")
+  @Override
+  public ImmutableSortedSet<E> tailSet(E fromElement, boolean inclusive) {
     return tailSetImpl(checkNotNull(fromElement), inclusive);
   }
 
@@ -662,6 +679,89 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSortedSetFauxveride
       E fromElement, boolean fromInclusive, E toElement, boolean toInclusive);
 
   abstract ImmutableSortedSet<E> tailSetImpl(E fromElement, boolean inclusive);
+
+  /**
+   * @since 12.0
+   */
+  @GwtIncompatible("NavigableSet")
+  @Override
+  public E lower(E e) {
+    return Iterables.getFirst(headSet(e, false).descendingSet(), null);
+  }
+
+  /**
+   * @since 12.0
+   */
+  @GwtIncompatible("NavigableSet")
+  @Override
+  public E floor(E e) {
+    return Iterables.getFirst(headSet(e, true).descendingSet(), null);
+  }
+
+  /**
+   * @since 12.0
+   */
+  @GwtIncompatible("NavigableSet")
+  @Override
+  public E ceiling(E e) {
+    return Iterables.getFirst(tailSet(e, true), null);
+  }
+
+  /**
+   * @since 12.0
+   */
+  @GwtIncompatible("NavigableSet")
+  @Override
+  public E higher(E e) {
+    return Iterables.getFirst(tailSet(e, false), null);
+  }
+
+  /**
+   * @since 12.0
+   */
+  @GwtIncompatible("NavigableSet")
+  @Override
+  public final E pollFirst() {
+    throw new UnsupportedOperationException();
+  }
+
+  /**
+   * @since 12.0
+   */
+  @GwtIncompatible("NavigableSet")
+  @Override
+  public final E pollLast() {
+    throw new UnsupportedOperationException();
+  }
+
+  @GwtIncompatible("NavigableSet")
+  transient ImmutableSortedSet<E> descendingSet;
+
+  /**
+   * @since 12.0
+   */
+  @GwtIncompatible("NavigableSet")
+  @Override
+  public ImmutableSortedSet<E> descendingSet() {
+    ImmutableSortedSet<E> result = descendingSet;
+    if (result == null) {
+      result = descendingSet = createDescendingSet();
+      result.descendingSet = this;
+    }
+    return result;
+  }
+
+  @GwtIncompatible("NavigableSet")
+  abstract ImmutableSortedSet<E> createDescendingSet();
+
+  /**
+   * @since 12.0
+   */
+  @GwtIncompatible("NavigableSet")
+  @Override
+  public UnmodifiableIterator<E> descendingIterator() {
+    return descendingSet().iterator();
+  }
 
   /**
    * Returns the position of an element within the set, or -1 if not present.

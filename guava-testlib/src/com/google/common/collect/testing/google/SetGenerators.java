@@ -16,19 +16,29 @@
 
 package com.google.common.collect.testing.google;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.collect.Lists.newArrayList;
+import static com.google.common.collect.Sets.newTreeSet;
 import static com.google.common.collect.testing.SampleElements.Strings.AFTER_LAST;
 import static com.google.common.collect.testing.SampleElements.Strings.AFTER_LAST_2;
 import static com.google.common.collect.testing.SampleElements.Strings.BEFORE_FIRST;
 import static com.google.common.collect.testing.SampleElements.Strings.BEFORE_FIRST_2;
+import static junit.framework.Assert.assertEquals;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.GwtIncompatible;
+import com.google.common.collect.ContiguousSet;
+import com.google.common.collect.DiscreteDomains;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSortedSet;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Ordering;
+import com.google.common.collect.Range;
+import com.google.common.collect.Ranges;
 import com.google.common.collect.Sets;
 import com.google.common.collect.testing.TestCollectionGenerator;
 import com.google.common.collect.testing.TestCollidingSetGenerator;
+import com.google.common.collect.testing.TestIntegerSortedSetGenerator;
 import com.google.common.collect.testing.TestSetGenerator;
 import com.google.common.collect.testing.TestStringListGenerator;
 import com.google.common.collect.testing.TestStringSetGenerator;
@@ -45,12 +55,12 @@ import java.util.SortedSet;
 
 /**
  * Generators of different types of sets and derived collections from sets.
- * 
+ *
  * @author Kevin Bourrillion
  * @author Jared Levy
  * @author Hayward Chan
  */
-@GwtCompatible
+@GwtCompatible(emulated = true)
 public class SetGenerators {
 
   public static class ImmutableSetCopyOfGenerator extends TestStringSetGenerator {
@@ -117,6 +127,18 @@ public class SetGenerators {
       list.add("zzz");
       return ImmutableSortedSet.copyOf(list)
           .subSet("\0\0", "zzy");
+    }
+  }
+
+  @GwtIncompatible("NavigableSet")
+  public static class ImmutableSortedSetDescendingGenerator
+      extends TestStringSortedSetGenerator {
+    @Override protected SortedSet<String> create(String[] elements) {
+      return ImmutableSortedSet
+          .<String>reverseOrder()
+          .add(elements)
+          .build()
+          .descendingSet();
     }
   }
 
@@ -210,6 +232,20 @@ public class SetGenerators {
     }
   }
 
+  @GwtIncompatible("NavigableSet")
+  public static class ImmutableSortedSetDescendingAsListGenerator
+      extends TestStringListGenerator {
+    @Override protected List<String> create(String[] elements) {
+      Comparator<String> comparator = createExplicitComparator(elements).reverse();
+      return ImmutableSortedSet
+          .orderedBy(comparator)
+          .add(elements)
+          .build()
+          .descendingSet()
+          .asList();
+    }
+  }
+
   public static class ImmutableSortedSetAsListSubListGenerator
       extends TestStringListGenerator {
     @Override protected List<String> create(String[] elements) {
@@ -245,7 +281,7 @@ public class SetGenerators {
       implements TestSetGenerator<UnhashableObject> {
   }
 
-  private static Comparator<String> createExplicitComparator(
+  private static Ordering<String> createExplicitComparator(
       String[] elements) {
     // Collapse equal elements, which Ordering.explicit() doesn't support, while
     // maintaining the ordering by first occurrence.
@@ -256,5 +292,98 @@ public class SetGenerators {
     elementsPlus.add(AFTER_LAST);
     elementsPlus.add(AFTER_LAST_2);
     return Ordering.explicit(Lists.newArrayList(elementsPlus));
+  }
+
+  /*
+   * All the ContiguousSet generators below manually reject nulls here. In principle, we'd like to
+   * defer that to Range, since it's Range.asSet() that's used to create the sets. However, that
+   * gets messy here, and we already have null tests for Range.
+   */
+
+  /*
+   * These generators also rely on consecutive integer inputs (not necessarily in order, but no
+   * holes).
+   */
+
+  // SetCreationTester has some tests that pass in duplicates. Dedup them.
+  private static <E extends Comparable<? super E>> SortedSet<E> nullCheckedTreeSet(E[] elements) {
+    SortedSet<E> set = newTreeSet();
+    for (E element : elements) {
+      // Explicit null check because TreeSet wrongly accepts add(null) when empty.
+      set.add(checkNotNull(element));
+    }
+    return set;
+  }
+
+  public static class ContiguousSetGenerator extends AbstractContiguousSetGenerator {
+    @Override protected SortedSet<Integer> create(Integer[] elements) {
+      return checkedCreate(nullCheckedTreeSet(elements));
+    }
+  }
+
+  public static class ContiguousSetHeadsetGenerator extends AbstractContiguousSetGenerator {
+    @Override protected SortedSet<Integer> create(Integer[] elements) {
+      SortedSet<Integer> set = nullCheckedTreeSet(elements);
+      int tooHigh = (set.isEmpty()) ? 0 : set.last() + 1;
+      set.add(tooHigh);
+      return checkedCreate(set).headSet(tooHigh);
+    }
+  }
+
+  public static class ContiguousSetTailsetGenerator extends AbstractContiguousSetGenerator {
+    @Override protected SortedSet<Integer> create(Integer[] elements) {
+      SortedSet<Integer> set = nullCheckedTreeSet(elements);
+      int tooLow = (set.isEmpty()) ? 0 : set.first() - 1;
+      set.add(tooLow);
+      return checkedCreate(set).tailSet(tooLow + 1);
+    }
+  }
+
+  public static class ContiguousSetSubsetGenerator extends AbstractContiguousSetGenerator {
+    @Override protected SortedSet<Integer> create(Integer[] elements) {
+      SortedSet<Integer> set = nullCheckedTreeSet(elements);
+      if (set.isEmpty()) {
+        /*
+         * The (tooLow + 1, tooHigh) arguments below would be invalid because tooLow would be
+         * greater than tooHigh.
+         */
+        return Ranges.openClosed(0, 1).asSet(DiscreteDomains.integers()).subSet(0, 1);
+      }
+      int tooHigh = set.last() + 1;
+      int tooLow = set.first() - 1;
+      set.add(tooHigh);
+      set.add(tooLow);
+      return checkedCreate(set).subSet(tooLow + 1, tooHigh);
+    }
+  }
+
+  @GwtIncompatible("NavigableSet")
+  public static class ContiguousSetDescendingGenerator extends AbstractContiguousSetGenerator {
+    @Override protected SortedSet<Integer> create(Integer[] elements) {
+      return checkedCreate(nullCheckedTreeSet(elements)).descendingSet();
+    }
+
+    /** Sorts the elements in reverse natural order. */
+    @Override public List<Integer> order(List<Integer> insertionOrder) {
+      Collections.sort(insertionOrder, Ordering.natural().reverse());
+      return insertionOrder;
+    }
+  }
+
+  private abstract static class AbstractContiguousSetGenerator
+      extends TestIntegerSortedSetGenerator {
+    protected final ContiguousSet<Integer> checkedCreate(SortedSet<Integer> elementsSet) {
+      List<Integer> elements = newArrayList(elementsSet);
+      /*
+       * A ContiguousSet can't have holes. If a test demands a hole, it should be changed so that it
+       * doesn't need one, or it should be suppressed for ContiguousSet.
+       */
+      for (int i = 0; i < elements.size() - 1; i++) {
+        assertEquals(elements.get(i) + 1, (int) elements.get(i + 1));
+      }
+      Range<Integer> range =
+          (elements.isEmpty()) ? Ranges.closedOpen(0, 0) : Ranges.encloseAll(elements);
+      return range.asSet(DiscreteDomains.integers());
+    }
   }
 }

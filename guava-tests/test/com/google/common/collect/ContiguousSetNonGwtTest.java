@@ -16,25 +16,23 @@
 
 package com.google.common.collect;
 
-import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.collect.DiscreteDomains.integers;
+import static com.google.common.collect.testing.features.CollectionFeature.ALLOWS_NULL_QUERIES;
+import static com.google.common.collect.testing.features.CollectionFeature.KNOWN_ORDER;
+import static com.google.common.collect.testing.features.CollectionFeature.NON_STANDARD_TOSTRING;
+import static com.google.common.collect.testing.features.CollectionFeature.RESTRICTS_ELEMENTS;
+import static com.google.common.collect.testing.testers.NavigableSetNavigationTester.getHoleMethods;
 
-import com.google.common.collect.testing.SampleElements;
-import com.google.common.collect.testing.SetTestSuiteBuilder;
-import com.google.common.collect.testing.TestSetGenerator;
-import com.google.common.collect.testing.features.CollectionFeature;
+import com.google.common.collect.testing.NavigableSetTestSuiteBuilder;
 import com.google.common.collect.testing.features.CollectionSize;
-import com.google.common.collect.testing.testers.SetHashCodeTester;
+import com.google.common.collect.testing.google.SetGenerators.ContiguousSetDescendingGenerator;
+import com.google.common.collect.testing.google.SetGenerators.ContiguousSetGenerator;
+import com.google.common.collect.testing.google.SetGenerators.ContiguousSetHeadsetGenerator;
+import com.google.common.collect.testing.google.SetGenerators.ContiguousSetSubsetGenerator;
+import com.google.common.collect.testing.google.SetGenerators.ContiguousSetTailsetGenerator;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
-
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
-import java.util.SortedSet;
-import java.util.TreeSet;
 
 /**
  * @author Gregory Kick
@@ -44,59 +42,47 @@ public class ContiguousSetNonGwtTest extends TestCase {
     public static Test suite() {
       TestSuite suite = new TestSuite();
 
-      suite.addTest(
-          SetTestSuiteBuilder
-              .using(
-                  new TestIntegerSetGenerator() {
-                    @Override
-                    protected Set<Integer> create(Integer[] elements) {
-                      // reject duplicates at creation, just so that I can use
-                      // that SetFeature below, which stops a test from running
-                      // that doesn't work. hack!
-                      SortedSet<Integer> set = new TreeSet<Integer>();
-                      Collections.addAll(set, elements);
-                      checkArgument(set.size() == elements.length);
-                      return Ranges.closed(set.first(), set.last()).asSet(integers());
-                    }
-                  })
-              .withFeatures(
-                  CollectionSize.ONE,
-                  CollectionSize.SEVERAL,
-                  CollectionFeature.KNOWN_ORDER,
-                  CollectionFeature.ALLOWS_NULL_QUERIES,
-                  CollectionFeature.NON_STANDARD_TOSTRING,
-                  CollectionFeature.RESTRICTS_ELEMENTS,
-                  CollectionFeature.REJECTS_DUPLICATES_AT_CREATION)
-              .suppressing(SetHashCodeTester.getHashCodeMethods())
-              .named("DiscreteRange.asSet, closed")
-              .createTestSuite());
+      suite.addTest(NavigableSetTestSuiteBuilder.using(
+          new ContiguousSetGenerator())
+          .named("Range.asSet")
+          .withFeatures(CollectionSize.ANY, KNOWN_ORDER, ALLOWS_NULL_QUERIES,
+              NON_STANDARD_TOSTRING, RESTRICTS_ELEMENTS)
+          .suppressing(getHoleMethods())
+          .createTestSuite());
+
+      suite.addTest(NavigableSetTestSuiteBuilder.using(
+          new ContiguousSetHeadsetGenerator())
+          .named("Range.asSet, headset")
+          .withFeatures(CollectionSize.ANY, KNOWN_ORDER, ALLOWS_NULL_QUERIES,
+              NON_STANDARD_TOSTRING, RESTRICTS_ELEMENTS)
+          .suppressing(getHoleMethods())
+          .createTestSuite());
+
+      suite.addTest(NavigableSetTestSuiteBuilder.using(
+          new ContiguousSetTailsetGenerator())
+          .named("Range.asSet, tailset")
+          .withFeatures(CollectionSize.ANY, KNOWN_ORDER, ALLOWS_NULL_QUERIES,
+              NON_STANDARD_TOSTRING, RESTRICTS_ELEMENTS)
+          .suppressing(getHoleMethods())
+          .createTestSuite());
+
+      suite.addTest(NavigableSetTestSuiteBuilder.using(
+          new ContiguousSetSubsetGenerator())
+          .named("Range.asSet, subset")
+          .withFeatures(CollectionSize.ANY, KNOWN_ORDER, ALLOWS_NULL_QUERIES,
+              NON_STANDARD_TOSTRING, RESTRICTS_ELEMENTS)
+          .suppressing(getHoleMethods())
+          .createTestSuite());
+
+      suite.addTest(NavigableSetTestSuiteBuilder.using(
+          new ContiguousSetDescendingGenerator())
+          .named("Range.asSet.descendingSet")
+          .withFeatures(CollectionSize.ANY, KNOWN_ORDER, ALLOWS_NULL_QUERIES,
+              NON_STANDARD_TOSTRING, RESTRICTS_ELEMENTS)
+          .suppressing(getHoleMethods())
+          .createTestSuite());
 
       return suite;
-    }
-  }
-
-  abstract static class TestIntegerSetGenerator implements TestSetGenerator<Integer> {
-    @Override public SampleElements<Integer> samples() {
-      return new SampleElements<Integer>(1, 2, 3, 4, 5);
-    }
-
-    @Override public Set<Integer> create(Object... elements) {
-      Integer[] array = new Integer[elements.length];
-      int i = 0;
-      for (Object e : elements) {
-        array[i++] = (Integer) e;
-      }
-      return create(array);
-    }
-
-    protected abstract Set<Integer> create(Integer[] elements);
-
-    @Override public Integer[] createArray(int length) {
-      return new Integer[length];
-    }
-
-    @Override public List<Integer> order(List<Integer> insertionOrder) {
-      return Ordering.natural().sortedCopy(insertionOrder);
     }
   }
 

@@ -116,11 +116,7 @@ public class ContiguousSetTest extends TestCase {
   }
 
   public void testHeadSet_tooSmall() {
-    ImmutableSortedSet<Integer> set = Ranges.closed(1, 3).asSet(integers());
-    try {
-      set.headSet(0);
-      fail();
-    } catch (IllegalArgumentException e) {}
+    assertEmpty(Ranges.closed(1, 3).asSet(integers()).headSet(0));
   }
 
   public void testTailSet() {
@@ -136,11 +132,7 @@ public class ContiguousSetTest extends TestCase {
   }
 
   public void testTailSet_tooLarge() {
-    ImmutableSortedSet<Integer> set = Ranges.closed(1, 3).asSet(integers());
-    try {
-      set.tailSet(4);
-      fail();
-    } catch (IllegalArgumentException e) {}
+    assertEmpty(Ranges.closed(1, 3).asSet(integers()).tailSet(4));
   }
 
   public void testSubSet() {
@@ -169,19 +161,11 @@ public class ContiguousSetTest extends TestCase {
   }
 
   public void testSubSet_tooLarge() {
-    ImmutableSortedSet<Integer> set = Ranges.closed(1, 3).asSet(integers());
-    try {
-      set.subSet(4, 6);
-      fail();
-    } catch (IllegalArgumentException expected) {}
+    assertEmpty(Ranges.closed(1, 3).asSet(integers()).subSet(4, 6));
   }
 
   public void testSubSet_tooSmall() {
-    ImmutableSortedSet<Integer> set = Ranges.closed(1, 3).asSet(integers());
-    try {
-      set.subSet(-1, 0);
-      fail();
-    } catch (IllegalArgumentException expected) {}
+    assertEmpty(Ranges.closed(1, 3).asSet(integers()).subSet(-1, 0));
   }
 
   public void testFirst() {
@@ -274,5 +258,9 @@ public class ContiguousSetTest extends TestCase {
     ContiguousSet<Integer> set = Ranges.closed(1, 3).asSet(integers());
     assertEquals(ImmutableSet.of(1, 2, 3), Ranges.open(-1, 4).asSet(integers()).intersection(set));
     assertEquals(ImmutableSet.of(1, 2, 3), set.intersection(Ranges.open(-1, 4).asSet(integers())));
+  }
+
+  private static void assertEmpty(Set<?> set) {
+    ASSERT.that(set).isEmpty();
   }
 }

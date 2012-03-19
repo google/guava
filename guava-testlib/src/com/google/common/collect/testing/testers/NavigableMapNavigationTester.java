@@ -40,7 +40,7 @@ import java.util.NoSuchElementException;
  * @author Jesse Wilson
  * @author Louis Wasserman
  */
-public class MapNavigationTester<K, V> extends AbstractMapTester<K, V> {
+public class NavigableMapNavigationTester<K, V> extends AbstractMapTester<K, V> {
 
   private NavigableMap<K, V> navigableMap;
   private List<Entry<K, V>> entries;
@@ -112,7 +112,7 @@ public class MapNavigationTester<K, V> extends AbstractMapTester<K, V> {
       fail();
     } catch (NoSuchElementException e) {
     }
-  }  
+  }
 
   @MapFeature.Require(SUPPORTS_REMOVE)
   @CollectionSize.Require(ZERO)
@@ -180,7 +180,7 @@ public class MapNavigationTester<K, V> extends AbstractMapTester<K, V> {
     } catch (UnsupportedOperationException e) {
     }
   }
-  
+
   @CollectionSize.Require(SEVERAL)
   public void testLower() {
     resetWithHole();
@@ -191,7 +191,7 @@ public class MapNavigationTester<K, V> extends AbstractMapTester<K, V> {
     assertEquals(a, navigableMap.lowerEntry(c.getKey()));
     assertEquals(a.getKey(), navigableMap.lowerKey(c.getKey()));
   }
-  
+
   @CollectionSize.Require(SEVERAL)
   public void testFloor() {
     resetWithHole();
@@ -224,13 +224,13 @@ public class MapNavigationTester<K, V> extends AbstractMapTester<K, V> {
     assertEquals(null, navigableMap.higherEntry(c.getKey()));
     assertEquals(null, navigableMap.higherKey(c.getKey()));
   }
-  
+
   @CollectionSize.Require(SEVERAL)
   public void testLast() {
     assertEquals(c, navigableMap.lastEntry());
     assertEquals(c.getKey(), navigableMap.lastKey());
   }
-  
+
   @MapFeature.Require(SUPPORTS_REMOVE)
   @CollectionSize.Require(SEVERAL)
   public void testPollLast() {
@@ -247,7 +247,7 @@ public class MapNavigationTester<K, V> extends AbstractMapTester<K, V> {
       fail();
     } catch (UnsupportedOperationException e) {
     }
-  }  
+  }
 
   @CollectionSize.Require(SEVERAL)
   public void testDescendingNavigation() {

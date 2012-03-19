@@ -19,9 +19,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.annotations.GwtIncompatible;
-
-import java.util.NoSuchElementException;
 
 /**
  * A sorted set of contiguous values in a given {@link DiscreteDomain}.
@@ -44,14 +41,6 @@ public abstract class ContiguousSet<C extends Comparable> extends ImmutableSorte
     return headSetImpl(checkNotNull(toElement), false);
   }
 
-  /**
-   * @since 12.0
-   */
-  @GwtIncompatible("NavigableSet")
-  @Override public ContiguousSet<C> headSet(C toElement, boolean inclusive) {
-    return headSetImpl(checkNotNull(toElement), inclusive);
-  }
-
   @Override public ContiguousSet<C> subSet(C fromElement, C toElement) {
     checkNotNull(fromElement);
     checkNotNull(toElement);
@@ -59,28 +48,8 @@ public abstract class ContiguousSet<C extends Comparable> extends ImmutableSorte
     return subSetImpl(fromElement, true, toElement, false);
   }
 
-  /**
-   * @since 12.0
-   */
-  @GwtIncompatible("NavigableSet")
-  @Override public ContiguousSet<C> subSet(C fromElement, boolean fromInclusive, C toElement,
-      boolean toInclusive) {
-    checkNotNull(fromElement);
-    checkNotNull(toElement);
-    checkArgument(comparator().compare(fromElement, toElement) <= 0);
-    return subSetImpl(fromElement, fromInclusive, toElement, toInclusive);
-  }
-
   @Override public ContiguousSet<C> tailSet(C fromElement) {
     return tailSetImpl(checkNotNull(fromElement), true);
-  }
-
-  /**
-   * @since 12.0
-   */
-  @GwtIncompatible("NavigableSet")
-  @Override public ContiguousSet<C> tailSet(C fromElement, boolean inclusive) {
-    return tailSetImpl(checkNotNull(fromElement), inclusive);
   }
 
   /*
@@ -127,3 +96,4 @@ public abstract class ContiguousSet<C extends Comparable> extends ImmutableSorte
     return range().toString();
   }
 }
+

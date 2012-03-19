@@ -84,7 +84,7 @@ final class RegularImmutableSortedSet<E> extends ImmutableSortedSet<E> {
     // targets.size() < size() / log(size())
     // TODO(kevinb): see if we can share code with OrderedIterator after it
     // graduates from labs.
-    if (!SortedIterables.hasSameComparator(comparator(), targets) 
+    if (!SortedIterables.hasSameComparator(comparator(), targets)
         || (targets.size() <= 1)) {
       return super.containsAll(targets);
     }
@@ -126,10 +126,10 @@ final class RegularImmutableSortedSet<E> extends ImmutableSortedSet<E> {
   }
 
   private int binarySearch(Object key) {
-    // TODO(kevinb): split this into binarySearch(E) and 
+    // TODO(kevinb): split this into binarySearch(E) and
     // unsafeBinarySearch(Object), use each appropriately. name all methods that
     // might throw CCE "unsafe*".
-    
+
     // Pretend the comparator can compare anything. If it turns out it can't
     // compare a and b, we should get a CCE on the subsequent line. Only methods
     // that are spec'd to throw CCE should call this.
@@ -255,14 +255,14 @@ final class RegularImmutableSortedSet<E> extends ImmutableSortedSet<E> {
     }
     int position;
     try {
-      position = SortedLists.binarySearch(elements, (E) target, comparator(), 
+      position = SortedLists.binarySearch(elements, (E) target, comparator(),
           ANY_PRESENT, INVERTED_INSERTION_INDEX);
     } catch (ClassCastException e) {
       return -1;
     }
-    // TODO(kevinb): reconsider if it's really worth making feeble attempts at 
+    // TODO(kevinb): reconsider if it's really worth making feeble attempts at
     // sanity for inconsistent comparators.
-    
+
     // The equals() check is needed when the comparator isn't compatible with
     // equals().
     return (position >= 0 && elements.get(position).equals(target))
@@ -271,5 +271,11 @@ final class RegularImmutableSortedSet<E> extends ImmutableSortedSet<E> {
 
   @Override ImmutableList<E> createAsList() {
     return new ImmutableSortedAsList<E>(this, elements);
+  }
+
+  @Override
+  ImmutableSortedSet<E> createDescendingSet() {
+    return new RegularImmutableSortedSet<E>(elements.reverse(),
+        Ordering.from(comparator).reverse());
   }
 }

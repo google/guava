@@ -16,8 +16,8 @@
 
 package com.google.common.collect;
 
-import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -246,6 +246,19 @@ public abstract class ImmutableSortedSet<E>
 
   private transient final SortedSet<E> sortedDelegate;
 
+  /**
+   * Scary constructor for ContiguousSet. This constructor (in this file, the
+   * GWT emulation of ImmutableSortedSet) creates an empty sortedDelegate,
+   * which, in a vacuum, sets this object's contents to empty.  By contrast,
+   * the non-GWT constructor with the same signature uses the comparator only
+   * as a comparator. It does NOT assume empty contents. (It requires an
+   * implementation of iterator() to define its contents, and methods like
+   * contains() are implemented in terms of that method (though they will
+   * likely be overridden by subclasses for performance reasons).) This means
+   * that a call to this method have can different behavior in GWT and non-GWT
+   * environments UNLESS subclasses are careful to always override all methods
+   * implemented in terms of sortedDelegate (except comparator()).
+   */
   ImmutableSortedSet(Comparator<? super E> comparator) {
     this(Sets.newTreeSet(comparator));
   }

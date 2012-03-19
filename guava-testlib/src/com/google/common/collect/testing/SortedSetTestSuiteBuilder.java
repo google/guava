@@ -16,20 +16,19 @@
 
 package com.google.common.collect.testing;
 
-import com.google.common.collect.testing.testers.NavigableSetNavigationTester;
+import com.google.common.collect.testing.testers.SortedSetNavigationTester;
 
 import java.util.List;
 
 /**
  * Creates, based on your criteria, a JUnit test suite that exhaustively tests
- * a NavigableSet implementation.
+ * a SortedSet implementation.
  */
-public final class NavigableSetTestSuiteBuilder<E>
-    extends SortedSetTestSuiteBuilder<E> {
-  public static <E> NavigableSetTestSuiteBuilder<E> using(
+public class SortedSetTestSuiteBuilder<E> extends SetTestSuiteBuilder<E> {
+  public static <E> SortedSetTestSuiteBuilder<E> using(
       TestSetGenerator<E> generator) {
-    NavigableSetTestSuiteBuilder<E> builder =
-        new NavigableSetTestSuiteBuilder<E>();
+    SortedSetTestSuiteBuilder<E> builder =
+        new SortedSetTestSuiteBuilder<E>();
     builder.usingGenerator(generator);
     return builder;
   }
@@ -37,7 +36,7 @@ public final class NavigableSetTestSuiteBuilder<E>
   @Override protected List<Class<? extends AbstractTester>> getTesters() {
     List<Class<? extends AbstractTester>> testers =
         Helpers.copyToList(super.getTesters());
-    testers.add(NavigableSetNavigationTester.class);
+    testers.add(SortedSetNavigationTester.class);
     return testers;
   }
 }

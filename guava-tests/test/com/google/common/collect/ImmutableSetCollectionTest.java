@@ -18,6 +18,7 @@ package com.google.common.collect;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.testing.ListTestSuiteBuilder;
+import com.google.common.collect.testing.NavigableSetTestSuiteBuilder;
 import com.google.common.collect.testing.SetTestSuiteBuilder;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
@@ -28,6 +29,8 @@ import com.google.common.collect.testing.google.SetGenerators.ImmutableSetWithBa
 import com.google.common.collect.testing.google.SetGenerators.ImmutableSortedSetAsListGenerator;
 import com.google.common.collect.testing.google.SetGenerators.ImmutableSortedSetAsListSubListGenerator;
 import com.google.common.collect.testing.google.SetGenerators.ImmutableSortedSetCopyOfGenerator;
+import com.google.common.collect.testing.google.SetGenerators.ImmutableSortedSetDescendingAsListGenerator;
+import com.google.common.collect.testing.google.SetGenerators.ImmutableSortedSetDescendingGenerator;
 import com.google.common.collect.testing.google.SetGenerators.ImmutableSortedSetExplicitComparator;
 import com.google.common.collect.testing.google.SetGenerators.ImmutableSortedSetExplicitSuperclassComparatorGenerator;
 import com.google.common.collect.testing.google.SetGenerators.ImmutableSortedSetHeadsetGenerator;
@@ -75,7 +78,7 @@ public class ImmutableSetCollectionTest extends TestCase {
             CollectionFeature.ALLOWS_NULL_QUERIES)
         .createTestSuite());
 
-    suite.addTest(SetTestSuiteBuilder.using(
+    suite.addTest(NavigableSetTestSuiteBuilder.using(
         new ImmutableSortedSetCopyOfGenerator())
         .named(ImmutableSortedSetTest.class.getName())
         .withFeatures(CollectionSize.ANY, CollectionFeature.KNOWN_ORDER,
@@ -83,7 +86,7 @@ public class ImmutableSetCollectionTest extends TestCase {
             CollectionFeature.ALLOWS_NULL_QUERIES)
         .createTestSuite());
 
-    suite.addTest(SetTestSuiteBuilder.using(
+    suite.addTest(NavigableSetTestSuiteBuilder.using(
         new ImmutableSortedSetHeadsetGenerator())
         .named(ImmutableSortedSetTest.class.getName() + ", headset")
         .withFeatures(CollectionSize.ANY, CollectionFeature.KNOWN_ORDER,
@@ -91,7 +94,7 @@ public class ImmutableSetCollectionTest extends TestCase {
             CollectionFeature.ALLOWS_NULL_QUERIES)
         .createTestSuite());
 
-    suite.addTest(SetTestSuiteBuilder.using(
+    suite.addTest(NavigableSetTestSuiteBuilder.using(
         new ImmutableSortedSetTailsetGenerator())
         .named(ImmutableSortedSetTest.class.getName() + ", tailset")
         .withFeatures(CollectionSize.ANY, CollectionFeature.KNOWN_ORDER,
@@ -99,15 +102,23 @@ public class ImmutableSetCollectionTest extends TestCase {
             CollectionFeature.ALLOWS_NULL_QUERIES)
         .createTestSuite());
 
-    suite.addTest(SetTestSuiteBuilder.using(
+    suite.addTest(NavigableSetTestSuiteBuilder.using(
         new ImmutableSortedSetSubsetGenerator())
         .named(ImmutableSortedSetTest.class.getName() + ", subset")
         .withFeatures(CollectionSize.ANY, CollectionFeature.KNOWN_ORDER,
             CollectionFeature.SERIALIZABLE,
             CollectionFeature.ALLOWS_NULL_QUERIES)
         .createTestSuite());
-    
-    suite.addTest(SetTestSuiteBuilder.using(
+
+    suite.addTest(NavigableSetTestSuiteBuilder.using(
+        new ImmutableSortedSetDescendingGenerator())
+        .named(ImmutableSortedSetTest.class.getName() + ", descending")
+        .withFeatures(CollectionSize.ANY, CollectionFeature.KNOWN_ORDER,
+            CollectionFeature.SERIALIZABLE,
+            CollectionFeature.ALLOWS_NULL_QUERIES)
+        .createTestSuite());
+
+    suite.addTest(NavigableSetTestSuiteBuilder.using(
         new ImmutableSortedSetExplicitComparator())
         .named(ImmutableSortedSetTest.class.getName()
             + ", explicit comparator, vararg")
@@ -116,7 +127,7 @@ public class ImmutableSetCollectionTest extends TestCase {
             CollectionFeature.ALLOWS_NULL_QUERIES)
         .createTestSuite());
 
-    suite.addTest(SetTestSuiteBuilder.using(
+    suite.addTest(NavigableSetTestSuiteBuilder.using(
         new ImmutableSortedSetExplicitSuperclassComparatorGenerator())
         .named(ImmutableSortedSetTest.class.getName()
             + ", explicit superclass comparator, iterable")
@@ -125,7 +136,7 @@ public class ImmutableSetCollectionTest extends TestCase {
             CollectionFeature.ALLOWS_NULL_QUERIES)
         .createTestSuite());
 
-    suite.addTest(SetTestSuiteBuilder.using(
+    suite.addTest(NavigableSetTestSuiteBuilder.using(
         new ImmutableSortedSetReversedOrderGenerator())
         .named(ImmutableSortedSetTest.class.getName()
             + ", reverseOrder, iterator")
@@ -134,7 +145,7 @@ public class ImmutableSetCollectionTest extends TestCase {
             CollectionFeature.ALLOWS_NULL_QUERIES)
         .createTestSuite());
 
-    suite.addTest(SetTestSuiteBuilder.using(
+    suite.addTest(NavigableSetTestSuiteBuilder.using(
         new ImmutableSortedSetUnhashableGenerator())
         .suppressing(SetHashCodeTester.getHashCodeMethods())
         .named(ImmutableSortedSetTest.class.getName() + ", unhashable")
@@ -162,6 +173,15 @@ public class ImmutableSetCollectionTest extends TestCase {
     suite.addTest(ListTestSuiteBuilder.using(
         new ImmutableSortedSetSubsetAsListGenerator())
         .named("ImmutableSortedSet.subSet.asList")
+        .withFeatures(CollectionSize.ANY,
+            CollectionFeature.REJECTS_DUPLICATES_AT_CREATION,
+            CollectionFeature.SERIALIZABLE,
+            CollectionFeature.ALLOWS_NULL_QUERIES)
+        .createTestSuite());
+
+    suite.addTest(ListTestSuiteBuilder.using(
+        new ImmutableSortedSetDescendingAsListGenerator())
+        .named("ImmutableSortedSet.descendingSet.asList")
         .withFeatures(CollectionSize.ANY,
             CollectionFeature.REJECTS_DUPLICATES_AT_CREATION,
             CollectionFeature.SERIALIZABLE,

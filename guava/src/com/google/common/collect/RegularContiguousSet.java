@@ -41,28 +41,34 @@ final class RegularContiguousSet<C extends Comparable> extends ContiguousSet<C> 
     this.range = range;
   }
 
-  // Abstract method doesn't exist in GWT emulation
-  /* @Override */ ContiguousSet<C> headSetImpl(C toElement, boolean inclusive) {
-    return range.intersection(Ranges.upTo(toElement, BoundType.forBoolean(inclusive)))
-        .asSet(domain);
+  private ContiguousSet<C> intersectionInCurrentDomain(Range<C> other) {
+    return (range.isConnected(other))
+        ? range.intersection(other).asSet(domain)
+        : new EmptyContiguousSet<C>(domain);
   }
 
-  // Abstract method doesn't exist in GWT emulation
-  /* @Override */ int indexOf(Object target) {
-    return contains(target) ? (int) domain.distance(first(), (C) target) : -1;
+  @Override ContiguousSet<C> headSetImpl(C toElement, boolean inclusive) {
+    return intersectionInCurrentDomain(Ranges.upTo(toElement, BoundType.forBoolean(inclusive)));
   }
 
-  // Abstract method doesn't exist in GWT emulation
-  /* @Override */ ContiguousSet<C> subSetImpl(C fromElement, boolean fromInclusive, C toElement,
+  @Override ContiguousSet<C> subSetImpl(C fromElement, boolean fromInclusive, C toElement,
       boolean toInclusive) {
-    return range.intersection(Ranges.range(fromElement, BoundType.forBoolean(fromInclusive),
-        toElement, BoundType.forBoolean(toInclusive))).asSet(domain);
+    if (fromElement.compareTo(toElement) == 0 && !fromInclusive && !toInclusive) {
+      // Range would reject our attempt to create (x, x).
+      return new EmptyContiguousSet<C>(domain);
+    }
+    return intersectionInCurrentDomain(Ranges.range(
+        fromElement, BoundType.forBoolean(fromInclusive),
+        toElement, BoundType.forBoolean(toInclusive)));
   }
 
-  // Abstract method doesn't exist in GWT emulation
-  /* @Override */ ContiguousSet<C> tailSetImpl(C fromElement, boolean inclusive) {
-    return range.intersection(Ranges.downTo(fromElement, BoundType.forBoolean(inclusive)))
-        .asSet(domain);
+  @Override ContiguousSet<C> tailSetImpl(C fromElement, boolean inclusive) {
+    return intersectionInCurrentDomain(Ranges.downTo(fromElement, BoundType.forBoolean(inclusive)));
+  }
+
+  @GwtIncompatible("not used by GWT emulation")
+  @Override int indexOf(Object target) {
+    return contains(target) ? (int) domain.distance(first(), (C) target) : -1;
   }
 
   @Override public UnmodifiableIterator<C> iterator() {
@@ -188,4 +194,83 @@ final class RegularContiguousSet<C extends Comparable> extends ContiguousSet<C> 
   }
 
   private static final long serialVersionUID = 0;
+
+  @GwtIncompatible("NavigableSet")
+  @Override
+  ImmutableSortedSet<C> createDescendingSet() {
+    return new DescendingContiguousSet();
+  }
+
+  @GwtIncompatible("NavigableSet")
+  private final class DescendingContiguousSet extends ImmutableSortedSet<C> {
+
+    private DescendingContiguousSet() {
+      super(Ordering.natural().reverse());
+    }
+
+    @Override
+    public C first() {
+      return RegularContiguousSet.this.last();
+    }
+
+    @Override
+    public C last() {
+      return RegularContiguousSet.this.first();
+    }
+
+    @Override
+    public int size() {
+      return RegularContiguousSet.this.size();
+    }
+
+    @Override
+    public UnmodifiableIterator<C> iterator() {
+      return new AbstractSequentialIterator<C>(first()) {
+        final C last = last();
+
+        @Override
+        protected C computeNext(C previous) {
+          return equalsOrThrow(previous, last) ? null : domain.previous(previous);
+        }
+      };
+    }
+
+    @Override
+    ImmutableSortedSet<C> headSetImpl(C toElement, boolean inclusive) {
+      return RegularContiguousSet.this.tailSetImpl(toElement, inclusive).descendingSet();
+    }
+
+    @Override
+    ImmutableSortedSet<C> subSetImpl(
+        C fromElement,
+        boolean fromInclusive,
+        C toElement,
+        boolean toInclusive) {
+      return RegularContiguousSet.this.subSetImpl(
+          toElement,
+          toInclusive,
+          fromElement,
+          fromInclusive).descendingSet();
+    }
+
+    @Override
+    ImmutableSortedSet<C> tailSetImpl(C fromElement, boolean inclusive) {
+      return RegularContiguousSet.this.headSetImpl(fromElement, inclusive).descendingSet();
+    }
+
+    @Override
+    ImmutableSortedSet<C> createDescendingSet() {
+      return RegularContiguousSet.this;
+    }
+
+    @Override
+    int indexOf(Object target) {
+      return contains(target) ? (int) domain.distance(last(), (C) target) : -1;
+    }
+
+    @Override
+    boolean isPartialView() {
+      return false;
+    }
+  }
 }
