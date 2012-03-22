@@ -25,7 +25,6 @@ import com.google.common.base.Preconditions;
 import com.google.common.base.Predicate;
 
 import java.util.Arrays;
-import java.util.Comparator;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
@@ -66,10 +65,17 @@ import javax.annotation.Nullable;
  */
 @Beta
 @GwtCompatible(emulated = true)
-public final class FluentIterable<E> implements Iterable<E> {
+public abstract class FluentIterable<E> implements Iterable<E> {
+  // We store 'iterable' and use it instead of 'this' to allow Iterables to perform instanceof
+  // checks on the _original_ iterable when FluentIterable.from is used.
   private final Iterable<E> iterable;
 
-  private FluentIterable(Iterable<E> iterable) {
+  /** Constructor for use by subclasses. */
+  protected FluentIterable() {
+    this.iterable = this;
+  }
+
+  FluentIterable(Iterable<E> iterable) {
     this.iterable = Preconditions.checkNotNull(iterable);
   }
 
@@ -77,9 +83,14 @@ public final class FluentIterable<E> implements Iterable<E> {
    * Returns a fluent iterable that wraps {@code iterable}, or {@code iterable} itself if it
    * is already a {@code FluentIterable}.
    */
-  public static <E> FluentIterable<E> from(Iterable<E> iterable) {
-    return (iterable instanceof FluentIterable<?>)
-        ? (FluentIterable<E>) iterable : new FluentIterable<E>(iterable);
+  public static <E> FluentIterable<E> from(final Iterable<E> iterable) {
+    return (iterable instanceof FluentIterable) ? (FluentIterable<E>) iterable
+        : new FluentIterable<E>(iterable) {
+          @Override
+          public Iterator<E> iterator() {
+            return iterable.iterator();
+          }
+        };
   }
 
   /**
@@ -95,11 +106,6 @@ public final class FluentIterable<E> implements Iterable<E> {
     return Preconditions.checkNotNull(iterable);
   }
 
-  @Override
-  public Iterator<E> iterator() {
-    return iterable.iterator();
-  }
-
   /**
    * Returns a string representation of this fluent iterable, with the format
    * {@code [e1, e2, ..., en]}.
@@ -112,7 +118,7 @@ public final class FluentIterable<E> implements Iterable<E> {
   /**
    * Returns the number of elements in this fluent iterable.
    */
-  public int size() {
+  public final int size() {
     return Iterables.size(iterable);
   }
 
@@ -120,7 +126,7 @@ public final class FluentIterable<E> implements Iterable<E> {
    * Returns {@code true} if this fluent iterable contains any object for which
    * {@code equals(element)} is true.
    */
-  public boolean contains(@Nullable Object element) {
+  public final boolean contains(@Nullable Object element) {
     return Iterables.contains(iterable, element);
   }
 
@@ -130,7 +136,7 @@ public final class FluentIterable<E> implements Iterable<E> {
    * @throws NoSuchElementException if this fluent iterable is empty
    * @throws IllegalArgumentException if this fluent iterable contains multiple elements
    */
-  public E getOnlyElement() {
+  public final E getOnlyElement() {
     return Iterables.getOnlyElement(iterable);
   }
 
@@ -140,7 +146,7 @@ public final class FluentIterable<E> implements Iterable<E> {
    *
    * @throws IllegalArgumentException if this iterable contains multiple elements
    */
-  public E getOnlyElement(@Nullable E defaultValue) {
+  public final E getOnlyElement(@Nullable E defaultValue) {
     return Iterables.getOnlyElement(iterable, defaultValue);
   }
 
@@ -157,7 +163,7 @@ public final class FluentIterable<E> implements Iterable<E> {
    * should use an explicit {@code break} or be certain that you will eventually remove all the
    * elements.
    */
-  public FluentIterable<E> cycle() {
+  public final FluentIterable<E> cycle() {
     return from(Iterables.cycle(iterable));
   }
 
@@ -168,7 +174,7 @@ public final class FluentIterable<E> implements Iterable<E> {
    * <p>The returned iterable's {@code Iterator} supports {@code remove()} when the corresponding
    * {@code Iterator} supports it.
    */
-  public FluentIterable<E> append(Iterable<? extends E> other) {
+  public final FluentIterable<E> append(Iterable<? extends E> other) {
     return from(Iterables.concat(iterable, other));
   }
 
@@ -176,7 +182,7 @@ public final class FluentIterable<E> implements Iterable<E> {
    * Returns a fluent iterable whose iterators traverse first the elements of this fluent iterable,
    * followed by {@code elements}.
    */
-  public FluentIterable<E> append(E... elements) {
+  public final FluentIterable<E> append(E... elements) {
     return from(Iterables.concat(iterable, Arrays.asList(elements)));
   }
 
@@ -195,7 +201,8 @@ public final class FluentIterable<E> implements Iterable<E> {
    *     fluent iterable divided into partitions
    * @throws IllegalArgumentException if {@code size} is nonpositive
    */
-  public FluentIterable<FluentIterable<E>> partition(int size) {
+  // TODO(kevinb): return FluentIterable<List<E>> instead?
+  public final FluentIterable<FluentIterable<E>> partition(int size) {
     return from(Iterables.partition(iterable, size))
         .transform(new FromIterableFunction<E>());
   }
@@ -216,7 +223,8 @@ public final class FluentIterable<E> implements Iterable<E> {
    *     trailing null elements)
    * @throws IllegalArgumentException if {@code size} is nonpositive
    */
-  public FluentIterable<FluentIterable<E>> partitionWithPadding(int size) {
+  // TODO(kevinb): return FluentIterable<List<E>> instead
+  public final FluentIterable<FluentIterable<E>> partitionWithPadding(int size) {
     return from(Iterables.paddedPartition(iterable, size))
         .transform(new FromIterableFunction<E>());
   }
@@ -225,7 +233,7 @@ public final class FluentIterable<E> implements Iterable<E> {
    * Returns the elements from this fluent iterable that satisfy a predicate. The
    * resulting fluent iterable's iterator does not support {@code remove()}.
    */
-  public FluentIterable<E> filter(Predicate<? super E> predicate) {
+  public final FluentIterable<E> filter(Predicate<? super E> predicate) {
     return from(Iterables.filter(iterable, predicate));
   }
 
@@ -235,14 +243,14 @@ public final class FluentIterable<E> implements Iterable<E> {
    * @param type the type of elements desired
    */
   @GwtIncompatible("Class.isInstance")
-  public <T> FluentIterable<T> filter(Class<T> type) {
+  public final <T> FluentIterable<T> filter(Class<T> type) {
     return from(Iterables.filter(iterable, type));
   }
 
   /**
    * Returns {@code true} if any element in this fluent iterable satisfies the predicate.
    */
-  public boolean anyMatch(Predicate<? super E> predicate) {
+  public final boolean anyMatch(Predicate<? super E> predicate) {
     return Iterables.any(iterable, predicate);
   }
 
@@ -250,7 +258,7 @@ public final class FluentIterable<E> implements Iterable<E> {
    * Returns {@code true} if every element in this fluent iterable satisfies the predicate.
    * If this fluent iterable is empty, {@code true} is returned.
    */
-  public boolean allMatch(Predicate<? super E> predicate) {
+  public final boolean allMatch(Predicate<? super E> predicate) {
     return Iterables.all(iterable, predicate);
   }
 
@@ -261,7 +269,7 @@ public final class FluentIterable<E> implements Iterable<E> {
    * <p><b>Warning:</b> avoid using a {@code predicate} that matches {@code null}. If {@code null}
    * is matched in this fluent iterable, a {@link NullPointerException} will be thrown.
    */
-  public Optional<E> firstMatch(Predicate<? super E> predicate) {
+  public final Optional<E> firstMatch(Predicate<? super E> predicate) {
     return Iterables.tryFind(iterable, predicate);
   }
 
@@ -273,7 +281,7 @@ public final class FluentIterable<E> implements Iterable<E> {
    * iterator does. After a successful {@code remove()} call, this fluent iterable no longer
    * contains the corresponding element.
    */
-  public <T> FluentIterable<T> transform(Function<? super E, T> function) {
+  public final <T> FluentIterable<T> transform(Function<? super E, T> function) {
     return from(Iterables.transform(iterable, function));
   }
 
@@ -284,10 +292,10 @@ public final class FluentIterable<E> implements Iterable<E> {
    * @throws NullPointerException if the first element is null; if this is a possibility, use
    *     {@code iterator().next()} or {@link Iterables#getFirst} instead.
    */
-  public Optional<E> first() {
+  public final Optional<E> first() {
     Iterator<E> iterator = iterable.iterator();
     return iterator.hasNext()
-        ? Optional.<E>of(iterator.next())
+        ? Optional.of(iterator.next())
         : Optional.<E>absent();
   }
 
@@ -298,7 +306,7 @@ public final class FluentIterable<E> implements Iterable<E> {
    * @throws NullPointerException if the last element is null; if this is a possibility, use
    *     {@link Iterables#getLast} instead.
    */
-  public Optional<E> last() {
+  public final Optional<E> last() {
     try {
       return Optional.of(Iterables.getLast(iterable));
     } catch (NoSuchElementException e) {
@@ -323,7 +331,7 @@ public final class FluentIterable<E> implements Iterable<E> {
    * to {@code * remove()} before a call to {@code next()} will throw an
    * {@link IllegalStateException}.
    */
-  public FluentIterable<E> skip(int numberToSkip) {
+  public final FluentIterable<E> skip(int numberToSkip) {
     return from(Iterables.skip(iterable, numberToSkip));
   }
 
@@ -337,14 +345,14 @@ public final class FluentIterable<E> implements Iterable<E> {
    * @param size the maximum number of elements in the returned fluent iterable
    * @throws IllegalArgumentException if {@code size} is negative
    */
-  public FluentIterable<E> limit(int size) {
+  public final FluentIterable<E> limit(int size) {
     return from(Iterables.limit(iterable, size));
   }
 
   /**
    * Determines whether this fluent iterable is empty.
    */
-  public boolean isEmpty() {
+  public final boolean isEmpty() {
     return !iterable.iterator().hasNext();
   }
 
@@ -352,26 +360,15 @@ public final class FluentIterable<E> implements Iterable<E> {
    * Returns an {@code ImmutableList} containing all of the elements from this
    * fluent iterable in proper sequence.
    */
-  public ImmutableList<E> toImmutableList() {
+  public final ImmutableList<E> toImmutableList() {
     return ImmutableList.copyOf(iterable);
-  }
-
-  /**
-   * Returns an {@code ImmutableList} containing all of the elements from this
-   * {@code FluentIterable} in the order specified by {@code comparator}.
-   *
-   * @param comparator the function by which to sort list elements
-   * @throws NullPointerException if any element is null
-   */
-  public ImmutableList<E> toImmutableSortedList(Comparator<? super E> comparator) {
-    return Ordering.from(comparator).immutableSortedCopy(iterable);
   }
 
   /**
    * Returns an {@code ImmutableSet} containing all of the elements from this
    * fluent iterable with duplicates removed.
    */
-  public ImmutableSet<E> toImmutableSet() {
+  public final ImmutableSet<E> toImmutableSet() {
     return ImmutableSet.copyOf(iterable);
   }
 
@@ -383,7 +380,7 @@ public final class FluentIterable<E> implements Iterable<E> {
    *     been copied
    */
   @GwtIncompatible("Array.newArray(Class, int)")
-  public E[] toArray(Class<E> type) {
+  public final E[] toArray(Class<E> type) {
     return Iterables.toArray(iterable, type);
   }
 
@@ -395,7 +392,7 @@ public final class FluentIterable<E> implements Iterable<E> {
    * @throws IndexOutOfBoundsException if {@code position} is negative or greater than or equal to
    *     the size of this fluent iterable
    */
-  public E get(int position) {
+  public final E get(int position) {
     return Iterables.get(iterable, position);
   }
 

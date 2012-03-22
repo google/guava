@@ -1133,7 +1133,7 @@ public class IterablesTest extends TestCase {
   /** Returns a new iterable over the specified strings. */
   private static Iterable<String> create(String... strings) {
     final List<String> list = asList(strings);
-    return new Iterables.IterableWithToString<String>() {
+    return new FluentIterable<String>() {
       @Override
       public Iterator<String> iterator() {
         return list.iterator();

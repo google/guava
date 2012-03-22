@@ -86,7 +86,7 @@ public final class Iterables {
     return checkNotNull(iterable);
   }
 
-  private static final class UnmodifiableIterable<T> implements Iterable<T> {
+  private static final class UnmodifiableIterable<T> extends FluentIterable<T> {
     private final Iterable<T> iterable;
 
     private UnmodifiableIterable(Iterable<T> iterable) {
@@ -372,7 +372,7 @@ public final class Iterables {
    */
   public static <T> Iterable<T> cycle(final Iterable<T> iterable) {
     checkNotNull(iterable);
-    return new Iterable<T>() {
+    return new FluentIterable<T>() {
       @Override
       public Iterator<T> iterator() {
         return Iterators.cycle(iterable);
@@ -487,7 +487,7 @@ public final class Iterables {
   public static <T> Iterable<T> concat(
       final Iterable<? extends Iterable<? extends T>> inputs) {
     checkNotNull(inputs);
-    return new IterableWithToString<T>() {
+    return new FluentIterable<T>() {
       @Override
       public Iterator<T> iterator() {
         return Iterators.concat(iterators(inputs));
@@ -538,7 +538,7 @@ public final class Iterables {
       final Iterable<T> iterable, final int size) {
     checkNotNull(iterable);
     checkArgument(size > 0);
-    return new IterableWithToString<List<T>>() {
+    return new FluentIterable<List<T>>() {
       @Override
       public Iterator<List<T>> iterator() {
         return Iterators.partition(iterable.iterator(), size);
@@ -567,7 +567,7 @@ public final class Iterables {
       final Iterable<T> iterable, final int size) {
     checkNotNull(iterable);
     checkArgument(size > 0);
-    return new IterableWithToString<List<T>>() {
+    return new FluentIterable<List<T>>() {
       @Override
       public Iterator<List<T>> iterator() {
         return Iterators.paddedPartition(iterable.iterator(), size);
@@ -583,7 +583,7 @@ public final class Iterables {
       final Iterable<T> unfiltered, final Predicate<? super T> predicate) {
     checkNotNull(unfiltered);
     checkNotNull(predicate);
-    return new IterableWithToString<T>() {
+    return new FluentIterable<T>() {
       @Override
       public Iterator<T> iterator() {
         return Iterators.filter(unfiltered.iterator(), predicate);
@@ -607,7 +607,7 @@ public final class Iterables {
       final Iterable<?> unfiltered, final Class<T> type) {
     checkNotNull(unfiltered);
     checkNotNull(type);
-    return new IterableWithToString<T>() {
+    return new FluentIterable<T>() {
       @Override
       public Iterator<T> iterator() {
         return Iterators.filter(unfiltered.iterator(), type);
@@ -706,7 +706,7 @@ public final class Iterables {
       final Function<? super F, ? extends T> function) {
     checkNotNull(fromIterable);
     checkNotNull(function);
-    return new IterableWithToString<T>() {
+    return new FluentIterable<T>() {
       @Override
       public Iterator<T> iterator() {
         return Iterators.transform(fromIterable.iterator(), function);
@@ -877,7 +877,7 @@ public final class Iterables {
 
     if (iterable instanceof List) {
       final List<T> list = (List<T>) iterable;
-      return new IterableWithToString<T>() {
+      return new FluentIterable<T>() {
         @Override
         public Iterator<T> iterator() {
           // TODO(kevinb): Support a concurrently modified collection?
@@ -888,7 +888,7 @@ public final class Iterables {
       };
     }
 
-    return new IterableWithToString<T>() {
+    return new FluentIterable<T>() {
       @Override
       public Iterator<T> iterator() {
         final Iterator<T> iterator = iterable.iterator();
@@ -949,7 +949,7 @@ public final class Iterables {
       final Iterable<T> iterable, final int limitSize) {
     checkNotNull(iterable);
     checkArgument(limitSize >= 0, "limit is negative");
-    return new IterableWithToString<T>() {
+    return new FluentIterable<T>() {
       @Override
       public Iterator<T> iterator() {
         return Iterators.limit(iterable.iterator(), limitSize);
@@ -978,7 +978,7 @@ public final class Iterables {
    */
   public static <T> Iterable<T> consumingIterable(final Iterable<T> iterable) {
     if (iterable instanceof Queue) {
-      return new Iterable<T>() {
+      return new FluentIterable<T>() {
         @Override
         public Iterator<T> iterator() {
           return new ConsumingQueueIterator<T>((Queue<T>) iterable);
@@ -988,7 +988,7 @@ public final class Iterables {
 
     checkNotNull(iterable);
 
-    return new Iterable<T>() {
+    return new FluentIterable<T>() {
       @Override
       public Iterator<T> iterator() {
         return Iterators.consumingIterator(iterable.iterator());
@@ -1085,12 +1085,6 @@ public final class Iterables {
     return false;
   }
 
-  abstract static class IterableWithToString<E> implements Iterable<E> {
-    @Override public String toString() {
-      return Iterables.toString(this);
-    }
-  }
-
   /**
    * Returns an iterable over the merged contents of all given
    * {@code iterables}. Equivalent entries will not be de-duplicated.
@@ -1109,7 +1103,7 @@ public final class Iterables {
       final Comparator<? super T> comparator) {
     checkNotNull(iterables, "iterables");
     checkNotNull(comparator, "comparator");
-    Iterable<T> iterable = new Iterable<T>() {
+    Iterable<T> iterable = new FluentIterable<T>() {
       @Override
       public Iterator<T> iterator() {
         return Iterators.mergeSorted(
