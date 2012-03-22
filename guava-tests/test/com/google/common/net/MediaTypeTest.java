@@ -4,12 +4,28 @@ package com.google.common.net;
 
 import static com.google.common.base.Charsets.UTF_16;
 import static com.google.common.base.Charsets.UTF_8;
-import static com.google.common.net.MediaType.*;
+import static com.google.common.net.MediaType.ANY_APPLICATION_TYPE;
+import static com.google.common.net.MediaType.ANY_AUDIO_TYPE;
+import static com.google.common.net.MediaType.ANY_IMAGE_TYPE;
+import static com.google.common.net.MediaType.ANY_TEXT_TYPE;
+import static com.google.common.net.MediaType.ANY_TYPE;
+import static com.google.common.net.MediaType.ANY_VIDEO_TYPE;
+import static com.google.common.net.MediaType.HTML_UTF_8;
+import static com.google.common.net.MediaType.JPEG;
+import static com.google.common.net.MediaType.PLAIN_TEXT_UTF_8;
+import static java.util.Arrays.asList;
+import static java.lang.reflect.Modifier.isFinal;
+import static java.lang.reflect.Modifier.isPublic;
+import static java.lang.reflect.Modifier.isStatic;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.base.Function;
 import com.google.common.base.Optional;
+import com.google.common.base.Predicate;
+import com.google.common.base.Throwables;
+import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.testing.EqualsTester;
@@ -17,6 +33,8 @@ import com.google.common.testing.NullPointerTester;
 
 import junit.framework.TestCase;
 
+import java.lang.reflect.Field;
+import java.nio.charset.Charset;
 import java.nio.charset.IllegalCharsetNameException;
 import java.nio.charset.UnsupportedCharsetException;
 
@@ -28,6 +46,53 @@ import java.nio.charset.UnsupportedCharsetException;
 @Beta
 @GwtCompatible(emulated = true)
 public class MediaTypeTest extends TestCase {
+  @GwtIncompatible("reflection") public void testParse_useConstants() throws Exception {
+    for (MediaType constant : getConstants()) {
+      assertSame(constant, MediaType.parse(constant.toString()));
+    }
+  }
+
+  @GwtIncompatible("reflection") public void testCreate_useConstants() throws Exception {
+    for (MediaType constant : getConstants()) {
+      assertSame(constant, MediaType.create(constant.type(), constant.subtype())
+          .withParameters(constant.parameters()));
+    }
+  }
+
+  @GwtIncompatible("reflection") public void testConstants_charset() throws Exception {
+    for (Field field : getConstantFields()) {
+      Optional<Charset> charset = ((MediaType) field.get(null)).charset();
+      if (field.getName().endsWith("_UTF_8")) {
+        assertEquals(Optional.of(UTF_8), charset);
+      } else {
+        assertEquals(Optional.absent(), charset);
+      }
+    }
+  }
+
+  @GwtIncompatible("reflection") private static FluentIterable<Field> getConstantFields() {
+    return FluentIterable.from(asList(MediaType.class.getDeclaredFields()))
+        .filter(new Predicate<Field>() {
+          @Override public boolean apply(Field input) {
+            int modifiers = input.getModifiers();
+            return isPublic(modifiers) && isStatic(modifiers) && isFinal(modifiers)
+                && MediaType.class.equals(input.getType());
+          }
+        });
+  }
+
+  @GwtIncompatible("reflection") private static FluentIterable<MediaType> getConstants() {
+    return getConstantFields()
+        .transform(new Function<Field, MediaType>() {
+          @Override public MediaType apply(Field input) {
+            try {
+              return (MediaType) input.get(null);
+            } catch (Exception e) {
+              throw Throwables.propagate(e);
+            }
+          }
+        });
+  }
 
   public void testCreate_invalidType() {
     try {

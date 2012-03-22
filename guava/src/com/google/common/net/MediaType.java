@@ -82,6 +82,8 @@ import javax.annotation.concurrent.Immutable;
 @Immutable
 public final class MediaType {
   private static final String CHARSET_ATTRIBUTE = "charset";
+  private static final ImmutableListMultimap<String, String> UTF_8_CONSTANT_PARAMETERS =
+      ImmutableListMultimap.of(CHARSET_ATTRIBUTE, Ascii.toLowerCase(UTF_8.name()));
 
   /** Matcher for type, subtype and attributes. */
   private static final CharMatcher TOKEN_MATCHER = ASCII.and(JAVA_ISO_CONTROL.negate())
@@ -115,103 +117,96 @@ public final class MediaType {
    * take a charset (e.g. all text/* types), default to UTF-8 and suffix with "_UTF_8".
    */
 
-  public static final MediaType ANY_TYPE = new MediaType(WILDCARD, WILDCARD);
-  public static final MediaType ANY_TEXT_TYPE = new MediaType(TEXT_TYPE, WILDCARD);
-  public static final MediaType ANY_IMAGE_TYPE = new MediaType(IMAGE_TYPE, WILDCARD);
-  public static final MediaType ANY_AUDIO_TYPE = new MediaType(AUDIO_TYPE, WILDCARD);
-  public static final MediaType ANY_VIDEO_TYPE = new MediaType(VIDEO_TYPE, WILDCARD);
-  public static final MediaType ANY_APPLICATION_TYPE = new MediaType(APPLICATION_TYPE, WILDCARD);
+  public static final MediaType ANY_TYPE = createConstant(WILDCARD, WILDCARD);
+  public static final MediaType ANY_TEXT_TYPE = createConstant(TEXT_TYPE, WILDCARD);
+  public static final MediaType ANY_IMAGE_TYPE = createConstant(IMAGE_TYPE, WILDCARD);
+  public static final MediaType ANY_AUDIO_TYPE = createConstant(AUDIO_TYPE, WILDCARD);
+  public static final MediaType ANY_VIDEO_TYPE = createConstant(VIDEO_TYPE, WILDCARD);
+  public static final MediaType ANY_APPLICATION_TYPE = createConstant(APPLICATION_TYPE, WILDCARD);
 
   /* text types */
-  public static final MediaType CACHE_MANIFEST_UTF_8 = new MediaType(TEXT_TYPE, "cache-manifest")
-      .withCharset(UTF_8);
-  public static final MediaType CSS_UTF_8 = new MediaType(TEXT_TYPE, "css").withCharset(UTF_8);
-  public static final MediaType CSV_UTF_8 = new MediaType(TEXT_TYPE, "csv").withCharset(UTF_8);
-  public static final MediaType HTML_UTF_8 = new MediaType(TEXT_TYPE, "html").withCharset(UTF_8);
-  public static final MediaType I_CALENDAR_UTF_8 = new MediaType(TEXT_TYPE, "calendar")
-      .withCharset(UTF_8);
-  public static final MediaType PLAIN_TEXT_UTF_8 = new MediaType(TEXT_TYPE, "plain")
-      .withCharset(UTF_8);
+  public static final MediaType CACHE_MANIFEST_UTF_8 =
+      createConstantUtf8(TEXT_TYPE, "cache-manifest");
+  public static final MediaType CSS_UTF_8 = createConstantUtf8(TEXT_TYPE, "css");
+  public static final MediaType CSV_UTF_8 = createConstantUtf8(TEXT_TYPE, "csv");
+  public static final MediaType HTML_UTF_8 = createConstantUtf8(TEXT_TYPE, "html");
+  public static final MediaType I_CALENDAR_UTF_8 = createConstantUtf8(TEXT_TYPE, "calendar");
+  public static final MediaType PLAIN_TEXT_UTF_8 = createConstantUtf8(TEXT_TYPE, "plain");
   /**
    * <a href="http://www.rfc-editor.org/rfc/rfc4329.txt">RFC 4329</a> declares
    * {link #JAVASCRIPT application/javascript} to be the correct media type for JavaScript, but this
    * may be necessary in certain situations for compatibility.
    */
-  public static final MediaType TEXT_JAVASCRIPT_UTF_8 = new MediaType(TEXT_TYPE, "javascript")
-      .withCharset(UTF_8);
-  public static final MediaType VCARD_UTF_8 = new MediaType(TEXT_TYPE, "vcard").withCharset(UTF_8);
-  public static final MediaType XML_UTF_8 = new MediaType(TEXT_TYPE, "xml").withCharset(UTF_8);
+  public static final MediaType TEXT_JAVASCRIPT_UTF_8 = createConstantUtf8(TEXT_TYPE, "javascript");
+  public static final MediaType VCARD_UTF_8 = createConstantUtf8(TEXT_TYPE, "vcard");
+  public static final MediaType XML_UTF_8 = createConstantUtf8(TEXT_TYPE, "xml");
 
   /* image types */
-  public static final MediaType GIF = new MediaType(IMAGE_TYPE, "gif");
-  public static final MediaType ICO = new MediaType(IMAGE_TYPE, "vnd.microsoft.icon");
-  public static final MediaType JPEG = new MediaType(IMAGE_TYPE, "jpeg");
-  public static final MediaType PNG = new MediaType(IMAGE_TYPE, "png");
-  public static final MediaType SVG_UTF_8 = new MediaType(IMAGE_TYPE, "svg+xml").withCharset(UTF_8);
-  public static final MediaType TIFF = new MediaType(IMAGE_TYPE, "tiff");
+  public static final MediaType GIF = createConstant(IMAGE_TYPE, "gif");
+  public static final MediaType ICO = createConstant(IMAGE_TYPE, "vnd.microsoft.icon");
+  public static final MediaType JPEG = createConstant(IMAGE_TYPE, "jpeg");
+  public static final MediaType PNG = createConstant(IMAGE_TYPE, "png");
+  public static final MediaType SVG_UTF_8 = createConstantUtf8(IMAGE_TYPE, "svg+xml");
+  public static final MediaType TIFF = createConstant(IMAGE_TYPE, "tiff");
 
   /* audio types */
-  public static final MediaType MP4_AUDIO = new MediaType(AUDIO_TYPE, "mp4");
-  public static final MediaType MPEG_AUDIO = new MediaType(AUDIO_TYPE, "mpeg");
-  public static final MediaType OGG_AUDIO = new MediaType(AUDIO_TYPE, "ogg");
-  public static final MediaType WEBM_AUDIO = new MediaType(AUDIO_TYPE, "webm");
+  public static final MediaType MP4_AUDIO = createConstant(AUDIO_TYPE, "mp4");
+  public static final MediaType MPEG_AUDIO = createConstant(AUDIO_TYPE, "mpeg");
+  public static final MediaType OGG_AUDIO = createConstant(AUDIO_TYPE, "ogg");
+  public static final MediaType WEBM_AUDIO = createConstant(AUDIO_TYPE, "webm");
 
   /* video types */
-  public static final MediaType MP4_VIDEO = new MediaType(VIDEO_TYPE, "mp4");
-  public static final MediaType MPEG_VIDEO = new MediaType(VIDEO_TYPE, "mpeg");
-  public static final MediaType OGG_VIDEO = new MediaType(VIDEO_TYPE, "ogg");
-  public static final MediaType QUICKTIME = new MediaType(VIDEO_TYPE, "quicktime");
-  public static final MediaType WEBM_VIDEO = new MediaType(VIDEO_TYPE, "webm");
-  public static final MediaType WMV = new MediaType(VIDEO_TYPE, "x-ms-wmv");
+  public static final MediaType MP4_VIDEO = createConstant(VIDEO_TYPE, "mp4");
+  public static final MediaType MPEG_VIDEO = createConstant(VIDEO_TYPE, "mpeg");
+  public static final MediaType OGG_VIDEO = createConstant(VIDEO_TYPE, "ogg");
+  public static final MediaType QUICKTIME = createConstant(VIDEO_TYPE, "quicktime");
+  public static final MediaType WEBM_VIDEO = createConstant(VIDEO_TYPE, "webm");
+  public static final MediaType WMV = createConstant(VIDEO_TYPE, "x-ms-wmv");
 
   /* application types */
-  public static final MediaType ATOM_UTF_8 = new MediaType(APPLICATION_TYPE, "atom+xml")
-      .withCharset(UTF_8);
-  public static final MediaType BZIP2 = new MediaType(APPLICATION_TYPE, "x-bzip2");
-  public static final MediaType FORM_DATA = new MediaType(APPLICATION_TYPE,
+  public static final MediaType ATOM_UTF_8 = createConstantUtf8(APPLICATION_TYPE, "atom+xml");
+  public static final MediaType BZIP2 = createConstant(APPLICATION_TYPE, "x-bzip2");
+  public static final MediaType FORM_DATA = createConstant(APPLICATION_TYPE,
       "x-www-form-urlencoded");
-  public static final MediaType GZIP = new MediaType(APPLICATION_TYPE, "x-gzip");
+  public static final MediaType GZIP = createConstant(APPLICATION_TYPE, "x-gzip");
    /**
     * <a href="http://www.rfc-editor.org/rfc/rfc4329.txt">RFC 4329</a> declares this to be the
     * correct media type for JavaScript, but {@link #TEXT_JAVASCRIPT_UTF_8 text/javascript} may be
     * necessary in certain situations for compatibility.
     */
-  public static final MediaType JAVASCRIPT_UTF_8 = new MediaType(APPLICATION_TYPE, "javascript")
-      .withCharset(UTF_8);
-  public static final MediaType JSON_UTF_8 = new MediaType(APPLICATION_TYPE, "json")
-      .withCharset(UTF_8);
-  public static final MediaType KML = new MediaType(APPLICATION_TYPE, "vnd.google-earth.kml+xml");
-  public static final MediaType KMZ = new MediaType(APPLICATION_TYPE, "vnd.google-earth.kmz");
-  public static final MediaType MICROSOFT_EXCEL = new MediaType(APPLICATION_TYPE, "vnd.ms-excel");
+  public static final MediaType JAVASCRIPT_UTF_8 =
+      createConstantUtf8(APPLICATION_TYPE, "javascript");
+  public static final MediaType JSON_UTF_8 = createConstantUtf8(APPLICATION_TYPE, "json");
+  public static final MediaType KML = createConstant(APPLICATION_TYPE, "vnd.google-earth.kml+xml");
+  public static final MediaType KMZ = createConstant(APPLICATION_TYPE, "vnd.google-earth.kmz");
+  public static final MediaType MICROSOFT_EXCEL = createConstant(APPLICATION_TYPE, "vnd.ms-excel");
   public static final MediaType MICROSOFT_POWERPOINT =
-      new MediaType(APPLICATION_TYPE, "vnd.ms-powerpoint");
-  public static final MediaType MICROSOFT_WORD = new MediaType(APPLICATION_TYPE, "msword");
-  public static final MediaType OCTET_STREAM = new MediaType(APPLICATION_TYPE, "octet-stream");
-  public static final MediaType OGG_CONTAINER = new MediaType(APPLICATION_TYPE, "ogg");
-  public static final MediaType OOXML_DOCUMENT = new MediaType(APPLICATION_TYPE,
+      createConstant(APPLICATION_TYPE, "vnd.ms-powerpoint");
+  public static final MediaType MICROSOFT_WORD = createConstant(APPLICATION_TYPE, "msword");
+  public static final MediaType OCTET_STREAM = createConstant(APPLICATION_TYPE, "octet-stream");
+  public static final MediaType OGG_CONTAINER = createConstant(APPLICATION_TYPE, "ogg");
+  public static final MediaType OOXML_DOCUMENT = createConstant(APPLICATION_TYPE,
       "vnd.openxmlformats-officedocument.wordprocessingml.document");
-  public static final MediaType OOXML_PRESENTATION = new MediaType(APPLICATION_TYPE,
+  public static final MediaType OOXML_PRESENTATION = createConstant(APPLICATION_TYPE,
       "vnd.openxmlformats-officedocument.presentationml.presentation");
   public static final MediaType OOXML_SHEET =
-      new MediaType(APPLICATION_TYPE, "vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+      createConstant(APPLICATION_TYPE, "vnd.openxmlformats-officedocument.spreadsheetml.sheet");
   public static final MediaType OPENDOCUMENT_GRAPHICS =
-      new MediaType(APPLICATION_TYPE, "vnd.oasis.opendocument.graphics");
+      createConstant(APPLICATION_TYPE, "vnd.oasis.opendocument.graphics");
   public static final MediaType OPENDOCUMENT_PRESENTATION =
-      new MediaType(APPLICATION_TYPE, "vnd.oasis.opendocument.presentation");
+      createConstant(APPLICATION_TYPE, "vnd.oasis.opendocument.presentation");
   public static final MediaType OPENDOCUMENT_SPREADSHEET =
-      new MediaType(APPLICATION_TYPE, "vnd.oasis.opendocument.spreadsheet");
+      createConstant(APPLICATION_TYPE, "vnd.oasis.opendocument.spreadsheet");
   public static final MediaType OPENDOCUMENT_TEXT =
-      new MediaType(APPLICATION_TYPE, "vnd.oasis.opendocument.text");
-  public static final MediaType PDF = new MediaType(APPLICATION_TYPE, "pdf");
-  public static final MediaType POSTSCRIPT = new MediaType(APPLICATION_TYPE, "postscript");
-  public static final MediaType RTF_UTF_8 = new MediaType(APPLICATION_TYPE, "rtf")
-      .withCharset(UTF_8);
-  public static final MediaType SHOCKWAVE_FLASH = new MediaType(APPLICATION_TYPE,
+      createConstant(APPLICATION_TYPE, "vnd.oasis.opendocument.text");
+  public static final MediaType PDF = createConstant(APPLICATION_TYPE, "pdf");
+  public static final MediaType POSTSCRIPT = createConstant(APPLICATION_TYPE, "postscript");
+  public static final MediaType RTF_UTF_8 = createConstantUtf8(APPLICATION_TYPE, "rtf");
+  public static final MediaType SHOCKWAVE_FLASH = createConstant(APPLICATION_TYPE,
       "x-shockwave-flash");
-  public static final MediaType TAR = new MediaType(APPLICATION_TYPE, "x-tar");
-  public static final MediaType XHTML_UTF_8 = new MediaType(APPLICATION_TYPE, "xhtml+xml")
-      .withCharset(UTF_8);
-  public static final MediaType ZIP = new MediaType(APPLICATION_TYPE, "zip");
+  public static final MediaType TAR = createConstant(APPLICATION_TYPE, "x-tar");
+  public static final MediaType XHTML_UTF_8 = createConstantUtf8(APPLICATION_TYPE, "xhtml+xml");
+  public static final MediaType ZIP = createConstant(APPLICATION_TYPE, "zip");
 
   private static final ImmutableMap<MediaType, MediaType> KNOWN_TYPES =
       new ImmutableMap.Builder<MediaType, MediaType>()
@@ -291,8 +286,12 @@ public final class MediaType {
     this.parameters = parameters;
   }
 
-  private MediaType(String type, String subtype) {
-    this(type, subtype, ImmutableListMultimap.<String, String>of());
+  private static MediaType createConstant(String type, String subtype) {
+    return new MediaType(type, subtype, ImmutableListMultimap.<String, String>of());
+  }
+
+  private static MediaType createConstantUtf8(String type, String subtype) {
+    return new MediaType(type, subtype, UTF_8_CONSTANT_PARAMETERS);
   }
 
   /** Returns the top-level media type.  For example, {@code "text"} in {@code "text/plain"}. */
@@ -376,7 +375,9 @@ public final class MediaType {
       }
     }
     builder.put(normalizedAttribute, normalizeParameterValue(normalizedAttribute, value));
-    return new MediaType(type, subtype, builder.build());
+    MediaType mediaType = new MediaType(type, subtype, builder.build());
+    // Return one of the constants if the media type is a known type.
+    return Objects.firstNonNull(KNOWN_TYPES.get(mediaType), mediaType);
   }
 
   /**
@@ -494,17 +495,12 @@ public final class MediaType {
     String normalizedSubtype = normalizeToken(subtype);
     checkArgument(!WILDCARD.equals(normalizedType) || WILDCARD.equals(normalizedSubtype),
         "A wildcard type cannot be used with a non-wildcard subtype");
-    final MediaType mediaType;
-    if (parameters.isEmpty()) {
-      mediaType = new MediaType(normalizedType, normalizedSubtype);
-    } else {
-      ImmutableListMultimap.Builder<String, String> builder = ImmutableListMultimap.builder();
-      for (Entry<String, String> entry : parameters.entries()) {
-        String attribute = normalizeToken(entry.getKey());
-        builder.put(attribute, normalizeParameterValue(attribute, entry.getValue()));
-      }
-      mediaType = new MediaType(normalizedType, normalizedSubtype, builder.build());
+    ImmutableListMultimap.Builder<String, String> builder = ImmutableListMultimap.builder();
+    for (Entry<String, String> entry : parameters.entries()) {
+      String attribute = normalizeToken(entry.getKey());
+      builder.put(attribute, normalizeParameterValue(attribute, entry.getValue()));
     }
+    MediaType mediaType = new MediaType(normalizedType, normalizedSubtype, builder.build());
     // Return one of the constants if the media type is a known type.
     return Objects.firstNonNull(KNOWN_TYPES.get(mediaType), mediaType);
   }
