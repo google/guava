@@ -650,8 +650,9 @@ public final class CacheBuilder<K, V> {
    * {@link CacheLoader#reload}.
    *
    * <p>As the default implementation of {@link CacheLoader#reload} is synchronous, it is
-   * recommended that users of this method override {@link CacheLoader#reload} with an asynchrnous
-   * implementation; otherwise refreshes will block other cache operations.
+   * recommended that users of this method override {@link CacheLoader#reload} with an asynchronous
+   * implementation; otherwise refreshes will be performed during unrelated cache read and write
+   * operations.
    *
    * <p>Currently automatic refreshes are performed when the first stale request for an entry
    * occurs. The request triggering refresh will make a blocking call to {@link CacheLoader#reload}
