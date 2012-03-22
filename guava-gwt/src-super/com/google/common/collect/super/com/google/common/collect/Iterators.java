@@ -882,7 +882,7 @@ public final class Iterators {
    * @since 3.0
    */
   @Beta
-  public static <T> int skip(Iterator<T> iterator, int numberToSkip) {
+  public static int skip(Iterator<?> iterator, int numberToSkip) {
     checkNotNull(iterator);
     checkArgument(numberToSkip >= 0, "number to skip cannot be negative");
 
