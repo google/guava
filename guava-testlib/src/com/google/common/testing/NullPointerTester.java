@@ -341,7 +341,7 @@ public final class NullPointerTester {
       return defaultValue;
     }
     @SuppressWarnings("unchecked") // All null values are generics-safe
-    T nullValue = (T) NullValues.get(type.getRawType());
+    T nullValue = (T) ArbitraryInstances.get(type.getRawType());
     if (nullValue != null) {
       return nullValue;
     }
