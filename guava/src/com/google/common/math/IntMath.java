@@ -71,7 +71,6 @@ public final class IntMath {
    * @throws ArithmeticException if {@code mode} is {@link RoundingMode#UNNECESSARY} and {@code x}
    *         is not a power of two
    */
-  @GwtIncompatible("need BigIntegerMath to adequately test")
   @SuppressWarnings("fallthrough")
   public static int log2(int x, RoundingMode mode) {
     checkPositive("x", x);
@@ -244,7 +243,6 @@ public final class IntMath {
    * @throws ArithmeticException if {@code q == 0}, or if {@code mode == UNNECESSARY} and {@code a}
    *         is not an integer multiple of {@code b}
    */
-  @GwtIncompatible("failing tests")
   @SuppressWarnings("fallthrough")
   public static int divide(int p, int q, RoundingMode mode) {
     checkNotNull(mode);
@@ -434,7 +432,6 @@ public final class IntMath {
    *
    * @throws IllegalArgumentException if {@code n < 0}
    */
-  @GwtIncompatible("need BigIntegerMath to adequately test")
   public static int factorial(int n) {
     checkNonNegative("n", n);
     return (n < FACTORIALS.length) ? FACTORIALS[n] : Integer.MAX_VALUE;

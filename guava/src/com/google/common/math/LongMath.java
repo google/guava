@@ -28,6 +28,8 @@ import static java.math.RoundingMode.HALF_EVEN;
 import static java.math.RoundingMode.HALF_UP;
 
 import com.google.common.annotations.Beta;
+import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.VisibleForTesting;
 
 import java.math.BigInteger;
@@ -48,6 +50,7 @@ import java.math.RoundingMode;
  * @since 11.0
  */
 @Beta
+@GwtCompatible(emulated = true)
 public final class LongMath {
   // NOTE: Whenever both tests are cheap and functional, it's faster to use &, | instead of &&, ||
 
@@ -108,6 +111,7 @@ public final class LongMath {
    * @throws ArithmeticException if {@code mode} is {@link RoundingMode#UNNECESSARY} and {@code x}
    *         is not a power of ten
    */
+  @GwtIncompatible("TODO")
   @SuppressWarnings("fallthrough")
   public static int log10(long x, RoundingMode mode) {
     checkPositive("x", x);
@@ -136,6 +140,7 @@ public final class LongMath {
     }
   }
 
+  @GwtIncompatible("TODO")
   static int log10Floor(long x) {
     for (int i = 1; i < POWERS_OF_10.length; i++) {
       if (x < POWERS_OF_10[i]) {
@@ -145,6 +150,7 @@ public final class LongMath {
     return POWERS_OF_10.length - 1;
   }
 
+  @GwtIncompatible("TODO")
   @VisibleForTesting
   static final long[] POWERS_OF_10 = {
     1L,
@@ -169,6 +175,7 @@ public final class LongMath {
   };
 
   // HALF_POWERS_OF_10[i] = largest long less than 10^(i + 0.5)
+  @GwtIncompatible("TODO")
   @VisibleForTesting
   static final long[] HALF_POWERS_OF_10 = {
     3L,
@@ -199,6 +206,7 @@ public final class LongMath {
    *
    * @throws IllegalArgumentException if {@code k < 0}
    */
+  @GwtIncompatible("TODO")
   public static long pow(long b, int k) {
     checkNonNegative("exponent", k);
     if (-2 <= b && b <= 2) {
@@ -239,6 +247,7 @@ public final class LongMath {
    * @throws ArithmeticException if {@code mode} is {@link RoundingMode#UNNECESSARY} and
    *         {@code sqrt(x)} is not an integer
    */
+  @GwtIncompatible("TODO")
   @SuppressWarnings("fallthrough")
   public static long sqrt(long x, RoundingMode mode) {
     checkNonNegative("x", x);
@@ -270,6 +279,7 @@ public final class LongMath {
     }
   }
 
+  @GwtIncompatible("TODO")
   private static long sqrtFloor(long x) {
     // Hackers's Delight, Figure 11-1
     long sqrt0 = (long) Math.sqrt(x);
@@ -292,6 +302,7 @@ public final class LongMath {
    * @throws ArithmeticException if {@code q == 0}, or if {@code mode == UNNECESSARY} and {@code a}
    *         is not an integer multiple of {@code b}
    */
+  @GwtIncompatible("TODO")
   @SuppressWarnings("fallthrough")
   public static long divide(long p, long q, RoundingMode mode) {
     checkNotNull(mode);
@@ -362,6 +373,7 @@ public final class LongMath {
    *
    * @throws ArithmeticException if {@code m <= 0}
    */
+  @GwtIncompatible("TODO")
   public static int mod(long x, int m) {
     // Cast is safe because the result is guaranteed in the range [0, m)
     return (int) mod(x, (long) m);
@@ -383,6 +395,7 @@ public final class LongMath {
    *
    * @throws ArithmeticException if {@code m <= 0}
    */
+  @GwtIncompatible("TODO")
   public static long mod(long x, long m) {
     if (m <= 0) {
       throw new ArithmeticException("Modulus " + m + " must be > 0");
@@ -397,6 +410,7 @@ public final class LongMath {
    *
    * @throws IllegalArgumentException if {@code a < 0} or {@code b < 0}
    */
+  @GwtIncompatible("TODO")
   public static long gcd(long a, long b) {
     /*
      * The reason we require both arguments to be >= 0 is because otherwise, what do you return on
@@ -433,6 +447,7 @@ public final class LongMath {
    *
    * @throws ArithmeticException if {@code a + b} overflows in signed {@code long} arithmetic
    */
+  @GwtIncompatible("TODO")
   public static long checkedAdd(long a, long b) {
     long result = a + b;
     checkNoOverflow((a ^ b) < 0 | (a ^ result) >= 0);
@@ -444,6 +459,7 @@ public final class LongMath {
    *
    * @throws ArithmeticException if {@code a - b} overflows in signed {@code long} arithmetic
    */
+  @GwtIncompatible("TODO")
   public static long checkedSubtract(long a, long b) {
     long result = a - b;
     checkNoOverflow((a ^ b) >= 0 | (a ^ result) >= 0);
@@ -455,6 +471,7 @@ public final class LongMath {
    *
    * @throws ArithmeticException if {@code a * b} overflows in signed {@code long} arithmetic
    */
+  @GwtIncompatible("TODO")
   public static long checkedMultiply(long a, long b) {
     // Hacker's Delight, Section 2-12
     int leadingZeros = Long.numberOfLeadingZeros(a) + Long.numberOfLeadingZeros(~a)
@@ -485,6 +502,7 @@ public final class LongMath {
    * @throws ArithmeticException if {@code b} to the {@code k}th power overflows in signed
    *         {@code long} arithmetic
    */
+  @GwtIncompatible("TODO")
   public static long checkedPow(long b, int k) {
     checkNonNegative("exponent", k);
     if (b >= -2 & b <= 2) {
@@ -523,6 +541,7 @@ public final class LongMath {
     }
   }
 
+  @GwtIncompatible("TODO")
   @VisibleForTesting static final long FLOOR_SQRT_MAX_LONG = 3037000499L;
 
   /**
@@ -532,6 +551,7 @@ public final class LongMath {
    *
    * @throws IllegalArgumentException if {@code n < 0}
    */
+  @GwtIncompatible("TODO")
   public static long factorial(int n) {
     checkNonNegative("n", n);
     return (n < FACTORIALS.length) ? FACTORIALS[n] : Long.MAX_VALUE;
@@ -616,6 +636,7 @@ public final class LongMath {
   // These values were generated by using checkedMultiply to see when the simple multiply/divide
   // algorithm would lead to an overflow.
 
+  @GwtIncompatible("TODO")
   static boolean fitsInInt(long x) {
     return (int) x == x;
   }

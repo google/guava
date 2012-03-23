@@ -22,7 +22,6 @@ import static com.google.common.math.LongMath.binomial;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Function;
 import com.google.common.base.Joiner;
 import com.google.common.base.Predicate;
@@ -48,7 +47,7 @@ import javax.annotation.Nullable;
  * @author Jared Levy
  * @since 2.0 (imported from Google Collections Library)
  */
-@GwtCompatible(emulated = true)
+@GwtCompatible
 public final class Collections2 {
   private Collections2() {}
 
@@ -317,7 +316,7 @@ public final class Collections2 {
     }
     return true;
   }
-  
+
   /**
    * An implementation of {@link Collection#toString()}.
    */
@@ -364,7 +363,7 @@ public final class Collections2 {
    * <p>Duplicate elements are considered equal. For example, the list [1, 1]
    * will have only one permutation, instead of two. This is why the elements
    * have to implement {@link Comparable}.
-   * 
+   *
    * <p>An empty iterable has only one permutation, which is an empty list.
    *
    * <p>This method is equivalent to
@@ -377,7 +376,6 @@ public final class Collections2 {
    *     null elements.
    * @since 12.0
    */
-  @GwtIncompatible("com.google.common.math")
   @Beta public static <E extends Comparable<? super E>>
       Collection<List<E>> orderedPermutations(Iterable<E> elements) {
     return orderedPermutations(elements, Ordering.natural());
@@ -419,7 +417,7 @@ public final class Collections2 {
    *
    * <p>Elements that compare equal are considered equal and no new permutations
    * are created by swapping them.
-   * 
+   *
    * <p>An empty iterable has only one permutation, which is an empty list.
    *
    * @param elements the original iterable whose elements have to be permuted.
@@ -430,13 +428,11 @@ public final class Collections2 {
    *     null elements, or if the specified comparator is null.
    * @since 12.0
    */
-  @GwtIncompatible("com.google.common.math")
   @Beta public static <E> Collection<List<E>> orderedPermutations(
       Iterable<E> elements, Comparator<? super E> comparator) {
     return new OrderedPermutationCollection<E>(elements, comparator);
   }
 
-  @GwtIncompatible("not used by GwtCompatible code (yet)")
   private static final class OrderedPermutationCollection<E>
       extends AbstractCollection<List<E>> {
     final ImmutableList<E> inputList;
@@ -510,19 +506,18 @@ public final class Collections2 {
     }
   }
 
-  @GwtIncompatible("not used by GwtCompatible code (yet)")
   private static final class OrderedPermutationIterator<E>
       extends AbstractIterator<List<E>> {
 
     List<E> nextPermutation;
     final Comparator<? super E> comparator;
-    
+
     OrderedPermutationIterator(List<E> list,
         Comparator<? super E> comparator) {
       this.nextPermutation = Lists.newArrayList(list);
       this.comparator = comparator;
     }
-    
+
     @Override protected List<E> computeNext() {
       if (nextPermutation == null) {
         return endOfData();
@@ -573,12 +568,12 @@ public final class Collections2 {
    * <p><i>Notes:</i> This is an implementation of the Plain Changes algorithm
    * for permutations generation, described in Knuth's "The Art of Computer
    * Programming", Volume 4, Chapter 7, Section 7.2.1.2.
-   * 
+   *
    * <p>If the input list contains equal elements, some of the generated
    * permutations will be equal.
-   * 
+   *
    * <p>An empty collection has only one permutation, which is an empty list.
-   * 
+   *
    * @param elements the original collection whose elements have to be permuted.
    * @return an immutable {@link Collection} containing all the different
    *     permutations of the original collection.
@@ -586,13 +581,11 @@ public final class Collections2 {
    *     null elements.
    * @since 12.0
    */
-  @GwtIncompatible("com.google.common.math")
   @Beta public static <E> Collection<List<E>> permutations(
       Collection<E> elements) {
     return new PermutationCollection<E>(ImmutableList.copyOf(elements));
   }
 
-  @GwtIncompatible("not used by GwtCompatible code (yet)")
   private static final class PermutationCollection<E>
       extends AbstractCollection<List<E>> {
     final ImmutableList<E> inputList;
@@ -626,7 +619,6 @@ public final class Collections2 {
     }
   }
 
-  @GwtIncompatible("not used by GwtCompatible code (yet)")
   private static class PermutationIterator<E>
       extends AbstractIterator<List<E>> {
     final List<E> list;
@@ -658,13 +650,13 @@ public final class Collections2 {
     void calculateNextPermutation() {
       j = list.size() - 1;
       int s = 0;
-    
+
       // Handle the special case of an empty list. Skip the calculation of the
       // next permutation.
       if (j == -1) {
         return;
       }
-    
+
       while (true) {
         int q = c[j] + o[j];
         if (q < 0) {
@@ -695,7 +687,6 @@ public final class Collections2 {
   /**
    * Returns {@code true} if the second list is a permutation of the first.
    */
-  @GwtIncompatible("not used by GwtCompatible code (yet)")
   private static boolean isPermutation(List<?> first,
       List<?> second) {
     if (first.size() != second.size()) {
@@ -706,7 +697,6 @@ public final class Collections2 {
     return firstSet.equals(secondSet);
   }
 
-  @GwtIncompatible("not used by GwtCompatible code (yet)")
   private static boolean isPositiveInt(long n) {
     return n >= 0 && n <= Integer.MAX_VALUE;
   }

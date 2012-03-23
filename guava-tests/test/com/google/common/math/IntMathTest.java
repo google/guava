@@ -23,6 +23,7 @@ import static com.google.common.math.MathTesting.EXPONENTS;
 import static com.google.common.math.MathTesting.NEGATIVE_INTEGER_CANDIDATES;
 import static com.google.common.math.MathTesting.NONZERO_INTEGER_CANDIDATES;
 import static com.google.common.math.MathTesting.POSITIVE_INTEGER_CANDIDATES;
+import static com.google.common.math.TestPlatform.intsCanGoOutOfRange;
 import static java.math.BigInteger.valueOf;
 import static java.math.RoundingMode.FLOOR;
 import static java.math.RoundingMode.UNNECESSARY;
@@ -80,7 +81,7 @@ public class IntMathTest extends TestCase {
         fitsInInt(BigIntegerMath.binomial(
             2 * IntMath.BIGGEST_BINOMIALS.length, IntMath.BIGGEST_BINOMIALS.length)));
   }
-  
+
   @GwtIncompatible("sqrt")
   public void testPowersSqrtMaxInt() {
     assertEquals(IntMath.sqrt(Integer.MAX_VALUE, FLOOR), IntMath.FLOOR_SQRT_MAX_INT);
@@ -94,7 +95,6 @@ public class IntMathTest extends TestCase {
     }
   }
 
-  @GwtIncompatible("log2")
   public void testLog2ZeroAlwaysThrows() {
     for (RoundingMode mode : ALL_ROUNDING_MODES) {
       try {
@@ -104,7 +104,6 @@ public class IntMathTest extends TestCase {
     }
   }
 
-  @GwtIncompatible("log2")
   public void testLog2NegativeAlwaysThrows() {
     for (int x : NEGATIVE_INTEGER_CANDIDATES) {
       for (RoundingMode mode : ALL_ROUNDING_MODES) {
@@ -117,7 +116,6 @@ public class IntMathTest extends TestCase {
   }
 
   // Relies on the correctness of BigIntegrerMath.log2 for all modes except UNNECESSARY.
-  @GwtIncompatible("BigIntegerMath") // TODO(cpovirk): GWT-enable BigIntegerMath
   public void testLog2MatchesBigInteger() {
     for (int x : POSITIVE_INTEGER_CANDIDATES) {
       for (RoundingMode mode : ALL_SAFE_ROUNDING_MODES) {
@@ -127,7 +125,6 @@ public class IntMathTest extends TestCase {
   }
 
   // Relies on the correctness of isPowerOfTwo(int).
-  @GwtIncompatible("log2")
   public void testLog2Exact() {
     for (int x : POSITIVE_INTEGER_CANDIDATES) {
       // We only expect an exception if x was not a power of 2.
@@ -255,11 +252,16 @@ public class IntMathTest extends TestCase {
     }
   }
 
-  @GwtIncompatible("-2147483648/1 expected=2147483648")
   public void testDivNonZero() {
     for (int p : NONZERO_INTEGER_CANDIDATES) {
       for (int q : NONZERO_INTEGER_CANDIDATES) {
         for (RoundingMode mode : ALL_SAFE_ROUNDING_MODES) {
+          // Skip some tests that fail due to GWT's non-compliant int implementation.
+          // TODO(cpovirk): does this test fail for only some rounding modes or for all?
+          // TODO(cpovirk): why is dividing by 1 a problem?
+          if (p == -2147483648 && (q == 1 || q == -1) && intsCanGoOutOfRange()) {
+            continue;
+          }
           int expected =
               new BigDecimal(valueOf(p)).divide(new BigDecimal(valueOf(q)), 0, mode).intValue();
           assertEquals(p + "/" + q, expected, IntMath.divide(p, q, mode));
@@ -268,23 +270,24 @@ public class IntMathTest extends TestCase {
     }
   }
 
-  @GwtIncompatible("-2147483648/-1 not expected to divide evenly")
   public void testDivNonZeroExact() {
     for (int p : NONZERO_INTEGER_CANDIDATES) {
       for (int q : NONZERO_INTEGER_CANDIDATES) {
+        // Skip some tests that fail due to GWT's non-compliant int implementation.
+        if (p == -2147483648 && q == -1 && intsCanGoOutOfRange()) {
+          continue;
+        }
         boolean dividesEvenly = (p % q) == 0;
-
         try {
           assertEquals(p + "/" + q, p, IntMath.divide(p, q, UNNECESSARY) * q);
-          assertTrue(p + "/" + q + " expected to divide evenly", dividesEvenly);
+          assertTrue(p + "/" + q + " not expected to divide evenly", dividesEvenly);
         } catch (ArithmeticException e) {
-          assertFalse(p + "/" + q + " not expected to divide evenly", dividesEvenly);
+          assertFalse(p + "/" + q + " expected to divide evenly", dividesEvenly);
         }
       }
     }
   }
 
-  @GwtIncompatible("pow()")
   public void testZeroDivIsAlwaysZero() {
     for (int q : NONZERO_INTEGER_CANDIDATES) {
       for (RoundingMode mode : ALL_ROUNDING_MODES) {
@@ -293,7 +296,6 @@ public class IntMathTest extends TestCase {
     }
   }
 
-  @GwtIncompatible("pow()")
   public void testDivByZeroAlwaysFails() {
     for (int p : ALL_INTEGER_CANDIDATES) {
       for (RoundingMode mode : ALL_ROUNDING_MODES) {
@@ -437,7 +439,6 @@ public class IntMathTest extends TestCase {
   }
 
   // Depends on the correctness of BigIntegerMath.factorial.
-  @GwtIncompatible("BigIntegerMath") // TODO(cpovirk): GWT-enable BigIntegerMath
   public void testFactorial() {
     for (int n = 0; n <= 50; n++) {
       BigInteger expectedBig = BigIntegerMath.factorial(n);
@@ -446,7 +447,6 @@ public class IntMathTest extends TestCase {
     }
   }
 
-  @GwtIncompatible("factorial")
   public void testFactorialNegative() {
     for (int n : NEGATIVE_INTEGER_CANDIDATES) {
       try {
@@ -495,7 +495,7 @@ public class IntMathTest extends TestCase {
   private boolean fitsInInt(BigInteger big) {
     return big.bitLength() <= 31;
   }
-  
+
   @GwtIncompatible("NullPointerTester")
   public void testNullPointers() throws Exception {
     NullPointerTester tester = new NullPointerTester();
