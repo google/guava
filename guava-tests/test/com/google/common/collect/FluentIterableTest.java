@@ -16,8 +16,8 @@
 
 package com.google.common.collect;
 
-import static org.junit.contrib.truth.Truth.ASSERT;
 import static java.util.Arrays.asList;
+import static org.junit.contrib.truth.Truth.ASSERT;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -128,30 +128,6 @@ public class FluentIterableTest extends TestCase {
     assertFalse(FluentIterable.from(iterable).contains("c"));
   }
 
-  public void testGetOnlyElement_noDefaultValid() {
-    assertEquals("foo", FluentIterable.from(asList("foo")).getOnlyElement());
-  }
-
-  public void testGetOnlyElement_noDefaultMultiple() {
-    try {
-      FluentIterable.from(asList("foo", "bar")).getOnlyElement();
-      fail("Invoking getOnly element on two element FluentIterable should cause exception.");
-    } catch (IllegalArgumentException expected) {
-    }
-  }
-
-  public void testGetOnlyElement_withDefaultSingleton() {
-    assertEquals("foo", FluentIterable.from(asList("foo")).getOnlyElement("bar"));
-  }
-
-  public void testGetOnlyElement_withDefaultMultiple() {
-    try {
-      FluentIterable.from(asList("foo", "bar")).getOnlyElement("x");
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
-  }
-
   public void testCycle() {
     FluentIterable<String> cycle = FluentIterable.from(asList("a", "b")).cycle();
 
@@ -181,23 +157,6 @@ public class FluentIterableTest extends TestCase {
     iterator.remove();
     assertFalse(iterator.hasNext());
     assertFalse(cycle.iterator().hasNext());
-  }
-
-  public void testAppend() {
-    FluentIterable<Integer> result =
-        FluentIterable.<Integer>from(asList(1, 2, 3)).append(Lists.newArrayList(4, 5, 6));
-    assertEquals(asList(1, 2, 3, 4, 5, 6), Lists.newArrayList(result));
-    assertEquals("[1, 2, 3, 4, 5, 6]", result.toString());
-
-    result = FluentIterable.<Integer>from(asList(1, 2, 3)).append(4, 5, 6);
-    assertEquals(asList(1, 2, 3, 4, 5, 6), Lists.newArrayList(result));
-    assertEquals("[1, 2, 3, 4, 5, 6]", result.toString());
-  }
-
-  public void testAppend_emptyList() {
-    FluentIterable<Integer> result =
-        FluentIterable.<Integer>from(asList(1, 2, 3)).append(Lists.<Integer>newArrayList());
-    assertEquals(asList(1, 2, 3), Lists.newArrayList(result));
   }
 
   /*

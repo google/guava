@@ -23,7 +23,6 @@ import com.google.common.base.Optional;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Predicate;
 
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
@@ -50,7 +49,6 @@ import javax.annotation.Nullable;
  *
  *   FluentIterable
  *       .from(database.getClientList())
- *       .append(database.getProviderList())
  *       .transform(Functions.toStringFunction())
  *       .limit(10)
  *       .toImmutableList();}</pre>
@@ -130,26 +128,6 @@ public abstract class FluentIterable<E> implements Iterable<E> {
   }
 
   /**
-   * Returns the single element contained in this fluent iterable.
-   *
-   * @throws NoSuchElementException if this fluent iterable is empty
-   * @throws IllegalArgumentException if this fluent iterable contains multiple elements
-   */
-  public final E getOnlyElement() {
-    return Iterables.getOnlyElement(iterable);
-  }
-
-  /**
-   * Returns the single element contained in this fluent iterable, or {@code defaultValue}
-   * if this fluent iterable is empty.
-   *
-   * @throws IllegalArgumentException if this iterable contains multiple elements
-   */
-  public final E getOnlyElement(@Nullable E defaultValue) {
-    return Iterables.getOnlyElement(iterable, defaultValue);
-  }
-
-  /**
    * Returns a fluent iterable whose {@code Iterator} cycles indefinitely over the elements of
    * this fluent iterable.
    *
@@ -164,25 +142,6 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    */
   public final FluentIterable<E> cycle() {
     return from(Iterables.cycle(iterable));
-  }
-
-  /**
-   * Returns a fluent iterable whose iterators traverse first the elements of this fluent iterable,
-   * followed by those of {@code other}. The iterators are not polled until necessary.
-   *
-   * <p>The returned iterable's {@code Iterator} supports {@code remove()} when the corresponding
-   * {@code Iterator} supports it.
-   */
-  public final FluentIterable<E> append(Iterable<? extends E> other) {
-    return from(Iterables.concat(iterable, other));
-  }
-
-  /**
-   * Returns a fluent iterable whose iterators traverse first the elements of this fluent iterable,
-   * followed by {@code elements}.
-   */
-  public final FluentIterable<E> append(E... elements) {
-    return from(Iterables.concat(iterable, Arrays.asList(elements)));
   }
 
   /**

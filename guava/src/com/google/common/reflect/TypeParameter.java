@@ -19,6 +19,8 @@ package com.google.common.reflect;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import com.google.common.annotations.Beta;
+
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
 
@@ -33,7 +35,9 @@ import java.lang.reflect.TypeVariable;
  * }</pre>
  *
  * @author Ben Yu
+ * @since 12.0
  */
+@Beta
 public abstract class TypeParameter<T> extends TypeCapture<T> {
 
   final TypeVariable<?> typeVariable;

@@ -210,12 +210,13 @@
  * <li>{@link com.google.common.collect.ForwardingMapEntry}
  * <li>{@link com.google.common.collect.ForwardingMultimap}
  * <li>{@link com.google.common.collect.ForwardingMultiset}
+ * <li>{@link com.google.common.collect.ForwardingNavigableMap}
+ * <li>{@link com.google.common.collect.ForwardingNavigableSet}
  * <li>{@link com.google.common.collect.ForwardingObject}
  * <li>{@link com.google.common.collect.ForwardingQueue}
  * <li>{@link com.google.common.collect.ForwardingSet}
  * <li>{@link com.google.common.collect.ForwardingSetMultimap}
  * <li>{@link com.google.common.collect.ForwardingSortedMap}
- * <li>{@link com.google.common.collect.ForwardingSortedMultiset}
  * <li>{@link com.google.common.collect.ForwardingSortedSet}
  * <li>{@link com.google.common.collect.ForwardingSortedSetMultimap}
  * <li>{@link com.google.common.collect.ForwardingTable}
