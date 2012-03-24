@@ -44,7 +44,7 @@ import javax.annotation.CheckReturnValue;
  * <p>Example usages: <pre>
  *   String trimmed = {@link #WHITESPACE WHITESPACE}.{@link #trimFrom trimFrom}(userInput);
  *   if ({@link #ASCII ASCII}.{@link #matchesAllOf matchesAllOf}(s)) { ... }</pre>
- * 
+ *
  * <p>See the Guava User Guide article on <a href=
  * "http://code.google.com/p/guava-libraries/wiki/StringsExplained#CharMatcher">
  * {@code CharMatcher}</a>.
@@ -56,32 +56,6 @@ import javax.annotation.CheckReturnValue;
 @GwtCompatible
 public abstract class CharMatcher implements Predicate<Character> {
   // Constants
-
-  // Excludes 2000-2000a, which is handled as a range
-  private static final String BREAKING_WHITESPACE_CHARS =
-      "\t\n\013\f\r \u0085\u1680\u2028\u2029\u205f\u3000";
-
-  // Excludes 2007, which is handled as a gap in a pair of ranges
-  private static final String NON_BREAKING_WHITESPACE_CHARS =
-      "\u00a0\u180e\u202f";
-
-  /**
-   * Determines whether a character is whitespace according to the latest Unicode standard, as
-   * illustrated
-   * <a href="http://unicode.org/cldr/utility/list-unicodeset.jsp?a=%5Cp%7Bwhitespace%7D">here</a>.
-   * This is not the same definition used by other Java APIs. (See a
-   * <a href="http://spreadsheets.google.com/pub?key=pd8dAQyHbdewRsnE5x5GzKQ">comparison of several
-   * definitions of "whitespace"</a>.)
-   *
-   * <p><b>Note:</b> as the Unicode definition evolves, we will modify this constant to keep it up
-   * to date.
-   */
-  public static final CharMatcher WHITESPACE =
-      anyOf(BREAKING_WHITESPACE_CHARS + NON_BREAKING_WHITESPACE_CHARS)
-          .or(inRange('\u2000', '\u200a'))
-          .withToString("CharMatcher.WHITESPACE")
-          .precomputed();
-
   /**
    * Determines whether a character is a breaking whitespace (that is, a whitespace which can be
    * interpreted as a break between words for formatting purposes). See {@link #WHITESPACE} for a
@@ -90,7 +64,7 @@ public abstract class CharMatcher implements Predicate<Character> {
    * @since 2.0
    */
   public static final CharMatcher BREAKING_WHITESPACE =
-      anyOf(BREAKING_WHITESPACE_CHARS)
+      anyOf("\t\n\013\f\r \u0085\u1680\u2028\u2029\u205f\u3000")
           .or(inRange('\u2000', '\u2006'))
           .or(inRange('\u2008', '\u200a'))
           .withToString("CharMatcher.BREAKING_WHITESPACE")
@@ -777,7 +751,7 @@ public abstract class CharMatcher implements Predicate<Character> {
       }
     };
   }
-  
+
   CharMatcher withToString(final String toString) {
     final CharMatcher delegate = this;
     return new CharMatcher() {
@@ -1205,7 +1179,7 @@ public abstract class CharMatcher implements Predicate<Character> {
     boolean in = true;
     for (int i = first + 1; i < sequence.length(); i++) {
       char c = sequence.charAt(i);
-      if (apply(c)) {
+      if (matches(c)) {
         if (!in) {
           builder.append(replacement);
           in = true;
@@ -1233,7 +1207,7 @@ public abstract class CharMatcher implements Predicate<Character> {
     boolean inMatchingGroup = false;
     for (int i = first; i < sequence.length(); i++) {
       char c = sequence.charAt(i);
-      if (apply(c)) {
+      if (matches(c)) {
         inMatchingGroup = true;
       } else {
         if (inMatchingGroup) {
@@ -1265,4 +1239,59 @@ public abstract class CharMatcher implements Predicate<Character> {
   public String toString() {
     return super.toString();
   }
+
+  /**
+   * Determines whether a character is whitespace according to the latest Unicode standard, as
+   * illustrated
+   * <a href="http://unicode.org/cldr/utility/list-unicodeset.jsp?a=%5Cp%7Bwhitespace%7D">here</a>.
+   * This is not the same definition used by other Java APIs. (See a
+   * <a href="http://spreadsheets.google.com/pub?key=pd8dAQyHbdewRsnE5x5GzKQ">comparison of several
+   * definitions of "whitespace"</a>.)
+   *
+   * <p><b>Note:</b> as the Unicode definition evolves, we will modify this constant to keep it up
+   * to date.
+   */
+  public static final CharMatcher WHITESPACE = new CharMatcher() {
+    /**
+     * A special-case CharMatcher for Unicode whitespace characters that is extremely
+     * efficient both in space required and in time to check for matches.
+     *
+     * Implementation details.
+     * It turns out that all current (early 2012) Unicode characters are unique modulo 79:
+     * so we can construct a lookup table of exactly 79 entries, and just check the character code
+     * mod 79, and see if that character is in the table.
+     *
+     * There is a 1 at the beginning of the table so that the null character is not listed
+     * as whitespace.
+     *
+     * Other things we tried that did not prove to be beneficial, mostly due to speed concerns:
+     *
+     *   * Binary search into the sorted list of characters, i.e., what
+     *     CharMatcher.anyOf() does</li>
+     *   * Perfect hash function into a table of size 26 (using an offset table and a special
+     *     Jenkins hash function)</li>
+     *   * Perfect-ish hash function that required two lookups into a single table of size 26.</li>
+     *   * Using a power-of-2 sized hash table (size 64) with linear probing.</li>
+     *
+     * --Christopher Swenson, February 2012.
+     */
+
+    // Mod-79 lookup table.
+    private final char[] table = {1, 0, 160, 0, 0, 0, 0, 0, 0, 9, 10, 11, 12, 13, 0, 0,
+        8232, 8233, 0, 0, 0, 0, 0, 8239, 0, 0, 0, 0, 0, 0, 0, 0, 32, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        12288, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 133, 8192, 8193, 8194, 8195, 8196, 8197, 8198, 8199,
+        8200, 8201, 8202, 0, 0, 0, 0, 0, 8287, 5760, 0, 0, 6158, 0, 0, 0};
+
+    @Override public boolean matches(char c) {
+      return table[c % 79] == c;
+    }
+
+    @Override public CharMatcher precomputed() {
+      return this;
+    }
+
+    @Override public String toString() {
+      return "CharMatcher.WHITESPACE";
+    }
+  };
 }
