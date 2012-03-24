@@ -253,7 +253,7 @@ public class LocalCacheTest extends TestCase {
   public void testSetMaximumSize() {
     // vary maximumSize wrt concurrencyLevel
 
-    for (int maxSize = 1; maxSize < 8; maxSize++) {
+    for (int maxSize = 1; maxSize < 100; maxSize++) {
       checkMaximumSize(1, 8, maxSize);
       checkMaximumSize(2, 8, maxSize);
       checkMaximumSize(4, 8, maxSize);
@@ -281,6 +281,8 @@ public class LocalCacheTest extends TestCase {
         .initialCapacity(initialCapacity)
         .maximumSize(maxSize));
     long totalCapacity = 0;
+    assertTrue("segments=" + map.segments.length + ", maxSize=" + maxSize,
+        map.segments.length <= Math.max(1, maxSize / 10));
     for (int i = 0; i < map.segments.length; i++) {
       totalCapacity += map.segments[i].maxSegmentWeight;
     }
@@ -291,6 +293,8 @@ public class LocalCacheTest extends TestCase {
         .initialCapacity(initialCapacity)
         .maximumWeight(maxSize)
         .weigher(constantWeigher(1)));
+    assertTrue("segments=" + map.segments.length + ", maxSize=" + maxSize,
+        map.segments.length <= Math.max(1, maxSize / 10));
     totalCapacity = 0;
     for (int i = 0; i < map.segments.length; i++) {
       totalCapacity += map.segments[i].maxSegmentWeight;

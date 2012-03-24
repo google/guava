@@ -260,13 +260,15 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
       initialCapacity = Math.min(initialCapacity, (int) maxWeight);
     }
 
-    // Find power-of-two sizes best matching arguments. Constraints:
-    // (segmentCount <= maxWeight)
-    // && (concurrencyLevel > maxWeight || segmentCount > concurrencyLevel)
+    // Find the lowest power-of-two segmentCount that exceeds concurrencyLevel, unless
+    // maximumSize/Weight is specified in which case ensure that each segment gets at least 10
+    // entries. The special casing for size-based eviction is only necessary because that eviction
+    // happens per segment instead of globally, so too many segments compared to the maximum size
+    // will result in random eviction behavior.
     int segmentShift = 0;
     int segmentCount = 1;
     while (segmentCount < concurrencyLevel
-        && (!evictsBySize() || customWeigher() || segmentCount * 2 <= maxWeight)) {
+           && (!evictsBySize() || segmentCount * 20 <= maxWeight)) {
       ++segmentShift;
       segmentCount <<= 1;
     }
