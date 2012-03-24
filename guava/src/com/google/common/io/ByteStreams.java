@@ -18,6 +18,9 @@ package com.google.common.io;
 
 import com.google.common.annotations.Beta;
 import com.google.common.base.Preconditions;
+import com.google.common.hash.HashCode;
+import com.google.common.hash.HashFunction;
+import com.google.common.hash.Hasher;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -755,7 +758,10 @@ public final class ByteStreams {
    * @return the result of {@link MessageDigest#digest()} after updating the
    *     digest object with all of the bytes in the stream
    * @throws IOException if an I/O error occurs
+   * @deprecated Use {@link #hash}, for example
+   *     {@code ByteStreams.hash(supplier, Hashing.sha1())}.
    */
+  @Deprecated  // To be removed Sept 2013.
   public static byte[] getDigest(InputSupplier<? extends InputStream> supplier,
       final MessageDigest md) throws IOException {
     return readBytes(supplier, new ByteProcessor<byte[]>() {
@@ -768,6 +774,34 @@ public final class ByteStreams {
       @Override
       public byte[] getResult() {
         return md.digest();
+      }
+    });
+  }
+
+  /**
+   * Computes the hash code of the data supplied by {@code supplier} using {@code
+   * hashFunction}.
+   *
+   * @param supplier the input stream factory
+   * @param hashFunction the hash function to use to hash the data
+   * @return the {@link HashCode} of all of the bytes in the input stream
+   * @throws IOException if an I/O error occurs
+   * @since 12.0
+   */
+  public static HashCode hash(
+      InputSupplier<? extends InputStream> supplier, HashFunction hashFunction)
+      throws IOException {
+    final Hasher hasher = hashFunction.newHasher();
+    return readBytes(supplier, new ByteProcessor<HashCode>() {
+      @Override
+      public boolean processBytes(byte[] buf, int off, int len) {
+        hasher.putBytes(buf, off, len);
+        return true;
+      }
+
+      @Override
+      public HashCode getResult() {
+        return hasher.hash();
       }
     });
   }

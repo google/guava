@@ -22,6 +22,8 @@ import com.google.common.annotations.Beta;
 import com.google.common.base.Joiner;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Splitter;
+import com.google.common.hash.HashCode;
+import com.google.common.hash.HashFunction;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -583,10 +585,27 @@ public final class Files {
    * @return the result of {@link MessageDigest#digest()} after updating the
    *     digest object with all of the bytes in this file
    * @throws IOException if an I/O error occurs
+   * @deprecated Use {@link #hash}, for example
+   *     {@code Files.hash(file, Hashing.sha1())}.
    */
+  @Deprecated  // To be removed Sept 2013.
   public static byte[] getDigest(File file, MessageDigest md)
       throws IOException {
     return ByteStreams.getDigest(newInputStreamSupplier(file), md);
+  }
+
+  /**
+   * Computes the hash code of the {@code file} using {@code hashFunction}.
+   *
+   * @param file the file to read
+   * @param hashFunction the hash function to use to hash the data
+   * @return the {@link HashCode} of all of the bytes in the file
+   * @throws IOException if an I/O error occurs
+   * @since 12.0
+   */
+  public static HashCode hash(File file, HashFunction hashFunction)
+      throws IOException {
+    return ByteStreams.hash(newInputStreamSupplier(file), hashFunction);
   }
 
   /**
