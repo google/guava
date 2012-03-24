@@ -16,6 +16,8 @@
 
 package com.google.common.base;
 
+import com.google.common.annotations.VisibleForTesting;
+
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.lang.ref.Reference;
@@ -179,8 +181,16 @@ public class FinalizableReferenceQueue {
    * we needn't create a separate loader.
    */
   static class SystemLoader implements FinalizerLoader {
+    // This is used by the ClassLoader-leak test in FinalizableReferenceQueueTest to disable
+    // finding Finalizer on the system class path even if it is there.
+    @VisibleForTesting
+    static boolean disabled;
+
     @Override
     public Class<?> loadFinalizer() {
+      if (disabled) {
+        return null;
+      }
       ClassLoader systemLoader;
       try {
         systemLoader = ClassLoader.getSystemClassLoader();
@@ -254,7 +264,10 @@ public class FinalizableReferenceQueue {
 
     /** Creates a class loader with the given base URL as its classpath. */
     URLClassLoader newLoader(URL base) {
-      return new URLClassLoader(new URL[] {base});
+      // We use the bootstrap class loader as the parent because Finalizer by design uses
+      // only standard Java classes. That also means that FinalizableReferenceQueueTest
+      // doesn't pick up the wrong version of the Finalizer class.
+      return new URLClassLoader(new URL[] {base}, null);
     }
   }
 

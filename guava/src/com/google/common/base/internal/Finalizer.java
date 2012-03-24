@@ -46,7 +46,7 @@ import java.util.logging.Logger;
  * class loader from getting garbage collected, and this class can detect when
  * the main class loader has been garbage collected and stop itself.
  */
-public class Finalizer extends Thread {
+public class Finalizer implements Runnable {
 
   private static final Logger logger
       = Logger.getLogger(Finalizer.class.getName());
@@ -80,7 +80,20 @@ public class Finalizer extends Thread {
     }
 
     Finalizer finalizer = new Finalizer(finalizableReferenceClass, frq);
-    finalizer.start();
+    Thread thread = new Thread(finalizer);
+    thread.setName(Finalizer.class.getName());
+    thread.setDaemon(true);
+
+    try {
+      if (inheritableThreadLocals != null) {
+        inheritableThreadLocals.set(thread, null);
+      }
+    } catch (Throwable t) {
+      logger.log(Level.INFO, "Failed to clear thread local values inherited"
+          + " by reference finalizer thread.", t);
+    }
+
+    thread.start();
     return finalizer.queue;
   }
 
@@ -93,26 +106,11 @@ public class Finalizer extends Thread {
 
   /** Constructs a new finalizer thread. */
   private Finalizer(Class<?> finalizableReferenceClass, Object frq) {
-    super(Finalizer.class.getName());
-
     this.finalizableReferenceClassReference
         = new WeakReference<Class<?>>(finalizableReferenceClass);
 
     // Keep track of the FRQ that started us so we know when to stop.
     this.frqReference = new PhantomReference<Object>(frq, queue);
-
-    setDaemon(true);
-
-    try {
-      if (inheritableThreadLocals != null) {
-        inheritableThreadLocals.set(this, null);
-      }
-    } catch (Throwable t) {
-      logger.log(Level.INFO, "Failed to clear thread local values inherited"
-          + " by reference finalizer thread.", t);
-    }
-
-    // TODO(fry): Priority?
   }
 
   /**
