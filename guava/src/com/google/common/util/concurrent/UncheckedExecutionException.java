@@ -26,12 +26,12 @@ import com.google.common.annotations.GwtCompatible;
  *
  * <p>{@code UncheckedExecutionException} is intended as an alternative to
  * {@code ExecutionException} when the exception thrown by a task is an
- * unchecked exception. This allows the client code to continue to distinguish
- * between checked and unchecked exceptions, even when they come from other
- * threads.
+ * unchecked exception. However, it may also wrap a checked exception in some
+ * cases.
  *
  * <p>When wrapping an {@code Error} from another thread, prefer {@link
- * ExecutionError}.
+ * ExecutionError}. When wrapping a checked exception, prefer {@code
+ * ExecutionException}.
  *
  * @author Charles Fry
  * @since 10.0

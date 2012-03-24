@@ -31,7 +31,7 @@ import java.util.NoSuchElementException;
  * <p>A discrete domain always represents the <i>entire</i> set of values of its
  * type; it cannot represent partial domains such as "prime integers" or
  * "strings of length 5."
- * 
+ *
  * <p>See the Guava User Guide section on <a href=
  * "http://code.google.com/p/guava-libraries/wiki/RangesExplained#Discrete_Domains">
  * {@code DiscreteDomain}</a>.
@@ -80,7 +80,7 @@ public abstract class DiscreteDomain<C extends Comparable> {
    * type.
    *
    * @return the distance as described above, or {@link Long#MIN_VALUE} or
-   *     {@link Long#MIN_VALUE} if the distance is too small or too large,
+   *     {@link Long#MAX_VALUE} if the distance is too small or too large,
    *     respectively.
    */
   public abstract long distance(C start, C end);
