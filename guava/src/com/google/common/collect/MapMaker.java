@@ -665,12 +665,10 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    * @return a serializable concurrent map having the requested features
    * @deprecated Caching functionality in {@code MapMaker} is being moved to
    *     {@link com.google.common.cache.CacheBuilder}, with {@link #makeComputingMap} being replaced
-   *     by {@link com.google.common.cache.CacheBuilder#build}. Note that uses of
-   *     {@link #makeComputingMap} with {@code AtomicLong} values can often be migrated to
-   *     {@link AtomicLongMap}. Note that {@code CacheBuilder} is simply an enhanced API for an
-   *     implementation which was branched from {@code MapMaker}.
+   *     by {@link com.google.common.cache.CacheBuilder#build}. See the
+   *     <a href="http://code.google.com/p/guava-libraries/wiki/MapMakerMigration">MapMaker
+   *     Migration Guide</a> for more details.
    *     <b>This method is scheduled for deletion in February 2013.</b>
-   *
    */
   @Deprecated
   @Override
