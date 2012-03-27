@@ -42,7 +42,7 @@ import java.util.Set;
  */
 public abstract class ForwardingTestCase extends TestCase {
 
-  private List<String> calls = new ArrayList<String>();
+  private final List<String> calls = new ArrayList<String>();
 
   private void called(String id) {
     calls.add(id);
