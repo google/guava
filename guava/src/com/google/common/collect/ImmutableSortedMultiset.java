@@ -16,10 +16,10 @@ package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -61,7 +61,7 @@ import java.util.List;
  *
  *   {(x, y) | x.compareTo(y) == 0}}</pre>
  *
- *  <b>Warning:</b> Like most multisets, an {@code ImmutableSortedMultiset} will not function
+ * <b>Warning:</b> Like most multisets, an {@code ImmutableSortedMultiset} will not function
  * correctly if an element is modified after being placed in the multiset. For this reason, and to
  * avoid general confusion, it is strongly recommended to place only immutable objects into this
  * collection.
@@ -74,9 +74,11 @@ import java.util.List;
  * immutable collections</a>.
  *
  * @author Louis Wasserman
+ * @since 12.0
  */
+@Beta
 @GwtIncompatible("hasn't been tested yet")
-abstract class ImmutableSortedMultiset<E> extends ImmutableSortedMultisetFauxverideShim<E>
+public abstract class ImmutableSortedMultiset<E> extends ImmutableSortedMultisetFauxverideShim<E>
     implements SortedMultiset<E> {
   // TODO(user): GWT compatibility
 
@@ -155,15 +157,9 @@ abstract class ImmutableSortedMultiset<E> extends ImmutableSortedMultisetFauxver
    */
   @SuppressWarnings("unchecked")
   public static <E extends Comparable<? super E>> ImmutableSortedMultiset<E> of(
-      E e1,
-      E e2,
-      E e3,
-      E e4,
-      E e5,
-      E e6,
-      E... remaining) {
+      E e1, E e2, E e3, E e4, E e5, E e6, E... remaining) {
     int size = remaining.length + 6;
-    List<E> all = new ArrayList<E>(size);
+    List<E> all = Lists.newArrayListWithCapacity(size);
     Collections.addAll(all, e1, e2, e3, e4, e5, e6);
     Collections.addAll(all, remaining);
     return copyOf(Ordering.natural(), all);
@@ -384,6 +380,8 @@ abstract class ImmutableSortedMultiset<E> extends ImmutableSortedMultisetFauxver
    * {@inheritDoc}
    *
    * <p>This implementation is guaranteed to throw an {@link UnsupportedOperationException}.
+   *
+   * @throws UnsupportedOperationException always
    */
   @Override
   public final Entry<E> pollFirstEntry() {
@@ -394,6 +392,8 @@ abstract class ImmutableSortedMultiset<E> extends ImmutableSortedMultisetFauxver
    * {@inheritDoc}
    *
    * <p>This implementation is guaranteed to throw an {@link UnsupportedOperationException}.
+   *
+   * @throws UnsupportedOperationException always
    */
   @Override
   public Entry<E> pollLastEntry() {

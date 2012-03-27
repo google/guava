@@ -42,7 +42,7 @@ import java.util.Set;
  * are "overridden" in each immutable-collection class. This ensures, for
  * example, that a call written "{@code ImmutableSortedSet.copyOf()}" cannot
  * secretly be a call to {@code ImmutableSet.copyOf()}.
- *
+ * 
  * @author Chris Povirk
  */
 public class FauxveridesTest extends TestCase {
@@ -66,6 +66,10 @@ public class FauxveridesTest extends TestCase {
 
   public void testImmutableSortedSet() {
     doHasAllFauxveridesTest(ImmutableSortedSet.class, ImmutableSet.class);
+  }
+
+  public void testImmutableSortedMultiset() {
+    doHasAllFauxveridesTest(ImmutableSortedMultiset.class, ImmutableMultiset.class);
   }
 
   /*
