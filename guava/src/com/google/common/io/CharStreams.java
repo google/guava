@@ -17,6 +17,7 @@
 package com.google.common.io;
 
 import com.google.common.annotations.Beta;
+import com.google.common.base.Charsets;
 import com.google.common.base.Preconditions;
 
 import java.io.Closeable;
@@ -78,7 +79,8 @@ public final class CharStreams {
    * using the given {@link InputStream} factory and character set.
    *
    * @param in the factory that will be used to open input streams
-   * @param charset the character set used to decode the input stream
+   * @param charset the charset used to decode the input stream; see {@link
+   *     Charsets} for helpful predefined constants
    * @return the factory
    */
   public static InputSupplier<InputStreamReader> newReaderSupplier(
@@ -98,7 +100,8 @@ public final class CharStreams {
    * using the given {@link OutputStream} factory and character set.
    *
    * @param out the factory that will be used to open output streams
-   * @param charset the character set used to encode the output stream
+   * @param charset the charset used to encode the output stream; see {@link
+   *     Charsets} for helpful predefined constants
    * @return the factory
    */
   public static OutputSupplier<OutputStreamWriter> newWriterSupplier(

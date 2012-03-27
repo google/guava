@@ -19,6 +19,7 @@ package com.google.common.io;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.Beta;
+import com.google.common.base.Charsets;
 import com.google.common.base.Joiner;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Splitter;
@@ -68,7 +69,8 @@ public final class Files {
    * character set.
    *
    * @param file the file to read from
-   * @param charset the character set used when writing the file
+   * @param charset the charset used to decode the input stream; see {@link
+   *     Charsets} for helpful predefined constants
    * @return the buffered reader
    */
   public static BufferedReader newReader(File file, Charset charset)
@@ -82,7 +84,8 @@ public final class Files {
    * character set.
    *
    * @param file the file to write to
-   * @param charset the character set used when writing the file
+   * @param charset the charset used to encode the output stream; see {@link
+   *     Charsets} for helpful predefined constants
    * @return the buffered writer
    */
   public static BufferedWriter newWriter(File file, Charset charset)
@@ -146,7 +149,8 @@ public final class Files {
    * {@link InputStreamReader} that read a file using the given character set.
    *
    * @param file the file to read from
-   * @param charset the character set used when reading the file
+   * @param charset the charset used to decode the input stream; see {@link
+   *     Charsets} for helpful predefined constants
    * @return the factory
    */
   public static InputSupplier<InputStreamReader> newReaderSupplier(File file,
@@ -159,7 +163,8 @@ public final class Files {
    * that write to a file using the given character set.
    *
    * @param file the file to write to
-   * @param charset the character set used when writing the file
+   * @param charset the charset used to encode the output stream; see {@link
+   *     Charsets} for helpful predefined constants
    * @return the factory
    */
   public static OutputSupplier<OutputStreamWriter> newWriterSupplier(File file,
@@ -172,7 +177,8 @@ public final class Files {
    * that write to or append to a file using the given character set.
    *
    * @param file the file to write to
-   * @param charset the character set used when writing the file
+   * @param charset the charset used to encode the output stream; see {@link
+   *     Charsets} for helpful predefined constants
    * @param append if true, the encoded characters will be appended to the file;
    *     otherwise the file is overwritten
    * @return the factory
@@ -217,7 +223,8 @@ public final class Files {
    * character set.
    *
    * @param file the file to read from
-   * @param charset the character set used when reading the file
+   * @param charset the charset used to decode the input stream; see {@link
+   *     Charsets} for helpful predefined constants
    * @return a string containing all the characters from the file
    * @throws IOException if an I/O error occurs
    */
@@ -294,7 +301,8 @@ public final class Files {
    *
    * @param from the readable supplier
    * @param to the destination file
-   * @param charset the character set used when writing the file
+   * @param charset the charset used to encode the output stream; see {@link
+   *     Charsets} for helpful predefined constants
    * @throws IOException if an I/O error occurs
    */
   public static <R extends Readable & Closeable> void copy(
@@ -308,7 +316,8 @@ public final class Files {
    *
    * @param from the character sequence to write
    * @param to the destination file
-   * @param charset the character set used when writing the file
+   * @param charset the charset used to encode the output stream; see {@link
+   *     Charsets} for helpful predefined constants
    * @throws IOException if an I/O error occurs
    */
   public static void write(CharSequence from, File to, Charset charset)
@@ -322,7 +331,8 @@ public final class Files {
    *
    * @param from the character sequence to append
    * @param to the destination file
-   * @param charset the character set used when writing the file
+   * @param charset the charset used to encode the output stream; see {@link
+   *     Charsets} for helpful predefined constants
    * @throws IOException if an I/O error occurs
    */
   public static void append(CharSequence from, File to, Charset charset)
@@ -336,7 +346,8 @@ public final class Files {
    *
    * @param from the character sequence to append
    * @param to the destination file
-   * @param charset the character set used when writing the file
+   * @param charset the charset used to encode the output stream; see {@link
+   *     Charsets} for helpful predefined constants
    * @param append true to append, false to overwrite
    * @throws IOException if an I/O error occurs
    */
@@ -351,7 +362,8 @@ public final class Files {
    * character set.
    *
    * @param from the source file
-   * @param charset the character set used when reading the file
+   * @param charset the charset used to decode the input stream; see {@link
+   *     Charsets} for helpful predefined constants
    * @param to the appendable supplier
    * @throws IOException if an I/O error occurs
    */
@@ -365,7 +377,8 @@ public final class Files {
    * using the given character set.
    *
    * @param from the source file
-   * @param charset the character set used when reading the file
+   * @param charset the charset used to decode the input stream; see {@link
+   *     Charsets} for helpful predefined constants
    * @param to the appendable object
    * @throws IOException if an I/O error occurs
    */
@@ -505,7 +518,8 @@ public final class Files {
    * trailing whitespace.
    *
    * @param file the file to read from
-   * @param charset the character set used when writing the file
+   * @param charset the charset used to decode the input stream; see {@link
+   *     Charsets} for helpful predefined constants
    * @return the first line, or null if the file is empty
    * @throws IOException if an I/O error occurs
    */
@@ -520,7 +534,8 @@ public final class Files {
    * trailing whitespace.
    *
    * @param file the file to read from
-   * @param charset the character set used when writing the file
+   * @param charset the charset used to decode the input stream; see {@link
+   *     Charsets} for helpful predefined constants
    * @return a mutable {@link List} containing all the lines
    * @throws IOException if an I/O error occurs
    */
@@ -534,7 +549,8 @@ public final class Files {
    * false, or we have read all of the lines.
    *
    * @param file the file to read from
-   * @param charset the character set used when writing the file
+   * @param charset the charset used to decode the input stream; see {@link
+   *     Charsets} for helpful predefined constants
    * @param callback the {@link LineProcessor} to use to handle the lines
    * @return the output of processing the lines
    * @throws IOException if an I/O error occurs

@@ -20,6 +20,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.Beta;
+import com.google.common.base.Charsets;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -67,7 +68,8 @@ public final class Resources {
    * {@link InputStreamReader} that read a URL using the given character set.
    *
    * @param url the URL to read from
-   * @param charset the character set used when reading the URL contents
+   * @param charset the charset used to decode the input stream; see {@link
+   *     Charsets} for helpful predefined constants
    * @return the factory
    */
   public static InputSupplier<InputStreamReader> newReaderSupplier(
@@ -91,7 +93,8 @@ public final class Resources {
    * character set.
    *
    * @param url the URL to read from
-   * @param charset the character set used when reading the URL
+   * @param charset the charset used to decode the input stream; see {@link
+   *     Charsets} for helpful predefined constants
    * @return a string containing all the characters from the URL
    * @throws IOException if an I/O error occurs.
    */
@@ -104,7 +107,8 @@ public final class Resources {
    * have read all of the lines.
    *
    * @param url the URL to read from
-   * @param charset the character set used when reading the URL
+   * @param charset the charset used to decode the input stream; see {@link
+   *     Charsets} for helpful predefined constants
    * @param callback the LineProcessor to use to handle the lines
    * @return the output of processing the lines
    * @throws IOException if an I/O error occurs
@@ -120,7 +124,8 @@ public final class Resources {
    * whitespace.
    *
    * @param url the URL to read from
-   * @param charset the character set used when writing the file
+   * @param charset the charset used to decode the input stream; see {@link
+   *     Charsets} for helpful predefined constants
    * @return a mutable {@link List} containing all the lines
    * @throws IOException if an I/O error occurs
    */
