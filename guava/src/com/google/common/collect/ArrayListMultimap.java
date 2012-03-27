@@ -66,7 +66,7 @@ import java.util.Map;
 @GwtCompatible(serializable = true, emulated = true)
 public final class ArrayListMultimap<K, V> extends AbstractListMultimap<K, V> {
   // Default from ArrayList
-  private static final int DEFAULT_VALUES_PER_KEY = 10;
+  private static final int DEFAULT_VALUES_PER_KEY = 3;
 
   @VisibleForTesting transient int expectedValuesPerKey;
 

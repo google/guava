@@ -48,7 +48,7 @@ import java.util.Set;
  */
 @GwtCompatible(serializable = true, emulated = true)
 public final class HashMultimap<K, V> extends AbstractSetMultimap<K, V> {
-  private static final int DEFAULT_VALUES_PER_KEY = 8;
+  private static final int DEFAULT_VALUES_PER_KEY = 2;
 
   @VisibleForTesting
   transient int expectedValuesPerKey = DEFAULT_VALUES_PER_KEY;

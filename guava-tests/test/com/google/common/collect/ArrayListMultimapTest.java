@@ -104,7 +104,7 @@ public class ArrayListMultimapTest extends AbstractListMultimapTest {
   public void testCreate() {
     ArrayListMultimap<String, Integer> multimap
         = ArrayListMultimap.create();
-    assertEquals(10, multimap.expectedValuesPerKey);
+    assertEquals(3, multimap.expectedValuesPerKey);
   }
 
   public void testCreateFromSizes() {
@@ -129,7 +129,7 @@ public class ArrayListMultimapTest extends AbstractListMultimapTest {
     Multimap<String, Integer> original = HashMultimap.create();
     ArrayListMultimap<String, Integer> multimap
         = ArrayListMultimap.create(original);
-    assertEquals(10, multimap.expectedValuesPerKey);
+    assertEquals(3, multimap.expectedValuesPerKey);
   }
 
   public void testCreateFromArrayListMultimap() {

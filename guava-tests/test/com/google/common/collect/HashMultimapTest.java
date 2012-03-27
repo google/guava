@@ -39,14 +39,14 @@ public class HashMultimapTest extends AbstractSetMultimapTest {
     multimap.put("bar", 2);
     multimap.put("foo", 3);
     assertEquals(ImmutableSet.of(1, 3), multimap.get("foo"));
-    assertEquals(8, multimap.expectedValuesPerKey);
+    assertEquals(2, multimap.expectedValuesPerKey);
   }
 
   public void testCreateFromMultimap() {
     Multimap<String, Integer> multimap = createSample();
     HashMultimap<String, Integer> copy = HashMultimap.create(multimap);
     assertEquals(multimap, copy);
-    assertEquals(8, copy.expectedValuesPerKey);
+    assertEquals(2, copy.expectedValuesPerKey);
   }
 
   public void testCreateFromSizes() {
