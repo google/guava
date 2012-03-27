@@ -91,7 +91,7 @@ public final class DoubleMath {
         throw new AssertionError();
     }
   }
-  
+
   /**
    * Returns the {@code int} value that is equal to {@code x} rounded with the specified rounding
    * mode, if possible.
@@ -247,7 +247,7 @@ public final class DoubleMath {
 
   /**
    * Returns {@code true} if {@code x} represents a mathematical integer.
-   * 
+   *
    * <p>This is equivalent to, but not necessarily implemented as, the expression {@code
    * !Double.isNaN(x) && !Double.isInfinite(x) && x == Math.rint(x)}.
    */
@@ -297,4 +297,6 @@ public final class DoubleMath {
       0x1.1e5dfc140e1e5p716,
       0x1.8ce85fadb707ep829,
       0x1.95d5f3d928edep945};
+
+  private DoubleMath() {}
 }
