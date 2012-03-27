@@ -601,10 +601,11 @@ public final class Files {
    * @return the result of {@link MessageDigest#digest()} after updating the
    *     digest object with all of the bytes in this file
    * @throws IOException if an I/O error occurs
-   * @deprecated Use {@link #hash}, for example
-   *     {@code Files.hash(file, Hashing.sha1())}.
+   * @deprecated Use {@link #hash} instead. For example,
+   *     {@code Files.hash(file, Hashing.sha1())}. This method is scheduled to
+   *     be removed in Guava release 13.0.
    */
-  @Deprecated  // To be removed Sept 2013.
+  @Deprecated
   public static byte[] getDigest(File file, MessageDigest md)
       throws IOException {
     return ByteStreams.getDigest(newInputStreamSupplier(file), md);

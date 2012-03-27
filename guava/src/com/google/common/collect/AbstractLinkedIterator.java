@@ -39,9 +39,8 @@ import javax.annotation.Nullable;
  *
  * @author Chris Povirk
  * @since 8.0
- * @deprecated This class has been renamed to {@link
- *     AbstractSequentialIterator}.  It is scheduled to be removed in Guava
- *     release 13.0.
+ * @deprecated This class has been renamed {@link AbstractSequentialIterator}.
+ *     This class is scheduled to be removed in Guava release 13.0.
  */
 @Beta
 @Deprecated

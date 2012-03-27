@@ -758,10 +758,11 @@ public final class ByteStreams {
    * @return the result of {@link MessageDigest#digest()} after updating the
    *     digest object with all of the bytes in the stream
    * @throws IOException if an I/O error occurs
-   * @deprecated Use {@link #hash}, for example
-   *     {@code ByteStreams.hash(supplier, Hashing.sha1())}.
+   * @deprecated Use {@link #hash} instead. For example,
+   *     {@code ByteStreams.hash(supplier, Hashing.sha1())}. This method is
+   *     scheduled to be removed in Guava release 13.0.
    */
-  @Deprecated  // To be removed Sept 2013.
+  @Deprecated
   public static byte[] getDigest(InputSupplier<? extends InputStream> supplier,
       final MessageDigest md) throws IOException {
     return readBytes(supplier, new ByteProcessor<byte[]>() {
