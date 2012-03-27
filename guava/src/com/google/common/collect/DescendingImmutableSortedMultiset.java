@@ -1,11 +1,11 @@
 /*
  * Copyright (C) 2011 The Guava Authors
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software distributed under the License
  * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing permissions and limitations under
@@ -18,9 +18,10 @@ import javax.annotation.Nullable;
 
 /**
  * A descending wrapper around an {@code ImmutableSortedMultiset}
- * 
+ *
  * @author Louis Wasserman
  */
+@SuppressWarnings("serial") // uses writeReplace, not default serialization
 final class DescendingImmutableSortedMultiset<E> extends ImmutableSortedMultiset<E> {
   private final transient ImmutableSortedMultiset<E> forward;
 
@@ -60,8 +61,24 @@ final class DescendingImmutableSortedMultiset<E> extends ImmutableSortedMultiset
   }
 
   @Override
-  UnmodifiableIterator<Entry<E>> descendingEntryIterator() {
-    return forward.entryIterator();
+  ImmutableSet<Entry<E>> createEntrySet() {
+    final ImmutableSet<Entry<E>> forwardEntrySet = forward.entrySet();
+    return new EntrySet() {
+      @Override
+      public int size() {
+        return forwardEntrySet.size();
+      }
+
+      @Override
+      public UnmodifiableIterator<Entry<E>> iterator() {
+        return asList().iterator();
+      }
+
+      @Override
+      ImmutableList<Entry<E>> createAsList() {
+        return forwardEntrySet.asList().reverse();
+      }
+    };
   }
 
   @Override
@@ -77,16 +94,6 @@ final class DescendingImmutableSortedMultiset<E> extends ImmutableSortedMultiset
   @Override
   public ImmutableSortedMultiset<E> tailMultiset(E lowerBound, BoundType boundType) {
     return forward.headMultiset(lowerBound, boundType).descendingMultiset();
-  }
-
-  @Override
-  UnmodifiableIterator<Entry<E>> entryIterator() {
-    return forward.descendingEntryIterator();
-  }
-
-  @Override
-  int distinctElements() {
-    return forward.distinctElements();
   }
 
   @Override

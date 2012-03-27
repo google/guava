@@ -28,7 +28,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
 import javax.annotation.Nullable;
 
@@ -230,8 +229,7 @@ public abstract class ImmutableMultiset<E> extends ImmutableCollection<E>
   ImmutableMultiset() {}
 
   @Override public UnmodifiableIterator<E> iterator() {
-    final Iterator<Entry<E>> entryIterator = entryIterator();
-
+    final Iterator<Entry<E>> entryIterator = entrySet().iterator();
     return new UnmodifiableIterator<E>() {
       int remaining;
       E element;
@@ -334,39 +332,17 @@ public abstract class ImmutableMultiset<E> extends ImmutableCollection<E>
   private transient ImmutableSet<Entry<E>> entrySet;
 
   @Override
-  public Set<Entry<E>> entrySet() {
+  public final ImmutableSet<Entry<E>> entrySet() {
     ImmutableSet<Entry<E>> es = entrySet;
     return (es == null) ? (entrySet = createEntrySet()) : es;
   }
 
-  abstract UnmodifiableIterator<Entry<E>> entryIterator();
+  abstract ImmutableSet<Entry<E>> createEntrySet();
 
-  abstract int distinctElements();
-
-  ImmutableSet<Entry<E>> createEntrySet() {
-    return new EntrySet<E>(this);
-  }
-
-  static class EntrySet<E> extends ImmutableSet<Entry<E>> {
-    transient final ImmutableMultiset<E> multiset;
-
-    public EntrySet(ImmutableMultiset<E> multiset) {
-      this.multiset = multiset;
-    }
-
-    @Override
-    public UnmodifiableIterator<Entry<E>> iterator() {
-      return multiset.entryIterator();
-    }
-
-    @Override
-    public int size() {
-      return multiset.distinctElements();
-    }
-
+  abstract class EntrySet extends ImmutableSet<Entry<E>> {
     @Override
     boolean isPartialView() {
-      return multiset.isPartialView();
+      return ImmutableMultiset.this.isPartialView();
     }
 
     @Override
@@ -376,7 +352,7 @@ public abstract class ImmutableMultiset<E> extends ImmutableCollection<E>
         if (entry.getCount() <= 0) {
           return false;
         }
-        int count = multiset.count(entry.getElement());
+        int count = count(entry.getElement());
         return count == entry.getCount();
       }
       return false;
@@ -416,28 +392,29 @@ public abstract class ImmutableMultiset<E> extends ImmutableCollection<E>
 
     @Override
     public int hashCode() {
-      return multiset.hashCode();
+      return ImmutableMultiset.this.hashCode();
     }
 
     // We can't label this with @Override, because it doesn't override anything
     // in the GWT emulated version.
+    // TODO(cpovirk): try making all copies of this method @GwtIncompatible instead
     Object writeReplace() {
-      return new EntrySetSerializedForm<E>(multiset);
-    }
-
-    static class EntrySetSerializedForm<E> implements Serializable {
-      final ImmutableMultiset<E> multiset;
-
-      EntrySetSerializedForm(ImmutableMultiset<E> multiset) {
-        this.multiset = multiset;
-      }
-
-      Object readResolve() {
-        return multiset.entrySet();
-      }
+      return new EntrySetSerializedForm<E>(ImmutableMultiset.this);
     }
 
     private static final long serialVersionUID = 0;
+  }
+
+  static class EntrySetSerializedForm<E> implements Serializable {
+    final ImmutableMultiset<E> multiset;
+
+    EntrySetSerializedForm(ImmutableMultiset<E> multiset) {
+      this.multiset = multiset;
+    }
+
+    Object readResolve() {
+      return multiset.entrySet();
+    }
   }
 
   private static class SerializedForm implements Serializable {

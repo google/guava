@@ -32,6 +32,7 @@ import javax.annotation.Nullable;
  *
  * @author Louis Wasserman
  */
+@SuppressWarnings("serial") // uses writeReplace, not default serialization
 final class RegularImmutableSortedMultiset<E> extends ImmutableSortedMultiset<E> {
   private static final class CumulativeCountEntry<E> extends Multisets.AbstractEntry<E> {
     final E element;
@@ -94,16 +95,26 @@ final class RegularImmutableSortedMultiset<E> extends ImmutableSortedMultiset<E>
     return new RegularImmutableSortedSet<E>(elementList().reverse(), reverseComparator());
   }
 
-  @SuppressWarnings("unchecked")
   @Override
-  UnmodifiableIterator<Multiset.Entry<E>> entryIterator() {
-    return (UnmodifiableIterator) entries.iterator();
-  }
+  ImmutableSet<Entry<E>> createEntrySet() {
+    return new EntrySet() {
+      @Override
+      public int size() {
+        return entries.size();
+      }
 
-  @SuppressWarnings("unchecked")
-  @Override
-  UnmodifiableIterator<Multiset.Entry<E>> descendingEntryIterator() {
-    return (UnmodifiableIterator) entries.reverse().iterator();
+      @Override
+      public UnmodifiableIterator<Entry<E>> iterator() {
+        return asList().iterator();
+      }
+
+      @SuppressWarnings("unchecked") // upcasting entries is totally safe
+      @Override
+      ImmutableList<Entry<E>> createAsList() {
+        // TODO(user): make this delegate contains() calls to entries
+        return (ImmutableList) entries;
+      }
+    };
   }
 
   @Override
@@ -122,11 +133,6 @@ final class RegularImmutableSortedMultiset<E> extends ImmutableSortedMultiset<E>
     CumulativeCountEntry<E> lastEntry = lastEntry();
     return Ints.saturatedCast(
         lastEntry.cumulativeCount - firstEntry.cumulativeCount + firstEntry.count);
-  }
-
-  @Override
-  int distinctElements() {
-    return entries.size();
   }
 
   @Override
@@ -182,7 +188,7 @@ final class RegularImmutableSortedMultiset<E> extends ImmutableSortedMultiset<E>
       default:
         throw new AssertionError();
     }
-    return createSubMultiset(index, distinctElements());
+    return createSubMultiset(index, entries.size());
   }
 
   private ImmutableSortedMultiset<E> createSubMultiset(int newFromIndex, int newToIndex) {

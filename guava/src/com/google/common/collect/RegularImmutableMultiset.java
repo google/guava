@@ -18,14 +18,13 @@ package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
 
-import java.util.Iterator;
 import java.util.Map;
 
 import javax.annotation.Nullable;
 
 /**
  * Implementation of {@link ImmutableMultiset} with one or more elements.
- * 
+ *
  * @author Jared Levy
  * @author Louis Wasserman
  */
@@ -67,20 +66,33 @@ class RegularImmutableMultiset<E> extends ImmutableMultiset<E> {
     return map.keySet();
   }
 
+  private static <E> Entry<E> entryFromMapEntry(Map.Entry<E, Integer> entry) {
+    return Multisets.immutableEntry(entry.getKey(), entry.getValue());
+  }
+
   @Override
-  UnmodifiableIterator<Entry<E>> entryIterator() {
-    final Iterator<Map.Entry<E, Integer>> mapIterator =
-        map.entrySet().iterator();
-    return new UnmodifiableIterator<Entry<E>>() {
+  ImmutableSet<Entry<E>> createEntrySet() {
+    return new EntrySet() {
       @Override
-      public boolean hasNext() {
-        return mapIterator.hasNext();
+      public int size() {
+        return map.size();
       }
 
       @Override
-      public Entry<E> next() {
-        Map.Entry<E, Integer> mapEntry = mapIterator.next();
-        return Multisets.immutableEntry(mapEntry.getKey(), mapEntry.getValue());
+      public UnmodifiableIterator<Entry<E>> iterator() {
+        return asList().iterator();
+      }
+
+      @Override
+      ImmutableList<Entry<E>> createAsList() {
+        // TODO(user): make this delegate contains() calls to EntrySet
+        final ImmutableList<Map.Entry<E, Integer>> entryList = map.entrySet().asList();
+        return new TransformedImmutableList<Map.Entry<E, Integer>, Entry<E>>(entryList) {
+          @Override
+          Entry<E> transform(Map.Entry<E, Integer> entry) {
+            return entryFromMapEntry(entry);
+          }
+        };
       }
     };
   }
@@ -88,10 +100,5 @@ class RegularImmutableMultiset<E> extends ImmutableMultiset<E> {
   @Override
   public int hashCode() {
     return map.hashCode();
-  }
-
-  @Override
-  int distinctElements() {
-    return map.size();
   }
 }

@@ -1,11 +1,11 @@
 /*
  * Copyright (C) 2011 The Guava Authors
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software distributed under the License
  * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing permissions and limitations under
@@ -25,6 +25,7 @@ import javax.annotation.Nullable;
  *
  * @author Louis Wasserman
  */
+@SuppressWarnings("serial") // Uses writeReplace, not default serialization
 final class EmptyImmutableSortedMultiset<E> extends ImmutableSortedMultiset<E> {
   EmptyImmutableSortedMultiset(Comparator<? super E> comparator) {
     super(comparator);
@@ -61,13 +62,8 @@ final class EmptyImmutableSortedMultiset<E> extends ImmutableSortedMultiset<E> {
   }
 
   @Override
-  UnmodifiableIterator<Entry<E>> descendingEntryIterator() {
-    return Iterators.emptyIterator();
-  }
-
-  @Override
-  UnmodifiableIterator<Entry<E>> entryIterator() {
-    return Iterators.emptyIterator();
+  ImmutableSet<Entry<E>> createEntrySet() {
+    return ImmutableSet.of();
   }
 
   @Override
@@ -82,11 +78,6 @@ final class EmptyImmutableSortedMultiset<E> extends ImmutableSortedMultiset<E> {
     checkNotNull(lowerBound);
     checkNotNull(boundType);
     return this;
-  }
-
-  @Override
-  int distinctElements() {
-    return 0;
   }
 
   @Override

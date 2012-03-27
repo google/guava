@@ -374,8 +374,6 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableSortedMultiset
     return result;
   }
 
-  abstract UnmodifiableIterator<Entry<E>> descendingEntryIterator();
-
   /**
    * {@inheritDoc}
    *
