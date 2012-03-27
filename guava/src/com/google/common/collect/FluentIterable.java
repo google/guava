@@ -146,49 +146,6 @@ public abstract class FluentIterable<E> implements Iterable<E> {
   }
 
   /**
-   * Divides this fluent iterable into unmodifiable fluent iterables of the given
-   * size (the final iterable may be smaller). For example, partitioning a fluent iterable
-   * containing {@code [a, b, c, d, e]} with a partition size of 3 yields
-   * {@code [[a, b, c], [d, e]]} -- an outer fluent iterable containing two inner
-   * fluent iterables of three and two elements, all in the original order.
-   *
-   * <p>Iterators returned by the returned outer and innter fluent iterables do not support the
-   * {@link Iterator#remove()} method.
-   *
-   * @param size the desired size of each partition (the last may be smaller)
-   * @return a fluent iterable of fluent iterables containing the elements of this
-   *     fluent iterable divided into partitions
-   * @throws IllegalArgumentException if {@code size} is nonpositive
-   */
-  // TODO(kevinb): return FluentIterable<List<E>> instead?
-  public final FluentIterable<FluentIterable<E>> partition(int size) {
-    return from(Iterables.partition(iterable, size))
-        .transform(new FromIterableFunction<E>());
-  }
-
-  /**
-   * Divides this fluent iterable into unmodifiable fluent iterables of the given
-   * size, padding the final fluent iterable with null values if necessary. For example,
-   * partitioning a fluent iterable containing {@code [a, b, c, d, e]} with a partition size
-   * of 3 yields {@code [[a, b, c], [d, e, null]]} -- an outer fluent iterable containing two
-   * inner fluent iterables of three elements each, all in the original order.
-   *
-   * <p>Iterators returned by the returned fluent iterables do not
-   * support the {@link Iterator#remove()} method.
-   *
-   * @param size the desired size of each partition
-   * @return a fluent iterable of fluent iterables containing the elements of this
-   *     fluent iterable divided into partitions (the final fluent iterable may have
-   *     trailing null elements)
-   * @throws IllegalArgumentException if {@code size} is nonpositive
-   */
-  // TODO(kevinb): return FluentIterable<List<E>> instead
-  public final FluentIterable<FluentIterable<E>> partitionWithPadding(int size) {
-    return from(Iterables.paddedPartition(iterable, size))
-        .transform(new FromIterableFunction<E>());
-  }
-
-  /**
    * Returns the elements from this fluent iterable that satisfy a predicate. The
    * resulting fluent iterable's iterator does not support {@code remove()}.
    */
