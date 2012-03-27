@@ -143,7 +143,7 @@ import javax.annotation.Nullable;
      */
     NEXT_LOWER {
       @Override
-      <E> int resultIndex(int higherIndex) {
+      int resultIndex(int higherIndex) {
         return higherIndex - 1;
       }
     },
@@ -153,7 +153,7 @@ import javax.annotation.Nullable;
      */
     NEXT_HIGHER {
       @Override
-      public <E> int resultIndex(int higherIndex) {
+      public int resultIndex(int higherIndex) {
         return higherIndex;
       }
     },
@@ -171,12 +171,12 @@ import javax.annotation.Nullable;
      */
     INVERTED_INSERTION_INDEX {
       @Override
-      public <E> int resultIndex(int higherIndex) {
+      public int resultIndex(int higherIndex) {
         return ~higherIndex;
       }
     };
 
-    abstract <E> int resultIndex(int higherIndex);
+    abstract int resultIndex(int higherIndex);
   }
 
   /**
