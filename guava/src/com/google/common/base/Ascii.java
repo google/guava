@@ -389,18 +389,18 @@ public final class Ascii {
   /**
    * The minimum value of an ASCII character.
    *
-   * @since 9.0
+   * @since 9.0 (was type {@code int} before 12.0)
    */
   @Beta
-  public static final int MIN = 0;
+  public static final char MIN = 0;
 
   /**
    * The maximum value of an ASCII character.
    *
-   * @since 9.0
+   * @since 9.0 (was type {@code int} before 12.0)
    */
   @Beta
-  public static final int MAX = 127;
+  public static final char MAX = 127;
 
   /**
    * Returns a copy of the input string in which all {@linkplain #isUpperCase(char) uppercase ASCII
