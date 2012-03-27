@@ -28,12 +28,12 @@ import com.google.common.base.Function;
 import com.google.common.base.Functions;
 import com.google.common.collect.testing.IteratorTester;
 import com.google.common.collect.testing.ListTestSuiteBuilder;
-import com.google.common.collect.testing.SampleElements;
-import com.google.common.collect.testing.TestListGenerator;
 import com.google.common.collect.testing.TestStringListGenerator;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.ListFeature;
+import com.google.common.collect.testing.google.ListGenerators.CharactersOfCharSequenceGenerator;
+import com.google.common.collect.testing.google.ListGenerators.CharactersOfStringGenerator;
 import com.google.common.testing.NullPointerTester;
 import com.google.common.testing.SerializableTester;
 
@@ -244,57 +244,15 @@ public class ListsTest extends TestCase {
         CollectionFeature.ALLOWS_NULL_QUERIES)
         .createTestSuite());
 
-    suite.addTest(
-        ListTestSuiteBuilder.using(new TestListGenerator<Character>() {
-          @Override public List<Character> create(Object... elements) {
-            char[] chars = new char[elements.length];
-            for (int i = 0; i < elements.length; i++)
-              chars[i] = (Character) elements[i];
-            return Lists.charactersOf(String.copyValueOf(chars));
-          }
-
-          @Override public Character[] createArray(int length) {
-            return new Character[length];
-          }
-
-          @Override public Iterable<Character> order(
-              List<Character> insertionOrder) {
-            return ImmutableList.copyOf(insertionOrder);
-          }
-
-          @Override public SampleElements<Character> samples() {
-            return new SampleElements<Character>('a', 'b', 'c', 'd', 'e');
-          }
-        }).named("Lists.charactersOf[String]").withFeatures(
+    suite.addTest(ListTestSuiteBuilder.using(new CharactersOfStringGenerator())
+        .named("Lists.charactersOf[String]").withFeatures(
             CollectionSize.ANY,
             CollectionFeature.SERIALIZABLE,
             CollectionFeature.ALLOWS_NULL_QUERIES)
             .createTestSuite());
 
-    suite.addTest(
-        ListTestSuiteBuilder.using(new TestListGenerator<Character>() {
-          @Override public List<Character> create(Object... elements) {
-            char[] chars = new char[elements.length];
-            for (int i = 0; i < elements.length; i++)
-              chars[i] = (Character) elements[i];
-            StringBuilder str = new StringBuilder();
-            str.append(chars);
-            return Lists.charactersOf(str);
-          }
-
-          @Override public Character[] createArray(int length) {
-            return new Character[length];
-          }
-
-          @Override public Iterable<Character> order(
-              List<Character> insertionOrder) {
-            return ImmutableList.copyOf(insertionOrder);
-          }
-
-          @Override public SampleElements<Character> samples() {
-            return new SampleElements<Character>('a', 'b', 'c', 'd', 'e');
-          }
-        }).named("Lists.charactersOf[CharSequence]").withFeatures(
+    suite.addTest(ListTestSuiteBuilder.using(new CharactersOfCharSequenceGenerator())
+        .named("Lists.charactersOf[CharSequence]").withFeatures(
             CollectionSize.ANY, CollectionFeature.ALLOWS_NULL_QUERIES)
             .createTestSuite());
 

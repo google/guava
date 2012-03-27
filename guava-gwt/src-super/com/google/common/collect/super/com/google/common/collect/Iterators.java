@@ -144,6 +144,41 @@ public final class Iterators {
     return checkNotNull(iterator);
   }
 
+  /** Returns an unmodifiable view of {@code iterator}. */
+  static <T> UnmodifiableListIterator<T> unmodifiableListIterator(
+      final ListIterator<T> iterator) {
+    checkNotNull(iterator);
+    if (iterator instanceof UnmodifiableListIterator) {
+      return (UnmodifiableListIterator<T>) iterator;
+    }
+    return new UnmodifiableListIterator<T>() {
+      @Override
+      public boolean hasNext() {
+        return iterator.hasNext();
+      }
+      @Override
+      public boolean hasPrevious() {
+        return iterator.hasPrevious();
+      }
+      @Override
+      public T next() {
+        return iterator.next();
+      }
+      @Override
+      public T previous() {
+        return iterator.previous();
+      }
+      @Override
+      public int nextIndex() {
+        return iterator.nextIndex();
+      }
+      @Override
+      public int previousIndex() {
+        return iterator.previousIndex();
+      }
+    };
+  }
+
   /**
    * Returns the number of elements remaining in {@code iterator}. The iterator
    * will be left exhausted: its {@code hasNext()} method will return

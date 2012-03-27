@@ -21,11 +21,15 @@ import static java.util.Arrays.asList;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableList.Builder;
+import com.google.common.collect.Lists;
+import com.google.common.collect.testing.TestCharacterListGenerator;
 import com.google.common.collect.testing.TestListGenerator;
 import com.google.common.collect.testing.TestStringListGenerator;
 import com.google.common.collect.testing.TestUnhashableCollectionGenerator;
 import com.google.common.collect.testing.UnhashableObject;
+import com.google.common.primitives.Chars;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -63,7 +67,7 @@ public final class ListGenerators {
           .build();
     }
   }
-  
+
   public static class BuilderReversedListGenerator
       extends TestStringListGenerator {
     @Override protected List<String> create(String[] elements) {
@@ -110,6 +114,24 @@ public final class ListGenerators {
 
       return ImmutableList.copyOf(all)
           .subList(2, elements.length + 2);
+    }
+  }
+
+  public static class CharactersOfStringGenerator
+      extends TestCharacterListGenerator {
+    @Override public List<Character> create(Character[] elements) {
+      char[] chars = Chars.toArray(Arrays.asList(elements));
+      return Lists.charactersOf(String.copyValueOf(chars));
+    }
+  }
+
+  public static class CharactersOfCharSequenceGenerator
+      extends TestCharacterListGenerator {
+    @Override public List<Character> create(Character[] elements) {
+      char[] chars = Chars.toArray(Arrays.asList(elements));
+      StringBuilder str = new StringBuilder();
+      str.append(chars);
+      return Lists.charactersOf(str);
     }
   }
 

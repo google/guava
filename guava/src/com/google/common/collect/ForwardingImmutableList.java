@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2009 The Guava Authors
+ * Copyright (C) 2012 The Guava Authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,17 +16,14 @@
 
 package com.google.common.collect;
 
-import static java.util.Collections.emptyList;
+import com.google.common.annotations.GwtCompatible;
 
 /**
- * GWT emulated version of EmptyImmutableList.
+ * Unused stub class, unreferenced under Java and manually emulated under GWT.
  *
- * @author Hayward Chan
+ * @author Chris Povirk
  */
-final class EmptyImmutableList extends ForwardingImmutableList<Object> {
-  static final EmptyImmutableList INSTANCE = new EmptyImmutableList();
-
-  EmptyImmutableList() {
-    super(emptyList());
-  }
+@GwtCompatible(emulated = true)
+abstract class ForwardingImmutableList<E> extends ImmutableList<E> {
+  private ForwardingImmutableList() {}
 }

@@ -55,6 +55,13 @@ public class SampleElements<E> {
     public static final String AFTER_LAST_2 = "zz";
   }
 
+  public static class Chars extends SampleElements<Character> {
+    public Chars() {
+      // elements aren't sorted, to better test SortedSet iteration ordering
+      super('b', 'a', 'c', 'd', 'e');
+    }
+  }
+
   public static class Enums extends SampleElements<AnEnum> {
     public Enums() {
       // elements aren't sorted, to better test SortedSet iteration ordering

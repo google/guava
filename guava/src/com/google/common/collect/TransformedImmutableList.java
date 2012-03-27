@@ -15,6 +15,7 @@
  */
 
 package com.google.common.collect;
+
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
@@ -74,12 +75,8 @@ abstract class TransformedImmutableList<D, E> extends ImmutableList<E> {
     return false;
   }
 
-  @Override public Object[] toArray() {
-    return ObjectArrays.toArrayImpl(this);
-  }
-
-  @Override public <T> T[] toArray(T[] array) {
-    return ObjectArrays.toArrayImpl(this, array);
+  @Override public int hashCode() {
+    return Lists.hashCodeImpl(this);
   }
 
   @Override boolean isPartialView() {

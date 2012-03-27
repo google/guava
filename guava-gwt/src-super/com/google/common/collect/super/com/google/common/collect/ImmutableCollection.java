@@ -16,6 +16,8 @@
 
 package com.google.common.collect;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Collection;
@@ -23,8 +25,6 @@ import java.util.Collections;
 import java.util.Iterator;
 
 import javax.annotation.Nullable;
-
-import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * GWT emulated version of {@link ImmutableCollection}.
@@ -89,6 +89,10 @@ public abstract class ImmutableCollection<E>
     return size() == 0;
   }
 
+  @Override public String toString() {
+    return Collections2.toStringImpl(this);
+  }
+
   public final boolean add(E e) {
     throw new UnsupportedOperationException();
   }
@@ -135,7 +139,7 @@ public abstract class ImmutableCollection<E>
   static <E> ImmutableCollection<E> unsafeDelegate(Collection<E> delegate) {
     return new ForwardingImmutableCollection<E>(delegate);
   }
-  
+
   boolean isPartialView(){
     return false;
   }

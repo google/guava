@@ -26,30 +26,20 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
 import java.util.RandomAccess;
 
 import javax.annotation.Nullable;
 
 /**
  * GWT emulated version of {@link ImmutableList}.
+ * TODO(cpovirk): more doc
  *
  * @author Hayward Chan
  */
 @SuppressWarnings("serial") // we're overriding default serialization
-public abstract class ImmutableList<E> extends ForwardingImmutableCollection<E>
+public abstract class ImmutableList<E> extends ImmutableCollection<E>
     implements List<E>, RandomAccess {
-  
-  private transient final List<E> delegate;
-
-  ImmutableList(List<E> delegate) {
-    super(delegate);
-    this.delegate = Collections.unmodifiableList(delegate);
-  }
-
-  ImmutableList() {
-    this(Collections.<E>emptyList());
-  }
+  ImmutableList() {}
 
   // Casting to any type is safe because the list will never hold any elements.
   @SuppressWarnings("unchecked")
@@ -188,7 +178,7 @@ public abstract class ImmutableList<E> extends ForwardingImmutableCollection<E>
   }
 
   // Factory method that skips the null checks.  Used only when the elements
-  // are guaranteed to be null.
+  // are guaranteed to be non-null.
   static <E> ImmutableList<E> unsafeDelegateList(List<? extends E> list) {
     switch (list.size()) {
       case 0:
@@ -217,12 +207,14 @@ public abstract class ImmutableList<E> extends ForwardingImmutableCollection<E>
     return Arrays.asList(castedArray);
   }
 
+  @Override
   public int indexOf(@Nullable Object object) {
-    return delegate.indexOf(object);
+    return (object == null) ? -1 : Lists.indexOfImpl(this, object);
   }
 
+  @Override
   public int lastIndexOf(@Nullable Object object) {
-    return delegate.lastIndexOf(object);
+    return (object == null) ? -1 : Lists.lastIndexOfImpl(this, object);
   }
 
   public final boolean addAll(int index, Collection<? extends E> newElements) {
@@ -241,44 +233,33 @@ public abstract class ImmutableList<E> extends ForwardingImmutableCollection<E>
     throw new UnsupportedOperationException();
   }
 
-  public E get(int index) {
-    return delegate.get(index);
+  @Override public UnmodifiableIterator<E> iterator() {
+    return listIterator();
   }
 
-  public ImmutableList<E> subList(int fromIndex, int toIndex) {
-    return unsafeDelegateList(delegate.subList(fromIndex, toIndex));
+  public abstract ImmutableList<E> subList(int fromIndex, int toIndex);
+
+  @Override public UnmodifiableListIterator<E> listIterator() {
+    return listIterator(0);
   }
 
-  public ListIterator<E> listIterator() {
-    return delegate.listIterator();
-  }
-
-  public ListIterator<E> listIterator(int index) {
-    return delegate.listIterator(index);
+  @Override public UnmodifiableListIterator<E> listIterator(int index) {
+    return new AbstractIndexedListIterator<E>(size(), index) {
+      @Override
+      protected E get(int index) {
+        return ImmutableList.this.get(index);
+      }
+    };
   }
 
   @Override public ImmutableList<E> asList() {
     return this;
   }
-  
-  public ImmutableList<E> reverse(){
+
+  public ImmutableList<E> reverse() {
     List<E> list = Lists.newArrayList(this);
     Collections.reverse(list);
     return unsafeDelegateList(list);
-  }
-
-  @Override public Object[] toArray() {
-    // Note that ArrayList.toArray() doesn't work here because it returns E[]
-    // instead of Object[].
-    return delegate.toArray(new Object[size()]);
-  }
-
-  @Override public boolean equals(Object obj) {
-    return delegate.equals(obj);
-  }
-
-  @Override public int hashCode() {
-    return delegate.hashCode();
   }
 
   public static <E> Builder<E> builder() {

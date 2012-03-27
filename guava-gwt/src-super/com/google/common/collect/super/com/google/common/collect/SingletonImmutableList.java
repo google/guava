@@ -25,7 +25,7 @@ import java.util.Collections;
  *
  * @author Hayward Chan
  */
-final class SingletonImmutableList<E> extends ImmutableList<E> {
+final class SingletonImmutableList<E> extends ForwardingImmutableList<E> {
 
   // This reference is used both by the custom field serializer, and by the
   // GWT compiler to infer the elements of the lists that needs to be

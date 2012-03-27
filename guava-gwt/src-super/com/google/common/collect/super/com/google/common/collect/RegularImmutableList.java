@@ -23,7 +23,7 @@ import java.util.List;
  *
  * @author Hayward Chan
  */
-class RegularImmutableList<E> extends ImmutableList<E> {
+class RegularImmutableList<E> extends ForwardingImmutableList<E> {
   RegularImmutableList(List<E> delegate) {
     super(delegate);
   }

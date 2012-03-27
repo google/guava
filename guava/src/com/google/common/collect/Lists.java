@@ -598,6 +598,7 @@ public final class Lists {
 
     @Override public ImmutableList<Character> subList(
         int fromIndex, int toIndex) {
+      checkPositionIndexes(fromIndex, toIndex, size()); // for GWT
       return charactersOf(string.substring(fromIndex, toIndex));
     }
 
@@ -606,6 +607,7 @@ public final class Lists {
     }
 
     @Override public Character get(int index) {
+      checkElementIndex(index, size()); // for GWT
       return string.charAt(index);
     }
 
@@ -672,6 +674,7 @@ public final class Lists {
     }
 
     @Override public Character get(int index) {
+      checkElementIndex(index, size()); // for GWT
       return sequence.charAt(index);
     }
 
@@ -708,6 +711,7 @@ public final class Lists {
     }
 
     @Override public List<Character> subList(int fromIndex, int toIndex) {
+      checkPositionIndexes(fromIndex, toIndex, size()); // for GWT
       return charactersOf(sequence.subSequence(fromIndex, toIndex));
     }
 
