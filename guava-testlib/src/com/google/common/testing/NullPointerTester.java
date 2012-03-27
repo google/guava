@@ -17,10 +17,14 @@
 package com.google.common.testing;
 
 import com.google.common.annotations.Beta;
+import com.google.common.base.Objects;
 import com.google.common.collect.ClassToInstanceMap;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.google.common.collect.MutableClassToInstanceMap;
 import com.google.common.reflect.AbstractInvocationHandler;
+import com.google.common.reflect.Reflection;
 import com.google.common.reflect.TypeToken;
 
 import junit.framework.Assert;
@@ -38,6 +42,7 @@ import java.lang.reflect.Type;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.ConcurrentMap;
 
 import javax.annotation.Nullable;
 
@@ -56,16 +61,6 @@ public final class NullPointerTester {
   private final ClassToInstanceMap<Object> defaults =
       MutableClassToInstanceMap.create();
   private final List<Member> ignoredMembers = Lists.newArrayList();
-
-  public NullPointerTester() {
-    setCommonDefaults();
-  }
-
-  private final void setCommonDefaults() {
-    // mutable types
-    setDefault(Appendable.class, new StringBuilder());
-    setDefault(Throwable.class, new Exception());
-  }
 
   /**
    * Sets a default value that can be used for any parameter of type
@@ -106,46 +101,45 @@ public final class NullPointerTester {
   }
 
   /**
-   * Runs {@link #testMethod} on every static method declared in class {@code c}
-   * that has at least {@code minimalVisibility}.
+   * Runs {@link #testMethod} on every static method of class {@code c} that has
+   * at least {@code minimalVisibility}, including those "inherited" from
+   * superclasses of the same package.
    */
   public void testStaticMethods(Class<?> c, Visibility minimalVisibility) {
-    for (Method method : c.getDeclaredMethods()) {
-      if (minimalVisibility.isVisible(method)
-          && isStatic(method)
-          && !isIgnored(method)) {
+    for (Method method : minimalVisibility.getStaticMethods(c)) {
+      if (!isIgnored(method)) {
         testMethod(null, method);
       }
     }
   }
 
   /**
-   * Runs {@link #testMethod} on every public static method declared by class
-   * {@code c}.
+   * Runs {@link #testMethod} on every public static method of class {@code c},
+   * including those "inherited" from superclasses of the same package.
    */
   public void testAllPublicStaticMethods(Class<?> c) {
     testStaticMethods(c, Visibility.PUBLIC);
   }
 
   /**
-   * Runs {@link #testMethod} on every instance method declared by the class
-   * of {@code instance} with at least {@code minimalVisibility}.
+   * Runs {@link #testMethod} on every instance method of the class of
+   * {@code instance} with at least {@code minimalVisibility}, including those
+   * inherited from superclasses of the same package.
    */
   public void testInstanceMethods(
       Object instance, Visibility minimalVisibility) {
     Class<?> c = instance.getClass();
-    for (Method method : c.getDeclaredMethods()) {
-      if (minimalVisibility.isVisible(method)
-          && !isStatic(method)
-          && !isIgnored(method)) {
+    for (Method method : minimalVisibility.getInstanceMethods(c)) {
+      if (!isIgnored(method)) {
         testMethod(instance, method);
       }
     }
   }
 
   /**
-   * Runs {@link #testMethod} on every public instance method declared by the
-   * class of {@code instance}.
+   * Runs {@link #testMethod} on every public instance method of the class of
+   * {@code instance}, including those inherited from superclasses of the same
+   * package.
    */
   public void testAllPublicInstanceMethods(Object instance) {
     testInstanceMethods(instance, Visibility.PUBLIC);
@@ -187,12 +181,22 @@ public final class NullPointerTester {
    * @param instance the instance to invoke {@code method} on, or null if
    *     {@code method} is static
    */
-  public void testMethodParameter(Object instance, final Method method,
-      int paramIndex) {
+  public void testMethodParameter(
+      final Object instance, final Method method, int paramIndex) {
     method.setAccessible(true);
     testFunctorParameter(instance, new Functor() {
         @Override public Type[] getParameterTypes() {
-          return method.getGenericParameterTypes();
+          Type[] unresolved = method.getGenericParameterTypes();
+          if (isStatic(method)) {
+            return unresolved;
+          } else {
+            TypeToken<?> type = TypeToken.of(instance.getClass());
+            Type[] resolved = new Type[unresolved.length];
+            for (int i = 0; i < unresolved.length; i++) {
+              resolved[i] = type.resolveType(unresolved[i]).getType();
+            }
+            return resolved;
+          }
         }
         @Override public Annotation[][] getParameterAnnotations() {
           return method.getParameterAnnotations();
@@ -202,8 +206,7 @@ public final class NullPointerTester {
           method.invoke(object, params);
         }
         @Override public String toString() {
-          return method.getName()
-              + "(" + Arrays.toString(getParameterTypes()) + ")";
+          return method.toString();
         }
       }, paramIndex, method.getDeclaringClass());
   }
@@ -214,8 +217,8 @@ public final class NullPointerTester {
    * paramIndex} is null.  If this parameter is marked {@link Nullable}, this
    * method does nothing.
    */
-  public void testConstructorParameter(final Constructor<?> ctor,
-      int paramIndex) {
+  public void testConstructorParameter(
+      final Constructor<?> ctor, int paramIndex) {
     ctor.setAccessible(true);
     testFunctorParameter(null, new Functor() {
         @Override public Type[] getParameterTypes() {
@@ -261,6 +264,72 @@ public final class NullPointerTester {
      */
     final boolean isVisible(Member member) {
       return isVisible(member.getModifiers());
+    }
+
+    final Iterable<Method> getStaticMethods(Class<?> cls) {
+      ImmutableList.Builder<Method> builder = ImmutableList.builder();
+      for (Method method : getVisibleMethods(cls)) {
+        if (isStatic(method)) {
+          builder.add(method);
+        }
+      }
+      return builder.build();
+    }
+
+    final Iterable<Method> getInstanceMethods(Class<?> cls) {
+      ConcurrentMap<Signature, Method> map = Maps.newConcurrentMap();
+      for (Method method : getVisibleMethods(cls)) {
+        if (!isStatic(method)) {
+          map.putIfAbsent(new Signature(method), method);
+        }
+      }
+      return map.values();
+    }
+
+    private ImmutableList<Method> getVisibleMethods(Class<?> cls) {
+      // Don't use cls.getPackage() because it does nasty things like reading
+      // a file.
+      String visiblePackage = Reflection.getPackageName(cls);
+      ImmutableList.Builder<Method> builder = ImmutableList.builder();
+      for (Class<?> type : TypeToken.of(cls).getTypes().classes().rawTypes()) {
+        if (!Reflection.getPackageName(type).equals(visiblePackage)) {
+          break;
+        }
+        for (Method method : type.getDeclaredMethods()) {
+          if (!method.isSynthetic() && isVisible(method)) {
+            builder.add(method);
+          }
+        }
+      }
+      return builder.build();
+    }
+  }
+
+  // TODO(benyu): Use labs/reflect/Signature if it graduates.
+  private static final class Signature {
+    private final String name;
+    private final ImmutableList<Class<?>> parameterTypes;
+
+    Signature(Method method) {
+      this(method.getName(), ImmutableList.copyOf(method.getParameterTypes()));
+    }
+
+    Signature(String name, ImmutableList<Class<?>> parameterTypes) {
+      this.name = name;
+      this.parameterTypes = parameterTypes;
+    }
+
+    @Override public boolean equals(Object obj) {
+      if (obj instanceof Signature) {
+        Signature that = (Signature) obj;
+        return name.equals(that.name)
+            && parameterTypes.equals(that.parameterTypes);
+      }
+      return false;
+    }
+
+    @Override public int hashCode() {
+      return Objects.hashCode(name, parameterTypes);
     }
   }
 
@@ -324,7 +393,7 @@ public final class NullPointerTester {
         TypeToken<?> type = TypeToken.of(types[i]);
         params[i] = getDefaultValue(type);
         if (!parameterIsPrimitiveOrNullable(func, i)) {
-          Assert.assertTrue("No default value found for " + type,
+          Assert.assertTrue("No default value found for " + type.getRawType(),
               params[i] != null);
         }
       }

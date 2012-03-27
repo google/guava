@@ -28,6 +28,14 @@ import java.util.Map;
 /** Tests for {@link Reflection} */
 public class ReflectionTest extends TestCase {
 
+  public void testGetPackageName() throws Exception {
+    assertEquals("java.lang", Reflection.getPackageName(Iterable.class));
+    assertEquals("java", Reflection.getPackageName("java.MyType"));
+    assertEquals("java.lang", Reflection.getPackageName(Iterable.class.getName()));
+    assertEquals("", Reflection.getPackageName("NoPackage"));
+    assertEquals("java.util", Reflection.getPackageName(Map.Entry.class));
+  }
+
   public void testNewProxy() throws Exception {
     Runnable runnable = Reflection.newProxy(Runnable.class, X_RETURNER);
     assertEquals("x", runnable.toString());

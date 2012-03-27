@@ -20,7 +20,6 @@ import static org.junit.contrib.truth.Truth.ASSERT;
 
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
-import com.google.common.testing.NullPointerTester;
 
 import junit.framework.TestCase;
 
@@ -117,6 +116,7 @@ public class TypeTokenResolutionTest extends TestCase {
   }
   
   public void testResolveType_parameterizedType() {
+    @SuppressWarnings("rawtypes") // trying to test raw type
     Parameterized<?, ?, ?> parameterized =
         new Parameterized<TypeTokenResolutionTest, Bar, String>() {};
     TypeResolver typeResolver = TypeResolver.accordingTo(parameterized.getClass());
@@ -388,15 +388,6 @@ public class TypeTokenResolutionTest extends TestCase {
         return new TypeToken<Object>() {}.getType();
       }
     }.getType());
-  }
-  
-  public void testNulls() throws Exception {
-    new NullPointerTester()
-        .setDefault(Type.class, Void.class)
-        .testAllPublicStaticMethods(TypeToken.class);
-    new NullPointerTester()
-        .setDefault(Type.class, Void.class)
-        .testAllPublicInstanceMethods(new TypeToken<String>() {});
   }
   
   public void testStaticContext() {
