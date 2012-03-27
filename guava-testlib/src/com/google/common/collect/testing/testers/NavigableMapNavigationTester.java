@@ -31,11 +31,10 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.NavigableMap;
-import java.util.NoSuchElementException;
 
 /**
  * A generic JUnit test which tests operations on a NavigableMap. Can't be
- * invoked directly; please see {@code MapTestSuiteBuilder}.
+ * invoked directly; please see {@code NavigableMapTestSuiteBuilder}.
  *
  * @author Jesse Wilson
  * @author Louis Wasserman
@@ -79,11 +78,6 @@ public class NavigableMapNavigationTester<K, V> extends AbstractMapTester<K, V> 
   @CollectionSize.Require(ZERO)
   public void testEmptyMapFirst() {
     assertNull(navigableMap.firstEntry());
-    try {
-      navigableMap.firstKey();
-      fail();
-    } catch (NoSuchElementException e) {
-    }
   }
 
   @MapFeature.Require(SUPPORTS_REMOVE)
@@ -107,11 +101,6 @@ public class NavigableMapNavigationTester<K, V> extends AbstractMapTester<K, V> 
   @CollectionSize.Require(ZERO)
   public void testEmptyMapLast() {
     assertNull(navigableMap.lastEntry());
-    try {
-      assertNull(navigableMap.lastKey());
-      fail();
-    } catch (NoSuchElementException e) {
-    }
   }
 
   @MapFeature.Require(SUPPORTS_REMOVE)
@@ -123,7 +112,6 @@ public class NavigableMapNavigationTester<K, V> extends AbstractMapTester<K, V> 
   @CollectionSize.Require(ONE)
   public void testSingletonMapFirst() {
     assertEquals(a, navigableMap.firstEntry());
-    assertEquals(a.getKey(), navigableMap.firstKey());
   }
 
   @MapFeature.Require(SUPPORTS_REMOVE)
@@ -148,7 +136,6 @@ public class NavigableMapNavigationTester<K, V> extends AbstractMapTester<K, V> 
   @CollectionSize.Require(ONE)
   public void testSingletonMapLast() {
     assertEquals(a, navigableMap.lastEntry());
-    assertEquals(a.getKey(), navigableMap.lastKey());
   }
 
   @MapFeature.Require(SUPPORTS_REMOVE)
@@ -161,7 +148,6 @@ public class NavigableMapNavigationTester<K, V> extends AbstractMapTester<K, V> 
   @CollectionSize.Require(SEVERAL)
   public void testFirst() {
     assertEquals(a, navigableMap.firstEntry());
-    assertEquals(a.getKey(), navigableMap.firstKey());
   }
 
   @MapFeature.Require(SUPPORTS_REMOVE)
@@ -228,7 +214,6 @@ public class NavigableMapNavigationTester<K, V> extends AbstractMapTester<K, V> 
   @CollectionSize.Require(SEVERAL)
   public void testLast() {
     assertEquals(c, navigableMap.lastEntry());
-    assertEquals(c.getKey(), navigableMap.lastKey());
   }
 
   @MapFeature.Require(SUPPORTS_REMOVE)
