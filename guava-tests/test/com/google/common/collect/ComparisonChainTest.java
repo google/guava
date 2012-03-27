@@ -58,7 +58,7 @@ public class ComparisonChainTest extends TestCase {
     assertEquals(0, ComparisonChain.start()
         .compare(1, 1)
         .compare(1L, 1L)
-        .compare(true, true)
+        .compareFalseFirst(true, true)
         .compare(1.0, 1.0)
         .compare(1.0f, 1.0f)
         .compare("a", "a", Ordering.usingToString())
@@ -85,5 +85,27 @@ public class ComparisonChainTest extends TestCase {
         .compare("a", "b")
         .compare(DONT_COMPARE_ME, DONT_COMPARE_ME)
         .result() < 0);
+  }
+
+  public void testCompareFalseFirst() {
+    assertTrue(ComparisonChain.start().compareFalseFirst(true, true).result() == 0);
+    assertTrue(ComparisonChain.start().compareFalseFirst(true, false).result() > 0);
+    assertTrue(ComparisonChain.start().compareFalseFirst(false, true).result() < 0);
+    assertTrue(ComparisonChain.start().compareFalseFirst(false, false).result() == 0);
+  }
+
+  public void testCompareTrueFirst() {
+    assertTrue(ComparisonChain.start().compareTrueFirst(true, true).result() == 0);
+    assertTrue(ComparisonChain.start().compareTrueFirst(true, false).result() < 0);
+    assertTrue(ComparisonChain.start().compareTrueFirst(false, true).result() > 0);
+    assertTrue(ComparisonChain.start().compareTrueFirst(false, false).result() == 0);
+  }
+
+  @SuppressWarnings("deprecated") // test of a deprecated method
+  public void testCompareBooleans() {
+    assertTrue(ComparisonChain.start().compare(true, true).result() == 0);
+    assertTrue(ComparisonChain.start().compare(true, false).result() > 0);
+    assertTrue(ComparisonChain.start().compare(false, true).result() < 0);
+    assertTrue(ComparisonChain.start().compare(false, false).result() == 0);
   }
 }

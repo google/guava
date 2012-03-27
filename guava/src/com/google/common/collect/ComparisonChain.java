@@ -87,7 +87,10 @@ public abstract class ComparisonChain {
     @Override public ComparisonChain compare(double left, double right) {
       return classify(Double.compare(left, right));
     }
-    @Override public ComparisonChain compare(boolean left, boolean right) {
+    @Override public ComparisonChain compareTrueFirst(boolean left, boolean right) {
+      return classify(Booleans.compare(right, left)); // reversed
+    }
+    @Override public ComparisonChain compareFalseFirst(boolean left, boolean right) {
       return classify(Booleans.compare(left, right));
     }
     ComparisonChain classify(int result) {
@@ -128,7 +131,10 @@ public abstract class ComparisonChain {
     @Override public ComparisonChain compare(double left, double right) {
       return this;
     }
-    @Override public ComparisonChain compare(boolean left, boolean right) {
+    @Override public ComparisonChain compareTrueFirst(boolean left, boolean right) {
+      return this;
+    }
+    @Override public ComparisonChain compareFalseFirst(boolean left, boolean right) {
       return this;
     }
     @Override public int result() {
@@ -180,11 +186,35 @@ public abstract class ComparisonChain {
   public abstract ComparisonChain compare(double left, double right);
 
   /**
-   * Compares two {@code boolean} values as specified by {@link
-   * Booleans#compare}, <i>if</i> the result of this comparison chain has not
+   * Compares two {@code boolean} values, considering {@code true} to be less
+   * than {@code false}, <i>if</i> the result of this comparison chain has not
    * already been determined.
+   *
+   * @since 12.0
    */
-  public abstract ComparisonChain compare(boolean left, boolean right);
+  public abstract ComparisonChain compareTrueFirst(boolean left, boolean right);
+
+  /**
+   * Compares two {@code boolean} values, considering {@code false} to be less
+   * than {@code true}, <i>if</i> the result of this comparison chain has not
+   * already been determined.
+   *
+   * @since 12.0 (present as {@code compare} since 2.0)
+   */
+  public abstract ComparisonChain compareFalseFirst(boolean left, boolean right);
+
+  /**
+   * Old name of {@link #compareFalseFirst}.
+   *
+   * @deprecated Use {@link #compareFalseFirst}; or, if the parameters passed
+   *     are being either negated or reversed, undo the negation or reversal and
+   *     use {@link #compareTrueFirst}. <b>This method is scheduled for deletion
+   *     in September 2013.</b>
+   */
+  @Deprecated
+  public final ComparisonChain compare(boolean left, boolean right) {
+    return compareFalseFirst(left, right);
+  }
 
   /**
    * Ends this comparison chain and returns its result: a value having the
