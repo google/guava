@@ -19,6 +19,7 @@ package com.google.common.collect.testing.google;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.testing.AbstractTester;
+import com.google.common.collect.testing.DerivedGenerator;
 import com.google.common.collect.testing.FeatureSpecificTestSuiteBuilder;
 import com.google.common.collect.testing.Helpers;
 import com.google.common.collect.testing.MapTestSuiteBuilder;
@@ -28,6 +29,7 @@ import com.google.common.collect.testing.SampleElements;
 import com.google.common.collect.testing.SetTestSuiteBuilder;
 import com.google.common.collect.testing.TestMapGenerator;
 import com.google.common.collect.testing.TestSetGenerator;
+import com.google.common.collect.testing.TestSubjectGenerator;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.Feature;
@@ -172,7 +174,7 @@ public class BiMapTestSuiteBuilder<K, V>
     return derivedFeatures;
   }
 
-  private static class MapGenerator<K, V> implements TestMapGenerator<K, V> {
+  public static class MapGenerator<K, V> implements TestMapGenerator<K, V>, DerivedGenerator {
 
     private final OneSizeTestContainerGenerator<BiMap<K, V>, Entry<K, V>> generator;
 
@@ -212,9 +214,14 @@ public class BiMapTestSuiteBuilder<K, V>
     public V[] createValueArray(int length) {
       return (V[]) new Object[length];
     }
+
+    public TestSubjectGenerator<?> getInnerGenerator() {
+      return generator;
+    }
   }
 
-  private static class InverseBiMapGenerator<K, V> implements TestBiMapGenerator<V, K> {
+  public static class InverseBiMapGenerator<K, V>
+      implements TestBiMapGenerator<V, K>, DerivedGenerator {
 
     private final OneSizeTestContainerGenerator<BiMap<K, V>, Entry<K, V>> generator;
 
@@ -266,10 +273,14 @@ public class BiMapTestSuiteBuilder<K, V>
     public K[] createValueArray(int length) {
       return (K[]) new Object[length];
     }
+
+    public TestSubjectGenerator<?> getInnerGenerator() {
+      return generator;
+    }
   }
 
-  private static class BiMapValueSetGenerator<K, V>
-      implements TestSetGenerator<V> {
+  public static class BiMapValueSetGenerator<K, V>
+      implements TestSetGenerator<V>, DerivedGenerator {
     private final OneSizeTestContainerGenerator<BiMap<K, V>, Map.Entry<K, V>>
         mapGenerator;
     private final SampleElements<V> samples;
@@ -322,6 +333,10 @@ public class BiMapTestSuiteBuilder<K, V>
     @Override
     public Iterable<V> order(List<V> insertionOrder) {
       return insertionOrder;
+    }
+
+    public TestSubjectGenerator<?> getInnerGenerator() {
+      return mapGenerator;
     }
   }
 }

@@ -18,10 +18,11 @@ package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.collect.Maps.newTreeMap;
+import static java.util.Collections.unmodifiableSortedMap;
 
 import com.google.common.collect.ImmutableSortedSet;
 
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.Map;
@@ -51,36 +52,32 @@ public class ImmutableSortedMap<K, V>
 
   // This reference is only used by GWT compiler to infer the keys and values
   // of the map that needs to be serialized.
-  private Comparator<K> unusedComparatorForSerialization;
+  private Comparator<? super K> unusedComparatorForSerialization;
   private K unusedKeyForSerialization;
   private V unusedValueForSerialization;
 
-  private transient final SortedMap<K, V> sortedDelegate;
+  private final transient SortedMap<K, V> sortedDelegate;
 
   // The comparator used by this map.  It's the same as that of sortedDelegate,
   // except that when sortedDelegate's comparator is null, it points to a
   // non-null instance of Ordering.natural().
-  private transient final Comparator<K> comparator;
+  private final transient Comparator<? super K> comparator;
 
-  // If map has a null comparator, the keys should have a natural ordering,
-  // even though K doesn't explicitly implement Comparable.
-  @SuppressWarnings("unchecked")
-  ImmutableSortedMap(SortedMap<K, ? extends V> delegate) {
+  ImmutableSortedMap(SortedMap<K, V> delegate, Comparator<? super K> comparator) {
     super(delegate);
-    this.comparator = (delegate.comparator() == null)
-        ? NATURAL_ORDER : delegate.comparator();
-    this.sortedDelegate = Collections.unmodifiableSortedMap(delegate);
+    this.comparator = comparator;
+    this.sortedDelegate = delegate;
   }
 
   private static <K, V> ImmutableSortedMap<K, V> create(
       Comparator<? super K> comparator,
       Entry<? extends K, ? extends V>... entries) {
     checkNotNull(comparator);
-    SortedMap<K, V> delegate = Maps.newTreeMap(comparator);
+    SortedMap<K, V> delegate = newModifiableDelegate(comparator);
     for (Entry<? extends K, ? extends V> entry : entries) {
       delegate.put(entry.getKey(), entry.getValue());
     }
-    return new ImmutableSortedMap<K, V>(delegate);
+    return new ImmutableSortedMap<K, V>(unmodifiableSortedMap(delegate), comparator);
   }
 
   // Casting to any type is safe because the set will never hold any elements.
@@ -155,11 +152,11 @@ public class ImmutableSortedMap<K, V>
       }
     }
 
-    SortedMap<K, V> delegate = Maps.newTreeMap(comparator);
+    SortedMap<K, V> delegate = newModifiableDelegate(comparator);
     for (Entry<? extends K, ? extends V> entry : map.entrySet()) {
       putEntryWithChecks(delegate, entry);
     }
-    return new ImmutableSortedMap<K, V>(delegate);
+    return new ImmutableSortedMap<K, V>(unmodifiableSortedMap(delegate), comparator);
   }
 
   private static <K, V> void putEntryWithChecks(
@@ -216,11 +213,11 @@ public class ImmutableSortedMap<K, V>
     }
 
     @Override public ImmutableSortedMap<K, V> build() {
-      SortedMap<K, V> delegate = Maps.newTreeMap(comparator);
+      SortedMap<K, V> delegate = newModifiableDelegate(comparator);
       for (Entry<? extends K, ? extends V> entry : entries) {
         putEntryWithChecks(delegate, entry);
       }
-      return new ImmutableSortedMap<K, V>(delegate);
+      return new ImmutableSortedMap<K, V>(unmodifiableSortedMap(delegate), comparator);
     }
   }
 
@@ -266,7 +263,7 @@ public class ImmutableSortedMap<K, V>
 
   public ImmutableSortedMap<K, V> headMap(K toKey) {
     checkNotNull(toKey);
-    return new ImmutableSortedMap<K, V>(sortedDelegate.headMap(toKey));
+    return newView(sortedDelegate.headMap(toKey));
   }
 
   ImmutableSortedMap<K, V> headMap(K toKey, boolean inclusive) {
@@ -285,7 +282,7 @@ public class ImmutableSortedMap<K, V>
     checkNotNull(fromKey);
     checkNotNull(toKey);
     checkArgument(comparator.compare(fromKey, toKey) <= 0);
-    return new ImmutableSortedMap<K, V>(sortedDelegate.subMap(fromKey, toKey));
+    return newView(sortedDelegate.subMap(fromKey, toKey));
   }
 
   ImmutableSortedMap<K, V> subMap(K fromKey, boolean fromInclusive, K toKey, boolean toInclusive){
@@ -294,10 +291,10 @@ public class ImmutableSortedMap<K, V>
     checkArgument(comparator.compare(fromKey, toKey) <= 0);
     return tailMap(fromKey, fromInclusive).headMap(toKey, toInclusive);
   }
-  
+
   public ImmutableSortedMap<K, V> tailMap(K fromKey) {
     checkNotNull(fromKey);
-    return new ImmutableSortedMap<K, V>(sortedDelegate.tailMap(fromKey));
+    return newView(sortedDelegate.tailMap(fromKey));
   }
 
   public ImmutableSortedMap<K, V> tailMap(K fromKey, boolean inclusive) {
@@ -316,5 +313,30 @@ public class ImmutableSortedMap<K, V>
       return (ImmutableSortedMap) NATURAL_EMPTY_MAP;
     }
     return create(comparator);
+  }
+
+  private ImmutableSortedMap<K, V> newView(SortedMap<K, V> delegate) {
+    return new ImmutableSortedMap<K, V>(delegate, comparator);
+  }
+
+  /*
+   * We don't permit nulls, but we wrap every comparator with nullsFirst().
+   * Why? We want for queries like containsKey(null) to return false, but the
+   * GWT SortedMap implementation that we delegate to throws
+   * NullPointerException if the comparator does. Since our construction
+   * methods ensure that null is never present in the map, it's OK for the
+   * comparator to look for it wherever it wants.
+   *
+   * Note that we do NOT touch the comparator returned by comparator(), which
+   * should be identical to the one the user passed in. We touch only the
+   * "secret" comparator used by the delegate implementation.
+   */
+
+  private static <K, V> SortedMap<K, V> newModifiableDelegate(Comparator<? super K> comparator) {
+    return newTreeMap(nullAccepting(comparator));
+  }
+
+  private static <E> Comparator<E> nullAccepting(Comparator<E> comparator) {
+    return Ordering.from(comparator).nullsFirst();
   }
 }

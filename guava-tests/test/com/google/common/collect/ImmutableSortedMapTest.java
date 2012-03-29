@@ -22,17 +22,12 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableSortedMap.Builder;
-import com.google.common.collect.testing.CollectionTestSuiteBuilder;
-import com.google.common.collect.testing.SetTestSuiteBuilder;
+import com.google.common.collect.testing.MapTestSuiteBuilder;
 import com.google.common.collect.testing.SortedMapInterfaceTest;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
-import com.google.common.collect.testing.google.SortedMapGenerators.ImmutableSortedMapEntrySetGenerator;
-import com.google.common.collect.testing.google.SortedMapGenerators.ImmutableSortedMapHeadMapKeySetGenerator;
-import com.google.common.collect.testing.google.SortedMapGenerators.ImmutableSortedMapKeySetGenerator;
-import com.google.common.collect.testing.google.SortedMapGenerators.ImmutableSortedMapSubMapEntryGenerator;
-import com.google.common.collect.testing.google.SortedMapGenerators.ImmutableSortedMapTailMapValuesGenerator;
-import com.google.common.collect.testing.google.SortedMapGenerators.ImmutableSortedMapValuesGenerator;
+import com.google.common.collect.testing.features.MapFeature;
+import com.google.common.collect.testing.google.SortedMapGenerators.ImmutableSortedMapGenerator;
 import com.google.common.testing.NullPointerTester;
 import com.google.common.testing.SerializableTester;
 
@@ -64,63 +59,15 @@ public class ImmutableSortedMapTest extends TestCase {
     TestSuite suite = new TestSuite();
     suite.addTestSuite(ImmutableSortedMapTest.class);
 
-    suite.addTest(SetTestSuiteBuilder.using(
-        new ImmutableSortedMapKeySetGenerator())
+    suite.addTest(MapTestSuiteBuilder.using(
+        new ImmutableSortedMapGenerator())
         .withFeatures(
             CollectionSize.ANY,
             CollectionFeature.SERIALIZABLE,
             CollectionFeature.KNOWN_ORDER,
-            CollectionFeature.REJECTS_DUPLICATES_AT_CREATION,
+            MapFeature.REJECTS_DUPLICATES_AT_CREATION,
             CollectionFeature.ALLOWS_NULL_QUERIES)
-        .named("ImmutableSortedMap.keySet")
-        .createTestSuite());
-
-    suite.addTest(SetTestSuiteBuilder.using(
-        new ImmutableSortedMapEntrySetGenerator())
-        .withFeatures(
-            CollectionSize.ANY,
-            CollectionFeature.SERIALIZABLE,
-            CollectionFeature.KNOWN_ORDER,
-            CollectionFeature.REJECTS_DUPLICATES_AT_CREATION,
-            CollectionFeature.ALLOWS_NULL_QUERIES)
-        .named("ImmutableSortedMap.entrySet")
-        .createTestSuite());
-
-    suite.addTest(CollectionTestSuiteBuilder.using(
-        new ImmutableSortedMapValuesGenerator())
-        .withFeatures(CollectionSize.ANY, CollectionFeature.KNOWN_ORDER,
-            CollectionFeature.SERIALIZABLE,
-            CollectionFeature.ALLOWS_NULL_QUERIES)
-        .named("ImmutableSortedMap.values")
-        .createTestSuite());
-
-    suite.addTest(SetTestSuiteBuilder.using(
-        new ImmutableSortedMapHeadMapKeySetGenerator())
-        .withFeatures(
-            CollectionSize.ANY,
-            CollectionFeature.KNOWN_ORDER,
-            CollectionFeature.SERIALIZABLE,
-            CollectionFeature.REJECTS_DUPLICATES_AT_CREATION,
-            CollectionFeature.ALLOWS_NULL_QUERIES)
-        .named("ImmutableSortedMap.headMap.keySet")
-        .createTestSuite());
-
-    suite.addTest(SetTestSuiteBuilder.using(
-        new ImmutableSortedMapSubMapEntryGenerator())
-        .withFeatures(
-            CollectionSize.ANY,
-            CollectionFeature.KNOWN_ORDER,
-            CollectionFeature.SERIALIZABLE,
-            CollectionFeature.REJECTS_DUPLICATES_AT_CREATION,
-            CollectionFeature.ALLOWS_NULL_QUERIES)
-        .named("ImmutableSortedMap.subMap.entrySet")
-        .createTestSuite());
-
-    suite.addTest(CollectionTestSuiteBuilder.using(
-        new ImmutableSortedMapTailMapValuesGenerator())
-        .withFeatures(CollectionSize.ANY, CollectionFeature.KNOWN_ORDER,
-            CollectionFeature.ALLOWS_NULL_QUERIES)
-        .named("ImmutableSortedMap.tailMap.values")
+        .named("ImmutableSortedMap")
         .createTestSuite());
 
     return suite;
@@ -238,7 +185,7 @@ public class ImmutableSortedMapTest extends TestCase {
       return 4;
     }
   }
-  
+
   public static class TailMapTests extends AbstractMapTests<String, Integer> {
     @Override protected SortedMap<String, Integer> makePopulatedMap() {
       return ImmutableSortedMap.of("a", 1, "b", 2, "c", 3, "d", 4, "e", 5)

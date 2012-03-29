@@ -20,9 +20,11 @@ import static com.google.common.collect.testing.google.AbstractMultisetSetCountT
 import static com.google.common.collect.testing.google.MultisetIteratorTester.getIteratorDuplicateInitializingMethods;
 import static com.google.common.collect.testing.google.MultisetReadsTester.getReadsDuplicateInitializingMethods;
 import static java.util.Arrays.asList;
+import static java.util.Collections.sort;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.testing.AnEnum;
+import com.google.common.collect.testing.Helpers.NullsBeforeB;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.google.MultisetTestSuiteBuilder;
@@ -34,7 +36,6 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
-import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -46,38 +47,6 @@ import java.util.List;
  */
 @GwtIncompatible("suite") // TODO(cpovirk): set up collect/gwt/suites version
 public class MultisetCollectionTest extends TestCase {
-  /**
-   * Compares strings in natural order except that null comes immediately before "b". This works
-   * better than Ordering.natural().nullsFirst() because, if null comes before all other values, it
-   * lies outside the submultiset ranges we test, and the variety of tests that exercise null
-   * handling fail on those submultisets.
-   */
-  private static final class NullsBeforeB extends Ordering<String> implements Serializable {
-    @Override
-    public int compare(String lhs, String rhs) {
-      if (lhs == rhs) {
-        return 0;
-      }
-      if (lhs == null) {
-        // lhs (null) comes just before "b."
-        // If rhs is b, lhs comes first.
-        if (rhs.equals("b")) {
-          return -1;
-        }
-        return "b".compareTo(rhs);
-      }
-      if (rhs == null) {
-        // rhs (null) comes just before "b."
-        // If lhs is b, rhs comes first.
-        if (lhs.equals("b")) {
-          return 1;
-        }
-        return lhs.compareTo("b");
-      }
-      return lhs.compareTo(rhs);
-    }
-  }
-
   public static Test suite() {
     TestSuite suite = new TestSuite();
 
@@ -120,14 +89,15 @@ public class MultisetCollectionTest extends TestCase {
         .using(new TestStringMultisetGenerator() {
           @Override
           protected Multiset<String> create(String[] elements) {
-            Multiset<String> result = TreeMultiset.create(new NullsBeforeB());
+            Multiset<String> result = TreeMultiset.create(NullsBeforeB.INSTANCE);
             result.addAll(Arrays.asList(elements));
             return result;
           }
 
           @Override
           public List<String> order(List<String> insertionOrder) {
-            return new NullsBeforeB().sortedCopy(insertionOrder);
+            sort(insertionOrder, NullsBeforeB.INSTANCE);
+            return insertionOrder;
           }
         })
         .withFeatures(CollectionSize.ANY, CollectionFeature.KNOWN_ORDER,

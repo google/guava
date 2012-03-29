@@ -26,9 +26,9 @@ import com.google.common.collect.testing.MapInterfaceTest;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.MapFeature;
+import com.google.common.collect.testing.google.BiMapGenerators.ImmutableBiMapGenerator;
 import com.google.common.collect.testing.google.BiMapInverseTester;
 import com.google.common.collect.testing.google.BiMapTestSuiteBuilder;
-import com.google.common.collect.testing.google.TestStringBiMapGenerator;
 import com.google.common.testing.SerializableTester;
 
 import junit.framework.Test;
@@ -65,22 +65,12 @@ public class ImmutableBiMapTest extends TestCase {
         .withFeatures(CollectionSize.ANY,
             CollectionFeature.SERIALIZABLE,
             CollectionFeature.KNOWN_ORDER,
-            MapFeature.REJECTS_DUPLICATES_AT_CREATION)
+            MapFeature.REJECTS_DUPLICATES_AT_CREATION,
+            MapFeature.ALLOWS_NULL_QUERIES)
         .suppressing(BiMapInverseTester.getInverseSameAfterSerializingMethods())
         .createTestSuite());
 
     return suite;
-  }
-
-  public static final class ImmutableBiMapGenerator extends TestStringBiMapGenerator {
-    @Override
-    protected BiMap<String, String> create(Entry<String, String>[] entries) {
-      ImmutableBiMap.Builder<String, String> result = ImmutableBiMap.builder();
-      for (Entry<String, String> entry : entries) {
-        result.put(entry.getKey(), entry.getValue());
-      }
-      return result.build();
-    }
   }
 
   public static abstract class AbstractMapTests<K, V>

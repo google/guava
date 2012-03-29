@@ -258,8 +258,8 @@ public class MapTestSuiteBuilder<K, V>
     }
   }
 
-  private static class MapEntrySetGenerator<K, V>
-      implements TestSetGenerator<Map.Entry<K, V>> {
+  public static class MapEntrySetGenerator<K, V>
+      implements TestSetGenerator<Map.Entry<K, V>>, DerivedGenerator {
     private final OneSizeTestContainerGenerator<Map<K, V>, Map.Entry<K, V>>
         mapGenerator;
 
@@ -289,12 +289,17 @@ public class MapTestSuiteBuilder<K, V>
         List<Map.Entry<K, V>> insertionOrder) {
       return mapGenerator.order(insertionOrder);
     }
+
+    public OneSizeTestContainerGenerator<Map<K, V>, Map.Entry<K, V>> getInnerGenerator() {
+      return mapGenerator;
+    }
   }
 
   // TODO: investigate some API changes to SampleElements that would tidy up
   // parts of the following classes.
 
-  private static class MapKeySetGenerator<K, V> implements TestSetGenerator<K> {
+  public static class MapKeySetGenerator<K, V>
+      implements TestSetGenerator<K>, DerivedGenerator {
     private final OneSizeTestContainerGenerator<Map<K, V>, Map.Entry<K, V>>
         mapGenerator;
     private final SampleElements<K> samples;
@@ -361,10 +366,14 @@ public class MapTestSuiteBuilder<K, V>
       }
       return keys;
     }
+
+    public OneSizeTestContainerGenerator<Map<K, V>, Map.Entry<K, V>> getInnerGenerator() {
+      return mapGenerator;
+    }
   }
 
-  private static class MapValueCollectionGenerator<K, V>
-      implements TestCollectionGenerator<V> {
+  public static class MapValueCollectionGenerator<K, V>
+      implements TestCollectionGenerator<V>, DerivedGenerator {
     private final OneSizeTestContainerGenerator<Map<K, V>, Map.Entry<K, V>>
         mapGenerator;
     private final SampleElements<V> samples;
@@ -436,6 +445,10 @@ public class MapTestSuiteBuilder<K, V>
         }
       });
       return insertionOrder;
+    }
+
+    public OneSizeTestContainerGenerator<Map<K, V>, Map.Entry<K, V>> getInnerGenerator() {
+      return mapGenerator;
     }
   }
 }

@@ -26,7 +26,7 @@ import java.util.Iterator;
  * @author George van den Driessche
  */
 public final class DerivedTestIteratorGenerator<E>
-    implements TestIteratorGenerator<E> {
+    implements TestIteratorGenerator<E>, DerivedGenerator {
   private final TestSubjectGenerator<? extends Iterable<E>>
       collectionGenerator;
 
@@ -35,7 +35,8 @@ public final class DerivedTestIteratorGenerator<E>
     this.collectionGenerator = collectionGenerator;
   }
 
-  public TestSubjectGenerator<? extends Iterable<E>> getCollectionGenerator() {
+  @Override
+  public TestSubjectGenerator<? extends Iterable<E>> getInnerGenerator() {
     return collectionGenerator;
   }
 

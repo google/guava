@@ -16,17 +16,12 @@
 
 package com.google.common.collect.testing.google;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableMap.Builder;
 import com.google.common.collect.testing.SampleElements;
-import com.google.common.collect.testing.TestCollectionGenerator;
 import com.google.common.collect.testing.TestListGenerator;
-import com.google.common.collect.testing.TestMapEntrySetGenerator;
 import com.google.common.collect.testing.TestStringMapGenerator;
-import com.google.common.collect.testing.TestStringSetGenerator;
 import com.google.common.collect.testing.TestUnhashableCollectionGenerator;
 import com.google.common.collect.testing.UnhashableObject;
 
@@ -34,7 +29,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Set;
 
 /**
  * Generators of different types of map and related collections, such as
@@ -55,45 +49,6 @@ public class MapGenerators {
       return builder.build();
     }
   }
-  
-  public static class ImmutableMapKeySetGenerator
-      extends TestStringSetGenerator {
-    @Override protected Set<String> create(String[] elements) {
-      Builder<String, Integer> builder = ImmutableMap.builder();
-      for (String key : elements) {
-        builder.put(key, 4);
-      }
-      return builder.build().keySet();
-    }
-  }
-
-  public static class ImmutableMapValuesGenerator
-      implements TestCollectionGenerator<String> {
-
-    @Override
-    public SampleElements<String> samples() {
-      return new SampleElements.Strings();
-    }
-
-    @Override
-    public Collection<String> create(Object... elements) {
-      Builder<Object, String> builder = ImmutableMap.builder();
-      for (Object key : elements) {
-        builder.put(key, String.valueOf(key));
-      }
-      return builder.build().values();
-    }
-
-    @Override
-    public String[] createArray(int length) {
-      return new String[length];
-    }
-
-    @Override
-    public List<String> order(List<String> insertionOrder) {
-      return insertionOrder;
-    }
-  }
 
   public static class ImmutableMapUnhashableValuesGenerator
       extends TestUnhashableCollectionGenerator<Collection<UnhashableObject>> {
@@ -106,27 +61,6 @@ public class MapGenerators {
         builder.put(key++, value);
       }
       return builder.build().values();
-    }
-  }
-
-  public static class ImmutableMapEntrySetGenerator
-      extends TestMapEntrySetGenerator<String, String> {
-
-    public ImmutableMapEntrySetGenerator() {
-      super(new SampleElements.Strings(), new SampleElements.Strings());
-    }
-
-    @Override public Set<Entry<String, String>> createFromEntries(
-        Entry<String, String>[] entries) {
-      Builder<String, String> builder = ImmutableMap.builder();
-      for (Entry<String, String> entry : entries) {
-        // This null-check forces NPE to be thrown for tests with null
-        // elements.  Those tests aren't useful in testing entry sets
-        // because entry sets never have null elements.
-        checkNotNull(entry);
-        builder.put(entry.getKey(), entry.getValue());
-      }
-      return builder.build().entrySet();
     }
   }
 

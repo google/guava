@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2008 The Guava Authors
+ * Copyright (C) 2012 The Guava Authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,21 +16,13 @@
 
 package com.google.common.collect.testing;
 
-import static com.google.common.collect.testing.Helpers.orderEntriesByKey;
-
-import java.util.List;
-import java.util.Map.Entry;
-
 /**
- * Implementation helper for {@link TestMapGenerator} for use with sorted maps of strings.
- *
- * <p>This class is GWT compatible.
+ * A generator that relies on a preexisting generator for most of its work. For example, a derived
+ * iterator generator may delegate the work of creating the underlying collection to an inner
+ * collection generator.
  *
  * @author Chris Povirk
  */
-public abstract class TestStringSortedMapGenerator extends TestStringMapGenerator {
-  @Override
-  public Iterable<Entry<String, String>> order(List<Entry<String, String>> insertionOrder) {
-    return orderEntriesByKey(insertionOrder);
-  }
+public interface DerivedGenerator {
+  TestSubjectGenerator<?> getInnerGenerator();
 }

@@ -312,4 +312,40 @@ public class Helpers {
     sort(insertionOrder, Helpers.<K, V>entryComparator(NATURAL_ORDER));
     return insertionOrder;
   }
+
+  /**
+   * Compares strings in natural order except that null comes immediately before "b". This works
+   * better than Ordering.natural().nullsFirst() because, if null comes before all other values, it
+   * lies outside the submap/submultiset ranges we test, and the variety of tests that exercise null
+   * handling fail on those subcollections.
+   */
+  public enum NullsBeforeB implements Comparator<String> {
+    INSTANCE;
+
+    private static final String B = "b";
+
+    @Override
+    public int compare(String lhs, String rhs) {
+      if (lhs == rhs) {
+        return 0;
+      }
+      if (lhs == null) {
+        // lhs (null) comes just before "b."
+        // If rhs is b, lhs comes first.
+        if (rhs.equals(B)) {
+          return -1;
+        }
+        return B.compareTo(rhs);
+      }
+      if (rhs == null) {
+        // rhs (null) comes just before "b."
+        // If lhs is b, rhs comes first.
+        if (lhs.equals(B)) {
+          return 1;
+        }
+        return lhs.compareTo(B);
+      }
+      return lhs.compareTo(rhs);
+    }
+  }
 }
