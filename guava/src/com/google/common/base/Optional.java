@@ -57,8 +57,8 @@ import javax.annotation.Nullable;
  *
  * <p>This class is not intended as a direct analogue of any existing "option" or "maybe"
  * construct from other programming environments, though it may bear some similarities.
- * 
- * <p>See the Guava User Guide article on <a 
+ *
+ * <p>See the Guava User Guide article on <a
  * href="http://code.google.com/p/guava-libraries/wiki/UsingAndAvoidingNullExplained#Optional">
  * using {@code Optional}</a>.
  *
@@ -117,6 +117,30 @@ public abstract class Optional<T> implements Serializable {
    * Returns the contained instance if it is present; {@code defaultValue} otherwise. If
    * no default value should be required because the instance is known to be present, use
    * {@link #get()} instead. For a default value of {@code null}, use {@link #orNull}.
+   *
+   * <p>Note about generics: The signature {@code public T or(T defaultValue)} is overly
+   * restrictive. However, the ideal signature, {@code public <S super T> S or(S)}, is not legal
+   * Java. As a result, some sensible operations involving subtypes are compile errors:
+   * <pre>   {@code
+   *
+   *   Optional<Integer> optionalInt = getSomeOptionalInt();
+   *   Number value = optionalInt.or(0.5); // error
+   *
+   *   FluentIterable<? extends Number> numbers = getSomeNumbers();
+   *   Optional<? extends Number> first = numbers.first();
+   *   Number value = first.or(0.5); // error}</pre>
+   *
+   * As a workaround, it is always safe to cast an {@code Optional<? extends T>} to {@code
+   * Optional<T>}. Casting either of the above example {@code Optional} instances to {@code
+   * Optional<Number>} (where {@code Number} is the desired output type) solves the problem:
+   * <pre>   {@code
+   *
+   *   Optional<Number> optionalInt = (Optional) getSomeOptionalInt();
+   *   Number value = optionalInt.or(0.5); // fine
+   *
+   *   FluentIterable<? extends Number> numbers = getSomeNumbers();
+   *   Optional<Number> first = (Optional) numbers.first();
+   *   Number value = first.or(0.5); // fine}</pre>
    */
   public abstract T or(T defaultValue);
 

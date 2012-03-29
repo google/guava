@@ -20,6 +20,7 @@ import static org.junit.contrib.truth.Truth.ASSERT;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableList;
 import com.google.common.testing.NullPointerTester;
 import com.google.common.testing.SerializableTester;
@@ -131,16 +132,16 @@ public final class OptionalTest extends TestCase {
   public void testOrNull_absent() {
     assertNull(Optional.absent().orNull());
   }
-  
+
   public void testAsSet_present() {
     Set<String> expected = Collections.singleton("a");
     assertEquals(expected, Optional.of("a").asSet());
   }
-  
+
   public void testAsSet_absent() {
     assertTrue("Returned set should be empty", Optional.absent().asSet().isEmpty());
   }
-  
+
   public void testAsSet_presentIsImmutable() {
     Set<String> presentAsSet = Optional.of("a").asSet();
     try {
@@ -222,25 +223,55 @@ public final class OptionalTest extends TestCase {
         ImmutableList.of(Optional.of("a"), Optional.of("b"), Optional.of("c"));
     ASSERT.that(Optional.presentInstances(optionals)).hasContentsInOrder("a", "b", "c");
   }
-  
+
   public void testPresentInstances_allAbsent() {
     List<Optional<Object>> optionals =
         ImmutableList.of(Optional.absent(), Optional.absent());
     ASSERT.that(Optional.presentInstances(optionals)).isEmpty();
   }
-  
+
   public void testPresentInstances_somePresent() {
     List<Optional<String>> optionals =
         ImmutableList.of(Optional.of("a"), Optional.<String>absent(), Optional.of("c"));
     ASSERT.that(Optional.presentInstances(optionals)).hasContentsInOrder("a", "c");
   }
-  
+
   public void testPresentInstances_callingIteratorTwice() {
     List<Optional<String>> optionals =
         ImmutableList.of(Optional.of("a"), Optional.<String>absent(), Optional.of("c"));
     Iterable<String> onlyPresent = Optional.presentInstances(optionals);
     ASSERT.that(onlyPresent).hasContentsInOrder("a", "c");
     ASSERT.that(onlyPresent).hasContentsInOrder("a", "c");
+  }
+
+  private static Optional<Integer> getSomeOptionalInt() {
+    return Optional.of(1);
+  }
+
+  private static FluentIterable<? extends Number> getSomeNumbers() {
+    return FluentIterable.from(ImmutableList.<Number>of());
+  }
+
+  public void testSampleCodeError1() {
+    Optional<Integer> optionalInt = getSomeOptionalInt();
+    // Number value = optionalInt.or(0.5); // error
+  }
+
+  public void testSampleCodeError2() {
+    FluentIterable<? extends Number> numbers = getSomeNumbers();
+    Optional<? extends Number> first = numbers.first();
+    // Number value = first.or(0.5); // error
+  }
+
+  public void testSampleCodeFine1() {
+    Optional<Number> optionalInt = (Optional) getSomeOptionalInt();
+    Number value = optionalInt.or(0.5); // fine
+  }
+
+  public void testSampleCodeFine2() {
+    FluentIterable<? extends Number> numbers = getSomeNumbers();
+    Optional<Number> first = (Optional) numbers.first();
+    Number value = first.or(0.5); // fine
   }
 
   @GwtIncompatible("SerializableTester")
