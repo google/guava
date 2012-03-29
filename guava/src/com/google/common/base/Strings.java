@@ -73,7 +73,7 @@ public final class Strings {
    * @return {@code true} if the string is null or is the empty string
    */
   public static boolean isNullOrEmpty(@Nullable String string) {
-    return string == null || string.isEmpty();
+    return string == null || string.length() == 0; // string.isEmpty() in Java 6
   }
 
   /**
