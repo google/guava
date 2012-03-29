@@ -17,8 +17,8 @@
 package com.google.common.net;
 
 import com.google.common.annotations.Beta;
-import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Preconditions;
+import com.google.common.hash.Hashing;
 import com.google.common.io.ByteStreams;
 import com.google.common.primitives.Ints;
 
@@ -942,7 +942,7 @@ public final class InetAddresses {
     }
 
     // Many strategies for hashing are possible.  This might suffice for now.
-    int coercedHash = hash64To32(addressAsLong);
+    int coercedHash = Hashing.murmur3_32().hashLong(addressAsLong).asInt();
 
     // Squash into 224/4 Multicast and 240/4 Reserved space (i.e. 224/3).
     coercedHash |= 0xe0000000;
@@ -954,27 +954,6 @@ public final class InetAddresses {
     }
 
     return getInet4Address(Ints.toByteArray(coercedHash));
-  }
-
-  /**
-   * Returns an {@code int} hash of a 64-bit long.
-   *
-   * This comes from http://www.concentric.net/~ttwang/tech/inthash.htm
-   *
-   * This hash gives no guarantees on the cryptographic suitability nor the
-   * quality of randomness produced, and the mapping may change in the future.
-   *
-   * @param key A 64-bit number to hash
-   * @return {@code int} the input hashed into 32 bits
-   */
-  @VisibleForTesting static int hash64To32(long key) {
-    key = (~key) + (key << 18);
-    key = key ^ (key >>> 31);
-    key = key * 21;
-    key = key ^ (key >>> 11);
-    key = key + (key << 6);
-    key = key ^ (key >>> 22);
-    return (int) key;
   }
 
   /**

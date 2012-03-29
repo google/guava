@@ -637,14 +637,6 @@ public class InetAddressesTest extends TestCase {
     assertTrue(InetAddresses.coerceToInteger(coerced) <= 0xfffffffe);
   }
 
-  public void testHash64To32() {
-    // Make sure the output looks reasonably sane.
-    assertEquals(532412650, InetAddresses.hash64To32(-1));
-    assertEquals(720020139, InetAddresses.hash64To32(0));
-    assertEquals(357654460, InetAddresses.hash64To32(1));
-    assertEquals(-1977349188, InetAddresses.hash64To32(0x7fffffffffffffffL));
-  }
-
   public void testToInteger() {
     InetAddress ipv4Addr = InetAddresses.forString("127.0.0.1");
     assertEquals(0x7f000001, InetAddresses.coerceToInteger(ipv4Addr));
