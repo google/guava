@@ -44,6 +44,7 @@ import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
 import java.io.IOException;
+import java.io.StringReader;
 import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.Collections;
@@ -698,8 +699,7 @@ public class MapsTest extends TestCase {
     // Now test values loaded from a stream.
     String props = "test\n second = 2\n Third item :   a short  phrase   ";
 
-    // TODO: change to StringReader in Java 1.6
-    testProp.load(new java.io.StringBufferInputStream(props));
+    testProp.load(new StringReader(props));
 
     result = Maps.fromProperties(testProp);
     assertEquals(4, result.size());
@@ -717,8 +717,7 @@ public class MapsTest extends TestCase {
     testProp = new Properties(System.getProperties());
     String override = "test\njava.version : hidden";
 
-    // TODO: change to StringReader in Java 1.6
-    testProp.load(new java.io.StringBufferInputStream(override));
+    testProp.load(new StringReader(override));
 
     result = Maps.fromProperties(testProp);
     assertTrue(result.size() > 2);
