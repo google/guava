@@ -18,6 +18,7 @@ package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.collect.Maps.keyOrNull;
 import static com.google.common.collect.SortedLists.KeyAbsentBehavior.INVERTED_INSERTION_INDEX;
 import static com.google.common.collect.SortedLists.KeyAbsentBehavior.NEXT_HIGHER;
 import static com.google.common.collect.SortedLists.KeyAbsentBehavior.NEXT_LOWER;
@@ -32,6 +33,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.NavigableMap;
 import java.util.NoSuchElementException;
 import java.util.SortedMap;
 import java.util.TreeMap;
@@ -62,7 +64,7 @@ import javax.annotation.Nullable;
  */
 @GwtCompatible(serializable = true, emulated = true)
 public class ImmutableSortedMap<K, V>
-    extends ImmutableSortedMapFauxverideShim<K, V> implements SortedMap<K, V> {
+    extends ImmutableSortedMapFauxverideShim<K, V> implements NavigableMap<K, V> {
   /*
    * TODO(kevinb): Confirm that ImmutableSortedMap is faster to construct and
    * uses less memory than TreeMap; then say so in the class Javadoc.
@@ -558,7 +560,18 @@ public class ImmutableSortedMap<K, V>
     return headMap(toKey, false);
   }
 
-  ImmutableSortedMap<K, V> headMap(K toKey, boolean inclusive){
+  /**
+   * This method returns a {@code ImmutableSortedMap}, consisting of the entries
+   * whose keys are less than (or equal to, if {@code inclusive}) {@code toKey}.
+   *
+   * <p>The {@link SortedMap#headMap} documentation states that a submap of a
+   * submap throws an {@link IllegalArgumentException} if passed a {@code toKey}
+   * greater than an earlier {@code toKey}. However, this method doesn't throw
+   * an exception in that situation, but instead keeps the original {@code
+   * toKey}.
+   */
+  @Override
+  public ImmutableSortedMap<K, V> headMap(K toKey, boolean inclusive) {
     int index;
     if (inclusive) {
       index = index(toKey, ANY_PRESENT, NEXT_LOWER) + 1;
@@ -586,7 +599,21 @@ public class ImmutableSortedMap<K, V>
     return subMap(fromKey, true, toKey, false);
   }
 
-  ImmutableSortedMap<K, V> subMap(K fromKey, boolean fromInclusive, K toKey,
+  /**
+   * This method returns a {@code ImmutableSortedMap}, consisting of the entries
+   * whose keys ranges from {@code fromKey} to {@code toKey}, inclusive or
+   * exclusive as indicated by the boolean flags.
+   *
+   * <p>The {@link SortedMap#subMap} documentation states that a submap of a
+   * submap throws an {@link IllegalArgumentException} if passed a {@code
+   * fromKey} less than an earlier {@code fromKey}. However, this method doesn't
+   * throw an exception in that situation, but instead keeps the original {@code
+   * fromKey}. Similarly, this method keeps the original {@code toKey}, instead
+   * of throwing an exception, if passed a {@code toKey} greater than an earlier
+   * {@code toKey}.
+   */
+  @Override
+  public ImmutableSortedMap<K, V> subMap(K fromKey, boolean fromInclusive, K toKey,
       boolean toInclusive) {
     checkNotNull(fromKey);
     checkNotNull(toKey);
@@ -609,7 +636,19 @@ public class ImmutableSortedMap<K, V>
     return tailMap(fromKey, true);
   }
 
-  ImmutableSortedMap<K, V> tailMap(K fromKey, boolean inclusive) {
+  /**
+   * This method returns a {@code ImmutableSortedMap}, consisting of the entries
+   * whose keys are greater than (or equal to, if {@code inclusive})
+   * {@code fromKey}.
+   *
+   * <p>The {@link SortedMap#tailMap} documentation states that a submap of a
+   * submap throws an {@link IllegalArgumentException} if passed a {@code
+   * fromKey} less than an earlier {@code fromKey}. However, this method doesn't
+   * throw an exception in that situation, but instead keeps the original {@code
+   * fromKey}.
+   */
+  @Override
+  public ImmutableSortedMap<K, V> tailMap(K fromKey, boolean inclusive) {
     int index;
     if (inclusive) {
       index = index(fromKey, ANY_PRESENT, NEXT_HIGHER);
@@ -617,6 +656,89 @@ public class ImmutableSortedMap<K, V>
       index = index(fromKey, ANY_PRESENT, NEXT_LOWER) + 1;
     }
     return createSubmap(index, size());
+  }
+
+  @Override
+  public Entry<K, V> lowerEntry(K key) {
+    return headMap(key, false).lastEntry();
+  }
+
+  @Override
+  public K lowerKey(K key) {
+    return keyOrNull(lowerEntry(key));
+  }
+
+  @Override
+  public Entry<K, V> floorEntry(K key) {
+    return headMap(key, true).lastEntry();
+  }
+
+  @Override
+  public K floorKey(K key) {
+    return keyOrNull(floorEntry(key));
+  }
+
+  @Override
+  public Entry<K, V> ceilingEntry(K key) {
+    return tailMap(key, true).firstEntry();
+  }
+
+  @Override
+  public K ceilingKey(K key) {
+    return keyOrNull(ceilingEntry(key));
+  }
+
+  @Override
+  public Entry<K, V> higherEntry(K key) {
+    return tailMap(key, false).firstEntry();
+  }
+
+  @Override
+  public K higherKey(K key) {
+    return keyOrNull(higherEntry(key));
+  }
+
+  @Override
+  public Entry<K, V> firstEntry() {
+    return isEmpty() ? null : entries.get(0);
+  }
+
+  @Override
+  public Entry<K, V> lastEntry() {
+    return isEmpty() ? null : entries.get(entries.size() - 1);
+  }
+
+  @Override
+  public final Entry<K, V> pollFirstEntry() {
+    throw new UnsupportedOperationException();
+  }
+
+  @Override
+  public final Entry<K, V> pollLastEntry() {
+    throw new UnsupportedOperationException();
+  }
+
+  private transient ImmutableSortedMap<K, V> descendingMap;
+
+  @Override
+  public ImmutableSortedMap<K, V> descendingMap() {
+    ImmutableSortedMap<K, V> result = descendingMap;
+    if (result == null) {
+      result = descendingMap =
+          new ImmutableSortedMap<K, V>(entries.reverse(), Ordering.from(comparator()).reverse());
+      result.descendingMap = this;
+    }
+    return result;
+  }
+
+  @Override
+  public ImmutableSortedSet<K> navigableKeySet() {
+    return keySet();
+  }
+
+  @Override
+  public ImmutableSortedSet<K> descendingKeySet() {
+    return descendingMap().keySet();
   }
 
   private ImmutableList<K> keyList() {

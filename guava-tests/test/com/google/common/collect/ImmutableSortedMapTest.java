@@ -22,7 +22,7 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableSortedMap.Builder;
-import com.google.common.collect.testing.MapTestSuiteBuilder;
+import com.google.common.collect.testing.NavigableMapTestSuiteBuilder;
 import com.google.common.collect.testing.SortedMapInterfaceTest;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
@@ -58,15 +58,14 @@ public class ImmutableSortedMapTest extends TestCase {
   public static Test suite() {
     TestSuite suite = new TestSuite();
     suite.addTestSuite(ImmutableSortedMapTest.class);
-
-    suite.addTest(MapTestSuiteBuilder.using(
+    suite.addTest(NavigableMapTestSuiteBuilder.using(
         new ImmutableSortedMapGenerator())
         .withFeatures(
             CollectionSize.ANY,
-            CollectionFeature.SERIALIZABLE,
+            CollectionFeature.SERIALIZABLE_INCLUDING_VIEWS,
             CollectionFeature.KNOWN_ORDER,
             MapFeature.REJECTS_DUPLICATES_AT_CREATION,
-            CollectionFeature.ALLOWS_NULL_QUERIES)
+            MapFeature.ALLOWS_NULL_QUERIES)
         .named("ImmutableSortedMap")
         .createTestSuite());
 
