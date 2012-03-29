@@ -95,7 +95,7 @@ public class SortedMapTestSuiteBuilder<K, V> extends MapTestSuiteBuilder<K, V> {
   /**
    * Two bounds (from and to) define how to build a subMap.
    */
-  enum Bound {
+  public enum Bound {
     INCLUSIVE,
     EXCLUSIVE,
     NO_BOUND;
@@ -118,76 +118,106 @@ public class SortedMapTestSuiteBuilder<K, V> extends MapTestSuiteBuilder<K, V> {
     features.add(NoRecurse.SUBMAP);
     features.addAll(parentBuilder.getFeatures());
 
-    SortedMap<K, V> emptyMap = (SortedMap<K, V>) delegate.create();
-    final Comparator<Entry<K, V>> entryComparator = Helpers.entryComparator(emptyMap.comparator());
-
-    // derive values for inclusive filtering from the input samples
-    SampleElements<Entry<K, V>> samples = delegate.samples();
-    @SuppressWarnings("unchecked") // no elements are inserted into the array
-    List<Entry<K, V>> samplesList = Arrays.asList(
-        samples.e0, samples.e1, samples.e2, samples.e3, samples.e4);
-    Collections.sort(samplesList, entryComparator);
-    final K firstInclusive = samplesList.get(0).getKey();
-    final K lastInclusive = samplesList.get(samplesList.size() - 1).getKey();
-
-    return newBuilderUsing(new ForwardingTestMapGenerator<K, V>(delegate) {
-          @Override public Map<K, V> create(Object... entries) {
-            @SuppressWarnings("unchecked") // we dangerously assume K and V are both strings
-            List<Entry<K, V>> extremeValues = (List) getExtremeValues();
-            @SuppressWarnings("unchecked") // map generators must past entry objects
-            List<Entry<K, V>> normalValues = (List) Arrays.asList(entries);
-
-            // prepare extreme values to be filtered out of view
-            Collections.sort(extremeValues, entryComparator);
-            K firstExclusive = extremeValues.get(1).getKey();
-            K lastExclusive = extremeValues.get(2).getKey();
-            if (from == Bound.NO_BOUND) {
-              extremeValues.remove(0);
-              extremeValues.remove(0);
-            }
-            if (to == Bound.NO_BOUND) {
-              extremeValues.remove(extremeValues.size() - 1);
-              extremeValues.remove(extremeValues.size() - 1);
-            }
-
-            // the regular values should be visible after filtering
-            List<Entry<K, V>> allEntries = new ArrayList<Entry<K, V>>();
-            allEntries.addAll(extremeValues);
-            allEntries.addAll(normalValues);
-            SortedMap<K, V> map = (SortedMap<K, V>)
-                delegate.create((Object[])
-                    allEntries.toArray(new Entry[allEntries.size()]));
-
-            return createSubMap(map,
-                firstInclusive, firstExclusive, lastExclusive, lastInclusive, from, to);
-          }
-        })
+    return newBuilderUsing(delegate, to, from)
         .named(parentBuilder.getName() + " subMap " + from + "-" + to)
         .withFeatures(features)
         .suppressing(parentBuilder.getSuppressedTests())
         .createTestSuite();
   }
 
-  /**
-   * Calls the smallest subMap overload that filters out the extreme values. This method is
-   * overridden by NavigableMapTestSuiteBuilder.
+  /*
+   * TODO(cpovirk): surely we can find a less ugly solution than a class that accepts 3 parameters,
+   * exposes as many getters, does work in the constructor, and has both a superclass and a subclass
    */
-  SortedMap<K, V> createSubMap(SortedMap<K, V> map,
-      K firstInclusive, K firstExclusive, K lastExclusive, K lastInclusive, Bound from, Bound to) {
-    if (from == Bound.NO_BOUND && to == Bound.EXCLUSIVE) {
-      return map.headMap(lastExclusive);
-    } else if (from == Bound.INCLUSIVE && to == Bound.NO_BOUND) {
-      return map.tailMap(firstInclusive);
-    } else if (from == Bound.INCLUSIVE && to == Bound.EXCLUSIVE) {
-      return map.subMap(firstInclusive, lastExclusive);
-    } else {
-      throw new IllegalArgumentException();
+  public static class SortedMapSubmapTestMapGenerator<K, V>
+      extends ForwardingTestMapGenerator<K, V> {
+    final Bound to;
+    final Bound from;
+    final K firstInclusive;
+    final K lastInclusive;
+    private final Comparator<Entry<K, V>> entryComparator;
+
+    public SortedMapSubmapTestMapGenerator(TestMapGenerator<K, V> delegate, Bound to, Bound from) {
+      super(delegate);
+      this.to = to;
+      this.from = from;
+
+      SortedMap<K, V> emptyMap = (SortedMap<K, V>) delegate.create();
+      this.entryComparator = Helpers.entryComparator(emptyMap.comparator());
+
+      // derive values for inclusive filtering from the input samples
+      SampleElements<Entry<K, V>> samples = delegate.samples();
+      @SuppressWarnings("unchecked") // no elements are inserted into the array
+      List<Entry<K, V>> samplesList = Arrays.asList(
+          samples.e0, samples.e1, samples.e2, samples.e3, samples.e4);
+      Collections.sort(samplesList, entryComparator);
+      this.firstInclusive = samplesList.get(0).getKey();
+      this.lastInclusive = samplesList.get(samplesList.size() - 1).getKey();
+    }
+
+    @Override public Map<K, V> create(Object... entries) {
+      @SuppressWarnings("unchecked") // we dangerously assume K and V are both strings
+      List<Entry<K, V>> extremeValues = (List) getExtremeValues();
+      @SuppressWarnings("unchecked") // map generators must past entry objects
+      List<Entry<K, V>> normalValues = (List) Arrays.asList(entries);
+
+      // prepare extreme values to be filtered out of view
+      Collections.sort(extremeValues, entryComparator);
+      K firstExclusive = extremeValues.get(1).getKey();
+      K lastExclusive = extremeValues.get(2).getKey();
+      if (from == Bound.NO_BOUND) {
+        extremeValues.remove(0);
+        extremeValues.remove(0);
+      }
+      if (to == Bound.NO_BOUND) {
+        extremeValues.remove(extremeValues.size() - 1);
+        extremeValues.remove(extremeValues.size() - 1);
+      }
+
+      // the regular values should be visible after filtering
+      List<Entry<K, V>> allEntries = new ArrayList<Entry<K, V>>();
+      allEntries.addAll(extremeValues);
+      allEntries.addAll(normalValues);
+      SortedMap<K, V> map = (SortedMap<K, V>)
+          delegate.create((Object[])
+              allEntries.toArray(new Entry[allEntries.size()]));
+
+      return createSubMap(map, firstExclusive, lastExclusive);
+    }
+
+    /**
+     * Calls the smallest subMap overload that filters out the extreme values. This method is
+     * overridden in NavigableMapTestSuiteBuilder.
+     */
+    Map<K, V> createSubMap(SortedMap<K, V> map, K firstExclusive, K lastExclusive) {
+      if (from == Bound.NO_BOUND && to == Bound.EXCLUSIVE) {
+        return map.headMap(lastExclusive);
+      } else if (from == Bound.INCLUSIVE && to == Bound.NO_BOUND) {
+        return map.tailMap(firstInclusive);
+      } else if (from == Bound.INCLUSIVE && to == Bound.EXCLUSIVE) {
+        return map.subMap(firstInclusive, lastExclusive);
+      } else {
+        throw new IllegalArgumentException();
+      }
+    }
+
+    public final Bound getTo() {
+      return to;
+    }
+
+    public final Bound getFrom() {
+      return from;
+    }
+
+    public final TestMapGenerator<K, V> getInnerGenerator() {
+      return delegate;
     }
   }
 
   /** Like using() but overrideable by NavigableMapTestSuiteBuilder. */
-  SortedMapTestSuiteBuilder<K, V> newBuilderUsing(TestMapGenerator<K, V> generator) {
-    return using(generator);
+  SortedMapTestSuiteBuilder<K, V> newBuilderUsing(
+      TestMapGenerator<K, V> delegate, Bound to, Bound from) {
+    return using(new SortedMapSubmapTestMapGenerator<K, V>(delegate, to, from));
   }
 
   /**
@@ -198,7 +228,7 @@ public class SortedMapTestSuiteBuilder<K, V> extends MapTestSuiteBuilder<K, V> {
    * {@code "~~ z"} will work for this purpose, which may cause problems for
    * navigable maps with non-string or unicode generators.
    */
-  private List<Entry<String, String>> getExtremeValues() {
+  private static List<Entry<String, String>> getExtremeValues() {
     List<Entry<String, String>> result = new ArrayList<Entry<String, String>>();
     result.add(Helpers.mapEntry("!! a", "below view"));
     result.add(Helpers.mapEntry("!! b", "below view"));
@@ -207,8 +237,9 @@ public class SortedMapTestSuiteBuilder<K, V> extends MapTestSuiteBuilder<K, V> {
     return result;
   }
 
+  // TODO(cpovirk): could something like this be used elsewhere, e.g., ReserializedListGenerator?
   static class ForwardingTestMapGenerator<K, V> implements TestMapGenerator<K, V> {
-    private TestMapGenerator<K, V> delegate;
+    TestMapGenerator<K, V> delegate;
 
     ForwardingTestMapGenerator(TestMapGenerator<K, V> delegate) {
       this.delegate = delegate;

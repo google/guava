@@ -75,27 +75,36 @@ public class NavigableMapTestSuiteBuilder<K, V> extends SortedMapTestSuiteBuilde
     return NavigableSetTestSuiteBuilder.using(keySetGenerator);
   }
 
-  @Override NavigableMap<K, V> createSubMap(SortedMap<K, V> sortedMap,
-      K firstInclusive, K firstExclusive, K lastExclusive, K lastInclusive, Bound from, Bound to) {
-    NavigableMap<K, V> map = (NavigableMap<K, V>) sortedMap;
-    if (from == Bound.NO_BOUND && to == Bound.INCLUSIVE) {
-      return map.headMap(lastInclusive, true);
-    } else if (from == Bound.EXCLUSIVE && to == Bound.NO_BOUND) {
-      return map.tailMap(firstExclusive, false);
-    } else if (from == Bound.EXCLUSIVE && to == Bound.EXCLUSIVE) {
-      return map.subMap(firstExclusive, false, lastExclusive, false);
-    } else if (from == Bound.EXCLUSIVE && to == Bound.INCLUSIVE) {
-      return map.subMap(firstExclusive, false, lastInclusive, true);
-    } else if (from == Bound.INCLUSIVE && to == Bound.INCLUSIVE) {
-      return map.subMap(firstInclusive, true, lastInclusive, true);
-    } else {
-      return (NavigableMap<K, V>) super.createSubMap(
-          map, firstInclusive, firstExclusive, lastExclusive, lastInclusive, from, to);
+  public static final class NavigableMapSubmapTestMapGenerator<K, V>
+      extends SortedMapSubmapTestMapGenerator<K, V> {
+    public NavigableMapSubmapTestMapGenerator(
+        TestMapGenerator<K, V> delegate, Bound to, Bound from) {
+      super(delegate, to, from);
+    }
+
+    @Override NavigableMap<K, V> createSubMap(SortedMap<K, V> sortedMap, K firstExclusive,
+        K lastExclusive) {
+      NavigableMap<K, V> map = (NavigableMap<K, V>) sortedMap;
+      if (from == Bound.NO_BOUND && to == Bound.INCLUSIVE) {
+        return map.headMap(lastInclusive, true);
+      } else if (from == Bound.EXCLUSIVE && to == Bound.NO_BOUND) {
+        return map.tailMap(firstExclusive, false);
+      } else if (from == Bound.EXCLUSIVE && to == Bound.EXCLUSIVE) {
+        return map.subMap(firstExclusive, false, lastExclusive, false);
+      } else if (from == Bound.EXCLUSIVE && to == Bound.INCLUSIVE) {
+        return map.subMap(firstExclusive, false, lastInclusive, true);
+      } else if (from == Bound.INCLUSIVE && to == Bound.INCLUSIVE) {
+        return map.subMap(firstInclusive, true, lastInclusive, true);
+      } else {
+        return (NavigableMap<K, V>) super.createSubMap(map, firstExclusive, lastExclusive);
+      }
     }
   }
 
-  @Override NavigableMapTestSuiteBuilder<K, V> newBuilderUsing(TestMapGenerator<K, V> generator) {
-    return using(generator);
+  @Override
+  public NavigableMapTestSuiteBuilder<K, V> newBuilderUsing(
+      TestMapGenerator<K, V> delegate, Bound to, Bound from) {
+    return using(new NavigableMapSubmapTestMapGenerator<K, V>(delegate, to, from));
   }
 
   /**
