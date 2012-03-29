@@ -464,6 +464,8 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableSortedMultiset
    *
    * Builder instances can be reused; it is safe to call {@link #build} multiple times to build
    * multiple multisets in series.
+   *
+   * @since 12.0
    */
   public static class Builder<E> extends ImmutableMultiset.Builder<E> {
     private final Comparator<? super E> comparator;

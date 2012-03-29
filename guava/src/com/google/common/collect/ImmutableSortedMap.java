@@ -569,6 +569,8 @@ public class ImmutableSortedMap<K, V>
    * greater than an earlier {@code toKey}. However, this method doesn't throw
    * an exception in that situation, but instead keeps the original {@code
    * toKey}.
+   *
+   * @since 12.0
    */
   @Override
   public ImmutableSortedMap<K, V> headMap(K toKey, boolean inclusive) {
@@ -611,6 +613,8 @@ public class ImmutableSortedMap<K, V>
    * fromKey}. Similarly, this method keeps the original {@code toKey}, instead
    * of throwing an exception, if passed a {@code toKey} greater than an earlier
    * {@code toKey}.
+   *
+   * @since 12.0
    */
   @Override
   public ImmutableSortedMap<K, V> subMap(K fromKey, boolean fromInclusive, K toKey,
@@ -646,6 +650,8 @@ public class ImmutableSortedMap<K, V>
    * fromKey} less than an earlier {@code fromKey}. However, this method doesn't
    * throw an exception in that situation, but instead keeps the original {@code
    * fromKey}.
+   *
+   * @since 12.0
    */
   @Override
   public ImmutableSortedMap<K, V> tailMap(K fromKey, boolean inclusive) {
