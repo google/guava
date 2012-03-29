@@ -24,6 +24,7 @@ import com.google.common.base.Optional;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Predicate;
 
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
@@ -286,6 +287,20 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    */
   public final ImmutableSet<E> toImmutableSet() {
     return ImmutableSet.copyOf(iterable);
+  }
+
+  /**
+   * Returns an {@code ImmutableSortedSet} containing all of the elements from this
+   * {@code FluentIterable} in the order specified by {@code comparator}, with duplicates
+   * (determined by {@code comaprator.compare(x, y) == 0}) removed. To produce an
+   * {@code ImmutableSortedSet} sorted by its natural ordering, use
+   * {@code toImmutableSortedSet(Ordering.natural())}.
+   *
+   * @param comparator the function by which to sort set elements
+   * @throws NullPointerException if any element is null
+   */
+  public final ImmutableSortedSet<E> toImmutableSortedSet(Comparator<? super E> comparator) {
+    return ImmutableSortedSet.copyOf(comparator, iterable);
   }
 
   /**

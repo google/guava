@@ -496,6 +496,16 @@ public class FluentIterableTest extends TestCase {
     assertTrue(fluent().toImmutableSet().isEmpty());
   }
 
+  public void testToImmutableSortedSet() {
+    ASSERT.that(fluent(1, 4, 2, 3).toImmutableSortedSet(Ordering.<Integer>natural().reverse()))
+        .hasContentsInOrder(4, 3, 2, 1);
+  }
+
+  public void testToImmutableSortedSet_removeDuplicates() {
+    ASSERT.that(fluent(1, 4, 1, 3).toImmutableSortedSet(Ordering.<Integer>natural().reverse()))
+        .hasContentsInOrder(4, 3, 1);
+  }
+
   public void testGet() {
     assertEquals("a", FluentIterable
         .from(Lists.newArrayList("a", "b", "c")).get(0));
