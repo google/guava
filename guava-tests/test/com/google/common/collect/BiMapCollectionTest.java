@@ -17,6 +17,7 @@
 package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.collect.testing.Helpers.orderEntriesByKey;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.testing.SampleElements;
@@ -55,7 +56,6 @@ public class BiMapCollectionTest extends TestCase {
     }
   }
 
-  
   private enum Currency { DOLLAR, FRANC, PESO, POUND, YEN }
   private enum Country { CANADA, CHILE, JAPAN, SWITZERLAND, UK }
 
@@ -90,7 +90,7 @@ public class BiMapCollectionTest extends TestCase {
 
     @Override
     public Iterable<Entry<Country, Currency>> order(List<Entry<Country, Currency>> insertionOrder) {
-      return insertionOrder;
+      return orderEntriesByKey(insertionOrder);
     }
 
     @Override
@@ -103,7 +103,7 @@ public class BiMapCollectionTest extends TestCase {
       return new Currency[length];
     }
   }
-  
+
   public static final class EnumHashBiMapGenerator implements TestBiMapGenerator<Country, String> {
     @SuppressWarnings("unchecked")
     @Override
@@ -165,6 +165,7 @@ public class BiMapCollectionTest extends TestCase {
         .withFeatures(CollectionSize.ANY,
             CollectionFeature.SERIALIZABLE,
             MapFeature.GENERAL_PURPOSE,
+            CollectionFeature.KNOWN_ORDER,
             MapFeature.REJECTS_DUPLICATES_AT_CREATION)
         .createTestSuite());
     suite.addTest(BiMapTestSuiteBuilder.using(new EnumHashBiMapGenerator())
@@ -173,6 +174,7 @@ public class BiMapCollectionTest extends TestCase {
             CollectionFeature.SERIALIZABLE,
             MapFeature.ALLOWS_NULL_VALUES,
             MapFeature.GENERAL_PURPOSE,
+            CollectionFeature.KNOWN_ORDER,
             MapFeature.REJECTS_DUPLICATES_AT_CREATION)
         .createTestSuite());
 

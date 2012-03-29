@@ -19,7 +19,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 
 import com.google.common.collect.testing.NavigableMapTestSuiteBuilder;
 import com.google.common.collect.testing.SafeTreeMap;
-import com.google.common.collect.testing.TestStringMapGenerator;
+import com.google.common.collect.testing.TestStringSortedMapGenerator;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.MapFeature;
 import com.google.common.collect.testing.google.BiMapTestSuiteBuilder;
@@ -35,14 +35,14 @@ import java.util.Map.Entry;
 
 /**
  * Test suites for wrappers in {@code Maps}.
- * 
+ *
  * @author Louis Wasserman
  */
 public class MapsCollectionTest extends TestCase {
   public static Test suite() {
     TestSuite suite = new TestSuite();
     suite.addTest(NavigableMapTestSuiteBuilder
-        .using(new TestStringMapGenerator() {
+        .using(new TestStringSortedMapGenerator() {
           @Override
           protected Map<String, String> create(Entry<String, String>[] entries) {
             SafeTreeMap<String, String> map = new SafeTreeMap<String, String>();
@@ -57,7 +57,7 @@ public class MapsCollectionTest extends TestCase {
             MapFeature.ALLOWS_NULL_VALUES)
         .createTestSuite());
     suite.addTest(NavigableMapTestSuiteBuilder
-        .using(new TestStringMapGenerator() {
+        .using(new TestStringSortedMapGenerator() {
 
           @Override
           protected Map<String, String> create(Entry<String, String>[] entries) {

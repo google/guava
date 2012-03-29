@@ -16,6 +16,9 @@
 
 package com.google.common.collect.testing;
 
+import static com.google.common.collect.testing.Helpers.castOrCopyToList;
+import static java.util.Collections.reverse;
+
 import com.google.common.collect.testing.features.Feature;
 import com.google.common.collect.testing.testers.NavigableMapNavigationTester;
 
@@ -112,6 +115,13 @@ public class NavigableMapTestSuiteBuilder<K, V> extends SortedMapTestSuiteBuilde
           @Override public Map<K, V> create(Object... entries) {
             NavigableMap<K, V> map = (NavigableMap<K, V>) delegate.create(entries);
             return map.descendingMap();
+          }
+
+          @Override
+          public Iterable<Entry<K, V>> order(List<Entry<K, V>> insertionOrder) {
+            insertionOrder = castOrCopyToList(delegate.order(insertionOrder));
+            reverse(insertionOrder);
+            return insertionOrder;
           }
         })
         .named(parentBuilder.getName() + " descending")

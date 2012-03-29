@@ -16,6 +16,11 @@
 
 package com.google.common.collect.testing;
 
+import static com.google.common.collect.testing.Helpers.castOrCopyToList;
+import static com.google.common.collect.testing.Helpers.equal;
+import static com.google.common.collect.testing.Helpers.mapEntry;
+import static java.util.Collections.sort;
+
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.Feature;
@@ -40,6 +45,7 @@ import junit.framework.TestSuite;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -91,7 +97,7 @@ public class MapTestSuiteBuilder<K, V>
     // reflected in the underlying map.
 
     List<TestSuite> derivedSuites = super.createDerivedSuites(parentBuilder);
-    
+
     if (parentBuilder.getFeatures().contains(CollectionFeature.SERIALIZABLE)) {
       derivedSuites.add(MapTestSuiteBuilder.using(
               new ReserializedMapGenerator<K, V>(parentBuilder.getSubjectGenerator()))
@@ -141,7 +147,7 @@ public class MapTestSuiteBuilder<K, V>
 
   private static Set<Feature<?>> computeEntrySetFeatures(
       Set<Feature<?>> mapFeatures) {
-    Set<Feature<?>> entrySetFeatures = 
+    Set<Feature<?>> entrySetFeatures =
         computeCommonDerivedCollectionFeatures(mapFeatures);
     entrySetFeatures.add(CollectionFeature.ALLOWS_NULL_QUERIES);
     return entrySetFeatures;
@@ -194,6 +200,9 @@ public class MapTestSuiteBuilder<K, V>
     }
     if (mapFeatures.contains(MapFeature.FAILS_FAST_ON_CONCURRENT_MODIFICATION)) {
       derivedFeatures.add(CollectionFeature.FAILS_FAST_ON_CONCURRENT_MODIFICATION);
+    }
+    if (mapFeatures.contains(CollectionFeature.KNOWN_ORDER)) {
+      derivedFeatures.add(CollectionFeature.KNOWN_ORDER);
     }
     // add the intersection of CollectionSize.values() and mapFeatures
     for (CollectionSize size : CollectionSize.values()) {
@@ -341,7 +350,16 @@ public class MapTestSuiteBuilder<K, V>
 
     @Override
     public Iterable<K> order(List<K> insertionOrder) {
-      return insertionOrder;
+      List<Entry<K, V>> entries = new ArrayList<Entry<K, V>>();
+      for (K element : insertionOrder) {
+        entries.add(mapEntry(element, (V) null));
+      }
+
+      List<K> keys = new ArrayList<K>();
+      for (Entry<K, V> entry : mapGenerator.order(entries)) {
+        keys.add(entry.getKey());
+      }
+      return keys;
     }
   }
 
@@ -400,6 +418,23 @@ public class MapTestSuiteBuilder<K, V>
 
     @Override
     public Iterable<V> order(List<V> insertionOrder) {
+      final List<Entry<K, V>> orderedEntries =
+          castOrCopyToList(mapGenerator.order(castOrCopyToList(mapGenerator.getSampleElements(5))));
+      sort(insertionOrder, new Comparator<V>() {
+        @Override public int compare(V left, V right) {
+          // The indexes are small enough for the subtraction trick to be safe.
+          return indexOfEntryWithValue(left) - indexOfEntryWithValue(right);
+        }
+
+        int indexOfEntryWithValue(V value) {
+          for (int i = 0; i < orderedEntries.size(); i++) {
+            if (equal(orderedEntries.get(i).getValue(), value)) {
+              return i;
+            }
+          }
+          throw new IllegalArgumentException("Map.values generator can order only sample values");
+        }
+      });
       return insertionOrder;
     }
   }

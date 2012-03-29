@@ -16,6 +16,7 @@
 
 package com.google.common.collect.testing;
 
+import static java.util.Collections.sort;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
@@ -248,9 +249,9 @@ public class Helpers {
    * possible to access the raw (modifiable) map entry via a nefarious equals
    * method.
    */
-  public static <K, V> Map.Entry<K, V> nefariousMapEntry(final K key, 
+  public static <K, V> Map.Entry<K, V> nefariousMapEntry(final K key,
       final V value) {
-    return new Map.Entry<K, V>() {      
+    return new Map.Entry<K, V>() {
       @Override public K getKey() {
         return key;
       }
@@ -265,7 +266,7 @@ public class Helpers {
         if (o instanceof Map.Entry<?, ?>) {
           Map.Entry<K, V> e = (Map.Entry<K, V>) o;
           e.setValue(value); // muhahaha!
-          
+
           return equal(this.getKey(), e.getKey())
               && equal(this.getValue(), e.getValue());
         }
@@ -286,5 +287,29 @@ public class Helpers {
         return getKey() + "=" + getValue();
       }
     };
-  }  
+  }
+
+  static <E> List<E> castOrCopyToList(Iterable<E> iterable) {
+    if (iterable instanceof List) {
+      return (List<E>) iterable;
+    }
+    List<E> list = new ArrayList<E>();
+    for (E e : iterable) {
+      list.add(e);
+    }
+    return list;
+  }
+
+  private static final Comparator<Comparable> NATURAL_ORDER = new Comparator<Comparable>() {
+    @SuppressWarnings("unchecked") // assume any Comparable is Comparable<Self>
+    @Override public int compare(Comparable left, Comparable right) {
+      return left.compareTo(right);
+    }
+  };
+
+  public static <K extends Comparable, V> Iterable<Entry<K, V>> orderEntriesByKey(
+      List<Entry<K, V>> insertionOrder) {
+    sort(insertionOrder, Helpers.<K, V>entryComparator(NATURAL_ORDER));
+    return insertionOrder;
+  }
 }

@@ -16,6 +16,8 @@
 
 package com.google.common.collect.testing;
 
+import static com.google.common.collect.testing.Helpers.orderEntriesByKey;
+
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -73,10 +75,10 @@ public abstract class TestEnumMapGenerator
     return new String[length];
   }
 
-  /** Returns the original element list, unchanged. */
+  /** Returns the elements sorted in natural order. */
   @Override
   public Iterable<Entry<AnEnum, String>> order(
       List<Entry<AnEnum, String>> insertionOrder) {
-    return insertionOrder;
+    return orderEntriesByKey(insertionOrder);
   }
 }

@@ -170,7 +170,7 @@ public class TestsForMapsInJavaUtil {
 
   public Test testsForTreeMap() {
     return NavigableMapTestSuiteBuilder
-        .using(new TestStringMapGenerator() {
+        .using(new TestStringSortedMapGenerator() {
             @Override protected Map<String, String> create(
                 Entry<String, String>[] entries) {
               return populate(new TreeMap<String, String>(
@@ -213,7 +213,7 @@ public class TestsForMapsInJavaUtil {
 
   public Test testsForConcurrentHashMap() {
     return MapTestSuiteBuilder
-        .using(new TestStringMapGenerator() {
+        .using(new TestStringSortedMapGenerator() {
           @Override protected Map<String, String> create(
               Entry<String, String>[] entries) {
             return populate(new ConcurrentHashMap<String, String>(), entries);
@@ -248,7 +248,7 @@ public class TestsForMapsInJavaUtil {
   static <T> Comparator<T> arbitraryNullFriendlyComparator() {
     return new NullFriendlyComparator<T>();
   }
-  
+
   private static final class NullFriendlyComparator<T> implements Comparator<T>, Serializable {
     @Override
     public int compare(T left, T right) {

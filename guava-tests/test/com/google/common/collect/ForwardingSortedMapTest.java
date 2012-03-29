@@ -18,7 +18,7 @@ package com.google.common.collect;
 
 import com.google.common.collect.testing.MapTestSuiteBuilder;
 import com.google.common.collect.testing.SafeTreeMap;
-import com.google.common.collect.testing.TestStringMapGenerator;
+import com.google.common.collect.testing.TestStringSortedMapGenerator;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.MapFeature;
@@ -29,7 +29,6 @@ import junit.framework.TestSuite;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -115,7 +114,7 @@ public class ForwardingSortedMapTest extends ForwardingMapTest {
     TestSuite suite = new TestSuite();
 
     suite.addTestSuite(ForwardingSortedMapTest.class);
-    suite.addTest(MapTestSuiteBuilder.using(new TestStringMapGenerator() {
+    suite.addTest(MapTestSuiteBuilder.using(new TestStringSortedMapGenerator() {
       @Override protected Map<String, String> create(
           Entry<String, String>[] entries) {
         SortedMap<String, String> map = new SafeTreeMap<String, String>();
@@ -124,16 +123,11 @@ public class ForwardingSortedMapTest extends ForwardingMapTest {
         }
         return new StandardImplForwardingSortedMap<String, String>(map);
       }
-
-      @Override public Iterable<Entry<String, String>> order(
-          List<Entry<String, String>> insertionOrder) {
-        return sort(insertionOrder);
-      }
     }).named("ForwardingSortedMap[SafeTreeMap] with no comparator and standard "
         + "implementations").withFeatures(CollectionSize.ANY,
         CollectionFeature.KNOWN_ORDER, MapFeature.ALLOWS_NULL_VALUES,
         MapFeature.GENERAL_PURPOSE).createTestSuite());
-    suite.addTest(MapTestSuiteBuilder.using(new TestStringMapGenerator() {
+    suite.addTest(MapTestSuiteBuilder.using(new TestStringSortedMapGenerator() {
       private final Comparator<String> comparator =
           Ordering.natural().nullsFirst();
 
@@ -146,17 +140,12 @@ public class ForwardingSortedMapTest extends ForwardingMapTest {
         }
         return new StandardImplForwardingSortedMap<String, String>(map);
       }
-
-      @Override public Iterable<Entry<String, String>> order(
-          List<Entry<String, String>> insertionOrder) {
-        return sort(insertionOrder);
-      }
     }).named("ForwardingSortedMap[SafeTreeMap] with natural comparator and "
         + "standard implementations").withFeatures(CollectionSize.ANY,
         CollectionFeature.KNOWN_ORDER, MapFeature.ALLOWS_NULL_VALUES,
         MapFeature.ALLOWS_NULL_KEYS, MapFeature.GENERAL_PURPOSE)
         .createTestSuite());
-    suite.addTest(MapTestSuiteBuilder.using(new TestStringMapGenerator() {
+    suite.addTest(MapTestSuiteBuilder.using(new TestStringSortedMapGenerator() {
       @Override protected Map<String, String> create(
           Entry<String, String>[] entries) {
         ImmutableSortedMap.Builder<String, String> builder =
@@ -167,11 +156,6 @@ public class ForwardingSortedMapTest extends ForwardingMapTest {
         return new StandardImplForwardingSortedMap<String, String>(
             builder.build());
       }
-      
-      @Override public Iterable<Entry<String, String>> order(
-          List<Entry<String, String>> insertionOrder) {
-        return sort(insertionOrder);
-      }
     }).named("ForwardingSortedMap[ImmutableSortedMap] with standard "
         + "implementations").withFeatures(
         CollectionSize.ANY, MapFeature.REJECTS_DUPLICATES_AT_CREATION,
@@ -179,16 +163,6 @@ public class ForwardingSortedMapTest extends ForwardingMapTest {
         .createTestSuite());
 
     return suite;
-  }
-  
-  private static Iterable<Entry<String, String>> sort(
-      List<Entry<String, String>> entries) {
-    SortedMap<String, String> map =
-        new SafeTreeMap<String, String>(Ordering.natural().nullsFirst());
-    for (Entry<String, String> entry : entries) {
-      map.put(entry.getKey(), entry.getValue());
-    }
-    return map.entrySet();
   }
 
   @Override public void setUp() throws Exception {

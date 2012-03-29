@@ -16,6 +16,7 @@
 
 package com.google.common.collect.testing;
 
+import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.Feature;
 import com.google.common.collect.testing.testers.SortedMapNavigationTester;
 
@@ -47,6 +48,15 @@ public class SortedMapTestSuiteBuilder<K, V> extends MapTestSuiteBuilder<K, V> {
     List<Class<? extends AbstractTester>> testers = Helpers.copyToList(super.getTesters());
     testers.add(SortedMapNavigationTester.class);
     return testers;
+  }
+
+  @Override public TestSuite createTestSuite() {
+    if (!getFeatures().contains(CollectionFeature.KNOWN_ORDER)) {
+      List<Feature<?>> features = Helpers.copyToList(getFeatures());
+      features.add(CollectionFeature.KNOWN_ORDER);
+      withFeatures(features);
+    }
+    return super.createTestSuite();
   }
 
   @Override

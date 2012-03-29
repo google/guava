@@ -35,7 +35,7 @@ import java.util.SortedSet;
  */
 // Enum values use constructors with generic varargs.
 @SuppressWarnings("unchecked")
-public enum CollectionFeature implements Feature<Collection> {  
+public enum CollectionFeature implements Feature<Collection> {
   /**
    * The collection must not throw {@code NullPointerException} on calls
    * such as {@code contains(null)} or {@code remove(null)}, but instead
@@ -61,7 +61,7 @@ public enum CollectionFeature implements Feature<Collection> {
    * Indicates that a collection has a well-defined ordering of its elements.
    * The ordering may depend on the element values, such as a {@link SortedSet},
    * or on the insertion ordering, such as a {@link LinkedHashSet}. All list
-   * tests automatically specify this feature.
+   * tests and sorted-collection tests automatically specify this feature.
    */
   KNOWN_ORDER,
 
@@ -107,7 +107,7 @@ public enum CollectionFeature implements Feature<Collection> {
       SUPPORTS_REMOVE_ALL,
       SUPPORTS_RETAIN_ALL,
       SUPPORTS_CLEAR),
-      
+
   SERIALIZABLE, SERIALIZABLE_INCLUDING_VIEWS(SERIALIZABLE),
 
   /**

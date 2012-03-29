@@ -16,7 +16,11 @@
 
 package com.google.common.collect.testing;
 
+import com.google.common.collect.testing.features.CollectionFeature;
+import com.google.common.collect.testing.features.Feature;
 import com.google.common.collect.testing.testers.SortedSetNavigationTester;
+
+import junit.framework.TestSuite;
 
 import java.util.List;
 
@@ -38,5 +42,14 @@ public class SortedSetTestSuiteBuilder<E> extends SetTestSuiteBuilder<E> {
         Helpers.copyToList(super.getTesters());
     testers.add(SortedSetNavigationTester.class);
     return testers;
+  }
+
+  @Override public TestSuite createTestSuite() {
+    if (!getFeatures().contains(CollectionFeature.KNOWN_ORDER)) {
+      List<Feature<?>> features = Helpers.copyToList(getFeatures());
+      features.add(CollectionFeature.KNOWN_ORDER);
+      withFeatures(features);
+    }
+    return super.createTestSuite();
   }
 }

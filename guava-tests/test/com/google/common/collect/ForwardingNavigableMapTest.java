@@ -20,7 +20,7 @@ import static com.google.common.collect.Maps.immutableEntry;
 
 import com.google.common.collect.testing.NavigableMapTestSuiteBuilder;
 import com.google.common.collect.testing.SafeTreeMap;
-import com.google.common.collect.testing.TestStringMapGenerator;
+import com.google.common.collect.testing.TestStringSortedMapGenerator;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.MapFeature;
@@ -30,7 +30,6 @@ import junit.framework.TestSuite;
 
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.NavigableMap;
@@ -236,7 +235,7 @@ public class ForwardingNavigableMapTest extends ForwardingSortedMapTest {
     TestSuite suite = new TestSuite();
 
     suite.addTestSuite(ForwardingNavigableMapTest.class);
-    suite.addTest(NavigableMapTestSuiteBuilder.using(new TestStringMapGenerator() {
+    suite.addTest(NavigableMapTestSuiteBuilder.using(new TestStringSortedMapGenerator() {
       @Override protected Map<String, String> create(
           Entry<String, String>[] entries) {
         NavigableMap<String, String> map = new SafeTreeMap<String, String>();
@@ -245,27 +244,12 @@ public class ForwardingNavigableMapTest extends ForwardingSortedMapTest {
         }
         return new StandardImplForwardingNavigableMap<String, String>(map);
       }
-
-      @Override public Iterable<Entry<String, String>> order(
-          List<Entry<String, String>> insertionOrder) {
-        return sort(insertionOrder);
-      }
     }).named("ForwardingNavigableMap[SafeTreeMap] with no comparator and standard "
         + "implementations").withFeatures(CollectionSize.ANY,
         CollectionFeature.KNOWN_ORDER, MapFeature.ALLOWS_NULL_VALUES,
         MapFeature.GENERAL_PURPOSE).createTestSuite());
     // TODO(user): add forwarding-to-ImmutableSortedMap test
     return suite;
-  }
-
-  private static Iterable<Entry<String, String>> sort(
-      List<Entry<String, String>> entries) {
-    SortedMap<String, String> map =
-        new SafeTreeMap<String, String>(Ordering.natural().nullsFirst());
-    for (Entry<String, String> entry : entries) {
-      map.put(entry.getKey(), entry.getValue());
-    }
-    return map.entrySet();
   }
 
   @Override public void setUp() throws Exception {

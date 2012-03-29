@@ -24,6 +24,7 @@ import static org.easymock.EasyMock.verify;
 
 import com.google.common.collect.testing.MapTestSuiteBuilder;
 import com.google.common.collect.testing.TestStringMapGenerator;
+import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.MapFeature;
 
@@ -131,7 +132,8 @@ public class ForwardingMapTest extends ForwardingTestCase {
 
     }).named("ForwardingMap[LinkedHashMap] with standard implementations")
         .withFeatures(CollectionSize.ANY, MapFeature.ALLOWS_NULL_VALUES,
-            MapFeature.ALLOWS_NULL_KEYS, MapFeature.GENERAL_PURPOSE)
+            MapFeature.ALLOWS_NULL_KEYS, MapFeature.GENERAL_PURPOSE,
+            CollectionFeature.KNOWN_ORDER)
         .createTestSuite());
     suite.addTest(MapTestSuiteBuilder.using(new TestStringMapGenerator() {
 
@@ -147,7 +149,7 @@ public class ForwardingMapTest extends ForwardingTestCase {
     }).named("ForwardingMap[ImmutableMap] with standard implementations")
         .withFeatures(
             CollectionSize.ANY, MapFeature.REJECTS_DUPLICATES_AT_CREATION,
-            MapFeature.ALLOWS_NULL_QUERIES)
+            MapFeature.ALLOWS_NULL_QUERIES, CollectionFeature.KNOWN_ORDER)
         .createTestSuite());
 
     return suite;
@@ -243,7 +245,7 @@ public class ForwardingMapTest extends ForwardingTestCase {
     forward().hashCode();
     assertEquals("[hashCode]", getCalls());
   }
-  
+
   public void testStandardEntrySet() throws InvocationTargetException {
     @SuppressWarnings("unchecked")
     final Map<String, Boolean> map = createMock(Map.class);
@@ -280,7 +282,7 @@ public class ForwardingMapTest extends ForwardingTestCase {
 
     verify(map, entrySet);
   }
-  
+
   public void testStandardKeySet() throws InvocationTargetException {
     @SuppressWarnings("unchecked")
     Set<Entry<String, Boolean>> entrySet = createMock(Set.class);
@@ -312,7 +314,7 @@ public class ForwardingMapTest extends ForwardingTestCase {
 
     verify(entrySet, map);
   }
-  
+
   public void testStandardValues() throws InvocationTargetException {
     @SuppressWarnings("unchecked")
     Set<Entry<String, Boolean>> entrySet = createMock(Set.class);

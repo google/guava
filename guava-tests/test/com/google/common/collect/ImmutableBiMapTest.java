@@ -64,6 +64,7 @@ public class ImmutableBiMapTest extends TestCase {
         .named("ImmutableBiMap")
         .withFeatures(CollectionSize.ANY,
             CollectionFeature.SERIALIZABLE,
+            CollectionFeature.KNOWN_ORDER,
             MapFeature.REJECTS_DUPLICATES_AT_CREATION)
         .suppressing(BiMapInverseTester.getInverseSameAfterSerializingMethods())
         .createTestSuite());
