@@ -24,6 +24,7 @@ import static junit.framework.Assert.assertTrue;
 import junit.framework.Assert;
 import junit.framework.AssertionFailedError;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -314,15 +315,21 @@ public class Helpers {
   }
 
   /**
-   * Compares strings in natural order except that null comes immediately before "b". This works
-   * better than Ordering.natural().nullsFirst() because, if null comes before all other values, it
-   * lies outside the submap/submultiset ranges we test, and the variety of tests that exercise null
-   * handling fail on those subcollections.
+   * Compares strings in natural order except that null comes immediately before a given value. This
+   * works better than Ordering.natural().nullsFirst() because, if null comes before all other
+   * values, it lies outside the submap/submultiset ranges we test, and the variety of tests that
+   * exercise null handling fail on those subcollections.
    */
-  public enum NullsBeforeB implements Comparator<String> {
-    INSTANCE;
+  public abstract static class NullsBefore implements Comparator<String>, Serializable {
+    private final String justAfterNull;
 
-    private static final String B = "b";
+    protected NullsBefore(String justAfterNull) {
+      if (justAfterNull == null) {
+        throw new NullPointerException();
+      }
+
+      this.justAfterNull = justAfterNull;
+    }
 
     @Override
     public int compare(String lhs, String rhs) {
@@ -330,22 +337,52 @@ public class Helpers {
         return 0;
       }
       if (lhs == null) {
-        // lhs (null) comes just before "b."
+        // lhs (null) comes just before justAfterNull.
         // If rhs is b, lhs comes first.
-        if (rhs.equals(B)) {
+        if (rhs.equals(justAfterNull)) {
           return -1;
         }
-        return B.compareTo(rhs);
+        return justAfterNull.compareTo(rhs);
       }
       if (rhs == null) {
-        // rhs (null) comes just before "b."
+        // rhs (null) comes just before justAfterNull.
         // If lhs is b, rhs comes first.
-        if (lhs.equals(B)) {
+        if (lhs.equals(justAfterNull)) {
           return 1;
         }
-        return lhs.compareTo(B);
+        return lhs.compareTo(justAfterNull);
       }
       return lhs.compareTo(rhs);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+      if (obj instanceof NullsBefore) {
+        NullsBefore other = (NullsBefore) obj;
+        return justAfterNull.equals(other.justAfterNull);
+      }
+      return false;
+    }
+
+    @Override
+    public int hashCode() {
+      return justAfterNull.hashCode();
+    }
+  }
+
+  public static final class NullsBeforeB extends NullsBefore {
+    public static final NullsBeforeB INSTANCE = new NullsBeforeB();
+
+    private NullsBeforeB() {
+      super("b");
+    }
+  }
+
+  public static final class NullsBeforeTwo extends NullsBefore {
+    public static final NullsBeforeTwo INSTANCE = new NullsBeforeTwo();
+
+    private NullsBeforeTwo() {
+      super("two"); // from TestStringSortedMapGenerator's sample keys
     }
   }
 }

@@ -20,8 +20,8 @@ import static org.junit.contrib.truth.Truth.ASSERT;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
-import com.google.common.collect.testing.MapTestSuiteBuilder;
 import com.google.common.collect.testing.SortedMapInterfaceTest;
+import com.google.common.collect.testing.SortedMapTestSuiteBuilder;
 import com.google.common.collect.testing.TestStringSortedMapGenerator;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.MapFeature;
@@ -49,7 +49,7 @@ public class TreeBasedTableTest extends AbstractTableTest {
     TestSuite suite = new TestSuite();
     suite.addTestSuite(TreeBasedTableTest.class);
     suite.addTestSuite(TreeRowTest.class);
-    suite.addTest(MapTestSuiteBuilder
+    suite.addTest(SortedMapTestSuiteBuilder
         .using(new TestStringSortedMapGenerator() {
           @Override protected Map<String, String> create(
               Entry<String, String>[] entries) {

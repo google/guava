@@ -16,8 +16,9 @@
 
 package com.google.common.collect;
 
-import com.google.common.collect.testing.MapTestSuiteBuilder;
+import com.google.common.collect.testing.Helpers.NullsBeforeTwo;
 import com.google.common.collect.testing.SafeTreeMap;
+import com.google.common.collect.testing.SortedMapTestSuiteBuilder;
 import com.google.common.collect.testing.TestStringSortedMapGenerator;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
@@ -114,7 +115,7 @@ public class ForwardingSortedMapTest extends ForwardingMapTest {
     TestSuite suite = new TestSuite();
 
     suite.addTestSuite(ForwardingSortedMapTest.class);
-    suite.addTest(MapTestSuiteBuilder.using(new TestStringSortedMapGenerator() {
+    suite.addTest(SortedMapTestSuiteBuilder.using(new TestStringSortedMapGenerator() {
       @Override protected Map<String, String> create(
           Entry<String, String>[] entries) {
         SortedMap<String, String> map = new SafeTreeMap<String, String>();
@@ -127,9 +128,8 @@ public class ForwardingSortedMapTest extends ForwardingMapTest {
         + "implementations").withFeatures(CollectionSize.ANY,
         CollectionFeature.KNOWN_ORDER, MapFeature.ALLOWS_NULL_VALUES,
         MapFeature.GENERAL_PURPOSE).createTestSuite());
-    suite.addTest(MapTestSuiteBuilder.using(new TestStringSortedMapGenerator() {
-      private final Comparator<String> comparator =
-          Ordering.natural().nullsFirst();
+    suite.addTest(SortedMapTestSuiteBuilder.using(new TestStringSortedMapGenerator() {
+      private final Comparator<String> comparator = NullsBeforeTwo.INSTANCE;
 
       @Override protected Map<String, String> create(
           Entry<String, String>[] entries) {
@@ -145,7 +145,7 @@ public class ForwardingSortedMapTest extends ForwardingMapTest {
         CollectionFeature.KNOWN_ORDER, MapFeature.ALLOWS_NULL_VALUES,
         MapFeature.ALLOWS_NULL_KEYS, MapFeature.GENERAL_PURPOSE)
         .createTestSuite());
-    suite.addTest(MapTestSuiteBuilder.using(new TestStringSortedMapGenerator() {
+    suite.addTest(SortedMapTestSuiteBuilder.using(new TestStringSortedMapGenerator() {
       @Override protected Map<String, String> create(
           Entry<String, String>[] entries) {
         ImmutableSortedMap.Builder<String, String> builder =
