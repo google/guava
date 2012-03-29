@@ -47,6 +47,7 @@ import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.common.util.concurrent.MoreExecutors;
 import com.google.common.util.concurrent.SettableFuture;
 import com.google.common.util.concurrent.UncheckedExecutionException;
+import com.google.common.util.concurrent.Uninterruptibles;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -2423,7 +2424,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
       ListenableFuture<V> result = loadAsync(key, hash, loadingValueReference, loader);
       if (result.isDone()) {
         try {
-          return result.get();
+          return Uninterruptibles.getUninterruptibly(result);
         } catch (Throwable t) {
           // don't let refresh exceptions propagate; error was already logged
         }
@@ -3575,6 +3576,9 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
           return newValue != null ? newValue : Futures.<V>immediateFuture(null);
         }
       } catch (Throwable t) {
+        if (t instanceof InterruptedException) {
+          Thread.currentThread().interrupt();
+        }
         return setException(t) ? futureValue : fullyFailedFuture(t);
       }
     }
@@ -4056,6 +4060,9 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
     } catch (UnsupportedLoadingOperationException e) {
       success = true;
       throw e;
+    } catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
+      throw new ExecutionException(e);
     } catch (RuntimeException e) {
       throw new UncheckedExecutionException(e);
     } catch (Exception e) {

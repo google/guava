@@ -50,6 +50,10 @@ public abstract class CacheLoader<K, V> {
    *
    * @param key the non-null key whose value should be loaded
    * @return the value associated with {@code key}; <b>must not be null</b>
+   * @throws Exception if unable to load the result
+   * @throws InterruptedException if this method is interrupted. {@code InterruptedException} is
+   *     treated like any other {@code Exception} in all respects except that, when it is caught,
+   *     the thread's interrupt status is set
    */
   public abstract V load(K key) throws Exception;
 
@@ -68,6 +72,10 @@ public abstract class CacheLoader<K, V> {
    * @param oldValue the non-null old value corresponding to {@code key}
    * @return the future new value associated with {@code key};
    *     <b>must not be null, must not return null</b>
+   * @throws Exception if unable to reload the result
+   * @throws InterruptedException if this method is interrupted. {@code InterruptedException} is
+   *     treated like any other {@code Exception} in all respects except that, when it is caught,
+   *     the thread's interrupt status is set
    * @since 11.0
    */
   @GwtIncompatible("Futures")
@@ -91,6 +99,10 @@ public abstract class CacheLoader<K, V> {
    * @param keys the unique, non-null keys whose values should be loaded
    * @return a map from each key in {@code keys} to the value associated with that key;
    *     <b>may not contain null values</b>
+   * @throws Exception if unable to load the result
+   * @throws InterruptedException if this method is interrupted. {@code InterruptedException} is
+   *     treated like any other {@code Exception} in all respects except that, when it is caught,
+   *     the thread's interrupt status is set
    * @since 11.0
    */
   public Map<K, V> loadAll(Iterable<? extends K> keys) throws Exception {
