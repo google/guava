@@ -60,7 +60,8 @@ import javax.annotation.Nullable;
  *
  * @author Jared Levy
  * @author Louis Wasserman
- * @since 2.0 (imported from Google Collections Library)
+ * @since 2.0 (imported from Google Collections Library; implements {@code
+ *        NavigableMap} since 12.0)
  */
 @GwtCompatible(serializable = true, emulated = true)
 public class ImmutableSortedMap<K, V>

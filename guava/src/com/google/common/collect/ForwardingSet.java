@@ -69,9 +69,8 @@ public abstract class ForwardingSet<E> extends ForwardingCollection<E>
    * If you override {@code iterator} or {@code remove}, you may wish to override
    * {@link #removeAll} to forward to this implementation.
    *
-   * @since 12.0
+   * @since 7.0 (this version overrides the {@code ForwardingCollection} version as of 12.0)
    */
-  @Beta
   @Override
   protected boolean standardRemoveAll(Collection<?> collection) {
     return Sets.removeAllImpl(this, checkNotNull(collection)); // for GWT
