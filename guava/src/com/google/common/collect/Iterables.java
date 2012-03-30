@@ -822,14 +822,14 @@ public final class Iterables {
    */
   public static <T> T getLast(Iterable<? extends T> iterable, @Nullable T defaultValue) {
     if (iterable instanceof Collection) {
-      Collection<T> collection = (Collection<T>) iterable;
+      Collection<? extends T> collection = Collections2.cast(iterable);
       if (collection.isEmpty()) {
         return defaultValue;
       }
     }
 
     if (iterable instanceof List) {
-      List<T> list = (List<T>) iterable;
+      List<? extends T> list = Lists.cast(iterable);
       return getLastInNonemptyList(list);
     }
 
@@ -839,7 +839,7 @@ public final class Iterables {
      * call this method.
      */
     if (iterable instanceof SortedSet) {
-      SortedSet<T> sortedSet = (SortedSet<T>) iterable;
+      SortedSet<? extends T> sortedSet = Sets.cast(iterable);
       return sortedSet.last();
     }
 

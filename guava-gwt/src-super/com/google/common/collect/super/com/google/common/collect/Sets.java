@@ -1275,4 +1275,11 @@ public final class Sets {
       return Iterators.removeAll(set.iterator(), collection);
     }
   }
+
+  /**
+   * Used to avoid http://bugs.sun.com/view_bug.do?bug_id=6558557
+   */
+  static <T> SortedSet<T> cast(Iterable<T> iterable) {
+    return (SortedSet<T>) iterable;
+  }
 }
