@@ -147,6 +147,7 @@
  * <li>{@link com.google.common.collect.Iterables}
  * <li>{@link com.google.common.collect.Lists}
  * <li>{@link com.google.common.collect.Maps}
+ * <li>{@link com.google.common.collect.Queues}
  * <li>{@link com.google.common.collect.Sets}
  * <li>{@link com.google.common.collect.Multisets}
  * <li>{@link com.google.common.collect.Multimaps}
