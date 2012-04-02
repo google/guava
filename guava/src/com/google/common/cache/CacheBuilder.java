@@ -405,6 +405,9 @@ public final class CacheBuilder<K, V> {
    * cache. This can be useful in testing, or to disable caching temporarily without a code
    * change.
    *
+   * <p>Note that weight is only used to determine whether the cache is over capacity; it has no
+   * effect on selecting which entry should be evicted next.
+   *
    * @param weight the maximum weight the cache may contain
    * @throws IllegalArgumentException if {@code size} is negative
    * @throws IllegalStateException if a maximum size was already set

@@ -27,7 +27,7 @@ import java.io.Serializable;
 import java.util.Map;
 
 /**
- * Computes or retrieves values, based on a key, for use in populating a {@code Cache}.
+ * Computes or retrieves values, based on a key, for use in populating a {@link LoadingCache}.
  *
  * <p>Most implementations will only need to implement {@link #load}. Other methods may be
  * overridden as desired.
@@ -56,7 +56,7 @@ public abstract class CacheLoader<K, V> {
 
   /**
    * Computes or retrieves the values corresponding to {@code keys}. This method is called by
-   * {@link Cache#getAll}.
+   * {@link LoadingCache#getAll}.
    *
    * <p>If the returned map doesn't contain all requested {@code keys} then the entries it does
    * contain will be cached, but {@code getAll} will throw an exception. If the returned map
@@ -64,8 +64,8 @@ public abstract class CacheLoader<K, V> {
    * but only the entries for {@code keys} will be returned from {@code getAll}.
    *
    * <p>This method should be overriden when bulk retrieval is significantly more efficient than
-   * many individual lookups. Note that {@link Cache#getAll} will defer to individual calls to
-   * {@link Cache#get} if this method is not overriden.
+   * many individual lookups. Note that {@link LoadingCache#getAll} will defer to individual calls
+   * to {@link LoadingCache#get} if this method is not overriden.
    *
    * @param keys the unique, non-null keys whose values should be loaded
    * @return a map from each key in {@code keys} to the value associated with that key;
@@ -77,7 +77,8 @@ public abstract class CacheLoader<K, V> {
    * @since 11.0
    */
   public Map<K, V> loadAll(Iterable<? extends K> keys) throws Exception {
-    // This will be caught by getAll(), causing it to fall back to multiple calls to Cache.get
+    // This will be caught by getAll(), causing it to fall back to multiple calls to
+    // LoadingCache.get
     throw new UnsupportedLoadingOperationException();
   }
 
