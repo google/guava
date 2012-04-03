@@ -237,6 +237,28 @@ public class ImmutableListMultimapTest extends TestCase {
     ASSERT.that(multimap.get("b")).hasContentsInOrder(3, 6);
   }
 
+  public void testBuilderOrderKeysByDuplicates() {
+    ImmutableListMultimap.Builder<String, Integer> builder
+        = ImmutableListMultimap.builder();
+    builder.put("bb", 3);
+    builder.put("d", 2);
+    builder.put("a", 5);
+    builder.orderKeysBy(new Ordering<String>() {
+      @Override
+      public int compare(String left, String right) {
+        return left.length() - right.length();
+      }
+    });
+    builder.put("cc", 4);
+    builder.put("a", 2);
+    builder.put("bb", 6);
+    ImmutableListMultimap<String, Integer> multimap = builder.build();
+    ASSERT.that(multimap.keySet()).hasContentsInOrder("d", "a", "bb", "cc");
+    ASSERT.that(multimap.values()).hasContentsInOrder(2, 5, 2, 3, 6, 4);
+    ASSERT.that(multimap.get("a")).hasContentsInOrder(5, 2);
+    ASSERT.that(multimap.get("bb")).hasContentsInOrder(3, 6);
+  }
+
   public void testBuilderOrderValuesBy() {
     ImmutableListMultimap.Builder<String, Integer> builder
         = ImmutableListMultimap.builder();
