@@ -17,13 +17,20 @@
 package com.google.common.math;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static java.lang.Double.MAX_EXPONENT;
+import static java.lang.Double.MIN_EXPONENT;
+import static java.lang.Double.POSITIVE_INFINITY;
+import static java.lang.Double.doubleToRawLongBits;
+import static java.lang.Double.isNaN;
+import static java.lang.Double.longBitsToDouble;
+import static java.lang.Math.getExponent;
 
 import java.math.BigInteger;
 
 /**
  * Utilities for {@code double} primitives. Some of these are exposed in JDK 6,
  * but we can't depend on them there.
- * 
+ *
  * @author Louis Wasserman
  */
 final class DoubleUtils {
@@ -57,29 +64,33 @@ final class DoubleUtils {
 
   static long getSignificand(double d) {
     checkArgument(isFinite(d), "not a normal value");
-    int exponent = Math.getExponent(d);
-    long bits = Double.doubleToRawLongBits(d);
+    int exponent = getExponent(d);
+    long bits = doubleToRawLongBits(d);
     bits &= SIGNIFICAND_MASK;
-    return (exponent == Double.MIN_EXPONENT - 1) 
+    return (exponent == MIN_EXPONENT - 1)
         ? bits << 1
         : bits | IMPLICIT_BIT;
   }
 
   static boolean isFinite(double d) {
-    return Math.getExponent(d) <= Double.MAX_EXPONENT;
+    return getExponent(d) <= MAX_EXPONENT;
   }
-  
+
   static boolean isNormal(double d) {
-    return Math.getExponent(d) >= Double.MIN_EXPONENT;
+    return getExponent(d) >= MIN_EXPONENT;
   }
-  
+
+  static double fastAbs(double d) {
+    return longBitsToDouble(doubleToRawLongBits(d) & ~SIGN_MASK);
+  }
+
   /*
    * Returns x scaled by a power of 2 such that it is in the range [1, 2). Assumes x is positive,
    * normal, and finite.
    */
   static double scaleNormalize(double x) {
-    long significand = Double.doubleToRawLongBits(x) & SIGNIFICAND_MASK;
-    return Double.longBitsToDouble(significand | ONE_BITS);
+    long significand = doubleToRawLongBits(x) & SIGNIFICAND_MASK;
+    return longBitsToDouble(significand | ONE_BITS);
   }
 
   static double bigToDouble(BigInteger x) {
@@ -89,16 +100,16 @@ final class DoubleUtils {
     // exponent == floor(log2(abs(x)))
     if (exponent < Long.SIZE - 1) {
       return x.longValue();
-    } else if (exponent > Double.MAX_EXPONENT) {
-      return x.signum() * Double.POSITIVE_INFINITY;
+    } else if (exponent > MAX_EXPONENT) {
+      return x.signum() * POSITIVE_INFINITY;
     }
-    
+
     /*
      * We need the top SIGNIFICAND_BITS + 1 bits, including the "implicit" one bit. To make
      * rounding easier, we pick out the top SIGNIFICAND_BITS + 2 bits, so we have one to help us
      * round up or down. twiceSignifFloor will contain the top SIGNIFICAND_BITS + 2 bits, and
      * signifFloor the top SIGNIFICAND_BITS + 1.
-     * 
+     *
      * It helps to consider the real number signif = absX * 2^(SIGNIFICAND_BITS - exponent).
      */
     int shift = exponent - SIGNIFICAND_BITS - 1;
@@ -123,14 +134,14 @@ final class DoubleUtils {
      * Double.POSITIVE_INFINITY.
      */
     bits |= x.signum() & SIGN_MASK;
-    return Double.longBitsToDouble(bits);
+    return longBitsToDouble(bits);
   }
 
   /**
    * Returns its argument if it is non-negative, zero if it is negative.
    */
   static double ensureNonNegative(double value) {
-    checkArgument(!Double.isNaN(value));
+    checkArgument(!isNaN(value));
     if (value > 0.0) {
       return value;
     } else {
@@ -138,5 +149,5 @@ final class DoubleUtils {
     }
   }
 
-  private static final long ONE_BITS = Double.doubleToRawLongBits(1.0);
+  private static final long ONE_BITS = doubleToRawLongBits(1.0);
 }

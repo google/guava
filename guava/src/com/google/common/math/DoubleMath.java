@@ -19,6 +19,7 @@ package com.google.common.math;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.math.DoubleUtils.IMPLICIT_BIT;
 import static com.google.common.math.DoubleUtils.SIGNIFICAND_BITS;
+import static com.google.common.math.DoubleUtils.fastAbs;
 import static com.google.common.math.DoubleUtils.getSignificand;
 import static com.google.common.math.DoubleUtils.isFinite;
 import static com.google.common.math.DoubleUtils.isNormal;
@@ -26,6 +27,10 @@ import static com.google.common.math.DoubleUtils.scaleNormalize;
 import static com.google.common.math.MathPreconditions.checkInRange;
 import static com.google.common.math.MathPreconditions.checkNonNegative;
 import static com.google.common.math.MathPreconditions.checkRoundingUnnecessary;
+import static java.lang.Math.copySign;
+import static java.lang.Math.getExponent;
+import static java.lang.Math.log;
+import static java.lang.Math.rint;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.VisibleForTesting;
@@ -55,37 +60,49 @@ public final class DoubleMath {
         return x;
 
       case FLOOR:
-        return (x >= 0.0) ? x : Math.floor(x);
+        if (x >= 0.0 || isMathematicalInteger(x)) {
+          return x;
+        } else {
+          return x - 1.0;
+        }
 
       case CEILING:
-        return (x >= 0.0) ? Math.ceil(x) : x;
+        if (x <= 0.0 || isMathematicalInteger(x)) {
+          return x;
+        } else {
+          return x + 1.0;
+        }
 
       case DOWN:
         return x;
 
       case UP:
-        return (x >= 0.0) ? Math.ceil(x) : Math.floor(x);
+        if (isMathematicalInteger(x)) {
+          return x;
+        } else {
+          return x + Math.copySign(1.0, x);
+        }
 
       case HALF_EVEN:
-        return Math.rint(x);
+        return rint(x);
 
-      case HALF_UP:
-        if (isMathematicalInteger(x)) {
+      case HALF_UP: {
+        double z = rint(x);
+        if (fastAbs(x - z) == 0.5) {
+          return x + copySign(1.0, x);
+        } else {
+          return z;
+        }
+      }
+
+      case HALF_DOWN: {
+        double z = rint(x);
+        if (fastAbs(x - z) == 0.5) {
           return x;
         } else {
-          return (x >= 0.0) ? x + 0.5 : x - 0.5;
+          return z;
         }
-
-      case HALF_DOWN:
-        if (isMathematicalInteger(x)) {
-          return x;
-        } else if (x >= 0.0) {
-          double z = x + 0.5;
-          return (z == x) ? x : DoubleUtils.nextDown(z); // x + 0.5 - epsilon
-        } else {
-          double z = x - 0.5;
-          return (z == x) ? x : Math.nextUp(z); // x - 0.5 + epsilon
-        }
+      }
 
       default:
         throw new AssertionError();
@@ -158,10 +175,7 @@ public final class DoubleMath {
     if (MIN_LONG_AS_DOUBLE - x < 1.0 & x < MAX_LONG_AS_DOUBLE_PLUS_ONE) {
       return BigInteger.valueOf((long) x);
     }
-    int exponent = Math.getExponent(x);
-    if (exponent < 0) {
-      return BigInteger.ZERO;
-    }
+    int exponent = getExponent(x);
     long significand = getSignificand(x);
     BigInteger result = BigInteger.valueOf(significand).shiftLeft(exponent - SIGNIFICAND_BITS);
     return (x < 0) ? result.negate() : result;
@@ -191,10 +205,10 @@ public final class DoubleMath {
    * {@link #log2(double, RoundingMode)} is faster.
    */
   public static double log2(double x) {
-    return Math.log(x) / LN_2; // surprisingly within 1 ulp according to tests
+    return log(x) / LN_2; // surprisingly within 1 ulp according to tests
   }
 
-  private static final double LN_2 = Math.log(2);
+  private static final double LN_2 = log(2);
 
   /**
    * Returns the base 2 logarithm of a double value, rounded with the specified rounding mode to an
@@ -208,7 +222,7 @@ public final class DoubleMath {
   @SuppressWarnings("fallthrough")
   public static int log2(double x, RoundingMode mode) {
     checkArgument(x > 0.0 && isFinite(x), "x must be positive and finite");
-    int exponent = Math.getExponent(x);
+    int exponent = getExponent(x);
     if (!isNormal(x)) {
       return log2(x * IMPLICIT_BIT, mode) - SIGNIFICAND_BITS;
       // Do the calculation on a normal value.
@@ -253,8 +267,8 @@ public final class DoubleMath {
    */
   public static boolean isMathematicalInteger(double x) {
     return isFinite(x)
-        && (x == 0.0 || SIGNIFICAND_BITS
-            - Long.numberOfTrailingZeros(getSignificand(x)) <= Math.getExponent(x));
+        && (x == 0.0 ||
+            SIGNIFICAND_BITS - Long.numberOfTrailingZeros(getSignificand(x)) <= getExponent(x));
   }
 
   /**
