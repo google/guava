@@ -19,6 +19,7 @@ package com.google.common.primitives;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import com.google.common.annotations.Beta;
 import com.google.common.annotations.VisibleForTesting;
 
 import sun.misc.Unsafe;
@@ -35,7 +36,7 @@ import java.util.Comparator;
  * as the positive value {@code 256 + b}). The corresponding methods that treat
  * the values as signed are found in {@link SignedBytes}, and the methods for
  * which signedness is not an issue are in {@link Bytes}.
- * 
+ *
  * <p>See the Guava User Guide article on <a href=
  * "http://code.google.com/p/guava-libraries/wiki/PrimitivesExplained">
  * primitive utilities</a>.
@@ -43,6 +44,7 @@ import java.util.Comparator;
  * @author Kevin Bourrillion
  * @author Martin Buchholz
  * @author Hiroshi Yamauchi
+ * @author Louis Wasserman
  * @since 1.0
  */
 public final class UnsignedBytes {
@@ -53,7 +55,16 @@ public final class UnsignedBytes {
    *
    * @since 10.0
    */
-  public static final byte MAX_POWER_OF_TWO = (byte) (1 << 7);
+  public static final byte MAX_POWER_OF_TWO = (byte) 0x80;
+
+  /**
+   * The largest value that fits into an unsigned byte.
+   *
+   * @since 13.0
+   */
+  public static final byte MAX_VALUE = (byte) 0xFF;
+
+  private static final int UNSIGNED_MASK = 0xFF;
 
   /**
    * Returns the value of the given byte as an integer, when treated as
@@ -63,7 +74,7 @@ public final class UnsignedBytes {
    * @since 6.0
    */
   public static int toInt(byte value) {
-    return value & 0xFF;
+    return value & UNSIGNED_MASK;
   }
 
   /**
@@ -77,7 +88,7 @@ public final class UnsignedBytes {
    *     than 255
    */
   public static byte checkedCast(long value) {
-    checkArgument(value >> 8 == 0, "out of range: %s", value);
+    checkArgument(value >> Byte.SIZE == 0, "out of range: %s", value);
     return (byte) value;
   }
 
@@ -90,8 +101,8 @@ public final class UnsignedBytes {
    *     {@code value <= 0}, and {@code value} cast to {@code byte} otherwise
    */
   public static byte saturatedCast(long value) {
-    if (value > 255) {
-      return (byte) 255; // -1
+    if (value > toInt(MAX_VALUE)) {
+      return MAX_VALUE; // -1
     }
     if (value < 0) {
       return (byte) 0;
@@ -155,6 +166,67 @@ public final class UnsignedBytes {
   }
 
   /**
+   * Returns a string representation of x, where x is treated as unsigned.
+   *
+   * @since 13.0
+   */
+  @Beta
+  public static String toString(byte x) {
+    return toString(x, 10);
+  }
+
+  /**
+   * Returns a string representation of {@code x} for the given radix, where {@code x} is treated
+   * as unsigned.
+   *
+   * @param x the value to convert to a string.
+   * @param radix the radix to use while working with {@code x}
+   * @throws IllegalArgumentException if {@code radix} is not between {@link Character#MIN_RADIX}
+   *         and {@link Character#MAX_RADIX}.
+   * @since 13.0
+   */
+  @Beta
+  public static String toString(byte x, int radix) {
+    checkArgument(radix >= Character.MIN_RADIX && radix <= Character.MAX_RADIX,
+        "radix (%s) must be between Character.MIN_RADIX and Character.MAX_RADIX", radix);
+    // Benchmarks indicate this is probably not worth optimizing.
+    return Integer.toString(toInt(x), radix);
+  }
+
+  /**
+   * Returns the unsigned {@code byte} value represented by the given decimal string.
+   *
+   * @throws NumberFormatException if the string does not contain a valid unsigned {@code long}
+   *         value
+   * @since 13.0
+   */
+  @Beta
+  public static byte parseUnsignedByte(String string) {
+    return parseUnsignedByte(string, 10);
+  }
+
+  /**
+   * Returns the unsigned {@code byte} value represented by a string with the given radix.
+   *
+   * @param s the string containing the unsigned {@code byte} representation to be parsed.
+   * @param radix the radix to use while parsing {@code string}
+   * @throws NumberFormatException if the string does not contain a valid unsigned {@code byte}
+   *         with the given radix, or if {@code radix} is not between {@link Character#MIN_RADIX}
+   *         and {@link Character#MAX_RADIX}.
+   * @since 13.0
+   */
+  @Beta
+  public static byte parseUnsignedByte(String string, int radix) {
+    int parse = Integer.parseInt(checkNotNull(string), radix);
+    // We need to throw a NumberFormatException, so we have to duplicate checkedCast. =(
+    if (parse >> Byte.SIZE == 0) {
+      return (byte) parse;
+    } else {
+      throw new NumberFormatException("out of range: " + parse);
+    }
+  }
+
+  /**
    * Returns a string containing the supplied {@code byte} values separated by
    * {@code separator}. For example, {@code join(":", (byte) 1, (byte) 2,
    * (byte) 255)} returns the string {@code "1:2:255"}.
@@ -170,10 +242,10 @@ public final class UnsignedBytes {
     }
 
     // For pre-sizing a builder, just get the right order of magnitude
-    StringBuilder builder = new StringBuilder(array.length * 5);
+    StringBuilder builder = new StringBuilder(array.length * (3 + separator.length()));
     builder.append(toInt(array[0]));
     for (int i = 1; i < array.length; i++) {
-      builder.append(separator).append(toInt(array[i]));
+      builder.append(separator).append(toString(array[i]));
     }
     return builder.toString();
   }
