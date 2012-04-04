@@ -14,11 +14,7 @@
     utility classes, google's collections, io classes, and much
     much more.
 
-    This project is a complete packaging of all the Guava libraries
-    into a single jar.  Individual portions of Guava can be used
-    by downloading the appropriate module and its dependencies.
-
-    Guava (complete) has only one code dependency - javax.annotation,
+    Guava has only one code dependency - javax.annotation,
     per the JSR-305 spec.
   </description>
   <dependencies>
