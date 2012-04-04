@@ -24,7 +24,7 @@ import java.math.BigInteger;
 
 /**
  * A collection of preconditions for math functions.
- * 
+ *
  * @author Louis Wasserman
  */
 @GwtCompatible
@@ -66,6 +66,13 @@ final class MathPreconditions {
 
   static BigInteger checkNonNegative(String role, BigInteger x) {
     if (checkNotNull(x).signum() < 0) {
+      throw new IllegalArgumentException(role + " (" + x + ") must be >= 0");
+    }
+    return x;
+  }
+
+  static double checkNonNegative(String role, double x) {
+    if (!(x >= 0)) {
       throw new IllegalArgumentException(role + " (" + x + ") must be >= 0");
     }
     return x;

@@ -34,6 +34,7 @@ import static java.lang.Math.rint;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.VisibleForTesting;
+import com.google.common.primitives.Booleans;
 
 import java.math.BigInteger;
 import java.math.RoundingMode;
@@ -311,6 +312,69 @@ public final class DoubleMath {
       0x1.1e5dfc140e1e5p716,
       0x1.8ce85fadb707ep829,
       0x1.95d5f3d928edep945};
+
+  /**
+   * Returns {@code true} if {@code a} and {@code b} are within {@code tolerance} of each other.
+   *
+   * <p>Technically speaking, this is equivalent to
+   * {@code Math.abs(a - b) <= tolerance || Double.valueOf(a).equals(Double.valueOf(b))}.
+   *
+   * <p>Notable special cases include:
+   * <ul>
+   * <li>All NaNs are fuzzily equal.
+   * <li>If {@code a == b}, then {@code a} and {@code b} are always fuzzily equal.
+   * <li>Positive and negative zero are always fuzzily equal.
+   * <li>If {@code tolerance} is zero, and neither {@code a} nor {@code b} is NaN, then
+   * {@code a} and {@code b} are fuzzily equal if and only if {@code a == b}.
+   * <li>With {@link Double#POSITIVE_INFINITY} tolerance, all non-NaN values are fuzzily equal.
+   * <li>With finite tolerance, {@code Double.POSITIVE_INFINITY} and {@code
+   * Double.NEGATIVE_INFINITY} are fuzzily equal only to themselves.
+   * </li>
+   *
+   * <p>This is reflexive and symmetric, but <em>not</em> transitive, so it is <em>not</em> an
+   * equivalence relation and <em>not</em> suitable for use in {@link Object#equals}
+   * implementations.
+   *
+   * @throws IllegalArgumentException if {@code tolerance} is {@code < 0} or NaN
+   * @since 13.0
+   */
+  // TODO(cpovirk): reevaluate NaN behavior before taking out of @Beta
+  @Beta
+  public static boolean fuzzyEquals(double a, double b, double tolerance) {
+    MathPreconditions.checkNonNegative("tolerance", tolerance);
+    return
+          Math.copySign(a - b, 1.0) <= tolerance
+           // copySign(x, 1.0) is a branch-free version of abs(x), but with different NaN semantics
+          || (a == b) // needed to ensure that infinities equal themselves
+          || ((a != a) && (b != b)); // x != x is equivalent to Double.isNaN(x), but faster
+  }
+
+  /**
+   * Compares {@code a} and {@code b} "fuzzily," with a tolerance for nearly-equal values.
+   *
+   * <p>This method is equivalent to
+   * {@code fuzzyEquals(a, b, tolerance) ? 0 : Double.compare(a, b)}. In particular, like
+   * {@link Double#compare(double, double)}, it treats all NaN values as equal and greater than all
+   * other values (including {@link Double#POSITIVE_INFINITY}).
+   *
+   * <p>This is <em>not</em> a total ordering and is <em>not</em> suitable for use in
+   * {@link Comparable#compareTo} implementations.  In particular, it is not transitive.
+   *
+   * @throws IllegalArgumentException if {@code tolerance} is {@code < 0} or NaN
+   * @since 13.0
+   */
+  @Beta
+  public static int fuzzyCompare(double a, double b, double tolerance) {
+    if (fuzzyEquals(a, b, tolerance)) {
+      return 0;
+    } else if (a < b) {
+      return -1;
+    } else if (a > b) {
+      return 1;
+    } else {
+      return Booleans.compare(Double.isNaN(a), Double.isNaN(b));
+    }
+  }
 
   private DoubleMath() {}
 }

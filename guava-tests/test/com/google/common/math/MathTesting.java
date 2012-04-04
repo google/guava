@@ -40,7 +40,7 @@ import java.math.RoundingMode;
 
 /**
  * Exhaustive input sets for every integral type.
- * 
+ *
  * @author lowasser@google.com (Louis Wasserman)
  */
 @GwtCompatible
@@ -202,9 +202,13 @@ public class MathTesting {
 
   static final ImmutableSet<Double> INTEGRAL_DOUBLE_CANDIDATES;
   static final ImmutableSet<Double> FRACTIONAL_DOUBLE_CANDIDATES;
+  static final Iterable<Double> INFINITIES = Doubles.asList(
+      Double.POSITIVE_INFINITY,
+      Double.NEGATIVE_INFINITY);
   static final Iterable<Double> FINITE_DOUBLE_CANDIDATES;
   static final Iterable<Double> POSITIVE_FINITE_DOUBLE_CANDIDATES;
   static final Iterable<Double> ALL_DOUBLE_CANDIDATES;
+  static final Iterable<Double> DOUBLE_CANDIDATES_EXCEPT_NAN;
   static {
     ImmutableSet.Builder<Double> integralBuilder = ImmutableSet.builder();
     ImmutableSet.Builder<Double> fractionalBuilder = ImmutableSet.builder();
@@ -246,8 +250,8 @@ public class MathTesting {
             return input.doubleValue() > 0.0;
           }
         });
+    DOUBLE_CANDIDATES_EXCEPT_NAN = Iterables.concat(FINITE_DOUBLE_CANDIDATES, INFINITIES);
     ALL_DOUBLE_CANDIDATES =
-        Iterables.concat(FINITE_DOUBLE_CANDIDATES,
-            asList(Double.POSITIVE_INFINITY, Double.NEGATIVE_INFINITY, Double.NaN));
+        Iterables.concat(DOUBLE_CANDIDATES_EXCEPT_NAN, asList(Double.NaN));
   }
 }
