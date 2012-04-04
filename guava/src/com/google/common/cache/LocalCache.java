@@ -231,7 +231,8 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
   /**
    * Creates a new, empty map with the specified strategy, initial capacity and concurrency level.
    */
-  LocalCache(CacheBuilder<? super K, ? super V> builder, CacheLoader<? super K, V> loader) {
+  LocalCache(
+      CacheBuilder<? super K, ? super V> builder, @Nullable CacheLoader<? super K, V> loader) {
     concurrencyLevel = Math.min(builder.getConcurrencyLevel(), MAX_SEGMENTS);
 
     keyStrength = builder.getKeyStrength();

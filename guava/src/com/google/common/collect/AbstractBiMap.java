@@ -69,14 +69,14 @@ abstract class AbstractBiMap<K, V> extends ForwardingMap<K, V>
   /**
    * Returns its input, or throws an exception if this is not a valid key.
    */
-  K checkKey(K key) {
+  K checkKey(@Nullable K key) {
     return key;
   }
 
   /**
    * Returns its input, or throws an exception if this is not a valid value.
    */
-  V checkValue(V value) {
+  V checkValue(@Nullable V value) {
     return value;
   }
 
