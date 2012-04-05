@@ -755,11 +755,17 @@ public final class CacheBuilder<K, V> {
   }
 
   /**
-   * Disable the accumulation of {@link CacheStats} during the operation of the cache.
+   * Enable the accumulation of {@link CacheStats} during the operation of the cache. Without this
+   * {@link Cache#stats} will return zero for all statistics. Note that recording stats requires
+   * bookkeeping to be performed with each operation, and thus imposes a performance penalty on
+   * cache operation.
+   *
+   * @since 12.0 (previously, stats collection was automatic)
    */
-  CacheBuilder<K, V> disableStats() {
-    checkState(statsCounterSupplier == CACHE_STATS_COUNTER);
-    statsCounterSupplier = NULL_STATS_COUNTER;
+  public CacheBuilder<K, V> recordStats() {
+    // TODO(fry): enable this check once the default is changed to NULL_STATS_COUNTER
+    // checkState(statsCounterSupplier == NULL_STATS_COUNTER);
+    statsCounterSupplier = CACHE_STATS_COUNTER;
     return this;
   }
 

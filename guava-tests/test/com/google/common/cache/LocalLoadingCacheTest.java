@@ -178,11 +178,12 @@ public class LocalLoadingCacheTest extends TestCase {
     assertEquals(EMPTY_STATS, cache.stats());
   }
 
-  public void testDisableStats() {
+  public void testNoStats() {
     CacheBuilder<Object, Object> builder = createCacheBuilder()
         .concurrencyLevel(1)
-        .maximumSize(2)
-        .disableStats();
+        .maximumSize(2);
+    // TODO(fry): remove this override once the default is changed to NULL_STATS_COUNTER
+    builder.statsCounterSupplier = CacheBuilder.NULL_STATS_COUNTER;
     LocalLoadingCache<Object, Object> cache = makeCache(builder, identityLoader());
     assertEquals(EMPTY_STATS, cache.stats());
 
