@@ -128,8 +128,8 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
   }
 
   /**
-   * Constructs a new type token of {@code T}. Free type variables are resolved against {@code
-   * declaringClass}.
+   * Constructs a new type token of {@code T} while resolving free type variables in the context of
+   * {@code declaringClass}.
    *
    * <p>Clients create an empty anonymous subclass. Doing so embeds the type
    * parameter in the anonymous class's type hierarchy so we can reconstitute
@@ -190,14 +190,14 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
     return result;
   }
 
-  /** Returns the resolved type of the represented type token. */
+  /** Returns the represented type. */
   public final Type getType() {
     return runtimeType;
   }
 
   /**
    * Returns a new {@code TypeToken} where type variables represented by {@code typeParam}
-   * are substituted by the {@code typeArg}. For example, it can be used to construct
+   * are substituted by {@code typeArg}. For example, it can be used to construct
    * {@code Map<K, V>} for any {@code K} and {@code V} type: <pre>   {@code
    *
    *   static <K, V> TypeToken<Map<K, V>> mapOf(
@@ -221,7 +221,7 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
 
   /**
    * Returns a new {@code TypeToken} where type variables represented by {@code typeParam}
-   * are substituted by the {@code typeArg}. For example, it can be used to construct
+   * are substituted by {@code typeArg}. For example, it can be used to construct
    * {@code Map<K, V>} for any {@code K} and {@code V} type: <pre>   {@code
    *
    *   static <K, V> TypeToken<Map<K, V>> mapOf(
@@ -419,14 +419,17 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
     return isAssignable(checkNotNull(type), runtimeType);
   }
 
-  /** Returns true if this type is known to be an array type. */
+  /**
+   * Returns true if this type is known to be an array type, such as {@code int[]}, {@code T[]},
+   * {@code <? extends Map<String, Integer>[]>} etc.
+   */
   public final boolean isArray() {
     return getComponentType() != null;
   }
 
   /**
-   * Returns the Type representing the component type of an array. If this type does not represent
-   * an array type this method returns null.
+   * Returns the array component type if this type represents an array ({@code int[]}, {@code T[]},
+   * {@code <? extends Map<String, Integer>[]>} etc.), or else {@code null} is returned.
    */
   @Nullable public final TypeToken<?> getComponentType() {
     Type componentType = Types.getComponentType(runtimeType);
@@ -580,8 +583,7 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
   }
 
   /**
-   * Returns true if {@code o} is another {@code TypeToken} that represents the same {@link Type}
-   * at runtime.
+   * Returns true if {@code o} is another {@code TypeToken} that represents the same {@link Type}.
    */
   @Override public boolean equals(@Nullable Object o) {
     if (o instanceof TypeToken) {
@@ -599,6 +601,7 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
     return Types.toString(runtimeType);
   }
 
+  /** Implemented to support serialization of subclasses. */
   protected Object writeReplace() {
     // TypeResolver just transforms the type to our own impls that are Serializable
     // except TypeVariable.
