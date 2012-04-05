@@ -303,7 +303,7 @@ public class PopulatedCachesTest extends TestCase {
         new Function<CacheBuilder<Object, Object>, LoadingCache<Object, Object>>() {
           @Override public LoadingCache<Object, Object> apply(
               CacheBuilder<Object, Object> builder) {
-            return builder.build(identityLoader());
+            return builder.recordStats().build(identityLoader());
           }
         });
   }

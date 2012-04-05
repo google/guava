@@ -98,6 +98,7 @@ public class CacheLoadingTest extends TestCase {
 
   public void testLoad() throws ExecutionException {
     LoadingCache<Object, Object> cache = CacheBuilder.newBuilder()
+        .recordStats()
         .build(identityLoader());
     CacheStats stats = cache.stats();
     assertEquals(0, stats.missCount());
@@ -170,7 +171,7 @@ public class CacheLoadingTest extends TestCase {
       }
     };
 
-    LoadingCache<Object, Object> cache = CacheBuilder.newBuilder().build(loader);
+    LoadingCache<Object, Object> cache = CacheBuilder.newBuilder().recordStats().build(loader);
     Object key = new Object();
     CacheStats stats = cache.stats();
     assertEquals(0, stats.missCount());
@@ -218,6 +219,7 @@ public class CacheLoadingTest extends TestCase {
     };
 
     LoadingCache<Object, Object> cache = CacheBuilder.newBuilder()
+        .recordStats()
         .ticker(ticker)
         .refreshAfterWrite(1, MILLISECONDS)
         .build(loader);
@@ -277,6 +279,7 @@ public class CacheLoadingTest extends TestCase {
     };
 
     LoadingCache<Object, Object> cache = CacheBuilder.newBuilder()
+        .recordStats()
         .ticker(ticker)
         .refreshAfterWrite(1, MILLISECONDS)
         .build(loader);
@@ -321,6 +324,7 @@ public class CacheLoadingTest extends TestCase {
 
   public void testBulkLoad_default() throws ExecutionException {
     LoadingCache<Integer, Integer> cache = CacheBuilder.newBuilder()
+        .recordStats()
         .build(TestingCacheLoaders.<Integer>identityLoader());
     CacheStats stats = cache.stats();
     assertEquals(0, stats.missCount());
@@ -367,7 +371,7 @@ public class CacheLoadingTest extends TestCase {
   public void testBulkLoad_loadAll() throws ExecutionException {
     IdentityLoader<Integer> backingLoader = identityLoader();
     CacheLoader<Integer, Integer> loader = bulkLoader(backingLoader);
-    LoadingCache<Integer, Integer> cache = CacheBuilder.newBuilder().build(loader);
+    LoadingCache<Integer, Integer> cache = CacheBuilder.newBuilder().recordStats().build(loader);
     CacheStats stats = cache.stats();
     assertEquals(0, stats.missCount());
     assertEquals(0, stats.loadSuccessCount());
@@ -586,6 +590,7 @@ public class CacheLoadingTest extends TestCase {
 
   public void testLoadNull() throws ExecutionException {
     LoadingCache<Object, Object> cache = CacheBuilder.newBuilder()
+        .recordStats()
         .build(constantLoader(null));
     CacheStats stats = cache.stats();
     assertEquals(0, stats.missCount());
@@ -656,7 +661,7 @@ public class CacheLoadingTest extends TestCase {
       }
     };
 
-    LoadingCache<Object, Object> cache = CacheBuilder.newBuilder().build(loader);
+    LoadingCache<Object, Object> cache = CacheBuilder.newBuilder().recordStats().build(loader);
     Object key = new Object();
     CacheStats stats = cache.stats();
     assertEquals(0, stats.missCount());
@@ -701,7 +706,7 @@ public class CacheLoadingTest extends TestCase {
       }
     };
 
-    LoadingCache<Object, Object> cache = CacheBuilder.newBuilder().build(loader);
+    LoadingCache<Object, Object> cache = CacheBuilder.newBuilder().recordStats().build(loader);
     Object key = new Object();
     CacheStats stats = cache.stats();
     assertEquals(0, stats.missCount());
@@ -748,6 +753,7 @@ public class CacheLoadingTest extends TestCase {
     };
 
     LoadingCache<Object, Object> cache = CacheBuilder.newBuilder()
+        .recordStats()
         .ticker(ticker)
         .refreshAfterWrite(1, MILLISECONDS)
         .build(loader);
@@ -793,6 +799,7 @@ public class CacheLoadingTest extends TestCase {
 
   public void testBulkLoadNull() throws ExecutionException {
     LoadingCache<Object, Object> cache = CacheBuilder.newBuilder()
+        .recordStats()
         .build(bulkLoader(constantLoader(null)));
     CacheStats stats = cache.stats();
     assertEquals(0, stats.missCount());
@@ -812,8 +819,9 @@ public class CacheLoadingTest extends TestCase {
   }
 
   public void testBulkLoadNullMap() throws ExecutionException {
-    LoadingCache<Object, Object> cache = CacheBuilder.newBuilder().build(
-        new CacheLoader<Object, Object>() {
+    LoadingCache<Object, Object> cache = CacheBuilder.newBuilder()
+        .recordStats()
+        .build(new CacheLoader<Object, Object>() {
           @Override
           public Object load(Object key) {
             throw new AssertionError();
@@ -845,7 +853,7 @@ public class CacheLoadingTest extends TestCase {
   public void testLoadError() throws ExecutionException {
     Error e = new Error();
     CacheLoader<Object, Object> loader = errorLoader(e);
-    LoadingCache<Object, Object> cache = CacheBuilder.newBuilder().build(loader);
+    LoadingCache<Object, Object> cache = CacheBuilder.newBuilder().recordStats().build(loader);
     CacheStats stats = cache.stats();
     assertEquals(0, stats.missCount());
     assertEquals(0, stats.loadSuccessCount());
@@ -930,7 +938,7 @@ public class CacheLoadingTest extends TestCase {
       }
     };
 
-    LoadingCache<Object, Object> cache = CacheBuilder.newBuilder().build(loader);
+    LoadingCache<Object, Object> cache = CacheBuilder.newBuilder().recordStats().build(loader);
     Object key = new Object();
     CacheStats stats = cache.stats();
     assertEquals(0, stats.missCount());
@@ -976,7 +984,7 @@ public class CacheLoadingTest extends TestCase {
       }
     };
 
-    LoadingCache<Object, Object> cache = CacheBuilder.newBuilder().build(loader);
+    LoadingCache<Object, Object> cache = CacheBuilder.newBuilder().recordStats().build(loader);
     Object key = new Object();
     CacheStats stats = cache.stats();
     assertEquals(0, stats.missCount());
@@ -1024,6 +1032,7 @@ public class CacheLoadingTest extends TestCase {
     };
 
     LoadingCache<Object, Object> cache = CacheBuilder.newBuilder()
+        .recordStats()
         .ticker(ticker)
         .refreshAfterWrite(1, MILLISECONDS)
         .build(loader);
@@ -1071,6 +1080,7 @@ public class CacheLoadingTest extends TestCase {
     Error e = new Error();
     CacheLoader<Object, Object> loader = errorLoader(e);
     LoadingCache<Object, Object> cache = CacheBuilder.newBuilder()
+        .recordStats()
         .build(bulkLoader(loader));
     CacheStats stats = cache.stats();
     assertEquals(0, stats.missCount());
@@ -1094,7 +1104,7 @@ public class CacheLoadingTest extends TestCase {
   public void testLoadCheckedException() {
     Exception e = new Exception();
     CacheLoader<Object, Object> loader = exceptionLoader(e);
-    LoadingCache<Object, Object> cache = CacheBuilder.newBuilder().build(loader);
+    LoadingCache<Object, Object> cache = CacheBuilder.newBuilder().recordStats().build(loader);
     CacheStats stats = cache.stats();
     assertEquals(0, stats.missCount());
     assertEquals(0, stats.loadSuccessCount());
@@ -1174,7 +1184,7 @@ public class CacheLoadingTest extends TestCase {
       }
     };
 
-    LoadingCache<Object, Object> cache = CacheBuilder.newBuilder().build(loader);
+    LoadingCache<Object, Object> cache = CacheBuilder.newBuilder().recordStats().build(loader);
     Object key = new Object();
     CacheStats stats = cache.stats();
     assertEquals(0, stats.missCount());
@@ -1220,7 +1230,7 @@ public class CacheLoadingTest extends TestCase {
       }
     };
 
-    LoadingCache<Object, Object> cache = CacheBuilder.newBuilder().build(loader);
+    LoadingCache<Object, Object> cache = CacheBuilder.newBuilder().recordStats().build(loader);
     Object key = new Object();
     CacheStats stats = cache.stats();
     assertEquals(0, stats.missCount());
@@ -1268,6 +1278,7 @@ public class CacheLoadingTest extends TestCase {
     };
 
     LoadingCache<Object, Object> cache = CacheBuilder.newBuilder()
+        .recordStats()
         .ticker(ticker)
         .refreshAfterWrite(1, MILLISECONDS)
         .build(loader);
@@ -1315,6 +1326,7 @@ public class CacheLoadingTest extends TestCase {
     Exception e = new Exception();
     CacheLoader<Object, Object> loader = exceptionLoader(e);
     LoadingCache<Object, Object> cache = CacheBuilder.newBuilder()
+        .recordStats()
         .build(bulkLoader(loader));
     CacheStats stats = cache.stats();
     assertEquals(0, stats.missCount());
@@ -1338,7 +1350,7 @@ public class CacheLoadingTest extends TestCase {
   public void testLoadUncheckedException() throws ExecutionException {
     Exception e = new RuntimeException();
     CacheLoader<Object, Object> loader = exceptionLoader(e);
-    LoadingCache<Object, Object> cache = CacheBuilder.newBuilder().build(loader);
+    LoadingCache<Object, Object> cache = CacheBuilder.newBuilder().recordStats().build(loader);
     CacheStats stats = cache.stats();
     assertEquals(0, stats.missCount());
     assertEquals(0, stats.loadSuccessCount());
@@ -1418,7 +1430,7 @@ public class CacheLoadingTest extends TestCase {
       }
     };
 
-    LoadingCache<Object, Object> cache = CacheBuilder.newBuilder().build(loader);
+    LoadingCache<Object, Object> cache = CacheBuilder.newBuilder().recordStats().build(loader);
     Object key = new Object();
     CacheStats stats = cache.stats();
     assertEquals(0, stats.missCount());
@@ -1464,7 +1476,7 @@ public class CacheLoadingTest extends TestCase {
       }
     };
 
-    LoadingCache<Object, Object> cache = CacheBuilder.newBuilder().build(loader);
+    LoadingCache<Object, Object> cache = CacheBuilder.newBuilder().recordStats().build(loader);
     Object key = new Object();
     CacheStats stats = cache.stats();
     assertEquals(0, stats.missCount());
@@ -1512,6 +1524,7 @@ public class CacheLoadingTest extends TestCase {
     };
 
     LoadingCache<Object, Object> cache = CacheBuilder.newBuilder()
+        .recordStats()
         .ticker(ticker)
         .refreshAfterWrite(1, MILLISECONDS)
         .build(loader);
@@ -1559,6 +1572,7 @@ public class CacheLoadingTest extends TestCase {
     Exception e = new RuntimeException();
     CacheLoader<Object, Object> loader = exceptionLoader(e);
     LoadingCache<Object, Object> cache = CacheBuilder.newBuilder()
+        .recordStats()
         .build(bulkLoader(loader));
     CacheStats stats = cache.stats();
     assertEquals(0, stats.missCount());

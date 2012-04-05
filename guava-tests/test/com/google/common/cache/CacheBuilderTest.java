@@ -562,6 +562,7 @@ public class CacheBuilderTest extends TestCase {
           }
         };
     final LoadingCache<String, String> cache = CacheBuilder.newBuilder()
+        .recordStats()
         .concurrencyLevel(2)
         .expireAfterWrite(100, TimeUnit.MILLISECONDS)
         .removalListener(removalListener)
