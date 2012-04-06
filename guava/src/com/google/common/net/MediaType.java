@@ -529,7 +529,7 @@ public final class MediaType {
       ImmutableListMultimap.Builder<String, String> parameters = ImmutableListMultimap.builder();
       while (tokenizer.hasMore()) {
         tokenizer.consumeCharacter(';');
-        tokenizer.consumeToken(LINEAR_WHITE_SPACE);
+        tokenizer.consumeTokenIfPresent(LINEAR_WHITE_SPACE);
         String attribute = tokenizer.consumeToken(TOKEN_MATCHER);
         tokenizer.consumeCharacter('=');
         final String value;
@@ -565,12 +565,18 @@ public final class MediaType {
       this.input = input;
     }
 
-    String consumeToken(CharMatcher matcher) {
+    String consumeTokenIfPresent(CharMatcher matcher) {
       checkState(hasMore());
       int startPosition = position;
       position = matcher.negate().indexIn(input, startPosition);
-      checkState(position != startPosition);
       return hasMore() ? input.substring(startPosition, position) : input.substring(startPosition);
+    }
+
+    String consumeToken(CharMatcher matcher) {
+      int startPosition = position;
+      String token = consumeTokenIfPresent(matcher);
+      checkState(position != startPosition);
+      return token;
     }
 
     char consumeCharacter(CharMatcher matcher) {
