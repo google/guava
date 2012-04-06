@@ -47,10 +47,18 @@ import java.util.concurrent.ConcurrentMap;
 import javax.annotation.Nullable;
 
 /**
- * A test utility that verifies that your methods throw {@link
- * NullPointerException} or {@link UnsupportedOperationException} whenever any
- * of their parameters are null. To use it, you must first provide valid default
- * values for the parameter types used by the class.
+ * A test utility that verifies that your methods and constructors throw {@link
+ * NullPointerException} or {@link UnsupportedOperationException} whenever null
+ * is passed to a parameter that isn't annotated with {@link Nullable}.
+ *
+ * <p>The tested methods and constructors are invoked -- each time with one
+ * parameter being null and the rest not null -- and the test fails if no
+ * expected exception is thrown. {@code NullPointerTester} uses best effort to
+ * pick non-null default values for many common JDK and Guava types, and also
+ * for interfaces and public classes that have public parameter-less
+ * constructors. When the non-null default value for a particular parameter type
+ * cannot be provided by {@code NullPointerTester}, the caller can provide a
+ * custom non-null default value for the parameter type via {@link #setDefault}.
  *
  * @author Kevin Bourrillion
  * @since 10.0
