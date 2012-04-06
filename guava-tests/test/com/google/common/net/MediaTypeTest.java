@@ -367,6 +367,7 @@ public class MediaTypeTest extends TestCase {
             MediaType.create("text", "plain").withParameter("CHARSET", "UTF-8"),
             MediaType.create("text", "plain").withParameters(
                 ImmutableMultimap.of("charset", "utf-8")),
+            MediaType.parse("text/plain;charset=utf-8"),
             MediaType.parse("text/plain; charset=utf-8"),
             MediaType.parse("text/plain;  charset=utf-8"),
             MediaType.parse("text/plain; \tcharset=utf-8"),
