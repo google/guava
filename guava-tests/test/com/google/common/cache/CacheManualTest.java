@@ -27,7 +27,7 @@ import junit.framework.TestCase;
 public class CacheManualTest extends TestCase {
 
   public void testGetIfPresent() {
-    Cache<Object, Object> cache = CacheBuilder.newBuilder().build();
+    Cache<Object, Object> cache = CacheBuilder.newBuilder().recordStats().build();
     CacheStats stats = cache.stats();
     assertEquals(0, stats.missCount());
     assertEquals(0, stats.loadSuccessCount());
@@ -103,7 +103,7 @@ public class CacheManualTest extends TestCase {
   }
 
   public void testGetAllPresent() {
-    Cache<Integer, Integer> cache = CacheBuilder.newBuilder().build();
+    Cache<Integer, Integer> cache = CacheBuilder.newBuilder().recordStats().build();
     CacheStats stats = cache.stats();
     assertEquals(0, stats.missCount());
     assertEquals(0, stats.loadSuccessCount());

@@ -57,6 +57,7 @@ import javax.annotation.CheckReturnValue;
  * <li>values automatically wrapped in {@linkplain WeakReference weak} or
  *     {@linkplain SoftReference soft} references
  * <li>notification of evicted (or otherwise removed) entries
+ * <li>accumulation of cache access statistics
  * </ul>
  *
  * These features are all optional; caches can be created using all or none of them. By default
@@ -223,7 +224,7 @@ public final class CacheBuilder<K, V> {
   RemovalListener<? super K, ? super V> removalListener;
   Ticker ticker;
 
-  Supplier<? extends StatsCounter> statsCounterSupplier = CACHE_STATS_COUNTER;
+  Supplier<? extends StatsCounter> statsCounterSupplier = NULL_STATS_COUNTER;
 
   // TODO(fry): make constructor private and update tests to use newBuilder
   CacheBuilder() {}
@@ -763,8 +764,6 @@ public final class CacheBuilder<K, V> {
    * @since 12.0 (previously, stats collection was automatic)
    */
   public CacheBuilder<K, V> recordStats() {
-    // TODO(fry): enable this check once the default is changed to NULL_STATS_COUNTER
-    // checkState(statsCounterSupplier == NULL_STATS_COUNTER);
     statsCounterSupplier = CACHE_STATS_COUNTER;
     return this;
   }

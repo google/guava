@@ -52,7 +52,7 @@ public class LocalLoadingCacheTest extends TestCase {
   }
 
   private CacheBuilder<Object, Object> createCacheBuilder() {
-    return new CacheBuilder<Object, Object>();
+    return CacheBuilder.newBuilder().recordStats();
   }
 
   // constructor tests
@@ -179,11 +179,9 @@ public class LocalLoadingCacheTest extends TestCase {
   }
 
   public void testNoStats() {
-    CacheBuilder<Object, Object> builder = createCacheBuilder()
+    CacheBuilder<Object, Object> builder = CacheBuilder.newBuilder()
         .concurrencyLevel(1)
         .maximumSize(2);
-    // TODO(fry): remove this override once the default is changed to NULL_STATS_COUNTER
-    builder.statsCounterSupplier = CacheBuilder.NULL_STATS_COUNTER;
     LocalLoadingCache<Object, Object> cache = makeCache(builder, identityLoader());
     assertEquals(EMPTY_STATS, cache.stats());
 
@@ -201,6 +199,35 @@ public class LocalLoadingCacheTest extends TestCase {
     Object three = new Object();
     cache.getUnchecked(three);
     assertEquals(EMPTY_STATS, cache.stats());
+  }
+
+  public void testRecordStats() {
+    CacheBuilder<Object, Object> builder = createCacheBuilder()
+        .recordStats()
+        .concurrencyLevel(1)
+        .maximumSize(2);
+    LocalLoadingCache<Object, Object> cache = makeCache(builder, identityLoader());
+    assertEquals(0, cache.stats().hitCount());
+    assertEquals(0, cache.stats().missCount());
+
+    Object one = new Object();
+    cache.getUnchecked(one);
+    assertEquals(0, cache.stats().hitCount());
+    assertEquals(1, cache.stats().missCount());
+
+    cache.getUnchecked(one);
+    assertEquals(1, cache.stats().hitCount());
+    assertEquals(1, cache.stats().missCount());
+
+    Object two = new Object();
+    cache.getUnchecked(two);
+    assertEquals(1, cache.stats().hitCount());
+    assertEquals(2, cache.stats().missCount());
+
+    Object three = new Object();
+    cache.getUnchecked(three);
+    assertEquals(1, cache.stats().hitCount());
+    assertEquals(3, cache.stats().missCount());
   }
 
   // asMap tests
