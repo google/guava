@@ -386,7 +386,7 @@ public final class UnsignedBytes {
             if (y == 0) {
               n += 8;
             }
-            return (int) (((lw >>> n) & 0xFFL) - ((rw >>> n) & 0xFFL));
+            return (int) (((lw >>> n) & UNSIGNED_MASK) - ((rw >>> n) & UNSIGNED_MASK));
           }
         }
 

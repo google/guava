@@ -128,14 +128,12 @@ public class UnsignedBytesTest extends TestCase {
         (byte) -1, (byte) 127, (byte) 1, (byte) -128, (byte) 0));
   }
 
-  private void assertParseFails(String value) {
-    boolean overflowCaught = false;
+  private static void assertParseFails(String value) {
     try {
       UnsignedBytes.parseUnsignedByte(value);
-    } catch (NumberFormatException e) {
-      overflowCaught = true;
+      fail();
+    } catch (NumberFormatException expected) {
     }
-    assertTrue(overflowCaught);
   }
 
   public void testParseUnsignedByte() {
@@ -146,6 +144,7 @@ public class UnsignedBytesTest extends TestCase {
     assertParseFails("1000");
     assertParseFails("-1");
     assertParseFails("-128");
+    assertParseFails("256");
   }
 
   public void testMaxValue() {
@@ -153,14 +152,12 @@ public class UnsignedBytesTest extends TestCase {
         .compare(UnsignedBytes.MAX_VALUE, (byte) (UnsignedBytes.MAX_VALUE + 1)) > 0);
   }
 
-  private void assertParseFails(String value, int radix) {
-    boolean overflowCaught = false;
+  private static void assertParseFails(String value, int radix) {
     try {
       UnsignedBytes.parseUnsignedByte(value, radix);
-    } catch (NumberFormatException e) {
-      overflowCaught = true;
+      fail();
+    } catch (NumberFormatException expected) {
     }
-    assertTrue(overflowCaught);
   }
 
   public void testParseUnsignedByteWithRadix() throws NumberFormatException {
@@ -171,6 +168,8 @@ public class UnsignedBytesTest extends TestCase {
       }
       assertParseFails(Integer.toString(1000, radix), radix);
       assertParseFails(Integer.toString(-1, radix), radix);
+      assertParseFails(Integer.toString(-128, radix), radix);
+      assertParseFails(Integer.toString(256, radix), radix);
     }
   }
 

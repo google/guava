@@ -200,7 +200,7 @@ public final class DoubleMath {
    * <li>If {@code x} is positive or negative zero, the result is negative infinity.
    * </ul>
    *
-   * <p>The computed result must be within 1 ulp of the exact result.
+   * <p>The computed result is within 1 ulp of the exact result.
    *
    * <p>If the result of this method will be immediately rounded to an {@code int},
    * {@link #log2(double, RoundingMode)} is faster.

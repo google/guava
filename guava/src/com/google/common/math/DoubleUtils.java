@@ -28,8 +28,7 @@ import static java.lang.Math.getExponent;
 import java.math.BigInteger;
 
 /**
- * Utilities for {@code double} primitives. Some of these are exposed in JDK 6,
- * but we can't depend on them there.
+ * Utilities for {@code double} primitives.
  *
  * @author Louis Wasserman
  */
