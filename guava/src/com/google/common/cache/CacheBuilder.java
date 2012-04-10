@@ -168,10 +168,10 @@ public final class CacheBuilder<K, V> {
       });
   static final CacheStats EMPTY_STATS = new CacheStats(0, 0, 0, 0, 0, 0);
 
-  static final Supplier<SimpleStatsCounter> CACHE_STATS_COUNTER =
-      new Supplier<SimpleStatsCounter>() {
+  static final Supplier<StatsCounter> CACHE_STATS_COUNTER =
+      new Supplier<StatsCounter>() {
     @Override
-    public SimpleStatsCounter get() {
+    public StatsCounter get() {
       return new SimpleStatsCounter();
     }
   };

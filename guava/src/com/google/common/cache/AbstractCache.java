@@ -25,7 +25,6 @@ import java.util.Map;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * This class provides a skeletal implementation of the {@code Cache} interface to minimize the
@@ -204,19 +203,19 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
    */
   @Beta
   public static class SimpleStatsCounter implements StatsCounter {
-    private final AtomicLong hitCount = new AtomicLong();
-    private final AtomicLong missCount = new AtomicLong();
-    private final AtomicLong loadSuccessCount = new AtomicLong();
-    private final AtomicLong loadExceptionCount = new AtomicLong();
-    private final AtomicLong totalLoadTime = new AtomicLong();
-    private final AtomicLong evictionCount = new AtomicLong();
+    private final LongAdder hitCount = new LongAdder();
+    private final LongAdder missCount = new LongAdder();
+    private final LongAdder loadSuccessCount = new LongAdder();
+    private final LongAdder loadExceptionCount = new LongAdder();
+    private final LongAdder totalLoadTime = new LongAdder();
+    private final LongAdder evictionCount = new LongAdder();
 
     /**
      * @since 11.0
      */
     @Override
     public void recordHits(int count) {
-      hitCount.addAndGet(count);
+      hitCount.add(count);
     }
 
     /**
@@ -224,35 +223,35 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
      */
     @Override
     public void recordMisses(int count) {
-      missCount.addAndGet(count);
+      missCount.add(count);
     }
 
     @Override
     public void recordLoadSuccess(long loadTime) {
-      loadSuccessCount.incrementAndGet();
-      totalLoadTime.addAndGet(loadTime);
+      loadSuccessCount.increment();
+      totalLoadTime.add(loadTime);
     }
 
     @Override
     public void recordLoadException(long loadTime) {
-      loadExceptionCount.incrementAndGet();
-      totalLoadTime.addAndGet(loadTime);
+      loadExceptionCount.increment();
+      totalLoadTime.add(loadTime);
     }
 
     @Override
     public void recordEviction() {
-      evictionCount.incrementAndGet();
+      evictionCount.increment();
     }
 
     @Override
     public CacheStats snapshot() {
       return new CacheStats(
-          hitCount.get(),
-          missCount.get(),
-          loadSuccessCount.get(),
-          loadExceptionCount.get(),
-          totalLoadTime.get(),
-          evictionCount.get());
+          hitCount.sum(),
+          missCount.sum(),
+          loadSuccessCount.sum(),
+          loadExceptionCount.sum(),
+          totalLoadTime.sum(),
+          evictionCount.sum());
     }
 
     /**
@@ -260,12 +259,12 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
      */
     public void incrementBy(StatsCounter other) {
       CacheStats otherStats = other.snapshot();
-      hitCount.addAndGet(otherStats.hitCount());
-      missCount.addAndGet(otherStats.missCount());
-      loadSuccessCount.addAndGet(otherStats.loadSuccessCount());
-      loadExceptionCount.addAndGet(otherStats.loadExceptionCount());
-      totalLoadTime.addAndGet(otherStats.totalLoadTime());
-      evictionCount.addAndGet(otherStats.evictionCount());
+      hitCount.add(otherStats.hitCount());
+      missCount.add(otherStats.missCount());
+      loadSuccessCount.add(otherStats.loadSuccessCount());
+      loadExceptionCount.add(otherStats.loadExceptionCount());
+      totalLoadTime.add(otherStats.totalLoadTime());
+      evictionCount.add(otherStats.evictionCount());
     }
   }
 }
