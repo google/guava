@@ -2,6 +2,8 @@
 
 package com.google.common.hash;
 
+import static com.google.common.testing.SerializableTester.reserializeAndAssert;
+
 import com.google.common.collect.ImmutableList;
 
 import junit.framework.TestCase;
@@ -96,6 +98,22 @@ public class HashCodesTest extends TestCase {
 
     assertEquals(0x0000ab00, hashCode.asInt());
     assertEquals("00ab0000", hashCode.toString());
+  }
+
+  public void testSerialization_IntHashCode() {
+    reserializeAndAssert(HashCodes.fromInt(42));
+  }
+
+  public void testSerialization_LongHashCode() {
+    reserializeAndAssert(HashCodes.fromLong(42L));
+  }
+    
+  public void testSerialization_BytesHashCode() {
+    reserializeAndAssert(HashCodes.fromBytes(expectedHashCodes.get(0).bytes));
+  }
+    
+  public void testSerialization_BytesHashCode_noCopy() {
+    reserializeAndAssert(HashCodes.fromBytesNoCopy(expectedHashCodes.get(0).bytes));
   }
   
   private void assertExpectedHashCode(ExpectedHashCode expected, HashCode hash) {

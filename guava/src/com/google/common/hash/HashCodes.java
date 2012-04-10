@@ -18,9 +18,11 @@ import static com.google.common.base.Preconditions.checkArgument;
 
 import com.google.common.annotations.Beta;
 
+import java.io.Serializable;
+
 /**
  * Static factories for creating {@link HashCode} instances; most users should never have to use
- * this.
+ * this. All returned instances are {@link Serializable}.
  *
  * @author Dimitris Andreou
  * @since 12.0
@@ -37,7 +39,7 @@ public final class HashCodes {
     return new IntHashCode(hash);
   }
   
-  private static final class IntHashCode extends HashCode {
+  private static final class IntHashCode extends HashCode implements Serializable {
     final int hash;
     
     IntHashCode(int hash) {
@@ -63,6 +65,8 @@ public final class HashCodes {
     @Override public long asLong() {
       throw new IllegalStateException("this HashCode only has 32 bits; cannot create a long");
     }
+    
+    private static final long serialVersionUID = 0;
   }
   
   /**
@@ -73,7 +77,7 @@ public final class HashCodes {
     return new LongHashCode(hash);
   }
   
-  private static final class LongHashCode extends HashCode {
+  private static final class LongHashCode extends HashCode implements Serializable {
     final long hash;
     
     LongHashCode(long hash) {
@@ -103,6 +107,8 @@ public final class HashCodes {
     @Override public long asLong() {
       return hash;
     }
+    
+    private static final long serialVersionUID = 0;
   }
   
   /**
@@ -117,13 +123,13 @@ public final class HashCodes {
   /**
    * Creates a {@code HashCode} from a byte array. The array is <i>not</i> copied defensively, 
    * so it must be handed-off so as to preserve the immutability contract of {@code HashCode}.
-   * The array must be at least of length 4 (not checked). 
+   * The array must be at least of length 4 (not checked).
    */
   static HashCode fromBytesNoCopy(byte[] bytes) {
     return new BytesHashCode(bytes);
   }
   
-  private static final class BytesHashCode extends HashCode {
+  private static final class BytesHashCode extends HashCode implements Serializable {
     final byte[] bytes;
     
     BytesHashCode(byte[] bytes) {
@@ -159,5 +165,7 @@ public final class HashCodes {
           | ((bytes[6] & 0xFFL) << 48)
           | ((bytes[7] & 0xFFL) << 56);
     }
+    
+    private static final long serialVersionUID = 0;
   }
 }
