@@ -164,7 +164,7 @@ public abstract class ImmutableCollection<E>
       case 1:
         return ImmutableList.of(iterator().next());
       default:
-        return new ImmutableAsList<E>(toArray(), this);
+        return new RegularImmutableAsList<E>(this, toArray());
     }
   }
 

@@ -407,30 +407,16 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E>
       return false;
     }
 
-    /*
-     * The cast is safe because the only way to create an instance is via the
-     * create() method above, which only permits elements of type E.
-     */
-    @SuppressWarnings("unchecked")
     @Override public UnmodifiableIterator<E> iterator() {
-      return (UnmodifiableIterator<E>) Iterators.forArray(elements);
+      return asList().iterator();
     }
 
     @Override public Object[] toArray() {
-      Object[] array = new Object[size()];
-      System.arraycopy(elements, 0, array, 0, size());
-      return array;
+      return asList().toArray();
     }
 
     @Override public <T> T[] toArray(T[] array) {
-      int size = size();
-      if (array.length < size) {
-        array = ObjectArrays.newArray(array, size);
-      } else if (array.length > size) {
-        array[size] = null;
-      }
-      System.arraycopy(elements, 0, array, 0, size);
-      return array;
+      return asList().toArray(array);
     }
 
     @Override public boolean containsAll(Collection<?> targets) {
@@ -456,7 +442,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E>
     }
 
     @Override ImmutableList<E> createAsList() {
-      return new ImmutableAsList<E>(elements, this);
+      return new RegularImmutableAsList<E>(this, elements);
     }
   }
 

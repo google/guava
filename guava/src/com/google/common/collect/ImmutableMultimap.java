@@ -33,6 +33,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import javax.annotation.Nullable;
 
@@ -575,12 +576,71 @@ public abstract class ImmutableMultimap<K, V>
   }
 
   private ImmutableMultiset<K> createKeys() {
-    ImmutableMultiset.Builder<K> builder = ImmutableMultiset.builder();
-    for (Entry<K, ? extends ImmutableCollection<V>> entry
-        : map.entrySet()) {
-      builder.addCopies(entry.getKey(), entry.getValue().size());
+    return new Keys();
+  }
+
+  @SuppressWarnings("serial") // Uses writeReplace, not default serialization
+  class Keys extends ImmutableMultiset<K> {
+    @Override
+    public boolean contains(@Nullable Object object) {
+      return containsKey(object);
     }
-    return builder.build();
+
+    @Override
+    public int count(@Nullable Object element) {
+      Collection<V> values = map.get(element);
+      return (values == null) ? 0 : values.size();
+    }
+
+    @Override
+    public Set<K> elementSet() {
+      return keySet();
+    }
+
+    @Override
+    public int size() {
+      return ImmutableMultimap.this.size();
+    }
+
+    @Override
+    ImmutableSet<Entry<K>> createEntrySet() {
+      return new KeysEntrySet();
+    }
+
+    private class KeysEntrySet extends ImmutableMultiset<K>.EntrySet {
+      @Override
+      public int size() {
+        return keySet().size();
+      }
+
+      @Override
+      public UnmodifiableIterator<Entry<K>> iterator() {
+        return asList().iterator();
+      }
+
+      @Override
+      ImmutableList<Entry<K>> createAsList() {
+        final ImmutableList<? extends Map.Entry<K, ? extends Collection<V>>> mapEntries =
+            map.entrySet().asList();
+        return new ImmutableAsList<Entry<K>>() {
+          @Override
+          public Entry<K> get(int index) {
+            Map.Entry<K, ? extends Collection<V>> entry = mapEntries.get(index);
+            return Multisets.immutableEntry(entry.getKey(), entry.getValue().size());
+          }
+
+          @Override
+          ImmutableCollection<Entry<K>> delegateCollection() {
+            return KeysEntrySet.this;
+          }
+        };
+      }
+    }
+
+    @Override
+    boolean isPartialView() {
+      return true;
+    }
   }
 
   private transient ImmutableCollection<V> values;

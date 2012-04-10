@@ -347,9 +347,10 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
     return get(key) != null;
   }
 
-  // Overriding to mark it Nullable
   @Override
-  public abstract boolean containsValue(@Nullable Object value);
+  public boolean containsValue(@Nullable Object value) {
+    return value != null && Maps.containsValueImpl(this, value);
+  }
 
   // Overriding to mark it Nullable
   @Override
@@ -449,11 +450,16 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
 
     @Override
     ImmutableList<K> createAsList() {
-      // TODO(user): rewrite to delegate contains() calls to the KeySet
-      return new TransformedImmutableList<Entry<K, V>, K>(entrySet().asList()) {
+      final ImmutableList<Entry<K, V>> entryList = entrySet().asList();
+      return new ImmutableAsList<K>() {
         @Override
-        K transform(Entry<K, V> entry) {
-          return entry.getKey();
+        public K get(int index) {
+          return entryList.get(index).getKey();
+        }
+
+        @Override
+        ImmutableCollection<K> delegateCollection() {
+          return KeySet.this;
         }
       };
     }
@@ -513,11 +519,16 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
 
     @Override
     ImmutableList<V> createAsList() {
-      // TODO(user): rewrite to delegate contains() calls to the Values
-      return new TransformedImmutableList<Entry<K, V>, V>(entrySet().asList()) {
+      final ImmutableList<Entry<K, V>> entryList = entrySet().asList();
+      return new ImmutableAsList<V>() {
         @Override
-        V transform(Entry<K, V> entry) {
-          return entry.getValue();
+        public V get(int index) {
+          return entryList.get(index).getValue();
+        }
+
+        @Override
+        ImmutableCollection<V> delegateCollection() {
+          return Values.this;
         }
       };
     }

@@ -482,7 +482,7 @@ public class ImmutableSetMultimapTest extends TestCase {
         SerializableTester.reserialize(multimap).size());
     SerializableTester.reserializeAndAssert(multimap.get("foo"));
     LenientSerializableTester.reserializeAndAssertLenient(multimap.keySet());
-    SerializableTester.reserializeAndAssert(multimap.keys());
+    LenientSerializableTester.reserializeAndAssertLenient(multimap.keys());
     SerializableTester.reserializeAndAssert(multimap.asMap());
     Collection<Integer> valuesCopy
         = SerializableTester.reserialize(multimap.values());

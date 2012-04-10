@@ -192,8 +192,14 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
     }
   }
 
-  static <E> ImmutableList<E> backedBy(E[] elements) {
-    return unsafeDelegateList(Arrays.asList(elements));
+  /**
+   * Views the array as an immutable list.  The array must have only {@code E} elements.
+   *
+   * <p>The array must be internally created.
+   */
+  @SuppressWarnings("unchecked") // caller is reponsible for getting this right
+  static <E> ImmutableList<E> asImmutableList(Object[] elements) {
+    return unsafeDelegateList((List) Arrays.asList(elements));
   }
 
   private static <E> List<E> nullCheckedList(Object... array) {
@@ -237,7 +243,9 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
     return listIterator();
   }
 
-  public abstract ImmutableList<E> subList(int fromIndex, int toIndex);
+  @Override public ImmutableList<E> subList(int fromIndex, int toIndex) {
+    return unsafeDelegateList(Lists.subListImpl(this, fromIndex, toIndex));
+  }
 
   @Override public UnmodifiableListIterator<E> listIterator() {
     return listIterator(0);

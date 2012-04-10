@@ -15,11 +15,8 @@
 package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.annotations.GwtIncompatible;
 
 import java.util.Comparator;
-
-import javax.annotation.Nullable;
 
 /**
  * List returned by {@code ImmutableSortedSet.asList()} when the set isn't empty.
@@ -47,34 +44,10 @@ final class ImmutableSortedAsList<E> extends RegularImmutableAsList<E>
 
   // Override indexOf() and lastIndexOf() to be O(log N) instead of O(N).
 
-  @GwtIncompatible("ImmutableSortedSet.indexOf")
-  // TODO(cpovirk): consider manual binary search under GWT to preserve O(log N) lookup
-  @Override public int indexOf(@Nullable Object target) {
-    int index = delegateCollection().indexOf(target);
-    return (index >= 0 && get(index).equals(target)) ? index : -1;
-  }
-
-  @GwtIncompatible("ImmutableSortedSet.indexOf")
-  @Override public int lastIndexOf(@Nullable Object target) {
-    return indexOf(target);
-  }
-
   @Override
   public boolean contains(Object target) {
     // Necessary for ISS's with comparators inconsistent with equals.
     return indexOf(target) >= 0;
   }
-
-  @GwtIncompatible("super.subListUnchecked does not exist; inherited subList is valid if slow")
-  /*
-   * TODO(cpovirk): if we start to override indexOf/lastIndexOf under GWT, we'll want some way to
-   * override subList to return an ImmutableSortedAsList for better performance. Right now, I'm not
-   * sure there's any performance hit from our failure to override subListUnchecked under GWT
-   */
-  @Override
-  ImmutableList<E> subListUnchecked(int fromIndex, int toIndex) {
-    return new RegularImmutableSortedSet<E>(
-        super.subListUnchecked(fromIndex, toIndex), comparator())
-        .asList();
-  }
 }
+

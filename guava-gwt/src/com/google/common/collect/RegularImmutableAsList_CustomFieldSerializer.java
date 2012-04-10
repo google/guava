@@ -16,35 +16,35 @@
 
 package com.google.common.collect;
 
+import com.google.common.annotations.GwtCompatible;
 import com.google.gwt.user.client.rpc.SerializationException;
 import com.google.gwt.user.client.rpc.SerializationStreamReader;
 import com.google.gwt.user.client.rpc.SerializationStreamWriter;
-import com.google.gwt.user.client.rpc.core.java.util.Collection_CustomFieldSerializerBase;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
- * This class implements the client-side GWT serialization of
- * {@link ImmutableAsList}.
+ * This class implements the server-side GWT serialization of
+ * {@link RegularImmutableAsList}.
  *
  * @author Hayward Chan
  */
-public class ImmutableAsList_CustomFieldSerializer {
+@GwtCompatible(emulated = true)
+public class RegularImmutableAsList_CustomFieldSerializer {
 
   public static void deserialize(SerializationStreamReader reader,
-      RegularImmutableList<?> instance) {
+      RegularImmutableAsList<?> instance) {
   }
 
-  public static ImmutableAsList<Object> instantiate(
+  public static RegularImmutableAsList<Object> instantiate(
       SerializationStreamReader reader) throws SerializationException {
-    List<Object> elements = new ArrayList<Object>();
-    Collection_CustomFieldSerializerBase.deserialize(reader, elements);
-    return new ImmutableAsList<Object>(elements);
+    @SuppressWarnings("unchecked") // serialization is necessarily type unsafe
+    ImmutableCollection<Object> delegateCollection = (ImmutableCollection) reader.readObject();
+    ImmutableList<?> delegateList = (ImmutableList<?>) reader.readObject();
+    return new RegularImmutableAsList<Object>(delegateCollection, delegateList);
   }
 
   public static void serialize(SerializationStreamWriter writer,
-      ImmutableAsList<?> instance) throws SerializationException {
-    Collection_CustomFieldSerializerBase.serialize(writer, instance);
+      RegularImmutableAsList<?> instance) throws SerializationException {
+    writer.writeObject(instance.delegateCollection());
+    writer.writeObject(instance.delegateList());
   }
 }

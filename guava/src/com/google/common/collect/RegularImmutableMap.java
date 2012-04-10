@@ -199,8 +199,7 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
 
     @Override
     ImmutableList<Entry<K, V>> createAsList() {
-      // TODO(user): make this delegate contains calls to the EntrySet
-      return new RegularImmutableList<Entry<K, V>>(entries);
+      return new RegularImmutableAsList<Entry<K, V>>(this, entries);
     }
   }
 

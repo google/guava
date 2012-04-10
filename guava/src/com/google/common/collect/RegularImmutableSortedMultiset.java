@@ -97,24 +97,24 @@ final class RegularImmutableSortedMultiset<E> extends ImmutableSortedMultiset<E>
 
   @Override
   ImmutableSet<Entry<E>> createEntrySet() {
-    return new EntrySet() {
-      @Override
-      public int size() {
-        return entries.size();
-      }
+    return new EntrySet();
+  }
 
-      @Override
-      public UnmodifiableIterator<Entry<E>> iterator() {
-        return asList().iterator();
-      }
+  private class EntrySet extends ImmutableMultiset<E>.EntrySet {
+    @Override
+    public int size() {
+      return entries.size();
+    }
 
-      @SuppressWarnings("unchecked") // upcasting entries is totally safe
-      @Override
-      ImmutableList<Entry<E>> createAsList() {
-        // TODO(user): make this delegate contains() calls to entries
-        return (ImmutableList) entries;
-      }
-    };
+    @Override
+    public UnmodifiableIterator<Entry<E>> iterator() {
+      return asList().iterator();
+    }
+
+    @Override
+    ImmutableList<Entry<E>> createAsList() {
+      return new RegularImmutableAsList<Entry<E>>(this, entries);
+    }
   }
 
   @Override

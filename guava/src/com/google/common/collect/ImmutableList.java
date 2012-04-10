@@ -279,9 +279,12 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
     }
   }
 
-  private static <E> ImmutableList<E> copyFromCollection(
-      Collection<? extends E> collection) {
-    Object[] elements = collection.toArray();
+  /**
+   * Views the array as an immutable list.  The array must have only {@code E} elements.
+   *
+   * <p>The array must be internally created.
+   */
+  static <E> ImmutableList<E> asImmutableList(Object[] elements) {
     switch (elements.length) {
       case 0:
         return of();
@@ -290,10 +293,13 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
         ImmutableList<E> list = new SingletonImmutableList<E>((E) elements[0]);
         return list;
       default:
-        // safe to use the array without copying it
-        // as specified by Collection.toArray().
         return construct(elements);
     }
+  }
+
+  private static <E> ImmutableList<E> copyFromCollection(
+      Collection<? extends E> collection) {
+    return asImmutableList(collection.toArray());
   }
 
   /** {@code elements} has to be internally created array. */

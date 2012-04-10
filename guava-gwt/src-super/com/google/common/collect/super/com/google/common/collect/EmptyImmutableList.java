@@ -18,6 +18,8 @@ package com.google.common.collect;
 
 import static java.util.Collections.emptyList;
 
+import java.util.List;
+
 /**
  * GWT emulated version of EmptyImmutableList.
  *
@@ -26,7 +28,10 @@ import static java.util.Collections.emptyList;
 final class EmptyImmutableList extends ForwardingImmutableList<Object> {
   static final EmptyImmutableList INSTANCE = new EmptyImmutableList();
 
-  EmptyImmutableList() {
-    super(emptyList());
+  private EmptyImmutableList() {
+  }
+
+  @Override List<Object> delegateList() {
+    return emptyList();
   }
 }

@@ -72,29 +72,35 @@ class RegularImmutableMultiset<E> extends ImmutableMultiset<E> {
 
   @Override
   ImmutableSet<Entry<E>> createEntrySet() {
-    return new EntrySet() {
-      @Override
-      public int size() {
-        return map.size();
-      }
+    return new EntrySet();
+  }
 
-      @Override
-      public UnmodifiableIterator<Entry<E>> iterator() {
-        return asList().iterator();
-      }
+  private class EntrySet extends ImmutableMultiset<E>.EntrySet {
+    @Override
+    public int size() {
+      return map.size();
+    }
 
-      @Override
-      ImmutableList<Entry<E>> createAsList() {
-        // TODO(user): make this delegate contains() calls to EntrySet
-        final ImmutableList<Map.Entry<E, Integer>> entryList = map.entrySet().asList();
-        return new TransformedImmutableList<Map.Entry<E, Integer>, Entry<E>>(entryList) {
-          @Override
-          Entry<E> transform(Map.Entry<E, Integer> entry) {
-            return entryFromMapEntry(entry);
-          }
-        };
-      }
-    };
+    @Override
+    public UnmodifiableIterator<Entry<E>> iterator() {
+      return asList().iterator();
+    }
+
+    @Override
+    ImmutableList<Entry<E>> createAsList() {
+      final ImmutableList<Map.Entry<E, Integer>> entryList = map.entrySet().asList();
+      return new ImmutableAsList<Entry<E>>() {
+        @Override
+        public Entry<E> get(int index) {
+          return entryFromMapEntry(entryList.get(index));
+        }
+
+        @Override
+        ImmutableCollection<Entry<E>> delegateCollection() {
+          return EntrySet.this;
+        }
+      };
+    }
   }
 
   @Override

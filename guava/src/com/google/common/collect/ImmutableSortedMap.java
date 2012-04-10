@@ -482,9 +482,7 @@ public class ImmutableSortedMap<K, V>
 
     @Override
     ImmutableList<Entry<K, V>> createAsList() {
-      // TODO(user): make the returned list delegate to the entrySet for contains checks
-      // can't do it right now without rewriting ImmutableAsList
-      return entries;
+      return new RegularImmutableAsList<Entry<K, V>>(this, entries);
     }
   }
 

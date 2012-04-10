@@ -19,7 +19,6 @@ package com.google.common.collect;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import java.io.Serializable;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
@@ -131,9 +130,7 @@ public abstract class ImmutableCollection<E>
       case 1:
         return ImmutableList.of(iterator().next());
       default:
-        @SuppressWarnings("unchecked")
-        E[] castedArray = (E[]) toArray();
-        return new ImmutableAsList<E>(Arrays.asList(castedArray));
+        return new RegularImmutableAsList<E>(this, toArray());
     }
   }
   static <E> ImmutableCollection<E> unsafeDelegate(Collection<E> delegate) {

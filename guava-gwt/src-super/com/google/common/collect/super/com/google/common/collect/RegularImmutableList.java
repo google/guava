@@ -16,6 +16,8 @@
 
 package com.google.common.collect;
 
+import static java.util.Collections.unmodifiableList;
+
 import java.util.List;
 
 /**
@@ -24,7 +26,14 @@ import java.util.List;
  * @author Hayward Chan
  */
 class RegularImmutableList<E> extends ForwardingImmutableList<E> {
+  private final List<E> delegate;
+
   RegularImmutableList(List<E> delegate) {
-    super(delegate);
+    // TODO(cpovirk): avoid redundant unmodifiableList wrapping
+    this.delegate = unmodifiableList(delegate);
+  }
+
+  @Override List<E> delegateList() {
+    return delegate;
   }
 }

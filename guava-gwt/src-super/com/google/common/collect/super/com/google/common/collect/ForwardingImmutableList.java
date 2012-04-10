@@ -17,7 +17,6 @@
 package com.google.common.collect;
 
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Nullable;
@@ -28,78 +27,76 @@ import javax.annotation.Nullable;
  *
  * @author Hayward Chan
  */
-@SuppressWarnings("serial") // we're overriding default serialization
 public abstract class ForwardingImmutableList<E> extends ImmutableList<E> {
 
-  private final transient List<E> delegate;
-
-  ForwardingImmutableList(List<E> delegate) {
-    this.delegate = Collections.unmodifiableList(delegate);
+  ForwardingImmutableList() {
   }
 
+  abstract List<E> delegateList();
+
   public int indexOf(@Nullable Object object) {
-    return delegate.indexOf(object);
+    return delegateList().indexOf(object);
   }
 
   public int lastIndexOf(@Nullable Object object) {
-    return delegate.lastIndexOf(object);
+    return delegateList().lastIndexOf(object);
   }
 
   public E get(int index) {
-    return delegate.get(index);
+    return delegateList().get(index);
   }
 
   public ImmutableList<E> subList(int fromIndex, int toIndex) {
-    return unsafeDelegateList(delegate.subList(fromIndex, toIndex));
+    return unsafeDelegateList(delegateList().subList(fromIndex, toIndex));
   }
 
   public UnmodifiableListIterator<E> listIterator() {
-    return Iterators.unmodifiableListIterator(delegate.listIterator());
+    return Iterators.unmodifiableListIterator(delegateList().listIterator());
   }
 
   public UnmodifiableListIterator<E> listIterator(int index) {
-    return Iterators.unmodifiableListIterator(delegate.listIterator(index));
+    return Iterators.unmodifiableListIterator(delegateList().listIterator(index));
   }
 
   @Override public Object[] toArray() {
     // Note that ArrayList.toArray() doesn't work here because it returns E[]
     // instead of Object[].
-    return delegate.toArray(new Object[size()]);
+    return delegateList().toArray(new Object[size()]);
   }
 
   @Override public boolean equals(Object obj) {
-    return delegate.equals(obj);
+    return delegateList().equals(obj);
   }
 
   @Override public int hashCode() {
-    return delegate.hashCode();
+    return delegateList().hashCode();
   }
 
   @Override public UnmodifiableIterator<E> iterator() {
-    return Iterators.unmodifiableIterator(delegate.iterator());
+    return Iterators.unmodifiableIterator(delegateList().iterator());
   }
 
   @Override public boolean contains(@Nullable Object object) {
-    return object != null && delegate.contains(object);
+    return object != null && delegateList().contains(object);
   }
 
   @Override public boolean containsAll(Collection<?> targets) {
-    return delegate.containsAll(targets);
+    return delegateList().containsAll(targets);
   }
 
   public int size() {
-    return delegate.size();
+    return delegateList().size();
   }
 
   @Override public boolean isEmpty() {
-    return delegate.isEmpty();
+    return delegateList().isEmpty();
   }
 
   @Override public <T> T[] toArray(T[] other) {
-    return delegate.toArray(other);
+    return delegateList().toArray(other);
   }
 
   @Override public String toString() {
-    return delegate.toString();
+    return delegateList().toString();
   }
 }
