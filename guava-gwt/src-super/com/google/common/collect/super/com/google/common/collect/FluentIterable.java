@@ -25,7 +25,8 @@ import com.google.common.base.Predicate;
 
 import java.util.Comparator;
 import java.util.Iterator;
-import java.util.NoSuchElementException;
+import java.util.List;
+import java.util.SortedSet;
 
 import javax.annotation.Nullable;
 
@@ -213,10 +214,36 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    *     {@link Iterables#getLast} instead.
    */
   public final Optional<E> last() {
-    try {
-      return Optional.of(Iterables.getLast(iterable));
-    } catch (NoSuchElementException e) {
+    // Iterables#getLast was inlined here so we don't have to throw/catch a NSEE
+
+    // TODO(kevinb): Support a concurrently modified collection?
+    if (iterable instanceof List) {
+      List<E> list = (List<E>) iterable;
+      if (list.isEmpty()) {
+        return Optional.absent();
+      }
+      return Optional.of(list.get(list.size() - 1));
+    }
+    Iterator<E> iterator = iterable.iterator();
+    if (!iterator.hasNext()) {
       return Optional.absent();
+    }
+
+    /*
+     * TODO(kevinb): consider whether this "optimization" is worthwhile. Users
+     * with SortedSets tend to know they are SortedSets and probably would not
+     * call this method.
+     */
+    if (iterable instanceof SortedSet) {
+      SortedSet<E> sortedSet = (SortedSet<E>) iterable;
+      return Optional.of(sortedSet.last());
+    }
+
+    while (true) {
+      E current = iterator.next();
+      if (!iterator.hasNext()) {
+        return Optional.of(current);
+      }
     }
   }
 
