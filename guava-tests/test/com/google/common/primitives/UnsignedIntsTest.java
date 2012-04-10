@@ -1,11 +1,11 @@
 /*
  * Copyright (C) 2011 The Guava Authors
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software distributed under the
  * License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
  * express or implied. See the License for the specific language governing permissions and
@@ -24,7 +24,7 @@ import java.util.Random;
 
 /**
  * Tests for UnsignedInts
- * 
+ *
  * @author Louis Wasserman
  */
 @GwtCompatible(emulated = true)
@@ -163,6 +163,19 @@ public class UnsignedIntsTest extends TestCase {
         assertEquals(UnsignedInts.toString((int) a, base), Long.toString(a, base));
       }
     }
+  }
+
+  public void testJoin() {
+    assertEquals("", join());
+    assertEquals("1", join(1));
+    assertEquals("1,2", join(1, 2));
+    assertEquals("4294967295,2147483648", join(-1, Integer.MIN_VALUE));
+
+    assertEquals("123", UnsignedInts.join("", 1, 2, 3));
+  }
+
+  private static String join(int... values) {
+    return UnsignedInts.join(",", values);
   }
 
   @GwtIncompatible("NullPointerTester")

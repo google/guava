@@ -1,11 +1,11 @@
 /*
  * Copyright (C) 2011 The Guava Authors
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software distributed under the
  * License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
  * express or implied. See the License for the specific language governing permissions and
@@ -29,19 +29,19 @@ import java.util.Comparator;
  * <i>unsigned</i> (that is, any negative value {@code x} is treated as the positive value
  * {@code 2^64 + x}). The methods for which signedness is not an issue are in {@link Longs}, as
  * well as signed versions of methods for which signedness is an issue.
- * 
+ *
  * <p>In addition, this class provides several static methods for converting a {@code long} to a
  * {@code String} and a {@code String} to a {@code long} that treat the {@code long} as an unsigned
  * number.
- * 
+ *
  * <p>Users of these utilities must be <i>extremely careful</i> not to mix up signed and unsigned
- * {@code long} values. When possible, it is recommended that the {@link UnsignedLong} wrapper 
+ * {@code long} values. When possible, it is recommended that the {@link UnsignedLong} wrapper
  * class be used, at a small efficiency penalty, to enforce the distinction in the type system.
- * 
+ *
  * <p>See the Guava User Guide article on <a href=
  * "http://code.google.com/p/guava-libraries/wiki/PrimitivesExplained#Unsigned_support">
  * unsigned primitive utilities</a>.
- * 
+ *
  * @author Louis Wasserman
  * @author Brian Milch
  * @author Colin Evans
@@ -66,7 +66,7 @@ public final class UnsignedLongs {
   /**
    * Compares the two specified {@code long} values, treating them as unsigned values between
    * {@code 0} and {@code 2^64 - 1} inclusive.
-   * 
+   *
    * @param a the first unsigned {@code long} to compare
    * @param b the second unsigned {@code long} to compare
    * @return a negative value if {@code a} is less than {@code b}; a positive value if {@code a} is
@@ -78,7 +78,7 @@ public final class UnsignedLongs {
 
   /**
    * Returns the least value present in {@code array}, treating values as unsigned.
-   * 
+   *
    * @param array a <i>nonempty</i> array of unsigned {@code long} values
    * @return the value present in {@code array} that is less than or equal to every other value in
    *         the array according to {@link #compare}
@@ -98,7 +98,7 @@ public final class UnsignedLongs {
 
   /**
    * Returns the greatest value present in {@code array}, treating values as unsigned.
-   * 
+   *
    * @param array a <i>nonempty</i> array of unsigned {@code long} values
    * @return the value present in {@code array} that is greater than or equal to every other value
    *         in the array according to {@link #compare}
@@ -119,7 +119,7 @@ public final class UnsignedLongs {
   /**
    * Returns a string containing the supplied unsigned {@code long} values separated by
    * {@code separator}. For example, {@code join("-", 1, 2, 3)} returns the string {@code "1-2-3"}.
-   * 
+   *
    * @param separator the text that should appear between consecutive values in the resulting
    *        string (but not at the start or end)
    * @param array an array of unsigned {@code long} values, possibly empty
@@ -132,7 +132,7 @@ public final class UnsignedLongs {
 
     // For pre-sizing a builder, just get the right order of magnitude
     StringBuilder builder = new StringBuilder(array.length * 5);
-    builder.append(array[0]);
+    builder.append(toString(array[0]));
     for (int i = 1; i < array.length; i++) {
       builder.append(separator).append(toString(array[i]));
     }
@@ -144,11 +144,11 @@ public final class UnsignedLongs {
    * lexicographically. That is, it compares, using {@link #compare(long, long)}), the first pair of
    * values that follow any common prefix, or when one array is a prefix of the other, treats the
    * shorter array as the lesser. For example, {@code [] < [1L] < [1L, 2L] < [2L] < [1L << 63]}.
-   * 
+   *
    * <p>The returned comparator is inconsistent with {@link Object#equals(Object)} (since arrays
    * support only identity equality), but it is consistent with
    * {@link Arrays#equals(long[], long[])}.
-   * 
+   *
    * @see <a href="http://en.wikipedia.org/wiki/Lexicographical_order">Lexicographical order
    *      article at Wikipedia</a>
    */
@@ -174,7 +174,7 @@ public final class UnsignedLongs {
   /**
    * Returns dividend / divisor, where the dividend and divisor are treated as unsigned 64-bit
    * quantities.
-   * 
+   *
    * @param dividend the dividend (numerator)
    * @param divisor the divisor (denominator)
    * @throws ArithmeticException if divisor is 0
@@ -207,7 +207,7 @@ public final class UnsignedLongs {
   /**
    * Returns dividend % divisor, where the dividend and divisor are treated as unsigned 64-bit
    * quantities.
-   * 
+   *
    * @param dividend the dividend (numerator)
    * @param divisor the divisor (denominator)
    * @throws ArithmeticException if divisor is 0
@@ -240,7 +240,7 @@ public final class UnsignedLongs {
 
   /**
    * Returns the unsigned {@code long} value represented by the given decimal string.
-   * 
+   *
    * @throws NumberFormatException if the string does not contain a valid unsigned {@code long}
    *         value
    */
@@ -250,7 +250,7 @@ public final class UnsignedLongs {
 
   /**
    * Returns the unsigned {@code long} value represented by a string with the given radix.
-   * 
+   *
    * @param s the string containing the unsigned {@code long} representation to be parsed.
    * @param radix the radix to use while parsing {@code s}
    * @throws NumberFormatException if the string does not contain a valid unsigned {@code long}
@@ -314,7 +314,7 @@ public final class UnsignedLongs {
   /**
    * Returns a string representation of {@code x} for the given radix, where {@code x} is treated
    * as unsigned.
-   * 
+   *
    * @param x the value to convert to a string.
    * @param radix the radix to use while working with {@code x}
    * @throws IllegalArgumentException if {@code radix} is not between {@link Character#MIN_RADIX}
