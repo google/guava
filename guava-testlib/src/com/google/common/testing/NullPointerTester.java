@@ -80,11 +80,23 @@ public final class NullPointerTester {
   }
 
   /**
-   * Ignore a member (constructor or method) in testAllXxx methods. Returns
-   * this object.
+   * Ignore {@code member} in the tests that follow. Returns this object.
+   * @deprecated Use {@link #ignore(Method)} instead. This method will be
+   *     removed from Guava in Guava release 13.0.
    */
+  @Deprecated
   public NullPointerTester ignore(Member member) {
     ignoredMembers.add(member);
+    return this;
+  }
+
+  /**
+   * Ignore {@code method} in the tests that follow. Returns this object.
+   *
+   * @since 13.0
+   */
+  public NullPointerTester ignore(Method method) {
+    ignoredMembers.add(method);
     return this;
   }
 
