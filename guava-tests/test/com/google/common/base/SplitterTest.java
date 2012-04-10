@@ -340,6 +340,22 @@ public class SplitterTest extends TestCase {
   }
 
   @GwtIncompatible("java.util.regex.Pattern")
+  public void testPatternSplitLookBehind() {
+    String toSplit = ":foo::barbaz:";
+    String regexPattern = "(?<=:)";
+    Iterable<String> split = Splitter.onPattern(regexPattern).split(toSplit);
+    ASSERT.that(split).hasContentsInOrder(":", "foo:", ":", "barbaz:");
+    // splits into chunks ending in :
+  }
+
+  @GwtIncompatible("java.util.regex.Pattern")
+  public void testPatternSplitWordBoundary() {
+    String string = "foo<bar>bletch";
+    Iterable<String> words = Splitter.on(Pattern.compile("\\b")).split(string);
+    ASSERT.that(words).hasContentsInOrder("foo", "<", "bar", ">", "bletch");
+  }
+
+  @GwtIncompatible("java.util.regex.Pattern")
   public void testPatternSplitEmptyToken() {
     String emptyToken = "a. .c";
     Iterable<String> letters = Splitter.on(literalDotPattern()).trimResults().split(emptyToken);
