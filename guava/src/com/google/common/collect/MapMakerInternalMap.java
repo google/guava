@@ -606,7 +606,7 @@ class MapMakerInternalMap<K, V>
     /**
      * Creates a copy of this reference for the given entry.
      */
-    ValueReference<K, V> copyFor(ReferenceQueue<V> queue, ReferenceEntry<K, V> entry);
+    ValueReference<K, V> copyFor(ReferenceQueue<V> queue, V value, ReferenceEntry<K, V> entry);
 
     /**
      * Clears this reference object.
@@ -640,7 +640,7 @@ class MapMakerInternalMap<K, V>
 
     @Override
     public ValueReference<Object, Object> copyFor(
-        ReferenceQueue<Object> queue, ReferenceEntry<Object, Object> entry) {
+        ReferenceQueue<Object> queue, Object value, ReferenceEntry<Object, Object> entry) {
       return this;
     }
 
@@ -1756,8 +1756,8 @@ class MapMakerInternalMap<K, V>
 
     @Override
     public ValueReference<K, V> copyFor(
-        ReferenceQueue<V> queue, ReferenceEntry<K, V> entry) {
-      return new WeakValueReference<K, V>(queue, get(), entry);
+        ReferenceQueue<V> queue, V value, ReferenceEntry<K, V> entry) {
+      return new WeakValueReference<K, V>(queue, value, entry);
     }
 
     @Override
@@ -1794,8 +1794,9 @@ class MapMakerInternalMap<K, V>
     }
 
     @Override
-    public ValueReference<K, V> copyFor(ReferenceQueue<V> queue, ReferenceEntry<K, V> entry) {
-      return new SoftValueReference<K, V>(queue, get(), entry);
+    public ValueReference<K, V> copyFor(
+        ReferenceQueue<V> queue, V value, ReferenceEntry<K, V> entry) {
+      return new SoftValueReference<K, V>(queue, value, entry);
     }
 
     @Override
@@ -1830,7 +1831,8 @@ class MapMakerInternalMap<K, V>
     }
 
     @Override
-    public ValueReference<K, V> copyFor(ReferenceQueue<V> queue, ReferenceEntry<K, V> entry) {
+    public ValueReference<K, V> copyFor(
+        ReferenceQueue<V> queue, V value, ReferenceEntry<K, V> entry) {
       return this;
     }
 
@@ -2179,11 +2181,26 @@ class MapMakerInternalMap<K, V>
       return map.entryFactory.newEntry(this, key, hash, next);
     }
 
+    /**
+     * Copies {@code original} into a new entry chained to {@code newNext}. Returns the new entry,
+     * or {@code null} if {@code original} was already garbage collected.
+     */
     @GuardedBy("Segment.this")
     ReferenceEntry<K, V> copyEntry(ReferenceEntry<K, V> original, ReferenceEntry<K, V> newNext) {
+      if (original.getKey() == null) {
+        // key collected
+        return null;
+      }
+
       ValueReference<K, V> valueReference = original.getValueReference();
+      V value = valueReference.get();
+      if ((value == null) && !valueReference.isComputingReference()) {
+        // value collected
+        return null;
+      }
+
       ReferenceEntry<K, V> newEntry = map.entryFactory.copyEntry(this, original, newNext);
-      newEntry.setValueReference(valueReference.copyFor(this.valueReferenceQueue, newEntry));
+      newEntry.setValueReference(valueReference.copyFor(this.valueReferenceQueue, value, newEntry));
       return newEntry;
     }
 
@@ -2652,14 +2669,14 @@ class MapMakerInternalMap<K, V>
 
             // Clone nodes leading up to the tail.
             for (ReferenceEntry<K, V> e = head; e != tail; e = e.getNext()) {
-              if (isCollected(e)) {
+              int newIndex = e.getHash() & newMask;
+              ReferenceEntry<K, V> newNext = newTable.get(newIndex);
+              ReferenceEntry<K, V> newFirst = copyEntry(e, newNext);
+              if (newFirst != null) {
+                newTable.set(newIndex, newFirst);
+              } else {
                 removeCollectedEntry(e);
                 newCount--;
-              } else {
-                int newIndex = e.getHash() & newMask;
-                ReferenceEntry<K, V> newNext = newTable.get(newIndex);
-                ReferenceEntry<K, V> newFirst = copyEntry(e, newNext);
-                newTable.set(newIndex, newFirst);
               }
             }
           }
@@ -2902,11 +2919,12 @@ class MapMakerInternalMap<K, V>
       int newCount = count;
       ReferenceEntry<K, V> newFirst = entry.getNext();
       for (ReferenceEntry<K, V> e = first; e != entry; e = e.getNext()) {
-        if (isCollected(e)) {
+        ReferenceEntry<K, V> next = copyEntry(e, newFirst);
+        if (next != null) {
+          newFirst = next;
+        } else {
           removeCollectedEntry(e);
           newCount--;
-        } else {
-          newFirst = copyEntry(e, newFirst);
         }
       }
       this.count = newCount;

@@ -1856,7 +1856,8 @@ public class MapMakerInternalMapTest extends TestCase {
     }
 
     @Override
-    public ValueReference<K, V> copyFor(ReferenceQueue<V> queue, ReferenceEntry<K, V> entry) {
+    public ValueReference<K, V> copyFor(
+        ReferenceQueue<V> queue, V value, ReferenceEntry<K, V> entry) {
       return new DummyValueReference<K, V>(value, entry);
     }
 
