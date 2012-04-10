@@ -224,11 +224,4 @@ public class StopwatchTest extends TestCase {
     assertEquals("5.000 s", stopwatch.toString());
   }
 
-  @GwtIncompatible("GWT is at millisecond granularity")
-  public void testDefault() {
-    // By default System.nanoTime() is used as the time source
-    long value = new Stopwatch().start().elapsedTime(NANOSECONDS);
-    assertTrue(value > 0);
-    // There isn't much else we can test about this
-  }
 }
