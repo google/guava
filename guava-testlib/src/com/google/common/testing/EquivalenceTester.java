@@ -47,7 +47,7 @@ import java.util.List;
  * </pre>
  *
  * <p>
- * Note that testing {@link Objects#equals(Object)} is more simply done using
+ * Note that testing {@link Object#equals(Object)} is more simply done using
  * the {@link EqualsTester}. It includes an extra test against an instance of an
  * arbitrary class without having to explicitly add another equivalence group.
  *

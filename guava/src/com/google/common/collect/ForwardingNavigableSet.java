@@ -28,21 +28,21 @@ import javax.annotation.Nullable;
  * A navigable set which forwards all its method calls to another navigable set. Subclasses should
  * override one or more methods to modify the behavior of the backing set as desired per the <a
  * href="http://en.wikipedia.org/wiki/Decorator_pattern">decorator pattern</a>.
- * 
+ *
  * <p><i>Warning:</i> The methods of {@code ForwardingNavigableSet} forward <i>indiscriminately</i>
  * to the methods of the delegate. For example, overriding {@link #add} alone <i>will not</i>
  * change the behavior of {@link #addAll}, which can lead to unexpected behavior. In this case, you
  * should override {@code addAll} as well, either providing your own implementation, or delegating
  * to the provided {@code standardAddAll} method.
- * 
+ *
  * <p>Each of the {@code standard} methods uses the set's comparator (or the natural ordering of
  * the elements, if there is no comparator) to test element equality. As a result, if the
  * comparator is not consistent with equals, some of the standard implementations may violate the
  * {@code Set} contract.
- * 
+ *
  * <p>The {@code standard} methods and the collection views they return are not guaranteed to be
  * thread-safe, even when all of the methods that they depend on are thread-safe.
- * 
+ *
  * @author Louis Wasserman
  * @since 12.0
  */
@@ -52,7 +52,7 @@ public abstract class ForwardingNavigableSet<E>
 
   /** Constructor for use by subclasses. */
   protected ForwardingNavigableSet() {}
-  
+
   @Override
   protected abstract NavigableSet<E> delegate();
 
@@ -83,7 +83,7 @@ public abstract class ForwardingNavigableSet<E>
   protected E standardFloor(E e) {
     return Iterators.getNext(headSet(e, true).descendingIterator(), null);
   }
-  
+
   @Override
   public E ceiling(E e) {
     return delegate().ceiling(e);
@@ -143,23 +143,23 @@ public abstract class ForwardingNavigableSet<E>
   protected E standardFirst() {
     return iterator().next();
   }
-  
+
   protected E standardLast() {
     return descendingIterator().next();
   }
-  
+
   @Override
   public NavigableSet<E> descendingSet() {
     return delegate().descendingSet();
   }
-  
+
   /**
-   * A sensible implementation of {@link #descendingSet} in terms of the other methods of
-   * {@link NavigableSet}, notably including {@link NavigableSet#descendingIterator}.
-   * 
-   * <p>In many cases, you may wish to override {@link #descendingSet} to forward to this
-   * implementation or a subclass thereof.
-   * 
+   * A sensible implementation of {@link NavigableSet#descendingSet} in terms of the other methods
+   * of {@link NavigableSet}, notably including {@link NavigableSet#descendingIterator}.
+   *
+   * <p>In many cases, you may wish to override {@link ForwardingNavigableSet#descendingSet} to
+   * forward to this implementation or a subclass thereof.
+   *
    * @since 12.0
    */
   @Beta
@@ -212,7 +212,7 @@ public abstract class ForwardingNavigableSet<E>
   public NavigableSet<E> headSet(E toElement, boolean inclusive) {
     return delegate().headSet(toElement, inclusive);
   }
-  
+
   /**
    * A sensible definition of {@link #headSet(Object)} in terms of the
    * {@link #headSet(Object, boolean)} method. If you override

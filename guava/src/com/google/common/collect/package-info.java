@@ -151,7 +151,6 @@
  * <li>{@link com.google.common.collect.Sets}
  * <li>{@link com.google.common.collect.Multisets}
  * <li>{@link com.google.common.collect.Multimaps}
- * <li>{@link com.google.common.collect.SortedMaps}
  * <li>{@link com.google.common.collect.Tables}
  * <li>{@link com.google.common.collect.ObjectArrays}
  * </ul>
