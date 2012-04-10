@@ -486,7 +486,7 @@ public class LocalCacheTest extends TestCase {
     int index = hash & (table.length() - 1);
 
     DummyEntry<Object, Object> entry = DummyEntry.create(key, hash, null);
-    DummyValueReference<Object, Object> valueRef = DummyValueReference.create(value, entry);
+    DummyValueReference<Object, Object> valueRef = DummyValueReference.create(value);
     entry.setValueReference(valueRef);
     table.set(index, entry);
     segment.count++;
@@ -515,7 +515,7 @@ public class LocalCacheTest extends TestCase {
     int index = hash & (table.length() - 1);
 
     DummyEntry<Object, Object> entry = DummyEntry.create(key, hash, null);
-    DummyValueReference<Object, Object> valueRef = DummyValueReference.create(value, entry);
+    DummyValueReference<Object, Object> valueRef = DummyValueReference.create(value);
     entry.setValueReference(valueRef);
     table.set(index, entry);
     segment.count++;
@@ -714,7 +714,7 @@ public class LocalCacheTest extends TestCase {
 
     // already loading
     DummyEntry<Object, Object> entry = DummyEntry.create(key, hash, null);
-    DummyValueReference<Object, Object> valueRef = DummyValueReference.create(null, entry);
+    DummyValueReference<Object, Object> valueRef = DummyValueReference.create(null);
     valueRef.setLoading(true);
     entry.setValueReference(valueRef);
     table.set(index, entry);
@@ -1052,7 +1052,7 @@ public class LocalCacheTest extends TestCase {
     int index = hash & (table.length() - 1);
 
     DummyEntry<Object, Object> entry = DummyEntry.create(key, hash, null);
-    DummyValueReference<Object, Object> oldValueRef = DummyValueReference.create(oldValue, entry);
+    DummyValueReference<Object, Object> oldValueRef = DummyValueReference.create(oldValue);
     entry.setValueReference(oldValueRef);
 
     // no entry
@@ -1096,7 +1096,7 @@ public class LocalCacheTest extends TestCase {
     int index = hash & (table.length() - 1);
 
     DummyEntry<Object, Object> entry = DummyEntry.create(key, hash, null);
-    DummyValueReference<Object, Object> oldValueRef = DummyValueReference.create(oldValue, entry);
+    DummyValueReference<Object, Object> oldValueRef = DummyValueReference.create(oldValue);
     entry.setValueReference(oldValueRef);
 
     // no entry
@@ -1144,7 +1144,7 @@ public class LocalCacheTest extends TestCase {
 
     // cleared
     ReferenceEntry<Object, Object> entry = segment.getEntry(key, hash);
-    DummyValueReference<Object, Object> oldValueRef = DummyValueReference.create(oldValue, entry);
+    DummyValueReference<Object, Object> oldValueRef = DummyValueReference.create(oldValue);
     entry.setValueReference(oldValueRef);
     assertSame(oldValue, segment.get(key, hash));
     oldValueRef.clear();
@@ -1176,7 +1176,7 @@ public class LocalCacheTest extends TestCase {
 
     // cleared
     ReferenceEntry<Object, Object> entry = segment.getEntry(key, hash);
-    DummyValueReference<Object, Object> oldValueRef = DummyValueReference.create(oldValue, entry);
+    DummyValueReference<Object, Object> oldValueRef = DummyValueReference.create(oldValue);
     entry.setValueReference(oldValueRef);
     assertSame(oldValue, segment.get(key, hash));
     oldValueRef.clear();
@@ -1272,7 +1272,7 @@ public class LocalCacheTest extends TestCase {
 
     // replaced
     Object value4 = new Object();
-    DummyValueReference<Object, Object> value3Ref = DummyValueReference.create(value3, entry);
+    DummyValueReference<Object, Object> value3Ref = DummyValueReference.create(value3);
     valueRef = new LoadingValueReference<Object, Object>(value3Ref);
     entry.setValueReference(valueRef);
     table.set(index, entry);
@@ -1312,7 +1312,7 @@ public class LocalCacheTest extends TestCase {
     int index = hash & (table.length() - 1);
 
     DummyEntry<Object, Object> entry = DummyEntry.create(key, hash, null);
-    DummyValueReference<Object, Object> oldValueRef = DummyValueReference.create(oldValue, entry);
+    DummyValueReference<Object, Object> oldValueRef = DummyValueReference.create(oldValue);
     entry.setValueReference(oldValueRef);
 
     // no entry
@@ -1352,7 +1352,7 @@ public class LocalCacheTest extends TestCase {
     int index = hash & (table.length() - 1);
 
     DummyEntry<Object, Object> entry = DummyEntry.create(key, hash, null);
-    DummyValueReference<Object, Object> oldValueRef = DummyValueReference.create(oldValue, entry);
+    DummyValueReference<Object, Object> oldValueRef = DummyValueReference.create(oldValue);
     entry.setValueReference(oldValueRef);
 
     // no entry
@@ -1536,7 +1536,7 @@ public class LocalCacheTest extends TestCase {
       }
       // chain all entries together as we only have a single bucket
       entry = DummyEntry.create(key, hash, entry);
-      ValueReference<Object, Object> valueRef = DummyValueReference.create(value, entry);
+      ValueReference<Object, Object> valueRef = DummyValueReference.create(value);
       entry.setValueReference(valueRef);
     }
     segment.table.set(0, entry);
@@ -1694,7 +1694,7 @@ public class LocalCacheTest extends TestCase {
     Object value = new Object();
     int hash = map.hash(key);
     DummyEntry<Object, Object> entry = DummyEntry.create(key, hash, null);
-    DummyValueReference<Object, Object> valueRef = DummyValueReference.create(value, entry);
+    DummyValueReference<Object, Object> valueRef = DummyValueReference.create(value);
     entry.setValueReference(valueRef);
 
     // reclaim absent
@@ -1716,7 +1716,7 @@ public class LocalCacheTest extends TestCase {
 
     // reclaim wrong value reference
     table.set(0, entry);
-    DummyValueReference<Object, Object> otherValueRef = DummyValueReference.create(value, entry);
+    DummyValueReference<Object, Object> otherValueRef = DummyValueReference.create(value);
     entry.setValueReference(otherValueRef);
     assertFalse(segment.reclaimValue(key, hash, valueRef));
     assertEquals(1, listener.getCount());
@@ -1757,7 +1757,7 @@ public class LocalCacheTest extends TestCase {
 
     // active
     Object value = new Object();
-    DummyValueReference<Object, Object> previousRef = DummyValueReference.create(value, entry);
+    DummyValueReference<Object, Object> previousRef = DummyValueReference.create(value);
     valueRef = new LoadingValueReference<Object, Object>(previousRef);
     entry.setValueReference(valueRef);
     table.set(0, entry);
@@ -1768,7 +1768,7 @@ public class LocalCacheTest extends TestCase {
 
     // wrong value reference
     table.set(0, entry);
-    DummyValueReference<Object, Object> otherValueRef = DummyValueReference.create(value, entry);
+    DummyValueReference<Object, Object> otherValueRef = DummyValueReference.create(value);
     entry.setValueReference(otherValueRef);
     assertFalse(segment.removeLoadingValue(key, hash, valueRef));
     entry.setValueReference(valueRef);
@@ -2475,7 +2475,7 @@ public class LocalCacheTest extends TestCase {
   private static <K, V> DummyEntry<K, V> createDummyEntry(
       K key, int hash, V value, ReferenceEntry<K, V> next) {
     DummyEntry<K, V> entry = DummyEntry.create(key, hash, next);
-    DummyValueReference<K, V> valueRef = DummyValueReference.create(value, entry);
+    DummyValueReference<K, V> valueRef = DummyValueReference.create(value);
     entry.setValueReference(valueRef);
     return entry;
   }
@@ -2600,26 +2600,23 @@ public class LocalCacheTest extends TestCase {
   }
 
   static class DummyValueReference<K, V> implements ValueReference<K, V> {
-    final ReferenceEntry<K, V> entry;
     private V value;
     boolean loading = false;
 
-    public DummyValueReference(ReferenceEntry<K, V> entry) {
-      this(null, entry);
+    public DummyValueReference() {
       this.loading = true;
     }
 
-    public DummyValueReference(V value, ReferenceEntry<K, V> entry) {
+    public DummyValueReference(V value) {
       this.value = value;
-      this.entry = entry;
     }
 
-    public static <K, V> DummyValueReference<K, V> create(V value, ReferenceEntry<K, V> entry) {
-      return new DummyValueReference<K, V>(value, entry);
+    public static <K, V> DummyValueReference<K, V> create(V value) {
+      return new DummyValueReference<K, V>(value);
     }
 
-    public static <K, V> DummyValueReference<K, V> createLoading(ReferenceEntry<K, V> entry) {
-      return new DummyValueReference<K, V>(entry);
+    public static <K, V> DummyValueReference<K, V> createLoading() {
+      return new DummyValueReference<K, V>();
     }
 
     @Override
@@ -2634,12 +2631,13 @@ public class LocalCacheTest extends TestCase {
 
     @Override
     public ReferenceEntry<K, V> getEntry() {
-      return entry;
+      return null;
     }
 
     @Override
-    public ValueReference<K, V> copyFor(ReferenceQueue<V> queue, ReferenceEntry<K, V> entry) {
-      return new DummyValueReference<K, V>(value, entry);
+    public ValueReference<K, V> copyFor(
+        ReferenceQueue<V> queue, V value, ReferenceEntry<K, V> entry) {
+      return this;
     }
 
     public void setLoading(boolean loading) {
