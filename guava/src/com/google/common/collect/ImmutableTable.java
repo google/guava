@@ -33,7 +33,7 @@ import javax.annotation.Nullable;
  * <p><b>Note</b>: Although this class is not final, it cannot be subclassed as
  * it has no public or protected constructors. Thus, instances of this class are
  * guaranteed to be immutable.
- * 
+ *
  * <p>See the Guava User Guide article on <a href=
  * "http://code.google.com/p/guava-libraries/wiki/ImmutableCollectionsExplained">
  * immutable collections</a>.
@@ -106,7 +106,7 @@ public abstract class ImmutableTable<R, C, V> implements Table<R, C, V> {
 
   /**
    * Returns a new builder. The generated builder is equivalent to the builder
-   * created by the {@link Builder#Builder()} constructor.
+   * created by the {@link Builder#ImmutableTable.Builder()} constructor.
    */
   public static final <R, C, V> Builder<R, C, V> builder() {
     return new Builder<R, C, V>();

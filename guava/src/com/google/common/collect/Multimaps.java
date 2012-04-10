@@ -2100,8 +2100,8 @@ public final class Multimaps {
    * <p>The resulting multimap's views have iterators that don't support
    * {@code remove()}, but all other methods are supported by the multimap and
    * its views. When adding a key that doesn't satisfy the predicate, the
-   * multimap's {@code put()}, {@code putAll()}, and {@replaceValues()} methods
-   * throw an {@link IllegalArgumentException}.
+   * multimap's {@code put()}, {@code putAll()}, and {@code replaceValues()}
+   * methods throw an {@link IllegalArgumentException}.
    *
    * <p>When methods such as {@code removeAll()} and {@code clear()} are called on
    * the filtered multimap or its views, only mappings whose keys satisfy the
@@ -2145,8 +2145,8 @@ public final class Multimaps {
    * <p>The resulting multimap's views have iterators that don't support
    * {@code remove()}, but all other methods are supported by the multimap and
    * its views. When adding a value that doesn't satisfy the predicate, the
-   * multimap's {@code put()}, {@code putAll()}, and {@replaceValues()} methods
-   * throw an {@link IllegalArgumentException}.
+   * multimap's {@code put()}, {@code putAll()}, and {@code replaceValues()}
+   * methods throw an {@link IllegalArgumentException}.
    *
    * <p>When methods such as {@code removeAll()} and {@code clear()} are called on
    * the filtered multimap or its views, only mappings whose value satisfy the
@@ -2190,8 +2190,8 @@ public final class Multimaps {
    * <p>The resulting multimap's views have iterators that don't support
    * {@code remove()}, but all other methods are supported by the multimap and
    * its views. When adding a key/value pair that doesn't satisfy the predicate,
-   * multimap's {@code put()}, {@code putAll()}, and {@replaceValues()} methods
-   * throw an {@link IllegalArgumentException}.
+   * multimap's {@code put()}, {@code putAll()}, and {@code replaceValues()}
+   * methods throw an {@link IllegalArgumentException}.
    *
    * <p>When methods such as {@code removeAll()} and {@code clear()} are called on
    * the filtered multimap or its views, only mappings whose keys satisfy the

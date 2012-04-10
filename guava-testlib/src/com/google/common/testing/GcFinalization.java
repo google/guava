@@ -88,7 +88,7 @@ import java.util.concurrent.TimeoutException;
  * }
  * public void testFooLeak() {
  *   GcFinalization.awaitClear(fooWeakRef());
- * }</pre>
+ * }}</pre>
  *
  * <p>This class cannot currently be used to test soft references, since this class does not try to
  * create the memory pressure required to cause soft references to be cleared.

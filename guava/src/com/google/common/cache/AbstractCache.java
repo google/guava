@@ -166,7 +166,7 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
     /**
      * Records the successful load of a new entry. This should be called when a cache request
      * causes an entry to be loaded, and the loading completes successfully. In contrast to
-     * {@link #recordConcurrentMiss}, this method should only be called by the loading thread.
+     * {@link #recordMisses}, this method should only be called by the loading thread.
      *
      * @param loadTime the number of nanoseconds the cache spent computing or retrieving the new
      *     value
@@ -176,7 +176,7 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
     /**
      * Records the failed load of a new entry. This should be called when a cache request causes
      * an entry to be loaded, but an exception is thrown while loading the entry. In contrast to
-     * {@link #recordConcurrentMiss}, this method should only be called by the loading thread.
+     * {@link #recordMisses}, this method should only be called by the loading thread.
      *
      * @param loadTime the number of nanoseconds the cache spent computing or retrieving the new
      *     value prior to an exception being thrown

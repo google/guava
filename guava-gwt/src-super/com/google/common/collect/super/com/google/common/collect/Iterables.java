@@ -593,8 +593,8 @@ public final class Iterables {
   /**
    * Returns the first element in {@code iterable} that satisfies the given
    * predicate; use this method only when such an element is known to exist. If
-   * it is possible that <i>no</i> element will match, use {@link
-   * #tryFind)} or {@link #find(Iterable, Predicate, T)} instead.
+   * it is possible that <i>no</i> element will match, use {@link #tryFind} or
+   * {@link #find(Iterable, Predicate, Object)} instead.
    *
    * @throws NoSuchElementException if no element in {@code iterable} matches
    *     the given predicate
