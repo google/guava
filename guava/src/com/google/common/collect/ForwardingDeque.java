@@ -17,7 +17,6 @@
 package com.google.common.collect;
 
 import com.google.common.annotations.Beta;
-import com.google.common.annotations.GwtCompatible;
 
 import java.util.Deque;
 import java.util.Iterator;
@@ -42,7 +41,6 @@ import java.util.Iterator;
  * @since 12.0
  */
 @Beta
-@GwtCompatible
 public abstract class ForwardingDeque<E> extends ForwardingQueue<E>
     implements Deque<E> {
 

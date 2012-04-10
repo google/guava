@@ -85,7 +85,7 @@ import java.util.Queue;
  * @author Torbjorn Gannholm
  * @since 8.0
  */
-// TODO(kevinb): @GwtCompatible
+// TODO(kevinb): GWT compatibility
 @Beta
 public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
 
