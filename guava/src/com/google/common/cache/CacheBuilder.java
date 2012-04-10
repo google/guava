@@ -76,6 +76,19 @@ import javax.annotation.CheckReturnValue;
  *             }
  *           });}</pre>
  *
+ * Or equivalently, <pre>   {@code
+ *
+ *   // In real life this would come from a command-line flag or config file
+ *   String spec = "maximumSize=10000,expireAfterWrite=10m";
+ *
+ *   LoadingCache<Key, Graph> graphs = CacheBuilder.from(spec)
+ *       .removalListener(MY_LISTENER)
+ *       .build(
+ *           new CacheLoader<Key, Graph>() {
+ *             public Graph load(Key key) throws AnyException {
+ *               return createExpensiveGraph(key);
+ *             }
+ *           });}</pre>
  *
  * <p>The returned cache is implemented as a hash table with similar performance characteristics to
  * {@link ConcurrentHashMap}. It implements all optional operations of the {@link LoadingCache} and
