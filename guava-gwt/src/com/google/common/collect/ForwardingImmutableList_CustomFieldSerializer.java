@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2012 The Guava Authors
+ * Copyright (C) 2009 The Guava Authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,14 +16,10 @@
 
 package com.google.common.collect;
 
-import com.google.common.annotations.GwtCompatible;
-
 /**
- * Unused stub class, unreferenced under Java and manually emulated under GWT.
+ * Even though {@link ForwardingImmutableList} cannot be instantiated, we still
+ * need a custom field serializer. TODO(cpovirk): why?
  *
- * @author Chris Povirk
+ * @author Hayward Chan
  */
-@GwtCompatible(emulated = true)
-abstract class ForwardingImmutableList<E> {
-  private ForwardingImmutableList() {}
-}
+public final class ForwardingImmutableList_CustomFieldSerializer {}

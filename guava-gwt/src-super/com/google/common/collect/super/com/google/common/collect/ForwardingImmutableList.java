@@ -27,7 +27,7 @@ import javax.annotation.Nullable;
  *
  * @author Hayward Chan
  */
-public abstract class ForwardingImmutableList<E> extends ImmutableList<E> {
+abstract class ForwardingImmutableList<E> extends ImmutableList<E> {
 
   ForwardingImmutableList() {
   }
