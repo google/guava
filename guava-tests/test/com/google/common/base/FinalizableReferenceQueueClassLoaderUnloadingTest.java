@@ -17,7 +17,6 @@
 package com.google.common.base;
 
 import com.google.common.testing.GcFinalization;
-import com.google.testing.testsize.Sequential;
 
 import junit.framework.TestCase;
 
@@ -130,7 +129,6 @@ public class FinalizableReferenceQueueClassLoaderUnloadingTest extends TestCase 
     GcFinalization.awaitClear(loaderRef);
   }
 
-  @Sequential
   public void testUnloadableWithoutSecurityManager() throws Exception {
     // Test that the use of a FinalizableReferenceQueue does not subsequently prevent the
     // loader of that class from being garbage-collected.
@@ -143,7 +141,6 @@ public class FinalizableReferenceQueueClassLoaderUnloadingTest extends TestCase 
     }
   }
 
-  @Sequential
   public void testUnloadableWithSecurityManager() throws Exception {
     // Test that the use of a FinalizableReferenceQueue does not subsequently prevent the
     // loader of that class from being garbage-collected even if there is a SecurityManager.
