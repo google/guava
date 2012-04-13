@@ -265,6 +265,50 @@ public final class IntMath {
     return (int) result;
   }
 
+  /**
+   * Returns the {@code b} to the {@code k}th power, provided it does not overflow.
+   *
+   * <p>{@link #pow} may be faster, but does not check for overflow.
+   *
+   * @throws ArithmeticException if {@code b} to the {@code k}th power overflows in signed
+   *         {@code int} arithmetic
+   */
+  public static int checkedPow(int b, int k) {
+    checkNonNegative("exponent", k);
+    switch (b) {
+      case 0:
+        return (k == 0) ? 1 : 0;
+      case 1:
+        return 1;
+      case (-1):
+        return ((k & 1) == 0) ? 1 : -1;
+      case 2:
+        checkNoOverflow(k < Integer.SIZE - 1);
+        return 1 << k;
+      case (-2):
+        checkNoOverflow(k < Integer.SIZE);
+        return ((k & 1) == 0) ? 1 << k : -1 << k;
+    }
+    int accum = 1;
+    while (true) {
+      switch (k) {
+        case 0:
+          return accum;
+        case 1:
+          return checkedMultiply(accum, b);
+        default:
+          if ((k & 1) != 0) {
+            accum = checkedMultiply(accum, b);
+          }
+          k >>= 1;
+          if (k > 0) {
+            checkNoOverflow(-FLOOR_SQRT_MAX_INT <= b & b <= FLOOR_SQRT_MAX_INT);
+            b *= b;
+          }
+      }
+    }
+  }
+
   @VisibleForTesting static final int FLOOR_SQRT_MAX_INT = 46340;
 
   /**

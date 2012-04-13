@@ -258,13 +258,12 @@ public class IntMathTest extends TestCase {
         for (RoundingMode mode : ALL_SAFE_ROUNDING_MODES) {
           // Skip some tests that fail due to GWT's non-compliant int implementation.
           // TODO(cpovirk): does this test fail for only some rounding modes or for all?
-          // TODO(cpovirk): why is dividing by 1 a problem?
-          if (p == -2147483648 && (q == 1 || q == -1) && intsCanGoOutOfRange()) {
+          if (p == -2147483648 && q == -1 && intsCanGoOutOfRange()) {
             continue;
           }
           int expected =
               new BigDecimal(valueOf(p)).divide(new BigDecimal(valueOf(q)), 0, mode).intValue();
-          assertEquals(p + "/" + q, expected, IntMath.divide(p, q, mode));
+          assertEquals(p + "/" + q, force32(expected), IntMath.divide(p, q, mode));
         }
       }
     }
@@ -422,14 +421,13 @@ public class IntMathTest extends TestCase {
     }
   }
 
-  @GwtIncompatible("-2147483648^1 expected=2147483648")
   public void testCheckedPow() {
     for (int b : ALL_INTEGER_CANDIDATES) {
       for (int k : EXPONENTS) {
         BigInteger expectedResult = valueOf(b).pow(k);
         boolean expectedSuccess = fitsInInt(expectedResult);
         try {
-          assertEquals(b + "^" + k, expectedResult.intValue(), IntMath.checkedPow(b, k));
+          assertEquals(b + "^" + k, force32(expectedResult.intValue()), IntMath.checkedPow(b, k));
           assertTrue(b + "^" + k + " should have succeeded", expectedSuccess);
         } catch (ArithmeticException e) {
           assertFalse(b + "^" + k + " should have failed", expectedSuccess);
@@ -502,5 +500,10 @@ public class IntMathTest extends TestCase {
     tester.setDefault(int.class, 1);
     tester.setDefault(RoundingMode.class, FLOOR);
     tester.testAllPublicStaticMethods(IntMath.class);
+  }
+
+  private static int force32(int value) {
+    // GWT doesn't consistently overflow values to make them 32-bit, so we need to force it.
+    return value & 0xffffffff;
   }
 }

@@ -386,7 +386,6 @@ public final class IntMath {
    * @throws ArithmeticException if {@code b} to the {@code k}th power overflows in signed
    *         {@code int} arithmetic
    */
-  @GwtIncompatible("failing tests")
   public static int checkedPow(int b, int k) {
     checkNonNegative("exponent", k);
     switch (b) {

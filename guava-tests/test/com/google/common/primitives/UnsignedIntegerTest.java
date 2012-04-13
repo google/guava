@@ -1,11 +1,11 @@
 /*
  * Copyright (C) 2011 The Guava Authors
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software distributed under the
  * License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
  * express or implied. See the License for the specific language governing permissions and
@@ -25,7 +25,7 @@ import junit.framework.TestCase;
 
 /**
  * Tests for {@code UnsignedInteger}.
- * 
+ *
  * @author Louis Wasserman
  */
 @GwtCompatible(emulated = true)
@@ -33,7 +33,7 @@ public class UnsignedIntegerTest extends TestCase {
   private static final ImmutableSet<Integer> TEST_INTS;
 
   private static int force32(int value) {
-    // GWT doesn't overflow values to make them 32-bit, so we need to force it.
+    // GWT doesn't consistently overflow values to make them 32-bit, so we need to force it.
     return value & 0xffffffff;
   }
 
