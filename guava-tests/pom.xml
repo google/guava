@@ -36,9 +36,8 @@
     <dependency>
       <groupId>org.junit.contrib</groupId>
       <artifactId>truth</artifactId>
-      <version>0.5.0-beta1</version>
-      <scope>system</scope>
-      <systemPath>${basedir}/lib/libtruth.jar</systemPath>
+      <version>0.7.0</version>
+      <scope>test</scope>
     </dependency>
   </dependencies>
   <repositories>
