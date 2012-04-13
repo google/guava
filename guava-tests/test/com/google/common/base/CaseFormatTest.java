@@ -23,6 +23,8 @@ import static com.google.common.base.CaseFormat.UPPER_CAMEL;
 import static com.google.common.base.CaseFormat.UPPER_UNDERSCORE;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.GwtIncompatible;
+import com.google.common.testing.NullPointerTester;
 
 import junit.framework.TestCase;
 
@@ -31,7 +33,7 @@ import junit.framework.TestCase;
  *
  * @author Mike Bostock
  */
-@GwtCompatible
+@GwtCompatible(emulated = true)
 public class CaseFormatTest extends TestCase {
 
   public void testIdentity() {
@@ -44,15 +46,14 @@ public class CaseFormatTest extends TestCase {
     }
   }
 
-  public void testNullPointer() {
-    try {
-      LOWER_CAMEL.to(null, "");
-      fail();
-    } catch (NullPointerException expected) {}
-    try {
-      LOWER_CAMEL.to(LOWER_HYPHEN, null);
-      fail();
-    } catch (NullPointerException expected) {}
+  @GwtIncompatible("NullPointerTester")
+  public void testNullArguments() {
+    NullPointerTester tester = new NullPointerTester();
+    tester.setDefault(String.class, "").setDefault(CaseFormat.class, UPPER_CAMEL);
+    tester.testAllPublicStaticMethods(CaseFormat.class);
+    for (CaseFormat format : CaseFormat.values()) {
+      tester.testAllPublicInstanceMethods(format);
+    }
   }
 
   public void testLowerHyphenToLowerHyphen() {
