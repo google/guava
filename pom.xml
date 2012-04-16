@@ -55,4 +55,26 @@
     <module>guava-testlib</module>
     <module>guava-tests</module>
   </modules>
+  <build>
+    <plugins>
+      <plugin>
+        <artifactId>maven-gpg-plugin</artifactId>
+        <version>1.4</version>
+        <executions>
+          <execution>
+            <id>sign-artifacts</id>
+            <phase>verify</phase>
+            <goals><goal>sign</goal></goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+  <distributionManagement>
+    <site>
+      <id>guava-site</id>
+      <name>Guava Documentation Site</name>
+      <url>scp://dummy.server/dontinstall/usestaging</url>
+    </site>
+  </distributionManagement>
 </project>

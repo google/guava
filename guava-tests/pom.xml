@@ -52,13 +52,23 @@
   <build>
     <plugins>
       <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
         <version>2.3.2</version>
         <configuration>
           <source>1.6</source>
           <target>1.6</target>
         </configuration>
+      </plugin>
+      <plugin>
+        <artifactId>maven-source-plugin</artifactId>
+        <version>2.1.2</version>
+        <executions>
+          <execution>
+            <id>attach-test-sources</id>
+            <phase>post-integration-test</phase>
+            <goals><goal>test-jar</goal></goals>
+          </execution>
+        </executions>
       </plugin>
     </plugins>
     <testResources>
