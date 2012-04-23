@@ -79,10 +79,6 @@ final class DoubleUtils {
     return getExponent(d) >= MIN_EXPONENT;
   }
 
-  static double fastAbs(double d) {
-    return longBitsToDouble(doubleToRawLongBits(d) & ~SIGN_MASK);
-  }
-
   /*
    * Returns x scaled by a power of 2 such that it is in the range [1, 2). Assumes x is positive,
    * normal, and finite.

@@ -19,7 +19,6 @@ package com.google.common.math;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.math.DoubleUtils.IMPLICIT_BIT;
 import static com.google.common.math.DoubleUtils.SIGNIFICAND_BITS;
-import static com.google.common.math.DoubleUtils.fastAbs;
 import static com.google.common.math.DoubleUtils.getSignificand;
 import static com.google.common.math.DoubleUtils.isFinite;
 import static com.google.common.math.DoubleUtils.isNormal;
@@ -27,6 +26,7 @@ import static com.google.common.math.DoubleUtils.scaleNormalize;
 import static com.google.common.math.MathPreconditions.checkInRange;
 import static com.google.common.math.MathPreconditions.checkNonNegative;
 import static com.google.common.math.MathPreconditions.checkRoundingUnnecessary;
+import static java.lang.Math.abs;
 import static java.lang.Math.copySign;
 import static java.lang.Math.getExponent;
 import static java.lang.Math.log;
@@ -89,8 +89,8 @@ public final class DoubleMath {
 
       case HALF_UP: {
         double z = rint(x);
-        if (fastAbs(x - z) == 0.5) {
-          return x + copySign(1.0, x);
+        if (abs(x - z) == 0.5) {
+          return x + copySign(0.5, x);
         } else {
           return z;
         }
@@ -98,7 +98,7 @@ public final class DoubleMath {
 
       case HALF_DOWN: {
         double z = rint(x);
-        if (fastAbs(x - z) == 0.5) {
+        if (abs(x - z) == 0.5) {
           return x;
         } else {
           return z;
