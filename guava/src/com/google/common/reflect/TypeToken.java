@@ -52,8 +52,9 @@ import javax.annotation.Nullable;
  * A {@link Type} with generics.
  *
  * <p>Operations that are otherwise only available in {@link Class} are implemented to support
- * {@code Type}, for instance {@link #isAssignableFrom}, {@link #isArray} and {@link
- * #getGenericInterfaces} etc.
+ * {@code Type}, for example {@link #isAssignableFrom}, {@link #isArray} and {@link
+ * #getComponentType}. It also provides additional utilities such as {@link #getTypes} and {@link
+ * #resolveType} etc.
  *
  * <p>There are three ways to get a {@code TypeToken} instance: <ul>
  * <li>Wrap a {@code Type} obtained via reflection. For example: {@code
