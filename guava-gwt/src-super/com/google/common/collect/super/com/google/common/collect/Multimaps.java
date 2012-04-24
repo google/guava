@@ -332,13 +332,13 @@ public final class Multimaps {
    * <p>It is imperative that the user manually synchronize on the returned
    * multimap when accessing any of its collection views: <pre>   {@code
    *
-   *   Multimap<K, V> m = Multimaps.synchronizedMultimap(
+   *   Multimap<K, V> multimap = Multimaps.synchronizedMultimap(
    *       HashMultimap.<K, V>create());
    *   ...
-   *   Set<K> s = m.keySet();  // Needn't be in synchronized block
+   *   Collection<V> values = multimap.get(key);  // Needn't be in synchronized block
    *   ...
-   *   synchronized (m) {  // Synchronizing on m, not s!
-   *     Iterator<K> i = s.iterator(); // Must be in synchronized block
+   *   synchronized (multimap) {  // Synchronizing on multimap, not values!
+   *     Iterator<V> i = values.iterator(); // Must be in synchronized block
    *     while (i.hasNext()) {
    *       foo(i.next());
    *     }

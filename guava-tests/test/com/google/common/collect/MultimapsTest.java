@@ -62,6 +62,7 @@ import javax.annotation.Nullable;
  */
 @GwtCompatible(emulated = true)
 public class MultimapsTest extends AbstractMultimapTest {
+
   private static final Comparator<Integer> INT_COMPARATOR =
       Ordering.<Integer>natural().reverse().nullsFirst();
 
@@ -231,7 +232,7 @@ public class MultimapsTest extends AbstractMultimapTest {
     assertTrue(unmod.containsEntry("foo", 1));
     assertEquals(mod, unmod);
   }
-  
+
   @SuppressWarnings("unchecked")
   public void testUnmodifiableMultimapEntries() {
     Multimap<String, Integer> mod = HashMultimap.create();
@@ -888,6 +889,22 @@ public class MultimapsTest extends AbstractMultimapTest {
         transformed);
     assertEquals("{a=[a1, a4, a4], b=[b6]}", transformed.toString());
   }
+
+  public <K, V> void testSynchronizedMultimapSampleCodeCompilation() {
+    K key = null;
+
+    Multimap<K, V> multimap = Multimaps.synchronizedMultimap(
+        HashMultimap.<K, V>create());
+    Collection<V> values = multimap.get(key);  // Needn't be in synchronized block
+    synchronized (multimap) {  // Synchronizing on multimap, not values!
+      Iterator<V> i = values.iterator(); // Must be in synchronized block
+      while (i.hasNext()) {
+        foo(i.next());
+      }
+    }
+  }
+
+  private static void foo(Object o) {}
 
   @GwtIncompatible("NullPointerTester")
   public void testNullPointers() throws Exception {
