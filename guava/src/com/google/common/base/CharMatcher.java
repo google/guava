@@ -22,10 +22,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
-
 import javax.annotation.CheckReturnValue;
 
 /**
@@ -73,8 +70,7 @@ public abstract class CharMatcher implements Predicate<Character> {
   /**
    * Determines whether a character is ASCII, meaning that its code point is less than 128.
    */
-  public static final CharMatcher ASCII = inRange('\0', '\u007f')
-      .withToString("CharMatcher.ASCII");
+  public static final CharMatcher ASCII = inRange('\0', '\u007f', "CharMatcher.ASCII");
 
   /**
    * Determines whether a character is a digit according to
@@ -98,13 +94,9 @@ public abstract class CharMatcher implements Predicate<Character> {
    * Determines whether a character is a digit according to {@link Character#isDigit(char) Java's
    * definition}. If you only care to match ASCII digits, you can use {@code inRange('0', '9')}.
    */
-  public static final CharMatcher JAVA_DIGIT = new CharMatcher() {
+  public static final CharMatcher JAVA_DIGIT = new CharMatcher("CharMatcher.JAVA_DIGIT") {
     @Override public boolean matches(char c) {
       return Character.isDigit(c);
-    }
-
-    @Override public String toString() {
-      return "CharMatcher.JAVA_DIGIT";
     }
   };
 
@@ -113,13 +105,13 @@ public abstract class CharMatcher implements Predicate<Character> {
    * definition}. If you only care to match letters of the Latin alphabet, you can use {@code
    * inRange('a', 'z').or(inRange('A', 'Z'))}.
    */
-  public static final CharMatcher JAVA_LETTER = new CharMatcher() {
+  public static final CharMatcher JAVA_LETTER = new CharMatcher("CharMatcher.JAVA_LETTER") {
     @Override public boolean matches(char c) {
       return Character.isLetter(c);
     }
 
-    @Override public String toString() {
-      return "CharMatcher.JAVA_LETTER";
+    @Override public CharMatcher precomputed() {
+      return this;
     }
   };
 
@@ -127,13 +119,10 @@ public abstract class CharMatcher implements Predicate<Character> {
    * Determines whether a character is a letter or digit according to {@link
    * Character#isLetterOrDigit(char) Java's definition}.
    */
-  public static final CharMatcher JAVA_LETTER_OR_DIGIT = new CharMatcher() {
+  public static final CharMatcher JAVA_LETTER_OR_DIGIT =
+      new CharMatcher("CharMatcher.JAVA_LETTER_OR_DIGIT") {
     @Override public boolean matches(char c) {
       return Character.isLetterOrDigit(c);
-    }
-
-    @Override public String toString() {
-      return "CharMatcher.JAVA_LETTER_OR_DIGIT";
     }
   };
 
@@ -141,13 +130,10 @@ public abstract class CharMatcher implements Predicate<Character> {
    * Determines whether a character is upper case according to {@link Character#isUpperCase(char)
    * Java's definition}.
    */
-  public static final CharMatcher JAVA_UPPER_CASE = new CharMatcher() {
+  public static final CharMatcher JAVA_UPPER_CASE =
+      new CharMatcher("CharMatcher.JAVA_UPPER_CASE") {
     @Override public boolean matches(char c) {
       return Character.isUpperCase(c);
-    }
-
-    @Override public String toString() {
-      return "CharMatcher.JAVA_UPPER_CASE";
     }
   };
 
@@ -155,13 +141,10 @@ public abstract class CharMatcher implements Predicate<Character> {
    * Determines whether a character is lower case according to {@link Character#isLowerCase(char)
    * Java's definition}.
    */
-  public static final CharMatcher JAVA_LOWER_CASE = new CharMatcher() {
+  public static final CharMatcher JAVA_LOWER_CASE =
+      new CharMatcher("CharMatcher.JAVA_LOWER_CASE") {
     @Override public boolean matches(char c) {
       return Character.isLowerCase(c);
-    }
-
-    @Override public String toString() {
-      return "CharMatcher.JAVA_LOWER_CASE";
     }
   };
 
@@ -170,7 +153,8 @@ public abstract class CharMatcher implements Predicate<Character> {
    * Character#isISOControl(char)}.
    */
   public static final CharMatcher JAVA_ISO_CONTROL =
-      inRange('\u0000', '\u001f').or(inRange('\u007f', '\u009f'))
+      inRange('\u0000', '\u001f')
+      .or(inRange('\u007f', '\u009f'))
       .withToString("CharMatcher.JAVA_ISO_CONTROL");
 
   /**
@@ -219,7 +203,7 @@ public abstract class CharMatcher implements Predicate<Character> {
 
   /** Matches any character. */
   public static final CharMatcher ANY =
-      new CharMatcher() {
+      new CharMatcher("CharMatcher.ANY") {
         @Override public boolean matches(char c) {
           return true;
         }
@@ -295,15 +279,11 @@ public abstract class CharMatcher implements Predicate<Character> {
         @Override public CharMatcher precomputed() {
           return this;
         }
-
-        @Override public String toString() {
-          return "CharMatcher.ANY";
-        }
       };
 
   /** Matches no characters. */
   public static final CharMatcher NONE =
-      new CharMatcher() {
+      new CharMatcher("CharMatcher.NONE") {
         @Override public boolean matches(char c) {
           return false;
         }
@@ -377,10 +357,6 @@ public abstract class CharMatcher implements Predicate<Character> {
         @Override public CharMatcher precomputed() {
           return this;
         }
-
-        @Override public String toString() {
-          return "CharMatcher.NONE";
-        }
       };
 
   // Static factories
@@ -389,7 +365,11 @@ public abstract class CharMatcher implements Predicate<Character> {
    * Returns a {@code char} matcher that matches only one specified character.
    */
   public static CharMatcher is(final char match) {
-    return new CharMatcher() {
+    String description = new StringBuilder("CharMatcher.is(")
+        .append(Integer.toHexString(match))
+        .append(")")
+        .toString();
+    return new CharMatcher(description) {
       @Override public boolean matches(char c) {
         return c == match;
       }
@@ -417,13 +397,6 @@ public abstract class CharMatcher implements Predicate<Character> {
       @Override public CharMatcher precomputed() {
         return this;
       }
-
-      @Override public String toString() {
-        return new StringBuilder("CharMatcher.is(")
-            .append(Integer.toHexString(match))
-            .append(")")
-            .toString();
-      }
     };
   }
 
@@ -433,7 +406,11 @@ public abstract class CharMatcher implements Predicate<Character> {
    * <p>To negate another {@code CharMatcher}, use {@link #negate()}.
    */
   public static CharMatcher isNot(final char match) {
-    return new CharMatcher() {
+    String description = new StringBuilder("CharMatcher.isNot(")
+        .append(Integer.toHexString(match))
+        .append(")")
+        .toString();
+    return new CharMatcher(description) {
       @Override public boolean matches(char c) {
         return c != match;
       }
@@ -448,13 +425,6 @@ public abstract class CharMatcher implements Predicate<Character> {
 
       @Override public CharMatcher negate() {
         return is(match);
-      }
-
-      @Override public String toString() {
-        return new StringBuilder("CharMatcher.isNot(")
-            .append(Integer.toHexString(match))
-            .append(")")
-            .toString();
       }
     };
   }
@@ -487,24 +457,14 @@ public abstract class CharMatcher implements Predicate<Character> {
           }
         };
     }
-
     final char[] chars = sequence.toString().toCharArray();
-    Arrays.sort(chars); // not worth collapsing duplicates
+    Arrays.sort(chars);
 
-    return new CharMatcher() {
-      @Override public boolean matches(char c) {
-        return Arrays.binarySearch(chars, c) >= 0;
-      }
-
-      @Override void setBits(LookupTable table) {
-        for (char c : chars) {
-          table.set(c);
-        }
-      }
-
-      @Override public String toString() {
-        return new StringBuilder("CharMatcher.anyOf(\"").append(chars).append("\")").toString();
-      }
+    return new CharMatcher(new StringBuilder("CharMatcher.anyOf(\"").append(chars)
+        .append("\")").toString()) {
+          @Override public boolean matches(char c) {
+            return Arrays.binarySearch(chars, c) >= 0;
+          }
     };
   }
 
@@ -525,7 +485,22 @@ public abstract class CharMatcher implements Predicate<Character> {
    */
   public static CharMatcher inRange(final char startInclusive, final char endInclusive) {
     checkArgument(endInclusive >= startInclusive);
-    return new CharMatcher() {
+    String description = new StringBuilder("CharMatcher.inRange(")
+        .append(Integer.toHexString(startInclusive))
+        .append(", ")
+        .append(Integer.toHexString(endInclusive))
+        .append(")")
+        .toString();
+    return inRange(startInclusive, endInclusive, description);
+  }
+
+  static CharMatcher inRange(final char startInclusive, final char endInclusive,
+      String description) {
+    char[] chars = new char[endInclusive - startInclusive + 1];
+    for (int i = startInclusive; i <= endInclusive; i++) {
+      chars[i - startInclusive] = (char) i;
+    }
+    return new CharMatcher(description) {
       @Override public boolean matches(char c) {
         return startInclusive <= c && c <= endInclusive;
       }
@@ -543,15 +518,6 @@ public abstract class CharMatcher implements Predicate<Character> {
       @Override public CharMatcher precomputed() {
         return this;
       }
-
-      @Override public String toString() {
-        return new StringBuilder("CharMatcher.inRange(")
-            .append(Integer.toHexString(startInclusive))
-            .append(", ")
-            .append(Integer.toHexString(endInclusive))
-            .append(")")
-            .toString();
-      }
     };
   }
 
@@ -564,7 +530,11 @@ public abstract class CharMatcher implements Predicate<Character> {
     if (predicate instanceof CharMatcher) {
       return (CharMatcher) predicate;
     }
-    return new CharMatcher() {
+    String description = new StringBuilder("CharMatcher.forPredicate(")
+        .append(predicate)
+        .append(')')
+        .toString();
+    return new CharMatcher(description) {
       @Override public boolean matches(char c) {
         return predicate.apply(c);
       }
@@ -572,22 +542,25 @@ public abstract class CharMatcher implements Predicate<Character> {
       @Override public boolean apply(Character character) {
         return predicate.apply(checkNotNull(character));
       }
-
-      @Override public String toString() {
-        return new StringBuilder("CharMatcher.forPredicate(")
-            .append(predicate)
-            .append(')')
-            .toString();
-      }
     };
   }
 
+  // State
+  final String description;
+
   // Constructors
 
+  private CharMatcher(String description) {
+    this.description = description;
+  }
+
   /**
-   * Constructor for use by subclasses.
+   * Constructor for use by subclasses. When subclassing, you may want to override
+   * {@code toString()} to provide a useful description.
    */
-  protected CharMatcher() {}
+  protected CharMatcher() {
+    description = "UnknownCharMatcher";
+  }
 
   // Abstract methods
 
@@ -601,7 +574,7 @@ public abstract class CharMatcher implements Predicate<Character> {
    */
   public CharMatcher negate() {
     final CharMatcher original = this;
-    return new CharMatcher() {
+    return new CharMatcher(original + ".negate()") {
       @Override public boolean matches(char c) {
         return !original.matches(c);
       }
@@ -621,10 +594,6 @@ public abstract class CharMatcher implements Predicate<Character> {
       @Override public CharMatcher negate() {
         return original;
       }
-
-      @Override public String toString() {
-        return original + ".negate()";
-      }
     };
   }
 
@@ -632,35 +601,36 @@ public abstract class CharMatcher implements Predicate<Character> {
    * Returns a matcher that matches any character matched by both this matcher and {@code other}.
    */
   public CharMatcher and(CharMatcher other) {
-    return new And(Arrays.asList(this, checkNotNull(other)));
+    return new And(this, checkNotNull(other));
   }
 
   private static class And extends CharMatcher {
-    List<CharMatcher> components;
+    final CharMatcher first;
+    final CharMatcher second;
 
-    And(List<CharMatcher> components) {
-      this.components = components; // Skip defensive copy (private)
+    And(CharMatcher a, CharMatcher b) {
+      this(a, b, "CharMatcher.and(" + a + ", " + b + ")");
     }
 
-    @Override public boolean matches(char c) {
-      for (CharMatcher matcher : components) {
-        if (!matcher.matches(c)) {
-          return false;
-        }
-      }
-      return true;
+    And(CharMatcher a, CharMatcher b, String description) {
+      super(description);
+      first = checkNotNull(a);
+      second = checkNotNull(b);
     }
 
-    @Override public CharMatcher and(CharMatcher other) {
-      List<CharMatcher> newComponents = new ArrayList<CharMatcher>(components);
-      newComponents.add(checkNotNull(other));
-      return new And(newComponents);
+    @Override
+    public CharMatcher and(CharMatcher other) {
+      return new And(this, other);
     }
 
-    @Override public String toString() {
-      StringBuilder builder = new StringBuilder("CharMatcher.and(");
-      Joiner.on(", ").appendTo(builder, components);
-      return builder.append(')').toString();
+    @Override
+    public boolean matches(char c) {
+      return first.matches(c) && second.matches(c);
+    }
+
+    @Override
+    CharMatcher withToString(String description) {
+      return new And(first, second, description);
     }
   }
 
@@ -668,41 +638,36 @@ public abstract class CharMatcher implements Predicate<Character> {
    * Returns a matcher that matches any character matched by either this matcher or {@code other}.
    */
   public CharMatcher or(CharMatcher other) {
-    return new Or(Arrays.asList(this, checkNotNull(other)));
+    return new Or(this, checkNotNull(other));
   }
 
   private static class Or extends CharMatcher {
-    List<CharMatcher> components;
+    final CharMatcher first;
+    final CharMatcher second;
 
-    Or(List<CharMatcher> components) {
-      this.components = components; // Skip defensive copy (private)
+    Or(CharMatcher a, CharMatcher b, String description) {
+      super(description);
+      first = checkNotNull(a);
+      second = checkNotNull(b);
     }
 
-    @Override public boolean matches(char c) {
-      for (CharMatcher matcher : components) {
-        if (matcher.matches(c)) {
-          return true;
-        }
-      }
-      return false;
+    Or(CharMatcher a, CharMatcher b) {
+      this(a, b, "CharMatcher.or(" + a + ", " + b + ")");
     }
 
-    @Override public CharMatcher or(CharMatcher other) {
-      List<CharMatcher> newComponents = new ArrayList<CharMatcher>(components);
-      newComponents.add(checkNotNull(other));
-      return new Or(newComponents);
+    @Override
+    public CharMatcher or(CharMatcher other) {
+      return new Or(this, checkNotNull(other));
     }
 
-    @Override void setBits(LookupTable table) {
-      for (CharMatcher matcher : components) {
-        matcher.setBits(table);
-      }
+    @Override
+    public boolean matches(char c) {
+      return first.matches(c) || second.matches(c);
     }
 
-    @Override public String toString() {
-      StringBuilder builder = new StringBuilder("CharMatcher.or(");
-      Joiner.on(", ").appendTo(builder, components);
-      return builder.append(')').toString();
+    @Override
+    CharMatcher withToString(String description) {
+      return new Or(first, second, description);
     }
   }
 
@@ -720,22 +685,48 @@ public abstract class CharMatcher implements Predicate<Character> {
   }
 
   /**
+   * Construct an array of all possible chars in the slowest way possible.
+   */
+  char[] slowGetChars() {
+    char[] allChars = new char[65536];
+    int size = 0;
+    for (int c = Character.MIN_VALUE; c <= Character.MAX_VALUE; c++) {
+      if (matches((char) c)) {
+        allChars[size++] = (char) c;
+      }
+    }
+    char[] retValue = new char[size];
+    System.arraycopy(allChars, 0, retValue, 0, size);
+    return retValue;
+  }
+
+  /**
    * This is the actual implementation of {@link #precomputed}, but we bounce calls through a method
    * on {@link Platform} so that we can have different behavior in GWT.
    *
-   * <p>The default precomputation is to cache the configuration of the original matcher in an
-   * eight-kilobyte bit array. In some situations this produces a matcher which is faster to query
+   * <p>If the number of matched characters is small enough, we try to build a small hash
+   * table to contain all of the characters. Otherwise, we record the characters in eight-kilobyte
+   * bit array. In many situations this produces a matcher which is faster to query
    * than the original.
-   *
-   * <p>The default implementation creates a new bit array and passes it to {@link
-   * #setBits(LookupTable)}.
    */
   CharMatcher precomputedInternal() {
+    final char[] chars = slowGetChars();
+    int totalCharacters = chars.length;
+    if (totalCharacters == 0) {
+      return NONE;
+    } else if (totalCharacters == 1) {
+      return is(chars[0]);
+    } else if (totalCharacters < SmallCharMatcher.MAX_SIZE) {
+      return SmallCharMatcher.from(chars);
+    } else if (totalCharacters < MediumCharMatcher.MAX_SIZE) {
+      return MediumCharMatcher.from(chars);
+    }
+    // Otherwise, make the full lookup table.
     final LookupTable table = new LookupTable();
     setBits(table);
     final CharMatcher outer = this;
 
-    return new CharMatcher() {
+    return new CharMatcher(outer.toString()) {
       @Override public boolean matches(char c) {
         return table.get(c);
       }
@@ -745,31 +736,18 @@ public abstract class CharMatcher implements Predicate<Character> {
       @Override public CharMatcher precomputed() {
         return this;
       }
-
-      @Override public String toString() {
-        return outer.toString();
-      }
     };
   }
 
-  CharMatcher withToString(final String toString) {
-    final CharMatcher delegate = this;
-    return new CharMatcher() {
-      @Override
-      public boolean matches(char c) {
-        return delegate.matches(c);
-      }
+  /**
+   * Subclasses should provide a new CharMatcher with the same characteristics as {@code this},
+   * but with their {@code toString} method overridden with the new description.
+   *
+   * <p>This is unsupported by default.
+   */
+  CharMatcher withToString(String description) {
+    throw new UnsupportedOperationException();
 
-      @Override
-      void setBits(LookupTable table) {
-        delegate.setBits(table);
-      }
-
-      @Override
-      public String toString() {
-        return toString;
-      }
-    };
   }
 
   /**
@@ -1237,7 +1215,7 @@ public abstract class CharMatcher implements Predicate<Character> {
    */
   @Override
   public String toString() {
-    return super.toString();
+    return description;
   }
 
   /**
@@ -1251,7 +1229,7 @@ public abstract class CharMatcher implements Predicate<Character> {
    * <p><b>Note:</b> as the Unicode definition evolves, we will modify this constant to keep it up
    * to date.
    */
-  public static final CharMatcher WHITESPACE = new CharMatcher() {
+  public static final CharMatcher WHITESPACE = new CharMatcher("CharMatcher.WHITESPACE") {
     /**
      * A special-case CharMatcher for Unicode whitespace characters that is extremely
      * efficient both in space required and in time to check for matches.
@@ -1288,10 +1266,6 @@ public abstract class CharMatcher implements Predicate<Character> {
 
     @Override public CharMatcher precomputed() {
       return this;
-    }
-
-    @Override public String toString() {
-      return "CharMatcher.WHITESPACE";
     }
   };
 }
