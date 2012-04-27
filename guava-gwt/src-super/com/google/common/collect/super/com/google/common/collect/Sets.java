@@ -567,6 +567,11 @@ public final class Sets {
    * <p><b>Note:</b> The returned view performs better when {@code set1} is the
    * smaller of the two sets. If you have reason to believe one of your sets
    * will generally be smaller than the other, pass it first.
+   *
+   * <p>Further, note that the current implementation is not suitable for nested
+   * {@code union} views, i.e. the following should be avoided when in a loop:
+   * {@code union = Sets.union(union, anotherSet);}, since iterating over the resulting
+   * set has a cubic complexity to the depth of the nesting.
    */
   public static <E> SetView<E> union(
       final Set<? extends E> set1, final Set<? extends E> set2) {

@@ -491,6 +491,11 @@ public final class Iterators {
    *
    * <p>The returned iterator supports {@code remove()} when the corresponding
    * input iterator supports it.
+   *
+   * <p><b>Note:</b> the current implementation is not suitable for nested
+   * concatenated iterators, i.e. the following should be avoided when in a loop:
+   * {@code iterator = Iterators.concat(iterator, suffix);}, since iteration over the
+   * resulting iterator has a cubic complexity to the depth of the nesting.
    */
   @SuppressWarnings("unchecked")
   public static <T> Iterator<T> concat(Iterator<? extends T> a,
@@ -508,6 +513,11 @@ public final class Iterators {
    *
    * <p>The returned iterator supports {@code remove()} when the corresponding
    * input iterator supports it.
+   *
+   * <p><b>Note:</b> the current implementation is not suitable for nested
+   * concatenated iterators, i.e. the following should be avoided when in a loop:
+   * {@code iterator = Iterators.concat(iterator, suffix);}, since iteration over the
+   * resulting iterator has a cubic complexity to the depth of the nesting.
    */
   @SuppressWarnings("unchecked")
   public static <T> Iterator<T> concat(Iterator<? extends T> a,
@@ -526,6 +536,11 @@ public final class Iterators {
    *
    * <p>The returned iterator supports {@code remove()} when the corresponding
    * input iterator supports it.
+   *
+   * <p><b>Note:</b> the current implementation is not suitable for nested
+   * concatenated iterators, i.e. the following should be avoided when in a loop:
+   * {@code iterator = Iterators.concat(iterator, suffix);}, since iteration over the
+   * resulting iterator has a cubic complexity to the depth of the nesting.
    */
   @SuppressWarnings("unchecked")
   public static <T> Iterator<T> concat(Iterator<? extends T> a,
@@ -546,6 +561,11 @@ public final class Iterators {
    * <p>The returned iterator supports {@code remove()} when the corresponding
    * input iterator supports it.
    *
+   * <p><b>Note:</b> the current implementation is not suitable for nested
+   * concatenated iterators, i.e. the following should be avoided when in a loop:
+   * {@code iterator = Iterators.concat(iterator, suffix);}, since iteration over the
+   * resulting iterator has a cubic complexity to the depth of the nesting.
+   *
    * @throws NullPointerException if any of the provided iterators is null
    */
   public static <T> Iterator<T> concat(Iterator<? extends T>... inputs) {
@@ -560,6 +580,11 @@ public final class Iterators {
    * <p>The returned iterator supports {@code remove()} when the corresponding
    * input iterator supports it. The methods of the returned iterator may throw
    * {@code NullPointerException} if any of the input iterators is null.
+   *
+   * <p><b>Note:</b> the current implementation is not suitable for nested
+   * concatenated iterators, i.e. the following should be avoided when in a loop:
+   * {@code iterator = Iterators.concat(iterator, suffix);}, since iteration over the
+   * resulting iterator has a cubic complexity to the depth of the nesting.
    */
   public static <T> Iterator<T> concat(
       final Iterator<? extends Iterator<? extends T>> inputs) {
