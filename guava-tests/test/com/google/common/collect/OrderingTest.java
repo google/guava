@@ -224,7 +224,7 @@ public class OrderingTest extends TestCase {
   }
 
   public void testCompound_static() {
-    Comparator<String> comparator = Ordering.compound(asList(
+    Comparator<String> comparator = Ordering.compound(ImmutableList.of(
         byCharAt(0), byCharAt(1), byCharAt(2),
         byCharAt(3), byCharAt(4), byCharAt(5)));
     Helpers.testComparator(comparator, ImmutableList.of(

@@ -472,7 +472,7 @@ public final class Maps {
     }
 
     @Override public boolean equals(@Nullable Object object) {
-      if (object instanceof MapDifference.ValueDifference<?>) {
+      if (object instanceof MapDifference.ValueDifference) {
         MapDifference.ValueDifference<?> that =
             (MapDifference.ValueDifference<?>) object;
         return Objects.equal(this.left, that.leftValue())

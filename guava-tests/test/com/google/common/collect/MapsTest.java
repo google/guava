@@ -783,7 +783,7 @@ public class MapsTest extends TestCase {
         }
         @SuppressWarnings("unchecked")
         @Override public boolean equals(Object o) {
-          if (o instanceof Map.Entry<?, ?>) {
+          if (o instanceof Map.Entry) {
             Map.Entry<K, V> e = (Map.Entry<K, V>) o;
             e.setValue(value); // muhahaha!
           }
@@ -1231,6 +1231,7 @@ public class MapsTest extends TestCase {
           .build();
 
   @GwtIncompatible("suite")
+  /** Suite for filter methods. */
   public static class FilteredMapTests extends TestCase {
     public static Test suite() {
       TestSuite suite = new TestSuite();
@@ -1464,6 +1465,7 @@ public class MapsTest extends TestCase {
     }
   }
 
+  /** Tests for {@link Maps#filterEntries(Map, Predicate)}. */
   public static class FilteredEntriesSortedMapInterfaceTest
       extends SortedMapInterfaceTest<Integer, String> {
     public FilteredEntriesSortedMapInterfaceTest() {

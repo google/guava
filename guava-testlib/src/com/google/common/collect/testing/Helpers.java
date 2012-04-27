@@ -264,7 +264,7 @@ public class Helpers {
       }
       @SuppressWarnings("unchecked")
       @Override public boolean equals(Object o) {
-        if (o instanceof Map.Entry<?, ?>) {
+        if (o instanceof Map.Entry) {
           Map.Entry<K, V> e = (Map.Entry<K, V>) o;
           e.setValue(value); // muhahaha!
 

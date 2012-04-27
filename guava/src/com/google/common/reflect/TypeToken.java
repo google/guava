@@ -120,7 +120,7 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
    */
   protected TypeToken() {
     this.runtimeType = capture();
-    checkState(!(runtimeType instanceof TypeVariable<?>),
+    checkState(!(runtimeType instanceof TypeVariable),
         "Cannot construct a TypeToken for a type variable.\n" +
         "You probably meant to call new TypeToken<%s>(getClass()) " +
         "that can resolve the type variable for you.\n" +

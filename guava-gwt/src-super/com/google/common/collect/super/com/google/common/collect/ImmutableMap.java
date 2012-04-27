@@ -39,7 +39,7 @@ import javax.annotation.Nullable;
  * @author Hayward Chan
  */
 public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
-  
+
   private transient final Map<K, V> delegate;
 
   ImmutableMap() {
@@ -117,7 +117,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
     }
 
     public Builder<K, V> put(Entry<? extends K, ? extends V> entry) {
-      if (entry instanceof ImmutableEntry<?, ?>) {
+      if (entry instanceof ImmutableEntry) {
         checkNotNull(entry.getKey());
         checkNotNull(entry.getValue());
         @SuppressWarnings("unchecked") // all supported methods are covariant
@@ -184,7 +184,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
         return new RegularImmutableMap<K, V>(orderPreservingCopy);
     }
   }
-  
+
   boolean isPartialView(){
     return false;
   }
@@ -233,7 +233,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
             return delegate.entrySet();
           }
           @Override public boolean contains(Object object) {
-            if (object instanceof Entry<?, ?>
+            if (object instanceof Entry
                 && ((Entry<?, ?>) object).getKey() == null) {
               return false;
             }
@@ -248,7 +248,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
             if (size() < result.length) {
               // It works around a GWT bug where elements after last is not
               // properly null'ed.
-              result[size()] = null;              
+              result[size()] = null;
             }
             return result;
           }

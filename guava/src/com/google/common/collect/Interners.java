@@ -125,7 +125,7 @@ public final class Interners {
     }
 
     @Override public boolean equals(Object other) {
-      if (other instanceof InternerFunction<?>) {
+      if (other instanceof InternerFunction) {
         InternerFunction<?> that = (InternerFunction<?>) other;
         return interner.equals(that.interner);
       }

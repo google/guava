@@ -263,11 +263,13 @@ public final class OptionalTest extends TestCase {
     // Number value = first.or(0.5); // error
   }
 
+  @SuppressWarnings("unchecked") // safe covariant cast
   public void testSampleCodeFine1() {
     Optional<Number> optionalInt = (Optional) getSomeOptionalInt();
     Number value = optionalInt.or(0.5); // fine
   }
 
+  @SuppressWarnings("unchecked") // safe covariant cast
   public void testSampleCodeFine2() {
     FluentIterable<? extends Number> numbers = getSomeNumbers();
     Optional<Number> first = (Optional) numbers.first();

@@ -1878,7 +1878,7 @@ public final class Multimaps {
       }
 
       @Override public boolean contains(@Nullable Object o) {
-        if (o instanceof Multiset.Entry<?>) {
+        if (o instanceof Multiset.Entry) {
           Multiset.Entry<?> entry = (Multiset.Entry<?>) o;
           Collection<V> collection = multimap().asMap().get(entry.getElement());
           return collection != null && collection.size() == entry.getCount();
@@ -1887,7 +1887,7 @@ public final class Multimaps {
       }
 
       @Override public boolean remove(@Nullable Object o) {
-        if (o instanceof Multiset.Entry<?>) {
+        if (o instanceof Multiset.Entry) {
           Multiset.Entry<?> entry = (Multiset.Entry<?>) o;
           Collection<V> collection = multimap().asMap().get(entry.getElement());
           if (collection != null && collection.size() == entry.getCount()) {
@@ -1994,7 +1994,7 @@ public final class Multimaps {
     }
 
     @Override public boolean contains(@Nullable Object o) {
-      if (o instanceof Map.Entry<?, ?>) {
+      if (o instanceof Map.Entry) {
         Map.Entry<?, ?> entry = (Map.Entry<?, ?>) o;
         return multimap().containsEntry(entry.getKey(), entry.getValue());
       }
@@ -2002,7 +2002,7 @@ public final class Multimaps {
     }
 
     @Override public boolean remove(@Nullable Object o) {
-      if (o instanceof Map.Entry<?, ?>) {
+      if (o instanceof Map.Entry) {
         Map.Entry<?, ?> entry = (Map.Entry<?, ?>) o;
         return multimap().remove(entry.getKey(), entry.getValue());
       }
@@ -2612,7 +2612,7 @@ public final class Multimaps {
         }
 
         @Override public boolean remove(Object o) {
-          if (o instanceof Entry<?, ?>) {
+          if (o instanceof Entry) {
             Entry<?, ?> entry = (Entry<?, ?>) o;
             Collection<V> collection = delegate.get(entry.getKey());
             if (collection != null && collection.equals(entry.getValue())) {

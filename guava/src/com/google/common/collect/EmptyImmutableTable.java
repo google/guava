@@ -53,7 +53,7 @@ final class EmptyImmutableTable extends ImmutableTable<Object, Object, Object> {
   @Override public boolean equals(@Nullable Object obj) {
     if (obj == this) {
       return true;
-    } else if (obj instanceof Table<?, ?, ?>) {
+    } else if (obj instanceof Table) {
       Table<?, ?, ?> that = (Table<?, ?, ?>) obj;
       return that.isEmpty();
     } else {

@@ -461,7 +461,7 @@ public final class TreeMultiset<E> extends AbstractSortedMultiset<E> implements 
         if (current.pred == header) {
           current = null;
         } else {
-          current = (AvlNode<E>) current.pred;
+          current = current.pred;
         }
         return result;
       }
@@ -502,7 +502,7 @@ public final class TreeMultiset<E> extends AbstractSortedMultiset<E> implements 
       return value;
     }
 
-    public void checkAndSet(T expected, T newValue) {
+    public void checkAndSet(@Nullable T expected, T newValue) {
       if (value != expected) {
         throw new ConcurrentModificationException();
       }
@@ -511,7 +511,7 @@ public final class TreeMultiset<E> extends AbstractSortedMultiset<E> implements 
   }
 
   private static final class AvlNode<E> extends Multisets.AbstractEntry<E> {
-    private final E elem;
+    @Nullable private final E elem;
 
     // elemCount is 0 iff this node has been deleted.
     private int elemCount;
@@ -524,7 +524,7 @@ public final class TreeMultiset<E> extends AbstractSortedMultiset<E> implements 
     private AvlNode<E> pred;
     private AvlNode<E> succ;
 
-    AvlNode(E elem, int elemCount) {
+    AvlNode(@Nullable E elem, int elemCount) {
       checkArgument(elemCount > 0);
       this.elem = elem;
       this.elemCount = elemCount;
@@ -564,7 +564,7 @@ public final class TreeMultiset<E> extends AbstractSortedMultiset<E> implements 
       return this;
     }
 
-    AvlNode<E> add(Comparator<? super E> comparator, E e, int count, int[] result) {
+    AvlNode<E> add(Comparator<? super E> comparator, @Nullable E e, int count, int[] result) {
       /*
        * It speeds things up considerably to unconditionally add count to totalCount here,
        * but that destroys failure atomicity in the case of count overflow. =(
@@ -609,7 +609,7 @@ public final class TreeMultiset<E> extends AbstractSortedMultiset<E> implements 
       return this;
     }
 
-    AvlNode<E> remove(Comparator<? super E> comparator, E e, int count, int[] result) {
+    AvlNode<E> remove(Comparator<? super E> comparator, @Nullable E e, int count, int[] result) {
       int cmp = comparator.compare(e, elem);
       if (cmp < 0) {
         AvlNode<E> initLeft = left;
@@ -660,7 +660,7 @@ public final class TreeMultiset<E> extends AbstractSortedMultiset<E> implements 
       }
     }
 
-    AvlNode<E> setCount(Comparator<? super E> comparator, E e, int count, int[] result) {
+    AvlNode<E> setCount(Comparator<? super E> comparator, @Nullable E e, int count, int[] result) {
       int cmp = comparator.compare(e, elem);
       if (cmp < 0) {
         AvlNode<E> initLeft = left;
@@ -710,7 +710,7 @@ public final class TreeMultiset<E> extends AbstractSortedMultiset<E> implements 
 
     AvlNode<E> setCount(
         Comparator<? super E> comparator,
-        E e,
+        @Nullable E e,
         int expectedCount,
         int newCount,
         int[] result) {

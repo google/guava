@@ -3635,7 +3635,7 @@ class MapMakerInternalMap<K, V>
     }
   }
 
-  Set<K> keySet;
+  transient Set<K> keySet;
 
   @Override
   public Set<K> keySet() {
@@ -3643,7 +3643,7 @@ class MapMakerInternalMap<K, V>
     return (ks != null) ? ks : (keySet = new KeySet());
   }
 
-  Collection<V> values;
+  transient Collection<V> values;
 
   @Override
   public Collection<V> values() {
@@ -3651,7 +3651,7 @@ class MapMakerInternalMap<K, V>
     return (vs != null) ? vs : (values = new Values());
   }
 
-  Set<Entry<K, V>> entrySet;
+  transient Set<Entry<K, V>> entrySet;
 
   @Override
   public Set<Entry<K, V>> entrySet() {

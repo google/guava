@@ -56,7 +56,7 @@ public final class JdkFutureAdapters {
    */
   public static <V> ListenableFuture<V> listenInPoolThread(
       Future<V> future) {
-    if (future instanceof ListenableFuture<?>) {
+    if (future instanceof ListenableFuture) {
       return (ListenableFuture<V>) future;
     }
     return new ListenableFutureAdapter<V>(future);
@@ -89,7 +89,7 @@ public final class JdkFutureAdapters {
   public static <V> ListenableFuture<V> listenInPoolThread(
       Future<V> future, Executor executor) {
     checkNotNull(executor);
-    if (future instanceof ListenableFuture<?>) {
+    if (future instanceof ListenableFuture) {
       return (ListenableFuture<V>) future;
     }
     return new ListenableFutureAdapter<V>(future, executor);

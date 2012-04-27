@@ -119,7 +119,7 @@ final class SingletonImmutableTable<R, C, V> extends ImmutableTable<R, C, V> {
   @Override public boolean equals(@Nullable Object obj) {
     if (obj == this) {
       return true;
-    } else if (obj instanceof Table<?, ?, ?>) {
+    } else if (obj instanceof Table) {
       Table<?, ?, ?> that = (Table<?, ?, ?>) obj;
       if (that.size() == 1) {
         Cell<?, ?, ?> thatCell = that.cellSet().iterator().next();

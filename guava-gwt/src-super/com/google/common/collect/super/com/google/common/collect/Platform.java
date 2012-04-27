@@ -29,11 +29,6 @@ class Platform {
     return GwtPlatform.clone(array);
   }
 
-  static <T> T[] newArray(Class<T> type, int length) {
-    throw new UnsupportedOperationException(
-        "Platform.newArray is not supported in GWT yet.");
-  }
-
   static <T> T[] newArray(T[] reference, int length) {
     return GwtPlatform.newArray(reference, length);
   }

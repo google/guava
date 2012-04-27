@@ -40,11 +40,11 @@ import javax.annotation.Nullable;
  * This class can be used by any generic super class to resolve one of its type
  * parameter to the actual type argument used by the subclass, provided the type
  * argument is carried on the class declaration.
- * 
+ *
  * @author Ben Yu
  */
 class TypeResolver {
-  
+
   private final ImmutableMap<TypeVariable<?>, Type> typeTable;
 
   static TypeResolver accordingTo(Type type) {
@@ -54,11 +54,11 @@ class TypeResolver {
   TypeResolver() {
     this.typeTable = ImmutableMap.of();
   }
-  
+
   private TypeResolver(ImmutableMap<TypeVariable<?>, Type> typeTable) {
     this.typeTable = typeTable;
   }
-  
+
   /** Returns a new {@code TypeResolver} with {@code variable} mapping to {@code type}. */
   final TypeResolver where(Map<? extends TypeVariable<?>, ? extends Type> mappings) {
     ImmutableMap.Builder<TypeVariable<?>, Type> builder = ImmutableMap.builder();
@@ -100,13 +100,13 @@ class TypeResolver {
       }
     }
   }
-  
+
   /**
    * Resolves all type variables in {@code type} and all downstream types and
    * returns a corresponding type with type variables resolved.
    */
   final Type resolve(Type type) {
-    if (type instanceof TypeVariable<?>) {
+    if (type instanceof TypeVariable) {
       return resolveTypeVariable((TypeVariable<?>) type);
     } else if (type instanceof ParameterizedType) {
       return resolveParameterizedType((ParameterizedType) type);
@@ -121,8 +121,8 @@ class TypeResolver {
       // if Class<?>, no resolution needed, we are done.
       return type;
     }
-  } 
-  
+  }
+
   private Type[] resolve(Type[] types) {
     Type[] result = new Type[types.length];
     for (int i = 0; i < types.length; i++) {
@@ -130,12 +130,12 @@ class TypeResolver {
     }
     return result;
   }
-  
+
   private Type resolveGenericArrayType(GenericArrayType type) {
     Type componentType = resolve(type.getGenericComponentType());
     return Types.newArrayType(componentType);
   }
-  
+
   private Type resolveTypeVariable(final TypeVariable<?> var) {
     final TypeResolver unguarded = this;
     TypeResolver guarded = new TypeResolver(typeTable) {
@@ -149,7 +149,7 @@ class TypeResolver {
     };
     return resolveTypeVariable(var, guarded);
   }
-  
+
   /**
    * Resolves {@code var} using the encapsulated type mapping. If it maps to yet another
    * non-reified type, {@code guardedResolver} is used to do further resolution, which doesn't try
@@ -169,12 +169,12 @@ class TypeResolver {
     }
     return guardedResolver.resolve(type); // in case the type is yet another type variable.
   }
-  
+
   private ParameterizedType resolveParameterizedType(ParameterizedType type) {
     Type owner = type.getOwnerType();
     Type resolvedOwner = (owner == null) ? null : resolve(owner);
     Type resolvedRawType = resolve(type.getRawType());
-    
+
     Type[] vars = type.getActualTypeArguments();
     Type[] resolvedArgs = new Type[vars.length];
     for (int i = 0; i < vars.length; i++) {
@@ -183,14 +183,14 @@ class TypeResolver {
     return Types.newParameterizedTypeWithOwner(
         resolvedOwner, (Class<?>) resolvedRawType, resolvedArgs);
   }
-  
+
   private static final class TypeMappingIntrospector {
-    
+
     private static final WildcardCapturer wildcardCapturer = new WildcardCapturer();
 
     private final Map<TypeVariable<?>, Type> mappings = Maps.newHashMap();
     private final Set<Type> introspectedTypes = Sets.newHashSet();
-    
+
     /**
      * Returns type mappings using type parameters and type arguments found in
      * the generic superclass and the super interfaces of {@code contextClass}.
@@ -201,14 +201,14 @@ class TypeResolver {
       introspector.introspect(wildcardCapturer.capture(contextType));
       return ImmutableMap.copyOf(introspector.mappings);
     }
-    
+
     private void introspect(Type type) {
       if (!introspectedTypes.add(type)) {
         return;
       }
       if (type instanceof ParameterizedType) {
         introspectParameterizedType((ParameterizedType) type);
-      } else if (type instanceof Class<?>) {
+      } else if (type instanceof Class) {
         introspectClass((Class<?>) type);
       } else if (type instanceof TypeVariable) {
         for (Type bound : ((TypeVariable<?>) type).getBounds()) {
@@ -227,7 +227,7 @@ class TypeResolver {
         introspect(interfaceType);
       }
     }
-    
+
     private void introspectParameterizedType(
         ParameterizedType parameterizedType) {
       Class<?> rawClass = (Class<?>) parameterizedType.getRawType();
@@ -240,7 +240,7 @@ class TypeResolver {
       introspectClass(rawClass);
       introspect(parameterizedType.getOwnerType());
     }
-    
+
     private void map(final TypeVariable<?> var, final Type arg) {
       if (mappings.containsKey(var)) {
         // Mapping already established
@@ -311,7 +311,7 @@ class TypeResolver {
       }
       throw new AssertionError("must have been one of the known types");
     }
-    
+
     private Type captureNullable(@Nullable Type type) {
       if (type == null) {
         return null;

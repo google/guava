@@ -1016,7 +1016,7 @@ public final class Sets {
     }
 
     @Override public boolean contains(Object element) {
-      if (!(element instanceof List<?>)) {
+      if (!(element instanceof List)) {
         return false;
       }
       List<?> tuple = (List<?>) element;

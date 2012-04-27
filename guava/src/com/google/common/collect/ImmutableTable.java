@@ -72,7 +72,7 @@ public abstract class ImmutableTable<R, C, V> implements Table<R, C, V> {
    */
   public static final <R, C, V> ImmutableTable<R, C, V> copyOf(
       Table<? extends R, ? extends C, ? extends V> table) {
-    if (table instanceof ImmutableTable<?, ?, ?>) {
+    if (table instanceof ImmutableTable) {
       @SuppressWarnings("unchecked")
       ImmutableTable<R, C, V> parameterizedTable
           = (ImmutableTable<R, C, V>) table;
@@ -318,7 +318,7 @@ public abstract class ImmutableTable<R, C, V> implements Table<R, C, V> {
   @Override public boolean equals(@Nullable Object obj) {
     if (obj == this) {
       return true;
-    } else if (obj instanceof Table<?, ?, ?>) {
+    } else if (obj instanceof Table) {
       Table<?, ?, ?> that = (Table<?, ?, ?>) obj;
       return this.cellSet().equals(that.cellSet());
     } else {

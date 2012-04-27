@@ -17,7 +17,6 @@
 package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.annotations.GwtIncompatible;
 
 import java.lang.reflect.Array;
 
@@ -34,18 +33,6 @@ class Platform {
    */
   static <T> T[] clone(T[] array) {
     return array.clone();
-  }
-
-  /**
-   * Returns a new array of the given length with the specified component type.
-   *
-   * @param type the component type
-   * @param length the length of the new array
-   */
-  @GwtIncompatible("Array.newInstance(Class, int)")
-  @SuppressWarnings("unchecked")
-  static <T> T[] newArray(Class<T> type, int length) {
-    return (T[]) Array.newInstance(type, length);
   }
 
   /**

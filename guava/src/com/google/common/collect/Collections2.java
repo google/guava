@@ -494,7 +494,7 @@ public final class Collections2 {
     }
 
     @Override public boolean contains(@Nullable Object obj) {
-      if (obj instanceof List<?>) {
+      if (obj instanceof List) {
         List<?> list = (List<?>) obj;
         return isPermutation(inputList, list);
       }
@@ -607,7 +607,7 @@ public final class Collections2 {
     }
 
     @Override public boolean contains(@Nullable Object obj) {
-      if (obj instanceof List<?>) {
+      if (obj instanceof List) {
         List<?> list = (List<?>) obj;
         return isPermutation(inputList, list);
       }

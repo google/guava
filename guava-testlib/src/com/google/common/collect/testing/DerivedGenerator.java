@@ -21,6 +21,10 @@ package com.google.common.collect.testing;
  * iterator generator may delegate the work of creating the underlying collection to an inner
  * collection generator.
  *
+ * <p>{@code GwtTestSuiteGenerator} expects every {@code DerivedIterator} implementation to provide
+ * a one-arg constructor accepting its inner generator as an argument). This requirement enables it
+ * to generate source code (since GWT cannot use reflection to generate the suites).
+ *
  * @author Chris Povirk
  */
 public interface DerivedGenerator {

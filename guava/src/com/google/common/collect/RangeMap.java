@@ -206,7 +206,7 @@ import javax.annotation.Nullable;
    */
   @Override
   public boolean equals(@Nullable Object o) {
-    return o instanceof RangeMap && map.equals(((RangeMap<?, ?>) o).map);
+    return o instanceof RangeMap && map.equals(((RangeMap) o).map);
   }
 
   @Override

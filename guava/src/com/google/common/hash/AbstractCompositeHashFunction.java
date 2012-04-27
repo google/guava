@@ -1,4 +1,18 @@
-// Copyright 2011 Google Inc. All Rights Reserved.
+/*
+ * Copyright (C) 2011 The Guava Authors
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
 package com.google.common.hash;
 
@@ -8,16 +22,16 @@ import java.nio.charset.Charset;
  * An abstract composition of multiple hash functions. {@linkplain #newHasher()} delegates to the
  * {@code Hasher} objects of the delegate hash functions, and in the end, they are used by
  * {@linkplain #makeHash(Hasher[])} that constructs the final {@code HashCode}.
- * 
+ *
  * @author andreou@google.com (Dimitris Andreou)
  */
 abstract class AbstractCompositeHashFunction extends AbstractStreamingHashFunction {
   final HashFunction[] functions;
-  
+
   AbstractCompositeHashFunction(HashFunction... functions) {
     this.functions = functions;
   }
-  
+
   /**
    * Constructs a {@code HashCode} from the {@code Hasher} objects of the functions. Each of them
    * has consumed the entire input and they are ready to output a {@code HashCode}. The order of
@@ -25,7 +39,7 @@ abstract class AbstractCompositeHashFunction extends AbstractStreamingHashFuncti
    */
   // this could be cleaner if it passed HashCode[], but that would create yet another array...
   /* protected */ abstract HashCode makeHash(Hasher[] hashers);
-  
+
   @Override
   public Hasher newHasher() {
     final Hasher[] hashers = new Hasher[functions.length];
@@ -129,6 +143,6 @@ abstract class AbstractCompositeHashFunction extends AbstractStreamingHashFuncti
       }
     };
   }
-  
+
   private static final long serialVersionUID = 0L;
 }

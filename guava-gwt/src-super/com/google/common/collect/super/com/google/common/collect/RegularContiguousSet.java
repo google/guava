@@ -151,7 +151,7 @@ final class RegularContiguousSet<C extends Comparable> extends ContiguousSet<C> 
   @Override public boolean equals(Object object) {
     if (object == this) {
       return true;
-    } else if (object instanceof RegularContiguousSet<?>) {
+    } else if (object instanceof RegularContiguousSet) {
       RegularContiguousSet<?> that = (RegularContiguousSet<?>) object;
       if (this.domain.equals(that.domain)) {
         return this.first().equals(that.first())
