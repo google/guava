@@ -35,7 +35,6 @@ import java.io.OutputStream;
 import java.nio.ByteBuffer;
 import java.nio.channels.ReadableByteChannel;
 import java.nio.channels.WritableByteChannel;
-import java.security.MessageDigest;
 import java.util.Arrays;
 import java.util.zip.Checksum;
 
@@ -745,36 +744,6 @@ public final class ByteStreams {
         long result = checksum.getValue();
         checksum.reset();
         return result;
-      }
-    });
-  }
-
-  /**
-   * Computes and returns the digest value for a supplied input stream.
-   * The digest object is reset when this method returns successfully.
-   *
-   * @param supplier the input stream factory
-   * @param md the digest object
-   * @return the result of {@link MessageDigest#digest()} after updating the
-   *     digest object with all of the bytes in the stream
-   * @throws IOException if an I/O error occurs
-   * @deprecated Use {@link #hash} instead. For example,
-   *     {@code ByteStreams.hash(supplier, Hashing.sha1())}. This method is
-   *     scheduled to be removed in Guava release 13.0.
-   */
-  @Deprecated
-  public static byte[] getDigest(InputSupplier<? extends InputStream> supplier,
-      final MessageDigest md) throws IOException {
-    return readBytes(supplier, new ByteProcessor<byte[]>() {
-      @Override
-      public boolean processBytes(byte[] buf, int off, int len) {
-        md.update(buf, off, len);
-        return true;
-      }
-
-      @Override
-      public byte[] getResult() {
-        return md.digest();
       }
     });
   }
