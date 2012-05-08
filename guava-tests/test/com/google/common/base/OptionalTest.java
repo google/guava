@@ -252,6 +252,11 @@ public final class OptionalTest extends TestCase {
     return FluentIterable.from(ImmutableList.<Number>of());
   }
 
+  /*
+   * The following tests demonstrate the shortcomings of or() and test that the casting workaround
+   * mentioned in the method Javadoc does in fact compile.
+   */
+
   public void testSampleCodeError1() {
     Optional<Integer> optionalInt = getSomeOptionalInt();
     // Number value = optionalInt.or(0.5); // error
