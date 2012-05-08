@@ -34,7 +34,6 @@
       <groupId>org.junit.contrib</groupId>
       <artifactId>truth</artifactId>
       <version>0.7.0</version>
-      <scope>test</scope>
     </dependency>
   </dependencies>
   <repositories>
