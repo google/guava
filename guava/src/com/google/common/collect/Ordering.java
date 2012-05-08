@@ -550,7 +550,13 @@ public abstract class Ordering<T> implements Comparator<T> {
    */
   public <E extends T> ImmutableList<E> immutableSortedCopy(
       Iterable<E> iterable) {
-    return ImmutableList.copyOf(sortedCopy(iterable));
+    @SuppressWarnings("unchecked") // we'll only ever have E's in here
+    E[] elements = (E[]) Iterables.toArray(iterable);
+    for (E e : elements) {
+      checkNotNull(e);
+    }
+    Arrays.sort(elements, this);
+    return ImmutableList.asImmutableList(elements);
   }
 
   /**
