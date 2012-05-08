@@ -16,11 +16,13 @@
 
 package com.google.common.hash;
 
+import com.google.common.base.Charsets;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Throwables;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.nio.charset.Charset;
 
 /**
  * Skeleton implementation of {@link HashFunction}, appropriate for non-streaming algorithms.
@@ -39,6 +41,26 @@ abstract class AbstractNonStreamingHashFunction implements HashFunction {
   public Hasher newHasher(int expectedInputSize) {
     Preconditions.checkArgument(expectedInputSize >= 0);
     return new BufferingHasher(expectedInputSize);
+  }
+
+  @Override public HashCode hashString(CharSequence input) {
+    return hashString(input, Charsets.UTF_16LE);
+  }
+
+  @Override public HashCode hashString(CharSequence input, Charset charset) {
+    return hashBytes(input.toString().getBytes(charset));
+  }
+
+  @Override public HashCode hashInt(int input) {
+    return newHasher(4).putInt(input).hash();
+  }
+
+  @Override public HashCode hashLong(long input) {
+    return newHasher(8).putLong(input).hash();
+  }
+
+  @Override public HashCode hashBytes(byte[] input) {
+    return hashBytes(input, 0, input.length);
   }
 
   /**
