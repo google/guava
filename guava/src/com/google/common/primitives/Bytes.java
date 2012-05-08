@@ -37,7 +37,7 @@ import java.util.RandomAccess;
  * bytes as neither signed nor unsigned</i>. The methods which specifically
  * treat bytes as signed or unsigned are found in {@link SignedBytes} and {@link
  * UnsignedBytes}.
- * 
+ *
  * <p>See the Guava User Guide article on <a href=
  * "http://code.google.com/p/guava-libraries/wiki/PrimitivesExplained">
  * primitive utilities</a>.
@@ -376,7 +376,7 @@ public final class Bytes {
     }
 
     byte[] toByteArray() {
-      // Arrays.copyOfRange() requires Java 6
+      // Arrays.copyOfRange() is not available under GWT
       int size = size();
       byte[] result = new byte[size];
       System.arraycopy(array, start, result, 0, size);

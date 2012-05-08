@@ -19,7 +19,7 @@ package com.google.common.cache;
 /**
  * GWT emulated version of LongAdder.
  *
- * @author fry@google.com (Charles Fry)
+ * @author Charles Fry
  */
 class LongAdder {
 

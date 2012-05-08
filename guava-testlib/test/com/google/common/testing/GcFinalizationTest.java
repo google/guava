@@ -29,8 +29,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
 /**
  * Tests for {@link GcFinalization}.
  *
- * @author martinrb@google.com (Martin Buchholz)
- * @author schmoe@google.com (mike nonemacher)
+ * @author Martin Buchholz
+ * @author mike nonemacher
  */
 
 public class GcFinalizationTest extends TestCase {

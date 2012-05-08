@@ -521,7 +521,7 @@ public final class Doubles {
     }
 
     double[] toDoubleArray() {
-      // Arrays.copyOfRange() requires Java 6
+      // Arrays.copyOfRange() is not available under GWT
       int size = size();
       double[] result = new double[size];
       System.arraycopy(array, start, result, 0, size);

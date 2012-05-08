@@ -24,7 +24,7 @@ import com.google.common.testing.EqualsTester;
 /**
  * Tests {@link SingletonImmutableTable}.
  *
- * @author gak@google.com (Gregory Kick)
+ * @author Gregory Kick
  */
 public class SingletonImmutableTableTest extends AbstractImmutableTableTest {
   private final ImmutableTable<Character, Integer, String> testTable =

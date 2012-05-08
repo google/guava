@@ -35,7 +35,7 @@ import java.util.Random;
 /**
  * Tests for AbstractHashSink.
  *
- * @author andreou@google.com (Dimitris Andreou)
+ * @author Dimitris Andreou
  */
 public class AbstractStreamingHasherTest extends TestCase {
   public void testBytes() {

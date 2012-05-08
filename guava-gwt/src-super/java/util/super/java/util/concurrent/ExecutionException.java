@@ -19,7 +19,7 @@ package java.util.concurrent;
 /**
  * Emulation of ExecutionException.
  *
- * @author fry@google.com (Charles Fry)
+ * @author Charles Fry
  */
 public class ExecutionException extends Exception {
   protected ExecutionException() { }

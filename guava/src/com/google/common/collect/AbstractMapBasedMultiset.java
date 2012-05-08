@@ -37,7 +37,7 @@ import javax.annotation.Nullable;
 
 /**
  * Basic implementation of {@code Multiset<E>} backed by an instance of {@code
- * Map<E, AtomicInteger>}.
+ * Map<E, Count>}.
  *
  * <p>For serialization to work, the subclass must specify explicit {@code
  * readObject} and {@code writeObject} methods.
@@ -271,7 +271,7 @@ abstract class AbstractMapBasedMultiset<E> extends AbstractMultiset<E>
   }
 
   // Roughly a 33% performance improvement over AbstractMultiset.setCount().
-  @Override public int setCount(E element, int count) {
+  @Override public int setCount(@Nullable E element, int count) {
     checkNonnegative(count, "count");
 
     Count existingCounter;

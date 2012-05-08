@@ -24,8 +24,8 @@ import java.nio.ByteOrder;
  * See http://smhasher.googlecode.com/svn/trunk/MurmurHash3.cpp
  * MurmurHash3_x64_128
  *
- * @author aappleby@google.com (Austin Appleby)
- * @author andreou@google.com (Dimitris Andreou)
+ * @author Austin Appleby
+ * @author Dimitris Andreou
  */
 final class Murmur3_128HashFunction extends AbstractStreamingHashFunction implements Serializable {
   // TODO(user): when the shortcuts are implemented, update BloomFilterStrategies

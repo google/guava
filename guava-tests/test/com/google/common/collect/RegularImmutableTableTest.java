@@ -23,7 +23,7 @@ import com.google.common.collect.RegularImmutableTable.SparseImmutableTable;
 import com.google.common.collect.Table.Cell;
 
 /**
- * @author gak@google.com (Gregory Kick)
+ * @author Gregory Kick
  */
 public class RegularImmutableTableTest extends AbstractImmutableTableTest {
   private static final ImmutableSet<Cell<Character, Integer, String>> CELLS =

@@ -21,7 +21,7 @@ import com.google.common.annotations.Beta;
 /**
  * Calculates the weights of cache entries.
  *
- * @author fry@google.com (Charles Fry)
+ * @author Charles Fry
  * @since 11.0
  */
 @Beta

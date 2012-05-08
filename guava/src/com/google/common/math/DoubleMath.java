@@ -338,7 +338,6 @@ public final class DoubleMath {
    * @throws IllegalArgumentException if {@code tolerance} is {@code < 0} or NaN
    * @since 13.0
    */
-  // TODO(cpovirk): reevaluate NaN behavior before taking out of @Beta
   @Beta
   public static boolean fuzzyEquals(double a, double b, double tolerance) {
     MathPreconditions.checkNonNegative("tolerance", tolerance);

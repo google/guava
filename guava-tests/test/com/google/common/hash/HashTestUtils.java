@@ -36,8 +36,8 @@ import java.util.Set;
 /**
  * Various utilities for testing {@link HashFunction}s.
  *
- * @author andreou@google.com (Dimitris Andreou)
- * @author kak@google.com (Kurt Alfred Kluever)
+ * @author Dimitris Andreou
+ * @author Kurt Alfred Kluever
  */
 final class HashTestUtils {
   private HashTestUtils() {}

@@ -28,7 +28,7 @@ import javax.annotation.Nullable;
 /**
  * An implementation of {@link ImmutableTable} that holds a single cell.
  *
- * @author gak@google.com (Gregory Kick)
+ * @author Gregory Kick
  */
 @GwtCompatible
 final class SingletonImmutableTable<R, C, V> extends ImmutableTable<R, C, V> {

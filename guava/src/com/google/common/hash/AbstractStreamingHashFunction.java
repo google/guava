@@ -66,8 +66,8 @@ abstract class AbstractStreamingHashFunction implements HashFunction {
    * A convenience base class for implementors of {@code Hasher}; handles accumulating data
    * until an entire "chunk" (of implementation-dependent length) is ready to be hashed.
    *
-   * @author kevinb@google.com (Kevin Bourrillion)
-   * @author andreou@google.com (Dimitris Andreou)
+   * @author Kevin Bourrillion
+   * @author Dimitris Andreou
    */
   // TODO(kevinb): this class still needs some design-and-document-for-inheritance love
   protected static abstract class AbstractStreamingHasher extends AbstractHasher {

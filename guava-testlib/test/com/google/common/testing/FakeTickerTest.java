@@ -30,7 +30,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * Unit test for {@link FakeTicker}.
  *
- * @author benyu@google.com (Jige Yu)
+ * @author Jige Yu
  */
 @GwtCompatible(emulated = true)
 public class FakeTickerTest extends TestCase {

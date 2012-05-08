@@ -33,8 +33,8 @@ import java.util.Random;
 /**
  * Unit tests for {@link Hashing}.
  *
- * @author andreou@google.com (Dimitris Andreou)
- * @author kak@google.com (Kurt Alfred Kluever)
+ * @author Dimitris Andreou
+ * @author Kurt Alfred Kluever
  */
 public class HashingTest extends TestCase {
   public void testMd5() {

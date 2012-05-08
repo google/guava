@@ -21,7 +21,7 @@ import static org.junit.contrib.truth.Truth.ASSERT;
 /**
  * Tests common methods in {@link ImmutableTable}
  *
- * @author gak@google.com (Gregory Kick)
+ * @author Gregory Kick
  */
 public class ImmutableTableTest extends AbstractTableReadTest {
   @Override protected Table<String, Integer, Character> create(Object... data) {

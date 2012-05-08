@@ -39,7 +39,7 @@ import java.util.RandomAccess;
  *
  * <p>All the operations in this class treat {@code char} values strictly
  * numerically; they are neither Unicode-aware nor locale-dependent.
- * 
+ *
  * <p>See the Guava User Guide article on <a href=
  * "http://code.google.com/p/guava-libraries/wiki/PrimitivesExplained">
  * primitive utilities</a>.
@@ -574,7 +574,7 @@ public final class Chars {
     }
 
     char[] toCharArray() {
-      // Arrays.copyOfRange() requires Java 6
+      // Arrays.copyOfRange() is not available under GWT
       int size = size();
       char[] result = new char[size];
       System.arraycopy(array, start, result, 0, size);

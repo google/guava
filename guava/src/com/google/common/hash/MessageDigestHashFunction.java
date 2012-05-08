@@ -30,9 +30,9 @@ import java.security.NoSuchAlgorithmException;
 
 /**
  * {@link HashFunction} adapter for {@link MessageDigest}s.
- * 
- * @author kevinb@google.com (Kevin Bourrillion)
- * @author andreou@google.com (Dimitris Andreou)
+ *
+ * @author Kevin Bourrillion
+ * @author Dimitris Andreou
  */
 final class MessageDigestHashFunction extends AbstractStreamingHashFunction {
   private final String algorithmName;
@@ -87,7 +87,7 @@ final class MessageDigestHashFunction extends AbstractStreamingHashFunction {
       digest.update(bytes, off, len);
       return this;
     }
-    
+
     @Override public Hasher putShort(short s) {
       checkNotDone();
       scratch.putShort(s);
@@ -139,7 +139,7 @@ final class MessageDigestHashFunction extends AbstractStreamingHashFunction {
       scratch.clear();
       return this;
     }
-    
+
     @Override public Hasher putString(CharSequence charSequence) {
       for (int i = 0; i < charSequence.length(); i++) {
         putChar(charSequence.charAt(i));
@@ -160,7 +160,7 @@ final class MessageDigestHashFunction extends AbstractStreamingHashFunction {
     private void checkNotDone() {
       checkState(!done, "Cannot use Hasher after calling #hash() on it");
     }
-    
+
     public HashCode hash() {
       done = true;
       return HashCodes.fromBytesNoCopy(digest.digest());

@@ -35,7 +35,7 @@ import java.util.concurrent.atomic.AtomicLong;
 /**
  * Tests for {@link AtomicLongMap}.
  *
- * @author schmoe@google.com (mike nonemacher)
+ * @author mike nonemacher
  */
 @GwtCompatible(emulated = true)
 public class AtomicLongMapTest extends TestCase {

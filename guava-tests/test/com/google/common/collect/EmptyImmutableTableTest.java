@@ -21,7 +21,7 @@ import com.google.common.testing.EqualsTester;
 /**
  * Tests {@link EmptyImmutableTable}
  *
- * @author gak@google.com (Gregory Kick)
+ * @author Gregory Kick
  */
 public class EmptyImmutableTableTest extends AbstractImmutableTableTest {
   private static final ImmutableTable<Character, Integer, String> INSTANCE =

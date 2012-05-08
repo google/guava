@@ -23,7 +23,7 @@ import com.google.gwt.user.client.rpc.SerializationStreamWriter;
 /**
  * GWT serialization logic for {@link PairwiseEquivalence}.
  *
- * @author kkanitkar@google.com (Kedar Kanitkar)
+ * @author Kedar Kanitkar
  */
 public class PairwiseEquivalence_CustomFieldSerializer {
 

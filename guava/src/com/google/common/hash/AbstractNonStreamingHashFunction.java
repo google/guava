@@ -29,7 +29,7 @@ import java.nio.charset.Charset;
  * All the hash computation done using {@linkplain #newHasher()} are delegated to the {@linkplain
  * #hashBytes(byte[], int, int)} method.
  *
- * @author andreou@google.com (Dimitris Andreou)
+ * @author Dimitris Andreou
  */
 abstract class AbstractNonStreamingHashFunction implements HashFunction {
   @Override

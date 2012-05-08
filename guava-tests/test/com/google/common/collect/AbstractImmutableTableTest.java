@@ -21,7 +21,7 @@ import junit.framework.TestCase;
 /**
  * Tests {@link ImmutableTable}
  *
- * @author gak@google.com (Gregory Kick)
+ * @author Gregory Kick
  */
 public abstract class AbstractImmutableTableTest extends TestCase {
 

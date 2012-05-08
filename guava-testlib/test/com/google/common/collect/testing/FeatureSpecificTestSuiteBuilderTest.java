@@ -12,7 +12,7 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * @author maxr@google.com (Max Ross)
+ * @author Max Ross
  */
 public class FeatureSpecificTestSuiteBuilderTest extends TestCase {
 

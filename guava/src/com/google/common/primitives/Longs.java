@@ -567,7 +567,7 @@ public final class Longs {
     }
 
     long[] toLongArray() {
-      // Arrays.copyOfRange() requires Java 6
+      // Arrays.copyOfRange() is not available under GWT
       int size = size();
       long[] result = new long[size];
       System.arraycopy(array, start, result, 0, size);

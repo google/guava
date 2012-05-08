@@ -762,6 +762,7 @@ public final class Multisets {
    */
   static boolean retainAllImpl(
       Multiset<?> self, Collection<?> elementsToRetain) {
+    checkNotNull(elementsToRetain);
     Collection<?> collection = (elementsToRetain instanceof Multiset)
         ? ((Multiset<?>) elementsToRetain).elementSet() : elementsToRetain;
 

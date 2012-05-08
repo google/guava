@@ -69,15 +69,6 @@ public abstract class AbstractMultisetTest extends AbstractCollectionTest {
     assertSize();
   }
 
-  /**
-   * Don't run {@code NullPointerTester} on multisets, since they fail with
-   * Java 6 due to a bug in the JDK, as illustrated in the commented out
-   * method {@code HashMultisetTest#testAnnotations()}.
-   */
-  // TODO: Figure out if this is still true...
-  @GwtIncompatible("NullPointerTester")
-  @Override public void testNullPointerExceptions() throws Exception {}
-
   public void testCountZero() {
     assertEquals(0, ms.count("a"));
     assertSize();

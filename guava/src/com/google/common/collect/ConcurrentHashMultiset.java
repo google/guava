@@ -17,6 +17,7 @@
 package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.Multisets.checkNonnegative;
 
@@ -44,7 +45,7 @@ import javax.annotation.Nullable;
 /**
  * A multiset that supports concurrent modifications and that provides atomic versions of most
  * {@code Multiset} operations (exceptions where noted). Null elements are not supported.
- * 
+ *
  * <p>See the Guava User Guide article on <a href=
  * "http://code.google.com/p/guava-libraries/wiki/NewCollectionTypesExplained#Multiset">
  * {@code Multiset}</a>.
@@ -117,7 +118,7 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> impleme
    * <p>Finally, soft/weak values can be used but are not very useful: the values are created
    * internally and not exposed externally, so no one else will have a strong reference to the
    * values. Weak keys on the other hand can be useful in some scenarios.
-   * 
+   *
    * @since 7.0
    */
   @Beta
@@ -223,6 +224,7 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> impleme
    *     the resulting amount would exceed {@link Integer#MAX_VALUE}
    */
   @Override public int add(E element, int occurrences) {
+    checkNotNull(element);
     if (occurrences == 0) {
       return count(element);
     }
@@ -276,6 +278,15 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> impleme
    * @param occurrences the number of occurrences of the element to remove
    * @return the count of the element before the operation; possibly zero
    * @throws IllegalArgumentException if {@code occurrences} is negative
+   */
+  /*
+   * TODO(cpovirk): remove and removeExactly currently accept null inputs only
+   * if occurrences == 0. This satisfies both NullPointerTester and
+   * CollectionRemoveTester.testRemove_nullAllowed, but it's not clear that it's
+   * a good policy, especially because, in order for the test to pass, the
+   * parameter must be misleadingly annotated as @Nullable. I suspect that
+   * we'll want to remove @Nullable, add an eager checkNotNull, and loosen up
+   * testRemove_nullAllowed.
    */
   @Override public int remove(@Nullable Object element, int occurrences) {
     if (occurrences == 0) {
@@ -351,6 +362,7 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> impleme
    * @throws IllegalArgumentException if {@code count} is negative
    */
   @Override public int setCount(E element, int count) {
+    checkNotNull(element);
     checkNonnegative(count, "count");
     while (true) {
       AtomicInteger existingCounter = safeGet(element);
@@ -405,6 +417,7 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> impleme
    * @throws IllegalArgumentException if {@code expectedOldCount} or {@code newCount} is negative
    */
   @Override public boolean setCount(E element, int expectedOldCount, int newCount) {
+    checkNotNull(element);
     checkNonnegative(expectedOldCount, "oldCount");
     checkNonnegative(newCount, "newCount");
 

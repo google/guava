@@ -23,7 +23,7 @@ import java.nio.charset.Charset;
  * {@link #putFloat(float)}, {@link #putString(CharSequence)}, and
  * {@link #putString(CharSequence, Charset)} as prescribed by {@link Hasher}.
  *
- * @author andreou@google.com (Dimitris Andreou)
+ * @author Dimitris Andreou
  */
 abstract class AbstractHasher implements Hasher {
   @Override public final Hasher putBoolean(boolean b) {

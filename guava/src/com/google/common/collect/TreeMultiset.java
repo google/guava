@@ -240,7 +240,7 @@ public final class TreeMultiset<E> extends AbstractSortedMultiset<E> implements 
   }
 
   @Override
-  public int add(E element, int occurrences) {
+  public int add(@Nullable E element, int occurrences) {
     checkArgument(occurrences >= 0, "occurrences must be >= 0 but was %s", occurrences);
     if (occurrences == 0) {
       return count(element);
@@ -480,7 +480,7 @@ public final class TreeMultiset<E> extends AbstractSortedMultiset<E> implements 
   }
 
   @Override
-  public SortedMultiset<E> headMultiset(E upperBound, BoundType boundType) {
+  public SortedMultiset<E> headMultiset(@Nullable E upperBound, BoundType boundType) {
     return new TreeMultiset<E>(rootReference, range.intersect(GeneralRange.upTo(
         comparator(),
         upperBound,
@@ -488,7 +488,7 @@ public final class TreeMultiset<E> extends AbstractSortedMultiset<E> implements 
   }
 
   @Override
-  public SortedMultiset<E> tailMultiset(E lowerBound, BoundType boundType) {
+  public SortedMultiset<E> tailMultiset(@Nullable E lowerBound, BoundType boundType) {
     return new TreeMultiset<E>(rootReference, range.intersect(GeneralRange.downTo(
         comparator(),
         lowerBound,

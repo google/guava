@@ -38,7 +38,7 @@ import javax.annotation.Nullable;
  * "http://code.google.com/p/guava-libraries/wiki/ImmutableCollectionsExplained">
  * immutable collections</a>.
  *
- * @author gak@google.com (Gregory Kick)
+ * @author Gregory Kick
  * @since 11.0
  */
 @GwtCompatible

@@ -28,7 +28,7 @@ import java.util.Random;
 /**
  * Tests for SimpleGenericBloomFilter and derived BloomFilter views.
  *
- * @author andreou@google.com (Dimitris Andreou)
+ * @author Dimitris Andreou
  */
 public class BloomFilterTest extends TestCase {
   /**

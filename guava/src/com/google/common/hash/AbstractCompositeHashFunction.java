@@ -23,7 +23,7 @@ import java.nio.charset.Charset;
  * {@code Hasher} objects of the delegate hash functions, and in the end, they are used by
  * {@linkplain #makeHash(Hasher[])} that constructs the final {@code HashCode}.
  *
- * @author andreou@google.com (Dimitris Andreou)
+ * @author Dimitris Andreou
  */
 abstract class AbstractCompositeHashFunction extends AbstractStreamingHashFunction {
   final HashFunction[] functions;

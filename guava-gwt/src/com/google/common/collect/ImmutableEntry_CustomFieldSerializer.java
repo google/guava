@@ -24,7 +24,7 @@ import com.google.gwt.user.client.rpc.SerializationStreamWriter;
  * This class implements the GWT serialization of
  * {@link ImmutableEntry}.
  *
- * @author iteratee@google.com (Kyle Butt)
+ * @author Kyle Butt
  */
 public class ImmutableEntry_CustomFieldSerializer {
 

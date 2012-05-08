@@ -28,7 +28,7 @@ import javax.annotation.concurrent.Immutable;
 /**
  * An empty implementation of {@link ImmutableTable}.
  *
- * @author gak@google.com (Gregory Kick)
+ * @author Gregory Kick
  */
 @GwtCompatible
 @Immutable

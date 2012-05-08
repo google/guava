@@ -582,7 +582,7 @@ public final class Ints {
     }
 
     int[] toIntArray() {
-      // Arrays.copyOfRange() requires Java 6
+      // Arrays.copyOfRange() is not available under GWT
       int size = size();
       int[] result = new int[size];
       System.arraycopy(array, start, result, 0, size);

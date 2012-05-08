@@ -92,30 +92,20 @@ public class HashMultisetTest extends AbstractMultisetTest {
    * iteration order.
    */
 
-  /**
-   * This test fails with Java 6, preventing us from running
-   * NullPointerTester on multisets.
-  public void testAnnotations() throws Exception {
-    Method method = HashMultiset.class.getDeclaredMethod(
-        "add", Object.class, int.class);
-    assertTrue(method.getParameterAnnotations()[0].length > 0);
-  }
-  */
-  
   @Override
   @GwtIncompatible(
       "http://code.google.com/p/google-web-toolkit/issues/detail?id=3421")
   public void testEntryAfterRemove() {
     super.testEntryAfterRemove();
   }
-  
+
   @Override
   @GwtIncompatible(
       "http://code.google.com/p/google-web-toolkit/issues/detail?id=3421")
   public void testEntryAfterClear() {
     super.testEntryAfterClear();
   }
-  
+
   @Override
   @GwtIncompatible(
       "http://code.google.com/p/google-web-toolkit/issues/detail?id=3421")
@@ -129,7 +119,7 @@ public class HashMultisetTest extends AbstractMultisetTest {
   public void testEntryAfterEntrySetIteratorRemove() {
     super.testEntryAfterEntrySetIteratorRemove();
   }
-  
+
   @Override
   @GwtIncompatible(
       "http://code.google.com/p/google-web-toolkit/issues/detail?id=3421")

@@ -24,7 +24,7 @@ import java.security.NoSuchAlgorithmException;
 /**
  * Tests for the MessageDigestHashFunction.
  *
- * @author kak@google.com (Kurt Alfred Kluever)
+ * @author Kurt Alfred Kluever
  */
 public class MessageDigestHashFunctionTest extends TestCase {
   public void testMd5Hashing() throws Exception {

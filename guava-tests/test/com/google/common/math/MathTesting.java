@@ -41,7 +41,7 @@ import java.math.RoundingMode;
 /**
  * Exhaustive input sets for every integral type.
  *
- * @author lowasser@google.com (Louis Wasserman)
+ * @author Louis Wasserman
  */
 @GwtCompatible
 public class MathTesting {

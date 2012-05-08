@@ -19,7 +19,7 @@ package java.nio.charset;
 /**
  * GWT emulation of {@link IllegalCharsetNameException}.
  *
- * @author gak@google.com (Gregory Kick)
+ * @author Gregory Kick
  */
 public class IllegalCharsetNameException extends IllegalArgumentException {
   private final String charsetName;

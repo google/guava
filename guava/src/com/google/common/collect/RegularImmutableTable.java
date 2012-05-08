@@ -36,7 +36,7 @@ import javax.annotation.concurrent.Immutable;
  * An implementation of {@link ImmutableTable} holding an arbitrary number of
  * cells.
  *
- * @author gak@google.com (Gregory Kick)
+ * @author Gregory Kick
  */
 @GwtCompatible
 abstract class RegularImmutableTable<R, C, V> extends ImmutableTable<R, C, V> {

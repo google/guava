@@ -27,7 +27,7 @@ import java.nio.ByteBuffer;
 /**
  * Tests for HashExtractors.
  *
- * @author andreou@google.com (Dimitris Andreou)
+ * @author Dimitris Andreou
  */
 public class FunnelsTest extends TestCase {
   public void testForBytes() {

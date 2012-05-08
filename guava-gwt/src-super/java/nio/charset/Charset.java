@@ -23,7 +23,7 @@ import java.util.TreeMap;
 /**
  * A minimal GWT emulation of {@link Charset}.
  *
- * @author gak@google.com (Gregory Kick)
+ * @author Gregory Kick
  */
 public abstract class Charset implements Comparable<Charset> {
   private static final Charset UTF_8 = new Charset("UTF-8") {};

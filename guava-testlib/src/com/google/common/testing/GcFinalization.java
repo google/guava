@@ -96,8 +96,8 @@ import java.util.concurrent.TimeoutException;
  * <p>This class only provides testing utilities.  It is not designed for direct use in production
  * or for benchmarking.
  *
- * @author schmoe@google.com (mike nonemacher)
- * @author martinrb@google.com (Martin Buchholz)
+ * @author mike nonemacher
+ * @author Martin Buchholz
  * @since 11.0
  */
 @Beta

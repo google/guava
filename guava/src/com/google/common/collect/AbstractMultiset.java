@@ -65,7 +65,7 @@ abstract class AbstractMultiset<E> extends AbstractCollection<E>
   }
 
   @Override
-  public int count(Object element) {
+  public int count(@Nullable Object element) {
     for (Entry<E> entry : entrySet()) {
       if (Objects.equal(entry.getElement(), element)) {
         return entry.getCount();
@@ -82,26 +82,26 @@ abstract class AbstractMultiset<E> extends AbstractCollection<E>
   }
 
   @Override
-  public int add(E element, int occurrences) {
+  public int add(@Nullable E element, int occurrences) {
     throw new UnsupportedOperationException();
   }
 
-  @Override public boolean remove(Object element) {
+  @Override public boolean remove(@Nullable Object element) {
     return remove(element, 1) > 0;
   }
 
   @Override
-  public int remove(Object element, int occurrences) {
+  public int remove(@Nullable Object element, int occurrences) {
     throw new UnsupportedOperationException();
   }
 
   @Override
-  public int setCount(E element, int count) {
+  public int setCount(@Nullable E element, int count) {
     return setCountImpl(this, element, count);
   }
 
   @Override
-  public boolean setCount(E element, int oldCount, int newCount) {
+  public boolean setCount(@Nullable E element, int oldCount, int newCount) {
     return setCountImpl(this, element, oldCount, newCount);
   }
 
@@ -109,7 +109,7 @@ abstract class AbstractMultiset<E> extends AbstractCollection<E>
 
   /**
    * {@inheritDoc}
-   * 
+   *
    * <p>This implementation is highly efficient when {@code elementsToAdd}
    * is itself a {@link Multiset}.
    */
@@ -158,11 +158,11 @@ abstract class AbstractMultiset<E> extends AbstractCollection<E>
   }
 
   abstract Iterator<Entry<E>> entryIterator();
-  
+
   abstract int distinctElements();
 
   private transient Set<Entry<E>> entrySet;
-  
+
   @Override public Set<Entry<E>> entrySet() {
     Set<Entry<E>> result = entrySet;
     return (result == null) ? entrySet = createEntrySet() : result;

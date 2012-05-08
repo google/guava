@@ -22,13 +22,13 @@ import java.nio.ByteBuffer;
 /**
  * See http://smhasher.googlecode.com/svn/trunk/MurmurHash3.cpp
  * MurmurHash3_x86_32
- * 
- * @author aappleby@google.com (Austin Appleby)
- * @author andreou@google.com (Dimitris Andreou)
+ *
+ * @author Austin Appleby
+ * @author Dimitris Andreou
  */
 final class Murmur3_32HashFunction extends AbstractStreamingHashFunction implements Serializable {
   private final int seed;
-  
+
   Murmur3_32HashFunction(int seed) {
     this.seed = seed;
   }
@@ -55,16 +55,16 @@ final class Murmur3_32HashFunction extends AbstractStreamingHashFunction impleme
     @Override protected void process(ByteBuffer bb) {
       int k1 = bb.getInt();
       len += 4;
-      
-      k1 *= c1; 
-      k1 = Integer.rotateLeft(k1, 15); 
+
+      k1 *= c1;
+      k1 = Integer.rotateLeft(k1, 15);
       k1 *= c2;
-      
+
       h1 ^= k1;
       h1 = Integer.rotateLeft(h1, 13);
       h1 = h1 * 5 + 0xe6546b64;
     }
-    
+
     @Override protected void processRemaining(ByteBuffer bb) {
       len += bb.remaining();
       int k1 = 0;
@@ -85,7 +85,7 @@ final class Murmur3_32HashFunction extends AbstractStreamingHashFunction impleme
           h1 ^= k1;
       }
     }
-    
+
     @Override public HashCode makeHash() {
       h1 ^= len;
 
@@ -94,10 +94,10 @@ final class Murmur3_32HashFunction extends AbstractStreamingHashFunction impleme
       h1 ^= h1 >>> 13;
       h1 *= 0xc2b2ae35;
       h1 ^= h1 >>> 16;
-          
+
       return HashCodes.fromInt(h1);
     }
   }
-  
+
   private static final long serialVersionUID = 0L;
 }

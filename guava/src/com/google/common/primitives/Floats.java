@@ -518,7 +518,7 @@ public final class Floats {
     }
 
     float[] toFloatArray() {
-      // Arrays.copyOfRange() requires Java 6
+      // Arrays.copyOfRange() is not available under GWT
       int size = size();
       float[] result = new float[size];
       System.arraycopy(array, start, result, 0, size);

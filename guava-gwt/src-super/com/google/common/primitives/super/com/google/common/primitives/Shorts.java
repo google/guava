@@ -528,7 +528,7 @@ public final class Shorts {
     }
 
     short[] toShortArray() {
-      // Arrays.copyOfRange() requires Java 6
+      // Arrays.copyOfRange() is not available under GWT
       int size = size();
       short[] result = new short[size];
       System.arraycopy(array, start, result, 0, size);

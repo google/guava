@@ -28,7 +28,7 @@ import java.util.Arrays;
  * Tests for HashCodes, especially making sure that their endianness promises (big-endian)
  * are upheld.
  *
- * @author andreou@google.com (Dimitris Andreou)
+ * @author Dimitris Andreou
  */
 public class HashCodesTest extends TestCase {
   // note: asInt(), asLong() are in little endian
