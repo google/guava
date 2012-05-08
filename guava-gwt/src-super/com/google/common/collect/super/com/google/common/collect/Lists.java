@@ -335,13 +335,19 @@ public final class Lists {
    * view, copy the returned list into a new list of your choosing.
    *
    * <p>If {@code fromList} implements {@link RandomAccess}, so will the
-   * returned list. The returned list always implements {@link Serializable},
-   * but serialization will succeed only when {@code fromList} and
-   * {@code function} are serializable. The returned list is threadsafe if the
-   * supplied list and function are.
+   * returned list. The returned list is threadsafe if the supplied list and
+   * function are.
    *
    * <p>If only a {@code Collection} or {@code Iterable} input is available, use
    * {@link Collections2#transform} or {@link Iterables#transform}.
+   *
+   * <p><b>Note:</b> serializing the returned list is implemented by serializing
+   * {@code fromList}, its contents, and {@function} -- <i>not</i> by
+   * serializing the transformed values. This can lead to surprising behavior,
+   * so serializing the returned list is <b>not recommended</b>. Instead,
+   * copy the list using {@link ImmutableList#copyOf(Collection)} (for example),
+   * then serialize the copy. Other methods similar to this do not implement
+   * serialization at all for this reason.
    */
   public static <F, T> List<T> transform(
       List<F> fromList, Function<? super F, ? extends T> function) {
