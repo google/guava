@@ -1809,9 +1809,9 @@ public class FuturesTest extends TestCase {
     tester.setDefault(Future.class, Futures.immediateFuture(DATA1));
     tester.setDefault(Executor.class, MoreExecutors.sameThreadExecutor());
     tester.setDefault(Callable.class, Callables.returning(null));
-    tester.setDefault(AsyncFunction.class, new AsyncFunction() {
+    tester.setDefault(AsyncFunction.class, new AsyncFunction<Object, String>() {
       @Override
-      public ListenableFuture apply(Object input) throws Exception {
+      public ListenableFuture<String> apply(Object input) throws Exception {
         return immediateFuture(DATA1);
       }
     });
