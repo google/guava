@@ -15,6 +15,9 @@
   <packaging>pom</packaging>
   <name>Guava Maven Parent</name>
   <url>http://code.google.com/p/guava-libraries</url>
+  <properties>
+    <gpg.skip>true</gpg.skip>
+  </properties>
   <issueManagement>
     <system>code.google.com</system>
     <url>http://code.google.com/p/guava-libraries/issues</url>
