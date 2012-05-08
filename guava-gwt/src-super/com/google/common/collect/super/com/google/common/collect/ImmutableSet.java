@@ -37,16 +37,8 @@ import java.util.Set;
  * @author Hayward Chan
  */
 @SuppressWarnings("serial")  // Serialization only done in GWT.
-public abstract class ImmutableSet<E> extends ForwardingImmutableCollection<E>
-    implements Set<E> {
-
-  ImmutableSet(Set<E> delegate) {
-    super(Collections.unmodifiableSet(delegate));
-  }
-
-  ImmutableSet() {
-    this(Collections.<E>emptySet());
-  }
+public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements Set<E> {
+  ImmutableSet() {}
 
   // Casting to any type is safe because the set will never hold any elements.
   @SuppressWarnings({"unchecked"})
@@ -79,8 +71,7 @@ public abstract class ImmutableSet<E> extends ForwardingImmutableCollection<E>
   }
 
   @SuppressWarnings("unchecked")
-  public static <E> ImmutableSet<E> of(E e1, E e2, E e3, E e4, E e5, E e6,
-      E... others) {
+  public static <E> ImmutableSet<E> of(E e1, E e2, E e3, E e4, E e5, E e6, E... others) {
     int size = others.length + 6;
     List<E> all = new ArrayList<E>(size);
     Collections.addAll(all, e1, e2, e3, e4, e5, e6);
@@ -111,8 +102,7 @@ public abstract class ImmutableSet<E> extends ForwardingImmutableCollection<E>
   }
 
   public static <E> ImmutableSet<E> copyOf(Iterable<? extends E> elements) {
-    if (elements instanceof ImmutableSet
-        && !(elements instanceof ImmutableSortedSet)) {
+    if (elements instanceof ImmutableSet && !(elements instanceof ImmutableSortedSet)) {
       @SuppressWarnings("unchecked") // all supported methods are covariant
       ImmutableSet<E> set = (ImmutableSet<E>) elements;
       return set;
@@ -175,7 +165,7 @@ public abstract class ImmutableSet<E> extends ForwardingImmutableCollection<E>
   }
 
   @Override public int hashCode() {
-    return delegate.hashCode();
+    return Sets.hashCodeImpl(this);
   }
 
   public static <E> Builder<E> builder() {

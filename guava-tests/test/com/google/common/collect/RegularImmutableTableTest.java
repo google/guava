@@ -18,6 +18,7 @@ package com.google.common.collect;
 
 import static org.junit.contrib.truth.Truth.ASSERT;
 
+import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.RegularImmutableTable.DenseImmutableTable;
 import com.google.common.collect.RegularImmutableTable.SparseImmutableTable;
 import com.google.common.collect.Table.Cell;
@@ -25,6 +26,7 @@ import com.google.common.collect.Table.Cell;
 /**
  * @author Gregory Kick
  */
+@GwtCompatible
 public class RegularImmutableTableTest extends AbstractImmutableTableTest {
   private static final ImmutableSet<Cell<Character, Integer, String>> CELLS =
     ImmutableSet.of(

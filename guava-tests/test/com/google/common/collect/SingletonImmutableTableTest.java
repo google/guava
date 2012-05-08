@@ -18,6 +18,8 @@ package com.google.common.collect;
 
 import static org.junit.contrib.truth.Truth.ASSERT;
 
+import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Objects;
 import com.google.common.testing.EqualsTester;
 
@@ -26,6 +28,7 @@ import com.google.common.testing.EqualsTester;
  *
  * @author Gregory Kick
  */
+@GwtCompatible(emulated = true)
 public class SingletonImmutableTableTest extends AbstractImmutableTableTest {
   private final ImmutableTable<Character, Integer, String> testTable =
       new SingletonImmutableTable<Character, Integer, String>('a', 1, "blah");
@@ -35,8 +38,7 @@ public class SingletonImmutableTableTest extends AbstractImmutableTableTest {
   }
 
   public void testCellSet() {
-    assertEquals(ImmutableSet.of(Tables.immutableCell('a', 1, "blah")),
-        testTable.cellSet());
+    assertEquals(ImmutableSet.of(Tables.immutableCell('a', 1, "blah")), testTable.cellSet());
   }
 
   public void testColumn() {
@@ -49,8 +51,7 @@ public class SingletonImmutableTableTest extends AbstractImmutableTableTest {
   }
 
   public void testColumnMap() {
-    assertEquals(ImmutableMap.of(1, ImmutableMap.of('a', "blah")),
-        testTable.columnMap());
+    assertEquals(ImmutableMap.of(1, ImmutableMap.of('a', "blah")), testTable.columnMap());
   }
 
   public void testRow() {
@@ -69,11 +70,17 @@ public class SingletonImmutableTableTest extends AbstractImmutableTableTest {
 
   public void testEqualsObject() {
     new EqualsTester()
-        .addEqualityGroup(testTable, ArrayTable.create(testTable),
-            HashBasedTable.create(testTable))
-        .addEqualityGroup(EmptyImmutableTable.INSTANCE,
-            HashBasedTable.create())
+        .addEqualityGroup(testTable, HashBasedTable.create(testTable))
+        .addEqualityGroup(EmptyImmutableTable.INSTANCE, HashBasedTable.create())
         .addEqualityGroup(HashBasedTable.create(ImmutableTable.of('A', 2, "")))
+        .testEquals();
+  }
+
+  @GwtIncompatible("ArrayTable")
+  public void testEqualsObjectNullValues() {
+    new EqualsTester()
+        .addEqualityGroup(testTable)
+        .addEqualityGroup(ArrayTable.create(ImmutableSet.of('A'), ImmutableSet.of(1)))
         .testEquals();
   }
 
@@ -122,8 +129,7 @@ public class SingletonImmutableTableTest extends AbstractImmutableTableTest {
     ASSERT.that(testTable.values()).hasContentsInOrder("blah");
   }
 
-  @Override Iterable<ImmutableTable<Character, Integer, String>>
-      getTestInstances() {
+  @Override Iterable<ImmutableTable<Character, Integer, String>> getTestInstances() {
     return ImmutableSet.of(testTable);
   }
 }

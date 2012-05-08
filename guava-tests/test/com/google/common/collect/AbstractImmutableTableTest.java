@@ -16,6 +16,8 @@
 
 package com.google.common.collect;
 
+import com.google.common.annotations.GwtCompatible;
+
 import junit.framework.TestCase;
 
 /**
@@ -23,14 +25,14 @@ import junit.framework.TestCase;
  *
  * @author Gregory Kick
  */
+@GwtCompatible
 public abstract class AbstractImmutableTableTest extends TestCase {
 
   abstract Iterable<ImmutableTable<Character, Integer, String>>
       getTestInstances();
 
   public final void testClear() {
-    for(ImmutableTable<Character, Integer, String> testInstance :
-        getTestInstances()) {
+    for (ImmutableTable<Character, Integer, String> testInstance : getTestInstances()) {
       try {
         testInstance.clear();
         fail();
@@ -41,8 +43,7 @@ public abstract class AbstractImmutableTableTest extends TestCase {
   }
 
   public final void testPut() {
-    for(ImmutableTable<Character, Integer, String> testInstance :
-        getTestInstances()) {
+    for (ImmutableTable<Character, Integer, String> testInstance : getTestInstances()) {
       try {
         testInstance.put('a', 1, "blah");
         fail();
@@ -53,8 +54,7 @@ public abstract class AbstractImmutableTableTest extends TestCase {
   }
 
   public final void testPutAll() {
-    for(ImmutableTable<Character, Integer, String> testInstance :
-        getTestInstances()) {
+    for (ImmutableTable<Character, Integer, String> testInstance : getTestInstances()) {
       try {
         testInstance.putAll(ImmutableTable.of('a', 1, "blah"));
         fail();
@@ -65,8 +65,7 @@ public abstract class AbstractImmutableTableTest extends TestCase {
   }
 
   public final void testRemove() {
-    for(ImmutableTable<Character, Integer, String> testInstance :
-        getTestInstances()) {
+    for (ImmutableTable<Character, Integer, String> testInstance : getTestInstances()) {
       try {
         testInstance.remove('a', 1);
         fail();
@@ -77,15 +76,13 @@ public abstract class AbstractImmutableTableTest extends TestCase {
   }
 
   public final void testConsistentToString() {
-    for(ImmutableTable<Character, Integer, String> testInstance :
-        getTestInstances()) {
+    for (ImmutableTable<Character, Integer, String> testInstance : getTestInstances()) {
       assertEquals(testInstance.rowMap().toString(), testInstance.toString());
     }
   }
 
   public final void testConsistentHashCode() {
-    for(ImmutableTable<Character, Integer, String> testInstance :
-        getTestInstances()) {
+    for (ImmutableTable<Character, Integer, String> testInstance : getTestInstances()) {
       assertEquals(testInstance.cellSet().hashCode(), testInstance.hashCode());
     }
   }

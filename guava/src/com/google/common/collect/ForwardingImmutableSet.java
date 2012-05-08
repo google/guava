@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2009 The Guava Authors
+ * Copyright (C) 2012 The Guava Authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,18 +16,14 @@
 
 package com.google.common.collect;
 
-import java.util.Collections;
+import com.google.common.annotations.GwtCompatible;
 
 /**
- * GWT emulation of {@link EmptyImmutableMap}.  In GWT, it is a thin wrapper
- * around {@link java.util.Collections#emptyMap()}.
+ * Unused stub class, unreferenced under Java and manually emulated under GWT.
  *
- * @author Hayward Chan
+ * @author Chris Povirk
  */
-final class EmptyImmutableMap extends ForwardingImmutableMap<Object, Object> {
-  EmptyImmutableMap() {
-    super(Collections.emptyMap());
-  }
-
-  static final EmptyImmutableMap INSTANCE = new EmptyImmutableMap();
+@GwtCompatible(emulated = true)
+abstract class ForwardingImmutableSet<E> {
+  private ForwardingImmutableSet() {}
 }

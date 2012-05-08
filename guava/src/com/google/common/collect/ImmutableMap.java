@@ -20,7 +20,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.Iterables.getOnlyElement;
 
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.collect.ImmutableSet.TransformedImmutableSet;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -370,44 +369,6 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
 
   abstract ImmutableSet<Entry<K, V>> createEntrySet();
 
-  abstract class EntrySet extends ImmutableSet<Entry<K, V>> {
-    @Override
-    public int size() {
-      return ImmutableMap.this.size();
-    }
-
-    @Override
-    public boolean contains(@Nullable Object object) {
-      if (object instanceof Entry) {
-        Entry<?, ?> entry = (Entry<?, ?>) object;
-        V value = get(entry.getKey());
-        return value != null && value.equals(entry.getValue());
-      }
-      return false;
-    }
-
-    @Override
-    boolean isPartialView() {
-      return ImmutableMap.this.isPartialView();
-    }
-
-    @Override
-    Object writeReplace() {
-      return new EntrySetSerializedForm<K, V>(ImmutableMap.this);
-    }
-  }
-
-  private static class EntrySetSerializedForm<K, V> implements Serializable {
-    final ImmutableMap<K, V> map;
-    EntrySetSerializedForm(ImmutableMap<K, V> map) {
-      this.map = map;
-    }
-    Object readResolve() {
-      return map.entrySet();
-    }
-    private static final long serialVersionUID = 0;
-  }
-
   private transient ImmutableSet<K> keySet;
 
   /**
@@ -421,63 +382,11 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
   }
 
   ImmutableSet<K> createKeySet() {
-    return new KeySet();
-  }
-
-  class KeySet extends TransformedImmutableSet<Entry<K, V>, K> {
-    KeySet() {
-      super(entrySet());
-    }
-
-    KeySet(int hashCode) {
-      super(entrySet(), hashCode);
-    }
-
-    @Override
-    K transform(Entry<K, V> entry) {
-      return entry.getKey();
-    }
-
-    @Override
-    public boolean contains(@Nullable Object object) {
-      return containsKey(object);
-    }
-
-    @Override
-    boolean isPartialView() {
-      return true;
-    }
-
-    @Override
-    ImmutableList<K> createAsList() {
-      final ImmutableList<Entry<K, V>> entryList = entrySet().asList();
-      return new ImmutableAsList<K>() {
-        @Override
-        public K get(int index) {
-          return entryList.get(index).getKey();
-        }
-
-        @Override
-        ImmutableCollection<K> delegateCollection() {
-          return KeySet.this;
-        }
-      };
-    }
-
-    @Override Object writeReplace() {
-      return new KeySetSerializedForm<K>(ImmutableMap.this);
-    }
-  }
-
-  private static class KeySetSerializedForm<K> implements Serializable {
-    final ImmutableMap<K, ?> map;
-    KeySetSerializedForm(ImmutableMap<K, ?> map) {
-      this.map = map;
-    }
-    Object readResolve() {
-      return map.keySet();
-    }
-    private static final long serialVersionUID = 0;
+    return new ImmutableMapKeySet<K, V>(entrySet()) {
+      @Override ImmutableMap<K, V> map() {
+        return ImmutableMap.this;
+      }
+    };
   }
 
   private transient ImmutableCollection<V> values;
@@ -493,71 +402,15 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
   }
 
   ImmutableCollection<V> createValues() {
-    return new Values();
-  }
-
-  class Values extends ImmutableCollection<V> {
-    @Override
-    public int size() {
-      return ImmutableMap.this.size();
-    }
-
-    @Override
-    public UnmodifiableIterator<V> iterator() {
-      return Maps.valueIterator(entrySet().iterator());
-    }
-
-    @Override
-    public boolean contains(Object object) {
-      return containsValue(object);
-    }
-
-    @Override
-    boolean isPartialView() {
-      return true;
-    }
-
-    @Override
-    ImmutableList<V> createAsList() {
-      final ImmutableList<Entry<K, V>> entryList = entrySet().asList();
-      return new ImmutableAsList<V>() {
-        @Override
-        public V get(int index) {
-          return entryList.get(index).getValue();
-        }
-
-        @Override
-        ImmutableCollection<V> delegateCollection() {
-          return Values.this;
-        }
-      };
-    }
-
-    @Override Object writeReplace() {
-      return new ValuesSerializedForm<V>(ImmutableMap.this);
-    }
-  }
-
-  private static class ValuesSerializedForm<V> implements Serializable {
-    final ImmutableMap<?, V> map;
-    ValuesSerializedForm(ImmutableMap<?, V> map) {
-      this.map = map;
-    }
-    Object readResolve() {
-      return map.values();
-    }
-    private static final long serialVersionUID = 0;
+    return new ImmutableMapValues<K, V>() {
+      @Override ImmutableMap<K, V> map() {
+        return ImmutableMap.this;
+      }
+    };
   }
 
   @Override public boolean equals(@Nullable Object object) {
-    if (object == this) {
-      return true;
-    }
-    if (object instanceof Map) {
-      Map<?, ?> that = (Map<?, ?>) object;
-      return this.entrySet().equals(that.entrySet());
-    }
-    return false;
+    return Maps.equalsImpl(this, object);
   }
 
   abstract boolean isPartialView();

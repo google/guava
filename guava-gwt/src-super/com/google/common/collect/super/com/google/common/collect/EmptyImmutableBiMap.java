@@ -19,15 +19,18 @@ package com.google.common.collect;
 import java.util.Collections;
 
 /**
- * GWT emulation of {@link EmptyImmutableMap}.  In GWT, it is a thin wrapper
- * around {@link java.util.Collections#emptyMap()}.
+ * GWT emulation of {@link EmptyImmutableBiMap}.
  *
  * @author Hayward Chan
  */
-final class EmptyImmutableMap extends ForwardingImmutableMap<Object, Object> {
-  EmptyImmutableMap() {
+@SuppressWarnings("serial")
+final class EmptyImmutableBiMap extends ImmutableBiMap<Object, Object> {
+  static final EmptyImmutableBiMap INSTANCE = new EmptyImmutableBiMap();
+
+  private EmptyImmutableBiMap() {
     super(Collections.emptyMap());
   }
-
-  static final EmptyImmutableMap INSTANCE = new EmptyImmutableMap();
+  @Override public ImmutableBiMap<Object, Object> inverse() {
+    return this;
+  }
 }

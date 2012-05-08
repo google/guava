@@ -25,7 +25,7 @@ import java.util.Collections;
  *
  * @author Hayward Chan
  */
-final class SingletonImmutableMap<K, V> extends ImmutableMap<K, V> {
+final class SingletonImmutableMap<K, V> extends ForwardingImmutableMap<K, V> {
 
   // These references are used both by the custom field serializer, and by the
   // GWT compiler to infer the keys and values of the map that needs to be

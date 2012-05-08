@@ -16,18 +16,11 @@
 
 package com.google.common.collect;
 
-import java.util.Collections;
-
 /**
- * GWT emulation of {@link EmptyImmutableMap}.  In GWT, it is a thin wrapper
- * around {@link java.util.Collections#emptyMap()}.
+ * Even though {@link ImmutableBiMap} cannot be instantiated, we still need
+ * a custom field serializer to unify the type signature of
+ * {@code ImmutableBiMap[]} on server and client side.
  *
  * @author Hayward Chan
  */
-final class EmptyImmutableMap extends ForwardingImmutableMap<Object, Object> {
-  EmptyImmutableMap() {
-    super(Collections.emptyMap());
-  }
-
-  static final EmptyImmutableMap INSTANCE = new EmptyImmutableMap();
-}
+public final class ImmutableBiMap_CustomFieldSerializer {}

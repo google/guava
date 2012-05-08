@@ -25,7 +25,7 @@ import java.util.Set;
  *
  * @author Hayward Chan
  */
-final class RegularImmutableSet<E> extends ImmutableSet<E> {
+final class RegularImmutableSet<E> extends ForwardingImmutableSet<E> {
   RegularImmutableSet(Set<E> delegate) {
     super(delegate);
 

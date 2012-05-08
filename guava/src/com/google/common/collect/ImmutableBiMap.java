@@ -43,16 +43,13 @@ import javax.annotation.Nullable;
 public abstract class ImmutableBiMap<K, V> extends ImmutableMap<K, V>
     implements BiMap<K, V> {
 
-  private static final ImmutableBiMap<Object, Object> EMPTY_IMMUTABLE_BIMAP
-      = new EmptyBiMap();
-
   /**
    * Returns the empty bimap.
    */
   // Casting to any type is safe because the set will never hold any elements.
   @SuppressWarnings("unchecked")
   public static <K, V> ImmutableBiMap<K, V> of() {
-    return (ImmutableBiMap<K, V>) EMPTY_IMMUTABLE_BIMAP;
+    return (ImmutableBiMap<K, V>) EmptyImmutableBiMap.INSTANCE;
   }
 
   /**
@@ -280,23 +277,6 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableMap<K, V>
 
   @Override public String toString() {
     return delegate().toString();
-  }
-
-  /** Bimap with no mappings. */
-  @SuppressWarnings("serial") // uses writeReplace(), not default serialization
-  static class EmptyBiMap extends ImmutableBiMap<Object, Object> {
-    @Override ImmutableMap<Object, Object> delegate() {
-      return ImmutableMap.of();
-    }
-    @Override public ImmutableBiMap<Object, Object> inverse() {
-      return this;
-    }
-    @Override boolean isPartialView() {
-      return false;
-    }
-    Object readResolve() {
-      return EMPTY_IMMUTABLE_BIMAP; // preserve singleton property
-    }
   }
 
   /**

@@ -23,7 +23,6 @@ import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import javax.annotation.Nullable;
 
@@ -40,28 +39,7 @@ import javax.annotation.Nullable;
  */
 public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
 
-  private transient final Map<K, V> delegate;
-
-  ImmutableMap() {
-    this.delegate = Collections.emptyMap();
-  }
-
-  ImmutableMap(Map<? extends K, ? extends V> delegate) {
-    this.delegate = Collections.unmodifiableMap(delegate);
-  }
-
-  @SuppressWarnings("unchecked")
-  ImmutableMap(Entry<? extends K, ? extends V>... entries) {
-    Map<K, V> delegate = Maps.newLinkedHashMap();
-    for (Entry<? extends K, ? extends V> entry : entries) {
-      K key = checkNotNull(entry.getKey());
-      V previous = delegate.put(key, checkNotNull(entry.getValue()));
-      if (previous != null) {
-        throw new IllegalArgumentException("duplicate key: " + key);
-      }
-    }
-    this.delegate = Collections.unmodifiableMap(delegate);
-  }
+  ImmutableMap() {}
 
   // Casting to any type is safe because the set will never hold any elements.
   @SuppressWarnings("unchecked")
@@ -185,9 +163,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
     }
   }
 
-  boolean isPartialView(){
-    return false;
-  }
+  abstract boolean isPartialView();
 
   public final V put(K k, V v) {
     throw new UnsupportedOperationException();
@@ -205,20 +181,19 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
     throw new UnsupportedOperationException();
   }
 
-  public final boolean isEmpty() {
-    return delegate.isEmpty();
+  @Override
+  public boolean isEmpty() {
+    return size() == 0;
   }
 
-  public final boolean containsKey(@Nullable Object key) {
-    return Maps.safeContainsKey(delegate, key);
+  @Override
+  public boolean containsKey(@Nullable Object key) {
+    return get(key) != null;
   }
 
-  public final boolean containsValue(@Nullable Object value) {
-    return delegate.containsValue(value);
-  }
-
-  public final V get(@Nullable Object key) {
-    return (key == null) ? null : Maps.safeGet(delegate, key);
+  @Override
+  public boolean containsValue(@Nullable Object value) {
+    return value != null && Maps.containsValueImpl(this, value);
   }
 
   private transient ImmutableSet<Entry<K, V>> cachedEntrySet = null;
@@ -227,33 +202,10 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
     if (cachedEntrySet != null) {
       return cachedEntrySet;
     }
-    return cachedEntrySet = ImmutableSet.unsafeDelegate(
-        new ForwardingSet<Entry<K, V>>() {
-          @Override protected Set<Entry<K, V>> delegate() {
-            return delegate.entrySet();
-          }
-          @Override public boolean contains(Object object) {
-            if (object instanceof Entry
-                && ((Entry<?, ?>) object).getKey() == null) {
-              return false;
-            }
-            try {
-              return super.contains(object);
-            } catch (ClassCastException e) {
-              return false;
-            }
-          }
-          @Override public <T> T[] toArray(T[] array) {
-            T[] result = super.toArray(array);
-            if (size() < result.length) {
-              // It works around a GWT bug where elements after last is not
-              // properly null'ed.
-              result[size()] = null;
-            }
-            return result;
-          }
-        });
+    return cachedEntrySet = createEntrySet();
   }
+
+  abstract ImmutableSet<Entry<K, V>> createEntrySet();
 
   private transient ImmutableSet<K> cachedKeySet = null;
 
@@ -261,7 +213,15 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
     if (cachedKeySet != null) {
       return cachedKeySet;
     }
-    return cachedKeySet = ImmutableSet.unsafeDelegate(delegate.keySet());
+    return cachedKeySet = createKeySet();
+  }
+
+  ImmutableSet<K> createKeySet() {
+    return new ImmutableMapKeySet<K, V>(entrySet()) {
+      @Override ImmutableMap<K, V> map() {
+        return ImmutableMap.this;
+      }
+    };
   }
 
   private transient ImmutableCollection<V> cachedValues = null;
@@ -270,22 +230,28 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
     if (cachedValues != null) {
       return cachedValues;
     }
-    return cachedValues = ImmutableCollection.unsafeDelegate(delegate.values());
+    return cachedValues = createValues();
   }
 
-  public int size() {
-    return delegate.size();
+  ImmutableCollection<V> createValues() {
+    return new ImmutableMapValues<K, V>() {
+      @Override ImmutableMap<K, V> map() {
+        return ImmutableMap.this;
+      }
+    };
   }
 
   @Override public boolean equals(@Nullable Object object) {
-    return delegate.equals(object);
+    return Maps.equalsImpl(this, object);
   }
 
   @Override public int hashCode() {
-    return delegate.hashCode();
+    // not caching hash code since it could change if map values are mutable
+    // in a way that modifies their hash codes
+    return entrySet().hashCode();
   }
 
   @Override public String toString() {
-    return delegate.toString();
+    return Maps.toStringImpl(this);
   }
 }

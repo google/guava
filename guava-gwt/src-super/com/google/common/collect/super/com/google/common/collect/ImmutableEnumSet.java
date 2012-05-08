@@ -24,7 +24,7 @@ import java.util.Set;
  *
  * @author Hayward Chan
  */
-final class ImmutableEnumSet<E> extends ImmutableSet<E> {
+final class ImmutableEnumSet<E> extends ForwardingImmutableSet<E> {
   public ImmutableEnumSet(Set<E> delegate) {
     super(delegate);
   }

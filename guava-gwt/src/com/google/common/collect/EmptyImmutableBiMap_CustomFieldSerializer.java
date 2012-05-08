@@ -16,18 +16,23 @@
 
 package com.google.common.collect;
 
-import java.util.Collections;
+import com.google.gwt.user.client.rpc.SerializationStreamReader;
+import com.google.gwt.user.client.rpc.SerializationStreamWriter;
 
 /**
- * GWT emulation of {@link EmptyImmutableMap}.  In GWT, it is a thin wrapper
- * around {@link java.util.Collections#emptyMap()}.
+ * This class implements the GWT serialization of
+ * {@link EmptyImmutableBiMap}.
  *
- * @author Hayward Chan
+ * @author Chris Povirk
  */
-final class EmptyImmutableMap extends ForwardingImmutableMap<Object, Object> {
-  EmptyImmutableMap() {
-    super(Collections.emptyMap());
+public class EmptyImmutableBiMap_CustomFieldSerializer {
+  public static void deserialize(SerializationStreamReader reader, EmptyImmutableBiMap instance) {
   }
 
-  static final EmptyImmutableMap INSTANCE = new EmptyImmutableMap();
+  public static EmptyImmutableBiMap instantiate(SerializationStreamReader reader) {
+    return EmptyImmutableBiMap.INSTANCE;
+  }
+
+  public static void serialize(SerializationStreamWriter writer, EmptyImmutableBiMap instance) {
+  }
 }

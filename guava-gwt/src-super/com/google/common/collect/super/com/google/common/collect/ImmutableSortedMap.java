@@ -35,7 +35,7 @@ import java.util.SortedMap;
  * @author Hayward Chan
  */
 public class ImmutableSortedMap<K, V>
-    extends ImmutableMap<K, V> implements SortedMap<K, V> {
+    extends ForwardingImmutableMap<K, V> implements SortedMap<K, V> {
 
   // TODO: Confirm that ImmutableSortedMap is faster to construct and uses less
   // memory than TreeMap; then say so in the class Javadoc.
@@ -228,7 +228,7 @@ public class ImmutableSortedMap<K, V>
     return (ks == null) ? (keySet = createKeySet()) : ks;
   }
 
-  private ImmutableSortedSet<K> createKeySet() {
+  @Override ImmutableSortedSet<K> createKeySet() {
     // the keySet() of the delegate is only a Set and TreeMap.navigatableKeySet
     // is not available in GWT yet.  To keep the code simple and code size more,
     // we make a copy here, instead of creating a view of it.

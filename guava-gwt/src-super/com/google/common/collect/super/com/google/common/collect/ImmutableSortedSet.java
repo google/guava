@@ -36,7 +36,8 @@ import javax.annotation.Nullable;
  * @author Hayward Chan
  */
 public abstract class ImmutableSortedSet<E>
-    extends ImmutableSet<E> implements SortedSet<E>, SortedIterable<E> {
+    extends ForwardingImmutableSet<E> implements SortedSet<E>, SortedIterable<E> {
+  // TODO(cpovirk): split into ImmutableSortedSet/ForwardingImmutableSortedSet?
 
   // In the non-emulated source, this is in ImmutableSortedSetFauxverideShim,
   // which overrides ImmutableSet & which ImmutableSortedSet extends.

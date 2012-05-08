@@ -191,7 +191,11 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
   }
 
   @SuppressWarnings("serial") // uses writeReplace(), not default serialization
-  private class EntrySet extends ImmutableMap<K, V>.EntrySet {
+  private class EntrySet extends ImmutableMapEntrySet<K, V> {
+    @Override ImmutableMap<K, V> map() {
+      return RegularImmutableMap.this;
+    }
+
     @Override
     public UnmodifiableIterator<Entry<K, V>> iterator() {
       return asList().iterator();
@@ -205,7 +209,11 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
 
   @Override
   ImmutableSet<K> createKeySet() {
-    return new KeySet(keySetHashCode);
+    return new ImmutableMapKeySet<K, V>(entrySet(), keySetHashCode) {
+      @Override ImmutableMap<K, V> map() {
+        return RegularImmutableMap.this;
+      }
+    };
   }
 
   @Override public String toString() {

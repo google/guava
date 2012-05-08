@@ -16,12 +16,17 @@
 
 package com.google.common.collect;
 
+import java.util.Collections;
+
 /**
  * GWT emulation of {@link EmptyImmutableSet}.
  *
  * @author Hayward Chan
  */
-final class EmptyImmutableSet extends ImmutableSet<Object> {
+final class EmptyImmutableSet extends ForwardingImmutableSet<Object> {
+  private EmptyImmutableSet() {
+    super(Collections.emptySet());
+  }
 
   static final EmptyImmutableSet INSTANCE = new EmptyImmutableSet();
 }

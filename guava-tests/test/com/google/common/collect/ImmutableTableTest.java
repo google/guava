@@ -18,11 +18,14 @@ package com.google.common.collect;
 
 import static org.junit.contrib.truth.Truth.ASSERT;
 
+import com.google.common.annotations.GwtCompatible;
+
 /**
  * Tests common methods in {@link ImmutableTable}
  *
  * @author Gregory Kick
  */
+@GwtCompatible
 public class ImmutableTableTest extends AbstractTableReadTest {
   @Override protected Table<String, Integer, Character> create(Object... data) {
     ImmutableTable.Builder<String, Integer, Character> builder =

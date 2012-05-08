@@ -474,7 +474,11 @@ public class ImmutableSortedMap<K, V>
   }
 
   @SuppressWarnings("serial") // uses writeReplace(), not default serialization
-  private class EntrySet extends ImmutableMap<K, V>.EntrySet {
+  private class EntrySet extends ImmutableMapEntrySet<K, V> {
+    @Override ImmutableMap<K, V> map() {
+      return ImmutableSortedMap.this;
+    }
+
     @Override
     public UnmodifiableIterator<Entry<K, V>> iterator() {
       return entries.iterator();
