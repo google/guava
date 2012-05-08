@@ -58,7 +58,7 @@ import javax.annotation.Nullable;
  * class are serializable if and only if the provided instances that back them
  * are. For example, if {@code ordering} and {@code function} can themselves be
  * serialized, then {@code ordering.onResultOf(function)} can as well.
- * 
+ *
  * <p>See the Guava User Guide article on <a href=
  * "http://code.google.com/p/guava-libraries/wiki/OrderingExplained">
  * {@code Ordering}</a>.
@@ -70,6 +70,19 @@ import javax.annotation.Nullable;
 @GwtCompatible
 public abstract class Ordering<T> implements Comparator<T> {
   // Static factories
+
+  /**
+   * Returns an ordering which treats all values as equal. This can be useful in conjunction with
+   * nullsFirst() or nullsLast() to treat all non-null objects as equal, or to make sorting a
+   * no-op.
+   *
+   * <p>The returned comparator is serializable.
+   */
+  @GwtCompatible(serializable = true)
+  @SuppressWarnings("unchecked")
+  public static Ordering<Object> allEqual() {
+    return AllEqualOrdering.INSTANCE;
+  }
 
   /**
    * Returns a serializable ordering that uses the natural order of the values.

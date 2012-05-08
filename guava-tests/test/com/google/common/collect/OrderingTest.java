@@ -55,6 +55,17 @@ public class OrderingTest extends TestCase {
 
   private final Ordering<Number> numberOrdering = new NumberOrdering();
 
+  public void testAllEqual() {
+    Ordering<Object> comparator = Ordering.allEqual();
+    assertSame(comparator, comparator.reverse());
+
+    assertEquals(comparator.compare(null, null), 0);
+    assertEquals(comparator.compare(new Object(), new Object()), 0);
+    assertEquals(comparator.compare("apples", "oranges"), 0);
+    assertSame(comparator, reserialize(comparator));
+    assertEquals("Ordering.allEqual()", comparator.toString());
+  }
+
   public void testNatural() {
     Ordering<Integer> comparator = Ordering.natural();
     Helpers.testComparator(comparator,
