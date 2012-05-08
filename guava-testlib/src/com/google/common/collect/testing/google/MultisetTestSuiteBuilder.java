@@ -16,7 +16,6 @@
 
 package com.google.common.collect.testing.google;
 
-import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.Multiset;
 import com.google.common.collect.testing.AbstractCollectionTestSuiteBuilder;
 import com.google.common.collect.testing.AbstractTester;
@@ -44,7 +43,6 @@ import java.util.Set;
  * @author Jared Levy
  * @author Louis Wasserman
  */
-@GwtCompatible
 public class MultisetTestSuiteBuilder<E> extends
     AbstractCollectionTestSuiteBuilder<MultisetTestSuiteBuilder<E>, E> {
   public static <E> MultisetTestSuiteBuilder<E> using(
@@ -64,7 +62,7 @@ public class MultisetTestSuiteBuilder<E> extends
     testers.add(MultisetSerializationTester.class);
     return testers;
   }
-  
+
   private static Set<Feature<?>> computeReserializedMultisetFeatures(
       Set<Feature<?>> features) {
     Set<Feature<?>> derivedFeatures = new HashSet<Feature<?>>();
@@ -93,7 +91,7 @@ public class MultisetTestSuiteBuilder<E> extends
     }
     return derivedSuites;
   }
-  
+
   static class ReserializedMultisetGenerator<E> implements TestMultisetGenerator<E>{
     final OneSizeTestContainerGenerator<Collection<E>, E> gen;
 

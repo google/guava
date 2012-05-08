@@ -19,6 +19,7 @@ package com.google.common.primitives;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.testing.ListTestSuiteBuilder;
 import com.google.common.collect.testing.SampleElements;
@@ -38,7 +39,7 @@ import java.util.List;
  *
  * @author Kevin Bourrillion
  */
-@GwtCompatible
+@GwtCompatible(emulated = true)
 @SuppressWarnings("cast") // redundant casts are intentional and harmless
 public class IntArrayAsListTest extends TestCase {
 
@@ -50,6 +51,7 @@ public class IntArrayAsListTest extends TestCase {
     return Ints.asList(temp);
   }
 
+  @GwtIncompatible("suite")
   public static Test suite() {
     List<ListTestSuiteBuilder<Integer>> builders =
         ImmutableList.of(

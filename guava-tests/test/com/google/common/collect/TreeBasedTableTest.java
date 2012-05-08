@@ -45,6 +45,7 @@ import java.util.SortedMap;
  */
 @GwtCompatible(emulated = true)
 public class TreeBasedTableTest extends AbstractTableTest {
+  @GwtIncompatible("suite")
   public static Test suite(){
     TestSuite suite = new TestSuite();
     suite.addTestSuite(TreeBasedTableTest.class);

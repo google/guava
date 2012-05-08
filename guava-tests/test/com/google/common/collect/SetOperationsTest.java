@@ -20,6 +20,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static java.util.Arrays.asList;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.testing.SetTestSuiteBuilder;
 import com.google.common.collect.testing.TestStringSetGenerator;
 import com.google.common.collect.testing.features.CollectionFeature;
@@ -38,8 +39,9 @@ import java.util.Set;
  *
  * @author Kevin Bourrillion
  */
-@GwtCompatible
+@GwtCompatible(emulated = true)
 public class SetOperationsTest extends TestCase {
+  @GwtIncompatible("suite")
   public static Test suite() {
     TestSuite suite = new TestSuite();
 

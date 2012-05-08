@@ -19,6 +19,7 @@ package com.google.common.primitives;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.testing.ListTestSuiteBuilder;
 import com.google.common.collect.testing.SampleElements;
@@ -38,7 +39,7 @@ import java.util.List;
  *
  * @author Kevin Bourrillion
  */
-@GwtCompatible
+@GwtCompatible(emulated = true)
 public class ShortArrayAsListTest extends TestCase {
 
   private static List<Short> asList(Short[] values) {
@@ -49,6 +50,7 @@ public class ShortArrayAsListTest extends TestCase {
     return Shorts.asList(temp);
   }
 
+  @GwtIncompatible("suite")
   public static Test suite() {
     List<ListTestSuiteBuilder<Short>> builders =
         ImmutableList.of(

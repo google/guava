@@ -19,6 +19,7 @@ package com.google.common.collect;
 import static com.google.common.base.Preconditions.checkArgument;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.MapConstraintsTest.TestKeyException;
 import com.google.common.collect.MapConstraintsTest.TestValueException;
 import com.google.common.collect.testing.features.CollectionSize;
@@ -34,17 +35,18 @@ import java.util.Map.Entry;
 
 /**
  * Tests for {@link MapConstraints#constrainedBiMap}.
- * 
+ *
  * @author Jared Levy
  * @author Louis Wasserman
  */
-@GwtCompatible
+@GwtCompatible(emulated = true)
 public class ConstrainedBiMapTest extends TestCase {
 
   private static final String TEST_KEY = "42";
   private static final String TEST_VALUE = "test";
   private static final MapConstraint<String, String> TEST_CONSTRAINT = new TestConstraint();
 
+  @GwtIncompatible("suite")
   public static Test suite() {
     TestSuite suite = new TestSuite();
     suite.addTest(BiMapTestSuiteBuilder

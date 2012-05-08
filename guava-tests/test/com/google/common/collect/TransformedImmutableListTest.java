@@ -28,7 +28,7 @@ import junit.framework.TestCase;
 
 import java.util.List;
 
-@GwtCompatible
+@GwtCompatible(emulated = true)
 public class TransformedImmutableListTest extends TestCase {
   @GwtIncompatible("suite")
   public static Test suite() {

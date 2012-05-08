@@ -20,6 +20,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.collect.testing.Helpers.orderEntriesByKey;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.testing.SampleElements;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
@@ -41,7 +42,7 @@ import java.util.Map.Entry;
  * @author Jared Levy
  * @author Louis Wasserman
  */
-@GwtCompatible
+@GwtCompatible(emulated = true)
 public class BiMapCollectionTest extends TestCase {
 
   public static final class HashBiMapGenerator extends TestStringBiMapGenerator {
@@ -149,6 +150,7 @@ public class BiMapCollectionTest extends TestCase {
     }
   }
 
+  @GwtIncompatible("suite")
   public static Test suite() {
     TestSuite suite = new TestSuite();
     suite.addTest(BiMapTestSuiteBuilder.using(new HashBiMapGenerator())
