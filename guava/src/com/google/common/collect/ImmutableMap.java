@@ -140,9 +140,9 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
    * throw {@link UnsupportedOperationException}.
    */
   static <K, V> Entry<K, V> entryOf(K key, V value) {
-    return Maps.immutableEntry(
-        checkNotNull(key, "null key"),
-        checkNotNull(value, "null value"));
+    checkNotNull(key, "null key in entry: null=%s", value);
+    checkNotNull(value, "null value in entry: %s=null", key);
+    return Maps.immutableEntry(key, value);
   }
 
   /**
