@@ -110,7 +110,7 @@ public class MultisetCollectionTest extends TestCase {
     suite.addTest(MultisetTestSuiteBuilder.using(forSetGenerator())
         .withFeatures(CollectionSize.ANY, CollectionFeature.ALLOWS_NULL_VALUES,
             CollectionFeature.SERIALIZABLE,
-            CollectionFeature.REMOVE_OPERATIONS)
+            CollectionFeature.SUPPORTS_REMOVE)
         .suppressing(getReadsDuplicateInitializingMethods())
         .suppressing(getSetCountDuplicateInitializingMethods())
         .suppressing(getIteratorDuplicateInitializingMethods())

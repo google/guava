@@ -19,7 +19,7 @@ package com.google.common.collect.testing.testers;
 import static com.google.common.collect.testing.features.CollectionFeature.ALLOWS_NULL_QUERIES;
 import static com.google.common.collect.testing.features.CollectionFeature.ALLOWS_NULL_VALUES;
 import static com.google.common.collect.testing.features.CollectionFeature.FAILS_FAST_ON_CONCURRENT_MODIFICATION;
-import static com.google.common.collect.testing.features.CollectionFeature.SUPPORTS_REMOVE_ALL;
+import static com.google.common.collect.testing.features.CollectionFeature.SUPPORTS_REMOVE;
 import static com.google.common.collect.testing.features.CollectionSize.SEVERAL;
 import static com.google.common.collect.testing.features.CollectionSize.ZERO;
 
@@ -45,21 +45,21 @@ import java.util.Iterator;
  */
 @SuppressWarnings("unchecked") // too many "unchecked generic array creations"
 public class CollectionRemoveAllTester<E> extends AbstractCollectionTester<E> {
-  @CollectionFeature.Require(SUPPORTS_REMOVE_ALL)
+  @CollectionFeature.Require(SUPPORTS_REMOVE)
   public void testRemoveAll_emptyCollection() {
     assertFalse("removeAll(emptyCollection) should return false",
         collection.removeAll(MinimalCollection.of()));
     expectUnchanged();
   }
 
-  @CollectionFeature.Require(SUPPORTS_REMOVE_ALL)
+  @CollectionFeature.Require(SUPPORTS_REMOVE)
   public void testRemoveAll_nonePresent() {
     assertFalse("removeAll(disjointCollection) should return false",
         collection.removeAll(MinimalCollection.of(samples.e3)));
     expectUnchanged();
   }
 
-  @CollectionFeature.Require(SUPPORTS_REMOVE_ALL)
+  @CollectionFeature.Require(SUPPORTS_REMOVE)
   @CollectionSize.Require(absent = ZERO)
   public void testRemoveAll_allPresent() {
     assertTrue("removeAll(intersectingCollection) should return true",
@@ -67,7 +67,7 @@ public class CollectionRemoveAllTester<E> extends AbstractCollectionTester<E> {
     expectMissing(samples.e0);
   }
 
-  @CollectionFeature.Require(SUPPORTS_REMOVE_ALL)
+  @CollectionFeature.Require(SUPPORTS_REMOVE)
   @CollectionSize.Require(absent = ZERO)
   public void testRemoveAll_somePresent() {
     assertTrue("removeAll(intersectingCollection) should return true",
@@ -75,7 +75,7 @@ public class CollectionRemoveAllTester<E> extends AbstractCollectionTester<E> {
     expectMissing(samples.e0);
   }
 
-  @CollectionFeature.Require({SUPPORTS_REMOVE_ALL,
+  @CollectionFeature.Require({SUPPORTS_REMOVE,
       FAILS_FAST_ON_CONCURRENT_MODIFICATION})
   @CollectionSize.Require(SEVERAL)
   public void testRemoveAllSomePresentConcurrentWithIteration() {
@@ -92,7 +92,7 @@ public class CollectionRemoveAllTester<E> extends AbstractCollectionTester<E> {
   /**
    * Trigger the other.size() >= this.size() case in AbstractSet.removeAll().
    */
-  @CollectionFeature.Require(SUPPORTS_REMOVE_ALL)
+  @CollectionFeature.Require(SUPPORTS_REMOVE)
   @CollectionSize.Require(absent = ZERO)
   public void testRemoveAll_somePresentLargeCollectionToRemove() {
     assertTrue("removeAll(largeIntersectingCollection) should return true",
@@ -102,7 +102,7 @@ public class CollectionRemoveAllTester<E> extends AbstractCollectionTester<E> {
     expectMissing(samples.e0);
   }
 
-  @CollectionFeature.Require(absent = SUPPORTS_REMOVE_ALL)
+  @CollectionFeature.Require(absent = SUPPORTS_REMOVE)
   public void testRemoveAll_unsupportedEmptyCollection() {
     try {
       assertFalse("removeAll(emptyCollection) should return false or throw "
@@ -113,7 +113,7 @@ public class CollectionRemoveAllTester<E> extends AbstractCollectionTester<E> {
     expectUnchanged();
   }
 
-  @CollectionFeature.Require(absent = SUPPORTS_REMOVE_ALL)
+  @CollectionFeature.Require(absent = SUPPORTS_REMOVE)
   public void testRemoveAll_unsupportedNonePresent() {
     try {
       assertFalse("removeAll(disjointCollection) should return false or throw "
@@ -124,7 +124,7 @@ public class CollectionRemoveAllTester<E> extends AbstractCollectionTester<E> {
     expectUnchanged();
   }
 
-  @CollectionFeature.Require(absent = SUPPORTS_REMOVE_ALL)
+  @CollectionFeature.Require(absent = SUPPORTS_REMOVE)
   @CollectionSize.Require(absent = ZERO)
   public void testRemoveAll_unsupportedPresent() {
     try {
@@ -144,7 +144,7 @@ public class CollectionRemoveAllTester<E> extends AbstractCollectionTester<E> {
    * suppress only the former.
    */
 
-  @CollectionFeature.Require(SUPPORTS_REMOVE_ALL)
+  @CollectionFeature.Require(SUPPORTS_REMOVE)
   @CollectionSize.Require(ZERO)
   public void testRemoveAll_nullCollectionReferenceEmptySubject() {
     try {
@@ -154,7 +154,7 @@ public class CollectionRemoveAllTester<E> extends AbstractCollectionTester<E> {
     }
   }
 
-  @CollectionFeature.Require(SUPPORTS_REMOVE_ALL)
+  @CollectionFeature.Require(SUPPORTS_REMOVE)
   @CollectionSize.Require(absent = ZERO)
   public void testRemoveAll_nullCollectionReferenceNonEmptySubject() {
     try {
@@ -164,7 +164,7 @@ public class CollectionRemoveAllTester<E> extends AbstractCollectionTester<E> {
     }
   }
 
-  @CollectionFeature.Require(value = SUPPORTS_REMOVE_ALL,
+  @CollectionFeature.Require(value = SUPPORTS_REMOVE,
       absent = ALLOWS_NULL_QUERIES)
   public void testRemoveAll_containsNullNo() {
     MinimalCollection<?> containsNull = MinimalCollection.of((Object) null);
@@ -176,7 +176,7 @@ public class CollectionRemoveAllTester<E> extends AbstractCollectionTester<E> {
     expectUnchanged();
   }
 
-  @CollectionFeature.Require({SUPPORTS_REMOVE_ALL, ALLOWS_NULL_QUERIES})
+  @CollectionFeature.Require({SUPPORTS_REMOVE, ALLOWS_NULL_QUERIES})
   public void testRemoveAll_containsNullNoButAllowed() {
     MinimalCollection<?> containsNull = MinimalCollection.of((Object) null);
     assertFalse("removeAll(containsNull) should return false",
@@ -184,7 +184,7 @@ public class CollectionRemoveAllTester<E> extends AbstractCollectionTester<E> {
     expectUnchanged();
   }
 
-  @CollectionFeature.Require({SUPPORTS_REMOVE_ALL, ALLOWS_NULL_VALUES})
+  @CollectionFeature.Require({SUPPORTS_REMOVE, ALLOWS_NULL_VALUES})
   @CollectionSize.Require(absent = ZERO)
   public void testRemoveAll_containsNullYes() {
     initCollectionWithNullElement();
@@ -193,7 +193,7 @@ public class CollectionRemoveAllTester<E> extends AbstractCollectionTester<E> {
     // TODO: make this work with MinimalCollection
   }
 
-  @CollectionFeature.Require(SUPPORTS_REMOVE_ALL)
+  @CollectionFeature.Require(SUPPORTS_REMOVE)
   public void testRemoveAll_containsWrongType() {
     try {
       assertFalse("removeAll(containsWrongType) should return false or throw",

@@ -184,11 +184,6 @@ public class MapTestSuiteBuilder<K, V>
     }
     if (mapFeatures.contains(MapFeature.SUPPORTS_REMOVE)) {
       derivedFeatures.add(CollectionFeature.SUPPORTS_REMOVE);
-      derivedFeatures.add(CollectionFeature.SUPPORTS_REMOVE_ALL);
-      derivedFeatures.add(CollectionFeature.SUPPORTS_RETAIN_ALL);
-    }
-    if (mapFeatures.contains(MapFeature.SUPPORTS_CLEAR)) {
-      derivedFeatures.add(CollectionFeature.SUPPORTS_CLEAR);
     }
     if (mapFeatures.contains(MapFeature.REJECTS_DUPLICATES_AT_CREATION)) {
       derivedFeatures.add(CollectionFeature.REJECTS_DUPLICATES_AT_CREATION);

@@ -16,7 +16,7 @@
 
 package com.google.common.collect.testing.testers;
 
-import static com.google.common.collect.testing.features.CollectionFeature.SUPPORTS_REMOVE_ALL;
+import static com.google.common.collect.testing.features.CollectionFeature.SUPPORTS_REMOVE;
 import static com.google.common.collect.testing.features.CollectionSize.ONE;
 import static com.google.common.collect.testing.features.CollectionSize.ZERO;
 
@@ -35,7 +35,7 @@ import com.google.common.collect.testing.features.CollectionSize;
  */
 @SuppressWarnings("unchecked") // too many "unchecked generic array creations"
 public class ListRemoveAllTester<E> extends AbstractListTester<E> {
-  @CollectionFeature.Require(SUPPORTS_REMOVE_ALL)
+  @CollectionFeature.Require(SUPPORTS_REMOVE)
   @CollectionSize.Require(absent = {ZERO, ONE})
   public void testRemoveAll_duplicate() {
     ArrayWithDuplicate<E> arrayAndDuplicate = createArrayWithDuplicateElement();

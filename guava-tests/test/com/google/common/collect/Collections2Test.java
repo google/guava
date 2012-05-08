@@ -353,7 +353,7 @@ public class Collections2Test extends TestCase {
         })
         .named("Collections2.transform")
         .withFeatures(
-            CollectionFeature.REMOVE_OPERATIONS,
+            CollectionFeature.SUPPORTS_REMOVE,
             CollectionFeature.ALLOWS_NULL_VALUES,
             CollectionFeature.KNOWN_ORDER,
             CollectionSize.ANY)

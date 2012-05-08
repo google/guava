@@ -18,7 +18,7 @@ package com.google.common.collect;
 
 import static com.google.common.collect.Maps.newHashMap;
 import static com.google.common.collect.testing.features.CollectionFeature.ALLOWS_NULL_VALUES;
-import static com.google.common.collect.testing.features.CollectionFeature.REMOVE_OPERATIONS;
+import static com.google.common.collect.testing.features.CollectionFeature.SUPPORTS_REMOVE;
 import static com.google.common.collect.testing.google.AbstractMultisetSetCountTester.getSetCountDuplicateInitializingMethods;
 import static com.google.common.collect.testing.google.MultisetIteratorTester.getIteratorDuplicateInitializingMethods;
 import static com.google.common.collect.testing.google.MultisetReadsTester.getReadsDuplicateInitializingMethods;
@@ -82,26 +82,26 @@ public class MultimapCollectionTest extends TestCase {
   static final Feature<?>[] COLLECTION_FEATURES_REMOVE = {
     CollectionSize.ANY,
     CollectionFeature.ALLOWS_NULL_VALUES,
-    CollectionFeature.REMOVE_OPERATIONS
+    CollectionFeature.SUPPORTS_REMOVE
   };
 
   static final Feature<?>[] COLLECTION_FEATURES_REMOVE_ORDER = {
     CollectionSize.ANY,
     CollectionFeature.ALLOWS_NULL_VALUES,
     CollectionFeature.KNOWN_ORDER,
-    CollectionFeature.REMOVE_OPERATIONS
+    CollectionFeature.SUPPORTS_REMOVE
   };
 
   private static final Feature<?>[] FOR_MAP_FEATURES_ONE = {
     CollectionSize.ONE,
     ALLOWS_NULL_VALUES,
-    REMOVE_OPERATIONS,
+    SUPPORTS_REMOVE,
   };
 
   private static final Feature<?>[] FOR_MAP_FEATURES_ANY = {
     CollectionSize.ANY,
     ALLOWS_NULL_VALUES,
-    REMOVE_OPERATIONS,
+    SUPPORTS_REMOVE,
   };
 
   static final Supplier<TreeSet<String>> STRING_TREESET_FACTORY
@@ -534,7 +534,7 @@ public class MultimapCollectionTest extends TestCase {
           }
         })
         .named("Multimap.filterEntries.entries")
-        .withFeatures(CollectionSize.ANY, CollectionFeature.REMOVE_OPERATIONS,
+        .withFeatures(CollectionSize.ANY, CollectionFeature.SUPPORTS_REMOVE,
             CollectionFeature.KNOWN_ORDER)
         .suppressing(CollectionIteratorTester.getIteratorKnownOrderRemoveSupportedMethod())
         .createTestSuite());
@@ -548,7 +548,7 @@ public class MultimapCollectionTest extends TestCase {
       }
     }).named("Multimaps.transformValues[ListMultimap].get").withFeatures(
         CollectionSize.ANY, CollectionFeature.ALLOWS_NULL_VALUES,
-        CollectionFeature.REMOVE_OPERATIONS,
+        CollectionFeature.SUPPORTS_REMOVE,
         ListFeature.SUPPORTS_REMOVE_WITH_INDEX).createTestSuite());
 
     suite.addTest(SetTestSuiteBuilder.using(new TestStringSetGenerator() {
@@ -560,7 +560,7 @@ public class MultimapCollectionTest extends TestCase {
       }
     }).named("Multimaps.transformValues[ListMultimap].keySet").withFeatures(
         CollectionSize.ANY, CollectionFeature.ALLOWS_NULL_VALUES,
-        CollectionFeature.REMOVE_OPERATIONS).createTestSuite());
+        CollectionFeature.SUPPORTS_REMOVE).createTestSuite());
 
     suite.addTest(MultisetTestSuiteBuilder.using(
         new TestStringMultisetGenerator() {
@@ -606,7 +606,7 @@ public class MultimapCollectionTest extends TestCase {
             Functions.<Integer> identity());
       }
     }).named("Multimaps.transformValues[ListMultimap].entries")
-        .withFeatures(CollectionSize.ANY, CollectionFeature.REMOVE_OPERATIONS)
+        .withFeatures(CollectionSize.ANY, CollectionFeature.SUPPORTS_REMOVE)
         .createTestSuite());
 
     suite.addTest(
@@ -619,7 +619,7 @@ public class MultimapCollectionTest extends TestCase {
           }
         }).named("Multimaps.transformValues[Multimap].get").withFeatures(
             CollectionSize.ANY, CollectionFeature.ALLOWS_NULL_VALUES,
-            CollectionFeature.REMOVE_OPERATIONS).createTestSuite());
+            CollectionFeature.SUPPORTS_REMOVE).createTestSuite());
 
     suite.addTest(SetTestSuiteBuilder.using(new TestStringSetGenerator() {
       @Override protected Set<String> create(String[] elements) {
@@ -675,7 +675,7 @@ public class MultimapCollectionTest extends TestCase {
                 Functions.<Integer> identity());
       }
     }).named("Multimaps.transformValues[Multimap].entries")
-        .withFeatures(CollectionSize.ANY, CollectionFeature.REMOVE_OPERATIONS)
+        .withFeatures(CollectionSize.ANY, CollectionFeature.SUPPORTS_REMOVE)
         .createTestSuite());
 
     // TODO: use collection testers on Multimaps.forMap.entries

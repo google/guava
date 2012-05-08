@@ -20,7 +20,7 @@ import static com.google.common.collect.testing.features.CollectionSize.ZERO;
 import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_KEYS;
 import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_VALUES;
 import static com.google.common.collect.testing.features.MapFeature.FAILS_FAST_ON_CONCURRENT_MODIFICATION;
-import static com.google.common.collect.testing.features.MapFeature.SUPPORTS_PUT_ALL;
+import static com.google.common.collect.testing.features.MapFeature.SUPPORTS_PUT;
 import static java.util.Collections.singletonList;
 
 import com.google.common.collect.testing.AbstractMapTester;
@@ -57,13 +57,13 @@ public class MapPutAllTester<K, V> extends AbstractMapTester<K, V> {
     containsNullValue = singletonList(entry(samples.e3.getKey(), null));
   }
 
-  @MapFeature.Require(SUPPORTS_PUT_ALL)
+  @MapFeature.Require(SUPPORTS_PUT)
   public void testPutAll_supportedNothing() {
     getMap().putAll(emptyMap());
     expectUnchanged();
   }
 
-  @MapFeature.Require(absent = SUPPORTS_PUT_ALL)
+  @MapFeature.Require(absent = SUPPORTS_PUT)
   public void testPutAll_unsupportedNothing() {
     try {
       getMap().putAll(emptyMap());
@@ -72,13 +72,13 @@ public class MapPutAllTester<K, V> extends AbstractMapTester<K, V> {
     expectUnchanged();
   }
 
-  @MapFeature.Require(SUPPORTS_PUT_ALL)
+  @MapFeature.Require(SUPPORTS_PUT)
   public void testPutAll_supportedNonePresent() {
     putAll(createDisjointCollection());
     expectAdded(samples.e3, samples.e4);
   }
 
-  @MapFeature.Require(absent = SUPPORTS_PUT_ALL)
+  @MapFeature.Require(absent = SUPPORTS_PUT)
   public void testPutAll_unsupportedNonePresent() {
     try {
       putAll(createDisjointCollection());
@@ -89,7 +89,7 @@ public class MapPutAllTester<K, V> extends AbstractMapTester<K, V> {
     expectMissing(samples.e3, samples.e4);
   }
 
-  @MapFeature.Require(SUPPORTS_PUT_ALL)
+  @MapFeature.Require(SUPPORTS_PUT)
   @CollectionSize.Require(absent = ZERO)
   public void testPutAll_supportedSomePresent() {
     putAll(MinimalCollection.of(samples.e3, samples.e0));
@@ -97,7 +97,7 @@ public class MapPutAllTester<K, V> extends AbstractMapTester<K, V> {
   }
 
   @MapFeature.Require({ FAILS_FAST_ON_CONCURRENT_MODIFICATION,
-      SUPPORTS_PUT_ALL })
+      SUPPORTS_PUT })
   @CollectionSize.Require(absent = ZERO)
   public void testPutAllSomePresentConcurrentWithEntrySetIteration() {
     try {
@@ -110,7 +110,7 @@ public class MapPutAllTester<K, V> extends AbstractMapTester<K, V> {
     }
   }
 
-  @MapFeature.Require(absent = SUPPORTS_PUT_ALL)
+  @MapFeature.Require(absent = SUPPORTS_PUT)
   @CollectionSize.Require(absent = ZERO)
   public void testPutAll_unsupportedSomePresent() {
     try {
@@ -121,7 +121,7 @@ public class MapPutAllTester<K, V> extends AbstractMapTester<K, V> {
     expectUnchanged();
   }
 
-  @MapFeature.Require(absent = SUPPORTS_PUT_ALL)
+  @MapFeature.Require(absent = SUPPORTS_PUT)
   @CollectionSize.Require(absent = ZERO)
   public void testPutAll_unsupportedAllPresent() {
     try {
@@ -131,14 +131,14 @@ public class MapPutAllTester<K, V> extends AbstractMapTester<K, V> {
     expectUnchanged();
   }
 
-  @MapFeature.Require({SUPPORTS_PUT_ALL,
+  @MapFeature.Require({SUPPORTS_PUT,
       ALLOWS_NULL_KEYS})
   public void testPutAll_nullKeySupported() {
     putAll(containsNullKey);
     expectAdded(containsNullKey.get(0));
   }
 
-  @MapFeature.Require(value = SUPPORTS_PUT_ALL,
+  @MapFeature.Require(value = SUPPORTS_PUT,
       absent = ALLOWS_NULL_KEYS)
   public void testAdd_nullKeyUnsupported() {
     try {
@@ -152,14 +152,14 @@ public class MapPutAllTester<K, V> extends AbstractMapTester<K, V> {
         "putAll(containsNullKey)");
   }
 
-  @MapFeature.Require({SUPPORTS_PUT_ALL,
+  @MapFeature.Require({SUPPORTS_PUT,
       ALLOWS_NULL_VALUES})
   public void testPutAll_nullValueSupported() {
     putAll(containsNullValue);
     expectAdded(containsNullValue.get(0));
   }
 
-  @MapFeature.Require(value = SUPPORTS_PUT_ALL,
+  @MapFeature.Require(value = SUPPORTS_PUT,
       absent = ALLOWS_NULL_VALUES)
   public void testAdd_nullValueUnsupported() {
     try {
@@ -173,7 +173,7 @@ public class MapPutAllTester<K, V> extends AbstractMapTester<K, V> {
         "putAll(containsNullValue)");
   }
 
-  @MapFeature.Require(SUPPORTS_PUT_ALL)
+  @MapFeature.Require(SUPPORTS_PUT)
   public void testPutAll_nullCollectionReference() {
     try {
       getMap().putAll(null);

@@ -80,12 +80,8 @@ public enum CollectionFeature implements Feature<Collection> {
    */
   REJECTS_DUPLICATES_AT_CREATION,
 
-  SUPPORTS_ADD_ALL,
-  SUPPORTS_ADD (SUPPORTS_ADD_ALL),
-  SUPPORTS_REMOVE_ALL,
-  SUPPORTS_RETAIN_ALL,
-  SUPPORTS_REMOVE (SUPPORTS_REMOVE_ALL, SUPPORTS_RETAIN_ALL),
-  SUPPORTS_CLEAR,
+  SUPPORTS_ADD,
+  SUPPORTS_REMOVE,
   FAILS_FAST_ON_CONCURRENT_MODIFICATION,
 
   /**
@@ -95,13 +91,11 @@ public enum CollectionFeature implements Feature<Collection> {
    */
   GENERAL_PURPOSE(
       SUPPORTS_ADD,
-      SUPPORTS_REMOVE,
-      SUPPORTS_CLEAR),
+      SUPPORTS_REMOVE),
 
   /** Features supported by collections where only removal is allowed. */
   REMOVE_OPERATIONS(
-      SUPPORTS_REMOVE,
-      SUPPORTS_CLEAR),
+      SUPPORTS_REMOVE),
 
   SERIALIZABLE, SERIALIZABLE_INCLUDING_VIEWS(SERIALIZABLE),
 

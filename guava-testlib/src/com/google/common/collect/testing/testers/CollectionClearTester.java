@@ -17,7 +17,7 @@
 package com.google.common.collect.testing.testers;
 
 import static com.google.common.collect.testing.features.CollectionFeature.FAILS_FAST_ON_CONCURRENT_MODIFICATION;
-import static com.google.common.collect.testing.features.CollectionFeature.SUPPORTS_CLEAR;
+import static com.google.common.collect.testing.features.CollectionFeature.SUPPORTS_REMOVE;
 import static com.google.common.collect.testing.features.CollectionSize.SEVERAL;
 import static com.google.common.collect.testing.features.CollectionSize.ZERO;
 
@@ -38,14 +38,14 @@ import java.util.Iterator;
  * @author George van den Driessche
  */
 public class CollectionClearTester<E> extends AbstractCollectionTester<E> {
-  @CollectionFeature.Require(SUPPORTS_CLEAR)
+  @CollectionFeature.Require(SUPPORTS_REMOVE)
   public void testClear() {
     collection.clear();
     assertTrue("After clear(), a collection should be empty.",
         collection.isEmpty());
   }
 
-  @CollectionFeature.Require(absent = SUPPORTS_CLEAR)
+  @CollectionFeature.Require(absent = SUPPORTS_REMOVE)
   @CollectionSize.Require(absent = ZERO)
   public void testClear_unsupported() {
     try {
@@ -57,7 +57,7 @@ public class CollectionClearTester<E> extends AbstractCollectionTester<E> {
     expectUnchanged();
   }
 
-  @CollectionFeature.Require(absent = SUPPORTS_CLEAR)
+  @CollectionFeature.Require(absent = SUPPORTS_REMOVE)
   @CollectionSize.Require(ZERO)
   public void testClear_unsupportedByEmptyCollection() {
     try {
@@ -67,7 +67,7 @@ public class CollectionClearTester<E> extends AbstractCollectionTester<E> {
     expectUnchanged();
   }
 
-  @CollectionFeature.Require({SUPPORTS_CLEAR,
+  @CollectionFeature.Require({SUPPORTS_REMOVE,
       FAILS_FAST_ON_CONCURRENT_MODIFICATION})
   @CollectionSize.Require(SEVERAL)
   public void testClearConcurrentWithIteration() {

@@ -17,10 +17,7 @@
 package com.google.common.collect.testing.google;
 
 import static com.google.common.collect.testing.features.CollectionFeature.SUPPORTS_ADD;
-import static com.google.common.collect.testing.features.CollectionFeature.SUPPORTS_CLEAR;
 import static com.google.common.collect.testing.features.CollectionFeature.SUPPORTS_REMOVE;
-import static com.google.common.collect.testing.features.CollectionFeature.SUPPORTS_REMOVE_ALL;
-import static com.google.common.collect.testing.features.CollectionFeature.SUPPORTS_RETAIN_ALL;
 import static com.google.common.collect.testing.features.CollectionSize.ONE;
 import static com.google.common.collect.testing.features.CollectionSize.ZERO;
 
@@ -116,7 +113,7 @@ public class MultisetWritesTester<E> extends AbstractMultisetTester<E> {
         0, getMultiset().remove(WrongType.VALUE, 1));
   }
 
-  @CollectionFeature.Require(SUPPORTS_CLEAR)
+  @CollectionFeature.Require(SUPPORTS_REMOVE)
   public void testEntrySet_clear() {
     getMultiset().entrySet().clear();
     assertTrue("multiset not empty after entrySet().clear()",
@@ -180,7 +177,7 @@ public class MultisetWritesTester<E> extends AbstractMultisetTester<E> {
   }
 
   @CollectionSize.Require(absent = ZERO)
-  @CollectionFeature.Require(SUPPORTS_REMOVE_ALL)
+  @CollectionFeature.Require(SUPPORTS_REMOVE)
   public void testEntrySet_removeAll_present() {
     assertTrue(
         "multiset.entrySet.removeAll(presentEntry) returned false",
@@ -192,7 +189,7 @@ public class MultisetWritesTester<E> extends AbstractMultisetTester<E> {
   }
 
   @CollectionSize.Require(absent = ZERO)
-  @CollectionFeature.Require(SUPPORTS_REMOVE_ALL)
+  @CollectionFeature.Require(SUPPORTS_REMOVE)
   public void testEntrySet_removeAll_missing() {
     assertFalse(
         "multiset.entrySet.remove(missingEntry) returned true",
@@ -203,7 +200,7 @@ public class MultisetWritesTester<E> extends AbstractMultisetTester<E> {
         getMultiset().contains(samples.e0));
   }
 
-  @CollectionFeature.Require(SUPPORTS_REMOVE_ALL)
+  @CollectionFeature.Require(SUPPORTS_REMOVE)
   public void testEntrySet_removeAll_null() {
     try {
       getMultiset().entrySet().removeAll(null);
@@ -212,7 +209,7 @@ public class MultisetWritesTester<E> extends AbstractMultisetTester<E> {
   }
 
   @CollectionSize.Require(ONE)
-  @CollectionFeature.Require(SUPPORTS_RETAIN_ALL)
+  @CollectionFeature.Require(SUPPORTS_REMOVE)
   public void testEntrySet_retainAll_present() {
     assertFalse(
         "multiset.entrySet.retainAll(presentEntry) returned false",
@@ -224,7 +221,7 @@ public class MultisetWritesTester<E> extends AbstractMultisetTester<E> {
   }
 
   @CollectionSize.Require(ONE)
-  @CollectionFeature.Require(SUPPORTS_RETAIN_ALL)
+  @CollectionFeature.Require(SUPPORTS_REMOVE)
   public void testEntrySet_retainAll_missing() {
     assertTrue(
         "multiset.entrySet.retainAll(missingEntry) returned true",
@@ -235,7 +232,7 @@ public class MultisetWritesTester<E> extends AbstractMultisetTester<E> {
         getMultiset().contains(samples.e0));
   }
 
-  @CollectionFeature.Require(SUPPORTS_RETAIN_ALL)
+  @CollectionFeature.Require(SUPPORTS_REMOVE)
   public void testEntrySet_retainAll_null() {
     try {
       getMultiset().entrySet().retainAll(null);

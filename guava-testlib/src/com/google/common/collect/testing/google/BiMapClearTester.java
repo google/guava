@@ -16,7 +16,7 @@
 
 package com.google.common.collect.testing.google;
 
-import static com.google.common.collect.testing.features.MapFeature.SUPPORTS_CLEAR;
+import static com.google.common.collect.testing.features.MapFeature.SUPPORTS_REMOVE;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.BiMap;
@@ -24,12 +24,12 @@ import com.google.common.collect.testing.features.MapFeature;
 
 /**
  * Tester for {@code BiMap.clear}.
- * 
+ *
  * @author Louis Wasserman
  */
 @GwtCompatible
 public class BiMapClearTester<K, V> extends AbstractBiMapTester<K, V> {
-  @MapFeature.Require(SUPPORTS_CLEAR)
+  @MapFeature.Require(SUPPORTS_REMOVE)
   public void testClearClearsInverse() {
     BiMap<V, K> inv = getMap().inverse();
     getMap().clear();
@@ -37,7 +37,7 @@ public class BiMapClearTester<K, V> extends AbstractBiMapTester<K, V> {
     assertTrue(inv.isEmpty());
   }
 
-  @MapFeature.Require(SUPPORTS_CLEAR)
+  @MapFeature.Require(SUPPORTS_REMOVE)
   public void testKeySetClearClearsInverse() {
     BiMap<V, K> inv = getMap().inverse();
     getMap().keySet().clear();
@@ -45,7 +45,7 @@ public class BiMapClearTester<K, V> extends AbstractBiMapTester<K, V> {
     assertTrue(inv.isEmpty());
   }
 
-  @MapFeature.Require(SUPPORTS_CLEAR)
+  @MapFeature.Require(SUPPORTS_REMOVE)
   public void testValuesClearClearsInverse() {
     BiMap<V, K> inv = getMap().inverse();
     getMap().values().clear();
@@ -53,7 +53,7 @@ public class BiMapClearTester<K, V> extends AbstractBiMapTester<K, V> {
     assertTrue(inv.isEmpty());
   }
 
-  @MapFeature.Require(SUPPORTS_CLEAR)
+  @MapFeature.Require(SUPPORTS_REMOVE)
   public void testClearInverseClears() {
     BiMap<V, K> inv = getMap().inverse();
     inv.clear();
@@ -61,7 +61,7 @@ public class BiMapClearTester<K, V> extends AbstractBiMapTester<K, V> {
     assertTrue(inv.isEmpty());
   }
 
-  @MapFeature.Require(SUPPORTS_CLEAR)
+  @MapFeature.Require(SUPPORTS_REMOVE)
   public void testClearInverseKeySetClears() {
     BiMap<V, K> inv = getMap().inverse();
     inv.keySet().clear();
@@ -69,7 +69,7 @@ public class BiMapClearTester<K, V> extends AbstractBiMapTester<K, V> {
     assertTrue(inv.isEmpty());
   }
 
-  @MapFeature.Require(SUPPORTS_CLEAR)
+  @MapFeature.Require(SUPPORTS_REMOVE)
   public void testClearInverseValuesClears() {
     BiMap<V, K> inv = getMap().inverse();
     inv.values().clear();

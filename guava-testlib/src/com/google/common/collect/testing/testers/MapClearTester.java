@@ -19,7 +19,7 @@ package com.google.common.collect.testing.testers;
 import static com.google.common.collect.testing.features.CollectionSize.SEVERAL;
 import static com.google.common.collect.testing.features.CollectionSize.ZERO;
 import static com.google.common.collect.testing.features.MapFeature.FAILS_FAST_ON_CONCURRENT_MODIFICATION;
-import static com.google.common.collect.testing.features.MapFeature.SUPPORTS_CLEAR;
+import static com.google.common.collect.testing.features.MapFeature.SUPPORTS_REMOVE;
 
 import com.google.common.collect.testing.AbstractMapTester;
 import com.google.common.collect.testing.features.CollectionSize;
@@ -40,7 +40,7 @@ import java.util.Map.Entry;
  * @author Chris Povirk
  */
 public class MapClearTester<K, V> extends AbstractMapTester<K, V> {
-  @MapFeature.Require(SUPPORTS_CLEAR)
+  @MapFeature.Require(SUPPORTS_REMOVE)
   public void testClear() {
     getMap().clear();
     assertTrue("After clear(), a map should be empty.",
@@ -48,7 +48,7 @@ public class MapClearTester<K, V> extends AbstractMapTester<K, V> {
   }
 
   @MapFeature.Require({FAILS_FAST_ON_CONCURRENT_MODIFICATION,
-      SUPPORTS_CLEAR})
+      SUPPORTS_REMOVE})
   @CollectionSize.Require(SEVERAL)
   public void testClearConcurrentWithEntrySetIteration() {
     try {
@@ -62,7 +62,7 @@ public class MapClearTester<K, V> extends AbstractMapTester<K, V> {
   }
 
   @MapFeature.Require({FAILS_FAST_ON_CONCURRENT_MODIFICATION,
-      SUPPORTS_CLEAR})
+      SUPPORTS_REMOVE})
   @CollectionSize.Require(SEVERAL)
   public void testClearConcurrentWithKeySetIteration() {
     try {
@@ -76,7 +76,7 @@ public class MapClearTester<K, V> extends AbstractMapTester<K, V> {
   }
 
   @MapFeature.Require({FAILS_FAST_ON_CONCURRENT_MODIFICATION,
-      SUPPORTS_CLEAR})
+      SUPPORTS_REMOVE})
   @CollectionSize.Require(SEVERAL)
   public void testClearConcurrentWithValuesIteration() {
     try {
@@ -89,7 +89,7 @@ public class MapClearTester<K, V> extends AbstractMapTester<K, V> {
     }
   }
 
-  @MapFeature.Require(absent = SUPPORTS_CLEAR)
+  @MapFeature.Require(absent = SUPPORTS_REMOVE)
   @CollectionSize.Require(absent = ZERO)
   public void testClear_unsupported() {
     try {
@@ -101,7 +101,7 @@ public class MapClearTester<K, V> extends AbstractMapTester<K, V> {
     expectUnchanged();
   }
 
-  @MapFeature.Require(absent = SUPPORTS_CLEAR)
+  @MapFeature.Require(absent = SUPPORTS_REMOVE)
   @CollectionSize.Require(ZERO)
   public void testClear_unsupportedByEmptyCollection() {
     try {

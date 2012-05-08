@@ -172,16 +172,8 @@ public class MultimapTestSuiteBuilder<K, V, M extends Multimap<K, V>> extends
     if (derivedFeatures.remove(MapFeature.ALLOWS_NULL_QUERIES)) {
       derivedFeatures.add(CollectionFeature.ALLOWS_NULL_QUERIES);
     }
-    if (derivedFeatures.remove(MapFeature.REMOVE_OPERATIONS)) {
-      derivedFeatures.add(CollectionFeature.REMOVE_OPERATIONS);
-    } else {
-      if (derivedFeatures.remove(MapFeature.SUPPORTS_REMOVE)) {
-        derivedFeatures.add(CollectionFeature.SUPPORTS_REMOVE);
-
-      }
-      if (derivedFeatures.remove(MapFeature.SUPPORTS_CLEAR)) {
-        derivedFeatures.add(CollectionFeature.SUPPORTS_CLEAR);
-      }
+    if (derivedFeatures.remove(MapFeature.SUPPORTS_REMOVE)) {
+      derivedFeatures.add(CollectionFeature.SUPPORTS_REMOVE);
     }
     return derivedFeatures;
   }
@@ -218,7 +210,6 @@ public class MultimapTestSuiteBuilder<K, V, M extends Multimap<K, V>> extends
     Set<Feature<?>> derivedFeatures = Helpers.copyToSet(multimapFeatures);
     derivedFeatures.remove(MapFeature.GENERAL_PURPOSE);
     derivedFeatures.remove(MapFeature.SUPPORTS_PUT);
-    derivedFeatures.remove(MapFeature.SUPPORTS_PUT_ALL);
     derivedFeatures.remove(MapFeature.ALLOWS_NULL_VALUES);
     derivedFeatures.add(MapFeature.REJECTS_DUPLICATES_AT_CREATION);
     if (!derivedFeatures.contains(CollectionFeature.SERIALIZABLE_INCLUDING_VIEWS)) {
@@ -235,11 +226,8 @@ public class MultimapTestSuiteBuilder<K, V, M extends Multimap<K, V>> extends
       .put(MapFeature.GENERAL_PURPOSE, CollectionFeature.GENERAL_PURPOSE)
       .put(MapFeature.ALLOWS_NULL_QUERIES, CollectionFeature.ALLOWS_NULL_QUERIES)
       .put(MapFeature.ALLOWS_NULL_VALUES, CollectionFeature.ALLOWS_NULL_VALUES)
-      .put(MapFeature.REMOVE_OPERATIONS, CollectionFeature.REMOVE_OPERATIONS)
       .put(MapFeature.SUPPORTS_REMOVE, CollectionFeature.SUPPORTS_REMOVE)
-      .put(MapFeature.SUPPORTS_CLEAR, CollectionFeature.SUPPORTS_CLEAR)
       .put(MapFeature.SUPPORTS_PUT, CollectionFeature.SUPPORTS_ADD)
-      .put(MapFeature.SUPPORTS_PUT_ALL, CollectionFeature.SUPPORTS_ADD_ALL)
       .build();
 
   Set<Feature<?>> computeMultimapGetFeatures(

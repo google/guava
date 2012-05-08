@@ -17,7 +17,7 @@
 package com.google.common.collect.testing.testers;
 
 import static com.google.common.collect.testing.features.CollectionFeature.ALLOWS_NULL_VALUES;
-import static com.google.common.collect.testing.features.CollectionFeature.SUPPORTS_RETAIN_ALL;
+import static com.google.common.collect.testing.features.CollectionFeature.SUPPORTS_REMOVE;
 import static com.google.common.collect.testing.features.CollectionSize.ONE;
 import static com.google.common.collect.testing.features.CollectionSize.ZERO;
 
@@ -103,21 +103,21 @@ public class CollectionRetainAllTester<E> extends AbstractCollectionTester<E> {
 
   // retainAll(empty)
 
-  @CollectionFeature.Require(SUPPORTS_RETAIN_ALL)
+  @CollectionFeature.Require(SUPPORTS_REMOVE)
   @CollectionSize.Require(ZERO)
   public void testRetainAll_emptyPreviouslyEmpty() {
     expectReturnsFalse(empty);
     expectUnchanged();
   }
 
-  @CollectionFeature.Require(absent = SUPPORTS_RETAIN_ALL)
+  @CollectionFeature.Require(absent = SUPPORTS_REMOVE)
   @CollectionSize.Require(ZERO)
   public void testRetainAll_emptyPreviouslyEmptyUnsupported() {
     expectReturnsFalseOrThrows(empty);
     expectUnchanged();
   }
 
-  @CollectionFeature.Require(SUPPORTS_RETAIN_ALL)
+  @CollectionFeature.Require(SUPPORTS_REMOVE)
   @CollectionSize.Require(absent = ZERO)
   public void testRetainAll_emptyPreviouslyNonEmpty() {
     expectReturnsTrue(empty);
@@ -125,7 +125,7 @@ public class CollectionRetainAllTester<E> extends AbstractCollectionTester<E> {
     expectMissing(samples.e0, samples.e1, samples.e2);
   }
 
-  @CollectionFeature.Require(absent = SUPPORTS_RETAIN_ALL)
+  @CollectionFeature.Require(absent = SUPPORTS_REMOVE)
   @CollectionSize.Require(absent = ZERO)
   public void testRetainAll_emptyPreviouslyNonEmptyUnsupported() {
     expectThrows(empty);
@@ -134,21 +134,21 @@ public class CollectionRetainAllTester<E> extends AbstractCollectionTester<E> {
 
   // retainAll(disjoint)
 
-  @CollectionFeature.Require(SUPPORTS_RETAIN_ALL)
+  @CollectionFeature.Require(SUPPORTS_REMOVE)
   @CollectionSize.Require(ZERO)
   public void testRetainAll_disjointPreviouslyEmpty() {
     expectReturnsFalse(disjoint);
     expectUnchanged();
   }
 
-  @CollectionFeature.Require(absent = SUPPORTS_RETAIN_ALL)
+  @CollectionFeature.Require(absent = SUPPORTS_REMOVE)
   @CollectionSize.Require(ZERO)
   public void testRetainAll_disjointPreviouslyEmptyUnsupported() {
     expectReturnsFalseOrThrows(disjoint);
     expectUnchanged();
   }
 
-  @CollectionFeature.Require(SUPPORTS_RETAIN_ALL)
+  @CollectionFeature.Require(SUPPORTS_REMOVE)
   @CollectionSize.Require(absent = ZERO)
   public void testRetainAll_disjointPreviouslyNonEmpty() {
     expectReturnsTrue(disjoint);
@@ -156,7 +156,7 @@ public class CollectionRetainAllTester<E> extends AbstractCollectionTester<E> {
     expectMissing(samples.e0, samples.e1, samples.e2);
   }
 
-  @CollectionFeature.Require(absent = SUPPORTS_RETAIN_ALL)
+  @CollectionFeature.Require(absent = SUPPORTS_REMOVE)
   @CollectionSize.Require(absent = ZERO)
   public void testRetainAll_disjointPreviouslyNonEmptyUnsupported() {
     expectThrows(disjoint);
@@ -165,13 +165,13 @@ public class CollectionRetainAllTester<E> extends AbstractCollectionTester<E> {
 
   // retainAll(superset)
 
-  @CollectionFeature.Require(SUPPORTS_RETAIN_ALL)
+  @CollectionFeature.Require(SUPPORTS_REMOVE)
   public void testRetainAll_superset() {
     expectReturnsFalse(superset);
     expectUnchanged();
   }
 
-  @CollectionFeature.Require(absent = SUPPORTS_RETAIN_ALL)
+  @CollectionFeature.Require(absent = SUPPORTS_REMOVE)
   public void testRetainAll_supersetUnsupported() {
     expectReturnsFalseOrThrows(superset);
     expectUnchanged();
@@ -179,14 +179,14 @@ public class CollectionRetainAllTester<E> extends AbstractCollectionTester<E> {
 
   // retainAll(subset)
 
-  @CollectionFeature.Require(SUPPORTS_RETAIN_ALL)
+  @CollectionFeature.Require(SUPPORTS_REMOVE)
   @CollectionSize.Require(absent = {ZERO, ONE})
   public void testRetainAll_subset() {
     expectReturnsTrue(nonEmptyProperSubset);
     expectContents(nonEmptyProperSubset.toRetain);
   }
 
-  @CollectionFeature.Require(absent = SUPPORTS_RETAIN_ALL)
+  @CollectionFeature.Require(absent = SUPPORTS_REMOVE)
   @CollectionSize.Require(absent = {ZERO, ONE})
   public void testRetainAll_subsetUnsupported() {
     expectThrows(nonEmptyProperSubset);
@@ -195,13 +195,13 @@ public class CollectionRetainAllTester<E> extends AbstractCollectionTester<E> {
 
   // retainAll(sameElements)
 
-  @CollectionFeature.Require(SUPPORTS_RETAIN_ALL)
+  @CollectionFeature.Require(SUPPORTS_REMOVE)
   public void testRetainAll_sameElements() {
     expectReturnsFalse(sameElements);
     expectUnchanged();
   }
 
-  @CollectionFeature.Require(absent = SUPPORTS_RETAIN_ALL)
+  @CollectionFeature.Require(absent = SUPPORTS_REMOVE)
   public void testRetainAll_sameElementsUnsupported() {
     expectReturnsFalseOrThrows(sameElements);
     expectUnchanged();
@@ -209,14 +209,14 @@ public class CollectionRetainAllTester<E> extends AbstractCollectionTester<E> {
 
   // retainAll(partialOverlap)
 
-  @CollectionFeature.Require(SUPPORTS_RETAIN_ALL)
+  @CollectionFeature.Require(SUPPORTS_REMOVE)
   @CollectionSize.Require(absent = {ZERO, ONE})
   public void testRetainAll_partialOverlap() {
     expectReturnsTrue(partialOverlap);
     expectContents(samples.e2);
   }
 
-  @CollectionFeature.Require(absent = SUPPORTS_RETAIN_ALL)
+  @CollectionFeature.Require(absent = SUPPORTS_REMOVE)
   @CollectionSize.Require(absent = {ZERO, ONE})
   public void testRetainAll_partialOverlapUnsupported() {
     expectThrows(partialOverlap);
@@ -225,14 +225,14 @@ public class CollectionRetainAllTester<E> extends AbstractCollectionTester<E> {
 
   // retainAll(containsDuplicates)
 
-  @CollectionFeature.Require(SUPPORTS_RETAIN_ALL)
+  @CollectionFeature.Require(SUPPORTS_REMOVE)
   @CollectionSize.Require(ONE)
   public void testRetainAll_containsDuplicatesSizeOne() {
     expectReturnsFalse(containsDuplicates);
     expectContents(samples.e0);
   }
 
-  @CollectionFeature.Require(SUPPORTS_RETAIN_ALL)
+  @CollectionFeature.Require(SUPPORTS_REMOVE)
   @CollectionSize.Require(absent = {ZERO, ONE})
   public void testRetainAll_containsDuplicatesSizeSeveral() {
     expectReturnsTrue(containsDuplicates);
@@ -241,21 +241,21 @@ public class CollectionRetainAllTester<E> extends AbstractCollectionTester<E> {
 
   // retainAll(nullSingleton)
 
-  @CollectionFeature.Require(SUPPORTS_RETAIN_ALL)
+  @CollectionFeature.Require(SUPPORTS_REMOVE)
   @CollectionSize.Require(ZERO)
   public void testRetainAll_nullSingletonPreviouslyEmpty() {
     expectReturnsFalse(nullSingleton);
     expectUnchanged();
   }
 
-  @CollectionFeature.Require(SUPPORTS_RETAIN_ALL)
+  @CollectionFeature.Require(SUPPORTS_REMOVE)
   @CollectionSize.Require(absent = ZERO)
   public void testRetainAll_nullSingletonPreviouslyNonEmpty() {
     expectReturnsTrue(nullSingleton);
     expectContents();
   }
 
-  @CollectionFeature.Require({SUPPORTS_RETAIN_ALL, ALLOWS_NULL_VALUES})
+  @CollectionFeature.Require({SUPPORTS_REMOVE, ALLOWS_NULL_VALUES})
   @CollectionSize.Require(ONE)
   public void testRetainAll_nullSingletonPreviouslySingletonWithNull() {
     initCollectionWithNullElement();
@@ -263,7 +263,7 @@ public class CollectionRetainAllTester<E> extends AbstractCollectionTester<E> {
     expectContents(createArrayWithNullElement());
   }
 
-  @CollectionFeature.Require({SUPPORTS_RETAIN_ALL, ALLOWS_NULL_VALUES})
+  @CollectionFeature.Require({SUPPORTS_REMOVE, ALLOWS_NULL_VALUES})
   @CollectionSize.Require(absent = {ZERO, ONE})
   public void testRetainAll_nullSingletonPreviouslySeveralWithNull() {
     initCollectionWithNullElement();
@@ -273,7 +273,7 @@ public class CollectionRetainAllTester<E> extends AbstractCollectionTester<E> {
 
   // nullSingleton.retainAll()
 
-  @CollectionFeature.Require({SUPPORTS_RETAIN_ALL, ALLOWS_NULL_VALUES})
+  @CollectionFeature.Require({SUPPORTS_REMOVE, ALLOWS_NULL_VALUES})
   @CollectionSize.Require(absent = ZERO)
   public void testRetainAll_containsNonNullWithNull() {
     initCollectionWithNullElement();
@@ -290,7 +290,7 @@ public class CollectionRetainAllTester<E> extends AbstractCollectionTester<E> {
    * suppress only the former.
    */
 
-  @CollectionFeature.Require(SUPPORTS_RETAIN_ALL)
+  @CollectionFeature.Require(SUPPORTS_REMOVE)
   @CollectionSize.Require(ZERO)
   public void testRetainAll_nullCollectionReferenceEmptySubject() {
     try {
@@ -300,7 +300,7 @@ public class CollectionRetainAllTester<E> extends AbstractCollectionTester<E> {
     }
   }
 
-  @CollectionFeature.Require(SUPPORTS_RETAIN_ALL)
+  @CollectionFeature.Require(SUPPORTS_REMOVE)
   @CollectionSize.Require(absent = ZERO)
   public void testRetainAll_nullCollectionReferenceNonEmptySubject() {
     try {

@@ -19,7 +19,6 @@ package com.google.common.collect.testing.testers;
 import static com.google.common.collect.testing.features.CollectionFeature.ALLOWS_NULL_VALUES;
 import static com.google.common.collect.testing.features.CollectionSize.ONE;
 import static com.google.common.collect.testing.features.CollectionSize.ZERO;
-import static com.google.common.collect.testing.features.ListFeature.SUPPORTS_ADD_ALL_WITH_INDEX;
 import static com.google.common.collect.testing.features.ListFeature.SUPPORTS_ADD_WITH_INDEX;
 import static java.util.Collections.singletonList;
 
@@ -41,7 +40,7 @@ import java.util.List;
  */
 @SuppressWarnings("unchecked") // too many "unchecked generic array creations"
 public class ListAddAllAtIndexTester<E> extends AbstractListTester<E> {
-  @ListFeature.Require(SUPPORTS_ADD_ALL_WITH_INDEX)
+  @ListFeature.Require(SUPPORTS_ADD_WITH_INDEX)
   @CollectionSize.Require(absent = ZERO)
   public void testAddAllAtIndex_supportedAllPresent() {
     assertTrue("addAll(n, allPresent) should return true",
@@ -49,7 +48,7 @@ public class ListAddAllAtIndexTester<E> extends AbstractListTester<E> {
     expectAdded(0, samples.e0);
   }
 
-  @ListFeature.Require(absent = SUPPORTS_ADD_ALL_WITH_INDEX)
+  @ListFeature.Require(absent = SUPPORTS_ADD_WITH_INDEX)
   @CollectionSize.Require(absent = ZERO)
   public void testAddAllAtIndex_unsupportedAllPresent() {
     try {
@@ -60,7 +59,7 @@ public class ListAddAllAtIndexTester<E> extends AbstractListTester<E> {
     expectUnchanged();
   }
 
-  @ListFeature.Require(SUPPORTS_ADD_ALL_WITH_INDEX)
+  @ListFeature.Require(SUPPORTS_ADD_WITH_INDEX)
   @CollectionSize.Require(absent = ZERO)
   public void testAddAllAtIndex_supportedSomePresent() {
     assertTrue("addAll(n, allPresent) should return true",
@@ -68,7 +67,7 @@ public class ListAddAllAtIndexTester<E> extends AbstractListTester<E> {
     expectAdded(0, samples.e0, samples.e3);
   }
 
-  @ListFeature.Require(absent = SUPPORTS_ADD_ALL_WITH_INDEX)
+  @ListFeature.Require(absent = SUPPORTS_ADD_WITH_INDEX)
   @CollectionSize.Require(absent = ZERO)
   public void testAddAllAtIndex_unsupportedSomePresent() {
     try {
@@ -80,14 +79,14 @@ public class ListAddAllAtIndexTester<E> extends AbstractListTester<E> {
     expectMissing(samples.e3);
   }
 
-  @ListFeature.Require(SUPPORTS_ADD_ALL_WITH_INDEX)
+  @ListFeature.Require(SUPPORTS_ADD_WITH_INDEX)
   public void testAddAllAtIndex_supportedNothing() {
     assertFalse("addAll(n, nothing) should return false",
         getList().addAll(0, emptyCollection()));
     expectUnchanged();
   }
 
-  @ListFeature.Require(absent = SUPPORTS_ADD_ALL_WITH_INDEX)
+  @ListFeature.Require(absent = SUPPORTS_ADD_WITH_INDEX)
   public void testAddAllAtIndex_unsupportedNothing() {
     try {
       assertFalse("addAll(n, nothing) should return false or throw",
@@ -97,7 +96,7 @@ public class ListAddAllAtIndexTester<E> extends AbstractListTester<E> {
     expectUnchanged();
   }
 
-  @ListFeature.Require(SUPPORTS_ADD_ALL_WITH_INDEX)
+  @ListFeature.Require(SUPPORTS_ADD_WITH_INDEX)
   public void testAddAllAtIndex_withDuplicates() {
     MinimalCollection<E> elementsToAdd
         = MinimalCollection.of(samples.e0, samples.e1, samples.e0, samples.e1);
@@ -106,7 +105,7 @@ public class ListAddAllAtIndexTester<E> extends AbstractListTester<E> {
     expectAdded(0, samples.e0, samples.e1, samples.e0, samples.e1);
   }
 
-  @ListFeature.Require(SUPPORTS_ADD_ALL_WITH_INDEX)
+  @ListFeature.Require(SUPPORTS_ADD_WITH_INDEX)
   @CollectionFeature.Require(ALLOWS_NULL_VALUES)
   public void testAddAllAtIndex_nullSupported() {
     List<E> containsNull = singletonList(null);
@@ -119,7 +118,7 @@ public class ListAddAllAtIndexTester<E> extends AbstractListTester<E> {
     expectAdded(0, (E) null);
   }
 
-  @ListFeature.Require(SUPPORTS_ADD_ALL_WITH_INDEX)
+  @ListFeature.Require(SUPPORTS_ADD_WITH_INDEX)
   @CollectionFeature.Require(absent = ALLOWS_NULL_VALUES)
   public void testAddAllAtIndex_nullUnsupported() {
     List<E> containsNull = singletonList(null);
@@ -133,7 +132,7 @@ public class ListAddAllAtIndexTester<E> extends AbstractListTester<E> {
         "Should not contain null after unsupported addAll(n, containsNull)");
   }
 
-  @ListFeature.Require(SUPPORTS_ADD_ALL_WITH_INDEX)
+  @ListFeature.Require(SUPPORTS_ADD_WITH_INDEX)
   @CollectionSize.Require(absent = {ZERO, ONE})
   public void testAddAllAtIndex_middle() {
     assertTrue("addAll(middle, disjoint) should return true",
@@ -141,7 +140,7 @@ public class ListAddAllAtIndexTester<E> extends AbstractListTester<E> {
     expectAdded(getNumElements() / 2, createDisjointCollection());
   }
 
-  @ListFeature.Require(SUPPORTS_ADD_ALL_WITH_INDEX)
+  @ListFeature.Require(SUPPORTS_ADD_WITH_INDEX)
   @CollectionSize.Require(absent = ZERO)
   public void testAddAllAtIndex_end() {
     assertTrue("addAll(end, disjoint) should return true",
@@ -149,7 +148,7 @@ public class ListAddAllAtIndexTester<E> extends AbstractListTester<E> {
     expectAdded(getNumElements(), createDisjointCollection());
   }
 
-  @ListFeature.Require(SUPPORTS_ADD_ALL_WITH_INDEX)
+  @ListFeature.Require(SUPPORTS_ADD_WITH_INDEX)
   public void testAddAllAtIndex_nullCollectionReference() {
     try {
       getList().addAll(0, null);

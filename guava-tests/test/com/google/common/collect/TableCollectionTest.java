@@ -70,14 +70,14 @@ public class TableCollectionTest extends TestCase {
 
   private static final Feature<?>[] COLLECTION_FEATURES_REMOVE = {
     CollectionSize.ANY,
-    CollectionFeature.REMOVE_OPERATIONS,
+    CollectionFeature.SUPPORTS_REMOVE,
     CollectionFeature.ALLOWS_NULL_QUERIES
   };
 
   private static final Feature<?>[] COLLECTION_FEATURES_REMOVE_ORDER = {
     CollectionSize.ANY,
     CollectionFeature.KNOWN_ORDER,
-    CollectionFeature.REMOVE_OPERATIONS,
+    CollectionFeature.SUPPORTS_REMOVE,
     CollectionFeature.ALLOWS_NULL_QUERIES
   };
 
@@ -214,7 +214,7 @@ public class TableCollectionTest extends TestCase {
         .named("TreeBasedTable.rowKeySet.subSet")
         .withFeatures(COLLECTION_FEATURES_REMOVE_ORDER)
         .createTestSuite());
-    
+
     suite.addTest(SetTestSuiteBuilder.using(new TestStringSetGenerator() {
           @Override protected Set<String> create(String[] elements) {
             Table<String, Integer, Character> table = HashBasedTable.create();
@@ -458,7 +458,7 @@ public class TableCollectionTest extends TestCase {
           }
         })
         .named("HashBasedTable.cellSet")
-        .withFeatures(CollectionSize.ANY, CollectionFeature.REMOVE_OPERATIONS,
+        .withFeatures(CollectionSize.ANY, CollectionFeature.SUPPORTS_REMOVE,
             CollectionFeature.ALLOWS_NULL_QUERIES)
         .createTestSuite());
 
@@ -468,7 +468,7 @@ public class TableCollectionTest extends TestCase {
           }
         })
         .named("TreeBasedTable.cellSet")
-        .withFeatures(CollectionSize.ANY, CollectionFeature.REMOVE_OPERATIONS,
+        .withFeatures(CollectionSize.ANY, CollectionFeature.SUPPORTS_REMOVE,
             CollectionFeature.ALLOWS_NULL_QUERIES)
         .createTestSuite());
 
@@ -480,7 +480,7 @@ public class TableCollectionTest extends TestCase {
           }
         })
         .named("TransposedTable.cellSet")
-        .withFeatures(CollectionSize.ANY, CollectionFeature.REMOVE_OPERATIONS,
+        .withFeatures(CollectionSize.ANY, CollectionFeature.SUPPORTS_REMOVE,
             CollectionFeature.ALLOWS_NULL_QUERIES)
         .createTestSuite());
 
@@ -503,7 +503,7 @@ public class TableCollectionTest extends TestCase {
         })
         .named("TransformValues.cellSet")
         .withFeatures(CollectionSize.ANY, CollectionFeature.ALLOWS_NULL_QUERIES,
-            CollectionFeature.REMOVE_OPERATIONS)
+            CollectionFeature.SUPPORTS_REMOVE)
         .createTestSuite());
 
     suite.addTest(SetTestSuiteBuilder.using(new TestCellSetGenerator() {
