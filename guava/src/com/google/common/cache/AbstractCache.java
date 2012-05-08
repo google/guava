@@ -211,6 +211,11 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
     private final LongAdder evictionCount = new LongAdder();
 
     /**
+     * Constructs an instance with all counts initialized to zero.
+     */
+    public SimpleStatsCounter() {}
+
+    /**
      * @since 11.0
      */
     @Override

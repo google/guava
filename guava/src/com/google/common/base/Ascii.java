@@ -214,7 +214,7 @@ public final class Ascii {
   public static final byte DLE = 16;
 
   /**
-   * Device Controls: Characters for the control
+   * Device Control 1. Characters for the control
    * of ancillary devices associated with data processing or
    * telecommunication systems, more especially switching devices "on" or
    * "off."  (If a single "stop" control is required to interrupt or turn
@@ -225,7 +225,7 @@ public final class Ascii {
   public static final byte DC1 = 17; // aka XON
 
   /**
-   * Transmission on/off: Although originally defined as DC1, this ASCII
+   * Transmission On: Although originally defined as DC1, this ASCII
    * control character is now better known as the XON code used for software
    * flow control in serial communications.  The main use is restarting
    * the transmission after the communication has been stopped by the XOFF
@@ -236,28 +236,40 @@ public final class Ascii {
   public static final byte XON = 17; // aka DC1
 
   /**
-   * @see #DC1
+   * Device Control 2. Characters for the control
+   * of ancillary devices associated with data processing or
+   * telecommunication systems, more especially switching devices "on" or
+   * "off."  (If a single "stop" control is required to interrupt or turn
+   * off ancillary devices, DC4 is the preferred assignment.)
    *
    * @since 8.0
    */
   public static final byte DC2 = 18;
 
   /**
-   * @see #DC1
+   * Device Control 3. Characters for the control
+   * of ancillary devices associated with data processing or
+   * telecommunication systems, more especially switching devices "on" or
+   * "off."  (If a single "stop" control is required to interrupt or turn
+   * off ancillary devices, DC4 is the preferred assignment.)
    *
    * @since 8.0
    */
   public static final byte DC3 = 19; // aka XOFF
 
   /**
-   * Transmission off. @see #XON
+   * Transmission off. See {@link #XON} for explanation.
    *
    * @since 8.0
    */
   public static final byte XOFF = 19; // aka DC3
 
   /**
-   * @see #DC1
+   * Device Control 4. Characters for the control
+   * of ancillary devices associated with data processing or
+   * telecommunication systems, more especially switching devices "on" or
+   * "off."  (If a single "stop" control is required to interrupt or turn
+   * off ancillary devices, DC4 is the preferred assignment.)
    *
    * @since 8.0
    */
@@ -330,7 +342,7 @@ public final class Ascii {
   public static final byte ESC = 27;
 
   /**
-   * File/Group/Record/Unit Separator: These information separators may be
+   * File Separator: These four information separators may be
    * used within data in optional fashion, except that their hierarchical
    * relationship shall be: FS is the most inclusive, then GS, then RS,
    * and US is least inclusive.  (The content and length of a File, Group,
@@ -341,21 +353,33 @@ public final class Ascii {
   public static final byte FS = 28;
 
   /**
-   * @see #FS
+   * Group Separator: These four information separators may be
+   * used within data in optional fashion, except that their hierarchical
+   * relationship shall be: FS is the most inclusive, then GS, then RS,
+   * and US is least inclusive.  (The content and length of a File, Group,
+   * Record, or Unit are not specified.)
    *
    * @since 8.0
    */
   public static final byte GS = 29;
 
   /**
-   * @see #FS
+   * Record Separator: These four information separators may be
+   * used within data in optional fashion, except that their hierarchical
+   * relationship shall be: FS is the most inclusive, then GS, then RS,
+   * and US is least inclusive.  (The content and length of a File, Group,
+   * Record, or Unit are not specified.)
    *
    * @since 8.0
    */
   public static final byte RS = 30;
 
   /**
-   * @see #FS
+   * Unit Separator: These four information separators may be
+   * used within data in optional fashion, except that their hierarchical
+   * relationship shall be: FS is the most inclusive, then GS, then RS,
+   * and US is least inclusive.  (The content and length of a File, Group,
+   * Record, or Unit are not specified.)
    *
    * @since 8.0
    */

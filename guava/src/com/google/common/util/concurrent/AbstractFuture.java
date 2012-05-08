@@ -70,6 +70,11 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
   // The execution list to hold our executors.
   private final ExecutionList executionList = new ExecutionList();
 
+  /**
+   * Constructor for use by subclasses.
+   */
+  protected AbstractFuture() {}
+
   /*
    * Improve the documentation of when InterruptedException is thrown. Our
    * behavior matches the JDK's, but the JDK's documentation is misleading.

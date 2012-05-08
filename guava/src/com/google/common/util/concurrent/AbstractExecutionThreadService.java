@@ -77,6 +77,11 @@ public abstract class AbstractExecutionThreadService implements Service {
   };
 
   /**
+   * Constructor for use by subclasses.
+   */
+  protected AbstractExecutionThreadService() {}
+
+  /**
    * Start the service. This method is invoked on the execution thread.
    * 
    * <p>By default this method does nothing.
