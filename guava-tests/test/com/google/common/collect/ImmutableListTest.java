@@ -48,6 +48,7 @@ import junit.framework.TestSuite;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
@@ -64,7 +65,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
  */
 @GwtCompatible(emulated = true)
 public class ImmutableListTest extends TestCase {
-  
+
   @GwtIncompatible("suite")
   public static Test suite() {
     TestSuite suite = new TestSuite();
@@ -193,7 +194,7 @@ public class ImmutableListTest extends TestCase {
     }
 
     // Varargs versions
-    
+
     public void testCreation_twelveElements() {
       List<String> list = ImmutableList.of(
           "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l");
@@ -243,7 +244,7 @@ public class ImmutableListTest extends TestCase {
       String[] array = new String[] { "a" };
       List<String[]> list = ImmutableList.<String[]>of(array);
       assertEquals(Collections.singletonList(array), list);
-    }    
+    }
 
     public void testCopyOf_emptyArray() {
       String[] array = new String[0];
@@ -261,7 +262,7 @@ public class ImmutableListTest extends TestCase {
       try {
         ImmutableList.copyOf((String[]) null);
         fail();
-      } catch(NullPointerException expected) {        
+      } catch(NullPointerException expected) {
       }
     }
 
@@ -332,7 +333,7 @@ public class ImmutableListTest extends TestCase {
       } catch (NullPointerException expected) {
       }
     }
-    
+
     public void testCopyOf_iteratorNull() {
       try {
         ImmutableList.copyOf((Iterator<String>) null);
@@ -340,7 +341,7 @@ public class ImmutableListTest extends TestCase {
       } catch(NullPointerException expected) {
       }
     }
-    
+
     public void testCopyOf_concurrentlyMutating() {
       List<String> sample = Lists.newArrayList("a", "b", "c");
       for (int delta : new int[] {-1, 0, 1}) {
@@ -391,10 +392,49 @@ public class ImmutableListTest extends TestCase {
       Collection<String> c = ImmutableList.of("a", "b", "c");
       assertSame(c, ImmutableList.copyOf(c));
     }
+
+    @GwtIncompatible("expandedCapacity")
+    public void testCapacityExpansion() {
+      assertEquals(1, ImmutableList.expandedCapacity(0, 1));
+      assertEquals(2, ImmutableList.expandedCapacity(0, 2));
+      assertEquals(2, ImmutableList.expandedCapacity(1, 2));
+      assertEquals(Integer.MAX_VALUE, ImmutableList.expandedCapacity(0, Integer.MAX_VALUE));
+      assertEquals(Integer.MAX_VALUE, ImmutableList.expandedCapacity(1, Integer.MAX_VALUE));
+      assertEquals(Integer.MAX_VALUE,
+          ImmutableList.expandedCapacity(Integer.MAX_VALUE - 1, Integer.MAX_VALUE));
+
+      assertEquals(13, ImmutableList.expandedCapacity(8, 9));
+    }
+
+    public void testBuilderAddArrayHandlesNulls() {
+      String[] elements = {"a", null, "b"};
+      ImmutableList.Builder<String> builder = ImmutableList.builder();
+      try {
+        builder.add(elements);
+        fail ("Expected NullPointerException");
+      } catch (NullPointerException expected) {
+      }
+      ImmutableList<String> result = builder.build();
+      assertEquals(ImmutableList.of("a"), result);
+      assertEquals(1, result.size());
+    }
+
+    public void testBuilderAddCollectionHandlesNulls() {
+      List<String> elements = Arrays.asList("a", null, "b");
+      ImmutableList.Builder<String> builder = ImmutableList.builder();
+      try {
+        builder.addAll(elements);
+        fail ("Expected NullPointerException");
+      } catch (NullPointerException expected) {
+      }
+      ImmutableList<String> result = builder.build();
+      assertEquals(ImmutableList.of("a"), result);
+      assertEquals(1, result.size());
+    }
   }
-  
+
   @GwtIncompatible("reflection")
-  public static class ConcurrentTests extends TestCase {  
+  public static class ConcurrentTests extends TestCase {
     enum WrapWithIterable { WRAP, NO_WRAP }
 
     private static void runConcurrentlyMutatedTest(
@@ -600,7 +640,7 @@ public class ImmutableListTest extends TestCase {
       return list;
     }
   }
-  
+
   public static class BasicTests extends TestCase {
 
     @GwtIncompatible("NullPointerTester")
