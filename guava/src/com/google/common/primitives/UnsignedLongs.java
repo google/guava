@@ -56,7 +56,7 @@ public final class UnsignedLongs {
 
   /**
    * A (self-inverse) bijection which converts the ordering on unsigned longs to the ordering on
-   * longs, that is, {@code a <= b} as unsigned longs if and only if {@code rotate(a) <= rotate(b)}
+   * longs, that is, {@code a <= b} as unsigned longs if and only if {@code flip(a) <= flip(b)}
    * as signed longs.
    */
   private static long flip(long a) {
