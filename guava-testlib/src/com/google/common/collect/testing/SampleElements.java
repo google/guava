@@ -16,6 +16,8 @@
 
 package com.google.common.collect.testing;
 
+import java.util.Arrays;
+import java.util.Iterator;
 import java.util.Map;
 
 /**
@@ -25,7 +27,7 @@ import java.util.Map;
  *
  * @author Kevin Bourrillion
  */
-public class SampleElements<E> {
+public class SampleElements<E> implements Iterable<E> {
   // TODO: rename e3, e4 => missing1, missing2
   public final E e0;
   public final E e1;
@@ -39,6 +41,11 @@ public class SampleElements<E> {
     this.e2 = e2;
     this.e3 = e3;
     this.e4 = e4;
+  }
+
+  @Override
+  public Iterator<E> iterator() {
+    return Arrays.asList(e0, e1, e2, e3, e4).iterator();
   }
 
   public static class Strings extends SampleElements<String> {
