@@ -42,12 +42,6 @@ import javax.annotation.Nullable;
  * IP address string literals -- there is no blocking DNS penalty for a
  * malformed string.
  *
- * <p>This class hooks into the {@code sun.net.util.IPAddressUtil} class
- * to make use of the {@code textToNumericFormatV4} and
- * {@code textToNumericFormatV6} methods directly as a means to avoid
- * accidentally traversing all nameservices (it can be vitally important
- * to avoid, say, blocking on DNS at times).
- *
  * <p>When dealing with {@link Inet4Address} and {@link Inet6Address}
  * objects as byte arrays (vis. {@code InetAddress.getAddress()}) they
  * are 4 and 16 bytes in length, respectively, and represent the address
