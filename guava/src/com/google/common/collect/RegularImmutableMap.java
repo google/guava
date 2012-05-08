@@ -74,10 +74,27 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
     keySetHashCode = keySetHashCodeMutable;
   }
 
+  /**
+   * Closed addressing tends to perform well even with high load factors.
+   * Being conservative here ensures that the table is still likely to be
+   * relatively sparse (hence it misses fast) while saving space.
+   */
+  private static final double MAX_LOAD_FACTOR = 1.2;
+
+  /**
+   * Give a good hash table size for the given number of keys.
+   *
+   * @param size The number of keys to be inserted. Must be greater than or equal to 2.
+   */
   private static int chooseTableSize(int size) {
-    // least power of 2 greater than size
-    int tableSize = Integer.highestOneBit(size) << 1;
-    checkArgument(tableSize > 0, "table too large: %s", size);
+    // Get the recommended table size.
+    // Round down to the nearest power of 2.
+    int tableSize = Integer.highestOneBit(size);
+    // Check to make sure that we will not exceed the maximum load factor.
+    if ((double) size / tableSize > MAX_LOAD_FACTOR) {
+      tableSize <<= 1;
+      checkArgument(tableSize > 0, "table too large: %s", size);
+    }
     return tableSize;
   }
 
