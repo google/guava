@@ -121,13 +121,13 @@ public class MapCreationTester<K, V> extends AbstractMapTester<K, V> {
 
   private Entry<K, V>[] getEntriesMultipleNullKeys() {
     Entry<K, V>[] entries = createArrayWithNullKey();
-    entries[0] = entries[getNullLocation()];
+    entries[0] = entry(null, entries[0].getValue());
     return entries;
   }
 
   private Entry<K, V>[] getEntriesMultipleNonNullKeys() {
     Entry<K, V>[] entries = createSamplesArray();
-    entries[0] = samples.e1;
+    entries[0] = entry(samples.e1.getKey(), samples.e0.getValue());
     return entries;
   }
 

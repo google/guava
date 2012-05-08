@@ -854,7 +854,7 @@ public final class Maps {
       extends ForwardingMap<K, V> implements BiMap<K, V>, Serializable {
     final Map<K, V> unmodifiableMap;
     final BiMap<? extends K, ? extends V> delegate;
-    transient BiMap<V, K> inverse;
+    BiMap<V, K> inverse;
     transient Set<V> values;
 
     UnmodifiableBiMap(BiMap<? extends K, ? extends V> delegate,

@@ -16,7 +16,6 @@
 
 package com.google.common.collect;
 
-import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.collect.testing.Helpers.orderEntriesByKey;
 
 import com.google.common.annotations.GwtCompatible;
@@ -50,10 +49,20 @@ public class BiMapCollectionTest extends TestCase {
     protected BiMap<String, String> create(Entry<String, String>[] entries) {
       BiMap<String, String> result = HashBiMap.create();
       for (Entry<String, String> entry : entries) {
-        checkArgument(!result.containsKey(entry.getKey()));
         result.put(entry.getKey(), entry.getValue());
       }
       return result;
+    }
+  }
+
+  public static final class UnmodifiableBiMapGenerator extends TestStringBiMapGenerator {
+    @Override
+    protected BiMap<String, String> create(Entry<String, String>[] entries) {
+      BiMap<String, String> result = HashBiMap.create();
+      for (Entry<String, String> entry : entries) {
+        result.put(entry.getKey(), entry.getValue());
+      }
+      return Maps.unmodifiableBiMap(result);
     }
   }
 
@@ -67,7 +76,6 @@ public class BiMapCollectionTest extends TestCase {
       BiMap<Country, Currency> result = EnumBiMap.create(Country.class, Currency.class);
       for (Object object : entries) {
         Entry<Country, Currency> entry = (Entry<Country, Currency>) object;
-        checkArgument(!result.containsKey(entry.getKey()));
         result.put(entry.getKey(), entry.getValue());
       }
       return result;
@@ -112,7 +120,6 @@ public class BiMapCollectionTest extends TestCase {
       BiMap<Country, String> result = EnumHashBiMap.create(Country.class);
       for (Object o : entries) {
         Entry<Country, String> entry = (Entry<Country, String>) o;
-        checkArgument(!result.containsKey(entry.getKey()));
         result.put(entry.getKey(), entry.getValue());
       }
       return result;
@@ -159,16 +166,14 @@ public class BiMapCollectionTest extends TestCase {
             CollectionFeature.SERIALIZABLE,
             MapFeature.ALLOWS_NULL_KEYS,
             MapFeature.ALLOWS_NULL_VALUES,
-            MapFeature.GENERAL_PURPOSE,
-            MapFeature.REJECTS_DUPLICATES_AT_CREATION)
+            MapFeature.GENERAL_PURPOSE)
         .createTestSuite());
     suite.addTest(BiMapTestSuiteBuilder.using(new EnumBiMapGenerator())
         .named("EnumBiMap")
         .withFeatures(CollectionSize.ANY,
             CollectionFeature.SERIALIZABLE,
             MapFeature.GENERAL_PURPOSE,
-            CollectionFeature.KNOWN_ORDER,
-            MapFeature.REJECTS_DUPLICATES_AT_CREATION)
+            CollectionFeature.KNOWN_ORDER)
         .createTestSuite());
     suite.addTest(BiMapTestSuiteBuilder.using(new EnumHashBiMapGenerator())
         .named("EnumHashBiMap")
@@ -176,8 +181,14 @@ public class BiMapCollectionTest extends TestCase {
             CollectionFeature.SERIALIZABLE,
             MapFeature.ALLOWS_NULL_VALUES,
             MapFeature.GENERAL_PURPOSE,
-            CollectionFeature.KNOWN_ORDER,
-            MapFeature.REJECTS_DUPLICATES_AT_CREATION)
+            CollectionFeature.KNOWN_ORDER)
+        .createTestSuite());
+    suite.addTest(BiMapTestSuiteBuilder.using(new UnmodifiableBiMapGenerator())
+        .named("unmodifiableBiMap[HashBiMap]")
+        .withFeatures(CollectionSize.ANY,
+            CollectionFeature.SERIALIZABLE,
+            MapFeature.ALLOWS_NULL_KEYS,
+            MapFeature.ALLOWS_NULL_VALUES)
         .createTestSuite());
 
     return suite;

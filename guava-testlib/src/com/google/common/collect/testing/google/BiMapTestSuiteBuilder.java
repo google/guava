@@ -30,6 +30,7 @@ import com.google.common.collect.testing.features.MapFeature;
 import com.google.common.collect.testing.google.DerivedGoogleCollectionGenerators.BiMapValueSetGenerator;
 import com.google.common.collect.testing.google.DerivedGoogleCollectionGenerators.InverseBiMapGenerator;
 import com.google.common.collect.testing.google.DerivedGoogleCollectionGenerators.MapGenerator;
+import com.google.common.collect.testing.testers.SetCreationTester;
 
 import junit.framework.TestSuite;
 
@@ -88,6 +89,8 @@ public class BiMapTestSuiteBuilder<K, V>
         .withFeatures(parentBuilder.getFeatures())
         .named(parentBuilder.getName() + " [Map]")
         .suppressing(parentBuilder.getSuppressedTests())
+        .suppressing(SetCreationTester.class.getMethods())
+           // BiMap.entrySet() duplicate-handling behavior is too confusing for SetCreationTester
         .createTestSuite());
     /*
      * TODO(cpovirk): the Map tests duplicate most of this effort by using a
@@ -98,6 +101,8 @@ public class BiMapTestSuiteBuilder<K, V>
         .withFeatures(computeValuesSetFeatures(parentBuilder.getFeatures()))
         .named(parentBuilder.getName() + " values [Set]")
         .suppressing(parentBuilder.getSuppressedTests())
+        .suppressing(SetCreationTester.class.getMethods())
+          // BiMap.values() duplicate-handling behavior is too confusing for SetCreationTester
         .createTestSuite());
     if (!parentBuilder.getFeatures().contains(NoRecurse.INVERSE)) {
       derived.add(BiMapTestSuiteBuilder
@@ -126,6 +131,7 @@ public class BiMapTestSuiteBuilder<K, V>
 
     inverseFeatures.add(NoRecurse.INVERSE);
     inverseFeatures.remove(CollectionFeature.KNOWN_ORDER);
+    inverseFeatures.add(MapFeature.REJECTS_DUPLICATES_AT_CREATION);
 
     return inverseFeatures;
   }
@@ -141,6 +147,8 @@ public class BiMapTestSuiteBuilder<K, V>
     if (mapFeatures.contains(MapFeature.ALLOWS_NULL_VALUES)) {
       valuesCollectionFeatures.add(CollectionFeature.ALLOWS_NULL_VALUES);
     }
+
+    valuesCollectionFeatures.add(CollectionFeature.REJECTS_DUPLICATES_AT_CREATION);
 
     return valuesCollectionFeatures;
   }
