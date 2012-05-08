@@ -432,9 +432,18 @@ public class BigIntegerMathTest extends TestCase {
     }
   }
 
+  public void testBinomialSmall() {
+    runBinomialTest(0, 30);
+  }
+
+  @GwtIncompatible("too slow")
+  public void testBinomialLarge() {
+    runBinomialTest(31, 100);
+  }
+
   // Depends on the correctness of BigIntegerMath.factorial
-  public void testBinomial() {
-    for (int n = 0; n <= 50; n++) {
+  private static void runBinomialTest(int firstN, int lastN) {
+    for (int n = firstN; n <= lastN; n++) {
       for (int k = 0; k <= n; k++) {
         BigInteger expected = BigIntegerMath
             .factorial(n)

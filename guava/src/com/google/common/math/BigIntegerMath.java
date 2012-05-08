@@ -383,12 +383,41 @@ public final class BigIntegerMath {
     if (k < LongMath.BIGGEST_BINOMIALS.length && n <= LongMath.BIGGEST_BINOMIALS[k]) {
       return BigInteger.valueOf(LongMath.binomial(n, k));
     }
-    BigInteger result = BigInteger.ONE;
-    for (int i = 0; i < k; i++) {
-      result = result.multiply(BigInteger.valueOf(n - i));
-      result = result.divide(BigInteger.valueOf(i + 1));
+
+    BigInteger accum = BigInteger.ONE;
+
+    long numeratorAccum = n;
+    long denominatorAccum = 1;
+
+    int bits = LongMath.log2(n, RoundingMode.CEILING);
+
+    int numeratorBits = bits;
+
+    for (int i = 1; i < k; i++) {
+      int p = n - i;
+      int q = i + 1;
+
+      // log2(p) >= bits - 1, because p >= n/2
+
+      if (numeratorBits + bits >= Long.SIZE - 1) {
+        // The numerator is as big as it can get without risking overflow.
+        // Multiply numeratorAccum / denominatorAccum into accum.
+        accum = accum
+            .multiply(BigInteger.valueOf(numeratorAccum))
+            .divide(BigInteger.valueOf(denominatorAccum));
+        numeratorAccum = p;
+        denominatorAccum = q;
+        numeratorBits = bits;
+      } else {
+        // We can definitely multiply into the long accumulators without overflowing them.
+        numeratorAccum *= p;
+        denominatorAccum *= q;
+        numeratorBits += bits;
+      }
     }
-    return result;
+    return accum
+        .multiply(BigInteger.valueOf(numeratorAccum))
+        .divide(BigInteger.valueOf(denominatorAccum));
   }
 
   // Returns true if BigInteger.valueOf(x.longValue()).equals(x).
