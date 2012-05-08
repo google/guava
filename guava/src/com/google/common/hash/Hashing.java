@@ -155,6 +155,8 @@ public final class Hashing {
 
   private static final HashFunction SHA_512 = new MessageDigestHashFunction("SHA-512");
 
+  // Lazy initiliazation holder class idiom.
+
   /**
    * If {@code hashCode} has enough bits, returns {@code hashCode.asLong()}, otherwise
    * returns a {@code long} value with {@code hashCode.asInt()} as the least-significant
