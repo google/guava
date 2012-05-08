@@ -21,7 +21,6 @@ import static org.junit.contrib.truth.Truth.ASSERT;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
-import com.google.common.collect.ImmutableSet.Builder;
 import com.google.common.testing.NullPointerTester;
 import com.google.common.testing.SerializableTester;
 
@@ -682,7 +681,7 @@ public class ImmutableSortedSetTest extends AbstractImmutableSetTest {
     ASSERT.that(set).hasContentsInOrder(101, 12, 3, 44);
   }
 
-  @Override <E extends Comparable<E>> Builder<E> builder() {
+  @Override <E extends Comparable<E>> ImmutableSortedSet.Builder<E> builder() {
     return ImmutableSortedSet.naturalOrder();
   }
 

@@ -18,7 +18,6 @@ package com.google.common.collect.testing.google;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.ImmutableMap.Builder;
 import com.google.common.collect.testing.SampleElements;
 import com.google.common.collect.testing.TestListGenerator;
 import com.google.common.collect.testing.TestStringMapGenerator;
@@ -42,7 +41,7 @@ public class MapGenerators {
   public static class ImmutableMapGenerator
       extends TestStringMapGenerator {
     @Override protected Map<String, String> create(Entry<String, String>[] entries) {
-      Builder<String, String> builder = ImmutableMap.builder();
+      ImmutableMap.Builder<String, String> builder = ImmutableMap.builder();
       for (Entry<String, String> entry : entries) {
         builder.put(entry.getKey(), entry.getValue());
       }
@@ -55,7 +54,7 @@ public class MapGenerators {
 
     @Override public Collection<UnhashableObject> create(
         UnhashableObject[] elements) {
-      Builder<Integer, UnhashableObject> builder = ImmutableMap.builder();
+      ImmutableMap.Builder<Integer, UnhashableObject> builder = ImmutableMap.builder();
       int key = 1;
       for (UnhashableObject value : elements) {
         builder.put(key++, value);
@@ -73,7 +72,7 @@ public class MapGenerators {
 
     @Override
     public List<String> create(Object... elements) {
-      Builder<Integer, String> builder = ImmutableMap.builder();
+      ImmutableMap.Builder<Integer, String> builder = ImmutableMap.builder();
       for (int i = 0; i < elements.length; i++) {
         builder.put(i, toStringOrNull(elements[i]));
       }

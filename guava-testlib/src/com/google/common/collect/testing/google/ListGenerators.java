@@ -20,7 +20,6 @@ import static java.util.Arrays.asList;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableList.Builder;
 import com.google.common.collect.Lists;
 import com.google.common.collect.testing.TestCharacterListGenerator;
 import com.google.common.collect.testing.TestListGenerator;
@@ -51,7 +50,7 @@ public final class ListGenerators {
 
   public static class BuilderAddListGenerator extends TestStringListGenerator {
     @Override protected List<String> create(String[] elements) {
-      Builder<String> builder = ImmutableList.<String>builder();
+      ImmutableList.Builder<String> builder = ImmutableList.<String>builder();
       for (String element : elements) {
         builder.add(element);
       }
