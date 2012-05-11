@@ -63,8 +63,8 @@ import javax.annotation.Nullable;
 public final class Iterators {
   private Iterators() {}
 
-  static final UnmodifiableIterator<Object> EMPTY_ITERATOR
-      = new UnmodifiableIterator<Object>() {
+  static final UnmodifiableListIterator<Object> EMPTY_LIST_ITERATOR
+      = new UnmodifiableListIterator<Object>() {
         @Override
         public boolean hasNext() {
           return false;
@@ -72,6 +72,22 @@ public final class Iterators {
         @Override
         public Object next() {
           throw new NoSuchElementException();
+        }
+        @Override
+        public boolean hasPrevious() {
+          return false;
+        }
+        @Override
+        public Object previous() {
+          throw new NoSuchElementException();
+        }
+        @Override
+        public int nextIndex() {
+          return 0;
+        }
+        @Override
+        public int previousIndex() {
+          return -1;
         }
       };
 
@@ -81,10 +97,20 @@ public final class Iterators {
    * <p>The {@link Iterable} equivalent of this method is {@link
    * ImmutableSet#of()}.
    */
+  public static <T> UnmodifiableIterator<T> emptyIterator() {
+    return emptyListIterator();
+  }
+
+  /**
+   * Returns the empty iterator.
+   *
+   * <p>The {@link Iterable} equivalent of this method is {@link
+   * ImmutableSet#of()}.
+   */
   // Casting to any type is safe since there are no actual elements.
   @SuppressWarnings("unchecked")
-  public static <T> UnmodifiableIterator<T> emptyIterator() {
-    return (UnmodifiableIterator<T>) EMPTY_ITERATOR;
+  static <T> UnmodifiableListIterator<T> emptyListIterator() {
+    return (UnmodifiableListIterator<T>) EMPTY_LIST_ITERATOR;
   }
 
   private static final Iterator<Object> EMPTY_MODIFIABLE_ITERATOR =

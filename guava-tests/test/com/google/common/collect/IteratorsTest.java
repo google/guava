@@ -44,7 +44,6 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -52,6 +51,7 @@ import java.util.ConcurrentModificationException;
 import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.NoSuchElementException;
 import java.util.RandomAccess;
 import java.util.Set;
@@ -83,6 +83,39 @@ public class IteratorsTest extends TestCase {
     }
     try {
       iterator.remove();
+      fail("no exception thrown");
+    } catch (UnsupportedOperationException expected) {
+    }
+  }
+
+  public void testEmptyListIterator() {
+    ListIterator<String> iterator = Iterators.emptyListIterator();
+    assertFalse(iterator.hasNext());
+    assertFalse(iterator.hasPrevious());
+    assertEquals(0, iterator.nextIndex());
+    assertEquals(-1, iterator.previousIndex());
+    try {
+      iterator.next();
+      fail("no exception thrown");
+    } catch (NoSuchElementException expected) {
+    }
+    try {
+      iterator.previous();
+      fail("no exception thrown");
+    } catch (NoSuchElementException expected) {
+    }
+    try {
+      iterator.remove();
+      fail("no exception thrown");
+    } catch (UnsupportedOperationException expected) {
+    }
+    try {
+      iterator.set("a");
+      fail("no exception thrown");
+    } catch (UnsupportedOperationException expected) {
+    }
+    try {
+      iterator.add("a");
       fail("no exception thrown");
     } catch (UnsupportedOperationException expected) {
     }

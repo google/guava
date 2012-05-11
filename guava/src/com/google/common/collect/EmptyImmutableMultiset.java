@@ -18,6 +18,8 @@ package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
 
+import java.util.Collection;
+
 import javax.annotation.Nullable;
 
 /**
@@ -36,8 +38,47 @@ final class EmptyImmutableMultiset extends ImmutableMultiset<Object> {
   }
 
   @Override
+  public boolean contains(@Nullable Object object) {
+    return false;
+  }
+
+  @Override
+  public boolean containsAll(Collection<?> targets) {
+    return targets.isEmpty();
+  }
+
+  @Override
+  public UnmodifiableIterator<Object> iterator() {
+    return Iterators.emptyIterator();
+  }
+
+  @Override
+  public boolean equals(@Nullable Object object) {
+    if (object instanceof Multiset) {
+      Multiset<?> other = (Multiset<?>) object;
+      return other.isEmpty();
+    }
+    return false;
+  }
+
+  @Override
+  public int hashCode() {
+    return 0;
+  }
+
+  @Override
   public ImmutableSet<Object> elementSet() {
     return ImmutableSet.of();
+  }
+
+  @Override
+  public ImmutableSet<Entry<Object>> entrySet() {
+    return ImmutableSet.of();
+  }
+
+  @Override
+  ImmutableSet<Entry<Object>> createEntrySet() {
+    throw new AssertionError("should never be called");
   }
 
   @Override
@@ -51,8 +92,22 @@ final class EmptyImmutableMultiset extends ImmutableMultiset<Object> {
   }
 
   @Override
-  ImmutableSet<Entry<Object>> createEntrySet() {
-    return ImmutableSet.of();
+  public Object[] toArray() {
+    return ObjectArrays.EMPTY_ARRAY;
+  }
+
+  @Override
+  public <T> T[] toArray(T[] other) {
+    return asList().toArray(other);
+  }
+
+  @Override
+  public ImmutableList<Object> asList() {
+    return ImmutableList.of();
+  }
+
+  Object readResolve() {
+    return INSTANCE; // preserve singleton property
   }
 
   private static final long serialVersionUID = 0;

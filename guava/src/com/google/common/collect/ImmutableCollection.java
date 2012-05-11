@@ -186,7 +186,7 @@ public abstract class ImmutableCollection<E>
     }
 
     @Override public UnmodifiableIterator<Object> iterator() {
-      return Iterators.EMPTY_ITERATOR;
+      return Iterators.EMPTY_LIST_ITERATOR;
     }
 
     private static final Object[] EMPTY_ARRAY = new Object[0];

@@ -16,6 +16,7 @@ package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import java.util.Collection;
 import java.util.Comparator;
 
 import javax.annotation.Nullable;
@@ -47,6 +48,16 @@ final class EmptyImmutableSortedMultiset<E> extends ImmutableSortedMultiset<E> {
   }
 
   @Override
+  public boolean contains(@Nullable Object object) {
+    return false;
+  }
+
+  @Override
+  public boolean containsAll(Collection<?> targets) {
+    return targets.isEmpty();
+  }
+
+  @Override
   public int size() {
     return 0;
   }
@@ -62,8 +73,13 @@ final class EmptyImmutableSortedMultiset<E> extends ImmutableSortedMultiset<E> {
   }
 
   @Override
-  ImmutableSet<Entry<E>> createEntrySet() {
+  public ImmutableSet<Entry<E>> entrySet() {
     return ImmutableSet.of();
+  }
+
+  @Override
+  ImmutableSet<Entry<E>> createEntrySet() {
+    throw new AssertionError("should never be called");
   }
 
   @Override
@@ -81,7 +97,46 @@ final class EmptyImmutableSortedMultiset<E> extends ImmutableSortedMultiset<E> {
   }
 
   @Override
+  public UnmodifiableIterator<E> iterator() {
+    return Iterators.emptyIterator();
+  }
+
+  @Override
+  public boolean equals(@Nullable Object object) {
+    if (object instanceof Multiset) {
+      Multiset<?> other = (Multiset<?>) object;
+      return other.isEmpty();
+    }
+    return false;
+  }
+
+  @Override
+  public int hashCode() {
+    return 0;
+  }
+
+  @Override
+  public String toString() {
+    return "[]";
+  }
+
+  @Override
   boolean isPartialView() {
     return false;
+  }
+
+  @Override
+  public Object[] toArray() {
+    return ObjectArrays.EMPTY_ARRAY;
+  }
+
+  @Override
+  public <T> T[] toArray(T[] other) {
+    return asList().toArray(other);
+  }
+
+  @Override
+  public ImmutableList<E> asList() {
+    return ImmutableList.of();
   }
 }

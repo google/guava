@@ -50,6 +50,10 @@ class EmptyImmutableSortedSet<E> extends ImmutableSortedSet<E> {
     return false;
   }
 
+  @Override public boolean containsAll(Collection<?> targets) {
+    return targets.isEmpty();
+  }
+
   @Override public UnmodifiableIterator<E> iterator() {
     return Iterators.emptyIterator();
   }
@@ -58,21 +62,16 @@ class EmptyImmutableSortedSet<E> extends ImmutableSortedSet<E> {
     return false;
   }
 
-  private static final Object[] EMPTY_ARRAY = new Object[0];
+  @Override public ImmutableList<E> asList() {
+    return ImmutableList.of();
+  }
 
   @Override public Object[] toArray() {
-    return EMPTY_ARRAY;
+    return ObjectArrays.EMPTY_ARRAY;
   }
 
   @Override public <T> T[] toArray(T[] a) {
-    if (a.length > 0) {
-      a[0] = null;
-    }
-    return a;
-  }
-
-  @Override public boolean containsAll(Collection<?> targets) {
-    return targets.isEmpty();
+    return asList().toArray(a);
   }
 
   @Override public boolean equals(@Nullable Object object) {

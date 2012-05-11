@@ -32,6 +32,8 @@ import javax.annotation.Nullable;
  */
 @GwtCompatible(emulated = true)
 public final class ObjectArrays {
+  static final Object[] EMPTY_ARRAY = new Object[0];
+
   private ObjectArrays() {}
 
   /**

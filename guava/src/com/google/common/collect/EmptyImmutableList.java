@@ -24,45 +24,17 @@ import com.google.common.annotations.GwtCompatible;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.NoSuchElementException;
 
 import javax.annotation.Nullable;
 
 /**
  * An empty immutable list.
- * 
+ *
  * @author Kevin Bourrillion
  */
 @GwtCompatible(serializable = true, emulated = true)
 final class EmptyImmutableList extends ImmutableList<Object> {
   static final EmptyImmutableList INSTANCE = new EmptyImmutableList();
-  static final UnmodifiableListIterator<Object> ITERATOR =
-      new UnmodifiableListIterator<Object>() {
-
-        @Override public boolean hasNext() {
-          return false;
-        }
-
-        @Override public boolean hasPrevious() {
-          return false;
-        }
-
-        @Override public Object next() {
-          throw new NoSuchElementException();
-        }
-
-        @Override public int nextIndex() {
-          return 0;
-        }
-
-        @Override public Object previous() {
-          throw new NoSuchElementException();
-        }
-
-        @Override public int previousIndex() {
-          return -1;
-        }
-      };
 
   private EmptyImmutableList() {}
 
@@ -79,18 +51,20 @@ final class EmptyImmutableList extends ImmutableList<Object> {
     return false;
   }
 
-  @Override public boolean contains(Object target) {
+  @Override public boolean contains(@Nullable Object target) {
     return false;
   }
 
-  @Override public UnmodifiableIterator<Object> iterator() {
-    return Iterators.emptyIterator();
+  @Override public boolean containsAll(Collection<?> targets) {
+    return targets.isEmpty();
   }
 
-  private static final Object[] EMPTY_ARRAY = new Object[0];
+  @Override public UnmodifiableIterator<Object> iterator() {
+    return listIterator();
+  }
 
   @Override public Object[] toArray() {
-    return EMPTY_ARRAY;
+    return ObjectArrays.EMPTY_ARRAY;
   }
 
   @Override public <T> T[] toArray(T[] a) {
@@ -125,16 +99,12 @@ final class EmptyImmutableList extends ImmutableList<Object> {
   }
 
   @Override public UnmodifiableListIterator<Object> listIterator(){
-    return ITERATOR;
+    return Iterators.EMPTY_LIST_ITERATOR;
   }
 
   @Override public UnmodifiableListIterator<Object> listIterator(int start) {
     checkPositionIndex(start, 0);
-    return ITERATOR;
-  }
-
-  @Override public boolean containsAll(Collection<?> targets) {
-    return targets.isEmpty();
+    return Iterators.EMPTY_LIST_ITERATOR;
   }
 
   @Override public boolean equals(@Nullable Object object) {

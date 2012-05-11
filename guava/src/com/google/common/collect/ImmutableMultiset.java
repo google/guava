@@ -332,7 +332,7 @@ public abstract class ImmutableMultiset<E> extends ImmutableCollection<E>
   private transient ImmutableSet<Entry<E>> entrySet;
 
   @Override
-  public final ImmutableSet<Entry<E>> entrySet() {
+  public ImmutableSet<Entry<E>> entrySet() {
     ImmutableSet<Entry<E>> es = entrySet;
     return (es == null) ? (entrySet = createEntrySet()) : es;
   }

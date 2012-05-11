@@ -394,7 +394,7 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableSortedMultiset
    * @throws UnsupportedOperationException always
    */
   @Override
-  public Entry<E> pollLastEntry() {
+  public final Entry<E> pollLastEntry() {
     throw new UnsupportedOperationException();
   }
 
