@@ -115,7 +115,7 @@ public class MathTesting {
       intValues.add(i);
     }
     // Now add values near 2^N for lots of values of N.
-    for (int exponent : asList(2, 3, 4, 5, 6, 7, 8, 9, 15, 16, 17, 23, 24, 25)) {
+    for (int exponent : asList(2, 3, 4, 5, 6, 7, 8, 9, 15, 16, 17, 23, 24, 25, 30)) {
       int x = 1 << exponent;
       intValues.add(x, x + 1, x - 1);
     }

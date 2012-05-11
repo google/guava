@@ -51,12 +51,17 @@ public class MultisetWritesTester<E> extends AbstractMultisetTester<E> {
   }
 
   @CollectionFeature.Require(SUPPORTS_ADD)
+  public void testAddOccurrencesZero() {
+    int expectedCount = getMultiset().count(samples.e0);
+    assertEquals(expectedCount, getMultiset().add(samples.e0, 0));
+    expectUnchanged();
+  }
+
+  @CollectionFeature.Require(SUPPORTS_ADD)
   public void testAddOccurrences() {
-    int oldCount = getMultiset().count(samples.e0);
-    assertEquals("multiset.add(E, int) should return the old count",
-        oldCount, getMultiset().add(samples.e0, 2));
-    assertEquals("multiset.count() incorrect after add(E, int)",
-        oldCount + 2, getMultiset().count(samples.e0));
+    int expectedCount = getMultiset().count(samples.e0);
+    assertEquals(expectedCount, getMultiset().add(samples.e0, 2));
+    assertEquals(expectedCount + 2, getMultiset().count(samples.e0));
   }
 
   @CollectionFeature.Require(absent = SUPPORTS_ADD)
@@ -65,6 +70,21 @@ public class MultisetWritesTester<E> extends AbstractMultisetTester<E> {
       getMultiset().add(samples.e0, 2);
       fail("unsupported multiset.add(E, int) didn't throw exception");
     } catch (UnsupportedOperationException required) {}
+  }
+
+  @CollectionFeature.Require(SUPPORTS_ADD)
+  public void testAdd_occurrences_negative() {
+    try {
+      getMultiset().add(samples.e0, -1);
+      fail("multiset.add(E, -1) didn't throw an exception");
+    } catch (IllegalArgumentException required) {}
+  }
+
+  @CollectionFeature.Require(SUPPORTS_REMOVE)
+  public void testRemoveZeroNoOp() {
+    int expectedCount = getMultiset().count(samples.e0);
+    assertEquals(expectedCount, getMultiset().remove(samples.e0, 0));
+    expectUnchanged();
   }
 
   @CollectionSize.Require(absent = ZERO)

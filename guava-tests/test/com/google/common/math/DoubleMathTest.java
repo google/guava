@@ -356,6 +356,19 @@ public class DoubleMathTest extends TestCase {
     }
   }
 
+  public void testRoundLog2Exact() {
+    for (double x : POSITIVE_FINITE_DOUBLE_CANDIDATES) {
+      boolean isPowerOfTwo = StrictMath.pow(2.0, DoubleMath.log2(x, FLOOR)) == x;
+      try {
+        int log2 = DoubleMath.log2(x, UNNECESSARY);
+        assertEquals(x, Math.scalb(1.0, log2));
+        assertTrue(isPowerOfTwo);
+      } catch (ArithmeticException e) {
+        assertFalse(isPowerOfTwo);
+      }
+    }
+  }
+
   public void testRoundLog2ThrowsOnZerosInfinitiesAndNaN() {
     for (RoundingMode mode : ALL_ROUNDING_MODES) {
       for (double d :
