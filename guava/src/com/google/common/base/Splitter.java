@@ -378,6 +378,12 @@ public final class Splitter {
       @Override public Iterator<String> iterator() {
         return spliterator(sequence);
       }
+      @Override public String toString() {
+        return Joiner.on(", ")
+            .appendTo(new StringBuilder().append('['), this)
+            .append(']')
+            .toString();
+      }
     };
   }
 
@@ -467,8 +473,7 @@ public final class Splitter {
     Iterator<String> iterator(Splitter splitter, CharSequence toSplit);
   }
 
-  private abstract static class SplittingIterator
-      extends AbstractIterator<String> {
+  private abstract static class SplittingIterator extends AbstractIterator<String> {
     final CharSequence toSplit;
     final CharMatcher trimmer;
     final boolean omitEmptyStrings;

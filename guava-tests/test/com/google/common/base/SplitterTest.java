@@ -54,6 +54,12 @@ public class SplitterTest extends TestCase {
     ASSERT.that(letters).hasContentsInOrder("a", "b", "c");
   }
 
+  public void testToString() {
+    assertEquals("[]", Splitter.on(',').split("").toString());
+    assertEquals("[a, b, c]", Splitter.on(',').split("a,b,c").toString());
+    assertEquals("[yam, bam, jam, ham]", Splitter.on(", ").split("yam, bam, jam, ham").toString());
+  }
+
   public void testCharacterSimpleSplitWithNoDelimiter() {
     String simple = "a,b,c";
     Iterable<String> letters = Splitter.on('.').split(simple);
