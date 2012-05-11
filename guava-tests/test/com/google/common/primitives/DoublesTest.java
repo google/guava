@@ -392,7 +392,7 @@ public class DoublesTest extends TestCase {
   }
 
   @GwtIncompatible("NullPointerTester")
-  public void testNulls() throws Exception {
+  public void testNulls() {
     NullPointerTester tester = new NullPointerTester();
     tester.setDefault(double[].class, new double[0]);
     tester.testAllPublicStaticMethods(Doubles.class);

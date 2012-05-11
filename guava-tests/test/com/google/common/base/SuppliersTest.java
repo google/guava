@@ -392,7 +392,7 @@ public class SuppliersTest extends TestCase {
   }
 
   @GwtIncompatible("NullPointerTest")
-  public void testNullPointers() throws Exception {
+  public void testNullPointers() {
     NullPointerTester tester = new NullPointerTester();
     tester.testAllPublicStaticMethods(Suppliers.class);
   }

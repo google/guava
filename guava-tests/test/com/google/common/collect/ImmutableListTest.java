@@ -644,7 +644,7 @@ public class ImmutableListTest extends TestCase {
   public static class BasicTests extends TestCase {
 
     @GwtIncompatible("NullPointerTester")
-    public void testNullPointers() throws Exception {
+    public void testNullPointers() {
       NullPointerTester tester = new NullPointerTester();
       tester.testAllPublicStaticMethods(ImmutableList.class);
       tester.testAllPublicInstanceMethods(ImmutableList.of(1, 2, 3));

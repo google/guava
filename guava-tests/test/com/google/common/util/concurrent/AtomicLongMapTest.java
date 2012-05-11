@@ -45,7 +45,7 @@ public class AtomicLongMapTest extends TestCase {
   private Random random = new Random(301);
 
   @GwtIncompatible("NullPointerTester")
-  public void testNulls() throws Exception {
+  public void testNulls() {
     NullPointerTester tester = new NullPointerTester();
     tester.testAllPublicConstructors(AtomicLongMap.class);
     tester.testAllPublicStaticMethods(AtomicLongMap.class);

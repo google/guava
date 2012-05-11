@@ -393,7 +393,7 @@ public final class InternetDomainNameTest extends TestCase {
   }
 
   @GwtIncompatible("NullPointerTester")
-  public void testNulls() throws Exception {
+  public void testNulls() {
     final NullPointerTester tester = new NullPointerTester();
 
     tester.testAllPublicStaticMethods(InternetDomainName.class);

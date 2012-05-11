@@ -618,7 +618,7 @@ public class ImmutableSortedMapTest extends TestCase {
   }
 
   @GwtIncompatible("NullPointerTester")
-  public void testNullPointers() throws Exception {
+  public void testNullPointers() {
     NullPointerTester tester = new NullPointerTester();
     tester.testAllPublicStaticMethods(ImmutableSortedMap.class);
     tester.testAllPublicInstanceMethods(

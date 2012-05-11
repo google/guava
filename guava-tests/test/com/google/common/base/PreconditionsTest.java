@@ -340,7 +340,7 @@ public class PreconditionsTest extends TestCase {
   }
 
   @GwtIncompatible("NullPointerTester")
-  public void testNullPointers() throws Exception {
+  public void testNullPointers() {
     NullPointerTester tester = new NullPointerTester();
     tester.testAllPublicStaticMethods(Preconditions.class);
   }

@@ -328,7 +328,7 @@ public class MapsTest extends TestCase {
   }
 
   @GwtIncompatible("NullPointerTester")
-  public void testNullPointerExceptions() throws Exception {
+  public void testNullPointerExceptions() {
     NullPointerTester tester = new NullPointerTester();
     tester.setDefault(BiMap.class, ImmutableBiMap.of());
     tester.setDefault(EntryTransformer.class, ALWAYS_NULL);

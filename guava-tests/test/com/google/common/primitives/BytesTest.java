@@ -255,7 +255,7 @@ public class BytesTest extends TestCase {
   }
 
   @GwtIncompatible("NullPointerTester")
-  public void testNulls() throws Exception {
+  public void testNulls() {
     NullPointerTester tester = new NullPointerTester();
     tester.setDefault(byte[].class, new byte[0]);
     tester.testAllPublicStaticMethods(Bytes.class);

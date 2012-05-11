@@ -94,7 +94,7 @@ public class MultisetsTest extends TestCase {
     assertEquals(multiset.hashCode(), multisetView.hashCode());
     assertEquals(multiset.size(), multisetView.size());
   }
-  
+
   @GwtIncompatible("SerializableTester")
   public void testForSetSerialization() {
     Set<String> set = new HashSet<String>();
@@ -163,7 +163,7 @@ public class MultisetsTest extends TestCase {
     Multiset<String> ms2 = HashMultiset.create();
     ASSERT.that(Multisets.intersection(ms1, ms2)).hasContentsInOrder();
   }
-  
+
   public void testContainsOccurrencesEmpty() {
     Multiset<String> superMultiset = HashMultiset.create(Arrays.asList("a", "b", "a"));
     Multiset<String> subMultiset = HashMultiset.create();
@@ -180,7 +180,7 @@ public class MultisetsTest extends TestCase {
     assertFalse(Multisets.containsOccurrences(superMultiset, diffMultiset));
     assertTrue(Multisets.containsOccurrences(diffMultiset, subMultiset));
   }
-  
+
   public void testRetainEmptyOccurrences() {
     Multiset<String> multiset =
         HashMultiset.create(Arrays.asList("a", "b", "a"));
@@ -225,11 +225,11 @@ public class MultisetsTest extends TestCase {
     assertSame(immutable, Multisets.unmodifiableMultiset(immutable));
     assertSame(immutable, Multisets.unmodifiableMultiset((Multiset<String>) immutable));
   }
-  
+
   public void testHighestCountFirst() {
     Multiset<String> multiset = HashMultiset.create(
         Arrays.asList("a", "a", "a", "b", "c", "c"));
-    ImmutableMultiset<String> sortedMultiset = 
+    ImmutableMultiset<String> sortedMultiset =
         Multisets.copyHighestCountFirst(multiset);
 
     ASSERT.that(sortedMultiset.entrySet()).hasContentsInOrder(
@@ -243,12 +243,12 @@ public class MultisetsTest extends TestCase {
         "c",
         "c",
         "b");
-    
+
     ASSERT.that(Multisets.copyHighestCountFirst(ImmutableMultiset.of())).isEmpty();
   }
-  
+
   @GwtIncompatible("NullPointerTester")
-  public void testNullPointers() throws Exception {
+  public void testNullPointers() {
     NullPointerTester tester = new NullPointerTester();
     tester.setDefault(Multiset.class, ImmutableMultiset.of());
     tester.testAllPublicStaticMethods(Multisets.class);

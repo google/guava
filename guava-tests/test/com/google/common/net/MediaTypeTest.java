@@ -414,7 +414,7 @@ public class MediaTypeTest extends TestCase {
   }
 
   @GwtIncompatible("com.google.common.testing.NullPointerTester")
-  public void testNullPointer() throws Exception {
+  public void testNullPointer() {
     NullPointerTester tester = new NullPointerTester();
     tester.testAllPublicConstructors(MediaType.class);
     tester.testAllPublicStaticMethods(MediaType.class);

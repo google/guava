@@ -45,7 +45,7 @@ public class TypeParameterTest extends TestCase {
     } catch (IllegalArgumentException expected) {}
   }
 
-  public void testNullPointers() throws Exception {
+  public void testNullPointers() {
     NullPointerTester tester = new NullPointerTester();
     tester.setDefault(TypeVariable.class, Types.newTypeVariable(List.class, "E"));
     tester.testAllPublicStaticMethods(TypeParameter.class);

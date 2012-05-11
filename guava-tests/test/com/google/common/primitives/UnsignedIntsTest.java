@@ -179,7 +179,7 @@ public class UnsignedIntsTest extends TestCase {
   }
 
   @GwtIncompatible("NullPointerTester")
-  public void testNulls() throws Exception {
+  public void testNulls() {
     NullPointerTester tester = new NullPointerTester();
     tester.setDefault(int[].class, new int[0]);
     tester.testAllPublicStaticMethods(UnsignedInts.class);

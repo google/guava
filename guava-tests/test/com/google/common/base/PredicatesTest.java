@@ -596,15 +596,15 @@ public class PredicatesTest extends TestCase {
   public void testIsInstanceOf_serialization() {
     checkSerialization(Predicates.instanceOf(Integer.class));
   }
-  
+
   @GwtIncompatible("Predicates.assignableFrom")
   public void testIsAssignableFrom_apply() {
     Predicate<Class<?>> isInteger = Predicates.assignableFrom(Integer.class);
 
     assertTrue(isInteger.apply(Integer.class));
     assertFalse(isInteger.apply(Float.class));
-    
-    try {      
+
+    try {
       isInteger.apply(null);
       fail();
     } catch(NullPointerException expected) {}
@@ -640,7 +640,7 @@ public class PredicatesTest extends TestCase {
 
   @GwtIncompatible("Predicates.assignableFrom, SerializableTester")
   public void testIsAssignableFrom_serialization() {
-    Predicate<Class<?>> predicate = 
+    Predicate<Class<?>> predicate =
         Predicates.assignableFrom(Integer.class);
     Predicate<Class<?>> reserialized =
         SerializableTester.reserializeAndAssert(predicate);
@@ -763,7 +763,7 @@ public class PredicatesTest extends TestCase {
   }
 
   @GwtIncompatible("NullPointerTester")
-  public void testNullPointerExceptions() throws Exception {
+  public void testNullPointerExceptions() {
     NullPointerTester tester = new NullPointerTester();
     tester.testAllPublicStaticMethods(Predicates.class);
   }
@@ -908,9 +908,9 @@ public class PredicatesTest extends TestCase {
     assertEqualHashCode(
         Predicates.or(p1, p2),
         Predicates.or(p1, p2));
- 
+
     // While not a contractual requirement, we'd like the hash codes for ands
-    // & ors of the same predicates to not collide. 
+    // & ors of the same predicates to not collide.
     assertTrue(Predicates.and(p1, p2).hashCode() != Predicates.or(p1, p2).hashCode());
   }
 

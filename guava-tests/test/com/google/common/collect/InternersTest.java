@@ -90,7 +90,7 @@ public class InternersTest extends TestCase {
     assertSame(canonical, internerFunction.apply(not));
   }
 
-  public void testNullPointerExceptions() throws Exception {
+  public void testNullPointerExceptions() {
     new NullPointerTester().testAllPublicStaticMethods(Interners.class);
   }
 }

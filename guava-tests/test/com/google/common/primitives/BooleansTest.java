@@ -78,7 +78,7 @@ public class BooleansTest extends TestCase {
     assertEquals(1, Booleans.indexOf(ARRAY_FALSE_TRUE, ARRAY_TRUE));
     assertEquals(0, Booleans.indexOf(ARRAY_TRUE, new boolean[0]));
   }
-  
+
   public void testIndexOf_arrays() {
     assertEquals(-1, Booleans.indexOf(EMPTY, false));
     assertEquals(-1, Booleans.indexOf(ARRAY_FALSE, true));
@@ -212,70 +212,70 @@ public class BooleansTest extends TestCase {
   }
 
   public void testAsListIsEmpty() {
-    assertTrue(Booleans.asList(EMPTY).isEmpty()); 
-    assertFalse(Booleans.asList(ARRAY_FALSE).isEmpty()); 
+    assertTrue(Booleans.asList(EMPTY).isEmpty());
+    assertFalse(Booleans.asList(ARRAY_FALSE).isEmpty());
   }
-  
+
   public void testAsListSize() {
-    assertEquals(0, Booleans.asList(EMPTY).size()); 
-    assertEquals(1, Booleans.asList(ARRAY_FALSE).size()); 
-    assertEquals(2, Booleans.asList(ARRAY_FALSE_TRUE).size()); 
+    assertEquals(0, Booleans.asList(EMPTY).size());
+    assertEquals(1, Booleans.asList(ARRAY_FALSE).size());
+    assertEquals(2, Booleans.asList(ARRAY_FALSE_TRUE).size());
   }
-  
+
   public void testAsListIndexOf() {
-    assertEquals(-1, Booleans.asList(EMPTY).indexOf("wrong type")); 
-    assertEquals(-1, Booleans.asList(EMPTY).indexOf(true)); 
-    assertEquals(-1, Booleans.asList(ARRAY_FALSE).indexOf(true)); 
-    assertEquals(0, Booleans.asList(ARRAY_FALSE).indexOf(false)); 
-    assertEquals(1, Booleans.asList(ARRAY_FALSE_TRUE).indexOf(true)); 
+    assertEquals(-1, Booleans.asList(EMPTY).indexOf("wrong type"));
+    assertEquals(-1, Booleans.asList(EMPTY).indexOf(true));
+    assertEquals(-1, Booleans.asList(ARRAY_FALSE).indexOf(true));
+    assertEquals(0, Booleans.asList(ARRAY_FALSE).indexOf(false));
+    assertEquals(1, Booleans.asList(ARRAY_FALSE_TRUE).indexOf(true));
   }
-  
+
   public void testAsListLastIndexOf() {
-    assertEquals(-1, Booleans.asList(EMPTY).indexOf("wrong type")); 
-    assertEquals(-1, Booleans.asList(EMPTY).indexOf(true)); 
-    assertEquals(-1, Booleans.asList(ARRAY_FALSE).lastIndexOf(true)); 
-    assertEquals(1, Booleans.asList(ARRAY_FALSE_TRUE).lastIndexOf(true)); 
-    assertEquals(1, Booleans.asList(ARRAY_FALSE_FALSE).lastIndexOf(false)); 
+    assertEquals(-1, Booleans.asList(EMPTY).indexOf("wrong type"));
+    assertEquals(-1, Booleans.asList(EMPTY).indexOf(true));
+    assertEquals(-1, Booleans.asList(ARRAY_FALSE).lastIndexOf(true));
+    assertEquals(1, Booleans.asList(ARRAY_FALSE_TRUE).lastIndexOf(true));
+    assertEquals(1, Booleans.asList(ARRAY_FALSE_FALSE).lastIndexOf(false));
   }
-  
+
   public void testAsListContains() {
-    assertFalse(Booleans.asList(EMPTY).contains("wrong type")); 
-    assertFalse(Booleans.asList(EMPTY).contains(true)); 
-    assertFalse(Booleans.asList(ARRAY_FALSE).contains(true)); 
-    assertTrue(Booleans.asList(ARRAY_TRUE).contains(true));  
-    assertTrue(Booleans.asList(ARRAY_FALSE_TRUE).contains(false)); 
-    assertTrue(Booleans.asList(ARRAY_FALSE_TRUE).contains(true)); 
+    assertFalse(Booleans.asList(EMPTY).contains("wrong type"));
+    assertFalse(Booleans.asList(EMPTY).contains(true));
+    assertFalse(Booleans.asList(ARRAY_FALSE).contains(true));
+    assertTrue(Booleans.asList(ARRAY_TRUE).contains(true));
+    assertTrue(Booleans.asList(ARRAY_FALSE_TRUE).contains(false));
+    assertTrue(Booleans.asList(ARRAY_FALSE_TRUE).contains(true));
   }
-  
+
   public void testAsListEquals() {
-    assertEquals(Booleans.asList(EMPTY), Collections.emptyList()); 
-    assertEquals(Booleans.asList(ARRAY_FALSE), Booleans.asList(ARRAY_FALSE)); 
-    assertFalse(Booleans.asList(ARRAY_FALSE).equals(ARRAY_FALSE)); 
-    assertFalse(Booleans.asList(ARRAY_FALSE).equals(null)); 
-    assertFalse(Booleans.asList(ARRAY_FALSE).equals(Booleans.asList(ARRAY_FALSE_TRUE))); 
-    assertFalse(Booleans.asList(ARRAY_FALSE_FALSE).equals(Booleans.asList(ARRAY_FALSE_TRUE))); 
-    assertEquals(1, Booleans.asList(ARRAY_FALSE_TRUE).lastIndexOf(true)); 
-    List<Boolean> reference = Booleans.asList(ARRAY_FALSE); 
-    assertEquals(Booleans.asList(ARRAY_FALSE), reference); 
-    assertEquals(reference, reference); 
+    assertEquals(Booleans.asList(EMPTY), Collections.emptyList());
+    assertEquals(Booleans.asList(ARRAY_FALSE), Booleans.asList(ARRAY_FALSE));
+    assertFalse(Booleans.asList(ARRAY_FALSE).equals(ARRAY_FALSE));
+    assertFalse(Booleans.asList(ARRAY_FALSE).equals(null));
+    assertFalse(Booleans.asList(ARRAY_FALSE).equals(Booleans.asList(ARRAY_FALSE_TRUE)));
+    assertFalse(Booleans.asList(ARRAY_FALSE_FALSE).equals(Booleans.asList(ARRAY_FALSE_TRUE)));
+    assertEquals(1, Booleans.asList(ARRAY_FALSE_TRUE).lastIndexOf(true));
+    List<Boolean> reference = Booleans.asList(ARRAY_FALSE);
+    assertEquals(Booleans.asList(ARRAY_FALSE), reference);
+    assertEquals(reference, reference);
   }
-  
+
   public void testAsListHashcode() {
-    assertEquals(1, Booleans.asList(EMPTY).hashCode()); 
-    assertEquals(Booleans.asList(ARRAY_FALSE).hashCode(), Booleans.asList(ARRAY_FALSE).hashCode()); 
-    List<Boolean> reference = Booleans.asList(ARRAY_FALSE); 
-    assertEquals(Booleans.asList(ARRAY_FALSE).hashCode(), reference.hashCode()); 
+    assertEquals(1, Booleans.asList(EMPTY).hashCode());
+    assertEquals(Booleans.asList(ARRAY_FALSE).hashCode(), Booleans.asList(ARRAY_FALSE).hashCode());
+    List<Boolean> reference = Booleans.asList(ARRAY_FALSE);
+    assertEquals(Booleans.asList(ARRAY_FALSE).hashCode(), reference.hashCode());
   }
-  
+
   public void testAsListToString() {
-    assertEquals("[false]", Booleans.asList(ARRAY_FALSE).toString()); 
-    assertEquals("[false, true]", Booleans.asList(ARRAY_FALSE_TRUE).toString()); 
+    assertEquals("[false]", Booleans.asList(ARRAY_FALSE).toString());
+    assertEquals("[false, true]", Booleans.asList(ARRAY_FALSE_TRUE).toString());
   }
-  
+
   public void testAsListSet() {
     List<Boolean> list = Booleans.asList(ARRAY_FALSE);
-    assertFalse(list.set(0, true)); 
-    assertTrue(list.set(0, false)); 
+    assertFalse(list.set(0, true));
+    assertTrue(list.set(0, false));
     try {
       list.set(0, null);
       fail();
@@ -289,7 +289,7 @@ public class BooleansTest extends TestCase {
   }
 
   @GwtIncompatible("NullPointerTester")
-  public void testNulls() throws Exception {
+  public void testNulls() {
     NullPointerTester tester = new NullPointerTester();
     tester.setDefault(boolean[].class, new boolean[0]);
     tester.testAllPublicStaticMethods(Booleans.class);

@@ -115,7 +115,7 @@ public class ImmutableSetTest extends AbstractImmutableSetTest {
   }
 
   @GwtIncompatible("NullPointerTester")
-  public void testNullPointers() throws Exception {
+  public void testNullPointers() {
     NullPointerTester tester = new NullPointerTester();
     tester.testAllPublicStaticMethods(ImmutableSet.class);
   }

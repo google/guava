@@ -73,7 +73,7 @@ public class ImmutableMapTest extends TestCase {
             CollectionFeature.ALLOWS_NULL_QUERIES)
         .named("ImmutableMap.keySet")
         .createTestSuite());
-    
+
     suite.addTest(CollectionTestSuiteBuilder.using(
             new ImmutableMapUnhashableValuesGenerator())
         .withFeatures(CollectionSize.ANY, CollectionFeature.KNOWN_ORDER,
@@ -476,7 +476,7 @@ public class ImmutableMapTest extends TestCase {
   }
 
   @GwtIncompatible("NullPointerTester")
-  public void testNullPointers() throws Exception {
+  public void testNullPointers() {
     NullPointerTester tester = new NullPointerTester();
     tester.testAllPublicStaticMethods(ImmutableMap.class);
     tester.testAllPublicInstanceMethods(

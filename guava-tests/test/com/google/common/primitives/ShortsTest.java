@@ -418,7 +418,7 @@ public class ShortsTest extends TestCase {
   }
 
   @GwtIncompatible("NullPointerTester")
-  public void testNulls() throws Exception {
+  public void testNulls() {
     NullPointerTester tester = new NullPointerTester();
     tester.setDefault(short[].class, new short[0]);
     tester.testAllPublicStaticMethods(Shorts.class);

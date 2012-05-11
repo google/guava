@@ -119,7 +119,7 @@ public class SortedListsTest extends TestCase {
   }
 
   @GwtIncompatible("NullPointerTester")
-  public void testNulls() throws Exception {
+  public void testNulls() {
     NullPointerTester tester = new NullPointerTester();
     tester.setDefault(Function.class, Functions.identity());
     tester.setDefault(List.class, LIST_WITH_DUPS);

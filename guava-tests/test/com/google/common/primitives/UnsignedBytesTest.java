@@ -254,7 +254,7 @@ public class UnsignedBytesTest extends TestCase {
     assertSame(javaImpl, SerializableTester.reserialize(javaImpl));
   }
 
-  public void testNulls() throws Exception {
+  public void testNulls() {
     NullPointerTester tester = new NullPointerTester();
     tester.setDefault(byte[].class, new byte[0]);
     tester.setDefault(int.class, 5);

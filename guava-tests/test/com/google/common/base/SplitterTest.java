@@ -625,7 +625,7 @@ public class SplitterTest extends TestCase {
   }
 
   @GwtIncompatible("NullPointerTester")
-  public void testNullPointers() throws Exception {
+  public void testNullPointers() {
     NullPointerTester tester = new NullPointerTester();
     tester.testAllPublicStaticMethods(Splitter.class);
     tester.testAllPublicInstanceMethods(Splitter.on(","));

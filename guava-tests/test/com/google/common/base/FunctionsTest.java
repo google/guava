@@ -78,7 +78,7 @@ public class FunctionsTest extends TestCase {
   }
 
   @GwtIncompatible("NullPointerTester")
-  public void testNullPointerExceptions() throws Exception {
+  public void testNullPointerExceptions() {
     NullPointerTester tester = new NullPointerTester();
     tester.testAllPublicStaticMethods(Functions.class);
   }
@@ -385,14 +385,14 @@ public class FunctionsTest extends TestCase {
       implements Supplier<Integer>, Serializable {
 
     private static final long serialVersionUID = 0;
-    
+
     private int value;
 
     @Override
     public Integer get() {
       return ++value;
     }
-    
+
     @Override
     public boolean equals(Object obj) {
       if (obj instanceof CountingSupplier) {
@@ -400,7 +400,7 @@ public class FunctionsTest extends TestCase {
       }
       return false;
     }
-    
+
     @Override
     public int hashCode() {
       return value;
@@ -413,7 +413,7 @@ public class FunctionsTest extends TestCase {
 
     assertEquals(1, (int) function.apply(null));
     assertEquals(2, (int) function.apply("foo"));
-    
+
     new EqualsTester()
         .addEqualityGroup(function, Functions.forSupplier(supplier))
         .addEqualityGroup(Functions.forSupplier(new CountingSupplier()))

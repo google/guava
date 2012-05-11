@@ -41,7 +41,7 @@ public class SynchronizedSetTest extends AbstractCollectionTest {
     return outer;
   }
 
-  @Override public void testNullPointerExceptions() throws Exception {
+  @Override public void testNullPointerExceptions() {
     /* Skip this test, as SynchronizedSet is not a public class. */
   }
 

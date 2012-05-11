@@ -28,7 +28,7 @@ import junit.framework.TestCase;
  */
 public class RangeNonGwtTest extends TestCase {
 
-  public void testNullPointers() throws Exception {
+  public void testNullPointers() {
     NullPointerTester tester = new NullPointerTester();
     tester.setDefault(BoundType.class, BoundType.OPEN);
     tester.setDefault(Comparable.class, 0);

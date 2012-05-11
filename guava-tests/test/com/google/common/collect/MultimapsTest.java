@@ -907,7 +907,7 @@ public class MultimapsTest extends AbstractMultimapTest {
   private static void foo(Object o) {}
 
   @GwtIncompatible("NullPointerTester")
-  public void testNullPointers() throws Exception {
+  public void testNullPointers() {
     NullPointerTester tester = new NullPointerTester();
     tester.setDefault(Multimap.class, ImmutableMultimap.of());
     tester.setDefault(ListMultimap.class, ImmutableListMultimap.of());

@@ -288,7 +288,7 @@ public final class OptionalTest extends TestCase {
   }
 
   @GwtIncompatible("NullPointerTester")
-  public void testNullPointers() throws Exception {
+  public void testNullPointers() {
     NullPointerTester npTester = new NullPointerTester();
     npTester.testAllPublicConstructors(Optional.class);
     npTester.testAllPublicStaticMethods(Optional.class);

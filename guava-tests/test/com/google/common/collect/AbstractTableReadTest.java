@@ -187,7 +187,7 @@ public abstract class AbstractTableReadTest extends TestCase {
   }
 
   @GwtIncompatible("NullPointerTester")
-  public void testNullPointerInstance() throws Exception {
+  public void testNullPointerInstance() {
     table = create(
         "foo", 1, 'a', "bar", 1, 'b', "foo", 2, 'c', "bar", 3, 'd');
     new NullPointerTester().testAllPublicInstanceMethods(table);

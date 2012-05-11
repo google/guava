@@ -32,7 +32,7 @@ import java.net.UnknownHostException;
  */
 public class InetAddressesTest extends TestCase {
 
-  public void testNulls() throws Exception {
+  public void testNulls() {
     NullPointerTester tester = new NullPointerTester();
 
     tester.testAllPublicStaticMethods(InetAddresses.class);
@@ -488,7 +488,7 @@ public class InetAddressesTest extends TestCase {
     assertEquals(port, teredo.getPort());
     assertEquals(flags, teredo.getFlags());
   }
-  
+
   public void testTeredoAddress_nullServer() {
     InetAddresses.TeredoInfo info = new InetAddresses.TeredoInfo(null, null, 80, 1000);
     assertEquals(InetAddresses.forString("0.0.0.0"), info.getServer());

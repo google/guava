@@ -48,7 +48,7 @@ import java.util.SortedSet;
 public class FluentIterableTest extends TestCase {
 
   @GwtIncompatible("NullPointerTester")
-  public void testNullPointerExceptions() throws Exception {
+  public void testNullPointerExceptions() {
     NullPointerTester tester = new NullPointerTester();
     tester.testAllPublicStaticMethods(FluentIterable.class);
   }

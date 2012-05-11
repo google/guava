@@ -87,7 +87,7 @@ public class ReflectionTest extends TestCase {
     assertEquals(3, classesInitialized);
   }
 
-  public void testNullPointers() throws Exception {
+  public void testNullPointers() {
     NullPointerTester tester = new NullPointerTester();
     tester.setDefault(InvocationHandler.class, X_RETURNER);
     tester.setDefault(Type[].class, new Type[]{ Map.class });

@@ -786,7 +786,7 @@ public class MinMaxPriorityQueueTest extends TestCase {
     }
   }
 
-  public void testNullPointers() throws Exception {
+  public void testNullPointers() {
     NullPointerTester tester = new NullPointerTester();
     tester.testAllPublicConstructors(MinMaxPriorityQueue.class);
     tester.testAllPublicStaticMethods(MinMaxPriorityQueue.class);

@@ -82,7 +82,7 @@ public class ExecutionListTest extends TestCase {
     list.add(THROWING_RUNNABLE, sameThreadExecutor());
   }
 
-  public void testNulls() throws Exception {
+  public void testNulls() {
     NullPointerTester tester = new NullPointerTester();
     tester.setDefault(Executor.class, sameThreadExecutor());
     tester.setDefault(Runnable.class, DO_NOTHING);

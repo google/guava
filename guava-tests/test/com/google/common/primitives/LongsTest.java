@@ -391,7 +391,7 @@ public class LongsTest extends TestCase {
   }
 
   @GwtIncompatible("NullPointerTester")
-  public void testNulls() throws Exception {
+  public void testNulls() {
     NullPointerTester tester = new NullPointerTester();
     tester.setDefault(long[].class, new long[0]);
     tester.testAllPublicStaticMethods(Longs.class);

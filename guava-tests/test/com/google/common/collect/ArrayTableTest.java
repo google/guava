@@ -239,7 +239,7 @@ public class ArrayTableTest extends AbstractTableTest {
     SerializableTester.reserializeAndAssert(table);
   }
 
-  public void testNullPointerStatic() throws Exception {
+  public void testNullPointerStatic() {
     new NullPointerTester().testAllPublicStaticMethods(ArrayTable.class);
   }
 

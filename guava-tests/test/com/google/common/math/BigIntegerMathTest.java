@@ -468,7 +468,7 @@ public class BigIntegerMathTest extends TestCase {
   }
 
   @GwtIncompatible("NullPointerTester")
-  public void testNullPointers() throws Exception {
+  public void testNullPointers() {
     NullPointerTester tester = new NullPointerTester();
     tester.setDefault(BigInteger.class, ONE);
     tester.setDefault(RoundingMode.class, FLOOR);

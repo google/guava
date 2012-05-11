@@ -220,7 +220,7 @@ public class JoinerTest extends TestCase {
     Joiner zeroForNull = J.useForNull("0");
     checkIterableIterator(zeroForNull, "1-2-3-4");
   }
-  
+
   private static void checkIterableIterator(Joiner joiner, String expected) {
     assertEquals(expected, joiner.join(new IterableIterator()));
 
@@ -396,7 +396,7 @@ public class JoinerTest extends TestCase {
   }
 
   @GwtIncompatible("NullPointerTester")
-  public void testNullPointers() throws Exception {
+  public void testNullPointers() {
     NullPointerTester tester = new NullPointerTester();
     tester.setDefault(StringBuilder.class, new StringBuilder());
     // This is necessary because of the generics hackery we have to temporarily support parameters

@@ -61,7 +61,7 @@ public class ImmutableMultisetTest extends TestCase {
           }
         })
         .named("ImmutableMultiset")
-        .withFeatures(CollectionSize.ANY, 
+        .withFeatures(CollectionSize.ANY,
             CollectionFeature.SERIALIZABLE_INCLUDING_VIEWS,
             CollectionFeature.ALLOWS_NULL_QUERIES)
         .createTestSuite());
@@ -388,7 +388,7 @@ public class ImmutableMultisetTest extends TestCase {
   }
 
   @GwtIncompatible("NullPointerTester")
-  public void testNullPointers() throws Exception {
+  public void testNullPointers() {
     NullPointerTester tester = new NullPointerTester();
     tester.testAllPublicStaticMethods(ImmutableMultiset.class);
   }

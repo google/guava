@@ -42,7 +42,7 @@ import java.util.Map;
  * @author Ben Yu
  */
 public class TypesTest extends TestCase {
-  
+
   public void testNewParameterizedType_ownerTypeImplied() throws Exception {
     ParameterizedType jvmType = (ParameterizedType)
         new TypeCapture<Map.Entry<String, Integer>>() {}.capture();
@@ -108,12 +108,12 @@ public class TypesTest extends TestCase {
     ASSERT.that(ourType.getActualTypeArguments())
         .hasContentsInOrder(jvmType.getActualTypeArguments());
   }
-  
+
   public void testNewParameterizedType_serializable() {
     SerializableTester.reserializeAndAssert(Types.newParameterizedType(
         Map.Entry.class, String.class, Integer.class));
   }
-  
+
   public void testNewParameterizedType_ownerMismatch() {
     try {
       Types.newParameterizedTypeWithOwner(
@@ -121,14 +121,14 @@ public class TypesTest extends TestCase {
       fail();
     } catch (IllegalArgumentException expected) {}
   }
-  
+
   public void testNewParameterizedType_ownerMissing() {
     assertEquals(
         Types.newParameterizedType(Map.Entry.class, String.class, Integer.class),
         Types.newParameterizedTypeWithOwner(
             null, Map.Entry.class, String.class, Integer.class));
   }
-  
+
   public void testNewParameterizedType_invalidTypeParameters() {
     try {
       Types.newParameterizedTypeWithOwner(
@@ -136,7 +136,7 @@ public class TypesTest extends TestCase {
       fail();
     } catch (IllegalArgumentException expected) {}
   }
-  
+
   public void testNewParameterizedType_primitiveTypeParameters() {
     try {
       Types.newParameterizedTypeWithOwner(
@@ -160,7 +160,7 @@ public class TypesTest extends TestCase {
     assertEquals(jvmType1.toString(), ourType1.toString());
     assertEquals(jvmType2.toString(), ourType2.toString());
   }
-  
+
   public void testNewArrayTypeOfArray() {
     Type jvmType = new TypeCapture<int[][]>() {}.capture();
     Type ourType = Types.newArrayType(int[].class);
@@ -169,7 +169,7 @@ public class TypesTest extends TestCase {
         .addEqualityGroup(jvmType, ourType)
         .testEquals();
   }
-  
+
   public void testNewArrayType_primitive() {
     Type jvmType = new TypeCapture<int[]>() {}.capture();
     Type ourType = Types.newArrayType(int.class);
@@ -178,17 +178,17 @@ public class TypesTest extends TestCase {
         .addEqualityGroup(jvmType, ourType)
         .testEquals();
   }
-  
+
   public void testNewArrayType_upperBoundedWildcard() {
     Type wildcard = Types.subtypeOf(Number.class);
     assertEquals(Types.subtypeOf(Number[].class), Types.newArrayType(wildcard));
   }
-  
+
   public void testNewArrayType_lowerBoundedWildcard() {
     Type wildcard = Types.supertypeOf(Number.class);
     assertEquals(Types.supertypeOf(Number[].class), Types.newArrayType(wildcard));
   }
-  
+
   public void testNewArrayType_serializable() {
     SerializableTester.reserializeAndAssert(
         Types.newArrayType(int[].class));
@@ -207,7 +207,7 @@ public class TypesTest extends TestCase {
 
     @SuppressWarnings("unused")
     void withLowerBound(List<? super String[][]> list) {}
-    
+
     static WildcardType getWildcardType(String methodName) throws Exception {
       ParameterizedType parameterType = (ParameterizedType)
           WithWildcardType.class
@@ -216,7 +216,7 @@ public class TypesTest extends TestCase {
       return (WildcardType) parameterType.getActualTypeArguments()[0];
     }
   }
-  
+
   public void testNewWildcardType() throws Exception {
     WildcardType noBoundJvmType =
         WithWildcardType.getWildcardType("withoutBound");
@@ -237,7 +237,7 @@ public class TypesTest extends TestCase {
     assertEqualWildcardType(objectBoundJvmType, objectBound);
     assertEqualWildcardType(upperBoundJvmType, upperBound);
     assertEqualWildcardType(lowerBoundJvmType, lowerBound);
-    
+
     new EqualsTester()
         .addEqualityGroup(
             noBoundJvmType, objectBoundJvmType, objectBound)
@@ -245,14 +245,14 @@ public class TypesTest extends TestCase {
         .addEqualityGroup(lowerBoundJvmType, lowerBound)
         .testEquals();
   }
-  
+
   public void testNewWildcardType_primitiveTypeBound() {
     try {
       Types.subtypeOf(int.class);
       fail();
     } catch (IllegalArgumentException expected) {}
   }
-  
+
   public void testNewWildcardType_serializable() {
     SerializableTester.reserializeAndAssert(
         Types.supertypeOf(String.class));
@@ -261,7 +261,7 @@ public class TypesTest extends TestCase {
     SerializableTester.reserializeAndAssert(
         Types.subtypeOf(Object.class));
   }
-  
+
   private static void assertEqualWildcardType(
       WildcardType expected, WildcardType actual) {
     assertEquals(expected.toString(), actual.toString());
@@ -271,18 +271,18 @@ public class TypesTest extends TestCase {
     ASSERT.that(actual.getUpperBounds())
         .hasContentsInOrder(expected.getUpperBounds());
   }
-  
+
   private static class WithTypeVariable {
-    
-    @SuppressWarnings("unused") 
+
+    @SuppressWarnings("unused")
     <T> void withoutBound(List<T> list) {}
 
-    @SuppressWarnings("unused") 
+    @SuppressWarnings("unused")
     <T extends Object> void withObjectBound(List<T> list) {}
 
-    @SuppressWarnings("unused") 
+    @SuppressWarnings("unused")
     <T extends Number & CharSequence> void withUpperBound(List<T> list) {}
-    
+
     static TypeVariable<?> getTypeVariable(String methodName) throws Exception {
       ParameterizedType parameterType = (ParameterizedType)
           WithTypeVariable.class
@@ -291,7 +291,7 @@ public class TypesTest extends TestCase {
       return (TypeVariable<?>) parameterType.getActualTypeArguments()[0];
     }
   }
-  
+
   public void testNewTypeVariable() throws Exception {
     TypeVariable<?> noBoundJvmType =
         WithTypeVariable.getTypeVariable("withoutBound");
@@ -303,13 +303,13 @@ public class TypesTest extends TestCase {
     TypeVariable<?> objectBound = withBounds(objectBoundJvmType, Object.class);
     TypeVariable<?> upperBound = withBounds(
         upperBoundJvmType, Number.class, CharSequence.class);
-    
+
     assertEqualTypeVariable(noBoundJvmType, noBound);
     assertEqualTypeVariable(noBoundJvmType,
         withBounds(noBoundJvmType, Object.class));
     assertEqualTypeVariable(objectBoundJvmType, objectBound);
     assertEqualTypeVariable(upperBoundJvmType, upperBound);
-    
+
     new EqualsTester()
         .addEqualityGroup(noBoundJvmType, noBound)
         .addEqualityGroup(objectBoundJvmType, objectBound)
@@ -318,27 +318,27 @@ public class TypesTest extends TestCase {
             withBounds(upperBoundJvmType, CharSequence.class)) // bounds ignored
         .testEquals();
   }
-  
+
   public void testNewTypeVariable_primitiveTypeBound() {
     try {
       Types.newTypeVariable(List.class, "E", int.class);
       fail();
     } catch (IllegalArgumentException expected) {}
   }
-  
+
   public void testNewTypeVariable_serializable() throws Exception {
     try {
       SerializableTester.reserialize(Types.newTypeVariable(List.class, "E"));
       fail();
     } catch (RuntimeException expected) {}
   }
-  
+
   private static <D extends GenericDeclaration> TypeVariable<D> withBounds(
       TypeVariable<D> typeVariable, Type... bounds) {
     return Types.newTypeVariable(
         typeVariable.getGenericDeclaration(), typeVariable.getName(), bounds);
   }
-  
+
   private static void assertEqualTypeVariable(
       TypeVariable<?> expected, TypeVariable<?> actual) {
     assertEquals(expected.toString(), actual.toString());
@@ -375,7 +375,7 @@ public class TypesTest extends TestCase {
       fail();
     } catch(IllegalArgumentException expected) {}
   }
-  
+
   public void testToString() {
     assertEquals(int[].class.getName(), Types.toString(int[].class));
     assertEquals(int[][].class.getName(), Types.toString(int[][].class));
@@ -384,7 +384,7 @@ public class TypesTest extends TestCase {
     assertEquals(elementType.toString(), Types.toString(elementType));
   }
 
-  public void testNullPointers() throws Exception {
+  public void testNullPointers() {
     new NullPointerTester()
         .setDefault(Type[].class, new Type[]{ Map.class })
         .setDefault(Type.class, String.class)

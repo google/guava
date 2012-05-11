@@ -197,7 +197,7 @@ public class ThreadFactoryBuilderTest extends TestCase {
     assertTrue(completed);
   }
 
-  public void testNulls() throws Exception {
+  public void testNulls() {
     NullPointerTester npTester = new NullPointerTester();
     npTester.testAllPublicConstructors(ThreadFactoryBuilder.class);
     npTester.testAllPublicStaticMethods(ThreadFactoryBuilder.class);

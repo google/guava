@@ -31,9 +31,9 @@ import java.util.List;
 /**
  * Unit test for {@link Throwables}.
  *
- * @author Kevin Bourrillion 
+ * @author Kevin Bourrillion
  */
-@SuppressWarnings("serial") // this warning is silly for exceptions in tests 
+@SuppressWarnings("serial") // this warning is silly for exceptions in tests
 public class ThrowablesTest extends TestCase {
   public void testPropagateIfPossible_NoneDeclared_NoneThrown() {
     Sample sample = new Sample() {
@@ -523,7 +523,7 @@ public class ThrowablesTest extends TestCase {
     }
   }
 
-  public void testNullPointers() throws Exception {
+  public void testNullPointers() {
     NullPointerTester tester = new NullPointerTester();
     tester.setDefault(Throwable.class, new SomeCheckedException());
     tester.setDefault(Class.class, SomeCheckedException.class);

@@ -118,14 +118,14 @@ public class TypeTokenTest extends TestCase {
   public <T> void testGenericVariableTypeArrays() throws Exception {
     assertEquals("T[]", new TypeToken<T[]>() {}.toString());
   }
-  
+
   public void testResolveType() throws Exception {
     Method getFromList = List.class.getMethod("get", int.class);
     TypeToken<?> returnType = new TypeToken<List<String>>() {}
         .resolveType(getFromList.getGenericReturnType());
     assertEquals(String.class, returnType.getType());
   }
-  
+
   public <F extends Enum<F> & Function<String, Integer> & Iterable<Long>>
   void testResolveType_fromTypeVariable() throws Exception {
     TypeToken<?> f = TypeToken.of(new TypeCapture<F>() {}.capture());
@@ -136,14 +136,14 @@ public class TypeTokenTest extends TestCase {
     assertEquals(Long.class,
         f.resolveType(Iterable.class.getTypeParameters()[0]).getType());
   }
-  
+
   public <E extends Comparable<Iterable<String>> & Iterable<Integer>>
   void testResolveType_fromTypeVariable_onlyDirectBoundsAreUsed() throws Exception {
     TypeToken<?> e = TypeToken.of(new TypeCapture<E>() {}.capture());
     assertEquals(Integer.class,
         e.resolveType(Iterable.class.getTypeParameters()[0]).getType());
   }
-  
+
   public void testResolveType_fromWildcard() throws Exception {
     ParameterizedType withWildcardType = (ParameterizedType)
         new TypeCapture<Comparable<? extends Iterable<String>>>() {}.capture();
@@ -241,7 +241,7 @@ public class TypeTokenTest extends TestCase {
   void testGetTypes_ignoresTypeVariablesByDefault() {
     TypeToken<?>.TypeSet types = TypeToken.of(new TypeCapture<B>() {}.capture()).getTypes();
     ASSERT.that(types).hasContentsAnyOrder(
-        TypeToken.of(Interface1.class), TypeToken.of(Class1.class), 
+        TypeToken.of(Interface1.class), TypeToken.of(Class1.class),
         TypeToken.of(Object.class));
     assertSubtypeFirst(types);
     ASSERT.that(types.interfaces()).hasContentsInOrder(
@@ -254,7 +254,7 @@ public class TypeTokenTest extends TestCase {
   void testGetTypes_rawTypes_ignoresTypeVariablesByDefault() {
     TypeToken<?>.TypeSet types = TypeToken.of(new TypeCapture<B>() {}.capture()).getTypes();
     ASSERT.that(types.rawTypes()).hasContentsAnyOrder(
-        Interface1.class, Class1.class, 
+        Interface1.class, Class1.class,
         Object.class);
     ASSERT.that(types.interfaces().rawTypes()).hasContentsInOrder(
         Interface1.class);
@@ -337,7 +337,7 @@ public class TypeTokenTest extends TestCase {
     assertEquals(TypeToken.of(Object.class),
         new TypeToken<List<String>[]>() {}.getGenericSuperclass());
   }
-  
+
   public void testGetGenericSuperclass_withSuperclass() {
     TypeToken<? super ArrayList<String>> superToken =
         new TypeToken<ArrayList<String>>() {}.getGenericSuperclass();
@@ -485,13 +485,13 @@ public class TypeTokenTest extends TestCase {
         .hasContentsAnyOrder(interfaceType);
     assertHasArrayInterfaces(new TypeToken<Iterable<String>[]>() {});
   }
-  
+
   public void testGetGenericInterfaces_noInterface() {
     ASSERT.that(new TypeToken<NoInterface>() {}.getGenericInterfaces())
         .isEmpty();
     assertHasArrayInterfaces(new TypeToken<NoInterface[]>() {});
   }
-  
+
   public void testGetGenericInterfaces_withInterfaces() {
     Map<Class<?>, Type> interfaceMap = Maps.newHashMap();
     for (TypeToken<?> interfaceType:
@@ -503,7 +503,7 @@ public class TypeTokenTest extends TestCase {
             Map.class, new TypeToken<Map<Integer, String>>() {}.getType()),
         interfaceMap);
   }
-  
+
   private interface Interface1 {}
   private interface Interface2 {}
   private interface Interface3<T> extends Iterable<T> {}
@@ -511,7 +511,7 @@ public class TypeTokenTest extends TestCase {
   private static class Class1 implements Interface1 {}
 
   private static final class NoInterface {}
-  
+
   private static abstract class Implementation<K, V>
       implements Iterable<V>, Map<K, V> {}
 
@@ -587,7 +587,7 @@ public class TypeTokenTest extends TestCase {
     assertTrue(upperBounded.isAssignableFrom(upperBounded));
     assertFalse(upperBounded.isAssignableFrom(lowerBounded));
   }
-  
+
   public <T> void testAssignableGenericArrayToArrayClass() {
     assertTrue(TypeToken.of(Object[].class).isAssignableFrom(new TypeToken<T[]>() {}));
     assertTrue(TypeToken.of(Object[].class).isAssignableFrom(new TypeToken<T[][]>() {}));
@@ -701,18 +701,18 @@ public class TypeTokenTest extends TestCase {
     List<TypeToken<?>> allTokens = ImmutableList.of(
         unboundedToken, upperBoundToken, lowerBoundToken,
         concreteToken, subtypeToken, supertypeToken);
-    
+
     for (TypeToken<?> typeToken : allTokens) {
       assertTrue(typeToken.toString(), unboundedToken.isAssignableFrom(typeToken));
     }
-    
+
     assertFalse(upperBoundToken.isAssignableFrom(unboundedToken));
     assertTrue(upperBoundToken.isAssignableFrom(upperBoundToken));
     assertFalse(upperBoundToken.isAssignableFrom(lowerBoundToken));
     assertTrue(upperBoundToken.isAssignableFrom(concreteToken));
     assertTrue(upperBoundToken.isAssignableFrom(subtypeToken));
     assertFalse(upperBoundToken.isAssignableFrom(supertypeToken));
-    
+
     assertFalse(lowerBoundToken.isAssignableFrom(unboundedToken));
     assertFalse(lowerBoundToken.isAssignableFrom(upperBoundToken));
     assertTrue(lowerBoundToken.isAssignableFrom(lowerBoundToken));
@@ -726,16 +726,16 @@ public class TypeTokenTest extends TestCase {
     }
 
     for (TypeToken<?> typeToken : allTokens) {
-      assertEquals(typeToken.toString(), 
+      assertEquals(typeToken.toString(),
           typeToken == subtypeToken, subtypeToken.isAssignableFrom(typeToken));
     }
 
     for (TypeToken<?> typeToken : allTokens) {
-      assertEquals(typeToken.toString(), 
+      assertEquals(typeToken.toString(),
           typeToken == supertypeToken, supertypeToken.isAssignableFrom(typeToken));
     }
   }
-  
+
   public <N1 extends Number, N2 extends Number, N11 extends N1>
       void testIsAssignableFrom_typeVariable() {
     assertAssignable(TypeToken.of(new TypeCapture<N1>() {}.capture()),
@@ -749,7 +749,7 @@ public class TypeTokenTest extends TestCase {
     assertNotAssignable(TypeToken.of(new TypeCapture<N2>() {}.capture()),
         TypeToken.of(new TypeCapture<N1>() {}.capture()));
   }
-  
+
   public <N1 extends Number, N2 extends Number, N11 extends N1>
       void testIsAssignableFrom_equalWildcardTypes() {
     assertAssignable(new TypeToken<List<? extends N1>>() {},
@@ -761,14 +761,14 @@ public class TypeTokenTest extends TestCase {
     assertAssignable(new TypeToken<List<? super Number>>() {},
         new TypeToken<List<? super Number>>() {});
   }
-  
+
   public <N> void testIsAssignableFrom_wildcard_noBound() {
     assertAssignable(new TypeToken<List<? super N>>() {},
         new TypeToken<List<?>>() {});
     assertAssignable(new TypeToken<List<N>>() {},
         new TypeToken<List<?>>() {});
   }
-  
+
   public <N1 extends Number, N2 extends Number, N11 extends N1>
       void testIsAssignableFrom_wildcardType_upperBoundMatch() {
     // ? extends T
@@ -778,7 +778,7 @@ public class TypeTokenTest extends TestCase {
         new TypeToken<List<? extends N11>>() {});
     assertNotAssignable(new TypeToken<List<Number>>() {},
         new TypeToken<List<? extends N11>>() {});
-    
+
     // ? extends Number
     assertAssignable(new TypeToken<List<N1>>() {},
         new TypeToken<List<? extends Number>>() {});
@@ -787,7 +787,7 @@ public class TypeTokenTest extends TestCase {
     assertAssignable(new TypeToken<List<? extends N11>>() {},
         new TypeToken<List<? extends Number>>() {});
   }
-  
+
   public <N1 extends Number, N2 extends Number, N11 extends N1>
       void testIsAssignableFrom_wildcardType_lowerBoundMatch() {
     // ? super T
@@ -801,7 +801,7 @@ public class TypeTokenTest extends TestCase {
         new TypeToken<List<? super N11>>() {});
     assertAssignable(new TypeToken<ArrayList<? super Number>>() {},
         new TypeToken<List<? super N11>>() {});
-    
+
     // ? super Number
     assertNotAssignable(new TypeToken<ArrayList<N11>>() {},
         new TypeToken<List<? super Number>>() {});
@@ -810,7 +810,7 @@ public class TypeTokenTest extends TestCase {
     assertAssignable(new TypeToken<ArrayList<Object>>() {},
         new TypeToken<List<? super Number>>() {});
   }
-  
+
   public <L extends List<R>, R extends List<L>>
       void testIsAssignableFrom_recursiveTypeVariableBounds() {
     assertAssignable(TypeToken.of(new TypeCapture<L>() {}.capture()),
@@ -820,7 +820,7 @@ public class TypeTokenTest extends TestCase {
     assertAssignable(TypeToken.of(new TypeCapture<L>() {}.capture()),
         new TypeToken<List<R>>() {});
   }
-  
+
   public void testIsAssignableFrom_resolved() {
     assertFalse(Assignability.of().isAssignable());
     assertTrue(new Assignability<Integer, Integer>() {}.isAssignable());
@@ -828,7 +828,7 @@ public class TypeTokenTest extends TestCase {
     assertFalse(new Assignability<Integer, String>() {}.isAssignable());
     TypeTokenTest.<Number, Integer>assignabilityTestWithTypeVariables();
   }
-  
+
   private static <N1 extends Number, N11 extends N1>
       void assignabilityTestWithTypeVariables() {
     assertTrue(new Assignability<N11, N1>() {}.isAssignable());
@@ -897,7 +897,7 @@ public class TypeTokenTest extends TestCase {
     assertNull(TypeToken.of(Types.subtypeOf(Object.class)).getComponentType());
     assertNull(TypeToken.of(Types.supertypeOf(Object[].class)).getComponentType());
   }
-  
+
   private interface NumberList<T extends Number> {}
 
   public void testImplicitUpperBoundForWildcards() {
@@ -915,7 +915,7 @@ public class TypeTokenTest extends TestCase {
     assertAssignable(new TypeToken<List<T>>() {},
         new TypeToken<List<? extends Appendable>>() {});
   }
-  
+
   public void testToGenericType() {
     assertEquals(TypeToken.of(String.class), TypeToken.toGenericType(String.class));
     assertEquals(new TypeToken<int[]>() {}, TypeToken.toGenericType(int[].class));
@@ -929,14 +929,14 @@ public class TypeTokenTest extends TestCase {
   private interface StringListIterable extends ListIterable<String> {}
   private interface ListArrayIterable<T> extends Iterable<List<T>[]> {}
   private interface StringListArrayIterable extends ListIterable<String> {}
-  
+
   public void testGetSupertype_withTypeVariable() {
     ParameterizedType expectedType = Types.newParameterizedType(Iterable.class,
         Types.newParameterizedType(List.class, ListIterable.class.getTypeParameters()[0]));
     assertEquals(expectedType,
         TypeToken.of(ListIterable.class).getSupertype(Iterable.class).getType());
   }
-  
+
   public void testGetSupertype_withoutTypeVariable() {
     ParameterizedType expectedType = Types.newParameterizedType(Iterable.class,
         Types.newParameterizedType(List.class, String.class));
@@ -996,9 +996,9 @@ public class TypeTokenTest extends TestCase {
     assertEquals(new TypeToken<Iterable<String>[]>() {},
         new TypeToken<List<String>[]>() {}.getSupertype(Iterable[].class));
   }
-  
+
   private interface ListMap<K, V> extends Map<K, List<V>> {}
-  
+
   public void testGetSupertype_fullyGenericType() {
     ParameterizedType expectedType = Types.newParameterizedType(Map.class,
         ListMap.class.getTypeParameters()[0],
@@ -1006,21 +1006,21 @@ public class TypeTokenTest extends TestCase {
     assertEquals(expectedType,
         TypeToken.of(ListMap.class).getSupertype(Map.class).getType());
   }
-  
+
   public void testGetSupertype_fullySpecializedType() {
     Type expectedType = new TypeToken<Map<String, List<Object>>>() {}.getType();
     assertEquals(expectedType,
         new TypeToken<ListMap<String, Object>>() {}.getSupertype(Map.class).getType());
   }
-  
+
   private interface StringListMap<V> extends ListMap<String, V> {}
-  
+
   public <V> void testGetSupertype_partiallySpecializedType() {
     Type expectedType = new TypeToken<Map<String, List<V>>>() {}.getType();
     assertEquals(expectedType,
         new TypeToken<StringListMap<V>>() {}.getSupertype(Map.class).getType());
   }
-  
+
   public void testGetSubtype_withTypeVariable() {
     assertEquals(new TypeToken<ListIterable<String>>() {},
         new TypeToken<Iterable<List<String>>>() {}.getSubtype(ListIterable.class));
@@ -1029,7 +1029,7 @@ public class TypeTokenTest extends TestCase {
     assertEquals(new TypeToken<ListArrayIterable<String>[]>() {},
         new TypeToken<Iterable<List<String>[]>[]>() {}.getSubtype(ListArrayIterable[].class));
   }
-  
+
   public void testGetSubtype_withoutTypeVariable() {
     assertEquals(StringListIterable.class,
         TypeToken.of(Iterable.class).getSubtype(StringListIterable.class).getType());
@@ -1040,7 +1040,7 @@ public class TypeTokenTest extends TestCase {
     assertEquals(TypeToken.of(StringListArrayIterable[].class),
         new TypeToken<Iterable<List<String>>[]>() {}.getSubtype(StringListArrayIterable[].class));
   }
-  
+
   public void testGetSubtype_withArray() {
     assertEquals(TypeToken.of(StringListIterable[].class),
         TypeToken.of(Iterable[].class).getSubtype(StringListIterable[].class));
@@ -1093,7 +1093,7 @@ public class TypeTokenTest extends TestCase {
     assertEquals(new TypeToken<List<String>[]>() {},
         new TypeToken<Iterable<String>[]>() {}.getSubtype(List[].class));
   }
-  
+
   @SuppressWarnings("unchecked") // To construct TypeToken<T> with TypeToken.of()
   public <T> void testWhere_circleRejected() {
     TypeToken<List<T>> type = new TypeToken<List<T>>() {};
@@ -1103,7 +1103,7 @@ public class TypeTokenTest extends TestCase {
       fail();
     } catch (IllegalArgumentException expected) {}
   }
-  
+
   public void testWhere() {
     assertEquals(
         new TypeToken<Map<String, Integer>>() {},
@@ -1117,7 +1117,7 @@ public class TypeTokenTest extends TestCase {
     T element;
     List<T> list;
     List<T>[] matrix;
-    
+
     void setList(List<T> list) {
       this.list = list;
     }
@@ -1280,26 +1280,26 @@ public class TypeTokenTest extends TestCase {
         .addEqualityGroup(TypeToken.of(new TypeCapture<B>() {}.capture()))
         .testEquals();
   }
-  
+
   // T is used inside to test type variable
   public <T> void testToString() {
     assertEquals(String.class.getName(), new TypeToken<String>() {}.toString());
     assertEquals("T", TypeToken.of(new TypeCapture<T>() {}.capture()).toString());
     assertEquals("java.lang.String", new Entry<String, Integer>() {}.keyType().toString());
   }
-  
+
   private static <K, V> TypeToken<Map<K, V>> mapOf(Class<K> keyType, Class<V> valueType) {
     return new TypeToken<Map<K, V>>() {}
         .where(new TypeParameter<K>() {}, keyType)
         .where(new TypeParameter<V>() {}, valueType);
   }
-  
+
   private static <T> TypeToken<T[]> arrayOf(Class<T> componentType) {
     return new TypeToken<T[]>() {}
         .where(new TypeParameter<T>() {}, componentType);
   }
-  
-  public <T> void testNulls() throws Exception {
+
+  public <T> void testNulls() {
     new NullPointerTester()
         .setDefault(Type.class, Object.class)
         .testAllPublicStaticMethods(TypeToken.class);
@@ -1309,24 +1309,24 @@ public class TypeTokenTest extends TestCase {
         .setDefault(TypeParameter.class, new TypeParameter<T>() {})
         .testAllPublicInstanceMethods(TypeToken.of(String.class));
   }
-  
+
   private static class Assignability<From, To> {
 
     boolean isAssignable() {
       return new TypeToken<To>(getClass()) {}.isAssignableFrom(new TypeToken<From>(getClass()) {});
     }
-    
+
     static <From, To> Assignability<From, To> of() {
       return new Assignability<From, To>();
     }
   }
-  
+
   private static void assertAssignable(TypeToken<?> from, TypeToken<?> to) {
     assertTrue(
         from.getType() + " is expected to be assignable to " + to.getType(),
         to.isAssignableFrom(from));
   }
-  
+
   private static void assertNotAssignable(TypeToken<?> from, TypeToken<?> to) {
     assertFalse(
         from.getType() + " shouldn't be assignable to " + to.getType(),

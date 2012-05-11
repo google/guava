@@ -87,7 +87,7 @@ public final class HostSpecifierTest extends TestCase {
     return HostSpecifier.fromValid(specifier);
   }
 
-  public void testNulls() throws Exception {
+  public void testNulls() {
     final NullPointerTester tester = new NullPointerTester();
 
     tester.testAllPublicStaticMethods(HostSpecifier.class);
