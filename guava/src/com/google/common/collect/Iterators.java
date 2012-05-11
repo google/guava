@@ -24,6 +24,7 @@ import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Function;
+import com.google.common.base.Joiner;
 import com.google.common.base.Objects;
 import com.google.common.base.Optional;
 import com.google.common.base.Preconditions;
@@ -341,15 +342,11 @@ public final class Iterators {
    * {@code hasNext()} method will return {@code false}.
    */
   public static String toString(Iterator<?> iterator) {
-    if (!iterator.hasNext()) {
-      return "[]";
-    }
-    StringBuilder builder = new StringBuilder();
-    builder.append('[').append(iterator.next());
-    while (iterator.hasNext()) {
-      builder.append(", ").append(iterator.next());
-    }
-    return builder.append(']').toString();
+    return Joiner.on(", ")
+        .useForNull("null")
+        .appendTo(new StringBuilder().append('['), iterator)
+        .append(']')
+        .toString();
   }
 
   /**

@@ -1171,11 +1171,18 @@ public class IteratorsTest extends TestCase {
   }
 
   public void testToString() {
-    List<String> list = Collections.emptyList();
-    assertEquals("[]", Iterators.toString(list.iterator()));
+    Iterator<String> iterator = Lists.newArrayList("yam", "bam", "jam", "ham").iterator();
+    assertEquals("[yam, bam, jam, ham]", Iterators.toString(iterator));
+  }
 
-    list = Lists.newArrayList("yam", "bam", "jam", "ham");
-    assertEquals("[yam, bam, jam, ham]", Iterators.toString(list.iterator()));
+  public void testToStringWithNull() {
+    Iterator<String> iterator = Lists.newArrayList("hello", null, "world").iterator();
+    assertEquals("[hello, null, world]", Iterators.toString(iterator));
+  }
+
+  public void testToStringEmptyIterator() {
+    Iterator<String> iterator = Collections.<String>emptyList().iterator();
+    assertEquals("[]", Iterators.toString(iterator));
   }
 
   public void testLimit() {
