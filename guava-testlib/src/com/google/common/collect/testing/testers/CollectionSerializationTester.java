@@ -18,6 +18,7 @@ package com.google.common.collect.testing.testers;
 
 import static com.google.common.collect.testing.features.CollectionFeature.SERIALIZABLE;
 
+import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.testing.AbstractCollectionTester;
 import com.google.common.collect.testing.Helpers;
 import com.google.common.collect.testing.features.CollectionFeature;
@@ -25,9 +26,10 @@ import com.google.common.testing.SerializableTester;
 
 /**
  * Basic reserialization test for collections.
- * 
+ *
  * @author Louis Wasserman
  */
+@GwtCompatible
 public class CollectionSerializationTester<E> extends AbstractCollectionTester<E> {
   @CollectionFeature.Require(SERIALIZABLE)
   public void testReserialize() {

@@ -21,6 +21,8 @@ import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
 
+import com.google.common.annotations.GwtCompatible;
+
 import junit.framework.Assert;
 import junit.framework.AssertionFailedError;
 
@@ -38,7 +40,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-// This class is GWT compatible.
+@GwtCompatible
 public class Helpers {
   // Clone of Objects.equal
   static boolean equal(Object a, Object b) {

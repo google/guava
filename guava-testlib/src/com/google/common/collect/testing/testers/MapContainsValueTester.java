@@ -19,6 +19,7 @@ package com.google.common.collect.testing.testers;
 import static com.google.common.collect.testing.features.CollectionSize.ZERO;
 import static com.google.common.collect.testing.features.MapFeature.*;
 
+import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.testing.AbstractMapTester;
 import com.google.common.collect.testing.WrongType;
 import com.google.common.collect.testing.features.CollectionSize;
@@ -34,6 +35,7 @@ import com.google.common.collect.testing.features.MapFeature;
  * @author George van den Driessche
  * @author Chris Povirk
  */
+@GwtCompatible
 public class MapContainsValueTester<K, V> extends AbstractMapTester<K, V> {
   @CollectionSize.Require(absent = ZERO)
   public void testContains_yes() {

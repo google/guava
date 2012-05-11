@@ -18,6 +18,8 @@ package com.google.common.collect.testing;
 
 import static java.util.Collections.singleton;
 
+import com.google.common.annotations.GwtCompatible;
+
 import junit.framework.TestCase;
 
 import java.util.Arrays;
@@ -47,6 +49,7 @@ import java.util.Set;
  *
  * @author George van den Driessche
  */
+@GwtCompatible
 public abstract class MapInterfaceTest<K, V> extends TestCase {
 
   /** A key type that is not assignable to any classes but Object. */

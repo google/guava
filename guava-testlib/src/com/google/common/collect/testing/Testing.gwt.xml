@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<module>
+   
+  <source path=""/>
+   
+  <super-source path="super"/>
+   
+  <inherits name="com.google.common.annotations.Annotations"/>
+   
+  <inherits name="com.google.common.testing.Testing"/>
+    
+  <inherits name="java.util.Util"/>
+   
+</module>

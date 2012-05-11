@@ -19,6 +19,7 @@ package com.google.common.collect.testing.testers;
 import static com.google.common.collect.testing.features.CollectionFeature.ALLOWS_NULL_VALUES;
 import static com.google.common.collect.testing.features.CollectionSize.ZERO;
 
+import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.testing.WrongType;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
@@ -31,6 +32,7 @@ import com.google.common.collect.testing.features.CollectionSize;
  *
  * @author Chris Povirk
  */
+@GwtCompatible
 public abstract class AbstractListIndexOfTester<E>
     extends AbstractListTester<E> {
   /** Override to call {@code indexOf()} or {@code lastIndexOf()}. */

@@ -16,6 +16,7 @@
 
 package com.google.common.collect.testing;
 
+import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.testing.SampleElements.Ints;
 
 import java.util.List;
@@ -28,6 +29,7 @@ import java.util.Set;
  *
  * @author Gregory Kick
  */
+@GwtCompatible
 public abstract class TestIntegerSetGenerator implements TestSetGenerator<Integer> {
   @Override public SampleElements<Integer> samples() {
     return new Ints();

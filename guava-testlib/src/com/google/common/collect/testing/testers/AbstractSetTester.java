@@ -16,6 +16,7 @@
 
 package com.google.common.collect.testing.testers;
 
+import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.testing.AbstractCollectionTester;
 
 import java.util.Set;
@@ -25,6 +26,7 @@ import java.util.Set;
  *
  * @author George van den Driessche
  */
+@GwtCompatible
 public class AbstractSetTester<E> extends AbstractCollectionTester<E> {
   /*
    * Previously we had a field named set that was initialized to the value of

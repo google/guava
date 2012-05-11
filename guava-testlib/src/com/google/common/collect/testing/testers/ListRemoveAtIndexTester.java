@@ -21,6 +21,7 @@ import static com.google.common.collect.testing.features.CollectionSize.ONE;
 import static com.google.common.collect.testing.features.CollectionSize.ZERO;
 import static com.google.common.collect.testing.features.ListFeature.SUPPORTS_REMOVE_WITH_INDEX;
 
+import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.testing.Helpers;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
@@ -39,6 +40,7 @@ import java.util.List;
  *
  * @author Chris Povirk
  */
+@GwtCompatible
 public class ListRemoveAtIndexTester<E> extends AbstractListTester<E> {
   @ListFeature.Require(absent = SUPPORTS_REMOVE_WITH_INDEX)
   @CollectionSize.Require(absent = ZERO)

@@ -21,6 +21,7 @@ import static com.google.common.collect.testing.Helpers.equal;
 import static com.google.common.collect.testing.Helpers.mapEntry;
 import static java.util.Collections.sort;
 
+import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.testing.DerivedCollectionGenerators.SortedMapSubmapTestMapGenerator;
 
 import java.util.ArrayList;
@@ -39,6 +40,7 @@ import java.util.SortedMap;
  *
  * @author George van den Driessche
  */
+@GwtCompatible
 public final class DerivedCollectionGenerators {
   public static class MapEntrySetGenerator<K, V>
       implements TestSetGenerator<Map.Entry<K, V>>, DerivedGenerator {

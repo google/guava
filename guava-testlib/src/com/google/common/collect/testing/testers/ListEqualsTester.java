@@ -18,6 +18,7 @@ package com.google.common.collect.testing.testers;
 
 import static com.google.common.collect.testing.features.CollectionFeature.ALLOWS_NULL_VALUES;
 
+import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.testing.MinimalSet;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
@@ -33,6 +34,7 @@ import java.util.List;
  *
  * @author George van den Driessche
  */
+@GwtCompatible
 public class ListEqualsTester<E> extends AbstractListTester<E> {
   public void testEquals_otherListWithSameElements() {
     assertTrue(

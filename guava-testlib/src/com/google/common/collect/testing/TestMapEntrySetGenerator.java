@@ -16,6 +16,8 @@
 
 package com.google.common.collect.testing;
 
+import com.google.common.annotations.GwtCompatible;
+
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -27,6 +29,7 @@ import java.util.Set;
  *
  * @author Jesse Wilson
  */
+@GwtCompatible
 public abstract class TestMapEntrySetGenerator<K, V>
     implements TestSetGenerator<Map.Entry<K, V>> {
   private final SampleElements<K> keys;

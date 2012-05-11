@@ -16,6 +16,7 @@
 
 package com.google.common.collect.testing;
 
+import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.testing.SampleElements.Enums;
 
 import java.util.Collections;
@@ -29,6 +30,7 @@ import java.util.Set;
  *
  * @author Kevin Bourrillion
  */
+@GwtCompatible
 public abstract class TestEnumSetGenerator implements TestSetGenerator<AnEnum> {
   @Override
   public SampleElements<AnEnum> samples() {

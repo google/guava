@@ -20,6 +20,7 @@ import static com.google.common.collect.testing.features.CollectionSize.ONE;
 import static com.google.common.collect.testing.features.CollectionSize.SEVERAL;
 import static com.google.common.collect.testing.features.CollectionSize.ZERO;
 
+import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.testing.Helpers;
 import com.google.common.collect.testing.features.CollectionSize;
 
@@ -35,6 +36,7 @@ import java.util.SortedSet;
  * @author Jesse Wilson
  * @author Louis Wasserman
  */
+@GwtCompatible
 public class SortedSetNavigationTester<E> extends AbstractSetTester<E> {
 
   private SortedSet<E> sortedSet;

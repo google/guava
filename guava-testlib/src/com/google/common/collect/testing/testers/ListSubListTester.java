@@ -24,6 +24,7 @@ import static com.google.common.collect.testing.features.ListFeature.SUPPORTS_RE
 import static com.google.common.collect.testing.features.ListFeature.SUPPORTS_SET;
 import static java.util.Collections.emptyList;
 
+import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.testing.Helpers;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
@@ -46,6 +47,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
  * @author Chris Povirk
  */
 @SuppressWarnings("unchecked") // too many "unchecked generic array creations"
+@GwtCompatible
 public class ListSubListTester<E> extends AbstractListTester<E> {
   public void testSubList_startNegative() {
     try {
@@ -300,17 +302,17 @@ public class ListSubListTester<E> extends AbstractListTester<E> {
     assertEquals(tail.lastIndexOf(list.get(0)),
                  -1);
   }
-  
+
   @CollectionFeature.Require(SERIALIZABLE_INCLUDING_VIEWS)
   public void testReserializeWholeSubList() {
     SerializableTester.reserializeAndAssert(getList().subList(0, getNumElements()));
   }
-  
+
   @CollectionFeature.Require(SERIALIZABLE_INCLUDING_VIEWS)
   public void testReserializeEmptySubList() {
     SerializableTester.reserializeAndAssert(getList().subList(0, 0));
   }
-  
+
   @CollectionFeature.Require(SERIALIZABLE_INCLUDING_VIEWS)
   @CollectionSize.Require(absent = {ZERO, ONE})
   public void testReserializeSubList() {

@@ -18,6 +18,7 @@ package com.google.common.collect.testing.testers;
 
 import static com.google.common.collect.testing.features.CollectionSize.ZERO;
 
+import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.testing.features.CollectionSize;
 
 import java.util.Arrays;
@@ -31,6 +32,7 @@ import java.util.Arrays;
  *
  * @author Chris Povirk
  */
+@GwtCompatible
 public class ListToArrayTester<E> extends AbstractListTester<E> {
   // CollectionToArrayTester tests everything except ordering.
 

@@ -16,6 +16,7 @@
 
 package com.google.common.collect.testing;
 
+import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.testing.SampleElements.Chars;
 
 import java.util.List;
@@ -28,6 +29,7 @@ import java.util.List;
  * @author Kevin Bourrillion
  * @author Louis Wasserman
  */
+@GwtCompatible
 public abstract class TestCharacterListGenerator
     implements TestListGenerator<Character> {
   @Override

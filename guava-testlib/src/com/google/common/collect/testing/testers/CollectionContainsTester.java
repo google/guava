@@ -20,6 +20,7 @@ import static com.google.common.collect.testing.features.CollectionFeature.ALLOW
 import static com.google.common.collect.testing.features.CollectionFeature.ALLOWS_NULL_VALUES;
 import static com.google.common.collect.testing.features.CollectionSize.ZERO;
 
+import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.testing.AbstractCollectionTester;
 import com.google.common.collect.testing.WrongType;
 import com.google.common.collect.testing.features.CollectionFeature;
@@ -35,6 +36,7 @@ import com.google.common.collect.testing.features.CollectionSize;
  * @author Kevin Bourrillion
  * @author Chris Povirk
  */
+@GwtCompatible
 public class CollectionContainsTester<E> extends AbstractCollectionTester<E> {
   @CollectionSize.Require(absent = ZERO)
   public void testContains_yes() {

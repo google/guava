@@ -22,6 +22,7 @@ import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_
 import static com.google.common.collect.testing.features.MapFeature.FAILS_FAST_ON_CONCURRENT_MODIFICATION;
 import static com.google.common.collect.testing.features.MapFeature.SUPPORTS_PUT;
 
+import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.testing.AbstractMapTester;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.MapFeature;
@@ -42,6 +43,7 @@ import java.util.Map.Entry;
  * @author Kevin Bourrillion
  */
 @SuppressWarnings("unchecked") // too many "unchecked generic array creations"
+@GwtCompatible
 public class MapPutTester<K, V> extends AbstractMapTester<K, V> {
   private Entry<K, V> nullKeyEntry;
   private Entry<K, V> nullValueEntry;

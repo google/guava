@@ -16,6 +16,8 @@
 
 package com.google.common.collect.testing;
 
+import com.google.common.annotations.GwtCompatible;
+
 import java.util.Collections;
 import java.util.EnumSet;
 import java.util.Iterator;
@@ -30,6 +32,7 @@ import java.util.Set;
  *
  * @author Chris Povirk
  */
+@GwtCompatible
 public enum IteratorFeature {
   /**
    * Support for {@link Iterator#remove()}.

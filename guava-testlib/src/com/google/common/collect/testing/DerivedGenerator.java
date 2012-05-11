@@ -16,6 +16,8 @@
 
 package com.google.common.collect.testing;
 
+import com.google.common.annotations.GwtCompatible;
+
 /**
  * A generator that relies on a preexisting generator for most of its work. For example, a derived
  * iterator generator may delegate the work of creating the underlying collection to an inner
@@ -27,6 +29,7 @@ package com.google.common.collect.testing;
  *
  * @author Chris Povirk
  */
+@GwtCompatible
 public interface DerivedGenerator {
   TestSubjectGenerator<?> getInnerGenerator();
 }

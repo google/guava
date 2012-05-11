@@ -18,6 +18,7 @@ package com.google.common.collect.testing.testers;
 
 import static com.google.common.collect.testing.features.CollectionFeature.SERIALIZABLE;
 
+import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.testing.AbstractCollectionTester;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.testing.SerializableTester;
@@ -25,9 +26,10 @@ import com.google.common.testing.SerializableTester;
 /**
  * Basic reserialization test for collection types that must preserve {@code equals()} behavior
  * when reserialized.  (Sets and Lists, but not bare Collections.)
- * 
+ *
  * @author Louis Wasserman
  */
+@GwtCompatible
 public class CollectionSerializationEqualTester<E> extends AbstractCollectionTester<E> {
   @CollectionFeature.Require(SERIALIZABLE)
   public void testReserialize() {

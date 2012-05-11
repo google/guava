@@ -20,6 +20,7 @@ import static com.google.common.collect.testing.features.CollectionFeature.ALLOW
 import static com.google.common.collect.testing.features.CollectionSize.ZERO;
 import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_KEYS;
 
+import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.testing.AbstractMapTester;
 import com.google.common.collect.testing.WrongType;
 import com.google.common.collect.testing.features.CollectionFeature;
@@ -36,6 +37,7 @@ import com.google.common.collect.testing.features.MapFeature;
  * @author Kevin Bourrillion
  * @author Chris Povirk
  */
+@GwtCompatible
 public class MapGetTester<K, V> extends AbstractMapTester<K, V> {
   @CollectionSize.Require(absent = ZERO)
   public void testGet_yes() {
@@ -59,7 +61,7 @@ public class MapGetTester<K, V> extends AbstractMapTester<K, V> {
     } catch (NullPointerException tolerated) {
     }
   }
-  
+
   @MapFeature.Require(ALLOWS_NULL_KEYS)
   @CollectionSize.Require(absent = ZERO)
   public void testGet_nonNullWhenNullContained() {

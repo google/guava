@@ -16,13 +16,16 @@
 
 package com.google.common.collect.testing;
 
+import com.google.common.annotations.GwtCompatible;
+
 import java.io.Serializable;
 
 /**
  * Simple base class to verify that we handle generics correctly.
- * 
+ *
  * @author Kevin Bourrillion
  */
+@GwtCompatible
 public class BaseComparable implements Comparable<BaseComparable>, Serializable {
   private final String s;
 

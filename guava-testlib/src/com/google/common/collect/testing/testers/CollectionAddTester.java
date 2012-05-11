@@ -22,6 +22,7 @@ import static com.google.common.collect.testing.features.CollectionFeature.RESTR
 import static com.google.common.collect.testing.features.CollectionFeature.SUPPORTS_ADD;
 import static com.google.common.collect.testing.features.CollectionSize.ZERO;
 
+import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.testing.AbstractCollectionTester;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
@@ -41,6 +42,7 @@ import java.util.Iterator;
  * @author Kevin Bourrillion
  */
 @SuppressWarnings("unchecked") // too many "unchecked generic array creations"
+@GwtCompatible
 public class CollectionAddTester<E> extends AbstractCollectionTester<E> {
   @CollectionFeature.Require(SUPPORTS_ADD)
   public void testAdd_supportedNotPresent() {
@@ -105,7 +107,7 @@ public class CollectionAddTester<E> extends AbstractCollectionTester<E> {
       // success
     }
   }
-  
+
   /**
    * Returns the {@link Method} instance for {@link #testAdd_nullSupported()} so
    * that tests of {@link

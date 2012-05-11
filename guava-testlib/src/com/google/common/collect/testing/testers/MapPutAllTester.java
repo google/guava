@@ -23,6 +23,7 @@ import static com.google.common.collect.testing.features.MapFeature.FAILS_FAST_O
 import static com.google.common.collect.testing.features.MapFeature.SUPPORTS_PUT;
 import static java.util.Collections.singletonList;
 
+import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.testing.AbstractMapTester;
 import com.google.common.collect.testing.MinimalCollection;
 import com.google.common.collect.testing.features.CollectionSize;
@@ -47,6 +48,7 @@ import java.util.Map.Entry;
  * @author Kevin Bourrillion
  */
 @SuppressWarnings("unchecked") // too many "unchecked generic array creations"
+@GwtCompatible
 public class MapPutAllTester<K, V> extends AbstractMapTester<K, V> {
   private List<Entry<K, V>> containsNullKey;
   private List<Entry<K, V>> containsNullValue;

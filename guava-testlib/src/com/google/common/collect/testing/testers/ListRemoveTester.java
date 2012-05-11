@@ -20,6 +20,7 @@ import static com.google.common.collect.testing.features.CollectionFeature.SUPPO
 import static com.google.common.collect.testing.features.CollectionSize.ONE;
 import static com.google.common.collect.testing.features.CollectionSize.ZERO;
 
+import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 
@@ -32,6 +33,7 @@ import com.google.common.collect.testing.features.CollectionSize;
  *
  * @author George van den Driessche
  */
+@GwtCompatible
 public class ListRemoveTester<E> extends AbstractListTester<E> {
   @CollectionFeature.Require(SUPPORTS_REMOVE)
   @CollectionSize.Require(absent = {ZERO, ONE})

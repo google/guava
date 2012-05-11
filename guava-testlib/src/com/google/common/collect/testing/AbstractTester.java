@@ -16,6 +16,8 @@
 
 package com.google.common.collect.testing;
 
+import com.google.common.annotations.GwtCompatible;
+
 import junit.framework.TestCase;
 
 /**
@@ -30,6 +32,7 @@ import junit.framework.TestCase;
  *
  * @author George van den Driessche
  */
+@GwtCompatible
 public class AbstractTester<G> extends TestCase {
   private G subjectGenerator;
   private String suiteName;

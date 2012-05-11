@@ -16,6 +16,7 @@
 
 package com.google.common.collect.testing.features;
 
+import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.testing.Helpers;
 
 import java.lang.annotation.Inherited;
@@ -33,6 +34,7 @@ import java.util.Set;
  */
 // Enum values use constructors with generic varargs.
 @SuppressWarnings("unchecked")
+@GwtCompatible
 public enum ListFeature implements Feature<List> {
   SUPPORTS_SET,
   SUPPORTS_ADD_WITH_INDEX(CollectionFeature.SUPPORTS_ADD),

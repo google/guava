@@ -21,6 +21,7 @@ import static com.google.common.collect.testing.IteratorFeature.UNMODIFIABLE;
 import static com.google.common.collect.testing.features.CollectionFeature.KNOWN_ORDER;
 import static com.google.common.collect.testing.features.CollectionFeature.SUPPORTS_REMOVE;
 
+import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.testing.AbstractCollectionTester;
 import com.google.common.collect.testing.Helpers;
 import com.google.common.collect.testing.IteratorFeature;
@@ -46,6 +47,7 @@ import java.util.concurrent.CopyOnWriteArraySet;
  *
  * @author Chris Povirk
  */
+@GwtCompatible
 public class CollectionIteratorTester<E> extends AbstractCollectionTester<E> {
   public void testIterator() {
     List<E> iteratorElements = new ArrayList<E>();

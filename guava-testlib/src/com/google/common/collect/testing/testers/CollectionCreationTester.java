@@ -19,6 +19,7 @@ package com.google.common.collect.testing.testers;
 import static com.google.common.collect.testing.features.CollectionFeature.ALLOWS_NULL_VALUES;
 import static com.google.common.collect.testing.features.CollectionSize.ZERO;
 
+import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.testing.AbstractCollectionTester;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
@@ -34,6 +35,7 @@ import java.lang.reflect.Method;
  *
  * @author Chris Povirk
  */
+@GwtCompatible
 public class CollectionCreationTester<E> extends AbstractCollectionTester<E> {
   @CollectionFeature.Require(ALLOWS_NULL_VALUES)
   @CollectionSize.Require(absent = ZERO)

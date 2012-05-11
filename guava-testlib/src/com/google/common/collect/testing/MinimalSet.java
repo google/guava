@@ -16,6 +16,8 @@
 
 package com.google.common.collect.testing;
 
+import com.google.common.annotations.GwtCompatible;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -31,6 +33,7 @@ import java.util.Set;
  *
  * @author Regina O'Dell
  */
+@GwtCompatible
 public class MinimalSet<E> extends MinimalCollection<E> implements Set<E> {
 
   @SuppressWarnings("unchecked") // empty Object[] as E[]

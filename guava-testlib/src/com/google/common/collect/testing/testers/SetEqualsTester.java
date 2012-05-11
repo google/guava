@@ -18,6 +18,7 @@ package com.google.common.collect.testing.testers;
 
 import static com.google.common.collect.testing.features.CollectionFeature.ALLOWS_NULL_VALUES;
 
+import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.testing.Helpers;
 import com.google.common.collect.testing.MinimalSet;
 import com.google.common.collect.testing.features.CollectionFeature;
@@ -33,6 +34,7 @@ import java.util.Set;
  *
  * @author George van den Driessche
  */
+@GwtCompatible
 public class SetEqualsTester<E> extends AbstractSetTester<E> {
   public void testEquals_otherSetWithSameElements() {
     assertTrue(

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2007 The Guava Authors
+ * Copyright (C) 2009 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,23 +14,27 @@
  * limitations under the License.
  */
 
-package com.google.common.collect.testing.testers;
+package com.google.common.collect.testing;
 
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.collect.testing.AbstractCollectionTester;
+import com.google.gwt.core.client.GwtScriptOnly;
 
 /**
- * A generic JUnit test which tests {@code size()} operations on a collection.
- * Can't be invoked directly; please see
- * {@link com.google.common.collect.testing.CollectionTestSuiteBuilder}.
+ * Version of {@link GwtPlatform} used in hosted-mode.  It includes methods in
+ * {@link Platform} that requires different implementions in web mode and
+ * hosted mode.  It is factored out from {@link Platform} because <code>
+ * {@literal @}GwtScriptOnly</code> only supports public classes and methods.
  *
- * <p>This class is GWT compatible.
- *
- * @author Kevin Bourrillion
+ * @author Hayward Chan
  */
+@GwtScriptOnly
 @GwtCompatible
-public class CollectionSizeTester<E> extends AbstractCollectionTester<E> {
-  public void testSize() {
-    assertEquals("size():", getNumElements(), collection.size());
+public final class GwtPlatform {
+
+  private GwtPlatform() {}
+
+  /** See {@link Platform#clone(Object[])} */
+  public static <T> T[] clone(T[] array) {
+    return array.clone();
   }
 }

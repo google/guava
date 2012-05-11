@@ -16,6 +16,8 @@
 
 package com.google.common.collect.testing.features;
 
+import com.google.common.annotations.GwtCompatible;
+
 import java.util.Set;
 
 /**
@@ -26,6 +28,7 @@ import java.util.Set;
  *
  * @author George van den Driessche
  */
+@GwtCompatible
 public class ConflictingRequirementsException extends Exception {
   private Set<Feature<?>> conflicts;
   private Object source;

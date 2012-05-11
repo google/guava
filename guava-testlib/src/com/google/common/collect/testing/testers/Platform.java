@@ -16,6 +16,8 @@
 
 package com.google.common.collect.testing.testers;
 
+import com.google.common.annotations.GwtCompatible;
+
 import java.lang.reflect.Method;
 
 /**
@@ -23,6 +25,7 @@ import java.lang.reflect.Method;
  *
  * @author Hayward Chan
  */
+@GwtCompatible
 class Platform {
 
   /**

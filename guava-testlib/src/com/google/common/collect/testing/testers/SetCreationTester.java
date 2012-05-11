@@ -21,6 +21,7 @@ import static com.google.common.collect.testing.features.CollectionFeature.REJEC
 import static com.google.common.collect.testing.features.CollectionSize.ONE;
 import static com.google.common.collect.testing.features.CollectionSize.ZERO;
 
+import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 
@@ -36,6 +37,7 @@ import java.util.List;
  *
  * @author Chris Povirk
  */
+@GwtCompatible
 public class SetCreationTester<E> extends AbstractSetTester<E> {
   @CollectionFeature.Require(value = ALLOWS_NULL_VALUES,
       absent = REJECTS_DUPLICATES_AT_CREATION)

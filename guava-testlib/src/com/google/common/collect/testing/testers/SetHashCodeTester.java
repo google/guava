@@ -18,6 +18,7 @@ package com.google.common.collect.testing.testers;
 
 import static com.google.common.collect.testing.features.CollectionFeature.ALLOWS_NULL_VALUES;
 
+import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 
@@ -31,6 +32,7 @@ import java.util.Collection;
  *
  * @author George van den Driessche
  */
+@GwtCompatible
 public class SetHashCodeTester<E> extends AbstractSetTester<E> {
   public void testHashCode() {
     int expectedHashCode = 0;

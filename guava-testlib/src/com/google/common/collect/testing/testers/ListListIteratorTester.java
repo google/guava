@@ -24,6 +24,7 @@ import static com.google.common.collect.testing.features.ListFeature.SUPPORTS_SE
 import static com.google.common.collect.testing.testers.Platform.listListIteratorTesterNumIterations;
 import static java.util.Collections.singleton;
 
+import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.testing.Helpers;
 import com.google.common.collect.testing.IteratorFeature;
 import com.google.common.collect.testing.ListIteratorTester;
@@ -46,6 +47,7 @@ import java.util.concurrent.CopyOnWriteArraySet;
  * @author Chris Povirk
  * @author Kevin Bourrillion
  */
+@GwtCompatible
 public class ListListIteratorTester<E> extends AbstractListTester<E> {
   // TODO: switch to DerivedIteratorTestSuiteBuilder
 

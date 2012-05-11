@@ -16,6 +16,7 @@
 
 package com.google.common.collect.testing.features;
 
+import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.testing.Helpers;
 
 import java.lang.annotation.Inherited;
@@ -32,6 +33,7 @@ import java.util.Set;
  */
 // Enum values use constructors with generic varargs.
 @SuppressWarnings("unchecked")
+@GwtCompatible
 public enum SetFeature implements Feature<Set> {
   GENERAL_PURPOSE(
       CollectionFeature.GENERAL_PURPOSE

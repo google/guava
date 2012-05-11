@@ -16,6 +16,8 @@
 
 package com.google.common.collect.testing;
 
+import com.google.common.annotations.GwtCompatible;
+
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.Map;
@@ -27,6 +29,7 @@ import java.util.Map;
  *
  * @author Kevin Bourrillion
  */
+@GwtCompatible
 public class SampleElements<E> implements Iterable<E> {
   // TODO: rename e3, e4 => missing1, missing2
   public final E e0;

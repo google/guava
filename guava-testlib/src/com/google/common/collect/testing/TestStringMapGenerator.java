@@ -16,6 +16,8 @@
 
 package com.google.common.collect.testing;
 
+import com.google.common.annotations.GwtCompatible;
+
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -30,6 +32,7 @@ import java.util.Map.Entry;
  * @author Jared Levy
  * @author George van den Driessche
  */
+@GwtCompatible
 public abstract class TestStringMapGenerator
     implements TestMapGenerator<String, String> {
 

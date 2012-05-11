@@ -16,6 +16,8 @@
 
 package com.google.common.collect.testing;
 
+import com.google.common.annotations.GwtCompatible;
+
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -36,6 +38,7 @@ import java.util.Map.Entry;
  *
  * @author George van den Driessche
  */
+@GwtCompatible
 public abstract class AbstractMapTester<K, V> extends
     AbstractContainerTester<Map<K, V>, Map.Entry<K, V>> {
   protected Map<K, V> getMap() {

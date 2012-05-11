@@ -19,6 +19,8 @@ package com.google.common.collect.testing;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.fail;
 
+import com.google.common.annotations.GwtCompatible;
+
 import junit.framework.AssertionFailedError;
 
 import java.util.ArrayList;
@@ -45,6 +47,7 @@ import java.util.Stack;
  * @author Kevin Bourrillion
  * @author Chris Povirk
  */
+@GwtCompatible
 abstract class AbstractIteratorTester<E, I extends Iterator<E>> {
   private boolean whenNextThrowsExceptionStopTestingCallsToRemove;
   private boolean whenAddThrowsExceptionStopTesting;

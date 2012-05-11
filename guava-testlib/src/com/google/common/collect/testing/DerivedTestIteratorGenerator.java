@@ -16,6 +16,8 @@
 
 package com.google.common.collect.testing;
 
+import com.google.common.annotations.GwtCompatible;
+
 import java.util.Iterator;
 
 /**
@@ -25,6 +27,7 @@ import java.util.Iterator;
  *
  * @author George van den Driessche
  */
+@GwtCompatible
 public final class DerivedTestIteratorGenerator<E>
     implements TestIteratorGenerator<E>, DerivedGenerator {
   private final TestSubjectGenerator<? extends Iterable<E>>

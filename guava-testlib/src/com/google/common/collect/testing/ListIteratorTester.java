@@ -16,6 +16,8 @@
 
 package com.google.common.collect.testing;
 
+import com.google.common.annotations.GwtCompatible;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
@@ -37,6 +39,7 @@ import java.util.ListIterator;
  *
  * @author Chris Povirk
  */
+@GwtCompatible
 public abstract class ListIteratorTester<E> extends
     AbstractIteratorTester<E, ListIterator<E>> {
   protected ListIteratorTester(int steps, Iterable<E> elementsToInsert,
