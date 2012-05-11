@@ -269,6 +269,22 @@ public class FluentIterableTest extends TestCase {
     assertEquals(asList("1", "2", "null", "3"), Lists.newArrayList(result));
   }
 
+  private static final class RepeatedStringValueOfFunction
+      implements Function<Integer, List<String>> {
+    @Override
+    public List<String> apply(Integer from) {
+      String value = String.valueOf(from);
+      return ImmutableList.of(value, value);
+    }
+  }
+
+  public void testTransformAndConcat() {
+    List<Integer> input = asList(1, 2, 3);
+    Iterable<String> result =
+        FluentIterable.from(input).transformAndConcat(new RepeatedStringValueOfFunction());
+    assertEquals(asList("1", "1", "2", "2", "3", "3"), Lists.newArrayList(result));
+  }
+
   public void testFirst_list() {
     List<String> list = Lists.newArrayList("a", "b", "c");
     assertEquals("a", FluentIterable.from(list).first().get());

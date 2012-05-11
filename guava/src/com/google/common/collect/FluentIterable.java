@@ -205,6 +205,22 @@ public abstract class FluentIterable<E> implements Iterable<E> {
   }
 
   /**
+   * Applies {@code function} to each element of this fluent iterable and returns
+   * a fluent iterable with the concatenated combination of results.  {@code function}
+   * returns an Iterable of results.
+   *
+   * <p>The returned fluent iterable's iterator supports {@code remove()} if this
+   * function-returned iterables' iterator does. After a successful {@code remove()} call,
+   * the returned fluent iterable no longer contains the corresponding element.
+   *
+   * @since 13.0
+   */
+  public <T> FluentIterable<T> transformAndConcat(
+      Function<? super E, ? extends Iterable<T>> function) {
+    return from(Iterables.concat(transform(function)));
+  }
+
+  /**
    * Returns an {@link Optional} containing the first element in this fluent iterable.
    * If the iterable is empty, {@code Optional.absent()} is returned.
    *
