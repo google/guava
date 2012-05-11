@@ -33,7 +33,7 @@ import javax.annotation.Nullable;
  *
  * <p>All methods returns serializable predicates as long as they're given
  * serializable parameters.
- * 
+ *
  * <p>See the Guava User Guide article on <a href=
  * "http://code.google.com/p/guava-libraries/wiki/FunctionalExplained">the use of {@code
  * Predicate}</a>.
@@ -230,7 +230,7 @@ public final class Predicates {
         return o != null;
       }
     };
-    
+
     @SuppressWarnings("unchecked") // these Object predicates work for any T
     <T> Predicate<T> withNarrowedType() {
       return (Predicate<T>) this;
@@ -275,6 +275,7 @@ public final class Predicates {
     }
     @Override
     public boolean apply(T t) {
+      // Avoid using the Iterator to avoid generating garbage (issue 820).
       for (int i = 0; i < components.size(); i++) {
         if (!components.get(i).apply(t)) {
           return false;
@@ -308,6 +309,7 @@ public final class Predicates {
     }
     @Override
     public boolean apply(T t) {
+      // Avoid using the Iterator to avoid generating garbage (issue 820).
       for (int i = 0; i < components.size(); i++) {
         if (components.get(i).apply(t)) {
           return true;

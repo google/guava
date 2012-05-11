@@ -34,26 +34,25 @@ final class AllEqualOrdering extends Ordering<Object> implements Serializable {
 
   @Override
   public int compare(@Nullable Object left, @Nullable Object right) {
-    return 0; // left and right always compare as equal.
+    return 0;
   }
 
   @Override
   public <E> List<E> sortedCopy(Iterable<E> iterable) {
-    return Lists.newArrayList(iterable); // Skip the sort, as it has no effect
+    return Lists.newArrayList(iterable);
   }
 
   @Override
   public <E> ImmutableList<E> immutableSortedCopy(Iterable<E> iterable) {
-    return ImmutableList.copyOf(iterable); // Avoid needless object creation.
+    return ImmutableList.copyOf(iterable);
   }
 
   @SuppressWarnings("unchecked")
   @Override
   public <S> Ordering<S> reverse() {
-    return (Ordering<S>) this; // The same forwards and backwards, avoid needless indirection.
+    return (Ordering<S>) this;
   }
 
-  // preserving singleton-ness gives equals()/hashCode() for free
   private Object readResolve() {
     return INSTANCE;
   }

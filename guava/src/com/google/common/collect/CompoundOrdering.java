@@ -44,6 +44,7 @@ final class CompoundOrdering<T> extends Ordering<T> implements Serializable {
   }
 
   @Override public int compare(T left, T right) {
+    // Avoid using the Iterator to avoid generating garbage (issue 979).
     int size = comparators.size();
     for (int i = 0; i < size; i++) {
       int result = comparators.get(i).compare(left, right);

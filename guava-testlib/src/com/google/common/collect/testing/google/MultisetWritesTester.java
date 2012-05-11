@@ -52,16 +52,16 @@ public class MultisetWritesTester<E> extends AbstractMultisetTester<E> {
 
   @CollectionFeature.Require(SUPPORTS_ADD)
   public void testAddOccurrencesZero() {
-    int expectedCount = getMultiset().count(samples.e0);
-    assertEquals(expectedCount, getMultiset().add(samples.e0, 0));
+    int originalCount = getMultiset().count(samples.e0);
+    assertEquals("old count", originalCount, getMultiset().add(samples.e0, 0));
     expectUnchanged();
   }
 
   @CollectionFeature.Require(SUPPORTS_ADD)
   public void testAddOccurrences() {
-    int expectedCount = getMultiset().count(samples.e0);
-    assertEquals(expectedCount, getMultiset().add(samples.e0, 2));
-    assertEquals(expectedCount + 2, getMultiset().count(samples.e0));
+    int originalCount = getMultiset().count(samples.e0);
+    assertEquals("old count", originalCount, getMultiset().add(samples.e0, 2));
+    assertEquals("old count", originalCount + 2, getMultiset().count(samples.e0));
   }
 
   @CollectionFeature.Require(absent = SUPPORTS_ADD)
@@ -82,8 +82,8 @@ public class MultisetWritesTester<E> extends AbstractMultisetTester<E> {
 
   @CollectionFeature.Require(SUPPORTS_REMOVE)
   public void testRemoveZeroNoOp() {
-    int expectedCount = getMultiset().count(samples.e0);
-    assertEquals(expectedCount, getMultiset().remove(samples.e0, 0));
+    int originalCount = getMultiset().count(samples.e0);
+    assertEquals("old count", originalCount, getMultiset().remove(samples.e0, 0));
     expectUnchanged();
   }
 

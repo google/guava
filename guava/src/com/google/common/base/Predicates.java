@@ -36,7 +36,7 @@ import javax.annotation.Nullable;
  *
  * <p>All methods returns serializable predicates as long as they're given
  * serializable parameters.
- * 
+ *
  * <p>See the Guava User Guide article on <a href=
  * "http://code.google.com/p/guava-libraries/wiki/FunctionalExplained">the use of {@code
  * Predicate}</a>.
@@ -200,12 +200,12 @@ public final class Predicates {
   public static Predicate<Object> instanceOf(Class<?> clazz) {
     return new InstanceOfPredicate(clazz);
   }
-  
+
   /**
    * Returns a predicate that evaluates to {@code true} if the class being
    * tested is assignable from the given class.  The returned predicate
    * does not allow null inputs.
-   * 
+   *
    * @since 10.0
    */
   @GwtIncompatible("Class.isAssignableFrom")
@@ -293,7 +293,7 @@ public final class Predicates {
         return o != null;
       }
     };
-    
+
     @SuppressWarnings("unchecked") // these Object predicates work for any T
     <T> Predicate<T> withNarrowedType() {
       return (Predicate<T>) this;
@@ -338,6 +338,7 @@ public final class Predicates {
     }
     @Override
     public boolean apply(T t) {
+      // Avoid using the Iterator to avoid generating garbage (issue 820).
       for (int i = 0; i < components.size(); i++) {
         if (!components.get(i).apply(t)) {
           return false;
@@ -371,6 +372,7 @@ public final class Predicates {
     }
     @Override
     public boolean apply(T t) {
+      // Avoid using the Iterator to avoid generating garbage (issue 820).
       for (int i = 0; i < components.size(); i++) {
         if (components.get(i).apply(t)) {
           return true;
@@ -451,7 +453,7 @@ public final class Predicates {
     }
     private static final long serialVersionUID = 0;
   }
-  
+
   /** @see Predicates#assignableFrom(Class) */
   @GwtIncompatible("Class.isAssignableFrom")
   private static class AssignableFromPredicate
