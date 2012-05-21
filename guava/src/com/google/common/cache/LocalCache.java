@@ -3175,7 +3175,10 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
               && map.keyEquivalence.equivalent(key, entryKey)) {
             ValueReference<K, V> valueReference = e.getValueReference();
             V entryValue = valueReference.get();
-            if (entryValue == null || oldValueReference == valueReference) {
+            // replace the old LoadingValueReference if it's live, otherwise
+            // perform a putIfAbsent
+            if (oldValueReference == valueReference
+                || (entryValue == null && valueReference != UNSET)) {
               ++modCount;
               if (oldValueReference.isActive()) {
                 RemovalCause cause =

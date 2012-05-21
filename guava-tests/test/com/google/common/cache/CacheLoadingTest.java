@@ -2145,6 +2145,79 @@ public class CacheLoadingTest extends TestCase {
     assertEquals(2, cache.size());
     assertEquals(getKey + suffix, map.get(getKey));
     assertEquals(refreshKey + suffix, map.get(refreshKey));
+    assertEquals(2, cache.size());
+  }
+
+  public void testInvalidateAndReloadDuringLoading()
+      throws InterruptedException, ExecutionException {
+    // computation starts; clear() is called, computation finishes
+    final CountDownLatch computationStarted = new CountDownLatch(2);
+    final CountDownLatch letGetFinishSignal = new CountDownLatch(1);
+    final CountDownLatch getFinishedSignal = new CountDownLatch(4);
+    final String getKey = "get";
+    final String refreshKey = "refresh";
+    final String suffix = "Suffix";
+
+    CacheLoader<String, String> computeFunction = new CacheLoader<String, String>() {
+      @Override
+      public String load(String key) throws InterruptedException {
+        computationStarted.countDown();
+        letGetFinishSignal.await();
+        return key + suffix;
+      }
+    };
+
+    final LoadingCache<String, String> cache = CacheBuilder.newBuilder()
+        .build(computeFunction);
+    ConcurrentMap<String,String> map = cache.asMap();
+    map.put(refreshKey, refreshKey);
+
+    new Thread() {
+      @Override
+      public void run() {
+        cache.getUnchecked(getKey);
+        getFinishedSignal.countDown();
+      }
+    }.start();
+    new Thread() {
+      @Override
+      public void run() {
+        cache.refresh(refreshKey);
+        getFinishedSignal.countDown();
+      }
+    }.start();
+
+    computationStarted.await();
+    cache.invalidate(getKey);
+    cache.invalidate(refreshKey);
+    assertFalse(map.containsKey(getKey));
+    assertFalse(map.containsKey(refreshKey));
+
+    // start new computations
+    new Thread() {
+      @Override
+      public void run() {
+        cache.getUnchecked(getKey);
+        getFinishedSignal.countDown();
+      }
+    }.start();
+    new Thread() {
+      @Override
+      public void run() {
+        cache.refresh(refreshKey);
+        getFinishedSignal.countDown();
+      }
+    }.start();
+
+    // let computation complete
+    letGetFinishSignal.countDown();
+    getFinishedSignal.await();
+    checkNothingLogged();
+
+    // results should be visible
+    assertEquals(2, cache.size());
+    assertEquals(getKey + suffix, map.get(getKey));
+    assertEquals(refreshKey + suffix, map.get(refreshKey));
   }
 
   public void testExpandDuringLoading() throws InterruptedException {
