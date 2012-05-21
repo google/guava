@@ -16,12 +16,14 @@
 
 package com.google.common.hash;
 
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+
 import com.google.common.hash.AbstractStreamingHashFunction.AbstractStreamingHasher;
 
 import junit.framework.TestCase;
 
-import org.easymock.EasyMock;
-
+import java.io.OutputStream;
 import java.nio.ByteBuffer;
 
 /**
@@ -31,15 +33,9 @@ import java.nio.ByteBuffer;
  */
 public class FunnelsTest extends TestCase {
   public void testForBytes() {
-    PrimitiveSink bytePrimitiveSink = EasyMock.createMock(PrimitiveSink.class);
-
-    EasyMock.expect(bytePrimitiveSink.putBytes(EasyMock.aryEq(new byte[] { 4, 3, 2, 1})))
-        .andReturn(bytePrimitiveSink).once();
-    EasyMock.replay(bytePrimitiveSink);
-
-    Funnels.byteArrayFunnel().funnel(new byte[]{4, 3, 2, 1}, bytePrimitiveSink);
-
-    EasyMock.verify(bytePrimitiveSink);
+    PrimitiveSink bytePrimitiveSink = mock(PrimitiveSink.class);
+    Funnels.byteArrayFunnel().funnel(new byte[] { 4, 3, 2, 1 }, bytePrimitiveSink);
+    verify(bytePrimitiveSink).putBytes(new byte[] { 4, 3, 2, 1 });
   }
 
   public void testForBytes_null() {
@@ -47,19 +43,35 @@ public class FunnelsTest extends TestCase {
   }
 
   public void testForStrings() {
-
-    PrimitiveSink bytePrimitiveSink = EasyMock.createMock(PrimitiveSink.class);
-
-    EasyMock.expect(bytePrimitiveSink.putString("test")).andReturn(bytePrimitiveSink).once();
-    EasyMock.replay(bytePrimitiveSink);
-
+    PrimitiveSink bytePrimitiveSink = mock(PrimitiveSink.class);
     Funnels.stringFunnel().funnel("test", bytePrimitiveSink);
-
-    EasyMock.verify(bytePrimitiveSink);
+    verify(bytePrimitiveSink).putString("test");
   }
 
   public void testForStrings_null() {
     assertNullsThrowException(Funnels.stringFunnel());
+  }
+
+  public void testForInts() {
+    Integer value = 1234;
+    PrimitiveSink bytePrimitiveSink = mock(PrimitiveSink.class);
+    Funnels.integerFunnel().funnel(value, bytePrimitiveSink);
+    verify(bytePrimitiveSink).putInt(1234);
+  }
+
+  public void testForInts_null() {
+    assertNullsThrowException(Funnels.integerFunnel());
+  }
+
+  public void testForLongs() {
+    Long value = 1234L;
+    PrimitiveSink bytePrimitiveSink = mock(PrimitiveSink.class);
+    Funnels.longFunnel().funnel(value, bytePrimitiveSink);
+    verify(bytePrimitiveSink).putLong(1234);
+  }
+
+  public void testForLongs_null() {
+    assertNullsThrowException(Funnels.longFunnel());
   }
 
   private static void assertNullsThrowException(Funnel<?> funnel) {
@@ -77,4 +89,16 @@ public class FunnelsTest extends TestCase {
       fail();
     } catch (NullPointerException ok) {}
   }
+  
+ public void testAsOutputStream() throws Exception {
+   PrimitiveSink sink = mock(PrimitiveSink.class);
+   OutputStream out = Funnels.asOutputStream(sink);
+   byte[] bytes = { 1, 2, 3, 4 };
+   out.write(255);
+   out.write(bytes);
+   out.write(bytes, 1, 2);
+   verify(sink).putByte((byte) 255);
+   verify(sink).putBytes(bytes);
+   verify(sink).putBytes(bytes, 1, 2);
+ }
 }
