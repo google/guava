@@ -293,4 +293,67 @@ public abstract class Equivalence<T> {
 
     private static final long serialVersionUID = 0;
   }
+
+  /**
+   * Returns an equivalence that delegates to {@link Object#equals} and {@link Object#hashCode}.
+   * {@link Equivalence#equivalent} returns {@code true} if both values are null, or if neither
+   * value is null and {@link Object#equals} returns {@code true}. {@link Equivalence#hash} returns
+   * {@code 0} if passed a null value.
+   *
+   * @since 13.0
+   * @since 8.0 (in Equivalences with null-friendly behavior)
+   * @since 4.0 (in Equivalences)
+   */
+  public static Equivalence<Object> equals() {
+    return Equals.INSTANCE;
+  }
+
+  /**
+   * Returns an equivalence that uses {@code ==} to compare values and {@link
+   * System#identityHashCode(Object)} to compute the hash code.  {@link Equivalence#equivalent}
+   * returns {@code true} if {@code a == b}, including in the case that a and b are both null.
+   *
+   * @since 13.0
+   * @since 4.0 (in Equivalences)
+   */
+  public static Equivalence<Object> identity() {
+    return Identity.INSTANCE;
+  }
+
+  static final class Equals extends Equivalence<Object>
+      implements Serializable {
+    
+    static final Equals INSTANCE = new Equals();
+
+    @Override protected boolean doEquivalent(Object a, Object b) {
+      return a.equals(b);
+    }
+    @Override public int doHash(Object o) {
+      return o.hashCode();
+    }
+
+    private Object readResolve() {
+      return INSTANCE;
+    } 
+    private static final long serialVersionUID = 1;
+  }
+  
+  static final class Identity extends Equivalence<Object>
+      implements Serializable {
+    
+    static final Identity INSTANCE = new Identity();
+    
+    @Override protected boolean doEquivalent(Object a, Object b) {
+      return false;
+    }
+
+    @Override protected int doHash(Object o) {
+      return System.identityHashCode(o);
+    }
+ 
+    private Object readResolve() {
+      return INSTANCE;
+    }
+    private static final long serialVersionUID = 1;
+  }
 }

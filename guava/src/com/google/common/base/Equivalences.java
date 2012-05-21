@@ -19,8 +19,6 @@ package com.google.common.base;
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 
-import java.io.Serializable;
-
 /**
  * Contains static factory methods for creating {@code Equivalence} instances.
  *
@@ -45,8 +43,9 @@ public final class Equivalences {
    * @since 8.0 (present null-friendly behavior)
    * @since 4.0 (otherwise)
    */
+  // TODO(user): Deprecate this method. See b/6512852
   public static Equivalence<Object> equals() {
-    return Equals.INSTANCE;
+    return Equivalence.Equals.INSTANCE;
   }
 
   /**
@@ -54,44 +53,8 @@ public final class Equivalences {
    * System#identityHashCode(Object)} to compute the hash code.  {@link Equivalence#equivalent}
    * returns {@code true} if {@code a == b}, including in the case that a and b are both null.
    */
+  // TODO(user): Deprecate this method. See b/6512852
   public static Equivalence<Object> identity() {
-    return Identity.INSTANCE;
-  }
-
-  private static final class Equals extends Equivalence<Object>
-      implements Serializable {
-    
-    static final Equals INSTANCE = new Equals();
-
-    @Override protected boolean doEquivalent(Object a, Object b) {
-      return a.equals(b);
-    }
-    @Override public int doHash(Object o) {
-      return o.hashCode();
-    }
-
-    private Object readResolve() {
-      return INSTANCE;
-    } 
-    private static final long serialVersionUID = 1;
-  }
-  
-  private static final class Identity extends Equivalence<Object>
-      implements Serializable {
-    
-    static final Identity INSTANCE = new Identity();
-    
-    @Override protected boolean doEquivalent(Object a, Object b) {
-      return false;
-    }
-
-    @Override protected int doHash(Object o) {
-      return System.identityHashCode(o);
-    }
- 
-    private Object readResolve() {
-      return INSTANCE;
-    }
-    private static final long serialVersionUID = 1;
+    return Equivalence.Identity.INSTANCE;
   }
 }

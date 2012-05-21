@@ -36,7 +36,7 @@ public class EquivalenceTest extends TestCase {
 
   @SuppressWarnings("unchecked") // Iterable<String>...
   public void testPairwiseEquivalent() {
-    EquivalenceTester.of(Equivalences.equals().<String>pairwise())
+    EquivalenceTester.of(Equivalence.equals().<String>pairwise())
         .addEquivalenceGroup(ImmutableList.<String>of())
         .addEquivalenceGroup(ImmutableList.of("a"))
         .addEquivalenceGroup(ImmutableList.of("b"))
@@ -46,8 +46,8 @@ public class EquivalenceTest extends TestCase {
 
   public void testPairwiseEquivalent_equals() {
     new EqualsTester()
-        .addEqualityGroup(Equivalences.equals().pairwise(), Equivalences.equals().pairwise())
-        .addEqualityGroup(Equivalences.identity().pairwise())
+        .addEqualityGroup(Equivalence.equals().pairwise(), Equivalence.equals().pairwise())
+        .addEqualityGroup(Equivalence.identity().pairwise())
         .testEquals();
   }
 
@@ -59,7 +59,7 @@ public class EquivalenceTest extends TestCase {
     }
   }
 
-  private static final Equivalence<String> LENGTH_EQUIVALENCE = Equivalences.equals()
+  private static final Equivalence<String> LENGTH_EQUIVALENCE = Equivalence.equals()
       .onResultOf(LengthFunction.INSTANCE);
 
   public void testWrap() {
@@ -74,8 +74,8 @@ public class EquivalenceTest extends TestCase {
         .addEqualityGroup(
             LENGTH_EQUIVALENCE.wrap(null),
             LENGTH_EQUIVALENCE.wrap(null))
-        .addEqualityGroup(Equivalences.equals().wrap("hello"))
-        .addEqualityGroup(Equivalences.equals().wrap(null))
+        .addEqualityGroup(Equivalence.equals().wrap("hello"))
+        .addEqualityGroup(Equivalence.equals().wrap(null))
         .testEquals();
   }
 
@@ -86,8 +86,10 @@ public class EquivalenceTest extends TestCase {
   }
 
   @GwtIncompatible("SerializableTester")
-  public void testWrapSerialization() {
+  public void testSerialization() {
     SerializableTester.reserializeAndAssert(LENGTH_EQUIVALENCE.wrap("hello"));
+    SerializableTester.reserializeAndAssert(Equivalence.equals());
+    SerializableTester.reserializeAndAssert(Equivalence.identity());
   }
 
   private static class IntValue {
@@ -103,7 +105,7 @@ public class EquivalenceTest extends TestCase {
   }
   
   public void testOnResultOf() {
-    EquivalenceTester.of(Equivalences.equals().onResultOf(Functions.toStringFunction()))
+    EquivalenceTester.of(Equivalence.equals().onResultOf(Functions.toStringFunction()))
         .addEquivalenceGroup(new IntValue(1), new IntValue(1))
         .addEquivalenceGroup(new IntValue(2))
         .test();
@@ -112,27 +114,48 @@ public class EquivalenceTest extends TestCase {
   public void testOnResultOf_equals() {
     new EqualsTester()
         .addEqualityGroup(
-            Equivalences.identity().onResultOf(Functions.toStringFunction()),
-            Equivalences.identity().onResultOf(Functions.toStringFunction()))
-        .addEqualityGroup(Equivalences.equals().onResultOf(Functions.toStringFunction()))
-        .addEqualityGroup(Equivalences.identity().onResultOf(Functions.identity()))
+            Equivalence.identity().onResultOf(Functions.toStringFunction()),
+            Equivalence.identity().onResultOf(Functions.toStringFunction()))
+        .addEqualityGroup(Equivalence.equals().onResultOf(Functions.toStringFunction()))
+        .addEqualityGroup(Equivalence.identity().onResultOf(Functions.identity()))
         .testEquals();
   }
   
   public void testEquivalentTo() {
-    Predicate<Object> equalTo1 = Equivalences.equals().equivalentTo("1");
+    Predicate<Object> equalTo1 = Equivalence.equals().equivalentTo("1");
     assertTrue(equalTo1.apply("1"));
     assertFalse(equalTo1.apply("2"));
     assertFalse(equalTo1.apply(null));
-    Predicate<Object> isNull = Equivalences.equals().equivalentTo(null);
+    Predicate<Object> isNull = Equivalence.equals().equivalentTo(null);
     assertFalse(isNull.apply("1"));
     assertFalse(isNull.apply("2"));
     assertTrue(isNull.apply(null));
     
     new EqualsTester()
-        .addEqualityGroup(equalTo1, Equivalences.equals().equivalentTo("1"))
+        .addEqualityGroup(equalTo1, Equivalence.equals().equivalentTo("1"))
         .addEqualityGroup(isNull)
-        .addEqualityGroup(Equivalences.identity().equivalentTo("1"))
+        .addEqualityGroup(Equivalence.identity().equivalentTo("1"))
+        .testEquals();
+  }
+  public void testEqualsEquivalent() {
+    EquivalenceTester.of(Equivalence.equals())
+        .addEquivalenceGroup(new Integer(42), 42)
+        .addEquivalenceGroup("a")
+        .test();
+  }
+
+  public void testIdentityEquivalent() {
+    EquivalenceTester.of(Equivalence.identity())
+        .addEquivalenceGroup(new Integer(42))
+        .addEquivalenceGroup(new Integer(42))
+        .addEquivalenceGroup("a")
+        .test();
+  }
+  
+  public void testEquality() {
+    new EqualsTester()
+        .addEqualityGroup(Equivalence.equals(), Equivalence.equals())
+        .addEqualityGroup(Equivalence.identity(), Equivalence.identity())
         .testEquals();
   }
 }
