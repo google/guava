@@ -21,18 +21,61 @@ import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 
+import java.util.Collections;
 import java.util.NoSuchElementException;
+import java.util.Set;
 
 /**
  * A sorted set of contiguous values in a given {@link DiscreteDomain}.
+ *
+ * <p><b>Warning:</b> Be extremely careful what you do with conceptually large instances (such as
+ * {@code ContiguousSet.create(Ranges.greaterThan(0), DiscreteDomains.integers()}). Certain
+ * operations on such a set can be performed efficiently, but others (such as {@link Set#hashCode}
+ * or {@link Collections#frequency}) can cause major performance problems.
  *
  * @author Gregory Kick
  * @since 10.0
  */
 @Beta
 @GwtCompatible(emulated = true)
-@SuppressWarnings("unchecked") // allow ungenerified Comparable types
+@SuppressWarnings("rawtypes") // allow ungenerified Comparable types
 public abstract class ContiguousSet<C extends Comparable> extends ImmutableSortedSet<C> {
+  /**
+   * Returns a {@code ContiguousSet} containing the same values in the given domain
+   * {@linkplain Range#contains contained} by the range.
+   *
+   * @throws IllegalArgumentException if neither range nor the domain has a lower bound, or if
+   *     neither has an upper bound
+   *
+   * @since 13.0
+   */
+  public static <C extends Comparable> ContiguousSet<C> create(
+      Range<C> range, DiscreteDomain<C> domain) {
+    checkNotNull(range);
+    checkNotNull(domain);
+    Range<C> effectiveRange = range;
+    try {
+      if (!range.hasLowerBound()) {
+        effectiveRange = effectiveRange.intersection(Ranges.atLeast(domain.minValue()));
+      }
+      if (!range.hasUpperBound()) {
+        effectiveRange = effectiveRange.intersection(Ranges.atMost(domain.maxValue()));
+      }
+    } catch (NoSuchElementException e) {
+      throw new IllegalArgumentException(e);
+    }
+
+    // Per class spec, we are allowed to throw CCE if necessary
+    boolean empty = effectiveRange.isEmpty()
+        || Range.compareOrThrow(
+            range.lowerBound.leastValueAbove(domain),
+            range.upperBound.greatestValueBelow(domain)) > 0;
+
+    return empty
+        ? new EmptyContiguousSet<C>(domain)
+        : new RegularContiguousSet<C>(effectiveRange, domain);
+  }
+
   final DiscreteDomain<C> domain;
 
   ContiguousSet(DiscreteDomain<C> domain) {

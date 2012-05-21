@@ -27,7 +27,6 @@ import com.google.common.base.Predicate;
 import java.io.Serializable;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.SortedSet;
 
@@ -113,8 +112,9 @@ import javax.annotation.Nullable;
  * @author Gregory Kick
  * @since 10.0
  */
-@GwtCompatible
 @Beta
+@GwtCompatible
+@SuppressWarnings("rawtypes")
 public final class Range<C extends Comparable> implements Predicate<C>, Serializable {
   final Cut<C> lowerBound;
   final Cut<C> upperBound;
@@ -295,11 +295,11 @@ public final class Range<C extends Comparable> implements Predicate<C>, Serializ
   /**
    * Returns the maximal range {@linkplain #encloses enclosed} by both this range and {@code
    * connectedRange}, if such a range exists.
-   * 
+   *
    * <p>For example, the intersection of {@code [1..5]} and {@code (3..7)} is {@code (3..5]}. The
    * resulting range may be empty; for example, {@code [1..5)} intersected with {@code [5..7)}
    * yields the empty range {@code [5..5)}.
-   * 
+   *
    * <p>The intersection exists if and only if the two ranges are {@linkplain #isConnected
    * connected}.
    *
@@ -332,7 +332,7 @@ public final class Range<C extends Comparable> implements Predicate<C>, Serializ
   }
 
   /**
-   * Returns an {@link ImmutableSortedSet} containing the same values in the given domain
+   * Returns an {@link ContiguousSet} containing the same values in the given domain
    * {@linkplain Range#contains contained} by this range.
    *
    * <p><b>Note:</b> {@code a.asSet(d).equals(b.asSet(d))} does not imply {@code a.equals(b)}! For
@@ -353,28 +353,7 @@ public final class Range<C extends Comparable> implements Predicate<C>, Serializ
   // TODO(kevinb): commit in spec to which methods are efficient?
   @GwtCompatible(serializable = false)
   public ContiguousSet<C> asSet(DiscreteDomain<C> domain) {
-    checkNotNull(domain);
-    Range<C> effectiveRange = this;
-    try {
-      if (!hasLowerBound()) {
-        effectiveRange = effectiveRange.intersection(Ranges.atLeast(domain.minValue()));
-      }
-      if (!hasUpperBound()) {
-        effectiveRange = effectiveRange.intersection(Ranges.atMost(domain.maxValue()));
-      }
-    } catch (NoSuchElementException e) {
-      throw new IllegalArgumentException(e);
-    }
-
-    // Per class spec, we are allowed to throw CCE if necessary
-    boolean empty = effectiveRange.isEmpty()
-        || compareOrThrow(
-            lowerBound.leastValueAbove(domain),
-            upperBound.greatestValueBelow(domain)) > 0;
-
-    return empty
-        ? new EmptyContiguousSet<C>(domain)
-        : new RegularContiguousSet<C>(effectiveRange, domain);
+    return ContiguousSet.create(this, domain);
   }
 
   /**
