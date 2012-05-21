@@ -14,16 +14,12 @@
 
 package com.google.common.util.concurrent;
 
-import static com.google.common.base.Preconditions.checkArgument;
-
-import com.google.common.collect.Lists;
-import com.google.common.collect.Queues;
+import static com.google.common.util.concurrent.MoreExecutors.invokeAnyImpl;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
-import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Callable;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutionException;
@@ -60,93 +56,10 @@ abstract class AbstractListeningExecutorService implements ListeningExecutorServ
     return ftask;
   }
 
-  /** The main mechanics of invokeAny. */
-  private <T> T doInvokeAny(Collection<? extends Callable<T>> tasks, boolean timed, long nanos)
-      throws InterruptedException, ExecutionException, TimeoutException {
-    int ntasks = tasks.size();
-    checkArgument(ntasks > 0);
-    List<Future<T>> futures = Lists.newArrayListWithCapacity(ntasks);
-    BlockingQueue<Future<T>> futureQueue = Queues.newLinkedBlockingQueue();
-
-    // For efficiency, especially in executors with limited
-    // parallelism, check to see if previously submitted tasks are
-    // done before submitting more of them. This interleaving
-    // plus the exception mechanics account for messiness of main
-    // loop.
-
-    try {
-      // Record exceptions so that if we fail to obtain any
-      // result, we can throw the last exception we got.
-      ExecutionException ee = null;
-      long lastTime = timed ? System.nanoTime() : 0;
-      Iterator<? extends Callable<T>> it = tasks.iterator();
-
-      futures.add(submitAndAddQueueListener(it.next(), futureQueue));
-      --ntasks;
-      int active = 1;
-
-      for (;;) {
-        Future<T> f = futureQueue.poll();
-        if (f == null) {
-          if (ntasks > 0) {
-            --ntasks;
-            futures.add(submitAndAddQueueListener(it.next(), futureQueue));
-            ++active;
-          } else if (active == 0) {
-            break;
-          } else if (timed) {
-            f = futureQueue.poll(nanos, TimeUnit.NANOSECONDS);
-            if (f == null) {
-              throw new TimeoutException();
-            }
-            long now = System.nanoTime();
-            nanos -= now - lastTime;
-            lastTime = now;
-          } else {
-            f = futureQueue.take();
-          }
-        }
-        if (f != null) {
-          --active;
-          try {
-            return f.get();
-          } catch (ExecutionException eex) {
-            ee = eex;
-          } catch (RuntimeException rex) {
-            ee = new ExecutionException(rex);
-          }
-        }
-      }
-
-      if (ee == null) {
-        ee = new ExecutionException(null);
-      }
-      throw ee;
-    } finally {
-      for (Future<T> f : futures) {
-        f.cancel(true);
-      }
-    }
-  }
-
-  /**
-   * Submits the task and adds a listener that adds the future to {@code queue} when it completes.
-   */
-  private <T> ListenableFuture<T> submitAndAddQueueListener(
-      Callable<T> task, final BlockingQueue<Future<T>> queue) {
-    final ListenableFuture<T> future = submit(task);
-    future.addListener(new Runnable() {
-      @Override public void run() {
-        queue.add(future);
-      }
-    }, MoreExecutors.sameThreadExecutor());
-    return future;
-  }
-
   @Override public <T> T invokeAny(Collection<? extends Callable<T>> tasks)
       throws InterruptedException, ExecutionException {
     try {
-      return doInvokeAny(tasks, false, 0);
+      return invokeAnyImpl(this, tasks, false, 0);
     } catch (TimeoutException cannotHappen) {
       throw new AssertionError();
     }
@@ -155,7 +68,7 @@ abstract class AbstractListeningExecutorService implements ListeningExecutorServ
   @Override public <T> T invokeAny(
       Collection<? extends Callable<T>> tasks, long timeout, TimeUnit unit)
       throws InterruptedException, ExecutionException, TimeoutException {
-    return doInvokeAny(tasks, true, unit.toNanos(timeout));
+    return invokeAnyImpl(this, tasks, true, unit.toNanos(timeout));
   }
 
   @Override public <T> List<Future<T>> invokeAll(Collection<? extends Callable<T>> tasks)

@@ -14,9 +14,22 @@
  * limitations under the License.
  */
 
+/*
+ * Portions of this file are modified versions of
+ * http://gee.cs.oswego.edu/cgi-bin/viewcvs.cgi/jsr166/src/test/tck/AbstractExecutorServiceTest.java?revision=1.30
+ * which contained the following notice:
+ *
+ * Written by Doug Lea with assistance from members of JCP JSR-166
+ * Expert Group and released to the public domain, as explained at
+ * http://creativecommons.org/publicdomain/zero/1.0/
+ * Other contributors include Andrew Wright, Jeffrey Hayes,
+ * Pat Fisher, Mike Judd.
+ */
+
 package com.google.common.util.concurrent;
 
 import static com.google.common.collect.Iterables.getOnlyElement;
+import static com.google.common.util.concurrent.MoreExecutors.invokeAnyImpl;
 import static com.google.common.util.concurrent.MoreExecutors.listeningDecorator;
 import static com.google.common.util.concurrent.MoreExecutors.sameThreadExecutor;
 import static java.util.concurrent.TimeUnit.SECONDS;
@@ -25,12 +38,12 @@ import static org.junit.contrib.truth.Truth.ASSERT;
 import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableList;
 
-import junit.framework.TestCase;
-
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.CyclicBarrier;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
 import java.util.concurrent.RejectedExecutionException;
@@ -42,7 +55,7 @@ import java.util.concurrent.atomic.AtomicReference;
  *
  * @author Kyle Littlefield (klittle)
  */
-public class MoreExecutorsTest extends TestCase {
+public class MoreExecutorsTest extends JSR166TestCase {
 
   public void testSameThreadExecutorServiceInThreadExecution()
       throws Exception {
@@ -220,6 +233,88 @@ public class MoreExecutorsTest extends TestCase {
      * TODO(cpovirk): move ForwardingTestCase somewhere common, and use it to
      * test the forwarded methods
      */
+  }
+
+  /**
+   * invokeAny(null) throws NPE
+   */
+  public void testInvokeAnyImpl_nullTasks() throws Exception {
+    ListeningExecutorService e = sameThreadExecutor();
+    try {
+      invokeAnyImpl(e, null, false, 0);
+      shouldThrow();
+    } catch (NullPointerException success) {
+    } finally {
+      joinPool(e);
+    }
+  }
+
+  /**
+   * invokeAny(empty collection) throws IAE
+   */
+  public void testInvokeAnyImpl_emptyTasks() throws Exception {
+    ListeningExecutorService e = sameThreadExecutor();
+    try {
+      invokeAnyImpl(e, new ArrayList<Callable<String>>(), false, 0);
+      shouldThrow();
+    } catch (IllegalArgumentException success) {
+    } finally {
+      joinPool(e);
+    }
+  }
+
+  /**
+   * invokeAny(c) throws NPE if c has null elements
+   */
+  public void testInvokeAnyImpl_nullElement() throws Exception {
+    ListeningExecutorService e = sameThreadExecutor();
+    List<Callable<Integer>> l = new ArrayList<Callable<Integer>>();
+    l.add(new Callable<Integer>() {
+      @Override public Integer call() {
+          throw new ArithmeticException("/ by zero");
+      }
+    });
+    l.add(null);
+    try {
+      invokeAnyImpl(e, l, false, 0);
+      shouldThrow();
+    } catch (NullPointerException success) {
+    } finally {
+      joinPool(e);
+    }
+  }
+
+  /**
+   * invokeAny(c) throws ExecutionException if no task in c completes
+   */
+  public void testInvokeAnyImpl_noTaskCompletes() throws Exception {
+    ListeningExecutorService e = sameThreadExecutor();
+    List<Callable<String>> l = new ArrayList<Callable<String>>();
+    l.add(new NPETask());
+    try {
+      invokeAnyImpl(e, l, false, 0);
+      shouldThrow();
+    } catch (ExecutionException success) {
+      assertTrue(success.getCause() instanceof NullPointerException);
+    } finally {
+      joinPool(e);
+    }
+  }
+
+  /**
+   * invokeAny(c) returns result of some task in c if at least one completes
+   */
+  public void testInvokeAnyImpl() throws Exception {
+    ListeningExecutorService e = sameThreadExecutor();
+    try {
+      List<Callable<String>> l = new ArrayList<Callable<String>>();
+      l.add(new StringTask());
+      l.add(new StringTask());
+      String result = invokeAnyImpl(e, l, false, 0);
+      assertSame(TEST_STRING, result);
+    } finally {
+      joinPool(e);
+    }
   }
 
   private static void assertListenerRunImmediately(ListenableFuture<?> future) {

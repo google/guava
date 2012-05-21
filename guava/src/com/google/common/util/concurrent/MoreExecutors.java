@@ -16,21 +16,30 @@
 
 package com.google.common.util.concurrent;
 
+import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.Beta;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Queues;
 
+import java.util.Collection;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
+import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.concurrent.RejectedExecutionException;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeoutException;
 import java.util.concurrent.ThreadPoolExecutor.CallerRunsPolicy;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Condition;
@@ -443,6 +452,7 @@ public final class MoreExecutors {
 
   private static class ScheduledListeningDecorator
       extends ListeningDecorator implements ListeningScheduledExecutorService {
+    @SuppressWarnings("hiding")
     final ScheduledExecutorService delegate;
 
     ScheduledListeningDecorator(ScheduledExecutorService delegate) {
@@ -474,5 +484,105 @@ public final class MoreExecutors {
       return delegate.scheduleWithFixedDelay(
           command, initialDelay, delay, unit);
     }
+  }
+
+  /*
+   * This following method is a modified version of one found in
+   * http://gee.cs.oswego.edu/cgi-bin/viewcvs.cgi/jsr166/src/test/tck/AbstractExecutorServiceTest.java?revision=1.30
+   * which contained the following notice:
+   *
+   * Written by Doug Lea with assistance from members of JCP JSR-166
+   * Expert Group and released to the public domain, as explained at
+   * http://creativecommons.org/publicdomain/zero/1.0/
+   * Other contributors include Andrew Wright, Jeffrey Hayes,
+   * Pat Fisher, Mike Judd.
+   */
+
+  /**
+   * An implementation of {@link ExecutorService#invokeAny} for {@link ListeningExecutorService}
+   * implementations.
+   */
+  static <T> T invokeAnyImpl(ListeningExecutorService executorService,
+      Collection<? extends Callable<T>> tasks, boolean timed, long nanos)
+          throws InterruptedException, ExecutionException, TimeoutException {
+    int ntasks = tasks.size();
+    checkArgument(ntasks > 0);
+    List<Future<T>> futures = Lists.newArrayListWithCapacity(ntasks);
+    BlockingQueue<Future<T>> futureQueue = Queues.newLinkedBlockingQueue();
+
+    // For efficiency, especially in executors with limited
+    // parallelism, check to see if previously submitted tasks are
+    // done before submitting more of them. This interleaving
+    // plus the exception mechanics account for messiness of main
+    // loop.
+
+    try {
+      // Record exceptions so that if we fail to obtain any
+      // result, we can throw the last exception we got.
+      ExecutionException ee = null;
+      long lastTime = timed ? System.nanoTime() : 0;
+      Iterator<? extends Callable<T>> it = tasks.iterator();
+
+      futures.add(submitAndAddQueueListener(executorService, it.next(), futureQueue));
+      --ntasks;
+      int active = 1;
+
+      for (;;) {
+        Future<T> f = futureQueue.poll();
+        if (f == null) {
+          if (ntasks > 0) {
+            --ntasks;
+            futures.add(submitAndAddQueueListener(executorService, it.next(), futureQueue));
+            ++active;
+          } else if (active == 0) {
+            break;
+          } else if (timed) {
+            f = futureQueue.poll(nanos, TimeUnit.NANOSECONDS);
+            if (f == null) {
+              throw new TimeoutException();
+            }
+            long now = System.nanoTime();
+            nanos -= now - lastTime;
+            lastTime = now;
+          } else {
+            f = futureQueue.take();
+          }
+        }
+        if (f != null) {
+          --active;
+          try {
+            return f.get();
+          } catch (ExecutionException eex) {
+            ee = eex;
+          } catch (RuntimeException rex) {
+            ee = new ExecutionException(rex);
+          }
+        }
+      }
+
+      if (ee == null) {
+        ee = new ExecutionException(null);
+      }
+      throw ee;
+    } finally {
+      for (Future<T> f : futures) {
+        f.cancel(true);
+      }
+    }
+  }
+
+  /**
+   * Submits the task and adds a listener that adds the future to {@code queue} when it completes.
+   */
+  private static <T> ListenableFuture<T> submitAndAddQueueListener(
+      ListeningExecutorService executorService, Callable<T> task,
+      final BlockingQueue<Future<T>> queue) {
+    final ListenableFuture<T> future = executorService.submit(task);
+    future.addListener(new Runnable() {
+      @Override public void run() {
+        queue.add(future);
+      }
+    }, MoreExecutors.sameThreadExecutor());
+    return future;
   }
 }
