@@ -16,14 +16,17 @@ package com.google.common.util.concurrent;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
+import com.google.common.collect.Lists;
+import com.google.common.collect.Queues;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Callable;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorCompletionService;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
@@ -57,15 +60,13 @@ abstract class AbstractListeningExecutorService implements ListeningExecutorServ
     return ftask;
   }
 
-  /**
-   * the main mechanics of invokeAny.
-   */
+  /** The main mechanics of invokeAny. */
   private <T> T doInvokeAny(Collection<? extends Callable<T>> tasks, boolean timed, long nanos)
       throws InterruptedException, ExecutionException, TimeoutException {
     int ntasks = tasks.size();
     checkArgument(ntasks > 0);
-    List<Future<T>> futures = new ArrayList<Future<T>>(ntasks);
-    ExecutorCompletionService<T> ecs = new ExecutorCompletionService<T>(this);
+    List<Future<T>> futures = Lists.newArrayListWithCapacity(ntasks);
+    BlockingQueue<Future<T>> futureQueue = Queues.newLinkedBlockingQueue();
 
     // For efficiency, especially in executors with limited
     // parallelism, check to see if previously submitted tasks are
@@ -80,22 +81,21 @@ abstract class AbstractListeningExecutorService implements ListeningExecutorServ
       long lastTime = timed ? System.nanoTime() : 0;
       Iterator<? extends Callable<T>> it = tasks.iterator();
 
-      // Start one task for sure; the rest incrementally
-      futures.add(ecs.submit(it.next()));
+      futures.add(submitAndAddQueueListener(it.next(), futureQueue));
       --ntasks;
       int active = 1;
 
       for (;;) {
-        Future<T> f = ecs.poll();
+        Future<T> f = futureQueue.poll();
         if (f == null) {
           if (ntasks > 0) {
             --ntasks;
-            futures.add(ecs.submit(it.next()));
+            futures.add(submitAndAddQueueListener(it.next(), futureQueue));
             ++active;
           } else if (active == 0) {
             break;
           } else if (timed) {
-            f = ecs.poll(nanos, TimeUnit.NANOSECONDS);
+            f = futureQueue.poll(nanos, TimeUnit.NANOSECONDS);
             if (f == null) {
               throw new TimeoutException();
             }
@@ -103,7 +103,7 @@ abstract class AbstractListeningExecutorService implements ListeningExecutorServ
             nanos -= now - lastTime;
             lastTime = now;
           } else {
-            f = ecs.take();
+            f = futureQueue.take();
           }
         }
         if (f != null) {
@@ -127,6 +127,20 @@ abstract class AbstractListeningExecutorService implements ListeningExecutorServ
         f.cancel(true);
       }
     }
+  }
+
+  /**
+   * Submits the task and adds a listener that adds the future to {@code queue} when it completes.
+   */
+  private <T> ListenableFuture<T> submitAndAddQueueListener(
+      Callable<T> task, final BlockingQueue<Future<T>> queue) {
+    final ListenableFuture<T> future = submit(task);
+    future.addListener(new Runnable() {
+      @Override public void run() {
+        queue.add(future);
+      }
+    }, MoreExecutors.sameThreadExecutor());
+    return future;
   }
 
   @Override public <T> T invokeAny(Collection<? extends Callable<T>> tasks)
