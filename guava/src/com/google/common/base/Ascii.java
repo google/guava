@@ -16,7 +16,6 @@
 
 package com.google.common.base;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 
 /**
@@ -415,7 +414,6 @@ public final class Ascii {
    *
    * @since 9.0 (was type {@code int} before 12.0)
    */
-  @Beta
   public static final char MIN = 0;
 
   /**
@@ -423,7 +421,6 @@ public final class Ascii {
    *
    * @since 9.0 (was type {@code int} before 12.0)
    */
-  @Beta
   public static final char MAX = 127;
 
   /**
