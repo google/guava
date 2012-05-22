@@ -18,6 +18,7 @@ import static java.util.Arrays.asList;
 import static org.junit.contrib.truth.Truth.ASSERT;
 
 import com.google.common.base.Function;
+import com.google.common.collect.Multiset.Entry;
 import com.google.common.collect.testing.MinimalCollection;
 import com.google.common.collect.testing.SetTestSuiteBuilder;
 import com.google.common.collect.testing.TestStringSetGenerator;
@@ -32,6 +33,8 @@ import com.google.common.testing.SerializableTester;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
+
+import org.easymock.EasyMock;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -437,5 +440,33 @@ public class ImmutableSortedMultisetTest extends TestCase {
     assertTrue(copy instanceof ImmutableAsList);
     assertEquals(2, list.indexOf("b"));
     assertEquals(4, list.lastIndexOf("b"));
+  }
+
+  public void testCopyOfDefensiveCopy() {
+    // Test that toArray() is used to make a defensive copy in copyOf(), so concurrently modified
+    // synchronized collections can be safely copied.
+    @SuppressWarnings("unchecked")
+    Collection<String> toCopy = EasyMock.createMock(Collection.class);
+    EasyMock.expect(toCopy.toArray()).andReturn(new Object[0]);
+    EasyMock.replay(toCopy);
+    ImmutableSortedMultiset<String> multiset =
+        ImmutableSortedMultiset.copyOf(Ordering.natural(), toCopy);
+    EasyMock.verify(toCopy);
+  }
+
+  @SuppressWarnings("unchecked")
+  public void testCopyOfSortedDefensiveCopy() {
+    // Test that toArray() is used to make a defensive copy in copyOf(), so concurrently modified
+    // synchronized collections can be safely copied.
+    SortedMultiset<String> toCopy = EasyMock.createMock(SortedMultiset.class);
+    Set<Entry<String>> entrySet = EasyMock.createMock(Set.class);
+    EasyMock.expect((Comparator<Comparable>) toCopy.comparator())
+      .andReturn(Ordering.natural());
+    EasyMock.expect(toCopy.entrySet()).andReturn(entrySet);
+    EasyMock.expect(entrySet.toArray()).andReturn(new Object[0]);
+    EasyMock.replay(toCopy, entrySet);
+    ImmutableSortedMultiset<String> multiset =
+        ImmutableSortedMultiset.copyOfSorted(toCopy);
+    EasyMock.verify(toCopy, entrySet);
   }
 }

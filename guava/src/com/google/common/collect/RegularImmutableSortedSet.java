@@ -198,15 +198,13 @@ final class RegularImmutableSortedSet<E> extends ImmutableSortedSet<E> {
 
   @Override
   ImmutableSortedSet<E> headSetImpl(E toElement, boolean inclusive) {
-    int index;
-    if (inclusive) {
-      index = SortedLists.binarySearch(
-          elements, checkNotNull(toElement), comparator(), FIRST_AFTER, NEXT_HIGHER);
-    } else {
-      index = SortedLists.binarySearch(
-          elements, checkNotNull(toElement), comparator(), FIRST_PRESENT, NEXT_HIGHER);
-    }
-    return createSubset(0, index);
+    return getSubSet(0, headIndex(toElement, inclusive));
+  }
+
+  int headIndex(E toElement, boolean inclusive) {
+    return SortedLists.binarySearch(
+        elements, checkNotNull(toElement), comparator(),
+        inclusive ? FIRST_AFTER : FIRST_PRESENT, NEXT_HIGHER);
   }
 
   @Override
@@ -218,15 +216,15 @@ final class RegularImmutableSortedSet<E> extends ImmutableSortedSet<E> {
 
   @Override
   ImmutableSortedSet<E> tailSetImpl(E fromElement, boolean inclusive) {
-    int index;
-    if (inclusive) {
-      index = SortedLists.binarySearch(
-          elements, checkNotNull(fromElement), comparator(), FIRST_PRESENT, NEXT_HIGHER);
-    } else {
-      index = SortedLists.binarySearch(
-          elements, checkNotNull(fromElement), comparator(), FIRST_AFTER, NEXT_HIGHER);
-    }
-    return createSubset(index, size());
+    return getSubSet(tailIndex(fromElement, inclusive), size());
+  }
+
+  int tailIndex(E fromElement, boolean inclusive) {
+    return SortedLists.binarySearch(
+        elements,
+        checkNotNull(fromElement),
+        comparator(),
+        inclusive ? FIRST_PRESENT : FIRST_AFTER, NEXT_HIGHER);
   }
 
   // Pretend the comparator can compare anything. If it turns out it can't
@@ -237,7 +235,7 @@ final class RegularImmutableSortedSet<E> extends ImmutableSortedSet<E> {
     return (Comparator<Object>) comparator;
   }
 
-  private ImmutableSortedSet<E> createSubset(int newFromIndex, int newToIndex) {
+  ImmutableSortedSet<E> getSubSet(int newFromIndex, int newToIndex) {
     if (newFromIndex == 0 && newToIndex == size()) {
       return this;
     } else if (newFromIndex < newToIndex) {

@@ -28,8 +28,10 @@ import javax.annotation.Nullable;
  */
 @SuppressWarnings("serial") // Uses writeReplace, not default serialization
 final class EmptyImmutableSortedMultiset<E> extends ImmutableSortedMultiset<E> {
+  private final ImmutableSortedSet<E> elementSet;
+
   EmptyImmutableSortedMultiset(Comparator<? super E> comparator) {
-    super(comparator);
+    this.elementSet = ImmutableSortedSet.emptySet(comparator);
   }
 
   @Override
@@ -63,13 +65,8 @@ final class EmptyImmutableSortedMultiset<E> extends ImmutableSortedMultiset<E> {
   }
 
   @Override
-  ImmutableSortedSet<E> createElementSet() {
-    return ImmutableSortedSet.emptySet(comparator());
-  }
-
-  @Override
-  ImmutableSortedSet<E> createDescendingElementSet() {
-    return ImmutableSortedSet.emptySet(reverseComparator());
+  public ImmutableSortedSet<E> elementSet() {
+    return elementSet;
   }
 
   @Override

@@ -26,7 +26,6 @@ final class DescendingImmutableSortedMultiset<E> extends ImmutableSortedMultiset
   private final transient ImmutableSortedMultiset<E> forward;
 
   DescendingImmutableSortedMultiset(ImmutableSortedMultiset<E> forward) {
-    super(forward.reverseComparator());
     this.forward = forward;
   }
 
@@ -51,13 +50,8 @@ final class DescendingImmutableSortedMultiset<E> extends ImmutableSortedMultiset
   }
 
   @Override
-  ImmutableSortedSet<E> createElementSet() {
-    return forward.createDescendingElementSet();
-  }
-
-  @Override
-  ImmutableSortedSet<E> createDescendingElementSet() {
-    return forward.elementSet();
+  public ImmutableSortedSet<E> elementSet() {
+    return forward.elementSet().descendingSet();
   }
 
   @Override
