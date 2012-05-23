@@ -33,6 +33,7 @@ import java.io.Serializable;
  * <a href="http://llimllib.github.com/bloomfilter-tutorial/">tutorial</a> may help you understand
  * how they work.
  *
+ *
  * @param <T> the type of instances that the {@code BloomFilter} accepts
  * @author Dimitris Andreou
  * @author Kevin Bourrillion
@@ -40,13 +41,6 @@ import java.io.Serializable;
  */
 @Beta
 public final class BloomFilter<T> implements Serializable {
-  /*
-   * TODO(user): add this above (when the other serial form is published):
-   * <p>Bloom filters are serializable, but also support a more compact serial
-   * representation via the {} and {} methods. Both serialized forms will continue to
-   * be supported by future versions of this library.
-   */
-
   /**
    * A strategy to translate T instances, to {@code numHashFunctions} bit indexes.
    *
@@ -149,6 +143,19 @@ public final class BloomFilter<T> implements Serializable {
   }
 
   /**
+   * Returns the probability that {@linkplain #mightContain(Object)} will erroneously return
+   * {@code true} for an object that has not actually been put in the {@code BloomFilter}.
+   *
+   * <p>Ideally, this number should be close to the {@code falsePositiveProbability} parameter
+   * passed in {@linkplain #create(Funnel, int, double)}, or smaller. If it is
+   * significantly higher, it is usually the case that too many elements (more than
+   * expected) have been put in the {@code BloomFilter}, degenerating it.
+   */
+  public double expectedFalsePositiveProbability() {
+    return Math.pow((double) bits.bitCount() / bits.size(), numHashFunctions);
+  }
+
+  /**
    * {@inheritDoc}
    *
    * <p>This implementation uses reference equality to compare funnels.
@@ -170,12 +177,6 @@ public final class BloomFilter<T> implements Serializable {
 
   @VisibleForTesting int getHashCount() {
     return numHashFunctions;
-  }
-
-  @VisibleForTesting double computeExpectedFalsePositiveRate(int insertions) {
-    return Math.pow(
-        1 - Math.exp(-numHashFunctions * ((double) insertions / (bits.size()))),
-        numHashFunctions);
   }
 
   /**

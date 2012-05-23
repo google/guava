@@ -90,6 +90,20 @@ public class BloomFilterTest extends TestCase {
     assertEquals(original, copy);
   }
 
+  public void testExpectedFalsePositiveProbability() {
+    BloomFilter<Object> bf = BloomFilter.create(HashTestUtils.BAD_FUNNEL, 10, 0.03);
+    double fpp = bf.expectedFalsePositiveProbability();
+    assertEquals(0.0, fpp);
+    // usually completed in less than 200 iterations
+    while (fpp != 1.0) {
+      boolean changed = bf.put(new Object());
+      double newFpp = bf.expectedFalsePositiveProbability();
+      // if changed, the new fpp is strictly higher, otherwise it is the same
+      assertTrue(changed ? newFpp > fpp : newFpp == fpp);
+      fpp = newFpp;
+    }
+  }
+
   public void testEquals_empty() {
     new EqualsTester()
         .addEqualityGroup(BloomFilter.create(Funnels.byteArrayFunnel(), 100, 0.01))
@@ -142,10 +156,11 @@ public class BloomFilterTest extends TestCase {
       bf.put(Ints.toByteArray(i));
     }
 
-    bf = SerializableTester.reserialize(bf);
+    BloomFilter<byte[]> copy = SerializableTester.reserialize(bf);
     for (int i = 0; i < 10; i++) {
-      assertTrue(bf.mightContain(Ints.toByteArray(i)));
+      assertTrue(copy.mightContain(Ints.toByteArray(i)));
     }
+    assertEquals(bf.expectedFalsePositiveProbability(), copy.expectedFalsePositiveProbability());
   }
 
   /**
