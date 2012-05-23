@@ -26,7 +26,6 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Ascii;
 import com.google.common.base.Equivalence;
-import com.google.common.base.Equivalences;
 import com.google.common.base.Objects;
 import com.google.common.base.Supplier;
 import com.google.common.base.Suppliers;
@@ -286,8 +285,8 @@ public final class CacheBuilder<K, V> {
   /**
    * Sets a custom {@code Equivalence} strategy for comparing keys.
    *
-   * <p>By default, the cache uses {@link Equivalences#identity} to determine key equality when
-   * {@link #weakKeys} is specified, and {@link Equivalences#equals()} otherwise.
+   * <p>By default, the cache uses {@link Equivalence#identity} to determine key equality when
+   * {@link #weakKeys} is specified, and {@link Equivalence#equals()} otherwise.
    */
   CacheBuilder<K, V> keyEquivalence(Equivalence<Object> equivalence) {
     checkState(keyEquivalence == null, "key equivalence was already set to %s", keyEquivalence);
@@ -302,8 +301,8 @@ public final class CacheBuilder<K, V> {
   /**
    * Sets a custom {@code Equivalence} strategy for comparing values.
    *
-   * <p>By default, the cache uses {@link Equivalences#identity} to determine value equality when
-   * {@link #weakValues} or {@link #softValues} is specified, and {@link Equivalences#equals()}
+   * <p>By default, the cache uses {@link Equivalence#identity} to determine value equality when
+   * {@link #weakValues} or {@link #softValues} is specified, and {@link Equivalence#equals()}
    * otherwise.
    */
   CacheBuilder<K, V> valueEquivalence(Equivalence<Object> equivalence) {

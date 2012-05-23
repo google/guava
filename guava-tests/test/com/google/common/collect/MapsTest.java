@@ -23,7 +23,6 @@ import static org.junit.contrib.truth.Truth.ASSERT;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Equivalence;
-import com.google.common.base.Equivalences;
 import com.google.common.base.Function;
 import com.google.common.base.Functions;
 import com.google.common.base.Predicate;
@@ -332,7 +331,7 @@ public class MapsTest extends TestCase {
     NullPointerTester tester = new NullPointerTester();
     tester.setDefault(BiMap.class, ImmutableBiMap.of());
     tester.setDefault(EntryTransformer.class, ALWAYS_NULL);
-    tester.setDefault(Equivalence.class, Equivalences.equals());
+    tester.setDefault(Equivalence.class, Equivalence.equals());
     tester.setDefault(SortedMap.class, Maps.newTreeMap());
     tester.testAllPublicStaticMethods(Maps.class);
   }
@@ -438,7 +437,7 @@ public class MapsTest extends TestCase {
 
     // TODO(kevinb): replace with Ascii.caseInsensitiveEquivalence() when it
     // exists
-    Equivalence<String> caseInsensitiveEquivalence = Equivalences.equals().onResultOf(
+    Equivalence<String> caseInsensitiveEquivalence = Equivalence.equals().onResultOf(
         new Function<String, String>() {
           @Override public String apply(String input) {
             return input.toLowerCase();

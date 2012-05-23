@@ -23,7 +23,6 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Ascii;
 import com.google.common.base.Equivalence;
-import com.google.common.base.Equivalences;
 import com.google.common.base.Function;
 import com.google.common.base.Objects;
 import com.google.common.base.Ticker;
@@ -150,8 +149,8 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
   /**
    * Sets a custom {@code Equivalence} strategy for comparing keys.
    *
-   * <p>By default, the map uses {@link Equivalences#identity} to determine key equality when
-   * {@link #weakKeys} or {@link #softKeys} is specified, and {@link Equivalences#equals()}
+   * <p>By default, the map uses {@link Equivalence#identity} to determine key equality when
+   * {@link #weakKeys} or {@link #softKeys} is specified, and {@link Equivalence#equals()}
    * otherwise.
    */
   @GwtIncompatible("To be supported")
@@ -170,8 +169,8 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
   /**
    * Sets a custom {@code Equivalence} strategy for comparing values.
    *
-   * <p>By default, the map uses {@link Equivalences#identity} to determine value equality when
-   * {@link #weakValues} or {@link #softValues} is specified, and {@link Equivalences#equals()}
+   * <p>By default, the map uses {@link Equivalence#identity} to determine value equality when
+   * {@link #weakValues} or {@link #softValues} is specified, and {@link Equivalence#equals()}
    * otherwise.
    */
   @GwtIncompatible("To be supported")

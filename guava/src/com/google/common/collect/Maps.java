@@ -23,7 +23,6 @@ import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Equivalence;
-import com.google.common.base.Equivalences;
 import com.google.common.base.Function;
 import com.google.common.base.Joiner.MapJoiner;
 import com.google.common.base.Objects;
@@ -300,7 +299,7 @@ public final class Maps {
       SortedMapDifference<K, V> result = difference(sortedLeft, right);
       return result;
     }
-    return difference(left, right, Equivalences.equals());
+    return difference(left, right, Equivalence.equals());
   }
 
   /**
@@ -2080,7 +2079,7 @@ public final class Maps {
    * implementation.
    */
   @GwtCompatible
-  static abstract class ImprovedAbstractMap<K, V> extends AbstractMap<K, V> {
+  abstract static class ImprovedAbstractMap<K, V> extends AbstractMap<K, V> {
     /**
      * Creates the entry set to be returned by {@link #entrySet()}. This method
      * is invoked at most once on a given map, at the time when {@code entrySet}
@@ -2572,7 +2571,7 @@ public final class Maps {
   }
 
   @GwtIncompatible("NavigableMap")
-  static abstract class DescendingMap<K, V> extends ForwardingMap<K, V>
+  abstract static class DescendingMap<K, V> extends ForwardingMap<K, V>
       implements NavigableMap<K, V> {
 
     abstract NavigableMap<K, V> forward();

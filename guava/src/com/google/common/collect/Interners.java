@@ -18,7 +18,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
-import com.google.common.base.Equivalences;
+import com.google.common.base.Equivalence;
 import com.google.common.base.Function;
 import com.google.common.collect.MapMakerInternalMap.ReferenceEntry;
 
@@ -67,7 +67,7 @@ public final class Interners {
     // MapMaker is our friend, we know about this type
     private final MapMakerInternalMap<E, Dummy> map = new MapMaker()
           .weakKeys()
-          .keyEquivalence(Equivalences.equals())
+          .keyEquivalence(Equivalence.equals())
           .makeCustomMap();
 
     @Override public E intern(E sample) {

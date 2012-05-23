@@ -25,7 +25,6 @@ import static java.util.concurrent.TimeUnit.NANOSECONDS;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Equivalence;
-import com.google.common.base.Equivalences;
 import com.google.common.base.Stopwatch;
 import com.google.common.base.Ticker;
 import com.google.common.cache.AbstractCache.SimpleStatsCounter;
@@ -385,7 +384,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
 
       @Override
       Equivalence<Object> defaultEquivalence() {
-        return Equivalences.equals();
+        return Equivalence.equals();
       }
     },
 
@@ -401,7 +400,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
 
       @Override
       Equivalence<Object> defaultEquivalence() {
-        return Equivalences.identity();
+        return Equivalence.identity();
       }
     },
 
@@ -417,7 +416,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
 
       @Override
       Equivalence<Object> defaultEquivalence() {
-        return Equivalences.identity();
+        return Equivalence.identity();
       }
     };
 

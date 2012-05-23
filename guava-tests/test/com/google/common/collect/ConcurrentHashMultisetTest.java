@@ -26,7 +26,7 @@ import static org.easymock.EasyMock.eq;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.isA;
 
-import com.google.common.base.Equivalences;
+import com.google.common.base.Equivalence;
 import com.google.common.collect.MapMaker.RemovalListener;
 import com.google.common.collect.MapMaker.RemovalNotification;
 import com.google.common.collect.Multiset.Entry;
@@ -357,7 +357,7 @@ public class ConcurrentHashMultisetTest extends TestCase {
 
     MapMaker mapMaker = new MapMaker()
         .setKeyStrength(keyStrength)
-        .keyEquivalence(Equivalences.identity());
+        .keyEquivalence(Equivalence.identity());
 
     ConcurrentHashMultiset<String> multiset =
         ConcurrentHashMultiset.create(mapMaker);
@@ -400,7 +400,7 @@ public class ConcurrentHashMultisetTest extends TestCase {
 
     MapMaker mapMaker = new MapMaker()
         .setKeyStrength(keyStrength)
-        .keyEquivalence(Equivalences.equals());
+        .keyEquivalence(Equivalence.equals());
 
     ConcurrentHashMultiset<String> multiset =
         ConcurrentHashMultiset.create(mapMaker);
@@ -446,7 +446,7 @@ public class ConcurrentHashMultisetTest extends TestCase {
 
   public void testSerializationWithMapMaker_preservesIdentityKeyEquivalence() {
     MapMaker mapMaker = new MapMaker()
-        .keyEquivalence(Equivalences.identity());
+        .keyEquivalence(Equivalence.identity());
 
     ConcurrentHashMultiset<String> multiset =
         ConcurrentHashMultiset.create(mapMaker);

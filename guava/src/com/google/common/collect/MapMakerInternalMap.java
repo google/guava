@@ -19,7 +19,6 @@ import static com.google.common.base.Preconditions.checkState;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Equivalence;
-import com.google.common.base.Equivalences;
 import com.google.common.base.Ticker;
 import com.google.common.collect.GenericMapMaker.NullListener;
 import com.google.common.collect.MapMaker.RemovalCause;
@@ -302,7 +301,7 @@ class MapMakerInternalMap<K, V>
 
       @Override
       Equivalence<Object> defaultEquivalence() {
-        return Equivalences.equals();
+        return Equivalence.equals();
       }
     },
 
@@ -315,7 +314,7 @@ class MapMakerInternalMap<K, V>
 
       @Override
       Equivalence<Object> defaultEquivalence() {
-        return Equivalences.identity();
+        return Equivalence.identity();
       }
     },
 
@@ -328,7 +327,7 @@ class MapMakerInternalMap<K, V>
 
       @Override
       Equivalence<Object> defaultEquivalence() {
-        return Equivalences.identity();
+        return Equivalence.identity();
       }
     };
 
@@ -835,7 +834,7 @@ class MapMakerInternalMap<K, V>
     public void setPreviousEvictable(ReferenceEntry<Object, Object> previous) {}
   }
 
-  static abstract class AbstractReferenceEntry<K, V> implements ReferenceEntry<K, V> {
+  abstract static class AbstractReferenceEntry<K, V> implements ReferenceEntry<K, V> {
     @Override
     public ValueReference<K, V> getValueReference() {
       throw new UnsupportedOperationException();
@@ -3540,7 +3539,7 @@ class MapMakerInternalMap<K, V>
     // such that none of the subsequent iterations observed it, despite the fact that at every point
     // in time it was present somewhere int the map. This becomes increasingly unlikely as
     // CONTAINS_VALUE_RETRIES increases, though without locking it is theoretically possible.
-    final Segment<K,V>[] segments = this.segments;
+    final Segment<K, V>[] segments = this.segments;
     long last = -1L;
     for (int i = 0; i < CONTAINS_VALUE_RETRIES; i++) {
       long sum = 0L;
@@ -3550,7 +3549,7 @@ class MapMakerInternalMap<K, V>
         int c = segment.count; // read-volatile
 
         AtomicReferenceArray<ReferenceEntry<K, V>> table = segment.table;
-        for (int j = 0 ; j < table.length(); j++) {
+        for (int j = 0; j < table.length(); j++) {
           for (ReferenceEntry<K, V> e = table.get(j); e != null; e = e.getNext()) {
             V v = segment.getLiveValue(e);
             if (v != null && valueEquivalence.equivalent(value, v)) {
