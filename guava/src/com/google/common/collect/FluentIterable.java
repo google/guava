@@ -16,12 +16,13 @@
 
 package com.google.common.collect;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Function;
 import com.google.common.base.Optional;
-import com.google.common.base.Preconditions;
 import com.google.common.base.Predicate;
 
 import java.util.Comparator;
@@ -77,7 +78,7 @@ public abstract class FluentIterable<E> implements Iterable<E> {
   }
 
   FluentIterable(Iterable<E> iterable) {
-    this.iterable = Preconditions.checkNotNull(iterable);
+    this.iterable = checkNotNull(iterable);
   }
 
   /**
@@ -104,7 +105,7 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    */
   @Deprecated
   public static <E> FluentIterable<E> from(FluentIterable<E> iterable) {
-    return Preconditions.checkNotNull(iterable);
+    return checkNotNull(iterable);
   }
 
   /**
