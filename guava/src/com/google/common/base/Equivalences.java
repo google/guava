@@ -42,8 +42,10 @@ public final class Equivalences {
    *
    * @since 8.0 (present null-friendly behavior)
    * @since 4.0 (otherwise)
+   * @deprecated This method has been moved to {@link Equivalence#equals}. This method is scheduled
+   *     to be removed in Guava release 14.0.
    */
-  // TODO(user): Deprecate this method. See b/6512852
+  @Deprecated
   public static Equivalence<Object> equals() {
     return Equivalence.Equals.INSTANCE;
   }
@@ -52,8 +54,11 @@ public final class Equivalences {
    * Returns an equivalence that uses {@code ==} to compare values and {@link
    * System#identityHashCode(Object)} to compute the hash code.  {@link Equivalence#equivalent}
    * returns {@code true} if {@code a == b}, including in the case that a and b are both null.
+   *
+   * @deprecated This method has been moved to {@link Equivalence#identity}. This method is schedule
+   *     to be removed in Guava release 14.0.
    */
-  // TODO(user): Deprecate this method. See b/6512852
+  @Deprecated
   public static Equivalence<Object> identity() {
     return Equivalence.Identity.INSTANCE;
   }
