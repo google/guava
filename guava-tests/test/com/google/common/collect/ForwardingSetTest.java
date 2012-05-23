@@ -104,7 +104,7 @@ public class ForwardingSetTest extends ForwardingTestCase {
 
   Set<String> forward;
   
-  public static Test suite(){
+  public static Test suite() {
     TestSuite suite = new TestSuite();
     
     suite.addTestSuite(ForwardingSetTest.class);

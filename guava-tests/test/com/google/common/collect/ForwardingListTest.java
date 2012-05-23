@@ -137,7 +137,7 @@ public class ForwardingListTest extends ForwardingTestCase {
 
   private List<String> forward;
 
-  public static Test suite(){
+  public static Test suite() {
     TestSuite suite = new TestSuite();
     
     suite.addTestSuite(ForwardingListTest.class);

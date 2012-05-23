@@ -238,7 +238,7 @@ public final class ArrayTable<R, C, V> implements Table<R, C, V>, Serializable {
           return new AbstractIndexedListIterator<Entry<K, V>>(size()) {
             @Override
             protected Entry<K, V> get(final int index) {
-              return new AbstractMapEntry<K, V>(){
+              return new AbstractMapEntry<K, V>() {
                 @Override
                 public K getKey() {
                   return ArrayMap.this.getKey(index);

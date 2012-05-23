@@ -187,7 +187,7 @@ public abstract class ForwardingList<E> extends ForwardingCollection<E>
    *
    * @since 7.0
    */
-  @Beta protected ListIterator<E> standardListIterator(){
+  @Beta protected ListIterator<E> standardListIterator() {
     return listIterator(0);
   }
 

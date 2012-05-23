@@ -98,7 +98,7 @@ final class EmptyImmutableList extends ImmutableList<Object> {
     return this;
   }
 
-  @Override public UnmodifiableListIterator<Object> listIterator(){
+  @Override public UnmodifiableListIterator<Object> listIterator() {
     return Iterators.EMPTY_LIST_ITERATOR;
   }
 

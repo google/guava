@@ -61,7 +61,7 @@ public class DoubleMathTest extends TestCase {
   private static final BigDecimal MAX_LONG_AS_BIG_DECIMAL = BigDecimal.valueOf(Long.MAX_VALUE);
   private static final BigDecimal MIN_LONG_AS_BIG_DECIMAL = BigDecimal.valueOf(Long.MIN_VALUE);
 
-  public void testConstantsMaxFactorial(){
+  public void testConstantsMaxFactorial() {
     BigInteger MAX_DOUBLE_VALUE = BigDecimal.valueOf(Double.MAX_VALUE).toBigInteger();
     assertTrue(BigIntegerMath.factorial(DoubleMath.MAX_FACTORIAL).compareTo(MAX_DOUBLE_VALUE) <= 0);
     assertTrue(
@@ -414,7 +414,7 @@ public class DoubleMathTest extends TestCase {
     }
   }
 
-  public void testLog2SemiMonotonic(){
+  public void testLog2SemiMonotonic() {
     for (double d : POSITIVE_FINITE_DOUBLE_CANDIDATES) {
       assertTrue(DoubleMath.log2(d + 0.01) >= DoubleMath.log2(d));
     }

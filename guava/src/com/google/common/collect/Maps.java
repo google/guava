@@ -2116,7 +2116,7 @@ public final class Maps {
     @Override public Collection<V> values() {
       Collection<V> result = values;
       if (result == null) {
-        return values = new Values<K, V>(){
+        return values = new Values<K, V>() {
           @Override Map<K, V> map() {
             return ImprovedAbstractMap.this;
           }

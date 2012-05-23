@@ -46,7 +46,7 @@ public class CountTest extends TestCase {
     assertEquals(20, holder.get());
   }
   
-  public void testSet(){
+  public void testSet() {
     Count holder = new Count(10);
     holder.set(20);
     assertEquals(20, holder.get());

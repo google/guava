@@ -46,7 +46,7 @@ import java.util.SortedMap;
 @GwtCompatible(emulated = true)
 public class TreeBasedTableTest extends AbstractTableTest {
   @GwtIncompatible("suite")
-  public static Test suite(){
+  public static Test suite() {
     TestSuite suite = new TestSuite();
     suite.addTestSuite(TreeBasedTableTest.class);
     suite.addTestSuite(TreeRowTest.class);
@@ -314,7 +314,7 @@ public class TreeBasedTableTest extends AbstractTableTest {
     assertEquals(ImmutableSet.of("bar", "foo"), sortedTable.rowKeySet());
   }
 
-  public void testRowMapValuesAreSorted(){
+  public void testRowMapValuesAreSorted() {
     sortedTable = create(
         "foo", 1, 'a', "bar", 1, 'b', "foo", 3, 'c', "dog", 2, 'd');
     assertTrue(sortedTable.rowMap().get("foo") instanceof SortedMap);
@@ -378,7 +378,7 @@ public class TreeBasedTableTest extends AbstractTableTest {
     assertEquals("[1]", table.columnKeySet().toString());
   }
 
-  public void testRowEntrySetContains(){
+  public void testRowEntrySetContains() {
     table =
         sortedTable =
             create("a", 2, 'X', "a", 2, 'X', "b", 3, 'X', "b", 2, 'X', "c", 10,
@@ -395,7 +395,7 @@ public class TreeBasedTableTest extends AbstractTableTest {
     assertFalse(entrySet.contains(Maps.immutableEntry(15, 'X')));
   }
 
-  public void testRowEntrySetRemove(){
+  public void testRowEntrySetRemove() {
     table =
         sortedTable =
             create("a", 2, 'X', "a", 2, 'X', "b", 3, 'X', "b", 2, 'X', "c", 10,
@@ -412,7 +412,7 @@ public class TreeBasedTableTest extends AbstractTableTest {
     assertFalse(entrySet.remove(Maps.immutableEntry(15, 'X')));
   }
 
-  public void testRowSize(){
+  public void testRowSize() {
     table =
         sortedTable =
             create("a", 2, 'X', "a", 2, 'X', "b", 3, 'X', "b", 2, 'X', "c", 10,

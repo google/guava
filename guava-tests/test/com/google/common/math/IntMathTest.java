@@ -69,7 +69,7 @@ public class IntMathTest extends TestCase {
   }
 
   @GwtIncompatible("BigIntegerMath") // TODO(cpovirk): GWT-enable BigIntegerMath
-  public void testConstantsBiggestBinomials(){
+  public void testConstantsBiggestBinomials() {
     for (int k = 0; k < IntMath.BIGGEST_BINOMIALS.length; k++) {
       assertTrue(fitsInInt(BigIntegerMath.binomial(IntMath.BIGGEST_BINOMIALS[k], k)));
       assertTrue(IntMath.BIGGEST_BINOMIALS[k] == Integer.MAX_VALUE

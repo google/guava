@@ -102,7 +102,7 @@ public class ForwardingSortedSetTest extends ForwardingSetTest {
     }
   }
   
-  public static Test suite(){
+  public static Test suite() {
     TestSuite suite = new TestSuite();
     
     suite.addTestSuite(ForwardingSortedSetTest.class);

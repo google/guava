@@ -325,7 +325,7 @@ public class AbstractScheduledServiceTest extends TestCase {
     public void testBig() throws Exception {
       TestAbstractScheduledCustomService service = new TestAbstractScheduledCustomService() {
         @Override protected Scheduler scheduler() {
-          return new AbstractScheduledService.CustomScheduler(){
+          return new AbstractScheduledService.CustomScheduler() {
             @Override
             protected Schedule getNextSchedule() throws Exception {
               // Explicitly yield to increase the probability of a pathological scheduling.

@@ -417,7 +417,7 @@ public abstract class ImmutableMultimap<K, V>
     throw new UnsupportedOperationException();
   }
 
-  boolean isPartialView(){
+  boolean isPartialView() {
     return map.isPartialView();
   }
 

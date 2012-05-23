@@ -216,7 +216,7 @@ public class MultisetsTest extends TestCase {
   }
 
   @SuppressWarnings("deprecation")
-  public void testUnmodifiableMultisetShortCircuit(){
+  public void testUnmodifiableMultisetShortCircuit() {
     Multiset<String> mod = HashMultiset.create();
     Multiset<String> unmod = Multisets.unmodifiableMultiset(mod);
     assertNotSame(mod, unmod);

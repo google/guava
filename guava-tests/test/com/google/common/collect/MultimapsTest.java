@@ -80,7 +80,7 @@ public class MultimapsTest extends AbstractMultimapTest {
   }
 
   @SuppressWarnings("deprecation")
-  public void testUnmodifiableListMultimapShortCircuit(){
+  public void testUnmodifiableListMultimapShortCircuit() {
     ListMultimap<String, Integer> mod = ArrayListMultimap.create();
     ListMultimap<String, Integer> unmod = Multimaps.unmodifiableListMultimap(mod);
     assertNotSame(mod, unmod);
@@ -93,7 +93,7 @@ public class MultimapsTest extends AbstractMultimapTest {
   }
 
   @SuppressWarnings("deprecation")
-  public void testUnmodifiableSetMultimapShortCircuit(){
+  public void testUnmodifiableSetMultimapShortCircuit() {
     SetMultimap<String, Integer> mod = HashMultimap.create();
     SetMultimap<String, Integer> unmod = Multimaps.unmodifiableSetMultimap(mod);
     assertNotSame(mod, unmod);
@@ -106,7 +106,7 @@ public class MultimapsTest extends AbstractMultimapTest {
   }
 
   @SuppressWarnings("deprecation")
-  public void testUnmodifiableMultimapShortCircuit(){
+  public void testUnmodifiableMultimapShortCircuit() {
     Multimap<String, Integer> mod = HashMultimap.create();
     Multimap<String, Integer> unmod = Multimaps.unmodifiableMultimap(mod);
     assertNotSame(mod, unmod);
