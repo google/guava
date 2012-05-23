@@ -74,7 +74,7 @@ import javax.annotation.Nullable;
  */
 @GwtCompatible(serializable = true, emulated = true)
 public final class LinkedHashMultimap<K, V> extends AbstractSetMultimap<K, V> {
-  private static final int DEFAULT_VALUES_PER_KEY = 8;
+  private static final int DEFAULT_VALUES_PER_KEY = 2;
 
   @VisibleForTesting
   transient int expectedValuesPerKey = DEFAULT_VALUES_PER_KEY;
