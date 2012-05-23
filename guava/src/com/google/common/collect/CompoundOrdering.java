@@ -20,7 +20,6 @@ import com.google.common.annotations.GwtCompatible;
 
 import java.io.Serializable;
 import java.util.Comparator;
-import java.util.List;
 
 /** An ordering that tries several comparators in order. */
 @GwtCompatible(serializable = true)
@@ -35,12 +34,6 @@ final class CompoundOrdering<T> extends Ordering<T> implements Serializable {
 
   CompoundOrdering(Iterable<? extends Comparator<? super T>> comparators) {
     this.comparators = ImmutableList.copyOf(comparators);
-  }
-
-  CompoundOrdering(List<? extends Comparator<? super T>> comparators,
-      Comparator<? super T> lastComparator) {
-    this.comparators = new ImmutableList.Builder<Comparator<? super T>>()
-        .addAll(comparators).add(lastComparator).build();
   }
 
   @Override public int compare(T left, T right) {
