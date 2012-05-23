@@ -39,9 +39,9 @@ import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeoutException;
 import java.util.concurrent.ThreadPoolExecutor.CallerRunsPolicy;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -501,8 +501,7 @@ public final class MoreExecutors {
   /**
    * An implementation of {@link ExecutorService#invokeAny} for {@link ListeningExecutorService}
    * implementations.
-   */
-  static <T> T invokeAnyImpl(ListeningExecutorService executorService,
+   */ static <T> T invokeAnyImpl(ListeningExecutorService executorService,
       Collection<? extends Callable<T>> tasks, boolean timed, long nanos)
           throws InterruptedException, ExecutionException, TimeoutException {
     int ntasks = tasks.size();
