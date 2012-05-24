@@ -42,23 +42,24 @@ final class Murmur3_32HashFunction extends AbstractStreamingHashFunction impleme
   }
 
   private static final class Murmur3_32Hasher extends AbstractStreamingHasher {
-    int h1;
-    int c1 = 0xcc9e2d51;
-    int c2 = 0x1b873593;
-    int len;
+    private static final int CHUNK_SIZE = 4;
+    private static final int C1 = 0xcc9e2d51;
+    private static final int C2 = 0x1b873593;
+    private int h1;
+    private int len;
 
     Murmur3_32Hasher(int seed) {
-      super(4);
+      super(CHUNK_SIZE);
       h1 = seed;
     }
 
     @Override protected void process(ByteBuffer bb) {
       int k1 = bb.getInt();
-      len += 4;
+      len += CHUNK_SIZE;
 
-      k1 *= c1;
+      k1 *= C1;
       k1 = Integer.rotateLeft(k1, 15);
-      k1 *= c2;
+      k1 *= C2;
 
       h1 ^= k1;
       h1 = Integer.rotateLeft(h1, 13);
@@ -79,9 +80,9 @@ final class Murmur3_32HashFunction extends AbstractStreamingHashFunction impleme
           k1 ^= toInt(bb.get(0));
           // fall through
         default:
-          k1 *= c1;
+          k1 *= C1;
           k1 = Integer.rotateLeft(k1, 15);
-          k1 *= c2;
+          k1 *= C2;
           h1 ^= k1;
       }
     }
