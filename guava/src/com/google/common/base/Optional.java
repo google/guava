@@ -69,7 +69,6 @@ import javax.annotation.Nullable;
  * @author Kevin Bourrillion
  * @since 10.0
  */
-@Beta
 @GwtCompatible(serializable = true)
 public abstract class Optional<T> implements Serializable {
   /**
@@ -181,6 +180,7 @@ public abstract class Optional<T> implements Serializable {
    *
    * @since 12.0
    */
+  @Beta
   public abstract <V> Optional<V> transform(Function<? super T, V> function);
 
   /**
@@ -209,6 +209,7 @@ public abstract class Optional<T> implements Serializable {
    *
    * @since 11.0
    */
+  @Beta
   public static <T> Iterable<T> presentInstances(final Iterable<Optional<T>> optionals) {
     checkNotNull(optionals);
     return new Iterable<T>() {
