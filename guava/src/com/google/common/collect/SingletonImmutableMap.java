@@ -35,23 +35,13 @@ final class SingletonImmutableMap<K, V> extends ImmutableMap<K, V> {
   final transient K singleKey;
   final transient V singleValue;
 
-  private transient Entry<K, V> entry;
-
   SingletonImmutableMap(K singleKey, V singleValue) {
     this.singleKey = singleKey;
     this.singleValue = singleValue;
   }
 
   SingletonImmutableMap(Entry<K, V> entry) {
-    this.entry = entry;
-    this.singleKey = entry.getKey();
-    this.singleValue = entry.getValue();
-  }
-
-  private Entry<K, V> entry() {
-    Entry<K, V> e = entry;
-    return (e == null)
-        ? (entry = Maps.immutableEntry(singleKey, singleValue)) : e;
+    this(entry.getKey(), entry.getValue());
   }
 
   @Override public V get(@Nullable Object key) {
@@ -81,7 +71,7 @@ final class SingletonImmutableMap<K, V> extends ImmutableMap<K, V> {
 
   @Override
   ImmutableSet<Entry<K, V>> createEntrySet() {
-    return ImmutableSet.of(entry());
+    return ImmutableSet.of(Maps.immutableEntry(singleKey, singleValue));
   }
 
   @Override
@@ -100,27 +90,16 @@ final class SingletonImmutableMap<K, V> extends ImmutableMap<K, V> {
     }
     if (object instanceof Map) {
       Map<?, ?> that = (Map<?, ?>) object;
-      if (that.size() != 1) {
-        return false;
+      if (that.size() == 1) {
+        Entry<?, ?> entry = that.entrySet().iterator().next();
+        return singleKey.equals(entry.getKey())
+            && singleValue.equals(entry.getValue());
       }
-      Entry<?, ?> entry = that.entrySet().iterator().next();
-      return singleKey.equals(entry.getKey())
-          && singleValue.equals(entry.getValue());
     }
     return false;
   }
 
   @Override public int hashCode() {
     return singleKey.hashCode() ^ singleValue.hashCode();
-  }
-
-  @Override public String toString() {
-    return new StringBuilder()
-        .append('{')
-        .append(singleKey.toString())
-        .append('=')
-        .append(singleValue.toString())
-        .append('}')
-        .toString();
   }
 }
