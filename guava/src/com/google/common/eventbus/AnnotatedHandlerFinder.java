@@ -17,13 +17,10 @@
 package com.google.common.eventbus;
 
 import com.google.common.collect.HashMultimap;
-import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
-import com.google.common.collect.Sets;
+import com.google.common.reflect.TypeToken;
 
 import java.lang.reflect.Method;
-import java.util.Arrays;
-import java.util.Queue;
 import java.util.Set;
 
 /**
@@ -34,27 +31,6 @@ import java.util.Set;
  * @author Louis Wasserman
  */
 class AnnotatedHandlerFinder implements HandlerFindingStrategy {
-
-  /**
-   * Returns all interfaces implemented by the class and all superclasses: all Classes that this is
-   * assignable to.
-   */
-  static Set<Class<?>> getAllSuperclasses(Class<?> clazz) {
-    Queue<Class<?>> queue = Lists.newLinkedList();
-    Set<Class<?>> supers = Sets.newHashSet();
-    queue.add(clazz);
-    while (!queue.isEmpty()) {
-      Class<?> c = queue.poll();
-      if (supers.add(c)) {
-        queue.addAll(Arrays.asList(c.getInterfaces()));
-        if (c.getSuperclass() != null) {
-          queue.add(c.getSuperclass());
-        }
-      }
-    }
-    return supers;
-  }
-
   /**
    * {@inheritDoc}
    *
@@ -64,7 +40,7 @@ class AnnotatedHandlerFinder implements HandlerFindingStrategy {
   public Multimap<Class<?>, EventHandler> findAllHandlers(Object listener) {
     Multimap<Class<?>, EventHandler> methodsInListener = HashMultimap.create();
     Class<?> clazz = listener.getClass();
-    Set<Class<?>> supers = getAllSuperclasses(clazz);
+    Set<? extends Class<?>> supers = TypeToken.of(clazz).getTypes().rawTypes();
 
     for (Method method : clazz.getMethods()) {
       /*
