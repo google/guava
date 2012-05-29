@@ -110,6 +110,25 @@ public class UnsignedLongsTest extends TestCase {
     assertTrue(overflowCaught);
   }
 
+  public void testDecodeLong() {
+    assertEquals(0xffffffffffffffffL, UnsignedLongs.decode("0xffffffffffffffff"));
+    assertEquals(01234567, UnsignedLongs.decode("01234567")); //octal
+    assertEquals(0x1234567890abcdefL, UnsignedLongs.decode("#1234567890abcdef"));
+    assertEquals(987654321012345678L, UnsignedLongs.decode("987654321012345678"));
+    assertEquals(0x135791357913579L, UnsignedLongs.decode("0x135791357913579"));
+    assertEquals(0x135791357913579L, UnsignedLongs.decode("0X135791357913579"));
+    assertEquals(0L, UnsignedLongs.decode("0"));
+
+    boolean overflowCaught = false;
+    try {
+      // One more than maximum value
+      UnsignedLongs.parseUnsignedLong("0xfffffffffffffffff");
+      fail();
+    } catch (NumberFormatException e) {
+      // Expected
+    }
+  }
+
   public void testParseLongWithRadix() throws NumberFormatException {
     assertEquals(0xffffffffffffffffL, UnsignedLongs.parseUnsignedLong("ffffffffffffffff", 16));
     assertEquals(0x1234567890abcdefL, UnsignedLongs.parseUnsignedLong("1234567890abcdef", 16));
