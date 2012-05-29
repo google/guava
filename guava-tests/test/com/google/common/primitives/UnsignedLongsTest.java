@@ -36,23 +36,23 @@ public class UnsignedLongsTest extends TestCase {
 
   public void testCompare() {
     // max value
-    assertTrue((UnsignedLongs.compare(0, 0xffffffffffffffffL) < 0));
-    assertTrue((UnsignedLongs.compare(0xffffffffffffffffL, 0) > 0));
+    assertTrue(UnsignedLongs.compare(0, 0xffffffffffffffffL) < 0);
+    assertTrue(UnsignedLongs.compare(0xffffffffffffffffL, 0) > 0);
 
     // both with high bit set
-    assertTrue((UnsignedLongs.compare(0xff1a618b7f65ea12L, 0xffffffffffffffffL) < 0));
-    assertTrue((UnsignedLongs.compare(0xffffffffffffffffL, 0xff1a618b7f65ea12L) > 0));
+    assertTrue(UnsignedLongs.compare(0xff1a618b7f65ea12L, 0xffffffffffffffffL) < 0);
+    assertTrue(UnsignedLongs.compare(0xffffffffffffffffL, 0xff1a618b7f65ea12L) > 0);
 
     // one with high bit set
-    assertTrue((UnsignedLongs.compare(0x5a4316b8c153ac4dL, 0xff1a618b7f65ea12L) < 0));
-    assertTrue((UnsignedLongs.compare(0xff1a618b7f65ea12L, 0x5a4316b8c153ac4dL) > 0));
+    assertTrue(UnsignedLongs.compare(0x5a4316b8c153ac4dL, 0xff1a618b7f65ea12L) < 0);
+    assertTrue(UnsignedLongs.compare(0xff1a618b7f65ea12L, 0x5a4316b8c153ac4dL) > 0);
 
     // neither with high bit set
-    assertTrue((UnsignedLongs.compare(0x5a4316b8c153ac4dL, 0x6cf78a4b139a4e2aL) < 0));
-    assertTrue((UnsignedLongs.compare(0x6cf78a4b139a4e2aL, 0x5a4316b8c153ac4dL) > 0));
+    assertTrue(UnsignedLongs.compare(0x5a4316b8c153ac4dL, 0x6cf78a4b139a4e2aL) < 0);
+    assertTrue(UnsignedLongs.compare(0x6cf78a4b139a4e2aL, 0x5a4316b8c153ac4dL) > 0);
 
     // same value
-    assertTrue((UnsignedLongs.compare(0xff1a618b7f65ea12L, 0xff1a618b7f65ea12L) == 0));
+    assertTrue(UnsignedLongs.compare(0xff1a618b7f65ea12L, 0xff1a618b7f65ea12L) == 0);
   }
 
   public void testDivide() {
@@ -84,30 +84,25 @@ public class UnsignedLongsTest extends TestCase {
       long dividend = r.nextLong();
       long divisor = r.nextLong();
       // Test that the Euclidean property is preserved:
-      assertTrue(dividend - (divisor * UnsignedLongs.divide(dividend, divisor)
-          + UnsignedLongs.remainder(dividend, divisor)) == 0);
+      assertEquals(0,
+          dividend - (divisor * UnsignedLongs.divide(dividend, divisor)
+          + UnsignedLongs.remainder(dividend, divisor)));
     }
   }
 
   public void testParseLong() {
-    try {
-      assertEquals(0xffffffffffffffffL, UnsignedLongs.parseUnsignedLong("18446744073709551615"));
-      assertEquals(0x7fffffffffffffffL, UnsignedLongs.parseUnsignedLong("9223372036854775807"));
-      assertEquals(0xff1a618b7f65ea12L, UnsignedLongs.parseUnsignedLong("18382112080831834642"));
-      assertEquals(0x5a4316b8c153ac4dL, UnsignedLongs.parseUnsignedLong("6504067269626408013"));
-      assertEquals(0x6cf78a4b139a4e2aL, UnsignedLongs.parseUnsignedLong("7851896530399809066"));
-    } catch (NumberFormatException e) {
-      fail(e.getMessage());
-    }
+    assertEquals(0xffffffffffffffffL, UnsignedLongs.parseUnsignedLong("18446744073709551615"));
+    assertEquals(0x7fffffffffffffffL, UnsignedLongs.parseUnsignedLong("9223372036854775807"));
+    assertEquals(0xff1a618b7f65ea12L, UnsignedLongs.parseUnsignedLong("18382112080831834642"));
+    assertEquals(0x5a4316b8c153ac4dL, UnsignedLongs.parseUnsignedLong("6504067269626408013"));
+    assertEquals(0x6cf78a4b139a4e2aL, UnsignedLongs.parseUnsignedLong("7851896530399809066"));
 
-    boolean overflowCaught = false;
     try {
       // One more than maximum value
       UnsignedLongs.parseUnsignedLong("18446744073709551616");
-    } catch (NumberFormatException e) {
-      overflowCaught = true;
+      fail();
+    } catch (NumberFormatException expected) {
     }
-    assertTrue(overflowCaught);
   }
 
   public void testDecodeLong() {
@@ -124,12 +119,11 @@ public class UnsignedLongsTest extends TestCase {
       // One more than maximum value
       UnsignedLongs.parseUnsignedLong("0xfffffffffffffffff");
       fail();
-    } catch (NumberFormatException e) {
-      // Expected
+    } catch (NumberFormatException expected) {
     }
   }
 
-  public void testParseLongWithRadix() throws NumberFormatException {
+  public void testParseLongWithRadix() {
     assertEquals(0xffffffffffffffffL, UnsignedLongs.parseUnsignedLong("ffffffffffffffff", 16));
     assertEquals(0x1234567890abcdefL, UnsignedLongs.parseUnsignedLong("1234567890abcdef", 16));
 
@@ -146,42 +140,36 @@ public class UnsignedLongsTest extends TestCase {
         String overflowAsString = overflow.toString(radix);
         UnsignedLongs.parseUnsignedLong(overflowAsString, radix);
         fail();
-      } catch (NumberFormatException nfe) {
-        // expected
+      } catch (NumberFormatException expected) {
       }
     }
 
     try {
       UnsignedLongs.parseUnsignedLong("1234567890abcdef1", 16);
       fail();
-    } catch (NumberFormatException nfe) {
-      // expected
+    } catch (NumberFormatException expected) {
     }
   }
 
   public void testParseLongThrowsExceptionForInvalidRadix() {
-    // Valid radix values are Character.MIN_RADIX to Character.MAX_RADIX,
-    // inclusive.
+    // Valid radix values are Character.MIN_RADIX to Character.MAX_RADIX, inclusive.
     try {
       UnsignedLongs.parseUnsignedLong("0", Character.MIN_RADIX - 1);
       fail();
-    } catch (NumberFormatException nfe) {
-      // expected
+    } catch (NumberFormatException expected) {
     }
 
     try {
       UnsignedLongs.parseUnsignedLong("0", Character.MAX_RADIX + 1);
       fail();
-    } catch (NumberFormatException nfe) {
-      // expected
+    } catch (NumberFormatException expected) {
     }
 
     // The radix is used as an array index, so try a negative value.
     try {
       UnsignedLongs.parseUnsignedLong("0", -1);
       fail();
-    } catch (NumberFormatException nfe) {
-      // expected
+    } catch (NumberFormatException expected) {
     }
   }
 
@@ -191,8 +179,9 @@ public class UnsignedLongsTest extends TestCase {
         "7fffffffffffffff",
         "ff1a618b7f65ea12",
         "5a4316b8c153ac4d",
-        "6cf78a4b139a4e2a"};
-    int[] bases = {2, 5, 7, 8, 10, 16};
+        "6cf78a4b139a4e2a"
+    };
+    int[] bases = { 2, 5, 7, 8, 10, 16 };
     for (int base : bases) {
       for (String x : tests) {
         BigInteger xValue = new BigInteger(x, 16);
@@ -203,16 +192,14 @@ public class UnsignedLongsTest extends TestCase {
   }
 
   public void testJoin() {
-    assertEquals("", join());
-    assertEquals("1", join(1));
-    assertEquals("1,2", join(1, 2));
-    assertEquals("18446744073709551615,9223372036854775808", join(-1, Long.MIN_VALUE));
-
+    assertEquals("", UnsignedLongs.join(","));
+    assertEquals("1", UnsignedLongs.join(",", 1));
+    assertEquals("1,2", UnsignedLongs.join(",", 1, 2));
+    assertEquals("18446744073709551615,9223372036854775808",
+        UnsignedLongs.join(",", -1, Long.MIN_VALUE));
     assertEquals("123", UnsignedLongs.join("", 1, 2, 3));
-  }
-
-  private static String join(long... values) {
-    return UnsignedLongs.join(",", values);
+    assertEquals("184467440737095516159223372036854775808",
+        UnsignedLongs.join("", -1, Long.MIN_VALUE));
   }
 
   @GwtIncompatible("NullPointerTester")
