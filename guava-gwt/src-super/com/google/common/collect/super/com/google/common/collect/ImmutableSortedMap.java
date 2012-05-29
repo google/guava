@@ -34,21 +34,11 @@ import java.util.SortedMap;
  *
  * @author Hayward Chan
  */
-public class ImmutableSortedMap<K, V>
+public abstract class ImmutableSortedMap<K, V>
     extends ForwardingImmutableMap<K, V> implements SortedMap<K, V> {
 
-  // TODO: Confirm that ImmutableSortedMap is faster to construct and uses less
-  // memory than TreeMap; then say so in the class Javadoc.
-
-  // TODO: Create separate subclasses for empty, single-entry, and
-  // multiple-entry instances.
-
   @SuppressWarnings("unchecked")
-  private static final Comparator NATURAL_ORDER = Ordering.natural();
-
-  @SuppressWarnings("unchecked")
-  private static final ImmutableSortedMap<Object, Object> NATURAL_EMPTY_MAP
-      = create(NATURAL_ORDER);
+  static final Comparator NATURAL_ORDER = Ordering.natural();
 
   // This reference is only used by GWT compiler to infer the keys and values
   // of the map that needs to be serialized.
@@ -61,6 +51,9 @@ public class ImmutableSortedMap<K, V>
   // The comparator used by this map.  It's the same as that of sortedDelegate,
   // except that when sortedDelegate's comparator is null, it points to a
   // non-null instance of Ordering.natural().
+  // (cpovirk: Is sortedDelegate's comparator really ever null?)
+  // The comparator will likely also differ because of our nullAccepting hack.
+  // See the bottom of the file for more information about it.
   private final transient Comparator<? super K> comparator;
 
   ImmutableSortedMap(SortedMap<K, V> delegate, Comparator<? super K> comparator) {
@@ -77,13 +70,13 @@ public class ImmutableSortedMap<K, V>
     for (Entry<? extends K, ? extends V> entry : entries) {
       delegate.put(entry.getKey(), entry.getValue());
     }
-    return new ImmutableSortedMap<K, V>(unmodifiableSortedMap(delegate), comparator);
+    return newView(unmodifiableSortedMap(delegate), comparator);
   }
 
   // Casting to any type is safe because the set will never hold any elements.
   @SuppressWarnings("unchecked")
   public static <K, V> ImmutableSortedMap<K, V> of() {
-    return (ImmutableSortedMap) NATURAL_EMPTY_MAP;
+    return EmptyImmutableSortedMap.forComparator(NATURAL_ORDER);
   }
 
   public static <K extends Comparable<? super K>, V> ImmutableSortedMap<K, V>
@@ -156,7 +149,7 @@ public class ImmutableSortedMap<K, V>
     for (Entry<? extends K, ? extends V> entry : map.entrySet()) {
       putEntryWithChecks(delegate, entry);
     }
-    return new ImmutableSortedMap<K, V>(unmodifiableSortedMap(delegate), comparator);
+    return newView(unmodifiableSortedMap(delegate), comparator);
   }
 
   private static <K, V> void putEntryWithChecks(
@@ -217,7 +210,7 @@ public class ImmutableSortedMap<K, V>
       for (Entry<? extends K, ? extends V> entry : entries) {
         putEntryWithChecks(delegate, entry);
       }
-      return new ImmutableSortedMap<K, V>(unmodifiableSortedMap(delegate), comparator);
+      return newView(unmodifiableSortedMap(delegate), comparator);
     }
   }
 
@@ -302,21 +295,22 @@ public class ImmutableSortedMap<K, V>
     if (!inclusive) {
       fromKey = higher(fromKey);
       if (fromKey == null) {
-        return emptyMap(comparator());
+        return EmptyImmutableSortedMap.forComparator(comparator());
       }
     }
     return tailMap(fromKey);
   }
 
-  static <K, V> ImmutableSortedMap<K, V> emptyMap(Comparator<? super K> comparator) {
-    if (comparator == NATURAL_ORDER) {
-      return (ImmutableSortedMap) NATURAL_EMPTY_MAP;
-    }
-    return create(comparator);
+  private ImmutableSortedMap<K, V> newView(SortedMap<K, V> delegate) {
+    return newView(delegate, comparator);
   }
 
-  private ImmutableSortedMap<K, V> newView(SortedMap<K, V> delegate) {
-    return new ImmutableSortedMap<K, V>(delegate, comparator);
+  private static <K, V> ImmutableSortedMap<K, V> newView(
+      SortedMap<K, V> delegate, Comparator<? super K> comparator) {
+    if (delegate.isEmpty()) {
+      return EmptyImmutableSortedMap.forComparator(comparator);
+    }
+    return new RegularImmutableSortedMap<K, V>(delegate, comparator);
   }
 
   /*

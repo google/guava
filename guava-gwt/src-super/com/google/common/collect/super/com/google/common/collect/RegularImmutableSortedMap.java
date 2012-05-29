@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2009 The Guava Authors
+ * Copyright (C) 2012 The Guava Authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,11 +16,16 @@
 
 package com.google.common.collect;
 
+import java.util.Comparator;
+import java.util.SortedMap;
+
 /**
- * Even though {@link ImmutableSortedMap} cannot be instantiated, we still need a custom field
- * serializer. TODO(cpovirk): why? Does it help if ensure that the GWT and non-GWT classes have the
- * same fields? Is that worth the trouble?
+ * GWT emulated version of {@link RegularImmutableSortedMap}.
  *
  * @author Chris Povirk
  */
-public final class ImmutableSortedMap_CustomFieldSerializer {}
+final class RegularImmutableSortedMap<K, V> extends ImmutableSortedMap<K, V> {
+  RegularImmutableSortedMap(SortedMap<K, V> delegate, Comparator<? super K> comparator) {
+    super(delegate, comparator);
+  }
+}
