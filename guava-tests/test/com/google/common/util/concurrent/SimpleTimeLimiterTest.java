@@ -183,7 +183,7 @@ public class SimpleTimeLimiterTest extends TestCase {
   }
 
   @SuppressWarnings("serial")
-  public static class SampleException extends Exception { }
+  public static class SampleException extends Exception {}
 
   public static class SampleImpl implements Sample {
     boolean finished;

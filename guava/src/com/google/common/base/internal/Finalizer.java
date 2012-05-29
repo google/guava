@@ -201,5 +201,5 @@ public class Finalizer implements Runnable {
 
   /** Indicates that it's time to shut down the Finalizer. */
   @SuppressWarnings("serial") // Never serialized or thrown out of this class.
-  private static class ShutDown extends Exception { }
+  private static class ShutDown extends Exception {}
 }

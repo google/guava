@@ -44,7 +44,7 @@ public class AbstractStreamingHasherTest extends TestCase {
     sink.putByte((byte) 1);
     sink.putBytes(new byte[] { 2, 3, 4, 5, 6 });
     sink.putByte((byte) 7);
-    sink.putBytes(new byte[] { });
+    sink.putBytes(new byte[] {});
     sink.putBytes(new byte[] { 8 });
     sink.hash();
     sink.assertInvariants(8);

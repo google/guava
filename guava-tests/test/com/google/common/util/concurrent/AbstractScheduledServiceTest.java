@@ -64,7 +64,7 @@ public class AbstractScheduledServiceTest extends TestCase {
   }
 
   private class NullService extends AbstractScheduledService {
-    @Override protected void runOneIteration() throws Exception { }
+    @Override protected void runOneIteration() throws Exception {}
     @Override protected Scheduler scheduler() { return configuration; }
     @Override protected ScheduledExecutorService executor() { return executor; }
   }
@@ -366,9 +366,9 @@ public class AbstractScheduledServiceTest extends TestCase {
         return Executors.newScheduledThreadPool(10);
       }
 
-      @Override protected void startUp() throws Exception { }
+      @Override protected void startUp() throws Exception {}
 
-      @Override protected void shutDown() throws Exception { }
+      @Override protected void shutDown() throws Exception {}
 
       @Override protected Scheduler scheduler() {
         return new CustomScheduler() {

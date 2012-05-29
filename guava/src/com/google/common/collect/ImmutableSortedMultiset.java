@@ -319,7 +319,7 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableSortedMultiset
     return new EmptyImmutableSortedMultiset<E>(comparator);
   }
 
-  ImmutableSortedMultiset() { }
+  ImmutableSortedMultiset() {}
 
   @Override
   public final Comparator<? super E> comparator() {

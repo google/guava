@@ -365,7 +365,7 @@ public class NullPointerTesterTest extends TestCase {
       checkNotNull(s); doThrow(i);
     }
     public void twoNullableArgs(@Nullable String s,
-        @javax.annotation.Nullable Integer i) { }
+        @javax.annotation.Nullable Integer i) {}
     public void twoNullableArgsThrowsFirstArg(
         @Nullable String s, @Nullable Integer i) {
       doThrow(s);
@@ -375,7 +375,7 @@ public class NullPointerTesterTest extends TestCase {
       doThrow(i);
     }
     public static void staticOneArg(String s) { checkNotNull(s); }
-    public static void staticOneNullableArg(@Nullable String s) { }
+    public static void staticOneNullableArg(@Nullable String s) {}
     public static void staticOneNullableArgThrows(@Nullable String s) {
       doThrow(s);
     }

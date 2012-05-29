@@ -699,7 +699,7 @@ public class InetAddressesTest extends TestCase {
     try {
       address = InetAddresses.increment(address);
       fail();
-    } catch (IllegalArgumentException expected) { }
+    } catch (IllegalArgumentException expected) {}
   }
 
   public void testIncrementIPv6() throws UnknownHostException {
@@ -722,6 +722,6 @@ public class InetAddressesTest extends TestCase {
     try {
       address = InetAddresses.increment(address);
       fail();
-    } catch (IllegalArgumentException expected) { }
+    } catch (IllegalArgumentException expected) {}
   }
 }

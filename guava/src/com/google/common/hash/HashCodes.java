@@ -29,7 +29,7 @@ import java.io.Serializable;
  */
 @Beta
 public final class HashCodes {
-  private HashCodes() { }
+  private HashCodes() {}
 
   /**
    * Creates a 32-bit {@code HashCode}, of which the bytes will form the passed int, interpreted 
