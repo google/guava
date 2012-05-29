@@ -469,4 +469,34 @@ public class ImmutableSortedMultisetTest extends TestCase {
         ImmutableSortedMultiset.copyOfSorted(toCopy);
     EasyMock.verify(toCopy, entrySet);
   }
+
+  private static class IntegerDiv10 implements Comparable<IntegerDiv10> {
+    final int value;
+
+    IntegerDiv10(int value) {
+      this.value = value;
+    }
+
+    @Override
+    public int compareTo(IntegerDiv10 o) {
+      return value / 10 - o.value / 10;
+    }
+
+    @Override public String toString() {
+      return Integer.toString(value);
+    }
+  }
+
+  public void testCopyOfDuplicateInconsistentWithEquals() {
+    IntegerDiv10 three = new IntegerDiv10(3);
+    IntegerDiv10 eleven = new IntegerDiv10(11);
+    IntegerDiv10 twelve = new IntegerDiv10(12);
+    IntegerDiv10 twenty = new IntegerDiv10(20);
+
+    List<IntegerDiv10> original = ImmutableList.of(three, eleven, twelve, twenty);
+
+    Multiset<IntegerDiv10> copy = ImmutableSortedMultiset.copyOf(original);
+    assertTrue(copy.contains(eleven));
+    assertTrue(copy.contains(twelve));
+  }
 }

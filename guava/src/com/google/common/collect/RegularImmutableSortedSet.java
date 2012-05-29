@@ -258,13 +258,7 @@ final class RegularImmutableSortedSet<E> extends ImmutableSortedSet<E> {
     } catch (ClassCastException e) {
       return -1;
     }
-    // TODO(kevinb): reconsider if it's really worth making feeble attempts at
-    // sanity for inconsistent comparators.
-
-    // The equals() check is needed when the comparator isn't compatible with
-    // equals().
-    return (position >= 0 && elements.get(position).equals(target))
-        ? position : -1;
+    return (position >= 0) ? position : -1;
   }
 
   @Override ImmutableList<E> createAsList() {

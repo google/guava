@@ -51,6 +51,12 @@ final class ImmutableSortedAsList<E> extends RegularImmutableAsList<E>
   // TODO(cpovirk): consider manual binary search under GWT to preserve O(log N) lookup
   @Override public int indexOf(@Nullable Object target) {
     int index = delegateCollection().indexOf(target);
+
+    // TODO(kevinb): reconsider if it's really worth making feeble attempts at
+    // sanity for inconsistent comparators.
+
+    // The equals() check is needed when the comparator isn't compatible with
+    // equals().
     return (index >= 0 && get(index).equals(target)) ? index : -1;
   }
 
