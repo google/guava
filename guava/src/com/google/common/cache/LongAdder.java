@@ -43,7 +43,7 @@ import java.io.ObjectOutputStream;
  * @since 1.8
  * @author Doug Lea
  */
-class LongAdder extends Striped64 implements Serializable {
+final class LongAdder extends Striped64 implements Serializable {
     private static final long serialVersionUID = 7249069246863182397L;
 
     /**

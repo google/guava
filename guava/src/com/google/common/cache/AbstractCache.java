@@ -202,7 +202,7 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
    * @since 10.0
    */
   @Beta
-  public static class SimpleStatsCounter implements StatsCounter {
+  public static final class SimpleStatsCounter implements StatsCounter {
     private final LongAdder hitCount = new LongAdder();
     private final LongAdder missCount = new LongAdder();
     private final LongAdder loadSuccessCount = new LongAdder();
