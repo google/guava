@@ -139,6 +139,7 @@ public final class MediaType {
    */
   public static final MediaType TEXT_JAVASCRIPT_UTF_8 = createConstantUtf8(TEXT_TYPE, "javascript");
   public static final MediaType VCARD_UTF_8 = createConstantUtf8(TEXT_TYPE, "vcard");
+  public static final MediaType WML_UTF_8 = createConstantUtf8(TEXT_TYPE, "vnd.wap.wml");
   public static final MediaType XML_UTF_8 = createConstantUtf8(TEXT_TYPE, "xml");
 
   /* image types */
@@ -225,6 +226,7 @@ public final class MediaType {
           .put(PLAIN_TEXT_UTF_8, PLAIN_TEXT_UTF_8)
           .put(TEXT_JAVASCRIPT_UTF_8, TEXT_JAVASCRIPT_UTF_8)
           .put(VCARD_UTF_8, VCARD_UTF_8)
+          .put(WML_UTF_8, WML_UTF_8)
           .put(XML_UTF_8, XML_UTF_8)
           /* image types */
           .put(GIF, GIF)
