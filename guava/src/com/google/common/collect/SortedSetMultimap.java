@@ -31,7 +31,8 @@ import javax.annotation.Nullable;
  * that is, they comprise a {@link SortedSet}. It cannot hold duplicate
  * key-value pairs; adding a key-value pair that's already in the multimap has
  * no effect. This interface does not specify the ordering of the multimap's
- * keys.
+ * keys. See the {@link Multimap} documentation for information common to all
+ * multimaps.
  *
  * <p>The {@link #get}, {@link #removeAll}, and {@link #replaceValues} methods
  * each return a {@link SortedSet} of values, while {@link Multimap#entries()}

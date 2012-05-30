@@ -19,44 +19,133 @@ package com.google.common.collect;
 import com.google.common.annotations.GwtCompatible;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import javax.annotation.Nullable;
 
 /**
- * A collection similar to a {@code Map}, but which may associate multiple
- * values with a single key. If you call {@link #put} twice, with the same key
- * but different values, the multimap contains mappings from the key to both
- * values.
+ * A collection that maps keys to values, similar to {@link Map}, but in which
+ * each key may be associated with <i>multiple</i> values. You can visualize the
+ * contents of a multimap either as a map from keys to collections of values:
  *
- * <p>The methods {@link #get}, {@link #keySet}, {@link #keys}, {@link #values},
- * {@link #entries}, and {@link #asMap} return collections that are views of the
- * multimap. If the multimap is modifiable, updating it can change the contents
- * of those collections, and updating the collections will change the multimap.
- * In contrast, {@link #replaceValues} and {@link #removeAll} return collections
- * that are independent of subsequent multimap changes.
+ * <ul>
+ * <li>a → 1, 2
+ * <li>b → 3
+ * </ul>
  *
- * <p>Depending on the implementation, a multimap may or may not allow duplicate
- * key-value pairs. In other words, the multimap contents after adding the same
- * key and value twice varies between implementations. In multimaps allowing
- * duplicates, the multimap will contain two mappings, and {@code get} will
- * return a collection that includes the value twice. In multimaps not
- * supporting duplicates, the multimap will contain a single mapping from the
- * key to the value, and {@code get} will return a collection that includes the
- * value once.
+ * ... or as a single "flattened" collection of key-value pairs:
  *
- * <p>All methods that alter the multimap are optional, and the views returned
- * by the multimap may or may not be modifiable. When modification isn't
- * supported, those methods will throw an {@link UnsupportedOperationException}.
- * 
+ * <ul>
+ * <li>a → 1
+ * <li>a → 2
+ * <li>b → 3
+ * </ul>
+ *
+ * <p><b>Important:</b> although the first interpretation resembles how most
+ * multimaps are <i>implemented</i>, the design of the {@code Multimap} API is
+ * based on the <i>second</i> form. So, using the multimap shown above as an
+ * example, the {@link #size} is {@code 3}, not {@code 2}, and the {@link
+ * #values} collection is {@code [1, 2, 3]}, not {@code [[1, 2], [3]]}. For
+ * those times when the first style is more useful, use the multimap's {@link
+ * #asMap} view.
+ *
+ * <h3>Example</h3>
+ *
+ * <p>The following code: <pre>   {@code
+ *
+ *   ListMultimap<String, String> multimap = ArrayListMultimap.create();
+ *   for (President pres : US_PRESIDENTS_IN_ORDER) {
+ *     multimap.put(pres.firstName(), pres.lastName());
+ *   }
+ *   for (String firstName : multimap.keySet()) {
+ *     List<String> lastNames = multimap.get(firstName);
+ *     out.println(firstName + ": " + lastNames);
+ *   }}</pre>
+ *
+ * ... produces output such as: <pre>   {@code
+ *
+ *   Zachary: [Taylor]
+ *   John: [Adams, Adams, Tyler, Kennedy]
+ *   George: [Washington, Bush, Bush]
+ *   Grover: [Cleveland]
+ *   ...}</pre>
+ *
+ * <h3>Views</h3>
+ *
+ * <p>Much of the power of the multimap API comes from the <i>view
+ * collections</i> it provides. These always reflect the latest state of the
+ * multimap itself. When they support modification, the changes are
+ * <i>write-through</i> (they automatically update the backing multimap). These
+ * view collections are:
+ *
+ * <ul>
+ * <li>{@link #asMap}, mentioned above</li>
+ * <li>{@link #keys}, {@link #keySet}, {@link #values}, {@link #entries}, which
+ *     are similar to the corresponding view collections of {@link Map}
+ * <li>and, notably, even the collection returned by {@link #get get(key)} is an
+ *     active view of the values corresponding to {@code key}
+ * </ul>
+ *
+ * <p>The collections returned by the {@link #replaceValues replaceValues} and
+ * {@link #removeAll removeAll} methods, which contain values that have just
+ * been removed from the multimap, are naturally <i>not</i> views.
+ *
+ * <h3>Subinterfaces</h3>
+ *
+ * <p>Instead of using the {@code Multimap} interface directly, prefer the
+ * subinterfaces {@link ListMultimap} and {@link SetMultimap}. These take their
+ * names from the fact that the collections they return from {@code get} behave
+ * like (and, of course, implement) {@link List} and {@link Set}, respectively.
+ *
+ * <p>For example, the "presidents" code snippet above used a {@code
+ * ListMultimap}; if it had used a {@code SetMultimap} instead, two presidents
+ * would have vanished, and last names might or might not appear in
+ * chronological order.
+ *
+ * <h3>Uses</h3>
+ *
+ * <p>Multimaps are commonly used anywhere a {@code Map<K, Collection<V>>} would
+ * otherwise have appeared. The advantages include:
+ *
+ * <ul>
+ * <li>There is no need to populate an empty collection before adding an entry
+ *     with {@link #put put}.
+ * <li>{@code get} never returns {@code null}, only an empty collection.
+ * <li>It will not retain empty collections after the last value for a key is
+ *     removed. As a result, {@link #containsKey} behaves logically, and the
+ *     multimap won't leak memory.
+ * <li>The total entry count is available as {@link #size}.
+ * <li>Many complex operations become easier; for example, {@code
+ *     Collections.min(multimap.values())} finds the smallest value across all
+ *     keys.
+ * </ul>
+ *
+ * <h3>Implementations</h3>
+ *
+ * <p>As always, prefer the immutable implementations, {@link
+ * ImmutableListMultimap} and {@link ImmutableSetMultimap}. General-purpose
+ * mutable implementations are listed above under "All Known Implementing
+ * Classes". You can also create a <i>custom</i> multimap, backed by any {@code
+ * Map} and {@link Collection} types, using the {@link Multimaps#newMultimap
+ * Multimaps.newMultimap} family of methods. Finally, another popular way to
+ * obtain a multimap is using {@link Multimaps#index Multimaps.index}. See
+ * the {@link Multimaps} class for these and other static utilities related
+ * to multimaps.
+ *
+ * <h3>Other Notes</h3>
+ *
+ * <p>All methods that modify the multimap are optional. The view collections
+ * returned by the multimap may or may not be modifiable. Any modification
+ * method that is not supported will throw {@link
+ * UnsupportedOperationException}.
+ *
  * <p>See the Guava User Guide article on <a href=
  * "http://code.google.com/p/guava-libraries/wiki/NewCollectionTypesExplained#Multimap">
  * {@code Multimap}</a>.
  *
  * @author Jared Levy
- * @param <K> the type of keys maintained by this multimap
- * @param <V> the type of mapped values
  * @since 2.0 (imported from Google Collections Library)
  */
 @GwtCompatible
@@ -112,7 +201,7 @@ public interface Multimap<K, V> {
   boolean put(@Nullable K key, @Nullable V value);
 
   /**
-   * Removes a key-value pair from the multimap.
+   * Removes a single key-value pair from the multimap.
    *
    * @param key key of entry to remove from the multimap
    * @param value value of entry to remove the multimap

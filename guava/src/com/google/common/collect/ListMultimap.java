@@ -26,7 +26,8 @@ import javax.annotation.Nullable;
 
 /**
  * A {@code Multimap} that can hold duplicate key-value pairs and that maintains
- * the insertion ordering of values for a given key.
+ * the insertion ordering of values for a given key. See the {@link Multimap}
+ * documentation for information common to all multimaps.
  *
  * <p>The {@link #get}, {@link #removeAll}, and {@link #replaceValues} methods
  * each return a {@link List} of values. Though the method signature doesn't say
