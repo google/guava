@@ -244,6 +244,13 @@ public final class OptionalTest extends TestCase {
     ASSERT.that(onlyPresent).hasContentsInOrder("a", "c");
   }
 
+  public void testPresentInstances_wildcards() {
+    List<Optional<? extends Number>> optionals =
+        ImmutableList.<Optional<? extends Number>>of(Optional.<Double>absent(), Optional.of(2));
+    Iterable<Number> onlyPresent = Optional.presentInstances(optionals);
+    ASSERT.that(onlyPresent).hasContentsInOrder(2);
+  }
+
   private static Optional<Integer> getSomeOptionalInt() {
     return Optional.of(1);
   }

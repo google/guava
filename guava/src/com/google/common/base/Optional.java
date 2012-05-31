@@ -207,19 +207,21 @@ public abstract class Optional<T> implements Serializable {
    * skipping over occurrences of {@link Optional#absent}. Iterators are unmodifiable and are
    * evaluated lazily.
    *
-   * @since 11.0
+   * @since 11.0 (generics widened in 13.0)
    */
   @Beta
-  public static <T> Iterable<T> presentInstances(final Iterable<Optional<T>> optionals) {
+  public static <T> Iterable<T> presentInstances(
+      final Iterable<? extends Optional<? extends T>> optionals) {
     checkNotNull(optionals);
     return new Iterable<T>() {
       @Override public Iterator<T> iterator() {
         return new AbstractIterator<T>() {
-          private final Iterator<Optional<T>> iterator = checkNotNull(optionals.iterator());
+          private final Iterator<? extends Optional<? extends T>> iterator =
+              checkNotNull(optionals.iterator());
 
           @Override protected T computeNext() {
             while (iterator.hasNext()) {
-              Optional<T> optional = iterator.next();
+              Optional<? extends T> optional = iterator.next();
               if (optional.isPresent()) {
                 return optional.get();
               }
