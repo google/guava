@@ -609,6 +609,16 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
     return of(new TypeResolver().resolve(runtimeType));
   }
 
+  /**
+   * Ensures that this type token doesn't contain type variables, which can cause unchecked type
+   * errors for callers like {@link TypeToInstanceMap}.
+   */
+  final TypeToken<T> rejectTypeVariables() {
+    checkArgument(!Types.containsTypeVariable(runtimeType),
+        "%s contains a type variable and is not safe for the operation");
+    return this;
+  }
+
   private static boolean isAssignable(Type from, Type to) {
     if (to.equals(from)) {
       return true;

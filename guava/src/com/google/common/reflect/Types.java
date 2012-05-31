@@ -215,6 +215,33 @@ final class Types {
     return null;
   }
 
+  static boolean containsTypeVariable(@Nullable Type type) {
+    if (type instanceof TypeVariable) {
+      return true;
+    }
+    if (type instanceof GenericArrayType) {
+      return containsTypeVariable(((GenericArrayType) type).getGenericComponentType());
+    }
+    if (type instanceof ParameterizedType) {
+      return containsTypeVariable(((ParameterizedType) type).getActualTypeArguments());
+    }
+    if (type instanceof WildcardType) {
+      WildcardType wildcard = (WildcardType) type;
+      return containsTypeVariable(wildcard.getUpperBounds())
+          || containsTypeVariable(wildcard.getLowerBounds());
+    }
+    return false;
+  }
+
+  private static boolean containsTypeVariable(Type[] types) {
+    for (Type paramType : types) {
+      if (containsTypeVariable(paramType)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   private static final class GenericArrayTypeImpl
       implements GenericArrayType, Serializable {
 
