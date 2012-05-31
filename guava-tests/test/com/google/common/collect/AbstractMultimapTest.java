@@ -508,6 +508,15 @@ public abstract class AbstractMultimapTest extends TestCase {
     assertFalse(values.contains(5));
   }
 
+  public void testValuesToArray() {
+    multimap.put("foo", 1);
+    multimap.put("foo", nullValue());
+    multimap.put(nullKey(), 3);
+    Collection<Integer> values = multimap.values();
+    ASSERT.that(values.toArray()).hasContentsAnyOrder(1, 3, nullValue());
+    ASSERT.that(values.toArray(new Integer[3])).hasContentsAnyOrder(1, 3, nullValue());
+  }
+
   public void testValuesClear() {
     multimap.put("foo", 1);
     multimap.put("foo", nullValue());
@@ -629,6 +638,44 @@ public abstract class AbstractMultimapTest extends TestCase {
     assertFalse(iterator.hasNext());
   }
 
+  public void testAsMapEntriesToArray() {
+    multimap.put("foo", 1);
+    multimap.put("foo", nullValue());
+    multimap.put(nullKey(), 3);
+    Collection<Entry<String, Collection<Integer>>> entries =
+        multimap.asMap().entrySet();
+
+    ASSERT.that(entries.toArray()).hasContentsAnyOrder(
+        Maps.immutableEntry("foo", multimap.get("foo")),
+        Maps.immutableEntry(nullKey(), multimap.get(nullKey())));
+    ASSERT.that(entries.toArray(new Entry[2])).hasContentsAnyOrder(
+        Maps.immutableEntry("foo", multimap.get("foo")),
+        Maps.immutableEntry(nullKey(), multimap.get(nullKey())));
+  }
+
+  public void testAsMapValuesToArray() {
+    multimap.put("foo", 1);
+    multimap.put("foo", nullValue());
+    multimap.put(nullKey(), 3);
+    Collection<Collection<Integer>> values =
+        multimap.asMap().values();
+
+    ASSERT.that(values.toArray()).hasContentsAnyOrder(
+        multimap.get("foo"), multimap.get(nullKey()));
+    ASSERT.that(values.toArray(new Collection[2])).hasContentsAnyOrder(
+        multimap.get("foo"), multimap.get(nullKey()));
+  }
+
+  public void testAsMapKeySetToArray() {
+    multimap.put("foo", 1);
+    multimap.put("foo", nullValue());
+    multimap.put(nullKey(), 3);
+    Set<String> keySet = multimap.asMap().keySet();
+
+    ASSERT.that(keySet.toArray()).hasContentsAnyOrder("foo", nullKey());
+    ASSERT.that(keySet.toArray(new String[2])).hasContentsAnyOrder("foo", nullKey());
+  }
+
   public void testAsMapToString() {
     multimap.put("foo", 1);
     assertEquals("{foo=[1]}", multimap.asMap().toString());
@@ -674,6 +721,17 @@ public abstract class AbstractMultimapTest extends TestCase {
     assertSize(2);
     assertEquals(2, multiset.setCount("foo", 0));
     assertEquals(0, multiset.setCount("bar", 0));
+  }
+
+  public void testKeysToArray() {
+    multimap.put("foo", 1);
+    multimap.put("foo", 5);
+    multimap.put("foo", nullValue());
+    multimap.put(nullKey(), 3);
+    ASSERT.that(multimap.keys().toArray()).hasContentsAnyOrder(
+        "foo", "foo", "foo", nullKey());
+    ASSERT.that(multimap.keys().toArray(new String[3])).hasContentsAnyOrder(
+        "foo", "foo", "foo", nullKey());
   }
 
   public void testKeysAdd() {
