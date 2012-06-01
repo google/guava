@@ -38,16 +38,26 @@ public final class Hashing {
   private Hashing() {}
 
   /**
-   * Used to randomize goodFastHash() instances, so that programs which persist anything
+   * Used to randomize {@link #goodFastHash} instances, so that programs which persist anything
    * dependent on hashcodes of those, will fail sooner than later.
    */
   private static final int GOOD_FAST_HASH_SEED = (int) System.currentTimeMillis();
+
+  // Used by goodFastHash when minimumBits == 32.
+  private static final HashFunction GOOD_FAST_HASH_FUNCTION_32 = murmur3_32(GOOD_FAST_HASH_SEED);
+
+  // Used by goodFastHash when 32 < minimumBits <= 128.
+  private static final HashFunction GOOD_FAST_HASH_FUNCTION_128 = murmur3_128(GOOD_FAST_HASH_SEED);
 
   /**
    * Returns a general-purpose, <b>non-cryptographic-strength</b>, streaming hash function that
    * produces hash codes of length at least {@code minimumBits}. Users without specific
    * compatibility requirements and who do not persist the hash codes are encouraged to
    * choose this hash function.
+   *
+   * <p>Repeated calls to {@link #goodFastHash} with the same {@code minimumBits} value will
+   * return {@link HashFunction} instances with identical behavior (but not necessarily the
+   * same instance) for the duration of the current virtual machine.
    *
    * <p><b>Warning: the implementation is unspecified and is subject to change.</b>
    *
@@ -57,20 +67,22 @@ public final class Hashing {
     int bits = checkPositiveAndMakeMultipleOf32(minimumBits);
 
     if (bits == 32) {
-      return murmur3_32(GOOD_FAST_HASH_SEED);
-    } else if (bits <= 128) {
-      return murmur3_128(GOOD_FAST_HASH_SEED);
-    } else {
-      // Join some 128-bit murmur3s
-      int hashFunctionsNeeded = (bits + 127) / 128;
-      HashFunction[] hashFunctions = new HashFunction[hashFunctionsNeeded];
-      int seed = GOOD_FAST_HASH_SEED;
-      for (int i = 0; i < hashFunctionsNeeded; i++) {
-        hashFunctions[i] = murmur3_128(seed);
-        seed += 1500450271; // a prime; shouldn't matter
-      }
-      return new ConcatenatedHashFunction(hashFunctions);
+      return GOOD_FAST_HASH_FUNCTION_32;
     }
+    if (bits <= 128) {
+      return GOOD_FAST_HASH_FUNCTION_128;
+    }
+
+    // Otherwise, join together some 128-bit murmur3s
+    int hashFunctionsNeeded = (bits + 127) / 128;
+    HashFunction[] hashFunctions = new HashFunction[hashFunctionsNeeded];
+    hashFunctions[0] = GOOD_FAST_HASH_FUNCTION_128;
+    int seed = GOOD_FAST_HASH_SEED;
+    for (int i = 1; i < hashFunctionsNeeded; i++) {
+      seed += 1500450271; // a prime; shouldn't matter
+      hashFunctions[i] = murmur3_128(seed);
+    }
+    return new ConcatenatedHashFunction(hashFunctions);
   }
 
   /**
