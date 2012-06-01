@@ -40,7 +40,8 @@ import java.nio.charset.Charset;
  *     represents a hash code as an instance of {@link HashCode}.
  *
  * <li><b>pure function:</b> the value produced must depend only on the input bytes, in
- *     the order they appear. Input data is never modified.
+ *     the order they appear. Input data is never modified. {@link HashFunction} instances
+ *     should always be stateless, and therefore thread-safe.
  *
  * <li><b>collision-averse:</b> while it can't be helped that a hash function will
  *     sometimes produce the same hash code for distinct inputs (a "collision"), every
