@@ -86,6 +86,10 @@ final class SortedIterables {
       if (hasSameComparator(comparator, elements)) {
         return (Set<E>) elements;
       }
+      /*
+       * We assume that the comparator is consistent with equals (or rather, consistent with
+       * whatever |elements| uses for equality). Thus, we don't need to deduplicate.
+       */
       List<E> list = Lists.newArrayList(elements);
       Collections.sort(list, comparator);
       return list;
@@ -125,7 +129,7 @@ final class SortedIterables {
     Iterators.addAll(multiset, elements);
     return multiset.entrySet();
   }
-  
+
   /**
    * Returns a collection of multiset entries representing the counts of the distinct elements, in
    * sorted order. Does not check for null.

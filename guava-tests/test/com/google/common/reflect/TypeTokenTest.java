@@ -262,6 +262,13 @@ public class TypeTokenTest extends TestCase {
         Class1.class, Object.class);
   }
 
+  public <A extends Interface1 & Interface2 & Interface3<String>>
+  void testGetTypes_manyBounds() {
+    TypeToken<?>.TypeSet types = TypeToken.of(new TypeCapture<A>() {}.capture()).getTypes();
+    ASSERT.that(types.rawTypes()).hasContentsAnyOrder(
+        Interface1.class, Interface2.class, Interface3.class, Iterable.class);
+  }
+
   private static void assertSubtypeFirst(TypeToken<?>.TypeSet types) {
     assertSubtypeBeforeSupertype(types);
     assertSubtypeBeforeSupertype(types.interfaces());

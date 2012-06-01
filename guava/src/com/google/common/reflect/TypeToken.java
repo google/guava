@@ -28,12 +28,10 @@ import com.google.common.collect.ForwardingSet;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.ImmutableSortedSet;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Iterators;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Ordering;
-import com.google.common.collect.Sets;
 
 import java.io.Serializable;
 import java.lang.reflect.GenericArrayType;
@@ -44,7 +42,6 @@ import java.lang.reflect.WildcardType;
 import java.util.Comparator;
 import java.util.Map;
 import java.util.Set;
-import java.util.SortedSet;
 
 import javax.annotation.Nullable;
 
@@ -464,7 +461,7 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
       ImmutableSet<TypeToken<? super T>> filteredTypes = types;
       if (filteredTypes == null) {
         return (types = ImmutableSet.copyOf(
-            Sets.filter(findAllTypes(), TypeFilter.IGNORE_TYPE_VARIABLE_OR_WILDCARD)));
+            Iterables.filter(findAllTypes(), TypeFilter.IGNORE_TYPE_VARIABLE_OR_WILDCARD)));
       } else {
         return filteredTypes;
       }
@@ -538,7 +535,7 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
     private static final long serialVersionUID = 0;
   }
 
-  private SortedSet<TypeToken<? super T>> findAllTypes() {
+  private ImmutableList<TypeToken<? super T>> findAllTypes() {
     // type -> order number. 1 for Object, 2 for anything directly below, so on so forth.
     Map<TypeToken<? super T>, Integer> map = Maps.newHashMap();
     collectTypes(map);
@@ -918,14 +915,14 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
     return Types.JavaVersion.JAVA7.newArrayType(componentType);
   }
 
-  private static <K, V> ImmutableSortedSet<K> sortKeysByValue(
+  private static <K, V> ImmutableList<K> sortKeysByValue(
       final Map<K, V> map, final Comparator<? super V> valueComparator) {
-    Comparator<K> keyComparator = new Comparator<K>() {
+    Ordering<K> keyOrdering = new Ordering<K>() {
       @Override public int compare(K left, K right) {
         return valueComparator.compare(map.get(left), map.get(right));
       }
     };
-    return ImmutableSortedSet.copyOf(keyComparator, map.keySet());
+    return keyOrdering.immutableSortedCopy(map.keySet());
   }
 
   private static final class SimpleTypeToken<T> extends TypeToken<T> {
