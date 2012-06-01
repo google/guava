@@ -299,6 +299,15 @@ public abstract class AbstractImmutableSetTest extends TestCase {
         "a", "b", "c", "d", "e", "f", "g", "h", "i", "j");
   }
 
+  public void testReuseBuilderWithNonDuplicateElements() {
+    ImmutableSet.Builder<String> builder = this.<String>builder()
+        .add("a")
+        .add("b");
+    ASSERT.that(builder.build()).hasContentsInOrder("a", "b");
+    builder.add("c", "d");
+    ASSERT.that(builder.build()).hasContentsInOrder("a", "b", "c", "d");
+  }
+
   public void testBuilderWithDuplicateElements() {
     ImmutableSet<String> set = this.<String>builder()
         .add("a")
@@ -309,6 +318,16 @@ public abstract class AbstractImmutableSetTest extends TestCase {
     assertTrue(set.contains("a"));
     assertFalse(set.contains("b"));
     assertEquals(1, set.size());
+  }
+
+  public void testReuseBuilderWithDuplicateElements() {
+    ImmutableSet.Builder<String> builder = this.<String>builder()
+        .add("a")
+        .add("a", "a")
+        .add("b");
+    ASSERT.that(builder.build()).hasContentsInOrder("a", "b");
+    builder.add("a", "b", "c", "c");
+    ASSERT.that(builder.build()).hasContentsInOrder("a", "b", "c");
   }
 
   public void testBuilderAddAll() {

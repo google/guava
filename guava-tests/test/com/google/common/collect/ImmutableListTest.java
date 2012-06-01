@@ -393,19 +393,6 @@ public class ImmutableListTest extends TestCase {
       assertSame(c, ImmutableList.copyOf(c));
     }
 
-    @GwtIncompatible("expandedCapacity")
-    public void testCapacityExpansion() {
-      assertEquals(1, ImmutableList.expandedCapacity(0, 1));
-      assertEquals(2, ImmutableList.expandedCapacity(0, 2));
-      assertEquals(2, ImmutableList.expandedCapacity(1, 2));
-      assertEquals(Integer.MAX_VALUE, ImmutableList.expandedCapacity(0, Integer.MAX_VALUE));
-      assertEquals(Integer.MAX_VALUE, ImmutableList.expandedCapacity(1, Integer.MAX_VALUE));
-      assertEquals(Integer.MAX_VALUE,
-          ImmutableList.expandedCapacity(Integer.MAX_VALUE - 1, Integer.MAX_VALUE));
-
-      assertEquals(13, ImmutableList.expandedCapacity(8, 9));
-    }
-
     public void testBuilderAddArrayHandlesNulls() {
       String[] elements = {"a", null, "b"};
       ImmutableList.Builder<String> builder = ImmutableList.builder();
@@ -415,7 +402,15 @@ public class ImmutableListTest extends TestCase {
       } catch (NullPointerException expected) {
       }
       ImmutableList<String> result = builder.build();
-      assertEquals(ImmutableList.of("a"), result);
+
+      /*
+       * Maybe it rejects all elements, or maybe it adds "a" before failing.
+       * Either way is fine with us.
+       */
+      if (result.isEmpty()) {
+        return;
+      }
+      assertTrue(ImmutableList.of("a").equals(result));
       assertEquals(1, result.size());
     }
 

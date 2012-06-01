@@ -20,9 +20,9 @@ import static com.google.common.base.Preconditions.checkElementIndex;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkPositionIndex;
 import static com.google.common.base.Preconditions.checkPositionIndexes;
+import static com.google.common.collect.ObjectArrays.checkElementNotNull;
 
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.annotations.VisibleForTesting;
 
 import java.io.InvalidObjectException;
 import java.io.ObjectInputStream;
@@ -305,18 +305,9 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
   /** {@code elements} has to be internally created array. */
   private static <E> ImmutableList<E> construct(Object... elements) {
     for (int i = 0; i < elements.length; i++) {
-      checkElementNotNull(elements[i], i);
+      ObjectArrays.checkElementNotNull(elements[i], i);
     }
     return new RegularImmutableList<E>(elements);
-  }
-
-  // We do this instead of Preconditions.checkNotNull to save boxing and array
-  // creation cost.
-  private static Object checkElementNotNull(Object element, int index) {
-    if (element == null) {
-      throw new NullPointerException("at index " + index);
-    }
-    return element;
   }
 
   ImmutableList() {}
@@ -612,23 +603,6 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
     return new Builder<E>();
   }
 
-  @VisibleForTesting
-  static int expandedCapacity(int oldCapacity, int minCapacity) {
-    if (minCapacity < 0) {
-      throw new AssertionError("cannot store more than MAX_VALUE elements");
-    }
-    // careful of overflow!
-    int newCapacity = oldCapacity + (oldCapacity >> 1) + 1;
-    if (newCapacity < minCapacity) {
-      newCapacity = Integer.highestOneBit(minCapacity - 1) << 1;
-    }
-    if (newCapacity < 0) {
-      newCapacity = Integer.MAX_VALUE;
-      // guaranteed to be >= newCapacity
-    }
-    return newCapacity;
-  }
-
   /**
    * A builder for creating immutable list instances, especially {@code public
    * static final} lists ("constant lists"). Example: <pre>   {@code
@@ -646,8 +620,6 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
    * @since 2.0 (imported from Google Collections Library)
    */
   public static final class Builder<E> extends ImmutableCollection.Builder<E> {
-    private static final int DEFAULT_INITIAL_CAPACITY = 10;
-
     private Object[] contents;
     private int size;
 
@@ -665,14 +637,14 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
       this.size = 0;
     }
 
-    Builder<E> ensureCapacity(int minCapacity) {
-      int oldCapacity = contents.length;
-      if (oldCapacity < minCapacity) {
-        // careful of overflow!
-        int newCapacity = expandedCapacity(oldCapacity, minCapacity);
-        Object[] newContents = new Object[newCapacity];
-        System.arraycopy(contents, 0, newContents, 0, size);
-        this.contents = newContents;
+    /**
+     * Expand capacity to allow the specified number of elements to be added.
+     */
+    Builder<E> expandFor(int count) {
+      int minCapacity = size + count;
+      if (contents.length < minCapacity) {
+        this.contents = ObjectArrays.arraysCopyOf(
+            this.contents, expandedCapacity(contents.length, minCapacity));
       }
       return this;
     }
@@ -686,7 +658,7 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
      */
     @Override public Builder<E> add(E element) {
       checkNotNull(element);
-      ensureCapacity(size + 1);
+      expandFor(1);
       contents[size++] = element;
       return this;
     }
@@ -702,16 +674,10 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
     @Override public Builder<E> addAll(Iterable<? extends E> elements) {
       if (elements instanceof Collection) {
         Collection<?> collection = (Collection<?>) elements;
-        ensureCapacity(size + collection.size());
-        for (E e : elements) {
-          contents[size] = checkNotNull(e);
-          size++;
-        }
-        return this;
-      } else {
-        super.addAll(elements);
-        return this;
+        expandFor(collection.size());
       }
+      super.addAll(elements);
+      return this;
     }
 
     /**
@@ -723,11 +689,12 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
      *     null element
      */
     @Override public Builder<E> add(E... elements) {
-      ensureCapacity(size + elements.length);
-      for (E e : elements) {
-        contents[size] = checkNotNull(e);
-        size++;
+      for (int i = 0; i < elements.length; i++) {
+        checkElementNotNull(elements[i], i);
       }
+      expandFor(elements.length);
+      System.arraycopy(elements, 0, contents, size, elements.length);
+      size += elements.length;
       return this;
     }
 
@@ -758,7 +725,7 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
           return of(singleElement);
         default:
           if (size == contents.length) {
-            // no need to copy; this will never be changed
+            // no need to copy; any further add operations on the builder will copy the buffer
             return new RegularImmutableList<E>(contents);
           } else {
             return new RegularImmutableList<E>(ObjectArrays.arraysCopyOf(contents, size));

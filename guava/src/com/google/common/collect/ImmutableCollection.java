@@ -17,6 +17,7 @@
 package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.VisibleForTesting;
 
 import java.io.Serializable;
 import java.util.Collection;
@@ -272,6 +273,24 @@ public abstract class ImmutableCollection<E>
    * @since 10.0
    */
   public abstract static class Builder<E> {
+    static final int DEFAULT_INITIAL_CAPACITY = 4;
+
+    @VisibleForTesting
+    static int expandedCapacity(int oldCapacity, int minCapacity) {
+      if (minCapacity < 0) {
+        throw new AssertionError("cannot store more than MAX_VALUE elements");
+      }
+      // careful of overflow!
+      int newCapacity = oldCapacity + (oldCapacity >> 1) + 1;
+      if (newCapacity < minCapacity) {
+        newCapacity = Integer.highestOneBit(minCapacity - 1) << 1;
+      }
+      if (newCapacity < 0) {
+        newCapacity = Integer.MAX_VALUE;
+        // guaranteed to be >= newCapacity
+      }
+      return newCapacity;
+    }
 
     Builder() {
     }

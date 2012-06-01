@@ -183,4 +183,13 @@ public final class ObjectArrays {
     array[i] = array[j];
     array[j] = temp;
   }
+
+  // We do this instead of Preconditions.checkNotNull to save boxing and array
+  // creation cost.
+  static Object checkElementNotNull(Object element, int index) {
+    if (element == null) {
+      throw new NullPointerException("at index " + index);
+    }
+    return element;
+  }
 }

@@ -20,7 +20,6 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Function;
 import com.google.common.collect.Multiset.Entry;
 
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
@@ -58,65 +57,6 @@ final class SortedIterables {
       comparator2 = null;
     }
     return comparator.equals(comparator2);
-  }
-
-  /**
-   * Returns a sorted collection of the unique elements according to the specified comparator.  Does
-   * not check for null.
-   */
-  @SuppressWarnings("unchecked")
-  public static <E> Collection<E> sortedUnique(
-      Comparator<? super E> comparator, Iterator<E> elements) {
-    SortedSet<E> sortedSet = Sets.newTreeSet(comparator);
-    Iterators.addAll(sortedSet, elements);
-    return sortedSet;
-  }
-
-  /**
-   * Returns a sorted collection of the unique elements according to the specified comparator. Does
-   * not check for null.
-   */
-  @SuppressWarnings("unchecked")
-  public static <E> Collection<E> sortedUnique(
-      Comparator<? super E> comparator, Iterable<E> elements) {
-    if (elements instanceof Multiset) {
-      elements = ((Multiset<E>) elements).elementSet();
-    }
-    if (elements instanceof Set) {
-      if (hasSameComparator(comparator, elements)) {
-        return (Set<E>) elements;
-      }
-      /*
-       * We assume that the comparator is consistent with equals (or rather, consistent with
-       * whatever |elements| uses for equality). Thus, we don't need to deduplicate.
-       */
-      List<E> list = Lists.newArrayList(elements);
-      Collections.sort(list, comparator);
-      return list;
-    }
-    E[] array = (E[]) Iterables.toArray(elements);
-    if (!hasSameComparator(comparator, elements)) {
-      Arrays.sort(array, comparator);
-    }
-    return uniquifySortedArray(comparator, array);
-  }
-
-  private static <E> Collection<E> uniquifySortedArray(
-      Comparator<? super E> comparator, E[] array) {
-    if (array.length == 0) {
-      return Collections.emptySet();
-    }
-    int length = 1;
-    for (int i = 1; i < array.length; i++) {
-      int cmp = comparator.compare(array[i], array[length - 1]);
-      if (cmp != 0) {
-        array[length++] = array[i];
-      }
-    }
-    if (length < array.length) {
-      array = ObjectArrays.arraysCopyOf(array, length);
-    }
-    return Arrays.asList(array);
   }
 
   /**

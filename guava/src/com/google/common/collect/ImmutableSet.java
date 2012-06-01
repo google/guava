@@ -24,7 +24,7 @@ import com.google.common.annotations.VisibleForTesting;
 import com.google.common.primitives.Ints;
 
 import java.io.Serializable;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
@@ -101,7 +101,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E>
    * @throws NullPointerException if any element is null
    */
   public static <E> ImmutableSet<E> of(E e1, E e2) {
-    return construct(e1, e2);
+    return construct(2, e1, e2);
   }
 
   /**
@@ -112,7 +112,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E>
    * @throws NullPointerException if any element is null
    */
   public static <E> ImmutableSet<E> of(E e1, E e2, E e3) {
-    return construct(e1, e2, e3);
+    return construct(3, e1, e2, e3);
   }
 
   /**
@@ -123,7 +123,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E>
    * @throws NullPointerException if any element is null
    */
   public static <E> ImmutableSet<E> of(E e1, E e2, E e3, E e4) {
-    return construct(e1, e2, e3, e4);
+    return construct(4, e1, e2, e3, e4);
   }
 
   /**
@@ -134,7 +134,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E>
    * @throws NullPointerException if any element is null
    */
   public static <E> ImmutableSet<E> of(E e1, E e2, E e3, E e4, E e5) {
-    return construct(e1, e2, e3, e4, e5);
+    return construct(5, e1, e2, e3, e4, e5);
   }
 
   /**
@@ -155,59 +155,71 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E>
     elements[3] = e4;
     elements[4] = e5;
     elements[5] = e6;
-    for (int i = paramCount; i < elements.length; i++) {
-      elements[i] = others[i - paramCount];
-    }
-    return construct(elements);
+    System.arraycopy(others, 0, elements, paramCount, others.length);
+    return construct(elements.length, elements);
   }
 
-  /** {@code elements} has to be internally created array. */
-  private static <E> ImmutableSet<E> construct(Object... elements) {
-    int tableSize = chooseTableSize(elements.length);
+  /**
+   * Constructs an {@code ImmutableSet} from the first {@code n} elements of the specified array.
+   * If {@code k} is the size of the returned {@code ImmutableSet}, then the unique elements of
+   * {@code elements} will be in the first {@code k} positions, and {@code elements[i] == null} for
+   * {@code k <= i < n}.
+   *
+   * <p>This may modify {@code elements}.  Additionally, if {@code n == elements.length} and
+   * {@code elements} contains no duplicates, {@code elements} may be used without copying in the
+   * returned {@code ImmutableSet}, in which case it may no longer be modified.
+   *
+   * <p>{@code elements} may contain only values of type {@code E}.
+   *
+   * @throws NullPointerException if any of the first {@code n} elements of {@code elements} is
+   *          null
+   */
+  private static <E> ImmutableSet<E> construct(int n, Object... elements) {
+    switch (n) {
+      case 0:
+        return of();
+      case 1: {
+        @SuppressWarnings("unchecked") // safe; elements contains only E's
+        E elem = (E) elements[0];
+        return of(elem);
+      }
+    }
+    int tableSize = chooseTableSize(n);
     Object[] table = new Object[tableSize];
     int mask = tableSize - 1;
-    ArrayList<Object> uniqueElementsList = null;
     int hashCode = 0;
-    for (int i = 0; i < elements.length; i++) {
-      Object element = elements[i];
+    int uniques = 0;
+    for (int i = 0; i < n; i++) {
+      Object element = ObjectArrays.checkElementNotNull(elements[i], i);
       int hash = element.hashCode();
       for (int j = Hashing.smear(hash); ; j++) {
         int index = j & mask;
         Object value = table[index];
         if (value == null) {
-          if (uniqueElementsList != null) {
-            uniqueElementsList.add(element);
-          }
           // Came to an empty slot. Put the element here.
+          elements[uniques++] = element;
           table[index] = element;
           hashCode += hash;
           break;
         } else if (value.equals(element)) {
-          if (uniqueElementsList == null) {
-            // first dup
-            uniqueElementsList = new ArrayList<Object>(elements.length);
-            for (int k = 0; k < i; k++) {
-              Object previous = elements[k];
-              uniqueElementsList.add(previous);
-            }
-          }
           break;
         }
       }
     }
-    Object[] uniqueElements = uniqueElementsList == null
-        ? elements
-        : uniqueElementsList.toArray();
-    if (uniqueElements.length == 1) {
+    Arrays.fill(elements, uniques, n, null);
+    if (uniques == 1) {
       // There is only one element or elements are all duplicates
       @SuppressWarnings("unchecked") // we are careful to only pass in E
-      E element = (E) uniqueElements[0];
+      E element = (E) elements[0];
       return new SingletonImmutableSet<E>(element, hashCode);
-    } else if (tableSize != chooseTableSize(uniqueElements.length)) {
+    } else if (tableSize != chooseTableSize(uniques)) {
       // Resize the table when the array includes too many duplicates.
       // when this happens, we have already made a copy
-      return construct(uniqueElements);
+      return construct(uniques, elements);
     } else {
+      Object[] uniqueElements = (uniques < elements.length)
+          ? ObjectArrays.arraysCopyOf(elements, uniques)
+          : elements;
       return new RegularImmutableSet<E>(uniqueElements, hashCode, table, mask);
     }
   }
@@ -262,7 +274,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E>
       case 1:
         return of(elements[0]);
       default:
-        return construct(elements.clone());
+        return construct(elements.length, elements.clone());
     }
   }
 
@@ -358,7 +370,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E>
       default:
         // safe to use the array without copying it
         // as specified by Collection.toArray().
-        return construct(elements);
+        return construct(elements.length, elements);
     }
   }
 
@@ -493,10 +505,8 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E>
    * @since 2.0 (imported from Google Collections Library)
    */
   public static class Builder<E> extends ImmutableCollection.Builder<E> {
-    private static final int DEFAULT_INITIAL_CAPACITY = 10;
-
-    // accessed directly by ImmutableSortedSet
-    final ArrayList<E> contents;
+    Object[] contents;
+    int size;
 
     /**
      * Creates a new builder. The returned builder is equivalent to the builder
@@ -507,11 +517,20 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E>
     }
 
     Builder(int capacity) {
-      this.contents = new ArrayList<E>(capacity);
+      checkArgument(capacity >= 0, "capacity must be >= 0 but was %s", capacity);
+      this.contents = new Object[capacity];
+      this.size = 0;
     }
 
-    Builder<E> ensureCapacity(int minCapacity) {
-      contents.ensureCapacity(minCapacity);
+    /**
+     * Expand capacity to allow the specified number of elements to be added.
+     */
+    Builder<E> expandFor(int count) {
+      int minCapacity = size + count;
+      if (contents.length < minCapacity) {
+        contents = ObjectArrays.arraysCopyOf(
+            contents, expandedCapacity(contents.length, minCapacity));
+      }
       return this;
     }
 
@@ -525,7 +544,8 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E>
      * @throws NullPointerException if {@code element} is null
      */
     @Override public Builder<E> add(E element) {
-      contents.add(checkNotNull(element));
+      expandFor(1);
+      contents[size++] = checkNotNull(element);
       return this;
     }
 
@@ -539,8 +559,12 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E>
      *     null element
      */
     @Override public Builder<E> add(E... elements) {
-      contents.ensureCapacity(contents.size() + elements.length);
-      super.add(elements);
+      for (int i = 0; i < elements.length; i++) {
+        ObjectArrays.checkElementNotNull(elements[i], i);
+      }
+      expandFor(elements.length);
+      System.arraycopy(elements, 0, contents, size, elements.length);
+      size += elements.length;
       return this;
     }
 
@@ -556,7 +580,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E>
     @Override public Builder<E> addAll(Iterable<? extends E> elements) {
       if (elements instanceof Collection) {
         Collection<?> collection = (Collection<?>) elements;
-        contents.ensureCapacity(contents.size() + collection.size());
+        expandFor(collection.size());
       }
       super.addAll(elements);
       return this;
@@ -581,8 +605,11 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E>
      * the {@code Builder}.
      */
     @Override public ImmutableSet<E> build() {
-      // TODO(user): Optimize this after the upcoming rewrite of ImmutableSet.
-      return copyOf(contents);
+      ImmutableSet<E> result = construct(size, contents);
+      // construct has the side effect of deduping contents, so we update size
+      // accordingly.
+      size = result.size();
+      return result;
     }
   }
 }
