@@ -576,6 +576,44 @@ public final class Futures {
   }
 
   /**
+   * Returns a new {@code ListenableFuture} whose result is the product of
+   * calling {@code get()} on the {@code Future} nested within the given {@code
+   * Future}, effectively chaining the futures one after the other.  Example:
+   *
+   * <pre>   {@code
+   *   SettableFuture<ListenableFuture<String>> nested = SettableFuture.create();
+   *   ListenableFuture<String> dereferenced = dereference(nested);
+   * }</pre>
+   *
+   * <p>This call has the same cancellation and execution semantics as {@link
+   * #transform(ListenableFuture, AsyncFunction)}, in that the returned {@code
+   * Future} attempts to keep its cancellation state in sync with both the
+   * input {@code Future} and the nested {@code Future}.  The transformation
+   * is very lightweight and therefore takes place in the thread that called
+   * {@code dereference}.
+   *
+   * @param input The nested future to transform.
+   * @return A future that holds result of the inner future.
+   * @since 13.0
+   */
+  @Beta
+  @SuppressWarnings({"rawtypes", "unchecked"})
+  public static <V> ListenableFuture<V> dereference(
+      ListenableFuture<? extends ListenableFuture<? extends V>> nested) {
+    return Futures.transform((ListenableFuture) nested, (AsyncFunction) DEREFERENCER);
+  }
+
+  /**
+   * Helper {@code Function} for {@link #dereference}.
+   */
+  private static final AsyncFunction<ListenableFuture<Object>, Object> DEREFERENCER =
+      new AsyncFunction<ListenableFuture<Object>, Object>() {
+        @Override public ListenableFuture<Object> apply(ListenableFuture<Object> input) {
+          return input;
+        }
+      };
+
+  /**
    * Creates a new {@code ListenableFuture} whose value is a list containing the
    * values of all its input futures, if all succeed. If any input fails, the
    * returned future fails.

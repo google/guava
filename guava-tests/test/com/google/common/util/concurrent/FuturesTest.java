@@ -433,6 +433,52 @@ public class FuturesTest extends TestCase {
     assertSame(barChild, bar);
   }
 
+  public void testDereference_genericsWildcard() throws Exception {
+    ListenableFuture<?> inner = Futures.immediateFuture(null);
+    ListenableFuture<ListenableFuture<?>> outer =
+        Futures.<ListenableFuture<?>>immediateFuture(inner);
+    ListenableFuture<?> dereferenced = Futures.dereference(outer);
+    assertNull(dereferenced.get());
+  }
+
+  public void testDereference_genericsHierarchy() throws Exception {
+    FooChild fooChild = new FooChild();
+    ListenableFuture<FooChild> inner = Futures.immediateFuture(fooChild);
+    ListenableFuture<ListenableFuture<FooChild>> outer = Futures.immediateFuture(inner);
+    ListenableFuture<Foo> dereferenced = Futures.<Foo>dereference(outer);
+    assertSame(fooChild, dereferenced.get());
+  }
+
+  public void testDereference_resultCancelsOuter() throws Exception {
+    ListenableFuture<ListenableFuture<Foo>> outer = SettableFuture.create();
+    ListenableFuture<Foo> dereferenced = Futures.dereference(outer);
+    dereferenced.cancel(true);
+    assertTrue(outer.isCancelled());
+  }
+
+  public void testDereference_resultCancelsInner() throws Exception {
+    ListenableFuture<Foo> inner = SettableFuture.create();
+    ListenableFuture<ListenableFuture<Foo>> outer = Futures.immediateFuture(inner);
+    ListenableFuture<Foo> dereferenced = Futures.dereference(outer);
+    dereferenced.cancel(true);
+    assertTrue(inner.isCancelled());
+  }
+
+  public void testDereference_outerCancelsResult() throws Exception {
+    ListenableFuture<ListenableFuture<Foo>> outer = SettableFuture.create();
+    ListenableFuture<Foo> dereferenced = Futures.dereference(outer);
+    outer.cancel(true);
+    assertTrue(dereferenced.isCancelled());
+  }
+
+  public void testDereference_innerCancelsResult() throws Exception {
+    ListenableFuture<Foo> inner = SettableFuture.create();
+    ListenableFuture<ListenableFuture<Foo>> outer = Futures.immediateFuture(inner);
+    ListenableFuture<Foo> dereferenced = Futures.dereference(outer);
+    inner.cancel(true);
+    assertTrue(dereferenced.isCancelled());
+  }
+
   /**
    * Runnable which can be called a single time, and only after
    * {@link #expectCall} is called.
