@@ -63,6 +63,22 @@ public final class Sets {
   private Sets() {}
 
   /**
+   * {@link AbstractSet} substitute without the potentially-quadratic
+   * {@code removeAll} implementation.
+   */
+  abstract static class ImprovedAbstractSet<E> extends AbstractSet<E> {
+    @Override
+    public boolean removeAll(Collection<?> c) {
+      return removeAllImpl(this, c);
+    }
+
+    @Override
+    public boolean retainAll(Collection<?> c) {
+      return super.retainAll(checkNotNull(c)); // GWT compatibility
+    }
+  }
+
+  /**
    * Returns an immutable set instance containing the given enum elements.
    * Internally, the returned set will be backed by an {@link EnumSet}.
    *
@@ -1271,13 +1287,29 @@ public final class Sets {
   }
 
   static boolean removeAllImpl(Set<?> set, Collection<?> collection) {
+    checkNotNull(collection); // for GWT
     if (collection instanceof Multiset) {
       collection = ((Multiset<?>) collection).elementSet();
     }
-    if (collection.size() < set.size()) {
-      return removeAllImpl(set, collection.iterator());
+    /*
+     * AbstractSet.removeAll(List) has quadratic behavior if the list size
+     * is just less than the set's size.  We augment the test by
+     * assuming that sets have fast contains() performance, and other
+     * collections don't.  See
+     * http://code.google.com/p/guava-libraries/issues/detail?id=1013
+     */
+    if (collection instanceof Set && collection.size() > set.size()) {
+      Iterator<?> setIterator = set.iterator();
+      boolean changed = false;
+      while (setIterator.hasNext()) {
+        if (collection.contains(setIterator.next())) {
+          changed = true;
+          setIterator.remove();
+        }
+      }
+      return changed;
     } else {
-      return Iterators.removeAll(set.iterator(), collection);
+      return removeAllImpl(set, collection.iterator());
     }
   }
 

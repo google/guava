@@ -656,6 +656,25 @@ abstract class AbstractMultimap<K, V> implements Multimap<K, V>, Serializable {
     WrappedSet(@Nullable K key, Set<V> delegate) {
       super(key, delegate, null);
     }
+
+    @Override
+    public boolean removeAll(Collection<?> c) {
+      if (c.isEmpty()) {
+        return false;
+      }
+      int oldSize = size();  // calls refreshIfEmpty
+
+      // Guava issue 1013: AbstractSet and most JDK set implementations are
+      // susceptible to quadratic removeAll performance on lists;
+      // use a slightly smarter implementation here
+      boolean changed = Sets.removeAllImpl((Set<V>) delegate, c);
+      if (changed) {
+        int newSize = delegate.size();
+        totalSize += (newSize - oldSize);
+        removeIfEmpty();
+      }
+      return changed;
+    }
   }
 
   /**

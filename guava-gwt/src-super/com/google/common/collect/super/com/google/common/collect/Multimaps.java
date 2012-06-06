@@ -33,7 +33,6 @@ import com.google.common.collect.Maps.EntryTransformer;
 
 import java.io.Serializable;
 import java.util.AbstractCollection;
-import java.util.AbstractSet;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
@@ -970,7 +969,7 @@ public final class Multimaps {
 
     @Override
     public Set<V> get(final K key) {
-      return new AbstractSet<V>() {
+      return new Sets.ImprovedAbstractSet<V>() {
         @Override public Iterator<V> iterator() {
           return new Iterator<V>() {
             int i;
@@ -1102,7 +1101,7 @@ public final class Multimaps {
     }
 
     /** @see MapMultimap#asMap */
-    class AsMapEntries extends AbstractSet<Entry<K, Collection<V>>> {
+    class AsMapEntries extends Sets.ImprovedAbstractSet<Entry<K, Collection<V>>> {
       @Override public int size() {
         return map.size();
       }

@@ -26,7 +26,6 @@ import com.google.common.collect.Multiset.Entry;
 import com.google.common.primitives.Ints;
 
 import java.io.Serializable;
-import java.util.AbstractSet;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
@@ -803,7 +802,7 @@ public final class Multisets {
     }
   }
 
-  static abstract class ElementSet<E> extends AbstractSet<E> {
+  abstract static class ElementSet<E> extends Sets.ImprovedAbstractSet<E> {
     abstract Multiset<E> multiset();
 
     @Override public void clear() {
@@ -846,7 +845,7 @@ public final class Multisets {
     }
   }
 
-  static abstract class EntrySet<E> extends AbstractSet<Entry<E>>{
+  abstract static class EntrySet<E> extends Sets.ImprovedAbstractSet<Entry<E>> {
     abstract Multiset<E> multiset();
 
     @Override public boolean contains(@Nullable Object o) {

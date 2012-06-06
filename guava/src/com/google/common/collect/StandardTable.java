@@ -559,7 +559,7 @@ class StandardTable<R, C, V> implements Table<R, C, V>, Serializable {
       return changed;
     }
 
-    class EntrySet extends AbstractSet<Entry<R, V>> {
+    class EntrySet extends Sets.ImprovedAbstractSet<Entry<R, V>> {
       @Override public Iterator<Entry<R, V>> iterator() {
         return new EntrySetIterator();
       }
@@ -599,14 +599,6 @@ class StandardTable<R, C, V> implements Table<R, C, V>, Serializable {
         return false;
       }
 
-      @Override public boolean removeAll(Collection<?> c) {
-        boolean changed = false;
-        for (Object obj : c) {
-          changed |= remove(obj);
-        }
-        return changed;
-      }
-
       @Override public boolean retainAll(Collection<?> c) {
         return removePredicate(Predicates.not(Predicates.in(c)));
       }
@@ -643,7 +635,7 @@ class StandardTable<R, C, V> implements Table<R, C, V>, Serializable {
       return result == null ? keySet = new KeySet() : result;
     }
 
-    class KeySet extends AbstractSet<R> {
+    class KeySet extends Sets.ImprovedAbstractSet<R> {
       @Override public Iterator<R> iterator() {
         return Maps.keyIterator(Column.this.entrySet().iterator());
       }
@@ -666,14 +658,6 @@ class StandardTable<R, C, V> implements Table<R, C, V>, Serializable {
 
       @Override public void clear() {
         entrySet().clear();
-      }
-
-      @Override public boolean removeAll(final Collection<?> c) {
-        boolean changed = false;
-        for (Object obj : c) {
-          changed |= remove(obj);
-        }
-        return changed;
       }
 
       @Override public boolean retainAll(final Collection<?> c) {

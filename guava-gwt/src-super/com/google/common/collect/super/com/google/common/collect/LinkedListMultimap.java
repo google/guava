@@ -17,7 +17,6 @@
 package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 import static java.util.Collections.unmodifiableList;
 
@@ -27,7 +26,6 @@ import com.google.common.base.Preconditions;
 
 import java.io.Serializable;
 import java.util.AbstractSequentialList;
-import java.util.AbstractSet;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -674,7 +672,7 @@ public class LinkedListMultimap<K, V>
   public Set<K> keySet() {
     Set<K> result = keySet;
     if (result == null) {
-      keySet = result = new AbstractSet<K>() {
+      keySet = result = new Sets.ImprovedAbstractSet<K>() {
         @Override public int size() {
           return keyCount.elementSet().size();
         }
@@ -687,10 +685,6 @@ public class LinkedListMultimap<K, V>
         @Override
         public boolean remove(Object o) { // for performance
           return !LinkedListMultimap.this.removeAll(o).isEmpty();
-        }
-        @Override public boolean removeAll(Collection<?> c) {
-          checkNotNull(c); // eager for GWT
-          return super.removeAll(c);
         }
       };
     }

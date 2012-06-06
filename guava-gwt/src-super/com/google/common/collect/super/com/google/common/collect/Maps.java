@@ -34,7 +34,6 @@ import com.google.common.primitives.Ints;
 import java.io.Serializable;
 import java.util.AbstractCollection;
 import java.util.AbstractMap;
-import java.util.AbstractSet;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
@@ -1805,7 +1804,7 @@ public final class Maps {
       return (result == null) ? keySet = new KeySet() : result;
     }
 
-    private class KeySet extends AbstractSet<K> {
+    private class KeySet extends Sets.ImprovedAbstractSet<K> {
       @Override public Iterator<K> iterator() {
         final Iterator<Entry<K, V>> iterator = filteredEntrySet.iterator();
         return new UnmodifiableIterator<K>() {
@@ -1841,22 +1840,13 @@ public final class Maps {
         return false;
       }
 
-      @Override public boolean removeAll(Collection<?> collection) {
-        checkNotNull(collection); // for GWT
-        boolean changed = false;
-        for (Object obj : collection) {
-          changed |= remove(obj);
-        }
-        return changed;
-      }
-
       @Override public boolean retainAll(Collection<?> collection) {
         checkNotNull(collection); // for GWT
         boolean changed = false;
         Iterator<Entry<K, V>> iterator = unfiltered.entrySet().iterator();
         while (iterator.hasNext()) {
           Entry<K, V> entry = iterator.next();
-          if (!collection.contains(entry.getKey()) && predicate.apply(entry)) {
+          if (predicate.apply(entry) && !collection.contains(entry.getKey())) {
             iterator.remove();
             changed = true;
           }
@@ -2086,7 +2076,7 @@ public final class Maps {
     };
   }
 
-  abstract static class KeySet<K, V> extends AbstractSet<K> {
+  abstract static class KeySet<K, V> extends Sets.ImprovedAbstractSet<K> {
     abstract Map<K, V> map();
 
     @Override public Iterator<K> iterator() {
@@ -2111,12 +2101,6 @@ public final class Maps {
         return true;
       }
       return false;
-    }
-
-    @Override
-    public boolean removeAll(Collection<?> c) {
-      // TODO(user): find out why this is necessary to make GWT tests pass.
-      return super.removeAll(checkNotNull(c));
     }
 
     @Override public void clear() {
@@ -2219,7 +2203,8 @@ public final class Maps {
     }
   }
 
-  abstract static class EntrySet<K, V> extends AbstractSet<Entry<K, V>> {
+  abstract static class EntrySet<K, V>
+      extends Sets.ImprovedAbstractSet<Entry<K, V>> {
     abstract Map<K, V> map();
 
     @Override public int size() {
