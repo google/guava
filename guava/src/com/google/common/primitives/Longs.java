@@ -22,7 +22,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkPositionIndexes;
 
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.annotations.GwtIncompatible;
 
 import java.io.Serializable;
 import java.util.AbstractList;
@@ -44,7 +43,7 @@ import java.util.RandomAccess;
  * @author Kevin Bourrillion
  * @since 1.0
  */
-@GwtCompatible(emulated = true)
+@GwtCompatible
 public final class Longs {
   private Longs() {}
 
@@ -258,17 +257,15 @@ public final class Longs {
    * {@link com.google.common.io.ByteStreams#newDataOutput()} to get a growable
    * buffer.
    */
-  @GwtIncompatible("doesn't work")
   public static byte[] toByteArray(long value) {
-    return new byte[] {
-        (byte) (value >> 56),
-        (byte) (value >> 48),
-        (byte) (value >> 40),
-        (byte) (value >> 32),
-        (byte) (value >> 24),
-        (byte) (value >> 16),
-        (byte) (value >> 8),
-        (byte) value};
+    // Note that this code needs to stay compatible with GWT, which has known
+    // bugs when narrowing byte casts of long values occur.
+    byte[] result = new byte[8];
+    for (int i = 7; i >= 0; i--) {
+      result[i] = (byte) (value & 0xffL);
+      value >>= 8;
+    }
+    return result;
   }
 
   /**
@@ -284,7 +281,6 @@ public final class Longs {
    * @throws IllegalArgumentException if {@code bytes} has fewer than 8
    *     elements
    */
-  @GwtIncompatible("doesn't work")
   public static long fromByteArray(byte[] bytes) {
     checkArgument(bytes.length >= BYTES,
         "array too small: %s < %s", bytes.length, BYTES);
@@ -299,7 +295,6 @@ public final class Longs {
    *
    * @since 7.0
    */
-  @GwtIncompatible("doesn't work")
   public static long fromBytes(byte b1, byte b2, byte b3, byte b4,
       byte b5, byte b6, byte b7, byte b8) {
     return (b1 & 0xFFL) << 56

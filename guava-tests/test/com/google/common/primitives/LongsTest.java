@@ -188,19 +188,23 @@ public class LongsTest extends TestCase {
         Longs.concat(ARRAY1, ARRAY234)));
   }
 
-  @GwtIncompatible("Longs.toByteArray")
+  private static void assertByteArrayEquals(byte[] expected, byte[] actual) {
+    assertTrue(
+        "Expected: " + Arrays.toString(expected) + ", but got: " + Arrays.toString(actual),
+        Arrays.equals(expected, actual));
+  }
+
   public void testToByteArray() {
-    assertTrue(Arrays.equals(
+    assertByteArrayEquals(
         new byte[] {0x12, 0x13, 0x14, 0x15, 0x16, 0x17, 0x18, 0x19},
-        Longs.toByteArray(0x1213141516171819L)));
-    assertTrue(Arrays.equals(
+        Longs.toByteArray(0x1213141516171819L));
+    assertByteArrayEquals(
         new byte[] {
             (byte) 0xFF, (byte) 0xEE, (byte) 0xDD, (byte) 0xCC,
             (byte) 0xBB, (byte) 0xAA, (byte) 0x99, (byte) 0x88},
-        Longs.toByteArray(0xFFEEDDCCBBAA9988L)));
+        Longs.toByteArray(0xFFEEDDCCBBAA9988L));
   }
 
-  @GwtIncompatible("Longs.fromByteArray")
   public void testFromByteArray() {
     assertEquals(0x1213141516171819L, Longs.fromByteArray(
         new byte[] {0x12, 0x13, 0x14, 0x15, 0x16, 0x17, 0x18, 0x19, 0x33}));
@@ -216,7 +220,6 @@ public class LongsTest extends TestCase {
     }
   }
 
-  @GwtIncompatible("Longs.fromBytes")
   public void testFromBytes() {
     assertEquals(0x1213141516171819L, Longs.fromBytes(
         (byte) 0x12, (byte) 0x13, (byte) 0x14, (byte) 0x15,
@@ -226,7 +229,6 @@ public class LongsTest extends TestCase {
         (byte) 0xBB, (byte) 0xAA, (byte) 0x99, (byte) 0x88));
   }
 
-  @GwtIncompatible("Longs.fromByteArray, Longs.toByteArray")
   public void testByteArrayRoundTrips() {
     Random r = new Random(5);
     byte[] b = new byte[Longs.BYTES];
