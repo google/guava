@@ -23,13 +23,11 @@ import static com.google.common.base.Preconditions.checkState;
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Predicate;
-import com.google.common.collect.AbstractSequentialIterator;
+import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ForwardingSet;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Iterables;
-import com.google.common.collect.Iterators;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Ordering;
 
@@ -39,6 +37,7 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
 import java.lang.reflect.WildcardType;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Map;
 import java.util.Set;
@@ -185,6 +184,17 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
     Class<?> rawType = getRawType(runtimeType);
     @SuppressWarnings("unchecked") // raw type is |T|
     Class<? super T> result = (Class<? super T>) rawType;
+    return result;
+  }
+
+  /**
+   * Returns the raw type of the class or parameterized type; if {@code T} is type variable or
+   * wildcard type, the raw types of all its upper bounds are returned.
+   */
+  private ImmutableSet<Class<? super T>> getImmediateRawTypes() {
+    // Cast from ImmutableSet<Class<?>> to ImmutableSet<Class<? super T>>
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    ImmutableSet<Class<? super T>> result = (ImmutableSet) getRawTypes(runtimeType);
     return result;
   }
 
@@ -460,20 +470,25 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
     @Override protected Set<TypeToken<? super T>> delegate() {
       ImmutableSet<TypeToken<? super T>> filteredTypes = types;
       if (filteredTypes == null) {
-        return (types = ImmutableSet.copyOf(
-            Iterables.filter(findAllTypes(), TypeFilter.IGNORE_TYPE_VARIABLE_OR_WILDCARD)));
+        // Java has no way to express ? super T when we parameterize TypeToken vs. Class.
+        @SuppressWarnings({"unchecked", "rawtypes"})
+        ImmutableList<TypeToken<? super T>> collectedTypes = (ImmutableList)
+            TypeCollector.FOR_GENERIC_TYPE.collectTypes(TypeToken.this);
+        return (types = FluentIterable.from(collectedTypes)
+                .filter(TypeFilter.IGNORE_TYPE_VARIABLE_OR_WILDCARD)
+                .toImmutableSet());
       } else {
         return filteredTypes;
       }
     }
 
     /** Returns the raw types of the types in this set, in the same order. */
-    public final Set<Class<? super T>> rawTypes() {
-      ImmutableSet.Builder<Class<? super T>> builder = ImmutableSet.builder();
-      for (TypeToken<? super T> type : this) {
-        builder.add(type.getRawType());
-      }
-      return builder.build();
+    public Set<Class<? super T>> rawTypes() {
+      // Java has no way to express ? super T when we parameterize TypeToken vs. Class.
+      @SuppressWarnings({"unchecked", "rawtypes"})
+      ImmutableList<Class<? super T>> collectedTypes = (ImmutableList)
+          TypeCollector.FOR_RAW_TYPE.collectTypes(getImmediateRawTypes());
+      return ImmutableSet.copyOf(collectedTypes);
     }
 
     private static final long serialVersionUID = 0;
@@ -481,18 +496,40 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
 
   private final class InterfaceSet extends TypeSet {
 
-    private transient final ImmutableSet<TypeToken<? super T>> interfaces;
+    private transient final TypeSet allTypes;
+    private transient ImmutableSet<TypeToken<? super T>> interfaces;
 
-    InterfaceSet(Iterable<TypeToken<? super T>> allTypes) {
-      this.interfaces = ImmutableSet.copyOf(Iterables.filter(allTypes, TypeFilter.INTERFACE_ONLY));
+    InterfaceSet(TypeSet allTypes) {
+      this.allTypes = allTypes;
     }
 
     @Override protected Set<TypeToken<? super T>> delegate() {
-      return interfaces;
+      ImmutableSet<TypeToken<? super T>> result = interfaces;
+      if (result == null) {
+        return (interfaces = FluentIterable.from(allTypes)
+            .filter(TypeFilter.INTERFACE_ONLY)
+            .toImmutableSet());
+      } else {
+        return result;
+      }
     }
 
     @Override public TypeSet interfaces() {
       return this;
+    }
+
+    @Override public Set<Class<? super T>> rawTypes() {
+      // Java has no way to express ? super T when we parameterize TypeToken vs. Class.
+      @SuppressWarnings({"unchecked", "rawtypes"})
+      ImmutableList<Class<? super T>> collectedTypes = (ImmutableList)
+          TypeCollector.FOR_RAW_TYPE.collectTypes(getImmediateRawTypes());
+      return FluentIterable.from(collectedTypes)
+          .filter(new Predicate<Class<?>>() {
+            @Override public boolean apply(Class<?> type) {
+              return type.isInterface();
+            }
+          })
+          .toImmutableSet();
     }
 
     @Override public TypeSet classes() {
@@ -508,20 +545,32 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
 
   private final class ClassSet extends TypeSet {
 
-    private transient final ImmutableSet<TypeToken<? super T>> classes = ImmutableSet.copyOf(
-        Iterators.filter(new AbstractSequentialIterator<TypeToken<? super T>>(
-            getRawType().isInterface() ? null : TypeToken.this) {
-          @Override protected TypeToken<? super T> computeNext(TypeToken<? super T> previous) {
-            return previous.getGenericSuperclass();
-          }
-        }, TypeFilter.IGNORE_TYPE_VARIABLE_OR_WILDCARD));
+    private transient ImmutableSet<TypeToken<? super T>> classes;
 
     @Override protected Set<TypeToken<? super T>> delegate() {
-      return classes;
+      ImmutableSet<TypeToken<? super T>> result = classes;
+      if (result == null) {
+        @SuppressWarnings({"unchecked", "rawtypes"})
+        ImmutableList<TypeToken<? super T>> collectedTypes = (ImmutableList)
+            TypeCollector.FOR_GENERIC_TYPE.classesOnly().collectTypes(TypeToken.this);
+        return (classes = FluentIterable.from(collectedTypes)
+            .filter(TypeFilter.IGNORE_TYPE_VARIABLE_OR_WILDCARD)
+            .toImmutableSet());
+      } else {
+        return result;
+      }
     }
 
     @Override public TypeSet classes() {
       return this;
+    }
+
+    @Override public Set<Class<? super T>> rawTypes() {
+      // Java has no way to express ? super T when we parameterize TypeToken vs. Class.
+      @SuppressWarnings({"unchecked", "rawtypes"})
+      ImmutableList<Class<? super T>> collectedTypes = (ImmutableList)
+          TypeCollector.FOR_RAW_TYPE.classesOnly().collectTypes(getImmediateRawTypes());
+      return ImmutableSet.copyOf(collectedTypes);
     }
 
     @Override public TypeSet interfaces() {
@@ -533,36 +582,6 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
     }
 
     private static final long serialVersionUID = 0;
-  }
-
-  private ImmutableList<TypeToken<? super T>> findAllTypes() {
-    // type -> order number. 1 for Object, 2 for anything directly below, so on so forth.
-    Map<TypeToken<? super T>, Integer> map = Maps.newHashMap();
-    collectTypes(map);
-    return sortKeysByValue(map, Ordering.natural().reverse());
-  }
-
-  /** Collects all types to map, and returns the total depth from T up to Object. */
-  private int collectTypes(Map<? super TypeToken<? super T>, Integer> map) {
-    Integer existing = map.get(this);
-    if (existing != null) {
-      // short circuit: if set contains type it already contains its supertypes
-      return existing;
-    }
-    int aboveMe = getRawType().isInterface()
-        ? 1 // interfaces should be listed before Object
-        : 0;
-    for (TypeToken<? super T> interfaceType : getGenericInterfaces()) {
-      aboveMe = Math.max(aboveMe, interfaceType.collectTypes(map));
-    }
-    TypeToken<? super T> superclass = getGenericSuperclass();
-    if (superclass != null) {
-      aboveMe = Math.max(aboveMe, superclass.collectTypes(map));
-    }
-    // TODO(benyu): should we include Object for interface?
-    // Also, CharSequence[] and Object[] for String[]?
-    map.put(this, aboveMe + 1);
-    return aboveMe + 1;
   }
 
   private enum TypeFilter implements Predicate<TypeToken<?>> {
@@ -787,24 +806,36 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
   }
 
   @VisibleForTesting static Class<?> getRawType(Type type) {
+    // For wildcard or type variable, the first bound determines the runtime type.
+    return getRawTypes(type).iterator().next();
+  }
+
+  @VisibleForTesting static ImmutableSet<Class<?>> getRawTypes(Type type) {
     if (type instanceof Class) {
-      return (Class<?>) type;
+      return ImmutableSet.<Class<?>>of((Class<?>) type);
     } else if (type instanceof ParameterizedType) {
       ParameterizedType parameterizedType = (ParameterizedType) type;
       // JDK implementation declares getRawType() to return Class<?>
-      return (Class<?>) parameterizedType.getRawType();
+      return ImmutableSet.<Class<?>>of((Class<?>) parameterizedType.getRawType());
     } else if (type instanceof GenericArrayType) {
       GenericArrayType genericArrayType = (GenericArrayType) type;
-      return Types.getArrayClass(getRawType(genericArrayType.getGenericComponentType()));
+      return ImmutableSet.<Class<?>>of(Types.getArrayClass(
+          getRawType(genericArrayType.getGenericComponentType())));
     } else if (type instanceof TypeVariable) {
-      // First bound is always the "primary" bound that determines the runtime signature.
-      return getRawType(((TypeVariable<?>) type).getBounds()[0]);
+      return getRawTypes(((TypeVariable<?>) type).getBounds());
     } else if (type instanceof WildcardType) {
-      // Wildcard can have one and only one upper bound.
-      return getRawType(((WildcardType) type).getUpperBounds()[0]);
+      return getRawTypes(((WildcardType) type).getUpperBounds());
     } else {
       throw new AssertionError(type + " unsupported");
     }
+  }
+
+  private static ImmutableSet<Class<?>> getRawTypes(Type[] types) {
+    ImmutableSet.Builder<Class<?>> builder = ImmutableSet.builder();
+    for (Type type : types) {
+      builder.addAll(getRawTypes(type));
+    }
+    return builder.build();
   }
 
   /**
@@ -915,16 +946,6 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
     return Types.JavaVersion.JAVA7.newArrayType(componentType);
   }
 
-  private static <K, V> ImmutableList<K> sortKeysByValue(
-      final Map<K, V> map, final Comparator<? super V> valueComparator) {
-    Ordering<K> keyOrdering = new Ordering<K>() {
-      @Override public int compare(K left, K right) {
-        return valueComparator.compare(map.get(left), map.get(right));
-      }
-    };
-    return keyOrdering.immutableSortedCopy(map.keySet());
-  }
-
   private static final class SimpleTypeToken<T> extends TypeToken<T> {
 
     SimpleTypeToken(Type type) {
@@ -932,5 +953,134 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
     }
 
     private static final long serialVersionUID = 0;
+  }
+
+  /**
+   * Collects parent types from a sub type.
+   *
+   * @param <K> The type "kind". Either a TypeToken, or Class.
+   */
+  private abstract static class TypeCollector<K> {
+
+    static final TypeCollector<TypeToken<?>> FOR_GENERIC_TYPE =
+        new TypeCollector<TypeToken<?>>() {
+          @Override Class<?> getRawType(TypeToken<?> type) {
+            return type.getRawType();
+          }
+
+          @Override Iterable<? extends TypeToken<?>> getInterfaces(TypeToken<?> type) {
+            return type.getGenericInterfaces();
+          }
+
+          @Nullable
+          @Override TypeToken<?> getSuperclass(TypeToken<?> type) {
+            return type.getGenericSuperclass();
+          }
+        };
+
+    static final TypeCollector<Class<?>> FOR_RAW_TYPE =
+        new TypeCollector<Class<?>>() {
+          @Override Class<?> getRawType(Class<?> type) {
+            return type;
+          }
+
+          @Override Iterable<? extends Class<?>> getInterfaces(Class<?> type) {
+            return Arrays.asList(type.getInterfaces());
+          }
+
+          @Nullable
+          @Override Class<?> getSuperclass(Class<?> type) {
+            return type.getSuperclass();
+          }
+        };
+
+    /** For just classes, we don't have to traverse interfaces. */
+    final TypeCollector<K> classesOnly() {
+      return new ForwardingTypeCollector<K>(this) {
+        @Override Iterable<? extends K> getInterfaces(K type) {
+          return ImmutableSet.of();
+        }
+        @Override ImmutableList<K> collectTypes(Iterable<? extends K> types) {
+          ImmutableList.Builder<K> builder = ImmutableList.builder();
+          for (K type : types) {
+            if (!getRawType(type).isInterface()) {
+              builder.add(type);
+            }
+          }
+          return super.collectTypes(builder.build());
+        }
+      };
+    }
+
+    final ImmutableList<K> collectTypes(K type) {
+      return collectTypes(ImmutableList.of(type));
+    }
+
+    ImmutableList<K> collectTypes(Iterable<? extends K> types) {
+      // type -> order number. 1 for Object, 2 for anything directly below, so on so forth.
+      Map<K, Integer> map = Maps.newHashMap();
+      for (K type : types) {
+        collectTypes(type, map);
+      }
+      return sortKeysByValue(map, Ordering.natural().reverse());
+    }
+
+    /** Collects all types to map, and returns the total depth from T up to Object. */
+    private int collectTypes(K type, Map<? super K, Integer> map) {
+      Integer existing = map.get(this);
+      if (existing != null) {
+        // short circuit: if set contains type it already contains its supertypes
+        return existing;
+      }
+      int aboveMe = getRawType(type).isInterface()
+          ? 1 // interfaces should be listed before Object
+          : 0;
+      for (K interfaceType : getInterfaces(type)) {
+        aboveMe = Math.max(aboveMe, collectTypes(interfaceType, map));
+      }
+      K superclass = getSuperclass(type);
+      if (superclass != null) {
+        aboveMe = Math.max(aboveMe, collectTypes(superclass, map));
+      }
+      // TODO(benyu): should we include Object for interface?
+      // Also, CharSequence[] and Object[] for String[]?
+      map.put(type, aboveMe + 1);
+      return aboveMe + 1;
+    }
+
+    private static <K, V> ImmutableList<K> sortKeysByValue(
+        final Map<K, V> map, final Comparator<? super V> valueComparator) {
+      Ordering<K> keyOrdering = new Ordering<K>() {
+        @Override public int compare(K left, K right) {
+          return valueComparator.compare(map.get(left), map.get(right));
+        }
+      };
+      return keyOrdering.immutableSortedCopy(map.keySet());
+    }
+
+    abstract Class<?> getRawType(K type);
+    abstract Iterable<? extends K> getInterfaces(K type);
+    @Nullable abstract K getSuperclass(K type);
+
+    private static class ForwardingTypeCollector<K> extends TypeCollector<K> {
+
+      private final TypeCollector<K> delegate;
+
+      ForwardingTypeCollector(TypeCollector<K> delegate) {
+        this.delegate = delegate;
+      }
+
+      @Override Class<?> getRawType(K type) {
+        return delegate.getRawType(type);
+      }
+
+      @Override Iterable<? extends K> getInterfaces(K type) {
+        return delegate.getInterfaces(type);
+      }
+
+      @Override K getSuperclass(K type) {
+        return delegate.getSuperclass(type);
+      }
+    }
   }
 }

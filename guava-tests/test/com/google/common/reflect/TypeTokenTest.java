@@ -46,9 +46,9 @@ import java.util.Map;
  */
 public class TypeTokenTest extends TestCase {
 
-  private static abstract class StringList implements List<String> {}
+  private abstract static class StringList implements List<String> {}
 
-  private static abstract class IntegerList implements List<Integer> {}
+  private abstract static class IntegerList implements List<Integer> {}
 
   public void testValueEqualityNotInstanceEquality() {
     TypeToken<List<String>> a = new TypeToken<List<String>>() {};
@@ -270,24 +270,15 @@ public class TypeTokenTest extends TestCase {
   }
 
   private static void assertSubtypeFirst(TypeToken<?>.TypeSet types) {
-    assertSubtypeBeforeSupertype(types);
-    assertSubtypeBeforeSupertype(types.interfaces());
-    assertSubtypeBeforeSupertype(types.classes());
-    assertRawTypesInSameOrder(types);
-    assertRawTypesInSameOrder(types.interfaces());
-    assertRawTypesInSameOrder(types.classes());
+    assertSubtypeTokenBeforeSupertypeToken(types);
+    assertSubtypeTokenBeforeSupertypeToken(types.interfaces());
+    assertSubtypeTokenBeforeSupertypeToken(types.classes());
+    assertSubtypeBeforeSupertype(types.rawTypes());
+    assertSubtypeBeforeSupertype(types.interfaces().rawTypes());
+    assertSubtypeBeforeSupertype(types.classes().rawTypes());
   }
 
-  private static void assertRawTypesInSameOrder(TypeToken<?>.TypeSet types) {
-    TypeToken<?>[] typeArray = types.toArray(new TypeToken<?>[0]);
-    Class<?>[] rawTypeArray = types.rawTypes().toArray(new Class<?>[0]);
-    assertEquals(typeArray.length, rawTypeArray.length);
-    for (int i = 0; i < types.size(); i++) {
-      assertEquals(typeArray[i].getRawType(), rawTypeArray[i]);
-    }
-  }
-
-  private static void assertSubtypeBeforeSupertype(Iterable<? extends TypeToken<?>> types) {
+  private static void assertSubtypeTokenBeforeSupertypeToken(Iterable<? extends TypeToken<?>> types) {
     int i = 0;
     for (TypeToken<?> left : types) {
       int j = 0;
@@ -301,25 +292,72 @@ public class TypeTokenTest extends TestCase {
     }
   }
 
+  private static void assertSubtypeBeforeSupertype(Iterable<? extends Class<?>> types) {
+    int i = 0;
+    for (Class<?> left : types) {
+      int j = 0;
+      for (Class<?> right : types) {
+        if (left.isAssignableFrom(right)) {
+          assertTrue(left + " should be after " + right, i >= j);
+        }
+        j++;
+      }
+      i++;
+    }
+  }
+
   // Tests to make sure assertSubtypeBeforeSupertype() works.
 
+  public void testAssertSubtypeTokenBeforeSupertypeToken_empty() {
+    assertSubtypeTokenBeforeSupertypeToken(ImmutableList.<TypeToken<?>>of());
+  }
+
+  public void testAssertSubtypeTokenBeforeSupertypeToken_oneType() {
+    assertSubtypeTokenBeforeSupertypeToken(ImmutableList.of(TypeToken.of(String.class)));
+  }
+
+  public void testAssertSubtypeTokenBeforeSupertypeToken_subtypeFirst() {
+    assertSubtypeTokenBeforeSupertypeToken(
+        ImmutableList.of(TypeToken.of(String.class), TypeToken.of(CharSequence.class)));
+  }
+
+  public void testAssertSubtypeTokenBeforeSupertypeToken_supertypeFirst() {
+    try {
+      assertSubtypeTokenBeforeSupertypeToken(
+          ImmutableList.of(TypeToken.of(CharSequence.class), TypeToken.of(String.class)));
+    } catch (AssertionError expected) {
+      return;
+    }
+    fail();
+  }
+
+  public void testAssertSubtypeTokenBeforeSupertypeToken_duplicate() {
+    try {
+      assertSubtypeTokenBeforeSupertypeToken(
+          ImmutableList.of(TypeToken.of(String.class), TypeToken.of(String.class)));
+    } catch (AssertionError expected) {
+      return;
+    }
+    fail();
+  }
+
   public void testAssertSubtypeBeforeSupertype_empty() {
-    assertSubtypeBeforeSupertype(ImmutableList.<TypeToken<?>>of());
+    assertSubtypeBeforeSupertype(ImmutableList.<Class<?>>of());
   }
 
   public void testAssertSubtypeBeforeSupertype_oneType() {
-    assertSubtypeBeforeSupertype(ImmutableList.of(TypeToken.of(String.class)));
+    assertSubtypeBeforeSupertype(ImmutableList.of(String.class));
   }
 
   public void testAssertSubtypeBeforeSupertype_subtypeFirst() {
     assertSubtypeBeforeSupertype(
-        ImmutableList.of(TypeToken.of(String.class), TypeToken.of(CharSequence.class)));
+        ImmutableList.of(String.class, CharSequence.class));
   }
 
   public void testAssertSubtypeBeforeSupertype_supertypeFirst() {
     try {
       assertSubtypeBeforeSupertype(
-          ImmutableList.of(TypeToken.of(CharSequence.class), TypeToken.of(String.class)));
+          ImmutableList.of(CharSequence.class, String.class));
     } catch (AssertionError expected) {
       return;
     }
@@ -329,7 +367,7 @@ public class TypeTokenTest extends TestCase {
   public void testAssertSubtypeBeforeSupertype_duplicate() {
     try {
       assertSubtypeBeforeSupertype(
-          ImmutableList.of(TypeToken.of(String.class), TypeToken.of(String.class)));
+          ImmutableList.of(String.class, String.class));
     } catch (AssertionError expected) {
       return;
     }
@@ -519,16 +557,16 @@ public class TypeTokenTest extends TestCase {
 
   private static final class NoInterface {}
 
-  private static abstract class Implementation<K, V>
+  private abstract static class Implementation<K, V>
       implements Iterable<V>, Map<K, V> {}
 
-  private static abstract class First<T> {}
+  private abstract static class First<T> {}
 
-  private static abstract class Second<D> extends First<D> {}
+  private abstract static class Second<D> extends First<D> {}
 
-  private static abstract class Third<T, D> extends Second<T> {}
+  private abstract static class Third<T, D> extends Second<T> {}
 
-  private static abstract class Fourth<T, D> extends Third<D, T> {}
+  private abstract static class Fourth<T, D> extends Third<D, T> {}
 
   private static class ConcreteIS extends Fourth<Integer, String> {}
 
@@ -1156,7 +1194,7 @@ public class TypeTokenTest extends TestCase {
     assertEquals(Integer.class, TypeToken.of(Integer.class).getType());
   }
 
-  private static abstract class RawTypeConsistencyTester<T extends Enum<T> & CharSequence> {
+  private abstract static class RawTypeConsistencyTester<T extends Enum<T> & CharSequence> {
     abstract T returningT();
     abstract void acceptT(T t);
     abstract <X extends T> X returningX();
@@ -1182,7 +1220,7 @@ public class TypeTokenTest extends TestCase {
     assertEquals(Object.class, TypeToken.getRawType(Types.supertypeOf(CharSequence.class)));
   }
 
-  private static abstract class IKnowMyType<T> {
+  private abstract static class IKnowMyType<T> {
     TypeToken<T> type() {
       return new TypeToken<T>(getClass()) {};
     }
@@ -1245,8 +1283,26 @@ public class TypeTokenTest extends TestCase {
   private static <T, X> TypeToken<T> substitute(TypeToken<T> type, Class<X> arg) {
     return type.where(new TypeParameter<X>() {}, arg);
   }
+  
+  private abstract static class ToReproduceGenericSignatureFormatError<V> {
+    private abstract class BaseOuter {
+      abstract class BaseInner {}
+    }
+    private abstract class SubOuter extends BaseOuter {
+      private abstract class SubInner extends BaseInner {}
+    }
+    
+  }
 
-  private static abstract class Entry<K, V> {
+  // For Guava bug http://code.google.com/p/guava-libraries/issues/detail?id=1025
+  public void testDespiteGenericSignatureFormatError() {
+    ImmutableSet.copyOf(
+        TypeToken.of(ToReproduceGenericSignatureFormatError.SubOuter.SubInner.class)
+            .getTypes()
+            .rawTypes());
+  }
+
+  private abstract static class Entry<K, V> {
     TypeToken<K> keyType() {
       return new TypeToken<K>(getClass()) {};
     }
