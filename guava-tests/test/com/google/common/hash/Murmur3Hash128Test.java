@@ -16,46 +16,42 @@
 
 package com.google.common.hash;
 
-import static com.google.common.hash.HashTestUtils.ascii;
-import static com.google.common.hash.HashTestUtils.toBytes;
 import static com.google.common.hash.Hashing.murmur3_128;
-import static java.nio.ByteOrder.LITTLE_ENDIAN;
 
 import com.google.common.hash.Funnels;
 import com.google.common.hash.HashTestUtils.HashFn;
 
 import junit.framework.TestCase;
 
+import java.nio.ByteOrder;
 import java.util.Arrays;
 
 /**
- * Tests for Murmur3Hash128.
+ * Tests for {@link Murmur3_128HashFunction}.
  */
 public class Murmur3Hash128Test extends TestCase {
-  public void testCompatibilityWithCPlusPlus() {
-    assertHash(0, toBytes(LITTLE_ENDIAN, 0x629942693e10f867L, 0x92db0b82baeb5347L),
-        ascii("hell"));
-    assertHash(1, toBytes(LITTLE_ENDIAN, 0xa78ddff5adae8d10L, 0x128900ef20900135L),
-        ascii("hello"));
-    assertHash(2, toBytes(LITTLE_ENDIAN, 0x8a486b23f422e826L, 0xf962a2c58947765fL),
-        ascii("hello "));
-    assertHash(3, toBytes(LITTLE_ENDIAN, 0x2ea59f466f6bed8cL, 0xc610990acc428a17L),
-        ascii("hello w"));
-    assertHash(4, toBytes(LITTLE_ENDIAN, 0x79f6305a386c572cL, 0x46305aed3483b94eL),
-        ascii("hello wo"));
-    assertHash(5, toBytes(LITTLE_ENDIAN, 0xc2219d213ec1f1b5L, 0xa1d8e2e0a52785bdL),
-        ascii("hello wor"));
-    assertHash(0, toBytes(LITTLE_ENDIAN, 0xe34bbc7bbc071b6cL, 0x7a433ca9c49a9347L),
-        ascii("The quick brown fox jumps over the lazy dog"));
-    assertHash(0, toBytes(LITTLE_ENDIAN, 0x658ca970ff85269aL, 0x43fee3eaa68e5c3eL),
-        ascii("The quick brown fox jumps over the lazy cog"));
-  }
-  
-  private static void assertHash(int seed, byte[] expectedHash, byte[] input) {
-    byte[] hash = murmur3_128(seed).newHasher().putBytes(input).hash().asBytes();
-    assertTrue(Arrays.equals(expectedHash, hash));
+  public void testKnownValues() {
+    assertHash(0, 0x629942693e10f867L, 0x92db0b82baeb5347L, "hell");
+    assertHash(1, 0xa78ddff5adae8d10L, 0x128900ef20900135L, "hello");
+    assertHash(2, 0x8a486b23f422e826L, 0xf962a2c58947765fL, "hello ");
+    assertHash(3, 0x2ea59f466f6bed8cL, 0xc610990acc428a17L, "hello w");
+    assertHash(4, 0x79f6305a386c572cL, 0x46305aed3483b94eL, "hello wo");
+    assertHash(5, 0xc2219d213ec1f1b5L, 0xa1d8e2e0a52785bdL, "hello wor");
+    assertHash(0, 0xe34bbc7bbc071b6cL, 0x7a433ca9c49a9347L,
+        "The quick brown fox jumps over the lazy dog");
+    assertHash(0, 0x658ca970ff85269aL, 0x43fee3eaa68e5c3eL,
+        "The quick brown fox jumps over the lazy cog");
   }
 
+  private static void assertHash(int seed, long expected1, long expected2, String stringInput) {
+    byte[] expectedHash = HashTestUtils.toBytes(ByteOrder.LITTLE_ENDIAN, expected1, expected2);
+    byte[] input = HashTestUtils.ascii(stringInput);
+    byte[] actual1 = murmur3_128(seed).hashBytes(input).asBytes();
+    byte[] actual2 = murmur3_128(seed).newHasher().putBytes(input).hash().asBytes();
+    assertTrue(Arrays.equals(expectedHash, actual1));
+    assertTrue(Arrays.equals(expectedHash, actual2));
+  }
+  
   public void testParanoid() {
     HashFn hf = new HashFn() {
       @Override public byte[] hash(byte[] input, int seed) {
@@ -64,8 +60,12 @@ public class Murmur3Hash128Test extends TestCase {
         return hasher.hash().asBytes();
       }
     };
-    // the magic number comes from:
-    // http://code.google.com/p/smhasher/source/browse/trunk/main.cpp, #74
+    // Murmur3A, MurmurHash3 for x86, 128-bit (MurmurHash3_x86_128)
+    // http://code.google.com/p/smhasher/source/browse/trunk/main.cpp
     HashTestUtils.verifyHashFunction(hf, 128, 0x6384BA69);
+  }
+
+  public void testInvariants() {
+    HashTestUtils.assertInvariants(murmur3_128());
   }
 }

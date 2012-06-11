@@ -24,9 +24,35 @@ import com.google.common.hash.HashTestUtils.HashFn;
 import junit.framework.TestCase;
 
 /**
- * Tests for Murmur3Hash32.
+ * Tests for {@link Murmur3_32HashFunction}.
  */
 public class Murmur3Hash32Test extends TestCase {
+  public void testKnownIntegerInputs() {
+    assertHash(593689054, 0);
+    assertHash(-189366624, -42);
+    assertHash(-1134849565, 42);
+    assertHash(-1718298732, Integer.MIN_VALUE);
+    assertHash(-1653689534, Integer.MAX_VALUE);
+  }
+
+  public void testKnownStringInputs() {
+    assertHash(0, "");
+    assertHash(679745764, "k");
+    assertHash(-675079799, "hello");
+    assertHash(1935035788, "http://www.google.com/");
+    assertHash(-528633700, "The quick brown fox jumps over the lazy dog");
+  }
+
+  private static void assertHash(int expected, int input) {
+    assertEquals(expected, murmur3_32().hashInt(input).asInt());
+    assertEquals(expected, murmur3_32().newHasher().putInt(input).hash().asInt());
+  }
+
+  private static void assertHash(int expected, String input) {
+    assertEquals(expected, murmur3_32().hashString(input).asInt());
+    assertEquals(expected, murmur3_32().newHasher().putString(input).hash().asInt());
+  }
+
   public void testParanoid() {
     HashFn hf = new HashFn() {
       @Override public byte[] hash(byte[] input, int seed) {
@@ -35,8 +61,12 @@ public class Murmur3Hash32Test extends TestCase {
         return hasher.hash().asBytes();
       }
     };
-    // the magic number comes from:
-    // http://code.google.com/p/smhasher/source/browse/trunk/main.cpp, #72
+    // Murmur3A, MurmurHash3 for x86, 32-bit (MurmurHash3_x86_32)
+    // http://code.google.com/p/smhasher/source/browse/trunk/main.cpp
     HashTestUtils.verifyHashFunction(hf, 32, 0xB0F57EE3);
+  }
+
+  public void testInvariants() {
+    HashTestUtils.assertInvariants(murmur3_32());
   }
 }
