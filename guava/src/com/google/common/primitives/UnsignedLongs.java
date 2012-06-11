@@ -249,46 +249,26 @@ public final class UnsignedLongs {
   }
 
   /**
-   * Returns the {@code unsigned long} value represented by the given string.
-   * 
+   * Returns the unsigned {@code long} value represented by the given string.
+   *
    * Accepts a decimal, hexadecimal, or octal number given by specifying the following prefix:
-   * 
+   *
    * <ul>
    * <li>{@code 0x}<i>HexDigits</i>
    * <li>{@code 0X}<i>HexDigits</i>
    * <li>{@code #}<i>HexDigits</i>
    * <li>{@code 0}<i>OctalDigits</i>
    * </ul>
-   * 
-   * @throws NumberFormatException if the string does not contain a valid {@code unsigned long}
+   *
+   * @throws NumberFormatException if the string does not contain a valid unsigned {@code long}
    *         value
    * @since 13.0
    */
   public static long decode(String stringValue) {
-    if (stringValue.length() == 0) {
-      throw new NumberFormatException("empty string");
-    }
-
-    // Handle radix specifier if present
-    String rawValue;
-    int radix;
-    char firstChar = stringValue.charAt(0);
-    if (stringValue.startsWith("0x") || stringValue.startsWith("0X")) {
-      rawValue = stringValue.substring(2);
-      radix = 16;
-    } else if (firstChar == '#') {
-      rawValue = stringValue.substring(1);
-      radix = 16;
-    } else if (firstChar == '0' && stringValue.length() > 1) {
-      rawValue = stringValue.substring(1);
-      radix = 8;
-    } else {
-      rawValue = stringValue;
-      radix = 10;
-    }
+    ParseRequest request = ParseRequest.fromString(stringValue);
 
     try {
-      return parseUnsignedLong(rawValue, radix);
+      return parseUnsignedLong(request.rawValue, request.radix);
     } catch (NumberFormatException e) {
       NumberFormatException decodeException =
           new NumberFormatException("Error parsing value: " + stringValue);

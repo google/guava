@@ -107,17 +107,36 @@ public class UnsignedLongsTest extends TestCase {
 
   public void testDecodeLong() {
     assertEquals(0xffffffffffffffffL, UnsignedLongs.decode("0xffffffffffffffff"));
-    assertEquals(01234567, UnsignedLongs.decode("01234567")); //octal
+    assertEquals(01234567, UnsignedLongs.decode("01234567")); // octal
     assertEquals(0x1234567890abcdefL, UnsignedLongs.decode("#1234567890abcdef"));
     assertEquals(987654321012345678L, UnsignedLongs.decode("987654321012345678"));
     assertEquals(0x135791357913579L, UnsignedLongs.decode("0x135791357913579"));
     assertEquals(0x135791357913579L, UnsignedLongs.decode("0X135791357913579"));
     assertEquals(0L, UnsignedLongs.decode("0"));
+  }
 
-    boolean overflowCaught = false;
+  public void testDecodeLongFails() {
     try {
       // One more than maximum value
-      UnsignedLongs.parseUnsignedLong("0xfffffffffffffffff");
+      UnsignedLongs.decode("0xfffffffffffffffff");
+      fail();
+    } catch (NumberFormatException expected) {
+    }
+
+    try {
+      UnsignedLongs.decode("-5");
+      fail();
+    } catch (NumberFormatException expected) {
+    }
+
+    try {
+      UnsignedLongs.decode("-0x5");
+      fail();
+    } catch (NumberFormatException expected) {
+    }
+
+    try {
+      UnsignedLongs.decode("-05");
       fail();
     } catch (NumberFormatException expected) {
     }

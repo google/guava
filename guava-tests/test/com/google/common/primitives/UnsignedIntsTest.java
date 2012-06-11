@@ -113,7 +113,7 @@ public class UnsignedIntsTest extends TestCase {
     } catch (NumberFormatException expected) {}
   }
 
-  public void testParseLongWithRadix() throws NumberFormatException {
+  public void testParseIntWithRadix() throws NumberFormatException {
     for (long a : UNSIGNED_INTS) {
       for (int radix = Character.MIN_RADIX; radix <= Character.MAX_RADIX; radix++) {
         assertEquals((int) a, UnsignedInts.parseUnsignedInt(Long.toString(a, radix), radix));
@@ -136,7 +136,7 @@ public class UnsignedIntsTest extends TestCase {
     }
   }
 
-  public void testParseLongThrowsExceptionForInvalidRadix() {
+  public void testParseIntThrowsExceptionForInvalidRadix() {
     // Valid radix values are Character.MIN_RADIX to Character.MAX_RADIX,
     // inclusive.
     try {
@@ -154,6 +154,43 @@ public class UnsignedIntsTest extends TestCase {
       UnsignedInts.parseUnsignedInt("0", -1);
       fail();
     } catch (NumberFormatException expected) {}
+  }
+
+  public void testDecodeInt() {
+    assertEquals(0xffffffff, UnsignedInts.decode("0xffffffff"));
+    assertEquals(01234567, UnsignedInts.decode("01234567")); // octal
+    assertEquals(0x12345678, UnsignedInts.decode("#12345678"));
+    assertEquals(76543210, UnsignedInts.decode("76543210"));
+    assertEquals(0x13579135, UnsignedInts.decode("0x13579135"));
+    assertEquals(0x13579135, UnsignedInts.decode("0X13579135"));
+    assertEquals(0, UnsignedInts.decode("0"));
+  }
+
+  public void testDecodeIntFails() {
+    try {
+      // One more than maximum value
+      UnsignedInts.decode("0xfffffffff");
+      fail();
+    } catch (NumberFormatException expected) {
+    }
+
+    try {
+      UnsignedInts.decode("-5");
+      fail();
+    } catch (NumberFormatException expected) {
+    }
+
+    try {
+      UnsignedInts.decode("-0x5");
+      fail();
+    } catch (NumberFormatException expected) {
+    }
+
+    try {
+      UnsignedInts.decode("-05");
+      fail();
+    } catch (NumberFormatException expected) {
+    }
   }
 
   public void testToString() {
