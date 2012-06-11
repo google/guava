@@ -19,6 +19,7 @@ package com.google.common.collect;
 import static com.google.common.collect.Lists.newArrayList;
 import static com.google.common.collect.Sets.newHashSet;
 import static com.google.common.collect.Sets.newLinkedHashSet;
+import static com.google.common.collect.testing.Helpers.mapEntry;
 import static com.google.common.collect.testing.IteratorFeature.MODIFIABLE;
 import static java.util.Arrays.asList;
 import static org.junit.contrib.truth.Truth.ASSERT;
@@ -83,6 +84,23 @@ public class LinkedHashMultimapTest extends AbstractSetMultimapTest {
     Multimap<String, Integer> copy
         = SerializableTester.reserializeAndAssert(multimap);
     assertOrderingReadOnly(copy);
+  }
+
+  @GwtIncompatible("SeriazableTester")
+  public void testSerializationOrderingKeysAndEntries() {
+    Multimap<String, Integer> multimap = LinkedHashMultimap.create();
+    multimap.put("a", 1);
+    multimap.put("b", 2);
+    multimap.put("a", 3);
+    multimap.put("c", 4);
+    multimap.remove("a", 1);
+    multimap = SerializableTester.reserializeAndAssert(multimap);
+    ASSERT.that(multimap.keySet()).hasContentsInOrder("a", "b", "c");
+    ASSERT.that(multimap.entries()).hasContentsInOrder(
+        mapEntry("b", 2),
+        mapEntry("a", 3),
+        mapEntry("c", 4));
+    // note that the keys and entries are in different orders
   }
 
   private void assertOrderingReadOnly(Multimap<String, Integer> multimap) {
@@ -169,7 +187,6 @@ public class LinkedHashMultimapTest extends AbstractSetMultimapTest {
     multimap.put("bar", 2);
     multimap.put("foo", 3);
     assertEquals(ImmutableSet.of(1, 3), multimap.get("foo"));
-    assertEquals(2, multimap.expectedValuesPerKey);
   }
 
   public void testCreateFromMultimap() {
@@ -177,7 +194,6 @@ public class LinkedHashMultimapTest extends AbstractSetMultimapTest {
     LinkedHashMultimap<String, Integer> copy =
         LinkedHashMultimap.create(multimap);
     assertEquals(multimap, copy);
-    assertEquals(2, copy.expectedValuesPerKey);
   }
 
   public void testCreateFromSizes() {
@@ -187,7 +203,6 @@ public class LinkedHashMultimapTest extends AbstractSetMultimapTest {
     multimap.put("bar", 2);
     multimap.put("foo", 3);
     assertEquals(ImmutableSet.of(1, 3), multimap.get("foo"));
-    assertEquals(15, multimap.expectedValuesPerKey);
   }
 
   public void testCreateFromIllegalSizes() {
