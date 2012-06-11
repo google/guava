@@ -528,9 +528,10 @@ public abstract class Ordering<T> implements Comparator<T> {
    * @return a new list containing the given elements in sorted order
    */
   public <E extends T> List<E> sortedCopy(Iterable<E> iterable) {
-    List<E> list = Lists.newArrayList(iterable);
-    Collections.sort(list, this);
-    return list;
+    @SuppressWarnings("unchecked") // does not escape, and contains only E's
+    E[] array = (E[]) Iterables.toArray(iterable);
+    Arrays.sort(array, this);
+    return Lists.newArrayList(Arrays.asList(array));
   }
 
   /**
