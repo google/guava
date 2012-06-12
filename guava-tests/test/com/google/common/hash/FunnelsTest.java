@@ -90,15 +90,15 @@ public class FunnelsTest extends TestCase {
     } catch (NullPointerException ok) {}
   }
   
- public void testAsOutputStream() throws Exception {
-   PrimitiveSink sink = mock(PrimitiveSink.class);
-   OutputStream out = Funnels.asOutputStream(sink);
-   byte[] bytes = { 1, 2, 3, 4 };
-   out.write(255);
-   out.write(bytes);
-   out.write(bytes, 1, 2);
-   verify(sink).putByte((byte) 255);
-   verify(sink).putBytes(bytes);
-   verify(sink).putBytes(bytes, 1, 2);
- }
+  public void testAsOutputStream() throws Exception {
+    PrimitiveSink sink = mock(PrimitiveSink.class);
+    OutputStream out = Funnels.asOutputStream(sink);
+    byte[] bytes = { 1, 2, 3, 4 };
+    out.write(255);
+    out.write(bytes);
+    out.write(bytes, 1, 2);
+    verify(sink).putByte((byte) 255);
+    verify(sink).putBytes(bytes);
+    verify(sink).putBytes(bytes, 1, 2);
+  }
 }

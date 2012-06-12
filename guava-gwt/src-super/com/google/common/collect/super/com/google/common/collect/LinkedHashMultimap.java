@@ -165,7 +165,8 @@ public final class LinkedHashMultimap<K, V> extends AbstractSetMultimap<K, V> {
     ValueEntry<K, V> predecessorInMultimap;
     ValueEntry<K, V> successorInMultimap;
 
-    ValueEntry(K key, V value, int valueHash, @Nullable ValueEntry<K, V> nextInValueSetHashRow) {
+    ValueEntry(@Nullable K key, @Nullable V value, int valueHash,
+        @Nullable ValueEntry<K, V> nextInValueSetHashRow) {
       this.key = key;
       this.value = value;
       this.valueHash = valueHash;
