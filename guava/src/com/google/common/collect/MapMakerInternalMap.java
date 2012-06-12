@@ -604,8 +604,11 @@ class MapMakerInternalMap<K, V>
 
     /**
      * Creates a copy of this reference for the given entry.
+     *
+     * <p>{@code value} may be null only for a loading reference.
      */
-    ValueReference<K, V> copyFor(ReferenceQueue<V> queue, V value, ReferenceEntry<K, V> entry);
+    ValueReference<K, V> copyFor(
+        ReferenceQueue<V> queue, @Nullable V value, ReferenceEntry<K, V> entry);
 
     /**
      * Clears this reference object.
@@ -638,8 +641,8 @@ class MapMakerInternalMap<K, V>
     }
 
     @Override
-    public ValueReference<Object, Object> copyFor(
-        ReferenceQueue<Object> queue, Object value, ReferenceEntry<Object, Object> entry) {
+    public ValueReference<Object, Object> copyFor(ReferenceQueue<Object> queue,
+        @Nullable Object value, ReferenceEntry<Object, Object> entry) {
       return this;
     }
 

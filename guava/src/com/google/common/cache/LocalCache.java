@@ -650,8 +650,11 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
 
     /**
      * Creates a copy of this reference for the given entry.
+     *
+     * <p>{@code value} may be null only for a loading reference.
      */
-    ValueReference<K, V> copyFor(ReferenceQueue<V> queue, V value, ReferenceEntry<K, V> entry);
+    ValueReference<K, V> copyFor(
+        ReferenceQueue<V> queue, @Nullable V value, ReferenceEntry<K, V> entry);
 
     /**
      * Notifify pending loads that a new value was set. This is only relevant to loading
@@ -696,8 +699,8 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
     }
 
     @Override
-    public ValueReference<Object, Object> copyFor(
-        ReferenceQueue<Object> queue, Object value, ReferenceEntry<Object, Object> entry) {
+    public ValueReference<Object, Object> copyFor(ReferenceQueue<Object> queue,
+        @Nullable Object value, ReferenceEntry<Object, Object> entry) {
       return this;
     }
 
@@ -3618,7 +3621,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
 
     @Override
     public ValueReference<K, V> copyFor(
-        ReferenceQueue<V> queue, V value, ReferenceEntry<K, V> entry) {
+        ReferenceQueue<V> queue, @Nullable V value, ReferenceEntry<K, V> entry) {
       return this;
     }
   }

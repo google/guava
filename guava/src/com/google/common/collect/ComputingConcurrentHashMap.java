@@ -308,7 +308,7 @@ class ComputingConcurrentHashMap<K, V> extends MapMakerInternalMap<K, V> {
 
     @Override
     public ValueReference<K, V> copyFor(
-        ReferenceQueue<V> queue, V value, ReferenceEntry<K, V> entry) {
+        ReferenceQueue<V> queue, @Nullable V value, ReferenceEntry<K, V> entry) {
       return this;
     }
 
