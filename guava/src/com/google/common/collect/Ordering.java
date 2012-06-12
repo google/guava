@@ -39,8 +39,9 @@ import java.util.concurrent.atomic.AtomicInteger;
 import javax.annotation.Nullable;
 
 /**
- * A comparator with added methods to support common functions. For example:
- * <pre>   {@code
+ * A comparator, with additional methods to support common operations. This is
+ * an "enriched" version of {@code Comparator}, in the same sense that {@link
+ * FluentIterable} is an enriched {@link Iterable}). For example: <pre>   {@code
  *
  *   if (Ordering.from(comparator).reverse().isOrdered(list)) { ... }}</pre>
  *
@@ -69,20 +70,7 @@ import javax.annotation.Nullable;
  */
 @GwtCompatible
 public abstract class Ordering<T> implements Comparator<T> {
-  // Static factories
-
-  /**
-   * Returns an ordering which treats all values as equal. This can be useful in conjunction with
-   * nullsFirst() or nullsLast() to treat all non-null objects as equal, or to make sorting a
-   * no-op.
-   *
-   * <p>The returned comparator is serializable.
-   */
-  @GwtCompatible(serializable = true)
-  @SuppressWarnings("unchecked")
-  public static Ordering<Object> allEqual() {
-    return AllEqualOrdering.INSTANCE;
-  }
+  // Natural order
 
   /**
    * Returns a serializable ordering that uses the natural order of the values.
@@ -98,6 +86,8 @@ public abstract class Ordering<T> implements Comparator<T> {
   public static <C extends Comparable> Ordering<C> natural() {
     return (Ordering<C>) NaturalOrdering.INSTANCE;
   }
+
+  // Static factories
 
   /**
    * Returns an ordering based on an <i>existing</i> comparator instance. Note
@@ -181,23 +171,31 @@ public abstract class Ordering<T> implements Comparator<T> {
     return explicit(Lists.asList(leastValue, remainingValuesInOrder));
   }
 
+  // Ordering<Object> singletons
+
   /**
-   * Exception thrown by a {@link Ordering#explicit(List)} or {@link
-   * Ordering#explicit(Object, Object[])} comparator when comparing a value
-   * outside the set of values it can compare. Extending {@link
-   * ClassCastException} may seem odd, but it is required.
+   * Returns an ordering which treats all values as equal. This can be useful in conjunction with
+   * nullsFirst() or nullsLast() to treat all non-null objects as equal, or to make sorting a
+   * no-op.
+   *
+   * <p>The returned comparator is serializable.
    */
-  // TODO(kevinb): make this public, document it right
-  @VisibleForTesting
-  static class IncomparableValueException extends ClassCastException {
-    final Object value;
+  @GwtCompatible(serializable = true)
+  @SuppressWarnings("unchecked")
+  public static Ordering<Object> allEqual() {
+    return AllEqualOrdering.INSTANCE;
+  }
 
-    IncomparableValueException(Object value) {
-      super("Cannot compare value: " + value);
-      this.value = value;
-    }
-
-    private static final long serialVersionUID = 0;
+  /**
+   * Returns an ordering that compares objects by the natural ordering of their
+   * string representations as returned by {@code toString()}. It does not
+   * support null values.
+   *
+   * <p>The comparator is serializable.
+   */
+  @GwtCompatible(serializable = true)
+  public static Ordering<Object> usingToString() {
+    return UsingToStringOrdering.INSTANCE;
   }
 
   /**
@@ -271,16 +269,78 @@ public abstract class Ordering<T> implements Comparator<T> {
     }
   }
 
+  // Constructor
+
   /**
-   * Returns an ordering that compares objects by the natural ordering of their
-   * string representations as returned by {@code toString()}. It does not
-   * support null values.
+   * Constructs a new instance of this class (only invokable by the subclass
+   * constructor, typically implicit).
+   */
+  protected Ordering() {}
+
+  // Instance-based factories (and any static equivalents)
+
+  /**
+   * Returns the reverse of this ordering; the {@code Ordering} equivalent to
+   * {@link Collections#reverseOrder(Comparator)}.
+   */
+  // type parameter <S> lets us avoid the extra <String> in statements like:
+  // Ordering<String> o = Ordering.<String>natural().reverse();
+  @GwtCompatible(serializable = true)
+  public <S extends T> Ordering<S> reverse() {
+    return new ReverseOrdering<S>(this);
+  }
+
+  /**
+   * Returns an ordering that treats {@code null} as less than all other values
+   * and uses {@code this} to compare non-null values.
+   */
+  // type parameter <S> lets us avoid the extra <String> in statements like:
+  // Ordering<String> o = Ordering.<String>natural().nullsFirst();
+  @GwtCompatible(serializable = true)
+  public <S extends T> Ordering<S> nullsFirst() {
+    return new NullsFirstOrdering<S>(this);
+  }
+
+  /**
+   * Returns an ordering that treats {@code null} as greater than all other
+   * values and uses this ordering to compare non-null values.
+   */
+  // type parameter <S> lets us avoid the extra <String> in statements like:
+  // Ordering<String> o = Ordering.<String>natural().nullsLast();
+  @GwtCompatible(serializable = true)
+  public <S extends T> Ordering<S> nullsLast() {
+    return new NullsLastOrdering<S>(this);
+  }
+
+  /**
+   * Returns a new ordering on {@code F} which orders elements by first applying
+   * a function to them, then comparing those results using {@code this}. For
+   * example, to compare objects by their string forms, in a case-insensitive
+   * manner, use: <pre>   {@code
    *
-   * <p>The comparator is serializable.
+   *   Ordering.from(String.CASE_INSENSITIVE_ORDER)
+   *       .onResultOf(Functions.toStringFunction())}</pre>
    */
   @GwtCompatible(serializable = true)
-  public static Ordering<Object> usingToString() {
-    return UsingToStringOrdering.INSTANCE;
+  public <F> Ordering<F> onResultOf(Function<F, ? extends T> function) {
+    return new ByFunctionOrdering<F, T>(function, this);
+  }
+
+  /**
+   * Returns an ordering which first uses the ordering {@code this}, but which
+   * in the event of a "tie", then delegates to {@code secondaryComparator}.
+   * For example, to sort a bug list first by status and second by priority, you
+   * might use {@code byStatus.compound(byPriority)}. For a compound ordering
+   * with three or more components, simply chain multiple calls to this method.
+   *
+   * <p>An ordering produced by this method, or a chain of calls to this method,
+   * is equivalent to one created using {@link Ordering#compound(Iterable)} on
+   * the same component comparators.
+   */
+  @GwtCompatible(serializable = true)
+  public <U extends T> Ordering<U> compound(
+      Comparator<? super U> secondaryComparator) {
+    return new CompoundOrdering<U>(this, checkNotNull(secondaryComparator));
   }
 
   /**
@@ -302,56 +362,6 @@ public abstract class Ordering<T> implements Comparator<T> {
   public static <T> Ordering<T> compound(
       Iterable<? extends Comparator<? super T>> comparators) {
     return new CompoundOrdering<T>(comparators);
-  }
-
-  /**
-   * Constructs a new instance of this class (only invokable by the subclass
-   * constructor, typically implicit).
-   */
-  protected Ordering() {}
-
-  // Non-static factories
-
-  /**
-   * Returns an ordering which first uses the ordering {@code this}, but which
-   * in the event of a "tie", then delegates to {@code secondaryComparator}.
-   * For example, to sort a bug list first by status and second by priority, you
-   * might use {@code byStatus.compound(byPriority)}. For a compound ordering
-   * with three or more components, simply chain multiple calls to this method.
-   *
-   * <p>An ordering produced by this method, or a chain of calls to this method,
-   * is equivalent to one created using {@link Ordering#compound(Iterable)} on
-   * the same component comparators.
-   */
-  @GwtCompatible(serializable = true)
-  public <U extends T> Ordering<U> compound(
-      Comparator<? super U> secondaryComparator) {
-    return new CompoundOrdering<U>(this, checkNotNull(secondaryComparator));
-  }
-
-  /**
-   * Returns the reverse of this ordering; the {@code Ordering} equivalent to
-   * {@link Collections#reverseOrder(Comparator)}.
-   */
-  // type parameter <S> lets us avoid the extra <String> in statements like:
-  // Ordering<String> o = Ordering.<String>natural().reverse();
-  @GwtCompatible(serializable = true)
-  public <S extends T> Ordering<S> reverse() {
-    return new ReverseOrdering<S>(this);
-  }
-
-  /**
-   * Returns a new ordering on {@code F} which orders elements by first applying
-   * a function to them, then comparing those results using {@code this}. For
-   * example, to compare objects by their string forms, in a case-insensitive
-   * manner, use: <pre>   {@code
-   *
-   *   Ordering.from(String.CASE_INSENSITIVE_ORDER)
-   *       .onResultOf(Functions.toStringFunction())}</pre>
-   */
-  @GwtCompatible(serializable = true)
-  public <F> Ordering<F> onResultOf(Function<F, ? extends T> function) {
-    return new ByFunctionOrdering<F, T>(function, this);
   }
 
   /**
@@ -383,32 +393,164 @@ public abstract class Ordering<T> implements Comparator<T> {
     return new LexicographicalOrdering<S>(this);
   }
 
-  /**
-   * Returns an ordering that treats {@code null} as less than all other values
-   * and uses {@code this} to compare non-null values.
-   */
-  // type parameter <S> lets us avoid the extra <String> in statements like:
-  // Ordering<String> o = Ordering.<String>natural().nullsFirst();
-  @GwtCompatible(serializable = true)
-  public <S extends T> Ordering<S> nullsFirst() {
-    return new NullsFirstOrdering<S>(this);
-  }
-
-  /**
-   * Returns an ordering that treats {@code null} as greater than all other
-   * values and uses this ordering to compare non-null values.
-   */
-  // type parameter <S> lets us avoid the extra <String> in statements like:
-  // Ordering<String> o = Ordering.<String>natural().nullsLast();
-  @GwtCompatible(serializable = true)
-  public <S extends T> Ordering<S> nullsLast() {
-    return new NullsLastOrdering<S>(this);
-  }
-
   // Regular instance methods
 
   // Override to add @Nullable
   @Override public abstract int compare(@Nullable T left, @Nullable T right);
+
+  /**
+   * Returns the least of the specified values according to this ordering. If
+   * there are multiple least values, the first of those is returned. The
+   * iterator will be left exhausted: its {@code hasNext()} method will return
+   * {@code false}.
+   *
+   * @param iterator the iterator whose minimum element is to be determined
+   * @throws NoSuchElementException if {@code iterator} is empty
+   * @throws ClassCastException if the parameters are not <i>mutually
+   *     comparable</i> under this ordering.
+   *
+   * @since 11.0
+   */
+  @Beta
+  public <E extends T> E min(Iterator<E> iterator) {
+    // let this throw NoSuchElementException as necessary
+    E minSoFar = iterator.next();
+
+    while (iterator.hasNext()) {
+      minSoFar = min(minSoFar, iterator.next());
+    }
+
+    return minSoFar;
+  }
+
+  /**
+   * Returns the least of the specified values according to this ordering. If
+   * there are multiple least values, the first of those is returned.
+   *
+   * @param iterable the iterable whose minimum element is to be determined
+   * @throws NoSuchElementException if {@code iterable} is empty
+   * @throws ClassCastException if the parameters are not <i>mutually
+   *     comparable</i> under this ordering.
+   */
+  public <E extends T> E min(Iterable<E> iterable) {
+    return min(iterable.iterator());
+  }
+
+  /**
+   * Returns the lesser of the two values according to this ordering. If the
+   * values compare as 0, the first is returned.
+   *
+   * <p><b>Implementation note:</b> this method is invoked by the default
+   * implementations of the other {@code min} overloads, so overriding it will
+   * affect their behavior.
+   *
+   * @param a value to compare, returned if less than or equal to b.
+   * @param b value to compare.
+   * @throws ClassCastException if the parameters are not <i>mutually
+   *     comparable</i> under this ordering.
+   */
+  public <E extends T> E min(@Nullable E a, @Nullable E b) {
+    return compare(a, b) <= 0 ? a : b;
+  }
+
+  /**
+   * Returns the least of the specified values according to this ordering. If
+   * there are multiple least values, the first of those is returned.
+   *
+   * @param a value to compare, returned if less than or equal to the rest.
+   * @param b value to compare
+   * @param c value to compare
+   * @param rest values to compare
+   * @throws ClassCastException if the parameters are not <i>mutually
+   *     comparable</i> under this ordering.
+   */
+  public <E extends T> E min(
+      @Nullable E a, @Nullable E b, @Nullable E c, E... rest) {
+    E minSoFar = min(min(a, b), c);
+
+    for (E r : rest) {
+      minSoFar = min(minSoFar, r);
+    }
+
+    return minSoFar;
+  }
+
+  /**
+   * Returns the greatest of the specified values according to this ordering. If
+   * there are multiple greatest values, the first of those is returned. The
+   * iterator will be left exhausted: its {@code hasNext()} method will return
+   * {@code false}.
+   *
+   * @param iterator the iterator whose maximum element is to be determined
+   * @throws NoSuchElementException if {@code iterator} is empty
+   * @throws ClassCastException if the parameters are not <i>mutually
+   *     comparable</i> under this ordering.
+   *
+   * @since 11.0
+   */
+  @Beta
+  public <E extends T> E max(Iterator<E> iterator) {
+    // let this throw NoSuchElementException as necessary
+    E maxSoFar = iterator.next();
+
+    while (iterator.hasNext()) {
+      maxSoFar = max(maxSoFar, iterator.next());
+    }
+
+    return maxSoFar;
+  }
+
+  /**
+   * Returns the greatest of the specified values according to this ordering. If
+   * there are multiple greatest values, the first of those is returned.
+   *
+   * @param iterable the iterable whose maximum element is to be determined
+   * @throws NoSuchElementException if {@code iterable} is empty
+   * @throws ClassCastException if the parameters are not <i>mutually
+   *     comparable</i> under this ordering.
+   */
+  public <E extends T> E max(Iterable<E> iterable) {
+    return max(iterable.iterator());
+  }
+
+  /**
+   * Returns the greater of the two values according to this ordering. If the
+   * values compare as 0, the first is returned.
+   *
+   * <p><b>Implementation note:</b> this method is invoked by the default
+   * implementations of the other {@code max} overloads, so overriding it will
+   * affect their behavior.
+   *
+   * @param a value to compare, returned if greater than or equal to b.
+   * @param b value to compare.
+   * @throws ClassCastException if the parameters are not <i>mutually
+   *     comparable</i> under this ordering.
+   */
+  public <E extends T> E max(@Nullable E a, @Nullable E b) {
+    return compare(a, b) >= 0 ? a : b;
+  }
+
+  /**
+   * Returns the greatest of the specified values according to this ordering. If
+   * there are multiple greatest values, the first of those is returned.
+   *
+   * @param a value to compare, returned if greater than or equal to the rest.
+   * @param b value to compare
+   * @param c value to compare
+   * @param rest values to compare
+   * @throws ClassCastException if the parameters are not <i>mutually
+   *     comparable</i> under this ordering.
+   */
+  public <E extends T> E max(
+      @Nullable E a, @Nullable E b, @Nullable E c, E... rest) {
+    E maxSoFar = max(max(a, b), c);
+
+    for (E r : rest) {
+      maxSoFar = max(maxSoFar, r);
+    }
+
+    return maxSoFar;
+  }
 
   /**
    * Returns the {@code k} least elements of the given iterable according to
@@ -503,18 +645,6 @@ public abstract class Ordering<T> implements Comparator<T> {
   }
 
   /**
-   * {@link Collections#binarySearch(List, Object, Comparator) Searches}
-   * {@code sortedList} for {@code key} using the binary search algorithm. The
-   * list must be sorted using this ordering.
-   *
-   * @param sortedList the list to be searched
-   * @param key the key to be searched for
-   */
-  public int binarySearch(List<? extends T> sortedList, @Nullable T key) {
-    return Collections.binarySearch(sortedList, key, this);
-  }
-
-  /**
    * Returns a copy of the given iterable sorted by this ordering. The input is
    * not modified. The returned list is modifiable, serializable, and has random
    * access.
@@ -603,157 +733,34 @@ public abstract class Ordering<T> implements Comparator<T> {
   }
 
   /**
-   * Returns the greatest of the specified values according to this ordering. If
-   * there are multiple greatest values, the first of those is returned. The
-   * iterator will be left exhausted: its {@code hasNext()} method will return
-   * {@code false}.
+   * {@link Collections#binarySearch(List, Object, Comparator) Searches}
+   * {@code sortedList} for {@code key} using the binary search algorithm. The
+   * list must be sorted using this ordering.
    *
-   * @param iterator the iterator whose maximum element is to be determined
-   * @throws NoSuchElementException if {@code iterator} is empty
-   * @throws ClassCastException if the parameters are not <i>mutually
-   *     comparable</i> under this ordering.
-   *
-   * @since 11.0
+   * @param sortedList the list to be searched
+   * @param key the key to be searched for
    */
-  @Beta
-  public <E extends T> E max(Iterator<E> iterator) {
-    // let this throw NoSuchElementException as necessary
-    E maxSoFar = iterator.next();
+  public int binarySearch(List<? extends T> sortedList, @Nullable T key) {
+    return Collections.binarySearch(sortedList, key, this);
+  }
 
-    while (iterator.hasNext()) {
-      maxSoFar = max(maxSoFar, iterator.next());
+  /**
+   * Exception thrown by a {@link Ordering#explicit(List)} or {@link
+   * Ordering#explicit(Object, Object[])} comparator when comparing a value
+   * outside the set of values it can compare. Extending {@link
+   * ClassCastException} may seem odd, but it is required.
+   */
+  // TODO(kevinb): make this public, document it right
+  @VisibleForTesting
+  static class IncomparableValueException extends ClassCastException {
+    final Object value;
+
+    IncomparableValueException(Object value) {
+      super("Cannot compare value: " + value);
+      this.value = value;
     }
 
-    return maxSoFar;
-  }
-
-  /**
-   * Returns the greatest of the specified values according to this ordering. If
-   * there are multiple greatest values, the first of those is returned.
-   *
-   * @param iterable the iterable whose maximum element is to be determined
-   * @throws NoSuchElementException if {@code iterable} is empty
-   * @throws ClassCastException if the parameters are not <i>mutually
-   *     comparable</i> under this ordering.
-   */
-  public <E extends T> E max(Iterable<E> iterable) {
-    return max(iterable.iterator());
-  }
-
-  /**
-   * Returns the greatest of the specified values according to this ordering. If
-   * there are multiple greatest values, the first of those is returned.
-   *
-   * @param a value to compare, returned if greater than or equal to the rest.
-   * @param b value to compare
-   * @param c value to compare
-   * @param rest values to compare
-   * @throws ClassCastException if the parameters are not <i>mutually
-   *     comparable</i> under this ordering.
-   */
-  public <E extends T> E max(
-      @Nullable E a, @Nullable E b, @Nullable E c, E... rest) {
-    E maxSoFar = max(max(a, b), c);
-
-    for (E r : rest) {
-      maxSoFar = max(maxSoFar, r);
-    }
-
-    return maxSoFar;
-  }
-
-  /**
-   * Returns the greater of the two values according to this ordering. If the
-   * values compare as 0, the first is returned.
-   *
-   * <p><b>Implementation note:</b> this method is invoked by the default
-   * implementations of the other {@code max} overloads, so overriding it will
-   * affect their behavior.
-   *
-   * @param a value to compare, returned if greater than or equal to b.
-   * @param b value to compare.
-   * @throws ClassCastException if the parameters are not <i>mutually
-   *     comparable</i> under this ordering.
-   */
-  public <E extends T> E max(@Nullable E a, @Nullable E b) {
-    return compare(a, b) >= 0 ? a : b;
-  }
-
-  /**
-   * Returns the least of the specified values according to this ordering. If
-   * there are multiple least values, the first of those is returned. The
-   * iterator will be left exhausted: its {@code hasNext()} method will return
-   * {@code false}.
-   *
-   * @param iterator the iterator whose minimum element is to be determined
-   * @throws NoSuchElementException if {@code iterator} is empty
-   * @throws ClassCastException if the parameters are not <i>mutually
-   *     comparable</i> under this ordering.
-   *
-   * @since 11.0
-   */
-  @Beta
-  public <E extends T> E min(Iterator<E> iterator) {
-    // let this throw NoSuchElementException as necessary
-    E minSoFar = iterator.next();
-
-    while (iterator.hasNext()) {
-      minSoFar = min(minSoFar, iterator.next());
-    }
-
-    return minSoFar;
-  }
-
-  /**
-   * Returns the least of the specified values according to this ordering. If
-   * there are multiple least values, the first of those is returned.
-   *
-   * @param iterable the iterable whose minimum element is to be determined
-   * @throws NoSuchElementException if {@code iterable} is empty
-   * @throws ClassCastException if the parameters are not <i>mutually
-   *     comparable</i> under this ordering.
-   */
-  public <E extends T> E min(Iterable<E> iterable) {
-    return min(iterable.iterator());
-  }
-
-  /**
-   * Returns the least of the specified values according to this ordering. If
-   * there are multiple least values, the first of those is returned.
-   *
-   * @param a value to compare, returned if less than or equal to the rest.
-   * @param b value to compare
-   * @param c value to compare
-   * @param rest values to compare
-   * @throws ClassCastException if the parameters are not <i>mutually
-   *     comparable</i> under this ordering.
-   */
-  public <E extends T> E min(
-      @Nullable E a, @Nullable E b, @Nullable E c, E... rest) {
-    E minSoFar = min(min(a, b), c);
-
-    for (E r : rest) {
-      minSoFar = min(minSoFar, r);
-    }
-
-    return minSoFar;
-  }
-
-  /**
-   * Returns the lesser of the two values according to this ordering. If the
-   * values compare as 0, the first is returned.
-   *
-   * <p><b>Implementation note:</b> this method is invoked by the default
-   * implementations of the other {@code min} overloads, so overriding it will
-   * affect their behavior.
-   *
-   * @param a value to compare, returned if less than or equal to b.
-   * @param b value to compare.
-   * @throws ClassCastException if the parameters are not <i>mutually
-   *     comparable</i> under this ordering.
-   */
-  public <E extends T> E min(@Nullable E a, @Nullable E b) {
-    return compare(a, b) <= 0 ? a : b;
+    private static final long serialVersionUID = 0;
   }
 
   // Never make these public
