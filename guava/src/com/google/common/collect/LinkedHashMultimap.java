@@ -27,7 +27,6 @@ import com.google.common.primitives.Ints;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.util.AbstractSet;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.ConcurrentModificationException;
@@ -316,7 +315,7 @@ public final class LinkedHashMultimap<K, V> extends AbstractSetMultimap<K, V> {
     return super.values();
   }
 
-  private final class ValueSet extends AbstractSet<V> implements ValueSetLink<K, V> {
+  private final class ValueSet extends Sets.ImprovedAbstractSet<V> implements ValueSetLink<K, V> {
     private final K key;
     private ValueEntry<K, V>[] hashTable;
     private int size = 0;
