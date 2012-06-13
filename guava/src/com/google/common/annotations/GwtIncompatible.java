@@ -36,11 +36,12 @@ import java.lang.annotation.Target;
  * @author Charles Fry
  */
 @Retention(RetentionPolicy.CLASS)
-@Target({ ElementType.TYPE, ElementType.METHOD, ElementType.CONSTRUCTOR, ElementType.FIELD })
+@Target({
+    ElementType.TYPE, ElementType.METHOD,
+    ElementType.CONSTRUCTOR, ElementType.FIELD })
 @Documented
 @GwtCompatible
 public @interface GwtIncompatible {
-
   /**
    * Describes why the annotated element is incompatible with GWT. Since this is
    * generally due to a dependence on a type/method which GWT doesn't support,
@@ -48,5 +49,4 @@ public @interface GwtIncompatible {
    * "Class.isInstance".
    */
   String value();
-
 }

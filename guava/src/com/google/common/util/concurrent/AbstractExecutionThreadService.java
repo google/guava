@@ -55,7 +55,8 @@ public abstract class AbstractExecutionThreadService implements Service {
                   shutDown();
                 } catch (Exception ignored) {
                   logger.log(Level.WARNING, 
-                      "Error while attempting to shut down the service after failure.", ignored);
+                      "Error while attempting to shut down the service"
+                      + " after failure.", ignored);
                 }
                 throw t;
               }
@@ -170,8 +171,8 @@ public abstract class AbstractExecutionThreadService implements Service {
   }
 
   /**
-   * Returns the name of this service. {@link AbstractExecutionThreadService} may include the name
-   * in debugging output.
+   * Returns the name of this service. {@link AbstractExecutionThreadService}
+   * may include the name in debugging output.
    *
    * <p>Subclasses may override this method.
    *

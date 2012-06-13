@@ -63,7 +63,6 @@ import javax.annotation.Nullable;
  * @since 2.0 (imported from Google Collections Library)
  */
 @GwtCompatible(emulated = true)
-// TODO(user): If BiMultimap graduates from labs, this class should implement it.
 public abstract class ImmutableMultimap<K, V>
     implements Multimap<K, V>, Serializable {
 
@@ -372,7 +371,7 @@ public abstract class ImmutableMultimap<K, V>
    * key-value mapping in the original, the result will have a mapping with
    * key and value reversed.
    *
-   * @since 11
+   * @since 11.0
    */
   @Beta
   public abstract ImmutableMultimap<V, K> inverse();

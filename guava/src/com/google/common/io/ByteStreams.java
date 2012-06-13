@@ -41,8 +41,6 @@ import java.util.zip.Checksum;
 /**
  * Provides utility methods for working with byte arrays and I/O streams.
  *
- * <p>All method parameters must be non-null unless documented otherwise.
- *
  * @author Chris Nokleberg
  * @since 1.0
  */
@@ -865,8 +863,8 @@ public final class ByteStreams {
    * @return a supplier that will return a stream containing the concatenated
    *     stream data
    */
-  public static InputSupplier<InputStream> join(
-      final Iterable<? extends InputSupplier<? extends InputStream>> suppliers) {
+  public static InputSupplier<InputStream> join(final
+      Iterable<? extends InputSupplier<? extends InputStream>> suppliers) {
     return new InputSupplier<InputStream>() {
       @Override public InputStream getInput() throws IOException {
         return new MultiInputStream(suppliers.iterator());

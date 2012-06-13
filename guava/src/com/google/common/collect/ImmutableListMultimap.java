@@ -292,9 +292,10 @@ public class ImmutableListMultimap<K, V>
   /**
    * {@inheritDoc}
    *
-   * <p>Because an inverse of a list multimap can contain multiple pairs with the same key and
-   * value, this method returns an {@code ImmutableListMultimap} rather than the
-   * {@code ImmutableMultimap} specified in the {@code ImmutableMultimap} class.
+   * <p>Because an inverse of a list multimap can contain multiple pairs with
+   * the same key and value, this method returns an {@code
+   * ImmutableListMultimap} rather than the {@code ImmutableMultimap} specified
+   * in the {@code ImmutableMultimap} class.
    *
    * @since 11
    */

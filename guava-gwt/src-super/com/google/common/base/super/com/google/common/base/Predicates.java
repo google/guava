@@ -35,8 +35,8 @@ import javax.annotation.Nullable;
  * serializable parameters.
  *
  * <p>See the Guava User Guide article on <a href=
- * "http://code.google.com/p/guava-libraries/wiki/FunctionalExplained">the use of {@code
- * Predicate}</a>.
+ * "http://code.google.com/p/guava-libraries/wiki/FunctionalExplained">the
+ * use of {@code Predicate}</a>.
  *
  * @author Kevin Bourrillion
  * @since 2.0 (imported from Google Collections Library)
@@ -284,7 +284,7 @@ public final class Predicates {
       return true;
     }
     @Override public int hashCode() {
-      // 0x12472c2c is a random number to help avoid collisions with OrPredicate
+      // add a random number to avoid collisions with OrPredicate
       return components.hashCode() + 0x12472c2c;
     }
     @Override public boolean equals(@Nullable Object obj) {
@@ -318,7 +318,7 @@ public final class Predicates {
       return false;
     }
     @Override public int hashCode() {
-      // 0x053c91cf is a random number to help avoid collisions with AndPredicate
+      // add a random number to avoid collisions with AndPredicate
       return components.hashCode() + 0x053c91cf;
     }
     @Override public boolean equals(@Nullable Object obj) {

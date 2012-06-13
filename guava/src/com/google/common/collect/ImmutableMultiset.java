@@ -206,7 +206,8 @@ public abstract class ImmutableMultiset<E> extends ImmutableCollection<E>
     if (size == 0) {
       return of();
     }
-    return new RegularImmutableMultiset<E>(builder.build(), Ints.saturatedCast(size));
+    return new RegularImmutableMultiset<E>(
+        builder.build(), Ints.saturatedCast(size));
   }
 
   /**

@@ -939,7 +939,8 @@ class StandardTable<R, C, V> implements Table<R, C, V>, Serializable {
 
     class EntrySet extends TableSet<Entry<R, Map<C, V>>> {
       @Override public Iterator<Entry<R, Map<C, V>>> iterator() {
-        return new TransformedIterator<R, Entry<R, Map<C, V>>>(backingMap.keySet().iterator()) {
+        return new TransformedIterator<R, Entry<R, Map<C, V>>>(
+            backingMap.keySet().iterator()) {
           @Override
           Entry<R, Map<C, V>> transform(R rowKey) {
             return new ImmutableEntry<R, Map<C, V>>(rowKey, row(rowKey));
@@ -1014,7 +1015,8 @@ class StandardTable<R, C, V> implements Table<R, C, V>, Serializable {
 
     class ColumnMapEntrySet extends TableSet<Entry<C, Map<R, V>>> {
       @Override public Iterator<Entry<C, Map<R, V>>> iterator() {
-        return new TransformedIterator<C, Entry<C, Map<R, V>>>(columnKeySet().iterator()) {
+        return new TransformedIterator<C, Entry<C, Map<R, V>>>(
+            columnKeySet().iterator()) {
           @Override
           Entry<C, Map<R, V>> transform(C columnKey) {
             return new ImmutableEntry<C, Map<R, V>>(

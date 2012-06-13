@@ -51,7 +51,8 @@ public final class UnsignedBytes {
   private UnsignedBytes() {}
 
   /**
-   * The largest power of two that can be represented as an unsigned {@code byte}.
+   * The largest power of two that can be represented as an unsigned {@code
+   * byte}.
    *
    * @since 10.0
    */
@@ -435,4 +436,3 @@ public final class UnsignedBytes {
     }
   }
 }
-

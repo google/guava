@@ -83,7 +83,7 @@ public final class EnumHashBiMap<K extends Enum<K>, V>
     this.keyType = keyType;
   }
 
-  // Overriding these three methods to show that values may be null (but not keys)
+  // Overriding these 3 methods to show that values may be null (but not keys)
 
   @Override
   K checkKey(K key) {

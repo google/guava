@@ -475,7 +475,8 @@ public final class Ints {
     @Override public Integer set(int index, Integer element) {
       checkElementIndex(index, size());
       int oldValue = array[start + index];
-      array[start + index] = checkNotNull(element);  // checkNotNull for GWT (do not optimize)
+      // checkNotNull for GWT (do not optimize)
+      array[start + index] = checkNotNull(element);
       return oldValue;
     }
 

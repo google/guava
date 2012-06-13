@@ -231,7 +231,8 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E>
   private static final double DESIRED_LOAD_FACTOR = 0.7;
 
   // If the set has this many elements, it will "max out" the table size
-  private static final int CUTOFF = (int) Math.floor(MAX_TABLE_SIZE * DESIRED_LOAD_FACTOR);
+  private static final int CUTOFF =
+      (int) Math.floor(MAX_TABLE_SIZE * DESIRED_LOAD_FACTOR);
 
   /**
    * Returns an array size suitable for the backing array of a hash table that

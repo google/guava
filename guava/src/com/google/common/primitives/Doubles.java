@@ -297,8 +297,8 @@ public final class Doubles {
    * the string {@code "1.0-2.0-3.0"}.
    *
    * <p>Note that {@link Double#toString(double)} formats {@code double}
-   * differently in GWT sometimes.  In the previous example, it returns the string
-   * {@code "1-2-3"}.
+   * differently in GWT sometimes.  In the previous example, it returns the
+   * string {@code "1-2-3"}.
    *
    * @param separator the text that should appear between consecutive values in
    *     the resulting string (but not at the start or end)
@@ -470,7 +470,8 @@ public final class Doubles {
     @Override public Double set(int index, Double element) {
       checkElementIndex(index, size());
       double oldValue = array[start + index];
-      array[start + index] = checkNotNull(element);  // checkNotNull for GWT (do not optimize)
+      // checkNotNull for GWT (do not optimize)
+      array[start + index] = checkNotNull(element);
       return oldValue;
     }
 

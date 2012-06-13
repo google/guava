@@ -369,8 +369,9 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
   }
 
   /**
-   * Called by the default implementation of {@link #subList} when
-   * {@code toIndex - fromIndex > 1}, after index validation has already been performed.
+   * Called by the default implementation of {@link #subList} when {@code
+   * toIndex - fromIndex > 1}, after index validation has already been
+   * performed.
    */
   ImmutableList<E> subListUnchecked(int fromIndex, int toIndex) {
     return new SubList(fromIndex, toIndex - fromIndex);

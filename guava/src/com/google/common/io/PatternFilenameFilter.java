@@ -27,8 +27,8 @@ import java.util.regex.PatternSyntaxException;
 import javax.annotation.Nullable;
 
 /**
- * File name filter that only accepts files matching a regular expression. This class is thread-safe
- * and immutable.
+ * File name filter that only accepts files matching a regular expression. This
+ * class is thread-safe and immutable.
  *
  * @author Apple Chow
  * @since 1.0

@@ -206,9 +206,11 @@ public abstract class AbstractService implements Service {
       } else if (state == State.STOPPING) {
         shutdown.setException(cause);
       } else if (state == State.RUNNING) {
-        shutdown.setException(new Exception("Service failed while running", cause));
+        shutdown.setException(
+            new Exception("Service failed while running", cause));
       } else if (state == State.NEW || state == State.TERMINATED) {
-        throw new IllegalStateException("Failed while in state:" + state, cause);
+        throw new IllegalStateException(
+            "Failed while in state:" + state, cause);
       }
       state = State.FAILED;
     } finally {

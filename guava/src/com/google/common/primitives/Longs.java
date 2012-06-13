@@ -511,7 +511,8 @@ public final class Longs {
     @Override public Long set(int index, Long element) {
       checkElementIndex(index, size());
       long oldValue = array[start + index];
-      array[start + index] = checkNotNull(element);  // checkNotNull for GWT (do not optimize)
+      // checkNotNull for GWT (do not optimize)
+      array[start + index] = checkNotNull(element);
       return oldValue;
     }
 
