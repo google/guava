@@ -226,11 +226,6 @@ public final class LinkedHashMultimap<K, V> extends AbstractSetMultimap<K, V> {
   private static final int DEFAULT_KEY_CAPACITY = 16;
   private static final int DEFAULT_VALUE_SET_CAPACITY = 2;
 
-  /**
-   * This is a bit higher than normal to minimize memory consumption, especially for the small
-   * value sets most often found in multimaps.
-   */
-  private static final double VALUE_SET_LOAD_FACTOR = 1.0;
   private static final int MAX_VALUE_SET_TABLE_SIZE = Ints.MAX_POWER_OF_TWO;
 
   @VisibleForTesting transient int valueSetCapacity = DEFAULT_VALUE_SET_CAPACITY;
@@ -316,11 +311,15 @@ public final class LinkedHashMultimap<K, V> extends AbstractSetMultimap<K, V> {
   }
 
   private final class ValueSet extends Sets.ImprovedAbstractSet<V> implements ValueSetLink<K, V> {
+    /*
+     * We currently use a fixed load factor of 1.0, a bit higher than normal to reduce memory
+     * consumption.
+     */
+
     private final K key;
     private ValueEntry<K, V>[] hashTable;
     private int size = 0;
     private int modCount = 0;
-    private int rehashThreshold;
 
     // We use the set object itself as the end of the linked list, avoiding an unnecessary
     // entry object per key.
@@ -331,13 +330,8 @@ public final class LinkedHashMultimap<K, V> extends AbstractSetMultimap<K, V> {
       this.key = key;
       this.firstEntry = this;
       this.lastEntry = this;
-      // Round expected values up to a power of 2, and adjust if necessary to obey the load factor.
-      // TODO(user): look over that description to make sure that it's right
+      // Round expected values up to a power of 2 to get the table size.
       int tableSize = Integer.highestOneBit(Math.max(expectedValues, 2) - 1) << 1;
-      while (tableSize > 0 && (tableSize * VALUE_SET_LOAD_FACTOR) < expectedValues) {
-        // TODO(user): would a shift be faster? Would the right thing happen with overflow?
-        tableSize *= 2;
-      }
       if (tableSize < 0) {
         tableSize = MAX_VALUE_SET_TABLE_SIZE;
       }
@@ -345,7 +339,6 @@ public final class LinkedHashMultimap<K, V> extends AbstractSetMultimap<K, V> {
       @SuppressWarnings("unchecked")
       ValueEntry<K, V>[] hashTable = new ValueEntry[tableSize];
       this.hashTable = hashTable;
-      this.rehashThreshold = (int) (VALUE_SET_LOAD_FACTOR * tableSize);
     }
 
     @Override
@@ -473,7 +466,7 @@ public final class LinkedHashMultimap<K, V> extends AbstractSetMultimap<K, V> {
     }
 
     private void rehashIfNecessary() {
-      if (size > rehashThreshold && hashTable.length < MAX_VALUE_SET_TABLE_SIZE) {
+      if (size > hashTable.length && hashTable.length < MAX_VALUE_SET_TABLE_SIZE) {
         @SuppressWarnings("unchecked")
         ValueEntry<K, V>[] hashTable = new ValueEntry[this.hashTable.length * 2];
         this.hashTable = hashTable;
@@ -485,7 +478,6 @@ public final class LinkedHashMultimap<K, V> extends AbstractSetMultimap<K, V> {
           valueEntry.nextInValueSetHashRow = hashTable[row];
           hashTable[row] = valueEntry;
         }
-        this.rehashThreshold = (int) (VALUE_SET_LOAD_FACTOR * hashTable.length);
       }
     }
 
