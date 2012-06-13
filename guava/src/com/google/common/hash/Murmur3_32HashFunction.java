@@ -16,6 +16,7 @@ package com.google.common.hash;
 
 import static com.google.common.primitives.UnsignedBytes.toInt;
 
+import com.google.common.primitives.Chars;
 import com.google.common.primitives.Ints;
 import com.google.common.primitives.Longs;
 
@@ -28,6 +29,7 @@ import java.nio.ByteBuffer;
  *
  * @author Austin Appleby
  * @author Dimitris Andreou
+ * @author Kurt Alfred Kluever
  */
 final class Murmur3_32HashFunction extends AbstractStreamingHashFunction implements Serializable {
   private static final int C1 = 0xcc9e2d51;
@@ -67,7 +69,26 @@ final class Murmur3_32HashFunction extends AbstractStreamingHashFunction impleme
     return fmix(h1, Longs.BYTES);
   }
 
-  // TODO(user): Override #hashString() shortcut as well.
+  // TODO(user): Maybe implement #hashBytes instead?
+  @Override public HashCode hashString(CharSequence input) {
+    int h1 = seed;
+
+    // step through the CharSequence 2 chars at a time
+    for (int i = 1; i < input.length(); i += 2) {
+      int k1 = input.charAt(i - 1) | (input.charAt(i) << 16);
+      k1 = mixK1(k1);
+      h1 = mixH1(h1, k1);
+    }
+
+    // deal with any remaining characters
+    if ((input.length() & 1) == 1) {
+      int k1 = input.charAt(input.length() - 1);
+      k1 = mixK1(k1);
+      h1 ^= k1;
+    }
+
+    return fmix(h1, Chars.BYTES * input.length());
+  }
 
   private static int mixK1(int k1) {
     k1 *= C1;

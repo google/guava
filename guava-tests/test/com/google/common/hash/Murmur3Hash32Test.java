@@ -46,6 +46,7 @@ public class Murmur3Hash32Test extends TestCase {
   public void testKnownStringInputs() {
     assertEquals(0, murmur3_32().hashString("").asInt());
     assertEquals(679745764, murmur3_32().hashString("k").asInt());
+    assertEquals(1510782915, murmur3_32().hashString("hell").asInt());
     assertEquals(-675079799, murmur3_32().hashString("hello").asInt());
     assertEquals(1935035788, murmur3_32().hashString("http://www.google.com/").asInt());
     assertEquals(-528633700,
