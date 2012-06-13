@@ -28,29 +28,28 @@ import junit.framework.TestCase;
  */
 public class Murmur3Hash32Test extends TestCase {
   public void testKnownIntegerInputs() {
-    assertHash(593689054, 0);
-    assertHash(-189366624, -42);
-    assertHash(-1134849565, 42);
-    assertHash(-1718298732, Integer.MIN_VALUE);
-    assertHash(-1653689534, Integer.MAX_VALUE);
+    assertEquals(593689054, murmur3_32().hashInt(0).asInt());
+    assertEquals(-189366624, murmur3_32().hashInt(-42).asInt());
+    assertEquals(-1134849565, murmur3_32().hashInt(42).asInt());
+    assertEquals(-1718298732, murmur3_32().hashInt(Integer.MIN_VALUE).asInt());
+    assertEquals(-1653689534, murmur3_32().hashInt(Integer.MAX_VALUE).asInt());
+  }
+
+  public void testKnownLongInputs() {
+    assertEquals(1669671676, murmur3_32().hashLong(0L).asInt());
+    assertEquals(-846261623, murmur3_32().hashLong(-42L).asInt());
+    assertEquals(1871679806, murmur3_32().hashLong(42L).asInt());
+    assertEquals(1366273829, murmur3_32().hashLong(Long.MIN_VALUE).asInt());
+    assertEquals(-2106506049, murmur3_32().hashLong(Long.MAX_VALUE).asInt());
   }
 
   public void testKnownStringInputs() {
-    assertHash(0, "");
-    assertHash(679745764, "k");
-    assertHash(-675079799, "hello");
-    assertHash(1935035788, "http://www.google.com/");
-    assertHash(-528633700, "The quick brown fox jumps over the lazy dog");
-  }
-
-  private static void assertHash(int expected, int input) {
-    assertEquals(expected, murmur3_32().hashInt(input).asInt());
-    assertEquals(expected, murmur3_32().newHasher().putInt(input).hash().asInt());
-  }
-
-  private static void assertHash(int expected, String input) {
-    assertEquals(expected, murmur3_32().hashString(input).asInt());
-    assertEquals(expected, murmur3_32().newHasher().putString(input).hash().asInt());
+    assertEquals(0, murmur3_32().hashString("").asInt());
+    assertEquals(679745764, murmur3_32().hashString("k").asInt());
+    assertEquals(-675079799, murmur3_32().hashString("hello").asInt());
+    assertEquals(1935035788, murmur3_32().hashString("http://www.google.com/").asInt());
+    assertEquals(-528633700,
+        murmur3_32().hashString("The quick brown fox jumps over the lazy dog").asInt());
   }
 
   public void testParanoid() {

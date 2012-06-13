@@ -17,6 +17,7 @@ package com.google.common.hash;
 import static com.google.common.primitives.UnsignedBytes.toInt;
 
 import com.google.common.primitives.Ints;
+import com.google.common.primitives.Longs;
 
 import java.io.Serializable;
 import java.nio.ByteBuffer;
@@ -49,8 +50,24 @@ final class Murmur3_32HashFunction extends AbstractStreamingHashFunction impleme
   @Override public HashCode hashInt(int input) {
     int k1 = mixK1(input);
     int h1 = mixH1(seed, k1);
+
     return fmix(h1, Ints.BYTES);
   }
+
+  @Override public HashCode hashLong(long input) {
+    int low = (int) input;
+    int high = (int) (input >>> 32);
+
+    int k1 = mixK1(low);
+    int h1 = mixH1(seed, k1);
+
+    k1 = mixK1(high);
+    h1 = mixH1(h1, k1);
+
+    return fmix(h1, Longs.BYTES);
+  }
+
+  // TODO(user): Override #hashString() shortcut as well.
 
   private static int mixK1(int k1) {
     k1 *= C1;
