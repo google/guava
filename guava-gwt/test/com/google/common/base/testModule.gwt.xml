@@ -7,6 +7,7 @@
   <inherits name="com.google.common.testing.Testing"/>
   <inherits name="org.junit.contrib.truth.Truth"/>
   <inherits name="com.google.common.annotations.Annotations"/>
+  <inherits name="com.google.io.base.shell.Utils"/>
   <entry-point class="com.google.common.base.TestModuleEntryPoint"/>
    
   <source path=""/>

@@ -16,10 +16,14 @@ package com.google.common.primitives;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.collect.testing.Helpers;
 import com.google.common.testing.NullPointerTester;
 
 import junit.framework.TestCase;
 
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -41,6 +45,9 @@ public class UnsignedIntsTest extends TestCase {
       0xfffffffdL,
       0xfffffffeL,
       0xffffffffL};
+  
+  private static final int LEAST = (int) 0L;
+  private static final int GREATEST = (int) 0xffffffffL;
 
   public void testToLong() {
     for (long a : UNSIGNED_INTS) {
@@ -56,6 +63,59 @@ public class UnsignedIntsTest extends TestCase {
         assertEquals(Integer.signum(cmpAsLongs), Integer.signum(cmpAsUInt));
       }
     }
+  }
+  
+  public void testMax_noArgs() {
+    try {
+      UnsignedInts.max();
+      fail();
+    } catch (IllegalArgumentException expected) {
+    }
+  }
+  
+  public void testMax() {
+    assertEquals(LEAST, UnsignedInts.max(LEAST));
+    assertEquals(GREATEST, UnsignedInts.max(GREATEST));
+    assertEquals((int) 0xff1a618bL, UnsignedInts.max(
+        (int) 8L, (int) 6L, (int) 7L,
+        (int) 0x12345678L, (int) 0x5a4316b8L,
+        (int) 0xff1a618bL, (int) 0L));
+  }
+  
+  public void testMin_noArgs() {
+    try {
+      UnsignedInts.min();
+      fail();
+    } catch (IllegalArgumentException expected) {
+    }
+  }
+  
+  public void testMin() {
+    assertEquals(LEAST, UnsignedInts.min(LEAST));
+    assertEquals(GREATEST, UnsignedInts.min(GREATEST));
+    assertEquals((int) 0L, UnsignedInts.min(
+        (int) 8L, (int) 6L, (int) 7L,
+        (int) 0x12345678L, (int) 0x5a4316b8L,
+        (int) 0xff1a618bL, (int) 0L));
+  }
+  
+  public void testLexicographicalComparator() {
+    List<int[]> ordered = Arrays.asList(
+        new int[] {},
+        new int[] {LEAST},
+        new int[] {LEAST, LEAST},
+        new int[] {LEAST, (int) 1L},
+        new int[] {(int) 1L},
+        new int[] {(int) 1L, LEAST},
+        new int[] {GREATEST, (GREATEST - (int) 1L)},
+        new int[] {GREATEST, GREATEST},
+        new int[] {GREATEST, GREATEST, GREATEST}
+        );
+    System.out.println((UnsignedInts.toString(LEAST)));
+    System.out.println((UnsignedInts.compare(LEAST, GREATEST)));
+
+    Comparator<int[]> comparator = UnsignedInts.lexicographicalComparator();
+    Helpers.testComparator(comparator, ordered);
   }
 
   public void testDivide() {
