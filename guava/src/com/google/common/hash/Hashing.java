@@ -190,6 +190,9 @@ public final class Hashing {
    *
    * <p>See the <a href="http://en.wikipedia.org/wiki/Consistent_hashing">wikipedia
    * article on consistent hashing</a> for more information.
+   * <p>
+   * If you might want to have weights for the buckets in the future, take a look at
+   * {@code weightedConsistentHash}.
    */
   public static int consistentHash(HashCode hashCode, int buckets) {
     return consistentHash(padToLong(hashCode), buckets);
@@ -207,21 +210,19 @@ public final class Hashing {
    *
    * <p>See the <a href="http://en.wikipedia.org/wiki/Consistent_hashing">wikipedia
    * article on consistent hashing</a> for more information.
+   * <p>
+   * If you might want to have weights for the buckets in the future, take a look at
+   * {@code weightedConsistentHash}.
    */
   public static int consistentHash(long input, int buckets) {
     checkArgument(buckets > 0, "buckets must be positive: %s", buckets);
-    long h = input;
+    LinearCongruentialGenerator generator = new LinearCongruentialGenerator(input);
     int candidate = 0;
     int next;
 
     // Jump from bucket to bucket until we go out of range
     while (true) {
-      // See http://en.wikipedia.org/wiki/Linear_congruential_generator
-      // These values for a and m come from the C++ version of this function.
-      h = 2862933555777941757L * h + 1;
-      double inv = 0x1.0p31 / ((int) (h >>> 33) + 1);
-      next = (int) ((candidate + 1) * inv);
-
+      next = (int) ((candidate + 1) / generator.nextDouble());
       if (next >= 0 && next < buckets) {
         candidate = next;
       } else {
@@ -317,6 +318,19 @@ public final class Hashing {
     @Override
     public int bits() {
       return bits;
+    }
+  }
+
+  private static final class LinearCongruentialGenerator {
+    private long state;
+
+    public LinearCongruentialGenerator(long seed) {
+      this.state = seed;
+    }
+
+    public double nextDouble() {
+      state = 2862933555777941757L * state + 1;
+      return ((double) ((int) (state >>> 33) + 1)) / (0x1.0p31);
     }
   }
 }

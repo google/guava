@@ -17,6 +17,8 @@
 package com.google.common.hash;
 
 import static com.google.common.hash.Hashing.ConcatenatedHashFunction;
+import static com.google.testing.util.MoreAsserts.assertGreaterThan;
+import static com.google.testing.util.MoreAsserts.assertLessThan;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
@@ -189,6 +191,146 @@ public class HashingTest extends TestCase {
     assertEquals(Hashing.consistentHash(equivLong, 5555), Hashing.consistentHash(hashCode, 5555));
   }
 
+  /**
+   * Tests that the linear congruential generator is actually compatible with the c++
+   * implementation.
+   *
+   * This test was added to help refactoring, it is not a strict requirement, it can be removed if
+   * functionality changes in the future.
+   */
+  public void testConsistentHash_linearCongruentialGeneratorCompatibility() {
+    assertEquals(55, Hashing.consistentHash(1, 100));
+    assertEquals(62, Hashing.consistentHash(2, 100));
+    assertEquals(8, Hashing.consistentHash(3, 100));
+    assertEquals(45, Hashing.consistentHash(4, 100));
+    assertEquals(59, Hashing.consistentHash(5, 100));
+  }
+
+  public void testWeightedConsistentHash_wrongInput_emptyWeights() {
+    try {
+      Hashing.weightedConsistentHash(123, new double[] {});
+      fail("Should have failed with IllegalArgumentException.");
+    } catch (IllegalArgumentException expected) {}
+  }
+
+  public void testWeightedConsistentHash_wrongInput_zeroOnlyWeights() {
+    try {
+      Hashing.weightedConsistentHash(123, new double[] {0, 0, 0});
+      fail("Should have failed with IllegalArgumentException.");
+    } catch (IllegalArgumentException expected) {}
+  }
+
+  public void testWeightedConsistentHash_wrongInput_negativeWeight() {
+    try {
+      double[] l = {1.0, -0.1, 0.8};
+      Hashing.weightedConsistentHash(123, new double[]  {1.0, -0.1, 0.8});
+      fail("Should have failed with IllegalArgumentException.");
+    } catch (IllegalArgumentException expected) {}
+  }
+
+  private static final double MAX_PERCENT_SPREAD = 0.5;
+  private static final long RANDOM_SEED = 177L;
+
+  /**
+   * Test that consistent weighted hashing distributes approximately according to the weights.
+   */
+  public void testWeightedConsistentHash_weightsObserved() {
+    final int numHashes = 10000;
+    final int numBuckets = 30;
+
+    double sumWeights = 0.0;
+    double[] w = new double[numBuckets];
+    for (int i = 0; i < numBuckets; i++) {
+      double weight = numBuckets / 5 + i;
+      w[i] = weight;
+      sumWeights += weight;
+    }
+
+    int[] count = new int[numBuckets];
+    Random valueGenerator = new Random(RANDOM_SEED);
+    for (int i = 0; i < numHashes; i++) {
+      int bucket = Hashing.weightedConsistentHash(valueGenerator.nextInt(), w);
+      assertGreaterThan(-1, bucket);
+      assertLessThan(numBuckets, bucket);
+      count[bucket]++;
+    }
+
+    // Testing buckets observerd and expected fill.
+    for (int i = 0; i < numBuckets; i++) {
+      double observedPercent = 100.0 * count[i] / numHashes;
+      double expectedPercent = 100.0 * w[i] / sumWeights;
+      String message = new StringBuilder()
+          .append("bucket: ").append(i).append(", ")
+          .append("count: ").append(count[i]).append(", ")
+          .append("weight: ").append(w[i])
+          .toString();
+      assertGreaterThan(message, expectedPercent - MAX_PERCENT_SPREAD, observedPercent);
+      assertLessThan(message, expectedPercent + MAX_PERCENT_SPREAD, observedPercent);
+    }
+  }
+
+  /**
+   * Test that consistent weighted hashing is consistent.
+   * If some weights are decreased, items that didn't belong to that bucket don't get reassigned.
+   */
+  public void testWeightedConsistentHash_consistencyWeightChange() {
+    final int numHashes = 10000;
+    final int numBuckets = 30;
+
+    double[] w1 = new double[numBuckets];
+    double[] w2 = new double[numBuckets];
+    for (int i = 0; i < numBuckets; i++) {
+      double weight = numBuckets / 5 + i;
+      w1[i] = weight;
+      // Decrease weight for every 7th bucket.
+      w2[i] = (i % 7 != 0) ? weight : weight / (i + 1);
+    }
+
+    Random valueGenerator = new Random(RANDOM_SEED);
+    for (int i = 0; i < numHashes; i++) {
+      int value = valueGenerator.nextInt();
+      int bucket1 = Hashing.weightedConsistentHash(value, w1);
+      int bucket2 = Hashing.weightedConsistentHash(value, w2);
+      // If it's not an altered bucket, it should not change.
+      if (bucket1 % 7 != 0) {
+        assertEquals(bucket1, bucket2);
+      }
+    }
+  }
+
+  /**
+   * Test that consistent weighted hashing is consistent whe some weights are set to zero
+   * and some buckets are removed.
+   */
+  public void testWeightedConsistentHash_consistencyZeroWeights() {
+    final int numHashes = 10000;
+    final int numBuckets = 30;
+
+    final int removeBuckets = 4;
+
+    double[] w1 = new double[numBuckets];
+    double[] w2 = new double[numBuckets - removeBuckets];
+    for (int i = 0; i < numBuckets; i++) {
+      double weight = numBuckets / 5 + i;
+      w1[i] = weight;
+      if (i < numBuckets - removeBuckets) {
+        // Set the weight of every 7th bucket to zero.
+        w2[i] = (i % 7 != 0) ? weight : 0;
+      }
+    }
+
+    Random valueGenerator = new Random(RANDOM_SEED);
+    for (int i = 0; i < numHashes; i++) {
+      int value = valueGenerator.nextInt();
+      int bucket1 = Hashing.weightedConsistentHash(i, w1);
+      int bucket2 = Hashing.weightedConsistentHash(i, w2);
+      // If it's not an altered bucket, it should not change.
+      if (bucket1 % 7 != 0 && bucket1 < numBuckets - removeBuckets) {
+        assertEquals(bucket1, bucket2);
+      }
+    }
+  }
+
   public void testCombineOrdered_empty() {
     try {
       Hashing.combineOrdered(Collections.<HashCode>emptySet());
@@ -295,7 +437,8 @@ public class HashingTest extends TestCase {
   }
 
   public void testNullPointers() {
-    NullPointerTester tester = new NullPointerTester();
+    NullPointerTester tester = new NullPointerTester()
+        .setDefault(HashCode.class, HashCodes.fromInt(0));
     tester.testAllPublicStaticMethods(Hashing.class);
   }
 }
