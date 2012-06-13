@@ -16,9 +16,9 @@
 
 package com.google.common.collect;
 
+import static com.google.common.collect.Iterators.advance;
 import static com.google.common.collect.Iterators.get;
 import static com.google.common.collect.Iterators.getLast;
-import static com.google.common.collect.Iterators.skip;
 import static com.google.common.collect.Lists.newArrayList;
 import static com.google.common.collect.testing.IteratorFeature.MODIFIABLE;
 import static com.google.common.collect.testing.IteratorFeature.UNMODIFIABLE;
@@ -1382,29 +1382,29 @@ public class IteratorsTest extends TestCase {
     assertTrue(iterator.hasNext());
   }
 
-  public void testSkip_basic() {
+  public void testAdvance_basic() {
     List<String> list = newArrayList();
     list.add("a");
     list.add("b");
     Iterator<String> iterator = list.iterator();
-    skip(iterator, 1);
+    advance(iterator, 1);
     assertEquals("b", iterator.next());
   }
 
-  public void testSkip_pastEnd() {
+  public void testAdvance_pastEnd() {
     List<String> list = newArrayList();
     list.add("a");
     list.add("b");
     Iterator<String> iterator = list.iterator();
-    skip(iterator, 5);
+    advance(iterator, 5);
     assertFalse(iterator.hasNext());
   }
 
-  public void testSkip_illegalArgument() {
+  public void testAdvance_illegalArgument() {
     List<String> list = newArrayList("a", "b", "c");
     Iterator<String> iterator = list.iterator();
     try {
-      skip(iterator, -1);
+      advance(iterator, -1);
       fail();
     } catch (IllegalArgumentException expected) {}
   }

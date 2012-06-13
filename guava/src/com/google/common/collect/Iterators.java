@@ -999,14 +999,29 @@ public final class Iterators {
    *
    * @return the number of elements skipped
    * @since 3.0
+   * @deprecated This method has been renamed to {@link #advance(java.util.Iterator, int) advance}.
+   *     This method is scheduled to be deleted in Guava 14.0.
    */
   @Beta
+  @Deprecated
   public static int skip(Iterator<?> iterator, int numberToSkip) {
+    return advance(iterator, numberToSkip);
+  }
+
+  /**
+   * Calls {@code next()} on {@code iterator}, either {@code numberToAdvance} times
+   * or until {@code hasNext()} returns {@code false}, whichever comes first.
+   *
+   * @return the number of elements the iterator was advanced
+   * @since 13.0 (since 3.0 as {@code Iterators.skip})
+   */
+  @Beta
+  public static int advance(Iterator<?> iterator, int numberToAdvance) {
     checkNotNull(iterator);
-    checkArgument(numberToSkip >= 0, "number to skip cannot be negative");
+    checkArgument(numberToAdvance >= 0, "number to advance cannot be negative");
 
     int i;
-    for (i = 0; i < numberToSkip && iterator.hasNext(); i++) {
+    for (i = 0; i < numberToAdvance && iterator.hasNext(); i++) {
       iterator.next();
     }
     return i;
