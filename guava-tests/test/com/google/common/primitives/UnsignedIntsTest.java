@@ -111,8 +111,6 @@ public class UnsignedIntsTest extends TestCase {
         new int[] {GREATEST, GREATEST},
         new int[] {GREATEST, GREATEST, GREATEST}
         );
-    System.out.println((UnsignedInts.toString(LEAST)));
-    System.out.println((UnsignedInts.compare(LEAST, GREATEST)));
 
     Comparator<int[]> comparator = UnsignedInts.lexicographicalComparator();
     Helpers.testComparator(comparator, ordered);
