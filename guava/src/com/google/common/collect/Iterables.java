@@ -893,7 +893,7 @@ public final class Iterables {
       public Iterator<T> iterator() {
         final Iterator<T> iterator = iterable.iterator();
 
-        Iterators.skip(iterator, numberToSkip);
+        Iterators.advance(iterator, numberToSkip);
 
         /*
          * We can't just return the iterator because an immediate call to its
