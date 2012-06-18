@@ -1015,7 +1015,6 @@ public final class Iterators {
    * @return the number of elements the iterator was advanced
    * @since 13.0 (since 3.0 as {@code Iterators.skip})
    */
-  @Beta
   public static int advance(Iterator<?> iterator, int numberToAdvance) {
     checkNotNull(iterator);
     checkArgument(numberToAdvance >= 0, "number to advance cannot be negative");
