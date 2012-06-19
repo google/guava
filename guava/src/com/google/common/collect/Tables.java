@@ -49,7 +49,6 @@ import javax.annotation.Nullable;
  * @since 7.0
  */
 @GwtCompatible
-@Beta
 public final class Tables {
   private Tables() {}
 
@@ -365,6 +364,7 @@ public final class Tables {
    * @throws IllegalArgumentException if {@code backingMap} is not empty
    * @since 10.0
    */
+  @Beta
   public static <R, C, V> Table<R, C, V> newCustomTable(
       Map<R, Map<C, V>> backingMap, Supplier<? extends Map<C, V>> factory) {
     checkArgument(backingMap.isEmpty());
@@ -399,6 +399,7 @@ public final class Tables {
    *
    * @since 10.0
    */
+  @Beta
   public static <R, C, V1, V2> Table<R, C, V2> transformValues(
       Table<R, C, V1> fromTable, Function<? super V1, V2> function) {
     return new TransformedTable<R, C, V1, V2>(fromTable, function);
@@ -700,6 +701,7 @@ public final class Tables {
    * @return an unmodifiable view of the specified table
    * @since 11.0
    */
+  @Beta
   public static <R, C, V> RowSortedTable<R, C, V> unmodifiableRowSortedTable(
       RowSortedTable<R, ? extends C, ? extends V> table) {
     /*
