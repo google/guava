@@ -175,13 +175,14 @@ public abstract class AbstractMapTester<K, V> extends
     for (Entry<K, V> entry : entries) {
       assertFalse("Should not contain entry " + entry,
           actualContents().contains(entry));
-      assertFalse("Should not contain key " + entry.getKey(),
-          getMap().containsKey(entry.getKey()));
-      assertFalse("Should not contain value " + entry.getValue(),
-          getMap().containsValue(entry.getValue()));
-      assertNull("Should not return a mapping for key " + entry.getKey(),
-          getMap().get(entry.getKey()));
+      assertFalse("Should not contain key " + entry.getKey() + " mapped to"
+          + " value " + entry.getValue(),
+          equal(getMap().get(entry.getKey()), entry.getValue()));
     }
+  }
+
+  private static boolean equal(Object a, Object b) {
+    return a == b || (a != null && a.equals(b));
   }
 
   // This one-liner saves us from some ugly casts

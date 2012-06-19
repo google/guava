@@ -585,6 +585,147 @@ public final class Maps {
     }
     return (Comparator<E>) Ordering.natural();
   }
+
+  /**
+   * Returns a view of the set as a map, mapping keys from the set according to
+   * the specified function.
+   *
+   * <p>Specifically, for each {@code k} in the backing set, the returned map
+   * has an entry mapping {@code k} to {@code function.apply(k)}. The {@code
+   * keySet}, {@code values}, and {@code entrySet} views of the returned map
+   * iterate in the same order as the backing set.
+   *
+   * <p>Modifications to the backing set are read through to the returned map.
+   * The returned map supports removal operations if the backing set does.
+   * Removal operations write through to the backing set.  The returned map
+   * does not support put operations.
+   *
+   * <p><b>Warning</b>: If the function rejects {@code null}, caution is
+   * required to make sure the set does not contain {@code null}, because the
+   * view cannot stop {@code null} from being added to the set.
+   *
+   * <p><b>Warning:</b> This method assumes that for any instance {@code k} of
+   * key type {@code K}, {@code k.equals(k2)} implies that {@code k2} is also
+   * of type {@code K}. Using a key type for which this may not hold, such as
+   * {@code ArrayList}, may risk a {@code ClassCastException} when calling
+   * methods on the resulting map view.
+   *
+   * @since 13.0
+   */
+  @Beta
+  static <K, V> Map<K, V> asMap(
+      Set<K> set, Function<? super K, V> function) {
+    // TODO(user): SortedSet, NavigableSet overloads
+    return new AsMapView<K, V>(set, function);
+  }
+
+  private static final class AsMapView<K, V>
+      extends ImprovedAbstractMap<K, V> {
+    private final transient Set<K> set;
+    private final transient Function<? super K, V> function;
+
+    private AsMapView(Set<K> set, Function<? super K, V> function) {
+      this.set = checkNotNull(set);
+      this.function = checkNotNull(function);
+    }
+
+    @Override
+    public Set<K> keySet() {
+      // probably not worth caching
+      return new ForwardingSet<K>() {
+        @Override
+        protected Set<K> delegate() {
+          return set;
+        }
+
+        @Override
+        public boolean add(K element) {
+          throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public boolean addAll(Collection<? extends K> collection) {
+          throw new UnsupportedOperationException();
+        }
+      };
+    }
+
+    @Override
+    public Collection<V> values() {
+      // probably not worth caching
+      return Collections2.transform(set, function);
+    }
+
+    @Override
+    public int size() {
+      return set.size();
+    }
+
+    @Override
+    public boolean containsKey(@Nullable Object key) {
+      return set.contains(key);
+    }
+
+    @Override
+    public V get(@Nullable Object key) {
+      if (set.contains(key)) {
+        @SuppressWarnings("unchecked") // unsafe, but Javadoc warns
+        K k = (K) key;
+        return function.apply(k);
+      } else {
+        return null;
+      }
+    }
+
+    @Override
+    public V remove(@Nullable Object key) {
+      if (set.remove(key)) {
+        @SuppressWarnings("unchecked") // known safe, since set contained it
+        K k = (K) key;
+        return function.apply(k);
+      } else {
+        return null;
+      }
+    }
+
+    @Override
+    public void clear() {
+      set.clear();
+    }
+
+    @Override
+    protected Set<Entry<K, V>> createEntrySet() {
+      return new EntrySet<K, V>() {
+        @Override
+        Map<K, V> map() {
+          return AsMapView.this;
+        }
+
+        @Override
+        public Iterator<Entry<K, V>> iterator() {
+          final Iterator<K> backingIterator = set.iterator();
+          return new Iterator<Entry<K, V>>() {
+            @Override
+            public boolean hasNext() {
+              return backingIterator.hasNext();
+            }
+
+            @Override
+            public Entry<K, V> next() {
+              K k = backingIterator.next();
+              return Maps.immutableEntry(k, function.apply(k));
+            }
+
+            @Override
+            public void remove() {
+              backingIterator.remove();
+            }
+          };
+        }
+      };
+    }
+  }
+
   /**
    * Returns an immutable map for which the {@link Map#values} are the given
    * elements in the given order, and each key is the product of invoking a
@@ -1921,17 +2062,6 @@ public final class Maps {
         };
       }
       return result;
-    }
-
-    /**
-     * Returns {@code true} if this map contains no key-value mappings.
-     *
-     * <p>The implementation returns {@code entrySet().isEmpty()}.
-     *
-     * @return {@code true} if this map contains no key-value mappings
-     */
-    @Override public boolean isEmpty() {
-      return entrySet().isEmpty();
     }
   }
 

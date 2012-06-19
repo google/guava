@@ -17,6 +17,7 @@
 package com.google.common.collect;
 
 import static com.google.common.collect.Maps.transformEntries;
+import static com.google.common.collect.testing.Helpers.*;
 import static com.google.common.collect.testing.testers.CollectionIteratorTester.getIteratorUnknownOrderRemoveSupportedMethod;
 import static org.junit.contrib.truth.Truth.ASSERT;
 
@@ -612,6 +613,54 @@ public class MapsTest extends TestCase {
         .addEqualityGroup(reverse)
         .addEqualityGroup(diff2)
         .testEquals();
+  }
+
+  private static final Function<String, Integer> LENGTH_FUNCTION =
+      new Function<String, Integer>() {
+        @Override
+        public Integer apply(String input) {
+          return input.length();
+        }
+      };
+
+  public void testAsMap() {
+    Set<String> strings = ImmutableSet.of("one", "two", "three");
+    Map<String, Integer> map = Maps.asMap(strings, LENGTH_FUNCTION);
+    assertEquals(ImmutableMap.of("one", 3, "two", 3, "three", 5), map);
+    assertEquals(Integer.valueOf(5), map.get("three"));
+    assertNull(map.get("five"));
+    ASSERT.that(map.entrySet()).hasContentsInOrder(
+        mapEntry("one", 3),
+        mapEntry("two", 3),
+        mapEntry("three", 5));
+  }
+
+  public void testAsMapReadsThrough() {
+    Set<String> strings = Sets.newLinkedHashSet();
+    Collections.addAll(strings, "one", "two", "three");
+    Map<String, Integer> map = Maps.asMap(strings, LENGTH_FUNCTION);
+    assertEquals(ImmutableMap.of("one", 3, "two", 3, "three", 5), map);
+    assertNull(map.get("four"));
+    strings.add("four");
+    assertEquals(ImmutableMap.of("one", 3, "two", 3, "three", 5, "four", 4), map);
+    assertEquals(Integer.valueOf(4), map.get("four"));
+  }
+
+  public void testAsMapWritesThrough() {
+    Set<String> strings = Sets.newLinkedHashSet();
+    Collections.addAll(strings, "one", "two", "three");
+    Map<String, Integer> map = Maps.asMap(strings, LENGTH_FUNCTION);
+    assertEquals(ImmutableMap.of("one", 3, "two", 3, "three", 5), map);
+    assertEquals(Integer.valueOf(3), map.remove("two"));
+    ASSERT.that(strings).hasContentsInOrder("one", "three");
+  }
+
+  public void testAsMapEmpty() {
+    Set<String> strings = ImmutableSet.of();
+    Map<String, Integer> map = Maps.asMap(strings, LENGTH_FUNCTION);
+    ASSERT.that(map.entrySet()).isEmpty();
+    assertTrue(map.isEmpty());
+    assertNull(map.get("five"));
   }
 
   private static final BiMap<Integer, String> INT_TO_STRING_MAP =

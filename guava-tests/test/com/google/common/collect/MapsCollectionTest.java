@@ -16,9 +16,15 @@
 package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.collect.testing.Helpers.mapEntry;
 
+import com.google.common.base.Function;
+import com.google.common.collect.testing.MapTestSuiteBuilder;
 import com.google.common.collect.testing.NavigableMapTestSuiteBuilder;
 import com.google.common.collect.testing.SafeTreeMap;
+import com.google.common.collect.testing.SampleElements;
+import com.google.common.collect.testing.TestMapGenerator;
 import com.google.common.collect.testing.TestStringSortedMapGenerator;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.MapFeature;
@@ -30,8 +36,10 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 
 /**
  * Test suites for wrappers in {@code Maps}.
@@ -110,6 +118,58 @@ public class MapsCollectionTest extends TestCase {
             MapFeature.ALLOWS_NULL_KEYS,
             MapFeature.REJECTS_DUPLICATES_AT_CREATION)
         .createTestSuite());
+    suite.addTest(MapTestSuiteBuilder.using(new TestMapGenerator<String, Integer>(){
+        @Override
+        public SampleElements<Entry<String, Integer>> samples() {
+          return new SampleElements<Map.Entry<String, Integer>>(
+              mapEntry("x", 1),
+              mapEntry("xxx", 3),
+              mapEntry("xx", 2),
+              mapEntry("xxxx", 4),
+              mapEntry("aaaaa", 5));
+        }
+
+        @Override
+        public Map<String, Integer> create(Object... elements) {
+          Set<String> set = Sets.newLinkedHashSet();
+          for (Object e : elements) {
+            Map.Entry<?, ?> entry = (Entry<?, ?>) e;
+            checkNotNull(entry.getValue());
+            set.add((String) checkNotNull(entry.getKey()));
+          }
+          return Maps.asMap(set, new Function<String, Integer>() {
+            @Override
+            public Integer apply(String input) {
+              return input.length();
+            }
+          });
+        }
+
+        @SuppressWarnings("unchecked")
+        @Override
+        public Entry<String, Integer>[] createArray(int length) {
+          return new Entry[length];
+        }
+
+        @Override
+        public Iterable<Entry<String, Integer>> order(List<Entry<String, Integer>> insertionOrder) {
+          return insertionOrder;
+        }
+
+        @Override
+        public String[] createKeyArray(int length) {
+          return new String[length];
+        }
+
+        @Override
+        public Integer[] createValueArray(int length) {
+          return new Integer[length];
+        }
+      })
+      .named("Maps.asMap")
+      .withFeatures(CollectionSize.ANY,
+          MapFeature.SUPPORTS_REMOVE)
+      .createTestSuite());
     return suite;
   }
 }
