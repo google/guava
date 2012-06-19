@@ -118,7 +118,6 @@ public class Joiner {
    *
    * @since 11.0
    */
-  @Beta
   public <A extends Appendable> A appendTo(A appendable, Iterator<?> parts) throws IOException {
     checkNotNull(appendable);
     if (parts.hasNext()) {
@@ -180,7 +179,6 @@ public class Joiner {
    *
    * @since 11.0
    */
-  @Beta
   public final StringBuilder appendTo(StringBuilder builder, Iterator<?> parts) {
     try {
       appendTo((Appendable) builder, parts);
@@ -238,7 +236,6 @@ public class Joiner {
    *
    * @since 11.0
    */
-  @Beta
   public final String join(Iterator<?> parts) {
     return appendTo(new StringBuilder(), parts).toString();
   }
