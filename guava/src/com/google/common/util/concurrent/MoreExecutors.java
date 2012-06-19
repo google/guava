@@ -151,7 +151,7 @@ public final class MoreExecutors {
           // We're shutting down anyway, so just ignore.
         }
       }
-    }));
+    }, "DelayedShutdownHook-for-" + service));
   }
 
   /**
