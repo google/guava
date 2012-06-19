@@ -118,7 +118,7 @@ public class EventBus {
           new Supplier<Set<EventHandler>>() {
             @Override
             public Set<EventHandler> get() {
-              return new CopyOnWriteArraySet<EventHandler>();
+              return newHandlerSet();
             }
           });
 
@@ -226,6 +226,7 @@ public class EventBus {
    *
    * @param event  event to post.
    */
+  @SuppressWarnings("deprecation") // only deprecated for external subclasses
   public void post(Object event) {
     Set<Class<?>> dispatchTypes = flattenHierarchy(event.getClass());
 
@@ -253,14 +254,18 @@ public class EventBus {
    * {@link #dispatchQueuedEvents()}. Events are queued in-order of occurrence
    * so they can be dispatched in the same order.
    */
-  protected void enqueueEvent(Object event, EventHandler handler) {
+  void enqueueEvent(Object event, EventHandler handler) {
     eventsToDispatch.get().offer(new EventWithHandler(event, handler));
   }
 
   /**
    * Drain the queue of events to be dispatched. As the queue is being drained,
    * new events may be posted to the end of the queue.
+   *
+   * @deprecated This method should not be overridden outside of the eventbus package. It is
+   *     scheduled for removal in Guava 14.0.
    */
+  @Deprecated
   protected void dispatchQueuedEvents() {
     // don't dispatch if we're already dispatching, that would allow reentrancy
     // and out-of-order events. Instead, leave the events to be dispatched
@@ -292,7 +297,7 @@ public class EventBus {
    * @param event  event to dispatch.
    * @param wrapper  wrapper that will call the handler.
    */
-  protected void dispatch(Object event, EventHandler wrapper) {
+  void dispatch(Object event, EventHandler wrapper) {
     try {
       wrapper.handleEvent(event);
     } catch (InvocationTargetException e) {
@@ -320,7 +325,7 @@ public class EventBus {
    *
    * @return a new, mutable set for handlers.
    */
-  protected Set<EventHandler> newHandlerSet() {
+  Set<EventHandler> newHandlerSet() {
     return new CopyOnWriteArraySet<EventHandler>();
   }
 
