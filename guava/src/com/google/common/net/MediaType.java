@@ -143,12 +143,14 @@ public final class MediaType {
   public static final MediaType XML_UTF_8 = createConstantUtf8(TEXT_TYPE, "xml");
 
   /* image types */
+  public static final MediaType BMP = createConstant(IMAGE_TYPE, "bmp");
   public static final MediaType GIF = createConstant(IMAGE_TYPE, "gif");
   public static final MediaType ICO = createConstant(IMAGE_TYPE, "vnd.microsoft.icon");
   public static final MediaType JPEG = createConstant(IMAGE_TYPE, "jpeg");
   public static final MediaType PNG = createConstant(IMAGE_TYPE, "png");
   public static final MediaType SVG_UTF_8 = createConstantUtf8(IMAGE_TYPE, "svg+xml");
   public static final MediaType TIFF = createConstant(IMAGE_TYPE, "tiff");
+  public static final MediaType WEBP = createConstant(IMAGE_TYPE, "webp");
 
   /* audio types */
   public static final MediaType MP4_AUDIO = createConstant(AUDIO_TYPE, "mp4");
@@ -180,6 +182,7 @@ public final class MediaType {
   public static final MediaType JSON_UTF_8 = createConstantUtf8(APPLICATION_TYPE, "json");
   public static final MediaType KML = createConstant(APPLICATION_TYPE, "vnd.google-earth.kml+xml");
   public static final MediaType KMZ = createConstant(APPLICATION_TYPE, "vnd.google-earth.kmz");
+  public static final MediaType MBOX = createConstant(APPLICATION_TYPE, "mbox");
   public static final MediaType MICROSOFT_EXCEL = createConstant(APPLICATION_TYPE, "vnd.ms-excel");
   public static final MediaType MICROSOFT_POWERPOINT =
       createConstant(APPLICATION_TYPE, "vnd.ms-powerpoint");
@@ -229,12 +232,14 @@ public final class MediaType {
           .put(WML_UTF_8, WML_UTF_8)
           .put(XML_UTF_8, XML_UTF_8)
           /* image types */
+          .put(BMP, BMP)
           .put(GIF, GIF)
           .put(ICO, ICO)
           .put(JPEG, JPEG)
           .put(PNG, PNG)
           .put(SVG_UTF_8, SVG_UTF_8)
           .put(TIFF, TIFF)
+          .put(WEBP, WEBP)
           /* audio types */
           .put(MP4_AUDIO, MP4_AUDIO)
           .put(MPEG_AUDIO, MPEG_AUDIO)
@@ -256,6 +261,7 @@ public final class MediaType {
           .put(JSON_UTF_8, JSON_UTF_8)
           .put(KML, KML)
           .put(KMZ, KMZ)
+          .put(MBOX, MBOX)
           .put(MICROSOFT_EXCEL, MICROSOFT_EXCEL)
           .put(MICROSOFT_POWERPOINT, MICROSOFT_POWERPOINT)
           .put(MICROSOFT_WORD, MICROSOFT_WORD)
