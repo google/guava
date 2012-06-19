@@ -19,6 +19,8 @@ package com.google.common.util.concurrent;
 import com.google.common.annotations.Beta;
 import com.google.common.collect.ForwardingObject;
 
+import java.util.concurrent.Executor;
+
 /**
  * A {@link Service} that forwards all method calls to another service.
  *
@@ -56,6 +58,14 @@ public abstract class ForwardingService extends ForwardingObject
 
   @Override public boolean isRunning() {
     return delegate().isRunning();
+  }
+  
+  @Override public void addListener(Listener listener, Executor executor) {
+    delegate().addListener(listener, executor);
+  }
+  
+  @Override public Throwable failureCause() {
+    return delegate().failureCause();
   }
 
   /**

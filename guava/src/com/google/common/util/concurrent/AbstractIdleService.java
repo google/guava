@@ -122,6 +122,14 @@ public abstract class AbstractIdleService implements Service {
     return delegate.stopAndWait();
   }
   
+  @Override public final void addListener(Listener listener, Executor executor) {
+    delegate.addListener(listener, executor);
+  }
+  
+  @Override public final Throwable failureCause() {
+    return delegate.failureCause();
+  }
+  
   private String getServiceName() {
     return getClass().getSimpleName();
   }

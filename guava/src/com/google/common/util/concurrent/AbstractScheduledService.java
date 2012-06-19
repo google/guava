@@ -21,6 +21,7 @@ import com.google.common.base.Preconditions;
 import com.google.common.base.Throwables;
 
 import java.util.concurrent.Callable;
+import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledExecutorService;
@@ -297,6 +298,14 @@ public abstract class AbstractScheduledService implements Service {
 
   @Override public final State stopAndWait() {
     return delegate.stopAndWait();
+  }
+  
+  @Override public final void addListener(Listener listener, Executor executor) {
+    delegate.addListener(listener, executor);
+  }
+  
+  @Override public final Throwable failureCause() {
+    return delegate.failureCause();
   }
   
   /**

@@ -170,6 +170,14 @@ public abstract class AbstractExecutionThreadService implements Service {
     return delegate.stopAndWait();
   }
 
+  @Override public final void addListener(Listener listener, Executor executor) {
+    delegate.addListener(listener, executor);
+  }
+  
+  @Override public final Throwable failureCause() {
+    return delegate.failureCause();
+  }
+  
   /**
    * Returns the name of this service. {@link AbstractExecutionThreadService}
    * may include the name in debugging output.

@@ -17,14 +17,23 @@
 package com.google.common.util.concurrent;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkState;
 
 import com.google.common.annotations.Beta;
+import com.google.common.collect.Lists;
 import com.google.common.util.concurrent.Service.State; // javadoc needs this
 
+import java.util.List;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.concurrent.locks.ReentrantLock;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import javax.annotation.Nullable;
+import javax.annotation.concurrent.GuardedBy;
 
 /**
  * Base class for implementing services that can handle {@link #doStart} and
@@ -38,22 +47,38 @@ import java.util.concurrent.locks.ReentrantLock;
  */
 @Beta
 public abstract class AbstractService implements Service {
-
+  private static final Logger logger = Logger.getLogger(AbstractService.class.getName());
   private final ReentrantLock lock = new ReentrantLock();
 
   private final Transition startup = new Transition();
   private final Transition shutdown = new Transition();
 
   /**
-   * The internal state, which equals external state unless
-   * shutdownWhenStartupFinishes is true. Guarded by {@code lock}.
+   * The listeners to notify during a state transition.
    */
+  @GuardedBy("lock")
+  private final List<ListenerExecutorPair> listeners = Lists.newArrayList();
+  
+  /**
+   * The exception that caused this service to fail.  This will be {@code null}
+   * unless the service has failed.
+   */
+  @GuardedBy("lock")
+  @Nullable
+  private Throwable failure;
+  
+  /**
+   * The internal state, which equals external state unless
+   * shutdownWhenStartupFinishes is true.
+   */
+  @GuardedBy("lock")
   private State state = State.NEW;
 
   /**
    * If true, the user requested a shutdown while the service was still starting
-   * up. Guarded by {@code lock}.
+   * up.
    */
+  @GuardedBy("lock")
   private boolean shutdownWhenStartupFinishes = false;
 
   /**
@@ -86,7 +111,7 @@ public abstract class AbstractService implements Service {
     lock.lock();
     try {
       if (state == State.NEW) {
-        state = State.STARTING;
+        starting();
         doStart();
       }
     } catch (Throwable startupFailure) {
@@ -105,6 +130,7 @@ public abstract class AbstractService implements Service {
     try {
       if (state == State.NEW) {
         state = State.TERMINATED;
+        terminated(State.NEW);
         startup.set(State.TERMINATED);
         shutdown.set(State.TERMINATED);
       } else if (state == State.STARTING) {
@@ -112,6 +138,7 @@ public abstract class AbstractService implements Service {
         startup.set(State.STOPPING);
       } else if (state == State.RUNNING) {
         state = State.STOPPING;
+        stopping(State.RUNNING);
         doStop();
       }
     } catch (Throwable shutdownFailure) {
@@ -152,7 +179,7 @@ public abstract class AbstractService implements Service {
         throw failure;
       }
 
-      state = State.RUNNING;
+      running();
       if (shutdownWhenStartupFinishes) {
         stop();
       } else {
@@ -180,8 +207,7 @@ public abstract class AbstractService implements Service {
         notifyFailed(failure);
         throw failure;
       }
-
-      state = State.TERMINATED;
+      terminated(state);
       shutdown.set(State.TERMINATED);
     } finally {
       lock.unlock();
@@ -212,7 +238,7 @@ public abstract class AbstractService implements Service {
         throw new IllegalStateException(
             "Failed while in state:" + state, cause);
       }
-      state = State.FAILED;
+      failed(state, cause);
     } finally {
       lock.unlock();
     }
@@ -236,6 +262,33 @@ public abstract class AbstractService implements Service {
       lock.unlock();
     }
   }
+  
+  @Override
+  public final Throwable failureCause() {
+    lock.lock();
+    try {
+      checkState(state == State.FAILED, 
+          "getFailure is only valid if the service has failed, service is %s", state);
+      return failure;
+    } finally {
+      lock.unlock();
+    }
+  }
+  
+  @Override
+  public final void addListener(Listener listener, Executor executor) {
+    checkNotNull(listener, "listener");
+    checkNotNull(executor, "executor");
+    lock.lock();
+    if (state == State.TERMINATED || state == State.FAILED) {
+      return;
+    }
+    try {
+      listeners.add(new ListenerExecutorPair(listener, executor));
+    } finally {
+      lock.unlock();
+    }
+  }
 
   @Override public String toString() {
     return getClass().getSimpleName() + " [" + state() + "]";
@@ -253,6 +306,128 @@ public abstract class AbstractService implements Service {
       } catch (TimeoutException e) {
         throw new TimeoutException(AbstractService.this.toString());
       }
+    }
+  }
+  
+  @GuardedBy("lock")
+  private void starting() {
+    state = State.STARTING;
+    for (Listener listener : listeners) {
+      listener.starting();
+    }
+  }
+
+  @GuardedBy("lock")
+  private void running() {
+    state = State.RUNNING;
+    for (Listener listener : listeners) {
+      listener.running();
+    }
+  }
+
+  @GuardedBy("lock")
+  private void stopping(State from) {
+    state = State.STOPPING;
+    for (Listener listener : listeners) {
+      listener.stopping(from);
+    }
+  }
+
+  @GuardedBy("lock")
+  private void terminated(State from) {
+    state = State.TERMINATED;
+    for (Listener listener : listeners) {
+      listener.terminated(from);
+    }
+    // There are no more state transitions so we can clear this out.
+    listeners.clear();
+  }
+
+  @GuardedBy("lock")
+  private void failed(State from, Throwable cause) {
+    failure = cause;
+    state = State.FAILED;
+    for (Listener listener : listeners) {
+      listener.failed(from, cause);
+    }
+    // There are no more state transitions so we can clear this out.
+    listeners.clear();
+  }
+  
+  /** 
+   * A {@link Service.Listener} that schedules the callbacks of the delegate listener on an 
+   * {@link Executor}.
+   */
+  private static class ListenerExecutorPair implements Listener {
+    final Listener listener;
+    final Executor executor;
+
+    ListenerExecutorPair(Listener listener, Executor executor) {
+      this.listener = listener;
+      this.executor = executor;
+    }
+
+    /**
+     * Executes the given {@link Runnable} on {@link #executor} logging and swallowing all 
+     * exceptions
+     */
+    void execute(Runnable runnable) {
+      try {
+        executor.execute(runnable);
+      } catch (Exception e) {
+        logger.log(Level.SEVERE, "Exception while executing listener " + listener 
+            + " with executor " + executor, e);
+      }
+    }
+
+    @Override
+    public void starting() {
+      execute(new Runnable() {
+        @Override
+        public void run() {
+          listener.starting();
+        }
+      });
+    }
+
+    @Override
+    public void running() {
+      execute(new Runnable() {
+        @Override
+        public void run() {
+          listener.running();
+        }
+      });
+    }
+
+    @Override
+    public void stopping(final State from) {
+      execute(new Runnable() {
+        @Override
+        public void run() {
+          listener.stopping(from);
+        }
+      });
+    }
+
+    @Override
+    public void terminated(final State from) {
+      execute(new Runnable() {
+        @Override
+        public void run() {
+          listener.terminated(from);
+        }
+      });
+    }
+
+    @Override
+    public void failed(final State from, final Throwable failure) {
+      execute(new Runnable() {
+        @Override
+        public void run() {
+          listener.failed(from, failure);
+        }
+      });
     }
   }
 }
