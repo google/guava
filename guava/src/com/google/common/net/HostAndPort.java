@@ -23,6 +23,7 @@ import static com.google.common.base.Preconditions.checkState;
 import com.google.common.annotations.Beta;
 import com.google.common.base.Objects;
 
+import java.io.Serializable;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -60,7 +61,7 @@ import javax.annotation.concurrent.Immutable;
  * @since 10.0
  */
 @Beta @Immutable
-public final class HostAndPort {
+public final class HostAndPort implements Serializable {
   /** Magic value indicating the absence of a port number. */
   private static final int NO_PORT = -1;
 
@@ -262,4 +263,6 @@ public final class HostAndPort {
   private static boolean isValidPort(int port) {
     return port >= 0 && port <= 65535;
   }
+
+  private static final long serialVersionUID = 0;
 }
