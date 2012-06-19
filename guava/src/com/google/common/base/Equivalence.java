@@ -36,7 +36,6 @@ import javax.annotation.Nullable;
  * @since 10.0 (<a href="http://code.google.com/p/guava-libraries/wiki/Compatibility"
  *        >mostly source-compatible</a> since 4.0)
  */
-@Beta
 @GwtCompatible
 public abstract class Equivalence<T> {
   /**
@@ -172,7 +171,6 @@ public abstract class Equivalence<T> {
    *
    * @since 10.0
    */
-  @Beta
   public static final class Wrapper<T> implements Serializable {
     private final Equivalence<? super T> equivalence;
     @Nullable private final T reference;
@@ -253,6 +251,7 @@ public abstract class Equivalence<T> {
    * 
    * @since 10.0
    */
+  @Beta
   public final Predicate<T> equivalentTo(@Nullable T target) {
     return new EquivalentToPredicate<T>(this, target);
   }
