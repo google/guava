@@ -204,9 +204,12 @@ public final class BloomFilter<T> implements Serializable {
   public static <T> BloomFilter<T> create(Funnel<T> funnel, int expectedInsertions /* n */,
       double falsePositiveProbability) {
     checkNotNull(funnel);
-    checkArgument(expectedInsertions > 0, "Expected insertions must be positive");
+    checkArgument(expectedInsertions >= 0, "Expected insertions cannot be negative");
     checkArgument(falsePositiveProbability > 0.0 & falsePositiveProbability < 1.0,
         "False positive probability in (0.0, 1.0)");
+    if (expectedInsertions == 0) {
+      expectedInsertions = 1;
+    }
     /*
      * andreou: I wanted to put a warning in the javadoc about tiny fpp values,
      * since the resulting size is proportional to -log(p), but there is not
