@@ -541,7 +541,6 @@ public final class Multisets {
    *
    * @since 10.0
    */
-  @Beta
   public static boolean containsOccurrences(
       Multiset<?> superMultiset, Multiset<?> subMultiset) {
     checkNotNull(superMultiset);
@@ -574,7 +573,7 @@ public final class Multisets {
    *         of this operation
    * @since 10.0
    */
-  @Beta public static boolean retainOccurrences(Multiset<?> multisetToModify,
+  public static boolean retainOccurrences(Multiset<?> multisetToModify,
       Multiset<?> multisetToRetain) {
     return retainOccurrencesImpl(multisetToModify, multisetToRetain);
   }
@@ -626,7 +625,7 @@ public final class Multisets {
    *         this operation
    * @since 10.0
    */
-  @Beta public static boolean removeOccurrences(
+  public static boolean removeOccurrences(
       Multiset<?> multisetToModify, Multiset<?> occurrencesToRemove) {
     return removeOccurrencesImpl(multisetToModify, occurrencesToRemove);
   }
