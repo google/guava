@@ -330,7 +330,7 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    * Returns an {@code ImmutableList} containing all of the elements from this
    * {@code FluentIterable} in the order specified by {@code comparator}.  To produce an
    * {@code ImmutableList} sorted by its natural ordering, use
-   * {@code toImmutableSortedList(Ordering.natural())}.
+   * {@code toSortedImmutableList(Ordering.natural())}.
    *
    * @param comparator the function by which to sort list elements
    * @throws NullPointerException if any element is null
