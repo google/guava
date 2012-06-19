@@ -235,7 +235,6 @@ public final class Lists {
    * @return a new, empty {@code CopyOnWriteArrayList}
    * @since 12.0
    */
-  @Beta
   @GwtIncompatible("CopyOnWriteArrayList")
   public static <E> CopyOnWriteArrayList<E> newCopyOnWriteArrayList() {
     return new CopyOnWriteArrayList<E>();
@@ -248,7 +247,6 @@ public final class Lists {
    * @return a new {@code CopyOnWriteArrayList} containing those elements
    * @since 12.0
    */
-  @Beta
   @GwtIncompatible("CopyOnWriteArrayList")
   public static <E> CopyOnWriteArrayList<E> newCopyOnWriteArrayList(
       Iterable<? extends E> elements) {
