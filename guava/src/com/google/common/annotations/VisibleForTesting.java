@@ -17,8 +17,8 @@
 package com.google.common.annotations;
 
 /**
- * An annotation that indicates that the visibility of a type or member has
- * been relaxed to make the code testable.
+ * Annotates a program element that exists, or is more widely visible than
+ * otherwise necessary, only for use in test code.
  *
  * @author Johannes Henkel
  */
