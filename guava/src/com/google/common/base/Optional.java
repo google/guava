@@ -147,6 +147,7 @@ public abstract class Optional<T> implements Serializable {
    * Returns this {@code Optional} if it has a value present; {@code secondChoice}
    * otherwise.
    */
+  @Beta
   public abstract Optional<T> or(Optional<? extends T> secondChoice);
 
   /**
@@ -155,13 +156,15 @@ public abstract class Optional<T> implements Serializable {
    *
    * @throws NullPointerException if the supplier returns {@code null}
    */
+  @Beta
   public abstract T or(Supplier<? extends T> supplier);
 
   /**
    * Returns the contained instance if it is present; {@code null} otherwise. If the
    * instance is known to be present, use {@link #get()} instead.
    */
-  @Nullable public abstract T orNull();
+  @Nullable
+  public abstract T orNull();
 
   /**
    * Returns an immutable singleton {@link Set} whose only element is the contained instance
@@ -189,18 +192,21 @@ public abstract class Optional<T> implements Serializable {
    * are absent. Note that {@code Optional} instances of differing parameterized types can
    * be equal.
    */
-  @Override public abstract boolean equals(@Nullable Object object);
+  @Override
+  public abstract boolean equals(@Nullable Object object);
 
   /**
    * Returns a hash code for this instance.
    */
-  @Override public abstract int hashCode();
+  @Override
+  public abstract int hashCode();
 
   /**
    * Returns a string representation for this instance. The form of this string
    * representation is unspecified.
    */
-  @Override public abstract String toString();
+  @Override
+  public abstract String toString();
 
   /**
    * Returns the value of each present instance from the supplied {@code optionals}, in order,
@@ -214,12 +220,14 @@ public abstract class Optional<T> implements Serializable {
       final Iterable<? extends Optional<? extends T>> optionals) {
     checkNotNull(optionals);
     return new Iterable<T>() {
-      @Override public Iterator<T> iterator() {
+      @Override
+      public Iterator<T> iterator() {
         return new AbstractIterator<T>() {
           private final Iterator<? extends Optional<? extends T>> iterator =
               checkNotNull(optionals.iterator());
 
-          @Override protected T computeNext() {
+          @Override
+          protected T computeNext() {
             while (iterator.hasNext()) {
               Optional<? extends T> optional = iterator.next();
               if (optional.isPresent()) {
