@@ -20,7 +20,6 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Function;
@@ -2121,10 +2120,9 @@ public final class Multimaps {
    *
    * @since 11.0
    */
-  @Beta
   @GwtIncompatible(value = "untested")
   public static <K, V> Multimap<K, V> filterKeys(
-    Multimap<K, V> unfiltered, final Predicate<? super K> keyPredicate) {
+      Multimap<K, V> unfiltered, final Predicate<? super K> keyPredicate) {
     checkNotNull(keyPredicate);
     Predicate<Entry<K, V>> entryPredicate =
         new Predicate<Entry<K, V>>() {
@@ -2166,10 +2164,9 @@ public final class Multimaps {
    *
    * @since 11.0
    */
-  @Beta
   @GwtIncompatible(value = "untested")
   public static <K, V> Multimap<K, V> filterValues(
-    Multimap<K, V> unfiltered, final Predicate<? super V> valuePredicate) {
+      Multimap<K, V> unfiltered, final Predicate<? super V> valuePredicate) {
     checkNotNull(valuePredicate);
     Predicate<Entry<K, V>> entryPredicate =
         new Predicate<Entry<K, V>>() {
@@ -2209,10 +2206,9 @@ public final class Multimaps {
    *
    * @since 11.0
    */
-  @Beta
   @GwtIncompatible(value = "untested")
   public static <K, V> Multimap<K, V> filterEntries(
-    Multimap<K, V> unfiltered, Predicate<? super Entry<K, V>> entryPredicate) {
+      Multimap<K, V> unfiltered, Predicate<? super Entry<K, V>> entryPredicate) {
     checkNotNull(entryPredicate);
     return (unfiltered instanceof FilteredMultimap)
         ? filterFiltered((FilteredMultimap<K, V>) unfiltered, entryPredicate)

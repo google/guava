@@ -1466,7 +1466,6 @@ public final class Maps {
    *
    * @since 11.0
    */
-  @Beta
   public static <K, V> SortedMap<K, V> filterKeys(
       SortedMap<K, V> unfiltered, final Predicate<? super K> keyPredicate) {
     // TODO: Return a subclass of Maps.FilteredKeyMap for slightly better
@@ -1557,7 +1556,6 @@ public final class Maps {
    *
    * @since 11.0
    */
-  @Beta
   public static <K, V> SortedMap<K, V> filterValues(
       SortedMap<K, V> unfiltered, final Predicate<? super V> valuePredicate) {
     checkNotNull(valuePredicate);
@@ -1642,7 +1640,6 @@ public final class Maps {
    *
    * @since 11.0
    */
-  @Beta
   public static <K, V> SortedMap<K, V> filterEntries(
       SortedMap<K, V> unfiltered,
       Predicate<? super Entry<K, V>> entryPredicate) {

@@ -864,7 +864,6 @@ public final class Sets {
    *
    * @since 11.0
    */
-  @Beta
   @SuppressWarnings("unchecked")
   public static <E> SortedSet<E> filter(
       SortedSet<E> unfiltered, Predicate<? super E> predicate) {
