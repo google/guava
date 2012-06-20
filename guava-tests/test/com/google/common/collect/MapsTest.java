@@ -17,6 +17,7 @@
 package com.google.common.collect;
 
 import static com.google.common.collect.Maps.transformEntries;
+import static com.google.common.collect.Maps.transformValues;
 import static com.google.common.collect.testing.Helpers.*;
 import static com.google.common.collect.testing.testers.CollectionIteratorTester.getIteratorUnknownOrderRemoveSupportedMethod;
 import static org.junit.contrib.truth.Truth.ASSERT;
@@ -58,6 +59,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.NavigableMap;
 import java.util.Properties;
 import java.util.Set;
 import java.util.SortedMap;
@@ -977,6 +979,13 @@ public class MapsTest extends TestCase {
         }
       };
 
+  private static final Function<Integer, Double> SQRT_FUNCTION = new Function<Integer, Double>() {
+      @Override
+      public Double apply(Integer in) {
+        return Math.sqrt(in);
+      }
+    };
+
   public void testFilteredKeysIllegalPut() {
     Map<String, Integer> unfiltered = Maps.newHashMap();
     Map<String, Integer> filtered = Maps.filterKeys(unfiltered, NOT_LENGTH_3);
@@ -1141,29 +1150,33 @@ public class MapsTest extends TestCase {
 
   public void testTransformValues() {
     Map<String, Integer> map = ImmutableMap.of("a", 4, "b", 9);
-    Function<Integer, Double> sqrt = new Function<Integer, Double>() {
-      @Override
-      public Double apply(Integer in) {
-        return Math.sqrt(in);
-      }
-    };
-    Map<String, Double> transformed = Maps.transformValues(map, sqrt);
+    Map<String, Double> transformed = transformValues(map, SQRT_FUNCTION);
 
     assertEquals(ImmutableMap.of("a", 2.0, "b", 3.0), transformed);
   }
 
   public void testTransformValuesSecretlySorted() {
-    Map<String, Integer> map = ImmutableSortedMap.of("a", 4, "b", 9);
-    Function<Integer, Double> sqrt = new Function<Integer, Double>() {
-      @Override
-      public Double apply(Integer in) {
-        return Math.sqrt(in);
-      }
-    };
-    Map<String, Double> transformed = Maps.transformValues(map, sqrt);
+    Map<String, Integer> map =
+        sortedNotNavigable(ImmutableSortedMap.of("a", 4, "b", 9));
+    Map<String, Double> transformed = transformValues(map, SQRT_FUNCTION);
 
     assertEquals(ImmutableMap.of("a", 2.0, "b", 3.0), transformed);
     assertTrue(transformed instanceof SortedMap);
+  }
+
+  @GwtIncompatible("NavigableMap")
+  public void testTransformValuesSecretlyNavigable() {
+    Map<String, Integer> map = ImmutableSortedMap.of("a", 4, "b", 9);
+    Map<String, Double> transformed;
+
+    transformed = transformValues(map, SQRT_FUNCTION);
+    assertEquals(ImmutableMap.of("a", 2.0, "b", 3.0), transformed);
+    assertTrue(transformed instanceof NavigableMap);
+
+    transformed =
+        transformValues((SortedMap<String, Integer>) map, SQRT_FUNCTION);
+    assertEquals(ImmutableMap.of("a", 2.0, "b", 3.0), transformed);
+    assertTrue(transformed instanceof NavigableMap);
   }
 
   public void testTransformEntries() {
@@ -1175,7 +1188,7 @@ public class MapsTest extends TestCase {
             return key + value;
           }
         };
-    Map<String, String> transformed = Maps.transformEntries(map, concat);
+    Map<String, String> transformed = transformEntries(map, concat);
 
     assertEquals(ImmutableMap.of("a", "a4", "b", "b9"), transformed);
   }
@@ -1189,10 +1202,31 @@ public class MapsTest extends TestCase {
             return key + value;
           }
         };
-    Map<String, String> transformed = Maps.transformEntries(map, concat);
+    Map<String, String> transformed = transformEntries(map, concat);
 
     assertEquals(ImmutableMap.of("a", "a4", "b", "b9"), transformed);
     assertTrue(transformed instanceof SortedMap);
+  }
+
+  @GwtIncompatible("NavigableMap")
+  public void testTransformEntriesSecretlyNavigable() {
+    Map<String, String> map = ImmutableSortedMap.of("a", "4", "b", "9");
+    EntryTransformer<String, String, String> concat =
+        new EntryTransformer<String, String, String>() {
+          @Override
+          public String transformEntry(String key, String value) {
+            return key + value;
+          }
+        };
+    Map<String, String> transformed;
+
+    transformed = transformEntries(map, concat);
+    assertEquals(ImmutableMap.of("a", "a4", "b", "b9"), transformed);
+    assertTrue(transformed instanceof NavigableMap);
+
+    transformed = transformEntries((SortedMap<String, String>) map, concat);
+    assertEquals(ImmutableMap.of("a", "a4", "b", "b9"), transformed);
+    assertTrue(transformed instanceof NavigableMap);
   }
 
   public void testTransformEntriesGenerics() {
@@ -1261,8 +1295,7 @@ public class MapsTest extends TestCase {
             return value ? key : "no" + key;
           }
         };
-    Map<String, String> transformed =
-        Maps.transformEntries(options, flagPrefixer);
+    Map<String, String> transformed = transformEntries(options, flagPrefixer);
     assertEquals("{verbose=verbose, sort=nosort}", transformed.toString());
   }
 
@@ -1409,22 +1442,41 @@ public class MapsTest extends TestCase {
     }
   }
 
-  public void testSortedMapTransformValues() {
-    SortedMap<String, Integer> map = ImmutableSortedMap.of("a", 4, "b", 9);
-    Function<Integer, Double> sqrt = new Function<Integer, Double>() {
-      @Override
-      public Double apply(Integer in) {
-        return Math.sqrt(in);
+  // Logically this would accept a NavigableMap, but that won't work under GWT.
+  private static <K, V> SortedMap<K, V> sortedNotNavigable(
+      final SortedMap<K, V> map) {
+    return new ForwardingSortedMap<K, V>() {
+      @Override protected SortedMap<K, V> delegate() {
+        return map;
       }
     };
+  }
+
+  public void testSortedMapTransformValues() {
+    SortedMap<String, Integer> map =
+        sortedNotNavigable(ImmutableSortedMap.of("a", 4, "b", 9));
     SortedMap<String, Double> transformed =
-        Maps.transformValues(map, sqrt);
+        transformValues(map, SQRT_FUNCTION);
+
+    /*
+     * We'd like to sanity check that we didn't get a NavigableMap out, but we
+     * can't easily do so while maintaining GWT compatibility.
+     */
+    assertEquals(ImmutableSortedMap.of("a", 2.0, "b", 3.0), transformed);
+  }
+
+  @GwtIncompatible("NavigableMap")
+  public void testNavigableMapTransformValues() {
+    NavigableMap<String, Integer> map = ImmutableSortedMap.of("a", 4, "b", 9);
+    NavigableMap<String, Double> transformed =
+        transformValues(map, SQRT_FUNCTION);
 
     assertEquals(ImmutableSortedMap.of("a", 2.0, "b", 3.0), transformed);
   }
 
   public void testSortedMapTransformEntries() {
-    SortedMap<String, String> map = ImmutableSortedMap.of("a", "4", "b", "9");
+    SortedMap<String, String> map =
+        sortedNotNavigable(ImmutableSortedMap.of("a", "4", "b", "9"));
     EntryTransformer<String, String, String> concat =
         new EntryTransformer<String, String, String>() {
           @Override
@@ -1432,8 +1484,27 @@ public class MapsTest extends TestCase {
             return key + value;
           }
         };
-    SortedMap<String, String> transformed =
-        Maps.transformEntries(map, concat);
+    SortedMap<String, String> transformed = transformEntries(map, concat);
+
+    /*
+     * We'd like to sanity check that we didn't get a NavigableMap out, but we
+     * can't easily do so while maintaining GWT compatibility.
+     */
+    assertEquals(ImmutableSortedMap.of("a", "a4", "b", "b9"), transformed);
+  }
+
+  @GwtIncompatible("NavigableMap")
+  public void testNavigableMapTransformEntries() {
+    NavigableMap<String, String> map =
+        ImmutableSortedMap.of("a", "4", "b", "9");
+    EntryTransformer<String, String, String> concat =
+        new EntryTransformer<String, String, String>() {
+          @Override
+          public String transformEntry(String key, String value) {
+            return key + value;
+          }
+        };
+    NavigableMap<String, String> transformed = transformEntries(map, concat);
 
     assertEquals(ImmutableSortedMap.of("a", "a4", "b", "b9"), transformed);
   }

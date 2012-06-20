@@ -17,8 +17,11 @@
 package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.collect.Maps.EntryTransformer;
 
 import java.lang.reflect.Array;
+import java.util.NavigableMap;
+import java.util.SortedMap;
 
 /**
  * Methods factored out so that they can be emulated differently in GWT.
@@ -60,6 +63,14 @@ class Platform {
    */
   static MapMaker tryWeakKeys(MapMaker mapMaker) {
     return mapMaker.weakKeys();
+  }
+
+  static <K, V1, V2> SortedMap<K, V2> mapsTransformEntriesSortedMap(
+      SortedMap<K, V1> fromMap,
+      EntryTransformer<? super K, ? super V1, V2> transformer) {
+    return (fromMap instanceof NavigableMap)
+        ? Maps.transformEntries((NavigableMap<K, V1>) fromMap, transformer)
+        : Maps.transformEntriesIgnoreNavigable(fromMap, transformer);
   }
 
   private Platform() {}

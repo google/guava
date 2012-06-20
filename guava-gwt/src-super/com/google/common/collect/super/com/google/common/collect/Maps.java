@@ -1214,7 +1214,13 @@ public final class Maps {
    */
   @Beta
   public static <K, V1, V2> SortedMap<K, V2> transformEntries(
-      final SortedMap<K, V1> fromMap,
+      SortedMap<K, V1> fromMap,
+      EntryTransformer<? super K, ? super V1, V2> transformer) {
+    return Platform.mapsTransformEntriesSortedMap(fromMap, transformer);
+  }
+
+  static <K, V1, V2> SortedMap<K, V2> transformEntriesIgnoreNavigable(
+      SortedMap<K, V1> fromMap,
       EntryTransformer<? super K, ? super V1, V2> transformer) {
     return new TransformedEntriesSortedMap<K, V1, V2>(fromMap, transformer);
   }

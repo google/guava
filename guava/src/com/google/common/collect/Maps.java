@@ -1133,6 +1133,54 @@ public final class Maps {
   }
 
   /**
+   * Returns a view of a navigable map where each value is transformed by a
+   * function. All other properties of the map, such as iteration order, are
+   * left intact.  For example, the code: <pre>   {@code
+   *
+   *   NavigableMap<String, Integer> map = Maps.newTreeMap();
+   *   map.put("a", 4);
+   *   map.put("b", 9);
+   *   Function<Integer, Double> sqrt =
+   *       new Function<Integer, Double>() {
+   *         public Double apply(Integer in) {
+   *           return Math.sqrt((int) in);
+   *         }
+   *       };
+   *   NavigableMap<String, Double> transformed =
+   *        Maps.transformNavigableValues(map, sqrt);
+   *   System.out.println(transformed);}</pre>
+   *
+   * ... prints {@code {a=2.0, b=3.0}}.
+   *
+   * Changes in the underlying map are reflected in this view.
+   * Conversely, this view supports removal operations, and these are reflected
+   * in the underlying map.
+   *
+   * <p>It's acceptable for the underlying map to contain null keys, and even
+   * null values provided that the function is capable of accepting null input.
+   * The transformed map might contain null values, if the function sometimes
+   * gives a null result.
+   *
+   * <p>The returned map is not thread-safe or serializable, even if the
+   * underlying map is.
+   *
+   * <p>The function is applied lazily, invoked when needed. This is necessary
+   * for the returned map to be a view, but it means that the function will be
+   * applied many times for bulk operations like {@link Map#containsValue} and
+   * {@code Map.toString()}. For this to perform well, {@code function} should
+   * be fast. To avoid lazy evaluation when the returned map doesn't need to be
+   * a view, copy the returned map into a new map of your choosing.
+   *
+   * @since 13.0
+   */
+  @Beta
+  @GwtIncompatible("NavigableMap")
+  public static <K, V1, V2> NavigableMap<K, V2> transformValues(
+      NavigableMap<K, V1> fromMap, final Function<? super V1, V2> function) {
+    return NavigableMaps.transformValues(fromMap, function);
+  }
+
+  /**
    * Returns a view of a map whose values are derived from the original map's
    * entries. In contrast to {@link #transformValues}, this method's
    * entry-transformation logic may depend on the key as well as the value.
@@ -1246,7 +1294,74 @@ public final class Maps {
    */
   @Beta
   public static <K, V1, V2> SortedMap<K, V2> transformEntries(
-      final SortedMap<K, V1> fromMap,
+      SortedMap<K, V1> fromMap,
+      EntryTransformer<? super K, ? super V1, V2> transformer) {
+    return Platform.mapsTransformEntriesSortedMap(fromMap, transformer);
+  }
+
+  /**
+   * Returns a view of a navigable map whose values are derived from the
+   * original navigable map's entries. In contrast to {@link
+   * #transformValues}, this method's entry-transformation logic may
+   * depend on the key as well as the value.
+   *
+   * <p>All other properties of the transformed map, such as iteration order,
+   * are left intact. For example, the code: <pre>   {@code
+   *
+   *   NavigableMap<String, Boolean> options = Maps.newTreeMap();
+   *   options.put("verbose", false);
+   *   options.put("sort", true);
+   *   EntryTransformer<String, Boolean, String> flagPrefixer =
+   *       new EntryTransformer<String, Boolean, String>() {
+   *         public String transformEntry(String key, Boolean value) {
+   *           return value ? key : ("yes" + key);
+   *         }
+   *       };
+   *   NavigableMap<String, String> transformed =
+   *       LabsMaps.transformNavigableEntries(options, flagPrefixer);
+   *   System.out.println(transformed);}</pre>
+   *
+   * ... prints {@code {sort=yessort, verbose=verbose}}.
+   *
+   * <p>Changes in the underlying map are reflected in this view.
+   * Conversely, this view supports removal operations, and these are reflected
+   * in the underlying map.
+   *
+   * <p>It's acceptable for the underlying map to contain null keys and null
+   * values provided that the transformer is capable of accepting null inputs.
+   * The transformed map might contain null values if the transformer sometimes
+   * gives a null result.
+   *
+   * <p>The returned map is not thread-safe or serializable, even if the
+   * underlying map is.
+   *
+   * <p>The transformer is applied lazily, invoked when needed. This is
+   * necessary for the returned map to be a view, but it means that the
+   * transformer will be applied many times for bulk operations like {@link
+   * Map#containsValue} and {@link Object#toString}. For this to perform well,
+   * {@code transformer} should be fast. To avoid lazy evaluation when the
+   * returned map doesn't need to be a view, copy the returned map into a new
+   * map of your choosing.
+   *
+   * <p><b>Warning:</b> This method assumes that for any instance {@code k} of
+   * {@code EntryTransformer} key type {@code K}, {@code k.equals(k2)} implies
+   * that {@code k2} is also of type {@code K}. Using an {@code
+   * EntryTransformer} key type for which this may not hold, such as {@code
+   * ArrayList}, may risk a {@code ClassCastException} when calling methods on
+   * the transformed map.
+   *
+   * @since 13.0
+   */
+  @Beta
+  @GwtIncompatible("NavigableMap")
+  public static <K, V1, V2> NavigableMap<K, V2> transformEntries(
+      final NavigableMap<K, V1> fromMap,
+      EntryTransformer<? super K, ? super V1, V2> transformer) {
+    return NavigableMaps.transformEntries(fromMap, transformer);
+  }
+
+  static <K, V1, V2> SortedMap<K, V2> transformEntriesIgnoreNavigable(
+      SortedMap<K, V1> fromMap,
       EntryTransformer<? super K, ? super V1, V2> transformer) {
     return new TransformedEntriesSortedMap<K, V1, V2>(fromMap, transformer);
   }
@@ -2200,6 +2315,61 @@ public final class Maps {
     public NavigableMap<K, V> tailMap(K fromKey, boolean inclusive) {
       return Maps.unmodifiableNavigableMap(delegate.tailMap(fromKey, inclusive));
     }
+  }
+
+  /**
+   * Returns a synchronized (thread-safe) navigable map backed by the specified
+   * navigable map.  In order to guarantee serial access, it is critical that
+   * <b>all</b> access to the backing navigable map is accomplished
+   * through the returned navigable map (or its views).
+   *
+   * <p>It is imperative that the user manually synchronize on the returned
+   * navigable map when iterating over any of its collection views, or the
+   * collections views of any of its {@code descendingMap}, {@code subMap},
+   * {@code headMap} or {@code tailMap} views. <pre>   {@code
+   *
+   *   NavigableMap<K, V> map = synchronizedNavigableMap(new TreeMap<K, V>());
+   *
+   *   // Needn't be in synchronized block
+   *   NavigableSet<K> set = map.navigableKeySet();
+   *
+   *   synchronized (map) { // Synchronizing on map, not set!
+   *     Iterator<K> it = set.iterator(); // Must be in synchronized block
+   *     while (it.hasNext()){
+   *       foo(it.next());
+   *     }
+   *   }}</pre>
+   *
+   * or: <pre>   {@code
+   *
+   *   NavigableMap<K, V> map = synchronizedNavigableMap(new TreeMap<K, V>());
+   *   NavigableMap<K, V> map2 = map.subMap(foo, false, bar, true);
+   *
+   *   // Needn't be in synchronized block
+   *   NavigableSet<K> set2 = map2.descendingKeySet();
+   *
+   *   synchronized (map) { // Synchronizing on map, not map2 or set2!
+   *     Iterator<K> it = set2.iterator(); // Must be in synchronized block
+   *     while (it.hasNext()){
+   *       foo(it.next());
+   *     }
+   *   }}</pre>
+   *
+   * Failure to follow this advice may result in non-deterministic behavior.
+   *
+   * <p>The returned navigable map will be serializable if the specified
+   * navigable map is serializable.
+   *
+   * @param navigableMap the navigable map to be "wrapped" in a synchronized
+   *    navigable map.
+   * @return a synchronized view of the specified navigable map.
+   * @since 13.0
+   */
+  @Beta
+  @GwtIncompatible("NavigableMap")
+  public static <K, V> NavigableMap<K, V> synchronizedNavigableMap(
+      NavigableMap<K, V> navigableMap) {
+    return NavigableMaps.synchronizedNavigableMap(navigableMap);
   }
 
   /**
