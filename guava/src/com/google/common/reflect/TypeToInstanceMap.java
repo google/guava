@@ -27,7 +27,7 @@ import javax.annotation.Nullable;
  * In addition to implementing {@code Map}, the additional type-safe operations
  * {@link #putInstance} and {@link #getInstance} are available.
  *
- * <p>Generally, implementations don't support {@link #put} and {@@link #putAll}
+ * <p>Generally, implementations don't support {@link #put} and {@link #putAll}
  * because there is no way to check an object at runtime to be an instance of a
  * {@link TypeToken}. Instead, caller should use the type safe {@link #putInstance}.
  * 
