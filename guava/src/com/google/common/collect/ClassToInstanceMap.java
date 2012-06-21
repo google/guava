@@ -36,6 +36,9 @@ import javax.annotation.Nullable;
  * "http://code.google.com/p/guava-libraries/wiki/NewCollectionTypesExplained#ClassToInstanceMap">
  * {@code ClassToInstanceMap}</a>.
  *
+ * <p>To map a generic type to an instance of that type, use {@link
+ * com.google.common.reflect.TypeToInstanceMap} instead.
+ *
  * @param <B> the common supertype that all entries must share; often this is
  *     simply {@link Object}
  *
