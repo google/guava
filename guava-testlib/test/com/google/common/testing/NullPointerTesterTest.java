@@ -664,6 +664,33 @@ public class NullPointerTesterTest extends TestCase {
     shouldFail(SubclassThatTriesToOverrideBadStaticMethod.class);
   }
 
+  private static final class HardToCreate {
+    private HardToCreate(HardToCreate x) {}
+  }
+
+  @SuppressWarnings("unused") // used by reflection
+  private static class CanCreateDefault {
+    public void foo(@Nullable HardToCreate ignored, String required) {
+      checkNotNull(required);
+    }
+  }
+
+  public void testCanCreateDefault() {
+    shouldPass(new CanCreateDefault());
+  }
+
+  @SuppressWarnings("unused") // used by reflection
+  private static class CannotCreateDefault {
+    public void foo(HardToCreate ignored, String required) {
+      checkNotNull(ignored);
+      checkNotNull(required);
+    }
+  }
+
+  public void testCannotCreateDefault() {
+    shouldFail(new CannotCreateDefault());
+  }
+
   private static void shouldPass(Object instance, Visibility visibility) {
     new NullPointerTester().testInstanceMethods(instance, visibility);
   }
@@ -673,6 +700,8 @@ public class NullPointerTesterTest extends TestCase {
     shouldPass(instance, Visibility.PROTECTED);
     shouldPass(instance, Visibility.PUBLIC);
   }
+
+  // TODO(cpovirk): eliminate surprising Object/Class overloading of shouldFail
 
   private static void shouldFail(Object instance, Visibility visibility) {
     try {
@@ -698,8 +727,8 @@ public class NullPointerTesterTest extends TestCase {
     fail("Should detect problem in " + cls.getSimpleName());
   }
 
-  private static void shouldFail(Class<?> instance) {
-    shouldFail(instance, Visibility.PACKAGE);
+  private static void shouldFail(Class<?> cls) {
+    shouldFail(cls, Visibility.PACKAGE);
   }
 
   @SuppressWarnings("unused") // used by reflection
