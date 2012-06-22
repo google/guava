@@ -472,6 +472,22 @@ public class AbstractServiceTest extends TestCase {
     }
   }
 
+  public void testAddListenerAfterFailureDoesntCauseDeadlock() throws InterruptedException {
+    final StartThrowingService service = new StartThrowingService();
+    service.start();
+    assertEquals(State.FAILED, service.state());
+    service.addListener(new RecordingListener(), MoreExecutors.sameThreadExecutor());
+    Thread thread = new Thread() {
+      @Override public void run() {
+        // Internally state() grabs a lock, this could be any such method on AbstractService.
+        service.state();
+      }
+    };
+    thread.start();
+    thread.join(100);
+    assertFalse(thread + " is deadlocked", thread.isAlive());
+  }
+
   private static class StartThrowingService extends AbstractService {
     @Override protected void doStart() {
       notifyFailed(EXCEPTION);

@@ -280,11 +280,10 @@ public abstract class AbstractService implements Service {
     checkNotNull(listener, "listener");
     checkNotNull(executor, "executor");
     lock.lock();
-    if (state == State.TERMINATED || state == State.FAILED) {
-      return;
-    }
     try {
-      listeners.add(new ListenerExecutorPair(listener, executor));
+      if (state != State.TERMINATED && state != State.FAILED) {
+        listeners.add(new ListenerExecutorPair(listener, executor));
+      }
     } finally {
       lock.unlock();
     }

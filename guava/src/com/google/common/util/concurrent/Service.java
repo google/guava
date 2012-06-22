@@ -117,7 +117,7 @@ public interface Service {
    * terminated} without having been started nor stopped. Unlike calling {@code
    * stop().get()}, this method throws no checked exceptions.
    *
-   * @throws UncheckedExecutionException if shutdown failed
+   * @throws UncheckedExecutionException if the service has failed or fails during shutdown
    * @return the state of the service when shutdown finished.
    */
   State stopAndWait();
@@ -201,7 +201,7 @@ public interface Service {
    * @since 13.0
    */
   @Beta // should come out of Beta when Service does
-  public interface Listener {
+  interface Listener {
     /**
      * Called when the service transitions from {@linkplain State#NEW NEW} to 
      * {@linkplain State#STARTING STARTING}. This occurs when {@link Service#start} or 
