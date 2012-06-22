@@ -389,9 +389,11 @@ public final class CacheBuilder<K, V> {
    * <p>When {@code size} is zero, elements will be evicted immediately after being loaded into the
    * cache. This can be useful in testing, or to disable caching temporarily without a code change.
    *
+   * <p>This feature cannot be used in conjunction with {@link #maximumWeight}.
+   *
    * @param size the maximum size of the cache
    * @throws IllegalArgumentException if {@code size} is negative
-   * @throws IllegalStateException if a maximum size was already set
+   * @throws IllegalStateException if a maximum size or weight was already set
    */
   public CacheBuilder<K, V> maximumSize(long size) {
     checkState(this.maximumSize == UNSET_INT, "maximum size was already set to %s",
@@ -421,9 +423,11 @@ public final class CacheBuilder<K, V> {
    * <p>Note that weight is only used to determine whether the cache is over capacity; it has no
    * effect on selecting which entry should be evicted next.
    *
-   * @param weight the maximum weight the cache may contain
-   * @throws IllegalArgumentException if {@code size} is negative
-   * @throws IllegalStateException if a maximum size was already set
+   * <p>This feature cannot be used in conjunction with {@link #maximumSize}.
+   *
+   * @param weight the maximum total weight of entries the cache may contain
+   * @throws IllegalArgumentException if {@code weight} is negative
+   * @throws IllegalStateException if a maximum weight or size was already set
    * @since 11.0
    */
   public CacheBuilder<K, V> maximumWeight(long weight) {

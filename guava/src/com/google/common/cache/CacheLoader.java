@@ -35,6 +35,15 @@ import java.util.Map;
  * <p>Most implementations will only need to implement {@link #load}. Other methods may be
  * overridden as desired.
  *
+ * <p>Usage example: <pre>   {@code
+ *
+ *   CacheLoader<Key, Graph> loader = new CacheLoader<Key, Graph>() {
+ *     public Graph load(Key key) throws AnyException {
+ *       return createExpensiveGraph(key);
+ *     }
+ *   };
+ *   LoadingCache<Key, Graph> cache = CacheBuilder.newBuilder().build(loader);}</pre>
+ *
  * @author Charles Fry
  * @since 10.0
  */

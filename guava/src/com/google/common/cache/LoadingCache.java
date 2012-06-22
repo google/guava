@@ -141,6 +141,8 @@ public interface LoadingCache<K, V> extends Cache<K, V>, Function<K, V> {
    *
    * <p>Caches loaded by a {@link CacheLoader} will call {@link CacheLoader#reload} if the
    * cache currently contains a value for {@code key}, and {@link CacheLoader#load} otherwise.
+   * Loading is asynchronous only if {@link CacheLoader#reload} was overridden with an
+   * asynchronous implementation.
    *
    * <p>Returns without doing anything if another thread is currently loading the value for
    * {@code key}. If the cache loader associated with this cache performs refresh asynchronously
