@@ -1482,7 +1482,7 @@ public final class Sets {
   @GwtIncompatible("NavigableSet")
   public static <E> NavigableSet<E> synchronizedNavigableSet(
       NavigableSet<E> navigableSet) {
-    return NavigableSets.synchronizedNavigableSet(navigableSet);
+    return Synchronized.navigableSet(navigableSet);
   }
 
   /**

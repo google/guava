@@ -1067,16 +1067,8 @@ public final class Maps {
    * a view, copy the returned map into a new map of your choosing.
    */
   public static <K, V1, V2> Map<K, V2> transformValues(
-      Map<K, V1> fromMap, final Function<? super V1, V2> function) {
-    checkNotNull(function);
-    EntryTransformer<K, V1, V2> transformer =
-        new EntryTransformer<K, V1, V2>() {
-          @Override
-          public V2 transformEntry(K key, V1 value) {
-            return function.apply(value);
-          }
-        };
-    return transformEntries(fromMap, transformer);
+      Map<K, V1> fromMap, Function<? super V1, V2> function) {
+    return transformEntries(fromMap, asEntryTransformer(function));
   }
 
   /**
@@ -1120,16 +1112,8 @@ public final class Maps {
    */
   @Beta
   public static <K, V1, V2> SortedMap<K, V2> transformValues(
-      SortedMap<K, V1> fromMap, final Function<? super V1, V2> function) {
-    checkNotNull(function);
-    EntryTransformer<K, V1, V2> transformer =
-        new EntryTransformer<K, V1, V2>() {
-          @Override
-          public V2 transformEntry(K key, V1 value) {
-            return function.apply(value);
-          }
-        };
-    return transformEntries(fromMap, transformer);
+      SortedMap<K, V1> fromMap, Function<? super V1, V2> function) {
+    return transformEntries(fromMap, asEntryTransformer(function));
   }
 
   /**
@@ -1176,8 +1160,19 @@ public final class Maps {
   @Beta
   @GwtIncompatible("NavigableMap")
   public static <K, V1, V2> NavigableMap<K, V2> transformValues(
-      NavigableMap<K, V1> fromMap, final Function<? super V1, V2> function) {
-    return NavigableMaps.transformValues(fromMap, function);
+      NavigableMap<K, V1> fromMap, Function<? super V1, V2> function) {
+    return transformEntries(fromMap, asEntryTransformer(function));
+  }
+
+  private static <K, V1, V2> EntryTransformer<K, V1, V2>
+      asEntryTransformer(final Function<? super V1, V2> function) {
+    checkNotNull(function);
+    return new EntryTransformer<K, V1, V2>() {
+      @Override
+      public V2 transformEntry(K key, V1 value) {
+        return function.apply(value);
+      }
+    };
   }
 
   /**
@@ -1357,7 +1352,7 @@ public final class Maps {
   public static <K, V1, V2> NavigableMap<K, V2> transformEntries(
       final NavigableMap<K, V1> fromMap,
       EntryTransformer<? super K, ? super V1, V2> transformer) {
-    return NavigableMaps.transformEntries(fromMap, transformer);
+    return new TransformedEntriesNavigableMap<K, V1, V2>(fromMap, transformer);
   }
 
   static <K, V1, V2> SortedMap<K, V2> transformEntriesIgnoreNavigable(
@@ -1527,7 +1522,118 @@ public final class Maps {
     @Override public SortedMap<K, V2> tailMap(K fromKey) {
       return transformEntries(fromMap().tailMap(fromKey), transformer);
     }
+  }
 
+  @GwtIncompatible("NavigableMap")
+  private static class TransformedEntriesNavigableMap<K, V1, V2>
+      extends TransformedEntriesSortedMap<K, V1, V2>
+      implements NavigableMap<K, V2> {
+
+    TransformedEntriesNavigableMap(NavigableMap<K, V1> fromMap,
+        EntryTransformer<? super K, ? super V1, V2> transformer) {
+      super(fromMap, transformer);
+    }
+
+    @Override public Entry<K, V2> ceilingEntry(K key) {
+      return transformEntry(fromMap().ceilingEntry(key));
+    }
+
+    @Override public K ceilingKey(K key) {
+      return fromMap().ceilingKey(key);
+    }
+
+    @Override public NavigableSet<K> descendingKeySet() {
+      return fromMap().descendingKeySet();
+    }
+
+    @Override public NavigableMap<K, V2> descendingMap() {
+      return transformEntries(fromMap().descendingMap(), transformer);
+    }
+
+    @Override public Entry<K, V2> firstEntry() {
+      return transformEntry(fromMap().firstEntry());
+    }
+    @Override public Entry<K, V2> floorEntry(K key) {
+      return transformEntry(fromMap().floorEntry(key));
+    }
+
+    @Override public K floorKey(K key) {
+      return fromMap().floorKey(key);
+    }
+
+    @Override public NavigableMap<K, V2> headMap(K toKey) {
+      return headMap(toKey, false);
+    }
+
+    @Override public NavigableMap<K, V2> headMap(K toKey, boolean inclusive) {
+      return transformEntries(
+          fromMap().headMap(toKey, inclusive), transformer);
+    }
+
+    @Override public Entry<K, V2> higherEntry(K key) {
+      return transformEntry(fromMap().higherEntry(key));
+    }
+
+    @Override public K higherKey(K key) {
+      return fromMap().higherKey(key);
+    }
+
+    @Override public Entry<K, V2> lastEntry() {
+      return transformEntry(fromMap().lastEntry());
+    }
+
+    @Override public Entry<K, V2> lowerEntry(K key) {
+      return transformEntry(fromMap().lowerEntry(key));
+    }
+
+    @Override public K lowerKey(K key) {
+      return fromMap().lowerKey(key);
+    }
+
+    @Override public NavigableSet<K> navigableKeySet() {
+      return fromMap().navigableKeySet();
+    }
+
+    @Override public Entry<K, V2> pollFirstEntry() {
+      return transformEntry(fromMap().pollFirstEntry());
+    }
+
+    @Override public Entry<K, V2> pollLastEntry() {
+      return transformEntry(fromMap().pollLastEntry());
+    }
+
+    @Override public NavigableMap<K, V2> subMap(
+        K fromKey, boolean fromInclusive, K toKey, boolean toInclusive) {
+      return transformEntries(
+          fromMap().subMap(fromKey, fromInclusive, toKey, toInclusive),
+          transformer);
+    }
+
+    @Override public NavigableMap<K, V2> subMap(K fromKey, K toKey) {
+      return subMap(fromKey, true, toKey, false);
+    }
+
+    @Override public NavigableMap<K, V2> tailMap(K fromKey) {
+      return tailMap(fromKey, true);
+    }
+
+    @Override public NavigableMap<K, V2> tailMap(K fromKey, boolean inclusive) {
+      return transformEntries(
+          fromMap().tailMap(fromKey, inclusive), transformer);
+    }
+
+    private Entry<K, V2> transformEntry(Entry<K, V1> entry) {
+      if (entry == null) {
+        return null;
+      }
+      K key = entry.getKey();
+      V2 v2 = transformer.transformEntry(key, entry.getValue());
+      return Maps.immutableEntry(key, v2);
+    }
+
+    @Override protected NavigableMap<K, V1> fromMap() {
+      return (NavigableMap<K, V1>) super.fromMap();
+    }
   }
 
   /**
@@ -2366,7 +2472,7 @@ public final class Maps {
   @GwtIncompatible("NavigableMap")
   public static <K, V> NavigableMap<K, V> synchronizedNavigableMap(
       NavigableMap<K, V> navigableMap) {
-    return NavigableMaps.synchronizedNavigableMap(navigableMap);
+    return Synchronized.navigableMap(navigableMap);
   }
 
   /**

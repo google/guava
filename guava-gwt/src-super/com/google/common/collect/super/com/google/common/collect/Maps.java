@@ -1035,16 +1035,8 @@ public final class Maps {
    * a view, copy the returned map into a new map of your choosing.
    */
   public static <K, V1, V2> Map<K, V2> transformValues(
-      Map<K, V1> fromMap, final Function<? super V1, V2> function) {
-    checkNotNull(function);
-    EntryTransformer<K, V1, V2> transformer =
-        new EntryTransformer<K, V1, V2>() {
-          @Override
-          public V2 transformEntry(K key, V1 value) {
-            return function.apply(value);
-          }
-        };
-    return transformEntries(fromMap, transformer);
+      Map<K, V1> fromMap, Function<? super V1, V2> function) {
+    return transformEntries(fromMap, asEntryTransformer(function));
   }
 
   /**
@@ -1088,16 +1080,19 @@ public final class Maps {
    */
   @Beta
   public static <K, V1, V2> SortedMap<K, V2> transformValues(
-      SortedMap<K, V1> fromMap, final Function<? super V1, V2> function) {
+      SortedMap<K, V1> fromMap, Function<? super V1, V2> function) {
+    return transformEntries(fromMap, asEntryTransformer(function));
+  }
+
+  private static <K, V1, V2> EntryTransformer<K, V1, V2>
+      asEntryTransformer(final Function<? super V1, V2> function) {
     checkNotNull(function);
-    EntryTransformer<K, V1, V2> transformer =
-        new EntryTransformer<K, V1, V2>() {
-          @Override
-          public V2 transformEntry(K key, V1 value) {
-            return function.apply(value);
-          }
-        };
-    return transformEntries(fromMap, transformer);
+    return new EntryTransformer<K, V1, V2>() {
+      @Override
+      public V2 transformEntry(K key, V1 value) {
+        return function.apply(value);
+      }
+    };
   }
 
   /**
@@ -1386,7 +1381,6 @@ public final class Maps {
     @Override public SortedMap<K, V2> tailMap(K fromKey) {
       return transformEntries(fromMap().tailMap(fromKey), transformer);
     }
-
   }
 
   /**

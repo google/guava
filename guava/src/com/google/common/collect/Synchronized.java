@@ -31,6 +31,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.NavigableMap;
+import java.util.NavigableSet;
 import java.util.RandomAccess;
 import java.util.Set;
 import java.util.SortedMap;
@@ -1211,6 +1214,350 @@ final class Synchronized {
           return typePreservingCollection(super.next(), mutex);
         }
       };
+    }
+
+    private static final long serialVersionUID = 0;
+  }
+
+  @GwtIncompatible("NavigableSet")
+  @VisibleForTesting
+  static class SynchronizedNavigableSet<E> extends SynchronizedSortedSet<E>
+      implements NavigableSet<E> {
+    SynchronizedNavigableSet(NavigableSet<E> delegate, @Nullable Object mutex) {
+      super(delegate, mutex);
+    }
+
+    @Override NavigableSet<E> delegate() {
+      return (NavigableSet<E>) super.delegate();
+    }
+
+    @Override public E ceiling(E e) {
+      synchronized (mutex) {
+        return delegate().ceiling(e);
+      }
+    }
+
+    @Override public Iterator<E> descendingIterator() {
+      return delegate().descendingIterator(); // manually synchronized
+    }
+
+    transient NavigableSet<E> descendingSet;
+
+    @Override public NavigableSet<E> descendingSet() {
+      synchronized (mutex) {
+        if (descendingSet == null) {
+          NavigableSet<E> dS =
+              Synchronized.navigableSet(delegate().descendingSet(), mutex);
+          descendingSet = dS;
+          return dS;
+        }
+        return descendingSet;
+      }
+    }
+
+    @Override public E floor(E e) {
+      synchronized (mutex) {
+        return delegate().floor(e);
+      }
+    }
+
+    @Override public NavigableSet<E> headSet(E toElement, boolean inclusive) {
+      synchronized (mutex) {
+        return Synchronized.navigableSet(
+            delegate().headSet(toElement, inclusive), mutex);
+      }
+    }
+
+    @Override public E higher(E e) {
+      synchronized (mutex) {
+        return delegate().higher(e);
+      }
+    }
+
+    @Override public E lower(E e) {
+      synchronized (mutex) {
+        return delegate().lower(e);
+      }
+    }
+
+    @Override public E pollFirst() {
+      synchronized (mutex) {
+        return delegate().pollFirst();
+      }
+    }
+
+    @Override public E pollLast() {
+      synchronized (mutex) {
+        return delegate().pollLast();
+      }
+    }
+
+    @Override public NavigableSet<E> subSet(E fromElement,
+        boolean fromInclusive, E toElement, boolean toInclusive) {
+      synchronized (mutex) {
+        return Synchronized.navigableSet(delegate().subSet(
+            fromElement, fromInclusive, toElement, toInclusive), mutex);
+      }
+    }
+
+    @Override public NavigableSet<E> tailSet(E fromElement, boolean inclusive) {
+      synchronized (mutex) {
+        return Synchronized.navigableSet(
+            delegate().tailSet(fromElement, inclusive), mutex);
+      }
+    }
+
+    @Override public SortedSet<E> headSet(E toElement) {
+      return headSet(toElement, false);
+    }
+
+    @Override public SortedSet<E> subSet(E fromElement, E toElement) {
+      return subSet(fromElement, true, toElement, false);
+    }
+
+    @Override public SortedSet<E> tailSet(E fromElement) {
+      return tailSet(fromElement, true);
+    }
+
+    private static final long serialVersionUID = 0;
+  }
+
+  @GwtIncompatible("NavigableSet")
+  static <E> NavigableSet<E> navigableSet(
+      NavigableSet<E> navigableSet, @Nullable Object mutex) {
+    return new SynchronizedNavigableSet<E>(navigableSet, mutex);
+  }
+
+  @GwtIncompatible("NavigableSet")
+  static <E> NavigableSet<E> navigableSet(NavigableSet<E> navigableSet) {
+    return navigableSet(navigableSet, null);
+  }
+
+  @GwtIncompatible("NavigableMap")
+  static <K, V> NavigableMap<K, V> navigableMap(
+      NavigableMap<K, V> navigableMap) {
+    return navigableMap(navigableMap, null);
+  }
+
+  @GwtIncompatible("NavigableMap")
+  static <K, V> NavigableMap<K, V> navigableMap(
+      NavigableMap<K, V> navigableMap, @Nullable Object mutex) {
+    return new SynchronizedNavigableMap<K, V>(navigableMap, mutex);
+  }
+
+  @GwtIncompatible("NavigableMap")
+  @VisibleForTesting static class SynchronizedNavigableMap<K, V>
+      extends SynchronizedSortedMap<K, V> implements NavigableMap<K, V> {
+
+    SynchronizedNavigableMap(
+        NavigableMap<K, V> delegate, @Nullable Object mutex) {
+      super(delegate, mutex);
+    }
+
+    @Override NavigableMap<K, V> delegate() {
+      return (NavigableMap<K, V>) super.delegate();
+    }
+
+    @Override public Entry<K, V> ceilingEntry(K key) {
+      synchronized (mutex) {
+        return nullableSynchronizedEntry(delegate().ceilingEntry(key), mutex);
+      }
+    }
+
+    @Override public K ceilingKey(K key) {
+      synchronized (mutex) {
+        return delegate().ceilingKey(key);
+      }
+    }
+
+    transient NavigableSet<K> descendingKeySet;
+
+    @Override public NavigableSet<K> descendingKeySet() {
+      synchronized (mutex) {
+        if (descendingKeySet == null) {
+          return descendingKeySet =
+              Synchronized.navigableSet(delegate().descendingKeySet(), mutex);
+        }
+        return descendingKeySet;
+      }
+    }
+
+    transient NavigableMap<K, V> descendingMap;
+
+    @Override public NavigableMap<K, V> descendingMap() {
+      synchronized (mutex) {
+        if (descendingMap == null) {
+          return descendingMap =
+              navigableMap(delegate().descendingMap(), mutex);
+        }
+        return descendingMap;
+      }
+    }
+
+    @Override public Entry<K, V> firstEntry() {
+      synchronized (mutex) {
+        return nullableSynchronizedEntry(delegate().firstEntry(), mutex);
+      }
+    }
+
+    @Override public Entry<K, V> floorEntry(K key) {
+      synchronized (mutex) {
+        return nullableSynchronizedEntry(delegate().floorEntry(key), mutex);
+      }
+    }
+
+    @Override public K floorKey(K key) {
+      synchronized (mutex) {
+        return delegate().floorKey(key);
+      }
+    }
+
+    @Override public NavigableMap<K, V> headMap(K toKey, boolean inclusive) {
+      synchronized (mutex) {
+        return navigableMap(
+            delegate().headMap(toKey, inclusive), mutex);
+      }
+    }
+
+    @Override public Entry<K, V> higherEntry(K key) {
+      synchronized (mutex) {
+        return nullableSynchronizedEntry(delegate().higherEntry(key), mutex);
+      }
+    }
+
+    @Override public K higherKey(K key) {
+      synchronized (mutex) {
+        return delegate().higherKey(key);
+      }
+    }
+
+    @Override public Entry<K, V> lastEntry() {
+      synchronized (mutex) {
+        return nullableSynchronizedEntry(delegate().lastEntry(), mutex);
+      }
+    }
+
+    @Override public Entry<K, V> lowerEntry(K key) {
+      synchronized (mutex) {
+        return nullableSynchronizedEntry(delegate().lowerEntry(key), mutex);
+      }
+    }
+
+    @Override public K lowerKey(K key) {
+      synchronized (mutex) {
+        return delegate().lowerKey(key);
+      }
+    }
+
+    @Override public Set<K> keySet() {
+      return navigableKeySet();
+    }
+
+    transient NavigableSet<K> navigableKeySet;
+
+    @Override public NavigableSet<K> navigableKeySet() {
+      synchronized (mutex) {
+        if (navigableKeySet == null) {
+          return navigableKeySet =
+              Synchronized.navigableSet(delegate().navigableKeySet(), mutex);
+        }
+        return navigableKeySet;
+      }
+    }
+
+    @Override public Entry<K, V> pollFirstEntry() {
+      synchronized (mutex) {
+        return nullableSynchronizedEntry(delegate().pollFirstEntry(), mutex);
+      }
+    }
+
+    @Override public Entry<K, V> pollLastEntry() {
+      synchronized (mutex) {
+        return nullableSynchronizedEntry(delegate().pollLastEntry(), mutex);
+      }
+    }
+
+    @Override public NavigableMap<K, V> subMap(
+        K fromKey, boolean fromInclusive, K toKey, boolean toInclusive) {
+      synchronized (mutex) {
+        return navigableMap(
+            delegate().subMap(fromKey, fromInclusive, toKey, toInclusive),
+            mutex);
+      }
+    }
+
+    @Override public NavigableMap<K, V> tailMap(K fromKey, boolean inclusive) {
+      synchronized (mutex) {
+        return navigableMap(
+            delegate().tailMap(fromKey, inclusive), mutex);
+      }
+    }
+
+    @Override public SortedMap<K, V> headMap(K toKey) {
+      return headMap(toKey, false);
+    }
+
+    @Override public SortedMap<K, V> subMap(K fromKey, K toKey) {
+      return subMap(fromKey, true, toKey, false);
+    }
+
+    @Override public SortedMap<K, V> tailMap(K fromKey) {
+      return tailMap(fromKey, true);
+    }
+
+    private static final long serialVersionUID = 0;
+  }
+
+  @GwtIncompatible("works but is needed only for NavigableMap")
+  private static <K, V> Entry<K, V> nullableSynchronizedEntry(
+      @Nullable Entry<K, V> entry, @Nullable Object mutex) {
+    if (entry == null) {
+      return null;
+    }
+    return new SynchronizedEntry<K, V>(entry, mutex);
+  }
+
+  @GwtIncompatible("works but is needed only for NavigableMap")
+  private static class SynchronizedEntry<K, V> extends SynchronizedObject
+      implements Entry<K, V> {
+
+    SynchronizedEntry(Entry<K, V> delegate, @Nullable Object mutex) {
+      super(delegate, mutex);
+    }
+
+    @SuppressWarnings("unchecked") // guaranteed by the constructor
+    @Override Entry<K, V> delegate() {
+      return (Entry<K, V>) super.delegate();
+    }
+
+    @Override public boolean equals(Object obj) {
+      synchronized (mutex) {
+        return delegate().equals(obj);
+      }
+    }
+
+    @Override public int hashCode() {
+      synchronized (mutex) {
+        return delegate().hashCode();
+      }
+    }
+
+    @Override public K getKey() {
+      synchronized (mutex) {
+        return delegate().getKey();
+      }
+    }
+
+    @Override public V getValue() {
+      synchronized (mutex) {
+        return delegate().getValue();
+      }
+    }
+
+    @Override public V setValue(V value) {
+      synchronized (mutex) {
+        return delegate().setValue(value);
+      }
     }
 
     private static final long serialVersionUID = 0;

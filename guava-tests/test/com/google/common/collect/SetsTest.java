@@ -20,6 +20,7 @@ import static com.google.common.collect.Iterables.unmodifiableIterable;
 import static com.google.common.collect.Sets.newEnumSet;
 import static com.google.common.collect.Sets.newHashSet;
 import static com.google.common.collect.Sets.powerSet;
+import static com.google.common.collect.Sets.unmodifiableNavigableSet;
 import static com.google.common.collect.testing.IteratorFeature.UNMODIFIABLE;
 import static com.google.common.collect.testing.testers.CollectionIteratorTester.getIteratorKnownOrderRemoveSupportedMethod;
 import static java.io.ObjectStreamConstants.TC_REFERENCE;
@@ -71,6 +72,7 @@ import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.NavigableSet;
 import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.SortedSet;
@@ -1142,5 +1144,115 @@ public class SetsTest extends TestCase {
       filterAllElements.last();
       fail("CallLastOnSetWithAllElementsFilteredThrowsException");
     } catch (NoSuchElementException expected) {}
+  }
+
+  @GwtIncompatible("NavigableSet")
+  public void testUnmodifiableNavigableSet() {
+    TreeSet<Integer> mod = Sets.newTreeSet();
+    mod.add(1);
+    mod.add(2);
+    mod.add(3);
+
+    NavigableSet<Integer> unmod = unmodifiableNavigableSet(mod);
+
+    /* Unmodifiable is a view. */
+    mod.add(4);
+    assertTrue(unmod.contains(4));
+    assertTrue(unmod.descendingSet().contains(4));
+
+    ensureNotDirectlyModifiable(unmod);
+    ensureNotDirectlyModifiable(unmod.descendingSet());
+    ensureNotDirectlyModifiable(unmod.headSet(2));
+    ensureNotDirectlyModifiable(unmod.headSet(2, true));
+    ensureNotDirectlyModifiable(unmod.tailSet(2));
+    ensureNotDirectlyModifiable(unmod.tailSet(2, true));
+    ensureNotDirectlyModifiable(unmod.subSet(1, 3));
+    ensureNotDirectlyModifiable(unmod.subSet(1, true, 3, true));
+
+    /* UnsupportedOperationException on indirect modifications. */
+    NavigableSet<Integer> reverse = unmod.descendingSet();
+    try {
+      reverse.add(4);
+      fail("UnsupportedOperationException expected");
+    } catch (UnsupportedOperationException expected) {
+    }
+    try {
+      reverse.addAll(Collections.singleton(4));
+      fail("UnsupportedOperationException expected");
+    } catch (UnsupportedOperationException expected) {
+    }
+    try {
+      reverse.remove(4);
+      fail("UnsupportedOperationException expected");
+    } catch (UnsupportedOperationException expected) {
+    }
+  }
+
+  void ensureNotDirectlyModifiable(SortedSet<Integer> unmod) {
+    try {
+      unmod.add(4);
+      fail("UnsupportedOperationException expected");
+    } catch (UnsupportedOperationException expected) {
+    }
+    try {
+      unmod.remove(4);
+      fail("UnsupportedOperationException expected");
+    } catch (UnsupportedOperationException expected) {
+    }
+    try {
+      unmod.addAll(Collections.singleton(4));
+      fail("UnsupportedOperationException expected");
+    } catch (UnsupportedOperationException expected) {
+    }
+    try {
+      Iterator<Integer> iterator = unmod.iterator();
+      iterator.next();
+      iterator.remove();
+      fail("UnsupportedOperationException expected");
+    } catch (UnsupportedOperationException expected) {
+    }
+  }
+
+  @GwtIncompatible("NavigableSet")
+  void ensureNotDirectlyModifiable(NavigableSet<Integer> unmod) {
+    try {
+      unmod.add(4);
+      fail("UnsupportedOperationException expected");
+    } catch (UnsupportedOperationException expected) {
+    }
+    try {
+      unmod.remove(4);
+      fail("UnsupportedOperationException expected");
+    } catch (UnsupportedOperationException expected) {
+    }
+    try {
+      unmod.addAll(Collections.singleton(4));
+      fail("UnsupportedOperationException expected");
+    } catch (UnsupportedOperationException expected) {
+    }
+    try {
+      unmod.pollFirst();
+      fail("UnsupportedOperationException expected");
+    } catch (UnsupportedOperationException expected) {
+    }
+    try {
+      unmod.pollLast();
+      fail("UnsupportedOperationException expected");
+    } catch (UnsupportedOperationException expected) {
+    }
+    try {
+      Iterator<Integer> iterator = unmod.iterator();
+      iterator.next();
+      iterator.remove();
+      fail("UnsupportedOperationException expected");
+    } catch (UnsupportedOperationException expected) {
+    }
+    try {
+      Iterator<Integer> iterator = unmod.descendingIterator();
+      iterator.next();
+      iterator.remove();
+      fail("UnsupportedOperationException expected");
+    } catch (UnsupportedOperationException expected) {
+    }
   }
 }
