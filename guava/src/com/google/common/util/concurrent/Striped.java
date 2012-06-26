@@ -76,6 +76,7 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
  * structure.
  *
  * @author Dimitris Andreou
+ * @since 13.0
  */
 @Beta
 public abstract class Striped<L> {
