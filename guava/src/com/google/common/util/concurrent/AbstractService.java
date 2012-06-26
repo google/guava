@@ -17,7 +17,6 @@
 package com.google.common.util.concurrent;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.common.base.Preconditions.checkState;
 
 import com.google.common.annotations.Beta;
 import com.google.common.collect.Lists;
@@ -58,7 +57,7 @@ public abstract class AbstractService implements Service {
    */
   @GuardedBy("lock")
   private final List<ListenerExecutorPair> listeners = Lists.newArrayList();
-  
+
   /**
    * The exception that caused this service to fail.  This will be {@code null}
    * unless the service has failed.
@@ -66,7 +65,7 @@ public abstract class AbstractService implements Service {
   @GuardedBy("lock")
   @Nullable
   private Throwable failure;
-  
+
   /**
    * The internal state, which equals external state unless
    * shutdownWhenStartupFinishes is true.
@@ -262,19 +261,7 @@ public abstract class AbstractService implements Service {
       lock.unlock();
     }
   }
-  
-  @Override
-  public final Throwable failureCause() {
-    lock.lock();
-    try {
-      checkState(state == State.FAILED, 
-          "getFailure is only valid if the service has failed, service is %s", state);
-      return failure;
-    } finally {
-      lock.unlock();
-    }
-  }
-  
+
   @Override
   public final void addListener(Listener listener, Executor executor) {
     checkNotNull(listener, "listener");
@@ -307,7 +294,7 @@ public abstract class AbstractService implements Service {
       }
     }
   }
-  
+
   @GuardedBy("lock")
   private void starting() {
     state = State.STARTING;
@@ -352,9 +339,9 @@ public abstract class AbstractService implements Service {
     // There are no more state transitions so we can clear this out.
     listeners.clear();
   }
-  
-  /** 
-   * A {@link Service.Listener} that schedules the callbacks of the delegate listener on an 
+
+  /**
+   * A {@link Service.Listener} that schedules the callbacks of the delegate listener on an
    * {@link Executor}.
    */
   private static class ListenerExecutorPair implements Listener {
@@ -367,14 +354,14 @@ public abstract class AbstractService implements Service {
     }
 
     /**
-     * Executes the given {@link Runnable} on {@link #executor} logging and swallowing all 
+     * Executes the given {@link Runnable} on {@link #executor} logging and swallowing all
      * exceptions
      */
     void execute(Runnable runnable) {
       try {
         executor.execute(runnable);
       } catch (Exception e) {
-        logger.log(Level.SEVERE, "Exception while executing listener " + listener 
+        logger.log(Level.SEVERE, "Exception while executing listener " + listener
             + " with executor " + executor, e);
       }
     }

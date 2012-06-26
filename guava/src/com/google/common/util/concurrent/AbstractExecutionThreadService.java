@@ -36,7 +36,7 @@ import java.util.logging.Logger;
 public abstract class AbstractExecutionThreadService implements Service {
   private static final Logger logger = Logger.getLogger(
       AbstractExecutionThreadService.class.getName());
-  
+
   /* use AbstractService for state management */
   private final Service delegate = new AbstractService() {
     @Override protected final void doStart() {
@@ -54,7 +54,7 @@ public abstract class AbstractExecutionThreadService implements Service {
                 try {
                   shutDown();
                 } catch (Exception ignored) {
-                  logger.log(Level.WARNING, 
+                  logger.log(Level.WARNING,
                       "Error while attempting to shut down the service"
                       + " after failure.", ignored);
                 }
@@ -84,7 +84,7 @@ public abstract class AbstractExecutionThreadService implements Service {
 
   /**
    * Start the service. This method is invoked on the execution thread.
-   * 
+   *
    * <p>By default this method does nothing.
    */
   protected void startUp() throws Exception {}
@@ -107,7 +107,7 @@ public abstract class AbstractExecutionThreadService implements Service {
 
   /**
    * Stop the service. This method is invoked on the execution thread.
-   * 
+   *
    * <p>By default this method does nothing.
    */
   // TODO: consider supporting a TearDownTestCase-like API
@@ -115,7 +115,7 @@ public abstract class AbstractExecutionThreadService implements Service {
 
   /**
    * Invoked to request the service to stop.
-   * 
+   *
    * <p>By default this method does nothing.
    */
   protected void triggerShutdown() {}
@@ -127,8 +127,8 @@ public abstract class AbstractExecutionThreadService implements Service {
    * priority. The returned executor's {@link Executor#execute(Runnable)
    * execute()} method is called when this service is started, and should return
    * promptly.
-   * 
-   * <p>The default implementation returns a new {@link Executor} that sets the 
+   *
+   * <p>The default implementation returns a new {@link Executor} that sets the
    * name of its threads to the string returned by {@link #getServiceName}
    */
   protected Executor executor() {
@@ -173,11 +173,7 @@ public abstract class AbstractExecutionThreadService implements Service {
   @Override public final void addListener(Listener listener, Executor executor) {
     delegate.addListener(listener, executor);
   }
-  
-  @Override public final Throwable failureCause() {
-    return delegate.failureCause();
-  }
-  
+
   /**
    * Returns the name of this service. {@link AbstractExecutionThreadService}
    * may include the name in debugging output.

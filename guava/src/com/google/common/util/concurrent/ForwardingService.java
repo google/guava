@@ -59,13 +59,9 @@ public abstract class ForwardingService extends ForwardingObject
   @Override public boolean isRunning() {
     return delegate().isRunning();
   }
-  
+
   @Override public void addListener(Listener listener, Executor executor) {
     delegate().addListener(listener, executor);
-  }
-  
-  @Override public Throwable failureCause() {
-    return delegate().failureCause();
   }
 
   /**
