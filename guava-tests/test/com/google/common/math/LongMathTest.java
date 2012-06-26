@@ -53,6 +53,15 @@ public class LongMathTest extends TestCase {
         LongMath.MAX_POWER_OF_SQRT2_UNSIGNED);
   }
 
+  @GwtIncompatible("BigIntegerMath") // TODO(cpovirk): GWT-enable BigIntegerMath
+  public void testMaxLog10ForLeadingZeros() {
+    for (int i = 0; i < Long.SIZE; i++) {
+      assertEquals(
+          BigIntegerMath.log10(BigInteger.ONE.shiftLeft(Long.SIZE - i), FLOOR),
+          LongMath.MAX_LOG10_FOR_LEADING_ZEROS[i]);
+    }
+  }
+
   @GwtIncompatible("TODO")
   public void testConstantsPowersOf10() {
     for (int i = 0; i < LongMath.POWERS_OF_10.length; i++) {

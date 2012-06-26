@@ -54,8 +54,17 @@ public class IntMathTest extends TestCase {
 
   @GwtIncompatible("pow()")
   public void testConstantsPowersOf10() {
-    for (int i = 0; i < IntMath.POWERS_OF_10.length; i++) {
+    for (int i = 0; i < IntMath.POWERS_OF_10.length - 1; i++) {
       assertEquals(IntMath.pow(10, i), IntMath.POWERS_OF_10[i]);
+    }
+  }
+
+  @GwtIncompatible("BigIntegerMath") // TODO(cpovirk): GWT-enable BigIntegerMath
+  public void testMaxLog10ForLeadingZeros() {
+    for (int i = 0; i < Integer.SIZE; i++) {
+      assertEquals(
+          BigIntegerMath.log10(BigInteger.ONE.shiftLeft(Integer.SIZE - i), FLOOR),
+          IntMath.MAX_LOG10_FOR_LEADING_ZEROS[i]);
     }
   }
 

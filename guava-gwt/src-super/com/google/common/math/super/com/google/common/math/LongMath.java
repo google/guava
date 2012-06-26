@@ -98,6 +98,12 @@ public final class LongMath {
   /** The biggest half power of two that fits into an unsigned long */
   @VisibleForTesting static final long MAX_POWER_OF_SQRT2_UNSIGNED = 0xB504F333F9DE6484L;
 
+  // MAX_LOG10_FOR_LEADING_ZEROS[i] == floor(log10(2^(Long.SIZE - i)))
+  @VisibleForTesting static final byte[] MAX_LOG10_FOR_LEADING_ZEROS = {
+      19, 18, 18, 18, 18, 17, 17, 17, 16, 16, 16, 15, 15, 15, 15, 14, 14, 14, 13, 13, 13, 12, 12,
+      12, 12, 11, 11, 11, 10, 10, 10, 9, 9, 9, 9, 8, 8, 8, 7, 7, 7, 6, 6, 6, 6, 5, 5, 5, 4, 4, 4,
+      3, 3, 3, 3, 2, 2, 2, 1, 1, 1, 0, 0, 0 };
+
   // HALF_POWERS_OF_10[i] = largest long less than 10^(i + 0.5)
 
   static final long[] FACTORIALS = {
