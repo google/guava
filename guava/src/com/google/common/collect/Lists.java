@@ -377,7 +377,7 @@ public final class Lists {
    * {@link Collections2#transform} or {@link Iterables#transform}.
    *
    * <p><b>Note:</b> serializing the returned list is implemented by serializing
-   * {@code fromList}, its contents, and {@function} -- <i>not</i> by
+   * {@code fromList}, its contents, and {@code function} -- <i>not</i> by
    * serializing the transformed values. This can lead to surprising behavior,
    * so serializing the returned list is <b>not recommended</b>. Instead,
    * copy the list using {@link ImmutableList#copyOf(Collection)} (for example),
