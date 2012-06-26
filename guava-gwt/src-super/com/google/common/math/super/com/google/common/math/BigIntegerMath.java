@@ -116,6 +116,9 @@ public final class BigIntegerMath {
   @VisibleForTesting static final BigInteger SQRT2_PRECOMPUTED_BITS =
       new BigInteger("16a09e667f3bcc908b2fb1366ea957d3e3adec17512775099da2f590b0667322a", 16);
 
+  private static final double LN_10 = Math.log(10);
+  private static final double LN_2 = Math.log(2);
+
   /**
    * Returns {@code n!}, that is, the product of the first {@code n} positive
    * integers, or {@code 1} if {@code n == 0}.

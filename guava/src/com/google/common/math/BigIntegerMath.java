@@ -133,27 +133,45 @@ public final class BigIntegerMath {
       return LongMath.log10(x.longValue(), mode);
     }
 
-    // capacity of 10 suffices for all x <= 10^(2^10).
-    List<BigInteger> powersOf10 = new ArrayList<BigInteger>(10);
-    BigInteger powerOf10 = BigInteger.TEN;
-    while (x.compareTo(powerOf10) >= 0) {
-      powersOf10.add(powerOf10);
-      powerOf10 = powerOf10.pow(2);
-    }
-    BigInteger floorPow = BigInteger.ONE;
-    int floorLog = 0;
-    for (int i = powersOf10.size() - 1; i >= 0; i--) {
-      BigInteger powOf10 = powersOf10.get(i);
-      floorLog *= 2;
-      BigInteger tenPow = powOf10.multiply(floorPow);
-      if (x.compareTo(tenPow) >= 0) {
-        floorPow = tenPow;
-        floorLog++;
+    int approxLog10 = (int) (log2(x, FLOOR) * LN_2 / LN_10);
+    BigInteger approxPow = BigInteger.TEN.pow(approxLog10);
+    int approxCmp = approxPow.compareTo(x);
+
+    /*
+     * We adjust approxLog10 and approxPow until they're equal to floor(log10(x)) and
+     * 10^floor(log10(x)).
+     */
+
+    if (approxCmp > 0) {
+      /*
+       * The code is written so that even completely incorrect approximations will still yield the
+       * correct answer eventually, but in practice this branch should almost never be entered,
+       * and even then the loop should not run more than once.
+       */
+      do {
+        approxLog10--;
+        approxPow = approxPow.divide(BigInteger.TEN);
+        approxCmp = approxPow.compareTo(x);
+      } while (approxCmp > 0);
+    } else {
+      BigInteger nextPow = BigInteger.TEN.multiply(approxPow);
+      int nextCmp = nextPow.compareTo(x);
+      while (nextCmp <= 0) {
+        approxLog10++;
+        approxPow = nextPow;
+        approxCmp = nextCmp;
+        nextPow = BigInteger.TEN.multiply(approxPow);
+        nextCmp = nextPow.compareTo(x);
       }
     }
+
+    int floorLog = approxLog10;
+    BigInteger floorPow = approxPow;
+    int floorCmp = approxCmp;
+
     switch (mode) {
       case UNNECESSARY:
-        checkRoundingUnnecessary(floorPow.equals(x));
+        checkRoundingUnnecessary(floorCmp == 0);
         // fall through
       case FLOOR:
       case DOWN:
@@ -174,6 +192,9 @@ public final class BigIntegerMath {
         throw new AssertionError();
     }
   }
+
+  private static final double LN_10 = Math.log(10);
+  private static final double LN_2 = Math.log(2);
 
   /**
    * Returns the square root of {@code x}, rounded with the specified rounding mode.
