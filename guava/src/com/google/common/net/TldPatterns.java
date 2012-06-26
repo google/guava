@@ -1,11 +1,26 @@
 
 // GENERATED FILE - DO NOT EDIT
 
+/*
+ * Copyright (C) 2008 The Guava Authors
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.google.common.net;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.ImmutableSet;
-import java.util.Set;
 
 /**
  * A generated static class containing public members which provide domain
@@ -13,15 +28,13 @@ import java.util.Set;
  * effective top-level domain (TLD).
  */
 @GwtCompatible
-class TldPatterns {
-  private TldPatterns() {
-    // Prevent instantiation.
-  }
+final class TldPatterns {
+  private TldPatterns() {}
 
   /**
    * If a hostname is contained in this set, it is a TLD.
    */
-  static final Set<String> EXACT = ImmutableSet.of(
+  static final ImmutableSet<String> EXACT = ImmutableSet.of(
       "ac",
       "com.ac",
       "edu.ac",
@@ -4421,7 +4434,7 @@ class TldPatterns {
    * leftmost component results in a name which is contained in this
    * set, it is a TLD.
    */
-  static final Set<String> UNDER = ImmutableSet.of(
+  static final ImmutableSet<String> UNDER = ImmutableSet.of(
       "ar",
       "bd",
       "bn",
@@ -4517,7 +4530,7 @@ class TldPatterns {
    * The elements in this set would pass the UNDER test, but are
    * known not to be TLDs and are thus excluded from consideration.
    */
-  static final Set<String> EXCLUDED = ImmutableSet.of(
+  static final ImmutableSet<String> EXCLUDED = ImmutableSet.of(
       "congresodelalengua3.ar",
       "educ.ar",
       "gobiernoelectronico.ar",
