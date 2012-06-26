@@ -37,9 +37,12 @@ import java.util.concurrent.atomic.AtomicInteger;
 import javax.annotation.Nullable;
 
 /**
- * This class can be used by any generic super class to resolve one of its type
- * parameter to the actual type argument used by the subclass, provided the type
- * argument is carried on the class declaration.
+ * An object of this class encapsulates type mappings from type variables. Mappings are established
+ * with {@link #where} and types are resolved using {@link #resolveType}.
+ *
+ * <p>This class is usually used by reflection-based frameworks to resolve complex type mapping.
+ * It's always preferable to use {@link TypeToken#resolveType} whenever possible because it's
+ * easier to use and type safer.
  *
  * @author Ben Yu
  */
@@ -51,7 +54,7 @@ class TypeResolver {
     return new TypeResolver().where(TypeMappingIntrospector.getTypeMappings(type));
   }
 
-  TypeResolver() {
+  public TypeResolver() {
     this.typeTable = ImmutableMap.of();
   }
 
@@ -76,9 +79,9 @@ class TypeResolver {
    * Returns a new {@code TypeResolver} with type variables in {@code mapFrom} mapping to types in
    * {@code type}. Either {@code mapFrom} is a type variable, or {@code mapFrom} and {@code mapTo}
    * are both {@link ParameterizedType} of the same raw type, or {@link GenericArrayType} of the
-   * same component type. Caller needs to ensure this before calling.
+   * same component type.
    */
-  final TypeResolver where(Type mapFrom, Type mapTo) {
+  public final TypeResolver where(Type mapFrom, Type mapTo) {
     Map<TypeVariable<?>, Type> mappings = Maps.newHashMap();
     populateTypeMappings(mappings, mapFrom, mapTo);
     return where(mappings);
@@ -86,18 +89,45 @@ class TypeResolver {
 
   private static void populateTypeMappings(
       Map<TypeVariable<?>, Type> mappings, Type from, Type to) {
+    if (from.equals(to)) {
+      return;
+    }
     if (from instanceof TypeVariable) {
       mappings.put((TypeVariable<?>) from, to);
     } else if (from instanceof GenericArrayType) {
       populateTypeMappings(mappings,
-          ((GenericArrayType) from).getGenericComponentType(), Types.getComponentType(to));
+          ((GenericArrayType) from).getGenericComponentType(),
+          checkNonNullArgument(Types.getComponentType(to), "%s is not an array type.", to));
     } else if (from instanceof ParameterizedType) {
-      Type[] fromArgs = ((ParameterizedType) from).getActualTypeArguments();
-      Type[] toArgs = ((ParameterizedType) to).getActualTypeArguments();
+      ParameterizedType fromParameterizedType = (ParameterizedType) from;
+      ParameterizedType toParameterizedType = expectArgument(ParameterizedType.class, to);
+      checkArgument(fromParameterizedType.getRawType().equals(toParameterizedType.getRawType()),
+          "Inconsistent raw type: %s vs. %s", from, to);
+      Type[] fromArgs = fromParameterizedType.getActualTypeArguments();
+      Type[] toArgs = toParameterizedType.getActualTypeArguments();
       checkArgument(fromArgs.length == toArgs.length);
       for (int i = 0; i < fromArgs.length; i++) {
         populateTypeMappings(mappings, fromArgs[i], toArgs[i]);
       }
+    } else if (from instanceof WildcardType) {
+      WildcardType fromWildcardType = (WildcardType) from;
+      WildcardType toWildcardType = expectArgument(WildcardType.class, to);
+      Type[] fromUpperBounds = fromWildcardType.getUpperBounds();
+      Type[] toUpperBounds = toWildcardType.getUpperBounds();
+      Type[] fromLowerBounds = fromWildcardType.getLowerBounds();
+      Type[] toLowerBounds = toWildcardType.getLowerBounds();
+      checkArgument(
+          fromUpperBounds.length == toUpperBounds.length
+              && fromLowerBounds.length == toLowerBounds.length,
+          "Incompatible type: %s vs. %s", from, to);
+      for (int i = 0; i < fromUpperBounds.length; i++) {
+        populateTypeMappings(mappings, fromUpperBounds[i], toUpperBounds[i]);
+      }
+      for (int i = 0; i < fromLowerBounds.length; i++) {
+        populateTypeMappings(mappings, fromLowerBounds[i], toLowerBounds[i]);
+      }
+    } else {
+      throw new IllegalArgumentException("No type mapping from " + from);
     }
   }
 
@@ -105,7 +135,7 @@ class TypeResolver {
    * Resolves all type variables in {@code type} and all downstream types and
    * returns a corresponding type with type variables resolved.
    */
-  final Type resolve(Type type) {
+  final Type resolveType(Type type) {
     if (type instanceof TypeVariable) {
       return resolveTypeVariable((TypeVariable<?>) type);
     } else if (type instanceof ParameterizedType) {
@@ -115,24 +145,24 @@ class TypeResolver {
     } else if (type instanceof WildcardType) {
       WildcardType wildcardType = (WildcardType) type;
       return new Types.WildcardTypeImpl(
-          resolve(wildcardType.getLowerBounds()),
-          resolve(wildcardType.getUpperBounds()));
+          resolveTypes(wildcardType.getLowerBounds()),
+          resolveTypes(wildcardType.getUpperBounds()));
     } else {
       // if Class<?>, no resolution needed, we are done.
       return type;
     }
   }
 
-  private Type[] resolve(Type[] types) {
+  private Type[] resolveTypes(Type[] types) {
     Type[] result = new Type[types.length];
     for (int i = 0; i < types.length; i++) {
-      result[i] = resolve(types[i]);
+      result[i] = resolveType(types[i]);
     }
     return result;
   }
 
   private Type resolveGenericArrayType(GenericArrayType type) {
-    Type componentType = resolve(type.getGenericComponentType());
+    Type componentType = resolveType(type.getGenericComponentType());
     return Types.newArrayType(componentType);
   }
 
@@ -165,23 +195,36 @@ class TypeResolver {
       return Types.newTypeVariable(
           var.getGenericDeclaration(),
           var.getName(),
-          guardedResolver.resolve(bounds));
+          guardedResolver.resolveTypes(bounds));
     }
-    return guardedResolver.resolve(type); // in case the type is yet another type variable.
+    return guardedResolver.resolveType(type); // in case the type is yet another type variable.
   }
 
   private ParameterizedType resolveParameterizedType(ParameterizedType type) {
     Type owner = type.getOwnerType();
-    Type resolvedOwner = (owner == null) ? null : resolve(owner);
-    Type resolvedRawType = resolve(type.getRawType());
+    Type resolvedOwner = (owner == null) ? null : resolveType(owner);
+    Type resolvedRawType = resolveType(type.getRawType());
 
     Type[] vars = type.getActualTypeArguments();
     Type[] resolvedArgs = new Type[vars.length];
     for (int i = 0; i < vars.length; i++) {
-      resolvedArgs[i] = resolve(vars[i]);
+      resolvedArgs[i] = resolveType(vars[i]);
     }
     return Types.newParameterizedTypeWithOwner(
         resolvedOwner, (Class<?>) resolvedRawType, resolvedArgs);
+  }
+
+  private static <T> T checkNonNullArgument(T arg, String format, Object... messageParams) {
+    checkArgument(arg != null, format, messageParams);
+    return arg;
+  }
+
+  private static <T> T expectArgument(Class<T> type, Object arg) {
+    try {
+      return type.cast(arg);
+    } catch (ClassCastException e) {
+      throw new IllegalArgumentException(arg + " is not a " + type.getSimpleName());
+    }
   }
 
   private static final class TypeMappingIntrospector {

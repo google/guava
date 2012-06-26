@@ -224,7 +224,7 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
     TypeResolver resolver = new TypeResolver()
         .where(ImmutableMap.of(typeParam.typeVariable, typeArg.runtimeType));
     // If there's any type error, we'd report now rather than later.
-    return new SimpleTypeToken<T>(resolver.resolve(runtimeType));
+    return new SimpleTypeToken<T>(resolver.resolveType(runtimeType));
   }
 
   /**
@@ -263,7 +263,7 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
     if (resolver == null) {
       resolver = (typeResolver = TypeResolver.accordingTo(runtimeType));
     }
-    return of(resolver.resolve(type));
+    return of(resolver.resolveType(type));
   }
 
   private TypeToken<?> resolveSupertype(Type type) {
@@ -622,7 +622,7 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
   protected Object writeReplace() {
     // TypeResolver just transforms the type to our own impls that are Serializable
     // except TypeVariable.
-    return of(new TypeResolver().resolve(runtimeType));
+    return of(new TypeResolver().resolveType(runtimeType));
   }
 
   /**
@@ -934,7 +934,7 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
         .getSupertype((Class) getRawType())
         .runtimeType;
     return new TypeResolver().where(supertypeWithArgsFromSubtype, runtimeType)
-        .resolve(genericSubtype.runtimeType);
+        .resolveType(genericSubtype.runtimeType);
   }
 
   /**

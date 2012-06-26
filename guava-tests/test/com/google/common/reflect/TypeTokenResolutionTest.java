@@ -120,7 +120,7 @@ public class TypeTokenResolutionTest extends TestCase {
     Parameterized<?, ?, ?> parameterized =
         new Parameterized<TypeTokenResolutionTest, Bar, String>() {};
     TypeResolver typeResolver = TypeResolver.accordingTo(parameterized.getClass());
-    ParameterizedType resolved = (ParameterizedType) typeResolver.resolve(
+    ParameterizedType resolved = (ParameterizedType) typeResolver.resolveType(
         parameterized.parameterizedType());
     assertEquals(TypeTokenResolutionTest.class, resolved.getOwnerType());
     assertEquals(Bar.class, resolved.getRawType());
