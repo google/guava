@@ -435,24 +435,38 @@ public final class LongMath {
      */
     checkNonNegative("a", a);
     checkNonNegative("b", b);
-    if (a == 0 | b == 0) {
-      return a | b;
+    if (a == 0) {
+      // 0 % b == 0, so b divides a, but the converse doesn't hold.
+      // BigInteger.gcd is consistent with this decision.
+      return b;
+    } else if (b == 0) {
+      return a; // similar logic
     }
     /*
      * Uses the binary GCD algorithm; see http://en.wikipedia.org/wiki/Binary_GCD_algorithm.
-     * This is over 40% faster than the Euclidean algorithm in benchmarks.
+     * This is >60% faster than the Euclidean algorithm in benchmarks.
      */
     int aTwos = Long.numberOfTrailingZeros(a);
     a >>= aTwos; // divide out all 2s
     int bTwos = Long.numberOfTrailingZeros(b);
     b >>= bTwos; // divide out all 2s
     while (a != b) { // both a, b are odd
-      if (a < b) { // swap a, b
-        long t = b;
-        b = a;
-        a = t;
-      }
-      a -= b; // a is now positive and even
+      // The key to the binary GCD algorithm is as follows:
+      // Both a and b are odd.  Assume a > b; then gcd(a - b, b) = gcd(a, b).
+      // But in gcd(a - b, b), a - b is even and b is odd, so we can divide out powers of two.
+
+      // We bend over backwards to avoid branching, adapting a technique from
+      // http://graphics.stanford.edu/~seander/bithacks.html#IntegerMinOrMax
+
+      long delta = a - b; // can't overflow, since a and b are nonnegative
+
+      long minDeltaOrZero = delta & (delta >> (Long.SIZE - 1));
+      // equivalent to Math.min(delta, 0)
+
+      a = delta - minDeltaOrZero - minDeltaOrZero; // sets a to Math.abs(a - b)
+      // a is now nonnegative and even
+
+      b += minDeltaOrZero; // sets b to min(old a, b)
       a >>= Long.numberOfTrailingZeros(a); // divide out all 2s, since 2 doesn't divide b
     }
     return a << min(aTwos, bTwos);

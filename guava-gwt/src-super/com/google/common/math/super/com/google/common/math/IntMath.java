@@ -22,6 +22,7 @@ import static com.google.common.math.MathPreconditions.checkNonNegative;
 import static com.google.common.math.MathPreconditions.checkPositive;
 import static com.google.common.math.MathPreconditions.checkRoundingUnnecessary;
 import static java.lang.Math.abs;
+import static java.lang.Math.min;
 import static java.math.RoundingMode.HALF_EVEN;
 import static java.math.RoundingMode.HALF_UP;
 
@@ -237,13 +238,41 @@ public final class IntMath {
      */
     checkNonNegative("a", a);
     checkNonNegative("b", b);
-    // The simple Euclidean algorithm is the fastest for ints, and is easily the most readable.
-    while (b != 0) {
-      int t = b;
-      b = a % b;
-      a = t;
+    if (a == 0) {
+      // 0 % b == 0, so b divides a, but the converse doesn't hold.
+      // BigInteger.gcd is consistent with this decision.
+      return b;
+    } else if (b == 0) {
+      return a; // similar logic
     }
-    return a;
+    /*
+     * Uses the binary GCD algorithm; see http://en.wikipedia.org/wiki/Binary_GCD_algorithm.
+     * This is >40% faster than the Euclidean algorithm in benchmarks.
+     */
+    int aTwos = Integer.numberOfTrailingZeros(a);
+    a >>= aTwos; // divide out all 2s
+    int bTwos = Integer.numberOfTrailingZeros(b);
+    b >>= bTwos; // divide out all 2s
+    while (a != b) { // both a, b are odd
+      // The key to the binary GCD algorithm is as follows:
+      // Both a and b are odd.  Assume a > b; then gcd(a - b, b) = gcd(a, b).
+      // But in gcd(a - b, b), a - b is even and b is odd, so we can divide out powers of two.
+
+      // We bend over backwards to avoid branching, adapting a technique from
+      // http://graphics.stanford.edu/~seander/bithacks.html#IntegerMinOrMax
+
+      int delta = a - b; // can't overflow, since a and b are nonnegative
+
+      int minDeltaOrZero = delta & (delta >> (Integer.SIZE - 1));
+      // equivalent to Math.min(delta, 0)
+
+      a = delta - minDeltaOrZero - minDeltaOrZero; // sets a to Math.abs(a - b)
+      // a is now nonnegative and even
+
+      b += minDeltaOrZero; // sets b to min(old a, b)
+      a >>= Integer.numberOfTrailingZeros(a); // divide out all 2s, since 2 doesn't divide b
+    }
+    return a << min(aTwos, bTwos);
   }
 
   /**
