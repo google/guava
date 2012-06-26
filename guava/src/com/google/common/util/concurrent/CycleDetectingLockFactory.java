@@ -155,7 +155,7 @@ import javax.annotation.concurrent.ThreadSafe;
  * performance-critical applications which involve tightly-looped or
  * deeply-nested locking algorithms.
  *
- * @author Darick Tong (darick@google.com)
+ * @author Darick Tong
  * @since 13.0
  */
 @Beta

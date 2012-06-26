@@ -26,7 +26,7 @@ import java.util.concurrent.locks.ReentrantLock;
 /**
  * Benchmarks for {@link CycleDetectingLockFactory}.
  *
- * @author Darick Tong (darick@google.com)
+ * @author Darick Tong
  */
 public class CycleDetectingLockFactoryBenchmark extends SimpleBenchmark {
 

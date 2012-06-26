@@ -28,7 +28,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * Tests for RateLimiter.
  *
- * @author andreou@google.com (Dimitris Andreou)
+ * @author Dimitris Andreou
  */
 public class RateLimiterTest extends TestCase {
   /**

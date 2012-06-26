@@ -35,7 +35,7 @@ import java.util.regex.Pattern;
 /**
  * Unittests for {@link CycleDetectingLockFactory}.
  *
- * @author Darick Tong (darick@google.com)
+ * @author Darick Tong
  */
 public class CycleDetectingLockFactoryTest extends TestCase {
 

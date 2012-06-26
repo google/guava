@@ -38,7 +38,7 @@ import java.util.concurrent.locks.Lock;
 /**
  * Tests for Striped.
  *
- * @author andreou@google.com (Dimitris Andreou)
+ * @author Dimitris Andreou
  */
 public class StripedTest extends TestCase {
   private static List<Striped<?>> strongImplementations() {

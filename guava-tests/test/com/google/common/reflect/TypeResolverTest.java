@@ -26,7 +26,7 @@ import java.util.Map;
 /**
  * Unit tests of {@link TypeResolver}.
  *
- * @author benyu@google.com (Ben Yu)
+ * @author Ben Yu
  */
 public class TypeResolverTest extends TestCase {
 
