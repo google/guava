@@ -18,6 +18,7 @@ package com.google.common.io;
 
 import com.google.common.annotations.Beta;
 import com.google.common.base.Preconditions;
+import com.google.common.hash.Funnels;
 import com.google.common.hash.HashCode;
 import com.google.common.hash.HashFunction;
 import com.google.common.hash.Hasher;
@@ -759,19 +760,9 @@ public final class ByteStreams {
   public static HashCode hash(
       InputSupplier<? extends InputStream> supplier, HashFunction hashFunction)
       throws IOException {
-    final Hasher hasher = hashFunction.newHasher();
-    return readBytes(supplier, new ByteProcessor<HashCode>() {
-      @Override
-      public boolean processBytes(byte[] buf, int off, int len) {
-        hasher.putBytes(buf, off, len);
-        return true;
-      }
-
-      @Override
-      public HashCode getResult() {
-        return hasher.hash();
-      }
-    });
+    Hasher hasher = hashFunction.newHasher();
+    copy(supplier, Funnels.asOutputStream(hasher));
+    return hasher.hash();
   }
 
   /**

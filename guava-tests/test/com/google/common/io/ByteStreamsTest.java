@@ -22,6 +22,7 @@ import static com.google.common.io.ByteStreams.newInputStreamSupplier;
 import com.google.common.base.Charsets;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableSet;
+import com.google.common.hash.Hashing;
 import com.google.common.primitives.Bytes;
 import com.google.common.testing.TestLogHandler;
 
@@ -38,6 +39,8 @@ import java.nio.channels.ReadableByteChannel;
 import java.nio.channels.WritableByteChannel;
 import java.util.Arrays;
 import java.util.Random;
+import java.util.zip.CRC32;
+import java.util.zip.Checksum;
 
 /**
  * Unit test for {@link ByteStreams}.
@@ -723,6 +726,37 @@ public class ByteStreamsTest extends IoTestCase {
     out.writeFloat(Float.intBitsToFloat(0x12345678));
     out.writeFloat(Float.intBitsToFloat(0x76543210));
     assertEquals(BYTES, out.toByteArray());
+  }
+
+  public void testChecksum() throws IOException {
+    InputSupplier<ByteArrayInputStream> asciiBytes =
+        ByteStreams.newInputStreamSupplier(ASCII.getBytes(Charsets.US_ASCII));
+    InputSupplier<ByteArrayInputStream> i18nBytes =
+        ByteStreams.newInputStreamSupplier(I18N.getBytes(Charsets.UTF_8));
+
+    Checksum checksum = new CRC32();
+    assertEquals(0L, checksum.getValue());
+    assertEquals(3145994718L, ByteStreams.getChecksum(asciiBytes, checksum));
+    assertEquals(0L, checksum.getValue());
+    assertEquals(3145994718L, ByteStreams.getChecksum(asciiBytes, checksum));
+    assertEquals(1138302340L, ByteStreams.getChecksum(i18nBytes, checksum));
+    assertEquals(0L, checksum.getValue());
+  }
+
+  public void testHash() throws IOException {
+    InputSupplier<ByteArrayInputStream> asciiBytes =
+        ByteStreams.newInputStreamSupplier(ASCII.getBytes(Charsets.US_ASCII));
+    InputSupplier<ByteArrayInputStream> i18nBytes =
+        ByteStreams.newInputStreamSupplier(I18N.getBytes(Charsets.UTF_8));
+
+    String init = "d41d8cd98f00b204e9800998ecf8427e";
+    assertEquals(init, Hashing.md5().newHasher().hash().toString());
+
+    String asciiHash = "e5df5a39f2b8cb71b24e1d8038f93131";
+    assertEquals(asciiHash, ByteStreams.hash(asciiBytes, Hashing.md5()).toString());
+
+    String i18nHash = "7fa826962ce2079c8334cd4ebf33aea4";
+    assertEquals(i18nHash, ByteStreams.hash(i18nBytes, Hashing.md5()).toString());
   }
 
   public void testLength() throws IOException {
