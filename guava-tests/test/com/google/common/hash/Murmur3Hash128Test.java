@@ -23,8 +23,8 @@ import com.google.common.hash.HashTestUtils.HashFn;
 
 import junit.framework.TestCase;
 
+import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
-import java.util.Arrays;
 
 /**
  * Tests for {@link Murmur3_128HashFunction}.
@@ -44,14 +44,23 @@ public class Murmur3Hash128Test extends TestCase {
   }
 
   private static void assertHash(int seed, long expected1, long expected2, String stringInput) {
-    byte[] expectedHash = HashTestUtils.toBytes(ByteOrder.LITTLE_ENDIAN, expected1, expected2);
+    HashCode expected = toHashCode(expected1, expected2);
     byte[] input = HashTestUtils.ascii(stringInput);
-    byte[] actual1 = murmur3_128(seed).hashBytes(input).asBytes();
-    byte[] actual2 = murmur3_128(seed).newHasher().putBytes(input).hash().asBytes();
-    assertTrue(Arrays.equals(expectedHash, actual1));
-    assertTrue(Arrays.equals(expectedHash, actual2));
+    assertEquals(expected, murmur3_128(seed).hashBytes(input));
+    assertEquals(expected, murmur3_128(seed).newHasher().putBytes(input).hash());
   }
-  
+
+  /**
+   * Returns a {@link HashCode} for a sequence of longs, in big-endian order.
+   */
+  private static HashCode toHashCode(long... longs) {
+    ByteBuffer bb = ByteBuffer.wrap(new byte[longs.length * 8]).order(ByteOrder.LITTLE_ENDIAN);
+    for (long x : longs) {
+      bb.putLong(x);
+    }
+    return HashCodes.fromBytes(bb.array());
+  }
+
   public void testParanoid() {
     HashFn hf = new HashFn() {
       @Override public byte[] hash(byte[] input, int seed) {

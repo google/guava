@@ -28,29 +28,32 @@ import junit.framework.TestCase;
  */
 public class Murmur3Hash32Test extends TestCase {
   public void testKnownIntegerInputs() {
-    assertEquals(593689054, murmur3_32().hashInt(0).asInt());
-    assertEquals(-189366624, murmur3_32().hashInt(-42).asInt());
-    assertEquals(-1134849565, murmur3_32().hashInt(42).asInt());
-    assertEquals(-1718298732, murmur3_32().hashInt(Integer.MIN_VALUE).asInt());
-    assertEquals(-1653689534, murmur3_32().hashInt(Integer.MAX_VALUE).asInt());
+    assertHash(593689054, murmur3_32().hashInt(0));
+    assertHash(-189366624, murmur3_32().hashInt(-42));
+    assertHash(-1134849565, murmur3_32().hashInt(42));
+    assertHash(-1718298732, murmur3_32().hashInt(Integer.MIN_VALUE));
+    assertHash(-1653689534, murmur3_32().hashInt(Integer.MAX_VALUE));
   }
 
   public void testKnownLongInputs() {
-    assertEquals(1669671676, murmur3_32().hashLong(0L).asInt());
-    assertEquals(-846261623, murmur3_32().hashLong(-42L).asInt());
-    assertEquals(1871679806, murmur3_32().hashLong(42L).asInt());
-    assertEquals(1366273829, murmur3_32().hashLong(Long.MIN_VALUE).asInt());
-    assertEquals(-2106506049, murmur3_32().hashLong(Long.MAX_VALUE).asInt());
+    assertHash(1669671676, murmur3_32().hashLong(0L));
+    assertHash(-846261623, murmur3_32().hashLong(-42L));
+    assertHash(1871679806, murmur3_32().hashLong(42L));
+    assertHash(1366273829, murmur3_32().hashLong(Long.MIN_VALUE));
+    assertHash(-2106506049, murmur3_32().hashLong(Long.MAX_VALUE));
   }
 
   public void testKnownStringInputs() {
-    assertEquals(0, murmur3_32().hashString("").asInt());
-    assertEquals(679745764, murmur3_32().hashString("k").asInt());
-    assertEquals(1510782915, murmur3_32().hashString("hell").asInt());
-    assertEquals(-675079799, murmur3_32().hashString("hello").asInt());
-    assertEquals(1935035788, murmur3_32().hashString("http://www.google.com/").asInt());
-    assertEquals(-528633700,
-        murmur3_32().hashString("The quick brown fox jumps over the lazy dog").asInt());
+    assertHash(0, murmur3_32().hashString(""));
+    assertHash(679745764, murmur3_32().hashString("k"));
+    assertHash(1510782915, murmur3_32().hashString("hell"));
+    assertHash(-675079799, murmur3_32().hashString("hello"));
+    assertHash(1935035788, murmur3_32().hashString("http://www.google.com/"));
+    assertHash(-528633700, murmur3_32().hashString("The quick brown fox jumps over the lazy dog"));
+  }
+
+  private static void assertHash(int expected, HashCode actual) {
+    assertEquals(HashCodes.fromInt(expected), actual);
   }
 
   public void testParanoid() {

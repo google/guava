@@ -137,18 +137,16 @@ final class Murmur3_32HashFunction extends AbstractStreamingHashFunction impleme
       int k1 = 0;
       switch (bb.remaining()) {
         case 3:
-          k1 ^= toInt(bb.get(2)) << 16;
-          // fall through
+          k1 ^= toInt(bb.get(2)) << 16; // fall through
         case 2:
-          k1 ^= toInt(bb.get(1)) << 8;
-          // fall through
+          k1 ^= toInt(bb.get(1)) << 8; // fall through
         case 1:
           k1 ^= toInt(bb.get(0));
-          // fall through
+          break;
         default:
-          k1 = Murmur3_32HashFunction.mixK1(k1);
-          h1 ^= k1;
+          throw new AssertionError("Should never get here.");
       }
+      h1 ^= Murmur3_32HashFunction.mixK1(k1);
     }
 
     @Override public HashCode makeHash() {

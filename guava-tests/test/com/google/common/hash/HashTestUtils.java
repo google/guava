@@ -26,8 +26,6 @@ import com.google.common.primitives.Ints;
 
 import org.junit.Assert;
 
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
 import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.Random;
@@ -51,17 +49,6 @@ final class HashTestUtils {
       bytes[i] = (byte) string.charAt(i);
     }
     return bytes;
-  }
-
-  /**
-   * Returns a byte array representation for a sequence of longs, in big-endian order.
-   */
-  static byte[] toBytes(ByteOrder bo, long... longs) {
-    ByteBuffer bb = ByteBuffer.wrap(new byte[longs.length * 8]).order(bo);
-    for (long x : longs) {
-      bb.putLong(x);
-    }
-    return bb.array();
   }
 
   interface HashFn {
