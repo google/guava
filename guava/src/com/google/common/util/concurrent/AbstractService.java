@@ -16,7 +16,9 @@
 
 package com.google.common.util.concurrent;
 
+import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkState;
 
 import com.google.common.annotations.Beta;
 import com.google.common.collect.Lists;
@@ -35,13 +37,13 @@ import java.util.logging.Logger;
 
 import javax.annotation.Nullable;
 import javax.annotation.concurrent.GuardedBy;
+import javax.annotation.concurrent.Immutable;
 
 /**
- * Base class for implementing services that can handle {@link #doStart} and
- * {@link #doStop} requests, responding to them with {@link #notifyStarted()}
- * and {@link #notifyStopped()} callbacks. Its subclasses must manage threads
- * manually; consider {@link AbstractExecutionThreadService} if you need only a
- * single execution thread.
+ * Base class for implementing services that can handle {@link #doStart} and {@link #doStop}
+ * requests, responding to them with {@link #notifyStarted()} and {@link #notifyStopped()}
+ * callbacks. Its subclasses must manage threads manually; consider
+ * {@link AbstractExecutionThreadService} if you need only a single execution thread.
  *
  * @author Jesse Wilson
  * @author Luke Sandberg
@@ -49,8 +51,7 @@ import javax.annotation.concurrent.GuardedBy;
  */
 @Beta
 public abstract class AbstractService implements Service {
-  private static final Logger logger = Logger.getLogger(
-      AbstractService.class.getName());
+  private static final Logger logger = Logger.getLogger(AbstractService.class.getName());
   private final ReentrantLock lock = new ReentrantLock();
 
   private final Transition startup = new Transition();
@@ -65,46 +66,32 @@ public abstract class AbstractService implements Service {
   /**
    * The queue of listeners that are waiting to be executed.
    *
-   * <p>Enqueue operations should be protected by {@link #lock} while dequeue
-   * operations should be protected by the implicit lock on this object. Dequeue
-   * operations should be executed atomically with the execution of the
-   * {@link Runnable} and additionally the {@link #lock} should not be held when
-   * the listeners are being executed. Use {@link #executeListeners} for this
-   * operation.  This is necessary to ensure that elements on the queue are
-   * executed in the correct order.  Enqueue operations should be protected so
-   * that listeners are added in the correct order. We use a concurrent queue
-   * implementation so that enqueues can be executed concurrently with dequeues.
+   * <p>Enqueue operations should be protected by {@link #lock} while dequeue operations should be
+   * protected by the implicit lock on this object. Dequeue operations should be executed atomically
+   * with the execution of the {@link Runnable} and additionally the {@link #lock} should not be
+   * held when the listeners are being executed. Use {@link #executeListeners} for this operation.
+   * This is necessary to ensure that elements on the queue are executed in the correct order.
+   * Enqueue operations should be protected so that listeners are added in the correct order. We use
+   * a concurrent queue implementation so that enqueues can be executed concurrently with dequeues.
    */
   @GuardedBy("queuedListeners")
-  private final Queue<Runnable> queuedListeners =
-      Queues.newConcurrentLinkedQueue();
+  private final Queue<Runnable> queuedListeners = Queues.newConcurrentLinkedQueue();
 
   /**
-   * The exception that caused this service to fail.  This will be {@code null}
-   * unless the service has failed.
+   * The current state of the service.  This should be written with the lock held but can be read
+   * without it because it is an immutable object in a volatile field.  This is desirable so that
+   * methods like {@link #state}, {@link #failureCause} and notably {@link #toString} can be run
+   * without grabbing the lock.
+   *
+   * <p>To update this field correctly the lock must be held to guarantee that the state is
+   * consistent.
    */
   @GuardedBy("lock")
-  @Nullable
-  private Throwable failure;
-
-  /**
-   * The internal state, which equals external state unless
-   * shutdownWhenStartupFinishes is true.
-   */
-  @GuardedBy("lock")
-  private State state = State.NEW;
-
-  /**
-   * If true, the user requested a shutdown while the service was still starting
-   * up.
-   */
-  @GuardedBy("lock")
-  private boolean shutdownWhenStartupFinishes = false;
+  private volatile StateSnapshot snapshot = new StateSnapshot(State.NEW);
 
   protected AbstractService() {
-    // Add a listener to update the futures.  This needs to be added first so
-    // that it is executed before the other listeners.  This way the other
-    // listeners can access the completed futures.
+    // Add a listener to update the futures. This needs to be added first so that it is executed
+    // before the other listeners. This way the other listeners can access the completed futures.
     addListener(
         new Listener() {
           @Override public void starting() {}
@@ -130,12 +117,10 @@ public abstract class AbstractService implements Service {
             switch (from) {
               case STARTING:
                 startup.setException(failure);
-                shutdown.setException(
-                    new Exception("Service failed to start.", failure));
+                shutdown.setException(new Exception("Service failed to start.", failure));
                 break;
               case RUNNING:
-                shutdown.setException(
-                    new Exception("Service failed while running", failure));
+                shutdown.setException(new Exception("Service failed while running", failure));
                 break;
               case STOPPING:
                 shutdown.setException(failure);
@@ -152,27 +137,26 @@ public abstract class AbstractService implements Service {
   }
 
   /**
-   * This method is called by {@link #start} to initiate service startup. The
-   * invocation of this method should cause a call to {@link #notifyStarted()},
-   * either during this method's run, or after it has returned. If startup
-   * fails, the invocation should cause a call to {@link
-   * #notifyFailed(Throwable)} instead.
+   * This method is called by {@link #start} to initiate service startup. The invocation of this
+   * method should cause a call to {@link #notifyStarted()}, either during this method's run, or
+   * after it has returned. If startup fails, the invocation should cause a call to
+   * {@link #notifyFailed(Throwable)} instead.
    *
-   * <p>This method should return promptly; prefer to do work on a different
-   * thread where it is convenient. It is invoked exactly once on service
-   * startup, even when {@link #start} is called multiple times.
+   * <p>This method should return promptly; prefer to do work on a different thread where it is
+   * convenient. It is invoked exactly once on service startup, even when {@link #start} is called
+   * multiple times.
    */
   protected abstract void doStart();
 
   /**
-   * This method should be used to initiate service shutdown. The invocation
-   * of this method should cause a call to {@link #notifyStopped()}, either
-   * during this method's run, or after it has returned. If shutdown fails, the
-   * invocation should cause a call to {@link #notifyFailed(Throwable)} instead.
+   * This method should be used to initiate service shutdown. The invocation of this method should
+   * cause a call to {@link #notifyStopped()}, either during this method's run, or after it has
+   * returned. If shutdown fails, the invocation should cause a call to
+   * {@link #notifyFailed(Throwable)} instead.
    *
-   * <p>This method should return promptly; prefer to do work on a different
-   * thread where it is convenient. It is invoked exactly once on service
-   * shutdown, even when {@link #stop} is called multiple times.
+   * <p> This method should return promptly; prefer to do work on a different thread where it is
+   * convenient. It is invoked exactly once on service shutdown, even when {@link #stop} is called
+   * multiple times.
    */
   protected abstract void doStop();
 
@@ -180,8 +164,8 @@ public abstract class AbstractService implements Service {
   public final ListenableFuture<State> start() {
     lock.lock();
     try {
-      if (state == State.NEW) {
-        state = State.STARTING;
+      if (snapshot.state == State.NEW) {
+        snapshot = new StateSnapshot(State.STARTING);
         starting();
         doStart();
       }
@@ -199,17 +183,17 @@ public abstract class AbstractService implements Service {
   public final ListenableFuture<State> stop() {
     lock.lock();
     try {
-      switch (state) {
+      switch (snapshot.state) {
         case NEW:
-          state = State.TERMINATED;
+          snapshot = new StateSnapshot(State.TERMINATED);
           terminated(State.NEW);
           break;
         case STARTING:
-          shutdownWhenStartupFinishes = true;
+          snapshot = new StateSnapshot(State.STARTING, true, null);
           stopping(State.STARTING);
           break;
         case RUNNING:
-          state = State.STOPPING;
+          snapshot = new StateSnapshot(State.STOPPING);
           stopping(State.RUNNING);
           doStop();
           break;
@@ -219,7 +203,7 @@ public abstract class AbstractService implements Service {
           // do nothing
           break;
         default:
-          throw new AssertionError("Unexpected state: " + state);
+          throw new AssertionError("Unexpected state: " + snapshot.state);
       }
     } catch (Throwable shutdownFailure) {
       notifyFailed(shutdownFailure);
@@ -242,30 +226,28 @@ public abstract class AbstractService implements Service {
   }
 
   /**
-   * Implementing classes should invoke this method once their service has
-   * started. It will cause the service to transition from {@link
-   * State#STARTING} to {@link State#RUNNING}.
+   * Implementing classes should invoke this method once their service has started. It will cause
+   * the service to transition from {@link State#STARTING} to {@link State#RUNNING}.
    *
-   * @throws IllegalStateException if the service is not
-   *     {@link State#STARTING}.
+   * @throws IllegalStateException if the service is not {@link State#STARTING}.
    */
   protected final void notifyStarted() {
     lock.lock();
     try {
-      if (state != State.STARTING) {
+      if (snapshot.state != State.STARTING) {
         IllegalStateException failure = new IllegalStateException(
-            "Cannot notifyStarted() when the service is " + state);
+            "Cannot notifyStarted() when the service is " + snapshot.state);
         notifyFailed(failure);
         throw failure;
       }
 
-      if (shutdownWhenStartupFinishes) {
-        state = State.STOPPING;
+      if (snapshot.shutdownWhenStartupFinishes) {
+        snapshot = new StateSnapshot(State.STOPPING);
         // We don't call listeners here because we already did that when we set the
         // shutdownWhenStartupFinishes flag.
         doStop();
       } else {
-        state = State.RUNNING;
+        snapshot = new StateSnapshot(State.RUNNING);
         running();
       }
     } finally {
@@ -275,24 +257,23 @@ public abstract class AbstractService implements Service {
   }
 
   /**
-   * Implementing classes should invoke this method once their service has
-   * stopped. It will cause the service to transition from {@link
-   * State#STOPPING} to {@link State#TERMINATED}.
+   * Implementing classes should invoke this method once their service has stopped. It will cause
+   * the service to transition from {@link State#STOPPING} to {@link State#TERMINATED}.
    *
-   * @throws IllegalStateException if the service is neither {@link
-   *     State#STOPPING} nor {@link State#RUNNING}.
+   * @throws IllegalStateException if the service is neither {@link State#STOPPING} nor
+   *         {@link State#RUNNING}.
    */
   protected final void notifyStopped() {
     lock.lock();
     try {
-      if (state != State.STOPPING && state != State.RUNNING) {
+      if (snapshot.state != State.STOPPING && snapshot.state != State.RUNNING) {
         IllegalStateException failure = new IllegalStateException(
-            "Cannot notifyStopped() when the service is " + state);
+            "Cannot notifyStopped() when the service is " + snapshot.state);
         notifyFailed(failure);
         throw failure;
       }
-      State previous = state;
-      state = State.TERMINATED;
+      State previous = snapshot.state;
+      snapshot = new StateSnapshot(State.TERMINATED);
       terminated(previous);
     } finally {
       lock.unlock();
@@ -301,34 +282,31 @@ public abstract class AbstractService implements Service {
   }
 
   /**
-   * Invoke this method to transition the service to the
-   * {@link State#FAILED}. The service will <b>not be stopped</b> if it
-   * is running. Invoke this method when a service has failed critically or
-   * otherwise cannot be started nor stopped.
+   * Invoke this method to transition the service to the {@link State#FAILED}. The service will
+   * <b>not be stopped</b> if it is running. Invoke this method when a service has failed critically
+   * or otherwise cannot be started nor stopped.
    */
   protected final void notifyFailed(Throwable cause) {
     checkNotNull(cause);
 
     lock.lock();
     try {
-      switch (state) {
-        case NEW:  /* fall-through */
+      switch (snapshot.state) {
+        case NEW:
         case TERMINATED:
-          throw new IllegalStateException(
-              "Failed while in state:" + state, cause);
-        case RUNNING:  /* fall-through */
-        case STARTING:  /* fall-through */
+          throw new IllegalStateException("Failed while in state:" + snapshot.state, cause);
+        case RUNNING:
+        case STARTING:
         case STOPPING:
-          State previous = state;
-          failure = cause;
-          state = State.FAILED;
+          State previous = snapshot.state;
+          snapshot = new StateSnapshot(State.FAILED, false, cause);
           failed(previous, cause);
           break;
         case FAILED:
           // Do nothing
           break;
         default:
-          throw new AssertionError("Unexpected state: " + state);
+          throw new AssertionError("Unexpected state: " + snapshot.state);
       }
     } finally {
       lock.unlock();
@@ -343,16 +321,7 @@ public abstract class AbstractService implements Service {
 
   @Override
   public final State state() {
-    lock.lock();
-    try {
-      if (shutdownWhenStartupFinishes && state == State.STARTING) {
-        return State.STOPPING;
-      } else {
-        return state;
-      }
-    } finally {
-      lock.unlock();
-    }
+    return snapshot.externalState();
   }
 
   @Override
@@ -361,7 +330,7 @@ public abstract class AbstractService implements Service {
     checkNotNull(executor, "executor");
     lock.lock();
     try {
-      if (state != State.TERMINATED && state != State.FAILED) {
+      if (snapshot.state != State.TERMINATED && snapshot.state != State.FAILED) {
         listeners.add(new ListenerExecutorPair(listener, executor));
       }
     } finally {
@@ -482,10 +451,7 @@ public abstract class AbstractService implements Service {
     listeners.clear();
   }
 
-  /**
-   * A {@link Service.Listener} that schedules the callbacks of the delegate listener on an
-   * {@link Executor}.
-   */
+  /** A simple holder for a listener and its executor. */
   private static class ListenerExecutorPair {
     final Listener listener;
     final Executor executor;
@@ -506,6 +472,65 @@ public abstract class AbstractService implements Service {
         logger.log(Level.SEVERE, "Exception while executing listener " + listener
             + " with executor " + executor, e);
       }
+    }
+  }
+
+  /**
+   * An immutable snapshot of the current state of the service. This class represents a consistent
+   * snapshot of the state and therefore it can be used to answer simple queries without needing to
+   * grab a lock.
+   */
+  @Immutable
+  private static final class StateSnapshot {
+    /**
+     * The internal state, which equals external state unless
+     * shutdownWhenStartupFinishes is true.
+     */
+    final State state;
+
+    /**
+     * If true, the user requested a shutdown while the service was still starting
+     * up.
+     */
+    final boolean shutdownWhenStartupFinishes;
+
+    /**
+     * The exception that caused this service to fail.  This will be {@code null}
+     * unless the service has failed.
+     */
+    @Nullable
+    final Throwable failure;
+
+    StateSnapshot(State internalState) {
+      this(internalState, false, null);
+    }
+
+    StateSnapshot(State internalState, boolean shutdownWhenStartupFinishes, Throwable failure) {
+      checkArgument(!shutdownWhenStartupFinishes || internalState == State.STARTING,
+          "shudownWhenStartupFinishes can only be set if state is STARTING. Got %s instead.",
+          internalState);
+      checkArgument(!(failure != null ^ internalState == State.FAILED),
+          "A failure cause should be set if and only if the state is failed.  Got %s and %s "
+          + "instead.", internalState, failure);
+      this.state = internalState;
+      this.shutdownWhenStartupFinishes = shutdownWhenStartupFinishes;
+      this.failure = failure;
+    }
+
+    /** @see Service#state() */
+    State externalState() {
+      if (shutdownWhenStartupFinishes && state == State.STARTING) {
+        return State.STOPPING;
+      } else {
+        return state;
+      }
+    }
+
+    /** @see Service#failureCause() */
+    Throwable failureCause() {
+      checkState(state == State.FAILED,
+          "failureCause() is only valid if the service has failed, service is %s", state);
+      return failure;
     }
   }
 }
