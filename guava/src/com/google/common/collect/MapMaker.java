@@ -49,8 +49,6 @@ import javax.annotation.Nullable;
  * <ul>
  * <li>keys or values automatically wrapped in {@linkplain WeakReference weak} or {@linkplain
  *     SoftReference soft} references
- * <li>least-recently-used eviction when a maximum size is exceeded
- * <li>time-based expiration of entries, measured since last access or last write
  * <li>notification of evicted (or otherwise removed) entries
  * <li>on-demand computation of values for keys not already present
  * </ul>
@@ -60,8 +58,6 @@ import javax.annotation.Nullable;
  *   ConcurrentMap<Key, Graph> graphs = new MapMaker()
  *       .concurrencyLevel(4)
  *       .weakKeys()
- *       .maximumSize(10000)
- *       .expireAfterWrite(10, TimeUnit.MINUTES)
  *       .makeComputingMap(
  *           new Function<Key, Graph>() {
  *             public Graph apply(Key key) {
