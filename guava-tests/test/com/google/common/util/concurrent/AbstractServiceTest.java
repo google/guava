@@ -24,6 +24,7 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.util.concurrent.Service.Listener;
 import com.google.common.util.concurrent.Service.State;
+import com.google.testing.util.MoreAsserts;
 
 import junit.framework.TestCase;
 
@@ -642,27 +643,26 @@ public class AbstractServiceTest extends TestCase {
 
     @Override public synchronized void starting() {
       assertTrue(stateHistory.isEmpty());
+      MoreAsserts.assertNotEqual(State.NEW, service.state());
       stateHistory.add(State.STARTING);
-      assertEquals(State.STARTING, service.state());
-      assertFalse(service.start().isDone());
     }
 
     @Override public synchronized void running() {
       assertEquals(State.STARTING, Iterables.getOnlyElement(stateHistory));
       stateHistory.add(State.RUNNING);
-      assertEquals(State.RUNNING, service.state());
       assertTrue(service.start().isDone());
       assertEquals(State.RUNNING, service.startAndWait());
+      MoreAsserts.assertNotEqual(State.STARTING, service.state());
     }
 
     @Override public synchronized void stopping(State from) {
       assertEquals(from, Iterables.getLast(stateHistory));
       stateHistory.add(State.STOPPING);
-      assertEquals(State.STOPPING, service.state());
       if (from == State.STARTING) {
         assertTrue(service.start().isDone());
         assertEquals(State.STOPPING, service.startAndWait());
       }
+      MoreAsserts.assertNotEqual(from, service.state());
     }
 
     @Override public synchronized void terminated(State from) {
@@ -682,6 +682,22 @@ public class AbstractServiceTest extends TestCase {
       assertEquals(from, Iterables.getLast(stateHistory));
       stateHistory.add(State.FAILED);
       assertEquals(State.FAILED, service.state());
+      if (from == State.STARTING) {
+        try {
+          service.startAndWait();
+        } catch (UncheckedExecutionException e) {
+          assertEquals(failure, e.getCause());
+        }
+      }
+      try {
+        service.stopAndWait();
+      } catch (UncheckedExecutionException e) {
+        if (from == State.STOPPING) {
+          assertEquals(failure, e.getCause());
+        } else {
+          assertEquals(failure, e.getCause().getCause());
+        }
+      }
       completionLatch.countDown();
     }
   }

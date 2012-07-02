@@ -20,9 +20,11 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.Beta;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Queues;
 import com.google.common.util.concurrent.Service.State; // javadoc needs this
 
 import java.util.List;
+import java.util.Queue;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
@@ -42,11 +44,13 @@ import javax.annotation.concurrent.GuardedBy;
  * single execution thread.
  *
  * @author Jesse Wilson
+ * @author Luke Sandberg
  * @since 1.0
  */
 @Beta
 public abstract class AbstractService implements Service {
-  private static final Logger logger = Logger.getLogger(AbstractService.class.getName());
+  private static final Logger logger = Logger.getLogger(
+      AbstractService.class.getName());
   private final ReentrantLock lock = new ReentrantLock();
 
   private final Transition startup = new Transition();
@@ -57,6 +61,23 @@ public abstract class AbstractService implements Service {
    */
   @GuardedBy("lock")
   private final List<ListenerExecutorPair> listeners = Lists.newArrayList();
+
+  /**
+   * The queue of listeners that are waiting to be executed.
+   *
+   * <p>Enqueue operations should be protected by {@link #lock} while dequeue
+   * operations should be protected by the implicit lock on this object. Dequeue
+   * operations should be executed atomically with the execution of the
+   * {@link Runnable} and additionally the {@link #lock} should not be held when
+   * the listeners are being executed. Use {@link #executeListeners} for this
+   * operation.  This is necessary to ensure that elements on the queue are
+   * executed in the correct order.  Enqueue operations should be protected so
+   * that listeners are added in the correct order. We use a concurrent queue
+   * implementation so that enqueues can be executed concurrently with dequeues.
+   */
+  @GuardedBy("queuedListeners")
+  private final Queue<Runnable> queuedListeners =
+      Queues.newConcurrentLinkedQueue();
 
   /**
    * The exception that caused this service to fail.  This will be {@code null}
@@ -109,8 +130,8 @@ public abstract class AbstractService implements Service {
             switch (from) {
               case STARTING:
                 startup.setException(failure);
-                shutdown.setException(new Exception(
-                    "Service failed to start.", failure));
+                shutdown.setException(
+                    new Exception("Service failed to start.", failure));
                 break;
               case RUNNING:
                 shutdown.setException(
@@ -165,10 +186,10 @@ public abstract class AbstractService implements Service {
         doStart();
       }
     } catch (Throwable startupFailure) {
-      // put the exception in the future, the user can get it via Future.get()
       notifyFailed(startupFailure);
     } finally {
       lock.unlock();
+      executeListeners();
     }
 
     return startup;
@@ -192,8 +213,8 @@ public abstract class AbstractService implements Service {
           stopping(State.RUNNING);
           doStop();
           break;
-        case STOPPING:  /* fall-through */
-        case TERMINATED:  /* fall-through */
+        case STOPPING:
+        case TERMINATED:
         case FAILED:
           // do nothing
           break;
@@ -201,10 +222,10 @@ public abstract class AbstractService implements Service {
           throw new AssertionError("Unexpected state: " + state);
       }
     } catch (Throwable shutdownFailure) {
-      // put the exception in the future, the user can get it via Future.get()
       notifyFailed(shutdownFailure);
     } finally {
       lock.unlock();
+      executeListeners();
     }
 
     return shutdown;
@@ -249,6 +270,7 @@ public abstract class AbstractService implements Service {
       }
     } finally {
       lock.unlock();
+      executeListeners();
     }
   }
 
@@ -274,6 +296,7 @@ public abstract class AbstractService implements Service {
       terminated(previous);
     } finally {
       lock.unlock();
+      executeListeners();
     }
   }
 
@@ -309,6 +332,7 @@ public abstract class AbstractService implements Service {
       }
     } finally {
       lock.unlock();
+      executeListeners();
     }
   }
 
@@ -364,40 +388,95 @@ public abstract class AbstractService implements Service {
     }
   }
 
+  /**
+   * Attempts to execute all the listeners in {@link #queuedListeners} while not holding the
+   * {@link #lock}.
+   */
+  private void executeListeners() {
+    if (!lock.isHeldByCurrentThread()) {
+      synchronized (queuedListeners) {
+        Runnable listener;
+        while ((listener = queuedListeners.poll()) != null) {
+          listener.run();
+        }
+      }
+    }
+  }
+
   @GuardedBy("lock")
   private void starting() {
-    for (Listener listener : listeners) {
-      listener.starting();
+    for (final ListenerExecutorPair pair : listeners) {
+      queuedListeners.add(new Runnable() {
+        @Override public void run() {
+          pair.execute(new Runnable() {
+            @Override public void run() {
+              pair.listener.starting();
+            }
+          });
+        }
+      });
     }
   }
 
   @GuardedBy("lock")
   private void running() {
-    for (Listener listener : listeners) {
-      listener.running();
+    for (final ListenerExecutorPair pair : listeners) {
+      queuedListeners.add(new Runnable() {
+        @Override public void run() {
+          pair.execute(new Runnable() {
+            @Override public void run() {
+              pair.listener.running();
+            }
+          });
+        }
+      });
     }
   }
 
   @GuardedBy("lock")
-  private void stopping(State from) {
-    for (Listener listener : listeners) {
-      listener.stopping(from);
+  private void stopping(final State from) {
+    for (final ListenerExecutorPair pair : listeners) {
+      queuedListeners.add(new Runnable() {
+        @Override public void run() {
+          pair.execute(new Runnable() {
+            @Override public void run() {
+              pair.listener.stopping(from);
+            }
+          });
+        }
+      });
     }
   }
 
   @GuardedBy("lock")
-  private void terminated(State from) {
-    for (Listener listener : listeners) {
-      listener.terminated(from);
+  private void terminated(final State from) {
+    for (final ListenerExecutorPair pair : listeners) {
+      queuedListeners.add(new Runnable() {
+        @Override public void run() {
+          pair.execute(new Runnable() {
+            @Override public void run() {
+              pair.listener.terminated(from);
+            }
+          });
+        }
+      });
     }
     // There are no more state transitions so we can clear this out.
     listeners.clear();
   }
 
   @GuardedBy("lock")
-  private void failed(State from, Throwable cause) {
-    for (Listener listener : listeners) {
-      listener.failed(from, cause);
+  private void failed(final State from, final Throwable cause) {
+    for (final ListenerExecutorPair pair : listeners) {
+      queuedListeners.add(new Runnable() {
+        @Override public void run() {
+          pair.execute(new Runnable() {
+            @Override public void run() {
+              pair.listener.failed(from, cause);
+            }
+          });
+        }
+      });
     }
     // There are no more state transitions so we can clear this out.
     listeners.clear();
@@ -407,7 +486,7 @@ public abstract class AbstractService implements Service {
    * A {@link Service.Listener} that schedules the callbacks of the delegate listener on an
    * {@link Executor}.
    */
-  private static class ListenerExecutorPair implements Listener {
+  private static class ListenerExecutorPair {
     final Listener listener;
     final Executor executor;
 
@@ -427,56 +506,6 @@ public abstract class AbstractService implements Service {
         logger.log(Level.SEVERE, "Exception while executing listener " + listener
             + " with executor " + executor, e);
       }
-    }
-
-    @Override
-    public void starting() {
-      execute(new Runnable() {
-        @Override
-        public void run() {
-          listener.starting();
-        }
-      });
-    }
-
-    @Override
-    public void running() {
-      execute(new Runnable() {
-        @Override
-        public void run() {
-          listener.running();
-        }
-      });
-    }
-
-    @Override
-    public void stopping(final State from) {
-      execute(new Runnable() {
-        @Override
-        public void run() {
-          listener.stopping(from);
-        }
-      });
-    }
-
-    @Override
-    public void terminated(final State from) {
-      execute(new Runnable() {
-        @Override
-        public void run() {
-          listener.terminated(from);
-        }
-      });
-    }
-
-    @Override
-    public void failed(final State from, final Throwable failure) {
-      execute(new Runnable() {
-        @Override
-        public void run() {
-          listener.failed(from, failure);
-        }
-      });
     }
   }
 }
