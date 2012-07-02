@@ -208,6 +208,7 @@ public final class MediaType {
   public static final MediaType RTF_UTF_8 = createConstantUtf8(APPLICATION_TYPE, "rtf");
   public static final MediaType SHOCKWAVE_FLASH = createConstant(APPLICATION_TYPE,
       "x-shockwave-flash");
+  public static final MediaType SKETCHUP = createConstant(APPLICATION_TYPE, "vnd.sketchup.skp");
   public static final MediaType TAR = createConstant(APPLICATION_TYPE, "x-tar");
   public static final MediaType XHTML_UTF_8 = createConstantUtf8(APPLICATION_TYPE, "xhtml+xml");
   public static final MediaType ZIP = createConstant(APPLICATION_TYPE, "zip");
@@ -278,6 +279,7 @@ public final class MediaType {
           .put(POSTSCRIPT, POSTSCRIPT)
           .put(RTF_UTF_8, RTF_UTF_8)
           .put(SHOCKWAVE_FLASH, SHOCKWAVE_FLASH)
+          .put(SKETCHUP, SKETCHUP)
           .put(TAR, TAR)
           .put(XHTML_UTF_8, XHTML_UTF_8)
           .put(ZIP, ZIP)
