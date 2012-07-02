@@ -80,6 +80,56 @@ public abstract class AbstractService implements Service {
   @GuardedBy("lock")
   private boolean shutdownWhenStartupFinishes = false;
 
+  protected AbstractService() {
+    // Add a listener to update the futures.  This needs to be added first so
+    // that it is executed before the other listeners.  This way the other
+    // listeners can access the completed futures.
+    addListener(
+        new Listener() {
+          @Override public void starting() {}
+
+          @Override public void running() {
+            startup.set(State.RUNNING);
+          }
+
+          @Override public void stopping(State from) {
+            if (from == State.STARTING) {
+              startup.set(State.STOPPING);
+            }
+          }
+
+          @Override public void terminated(State from) {
+            if (from == State.NEW) {
+              startup.set(State.TERMINATED);
+            }
+            shutdown.set(State.TERMINATED);
+          }
+
+          @Override public void failed(State from, Throwable failure) {
+            switch (from) {
+              case STARTING:
+                startup.setException(failure);
+                shutdown.setException(new Exception(
+                    "Service failed to start.", failure));
+                break;
+              case RUNNING:
+                shutdown.setException(
+                    new Exception("Service failed while running", failure));
+                break;
+              case STOPPING:
+                shutdown.setException(failure);
+                break;
+              case TERMINATED:  /* fall-through */
+              case FAILED:  /* fall-through */
+              case NEW:  /* fall-through */
+              default:
+                throw new AssertionError("Unexpected from state: " + from);
+            }
+          }
+        },
+        MoreExecutors.sameThreadExecutor());
+  }
+
   /**
    * This method is called by {@link #start} to initiate service startup. The
    * invocation of this method should cause a call to {@link #notifyStarted()},
@@ -110,6 +160,7 @@ public abstract class AbstractService implements Service {
     lock.lock();
     try {
       if (state == State.NEW) {
+        state = State.STARTING;
         starting();
         doStart();
       }
@@ -127,18 +178,27 @@ public abstract class AbstractService implements Service {
   public final ListenableFuture<State> stop() {
     lock.lock();
     try {
-      if (state == State.NEW) {
-        state = State.TERMINATED;
-        terminated(State.NEW);
-        startup.set(State.TERMINATED);
-        shutdown.set(State.TERMINATED);
-      } else if (state == State.STARTING) {
-        shutdownWhenStartupFinishes = true;
-        startup.set(State.STOPPING);
-      } else if (state == State.RUNNING) {
-        state = State.STOPPING;
-        stopping(State.RUNNING);
-        doStop();
+      switch (state) {
+        case NEW:
+          state = State.TERMINATED;
+          terminated(State.NEW);
+          break;
+        case STARTING:
+          shutdownWhenStartupFinishes = true;
+          stopping(State.STARTING);
+          break;
+        case RUNNING:
+          state = State.STOPPING;
+          stopping(State.RUNNING);
+          doStop();
+          break;
+        case STOPPING:  /* fall-through */
+        case TERMINATED:  /* fall-through */
+        case FAILED:
+          // do nothing
+          break;
+        default:
+          throw new AssertionError("Unexpected state: " + state);
       }
     } catch (Throwable shutdownFailure) {
       // put the exception in the future, the user can get it via Future.get()
@@ -178,11 +238,14 @@ public abstract class AbstractService implements Service {
         throw failure;
       }
 
-      running();
       if (shutdownWhenStartupFinishes) {
-        stop();
+        state = State.STOPPING;
+        // We don't call listeners here because we already did that when we set the
+        // shutdownWhenStartupFinishes flag.
+        doStop();
       } else {
-        startup.set(State.RUNNING);
+        state = State.RUNNING;
+        running();
       }
     } finally {
       lock.unlock();
@@ -206,8 +269,9 @@ public abstract class AbstractService implements Service {
         notifyFailed(failure);
         throw failure;
       }
-      terminated(state);
-      shutdown.set(State.TERMINATED);
+      State previous = state;
+      state = State.TERMINATED;
+      terminated(previous);
     } finally {
       lock.unlock();
     }
@@ -224,20 +288,25 @@ public abstract class AbstractService implements Service {
 
     lock.lock();
     try {
-      if (state == State.STARTING) {
-        startup.setException(cause);
-        shutdown.setException(new Exception(
-            "Service failed to start.", cause));
-      } else if (state == State.STOPPING) {
-        shutdown.setException(cause);
-      } else if (state == State.RUNNING) {
-        shutdown.setException(
-            new Exception("Service failed while running", cause));
-      } else if (state == State.NEW || state == State.TERMINATED) {
-        throw new IllegalStateException(
-            "Failed while in state:" + state, cause);
+      switch (state) {
+        case NEW:  /* fall-through */
+        case TERMINATED:
+          throw new IllegalStateException(
+              "Failed while in state:" + state, cause);
+        case RUNNING:  /* fall-through */
+        case STARTING:  /* fall-through */
+        case STOPPING:
+          State previous = state;
+          failure = cause;
+          state = State.FAILED;
+          failed(previous, cause);
+          break;
+        case FAILED:
+          // Do nothing
+          break;
+        default:
+          throw new AssertionError("Unexpected state: " + state);
       }
-      failed(state, cause);
     } finally {
       lock.unlock();
     }
@@ -297,7 +366,6 @@ public abstract class AbstractService implements Service {
 
   @GuardedBy("lock")
   private void starting() {
-    state = State.STARTING;
     for (Listener listener : listeners) {
       listener.starting();
     }
@@ -305,7 +373,6 @@ public abstract class AbstractService implements Service {
 
   @GuardedBy("lock")
   private void running() {
-    state = State.RUNNING;
     for (Listener listener : listeners) {
       listener.running();
     }
@@ -313,7 +380,6 @@ public abstract class AbstractService implements Service {
 
   @GuardedBy("lock")
   private void stopping(State from) {
-    state = State.STOPPING;
     for (Listener listener : listeners) {
       listener.stopping(from);
     }
@@ -321,7 +387,6 @@ public abstract class AbstractService implements Service {
 
   @GuardedBy("lock")
   private void terminated(State from) {
-    state = State.TERMINATED;
     for (Listener listener : listeners) {
       listener.terminated(from);
     }
@@ -331,8 +396,6 @@ public abstract class AbstractService implements Service {
 
   @GuardedBy("lock")
   private void failed(State from, Throwable cause) {
-    failure = cause;
-    state = State.FAILED;
     for (Listener listener : listeners) {
       listener.failed(from, cause);
     }

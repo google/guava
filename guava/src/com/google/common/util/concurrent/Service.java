@@ -214,7 +214,8 @@ public interface Service {
      * {@link Listener}.
      *
      * @param from The previous state that is being transitioned from.  The only valid values for
-     *     this are {@linkplain State#NEW NEW} or {@linkplain State#STOPPING STOPPING}.
+     *     this are {@linkplain State#NEW NEW}, {@linkplain State#RUNNING RUNNING} or
+     *     {@linkplain State#STOPPING STOPPING}.
      */
     void terminated(State from);
 
@@ -224,7 +225,8 @@ public interface Service {
      * Therefore, if this method is called, no other methods will be called on the {@link Listener}.
      *
      * @param from The previous state that is being transitioned from.  Failure can occur in any
-     *     state with the exception of {@linkplain State#NEW NEW}.
+     *     state with the exception of {@linkplain State#NEW NEW} or
+     *     {@linkplain State#TERMINATED TERMINATED}.
      * @param failure The exception that caused the failure.
      */
     void failed(State from, Throwable failure);
