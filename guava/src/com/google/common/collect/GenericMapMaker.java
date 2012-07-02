@@ -62,12 +62,6 @@ public abstract class GenericMapMaker<K0, V0> {
   abstract GenericMapMaker<K0, V0> keyEquivalence(Equivalence<Object> equivalence);
 
   /**
-   * See {@link MapMaker#valueEquivalence}.
-   */
-  @GwtIncompatible("To be supported")
-  abstract GenericMapMaker<K0, V0> valueEquivalence(Equivalence<Object> equivalence);
-
-  /**
    * See {@link MapMaker#initialCapacity}.
    */
   public abstract GenericMapMaker<K0, V0> initialCapacity(int initialCapacity);
@@ -76,11 +70,6 @@ public abstract class GenericMapMaker<K0, V0> {
    * See {@link MapMaker#maximumSize}.
    */
   abstract GenericMapMaker<K0, V0> maximumSize(int maximumSize);
-
-  /**
-   * See {@link MapMaker#strongKeys}.
-   */
-  abstract GenericMapMaker<K0, V0> strongKeys();
 
   /**
    * See {@link MapMaker#concurrencyLevel}.
@@ -92,11 +81,6 @@ public abstract class GenericMapMaker<K0, V0> {
    */
   @GwtIncompatible("java.lang.ref.WeakReference")
   public abstract GenericMapMaker<K0, V0> weakKeys();
-
-  /**
-   * See {@link MapMaker#strongValues}.
-   */
-  abstract GenericMapMaker<K0, V0> strongValues();
 
   /**
    * See {@link MapMaker#softKeys}.

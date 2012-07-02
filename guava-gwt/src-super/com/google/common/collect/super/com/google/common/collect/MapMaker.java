@@ -42,8 +42,8 @@ public class MapMaker extends GenericMapMaker<Object, Object> {
     private final Function<? super K, ? extends V> computer;
     private final int maximumSize;
 
-    ExpiringComputingMap(long expirationMillis, int maximumSize, int initialCapacity,
-        float loadFactor) {
+    ExpiringComputingMap(
+        long expirationMillis, int maximumSize, int initialCapacity, float loadFactor) {
       this(expirationMillis, null, maximumSize, initialCapacity, loadFactor);
     }
 
@@ -221,26 +221,16 @@ public class MapMaker extends GenericMapMaker<Object, Object> {
   }
 
   @Override
-  MapMaker strongKeys() {
-    return this;
-  }
-
-  @Override
-  MapMaker strongValues() {
-    return this;
-  }
-
-  @Override
   public <K, V> ConcurrentMap<K, V> makeMap() {
     return useCustomMap
-        ? new ExpiringComputingMap<K, V>(expirationMillis, null, maximumSize, initialCapacity,
-            loadFactor)
+        ? new ExpiringComputingMap<K, V>(
+            expirationMillis, null, maximumSize, initialCapacity, loadFactor)
         : new ConcurrentHashMap<K, V>(initialCapacity, loadFactor);
   }
 
   @Override
   public <K, V> ConcurrentMap<K, V> makeComputingMap(Function<? super K, ? extends V> computer) {
-    return new ExpiringComputingMap<K, V>(expirationMillis, computer, maximumSize, initialCapacity,
-        loadFactor);
+    return new ExpiringComputingMap<K, V>(
+        expirationMillis, computer, maximumSize, initialCapacity, loadFactor);
   }
 }

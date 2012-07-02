@@ -199,7 +199,7 @@ class MapMakerInternalMap<K, V>
     valueStrength = builder.getValueStrength();
 
     keyEquivalence = builder.getKeyEquivalence();
-    valueEquivalence = builder.getValueEquivalence();
+    valueEquivalence = valueStrength.defaultEquivalence();
 
     maximumSize = builder.maximumSize;
     expireAfterAccessNanos = builder.getExpireAfterAccessNanos();
@@ -4019,7 +4019,6 @@ class MapMakerInternalMap<K, V>
           .setKeyStrength(keyStrength)
           .setValueStrength(valueStrength)
           .keyEquivalence(keyEquivalence)
-          .valueEquivalence(valueEquivalence)
           .concurrencyLevel(concurrencyLevel);
       mapMaker.removalListener(removalListener);
       if (expireAfterWriteNanos > 0) {

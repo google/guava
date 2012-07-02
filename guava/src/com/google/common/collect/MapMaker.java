@@ -128,7 +128,6 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
   RemovalCause nullRemovalCause;
 
   Equivalence<Object> keyEquivalence;
-  Equivalence<Object> valueEquivalence;
 
   Ticker ticker;
 
@@ -138,16 +137,12 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    */
   public MapMaker() {}
 
-  private boolean useNullMap() {
-    return (nullRemovalCause == null);
-  }
-
   /**
    * Sets a custom {@code Equivalence} strategy for comparing keys.
    *
    * <p>By default, the map uses {@link Equivalence#identity} to determine key equality when
    * {@link #weakKeys} or {@link #softKeys} is specified, and {@link Equivalence#equals()}
-   * otherwise.
+   * otherwise. The only place this is used is in {@link Interners.WeakInterner}.
    */
   @GwtIncompatible("To be supported")
   @Override
@@ -160,27 +155,6 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
 
   Equivalence<Object> getKeyEquivalence() {
     return firstNonNull(keyEquivalence, getKeyStrength().defaultEquivalence());
-  }
-
-  /**
-   * Sets a custom {@code Equivalence} strategy for comparing values.
-   *
-   * <p>By default, the map uses {@link Equivalence#identity} to determine value equality when
-   * {@link #weakValues} or {@link #softValues} is specified, and {@link Equivalence#equals()}
-   * otherwise.
-   */
-  @GwtIncompatible("To be supported")
-  @Override
-  MapMaker valueEquivalence(Equivalence<Object> equivalence) {
-    checkState(valueEquivalence == null,
-        "value equivalence was already set to %s", valueEquivalence);
-    this.valueEquivalence = checkNotNull(equivalence);
-    this.useCustomMap = true;
-    return this;
-  }
-
-  Equivalence<Object> getValueEquivalence() {
-    return firstNonNull(valueEquivalence, getValueStrength().defaultEquivalence());
   }
 
   /**
@@ -277,16 +251,6 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
   }
 
   /**
-   * Specifies that each key (not value) stored in the map should be strongly referenced.
-   *
-   * @throws IllegalStateException if the key strength was already set
-   */
-  @Override
-  MapMaker strongKeys() {
-    return setKeyStrength(Strength.STRONG);
-  }
-
-  /**
    * Specifies that each key (not value) stored in the map should be wrapped in a {@link
    * WeakReference} (by default, strong references are used).
    *
@@ -342,16 +306,6 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
 
   Strength getKeyStrength() {
     return firstNonNull(keyStrength, Strength.STRONG);
-  }
-
-  /**
-   * Specifies that each value (not key) stored in the map should be strongly referenced.
-   *
-   * @throws IllegalStateException if the value strength was already set
-   */
-  @Override
-  MapMaker strongValues() {
-    return setValueStrength(Strength.STRONG);
   }
 
   /**
@@ -651,7 +605,7 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
   @Override
   public <K, V> ConcurrentMap<K, V> makeComputingMap(
       Function<? super K, ? extends V> computingFunction) {
-    return useNullMap()
+    return (nullRemovalCause == null)
         ? new ComputingMapAdapter<K, V>(this, computingFunction)
         : new NullComputingConcurrentMap<K, V>(this, computingFunction);
   }
@@ -686,9 +640,6 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
     }
     if (keyEquivalence != null) {
       s.addValue("keyEquivalence");
-    }
-    if (valueEquivalence != null) {
-      s.addValue("valueEquivalence");
     }
     if (removalListener != null) {
       s.addValue("removalListener");

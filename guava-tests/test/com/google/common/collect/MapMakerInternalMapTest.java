@@ -122,25 +122,6 @@ public class MapMakerInternalMapTest extends TestCase {
     assertSame(map.valueStrength.defaultEquivalence(), map.valueEquivalence);
   }
 
-  public void testSetValueEquivalence() {
-    Equivalence<Object> testEquivalence = new Equivalence<Object>() {
-      @Override
-      protected boolean doEquivalent(Object a, Object b) {
-        return false;
-      }
-
-      @Override
-      protected int doHash(Object t) {
-        return 0;
-      }
-    };
-
-    MapMakerInternalMap<Object, Object> map =
-        makeMap(createMapMaker().valueEquivalence(testEquivalence));
-    assertSame(testEquivalence, map.valueEquivalence);
-    assertSame(map.keyStrength.defaultEquivalence(), map.keyEquivalence);
-  }
-
   public void testSetConcurrencyLevel() {
     // round up to nearest power of two
 
