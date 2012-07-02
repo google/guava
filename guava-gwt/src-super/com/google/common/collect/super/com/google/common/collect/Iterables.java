@@ -973,30 +973,6 @@ public final class Iterables {
   // Methods only in Iterables, not in Iterators
 
   /**
-   * Adapts a list to an iterable with reversed iteration order. It is
-   * especially useful in foreach-style loops: <pre>   {@code
-   *
-   *   List<String> mylist = ...
-   *   for (String str : Iterables.reverse(mylist)) {
-   *     ...
-   *   }}</pre>
-   *
-   * There is no corresponding method in {@link Iterators}, since {@link
-   * Iterable#iterator} can simply be invoked on the result of calling this
-   * method.
-   *
-   * @return an iterable with the same elements as the list, in reverse
-   *
-   * @deprecated use {@link Lists#reverse(List)} or {@link
-   *     ImmutableList#reverse()}. <b>This method is scheduled for deletion in
-   *     July 2012.</b>
-   */
-  @Deprecated
-  public static <T> Iterable<T> reverse(final List<T> list) {
-    return Lists.reverse(list);
-  }
-
-  /**
    * Determines if the given iterable contains no elements.
    *
    * <p>There is no precise {@link Iterator} equivalent to this method, since

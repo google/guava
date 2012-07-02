@@ -565,42 +565,6 @@ public class IterablesTest extends TestCase {
     assertFalse(Iterables.elementsEqual(b, a));
   }
 
-  @GwtIncompatible("slow (~30s)")
-  @SuppressWarnings("deprecation") // test of a deprecated method
-  public void testReversePassesIteratorsTester() {
-    new IteratorTester<Integer>(5, MODIFIABLE, newArrayList(2, 4, 6, 8),
-        IteratorTester.KnownOrder.KNOWN_ORDER) {
-      @Override protected Iterator<Integer> newTargetIterator() {
-        return Iterables.reverse(newArrayList(8, 6, 4, 2)).iterator();
-      }
-    }.test();
-  }
-
-  @SuppressWarnings("deprecation") // test of a deprecated method
-  public void testReverseWorksAsExpected() {
-    String[] testStrs = new String[] {"foo", "bar", "baz"};
-    String[] expected = new String[] {"baz", "bar", "foo"};
-
-    List<String> stuff = ImmutableList.copyOf(testStrs);
-
-    Iterable<String> reversed = Iterables.reverse(stuff);
-    ASSERT.that(reversed).hasContentsInOrder(expected);
-    assertEquals("[baz, bar, foo]", reversed.toString());
-
-    List<String> removable = newArrayList("foo", "bar", "bad", "baz");
-
-    reversed = Iterables.reverse(removable);
-    ASSERT.that(reversed).hasContentsInOrder("baz", "bad", "bar", "foo");
-
-    Iterator<String> reverseIter = reversed.iterator();
-    assertEquals("baz", reverseIter.next());
-    assertEquals("bad", reverseIter.next());
-    reverseIter.remove();
-
-    ASSERT.that(reversed).hasContentsInOrder(expected);
-    ASSERT.that(reversed).hasContentsInOrder(expected);
-  }
-
   public void testToString() {
     List<String> list = Collections.emptyList();
     assertEquals("[]", Iterables.toString(list));
