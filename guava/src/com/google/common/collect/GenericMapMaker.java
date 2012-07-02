@@ -118,13 +118,6 @@ public abstract class GenericMapMaker<K0, V0> {
   public abstract GenericMapMaker<K0, V0> softValues();
 
   /**
-   * See {@link MapMaker#expiration}.
-   */
-  @Deprecated
-  public
-  abstract GenericMapMaker<K0, V0> expiration(long duration, TimeUnit unit);
-
-  /**
    * See {@link MapMaker#expireAfterWrite}.
    */
   abstract GenericMapMaker<K0, V0> expireAfterWrite(long duration, TimeUnit unit);

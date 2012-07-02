@@ -184,12 +184,6 @@ public class MapMaker extends GenericMapMaker<Object, Object> {
   }
 
   @Override
-  public
-  MapMaker expiration(long duration, TimeUnit unit) {
-    return expireAfterWrite(duration, unit);
-  }
-
-  @Override
   MapMaker expireAfterWrite(long duration, TimeUnit unit) {
     if (expirationMillis != 0) {
       throw new IllegalStateException(

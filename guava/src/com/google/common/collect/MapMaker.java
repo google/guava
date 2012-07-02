@@ -422,24 +422,6 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
   }
 
   /**
-   * Old name of {@link #expireAfterWrite}.
-   *
-   * @deprecated Caching functionality in {@code MapMaker} is being moved to
-   *     {@link com.google.common.cache.CacheBuilder}. Functionality equivalent to
-   *     {@link MapMaker#expiration} is provided by
-   *     {@link com.google.common.cache.CacheBuilder#expireAfterWrite}. Note that {@code
-   *     CacheBuilder} is simply an enhanced API for an implementation which was branched from
-   *     {@code MapMaker}.
-   *     <b>This method is scheduled for deletion in July 2012.</b>
-   */
-  @Deprecated
-  @Override
-  public
-  MapMaker expiration(long duration, TimeUnit unit) {
-    return expireAfterWrite(duration, unit);
-  }
-
-  /**
    * Specifies that each entry should be automatically removed from the map once a fixed duration
    * has elapsed after the entry's creation, or the most recent replacement of its value.
    *
