@@ -442,7 +442,8 @@ public abstract class CharMatcher implements Predicate<Character> {
       case 2:
         final char match1 = sequence.charAt(0);
         final char match2 = sequence.charAt(1);
-        return new CharMatcher() {
+        return new CharMatcher(
+            new StringBuilder("CharMatcher.anyOf(\"").append(sequence).append("\")").toString()) {
           @Override public boolean matches(char c) {
             return c == match1 || c == match2;
           }
@@ -550,7 +551,10 @@ public abstract class CharMatcher implements Predicate<Character> {
 
   // Constructors
 
-  private CharMatcher(String description) {
+  /**
+   * Sets the {@code toString()} from the given description.
+   */
+  CharMatcher(String description) {
     this.description = description;
   }
 
@@ -717,9 +721,9 @@ public abstract class CharMatcher implements Predicate<Character> {
     } else if (totalCharacters == 1) {
       return is(chars[0]);
     } else if (totalCharacters < SmallCharMatcher.MAX_SIZE) {
-      return SmallCharMatcher.from(chars);
+      return SmallCharMatcher.from(chars, toString());
     } else if (totalCharacters < MediumCharMatcher.MAX_SIZE) {
-      return MediumCharMatcher.from(chars);
+      return MediumCharMatcher.from(chars, toString());
     }
     // Otherwise, make the full lookup table.
     final LookupTable table = new LookupTable();

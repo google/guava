@@ -88,9 +88,9 @@ public class CharMatcherBenchmark extends SimpleBenchmark {
   @Override protected void setUp() {
     this.matcher = precomputed ? config.matcher.precomputed() : config.matcher;
     if (size.equals("small") && this.matcher.slowGetChars().length <= SmallCharMatcher.MAX_SIZE) {
-      this.matcher = SmallCharMatcher.from(this.matcher.slowGetChars());
+      this.matcher = SmallCharMatcher.from(this.matcher.slowGetChars(), "");
     } else if (size.equals("medium")) {
-      this.matcher = MediumCharMatcher.from(this.matcher.slowGetChars());
+      this.matcher = MediumCharMatcher.from(this.matcher.slowGetChars(), "");
     }
     this.string = checkString(length, percent, config.matchingChars,
         new Random(), forceSlow, web);

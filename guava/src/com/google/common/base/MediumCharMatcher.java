@@ -32,7 +32,9 @@ final class MediumCharMatcher extends CharMatcher {
   private final boolean containsZero;
   private final long filter;
 
-  private MediumCharMatcher(char[] table, long filter, boolean containsZero) {
+  private MediumCharMatcher(char[] table, long filter, boolean containsZero,
+      String description) {
+    super(description);
     this.table = table;
     this.filter = filter;
     this.containsZero = containsZero;
@@ -75,7 +77,7 @@ final class MediumCharMatcher extends CharMatcher {
     return this;
   }
 
-  static CharMatcher from(char[] chars) {
+  static CharMatcher from(char[] chars, String description) {
     // Compute the filter.
     long filter = 0;
     int size = chars.length;
@@ -99,7 +101,7 @@ final class MediumCharMatcher extends CharMatcher {
         index = (index + 1) & mask;
       }
     }
-    return new MediumCharMatcher(table, filter, containsZero);
+    return new MediumCharMatcher(table, filter, containsZero, description);
   }
 
   @Override

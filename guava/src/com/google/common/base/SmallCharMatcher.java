@@ -35,7 +35,8 @@ final class SmallCharMatcher extends CharMatcher {
   final long filter;
 
   private SmallCharMatcher(char[] table, long filter, boolean containsZero,
-      boolean reprobe) {
+      boolean reprobe, String description) {
+    super(description);
     this.table = table;
     this.filter = filter;
     this.containsZero = containsZero;
@@ -72,7 +73,7 @@ final class SmallCharMatcher extends CharMatcher {
     return table;
   }
 
-  static CharMatcher from(char[] chars) {
+  static CharMatcher from(char[] chars, String description) {
     long filter = 0;
     int size = chars.length;
     boolean containsZero = false;
@@ -95,7 +96,7 @@ final class SmallCharMatcher extends CharMatcher {
       table = buildTable(MAX_TABLE_SIZE, chars, true);
       reprobe = true;
     }
-    return new SmallCharMatcher(table, filter, containsZero, reprobe);
+    return new SmallCharMatcher(table, filter, containsZero, reprobe, description);
   }
 
   @Override

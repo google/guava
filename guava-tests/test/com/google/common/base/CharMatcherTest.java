@@ -603,12 +603,15 @@ public class CharMatcherTest extends TestCase {
     // build a precomputed version.
     CharMatcher m1 = is('x');
     assertSame(m1, m1.precomputed());
+    assertSame(m1.toString(), m1.precomputed().toString());
 
     CharMatcher m2 = anyOf("Az");
     assertSame(m2, m2.precomputed());
+    assertSame(m2.toString(), m2.precomputed().toString());
 
     CharMatcher m3 = inRange('A', 'Z');
     assertSame(m3, m3.precomputed());
+    assertSame(m3.toString(), m3.precomputed().toString());
 
     assertSame(CharMatcher.NONE, CharMatcher.NONE.precomputed());
     assertSame(CharMatcher.ANY, CharMatcher.ANY.precomputed());
@@ -616,10 +619,10 @@ public class CharMatcherTest extends TestCase {
 
   @GwtIncompatible("java.util.Random")
   public void testSmallCharMatcher() {
-    CharMatcher len1 = SmallCharMatcher.from(new char[] {'#'});
-    CharMatcher len2 = SmallCharMatcher.from(new char[] {'a', 'b'});
-    CharMatcher len3 = SmallCharMatcher.from(new char[] {'a', 'b', 'c'});
-    CharMatcher len4 = SmallCharMatcher.from(new char[] {'a', 'b', 'c', 'd'});
+    CharMatcher len1 = SmallCharMatcher.from(new char[] {'#'}, "#");
+    CharMatcher len2 = SmallCharMatcher.from(new char[] {'a', 'b'}, "ab");
+    CharMatcher len3 = SmallCharMatcher.from(new char[] {'a', 'b', 'c'}, "abc");
+    CharMatcher len4 = SmallCharMatcher.from(new char[] {'a', 'b', 'c', 'd'}, "abcd");
     assertTrue(len1.matches('#'));
     assertFalse(len1.matches('!'));
     assertTrue(len2.matches('a'));
@@ -644,7 +647,7 @@ public class CharMatcherTest extends TestCase {
     Random rand = new Random(1234);
     for (int testCase = 0; testCase < 100; testCase++) {
       char[] chars = randomChars(rand, rand.nextInt(63) + 1);
-      CharMatcher m = SmallCharMatcher.from(chars);
+      CharMatcher m = SmallCharMatcher.from(chars, new String(chars));
       checkExactMatches(m, chars);
     }
   }
@@ -682,10 +685,10 @@ public class CharMatcherTest extends TestCase {
 
   @GwtIncompatible("java.util.Random")
   public void testMediumCharMatcher() {
-    CharMatcher len1 = MediumCharMatcher.from(new char[] {'#'});
-    CharMatcher len2 = MediumCharMatcher.from(new char[] {'a', 'b'});
-    CharMatcher len3 = MediumCharMatcher.from(new char[] {'a', 'b', 'c'});
-    CharMatcher len4 = MediumCharMatcher.from(new char[] {'a', 'b', 'c', 'd'});
+    CharMatcher len1 = MediumCharMatcher.from(new char[] {'#'}, "#");
+    CharMatcher len2 = MediumCharMatcher.from(new char[] {'a', 'b'}, "ab");
+    CharMatcher len3 = MediumCharMatcher.from(new char[] {'a', 'b', 'c'}, "abc");
+    CharMatcher len4 = MediumCharMatcher.from(new char[] {'a', 'b', 'c', 'd'}, "abcd");
     assertTrue(len1.matches('#'));
     assertFalse(len1.matches('!'));
     assertTrue(len2.matches('a'));
@@ -710,7 +713,7 @@ public class CharMatcherTest extends TestCase {
     Random rand = new Random(1234);
     for (int testCase = 0; testCase < 100; testCase++) {
       char[] chars = randomChars(rand, rand.nextInt(1023) + 1);
-      CharMatcher m = MediumCharMatcher.from(chars);
+      CharMatcher m = MediumCharMatcher.from(chars, new String(chars));
       checkExactMatches(m, chars);
     }
   }
@@ -763,6 +766,8 @@ public class CharMatcherTest extends TestCase {
       for (int j = 0; j < matches.length; j++) {
         assertEquals(matches[j], mchars[j]);
       }
+      // Check toString() is preserved.
+      assertEquals(m.toString(), m.precomputed().toString());
     }
   }
 }
