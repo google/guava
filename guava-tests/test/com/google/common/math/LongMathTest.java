@@ -148,10 +148,12 @@ public class LongMathTest extends TestCase {
     return accum;
   }
 
+  @GwtIncompatible("java.math.BigInteger")
   public void testIsPowerOfTwo() {
     for (long x : ALL_LONG_CANDIDATES) {
       // Checks for a single bit set.
-      boolean expected = x > 0 & (x & (x - 1)) == 0L;
+      BigInteger bigX = BigInteger.valueOf(x);
+      boolean expected = (bigX.signum() > 0) && (bigX.bitCount() == 1);
       assertEquals(expected, LongMath.isPowerOfTwo(x));
     }
   }

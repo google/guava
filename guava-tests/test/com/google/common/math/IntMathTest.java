@@ -96,10 +96,12 @@ public class IntMathTest extends TestCase {
     assertEquals(IntMath.sqrt(Integer.MAX_VALUE, FLOOR), IntMath.FLOOR_SQRT_MAX_INT);
   }
 
+  @GwtIncompatible("java.math.BigInteger")
   public void testIsPowerOfTwo() {
     for (int x : ALL_INTEGER_CANDIDATES) {
       // Checks for a single bit set.
-      boolean expected = x > 0 & (x & (x - 1)) == 0;
+      BigInteger bigX = BigInteger.valueOf(x);
+      boolean expected = (bigX.signum() > 0) && (bigX.bitCount() == 1);
       assertEquals(expected, IntMath.isPowerOfTwo(x));
     }
   }
