@@ -1421,6 +1421,49 @@ public class LocalCacheTest extends TestCase {
     }
   }
 
+  public void testGetCausesExpansion() throws ExecutionException {
+    for (int count = 1; count <= 100; count++) {
+      LocalCache<Object, Object> map =
+          makeLocalCache(createCacheBuilder().concurrencyLevel(1).initialCapacity(1));
+      Segment<Object, Object> segment = map.segments[0];
+      assertEquals(1, segment.table.length());
+
+      for (int i = 0; i < count; i++) {
+        Object key = new Object();
+        final Object value = new Object();
+        segment.get(key, key.hashCode(), new CacheLoader<Object, Object>() {
+          @Override
+          public Object load(Object key) {
+            return value;
+          }
+        });
+      }
+      assertEquals(count, segment.count);
+      assertTrue(count <= segment.threshold);
+      assertTrue(count <= (segment.table.length() * 3 / 4));
+      assertTrue(count > (segment.table.length() * 3 / 8));
+    }
+  }
+
+  public void testPutCausesExpansion() {
+    for (int count = 1; count <= 100; count++) {
+      LocalCache<Object, Object> map =
+          makeLocalCache(createCacheBuilder().concurrencyLevel(1).initialCapacity(1));
+      Segment<Object, Object> segment = map.segments[0];
+      assertEquals(1, segment.table.length());
+
+      for (int i = 0; i < count; i++) {
+        Object key = new Object();
+        Object value = new Object();
+        segment.put(key, key.hashCode(), value, true);
+      }
+      assertEquals(count, segment.count);
+      assertTrue(count <= segment.threshold);
+      assertTrue(count <= (segment.table.length() * 3 / 4));
+      assertTrue(count > (segment.table.length() * 3 / 8));
+    }
+  }
+
   public void testReclaimKey() {
     CountingRemovalListener<Object, Object> listener = countingRemovalListener();
     LocalCache<Object, Object> map = makeLocalCache(createCacheBuilder()

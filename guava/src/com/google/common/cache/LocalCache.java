@@ -3167,6 +3167,11 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
         preWriteCleanup(now);
 
         int newCount = this.count + 1;
+        if (newCount > this.threshold) { // ensure capacity
+          expand();
+          newCount = this.count + 1;
+        }
+
         AtomicReferenceArray<ReferenceEntry<K, V>> table = this.table;
         int index = hash & (table.length() - 1);
         ReferenceEntry<K, V> first = table.get(index);
