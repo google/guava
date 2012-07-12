@@ -123,6 +123,11 @@ public final class Suppliers {
       return value;
     }
 
+    @Override
+    public String toString() {
+      return "Suppliers.memoize(" + delegate + ")";
+    }
+
     private static final long serialVersionUID = 0;
   }
 
@@ -190,6 +195,14 @@ public final class Suppliers {
       return value;
     }
 
+    @Override
+    public String toString() {
+      // This is a little strange if the unit the user provided was not NANOS,
+      // but we don't want to store the unit just for toString
+      return "Suppliers.memoizeWithExpiration(" + delegate + ", " +
+          durationNanos + ", NANOS)";
+    }
+
     private static final long serialVersionUID = 0;
   }
 
@@ -207,10 +220,17 @@ public final class Suppliers {
     SupplierOfInstance(@Nullable T instance) {
       this.instance = instance;
     }
+
     @Override
     public T get() {
       return instance;
     }
+
+    @Override
+    public String toString() {
+      return "Suppliers.ofInstance(" + instance + ")";
+    }
+
     private static final long serialVersionUID = 0;
   }
 
@@ -229,12 +249,19 @@ public final class Suppliers {
     ThreadSafeSupplier(Supplier<T> delegate) {
       this.delegate = delegate;
     }
+
     @Override
     public T get() {
       synchronized (delegate) {
         return delegate.get();
       }
     }
+
+    @Override
+    public String toString() {
+      return "Suppliers.synchronizedSupplier(" + delegate + ")";
+    }
+
     private static final long serialVersionUID = 0;
   }
 
@@ -256,6 +283,11 @@ public final class Suppliers {
     @Override
     public Object apply(Supplier<?> input) {
       return input.get();
+    }
+
+    @Override
+    public String toString() {
+      return "Suppliers.supplierFunction()";
     }
   }
 }
