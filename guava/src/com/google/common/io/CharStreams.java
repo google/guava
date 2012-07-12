@@ -202,14 +202,11 @@ public final class CharStreams {
   public static long copy(Readable from, Appendable to) throws IOException {
     CharBuffer buf = CharBuffer.allocate(BUF_SIZE);
     long total = 0;
-    while (true) {
-      int r = from.read(buf);
-      if (r == -1) {
-        break;
-      }
+    while (from.read(buf) != -1) {
       buf.flip();
-      to.append(buf, 0, r);
-      total += r;
+      to.append(buf);
+      total += buf.remaining();
+      buf.clear();
     }
     return total;
   }

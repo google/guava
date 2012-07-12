@@ -21,6 +21,7 @@ import static com.google.common.io.CharStreams.copy;
 import static com.google.common.io.CharStreams.newReaderSupplier;
 
 import com.google.common.base.Charsets;
+import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.testing.TestLogHandler;
@@ -288,6 +289,38 @@ public class CharStreamsTest extends IoTestCase {
     assertEquals(expected, sw.toString());
   }
 
+  public void testCopy() throws IOException {
+    StringBuilder builder = new StringBuilder();
+    long copied = CharStreams.copy(new StringReader(ASCII), builder);
+    assertEquals(ASCII, builder.toString());
+    assertEquals(ASCII.length(), copied);
+
+    StringBuilder builder2 = new StringBuilder();
+    copied = CharStreams.copy(new StringReader(I18N), builder2);
+    assertEquals(I18N, builder2.toString());
+    assertEquals(I18N.length(), copied);
+  }
+
+  /**
+   * Test for Guava issue 1061: http://code.google.com/p/guava-libraries/issues/detail?id=1061
+   *
+   * <p>CharStreams.copy was failing to clear its CharBuffer after each read call, which effectively
+   * reduced the available size of the buffer each time a call to read didn't fill up the available
+   * space in the buffer completely. In general this is a performance problem since the buffer size
+   * is permanently reduced, but with certain Reader implementations it could also cause the buffer
+   * size to reach 0, causing an infinite loop.
+   */
+  public void testCopyWithReaderThatDoesNotFillBuffer() throws IOException {
+    // need a long enough string for the buffer to hit 0 remaining before the copy completes
+    String string = Strings.repeat("0123456789", 100);
+    StringBuilder b = new StringBuilder();
+    // the main assertion of this test is here... the copy will fail if the buffer size goes down
+    // each time it is not filled completely
+    long copied = CharStreams.copy(newNonBufferFillingReader(new StringReader(string)), b);
+    assertEquals(string, b.toString());
+    assertEquals(string.length(), copied);
+  }
+
   private static CheckCloseSupplier.Input<Reader> newCheckReader(
       InputSupplier<? extends Reader> delegate) {
     return new CheckCloseSupplier.Input<Reader>(delegate) {
@@ -312,6 +345,26 @@ public class CharStreamsTest extends IoTestCase {
             super.close();
           }
         };
+      }
+    };
+  }
+
+  /**
+   * Returns a reader wrapping the given reader that only reads half of the maximum number of
+   * characters that it could read in read(char[], int, int).
+   */
+  private static Reader newNonBufferFillingReader(Reader reader) {
+    return new FilterReader(reader) {
+      @Override
+      public int read(char[] cbuf, int off, int len) throws IOException {
+        // if a buffer isn't being cleared correctly, this method will eventually start being called
+        // with a len of 0 forever
+        if (len <= 0) {
+          fail("read called with a len of " + len);
+        }
+        // read fewer than the max number of chars to read
+        // shouldn't be a problem unless the buffer is shrinking each call
+        return in.read(cbuf, off, Math.max(len - 1024, 0));
       }
     };
   }
