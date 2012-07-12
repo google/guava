@@ -255,6 +255,10 @@ public abstract class Ordering<T> implements Comparator<T> {
     @Override public int compare(Object left, Object right) {
       if (left == right) {
         return 0;
+      } else if (left == null) {
+        return -1;
+      } else if (right == null) {
+        return 1;
       }
       int leftCode = identityHashCode(left);
       int rightCode = identityHashCode(right);
