@@ -62,10 +62,17 @@ public final class Suppliers {
       this.function = function;
       this.supplier = supplier;
     }
+
     @Override
     public T get() {
       return function.apply(supplier.get());
     }
+
+    @Override
+    public String toString() {
+      return "Suppliers.compose(" + function + ", " + supplier + ")";
+    }
+
     private static final long serialVersionUID = 0;
   }
 
