@@ -259,7 +259,19 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
    * @throws NullPointerException if any of {@code elements} is null
    */
   public static <E> ImmutableList<E> copyOf(Iterator<? extends E> elements) {
-    return copyFromCollection(Lists.newArrayList(elements));
+    // We special-case for 0 or 1 elements, but going further is madness.
+    if (!elements.hasNext()) {
+      return of();
+    }
+    E first = elements.next();
+    if (!elements.hasNext()) {
+      return of(first);
+    } else {
+      return new ImmutableList.Builder<E>()
+          .add(first)
+          .addAll(elements)
+          .build();
+    }
   }
 
   /**

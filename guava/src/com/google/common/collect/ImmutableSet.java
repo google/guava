@@ -310,9 +310,19 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E>
    * @throws NullPointerException if any of {@code elements} is null
    */
   public static <E> ImmutableSet<E> copyOf(Iterator<? extends E> elements) {
-    // TODO(benyu): here we could avoid toArray() for 0 or 1-element list,
-    // worth it?
-    return copyFromCollection(Lists.newArrayList(elements));
+    // We special-case for 0 or 1 elements, but anything further is madness.
+    if (!elements.hasNext()) {
+      return of();
+    }
+    E first = elements.next();
+    if (!elements.hasNext()) {
+      return of(first);
+    } else {
+      return new ImmutableSet.Builder<E>()
+          .add(first)
+          .addAll(elements)
+          .build();
+    }
   }
 
   /**
