@@ -577,6 +577,15 @@ public class LongMathTest extends TestCase {
     }
   }
 
+  // Helper method that asserts the arithmetic mean of x and y is equal
+  // to the expectedMean.
+
+  // Helper method that asserts the arithmetic mean of x and y is equal
+  // to the result of computeMeanSafely.
+
+  // Computes the mean in a way that is obvious and resilient to
+  // overflow by using BigInteger arithmetic.
+
   private boolean fitsInLong(BigInteger big) {
     return big.bitLength() <= 63;
   }
