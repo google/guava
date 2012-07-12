@@ -46,6 +46,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.SortedMap;
+import java.util.SortedSet;
 import java.util.TreeMap;
 import java.util.concurrent.ConcurrentMap;
 
@@ -609,22 +610,58 @@ public final class Maps {
    * of type {@code K}. Using a key type for which this may not hold, such as
    * {@code ArrayList}, may risk a {@code ClassCastException} when calling
    * methods on the resulting map view.
-   *
-   * @since 13.0
    */
   @Beta
   static <K, V> Map<K, V> asMap(
       Set<K> set, Function<? super K, V> function) {
-    // TODO(user): SortedSet, NavigableSet overloads
-    return new AsMapView<K, V>(set, function);
+    if (set instanceof SortedSet) {
+      return asMap((SortedSet<K>) set, function);
+    } else {
+      return new AsMapView<K, V>(set, function);
+    }
   }
 
-  private static final class AsMapView<K, V>
-      extends ImprovedAbstractMap<K, V> {
-    private final transient Set<K> set;
-    private final transient Function<? super K, V> function;
+  /**
+   * Returns a view of the sorted set as a map, mapping keys from the set
+   * according to the specified function.
+   *
+   * <p>Specifically, for each {@code k} in the backing set, the returned map
+   * has an entry mapping {@code k} to {@code function.apply(k)}. The {@code
+   * keySet}, {@code values}, and {@code entrySet} views of the returned map
+   * iterate in the same order as the backing set.
+   *
+   * <p>Modifications to the backing set are read through to the returned map.
+   * The returned map supports removal operations if the backing set does.
+   * Removal operations write through to the backing set.  The returned map does
+   * not support put operations.
+   *
+   * <p><b>Warning</b>: If the function rejects {@code null}, caution is
+   * required to make sure the set does not contain {@code null}, because the
+   * view cannot stop {@code null} from being added to the set.
+   *
+   * <p><b>Warning:</b> This method assumes that for any instance {@code k} of
+   * key type {@code K}, {@code k.equals(k2)} implies that {@code k2} is also of
+   * type {@code K}. Using a key type for which this may not hold, such as
+   * {@code ArrayList}, may risk a {@code ClassCastException} when calling
+   * methods on the resulting map view.
+   */
+  @Beta
+  static <K, V> SortedMap<K, V> asMap(
+      SortedSet<K> set, Function<? super K, V> function) {
+    // TODO: NavigableSet overloads
+    return new SortedAsMapView<K, V>(set, function);
+  }
 
-    private AsMapView(Set<K> set, Function<? super K, V> function) {
+  private static class AsMapView<K, V> extends ImprovedAbstractMap<K, V> {
+
+    private final Set<K> set;
+    final Function<? super K, V> function;
+
+    Set<K> backingSet() {
+      return set;
+    }
+
+    AsMapView(Set<K> set, Function<? super K, V> function) {
       this.set = checkNotNull(set);
       this.function = checkNotNull(function);
     }
@@ -669,7 +706,7 @@ public final class Maps {
     @Override
     public V get(@Nullable Object key) {
       if (set.contains(key)) {
-        @SuppressWarnings("unchecked") // unsafe, but Javadoc warns
+        @SuppressWarnings("unchecked") // unsafe, but Javadoc warns about it
         K k = (K) key;
         return function.apply(k);
       } else {
@@ -680,7 +717,7 @@ public final class Maps {
     @Override
     public V remove(@Nullable Object key) {
       if (set.remove(key)) {
-        @SuppressWarnings("unchecked") // known safe, since set contained it
+        @SuppressWarnings("unchecked") // unsafe, but Javadoc warns about it
         K k = (K) key;
         return function.apply(k);
       } else {
@@ -723,6 +760,49 @@ public final class Maps {
           };
         }
       };
+    }
+  }
+
+  private static final class SortedAsMapView<K, V> extends AsMapView<K, V>
+      implements SortedMap<K, V> {
+
+    SortedAsMapView(SortedSet<K> set, Function<? super K, V> function) {
+      super(set, function);
+    }
+
+    @Override
+    public Comparator<? super K> comparator() {
+      return backingSet().comparator();
+    }
+
+    @Override
+    public SortedMap<K, V> subMap(K fromKey, K toKey) {
+      return asMap(backingSet().subSet(fromKey, toKey), function);
+    }
+
+    @Override
+    public SortedMap<K, V> headMap(K toKey) {
+      return asMap(backingSet().headSet(toKey), function);
+    }
+
+    @Override
+    public SortedMap<K, V> tailMap(K fromKey) {
+      return asMap(backingSet().tailSet(fromKey), function);
+    }
+
+    @Override
+    public K firstKey() {
+      return backingSet().first();
+    }
+
+    @Override
+    public K lastKey() {
+      return backingSet().last();
+    }
+
+    @Override
+    SortedSet<K> backingSet() {
+      return (SortedSet<K>) super.backingSet();
     }
   }
 

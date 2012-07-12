@@ -65,6 +65,7 @@ import java.util.NavigableMap;
 import java.util.Properties;
 import java.util.Set;
 import java.util.SortedMap;
+import java.util.SortedSet;
 import java.util.TreeMap;
 import java.util.concurrent.ConcurrentMap;
 
@@ -662,6 +663,84 @@ public class MapsTest extends TestCase {
   public void testAsMapEmpty() {
     Set<String> strings = ImmutableSet.of();
     Map<String, Integer> map = Maps.asMap(strings, LENGTH_FUNCTION);
+    ASSERT.that(map.entrySet()).isEmpty();
+    assertTrue(map.isEmpty());
+    assertNull(map.get("five"));
+  }
+
+  private static class NonNavigableSortedSet
+      extends ForwardingSortedSet<String> {
+    private final SortedSet<String> delegate = Sets.newTreeSet();
+
+    @Override
+    protected SortedSet<String> delegate() {
+      return delegate;
+    }
+  }
+
+  public void testAsMapReturnsSortedMapForSortedSetInput() {
+    Set<String> set = new NonNavigableSortedSet();
+    assertTrue(Maps.asMap(set, Functions.identity()) instanceof SortedMap);
+  }
+
+  public void testAsMapSorted() {
+    SortedSet<String> strings = ImmutableSortedSet.of("one", "two", "three");
+    SortedMap<String, Integer> map = Maps.asMap(strings, LENGTH_FUNCTION);
+    assertEquals(ImmutableMap.of("one", 3, "two", 3, "three", 5), map);
+    assertEquals(Integer.valueOf(5), map.get("three"));
+    assertNull(map.get("five"));
+    ASSERT.that(map.entrySet()).hasContentsInOrder(
+        mapEntry("one", 3),
+        mapEntry("three", 5),
+        mapEntry("two", 3));
+    ASSERT.that(map.tailMap("onea").entrySet()).hasContentsInOrder(
+        mapEntry("three", 5),
+        mapEntry("two", 3));
+    ASSERT.that(map.subMap("one", "two").entrySet()).hasContentsInOrder(
+        mapEntry("one", 3),
+        mapEntry("three", 5));
+  }
+
+  public void testAsMapSortedReadsThrough() {
+    SortedSet<String> strings = Sets.newTreeSet();
+    Collections.addAll(strings, "one", "two", "three");
+    SortedMap<String, Integer> map = Maps.asMap(strings, LENGTH_FUNCTION);
+    assertNull(map.comparator());
+    assertEquals(ImmutableSortedMap.of("one", 3, "two", 3, "three", 5), map);
+    assertNull(map.get("four"));
+    strings.add("four");
+    assertEquals(
+        ImmutableSortedMap.of("one", 3, "two", 3, "three", 5, "four", 4),
+        map);
+    assertEquals(Integer.valueOf(4), map.get("four"));
+    SortedMap<String, Integer> headMap = map.headMap("two");
+    assertEquals(
+        ImmutableSortedMap.of("four", 4, "one", 3, "three", 5),
+        headMap);
+    strings.add("five");
+    strings.remove("one");
+    assertEquals(
+        ImmutableSortedMap.of("five", 4, "four", 4, "three", 5),
+        headMap);
+    ASSERT.that(map.entrySet()).hasContentsInOrder(
+        mapEntry("five", 4),
+        mapEntry("four", 4),
+        mapEntry("three", 5),
+        mapEntry("two", 3));
+  }
+
+  public void testAsMapSortedWritesThrough() {
+    Set<String> strings = Sets.newTreeSet();
+    Collections.addAll(strings, "one", "two", "three");
+    Map<String, Integer> map = Maps.asMap(strings, LENGTH_FUNCTION);
+    assertEquals(ImmutableMap.of("one", 3, "two", 3, "three", 5), map);
+    assertEquals(Integer.valueOf(3), map.remove("two"));
+    ASSERT.that(strings).hasContentsInOrder("one", "three");
+  }
+
+  public void testAsMapSortedEmpty() {
+    SortedSet<String> strings = ImmutableSortedSet.of();
+    SortedMap<String, Integer> map = Maps.asMap(strings, LENGTH_FUNCTION);
     ASSERT.that(map.entrySet()).isEmpty();
     assertTrue(map.isEmpty());
     assertNull(map.get("five"));
