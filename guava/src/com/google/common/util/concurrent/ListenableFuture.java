@@ -28,7 +28,7 @@ import java.util.concurrent.RejectedExecutionException;
  * computation is {@linkplain Future#isDone() complete}.  If the computation has
  * already completed when the listener is added, the listener will execute
  * immediately.
- *
+ * 
  * <p>See the Guava User Guide article on <a href=
  * "http://code.google.com/p/guava-libraries/wiki/ListenableFutureExplained">
  * {@code ListenableFuture}</a>.
@@ -102,20 +102,28 @@ public interface ListenableFuture<V> extends Future<V> {
    *
    * <p>Note: For fast, lightweight listeners that would be safe to execute in
    * any thread, consider {@link MoreExecutors#sameThreadExecutor}. For heavier
-   * listeners, {@code sameThreadExecutor()} carries some caveats: First, the
-   * thread that the listener runs in depends on whether the {@code Future} is
-   * done at the time it is added and on whether it is ever canclled. In
-   * particular, listeners may run in the thread that calls {@code addListener}
-   * or the thread that calls {@code cancel}. Second, listeners may run in an
-   * internal thread of the system responsible for the input {@code Future},
-   * such as an RPC network thread. Finally, during the execution of a {@code
-   * sameThreadExecutor()} listener, all other registered but unexecuted
-   * listeners are prevented from running, even if those listeners are to run
-   * in other executors.
+   * listeners, {@code sameThreadExecutor()} carries some caveats.  For
+   * example, the listener may run on an unpredictable or undesirable thread:
    *
-   * <p>This is the most general listener interface.
-   * For common operations performed using listeners,
-   * see {@link com.google.common.util.concurrent.Futures}
+   * <ul>
+   * <li>If the input {@code Future} is done at the time {@code addListener} is
+   * called, {@code addListener} will execute the listener inline.
+   * <li>If the input {@code Future} is not yet done, {@code addListener} will
+   * schedule the listener to be run by the thread that completes the input
+   * {@code Future}, which may be an internal system thread such as an RPC
+   * network thread.
+   * </ul>
+   *
+   * Also note that, regardless of which thread executes the listener, all
+   * other registered but unexecuted listeners are prevented from running
+   * during its execution, even if those listeners are to run in other
+   * executors.
+   *
+   * <p>This is the most general listener interface. For common operations
+   * performed using listeners, see {@link
+   * com.google.common.util.concurrent.Futures}. For a simplified but general
+   * listener interface, see {@link
+   * com.google.common.util.concurrent.Futures#addCallback addCallback()}.
    *
    * @param listener the listener to run when the computation is complete
    * @param executor the executor to run the listener in

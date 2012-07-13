@@ -179,20 +179,28 @@ public final class Futures {
    *       transform(rowKeyFuture, queryFunction);
    * }</pre>
    *
-   * <p>Note: This overload of {@code transform} is designed for cases in which
-   * the work of creating the derived {@code Future} is fast and lightweight,
-   * as the method does not accept an {@code Executor} in which to perform the
-   * the work. (The created {@code Future} itself need not complete quickly.)
-   * For heavier operations, this overload carries some caveats: First, the
-   * thread that {@code function.apply} runs in depends on whether the input
-   * {@code Future} is done at the time {@code transform} is called. In
-   * particular, if called late, {@code transform} will run the operation in
-   * the thread that called {@code transform}.  Second, {@code function.apply}
-   * may run in an internal thread of the system responsible for the input
-   * {@code Future}, such as an RPC network thread.  Finally, during the
-   * execution of a {@code sameThreadExecutor} {@code function.apply}, all
-   * other registered but unexecuted listeners are prevented from running, even
-   * if those listeners are to run in other executors.
+   * Note: If the derived {@code Future} is slow or heavyweight to create
+   * (whether the {@code Future} itself is slow or heavyweight to complete is
+   * irrelevant), consider {@linkplain #transform(ListenableFuture,
+   * AsyncFunction, Executor) supplying an executor}. If you do not supply an
+   * executor, {@code transform} will use {@link
+   * MoreExecutors#sameThreadExecutor sameThreadExecutor}, which carries some
+   * caveats for heavier operations. For example, the call to {@code
+   * function.apply} may run on an unpredictable or undesirable thread:
+   *
+   * <ul>
+   * <li>If the input {@code Future} is done at the time {@code transform} is
+   * called, {@code transform} will call {@code function.apply} inline.
+   * <li>If the input {@code Future} is not yet done, {@code transform} will
+   * schedule {@code function.apply} to be run by the thread that completes the
+   * input {@code Future}, which may be an internal system thread such as an
+   * RPC network thread.
+   * </ul>
+   *
+   * Also note that, regardless of which thread executes {@code
+   * function.apply}, all other registered but unexecuted listeners are
+   * prevented from running during its execution, even if those listeners are
+   * to run in other executors.
    *
    * <p>The returned {@code Future} attempts to keep its cancellation state in
    * sync with that of the input future and that of the future returned by the
@@ -239,20 +247,11 @@ public final class Futures {
    * cancelled, the returned {@code Future} will receive a callback in which it
    * will attempt to cancel itself.
    *
-   * <p>Note: For cases in which the work of creating the derived future is
-   * fast and lightweight, consider {@linkplain
-   * Futures#transform(ListenableFuture, Function) the other overload} or
-   * explicit use of {@code sameThreadExecutor}. For heavier derivations, this
-   * choice carries some caveats: First, the thread that {@code function.apply}
-   * runs in depends on whether the input {@code Future} is done at the time
-   * {@code transform} is called. In particular, if called late, {@code
-   * transform} will run the operation in the thread that called {@code
-   * transform}.  Second, {@code function.apply} may run in an internal thread
-   * of the system responsible for the input {@code Future}, such as an RPC
-   * network thread.  Finally, during the execution of a {@code
-   * sameThreadExecutor} {@code function.apply}, all other registered but
-   * unexecuted listeners are prevented from running, even if those listeners
-   * are to run in other executors.
+   * <p>When the execution of {@code function.apply} is fast and lightweight
+   * (though the {@code Future} it returns need not meet these criteria),
+   * consider {@linkplain #transform(ListenableFuture, AsyncFunction) omitting
+   * the executor} or explicitly specifying {@code sameThreadExecutor}.
+   * However, be aware of the caveats documented in the link above.
    *
    * @param input The future to transform
    * @param function A function to transform the result of the input future
@@ -288,19 +287,26 @@ public final class Futures {
    *       transform(queryFuture, rowsFunction);
    * }</pre>
    *
-   * <p>Note: This overload of {@code transform} is designed for cases in which
-   * the transformation is fast and lightweight, as the method does not accept
-   * an {@code Executor} in which to perform the the work. For heavier
-   * transformations, this overload carries some caveats: First, the thread
-   * that the transformation runs in depends on whether the input {@code
-   * Future} is done at the time {@code transform} is called. In particular, if
-   * called late, {@code transform} will perform the transformation in the
-   * thread that called {@code transform}. Second, transformations may run in
-   * an internal thread of the system responsible for the input {@code Future},
-   * such as an RPC network thread. Finally, during the execution of a {@code
-   * sameThreadExecutor} transformation, all other registered but unexecuted
-   * listeners are prevented from running, even if those listeners are to run
-   * in other executors.
+   * Note: If the transformation is slow or heavyweight, consider {@linkplain
+   * #transform(ListenableFuture, Function, Executor) supplying an executor}.
+   * If you do not supply an executor, {@code transform} will use {@link
+   * MoreExecutors#sameThreadExecutor sameThreadExecutor}, which carries some
+   * caveats for heavier operations.  For example, the call to {@code
+   * function.apply} may run on an unpredictable or undesirable thread:
+   *
+   * <ul>
+   * <li>If the input {@code Future} is done at the time {@code transform} is
+   * called, {@code transform} will call {@code function.apply} inline.
+   * <li>If the input {@code Future} is not yet done, {@code transform} will
+   * schedule {@code function.apply} to be run by the thread that completes the
+   * input {@code Future}, which may be an internal system thread such as an
+   * RPC network thread.
+   * </ul>
+   *
+   * Also note that, regardless of which thread executes {@code
+   * function.apply}, all other registered but unexecuted listeners are
+   * prevented from running during its execution, even if those listeners are
+   * to run in other executors.
    *
    * <p>The returned {@code Future} attempts to keep its cancellation state in
    * sync with that of the input future. That is, if the returned {@code Future}
@@ -349,20 +355,10 @@ public final class Futures {
    * <p>An example use of this method is to convert a serializable object
    * returned from an RPC into a POJO.
    *
-   * <p>Note: For cases in which the transformation is fast and lightweight,
-   * consider {@linkplain Futures#transform(ListenableFuture, Function) the
-   * other overload} or explicit use of {@link
-   * MoreExecutors#sameThreadExecutor}. For heavier transformations, this
-   * choice carries some caveats: First, the thread that the transformation
-   * runs in depends on whether the input {@code Future} is done at the time
-   * {@code transform} is called. In particular, if called late, {@code
-   * transform} will perform the transformation in the thread that called
-   * {@code transform}.  Second, transformations may run in an internal thread
-   * of the system responsible for the input {@code Future}, such as an RPC
-   * network thread.  Finally, during the execution of a {@code
-   * sameThreadExecutor} transformation, all other registered but unexecuted
-   * listeners are prevented from running, even if those listeners are to run
-   * in other executors.
+   * <p>When the transformation is fast and lightweight, consider {@linkplain
+   * #transform(ListenableFuture, Function) omitting the executor} or
+   * explicitly specifying {@code sameThreadExecutor}. However, be aware of the
+   * caveats documented in the link above.
    *
    * @param input The future to transform
    * @param function A Function to transform the results of the provided future
@@ -592,7 +588,7 @@ public final class Futures {
    * is very lightweight and therefore takes place in the thread that called
    * {@code dereference}.
    *
-   * @param input The nested future to transform.
+   * @param nested The nested future to transform.
    * @return A future that holds result of the inner future.
    * @since 13.0
    */
@@ -720,19 +716,26 @@ public final class Futures {
    *       }
    *     });}</pre>
    *
-   * <p>Note: This overload of {@code addCallback} is designed for cases in
-   * which the callack is fast and lightweight, as the method does not accept
-   * an {@code Executor} in which to perform the the work. For heavier
-   * callbacks, this overload carries some caveats: First, the thread that the
-   * callback runs in depends on whether the input {@code Future} is done at the
-   * time {@code addCallback} is called and on whether the input {@code Future}
-   * is ever cancelled. In particular, {@code addCallback} may execute the
-   * callback in the thread that calls {@code addCallback} or {@code
-   * Future.cancel}. Second, callbacks may run in an internal thread of the
-   * system responsible for the input {@code Future}, such as an RPC network
-   * thread. Finally, during the execution of a {@code sameThreadExecutor}
-   * callback, all other registered but unexecuted listeners are prevented from
-   * running, even if those listeners are to run in other executors.
+   * Note: If the callback is slow or heavyweight, consider {@linkplain
+   * #addCallback(ListenableFuture, FutureCallback, Executor) supplying an
+   * executor}. If you do not supply an executor, {@code addCallback} will use
+   * {@link MoreExecutors#sameThreadExecutor sameThreadExecutor}, which carries
+   * some caveats for heavier operations. For example, the callback may run on
+   * an unpredictable or undesirable thread:
+   *
+   * <ul>
+   * <li>If the input {@code Future} is done at the time {@code addCallback} is
+   * called, {@code addCallback} will execute the callback inline.
+   * <li>If the input {@code Future} is not yet done, {@code addCallback} will
+   * schedule the callback to be run by the thread that completes the input
+   * {@code Future}, which may be an internal system thread such as an RPC
+   * network thread.
+   * </ul>
+   *
+   * Also note that, regardless of which thread executes the callback, all
+   * other registered but unexecuted listeners are prevented from running
+   * during its execution, even if those listeners are to run in other
+   * executors.
    *
    * <p>For a more general interface to attach a completion listener to a
    * {@code Future}, see {@link ListenableFuture#addListener addListener}.
@@ -769,20 +772,10 @@ public final class Futures {
    *       }
    *     });}</pre>
    *
-   * When the callback is fast and lightweight consider {@linkplain
-   * Futures#addCallback(ListenableFuture, FutureCallback) the other overload}
-   * or explicit use of {@link MoreExecutors#sameThreadExecutor
-   * sameThreadExecutor}. For heavier callbacks, this choice carries some
-   * caveats: First, the thread that the callback runs in depends on whether
-   * the input {@code Future} is done at the time {@code addCallback} is called
-   * and on whether the input {@code Future} is ever cancelled. In particular,
-   * {@code addCallback} may execute the callback in the thread that calls
-   * {@code addCallback} or {@code Future.cancel}. Second, callbacks may run in
-   * an internal thread of the system responsible for the input {@code Future},
-   * such as an RPC network thread. Finally, during the execution of a {@code
-   * sameThreadExecutor} callback, all other registered but unexecuted
-   * listeners are prevented from running, even if those listeners are to run
-   * in other executors.
+   * When the callback is fast and lightweight, consider {@linkplain
+   * #addCallback(ListenableFuture, FutureCallback) omitting the executor} or
+   * explicitly specifying {@code sameThreadExecutor}. However, be aware of the
+   * caveats documented in the link above.
    *
    * <p>For a more general interface to attach a completion listener to a
    * {@code Future}, see {@link ListenableFuture#addListener addListener}.
