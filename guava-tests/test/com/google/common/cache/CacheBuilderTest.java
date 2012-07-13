@@ -531,7 +531,7 @@ public class CacheBuilderTest extends TestCase {
   @GwtIncompatible("removalListener")
 
   public void testRemovalNotification_get_basher() throws InterruptedException {
-    int nTasks = 3000;
+    int nTasks = 1000;
     int nThreads = 100;
     final int getsPerTask = 1000;
     final int nUniqueKeys = 10000;
