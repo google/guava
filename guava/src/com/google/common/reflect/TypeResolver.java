@@ -20,6 +20,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 
+import com.google.common.annotations.Beta;
 import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
@@ -40,19 +41,20 @@ import javax.annotation.Nullable;
  * An object of this class encapsulates type mappings from type variables. Mappings are established
  * with {@link #where} and types are resolved using {@link #resolveType}.
  *
- * <p>This class is usually used by reflection-based frameworks to resolve complex type mapping.
- * It's always preferable to use {@link TypeToken#resolveType} whenever possible because it's
- * easier to use and type safer.
+ * <p>Note that usually type mappings are already implied by the static type hierarchy (for example,
+ * the {@code E} type variable declared by class {@code List} naturally maps to {@code String} in
+ * the context of {@code class MyStringList implements List<String>}. In such case, prefer to use
+ * {@link TypeToken#resolveType} since it's simpler and more type safe. This class should only be
+ * used when the type mapping isn't implied by the static type hierarchy, but provided through other
+ * means such as an annotation or external configuration file.
  *
  * @author Ben Yu
+ * @since 14.0
  */
-class TypeResolver {
+@Beta
+public class TypeResolver {
 
   private final ImmutableMap<TypeVariable<?>, Type> typeTable;
-
-  static TypeResolver accordingTo(Type type) {
-    return new TypeResolver().where(TypeMappingIntrospector.getTypeMappings(type));
-  }
 
   public TypeResolver() {
     this.typeTable = ImmutableMap.of();
@@ -60,6 +62,35 @@ class TypeResolver {
 
   private TypeResolver(ImmutableMap<TypeVariable<?>, Type> typeTable) {
     this.typeTable = typeTable;
+  }
+
+  static TypeResolver accordingTo(Type type) {
+    return new TypeResolver().where(TypeMappingIntrospector.getTypeMappings(type));
+  }
+
+  /**
+   * Returns a new {@code TypeResolver} with type variables in {@code formal} mapping to types in
+   * {@code actual}.
+   *
+   * <p>For example, if {@code formal} is a {@code TypeVariable T}, and {@code actual} is {@code
+   * String.class}, then {@code new TypeResolver().where(formal, actual)} will {@linkplain
+   * #resolveType resolve} {@code ParameterizedType List<T>} to {@code List<String>}, and resolve
+   * {@code Map<T, Something>} to {@code Map<String, Something>} etc. Similarly, {@code formal} and
+   * {@code actual} can be {@code Map<K, V>} and {@code Map<String, Integer>} respectively, or they
+   * can be {@code E[]} and {@code String[]} respectively, or even any arbitrary combination
+   * thereof.
+   *
+   * @param formal The type whose type variables or itself is mapped to other type(s). It's almost
+   *        always a bug if {@code formal} isn't a type variable and contains no type variable. Make
+   *        sure you are passing the two parameters in the right order.
+   * @param actual The type that the formal type variable(s) are mapped to. It can be or contain yet
+   *        other type variables, in which case these type variables will be further resolved if
+   *        corresponding mappings exist in the current {@code TypeResolver} instance.
+   */
+  public final TypeResolver where(Type formal, Type actual) {
+    Map<TypeVariable<?>, Type> mappings = Maps.newHashMap();
+    populateTypeMappings(mappings, formal, actual);
+    return where(mappings);
   }
 
   /** Returns a new {@code TypeResolver} with {@code variable} mapping to {@code type}. */
@@ -73,18 +104,6 @@ class TypeResolver {
       builder.put(variable, type);
     }
     return new TypeResolver(builder.build());
-  }
-
-  /**
-   * Returns a new {@code TypeResolver} with type variables in {@code mapFrom} mapping to types in
-   * {@code type}. Either {@code mapFrom} is a type variable, or {@code mapFrom} and {@code mapTo}
-   * are both {@link ParameterizedType} of the same raw type, or {@link GenericArrayType} of the
-   * same component type.
-   */
-  public final TypeResolver where(Type mapFrom, Type mapTo) {
-    Map<TypeVariable<?>, Type> mappings = Maps.newHashMap();
-    populateTypeMappings(mappings, mapFrom, mapTo);
-    return where(mappings);
   }
 
   private static void populateTypeMappings(
@@ -135,7 +154,7 @@ class TypeResolver {
    * Resolves all type variables in {@code type} and all downstream types and
    * returns a corresponding type with type variables resolved.
    */
-  final Type resolveType(Type type) {
+  public final Type resolveType(Type type) {
     if (type instanceof TypeVariable) {
       return resolveTypeVariable((TypeVariable<?>) type);
     } else if (type instanceof ParameterizedType) {
