@@ -310,7 +310,8 @@ public final class LinkedHashMultimap<K, V> extends AbstractSetMultimap<K, V> {
     return super.values();
   }
 
-  private final class ValueSet extends Sets.ImprovedAbstractSet<V> implements ValueSetLink<K, V> {
+  @VisibleForTesting
+  final class ValueSet extends Sets.ImprovedAbstractSet<V> implements ValueSetLink<K, V> {
     /*
      * We currently use a fixed load factor of 1.0, a bit higher than normal to reduce memory
      * consumption.
@@ -440,6 +441,13 @@ public final class LinkedHashMultimap<K, V> extends AbstractSetMultimap<K, V> {
       return false;
     }
 
+    /**
+     * The threshold above which the hash table should be rebuilt.
+     */
+    @VisibleForTesting int threshold() {
+      return hashTable.length; // load factor of 1.0
+    }
+
     @Override
     public boolean add(@Nullable V value) {
       int hash = (value == null) ? 0 : value.hashCode();
@@ -466,7 +474,7 @@ public final class LinkedHashMultimap<K, V> extends AbstractSetMultimap<K, V> {
     }
 
     private void rehashIfNecessary() {
-      if (size > hashTable.length && hashTable.length < MAX_VALUE_SET_TABLE_SIZE) {
+      if (size > threshold() && hashTable.length < MAX_VALUE_SET_TABLE_SIZE) {
         @SuppressWarnings("unchecked")
         ValueEntry<K, V>[] hashTable = new ValueEntry[this.hashTable.length * 2];
         this.hashTable = hashTable;

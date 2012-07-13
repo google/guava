@@ -48,6 +48,19 @@ public class LinkedHashMultimapTest extends AbstractSetMultimapTest {
     return LinkedHashMultimap.create();
   }
 
+  public void testValueSetHashTableExpansion() {
+    LinkedHashMultimap<String, Integer> multimap = LinkedHashMultimap.create();
+    for (int z = 1; z <= 100; z++) {
+      multimap.put("a", z);
+      // The Eclipse compiler (and hence GWT) rejects a parameterized cast.
+      @SuppressWarnings("unchecked")
+      LinkedHashMultimap<String, Integer>.ValueSet valueSet =
+          (LinkedHashMultimap.ValueSet) multimap.backingMap().get("a");
+      assertEquals(z, valueSet.size());
+      assertTrue(valueSet.size() <= valueSet.threshold());
+    }
+  }
+
   private Multimap<String, Integer> initializeMultimap5() {
     Multimap<String, Integer> multimap = getMultimap();
     multimap.put("foo", 5);
