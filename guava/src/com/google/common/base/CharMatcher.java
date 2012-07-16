@@ -497,10 +497,6 @@ public abstract class CharMatcher implements Predicate<Character> {
 
   static CharMatcher inRange(final char startInclusive, final char endInclusive,
       String description) {
-    char[] chars = new char[endInclusive - startInclusive + 1];
-    for (int i = startInclusive; i <= endInclusive; i++) {
-      chars[i - startInclusive] = (char) i;
-    }
     return new CharMatcher(description) {
       @Override public boolean matches(char c) {
         return startInclusive <= c && c <= endInclusive;
