@@ -73,7 +73,7 @@ final class RegularImmutableSortedSet<E> extends ImmutableSortedSet<E> {
       return false;
     }
     try {
-      return binarySearch(o) >= 0;
+      return unsafeBinarySearch(o) >= 0;
     } catch (ClassCastException e) {
       return false;
     }
@@ -125,18 +125,8 @@ final class RegularImmutableSortedSet<E> extends ImmutableSortedSet<E> {
     return false;
   }
 
-  private int binarySearch(Object key) {
-    // TODO(kevinb): split this into binarySearch(E) and
-    // unsafeBinarySearch(Object), use each appropriately. name all methods that
-    // might throw CCE "unsafe*".
-
-    // Pretend the comparator can compare anything. If it turns out it can't
-    // compare a and b, we should get a CCE on the subsequent line. Only methods
-    // that are spec'd to throw CCE should call this.
-    @SuppressWarnings("unchecked")
-    Comparator<Object> unsafeComparator = (Comparator<Object>) comparator;
-
-    return Collections.binarySearch(elements, key, unsafeComparator);
+  private int unsafeBinarySearch(Object key) throws ClassCastException {
+    return Collections.binarySearch(elements, key, unsafeComparator());
   }
 
   @Override boolean isPartialView() {
@@ -246,14 +236,13 @@ final class RegularImmutableSortedSet<E> extends ImmutableSortedSet<E> {
     }
   }
 
-  @SuppressWarnings("unchecked")
   @Override int indexOf(@Nullable Object target) {
     if (target == null) {
       return -1;
     }
     int position;
     try {
-      position = SortedLists.binarySearch(elements, (E) target, comparator(),
+      position = SortedLists.binarySearch(elements, target, unsafeComparator(),
           ANY_PRESENT, INVERTED_INSERTION_INDEX);
     } catch (ClassCastException e) {
       return -1;

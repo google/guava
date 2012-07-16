@@ -282,13 +282,9 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableSortedMultiset
    *
    * @throws NullPointerException if {@code sortedMultiset} or any of its elements is null
    */
-  @SuppressWarnings("unchecked")
   public static <E> ImmutableSortedMultiset<E> copyOfSorted(SortedMultiset<E> sortedMultiset) {
-    Comparator<? super E> comparator = sortedMultiset.comparator();
-    if (comparator == null) {
-      comparator = (Comparator<? super E>) NATURAL_ORDER;
-    }
-    return copyOfSortedEntries(comparator, Lists.newArrayList(sortedMultiset.entrySet()));
+    return copyOfSortedEntries(sortedMultiset.comparator(),
+        Lists.newArrayList(sortedMultiset.entrySet()));
   }
 
   private static <E> ImmutableSortedMultiset<E> copyOfSortedEntries(

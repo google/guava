@@ -23,7 +23,6 @@ import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Function;
-import com.google.common.base.Objects;
 import com.google.common.base.Optional;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Predicate;
@@ -32,7 +31,6 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -1028,37 +1026,6 @@ public final class Iterables {
       return ((Collection<?>) iterable).isEmpty();
     }
     return !iterable.iterator().hasNext();
-  }
-
-  // Non-public
-
-  /**
-   * Removes the specified element from the specified iterable.
-   *
-   * <p>This method iterates over the iterable, checking each element returned
-   * by the iterator in turn to see if it equals the object {@code o}. If they
-   * are equal, it is removed from the iterable with the iterator's
-   * {@code remove} method. At most one element is removed, even if the iterable
-   * contains multiple members that equal {@code o}.
-   *
-   * <p><b>Warning:</b> Do not use this method for a collection, such as a
-   * {@link HashSet}, that has a fast {@code remove} method.
-   *
-   * @param iterable the iterable from which to remove
-   * @param o an element to remove from the collection
-   * @return {@code true} if the iterable changed as a result
-   * @throws UnsupportedOperationException if the iterator does not support the
-   *     {@code remove} method and the iterable contains the object
-   */
-  static boolean remove(Iterable<?> iterable, @Nullable Object o) {
-    Iterator<?> i = iterable.iterator();
-    while (i.hasNext()) {
-      if (Objects.equal(i.next(), o)) {
-        i.remove();
-        return true;
-      }
-    }
-    return false;
   }
 
   /**

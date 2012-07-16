@@ -17,15 +17,8 @@ package com.google.common.collect;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.base.Function;
-import com.google.common.collect.Multiset.Entry;
 
-import java.util.Collection;
-import java.util.Collections;
 import java.util.Comparator;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
 import java.util.SortedSet;
 
 /**
@@ -46,94 +39,22 @@ final class SortedIterables {
     checkNotNull(elements);
     Comparator<?> comparator2;
     if (elements instanceof SortedSet) {
-      SortedSet<?> sortedSet = (SortedSet<?>) elements;
-      comparator2 = sortedSet.comparator();
-      if (comparator2 == null) {
-        comparator2 = (Comparator) Ordering.natural();
-      }
+      comparator2 = comparator((SortedSet<?>) elements);
     } else if (elements instanceof SortedIterable) {
       comparator2 = ((SortedIterable<?>) elements).comparator();
     } else {
-      comparator2 = null;
+      return false;
     }
     return comparator.equals(comparator2);
   }
 
-  /**
-   * Returns a collection of multiset entries representing the counts of the distinct elements, in
-   * sorted order. Does not check for null.
-   */
-  public static <E> Collection<Multiset.Entry<E>> sortedCounts(
-      Comparator<? super E> comparator, Iterator<E> elements) {
-    TreeMultiset<E> multiset = TreeMultiset.create(comparator);
-    Iterators.addAll(multiset, elements);
-    return multiset.entrySet();
-  }
-
-  /**
-   * Returns a collection of multiset entries representing the counts of the distinct elements, in
-   * sorted order. Does not check for null.
-   */
-  public static <E> Collection<Multiset.Entry<E>> sortedCounts(
-      Comparator<? super E> comparator, Iterable<E> elements) {
-    if (elements instanceof Multiset) {
-      Multiset<E> multiset = (Multiset<E>) elements;
-      if (hasSameComparator(comparator, elements)) {
-        return multiset.entrySet();
-      }
-      List<Multiset.Entry<E>> entries = Lists.newArrayList(multiset.entrySet());
-      Collections.sort(
-          entries, Ordering.from(comparator).onResultOf(new Function<Multiset.Entry<E>, E>() {
-            @Override
-            public E apply(Entry<E> entry) {
-              return entry.getElement();
-            }
-          }));
-      return entries;
-    } else if (elements instanceof Set) { // known distinct
-      Collection<E> sortedElements;
-      if (hasSameComparator(comparator, elements)) {
-        sortedElements = (Collection<E>) elements;
-      } else {
-        List<E> list = Lists.newArrayList(elements);
-        Collections.sort(list, comparator);
-        sortedElements = list;
-      }
-      return singletonEntries(sortedElements);
-    } else if (hasSameComparator(comparator, elements)) {
-      E current = null;
-      int currentCount = 0;
-      List<Multiset.Entry<E>> sortedEntries = Lists.newArrayList();
-      for (E e : elements) {
-        if (currentCount > 0) {
-          if (comparator.compare(current, e) == 0) {
-            currentCount++;
-          } else {
-            sortedEntries.add(Multisets.immutableEntry(current, currentCount));
-            current = e;
-            currentCount = 1;
-          }
-        } else {
-          current = e;
-          currentCount = 1;
-        }
-      }
-      if (currentCount > 0) {
-        sortedEntries.add(Multisets.immutableEntry(current, currentCount));
-      }
-      return sortedEntries;
+  @SuppressWarnings("unchecked")
+  // if sortedSet.comparator() is null, the set must be naturally ordered
+  public static <E> Comparator<? super E> comparator(SortedSet<E> sortedSet) {
+    Comparator<? super E> result = sortedSet.comparator();
+    if (result == null) {
+      result = (Comparator<? super E>) Ordering.natural();
     }
-    TreeMultiset<E> multiset = TreeMultiset.create(comparator);
-    Iterables.addAll(multiset, elements);
-    return multiset.entrySet();
-  }
-
-  static <E> Collection<Multiset.Entry<E>> singletonEntries(Collection<E> set) {
-    return Collections2.transform(set, new Function<E, Multiset.Entry<E>>() {
-      @Override
-      public Entry<E> apply(E elem) {
-        return Multisets.immutableEntry(elem, 1);
-      }
-    });
+    return result;
   }
 }

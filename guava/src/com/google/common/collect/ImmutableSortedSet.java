@@ -394,12 +394,8 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSortedSetFauxveride
    * @throws NullPointerException if {@code sortedSet} or any of its elements
    *     is null
    */
-  @SuppressWarnings("unchecked")
   public static <E> ImmutableSortedSet<E> copyOfSorted(SortedSet<E> sortedSet) {
-    Comparator<? super E> comparator = sortedSet.comparator();
-    if (comparator == null) {
-      comparator = (Comparator<? super E>) NATURAL_ORDER;
-    }
+    Comparator<? super E> comparator = SortedIterables.comparator(sortedSet);
     E[] elements = (E[]) sortedSet.toArray();
     if (elements.length == 0) {
       return emptySet(comparator);

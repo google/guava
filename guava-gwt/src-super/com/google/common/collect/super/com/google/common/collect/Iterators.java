@@ -1097,25 +1097,6 @@ public final class Iterators {
   }
 
   /**
-   * Returns an iterator containing the elements in the specified range of
-   * {@code array} in order. The returned iterator is a view of the array;
-   * subsequent changes to the array will be reflected in the iterator.
-   *
-   * <p>The {@code Iterable} equivalent of this method is {@code
-   * Arrays.asList(array).subList(offset, offset + length)}.
-   *
-   * @param array array to read elements out of
-   * @param offset index of first array element to retrieve
-   * @param length number of elements in iteration
-   * @throws IndexOutOfBoundsException if {@code offset} is negative, {@code
-   *     length} is negative, or {@code offset + length > array.length}
-   */
-  static <T> UnmodifiableIterator<T> forArray(
-      final T[] array, final int offset, int length) {
-    return forArray(array, offset, length, 0);
-  }
-
-  /**
    * Returns a list iterator containing the elements in the specified range of
    * {@code array} in order, starting at the specified index.
    *
