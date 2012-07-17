@@ -20,7 +20,6 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 
-import com.google.common.annotations.Beta;
 import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
@@ -49,10 +48,8 @@ import javax.annotation.Nullable;
  * means such as an annotation or external configuration file.
  *
  * @author Ben Yu
- * @since 14.0
  */
-@Beta
-public class TypeResolver {
+class TypeResolver {
 
   private final ImmutableMap<TypeVariable<?>, Type> typeTable;
 
