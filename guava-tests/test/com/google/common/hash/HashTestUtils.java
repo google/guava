@@ -171,6 +171,52 @@ final class HashTestUtils {
           sink.putBytes(value);
         }
       }
+    },
+    PUT_STRING() {
+      @Override void performAction(Random random, Iterable<? extends PrimitiveSink> sinks) {
+        char[] value = new char[random.nextInt(128)];
+        for (int i = 0; i < value.length; i++) {
+          value[i] = (char) random.nextInt();
+        }
+        String s = new String(value);
+        for (PrimitiveSink sink : sinks) {
+          sink.putString(s);
+        }
+      }
+    },
+    PUT_STRING_LOW_SURROGATE() {
+      @Override void performAction(Random random, Iterable<? extends PrimitiveSink> sinks) {
+        String s = new String(new char[] { randomLowSurrogate(random) });
+        for (PrimitiveSink sink : sinks) {
+          sink.putString(s);
+        }
+      }
+    },
+    PUT_STRING_HIGH_SURROGATE() {
+      @Override void performAction(Random random, Iterable<? extends PrimitiveSink> sinks) {
+        String s = new String(new char[] { randomHighSurrogate(random) });
+        for (PrimitiveSink sink : sinks) {
+          sink.putString(s);
+        }
+      }
+    },
+    PUT_STRING_LOW_HIGH_SURROGATE() {
+      @Override void performAction(Random random, Iterable<? extends PrimitiveSink> sinks) {
+        String s = new String(new char[] {
+            randomLowSurrogate(random), randomHighSurrogate(random)});
+        for (PrimitiveSink sink : sinks) {
+          sink.putString(s);
+        }
+      }
+    },
+    PUT_STRING_HIGH_LOW_SURROGATE() {
+      @Override void performAction(Random random, Iterable<? extends PrimitiveSink> sinks) {
+        String s = new String(new char[] {
+            randomHighSurrogate(random), randomLowSurrogate(random)});
+        for (PrimitiveSink sink : sinks) {
+          sink.putString(s);
+        }
+      }
     };
 
     abstract void performAction(Random random, Iterable<? extends PrimitiveSink> sinks);
@@ -181,7 +227,7 @@ final class HashTestUtils {
       return actions[random.nextInt(actions.length)];
     }
   }
-
+  
   /**
    * Test that the hash function contains no funnels. A funnel is a situation where a set of input
    * (key) bits 'affects' a strictly smaller set of output bits. Funneling is bad because it can
@@ -381,7 +427,7 @@ final class HashTestUtils {
 
     assertHashBytesThrowsCorrectExceptions(hashFunction);
     assertIndependentHashers(hashFunction);
-    assertShortcutsAreEquivalent(hashFunction, 256);
+    assertShortcutsAreEquivalent(hashFunction, 512);
   }
 
   static void assertHashBytesThrowsCorrectExceptions(HashFunction hashFunction) {
@@ -436,6 +482,7 @@ final class HashTestUtils {
       assertHashIntEquivalence(hashFunction, random);
       assertHashLongEquivalence(hashFunction, random);
       assertHashStringEquivalence(hashFunction, random);
+      assertHashStringWithSurrogatesEquivalence(hashFunction, random);
     }
   }
 
@@ -487,5 +534,32 @@ final class HashTestUtils {
       assertEquals(hashFunction.hashString(string, charset),
           hashFunction.newHasher().putString(string, charset).hash());
     }
+  }
+
+  /**
+   * This verifies that putString(String) and hashString(String) are equivalent, even for
+   * funny strings composed by (possibly unmatched, and mostly illegal) surrogate characters.
+   * (But doesn't test that they do the right thing - just their consistency).
+   */
+  private static void assertHashStringWithSurrogatesEquivalence(
+      HashFunction hashFunction, Random random) {
+    int size = random.nextInt(8) + 1;
+    char[] chars = new char[size];
+    for (int i = 0; i < chars.length; i++) {
+      chars[i] = random.nextBoolean() ? randomLowSurrogate(random) : randomHighSurrogate(random);
+    }
+    String string = new String(chars);
+    assertEquals(hashFunction.hashString(string),
+        hashFunction.newHasher().putString(string).hash());
+  }
+
+  static char randomLowSurrogate(Random random) {
+    return (char) (Character.MIN_LOW_SURROGATE
+        + random.nextInt(Character.MAX_LOW_SURROGATE - Character.MIN_LOW_SURROGATE + 1));
+  }
+
+  static char randomHighSurrogate(Random random) {
+    return (char) (Character.MIN_HIGH_SURROGATE
+        + random.nextInt(Character.MAX_HIGH_SURROGATE - Character.MIN_HIGH_SURROGATE + 1));
   }
 }

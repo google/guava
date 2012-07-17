@@ -241,6 +241,7 @@ public class AbstractStreamingHasherTest extends TestCase {
     }
   }
 
+  // Assumes that AbstractNonStreamingHashFunction works properly (must be tested elsewhere!)
   private static class Control extends AbstractNonStreamingHashFunction {
     @Override
     public HashCode hashBytes(byte[] input) {

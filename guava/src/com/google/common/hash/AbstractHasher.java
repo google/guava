@@ -14,8 +14,6 @@
 
 package com.google.common.hash;
 
-import com.google.common.base.Charsets;
-
 import java.nio.charset.Charset;
 
 /**
@@ -39,8 +37,10 @@ abstract class AbstractHasher implements Hasher {
   }
 
   @Override public Hasher putString(CharSequence charSequence) {
-    // TODO(user): Should we instead loop over the CharSequence and call #putChar?
-    return putString(charSequence, Charsets.UTF_16LE);
+    for (int i = 0, len = charSequence.length(); i < len; i++) {
+      putChar(charSequence.charAt(i));
+    }
+    return this;
   }
 
   @Override public Hasher putString(CharSequence charSequence, Charset charset) {

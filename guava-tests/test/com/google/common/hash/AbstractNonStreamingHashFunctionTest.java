@@ -36,7 +36,7 @@ public class AbstractNonStreamingHashFunctionTest extends TestCase {
    * Constructs two trivial HashFunctions (output := input), one streaming and one non-streaming,
    * and checks that their results are identical, no matter which newHasher version we used.
    */
-  public void test() {
+  public void testExhaustive() {
     List<Hasher> hashers = ImmutableList.of(
         new StreamingVersion().newHasher(),
         new StreamingVersion().newHasher(52),
@@ -53,6 +53,42 @@ public class AbstractNonStreamingHashFunctionTest extends TestCase {
     for (int i = 1; i < codes.length; i++) {
       assertEquals(codes[i - 1], codes[i]);
     }
+  }
+
+  public void testPutStringWithLowSurrogate() {
+    // we pad because the dummy hash function we use to test this, merely copies the input into
+    // the output, so the input must be at least 32 bits, since the output has to be that long
+    assertPutString(new char[] { 'p', HashTestUtils.randomLowSurrogate(new Random()) });
+  }
+
+  public void testPutStringWithHighSurrogate() {
+    // we pad because the dummy hash function we use to test this, merely copies the input into
+    // the output, so the input must be at least 32 bits, since the output has to be that long
+    assertPutString(new char[] { 'p', HashTestUtils.randomHighSurrogate(new Random()) });
+  }
+
+  public void testPutStringWithLowHighSurrogate() {
+    assertPutString(new char[] {
+        HashTestUtils.randomLowSurrogate(new Random()),
+        HashTestUtils.randomHighSurrogate(new Random()) });
+  }
+
+  public void testPutStringWithHighLowSurrogate() {
+    assertPutString(new char[] {
+        HashTestUtils.randomHighSurrogate(new Random()),
+        HashTestUtils.randomLowSurrogate(new Random()) });
+  }
+
+  private static void assertPutString(char[] chars) {
+    Hasher h1 = new NonStreamingVersion().newHasher();
+    Hasher h2 = new NonStreamingVersion().newHasher();
+    String s = new String(chars);
+    // this is the correct implementation of the spec
+    for (int i = 0; i < s.length(); i++) {
+      h1.putChar(s.charAt(i));
+    }
+    h2.putString(s);
+    assertEquals(h1.hash(), h2.hash());
   }
 
   static class StreamingVersion extends AbstractStreamingHashFunction {

@@ -16,7 +16,6 @@
 
 package com.google.common.hash;
 
-import com.google.common.base.Charsets;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Throwables;
 
@@ -44,7 +43,12 @@ abstract class AbstractNonStreamingHashFunction implements HashFunction {
   }
 
   @Override public HashCode hashString(CharSequence input) {
-    return hashString(input, Charsets.UTF_16LE);
+    int len = input.length();
+    Hasher hasher = newHasher(len * 2);
+    for (int i = 0; i < len; i++) {
+      hasher.putChar(input.charAt(i));
+    }
+    return hasher.hash();
   }
 
   @Override public HashCode hashString(CharSequence input, Charset charset) {
