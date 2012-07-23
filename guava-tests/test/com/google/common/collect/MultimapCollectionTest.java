@@ -268,6 +268,7 @@ public class MultimapCollectionTest extends TestCase {
             MapFeature.ALLOWS_NULL_VALUES,
             MapFeature.GENERAL_PURPOSE,
             MapFeature.FAILS_FAST_ON_CONCURRENT_MODIFICATION,
+            CollectionFeature.SERIALIZABLE,
             CollectionSize.ANY)
             .createTestSuite());
 
@@ -288,6 +289,7 @@ public class MultimapCollectionTest extends TestCase {
           MapFeature.GENERAL_PURPOSE,
           MapFeature.FAILS_FAST_ON_CONCURRENT_MODIFICATION,
           CollectionFeature.KNOWN_ORDER,
+          CollectionFeature.SERIALIZABLE,
           CollectionSize.ANY)
       .createTestSuite());
 
@@ -322,6 +324,7 @@ public class MultimapCollectionTest extends TestCase {
           MapFeature.GENERAL_PURPOSE,
           MapFeature.FAILS_FAST_ON_CONCURRENT_MODIFICATION,
           CollectionFeature.KNOWN_ORDER,
+          CollectionFeature.SERIALIZABLE,
           CollectionSize.ANY)
       .createTestSuite());
 
@@ -341,6 +344,7 @@ public class MultimapCollectionTest extends TestCase {
           MapFeature.ALLOWS_NULL_VALUES,
           MapFeature.GENERAL_PURPOSE,
           MapFeature.FAILS_FAST_ON_CONCURRENT_MODIFICATION,
+          CollectionFeature.SERIALIZABLE,
           CollectionSize.ANY)
       .createTestSuite());
 
@@ -379,6 +383,7 @@ public class MultimapCollectionTest extends TestCase {
           MapFeature.ALLOWS_NULL_KEYS,
           MapFeature.ALLOWS_NULL_VALUES,
           MapFeature.GENERAL_PURPOSE,
+          CollectionFeature.SERIALIZABLE,
           CollectionFeature.KNOWN_ORDER,
           CollectionSize.ANY)
       .createTestSuite());
@@ -396,6 +401,7 @@ public class MultimapCollectionTest extends TestCase {
       .named("ImmutableListMultimap")
       .withFeatures(
           MapFeature.ALLOWS_NULL_QUERIES,
+          CollectionFeature.SERIALIZABLE,
           CollectionFeature.KNOWN_ORDER,
           CollectionSize.ANY)
       .createTestSuite());
@@ -414,6 +420,7 @@ public class MultimapCollectionTest extends TestCase {
       .withFeatures(
           MapFeature.ALLOWS_NULL_QUERIES,
           CollectionFeature.KNOWN_ORDER,
+          CollectionFeature.SERIALIZABLE,
           CollectionSize.ANY)
       .createTestSuite());
 
