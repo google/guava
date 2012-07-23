@@ -19,15 +19,29 @@ package com.google.common.collect;
 import static com.google.common.collect.BoundType.CLOSED;
 import static com.google.common.collect.BoundType.OPEN;
 import static com.google.common.collect.DiscreteDomains.integers;
+import static com.google.common.collect.testing.features.CollectionFeature.ALLOWS_NULL_QUERIES;
+import static com.google.common.collect.testing.features.CollectionFeature.KNOWN_ORDER;
+import static com.google.common.collect.testing.features.CollectionFeature.NON_STANDARD_TOSTRING;
+import static com.google.common.collect.testing.features.CollectionFeature.RESTRICTS_ELEMENTS;
+import static com.google.common.collect.testing.testers.NavigableSetNavigationTester.getHoleMethods;
 import static com.google.common.testing.SerializableTester.reserialize;
 import static com.google.common.testing.SerializableTester.reserializeAndAssert;
 import static org.junit.contrib.truth.Truth.ASSERT;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.collect.testing.NavigableSetTestSuiteBuilder;
+import com.google.common.collect.testing.features.CollectionSize;
+import com.google.common.collect.testing.google.SetGenerators.ContiguousSetDescendingGenerator;
+import com.google.common.collect.testing.google.SetGenerators.ContiguousSetGenerator;
+import com.google.common.collect.testing.google.SetGenerators.ContiguousSetHeadsetGenerator;
+import com.google.common.collect.testing.google.SetGenerators.ContiguousSetSubsetGenerator;
+import com.google.common.collect.testing.google.SetGenerators.ContiguousSetTailsetGenerator;
 import com.google.common.testing.EqualsTester;
 
+import junit.framework.Test;
 import junit.framework.TestCase;
+import junit.framework.TestSuite;
 
 import java.util.Set;
 
@@ -276,5 +290,54 @@ public class ContiguousSetTest extends TestCase {
         ContiguousSet.create(Ranges.open(-1, 4), integers()).intersection(set));
     assertEquals(ImmutableSet.of(1, 2, 3),
         set.intersection(ContiguousSet.create(Ranges.open(-1, 4), integers())));
+  }
+
+  @GwtIncompatible("suite")
+  public static class BuiltTests extends TestCase {
+    public static Test suite() {
+      TestSuite suite = new TestSuite();
+
+      suite.addTest(NavigableSetTestSuiteBuilder.using(
+          new ContiguousSetGenerator())
+          .named("Range.asSet")
+          .withFeatures(CollectionSize.ANY, KNOWN_ORDER, ALLOWS_NULL_QUERIES,
+              NON_STANDARD_TOSTRING, RESTRICTS_ELEMENTS)
+          .suppressing(getHoleMethods())
+          .createTestSuite());
+
+      suite.addTest(NavigableSetTestSuiteBuilder.using(
+          new ContiguousSetHeadsetGenerator())
+          .named("Range.asSet, headset")
+          .withFeatures(CollectionSize.ANY, KNOWN_ORDER, ALLOWS_NULL_QUERIES,
+              NON_STANDARD_TOSTRING, RESTRICTS_ELEMENTS)
+          .suppressing(getHoleMethods())
+          .createTestSuite());
+
+      suite.addTest(NavigableSetTestSuiteBuilder.using(
+          new ContiguousSetTailsetGenerator())
+          .named("Range.asSet, tailset")
+          .withFeatures(CollectionSize.ANY, KNOWN_ORDER, ALLOWS_NULL_QUERIES,
+              NON_STANDARD_TOSTRING, RESTRICTS_ELEMENTS)
+          .suppressing(getHoleMethods())
+          .createTestSuite());
+
+      suite.addTest(NavigableSetTestSuiteBuilder.using(
+          new ContiguousSetSubsetGenerator())
+          .named("Range.asSet, subset")
+          .withFeatures(CollectionSize.ANY, KNOWN_ORDER, ALLOWS_NULL_QUERIES,
+              NON_STANDARD_TOSTRING, RESTRICTS_ELEMENTS)
+          .suppressing(getHoleMethods())
+          .createTestSuite());
+
+      suite.addTest(NavigableSetTestSuiteBuilder.using(
+          new ContiguousSetDescendingGenerator())
+          .named("Range.asSet.descendingSet")
+          .withFeatures(CollectionSize.ANY, KNOWN_ORDER, ALLOWS_NULL_QUERIES,
+              NON_STANDARD_TOSTRING, RESTRICTS_ELEMENTS)
+          .suppressing(getHoleMethods())
+          .createTestSuite());
+
+      return suite;
+    }
   }
 }

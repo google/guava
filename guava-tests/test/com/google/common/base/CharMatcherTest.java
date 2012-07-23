@@ -91,8 +91,6 @@ public class CharMatcherTest extends TestCase {
     }
   }
 
-  // There's no way to test LEGACY_WHITESPACE, really; it just is what it is.
-
   // Omitting tests for the rest of the JAVA_* constants as these are defined
   // as extremely straightforward pass-throughs to the JDK methods.
 
