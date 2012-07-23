@@ -501,15 +501,6 @@ public class IntMathTest extends TestCase {
     }
   }
 
-  // Helper method that asserts the arithmetic mean of x and y is equal
-  // to the expectedMean.
-
-  // Helper method that asserts the arithmetic mean of x and y is equal
-  // to the result of computeMeanSafely.
-
-  // Computes the mean in a way that is obvious and resilient to
-  // overflow by using BigInteger arithmetic.
-
   private boolean fitsInInt(BigInteger big) {
     return big.bitLength() <= 31;
   }
