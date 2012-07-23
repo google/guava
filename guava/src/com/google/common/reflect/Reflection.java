@@ -16,7 +16,6 @@
 
 package com.google.common.reflect;
 
-import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.Beta;
@@ -89,9 +88,10 @@ public final class Reflection {
    */
   public static <T> T newProxy(
       Class<T> interfaceType, InvocationHandler handler) {
-    checkNotNull(interfaceType);
     checkNotNull(handler);
-    checkArgument(interfaceType.isInterface());
+    if (!interfaceType.isInterface()) {
+      throw new IllegalArgumentException(interfaceType + " is not an interface");
+    }
     Object object = Proxy.newProxyInstance(
         interfaceType.getClassLoader(),
         new Class<?>[] { interfaceType },
