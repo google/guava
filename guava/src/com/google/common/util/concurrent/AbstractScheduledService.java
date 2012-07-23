@@ -97,9 +97,8 @@ public abstract class AbstractScheduledService implements Service {
    *
    * <p>Consider using the {@link #newFixedDelaySchedule} and {@link #newFixedRateSchedule} factory
    * methods, these provide {@link Scheduler} instances for the common use case of running the
-   * service with a fixed schedule.  If more flexibility is needed then consider subclassing the
-   * {@link CustomScheduler} abstract class in preference to creating your own {@link Scheduler}
-   * implementation.
+   * service with a fixed schedule.  If more flexibility is needed then consider subclassing
+   * {@link CustomScheduler}.
    *
    * @author Luke Sandberg
    * @since 11.0
