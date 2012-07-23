@@ -445,20 +445,6 @@ final class Types {
     }
   }
 
-  static IllegalArgumentException buildUnexpectedTypeException(
-      Type type, Class<?>... expected) {
-    // Build exception message
-    StringBuilder exceptionMessage =
-        new StringBuilder("Unexpected type. Expected one of: ");
-    for (Class<?> clazz : expected) {
-      exceptionMessage.append(clazz.getName()).append(", ");
-    }
-    exceptionMessage.append("but got: ").append(type.getClass().getName())
-        .append(", for type: ").append(toString(type)).append('.');
-
-    return new IllegalArgumentException(exceptionMessage.toString());
-  }
-
   /** Returns the {@code Class} object of arrays with {@code componentType}. */
   static Class<?> getArrayClass(Class<?> componentType) {
     // TODO(user): This is not the most efficient way to handle generic

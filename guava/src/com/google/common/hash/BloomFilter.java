@@ -175,10 +175,6 @@ public final class BloomFilter<T> implements Serializable {
     return bits.hashCode();
   }
 
-  @VisibleForTesting int getHashCount() {
-    return numHashFunctions;
-  }
-
   /**
    * Creates a {@code Builder} of a {@link BloomFilter BloomFilter<T>}, with the expected number
    * of insertions and expected false positive probability.

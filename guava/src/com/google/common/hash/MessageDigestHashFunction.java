@@ -43,7 +43,7 @@ final class MessageDigestHashFunction extends AbstractStreamingHashFunction {
     this.bits = getMessageDigest(algorithmName).getDigestLength() * 8;
   }
 
-  public int bits() {
+  @Override public int bits() {
     return bits;
   }
 
