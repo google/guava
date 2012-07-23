@@ -77,7 +77,8 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
    */
   public static <K, V> ImmutableMap<K, V> of(K k1, V v1) {
     return new SingletonImmutableMap<K, V>(
-        checkNotNull(k1), checkNotNull(v1));
+        checkNotNull(k1, "null key in entry: null=%s", v1),
+        checkNotNull(v1, "null value in entry: %s=null", k1));
   }
 
   /**
