@@ -252,7 +252,9 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableMap<K, V>
    * Guaranteed to throw an exception and leave the bimap unmodified.
    *
    * @throws UnsupportedOperationException always
+   * @deprecated Unsupported operation.
    */
+  @Deprecated
   @Override
   public V forcePut(K key, V value) {
     throw new UnsupportedOperationException();

@@ -267,7 +267,9 @@ public abstract class ImmutableMultiset<E> extends ImmutableCollection<E>
    * Guaranteed to throw an exception and leave the collection unmodified.
    *
    * @throws UnsupportedOperationException always
+   * @deprecated Unsupported operation.
    */
+  @Deprecated
   @Override
   public final int add(E element, int occurrences) {
     throw new UnsupportedOperationException();
@@ -277,7 +279,9 @@ public abstract class ImmutableMultiset<E> extends ImmutableCollection<E>
    * Guaranteed to throw an exception and leave the collection unmodified.
    *
    * @throws UnsupportedOperationException always
+   * @deprecated Unsupported operation.
    */
+  @Deprecated
   @Override
   public final int remove(Object element, int occurrences) {
     throw new UnsupportedOperationException();
@@ -287,7 +291,9 @@ public abstract class ImmutableMultiset<E> extends ImmutableCollection<E>
    * Guaranteed to throw an exception and leave the collection unmodified.
    *
    * @throws UnsupportedOperationException always
+   * @deprecated Unsupported operation.
    */
+  @Deprecated
   @Override
   public final int setCount(E element, int count) {
     throw new UnsupportedOperationException();
@@ -297,7 +303,9 @@ public abstract class ImmutableMultiset<E> extends ImmutableCollection<E>
    * Guaranteed to throw an exception and leave the collection unmodified.
    *
    * @throws UnsupportedOperationException always
+   * @deprecated Unsupported operation.
    */
+  @Deprecated
   @Override
   public final boolean setCount(E element, int oldCount, int newCount) {
     throw new UnsupportedOperationException();

@@ -146,7 +146,9 @@ public final class ImmutableClassToInstanceMap<B> extends
    * Guaranteed to throw an exception and leave the map unmodified.
    *
    * @throws UnsupportedOperationException always
+   * @deprecated Unsupported operation.
    */
+  @Deprecated
   @Override
   public <T extends B> T putInstance(Class<T> type, T value) {
     throw new UnsupportedOperationException();

@@ -86,7 +86,9 @@ public abstract class ImmutableCollection<E>
    * Guaranteed to throw an exception and leave the collection unmodified.
    *
    * @throws UnsupportedOperationException always
+   * @deprecated Unsupported operation.
    */
+  @Deprecated
   @Override
   public final boolean add(E e) {
     throw new UnsupportedOperationException();
@@ -96,7 +98,9 @@ public abstract class ImmutableCollection<E>
    * Guaranteed to throw an exception and leave the collection unmodified.
    *
    * @throws UnsupportedOperationException always
+   * @deprecated Unsupported operation.
    */
+  @Deprecated
   @Override
   public final boolean remove(Object object) {
     throw new UnsupportedOperationException();
@@ -106,7 +110,9 @@ public abstract class ImmutableCollection<E>
    * Guaranteed to throw an exception and leave the collection unmodified.
    *
    * @throws UnsupportedOperationException always
+   * @deprecated Unsupported operation.
    */
+  @Deprecated
   @Override
   public final boolean addAll(Collection<? extends E> newElements) {
     throw new UnsupportedOperationException();
@@ -116,7 +122,9 @@ public abstract class ImmutableCollection<E>
    * Guaranteed to throw an exception and leave the collection unmodified.
    *
    * @throws UnsupportedOperationException always
+   * @deprecated Unsupported operation.
    */
+  @Deprecated
   @Override
   public final boolean removeAll(Collection<?> oldElements) {
     throw new UnsupportedOperationException();
@@ -126,7 +134,9 @@ public abstract class ImmutableCollection<E>
    * Guaranteed to throw an exception and leave the collection unmodified.
    *
    * @throws UnsupportedOperationException always
+   * @deprecated Unsupported operation.
    */
+  @Deprecated
   @Override
   public final boolean retainAll(Collection<?> elementsToKeep) {
     throw new UnsupportedOperationException();
@@ -136,7 +146,9 @@ public abstract class ImmutableCollection<E>
    * Guaranteed to throw an exception and leave the collection unmodified.
    *
    * @throws UnsupportedOperationException always
+   * @deprecated Unsupported operation.
    */
+  @Deprecated
   @Override
   public final void clear() {
     throw new UnsupportedOperationException();

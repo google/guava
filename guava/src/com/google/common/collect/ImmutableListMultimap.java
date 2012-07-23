@@ -300,6 +300,7 @@ public class ImmutableListMultimap<K, V>
    * @since 11
    */
   @Beta
+  @Override
   public ImmutableListMultimap<V, K> inverse() {
     ImmutableListMultimap<V, K> result = inverse;
     return (result == null) ? (inverse = invert()) : result;
@@ -319,8 +320,9 @@ public class ImmutableListMultimap<K, V>
    * Guaranteed to throw an exception and leave the multimap unmodified.
    *
    * @throws UnsupportedOperationException always
+   * @deprecated Unsupported operation.
    */
-  @Override public ImmutableList<V> removeAll(Object key) {
+  @Deprecated @Override public ImmutableList<V> removeAll(Object key) {
     throw new UnsupportedOperationException();
   }
 
@@ -328,8 +330,9 @@ public class ImmutableListMultimap<K, V>
    * Guaranteed to throw an exception and leave the multimap unmodified.
    *
    * @throws UnsupportedOperationException always
+   * @deprecated Unsupported operation.
    */
-  @Override public ImmutableList<V> replaceValues(
+  @Deprecated @Override public ImmutableList<V> replaceValues(
       K key, Iterable<? extends V> values) {
     throw new UnsupportedOperationException();
   }

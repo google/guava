@@ -759,8 +759,13 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSortedSetFauxveride
   }
 
   /**
+   * Guaranteed to throw an exception and leave the set unmodified.
+   *
    * @since 12.0
+   * @throws UnsupportedOperationException always
+   * @deprecated Unsupported operation.
    */
+  @Deprecated
   @GwtIncompatible("NavigableSet")
   @Override
   public final E pollFirst() {
@@ -768,8 +773,13 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSortedSetFauxveride
   }
 
   /**
+   * Guaranteed to throw an exception and leave the set unmodified.
+   *
    * @since 12.0
+   * @throws UnsupportedOperationException always
+   * @deprecated Unsupported operation.
    */
+  @Deprecated
   @GwtIncompatible("NavigableSet")
   @Override
   public final E pollLast() {

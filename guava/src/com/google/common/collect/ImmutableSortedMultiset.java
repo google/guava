@@ -342,7 +342,9 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableSortedMultiset
    * <p>This implementation is guaranteed to throw an {@link UnsupportedOperationException}.
    *
    * @throws UnsupportedOperationException always
+   * @deprecated Unsupported operation.
    */
+  @Deprecated
   @Override
   public final Entry<E> pollFirstEntry() {
     throw new UnsupportedOperationException();
@@ -354,7 +356,9 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableSortedMultiset
    * <p>This implementation is guaranteed to throw an {@link UnsupportedOperationException}.
    *
    * @throws UnsupportedOperationException always
+   * @deprecated Unsupported operation.
    */
+  @Deprecated
   @Override
   public final Entry<E> pollLastEntry() {
     throw new UnsupportedOperationException();

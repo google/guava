@@ -421,8 +421,9 @@ public class ImmutableSetMultimap<K, V>
    * Guaranteed to throw an exception and leave the multimap unmodified.
    *
    * @throws UnsupportedOperationException always
+   * @deprecated Unsupported operation.
    */
-  @Override public ImmutableSet<V> removeAll(Object key) {
+  @Deprecated @Override public ImmutableSet<V> removeAll(Object key) {
     throw new UnsupportedOperationException();
   }
 
@@ -430,8 +431,9 @@ public class ImmutableSetMultimap<K, V>
    * Guaranteed to throw an exception and leave the multimap unmodified.
    *
    * @throws UnsupportedOperationException always
+   * @deprecated Unsupported operation.
    */
-  @Override public ImmutableSet<V> replaceValues(
+  @Deprecated @Override public ImmutableSet<V> replaceValues(
       K key, Iterable<? extends V> values) {
     throw new UnsupportedOperationException();
   }

@@ -425,7 +425,9 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
    * Guaranteed to throw an exception and leave the list unmodified.
    *
    * @throws UnsupportedOperationException always
+   * @deprecated Unsupported operation.
    */
+  @Deprecated
   @Override
   public final boolean addAll(int index, Collection<? extends E> newElements) {
     throw new UnsupportedOperationException();
@@ -435,7 +437,9 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
    * Guaranteed to throw an exception and leave the list unmodified.
    *
    * @throws UnsupportedOperationException always
+   * @deprecated Unsupported operation.
    */
+  @Deprecated
   @Override
   public final E set(int index, E element) {
     throw new UnsupportedOperationException();
@@ -445,7 +449,9 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
    * Guaranteed to throw an exception and leave the list unmodified.
    *
    * @throws UnsupportedOperationException always
+   * @deprecated Unsupported operation.
    */
+  @Deprecated
   @Override
   public final void add(int index, E element) {
     throw new UnsupportedOperationException();
@@ -455,7 +461,9 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
    * Guaranteed to throw an exception and leave the list unmodified.
    *
    * @throws UnsupportedOperationException always
+   * @deprecated Unsupported operation.
    */
+  @Deprecated
   @Override
   public final E remove(int index) {
     throw new UnsupportedOperationException();

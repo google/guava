@@ -642,11 +642,25 @@ public abstract class ImmutableSortedMap<K, V>
     return isEmpty() ? null : entrySet().asList().get(size() - 1);
   }
 
+  /**
+   * Guaranteed to throw an exception and leave the map unmodified.
+   *
+   * @throws UnsupportedOperationException always
+   * @deprecated Unsupported operation.
+   */
+  @Deprecated
   @Override
   public final Entry<K, V> pollFirstEntry() {
     throw new UnsupportedOperationException();
   }
 
+  /**
+   * Guaranteed to throw an exception and leave the map unmodified.
+   *
+   * @throws UnsupportedOperationException always
+   * @deprecated Unsupported operation.
+   */
+  @Deprecated
   @Override
   public final Entry<K, V> pollLastEntry() {
     throw new UnsupportedOperationException();

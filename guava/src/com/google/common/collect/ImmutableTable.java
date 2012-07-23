@@ -282,8 +282,9 @@ public abstract class ImmutableTable<R, C, V> implements Table<R, C, V> {
    * Guaranteed to throw an exception and leave the table unmodified.
    *
    * @throws UnsupportedOperationException always
+   * @deprecated Unsupported operation.
    */
-  @Override public final void clear() {
+  @Deprecated @Override public final void clear() {
     throw new UnsupportedOperationException();
   }
 
@@ -291,8 +292,9 @@ public abstract class ImmutableTable<R, C, V> implements Table<R, C, V> {
    * Guaranteed to throw an exception and leave the table unmodified.
    *
    * @throws UnsupportedOperationException always
+   * @deprecated Unsupported operation.
    */
-  @Override public final V put(R rowKey, C columnKey, V value) {
+  @Deprecated @Override public final V put(R rowKey, C columnKey, V value) {
     throw new UnsupportedOperationException();
   }
 
@@ -300,8 +302,9 @@ public abstract class ImmutableTable<R, C, V> implements Table<R, C, V> {
    * Guaranteed to throw an exception and leave the table unmodified.
    *
    * @throws UnsupportedOperationException always
+   * @deprecated Unsupported operation.
    */
-  @Override public final void putAll(
+  @Deprecated @Override public final void putAll(
       Table<? extends R, ? extends C, ? extends V> table) {
     throw new UnsupportedOperationException();
   }
@@ -310,8 +313,9 @@ public abstract class ImmutableTable<R, C, V> implements Table<R, C, V> {
    * Guaranteed to throw an exception and leave the table unmodified.
    *
    * @throws UnsupportedOperationException always
+   * @deprecated Unsupported operation.
    */
-  @Override public final V remove(Object rowKey, Object columnKey) {
+  @Deprecated @Override public final V remove(Object rowKey, Object columnKey) {
     throw new UnsupportedOperationException();
   }
 

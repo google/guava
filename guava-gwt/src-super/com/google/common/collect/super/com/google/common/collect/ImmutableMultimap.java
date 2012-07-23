@@ -320,7 +320,9 @@ public abstract class ImmutableMultimap<K, V>
    * Guaranteed to throw an exception and leave the multimap unmodified.
    *
    * @throws UnsupportedOperationException always
+   * @deprecated Unsupported operation.
    */
+  @Deprecated
   @Override
   public ImmutableCollection<V> removeAll(Object key) {
     throw new UnsupportedOperationException();
@@ -330,7 +332,9 @@ public abstract class ImmutableMultimap<K, V>
    * Guaranteed to throw an exception and leave the multimap unmodified.
    *
    * @throws UnsupportedOperationException always
+   * @deprecated Unsupported operation.
    */
+  @Deprecated
   @Override
   public ImmutableCollection<V> replaceValues(K key,
       Iterable<? extends V> values) {
@@ -341,7 +345,9 @@ public abstract class ImmutableMultimap<K, V>
    * Guaranteed to throw an exception and leave the multimap unmodified.
    *
    * @throws UnsupportedOperationException always
+   * @deprecated Unsupported operation.
    */
+  @Deprecated
   @Override
   public void clear() {
     throw new UnsupportedOperationException();
@@ -370,7 +376,9 @@ public abstract class ImmutableMultimap<K, V>
    * Guaranteed to throw an exception and leave the multimap unmodified.
    *
    * @throws UnsupportedOperationException always
+   * @deprecated Unsupported operation.
    */
+  @Deprecated
   @Override
   public boolean put(K key, V value) {
     throw new UnsupportedOperationException();
@@ -380,7 +388,9 @@ public abstract class ImmutableMultimap<K, V>
    * Guaranteed to throw an exception and leave the multimap unmodified.
    *
    * @throws UnsupportedOperationException always
+   * @deprecated Unsupported operation.
    */
+  @Deprecated
   @Override
   public boolean putAll(K key, Iterable<? extends V> values) {
     throw new UnsupportedOperationException();
@@ -390,7 +400,9 @@ public abstract class ImmutableMultimap<K, V>
    * Guaranteed to throw an exception and leave the multimap unmodified.
    *
    * @throws UnsupportedOperationException always
+   * @deprecated Unsupported operation.
    */
+  @Deprecated
   @Override
   public boolean putAll(Multimap<? extends K, ? extends V> multimap) {
     throw new UnsupportedOperationException();
@@ -400,7 +412,9 @@ public abstract class ImmutableMultimap<K, V>
    * Guaranteed to throw an exception and leave the multimap unmodified.
    *
    * @throws UnsupportedOperationException always
+   * @deprecated Unsupported operation.
    */
+  @Deprecated
   @Override
   public boolean remove(Object key, Object value) {
     throw new UnsupportedOperationException();

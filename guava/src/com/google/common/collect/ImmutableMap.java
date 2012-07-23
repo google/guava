@@ -300,7 +300,9 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
    * Guaranteed to throw an exception and leave the map unmodified.
    *
    * @throws UnsupportedOperationException always
+   * @deprecated Unsupported operation.
    */
+  @Deprecated
   @Override
   public final V put(K k, V v) {
     throw new UnsupportedOperationException();
@@ -310,7 +312,9 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
    * Guaranteed to throw an exception and leave the map unmodified.
    *
    * @throws UnsupportedOperationException always
+   * @deprecated Unsupported operation.
    */
+  @Deprecated
   @Override
   public final V remove(Object o) {
     throw new UnsupportedOperationException();
@@ -320,7 +324,9 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
    * Guaranteed to throw an exception and leave the map unmodified.
    *
    * @throws UnsupportedOperationException always
+   * @deprecated Unsupported operation.
    */
+  @Deprecated
   @Override
   public final void putAll(Map<? extends K, ? extends V> map) {
     throw new UnsupportedOperationException();
@@ -330,7 +336,9 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
    * Guaranteed to throw an exception and leave the map unmodified.
    *
    * @throws UnsupportedOperationException always
+   * @deprecated Unsupported operation.
    */
+  @Deprecated
   @Override
   public final void clear() {
     throw new UnsupportedOperationException();
