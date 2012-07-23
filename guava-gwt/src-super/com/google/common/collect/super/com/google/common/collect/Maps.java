@@ -2224,13 +2224,6 @@ public final class Maps {
   }
 
   /**
-   * An implementation of {@link Map#hashCode}.
-   */
-  static int hashCodeImpl(Map<?, ?> map) {
-    return Sets.hashCodeImpl(map.entrySet());
-  }
-
-  /**
    * An implementation of {@link Map#toString}.
    */
   static String toStringImpl(Map<?, ?> map) {

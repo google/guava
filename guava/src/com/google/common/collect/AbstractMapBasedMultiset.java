@@ -63,10 +63,6 @@ abstract class AbstractMapBasedMultiset<E> extends AbstractMultiset<E>
     this.size = super.size();
   }
 
-  Map<E, Count> backingMap() {
-    return backingMap;
-  }
-
   /** Used during deserialization only. The backing map must be empty. */
   void setBackingMap(Map<E, Count> backingMap) {
     this.backingMap = backingMap;

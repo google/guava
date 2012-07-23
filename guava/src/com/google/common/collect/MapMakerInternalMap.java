@@ -3062,17 +3062,6 @@ class MapMakerInternalMap<K, V>
     }
 
     /**
-     * Returns {@code true} if the entry has been partially collected, meaning that either the key
-     * is null, or the value is null and it is not computing.
-     */
-    boolean isCollected(ReferenceEntry<K, V> entry) {
-      if (entry.getKey() == null) {
-        return true;
-      }
-      return isCollected(entry.getValueReference());
-    }
-
-    /**
      * Returns {@code true} if the value has been partially collected, meaning that the value is
      * null and it is not computing.
      */
@@ -3511,17 +3500,6 @@ class MapMakerInternalMap<K, V>
     return segmentFor(hash).getEntry(key, hash);
   }
 
-  /**
-   * Returns the live internal entry for the specified key. Does not impact recency ordering.
-   */
-  ReferenceEntry<K, V> getLiveEntry(@Nullable Object key) {
-    if (key == null) {
-      return null;
-    }
-    int hash = hash(key);
-    return segmentFor(hash).getLiveEntry(key, hash);
-  }
-
   @Override
   public boolean containsKey(@Nullable Object key) {
     if (key == null) {
@@ -3663,7 +3641,7 @@ class MapMakerInternalMap<K, V>
 
   // Iterator Support
 
-  abstract class HashIterator {
+  abstract class HashIterator<E> implements Iterator<E> {
 
     int nextSegmentIndex;
     int nextTableIndex;
@@ -3678,6 +3656,8 @@ class MapMakerInternalMap<K, V>
       nextTableIndex = -1;
       advance();
     }
+
+    public abstract E next();
 
     final void advance() {
       nextExternal = null;
@@ -3770,7 +3750,7 @@ class MapMakerInternalMap<K, V>
     }
   }
 
-  final class KeyIterator extends HashIterator implements Iterator<K> {
+  final class KeyIterator extends HashIterator<K> {
 
     @Override
     public K next() {
@@ -3778,7 +3758,7 @@ class MapMakerInternalMap<K, V>
     }
   }
 
-  final class ValueIterator extends HashIterator implements Iterator<V> {
+  final class ValueIterator extends HashIterator<V> {
 
     @Override
     public V next() {
@@ -3833,7 +3813,7 @@ class MapMakerInternalMap<K, V>
     }
   }
 
-  final class EntryIterator extends HashIterator implements Iterator<Entry<K, V>> {
+  final class EntryIterator extends HashIterator<Entry<K, V>> {
 
     @Override
     public Entry<K, V> next() {

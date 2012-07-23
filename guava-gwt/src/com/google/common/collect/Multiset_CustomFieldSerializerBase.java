@@ -23,25 +23,12 @@ import com.google.gwt.user.client.rpc.SerializationStreamWriter;
 /**
  * This class contains static utility methods for writing {@code Multiset} GWT
  * field serializers. Serializers should delegate to
- * {@link #serialize(SerializationStreamWriter, Multiset)} and to either
- * {@link #instantiate(SerializationStreamReader, ImmutableMultiset.Builder)} or
+ * {@link #serialize(SerializationStreamWriter, Multiset)} and
  * {@link #populate(SerializationStreamReader, Multiset)}.
  * 
  * @author Chris Povirk
  */
 final class Multiset_CustomFieldSerializerBase {
-  static ImmutableMultiset<Object> instantiate(
-      SerializationStreamReader reader,
-      ImmutableMultiset.Builder<Object> builder)
-      throws SerializationException {
-    int distinctElements = reader.readInt();
-    for (int i = 0; i < distinctElements; i++) {
-      Object element = reader.readObject();
-      int count = reader.readInt();
-      builder.addCopies(element, count);
-    }
-    return builder.build();
-  }
 
   static Multiset<Object> populate(
       SerializationStreamReader reader, Multiset<Object> multiset)
