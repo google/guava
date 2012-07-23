@@ -4136,18 +4136,6 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
     return segmentFor(hash).getEntry(key, hash);
   }
 
-  /**
-   * Returns the live internal entry for the specified key.
-   */
-  ReferenceEntry<K, V> getLiveEntry(@Nullable Object key) {
-    // does not impact recency ordering
-    if (key == null) {
-      return null;
-    }
-    int hash = hash(key);
-    return segmentFor(hash).getLiveEntry(key, hash, ticker.read());
-  }
-
   void refresh(K key) {
     int hash = hash(checkNotNull(key));
     segmentFor(hash).refresh(key, hash, defaultLoader);
@@ -4307,7 +4295,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
 
   // Iterator Support
 
-  abstract class HashIterator {
+  abstract class HashIterator<T> implements Iterator<T> {
 
     int nextSegmentIndex;
     int nextTableIndex;
@@ -4322,6 +4310,8 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
       nextTableIndex = -1;
       advance();
     }
+
+    public abstract T next();
 
     final void advance() {
       nextExternal = null;
@@ -4415,7 +4405,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
     }
   }
 
-  final class KeyIterator extends HashIterator implements Iterator<K> {
+  final class KeyIterator extends HashIterator<K> {
 
     @Override
     public K next() {
@@ -4423,7 +4413,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
     }
   }
 
-  final class ValueIterator extends HashIterator implements Iterator<V> {
+  final class ValueIterator extends HashIterator<V> {
 
     @Override
     public V next() {
@@ -4483,7 +4473,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
     }
   }
 
-  final class EntryIterator extends HashIterator implements Iterator<Entry<K, V>> {
+  final class EntryIterator extends HashIterator<Entry<K, V>> {
 
     @Override
     public Entry<K, V> next() {

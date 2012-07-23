@@ -497,15 +497,6 @@ public final class CacheBuilder<K, V> {
   }
 
   /**
-   * Specifies that each key (not value) stored in the cache should be strongly referenced.
-   *
-   * @throws IllegalStateException if the key strength was already set
-   */
-  CacheBuilder<K, V> strongKeys() {
-    return setKeyStrength(Strength.STRONG);
-  }
-
-  /**
    * Specifies that each key (not value) stored in the cache should be wrapped in a {@link
    * WeakReference} (by default, strong references are used).
    *
@@ -531,15 +522,6 @@ public final class CacheBuilder<K, V> {
 
   Strength getKeyStrength() {
     return firstNonNull(keyStrength, Strength.STRONG);
-  }
-
-  /**
-   * Specifies that each value (not key) stored in the cache should be strongly referenced.
-   *
-   * @throws IllegalStateException if the value strength was already set
-   */
-  CacheBuilder<K, V> strongValues() {
-    return setValueStrength(Strength.STRONG);
   }
 
   /**
