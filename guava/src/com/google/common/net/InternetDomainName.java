@@ -194,7 +194,7 @@ public final class InternetDomainName {
    *
    * @param domain A domain name (not IP address)
    * @throws IllegalArgumentException if {@code name} is not syntactically valid
-   *     according to {@link #isValidLenient}
+   *     according to {@link #isValid}
    * @since 8.0 (previously named {@code from})
    * @deprecated Use {@link #from(String)}
    */
