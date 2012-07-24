@@ -768,4 +768,11 @@ public class CharMatcherTest extends TestCase {
       assertEquals(m.toString(), m.precomputed().toString());
     }
   }
+
+  public void testToString() {
+    assertEquals("CharMatcher.NONE", CharMatcher.anyOf("").toString());
+    assertEquals("CharMatcher.is(31)", CharMatcher.anyOf("1").toString());
+    assertEquals("CharMatcher.anyOf(\"12\")", CharMatcher.anyOf("12").toString());
+    assertEquals("CharMatcher.anyOf(\"123\")", CharMatcher.anyOf("123").toString());
+  }
 }
