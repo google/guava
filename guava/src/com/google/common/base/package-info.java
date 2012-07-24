@@ -41,8 +41,7 @@
  *     {@link com.google.common.base.Functions}
  * <li>{@link com.google.common.base.Predicate},
  *     {@link com.google.common.base.Predicates}
- * <li>{@link com.google.common.base.Equivalence},
- *     {@link com.google.common.base.Equivalences}
+ * <li>{@link com.google.common.base.Equivalence}
  * <li>{@link com.google.common.base.Supplier},
  *     {@link com.google.common.base.Suppliers}
  * </ul>
