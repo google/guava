@@ -16,6 +16,7 @@
 
 package com.google.common.reflect;
 
+import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.Beta;
@@ -32,12 +33,12 @@ import java.lang.reflect.Proxy;
 public final class Reflection {
 
   /**
-   * Returns the package name of {@code cls} according to the Java Language Specification (section
+   * Returns the package name of {@code clazz} according to the Java Language Specification (section
    * 6.7). Unlike {@link Class#getPackage}, this method only parses the class name, without
    * attempting to define the {@link Package} and hence load files.
    */
-  public static String getPackageName(Class<?> cls) {
-    return getPackageName(cls.getName());
+  public static String getPackageName(Class<?> clazz) {
+    return getPackageName(clazz.getName());
   }
 
   /**
@@ -47,11 +48,7 @@ public final class Reflection {
    */
   public static String getPackageName(String classFullName) {
     int lastDot = classFullName.lastIndexOf('.');
-    if (lastDot < 0) {
-      return "";
-    } else {
-      return classFullName.substring(0, lastDot);
-    }
+    return (lastDot < 0) ? "" : classFullName.substring(0, lastDot);
   }
 
   /**
@@ -89,9 +86,7 @@ public final class Reflection {
   public static <T> T newProxy(
       Class<T> interfaceType, InvocationHandler handler) {
     checkNotNull(handler);
-    if (!interfaceType.isInterface()) {
-      throw new IllegalArgumentException(interfaceType + " is not an interface");
-    }
+    checkArgument(interfaceType.isInterface(), "%s is not an interface", interfaceType);
     Object object = Proxy.newProxyInstance(
         interfaceType.getClassLoader(),
         new Class<?>[] { interfaceType },
