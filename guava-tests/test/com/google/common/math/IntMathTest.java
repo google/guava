@@ -501,6 +501,74 @@ public class IntMathTest extends TestCase {
     }
   }
 
+  @GwtIncompatible("java.math.BigInteger")
+  public void testMean() {
+    // Odd-sized ranges have an obvious mean
+    assertMean(2, 1, 3);
+
+    assertMean(-2, -3, -1);
+    assertMean(0, -1, 1);
+    assertMean(1, -1, 3);
+    assertMean((1 << 30) - 1, -1, Integer.MAX_VALUE);
+
+    // Even-sized ranges should prefer the lower mean
+    assertMean(2, 1, 4);
+    assertMean(-3, -4, -1);
+    assertMean(0, -1, 2);
+    assertMean(0, Integer.MIN_VALUE + 2, Integer.MAX_VALUE);
+    assertMean(0, 0, 1);
+    assertMean(-1, -1, 0);
+    assertMean(-1, Integer.MIN_VALUE, Integer.MAX_VALUE);
+
+    // x == y == mean
+    assertMean(1, 1, 1);
+    assertMean(0, 0, 0);
+    assertMean(-1, -1, -1);
+    assertMean(Integer.MIN_VALUE, Integer.MIN_VALUE, Integer.MIN_VALUE);
+    assertMean(Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE);
+
+    // Exhaustive checks
+    for (int x : ALL_INTEGER_CANDIDATES) {
+      for (int y : ALL_INTEGER_CANDIDATES) {
+        assertMean(x, y);
+      }
+    }
+  }
+
+  /**
+   * Helper method that asserts the arithmetic mean of x and y is equal
+   * to the expectedMean.
+   */
+  private static void assertMean(int expectedMean, int x, int y) {
+    assertEquals("The expectedMean should be the same as computeMeanSafely",
+        expectedMean, computeMeanSafely(x, y));
+    assertMean(x, y);
+  }
+
+  /**
+   * Helper method that asserts the arithmetic mean of x and y is equal
+   * to the result of computeMeanSafely.
+   */
+  private static void assertMean(int x, int y) {
+    int expectedMean = computeMeanSafely(x, y);
+    assertEquals(expectedMean, IntMath.mean(x, y));
+    assertEquals("The mean of x and y should equal the mean of y and x",
+        expectedMean, IntMath.mean(y, x));
+  }
+
+  /**
+   * Computes the mean in a way that is obvious and resilient to
+   * overflow by using BigInteger arithmetic.
+   */
+  private static int computeMeanSafely(int x, int y) {
+    BigInteger bigX = BigInteger.valueOf(x);
+    BigInteger bigY = BigInteger.valueOf(y);
+    BigDecimal bigMean = new BigDecimal(bigX.add(bigY))
+        .divide(BigDecimal.valueOf(2), BigDecimal.ROUND_FLOOR);
+    // parseInt blows up on overflow as opposed to intValue() which does not.
+    return Integer.parseInt(bigMean.toString());
+  }
+
   private boolean fitsInInt(BigInteger big) {
     return big.bitLength() <= 31;
   }
