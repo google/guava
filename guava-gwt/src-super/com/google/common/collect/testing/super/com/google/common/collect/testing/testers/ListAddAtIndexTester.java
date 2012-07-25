@@ -23,13 +23,10 @@ import static com.google.common.collect.testing.features.CollectionSize.ZERO;
 import static com.google.common.collect.testing.features.ListFeature.SUPPORTS_ADD_WITH_INDEX;
 
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.annotations.GwtIncompatible;
-import com.google.common.collect.testing.Helpers;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.ListFeature;
 
-import java.lang.reflect.Method;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 
@@ -152,15 +149,5 @@ public class ListAddAtIndexTester<E> extends AbstractListTester<E> {
     expectUnchanged();
     expectMissing(samples.e3);
   }
-
-  /**
-   * Returns the {@link Method} instance for
-   * {@link #testAddAtIndex_nullSupported()} so that tests can suppress it. See
-   * {@link CollectionAddTester#getAddNullSupportedMethod()} for details.
-   */
-  @GwtIncompatible("reflection")
-  public static Method getAddNullSupportedMethod() {
-    return Helpers.getMethod(
-        ListAddAtIndexTester.class, "testAddAtIndex_nullSupported");
-  }
 }
+

@@ -24,14 +24,11 @@ import static com.google.common.collect.testing.features.CollectionSize.ZERO;
 import static java.util.Collections.singletonList;
 
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.testing.AbstractCollectionTester;
-import com.google.common.collect.testing.Helpers;
 import com.google.common.collect.testing.MinimalCollection;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 
-import java.lang.reflect.Method;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.List;
@@ -164,16 +161,5 @@ public class CollectionAddAllTester<E> extends AbstractCollectionTester<E> {
     } catch (NullPointerException expected) {
     }
   }
-
-  /**
-   * Returns the {@link Method} instance for {@link
-   * #testAddAll_nullUnsupported()} so that tests can suppress it with {@code
-   * FeatureSpecificTestSuiteBuilder.suppressing()} until <a
-   * href="http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=5045147">Sun
-   * bug 5045147</a> is fixed.
-   */
-  @GwtIncompatible("reflection")
-  public static Method getAddAllNullUnsupportedMethod() {
-    return Helpers.getMethod(CollectionAddAllTester.class, "testAddAll_nullUnsupported");
-  }
 }
+

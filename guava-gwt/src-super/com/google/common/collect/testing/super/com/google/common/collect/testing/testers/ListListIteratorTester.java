@@ -25,18 +25,15 @@ import static com.google.common.collect.testing.testers.Platform.listListIterato
 import static java.util.Collections.singleton;
 
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.testing.Helpers;
 import com.google.common.collect.testing.IteratorFeature;
 import com.google.common.collect.testing.ListIteratorTester;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.ListFeature;
 
-import java.lang.reflect.Method;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Set;
-import java.util.concurrent.CopyOnWriteArraySet;
 
 /**
  * A generic JUnit test which tests {@code listIterator} operations on a list.
@@ -108,29 +105,5 @@ public class ListListIteratorTester<E> extends AbstractListTester<E> {
     getList().listIterator(getNumElements());
     // TODO: run the iterator through ListIteratorTester
   }
-
-  /**
-   * Returns the {@link Method} instance for
-   * {@link #testListIterator_fullyModifiable()} so that tests of
-   * {@link CopyOnWriteArraySet} can suppress it with
-   * {@code FeatureSpecificTestSuiteBuilder.suppressing()} until <a
-   * href="http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6570575">Sun bug
-   * 6570575</a> is fixed.
-   */
-  @GwtIncompatible("reflection")
-  public static Method getListIteratorFullyModifiableMethod() {
-    return Helpers.getMethod(
-        ListListIteratorTester.class, "testListIterator_fullyModifiable");
-  }
-
-  /**
-   * Returns the {@link Method} instance for
-   * {@link #testListIterator_unmodifiable()} so that it can be suppressed in
-   * GWT tests.
-   */
-  @GwtIncompatible("reflection")
-  public static Method getListIteratorUnmodifiableMethod() {
-    return Helpers.getMethod(
-        ListListIteratorTester.class, "testListIterator_unmodifiable");
-  }
 }
+

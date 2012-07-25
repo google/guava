@@ -21,29 +21,43 @@ import static com.google.common.collect.testing.features.CollectionFeature.SUPPO
 import static com.google.common.collect.testing.features.CollectionSize.ZERO;
 
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.testing.Helpers;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 
-import java.lang.reflect.Method;
+import java.util.List;
 
 /**
- * A generic JUnit test which tests add operations on a set. Can't be
- * invoked directly; please see
- * {@link com.google.common.collect.testing.SetTestSuiteBuilder}.
+ * A generic JUnit test which tests {@code add(Object)} operations on a list.
+ * Can't be invoked directly; please see
+ * {@link com.google.common.collect.testing.ListTestSuiteBuilder}.
  *
  * <p>This class is GWT compatible.
  *
- * @author Kevin Bourrillion
+ * @author Chris Povirk
  */
+@SuppressWarnings("unchecked") // too many "unchecked generic array creations"
 @GwtCompatible(emulated = true)
-public class SetAddTester<E> extends AbstractSetTester<E> {
+public class ListAddTester<E> extends AbstractListTester<E> {
   @CollectionFeature.Require(SUPPORTS_ADD)
   @CollectionSize.Require(absent = ZERO)
   public void testAdd_supportedPresent() {
-    assertFalse("add(present) should return false", getSet().add(samples.e0));
-    expectUnchanged();
+    assertTrue("add(present) should return true", getList().add(samples.e0));
+    expectAdded(samples.e0);
+  }
+
+  @CollectionFeature.Require(absent = SUPPORTS_ADD)
+  @CollectionSize.Require(absent = ZERO)
+  /*
+   * absent = ZERO isn't required, since unmodList.add() must
+   * throw regardless, but it keeps the method name accurate.
+   */
+  public void testAdd_unsupportedPresent() {
+    try {
+      getList().add(samples.e0);
+      fail("add(present) should throw");
+    } catch (UnsupportedOperationException expected) {
+    }
   }
 
   @CollectionFeature.Require(value = {SUPPORTS_ADD, ALLOWS_NULL_VALUES})
@@ -51,17 +65,11 @@ public class SetAddTester<E> extends AbstractSetTester<E> {
   public void testAdd_supportedNullPresent() {
     E[] array = createArrayWithNullElement();
     collection = getSubjectGenerator().create(array);
-    assertFalse("add(nullPresent) should return false", getSet().add(null));
-    expectContents(array);
-  }
+    assertTrue("add(nullPresent) should return true", getList().add(null));
 
-  /**
-   * Returns the {@link Method} instance for
-   * {@link #testAdd_supportedNullPresent()} so that tests can suppress it. See
-   * {@link CollectionAddTester#getAddNullSupportedMethod()} for details.
-   */
-  @GwtIncompatible("reflection")
-  public static Method getAddSupportedNullPresentMethod() {
-    return Helpers.getMethod(SetAddTester.class, "testAdd_supportedNullPresent");
+    List<E> expected = Helpers.copyToList(array);
+    expected.add(null);
+    expectContents(expected);
   }
 }
+

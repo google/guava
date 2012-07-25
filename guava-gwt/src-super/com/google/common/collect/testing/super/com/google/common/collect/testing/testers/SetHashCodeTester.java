@@ -19,12 +19,9 @@ package com.google.common.collect.testing.testers;
 import static com.google.common.collect.testing.features.CollectionFeature.ALLOWS_NULL_VALUES;
 
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.annotations.GwtIncompatible;
-import com.google.common.collect.testing.Helpers;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 
-import java.lang.reflect.Method;
 import java.util.Collection;
 
 /**
@@ -62,17 +59,5 @@ public class SetHashCodeTester<E> extends AbstractSetTester<E> {
             + "a null element counting as having a hash of zero).",
         expectedHashCode, getSet().hashCode());
   }
-
-  /**
-   * Returns the {@link Method} instances for the test methods in this class
-   * which call {@code hashCode()} on the set values so that set tests on
-   * unhashable objects can suppress it with
-   * {@code FeatureSpecificTestSuiteBuilder.suppressing()}.
-   */
-  @GwtIncompatible("reflection")
-  public static Method[] getHashCodeMethods() {
-    return new Method[]{
-        Helpers.getMethod(SetHashCodeTester.class, "testHashCode"),
-        Helpers.getMethod(SetHashCodeTester.class, "testHashCode_containingNull") };
-  }
 }
+

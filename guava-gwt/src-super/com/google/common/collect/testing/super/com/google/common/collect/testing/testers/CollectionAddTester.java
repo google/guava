@@ -23,13 +23,10 @@ import static com.google.common.collect.testing.features.CollectionFeature.SUPPO
 import static com.google.common.collect.testing.features.CollectionSize.ZERO;
 
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.testing.AbstractCollectionTester;
-import com.google.common.collect.testing.Helpers;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 
-import java.lang.reflect.Method;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 
@@ -109,35 +106,5 @@ public class CollectionAddTester<E> extends AbstractCollectionTester<E> {
       // success
     }
   }
-
-  /**
-   * Returns the {@link Method} instance for {@link #testAdd_nullSupported()} so
-   * that tests of {@link
-   * java.util.Collections#checkedCollection(java.util.Collection, Class)} can
-   * suppress it with {@code FeatureSpecificTestSuiteBuilder.suppressing()}
-   * until <a
-   * href="http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6409434">Sun bug
-   * 6409434</a> is fixed. It's unclear whether nulls were to be permitted or
-   * forbidden, but presumably the eventual fix will be to permit them, as it
-   * seems more likely that code would depend on that behavior than on the
-   * other. Thus, we say the bug is in add(), which fails to support null.
-   */
-  @GwtIncompatible("reflection")
-  public static Method getAddNullSupportedMethod() {
-    return Helpers.getMethod(CollectionAddTester.class, "testAdd_nullSupported");
-  }
-
-  /**
-   * Returns the {@link Method} instance for {@link #testAdd_nullSupported()} so
-   * that tests of {@link
-   * java.util.Collections#checkedCollection(java.util.Collection, Class)} can
-   * suppress it with {@code FeatureSpecificTestSuiteBuilder.suppressing()}
-   * until <a
-   * href="http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=5045147">Sun
-   * bug 5045147</a> is fixed.
-   */
-  @GwtIncompatible("reflection")
-  public static Method getAddNullUnsupportedMethod() {
-    return Helpers.getMethod(CollectionAddTester.class, "testAdd_nullUnsupported");
-  }
 }
+

@@ -270,10 +270,10 @@ public abstract class FeatureSpecificTestSuiteBuilder<
   private static Method extractMethod(Test test) {
     if (test instanceof AbstractTester) {
       AbstractTester<?> tester = (AbstractTester<?>) test;
-      return Platform.getMethod(tester.getClass(), tester.getTestMethodName());
+      return Helpers.getMethod(tester.getClass(), tester.getTestMethodName());
     } else if (test instanceof TestCase) {
       TestCase testCase = (TestCase) test;
-      return Platform.getMethod(testCase.getClass(), testCase.getName());
+      return Helpers.getMethod(testCase.getClass(), testCase.getName());
     } else {
       throw new IllegalArgumentException(
           "unable to extract method from test: not a TestCase.");

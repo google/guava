@@ -21,12 +21,8 @@ import static com.google.common.collect.testing.features.CollectionFeature.SUPPO
 import static com.google.common.collect.testing.features.CollectionSize.ZERO;
 
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.annotations.GwtIncompatible;
-import com.google.common.collect.testing.Helpers;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
-
-import java.lang.reflect.Method;
 
 /**
  * A generic JUnit test which tests add operations on a set. Can't be
@@ -54,14 +50,5 @@ public class SetAddTester<E> extends AbstractSetTester<E> {
     assertFalse("add(nullPresent) should return false", getSet().add(null));
     expectContents(array);
   }
-
-  /**
-   * Returns the {@link Method} instance for
-   * {@link #testAdd_supportedNullPresent()} so that tests can suppress it. See
-   * {@link CollectionAddTester#getAddNullSupportedMethod()} for details.
-   */
-  @GwtIncompatible("reflection")
-  public static Method getAddSupportedNullPresentMethod() {
-    return Helpers.getMethod(SetAddTester.class, "testAdd_supportedNullPresent");
-  }
 }
+

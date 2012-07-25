@@ -22,22 +22,18 @@ import static com.google.common.collect.testing.features.CollectionFeature.KNOWN
 import static com.google.common.collect.testing.features.CollectionFeature.SUPPORTS_REMOVE;
 
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.testing.AbstractCollectionTester;
 import com.google.common.collect.testing.Helpers;
 import com.google.common.collect.testing.IteratorFeature;
 import com.google.common.collect.testing.IteratorTester;
 import com.google.common.collect.testing.features.CollectionFeature;
 
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Set;
-import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.concurrent.CopyOnWriteArraySet;
 
 /**
  * A generic JUnit test which tests {@code iterator} operations on a collection.
@@ -115,31 +111,6 @@ public class CollectionIteratorTester<E> extends AbstractCollectionTester<E> {
     }.test();
   }
 
-  /**
-   * Returns the {@link Method} instance for
-   * {@link #testIterator_knownOrderRemoveSupported()} so that tests of
-   * {@link CopyOnWriteArraySet} and {@link CopyOnWriteArrayList} can suppress
-   * it with {@code FeatureSpecificTestSuiteBuilder.suppressing()} until <a
-   * href="http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6570575">Sun bug
-   * 6570575</a> is fixed.
-   */
-  @GwtIncompatible("reflection")
-  public static Method getIteratorKnownOrderRemoveSupportedMethod() {
-    return Helpers.getMethod(
-          CollectionIteratorTester.class, "testIterator_knownOrderRemoveSupported");
-  }
-
-  /**
-   * Returns the {@link Method} instance for
-   * {@link #testIterator_unknownOrderRemoveSupported()} so that tests of
-   * classes with unmodifiable iterators can suppress it.
-   */
-  @GwtIncompatible("reflection")
-  public static Method getIteratorUnknownOrderRemoveSupportedMethod() {
-    return Helpers.getMethod(
-        CollectionIteratorTester.class, "testIterator_unknownOrderRemoveSupported");
-  }
-
   public void testIteratorNoSuchElementException() {
     Iterator<E> iterator = collection.iterator();
     while (iterator.hasNext()) {
@@ -151,18 +122,5 @@ public class CollectionIteratorTester<E> extends AbstractCollectionTester<E> {
       fail("iterator.next() should throw NoSuchElementException");
     } catch (NoSuchElementException expected) {}
   }
-
-  /**
-   * Returns the {@link Method} instance for
-   * {@link #testIterator_knownOrderRemoveUnsupported()} so that tests of
-   * {@code ArrayStack} can suppress it with
-   * {@code FeatureSpecificTestSuiteBuilder.suppressing()}. {@code ArrayStack}
-   * supports {@code remove()} on only the first element, and the iterator
-   * tester can't handle that.
-   */
-  @GwtIncompatible("reflection")
-  public static Method getIteratorKnownOrderRemoveUnsupportedMethod() {
-    return Helpers.getMethod(
-        CollectionIteratorTester.class, "testIterator_knownOrderRemoveUnsupported");
-  }
 }
+

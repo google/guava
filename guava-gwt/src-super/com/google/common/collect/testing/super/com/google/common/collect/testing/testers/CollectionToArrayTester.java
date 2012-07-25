@@ -20,16 +20,13 @@ import static com.google.common.collect.testing.features.CollectionFeature.KNOWN
 import static com.google.common.collect.testing.features.CollectionSize.ZERO;
 
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.testing.AbstractCollectionTester;
 import com.google.common.collect.testing.Helpers;
 import com.google.common.collect.testing.WrongType;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 
-import java.lang.reflect.Method;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 
 /**
@@ -186,17 +183,5 @@ public class CollectionToArrayTester<E> extends AbstractCollectionTester<E> {
     assertEquals("toArray() ordered contents: ",
         expected, Arrays.asList(actual));
   }
-
-  /**
-   * Returns the {@link Method} instance for
-   * {@link #testToArray_isPlainObjectArray()} so that tests of
-   * {@link Arrays#asList(Object[])} can suppress it with {@code
-   * FeatureSpecificTestSuiteBuilder.suppressing()} until <a
-   * href="http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6260652">Sun bug
-   * 6260652</a> is fixed.
-   */
-  @GwtIncompatible("reflection")
-  public static Method getToArrayIsPlainObjectArrayMethod() {
-    return Helpers.getMethod(CollectionToArrayTester.class, "testToArray_isPlainObjectArray");
-  }
 }
+

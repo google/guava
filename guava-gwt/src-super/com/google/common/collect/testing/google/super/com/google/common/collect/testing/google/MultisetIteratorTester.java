@@ -18,16 +18,12 @@ import static com.google.common.collect.testing.features.CollectionFeature.KNOWN
 import static com.google.common.collect.testing.features.CollectionFeature.SUPPORTS_REMOVE;
 
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.annotations.GwtIncompatible;
-import com.google.common.collect.testing.Helpers;
 import com.google.common.collect.testing.IteratorFeature;
 import com.google.common.collect.testing.IteratorTester;
 import com.google.common.collect.testing.features.CollectionFeature;
 
-import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.Iterator;
-import java.util.List;
 
 /**
  * Tester to make sure the {@code iterator().remove()} implementation of {@code Multiset} works when
@@ -90,17 +86,5 @@ public class MultisetIteratorTester<E> extends AbstractMultisetTester<E> {
       }
     }.test();
   }
-
-  /**
-   * Returns {@link Method} instances for the tests that assume multisets support duplicates so that
-   * the test of {@code Multisets.forSet()} can suppress them.
-   */
-  @GwtIncompatible("reflection")
-  public static List<Method> getIteratorDuplicateInitializingMethods() {
-    return Arrays.asList(
-        Helpers.getMethod(MultisetIteratorTester.class, "testIteratorKnownOrder"),
-        Helpers.getMethod(MultisetIteratorTester.class, "testIteratorUnknownOrder"),
-        Helpers.getMethod(MultisetIteratorTester.class, "testRemovingIteratorKnownOrder"),
-        Helpers.getMethod(MultisetIteratorTester.class, "testRemovingIteratorUnknownOrder"));
-  }
 }
+

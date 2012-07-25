@@ -22,13 +22,11 @@ import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
 
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.annotations.GwtIncompatible;
 
 import junit.framework.Assert;
 import junit.framework.AssertionFailedError;
 
 import java.io.Serializable;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -399,13 +397,5 @@ public class Helpers {
       super("two"); // from TestStringSortedMapGenerator's sample keys
     }
   }
-
-  @GwtIncompatible("reflection")
-  public static Method getMethod(Class<?> clazz, String name) {
-    try {
-      return clazz.getMethod(name);
-    } catch (Exception e) {
-      throw new IllegalArgumentException(e);
-    }
-  }
 }
+

@@ -25,18 +25,13 @@ import static com.google.common.collect.testing.features.CollectionSize.SEVERAL;
 import static com.google.common.collect.testing.features.CollectionSize.ZERO;
 
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.Multiset;
 import com.google.common.collect.Multiset.Entry;
-import com.google.common.collect.testing.Helpers;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 
-import java.lang.reflect.Method;
-import java.util.Arrays;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
-import java.util.List;
 
 /**
  * Common superclass for {@link MultisetSetCountUnconditionallyTester} and
@@ -388,22 +383,5 @@ public abstract class AbstractMultisetSetCountTester<E>
   }
 
   // TODO: test adding element of wrong type
-
-  /**
-   * Returns {@link Method} instances for the {@code setCount()} tests that
-   * assume multisets support duplicates so that the test of {@code
-   * Multisets.forSet()} can suppress them.
-   */
-  @GwtIncompatible("reflection")
-  public static List<Method> getSetCountDuplicateInitializingMethods() {
-    return Arrays.asList(
-        getMethod("testSetCount_threeToThree_removeSupported"),
-        getMethod("testSetCount_threeToZero_supported"),
-        getMethod("testSetCount_threeToOne_supported"));
-  }
-
-  @GwtIncompatible("reflection")
-  private static Method getMethod(String methodName) {
-    return Helpers.getMethod(AbstractMultisetSetCountTester.class, methodName);
-  }
 }
+

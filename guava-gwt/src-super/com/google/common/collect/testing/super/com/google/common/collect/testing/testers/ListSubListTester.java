@@ -16,7 +16,6 @@
 
 package com.google.common.collect.testing.testers;
 
-import static com.google.common.collect.testing.Helpers.getMethod;
 import static com.google.common.collect.testing.features.CollectionFeature.SERIALIZABLE_INCLUDING_VIEWS;
 import static com.google.common.collect.testing.features.CollectionSize.ONE;
 import static com.google.common.collect.testing.features.CollectionSize.ZERO;
@@ -26,18 +25,15 @@ import static com.google.common.collect.testing.features.ListFeature.SUPPORTS_SE
 import static java.util.Collections.emptyList;
 
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.testing.Helpers;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.ListFeature;
 import com.google.common.testing.SerializableTester;
 
-import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * A generic JUnit test which tests {@code subList()} operations on a list.
@@ -321,46 +317,8 @@ public class ListSubListTester<E> extends AbstractListTester<E> {
     SerializableTester.reserializeAndAssert(getList().subList(0, 2));
   }
 
-  /**
-   * Returns the {@link Method} instance for
-   * {@link #testSubList_originalListSetAffectsSubList()} so that tests
-   * of {@link CopyOnWriteArrayList} can suppress them with
-   * {@code FeatureSpecificTestSuiteBuilder.suppressing()} until <a
-   * href="http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6570631">Sun bug
-   * 6570631</a> is fixed.
-   */
-  @GwtIncompatible("reflection")
-  public static Method getSubListOriginalListSetAffectsSubListMethod() {
-    return getMethod(ListSubListTester.class, "testSubList_originalListSetAffectsSubList");
-  }
-
-  /**
-   * Returns the {@link Method} instance for
-   * {@link #testSubList_originalListSetAffectsSubListLargeList()} ()} so that
-   * tests of {@link CopyOnWriteArrayList} can suppress them with
-   * {@code FeatureSpecificTestSuiteBuilder.suppressing()} until <a
-   * href="http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6570631">Sun bug
-   * 6570631</a> is fixed.
-   */
-  @GwtIncompatible("reflection")
-  public static Method getSubListOriginalListSetAffectsSubListLargeListMethod() {
-    return getMethod(ListSubListTester.class, "testSubList_originalListSetAffectsSubListLargeList");
-  }
-
-  /**
-   * Returns the {@link Method} instance for
-   * {@link #testSubList_subListRemoveAffectsOriginalLargeList()} so that tests
-   * of {@link CopyOnWriteArrayList} can suppress it with
-   * {@code FeatureSpecificTestSuiteBuilder.suppressing()} until <a
-   * href="http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6570575">Sun bug
-   * 6570575</a> is fixed.
-   */
-  @GwtIncompatible("reflection")
-  public static Method getSubListSubListRemoveAffectsOriginalLargeListMethod() {
-    return getMethod(ListSubListTester.class, "testSubList_subListRemoveAffectsOriginalLargeList");
-  }
-
   /*
    * TODO: perform all List tests on subList(), but beware infinite recursion
    */
 }
+

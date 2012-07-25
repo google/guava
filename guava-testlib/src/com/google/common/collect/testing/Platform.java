@@ -18,8 +18,6 @@ package com.google.common.collect.testing;
 
 import com.google.common.annotations.GwtCompatible;
 
-import java.lang.reflect.Method;
-
 /**
  * Methods factored out so that they can be emulated differently in GWT.
  *
@@ -51,14 +49,6 @@ class Platform {
 
   static String format(String template, Object... args) {
     return String.format(template, args);
-  }
-
-  static Method getMethod(Class<?> clazz, String name) {
-    try {
-      return clazz.getMethod(name);
-    } catch (Exception e) {
-      throw new IllegalArgumentException(e);
-    }
   }
 
   static String classGetSimpleName(Class<?> clazz) {

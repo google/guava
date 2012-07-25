@@ -21,17 +21,11 @@ import static com.google.common.collect.testing.features.CollectionSize.SEVERAL;
 import static com.google.common.collect.testing.features.CollectionSize.ZERO;
 
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.HashMultiset;
 import com.google.common.collect.Multiset;
 import com.google.common.collect.Multisets;
-import com.google.common.collect.testing.Helpers;
 import com.google.common.collect.testing.WrongType;
 import com.google.common.collect.testing.features.CollectionSize;
-
-import java.lang.reflect.Method;
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * A generic JUnit test which tests multiset-specific read operations.
@@ -143,15 +137,5 @@ public class MultisetReadsTester<E> extends AbstractMultisetTester<E> {
     assertEquals("multiset has incorrect hash code",
         1 ^ samples.e0.hashCode(), getMultiset().hashCode());
   }
-
-  /**
-   * Returns {@link Method} instances for the read tests that assume multisets
-   * support duplicates so that the test of {@code Multisets.forSet()} can
-   * suppress them.
-   */
-  @GwtIncompatible("reflection")
-  public static List<Method> getReadsDuplicateInitializingMethods() {
-    return Arrays.asList(
-        Helpers.getMethod(MultisetReadsTester.class, "testCount_3"));
-  }
 }
+

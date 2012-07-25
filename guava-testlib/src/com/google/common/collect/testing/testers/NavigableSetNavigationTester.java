@@ -248,10 +248,10 @@ public class NavigableSetNavigationTester<E> extends AbstractSetTester<E> {
    */
   public static Method[] getHoleMethods() {
     return new Method[] {
-        Platform.getMethod(NavigableSetNavigationTester.class, "testLowerHole"),
-        Platform.getMethod(NavigableSetNavigationTester.class, "testFloorHole"),
-        Platform.getMethod(NavigableSetNavigationTester.class, "testCeilingHole"),
-        Platform.getMethod(NavigableSetNavigationTester.class, "testHigherHole"),
+        Helpers.getMethod(NavigableSetNavigationTester.class, "testLowerHole"),
+        Helpers.getMethod(NavigableSetNavigationTester.class, "testFloorHole"),
+        Helpers.getMethod(NavigableSetNavigationTester.class, "testCeilingHole"),
+        Helpers.getMethod(NavigableSetNavigationTester.class, "testHigherHole"),
     };
   }
 }

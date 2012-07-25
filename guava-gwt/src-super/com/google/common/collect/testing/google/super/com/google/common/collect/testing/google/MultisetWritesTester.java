@@ -22,15 +22,12 @@ import static com.google.common.collect.testing.features.CollectionSize.ONE;
 import static com.google.common.collect.testing.features.CollectionSize.ZERO;
 
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.Multiset;
 import com.google.common.collect.Multisets;
-import com.google.common.collect.testing.Helpers;
 import com.google.common.collect.testing.WrongType;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 
-import java.lang.reflect.Method;
 import java.util.Collections;
 import java.util.Iterator;
 
@@ -42,16 +39,6 @@ import java.util.Iterator;
  */
 @GwtCompatible(emulated = true)
 public class MultisetWritesTester<E> extends AbstractMultisetTester<E> {
-  /**
-   * Returns the {@link Method} instance for
-   * {@link #testEntrySet_iterator()} so that tests of
-   * classes with unmodifiable iterators can suppress it.
-   */
-  @GwtIncompatible("reflection")
-  public static Method getEntrySetIteratorMethod() {
-    return Helpers.getMethod(
-        MultisetWritesTester.class, "testEntrySet_iterator");
-  }
 
   @CollectionFeature.Require(SUPPORTS_ADD)
   public void testAddOccurrencesZero() {
@@ -263,3 +250,4 @@ public class MultisetWritesTester<E> extends AbstractMultisetTester<E> {
     } catch (NullPointerException expected) {}
   }
 }
+
