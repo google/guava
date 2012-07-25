@@ -261,12 +261,8 @@ public class EventBus {
   /**
    * Drain the queue of events to be dispatched. As the queue is being drained,
    * new events may be posted to the end of the queue.
-   *
-   * @deprecated This method should not be overridden outside of the eventbus package. It is
-   *     scheduled for removal in Guava 14.0.
    */
-  @Deprecated
-  protected void dispatchQueuedEvents() {
+  void dispatchQueuedEvents() {
     // don't dispatch if we're already dispatching, that would allow reentrancy
     // and out-of-order events. Instead, leave the events to be dispatched
     // after the in-progress dispatch is complete.
