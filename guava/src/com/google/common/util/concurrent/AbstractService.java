@@ -505,7 +505,8 @@ public abstract class AbstractService implements Service {
       this(internalState, false, null);
     }
 
-    StateSnapshot(State internalState, boolean shutdownWhenStartupFinishes, Throwable failure) {
+    StateSnapshot(
+        State internalState, boolean shutdownWhenStartupFinishes, @Nullable Throwable failure) {
       checkArgument(!shutdownWhenStartupFinishes || internalState == State.STARTING,
           "shudownWhenStartupFinishes can only be set if state is STARTING. Got %s instead.",
           internalState);
