@@ -27,7 +27,7 @@ import java.util.TreeSet;
 
 /**
  * Helper classes for various benchmarks.
- * 
+ *
  * @author Christopher Swenson
  */
 final class BenchmarkHelpers {
@@ -64,7 +64,8 @@ final class BenchmarkHelpers {
       @Override Set<Element> create(Collection<Element> contents) {
         return ImmutableSet.copyOf(contents);
       }
-    };
+    },
+    ;
 
     abstract Set<Element> create(Collection<Element> contents);
   }
