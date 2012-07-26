@@ -22,6 +22,7 @@ import static com.google.common.collect.Maps.unmodifiableNavigableMap;
 import static com.google.common.collect.testing.Helpers.*;
 import static com.google.common.collect.testing.testers.CollectionIteratorTester.getIteratorUnknownOrderRemoveSupportedMethod;
 import static org.junit.contrib.truth.Truth.ASSERT;
+import static java.util.Arrays.asList;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -62,6 +63,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.NavigableMap;
+import java.util.NavigableSet;
 import java.util.Properties;
 import java.util.Set;
 import java.util.SortedMap;
@@ -684,7 +686,8 @@ public class MapsTest extends TestCase {
   }
 
   public void testAsMapSorted() {
-    SortedSet<String> strings = ImmutableSortedSet.of("one", "two", "three");
+    SortedSet<String> strings = new NonNavigableSortedSet();
+    Collections.addAll(strings, "one", "two", "three");
     SortedMap<String, Integer> map = Maps.asMap(strings, LENGTH_FUNCTION);
     assertEquals(ImmutableMap.of("one", 3, "two", 3, "three", 5), map);
     assertEquals(Integer.valueOf(5), map.get("three"));
@@ -702,7 +705,7 @@ public class MapsTest extends TestCase {
   }
 
   public void testAsMapSortedReadsThrough() {
-    SortedSet<String> strings = Sets.newTreeSet();
+    SortedSet<String> strings = new NonNavigableSortedSet();
     Collections.addAll(strings, "one", "two", "three");
     SortedMap<String, Integer> map = Maps.asMap(strings, LENGTH_FUNCTION);
     assertNull(map.comparator());
@@ -730,17 +733,200 @@ public class MapsTest extends TestCase {
   }
 
   public void testAsMapSortedWritesThrough() {
-    Set<String> strings = Sets.newTreeSet();
+    SortedSet<String> strings = new NonNavigableSortedSet();
     Collections.addAll(strings, "one", "two", "three");
-    Map<String, Integer> map = Maps.asMap(strings, LENGTH_FUNCTION);
+    SortedMap<String, Integer> map = Maps.asMap(strings, LENGTH_FUNCTION);
     assertEquals(ImmutableMap.of("one", 3, "two", 3, "three", 5), map);
     assertEquals(Integer.valueOf(3), map.remove("two"));
     ASSERT.that(strings).hasContentsInOrder("one", "three");
   }
 
+  public void testAsMapSortedSubViewKeySetsDoNotSupportAdd() {
+    SortedMap<String, Integer> map = Maps.asMap(
+        new NonNavigableSortedSet(), LENGTH_FUNCTION);
+    try {
+      map.subMap("a", "z").keySet().add("a");
+      fail();
+    } catch (UnsupportedOperationException expected) {
+    }
+    try {
+      map.tailMap("a").keySet().add("a");
+      fail();
+    } catch (UnsupportedOperationException expected) {
+    }
+    try {
+      map.headMap("r").keySet().add("a");
+      fail();
+    } catch (UnsupportedOperationException expected) {
+    }
+    try {
+      map.headMap("r").tailMap("m").keySet().add("a");
+      fail();
+    } catch (UnsupportedOperationException expected) {
+    }
+  }
+
   public void testAsMapSortedEmpty() {
-    SortedSet<String> strings = ImmutableSortedSet.of();
+    SortedSet<String> strings = new NonNavigableSortedSet();
     SortedMap<String, Integer> map = Maps.asMap(strings, LENGTH_FUNCTION);
+    ASSERT.that(map.entrySet()).isEmpty();
+    assertTrue(map.isEmpty());
+    assertNull(map.get("five"));
+  }
+
+  @GwtIncompatible("NavigableMap")
+  public void testAsMapReturnsNavigableMapForNavigableSetInput() {
+    Set<String> set = Sets.newTreeSet();
+    assertTrue(Maps.asMap(set, Functions.identity()) instanceof NavigableMap);
+  }
+
+  @GwtIncompatible("NavigableMap")
+  public void testAsMapNavigable() {
+    NavigableSet<String> strings =
+        Sets.newTreeSet(asList("one", "two", "three"));
+    NavigableMap<String, Integer> map = Maps.asMap(strings, LENGTH_FUNCTION);
+    assertEquals(ImmutableMap.of("one", 3, "two", 3, "three", 5), map);
+    assertEquals(Integer.valueOf(5), map.get("three"));
+    assertNull(map.get("five"));
+    ASSERT.that(map.entrySet()).hasContentsInOrder(
+        mapEntry("one", 3),
+        mapEntry("three", 5),
+        mapEntry("two", 3));
+    ASSERT.that(map.tailMap("onea").entrySet()).hasContentsInOrder(
+        mapEntry("three", 5),
+        mapEntry("two", 3));
+    ASSERT.that(map.subMap("one", "two").entrySet()).hasContentsInOrder(
+        mapEntry("one", 3),
+        mapEntry("three", 5));
+
+    assertEquals(ImmutableSortedMap.of("two", 3, "three", 5),
+        map.tailMap("three", true));
+    assertEquals(ImmutableSortedMap.of("one", 3, "three", 5),
+        map.headMap("two", false));
+    assertEquals(ImmutableSortedMap.of("three", 5),
+        map.subMap("one", false, "tr", true));
+
+    assertEquals("three", map.higherKey("one"));
+    assertEquals("three", map.higherKey("r"));
+    assertEquals("three", map.ceilingKey("r"));
+    assertEquals("one", map.ceilingKey("one"));
+    assertEquals(mapEntry("three", 5), map.higherEntry("one"));
+    assertEquals(mapEntry("one", 3), map.ceilingEntry("one"));
+    assertEquals("one", map.lowerKey("three"));
+    assertEquals("one", map.lowerKey("r"));
+    assertEquals("one", map.floorKey("r"));
+    assertEquals("three", map.floorKey("three"));
+
+    ASSERT.that(map.descendingMap().entrySet()).hasContentsInOrder(
+        mapEntry("two", 3),
+        mapEntry("three", 5),
+        mapEntry("one", 3));
+    assertEquals(map.headMap("three", true),
+        map.descendingMap().tailMap("three", true));
+    ASSERT.that(map.tailMap("three", false).entrySet()).hasContentsInOrder(
+        mapEntry("two", 3));
+    assertNull(map.tailMap("three", true).lowerEntry("three"));
+    ASSERT.that(map.headMap("two", false).values()).hasContentsInOrder(3, 5);
+    ASSERT.that(map.headMap("two", false).descendingMap().values())
+        .hasContentsInOrder(5, 3);
+    ASSERT.that(map.descendingKeySet()).hasContentsInOrder(
+        "two", "three", "one");
+
+    assertEquals(mapEntry("one", 3), map.pollFirstEntry());
+    assertEquals(mapEntry("two", 3), map.pollLastEntry());
+    assertEquals(1, map.size());
+  }
+
+  @GwtIncompatible("NavigableMap")
+  public void testAsMapNavigableReadsThrough() {
+    NavigableSet<String> strings = Sets.newTreeSet();
+    Collections.addAll(strings, "one", "two", "three");
+    NavigableMap<String, Integer> map = Maps.asMap(strings, LENGTH_FUNCTION);
+    assertNull(map.comparator());
+    assertEquals(ImmutableSortedMap.of("one", 3, "two", 3, "three", 5), map);
+    assertNull(map.get("four"));
+    strings.add("four");
+    assertEquals(
+        ImmutableSortedMap.of("one", 3, "two", 3, "three", 5, "four", 4),
+        map);
+    assertEquals(Integer.valueOf(4), map.get("four"));
+    SortedMap<String, Integer> headMap = map.headMap("two");
+    assertEquals(
+        ImmutableSortedMap.of("four", 4, "one", 3, "three", 5),
+        headMap);
+    strings.add("five");
+    strings.remove("one");
+    assertEquals(
+        ImmutableSortedMap.of("five", 4, "four", 4, "three", 5),
+        headMap);
+    ASSERT.that(map.entrySet()).hasContentsInOrder(
+        mapEntry("five", 4),
+        mapEntry("four", 4),
+        mapEntry("three", 5),
+        mapEntry("two", 3));
+
+    NavigableMap<String, Integer> tailMap = map.tailMap("s", true);
+    NavigableMap<String, Integer> subMap = map.subMap("a", true, "t", false);
+
+    strings.add("six");
+    strings.remove("two");
+    ASSERT.that(tailMap.entrySet()).hasContentsInOrder(
+        mapEntry("six", 3),
+        mapEntry("three", 5));
+    ASSERT.that(subMap.entrySet()).hasContentsInOrder(
+        mapEntry("five", 4),
+        mapEntry("four", 4),
+        mapEntry("six", 3));
+  }
+
+  @GwtIncompatible("NavigableMap")
+  public void testAsMapNavigableWritesThrough() {
+    NavigableSet<String> strings = Sets.newTreeSet();
+    Collections.addAll(strings, "one", "two", "three");
+    NavigableMap<String, Integer> map = Maps.asMap(strings, LENGTH_FUNCTION);
+    assertEquals(ImmutableMap.of("one", 3, "two", 3, "three", 5), map);
+    assertEquals(Integer.valueOf(3), map.remove("two"));
+    ASSERT.that(strings).hasContentsInOrder("one", "three");
+    assertEquals(mapEntry("three", 5),
+        map.subMap("one", false, "zzz", true).pollLastEntry());
+    ASSERT.that(strings).hasContentsInOrder("one");
+  }
+
+  @GwtIncompatible("NavigableMap")
+  public void testAsMapNavigableSubViewKeySetsDoNotSupportAdd() {
+    NavigableMap<String, Integer> map = Maps.asMap(
+        Sets.<String>newTreeSet(), LENGTH_FUNCTION);
+    try {
+      map.descendingKeySet().add("a");
+      fail();
+    } catch (UnsupportedOperationException expected) {
+    }
+    try {
+      map.subMap("a", true, "z", false).keySet().add("a");
+      fail();
+    } catch (UnsupportedOperationException expected) {
+    }
+    try {
+      map.tailMap("a", true).keySet().add("a");
+      fail();
+    } catch (UnsupportedOperationException expected) {
+    }
+    try {
+      map.headMap("r", true).keySet().add("a");
+      fail();
+    } catch (UnsupportedOperationException expected) {
+    }
+    try {
+      map.headMap("r", false).tailMap("m", true).keySet().add("a");
+      fail();
+    } catch (UnsupportedOperationException expected) {
+    }
+  }
+
+  @GwtIncompatible("NavigableMap")
+  public void testAsMapNavigableEmpty() {
+    NavigableSet<String> strings = ImmutableSortedSet.of();
+    NavigableMap<String, Integer> map = Maps.asMap(strings, LENGTH_FUNCTION);
     ASSERT.that(map.entrySet()).isEmpty();
     assertTrue(map.isEmpty());
     assertNull(map.get("five"));

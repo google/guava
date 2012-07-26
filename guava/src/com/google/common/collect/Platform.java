@@ -17,11 +17,14 @@
 package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.base.Function;
 import com.google.common.collect.Maps.EntryTransformer;
 
 import java.lang.reflect.Array;
 import java.util.NavigableMap;
+import java.util.NavigableSet;
 import java.util.SortedMap;
+import java.util.SortedSet;
 
 /**
  * Methods factored out so that they can be emulated differently in GWT.
@@ -71,6 +74,13 @@ class Platform {
     return (fromMap instanceof NavigableMap)
         ? Maps.transformEntries((NavigableMap<K, V1>) fromMap, transformer)
         : Maps.transformEntriesIgnoreNavigable(fromMap, transformer);
+  }
+
+  static <K, V> SortedMap<K, V> mapsAsMapSortedSet(SortedSet<K> set,
+      Function<? super K, V> function) {
+    return (set instanceof NavigableSet)
+        ? Maps.asMap((NavigableSet<K>) set, function)
+        : Maps.asMapSortedIgnoreNavigable(set, function);
   }
 
   private Platform() {}

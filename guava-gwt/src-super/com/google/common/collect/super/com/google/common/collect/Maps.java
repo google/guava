@@ -648,7 +648,11 @@ public final class Maps {
   @Beta
   static <K, V> SortedMap<K, V> asMap(
       SortedSet<K> set, Function<? super K, V> function) {
-    // TODO: NavigableSet overloads
+    return Platform.mapsAsMapSortedSet(set, function);
+  }
+
+  static <K, V> SortedMap<K, V> asMapSortedIgnoreNavigable(SortedSet<K> set,
+      Function<? super K, V> function) {
     return new SortedAsMapView<K, V>(set, function);
   }
 
@@ -669,22 +673,7 @@ public final class Maps {
     @Override
     public Set<K> keySet() {
       // probably not worth caching
-      return new ForwardingSet<K>() {
-        @Override
-        protected Set<K> delegate() {
-          return set;
-        }
-
-        @Override
-        public boolean add(K element) {
-          throw new UnsupportedOperationException();
-        }
-
-        @Override
-        public boolean addAll(Collection<? extends K> collection) {
-          throw new UnsupportedOperationException();
-        }
-      };
+      return removeOnlySet(backingSet());
     }
 
     @Override
@@ -695,17 +684,17 @@ public final class Maps {
 
     @Override
     public int size() {
-      return set.size();
+      return backingSet().size();
     }
 
     @Override
     public boolean containsKey(@Nullable Object key) {
-      return set.contains(key);
+      return backingSet().contains(key);
     }
 
     @Override
     public V get(@Nullable Object key) {
-      if (set.contains(key)) {
+      if (backingSet().contains(key)) {
         @SuppressWarnings("unchecked") // unsafe, but Javadoc warns about it
         K k = (K) key;
         return function.apply(k);
@@ -716,7 +705,7 @@ public final class Maps {
 
     @Override
     public V remove(@Nullable Object key) {
-      if (set.remove(key)) {
+      if (backingSet().remove(key)) {
         @SuppressWarnings("unchecked") // unsafe, but Javadoc warns about it
         K k = (K) key;
         return function.apply(k);
@@ -727,7 +716,11 @@ public final class Maps {
 
     @Override
     public void clear() {
-      set.clear();
+      backingSet().clear();
+    }
+
+    protected Entry<K, V> entry(K key) {
+      return immutableEntry(key, function.apply(key));
     }
 
     @Override
@@ -740,7 +733,7 @@ public final class Maps {
 
         @Override
         public Iterator<Entry<K, V>> iterator() {
-          final Iterator<K> backingIterator = set.iterator();
+          final Iterator<K> backingIterator = backingSet().iterator();
           return new Iterator<Entry<K, V>>() {
             @Override
             public boolean hasNext() {
@@ -749,8 +742,7 @@ public final class Maps {
 
             @Override
             public Entry<K, V> next() {
-              K k = backingIterator.next();
-              return Maps.immutableEntry(k, function.apply(k));
+              return entry(backingIterator.next());
             }
 
             @Override
@@ -763,7 +755,7 @@ public final class Maps {
     }
   }
 
-  private static final class SortedAsMapView<K, V> extends AsMapView<K, V>
+  private static class SortedAsMapView<K, V> extends AsMapView<K, V>
       implements SortedMap<K, V> {
 
     SortedAsMapView(SortedSet<K> set, Function<? super K, V> function) {
@@ -771,8 +763,18 @@ public final class Maps {
     }
 
     @Override
+    SortedSet<K> backingSet() {
+      return (SortedSet<K>) super.backingSet();
+    }
+
+    @Override
     public Comparator<? super K> comparator() {
       return backingSet().comparator();
+    }
+
+    @Override
+    public Set<K> keySet() {
+      return removeOnlySortedSet(backingSet());
     }
 
     @Override
@@ -799,11 +801,59 @@ public final class Maps {
     public K lastKey() {
       return backingSet().last();
     }
+  }
 
-    @Override
-    SortedSet<K> backingSet() {
-      return (SortedSet<K>) super.backingSet();
-    }
+  private static <E> Set<E> removeOnlySet(final Set<E> set) {
+    return new ForwardingSet<E>() {
+      @Override
+      protected Set<E> delegate() {
+        return set;
+      }
+
+      @Override
+      public boolean add(E element) {
+        throw new UnsupportedOperationException();
+      }
+
+      @Override
+      public boolean addAll(Collection<? extends E> es) {
+        throw new UnsupportedOperationException();
+      }
+    };
+  }
+
+  private static <E> SortedSet<E> removeOnlySortedSet(final SortedSet<E> set) {
+    return new ForwardingSortedSet<E>() {
+      @Override
+      protected SortedSet<E> delegate() {
+        return set;
+      }
+
+      @Override
+      public boolean add(E element) {
+        throw new UnsupportedOperationException();
+      }
+
+      @Override
+      public boolean addAll(Collection<? extends E> es) {
+        throw new UnsupportedOperationException();
+      }
+
+      @Override
+      public SortedSet<E> headSet(E toElement) {
+        return removeOnlySortedSet(super.headSet(toElement));
+      }
+
+      @Override
+      public SortedSet<E> subSet(E fromElement, E toElement) {
+        return removeOnlySortedSet(super.subSet(fromElement, toElement));
+      }
+
+      @Override
+      public SortedSet<E> tailSet(E fromElement) {
+        return removeOnlySortedSet(super.tailSet(fromElement));
+      }
+    };
   }
 
   /**
