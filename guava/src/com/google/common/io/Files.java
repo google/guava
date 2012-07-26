@@ -281,7 +281,12 @@ public final class Files {
 
   /**
    * Copies all the bytes from one file to another.
-   *.
+   *
+   * <p><b>Warning:</b> If {@code to} represents an existing file, that file
+   * will be overwritten with the contents of {@code from}. If {@code to} and
+   * {@code from} refer to the <i>same</i> file, the contents of that file
+   * will be deleted.
+   *
    * @param from the source file
    * @param to the destination file
    * @throws IOException if an I/O error occurs
