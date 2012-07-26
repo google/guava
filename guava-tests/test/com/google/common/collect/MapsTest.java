@@ -932,6 +932,44 @@ public class MapsTest extends TestCase {
     assertNull(map.get("five"));
   }
 
+  public void testToMap() {
+    Iterable<String> strings = ImmutableList.of("one", "two", "three");
+    ImmutableMap<String, Integer> map = Maps.toMap(strings, LENGTH_FUNCTION);
+    assertEquals(ImmutableMap.of("one", 3, "two", 3, "three", 5), map);
+    ASSERT.that(map.entrySet()).hasContentsInOrder(
+        mapEntry("one", 3),
+        mapEntry("two", 3),
+        mapEntry("three", 5));
+  }
+
+  public void testToMapWithDuplicateKeys() {
+    Iterable<String> strings = ImmutableList.of("one", "two", "three", "two", "one");
+    ImmutableMap<String, Integer> map = Maps.toMap(strings, LENGTH_FUNCTION);
+    assertEquals(ImmutableMap.of("one", 3, "two", 3, "three", 5), map);
+    ASSERT.that(map.entrySet()).hasContentsInOrder(
+        mapEntry("one", 3),
+        mapEntry("two", 3),
+        mapEntry("three", 5));
+  }
+
+  public void testToMapWithNullKeys() {
+    Iterable<String> strings = Arrays.asList("one", null, "three");
+    try {
+      Maps.toMap(strings, Functions.constant("foo"));
+      fail();
+    } catch (NullPointerException expected) {
+    }
+  }
+
+  public void testToMapWithNullValues() {
+    Iterable<String> strings = ImmutableList.of("one", "two", "three");
+    try {
+      Maps.toMap(strings, Functions.constant(null));
+      fail();
+    } catch (NullPointerException expected) {
+    }
+  }
+
   private static final BiMap<Integer, String> INT_TO_STRING_MAP =
       new ImmutableBiMap.Builder<Integer, String>()
           .put(1, "one")

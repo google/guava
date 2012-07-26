@@ -610,9 +610,11 @@ public final class Maps {
    * of type {@code K}. Using a key type for which this may not hold, such as
    * {@code ArrayList}, may risk a {@code ClassCastException} when calling
    * methods on the resulting map view.
+   *
+   * @since 14.0
    */
   @Beta
-  static <K, V> Map<K, V> asMap(
+  public static <K, V> Map<K, V> asMap(
       Set<K> set, Function<? super K, V> function) {
     if (set instanceof SortedSet) {
       return asMap((SortedSet<K>) set, function);
@@ -644,9 +646,11 @@ public final class Maps {
    * type {@code K}. Using a key type for which this may not hold, such as
    * {@code ArrayList}, may risk a {@code ClassCastException} when calling
    * methods on the resulting map view.
+   *
+   * @since 14.0
    */
   @Beta
-  static <K, V> SortedMap<K, V> asMap(
+  public static <K, V> SortedMap<K, V> asMap(
       SortedSet<K> set, Function<? super K, V> function) {
     return Platform.mapsAsMapSortedSet(set, function);
   }
@@ -854,6 +858,30 @@ public final class Maps {
         return removeOnlySortedSet(super.tailSet(fromElement));
       }
     };
+  }
+
+  /**
+   * Returns an immutable map for which the given {@code keys} are mapped to
+   * values by the given function in the order they appear in the original
+   * iterable. If {@code keys} contains duplicate elements, the returned map
+   * will contain each distinct key once in the order it first appears in
+   * {@code keys}.
+   *
+   * @throws NullPointerException if any element of {@code keys} is
+   *     {@code null}, or if {@code valueFunction} produces {@code null}
+   *     for any key
+   * @since 14.0
+   */
+  @Beta
+  public static <K, V> ImmutableMap<K, V> toMap(Iterable<K> keys,
+      Function<? super K, V> valueFunction) {
+    checkNotNull(valueFunction);
+    // Using LHM instead of a builder so as not to fail on duplicate keys
+    Map<K, V> builder = newLinkedHashMap();
+    for (K key : keys) {
+      builder.put(key, valueFunction.apply(key));
+    }
+    return ImmutableMap.copyOf(builder);
   }
 
   /**
