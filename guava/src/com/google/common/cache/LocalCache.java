@@ -23,8 +23,6 @@ import static com.google.common.cache.CacheBuilder.UNSET_INT;
 import static com.google.common.util.concurrent.Uninterruptibles.getUninterruptibly;
 import static java.util.concurrent.TimeUnit.NANOSECONDS;
 
-import com.google.common.annotations.GwtCompatible;
-import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Equivalence;
 import com.google.common.base.Stopwatch;
@@ -91,7 +89,6 @@ import javax.annotation.concurrent.GuardedBy;
  * @author Bob Lee ({@code com.google.common.collect.MapMaker})
  * @author Doug Lea ({@code ConcurrentHashMap})
  */
-@GwtCompatible(emulated = true)
 class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> {
 
   /*
@@ -4290,7 +4287,6 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
   Set<Entry<K, V>> entrySet;
 
   @Override
-  @GwtIncompatible("Not supported.")
   public Set<Entry<K, V>> entrySet() {
     // does not impact recency ordering
     Set<Entry<K, V>> es = entrySet;
@@ -4315,7 +4311,6 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
       advance();
     }
 
-    @Override
     public abstract T next();
 
     final void advance() {
@@ -4390,7 +4385,6 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
       }
     }
 
-    @Override
     public boolean hasNext() {
       return nextExternal != null;
     }
@@ -4404,7 +4398,6 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
       return lastReturned;
     }
 
-    @Override
     public void remove() {
       checkState(lastReturned != null);
       LocalCache.this.remove(lastReturned.getKey());
@@ -4903,7 +4896,6 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
 
     private static final long serialVersionUID = 1;
 
-    @Override
     Object writeReplace() {
       return new LoadingSerializationProxy<K, V>(localCache);
     }

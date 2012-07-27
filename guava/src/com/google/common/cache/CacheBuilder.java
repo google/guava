@@ -277,7 +277,6 @@ public final class CacheBuilder<K, V> {
   /**
    * Enables lenient parsing. Useful for tests and spec parsing.
    */
-  @GwtIncompatible("To be supported")
   CacheBuilder<K, V> lenientParsing() {
     strictParsing = false;
     return this;
@@ -289,7 +288,6 @@ public final class CacheBuilder<K, V> {
    * <p>By default, the cache uses {@link Equivalence#identity} to determine key equality when
    * {@link #weakKeys} is specified, and {@link Equivalence#equals()} otherwise.
    */
-  @GwtIncompatible("To be supported")
   CacheBuilder<K, V> keyEquivalence(Equivalence<Object> equivalence) {
     checkState(keyEquivalence == null, "key equivalence was already set to %s", keyEquivalence);
     keyEquivalence = checkNotNull(equivalence);
@@ -307,7 +305,6 @@ public final class CacheBuilder<K, V> {
    * {@link #weakValues} or {@link #softValues} is specified, and {@link Equivalence#equals()}
    * otherwise.
    */
-  @GwtIncompatible("To be supported")
   CacheBuilder<K, V> valueEquivalence(Equivalence<Object> equivalence) {
     checkState(valueEquivalence == null,
         "value equivalence was already set to %s", valueEquivalence);
@@ -433,7 +430,6 @@ public final class CacheBuilder<K, V> {
    * @throws IllegalStateException if a maximum weight or size was already set
    * @since 11.0
    */
-  @GwtIncompatible("To be supported")
   public CacheBuilder<K, V> maximumWeight(long weight) {
     checkState(this.maximumWeight == UNSET_INT, "maximum weight was already set to %s",
         this.maximumWeight);
@@ -472,7 +468,6 @@ public final class CacheBuilder<K, V> {
    * @throws IllegalStateException if a maximum size was already set
    * @since 11.0
    */
-  @GwtIncompatible("To be supported")
   public <K1 extends K, V1 extends V> CacheBuilder<K1, V1> weigher(
       Weigher<? super K1, ? super V1> weigher) {
     checkState(this.weigher == null);
@@ -676,7 +671,7 @@ public final class CacheBuilder<K, V> {
    * @since 11.0
    */
   @Beta
-  @GwtIncompatible("To be supported (synchronously).")
+  @GwtIncompatible("To be supported")
   public CacheBuilder<K, V> refreshAfterWrite(long duration, TimeUnit unit) {
     checkNotNull(unit);
     checkState(refreshNanos == UNSET_INT, "refresh was already set to %s ns", refreshNanos);
@@ -698,6 +693,7 @@ public final class CacheBuilder<K, V> {
    *
    * @throws IllegalStateException if a ticker was already set
    */
+  @GwtIncompatible("To be supported")
   public CacheBuilder<K, V> ticker(Ticker ticker) {
     checkState(this.ticker == null);
     this.ticker = checkNotNull(ticker);
@@ -739,6 +735,7 @@ public final class CacheBuilder<K, V> {
    * @throws IllegalStateException if a removal listener was already set
    */
   @CheckReturnValue
+  @GwtIncompatible("To be supported")
   public <K1 extends K, V1 extends V> CacheBuilder<K1, V1> removalListener(
       RemovalListener<? super K1, ? super V1> listener) {
     checkState(this.removalListener == null);
