@@ -174,12 +174,12 @@ public class ObjectArraysTest extends TestCase {
   }
 
   public void testPrependOneElement() {
-    String[] result = ObjectArrays.concat("foo", new String[]{ "bar" });
+    String[] result = ObjectArrays.concat("foo", new String[] { "bar" });
     ASSERT.that(result).hasContentsInOrder("foo", "bar");
   }
 
   public void testPrependTwoElements() {
-    String[] result = ObjectArrays.concat("foo", new String[]{ "bar", "baz" });
+    String[] result = ObjectArrays.concat("foo", new String[] { "bar", "baz" });
     ASSERT.that(result).hasContentsInOrder("foo", "bar", "baz");
   }
 
@@ -189,12 +189,62 @@ public class ObjectArraysTest extends TestCase {
   }
 
   public void testAppendOneElement() {
-    String[] result = ObjectArrays.concat(new String[]{ "foo" }, "bar");
+    String[] result = ObjectArrays.concat(new String[] { "foo" }, "bar");
     ASSERT.that(result).hasContentsInOrder("foo", "bar");
   }
 
   public void testAppendTwoElements() {
-    String[] result = ObjectArrays.concat(new String[]{ "foo", "bar" }, "baz");
+    String[] result = ObjectArrays.concat(new String[] { "foo", "bar" }, "baz");
     ASSERT.that(result).hasContentsInOrder("foo", "bar", "baz");
+  }
+
+  public void testEmptyArrayToEmpty() {
+    doTestNewArrayEquals(new Object[0], 0);
+  }
+
+  public void testEmptyArrayToNonEmpty() {
+    checkArrayEquals(new Long[5], ObjectArrays.newArray(new Long[0], 5));
+  }
+
+  public void testNonEmptyToShorter() {
+    checkArrayEquals(new String[9], ObjectArrays.newArray(new String[10], 9));
+  }
+
+  public void testNonEmptyToSameLength() {
+    doTestNewArrayEquals(new String[10], 10);
+  }
+
+  public void testNonEmptyToLonger() {
+    checkArrayEquals(new String[10],
+        ObjectArrays.newArray(new String[] { "a", "b", "c", "d", "e" }, 10));
+  }
+
+  public void testCloneEmptyArray() {
+    checkArrayEquals(new String[0], Platform.clone(new String[0]));
+  }
+
+  public void testCloneSingletonArray() {
+    checkArrayEquals(
+        new String[] { "a" }, Platform.clone(new String[] { "a" }));
+  }
+  
+  public void testCloneMultipleElementArray() {
+    checkArrayEquals(
+        new String[] { "a", "b", "c" }, Platform.clone(new String[] { "a", "b", "c" }));
+  }
+
+  private static void checkArrayEquals(Object[] expected, Object[] actual) {
+    assertTrue("expected(" + expected.getClass() + "): " + Arrays.toString(expected)
+        + " actual(" + actual.getClass() + "): " + Arrays.toString(actual),
+        arrayEquals(expected, actual));
+  }
+
+  private static boolean arrayEquals(Object[] array1, Object[] array2) {
+    assertSame(array1.getClass(), array2.getClass());
+    return Arrays.equals(array1, array2);
+  }
+
+  private static void doTestNewArrayEquals(Object[] expected, int length) {
+    checkArrayEquals(expected, ObjectArrays.newArray(expected, length));
   }
 }
