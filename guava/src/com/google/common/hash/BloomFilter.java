@@ -33,6 +33,10 @@ import java.io.Serializable;
  * <a href="http://llimllib.github.com/bloomfilter-tutorial/">tutorial</a> may help you understand
  * how they work.
  *
+ * <p>The false positive probability ({@code FPP}) of a bloom filter is defined as the probability
+ * that {@linkplain #mightContain(Object)} will erroneously return {@code true} for an object that
+ * has not actually been put in the {@code BloomFilter}.
+ *
  *
  * @param <T> the type of instances that the {@code BloomFilter} accepts
  * @author Dimitris Andreou
@@ -146,13 +150,24 @@ public final class BloomFilter<T> implements Serializable {
    * Returns the probability that {@linkplain #mightContain(Object)} will erroneously return
    * {@code true} for an object that has not actually been put in the {@code BloomFilter}.
    *
-   * <p>Ideally, this number should be close to the {@code falsePositiveProbability} parameter
+   * <p>Ideally, this number should be close to the {@code fpp} parameter
    * passed in {@linkplain #create(Funnel, int, double)}, or smaller. If it is
    * significantly higher, it is usually the case that too many elements (more than
    * expected) have been put in the {@code BloomFilter}, degenerating it.
+   *
+   * @since 14.0 (since 11.0 as expectedFalsePositiveProbability())
    */
-  public double expectedFalsePositiveProbability() {
+  public double expectedFpp() {
+    // You down with FPP? (Yeah you know me!) Who's down with FPP? (Every last homie!)
     return Math.pow((double) bits.bitCount() / bits.size(), numHashFunctions);
+  }
+
+  /**
+   * @deprecated Use {@link expectedFpp} instead.
+   */
+  @Deprecated
+  public double expectedFalsePositiveProbability() {
+    return expectedFpp();
   }
 
   /**
@@ -193,26 +208,26 @@ public final class BloomFilter<T> implements Serializable {
    * @param funnel the funnel of T's that the constructed {@code BloomFilter<T>} will use
    * @param expectedInsertions the number of expected insertions to the constructed
    *        {@code BloomFilter<T>}; must be positive
-   * @param falsePositiveProbability the desired false positive probability (must be positive and
-   *        less than 1.0)
+   * @param fpp the desired false positive probability (must be positive and less than 1.0)
    * @return a {@code BloomFilter}
    */
-  public static <T> BloomFilter<T> create(Funnel<T> funnel, int expectedInsertions /* n */,
-      double falsePositiveProbability) {
+  public static <T> BloomFilter<T> create(
+      Funnel<T> funnel, int expectedInsertions /* n */, double fpp) {
     checkNotNull(funnel);
-    checkArgument(expectedInsertions >= 0, "Expected insertions cannot be negative");
-    checkArgument(falsePositiveProbability > 0.0 & falsePositiveProbability < 1.0,
-        "False positive probability in (0.0, 1.0)");
+    checkArgument(expectedInsertions >= 0, "Expected insertions (%s) cannot be negative",
+        expectedInsertions);
+    checkArgument(fpp > 0.0 & fpp < 1.0,
+        "False positive probability (%s) must be in (0.0, 1.0)", fpp);
     if (expectedInsertions == 0) {
       expectedInsertions = 1;
     }
     /*
-     * andreou: I wanted to put a warning in the javadoc about tiny fpp values,
+     * TODO(user): Put a warning in the javadoc about tiny fpp values,
      * since the resulting size is proportional to -log(p), but there is not
      * much of a point after all, e.g. optimalM(1000, 0.0000000000000001) = 76680
      * which is less that 10kb. Who cares!
      */
-    int numBits = optimalNumOfBits(expectedInsertions, falsePositiveProbability);
+    int numBits = optimalNumOfBits(expectedInsertions, fpp);
     int numHashFunctions = optimalNumOfHashFunctions(expectedInsertions, numBits);
     return new BloomFilter<T>(new BitArray(numBits), numHashFunctions, funnel,
         BloomFilterStrategies.MURMUR128_MITZ_32);

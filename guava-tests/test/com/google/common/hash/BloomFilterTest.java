@@ -90,14 +90,14 @@ public class BloomFilterTest extends TestCase {
     assertEquals(original, copy);
   }
 
-  public void testExpectedFalsePositiveProbability() {
+  public void testExpectedFpp() {
     BloomFilter<Object> bf = BloomFilter.create(HashTestUtils.BAD_FUNNEL, 10, 0.03);
-    double fpp = bf.expectedFalsePositiveProbability();
+    double fpp = bf.expectedFpp();
     assertEquals(0.0, fpp);
     // usually completed in less than 200 iterations
     while (fpp != 1.0) {
       boolean changed = bf.put(new Object());
-      double newFpp = bf.expectedFalsePositiveProbability();
+      double newFpp = bf.expectedFpp();
       // if changed, the new fpp is strictly higher, otherwise it is the same
       assertTrue(changed ? newFpp > fpp : newFpp == fpp);
       fpp = newFpp;
@@ -160,7 +160,7 @@ public class BloomFilterTest extends TestCase {
     for (int i = 0; i < 10; i++) {
       assertTrue(copy.mightContain(Ints.toByteArray(i)));
     }
-    assertEquals(bf.expectedFalsePositiveProbability(), copy.expectedFalsePositiveProbability());
+    assertEquals(bf.expectedFpp(), copy.expectedFpp());
   }
 
   /**
