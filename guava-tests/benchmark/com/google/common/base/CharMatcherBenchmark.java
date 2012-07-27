@@ -19,9 +19,9 @@ package com.google.common.base;
 import com.google.caliper.Param;
 import com.google.caliper.Runner;
 import com.google.caliper.SimpleBenchmark;
-import com.google.common.base.CharMatcher;
 import com.google.common.collect.Lists;
 
+import java.util.BitSet;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
@@ -87,10 +87,15 @@ public class CharMatcherBenchmark extends SimpleBenchmark {
   // Caliper invokes setUp() after injecting params
   @Override protected void setUp() {
     this.matcher = precomputed ? config.matcher.precomputed() : config.matcher;
-    if (size.equals("small") && this.matcher.slowGetChars().length <= SmallCharMatcher.MAX_SIZE) {
-      this.matcher = SmallCharMatcher.from(this.matcher.slowGetChars(), "");
-    } else if (size.equals("medium")) {
-      this.matcher = MediumCharMatcher.from(this.matcher.slowGetChars(), "");
+    if (size.equals("small") || size.equals("medium")) {
+      BitSet tmp = new BitSet();
+      matcher.setBits(tmp, true);
+      int matchedCharCount = tmp.cardinality();
+      if (size.equals("small") && matchedCharCount <= SmallCharMatcher.MAX_SIZE) {
+        this.matcher = SmallCharMatcher.from(tmp, "");
+      } else if (size.equals("medium")) {
+        this.matcher = MediumCharMatcher.from(tmp, "");
+      }
     }
     this.string = checkString(length, percent, config.matchingChars,
         new Random(), forceSlow, web);

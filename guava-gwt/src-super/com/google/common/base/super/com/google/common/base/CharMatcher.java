@@ -21,10 +21,8 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.annotations.GwtIncompatible;
 
 import java.util.Arrays;
-import java.util.BitSet;
 
 import javax.annotation.CheckReturnValue;
 
@@ -355,9 +353,6 @@ public abstract class CharMatcher implements Predicate<Character> {
           return ANY;
         }
 
-        @GwtIncompatible("java.util.BitSet")
-        @Override void setBits(BitSet table, boolean value) {}
-
         @Override public CharMatcher precomputed() {
           return this;
         }
@@ -394,12 +389,6 @@ public abstract class CharMatcher implements Predicate<Character> {
         return isNot(match);
       }
 
-      @GwtIncompatible("java.util.BitSet")
-      @Override
-      void setBits(BitSet table, boolean value) {
-        table.set(match, value);
-      }
-
       @Override public CharMatcher precomputed() {
         return this;
       }
@@ -429,13 +418,6 @@ public abstract class CharMatcher implements Predicate<Character> {
         return other.matches(match) ? ANY : this;
       }
 
-      @GwtIncompatible("java.util.BitSet")
-      @Override
-      void setBits(BitSet table, boolean value) {
-        table.set(0, match, value);
-        table.set(match + 1, Character.MAX_VALUE + 1, value);
-      }
-
       @Override public CharMatcher negate() {
         return is(match);
       }
@@ -459,12 +441,6 @@ public abstract class CharMatcher implements Predicate<Character> {
             new StringBuilder("CharMatcher.anyOf(\"").append(sequence).append("\")").toString()) {
           @Override public boolean matches(char c) {
             return c == match1 || c == match2;
-          }
-
-          @GwtIncompatible("java.util.BitSet")
-          @Override void setBits(BitSet table, boolean value) {
-            table.set(match1, value);
-            table.set(match2, value);
           }
 
           @Override public CharMatcher precomputed() {
@@ -514,11 +490,6 @@ public abstract class CharMatcher implements Predicate<Character> {
     return new CharMatcher(description) {
       @Override public boolean matches(char c) {
         return startInclusive <= c && c <= endInclusive;
-      }
-
-      @GwtIncompatible("java.util.BitSet")
-      @Override void setBits(BitSet table, boolean value) {
-        table.set(startInclusive, endInclusive + 1, value);
       }
 
       @Override public CharMatcher precomputed() {
@@ -632,21 +603,6 @@ public abstract class CharMatcher implements Predicate<Character> {
       return first.matches(c) && second.matches(c);
     }
 
-    @GwtIncompatible("java.util.BitSet")
-    @Override
-    void setBits(BitSet table, boolean value) {
-      BitSet tmp1 = new BitSet();
-      first.setBits(tmp1, true);
-      BitSet tmp2 = new BitSet();
-      second.setBits(tmp2, true);
-      tmp1.and(tmp2);
-      if (value) {
-        table.or(tmp1);
-      } else {
-        table.andNot(tmp1);
-      }
-    }
-
     @Override
     CharMatcher withToString(String description) {
       return new And(first, second, description);
@@ -674,13 +630,6 @@ public abstract class CharMatcher implements Predicate<Character> {
       this(a, b, "CharMatcher.or(" + a + ", " + b + ")");
     }
 
-    @GwtIncompatible("java.util.BitSet")
-    @Override
-    void setBits(BitSet table, boolean value) {
-      first.setBits(table, value);
-      second.setBits(table, value);
-    }
-
     @Override
     public boolean matches(char c) {
       return first.matches(c) || second.matches(c);
@@ -706,45 +655,6 @@ public abstract class CharMatcher implements Predicate<Character> {
   }
 
   /**
-   * This is the actual implementation of {@link #precomputed}, but we bounce calls through a method
-   * on {@link Platform} so that we can have different behavior in GWT.
-   *
-   * <p>If the number of matched characters is small enough, we try to build a small hash
-   * table to contain all of the characters. Otherwise, we record the characters in eight-kilobyte
-   * bit array. In many situations this produces a matcher which is faster to query
-   * than the original.
-   */
-  @GwtIncompatible("java.util.BitSet")
-  CharMatcher precomputedInternal() {
-    final BitSet table = new BitSet();
-    setBits(table, true);
-    int totalCharacters = table.cardinality();
-    if (totalCharacters == 0) {
-      return NONE;
-    } else if (totalCharacters == 1) {
-      return is((char) table.nextSetBit(0));
-    } else if (totalCharacters < SmallCharMatcher.MAX_SIZE) {
-      return SmallCharMatcher.from(table, toString());
-    } else if (totalCharacters < MediumCharMatcher.MAX_SIZE) {
-      return MediumCharMatcher.from(table, toString());
-    }
-    // Otherwise, make the full lookup table.
-    final CharMatcher outer = this;
-
-    return new CharMatcher(outer.toString()) {
-      @Override public boolean matches(char c) {
-        return table.get(c);
-      }
-
-      // TODO(kevinb): make methods like negate() smart?
-
-      @Override public CharMatcher precomputed() {
-        return this;
-      }
-    };
-  }
-
-  /**
    * Subclasses should provide a new CharMatcher with the same characteristics as {@code this},
    * but with their {@code toString} method overridden with the new description.
    *
@@ -753,18 +663,6 @@ public abstract class CharMatcher implements Predicate<Character> {
   CharMatcher withToString(String description) {
     throw new UnsupportedOperationException();
 
-  }
-
-  /**
-   * Sets bits in {@code table} matched by this matcher.
-   */
-  @GwtIncompatible("java.util.BitSet")
-  void setBits(BitSet table, boolean value) {
-    for (int c = Character.MIN_VALUE; c <= Character.MAX_VALUE; c++) {
-      if (matches((char) c)) {
-        table.set(c, value);
-      }
-    }
   }
   
   // Text processing routines
@@ -1249,3 +1147,4 @@ public abstract class CharMatcher implements Predicate<Character> {
     }
   };
 }
+

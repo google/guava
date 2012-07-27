@@ -17,10 +17,6 @@
 package com.google.common.base;
 
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.annotations.GwtIncompatible;
-import com.google.common.annotations.VisibleForTesting;
-
-import java.util.BitSet;
 
 /**
  * An immutable small version of CharMatcher that uses an efficient hash table implementation, with
@@ -55,54 +51,6 @@ final class SmallCharMatcher extends CharMatcher {
     return this;
   }
 
-  @GwtIncompatible("java.util.BitSet")
-  @VisibleForTesting
-  static char[] buildTable(int modulus, BitSet allChars, boolean reprobe) {
-    char[] table = new char[modulus];
-    for (int c = allChars.nextSetBit(0); c != -1; c = allChars.nextSetBit(c + 1)) {
-      int index = c % modulus;
-      if (index < 0) {
-        index += modulus;
-      }
-      if ((table[index] != 0) && !reprobe) {
-        return null;
-      } else if (reprobe) {
-        while (table[index] != 0) {
-          index = (index + 1) % modulus;
-        }
-      }
-      table[index] = (char) c;
-    }
-    return table;
-  }
-
-  @GwtIncompatible("java.util.BitSet")
-  static CharMatcher from(BitSet chars, String description) {
-    long filter = 0;
-    int size = chars.cardinality();
-    boolean containsZero = false;
-    boolean reprobe = false;
-    containsZero = chars.get(0);
-
-    // Compute the filter.
-    for (int c = chars.nextSetBit(0); c != -1; c = chars.nextSetBit(c + 1)) {
-      filter |= 1L << c;
-    }
-    char[] table = null;
-    for (int i = size; i < MAX_TABLE_SIZE; i++) {
-      table = buildTable(i, chars, false);
-      if (table != null) {
-        break;
-      }
-    }
-    // Compute the hash table.
-    if (table == null) {
-      table = buildTable(MAX_TABLE_SIZE, chars, true);
-      reprobe = true;
-    }
-    return new SmallCharMatcher(table, filter, containsZero, reprobe, description);
-  }
-
   @Override
   public boolean matches(char c) {
     if (c == 0) {
@@ -130,3 +78,4 @@ final class SmallCharMatcher extends CharMatcher {
     }
   }
 }
+

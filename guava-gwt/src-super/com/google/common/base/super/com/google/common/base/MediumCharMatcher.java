@@ -17,10 +17,7 @@
 package com.google.common.base;
 
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.VisibleForTesting;
-
-import java.util.BitSet;
 
 /**
  * An immutable version of CharMatcher for medium-sized sets of characters that uses a hash table
@@ -80,34 +77,6 @@ final class MediumCharMatcher extends CharMatcher {
     return this;
   }
 
-  @GwtIncompatible("java.util.BitSet")
-  static CharMatcher from(BitSet chars, String description) {
-    // Compute the filter.
-    long filter = 0;
-    int size = chars.cardinality();
-    boolean containsZero = chars.get(0);
-    // Compute the filter.
-    for (int c = chars.nextSetBit(0); c != -1; c = chars.nextSetBit(c + 1)) {
-      filter |= 1L << c;
-    }
-    // Compute the hash table.
-    char[] table = new char[chooseTableSize(size)];
-    int mask = table.length - 1;
-    for (int c = chars.nextSetBit(0); c != -1; c = chars.nextSetBit(c + 1)) {
-      int index = c & mask;
-      while (true) {
-        // Check for empty.
-        if (table[index] == 0) {
-          table[index] = (char) c;
-          break;
-        }
-        // Linear probing.
-        index = (index + 1) & mask;
-      }
-    }
-    return new MediumCharMatcher(table, filter, containsZero, description);
-  }
-
   @Override
   public boolean matches(char c) {
     if (c == 0) {
@@ -135,3 +104,4 @@ final class MediumCharMatcher extends CharMatcher {
     return false;
   }
 }
+
