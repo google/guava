@@ -23,6 +23,8 @@ import static com.google.common.cache.CacheBuilder.UNSET_INT;
 import static com.google.common.util.concurrent.Uninterruptibles.getUninterruptibly;
 import static java.util.concurrent.TimeUnit.NANOSECONDS;
 
+import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Equivalence;
 import com.google.common.base.Stopwatch;
@@ -55,7 +57,6 @@ import java.lang.ref.Reference;
 import java.lang.ref.ReferenceQueue;
 import java.lang.ref.SoftReference;
 import java.lang.ref.WeakReference;
-import java.util.AbstractCollection;
 import java.util.AbstractMap;
 import java.util.AbstractQueue;
 import java.util.AbstractSet;
@@ -89,6 +90,7 @@ import javax.annotation.concurrent.GuardedBy;
  * @author Bob Lee ({@code com.google.common.collect.MapMaker})
  * @author Doug Lea ({@code ConcurrentHashMap})
  */
+@GwtCompatible(emulated = true)
 class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> {
 
   /*
@@ -4272,7 +4274,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
   public Set<K> keySet() {
     // does not impact recency ordering
     Set<K> ks = keySet;
-    return (ks != null) ? ks : (keySet = new KeySet());
+    return (ks != null) ? ks : (keySet = new KeySet(this));
   }
 
   Collection<V> values;
@@ -4281,16 +4283,17 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
   public Collection<V> values() {
     // does not impact recency ordering
     Collection<V> vs = values;
-    return (vs != null) ? vs : (values = new Values());
+    return (vs != null) ? vs : (values = new Values(this));
   }
 
   Set<Entry<K, V>> entrySet;
 
   @Override
+  @GwtIncompatible("Not supported.")
   public Set<Entry<K, V>> entrySet() {
     // does not impact recency ordering
     Set<Entry<K, V>> es = entrySet;
-    return (es != null) ? es : (entrySet = new EntrySet());
+    return (es != null) ? es : (entrySet = new EntrySet(this));
   }
 
   // Iterator Support
@@ -4311,6 +4314,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
       advance();
     }
 
+    @Override
     public abstract T next();
 
     final void advance() {
@@ -4385,6 +4389,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
       }
     }
 
+    @Override
     public boolean hasNext() {
       return nextExternal != null;
     }
@@ -4398,6 +4403,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
       return lastReturned;
     }
 
+    @Override
     public void remove() {
       checkState(lastReturned != null);
       LocalCache.this.remove(lastReturned.getKey());
@@ -4481,7 +4487,34 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
     }
   }
 
-  final class KeySet extends AbstractSet<K> {
+  abstract class AbstractCacheSet<T> extends AbstractSet<T> {
+    final ConcurrentMap<?, ?> map;
+
+    AbstractCacheSet(ConcurrentMap<?, ?> map) {
+      this.map = map;
+    }
+
+    @Override
+    public int size() {
+      return map.size();
+    }
+
+    @Override
+    public boolean isEmpty() {
+      return map.isEmpty();
+    }
+
+    @Override
+    public void clear() {
+      map.clear();
+    }
+  }
+
+  final class KeySet extends AbstractCacheSet<K> {
+
+    KeySet(ConcurrentMap<?, ?> map) {
+      super(map);
+    }
 
     @Override
     public Iterator<K> iterator() {
@@ -4489,32 +4522,21 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
     }
 
     @Override
-    public int size() {
-      return LocalCache.this.size();
-    }
-
-    @Override
-    public boolean isEmpty() {
-      return LocalCache.this.isEmpty();
-    }
-
-    @Override
     public boolean contains(Object o) {
-      return LocalCache.this.containsKey(o);
+      return map.containsKey(o);
     }
 
     @Override
     public boolean remove(Object o) {
-      return LocalCache.this.remove(o) != null;
-    }
-
-    @Override
-    public void clear() {
-      LocalCache.this.clear();
+      return map.remove(o) != null;
     }
   }
 
-  final class Values extends AbstractCollection<V> {
+  final class Values extends AbstractCacheSet<V> {
+
+    Values(ConcurrentMap<?, ?> map) {
+      super(map);
+    }
 
     @Override
     public Iterator<V> iterator() {
@@ -4522,27 +4544,16 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
     }
 
     @Override
-    public int size() {
-      return LocalCache.this.size();
-    }
-
-    @Override
-    public boolean isEmpty() {
-      return LocalCache.this.isEmpty();
-    }
-
-    @Override
     public boolean contains(Object o) {
-      return LocalCache.this.containsValue(o);
-    }
-
-    @Override
-    public void clear() {
-      LocalCache.this.clear();
+      return map.containsValue(o);
     }
   }
 
-  final class EntrySet extends AbstractSet<Entry<K, V>> {
+  final class EntrySet extends AbstractCacheSet<Entry<K, V>> {
+
+    EntrySet(ConcurrentMap<?, ?> map) {
+      super(map);
+    }
 
     @Override
     public Iterator<Entry<K, V>> iterator() {
@@ -4572,21 +4583,6 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
       Entry<?, ?> e = (Entry<?, ?>) o;
       Object key = e.getKey();
       return key != null && LocalCache.this.remove(key, e.getValue());
-    }
-
-    @Override
-    public int size() {
-      return LocalCache.this.size();
-    }
-
-    @Override
-    public boolean isEmpty() {
-      return LocalCache.this.isEmpty();
-    }
-
-    @Override
-    public void clear() {
-      LocalCache.this.clear();
     }
   }
 
@@ -4896,6 +4892,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
 
     private static final long serialVersionUID = 1;
 
+    @Override
     Object writeReplace() {
       return new LoadingSerializationProxy<K, V>(localCache);
     }

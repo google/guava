@@ -15,6 +15,7 @@
 package com.google.common.cache;
 
 import com.google.common.annotations.Beta;
+import com.google.common.annotations.GwtCompatible;
 
 /**
  * Calculates the weights of cache entries.
@@ -23,6 +24,7 @@ import com.google.common.annotations.Beta;
  * @since 11.0
  */
 @Beta
+@GwtCompatible
 public interface Weigher<K, V> {
 
   /**

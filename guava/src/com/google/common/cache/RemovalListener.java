@@ -17,6 +17,7 @@
 package com.google.common.cache;
 
 import com.google.common.annotations.Beta;
+import com.google.common.annotations.GwtCompatible;
 
 /**
  * An object that can receive a notification when an entry is removed from a cache. The removal
@@ -36,6 +37,7 @@ import com.google.common.annotations.Beta;
  * @since 10.0
  */
 @Beta
+@GwtCompatible
 public interface RemovalListener<K, V> {
   /**
    * Notifies the listener that a removal occurred at some point in the past.
