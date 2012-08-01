@@ -532,6 +532,36 @@ public class FluentIterableTest extends TestCase {
         .hasContentsInOrder(4, 3, 1);
   }
 
+  public void testAddTo_List() {
+    ASSERT.that(fluent(1, 3, 5).addTo(Lists.newArrayList(1, 2)))
+        .hasContentsInOrder(1, 2, 1, 3, 5);
+  }
+
+  public void testAddTo_Set() {
+    ASSERT.that(fluent(1, 3, 5).addTo(Sets.newHashSet(1, 2)))
+        .hasContentsAnyOrder(1, 2, 3, 5);
+  }
+
+  public void testAddTo_SetAllDuplicates() {
+    ASSERT.that(fluent(1, 3, 5).addTo(Sets.newHashSet(1, 2, 3, 5)))
+        .hasContentsAnyOrder(1, 2, 3, 5);
+  }
+
+  public void testAddTo_NonCollection() {
+    final ArrayList<Integer> list = Lists.newArrayList(1, 2, 3);
+
+    final ArrayList<Integer> iterList = Lists.newArrayList(9, 8, 7);
+    Iterable<Integer> iterable = new Iterable<Integer>() {
+      @Override
+      public Iterator<Integer> iterator() {
+        return iterList.iterator();
+      }
+    };
+
+    ASSERT.that(FluentIterable.from(iterable).addTo(list))
+      .hasContentsInOrder(1, 2, 3, 9, 8, 7);
+  }
+
   public void testGet() {
     assertEquals("a", FluentIterable
         .from(Lists.newArrayList("a", "b", "c")).get(0));

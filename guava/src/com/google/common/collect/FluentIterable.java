@@ -25,6 +25,7 @@ import com.google.common.base.Function;
 import com.google.common.base.Optional;
 import com.google.common.base.Predicate;
 
+import java.util.Collection;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
@@ -372,6 +373,25 @@ public abstract class FluentIterable<E> implements Iterable<E> {
   @GwtIncompatible("Array.newArray(Class, int)")
   public final E[] toArray(Class<E> type) {
     return Iterables.toArray(iterable, type);
+  }
+
+  /**
+   * Adds all the elements from this fluent iterable to {@code collection}.
+   *
+   * @param collection the collection to add elements to
+   * @return the collection passed in as the parameter
+   * @since 14.0
+   */
+  public final <C extends Collection<? super E>> C addTo(C collection) {
+    checkNotNull(collection);
+    if (iterable instanceof Collection) {
+      collection.addAll(Collections2.cast(iterable));
+    } else {
+      for (E item : iterable) {
+        collection.add(item);
+      }
+    }
+    return collection;
   }
 
   /**
