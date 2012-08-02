@@ -17,9 +17,11 @@
 package com.google.common.base;
 
 import com.google.common.annotations.VisibleForTesting;
+import java.io.Closeable;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.lang.ref.PhantomReference;
 import java.lang.ref.Reference;
 import java.lang.ref.ReferenceQueue;
 import java.lang.reflect.Method;
@@ -39,7 +41,7 @@ import java.util.logging.Logger;
  * @author Bob Lee
  * @since 2.0 (imported from Google Collections Library)
  */
-public class FinalizableReferenceQueue {
+public class FinalizableReferenceQueue implements Closeable {
   /*
    * The Finalizer thread keeps a phantom reference to this object. When the client (for example, a
    * map built by MapMaker) no longer has a strong reference to this object, the garbage collector
@@ -93,6 +95,8 @@ public class FinalizableReferenceQueue {
    */
   final ReferenceQueue<Object> queue;
 
+  final PhantomReference<Object> frqRef;
+
   /**
    * Whether or not the background thread started successfully.
    */
@@ -104,22 +108,26 @@ public class FinalizableReferenceQueue {
   @SuppressWarnings("unchecked")
   public FinalizableReferenceQueue() {
     // We could start the finalizer lazily, but I'd rather it blow up early.
-    ReferenceQueue<Object> queue;
+    queue = new ReferenceQueue<Object>();
+    frqRef = new PhantomReference<Object>(this, queue);
     boolean threadStarted = false;
     try {
-      queue = (ReferenceQueue<Object>)
-          startFinalizer.invoke(null, FinalizableReference.class, this);
+      startFinalizer.invoke(null, FinalizableReference.class, queue, frqRef);
       threadStarted = true;
     } catch (IllegalAccessException impossible) {
       throw new AssertionError(impossible); // startFinalizer() is public
     } catch (Throwable t) {
       logger.log(Level.INFO, "Failed to start reference finalizer thread."
           + " Reference cleanup will only occur when new references are created.", t);
-      queue = new ReferenceQueue<Object>();
     }
 
-    this.queue = queue;
     this.threadStarted = threadStarted;
+  }
+
+  @Override
+  public void close() {
+    frqRef.enqueue();
+    cleanUp();
   }
 
   /**
@@ -291,7 +299,11 @@ public class FinalizableReferenceQueue {
    */
   static Method getStartFinalizer(Class<?> finalizer) {
     try {
-      return finalizer.getMethod("startFinalizer", Class.class, Object.class);
+      return finalizer.getMethod(
+          "startFinalizer",
+          Class.class,
+          ReferenceQueue.class,
+          PhantomReference.class);
     } catch (NoSuchMethodException e) {
       throw new AssertionError(e);
     }

@@ -59,13 +59,16 @@ public class Finalizer implements Runnable {
    * Starts the Finalizer thread. FinalizableReferenceQueue calls this method
    * reflectively.
    *
-   * @param finalizableReferenceClass FinalizableReference.class
-   * @param frq reference to instance of FinalizableReferenceQueue that started
-   *  this thread
-   * @return ReferenceQueue which Finalizer will poll
+   * @param finalizableReferenceClass FinalizableReference.class.
+   * @param queue a reference queue that the thread will poll.
+   * @param frqReference a phantom reference to the FinalizableReferenceQueue, which will be
+   * queued either when the FinalizableReferenceQueue is no longer referenced anywhere, or when
+   * its close() method is called.
    */
-  public static ReferenceQueue<Object> startFinalizer(
-      Class<?> finalizableReferenceClass, Object frq) {
+  public static void startFinalizer(
+      Class<?> finalizableReferenceClass,
+      ReferenceQueue<Object> queue,
+      PhantomReference<Object> frqReference) {
     /*
      * We use FinalizableReference.class for two things:
      *
@@ -79,7 +82,7 @@ public class Finalizer implements Runnable {
           "Expected " + FINALIZABLE_REFERENCE + ".");
     }
 
-    Finalizer finalizer = new Finalizer(finalizableReferenceClass, frq);
+    Finalizer finalizer = new Finalizer(finalizableReferenceClass, queue, frqReference);
     Thread thread = new Thread(finalizer);
     thread.setName(Finalizer.class.getName());
     thread.setDaemon(true);
@@ -94,23 +97,27 @@ public class Finalizer implements Runnable {
     }
 
     thread.start();
-    return finalizer.queue;
   }
 
   private final WeakReference<Class<?>> finalizableReferenceClassReference;
   private final PhantomReference<Object> frqReference;
-  private final ReferenceQueue<Object> queue = new ReferenceQueue<Object>();
+  private final ReferenceQueue<Object> queue;
 
   private static final Field inheritableThreadLocals
       = getInheritableThreadLocalsField();
 
   /** Constructs a new finalizer thread. */
-  private Finalizer(Class<?> finalizableReferenceClass, Object frq) {
+  private Finalizer(
+      Class<?> finalizableReferenceClass,
+      ReferenceQueue<Object> queue,
+      PhantomReference<Object> frqReference) {
+    this.queue = queue;
+
     this.finalizableReferenceClassReference
         = new WeakReference<Class<?>>(finalizableReferenceClass);
 
     // Keep track of the FRQ that started us so we know when to stop.
-    this.frqReference = new PhantomReference<Object>(frq, queue);
+    this.frqReference = frqReference;
   }
 
   /**
