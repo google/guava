@@ -1119,10 +1119,29 @@ public final class Maps {
   @Beta
   public static <K, V> ImmutableMap<K, V> toMap(Iterable<K> keys,
       Function<? super K, V> valueFunction) {
+    return toMap(keys.iterator(), valueFunction);
+  }
+
+  /**
+   * Returns an immutable map for which the given {@code keys} are mapped to
+   * values by the given function in the order they appear in the original
+   * iterator. If {@code keys} contains duplicate elements, the returned map
+   * will contain each distinct key once in the order it first appears in
+   * {@code keys}.
+   *
+   * @throws NullPointerException if any element of {@code keys} is
+   *     {@code null}, or if {@code valueFunction} produces {@code null}
+   *     for any key
+   * @since 14.0
+   */
+  @Beta
+  public static <K, V> ImmutableMap<K, V> toMap(Iterator<K> keys,
+      Function<? super K, V> valueFunction) {
     checkNotNull(valueFunction);
     // Using LHM instead of a builder so as not to fail on duplicate keys
     Map<K, V> builder = newLinkedHashMap();
-    for (K key : keys) {
+    while (keys.hasNext()) {
+      K key = keys.next();
       builder.put(key, valueFunction.apply(key));
     }
     return ImmutableMap.copyOf(builder);

@@ -942,6 +942,16 @@ public class MapsTest extends TestCase {
         mapEntry("three", 5));
   }
 
+  public void testToMapIterator() {
+    Iterator<String> strings = ImmutableList.of("one", "two", "three").iterator();
+    ImmutableMap<String, Integer> map = Maps.toMap(strings, LENGTH_FUNCTION);
+    assertEquals(ImmutableMap.of("one", 3, "two", 3, "three", 5), map);
+    ASSERT.that(map.entrySet()).hasContentsInOrder(
+        mapEntry("one", 3),
+        mapEntry("two", 3),
+        mapEntry("three", 5));
+  }
+
   public void testToMapWithDuplicateKeys() {
     Iterable<String> strings = ImmutableList.of("one", "two", "three", "two", "one");
     ImmutableMap<String, Integer> map = Maps.toMap(strings, LENGTH_FUNCTION);
