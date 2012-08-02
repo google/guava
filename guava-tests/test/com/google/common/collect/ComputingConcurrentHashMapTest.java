@@ -25,7 +25,7 @@ import static com.google.common.collect.MapMakerInternalMapTest.checkEvictionQue
 import static com.google.common.collect.MapMakerInternalMapTest.checkExpirationTimes;
 
 import com.google.common.base.Function;
-import com.google.common.collect.ComputingConcurrentHashMap.ComputingMapAdapter;
+import com.google.common.collect.MapMaker.ComputingMapAdapter;
 import com.google.common.collect.MapMaker.RemovalCause;
 import com.google.common.collect.MapMakerInternalMap.ReferenceEntry;
 import com.google.common.collect.MapMakerInternalMap.Segment;

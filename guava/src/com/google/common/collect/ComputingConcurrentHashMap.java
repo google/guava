@@ -19,14 +19,12 @@ import static com.google.common.base.Preconditions.checkState;
 
 import com.google.common.base.Equivalence;
 import com.google.common.base.Function;
-import com.google.common.base.Throwables;
 import com.google.common.collect.MapMaker.RemovalCause;
 import com.google.common.collect.MapMaker.RemovalListener;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.Serializable;
 import java.lang.ref.ReferenceQueue;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.ExecutionException;
@@ -372,38 +370,6 @@ class ComputingConcurrentHashMap<K, V> extends MapMakerInternalMap<K, V> {
           notifyAll();
         }
       }
-    }
-  }
-
-  /**
-   * Overrides get() to compute on demand. Also throws an exception when {@code null} is returned
-   * from a computation.
-   */
-  static final class ComputingMapAdapter<K, V>
-      extends ComputingConcurrentHashMap<K, V> implements Serializable {
-    private static final long serialVersionUID = 0;
-
-    ComputingMapAdapter(MapMaker mapMaker,
-        Function<? super K, ? extends V> computingFunction) {
-      super(mapMaker, computingFunction);
-    }
-
-    @SuppressWarnings("unchecked") // unsafe, which is one advantage of Cache over Map
-    @Override
-    public V get(Object key) {
-      V value;
-      try {
-        value = getOrCompute((K) key);
-      } catch (ExecutionException e) {
-        Throwable cause = e.getCause();
-        Throwables.propagateIfInstanceOf(cause, ComputationException.class);
-        throw new ComputationException(cause);
-      }
-
-      if (value == null) {
-        throw new NullPointerException(computingFunction + " returned null for key " + key + ".");
-      }
-      return value;
     }
   }
 

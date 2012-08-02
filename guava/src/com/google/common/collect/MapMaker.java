@@ -25,8 +25,8 @@ import com.google.common.base.Ascii;
 import com.google.common.base.Equivalence;
 import com.google.common.base.Function;
 import com.google.common.base.Objects;
+import com.google.common.base.Throwables;
 import com.google.common.base.Ticker;
-import com.google.common.collect.ComputingConcurrentHashMap.ComputingMapAdapter;
 import com.google.common.collect.MapMakerInternalMap.Strength;
 
 import java.io.Serializable;
@@ -39,6 +39,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
 import javax.annotation.Nullable;
@@ -606,7 +607,7 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
   public <K, V> ConcurrentMap<K, V> makeComputingMap(
       Function<? super K, ? extends V> computingFunction) {
     return (nullRemovalCause == null)
-        ? new ComputingMapAdapter<K, V>(this, computingFunction)
+        ? new MapMaker.ComputingMapAdapter<K, V>(this, computingFunction)
         : new NullComputingConcurrentMap<K, V>(this, computingFunction);
   }
 
@@ -884,4 +885,39 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
     }
   }
 
+  /**
+   * Overrides get() to compute on demand. Also throws an exception when {@code null} is returned
+   * from a computation.
+   */
+  /*
+   * This might make more sense in ComputingConcurrentHashMap, but it causes a javac crash in some
+   * cases there: http://code.google.com/p/guava-libraries/issues/detail?id=950
+   */
+  static final class ComputingMapAdapter<K, V>
+      extends ComputingConcurrentHashMap<K, V> implements Serializable {
+    private static final long serialVersionUID = 0;
+
+    ComputingMapAdapter(MapMaker mapMaker,
+        Function<? super K, ? extends V> computingFunction) {
+      super(mapMaker, computingFunction);
+    }
+
+    @SuppressWarnings("unchecked") // unsafe, which is one advantage of Cache over Map
+    @Override
+    public V get(Object key) {
+      V value;
+      try {
+        value = getOrCompute((K) key);
+      } catch (ExecutionException e) {
+        Throwable cause = e.getCause();
+        Throwables.propagateIfInstanceOf(cause, ComputationException.class);
+        throw new ComputationException(cause);
+      }
+
+      if (value == null) {
+        throw new NullPointerException(computingFunction + " returned null for key " + key + ".");
+      }
+      return value;
+    }
+  }
 }
