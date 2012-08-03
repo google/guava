@@ -1965,11 +1965,11 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
    */
   boolean isExpired(ReferenceEntry<K, V> entry, long now) {
     if (expiresAfterAccess()
-        && (now - entry.getAccessTime() > expireAfterAccessNanos)) {
+        && (now - entry.getAccessTime() >= expireAfterAccessNanos)) {
       return true;
     }
     if (expiresAfterWrite()
-        && (now - entry.getWriteTime() > expireAfterWriteNanos)) {
+        && (now - entry.getWriteTime() >= expireAfterWriteNanos)) {
       return true;
     }
     return false;

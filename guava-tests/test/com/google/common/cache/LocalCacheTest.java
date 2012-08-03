@@ -823,7 +823,7 @@ public class LocalCacheTest extends TestCase {
     QueuingRemovalListener<Object, Object> listener = queuingRemovalListener();
     LocalCache<Object, Object> map = makeLocalCache(createCacheBuilder()
         .concurrencyLevel(1)
-        .expireAfterWrite(2, TimeUnit.NANOSECONDS)
+        .expireAfterWrite(3, TimeUnit.NANOSECONDS)
         .ticker(ticker)
         .removalListener(listener));
     assertTrue(listener.isEmpty());
@@ -2086,7 +2086,7 @@ public class LocalCacheTest extends TestCase {
     LocalCache<Object, Object> map = makeLocalCache(createCacheBuilder()
         .concurrencyLevel(1)
         .ticker(ticker)
-        .expireAfterWrite(1, TimeUnit.NANOSECONDS));
+        .expireAfterWrite(2, TimeUnit.NANOSECONDS));
     Segment<Object, Object> segment = map.segments[0];
 
     Object key = new Object();
@@ -2125,7 +2125,7 @@ public class LocalCacheTest extends TestCase {
     LocalCache<Object, Object> map = makeLocalCache(createCacheBuilder()
         .concurrencyLevel(1)
         .ticker(ticker)
-        .expireAfterAccess(1, TimeUnit.NANOSECONDS));
+        .expireAfterAccess(2, TimeUnit.NANOSECONDS));
     Segment<Object, Object> segment = map.segments[0];
 
     Object key = new Object();

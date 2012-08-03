@@ -252,7 +252,7 @@ public class CacheExpirationTest extends TestCase {
     IdentityLoader<Integer> loader = identityLoader();
     LoadingCache<Integer, Integer> cache = CacheBuilder.newBuilder()
         .concurrencyLevel(1)
-        .expireAfterAccess(10, MILLISECONDS)
+        .expireAfterAccess(11, MILLISECONDS)
         .ticker(ticker)
         .build(loader);
     for (int i = 0; i < 10; i++) {
@@ -304,7 +304,7 @@ public class CacheExpirationTest extends TestCase {
     IdentityLoader<Integer> loader = identityLoader();
     LoadingCache<Integer, Integer> cache = CacheBuilder.newBuilder()
         .concurrencyLevel(1)
-        .expireAfterWrite(10, MILLISECONDS)
+        .expireAfterWrite(11, MILLISECONDS)
         .ticker(ticker)
         .build(loader);
     for (int i = 0; i < 10; i++) {
@@ -351,8 +351,8 @@ public class CacheExpirationTest extends TestCase {
     IdentityLoader<Integer> loader = identityLoader();
     LoadingCache<Integer, Integer> cache = CacheBuilder.newBuilder()
         .concurrencyLevel(1)
-        .expireAfterWrite(4, MILLISECONDS)
-        .expireAfterAccess(2, MILLISECONDS)
+        .expireAfterWrite(5, MILLISECONDS)
+        .expireAfterAccess(3, MILLISECONDS)
         .ticker(ticker)
         .build(loader);
     for (int i = 0; i < 5; i++) {
