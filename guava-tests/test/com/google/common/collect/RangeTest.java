@@ -29,7 +29,10 @@ import com.google.common.testing.EqualsTester;
 
 import junit.framework.TestCase;
 
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
+import java.util.NoSuchElementException;
 
 /**
  * Unit test for {@link Range}.
@@ -39,7 +42,7 @@ import java.util.Collections;
 @GwtCompatible
 public class RangeTest extends TestCase {
   public void testOpen() {
-    Range<Integer> range = Ranges.open(4, 8);
+    Range<Integer> range = Range.open(4, 8);
     checkContains(range);
     assertTrue(range.hasLowerBound());
     assertEquals(4, (int) range.lowerEndpoint());
@@ -54,19 +57,19 @@ public class RangeTest extends TestCase {
 
   public void testOpen_invalid() {
     try {
-      Ranges.open(4, 3);
+      Range.open(4, 3);
       fail();
     } catch (IllegalArgumentException expected) {
     }
     try {
-      Ranges.open(3, 3);
+      Range.open(3, 3);
       fail();
     } catch (IllegalArgumentException expected) {
     }
   }
 
   public void testClosed() {
-    Range<Integer> range = Ranges.closed(5, 7);
+    Range<Integer> range = Range.closed(5, 7);
     checkContains(range);
     assertTrue(range.hasLowerBound());
     assertEquals(5, (int) range.lowerEndpoint());
@@ -81,14 +84,14 @@ public class RangeTest extends TestCase {
 
   public void testClosed_invalid() {
     try {
-      Ranges.closed(4, 3);
+      Range.closed(4, 3);
       fail();
     } catch (IllegalArgumentException expected) {
     }
   }
 
   public void testOpenClosed() {
-    Range<Integer> range = Ranges.openClosed(4, 7);
+    Range<Integer> range = Range.openClosed(4, 7);
     checkContains(range);
     assertTrue(range.hasLowerBound());
     assertEquals(4, (int) range.lowerEndpoint());
@@ -102,7 +105,7 @@ public class RangeTest extends TestCase {
   }
 
   public void testClosedOpen() {
-    Range<Integer> range = Ranges.closedOpen(5, 8);
+    Range<Integer> range = Range.closedOpen(5, 8);
     checkContains(range);
     assertTrue(range.hasLowerBound());
     assertEquals(5, (int) range.lowerEndpoint());
@@ -116,13 +119,13 @@ public class RangeTest extends TestCase {
   }
 
   public void testIsConnected() {
-    assertTrue(Ranges.closed(3, 5).isConnected(Ranges.open(5, 6)));
-    assertTrue(Ranges.closed(3, 5).isConnected(Ranges.openClosed(5, 5)));
-    assertTrue(Ranges.open(3, 5).isConnected(Ranges.closed(5, 6)));
-    assertTrue(Ranges.closed(3, 7).isConnected(Ranges.open(6, 8)));
-    assertTrue(Ranges.open(3, 7).isConnected(Ranges.closed(5, 6)));
-    assertFalse(Ranges.closed(3, 5).isConnected(Ranges.closed(7, 8)));
-    assertFalse(Ranges.closed(3, 5).isConnected(Ranges.closedOpen(7, 7)));
+    assertTrue(Range.closed(3, 5).isConnected(Range.open(5, 6)));
+    assertTrue(Range.closed(3, 5).isConnected(Range.openClosed(5, 5)));
+    assertTrue(Range.open(3, 5).isConnected(Range.closed(5, 6)));
+    assertTrue(Range.closed(3, 7).isConnected(Range.open(6, 8)));
+    assertTrue(Range.open(3, 7).isConnected(Range.closed(5, 6)));
+    assertFalse(Range.closed(3, 5).isConnected(Range.closed(7, 8)));
+    assertFalse(Range.closed(3, 5).isConnected(Range.closedOpen(7, 7)));
   }
 
   private static void checkContains(Range<Integer> range) {
@@ -133,7 +136,7 @@ public class RangeTest extends TestCase {
   }
 
   public void testSingleton() {
-    Range<Integer> range = Ranges.closed(4, 4);
+    Range<Integer> range = Range.closed(4, 4);
     assertFalse(range.contains(3));
     assertTrue(range.contains(4));
     assertFalse(range.contains(5));
@@ -149,7 +152,7 @@ public class RangeTest extends TestCase {
   }
 
   public void testEmpty1() {
-    Range<Integer> range = Ranges.closedOpen(4, 4);
+    Range<Integer> range = Range.closedOpen(4, 4);
     assertFalse(range.contains(3));
     assertFalse(range.contains(4));
     assertFalse(range.contains(5));
@@ -165,7 +168,7 @@ public class RangeTest extends TestCase {
   }
 
   public void testEmpty2() {
-    Range<Integer> range = Ranges.openClosed(4, 4);
+    Range<Integer> range = Range.openClosed(4, 4);
     assertFalse(range.contains(3));
     assertFalse(range.contains(4));
     assertFalse(range.contains(5));
@@ -181,7 +184,7 @@ public class RangeTest extends TestCase {
   }
 
   public void testLessThan() {
-    Range<Integer> range = Ranges.lessThan(5);
+    Range<Integer> range = Range.lessThan(5);
     assertTrue(range.contains(Integer.MIN_VALUE));
     assertTrue(range.contains(4));
     assertFalse(range.contains(5));
@@ -195,7 +198,7 @@ public class RangeTest extends TestCase {
   }
 
   public void testGreaterThan() {
-    Range<Integer> range = Ranges.greaterThan(5);
+    Range<Integer> range = Range.greaterThan(5);
     assertFalse(range.contains(5));
     assertTrue(range.contains(6));
     assertTrue(range.contains(Integer.MAX_VALUE));
@@ -209,7 +212,7 @@ public class RangeTest extends TestCase {
   }
 
   public void testAtLeast() {
-    Range<Integer> range = Ranges.atLeast(6);
+    Range<Integer> range = Range.atLeast(6);
     assertFalse(range.contains(5));
     assertTrue(range.contains(6));
     assertTrue(range.contains(Integer.MAX_VALUE));
@@ -223,7 +226,7 @@ public class RangeTest extends TestCase {
   }
 
   public void testAtMost() {
-    Range<Integer> range = Ranges.atMost(4);
+    Range<Integer> range = Range.atMost(4);
     assertTrue(range.contains(Integer.MIN_VALUE));
     assertTrue(range.contains(4));
     assertFalse(range.contains(5));
@@ -237,7 +240,7 @@ public class RangeTest extends TestCase {
   }
 
   public void testAll() {
-    Range<Integer> range = Ranges.all();
+    Range<Integer> range = Range.all();
     assertTrue(range.contains(Integer.MIN_VALUE));
     assertTrue(range.contains(Integer.MAX_VALUE));
     assertUnboundedBelow(range);
@@ -276,18 +279,18 @@ public class RangeTest extends TestCase {
   }
 
   public void testOrderingCuts() {
-    Cut<Integer> a = Ranges.lessThan(0).lowerBound;
-    Cut<Integer> b = Ranges.atLeast(0).lowerBound;
-    Cut<Integer> c = Ranges.greaterThan(0).lowerBound;
-    Cut<Integer> d = Ranges.atLeast(1).lowerBound;
-    Cut<Integer> e = Ranges.greaterThan(1).lowerBound;
-    Cut<Integer> f = Ranges.greaterThan(1).upperBound;
+    Cut<Integer> a = Range.lessThan(0).lowerBound;
+    Cut<Integer> b = Range.atLeast(0).lowerBound;
+    Cut<Integer> c = Range.greaterThan(0).lowerBound;
+    Cut<Integer> d = Range.atLeast(1).lowerBound;
+    Cut<Integer> e = Range.greaterThan(1).lowerBound;
+    Cut<Integer> f = Range.greaterThan(1).upperBound;
 
     Helpers.testCompareToAndEquals(ImmutableList.of(a, b, c, d, e, f));
   }
 
   public void testContainsAll() {
-    Range<Integer> range = Ranges.closed(3, 5);
+    Range<Integer> range = Range.closed(3, 5);
     assertTrue(range.containsAll(asList(3, 3, 4, 5)));
     assertFalse(range.containsAll(asList(3, 3, 4, 5, 6)));
 
@@ -298,219 +301,219 @@ public class RangeTest extends TestCase {
     assertTrue(range.containsAll(ImmutableSortedSet.<Integer>of()));
     assertFalse(range.containsAll(ImmutableSortedSet.of(3, 3, 4, 5, 6)));
 
-    assertTrue(Ranges.openClosed(3, 3).containsAll(
+    assertTrue(Range.openClosed(3, 3).containsAll(
         Collections.<Integer>emptySet()));
   }
 
   public void testEncloses_open() {
-    Range<Integer> range = Ranges.open(2, 5);
+    Range<Integer> range = Range.open(2, 5);
     assertTrue(range.encloses(range));
-    assertTrue(range.encloses(Ranges.open(2, 4)));
-    assertTrue(range.encloses(Ranges.open(3, 5)));
-    assertTrue(range.encloses(Ranges.closed(3, 4)));
+    assertTrue(range.encloses(Range.open(2, 4)));
+    assertTrue(range.encloses(Range.open(3, 5)));
+    assertTrue(range.encloses(Range.closed(3, 4)));
 
-    assertFalse(range.encloses(Ranges.openClosed(2, 5)));
-    assertFalse(range.encloses(Ranges.closedOpen(2, 5)));
-    assertFalse(range.encloses(Ranges.closed(1, 4)));
-    assertFalse(range.encloses(Ranges.closed(3, 6)));
-    assertFalse(range.encloses(Ranges.greaterThan(3)));
-    assertFalse(range.encloses(Ranges.lessThan(3)));
-    assertFalse(range.encloses(Ranges.atLeast(3)));
-    assertFalse(range.encloses(Ranges.atMost(3)));
-    assertFalse(range.encloses(Ranges.<Integer>all()));
+    assertFalse(range.encloses(Range.openClosed(2, 5)));
+    assertFalse(range.encloses(Range.closedOpen(2, 5)));
+    assertFalse(range.encloses(Range.closed(1, 4)));
+    assertFalse(range.encloses(Range.closed(3, 6)));
+    assertFalse(range.encloses(Range.greaterThan(3)));
+    assertFalse(range.encloses(Range.lessThan(3)));
+    assertFalse(range.encloses(Range.atLeast(3)));
+    assertFalse(range.encloses(Range.atMost(3)));
+    assertFalse(range.encloses(Range.<Integer>all()));
   }
 
   public void testEncloses_closed() {
-    Range<Integer> range = Ranges.closed(2, 5);
+    Range<Integer> range = Range.closed(2, 5);
     assertTrue(range.encloses(range));
-    assertTrue(range.encloses(Ranges.open(2, 5)));
-    assertTrue(range.encloses(Ranges.openClosed(2, 5)));
-    assertTrue(range.encloses(Ranges.closedOpen(2, 5)));
-    assertTrue(range.encloses(Ranges.closed(3, 5)));
-    assertTrue(range.encloses(Ranges.closed(2, 4)));
+    assertTrue(range.encloses(Range.open(2, 5)));
+    assertTrue(range.encloses(Range.openClosed(2, 5)));
+    assertTrue(range.encloses(Range.closedOpen(2, 5)));
+    assertTrue(range.encloses(Range.closed(3, 5)));
+    assertTrue(range.encloses(Range.closed(2, 4)));
 
-    assertFalse(range.encloses(Ranges.open(1, 6)));
-    assertFalse(range.encloses(Ranges.greaterThan(3)));
-    assertFalse(range.encloses(Ranges.lessThan(3)));
-    assertFalse(range.encloses(Ranges.atLeast(3)));
-    assertFalse(range.encloses(Ranges.atMost(3)));
-    assertFalse(range.encloses(Ranges.<Integer>all()));
+    assertFalse(range.encloses(Range.open(1, 6)));
+    assertFalse(range.encloses(Range.greaterThan(3)));
+    assertFalse(range.encloses(Range.lessThan(3)));
+    assertFalse(range.encloses(Range.atLeast(3)));
+    assertFalse(range.encloses(Range.atMost(3)));
+    assertFalse(range.encloses(Range.<Integer>all()));
   }
 
   public void testIntersection_empty() {
-    Range<Integer> range = Ranges.closedOpen(3, 3);
+    Range<Integer> range = Range.closedOpen(3, 3);
     assertEquals(range, range.intersection(range));
 
     try {
-      range.intersection(Ranges.open(3, 5));
+      range.intersection(Range.open(3, 5));
       fail();
     } catch (IllegalArgumentException expected) {
     }
     try {
-      range.intersection(Ranges.closed(0, 2));
+      range.intersection(Range.closed(0, 2));
       fail();
     } catch (IllegalArgumentException expected) {
     }
   }
 
   public void testIntersection_deFactoEmpty() {
-    Range<Integer> range = Ranges.open(3, 4);
+    Range<Integer> range = Range.open(3, 4);
     assertEquals(range, range.intersection(range));
 
-    assertEquals(Ranges.openClosed(3, 3),
-        range.intersection(Ranges.atMost(3)));
-    assertEquals(Ranges.closedOpen(4, 4),
-        range.intersection(Ranges.atLeast(4)));
+    assertEquals(Range.openClosed(3, 3),
+        range.intersection(Range.atMost(3)));
+    assertEquals(Range.closedOpen(4, 4),
+        range.intersection(Range.atLeast(4)));
     
     try {
-      range.intersection(Ranges.lessThan(3));
+      range.intersection(Range.lessThan(3));
       fail();
     } catch (IllegalArgumentException expected) {
     }
     try {
-      range.intersection(Ranges.greaterThan(4));
+      range.intersection(Range.greaterThan(4));
       fail();
     } catch (IllegalArgumentException expected) {
     }
 
-    range = Ranges.closed(3, 4);
-    assertEquals(Ranges.openClosed(4, 4),
-        range.intersection(Ranges.greaterThan(4)));
+    range = Range.closed(3, 4);
+    assertEquals(Range.openClosed(4, 4),
+        range.intersection(Range.greaterThan(4)));
   }
 
   public void testIntersection_singleton() {
-    Range<Integer> range = Ranges.closed(3, 3);
+    Range<Integer> range = Range.closed(3, 3);
     assertEquals(range, range.intersection(range));
 
-    assertEquals(range, range.intersection(Ranges.atMost(4)));
-    assertEquals(range, range.intersection(Ranges.atMost(3)));
-    assertEquals(range, range.intersection(Ranges.atLeast(3)));
-    assertEquals(range, range.intersection(Ranges.atLeast(2)));
+    assertEquals(range, range.intersection(Range.atMost(4)));
+    assertEquals(range, range.intersection(Range.atMost(3)));
+    assertEquals(range, range.intersection(Range.atLeast(3)));
+    assertEquals(range, range.intersection(Range.atLeast(2)));
 
-    assertEquals(Ranges.closedOpen(3, 3),
-        range.intersection(Ranges.lessThan(3)));
-    assertEquals(Ranges.openClosed(3, 3),
-        range.intersection(Ranges.greaterThan(3)));
+    assertEquals(Range.closedOpen(3, 3),
+        range.intersection(Range.lessThan(3)));
+    assertEquals(Range.openClosed(3, 3),
+        range.intersection(Range.greaterThan(3)));
 
     try {
-      range.intersection(Ranges.atLeast(4));
+      range.intersection(Range.atLeast(4));
       fail();
     } catch (IllegalArgumentException expected) {
     }
     try {
-      range.intersection(Ranges.atMost(2));
+      range.intersection(Range.atMost(2));
       fail();
     } catch (IllegalArgumentException expected) {
     }
   }
 
   public void testIntersection_general() {
-    Range<Integer> range = Ranges.closed(4, 8);
+    Range<Integer> range = Range.closed(4, 8);
 
     // separate below
     try {
-      range.intersection(Ranges.closed(0, 2));
+      range.intersection(Range.closed(0, 2));
       fail();
     } catch (IllegalArgumentException expected) {
     }
 
     // adjacent below
-    assertEquals(Ranges.closedOpen(4, 4),
-        range.intersection(Ranges.closedOpen(2, 4)));
+    assertEquals(Range.closedOpen(4, 4),
+        range.intersection(Range.closedOpen(2, 4)));
 
     // overlap below
-    assertEquals(Ranges.closed(4, 6), range.intersection(Ranges.closed(2, 6)));
+    assertEquals(Range.closed(4, 6), range.intersection(Range.closed(2, 6)));
 
     // enclosed with same start
-    assertEquals(Ranges.closed(4, 6), range.intersection(Ranges.closed(4, 6)));
+    assertEquals(Range.closed(4, 6), range.intersection(Range.closed(4, 6)));
 
     // enclosed, interior
-    assertEquals(Ranges.closed(5, 7), range.intersection(Ranges.closed(5, 7)));
+    assertEquals(Range.closed(5, 7), range.intersection(Range.closed(5, 7)));
 
     // enclosed with same end
-    assertEquals(Ranges.closed(6, 8), range.intersection(Ranges.closed(6, 8)));
+    assertEquals(Range.closed(6, 8), range.intersection(Range.closed(6, 8)));
 
     // equal
     assertEquals(range, range.intersection(range));
 
     // enclosing with same start
-    assertEquals(range, range.intersection(Ranges.closed(4, 10)));
+    assertEquals(range, range.intersection(Range.closed(4, 10)));
 
     // enclosing with same end
-    assertEquals(range, range.intersection(Ranges.closed(2, 8)));
+    assertEquals(range, range.intersection(Range.closed(2, 8)));
 
     // enclosing, exterior
-    assertEquals(range, range.intersection(Ranges.closed(2, 10)));
+    assertEquals(range, range.intersection(Range.closed(2, 10)));
 
     // overlap above
-    assertEquals(Ranges.closed(6, 8), range.intersection(Ranges.closed(6, 10)));
+    assertEquals(Range.closed(6, 8), range.intersection(Range.closed(6, 10)));
 
     // adjacent above
-    assertEquals(Ranges.openClosed(8, 8),
-        range.intersection(Ranges.openClosed(8, 10)));
+    assertEquals(Range.openClosed(8, 8),
+        range.intersection(Range.openClosed(8, 10)));
 
     // separate above
     try {
-      range.intersection(Ranges.closed(10, 12));
+      range.intersection(Range.closed(10, 12));
       fail();
     } catch (IllegalArgumentException expected) {
     }
   }
 
   public void testSpan_general() {
-    Range<Integer> range = Ranges.closed(4, 8);
+    Range<Integer> range = Range.closed(4, 8);
 
     // separate below
-    assertEquals(Ranges.closed(0, 8), range.span(Ranges.closed(0, 2)));
-    assertEquals(Ranges.atMost(8), range.span(Ranges.atMost(2)));
+    assertEquals(Range.closed(0, 8), range.span(Range.closed(0, 2)));
+    assertEquals(Range.atMost(8), range.span(Range.atMost(2)));
 
     // adjacent below
-    assertEquals(Ranges.closed(2, 8), range.span(Ranges.closedOpen(2, 4)));
-    assertEquals(Ranges.atMost(8), range.span(Ranges.lessThan(4)));
+    assertEquals(Range.closed(2, 8), range.span(Range.closedOpen(2, 4)));
+    assertEquals(Range.atMost(8), range.span(Range.lessThan(4)));
 
     // overlap below
-    assertEquals(Ranges.closed(2, 8), range.span(Ranges.closed(2, 6)));
-    assertEquals(Ranges.atMost(8), range.span(Ranges.atMost(6)));
+    assertEquals(Range.closed(2, 8), range.span(Range.closed(2, 6)));
+    assertEquals(Range.atMost(8), range.span(Range.atMost(6)));
 
     // enclosed with same start
-    assertEquals(range, range.span(Ranges.closed(4, 6)));
+    assertEquals(range, range.span(Range.closed(4, 6)));
 
     // enclosed, interior
-    assertEquals(range, range.span(Ranges.closed(5, 7)));
+    assertEquals(range, range.span(Range.closed(5, 7)));
 
     // enclosed with same end
-    assertEquals(range, range.span(Ranges.closed(6, 8)));
+    assertEquals(range, range.span(Range.closed(6, 8)));
 
     // equal
     assertEquals(range, range.span(range));
 
     // enclosing with same start
-    assertEquals(Ranges.closed(4, 10), range.span(Ranges.closed(4, 10)));
-    assertEquals(Ranges.atLeast(4), range.span(Ranges.atLeast(4)));
+    assertEquals(Range.closed(4, 10), range.span(Range.closed(4, 10)));
+    assertEquals(Range.atLeast(4), range.span(Range.atLeast(4)));
 
     // enclosing with same end
-    assertEquals(Ranges.closed(2, 8), range.span(Ranges.closed(2, 8)));
-    assertEquals(Ranges.atMost(8), range.span(Ranges.atMost(8)));
+    assertEquals(Range.closed(2, 8), range.span(Range.closed(2, 8)));
+    assertEquals(Range.atMost(8), range.span(Range.atMost(8)));
 
     // enclosing, exterior
-    assertEquals(Ranges.closed(2, 10), range.span(Ranges.closed(2, 10)));
-    assertEquals(Ranges.<Integer>all(), range.span(Ranges.<Integer>all()));
+    assertEquals(Range.closed(2, 10), range.span(Range.closed(2, 10)));
+    assertEquals(Range.<Integer>all(), range.span(Range.<Integer>all()));
 
     // overlap above
-    assertEquals(Ranges.closed(4, 10), range.span(Ranges.closed(6, 10)));
-    assertEquals(Ranges.atLeast(4), range.span(Ranges.atLeast(6)));
+    assertEquals(Range.closed(4, 10), range.span(Range.closed(6, 10)));
+    assertEquals(Range.atLeast(4), range.span(Range.atLeast(6)));
 
     // adjacent above
-    assertEquals(Ranges.closed(4, 10), range.span(Ranges.openClosed(8, 10)));
-    assertEquals(Ranges.atLeast(4), range.span(Ranges.greaterThan(8)));
+    assertEquals(Range.closed(4, 10), range.span(Range.openClosed(8, 10)));
+    assertEquals(Range.atLeast(4), range.span(Range.greaterThan(8)));
 
     // separate above
-    assertEquals(Ranges.closed(4, 12), range.span(Ranges.closed(10, 12)));
-    assertEquals(Ranges.atLeast(4), range.span(Ranges.atLeast(10)));
+    assertEquals(Range.closed(4, 12), range.span(Range.closed(10, 12)));
+    assertEquals(Range.atLeast(4), range.span(Range.atLeast(10)));
   }
 
   public void testApply() {
-    Predicate<Integer> predicate = Ranges.closed(2, 3);
+    Predicate<Integer> predicate = Range.closed(2, 3);
     assertFalse(predicate.apply(1));
     assertTrue(predicate.apply(2));
     assertTrue(predicate.apply(3));
@@ -519,17 +522,17 @@ public class RangeTest extends TestCase {
 
   public void testEquals() {
     new EqualsTester()
-        .addEqualityGroup(Ranges.open(1, 5),
-            Ranges.range(1, OPEN, 5, OPEN))
-        .addEqualityGroup(Ranges.greaterThan(2), Ranges.greaterThan(2))
-        .addEqualityGroup(Ranges.all(), Ranges.all())
+        .addEqualityGroup(Range.open(1, 5),
+            Range.range(1, OPEN, 5, OPEN))
+        .addEqualityGroup(Range.greaterThan(2), Range.greaterThan(2))
+        .addEqualityGroup(Range.all(), Range.all())
         .addEqualityGroup("Phil")
         .testEquals();
   }
 
   public void testLegacyComparable() {
     Range<LegacyComparable> range
-        = Ranges.closed(LegacyComparable.X, LegacyComparable.Y);
+        = Range.closed(LegacyComparable.X, LegacyComparable.Y);
   }
 
   private static final DiscreteDomain<Integer> UNBOUNDED_DOMAIN =
@@ -548,7 +551,7 @@ public class RangeTest extends TestCase {
       };
 
   public void testAsSet_noMin() {
-    Range<Integer> range = Ranges.lessThan(0);
+    Range<Integer> range = Range.lessThan(0);
     try {
       range.asSet(UNBOUNDED_DOMAIN);
       fail();
@@ -556,7 +559,7 @@ public class RangeTest extends TestCase {
   }
 
   public void testAsSet_noMax() {
-    Range<Integer> range = Ranges.greaterThan(0);
+    Range<Integer> range = Range.greaterThan(0);
     try {
       range.asSet(UNBOUNDED_DOMAIN);
       fail();
@@ -564,41 +567,97 @@ public class RangeTest extends TestCase {
   }
 
   public void testAsSet_empty() {
-    assertEquals(ImmutableSet.of(), Ranges.closedOpen(1, 1).asSet(integers()));
-    assertEquals(ImmutableSet.of(), Ranges.openClosed(5, 5).asSet(integers()));
-    assertEquals(ImmutableSet.of(), Ranges.lessThan(Integer.MIN_VALUE).asSet(integers()));
-    assertEquals(ImmutableSet.of(), Ranges.greaterThan(Integer.MAX_VALUE).asSet(integers()));
+    assertEquals(ImmutableSet.of(), Range.closedOpen(1, 1).asSet(integers()));
+    assertEquals(ImmutableSet.of(), Range.openClosed(5, 5).asSet(integers()));
+    assertEquals(ImmutableSet.of(), Range.lessThan(Integer.MIN_VALUE).asSet(integers()));
+    assertEquals(ImmutableSet.of(), Range.greaterThan(Integer.MAX_VALUE).asSet(integers()));
   }
 
   public void testCanonical() {
-    assertEquals(Ranges.closedOpen(1, 5),
-        Ranges.closed(1, 4).canonical(integers()));
-    assertEquals(Ranges.closedOpen(1, 5),
-        Ranges.open(0, 5).canonical(integers()));
-    assertEquals(Ranges.closedOpen(1, 5),
-        Ranges.closedOpen(1, 5).canonical(integers()));
-    assertEquals(Ranges.closedOpen(1, 5),
-        Ranges.openClosed(0, 4).canonical(integers()));
+    assertEquals(Range.closedOpen(1, 5),
+        Range.closed(1, 4).canonical(integers()));
+    assertEquals(Range.closedOpen(1, 5),
+        Range.open(0, 5).canonical(integers()));
+    assertEquals(Range.closedOpen(1, 5),
+        Range.closedOpen(1, 5).canonical(integers()));
+    assertEquals(Range.closedOpen(1, 5),
+        Range.openClosed(0, 4).canonical(integers()));
 
-    assertEquals(Ranges.closedOpen(Integer.MIN_VALUE, 0),
-        Ranges.closedOpen(Integer.MIN_VALUE, 0).canonical(integers()));
+    assertEquals(Range.closedOpen(Integer.MIN_VALUE, 0),
+        Range.closedOpen(Integer.MIN_VALUE, 0).canonical(integers()));
 
-    assertEquals(Ranges.closedOpen(Integer.MIN_VALUE, 0),
-        Ranges.lessThan(0).canonical(integers()));
-    assertEquals(Ranges.closedOpen(Integer.MIN_VALUE, 1),
-        Ranges.atMost(0).canonical(integers()));
-    assertEquals(Ranges.atLeast(0), Ranges.atLeast(0).canonical(integers()));
-    assertEquals(Ranges.atLeast(1), Ranges.greaterThan(0).canonical(integers()));
+    assertEquals(Range.closedOpen(Integer.MIN_VALUE, 0),
+        Range.lessThan(0).canonical(integers()));
+    assertEquals(Range.closedOpen(Integer.MIN_VALUE, 1),
+        Range.atMost(0).canonical(integers()));
+    assertEquals(Range.atLeast(0), Range.atLeast(0).canonical(integers()));
+    assertEquals(Range.atLeast(1), Range.greaterThan(0).canonical(integers()));
 
-    assertEquals(Ranges.atLeast(Integer.MIN_VALUE), Ranges.<Integer>all().canonical(integers()));
+    assertEquals(Range.atLeast(Integer.MIN_VALUE), Range.<Integer>all().canonical(integers()));
   }
 
   public void testCanonical_unboundedDomain() {
-    assertEquals(Ranges.lessThan(0), Ranges.lessThan(0).canonical(UNBOUNDED_DOMAIN));
-    assertEquals(Ranges.lessThan(1), Ranges.atMost(0).canonical(UNBOUNDED_DOMAIN));
-    assertEquals(Ranges.atLeast(0), Ranges.atLeast(0).canonical(UNBOUNDED_DOMAIN));
-    assertEquals(Ranges.atLeast(1), Ranges.greaterThan(0).canonical(UNBOUNDED_DOMAIN));
+    assertEquals(Range.lessThan(0), Range.lessThan(0).canonical(UNBOUNDED_DOMAIN));
+    assertEquals(Range.lessThan(1), Range.atMost(0).canonical(UNBOUNDED_DOMAIN));
+    assertEquals(Range.atLeast(0), Range.atLeast(0).canonical(UNBOUNDED_DOMAIN));
+    assertEquals(Range.atLeast(1), Range.greaterThan(0).canonical(UNBOUNDED_DOMAIN));
 
-    assertEquals(Ranges.all(), Ranges.<Integer>all().canonical(UNBOUNDED_DOMAIN));
+    assertEquals(Range.all(), Range.<Integer>all().canonical(UNBOUNDED_DOMAIN));
+  }
+
+  public void testEncloseAll() {
+    assertEquals(Range.closed(0, 0), Range.encloseAll(Arrays.asList(0)));
+    assertEquals(Range.closed(-3, 5), Range.encloseAll(Arrays.asList(5, -3)));
+    assertEquals(Range.closed(-3, 5), Range.encloseAll(Arrays.asList(1, 2, 2, 2, 5, -3, 0, -1)));
+  }
+
+  public void testEncloseAll_empty() {
+    try {
+      Range.encloseAll(ImmutableSet.<Integer>of());
+      fail();
+    } catch (NoSuchElementException expected) {}
+  }
+
+  public void testEncloseAll_nullValue() {
+    List<Integer> nullFirst = Lists.newArrayList(null, 0);
+    try {
+      Range.encloseAll(nullFirst);
+      fail();
+    } catch (NullPointerException expected) {}
+    List<Integer> nullNotFirst = Lists.newArrayList(0, null);
+    try {
+      Range.encloseAll(nullNotFirst);
+      fail();
+    } catch (NullPointerException expected) {}
+  }
+
+  public void testEquivalentFactories() {
+    new EqualsTester()
+        .addEqualityGroup(Range.all())
+        .addEqualityGroup(
+            Range.atLeast(1),
+            Range.downTo(1, CLOSED))
+        .addEqualityGroup(
+            Range.greaterThan(1),
+            Range.downTo(1, OPEN))
+        .addEqualityGroup(
+            Range.atMost(7),
+            Range.upTo(7, CLOSED))
+        .addEqualityGroup(
+            Range.lessThan(7),
+            Range.upTo(7, OPEN))
+        .addEqualityGroup(
+            Range.open(1, 7),
+            Range.range(1, OPEN, 7, OPEN))
+        .addEqualityGroup(
+            Range.openClosed(1, 7),
+            Range.range(1, OPEN, 7, CLOSED))
+        .addEqualityGroup(
+            Range.closed(1, 7),
+            Range.range(1, CLOSED, 7, CLOSED))
+        .addEqualityGroup(
+            Range.closedOpen(1, 7),
+            Range.range(1, CLOSED, 7, OPEN))
+        .testEquals();
   }
 }
