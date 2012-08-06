@@ -69,9 +69,15 @@ public class BloomFilterTest extends TestCase {
       assertTrue(BloomFilter.optimalNumOfBits(random.nextInt(1 << 16), random.nextDouble()) >= 0);
     }
 
-    // and some crazy values
-    assertEquals(Integer.MAX_VALUE, BloomFilter.optimalNumOfBits(
+    // and some crazy values (this used to be capped to Integer.MAX_VALUE, now it can go bigger
+    assertEquals(3327428144502L, BloomFilter.optimalNumOfBits(
         Integer.MAX_VALUE, Double.MIN_VALUE));
+    try {
+      BloomFilter.create(HashTestUtils.BAD_FUNNEL, Integer.MAX_VALUE, Double.MIN_VALUE);
+      fail("we can't represent such a large BF!");
+    } catch (IllegalArgumentException expected) {
+      assertEquals("Could not create BloomFilter of 3327428144502 bits", expected.getMessage());
+    }
   }
 
   private void checkSanity(BloomFilter<Object> bf) {

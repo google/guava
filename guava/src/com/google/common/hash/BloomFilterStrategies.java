@@ -16,7 +16,8 @@ package com.google.common.hash;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
-import com.google.common.math.IntMath;
+import com.google.common.math.LongMath;
+import com.google.common.primitives.Ints;
 
 import java.math.RoundingMode;
 import java.util.Arrays;
@@ -79,8 +80,8 @@ enum BloomFilterStrategies implements BloomFilter.Strategy {
     final long[] data;
     int bitCount;
 
-    BitArray(int bits) {
-      this(new long[IntMath.divide(bits, 64, RoundingMode.CEILING)]);
+    BitArray(long bits) {
+      this(new long[Ints.checkedCast(LongMath.divide(bits, 64, RoundingMode.CEILING))]);
     }
 
     // Used by serialization

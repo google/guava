@@ -227,10 +227,14 @@ public final class BloomFilter<T> implements Serializable {
      * much of a point after all, e.g. optimalM(1000, 0.0000000000000001) = 76680
      * which is less that 10kb. Who cares!
      */
-    int numBits = optimalNumOfBits(expectedInsertions, fpp);
+    long numBits = optimalNumOfBits(expectedInsertions, fpp);
     int numHashFunctions = optimalNumOfHashFunctions(expectedInsertions, numBits);
-    return new BloomFilter<T>(new BitArray(numBits), numHashFunctions, funnel,
-        BloomFilterStrategies.MURMUR128_MITZ_32);
+    try {
+      return new BloomFilter<T>(new BitArray(numBits), numHashFunctions, funnel,
+          BloomFilterStrategies.MURMUR128_MITZ_32);
+    } catch (IllegalArgumentException e) {
+      throw new IllegalArgumentException("Could not create BloomFilter of " + numBits + " bits", e);
+    }
   }
 
   /**
@@ -280,7 +284,7 @@ public final class BloomFilter<T> implements Serializable {
    * @param n expected insertions (must be positive)
    * @param m total number of bits in Bloom filter (must be positive)
    */
-  @VisibleForTesting static int optimalNumOfHashFunctions(int n, int m) {
+  @VisibleForTesting static int optimalNumOfHashFunctions(long n, long m) {
     return Math.max(1, (int) Math.round(m / n * LN2));
   }
 
@@ -293,8 +297,9 @@ public final class BloomFilter<T> implements Serializable {
    * @param n expected insertions (must be positive)
    * @param p false positive rate (must be 0 < p < 1)
    */
-  @VisibleForTesting static int optimalNumOfBits(int n, double p) {
-    return (int) (-n * Math.log(p) / LN2_SQUARED);
+  @VisibleForTesting static long optimalNumOfBits(long n, double p) {
+    if (p == 0) p = Double.MIN_VALUE;
+    return (long) (-n * Math.log(p) / LN2_SQUARED);
   }
 
   private Object writeReplace() {
