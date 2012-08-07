@@ -19,10 +19,12 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.VisibleForTesting;
-import com.google.common.base.Preconditions;
+import com.google.common.base.Objects;
 import com.google.common.hash.BloomFilterStrategies.BitArray;
 
 import java.io.Serializable;
+
+import javax.annotation.Nullable;
 
 /**
  * A Bloom filter for instances of {@code T}. A Bloom filter offers an approximate containment test
@@ -95,21 +97,14 @@ public final class BloomFilter<T> implements Serializable {
    */
   private BloomFilter(BitArray bits, int numHashFunctions, Funnel<T> funnel,
       Strategy strategy) {
-    Preconditions.checkArgument(numHashFunctions > 0, "numHashFunctions zero or negative");
+    checkArgument(numHashFunctions > 0,
+        "numHashFunctions (%s) must be > 0", numHashFunctions);
+    checkArgument(numHashFunctions <= 255,
+        "numHashFunctions (%s) must be <= 255", numHashFunctions);
     this.bits = checkNotNull(bits);
     this.numHashFunctions = numHashFunctions;
     this.funnel = checkNotNull(funnel);
-    this.strategy = strategy;
-
-    /*
-     * This only exists to forbid BFs that cannot use the compact persistent representation.
-     * If it ever throws, at a user who was not intending to use that representation, we should
-     * reconsider
-     */
-    if (numHashFunctions > 255) {
-      throw new AssertionError("Currently we don't allow BloomFilters that would use more than" +
-          "255 hash functions, please contact the guava team");
-    }
+    this.strategy = checkNotNull(strategy);
   }
 
   /**
@@ -135,11 +130,11 @@ public final class BloomFilter<T> implements Serializable {
    * {@link #mightContain(Object)} with the same element will always return {@code true}.
    *
    * @return true if the bloom filter's bits changed as a result of this operation. If the bits
-   *         changed, this is <i>definitely</i> the first time {@code object} has been added to the
-   *         filter. If the bits haven't changed, this <i>might</i> be the first time {@code object}
-   *         has been added to the filter. Note that {@code put(t)} always returns the
-   *         <i>opposite</i> result to what {@code mightContain(t)} would have returned at the time
-   *         it is called."
+   *     changed, this is <i>definitely</i> the first time {@code object} has been added to the
+   *     filter. If the bits haven't changed, this <i>might</i> be the first time {@code object}
+   *     has been added to the filter. Note that {@code put(t)} always returns the
+   *     <i>opposite</i> result to what {@code mightContain(t)} would have returned at the time
+   *     it is called."
    * @since 12.0 (present in 11.0 with {@code void} return type})
    */
   public boolean put(T object) {
@@ -175,19 +170,24 @@ public final class BloomFilter<T> implements Serializable {
    *
    * <p>This implementation uses reference equality to compare funnels.
    */
-  @Override public boolean equals(Object o) {
-    if (o instanceof BloomFilter) {
-      BloomFilter<?> that = (BloomFilter<?>) o;
+  @Override
+  public boolean equals(@Nullable Object object) {
+    if (object == this) {
+      return true;
+    }
+    if (object instanceof BloomFilter) {
+      BloomFilter<?> that = (BloomFilter<?>) object;
       return this.numHashFunctions == that.numHashFunctions
-          && this.bits.equals(that.bits)
           && this.funnel == that.funnel
-          && this.strategy == that.strategy;
+          && this.strategy == that.strategy
+          && this.bits.equals(that.bits);
     }
     return false;
   }
 
-  @Override public int hashCode() {
-    return bits.hashCode();
+  @Override
+  public int hashCode() {
+    return Objects.hashCode(numHashFunctions, funnel, strategy, bits);
   }
 
   /**
@@ -207,17 +207,17 @@ public final class BloomFilter<T> implements Serializable {
    *
    * @param funnel the funnel of T's that the constructed {@code BloomFilter<T>} will use
    * @param expectedInsertions the number of expected insertions to the constructed
-   *        {@code BloomFilter<T>}; must be positive
+   *     {@code BloomFilter<T>}; must be positive
    * @param fpp the desired false positive probability (must be positive and less than 1.0)
    * @return a {@code BloomFilter}
    */
   public static <T> BloomFilter<T> create(
       Funnel<T> funnel, int expectedInsertions /* n */, double fpp) {
     checkNotNull(funnel);
-    checkArgument(expectedInsertions >= 0, "Expected insertions (%s) cannot be negative",
+    checkArgument(expectedInsertions >= 0, "Expected insertions (%s) must be >= 0",
         expectedInsertions);
-    checkArgument(fpp > 0.0 & fpp < 1.0,
-        "False positive probability (%s) must be in (0.0, 1.0)", fpp);
+    checkArgument(fpp > 0.0, "False positive probability (%s) must be > 0.0", fpp);
+    checkArgument(fpp < 1.0, "False positive probability (%s) must be < 1.0", fpp);
     if (expectedInsertions == 0) {
       expectedInsertions = 1;
     }
@@ -250,7 +250,7 @@ public final class BloomFilter<T> implements Serializable {
    *
    * @param funnel the funnel of T's that the constructed {@code BloomFilter<T>} will use
    * @param expectedInsertions the number of expected insertions to the constructed
-   *        {@code BloomFilter<T>}; must be positive
+   *     {@code BloomFilter<T>}; must be positive
    * @return a {@code BloomFilter}
    */
   public static <T> BloomFilter<T> create(Funnel<T> funnel, int expectedInsertions /* n */) {
@@ -272,9 +272,6 @@ public final class BloomFilter<T> implements Serializable {
    * 4) For optimal k: m = -nlnp / ((ln2) ^ 2)
    */
 
-  private static final double LN2 = Math.log(2);
-  private static final double LN2_SQUARED = LN2 * LN2;
-
   /**
    * Computes the optimal k (number of hashes per element inserted in Bloom filter), given the
    * expected insertions and total number of bits in the Bloom filter.
@@ -284,8 +281,9 @@ public final class BloomFilter<T> implements Serializable {
    * @param n expected insertions (must be positive)
    * @param m total number of bits in Bloom filter (must be positive)
    */
-  @VisibleForTesting static int optimalNumOfHashFunctions(long n, long m) {
-    return Math.max(1, (int) Math.round(m / n * LN2));
+  @VisibleForTesting
+  static int optimalNumOfHashFunctions(long n, long m) {
+    return Math.max(1, (int) Math.round(m / n * Math.log(2)));
   }
 
   /**
@@ -297,9 +295,12 @@ public final class BloomFilter<T> implements Serializable {
    * @param n expected insertions (must be positive)
    * @param p false positive rate (must be 0 < p < 1)
    */
-  @VisibleForTesting static long optimalNumOfBits(long n, double p) {
-    if (p == 0) p = Double.MIN_VALUE;
-    return (long) (-n * Math.log(p) / LN2_SQUARED);
+  @VisibleForTesting
+  static long optimalNumOfBits(long n, double p) {
+    if (p == 0) {
+      p = Double.MIN_VALUE;
+    }
+    return (long) (-n * Math.log(p) / (Math.log(2) * Math.log(2)));
   }
 
   private Object writeReplace() {

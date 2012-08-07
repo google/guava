@@ -18,10 +18,15 @@ package com.google.common.hash;
 
 import com.google.common.primitives.Ints;
 import com.google.common.testing.EqualsTester;
+import com.google.common.testing.NullPointerTester;
 import com.google.common.testing.SerializableTester;
 
 import junit.framework.TestCase;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.Arrays;
 import java.util.Random;
 
@@ -40,6 +45,45 @@ public class BloomFilterTest extends TestCase {
         checkSanity(BloomFilter.create(HashTestUtils.BAD_FUNNEL, expectedInsertions, fpr));
       }
     }
+  }
+
+  public void testPreconditions() {
+    try {
+      BloomFilter.create(Funnels.stringFunnel(), -1);
+      fail();
+    } catch (IllegalArgumentException expected) {}
+    try {
+      BloomFilter.create(Funnels.stringFunnel(), -1, 0.03);
+      fail();
+    } catch (IllegalArgumentException expected) {}
+    try {
+      BloomFilter.create(Funnels.stringFunnel(), 1, 0.0);
+      fail();
+    } catch (IllegalArgumentException expected) {}
+    try {
+      BloomFilter.create(Funnels.stringFunnel(), 1, 1.0);
+      fail();
+    } catch (IllegalArgumentException expected) {}
+  }
+
+  public void testFailureWhenMoreThan255HashFunctionsAreNeeded() {
+    try {
+      int n = 1000;
+      double p = 0.00000000000000000000000000000000000000000000000000000000000000000000000000000001;
+      BloomFilter.create(Funnels.stringFunnel(), n, p);
+      fail();
+    } catch (IllegalArgumentException expected) {}
+  }
+
+  public void testNullPointers() {
+    NullPointerTester tester = new NullPointerTester();
+    tester.setDefault(Funnel.class, Funnels.stringFunnel());
+    tester.setDefault(OutputStream.class, new ByteArrayOutputStream());
+    tester.setDefault(InputStream.class,
+        new ByteArrayInputStream(new ByteArrayOutputStream().toByteArray()));
+
+    tester.testAllPublicInstanceMethods(BloomFilter.create(Funnels.stringFunnel(), 100));
+    tester.testAllPublicStaticMethods(BloomFilter.class);
   }
 
   /**
