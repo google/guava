@@ -5,6 +5,8 @@
   <source path=""/>
    
   <super-source path="super"/>
+   
+  <inherits name="com.google.gwt.junit.JUnit"/>
     
   <inherits name="java.util.Util"/>
    

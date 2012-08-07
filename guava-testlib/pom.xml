@@ -31,12 +31,6 @@
       <version>4.8.2</version>
     </dependency>
     <dependency>
-      <groupId>com.google.gwt</groupId>
-      <artifactId>gwt-dev</artifactId>
-      <version>2.2.0</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
       <groupId>org.junit.contrib</groupId>
       <artifactId>truth</artifactId>
       <version>0.7.0</version>
