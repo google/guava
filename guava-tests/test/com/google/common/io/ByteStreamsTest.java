@@ -902,6 +902,18 @@ public class ByteStreamsTest extends IoTestCase {
             }));
   }
 
+  public void testNullOutputStream() throws Exception {
+    // create a null output stream
+    OutputStream nos = ByteStreams.nullOutputStream();
+    // write to the output stream
+    nos.write('n');
+    String test = "Test string for NullOutputStream";
+    nos.write(test.getBytes());
+    nos.write(test.getBytes(), 2, 10);
+    // nothing really to assert?
+    assertSame(ByteStreams.nullOutputStream(), ByteStreams.nullOutputStream());
+  }
+
   private static byte[] copyOfRange(byte[] in, int from, int to) {
     byte[] out = new byte[to - from];
     for (int i = 0; i < to - from; i++) {

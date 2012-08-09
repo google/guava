@@ -568,6 +568,28 @@ public final class ByteStreams {
 
   }
 
+  private static final OutputStream NULL_OUTPUT_STREAM =
+      new OutputStream() {
+        /** Discards the specified byte. */
+        @Override public void write(int b) {
+        }
+        /** Discards the specified byte array. */
+        @Override public void write(byte[] b) {
+        }
+        /** Discards the specified byte array. */
+        @Override public void write(byte[] b, int off, int len) {
+        }
+      };
+
+  /**
+   * Returns a {@link OutputStream} that simply discards written bytes.
+   *
+   * @since 14.0 (since 1.0 as com/google/common/io/NullOutputStream.java)
+   */
+  public static OutputStream nullOutputStream() {
+    return NULL_OUTPUT_STREAM;
+  }
+
   // TODO(chrisn): Not all streams support skipping.
   /** Returns the length of a supplied input stream, in bytes. */
   public static long length(InputSupplier<? extends InputStream> supplier)

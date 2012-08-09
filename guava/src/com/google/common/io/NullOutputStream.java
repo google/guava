@@ -25,8 +25,10 @@ import java.io.OutputStream;
  *
  * @author Spencer Kimball
  * @since 1.0
+ * @deprecated Use {@link ByteStreams#nullOutputStream} instead.
  */
 @Beta
+@Deprecated
 public final class NullOutputStream extends OutputStream {
   /** Discards the specified byte. */
   @Override public void write(int b) {
