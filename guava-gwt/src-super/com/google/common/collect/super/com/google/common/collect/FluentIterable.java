@@ -353,13 +353,14 @@ public abstract class FluentIterable<E> implements Iterable<E> {
   }
 
   /**
-   * Adds all the elements from this fluent iterable to {@code collection}.
+   * Copies all the elements from this fluent iterable to {@code collection}. This is equivalent to
+   * calling {@code Iterables.addAll(collection, this)}.
    *
-   * @param collection the collection to add elements to
-   * @return the collection passed in as the parameter
+   * @param collection the collection to copy elements to
+   * @return {@code collection}, for convenience
    * @since 14.0
    */
-  public final <C extends Collection<? super E>> C addTo(C collection) {
+  public final <C extends Collection<? super E>> C copyInto(C collection) {
     checkNotNull(collection);
     if (iterable instanceof Collection) {
       collection.addAll(Collections2.cast(iterable));

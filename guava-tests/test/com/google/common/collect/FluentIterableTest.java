@@ -532,22 +532,22 @@ public class FluentIterableTest extends TestCase {
         .hasContentsInOrder(4, 3, 1);
   }
 
-  public void testAddTo_List() {
-    ASSERT.that(fluent(1, 3, 5).addTo(Lists.newArrayList(1, 2)))
+  public void testCopyInto_List() {
+    ASSERT.that(fluent(1, 3, 5).copyInto(Lists.newArrayList(1, 2)))
         .hasContentsInOrder(1, 2, 1, 3, 5);
   }
 
-  public void testAddTo_Set() {
-    ASSERT.that(fluent(1, 3, 5).addTo(Sets.newHashSet(1, 2)))
+  public void testCopyInto_Set() {
+    ASSERT.that(fluent(1, 3, 5).copyInto(Sets.newHashSet(1, 2)))
         .hasContentsAnyOrder(1, 2, 3, 5);
   }
 
-  public void testAddTo_SetAllDuplicates() {
-    ASSERT.that(fluent(1, 3, 5).addTo(Sets.newHashSet(1, 2, 3, 5)))
+  public void testCopyInto_SetAllDuplicates() {
+    ASSERT.that(fluent(1, 3, 5).copyInto(Sets.newHashSet(1, 2, 3, 5)))
         .hasContentsAnyOrder(1, 2, 3, 5);
   }
 
-  public void testAddTo_NonCollection() {
+  public void testCopyInto_NonCollection() {
     final ArrayList<Integer> list = Lists.newArrayList(1, 2, 3);
 
     final ArrayList<Integer> iterList = Lists.newArrayList(9, 8, 7);
@@ -558,7 +558,7 @@ public class FluentIterableTest extends TestCase {
       }
     };
 
-    ASSERT.that(FluentIterable.from(iterable).addTo(list))
+    ASSERT.that(FluentIterable.from(iterable).copyInto(list))
       .hasContentsInOrder(1, 2, 3, 9, 8, 7);
   }
 
