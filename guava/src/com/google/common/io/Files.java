@@ -846,4 +846,21 @@ public final class Files {
     int dotIndex = fileName.lastIndexOf('.');
     return (dotIndex == -1) ? "" : fileName.substring(dotIndex + 1);
   }
+
+  /**
+   * Returns the file name without its
+   * <a href="http://en.wikipedia.org/wiki/Filename_extension">file extension</a> or path. This is
+   * similar to the {@code basename} unix command. The result does not include the '{@code .}'.
+   *
+   * @param file The name of the file to trim the extension from. This can be either a fully
+   *     qualified file name (including a path) or just a file name.
+   * @return The file name without its path or extension.
+   * @since 14.0
+   */
+  public static String getNameWithoutExtension(String file) {
+    checkNotNull(file);
+    String fileName = new File(file).getName();
+    int dotIndex = fileName.lastIndexOf('.');
+    return (dotIndex == -1) ? fileName : fileName.substring(0, dotIndex);
+  }
 }
