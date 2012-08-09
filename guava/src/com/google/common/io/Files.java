@@ -16,12 +16,12 @@
 
 package com.google.common.io;
 
+import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.Beta;
 import com.google.common.base.Charsets;
 import com.google.common.base.Joiner;
-import com.google.common.base.Preconditions;
 import com.google.common.base.Splitter;
 import com.google.common.hash.HashCode;
 import com.google.common.hash.HashFunction;
@@ -74,6 +74,8 @@ public final class Files {
    */
   public static BufferedReader newReader(File file, Charset charset)
       throws FileNotFoundException {
+    checkNotNull(file);
+    checkNotNull(charset);
     return new BufferedReader(
         new InputStreamReader(new FileInputStream(file), charset));
   }
@@ -89,6 +91,8 @@ public final class Files {
    */
   public static BufferedWriter newWriter(File file, Charset charset)
       throws FileNotFoundException {
+    checkNotNull(file);
+    checkNotNull(charset);
     return new BufferedWriter(
         new OutputStreamWriter(new FileOutputStream(file), charset));
   }
@@ -102,7 +106,7 @@ public final class Files {
    */
   public static InputSupplier<FileInputStream> newInputStreamSupplier(
       final File file) {
-    Preconditions.checkNotNull(file);
+    checkNotNull(file);
     return new InputSupplier<FileInputStream>() {
       @Override
       public FileInputStream getInput() throws IOException {
@@ -120,6 +124,7 @@ public final class Files {
    */
   public static OutputSupplier<FileOutputStream> newOutputStreamSupplier(
       File file) {
+    checkNotNull(file);
     return newOutputStreamSupplier(file, false);
   }
 
@@ -134,7 +139,7 @@ public final class Files {
    */
   public static OutputSupplier<FileOutputStream> newOutputStreamSupplier(
       final File file, final boolean append) {
-    Preconditions.checkNotNull(file);
+    checkNotNull(file);
     return new OutputSupplier<FileOutputStream>() {
       @Override
       public FileOutputStream getOutput() throws IOException {
@@ -154,6 +159,8 @@ public final class Files {
    */
   public static InputSupplier<InputStreamReader> newReaderSupplier(File file,
       Charset charset) {
+    checkNotNull(file);
+    checkNotNull(charset);
     return CharStreams.newReaderSupplier(newInputStreamSupplier(file), charset);
   }
 
@@ -168,6 +175,8 @@ public final class Files {
    */
   public static OutputSupplier<OutputStreamWriter> newWriterSupplier(File file,
       Charset charset) {
+    checkNotNull(file);
+    checkNotNull(charset);
     return newWriterSupplier(file, charset, false);
   }
 
@@ -184,8 +193,10 @@ public final class Files {
    */
   public static OutputSupplier<OutputStreamWriter> newWriterSupplier(File file,
       Charset charset, boolean append) {
-    return CharStreams.newWriterSupplier(newOutputStreamSupplier(file, append),
-        charset);
+    checkNotNull(file);
+    checkNotNull(charset);
+    return CharStreams.newWriterSupplier(
+        newOutputStreamSupplier(file, append), charset);
   }
 
   /**
@@ -198,7 +209,8 @@ public final class Files {
    * @throws IOException if an I/O error occurs
    */
   public static byte[] toByteArray(File file) throws IOException {
-    Preconditions.checkArgument(file.length() <= Integer.MAX_VALUE);
+    checkNotNull(file);
+    checkArgument(file.length() <= Integer.MAX_VALUE);
     if (file.length() == 0) {
       // Some special files are length 0 but have content nonetheless.
       return ByteStreams.toByteArray(newInputStreamSupplier(file));
@@ -228,6 +240,8 @@ public final class Files {
    * @throws IOException if an I/O error occurs
    */
   public static String toString(File file, Charset charset) throws IOException {
+    checkNotNull(file);
+    checkNotNull(charset);
     return new String(toByteArray(file), charset.name());
   }
 
@@ -241,6 +255,8 @@ public final class Files {
    */
   public static void copy(InputSupplier<? extends InputStream> from, File to)
       throws IOException {
+    checkNotNull(from);
+    checkNotNull(to);
     ByteStreams.copy(from, newOutputStreamSupplier(to));
   }
 
@@ -252,6 +268,8 @@ public final class Files {
    * @throws IOException if an I/O error occurs
    */
   public static void write(byte[] from, File to) throws IOException {
+    checkNotNull(from);
+    checkNotNull(to);
     ByteStreams.write(from, newOutputStreamSupplier(to));
   }
 
@@ -265,6 +283,8 @@ public final class Files {
    */
   public static void copy(File from, OutputSupplier<? extends OutputStream> to)
       throws IOException {
+    checkNotNull(from);
+    checkNotNull(to);
     ByteStreams.copy(newInputStreamSupplier(from), to);
   }
 
@@ -276,6 +296,8 @@ public final class Files {
    * @throws IOException if an I/O error occurs
    */
   public static void copy(File from, OutputStream to) throws IOException {
+    checkNotNull(from);
+    checkNotNull(to);
     ByteStreams.copy(newInputStreamSupplier(from), to);
   }
 
@@ -293,7 +315,9 @@ public final class Files {
    * @throws IllegalArgumentException if {@code from.equals(to)}
    */
   public static void copy(File from, File to) throws IOException {
-    Preconditions.checkArgument(!from.equals(to),
+    checkNotNull(from);
+    checkNotNull(to);
+    checkArgument(!from.equals(to),
         "Source %s and destination %s must be different", from, to);
     copy(newInputStreamSupplier(from), to);
   }
@@ -311,6 +335,9 @@ public final class Files {
    */
   public static <R extends Readable & Closeable> void copy(
       InputSupplier<R> from, File to, Charset charset) throws IOException {
+    checkNotNull(from);
+    checkNotNull(to);
+    checkNotNull(charset);
     CharStreams.copy(from, newWriterSupplier(to, charset));
   }
 
@@ -326,6 +353,9 @@ public final class Files {
    */
   public static void write(CharSequence from, File to, Charset charset)
       throws IOException {
+    checkNotNull(from);
+    checkNotNull(to);
+    checkNotNull(charset);
     write(from, to, charset, false);
   }
 
@@ -341,6 +371,9 @@ public final class Files {
    */
   public static void append(CharSequence from, File to, Charset charset)
       throws IOException {
+    checkNotNull(from);
+    checkNotNull(to);
+    checkNotNull(charset);
     write(from, to, charset, true);
   }
 
@@ -373,6 +406,9 @@ public final class Files {
    */
   public static <W extends Appendable & Closeable> void copy(File from,
       Charset charset, OutputSupplier<W> to) throws IOException {
+    checkNotNull(from);
+    checkNotNull(to);
+    checkNotNull(charset);
     CharStreams.copy(newReaderSupplier(from, charset), to);
   }
 
@@ -388,6 +424,9 @@ public final class Files {
    */
   public static void copy(File from, Charset charset, Appendable to)
       throws IOException {
+    checkNotNull(from);
+    checkNotNull(to);
+    checkNotNull(charset);
     CharStreams.copy(newReaderSupplier(from, charset), to);
   }
 
@@ -397,6 +436,8 @@ public final class Files {
    * @throws IOException if an I/O error occurs
    */
   public static boolean equal(File file1, File file2) throws IOException {
+    checkNotNull(file1);
+    checkNotNull(file2);
     if (file1 == file2 || file1.equals(file2)) {
       return true;
     }
@@ -457,6 +498,7 @@ public final class Files {
    * @throws IOException if an I/O error occurs
    */
   public static void touch(File file) throws IOException {
+    checkNotNull(file);
     if (!file.createNewFile()
         && !file.setLastModified(System.currentTimeMillis())) {
       throw new IOException("Unable to update modification time of " + file);
@@ -474,6 +516,7 @@ public final class Files {
    * @since 4.0
    */
   public static void createParentDirs(File file) throws IOException {
+    checkNotNull(file);
     File parent = file.getCanonicalFile().getParentFile();
     if (parent == null) {
       /*
@@ -501,8 +544,9 @@ public final class Files {
    * @throws IllegalArgumentException if {@code from.equals(to)}
    */
   public static void move(File from, File to) throws IOException {
-    Preconditions.checkNotNull(to);
-    Preconditions.checkArgument(!from.equals(to),
+    checkNotNull(from);
+    checkNotNull(to);
+    checkArgument(!from.equals(to),
         "Source %s and destination %s must be different", from, to);
 
     if (!from.renameTo(to)) {
@@ -529,6 +573,8 @@ public final class Files {
    */
   public static String readFirstLine(File file, Charset charset)
       throws IOException {
+    checkNotNull(file);
+    checkNotNull(charset);
     return CharStreams.readFirstLine(Files.newReaderSupplier(file, charset));
   }
 
@@ -545,6 +591,8 @@ public final class Files {
    */
   public static List<String> readLines(File file, Charset charset)
       throws IOException {
+    checkNotNull(file);
+    checkNotNull(charset);
     return CharStreams.readLines(Files.newReaderSupplier(file, charset));
   }
 
@@ -561,8 +609,11 @@ public final class Files {
    */
   public static <T> T readLines(File file, Charset charset,
       LineProcessor<T> callback) throws IOException {
-    return CharStreams.readLines(Files.newReaderSupplier(file, charset),
-        callback);
+    checkNotNull(file);
+    checkNotNull(charset);
+    checkNotNull(callback);
+    return CharStreams.readLines(
+        Files.newReaderSupplier(file, charset), callback);
   }
 
   /**
@@ -578,6 +629,8 @@ public final class Files {
    */
   public static <T> T readBytes(File file, ByteProcessor<T> processor)
       throws IOException {
+    checkNotNull(file);
+    checkNotNull(processor);
     return ByteStreams.readBytes(newInputStreamSupplier(file), processor);
   }
 
@@ -593,6 +646,8 @@ public final class Files {
    */
   public static long getChecksum(File file, Checksum checksum)
       throws IOException {
+    checkNotNull(file);
+    checkNotNull(checksum);
     return ByteStreams.getChecksum(newInputStreamSupplier(file), checksum);
   }
 
@@ -607,6 +662,8 @@ public final class Files {
    */
   public static HashCode hash(File file, HashFunction hashFunction)
       throws IOException {
+    checkNotNull(file);
+    checkNotNull(hashFunction);
     return ByteStreams.hash(newInputStreamSupplier(file), hashFunction);
   }
 
@@ -627,6 +684,7 @@ public final class Files {
    * @since 2.0
    */
   public static MappedByteBuffer map(File file) throws IOException {
+    checkNotNull(file);
     return map(file, MapMode.READ_ONLY);
   }
 
@@ -650,6 +708,8 @@ public final class Files {
    */
   public static MappedByteBuffer map(File file, MapMode mode)
       throws IOException {
+    checkNotNull(file);
+    checkNotNull(mode);
     if (!file.exists()) {
       throw new FileNotFoundException(file.toString());
     }
@@ -679,6 +739,8 @@ public final class Files {
    */
   public static MappedByteBuffer map(File file, MapMode mode, long size)
       throws FileNotFoundException, IOException {
+    checkNotNull(file);
+    checkNotNull(mode);
     RandomAccessFile raf =
         new RandomAccessFile(file, mode == MapMode.READ_ONLY ? "r" : "rw");
 
@@ -728,6 +790,7 @@ public final class Files {
    * @since 11.0
    */
   public static String simplifyPath(String pathname) {
+    checkNotNull(pathname);
     if (pathname.length() == 0) {
       return ".";
     }
@@ -777,8 +840,9 @@ public final class Files {
    *
    * @since 11.0
    */
-  public static String getFileExtension(String fileName) {
-    checkNotNull(fileName);
+  public static String getFileExtension(String fullName) {
+    checkNotNull(fullName);
+    String fileName = new File(fullName).getName();
     int dotIndex = fileName.lastIndexOf('.');
     return (dotIndex == -1) ? "" : fileName.substring(dotIndex + 1);
   }
