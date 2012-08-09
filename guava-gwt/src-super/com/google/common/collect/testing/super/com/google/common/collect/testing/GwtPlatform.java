@@ -14,20 +14,25 @@
  * limitations under the License.
  */
 
-package com.google.common.escape;
+package com.google.common.collect.testing;
+
+import com.google.gwt.core.client.GwtScriptOnly;
+import com.google.gwt.lang.Array;
 
 /**
- * @author Jesse Wilson
+ * Version of {@link GwtPlatform} used in web-mode.  It includes methods in
+ * {@link Platform} that requires different implementions in web mode and
+ * hosted mode.  It is factored out from {@link Platform} because <code>
+ * {@literal @}GwtScriptOnly</code> only supports public classes and methods.
+ *
+ * @author Hayward Chan
  */
-class Platform {
+@GwtScriptOnly
+public final class GwtPlatform {
 
-  private static final char[] CHAR_BUFFER = new char[1024];
+  private GwtPlatform() {}
 
-  static char[] charBufferFromThreadLocal() {
-    // ThreadLocal is not available to GWT, so we always reuse the same
-    // instance.  It is always safe to return the same instance because
-    // javascript is single-threaded, and only used by blocks that doesn't
-    // involve async callbacks.
-    return CHAR_BUFFER;
+  public static <T> T[] clone(T[] array) {
+    return (T[]) Array.clone(array);
   }
 }
