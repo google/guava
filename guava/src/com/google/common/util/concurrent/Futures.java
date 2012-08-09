@@ -75,7 +75,7 @@ public final class Futures {
    *
    * <p>The given mapping function will be applied to an
    * {@link InterruptedException}, a {@link CancellationException}, or an
-   * {@link ExecutionException} with the actual cause of the exception.
+   * {@link ExecutionException}.
    * See {@link Future#get()} for details on the exceptions thrown.
    *
    * @since 9.0 (source-compatible since 1.0)
