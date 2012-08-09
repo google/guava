@@ -19,6 +19,7 @@ package com.google.common.base;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.VisibleForTesting;
+import com.google.common.base.CharMatcher.FastMatcher;
 
 import java.util.BitSet;
 
@@ -29,7 +30,7 @@ import java.util.BitSet;
  * @author Christopher Swenson
  */
 @GwtCompatible(emulated = true)
-final class SmallCharMatcher extends CharMatcher {
+final class SmallCharMatcher extends FastMatcher {
   static final int MAX_SIZE = 63;
   static final int MAX_TABLE_SIZE = 128;
   private final boolean reprobe;
@@ -50,16 +51,10 @@ final class SmallCharMatcher extends CharMatcher {
     return 1 == (1 & (filter >> c));
   }
 
-  @Override
-  public CharMatcher precomputed() {
-    return this;
-  }
-
-  @GwtIncompatible("java.util.BitSet")
   @VisibleForTesting
-  static char[] buildTable(int modulus, BitSet allChars, boolean reprobe) {
+  static char[] buildTable(int modulus, char[] charArray, boolean reprobe) {
     char[] table = new char[modulus];
-    for (int c = allChars.nextSetBit(0); c != -1; c = allChars.nextSetBit(c + 1)) {
+    for (char c : charArray) {
       int index = c % modulus;
       if (index < 0) {
         index += modulus;
@@ -71,29 +66,34 @@ final class SmallCharMatcher extends CharMatcher {
           index = (index + 1) % modulus;
         }
       }
-      table[index] = (char) c;
+      table[index] = c;
     }
     return table;
   }
 
   @GwtIncompatible("java.util.BitSet")
   static CharMatcher from(BitSet chars, String description) {
-    long filter = 0;
-    int size = chars.cardinality();
-    boolean containsZero = false;
+    char[] charArray = new char[chars.cardinality()];
+
+    for (int i = 0, c = chars.nextSetBit(0); c != -1; c = chars.nextSetBit(c + 1)) {
+      charArray[i++] = (char) c;
+    }
+    return from(charArray, description);
+  }
+
+  static CharMatcher from(char[] chars, String description) {
+    int size = chars.length;
+    boolean containsZero = chars[0] == 0;
     boolean reprobe = false;
-    containsZero = chars.get(0);
 
     // Compute the filter.
-    for (int c = chars.nextSetBit(0); c != -1; c = chars.nextSetBit(c + 1)) {
+    long filter = 0;
+    for (char c : chars) {
       filter |= 1L << c;
     }
     char[] table = null;
-    for (int i = size; i < MAX_TABLE_SIZE; i++) {
+    for (int i = size; table == null && i < MAX_TABLE_SIZE; i++) {
       table = buildTable(i, chars, false);
-      if (table != null) {
-        break;
-      }
     }
     // Compute the hash table.
     if (table == null) {
@@ -126,6 +126,19 @@ final class SmallCharMatcher extends CharMatcher {
         index = (index + 1) % table.length;
       } else {
         return false;
+      }
+    }
+  }
+
+  @GwtIncompatible("java.util.BitSet")
+  @Override
+  void setBits(BitSet bitSet) {
+    if (containsZero) {
+      bitSet.set(0);
+    }
+    for (char c : this.table) {
+      if (c != 0) {
+        bitSet.set(c);
       }
     }
   }

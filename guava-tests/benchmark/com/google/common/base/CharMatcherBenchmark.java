@@ -89,7 +89,7 @@ public class CharMatcherBenchmark extends SimpleBenchmark {
     this.matcher = precomputed ? config.matcher.precomputed() : config.matcher;
     if (size.equals("small") || size.equals("medium")) {
       BitSet tmp = new BitSet();
-      matcher.setBits(tmp, true);
+      matcher.setBits(tmp);
       int matchedCharCount = tmp.cardinality();
       if (size.equals("small") && matchedCharCount <= SmallCharMatcher.MAX_SIZE) {
         this.matcher = SmallCharMatcher.from(tmp, "");

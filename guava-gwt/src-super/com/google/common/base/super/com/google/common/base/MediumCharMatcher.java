@@ -18,6 +18,7 @@ package com.google.common.base;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.VisibleForTesting;
+import com.google.common.base.CharMatcher.FastMatcher;
 
 /**
  * An immutable version of CharMatcher for medium-sized sets of characters that uses a hash table
@@ -26,7 +27,7 @@ import com.google.common.annotations.VisibleForTesting;
  * @author Christopher Swenson
  */
 @GwtCompatible(emulated = true)
-final class MediumCharMatcher extends CharMatcher {
+final class MediumCharMatcher extends FastMatcher {
   static final int MAX_SIZE = 1023;
   private final char[] table;
   private final boolean containsZero;
@@ -67,14 +68,6 @@ final class MediumCharMatcher extends CharMatcher {
       tableSize <<= 1;
     }
     return tableSize;
-  }
-
-  // This method is thread-safe, since if any two threads execute it simultaneously, all
-  // that will happen is that they compute the same data structure twice, but nothing will ever
-  // be incorrect.
-  @Override
-  public CharMatcher precomputed() {
-    return this;
   }
 
   @Override

@@ -110,10 +110,6 @@ public abstract class CharMatcher implements Predicate<Character> {
     @Override public boolean matches(char c) {
       return Character.isLetter(c);
     }
-
-    @Override public CharMatcher precomputed() {
-      return this;
-    }
   };
 
   /**
@@ -204,7 +200,7 @@ public abstract class CharMatcher implements Predicate<Character> {
 
   /** Matches any character. */
   public static final CharMatcher ANY =
-      new CharMatcher("CharMatcher.ANY") {
+      new FastMatcher("CharMatcher.ANY") {
         @Override public boolean matches(char c) {
           return true;
         }
@@ -276,15 +272,11 @@ public abstract class CharMatcher implements Predicate<Character> {
         @Override public CharMatcher negate() {
           return NONE;
         }
-
-        @Override public CharMatcher precomputed() {
-          return this;
-        }
       };
 
   /** Matches no characters. */
   public static final CharMatcher NONE =
-      new CharMatcher("CharMatcher.NONE") {
+      new FastMatcher("CharMatcher.NONE") {
         @Override public boolean matches(char c) {
           return false;
         }
@@ -352,10 +344,6 @@ public abstract class CharMatcher implements Predicate<Character> {
         @Override public CharMatcher negate() {
           return ANY;
         }
-
-        @Override public CharMatcher precomputed() {
-          return this;
-        }
       };
 
   // Static factories
@@ -368,7 +356,7 @@ public abstract class CharMatcher implements Predicate<Character> {
         .append(Integer.toHexString(match))
         .append(")")
         .toString();
-    return new CharMatcher(description) {
+    return new FastMatcher(description) {
       @Override public boolean matches(char c) {
         return c == match;
       }
@@ -388,10 +376,6 @@ public abstract class CharMatcher implements Predicate<Character> {
       @Override public CharMatcher negate() {
         return isNot(match);
       }
-
-      @Override public CharMatcher precomputed() {
-        return this;
-      }
     };
   }
 
@@ -405,7 +389,7 @@ public abstract class CharMatcher implements Predicate<Character> {
         .append(Integer.toHexString(match))
         .append(")")
         .toString();
-    return new CharMatcher(description) {
+    return new FastMatcher(description) {
       @Override public boolean matches(char c) {
         return c != match;
       }
@@ -435,27 +419,31 @@ public abstract class CharMatcher implements Predicate<Character> {
       case 1:
         return is(sequence.charAt(0));
       case 2:
-        final char match1 = sequence.charAt(0);
-        final char match2 = sequence.charAt(1);
-        return new CharMatcher(
-            new StringBuilder("CharMatcher.anyOf(\"").append(sequence).append("\")").toString()) {
-          @Override public boolean matches(char c) {
-            return c == match1 || c == match2;
-          }
-
-          @Override public CharMatcher precomputed() {
-            return this;
-          }
-        };
+        return isEither(sequence.charAt(0), sequence.charAt(1));
     }
+    // TODO(user): is it potentially worth just going ahead and building a precomputed matcher?
     final char[] chars = sequence.toString().toCharArray();
     Arrays.sort(chars);
-
     return new CharMatcher(new StringBuilder("CharMatcher.anyOf(\"").append(chars)
         .append("\")").toString()) {
           @Override public boolean matches(char c) {
             return Arrays.binarySearch(chars, c) >= 0;
           }
+    };
+  }
+
+  private static CharMatcher isEither(
+      final char match1,
+      final char match2) {
+    String toString = new StringBuilder("CharMatcher.anyOf(\"")
+      .append(match1)
+      .append(match2)
+      .append("\")")
+      .toString();
+    return new FastMatcher(toString) {
+      @Override public boolean matches(char c) {
+        return c == match1 || c == match2;
+      }
     };
   }
 
@@ -487,13 +475,9 @@ public abstract class CharMatcher implements Predicate<Character> {
 
   static CharMatcher inRange(final char startInclusive, final char endInclusive,
       String description) {
-    return new CharMatcher(description) {
+    return new FastMatcher(description) {
       @Override public boolean matches(char c) {
         return startInclusive <= c && c <= endInclusive;
-      }
-
-      @Override public CharMatcher precomputed() {
-        return this;
       }
     };
   }
@@ -553,28 +537,45 @@ public abstract class CharMatcher implements Predicate<Character> {
    * Returns a matcher that matches any character not matched by this matcher.
    */
   public CharMatcher negate() {
-    final CharMatcher original = this;
-    return new CharMatcher(original + ".negate()") {
-      @Override public boolean matches(char c) {
-        return !original.matches(c);
-      }
+    return new NegatedMatcher(this);
+  }
 
-      @Override public boolean matchesAllOf(CharSequence sequence) {
-        return original.matchesNoneOf(sequence);
-      }
+  private static class NegatedMatcher extends CharMatcher {
+    final CharMatcher original;
 
-      @Override public boolean matchesNoneOf(CharSequence sequence) {
-        return original.matchesAllOf(sequence);
-      }
+    NegatedMatcher(String toString, CharMatcher original) {
+      super(toString);
+      this.original = original;
+    }
 
-      @Override public int countIn(CharSequence sequence) {
-        return sequence.length() - original.countIn(sequence);
-      }
+    NegatedMatcher(CharMatcher original) {
+      this(original + ".negate()", original);
+    }
 
-      @Override public CharMatcher negate() {
-        return original;
-      }
-    };
+    @Override public boolean matches(char c) {
+      return !original.matches(c);
+    }
+
+    @Override public boolean matchesAllOf(CharSequence sequence) {
+      return original.matchesNoneOf(sequence);
+    }
+
+    @Override public boolean matchesNoneOf(CharSequence sequence) {
+      return original.matchesAllOf(sequence);
+    }
+
+    @Override public int countIn(CharSequence sequence) {
+      return sequence.length() - original.countIn(sequence);
+    }
+
+    @Override public CharMatcher negate() {
+      return original;
+    }
+
+    @Override
+    CharMatcher withToString(String description) {
+      return new NegatedMatcher(description, original);
+    }
   }
 
   /**
@@ -662,9 +663,53 @@ public abstract class CharMatcher implements Predicate<Character> {
    */
   CharMatcher withToString(String description) {
     throw new UnsupportedOperationException();
-
   }
-  
+
+  private static final int DISTINCT_CHARS = Character.MAX_VALUE - Character.MIN_VALUE + 1;
+
+  /**
+   * A matcher for which precomputation will not yield any significant benefit.
+   */
+  abstract static class FastMatcher extends CharMatcher {
+    FastMatcher() {
+      super();
+    }
+
+    FastMatcher(String description) {
+      super(description);
+    }
+
+    @Override
+    public final CharMatcher precomputed() {
+      return this;
+    }
+
+    @Override
+    public CharMatcher negate() {
+      return new NegatedFastMatcher(this);
+    }
+  }
+
+  static final class NegatedFastMatcher extends NegatedMatcher {
+    NegatedFastMatcher(CharMatcher original) {
+      super(original);
+    }
+
+    NegatedFastMatcher(String toString, CharMatcher original) {
+      super(toString, original);
+    }
+
+    @Override
+    public final CharMatcher precomputed() {
+      return this;
+    }
+
+    @Override
+    CharMatcher withToString(String description) {
+      return new NegatedFastMatcher(description, original);
+    }
+  }
+
   // Text processing routines
 
   /**
@@ -1107,7 +1152,7 @@ public abstract class CharMatcher implements Predicate<Character> {
    * <p><b>Note:</b> as the Unicode definition evolves, we will modify this constant to keep it up
    * to date.
    */
-  public static final CharMatcher WHITESPACE = new CharMatcher("CharMatcher.WHITESPACE") {
+  public static final CharMatcher WHITESPACE = new FastMatcher("CharMatcher.WHITESPACE") {
     /**
      * A special-case CharMatcher for Unicode whitespace characters that is extremely
      * efficient both in space required and in time to check for matches.
@@ -1141,10 +1186,5 @@ public abstract class CharMatcher implements Predicate<Character> {
     @Override public boolean matches(char c) {
       return table[c % 79] == c;
     }
-
-    @Override public CharMatcher precomputed() {
-      return this;
-    }
   };
 }
-

@@ -124,15 +124,9 @@ public class CharMatcherTest extends TestCase {
   @GwtIncompatible("java.util.BitSet")
   private void doTestSetBits(CharMatcher matcher) {
     BitSet bitset = new BitSet();
-    matcher.setBits(bitset, true);
+    matcher.setBits(bitset);
     for (int i = Character.MIN_VALUE; i <= Character.MAX_VALUE; i++) {
       assertEquals(matcher.matches((char) i), bitset.get(i));
-    }
-
-    bitset.set(Character.MIN_VALUE, Character.MAX_VALUE + 1);
-    matcher.setBits(bitset, false);
-    for (int i = Character.MIN_VALUE; i <= Character.MAX_VALUE; i++) {
-      assertEquals(!matcher.matches((char) i), bitset.get(i));
     }
   }
 

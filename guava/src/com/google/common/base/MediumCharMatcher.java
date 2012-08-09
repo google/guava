@@ -19,6 +19,7 @@ package com.google.common.base;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.VisibleForTesting;
+import com.google.common.base.CharMatcher.FastMatcher;
 
 import java.util.BitSet;
 
@@ -29,7 +30,7 @@ import java.util.BitSet;
  * @author Christopher Swenson
  */
 @GwtCompatible(emulated = true)
-final class MediumCharMatcher extends CharMatcher {
+final class MediumCharMatcher extends FastMatcher {
   static final int MAX_SIZE = 1023;
   private final char[] table;
   private final boolean containsZero;
@@ -72,28 +73,18 @@ final class MediumCharMatcher extends CharMatcher {
     return tableSize;
   }
 
-  // This method is thread-safe, since if any two threads execute it simultaneously, all
-  // that will happen is that they compute the same data structure twice, but nothing will ever
-  // be incorrect.
-  @Override
-  public CharMatcher precomputed() {
-    return this;
-  }
-
   @GwtIncompatible("java.util.BitSet")
   static CharMatcher from(BitSet chars, String description) {
     // Compute the filter.
     long filter = 0;
     int size = chars.cardinality();
     boolean containsZero = chars.get(0);
-    // Compute the filter.
-    for (int c = chars.nextSetBit(0); c != -1; c = chars.nextSetBit(c + 1)) {
-      filter |= 1L << c;
-    }
     // Compute the hash table.
     char[] table = new char[chooseTableSize(size)];
     int mask = table.length - 1;
     for (int c = chars.nextSetBit(0); c != -1; c = chars.nextSetBit(c + 1)) {
+      // Compute the filter at the same time.
+      filter |= 1L << c;
       int index = c & mask;
       while (true) {
         // Check for empty.
@@ -133,5 +124,18 @@ final class MediumCharMatcher extends CharMatcher {
       // Check to see if we wrapped around the whole table.
     } while (index != startingIndex);
     return false;
+  }
+
+  @GwtIncompatible("java.util.BitSet")
+  @Override
+  void setBits(BitSet table) {
+    if (containsZero) {
+      table.set(0);
+    }
+    for (char c : this.table) {
+      if (c != 0) {
+        table.set(c);
+      }
+    }
   }
 }
