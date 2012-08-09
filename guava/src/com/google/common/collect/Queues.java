@@ -338,4 +338,35 @@ public final class Queues {
     }
     return added;
   }
+
+  /**
+   * Returns a synchronized (thread-safe) queue backed by the specified queue. In order to
+   * guarantee serial access, it is critical that <b>all</b> access to the backing queue is
+   * accomplished through the returned queue.
+   *
+   * <p>It is imperative that the user manually synchronize on the returned queue when accessing
+   * any of its collection views: <pre>   {@code
+   *
+   *   Queue<K, V> queue = Queues.synchronizedQueue(MinMaxPriorityQueue<E>.create());
+   *   ...
+   *   queue.add(element);  // Needn't be in synchronized block
+   *   ...
+   *   synchronized (queue) {  // Synchronizing on queue, not values!
+   *     Iterator<V> i = values.iterator(); // Must be in synchronized block
+   *     while (i.hasNext()) {
+   *       foo(i.next());
+   *     }
+   *   }}</pre>
+   *
+   * Failure to follow this advice may result in non-deterministic behavior.
+   *
+   * <p>The returned queue will be serializable if the specified queue is serializable.
+   *
+   * @param queue the queue to be wrapped in a synchronized view
+   * @return a synchronized view of the specified queue
+   * @since 14.0
+   */
+  public static <E> Queue<E> synchronizedQueue(Queue<E> queue) {
+    return Synchronized.queue(queue, null);
+  }
 }

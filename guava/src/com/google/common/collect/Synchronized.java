@@ -34,6 +34,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.NavigableMap;
 import java.util.NavigableSet;
+import java.util.Queue;
 import java.util.RandomAccess;
 import java.util.Set;
 import java.util.SortedMap;
@@ -1557,6 +1558,61 @@ final class Synchronized {
     @Override public V setValue(V value) {
       synchronized (mutex) {
         return delegate().setValue(value);
+      }
+    }
+
+    private static final long serialVersionUID = 0;
+  }
+
+  static <E> Queue<E> queue(Queue<E> queue, @Nullable Object mutex) {
+    return (queue instanceof SynchronizedQueue)
+        ? queue
+        : new SynchronizedQueue<E>(queue, mutex);
+  }
+
+  private static class SynchronizedQueue<E> extends SynchronizedCollection<E>
+      implements Queue<E> {
+
+    SynchronizedQueue(Queue<E> delegate, @Nullable Object mutex) {
+      super(delegate, mutex);
+    }
+
+    @Override Queue<E> delegate() {
+      return (Queue<E>) super.delegate();
+    }
+
+    @Override
+    public E element() {
+      synchronized (mutex) {
+        return delegate().element();
+      }
+    }
+
+    @Override
+    public boolean offer(E e) {
+      synchronized (mutex) {
+        return delegate().offer(e);
+      }
+    }
+
+    @Override
+    public E peek() {
+      synchronized (mutex) {
+        return delegate().peek();
+      }
+    }
+
+    @Override
+    public E poll() {
+      synchronized (mutex) {
+        return delegate().poll();
+      }
+    }
+
+    @Override
+    public E remove() {
+      synchronized (mutex) {
+        return delegate().remove();
       }
     }
 
