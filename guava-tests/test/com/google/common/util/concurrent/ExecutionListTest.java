@@ -27,6 +27,7 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Unit tests for {@link ExecutionList}.
@@ -36,10 +37,10 @@ import java.util.concurrent.TimeUnit;
  */
 public class ExecutionListTest extends TestCase {
 
-  protected ExecutionList list = new ExecutionList();
-  protected Executor exec = Executors.newCachedThreadPool();
+  private final ExecutionList list = new ExecutionList();
 
   public void testRunOnPopulatedList() throws Exception {
+    Executor exec = Executors.newCachedThreadPool();
     CountDownLatch countDownLatch = new CountDownLatch(3);
     list.add(new MockRunnable(countDownLatch), exec);
     list.add(new MockRunnable(countDownLatch), exec);
@@ -52,13 +53,56 @@ public class ExecutionListTest extends TestCase {
     assertTrue(countDownLatch.await(1L, TimeUnit.SECONDS));
   }
 
+  public void testExecute_idempotent() {
+    final AtomicInteger runCalled = new AtomicInteger();
+    list.add(new Runnable() {
+      @Override public void run() {
+        runCalled.getAndIncrement();
+      }
+    }, MoreExecutors.sameThreadExecutor());
+    list.execute();
+    assertEquals(1, runCalled.get());
+    list.execute();
+    assertEquals(1, runCalled.get());
+  }
+
+  public void testExecute_idempotentConcurrently() throws InterruptedException {
+    final CountDownLatch okayToRun = new CountDownLatch(1);
+    final AtomicInteger runCalled = new AtomicInteger();
+    list.add(new Runnable() {
+      @Override public void run() {
+        try {
+          okayToRun.await();
+        } catch (InterruptedException e) {
+          Thread.currentThread().interrupt();
+          throw new RuntimeException(e);
+        }
+        runCalled.getAndIncrement();
+      }
+    }, MoreExecutors.sameThreadExecutor());
+    Runnable execute = new Runnable() {
+      @Override public void run() {
+        list.execute();
+      }
+    };
+    Thread thread1 = new Thread(execute);
+    Thread thread2 = new Thread(execute);
+    thread1.start();
+    thread2.start();
+    assertEquals(0, runCalled.get());
+    okayToRun.countDown();
+    thread1.join();
+    thread2.join();
+    assertEquals(1, runCalled.get());
+  }
+
   public void testAddAfterRun() throws Exception {
     // Run the previous test
     testRunOnPopulatedList();
 
     // If it passed, then verify an Add will be executed without calling run
     CountDownLatch countDownLatch = new CountDownLatch(1);
-    list.add(new MockRunnable(countDownLatch), exec);
+    list.add(new MockRunnable(countDownLatch),  Executors.newCachedThreadPool());
     assertTrue(countDownLatch.await(1L, TimeUnit.SECONDS));
   }
 
@@ -69,14 +113,12 @@ public class ExecutionListTest extends TestCase {
       this.countDownLatch = countDownLatch;
     }
 
-    @Override
-    public void run() {
+    @Override public void run() {
       countDownLatch.countDown();
     }
   }
 
   public void testExceptionsCaught() {
-    ExecutionList list = new ExecutionList();
     list.add(THROWING_RUNNABLE, sameThreadExecutor());
     list.execute();
     list.add(THROWING_RUNNABLE, sameThreadExecutor());
@@ -95,7 +137,6 @@ public class ExecutionListTest extends TestCase {
     }
   };
   private static final Runnable DO_NOTHING = new Runnable() {
-    @Override public void run() {
-    }
+    @Override public void run() {}
   };
 }
