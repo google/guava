@@ -476,7 +476,7 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
             TypeCollector.FOR_GENERIC_TYPE.collectTypes(TypeToken.this);
         return (types = FluentIterable.from(collectedTypes)
                 .filter(TypeFilter.IGNORE_TYPE_VARIABLE_OR_WILDCARD)
-                .toImmutableSet());
+                .toSet());
       } else {
         return filteredTypes;
       }
@@ -508,7 +508,7 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
       if (result == null) {
         return (interfaces = FluentIterable.from(allTypes)
             .filter(TypeFilter.INTERFACE_ONLY)
-            .toImmutableSet());
+            .toSet());
       } else {
         return result;
       }
@@ -529,7 +529,7 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
               return type.isInterface();
             }
           })
-          .toImmutableSet();
+          .toSet();
     }
 
     @Override public TypeSet classes() {
@@ -555,7 +555,7 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
             TypeCollector.FOR_GENERIC_TYPE.classesOnly().collectTypes(TypeToken.this);
         return (classes = FluentIterable.from(collectedTypes)
             .filter(TypeFilter.IGNORE_TYPE_VARIABLE_OR_WILDCARD)
-            .toImmutableSet());
+            .toSet());
       } else {
         return result;
       }
