@@ -18,7 +18,9 @@ package com.google.common.util.concurrent;
 
 import com.google.common.base.Throwables;
 import com.google.common.testing.TearDown;
-import com.google.common.testing.junit3.TearDownTestCase;
+import com.google.common.testing.TearDownStack;
+
+import junit.framework.TestCase;
 
 import java.lang.Thread.UncaughtExceptionHandler;
 import java.util.concurrent.CountDownLatch;
@@ -35,8 +37,9 @@ import java.util.concurrent.TimeoutException;
  *
  * @author Jesse Wilson
  */
-public class AbstractExecutionThreadServiceTest extends TearDownTestCase {
+public class AbstractExecutionThreadServiceTest extends TestCase {
 
+  private final TearDownStack tearDownStack = new TearDownStack(true);
   private final CountDownLatch enterRun = new CountDownLatch(1);
   private final CountDownLatch exitRun = new CountDownLatch(1);
 
@@ -55,6 +58,10 @@ public class AbstractExecutionThreadServiceTest extends TearDownTestCase {
       executionThread.start();
     }
   };
+
+  @Override protected final void tearDown() {
+    tearDownStack.runTearDown();
+  }
 
   public void testServiceStartStop() throws Exception {
     WaitOnRunService service = new WaitOnRunService();
@@ -341,7 +348,7 @@ public class AbstractExecutionThreadServiceTest extends TearDownTestCase {
     private final ExecutorService executor = Executors.newSingleThreadExecutor();
 
     FakeService() {
-      addTearDown(this);
+      tearDownStack.addTearDown(this);
     }
 
     volatile int startupCalled = 0;
