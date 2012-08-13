@@ -165,11 +165,6 @@ public final class BloomFilter<T> implements Serializable {
     return expectedFpp();
   }
 
-  /**
-   * {@inheritDoc}
-   *
-   * <p>This implementation uses reference equality to compare funnels.
-   */
   @Override
   public boolean equals(@Nullable Object object) {
     if (object == this) {
@@ -178,9 +173,9 @@ public final class BloomFilter<T> implements Serializable {
     if (object instanceof BloomFilter) {
       BloomFilter<?> that = (BloomFilter<?>) object;
       return this.numHashFunctions == that.numHashFunctions
-          && this.funnel == that.funnel
-          && this.strategy == that.strategy
-          && this.bits.equals(that.bits);
+          && this.funnel.equals(that.funnel)
+          && this.bits.equals(that.bits)
+          && this.strategy.equals(that.strategy);
     }
     return false;
   }

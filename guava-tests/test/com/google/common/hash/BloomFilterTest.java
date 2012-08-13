@@ -27,8 +27,9 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.Arrays;
 import java.util.Random;
+
+import javax.annotation.Nullable;
 
 /**
  * Tests for SimpleGenericBloomFilter and derived BloomFilter views.
@@ -188,6 +189,31 @@ public class BloomFilterTest extends TestCase {
         .testEquals();
   }
 
+  public void testEqualsWithCustomFunnel() {
+    BloomFilter<Long> bf1 = BloomFilter.create(new CustomFunnel(), 100);
+    BloomFilter<Long> bf2 = BloomFilter.create(new CustomFunnel(), 100);
+    assertEquals(bf1, bf2);
+  }
+
+  public void testSerializationWithCustomFunnel() {
+    SerializableTester.reserializeAndAssert(BloomFilter.create(new CustomFunnel(), 100));
+  }
+
+  private static final class CustomFunnel implements Funnel<Long> {
+    @Override
+    public void funnel(Long value, PrimitiveSink into) {
+      into.putLong(value);
+    }
+    @Override
+    public boolean equals(@Nullable Object object) {
+      return (object instanceof CustomFunnel);
+    }
+    @Override
+    public int hashCode() {
+      return 42;
+    }
+  }
+
   public void testPutReturnValue() {
     for (int i = 0; i < 10; i++) {
       BloomFilter<CharSequence> bf = BloomFilter.create(Funnels.stringFunnel(), 100);
@@ -211,6 +237,8 @@ public class BloomFilterTest extends TestCase {
       assertTrue(copy.mightContain(Ints.toByteArray(i)));
     }
     assertEquals(bf.expectedFpp(), copy.expectedFpp());
+
+    SerializableTester.reserializeAndAssert(bf);
   }
 
   /**
@@ -218,7 +246,7 @@ public class BloomFilterTest extends TestCase {
    * Only appending a new constant is allowed.
    */
   public void testBloomFilterStrategies() {
-    assertEquals(Arrays.asList(BloomFilterStrategies.values()),
-        Arrays.asList(new BloomFilterStrategies[] {BloomFilterStrategies.MURMUR128_MITZ_32}));
+    assertEquals(1, BloomFilterStrategies.values().length);
+    assertEquals(BloomFilterStrategies.MURMUR128_MITZ_32, BloomFilterStrategies.values()[0]);
   }
 }
