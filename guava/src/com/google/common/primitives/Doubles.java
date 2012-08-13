@@ -23,7 +23,9 @@ import static com.google.common.base.Preconditions.checkPositionIndexes;
 import static java.lang.Double.NEGATIVE_INFINITY;
 import static java.lang.Double.POSITIVE_INFINITY;
 
+import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.GwtIncompatible;
 
 import java.io.Serializable;
 import java.util.AbstractList;
@@ -33,6 +35,9 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.RandomAccess;
+import java.util.regex.Pattern;
+
+import javax.annotation.Nullable;
 
 /**
  * Static utility methods pertaining to {@code double} primitives, that are not
@@ -45,7 +50,7 @@ import java.util.RandomAccess;
  * @author Kevin Bourrillion
  * @since 1.0
  */
-@GwtCompatible
+@GwtCompatible(emulated = true)
 public final class Doubles {
   private Doubles() {}
 
@@ -530,5 +535,60 @@ public final class Doubles {
     }
 
     private static final long serialVersionUID = 0;
+  }
+
+  /**
+   * This is adapted from the regex suggested by {@link Double#valueOf(String)}
+   * for prevalidating inputs.  All valid inputs must pass this regex, but it's
+   * semantically fine if not all inputs that pass this regex are valid --
+   * only a performance hit is incurred, not a semantics bug.
+   */
+  @GwtIncompatible("regular expressions")
+  static final Pattern FLOATING_POINT_PATTERN = fpPattern();
+
+  @GwtIncompatible("regular expressions")
+  private static Pattern fpPattern() {
+    String decimal = "(?:\\d++(?:\\.\\d*+)?|\\.\\d++)";
+    String completeDec = decimal + "(?:[eE][+-]?\\d++)?[fFdD]?";
+    String hex = "(?:\\p{XDigit}++(?:\\.\\p{XDigit}*+)?|\\.\\p{XDigit}++)";
+    String completeHex = "0[xX]" + hex + "[pP][+-]?\\d++[fFdD]?";
+    String fpPattern = "[+-]?(?:NaN|Infinity|" + completeDec + "|" + completeHex + ")";
+    return Pattern.compile(fpPattern);
+  }
+
+  /**
+   * Parses the specified string as a double-precision floating point value.
+   * The ASCII character {@code '-'} (<code>'&#92;u002D'</code>) is recognized
+   * as the minus sign.
+   *
+   * <p>Unlike {@link Double#parseDouble(String)}, this method returns
+   * {@code null} instead of throwing an exception if parsing fails.
+   * Valid inputs are exactly those accepted by {@link Double#valueOf(String)},
+   * except that leading and trailing whitespace is not permitted.
+   *
+   * <p>This implementation is likely to be faster than {@code
+   * Double.parseDouble} if many failures are expected.
+   *
+   * @param string the string representation of a {@code double} value
+   * @return the floating point value represented by {@code string}, or
+   *     {@code null} if {@code string} has a length of zero or cannot be
+   *     parsed as a {@code double} value
+   * @since 14.0
+   */
+  @GwtIncompatible("regular expressions")
+  @Nullable
+  @Beta
+  public static Double tryParse(String string) {
+    if (FLOATING_POINT_PATTERN.matcher(string).matches()) {
+      // TODO(user): could be potentially optimized, but only with
+      // extensive testing
+      try {
+        return Double.parseDouble(string);
+      } catch (NumberFormatException e) {
+        // Double.parseDouble has changed specs several times, so fall through
+        // gracefully
+      }
+    }
+    return null;
   }
 }

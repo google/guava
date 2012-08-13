@@ -20,27 +20,22 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkElementIndex;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkPositionIndexes;
-import static java.lang.Float.NEGATIVE_INFINITY;
-import static java.lang.Float.POSITIVE_INFINITY;
+import static java.lang.Double.NEGATIVE_INFINITY;
+import static java.lang.Double.POSITIVE_INFINITY;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.annotations.GwtIncompatible;
 
 import java.io.Serializable;
 import java.util.AbstractList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.RandomAccess;
 
-import javax.annotation.Nullable;
-
 /**
- * Static utility methods pertaining to {@code float} primitives, that are not
- * already found in either {@link Float} or {@link Arrays}.
+ * Static utility methods pertaining to {@code double} primitives, that are not
+ * already found in either {@link Double} or {@link Arrays}.
  *
  * <p>See the Guava User Guide article on <a href=
  * "http://code.google.com/p/guava-libraries/wiki/PrimitivesExplained">
@@ -50,51 +45,54 @@ import javax.annotation.Nullable;
  * @since 1.0
  */
 @GwtCompatible(emulated = true)
-public final class Floats {
-  private Floats() {}
+public final class Doubles {
+  private Doubles() {}
 
   /**
-   * The number of bytes required to represent a primitive {@code float}
+   * The number of bytes required to represent a primitive {@code double}
    * value.
    *
    * @since 10.0
    */
-  public static final int BYTES = Float.SIZE / Byte.SIZE;
+  public static final int BYTES = Double.SIZE / Byte.SIZE;
 
   /**
    * Returns a hash code for {@code value}; equal to the result of invoking
-   * {@code ((Float) value).hashCode()}.
+   * {@code ((Double) value).hashCode()}.
    *
-   * @param value a primitive {@code float} value
+   * @param value a primitive {@code double} value
    * @return a hash code for the value
    */
-  public static int hashCode(float value) {
-    // TODO(kevinb): is there a better way, that's still gwt-safe?
-    return ((Float) value).hashCode();
+  public static int hashCode(double value) {
+    return ((Double) value).hashCode();
+    // TODO(kevinb): do it this way when we can (GWT problem):
+    // long bits = Double.doubleToLongBits(value);
+    // return (int)(bits ^ (bits >>> 32));
   }
 
   /**
-   * Compares the two specified {@code float} values using {@link
-   * Float#compare(float, float)}. You may prefer to invoke that method
-   * directly; this method exists only for consistency with the other utilities
-   * in this package.
+   * Compares the two specified {@code double} values. The sign of the value
+   * returned is the same as that of <code>((Double) a).{@linkplain
+   * Double#compareTo compareTo}(b)</code>. As with that method, {@code NaN} is
+   * treated as greater than all other values, and {@code 0.0 > -0.0}.
    *
-   * @param a the first {@code float} to compare
-   * @param b the second {@code float} to compare
-   * @return the result of invoking {@link Float#compare(float, float)}
+   * @param a the first {@code double} to compare
+   * @param b the second {@code double} to compare
+   * @return a negative value if {@code a} is less than {@code b}; a positive
+   *     value if {@code a} is greater than {@code b}; or zero if they are equal
    */
-  public static int compare(float a, float b) {
-    return Float.compare(a, b);
+  public static int compare(double a, double b) {
+    return Double.compare(a, b);
   }
 
   /**
    * Returns {@code true} if {@code value} represents a real number. This is
    * equivalent to, but not necessarily implemented as,
-   * {@code !(Float.isInfinite(value) || Float.isNaN(value))}.
+   * {@code !(Double.isInfinite(value) || Double.isNaN(value))}.
    *
    * @since 10.0
    */
-  public static boolean isFinite(float value) {
+  public static boolean isFinite(double value) {
     return NEGATIVE_INFINITY < value & value < POSITIVE_INFINITY;
   }
 
@@ -103,13 +101,13 @@ public final class Floats {
    * {@code array}. Note that this always returns {@code false} when {@code
    * target} is {@code NaN}.
    *
-   * @param array an array of {@code float} values, possibly empty
-   * @param target a primitive {@code float} value
+   * @param array an array of {@code double} values, possibly empty
+   * @param target a primitive {@code double} value
    * @return {@code true} if {@code array[i] == target} for some value of {@code
    *     i}
    */
-  public static boolean contains(float[] array, float target) {
-    for (float value : array) {
+  public static boolean contains(double[] array, double target) {
+    for (double value : array) {
       if (value == target) {
         return true;
       }
@@ -122,18 +120,18 @@ public final class Floats {
    * {@code array}. Note that this always returns {@code -1} when {@code target}
    * is {@code NaN}.
    *
-   * @param array an array of {@code float} values, possibly empty
-   * @param target a primitive {@code float} value
+   * @param array an array of {@code double} values, possibly empty
+   * @param target a primitive {@code double} value
    * @return the least index {@code i} for which {@code array[i] == target}, or
    *     {@code -1} if no such index exists.
    */
-  public static int indexOf(float[] array, float target) {
+  public static int indexOf(double[] array, double target) {
     return indexOf(array, target, 0, array.length);
   }
 
   // TODO(kevinb): consider making this public
   private static int indexOf(
-      float[] array, float target, int start, int end) {
+      double[] array, double target, int start, int end) {
     for (int i = start; i < end; i++) {
       if (array[i] == target) {
         return i;
@@ -156,7 +154,7 @@ public final class Floats {
    * @param array the array to search for the sequence {@code target}
    * @param target the array to search for as a sub-sequence of {@code array}
    */
-  public static int indexOf(float[] array, float[] target) {
+  public static int indexOf(double[] array, double[] target) {
     checkNotNull(array, "array");
     checkNotNull(target, "target");
     if (target.length == 0) {
@@ -180,18 +178,18 @@ public final class Floats {
    * {@code array}. Note that this always returns {@code -1} when {@code target}
    * is {@code NaN}.
    *
-   * @param array an array of {@code float} values, possibly empty
-   * @param target a primitive {@code float} value
+   * @param array an array of {@code double} values, possibly empty
+   * @param target a primitive {@code double} value
    * @return the greatest index {@code i} for which {@code array[i] == target},
    *     or {@code -1} if no such index exists.
    */
-  public static int lastIndexOf(float[] array, float target) {
+  public static int lastIndexOf(double[] array, double target) {
     return lastIndexOf(array, target, 0, array.length);
   }
 
   // TODO(kevinb): consider making this public
   private static int lastIndexOf(
-      float[] array, float target, int start, int end) {
+      double[] array, double target, int start, int end) {
     for (int i = end - 1; i >= start; i--) {
       if (array[i] == target) {
         return i;
@@ -202,16 +200,16 @@ public final class Floats {
 
   /**
    * Returns the least value present in {@code array}, using the same rules of
-   * comparison as {@link Math#min(float, float)}.
+   * comparison as {@link Math#min(double, double)}.
    *
-   * @param array a <i>nonempty</i> array of {@code float} values
+   * @param array a <i>nonempty</i> array of {@code double} values
    * @return the value present in {@code array} that is less than or equal to
    *     every other value in the array
    * @throws IllegalArgumentException if {@code array} is empty
    */
-  public static float min(float... array) {
+  public static double min(double... array) {
     checkArgument(array.length > 0);
-    float min = array[0];
+    double min = array[0];
     for (int i = 1; i < array.length; i++) {
       min = Math.min(min, array[i]);
     }
@@ -220,16 +218,16 @@ public final class Floats {
 
   /**
    * Returns the greatest value present in {@code array}, using the same rules
-   * of comparison as {@link Math#min(float, float)}.
+   * of comparison as {@link Math#max(double, double)}.
    *
-   * @param array a <i>nonempty</i> array of {@code float} values
+   * @param array a <i>nonempty</i> array of {@code double} values
    * @return the value present in {@code array} that is greater than or equal to
    *     every other value in the array
    * @throws IllegalArgumentException if {@code array} is empty
    */
-  public static float max(float... array) {
+  public static double max(double... array) {
     checkArgument(array.length > 0);
-    float max = array[0];
+    double max = array[0];
     for (int i = 1; i < array.length; i++) {
       max = Math.max(max, array[i]);
     }
@@ -238,21 +236,21 @@ public final class Floats {
 
   /**
    * Returns the values from each provided array combined into a single array.
-   * For example, {@code concat(new float[] {a, b}, new float[] {}, new
-   * float[] {c}} returns the array {@code {a, b, c}}.
+   * For example, {@code concat(new double[] {a, b}, new double[] {}, new
+   * double[] {c}} returns the array {@code {a, b, c}}.
    *
-   * @param arrays zero or more {@code float} arrays
+   * @param arrays zero or more {@code double} arrays
    * @return a single array containing all the values from the source arrays, in
    *     order
    */
-  public static float[] concat(float[]... arrays) {
+  public static double[] concat(double[]... arrays) {
     int length = 0;
-    for (float[] array : arrays) {
+    for (double[] array : arrays) {
       length += array.length;
     }
-    float[] result = new float[length];
+    double[] result = new double[length];
     int pos = 0;
-    for (float[] array : arrays) {
+    for (double[] array : arrays) {
       System.arraycopy(array, 0, result, pos, array.length);
       pos += array.length;
     }
@@ -275,8 +273,8 @@ public final class Floats {
    * @return an array containing the values of {@code array}, with guaranteed
    *     minimum length {@code minLength}
    */
-  public static float[] ensureCapacity(
-      float[] array, int minLength, int padding) {
+  public static double[] ensureCapacity(
+      double[] array, int minLength, int padding) {
     checkArgument(minLength >= 0, "Invalid minLength: %s", minLength);
     checkArgument(padding >= 0, "Invalid padding: %s", padding);
     return (array.length < minLength)
@@ -285,27 +283,27 @@ public final class Floats {
   }
 
   // Arrays.copyOf() requires Java 6
-  private static float[] copyOf(float[] original, int length) {
-    float[] copy = new float[length];
+  private static double[] copyOf(double[] original, int length) {
+    double[] copy = new double[length];
     System.arraycopy(original, 0, copy, 0, Math.min(original.length, length));
     return copy;
   }
 
   /**
-   * Returns a string containing the supplied {@code float} values, converted
-   * to strings as specified by {@link Float#toString(float)}, and separated by
-   * {@code separator}. For example, {@code join("-", 1.0f, 2.0f, 3.0f)}
-   * returns the string {@code "1.0-2.0-3.0"}.
+   * Returns a string containing the supplied {@code double} values, converted
+   * to strings as specified by {@link Double#toString(double)}, and separated
+   * by {@code separator}. For example, {@code join("-", 1.0, 2.0, 3.0)} returns
+   * the string {@code "1.0-2.0-3.0"}.
    *
-   * <p>Note that {@link Float#toString(float)} formats {@code float}
-   * differently in GWT.  In the previous example, it returns the string {@code
-   * "1-2-3"}.
+   * <p>Note that {@link Double#toString(double)} formats {@code double}
+   * differently in GWT sometimes.  In the previous example, it returns the
+   * string {@code "1-2-3"}.
    *
    * @param separator the text that should appear between consecutive values in
    *     the resulting string (but not at the start or end)
-   * @param array an array of {@code float} values, possibly empty
+   * @param array an array of {@code double} values, possibly empty
    */
-  public static String join(String separator, float... array) {
+  public static String join(String separator, double... array) {
     checkNotNull(separator);
     if (array.length == 0) {
       return "";
@@ -321,33 +319,33 @@ public final class Floats {
   }
 
   /**
-   * Returns a comparator that compares two {@code float} arrays
+   * Returns a comparator that compares two {@code double} arrays
    * lexicographically. That is, it compares, using {@link
-   * #compare(float, float)}), the first pair of values that follow any
+   * #compare(double, double)}), the first pair of values that follow any
    * common prefix, or when one array is a prefix of the other, treats the
-   * shorter array as the lesser. For example, {@code [] < [1.0f] < [1.0f, 2.0f]
-   * < [2.0f]}.
+   * shorter array as the lesser. For example,
+   * {@code [] < [1.0] < [1.0, 2.0] < [2.0]}.
    *
    * <p>The returned comparator is inconsistent with {@link
    * Object#equals(Object)} (since arrays support only identity equality), but
-   * it is consistent with {@link Arrays#equals(float[], float[])}.
+   * it is consistent with {@link Arrays#equals(double[], double[])}.
    *
    * @see <a href="http://en.wikipedia.org/wiki/Lexicographical_order">
    *     Lexicographical order article at Wikipedia</a>
    * @since 2.0
    */
-  public static Comparator<float[]> lexicographicalComparator() {
+  public static Comparator<double[]> lexicographicalComparator() {
     return LexicographicalComparator.INSTANCE;
   }
 
-  private enum LexicographicalComparator implements Comparator<float[]> {
+  private enum LexicographicalComparator implements Comparator<double[]> {
     INSTANCE;
 
     @Override
-    public int compare(float[] left, float[] right) {
+    public int compare(double[] left, double[] right) {
       int minLength = Math.min(left.length, right.length);
       for (int i = 0; i < minLength; i++) {
-        int result = Floats.compare(left[i], right[i]);
+        int result = Doubles.compare(left[i], right[i]);
         if (result != 0) {
           return result;
         }
@@ -358,7 +356,7 @@ public final class Floats {
 
   /**
    * Returns an array containing each value of {@code collection}, converted to
-   * a {@code float} value in the manner of {@link Number#floatValue}.
+   * a {@code double} value in the manner of {@link Number#doubleValue}.
    *
    * <p>Elements are copied from the argument collection as if by {@code
    * collection.toArray()}.  Calling this method is as thread-safe as calling
@@ -369,19 +367,19 @@ public final class Floats {
    *     same order, converted to primitives
    * @throws NullPointerException if {@code collection} or any of its elements
    *     is null
-   * @since 1.0 (parameter was {@code Collection<Float>} before 12.0)
+   * @since 1.0 (parameter was {@code Collection<Double>} before 12.0)
    */
-  public static float[] toArray(Collection<? extends Number> collection) {
-    if (collection instanceof FloatArrayAsList) {
-      return ((FloatArrayAsList) collection).toFloatArray();
+  public static double[] toArray(Collection<? extends Number> collection) {
+    if (collection instanceof DoubleArrayAsList) {
+      return ((DoubleArrayAsList) collection).toDoubleArray();
     }
 
     Object[] boxedArray = collection.toArray();
     int len = boxedArray.length;
-    float[] array = new float[len];
+    double[] array = new double[len];
     for (int i = 0; i < len; i++) {
       // checkNotNull for GWT (do not optimize)
-      array[i] = ((Number) checkNotNull(boxedArray[i])).floatValue();
+      array[i] = ((Number) checkNotNull(boxedArray[i])).doubleValue();
     }
     return array;
   }
@@ -393,7 +391,7 @@ public final class Floats {
    * NullPointerException}.
    *
    * <p>The returned list maintains the values, but not the identities, of
-   * {@code Float} objects written to or read from it.  For example, whether
+   * {@code Double} objects written to or read from it.  For example, whether
    * {@code list.get(0) == list.get(0)} is true for the returned list is
    * unspecified.
    *
@@ -403,25 +401,25 @@ public final class Floats {
    * @param backingArray the array to back the list
    * @return a list view of the array
    */
-  public static List<Float> asList(float... backingArray) {
+  public static List<Double> asList(double... backingArray) {
     if (backingArray.length == 0) {
       return Collections.emptyList();
     }
-    return new FloatArrayAsList(backingArray);
+    return new DoubleArrayAsList(backingArray);
   }
 
   @GwtCompatible
-  private static class FloatArrayAsList extends AbstractList<Float>
+  private static class DoubleArrayAsList extends AbstractList<Double>
       implements RandomAccess, Serializable {
-    final float[] array;
+    final double[] array;
     final int start;
     final int end;
 
-    FloatArrayAsList(float[] array) {
+    DoubleArrayAsList(double[] array) {
       this(array, 0, array.length);
     }
 
-    FloatArrayAsList(float[] array, int start, int end) {
+    DoubleArrayAsList(double[] array, int start, int end) {
       this.array = array;
       this.start = start;
       this.end = end;
@@ -435,21 +433,21 @@ public final class Floats {
       return false;
     }
 
-    @Override public Float get(int index) {
+    @Override public Double get(int index) {
       checkElementIndex(index, size());
       return array[start + index];
     }
 
     @Override public boolean contains(Object target) {
       // Overridden to prevent a ton of boxing
-      return (target instanceof Float)
-          && Floats.indexOf(array, (Float) target, start, end) != -1;
+      return (target instanceof Double)
+          && Doubles.indexOf(array, (Double) target, start, end) != -1;
     }
 
     @Override public int indexOf(Object target) {
       // Overridden to prevent a ton of boxing
-      if (target instanceof Float) {
-        int i = Floats.indexOf(array, (Float) target, start, end);
+      if (target instanceof Double) {
+        int i = Doubles.indexOf(array, (Double) target, start, end);
         if (i >= 0) {
           return i - start;
         }
@@ -459,8 +457,8 @@ public final class Floats {
 
     @Override public int lastIndexOf(Object target) {
       // Overridden to prevent a ton of boxing
-      if (target instanceof Float) {
-        int i = Floats.lastIndexOf(array, (Float) target, start, end);
+      if (target instanceof Double) {
+        int i = Doubles.lastIndexOf(array, (Double) target, start, end);
         if (i >= 0) {
           return i - start;
         }
@@ -468,29 +466,29 @@ public final class Floats {
       return -1;
     }
 
-    @Override public Float set(int index, Float element) {
+    @Override public Double set(int index, Double element) {
       checkElementIndex(index, size());
-      float oldValue = array[start + index];
+      double oldValue = array[start + index];
       // checkNotNull for GWT (do not optimize)
       array[start + index] = checkNotNull(element);
       return oldValue;
     }
 
-    @Override public List<Float> subList(int fromIndex, int toIndex) {
+    @Override public List<Double> subList(int fromIndex, int toIndex) {
       int size = size();
       checkPositionIndexes(fromIndex, toIndex, size);
       if (fromIndex == toIndex) {
         return Collections.emptyList();
       }
-      return new FloatArrayAsList(array, start + fromIndex, start + toIndex);
+      return new DoubleArrayAsList(array, start + fromIndex, start + toIndex);
     }
 
     @Override public boolean equals(Object object) {
       if (object == this) {
         return true;
       }
-      if (object instanceof FloatArrayAsList) {
-        FloatArrayAsList that = (FloatArrayAsList) object;
+      if (object instanceof DoubleArrayAsList) {
+        DoubleArrayAsList that = (DoubleArrayAsList) object;
         int size = size();
         if (that.size() != size) {
           return false;
@@ -508,7 +506,7 @@ public final class Floats {
     @Override public int hashCode() {
       int result = 1;
       for (int i = start; i < end; i++) {
-        result = 31 * result + Floats.hashCode(array[i]);
+        result = 31 * result + Doubles.hashCode(array[i]);
       }
       return result;
     }
@@ -522,50 +520,14 @@ public final class Floats {
       return builder.append(']').toString();
     }
 
-    float[] toFloatArray() {
+    double[] toDoubleArray() {
       // Arrays.copyOfRange() is not available under GWT
       int size = size();
-      float[] result = new float[size];
+      double[] result = new double[size];
       System.arraycopy(array, start, result, 0, size);
       return result;
     }
 
     private static final long serialVersionUID = 0;
-  }
-
-  /**
-   * Parses the specified string as a single-precision floating point value.
-   * The ASCII character {@code '-'} (<code>'&#92;u002D'</code>) is recognized
-   * as the minus sign.
-   *
-   * <p>Unlike {@link Float#parseFloat(String)}, this method returns
-   * {@code null} instead of throwing an exception if parsing fails.
-   * Valid inputs are exactly those accepted by {@link Float#valueOf(String)},
-   * except that leading and trailing whitespace is not permitted.
-   *
-   * <p>This implementation is likely to be faster than {@code
-   * Float.parseFloat} if many failures are expected.
-   *
-   * @param string the string representation of a {@code float} value
-   * @return the floating point value represented by {@code string}, or
-   *     {@code null} if {@code string} has a length of zero or cannot be
-   *     parsed as a {@code float} value
-   * @since 14.0
-   */
-  @GwtIncompatible("regular expressions")
-  @Nullable
-  @Beta
-  public static Float tryParse(String string) {
-    if (Doubles.FLOATING_POINT_PATTERN.matcher(string).matches()) {
-      // TODO(user): could be potentially optimized, but only with
-      // extensive testing
-      try {
-        return Float.parseFloat(string);
-      } catch (NumberFormatException e) {
-        // Float.parseFloat has changed specs several times, so fall through
-        // gracefully
-      }
-    }
-    return null;
   }
 }

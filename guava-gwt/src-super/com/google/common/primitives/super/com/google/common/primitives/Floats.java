@@ -23,20 +23,15 @@ import static com.google.common.base.Preconditions.checkPositionIndexes;
 import static java.lang.Float.NEGATIVE_INFINITY;
 import static java.lang.Float.POSITIVE_INFINITY;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.annotations.GwtIncompatible;
 
 import java.io.Serializable;
 import java.util.AbstractList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.RandomAccess;
-
-import javax.annotation.Nullable;
 
 /**
  * Static utility methods pertaining to {@code float} primitives, that are not
@@ -531,41 +526,5 @@ public final class Floats {
     }
 
     private static final long serialVersionUID = 0;
-  }
-
-  /**
-   * Parses the specified string as a single-precision floating point value.
-   * The ASCII character {@code '-'} (<code>'&#92;u002D'</code>) is recognized
-   * as the minus sign.
-   *
-   * <p>Unlike {@link Float#parseFloat(String)}, this method returns
-   * {@code null} instead of throwing an exception if parsing fails.
-   * Valid inputs are exactly those accepted by {@link Float#valueOf(String)},
-   * except that leading and trailing whitespace is not permitted.
-   *
-   * <p>This implementation is likely to be faster than {@code
-   * Float.parseFloat} if many failures are expected.
-   *
-   * @param string the string representation of a {@code float} value
-   * @return the floating point value represented by {@code string}, or
-   *     {@code null} if {@code string} has a length of zero or cannot be
-   *     parsed as a {@code float} value
-   * @since 14.0
-   */
-  @GwtIncompatible("regular expressions")
-  @Nullable
-  @Beta
-  public static Float tryParse(String string) {
-    if (Doubles.FLOATING_POINT_PATTERN.matcher(string).matches()) {
-      // TODO(user): could be potentially optimized, but only with
-      // extensive testing
-      try {
-        return Float.parseFloat(string);
-      } catch (NumberFormatException e) {
-        // Float.parseFloat has changed specs several times, so fall through
-        // gracefully
-      }
-    }
-    return null;
   }
 }

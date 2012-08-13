@@ -21,6 +21,7 @@ import static org.junit.contrib.truth.Truth.ASSERT;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.testing.Helpers;
 import com.google.common.testing.NullPointerTester;
 import com.google.common.testing.SerializableTester;
@@ -50,9 +51,10 @@ public class DoublesTest extends TestCase {
   private static final double GREATEST = Double.POSITIVE_INFINITY;
 
   private static final double[] NUMBERS = new double[] {
-      LEAST, -Double.MAX_VALUE, -1.0, -0.0, 0.0, 1.0, Double.MAX_VALUE, GREATEST,
-      Double.MIN_NORMAL, -Double.MIN_NORMAL,  Double.MIN_VALUE, -Double.MIN_VALUE,
-      Integer.MIN_VALUE, Integer.MAX_VALUE, Long.MIN_VALUE, Long.MAX_VALUE
+      LEAST, -Double.MAX_VALUE, -1.0, -0.5, -0.1, -0.0, 0.0, 0.1, 0.5, 1.0,
+      Double.MAX_VALUE, GREATEST, Double.MIN_NORMAL, -Double.MIN_NORMAL,
+      Double.MIN_VALUE, -Double.MIN_VALUE, Integer.MIN_VALUE,
+      Integer.MAX_VALUE, Long.MIN_VALUE, Long.MAX_VALUE
   };
 
   private static final double[] VALUES
@@ -389,6 +391,106 @@ public class DoublesTest extends TestCase {
 
   public void testAsListEmpty() {
     assertSame(Collections.emptyList(), Doubles.asList(EMPTY));
+  }
+
+  /**
+   * A reference implementation for {@code tryParse} that just catches the exception from
+   * {@link Double#valueOf}.
+   */
+  private static Double referenceTryParse(String input) {
+    if (input.trim().length() < input.length()) {
+      return null;
+    }
+    try {
+      return Double.valueOf(input);
+    } catch (NumberFormatException e) {
+      return null;
+    }
+  }
+
+  @GwtIncompatible("Doubles.tryParse")
+  private static void checkTryParse(String input) {
+    Double expected = referenceTryParse(input);
+    assertEquals(expected, Doubles.tryParse(input));
+    assertEquals(expected != null,
+        Doubles.FLOATING_POINT_PATTERN.matcher(input).matches());
+  }
+
+  @GwtIncompatible("Doubles.tryParse")
+  private static void checkTryParse(double expected, String input) {
+    assertEquals(Double.valueOf(expected), Doubles.tryParse(input));
+    assertTrue(Doubles.FLOATING_POINT_PATTERN.matcher(input).matches());
+  }
+
+  @GwtIncompatible("Doubles.tryParse")
+  public void testTryParseHex() {
+    for (String signChar : ImmutableList.of("", "+", "-")) {
+      for (String hexPrefix : ImmutableList.of("0x", "0X")) {
+        for (String iPart : ImmutableList.of("", "0", "1", "F", "f", "c4", "CE")) {
+          for (String fPart : ImmutableList.of("", ".", ".F", ".52", ".a")) {
+            for (String expMarker : ImmutableList.of("p", "P")) {
+              for (String exponent : ImmutableList.of("0", "-5", "+20", "52")) {
+                for (String typePart : ImmutableList.of("", "D", "F", "d", "f")) {
+                  checkTryParse(
+                      signChar + hexPrefix + iPart + fPart + expMarker + exponent + typePart);
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  @GwtIncompatible("Doubles.tryParse")
+  public void testTryParseAllCodePoints() {
+    // Exercise non-ASCII digit test cases and the like.
+    char[] tmp = new char[2];
+    for (int i = Character.MIN_CODE_POINT; i < Character.MAX_CODE_POINT; i++) {
+      Character.toChars(i, tmp, 0);
+      checkTryParse(String.copyValueOf(tmp, 0, Character.charCount(i)));
+    }
+  }
+
+  @GwtIncompatible("Doubles.tryParse")
+  public void testTryParseOfToStringIsOriginal() {
+    for (double d : NUMBERS) {
+      checkTryParse(d, Double.toString(d));
+    }
+  }
+
+  @GwtIncompatible("Doubles.tryParse")
+  public void testTryParseOfToHexStringIsOriginal() {
+    for (double d : NUMBERS) {
+      checkTryParse(d, Double.toHexString(d));
+    }
+  }
+
+  @GwtIncompatible("Doubles.tryParse")
+  public void testTryParseNaN() {
+    checkTryParse("NaN");
+    checkTryParse("+NaN");
+    checkTryParse("-NaN");
+  }
+
+  @GwtIncompatible("Doubles.tryParse")
+  public void testTryParseInfinity() {
+    checkTryParse(Double.POSITIVE_INFINITY, "Infinity");
+    checkTryParse(Double.POSITIVE_INFINITY, "+Infinity");
+    checkTryParse(Double.NEGATIVE_INFINITY, "-Infinity");
+  }
+
+  private static final String[] BAD_TRY_PARSE_INPUTS =
+    { "", "+-", "+-0", " 5", "32 ", " 55 ", "infinity", "POSITIVE_INFINITY", "0x9A", "0x9A.bE-5",
+      ".", ".e5", "NaNd", "InfinityF" };
+
+  @GwtIncompatible("Doubles.tryParse")
+  public void testTryParseFailures() {
+    for (String badInput : BAD_TRY_PARSE_INPUTS) {
+      assertFalse(Doubles.FLOATING_POINT_PATTERN.matcher(badInput).matches());
+      assertEquals(referenceTryParse(badInput), Doubles.tryParse(badInput));
+      assertNull(Doubles.tryParse(badInput));
+    }
   }
 
   @GwtIncompatible("NullPointerTester")
