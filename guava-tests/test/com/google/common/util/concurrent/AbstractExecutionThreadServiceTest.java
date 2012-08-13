@@ -17,13 +17,15 @@
 package com.google.common.util.concurrent;
 
 import com.google.common.base.Throwables;
-
-import junit.framework.TestCase;
+import com.google.common.testing.TearDown;
+import com.google.common.testing.junit3.TearDownTestCase;
 
 import java.lang.Thread.UncaughtExceptionHandler;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
@@ -33,7 +35,7 @@ import java.util.concurrent.TimeoutException;
  *
  * @author Jesse Wilson
  */
-public class AbstractExecutionThreadServiceTest extends TestCase {
+public class AbstractExecutionThreadServiceTest extends TearDownTestCase {
 
   private final CountDownLatch enterRun = new CountDownLatch(1);
   private final CountDownLatch exitRun = new CountDownLatch(1);
@@ -299,4 +301,80 @@ public class AbstractExecutionThreadServiceTest extends TestCase {
     }
   }
 
+  public void testStopWhileStarting_runNotCalled() throws Exception {
+    final CountDownLatch started = new CountDownLatch(1);
+    FakeService service = new FakeService() {
+      @Override protected void startUp() throws Exception {
+        super.startUp();
+        started.await();
+      }
+    };
+    service.start();
+    ListenableFuture<Service.State> stopped = service.stop();
+    started.countDown();
+    assertEquals(Service.State.TERMINATED, stopped.get());
+    assertEquals(Service.State.TERMINATED, service.state());
+    assertEquals(1, service.startupCalled);
+    assertEquals(0, service.runCalled);
+    assertEquals(1, service.shutdownCalled);
+  }
+
+  public void testStop_noStart() {
+    FakeService service = new FakeService();
+    assertEquals(Service.State.TERMINATED, service.stopAndWait());
+    assertEquals(Service.State.TERMINATED, service.state());
+    assertEquals(0, service.startupCalled);
+    assertEquals(0, service.runCalled);
+    assertEquals(0, service.shutdownCalled);
+  }
+
+  public void testDefaultService() {
+    AbstractExecutionThreadService service = new AbstractExecutionThreadService() {
+      @Override protected void run() throws Exception {}
+    };
+    assertEquals(Service.State.RUNNING, service.startAndWait());
+    assertEquals(Service.State.TERMINATED, service.stopAndWait());
+  }
+
+  private class FakeService extends AbstractExecutionThreadService implements TearDown {
+
+    private final ExecutorService executor = Executors.newSingleThreadExecutor();
+
+    FakeService() {
+      addTearDown(this);
+    }
+
+    volatile int startupCalled = 0;
+    volatile int shutdownCalled = 0;
+    volatile int runCalled = 0;
+
+    @Override protected void startUp() throws Exception {
+      assertEquals(0, startupCalled);
+      assertEquals(0, runCalled);
+      assertEquals(0, shutdownCalled);
+      startupCalled++;
+    }
+
+    @Override protected void run() throws Exception {
+      assertEquals(1, startupCalled);
+      assertEquals(0, runCalled);
+      assertEquals(0, shutdownCalled);
+      runCalled++;
+    }
+
+    @Override protected void shutDown() throws Exception {
+      assertEquals(1, startupCalled);
+      assertEquals(0, shutdownCalled);
+      assertEquals(Service.State.STOPPING, state());
+      shutdownCalled++;
+    }
+
+    @Override protected Executor executor() {
+      return executor;
+    }
+
+    @Override public void tearDown() throws Exception {
+      executor.shutdown();
+    }
+  }
 }
