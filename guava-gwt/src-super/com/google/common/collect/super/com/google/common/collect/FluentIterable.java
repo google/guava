@@ -309,11 +309,59 @@ public abstract class FluentIterable<E> implements Iterable<E> {
   }
 
   /**
+   * Returns an {@code ImmutableList} containing all of the elements from this fluent iterable in
+   * proper sequence.
+   *
+   * @since 14.0 (since 12.0 as {@code toImmutableList()}).
+   */
+  public final ImmutableList<E> toList() {
+    return ImmutableList.copyOf(iterable);
+  }
+
+  /**
+   * Returns an {@code ImmutableList} containing all of the elements from this {@code
+   * FluentIterable} in the order specified by {@code comparator}.  To produce an {@code
+   * ImmutableList} sorted by its natural ordering, use {@code toSortedList(Ordering.natural())}.
+   *
+   * @param comparator the function by which to sort list elements
+   * @throws NullPointerException if any element is null
+   * @since 14.0 (since 13.0 as {@code toSortedImmutableList()}).
+   */
+  public final ImmutableList<E> toSortedList(Comparator<? super E> comparator) {
+    return Ordering.from(comparator).immutableSortedCopy(iterable);
+  }
+
+  /**
+   * Returns an {@code ImmutableSet} containing all of the elements from this fluent iterable with
+   * duplicates removed.
+   *
+   * @since 14.0 (since 12.0 as {@code toImmutableSet()}).
+   */
+  public final ImmutableSet<E> toSet() {
+    return ImmutableSet.copyOf(iterable);
+  }
+
+  /**
+   * Returns an {@code ImmutableSortedSet} containing all of the elements from this {@code
+   * FluentIterable} in the order specified by {@code comparator}, with duplicates (determined by
+   * {@code comparator.compare(x, y) == 0}) removed. To produce an {@code ImmutableSortedSet} sorted
+   * by its natural ordering, use {@code toSortedSet(Ordering.natural())}.
+   *
+   * @param comparator the function by which to sort set elements
+   * @throws NullPointerException if any element is null
+   * @since 14.0 (since 12.0 as {@code toImmutableSortedSet()}).
+   */
+  public final ImmutableSortedSet<E> toSortedSet(Comparator<? super E> comparator) {
+    return ImmutableSortedSet.copyOf(comparator, iterable);
+  }
+
+  /**
    * Returns an {@code ImmutableList} containing all of the elements from this
    * fluent iterable in proper sequence.
+   *
    */
   public final ImmutableList<E> toImmutableList() {
-    return ImmutableList.copyOf(iterable);
+    return toList();
   }
 
   /**
@@ -327,7 +375,7 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    * @since 13.0
    */
   public final ImmutableList<E> toSortedImmutableList(Comparator<? super E> comparator) {
-    return Ordering.from(comparator).immutableSortedCopy(iterable);
+    return toSortedList(comparator);
   }
 
   /**
@@ -335,13 +383,13 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    * fluent iterable with duplicates removed.
    */
   public final ImmutableSet<E> toImmutableSet() {
-    return ImmutableSet.copyOf(iterable);
+    return toSet();
   }
 
   /**
    * Returns an {@code ImmutableSortedSet} containing all of the elements from this
    * {@code FluentIterable} in the order specified by {@code comparator}, with duplicates
-   * (determined by {@code comaprator.compare(x, y) == 0}) removed. To produce an
+   * (determined by {@code comparator.compare(x, y) == 0}) removed. To produce an
    * {@code ImmutableSortedSet} sorted by its natural ordering, use
    * {@code toImmutableSortedSet(Ordering.natural())}.
    *
@@ -349,7 +397,7 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    * @throws NullPointerException if any element is null
    */
   public final ImmutableSortedSet<E> toImmutableSortedSet(Comparator<? super E> comparator) {
-    return ImmutableSortedSet.copyOf(comparator, iterable);
+    return toSortedSet(comparator);
   }
 
   /**

@@ -492,43 +492,43 @@ public class FluentIterableTest extends TestCase {
     assertFalse(FluentIterable.<String>from(Lists.newArrayList("foo")).isEmpty());
   }
 
-  public void testToImmutableList() {
-    assertEquals(Lists.newArrayList(1, 2, 3, 4), fluent(1, 2, 3, 4).toImmutableList());
+  public void testToList() {
+    assertEquals(Lists.newArrayList(1, 2, 3, 4), fluent(1, 2, 3, 4).toList());
   }
 
-  public void testToImmutableList_empty() {
-    assertTrue(fluent().toImmutableList().isEmpty());
+  public void testToList_empty() {
+    assertTrue(fluent().toList().isEmpty());
   }
 
-  public void testToSortedImmutableList_withComparator() {
+  public void testToSortedList_withComparator() {
     assertEquals(Lists.newArrayList(4, 3, 2, 1),
-        fluent(4, 1, 3, 2).toSortedImmutableList(Ordering.<Integer>natural().reverse()));
+        fluent(4, 1, 3, 2).toSortedList(Ordering.<Integer>natural().reverse()));
   }
 
-  public void testToSortedImmutableList_withDuplicates() {
+  public void testToSortedList_withDuplicates() {
     assertEquals(Lists.newArrayList(4, 3, 1, 1),
-        fluent(1, 4, 1, 3).toSortedImmutableList(Ordering.<Integer>natural().reverse()));
+        fluent(1, 4, 1, 3).toSortedList(Ordering.<Integer>natural().reverse()));
   }
 
-  public void testToImmutableSet() {
-    ASSERT.that(fluent(1, 2, 3, 4).toImmutableSet()).hasContentsInOrder(1, 2, 3, 4);
+  public void testToSet() {
+    ASSERT.that(fluent(1, 2, 3, 4).toSet()).hasContentsInOrder(1, 2, 3, 4);
   }
 
-  public void testToImmutableSet_removeDuplicates() {
-    ASSERT.that(fluent(1, 2, 1, 2).toImmutableSet()).hasContentsInOrder(1, 2);
+  public void testToSet_removeDuplicates() {
+    ASSERT.that(fluent(1, 2, 1, 2).toSet()).hasContentsInOrder(1, 2);
   }
 
-  public void testToImmutableSet_empty() {
-    assertTrue(fluent().toImmutableSet().isEmpty());
+  public void testToSet_empty() {
+    assertTrue(fluent().toSet().isEmpty());
   }
 
-  public void testToImmutableSortedSet() {
-    ASSERT.that(fluent(1, 4, 2, 3).toImmutableSortedSet(Ordering.<Integer>natural().reverse()))
+  public void testToSortedSet() {
+    ASSERT.that(fluent(1, 4, 2, 3).toSortedSet(Ordering.<Integer>natural().reverse()))
         .hasContentsInOrder(4, 3, 2, 1);
   }
 
-  public void testToImmutableSortedSet_removeDuplicates() {
-    ASSERT.that(fluent(1, 4, 1, 3).toImmutableSortedSet(Ordering.<Integer>natural().reverse()))
+  public void testToSortedSet_removeDuplicates() {
+    ASSERT.that(fluent(1, 4, 1, 3).toSortedSet(Ordering.<Integer>natural().reverse()))
         .hasContentsInOrder(4, 3, 1);
   }
 
