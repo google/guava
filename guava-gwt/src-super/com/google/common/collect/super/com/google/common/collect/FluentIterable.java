@@ -40,7 +40,7 @@ import javax.annotation.Nullable;
  * <li>chained methods which return a new {@code FluentIterable} based in some way on the contents
  * of the current one (for example {@link #transform})
  * <li>conversion methods which copy the {@code FluentIterable}'s contents into a new collection or
- * array (for example {@link #toImmutableList})
+ * array (for example {@link #toList})
  * <li>element extraction methods which facilitate the retrieval of certain elements (for example
  * {@link #last})
  * <li>query methods which answer questions about the {@code FluentIterable}'s contents (for example
@@ -56,7 +56,7 @@ import javax.annotation.Nullable;
  *       .filter(activeInLastMonth())
  *       .transform(Functions.toStringFunction())
  *       .limit(10)
- *       .toImmutableList();}</pre>
+ *       .toList();}</pre>
  *
  * Anything which can be done using {@code FluentIterable} could be done in a different fashion
  * (often with {@link Iterables}), however the use of {@code FluentIterable} makes many sets of
@@ -359,7 +359,9 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    * Returns an {@code ImmutableList} containing all of the elements from this
    * fluent iterable in proper sequence.
    *
+   * @deprecated Use {@link #toList()} instead. This method is scheduled for removal in Guava 15.0.
    */
+  @Deprecated
   public final ImmutableList<E> toImmutableList() {
     return toList();
   }
@@ -373,7 +375,10 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    * @param comparator the function by which to sort list elements
    * @throws NullPointerException if any element is null
    * @since 13.0
+   * @deprecated Use {@link #toSortedList(Comparator)} instead. This method is scheduled for removal
+   *     in Guava 15.0.
    */
+  @Deprecated
   public final ImmutableList<E> toSortedImmutableList(Comparator<? super E> comparator) {
     return toSortedList(comparator);
   }
@@ -381,7 +386,10 @@ public abstract class FluentIterable<E> implements Iterable<E> {
   /**
    * Returns an {@code ImmutableSet} containing all of the elements from this
    * fluent iterable with duplicates removed.
+   *
+   * @deprecated Use {@link #toSet()} instead. This method is scheduled for removal in Guava 15.0.
    */
+  @Deprecated
   public final ImmutableSet<E> toImmutableSet() {
     return toSet();
   }
@@ -395,7 +403,10 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    *
    * @param comparator the function by which to sort set elements
    * @throws NullPointerException if any element is null
+   * @deprecated Use {@link #toSortedSet(Comparator)} instead. This method is scheduled for removal
+   *     in Guava 15.0.
    */
+  @Deprecated
   public final ImmutableSortedSet<E> toImmutableSortedSet(Comparator<? super E> comparator) {
     return toSortedSet(comparator);
   }
