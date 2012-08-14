@@ -373,8 +373,7 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    * @deprecated Use {@link #toList()} instead. This method is scheduled for removal in Guava 15.0.
    */
   @Deprecated
-  public
-  final ImmutableList<E> toImmutableList() {
+  public final ImmutableList<E> toImmutableList() {
     return toList();
   }
 
@@ -391,8 +390,7 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    *     in Guava 15.0.
    */
   @Deprecated
-  public
-  final ImmutableList<E> toSortedImmutableList(Comparator<? super E> comparator) {
+  public final ImmutableList<E> toSortedImmutableList(Comparator<? super E> comparator) {
     return toSortedList(comparator);
   }
 
@@ -403,8 +401,7 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    * @deprecated Use {@link #toSet()} instead. This method is scheduled for removal in Guava 15.0.
    */
   @Deprecated
-  public
-  final ImmutableSet<E> toImmutableSet() {
+  public final ImmutableSet<E> toImmutableSet() {
     return toSet();
   }
 
@@ -421,8 +418,7 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    *     in Guava 15.0.
    */
   @Deprecated
-  public
-  final ImmutableSortedSet<E> toImmutableSortedSet(Comparator<? super E> comparator) {
+  public final ImmutableSortedSet<E> toImmutableSortedSet(Comparator<? super E> comparator) {
     return toSortedSet(comparator);
   }
 
