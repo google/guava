@@ -16,6 +16,8 @@
 
 package com.google.common.base;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import com.google.common.annotations.GwtCompatible;
 
 /**
@@ -29,27 +31,47 @@ public enum CaseFormat {
   /**
    * Hyphenated variable naming convention, e.g., "lower-hyphen".
    */
-  LOWER_HYPHEN(CharMatcher.is('-'), "-"),
+  LOWER_HYPHEN(CharMatcher.is('-'), "-") {
+    @Override String normalizeWord(String word) {
+      return Ascii.toLowerCase(word);
+    }
+  },
 
   /**
    * C++ variable naming convention, e.g., "lower_underscore".
    */
-  LOWER_UNDERSCORE(CharMatcher.is('_'), "_"),
+  LOWER_UNDERSCORE(CharMatcher.is('_'), "_") {
+    @Override String normalizeWord(String word) {
+      return Ascii.toLowerCase(word);
+    }
+  },
 
   /**
    * Java variable naming convention, e.g., "lowerCamel".
    */
-  LOWER_CAMEL(CharMatcher.inRange('A', 'Z'), ""),
+  LOWER_CAMEL(CharMatcher.inRange('A', 'Z'), "") {
+    @Override String normalizeWord(String word) {
+      return firstCharOnlyToUpper(word);
+    }
+  },
 
   /**
    * Java and C++ class naming convention, e.g., "UpperCamel".
    */
-  UPPER_CAMEL(CharMatcher.inRange('A', 'Z'), ""),
+  UPPER_CAMEL(CharMatcher.inRange('A', 'Z'), "") {
+    @Override String normalizeWord(String word) {
+      return firstCharOnlyToUpper(word);
+    }
+  },
 
   /**
    * Java and C++ constant naming convention, e.g., "UPPER_UNDERSCORE".
    */
-  UPPER_UNDERSCORE(CharMatcher.is('_'), "_");
+  UPPER_UNDERSCORE(CharMatcher.is('_'), "_") {
+    @Override String normalizeWord(String word) {
+      return Ascii.toUpperCase(word);
+    }
+  };
 
   private final CharMatcher wordBoundary;
   private final String wordSeparator;
@@ -65,18 +87,16 @@ public enum CaseFormat {
    * behavior of this method is undefined but we make a reasonable effort at converting anyway.
    */
   public String to(CaseFormat format, String s) {
-    if (format == null) {
-      throw new NullPointerException();
-    }
-    if (s == null) {
-      throw new NullPointerException();
-    }
+    checkNotNull(format);
+    checkNotNull(s);
 
     if (format == this) {
       return s;
     }
 
-    /* optimize cases where no camel conversion is required */
+    // TODO(user): Get rid of this switch and use enum methods instead?
+
+    // optimize cases where no camel conversion is required
     switch (this) {
       case LOWER_HYPHEN:
         switch (format) {
@@ -126,39 +146,18 @@ public enum CaseFormat {
     return out.toString();
   }
 
-  private String normalizeFirstWord(String word) {
-    switch (this) {
-      case LOWER_CAMEL:
-        return Ascii.toLowerCase(word);
-      default:
-        return normalizeWord(word);
-    }
-  }
+  abstract String normalizeWord(String word);
 
-  private String normalizeWord(String word) {
-    switch (this) {
-      case LOWER_HYPHEN:
-        return Ascii.toLowerCase(word);
-      case LOWER_UNDERSCORE:
-        return Ascii.toLowerCase(word);
-      case LOWER_CAMEL:
-        return firstCharOnlyToUpper(word);
-      case UPPER_CAMEL:
-        return firstCharOnlyToUpper(word);
-      case UPPER_UNDERSCORE:
-        return Ascii.toUpperCase(word);
-    }
-    throw new RuntimeException("unknown case: " + this);
+  private String normalizeFirstWord(String word) {
+    return (this == LOWER_CAMEL) ? Ascii.toLowerCase(word) : normalizeWord(word);
   }
 
   private static String firstCharOnlyToUpper(String word) {
-    int length = word.length();
-    if (length == 0) {
-      return word;
-    }
-    return new StringBuilder(length)
-        .append(Ascii.toUpperCase(word.charAt(0)))
-        .append(Ascii.toLowerCase(word.substring(1)))
-        .toString();
+    return (word.isEmpty())
+        ? word
+        : new StringBuilder(word.length())
+            .append(Ascii.toUpperCase(word.charAt(0)))
+            .append(Ascii.toLowerCase(word.substring(1)))
+            .toString();
   }
 }
