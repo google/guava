@@ -356,6 +356,58 @@ public abstract class FluentIterable<E> implements Iterable<E> {
   }
 
   /**
+   * Returns an immutable map for which the elements of this {@code FluentIterable} are the keys in
+   * the same order, mapped to values by the given function. If this iterable contains duplicate
+   * elements, the returned map will contain each distinct element once in the order it first
+   * appears.
+   *
+   * @throws NullPointerException if any element of this iterable is {@code null}, or if {@code
+   *     valueFunction} produces {@code null} for any key
+   * @since 14.0
+   */
+  public final <V> ImmutableMap<E, V> toMap(Function<? super E, V> valueFunction) {
+    return Maps.toMap(iterable, valueFunction);
+  }
+
+  /**
+   * Creates an index {@code ImmutableListMultimap} that contains the results of applying a
+   * specified function to each item in this {@code FluentIterable} of values. Each element of this
+   * iterable will be stored as a value in the resulting multimap, yielding a multimap with the same
+   * size as this iterable. The key used to store that value in the multimap will be the result of
+   * calling the function on that value. The resulting multimap is created as an immutable snapshot.
+   * In the returned multimap, keys appear in the order they are first encountered, and the values
+   * corresponding to each key appear in the same order as they are encountered.
+   *
+   * @param keyFunction the function used to produce the key for each value
+   * @throws NullPointerException if any of the following cases is true:
+   *     <ul>
+   *       <li>{@code keyFunction} is null
+   *       <li>An element in this fluent iterable is null
+   *       <li>{@code keyFunction} returns {@code null} for any element of this iterable
+   *     </ul>
+   * @since 14.0
+   */
+  public final <K> ImmutableListMultimap<K, E> index(Function<? super E, K> keyFunction) {
+    return Multimaps.index(iterable, keyFunction);
+  }
+
+  /**
+   * Returns an immutable map for which the {@link java.util.Map#values} are the elements of this
+   * {@code FluentIterable} in the given order, and each key is the product of invoking a supplied
+   * function on its corresponding value.
+   *
+   * @param keyFunction the function used to produce the key for each value
+   * @throws IllegalArgumentException if {@code keyFunction} produces the same key for more than one
+   *     value in this fluent iterable
+   * @throws NullPointerException if any element of this fluent iterable is null, or if
+   *     {@code keyFunction} produces {@code null} for any value
+   * @since 14.0
+   */
+  public final <K> ImmutableMap<K, E> uniqueIndex(Function<? super E, K> keyFunction) {
+    return Maps.uniqueIndex(iterable, keyFunction);
+  }
+
+  /**
    * Returns an {@code ImmutableList} containing all of the elements from this
    * fluent iterable in proper sequence.
    *

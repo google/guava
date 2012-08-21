@@ -22,6 +22,7 @@ import static org.junit.contrib.truth.Truth.ASSERT;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Function;
+import com.google.common.base.Functions;
 import com.google.common.base.Optional;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
@@ -38,6 +39,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.SortedSet;
+
+import javax.annotation.Nullable;
 
 /**
  * Unit test for {@link FluentIterable}.
@@ -142,10 +145,7 @@ public class FluentIterableTest extends TestCase {
 
     // We left the last iterator pointing to "b". But a new iterator should
     // always point to "a".
-    for (String string : cycle) {
-      assertEquals("a", string);
-      break;
-    }
+    assertEquals("a", cycle.iterator().next());
   }
 
   public void testCycle_removingAllElementsStopsCycle() {
@@ -530,6 +530,113 @@ public class FluentIterableTest extends TestCase {
   public void testToSortedSet_removeDuplicates() {
     ASSERT.that(fluent(1, 4, 1, 3).toSortedSet(Ordering.<Integer>natural().reverse()))
         .hasContentsInOrder(4, 3, 1);
+  }
+
+  public void testToMap() {
+    ASSERT.that(fluent(1, 2, 3).toMap(Functions.toStringFunction()).entrySet())
+        .hasContentsInOrder(
+            Maps.immutableEntry(1, "1"),
+            Maps.immutableEntry(2, "2"),
+            Maps.immutableEntry(3, "3"));
+  }
+
+  public void testToMap_nullKey() {
+    try {
+      fluent(1, null, 2).toMap(Functions.constant("foo"));
+      fail();
+    } catch (NullPointerException expected) {
+    }
+  }
+
+  public void testToMap_nullValue() {
+    try {
+      fluent(1, 2, 3).toMap(Functions.constant(null));
+      fail();
+    } catch (NullPointerException expected) {
+    }
+  }
+
+  public void testIndex() {
+    ImmutableListMultimap<Integer, String> expected =
+        ImmutableListMultimap.<Integer, String>builder()
+            .putAll(3, "one", "two")
+            .put(5, "three")
+            .put(4, "four")
+            .build();
+    ImmutableListMultimap<Integer, String> index =
+        FluentIterable.from(asList("one", "two", "three", "four")).index(
+            new Function<String, Integer>() {
+              @Override
+              public Integer apply(String input) {
+                return input.length();
+              }
+            });
+    assertEquals(expected, index);
+  }
+
+  public void testIndex_nullKey() {
+    try {
+      fluent(1, 2, 3).index(Functions.constant(null));
+      fail();
+    } catch (NullPointerException expected) {
+    }
+  }
+
+  public void testIndex_nullValue() {
+    try {
+      fluent(1, null, 2).index(Functions.constant("foo"));
+      fail();
+    } catch (NullPointerException expected) {
+    }
+  }
+
+  public void testUniqueIndex() {
+    ImmutableMap<Integer, String> expected =
+        ImmutableMap.of(3, "two", 5, "three", 4, "four");
+    ImmutableMap<Integer, String> index =
+        FluentIterable.from(asList("two", "three", "four")).uniqueIndex(
+            new Function<String, Integer>() {
+              @Override
+              public Integer apply(String input) {
+                return input.length();
+              }
+            });
+    assertEquals(expected, index);
+  }
+
+  public void testUniqueIndex_duplicateKey() {
+    try {
+      FluentIterable.from(asList("one", "two", "three", "four")).uniqueIndex(
+          new Function<String, Integer>() {
+            @Override
+            public Integer apply(String input) {
+              return input.length();
+            }
+          });
+      fail();
+    } catch (IllegalArgumentException expected) {
+    }
+  }
+
+  public void testUniqueIndex_nullKey() {
+    try {
+      fluent(1, 2, 3).uniqueIndex(Functions.constant(null));
+      fail();
+    } catch (NullPointerException expected) {
+    }
+  }
+
+  public void testUniqueIndex_nullValue() {
+    try {
+      fluent(1, null, 2).uniqueIndex(new Function<Integer, Object>() {
+        @Override
+        public Object apply(@Nullable Integer input) {
+          return String.valueOf(input);
+        }
+      });
+      fail();
+    } catch (NullPointerException expected) {
+    }
   }
 
   public void testCopyInto_List() {
