@@ -22,6 +22,7 @@ import com.google.common.base.Joiner.MapJoiner;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Iterators;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.testing.NullPointerTester;
@@ -396,12 +397,16 @@ public class JoinerTest extends TestCase {
 
   @GwtIncompatible("NullPointerTester")
   public void testNullPointers() {
-    NullPointerTester tester = new NullPointerTester();
+    NullPointerTester tester = new NullPointerTester()
+        // This is necessary because of the generics hackery we have to temporarily support
+        // parameters which implement both Iterator and Iterable.;
+        .setDefault(Object.class, Iterators.emptyIterator());
     tester.testAllPublicStaticMethods(Joiner.class);
-    tester.testAllPublicInstanceMethods(Joiner.on(","));
-    tester.testAllPublicInstanceMethods(Joiner.on(",").skipNulls());
-    tester.testAllPublicInstanceMethods(Joiner.on(",").useForNull("x"));
-    tester.testAllPublicInstanceMethods(
-        Joiner.on(",").withKeyValueSeparator("="));
+    tester.testInstanceMethods(Joiner.on(","), NullPointerTester.Visibility.PACKAGE);
+    tester.testInstanceMethods(Joiner.on(",").skipNulls(), NullPointerTester.Visibility.PACKAGE);
+    tester.testInstanceMethods(
+        Joiner.on(",").useForNull("x"), NullPointerTester.Visibility.PACKAGE);
+    tester.testInstanceMethods(
+        Joiner.on(",").withKeyValueSeparator("="), NullPointerTester.Visibility.PACKAGE);
   }
 }

@@ -264,7 +264,7 @@ public class Joiner {
   public Joiner useForNull(final String nullText) {
     checkNotNull(nullText);
     return new Joiner(this) {
-      @Override CharSequence toString(Object part) {
+      @Override CharSequence toString(@Nullable Object part) {
         return (part == null) ? nullText : Joiner.this.toString(part);
       }
 
