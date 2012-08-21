@@ -48,6 +48,8 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.annotation.Nullable;
 
@@ -87,9 +89,22 @@ public final class Futures {
 
   private abstract static class ImmediateFuture<V>
       implements ListenableFuture<V> {
+
+    private static final Logger log =
+        Logger.getLogger(ImmediateFuture.class.getName());
+
     @Override
     public void addListener(Runnable listener, Executor executor) {
-      executor.execute(listener);
+      checkNotNull(listener, "Runnable was null.");
+      checkNotNull(executor, "Executor was null.");
+      try {
+        executor.execute(listener);
+      } catch (RuntimeException e) {
+        // ListenableFuture's contract is that it will not throw unchecked
+        // exceptions, so log the bad runnable and/or executor and swallow it.
+        log.log(Level.SEVERE, "RuntimeException while executing runnable "
+            + listener + " with executor " + executor, e);
+      }
     }
 
     @Override
