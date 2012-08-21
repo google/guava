@@ -22,11 +22,13 @@ import javax.annotation.Nullable;
 
 /**
  * Determines an output value based on an input value.
- * 
+ *
+ * <p>The {@link Functions} class provides common functions and related utilites.
+ *
  * <p>See the Guava User Guide article on <a href=
  * "http://code.google.com/p/guava-libraries/wiki/FunctionalExplained">the use of {@code
  * Function}</a>.
- * 
+ *
  * @author Kevin Bourrillion
  * @since 2.0 (imported from Google Collections Library)
  */
