@@ -85,6 +85,135 @@ public final class Futures {
     return new MappingCheckedFuture<V, X>(checkNotNull(future), mapper);
   }
 
+  private abstract static class ImmediateFuture<V>
+      implements ListenableFuture<V> {
+    @Override
+    public void addListener(Runnable listener, Executor executor) {
+      executor.execute(listener);
+    }
+
+    @Override
+    public boolean cancel(boolean mayInterruptIfRunning) {
+      return false;
+    }
+
+    @Override
+    public abstract V get() throws ExecutionException;
+
+    @Override
+    public V get(long timeout, TimeUnit unit) throws ExecutionException {
+      return get();
+    }
+
+    @Override
+    public boolean isCancelled() {
+      return false;
+    }
+
+    @Override
+    public boolean isDone() {
+      return true;
+    }
+  }
+
+  private static class ImmediateSuccessfulFuture<V> extends ImmediateFuture<V> {
+
+    private final V value;
+
+    ImmediateSuccessfulFuture(V value) {
+      this.value = value;
+    }
+
+    @Override
+    public V get() {
+      return value;
+    }
+  }
+
+  private static class ImmediateSuccessfulCheckedFuture<V, X extends Exception>
+      extends ImmediateFuture<V> implements CheckedFuture<V, X> {
+
+    private final V value;
+
+    ImmediateSuccessfulCheckedFuture(V value) {
+      this.value = value;
+    }
+
+    @Override
+    public V get() {
+      return value;
+    }
+
+    @Override
+    public V checkedGet() {
+      return value;
+    }
+
+    @Override
+    public V checkedGet(long timeout, TimeUnit unit) {
+      return value;
+    }
+  }
+
+  private static class ImmediateFailedFuture<V> extends ImmediateFuture<V> {
+
+    private final Throwable thrown;
+
+    ImmediateFailedFuture(Throwable thrown) {
+      this.thrown = thrown;
+    }
+
+    @Override
+    public V get() throws ExecutionException {
+      throw new ExecutionException(thrown);
+    }
+  }
+
+  private static class ImmediateCancelledFuture<V> extends ImmediateFuture<V> {
+
+    private final CancellationException thrown;
+
+    ImmediateCancelledFuture() {
+      this.thrown = new CancellationException("Immediate cancelled future.");
+    }
+
+    @Override
+    public boolean isCancelled() {
+      return true;
+    }
+
+    @Override
+    public V get() {
+      throw AbstractFuture.cancellationExceptionWithCause(
+          "Task was cancelled.", thrown);
+    }
+  }
+
+  private static class ImmediateFailedCheckedFuture<V, X extends Exception>
+      extends ImmediateFuture<V> implements CheckedFuture<V, X> {
+
+    private final X thrown;
+
+    ImmediateFailedCheckedFuture(X thrown) {
+      this.thrown = thrown;
+    }
+
+    @Override
+    public V get() throws ExecutionException {
+      throw new ExecutionException(thrown);
+    }
+
+    @Override
+    public V checkedGet() throws X {
+      throw thrown;
+    }
+
+    @Override
+    public V checkedGet(long timeout, TimeUnit unit) throws X {
+      throw thrown;
+    }
+  }
+
   /**
    * Creates a {@code ListenableFuture} which has its value set immediately upon
    * construction. The getters just return the value. This {@code Future} can't
@@ -92,9 +221,7 @@ public final class Futures {
    * {@code true}.
    */
   public static <V> ListenableFuture<V> immediateFuture(@Nullable V value) {
-    SettableFuture<V> future = SettableFuture.create();
-    future.set(value);
-    return future;
+    return new ImmediateSuccessfulFuture<V>(value);
   }
 
   /**
@@ -107,14 +234,7 @@ public final class Futures {
    */
   public static <V, X extends Exception> CheckedFuture<V, X>
       immediateCheckedFuture(@Nullable V value) {
-    SettableFuture<V> future = SettableFuture.create();
-    future.set(value);
-    return Futures.makeChecked(future, new Function<Exception, X>() {
-      @Override
-      public X apply(Exception e) {
-        throw new AssertionError("impossible");
-      }
-    });
+    return new ImmediateSuccessfulCheckedFuture<V, X>(value);
   }
 
   /**
@@ -125,15 +245,21 @@ public final class Futures {
    * method always returns {@code true}. Calling {@code get()} will immediately
    * throw the provided {@code Throwable} wrapped in an {@code
    * ExecutionException}.
-   *
-   * @throws Error if the throwable is an {@link Error}.
    */
   public static <V> ListenableFuture<V> immediateFailedFuture(
       Throwable throwable) {
     checkNotNull(throwable);
-    SettableFuture<V> future = SettableFuture.create();
-    future.setException(throwable);
-    return future;
+    return new ImmediateFailedFuture<V>(throwable);
+  }
+
+  /**
+   * Creates a {@code ListenableFuture} which is cancelled immediately upon
+   * construction, so that {@code isCancelled()} always returns {@code true}.
+   *
+   * @since 14.0
+   */
+  public static <V> ListenableFuture<V> immediateCancelledFuture() {
+    return new ImmediateCancelledFuture<V>();
   }
 
   /**
@@ -142,22 +268,14 @@ public final class Futures {
    *
    * <p>The returned {@code Future} can't be cancelled, and its {@code isDone()}
    * method always returns {@code true}. Calling {@code get()} will immediately
-   * throw the provided {@code Throwable} wrapped in an {@code
+   * throw the provided {@code Exception} wrapped in an {@code
    * ExecutionException}, and calling {@code checkedGet()} will throw the
    * provided exception itself.
-   *
-   * @throws Error if the throwable is an {@link Error}.
    */
   public static <V, X extends Exception> CheckedFuture<V, X>
-      immediateFailedCheckedFuture(final X exception) {
+      immediateFailedCheckedFuture(X exception) {
     checkNotNull(exception);
-    return makeChecked(Futures.<V>immediateFailedFuture(exception),
-        new Function<Exception, X>() {
-          @Override
-          public X apply(Exception e) {
-            return exception;
-          }
-        });
+    return new ImmediateFailedCheckedFuture<V, X>(exception);
   }
 
   /**

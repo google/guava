@@ -1527,20 +1527,8 @@ public class FuturesTest extends TestCase {
   private static final Future<String> FAILED_FUTURE_OTHER_THROWABLE =
       immediateFailedFuture(OTHER_THROWABLE);
   private static final Error ERROR = new Error("mymessage");
-  private static final Future<String> FAILED_FUTURE_ERROR;
-  /*
-   * We can't write "= immediateFailedFuture(ERROR)" because setException
-   * rethrows the error....
-   */
-  static {
-    SettableFuture<String> f = SettableFuture.create();
-    try {
-      f.setException(ERROR);
-    } catch (Error e) {
-      assertEquals(e, ERROR);
-    }
-    FAILED_FUTURE_ERROR = f;
-  }
+  private static final Future<String> FAILED_FUTURE_ERROR =
+      immediateFailedFuture(ERROR);
   private static final Future<String> RUNTIME_EXCEPTION_FUTURE =
       new SimpleForwardingFuture<String>(FAILED_FUTURE_CHECKED_EXCEPTION) {
         @Override public String get() {
@@ -1561,9 +1549,10 @@ public class FuturesTest extends TestCase {
   }
 
   public void testGetUntimed_interrupted() {
+    SettableFuture<String> future = SettableFuture.create();
     Thread.currentThread().interrupt();
     try {
-      get(immediateFuture("foo"), TwoArgConstructorException.class);
+      get(future, TwoArgConstructorException.class);
       fail();
     } catch (TwoArgConstructorException expected) {
       assertTrue(expected.getCause() instanceof InterruptedException);
@@ -1659,9 +1648,10 @@ public class FuturesTest extends TestCase {
   }
 
   public void testGetTimed_interrupted() {
+    SettableFuture<String> future = SettableFuture.create();
     Thread.currentThread().interrupt();
     try {
-      get(immediateFuture("foo"), 0, SECONDS, TwoArgConstructorException.class);
+      get(future, 0, SECONDS, TwoArgConstructorException.class);
       fail();
     } catch (TwoArgConstructorException expected) {
       assertTrue(expected.getCause() instanceof InterruptedException);
