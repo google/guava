@@ -101,7 +101,7 @@ public class ComparisonChainTest extends TestCase {
     assertTrue(ComparisonChain.start().compareTrueFirst(false, false).result() == 0);
   }
 
-  @SuppressWarnings("deprecated") // test of a deprecated method
+  @SuppressWarnings("deprecation") // test of a deprecated method
   public void testCompareBooleans() {
     assertTrue(ComparisonChain.start().compare(true, true).result() == 0);
     assertTrue(ComparisonChain.start().compare(true, false).result() > 0);
