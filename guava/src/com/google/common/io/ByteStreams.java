@@ -584,16 +584,29 @@ public final class ByteStreams {
   /**
    * Returns a {@link OutputStream} that simply discards written bytes.
    *
-   * @since 14.0 (since 1.0 as com/google/common/io/NullOutputStream.java)
+   * @since 14.0 (since 1.0 as com.google.common.io.NullOutputStream)
    */
   public static OutputStream nullOutputStream() {
     return NULL_OUTPUT_STREAM;
   }
 
+  /**
+   * Wraps a {@link InputStream}, limiting the number of bytes which can be
+   * read.
+   *
+   * @param in the input stream to be wrapped
+   * @param limit the maximum number of bytes to be read
+   * @return a length-limited {@link InputStream}
+   * @since 14.0 (since 1.0 as com.google.common.io.LimitInputStream)
+   */
+  public static InputStream limit(InputStream in, long limit) {
+    return new LimitInputStream(in, limit);
+  }
+
   // TODO(chrisn): Not all streams support skipping.
   /** Returns the length of a supplied input stream, in bytes. */
-  public static long length(InputSupplier<? extends InputStream> supplier)
-      throws IOException {
+  public static long length(
+      InputSupplier<? extends InputStream> supplier) throws IOException {
     long count = 0;
     boolean threw = true;
     InputStream in = supplier.getInput();
@@ -679,8 +692,8 @@ public final class ByteStreams {
    *     the bytes.
    * @throws IOException if an I/O error occurs.
    */
-  public static void readFully(InputStream in, byte[] b, int off, int len)
-      throws IOException {
+  public static void readFully(
+      InputStream in, byte[] b, int off, int len) throws IOException {
     if (read(in, b, off, len) != len) {
       throw new EOFException();
     }
@@ -721,7 +734,8 @@ public final class ByteStreams {
    * @return the result of the byte processor
    * @throws IOException if an I/O error occurs
    */
-  public static <T> T readBytes(InputSupplier<? extends InputStream> supplier,
+  public static <T> T readBytes(
+      InputSupplier<? extends InputStream> supplier,
       ByteProcessor<T> processor) throws IOException {
     byte[] buf = new byte[BUF_SIZE];
     boolean threw = true;
@@ -751,15 +765,15 @@ public final class ByteStreams {
    *     checksum object with all of the bytes in the stream
    * @throws IOException if an I/O error occurs
    */
-  public static long getChecksum(InputSupplier<? extends InputStream> supplier,
-      final Checksum checksum) throws IOException {
+  public static long getChecksum(
+      InputSupplier<? extends InputStream> supplier, final Checksum checksum)
+      throws IOException {
     return readBytes(supplier, new ByteProcessor<Long>() {
       @Override
       public boolean processBytes(byte[] buf, int off, int len) {
         checksum.update(buf, off, len);
         return true;
       }
-
       @Override
       public Long getResult() {
         long result = checksum.getValue();
@@ -856,7 +870,7 @@ public final class ByteStreams {
             throw e;
           }
         }
-        return new LimitInputStream(in, length);
+        return limit(in, length);
       }
     };
   }
