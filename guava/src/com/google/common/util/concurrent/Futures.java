@@ -133,9 +133,9 @@ public final class Futures {
 
   private static class ImmediateSuccessfulFuture<V> extends ImmediateFuture<V> {
 
-    private final V value;
+    @Nullable private final V value;
 
-    ImmediateSuccessfulFuture(V value) {
+    ImmediateSuccessfulFuture(@Nullable V value) {
       this.value = value;
     }
 
@@ -148,9 +148,9 @@ public final class Futures {
   private static class ImmediateSuccessfulCheckedFuture<V, X extends Exception>
       extends ImmediateFuture<V> implements CheckedFuture<V, X> {
 
-    private final V value;
+    @Nullable private final V value;
 
-    ImmediateSuccessfulCheckedFuture(V value) {
+    ImmediateSuccessfulCheckedFuture(@Nullable V value) {
       this.value = value;
     }
 
