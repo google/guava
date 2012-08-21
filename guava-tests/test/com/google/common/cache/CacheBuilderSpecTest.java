@@ -25,7 +25,6 @@ import com.google.common.testing.EqualsTester;
 
 import junit.framework.TestCase;
 
-import java.lang.reflect.Field;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -362,7 +361,9 @@ public class CacheBuilderSpecTest extends TestCase {
     assertEquals(TimeUnit.SECONDS, spec.accessExpirationTimeUnit);
     assertEquals(10L, spec.accessExpirationDuration);
     assertCacheBuilderEquivalence(
-        CacheBuilder.newBuilder().expireAfterAccess(10L, TimeUnit.SECONDS),
+        CacheBuilder.newBuilder()
+          .expireAfterAccess(10L, TimeUnit.SECONDS)
+          .expireAfterWrite(9L, TimeUnit.MINUTES),
         CacheBuilder.from(spec));
   }
 
@@ -385,7 +386,8 @@ public class CacheBuilderSpecTest extends TestCase {
         .concurrencyLevel(30)
         .weakKeys()
         .weakValues()
-        .expireAfterAccess(10L, TimeUnit.MINUTES);
+        .expireAfterAccess(10L, TimeUnit.MINUTES)
+        .expireAfterWrite(1L, TimeUnit.HOURS);
     assertCacheBuilderEquivalence(expected, CacheBuilder.from(spec));
   }
 
@@ -517,17 +519,21 @@ public class CacheBuilderSpecTest extends TestCase {
     assertCacheBuilderEquivalence(expected, fromString);
   }
 
-  private void assertCacheBuilderEquivalence(CacheBuilder a, CacheBuilder b) {
-    // Labs hack:  dig into the CacheBuilder instances, verifying all fields are equal.
-    for (Field f : CacheBuilder.class.getFields()) {
-      f.setAccessible(true);
-      try {
-        assertEquals("Field " + f.getName() + " not equal", f.get(a), f.get(b));
-      } catch (IllegalArgumentException e) {
-        throw new AssertionError(e.getMessage());
-      } catch (IllegalAccessException e) {
-        throw new AssertionError(e.getMessage());
-      }
-    }
+  private static void assertCacheBuilderEquivalence(CacheBuilder a, CacheBuilder b) {
+    assertEquals("concurrencyLevel", a.concurrencyLevel, b.concurrencyLevel);
+    assertEquals("expireAfterAccessNanos", a.expireAfterAccessNanos, b.expireAfterAccessNanos);
+    assertEquals("expireAfterWriteNanos", a.expireAfterWriteNanos, b.expireAfterWriteNanos);
+    assertEquals("initialCapacity", a.initialCapacity, b.initialCapacity);
+    assertEquals("maximumSize", a.maximumSize, b.maximumSize);
+    assertEquals("maximumWeight", a.maximumWeight, b.maximumWeight);
+    assertEquals("refreshNanos", a.refreshNanos, b.refreshNanos);
+    assertEquals("keyEquivalence", a.keyEquivalence, b.keyEquivalence);
+    assertEquals("keyStrength", a.keyStrength, b.keyStrength);
+    assertEquals("removalListener", a.removalListener, b.removalListener);
+    assertEquals("weigher", a.weigher, b.weigher);
+    assertEquals("valueEquivalence", a.valueEquivalence, b.valueEquivalence);
+    assertEquals("valueStrength", a.valueStrength, b.valueStrength);
+    assertEquals("statsCounterSupplier", a.statsCounterSupplier, b.statsCounterSupplier);
+    assertEquals("ticker", a.ticker, b.ticker);
   }
 }
