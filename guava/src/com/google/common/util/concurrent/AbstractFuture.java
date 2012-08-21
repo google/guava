@@ -297,7 +297,8 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
           }
 
         case CANCELLED:
-          throw new CancellationException("Task was cancelled.");
+          throw cancellationExceptionWithCause(
+              "Task was cancelled.", exception);
 
         default:
           throw new IllegalStateException(
@@ -358,7 +359,9 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
         // If this thread successfully transitioned to COMPLETING, set the value
         // and exception and then release to the final state.
         this.value = v;
-        this.exception = t;
+        // Don't actually construct a CancellationException until necessary.
+        this.exception = isCancelled()
+            ? new CancellationException("Future.cancel() was called.") : t;
         releaseShared(finalState);
       } else if (getState() == COMPLETING) {
         // If some other thread is currently completing the future, block until
@@ -367,5 +370,12 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
       }
       return doCompletion;
     }
+  }
+
+  static final CancellationException cancellationExceptionWithCause(
+      String message, Throwable cause) {
+    CancellationException exception = new CancellationException(message);
+    exception.initCause(cause);
+    return exception;
   }
 }
