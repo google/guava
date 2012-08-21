@@ -943,7 +943,7 @@ public class ByteStreamsTest extends IoTestCase {
     assertEquals(big[1], small[3]);
   }
 
-  public void testMark() throws Exception {
+  public void testLimit_mark() throws Exception {
     byte[] big = newPreFilledByteArray(5);
     InputStream bin = new ByteArrayInputStream(big);
     InputStream lin = ByteStreams.limit(bin, 2);
@@ -964,7 +964,7 @@ public class ByteStreamsTest extends IoTestCase {
     assertEquals(-1, read);
   }
 
-  public void testSkip() throws Exception {
+  public void testLimit_skip() throws Exception {
     byte[] big = newPreFilledByteArray(5);
     InputStream bin = new ByteArrayInputStream(big);
     InputStream lin = ByteStreams.limit(bin, 2);
@@ -981,7 +981,7 @@ public class ByteStreamsTest extends IoTestCase {
     assertEquals(0, lin.available());
   }
 
-  public void testMarkNotSet() {
+  public void testLimit_markNotSet() {
     byte[] big = newPreFilledByteArray(5);
     InputStream bin = new ByteArrayInputStream(big);
     InputStream lin = ByteStreams.limit(bin, 2);
@@ -994,7 +994,7 @@ public class ByteStreamsTest extends IoTestCase {
     }
   }
 
-  public void testMarkNotSupported() {
+  public void testLimit_markNotSupported() {
     InputStream lin = ByteStreams.limit(new UnmarkableInputStream(), 2);
 
     try {

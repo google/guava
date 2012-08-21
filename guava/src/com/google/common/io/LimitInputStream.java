@@ -28,8 +28,11 @@ import java.io.InputStream;
  *
  * @author Charles Fry
  * @since 1.0
+ * @deprecated Use {@link ByteStreams#limit} instead. This class is scheduled
+ *     to be removed in Guava release 15.0.
  */
 @Beta
+@Deprecated
 public final class LimitInputStream extends FilterInputStream {
 
   private long left;
