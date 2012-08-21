@@ -32,13 +32,13 @@ public class RangeMapTest extends TestCase {
   static {
     ImmutableList.Builder<Range<Integer>> builder = ImmutableList.builder();
 
-    builder.add(Ranges.<Integer>all());
+    builder.add(Range.<Integer>all());
 
     // Add one-ended ranges
     for (int i = MIN_BOUND; i <= MAX_BOUND; i++) {
       for (BoundType type : BoundType.values()) {
-        builder.add(Ranges.upTo(i, type));
-        builder.add(Ranges.downTo(i, type));
+        builder.add(Range.upTo(i, type));
+        builder.add(Range.downTo(i, type));
       }
     }
 
@@ -51,7 +51,7 @@ public class RangeMapTest extends TestCase {
             if (i == j & lowerType == OPEN & upperType == OPEN) {
               continue;
             }
-            builder.add(Ranges.range(i, lowerType, j, upperType));
+            builder.add(Range.range(i, lowerType, j, upperType));
           }
         }
       }

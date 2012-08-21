@@ -85,7 +85,7 @@
  * <ul>
  * <li>{@link com.google.common.collect.ImmutableSet}
  * <li>{@link com.google.common.collect.ImmutableSortedSet}
- * <li>{@link com.google.common.collect.ContiguousSet} (see {@code Ranges})
+ * <li>{@link com.google.common.collect.ContiguousSet} (see {@code Range})
  * </ul>
  *
  * <h3>of {@link java.util.Map}</h3>
@@ -176,7 +176,6 @@
  *
  * <ul>
  * <li>{@link com.google.common.collect.Range}
- * <li>{@link com.google.common.collect.Ranges}
  * <li>{@link com.google.common.collect.DiscreteDomain}
  * <li>{@link com.google.common.collect.DiscreteDomains}
  * <li>{@link com.google.common.collect.ContiguousSet}

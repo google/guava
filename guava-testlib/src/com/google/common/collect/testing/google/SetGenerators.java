@@ -34,7 +34,6 @@ import com.google.common.collect.ImmutableSortedSet;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Ordering;
 import com.google.common.collect.Range;
-import com.google.common.collect.Ranges;
 import com.google.common.collect.Sets;
 import com.google.common.collect.testing.TestCollectionGenerator;
 import com.google.common.collect.testing.TestCollidingSetGenerator;
@@ -347,7 +346,7 @@ public class SetGenerators {
          * The (tooLow + 1, tooHigh) arguments below would be invalid because tooLow would be
          * greater than tooHigh.
          */
-        return Ranges.openClosed(0, 1).asSet(DiscreteDomains.integers()).subSet(0, 1);
+        return Range.openClosed(0, 1).asSet(DiscreteDomains.integers()).subSet(0, 1);
       }
       int tooHigh = set.last() + 1;
       int tooLow = set.first() - 1;
@@ -382,7 +381,7 @@ public class SetGenerators {
         assertEquals(elements.get(i) + 1, (int) elements.get(i + 1));
       }
       Range<Integer> range =
-          (elements.isEmpty()) ? Ranges.closedOpen(0, 0) : Ranges.encloseAll(elements);
+          (elements.isEmpty()) ? Range.closedOpen(0, 0) : Range.encloseAll(elements);
       return range.asSet(DiscreteDomains.integers());
     }
   }

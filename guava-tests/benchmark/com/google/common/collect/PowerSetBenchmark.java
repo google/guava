@@ -21,8 +21,6 @@ import static com.google.common.collect.DiscreteDomains.integers;
 import com.google.caliper.Param;
 import com.google.caliper.Runner;
 import com.google.caliper.SimpleBenchmark;
-import com.google.common.collect.Ranges;
-import com.google.common.collect.Sets;
 
 import java.util.Set;
 
@@ -37,7 +35,7 @@ public class PowerSetBenchmark extends SimpleBenchmark {
   Set<Set<Integer>> powerSet;
 
   @Override protected void setUp() {
-    Set<Integer> set = Ranges.closed(1, elements).asSet(integers());
+    Set<Integer> set = Range.closed(1, elements).asSet(integers());
     powerSet = Sets.powerSet(set);
   }
 

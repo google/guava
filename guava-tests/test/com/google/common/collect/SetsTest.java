@@ -705,7 +705,7 @@ public class SetsTest extends TestCase {
 
   @SuppressWarnings("unchecked") // varargs!
   public void testCartesianProductTooBig() {
-    Set<Integer> set = Ranges.closed(0, 10000).asSet(DiscreteDomains.integers());
+    Set<Integer> set = Range.closed(0, 10000).asSet(DiscreteDomains.integers());
     try {
       Sets.cartesianProduct(set, set, set, set, set);
       fail("Expected IAE");

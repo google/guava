@@ -16,12 +16,9 @@
 
 package com.google.common.collect;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 
-import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 /**
@@ -61,7 +58,7 @@ import java.util.NoSuchElementException;
  * <dt>Unbounded on bottom ({@code (-∞..b)} or {@code (-∞..b]})
  * <dd>{@link #upTo}
  * </dl>
- * 
+ *
  * <p>See the Guava User Guide article on <a href=
  * "http://code.google.com/p/guava-libraries/wiki/RangesExplained">
  * {@code Range}</a>.
@@ -75,11 +72,6 @@ import java.util.NoSuchElementException;
 public final class Ranges {
   private Ranges() {}
 
-  static <C extends Comparable<?>> Range<C> create(
-      Cut<C> lowerBound, Cut<C> upperBound) {
-    return new Range<C>(lowerBound, upperBound);
-  }
-
   /**
    * Returns a range that contains all values strictly greater than {@code
    * lower} and strictly less than {@code upper}.
@@ -88,7 +80,7 @@ public final class Ranges {
    *     equal to</i> {@code upper}
    */
   public static <C extends Comparable<?>> Range<C> open(C lower, C upper) {
-    return create(Cut.aboveValue(lower), Cut.belowValue(upper));
+    return Range.open(lower, upper);
   }
 
   /**
@@ -99,7 +91,7 @@ public final class Ranges {
    *     upper}
    */
   public static <C extends Comparable<?>> Range<C> closed(C lower, C upper) {
-    return create(Cut.belowValue(lower), Cut.aboveValue(upper));
+    return Range.closed(lower, upper);
   }
 
   /**
@@ -111,7 +103,7 @@ public final class Ranges {
    */
   public static <C extends Comparable<?>> Range<C> closedOpen(
       C lower, C upper) {
-    return create(Cut.belowValue(lower), Cut.belowValue(upper));
+    return Range.closedOpen(lower, upper);
   }
 
   /**
@@ -123,7 +115,7 @@ public final class Ranges {
    */
   public static <C extends Comparable<?>> Range<C> openClosed(
       C lower, C upper) {
-    return create(Cut.aboveValue(lower), Cut.aboveValue(upper));
+    return Range.openClosed(lower, upper);
   }
 
   /**
@@ -136,16 +128,7 @@ public final class Ranges {
    */
   public static <C extends Comparable<?>> Range<C> range(
       C lower, BoundType lowerType, C upper, BoundType upperType) {
-    checkNotNull(lowerType);
-    checkNotNull(upperType);
-
-    Cut<C> lowerBound = (lowerType == BoundType.OPEN)
-        ? Cut.aboveValue(lower)
-        : Cut.belowValue(lower);
-    Cut<C> upperBound = (upperType == BoundType.OPEN)
-        ? Cut.belowValue(upper)
-        : Cut.aboveValue(upper);
-    return create(lowerBound, upperBound);
+    return Range.range(lower, lowerType, upper, upperType);
   }
 
   /**
@@ -153,7 +136,7 @@ public final class Ranges {
    * endpoint}.
    */
   public static <C extends Comparable<?>> Range<C> lessThan(C endpoint) {
-    return create(Cut.<C>belowAll(), Cut.belowValue(endpoint));
+    return Range.lessThan(endpoint);
   }
 
   /**
@@ -161,7 +144,7 @@ public final class Ranges {
    * {@code endpoint}.
    */
   public static <C extends Comparable<?>> Range<C> atMost(C endpoint) {
-    return create(Cut.<C>belowAll(), Cut.aboveValue(endpoint));
+    return Range.atMost(endpoint);
   }
 
   /**
@@ -170,14 +153,7 @@ public final class Ranges {
    */
   public static <C extends Comparable<?>> Range<C> upTo(
       C endpoint, BoundType boundType) {
-    switch (boundType) {
-      case OPEN:
-        return lessThan(endpoint);
-      case CLOSED:
-        return atMost(endpoint);
-      default:
-        throw new AssertionError();
-    }
+    return Range.upTo(endpoint, boundType);
   }
 
   /**
@@ -185,7 +161,7 @@ public final class Ranges {
    * endpoint}.
    */
   public static <C extends Comparable<?>> Range<C> greaterThan(C endpoint) {
-    return create(Cut.aboveValue(endpoint), Cut.<C>aboveAll());
+    return Range.greaterThan(endpoint);
   }
 
   /**
@@ -193,7 +169,7 @@ public final class Ranges {
    * {@code endpoint}.
    */
   public static <C extends Comparable<?>> Range<C> atLeast(C endpoint) {
-    return create(Cut.belowValue(endpoint), Cut.<C>aboveAll());
+    return Range.atLeast(endpoint);
   }
 
   /**
@@ -202,19 +178,12 @@ public final class Ranges {
    */
   public static <C extends Comparable<?>> Range<C> downTo(
       C endpoint, BoundType boundType) {
-    switch (boundType) {
-      case OPEN:
-        return greaterThan(endpoint);
-      case CLOSED:
-        return atLeast(endpoint);
-      default:
-        throw new AssertionError();
-    }
+    return Range.downTo(endpoint, boundType);
   }
 
   /** Returns a range that contains every value of type {@code C}. */
   public static <C extends Comparable<?>> Range<C> all() {
-    return create(Cut.<C>belowAll(), Cut.<C>aboveAll());
+    return Range.all();
   }
 
   /**
@@ -223,7 +192,7 @@ public final class Ranges {
    * on both ends.
    */
   public static <C extends Comparable<?>> Range<C> singleton(C value) {
-    return closed(value, value);
+    return Range.singleton(value);
   }
 
   /**
@@ -238,18 +207,6 @@ public final class Ranges {
    */
   public static <C extends Comparable<?>> Range<C> encloseAll(
       Iterable<C> values) {
-    checkNotNull(values);
-    if (values instanceof ContiguousSet) {
-      return ((ContiguousSet<C>) values).range();
-    }
-    Iterator<C> valueIterator = values.iterator();
-    C min = checkNotNull(valueIterator.next());
-    C max = min;
-    while (valueIterator.hasNext()) {
-      C value = checkNotNull(valueIterator.next());
-      min = Ordering.natural().min(min, value);
-      max = Ordering.natural().max(max, value);
-    }
-    return closed(min, max);
+    return Range.encloseAll(values);
   }
 }

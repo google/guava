@@ -122,7 +122,7 @@ public class GeneralRangeTest extends TestCase {
   public void testDoublyBoundedAgainstRange() {
     for (BoundType lboundType : BoundType.values()) {
       for (BoundType uboundType : BoundType.values()) {
-        Range<Integer> range = Ranges.range(2, lboundType, 4, uboundType);
+        Range<Integer> range = Range.range(2, lboundType, 4, uboundType);
         GeneralRange<Integer> gRange = GeneralRange.range(ORDERING, 2, lboundType, 4, uboundType);
         for (Integer i : IN_ORDER_VALUES) {
           assertEquals(i != null && range.contains(i), gRange.contains(i));
@@ -171,16 +171,16 @@ public class GeneralRangeTest extends TestCase {
   }
 
   public void testFromRangeAll() {
-    assertEquals(GeneralRange.all(Ordering.natural()), GeneralRange.from(Ranges.all()));
+    assertEquals(GeneralRange.all(Ordering.natural()), GeneralRange.from(Range.all()));
   }
 
   public void testFromRangeOneEnd() {
     for (BoundType endpointType : BoundType.values()) {
       assertEquals(GeneralRange.upTo(Ordering.natural(), 3, endpointType),
-          GeneralRange.from(Ranges.upTo(3, endpointType)));
+          GeneralRange.from(Range.upTo(3, endpointType)));
 
       assertEquals(GeneralRange.downTo(Ordering.natural(), 3, endpointType),
-          GeneralRange.from(Ranges.downTo(3, endpointType)));
+          GeneralRange.from(Range.downTo(3, endpointType)));
     }
   }
 
@@ -188,7 +188,7 @@ public class GeneralRangeTest extends TestCase {
     for (BoundType lowerType : BoundType.values()) {
       for (BoundType upperType : BoundType.values()) {
         assertEquals(GeneralRange.range(Ordering.natural(), 3, lowerType, 4, upperType),
-            GeneralRange.from(Ranges.range(3, lowerType, 4, upperType)));
+            GeneralRange.from(Range.range(3, lowerType, 4, upperType)));
       }
     }
   }

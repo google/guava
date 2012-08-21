@@ -29,7 +29,7 @@ import java.util.Set;
  * A sorted set of contiguous values in a given {@link DiscreteDomain}.
  *
  * <p><b>Warning:</b> Be extremely careful what you do with conceptually large instances (such as
- * {@code ContiguousSet.create(Ranges.greaterThan(0), DiscreteDomains.integers()}). Certain
+ * {@code ContiguousSet.create(Range.greaterThan(0), DiscreteDomains.integers()}). Certain
  * operations on such a set can be performed efficiently, but others (such as {@link Set#hashCode}
  * or {@link Collections#frequency}) can cause major performance problems.
  *
@@ -56,10 +56,10 @@ public abstract class ContiguousSet<C extends Comparable> extends ImmutableSorte
     Range<C> effectiveRange = range;
     try {
       if (!range.hasLowerBound()) {
-        effectiveRange = effectiveRange.intersection(Ranges.atLeast(domain.minValue()));
+        effectiveRange = effectiveRange.intersection(Range.atLeast(domain.minValue()));
       }
       if (!range.hasUpperBound()) {
-        effectiveRange = effectiveRange.intersection(Ranges.atMost(domain.maxValue()));
+        effectiveRange = effectiveRange.intersection(Range.atMost(domain.maxValue()));
       }
     } catch (NoSuchElementException e) {
       throw new IllegalArgumentException(e);

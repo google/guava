@@ -48,7 +48,7 @@ final class RegularContiguousSet<C extends Comparable> extends ContiguousSet<C> 
   }
 
   @Override ContiguousSet<C> headSetImpl(C toElement, boolean inclusive) {
-    return intersectionInCurrentDomain(Ranges.upTo(toElement, BoundType.forBoolean(inclusive)));
+    return intersectionInCurrentDomain(Range.upTo(toElement, BoundType.forBoolean(inclusive)));
   }
 
   @Override ContiguousSet<C> subSetImpl(C fromElement, boolean fromInclusive, C toElement,
@@ -57,13 +57,13 @@ final class RegularContiguousSet<C extends Comparable> extends ContiguousSet<C> 
       // Range would reject our attempt to create (x, x).
       return new EmptyContiguousSet<C>(domain);
     }
-    return intersectionInCurrentDomain(Ranges.range(
+    return intersectionInCurrentDomain(Range.range(
         fromElement, BoundType.forBoolean(fromInclusive),
         toElement, BoundType.forBoolean(toInclusive)));
   }
 
   @Override ContiguousSet<C> tailSetImpl(C fromElement, boolean inclusive) {
-    return intersectionInCurrentDomain(Ranges.downTo(fromElement, BoundType.forBoolean(inclusive)));
+    return intersectionInCurrentDomain(Range.downTo(fromElement, BoundType.forBoolean(inclusive)));
   }
 
   @GwtIncompatible("not used by GWT emulation")
@@ -141,7 +141,7 @@ final class RegularContiguousSet<C extends Comparable> extends ContiguousSet<C> 
       C lowerEndpoint = Ordering.natural().max(this.first(), other.first());
       C upperEndpoint = Ordering.natural().min(this.last(), other.last());
       return (lowerEndpoint.compareTo(upperEndpoint) < 0)
-          ? Ranges.closed(lowerEndpoint, upperEndpoint).asSet(domain)
+          ? Range.closed(lowerEndpoint, upperEndpoint).asSet(domain)
           : new EmptyContiguousSet<C>(domain);
     }
   }
@@ -151,7 +151,7 @@ final class RegularContiguousSet<C extends Comparable> extends ContiguousSet<C> 
   }
 
   @Override public Range<C> range(BoundType lowerBoundType, BoundType upperBoundType) {
-    return Ranges.create(range.lowerBound.withLowerBoundType(lowerBoundType, domain),
+    return Range.create(range.lowerBound.withLowerBoundType(lowerBoundType, domain),
         range.upperBound.withUpperBoundType(upperBoundType, domain));
   }
 
