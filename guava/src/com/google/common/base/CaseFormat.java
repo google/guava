@@ -35,6 +35,15 @@ public enum CaseFormat {
     @Override String normalizeWord(String word) {
       return Ascii.toLowerCase(word);
     }
+    @Override String convert(CaseFormat format, String s) {
+      if (format == LOWER_UNDERSCORE) {
+        return s.replace('-', '_');
+      }
+      if (format == UPPER_UNDERSCORE) {
+        return Ascii.toUpperCase(s.replace('-', '_'));
+      }
+      return super.convert(format, s);
+    }
   },
 
   /**
@@ -43,6 +52,15 @@ public enum CaseFormat {
   LOWER_UNDERSCORE(CharMatcher.is('_'), "_") {
     @Override String normalizeWord(String word) {
       return Ascii.toLowerCase(word);
+    }
+    @Override String convert(CaseFormat format, String s) {
+      if (format == LOWER_HYPHEN) {
+        return s.replace('_', '-');
+      }
+      if (format == UPPER_UNDERSCORE) {
+        return Ascii.toUpperCase(s);
+      }
+      return super.convert(format, s);
     }
   },
 
@@ -71,6 +89,15 @@ public enum CaseFormat {
     @Override String normalizeWord(String word) {
       return Ascii.toUpperCase(word);
     }
+    @Override String convert(CaseFormat format, String s) {
+      if (format == LOWER_HYPHEN) {
+        return Ascii.toLowerCase(s.replace('_', '-'));
+      }
+      if (format == LOWER_UNDERSCORE) {
+        return Ascii.toLowerCase(s);
+      }
+      return super.convert(format, s);
+    }
   };
 
   private final CharMatcher wordBoundary;
@@ -82,49 +109,21 @@ public enum CaseFormat {
   }
 
   /**
-   * Converts the specified {@code String s} from this format to the specified {@code format}. A
-   * "best effort" approach is taken; if {@code s} does not conform to the assumed format, then the
-   * behavior of this method is undefined but we make a reasonable effort at converting anyway.
+   * Converts the specified {@code String str} from this format to the specified {@code format}. A
+   * "best effort" approach is taken; if {@code str} does not conform to the assumed format, then
+   * the behavior of this method is undefined but we make a reasonable effort at converting anyway.
    */
-  public String to(CaseFormat format, String s) {
+  public final String to(CaseFormat format, String str) {
     checkNotNull(format);
-    checkNotNull(s);
+    checkNotNull(str);
+    return (format == this) ? str : convert(format, str);
+  }
 
-    if (format == this) {
-      return s;
-    }
-
-    // TODO(user): Get rid of this switch and use enum methods instead?
-
-    // optimize cases where no camel conversion is required
-    switch (this) {
-      case LOWER_HYPHEN:
-        switch (format) {
-          case LOWER_UNDERSCORE:
-            return s.replace('-', '_');
-          case UPPER_UNDERSCORE:
-            return Ascii.toUpperCase(s.replace('-', '_'));
-        }
-        break;
-      case LOWER_UNDERSCORE:
-        switch (format) {
-          case LOWER_HYPHEN:
-            return s.replace('_', '-');
-          case UPPER_UNDERSCORE:
-            return Ascii.toUpperCase(s);
-        }
-        break;
-      case UPPER_UNDERSCORE:
-        switch (format) {
-          case LOWER_HYPHEN:
-            return Ascii.toLowerCase(s.replace('_', '-'));
-          case LOWER_UNDERSCORE:
-            return Ascii.toLowerCase(s);
-        }
-        break;
-    }
-
-    // otherwise, deal with camel conversion
+  /**
+   * Enum values can override for performance reasons.
+   */
+  String convert(CaseFormat format, String s) {
+    // deal with camel conversion
     StringBuilder out = null;
     int i = 0;
     int j = -1;
@@ -139,11 +138,9 @@ public enum CaseFormat {
       out.append(format.wordSeparator);
       i = j + wordSeparator.length();
     }
-    if (i == 0) {
-      return format.normalizeFirstWord(s);
-    }
-    out.append(format.normalizeWord(s.substring(i)));
-    return out.toString();
+    return (i == 0)
+      ? format.normalizeFirstWord(s)
+      : out.append(format.normalizeWord(s.substring(i))).toString();
   }
 
   abstract String normalizeWord(String word);
