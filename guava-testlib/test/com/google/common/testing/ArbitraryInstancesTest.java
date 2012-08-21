@@ -49,7 +49,6 @@ import com.google.common.collect.Multimap;
 import com.google.common.collect.Multiset;
 import com.google.common.collect.PeekingIterator;
 import com.google.common.collect.Range;
-import com.google.common.collect.Ranges;
 import com.google.common.collect.RowSortedTable;
 import com.google.common.collect.SetMultimap;
 import com.google.common.collect.SortedMapDifference;
@@ -202,7 +201,7 @@ public class ArbitraryInstancesTest extends TestCase {
     assertTrue(ArbitraryInstances.get(ImmutableSetMultimap.class).isEmpty());
     assertTrue(ArbitraryInstances.get(MapDifference.class).areEqual());
     assertTrue(ArbitraryInstances.get(SortedMapDifference.class).areEqual());
-    assertEquals(Ranges.all(), ArbitraryInstances.get(Range.class));
+    assertEquals(Range.all(), ArbitraryInstances.get(Range.class));
     assertTrue(ArbitraryInstances.get(NavigableSet.class).isEmpty());
     assertTrue(ArbitraryInstances.get(NavigableMap.class).isEmpty());
     assertTrue(ArbitraryInstances.get(LinkedList.class).isEmpty());

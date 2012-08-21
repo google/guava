@@ -59,7 +59,6 @@ import com.google.common.collect.Multisets;
 import com.google.common.collect.Ordering;
 import com.google.common.collect.PeekingIterator;
 import com.google.common.collect.Range;
-import com.google.common.collect.Ranges;
 import com.google.common.collect.RowSortedTable;
 import com.google.common.collect.SetMultimap;
 import com.google.common.collect.Sets;
@@ -260,7 +259,7 @@ public final class ArbitraryInstances {
       .put(Comparable.class, BY_TO_STRING)
       .put(Comparator.class, ALWAYS_EQUAL)
       .put(Ordering.class, ALWAYS_EQUAL)
-      .put(Range.class, Ranges.all())
+      .put(Range.class, Range.all())
       .put(Constraint.class, Constraints.notNull())
       .put(MapConstraint.class, MapConstraints.notNull())
       .put(MapDifference.class, Maps.difference(ImmutableMap.of(), ImmutableMap.of()))
