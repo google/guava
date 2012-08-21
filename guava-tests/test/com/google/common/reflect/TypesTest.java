@@ -418,10 +418,6 @@ public class TypesTest extends TestCase {
   }
 
   public void testNullPointers() {
-    new NullPointerTester()
-        .setDefault(Type[].class, new Type[]{ Map.class })
-        .setDefault(Type.class, String.class)
-        .setDefault(GenericDeclaration.class, Types.class)
-        .testStaticMethods(Types.class, Visibility.PACKAGE);
+    new NullPointerTester().testStaticMethods(Types.class, Visibility.PACKAGE);
   }
 }

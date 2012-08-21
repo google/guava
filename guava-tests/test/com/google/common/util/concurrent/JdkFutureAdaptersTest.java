@@ -207,8 +207,6 @@ public class JdkFutureAdaptersTest extends TestCase {
   }
 
   public void testNullArguments() throws Exception {
-    NullPointerTester tester = new NullPointerTester();
-    tester.setDefault(Future.class, immediateFuture(DATA1));
-    tester.testAllPublicStaticMethods(JdkFutureAdapters.class);
+    new NullPointerTester().testAllPublicStaticMethods(JdkFutureAdapters.class);
   }
 }

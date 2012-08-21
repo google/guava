@@ -104,9 +104,7 @@ public class ImmutableSortedSetTest extends AbstractImmutableSetTest {
 
   @GwtIncompatible("NullPointerTester")
   public void testNullPointers() {
-    NullPointerTester tester = new NullPointerTester();
-    tester.setDefault(Comparable[].class, new Comparable[] { 0 });
-    tester.testAllPublicStaticMethods(ImmutableSortedSet.class);
+    new NullPointerTester().testAllPublicStaticMethods(ImmutableSortedSet.class);
   }
 
   public void testEmpty_comparator() {

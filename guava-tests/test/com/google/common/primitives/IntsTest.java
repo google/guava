@@ -76,7 +76,7 @@ public class IntsTest extends TestCase {
     assertEquals(LEAST, Ints.saturatedCast(Long.MIN_VALUE));
   }
 
-  private void assertCastFails(long value) {
+  private static void assertCastFails(long value) {
     try {
       Ints.checkedCast(value);
       fail("Cast to int should have failed: " + value);
@@ -412,9 +412,7 @@ public class IntsTest extends TestCase {
 
   @GwtIncompatible("NullPointerTester")
   public void testNulls() {
-    NullPointerTester tester = new NullPointerTester();
-    tester.setDefault(int[].class, new int[0]);
-    tester.testAllPublicStaticMethods(Ints.class);
+    new NullPointerTester().testAllPublicStaticMethods(Ints.class);
   }
 
   @GwtIncompatible("AndroidInteger")

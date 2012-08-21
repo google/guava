@@ -578,14 +578,9 @@ public class SetsTest extends TestCase {
 
   @GwtIncompatible("NullPointerTester")
   public void testNullPointerExceptions() {
-    NullPointerTester tester = new NullPointerTester();
-    tester.setDefault(Enum.class, SomeEnum.A);
-
-    // TODO: make NPT create empty arrays for defaults automatically
-    tester.setDefault(Collection[].class, new Collection[0]);
-    tester.setDefault(Enum[].class, new Enum[0]);
-    tester.setDefault(Set[].class, new Set[0]);
-    tester.testAllPublicStaticMethods(Sets.class);
+    new NullPointerTester()
+        .setDefault(Enum.class, SomeEnum.A)
+        .testAllPublicStaticMethods(Sets.class);
   }
 
   public void testNewSetFromMap() {

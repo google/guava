@@ -19,10 +19,10 @@ package com.google.common.collect;
 import static com.google.common.collect.Maps.transformEntries;
 import static com.google.common.collect.Maps.transformValues;
 import static com.google.common.collect.Maps.unmodifiableNavigableMap;
-import static com.google.common.collect.testing.Helpers.*;
+import static com.google.common.collect.testing.Helpers.mapEntry;
 import static com.google.common.collect.testing.testers.CollectionIteratorTester.getIteratorUnknownOrderRemoveSupportedMethod;
-import static org.junit.contrib.truth.Truth.ASSERT;
 import static java.util.Arrays.asList;
+import static org.junit.contrib.truth.Truth.ASSERT;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -336,21 +336,8 @@ public class MapsTest extends TestCase {
 
   @GwtIncompatible("NullPointerTester")
   public void testNullPointerExceptions() {
-    NullPointerTester tester = new NullPointerTester();
-    tester.setDefault(BiMap.class, ImmutableBiMap.of());
-    tester.setDefault(EntryTransformer.class, ALWAYS_NULL);
-    tester.setDefault(Equivalence.class, Equivalence.equals());
-    tester.setDefault(SortedMap.class, Maps.newTreeMap());
-    tester.testAllPublicStaticMethods(Maps.class);
+    new NullPointerTester().testAllPublicStaticMethods(Maps.class);
   }
-
-  private static final EntryTransformer<Object, Object, Object> ALWAYS_NULL =
-      new EntryTransformer<Object, Object, Object>() {
-        @Override
-        public Object transformEntry(Object k, Object v1) {
-          return null;
-        }
-      };
 
   private static final Map<Integer, Integer> EMPTY
       = Collections.emptyMap();

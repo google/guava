@@ -16,8 +16,6 @@ package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
-import com.google.common.base.Function;
-import com.google.common.base.Functions;
 import com.google.common.collect.SortedLists.KeyAbsentBehavior;
 import com.google.common.collect.SortedLists.KeyPresentBehavior;
 import com.google.common.testing.NullPointerTester;
@@ -120,12 +118,6 @@ public class SortedListsTest extends TestCase {
 
   @GwtIncompatible("NullPointerTester")
   public void testNulls() {
-    NullPointerTester tester = new NullPointerTester();
-    tester.setDefault(Function.class, Functions.identity());
-    tester.setDefault(List.class, LIST_WITH_DUPS);
-    tester.setDefault(Comparable.class, 2);
-    tester.setDefault(KeyPresentBehavior.class, KeyPresentBehavior.ANY_PRESENT);
-    tester.setDefault(KeyAbsentBehavior.class, KeyAbsentBehavior.NEXT_HIGHER);
-    tester.testAllPublicStaticMethods(SortedLists.class);
+    new NullPointerTester().testAllPublicStaticMethods(SortedLists.class);
   }
 }

@@ -27,7 +27,6 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Maps;
 import com.google.common.testing.NullPointerTester;
-import com.google.common.util.concurrent.Callables;
 
 import junit.framework.TestCase;
 
@@ -35,7 +34,6 @@ import java.lang.Thread.UncaughtExceptionHandler;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.Callable;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
@@ -72,7 +70,6 @@ public class LocalLoadingCacheTest extends TestCase {
 
   public void testNullParameters() throws Exception {
     NullPointerTester tester = new NullPointerTester();
-    tester.setDefault(Callable.class, Callables.returning(null));
     CacheLoader<Object, Object> loader = identityLoader();
     tester.testAllPublicInstanceMethods(makeCache(createCacheBuilder(), loader));
   }

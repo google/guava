@@ -71,7 +71,7 @@ public class UnsignedBytesTest extends TestCase {
     assertEquals(LEAST, UnsignedBytes.saturatedCast(Long.MIN_VALUE));
   }
 
-  private void assertCastFails(long value) {
+  private static void assertCastFails(long value) {
     try {
       UnsignedBytes.checkedCast(value);
       fail("Cast to byte should have failed: " + value);
@@ -255,10 +255,6 @@ public class UnsignedBytesTest extends TestCase {
   }
 
   public void testNulls() {
-    NullPointerTester tester = new NullPointerTester();
-    tester.setDefault(byte[].class, new byte[0]);
-    tester.setDefault(int.class, 5);
-    tester.setDefault(String.class, "5");
-    tester.testAllPublicStaticMethods(UnsignedBytes.class);
+    new NullPointerTester().testAllPublicStaticMethods(UnsignedBytes.class);
   }
 }

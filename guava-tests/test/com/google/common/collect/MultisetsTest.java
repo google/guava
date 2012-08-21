@@ -249,8 +249,6 @@ public class MultisetsTest extends TestCase {
 
   @GwtIncompatible("NullPointerTester")
   public void testNullPointers() {
-    NullPointerTester tester = new NullPointerTester();
-    tester.setDefault(Multiset.class, ImmutableMultiset.of());
-    tester.testAllPublicStaticMethods(Multisets.class);
+    new NullPointerTester().testAllPublicStaticMethods(Multisets.class);
   }
 }

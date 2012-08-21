@@ -1032,6 +1032,34 @@ public class NullPointerTesterTest extends TestCase {
     new GenericInterfaceDefaultValueChecker().check();
   }
 
+  private interface NullRejectingFromTo<F, T> extends Function<F, T> {
+    @Override public abstract T apply(F from);
+  }
+
+  private static class NullRejectingInterfaceDefaultValueChecker
+      extends DefaultValueChecker {
+
+    @SuppressWarnings("unused") // called by NullPointerTester
+    public void checkArray(NullRejectingFromTo<String, Integer> f, String s) {
+      calledWith(f, s);
+    }
+
+    void check() {
+      runTester();
+      NullRejectingFromTo<?, ?> defaultFunction = (NullRejectingFromTo<?, ?>)
+          getDefaultParameterValue(0);
+      assertNotNull(defaultFunction);
+      try {
+        defaultFunction.apply(null);
+        fail("Proxy Should have rejected null");
+      } catch (NullPointerException expected) {}
+    }
+  }
+
+  public void testNullRejectingInterfaceDefaultValue() {
+    new NullRejectingInterfaceDefaultValueChecker().check();
+  }
+
   private static class MultipleInterfacesDefaultValueChecker
       extends DefaultValueChecker {
 

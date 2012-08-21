@@ -481,8 +481,6 @@ public class FloatsTest extends TestCase {
 
   @GwtIncompatible("NullPointerTester")
   public void testNulls() {
-    NullPointerTester tester = new NullPointerTester();
-    tester.setDefault(float[].class, new float[0]);
-    tester.testAllPublicStaticMethods(Floats.class);
+    new NullPointerTester().testAllPublicStaticMethods(Floats.class);
   }
 }

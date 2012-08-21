@@ -569,7 +569,7 @@ public class IntMathTest extends TestCase {
     return Integer.parseInt(bigMean.toString());
   }
 
-  private boolean fitsInInt(BigInteger big) {
+  private static boolean fitsInInt(BigInteger big) {
     return big.bitLength() <= 31;
   }
 
@@ -577,7 +577,6 @@ public class IntMathTest extends TestCase {
   public void testNullPointers() {
     NullPointerTester tester = new NullPointerTester();
     tester.setDefault(int.class, 1);
-    tester.setDefault(RoundingMode.class, FLOOR);
     tester.testAllPublicStaticMethods(IntMath.class);
   }
 

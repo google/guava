@@ -471,7 +471,6 @@ public class BigIntegerMathTest extends TestCase {
   public void testNullPointers() {
     NullPointerTester tester = new NullPointerTester();
     tester.setDefault(BigInteger.class, ONE);
-    tester.setDefault(RoundingMode.class, FLOOR);
     tester.setDefault(int.class, 1);
     tester.setDefault(long.class, 1L);
     tester.testAllPublicStaticMethods(BigIntegerMath.class);

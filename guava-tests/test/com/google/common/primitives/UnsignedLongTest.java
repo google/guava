@@ -242,8 +242,6 @@ public class UnsignedLongTest extends TestCase {
 
   @GwtIncompatible("NullPointerTester")
   public void testNulls() {
-    NullPointerTester tester = new NullPointerTester();
-    tester.setDefault(UnsignedLong.class, UnsignedLong.ONE);
-    tester.testAllPublicStaticMethods(UnsignedLong.class);
+    new NullPointerTester().testAllPublicStaticMethods(UnsignedLong.class);
   }
 }

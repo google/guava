@@ -23,10 +23,6 @@ import com.google.common.testing.SerializableTester;
 
 import junit.framework.TestCase;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.Random;
 
 import javax.annotation.Nullable;
@@ -78,11 +74,6 @@ public class BloomFilterTest extends TestCase {
 
   public void testNullPointers() {
     NullPointerTester tester = new NullPointerTester();
-    tester.setDefault(Funnel.class, Funnels.stringFunnel());
-    tester.setDefault(OutputStream.class, new ByteArrayOutputStream());
-    tester.setDefault(InputStream.class,
-        new ByteArrayInputStream(new ByteArrayOutputStream().toByteArray()));
-
     tester.testAllPublicInstanceMethods(BloomFilter.create(Funnels.stringFunnel(), 100));
     tester.testAllPublicStaticMethods(BloomFilter.class);
   }

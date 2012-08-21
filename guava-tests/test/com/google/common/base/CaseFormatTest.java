@@ -49,7 +49,6 @@ public class CaseFormatTest extends TestCase {
   @GwtIncompatible("NullPointerTester")
   public void testNullArguments() {
     NullPointerTester tester = new NullPointerTester();
-    tester.setDefault(String.class, "").setDefault(CaseFormat.class, UPPER_CAMEL);
     tester.testAllPublicStaticMethods(CaseFormat.class);
     for (CaseFormat format : CaseFormat.values()) {
       tester.testAllPublicInstanceMethods(format);

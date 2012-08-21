@@ -38,7 +38,6 @@ import org.easymock.EasyMock;
 
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
@@ -382,13 +381,7 @@ public class ImmutableSortedMultisetTest extends TestCase {
   }
 
   public void testNullPointers() {
-    NullPointerTester tester = new NullPointerTester();
-    tester.setDefault(Comparator.class, Ordering.natural());
-    tester.setDefault(Comparable.class, "");
-    tester.setDefault(Iterator.class, Iterators.emptyIterator());
-    tester.setDefault(Iterable.class, Collections.emptySet());
-    tester.setDefault(Comparable[].class, new Comparable[0]);
-    tester.testAllPublicStaticMethods(ImmutableSortedMultiset.class);
+    new NullPointerTester().testAllPublicStaticMethods(ImmutableSortedMultiset.class);
   }
 
   public void testSerialization_empty() {

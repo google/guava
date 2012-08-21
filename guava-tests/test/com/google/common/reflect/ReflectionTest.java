@@ -22,7 +22,6 @@ import junit.framework.TestCase;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
-import java.lang.reflect.Type;
 import java.util.Map;
 
 /** Tests for {@link Reflection} */
@@ -88,10 +87,6 @@ public class ReflectionTest extends TestCase {
   }
 
   public void testNullPointers() {
-    NullPointerTester tester = new NullPointerTester();
-    tester.setDefault(InvocationHandler.class, X_RETURNER);
-    tester.setDefault(Type[].class, new Type[]{ Map.class });
-    tester.setDefault(Type.class, String.class);
-    tester.testAllPublicStaticMethods(Reflection.class);
+    new NullPointerTester().testAllPublicStaticMethods(Reflection.class);
   }
 }

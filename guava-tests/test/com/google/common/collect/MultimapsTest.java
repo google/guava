@@ -908,10 +908,6 @@ public class MultimapsTest extends AbstractMultimapTest {
 
   @GwtIncompatible("NullPointerTester")
   public void testNullPointers() {
-    NullPointerTester tester = new NullPointerTester();
-    tester.setDefault(Multimap.class, ImmutableMultimap.of());
-    tester.setDefault(ListMultimap.class, ImmutableListMultimap.of());
-    tester.setDefault(EntryTransformer.class, ALWAYS_NULL);
-    tester.testAllPublicStaticMethods(Multimaps.class);
+    new NullPointerTester().testAllPublicStaticMethods(Multimaps.class);
   }
 }

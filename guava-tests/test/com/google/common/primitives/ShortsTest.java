@@ -76,7 +76,7 @@ public class ShortsTest extends TestCase {
     assertEquals(LEAST, Shorts.saturatedCast(Long.MIN_VALUE));
   }
 
-  private void assertCastFails(long value) {
+  private static void assertCastFails(long value) {
     try {
       Shorts.checkedCast(value);
       fail("Cast to short should have failed: " + value);
@@ -419,8 +419,6 @@ public class ShortsTest extends TestCase {
 
   @GwtIncompatible("NullPointerTester")
   public void testNulls() {
-    NullPointerTester tester = new NullPointerTester();
-    tester.setDefault(short[].class, new short[0]);
-    tester.testAllPublicStaticMethods(Shorts.class);
+    new NullPointerTester().testAllPublicStaticMethods(Shorts.class);
   }
 }

@@ -290,8 +290,6 @@ public class BooleansTest extends TestCase {
 
   @GwtIncompatible("NullPointerTester")
   public void testNulls() {
-    NullPointerTester tester = new NullPointerTester();
-    tester.setDefault(boolean[].class, new boolean[0]);
-    tester.testAllPublicStaticMethods(Booleans.class);
+    new NullPointerTester().testAllPublicStaticMethods(Booleans.class);
   }
 }

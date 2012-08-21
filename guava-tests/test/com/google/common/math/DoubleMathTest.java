@@ -608,7 +608,6 @@ public class DoubleMathTest extends TestCase {
 
   public void testNullPointers() {
     NullPointerTester tester = new NullPointerTester();
-    tester.setDefault(RoundingMode.class, FLOOR);
     tester.setDefault(double.class, 3.0);
     tester.testAllPublicStaticMethods(DoubleMath.class);
   }

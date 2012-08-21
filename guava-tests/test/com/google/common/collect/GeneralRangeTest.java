@@ -25,7 +25,6 @@ import com.google.common.testing.NullPointerTester;
 import junit.framework.TestCase;
 
 import java.util.Arrays;
-import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -205,9 +204,6 @@ public class GeneralRangeTest extends TestCase {
 
   @GwtIncompatible("NullPointerTester")
   public void testNullPointers() {
-    NullPointerTester tester = new NullPointerTester();
-    tester.setDefault(Comparator.class, Ordering.arbitrary());
-    tester.setDefault(BoundType.class, BoundType.CLOSED);
-    tester.testAllPublicStaticMethods(GeneralRange.class);
+    new NullPointerTester().testAllPublicStaticMethods(GeneralRange.class);
   }
 }

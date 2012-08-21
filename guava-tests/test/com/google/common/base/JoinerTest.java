@@ -22,7 +22,6 @@ import com.google.common.base.Joiner.MapJoiner;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Iterators;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.testing.NullPointerTester;
@@ -398,10 +397,6 @@ public class JoinerTest extends TestCase {
   @GwtIncompatible("NullPointerTester")
   public void testNullPointers() {
     NullPointerTester tester = new NullPointerTester();
-    tester.setDefault(StringBuilder.class, new StringBuilder());
-    // This is necessary because of the generics hackery we have to temporarily support parameters
-    // which implement both Iterator and Iterable.
-    tester.setDefault(Object.class, Iterators.emptyIterator());
     tester.testAllPublicStaticMethods(Joiner.class);
     tester.testAllPublicInstanceMethods(Joiner.on(","));
     tester.testAllPublicInstanceMethods(Joiner.on(",").skipNulls());

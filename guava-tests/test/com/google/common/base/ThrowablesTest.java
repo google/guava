@@ -524,9 +524,6 @@ public class ThrowablesTest extends TestCase {
   }
 
   public void testNullPointers() {
-    NullPointerTester tester = new NullPointerTester();
-    tester.setDefault(Throwable.class, new SomeCheckedException());
-    tester.setDefault(Class.class, SomeCheckedException.class);
-    tester.testAllPublicStaticMethods(Throwables.class);
+    new NullPointerTester().testAllPublicStaticMethods(Throwables.class);
   }
 }

@@ -1364,11 +1364,8 @@ public class TypeTokenTest extends TestCase {
 
   public <T> void testNulls() {
     new NullPointerTester()
-        .setDefault(Type.class, Object.class)
         .testAllPublicStaticMethods(TypeToken.class);
     new NullPointerTester()
-        .setDefault(Type.class, Object.class)
-        .setDefault(TypeToken.class, TypeToken.of(Object.class))
         .setDefault(TypeParameter.class, new TypeParameter<T>() {})
         .testAllPublicInstanceMethods(TypeToken.of(String.class));
   }

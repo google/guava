@@ -30,8 +30,6 @@ public class RangeNonGwtTest extends TestCase {
 
   public void testNullPointers() {
     NullPointerTester tester = new NullPointerTester();
-    tester.setDefault(BoundType.class, BoundType.OPEN);
-    tester.setDefault(Comparable.class, 0);
 
     tester.testAllPublicStaticMethods(Range.class);
     tester.testAllPublicStaticMethods(Range.class);

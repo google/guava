@@ -18,6 +18,7 @@ package com.google.common.testing;
 
 import com.google.common.annotations.Beta;
 import com.google.common.base.Objects;
+import com.google.common.base.Preconditions;
 import com.google.common.collect.ClassToInstanceMap;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
@@ -193,31 +194,8 @@ public final class NullPointerTester {
   public void testMethodParameter(
       final Object instance, final Method method, int paramIndex) {
     method.setAccessible(true);
-    testFunctorParameter(instance, new Functor() {
-        @Override public Type[] getParameterTypes() {
-          Type[] unresolved = method.getGenericParameterTypes();
-          if (isStatic(method)) {
-            return unresolved;
-          } else {
-            TypeToken<?> type = TypeToken.of(instance.getClass());
-            Type[] resolved = new Type[unresolved.length];
-            for (int i = 0; i < unresolved.length; i++) {
-              resolved[i] = type.resolveType(unresolved[i]).getType();
-            }
-            return resolved;
-          }
-        }
-        @Override public Annotation[][] getParameterAnnotations() {
-          return method.getParameterAnnotations();
-        }
-        @Override public void invoke(Object object, Object[] params)
-            throws InvocationTargetException, IllegalAccessException {
-          method.invoke(object, params);
-        }
-        @Override public String toString() {
-          return method.toString();
-        }
-      }, paramIndex, method.getDeclaringClass());
+    testFunctorParameter(
+        instance, Functor.from(instance, method), paramIndex, method.getDeclaringClass());
   }
 
   /**
@@ -229,19 +207,7 @@ public final class NullPointerTester {
   public void testConstructorParameter(
       final Constructor<?> ctor, int paramIndex) {
     ctor.setAccessible(true);
-    testFunctorParameter(null, new Functor() {
-        @Override public Type[] getParameterTypes() {
-          return ctor.getGenericParameterTypes();
-        }
-        @Override public Annotation[][] getParameterAnnotations() {
-          return ctor.getParameterAnnotations();
-        }
-        @Override public void invoke(Object instance, Object[] params)
-            throws InvocationTargetException, IllegalAccessException,
-            InstantiationException {
-          ctor.newInstance(params);
-        }
-      }, paramIndex, ctor.getDeclaringClass());
+    testFunctorParameter(null, Functor.from(ctor), paramIndex, ctor.getDeclaringClass());
   }
 
   /** Visibility of any method or constructor. */
@@ -353,7 +319,7 @@ public final class NullPointerTester {
    */
   private void testFunctorParameter(Object instance, Functor func,
       int paramIndex, Class<?> testedClass) {
-    if (parameterIsPrimitiveOrNullable(func, paramIndex)) {
+    if (func.parameterIsPrimitiveOrNullable(paramIndex)) {
       return; // there's nothing to test
     }
     Object[] params = buildParamList(func, paramIndex);
@@ -378,21 +344,6 @@ public final class NullPointerTester {
     }
   }
 
-  private static boolean parameterIsPrimitiveOrNullable(
-      Functor func, int paramIndex) {
-    if (TypeToken.of(func.getParameterTypes()[paramIndex]).getRawType()
-        .isPrimitive()) {
-      return true;
-    }
-    Annotation[] annotations = func.getParameterAnnotations()[paramIndex];
-    for (Annotation annotation : annotations) {
-      if (annotation instanceof Nullable) {
-        return true;
-      }
-    }
-    return false;
-  }
-
   private Object[] buildParamList(Functor func, int indexOfParamToSetToNull) {
     Type[] types = func.getParameterTypes();
     Object[] params = new Object[types.length];
@@ -401,7 +352,7 @@ public final class NullPointerTester {
       if (i != indexOfParamToSetToNull) {
         TypeToken<?> type = TypeToken.of(types[i]);
         params[i] = getDefaultValue(type);
-        if (!parameterIsPrimitiveOrNullable(func, i)) {
+        if (!func.parameterIsPrimitiveOrNullable(i)) {
           Assert.assertTrue("No default value found for " + type.getRawType(),
               params[i] != null);
         }
@@ -460,6 +411,13 @@ public final class NullPointerTester {
         new AbstractInvocationHandler() {
           @Override protected Object handleInvocation(
               Object proxy, Method method, Object[] args) {
+            // TODO(benyu): Use Invokable API once it graduates from labs.
+            Functor functor = Functor.from(proxy, method);
+            for (int i = 0; i < args.length; i++) {
+              if (!functor.parameterIsPrimitiveOrNullable(i)) {
+                Preconditions.checkNotNull(args[i]);
+              }
+            }
             return getDefaultValue(
                 type.resolveType(method.getGenericReturnType()));
           }
@@ -469,12 +427,69 @@ public final class NullPointerTester {
         });
   }
 
-  private interface Functor {
-    Type[] getParameterTypes();
-    Annotation[][] getParameterAnnotations();
-    void invoke(Object o, Object[] params)
-        throws InvocationTargetException, IllegalAccessException,
-            InstantiationException;
+  private static abstract class Functor {
+    abstract Type[] getParameterTypes();
+    abstract Annotation[][] getParameterAnnotations();
+    abstract void invoke(Object o, Object[] params)
+        throws InvocationTargetException, IllegalAccessException, InstantiationException;
+
+    boolean parameterIsPrimitiveOrNullable(int paramIndex) {
+      if (TypeToken.of(getParameterTypes()[paramIndex]).getRawType()
+          .isPrimitive()) {
+        return true;
+      }
+      Annotation[] annotations = getParameterAnnotations()[paramIndex];
+      for (Annotation annotation : annotations) {
+        if (annotation instanceof Nullable) {
+          return true;
+        }
+      }
+      return false;
+    }
+
+    private static Functor from(@Nullable final Object instance, final Method method) {
+      return new Functor() {
+          @Override Type[] getParameterTypes() {
+            Type[] unresolved = method.getGenericParameterTypes();
+            if (isStatic(method)) {
+              return unresolved;
+            } else {
+              TypeToken<?> type = TypeToken.of(instance.getClass());
+              Type[] resolved = new Type[unresolved.length];
+              for (int i = 0; i < unresolved.length; i++) {
+                resolved[i] = type.resolveType(unresolved[i]).getType();
+              }
+              return resolved;
+            }
+          }
+          @Override Annotation[][] getParameterAnnotations() {
+            return method.getParameterAnnotations();
+          }
+          @Override void invoke(Object object, Object[] params)
+              throws InvocationTargetException, IllegalAccessException {
+            method.invoke(object, params);
+          }
+          @Override public String toString() {
+            return method.toString();
+          }
+        };
+    }
+
+    private static Functor from(final Constructor<?> ctor) {
+      return new Functor() {
+          @Override Type[] getParameterTypes() {
+            return ctor.getGenericParameterTypes();
+          }
+          @Override Annotation[][] getParameterAnnotations() {
+            return ctor.getParameterAnnotations();
+          }
+          @Override void invoke(Object instance, Object[] params)
+              throws InvocationTargetException, IllegalAccessException,
+              InstantiationException {
+            ctor.newInstance(params);
+          }
+        };
+    }
   }
 
   private static boolean isStatic(Member member) {

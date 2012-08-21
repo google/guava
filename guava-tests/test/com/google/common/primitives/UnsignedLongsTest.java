@@ -277,9 +277,6 @@ public class UnsignedLongsTest extends TestCase {
 
   @GwtIncompatible("NullPointerTester")
   public void testNulls() {
-    NullPointerTester tester = new NullPointerTester();
-    tester.setDefault(long[].class, new long[0]);
-    tester.setDefault(BigInteger.class, BigInteger.ZERO);
-    tester.testAllPublicStaticMethods(UnsignedLongs.class);
+    new NullPointerTester().testAllPublicStaticMethods(UnsignedLongs.class);
   }
 }

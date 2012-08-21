@@ -1992,30 +1992,7 @@ public class FuturesTest extends TestCase {
   }
 
   public void testNullArguments() throws Exception {
-    NullPointerTester tester = new NullPointerTester();
-    tester.setDefault(ListenableFuture.class, Futures.immediateFuture(DATA1));
-    tester.setDefault(ListenableFuture[].class,
-        new ListenableFuture[] {Futures.immediateFuture(DATA1)});
-    tester.setDefault(Future.class, Futures.immediateFuture(DATA1));
-    tester.setDefault(Executor.class, MoreExecutors.sameThreadExecutor());
-    tester.setDefault(Callable.class, Callables.returning(null));
-    tester.setDefault(AsyncFunction.class, new AsyncFunction<Object, String>() {
-      @Override
-      public ListenableFuture<String> apply(Object input) throws Exception {
-        return immediateFuture(DATA1);
-      }
-    });
-
-    FutureCallback<Object> callback =
-        new FutureCallback<Object>() {
-          @Override
-          public void onSuccess(Object result) {}
-          @Override
-          public void onFailure(Throwable t) {}
-        };
-    tester.setDefault(FutureCallback.class, callback);
-
-    tester.testAllPublicStaticMethods(Futures.class);
+    new NullPointerTester().testAllPublicStaticMethods(Futures.class);
   }
 
   private static void failWithCause(Throwable cause, String message) {

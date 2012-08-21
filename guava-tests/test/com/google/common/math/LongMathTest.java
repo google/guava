@@ -645,14 +645,13 @@ public class LongMathTest extends TestCase {
     return Long.parseLong(bigMean.toString());
   }
 
-  private boolean fitsInLong(BigInteger big) {
+  private static boolean fitsInLong(BigInteger big) {
     return big.bitLength() <= 63;
   }
 
   @GwtIncompatible("NullPointerTester")
   public void testNullPointers() {
     NullPointerTester tester = new NullPointerTester();
-    tester.setDefault(RoundingMode.class, FLOOR);
     tester.setDefault(int.class, 1);
     tester.setDefault(long.class, 1L);
     tester.testAllPublicStaticMethods(LongMath.class);

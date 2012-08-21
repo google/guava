@@ -21,7 +21,6 @@ import com.google.common.testing.NullPointerTester;
 import junit.framework.TestCase;
 
 import java.lang.reflect.TypeVariable;
-import java.util.List;
 
 /**
  * Unit test for {@link TypeParameter}.
@@ -46,8 +45,6 @@ public class TypeParameterTest extends TestCase {
   }
 
   public void testNullPointers() {
-    NullPointerTester tester = new NullPointerTester();
-    tester.setDefault(TypeVariable.class, Types.newTypeVariable(List.class, "E"));
-    tester.testAllPublicStaticMethods(TypeParameter.class);
+    new NullPointerTester().testAllPublicStaticMethods(TypeParameter.class);
   }
 }

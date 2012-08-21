@@ -125,10 +125,7 @@ public class ExecutionListTest extends TestCase {
   }
 
   public void testNulls() {
-    NullPointerTester tester = new NullPointerTester();
-    tester.setDefault(Executor.class, sameThreadExecutor());
-    tester.setDefault(Runnable.class, DO_NOTHING);
-    tester.testAllPublicInstanceMethods(new ExecutionList());
+    new NullPointerTester().testAllPublicInstanceMethods(new ExecutionList());
   }
 
   private static final Runnable THROWING_RUNNABLE = new Runnable() {
