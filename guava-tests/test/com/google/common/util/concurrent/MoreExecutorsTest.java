@@ -37,16 +37,29 @@ import static org.junit.contrib.truth.Truth.ASSERT;
 
 import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Lists;
+import com.google.common.util.concurrent.MoreExecutors.Application;
+
+import org.mockito.InOrder;
+import org.mockito.Mockito;
+
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.Callable;
 import java.util.concurrent.CyclicBarrier;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
 import java.util.concurrent.RejectedExecutionException;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.ThreadFactory;
+import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -56,6 +69,10 @@ import java.util.concurrent.atomic.AtomicReference;
  * @author Kyle Littlefield (klittle)
  */
 public class MoreExecutorsTest extends JSR166TestCase {
+
+  private static final Runnable EMPTY_RUNNABLE = new Runnable() {
+    @Override public void run() {}
+  };
 
   public void testSameThreadExecutorServiceInThreadExecution()
       throws Exception {
@@ -215,6 +232,21 @@ public class MoreExecutorsTest extends JSR166TestCase {
         throwableFromOtherThread.get());
   }
 
+  public void testSameThreadExecutor_shutdownNow() {
+    ExecutorService executor = MoreExecutors.sameThreadExecutor();
+    assertEquals(ImmutableList.of(), executor.shutdownNow());
+    assertTrue(executor.isShutdown());
+  }
+
+  public void testExecuteAfterShutdown() {
+    ExecutorService executor = MoreExecutors.sameThreadExecutor();
+    executor.shutdown();
+    try {
+      executor.execute(EMPTY_RUNNABLE);
+      fail();
+    } catch (RejectedExecutionException expected) {}
+  }
+
   public void testListeningDecorator() throws Exception {
     ListeningExecutorService service =
         listeningDecorator(MoreExecutors.sameThreadExecutor());
@@ -329,6 +361,97 @@ public class MoreExecutorsTest extends JSR166TestCase {
     @Override
     public void run() {
       count++;
+    }
+  }
+
+  public void testAddDelayedShutdownHook_success() throws InterruptedException {
+    TestApplication application = new TestApplication();
+    ExecutorService service = mock(ExecutorService.class);
+    application.addDelayedShutdownHook(service, 2, TimeUnit.SECONDS);
+    verify(service, Mockito.never()).shutdown();
+    application.shutdown();
+    InOrder shutdownFirst = Mockito.inOrder(service);
+    shutdownFirst.verify(service).shutdown();
+    shutdownFirst.verify(service).awaitTermination(2, TimeUnit.SECONDS);
+  }
+
+  public void testAddDelayedShutdownHook_interrupted() throws InterruptedException {
+    TestApplication application = new TestApplication();
+    ExecutorService service = mock(ExecutorService.class);
+    application.addDelayedShutdownHook(service, 2, TimeUnit.SECONDS);
+    when(service.awaitTermination(2, TimeUnit.SECONDS)).thenThrow(new InterruptedException());
+    application.shutdown();
+    verify(service).shutdown();
+  }
+
+  public void testGetExitingExcutorService_executorSetToUseDaemonThreads() {
+    TestApplication application = new TestApplication();
+    ThreadPoolExecutor executor = new ThreadPoolExecutor(
+        1, 2, 3, TimeUnit.SECONDS, new ArrayBlockingQueue<Runnable>(1));
+    assertNotNull(application.getExitingExecutorService(executor));
+    assertTrue(executor.getThreadFactory().newThread(EMPTY_RUNNABLE).isDaemon());
+  }
+
+  public void testGetExitingExcutorService_executorDelegatesToOriginal() {
+    TestApplication application = new TestApplication();
+    ThreadPoolExecutor executor = mock(ThreadPoolExecutor.class);
+    ThreadFactory threadFactory = mock(ThreadFactory.class);
+    when(executor.getThreadFactory()).thenReturn(threadFactory);
+    application.getExitingExecutorService(executor).execute(EMPTY_RUNNABLE);
+    verify(executor).execute(EMPTY_RUNNABLE);
+  }
+
+  public void testGetExitingExcutorService_shutdownHookRegistered() throws InterruptedException {
+    TestApplication application = new TestApplication();
+    ThreadPoolExecutor executor = mock(ThreadPoolExecutor.class);
+    ThreadFactory threadFactory = mock(ThreadFactory.class);
+    when(executor.getThreadFactory()).thenReturn(threadFactory);
+    application.getExitingExecutorService(executor);
+    application.shutdown();
+    verify(executor).shutdown();
+  }
+
+  public void testGetExitingScheduledExcutorService_executorSetToUseDaemonThreads() {
+    TestApplication application = new TestApplication();
+    ScheduledThreadPoolExecutor executor = new ScheduledThreadPoolExecutor(1);
+    assertNotNull(application.getExitingScheduledExecutorService(executor));
+    assertTrue(executor.getThreadFactory().newThread(EMPTY_RUNNABLE).isDaemon());
+  }
+
+  public void testGetExitingScheduledExcutorService_executorDelegatesToOriginal() {
+    TestApplication application = new TestApplication();
+    ScheduledThreadPoolExecutor executor = mock(ScheduledThreadPoolExecutor.class);
+    ThreadFactory threadFactory = mock(ThreadFactory.class);
+    when(executor.getThreadFactory()).thenReturn(threadFactory);
+    application.getExitingScheduledExecutorService(executor).execute(EMPTY_RUNNABLE);
+    verify(executor).execute(EMPTY_RUNNABLE);
+  }
+
+  public void testGetScheduledExitingExcutorService_shutdownHookRegistered()
+      throws InterruptedException {
+    TestApplication application = new TestApplication();
+    ScheduledThreadPoolExecutor executor = mock(ScheduledThreadPoolExecutor.class);
+    ThreadFactory threadFactory = mock(ThreadFactory.class);
+    when(executor.getThreadFactory()).thenReturn(threadFactory);
+    application.getExitingScheduledExecutorService(executor);
+    application.shutdown();
+    verify(executor).shutdown();
+  }
+
+  private static class TestApplication extends Application {
+    private final List<Thread> hooks = Lists.newArrayList();
+
+    @Override synchronized void addShutdownHook(Thread hook) {
+      hooks.add(hook);
+    }
+
+    synchronized void shutdown() throws InterruptedException {
+      for (Thread hook : hooks) {
+        hook.start();
+      }
+      for (Thread hook : hooks) {
+        hook.join();
+      }
     }
   }
 }

@@ -20,6 +20,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.Beta;
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Queues;
 
@@ -76,16 +77,8 @@ public final class MoreExecutors {
   @Beta
   public static ExecutorService getExitingExecutorService(
       ThreadPoolExecutor executor, long terminationTimeout, TimeUnit timeUnit) {
-    executor.setThreadFactory(new ThreadFactoryBuilder()
-        .setDaemon(true)
-        .setThreadFactory(executor.getThreadFactory())
-        .build());
-
-    ExecutorService service = Executors.unconfigurableExecutorService(executor);
-
-    addDelayedShutdownHook(service, terminationTimeout, timeUnit);
-
-    return service;
+    return new Application()
+        .getExitingExecutorService(executor, terminationTimeout, timeUnit);
   }
 
   /**
@@ -106,19 +99,9 @@ public final class MoreExecutors {
    */
   @Beta
   public static ScheduledExecutorService getExitingScheduledExecutorService(
-      ScheduledThreadPoolExecutor executor, long terminationTimeout,
-      TimeUnit timeUnit) {
-    executor.setThreadFactory(new ThreadFactoryBuilder()
-        .setDaemon(true)
-        .setThreadFactory(executor.getThreadFactory())
-        .build());
-
-    ScheduledExecutorService service =
-        Executors.unconfigurableScheduledExecutorService(executor);
-
-    addDelayedShutdownHook(service, terminationTimeout, timeUnit);
-
-    return service;
+      ScheduledThreadPoolExecutor executor, long terminationTimeout, TimeUnit timeUnit) {
+    return new Application()
+        .getExitingScheduledExecutorService(executor, terminationTimeout, timeUnit);
   }
 
   /**
@@ -134,24 +117,9 @@ public final class MoreExecutors {
    */
   @Beta
   public static void addDelayedShutdownHook(
-      final ExecutorService service, final long terminationTimeout,
-      final TimeUnit timeUnit) {
-    Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
-      @Override
-      public void run() {
-        try {
-          // We'd like to log progress and failures that may arise in the
-          // following code, but unfortunately the behavior of logging
-          // is undefined in shutdown hooks.
-          // This is because the logging code installs a shutdown hook of its
-          // own. See Cleaner class inside {@link LogManager}.
-          service.shutdown();
-          service.awaitTermination(terminationTimeout, timeUnit);
-        } catch (InterruptedException ignored) {
-          // We're shutting down anyway, so just ignore.
-        }
-      }
-    }, "DelayedShutdownHook-for-" + service));
+      ExecutorService service, long terminationTimeout, TimeUnit timeUnit) {
+    new Application()
+        .addDelayedShutdownHook(service, terminationTimeout, timeUnit);
   }
 
   /**
@@ -170,9 +138,8 @@ public final class MoreExecutors {
    * @return an unmodifiable version of the input which will not hang the JVM
    */
   @Beta
-  public static ExecutorService getExitingExecutorService(
-      ThreadPoolExecutor executor) {
-    return getExitingExecutorService(executor, 120, TimeUnit.SECONDS);
+  public static ExecutorService getExitingExecutorService(ThreadPoolExecutor executor) {
+    return new Application().getExitingExecutorService(executor);
   }
 
   /**
@@ -193,7 +160,67 @@ public final class MoreExecutors {
   @Beta
   public static ScheduledExecutorService getExitingScheduledExecutorService(
       ScheduledThreadPoolExecutor executor) {
-    return getExitingScheduledExecutorService(executor, 120, TimeUnit.SECONDS);
+    return new Application().getExitingScheduledExecutorService(executor);
+  }
+
+  /** Represents the current application to register shutdown hooks. */
+  @VisibleForTesting static class Application {
+
+    final ExecutorService getExitingExecutorService(
+        ThreadPoolExecutor executor, long terminationTimeout, TimeUnit timeUnit) {
+      useDaemonThreadFactory(executor);
+      ExecutorService service = Executors.unconfigurableExecutorService(executor);
+      addDelayedShutdownHook(service, terminationTimeout, timeUnit);
+      return service;
+    }
+
+    final ScheduledExecutorService getExitingScheduledExecutorService(
+        ScheduledThreadPoolExecutor executor, long terminationTimeout, TimeUnit timeUnit) {
+      useDaemonThreadFactory(executor);
+      ScheduledExecutorService service = Executors.unconfigurableScheduledExecutorService(executor);
+      addDelayedShutdownHook(service, terminationTimeout, timeUnit);
+      return service;
+    }
+
+    final void addDelayedShutdownHook(
+        final ExecutorService service, final long terminationTimeout, final TimeUnit timeUnit) {
+      addShutdownHook(new Thread(new Runnable() {
+        @Override
+        public void run() {
+          try {
+            // We'd like to log progress and failures that may arise in the
+            // following code, but unfortunately the behavior of logging
+            // is undefined in shutdown hooks.
+            // This is because the logging code installs a shutdown hook of its
+            // own. See Cleaner class inside {@link LogManager}.
+            service.shutdown();
+            service.awaitTermination(terminationTimeout, timeUnit);
+          } catch (InterruptedException ignored) {
+            // We're shutting down anyway, so just ignore.
+          }
+        }
+      }, "DelayedShutdownHook-for-" + service));
+    }
+
+    final ExecutorService getExitingExecutorService(ThreadPoolExecutor executor) {
+      return getExitingExecutorService(executor, 120, TimeUnit.SECONDS);
+    }
+
+    final ScheduledExecutorService getExitingScheduledExecutorService(
+        ScheduledThreadPoolExecutor executor) {
+      return getExitingScheduledExecutorService(executor, 120, TimeUnit.SECONDS);
+    }
+
+    @VisibleForTesting void addShutdownHook(Thread hook) {
+      Runtime.getRuntime().addShutdownHook(hook);
+    }
+  }
+
+  private static void useDaemonThreadFactory(ThreadPoolExecutor executor) {
+    executor.setThreadFactory(new ThreadFactoryBuilder()
+        .setDaemon(true)
+        .setThreadFactory(executor.getThreadFactory())
+        .build());
   }
 
   /**
