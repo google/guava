@@ -54,6 +54,7 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
@@ -382,6 +383,28 @@ public class FuturesTest extends TestCase {
     assertEquals(2, spy.getApplyCount());
   }
 
+  public void testLazyTransform_exception() throws Exception {
+    final RuntimeException exception = new RuntimeException("deliberate");
+    Function<Integer, String> function = new Function<Integer, String>() {
+      @Override public String apply(Integer input) {
+        throw exception;
+      }
+    };
+    Future<String> transformed = Futures.lazyTransform(Futures.immediateFuture(1), function);
+    try {
+      transformed.get();
+      fail();
+    } catch (ExecutionException expected) {
+      assertSame(exception, expected.getCause());
+    }
+    try {
+      transformed.get(1, TimeUnit.SECONDS);
+      fail();
+    } catch (ExecutionException expected) {
+      assertSame(exception, expected.getCause());
+    }
+  }
+
   private static class FunctionSpy<I, O> implements Function<I, O> {
     private int applyCount;
     private final Function<I, O> delegate;
@@ -431,6 +454,64 @@ public class FuturesTest extends TestCase {
         };
     Bar bar = Futures.transform(future, function).get();
     assertSame(barChild, bar);
+  }
+
+  public void testTransform_asyncFunction_timeout()
+      throws InterruptedException, ExecutionException {
+    AsyncFunction<String, Integer> function = constantAsyncFunction(Futures.immediateFuture(1));
+    ListenableFuture<Integer> future = Futures.transform(
+        SettableFuture.<String>create(), function);
+    try {
+      future.get(1, TimeUnit.MILLISECONDS);
+      fail();
+    } catch (TimeoutException expected) {}
+  }
+
+  public void testTransform_asyncFunction_error() {
+    final Error error = new Error("deliberate");
+    AsyncFunction<String, Integer> function = new AsyncFunction<String, Integer>() {
+      @Override public ListenableFuture<Integer> apply(String input) {
+        throw error;
+      }
+    };
+    SettableFuture<String> inputFuture = SettableFuture.create();
+    Futures.transform(inputFuture, function);
+    try {
+      inputFuture.set("value");
+    } catch (Error expected) {
+      assertSame(error, expected);
+      return;
+    }
+    fail("should have thrown error");
+  }
+
+  public void testTransform_asyncFunction_cancelledWhileApplyingFunction()
+      throws InterruptedException, ExecutionException {
+    final CountDownLatch inFunction = new CountDownLatch(1);
+    final CountDownLatch functionDone = new CountDownLatch(1);
+    final SettableFuture<Integer> resultFuture = SettableFuture.create();
+    AsyncFunction<String, Integer> function = new AsyncFunction<String, Integer>() {
+      @Override public ListenableFuture<Integer> apply(String input) throws Exception {
+        inFunction.countDown();
+        functionDone.await();
+        return resultFuture;
+      }
+    };
+    SettableFuture<String> inputFuture = SettableFuture.create();
+    ListenableFuture<Integer> future = Futures.transform(
+        inputFuture, function, Executors.newSingleThreadExecutor());
+    inputFuture.set("value");
+    inFunction.await();
+    future.cancel(false);
+    functionDone.countDown();
+    try {
+      future.get();
+      fail();
+    } catch (CancellationException expected) {}
+    try {
+      resultFuture.get();
+      fail();
+    } catch (CancellationException expected) {}
   }
 
   public void testDereference_genericsWildcard() throws Exception {
@@ -611,6 +692,27 @@ public class FuturesTest extends TestCase {
     }
   }
 
+  public void testAllAsList_error() throws Exception {
+    Error error = new Error("deliberate");
+    SettableFuture<String> future1 = SettableFuture.create();
+    ListenableFuture<String> future2 = Futures.immediateFuture("results");
+    ListenableFuture<List<String>> compound = Futures.allAsList(ImmutableList.of(future1, future2));
+
+    try {
+      future1.setException(error);
+    } catch (Error expected) {
+      assertSame(error, expected);
+      try {
+        compound.get();
+      } catch (ExecutionException ee) {
+        assertSame(error, ee.getCause());
+        return;
+      }
+      fail("Expected error not set in compound future.");
+    }
+    fail("Expected error not thrown");
+  }
+
   public void testAllAsList_cancelled() throws Exception {
     SingleCallListener listener = new SingleCallListener();
     SettableFuture<String> future1 = SettableFuture.create();
@@ -668,7 +770,7 @@ public class FuturesTest extends TestCase {
     ASSERT.that(results).hasContentsInOrder(DATA1, DATA2, DATA3);
   }
 
-  private String createCombinedResult(Integer i, Boolean b) {
+  private static String createCombinedResult(Integer i, Boolean b) {
     return "-" + i + "-" + b;
   }
 
@@ -1530,6 +1632,24 @@ public class FuturesTest extends TestCase {
     }
   }
 
+  public void testGetUntimed_badExceptionConstructor_wrapsOriginalChecked() throws Exception {
+    try {
+      get(FAILED_FUTURE_CHECKED_EXCEPTION, ExceptionWithBadConstructor.class);
+      fail();
+    } catch (IllegalArgumentException expected) {
+      assertSame(CHECKED_EXCEPTION, expected.getCause());
+    }
+  }
+
+  public void testGetUntimed_withGoodAndBadExceptionConstructor() throws Exception {
+    try {
+      get(FAILED_FUTURE_CHECKED_EXCEPTION, ExceptionWithGoodAndBadConstructor.class);
+      fail();
+    } catch (ExceptionWithGoodAndBadConstructor expected) {
+      assertSame(CHECKED_EXCEPTION, expected.getCause());
+    }
+  }
+
   // Boring timed-get tests:
 
   public void testGetTimed_success()
@@ -1621,6 +1741,25 @@ public class FuturesTest extends TestCase {
       fail();
     } catch (TwoArgConstructorException expected) {
       assertTrue(expected.getCause() instanceof TimeoutException);
+    }
+  }
+
+  public void testGetTimed_badExceptionConstructor_wrapsOriginalChecked() throws Exception {
+    try {
+      get(FAILED_FUTURE_CHECKED_EXCEPTION, 1, TimeUnit.SECONDS, ExceptionWithBadConstructor.class);
+      fail();
+    } catch (IllegalArgumentException expected) {
+      assertSame(CHECKED_EXCEPTION, expected.getCause());
+    }
+  }
+
+  public void testGetTimed_withGoodAndBadExceptionConstructor() throws Exception {
+    try {
+      get(FAILED_FUTURE_CHECKED_EXCEPTION, 1, TimeUnit.SECONDS,
+          ExceptionWithGoodAndBadConstructor.class);
+      fail();
+    } catch (ExceptionWithGoodAndBadConstructor expected) {
+      assertSame(CHECKED_EXCEPTION, expected.getCause());
     }
   }
 
@@ -1844,6 +1983,21 @@ public class FuturesTest extends TestCase {
       extends Exception {
     public ExceptionWithWrongTypesConstructor(Integer i, String s) {
       super(s);
+    }
+  }
+
+  private static final class ExceptionWithGoodAndBadConstructor extends Exception {
+    public ExceptionWithGoodAndBadConstructor(String message, Throwable cause) {
+      throw new RuntimeException("bad constructor");
+    }
+    public ExceptionWithGoodAndBadConstructor(Throwable cause) {
+      super(cause);
+    }
+  }
+
+  private static final class ExceptionWithBadConstructor extends Exception {
+    public ExceptionWithBadConstructor(String message, Throwable cause) {
+      throw new RuntimeException("bad constructor");
     }
   }
 
