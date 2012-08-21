@@ -382,6 +382,7 @@ public final class Iterators {
    * @throws IllegalArgumentException if the iterator contains multiple
    *     elements.  The state of the iterator is unspecified.
    */
+  @Nullable
   public static <T> T getOnlyElement(Iterator<? extends T> iterator, @Nullable T defaultValue) {
     return iterator.hasNext() ? getOnlyElement(iterator) : defaultValue;
   }
@@ -819,6 +820,7 @@ public final class Iterators {
    *
    * @since 7.0
    */
+  @Nullable
   public static <T> T find(Iterator<? extends T> iterator, Predicate<? super T> predicate,
       @Nullable T defaultValue) {
     UnmodifiableIterator<? extends T> filteredIterator = filter(iterator, predicate);
@@ -943,6 +945,7 @@ public final class Iterators {
    * @throws IndexOutOfBoundsException if {@code position} is negative
    * @since 4.0
    */
+  @Nullable
   public static <T> T get(Iterator<? extends T> iterator, int position, @Nullable T defaultValue) {
     checkNonnegative(position);
 
@@ -962,6 +965,7 @@ public final class Iterators {
    * @return the next element of {@code iterator} or the default value
    * @since 7.0
    */
+  @Nullable
   public static <T> T getNext(Iterator<? extends T> iterator, @Nullable T defaultValue) {
     return iterator.hasNext() ? iterator.next() : defaultValue;
   }
@@ -989,6 +993,7 @@ public final class Iterators {
    * @return the last element of {@code iterator}
    * @since 3.0
    */
+  @Nullable
   public static <T> T getLast(Iterator<? extends T> iterator, @Nullable T defaultValue) {
     return iterator.hasNext() ? getLast(iterator) : defaultValue;
   }
