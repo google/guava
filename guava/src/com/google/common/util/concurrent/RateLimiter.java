@@ -398,6 +398,32 @@ public abstract class RateLimiter {
   }
 
   /**
+   * Acquires permits from this {@link RateLimiter} if it can be acquired immediately without delay.
+   *
+   * <p>
+   * This method is equivalent to {@code tryAcquire(permits, 0, anyUnit)}.
+   *
+   * @param permits the number of permits to acquire
+   * @return {@code true} if the permits were acquired, {@code false} otherwise
+   */
+  public boolean tryAcquire(int permits) {
+    return tryAcquire(permits, 0, TimeUnit.MICROSECONDS);
+  }
+
+  /**
+   * Acquires a permit from this {@link RateLimiter} if it can be acquired immediately without
+   * delay.
+   *
+   * <p>
+   * This method is equivalent to {@code tryAcquire(1)}.
+   *
+   * @return {@code true} if the permit was acquired, {@code false} otherwise
+   */
+  public boolean tryAcquire() {
+    return tryAcquire(1, 0, TimeUnit.MICROSECONDS);
+  }
+
+  /**
    * Acquires the given number of permits from this {@code RateLimiter} if it can be obtained
    * without exceeding the specified {@code timeout}, or returns {@code false}
    * immediately (without waiting) if the permits would not have been granted

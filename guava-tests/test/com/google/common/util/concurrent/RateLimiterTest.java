@@ -46,6 +46,12 @@ public class RateLimiterTest extends TestCase {
     assertEvents("R0.00", "R0.20", "R0.20");
   }
 
+  public void testImmediateTryAcquire() {
+    RateLimiter r = RateLimiter.create(1);
+    assertTrue("Unable to acquire initial permit", r.tryAcquire());
+    assertFalse("Capable of acquiring secondary permit", r.tryAcquire());
+  }
+
   public void testSimpleRateUpdate() {
     RateLimiter limiter = RateLimiter.create(5.0, 5, TimeUnit.SECONDS);
     assertEquals(5.0, limiter.getRate());
