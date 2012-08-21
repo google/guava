@@ -52,7 +52,7 @@ import javax.annotation.Nullable;
 
 /**
  * Static utility methods pertaining to {@link Set} instances. Also see this
- * class's counterparts {@link Lists} and {@link Maps}.
+ * class's counterparts {@link Lists}, {@link Maps} and {@link Queues}.
  *
  * <p>See the Guava User Guide article on <a href=
  * "http://code.google.com/p/guava-libraries/wiki/CollectionUtilitiesExplained#Sets">
