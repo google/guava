@@ -345,14 +345,14 @@ public final class Queues {
    * accomplished through the returned queue.
    *
    * <p>It is imperative that the user manually synchronize on the returned queue when accessing
-   * any of its collection views: <pre>   {@code
+   * the queue's iterator: <pre>   {@code
    *
-   *   Queue<K, V> queue = Queues.synchronizedQueue(MinMaxPriorityQueue<E>.create());
+   *   Queue<E> queue = Queues.synchronizedQueue(MinMaxPriorityQueue<E>.create());
    *   ...
    *   queue.add(element);  // Needn't be in synchronized block
    *   ...
-   *   synchronized (queue) {  // Synchronizing on queue, not values!
-   *     Iterator<V> i = values.iterator(); // Must be in synchronized block
+   *   synchronized (queue) {  // Must synchronize on queue!
+   *     Iterator<E> i = queue.iterator(); // Must be in synchronized block
    *     while (i.hasNext()) {
    *       foo(i.next());
    *     }
