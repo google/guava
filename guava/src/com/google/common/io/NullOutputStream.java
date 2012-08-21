@@ -25,7 +25,8 @@ import java.io.OutputStream;
  *
  * @author Spencer Kimball
  * @since 1.0
- * @deprecated Use {@link ByteStreams#nullOutputStream} instead.
+ * @deprecated Use {@link ByteStreams#nullOutputStream} instead. This class is
+ *     scheduled to be removed in Guava release 15.0.
  */
 @Beta
 @Deprecated
