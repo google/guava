@@ -20,6 +20,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Objects;
+import com.google.common.base.Predicate;
 import com.google.common.hash.BloomFilterStrategies.BitArray;
 
 import java.io.Serializable;
@@ -46,7 +47,7 @@ import javax.annotation.Nullable;
  * @since 11.0
  */
 @Beta
-public final class BloomFilter<T> implements Serializable {
+public final class BloomFilter<T> implements Predicate<T>, Serializable {
   /**
    * A strategy to translate T instances, to {@code numHashFunctions} bit indexes.
    *
@@ -123,6 +124,15 @@ public final class BloomFilter<T> implements Serializable {
    */
   public boolean mightContain(T object) {
     return strategy.mightContain(object, funnel, numHashFunctions, bits);
+  }
+
+  /**
+   * Equivalent to {@link #mightContain}; provided only to satisfy the {@link Predicate} interface.
+   * When using a reference of type {@code BloomFilter}, always invoke {@link #mightContain}
+   * directly instead.
+   */
+  @Override public boolean apply(T input) {
+    return mightContain(input);
   }
 
   /**
