@@ -32,6 +32,7 @@ import java.util.NoSuchElementException;
  * @author Gregory Kick
  */
 @GwtCompatible
+@SuppressWarnings("deprecation") // since Ranges is deprecated
 public class RangesTest extends TestCase {
   public void testSingleton() {
     assertEquals(Ranges.closed(0, 0), Ranges.singleton(0));

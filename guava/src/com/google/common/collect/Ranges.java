@@ -66,7 +66,9 @@ import java.util.NoSuchElementException;
  * @author Kevin Bourrillion
  * @author Gregory Kick
  * @since 10.0
+ * @deprecated Use the corresponding method in {@link Range}.
  */
+@Deprecated
 @GwtCompatible
 @Beta
 public final class Ranges {
