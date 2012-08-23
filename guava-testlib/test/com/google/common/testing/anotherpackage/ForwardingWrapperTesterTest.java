@@ -183,7 +183,7 @@ public class ForwardingWrapperTesterTest extends TestCase {
       @Override public Arithmetic apply(Arithmetic adder) {
         return new ForwardsToTheWrongMethod(adder);
       }
-    }, "minus(");
+    }, "minus");
   }
 
   public void testFailsToForwardReturnValue() {
@@ -376,5 +376,78 @@ public class ForwardingWrapperTesterTest extends TestCase {
     @Override public String toString() {
       return delegate.toString();
     }
+  }
+
+  public void testCovariantReturn() {
+    new ForwardingWrapperTester().testForwarding(Sub.class, new Function<Sub, Sub>() {
+      @Override public Sub apply(Sub sub) {
+        return new ForwardingSub(sub);
+      }
+    });
+  }
+
+  interface Base {
+    CharSequence getId();
+  }
+
+  interface Sub extends Base {
+    @Override String getId();
+  }
+
+  private static class ForwardingSub implements Sub {
+    private final Sub delegate;
+
+    ForwardingSub(Sub delegate) {
+      this.delegate = delegate;
+    }
+
+    @Override public String getId() {
+      return delegate.getId();
+    }
+
+    @Override public String toString() {
+      return delegate.toString();
+    }
+  }
+
+  private interface Equals {
+    @Override boolean equals(Object obj);
+    @Override int hashCode();
+    @Override String toString();
+  }
+
+  private static class NoDelegateToEquals implements Equals {
+
+    private static Function<Equals, Equals> WRAPPER = new Function<Equals, Equals>() {
+      @Override public NoDelegateToEquals apply(Equals delegate) {
+        return new NoDelegateToEquals(delegate);
+      }
+    };
+
+    private final Equals delegate;
+
+    NoDelegateToEquals(Equals delegate) {
+      this.delegate = delegate;
+    }
+
+    @Override public String toString() {
+      return delegate.toString();
+    }
+  }
+
+  public void testExplicitEqualsAndHashCodeNotDelegatedByDefault() {
+    new ForwardingWrapperTester()
+        .testForwarding(Equals.class, NoDelegateToEquals.WRAPPER);
+  }
+
+  public void testExplicitEqualsAndHashCodeDelegatedWhenExplicitlyAsked() {
+    try {
+      new ForwardingWrapperTester()
+          .includingEquals()
+          .testForwarding(Equals.class, NoDelegateToEquals.WRAPPER);
+    } catch (AssertionError expected) {
+      return;
+    }
+    fail("Should have failed");
   }
 }

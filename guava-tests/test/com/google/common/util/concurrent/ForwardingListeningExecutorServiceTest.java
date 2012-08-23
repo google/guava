@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011 The Guava Authors
+ * Copyright (C) 2012 The Guava Authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,12 +19,10 @@ package com.google.common.util.concurrent;
 import junit.framework.TestCase;
 
 /**
- * Test for {@link ForwardingCheckedFuture}
- * 
- * @author Ben Yu
+ * Unit tests for {@link ForwardingListeningExecutorService}
  */
-public class ForwardingCheckedFutureTest extends TestCase {
+public class ForwardingListeningExecutorServiceTest extends TestCase {
   public void testForwarding() {
-    ForwardingObjectTester.testForwardingObject(ForwardingCheckedFuture.class);
+    ForwardingObjectTester.testForwardingObject(ForwardingListeningExecutorService.class);
   }
 }

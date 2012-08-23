@@ -21,48 +21,10 @@ import junit.framework.TestCase;
 /**
  * Tests for {@link ForwardingListenableFuture}.
  *
- * @author Shardul Deo
+ * @author Ben Yu
  */
 public class ForwardingListenableFutureTest extends TestCase {
-
-  private SettableFuture<String> delegate;
-  private ListenableFuture<String> forwardingFuture;
-
-  private ListenableFutureTester tester;
-
-  @Override
-  protected void setUp() throws Exception {
-    super.setUp();
-
-    delegate = SettableFuture.create();
-    forwardingFuture = new ForwardingListenableFuture<String>() {
-      @Override
-      protected ListenableFuture<String> delegate() {
-        return delegate;
-      }
-    };
-    tester = new ListenableFutureTester(forwardingFuture);
-    tester.setUp();
-  }
-
-  @Override
-  protected void tearDown() throws Exception {
-    tester.tearDown();
-    super.tearDown();
-  }
-
-  public void testCompletedFuture() throws Exception {
-    delegate.set("foo");
-    tester.testCompletedFuture("foo");
-  }
-
-  public void testCancelledFuture() throws Exception {
-    delegate.cancel(true); // parameter is ignored
-    tester.testCancelledFuture();
-  }
-
-  public void testFailedFuture() throws Exception {
-    delegate.setException(new Exception("failed"));
-    tester.testFailedFuture("failed");
+  public void testForwarding() {
+    ForwardingObjectTester.testForwardingObject(ForwardingListenableFuture.class);
   }
 }

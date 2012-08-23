@@ -105,10 +105,24 @@ public final class ForwardingWrapperTester {
   public <T> void testForwarding(
       Class<T> interfaceType, Function<? super T, ? extends T> wrapperFunction) {
     checkArgument(interfaceType.isInterface(), "%s isn't an interface", interfaceType);
-    Method[] methods = interfaceType.getMethods();
-    // The interface could be package-private or private.
+    Method[] methods = getMostConcreteMethods(interfaceType);
     AccessibleObject.setAccessible(methods, true);
     for (Method method : methods) {
+      // The interface could be package-private or private.
+      // filter out equals/hashCode/toString
+      if (method.getName().equals("equals")
+          && method.getParameterTypes().length == 1
+          && method.getParameterTypes()[0] == Object.class) {
+        continue;
+      }
+      if (method.getName().equals("hashCode")
+          && method.getParameterTypes().length == 0) {
+        continue;
+      }
+      if (method.getName().equals("toString")
+          && method.getParameterTypes().length == 0) {
+        continue;
+      }
       testSuccessfulForwarding(interfaceType, method, wrapperFunction);
       testExceptionPropagation(interfaceType, method, wrapperFunction);
     }
@@ -116,6 +130,19 @@ public final class ForwardingWrapperTester {
       testEquals(interfaceType, wrapperFunction);
     }
     testToString(interfaceType, wrapperFunction);
+  }
+
+  /** Returns the most concrete public methods from {@code type}. */
+  private static Method[] getMostConcreteMethods(Class<?> type) {
+    Method[] methods = type.getMethods();
+    for (int i = 0; i < methods.length; i++) {
+      try {
+        methods[i] = type.getMethod(methods[i].getName(), methods[i].getParameterTypes());
+      } catch (Exception e) {
+        throw Throwables.propagate(e);
+      }
+    }
+    return methods;
   }
 
   private static <T> void testSuccessfulForwarding(
