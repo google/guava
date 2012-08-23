@@ -405,6 +405,7 @@ public abstract class RateLimiter {
    *
    * @param permits the number of permits to acquire
    * @return {@code true} if the permits were acquired, {@code false} otherwise
+   * @since 14.0
    */
   public boolean tryAcquire(int permits) {
     return tryAcquire(permits, 0, TimeUnit.MICROSECONDS);
@@ -418,6 +419,7 @@ public abstract class RateLimiter {
    * This method is equivalent to {@code tryAcquire(1)}.
    *
    * @return {@code true} if the permit was acquired, {@code false} otherwise
+   * @since 14.0
    */
   public boolean tryAcquire() {
     return tryAcquire(1, 0, TimeUnit.MICROSECONDS);
