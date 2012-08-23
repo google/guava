@@ -28,10 +28,13 @@ import static java.util.Arrays.asList;
 
 import com.google.common.annotations.Beta;
 import com.google.common.base.Function;
+import com.google.common.base.Optional;
 import com.google.common.base.Preconditions;
+import com.google.common.collect.ImmutableCollection;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Ordering;
+import com.google.common.collect.Sets;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -761,7 +764,7 @@ public final class Futures {
   @Beta
   public static <V> ListenableFuture<List<V>> allAsList(
       ListenableFuture<? extends V>... futures) {
-    return new ListFuture<V>(ImmutableList.copyOf(futures), true,
+    return listFuture(ImmutableList.copyOf(futures), true,
         MoreExecutors.sameThreadExecutor());
   }
 
@@ -784,7 +787,7 @@ public final class Futures {
   @Beta
   public static <V> ListenableFuture<List<V>> allAsList(
       Iterable<? extends ListenableFuture<? extends V>> futures) {
-    return new ListFuture<V>(ImmutableList.copyOf(futures), true,
+    return listFuture(ImmutableList.copyOf(futures), true,
         MoreExecutors.sameThreadExecutor());
   }
 
@@ -804,7 +807,7 @@ public final class Futures {
   @Beta
   public static <V> ListenableFuture<List<V>> successfulAsList(
       ListenableFuture<? extends V>... futures) {
-    return new ListFuture<V>(ImmutableList.copyOf(futures), false,
+    return listFuture(ImmutableList.copyOf(futures), false,
         MoreExecutors.sameThreadExecutor());
   }
 
@@ -824,7 +827,7 @@ public final class Futures {
   @Beta
   public static <V> ListenableFuture<List<V>> successfulAsList(
       Iterable<? extends ListenableFuture<? extends V>> futures) {
-    return new ListFuture<V>(ImmutableList.copyOf(futures), false,
+    return listFuture(ImmutableList.copyOf(futures), false,
         MoreExecutors.sameThreadExecutor());
   }
 
@@ -1224,49 +1227,46 @@ public final class Futures {
     }
   }
 
-  /**
-   * Class that implements {@link #allAsList} and {@link #successfulAsList}.
-   * The idea is to create a (null-filled) List and register a listener with
-   * each component future to fill out the value in the List when that future
-   * completes.
-   */
-  private static class ListFuture<V> extends AbstractFuture<List<V>> {
-    ImmutableList<? extends ListenableFuture<? extends V>> futures;
+  private interface FutureCombiner<V, C> {
+    C combine(List<Optional<V>> values);
+  }
+
+  private static class CombinedFuture<V, C> extends AbstractFuture<C> {
+    ImmutableCollection<? extends ListenableFuture<? extends V>> futures;
     final boolean allMustSucceed;
     final AtomicInteger remaining;
-    List<V> values;
+    FutureCombiner<V, C> combiner;
+    List<Optional<V>> values;
 
-    /**
-     * Constructor.
-     *
-     * @param futures all the futures to build the list from
-     * @param allMustSucceed whether a single failure or cancellation should
-     *        propagate to this future
-     * @param listenerExecutor used to run listeners on all the passed in
-     *        futures.
-     */
-    ListFuture(
-        final ImmutableList<? extends ListenableFuture<? extends V>> futures,
-        final boolean allMustSucceed, final Executor listenerExecutor) {
+    CombinedFuture(
+        ImmutableCollection<? extends ListenableFuture<? extends V>> futures,
+        boolean allMustSucceed, Executor listenerExecutor,
+        FutureCombiner<V, C> combiner) {
       this.futures = futures;
-      this.values = Lists.newArrayListWithCapacity(futures.size());
       this.allMustSucceed = allMustSucceed;
       this.remaining = new AtomicInteger(futures.size());
-
+      this.combiner = combiner;
+      this.values = Lists.newArrayListWithCapacity(futures.size());
       init(listenerExecutor);
     }
 
-    private void init(final Executor listenerExecutor) {
+    /**
+     * Must be called at the end of the constructor.
+     */
+    protected void init(final Executor listenerExecutor) {
       // First, schedule cleanup to execute when the Future is done.
       addListener(new Runnable() {
         @Override
         public void run() {
           // By now the values array has either been set as the Future's value,
           // or (in case of failure) is no longer useful.
-          ListFuture.this.values = null;
+          CombinedFuture.this.futures = null;
 
           // Let go of the memory held by other futures
-          ListFuture.this.futures = null;
+          CombinedFuture.this.values = null;
+
+          // The combiner may also hold state, so free that as well
+          CombinedFuture.this.combiner = null;
         }
       }, MoreExecutors.sameThreadExecutor());
 
@@ -1274,7 +1274,7 @@ public final class Futures {
 
       // Corner case: List is empty.
       if (futures.isEmpty()) {
-        set(Lists.newArrayList(values));
+        set(combiner.combine(ImmutableList.<Optional<V>>of()));
         return;
       }
 
@@ -1289,11 +1289,11 @@ public final class Futures {
       // this loop, the last call to addListener() will callback to
       // setOneValue(), transitively call our cleanup listener, and set
       // this.futures to null.
-      // We store a reference to futures to avoid the NPE.
-      ImmutableList<? extends ListenableFuture<? extends V>> localFutures = futures;
-      for (int i = 0; i < localFutures.size(); i++) {
-        final ListenableFuture<? extends V> listenable = localFutures.get(i);
-        final int index = i;
+      // This is not actually a problem, since the foreach only needs
+      // this.futures to be non-null at the beginning of the loop.
+      int i = 0;
+      for (final ListenableFuture<? extends V> listenable : futures) {
+        final int index = i++;
         listenable.addListener(new Runnable() {
           @Override
           public void run() {
@@ -1307,7 +1307,7 @@ public final class Futures {
      * Sets the value at the given index to that of the given future.
      */
     private void setOneValue(int index, Future<? extends V> future) {
-      List<V> localValues = values;
+      List<Optional<V>> localValues = values;
       if (isDone() || localValues == null) {
         // Some other future failed or has been cancelled, causing this one to
         // also be cancelled or have an exception set. This should only happen
@@ -1320,7 +1320,8 @@ public final class Futures {
       try {
         checkState(future.isDone(),
             "Tried to set value from future which is not done");
-        localValues.set(index, getUninterruptibly(future));
+        localValues.set(index,
+            Optional.fromNullable(getUninterruptibly(future)));
       } catch (CancellationException e) {
         if (allMustSucceed) {
           // Set ourselves as cancelled. Let the input futures keep running
@@ -1346,9 +1347,9 @@ public final class Futures {
         int newRemaining = remaining.decrementAndGet();
         checkState(newRemaining >= 0, "Less than 0 remaining futures");
         if (newRemaining == 0) {
-          localValues = values;
-          if (localValues != null) {
-            set(Lists.newArrayList(localValues));
+          FutureCombiner<V, C> localCombiner = combiner;
+          if (localCombiner != null) {
+            set(localCombiner.combine(localValues));
           } else {
             checkState(isDone());
           }
@@ -1356,6 +1357,25 @@ public final class Futures {
       }
     }
 
+  }
+
+  /** Used for {@link #allAsList} and {@link #successfulAsList}. */
+  private static <V> ListenableFuture<List<V>> listFuture(
+      ImmutableList<ListenableFuture<? extends V>> futures,
+      boolean allMustSucceed, Executor listenerExecutor) {
+    return new CombinedFuture<V, List<V>>(
+        futures, allMustSucceed, listenerExecutor,
+        new FutureCombiner<V, List<V>>() {
+          @Override
+          public List<V> combine(List<Optional<V>> values) {
+            List<V> result = Lists.newArrayList();
+            for (Optional<V> element : values) {
+              result.add(element != null ? element.orNull() : null);
+            }
+            // TODO(user): This should ultimately return an unmodifiableList
+            return result;
+          }
+        });
   }
 
   /**
