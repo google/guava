@@ -26,6 +26,7 @@ import junit.framework.TestCase;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
@@ -561,6 +562,18 @@ public class MinMaxPriorityQueueTest extends TestCase {
     }
   }
 
+  public void testRemoveAt_exhaustive() {
+    int size = 8;
+    List<Integer> expected = createOrderedList(size);
+    for (Collection<Integer> perm : Collections2.permutations(expected)) {
+      for (int i = 0; i < perm.size(); i++) {
+        MinMaxPriorityQueue<Integer> q = MinMaxPriorityQueue.create(perm);
+        q.removeAt(i);
+        assertTrue("Remove at " + i + " perm " + perm, q.isIntact());
+      }
+    }
+  }
+
   /**
    * Regression test for bug found.
    */
@@ -675,6 +688,26 @@ public class MinMaxPriorityQueueTest extends TestCase {
       assertEquals("Using seed " + seed, control.poll(), q.pollFirst());
     }
     assertTrue(q.isEmpty());
+  }
+
+  public void testExhaustive_pollAndPush() {
+    int size = 8;
+    List<Integer> expected = createOrderedList(size);
+    for (Collection<Integer> perm : Collections2.permutations(expected)) {
+      MinMaxPriorityQueue<Integer> q = MinMaxPriorityQueue.create(perm);
+      List<Integer> elements = Lists.newArrayListWithCapacity(size);
+      while (!q.isEmpty()) {
+        Integer next = q.pollFirst();
+        for (int i = 0; i <= size; i++) {
+          assertTrue(q.add(i));
+          assertTrue(q.add(next));
+          assertTrue(q.remove(i));
+          assertEquals(next, q.poll());
+        }
+        elements.add(next);
+      }
+      assertEquals("Started with " + perm, expected, elements);
+    }
   }
 
   /**
