@@ -159,7 +159,7 @@ public final class Stopwatch {
   /**
    * Returns the current elapsed time shown on this stopwatch, expressed
    * in milliseconds, with any fraction rounded down. This is identical to
-   * {@code elapsedTime(TimeUnit.MILLISECONDS}.
+   * {@code elapsedTime(TimeUnit.MILLISECONDS)}.
    */
   public long elapsedMillis() {
     return elapsedTime(MILLISECONDS);
