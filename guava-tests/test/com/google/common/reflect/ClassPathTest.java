@@ -49,12 +49,11 @@ public class ClassPathTest extends TestCase {
     Set<String> names = Sets.newHashSet();
     Set<String> strings = Sets.newHashSet();
     Set<Class<?>> classes = Sets.newHashSet();
-    for (ClassInfo classInfo : ClassPath.from(getClass().getClassLoader()).getClasses()) {
-      if (classInfo.getPackageName().equals(ClassPathTest.class.getPackage().getName())) {
-        names.add(classInfo.getName());
-        strings.add(classInfo.toString());
-        classes.add(classInfo.load());
-      }
+    ClassPath classpath = ClassPath.from(getClass().getClassLoader());
+    for (ClassInfo classInfo : classpath.getClasses(ClassPathTest.class.getPackage())) {
+      names.add(classInfo.getName());
+      strings.add(classInfo.toString());
+      classes.add(classInfo.load());
     }
     ASSERT.that(names).containsAllOf(ClassPath.class.getName(), ClassPathTest.class.getName());
     ASSERT.that(strings).containsAllOf(ClassPath.class.getName(), ClassPathTest.class.getName());
@@ -252,7 +251,7 @@ public class ClassPathTest extends TestCase {
 
   private static class Nested {}
 
-  public void testNulls() {
+  public void testNulls() throws IOException {
     new NullPointerTester().testAllPublicStaticMethods(ClassPath.class);
     new NullPointerTester()
         .testAllPublicInstanceMethods(ClassPath.from(getClass().getClassLoader()));

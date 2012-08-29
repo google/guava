@@ -58,10 +58,10 @@ public final class ClassPath {
 
   private static final String CLASS_FILE_NAME_EXTENSION = ".class";
 
-  private final ClassLoader classloader;
+  private final ImmutableSet<ClassInfo> classes;
 
-  private ClassPath(ClassLoader classloader) {
-    this.classloader = checkNotNull(classloader);
+  private ClassPath(ImmutableSet<ClassInfo> classes) {
+    this.classes = classes;
   }
 
   /**
@@ -69,18 +69,38 @@ public final class ClassPath {
    * parent class loaders.
    *
    * <p>Currently only {@link URLClassLoader} and only {@code file://} urls are supported.
+   *
+   * @throws IOException if the attempt to read class path resources (jar files or directories)
+   *         failed.
    */
-  public static ClassPath from(ClassLoader classloader) {
-    return new ClassPath(classloader);
-  }
-
-  /** Returns all top level classes loadable from the current class path. */
-  public ImmutableSet<ClassInfo> getClasses() throws IOException {
+  public static ClassPath from(ClassLoader classloader) throws IOException {
     ImmutableSet.Builder<ClassInfo> builder = ImmutableSet.builder();
     for (Map.Entry<URI, ClassLoader> entry : getClassPathEntries(classloader).entrySet()) {
       builder.addAll(readClassesFrom(entry.getKey(), entry.getValue()));
     }
+    return new ClassPath(builder.build());
+  }
+
+  /** Returns all top level classes loadable from the current class path. */
+  public ImmutableSet<ClassInfo> getClasses() {
+    return classes;
+  }
+
+  /** Returns all top level classes in the package identified by {@code packageName}. */
+  public ImmutableSet<ClassInfo> getClasses(String packageName) {
+    checkNotNull(packageName);
+    ImmutableSet.Builder<ClassInfo> builder = ImmutableSet.builder();
+    for (ClassInfo classInfo : classes) {
+      if (classInfo.getPackageName().equals(packageName)) {
+        builder.add(classInfo);
+      }
+    }
     return builder.build();
+  }
+
+  /** Returns all top level classes in package {@code pkg}. */
+  public ImmutableSet<ClassInfo> getClasses(Package pkg) {
+    return getClasses(pkg.getName());
   }
 
   /** Represents a class that can be loaded through {@link #load}. */
