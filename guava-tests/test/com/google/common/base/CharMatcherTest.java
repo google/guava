@@ -767,7 +767,7 @@ public class CharMatcherTest extends TestCase {
   Iterable<Integer> intValues(String desc) {
     Random random = new Random(1234);
     ArrayList<Integer> values = new ArrayList<Integer>();
-    for (String part : Splitter.on(",").split(desc)) {
+    for (String part : Splitter.on(',').split(desc)) {
       if (part.contains("-")) {
         int i = part.indexOf('-');
         int begin = Integer.parseInt(part.substring(0, i));
@@ -777,7 +777,7 @@ public class CharMatcherTest extends TestCase {
         }
       } else if (part.startsWith("rand")) {
         List<String> args =
-            ImmutableList.copyOf(Splitter.on(";").split(part.substring(5, part.length() - 1)));
+            ImmutableList.copyOf(Splitter.on(';').split(part.substring(5, part.length() - 1)));
         assertEquals(args.size(), 3);
         int minValue = Integer.parseInt(args.get(0));
         int maxValue = Integer.parseInt(args.get(1));
