@@ -86,7 +86,7 @@ public final class ClassPath {
     return classes;
   }
 
-  /** Returns all top level classes in the package identified by {@code packageName}. */
+  /** Returns all top level classes whose package name is {@code packageName}. */
   public ImmutableSet<ClassInfo> getClasses(String packageName) {
     checkNotNull(packageName);
     ImmutableSet.Builder<ClassInfo> builder = ImmutableSet.builder();
@@ -98,9 +98,20 @@ public final class ClassPath {
     return builder.build();
   }
 
-  /** Returns all top level classes in package {@code pkg}. */
-  public ImmutableSet<ClassInfo> getClasses(Package pkg) {
-    return getClasses(pkg.getName());
+  /**
+   * Returns all top level classes whose package name is {@code packageName} or starts with
+   * {@code packageName} followed by a '.'.
+   */
+  public ImmutableSet<ClassInfo> getClassesRecursive(String packageName) {
+    checkNotNull(packageName);
+    String packagePrefix = packageName + '.';
+    ImmutableSet.Builder<ClassInfo> builder = ImmutableSet.builder();
+    for (ClassInfo classInfo : classes) {
+      if (classInfo.getName().startsWith(packagePrefix)) {
+        builder.add(classInfo);
+      }
+    }
+    return builder.build();
   }
 
   /** Represents a class that can be loaded through {@link #load}. */
@@ -239,7 +250,7 @@ public final class ClassPath {
 
   /**
    * Returns the class path URIs specified by the {@code Class-Path} manifest attribute, according
-   * to <a href="http://docs.oracle.com/javase/1.4.2/docs/guide/jar/jar.html#Main%20Attributes"/>
+   * to <a href="http://docs.oracle.com/javase/1.4.2/docs/guide/jar/jar.html#Main%20Attributes">
    * JAR File Specification</a>. If {@code manifest} is null, it means the jar file has no manifest,
    * and an empty set will be returned.
    */
@@ -268,7 +279,7 @@ public final class ClassPath {
 
   /**
    * Returns the absolute uri of the Class-Path entry value as specified in
-   * <a href="http://docs.oracle.com/javase/1.4.2/docs/guide/jar/jar.html#Main%20Attributes"/>
+   * <a href="http://docs.oracle.com/javase/1.4.2/docs/guide/jar/jar.html#Main%20Attributes">
    * JAR File Specification</a>. Even though the specification only talks about relative urls,
    * absolute urls are actually supported too (for example, in Maven surefire plugin).
    */

@@ -22,6 +22,7 @@ import com.google.common.base.Charsets;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Sets;
 import com.google.common.reflect.ClassPath.ClassInfo;
+import com.google.common.reflect.subpackage.ClassInSubPackage;
 import com.google.common.testing.EqualsTester;
 import com.google.common.testing.NullPointerTester;
 
@@ -49,15 +50,29 @@ public class ClassPathTest extends TestCase {
     Set<String> names = Sets.newHashSet();
     Set<String> strings = Sets.newHashSet();
     Set<Class<?>> classes = Sets.newHashSet();
+    Set<String> packageNames = Sets.newHashSet();
     ClassPath classpath = ClassPath.from(getClass().getClassLoader());
-    for (ClassInfo classInfo : classpath.getClasses(ClassPathTest.class.getPackage())) {
+    for (ClassInfo classInfo : classpath.getClasses(ClassPathTest.class.getPackage().getName())) {
       names.add(classInfo.getName());
       strings.add(classInfo.toString());
       classes.add(classInfo.load());
+      packageNames.add(classInfo.getPackageName());
     }
     ASSERT.that(names).containsAllOf(ClassPath.class.getName(), ClassPathTest.class.getName());
     ASSERT.that(strings).containsAllOf(ClassPath.class.getName(), ClassPathTest.class.getName());
     ASSERT.that(classes).containsAllOf(ClassPath.class, ClassPathTest.class);
+    ASSERT.that(packageNames).containsAllOf(ClassPath.class.getPackage().getName());
+    assertFalse(classes.contains(ClassInSubPackage.class));
+  }
+
+  public void testGetClassesRecursive() throws Exception {
+    Set<Class<?>> classes = Sets.newHashSet();
+    ClassPath classpath = ClassPath.from(ClassPathTest.class.getClassLoader());
+    for (ClassInfo classInfo
+        : classpath.getClassesRecursive(ClassPathTest.class.getPackage().getName())) {
+      classes.add(classInfo.load());
+    }
+    ASSERT.that(classes).containsAllOf(ClassPathTest.class, ClassInSubPackage.class);
   }
 
   public void testGetClasses_diamond() throws Exception {
