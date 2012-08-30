@@ -168,7 +168,7 @@ public final class BloomFilter<T> implements Predicate<T>, Serializable {
   }
 
   /**
-   * @deprecated Use {@link expectedFpp} instead.
+   * @deprecated Use {@link #expectedFpp} instead.
    */
   @Deprecated
   public double expectedFalsePositiveProbability() {

@@ -48,21 +48,19 @@ public final class Closeables {
    * <p>If {@code swallowIOException} is true then we never throw
    * {@code IOException} but merely log it.
    *
-   * <p>Example:
+   * <p>Example: <pre>   {@code
    *
-   * <p><pre>public void useStreamNicely() throws IOException {
-   * SomeStream stream = new SomeStream("foo");
-   * boolean threw = true;
-   * try {
-   *   // Some code which does something with the Stream. May throw a
-   *   // Throwable.
-   *   threw = false; // No throwable thrown.
-   * } finally {
-   *   // Close the stream.
-   *   // If an exception occurs, only rethrow it if (threw==false).
-   *   Closeables.close(stream, threw);
-   * }
-   * </pre>
+   *   public void useStreamNicely() throws IOException {
+   *     SomeStream stream = new SomeStream("foo");
+   *     boolean threw = true;
+   *     try {
+   *       // ... code which does something with the stream ...
+   *       threw = false;
+   *     } finally {
+   *       // If an exception occurs, rethrow it only if threw==false:
+   *       Closeables.close(stream, threw);
+   *     }
+   *   }}</pre>
    *
    * @param closeable the {@code Closeable} object to be closed, or null,
    *     in which case this method does nothing

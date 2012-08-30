@@ -71,7 +71,7 @@ public class ImmutableMapTest extends TestCase {
             CollectionFeature.KNOWN_ORDER,
             MapFeature.REJECTS_DUPLICATES_AT_CREATION,
             CollectionFeature.ALLOWS_NULL_QUERIES)
-        .named("ImmutableMap.keySet")
+        .named("ImmutableMap")
         .createTestSuite());
 
     suite.addTest(CollectionTestSuiteBuilder.using(

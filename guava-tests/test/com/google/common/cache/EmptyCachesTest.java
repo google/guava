@@ -316,7 +316,7 @@ public class EmptyCachesTest extends TestCase {
       assertFalse(entrySet.remove(entryOf(6, 6)));
       assertFalse(entrySet.remove(entryOf(-6, -6)));
       assertFalse(entrySet.removeAll(asList(null, entryOf(0, 0), entryOf(15, 15))));
-      assertFalse(entrySet.retainAll( asList(null, entryOf(0, 0), entryOf(15, 15))));
+      assertFalse(entrySet.retainAll(asList(null, entryOf(0, 0), entryOf(15, 15))));
       checkEmpty(entrySet);
       checkEmpty(cache);
     }

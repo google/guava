@@ -27,8 +27,8 @@ import javax.annotation.Nullable;
 
 /**
  * A strategy for determining whether two instances are considered equivalent. Examples of
- * equivalences are the {@link Equivalences#identity() identity equivalence} and {@link
- * Equivalences#equals equals equivalence}.
+ * equivalences are the {@linkplain #identity() identity equivalence} and {@linkplain #equals equals
+ * equivalence}.
  *
  * @author Bob Lee
  * @author Ben Yu
@@ -122,7 +122,7 @@ public abstract class Equivalence<T> {
    *
    * <p>For example: <pre>   {@code
    *
-   *    Equivalence<Person> SAME_AGE = Equivalences.equals().onResultOf(GET_PERSON_AGE);
+   *    Equivalence<Person> SAME_AGE = Equivalence.equals().onResultOf(GET_PERSON_AGE);
    * }</pre>
    * 
    * <p>{@code function} will never be invoked with a null value.
@@ -130,7 +130,7 @@ public abstract class Equivalence<T> {
    * <p>Note that {@code function} must be consistent according to {@code this} equivalence
    * relation. That is, invoking {@link Function#apply} multiple times for a given value must return
    * equivalent results.
-   * For example, {@code Equivalences.identity().onResultOf(Functions.toStringFunction())} is broken
+   * For example, {@code Equivalence.identity().onResultOf(Functions.toStringFunction())} is broken
    * because it's not guaranteed that {@link Object#toString}) always returns the same string
    * instance.
    * 

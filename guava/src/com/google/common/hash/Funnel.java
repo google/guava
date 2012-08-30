@@ -33,7 +33,7 @@ import java.io.Serializable;
  *           .putString(person.getLastName())
  *           .putInt(person.getAge());
  *     }
- *   }</pre>
+ *   }}</pre>
  * 
  * @author Dimitris Andreou
  * @since 11.0
