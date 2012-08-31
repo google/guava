@@ -25,13 +25,14 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.MutableClassToInstanceMap;
 import com.google.common.reflect.AbstractInvocationHandler;
+import com.google.common.reflect.Invokable;
+import com.google.common.reflect.Parameter;
 import com.google.common.reflect.Reflection;
 import com.google.common.reflect.TypeToken;
 
 import junit.framework.Assert;
 import junit.framework.AssertionFailedError;
 
-import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Member;
@@ -192,10 +193,9 @@ public final class NullPointerTester {
    *     {@code method} is static
    */
   public void testMethodParameter(
-      final Object instance, final Method method, int paramIndex) {
+      @Nullable final Object instance, final Method method, int paramIndex) {
     method.setAccessible(true);
-    testFunctorParameter(
-        instance, Functor.from(instance, method), paramIndex, method.getDeclaringClass());
+    testParameter(instance, invokable(instance, method), paramIndex, method.getDeclaringClass());
   }
 
   /**
@@ -207,7 +207,7 @@ public final class NullPointerTester {
   public void testConstructorParameter(
       final Constructor<?> ctor, int paramIndex) {
     ctor.setAccessible(true);
-    testFunctorParameter(null, Functor.from(ctor), paramIndex, ctor.getDeclaringClass());
+    testParameter(null, Invokable.from(ctor), paramIndex, ctor.getDeclaringClass());
   }
 
   /** Visibility of any method or constructor. */
@@ -244,7 +244,7 @@ public final class NullPointerTester {
     final Iterable<Method> getStaticMethods(Class<?> cls) {
       ImmutableList.Builder<Method> builder = ImmutableList.builder();
       for (Method method : getVisibleMethods(cls)) {
-        if (isStatic(method)) {
+        if (Invokable.from(method).isStatic()) {
           builder.add(method);
         }
       }
@@ -254,7 +254,7 @@ public final class NullPointerTester {
     final Iterable<Method> getInstanceMethods(Class<?> cls) {
       ConcurrentMap<Signature, Method> map = Maps.newConcurrentMap();
       for (Method method : getVisibleMethods(cls)) {
-        if (!isStatic(method)) {
+        if (!Invokable.from(method).isStatic()) {
           map.putIfAbsent(new Signature(method), method);
         }
       }
@@ -309,23 +309,25 @@ public final class NullPointerTester {
   }
 
   /**
-   * Verifies that {@code func} produces a {@link NullPointerException} or
+   * Verifies that {@code invokable} produces a {@link NullPointerException} or
    * {@link UnsupportedOperationException} when the parameter in position {@code
    * paramIndex} is null.  If this parameter is marked {@link Nullable}, this
    * method does nothing.
    *
-   * @param instance the instance to invoke {@code func} on, or null if
-   *     {@code func} is static
+   * @param instance the instance to invoke {@code invokable} on, or null if
+   *     {@code invokable} is static
    */
-  private void testFunctorParameter(Object instance, Functor func,
+  private void testParameter(Object instance, Invokable<?, ?> invokable,
       int paramIndex, Class<?> testedClass) {
-    if (func.parameterIsPrimitiveOrNullable(paramIndex)) {
+    if (isPrimitiveOrNullable(invokable.getParameters().get(paramIndex))) {
       return; // there's nothing to test
     }
-    Object[] params = buildParamList(func, paramIndex);
+    Object[] params = buildParamList(invokable, paramIndex);
     try {
-      func.invoke(instance, params);
-      Assert.fail("No exception thrown from " + func +
+      @SuppressWarnings("unchecked") // We'll get a runtime exception if the type is wrong.
+      Invokable<Object, ?> unsafe = (Invokable<Object, ?>) invokable;
+      unsafe.invoke(instance, params);
+      Assert.fail("No exception thrown from " + invokable +
           Arrays.toString(params) + " for " + testedClass);
     } catch (InvocationTargetException e) {
       Throwable cause = e.getCause();
@@ -334,31 +336,28 @@ public final class NullPointerTester {
         return;
       }
       AssertionFailedError error = new AssertionFailedError(
-          "wrong exception thrown from " + func + ": " + cause);
+          "wrong exception thrown from " + invokable + ": " + cause);
       error.initCause(cause);
       throw error;
     } catch (IllegalAccessException e) {
       throw new RuntimeException(e);
-    } catch (InstantiationException e) {
-      throw new RuntimeException(e);
     }
   }
 
-  private Object[] buildParamList(Functor func, int indexOfParamToSetToNull) {
-    Type[] types = func.getParameterTypes();
-    Object[] params = new Object[types.length];
+  private Object[] buildParamList(Invokable<?, ?> invokable, int indexOfParamToSetToNull) {
+    ImmutableList<Parameter> params = invokable.getParameters();
+    Object[] args = new Object[params.size()];
 
-    for (int i = 0; i < types.length; i++) {
+    for (int i = 0; i < args.length; i++) {
+      Parameter param = params.get(i);
       if (i != indexOfParamToSetToNull) {
-        TypeToken<?> type = TypeToken.of(types[i]);
-        params[i] = getDefaultValue(type);
-        if (!func.parameterIsPrimitiveOrNullable(i)) {
-          Assert.assertTrue("No default value found for " + type.getRawType(),
-              params[i] != null);
+        args[i] = getDefaultValue(param.getType());
+        if (!isPrimitiveOrNullable(param)) {
+          Assert.assertTrue("No default value found for " + param, args[i] != null);
         }
       }
     }
-    return params;
+    return args;
   }
 
   private <T> T getDefaultValue(TypeToken<T> type) {
@@ -411,10 +410,10 @@ public final class NullPointerTester {
         new AbstractInvocationHandler() {
           @Override protected Object handleInvocation(
               Object proxy, Method method, Object[] args) {
-            // TODO(benyu): Use Invokable API once it graduates from labs.
-            Functor functor = Functor.from(proxy, method);
+            Invokable<?, ?> invokable = invokable(proxy, method);
+            ImmutableList<Parameter> params = invokable.getParameters();
             for (int i = 0; i < args.length; i++) {
-              if (!functor.parameterIsPrimitiveOrNullable(i)) {
+              if (!isPrimitiveOrNullable(params.get(i))) {
                 Preconditions.checkNotNull(args[i]);
               }
             }
@@ -427,73 +426,16 @@ public final class NullPointerTester {
         });
   }
 
-  private static abstract class Functor {
-    abstract Type[] getParameterTypes();
-    abstract Annotation[][] getParameterAnnotations();
-    abstract void invoke(Object o, Object[] params)
-        throws InvocationTargetException, IllegalAccessException, InstantiationException;
-
-    boolean parameterIsPrimitiveOrNullable(int paramIndex) {
-      if (TypeToken.of(getParameterTypes()[paramIndex]).getRawType()
-          .isPrimitive()) {
-        return true;
-      }
-      Annotation[] annotations = getParameterAnnotations()[paramIndex];
-      for (Annotation annotation : annotations) {
-        if (annotation instanceof Nullable) {
-          return true;
-        }
-      }
-      return false;
-    }
-
-    private static Functor from(@Nullable final Object instance, final Method method) {
-      return new Functor() {
-          @Override Type[] getParameterTypes() {
-            Type[] unresolved = method.getGenericParameterTypes();
-            if (isStatic(method)) {
-              return unresolved;
-            } else {
-              TypeToken<?> type = TypeToken.of(instance.getClass());
-              Type[] resolved = new Type[unresolved.length];
-              for (int i = 0; i < unresolved.length; i++) {
-                resolved[i] = type.resolveType(unresolved[i]).getType();
-              }
-              return resolved;
-            }
-          }
-          @Override Annotation[][] getParameterAnnotations() {
-            return method.getParameterAnnotations();
-          }
-          @Override void invoke(Object object, Object[] params)
-              throws InvocationTargetException, IllegalAccessException {
-            method.invoke(object, params);
-          }
-          @Override public String toString() {
-            return method.toString();
-          }
-        };
-    }
-
-    private static Functor from(final Constructor<?> ctor) {
-      return new Functor() {
-          @Override Type[] getParameterTypes() {
-            return ctor.getGenericParameterTypes();
-          }
-          @Override Annotation[][] getParameterAnnotations() {
-            return ctor.getParameterAnnotations();
-          }
-          @Override void invoke(Object instance, Object[] params)
-              throws InvocationTargetException, IllegalAccessException,
-              InstantiationException {
-            ctor.newInstance(params);
-          }
-        };
+  private static Invokable<?, ?> invokable(@Nullable Object instance, Method method) {
+    if (instance == null) {
+      return Invokable.from(method);
+    } else {
+      return TypeToken.of(instance.getClass()).method(method);
     }
   }
 
-  private static boolean isStatic(Member member) {
-    return Modifier.isStatic(member.getModifiers());
+  private static boolean isPrimitiveOrNullable(Parameter param) {
+    return param.getType().getRawType().isPrimitive() || param.isAnnotationPresent(Nullable.class);
   }
 
   private boolean isIgnored(Member member) {

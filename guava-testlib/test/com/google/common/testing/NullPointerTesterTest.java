@@ -134,7 +134,7 @@ public class NullPointerTesterTest extends TestCase {
     for (String methodName : STATIC_ONE_ARG_METHODS_SHOULD_PASS) {
       Method method = OneArg.class.getMethod(methodName, String.class);
       try {
-        new NullPointerTester().testMethodParameter(OneArg.class, method, 0);
+        new NullPointerTester().testMethodParameter(new OneArg(), method, 0);
       } catch (AssertionFailedError unexpected) {
         fail("Should not have flagged method " + methodName);
       }
@@ -146,7 +146,7 @@ public class NullPointerTesterTest extends TestCase {
       Method method = OneArg.class.getMethod(methodName, String.class);
       boolean foundProblem = false;
       try {
-        new NullPointerTester().testMethodParameter(OneArg.class, method, 0);
+        new NullPointerTester().testMethodParameter(new OneArg(), method, 0);
       } catch (AssertionFailedError expected) {
         foundProblem = true;
       }
