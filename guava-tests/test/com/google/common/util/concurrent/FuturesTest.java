@@ -26,6 +26,7 @@ import static com.google.common.util.concurrent.Futures.successfulAsList;
 import static java.util.concurrent.Executors.newSingleThreadExecutor;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
+import static org.easymock.EasyMock.expect;
 import static org.junit.contrib.truth.Truth.ASSERT;
 
 import com.google.common.base.Function;
@@ -498,6 +499,150 @@ public class FuturesTest extends TestCase {
     public int getApplyCount() {
       return applyCount;
     }
+  }
+
+  @SuppressWarnings("unchecked")
+  public void testWithFallback_inputDoesNotRaiseException() throws Exception {
+    FutureFallback<Integer> fallback = mocksControl.createMock(FutureFallback.class);
+    ListenableFuture<Integer> originalFuture = Futures.immediateFuture(7);
+
+    mocksControl.replay();
+    ListenableFuture<Integer> faultToleranteFuture = Futures.withFallback(originalFuture, fallback);
+    assertEquals(7, faultToleranteFuture.get().intValue());
+    mocksControl.verify();
+  }
+
+  @SuppressWarnings("unchecked")
+  public void testWithFallback_inputRaisesException() throws Exception {
+    FutureFallback<Integer> fallback = mocksControl.createMock(FutureFallback.class);
+    RuntimeException raisedException = new RuntimeException();
+    expect(fallback.create(raisedException)).andReturn(Futures.immediateFuture(20));
+    ListenableFuture<Integer> failingFuture = Futures.immediateFailedFuture(raisedException);
+
+    mocksControl.replay();
+    ListenableFuture<Integer> faultToleranteFuture = Futures.withFallback(failingFuture, fallback);
+    assertEquals(20, faultToleranteFuture.get().intValue());
+    mocksControl.verify();
+  }
+
+  public void testWithFallback_fallbackGeneratesRuntimeException() throws Exception {
+    RuntimeException expectedException = new RuntimeException();
+    runExpectedExceptionFallbackTest(expectedException, false);
+  }
+
+  public void testWithFallback_fallbackGeneratesCheckedException() throws Exception {
+    Exception expectedException = new Exception() {};
+    runExpectedExceptionFallbackTest(expectedException, false);
+  }
+
+  @SuppressWarnings("unchecked")
+  public void testWithFallback_fallbackGeneratesError() throws Exception {
+    Error error = new Error("deliberate");
+    FutureFallback<Integer> fallback = mocksControl.createMock(FutureFallback.class);
+    RuntimeException raisedException = new RuntimeException();
+    expect(fallback.create(raisedException)).andThrow(error);
+    ListenableFuture<Integer> failingFuture = Futures.immediateFailedFuture(raisedException);
+    mocksControl.replay();
+    try {
+      Futures.withFallback(failingFuture, fallback);
+      fail("An Exception should have been thrown!");
+    } catch (Error expected) {
+      assertSame(error, expected);
+    }
+    mocksControl.verify();
+  }
+
+  public void testWithFallback_fallbackReturnsRuntimeException() throws Exception {
+    RuntimeException expectedException = new RuntimeException();
+    runExpectedExceptionFallbackTest(expectedException, true);
+  }
+
+  public void testWithFallback_fallbackReturnsCheckedException() throws Exception {
+    Exception expectedException = new Exception() {};
+    runExpectedExceptionFallbackTest(expectedException, true);
+  }
+
+  @SuppressWarnings("unchecked")
+  private void runExpectedExceptionFallbackTest(
+      Throwable expectedException, boolean wrapInFuture) throws Exception {
+    FutureFallback<Integer> fallback = mocksControl.createMock(FutureFallback.class);
+    RuntimeException raisedException = new RuntimeException();
+    if (!wrapInFuture) {
+      // Exception is thrown in the body of the "fallback" method.
+      expect(fallback.create(raisedException)).andThrow(expectedException);
+    } else {
+      // Exception is wrapped in a future and returned.
+      expect(fallback.create(raisedException)).andReturn(
+          Futures.<Integer>immediateFailedFuture(expectedException));
+    }
+
+    ListenableFuture<Integer> failingFuture = Futures.immediateFailedFuture(raisedException);
+
+    mocksControl.replay();
+    ListenableFuture<Integer> faultToleranteFuture = Futures.withFallback(failingFuture, fallback);
+    try {
+      faultToleranteFuture.get();
+      fail("An Exception should have been thrown!");
+    } catch (ExecutionException ee) {
+      assertSame(expectedException, ee.getCause());
+    }
+    mocksControl.verify();
+  }
+
+  public void testWithFallback_fallbackNotReady() throws Exception {
+    ListenableFuture<Integer> primary = immediateFailedFuture(new Exception());
+    final SettableFuture<Integer> secondary = SettableFuture.create();
+    FutureFallback<Integer> fallback = new FutureFallback<Integer>() {
+      @Override
+      public ListenableFuture<Integer> create(Throwable t) {
+        return secondary;
+      }
+    };
+    ListenableFuture<Integer> derived = Futures.withFallback(primary, fallback);
+    secondary.set(1);
+    assertEquals(1, (int) derived.get());
+  }
+
+  @SuppressWarnings("unchecked")
+  public void testWithFallback_resultInterruptedBeforeFallback() throws Exception {
+    SettableFuture<Integer> primary = SettableFuture.create();
+    FutureFallback<Integer> fallback = mocksControl.createMock(FutureFallback.class);
+
+    mocksControl.replay();
+    ListenableFuture<Integer> derived = Futures.withFallback(primary, fallback);
+    derived.cancel(true);
+    assertTrue(primary.isCancelled());
+    assertTrue(primary.wasInterrupted());
+    mocksControl.verify();
+  }
+
+  @SuppressWarnings("unchecked")
+  public void testWithFallback_resultCancelledBeforeFallback() throws Exception {
+    SettableFuture<Integer> primary = SettableFuture.create();
+    FutureFallback<Integer> fallback = mocksControl.createMock(FutureFallback.class);
+
+    mocksControl.replay();
+    ListenableFuture<Integer> derived = Futures.withFallback(primary, fallback);
+    derived.cancel(false);
+    assertTrue(primary.isCancelled());
+    assertFalse(primary.wasInterrupted());
+    mocksControl.verify();
+  }
+
+  @SuppressWarnings("unchecked")
+  public void testWithFallback_resultCancelledAfterFallback() throws Exception {
+    SettableFuture<Integer> secondary = SettableFuture.create();
+    FutureFallback<Integer> fallback = mocksControl.createMock(FutureFallback.class);
+    RuntimeException raisedException = new RuntimeException();
+    expect(fallback.create(raisedException)).andReturn(secondary);
+    ListenableFuture<Integer> failingFuture = Futures.immediateFailedFuture(raisedException);
+
+    mocksControl.replay();
+    ListenableFuture<Integer> derived = Futures.withFallback(failingFuture, fallback);
+    derived.cancel(false);
+    assertTrue(secondary.isCancelled());
+    assertFalse(secondary.wasInterrupted());
+    mocksControl.verify();
   }
 
   public void testTransform_genericsWildcard_AsyncFunction() throws Exception {
