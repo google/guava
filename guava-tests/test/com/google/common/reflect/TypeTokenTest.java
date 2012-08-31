@@ -30,6 +30,7 @@ import com.google.common.testing.SerializableTester;
 import junit.framework.TestCase;
 
 import java.io.Serializable;
+import java.lang.reflect.Constructor;
 import java.lang.reflect.GenericArrayType;
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
@@ -1192,6 +1193,95 @@ public class TypeTokenTest extends TestCase {
     assertEquals(String[].class, TypeToken.of(String[].class).getType());
     assertEquals(Integer.class, new TypeToken<Integer>() {}.getType());
     assertEquals(Integer.class, TypeToken.of(Integer.class).getType());
+  }
+
+  public void testMethod_notDeclaredByType() throws NoSuchMethodException {
+    Method sizeMethod = Map.class.getMethod("size");
+    try {
+      TypeToken.of(List.class).method(sizeMethod);
+      fail();
+    } catch (IllegalArgumentException expected) {}
+  }
+
+  public void testMethod_declaredBySuperclass() throws Exception {
+    Method toStringMethod = Object.class.getMethod("toString");
+    ImmutableList<String> list = ImmutableList.of("foo");
+    assertEquals(list.toString(), TypeToken.of(List.class).method(toStringMethod).invoke(list));
+  }
+
+  public <T extends Number & List<String>> void testMethod_returnType_resolvedAgainstTypeBound()
+      throws NoSuchMethodException {
+    Method getMethod = List.class.getMethod("get", int.class);
+    Invokable<T, String> Invokable = new TypeToken<T>(getClass()) {}
+        .method(getMethod)
+        .returning(String.class);
+    assertEquals(TypeToken.of(String.class), Invokable.getReturnType());
+  }
+
+  public <T extends List<String>> void testMethod_parameterTypes()
+      throws NoSuchMethodException {
+    Method setMethod = List.class.getMethod("set", int.class, Object.class);
+    Invokable<T, ?> invokable = new TypeToken<T>(getClass()) {}.method(setMethod);
+    ImmutableList<Parameter> params = invokable.getParameters();
+    assertEquals(2, params.size());
+    assertEquals(TypeToken.of(int.class), params.get(0).getType());
+    assertEquals(TypeToken.of(String.class), params.get(1).getType());
+  }
+
+  private interface Loser<E extends Throwable> {
+    void lose() throws E;
+  }
+
+  public <T extends Loser<AssertionError>> void testMethod_exceptionTypes()
+      throws NoSuchMethodException {
+    Method failMethod = Loser.class.getMethod("lose");
+    Invokable<T, ?> invokable = new TypeToken<T>(getClass()) {}.method(failMethod);
+    ASSERT.that(invokable.getExceptionTypes()).hasContentsInOrder(TypeToken.of(AssertionError.class));
+  }
+
+  public void testConstructor_notDeclaredByType() throws NoSuchMethodException {
+    Constructor<String> constructor = String.class.getConstructor();
+    try {
+      TypeToken.of(Object.class).constructor(constructor);
+      fail();
+    } catch (IllegalArgumentException expected) {}
+  }
+
+  public void testConstructor_declaredBySuperclass() throws NoSuchMethodException {
+    Constructor<Object> constructor = Object.class.getConstructor();
+    try {
+      TypeToken.of(String.class).constructor(constructor);
+      fail();
+    } catch (IllegalArgumentException expected) {}
+  }
+
+  private static class Container<T> {
+    @SuppressWarnings("unused")
+    public Container(T data) {}
+  }
+
+  public <T extends Container<String>> void testConstructor_parameterTypes()
+      throws NoSuchMethodException {
+    @SuppressWarnings("rawtypes") // Reflection API skew
+    Constructor<Container> constructor = Container.class.getConstructor(Object.class);
+    Invokable<T, ?> invokable = new TypeToken<T>(getClass()) {}.constructor(constructor);
+    ImmutableList<Parameter> params = invokable.getParameters();
+    assertEquals(1, params.size());
+    assertEquals(TypeToken.of(String.class), params.get(0).getType());
+  }
+
+  private static class CannotConstruct<E extends Throwable> {
+    @SuppressWarnings("unused")
+    public CannotConstruct() throws E {}
+  }
+
+  public <T extends CannotConstruct<AssertionError>> void testConstructor_exceptionTypes()
+      throws NoSuchMethodException {
+    @SuppressWarnings("rawtypes") // Reflection API skew
+    Constructor<CannotConstruct> constructor = CannotConstruct.class.getConstructor();
+    Invokable<T, ?> invokable = new TypeToken<T>(getClass()) {}.constructor(constructor);
+    ASSERT.that(invokable.getExceptionTypes())
+        .hasContentsInOrder(TypeToken.of(AssertionError.class));
   }
 
   private abstract static class RawTypeConsistencyTester<T extends Enum<T> & CharSequence> {

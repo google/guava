@@ -32,7 +32,9 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Ordering;
 
 import java.io.Serializable;
+import java.lang.reflect.Constructor;
 import java.lang.reflect.GenericArrayType;
+import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
@@ -266,6 +268,13 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
     return of(resolver.resolveType(type));
   }
 
+  private Type[] resolveInPlace(Type[] types) {
+    for (int i = 0; i < types.length; i++) {
+      types[i] = resolveType(types[i]).getType();
+    }
+    return types;
+  }
+
   private TypeToken<?> resolveSupertype(Type type) {
     TypeToken<?> supertype = resolveType(type);
     // super types' type mapping is a subset of type mapping of this type.
@@ -445,6 +454,48 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
       return null;
     }
     return of(componentType);
+  }
+
+  /**
+   * Returns the {@link Invokable} for {@code method}, which must be a member of {@code T}.
+   *
+   * @since 14.0
+   */
+  public final Invokable<T, Object> method(Method method) {
+    checkArgument(of(method.getDeclaringClass()).isAssignableFrom(this),
+        "%s not declared by %s", method, this);
+    return new Invokable.MethodInvokable<T>(method) {
+      @Override Type getGenericReturnType() {
+        return resolveType(super.getGenericReturnType()).getType();
+      }
+      @Override Type[] getGenericParameterTypes() {
+        return resolveInPlace(super.getGenericParameterTypes());
+      }
+      @Override Type[] getGenericExceptionTypes() {
+        return resolveInPlace(super.getGenericExceptionTypes());
+      }
+    };
+  }
+
+  /**
+   * Returns the {@link Invokable} for {@code constructor}, which must be a member of {@code T}.
+   *
+   * @since 14.0
+   */
+  public final Invokable<T, T> constructor(Constructor<?> constructor) {
+    checkArgument(constructor.getDeclaringClass() == getRawType(),
+        "%s not declared by %s", constructor, getRawType());
+    return new Invokable.ConstructorInvokable<T>(constructor) {
+      @Override Type getGenericReturnType() {
+        return resolveType(super.getGenericReturnType()).getType();
+      }
+      @Override Type[] getGenericParameterTypes() {
+        return resolveInPlace(super.getGenericParameterTypes());
+      }
+      @Override Type[] getGenericExceptionTypes() {
+        return resolveInPlace(super.getGenericExceptionTypes());
+      }
+    };
   }
 
   /**

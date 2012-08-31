@@ -69,7 +69,7 @@ class Element extends AccessibleObject implements Member {
     return accessibleObject.isAccessible();
   }
 
-  @Override public final Class<?> getDeclaringClass() {
+  @Override public Class<?> getDeclaringClass() {
     return member.getDeclaringClass();
   }
 

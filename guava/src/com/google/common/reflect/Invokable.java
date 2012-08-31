@@ -53,13 +53,8 @@ public abstract class Invokable<T, R> extends Element implements GenericDeclarat
     super(member);
   }
 
-  /**
-   * Returns {@link Invokable} of {@code method}. Note that even though the returned type is
-   * {@code Invokable<Object, Object>}, it's not statically type safe to pass any arbitrary {@code
-   * Object} to the {@link #invoke} method. Runtime type check will be performed by the underlying
-   * {@code method}.
-   */
-  public static Invokable<Object, Object> from(Method method) {
+  /** Returns {@link Invokable} of {@code method}. */
+  public static Invokable<?, Object> from(Method method) {
     return new MethodInvokable<Object>(method);
   }
 
@@ -102,12 +97,12 @@ public abstract class Invokable<T, R> extends Element implements GenericDeclarat
   }
 
   /** Returns all declared parameters of this delegate. */
-  public final ImmutableList<Parameter<?>> getParameters() {
+  public final ImmutableList<Parameter> getParameters() {
     Type[] parameterTypes = getGenericParameterTypes();
     Annotation[][] annotations = getParameterAnnotations();
-    ImmutableList.Builder<Parameter<?>> builder = ImmutableList.builder();
+    ImmutableList.Builder<Parameter> builder = ImmutableList.builder();
     for (int i = 0; i < parameterTypes.length; i++) {
-      builder.add(new Parameter<Object>(
+      builder.add(new Parameter(
           this, i, TypeToken.of(parameterTypes[i]), annotations[i]));
     }
     return builder.build();
@@ -148,6 +143,11 @@ public abstract class Invokable<T, R> extends Element implements GenericDeclarat
     return specialized;
   }
 
+  @SuppressWarnings("unchecked") // The declaring class is T's raw class, or one of its supertypes.
+  @Override public final Class<? super T> getDeclaringClass() {
+    return (Class<? super T>) super.getDeclaringClass();
+  }
+
   abstract Object invokeInternal(Object receiver, Object[] args)
       throws InvocationTargetException, IllegalAccessException;
 
@@ -160,7 +160,7 @@ public abstract class Invokable<T, R> extends Element implements GenericDeclarat
 
   abstract Type getGenericReturnType();
   
-  private static class MethodInvokable<T> extends Invokable<T, Object> {
+  static class MethodInvokable<T> extends Invokable<T, Object> {
 
     private final Method method;
 
@@ -169,7 +169,7 @@ public abstract class Invokable<T, R> extends Element implements GenericDeclarat
       this.method = method;
     }
 
-    @Override Object invokeInternal(Object receiver, Object[] args)
+    @Override final Object invokeInternal(Object receiver, Object[] args)
         throws InvocationTargetException, IllegalAccessException {
       return method.invoke(receiver, args);
     }
@@ -186,7 +186,7 @@ public abstract class Invokable<T, R> extends Element implements GenericDeclarat
       return method.getGenericExceptionTypes();
     }
 
-    @Override Annotation[][] getParameterAnnotations() {
+    @Override final Annotation[][] getParameterAnnotations() {
       return method.getParameterAnnotations();
     }
 
@@ -200,7 +200,7 @@ public abstract class Invokable<T, R> extends Element implements GenericDeclarat
     }
   }
 
-  private static class ConstructorInvokable<T> extends Invokable<T, T> {
+  static class ConstructorInvokable<T> extends Invokable<T, T> {
 
     private final Constructor<?> constructor;
 
@@ -209,7 +209,7 @@ public abstract class Invokable<T, R> extends Element implements GenericDeclarat
       this.constructor = constructor;
     }
 
-    @Override Object invokeInternal(Object receiver, Object[] args)
+    @Override final Object invokeInternal(Object receiver, Object[] args)
         throws InvocationTargetException, IllegalAccessException {
       try {
         return constructor.newInstance(args);
@@ -230,7 +230,7 @@ public abstract class Invokable<T, R> extends Element implements GenericDeclarat
       return constructor.getGenericExceptionTypes();
     }
 
-    @Override Annotation[][] getParameterAnnotations() {
+    @Override final Annotation[][] getParameterAnnotations() {
       return constructor.getParameterAnnotations();
     }
 

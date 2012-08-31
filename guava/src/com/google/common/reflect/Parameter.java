@@ -32,17 +32,17 @@ import javax.annotation.Nullable;
  * @since 14.0
  */
 @Beta
-public final class Parameter<T> implements AnnotatedElement {
+public final class Parameter implements AnnotatedElement {
 
   private final Invokable<?, ?> declaration;
   private final int position;
-  private final TypeToken<? extends T> type;
+  private final TypeToken<?> type;
   private final ImmutableList<Annotation> annotations;
 
   Parameter(
       Invokable<?, ?> declaration,
       int position,
-      TypeToken<? extends T> type,
+      TypeToken<?> type,
       Annotation[] annotations) {
     this.declaration = declaration;
     this.position = position;
@@ -51,7 +51,7 @@ public final class Parameter<T> implements AnnotatedElement {
   }
 
   /** Returns the type of the parameter. */
-  public TypeToken<? extends T> getType() {
+  public TypeToken<?> getType() {
     return type;
   }
 
@@ -80,7 +80,7 @@ public final class Parameter<T> implements AnnotatedElement {
 
   @Override public boolean equals(Object obj) {
     if (obj instanceof Parameter) {
-      Parameter<?> that = (Parameter<?>) obj;
+      Parameter that = (Parameter) obj;
       return position == that.position && declaration.equals(that.declaration);
     }
     return false;
