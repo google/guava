@@ -171,8 +171,11 @@ public class Helpers {
       final Comparator<? super K> keyComparator) {
     return new Comparator<Entry<K, V>>() {
       @Override
+      @SuppressWarnings("unchecked") // no less safe than putting it in the map!
       public int compare(Entry<K, V> a, Entry<K, V> b) {
-        return keyComparator.compare(a.getKey(), b.getKey());
+        return (keyComparator == null)
+            ? ((Comparable) a.getKey()).compareTo(b.getKey())
+            : keyComparator.compare(a.getKey(), b.getKey());
       }
     };
   }

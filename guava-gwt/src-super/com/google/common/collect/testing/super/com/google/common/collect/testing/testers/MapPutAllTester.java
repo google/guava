@@ -24,14 +24,11 @@ import static com.google.common.collect.testing.features.MapFeature.SUPPORTS_PUT
 import static java.util.Collections.singletonList;
 
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.testing.AbstractMapTester;
-import com.google.common.collect.testing.Helpers;
 import com.google.common.collect.testing.MinimalCollection;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.MapFeature;
 
-import java.lang.reflect.Method;
 import java.util.Collections;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
@@ -198,16 +195,5 @@ public class MapPutAllTester<K, V> extends AbstractMapTester<K, V> {
     }
     getMap().putAll(map);
   }
-
-  /**
-   * Returns the {@link Method} instance for {@link
-   * #testPutAll_nullKeyUnsupported()} so that tests can suppress it with {@code
-   * FeatureSpecificTestSuiteBuilder.suppressing()} until <a
-   * href="http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=5045147">Sun
-   * bug 5045147</a> is fixed.
-   */
-  @GwtIncompatible("reflection")
-  public static Method getPutAllNullKeyUnsupportedMethod() {
-    return Helpers.getMethod(MapPutAllTester.class, "testPutAll_nullKeyUnsupported");
-  }
 }
+

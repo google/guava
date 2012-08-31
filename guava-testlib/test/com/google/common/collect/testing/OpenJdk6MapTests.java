@@ -16,9 +16,17 @@
 
 package com.google.common.collect.testing;
 
+import static com.google.common.collect.testing.testers.CollectionCreationTester.getCreateWithNullUnsupportedMethod;
+import static com.google.common.collect.testing.testers.MapCreationTester.getCreateWithNullKeyUnsupportedMethod;
+import static com.google.common.collect.testing.testers.MapPutAllTester.getPutAllNullKeyUnsupportedMethod;
+import static com.google.common.collect.testing.testers.MapPutTester.getPutNullKeyUnsupportedMethod;
+
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
+import java.lang.reflect.Method;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.Map;
 
 /**
@@ -30,6 +38,14 @@ import java.util.Map;
 public class OpenJdk6MapTests extends TestsForMapsInJavaUtil {
   public static Test suite() {
     return new OpenJdk6MapTests().allTests();
+  }
+
+  @Override protected Collection<Method> suppressForTreeMapNatural() {
+    return Arrays.asList(
+        getPutNullKeyUnsupportedMethod(),
+        getPutAllNullKeyUnsupportedMethod(),
+        getCreateWithNullKeyUnsupportedMethod(),
+        getCreateWithNullUnsupportedMethod()); // for keySet
   }
 
   @Override public Test testsForEnumMap() {
