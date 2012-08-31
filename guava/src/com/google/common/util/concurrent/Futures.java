@@ -21,8 +21,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.util.concurrent.MoreExecutors.sameThreadExecutor;
 import static com.google.common.util.concurrent.Uninterruptibles.getUninterruptibly;
-import static com.google.common.util.concurrent.Uninterruptibles.putUninterruptibly;
-import static com.google.common.util.concurrent.Uninterruptibles.takeUninterruptibly;
 import static java.lang.Thread.currentThread;
 import static java.util.Arrays.asList;
 
@@ -41,13 +39,11 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.UndeclaredThrowableException;
 import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Future;
-import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -294,6 +290,69 @@ public final class Futures {
       immediateFailedCheckedFuture(X exception) {
     checkNotNull(exception);
     return new ImmediateFailedCheckedFuture<V, X>(exception);
+  }
+
+  /**
+   * A future that falls back on a second, generated future, in case its
+   * original future fails.
+   */
+  private static class FallbackFuture<V> extends AbstractFuture<V> {
+
+    private volatile ListenableFuture<? extends V> running;
+
+    FallbackFuture(ListenableFuture<? extends V> input,
+        final FutureFallback<? extends V> fallback,
+        final Executor executor) {
+      running = input;
+      addCallback(running, new FutureCallback<V>() {
+        @Override
+        public void onSuccess(V value) {
+          set(value);
+        }
+
+        @Override
+        public void onFailure(Throwable t) {
+          if (isCancelled()) {
+            return;
+          }
+          try {
+            running = fallback.create(t);
+            if (isCancelled()) { // in case cancel called in the meantime
+              running.cancel(wasInterrupted());
+              return;
+            }
+            addCallback(running, new FutureCallback<V>() {
+              @Override
+              public void onSuccess(V value) {
+                set(value);
+              }
+
+              @Override
+              public void onFailure(Throwable t) {
+                if (running.isCancelled()) {
+                  cancel(false);
+                } else {
+                  setException(t);
+                }
+              }
+            }, sameThreadExecutor());
+          } catch (Exception e) {
+            setException(e);
+          } catch (Error e) {
+            setException(e); // note: rethrows
+          }
+        }
+      }, executor);
+    }
+
+    @Override
+    public boolean cancel(boolean mayInterruptIfRunning) {
+      if (super.cancel(mayInterruptIfRunning)) {
+        running.cancel(mayInterruptIfRunning);
+        return true;
+      }
+      return false;
+    }
   }
 
   /**
@@ -598,8 +657,6 @@ public final class Futures {
     private AsyncFunction<? super I, ? extends O> function;
     private ListenableFuture<? extends I> inputFuture;
     private volatile ListenableFuture<? extends O> outputFuture;
-    private final BlockingQueue<Boolean> mayInterruptIfRunningChannel =
-        new LinkedBlockingQueue<Boolean>(1);
     private final CountDownLatch outputCreated = new CountDownLatch(1);
 
     private ChainingListenableFuture(
@@ -618,7 +675,6 @@ public final class Futures {
       if (super.cancel(mayInterruptIfRunning)) {
         // This should never block since only one thread is allowed to cancel
         // this Future.
-        putUninterruptibly(mayInterruptIfRunningChannel, mayInterruptIfRunning);
         cancel(inputFuture, mayInterruptIfRunning);
         cancel(outputFuture, mayInterruptIfRunning);
         return true;
@@ -654,13 +710,7 @@ public final class Futures {
         final ListenableFuture<? extends O> outputFuture = this.outputFuture =
             function.apply(sourceResult);
         if (isCancelled()) {
-          // Handles the case where cancel was called while the function was
-          // being applied.
-          // There is a gap in cancel(boolean) between calling sync.cancel()
-          // and storing the value of mayInterruptIfRunning, so this thread
-          // needs to block, waiting for that value.
-          outputFuture.cancel(
-              takeUninterruptibly(mayInterruptIfRunningChannel));
+          outputFuture.cancel(wasInterrupted());
           this.outputFuture = null;
           return;
         }
@@ -752,8 +802,8 @@ public final class Futures {
    *
    * <p>The list of results is in the same order as the input list.
    *
-   * <p>Canceling this future does not cancel any of the component futures;
-   * however, if any of the provided futures fails or is canceled, this one is,
+   * <p>Canceling this future will attempt to cancel all the component futures,
+   * and if any of the provided futures fails or is canceled, this one is,
    * too.
    *
    * @param futures futures to combine
@@ -775,8 +825,8 @@ public final class Futures {
    *
    * <p>The list of results is in the same order as the input list.
    *
-   * <p>Canceling this future does not cancel any of the component futures;
-   * however, if any of the provided futures fails or is canceled, this one is,
+   * <p>Canceling this future will attempt to cancel all the component futures,
+   * and if any of the provided futures fails or is canceled, this one is,
    * too.
    *
    * @param futures futures to combine
@@ -799,6 +849,8 @@ public final class Futures {
    * indistinguishable from the future having a successful value of
    * {@code null}).
    *
+   * <p>Canceling this future will attempt to cancel all the component futures.
+   *
    * @param futures futures to combine
    * @return a future that provides a list of the results of the component
    *         futures
@@ -818,6 +870,8 @@ public final class Futures {
    * is canceled, its corresponding position will contain {@code null} (which is
    * indistinguishable from the future having a successful value of
    * {@code null}).
+   *
+   * <p>Canceling this future will attempt to cancel all the component futures.
    *
    * @param futures futures to combine
    * @return a future that provides a list of the results of the component
@@ -1258,6 +1312,13 @@ public final class Futures {
       addListener(new Runnable() {
         @Override
         public void run() {
+          // Cancel all the component futures.
+          if (CombinedFuture.this.isCancelled()) {
+            for (ListenableFuture<?> future : CombinedFuture.this.futures) {
+              future.cancel(CombinedFuture.this.wasInterrupted());
+            }
+          }
+
           // By now the values array has either been set as the Future's value,
           // or (in case of failure) is no longer useful.
           CombinedFuture.this.futures = null;

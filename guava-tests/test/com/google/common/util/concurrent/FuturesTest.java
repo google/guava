@@ -123,6 +123,27 @@ public class FuturesTest extends TestCase {
     }
   }
 
+  public void testImmediateFailedFuture_cancellationException() throws Exception {
+    CancellationException exception = new CancellationException();
+    ListenableFuture<String> future =
+        Futures.immediateFailedFuture(exception);
+
+    try {
+      future.get(0L, TimeUnit.MILLISECONDS);
+      fail("This call was supposed to throw an ExecutionException");
+    } catch (ExecutionException expected) {
+      // This is good and expected
+      assertSame(exception, expected.getCause());
+      assertFalse(future.isCancelled());
+    }
+  }
+
+  public void testImmediateCancelledFuture() throws Exception {
+    ListenableFuture<String> future =
+        Futures.immediateCancelledFuture();
+    assertTrue(future.isCancelled());
+  }
+
   private static class MyException extends Exception {}
 
   public void testImmediateCheckedFuture() throws Exception {
@@ -193,6 +214,61 @@ public class FuturesTest extends TestCase {
     };
     Bar bar = Futures.transform(future, function).get();
     assertSame(barChild, bar);
+  }
+
+  public void testTransform_ListenableFuture_cancelPropagatesToInput() throws Exception {
+    SettableFuture<Foo> input = SettableFuture.create();
+    AsyncFunction<Foo, Bar> function = new AsyncFunction<Foo, Bar>() {
+      @Override public ListenableFuture<Bar> apply(Foo unused) {
+        fail("Unexpeted call to apply.");
+        return null;
+      }
+    };
+    assertTrue(Futures.transform(input, function).cancel(false));
+    assertTrue(input.isCancelled());
+    assertFalse(input.wasInterrupted());
+  }
+
+  public void testTransform_ListenableFuture_interruptPropagatesToInput()
+      throws Exception {
+    SettableFuture<Foo> input = SettableFuture.create();
+    AsyncFunction<Foo, Bar> function = new AsyncFunction<Foo, Bar>() {
+      @Override public ListenableFuture<Bar> apply(Foo unused) {
+        fail("Unexpeted call to apply.");
+        return null;
+      }
+    };
+    assertTrue(Futures.transform(input, function).cancel(true));
+    assertTrue(input.isCancelled());
+    assertTrue(input.wasInterrupted());
+  }
+
+  public void testTransform_ListenableFuture_cancelPropagatesToAsyncOutput()
+      throws Exception {
+    ListenableFuture<Foo> immediate = Futures.immediateFuture(new Foo());
+    final SettableFuture<Bar> secondary = SettableFuture.create();
+    AsyncFunction<Foo, Bar> function = new AsyncFunction<Foo, Bar>() {
+      @Override public ListenableFuture<Bar> apply(Foo unused) {
+        return secondary;
+      }
+    };
+    assertTrue(Futures.transform(immediate, function).cancel(false));
+    assertTrue(secondary.isCancelled());
+    assertFalse(secondary.wasInterrupted());
+  }
+
+  public void testTransform_ListenableFuture_interruptPropagatesToAsyncOutput()
+      throws Exception {
+    ListenableFuture<Foo> immediate = Futures.immediateFuture(new Foo());
+    final SettableFuture<Bar> secondary = SettableFuture.create();
+    AsyncFunction<Foo, Bar> function = new AsyncFunction<Foo, Bar>() {
+      @Override public ListenableFuture<Bar> apply(Foo unused) {
+        return secondary;
+      }
+    };
+    assertTrue(Futures.transform(immediate, function).cancel(true));
+    assertTrue(secondary.isCancelled());
+    assertTrue(secondary.wasInterrupted());
   }
 
   /**
@@ -736,6 +812,36 @@ public class FuturesTest extends TestCase {
     }
   }
 
+  public void testAllAsList_resultCancelled() throws Exception {
+    SettableFuture<String> future1 = SettableFuture.create();
+    SettableFuture<String> future2 = SettableFuture.create();
+    @SuppressWarnings("unchecked") // array is never modified
+    ListenableFuture<List<String>> compound =
+        Futures.allAsList(future1, future2);
+
+    future2.set(DATA2);
+    assertFalse(compound.isDone());
+    assertTrue(compound.cancel(false));
+    assertTrue(compound.isCancelled());
+    assertTrue(future1.isCancelled());
+    assertFalse(future1.wasInterrupted());
+  }
+
+  public void testAllAsList_resultInterrupted() throws Exception {
+    SettableFuture<String> future1 = SettableFuture.create();
+    SettableFuture<String> future2 = SettableFuture.create();
+    @SuppressWarnings("unchecked") // array is never modified
+    ListenableFuture<List<String>> compound =
+        Futures.allAsList(future1, future2);
+
+    future2.set(DATA2);
+    assertFalse(compound.isDone());
+    assertTrue(compound.cancel(true));
+    assertTrue(compound.isCancelled());
+    assertTrue(future1.isCancelled());
+    assertTrue(future1.wasInterrupted());
+  }
+
   /**
    * Test the case where the futures are fulfilled prior to
    * constructing the ListFuture.  There was a bug where the
@@ -1273,6 +1379,36 @@ public class FuturesTest extends TestCase {
 
     List<String> results = compound.get();
     ASSERT.that(results).hasContentsInOrder(null, DATA2);
+  }
+
+  public void testSuccessfulAsList_resultCancelled() throws Exception {
+    SettableFuture<String> future1 = SettableFuture.create();
+    SettableFuture<String> future2 = SettableFuture.create();
+    @SuppressWarnings("unchecked") // array is never modified
+    ListenableFuture<List<String>> compound =
+        Futures.successfulAsList(future1, future2);
+
+    future2.set(DATA2);
+    assertFalse(compound.isDone());
+    assertTrue(compound.cancel(false));
+    assertTrue(compound.isCancelled());
+    assertTrue(future1.isCancelled());
+    assertFalse(future1.wasInterrupted());
+  }
+
+  public void testSuccessfulAsList_resultInterrupted() throws Exception {
+    SettableFuture<String> future1 = SettableFuture.create();
+    SettableFuture<String> future2 = SettableFuture.create();
+    @SuppressWarnings("unchecked") // array is never modified
+    ListenableFuture<List<String>> compound =
+        Futures.successfulAsList(future1, future2);
+
+    future2.set(DATA2);
+    assertFalse(compound.isDone());
+    assertTrue(compound.cancel(true));
+    assertTrue(compound.isCancelled());
+    assertTrue(future1.isCancelled());
+    assertTrue(future1.wasInterrupted());
   }
 
   public void testSuccessfulAsList_mixed() throws Exception {
