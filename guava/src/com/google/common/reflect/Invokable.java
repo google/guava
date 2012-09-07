@@ -214,7 +214,7 @@ public abstract class Invokable<T, R> extends Element implements GenericDeclarat
       try {
         return constructor.newInstance(args);
       } catch (InstantiationException e) {
-        throw new RuntimeException(e);
+        throw new RuntimeException(constructor + " failed.", e);
       }
     }
 

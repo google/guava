@@ -16,15 +16,15 @@
 
 package com.google.common.testing;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import com.google.common.annotations.Beta;
 import com.google.common.base.Objects;
-import com.google.common.base.Preconditions;
 import com.google.common.collect.ClassToInstanceMap;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.MutableClassToInstanceMap;
-import com.google.common.reflect.AbstractInvocationHandler;
 import com.google.common.reflect.Invokable;
 import com.google.common.reflect.Parameter;
 import com.google.common.reflect.Reflection;
@@ -39,11 +39,9 @@ import java.lang.reflect.Member;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Proxy;
 import java.lang.reflect.Type;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Set;
 import java.util.concurrent.ConcurrentMap;
 
 import javax.annotation.Nullable;
@@ -77,7 +75,7 @@ public final class NullPointerTester {
    * {@code type}. Returns this object.
    */
   public <T> NullPointerTester setDefault(Class<T> type, T value) {
-    defaults.put(type, value);
+    defaults.put(type, checkNotNull(value));
     return this;
   }
 
@@ -87,7 +85,7 @@ public final class NullPointerTester {
    * @since 13.0
    */
   public NullPointerTester ignore(Method method) {
-    ignoredMembers.add(method);
+    ignoredMembers.add(checkNotNull(method));
     return this;
   }
 
@@ -164,7 +162,7 @@ public final class NullPointerTester {
    * @param instance the instance to invoke {@code method} on, or null if
    *     {@code method} is static
    */
-  public void testMethod(Object instance, Method method) {
+  public void testMethod(@Nullable Object instance, Method method) {
     Class<?>[] types = method.getParameterTypes();
     for (int nullIndex = 0; nullIndex < types.length; nullIndex++) {
       testMethodParameter(instance, method, nullIndex);
@@ -353,7 +351,8 @@ public final class NullPointerTester {
       if (i != indexOfParamToSetToNull) {
         args[i] = getDefaultValue(param.getType());
         if (!isPrimitiveOrNullable(param)) {
-          Assert.assertTrue("No default value found for " + param, args[i] != null);
+          Assert.assertTrue("No default value found for " + param + " of "+ invokable,
+              args[i] != null);
         }
       }
     }
@@ -400,30 +399,12 @@ public final class NullPointerTester {
     }
   }
 
-  @SuppressWarnings("unchecked") // T implemented with dynamic proxy.
   private <T> T newDefaultReturningProxy(final TypeToken<T> type) {
-    Set<Class<? super T>> interfaceClasses =
-        type.getTypes().interfaces().rawTypes();
-    return (T) Proxy.newProxyInstance(
-        interfaceClasses.iterator().next().getClassLoader(),
-        interfaceClasses.toArray(new Class<?>[interfaceClasses.size()]),
-        new AbstractInvocationHandler() {
-          @Override protected Object handleInvocation(
-              Object proxy, Method method, Object[] args) {
-            Invokable<?, ?> invokable = invokable(proxy, method);
-            ImmutableList<Parameter> params = invokable.getParameters();
-            for (int i = 0; i < args.length; i++) {
-              if (!isPrimitiveOrNullable(params.get(i))) {
-                Preconditions.checkNotNull(args[i]);
-              }
-            }
-            return getDefaultValue(
-                type.resolveType(method.getGenericReturnType()));
-          }
-          @Override public String toString() {
-            return "NullPointerTester proxy for " + type;
-          }
-        });
+    return new DummyProxy() {
+      @Override <R> R dummyReturnValue(TypeToken<R> returnType) {
+        return getDefaultValue(returnType);
+      }
+    }.newProxy(type);
   }
 
   private static Invokable<?, ?> invokable(@Nullable Object instance, Method method) {

@@ -17,6 +17,7 @@
 package com.google.common.testing;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.fail;
 
@@ -104,6 +105,7 @@ public final class ForwardingWrapperTester {
    */
   public <T> void testForwarding(
       Class<T> interfaceType, Function<? super T, ? extends T> wrapperFunction) {
+    checkNotNull(wrapperFunction);
     checkArgument(interfaceType.isInterface(), "%s isn't an interface", interfaceType);
     Method[] methods = getMostConcreteMethods(interfaceType);
     AccessibleObject.setAccessible(methods, true);

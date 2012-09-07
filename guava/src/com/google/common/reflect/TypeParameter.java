@@ -24,6 +24,8 @@ import com.google.common.annotations.Beta;
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
 
+import javax.annotation.Nullable;
+
 /**
  * Captures a free type variable that can be used in {@link TypeToken#where}.
  * For example: <pre>   {@code
@@ -56,7 +58,7 @@ public abstract class TypeParameter<T> extends TypeCapture<T> {
     return typeVariable.hashCode();
   }
 
-  @Override public final boolean equals(Object o) {
+  @Override public final boolean equals(@Nullable Object o) {
     if (o instanceof TypeParameter) {
       TypeParameter<?> that = (TypeParameter<?>) o;
       return typeVariable.equals(that.typeVariable);

@@ -86,7 +86,7 @@ class TypeResolver {
    */
   public final TypeResolver where(Type formal, Type actual) {
     Map<TypeVariable<?>, Type> mappings = Maps.newHashMap();
-    populateTypeMappings(mappings, formal, actual);
+    populateTypeMappings(mappings, checkNotNull(formal), checkNotNull(actual));
     return where(mappings);
   }
 
@@ -152,6 +152,7 @@ class TypeResolver {
    * returns a corresponding type with type variables resolved.
    */
   public final Type resolveType(Type type) {
+    checkNotNull(type);
     if (type instanceof TypeVariable) {
       return resolveTypeVariable((TypeVariable<?>) type);
     } else if (type instanceof ParameterizedType) {

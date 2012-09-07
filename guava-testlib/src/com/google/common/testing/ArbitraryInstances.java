@@ -126,9 +126,12 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.ConcurrentNavigableMap;
 import java.util.concurrent.ConcurrentSkipListMap;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.Executor;
 import java.util.concurrent.LinkedBlockingDeque;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.ThreadFactory;
+import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -299,17 +302,21 @@ public final class ArbitraryInstances {
 
   static {
     setImplementation(Appendable.class, StringBuilder.class);
-    setImplementation(Queue.class, ArrayDeque.class);
-    setImplementation(Deque.class, ArrayDeque.class);
     setImplementation(BlockingQueue.class, LinkedBlockingDeque.class);
     setImplementation(BlockingDeque.class, LinkedBlockingDeque.class);
     setImplementation(ConcurrentMap.class, ConcurrentHashMap.class);
     setImplementation(ConcurrentNavigableMap.class, ConcurrentSkipListMap.class);
+    setImplementation(CountDownLatch.class, Mutable.DummyCountDownLatch.class);
+    setImplementation(Deque.class, ArrayDeque.class);
     setImplementation(OutputStream.class, ByteArrayOutputStream.class);
-    setImplementation(Writer.class, StringWriter.class);
     setImplementation(PrintStream.class, Mutable.InMemoryPrintStream.class);
     setImplementation(PrintWriter.class, Mutable.InMemoryPrintWriter.class);
+    setImplementation(Queue.class, ArrayDeque.class);
     setImplementation(Random.class, Mutable.DeterministicRandom.class);
+    setImplementation(ScheduledThreadPoolExecutor.class,
+        Mutable.DummyScheduledThreadPoolExecutor.class);
+    setImplementation(ThreadPoolExecutor.class, Mutable.DummyScheduledThreadPoolExecutor.class);
+    setImplementation(Writer.class, StringWriter.class);
   }
 
   @SuppressWarnings("unchecked") // it's a subtype map
@@ -391,6 +398,18 @@ public final class ArbitraryInstances {
     public static final class DeterministicRandom extends Random {
       @SuppressWarnings("unused") // invoked by reflection
       public DeterministicRandom() {
+        super(0);
+      }
+    }
+
+    public static final class DummyScheduledThreadPoolExecutor extends ScheduledThreadPoolExecutor {
+      public DummyScheduledThreadPoolExecutor() {
+        super(1);
+      }
+    }
+
+    public static final class DummyCountDownLatch extends CountDownLatch {
+      public DummyCountDownLatch() {
         super(0);
       }
     }
