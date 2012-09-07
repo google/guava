@@ -20,6 +20,7 @@ import com.google.common.annotations.Beta;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
+import java.lang.reflect.Proxy;
 
 import javax.annotation.Nullable;
 
@@ -37,10 +38,17 @@ public abstract class AbstractInvocationHandler implements InvocationHandler {
 
   /**
    * {@inheritDoc}
-   * 
-   * <p>{@link Object#equals}, {@link Object#hashCode} are implemented according to referential
-   * equality (the default behavior of {@link Object}). {@link Object#toString} delegates to
-   * {@link #toString} that can be overridden by subclasses.
+   *
+   * <p><ul>
+   * <li>{@code proxy.hashCode()} delegates to {@link AbstractInvocationHandler#hashCode}
+   * <li>{@code proxy.toString()} delegates to {@link AbstractInvocationHandler#toString}
+   * <li>{@code proxy.equals(argument)} returns true if: <ul>
+   *   <li>{@code proxy} and {@code argument} are of the same type
+   *   <li>and {@link AbstractInvocationHandler#equals} returns true for the {@link
+   *       InvocationHandler} of {@code argument}
+   *   </ul>
+   * <li>other method calls are dispatched to {@link #handleInvocation}.
+   * </ul>
    */
   @Override public final Object invoke(Object proxy, Method method, @Nullable Object[] args)
       throws Throwable {
@@ -48,12 +56,13 @@ public abstract class AbstractInvocationHandler implements InvocationHandler {
       args = NO_ARGS;
     }
     if (args.length == 0 && method.getName().equals("hashCode")) {
-      return System.identityHashCode(proxy);
+      return hashCode();
     }
     if (args.length == 1
         && method.getName().equals("equals")
         && method.getParameterTypes()[0] == Object.class) {
-      return proxy == args[0];
+      Object arg = args[0];
+      return proxy.getClass().isInstance(arg) && equals(Proxy.getInvocationHandler(arg));
     }
     if (args.length == 0 && method.getName().equals("toString")) {
       return toString();
@@ -73,8 +82,29 @@ public abstract class AbstractInvocationHandler implements InvocationHandler {
       throws Throwable;
 
   /**
-   * The dynamic proxies' {@link Object#toString} will delegate to this method. Subclasses can
-   * override this to provide custom string representation of the proxies.
+   * By default delegates to {@link Object#equals} so instances are only equal if they are
+   * identical. {@code proxy.equals(argument)} returns true if: <ul>
+   * <li>{@code proxy} and {@code argument} are of the same type
+   * <li>and this method returns true for the {@link InvocationHandler} of {@code argument}
+   * </ul>
+   * Subclasses can override this method to provide custom equality.
+   */
+  @Override public boolean equals(Object obj) {
+    return super.equals(obj);
+  }
+
+  /**
+   * By default delegates to {@link Object#hashCode}. The dynamic proxies' {@code hashCode()} will
+   * delegate to this method. Subclasses can override this method to provide custom equality.
+   */
+  @Override public int hashCode() {
+    return super.hashCode();
+  }
+
+  /**
+   * By default delegates to {@link Object#toString}. The dynamic proxies' {@code toString()} will
+   * delegate to this method. Subclasses can override this method to provide custom string
+   * representation for the proxies.
    */
   @Override public String toString() {
     return super.toString();
