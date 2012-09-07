@@ -33,6 +33,8 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.locks.ReadWriteLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -110,12 +112,12 @@ public class EventBus {
   /**
    * All registered event handlers, indexed by event type.
    *
-   * <p>This SetMultimap is NOT safe for concurrent use; all usage should be
-   * synchronized on itself and neither itself nor any views provided by the
-   * SetMultimap interface should be exposed to subclasses or clients.
+   * <p>This SetMultimap is NOT safe for concurrent use; all access should be
+   * made after acquiring a read or write lock via {@link #handlersByTypeLock}.
    */
   private final SetMultimap<Class<?>, EventHandler> handlersByType =
       HashMultimap.create();
+  private final ReadWriteLock handlersByTypeLock = new ReentrantReadWriteLock();
 
   /**
    * Logger for event dispatch failures.  Named by the fully-qualified name of
@@ -189,8 +191,11 @@ public class EventBus {
   public void register(Object object) {
     Multimap<Class<?>, EventHandler> methodsInListener =
         finder.findAllHandlers(object);
-    synchronized (handlersByType) {
+    handlersByTypeLock.writeLock().lock();
+    try {
       handlersByType.putAll(methodsInListener);
+    } finally {
+      handlersByTypeLock.writeLock().unlock();
     }
   }
 
@@ -205,13 +210,16 @@ public class EventBus {
     for (Entry<Class<?>, Collection<EventHandler>> entry : methodsInListener.asMap().entrySet()) {
       Collection<EventHandler> eventMethodsInListener = entry.getValue();
 
-      synchronized (handlersByType) {
+      handlersByTypeLock.writeLock().lock();
+      try {
         Set<EventHandler> currentHandlers = handlersByType.get(entry.getKey());
         if (!currentHandlers.containsAll(entry.getValue())) {
           throw new IllegalArgumentException(
               "missing event handler for an annotated method. Is " + object + " registered?");
         }
         currentHandlers.removeAll(eventMethodsInListener);
+      } finally {
+        handlersByTypeLock.writeLock().unlock();
       }
     }
   }
@@ -233,7 +241,8 @@ public class EventBus {
 
     boolean dispatched = false;
     for (Class<?> eventType : dispatchTypes) {
-      synchronized (handlersByType) {
+      handlersByTypeLock.readLock().lock();
+      try {
         Set<EventHandler> wrappers = handlersByType.get(eventType);
 
         if (!wrappers.isEmpty()) {
@@ -242,6 +251,8 @@ public class EventBus {
             enqueueEvent(event, wrapper);
           }
         }
+      } finally {
+        handlersByTypeLock.readLock().unlock();
       }
     }
 
