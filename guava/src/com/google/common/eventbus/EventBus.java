@@ -18,13 +18,12 @@ package com.google.common.eventbus;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.VisibleForTesting;
-import com.google.common.base.Supplier;
 import com.google.common.base.Throwables;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
+import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
-import com.google.common.collect.Multimaps;
 import com.google.common.collect.SetMultimap;
 import com.google.common.reflect.TypeToken;
 
@@ -32,9 +31,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
 import java.util.Map.Entry;
 import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
-import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.concurrent.ExecutionException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -112,15 +109,13 @@ public class EventBus {
 
   /**
    * All registered event handlers, indexed by event type.
+   *
+   * <p>This SetMultimap is NOT safe for concurrent use; all usage should be
+   * synchronized on itself and neither itself nor any views provided by the
+   * SetMultimap interface should be exposed to subclasses or clients.
    */
   private final SetMultimap<Class<?>, EventHandler> handlersByType =
-      Multimaps.newSetMultimap(new ConcurrentHashMap<Class<?>, Collection<EventHandler>>(),
-          new Supplier<Set<EventHandler>>() {
-            @Override
-            public Set<EventHandler> get() {
-              return newHandlerSet();
-            }
-          });
+      HashMultimap.create();
 
   /**
    * Logger for event dispatch failures.  Named by the fully-qualified name of
@@ -192,7 +187,11 @@ public class EventBus {
    * @param object  object whose handler methods should be registered.
    */
   public void register(Object object) {
-    handlersByType.putAll(finder.findAllHandlers(object));
+    Multimap<Class<?>, EventHandler> methodsInListener =
+        finder.findAllHandlers(object);
+    synchronized (handlersByType) {
+      handlersByType.putAll(methodsInListener);
+    }
   }
 
   /**
@@ -204,14 +203,16 @@ public class EventBus {
   public void unregister(Object object) {
     Multimap<Class<?>, EventHandler> methodsInListener = finder.findAllHandlers(object);
     for (Entry<Class<?>, Collection<EventHandler>> entry : methodsInListener.asMap().entrySet()) {
-      Set<EventHandler> currentHandlers = getHandlersForEventType(entry.getKey());
       Collection<EventHandler> eventMethodsInListener = entry.getValue();
-      
-      if (currentHandlers == null || !currentHandlers.containsAll(entry.getValue())) {
-        throw new IllegalArgumentException(
-            "missing event handler for an annotated method. Is " + object + " registered?");
+
+      synchronized (handlersByType) {
+        Set<EventHandler> currentHandlers = handlersByType.get(entry.getKey());
+        if (!currentHandlers.containsAll(entry.getValue())) {
+          throw new IllegalArgumentException(
+              "missing event handler for an annotated method. Is " + object + " registered?");
+        }
+        currentHandlers.removeAll(eventMethodsInListener);
       }
-      currentHandlers.removeAll(eventMethodsInListener);
     }
   }
 
@@ -232,12 +233,14 @@ public class EventBus {
 
     boolean dispatched = false;
     for (Class<?> eventType : dispatchTypes) {
-      Set<EventHandler> wrappers = getHandlersForEventType(eventType);
+      synchronized (handlersByType) {
+        Set<EventHandler> wrappers = handlersByType.get(eventType);
 
-      if (wrappers != null && !wrappers.isEmpty()) {
-        dispatched = true;
-        for (EventHandler wrapper : wrappers) {
-          enqueueEvent(event, wrapper);
+        if (!wrappers.isEmpty()) {
+          dispatched = true;
+          for (EventHandler wrapper : wrappers) {
+            enqueueEvent(event, wrapper);
+          }
         }
       }
     }
@@ -300,29 +303,6 @@ public class EventBus {
       logger.log(Level.SEVERE,
           "Could not dispatch event: " + event + " to handler " + wrapper, e);
     }
-  }
-
-  /**
-   * Retrieves a mutable set of the currently registered handlers for
-   * {@code type}.  If no handlers are currently registered for {@code type},
-   * this method may either return {@code null} or an empty set.
-   *
-   * @param type  type of handlers to retrieve.
-   * @return currently registered handlers, or {@code null}.
-   */
-  Set<EventHandler> getHandlersForEventType(Class<?> type) {
-    return handlersByType.get(type);
-  }
-
-  /**
-   * Creates a new Set for insertion into the handler map.  This is provided
-   * as an override point for subclasses. The returned set should support
-   * concurrent access.
-   *
-   * @return a new, mutable set for handlers.
-   */
-  Set<EventHandler> newHandlerSet() {
-    return new CopyOnWriteArraySet<EventHandler>();
   }
 
   /**
