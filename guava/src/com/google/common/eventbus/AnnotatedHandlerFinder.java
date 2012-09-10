@@ -16,9 +16,15 @@
 
 package com.google.common.eventbus;
 
+import com.google.common.base.Throwables;
+import com.google.common.cache.CacheBuilder;
+import com.google.common.cache.CacheLoader;
+import com.google.common.cache.LoadingCache;
 import com.google.common.collect.HashMultimap;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Multimap;
 import com.google.common.reflect.TypeToken;
+import com.google.common.util.concurrent.UncheckedExecutionException;
 
 import java.lang.reflect.Method;
 import java.util.Set;
@@ -32,6 +38,22 @@ import java.util.Set;
  */
 class AnnotatedHandlerFinder implements HandlerFindingStrategy {
   /**
+   * A thread-safe cache that contains the mapping from each class to all methods in that class and
+   * all super-classes, that are annotated with {@code @Subscribe}. The cache is shared across all
+   * instances of this class; this greatly improves performance if multiple EventBus instances are
+   * created and objects of the same class are registered on all of them.
+   */
+  private static final LoadingCache<Class<?>, ImmutableList<Method>> handlerMethodsCache =
+      CacheBuilder.newBuilder()
+          .weakKeys()
+          .build(new CacheLoader<Class<?>, ImmutableList<Method>>() {
+            @Override
+            public ImmutableList<Method> load(Class<?> concreteClass) throws Exception {
+              return getAnnotatedMethodsInternal(concreteClass);
+            }
+          });
+
+  /**
    * {@inheritDoc}
    *
    * This implementation finds all methods marked with a {@link Subscribe} annotation.
@@ -40,8 +62,26 @@ class AnnotatedHandlerFinder implements HandlerFindingStrategy {
   public Multimap<Class<?>, EventHandler> findAllHandlers(Object listener) {
     Multimap<Class<?>, EventHandler> methodsInListener = HashMultimap.create();
     Class<?> clazz = listener.getClass();
-    Set<? extends Class<?>> supers = TypeToken.of(clazz).getTypes().rawTypes();
+    for (Method method : getAnnotatedMethods(clazz)) {
+      Class<?>[] parameterTypes = method.getParameterTypes();
+      Class<?> eventType = parameterTypes[0];
+      EventHandler handler = makeHandler(listener, method);
+      methodsInListener.put(eventType, handler);
+    }
+    return methodsInListener;
+  }
 
+  private static ImmutableList<Method> getAnnotatedMethods(Class<?> clazz) {
+    try {
+      return handlerMethodsCache.getUnchecked(clazz);
+    } catch (UncheckedExecutionException e) {
+      throw Throwables.propagate(e.getCause());
+    }
+  }
+
+  private static ImmutableList<Method> getAnnotatedMethodsInternal(Class<?> clazz) {
+    Set<? extends Class<?>> supers = TypeToken.of(clazz).getTypes().rawTypes();
+    ImmutableList.Builder<Method> result = ImmutableList.builder();
     for (Method method : clazz.getMethods()) {
       /*
        * Iterate over each distinct method of {@code clazz}, checking if it is annotated with
@@ -58,9 +98,7 @@ class AnnotatedHandlerFinder implements HandlerFindingStrategy {
                   + " arguments.  Event handler methods must require a single argument.");
             }
             Class<?> eventType = parameterTypes[0];
-            EventHandler handler = makeHandler(listener, method);
-
-            methodsInListener.put(eventType, handler);
+            result.add(method);
             break;
           }
         } catch (NoSuchMethodException ignored) {
@@ -68,7 +106,7 @@ class AnnotatedHandlerFinder implements HandlerFindingStrategy {
         }
       }
     }
-    return methodsInListener;
+    return result.build();
   }
 
   /**

@@ -110,6 +110,22 @@ import java.util.logging.Logger;
 public class EventBus {
 
   /**
+   * A thread-safe cache for flattenHierarchy(). The Class class is immutable. This cache is shared
+   * across all EventBus instances, which greatly improves performance if multiple such instances
+   * are created and objects of the same class are posted on all of them.
+   */
+  private static final LoadingCache<Class<?>, Set<Class<?>>> flattenHierarchyCache =
+      CacheBuilder.newBuilder()
+          .weakKeys()
+          .build(new CacheLoader<Class<?>, Set<Class<?>>>() {
+            @SuppressWarnings({"unchecked", "rawtypes"}) // safe cast
+            @Override
+            public Set<Class<?>> load(Class<?> concreteClass) throws Exception {
+              return (Set) TypeToken.of(concreteClass).getTypes().rawTypes();
+            }
+          });
+
+  /**
    * All registered event handlers, indexed by event type.
    *
    * <p>This SetMultimap is NOT safe for concurrent use; all access should be
@@ -148,20 +164,6 @@ public class EventBus {
       return false;
     }
   };
-
-  /**
-   * A thread-safe cache for flattenHierarchy(). The Class class is immutable.
-   */
-  private final LoadingCache<Class<?>, Set<Class<?>>> flattenHierarchyCache =
-      CacheBuilder.newBuilder()
-          .weakKeys()
-          .build(new CacheLoader<Class<?>, Set<Class<?>>>() {
-            @SuppressWarnings({"unchecked", "rawtypes"}) // safe cast
-            @Override
-            public Set<Class<?>> load(Class<?> concreteClass) throws Exception {
-              return (Set) TypeToken.of(concreteClass).getTypes().rawTypes();
-            }
-          });
 
   /**
    * Creates a new EventBus named "default".
