@@ -55,6 +55,11 @@ public final class Parameter implements AnnotatedElement {
     return type;
   }
 
+  /** Returns the {@link Invokable} that declares this parameter. */
+  public Invokable<?, ?> getInvokable() {
+    return declaration;
+  }
+
   @Override public boolean isAnnotationPresent(Class<? extends Annotation> annotationType) {
     return getAnnotation(annotationType) != null;
   }

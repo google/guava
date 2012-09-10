@@ -23,11 +23,11 @@ import com.google.common.base.Joiner;
 import com.google.common.base.Predicate;
 import com.google.common.base.Splitter;
 import com.google.common.base.Ticker;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Ordering;
 import com.google.common.primitives.UnsignedInteger;
 import com.google.common.primitives.UnsignedLong;
 import com.google.common.reflect.TypeToken;
-import com.google.common.testing.ForwardingWrapperTester.FreshValueGenerator;
 
 import junit.framework.TestCase;
 
@@ -62,7 +62,7 @@ import java.util.regex.MatchResult;
 import java.util.regex.Pattern;
 
 /**
- * Tests for {@link ForwardingWrapperTester.FreshValueGenerator}.
+ * Tests for {@link FreshValueGenerator}.
  *
  * @author Ben Yu
  */
@@ -104,6 +104,36 @@ public class FreshValueGeneratorTest extends TestCase {
     assertEqualInstance(EmptyEnum.class, null);
     assertEqualInstance(OneConstantEnum.class, OneConstantEnum.CONSTANT1);
     assertFreshInstance(TwoConstantEnum.class);
+  }
+
+  public void testAddSampleInstances_twoInstances() {
+    FreshValueGenerator generator = new FreshValueGenerator();
+    generator.addSampleInstances(String.class, ImmutableList.of("a", "b"));
+    assertEquals("a", generator.generate(String.class));
+    assertEquals("b", generator.generate(String.class));
+    assertEquals("a", generator.generate(String.class));
+  }
+
+  public void testAddSampleInstances_oneInstance() {
+    FreshValueGenerator generator = new FreshValueGenerator();
+    generator.addSampleInstances(String.class, ImmutableList.of("a"));
+    assertEquals("a", generator.generate(String.class));
+    assertEquals("a", generator.generate(String.class));
+  }
+
+  public void testAddSampleInstances_noInstance() {
+    FreshValueGenerator generator = new FreshValueGenerator();
+    generator.addSampleInstances(String.class, ImmutableList.<String>of());
+    assertEquals(new FreshValueGenerator().generate(String.class),
+        generator.generate(String.class));
+  }
+
+  public void testFreshCurrency() {
+    FreshValueGenerator generator = new FreshValueGenerator();
+    // repeat a few times to make sure we don't stumble upon a bad Locale
+    assertNotNull(generator.generate(Currency.class));
+    assertNotNull(generator.generate(Currency.class));
+    assertNotNull(generator.generate(Currency.class));
   }
 
   private static void assertFreshInstances(Class<?>... types) {
