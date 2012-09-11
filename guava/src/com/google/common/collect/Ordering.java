@@ -583,6 +583,10 @@ public abstract class Ordering<T> implements Comparator<T> {
    * algorithm; when multiple elements are equivalent, it is undefined which
    * will come first.
    *
+   * <p>The implementation requires that all elements of the underlying iterator
+   * fit into memory at once. If this is not possible, consider using a
+   * {@link java.util.PriorityQueue} instead.
+   *
    * @return an immutable {@code RandomAccess} list of the {@code k} least
    *     elements in ascending order
    * @throws IllegalArgumentException if {@code k} is negative
@@ -612,6 +616,7 @@ public abstract class Ordering<T> implements Comparator<T> {
       System.arraycopy(values, 0, resultArray, 0, k);
     }
 
+    // We can't use ImmutableList since we want to support null elements.
     return Collections.unmodifiableList(Arrays.asList(resultArray));
   }
 
@@ -623,6 +628,10 @@ public abstract class Ordering<T> implements Comparator<T> {
    * <p>The implementation does not necessarily use a <i>stable</i> sorting
    * algorithm; when multiple elements are equivalent, it is undefined which
    * will come first.
+   *
+   * <p>The implementation requires that all elements of the underlying iterator
+   * fit into memory at once. If this is not possible, consider using a
+   * {@link java.util.PriorityQueue} instead.
    *
    * @return an immutable {@code RandomAccess} list of the {@code k} greatest
    *     elements in <i>descending order</i>

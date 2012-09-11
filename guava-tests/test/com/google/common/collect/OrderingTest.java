@@ -513,6 +513,14 @@ public class OrderingTest extends TestCase {
     assertEquals(ImmutableList.of(-1), result);
   }
 
+  public void testLeastOf_simple_nMinusOne_withNullElement() {
+    List<Integer> list = Arrays.asList(3, null, 5, -1);
+    List<Integer> result = Ordering.natural().nullsLast().leastOf(list, list.size() - 1);
+    assertTrue(result instanceof RandomAccess);
+    assertListImmutable(result);
+    assertEquals(ImmutableList.of(-1, 3, 5), result);
+  }
+
   public void testLeastOf_simple_nMinusOne() {
     List<Integer> list = Arrays.asList(3, 4, 5, -1);
     List<Integer> result = numberOrdering.leastOf(list, list.size() - 1);
@@ -527,6 +535,14 @@ public class OrderingTest extends TestCase {
     assertTrue(result instanceof RandomAccess);
     assertListImmutable(result);
     assertEquals(ImmutableList.of(-1, 3, 4, 5), result);
+  }
+
+  public void testLeastOf_simple_n_withNullElement() {
+    List<Integer> list = Arrays.asList(3, 4, 5, null, -1);
+    List<Integer> result = Ordering.natural().nullsLast().leastOf(list, list.size());
+    assertTrue(result instanceof RandomAccess);
+    assertListImmutable(result);
+    assertEquals(Arrays.asList(-1, 3, 4, 5, null), result);
   }
 
   public void testLeastOf_simple_nPlusOne() {
