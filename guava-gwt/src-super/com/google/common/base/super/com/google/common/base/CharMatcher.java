@@ -352,10 +352,7 @@ public abstract class CharMatcher implements Predicate<Character> {
    * Returns a {@code char} matcher that matches only one specified character.
    */
   public static CharMatcher is(final char match) {
-    String description = new StringBuilder("CharMatcher.is(")
-        .append(Integer.toHexString(match))
-        .append(")")
-        .toString();
+    String description = "CharMatcher.is(" + Integer.toHexString(match) + ")";
     return new FastMatcher(description) {
       @Override public boolean matches(char c) {
         return c == match;
@@ -385,10 +382,7 @@ public abstract class CharMatcher implements Predicate<Character> {
    * <p>To negate another {@code CharMatcher}, use {@link #negate()}.
    */
   public static CharMatcher isNot(final char match) {
-    String description = new StringBuilder("CharMatcher.isNot(")
-        .append(Integer.toHexString(match))
-        .append(")")
-        .toString();
+    String description = "CharMatcher.isNot(" + Integer.toHexString(match) + ")";
     return new FastMatcher(description) {
       @Override public boolean matches(char c) {
         return c != match;
@@ -424,8 +418,8 @@ public abstract class CharMatcher implements Predicate<Character> {
     // TODO(user): is it potentially worth just going ahead and building a precomputed matcher?
     final char[] chars = sequence.toString().toCharArray();
     Arrays.sort(chars);
-    return new CharMatcher(new StringBuilder("CharMatcher.anyOf(\"").append(chars)
-        .append("\")").toString()) {
+    String description = "CharMatcher.anyOf(\"" + String.valueOf(chars) + "\")";
+    return new CharMatcher(description) {
           @Override public boolean matches(char c) {
             return Arrays.binarySearch(chars, c) >= 0;
           }
@@ -435,12 +429,8 @@ public abstract class CharMatcher implements Predicate<Character> {
   private static CharMatcher isEither(
       final char match1,
       final char match2) {
-    String toString = new StringBuilder("CharMatcher.anyOf(\"")
-      .append(match1)
-      .append(match2)
-      .append("\")")
-      .toString();
-    return new FastMatcher(toString) {
+    String description = "CharMatcher.anyOf(\"" + match1 + match2 + "\")";
+    return new FastMatcher(description) {
       @Override public boolean matches(char c) {
         return c == match1 || c == match2;
       }
@@ -464,12 +454,9 @@ public abstract class CharMatcher implements Predicate<Character> {
    */
   public static CharMatcher inRange(final char startInclusive, final char endInclusive) {
     checkArgument(endInclusive >= startInclusive);
-    String description = new StringBuilder("CharMatcher.inRange(")
-        .append(Integer.toHexString(startInclusive))
-        .append(", ")
-        .append(Integer.toHexString(endInclusive))
-        .append(")")
-        .toString();
+    String description = "CharMatcher.inRange(" +
+        Integer.toHexString(startInclusive) + ", " +
+        Integer.toHexString(endInclusive) + ")";
     return inRange(startInclusive, endInclusive, description);
   }
 
@@ -491,10 +478,7 @@ public abstract class CharMatcher implements Predicate<Character> {
     if (predicate instanceof CharMatcher) {
       return (CharMatcher) predicate;
     }
-    String description = new StringBuilder("CharMatcher.forPredicate(")
-        .append(predicate)
-        .append(')')
-        .toString();
+    String description = "CharMatcher.forPredicate(" + predicate + ")";
     return new CharMatcher(description) {
       @Override public boolean matches(char c) {
         return predicate.apply(c);
