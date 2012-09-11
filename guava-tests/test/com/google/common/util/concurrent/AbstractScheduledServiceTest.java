@@ -21,6 +21,7 @@ import com.google.common.util.concurrent.Service.State;
 
 import junit.framework.TestCase;
 
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.CyclicBarrier;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executors;
@@ -145,6 +146,85 @@ public class AbstractScheduledServiceTest extends TestCase {
     service.stopAndWait();
     // Only called once overall.
     assertEquals(1, service.numberOfTimesExecutorCalled.get());
+  }
+
+  public void testDefaultExecutorIsShutdownWhenServiceIsStopped() throws Exception {
+    final CountDownLatch terminationLatch = new CountDownLatch(1);
+    AbstractScheduledService service = new AbstractScheduledService() {
+      volatile ScheduledExecutorService executorService;
+      @Override protected void runOneIteration() throws Exception {}
+
+      @Override protected ScheduledExecutorService executor() {
+        if (executorService == null) {
+          executorService = super.executor();
+          // Add a listener that will be executed after the listener that shuts down the executor.
+          addListener(new Listener() {
+            @Override public void starting() {}
+            @Override public void running() {}
+            @Override public void stopping(State from) {}
+            @Override public void terminated(State from) {
+              terminationLatch.countDown();
+            }
+            @Override public void failed(State from, Throwable failure) {}
+            }, MoreExecutors.sameThreadExecutor());
+        }
+        return executorService;
+      }
+
+      @Override protected Scheduler scheduler() {
+        return Scheduler.newFixedDelaySchedule(0, 1, TimeUnit.MILLISECONDS);
+      }};
+
+      service.start();
+      assertFalse(service.executor().isShutdown());
+      service.startAndWait();
+      service.stop();
+      terminationLatch.await();
+      assertTrue(service.executor().isShutdown());
+      assertTrue(service.executor().awaitTermination(100, TimeUnit.MILLISECONDS));
+  }
+
+  public void testDefaultExecutorIsShutdownWhenServiceFails() throws Exception {
+    final CountDownLatch failureLatch = new CountDownLatch(1);
+    AbstractScheduledService service = new AbstractScheduledService() {
+      volatile ScheduledExecutorService executorService;
+      @Override protected void runOneIteration() throws Exception {}
+
+      @Override protected void startUp() throws Exception {
+        throw new Exception("Failed");
+      }
+
+      @Override protected ScheduledExecutorService executor() {
+        if (executorService == null) {
+          executorService = super.executor();
+          // Add a listener that will be executed after the listener that shuts down the executor.
+          addListener(new Listener() {
+            @Override public void starting() {}
+            @Override public void running() {}
+            @Override public void stopping(State from) {}
+            @Override public void terminated(State from) {
+            }
+            @Override public void failed(State from, Throwable failure) {
+              failureLatch.countDown();
+            }
+            }, MoreExecutors.sameThreadExecutor());
+        }
+        return executorService;
+      }
+
+      @Override protected Scheduler scheduler() {
+        return Scheduler.newFixedDelaySchedule(0, 1, TimeUnit.MILLISECONDS);
+      }};
+
+      try {
+        service.startAndWait();
+        fail("Expected service to fail during startup");
+      } catch (UncheckedExecutionException e) {
+        // expected
+      }
+      failureLatch.await();
+      assertTrue(service.executor().isShutdown());
+      assertTrue(service.executor().awaitTermination(100, TimeUnit.MILLISECONDS));
   }
 
   public void testSchedulerOnlyCalledOnce() throws Exception {
