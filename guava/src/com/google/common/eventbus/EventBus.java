@@ -26,13 +26,14 @@ import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.SetMultimap;
 import com.google.common.reflect.TypeToken;
+import com.google.common.util.concurrent.UncheckedExecutionException;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
+import java.util.LinkedList;
 import java.util.Map.Entry;
+import java.util.Queue;
 import java.util.Set;
-import java.util.concurrent.ConcurrentLinkedQueue;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 import java.util.logging.Level;
@@ -120,7 +121,7 @@ public class EventBus {
           .build(new CacheLoader<Class<?>, Set<Class<?>>>() {
             @SuppressWarnings({"unchecked", "rawtypes"}) // safe cast
             @Override
-            public Set<Class<?>> load(Class<?> concreteClass) throws Exception {
+            public Set<Class<?>> load(Class<?> concreteClass) {
               return (Set) TypeToken.of(concreteClass).getTypes().rawTypes();
             }
           });
@@ -149,11 +150,10 @@ public class EventBus {
   private final HandlerFindingStrategy finder = new AnnotatedHandlerFinder();
 
   /** queues of events for the current thread to dispatch */
-  private final ThreadLocal<ConcurrentLinkedQueue<EventWithHandler>>
-      eventsToDispatch =
-      new ThreadLocal<ConcurrentLinkedQueue<EventWithHandler>>() {
-    @Override protected ConcurrentLinkedQueue<EventWithHandler> initialValue() {
-      return new ConcurrentLinkedQueue<EventWithHandler>();
+  private final ThreadLocal<Queue<EventWithHandler>> eventsToDispatch =
+      new ThreadLocal<Queue<EventWithHandler>>() {
+    @Override protected Queue<EventWithHandler> initialValue() {
+      return new LinkedList<EventWithHandler>();
     }
   };
 
@@ -210,12 +210,13 @@ public class EventBus {
   public void unregister(Object object) {
     Multimap<Class<?>, EventHandler> methodsInListener = finder.findAllHandlers(object);
     for (Entry<Class<?>, Collection<EventHandler>> entry : methodsInListener.asMap().entrySet()) {
+      Class<?> eventType = entry.getKey();
       Collection<EventHandler> eventMethodsInListener = entry.getValue();
 
       handlersByTypeLock.writeLock().lock();
       try {
-        Set<EventHandler> currentHandlers = handlersByType.get(entry.getKey());
-        if (!currentHandlers.containsAll(entry.getValue())) {
+        Set<EventHandler> currentHandlers = handlersByType.get(eventType);
+        if (!currentHandlers.containsAll(eventMethodsInListener)) {
           throw new IllegalArgumentException(
               "missing event handler for an annotated method. Is " + object + " registered?");
         }
@@ -237,7 +238,6 @@ public class EventBus {
    *
    * @param event  event to post.
    */
-  @SuppressWarnings("deprecation") // only deprecated for external subclasses
   public void post(Object event) {
     Set<Class<?>> dispatchTypes = flattenHierarchy(event.getClass());
 
@@ -288,12 +288,9 @@ public class EventBus {
 
     isDispatching.set(true);
     try {
-      while (true) {
-        EventWithHandler eventWithHandler = eventsToDispatch.get().poll();
-        if (eventWithHandler == null) {
-          break;
-        }
-
+      Queue<EventWithHandler> events = eventsToDispatch.get();
+      EventWithHandler eventWithHandler;
+      while ((eventWithHandler = events.poll()) != null) {
         dispatch(eventWithHandler.event, eventWithHandler.handler);
       }
     } finally {
@@ -329,8 +326,8 @@ public class EventBus {
   @VisibleForTesting
   Set<Class<?>> flattenHierarchy(Class<?> concreteClass) {
     try {
-      return flattenHierarchyCache.get(concreteClass);
-    } catch (ExecutionException e) {
+      return flattenHierarchyCache.getUnchecked(concreteClass);
+    } catch (UncheckedExecutionException e) {
       throw Throwables.propagate(e.getCause());
     }
   }
