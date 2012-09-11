@@ -45,7 +45,7 @@ final class Present<T> extends Optional<T> {
   }
 
   @Override public T or(T defaultValue) {
-    checkNotNull(defaultValue, "use orNull() instead of or(null)");
+    checkNotNull(defaultValue, "use Optional.orNull() instead of Optional.or(null)");
     return reference;
   }
 
@@ -69,7 +69,7 @@ final class Present<T> extends Optional<T> {
   
   @Override public <V> Optional<V> transform(Function<? super T, V> function) {
     return new Present<V>(checkNotNull(function.apply(reference),
-        "Transformation function cannot return null."));
+        "the Function passed to Optional.transform() must not return null."));
   }
 
   @Override public boolean equals(@Nullable Object object) {
