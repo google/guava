@@ -18,6 +18,7 @@ package com.google.common.hash;
 
 import static com.google.common.hash.Hashing.murmur3_128;
 
+import com.google.common.base.Charsets;
 import com.google.common.hash.Funnels;
 import com.google.common.hash.HashTestUtils.HashFn;
 
@@ -41,6 +42,11 @@ public class Murmur3Hash128Test extends TestCase {
         "The quick brown fox jumps over the lazy dog");
     assertHash(0, 0x658ca970ff85269aL, 0x43fee3eaa68e5c3eL,
         "The quick brown fox jumps over the lazy cog");
+
+    // Known output from Python smhasher
+    HashCode foxHash =
+        murmur3_128(0).hashString("The quick brown fox jumps over the lazy dog", Charsets.UTF_8);
+    assertEquals("6c1b07bc7bbc4be347939ac4a93c437a", foxHash.toString());
   }
 
   private static void assertHash(int seed, long expected1, long expected2, String stringInput) {
