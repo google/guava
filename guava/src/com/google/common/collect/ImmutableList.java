@@ -659,10 +659,10 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
     }
 
     /**
-     * Expand capacity to allow the specified number of elements to be added.
+     * Expand the absolute capacity of the builder so it can accept at least
+     * the specified number of elements without being resized.
      */
-    Builder<E> expandFor(int count) {
-      int minCapacity = size + count;
+    Builder<E> ensureCapacity(int minCapacity) {
       if (contents.length < minCapacity) {
         this.contents = ObjectArrays.arraysCopyOf(
             this.contents, expandedCapacity(contents.length, minCapacity));
@@ -679,7 +679,7 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
      */
     @Override public Builder<E> add(E element) {
       checkNotNull(element);
-      expandFor(1);
+      ensureCapacity(size + 1);
       contents[size++] = element;
       return this;
     }
@@ -695,7 +695,7 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
     @Override public Builder<E> addAll(Iterable<? extends E> elements) {
       if (elements instanceof Collection) {
         Collection<?> collection = (Collection<?>) elements;
-        expandFor(collection.size());
+        ensureCapacity(size + collection.size());
       }
       super.addAll(elements);
       return this;
@@ -713,7 +713,7 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
       for (int i = 0; i < elements.length; i++) {
         checkElementNotNull(elements[i], i);
       }
-      expandFor(elements.length);
+      ensureCapacity(size + elements.length);
       System.arraycopy(elements, 0, contents, size, elements.length);
       size += elements.length;
       return this;
