@@ -32,7 +32,6 @@ import com.google.common.collect.ImmutableCollection;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Ordering;
-import com.google.common.collect.Sets;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -1526,8 +1525,8 @@ public final class Futures {
       try {
         checkState(future.isDone(),
             "Tried to set value from future which is not done");
-        localValues.set(index,
-            Optional.fromNullable(getUninterruptibly(future)));
+        V returnValue = getUninterruptibly(future);
+        localValues.set(index, Optional.fromNullable(returnValue));
       } catch (CancellationException e) {
         if (allMustSucceed) {
           // Set ourselves as cancelled. Let the input futures keep running
