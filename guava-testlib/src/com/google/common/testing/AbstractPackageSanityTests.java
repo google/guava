@@ -320,7 +320,7 @@ public abstract class AbstractPackageSanityTests extends TestCase {
     List<Class<?>> classes = Lists.newArrayList();
     String packageName = getClass().getPackage().getName();
     for (ClassPath.ClassInfo classInfo 
-        : ClassPath.from(getClass().getClassLoader()).getClasses(packageName)) {
+        : ClassPath.from(getClass().getClassLoader()).getTopLevelClasses(packageName)) {
       Class<?> cls;
       try {
         cls = classInfo.load();

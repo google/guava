@@ -52,7 +52,7 @@ public class ClassPathTest extends TestCase {
     Set<Class<?>> classes = Sets.newHashSet();
     Set<String> packageNames = Sets.newHashSet();
     ClassPath classpath = ClassPath.from(getClass().getClassLoader());
-    for (ClassInfo classInfo : classpath.getClasses(ClassPathTest.class.getPackage().getName())) {
+    for (ClassInfo classInfo : classpath.getTopLevelClasses(ClassPathTest.class.getPackage().getName())) {
       names.add(classInfo.getName());
       strings.add(classInfo.toString());
       classes.add(classInfo.load());
@@ -69,7 +69,7 @@ public class ClassPathTest extends TestCase {
     Set<Class<?>> classes = Sets.newHashSet();
     ClassPath classpath = ClassPath.from(ClassPathTest.class.getClassLoader());
     for (ClassInfo classInfo
-        : classpath.getClassesRecursive(ClassPathTest.class.getPackage().getName())) {
+        : classpath.getTopLevelClassesRecursive(ClassPathTest.class.getPackage().getName())) {
       classes.add(classInfo.load());
     }
     ASSERT.that(classes).containsAllOf(ClassPathTest.class, ClassInSubPackage.class);
@@ -79,8 +79,8 @@ public class ClassPathTest extends TestCase {
     ClassLoader parent = ClassPathTest.class.getClassLoader();
     ClassLoader sub1 = new ClassLoader(parent) {};
     ClassLoader sub2 = new ClassLoader(parent) {};
-    assertEquals(findClass(ClassPath.from(sub1).getClasses(), ClassPathTest.class),
-        findClass(ClassPath.from(sub2).getClasses(), ClassPathTest.class));
+    assertEquals(findClass(ClassPath.from(sub1).getTopLevelClasses(), ClassPathTest.class),
+        findClass(ClassPath.from(sub2).getTopLevelClasses(), ClassPathTest.class));
   }
 
   public void testClassInfo() {

@@ -23,7 +23,9 @@ import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Splitter;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.ImmutableSortedSet;
 import com.google.common.collect.Maps;
+import com.google.common.collect.Ordering;
 
 import java.io.File;
 import java.io.IOException;
@@ -74,7 +76,8 @@ public final class ClassPath {
    *         failed.
    */
   public static ClassPath from(ClassLoader classloader) throws IOException {
-    ImmutableSet.Builder<ClassInfo> builder = ImmutableSet.builder();
+    ImmutableSortedSet.Builder<ClassInfo> builder = new ImmutableSortedSet.Builder<ClassInfo>(
+        Ordering.usingToString());
     for (Map.Entry<URI, ClassLoader> entry : getClassPathEntries(classloader).entrySet()) {
       builder.addAll(readClassesFrom(entry.getKey(), entry.getValue()));
     }
@@ -82,12 +85,12 @@ public final class ClassPath {
   }
 
   /** Returns all top level classes loadable from the current class path. */
-  public ImmutableSet<ClassInfo> getClasses() {
+  public ImmutableSet<ClassInfo> getTopLevelClasses() {
     return classes;
   }
 
   /** Returns all top level classes whose package name is {@code packageName}. */
-  public ImmutableSet<ClassInfo> getClasses(String packageName) {
+  public ImmutableSet<ClassInfo> getTopLevelClasses(String packageName) {
     checkNotNull(packageName);
     ImmutableSet.Builder<ClassInfo> builder = ImmutableSet.builder();
     for (ClassInfo classInfo : classes) {
@@ -102,7 +105,7 @@ public final class ClassPath {
    * Returns all top level classes whose package name is {@code packageName} or starts with
    * {@code packageName} followed by a '.'.
    */
-  public ImmutableSet<ClassInfo> getClassesRecursive(String packageName) {
+  public ImmutableSet<ClassInfo> getTopLevelClassesRecursive(String packageName) {
     checkNotNull(packageName);
     String packagePrefix = packageName + '.';
     ImmutableSet.Builder<ClassInfo> builder = ImmutableSet.builder();
