@@ -110,6 +110,9 @@ public final class Sets {
   @GwtCompatible(serializable = true)
   public static <E extends Enum<E>> ImmutableSet<E> immutableEnumSet(
       Iterable<E> elements) {
+    if (elements instanceof ImmutableEnumSet) {
+      return (ImmutableEnumSet<E>) elements;
+    }
     Iterator<E> iterator = elements.iterator();
     if (!iterator.hasNext()) {
       return ImmutableSet.of();
