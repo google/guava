@@ -18,8 +18,8 @@ package com.google.common.reflect;
 
 import static org.junit.contrib.truth.Truth.ASSERT;
 
-import com.google.common.base.Function;
 import com.google.common.base.Predicate;
+import com.google.common.base.Supplier;
 
 import junit.framework.TestCase;
 
@@ -129,15 +129,17 @@ public class TypeTokenResolutionTest extends TestCase {
   }
   
   private interface StringListPredicate extends Predicate<List<String>> {}
+
+  private interface IntegerSupplier extends Supplier<Integer> {}
   
   // Intentionally duplicate the Predicate interface to test that it won't cause
   // exceptions
-  private interface IntegerStringFunction extends Function<Integer, Boolean>,
+  private interface IntegerStringFunction extends IntegerSupplier,
       Predicate<List<String>>, StringListPredicate {}
   
   public void testGenericInterface() {
     // test the 1st generic interface on the class
-    Type fType = Function.class.getTypeParameters()[0];
+    Type fType = Supplier.class.getTypeParameters()[0];
     assertEquals(Integer.class,
         TypeToken.of(IntegerStringFunction.class).resolveType(fType)
             .getRawType());
