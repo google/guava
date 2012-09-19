@@ -73,6 +73,11 @@ public final class DiscreteDomains {
     private Object readResolve() {
       return INSTANCE;
     }
+    
+    @Override
+    public String toString() {
+      return "DiscreteDomains.integers()";
+    }
 
     private static final long serialVersionUID = 0;
   }
@@ -120,6 +125,11 @@ public final class DiscreteDomains {
     private Object readResolve() {
       return INSTANCE;
     }
+    
+    @Override
+    public String toString() {
+      return "DiscreteDomains.longs()";
+    }
 
     private static final long serialVersionUID = 0;
   }
@@ -155,6 +165,11 @@ public final class DiscreteDomains {
 
     private Object readResolve() {
       return INSTANCE;
+    }
+    
+    @Override
+    public String toString() {
+      return "DiscreteDomains.bigIntegers()";
     }
 
     private static final long serialVersionUID = 0;
