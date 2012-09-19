@@ -735,6 +735,10 @@ public final class Iterables {
    * the iterable is empty.  The {@link Iterators} analog to this method is
    * {@link Iterators#getNext}.
    *
+   * <p>If no default value is desired (and the caller instead wants a
+   * {@link NoSuchElementException} to be thrown), it is recommended that
+   * {@code iterable.iterator().next()} is used instead.
+   *
    * @param defaultValue the default value to return if the iterable is empty
    * @return the first element of {@code iterable} or the default value
    * @since 7.0
