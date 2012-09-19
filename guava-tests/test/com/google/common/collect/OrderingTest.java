@@ -743,12 +743,12 @@ public class OrderingTest extends TestCase {
       Ordering<? super T> ordering, T... strictlyOrderedElements) {
     checkArgument(strictlyOrderedElements.length >= 3, "strictlyOrderedElements "
         + "requires at least 3 elements");
-    // shoot me, but I didn't want to deal with wildcards through the whole test
     List<T> list = Arrays.asList(strictlyOrderedElements);
 
     // for use calling Collection.toArray later
     T[] emptyArray = Platform.newArray(strictlyOrderedElements, 0);
 
+    // shoot me, but I didn't want to deal with wildcards through the whole test
     @SuppressWarnings("unchecked")
     Scenario<T> starter = new Scenario<T>((Ordering) ordering, list, emptyArray);
     verifyScenario(starter, 0);
