@@ -18,6 +18,8 @@ package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
 
+import javax.annotation.Nullable;
+
 /**
  * Bimap with one or more mappings.
  * 
@@ -45,9 +47,45 @@ class RegularImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
     this.delegate = delegate;
     this.inverse = inverse;
   }
+  
+  @Override
+  public int size() {
+    return delegate.size();
+  }
 
-  @Override ImmutableMap<K, V> delegate() {
-    return delegate;
+  @Override
+  public boolean containsKey(@Nullable Object key) {
+    return delegate.containsKey(key);
+  }
+
+  @Override
+  public V get(@Nullable Object key) {
+    return delegate.get(key);
+  }
+
+  @Override
+  public ImmutableSet<Entry<K, V>> entrySet() {
+    return delegate.entrySet();
+  }
+
+  @Override
+  ImmutableSet<Entry<K, V>> createEntrySet() {
+    throw new AssertionError("should never be called");
+  }
+
+  @Override
+  public ImmutableSet<K> keySet() {
+    return delegate.keySet();
+  }
+
+  @Override
+  public boolean equals(@Nullable Object object) {
+    return this == object || delegate.equals(object);
+  }
+
+  @Override
+  public int hashCode() {
+    return delegate.hashCode();
   }
 
   @Override public ImmutableBiMap<V, K> inverse() {
@@ -55,6 +93,6 @@ class RegularImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
   }
 
   @Override boolean isPartialView() {
-    return delegate.isPartialView() || inverse.delegate().isPartialView();
+    return delegate.isPartialView();
   }
 }

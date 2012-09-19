@@ -20,8 +20,6 @@ import com.google.common.annotations.GwtCompatible;
 
 import java.util.Map;
 
-import javax.annotation.Nullable;
-
 /**
  * An immutable {@link BiMap} with reliable user-specified iteration order. Does
  * not permit null keys or values. An {@code ImmutableBiMap} and its inverse
@@ -209,8 +207,6 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableMap<K, V>
 
   ImmutableBiMap() {}
 
-  abstract ImmutableMap<K, V> delegate();
-
   /**
    * {@inheritDoc}
    *
@@ -219,26 +215,6 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableMap<K, V>
    */
   @Override
   public abstract ImmutableBiMap<V, K> inverse();
-
-  @Override public boolean containsKey(@Nullable Object key) {
-    return delegate().containsKey(key);
-  }
-
-  @Override public boolean containsValue(@Nullable Object value) {
-    return inverse().containsKey(value);
-  }
-
-  @Override ImmutableSet<Entry<K, V>> createEntrySet() {
-    return delegate().entrySet();
-  }
-
-  @Override public V get(@Nullable Object key) {
-    return delegate().get(key);
-  }
-
-  @Override public ImmutableSet<K> keySet() {
-    return delegate().keySet();
-  }
 
   /**
    * Returns an immutable set of the values in this map. The values are in the
@@ -258,27 +234,6 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableMap<K, V>
   @Override
   public V forcePut(K key, V value) {
     throw new UnsupportedOperationException();
-  }
-
-  @Override public boolean isEmpty() {
-    return delegate().isEmpty();
-  }
-
-  @Override
-  public int size() {
-    return delegate().size();
-  }
-
-  @Override public boolean equals(@Nullable Object object) {
-    return object == this || delegate().equals(object);
-  }
-
-  @Override public int hashCode() {
-    return delegate().hashCode();
-  }
-
-  @Override public String toString() {
-    return delegate().toString();
   }
 
   /**

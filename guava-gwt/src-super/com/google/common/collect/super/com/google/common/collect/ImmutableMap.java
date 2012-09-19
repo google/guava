@@ -41,10 +41,8 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
 
   ImmutableMap() {}
 
-  // Casting to any type is safe because the set will never hold any elements.
-  @SuppressWarnings("unchecked")
   public static <K, V> ImmutableMap<K, V> of() {
-    return (ImmutableMap<K, V>) EmptyImmutableMap.INSTANCE;
+    return ImmutableBiMap.of();
   }
 
   public static <K, V> ImmutableMap<K, V> of(K k1, V v1) {

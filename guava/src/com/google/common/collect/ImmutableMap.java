@@ -63,10 +63,8 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
    * {@link Collections#emptyMap}, and is preferable mainly for consistency
    * and maintainability of your code.
    */
-  // Casting to any type is safe because the set will never hold any elements.
-  @SuppressWarnings("unchecked")
   public static <K, V> ImmutableMap<K, V> of() {
-    return (ImmutableMap<K, V>) EmptyImmutableMap.INSTANCE;
+    return ImmutableBiMap.of();
   }
 
   /**
