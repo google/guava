@@ -14,10 +14,6 @@
 
 package com.google.common.collect;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-
-import java.util.AbstractSet;
-import java.util.Iterator;
 import java.util.Set;
 
 import javax.annotation.Nullable;
@@ -34,29 +30,18 @@ import javax.annotation.Nullable;
  *
  * @author Kevin Bourrillion
  * @author Louis Wasserman
- */ abstract class RangeSet<C extends Comparable> {
-  RangeSet() {}
+ */ interface RangeSet<C extends Comparable> {
 
   /**
    * Determines whether any of this range set's member ranges contains {@code value}.
    */
-  public boolean contains(C value) {
-    return rangeContaining(value) != null;
-  }
+  boolean contains(C value);
 
   /**
    * Returns the unique range from this range set that {@linkplain Range#contains contains}
    * {@code value}, or {@code null} if this range set does not contain {@code value}.
    */
-  public Range<C> rangeContaining(C value) {
-    checkNotNull(value);
-    for (Range<C> range : asRanges()) {
-      if (range.contains(value)) {
-        return range;
-      }
-    }
-    return null;
-  }
+  Range<C> rangeContaining(C value);
 
   /**
    * Returns a view of the {@linkplain Range#isConnected disconnected} ranges that make up this
@@ -64,14 +49,12 @@ import javax.annotation.Nullable;
    * {@link Iterable#iterator} method return the ranges in increasing order of lower bound
    * (equivalently, of upper bound).
    */
-  public abstract Set<Range<C>> asRanges();
+  Set<Range<C>> asRanges();
 
   /**
    * Returns {@code true} if this range set contains no ranges.
    */
-  public boolean isEmpty() {
-    return asRanges().isEmpty();
-  }
+  boolean isEmpty();
 
   /**
    * Returns a view of the complement of this {@code RangeSet}.
@@ -79,84 +62,7 @@ import javax.annotation.Nullable;
    * <p>The returned view supports the {@link #add} operation if this {@code RangeSet} supports
    * {@link #remove}, and vice versa.
    */
-  public abstract RangeSet<C> complement();
-
-  /**
-   * A basic, simple implementation of {@link #complement}. This is not efficient on all methods;
-   * for example, {@link #rangeContaining} and {@link #encloses} are linear-time.
-   */
-  static class StandardComplement<C extends Comparable> extends RangeSet<C> {
-    final RangeSet<C> positive;
-
-    public StandardComplement(RangeSet<C> positive) {
-      this.positive = positive;
-    }
-
-    @Override
-    public boolean contains(C value) {
-      return !positive.contains(value);
-    }
-
-    @Override
-    public void add(Range<C> range) {
-      positive.remove(range);
-    }
-
-    @Override
-    public void remove(Range<C> range) {
-      positive.add(range);
-    }
-
-    private transient Set<Range<C>> asRanges;
-
-    @Override
-    public final Set<Range<C>> asRanges() {
-      Set<Range<C>> result = asRanges;
-      return (result == null) ? asRanges = createAsRanges() : result;
-    }
-
-    Set<Range<C>> createAsRanges() {
-      return new AbstractSet<Range<C>>() {
-
-        @Override
-        public Iterator<Range<C>> iterator() {
-          final Iterator<Range<C>> positiveIterator = positive.asRanges().iterator();
-          return new AbstractIterator<Range<C>>() {
-            Cut<C> prevCut = Cut.belowAll();
-
-            @Override
-            protected Range<C> computeNext() {
-              while (positiveIterator.hasNext()) {
-                Cut<C> oldCut = prevCut;
-                Range<C> positiveRange = positiveIterator.next();
-                prevCut = positiveRange.upperBound;
-                if (oldCut.compareTo(positiveRange.lowerBound) < 0) {
-                  return new Range<C>(oldCut, positiveRange.lowerBound);
-                }
-              }
-              Cut<C> posInfinity = Cut.aboveAll();
-              if (prevCut.compareTo(posInfinity) < 0) {
-                Range<C> result = new Range<C>(prevCut, posInfinity);
-                prevCut = posInfinity;
-                return result;
-              }
-              return endOfData();
-            }
-          };
-        }
-
-        @Override
-        public int size() {
-          return Iterators.size(iterator());
-        }
-      };
-    }
-
-    @Override
-    public RangeSet<C> complement() {
-      return positive;
-    }
-  }
+  RangeSet<C> complement();
 
   /**
    * Adds the specified range to this {@code RangeSet} (optional operation). That is, for equal
@@ -170,9 +76,7 @@ import javax.annotation.Nullable;
    * @throws UnsupportedOperationException if this range set does not support the {@code add}
    *         operation
    */
-  public void add(Range<C> range) {
-    throw new UnsupportedOperationException();
-  }
+  void add(Range<C> range);
 
   /**
    * Removes the specified range from this {@code RangeSet} (optional operation). After this
@@ -183,22 +87,13 @@ import javax.annotation.Nullable;
    * @throws UnsupportedOperationException if this range set does not support the {@code remove}
    *         operation
    */
-  public void remove(Range<C> range) {
-    throw new UnsupportedOperationException();
-  }
+  void remove(Range<C> range);
 
   /**
    * Returns {@code true} if there exists a member range in this range set which
    * {@linkplain Range#encloses encloses} the specified range.
    */
-  public boolean encloses(Range<C> otherRange) {
-    for (Range<C> range : asRanges()) {
-      if (range.encloses(otherRange)) {
-        return true;
-      }
-    }
-    return false;
-  }
+  boolean encloses(Range<C> otherRange);
 
   /**
    * Returns {@code true} if for each member range in {@code other} there exists a member range in
@@ -206,70 +101,42 @@ import javax.annotation.Nullable;
    * {@code this.contains(value)} whenever {@code other.contains(value)}. Returns {@code true} if
    * {@code other} is empty.
    *
-   * <p>
-   * This is equivalent to checking if this range set {@link #encloses} each of the ranges in
+   * <p>This is equivalent to checking if this range set {@link #encloses} each of the ranges in
    * {@code other}.
    */
-  public boolean enclosesAll(RangeSet<C> other) {
-    for (Range<C> range : other.asRanges()) {
-      if (!encloses(range)) {
-        return false;
-      }
-    }
-    return true;
-  }
+  boolean enclosesAll(RangeSet<C> other);
 
   /**
    * Adds all of the ranges from the specified range set to this range set (optional operation).
    * After this operation, this range set is the minimal range set that
    * {@linkplain #enclosesAll(RangeSet) encloses} both the original range set and {@code other}.
    *
-   * <p>
-   * This is equivalent to calling {@link #add} on each of the ranges in {@code other} in turn.
+   * <p>This is equivalent to calling {@link #add} on each of the ranges in {@code other} in turn.
    *
    * @throws UnsupportedOperationException if this range set does not support the {@code addAll}
    *         operation
    */
-  public void addAll(RangeSet<C> other) {
-    for (Range<C> range : other.asRanges()) {
-      this.add(range);
-    }
-  }
+  void addAll(RangeSet<C> other);
 
   /**
    * Removes all of the ranges from the specified range set from this range set (optional
    * operation). After this operation, if {@code other.contains(c)}, {@code this.contains(c)} will
    * return {@code false}.
    *
-   * <p>
-   * This is equivalent to calling {@link #remove} on each of the ranges in {@code other} in turn.
+   * <p>This is equivalent to calling {@link #remove} on each of the ranges in {@code other} in
+   * turn.
    *
    * @throws UnsupportedOperationException if this range set does not support the {@code removeAll}
    *         operation
    */
-  public void removeAll(RangeSet<C> other) {
-    for (Range<C> range : other.asRanges()) {
-      this.remove(range);
-    }
-  }
+  void removeAll(RangeSet<C> other);
 
   /**
    * Returns {@code true} if {@code obj} is another {@code RangeSet} that contains the same ranges
    * according to {@link Range#equals(Object)}.
    */
   @Override
-  public boolean equals(@Nullable Object obj) {
-    if (obj instanceof RangeSet) {
-      RangeSet<?> other = (RangeSet<?>) obj;
-      return this.asRanges().equals(other.asRanges());
-    }
-    return false;
-  }
-
-  @Override
-  public final int hashCode() {
-    return asRanges().hashCode();
-  }
+  boolean equals(@Nullable Object obj);
 
   /**
    * Returns a readable string representation of this range set. For example, if this
@@ -277,13 +144,5 @@ import javax.annotation.Nullable;
    * this might return {@code " [1‥3](4‥+∞)}"}.
    */
   @Override
-  public final String toString() {
-    StringBuilder builder = new StringBuilder();
-    builder.append('{');
-    for (Range<C> range : asRanges()) {
-      builder.append(range);
-    }
-    builder.append('}');
-    return builder.toString();
-  }
+  String toString();
 }

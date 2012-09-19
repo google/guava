@@ -32,7 +32,7 @@ import javax.annotation.Nullable;
  * @author Louis Wasserman
  */
 @GwtIncompatible("uses NavigableMap") final class TreeRangeSet<C extends Comparable>
-    extends RangeSet<C> {
+    extends AbstractRangeSet<C> {
   // TODO(user): override inefficient defaults
 
   private final NavigableMap<Cut<C>, Range<C>> rangesByLowerCut;
