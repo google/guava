@@ -84,7 +84,8 @@ public final class Functions {
     INSTANCE;
 
     @Override
-    public Object apply(Object o) {
+    @Nullable
+    public Object apply(@Nullable Object o) {
       return o;
     }
 
@@ -109,7 +110,7 @@ public final class Functions {
     }
 
     @Override
-    public V apply(K key) {
+    public V apply(@Nullable K key) {
       V result = map.get(key);
       checkArgument(result != null || map.containsKey(key), "Key '%s' not present in map", key);
       return result;
@@ -158,7 +159,7 @@ public final class Functions {
     }
 
     @Override
-    public V apply(K key) {
+    public V apply(@Nullable K key) {
       V result = map.get(key);
       return (result != null || map.containsKey(key)) ? result : defaultValue;
     }
@@ -205,7 +206,7 @@ public final class Functions {
     }
 
     @Override
-    public C apply(A a) {
+    public C apply(@Nullable A a) {
       return g.apply(f.apply(a));
     }
 
@@ -247,7 +248,7 @@ public final class Functions {
     }
 
     @Override
-    public Boolean apply(T t) {
+    public Boolean apply(@Nullable T t) {
       return predicate.apply(t);
     }
 

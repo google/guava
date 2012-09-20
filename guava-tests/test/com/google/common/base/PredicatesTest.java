@@ -20,7 +20,9 @@ import static com.google.common.base.CharMatcher.WHITESPACE;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
+import com.google.common.testing.ClassSanityTester;
 import com.google.common.testing.EqualsTester;
 import com.google.common.testing.NullPointerTester;
 import com.google.common.testing.SerializableTester;
@@ -912,6 +914,30 @@ public class PredicatesTest extends TestCase {
     // While not a contractual requirement, we'd like the hash codes for ands
     // & ors of the same predicates to not collide.
     assertTrue(Predicates.and(p1, p2).hashCode() != Predicates.or(p1, p2).hashCode());
+  }
+
+  @GwtIncompatible("reflection")
+  public void testNulls() throws Exception {
+    forAllPublicStaticMethods().testNulls();
+  }
+
+  @GwtIncompatible("reflection")
+  public void testEqualsAndSerializable() throws Exception {
+    forAllPublicStaticMethods().testEqualsAndSerializable();
+  }
+
+  @GwtIncompatible("reflection")
+  private static ClassSanityTester.FactoryMethodReturnValueTester forAllPublicStaticMethods() {
+    return new ClassSanityTester()
+        .setSampleInstances(Iterable.class, ImmutableList.of(
+            ImmutableList.of(Predicates.alwaysFalse()),
+            ImmutableList.of(Predicates.alwaysTrue())))
+        .setSampleInstances(Predicate[].class, ImmutableList.of(
+            new Predicate[] {Predicates.alwaysFalse()},
+            new Predicate[] {Predicates.alwaysTrue()}))
+        .setSampleInstances(Class.class, ImmutableList.of(
+            Object.class, String.class))
+        .forAllPublicStaticMethods(Predicates.class);
   }
 
   private static void assertEvalsToTrue(Predicate<? super Integer> predicate) {

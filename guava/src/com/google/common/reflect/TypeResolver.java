@@ -203,6 +203,7 @@ class TypeResolver {
    * to resolve any type variable on generic declarations that are already being resolved.
    */
   Type resolveTypeVariable(TypeVariable<?> var, TypeResolver guardedResolver) {
+    checkNotNull(guardedResolver);
     Type type = typeTable.get(var);
     if (type == null) {
       Type[] bounds = var.getBounds();

@@ -21,19 +21,13 @@ import static com.google.common.testing.AbstractPackageSanityTests.Chopper.suffi
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Optional;
-import com.google.common.collect.ComparisonChain;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
-import com.google.common.collect.MutableClassToInstanceMap;
-import com.google.common.collect.Ordering;
 import com.google.common.collect.Sets;
 import com.google.common.reflect.ClassPath;
-import com.google.common.reflect.Invokable;
-import com.google.common.reflect.Parameter;
-import com.google.common.reflect.TypeToken;
 
 import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
@@ -42,34 +36,40 @@ import org.junit.Test;
 
 import java.io.IOException;
 import java.io.Serializable;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
-import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.TreeMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.annotation.Nullable;
-
 /**
- * Automatically runs sanity checks for the entire package of the subclass. Currently sanity checks
- * include {@link NullPointerTester} and {@link SerializableTester}. For example:
- * <pre>
- * {@literal @MediumTest}(MediumTestAttributes.FILE)
+ * Automatically runs sanity checks against the public classes in the same package of the class that
+ * extends {@code AbstractPackageSanityTests}. Currently sanity checks include {@link
+ * NullPointerTester}, {@link EqualsTester} and {@link SerializableTester}. For example: <pre>
  * public class PackageSanityTests extends AbstractPackageSanityTests {}
  * </pre>
  *
- * <p>If a certain type Foo's null check testing requires default value to be manually set, or that
- * it needs custom code to instantiate an instance for testing instance methods, add a {@code
- * public void testNulls()} method to FooTest and Foo will be ignored by the automated {@link
- * #testNulls} test.
+ * <p>Note that only the simplest type of classes are covered. That is, a public top-level class
+ * with either a public constructor or a public static factory method to construct instances of the
+ * class. For example: <pre>
+ * public class Address {
+ *   private final String city;
+ *   private final String state;
+ *   private final String zipcode;
  *
- * <p>Since this class scans the classpath and reads classpath resources, the test is essentially
- * a {@code MediumTest}.
+ *   public Address(String city, String state, String zipcode) {...}
+ *
+ *   {@literal @Override} public boolean equals(Object obj) {...}
+ *   {@literal @Override} public int hashCode() {...}
+ *   ...
+ * }
+ * </pre>
+ * No cascading checks are performed against the return values of methods unless the method is a
+ * static factory method. Neither are semantics of mutation methods such as {@code
+ * someList.add(obj)} checked. For more detailed discussion of supported and unsupported cases, see
+ * {@link #testEquals}, {@link #testNulls} and {@link #testSerializable}.
+ *
+ * <p>This class incurs IO because it scans the classpath and reads classpath resources.
  *
  * @author Ben Yu
  * @since 14.0
@@ -83,8 +83,14 @@ public abstract class AbstractPackageSanityTests extends TestCase {
       "testNulls", "testNull", "testNullPointer", "testNullPointerException");
 
   /* The names of the expected method that tests serializable. */
-  private static final ImmutableList<String> SERIALIZABLE_TEST_METHOD_NAMES =
-      ImmutableList.of("testSerializable", "testSerialization");
+  private static final ImmutableList<String> SERIALIZABLE_TEST_METHOD_NAMES = ImmutableList.of(
+      "testSerializable", "testSerialization",
+      "testEqualsAndSerializable", "testEqualsAndSerialization");
+
+  /* The names of the expected method that tests equals. */
+  private static final ImmutableList<String> EQUALS_TEST_METHOD_NAMES = ImmutableList.of(
+      "testEquals", "testEqualsAndHashCode",
+      "testEqualsAndSerializable", "testEqualsAndSerialization");
 
   private static final Chopper TEST_SUFFIX =
       suffix("Test")
@@ -92,93 +98,145 @@ public abstract class AbstractPackageSanityTests extends TestCase {
           .or(suffix("TestCase"))
           .or(suffix("TestSuite"));
 
-  /**
-   * Sorts methods/constructors with least number of parameters first since it's likely easier to
-   * fill dummy parameter values for them. Ties are broken by name then by the string form of the
-   * parameter list.
-   */
-  private static final Ordering<Invokable<?, ?>> LEAST_PARAMETERS_FIRST =
-      new Ordering<Invokable<?, ?>>() {
-        @Override public int compare(Invokable<?, ?> left, Invokable<?, ?> right) {
-          List<Parameter> params1 = left.getParameters();
-          List<Parameter> params2 = right.getParameters();
-          return ComparisonChain.start()
-              .compare(params1.size(), params2.size())
-              .compare(left.getName(), right.getName())
-              .compare(params1, params2, Ordering.usingToString())
-              .result();
-        }
-      };
-
   private final Logger logger = Logger.getLogger(getClass().getName());
-  private final MutableClassToInstanceMap<Object> defaultValues =
-      MutableClassToInstanceMap.create();
-  private final NullPointerTester nullPointerTester = new NullPointerTester();
+  private final ClassSanityTester tester = new ClassSanityTester();
 
-  public AbstractPackageSanityTests() {
-    // TODO(benyu): bake these into ArbitraryInstances.
-    setDefault(byte.class, (byte) 1);
-    setDefault(Byte.class, (byte) 1);
-    setDefault(short.class, (short) 1);
-    setDefault(Short.class, (short) 1);
-    setDefault(int.class, 1);
-    setDefault(Integer.class, 1);
-    setDefault(long.class, 1L);
-    setDefault(Long.class, 1L);
-    setDefault(float.class, 1F);
-    setDefault(Float.class, 1F);
-    setDefault(double.class, 1D);
-    setDefault(Double.class, 1D);
-  }
-
-  /** Tests all {@link Serializable} classes in the package. */
+  /**
+   * Tests all top-level public {@link Serializable} classes in the package. For a serializable
+   * Class {@code C}:
+   * <ul>
+   * <li>If {@code C} explicitly implements {@link Object#equals}, the deserialized instance will be
+   *     checked to be equal to the instance before serialization.
+   * <li>If {@code C} doesn't explicitly implement {@code equals} but instead inherits it from a
+   *     superclass, no equality check is done on the deserialized instance because it's not clear
+   *     whether the author intended for the class to be a value type.
+   * <li>If a constructor or factory method takes a parameter whose type is interface, a dynamic
+   *     proxy will be passed to the method. It's possible that the method body expects an instance
+   *     method of the passed-in proxy to be of a certain value yet the proxy isn't aware of the
+   *     assumption, in which case the equality check before and after serialization will fail.
+   * <li>If the constructor or factory method takes a parameter that {@link
+   *     AbstractPackageSanityTests} doesn't know how to construct, the test will fail.
+   * <li>If there is no public constructor or public static factory method declared by {@code C},
+   *     {@code C} is skipped for serialization test, even if it implements {@link Serializable}.
+   * <li>Serialization test is not performed on method return values unless the method is a public
+   *     static factory method whose return type is {@code C} or {@code C}'s subtype.
+   * </ul>
+   *
+   * In all cases, if {@code C} needs custom logic for testing serialization, you can add an
+   * explicit {@code testSerializable()} test in the corresponding {@code CTest} class, and {@code
+   * C} will be excluded from automated serialization test performed by this method.
+   */
   @Test
   public void testSerializable() throws Exception {
     // TODO: when we use @BeforeClass, we can pay the cost of class path scanning only once.
     for (Class<?> classToTest
-        : findClassesToTest(loadPublicClassesInPackage(), SERIALIZABLE_TEST_METHOD_NAMES)) {
+        : findClassesToTest(loadClassesInPackage(), SERIALIZABLE_TEST_METHOD_NAMES)) {
       if (Serializable.class.isAssignableFrom(classToTest)) {
-        testSerializable(classToTest);
+        try {
+          Object instance = tester.instantiate(classToTest);
+          if (instance != null) {
+            if (isEqualsDefined(classToTest)) {
+              SerializableTester.reserializeAndAssert(instance);
+            } else {
+              SerializableTester.reserialize(instance);
+            }
+          }
+        } catch (Throwable e) {
+          throw sanityError(classToTest, SERIALIZABLE_TEST_METHOD_NAMES, "serializable test", e);
+        }
       }
     }
   }
 
-  /** Tests null checks through the entire package. */
+  /**
+   * Performs {@link NullPointerTester} checks for all top-level public classes in the package. For
+   * a class {@code C}
+   * <ul>
+   * <li>All public static methods are checked such that passing null for any parameter that's not
+   *     annotated with {@link javax.annotation.Nullable} should throw {@link NullPointerException}.
+   * <li>If there is any public constructor or public static factory method declared by the class,
+   *     all public instance methods will be checked too using the instance created by invoking the
+   *     constructor or static factory method.
+   * <li>If the constructor or factory method used to construct instance takes a parameter that
+   *     {@link AbstractPackageSanityTests} doesn't know how to construct, the test will fail.
+   * <li>If there is no public constructor or public static factory method declared by {@code C},
+   *     instance methods are skipped for nulls test.
+   * <li>Nulls test is not performed on method return values unless the method is a public static
+   *     factory method whose return type is {@code C} or {@code C}'s subtype.
+   * </ul>
+   *
+   * In all cases, if {@code C} needs custom logic for testing nulls, you can add an explicit {@code
+   * testNulls()} test in the corresponding {@code CTest} class, and {@code C} will be excluded from
+   * the automated null tests performed by this method.
+   */
   @Test
   public void testNulls() throws Exception {
     for (Class<?> classToTest
-        : findClassesToTest(loadPublicClassesInPackage(), NULL_TEST_METHOD_NAMES)) {
-      testNulls(classToTest);
+        : findClassesToTest(loadClassesInPackage(), NULL_TEST_METHOD_NAMES)) {
+      try {
+        tester.doTestNulls(classToTest);
+      } catch (Throwable e) {
+        throw sanityError(classToTest, NULL_TEST_METHOD_NAMES, "nulls test", e);
+      }
+    }
+  }
+
+  /**
+   * Tests {@code equals()} and {@code hashCode()} implementations for every top-level public class
+   * in the package, that explicitly implements {@link Object#equals}. For a class {@code C}:
+   * <ul>
+   * <li>The public constructor or public static factory method with the most parameters is used to
+   *     construct the sample instances. In case of tie, the candidate constructors or factories are
+   *     tried one after another until one can be used to construct sample instances.
+   * <li>For the constructor or static factory method used to construct instances, it's checked that
+   *     when equal parameters are passed, the result instance should also be equal; and vice versa.
+   * <li>Inequality check is not performed against state mutation methods such as {@link List#add},
+   *     or functional update methods such as {@link com.google.common.base.Joiner#skipNulls}.
+   * <li>If the constructor or factory method used to construct instance takes a parameter that
+   *     {@link AbstractPackageSanityTests} doesn't know how to construct, the test will fail.
+   * <li>If there is no public constructor or public static factory method declared by {@code C},
+   *     {@code C} is skipped for equality test.
+   * <li>Equality test is not performed on method return values unless the method is a public static
+   *     factory method whose return type is {@code C} or {@code C}'s subtype.
+   * </ul>
+   *
+   * In all cases, if {@code C} needs custom logic for testing {@code equals()}, you can add an
+   * explicit {@code testEquals()} test in the corresponding {@code CTest} class, and {@code C} will
+   * be excluded from the automated {@code equals} test performed by this method.
+   */
+  @Test
+  public void testEquals() throws Exception {
+    for (Class<?> classToTest
+        : findClassesToTest(loadClassesInPackage(), EQUALS_TEST_METHOD_NAMES)) {
+      if (!classToTest.isEnum() && isEqualsDefined(classToTest)) {
+        try {
+          tester.doTestEquals(classToTest);
+        } catch (Throwable e) {
+          throw sanityError(classToTest, EQUALS_TEST_METHOD_NAMES, "equals test", e);
+        }
+      }
     }
   }
 
   /**
    * Sets the default value for {@code type}, when dummy value for a parameter of the same type
-   * needs to be created in order to invoke a method or constructor.
+   * needs to be created in order to invoke a method or constructor. The default value isn't used in
+   * testing {@link Object#equals} because more than one sample instances are needed for testing
+   * inequality.
    */
   protected final <T> void setDefault(Class<T> type, T value) {
-    nullPointerTester.setDefault(type, value);
-    defaultValues.putInstance(type, value);
+    tester.setDefault(type, value);
   }
 
-  private void testNulls(Class<?> cls) throws Exception {
-    nullPointerTester.testAllPublicConstructors(cls);
-    nullPointerTester.testAllPublicStaticMethods(cls);
-    Object instance = instantiate(cls, TestErrorReporter.FOR_NULLS_TEST);
-    if (instance != null) {
-      nullPointerTester.testAllPublicInstanceMethods(instance);
-    }
-  }
-
-  private void testSerializable(Class<?> cls) throws Exception {
-    Object instance = instantiate(cls, TestErrorReporter.FOR_SERIALIZABLE_TEST);
-    if (instance != null) {
-      if (isEqualsDefined(cls)) {
-        SerializableTester.reserializeAndAssert(instance);
-      } else {
-        SerializableTester.reserialize(instance);
-      }
-    }
+  private static AssertionFailedError sanityError(
+      Class<?> cls, List<String> explicitTestNames, String description, Throwable e) {
+    String message = String.format(
+        "Error in automated %s of %s\n"
+            + "If the class is better tested explicitly, please add %s() to %sTest",
+        description, cls, explicitTestNames.get(0), cls.getName());
+    AssertionFailedError error = new AssertionFailedError(message);
+    error.initCause(e);
+    return error;
   }
 
   /**
@@ -219,104 +277,7 @@ public abstract class AbstractPackageSanityTests extends TestCase {
     return classesToTest;
   }
 
-  /** Returns null if no instance can be created. */
-  @Nullable private Object instantiate(Class<?> cls, TestErrorReporter errorReporter)
-      throws Exception {
-    if (cls.isEnum()) {
-      Object[] constants = cls.getEnumConstants();
-      if (constants.length > 0) {
-        return constants[0];
-      } else {
-        return null;
-      }
-    }
-    TypeToken<?> type = TypeToken.of(cls);
-    List<AssertionFailedError> errors = Lists.newArrayList();
-    List<InvocationTargetException> instantiationExceptions = Lists.newArrayList();
-    for (Invokable<?, ?> factory : getFactories(type)) {
-      List<Object> args;
-      try {
-        args = getDummyArguments(factory, errorReporter);
-      } catch (AssertionFailedError e) {
-        errors.add(e);
-        continue;
-      }
-      Object instance;
-      try {
-        instance = factory.invoke(null, args.toArray());
-      } catch (InvocationTargetException e) {
-        instantiationExceptions.add(e);
-        continue;
-      }
-      try {
-        assertNotNull(factory + " returns null and cannot be used to test instance methods.",
-            instance);
-        return instance;
-      } catch (AssertionFailedError e) {
-        errors.add(e);
-      }
-    }
-    if (!errors.isEmpty()) {
-      throw errors.get(0);
-    }
-    if (!instantiationExceptions.isEmpty()) {
-      throw instantiationExceptions.get(0);
-    }
-    return null;
-  }
-
-  private static List<Invokable<?, ?>> getFactories(TypeToken<?> type) {
-    List<Invokable<?, ?>> invokables = Lists.newArrayList();
-    for (Method method : type.getRawType().getMethods()) {
-      Invokable<?, ?> invokable = type.method(method);
-      if (invokable.isStatic() && type.isAssignableFrom(invokable.getReturnType())) {
-        invokables.add(invokable);
-      }
-    }
-    if (!Modifier.isAbstract(type.getRawType().getModifiers())) {
-      for (Constructor<?> constructor : type.getRawType().getConstructors()) {
-        invokables.add(type.constructor(constructor));
-      }
-    }
-    Collections.sort(invokables, LEAST_PARAMETERS_FIRST);
-    return invokables;
-  }
-
-  private List<Object> getDummyArguments(
-      Invokable<?, ?> invokable, TestErrorReporter errorReporter) {
-    List<Object> args = Lists.newArrayList();
-    for (Parameter param : invokable.getParameters()) {
-      Object defaultValue = getDummyValue(param.getType());
-      assertTrue(errorReporter.cannotDetermineParameterValue(invokable, param),
-          defaultValue != null || param.isAnnotationPresent(Nullable.class));
-      args.add(defaultValue);
-    }
-    return args;
-  }
-
-  private <T> T getDummyValue(TypeToken<T> type) {
-    Class<? super T> rawType = type.getRawType();
-    @SuppressWarnings("unchecked") // Assume all default values are generics safe.
-    T defaultValue = (T) defaultValues.getInstance(rawType);
-    if (defaultValue != null) {
-      return defaultValue;
-    }
-    @SuppressWarnings("unchecked") // ArbitraryInstances always returns generics-safe dummies.
-    T value = (T) ArbitraryInstances.get(rawType);
-    if (value != null) {
-      return value;
-    }
-    if (rawType.isInterface()) {
-      return new DummyProxy() {
-        @Override <R> R dummyReturnValue(TypeToken<R> returnType) {
-          return getDummyValue(returnType);
-        }
-      }.newProxy(type);
-    }
-    return null;
-  }
-
-  private List<Class<?>> loadPublicClassesInPackage() throws IOException {
+  private List<Class<?>> loadClassesInPackage() throws IOException {
     List<Class<?>> classes = Lists.newArrayList();
     String packageName = getClass().getPackage().getName();
     for (ClassPath.ClassInfo classInfo 
@@ -329,7 +290,7 @@ public abstract class AbstractPackageSanityTests extends TestCase {
         logger.log(Level.SEVERE, "Cannot load class " + classInfo + ", skipping...", e);
         continue;
       }
-      if (!cls.isInterface() && Modifier.isPublic(cls.getModifiers())) {
+      if (!cls.isInterface()) {
         classes.add(cls);
       }
     }
@@ -355,31 +316,6 @@ public abstract class AbstractPackageSanityTests extends TestCase {
     } catch (NoSuchMethodException e) {
       return false;
     }
-  }
-
-  private enum TestErrorReporter {
-
-    FOR_NULLS_TEST {
-      @Override String suggestExplicitTest(Class<?> classToTest) {
-        return "Please explicitly test null checks in "
-            + classToTest.getName() + "Test." + NULL_TEST_METHOD_NAMES.get(0) + "()";
-      }
-    },
-    FOR_SERIALIZABLE_TEST {
-      @Override String suggestExplicitTest(Class<?> classToTest) {
-        return "Please explicitly test serialization in "
-            + classToTest.getName() + "Test." + SERIALIZABLE_TEST_METHOD_NAMES.get(0) + "()";
-      }
-    },
-    ;
-
-    final String cannotDetermineParameterValue(Invokable<?, ?> factory, Parameter param) {
-      return "Cannot use " + factory + " to instantiate " + factory.getDeclaringClass()
-          + " because default value of " + param + " cannot be determined.\n"
-          + suggestExplicitTest(factory.getDeclaringClass());
-    }
-
-    abstract String suggestExplicitTest(Class<?> classToTest);
   }
 
   static abstract class Chopper {

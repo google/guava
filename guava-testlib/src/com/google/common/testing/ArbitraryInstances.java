@@ -82,6 +82,7 @@ import java.io.OutputStream;
 import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.io.Reader;
+import java.io.Serializable;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.io.Writer;
@@ -272,18 +273,6 @@ public final class ArbitraryInstances {
       .put(AnnotatedElement.class, Object.class)
       .put(GenericDeclaration.class, Object.class)
       .put(Type.class, Object.class)
-      // concurrent
-      .put(Runnable.class, new Runnable() {
-        @Override public void run() {}
-      })
-      .put(ThreadFactory.class, new ThreadFactory() {
-        @Override public Thread newThread(Runnable r) {
-          return new Thread(r);
-        }
-      })
-      .put(Executor.class, new Executor() {
-        @Override public void execute(Runnable command) {}
-      })
       .build();
 
   /**
@@ -306,17 +295,20 @@ public final class ArbitraryInstances {
     setImplementation(BlockingDeque.class, LinkedBlockingDeque.class);
     setImplementation(ConcurrentMap.class, ConcurrentHashMap.class);
     setImplementation(ConcurrentNavigableMap.class, ConcurrentSkipListMap.class);
-    setImplementation(CountDownLatch.class, Mutable.DummyCountDownLatch.class);
+    setImplementation(CountDownLatch.class, Dummies.DummyCountDownLatch.class);
     setImplementation(Deque.class, ArrayDeque.class);
     setImplementation(OutputStream.class, ByteArrayOutputStream.class);
-    setImplementation(PrintStream.class, Mutable.InMemoryPrintStream.class);
-    setImplementation(PrintWriter.class, Mutable.InMemoryPrintWriter.class);
+    setImplementation(PrintStream.class, Dummies.InMemoryPrintStream.class);
+    setImplementation(PrintWriter.class, Dummies.InMemoryPrintWriter.class);
     setImplementation(Queue.class, ArrayDeque.class);
-    setImplementation(Random.class, Mutable.DeterministicRandom.class);
+    setImplementation(Random.class, Dummies.DeterministicRandom.class);
     setImplementation(ScheduledThreadPoolExecutor.class,
-        Mutable.DummyScheduledThreadPoolExecutor.class);
-    setImplementation(ThreadPoolExecutor.class, Mutable.DummyScheduledThreadPoolExecutor.class);
+        Dummies.DummyScheduledThreadPoolExecutor.class);
+    setImplementation(ThreadPoolExecutor.class, Dummies.DummyScheduledThreadPoolExecutor.class);
     setImplementation(Writer.class, StringWriter.class);
+    setImplementation(Runnable.class, Dummies.DummyRunnable.class);
+    setImplementation(ThreadFactory.class, Dummies.DummyThreadFactory.class);
+    setImplementation(Executor.class, Dummies.DummyExecutor.class);
   }
 
   @SuppressWarnings("unchecked") // it's a subtype map
@@ -380,8 +372,8 @@ public final class ArbitraryInstances {
     return (T) Array.newInstance(arrayType.getComponentType(), 0);
   }
 
-  // Internal implementations for mutable types, with public default constructor that get() needs.
-  private static final class Mutable {
+  // Internal implementations of some classes, with public default constructor that get() needs.
+  private static final class Dummies {
 
     public static final class InMemoryPrintStream extends PrintStream {
       public InMemoryPrintStream() {
@@ -412,6 +404,20 @@ public final class ArbitraryInstances {
       public DummyCountDownLatch() {
         super(0);
       }
+    }
+
+    public static final class DummyRunnable implements Runnable, Serializable {
+      @Override public void run() {}
+    }
+
+    public static final class DummyThreadFactory implements ThreadFactory, Serializable {
+      @Override public Thread newThread(Runnable r) {
+        return new Thread(r);
+      }
+    }
+
+    public static final class DummyExecutor implements Executor, Serializable {
+      @Override public void execute(Runnable command) {}
     }
   }
 

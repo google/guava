@@ -40,6 +40,7 @@ import java.io.Reader;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.io.Writer;
+import java.lang.reflect.Method;
 import java.lang.reflect.Type;
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -134,6 +135,12 @@ public class FreshValueGeneratorTest extends TestCase {
     assertNotNull(generator.generate(Currency.class));
     assertNotNull(generator.generate(Currency.class));
     assertNotNull(generator.generate(Currency.class));
+  }
+
+  public void testNulls() throws Exception {
+    new ClassSanityTester()
+        .setDefault(Method.class, FreshValueGeneratorTest.class.getDeclaredMethod("testNulls"))
+        .testNulls(FreshValueGenerator.class);
   }
 
   private static void assertFreshInstances(Class<?>... types) {

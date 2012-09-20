@@ -34,11 +34,24 @@ import java.util.List;
  */
 @GwtCompatible
 final class RelationshipTester<T> {
+
+  static class ItemReporter {
+    String reportItem(Item item) {
+      return item.toString();
+    }
+  }
+
   private final List<ImmutableList<T>> groups = Lists.newArrayList();
   private final RelationshipAssertion<T> assertion;
+  private final ItemReporter itemReporter;
+
+  RelationshipTester(RelationshipAssertion<T> assertion, ItemReporter itemReporter) {
+    this.assertion = checkNotNull(assertion);
+    this.itemReporter = checkNotNull(itemReporter);
+  }
 
   RelationshipTester(RelationshipAssertion<T> assertion) {
-    this.assertion = checkNotNull(assertion);
+    this(assertion, new ItemReporter());
   }
 
   public RelationshipTester<T> addRelatedGroup(Iterable<? extends T> group) {
@@ -80,8 +93,9 @@ final class RelationshipTester<T> {
     } catch (AssertionFailedError e) {
       // TODO(gak): special handling for ComparisonFailure?
       throw new AssertionFailedError(e.getMessage()
-          .replace("$ITEM", itemString(item, groupNumber, itemNumber))
-          .replace("$RELATED", itemString(related, groupNumber, relatedItemNumber)));
+          .replace("$ITEM", itemReporter.reportItem(new Item(item, groupNumber, itemNumber)))
+          .replace("$RELATED",
+              itemReporter.reportItem(new Item(related, groupNumber, relatedItemNumber))));
     }
   }
 
@@ -94,20 +108,33 @@ final class RelationshipTester<T> {
     } catch (AssertionFailedError e) {
       // TODO(gak): special handling for ComparisonFailure?
       throw new AssertionFailedError(e.getMessage()
-          .replace("$ITEM", itemString(item, groupNumber, itemNumber))
-          .replace("$UNRELATED", itemString(unrelated, unrelatedGroupNumber, unrelatedItemNumber)));
+          .replace("$ITEM", itemReporter.reportItem(new Item(item, groupNumber, itemNumber)))
+          .replace("$UNRELATED", itemReporter.reportItem(
+              new Item(unrelated, unrelatedGroupNumber, unrelatedItemNumber))));
     }
   }
 
-  private static String itemString(Object item, int groupNumber, int itemNumber) {
-    return new StringBuilder()
-        .append(item)
-        .append(" [group ")
-        .append(groupNumber + 1)
-        .append(", item ")
-        .append(itemNumber + 1)
-        .append(']')
-        .toString();
+  static final class Item {
+    final Object value;
+    final int groupNumber;
+    final int itemNumber;
+
+    Item(Object value, int groupNumber, int itemNumber) {
+      this.value = value;
+      this.groupNumber = groupNumber;
+      this.itemNumber = itemNumber;
+    }
+
+    @Override public String toString() {
+      return new StringBuilder()
+          .append(value)
+          .append(" [group ")
+          .append(groupNumber + 1)
+          .append(", item ")
+          .append(itemNumber + 1)
+          .append(']')
+          .toString();
+    }
   }
 
   /**
@@ -119,9 +146,8 @@ final class RelationshipTester<T> {
    * item number and group number of the respective item.
    *
    */
-  interface RelationshipAssertion<T> {
-    void assertRelated(T item, T related);
-
-    void assertUnrelated(T item, T unrelated);
+  static abstract class RelationshipAssertion<T> {
+    abstract void assertRelated(T item, T related);
+    abstract void assertUnrelated(T item, T unrelated);
   }
 }

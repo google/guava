@@ -75,7 +75,7 @@ public final class NullPointerTester {
    * {@code type}. Returns this object.
    */
   public <T> NullPointerTester setDefault(Class<T> type, T value) {
-    defaults.put(type, checkNotNull(value));
+    defaults.putInstance(type, checkNotNull(value));
     return this;
   }
 

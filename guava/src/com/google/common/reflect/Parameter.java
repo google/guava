@@ -16,9 +16,10 @@
 
 package com.google.common.reflect;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import com.google.common.annotations.Beta;
 import com.google.common.collect.ImmutableList;
-import com.google.common.reflect.TypeToken;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.AnnotatedElement;
@@ -56,7 +57,7 @@ public final class Parameter implements AnnotatedElement {
   }
 
   /** Returns the {@link Invokable} that declares this parameter. */
-  public Invokable<?, ?> getInvokable() {
+  public Invokable<?, ?> getDeclaringInvokable() {
     return declaration;
   }
 
@@ -67,6 +68,7 @@ public final class Parameter implements AnnotatedElement {
   @Override
   @Nullable
   public <A extends Annotation> A getAnnotation(Class<A> annotationType) {
+    checkNotNull(annotationType);
     for (Annotation annotation : annotations) {
       if (annotationType.isInstance(annotation)) {
         return annotationType.cast(annotation);
@@ -83,7 +85,7 @@ public final class Parameter implements AnnotatedElement {
     return annotations.toArray(new Annotation[annotations.size()]);
   }
 
-  @Override public boolean equals(Object obj) {
+  @Override public boolean equals(@Nullable Object obj) {
     if (obj instanceof Parameter) {
       Parameter that = (Parameter) obj;
       return position == that.position && declaration.equals(that.declaration);

@@ -245,7 +245,7 @@ public final class Predicates {
       this.predicate = checkNotNull(predicate);
     }
     @Override
-    public boolean apply(T t) {
+    public boolean apply(@Nullable T t) {
       return !predicate.apply(t);
     }
     @Override public int hashCode() {
@@ -274,7 +274,7 @@ public final class Predicates {
       this.components = components;
     }
     @Override
-    public boolean apply(T t) {
+    public boolean apply(@Nullable T t) {
       // Avoid using the Iterator to avoid generating garbage (issue 820).
       for (int i = 0; i < components.size(); i++) {
         if (!components.get(i).apply(t)) {
@@ -308,7 +308,7 @@ public final class Predicates {
       this.components = components;
     }
     @Override
-    public boolean apply(T t) {
+    public boolean apply(@Nullable T t) {
       // Avoid using the Iterator to avoid generating garbage (issue 820).
       for (int i = 0; i < components.size(); i++) {
         if (components.get(i).apply(t)) {
@@ -371,7 +371,7 @@ public final class Predicates {
     }
 
     @Override
-    public boolean apply(T t) {
+    public boolean apply(@Nullable T t) {
       try {
         return target.contains(t);
       } catch (NullPointerException e) {
@@ -411,7 +411,7 @@ public final class Predicates {
     }
 
     @Override
-    public boolean apply(A a) {
+    public boolean apply(@Nullable A a) {
       return p.apply(f.apply(a));
     }
 
