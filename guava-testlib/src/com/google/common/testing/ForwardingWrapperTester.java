@@ -41,7 +41,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * <p>For example: <pre>   {@code
  *   new ForwardingWrapperTester().testForwarding(Foo.class, new Function<Foo, Foo>() {
  *     public Foo apply(Foo foo) {
- *       return ForwardingFoo(foo);
+ *       return new ForwardingFoo(foo);
  *     }
  *   });}</pre>
  *
