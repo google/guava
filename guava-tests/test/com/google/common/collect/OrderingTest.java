@@ -470,90 +470,179 @@ public class OrderingTest extends TestCase {
         Collections.<Integer>emptyList()));
   }
 
-  public void testLeastOf_emptyList_0() {
+  public void testLeastOfIterable_empty_0() {
     List<Integer> result = numberOrdering.leastOf(Arrays.<Integer>asList(), 0);
     assertTrue(result instanceof RandomAccess);
     assertListImmutable(result);
     assertEquals(ImmutableList.<Integer>of(), result);
   }
-
-  public void testLeastOf_emptyList_1() {
-    List<Integer> result = numberOrdering.leastOf(Arrays.<Integer>asList(), 1);
+  
+  public void testLeastOfIterator_empty_0() {
+    List<Integer> result = numberOrdering.leastOf(
+        Iterators.<Integer>emptyIterator(), 0);
     assertTrue(result instanceof RandomAccess);
     assertListImmutable(result);
     assertEquals(ImmutableList.<Integer>of(), result);
   }
 
-  public void testLeastOf_simple_negativeOne() {
+  public void testLeastOfIterable_empty_1() {
+    List<Integer> result = numberOrdering.leastOf(Arrays.<Integer>asList(), 1);
+    assertTrue(result instanceof RandomAccess);
+    assertListImmutable(result);
+    assertEquals(ImmutableList.<Integer>of(), result);
+  }
+  
+  public void testLeastOfIterator_empty_1() {
+    List<Integer> result = numberOrdering.leastOf(
+        Iterators.<Integer>emptyIterator(), 1);
+    assertTrue(result instanceof RandomAccess);
+    assertListImmutable(result);
+    assertEquals(ImmutableList.<Integer>of(), result);
+  }
+
+  public void testLeastOfIterable_simple_negativeOne() {
     try {
       numberOrdering.leastOf(Arrays.asList(3, 4, 5, -1), -1);
       fail();
     } catch (IllegalArgumentException expected) {
     }
   }
+  
+  public void testLeastOfIterator_simple_negativeOne() {
+    try {
+      numberOrdering.leastOf(Iterators.forArray(3, 4, 5, -1), -1);
+      fail();
+    } catch (IllegalArgumentException expected) {
+    }
+  }
 
-  public void testLeastOf_singletonList_0() {
+  public void testLeastOfIterable_singleton_0() {
     List<Integer> result = numberOrdering.leastOf(Arrays.asList(3), 0);
     assertTrue(result instanceof RandomAccess);
     assertListImmutable(result);
     assertEquals(ImmutableList.<Integer>of(), result);
   }
-
-  public void testLeastOf_simple_0() {
-    List<Integer> result = numberOrdering.leastOf(Arrays.asList(3, 4, 5, -1), 0);
+  
+  public void testLeastOfIterator_singleton_0() {
+    List<Integer> result = numberOrdering.leastOf(
+        Iterators.singletonIterator(3), 0);
     assertTrue(result instanceof RandomAccess);
     assertListImmutable(result);
     assertEquals(ImmutableList.<Integer>of(), result);
   }
 
-  public void testLeastOf_simple_1() {
+  public void testLeastOfIterable_simple_0() {
+    List<Integer> result = numberOrdering.leastOf(Arrays.asList(3, 4, 5, -1), 0);
+    assertTrue(result instanceof RandomAccess);
+    assertListImmutable(result);
+    assertEquals(ImmutableList.<Integer>of(), result);
+  }
+  
+  public void testLeastOfIterator_simple_0() {
+    List<Integer> result = numberOrdering.leastOf(
+        Iterators.forArray(3, 4, 5, -1), 0);
+    assertTrue(result instanceof RandomAccess);
+    assertListImmutable(result);
+    assertEquals(ImmutableList.<Integer>of(), result);
+  }
+
+  public void testLeastOfIterable_simple_1() {
     List<Integer> result = numberOrdering.leastOf(Arrays.asList(3, 4, 5, -1), 1);
     assertTrue(result instanceof RandomAccess);
     assertListImmutable(result);
     assertEquals(ImmutableList.of(-1), result);
   }
+  
+  public void testLeastOfIterator_simple_1() {
+    List<Integer> result = numberOrdering.leastOf(
+        Iterators.forArray(3, 4, 5, -1), 1);
+    assertTrue(result instanceof RandomAccess);
+    assertListImmutable(result);
+    assertEquals(ImmutableList.of(-1), result);
+  }
 
-  public void testLeastOf_simple_nMinusOne_withNullElement() {
+  public void testLeastOfIterable_simple_nMinusOne_withNullElement() {
     List<Integer> list = Arrays.asList(3, null, 5, -1);
     List<Integer> result = Ordering.natural().nullsLast().leastOf(list, list.size() - 1);
     assertTrue(result instanceof RandomAccess);
     assertListImmutable(result);
     assertEquals(ImmutableList.of(-1, 3, 5), result);
   }
+  
+  public void testLeastOfIterator_simple_nMinusOne_withNullElement() {
+    Iterator<Integer> itr = Iterators.forArray(3, null, 5, -1);
+    List<Integer> result = Ordering.natural().nullsLast().leastOf(itr, 3);
+    assertTrue(result instanceof RandomAccess);
+    assertListImmutable(result);
+    assertEquals(ImmutableList.of(-1, 3, 5), result);
+  }
 
-  public void testLeastOf_simple_nMinusOne() {
+  public void testLeastOfIterable_simple_nMinusOne() {
     List<Integer> list = Arrays.asList(3, 4, 5, -1);
     List<Integer> result = numberOrdering.leastOf(list, list.size() - 1);
     assertTrue(result instanceof RandomAccess);
     assertListImmutable(result);
     assertEquals(ImmutableList.of(-1, 3, 4), result);
   }
+  
+  public void testLeastOfIterator_simple_nMinusOne() {
+    List<Integer> list = Arrays.asList(3, 4, 5, -1);
+    List<Integer> result = numberOrdering.leastOf(list.iterator(), list.size() - 1);
+    assertTrue(result instanceof RandomAccess);
+    assertListImmutable(result);
+    assertEquals(ImmutableList.of(-1, 3, 4), result);
+  }
 
-  public void testLeastOf_simple_n() {
+  public void testLeastOfIterable_simple_n() {
     List<Integer> list = Arrays.asList(3, 4, 5, -1);
     List<Integer> result = numberOrdering.leastOf(list, list.size());
     assertTrue(result instanceof RandomAccess);
     assertListImmutable(result);
     assertEquals(ImmutableList.of(-1, 3, 4, 5), result);
   }
+  
+  public void testLeastOfIterator_simple_n() {
+    List<Integer> list = Arrays.asList(3, 4, 5, -1);
+    List<Integer> result = numberOrdering.leastOf(list.iterator(), list.size());
+    assertTrue(result instanceof RandomAccess);
+    assertListImmutable(result);
+    assertEquals(ImmutableList.of(-1, 3, 4, 5), result);
+  }
 
-  public void testLeastOf_simple_n_withNullElement() {
+  public void testLeastOfIterable_simple_n_withNullElement() {
     List<Integer> list = Arrays.asList(3, 4, 5, null, -1);
     List<Integer> result = Ordering.natural().nullsLast().leastOf(list, list.size());
     assertTrue(result instanceof RandomAccess);
     assertListImmutable(result);
     assertEquals(Arrays.asList(-1, 3, 4, 5, null), result);
   }
+  
+  public void testLeastOfIterator_simple_n_withNullElement() {
+    List<Integer> list = Arrays.asList(3, 4, 5, null, -1);
+    List<Integer> result = Ordering.natural().nullsLast().leastOf(
+        list.iterator(), list.size());
+    assertTrue(result instanceof RandomAccess);
+    assertListImmutable(result);
+    assertEquals(Arrays.asList(-1, 3, 4, 5, null), result);
+  }
 
-  public void testLeastOf_simple_nPlusOne() {
+  public void testLeastOfIterable_simple_nPlusOne() {
     List<Integer> list = Arrays.asList(3, 4, 5, -1);
     List<Integer> result = numberOrdering.leastOf(list, list.size() + 1);
     assertTrue(result instanceof RandomAccess);
     assertListImmutable(result);
     assertEquals(ImmutableList.of(-1, 3, 4, 5), result);
   }
+  
+  public void testLeastOfIterator_simple_nPlusOne() {
+    List<Integer> list = Arrays.asList(3, 4, 5, -1);
+    List<Integer> result = numberOrdering.leastOf(list.iterator(), list.size() + 1);
+    assertTrue(result instanceof RandomAccess);
+    assertListImmutable(result);
+    assertEquals(ImmutableList.of(-1, 3, 4, 5), result);
+  }
 
-  public void testLeastOf_ties() {
+  public void testLeastOfIterable_ties() {
     Integer foo = new Integer(Integer.MAX_VALUE - 10);
     Integer bar = new Integer(Integer.MAX_VALUE - 10);
 
@@ -562,6 +651,18 @@ public class OrderingTest extends TestCase {
 
     List<Integer> list = Arrays.asList(3, foo, bar, -1);
     List<Integer> result = numberOrdering.leastOf(list, list.size());
+    assertEquals(ImmutableList.of(-1, 3, foo, bar), result);
+  }
+  
+  public void testLeastOfIterator_ties() {
+    Integer foo = new Integer(Integer.MAX_VALUE - 10);
+    Integer bar = new Integer(Integer.MAX_VALUE - 10);
+
+    assertNotSame(foo, bar);
+    assertEquals(foo, bar);
+
+    List<Integer> list = Arrays.asList(3, foo, bar, -1);
+    List<Integer> result = numberOrdering.leastOf(list.iterator(), list.size());
     assertEquals(ImmutableList.of(-1, 3, foo, bar), result);
   }
 

@@ -472,7 +472,7 @@ public abstract class Ordering<T> implements Comparator<T> {
    *     comparable</i> under this ordering.
    */
   public <E extends T> E min(@Nullable E a, @Nullable E b) {
-    return compare(a, b) <= 0 ? a : b;
+    return (compare(a, b) <= 0) ? a : b;
   }
 
   /**
@@ -549,7 +549,7 @@ public abstract class Ordering<T> implements Comparator<T> {
    *     comparable</i> under this ordering.
    */
   public <E extends T> E max(@Nullable E a, @Nullable E b) {
-    return compare(a, b) >= 0 ? a : b;
+    return (compare(a, b) >= 0) ? a : b;
   }
 
   /**
@@ -583,10 +583,6 @@ public abstract class Ordering<T> implements Comparator<T> {
    * algorithm; when multiple elements are equivalent, it is undefined which
    * will come first.
    *
-   * <p>The implementation requires that all elements of the underlying iterator
-   * fit into memory at once. If this is not possible, consider using a
-   * {@link java.util.PriorityQueue} instead.
-   *
    * @return an immutable {@code RandomAccess} list of the {@code k} least
    *     elements in ascending order
    * @throws IllegalArgumentException if {@code k} is negative
@@ -594,30 +590,118 @@ public abstract class Ordering<T> implements Comparator<T> {
    */
   @Beta
   public <E extends T> List<E> leastOf(Iterable<E> iterable, int k) {
-    checkArgument(k >= 0, "%d is negative", k);
+    return leastOf(iterable.iterator(), k);
+  }
 
-    // values is not an E[], but we use it as such for readability. Hack.
-    @SuppressWarnings("unchecked")
-    E[] values = (E[]) Iterables.toArray(iterable);
+  /**
+   * Returns the {@code k} least elements from the given iterator according to
+   * this ordering, in order from least to greatest.  If there are fewer than
+   * {@code k} elements present, all will be included.
+   *
+   * <p>The implementation does not necessarily use a <i>stable</i> sorting
+   * algorithm; when multiple elements are equivalent, it is undefined which
+   * will come first.
+   *
+   * @return an immutable {@code RandomAccess} list of the {@code k} least
+   *     elements in ascending order
+   * @throws IllegalArgumentException if {@code k} is negative
+   * @since 14.0
+   */
+  @Beta
+  public <E extends T> List<E> leastOf(Iterator<E> elements, int k) {
+    checkNotNull(elements);
+    checkArgument(k >= 0, "k (%d) must be nonnegative", k);
 
-    // TODO(nshupe): also sort whole list if k is *near* values.length?
-    // TODO(kevinb): benchmark this impl against hand-coded heap
-    E[] resultArray;
-    if (values.length <= k) {
-      Arrays.sort(values, this);
-      resultArray = values;
-    } else {
-      quicksortLeastK(values, 0, values.length - 1, k);
-
-      // this is not an E[], but we use it as such for readability. Hack.
-      @SuppressWarnings("unchecked")
-      E[] tmp = (E[]) new Object[k];
-      resultArray = tmp;
-      System.arraycopy(values, 0, resultArray, 0, k);
+    if (k == 0 || !elements.hasNext()) {
+      return ImmutableList.of();
     }
 
-    // We can't use ImmutableList since we want to support null elements.
-    return Collections.unmodifiableList(Arrays.asList(resultArray));
+    /*
+     * Our goal is an O(n) algorithm using only one pass and O(k) additional
+     * memory.
+     *
+     * We use the following algorithm: maintain a buffer of size 2*k. Every time
+     * the buffer gets full, find the median and partition around it, keeping
+     * only the lowest k elements.  This requires n/k find-median-and-partition
+     * steps, each of which take O(k) time with a traditional quickselect.
+     *
+     * After sorting the output, the whole algorithm is O(n + k log k). It
+     * degrades gracefully for worst-case input (descending order), performs
+     * competitively or wins outright for randomly ordered input, and doesn't
+     * require the whole collection to fit into memory.
+     */
+    int bufferCap = k * 2;
+    @SuppressWarnings("unchecked") // we'll only put E's in
+    E[] buffer = (E[]) new Object[bufferCap];
+    E threshold = elements.next();
+    buffer[0] = threshold;
+    int bufferSize = 1;
+    // threshold is the kth smallest element seen so far.  Once bufferSize >= k,
+    // anything larger than threshold can be ignored immediately.
+
+    while (bufferSize < k && elements.hasNext()) {
+      E e = elements.next();
+      buffer[bufferSize++] = e;
+      threshold = max(threshold, e);
+    }
+
+    while (elements.hasNext()) {
+      E e = elements.next();
+      if (compare(e, threshold) >= 0) {
+        continue;
+      }
+
+      buffer[bufferSize++] = e;
+      if (bufferSize == bufferCap) {
+        // We apply the quickselect algorithm to partition about the median,
+        // and then ignore the last k elements.
+        int left = 0;
+        int right = bufferCap - 1;
+
+        while (left < right) {
+          int pivotIndex = (left + right + 1) >>> 1;
+          int pivotNewIndex = partition(buffer, left, right, pivotIndex);
+          if (pivotNewIndex > k) {
+            right = pivotNewIndex - 1;
+          } else if (pivotNewIndex < k) {
+            left = Math.max(pivotNewIndex, left + 1);
+          } else {
+            break;
+          }
+        }
+        bufferSize = k;
+
+        threshold = buffer[0];
+        for (int i = 1; i < bufferSize; i++) {
+          threshold = max(threshold, buffer[i]);
+        }
+      }
+    }
+
+    Arrays.sort(buffer, 0, bufferSize, this);
+
+    bufferSize = Math.min(bufferSize, k);
+    return Collections.unmodifiableList(
+        Arrays.asList(ObjectArrays.arraysCopyOf(buffer, bufferSize)));
+    // We can't use ImmutableList; we have to be null-friendly!
+  }
+
+  private <E extends T> int partition(
+      E[] values, int left, int right, int pivotIndex) {
+    E pivotValue = values[pivotIndex];
+
+    values[pivotIndex] = values[right];
+    values[right] = pivotValue;
+
+    int storeIndex = left;
+    for (int i = left; i < right; i++) {
+      if (compare(values[i], pivotValue) < 0) {
+        ObjectArrays.swap(values, storeIndex, i);
+        storeIndex++;
+      }
+    }
+    ObjectArrays.swap(values, right, storeIndex);
+    return storeIndex;
   }
 
   /**
@@ -643,36 +727,6 @@ public abstract class Ordering<T> implements Comparator<T> {
     // TODO(kevinb): see if delegation is hurting performance noticeably
     // TODO(kevinb): if we change this implementation, add full unit tests.
     return reverse().leastOf(iterable, k);
-  }
-
-  private <E extends T> void quicksortLeastK(
-      E[] values, int left, int right, int k) {
-    if (right > left) {
-      int pivotIndex = (left + right) >>> 1; // left + ((right - left) / 2)
-      int pivotNewIndex = partition(values, left, right, pivotIndex);
-      quicksortLeastK(values, left, pivotNewIndex - 1, k);
-      if (pivotNewIndex < k) {
-        quicksortLeastK(values, pivotNewIndex + 1, right, k);
-      }
-    }
-  }
-
-  private <E extends T> int partition(
-      E[] values, int left, int right, int pivotIndex) {
-    E pivotValue = values[pivotIndex];
-
-    values[pivotIndex] = values[right];
-    values[right] = pivotValue;
-
-    int storeIndex = left;
-    for (int i = left; i < right; i++) {
-      if (compare(values[i], pivotValue) < 0) {
-        ObjectArrays.swap(values, storeIndex, i);
-        storeIndex++;
-      }
-    }
-    ObjectArrays.swap(values, right, storeIndex);
-    return storeIndex;
   }
 
   /**
