@@ -100,6 +100,7 @@ public final class ClassSanityTester {
     setDefault(Float.class, 1F);
     setDefault(double.class, 1D);
     setDefault(Double.class, 1D);
+    setDefault(Class.class, Class.class);
   }
 
   /** 
@@ -164,7 +165,9 @@ public final class ClassSanityTester {
   void doTestNulls(Class<?> cls)
       throws ParameterNotInstantiableException, IllegalAccessException,
              InvocationTargetException, FactoryMethodReturnsNullException {
-    nullPointerTester.testConstructors(cls, Visibility.PACKAGE);
+    if (!Modifier.isAbstract(cls.getModifiers())) {
+      nullPointerTester.testConstructors(cls, Visibility.PACKAGE);
+    }
     nullPointerTester.testStaticMethods(cls, Visibility.PACKAGE);
     Object instance = instantiate(cls);
     if (instance != null) {
@@ -461,7 +464,7 @@ public final class ClassSanityTester {
     if (param.isAnnotationPresent(Nullable.class)) {
       return null;
     }
-    Object arg = generator.generate(param.getType().getRawType());
+    Object arg = generator.generate(param.getType());
     if (arg == null) {
       throw new ParameterNotInstantiableException(param);
     }

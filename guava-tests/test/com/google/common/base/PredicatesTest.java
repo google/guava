@@ -20,7 +20,6 @@ import static com.google.common.base.CharMatcher.WHITESPACE;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.testing.ClassSanityTester;
 import com.google.common.testing.EqualsTester;
@@ -918,26 +917,12 @@ public class PredicatesTest extends TestCase {
 
   @GwtIncompatible("reflection")
   public void testNulls() throws Exception {
-    forAllPublicStaticMethods().testNulls();
+    new ClassSanityTester().forAllPublicStaticMethods(Predicates.class).testNulls();
   }
 
   @GwtIncompatible("reflection")
   public void testEqualsAndSerializable() throws Exception {
-    forAllPublicStaticMethods().testEqualsAndSerializable();
-  }
-
-  @GwtIncompatible("reflection")
-  private static ClassSanityTester.FactoryMethodReturnValueTester forAllPublicStaticMethods() {
-    return new ClassSanityTester()
-        .setSampleInstances(Iterable.class, ImmutableList.of(
-            ImmutableList.of(Predicates.alwaysFalse()),
-            ImmutableList.of(Predicates.alwaysTrue())))
-        .setSampleInstances(Predicate[].class, ImmutableList.of(
-            new Predicate[] {Predicates.alwaysFalse()},
-            new Predicate[] {Predicates.alwaysTrue()}))
-        .setSampleInstances(Class.class, ImmutableList.of(
-            Object.class, String.class))
-        .forAllPublicStaticMethods(Predicates.class);
+    new ClassSanityTester().forAllPublicStaticMethods(Predicates.class).testEqualsAndSerializable();
   }
 
   private static void assertEvalsToTrue(Predicate<? super Integer> predicate) {

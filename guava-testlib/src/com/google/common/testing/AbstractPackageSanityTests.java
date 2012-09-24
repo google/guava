@@ -232,7 +232,7 @@ public abstract class AbstractPackageSanityTests extends TestCase {
       Class<?> cls, List<String> explicitTestNames, String description, Throwable e) {
     String message = String.format(
         "Error in automated %s of %s\n"
-            + "If the class is better tested explicitly, please add %s() to %sTest",
+            + "If the class is better tested explicitly, you can add %s() to %sTest",
         description, cls, explicitTestNames.get(0), cls.getName());
     AssertionFailedError error = new AssertionFailedError(message);
     error.initCause(e);
@@ -311,8 +311,7 @@ public abstract class AbstractPackageSanityTests extends TestCase {
 
   private static boolean isEqualsDefined(Class<?> cls) {
     try {
-      cls.getDeclaredMethod("equals", Object.class);
-      return true;
+      return !cls.getDeclaredMethod("equals", Object.class).isSynthetic();
     } catch (NoSuchMethodException e) {
       return false;
     }

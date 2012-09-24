@@ -26,29 +26,65 @@ import com.google.common.base.Splitter;
 import com.google.common.base.Throwables;
 import com.google.common.base.Ticker;
 import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.BiMap;
+import com.google.common.collect.HashBasedTable;
+import com.google.common.collect.HashBiMap;
+import com.google.common.collect.HashMultimap;
+import com.google.common.collect.HashMultiset;
+import com.google.common.collect.ImmutableBiMap;
+import com.google.common.collect.ImmutableCollection;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableListMultimap;
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableMultimap;
+import com.google.common.collect.ImmutableMultiset;
+import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.ImmutableSetMultimap;
+import com.google.common.collect.ImmutableSortedMap;
+import com.google.common.collect.ImmutableSortedMultiset;
+import com.google.common.collect.ImmutableSortedSet;
+import com.google.common.collect.ImmutableTable;
 import com.google.common.collect.Iterables;
+import com.google.common.collect.LinkedHashMultimap;
+import com.google.common.collect.LinkedHashMultiset;
 import com.google.common.collect.ListMultimap;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import com.google.common.collect.Multimap;
+import com.google.common.collect.Multiset;
 import com.google.common.collect.Ordering;
+import com.google.common.collect.RowSortedTable;
+import com.google.common.collect.SetMultimap;
 import com.google.common.collect.Sets;
+import com.google.common.collect.SortedMultiset;
+import com.google.common.collect.Table;
+import com.google.common.collect.TreeBasedTable;
+import com.google.common.collect.TreeMultiset;
 import com.google.common.primitives.Primitives;
 import com.google.common.primitives.UnsignedInteger;
 import com.google.common.primitives.UnsignedLong;
 import com.google.common.reflect.AbstractInvocationHandler;
+import com.google.common.reflect.Invokable;
+import com.google.common.reflect.Parameter;
 import com.google.common.reflect.Reflection;
 import com.google.common.reflect.TypeToken;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.InputStream;
+import java.io.Reader;
 import java.io.StringReader;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
+import java.lang.reflect.Array;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.lang.reflect.TypeVariable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.nio.Buffer;
 import java.nio.ByteBuffer;
 import java.nio.CharBuffer;
 import java.nio.DoubleBuffer;
@@ -57,14 +93,31 @@ import java.nio.IntBuffer;
 import java.nio.LongBuffer;
 import java.nio.ShortBuffer;
 import java.nio.charset.Charset;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.Currency;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
+import java.util.NavigableMap;
+import java.util.NavigableSet;
 import java.util.Set;
+import java.util.SortedMap;
+import java.util.SortedSet;
+import java.util.TreeMap;
+import java.util.TreeSet;
+import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.regex.Pattern;
+
+import javax.annotation.Nullable;
 
 /**
  * Generates fresh instances of types that are different from each other (if possible).
@@ -73,6 +126,18 @@ import java.util.regex.Pattern;
  */
 class FreshValueGenerator {
 
+  private static final ImmutableMap<Class<?>, Method> GENERATORS;
+  static {
+    ImmutableMap.Builder<Class<?>, Method> builder =
+        ImmutableMap.builder();
+    for (Method method : FreshValueGenerator.class.getDeclaredMethods()) {
+      if (method.isAnnotationPresent(Generates.class)) {
+        builder.put(method.getReturnType(), method);
+      }
+    }
+    GENERATORS = builder.build();
+  }
+
   private final AtomicInteger differentiator = new AtomicInteger(1);
   private final ListMultimap<Class<?>, Object> sampleInstances = ArrayListMultimap.create();
 
@@ -80,48 +145,76 @@ class FreshValueGenerator {
     sampleInstances.putAll(checkNotNull(type), checkNotNull(instances));
   }
 
-  final <T> T generate(Class<T> type) {
-    List<Object> samples = sampleInstances.get(type);
-    @SuppressWarnings("unchecked") // sampleInstances is always registered by type.
-    T sample = (T) nextInstance(samples, null);
+  /**
+   * Returns a fresh instance for {@code type} if possible. The returned instance could be:
+   * <ul>
+   * <li>exactly of the given type, including generic type parameters, such as
+   *     {@code ImmutableList<String>};
+   * <li>of the raw type;
+   * <li>null if no fresh value can be generated.
+   * </ul>
+   */
+  @Nullable final <T> T generate(TypeToken<T> type) {
+    // Not completely safe since sample instances are registered by raw types.
+    // But we assume the generic type parameters are mostly unimportant for these dummy values,
+    // because what really matters are equals/hashCode.
+    @SuppressWarnings("unchecked")
+    T result = (T) generateIfPossible(type);
+    return result;
+  }
+
+  @Nullable final <T> T generate(Class<T> type) {
+    return generate(TypeToken.of(type));
+  }
+  
+  @Nullable private Object generateIfPossible(TypeToken<?> type) {
+    Class<?> rawType = type.getRawType();
+    List<Object> samples = sampleInstances.get(rawType);
+    Object sample = nextInstance(samples, null);
     if (sample != null) {
       return sample;
     }
-    for (Method method : FreshValueGenerator.class.getDeclaredMethods()) {
-      if (method.isAnnotationPresent(Generates.class)) {
-        if (Primitives.wrap(type).isAssignableFrom(Primitives.wrap(method.getReturnType()))) {
-          try {
-            @SuppressWarnings("unchecked") // protected by isAssignableFrom
-            T result = (T) method.invoke(this);
-            return result;
-          } catch (InvocationTargetException e) {
-            Throwables.propagate(e.getCause());
-          } catch (Exception e) {
-            throw Throwables.propagate(e);
-          }
+    if (rawType.isEnum()) {
+      return nextInstance(rawType.getEnumConstants(), null);
+    }
+    if (type.isArray()) {
+      TypeToken<?> componentType = type.getComponentType();
+      Object array = Array.newInstance(componentType.getRawType(), 1);
+      Array.set(array, 0, generateIfPossible(componentType));
+      return array;
+    }
+    Method generator = GENERATORS.get(Primitives.unwrap(rawType));
+    if (generator != null) {
+      ImmutableList<Parameter> params = Invokable.from(generator).getParameters();
+      List<Object> args = Lists.newArrayListWithCapacity(params.size());
+      TypeVariable<?>[] typeVars = rawType.getTypeParameters();
+      for (int i = 0; i < params.size(); i++) {
+        TypeToken<?> paramType = type.resolveType(typeVars[i]);
+        // We require all @Generates methods to either be parameter-less or accept non-null
+        // fresh values for their generic parameter types.
+        Object argValue = generateIfPossible(paramType);
+        if (argValue == null) {
+          return defaultGenerate(rawType);
         }
+        args.add(argValue);
+      }
+      try {
+        return generator.invoke(this, args.toArray());
+      } catch (InvocationTargetException e) {
+        Throwables.propagate(e.getCause());
+      } catch (Exception e) {
+        throw Throwables.propagate(e);
       }
     }
-    if (type.isInterface()) {
+    return defaultGenerate(rawType);
+  }
+
+  private Object defaultGenerate(Class<?> rawType) {
+    if (rawType.isInterface()) {
       // always create a new proxy
-      return newProxy(type);
+      return newProxy(rawType);
     }
-    if (type.isEnum()) {
-      return nextInstance(type.getEnumConstants(), null);
-    }
-    return ArbitraryInstances.get(type);
-  }
-
-  private <T> T nextInstance(T[] instances, T defaultValue) {
-    return nextInstance(Arrays.asList(instances), defaultValue);
-  }
-
-  private <T> T nextInstance(Collection<T> instances, T defaultValue) {
-    if (instances.isEmpty()) {
-      return defaultValue;
-    }
-    // freshInt() is 1-based.
-    return Iterables.get(instances, (freshInt() - 1) % instances.size());
+    return ArbitraryInstances.get(rawType);
   }
 
   final <T> T newProxy(final Class<T> interfaceType) {
@@ -143,11 +236,27 @@ class FreshValueGenerator {
     throw new UnsupportedOperationException();
   }
 
+  private <T> T nextInstance(T[] instances, T defaultValue) {
+    return nextInstance(Arrays.asList(instances), defaultValue);
+  }
+
+  private <T> T nextInstance(Collection<T> instances, T defaultValue) {
+    if (instances.isEmpty()) {
+      return defaultValue;
+    }
+    // freshInt() is 1-based.
+    return Iterables.get(instances, (freshInt() - 1) % instances.size());
+  }
+
   private static String paramString(Class<?> type, int i) {
     return type.getSimpleName() + '@' + i;
   }
 
-  /** Annotates a method to be the instance supplier of a certain type. */
+  /**
+   * Annotates a method to be the instance generator of a certain type. The return type is the
+   * generated type. The method parameters are non-null fresh values for each method type variable
+   * in the same type variable declaration order of the return type.
+   */
   @Target(ElementType.METHOD)
   @Retention(RetentionPolicy.RUNTIME)
   private @interface Generates {}
@@ -160,6 +269,14 @@ class FreshValueGenerator {
         Object.class);
   }
 
+  @Generates private Object freshObject() {
+    return freshString();
+  }
+
+  @Generates private Number freshNumber() {
+    return freshInt();
+  }
+
   @Generates private int freshInt() {
     return differentiator.getAndIncrement();
   }
@@ -168,66 +285,62 @@ class FreshValueGenerator {
     return freshInt();
   }
 
-  @SuppressWarnings("unused")
   @Generates private float freshFloat() {
     return freshInt();
   }
 
-  @SuppressWarnings("unused")
   @Generates private double freshDouble() {
     return freshInt();
   }
 
-  @SuppressWarnings("unused")
   @Generates private short freshShort() {
     return (short) freshInt();
   }
 
-  @SuppressWarnings("unused")
   @Generates private byte freshByte() {
     return (byte) freshInt();
   }
 
-  @SuppressWarnings("unused")
   @Generates private char freshChar() {
     return freshString().charAt(0);
   }
 
-  @SuppressWarnings("unused")
   @Generates private boolean freshBoolean() {
     return freshInt() % 2 == 0;
   }
 
-  @SuppressWarnings("unused")
   @Generates private UnsignedInteger freshUnsignedInteger() {
     return UnsignedInteger.asUnsigned(freshInt());
   }
 
-  @SuppressWarnings("unused")
   @Generates private UnsignedLong freshUnsignedLong() {
     return UnsignedLong.asUnsigned(freshLong());
   }
 
-  @SuppressWarnings("unused")
   @Generates private BigInteger freshBigInteger() {
     return BigInteger.valueOf(freshInt());
   }
 
-  @SuppressWarnings("unused")
   @Generates private BigDecimal freshBigDecimal() {
     return BigDecimal.valueOf(freshInt());
+  }
+
+  @Generates private CharSequence freshCharSequence() {
+    return freshString();
   }
 
   @Generates private String freshString() {
     return Integer.toString(freshInt());
   }
 
-  @SuppressWarnings("unused")
+  @Generates private Comparable<?> freshComparable() {
+    return freshString();
+  }
+
   @Generates private Pattern freshPattern() {
     return Pattern.compile(freshString());
   }
 
-  @SuppressWarnings("unused")
   @Generates private Charset freshCharset() {
     return nextInstance(Charset.availableCharsets().values(), Charsets.UTF_8);
   }
@@ -236,7 +349,6 @@ class FreshValueGenerator {
     return nextInstance(Locale.getAvailableLocales(), Locale.US);
   }
 
-  @SuppressWarnings("unused")
   @Generates private Currency freshCurrency() {
     for (Set<Locale> uselessLocales = Sets.newHashSet(); ; ) {
       Locale locale = freshLocale();
@@ -252,17 +364,14 @@ class FreshValueGenerator {
   }
 
   // common.base
-  @SuppressWarnings("unused")
   @Generates private Joiner freshJoiner() {
     return Joiner.on(freshString());
   }
 
-  @SuppressWarnings("unused")
   @Generates private Splitter freshSplitter() {
     return Splitter.on(freshString());
   }
 
-  @SuppressWarnings("unused")
   @Generates private <T> Equivalence<T> freshEquivalence() {
     return new Equivalence<T>() {
       @Override protected boolean doEquivalent(T a, T b) {
@@ -278,7 +387,6 @@ class FreshValueGenerator {
     };
   }
 
-  @SuppressWarnings("unused")
   @Generates private CharMatcher freshCharMatcher() {
     return new CharMatcher() {
       @Override public boolean matches(char c) {
@@ -291,7 +399,6 @@ class FreshValueGenerator {
     };
   }
 
-  @SuppressWarnings("unused")
   @Generates private Ticker freshTicker() {
     return new Ticker() {
       @Override public long read() {
@@ -304,8 +411,11 @@ class FreshValueGenerator {
     };
   }
 
-  // common.collect
-  @SuppressWarnings("unused")
+  // collect
+  @Generates private <T> Comparator<T> freshComparator() {
+    return freshOrdering();
+  }
+
   @Generates private <T> Ordering<T> freshOrdering() {
     return new Ordering<T>() {
       @Override public int compare(T left, T right) {
@@ -318,59 +428,309 @@ class FreshValueGenerator {
     };
   }
 
+  @Generates static private <E> Iterable<E> freshIterable(E freshElement) {
+    return freshList(freshElement);
+  }
+
+  @Generates static private <E> Collection<E> freshCollection(E freshElement) {
+    return freshList(freshElement);
+  }
+
+  @Generates static private <E> List<E> freshList(E freshElement) {
+    return freshArrayList(freshElement);
+  }
+
+  @Generates static private <E> ArrayList<E> freshArrayList(E freshElement) {
+    ArrayList<E> list = Lists.newArrayList();
+    list.add(freshElement);
+    return list;
+  }
+
+  @Generates static private <E> LinkedList<E> freshLinkedList(E freshElement) {
+    LinkedList<E> list = Lists.newLinkedList();
+    list.add(freshElement);
+    return list;
+  }
+
+  @Generates static private <E> ImmutableList<E> freshImmutableList(E freshElement) {
+    return ImmutableList.of(freshElement);
+  }
+
+  @Generates static private <E> ImmutableCollection<E> freshImmutableCollection(E freshElement) {
+    return freshImmutableList(freshElement);
+  }
+
+  @Generates static private <E> Set<E> freshSet(E freshElement) {
+    return freshHashSet(freshElement);
+  }
+
+  @Generates static private <E> HashSet<E> freshHashSet(E freshElement) {
+    return freshLinkedHashSet(freshElement);
+  }
+
+  @Generates static private <E> LinkedHashSet<E> freshLinkedHashSet(E freshElement) {
+    LinkedHashSet<E> set = Sets.newLinkedHashSet();
+    set.add(freshElement);
+    return set;
+  }
+
+  @Generates static private <E> ImmutableSet<E> freshImmutableSet(E freshElement) {
+    return ImmutableSet.of(freshElement);
+  }
+
+  @Generates static private <E extends Comparable<? super E>> SortedSet<E>
+      freshSortedSet(E freshElement) {
+    return freshNavigableSet(freshElement);
+  }
+
+  @Generates static private <E extends Comparable<? super E>> NavigableSet<E>
+      freshNavigableSet(E freshElement) {
+    return freshTreeSet(freshElement);
+  }
+
+  @Generates static private <E extends Comparable<? super E>> TreeSet<E> freshTreeSet(
+      E freshElement) {
+    TreeSet<E> set = Sets.newTreeSet();
+    set.add(freshElement);
+    return set;
+  }
+
+  @Generates static private <E extends Comparable<? super E>> ImmutableSortedSet<E>
+      freshImmutableSortedSet(E freshElement) {
+    return ImmutableSortedSet.of(freshElement);
+  }
+
+  @Generates static private <E> Multiset<E> freshMultiset(E freshElement) {
+    return freshHashMultiset(freshElement);
+  }
+
+  @Generates static private <E> HashMultiset<E> freshHashMultiset(E freshElement) {
+    HashMultiset<E> multiset = HashMultiset.create();
+    multiset.add(freshElement);
+    return multiset;
+  }
+
+  @Generates static private <E> LinkedHashMultiset<E> freshLinkedHashMultiset(E freshElement) {
+    LinkedHashMultiset<E> multiset = LinkedHashMultiset.create();
+    multiset.add(freshElement);
+    return multiset;
+  }
+
+  @Generates static private <E> ImmutableMultiset<E> freshImmutableMultiset(E freshElement) {
+    return ImmutableMultiset.of(freshElement);
+  }
+
+  @Generates static private <E extends Comparable<E>> SortedMultiset<E> freshSortedMultiset(
+      E freshElement) {
+    return freshTreeMultiset(freshElement);
+  }
+
+  @Generates static private <E extends Comparable<E>> TreeMultiset<E> freshTreeMultiset(
+      E freshElement) {
+    TreeMultiset<E> multiset = TreeMultiset.create();
+    multiset.add(freshElement);
+    return multiset;
+  }
+
+  @Generates static private <E extends Comparable<E>> ImmutableSortedMultiset<E>
+      freshImmutableSortedMultiset(E freshElement) {
+    return ImmutableSortedMultiset.of(freshElement);
+  }
+
+  @Generates static private <K, V> Map<K, V> freshMap(K key, V value) {
+    return freshHashdMap(key, value);
+  }
+
+  @Generates static private <K, V> HashMap<K, V> freshHashdMap(K key, V value) {
+    return freshLinkedHashMap(key, value);
+  }
+
+  @Generates static private <K, V> LinkedHashMap<K, V> freshLinkedHashMap(K key, V value) {
+    LinkedHashMap<K, V> map = Maps.newLinkedHashMap();
+    map.put(key, value);
+    return map;
+  }
+
+  @Generates static private <K, V> ImmutableMap<K, V> freshImmutableMap(K key, V value) {
+    return ImmutableMap.of(key, value);
+  }
+
+  @Generates static private <K, V> ConcurrentMap<K, V> freshConcurrentMap(K key, V value) {
+    ConcurrentMap<K, V> map = Maps.newConcurrentMap();
+    map.put(key, value);
+    return map;
+  }
+
+  @Generates static private <K extends Comparable<? super K>, V> SortedMap<K, V>
+      freshSortedMap(K key, V value) {
+    return freshNavigableMap(key, value);
+  }
+
+  @Generates static private <K extends Comparable<? super K>, V> NavigableMap<K, V>
+      freshNavigableMap(K key, V value) {
+    return freshTreeMap(key, value);
+  }
+
+  @Generates static private <K extends Comparable<? super K>, V> TreeMap<K, V> freshTreeMap(
+      K key, V value) {
+    TreeMap<K, V> map = Maps.newTreeMap();
+    map.put(key, value);
+    return map;
+  }
+
+  @Generates static private <K extends Comparable<? super K>, V> ImmutableSortedMap<K, V>
+      freshImmutableSortedMap(K key, V value) {
+    return ImmutableSortedMap.of(key, value);
+  }
+
+  @Generates static private <K, V> Multimap<K, V> freshMultimap(K key, V value) {
+    return freshListMultimap(key, value);
+  }
+
+  @Generates static private <K, V> ImmutableMultimap<K, V> freshImmutableMultimap(K key, V value) {
+    return ImmutableMultimap.of(key, value);
+  }
+
+  @Generates static private <K, V> ListMultimap<K, V> freshListMultimap(K key, V value) {
+    return freshArrayListMultimap(key, value);
+  }
+
+  @Generates static private <K, V> ArrayListMultimap<K, V> freshArrayListMultimap(K key, V value) {
+    ArrayListMultimap<K, V> multimap = ArrayListMultimap.create();
+    multimap.put(key, value);
+    return multimap;
+  }
+
+  @Generates static private <K, V> ImmutableListMultimap<K, V> freshImmutableListMultimap(
+      K key, V value) {
+    return ImmutableListMultimap.of(key, value);
+  }
+
+  @Generates static private <K, V> SetMultimap<K, V> freshSetMultimap(K key, V value) {
+    return freshLinkedHashMultimap(key, value);
+  }
+
+  @Generates static private <K, V> HashMultimap<K, V> freshHashMultimap(K key, V value) {
+    HashMultimap<K, V> multimap = HashMultimap.create();
+    multimap.put(key, value);
+    return multimap;
+  }
+
+  @Generates static private <K, V> LinkedHashMultimap<K, V> freshLinkedHashMultimap(
+      K key, V value) {
+    LinkedHashMultimap<K, V> multimap = LinkedHashMultimap.create();
+    multimap.put(key, value);
+    return multimap;
+  }
+
+  @Generates static private <K, V> ImmutableSetMultimap<K, V> freshImmutableSetMultimap(
+      K key, V value) {
+    return ImmutableSetMultimap.of(key, value);
+  }
+
+  @Generates static private <K, V> BiMap<K, V> freshBimap(K key, V value) {
+    return freshHashBiMap(key, value);
+  }
+
+  @Generates static private <K, V> HashBiMap<K, V> freshHashBiMap(K key, V value) {
+    HashBiMap<K, V> bimap = HashBiMap.create();
+    bimap.put(key, value);
+    return bimap;
+  }
+
+  @Generates static private <K, V> ImmutableBiMap<K, V> freshImmutableBimap(
+      K key, V value) {
+    return ImmutableBiMap.of(key, value);
+  }
+
+  @Generates static private <R, C, V> Table<R, C, V> freshTable(R row, C column, V value) {
+    return freshHashBasedTable(row, column, value);
+  }
+
+  @Generates static private <R, C, V> HashBasedTable<R, C, V> freshHashBasedTable(
+      R row, C column, V value) {
+    HashBasedTable<R, C, V> table = HashBasedTable.create();
+    table.put(row, column, value);
+    return table;
+  }
+
+  @SuppressWarnings("rawtypes") // TreeBasedTable.create() is defined as such
+  @Generates static private <R extends Comparable, C extends Comparable, V> RowSortedTable<R, C, V>
+      freshRowSortedTable(R row, C column, V value) {
+    return freshTreeBasedTable(row, column, value);
+  }
+
+  @SuppressWarnings("rawtypes") // TreeBasedTable.create() is defined as such
+  @Generates static private <R extends Comparable, C extends Comparable, V> TreeBasedTable<R, C, V>
+      freshTreeBasedTable(R row, C column, V value) {
+    TreeBasedTable<R, C, V> table = TreeBasedTable.create();
+    table.put(row, column, value);
+    return table;
+  }
+
+  @Generates static private <R, C, V> ImmutableTable<R, C, V> freshImmutableTable(
+      R row, C column, V value) {
+    return ImmutableTable.of(row, column, value);
+  }
+
   // common.reflect
-  @SuppressWarnings("unused")
   @Generates private TypeToken<?> freshTypeToken() {
     return TypeToken.of(freshClass());
   }
 
   // io types
-  @SuppressWarnings("unused")
   @Generates private File freshFile() {
     return new File(freshString());
   }
 
-  @SuppressWarnings("unused")
-  @Generates private static ByteArrayInputStream freshInputStream() {
+  @Generates private static ByteArrayInputStream freshByteArrayInputStream() {
     return new ByteArrayInputStream(new byte[0]);
   }
 
-  @SuppressWarnings("unused")
+  @Generates private static InputStream freshInputStream() {
+    return freshByteArrayInputStream();
+  }
+
   @Generates private StringReader freshStringReader() {
     return new StringReader(freshString());
   }
 
-  @SuppressWarnings("unused")
+  @Generates private Reader freshReader() {
+    return freshStringReader();
+  }
+
+  @Generates private Readable freshReadable() {
+    return freshReader();
+  }
+
+  @Generates private Buffer freshBuffer() {
+    return freshCharBuffer();
+  }
+
   @Generates private CharBuffer freshCharBuffer() {
     return CharBuffer.allocate(freshInt());
   }
 
-  @SuppressWarnings("unused")
   @Generates private ByteBuffer freshByteBuffer() {
     return ByteBuffer.allocate(freshInt());
   }
 
-  @SuppressWarnings("unused")
   @Generates private ShortBuffer freshShortBuffer() {
     return ShortBuffer.allocate(freshInt());
   }
 
-  @SuppressWarnings("unused")
   @Generates private IntBuffer freshIntBuffer() {
     return IntBuffer.allocate(freshInt());
   }
 
-  @SuppressWarnings("unused")
   @Generates private LongBuffer freshLongBuffer() {
     return LongBuffer.allocate(freshInt());
   }
 
-  @SuppressWarnings("unused")
   @Generates private FloatBuffer freshFloatBuffer() {
     return FloatBuffer.allocate(freshInt());
   }
 
-  @SuppressWarnings("unused")
   @Generates private DoubleBuffer freshDoubleBuffer() {
     return DoubleBuffer.allocate(freshInt());
   }

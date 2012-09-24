@@ -252,11 +252,33 @@ public class ClassSanityTesterTest extends TestCase {
     tester.testEquals(GoodEquals.class);
   }
 
+  public void testEquals_interface() {
+    tester.testEquals(AnInterface.class);
+  }
+
+  public void testEquals_abstractClass() {
+    tester.testEquals(AnAbstractClass.class);
+  }
+
+  public void testEquals_enum() {
+    tester.testEquals(OneConstantEnum.class);
+  }
+
   public void testBadEquals() throws Exception {
     try {
       tester.testEquals(BadEquals.class);
     } catch (AssertionFailedError expected) {
       ASSERT.that(expected.getMessage()).contains("create(null)");
+      return;
+    }
+    fail("should have failed");
+  }
+
+  public void testBadEquals_withParameterizedType() throws Exception {
+    try {
+      tester.testEquals(BadEqualsWithParameterizedType.class);
+    } catch (AssertionFailedError expected) {
+      ASSERT.that(expected.getMessage()).contains("create([[1]])");
       return;
     }
     fail("should have failed");
@@ -310,7 +332,15 @@ public class ClassSanityTesterTest extends TestCase {
     tester.testNulls(GoodNulls.class);
   }
 
-  public void testNullChecksOnEnum() throws Exception {
+  public void testNulls_interface() {
+    tester.testNulls(AnInterface.class);
+  }
+
+  public void testNulls_abstractClass() {
+    tester.testNulls(AnAbstractClass.class);
+  }
+
+  public void testNulls_enum() throws Exception {
     tester.testNulls(OneConstantEnum.class);
     tester.testNulls(NoConstantEnum.class);
     tester.testNulls(TimeUnit.class);
@@ -590,6 +620,24 @@ public class ClassSanityTesterTest extends TestCase {
     }
   }
 
+  static class BadEqualsWithParameterizedType {
+
+    public BadEqualsWithParameterizedType() {} // ignored by testEquals() since it has less parameters.
+
+    public static BadEqualsWithParameterizedType create(
+        @SuppressWarnings("unused") ImmutableList<Iterable<? extends String>> s) {
+      return new BadEqualsWithParameterizedType();
+    }
+
+    @Override public boolean equals(@Nullable Object obj) {
+      return obj instanceof BadEqualsWithParameterizedType;
+    }
+
+    @Override public int hashCode() {
+      return 0;
+    }
+  }
+
   static class GoodNulls {
     public GoodNulls(String s) {
       checkNotNull(s);
@@ -710,4 +758,12 @@ public class ClassSanityTesterTest extends TestCase {
   }
 
   private interface AnInterface {}
+
+  private static abstract class AnAbstractClass {
+    @SuppressWarnings("unused")
+    public AnAbstractClass(String s) {}
+
+    @SuppressWarnings("unused")
+    public void failsToCheckNull(String s) {}
+  }
 }
