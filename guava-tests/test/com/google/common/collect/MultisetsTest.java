@@ -152,6 +152,32 @@ public class MultisetsTest extends TestCase {
     assertTrue(multiset.isEmpty());
   }
 
+  public void testUnion() {
+    Multiset<String> ms1 = HashMultiset.create(Arrays.asList("a", "b", "a"));
+    Multiset<String> ms2 = HashMultiset.create(
+        Arrays.asList("a", "b", "b", "c"));
+    ASSERT.that(Multisets.union(ms1, ms2))
+        .hasContentsAnyOrder("a", "a", "b", "b", "c");
+  }
+
+  public void testUnionEqualMultisets() {
+    Multiset<String> ms1 = HashMultiset.create(Arrays.asList("a", "b", "a"));
+    Multiset<String> ms2 = HashMultiset.create(Arrays.asList("a", "b", "a"));
+    assertEquals(ms1, Multisets.union(ms1, ms2));
+  }
+
+  public void testUnionEmptyNonempty() {
+    Multiset<String> ms1 = HashMultiset.create();
+    Multiset<String> ms2 = HashMultiset.create(Arrays.asList("a", "b", "a"));
+    assertEquals(ms2, Multisets.union(ms1, ms2));
+  }
+
+  public void testUnionNonemptyEmpty() {
+    Multiset<String> ms1 = HashMultiset.create(Arrays.asList("a", "b", "a"));
+    Multiset<String> ms2 = HashMultiset.create();
+    assertEquals(ms1, Multisets.union(ms1, ms2));
+  }
+
   public void testIntersectEmptyNonempty() {
     Multiset<String> ms1 = HashMultiset.create();
     Multiset<String> ms2 = HashMultiset.create(Arrays.asList("a", "b", "a"));
