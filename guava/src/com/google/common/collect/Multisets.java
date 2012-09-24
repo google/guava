@@ -21,6 +21,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.base.Function;
 import com.google.common.base.Objects;
 import com.google.common.collect.Multiset.Entry;
 import com.google.common.primitives.Ints;
@@ -391,7 +392,7 @@ public final class Multisets {
             return new TransformedIterator<E, Entry<E>>(delegate.iterator()) {
               @Override
               Entry<E> transform(E e) {
-                return Multisets.immutableEntry(e, 1);
+                return immutableEntry(e, 1);
               }
             };
           }
@@ -520,7 +521,168 @@ public final class Multisets {
               E element = entry1.getElement();
               int count = Math.min(entry1.getCount(), multiset2.count(element));
               if (count > 0) {
-                return Multisets.immutableEntry(element, count);
+                return immutableEntry(element, count);
+              }
+            }
+            return endOfData();
+          }
+        };
+      }
+
+      @Override
+      int distinctElements() {
+        return elementSet().size();
+      }
+    };
+  }
+
+  /**
+   * Returns an unmodifiable <b>view</b> of the sum of two multisets.
+   * An element's count in the multiset is the element's count in the first
+   * multiset plus its count in the second multiset. The iteration order of
+   * the returned multiset matches the element set of {@code multiset1}
+   * followed by the members of the element set of {@code multiset2} that
+   * that are not contained in {@code multiset1}, with repeated occurrences of
+   * the same element appearing consecutively.
+   *
+   * <p>Results are undefined if {@code multiset1} and {@code multiset2} are
+   * based on different equivalence relations (as {@code HashMultiset} and
+   * {@code TreeMultiset} are).
+   *
+   * @since 14.0
+   */
+  @Beta
+  public static <E> Multiset<E> sum(
+      final Multiset<? extends E> multiset1, final Multiset<? extends E> multiset2) {
+    checkNotNull(multiset1);
+    checkNotNull(multiset2);
+
+    return new AbstractMultiset<E>() {
+      @Override
+      public boolean contains(@Nullable Object element) {
+        return multiset1.contains(element) || multiset2.contains(element);
+      }
+
+      @Override
+      public boolean isEmpty() {
+        return multiset1.isEmpty() && multiset2.isEmpty();
+      }
+
+      @Override
+      public int size() {
+        return multiset1.size() + multiset2.size();
+      }
+
+      @Override
+      public int count(Object element) {
+        return multiset1.count(element) + multiset2.count(element);
+      }
+
+      @Override
+      Set<E> createElementSet() {
+        return Sets.union(multiset1.elementSet(), multiset2.elementSet());
+      }
+
+      @Override
+      Iterator<Entry<E>> entryIterator() {
+        final Iterator<? extends Entry<? extends E>> iterator1
+            = multiset1.entrySet().iterator();
+        final Iterator<? extends Entry<? extends E>> iterator2
+            = multiset2.entrySet().iterator();
+        return new AbstractIterator<Entry<E>>() {
+          @Override
+          protected Entry<E> computeNext() {
+            if (iterator1.hasNext()) {
+              Entry<? extends E> entry1 = iterator1.next();
+              E element = entry1.getElement();
+              int count = entry1.getCount() + multiset2.count(element);
+              return immutableEntry(element, count);
+            }
+            while (iterator2.hasNext()) {
+              Entry<? extends E> entry2 = iterator2.next();
+              E element = entry2.getElement();
+              if (!multiset1.contains(element)) {
+                return immutableEntry(element, entry2.getCount());
+              }
+            }
+            return endOfData();
+          }
+        };
+      }
+
+      @Override
+      int distinctElements() {
+        return elementSet().size();
+      }
+    };
+  }
+
+  /**
+   * Returns an unmodifiable <b>view</b> of the difference of two multisets.
+   * An element's count in the multiset is the element's count in the first
+   * multiset minus its count in the second multiset, or 0 if that count
+   * would be negative. The iteration order of the returned multiset matches
+   * the element set of {@code multiset1}, with repeated occurrences of the
+   * same element appearing consecutively.
+   *
+   * <p>Results are undefined if {@code multiset1} and {@code multiset2} are
+   * based on different equivalence relations (as {@code HashMultiset} and
+   * {@code TreeMultiset} are).
+   *
+   * @since 14.0
+   */
+  @Beta
+  public static <E> Multiset<E> difference(
+      final Multiset<E> multiset1, final Multiset<?> multiset2) {
+    checkNotNull(multiset1);
+    checkNotNull(multiset2);
+
+    return new AbstractMultiset<E>() {
+      @Override
+      public int count(@Nullable Object element) {
+        int count1 = multiset1.count(element);
+        return (count1 == 0) ? 0 :
+            Math.max(0, count1 - multiset2.count(element));
+      }
+
+      @Override
+      Set<E> createElementSet() {
+        return new Sets.ImprovedAbstractSet<E>() {
+          @Override
+          public Iterator<E> iterator() {
+            return Iterators.transform(entryIterator(),
+                new Function<Entry<E>, E>() {
+                  @Override
+                  public E apply(Entry<E> input) {
+                    return input.getElement();
+                  }
+                });
+          }
+
+          @Override
+          public boolean contains(@Nullable Object o) {
+            return count(o) > 0;
+          }
+
+          @Override
+          public int size() {
+            return Iterators.size(iterator());
+          }
+        };
+      }
+
+      @Override
+      Iterator<Entry<E>> entryIterator() {
+        final Iterator<Entry<E>> iterator1 = multiset1.entrySet().iterator();
+        return new AbstractIterator<Entry<E>>() {
+          @Override
+          protected Entry<E> computeNext() {
+            while (iterator1.hasNext()) {
+              Entry<E> entry1 = iterator1.next();
+              E element = entry1.getElement();
+              int count = Math.max(0, entry1.getCount() - multiset2.count(element));
+              if (count > 0) {
+                return immutableEntry(element, count);
               }
             }
             return endOfData();

@@ -141,6 +141,19 @@ public class MultisetCollectionTest extends TestCase {
         .named("IntersectionMultiset")
         .createTestSuite());
 
+    suite.addTest(MultisetTestSuiteBuilder.using(sumGenerator())
+        .withFeatures(CollectionSize.ANY,
+            CollectionFeature.ALLOWS_NULL_VALUES)
+        .named("SumMultiset")
+        .createTestSuite());
+
+    suite.addTest(MultisetTestSuiteBuilder.using(differenceGenerator())
+        .withFeatures(CollectionSize.ANY,
+            CollectionFeature.ALLOWS_NULL_VALUES,
+            CollectionFeature.KNOWN_ORDER)
+        .named("DifferenceMultiset")
+        .createTestSuite());
+
     suite.addTest(SortedMultisetTestSuiteBuilder.using(unmodifiableSortedMultisetGenerator())
         .withFeatures(CollectionSize.ANY, CollectionFeature.KNOWN_ORDER,
             CollectionFeature.ALLOWS_NULL_QUERIES)
@@ -235,6 +248,44 @@ public class MultisetCollectionTest extends TestCase {
           }
         }
         return Multisets.intersection(multiset1, multiset2);
+      }
+    };
+  }
+
+  private static TestStringMultisetGenerator sumGenerator() {
+    return new TestStringMultisetGenerator() {
+      @Override protected Multiset<String> create(String[] elements) {
+        Multiset<String> multiset1 = LinkedHashMultiset.create();
+        Multiset<String> multiset2 = LinkedHashMultiset.create();
+        for (int i = 0; i < elements.length; i++) {
+          // add to either; sum should contain all
+          if (i % 2 == 0) {
+            multiset1.add(elements[i]);
+          } else {
+            multiset2.add(elements[i]);
+          }
+        }
+        return Multisets.sum(multiset1, multiset2);
+      }
+    };
+  }
+
+  private static TestStringMultisetGenerator differenceGenerator() {
+    return new TestStringMultisetGenerator() {
+      @Override protected Multiset<String> create(String[] elements) {
+        Multiset<String> multiset1 = LinkedHashMultiset.create();
+        Multiset<String> multiset2 = LinkedHashMultiset.create();
+        multiset1.add("equalIn1");
+        multiset1.add("fewerIn1");
+        multiset2.add("equalIn1");
+        multiset2.add("fewerIn1", 3);
+        multiset2.add("onlyIn2", 2);
+        for (int i = 0; i < elements.length; i++) {
+          // add 1 more copy of each element to multiset1 than multiset2
+          multiset1.add(elements[i], i + 2);
+          multiset2.add(elements[i], i + 1);
+        }
+        return Multisets.difference(multiset1, multiset2);
       }
     };
   }

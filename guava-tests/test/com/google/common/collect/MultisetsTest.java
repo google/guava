@@ -164,6 +164,60 @@ public class MultisetsTest extends TestCase {
     ASSERT.that(Multisets.intersection(ms1, ms2)).hasContentsInOrder();
   }
 
+  public void testSum() {
+    Multiset<String> ms1 = HashMultiset.create(Arrays.asList("a", "b", "a"));
+    Multiset<String> ms2 = HashMultiset.create(Arrays.asList("b", "c"));
+    ASSERT.that(Multisets.sum(ms1, ms2))
+        .hasContentsAnyOrder("a", "a", "b", "b", "c");
+  }
+
+  public void testSumEmptyNonempty() {
+    Multiset<String> ms1 = HashMultiset.create();
+    Multiset<String> ms2 = HashMultiset.create(Arrays.asList("a", "b", "a"));
+    ASSERT.that(Multisets.sum(ms1, ms2)).hasContentsAnyOrder("a", "b", "a");
+  }
+
+  public void testSumNonemptyEmpty() {
+    Multiset<String> ms1 = HashMultiset.create(Arrays.asList("a", "b", "a"));
+    Multiset<String> ms2 = HashMultiset.create();
+    ASSERT.that(Multisets.sum(ms1, ms2)).hasContentsAnyOrder("a", "b", "a");
+  }
+
+  public void testDifferenceWithNoRemovedElements() {
+    Multiset<String> ms1 = HashMultiset.create(Arrays.asList("a", "b", "a"));
+    Multiset<String> ms2 = HashMultiset.create(Arrays.asList("a"));
+    ASSERT.that(Multisets.difference(ms1, ms2)).hasContentsAnyOrder("a", "b");
+  }
+
+  public void testDifferenceWithRemovedElement() {
+    Multiset<String> ms1 = HashMultiset.create(Arrays.asList("a", "b", "a"));
+    Multiset<String> ms2 = HashMultiset.create(Arrays.asList("b"));
+    ASSERT.that(Multisets.difference(ms1, ms2)).hasContentsAnyOrder("a", "a");
+  }
+
+  public void testDifferenceWithMoreElementsInSecondMultiset() {
+    Multiset<String> ms1 = HashMultiset.create(Arrays.asList("a", "b", "a"));
+    Multiset<String> ms2 = HashMultiset.create(Arrays.asList("a", "b", "b", "b"));
+    Multiset<String> diff = Multisets.difference(ms1, ms2);
+    ASSERT.that(diff).hasContentsAnyOrder("a");
+    assertEquals(0, diff.count("b"));
+    assertEquals(1, diff.count("a"));
+    assertFalse(diff.contains("b"));
+    assertTrue(diff.contains("a"));
+  }
+
+  public void testDifferenceEmptyNonempty() {
+    Multiset<String> ms1 = HashMultiset.create();
+    Multiset<String> ms2 = HashMultiset.create(Arrays.asList("a", "b", "a"));
+    assertEquals(ms1, Multisets.difference(ms1, ms2));
+  }
+
+  public void testDifferenceNonemptyEmpty() {
+    Multiset<String> ms1 = HashMultiset.create(Arrays.asList("a", "b", "a"));
+    Multiset<String> ms2 = HashMultiset.create();
+    assertEquals(ms1, Multisets.difference(ms1, ms2));
+  }
+
   public void testContainsOccurrencesEmpty() {
     Multiset<String> superMultiset = HashMultiset.create(Arrays.asList("a", "b", "a"));
     Multiset<String> subMultiset = HashMultiset.create();
