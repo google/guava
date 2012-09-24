@@ -476,7 +476,7 @@ public class OrderingTest extends TestCase {
     assertListImmutable(result);
     assertEquals(ImmutableList.<Integer>of(), result);
   }
-  
+
   public void testLeastOfIterator_empty_0() {
     List<Integer> result = numberOrdering.leastOf(
         Iterators.<Integer>emptyIterator(), 0);
@@ -491,7 +491,7 @@ public class OrderingTest extends TestCase {
     assertListImmutable(result);
     assertEquals(ImmutableList.<Integer>of(), result);
   }
-  
+
   public void testLeastOfIterator_empty_1() {
     List<Integer> result = numberOrdering.leastOf(
         Iterators.<Integer>emptyIterator(), 1);
@@ -507,7 +507,7 @@ public class OrderingTest extends TestCase {
     } catch (IllegalArgumentException expected) {
     }
   }
-  
+
   public void testLeastOfIterator_simple_negativeOne() {
     try {
       numberOrdering.leastOf(Iterators.forArray(3, 4, 5, -1), -1);
@@ -522,7 +522,7 @@ public class OrderingTest extends TestCase {
     assertListImmutable(result);
     assertEquals(ImmutableList.<Integer>of(), result);
   }
-  
+
   public void testLeastOfIterator_singleton_0() {
     List<Integer> result = numberOrdering.leastOf(
         Iterators.singletonIterator(3), 0);
@@ -537,7 +537,7 @@ public class OrderingTest extends TestCase {
     assertListImmutable(result);
     assertEquals(ImmutableList.<Integer>of(), result);
   }
-  
+
   public void testLeastOfIterator_simple_0() {
     List<Integer> result = numberOrdering.leastOf(
         Iterators.forArray(3, 4, 5, -1), 0);
@@ -552,7 +552,7 @@ public class OrderingTest extends TestCase {
     assertListImmutable(result);
     assertEquals(ImmutableList.of(-1), result);
   }
-  
+
   public void testLeastOfIterator_simple_1() {
     List<Integer> result = numberOrdering.leastOf(
         Iterators.forArray(3, 4, 5, -1), 1);
@@ -568,7 +568,7 @@ public class OrderingTest extends TestCase {
     assertListImmutable(result);
     assertEquals(ImmutableList.of(-1, 3, 5), result);
   }
-  
+
   public void testLeastOfIterator_simple_nMinusOne_withNullElement() {
     Iterator<Integer> itr = Iterators.forArray(3, null, 5, -1);
     List<Integer> result = Ordering.natural().nullsLast().leastOf(itr, 3);
@@ -584,7 +584,7 @@ public class OrderingTest extends TestCase {
     assertListImmutable(result);
     assertEquals(ImmutableList.of(-1, 3, 4), result);
   }
-  
+
   public void testLeastOfIterator_simple_nMinusOne() {
     List<Integer> list = Arrays.asList(3, 4, 5, -1);
     List<Integer> result = numberOrdering.leastOf(list.iterator(), list.size() - 1);
@@ -600,7 +600,7 @@ public class OrderingTest extends TestCase {
     assertListImmutable(result);
     assertEquals(ImmutableList.of(-1, 3, 4, 5), result);
   }
-  
+
   public void testLeastOfIterator_simple_n() {
     List<Integer> list = Arrays.asList(3, 4, 5, -1);
     List<Integer> result = numberOrdering.leastOf(list.iterator(), list.size());
@@ -616,7 +616,7 @@ public class OrderingTest extends TestCase {
     assertListImmutable(result);
     assertEquals(Arrays.asList(-1, 3, 4, 5, null), result);
   }
-  
+
   public void testLeastOfIterator_simple_n_withNullElement() {
     List<Integer> list = Arrays.asList(3, 4, 5, null, -1);
     List<Integer> result = Ordering.natural().nullsLast().leastOf(
@@ -633,7 +633,7 @@ public class OrderingTest extends TestCase {
     assertListImmutable(result);
     assertEquals(ImmutableList.of(-1, 3, 4, 5), result);
   }
-  
+
   public void testLeastOfIterator_simple_nPlusOne() {
     List<Integer> list = Arrays.asList(3, 4, 5, -1);
     List<Integer> result = numberOrdering.leastOf(list.iterator(), list.size() + 1);
@@ -653,7 +653,7 @@ public class OrderingTest extends TestCase {
     List<Integer> result = numberOrdering.leastOf(list, list.size());
     assertEquals(ImmutableList.of(-1, 3, foo, bar), result);
   }
-  
+
   public void testLeastOfIterator_ties() {
     Integer foo = new Integer(Integer.MAX_VALUE - 10);
     Integer bar = new Integer(Integer.MAX_VALUE - 10);
@@ -694,7 +694,7 @@ public class OrderingTest extends TestCase {
     }
   }
 
-  public void testGreatestOf_simple() {
+  public void testGreatestOfIterable_simple() {
     /*
      * If greatestOf() promised to be implemented as reverse().leastOf(), this
      * test would be enough. It doesn't... but we'll cheat and act like it does
@@ -702,6 +702,17 @@ public class OrderingTest extends TestCase {
      */
     List<Integer> list = Arrays.asList(3, 1, 3, 2, 4, 2, 4, 3);
     assertEquals(Arrays.asList(4, 4, 3, 3), numberOrdering.greatestOf(list, 4));
+  }
+
+  public void testGreatestOfIterator_simple() {
+    /*
+     * If greatestOf() promised to be implemented as reverse().leastOf(), this
+     * test would be enough. It doesn't... but we'll cheat and act like it does
+     * anyway. There's a comment there to remind us to fix this if we change it.
+     */
+    List<Integer> list = Arrays.asList(3, 1, 3, 2, 4, 2, 4, 3);
+    assertEquals(Arrays.asList(4, 4, 3, 3),
+        numberOrdering.greatestOf(list.iterator(), 4));
   }
 
   private static void assertListImmutable(List<Integer> result) {

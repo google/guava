@@ -713,10 +713,6 @@ public abstract class Ordering<T> implements Comparator<T> {
    * algorithm; when multiple elements are equivalent, it is undefined which
    * will come first.
    *
-   * <p>The implementation requires that all elements of the underlying iterator
-   * fit into memory at once. If this is not possible, consider using a
-   * {@link java.util.PriorityQueue} instead.
-   *
    * @return an immutable {@code RandomAccess} list of the {@code k} greatest
    *     elements in <i>descending order</i>
    * @throws IllegalArgumentException if {@code k} is negative
@@ -727,6 +723,25 @@ public abstract class Ordering<T> implements Comparator<T> {
     // TODO(kevinb): see if delegation is hurting performance noticeably
     // TODO(kevinb): if we change this implementation, add full unit tests.
     return reverse().leastOf(iterable, k);
+  }
+
+  /**
+   * Returns the {@code k} greatest elements from the given iterator according to
+   * this ordering, in order from greatest to least. If there are fewer than
+   * {@code k} elements present, all will be included.
+   *
+   * <p>The implementation does not necessarily use a <i>stable</i> sorting
+   * algorithm; when multiple elements are equivalent, it is undefined which
+   * will come first.
+   *
+   * @return an immutable {@code RandomAccess} list of the {@code k} greatest
+   *     elements in <i>descending order</i>
+   * @throws IllegalArgumentException if {@code k} is negative
+   * @since 14.0
+   */
+  @Beta
+  public <E extends T> List<E> greatestOf(Iterator<E> iterator, int k) {
+    return reverse().leastOf(iterator, k);
   }
 
   /**
