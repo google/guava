@@ -44,6 +44,7 @@ import com.google.common.collect.ImmutableMultiset;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSetMultimap;
 import com.google.common.collect.ImmutableSortedMap;
+import com.google.common.collect.ImmutableSortedMultiset;
 import com.google.common.collect.ImmutableSortedSet;
 import com.google.common.collect.ImmutableTable;
 import com.google.common.collect.Iterators;
@@ -55,7 +56,6 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Multimaps;
 import com.google.common.collect.Multiset;
-import com.google.common.collect.Multisets;
 import com.google.common.collect.Ordering;
 import com.google.common.collect.PeekingIterator;
 import com.google.common.collect.Range;
@@ -69,7 +69,6 @@ import com.google.common.collect.Table;
 import com.google.common.collect.Tables;
 import com.google.common.collect.TreeBasedTable;
 import com.google.common.collect.TreeMultimap;
-import com.google.common.collect.TreeMultiset;
 import com.google.common.primitives.Primitives;
 import com.google.common.primitives.UnsignedInteger;
 import com.google.common.primitives.UnsignedLong;
@@ -164,28 +163,6 @@ import javax.annotation.Nullable;
 @Beta
 public final class ArbitraryInstances {
 
-  // Compare by toString() to satisfy 2 properties:
-  // 1. compareTo(null) should throw NullPointerException
-  // 2. the order is deterministic and easy to understand, for debugging purpose.
-  private static final Comparable<Object> BY_TO_STRING = new Comparable<Object>() {
-    @Override public int compareTo(Object o) {
-      return toString().compareTo(o.toString());
-    }
-    @Override public String toString() {
-      return "BY_TO_STRING";
-    }
-  };
-
-  // Always equal is a valid total ordering. And it works for any Object.
-  private static final Ordering<Object> ALWAYS_EQUAL = new Ordering<Object>() {
-    @Override public int compare(Object o1, Object o2) {
-      return 0;
-    }
-    @Override public String toString() {
-      return "ALWAYS_EQUAL";
-    }
-  };
-
   private static final ClassToInstanceMap<Object> DEFAULTS = ImmutableClassToInstanceMap.builder()
       // primitives
       .put(Number.class, 0)
@@ -252,7 +229,8 @@ public final class ArbitraryInstances {
       .put(SortedSetMultimap.class, Multimaps.unmodifiableSortedSetMultimap(TreeMultimap.create()))
       .put(Multiset.class, ImmutableMultiset.of())
       .put(ImmutableMultiset.class, ImmutableMultiset.of())
-      .put(SortedMultiset.class, Multisets.unmodifiableSortedMultiset(TreeMultiset.create()))
+      .put(SortedMultiset.class, ImmutableSortedMultiset.of())
+      .put(ImmutableSortedMultiset.class, ImmutableSortedMultiset.of())
       .put(BiMap.class, ImmutableBiMap.of())
       .put(ImmutableBiMap.class, ImmutableBiMap.of())
       .put(Table.class, ImmutableTable.of())
@@ -260,9 +238,9 @@ public final class ArbitraryInstances {
       .put(RowSortedTable.class, Tables.unmodifiableRowSortedTable(TreeBasedTable.create()))
       .put(ClassToInstanceMap.class, ImmutableClassToInstanceMap.builder().build())
       .put(ImmutableClassToInstanceMap.class, ImmutableClassToInstanceMap.builder().build())
-      .put(Comparable.class, BY_TO_STRING)
-      .put(Comparator.class, ALWAYS_EQUAL)
-      .put(Ordering.class, ALWAYS_EQUAL)
+      .put(Comparable.class, ByToString.INSTANCE)
+      .put(Comparator.class, AlwaysEqual.INSTANCE)
+      .put(Ordering.class, AlwaysEqual.INSTANCE)
       .put(Range.class, Range.all())
       .put(Constraint.class, Constraints.notNull())
       .put(MapConstraint.class, MapConstraints.notNull())
@@ -418,6 +396,42 @@ public final class ArbitraryInstances {
 
     public static final class DummyExecutor implements Executor, Serializable {
       @Override public void execute(Runnable command) {}
+    }
+  }
+
+  // Compare by toString() to satisfy 2 properties:
+  // 1. compareTo(null) should throw NullPointerException
+  // 2. the order is deterministic and easy to understand, for debugging purpose.
+  private static final class ByToString implements Comparable<Object>, Serializable {
+    private static final ByToString INSTANCE = new ByToString();
+
+    @Override public int compareTo(Object o) {
+      return toString().compareTo(o.toString());
+    }
+
+    @Override public String toString() {
+      return "BY_TO_STRING";
+    }
+
+    private Object readResolve() {
+      return INSTANCE;
+    }
+  }
+
+  // Always equal is a valid total ordering. And it works for any Object.
+  private static final class AlwaysEqual extends Ordering<Object> implements Serializable {
+    private static final AlwaysEqual INSTANCE = new AlwaysEqual();
+
+    @Override public int compare(Object o1, Object o2) {
+      return 0;
+    }
+
+    @Override public String toString() {
+      return "ALWAYS_EQUAL";
+    }
+
+    private Object readResolve() {
+      return INSTANCE;
     }
   }
 

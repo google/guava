@@ -28,6 +28,7 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Sets;
 import com.google.common.reflect.ClassPath;
+import com.google.common.testing.NullPointerTester.Visibility;
 
 import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
@@ -80,7 +81,9 @@ public abstract class AbstractPackageSanityTests extends TestCase {
 
   /* The names of the expected method that tests null checks. */
   private static final ImmutableList<String> NULL_TEST_METHOD_NAMES = ImmutableList.of(
-      "testNulls", "testNull", "testNullPointer", "testNullPointerException");
+      "testNulls", "testNull",
+      "testNullPointers", "testNullPointer",
+      "testNullPointerExceptions", "testNullPointerException");
 
   /* The names of the expected method that tests serializable. */
   private static final ImmutableList<String> SERIALIZABLE_TEST_METHOD_NAMES = ImmutableList.of(
@@ -100,6 +103,15 @@ public abstract class AbstractPackageSanityTests extends TestCase {
 
   private final Logger logger = Logger.getLogger(getClass().getName());
   private final ClassSanityTester tester = new ClassSanityTester();
+  private Visibility visibility = Visibility.PACKAGE;
+
+  /**
+   * Restricts the sanity tests for public API only. By default, package-private API are also
+   * covered.
+   */
+  protected final void publicApiOnly() {
+    visibility = Visibility.PUBLIC;
+  }
 
   /**
    * Tests all top-level public {@link Serializable} classes in the package. For a serializable
@@ -174,7 +186,7 @@ public abstract class AbstractPackageSanityTests extends TestCase {
     for (Class<?> classToTest
         : findClassesToTest(loadClassesInPackage(), NULL_TEST_METHOD_NAMES)) {
       try {
-        tester.doTestNulls(classToTest);
+        tester.doTestNulls(classToTest, visibility);
       } catch (Throwable e) {
         throw sanityError(classToTest, NULL_TEST_METHOD_NAMES, "nulls test", e);
       }
@@ -243,7 +255,7 @@ public abstract class AbstractPackageSanityTests extends TestCase {
    * Finds the classes not ending with a test suffix and not covered by an explicit test
    * whose name is {@code explicitTestName}.
    */
-  @VisibleForTesting static List<Class<?>> findClassesToTest(
+  @VisibleForTesting List<Class<?>> findClassesToTest(
       Iterable<? extends Class<?>> classes, Iterable<String> explicitTestNames) {
     // "a.b.Foo" -> a.b.Foo.class
     TreeMap<String, Class<?>> classMap = Maps.newTreeMap();
@@ -266,6 +278,9 @@ public abstract class AbstractPackageSanityTests extends TestCase {
     }
     List<Class<?>> classesToTest = Lists.newArrayListWithExpectedSize(nonTestClasses.size());
     NEXT_CANDIDATE: for (Class<?> cls : nonTestClasses) {
+      if (!visibility.isVisible(cls.getModifiers())) {
+        continue;
+      }
       for (Class<?> testClass : testClasses.get(cls)) {
         if (hasTest(testClass, explicitTestNames)) {
           // covered by explicit test

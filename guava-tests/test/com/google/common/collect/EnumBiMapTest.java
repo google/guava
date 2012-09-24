@@ -19,6 +19,10 @@ package com.google.common.collect;
 import static org.junit.contrib.truth.Truth.ASSERT;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.GwtIncompatible;
+import com.google.common.testing.EqualsTester;
+import com.google.common.testing.NullPointerTester;
+import com.google.common.testing.SerializableTester;
 
 import junit.framework.TestCase;
 
@@ -33,7 +37,7 @@ import java.util.Set;
  * @author Mike Bostock
  * @author Jared Levy
  */
-@GwtCompatible
+@GwtCompatible(emulated = true)
 public class EnumBiMapTest extends TestCase {
   private enum Currency { DOLLAR, FRANC, PESO }
   private enum Country { CANADA, CHILE, SWITZERLAND }
@@ -199,6 +203,30 @@ public class EnumBiMapTest extends TestCase {
     Set<Object> uniqueEntries = Sets.newIdentityHashSet();
     uniqueEntries.addAll(bimap.entrySet());
     assertEquals(3, uniqueEntries.size());
+  }
+
+  @GwtIncompatible("serialization")
+  public void testSerializable() {
+    SerializableTester.reserializeAndAssert(
+        EnumBiMap.create(ImmutableMap.of(Currency.DOLLAR, Country.CANADA)));
+  }
+
+  @GwtIncompatible("reflection")
+  public void testNulls() {
+    new NullPointerTester().testAllPublicStaticMethods(EnumBiMap.class);
+    new NullPointerTester()
+        .testAllPublicInstanceMethods(
+            EnumBiMap.create(ImmutableMap.of(Currency.DOLLAR, Country.CHILE)));
+  }
+
+  public void testEquals() {
+    new EqualsTester()
+        .addEqualityGroup(
+            EnumBiMap.create(ImmutableMap.of(Currency.DOLLAR, Country.CANADA)),
+            EnumBiMap.create(ImmutableMap.of(Currency.DOLLAR, Country.CANADA)))
+        .addEqualityGroup(EnumBiMap.create(ImmutableMap.of(Currency.DOLLAR, Country.CHILE)))
+        .addEqualityGroup(EnumBiMap.create(ImmutableMap.of(Currency.FRANC, Country.CANADA)))
+        .testEquals();
   }
 
   /* Remaining behavior tested by AbstractBiMapTest. */

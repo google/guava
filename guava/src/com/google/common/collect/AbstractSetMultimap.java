@@ -113,7 +113,7 @@ abstract class AbstractSetMultimap<K, V>
    * @return {@code true} if the method increased the size of the multimap, or
    *     {@code false} if the multimap already contained the key-value pair
    */
-  @Override public boolean put(K key, V value) {
+  @Override public boolean put(@Nullable K key, @Nullable V value) {
     return super.put(key, value);
   }
 

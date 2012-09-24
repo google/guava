@@ -88,7 +88,7 @@ abstract class AbstractSortedSetMultimap<K, V>
    * <p>Any duplicates in {@code values} will be stored in the multimap once.
    */
   @Override public SortedSet<V> replaceValues(
-      K key, Iterable<? extends V> values) {
+      @Nullable K key, Iterable<? extends V> values) {
     return (SortedSet<V>) super.replaceValues(key, values);
   }
 

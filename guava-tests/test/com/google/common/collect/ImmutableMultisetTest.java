@@ -29,6 +29,7 @@ import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.google.MultisetTestSuiteBuilder;
 import com.google.common.collect.testing.google.TestStringMultisetGenerator;
 import com.google.common.collect.testing.google.UnmodifiableCollectionTests;
+import com.google.common.testing.EqualsTester;
 import com.google.common.testing.NullPointerTester;
 import com.google.common.testing.SerializableTester;
 
@@ -452,5 +453,14 @@ public class ImmutableMultisetTest extends TestCase {
     ImmutableMultiset<String> multiset
         = ImmutableMultiset.of("a", "a", "b", "b", "b");
     SerializableTester.reserializeAndAssert(multiset.asList());
+  }
+
+  public void testEquals() {
+    new EqualsTester()
+        .addEqualityGroup(ImmutableMultiset.of(), ImmutableMultiset.of())
+        .addEqualityGroup(ImmutableMultiset.of(1), ImmutableMultiset.of(1))
+        .addEqualityGroup(ImmutableMultiset.of(1, 1), ImmutableMultiset.of(1, 1))
+        .addEqualityGroup(ImmutableMultiset.of(1, 2, 1), ImmutableMultiset.of(2, 1, 1))
+        .testEquals();
   }
 }

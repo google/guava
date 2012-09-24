@@ -86,17 +86,17 @@ public abstract class ForwardingMap<K, V> extends ForwardingObject
   }
 
   @Override
-  public boolean containsKey(Object key) {
+  public boolean containsKey(@Nullable Object key) {
     return delegate().containsKey(key);
   }
 
   @Override
-  public boolean containsValue(Object value) {
+  public boolean containsValue(@Nullable Object value) {
     return delegate().containsValue(value);
   }
 
   @Override
-  public V get(Object key) {
+  public V get(@Nullable Object key) {
     return delegate().get(key);
   }
 

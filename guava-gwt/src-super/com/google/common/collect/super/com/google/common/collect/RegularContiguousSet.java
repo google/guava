@@ -96,7 +96,7 @@ final class RegularContiguousSet<C extends Comparable> extends ContiguousSet<C> 
     return (distance >= Integer.MAX_VALUE) ? Integer.MAX_VALUE : (int) distance + 1;
   }
 
-  @Override public boolean contains(Object object) {
+  @Override public boolean contains(@Nullable Object object) {
     if (object == null) {
       return false;
     }
@@ -148,7 +148,7 @@ final class RegularContiguousSet<C extends Comparable> extends ContiguousSet<C> 
         range.upperBound.withUpperBoundType(upperBoundType, domain));
   }
 
-  @Override public boolean equals(Object object) {
+  @Override public boolean equals(@Nullable Object object) {
     if (object == this) {
       return true;
     } else if (object instanceof RegularContiguousSet) {

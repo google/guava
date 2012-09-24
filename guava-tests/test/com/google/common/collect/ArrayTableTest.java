@@ -19,6 +19,7 @@ package com.google.common.collect;
 import static java.util.Arrays.asList;
 import static org.junit.contrib.truth.Truth.ASSERT;
 
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Objects;
 import com.google.common.collect.Table.Cell;
 import com.google.common.testing.EqualsTester;
@@ -452,5 +453,15 @@ public class ArrayTableTest extends AbstractTableTest {
     } catch (IllegalArgumentException expected) {
       assertEquals("Row dog not in [foo, bar, cat]", expected.getMessage());
     }
+  }
+
+  @GwtIncompatible("reflection")
+  public void testNulls() {
+    new NullPointerTester().testAllPublicInstanceMethods(create());
+  }
+
+  @GwtIncompatible("serialize")
+  public void testSerializable() {
+    SerializableTester.reserializeAndAssert(create());
   }
 }

@@ -21,6 +21,7 @@ import static org.junit.contrib.truth.Truth.ASSERT;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.ImmutableSet.Builder;
+import com.google.common.testing.EqualsTester;
 import com.google.common.testing.NullPointerTester;
 import com.google.common.testing.SerializableTester;
 
@@ -194,5 +195,13 @@ public class ImmutableSetTest extends AbstractImmutableSetTest {
 
   @Override int getComplexBuilderSetLastElement() {
     return LAST_COLOR_ADDED;
+  }
+
+  public void testEquals() {
+    new EqualsTester()
+        .addEqualityGroup(ImmutableSet.of(), ImmutableSet.of())
+        .addEqualityGroup(ImmutableSet.of(1), ImmutableSet.of(1), ImmutableSet.of(1, 1))
+        .addEqualityGroup(ImmutableSet.of(1, 2, 1), ImmutableSet.of(2, 1, 1))
+        .testEquals();
   }
 }

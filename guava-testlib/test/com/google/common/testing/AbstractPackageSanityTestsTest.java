@@ -32,6 +32,8 @@ import java.util.List;
  */
 public class AbstractPackageSanityTestsTest extends TestCase {
 
+  private final AbstractPackageSanityTests sanityTests = new AbstractPackageSanityTests() {};
+
   public void testFindClassesToTest_testClass() {
     ASSERT.that(findClassesToTest(ImmutableList.of(EmptyTest.class)))
         .isEmpty();
@@ -48,6 +50,14 @@ public class AbstractPackageSanityTestsTest extends TestCase {
         .hasContentsInOrder(Foo.class);
     ASSERT.that(findClassesToTest(ImmutableList.of(Foo.class, Foo2Test.class)))
         .hasContentsInOrder(Foo.class);
+  }
+
+  public void testFindClassesToTest_publicApiOnly() {
+    sanityTests.publicApiOnly();
+    ASSERT.that(findClassesToTest(ImmutableList.of(Foo.class)))
+        .isEmpty();
+    ASSERT.that(findClassesToTest(ImmutableList.of(PublicFoo.class)))
+        .hasContentsInOrder(PublicFoo.class);
   }
 
   public void testFindClassesToTest_withCorrespondingTestClassButNotExplicitlyTested() {
@@ -70,17 +80,19 @@ public class AbstractPackageSanityTestsTest extends TestCase {
         .hasContentsInOrder(Foo.class);
   }
 
-  private static class EmptyTestCase {}
+  static class EmptyTestCase {}
 
-  private static class EmptyTest {}
+  static class EmptyTest {}
 
-  private static class EmptyTests {}
+  static class EmptyTests {}
 
-  private static class EmptyTestSuite {}
+  static class EmptyTestSuite {}
 
-  private static class Foo {}
+  static class Foo {}
 
-  private static class FooTest {
+  public static class PublicFoo {}
+
+  static class FooTest {
     @SuppressWarnings("unused") // accessed reflectively
     public void testPublic() {}
     @SuppressWarnings("unused") // accessed reflectively
@@ -88,13 +100,13 @@ public class AbstractPackageSanityTestsTest extends TestCase {
   }
 
   // Shouldn't be mistaken as Foo's test
-  private static class Foo2Test {
+  static class Foo2Test {
     @SuppressWarnings("unused") // accessed reflectively
     public void testPublic() {}
   }
 
-  private static List<Class<?>> findClassesToTest(
+  private List<Class<?>> findClassesToTest(
       Iterable<? extends Class<?>> classes, String... explicitTestNames) {
-    return AbstractPackageSanityTests.findClassesToTest(classes, Arrays.asList(explicitTestNames));
+    return sanityTests.findClassesToTest(classes, Arrays.asList(explicitTestNames));
   }
 }

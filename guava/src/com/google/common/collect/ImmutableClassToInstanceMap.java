@@ -20,6 +20,8 @@ import com.google.common.primitives.Primitives;
 
 import java.util.Map;
 
+import javax.annotation.Nullable;
+
 /**
  * A class-to-instance map backed by an {@link ImmutableMap}. See also {@link
  * MutableClassToInstanceMap}.
@@ -138,7 +140,9 @@ public final class ImmutableClassToInstanceMap<B> extends
 
   @Override
   @SuppressWarnings("unchecked") // value could not get in if not a T
-  public <T extends B> T getInstance(Class<T> type) {
+  @Nullable
+  // TODO: remove @Nullable on parameter and add checkNotNull()
+  public <T extends B> T getInstance(@Nullable Class<T> type) {
     return (T) delegate.get(type);
   }
 

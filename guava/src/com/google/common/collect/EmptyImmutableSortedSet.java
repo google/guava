@@ -46,7 +46,7 @@ class EmptyImmutableSortedSet<E> extends ImmutableSortedSet<E> {
     return true;
   }
 
-  @Override public boolean contains(Object target) {
+  @Override public boolean contains(@Nullable Object target) {
     return false;
   }
 

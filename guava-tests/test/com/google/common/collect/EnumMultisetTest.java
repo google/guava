@@ -20,6 +20,8 @@ import static java.util.Arrays.asList;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.testing.ClassSanityTester;
+import com.google.common.testing.NullPointerTester;
 import com.google.common.testing.SerializableTester;
 
 import junit.framework.TestCase;
@@ -89,5 +91,24 @@ public class EnumMultisetTest extends TestCase {
     Set<Object> uniqueEntries = Sets.newIdentityHashSet();
     uniqueEntries.addAll(ms.entrySet());
     assertEquals(3, uniqueEntries.size());
+  }
+
+  @GwtIncompatible("reflection")
+  public void testEquals() throws Exception {
+    new ClassSanityTester()
+        .setSampleInstances(Class.class, ImmutableList.of(Color.class))
+        .setSampleInstances(Enum.class, ImmutableList.copyOf(Color.values()))
+        .setSampleInstances(Iterable.class,
+            ImmutableList.of(ImmutableList.of(Color.RED), ImmutableList.of(Color.GREEN)))
+        .forAllPublicStaticMethods(EnumMultiset.class)
+        .testEquals();
+  }
+
+  @GwtIncompatible("reflection")
+  public void testNulls() throws Exception {
+    new NullPointerTester()
+        .setDefault(Class.class, Color.class)
+        .setDefault(Iterable.class, ImmutableList.copyOf(Color.values()))
+        .testAllPublicStaticMethods(EnumMultiset.class);
   }
 }

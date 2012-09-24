@@ -100,18 +100,18 @@ abstract class AbstractBiMap<K, V> extends ForwardingMap<K, V>
 
   // Query Operations (optimizations)
 
-  @Override public boolean containsValue(Object value) {
+  @Override public boolean containsValue(@Nullable Object value) {
     return inverse.containsKey(value);
   }
 
   // Modification Operations
 
-  @Override public V put(K key, V value) {
+  @Override public V put(@Nullable K key, @Nullable V value) {
     return putInBothMaps(key, value, false);
   }
 
   @Override
-  public V forcePut(K key, V value) {
+  public V forcePut(@Nullable K key, @Nullable V value) {
     return putInBothMaps(key, value, true);
   }
 
@@ -140,7 +140,7 @@ abstract class AbstractBiMap<K, V> extends ForwardingMap<K, V>
     inverse.delegate.put(newValue, key);
   }
 
-  @Override public V remove(Object key) {
+  @Override public V remove(@Nullable Object key) {
     return containsKey(key) ? removeFromBothMaps(key) : null;
   }
 

@@ -156,22 +156,22 @@ public final class ClassSanityTester {
    */
   public void testNulls(Class<?> cls) {
     try {
-      doTestNulls(cls);
+      doTestNulls(cls, Visibility.PACKAGE);
     } catch (Exception e) {
       throw Throwables.propagate(e);
     }
   }
 
-  void doTestNulls(Class<?> cls)
+  void doTestNulls(Class<?> cls, Visibility visibility)
       throws ParameterNotInstantiableException, IllegalAccessException,
              InvocationTargetException, FactoryMethodReturnsNullException {
     if (!Modifier.isAbstract(cls.getModifiers())) {
-      nullPointerTester.testConstructors(cls, Visibility.PACKAGE);
+      nullPointerTester.testConstructors(cls, visibility);
     }
-    nullPointerTester.testStaticMethods(cls, Visibility.PACKAGE);
+    nullPointerTester.testStaticMethods(cls, visibility);
     Object instance = instantiate(cls);
     if (instance != null) {
-      nullPointerTester.testInstanceMethods(instance, Visibility.PACKAGE);
+      nullPointerTester.testInstanceMethods(instance, visibility);
     }
   }
 
@@ -584,19 +584,8 @@ public final class ClassSanityTester {
     }
   }
 
-  private static abstract class AbstractSerializableDummyProxy extends DummyProxy
+  private static final class SerializableDummyProxy extends DummyProxy
       implements Serializable {
-
-    @Override public boolean equals(Object obj) {
-      return obj instanceof AbstractSerializableDummyProxy;
-    }
-
-    @Override public int hashCode() {
-      return 0;
-    }
-  }
-
-  private static final class SerializableDummyProxy extends AbstractSerializableDummyProxy {
 
     private transient final ClassSanityTester tester;
 
@@ -606,6 +595,14 @@ public final class ClassSanityTester {
 
     @Override <R> R dummyReturnValue(TypeToken<R> returnType) {
       return tester.getDummyValue(returnType);
+    }
+
+    @Override public boolean equals(Object obj) {
+      return obj instanceof SerializableDummyProxy;
+    }
+
+    @Override public int hashCode() {
+      return 0;
     }
   }
 }

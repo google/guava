@@ -279,7 +279,7 @@ public final class LinkedHashMultimap<K, V> extends AbstractSetMultimap<K, V> {
    * {@link #values()} iteration orderings.
    */
   @Override
-  public Set<V> replaceValues(K key, Iterable<? extends V> values) {
+  public Set<V> replaceValues(@Nullable K key, Iterable<? extends V> values) {
     return super.replaceValues(key, values);
   }
 

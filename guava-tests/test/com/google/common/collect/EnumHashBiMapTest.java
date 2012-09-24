@@ -17,6 +17,9 @@
 package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.GwtIncompatible;
+import com.google.common.testing.NullPointerTester;
+import com.google.common.testing.SerializableTester;
 
 import junit.framework.TestCase;
 
@@ -29,7 +32,7 @@ import java.util.Set;
  *
  * @author Mike Bostock
  */
-@GwtCompatible
+@GwtCompatible(emulated = true)
 public class EnumHashBiMapTest extends TestCase {
   private enum Currency { DOLLAR, PESO, FRANC }
   private enum Country { CANADA, CHILE, SWITZERLAND }
@@ -138,5 +141,16 @@ public class EnumHashBiMapTest extends TestCase {
     Set<Object> uniqueEntries = Sets.newIdentityHashSet();
     uniqueEntries.addAll(bimap.entrySet());
     assertEquals(3, uniqueEntries.size());
+  }
+
+  @GwtIncompatible("serialize")
+  public void testSerializable() {
+    SerializableTester.reserializeAndAssert(EnumHashBiMap.create(Currency.class));
+  }
+
+  @GwtIncompatible("reflection")
+  public void testNulls() {
+    new NullPointerTester().testAllPublicStaticMethods(EnumHashBiMap.class);
+    new NullPointerTester().testAllPublicInstanceMethods(EnumHashBiMap.create(Currency.class));
   }
 }

@@ -29,6 +29,7 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.testing.IteratorTester;
 import com.google.common.collect.testing.ListIteratorTester;
+import com.google.common.testing.EqualsTester;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -469,5 +470,14 @@ public class LinkedListMultimapTest extends AbstractListMultimapTest {
         assertEquals(newHashSet(elements), multimap.asMap().entrySet());
       }
     }.test();
+  }
+
+  public void testEquals() {
+    new EqualsTester()
+        .addEqualityGroup(
+            LinkedListMultimap.create(),
+            LinkedListMultimap.create(),
+            LinkedListMultimap.create(1))
+        .testEquals();
   }
 }

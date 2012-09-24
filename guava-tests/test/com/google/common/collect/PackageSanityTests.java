@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2009 The Guava Authors
+ * Copyright (C) 2012 The Guava Authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,23 +16,17 @@
 
 package com.google.common.collect;
 
-import com.google.common.annotations.GwtCompatible;
-
-import javax.annotation.Nullable;
+import com.google.common.testing.AbstractPackageSanityTests;
 
 /**
- * Wraps an exception that occurred during a computation.
+ * Covers basic sanity checks for the entire package.
  *
- * @author Bob Lee
- * @since 2.0 (imported from Google Collections Library)
+ * @author Ben Yu
  */
-@GwtCompatible
-public class ComputationException extends RuntimeException {
-  /**
-   * Creates a new instance with the given cause.
-   */
-  public ComputationException(@Nullable Throwable cause) {
-    super(cause);
+
+public class PackageSanityTests extends AbstractPackageSanityTests {
+  public PackageSanityTests() {
+    publicApiOnly(); // Many package-private classes are tested through the public API.
+    setDefault(DiscreteDomain.class, DiscreteDomains.integers());
   }
-  private static final long serialVersionUID = 0;
 }
