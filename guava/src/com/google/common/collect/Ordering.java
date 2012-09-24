@@ -24,7 +24,9 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Function;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
@@ -590,6 +592,22 @@ public abstract class Ordering<T> implements Comparator<T> {
    */
   @Beta
   public <E extends T> List<E> leastOf(Iterable<E> iterable, int k) {
+    if (iterable instanceof Collection) {
+      Collection<E> collection = (Collection<E>) iterable;
+      if (collection.size() <= 2L * k) {
+        // In this case, just dumping the collection to an array and sorting is
+        // faster than using the implementation for Iterator, which is
+        // specialized for k much smaller than n.
+
+        @SuppressWarnings("unchecked") // c only contains E's and doesn't escape
+        E[] array = (E[]) collection.toArray();
+        Arrays.sort(array, this);
+        if (array.length > k) {
+          array = ObjectArrays.arraysCopyOf(array, k);
+        }
+        return Collections.unmodifiableList(Arrays.asList(array));
+      }
+    }
     return leastOf(iterable.iterator(), k);
   }
 
@@ -614,6 +632,15 @@ public abstract class Ordering<T> implements Comparator<T> {
 
     if (k == 0 || !elements.hasNext()) {
       return ImmutableList.of();
+    } else if (k >= Integer.MAX_VALUE / 2) {
+      // k is really large; just do a straightforward sorted-copy-and-sublist
+      ArrayList<E> list = Lists.newArrayList(elements);
+      Collections.sort(list, this);
+      if (list.size() > k) {
+        list.subList(k, list.size()).clear();
+      }
+      list.trimToSize();
+      return Collections.unmodifiableList(list);
     }
 
     /*

@@ -694,6 +694,18 @@ public class OrderingTest extends TestCase {
     }
   }
 
+  public void testLeastOfIterableLargeK() {
+    List<Integer> list = Arrays.asList(4, 2, 3, 5, 1);
+    assertEquals(Arrays.asList(1, 2, 3, 4, 5), Ordering.natural()
+        .leastOf(list, Integer.MAX_VALUE));
+  }
+
+  public void testLeastOfIteratorLargeK() {
+    List<Integer> list = Arrays.asList(4, 2, 3, 5, 1);
+    assertEquals(Arrays.asList(1, 2, 3, 4, 5), Ordering.natural()
+        .leastOf(list.iterator(), Integer.MAX_VALUE));
+  }
+
   public void testGreatestOfIterable_simple() {
     /*
      * If greatestOf() promised to be implemented as reverse().leastOf(), this
