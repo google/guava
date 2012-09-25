@@ -34,6 +34,7 @@ public class HostAndPortTest extends TestCase {
     checkFromStringCase("192.0.2.1",            82, "192.0.2.1",  82, false);
     checkFromStringCase("[2001::1]",            84, "2001::1",    84, false);
     checkFromStringCase("2001::3",              86, "2001::3",    86, false);
+    checkFromStringCase("host:",                80, "host",       80, false);
   }
 
   public void testFromStringBadDefaultPort() {
@@ -73,9 +74,7 @@ public class HostAndPortTest extends TestCase {
     // Some nonsense that causes parse failures.
     checkFromStringCase("[goo.gl]",              1, null,         99, false);
     checkFromStringCase("[goo.gl]:80",           1, null,         99, false);
-    checkFromStringCase(":",                     1, null,         99, false);
     checkFromStringCase("[",                     1, null,         99, false);
-    checkFromStringCase("host:",                 1, null,         99, false);
     checkFromStringCase("[]:",                   1, null,         99, false);
     checkFromStringCase("[]:80",                 1, null,         99, false);
     checkFromStringCase("[]bad",                 1, null,         99, false);
@@ -86,6 +85,7 @@ public class HostAndPortTest extends TestCase {
     checkFromStringCase("[[:]]",                86, "[:]",        86, false);
     checkFromStringCase("x:y:z",                87, "x:y:z",      87, false);
     checkFromStringCase("",                     88, "",           88, false);
+    checkFromStringCase(":",                    99, "",           99, false);
     checkFromStringCase(":123",                 -1, "",          123, true);
     checkFromStringCase("\nOMG\t",              89, "\nOMG\t",    89, false);
   }

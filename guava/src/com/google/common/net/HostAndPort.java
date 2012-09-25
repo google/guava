@@ -22,6 +22,7 @@ import static com.google.common.base.Preconditions.checkState;
 
 import com.google.common.annotations.Beta;
 import com.google.common.base.Objects;
+import com.google.common.base.Strings;
 
 import java.io.Serializable;
 import java.util.regex.Matcher;
@@ -172,7 +173,7 @@ public final class HostAndPort implements Serializable {
     }
 
     int port = NO_PORT;
-    if (portString != null) {
+    if (!Strings.isNullOrEmpty(portString)) {
       // Try to parse the whole port string as a number.
       // JDK7 accepts leading plus signs. We don't want to.
       checkArgument(!portString.startsWith("+"), "Unparseable port number: %s", hostPortString);
