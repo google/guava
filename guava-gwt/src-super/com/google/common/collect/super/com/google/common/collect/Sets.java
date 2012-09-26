@@ -23,7 +23,6 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import com.google.common.collect.Collections2.FilteredCollection;
-import com.google.common.math.IntMath;
 
 import java.io.Serializable;
 import java.util.AbstractSet;
@@ -912,12 +911,22 @@ public final class Sets {
    * <li>{@code ImmutableList.of(2, "C")}
    * </ul>
    *
-   * The order in which these lists are returned is not guaranteed, however the
-   * position of an element inside a tuple always corresponds to the position of
-   * the set from which it came in the input list. Note that if any input set is
-   * empty, the Cartesian product will also be empty. If no sets at all are
-   * provided (an empty list), the resulting Cartesian product has one element,
-   * an empty list (counter-intuitive, but mathematically consistent).
+   * The result is guaranteed to be be in the "traditional", lexicographical
+   * order for Cartesian products that you would get from nesting for loops:
+   * <pre>   {@code
+   *
+   *   for (B b0 : sets.get(0)) {
+   *     for (B b1 : sets.get(1)) {
+   *       ...
+   *       ImmutableList<B> tuple = ImmutableList.of(b0, b1, ...);
+   *       // operate on tuple
+   *     }
+   *   }}</pre>
+   *
+   * Note that if any input set is empty, the Cartesian product will also be
+   * empty. If no sets at all are provided (an empty list), the resulting
+   * Cartesian product has one element, an empty list (counter-intuitive, but
+   * mathematically consistent).
    *
    * <p><i>Performance notes:</i> while the cartesian product of sets of size
    * {@code m, n, p} is a set of size {@code m x n x p}, its actual memory
@@ -943,8 +952,7 @@ public final class Sets {
         return ImmutableSet.of();
       }
     }
-    CartesianSet<B> cartesianSet = new CartesianSet<B>(sets);
-    return cartesianSet;
+    return CartesianSet.create(sets);
   }
 
   /**
@@ -968,12 +976,22 @@ public final class Sets {
    * <li>{@code ImmutableList.of(2, "C")}
    * </ul>
    *
-   * The order in which these lists are returned is not guaranteed, however the
-   * position of an element inside a tuple always corresponds to the position of
-   * the set from which it came in the input list. Note that if any input set is
-   * empty, the Cartesian product will also be empty. If no sets at all are
-   * provided, the resulting Cartesian product has one element, an empty list
-   * (counter-intuitive, but mathematically consistent).
+   * The result is guaranteed to be be in the "traditional", lexicographical
+   * order for Cartesian products that you would get from nesting for loops:
+   * <pre>   {@code
+   *
+   *   for (B b0 : sets.get(0)) {
+   *     for (B b1 : sets.get(1)) {
+   *       ...
+   *       ImmutableList<B> tuple = ImmutableList.of(b0, b1, ...);
+   *       // operate on tuple
+   *     }
+   *   }}</pre>
+   *
+   * Note that if any input set is empty, the Cartesian product will also be
+   * empty. If no sets at all are provided (an empty list), the resulting
+   * Cartesian product has one element, an empty list (counter-intuitive, but
+   * mathematically consistent).
    *
    * <p><i>Performance notes:</i> while the cartesian product of sets of size
    * {@code m, n, p} is a set of size {@code m x n x p}, its actual memory
@@ -997,61 +1015,51 @@ public final class Sets {
     return cartesianProduct(Arrays.asList(sets));
   }
 
-  private static class CartesianSet<B> extends AbstractSet<List<B>> {
-    final ImmutableList<Axis> axes;
-    final int size;
+  private static final class CartesianSet<E>
+      extends ForwardingCollection<List<E>> implements Set<List<E>> {
+    private transient final ImmutableList<ImmutableSet<E>> axes;
+    private transient final CartesianList<E> delegate;
 
-    CartesianSet(List<? extends Set<? extends B>> sets) {
-      int dividend = 1;
-      ImmutableList.Builder<Axis> builder = ImmutableList.builder();
-      try {
-        for (Set<? extends B> set : sets) {
-          Axis axis = new Axis(set, dividend);
-          builder.add(axis);
-          dividend = IntMath.checkedMultiply(dividend, axis.size());
+    static <E> Set<List<E>> create(List<? extends Set<? extends E>> sets) {
+      ImmutableList.Builder<ImmutableSet<E>> axesBuilder =
+          new ImmutableList.Builder<ImmutableSet<E>>(sets.size());
+      for (Set<? extends E> set : sets) {
+        ImmutableSet<E> copy = ImmutableSet.copyOf(set);
+        if (copy.isEmpty()) {
+          return ImmutableSet.of();
         }
-      } catch (ArithmeticException overflow) {
-        throw new IllegalArgumentException("cartesian product too big");
+        axesBuilder.add(copy);
       }
-      this.axes = builder.build();
-      size = dividend;
-    }
+      final ImmutableList<ImmutableSet<E>> axes = axesBuilder.build();
+      ImmutableList<List<E>> listAxes = new ImmutableList<List<E>>() {
 
-    @Override public int size() {
-      return size;
-    }
-
-    @Override public UnmodifiableIterator<List<B>> iterator() {
-      return new AbstractIndexedListIterator<List<B>>(size) {
         @Override
-        protected List<B> get(int index) {
-          Object[] tuple = new Object[axes.size()];
-          for (int i = 0 ; i < tuple.length; i++) {
-            tuple[i] = axes.get(i).getForIndex(index);
-          }
+        public int size() {
+          return axes.size();
+        }
 
-          @SuppressWarnings("unchecked") // only B's are put in here
-          List<B> result = (ImmutableList<B>) ImmutableList.copyOf(tuple);
-          return result;
+        @Override
+        public List<E> get(int index) {
+          return axes.get(index).asList();
+        }
+
+        @Override
+        boolean isPartialView() {
+          return true;
         }
       };
+      return new CartesianSet<E>(axes, new CartesianList<E>(listAxes));
     }
 
-    @Override public boolean contains(Object element) {
-      if (!(element instanceof List)) {
-        return false;
-      }
-      List<?> tuple = (List<?>) element;
-      int dimensions = axes.size();
-      if (tuple.size() != dimensions) {
-        return false;
-      }
-      for (int i = 0; i < dimensions; i++) {
-        if (!axes.get(i).contains(tuple.get(i))) {
-          return false;
-        }
-      }
-      return true;
+    private CartesianSet(
+        ImmutableList<ImmutableSet<E>> axes, CartesianList<E> delegate) {
+      this.axes = axes;
+      this.delegate = delegate;
+    }
+
+    @Override
+    protected Collection<List<E>> delegate() {
+      return delegate;
     }
 
     @Override public boolean equals(@Nullable Object object) {
@@ -1064,56 +1072,26 @@ public final class Sets {
       return super.equals(object);
     }
 
-    @Override public int hashCode() {
+    @Override
+    public int hashCode() {
       // Warning: this is broken if size() == 0, so it is critical that we
       // substitute an empty ImmutableSet to the user in place of this
 
       // It's a weird formula, but tests prove it works.
-      int adjust = size - 1;
+      int adjust = size() - 1;
       for (int i = 0; i < axes.size(); i++) {
         adjust *= 31;
+        adjust = ~~adjust;
+        // in GWT, we have to deal with integer overflow carefully
       }
-      return axes.hashCode() + adjust;
-    }
+      int hash = 1;
+      for (Set<E> axis : axes) {
+        hash = 31 * hash + (size() / axis.size() * axis.hashCode());
 
-    private class Axis {
-      final ImmutableSet<? extends B> choices;
-      final ImmutableList<? extends B> choicesList;
-      final int dividend;
-
-      Axis(Set<? extends B> set, int dividend) {
-        choices = ImmutableSet.copyOf(set);
-        choicesList = choices.asList();
-        this.dividend = dividend;
+        hash = ~~hash;
       }
-
-      int size() {
-        return choices.size();
-      }
-
-      B getForIndex(int index) {
-        return choicesList.get(index / dividend % size());
-      }
-
-      boolean contains(Object target) {
-        return choices.contains(target);
-      }
-
-      @Override public boolean equals(Object obj) {
-        if (obj instanceof CartesianSet.Axis) {
-          CartesianSet.Axis that = (CartesianSet.Axis) obj;
-          return this.choices.equals(that.choices);
-          // dividends must be equal or we wouldn't have gotten this far
-        }
-        return false;
-      }
-
-      @Override public int hashCode() {
-        // Because Axis instances are not exposed, we can
-        // opportunistically choose whatever bizarre formula happens
-        // to make CartesianSet.hashCode() as simple as possible.
-        return size / choices.size() * choices.hashCode();
-      }
+      hash += adjust;
+      return ~~hash;
     }
   }
 
@@ -1251,6 +1229,9 @@ public final class Sets {
     int hashCode = 0;
     for (Object o : s) {
       hashCode += o != null ? o.hashCode() : 0;
+
+      hashCode = ~~hashCode;
+      // Needed to deal with unusual integer overflow in GWT.
     }
     return hashCode;
   }

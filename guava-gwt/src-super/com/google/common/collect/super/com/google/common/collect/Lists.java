@@ -34,6 +34,7 @@ import java.io.Serializable;
 import java.util.AbstractList;
 import java.util.AbstractSequentialList;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
@@ -314,6 +315,127 @@ public final class Lists {
       }
     }
     private static final long serialVersionUID = 0;
+  }
+
+  /**
+   * Returns every possible list that can be formed by choosing one element
+   * from each of the given lists in order; the "n-ary
+   * <a href="http://en.wikipedia.org/wiki/Cartesian_product">Cartesian
+   * product</a>" of the lists. For example: <pre>   {@code
+   *
+   *   Lists.cartesianProduct(ImmutableList.of(
+   *       ImmutableList.of(1, 2),
+   *       ImmutableList.of("A", "B", "C")))}</pre>
+   *
+   * returns a list containing six lists in the following order:
+   *
+   * <ul>
+   * <li>{@code ImmutableList.of(1, "A")}
+   * <li>{@code ImmutableList.of(1, "B")}
+   * <li>{@code ImmutableList.of(1, "C")}
+   * <li>{@code ImmutableList.of(2, "A")}
+   * <li>{@code ImmutableList.of(2, "B")}
+   * <li>{@code ImmutableList.of(2, "C")}
+   * </ul>
+   *
+   * The result is guaranteed to be be in the "traditional", lexicographical
+   * order for Cartesian products that you would get from nesting for loops:
+   * <pre>   {@code
+   *
+   *   for (B b0 : lists.get(0)) {
+   *     for (B b1 : lists.get(1)) {
+   *       ...
+   *       ImmutableList<B> tuple = ImmutableList.of(b0, b1, ...);
+   *       // operate on tuple
+   *     }
+   *   }}</pre>
+   *
+   * Note that if any input list is empty, the Cartesian product will also be
+   * empty. If no lists at all are provided (an empty list), the resulting
+   * Cartesian product has one element, an empty list (counter-intuitive, but
+   * mathematically consistent).
+   *
+   * <p><i>Performance notes:</i> while the cartesian product of lists of size
+   * {@code m, n, p} is a list of size {@code m x n x p}, its actual memory
+   * consumption is much smaller. When the cartesian product is constructed, the
+   * input lists are merely copied. Only as the resulting list is iterated are
+   * the individual lists created, and these are not retained after iteration.
+   *
+   * @param lists the lists to choose elements from, in the order that
+   *     the elements chosen from those lists should appear in the resulting
+   *     lists
+   * @param <B> any common base class shared by all axes (often just {@link
+   *     Object})
+   * @return the Cartesian product, as an immutable list containing immutable
+   *     lists
+   * @throws IllegalArgumentException if the size of the cartesian product would
+   *     be greater than {@link Integer#MAX_VALUE}
+   * @throws NullPointerException if {@code lists}, any one of the {@code lists},
+   *     or any element of a provided list is null
+   */
+  static <B> List<List<B>> cartesianProduct(
+      List<? extends List<? extends B>> lists) {
+    return CartesianList.create(lists);
+  }
+
+  /**
+   * Returns every possible list that can be formed by choosing one element
+   * from each of the given lists in order; the "n-ary
+   * <a href="http://en.wikipedia.org/wiki/Cartesian_product">Cartesian
+   * product</a>" of the lists. For example: <pre>   {@code
+   *
+   *   Lists.cartesianProduct(ImmutableList.of(
+   *       ImmutableList.of(1, 2),
+   *       ImmutableList.of("A", "B", "C")))}</pre>
+   *
+   * returns a list containing six lists in the following order:
+   *
+   * <ul>
+   * <li>{@code ImmutableList.of(1, "A")}
+   * <li>{@code ImmutableList.of(1, "B")}
+   * <li>{@code ImmutableList.of(1, "C")}
+   * <li>{@code ImmutableList.of(2, "A")}
+   * <li>{@code ImmutableList.of(2, "B")}
+   * <li>{@code ImmutableList.of(2, "C")}
+   * </ul>
+   *
+   * The result is guaranteed to be be in the "traditional", lexicographical
+   * order for Cartesian products that you would get from nesting for loops:
+   * <pre>   {@code
+   *
+   *   for (B b0 : lists.get(0)) {
+   *     for (B b1 : lists.get(1)) {
+   *       ...
+   *       ImmutableList<B> tuple = ImmutableList.of(b0, b1, ...);
+   *       // operate on tuple
+   *     }
+   *   }}</pre>
+   *
+   * Note that if any input list is empty, the Cartesian product will also be
+   * empty. If no lists at all are provided (an empty list), the resulting
+   * Cartesian product has one element, an empty list (counter-intuitive, but
+   * mathematically consistent).
+   *
+   * <p><i>Performance notes:</i> while the cartesian product of lists of size
+   * {@code m, n, p} is a list of size {@code m x n x p}, its actual memory
+   * consumption is much smaller. When the cartesian product is constructed, the
+   * input lists are merely copied. Only as the resulting list is iterated are
+   * the individual lists created, and these are not retained after iteration.
+   *
+   * @param lists the lists to choose elements from, in the order that
+   *     the elements chosen from those lists should appear in the resulting
+   *     lists
+   * @param <B> any common base class shared by all axes (often just {@link
+   *     Object})
+   * @return the Cartesian product, as an immutable list containing immutable
+   *     lists
+   * @throws IllegalArgumentException if the size of the cartesian product would
+   *     be greater than {@link Integer#MAX_VALUE}
+   * @throws NullPointerException if {@code lists}, any one of the
+   *     {@code lists}, or any element of a provided list is null
+   */
+  static <B> List<List<B>> cartesianProduct(List<? extends B>... lists) {
+    return cartesianProduct(Arrays.asList(lists));
   }
 
   /**
@@ -888,10 +1010,13 @@ public final class Lists {
   /**
    * An implementation of {@link List#hashCode()}.
    */
-  static int hashCodeImpl(List<?> list){
+  static int hashCodeImpl(List<?> list) {
     int hashCode = 1;
     for (Object o : list) {
       hashCode = 31 * hashCode + (o == null ? 0 : o.hashCode());
+
+      hashCode = ~~hashCode;
+      // needed to deal with GWT integer overflow
     }
     return hashCode;
   }

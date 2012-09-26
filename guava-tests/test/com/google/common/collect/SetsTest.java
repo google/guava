@@ -653,24 +653,24 @@ public class SetsTest extends TestCase {
 
   @SuppressWarnings("unchecked") // varargs!
   public void testCartesianProduct_binary1x1() {
-    ASSERT.that(Sets.cartesianProduct(set(1), set(2))).hasContentsAnyOrder(list(1, 2));
+    ASSERT.that(Sets.cartesianProduct(set(1), set(2))).hasContentsInOrder(list(1, 2));
   }
 
   @SuppressWarnings("unchecked") // varargs!
   public void testCartesianProduct_binary1x2() {
-    ASSERT.that(Sets.cartesianProduct(set(1), set(2, 3))).hasContentsAnyOrder(
+    ASSERT.that(Sets.cartesianProduct(set(1), set(2, 3))).hasContentsInOrder(
         list(1, 2), list(1, 3));
   }
 
   @SuppressWarnings("unchecked") // varargs!
   public void testCartesianProduct_binary2x2() {
-    ASSERT.that(Sets.cartesianProduct(set(1, 2), set(3, 4))).hasContentsAnyOrder(
+    ASSERT.that(Sets.cartesianProduct(set(1, 2), set(3, 4))).hasContentsInOrder(
         list(1, 3), list(1, 4), list(2, 3), list(2, 4));
   }
 
   @SuppressWarnings("unchecked") // varargs!
   public void testCartesianProduct_2x2x2() {
-    ASSERT.that(Sets.cartesianProduct(set(0, 1), set(0, 1), set(0, 1))).hasContentsAnyOrder(
+    ASSERT.that(Sets.cartesianProduct(set(0, 1), set(0, 1), set(0, 1))).hasContentsInOrder(
         list(0, 0, 0), list(0, 0, 1), list(0, 1, 0), list(0, 1, 1),
         list(1, 0, 0), list(1, 0, 1), list(1, 1, 0), list(1, 1, 1));
   }
@@ -695,7 +695,7 @@ public class SetsTest extends TestCase {
     List<Object> exp3 = list((Object) 2, "3");
     List<Object> exp4 = list((Object) 2, "4");
 
-    ASSERT.that(Sets.<Object>cartesianProduct(x, y)).hasContentsAnyOrder(exp1, exp2, exp3, exp4);
+    ASSERT.that(Sets.<Object>cartesianProduct(x, y)).hasContentsInOrder(exp1, exp2, exp3, exp4);
   }
 
   @SuppressWarnings("unchecked") // varargs!

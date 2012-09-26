@@ -526,6 +526,66 @@ public class ListsTest extends TestCase {
     assertEquals(Collections.emptyList(), fromList);
   }
 
+  private static <E> List<E> list(E... elements) {
+    return ImmutableList.copyOf(elements);
+  }
+
+  @SuppressWarnings("unchecked") // varargs!
+  public void testCartesianProduct_binary1x1() {
+    ASSERT.that(Lists.cartesianProduct(list(1), list(2))).hasContentsInOrder(list(1, 2));
+  }
+
+  @SuppressWarnings("unchecked") // varargs!
+  public void testCartesianProduct_binary1x2() {
+    ASSERT.that(Lists.cartesianProduct(list(1), list(2, 3))).hasContentsInOrder(
+        list(1, 2), list(1, 3));
+  }
+
+  @SuppressWarnings("unchecked") // varargs!
+  public void testCartesianProduct_binary2x2() {
+    ASSERT.that(Lists.cartesianProduct(list(1, 2), list(3, 4))).hasContentsInOrder(
+        list(1, 3), list(1, 4), list(2, 3), list(2, 4));
+  }
+
+  @SuppressWarnings("unchecked") // varargs!
+  public void testCartesianProduct_2x2x2() {
+    ASSERT.that(Lists.cartesianProduct(list(0, 1), list(0, 1), list(0, 1))).hasContentsInOrder(
+        list(0, 0, 0), list(0, 0, 1), list(0, 1, 0), list(0, 1, 1),
+        list(1, 0, 0), list(1, 0, 1), list(1, 1, 0), list(1, 1, 1));
+  }
+
+  @SuppressWarnings("unchecked") // varargs!
+  public void testCartesianProduct_contains() {
+    List<List<Integer>> actual = Lists.cartesianProduct(list(1, 2), list(3, 4));
+    assertTrue(actual.contains(list(1, 3)));
+    assertTrue(actual.contains(list(1, 4)));
+    assertTrue(actual.contains(list(2, 3)));
+    assertTrue(actual.contains(list(2, 4)));
+    assertFalse(actual.contains(list(3, 1)));
+  }
+
+  @SuppressWarnings("unchecked") // varargs!
+  public void testCartesianProduct_unrelatedTypes() {
+    List<Integer> x = list(1, 2);
+    List<String> y = list("3", "4");
+
+    List<Object> exp1 = list((Object) 1, "3");
+    List<Object> exp2 = list((Object) 1, "4");
+    List<Object> exp3 = list((Object) 2, "3");
+    List<Object> exp4 = list((Object) 2, "4");
+
+    ASSERT.that(Lists.<Object>cartesianProduct(x, y)).hasContentsInOrder(exp1, exp2, exp3, exp4);
+  }
+
+  @SuppressWarnings("unchecked") // varargs!
+  public void testCartesianProductTooBig() {
+    List<String> list = Collections.nCopies(10000, "foo");
+    try {
+      Lists.cartesianProduct(list, list, list, list, list);
+      fail("Expected IAE");
+    } catch (IllegalArgumentException expected) {}
+  }
+
   public void testTransformHashCodeRandomAccess() {
     List<String> list = Lists.transform(SOME_LIST, SOME_FUNCTION);
     assertEquals(SOME_STRING_LIST.hashCode(), list.hashCode());

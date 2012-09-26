@@ -264,6 +264,16 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
     return this;
   }
 
+  @Override
+  public boolean equals(@Nullable Object obj) {
+    return Lists.equalsImpl(this, obj);
+  }
+
+  @Override
+  public int hashCode() {
+    return Lists.hashCodeImpl(this);
+  }
+
   public ImmutableList<E> reverse() {
     List<E> list = Lists.newArrayList(this);
     Collections.reverse(list);
@@ -275,9 +285,15 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
   }
 
   public static final class Builder<E> extends ImmutableCollection.Builder<E> {
-    private final ArrayList<E> contents = Lists.newArrayList();
+    private final ArrayList<E> contents;
 
-    public Builder() {}
+    public Builder() {
+      contents = Lists.newArrayList();
+    }
+
+    Builder(int capacity) {
+      contents = Lists.newArrayListWithCapacity(capacity);
+    }
 
     @Override public Builder<E> add(E element) {
       contents.add(checkNotNull(element));
