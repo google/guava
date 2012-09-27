@@ -72,6 +72,34 @@ public final class Maps {
   private Maps() {}
 
   /**
+   * Returns an immutable map instance containing the given entries.
+   * Internally, the returned set will be backed by an {@link EnumMap}.
+   *
+   * <p>The iteration order of the returned map follows the enum's iteration
+   * order, not the order in which the elements appear in the given map.
+   *
+   * @param map the map to make an immutable copy of
+   * @return an immutable map containing those entries
+   * @since 14.0
+   */
+  @GwtCompatible(serializable = true)
+  @Beta
+  public static <K extends Enum<K>, V> ImmutableMap<K, V> immutableEnumMap(
+      Map<K, V> map) {
+    if (map.isEmpty()) {
+      return ImmutableMap.of();
+    } else if (map instanceof ImmutableEnumMap) {
+      return (ImmutableEnumMap<K, V>) map;
+    }
+    for (Map.Entry<K, V> entry : map.entrySet()) {
+      checkNotNull(entry.getKey());
+      checkNotNull(entry.getValue());
+    }
+    EnumMap<K, V> enumMap = new EnumMap<K, V>(map);
+    return new ImmutableEnumMap<K, V>(enumMap);
+  }
+
+  /**
    * Creates a <i>mutable</i>, empty {@code HashMap} instance.
    *
    * <p><b>Note:</b> if mutability is not required, use {@link

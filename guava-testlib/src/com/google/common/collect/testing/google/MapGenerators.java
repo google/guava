@@ -18,7 +18,10 @@ package com.google.common.collect.testing.google;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Maps;
+import com.google.common.collect.testing.AnEnum;
 import com.google.common.collect.testing.SampleElements;
+import com.google.common.collect.testing.TestEnumMapGenerator;
 import com.google.common.collect.testing.TestListGenerator;
 import com.google.common.collect.testing.TestStringMapGenerator;
 import com.google.common.collect.testing.TestUnhashableCollectionGenerator;
@@ -87,6 +90,18 @@ public class MapGenerators {
     @Override
     public Iterable<String> order(List<String> insertionOrder) {
       return insertionOrder;
+    }
+  }
+
+  public static class ImmutableEnumMapGenerator extends TestEnumMapGenerator {
+    @Override
+    protected Map<AnEnum, String> create(Entry<AnEnum, String>[] entries) {
+      Map<AnEnum, String> map = Maps.newHashMap();
+      for (Entry<AnEnum, String> entry : entries) {
+        // checkArgument(!map.containsKey(entry.getKey()));
+        map.put(entry.getKey(), entry.getValue());
+      }
+      return Maps.immutableEnumMap(map);
     }
   }
 

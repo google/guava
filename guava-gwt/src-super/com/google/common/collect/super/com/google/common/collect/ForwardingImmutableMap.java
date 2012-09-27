@@ -31,7 +31,7 @@ import javax.annotation.Nullable;
  */
 public abstract class ForwardingImmutableMap<K, V> extends ImmutableMap<K, V> {
 
-  private final transient Map<K, V> delegate;
+  final transient Map<K, V> delegate;
 
   ForwardingImmutableMap(Map<? extends K, ? extends V> delegate) {
     this.delegate = Collections.unmodifiableMap(delegate);
