@@ -165,6 +165,7 @@ public final class ArbitraryInstances {
 
   private static final ClassToInstanceMap<Object> DEFAULTS = ImmutableClassToInstanceMap.builder()
       // primitives
+      .put(Object.class, "")
       .put(Number.class, 0)
       .put(UnsignedInteger.class, UnsignedInteger.ZERO)
       .put(UnsignedLong.class, UnsignedLong.ZERO)

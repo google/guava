@@ -32,6 +32,8 @@ import javax.annotation.Nullable;
 final class Absent extends Optional<Object> {
   static final Absent INSTANCE = new Absent();
 
+  private Absent() {}
+
   @Override public boolean isPresent() {
     return false;
   }

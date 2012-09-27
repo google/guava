@@ -22,6 +22,7 @@ import com.google.common.base.Equivalence.Wrapper;
 import com.google.common.collect.ImmutableList;
 import com.google.common.testing.EqualsTester;
 import com.google.common.testing.EquivalenceTester;
+import com.google.common.testing.NullPointerTester;
 import com.google.common.testing.SerializableTester;
 
 import junit.framework.TestCase;
@@ -152,10 +153,17 @@ public class EquivalenceTest extends TestCase {
         .test();
   }
   
-  public void testEquality() {
+  public void testEquals() {
     new EqualsTester()
         .addEqualityGroup(Equivalence.equals(), Equivalence.equals())
         .addEqualityGroup(Equivalence.identity(), Equivalence.identity())
         .testEquals();
+  }
+
+  @GwtIncompatible("NullPointerTester")
+  public void testNulls() {
+    new NullPointerTester().testAllPublicStaticMethods(Equivalence.class);
+    new NullPointerTester().testAllPublicInstanceMethods(Equivalence.equals());
+    new NullPointerTester().testAllPublicInstanceMethods(Equivalence.identity());
   }
 }
