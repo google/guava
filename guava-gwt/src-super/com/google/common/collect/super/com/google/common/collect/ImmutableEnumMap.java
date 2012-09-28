@@ -19,11 +19,12 @@ package com.google.common.collect;
 import java.util.Map;
 
 /**
- * GWt emulation of {@link ImmutableEnumMap}.
+ * GWT emulation of {@link ImmutableEnumMap}. The type parameter is not bounded
+ * by {@code Enum<E>} to avoid code-size bloat.
  *
  * @author Hayward Chan
  */
-final class ImmutableEnumMap<K extends Enum<K>, V> extends ForwardingImmutableMap<K, V> {
+final class ImmutableEnumMap<K, V> extends ForwardingImmutableMap<K, V> {
 
   ImmutableEnumMap(Map<? extends K, ? extends V> delegate) {
     super(WellBehavedMap.wrap(delegate));
