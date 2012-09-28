@@ -242,7 +242,7 @@ public final class Files {
   public static String toString(File file, Charset charset) throws IOException {
     checkNotNull(file);
     checkNotNull(charset);
-    return new String(toByteArray(file), charset.name());
+    return new String(toByteArray(file), charset);
   }
 
   /**
