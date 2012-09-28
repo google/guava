@@ -685,6 +685,10 @@ public abstract class Ordering<T> implements Comparator<T> {
         int left = 0;
         int right = bufferCap - 1;
 
+        int minThresholdPosition = 0;
+        // The leftmost position at which the greatest of the k lower elements
+        // -- the new value of threshold -- might be found.
+
         while (left < right) {
           int pivotIndex = (left + right + 1) >>> 1;
           int pivotNewIndex = partition(buffer, left, right, pivotIndex);
@@ -692,14 +696,15 @@ public abstract class Ordering<T> implements Comparator<T> {
             right = pivotNewIndex - 1;
           } else if (pivotNewIndex < k) {
             left = Math.max(pivotNewIndex, left + 1);
+            minThresholdPosition = pivotNewIndex;
           } else {
             break;
           }
         }
         bufferSize = k;
 
-        threshold = buffer[0];
-        for (int i = 1; i < bufferSize; i++) {
+        threshold = buffer[minThresholdPosition];
+        for (int i = minThresholdPosition + 1; i < bufferSize; i++) {
           threshold = max(threshold, buffer[i]);
         }
       }
