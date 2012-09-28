@@ -23,25 +23,25 @@ import com.google.gwt.user.client.rpc.SerializationStreamReader;
 import com.google.gwt.user.client.rpc.SerializationStreamWriter;
 
 /**
- * This class implements the GWT serialization of {@link SingletonImmutableMap}.
+ * This class implements the GWT serialization of {@link SingletonImmutableBiMap}.
  *
  * @author Chris Povirk
  */
-public class SingletonImmutableMap_CustomFieldSerializer {
+public class SingletonImmutableBiMap_CustomFieldSerializer {
 
   public static void deserialize(SerializationStreamReader reader,
-      SingletonImmutableMap<?, ?> instance) {
+      SingletonImmutableBiMap<?, ?> instance) {
   }
 
-  public static SingletonImmutableMap<Object, Object> instantiate(
+  public static SingletonImmutableBiMap<Object, Object> instantiate(
       SerializationStreamReader reader) throws SerializationException {
     Object key = checkNotNull(reader.readObject());
     Object value = checkNotNull(reader.readObject());
-    return new SingletonImmutableMap<Object, Object>(key, value);
+    return new SingletonImmutableBiMap<Object, Object>(key, value);
   }
   
   public static void serialize(SerializationStreamWriter writer,
-      SingletonImmutableMap<?, ?> instance) throws SerializationException {
+      SingletonImmutableBiMap<?, ?> instance) throws SerializationException {
     writer.writeObject(instance.singleKey);
     writer.writeObject(instance.singleValue);
   }

@@ -16,6 +16,8 @@
 
 package com.google.common.collect;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import com.google.common.annotations.GwtCompatible;
 
 import java.util.Map;
@@ -54,7 +56,9 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableMap<K, V>
    * Returns an immutable bimap containing a single entry.
    */
   public static <K, V> ImmutableBiMap<K, V> of(K k1, V v1) {
-    return new RegularImmutableBiMap<K, V>(ImmutableMap.of(k1, v1));
+    checkNotNull(k1, "null key in entry: null=%s", v1);
+    checkNotNull(v1, "null value in entry: %s=null", k1);
+    return new SingletonImmutableBiMap<K, V>(k1, v1);
   }
 
   /**
@@ -165,10 +169,11 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableMap<K, V>
      */
     @Override public ImmutableBiMap<K, V> build() {
       ImmutableMap<K, V> map = super.build();
-      if (map.isEmpty()) {
-        return of();
+      if (map instanceof ImmutableBiMap) {
+        return (ImmutableBiMap<K, V>) map;
+      } else {
+        return new RegularImmutableBiMap<K, V>(map);
       }
-      return new RegularImmutableBiMap<K, V>(map);
     }
   }
 
@@ -197,12 +202,12 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableMap<K, V>
       }
     }
 
-    if (map.isEmpty()) {
-      return of();
-    }
-
     ImmutableMap<K, V> immutableMap = ImmutableMap.copyOf(map);
-    return new RegularImmutableBiMap<K, V>(immutableMap);
+    if (immutableMap instanceof ImmutableBiMap) {
+      return (ImmutableBiMap<K, V>) immutableMap;
+    } else {
+      return new RegularImmutableBiMap<K, V>(immutableMap);
+    }
   }
 
   ImmutableBiMap() {}

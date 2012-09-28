@@ -46,8 +46,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
   }
 
   public static <K, V> ImmutableMap<K, V> of(K k1, V v1) {
-    return new SingletonImmutableMap<K, V>(
-        checkNotNull(k1), checkNotNull(v1));
+    return ImmutableBiMap.of(k1, v1);
   }
 
   public static <K, V> ImmutableMap<K, V> of(K k1, V v1, K k2, V v2) {
@@ -124,8 +123,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
           return of();
         case 1:
           Entry<K, V> entry = getOnlyElement(entries);
-          return new SingletonImmutableMap<K, V>(
-              entry.getKey(), entry.getValue());
+          return of(entry.getKey(), entry.getValue());
         default:
           @SuppressWarnings("unchecked")
           Entry<K, V>[] entryArray

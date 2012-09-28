@@ -74,9 +74,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
    * maintainability of your code.
    */
   public static <K, V> ImmutableMap<K, V> of(K k1, V v1) {
-    return new SingletonImmutableMap<K, V>(
-        checkNotNull(k1, "null key in entry: null=%s", v1),
-        checkNotNull(v1, "null value in entry: %s=null", k1));
+    return ImmutableBiMap.of(k1, v1);
   }
 
   /**
@@ -241,7 +239,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
         case 0:
           return of();
         case 1:
-          return new SingletonImmutableMap<K, V>(getOnlyElement(entries));
+          return new SingletonImmutableBiMap<K, V>(getOnlyElement(entries));
         default:
           Entry<?, ?>[] entryArray
               = entries.toArray(new Entry<?, ?>[entries.size()]);
@@ -281,7 +279,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
       case 0:
         return of();
       case 1:
-        return new SingletonImmutableMap<K, V>(entryOf(
+        return new SingletonImmutableBiMap<K, V>(entryOf(
             entries[0].getKey(), entries[0].getValue()));
       default:
         for (int i = 0; i < entries.length; i++) {

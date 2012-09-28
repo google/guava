@@ -30,17 +30,24 @@ import javax.annotation.Nullable;
  */
 @GwtCompatible(serializable = true, emulated = true)
 @SuppressWarnings("serial") // uses writeReplace(), not default serialization
-final class SingletonImmutableMap<K, V> extends ImmutableMap<K, V> {
+final class SingletonImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
 
   final transient K singleKey;
   final transient V singleValue;
 
-  SingletonImmutableMap(K singleKey, V singleValue) {
+  SingletonImmutableBiMap(K singleKey, V singleValue) {
     this.singleKey = singleKey;
     this.singleValue = singleValue;
   }
 
-  SingletonImmutableMap(Entry<K, V> entry) {
+  private SingletonImmutableBiMap(K singleKey, V singleValue,
+      ImmutableBiMap<V, K> inverse) {
+    this.singleKey = singleKey;
+    this.singleValue = singleValue;
+    this.inverse = inverse;
+  }
+
+  SingletonImmutableBiMap(Entry<K, V> entry) {
     this(entry.getKey(), entry.getValue());
   }
 
@@ -79,9 +86,18 @@ final class SingletonImmutableMap<K, V> extends ImmutableMap<K, V> {
     return ImmutableSet.of(singleKey);
   }
 
+  transient ImmutableBiMap<V, K> inverse;
+
   @Override
-  ImmutableCollection<V> createValues() {
-    return ImmutableList.of(singleValue);
+  public ImmutableBiMap<V, K> inverse() {
+    // racy single-check idiom
+    ImmutableBiMap<V, K> result = inverse;
+    if (result == null) {
+      return inverse = new SingletonImmutableBiMap<V, K>(
+          singleValue, singleKey, this);
+    } else {
+      return result;
+    }
   }
 
   @Override public boolean equals(@Nullable Object object) {

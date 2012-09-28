@@ -18,14 +18,15 @@ package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import java.util.Collections;
+import com.google.common.collect.Iterators;
+import com.google.common.collect.UnmodifiableIterator;
 
 /**
  * GWT emulation of {@link SingletonImmutableSet}.
  *
  * @author Hayward Chan
  */
-final class SingletonImmutableSet<E> extends ForwardingImmutableSet<E> {
+final class SingletonImmutableSet<E> extends ImmutableSet<E> {
 
   // This reference is used both by the custom field serializer, and by the
   // GWT compiler to infer the elements of the lists that needs to be
@@ -35,7 +36,21 @@ final class SingletonImmutableSet<E> extends ForwardingImmutableSet<E> {
   E element;
 
   SingletonImmutableSet(E element) {
-    super(Collections.singleton(checkNotNull(element)));
-    this.element = element;
+    this.element = checkNotNull(element);
+  }
+
+  @Override
+  public int size() {
+    return 1;
+  }
+
+  @Override
+  public UnmodifiableIterator<E> iterator() {
+    return Iterators.singletonIterator(element);
+  }
+
+  @Override
+  public boolean contains(Object object) {
+    return element.equals(object);
   }
 }

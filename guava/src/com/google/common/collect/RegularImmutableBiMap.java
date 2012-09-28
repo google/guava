@@ -16,13 +16,15 @@
 
 package com.google.common.collect;
 
+import static com.google.common.base.Preconditions.checkArgument;
+
 import com.google.common.annotations.GwtCompatible;
 
 import javax.annotation.Nullable;
 
 /**
- * Bimap with one or more mappings.
- * 
+ * Bimap with two or more mappings.
+ *
  * @author Jared Levy
  */
 @GwtCompatible(serializable = true, emulated = true)
@@ -32,6 +34,7 @@ class RegularImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
   final transient ImmutableBiMap<V, K> inverse;
 
   RegularImmutableBiMap(ImmutableMap<K, V> delegate) {
+    checkArgument(delegate.size() >= 2);
     this.delegate = delegate;
 
     ImmutableMap.Builder<V, K> builder = ImmutableMap.builder();
@@ -47,7 +50,7 @@ class RegularImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
     this.delegate = delegate;
     this.inverse = inverse;
   }
-  
+
   @Override
   public int size() {
     return delegate.size();
