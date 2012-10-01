@@ -201,7 +201,7 @@ public class UnsignedIntegerTest extends TestCase {
   }
 
   @GwtIncompatible("too slow")
-  public void testEqualsAndValueOf() {
+  public void testEquals() {
     EqualsTester equalsTester = new EqualsTester();
     for (int a : TEST_INTS) {
       long value = a & 0xffffffffL;

@@ -214,7 +214,7 @@ public class UnsignedLongTest extends TestCase {
   }
 
   @GwtIncompatible("too slow")
-  public void testEqualsAndValueOf() {
+  public void testEquals() {
     EqualsTester equalsTester = new EqualsTester();
     for (long a : TEST_LONGS) {
       BigInteger big =
