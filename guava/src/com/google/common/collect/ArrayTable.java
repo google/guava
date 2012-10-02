@@ -84,7 +84,7 @@ import javax.annotation.Nullable;
  * @since 10.0
  */
 @Beta
-@GwtCompatible(serializable = true, emulated = true)
+@GwtCompatible(emulated = true)
 public final class ArrayTable<R, C, V> implements Table<R, C, V>, Serializable {
 
   /**
