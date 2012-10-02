@@ -16,6 +16,8 @@
 
 package com.google.common.eventbus;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Throwables;
@@ -179,7 +181,7 @@ public class EventBus {
    *                    be a valid Java identifier.
    */
   public EventBus(String identifier) {
-    logger = Logger.getLogger(EventBus.class.getName() + "." + identifier);
+    logger = Logger.getLogger(EventBus.class.getName() + "." + checkNotNull(identifier));
   }
 
   /**
@@ -337,8 +339,8 @@ public class EventBus {
     final Object event;
     final EventHandler handler;
     public EventWithHandler(Object event, EventHandler handler) {
-      this.event = event;
-      this.handler = handler;
+      this.event = checkNotNull(event);
+      this.handler = checkNotNull(handler);
     }
   }
 }

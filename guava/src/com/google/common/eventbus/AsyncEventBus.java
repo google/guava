@@ -16,6 +16,8 @@
 
 package com.google.common.eventbus;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import com.google.common.annotations.Beta;
 
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -47,7 +49,7 @@ public class AsyncEventBus extends EventBus {
    */
   public AsyncEventBus(String identifier, Executor executor) {
     super(identifier);
-    this.executor = executor;
+    this.executor = checkNotNull(executor);
   }
 
   /**
@@ -59,7 +61,7 @@ public class AsyncEventBus extends EventBus {
    *        been posted to this event bus.
    */
   public AsyncEventBus(Executor executor) {
-    this.executor = executor;
+    this.executor = checkNotNull(executor);
   }
 
   @Override
@@ -89,13 +91,14 @@ public class AsyncEventBus extends EventBus {
    */
   @Override
   void dispatch(final Object event, final EventHandler handler) {
-    executor.execute(new Runnable() {
+    checkNotNull(event);
+    checkNotNull(handler);
+    executor.execute(
+        new Runnable() {
           @Override
-          @SuppressWarnings("synthetic-access")
           public void run() {
             AsyncEventBus.super.dispatch(event, handler);
           }
         });
   }
-
 }

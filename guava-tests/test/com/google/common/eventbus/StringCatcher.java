@@ -22,6 +22,8 @@ import junit.framework.Assert;
 
 import java.util.List;
 
+import javax.annotation.Nullable;
+
 /**
  * A simple EventHandler mock that records Strings.
  *
@@ -34,11 +36,11 @@ public class StringCatcher {
   private List<String> events = Lists.newArrayList();
 
   @Subscribe
-  public void hereHaveAString(String string) {
+  public void hereHaveAString(@Nullable String string) {
     events.add(string);
   }
 
-  public void methodWithoutAnnotation(String string) {
+  public void methodWithoutAnnotation(@Nullable String string) {
     Assert.fail("Event bus must not call methods without @Subscribe!");
   }
 

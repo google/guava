@@ -16,10 +16,14 @@
 
 package com.google.common.eventbus;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import com.google.common.base.Preconditions;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+
+import javax.annotation.Nullable;
 
 /**
  * Wraps a single-argument 'handler' method on a specific object.
@@ -65,6 +69,7 @@ class EventHandler {
    *     propagated as-is).
    */
   public void handleEvent(Object event) throws InvocationTargetException {
+    checkNotNull(event);
     try {
       method.invoke(target, new Object[] { event });
     } catch (IllegalArgumentException e) {
@@ -85,25 +90,18 @@ class EventHandler {
 
   @Override public int hashCode() {
     final int PRIME = 31;
-    return (PRIME + method.hashCode()) * PRIME + target.hashCode();
+    return (PRIME + method.hashCode()) * PRIME
+        + System.identityHashCode(target);
   }
 
-  @Override public boolean equals(Object obj) {
-    if(this == obj) {
-      return true;
+  @Override public boolean equals(@Nullable Object obj) {
+    if (obj instanceof EventHandler) {
+      EventHandler that = (EventHandler) obj;
+      // Use == so that different equal instances will still receive events.
+      // We only guard against the case that the same object is registered
+      // multiple times
+      return target == that.target && method.equals(that.method);
     }
-
-    if(obj == null) {
-      return false;
-    }
-
-    if(getClass() != obj.getClass()) {
-      return false;
-    }
-
-    final EventHandler other = (EventHandler) obj;
-
-    return method.equals(other.method) && target == other.target;
+    return false;
   }
-
 }
