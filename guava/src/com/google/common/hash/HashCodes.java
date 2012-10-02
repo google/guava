@@ -15,6 +15,7 @@
 package com.google.common.hash;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.Beta;
 
@@ -133,7 +134,7 @@ public final class HashCodes {
     final byte[] bytes;
     
     BytesHashCode(byte[] bytes) {
-      this.bytes = bytes;
+      this.bytes = checkNotNull(bytes);
     }
 
     @Override public int bits() {
