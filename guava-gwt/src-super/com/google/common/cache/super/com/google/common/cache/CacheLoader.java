@@ -114,7 +114,7 @@ public abstract class CacheLoader<K, V> {
 
     @Override
     public V load(K key) {
-      return computingFunction.apply(key);
+      return computingFunction.apply(checkNotNull(key));
     }
 
     private static final long serialVersionUID = 0;
@@ -144,6 +144,7 @@ public abstract class CacheLoader<K, V> {
 
     @Override
     public V load(Object key) {
+      checkNotNull(key);
       return computingSupplier.get();
     }
 

@@ -1892,10 +1892,10 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
   @VisibleForTesting
   ValueReference<K, V> newValueReference(ReferenceEntry<K, V> entry, V value, int weight) {
     int hash = entry.getHash();
-    return valueStrength.referenceValue(segmentFor(hash), entry, value, weight);
+    return valueStrength.referenceValue(segmentFor(hash), entry, checkNotNull(value), weight);
   }
 
-  int hash(Object key) {
+  int hash(@Nullable Object key) {
     int h = keyEquivalence.hash(key);
     return rehash(h);
   }
@@ -1964,6 +1964,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
    * Returns true if the entry has expired.
    */
   boolean isExpired(ReferenceEntry<K, V> entry, long now) {
+    checkNotNull(entry);
     if (expiresAfterAccess()
         && (now - entry.getAccessTime() >= expireAfterAccessNanos)) {
       return true;
@@ -2149,7 +2150,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
         StatsCounter statsCounter) {
       this.map = map;
       this.maxSegmentWeight = maxSegmentWeight;
-      this.statsCounter = statsCounter;
+      this.statsCounter = checkNotNull(statsCounter);
       initTable(newEntryArray(initialCapacity));
 
       keyReferenceQueue = map.usesKeyReferences()
@@ -2186,7 +2187,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
 
     @GuardedBy("Segment.this")
     ReferenceEntry<K, V> newEntry(K key, int hash, @Nullable ReferenceEntry<K, V> next) {
-      return map.entryFactory.newEntry(this, key, hash, next);
+      return map.entryFactory.newEntry(this, checkNotNull(key), hash, next);
     }
 
     /**
@@ -2231,6 +2232,8 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
     // loading
 
     V get(K key, int hash, CacheLoader<? super K, V> loader) throws ExecutionException {
+      checkNotNull(key);
+      checkNotNull(loader);
       try {
         if (count != 0) { // read-volatile
           // don't call getLiveEntry, which would ignore loading values
@@ -4070,6 +4073,8 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
   @Nullable
   Map<K, V> loadAll(Set<? extends K> keys, CacheLoader<? super K, V> loader)
       throws ExecutionException {
+    checkNotNull(loader);
+    checkNotNull(keys);
     Stopwatch stopwatch = new Stopwatch().start();
     Map<K, V> result;
     boolean success = false;

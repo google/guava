@@ -14,6 +14,7 @@
 
 package com.google.common.cache;
 
+import static com.google.common.base.Preconditions.checkNotNull;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertNotNull;
@@ -91,6 +92,8 @@ class CacheTesting {
   }
 
   static <K, V> ReferenceEntry<K, V> getReferenceEntry(Cache<K, V> cache, K key) {
+    checkNotNull(cache);
+    checkNotNull(key);
     LocalCache<K, V> map = toLocalCache(cache);
     return map.getEntry(key);
   }
@@ -100,6 +103,8 @@ class CacheTesting {
    * {@link Segment#expand()}.
    */
   static <K, V> void forceExpandSegment(Cache<K, V> cache, K key) {
+    checkNotNull(cache);
+    checkNotNull(key);
     LocalCache<K, V> map = toLocalCache(cache);
     int hash = map.hash(key);
     Segment<K, V> segment = map.segmentFor(hash);
@@ -123,7 +128,7 @@ class CacheTesting {
    * {@link #toLocalCache} without throwing an exception.
    */
   static boolean hasLocalCache(Cache<?, ?> cache) {
-    return (cache instanceof LocalLoadingCache);
+    return (checkNotNull(cache) instanceof LocalLoadingCache);
   }
 
   static void drainRecencyQueues(Cache<?, ?> cache) {
@@ -375,7 +380,7 @@ class CacheTesting {
    */
   static void checkRecency(LoadingCache<Integer, Integer> cache, int maxSize,
       Receiver<ReferenceEntry<Integer, Integer>> operation) {
-
+    checkNotNull(operation);
     if (hasLocalCache(cache)) {
       warmUp(cache, 0, 2 * maxSize);
 
@@ -400,12 +405,14 @@ class CacheTesting {
    * Warms the given cache by getting all values in {@code [start, end)}, in order.
    */
   static void warmUp(LoadingCache<Integer, Integer> map, int start, int end) {
+    checkNotNull(map);
     for (int i = start; i < end; i++) {
       map.getUnchecked(i);
     }
   }
 
   static void expireEntries(Cache<?, ?> cache, long expiringTime, FakeTicker ticker) {
+    checkNotNull(ticker);
     expireEntries(toLocalCache(cache), expiringTime, ticker);
   }
 
