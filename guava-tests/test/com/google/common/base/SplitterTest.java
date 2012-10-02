@@ -684,6 +684,19 @@ public class SplitterTest extends TestCase {
     ASSERT.that(asList(m.entrySet())).is(asList(expected.entrySet()));
   }
 
+  public void testMapSplitter_CharacterSeparator() {
+    // try different delimiters.
+    Map<String, String> m = Splitter
+        .on(",")
+        .withKeyValueSeparator(':')
+        .split("boy:tom,girl:tina,cat:kitty,dog:tommy");
+    ImmutableMap<String, String> expected =
+        ImmutableMap.of("boy", "tom", "girl", "tina", "cat", "kitty", "dog", "tommy");
+
+    ASSERT.that(m).isEqualTo(expected);
+    ASSERT.that(asList(m.entrySet())).is(asList(expected.entrySet()));
+  }
+
   public void testMapSplitter_multiCharacterSeparator() {
     // try different delimiters.
     Map<String, String> m = Splitter

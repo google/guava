@@ -347,6 +347,18 @@ public final class Splitter {
 
   /**
    * Returns a {@code MapSplitter} which splits entries based on this splitter,
+   * and splits entries into keys and values using the specified separator.
+   *
+   * @since 14.0
+   */
+  @CheckReturnValue
+  @Beta
+  public MapSplitter withKeyValueSeparator(char separator) {
+    return withKeyValueSeparator(on(separator));
+  }
+
+  /**
+   * Returns a {@code MapSplitter} which splits entries based on this splitter,
    * and splits entries into keys and values using the specified key-value
    * splitter.
    *
