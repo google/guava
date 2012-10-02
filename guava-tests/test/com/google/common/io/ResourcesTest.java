@@ -21,6 +21,7 @@ import static org.junit.contrib.truth.Truth.ASSERT;
 
 import com.google.common.base.Charsets;
 import com.google.common.collect.ImmutableList;
+import com.google.common.testing.NullPointerTester;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -38,16 +39,8 @@ import java.util.List;
 public class ResourcesTest extends IoTestCase {
 
   public void testUrlSupplier() throws IOException {
-    try {
-      Resources.newInputStreamSupplier(null);
-      fail("expected NPE");
-    } catch (NullPointerException expected) {
-      // expected
-    }
-
-    URL url = getClass().getResource("/com/google/common/io/Resources.class");
     byte[] data = ByteStreams.toByteArray(
-        Resources.newInputStreamSupplier(url));
+        Resources.newInputStreamSupplier(classfile(Resources.class)));
     assertEquals(0xCAFEBABE,
         new DataInputStream(new ByteArrayInputStream(data)).readInt());
   }
@@ -60,8 +53,7 @@ public class ResourcesTest extends IoTestCase {
   }
   
   public void testToToByteArray() throws IOException {
-    URL url = getClass().getResource("/com/google/common/io/Resources.class");
-    byte[] data = Resources.toByteArray(url);
+    byte[] data = Resources.toByteArray(classfile(Resources.class));
     assertEquals(0xCAFEBABE,
         new DataInputStream(new ByteArrayInputStream(data)).readInt());
   }
@@ -131,5 +123,15 @@ public class ResourcesTest extends IoTestCase {
   
   public void testGetResource_relativePath() {
     assertNotNull(Resources.getResource(getClass(), "testdata/i18n.txt"));
+  }
+
+  public void testNulls() {
+    new NullPointerTester()
+        .setDefault(URL.class, classfile(ResourcesTest.class))
+        .testAllPublicStaticMethods(Resources.class);
+  }
+
+  private static URL classfile(Class<?> c) {
+    return c.getResource(c.getSimpleName() + ".class");
   }
 }

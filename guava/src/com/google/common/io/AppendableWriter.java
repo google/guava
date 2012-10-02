@@ -16,10 +16,14 @@
 
 package com.google.common.io;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import java.io.Closeable;
 import java.io.Flushable;
 import java.io.IOException;
 import java.io.Writer;
+
+import javax.annotation.Nullable;
 
 /**
  * Writer that places all output on an {@link Appendable} target. If the target
@@ -40,7 +44,7 @@ class AppendableWriter extends Writer {
    * @param target target to which to append output
    */
   AppendableWriter(Appendable target) {
-    this.target = target;
+    this.target = checkNotNull(target);
   }
 
   /*
@@ -79,12 +83,12 @@ class AppendableWriter extends Writer {
     target.append((char) c);
   }
 
-  @Override public void write(String str) throws IOException {
+  @Override public void write(@Nullable String str) throws IOException {
     checkNotClosed();
     target.append(str);
   }
 
-  @Override public void write(String str, int off, int len) throws IOException {
+  @Override public void write(@Nullable String str, int off, int len) throws IOException {
     checkNotClosed();
     // tricky: append takes start, end pair...
     target.append(str, off, off + len);
@@ -96,13 +100,13 @@ class AppendableWriter extends Writer {
     return this;
   }
 
-  @Override public Writer append(CharSequence charSeq) throws IOException {
+  @Override public Writer append(@Nullable CharSequence charSeq) throws IOException {
     checkNotClosed();
     target.append(charSeq);
     return this;
   }
 
-  @Override public Writer append(CharSequence charSeq, int start, int end)
+  @Override public Writer append(@Nullable CharSequence charSeq, int start, int end)
       throws IOException {
     checkNotClosed();
     target.append(charSeq, start, end);

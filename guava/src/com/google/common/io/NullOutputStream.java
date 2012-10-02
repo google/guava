@@ -16,6 +16,8 @@
 
 package com.google.common.io;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import com.google.common.annotations.Beta;
 
 import java.io.OutputStream;
@@ -37,5 +39,6 @@ public final class NullOutputStream extends OutputStream {
 
   /** Discards the specified byte array. */
   @Override public void write(byte[] b, int off, int len) {
+    checkNotNull(b);
   }
 }

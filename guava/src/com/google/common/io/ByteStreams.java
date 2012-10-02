@@ -16,6 +16,9 @@
 
 package com.google.common.io;
 
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import com.google.common.annotations.Beta;
 import com.google.common.base.Preconditions;
 import com.google.common.hash.Funnels;
@@ -75,6 +78,7 @@ public final class ByteStreams {
    */
   public static InputSupplier<ByteArrayInputStream> newInputStreamSupplier(
       final byte[] b, final int off, final int len) {
+    checkNotNull(b);
     return new InputSupplier<ByteArrayInputStream>() {
       @Override
       public ByteArrayInputStream getInput() {
@@ -92,7 +96,8 @@ public final class ByteStreams {
    */
   public static void write(byte[] from,
       OutputSupplier<? extends OutputStream> to) throws IOException {
-    Preconditions.checkNotNull(from);
+    checkNotNull(from);
+    checkNotNull(to);
     boolean threw = true;
     OutputStream out = to.getOutput();
     try {
@@ -114,6 +119,8 @@ public final class ByteStreams {
    */
   public static long copy(InputSupplier<? extends InputStream> from,
       OutputSupplier<? extends OutputStream> to) throws IOException {
+    checkNotNull(from);
+    checkNotNull(to);
     int successfulOps = 0;
     InputStream in = from.getInput();
     try {
@@ -143,6 +150,8 @@ public final class ByteStreams {
    */
   public static long copy(InputSupplier<? extends InputStream> from,
       OutputStream to) throws IOException {
+    checkNotNull(from);
+    checkNotNull(to);
     boolean threw = true;
     InputStream in = from.getInput();
     try {
@@ -167,6 +176,8 @@ public final class ByteStreams {
    */
   public static long copy(InputStream from,
       OutputSupplier<? extends OutputStream> to) throws IOException {
+    checkNotNull(from);
+    checkNotNull(to);
     boolean threw = true;
     OutputStream out = to.getOutput();
     try {
@@ -189,6 +200,8 @@ public final class ByteStreams {
    */
   public static long copy(InputStream from, OutputStream to)
       throws IOException {
+    checkNotNull(from);
+    checkNotNull(to);
     byte[] buf = new byte[BUF_SIZE];
     long total = 0;
     while (true) {
@@ -213,6 +226,8 @@ public final class ByteStreams {
    */
   public static long copy(ReadableByteChannel from,
       WritableByteChannel to) throws IOException {
+    checkNotNull(from);
+    checkNotNull(to);
     ByteBuffer buf = ByteBuffer.allocate(BUF_SIZE);
     long total = 0;
     while (from.read(buf) != -1) {
@@ -427,7 +442,7 @@ public final class ByteStreams {
    * @throws IllegalArgumentException if {@code size} is negative
    */
   public static ByteArrayDataOutput newDataOutput(int size) {
-    Preconditions.checkArgument(size >= 0, "Invalid size: %s", size);
+    checkArgument(size >= 0, "Invalid size: %s", size);
     return new ByteArrayDataOutputStream(size);
   }
 
@@ -576,9 +591,11 @@ public final class ByteStreams {
         }
         /** Discards the specified byte array. */
         @Override public void write(byte[] b) {
+          checkNotNull(b);
         }
         /** Discards the specified byte array. */
         @Override public void write(byte[] b, int off, int len) {
+          checkNotNull(b);
         }
       };
 
@@ -611,8 +628,8 @@ public final class ByteStreams {
 
     LimitedInputStream(InputStream in, long limit) {
       super(in);
-      Preconditions.checkNotNull(in);
-      Preconditions.checkArgument(limit >= 0, "limit must be non-negative");
+      checkNotNull(in);
+      checkArgument(limit >= 0, "limit must be non-negative");
       left = limit;
     }
 
@@ -895,6 +912,8 @@ public final class ByteStreams {
    */
   public static int read(InputStream in, byte[] b, int off, int len)
       throws IOException {
+    checkNotNull(in);
+    checkNotNull(b);
     if (len < 0) {
       throw new IndexOutOfBoundsException("len is negative");
     }
@@ -924,9 +943,9 @@ public final class ByteStreams {
       final InputSupplier<? extends InputStream> supplier,
       final long offset,
       final long length) {
-    Preconditions.checkNotNull(supplier);
-    Preconditions.checkArgument(offset >= 0, "offset is negative");
-    Preconditions.checkArgument(length >= 0, "length is negative");
+    checkNotNull(supplier);
+    checkArgument(offset >= 0, "offset is negative");
+    checkArgument(length >= 0, "length is negative");
     return new InputSupplier<InputStream>() {
       @Override public InputStream getInput() throws IOException {
         InputStream in = supplier.getInput();
@@ -958,8 +977,9 @@ public final class ByteStreams {
    * @return a supplier that will return a stream containing the concatenated
    *     stream data
    */
-  public static InputSupplier<InputStream> join(final
-      Iterable<? extends InputSupplier<? extends InputStream>> suppliers) {
+  public static InputSupplier<InputStream> join(
+      final Iterable<? extends InputSupplier<? extends InputStream>> suppliers) {
+    checkNotNull(suppliers);
     return new InputSupplier<InputStream>() {
       @Override public InputStream getInput() throws IOException {
         return new MultiInputStream(suppliers.iterator());

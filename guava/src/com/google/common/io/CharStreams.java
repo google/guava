@@ -16,6 +16,8 @@
 
 package com.google.common.io;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import com.google.common.annotations.Beta;
 import com.google.common.base.Charsets;
 import com.google.common.base.Preconditions;
@@ -150,6 +152,8 @@ public final class CharStreams {
   public static <R extends Readable & Closeable,
       W extends Appendable & Closeable> long copy(InputSupplier<R> from,
       OutputSupplier<W> to) throws IOException {
+    checkNotNull(from);
+    checkNotNull(to);
     int successfulOps = 0;
     R in = from.getInput();
     try {
@@ -179,6 +183,8 @@ public final class CharStreams {
    */
   public static <R extends Readable & Closeable> long copy(
       InputSupplier<R> from, Appendable to) throws IOException {
+    checkNotNull(from);
+    checkNotNull(to);
     boolean threw = true;
     R in = from.getInput();
     try {
@@ -200,6 +206,8 @@ public final class CharStreams {
    * @throws IOException if an I/O error occurs
    */
   public static long copy(Readable from, Appendable to) throws IOException {
+    checkNotNull(from);
+    checkNotNull(to);
     CharBuffer buf = CharBuffer.allocate(BUF_SIZE);
     long total = 0;
     while (from.read(buf) != -1) {
@@ -383,6 +391,7 @@ public final class CharStreams {
    */
   public static InputSupplier<Reader> join(
       final Iterable<? extends InputSupplier<? extends Reader>> suppliers) {
+    checkNotNull(suppliers);
     return new InputSupplier<Reader>() {
       @Override public Reader getInput() throws IOException {
         return new MultiReader(suppliers.iterator());
@@ -408,6 +417,7 @@ public final class CharStreams {
    * @throws IOException if an I/O error occurs
    */
   public static void skipFully(Reader reader, long n) throws IOException {
+    checkNotNull(reader);
     while (n > 0) {
       long amt = reader.skip(n);
       if (amt == 0) {

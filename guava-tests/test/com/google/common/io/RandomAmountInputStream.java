@@ -16,18 +16,22 @@
 
 package com.google.common.io;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import java.io.FilterInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Random;
 
+import javax.annotation.Nullable;
+
 /** Returns a random portion of the requested bytes on each call. */
 class RandomAmountInputStream extends FilterInputStream {
   private final Random random;
 
-  public RandomAmountInputStream(InputStream in, Random random) {
+  public RandomAmountInputStream(@Nullable InputStream in, Random random) {
     super(in);
-    this.random = random;
+    this.random = checkNotNull(random);
   }
 
   @Override public int read(byte[] b, int off, int len) throws IOException {
