@@ -382,7 +382,7 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
         // and exception and then release to the final state.
         this.value = v;
         // Don't actually construct a CancellationException until necessary.
-        this.exception = isCancelled()
+        this.exception = ((finalState & (CANCELLED | INTERRUPTED)) != 0)
             ? new CancellationException("Future.cancel() was called.") : t;
         releaseShared(finalState);
       } else if (getState() == COMPLETING) {
