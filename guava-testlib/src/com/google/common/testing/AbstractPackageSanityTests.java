@@ -93,7 +93,8 @@ public abstract class AbstractPackageSanityTests extends TestCase {
   /* The names of the expected method that tests equals. */
   private static final ImmutableList<String> EQUALS_TEST_METHOD_NAMES = ImmutableList.of(
       "testEquals", "testEqualsAndHashCode",
-      "testEqualsAndSerializable", "testEqualsAndSerialization");
+      "testEqualsAndSerializable", "testEqualsAndSerialization",
+      "testEquality");
 
   private static final Chopper TEST_SUFFIX =
       suffix("Test")

@@ -135,14 +135,20 @@ public final class NullPointerTester {
    * {@code instance} with at least {@code minimalVisibility}, including those
    * inherited from superclasses of the same package.
    */
-  public void testInstanceMethods(
-      Object instance, Visibility minimalVisibility) {
-    Class<?> c = instance.getClass();
+  public void testInstanceMethods(Object instance, Visibility minimalVisibility) {
+    for (Method method : getInstanceMethodsToTest(instance.getClass(), minimalVisibility)) {
+      testMethod(instance, method);
+    }
+  }
+
+  ImmutableList<Method> getInstanceMethodsToTest(Class<?> c, Visibility minimalVisibility) {
+    ImmutableList.Builder<Method> builder = ImmutableList.builder();
     for (Method method : minimalVisibility.getInstanceMethods(c)) {
       if (!isIgnored(method)) {
-        testMethod(instance, method);
+        builder.add(method);
       }
     }
+    return builder.build();
   }
 
   /**
@@ -202,8 +208,7 @@ public final class NullPointerTester {
    * paramIndex} is null.  If this parameter is marked {@link Nullable}, this
    * method does nothing.
    */
-  public void testConstructorParameter(
-      final Constructor<?> ctor, int paramIndex) {
+  public void testConstructorParameter(Constructor<?> ctor, int paramIndex) {
     ctor.setAccessible(true);
     testParameter(null, Invokable.from(ctor), paramIndex, ctor.getDeclaringClass());
   }
@@ -415,7 +420,7 @@ public final class NullPointerTester {
     }
   }
 
-  private static boolean isPrimitiveOrNullable(Parameter param) {
+  static boolean isPrimitiveOrNullable(Parameter param) {
     return param.getType().getRawType().isPrimitive() || param.isAnnotationPresent(Nullable.class);
   }
 

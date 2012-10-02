@@ -23,6 +23,7 @@ import com.google.common.base.Functions;
 import com.google.common.collect.ImmutableList;
 import com.google.common.testing.ClassSanityTester.FactoryMethodReturnsNullException;
 import com.google.common.testing.ClassSanityTester.ParameterNotInstantiableException;
+import com.google.common.testing.NullPointerTester.Visibility;
 
 import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
@@ -90,7 +91,7 @@ public class ClassSanityTesterTest extends TestCase {
     }
   }
 
-  public void testNullsonReturnValues_good() throws Exception {
+  public void testNullsOnReturnValues_good() throws Exception {
     tester.forAllPublicStaticMethods(GoodNullsFactory.class).testNulls();
   }
 
@@ -100,7 +101,7 @@ public class ClassSanityTesterTest extends TestCase {
     }
   }
 
-  public void testNullsonReturnValues_bad() throws Exception {
+  public void testNullsOnReturnValues_bad() throws Exception {
     try {
       tester.forAllPublicStaticMethods(BadNullsFactory.class).testNulls();
     } catch (AssertionFailedError expected) {
@@ -330,6 +331,10 @@ public class ClassSanityTesterTest extends TestCase {
 
   public void testGoodNulls() throws Exception {
     tester.testNulls(GoodNulls.class);
+  }
+
+  public void testNoNullCheckNeededDespitNotInstantiable() throws Exception {
+    tester.doTestNulls(NoNullCheckNeededDespitNotInstantiable.class, Visibility.PACKAGE);
   }
 
   public void testNulls_interface() {
@@ -650,6 +655,23 @@ public class ClassSanityTesterTest extends TestCase {
 
   public static class BadNulls {
     public void failsToRejectNull(@SuppressWarnings("unused") String s) {}
+  }
+
+  public static class NoNullCheckNeededDespitNotInstantiable {
+
+    public NoNullCheckNeededDespitNotInstantiable(NotInstantiable x) {
+      checkNotNull(x);
+    }
+
+    @SuppressWarnings("unused") // reflected
+    void primitiveOnly(int i) {}
+
+    @SuppressWarnings("unused") //reflected
+    void nullableOnly(@Nullable String s) {}
+    public void noParameter() {}
+
+    @SuppressWarnings("unused") //reflected
+    void primitiveAndNullable(@Nullable String s, int i) {}
   }
 
   static class FactoryMethodReturnsNullButNotAnnotated {

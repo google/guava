@@ -169,10 +169,23 @@ public final class ClassSanityTester {
       nullPointerTester.testConstructors(cls, visibility);
     }
     nullPointerTester.testStaticMethods(cls, visibility);
-    Object instance = instantiate(cls);
-    if (instance != null) {
-      nullPointerTester.testInstanceMethods(instance, visibility);
+    if (hasInstanceMethodToTestNulls(cls, visibility)) {
+      Object instance = instantiate(cls);
+      if (instance != null) {
+        nullPointerTester.testInstanceMethods(instance, visibility);
+      }
     }
+  }
+
+  private boolean hasInstanceMethodToTestNulls(Class<?> c, Visibility visibility) {
+    for (Method method : nullPointerTester.getInstanceMethodsToTest(c, visibility)) {
+      for (Parameter param : Invokable.from(method).getParameters()) {
+        if (!NullPointerTester.isPrimitiveOrNullable(param)) {
+          return true;
+        }
+      }
+    }
+    return false;
   }
 
   /**
