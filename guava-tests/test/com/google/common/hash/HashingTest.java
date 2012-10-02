@@ -65,6 +65,14 @@ public class HashingTest extends TestCase {
     HashTestUtils.assertInvariants(Hashing.sha512());
   }
 
+  public void testCrc32() {
+    HashTestUtils.assertInvariants(Hashing.crc32());
+  }
+
+  public void testAdler32() {
+    HashTestUtils.assertInvariants(Hashing.adler32());
+  }
+
   public void testMurmur3_128() {
     HashTestUtils.check2BitAvalanche(Hashing.murmur3_128(), 250, 0.20);
     HashTestUtils.checkAvalanche(Hashing.murmur3_128(), 250, 0.17);

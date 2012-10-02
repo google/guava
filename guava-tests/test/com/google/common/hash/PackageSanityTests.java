@@ -30,5 +30,6 @@ public class PackageSanityTests extends AbstractPackageSanityTests {
     setDefault(BitArray.class, new BitArray(1));
     setDefault(HashCode.class, HashCodes.fromInt(1));
     setDefault(String.class, "MD5");
+    setDefault(int.class, 32);
   }
 }

@@ -146,7 +146,7 @@ abstract class AbstractStreamingHashFunction implements HashFunction {
       return putBytes(ByteBuffer.wrap(bytes, off, len).order(ByteOrder.LITTLE_ENDIAN));
     }
 
-    private final Hasher putBytes(ByteBuffer readBuffer) {
+    private Hasher putBytes(ByteBuffer readBuffer) {
       // If we have room for all of it, this is easy
       if (readBuffer.remaining() <= buffer.remaining()) {
         buffer.put(readBuffer);

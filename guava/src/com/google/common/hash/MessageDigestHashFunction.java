@@ -14,17 +14,9 @@
 
 package com.google.common.hash;
 
-import static com.google.common.base.Preconditions.checkPositionIndexes;
 import static com.google.common.base.Preconditions.checkState;
 
-import com.google.common.primitives.Chars;
-import com.google.common.primitives.Ints;
-import com.google.common.primitives.Longs;
-import com.google.common.primitives.Shorts;
-
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
-import java.nio.charset.Charset;
+import java.io.Serializable;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
@@ -34,7 +26,8 @@ import java.security.NoSuchAlgorithmException;
  * @author Kevin Bourrillion
  * @author Dimitris Andreou
  */
-final class MessageDigestHashFunction extends AbstractStreamingHashFunction {
+final class MessageDigestHashFunction extends AbstractStreamingHashFunction
+    implements Serializable {
   private final String algorithmName;
   private final int bits;
 
@@ -59,111 +52,46 @@ final class MessageDigestHashFunction extends AbstractStreamingHashFunction {
     return new MessageDigestHasher(getMessageDigest(algorithmName));
   }
 
-  private static class MessageDigestHasher implements Hasher {
+  /**
+   * Hasher that updates a message digest.
+   */
+  private static final class MessageDigestHasher extends AbstractByteHasher {
+
     private final MessageDigest digest;
-    private final ByteBuffer scratch; // lazy convenience
     private boolean done;
 
     private MessageDigestHasher(MessageDigest digest) {
       this.digest = digest;
-      this.scratch = ByteBuffer.allocate(8).order(ByteOrder.LITTLE_ENDIAN);
     }
 
-    @Override public Hasher putByte(byte b) {
+    @Override
+    protected void update(byte b) {
       checkNotDone();
       digest.update(b);
-      return this;
     }
 
-    @Override public Hasher putBytes(byte[] bytes) {
+    @Override
+    protected void update(byte[] b) {
       checkNotDone();
-      digest.update(bytes);
-      return this;
+      digest.update(b);
     }
 
-    @Override public Hasher putBytes(byte[] bytes, int off, int len) {
+    @Override
+    protected void update(byte[] b, int off, int len) {
       checkNotDone();
-      checkPositionIndexes(off, off + len, bytes.length);
-      digest.update(bytes, off, len);
-      return this;
-    }
-
-    @Override public Hasher putShort(short s) {
-      checkNotDone();
-      scratch.putShort(s);
-      digest.update(scratch.array(), 0, Shorts.BYTES);
-      scratch.clear();
-      return this;
-    }
-
-    @Override public Hasher putInt(int i) {
-      checkNotDone();
-      scratch.putInt(i);
-      digest.update(scratch.array(), 0, Ints.BYTES);
-      scratch.clear();
-      return this;
-    }
-
-    @Override public Hasher putLong(long l) {
-      checkNotDone();
-      scratch.putLong(l);
-      digest.update(scratch.array(), 0, Longs.BYTES);
-      scratch.clear();
-      return this;
-    }
-
-    @Override public Hasher putFloat(float f) {
-      checkNotDone();
-      scratch.putFloat(f);
-      digest.update(scratch.array(), 0, 4);
-      scratch.clear();
-      return this;
-    }
-
-    @Override public Hasher putDouble(double d) {
-      checkNotDone();
-      scratch.putDouble(d);
-      digest.update(scratch.array(), 0, 8);
-      scratch.clear();
-      return this;
-    }
-
-    @Override public Hasher putBoolean(boolean b) {
-      return putByte(b ? (byte) 1 : (byte) 0);
-    }
-
-    @Override public Hasher putChar(char c) {
-      checkNotDone();
-      scratch.putChar(c);
-      digest.update(scratch.array(), 0, Chars.BYTES);
-      scratch.clear();
-      return this;
-    }
-
-    @Override public Hasher putString(CharSequence charSequence) {
-      for (int i = 0; i < charSequence.length(); i++) {
-        putChar(charSequence.charAt(i));
-      }
-      return this;
-    }
-
-    @Override public Hasher putString(CharSequence charSequence, Charset charset) {
-      return putBytes(charSequence.toString().getBytes(charset));
-    }
-
-    @Override public <T> Hasher putObject(T instance, Funnel<? super T> funnel) {
-      checkNotDone();
-      funnel.funnel(instance, this);
-      return this;
+      digest.update(b, off, len);
     }
 
     private void checkNotDone() {
       checkState(!done, "Cannot use Hasher after calling #hash() on it");
     }
 
+    @Override
     public HashCode hash() {
       done = true;
       return HashCodes.fromBytesNoCopy(digest.digest());
     }
   }
+
+  private static final long serialVersionUID = 0L;
 }

@@ -18,15 +18,19 @@ import static com.google.common.base.Preconditions.checkArgument;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.VisibleForTesting;
+import com.google.common.base.Supplier;
 import com.google.common.primitives.UnsignedInts;
 
 import java.nio.ByteBuffer;
 import java.security.MessageDigest;
 import java.util.Iterator;
+import java.util.zip.Adler32;
+import java.util.zip.CRC32;
+import java.util.zip.Checksum;
 
 /**
- * Static methods to obtain {@link HashFunction} instances, and other static
- * hashing-related utilities.
+ * Static methods to obtain {@link HashFunction} instances, and other static hashing-related
+ * utilities.
  *
  * @author Kevin Bourrillion
  * @author Dimitris Andreou
@@ -167,7 +171,67 @@ public final class Hashing {
 
   private static final HashFunction SHA_512 = new MessageDigestHashFunction("SHA-512");
 
-  // Lazy initiliazation holder class idiom.
+  /**
+   * Returns a hash function implementing the CRC-32 checksum algorithm (32 hash bits) by delegating
+   * to the {@link CRC32} {@link Checksum}.
+   *
+   * <p>To get the {@code long} value equivalent to {@link Checksum#getValue()} for a
+   * {@code HashCode} produced by this function, use
+   * {@link #padToLong(HashCode) Hashing.padToLong(HashCode)}.
+   *
+   * @since 14.0
+   */
+  public static HashFunction crc32() {
+    return CRC_32;
+  }
+
+  private static final HashFunction CRC_32 = checksumHashFunction(ChecksumType.CRC_32);
+
+  /**
+   * Returns a hash function implementing the Adler-32 checksum algorithm (32 hash bits) by
+   * delegating to the {@link Adler32} {@link Checksum}.
+   *
+   * <p>To get the {@code long} value equivalent to {@link Checksum#getValue()} for a
+   * {@code HashCode} produced by this function, use
+   * {@link #padToLong(HashCode) Hashing.padToLong(HashCode)}.
+   *
+   * @since 14.0
+   */
+  public static HashFunction adler32() {
+    return ADLER_32;
+  }
+
+  private static final HashFunction ADLER_32 = checksumHashFunction(ChecksumType.ADLER_32);
+
+  private static HashFunction checksumHashFunction(ChecksumType type) {
+    return new ChecksumHashFunction(type, type.bits);
+  }
+
+  enum ChecksumType implements Supplier<Checksum> {
+    CRC_32(32) {
+      @Override
+      public Checksum get() {
+        return new CRC32();
+      }
+    },
+    ADLER_32(32) {
+      @Override
+      public Checksum get() {
+        return new Adler32();
+      }
+    };
+
+    private final int bits;
+
+    ChecksumType(int bits) {
+      this.bits = bits;
+    }
+
+    @Override
+    public abstract Checksum get();
+  }
+
+  // Lazy initialization holder class idiom.
 
   /**
    * If {@code hashCode} has enough bits, returns {@code hashCode.asLong()}, otherwise

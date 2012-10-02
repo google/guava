@@ -16,6 +16,8 @@
 
 package com.google.common.hash;
 
+import static com.google.common.base.Charsets.UTF_16LE;
+
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.hash.AbstractStreamingHashFunction.AbstractStreamingHasher;
@@ -33,7 +35,7 @@ import java.util.List;
 import java.util.Random;
 
 /**
- * Tests for AbstractHashSink.
+ * Tests for AbstractStreamingHasher.
  *
  * @author Dimitris Andreou
  */
@@ -83,15 +85,18 @@ public class AbstractStreamingHasherTest extends TestCase {
     sink.assertBytes(new byte[] { 1, 2, 0, 0  }); // padded with zeros
   }
 
-  public void testString() throws Exception {
+  public void testString() {
     Random random = new Random();
     for (int i = 0; i < 100; i++) {
       byte[] bytes = new byte[64];
       random.nextBytes(bytes);
-      String s = new String(bytes, "UTF-16LE"); // so all random strings are valid
+      String s = new String(bytes, UTF_16LE); // so all random strings are valid
       assertEquals(
           new Sink(4).putString(s).hash(),
-          new Sink(4).putBytes(s.getBytes("UTF-16LE")).hash());
+          new Sink(4).putBytes(s.getBytes(UTF_16LE)).hash());
+      assertEquals(
+          new Sink(4).putString(s).hash(),
+          new Sink(4).putString(s, UTF_16LE).hash());
     }
   }
 
