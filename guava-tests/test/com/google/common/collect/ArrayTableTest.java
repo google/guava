@@ -19,6 +19,7 @@ package com.google.common.collect;
 import static java.util.Arrays.asList;
 import static org.junit.contrib.truth.Truth.ASSERT;
 
+import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Objects;
 import com.google.common.collect.Table.Cell;
@@ -34,6 +35,7 @@ import java.util.Map;
  *
  * @author Jared Levy
  */
+@GwtCompatible(emulated = true)
 public class ArrayTableTest extends AbstractTableTest {
 
   @Override protected ArrayTable<String, Integer, Character> create(
@@ -240,6 +242,7 @@ public class ArrayTableTest extends AbstractTableTest {
     SerializableTester.reserializeAndAssert(table);
   }
 
+  @GwtIncompatible("reflection")
   public void testNullPointerStatic() {
     new NullPointerTester().testAllPublicStaticMethods(ArrayTable.class);
   }
@@ -391,6 +394,7 @@ public class ArrayTableTest extends AbstractTableTest {
     assertNull(table.erase("bar", null));
   }
 
+  @GwtIncompatible("ArrayTable.toArray(Class)")
   public void testToArray() {
     ArrayTable<String, Integer, Character> table
         = create("foo", 1, 'a', "bar", 1, 'b', "foo", 3, 'c');

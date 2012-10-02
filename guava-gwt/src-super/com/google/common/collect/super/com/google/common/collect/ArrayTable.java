@@ -22,11 +22,9 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Objects;
 
 import java.io.Serializable;
-import java.lang.reflect.Array;
 import java.util.AbstractCollection;
 import java.util.AbstractSet;
 import java.util.Arrays;
@@ -363,28 +361,6 @@ public final class ArrayTable<R, C, V> implements Table<R, C, V>, Serializable {
     V oldValue = array[rowIndex][columnIndex];
     array[rowIndex][columnIndex] = value;
     return oldValue;
-  }
-
-  /**
-   * Returns a two-dimensional array with the table contents. The row and column
-   * indices correspond to the positions of the row and column in the iterables
-   * provided during table construction. If the table lacks a mapping for a
-   * given row and column, the corresponding array element is null.
-   *
-   * <p>Subsequent table changes will not modify the array, and vice versa.
-   *
-   * @param valueClass class of values stored in the returned array
-   */
-  @GwtIncompatible("reflection")
-  public V[][] toArray(Class<V> valueClass) {
-    // Can change to use varargs in JDK 1.6 if we want
-    @SuppressWarnings("unchecked") // TODO: safe?
-    V[][] copy = (V[][]) Array.newInstance(
-        valueClass, new int[] { rowList.size(), columnList.size() });
-    for (int i = 0; i < rowList.size(); i++) {
-      System.arraycopy(array[i], 0, copy[i], 0, array[i].length);
-    }
-    return copy;
   }
 
   /**
@@ -838,3 +814,4 @@ public final class ArrayTable<R, C, V> implements Table<R, C, V>, Serializable {
 
   private static final long serialVersionUID = 0;
 }
+
