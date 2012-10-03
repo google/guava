@@ -19,8 +19,6 @@ package com.google.common.math;
 import static com.google.common.math.MathTesting.ALL_BIGINTEGER_CANDIDATES;
 import static com.google.common.math.MathTesting.ALL_ROUNDING_MODES;
 import static com.google.common.math.MathTesting.ALL_SAFE_ROUNDING_MODES;
-import static com.google.common.math.MathTesting.NEGATIVE_BIGINTEGER_CANDIDATES;
-import static com.google.common.math.MathTesting.NEGATIVE_INTEGER_CANDIDATES;
 import static com.google.common.math.MathTesting.NONZERO_BIGINTEGER_CANDIDATES;
 import static com.google.common.math.MathTesting.POSITIVE_BIGINTEGER_CANDIDATES;
 import static java.math.BigInteger.ONE;
@@ -78,13 +76,11 @@ public class BigIntegerMathTest extends TestCase {
   }
 
   public void testLog2NegativeAlwaysThrows() {
-    for (BigInteger x : POSITIVE_BIGINTEGER_CANDIDATES) {
-      for (RoundingMode mode : ALL_ROUNDING_MODES) {
-        try {
-          BigIntegerMath.log2(x.negate(), mode);
-          fail("Expected IllegalArgumentException");
-        } catch (IllegalArgumentException expected) {}
-      }
+    for (RoundingMode mode : ALL_ROUNDING_MODES) {
+      try {
+        BigIntegerMath.log2(BigInteger.valueOf(-1), mode);
+        fail("Expected IllegalArgumentException");
+      } catch (IllegalArgumentException expected) {}
     }
   }
 
@@ -167,13 +163,11 @@ public class BigIntegerMathTest extends TestCase {
 
   @GwtIncompatible("TODO")
   public void testLog10NegativeAlwaysThrows() {
-    for (BigInteger x : POSITIVE_BIGINTEGER_CANDIDATES) {
-      for (RoundingMode mode : ALL_ROUNDING_MODES) {
-        try {
-          BigIntegerMath.log10(x.negate(), mode);
-          fail("Expected IllegalArgumentException");
-        } catch (IllegalArgumentException expected) {}
-      }
+    for (RoundingMode mode : ALL_ROUNDING_MODES) {
+      try {
+        BigIntegerMath.log10(BigInteger.valueOf(-1), mode);
+        fail("Expected IllegalArgumentException");
+      } catch (IllegalArgumentException expected) {}
     }
   }
 
@@ -267,13 +261,11 @@ public class BigIntegerMathTest extends TestCase {
 
   @GwtIncompatible("TODO")
   public void testSqrtNegativeAlwaysThrows() {
-    for (BigInteger x : NEGATIVE_BIGINTEGER_CANDIDATES) {
-      for (RoundingMode mode : ALL_ROUNDING_MODES) {
-        try {
-          BigIntegerMath.sqrt(x, mode);
-          fail("Expected IllegalArgumentException");
-        } catch (IllegalArgumentException expected) {}
-      }
+    for (RoundingMode mode : ALL_ROUNDING_MODES) {
+      try {
+        BigIntegerMath.sqrt(BigInteger.valueOf(-1), mode);
+        fail("Expected IllegalArgumentException");
+      } catch (IllegalArgumentException expected) {}
     }
   }
 
@@ -413,7 +405,7 @@ public class BigIntegerMathTest extends TestCase {
 
   public void testFactorial() {
     BigInteger expected = BigInteger.ONE;
-    for (int i = 1; i <= 300; i++) {
+    for (int i = 1; i <= 200; i++) {
       expected = expected.multiply(BigInteger.valueOf(i));
       assertEquals(expected, BigIntegerMath.factorial(i));
     }
@@ -424,12 +416,10 @@ public class BigIntegerMathTest extends TestCase {
   }
 
   public void testFactorialNegative() {
-    for (int n : NEGATIVE_INTEGER_CANDIDATES) {
-      try {
-        BigIntegerMath.factorial(n);
-        fail("Expected IllegalArgumentException");
-      } catch (IllegalArgumentException expected) {}
-    }
+    try {
+      BigIntegerMath.factorial(-1);
+      fail("Expected IllegalArgumentException");
+    } catch (IllegalArgumentException expected) {}
   }
 
   public void testBinomialSmall() {
