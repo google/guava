@@ -20,6 +20,8 @@ import com.google.common.primitives.Ints;
 
 import java.security.MessageDigest;
 
+import javax.annotation.Nullable;
+
 /**
  * An immutable hash code of arbitrary bit length.
  *
@@ -83,7 +85,7 @@ public abstract class HashCode {
    */
   public abstract int bits();
 
-  @Override public boolean equals(Object object) {
+  @Override public boolean equals(@Nullable Object object) {
     if (object instanceof HashCode) {
       HashCode that = (HashCode) object;
       // Undocumented: this is a non-short-circuiting equals(), in case this is a cryptographic

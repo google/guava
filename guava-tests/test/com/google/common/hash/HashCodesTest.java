@@ -16,9 +16,8 @@
 
 package com.google.common.hash;
 
-import static com.google.common.testing.SerializableTester.reserializeAndAssert;
-
 import com.google.common.collect.ImmutableList;
+import com.google.common.testing.ClassSanityTester;
 
 import junit.framework.TestCase;
 
@@ -127,23 +126,23 @@ public class HashCodesTest extends TestCase {
     assertEquals(0x0000000099999999L, HashCodes.fromBytesNoCopy(intBytes).padToLong());
   }
 
-  public void testSerialization_IntHashCode() {
-    reserializeAndAssert(HashCodes.fromInt(42));
+  public void testHashCodes_nulls() throws Exception {
+    sanityTester().testNulls();
   }
 
-  public void testSerialization_LongHashCode() {
-    reserializeAndAssert(HashCodes.fromLong(42L));
+  public void testHashCodes_equalsAndSerializable() throws Exception {
+    sanityTester().testEqualsAndSerializable();
   }
 
-  public void testSerialization_BytesHashCode() {
-    reserializeAndAssert(HashCodes.fromBytes(expectedHashCodes.get(0).bytes));
+  private static ClassSanityTester.FactoryMethodReturnValueTester sanityTester() {
+    return new ClassSanityTester()
+        .setDefault(byte[].class, new byte[] {1, 2, 3, 4})
+        .setSampleInstances(byte[].class,
+            ImmutableList.of(new byte[] {1, 2, 3, 4}, new byte[] {5, 6, 7, 8}))
+        .forAllPublicStaticMethods(HashCodes.class);
   }
 
-  public void testSerialization_BytesHashCode_noCopy() {
-    reserializeAndAssert(HashCodes.fromBytesNoCopy(expectedHashCodes.get(0).bytes));
-  }
-
-  private void assertExpectedHashCode(ExpectedHashCode expected, HashCode hash) {
+  private static void assertExpectedHashCode(ExpectedHashCode expected, HashCode hash) {
     assertTrue(Arrays.equals(expected.bytes, hash.asBytes()));
     byte[] bb = new byte[hash.bits() / 8];
     hash.writeBytesTo(bb, 0, bb.length);
@@ -162,14 +161,14 @@ public class HashCodesTest extends TestCase {
     assertReadableBytes(hash);
   }
 
-  private void assertSideEffectFree(HashCode hash) {
+  private static void assertSideEffectFree(HashCode hash) {
     byte[] original = hash.asBytes();
     byte[] mutated = hash.asBytes();
     mutated[0]++;
     assertTrue(Arrays.equals(original, hash.asBytes()));
   }
 
-  private void assertReadableBytes(HashCode hashCode) {
+  private static void assertReadableBytes(HashCode hashCode) {
     assertTrue(hashCode.bits() >= 32); // sanity
     byte[] hashBytes = hashCode.asBytes();
     int totalBytes = hashCode.bits() / 8;
