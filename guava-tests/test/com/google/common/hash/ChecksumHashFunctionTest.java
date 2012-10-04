@@ -72,7 +72,7 @@ public class ChecksumHashFunctionTest extends TestCase {
     long value = checksum.getValue();
 
     HashCode hashCode = new ChecksumHashFunction(supplier, bits).hashBytes(bytes);
-    assertEquals(value, Hashing.padToLong(hashCode));
+    assertEquals(value, hashCode.padToLong());
   }
 
   private static void assertHash32(int expected, Supplier<Checksum> supplier, String input) {

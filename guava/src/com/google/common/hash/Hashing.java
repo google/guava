@@ -19,7 +19,6 @@ import static com.google.common.base.Preconditions.checkArgument;
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Supplier;
-import com.google.common.primitives.UnsignedInts;
 
 import java.nio.ByteBuffer;
 import java.security.MessageDigest;
@@ -176,8 +175,7 @@ public final class Hashing {
    * to the {@link CRC32} {@link Checksum}.
    *
    * <p>To get the {@code long} value equivalent to {@link Checksum#getValue()} for a
-   * {@code HashCode} produced by this function, use
-   * {@link #padToLong(HashCode) Hashing.padToLong(HashCode)}.
+   * {@code HashCode} produced by this function, use {@link HashCode#padToLong()}.
    *
    * @since 14.0
    */
@@ -192,8 +190,7 @@ public final class Hashing {
    * delegating to the {@link Adler32} {@link Checksum}.
    *
    * <p>To get the {@code long} value equivalent to {@link Checksum#getValue()} for a
-   * {@code HashCode} produced by this function, use
-   * {@link #padToLong(HashCode) Hashing.padToLong(HashCode)}.
+   * {@code HashCode} produced by this function, use {@link HashCode#padToLong()}.
    *
    * @since 14.0
    */
@@ -239,7 +236,7 @@ public final class Hashing {
    * four bytes and {@code 0x00} as each of the most-significant four bytes.
    */
   public static long padToLong(HashCode hashCode) {
-    return (hashCode.bits() < 64) ? UnsignedInts.toLong(hashCode.asInt()) : hashCode.asLong();
+    return hashCode.padToLong();
   }
 
   /**
@@ -259,7 +256,7 @@ public final class Hashing {
    * {@code weightedConsistentHash}.
    */
   public static int consistentHash(HashCode hashCode, int buckets) {
-    return consistentHash(padToLong(hashCode), buckets);
+    return consistentHash(hashCode.padToLong(), buckets);
   }
 
   /**

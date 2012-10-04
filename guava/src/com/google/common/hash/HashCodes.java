@@ -18,6 +18,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.Beta;
+import com.google.common.primitives.UnsignedInts;
 
 import java.io.Serializable;
 
@@ -66,7 +67,12 @@ public final class HashCodes {
     @Override public long asLong() {
       throw new IllegalStateException("this HashCode only has 32 bits; cannot create a long");
     }
-    
+
+    @Override
+    public long padToLong() {
+      return UnsignedInts.toLong(hash);
+    }
+
     private static final long serialVersionUID = 0;
   }
   
@@ -108,7 +114,12 @@ public final class HashCodes {
     @Override public long asLong() {
       return hash;
     }
-    
+
+    @Override
+    public long padToLong() {
+      return hash;
+    }
+
     private static final long serialVersionUID = 0;
   }
   
@@ -166,7 +177,12 @@ public final class HashCodes {
           | ((bytes[6] & 0xFFL) << 48)
           | ((bytes[7] & 0xFFL) << 56);
     }
-    
+
+    @Override
+    public long padToLong() {
+      return (bytes.length < 8) ? UnsignedInts.toLong(asInt()) : asLong();
+    }
+
     private static final long serialVersionUID = 0;
   }
 }

@@ -114,6 +114,19 @@ public class HashCodesTest extends TestCase {
     assertEquals("00ab0000", hashCode.toString());
   }
 
+  public void testPadToLong() {
+    assertEquals(0x1111111111111111L, HashCodes.fromLong(0x1111111111111111L).padToLong());
+    assertEquals(0x9999999999999999L, HashCodes.fromLong(0x9999999999999999L).padToLong());
+    assertEquals(0x0000000011111111L, HashCodes.fromInt(0x11111111).padToLong());
+    assertEquals(0x0000000099999999L, HashCodes.fromInt(0x99999999).padToLong());
+
+    byte[] longBytes = {(byte) 0x99, (byte) 0x99, (byte) 0x99, (byte) 0x99,
+        (byte) 0x99, (byte) 0x99, (byte) 0x99, (byte) 0x99};
+    byte[] intBytes = {(byte) 0x99, (byte) 0x99, (byte) 0x99, (byte) 0x99};
+    assertEquals(0x9999999999999999L, HashCodes.fromBytesNoCopy(longBytes).padToLong());
+    assertEquals(0x0000000099999999L, HashCodes.fromBytesNoCopy(intBytes).padToLong());
+  }
+
   public void testSerialization_IntHashCode() {
     reserializeAndAssert(HashCodes.fromInt(42));
   }
