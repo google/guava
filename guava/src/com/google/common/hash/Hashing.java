@@ -234,7 +234,11 @@ public final class Hashing {
    * If {@code hashCode} has enough bits, returns {@code hashCode.asLong()}, otherwise
    * returns a {@code long} value with {@code hashCode.asInt()} as the least-significant
    * four bytes and {@code 0x00} as each of the most-significant four bytes.
+   *
+   * @deprecated Use {@code HashCode.padToLong()} instead. This method is scheduled to be
+   *     removed in Guava 15.0.
    */
+  @Deprecated
   public static long padToLong(HashCode hashCode) {
     return hashCode.padToLong();
   }
