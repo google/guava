@@ -33,8 +33,11 @@ import javax.annotation.Nullable;
  * @author Sven Mawson
  * @since 1.0
  */
-public final class ListenableFutureTask<V> extends FutureTask<V>
+public class ListenableFutureTask<V> extends FutureTask<V>
     implements ListenableFuture<V> {
+  // TODO(cpovirk): explore ways of making ListenableFutureTask final. There are
+  // some valid reasons such as BoundedQueueExecutorService to allow extends but it
+  // would be nice to make it final to avoid unintended usage.
 
   // The execution list to hold our listeners.
   private final ExecutionList executionList = new ExecutionList();
@@ -67,11 +70,11 @@ public final class ListenableFutureTask<V> extends FutureTask<V>
     return new ListenableFutureTask<V>(runnable, result);
   }
 
-  private ListenableFutureTask(Callable<V> callable) {
+  ListenableFutureTask(Callable<V> callable) {
     super(callable);
   }
 
-  private ListenableFutureTask(Runnable runnable, @Nullable V result) {
+  ListenableFutureTask(Runnable runnable, @Nullable V result) {
     super(runnable, result);
   }
 
