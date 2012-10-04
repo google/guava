@@ -21,7 +21,8 @@ import static com.google.common.testing.SerializableTester.reserialize;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.Lists;
-import com.google.common.testing.NullPointerTester;
+import com.google.common.testing.ClassSanityTester;
+import com.google.common.testing.EqualsTester;
 
 import junit.framework.TestCase;
 
@@ -391,9 +392,35 @@ public class SuppliersTest extends TestCase {
         Suppliers.synchronizedSupplier(Suppliers.ofInstance(5))).get());
   }
 
-  @GwtIncompatible("NullPointerTest")
-  public void testNullPointers() {
-    NullPointerTester tester = new NullPointerTester();
-    tester.testAllPublicStaticMethods(Suppliers.class);
+  @GwtIncompatible("reflection")
+  public void testSuppliersNullChecks() throws Exception {
+    new ClassSanityTester().forAllPublicStaticMethods(Suppliers.class)
+        .testNulls();
+  }
+
+  @GwtIncompatible("reflection")
+  public void testSuppliersSerializable() throws Exception {
+    new ClassSanityTester().forAllPublicStaticMethods(Suppliers.class)
+        .testSerializable();
+  }
+
+  public void testOfInstance_equals() {
+    new EqualsTester()
+        .addEqualityGroup(
+            Suppliers.ofInstance("foo"), Suppliers.ofInstance("foo"))
+        .addEqualityGroup(Suppliers.ofInstance("bar"))
+        .testEquals();
+  }
+
+  public void testCompose_equals() {
+    new EqualsTester()
+        .addEqualityGroup(
+            Suppliers.compose(Functions.constant(1), Suppliers.ofInstance("foo")),
+            Suppliers.compose(Functions.constant(1), Suppliers.ofInstance("foo")))
+        .addEqualityGroup(
+            Suppliers.compose(Functions.constant(2), Suppliers.ofInstance("foo")))
+        .addEqualityGroup(
+            Suppliers.compose(Functions.constant(1), Suppliers.ofInstance("bar")))
+        .testEquals();
   }
 }
