@@ -75,8 +75,8 @@ public class Murmur3Hash128Test extends TestCase {
         return hasher.hash().asBytes();
       }
     };
-    // Murmur3A, MurmurHash3 for x86, 128-bit (MurmurHash3_x86_128)
-    // http://code.google.com/p/smhasher/source/browse/trunk/main.cpp
+    // Murmur3F, MurmurHash3 for x64, 128-bit (MurmurHash3_x64_128)
+    // From http://code.google.com/p/smhasher/source/browse/trunk/main.cpp
     HashTestUtils.verifyHashFunction(hf, 128, 0x6384BA69);
   }
 
