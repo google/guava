@@ -90,8 +90,11 @@ public final class Hashing {
 
   /**
    * Returns a hash function implementing the
-   * <a href="http://smhasher.googlecode.com/svn/trunk/MurmurHash3.cpp">32-bit murmur3
-   * algorithm</a> (little-endian variant), using the given seed value.
+   * <a href="http://smhasher.googlecode.com/svn/trunk/MurmurHash3.cpp">
+   * 32-bit murmur3 algorithm, x86 variant</a> (little-endian variant),
+   * using the given seed value.
+   *
+   * <p>The exact C++ equivalent is the MurmurHash3_x86_32 function (Murmur3A).
    */
   public static HashFunction murmur3_32(int seed) {
     return new Murmur3_32HashFunction(seed);
@@ -99,8 +102,11 @@ public final class Hashing {
 
   /**
    * Returns a hash function implementing the
-   * <a href="http://smhasher.googlecode.com/svn/trunk/MurmurHash3.cpp">32-bit murmur3
-   * algorithm</a> (little-endian variant), using a seed value of zero.
+   * <a href="http://smhasher.googlecode.com/svn/trunk/MurmurHash3.cpp">
+   * 32-bit murmur3 algorithm, x86 variant</a> (little-endian variant),
+   * using a seed value of zero.
+   *
+   * <p>The exact C++ equivalent is the MurmurHash3_x86_32 function (Murmur3A).
    */
   public static HashFunction murmur3_32() {
     return MURMUR3_32;
@@ -111,8 +117,10 @@ public final class Hashing {
   /**
    * Returns a hash function implementing the
    * <a href="http://smhasher.googlecode.com/svn/trunk/MurmurHash3.cpp">
-   * 128-bit murmur3 algorithm, x64 variant</a> (little-endian variant), using the given seed
-   * value.
+   * 128-bit murmur3 algorithm, x64 variant</a> (little-endian variant),
+   * using the given seed value.
+   *
+   * <p>The exact C++ equivalent is the MurmurHash3_x64_128 function (Murmur3F).
    */
   public static HashFunction murmur3_128(int seed) {
     return new Murmur3_128HashFunction(seed);
@@ -121,8 +129,10 @@ public final class Hashing {
   /**
    * Returns a hash function implementing the
    * <a href="http://smhasher.googlecode.com/svn/trunk/MurmurHash3.cpp">
-   * 128-bit murmur3 algorithm, x64 variant</a>  (little-endian variant), using a seed value
-   * of zero.
+   * 128-bit murmur3 algorithm, x64 variant</a> (little-endian variant),
+   * using a seed value of zero.
+   *
+   * <p>The exact C++ equivalent is the MurmurHash3_x64_128 function (Murmur3F).
    */
   public static HashFunction murmur3_128() {
     return MURMUR3_128;
