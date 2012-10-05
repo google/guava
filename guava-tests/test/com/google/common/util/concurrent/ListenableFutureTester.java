@@ -16,6 +16,7 @@
 
 package com.google.common.util.concurrent;
 
+import static com.google.common.base.Preconditions.checkNotNull;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
@@ -27,6 +28,8 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
+
+import javax.annotation.Nullable;
 
 /**
  * Used to test listenable future implementations.
@@ -41,7 +44,7 @@ public class ListenableFutureTester {
 
   public ListenableFutureTester(ListenableFuture<?> future) {
     this.exec = Executors.newCachedThreadPool();
-    this.future = future;
+    this.future = checkNotNull(future);
     this.latch = new CountDownLatch(1);
   }
 
@@ -61,7 +64,7 @@ public class ListenableFutureTester {
     exec.shutdown();
   }
 
-  public void testCompletedFuture(Object expectedValue)
+  public void testCompletedFuture(@Nullable Object expectedValue)
       throws InterruptedException, ExecutionException {
     assertTrue(future.isDone());
     assertFalse(future.isCancelled());
@@ -88,7 +91,7 @@ public class ListenableFutureTester {
     } catch (CancellationException expected) {}
   }
 
-  public void testFailedFuture(String message)
+  public void testFailedFuture(@Nullable String message)
       throws InterruptedException {
     assertTrue(future.isDone());
     assertFalse(future.isCancelled());

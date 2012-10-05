@@ -395,7 +395,7 @@ public abstract class AbstractFuture<V> implements ListenableFuture<V> {
   }
 
   static final CancellationException cancellationExceptionWithCause(
-      String message, Throwable cause) {
+      @Nullable String message, @Nullable Throwable cause) {
     CancellationException exception = new CancellationException(message);
     exception.initCause(cause);
     return exception;

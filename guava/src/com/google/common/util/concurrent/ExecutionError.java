@@ -19,6 +19,8 @@ package com.google.common.util.concurrent;
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 
+import javax.annotation.Nullable;
+
 /**
  * {@link Error} variant of {@link java.util.concurrent.ExecutionException}. As
  * with {@code ExecutionException}, the error's {@linkplain #getCause() cause}
@@ -42,21 +44,21 @@ public class ExecutionError extends Error {
   /**
    * Creates a new instance with the given detail message.
    */
-  protected ExecutionError(String message) {
+  protected ExecutionError(@Nullable String message) {
     super(message);
   }
 
   /**
    * Creates a new instance with the given detail message and cause.
    */
-  public ExecutionError(String message, Error cause) {
+  public ExecutionError(@Nullable String message, @Nullable Error cause) {
     super(message, cause);
   }
 
   /**
    * Creates a new instance with the given cause.
    */
-  public ExecutionError(Error cause) {
+  public ExecutionError(@Nullable Error cause) {
     super(cause);
   }
 

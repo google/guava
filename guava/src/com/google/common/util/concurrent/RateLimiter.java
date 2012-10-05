@@ -437,8 +437,8 @@ public abstract class RateLimiter {
    * @return {@code true} if the permits were acquired, {@code false} otherwise
    */
   public boolean tryAcquire(int permits, long timeout, TimeUnit unit) {
-    checkPermits(permits);
     long timeoutMicros = unit.toMicros(timeout);
+    checkPermits(permits);
     long microsToWait;
     synchronized (this) {
       long nowMicros = readSafeMicros();

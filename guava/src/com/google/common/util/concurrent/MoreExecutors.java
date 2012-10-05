@@ -184,6 +184,8 @@ public final class MoreExecutors {
 
     final void addDelayedShutdownHook(
         final ExecutorService service, final long terminationTimeout, final TimeUnit timeUnit) {
+      checkNotNull(service);
+      checkNotNull(timeUnit);
       addShutdownHook(new Thread(new Runnable() {
         @Override
         public void run() {
@@ -531,6 +533,7 @@ public final class MoreExecutors {
    */ static <T> T invokeAnyImpl(ListeningExecutorService executorService,
       Collection<? extends Callable<T>> tasks, boolean timed, long nanos)
           throws InterruptedException, ExecutionException, TimeoutException {
+    checkNotNull(executorService);
     int ntasks = tasks.size();
     checkArgument(ntasks > 0);
     List<Future<T>> futures = Lists.newArrayListWithCapacity(ntasks);

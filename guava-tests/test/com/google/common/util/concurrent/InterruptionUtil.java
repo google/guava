@@ -16,6 +16,7 @@
 
 package com.google.common.util.concurrent;
 
+import static com.google.common.base.Preconditions.checkNotNull;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.NANOSECONDS;
 import static junit.framework.Assert.fail;
@@ -73,6 +74,7 @@ final class InterruptionUtil {
    * Interrupts the current thread after sleeping for the specified delay.
    */
   static void requestInterruptIn(final long time, final TimeUnit unit) {
+    checkNotNull(unit);
     final Thread interruptee = Thread.currentThread();
     new Thread(new Runnable() {
       @Override

@@ -17,6 +17,8 @@
 package com.google.common.util.concurrent;
 
 import com.google.common.collect.Lists;
+import com.google.common.testing.NullPointerTester;
+import com.google.common.testing.NullPointerTester.Visibility;
 
 import junit.framework.TestCase;
 
@@ -298,6 +300,13 @@ public class RateLimiterTest extends TestCase {
         assertEquals(warmupMillis, measureTotalTimeMillis(rateLimiter, maxPermits, random));
       }
     }
+  }
+
+  public void testNulls() {
+    NullPointerTester tester = new NullPointerTester()
+        .setDefault(RateLimiter.SleepingTicker.class, ticker);
+    tester.testStaticMethods(RateLimiter.class, Visibility.PACKAGE);
+    tester.testInstanceMethods(RateLimiter.create(ticker, 5.0), Visibility.PACKAGE);
   }
 
   private long measureTotalTimeMillis(RateLimiter rateLimiter, int permits, Random random) {
