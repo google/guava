@@ -51,17 +51,21 @@ public class ClassPathTest extends TestCase {
     Set<String> strings = Sets.newHashSet();
     Set<Class<?>> classes = Sets.newHashSet();
     Set<String> packageNames = Sets.newHashSet();
+    Set<String> simpleNames = Sets.newHashSet();
     ClassPath classpath = ClassPath.from(getClass().getClassLoader());
-    for (ClassInfo classInfo : classpath.getTopLevelClasses(ClassPathTest.class.getPackage().getName())) {
+    for (ClassInfo classInfo
+        : classpath.getTopLevelClasses(ClassPathTest.class.getPackage().getName())) {
       names.add(classInfo.getName());
       strings.add(classInfo.toString());
       classes.add(classInfo.load());
       packageNames.add(classInfo.getPackageName());
+      simpleNames.add(classInfo.getSimpleName());
     }
     ASSERT.that(names).containsAllOf(ClassPath.class.getName(), ClassPathTest.class.getName());
     ASSERT.that(strings).containsAllOf(ClassPath.class.getName(), ClassPathTest.class.getName());
     ASSERT.that(classes).containsAllOf(ClassPath.class, ClassPathTest.class);
     ASSERT.that(packageNames).containsAllOf(ClassPath.class.getPackage().getName());
+    ASSERT.that(simpleNames).containsAllOf("ClassPath", "ClassPathTest");
     assertFalse(classes.contains(ClassInSubPackage.class));
   }
 
@@ -262,6 +266,20 @@ public class ClassPathTest extends TestCase {
     assertTrue(ClassPath.isTopLevelClassFile(ClassPathTest.class.getName() + ".class"));
     assertFalse(ClassPath.isTopLevelClassFile(ClassPathTest.class.getName()));
     assertFalse(ClassPath.isTopLevelClassFile(Nested.class.getName() + ".class"));
+  }
+
+  public void testGetSimpleName() {
+    assertEquals("Foo",
+        new ClassPath.ClassInfo("Foo", getClass().getClassLoader()).getSimpleName());
+    assertEquals("Foo",
+        new ClassPath.ClassInfo("a.b.Foo", getClass().getClassLoader()).getSimpleName());
+  }
+
+  public void testGetPackageName() {
+    assertEquals("",
+        new ClassPath.ClassInfo("Foo", getClass().getClassLoader()).getPackageName());
+    assertEquals("a.b",
+        new ClassPath.ClassInfo("a.b.Foo", getClass().getClassLoader()).getPackageName());
   }
 
   private static class Nested {}

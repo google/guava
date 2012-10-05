@@ -132,6 +132,16 @@ public final class ClassPath {
       return Reflection.getPackageName(className);
     }
 
+    /** Returns the simple name of the underlying class as given in the source code. */
+    public String getSimpleName() {
+      String packageName = getPackageName();
+      if (packageName.isEmpty()) {
+        return className;
+      }
+      // Since this is a top level class, its simple name is always the part after package name.
+      return className.substring(packageName.length() + 1);
+    }
+
     /** Returns the fully qualified name of the class. */
     public String getName() {
       return className;
