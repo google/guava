@@ -50,9 +50,9 @@ import java.util.logging.Logger;
  * public class PackageSanityTests extends AbstractPackageSanityTests {}
  * </pre>
  *
- * <p>Note that only the simplest type of classes are covered. That is, a public top-level class
- * with either a public constructor or a public static factory method to construct instances of the
- * class. For example: <pre>
+ * <p>Note that only the simplest type of classes are covered. That is, a top-level class with
+ * either a non-private constructor or a non-private static factory method to construct instances of
+ * the class. For example: <pre>
  * public class Address {
  *   private final String city;
  *   private final String state;
@@ -69,6 +69,15 @@ import java.util.logging.Logger;
  * static factory method. Neither are semantics of mutation methods such as {@code
  * someList.add(obj)} checked. For more detailed discussion of supported and unsupported cases, see
  * {@link #testEquals}, {@link #testNulls} and {@link #testSerializable}.
+ *
+ * <p>For testing against the returned instances from a static factory class, such as <pre>
+ * interface Book {...}
+ * public class Books {
+ *   public static Book hardcover(String title) {...}
+ *   public static Book paperback(String title) {...}
+ * }
+ * </pre>
+ * please use {@link ClassSanityTester}.
  *
  * <p>This class incurs IO because it scans the classpath and reads classpath resources.
  *

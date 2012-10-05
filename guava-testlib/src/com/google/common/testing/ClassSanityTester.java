@@ -51,7 +51,20 @@ import java.util.Map;
 import javax.annotation.Nullable;
 
 /**
- * Tester that runs automated sanity tests for any given class.
+ * Tester that runs automated sanity tests for any given class. A typical use case is to test static
+ * factory classes like: <pre>
+ * interface Book {...}
+ * public class Books {
+ *   public static Book hardcover(String title) {...}
+ *   public static Book paperback(String title) {...}
+ * }
+ * </pre>
+ * And all the created {@code Book} instances can be tested with: <pre>
+ * new ClassSanityTester()
+ *     .forAllPublicStaticMethods(Books.class)
+ *     .thatReturn(Book.class)
+ *     .testEquals(); // or testNulls(), testSerializable() etc.
+ * </pre>
  *
  * @author Ben Yu
  * @since 14.0
