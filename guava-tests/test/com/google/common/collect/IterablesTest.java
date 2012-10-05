@@ -32,6 +32,7 @@ import com.google.common.base.Optional;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import com.google.common.collect.testing.IteratorTester;
+import com.google.common.testing.ClassSanityTester;
 import com.google.common.testing.NullPointerTester;
 
 import junit.framework.TestCase;
@@ -1325,7 +1326,15 @@ public class IterablesTest extends TestCase {
     verifyMergeSorted(iterables, allIntegers);
   }
 
-  private void verifyMergeSorted(Iterable<Iterable<Integer>> iterables,
+  @GwtIncompatible("reflection")
+  public void testIterables_nullCheck() throws Exception {
+    new ClassSanityTester()
+        .forAllPublicStaticMethods(Iterables.class)
+        .thatReturn(Iterable.class)
+        .testNulls();
+  }
+
+  private static void verifyMergeSorted(Iterable<Iterable<Integer>> iterables,
       Iterable<Integer> unsortedExpected) {
     Iterable<Integer> expected =
         Ordering.natural().sortedCopy(unsortedExpected);

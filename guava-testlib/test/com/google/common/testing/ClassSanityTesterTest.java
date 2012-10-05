@@ -44,7 +44,7 @@ public class ClassSanityTesterTest extends TestCase {
 
   private final ClassSanityTester tester = new ClassSanityTester();
 
-  public void testEqualsonReturnValues_good() throws Exception {
+  public void testEqualsOnReturnValues_good() throws Exception {
     tester.forAllPublicStaticMethods(GoodEqualsFactory.class).testEquals();
   }
 
@@ -74,7 +74,7 @@ public class ClassSanityTesterTest extends TestCase {
     }
   }
 
-  public void testEqualsonReturnValues_bad() throws Exception {
+  public void testEqualsOnReturnValues_bad() throws Exception {
     try {
       tester.forAllPublicStaticMethods(BadEqualsFactory.class).testEquals();
     } catch (AssertionFailedError expected) {
@@ -103,11 +103,21 @@ public class ClassSanityTesterTest extends TestCase {
 
   public void testNullsOnReturnValues_bad() throws Exception {
     try {
-      tester.forAllPublicStaticMethods(BadNullsFactory.class).testNulls();
+      tester
+          .forAllPublicStaticMethods(BadNullsFactory.class)
+          .thatReturn(Object.class)
+          .testNulls();
     } catch (AssertionFailedError expected) {
       return;
     }
     fail();
+  }
+
+  public void testNullsOnReturnValues_returnTypeFiltered() throws Exception {
+    tester
+        .forAllPublicStaticMethods(BadNullsFactory.class)
+        .thatReturn(Iterable.class)
+        .testNulls();
   }
   
   public static class BadNullsFactory {
@@ -627,7 +637,8 @@ public class ClassSanityTesterTest extends TestCase {
 
   static class BadEqualsWithParameterizedType {
 
-    public BadEqualsWithParameterizedType() {} // ignored by testEquals() since it has less parameters.
+    // ignored by testEquals() since it has less parameters.
+    public BadEqualsWithParameterizedType() {}
 
     public static BadEqualsWithParameterizedType create(
         @SuppressWarnings("unused") ImmutableList<Iterable<? extends String>> s) {

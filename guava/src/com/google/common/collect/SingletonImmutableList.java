@@ -76,7 +76,7 @@ final class SingletonImmutableList<E> extends ImmutableList<E> {
     return element.equals(object);
   }
 
-  @Override public boolean equals(Object object) {
+  @Override public boolean equals(@Nullable Object object) {
     if (object == this) {
       return true;
     }

@@ -30,7 +30,6 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.MutableClassToInstanceMap;
 import com.google.common.collect.Ordering;
 import com.google.common.primitives.Ints;
-import com.google.common.primitives.Primitives;
 import com.google.common.reflect.Invokable;
 import com.google.common.reflect.Parameter;
 import com.google.common.reflect.TypeToken;
@@ -306,10 +305,6 @@ public final class ClassSanityTester {
     for (Method method : cls.getDeclaredMethods()) {
       Invokable<?, ?> invokable = Invokable.from(method);
       if (invokable.isPublic() && invokable.isStatic() && !invokable.isSynthetic()) {
-        Class<?> returnType = Primitives.unwrap(invokable.getReturnType().getRawType());
-        if (returnType.isEnum() && returnType.isPrimitive()) {
-          continue;
-        }
         builder.add(invokable);
       }
     }
@@ -319,9 +314,21 @@ public final class ClassSanityTester {
   /** Runs sanity tests against return values of static factory methods declared by a class. */
   public final class FactoryMethodReturnValueTester {
     private final ImmutableList<Invokable<?, ?>> factories;
+    private Class<?> returnTypeToTest = Object.class;
 
     private FactoryMethodReturnValueTester(ImmutableList<Invokable<?, ?>> factories) {
       this.factories = factories;
+    }
+
+    /**
+     * Specifies that only the methods that are declared to return {@code returnType} or its subtype
+     * are tested.
+     *
+     * @return this tester object
+     */
+    public FactoryMethodReturnValueTester thatReturn(Class<?> returnType) {
+      this.returnTypeToTest = returnType;
+      return this;
     }
 
     /**
@@ -333,7 +340,7 @@ public final class ClassSanityTester {
      * @returns this tester
      */
     public FactoryMethodReturnValueTester testNulls() throws Exception {
-      for (Invokable<?, ?> factory : factories) {
+      for (Invokable<?, ?> factory : getFactoriesToTest()) {
         Object instance = instantiate(factory);
         if (instance != null) {
           nullPointerTester.testAllPublicInstanceMethods(instance);
@@ -353,7 +360,7 @@ public final class ClassSanityTester {
      * @returns this tester
      */
     public FactoryMethodReturnValueTester testEquals() throws Exception {
-      for (Invokable<?, ?> factory : factories) {
+      for (Invokable<?, ?> factory : getFactoriesToTest()) {
         try {
           testEqualsUsing(factory);
         } catch (FactoryMethodReturnsNullException e) {
@@ -372,7 +379,7 @@ public final class ClassSanityTester {
      * @returns this tester
      */
     public FactoryMethodReturnValueTester testSerializable() throws Exception {
-      for (Invokable<?, ?> factory : factories) {
+      for (Invokable<?, ?> factory : getFactoriesToTest()) {
         Object instance = instantiate(factory);
         if (instance != null) {
           SerializableTester.reserialize(instance);
@@ -390,7 +397,7 @@ public final class ClassSanityTester {
      * @returns this tester
      */
     public FactoryMethodReturnValueTester testEqualsAndSerializable() throws Exception {
-      for (Invokable<?, ?> factory : factories) {
+      for (Invokable<?, ?> factory : getFactoriesToTest()) {
         try {
           testEqualsUsing(factory);
         } catch (FactoryMethodReturnsNullException e) {
@@ -402,6 +409,16 @@ public final class ClassSanityTester {
         }
       }
       return this;
+    }
+
+    private ImmutableList<Invokable<?, ?>> getFactoriesToTest() {
+      ImmutableList.Builder<Invokable<?, ?>> builder = ImmutableList.builder();
+      for (Invokable<?, ?> factory : factories) {
+        if (returnTypeToTest.isAssignableFrom(factory.getReturnType().getRawType())) {
+          builder.add(factory);
+        }
+      }
+      return builder.build();
     }
   }
 
