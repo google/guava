@@ -50,14 +50,6 @@ abstract class ForwardingImmutableList<E> extends ImmutableList<E> {
     return unsafeDelegateList(delegateList().subList(fromIndex, toIndex));
   }
 
-  public UnmodifiableListIterator<E> listIterator() {
-    return Iterators.unmodifiableListIterator(delegateList().listIterator());
-  }
-
-  public UnmodifiableListIterator<E> listIterator(int index) {
-    return Iterators.unmodifiableListIterator(delegateList().listIterator(index));
-  }
-
   @Override public Object[] toArray() {
     // Note that ArrayList.toArray() doesn't work here because it returns E[]
     // instead of Object[].
