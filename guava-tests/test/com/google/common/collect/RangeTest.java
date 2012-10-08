@@ -247,7 +247,8 @@ public class RangeTest extends TestCase {
     assertUnboundedAbove(range);
     assertFalse(range.isEmpty());
     assertEquals("(-\u221e\u2025+\u221e)", range.toString());
-    reserializeAndAssert(range);
+    assertSame(range, reserializeAndAssert(range));
+    assertSame(range, Range.all());
   }
 
   private static void assertUnboundedBelow(Range<Integer> range) {
@@ -364,7 +365,7 @@ public class RangeTest extends TestCase {
         range.intersection(Range.atMost(3)));
     assertEquals(Range.closedOpen(4, 4),
         range.intersection(Range.atLeast(4)));
-    
+
     try {
       range.intersection(Range.lessThan(3));
       fail();

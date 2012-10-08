@@ -256,7 +256,7 @@ final class ImmutableRangeSet<C extends Comparable> extends AbstractRangeSet<C>
   /**
    * Returns a new builder for an immutable range set.
    */
-  public static <C extends Comparable> Builder<C> builder() {
+  public static <C extends Comparable<?>> Builder<C> builder() {
     return new Builder<C>();
   }
 
@@ -264,7 +264,7 @@ final class ImmutableRangeSet<C extends Comparable> extends AbstractRangeSet<C>
    * A builder for immutable range sets. Duplicate or connected ranges are permitted, and will be
    * merged in the resulting immutable range set.
    */
-  public static class Builder<C extends Comparable> {
+  public static class Builder<C extends Comparable<?>> {
     private final RangeSet<C> rangeSet;
 
     public Builder() {

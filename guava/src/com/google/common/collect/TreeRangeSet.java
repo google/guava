@@ -6,10 +6,10 @@
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the
- * License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
- * express or implied. See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.collect;
@@ -17,8 +17,11 @@ package com.google.common.collect;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.base.Objects;
 
+import java.util.AbstractSet;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.Map.Entry;
 import java.util.NavigableMap;
 import java.util.Set;
@@ -31,16 +34,15 @@ import javax.annotation.Nullable;
  *
  * @author Louis Wasserman
  */
-@GwtIncompatible("uses NavigableMap") final class TreeRangeSet<C extends Comparable>
+@GwtIncompatible("uses NavigableMap")final class TreeRangeSet<C extends Comparable<?>>
     extends AbstractRangeSet<C> {
-  // TODO(user): override inefficient defaults
 
   private final NavigableMap<Cut<C>, Range<C>> rangesByLowerCut;
 
   /**
    * Creates an empty {@code TreeRangeSet} instance.
    */
-  public static <C extends Comparable> TreeRangeSet<C> create() {
+  public static <C extends Comparable<?>> TreeRangeSet<C> create() {
     return new TreeRangeSet<C>(new TreeMap<Cut<C>, Range<C>>());
   }
 
@@ -194,10 +196,126 @@ import javax.annotation.Nullable;
   @Override
   public RangeSet<C> complement() {
     RangeSet<C> result = complement;
-    return (result == null) ? complement = createComplement() : result;
+    return (result == null) ? complement = new Complement() : result;
   }
 
-  private RangeSet<C> createComplement() {
-    return new StandardComplement<C>(this);
+  private final class Complement extends AbstractRangeSet<C> {
+    private RangeSet<C> positive() {
+      return TreeRangeSet.this;
+    }
+
+    @Override
+    public boolean contains(C value) {
+      return !positive().contains(value);
+    }
+
+    @Override
+    public Range<C> rangeContaining(C value) {
+      Cut<C> valueCut = Cut.belowValue(value);
+
+      Entry<Cut<C>, Range<C>> entryBelow = rangesByLowerCut.floorEntry(valueCut);
+      Cut<C> lowerBound;
+      if (entryBelow == null) {
+        lowerBound = Cut.belowAll();
+      } else {
+        Range<C> rangeBelow = entryBelow.getValue();
+        if (rangeBelow.contains(value)) {
+          return null;
+        } else {
+          lowerBound = rangeBelow.upperBound;
+        }
+      }
+
+      Cut<C> upperBound =
+          Objects.firstNonNull(rangesByLowerCut.higherKey(valueCut), Cut.<C>aboveAll());
+      return new Range<C>(lowerBound, upperBound);
+    }
+
+    @Override
+    public Set<Range<C>> asRanges() {
+      return new AbstractSet<Range<C>>() {
+
+        @Override
+        public Iterator<Range<C>> iterator() {
+          return TreeRangeSet.this.standardComplementIterator();
+        }
+
+        @Override
+        public int size() {
+          boolean positiveBoundedBelow = !rangesByLowerCut.containsKey(Cut.belowAll());
+
+          Entry<Cut<C>, Range<C>> lastEntry = rangesByLowerCut.lastEntry();
+          boolean positiveBoundedAbove = lastEntry == null || lastEntry.getValue().hasUpperBound();
+
+          int size = rangesByLowerCut.size() - 1;
+          if (positiveBoundedBelow) {
+            size++;
+          }
+          if (positiveBoundedAbove) {
+            size++;
+          }
+          return size;
+        }
+
+      };
+    }
+
+    @Override
+    public boolean isEmpty() {
+      return positive().equals(ImmutableRangeSet.<C>all());
+    }
+
+    @Override
+    public RangeSet<C> complement() {
+      return positive();
+    }
+
+    @Override
+    public void add(Range<C> range) {
+      positive().remove(range);
+    }
+
+    @Override
+    public void remove(Range<C> range) {
+      positive().add(range);
+    }
+
+    @Nullable
+    Range<C> floorRange(Cut<C> cut) {
+      // Ranges from the positive set that might border the complement range being requested.
+      Iterator<Range<C>> candidatePositiveRanges =
+          rangesByLowerCut.headMap(cut, false).descendingMap().values().iterator();
+
+      if (candidatePositiveRanges.hasNext()) {
+        Range<C> firstCandidate = candidatePositiveRanges.next();
+        // If cut is |, and firstRange is { }, then we only know { |
+        if (firstCandidate.upperBound.compareTo(cut) <= 0) {
+          // { } |
+          Cut<C> resultLowerBound = firstCandidate.upperBound;
+          Cut<C> resultUpperBound = Objects.firstNonNull(
+              rangesByLowerCut.higherKey(resultLowerBound), Cut.<C>aboveAll());
+          return Range.create(resultLowerBound, resultUpperBound);
+        } else if (candidatePositiveRanges.hasNext()) {
+          // } { | }
+          return Range.create(
+              candidatePositiveRanges.next().upperBound, firstCandidate.lowerBound);
+        } else if (Cut.belowAll().equals(firstCandidate.lowerBound)) {
+          return null;
+        } else {
+          return Range.create(Cut.<C>belowAll(), firstCandidate.lowerBound);
+        }
+      } else if (rangesByLowerCut.isEmpty()) {
+        return Range.all();
+      } else {
+        return Range.create(Cut.<C>belowAll(), rangesByLowerCut.firstKey());
+      }
+    }
+
+    @Override
+    public boolean encloses(Range<C> range) {
+      checkNotNull(range);
+      Range<C> floorRange = floorRange(range.lowerBound);
+      return floorRange != null && floorRange.encloses(range);
+    }
   }
 }

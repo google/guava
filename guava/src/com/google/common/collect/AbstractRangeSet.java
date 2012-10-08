@@ -16,15 +16,13 @@ package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import java.util.AbstractSet;
 import java.util.Iterator;
-import java.util.Set;
 
 import javax.annotation.Nullable;
 
 /**
  * A skeletal implementation of {@code RangeSet}.
- * 
+ *
  * @author Louis Wasserman
  */
 abstract class AbstractRangeSet<C extends Comparable> implements RangeSet<C> {
@@ -51,77 +49,33 @@ abstract class AbstractRangeSet<C extends Comparable> implements RangeSet<C> {
     return asRanges().isEmpty();
   }
 
-  static class StandardComplement<C extends Comparable> extends AbstractRangeSet<C> {
-    final AbstractRangeSet<C> positive;
+  /**
+   * An implementation for {@code complement().asRanges().iterator()}.
+   */
+  final Iterator<Range<C>> standardComplementIterator() {
+    return new AbstractIterator<Range<C>>() {
+      final Iterator<Range<C>> positiveIterator = AbstractRangeSet.this.asRanges().iterator();
+      Cut<C> prevCut = Cut.belowAll();
 
-    public StandardComplement(AbstractRangeSet<C> positive) {
-      this.positive = positive;
-    }
-
-    @Override
-    public boolean contains(C value) {
-      return !positive.contains(value);
-    }
-
-    @Override
-    public void add(Range<C> range) {
-      positive.remove(range);
-    }
-
-    @Override
-    public void remove(Range<C> range) {
-      positive.add(range);
-    }
-
-    private transient Set<Range<C>> asRanges;
-
-    @Override
-    public final Set<Range<C>> asRanges() {
-      Set<Range<C>> result = asRanges;
-      return (result == null) ? asRanges = createAsRanges() : result;
-    }
-
-    Set<Range<C>> createAsRanges() {
-      return new AbstractSet<Range<C>>() {
-
-        @Override
-        public Iterator<Range<C>> iterator() {
-          final Iterator<Range<C>> positiveIterator = positive.asRanges().iterator();
-          return new AbstractIterator<Range<C>>() {
-            Cut<C> prevCut = Cut.belowAll();
-
-            @Override
-            protected Range<C> computeNext() {
-              while (positiveIterator.hasNext()) {
-                Cut<C> oldCut = prevCut;
-                Range<C> positiveRange = positiveIterator.next();
-                prevCut = positiveRange.upperBound;
-                if (oldCut.compareTo(positiveRange.lowerBound) < 0) {
-                  return new Range<C>(oldCut, positiveRange.lowerBound);
-                }
-              }
-              Cut<C> posInfinity = Cut.aboveAll();
-              if (prevCut.compareTo(posInfinity) < 0) {
-                Range<C> result = new Range<C>(prevCut, posInfinity);
-                prevCut = posInfinity;
-                return result;
-              }
-              return endOfData();
-            }
-          };
+      @Override
+      protected Range<C> computeNext() {
+        while (positiveIterator.hasNext()) {
+          Cut<C> oldCut = prevCut;
+          Range<C> positiveRange = positiveIterator.next();
+          prevCut = positiveRange.upperBound;
+          if (oldCut.compareTo(positiveRange.lowerBound) < 0) {
+            return new Range<C>(oldCut, positiveRange.lowerBound);
+          }
         }
-
-        @Override
-        public int size() {
-          return Iterators.size(iterator());
+        Cut<C> posInfinity = Cut.aboveAll();
+        if (prevCut.compareTo(posInfinity) < 0) {
+          Range<C> result = new Range<C>(prevCut, posInfinity);
+          prevCut = posInfinity;
+          return result;
         }
-      };
-    }
-
-    @Override
-    public AbstractRangeSet<C> complement() {
-      return positive;
-    }
+        return endOfData();
+      }
+    };
   }
 
   @Override
@@ -167,7 +121,7 @@ abstract class AbstractRangeSet<C extends Comparable> implements RangeSet<C> {
     }
     return false;
   }
-  
+
   @Override
   public boolean equals(@Nullable Object obj) {
     if (obj instanceof RangeSet) {

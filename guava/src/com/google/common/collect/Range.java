@@ -270,13 +270,17 @@ public final class Range<C extends Comparable> implements Predicate<C>, Serializ
     }
   }
 
+  private static final Range<Comparable> ALL =
+      new Range<Comparable>(Cut.belowAll(), Cut.aboveAll());
+
   /**
    * Returns a range that contains every value of type {@code C}.
    *
    * @since 14.0
    */
+  @SuppressWarnings("unchecked")
   public static <C extends Comparable<?>> Range<C> all() {
-    return create(Cut.<C>belowAll(), Cut.<C>aboveAll());
+    return (Range) ALL;
   }
 
   /**
@@ -629,6 +633,14 @@ public final class Range<C extends Comparable> implements Predicate<C>, Serializ
    */
   private static <T> SortedSet<T> cast(Iterable<T> iterable) {
     return (SortedSet<T>) iterable;
+  }
+
+  Object readResolve() {
+    if (this.equals(ALL)) {
+      return all();
+    } else {
+      return this;
+    }
   }
 
   @SuppressWarnings("unchecked") // this method may throw CCE
