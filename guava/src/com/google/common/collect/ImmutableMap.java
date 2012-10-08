@@ -387,7 +387,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
   }
 
   ImmutableSet<K> createKeySet() {
-    return new ImmutableMapKeySet<K, V>(entrySet()) {
+    return new ImmutableMapKeySet<K, V>() {
       @Override ImmutableMap<K, V> map() {
         return ImmutableMap.this;
       }

@@ -226,9 +226,19 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
 
   @Override
   ImmutableSet<K> createKeySet() {
-    return new ImmutableMapKeySet<K, V>(entrySet(), keySetHashCode) {
+    return new ImmutableMapKeySet<K, V>() {
       @Override ImmutableMap<K, V> map() {
         return RegularImmutableMap.this;
+      }
+
+      @Override
+      boolean isHashCodeFast() {
+        return true;
+      }
+
+      @Override
+      public int hashCode() {
+        return keySetHashCode;
       }
     };
   }
