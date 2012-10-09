@@ -17,11 +17,11 @@
     This project includes GWT-friendly sources.
   </description>
   <dependencies>
+    <!-- GWT requires a library's transitive dependencies to be present when compiling a project that uses that library, thanks to its full-program compilation, so we don't use scope=provided. -->
     <dependency>
       <groupId>com.google.code.findbugs</groupId>
       <artifactId>jsr305</artifactId>
       <version>1.3.9</version>
-      <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>com.google.guava</groupId>
@@ -39,14 +39,12 @@
       <groupId>com.google.gwt</groupId>
       <artifactId>gwt-dev</artifactId>
       <version>2.2.0</version>
-      <type>jar</type>
       <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>com.google.gwt</groupId>
       <artifactId>gwt-user</artifactId>
       <version>2.2.0</version>
-      <type>jar</type>
       <scope>provided</scope>
     </dependency>
   </dependencies>
