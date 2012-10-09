@@ -35,7 +35,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.TreeMap;
 
 import javax.annotation.Nullable;
 
@@ -156,23 +155,6 @@ public class ImmutableSetMultimap<K, V>
   private static class BuilderMultimap<K, V> extends AbstractMultimap<K, V> {
     BuilderMultimap() {
       super(new LinkedHashMap<K, Collection<V>>());
-    }
-    @Override Collection<V> createCollection() {
-      return Sets.newLinkedHashSet();
-    }
-    private static final long serialVersionUID = 0;
-  }
-
-  /**
-   * Multimap for {@link ImmutableSetMultimap.Builder} that sorts keys and
-   * maintains value orderings.
-   */
-  private static class SortedKeyBuilderMultimap<K, V>
-      extends AbstractMultimap<K, V> {
-    SortedKeyBuilderMultimap(
-        Comparator<? super K> keyComparator, Multimap<K, V> multimap) {
-      super(new TreeMap<K, Collection<V>>(keyComparator));
-      putAll(multimap);
     }
     @Override Collection<V> createCollection() {
       return Sets.newLinkedHashSet();
