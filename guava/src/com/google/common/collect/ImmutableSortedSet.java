@@ -728,7 +728,7 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSortedSetFauxveride
   @GwtIncompatible("NavigableSet")
   @Override
   public E lower(E e) {
-    return Iterables.getFirst(headSet(e, false).descendingSet(), null);
+    return Iterators.getNext(headSet(e, false).descendingIterator(), null);
   }
 
   /**
@@ -737,7 +737,7 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSortedSetFauxveride
   @GwtIncompatible("NavigableSet")
   @Override
   public E floor(E e) {
-    return Iterables.getFirst(headSet(e, true).descendingSet(), null);
+    return Iterators.getNext(headSet(e, true).descendingIterator(), null);
   }
 
   /**
@@ -756,6 +756,16 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSortedSetFauxveride
   @Override
   public E higher(E e) {
     return Iterables.getFirst(tailSet(e, false), null);
+  }
+
+  @Override
+  public E first() {
+    return iterator().next();
+  }
+
+  @Override
+  public E last() {
+    return descendingIterator().next();
   }
 
   /**
@@ -795,6 +805,7 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSortedSetFauxveride
   @GwtIncompatible("NavigableSet")
   @Override
   public ImmutableSortedSet<E> descendingSet() {
+    // racy single-check idiom
     ImmutableSortedSet<E> result = descendingSet;
     if (result == null) {
       result = descendingSet = createDescendingSet();
@@ -804,16 +815,16 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSortedSetFauxveride
   }
 
   @GwtIncompatible("NavigableSet")
-  abstract ImmutableSortedSet<E> createDescendingSet();
+  ImmutableSortedSet<E> createDescendingSet() {
+    return new DescendingImmutableSortedSet<E>(this);
+  }
 
   /**
    * @since 12.0
    */
   @GwtIncompatible("NavigableSet")
   @Override
-  public UnmodifiableIterator<E> descendingIterator() {
-    return descendingSet().iterator();
-  }
+  public abstract UnmodifiableIterator<E> descendingIterator();
 
   /**
    * Returns the position of an element within the set, or -1 if not present.

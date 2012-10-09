@@ -25,6 +25,7 @@ import static com.google.common.collect.SortedLists.KeyPresentBehavior.FIRST_AFT
 import static com.google.common.collect.SortedLists.KeyPresentBehavior.FIRST_PRESENT;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.GwtIncompatible;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -57,6 +58,11 @@ final class RegularImmutableSortedSet<E> extends ImmutableSortedSet<E> {
 
   @Override public UnmodifiableIterator<E> iterator() {
     return elements.iterator();
+  }
+
+  @GwtIncompatible("NavigableSet")
+  @Override public UnmodifiableIterator<E> descendingIterator() {
+    return elements.reverse().iterator();
   }
 
   @Override public boolean isEmpty() {
@@ -184,6 +190,30 @@ final class RegularImmutableSortedSet<E> extends ImmutableSortedSet<E> {
   @Override
   public E last() {
     return elements.get(size() - 1);
+  }
+
+  @Override
+  public E lower(E element) {
+    int index = headIndex(element, false) - 1;
+    return (index == -1) ? null : elements.get(index);
+  }
+
+  @Override
+  public E floor(E element) {
+    int index = headIndex(element, true) - 1;
+    return (index == -1) ? null : elements.get(index);
+  }
+
+  @Override
+  public E ceiling(E element) {
+    int index = tailIndex(element, true);
+    return (index == size()) ? null : elements.get(index);
+  }
+
+  @Override
+  public E higher(E element) {
+    int index = tailIndex(element, false);
+    return (index == size()) ? null : elements.get(index);
   }
 
   @Override

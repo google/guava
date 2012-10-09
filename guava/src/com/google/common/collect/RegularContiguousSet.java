@@ -82,6 +82,18 @@ final class RegularContiguousSet<C extends Comparable> extends ContiguousSet<C> 
     };
   }
 
+  @GwtIncompatible("NavigableSet")
+  @Override public UnmodifiableIterator<C> descendingIterator() {
+    return new AbstractSequentialIterator<C>(last()) {
+      final C first = first();
+
+      @Override
+      protected C computeNext(C previous) {
+        return equalsOrThrow(previous, first) ? null : domain.previous(previous);
+      }
+    };
+  }
+
   private static boolean equalsOrThrow(Comparable<?> left, @Nullable Comparable<?> right) {
     return right != null && Range.compareOrThrow(left, right) == 0;
   }
@@ -194,83 +206,4 @@ final class RegularContiguousSet<C extends Comparable> extends ContiguousSet<C> 
   }
 
   private static final long serialVersionUID = 0;
-
-  @GwtIncompatible("NavigableSet")
-  @Override
-  ImmutableSortedSet<C> createDescendingSet() {
-    return new DescendingContiguousSet();
-  }
-
-  @GwtIncompatible("NavigableSet")
-  private final class DescendingContiguousSet extends ImmutableSortedSet<C> {
-
-    private DescendingContiguousSet() {
-      super(Ordering.natural().reverse());
-    }
-
-    @Override
-    public C first() {
-      return RegularContiguousSet.this.last();
-    }
-
-    @Override
-    public C last() {
-      return RegularContiguousSet.this.first();
-    }
-
-    @Override
-    public int size() {
-      return RegularContiguousSet.this.size();
-    }
-
-    @Override
-    public UnmodifiableIterator<C> iterator() {
-      return new AbstractSequentialIterator<C>(first()) {
-        final C last = last();
-
-        @Override
-        protected C computeNext(C previous) {
-          return equalsOrThrow(previous, last) ? null : domain.previous(previous);
-        }
-      };
-    }
-
-    @Override
-    ImmutableSortedSet<C> headSetImpl(C toElement, boolean inclusive) {
-      return RegularContiguousSet.this.tailSetImpl(toElement, inclusive).descendingSet();
-    }
-
-    @Override
-    ImmutableSortedSet<C> subSetImpl(
-        C fromElement,
-        boolean fromInclusive,
-        C toElement,
-        boolean toInclusive) {
-      return RegularContiguousSet.this.subSetImpl(
-          toElement,
-          toInclusive,
-          fromElement,
-          fromInclusive).descendingSet();
-    }
-
-    @Override
-    ImmutableSortedSet<C> tailSetImpl(C fromElement, boolean inclusive) {
-      return RegularContiguousSet.this.headSetImpl(fromElement, inclusive).descendingSet();
-    }
-
-    @Override
-    ImmutableSortedSet<C> createDescendingSet() {
-      return RegularContiguousSet.this;
-    }
-
-    @Override
-    int indexOf(Object target) {
-      return contains(target) ? (int) domain.distance(last(), (C) target) : -1;
-    }
-
-    @Override
-    boolean isPartialView() {
-      return false;
-    }
-  }
 }

@@ -80,6 +80,11 @@ final class EmptyContiguousSet<C extends Comparable> extends ContiguousSet<C> {
     return Iterators.emptyIterator();
   }
 
+  @GwtIncompatible("NavigableSet")
+  @Override public UnmodifiableIterator<C> descendingIterator() {
+    return Iterators.emptyIterator();
+  }
+
   @Override boolean isPartialView() {
     return false;
   }

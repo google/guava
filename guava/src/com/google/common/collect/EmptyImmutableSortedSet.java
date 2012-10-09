@@ -17,6 +17,7 @@
 package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.GwtIncompatible;
 
 import java.util.Collection;
 import java.util.Comparator;
@@ -55,6 +56,11 @@ class EmptyImmutableSortedSet<E> extends ImmutableSortedSet<E> {
   }
 
   @Override public UnmodifiableIterator<E> iterator() {
+    return Iterators.emptyIterator();
+  }
+
+  @GwtIncompatible("NavigableSet")
+  @Override public UnmodifiableIterator<E> descendingIterator() {
     return Iterators.emptyIterator();
   }
 
