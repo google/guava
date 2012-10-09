@@ -89,6 +89,7 @@ public abstract class AbstractService implements Service {
   @GuardedBy("lock")
   private volatile StateSnapshot snapshot = new StateSnapshot(State.NEW);
 
+  /** Constructor for use by subclasses. */
   protected AbstractService() {
     // Add a listener to update the futures. This needs to be added first so that it is executed
     // before the other listeners. This way the other listeners can access the completed futures.

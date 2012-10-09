@@ -229,6 +229,9 @@ public abstract class AbstractScheduledService implements Service {
     }
   };
 
+  /** Constructor for use by subclasses. */
+  protected AbstractScheduledService() {}
+
   /**
    * Run one iteration of the scheduled task. If any invocation of this method throws an exception,
    * the service will transition to the {@link Service.State#FAILED} state and this method will no

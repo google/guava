@@ -65,6 +65,9 @@ public abstract class AbstractIdleService implements Service {
     }
   };
 
+  /** Constructor for use by subclasses. */
+  protected AbstractIdleService() {}
+
   /** Start the service. */
   protected abstract void startUp() throws Exception;
 

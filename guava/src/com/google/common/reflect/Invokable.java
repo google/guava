@@ -148,7 +148,7 @@ public abstract class Invokable<T, R> extends Element implements GenericDeclarat
     return (Class<? super T>) super.getDeclaringClass();
   }
 
-  abstract Object invokeInternal(Object receiver, Object[] args)
+  abstract Object invokeInternal(@Nullable Object receiver, Object[] args)
       throws InvocationTargetException, IllegalAccessException;
 
   abstract Type[] getGenericParameterTypes();
@@ -169,7 +169,7 @@ public abstract class Invokable<T, R> extends Element implements GenericDeclarat
       this.method = method;
     }
 
-    @Override final Object invokeInternal(Object receiver, Object[] args)
+    @Override final Object invokeInternal(@Nullable Object receiver, Object[] args)
         throws InvocationTargetException, IllegalAccessException {
       return method.invoke(receiver, args);
     }
@@ -209,7 +209,7 @@ public abstract class Invokable<T, R> extends Element implements GenericDeclarat
       this.constructor = constructor;
     }
 
-    @Override final Object invokeInternal(Object receiver, Object[] args)
+    @Override final Object invokeInternal(@Nullable Object receiver, Object[] args)
         throws InvocationTargetException, IllegalAccessException {
       try {
         return constructor.newInstance(args);

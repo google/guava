@@ -205,8 +205,7 @@ public final class UnsignedInts {
    * <li>{@code 0}<i>OctalDigits</i>
    * </ul>
    *
-   * @throws NumberFormatException if the string does not contain a valid unsigned {@code int}
-   *         value
+   * @throws NumberFormatException if the string does not contain a valid unsigned {@code int} value
    * @since 13.0
    */
   public static int decode(String stringValue) {
@@ -225,9 +224,9 @@ public final class UnsignedInts {
   /**
    * Returns the unsigned {@code int} value represented by the given decimal string.
    *
-   * @throws NumberFormatException if the string does not contain a valid unsigned integer, or if
-   *         the value represented is too large to fit in an unsigned {@code int}.
-   * @throws NullPointerException if {@code s} is null
+   * @throws NumberFormatException if the string does not contain a valid unsigned {@code int} value
+   * @throws NullPointerException if {@code s} is null 
+   *         (in contrast to {@link Integer#parseInt(String)})
    */
   public static int parseUnsignedInt(String s) {
     return parseUnsignedInt(s, 10);
@@ -241,6 +240,8 @@ public final class UnsignedInts {
    *        {@link Character#MIN_RADIX} and {@link Character#MAX_RADIX}.
    * @throws NumberFormatException if the string does not contain a valid unsigned {@code int}, or
    *         if supplied radix is invalid.
+   * @throws NullPointerException if {@code s} is null 
+   *         (in contrast to {@link Integer#parseInt(String)})
    */
   public static int parseUnsignedInt(String string, int radix) {
     checkNotNull(string);

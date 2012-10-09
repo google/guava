@@ -270,7 +270,7 @@ public class MultimapCollectionTest extends TestCase {
             MapFeature.FAILS_FAST_ON_CONCURRENT_MODIFICATION,
             CollectionFeature.SERIALIZABLE,
             CollectionSize.ANY)
-            .createTestSuite());
+        .createTestSuite());
 
     suite.addTest(SetMultimapTestSuiteBuilder.using(new TestStringSetMultimapGenerator() {
         @Override

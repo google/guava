@@ -136,20 +136,6 @@ public final class Sets {
    */
   public static <E extends Enum<E>> EnumSet<E> newEnumSet(Iterable<E> iterable,
       Class<E> elementType) {
-    /*
-     * TODO(cpovirk): noneOf() and addAll() will both throw
-     * NullPointerExceptions when appropriate. However, NullPointerTester will
-     * fail on this method because it passes in Class.class instead of an enum
-     * type. This means that, when iterable is null but elementType is not,
-     * noneOf() will throw a ClassCastException before addAll() has a chance to
-     * throw a NullPointerException. NullPointerTester considers this a failure.
-     * Ideally the test would be fixed, but it would require a special case for
-     * Class<E> where E extends Enum. Until that happens (if ever), leave
-     * checkNotNull() here. For now, contemplate the irony that checking
-     * elementType, the problem argument, is harmful, while checking iterable,
-     * the innocent bystander, is effective.
-     */
-    checkNotNull(iterable);
     EnumSet<E> set = EnumSet.noneOf(elementType);
     Iterables.addAll(set, iterable);
     return set;
@@ -911,7 +897,7 @@ public final class Sets {
    * <li>{@code ImmutableList.of(2, "C")}
    * </ul>
    *
-   * The result is guaranteed to be be in the "traditional", lexicographical
+   * The result is guaranteed to be in the "traditional", lexicographical
    * order for Cartesian products that you would get from nesting for loops:
    * <pre>   {@code
    *
@@ -976,7 +962,7 @@ public final class Sets {
    * <li>{@code ImmutableList.of(2, "C")}
    * </ul>
    *
-   * The result is guaranteed to be be in the "traditional", lexicographical
+   * The result is guaranteed to be in the "traditional", lexicographical
    * order for Cartesian products that you would get from nesting for loops:
    * <pre>   {@code
    *

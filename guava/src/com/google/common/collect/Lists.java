@@ -372,7 +372,7 @@ public final class Lists {
    * <li>{@code ImmutableList.of(2, "C")}
    * </ul>
    *
-   * The result is guaranteed to be be in the "traditional", lexicographical
+   * The result is guaranteed to be in the "traditional", lexicographical
    * order for Cartesian products that you would get from nesting for loops:
    * <pre>   {@code
    *
@@ -433,7 +433,7 @@ public final class Lists {
    * <li>{@code ImmutableList.of(2, "C")}
    * </ul>
    *
-   * The result is guaranteed to be be in the "traditional", lexicographical
+   * The result is guaranteed to be in the "traditional", lexicographical
    * order for Cartesian products that you would get from nesting for loops:
    * <pre>   {@code
    *

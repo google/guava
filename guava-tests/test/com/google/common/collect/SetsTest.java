@@ -580,6 +580,7 @@ public class SetsTest extends TestCase {
   public void testNullPointerExceptions() {
     new NullPointerTester()
         .setDefault(Enum.class, SomeEnum.A)
+        .setDefault(Class.class, SomeEnum.class) // for newEnumSet
         .testAllPublicStaticMethods(Sets.class);
   }
 

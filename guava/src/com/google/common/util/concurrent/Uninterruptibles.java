@@ -122,6 +122,9 @@ public final class Uninterruptibles {
    * <p>If instead, you wish to treat {@link InterruptedException} uniformly
    * with other exceptions, see {@link Futures#get(Future, Class) Futures.get}
    * or {@link Futures#makeChecked}.
+   *
+   * @throws ExecutionException if the computation threw an exception
+   * @throws CancellationException if the computation was cancelled
    */
   public static <V> V getUninterruptibly(Future<V> future)
       throws ExecutionException {
@@ -149,6 +152,10 @@ public final class Uninterruptibles {
    * <p>If instead, you wish to treat {@link InterruptedException} uniformly
    * with other exceptions, see {@link Futures#get(Future, Class) Futures.get}
    * or {@link Futures#makeChecked}.
+   *
+   * @throws ExecutionException if the computation threw an exception
+   * @throws CancellationException if the computation was cancelled
+   * @throws TimeoutException if the wait timed out
    */
   public static <V> V getUninterruptibly(
       Future<V> future, long timeout,  TimeUnit unit)
@@ -226,6 +233,11 @@ public final class Uninterruptibles {
   /**
    * Invokes {@code queue.}{@link BlockingQueue#put(Object) put(element)}
    * uninterruptibly.
+   *
+   * @throws ClassCastException if the class of the specified element prevents
+   *     it from being added to the given queue
+   * @throws IllegalArgumentException if some property of the specified element
+   *     prevents it from being added to the given queue
    */
   public static <E> void putUninterruptibly(BlockingQueue<E> queue, E element) {
     boolean interrupted = false;

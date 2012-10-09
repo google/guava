@@ -243,6 +243,8 @@ public final class UnsignedLongs {
    *
    * @throws NumberFormatException if the string does not contain a valid unsigned {@code long}
    *         value
+   * @throws NullPointerException if {@code s} is null 
+   *         (in contrast to {@link Long#parseLong(String)})
    */
   public static long parseUnsignedLong(String s) {
     return parseUnsignedLong(s, 10);

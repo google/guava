@@ -350,7 +350,7 @@ public final class ClassSanityTester {
      * <p>Test fails if default value cannot be determined for a constructor or factory method
      * parameter, or if the constructor or factory method throws exception.
      *
-     * @returns this tester
+     * @return this tester
      */
     public FactoryMethodReturnValueTester testNulls() throws Exception {
       for (Invokable<?, ?> factory : getFactoriesToTest()) {
@@ -370,7 +370,7 @@ public final class ClassSanityTester {
      * <p>Test fails if default value cannot be determined for a constructor or factory method
      * parameter, or if the constructor or factory method throws exception.
      *
-     * @returns this tester
+     * @return this tester
      */
     public FactoryMethodReturnValueTester testEquals() throws Exception {
       for (Invokable<?, ?> factory : getFactoriesToTest()) {
@@ -389,7 +389,7 @@ public final class ClassSanityTester {
      * <p>Test fails if default value cannot be determined for a constructor or factory method
      * parameter, or if the constructor or factory method throws exception.
      *
-     * @returns this tester
+     * @return this tester
      */
     public FactoryMethodReturnValueTester testSerializable() throws Exception {
       for (Invokable<?, ?> factory : getFactoriesToTest()) {
@@ -407,7 +407,7 @@ public final class ClassSanityTester {
      * <p>Test fails if default value cannot be determined for a constructor or factory method
      * parameter, or if the constructor or factory method throws exception.
      *
-     * @returns this tester
+     * @return this tester
      */
     public FactoryMethodReturnValueTester testEqualsAndSerializable() throws Exception {
       for (Invokable<?, ?> factory : getFactoriesToTest()) {

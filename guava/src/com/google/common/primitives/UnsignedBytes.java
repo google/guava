@@ -197,8 +197,10 @@ public final class UnsignedBytes {
   /**
    * Returns the unsigned {@code byte} value represented by the given decimal string.
    *
-   * @throws NumberFormatException if the string does not contain a valid unsigned {@code long}
+   * @throws NumberFormatException if the string does not contain a valid unsigned {@code byte}
    *         value
+   * @throws NullPointerException if {@code s} is null 
+   *         (in contrast to {@link Byte#parseByte(String)})
    * @since 13.0
    */
   @Beta
@@ -214,6 +216,8 @@ public final class UnsignedBytes {
    * @throws NumberFormatException if the string does not contain a valid unsigned {@code byte}
    *         with the given radix, or if {@code radix} is not between {@link Character#MIN_RADIX}
    *         and {@link Character#MAX_RADIX}.
+   * @throws NullPointerException if {@code s} is null 
+   *         (in contrast to {@link Byte#parseByte(String)})
    * @since 13.0
    */
   @Beta
