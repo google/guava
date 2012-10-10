@@ -31,6 +31,17 @@ import java.util.EnumSet;
 @GwtCompatible(serializable = true, emulated = true)
 @SuppressWarnings("serial") // we're overriding default serialization
 final class ImmutableEnumSet<E extends Enum<E>> extends ImmutableSet<E> {
+  static <E extends Enum<E>> ImmutableSet<E> asImmutable(EnumSet<E> set) {
+    switch (set.size()) {
+      case 0:
+        return ImmutableSet.of();
+      case 1:
+        return ImmutableSet.of(Iterables.getOnlyElement(set));
+      default:
+        return new ImmutableEnumSet<E>(set);
+    }
+  }
+
   /*
    * Notes on EnumSet and <E extends Enum<E>>:
    *
@@ -41,7 +52,7 @@ final class ImmutableEnumSet<E extends Enum<E>> extends ImmutableSet<E> {
    */
   private final transient EnumSet<E> delegate;
 
-  ImmutableEnumSet(EnumSet<E> delegate) {
+  private ImmutableEnumSet(EnumSet<E> delegate) {
     this.delegate = delegate;
   }
 

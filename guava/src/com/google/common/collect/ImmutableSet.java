@@ -27,6 +27,7 @@ import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
@@ -364,6 +365,12 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E>
       if (!set.isPartialView()) {
         return set;
       }
+    } else if (elements instanceof EnumSet) {
+      EnumSet<?> enumSet = EnumSet.copyOf((EnumSet<?>) elements);
+      @SuppressWarnings("unchecked")
+      // immutable collections are safe for covariant casts
+      ImmutableSet<E> result = (ImmutableSet<E>) ImmutableEnumSet.asImmutable(enumSet);
+      return result;
     }
     return copyFromCollection(elements);
   }

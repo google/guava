@@ -97,7 +97,7 @@ public final class Sets {
   @GwtCompatible(serializable = true)
   public static <E extends Enum<E>> ImmutableSet<E> immutableEnumSet(
       E anElement, E... otherElements) {
-    return new ImmutableEnumSet<E>(EnumSet.of(anElement, otherElements));
+    return ImmutableEnumSet.asImmutable(EnumSet.of(anElement, otherElements));
   }
 
   /**
@@ -117,21 +117,23 @@ public final class Sets {
       Iterable<E> elements) {
     if (elements instanceof ImmutableEnumSet) {
       return (ImmutableEnumSet<E>) elements;
+    } else if (elements instanceof Collection) {
+      Collection<E> collection = (Collection<E>) elements;
+      if (collection.isEmpty()) {
+        return ImmutableSet.of();
+      } else {
+        return ImmutableEnumSet.asImmutable(EnumSet.copyOf(collection));
+      }
+    } else {
+      Iterator<E> itr = elements.iterator();
+      if (itr.hasNext()) {
+        EnumSet<E> enumSet = EnumSet.of(itr.next());
+        Iterators.addAll(enumSet, itr);
+        return ImmutableEnumSet.asImmutable(enumSet);
+      } else {
+        return ImmutableSet.of();
+      }
     }
-    Iterator<E> iterator = elements.iterator();
-    if (!iterator.hasNext()) {
-      return ImmutableSet.of();
-    }
-    if (elements instanceof EnumSet) {
-      EnumSet<E> enumSetClone = EnumSet.copyOf((EnumSet<E>) elements);
-      return new ImmutableEnumSet<E>(enumSetClone);
-    }
-    E first = iterator.next();
-    EnumSet<E> set = EnumSet.of(first);
-    while (iterator.hasNext()) {
-      set.add(iterator.next());
-    }
-    return new ImmutableEnumSet<E>(set);
   }
 
   /**
