@@ -31,6 +31,7 @@ import junit.framework.TestCase;
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.util.AbstractList;
+import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 import javax.annotation.Nullable;
@@ -142,8 +143,10 @@ public class ClassSanityTesterTest extends TestCase {
   public void testSerializableOnReturnValues_bad() throws Exception {
     try {
       tester.forAllPublicStaticMethods(BadSerializableFactory.class).testSerializable();
-      fail();
-    } catch (RuntimeException expected) {}
+    } catch (AssertionError expected) {
+      return;
+    }
+    fail();
   }
 
   public static class BadSerializableFactory {
@@ -159,8 +162,10 @@ public class ClassSanityTesterTest extends TestCase {
       throws Exception {
     try {
       tester.forAllPublicStaticMethods(GoodEqualsFactory.class).testEqualsAndSerializable();
+    } catch (AssertionError expected) {
       return;
-    } catch (RuntimeException expected) {}
+    }
+    fail("should have failed");
   }
 
   public void testEqualsAndSerializableOnReturnValues_serializableButNotEquals()
@@ -498,6 +503,17 @@ public class ClassSanityTesterTest extends TestCase {
 
   public void testInterfaceProxySerializable() throws Exception {
     SerializableTester.reserializeAndAssert(tester.instantiate(HasAnInterface.class));
+  }
+
+  public void testReturnValuesFromAnotherPackageIgnoredForNullTests() throws Exception {
+    new ClassSanityTester().forAllPublicStaticMethods(JdkObjectFactory.class).testNulls();
+  }
+
+  /** String doesn't check nulls as we expect. But the framework should ignore. */
+  public static class JdkObjectFactory {
+    public static Object create() {
+      return new ArrayList<String>();
+    }
   }
 
   static class HasAnInterface implements Serializable {

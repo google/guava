@@ -36,7 +36,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Sets;
-import com.google.common.testing.NullPointerTester;
+import com.google.common.testing.ClassSanityTester;
 import com.google.common.util.concurrent.ForwardingFuture.SimpleForwardingFuture;
 
 import junit.framework.AssertionFailedError;
@@ -2272,8 +2272,11 @@ public class FuturesTest extends TestCase {
     }
   }
 
-  public void testNullArguments() throws Exception {
-    new NullPointerTester().testAllPublicStaticMethods(Futures.class);
+  public void testFutures_nullChecks() throws Exception {
+    new ClassSanityTester()
+        .forAllPublicStaticMethods(Futures.class)
+        .thatReturn(Future.class)
+        .testNulls();
   }
 
   private static void failWithCause(Throwable cause, String message) {

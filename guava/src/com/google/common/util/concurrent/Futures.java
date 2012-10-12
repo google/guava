@@ -115,6 +115,7 @@ public final class Futures {
 
     @Override
     public V get(long timeout, TimeUnit unit) throws ExecutionException {
+      checkNotNull(unit);
       return get();
     }
 
@@ -164,6 +165,7 @@ public final class Futures {
 
     @Override
     public V checkedGet(long timeout, TimeUnit unit) {
+      checkNotNull(unit);
       return value;
     }
   }
@@ -223,6 +225,7 @@ public final class Futures {
 
     @Override
     public V checkedGet(long timeout, TimeUnit unit) throws X {
+      checkNotNull(unit);
       throw thrown;
     }
   }

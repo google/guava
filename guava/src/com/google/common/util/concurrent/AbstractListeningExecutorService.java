@@ -27,6 +27,8 @@ import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
+import javax.annotation.Nullable;
+
 /**
  * Implements {@link ListeningExecutorService} execution methods atop the abstract {@link #execute}
  * method. More concretely, the {@code submit}, {@code invokeAny} and {@code invokeAll} methods
@@ -44,7 +46,7 @@ abstract class AbstractListeningExecutorService implements ListeningExecutorServ
     return ftask;
   }
 
-  @Override public <T> ListenableFuture<T> submit(Runnable task, T result) {
+  @Override public <T> ListenableFuture<T> submit(Runnable task, @Nullable T result) {
     ListenableFutureTask<T> ftask = ListenableFutureTask.create(task, result);
     execute(ftask);
     return ftask;

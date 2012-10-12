@@ -38,6 +38,7 @@ import static org.junit.contrib.truth.Truth.ASSERT;
 import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
+import com.google.common.testing.ClassSanityTester;
 import com.google.common.util.concurrent.MoreExecutors.Application;
 
 import org.mockito.InOrder;
@@ -54,6 +55,7 @@ import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.Callable;
 import java.util.concurrent.CyclicBarrier;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
 import java.util.concurrent.RejectedExecutionException;
@@ -436,6 +438,13 @@ public class MoreExecutorsTest extends JSR166TestCase {
     application.getExitingScheduledExecutorService(executor);
     application.shutdown();
     verify(executor).shutdown();
+  }
+
+  public void testExecutors_nullCheck() throws Exception {
+    new ClassSanityTester()
+        .forAllPublicStaticMethods(MoreExecutors.class)
+        .thatReturn(Executor.class)
+        .testNulls();
   }
 
   private static class TestApplication extends Application {

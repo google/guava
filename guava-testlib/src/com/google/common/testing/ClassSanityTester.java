@@ -29,15 +29,18 @@ import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.MutableClassToInstanceMap;
 import com.google.common.collect.Ordering;
+import com.google.common.collect.Sets;
 import com.google.common.primitives.Ints;
 import com.google.common.reflect.Invokable;
 import com.google.common.reflect.Parameter;
+import com.google.common.reflect.Reflection;
 import com.google.common.reflect.TypeToken;
 import com.google.common.testing.NullPointerTester.Visibility;
 import com.google.common.testing.RelationshipTester.Item;
 import com.google.common.testing.RelationshipTester.ItemReporter;
 
 import junit.framework.Assert;
+import junit.framework.AssertionFailedError;
 
 import java.io.Serializable;
 import java.lang.reflect.Constructor;
@@ -47,6 +50,7 @@ import java.lang.reflect.Modifier;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.annotation.Nullable;
 
@@ -321,15 +325,18 @@ public final class ClassSanityTester {
         builder.add(invokable);
       }
     }
-    return new FactoryMethodReturnValueTester(builder.build());
+    return new FactoryMethodReturnValueTester(cls, builder.build());
   }
 
   /** Runs sanity tests against return values of static factory methods declared by a class. */
   public final class FactoryMethodReturnValueTester {
+    private final Set<String> packagesToTest = Sets.newHashSet();
     private final ImmutableList<Invokable<?, ?>> factories;
     private Class<?> returnTypeToTest = Object.class;
 
-    private FactoryMethodReturnValueTester(ImmutableList<Invokable<?, ?>> factories) {
+    private FactoryMethodReturnValueTester(
+        Class<?> declaringClass, ImmutableList<Invokable<?, ?>> factories) {
+      packagesToTest.add(Reflection.getPackageName(declaringClass));
       this.factories = factories;
     }
 
@@ -355,8 +362,16 @@ public final class ClassSanityTester {
     public FactoryMethodReturnValueTester testNulls() throws Exception {
       for (Invokable<?, ?> factory : getFactoriesToTest()) {
         Object instance = instantiate(factory);
-        if (instance != null) {
-          nullPointerTester.testAllPublicInstanceMethods(instance);
+        if (instance != null
+            && packagesToTest.contains(Reflection.getPackageName(instance.getClass()))) {
+          try {
+            nullPointerTester.testAllPublicInstanceMethods(instance);
+          } catch (AssertionError e) {
+            AssertionError error = new AssertionFailedError(
+                "Null check failed on return value of " + factory);
+            error.initCause(e);
+            throw error;
+          }
         }
       }
       return this;
@@ -395,7 +410,14 @@ public final class ClassSanityTester {
       for (Invokable<?, ?> factory : getFactoriesToTest()) {
         Object instance = instantiate(factory);
         if (instance != null) {
-          SerializableTester.reserialize(instance);
+          try {
+            SerializableTester.reserialize(instance);
+          } catch (RuntimeException e) {
+            AssertionError error = new AssertionFailedError(
+                "Serialization failed on return value of " + factory);
+            error.initCause(e.getCause());
+            throw error;
+          }
         }
       }
       return this;
@@ -418,7 +440,19 @@ public final class ClassSanityTester {
         }
         Object instance = instantiate(factory);
         if (instance != null) {
-          SerializableTester.reserializeAndAssert(instance);
+          try {
+            SerializableTester.reserializeAndAssert(instance);
+          } catch (RuntimeException e) {
+            AssertionError error = new AssertionFailedError(
+                "Serialization failed on return value of " + factory);
+            error.initCause(e.getCause());
+            throw error;
+          } catch (AssertionFailedError e) {
+            AssertionError error = new AssertionFailedError(
+                "Return value of " + factory + " reserialized to an unequal value");
+            error.initCause(e);
+            throw error;
+          }
         }
       }
       return this;
