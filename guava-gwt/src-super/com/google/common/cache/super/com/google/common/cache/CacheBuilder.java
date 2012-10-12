@@ -595,12 +595,11 @@ public final class CacheBuilder<K, V> {
     if (concurrencyLevel != UNSET_INT) {
       s.add("concurrencyLevel", concurrencyLevel);
     }
+    if (maximumSize != UNSET_INT) {
+      s.add("maximumSize", maximumSize);
+    }
     if (maximumWeight != UNSET_INT) {
-      if (weigher == null) {
-        s.add("maximumSize", maximumWeight);
-      } else {
-        s.add("maximumWeight", maximumWeight);
-      }
+      s.add("maximumWeight", maximumWeight);
     }
     if (expireAfterWriteNanos != UNSET_INT) {
       s.add("expireAfterWrite", expireAfterWriteNanos + "ns");
