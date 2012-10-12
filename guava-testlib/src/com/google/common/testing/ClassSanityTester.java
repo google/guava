@@ -152,22 +152,24 @@ public final class ClassSanityTester {
    * Tests that {@code cls} properly checks null on all constructor and method parameters that
    * aren't annotated with {@link Nullable}. In details:
    * <ul>
-   * <li>All public static methods are checked such that passing null for any parameter that's not
-   *     annotated with {@link javax.annotation.Nullable} should throw {@link NullPointerException}.
-   * <li>If there is any public constructor or public static factory method declared by {@code cls},
-   *     all public instance methods will be checked too using the instance created by invoking the
-   *     constructor or static factory method.
-   * <li>If there is any public constructor or public static factory method declared by {@code cls}:
+   * <li>All non-private static methods are checked such that passing null for any parameter that's
+   *     not annotated with {@link javax.annotation.Nullable} should throw {@link
+   *     NullPointerException}.
+   * <li>If there is any non-private constructor or non-private static factory method declared by
+   *     {@code cls}, all non-private instance methods will be checked too using the instance
+   *     created by invoking the constructor or static factory method.
+   * <li>If there is any non-private constructor or non-private static factory method declared by
+   *     {@code cls}:
    *     <ul>
    *     <li>Test will fail if default value for a parameter cannot be determined.
    *     <li>Test will fail if the factory method returns null so testing instance methods is
    *         impossible.
    *     <li>Test will fail if the constructor or factory method throws exception.
    *     </ul>
-   * <li>If there is no public constructor or public static factory method declared by {@code cls},
-   *     instance methods are skipped for nulls test.
-   * <li>Nulls test is not performed on method return values unless the method is a public static
-   *     factory method whose return type is {@code cls} or {@code cls}'s subtype.
+   * <li>If there is no non-private constructor or non-private static factory method declared by
+   *     {@code cls}, instance methods are skipped for nulls test.
+   * <li>Nulls test is not performed on method return values unless the method is a non-private
+   *     static factory method whose return type is {@code cls} or {@code cls}'s subtype.
    * </ul>
    */
   public void testNulls(Class<?> cls) {
@@ -207,21 +209,21 @@ public final class ClassSanityTester {
   /**
    * Tests the {@link Object#equals} and {@link Object#hashCode} of {@code cls}. In details:
    * <ul>
-   * <li>The public constructor or public static factory method with the most parameters is used to
-   *     construct the sample instances. In case of tie, the candidate constructors or factories are
-   *     tried one after another until one can be used to construct sample instances.
+   * <li>The non-private constructor or non-private static factory method with the most parameters
+   *     is used to construct the sample instances. In case of tie, the candidate constructors or
+   *     factories are tried one after another until one can be used to construct sample instances.
    * <li>For the constructor or static factory method used to construct instances, it's checked that
    *     when equal parameters are passed, the result instance should also be equal; and vice versa.
-   * <li>If a public constructor or public static factory method exists: <ul>
+   * <li>If a non-private constructor or non-private static factory method exists: <ul>
    *     <li>Test will fail if default value for a parameter cannot be determined.
    *     <li>Test will fail if the factory method returns null so testing instance methods is
    *         impossible.
    *     <li>Test will fail if the constructor or factory method throws exception.
    *     </ul>
-   * <li>If there is no public constructor or public static factory method declared by {@code cls},
-   *     no test is performed.
-   * <li>Equality test is not performed on method return values unless the method is a public static
-   *     factory method whose return type is {@code cls} or {@code cls}'s subtype.
+   * <li>If there is no non-private constructor or non-private static factory method declared by
+   *     {@code cls}, no test is performed.
+   * <li>Equality test is not performed on method return values unless the method is a non-private
+   *     static factory method whose return type is {@code cls} or {@code cls}'s subtype.
    * <li>Inequality check is not performed against state mutation methods such as {@link List#add},
    *     or functional update methods such as {@link com.google.common.base.Joiner#skipNulls}.
    * </ul>
@@ -269,10 +271,10 @@ public final class ClassSanityTester {
   }
 
   /**
-   * Instantiates {@code cls} by invoking one of its public constructors or public static factory
-   * methods with the parameters automatically provided using dummy values.
+   * Instantiates {@code cls} by invoking one of its non-private constructors or non-private static
+   * factory methods with the parameters automatically provided using dummy values.
    *
-   * @return The instantiated instance, or {@code null} if the class has no public constructor
+   * @return The instantiated instance, or {@code null} if the class has no non-private constructor
    *         or factory method to be constructed.
    */
   @Nullable <T> T instantiate(Class<T> cls)
