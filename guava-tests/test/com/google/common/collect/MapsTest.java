@@ -1209,18 +1209,6 @@ public class MapsTest extends TestCase {
     } catch (UnsupportedOperationException expected) {}
   }
 
-  public void testBiMapEntrySetIteratorRemove() {
-    BiMap<Integer, String> map = HashBiMap.create();
-    map.put(1, "one");
-    Set<Map.Entry<Integer, String>> entries = map.entrySet();
-    Iterator<Map.Entry<Integer, String>> iterator = entries.iterator();
-    Map.Entry<Integer, String> entry = iterator.next();
-    entry.setValue("two"); // changes the iterator's current entry value
-    assertEquals("two", map.get(1));
-    iterator.remove(); // removes the updated entry
-    assertTrue(map.isEmpty());
-  }
-
   public void testImmutableEntry() {
     Map.Entry<String, Integer> e = Maps.immutableEntry("foo", 1);
     assertEquals("foo", e.getKey());

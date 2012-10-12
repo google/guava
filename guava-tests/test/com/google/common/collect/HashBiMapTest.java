@@ -20,7 +20,6 @@ import com.google.common.annotations.GwtCompatible;
 
 import junit.framework.TestCase;
 
-import java.util.IdentityHashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -79,39 +78,16 @@ public class HashBiMapTest extends TestCase {
     }
   }
 
-  // The next two tests verify that map entries are not accessed after they're
-  // removed, since IdentityHashMap throws an exception when that occurs.
-  public void testIdentityKeySetIteratorRemove() {
-    BiMap<Integer, String> bimap = new AbstractBiMap<Integer, String>(
-        new IdentityHashMap<Integer, String>(),
-        new IdentityHashMap<String, Integer>()) {};
-    bimap.put(1, "one");
-    bimap.put(2, "two");
-    bimap.put(3, "three");
-    Iterator<Integer> iterator = bimap.keySet().iterator();
-    iterator.next();
-    iterator.next();
-    iterator.remove();
-    iterator.next();
-    iterator.remove();
-    assertEquals(1, bimap.size());
-    assertEquals(1, bimap.inverse().size());
-  }
-
-  public void testIdentityEntrySetIteratorRemove() {
-    BiMap<Integer, String> bimap = new AbstractBiMap<Integer, String>(
-        new IdentityHashMap<Integer, String>(),
-        new IdentityHashMap<String, Integer>()) {};
-    bimap.put(1, "one");
-    bimap.put(2, "two");
-    bimap.put(3, "three");
-    Iterator<Entry<Integer, String>> iterator = bimap.entrySet().iterator();
-    iterator.next();
-    iterator.next();
-    iterator.remove();
-    iterator.next();
-    iterator.remove();
-    assertEquals(1, bimap.size());
-    assertEquals(1, bimap.inverse().size());
+  public void testBiMapEntrySetIteratorRemove() {
+    BiMap<Integer, String> map = HashBiMap.create();
+    map.put(1, "one");
+    Set<Map.Entry<Integer, String>> entries = map.entrySet();
+    Iterator<Map.Entry<Integer, String>> iterator = entries.iterator();
+    Map.Entry<Integer, String> entry = iterator.next();
+    entry.setValue("two"); // changes the iterator's current entry value
+    assertEquals("two", map.get(1));
+    assertEquals(Integer.valueOf(1), map.inverse().get("two"));
+    iterator.remove(); // removes the updated entry
+    assertTrue(map.isEmpty());
   }
 }
