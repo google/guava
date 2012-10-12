@@ -1108,9 +1108,8 @@ public abstract class CharMatcher implements Predicate<Character> {
   // Predicate interface
 
   /**
-   * Returns {@code true} if this matcher matches the given character.
-   *
-   * @throws NullPointerException if {@code character} is null
+   * Equivalent to {@link #matches}; provided only to satisfy the {@link Predicate} interface. When
+   * using a reference of type {@code CharMatcher}, invoke {@link #matches} directly instead.
    */
   @Override public boolean apply(Character character) {
     return matches(character);
