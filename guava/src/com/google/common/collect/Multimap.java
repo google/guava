@@ -28,7 +28,8 @@ import javax.annotation.Nullable;
 /**
  * A collection that maps keys to values, similar to {@link Map}, but in which
  * each key may be associated with <i>multiple</i> values. You can visualize the
- * contents of a multimap either as a map from keys to collections of values:
+ * contents of a multimap either as a map from keys to <i>nonempty</i>
+ * collections of values:
  *
  * <ul>
  * <li>a → 1, 2
@@ -49,7 +50,7 @@ import javax.annotation.Nullable;
  * example, the {@link #size} is {@code 3}, not {@code 2}, and the {@link
  * #values} collection is {@code [1, 2, 3]}, not {@code [[1, 2], [3]]}. For
  * those times when the first style is more useful, use the multimap's {@link
- * #asMap} view.
+ * #asMap} view (or create a {@code Map<K, Collection<V>>} in the first place).
  *
  * <h3>Example</h3>
  *
@@ -104,18 +105,23 @@ import javax.annotation.Nullable;
  * would have vanished, and last names might or might not appear in
  * chronological order.
  *
- * <h3>Uses</h3>
+ * <p><b>Warning:</b> instances of type {@code Multimap} may not implement
+ * {@link Object#equals} in the way you expect (multimaps containing the same
+ * key-value pairs, even in the same order, may or may not be equal). The
+ * recommended subinterfaces provide a much stronger guarantee.
  *
- * <p>Multimaps are commonly used anywhere a {@code Map<K, Collection<V>>} would
- * otherwise have appeared. The advantages include:
+ * <h3>Comparison to a map of collections</h3>
+ *
+ * <p>Multimaps are commonly used in places where a {@code Map<K,
+ * Collection<V>>} would otherwise have appeared. The differences include:
  *
  * <ul>
  * <li>There is no need to populate an empty collection before adding an entry
  *     with {@link #put put}.
  * <li>{@code get} never returns {@code null}, only an empty collection.
- * <li>It will not retain empty collections after the last value for a key is
- *     removed. As a result, {@link #containsKey} behaves logically, and the
- *     multimap won't leak memory.
+ * <li>A key contained in the multimap always maps to at least one value. Any
+ *     operation that causes a key to have zero associated values has the effect
+ *     of <i>removing</i> that key from the multimap.
  * <li>The total entry count is available as {@link #size}.
  * <li>Many complex operations become easier; for example, {@code
  *     Collections.min(multimap.values())} finds the smallest value across all
@@ -262,15 +268,17 @@ public interface Multimap<K, V> {
   // Views
 
   /**
-   * Returns a collection view of all values associated with a key. If no
-   * mappings in the multimap have the provided key, an empty collection is
-   * returned.
+   * Returns a collection view containing the values associated with {@code key}
+   * in this multimap, if any. Note that even when ({@code containsKey(key)} is
+   * false, {@code get(key)} still returns an empty collection, not {@code
+   * null}.
    *
    * <p>Changes to the returned collection will update the underlying multimap,
    * and vice versa.
    *
    * @param key key to search for in multimap
-   * @return the collection of values that the key maps to
+   * @return a view collection containing the zero or more values that the key
+   *     maps to
    */
   Collection<V> get(@Nullable K key);
 
