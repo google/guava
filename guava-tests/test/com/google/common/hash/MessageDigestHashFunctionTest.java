@@ -20,6 +20,7 @@ import junit.framework.TestCase;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Arrays;
 
 /**
  * Tests for the MessageDigestHashFunction.
@@ -41,8 +42,20 @@ public class MessageDigestHashFunctionTest extends TestCase {
 
   private static void assertMessageDigestHashing(byte[] input, String algorithmName)
       throws NoSuchAlgorithmException {
+    MessageDigest digest = MessageDigest.getInstance(algorithmName);
     assertEquals(
-        HashCodes.fromBytes(MessageDigest.getInstance(algorithmName).digest(input)),
+        HashCodes.fromBytes(digest.digest(input)),
         new MessageDigestHashFunction(algorithmName).hashBytes(input));
+    for (int bytes = 4; bytes <= digest.getDigestLength(); bytes++) {
+      assertEquals(
+          HashCodes.fromBytes(Arrays.copyOf(digest.digest(input), bytes)),
+          new MessageDigestHashFunction(algorithmName, bytes).hashBytes(input));
+    }
+    try {
+      int maxSize = digest.getDigestLength();
+      new MessageDigestHashFunction(algorithmName, maxSize + 1);
+      fail();
+    } catch (IllegalArgumentException expected) {
+    }
   }
 }

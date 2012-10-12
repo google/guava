@@ -14,11 +14,14 @@
 
 package com.google.common.hash;
 
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 
 import java.io.Serializable;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Arrays;
 
 /**
  * {@link HashFunction} adapter for {@link MessageDigest}s.
@@ -29,15 +32,27 @@ import java.security.NoSuchAlgorithmException;
 final class MessageDigestHashFunction extends AbstractStreamingHashFunction
     implements Serializable {
   private final String algorithmName;
-  private final int bits;
+  private final int bytes;
 
   MessageDigestHashFunction(String algorithmName) {
-    this.algorithmName = algorithmName;
-    this.bits = getMessageDigest(algorithmName).getDigestLength() * 8;
+    this.algorithmName = checkNotNull(algorithmName);
+    this.bytes = getMessageDigestLength(algorithmName);
+  }
+
+  MessageDigestHashFunction(String algorithmName, int bytes) {
+    int maxLength = getMessageDigestLength(algorithmName);
+    checkArgument(bytes >= 4 && bytes <= maxLength,
+        "bytes (%s) must be >= 4 and < %s", bytes, maxLength);
+    this.algorithmName = checkNotNull(algorithmName);
+    this.bytes = bytes;
   }
 
   @Override public int bits() {
-    return bits;
+    return bytes * Byte.SIZE;
+  }
+
+  private static int getMessageDigestLength(String algorithmName) {
+    return getMessageDigest(algorithmName).getDigestLength();
   }
 
   private static MessageDigest getMessageDigest(String algorithmName) {
@@ -49,7 +64,7 @@ final class MessageDigestHashFunction extends AbstractStreamingHashFunction
   }
 
   @Override public Hasher newHasher() {
-    return new MessageDigestHasher(getMessageDigest(algorithmName));
+    return new MessageDigestHasher(getMessageDigest(algorithmName), bytes);
   }
 
   /**
@@ -58,10 +73,12 @@ final class MessageDigestHashFunction extends AbstractStreamingHashFunction
   private static final class MessageDigestHasher extends AbstractByteHasher {
 
     private final MessageDigest digest;
+    private final int bytes;
     private boolean done;
 
-    private MessageDigestHasher(MessageDigest digest) {
+    private MessageDigestHasher(MessageDigest digest, int bytes) {
       this.digest = digest;
+      this.bytes = bytes;
     }
 
     @Override
@@ -89,7 +106,9 @@ final class MessageDigestHashFunction extends AbstractStreamingHashFunction
     @Override
     public HashCode hash() {
       done = true;
-      return HashCodes.fromBytesNoCopy(digest.digest());
+      return (bytes == digest.getDigestLength())
+          ? HashCodes.fromBytesNoCopy(digest.digest())
+          : HashCodes.fromBytesNoCopy(Arrays.copyOf(digest.digest(), bytes));
     }
   }
 
