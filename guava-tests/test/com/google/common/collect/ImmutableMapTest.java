@@ -476,6 +476,27 @@ public class ImmutableMapTest extends TestCase {
     assertNull(map.get(null));
   }
 
+  public void testAsMultimap() {
+    ImmutableMap<String, Integer> map = ImmutableMap.of(
+        "one", 1, "won", 1, "two", 2, "too", 2, "three", 3);
+    ImmutableSetMultimap<String, Integer> expected = ImmutableSetMultimap.of(
+        "one", 1, "won", 1, "two", 2, "too", 2, "three", 3);
+    assertEquals(expected, map.asMultimap());
+  }
+
+  public void testAsMultimapWhenEmpty() {
+    ImmutableMap<String, Integer> map = ImmutableMap.of();
+    ImmutableSetMultimap<String, Integer> expected = ImmutableSetMultimap.of();
+    assertEquals(expected, map.asMultimap());
+  }
+
+  public void testAsMultimapCaches() {
+    ImmutableMap<String, Integer> map = ImmutableMap.of("one", 1);
+    ImmutableSetMultimap<String, Integer> multimap1 = map.asMultimap();
+    ImmutableSetMultimap<String, Integer> multimap2 = map.asMultimap();
+    assertSame(multimap1, multimap2);
+  }
+
   @GwtIncompatible("NullPointerTester")
   public void testNullPointers() {
     NullPointerTester tester = new NullPointerTester();

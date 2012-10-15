@@ -21,6 +21,7 @@ import static com.google.common.collect.Iterables.getOnlyElement;
 
 import java.io.Serializable;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -227,6 +228,84 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
       return cachedValues;
     }
     return cachedValues = createValues();
+  }
+
+  // esnickell is editing here
+
+  // cached so that this.multimapView().inverse() only computes inverse once
+  private transient ImmutableSetMultimap<K, V> multimapView;
+
+  public ImmutableSetMultimap<K, V> asMultimap() {
+    ImmutableSetMultimap<K, V> result = multimapView;
+    return (result == null) ? (multimapView = createMultimapView()) : result;
+  }
+
+  private ImmutableSetMultimap<K, V> createMultimapView() {
+    ImmutableMap<K, ImmutableSet<V>> map = viewValuesAsImmutableSet();
+    return new ImmutableSetMultimap<K, V>(map, map.size(), null);
+  }
+
+  private ImmutableMap<K, ImmutableSet<V>> viewValuesAsImmutableSet() {
+    final Map<K, V> outer = this;
+    return new ImmutableMap<K, ImmutableSet<V>>() {
+      @Override
+      public int size() {
+        return outer.size();
+      }
+
+      @Override
+      public ImmutableSet<V> get(@Nullable Object key) {
+        V outerValue = outer.get(key);
+        return outerValue == null ? null : ImmutableSet.of(outerValue);
+      }
+
+      @Override
+      ImmutableSet<Entry<K, ImmutableSet<V>>> createEntrySet() {
+        return new ImmutableSet<Entry<K, ImmutableSet<V>>>() {
+          @Override
+          public UnmodifiableIterator<Entry<K, ImmutableSet<V>>> iterator() {
+            final Iterator<Entry<K,V>> outerEntryIterator = outer.entrySet().iterator();
+            return new UnmodifiableIterator<Entry<K, ImmutableSet<V>>>() {
+              @Override
+              public boolean hasNext() {
+                return outerEntryIterator.hasNext();
+              }
+
+              @Override
+              public Entry<K, ImmutableSet<V>> next() {
+                final Entry<K, V> outerEntry = outerEntryIterator.next();
+                return new AbstractMapEntry<K, ImmutableSet<V>>() {
+                  @Override
+                  public K getKey() {
+                    return outerEntry.getKey();
+                  }
+
+                  @Override
+                  public ImmutableSet<V> getValue() {
+                    return ImmutableSet.of(outerEntry.getValue());
+                  }
+                };
+              }
+            };
+          }
+
+          @Override
+          boolean isPartialView() {
+            return false;
+          }
+
+          @Override
+          public int size() {
+            return outer.size();
+          }
+        };
+      }
+
+      @Override
+      boolean isPartialView() {
+        return false;
+      }
+    };
   }
 
   ImmutableCollection<V> createValues() {
