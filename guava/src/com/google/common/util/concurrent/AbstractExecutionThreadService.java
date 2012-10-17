@@ -135,7 +135,7 @@ public abstract class AbstractExecutionThreadService implements Service {
     return new Executor() {
       @Override
       public void execute(Runnable command) {
-        new Thread(command, getServiceName()).start();
+        MoreExecutors.newThread(getServiceName(), command).start();
       }
     };
   }

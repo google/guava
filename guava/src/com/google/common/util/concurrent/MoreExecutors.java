@@ -21,9 +21,11 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.VisibleForTesting;
+import com.google.common.base.Throwables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Queues;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
@@ -186,7 +188,7 @@ public final class MoreExecutors {
         final ExecutorService service, final long terminationTimeout, final TimeUnit timeUnit) {
       checkNotNull(service);
       checkNotNull(timeUnit);
-      addShutdownHook(new Thread(new Runnable() {
+      addShutdownHook(MoreExecutors.newThread("DelayedShutdownHook-for-" + service, new Runnable() {
         @Override
         public void run() {
           try {
@@ -201,7 +203,7 @@ public final class MoreExecutors {
             // We're shutting down anyway, so just ignore.
           }
         }
-      }, "DelayedShutdownHook-for-" + service));
+      }));
     }
 
     final ExecutorService getExitingExecutorService(ThreadPoolExecutor executor) {
@@ -613,5 +615,50 @@ public final class MoreExecutors {
       }
     }, MoreExecutors.sameThreadExecutor());
     return future;
+  }
+
+  /**
+   * Returns a default thread factory used to create new threads.
+   *
+   * <p>On AppEngine, returns {@code ThreadManager.currentRequestThreadFactory()}.
+   * Otherwise, returns {@link Executors#defaultThreadFactory()}.
+   *
+   * @since 14.0
+   */
+  @Beta
+  public static ThreadFactory platformThreadFactory() {
+    if (System.getProperty("com.google.appengine.runtime.environment") == null) {
+      return Executors.defaultThreadFactory();
+    }
+    try {
+      return (ThreadFactory) Class.forName("com.google.appengine.api.ThreadManager")
+          .getMethod("currentRequestThreadFactory")
+          .invoke(null);
+    } catch (IllegalAccessException e) {
+      throw new RuntimeException("Couldn't invoke ThreadManager.currentRequestThreadFactory", e);
+    } catch (InvocationTargetException e) {
+      throw Throwables.propagate(e.getCause());
+    } catch (NoSuchMethodException e) {
+      throw new RuntimeException("Couldn't invoke ThreadManager.currentRequestThreadFactory", e);
+    } catch (ClassNotFoundException e) {
+      // Not really on AppEngine?
+      return Executors.defaultThreadFactory();
+    }
+  }
+
+  /**
+   * Creates a thread using {@link #platformThreadFactory}, and sets its name to {@code name}
+   * unless changing the name is forbidden by the security manager.
+   */
+  static Thread newThread(String name, Runnable runnable) {
+    checkNotNull(name);
+    checkNotNull(runnable);
+    Thread result = platformThreadFactory().newThread(runnable);
+    try {
+      result.setName(name);
+    } catch (SecurityException e) {
+      // OK if we can't set the name in this environment.
+    }
+    return result;
   }
 }
