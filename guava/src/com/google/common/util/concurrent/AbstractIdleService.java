@@ -90,13 +90,13 @@ public abstract class AbstractIdleService implements Service {
     return new Executor() {
       @Override
       public void execute(Runnable command) {
-        new Thread(command, getServiceName() + " " + state).start();
+        new Thread(command, serviceName() + " " + state).start();
       }
     };
   }
 
   @Override public String toString() {
-    return getServiceName() + " [" + state() + "]";
+    return serviceName() + " [" + state() + "]";
   }
 
   // We override instead of using ForwardingService so that these can be final.
@@ -129,7 +129,13 @@ public abstract class AbstractIdleService implements Service {
     delegate.addListener(listener, executor);
   }
 
-  private String getServiceName() {
+  /**
+   * Returns the name of this service. {@link AbstractIdleService} may include the name in debugging
+   * output.
+   *
+   * @since 14.0
+   */
+  protected String serviceName() {
     return getClass().getSimpleName();
   }
 }
