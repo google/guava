@@ -6202,7 +6202,9 @@ final class TldPatterns {
       "worse-than.tv",
       "writesthisblog.com",
       "tp",
-      "ng"
+      "ng",
+      "\u049b\u0430\u0437",
+      "xn--80ao21a"
   );
 
   /**
