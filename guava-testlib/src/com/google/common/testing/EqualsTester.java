@@ -47,12 +47,13 @@ import java.util.List;
  * <ul>
  * <li>comparing each object against itself returns true
  * <li>comparing each object against null returns false
- * <li>comparing each object an instance of an incompatible class returns false
+ * <li>comparing each object against an instance of an incompatible class
+ *     returns false
  * <li>comparing each pair of objects within the same equality group returns
  *     true
  * <li>comparing each pair of objects from different equality groups returns
  *     false
- * <li>the hash code of any two equal objects are equal
+ * <li>the hash codes of any two equal objects are equal
  * </ul>
  *
  * <p>When a test fails, the error message labels the objects involved in
