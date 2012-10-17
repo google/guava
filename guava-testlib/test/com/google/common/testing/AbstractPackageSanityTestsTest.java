@@ -18,6 +18,7 @@ package com.google.common.testing;
 
 import static org.junit.contrib.truth.Truth.ASSERT;
 
+import com.google.common.base.Predicates;
 import com.google.common.collect.ImmutableList;
 
 import junit.framework.TestCase;
@@ -58,6 +59,14 @@ public class AbstractPackageSanityTestsTest extends TestCase {
         .isEmpty();
     ASSERT.that(findClassesToTest(ImmutableList.of(PublicFoo.class)))
         .hasContentsInOrder(PublicFoo.class);
+  }
+
+  public void testFindClassesToTest_ignoreClasses() {
+    sanityTests.ignoreClasses(Predicates.<Object>equalTo(PublicFoo.class));
+    ASSERT.that(findClassesToTest(ImmutableList.of(PublicFoo.class)))
+        .isEmpty();
+    ASSERT.that(findClassesToTest(ImmutableList.of(Foo.class)))
+        .hasContentsInOrder(Foo.class);
   }
 
   public void testFindClassesToTest_withCorrespondingTestClassButNotExplicitlyTested() {

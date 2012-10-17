@@ -16,13 +16,17 @@
 
 package com.google.common.testing;
 
+import static com.google.common.base.Predicates.and;
+import static com.google.common.base.Predicates.not;
 import static com.google.common.testing.AbstractPackageSanityTests.Chopper.suffix;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Optional;
+import com.google.common.base.Predicate;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
@@ -44,15 +48,14 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Automatically runs sanity checks against the public classes in the same package of the class that
+ * Automatically runs sanity checks against top level classes in the same package of the test that
  * extends {@code AbstractPackageSanityTests}. Currently sanity checks include {@link
  * NullPointerTester}, {@link EqualsTester} and {@link SerializableTester}. For example: <pre>
  * public class PackageSanityTests extends AbstractPackageSanityTests {}
  * </pre>
  *
- * <p>Note that only the simplest type of classes are covered. That is, a top-level class with
- * either a non-private constructor or a non-private static factory method to construct instances of
- * the class. For example: <pre>
+ * <p>Note that only top-level classes with either a non-private constructor or a non-private static
+ * factory method to construct instances can have their instance methods checked. For example: <pre>
  * public class Address {
  *   private final String city;
  *   private final String state;
@@ -77,7 +80,7 @@ import java.util.logging.Logger;
  *   public static Book paperback(String title) {...}
  * }
  * </pre>
- * please use {@link ClassSanityTester}.
+ * please use {@link ClassSanityTester#forAllPublicStaticMethods}.
  *
  * <p>This class incurs IO because it scans the classpath and reads classpath resources.
  *
@@ -114,6 +117,11 @@ public abstract class AbstractPackageSanityTests extends TestCase {
   private final Logger logger = Logger.getLogger(getClass().getName());
   private final ClassSanityTester tester = new ClassSanityTester();
   private Visibility visibility = Visibility.PACKAGE;
+  private Predicate<Class<?>> classFilter = new Predicate<Class<?>>() {
+    @Override public boolean apply(Class<?> cls) {
+      return visibility.isVisible(cls.getModifiers());
+    }
+  };
 
   /**
    * Restricts the sanity tests for public API only. By default, package-private API are also
@@ -250,6 +258,11 @@ public abstract class AbstractPackageSanityTests extends TestCase {
     tester.setDefault(type, value);
   }
 
+  /** Specifies that classes that satisfy the given predicate aren't tested for sanity. */
+  protected final void ignoreClasses(Predicate<? super Class<?>> condition) {
+    this.classFilter = and(this.classFilter, not(condition));
+  }
+
   private static AssertionFailedError sanityError(
       Class<?> cls, List<String> explicitTestNames, String description, Throwable e) {
     String message = String.format(
@@ -274,7 +287,7 @@ public abstract class AbstractPackageSanityTests extends TestCase {
     }
     // Foo.class -> [FooTest.class, FooTests.class, FooTestSuite.class, ...]
     Multimap<Class<?>, Class<?>> testClasses = HashMultimap.create();
-    LinkedHashSet<Class<?>> nonTestClasses = Sets.newLinkedHashSet();
+    LinkedHashSet<Class<?>> candidateClasses = Sets.newLinkedHashSet();
     for (Class<?> cls : classes) {
       Optional<String> testedClassName = TEST_SUFFIX.chop(cls.getName());
       if (testedClassName.isPresent()) {
@@ -283,23 +296,20 @@ public abstract class AbstractPackageSanityTests extends TestCase {
           testClasses.put(testedClass, cls);
         }
       } else {
-        nonTestClasses.add(cls);
+        candidateClasses.add(cls);
       }
     }
-    List<Class<?>> classesToTest = Lists.newArrayListWithExpectedSize(nonTestClasses.size());
-    NEXT_CANDIDATE: for (Class<?> cls : nonTestClasses) {
-      if (!visibility.isVisible(cls.getModifiers())) {
-        continue;
-      }
-      for (Class<?> testClass : testClasses.get(cls)) {
+    List<Class<?>> result = Lists.newArrayList();
+    NEXT_CANDIDATE: for (Class<?> candidate : Iterables.filter(candidateClasses, classFilter)) {
+      for (Class<?> testClass : testClasses.get(candidate)) {
         if (hasTest(testClass, explicitTestNames)) {
           // covered by explicit test
           continue NEXT_CANDIDATE;
         }
       }
-      classesToTest.add(cls);
+      result.add(candidate);
     }
-    return classesToTest;
+    return result;
   }
 
   private List<Class<?>> loadClassesInPackage() throws IOException {
