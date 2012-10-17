@@ -22,6 +22,7 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableMap.Builder;
+import com.google.common.collect.testing.AnEnum;
 import com.google.common.collect.testing.CollectionTestSuiteBuilder;
 import com.google.common.collect.testing.ListTestSuiteBuilder;
 import com.google.common.collect.testing.MapInterfaceTest;
@@ -33,6 +34,7 @@ import com.google.common.collect.testing.UnhashableObject;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.MapFeature;
+import com.google.common.collect.testing.google.MapGenerators.ImmutableMapCopyOfEnumMapGenerator;
 import com.google.common.collect.testing.google.MapGenerators.ImmutableMapGenerator;
 import com.google.common.collect.testing.google.MapGenerators.ImmutableMapUnhashableValuesGenerator;
 import com.google.common.collect.testing.google.MapGenerators.ImmutableMapValueListGenerator;
@@ -47,6 +49,7 @@ import junit.framework.TestSuite;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.EnumMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -73,6 +76,15 @@ public class ImmutableMapTest extends TestCase {
             MapFeature.REJECTS_DUPLICATES_AT_CREATION,
             CollectionFeature.ALLOWS_NULL_QUERIES)
         .named("ImmutableMap")
+        .createTestSuite());
+
+    suite.addTest(MapTestSuiteBuilder.using(new ImmutableMapCopyOfEnumMapGenerator())
+        .withFeatures(
+            CollectionSize.ANY,
+            CollectionFeature.SERIALIZABLE_INCLUDING_VIEWS,
+            CollectionFeature.KNOWN_ORDER,
+            CollectionFeature.ALLOWS_NULL_QUERIES)
+        .named("ImmutableMap.copyOf[EnumMap]")
         .createTestSuite());
 
     suite.addTest(CollectionTestSuiteBuilder.using(
@@ -549,6 +561,13 @@ public class ImmutableMapTest extends TestCase {
     assertEquals(intMap.hashCode(), map.hashCode());
   }
 
+  public void testCopyOfEnumMap() {
+    EnumMap<AnEnum, String> map = new EnumMap<AnEnum, String>(AnEnum.class);
+    map.put(AnEnum.B, "foo");
+    map.put(AnEnum.C, "bar");
+    assertTrue(ImmutableMap.copyOf(map) instanceof ImmutableEnumMap);
+  }
+
   @GwtIncompatible("SerializableTester")
   public void testViewSerialization() {
     Map<String, Integer> map = ImmutableMap.of("one", 1, "two", 2, "three", 3);
@@ -589,6 +608,6 @@ public class ImmutableMapTest extends TestCase {
         .addEqualityGroup(ImmutableList.of(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1100, 12))
         .addEqualityGroup(ImmutableList.of(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 1200))
         .testEquals();
-        
+
   }
 }

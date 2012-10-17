@@ -25,6 +25,7 @@ import com.google.common.annotations.GwtCompatible;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -273,6 +274,16 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
       if (!kvMap.isPartialView()) {
         return kvMap;
       }
+    } else if (map instanceof EnumMap) {
+      EnumMap<?, ?> enumMap = (EnumMap<?, ?>) map;
+      for (Map.Entry<?, ?> entry : enumMap.entrySet()) {
+        checkNotNull(entry.getKey());
+        checkNotNull(entry.getValue());
+      }
+      @SuppressWarnings("unchecked")
+      // immutable collections are safe for covariant casts
+      ImmutableMap<K, V> result = ImmutableEnumMap.asImmutable(new EnumMap(enumMap));
+      return result;
     }
 
     @SuppressWarnings("unchecked") // we won't write to this array
@@ -462,7 +473,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
 
           @Override
           public UnmodifiableIterator<Entry<K, ImmutableSet<V>>> iterator() {
-            final Iterator<Entry<K,V>> backingIterator = ((ImmutableMap<K, V>) ImmutableMap.this)
+            final Iterator<Entry<K,V>> backingIterator = ImmutableMap.this
                 .entrySet().iterator();
             return new UnmodifiableIterator<Entry<K, ImmutableSet<V>>>() {
               @Override public boolean hasNext() {

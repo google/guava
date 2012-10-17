@@ -19,6 +19,7 @@ package com.google.common.collect.testing.google;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
+import com.google.common.collect.Ordering;
 import com.google.common.collect.testing.AnEnum;
 import com.google.common.collect.testing.SampleElements;
 import com.google.common.collect.testing.TestEnumMapGenerator;
@@ -28,6 +29,7 @@ import com.google.common.collect.testing.TestUnhashableCollectionGenerator;
 import com.google.common.collect.testing.UnhashableObject;
 
 import java.util.Collection;
+import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -40,7 +42,6 @@ import java.util.Map.Entry;
  */
 @GwtCompatible
 public class MapGenerators {
-
   public static class ImmutableMapGenerator
       extends TestStringMapGenerator {
     @Override protected Map<String, String> create(Entry<String, String>[] entries) {
@@ -102,6 +103,29 @@ public class MapGenerators {
         map.put(entry.getKey(), entry.getValue());
       }
       return Maps.immutableEnumMap(map);
+    }
+  }
+
+  public static class ImmutableMapCopyOfEnumMapGenerator extends TestEnumMapGenerator {
+    @Override
+    protected Map<AnEnum, String> create(Entry<AnEnum, String>[] entries) {
+      EnumMap<AnEnum, String> map = new EnumMap<AnEnum, String>(AnEnum.class);
+      for (Entry<AnEnum, String> entry : entries) {
+        map.put(entry.getKey(), entry.getValue());
+      }
+      return ImmutableMap.copyOf(map);
+    }
+
+    @Override
+    public Iterable<Entry<AnEnum, String>> order(List<Entry<AnEnum, String>> insertionOrder) {
+      return new Ordering<Entry<AnEnum, String>>() {
+
+        @Override
+        public int compare(Entry<AnEnum, String> left, Entry<AnEnum, String> right) {
+          return left.getKey().compareTo(right.getKey());
+        }
+
+      }.sortedCopy(insertionOrder);
     }
   }
 

@@ -34,9 +34,22 @@ import javax.annotation.Nullable;
 @GwtCompatible(serializable = true, emulated = true)
 @SuppressWarnings("serial") // we're overriding default serialization
 final class ImmutableEnumMap<K extends Enum<K>, V> extends ImmutableMap<K, V> {
+  static <K extends Enum<K>, V> ImmutableMap<K, V> asImmutable(EnumMap<K, V> map) {
+    switch (map.size()) {
+      case 0:
+        return ImmutableMap.of();
+      case 1: {
+        Entry<K, V> entry = Iterables.getOnlyElement(map.entrySet());
+        return ImmutableMap.of(entry.getKey(), entry.getValue());
+      }
+      default:
+        return new ImmutableEnumMap<K, V>(map);
+    }
+  }
+
   private transient final EnumMap<K, V> delegate;
 
-  ImmutableEnumMap(EnumMap<K, V> delegate) {
+  private ImmutableEnumMap(EnumMap<K, V> delegate) {
     this.delegate = delegate;
     checkArgument(!delegate.isEmpty());
   }

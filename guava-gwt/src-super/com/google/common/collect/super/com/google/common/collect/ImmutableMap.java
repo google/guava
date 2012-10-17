@@ -21,6 +21,7 @@ import static com.google.common.collect.Iterables.getOnlyElement;
 
 import java.io.Serializable;
 import java.util.Collections;
+import java.util.EnumMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -140,6 +141,16 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
       @SuppressWarnings("unchecked") // safe since map is not writable
       ImmutableMap<K, V> kvMap = (ImmutableMap<K, V>) map;
       return kvMap;
+    } else if (map instanceof EnumMap) {
+      EnumMap<?, ?> enumMap = (EnumMap<?, ?>) map;
+      for (Map.Entry<?, ?> entry : enumMap.entrySet()) {
+        checkNotNull(entry.getKey());
+        checkNotNull(entry.getValue());
+      }
+      @SuppressWarnings("unchecked")
+      // immutable collections are safe for covariant casts
+      ImmutableMap<K, V> result = ImmutableEnumMap.asImmutable(new EnumMap(enumMap));
+      return result;
     }
 
     int size = map.size();
