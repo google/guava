@@ -129,19 +129,19 @@ public abstract class AbstractExecutionThreadService implements Service {
    * promptly.
    *
    * <p>The default implementation returns a new {@link Executor} that sets the
-   * name of its threads to the string returned by {@link #getServiceName}
+   * name of its threads to the string returned by {@link #serviceName}
    */
   protected Executor executor() {
     return new Executor() {
       @Override
       public void execute(Runnable command) {
-        new Thread(command, getServiceName()).start();
+        new Thread(command, serviceName()).start();
       }
     };
   }
 
   @Override public String toString() {
-    return getServiceName() + " [" + state() + "]";
+    return serviceName() + " [" + state() + "]";
   }
 
   // We override instead of using ForwardingService so that these can be final.
@@ -180,9 +180,9 @@ public abstract class AbstractExecutionThreadService implements Service {
    *
    * <p>Subclasses may override this method.
    *
-   * @since 10.0
+   * @since 14.0 (present in 10.0 as getServiceName)
    */
-  protected String getServiceName() {
+  protected String serviceName() {
     return getClass().getSimpleName();
   }
 }
