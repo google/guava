@@ -269,11 +269,14 @@ public abstract class AbstractScheduledService implements Service {
    * once.
    *
    * <p>By default this returns a new {@link ScheduledExecutorService} with a single thread thread
-   * pool that will be shut down when the service {@linkplain Service.State#TERMINATED terminates}
-   * or {@linkplain Service.State#TERMINATED fails}.
+   * pool that sets the name of the thread to the {@linkplain #serviceName() service name}.
+   * Also, the pool will be {@linkplain ScheduledExecutorService#shutdown() shut down} when the
+   * service {@linkplain Service.State#TERMINATED terminates} or
+   * {@linkplain Service.State#TERMINATED fails}.
    */
   protected ScheduledExecutorService executor() {
-    final ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
+    final ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor(
+        new ThreadFactoryBuilder().setNameFormat(serviceName()).build());
     // Add a listener to shutdown the executor after the service is stopped.  This ensures that the
     // JVM shutdown will not be prevented from exiting after this service has stopped or failed.
     // Technically this listener is added after start() was called so it is a little gross, but it
@@ -292,8 +295,18 @@ public abstract class AbstractScheduledService implements Service {
     return executor;
   }
 
+  /**
+   * Returns the name of this service. {@link AbstractScheduledService} may include the name in
+   * debugging output.
+   *
+   * @since 14.0
+   */
+  protected String serviceName() {
+    return getClass().getSimpleName();
+  }
+
   @Override public String toString() {
-    return getClass().getSimpleName() + " [" + state() + "]";
+    return serviceName() + " [" + state() + "]";
   }
 
   // We override instead of using ForwardingService so that these can be final.
