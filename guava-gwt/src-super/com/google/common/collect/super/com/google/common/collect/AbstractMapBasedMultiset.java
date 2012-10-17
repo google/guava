@@ -293,19 +293,6 @@ abstract class AbstractMapBasedMultiset<E> extends AbstractMultiset<E>
     return i.getAndSet(count);
   }
 
-  // Views
-
-  @Override Set<E> createElementSet() {
-    return new MapBasedElementSet();
-  }
-
-  class MapBasedElementSet extends Multisets.ElementSet<E> {
-    @Override
-    Multiset<E> multiset() {
-      return AbstractMapBasedMultiset.this;
-    }
-  }
-
   // Don't allow default serialization.
 }
 

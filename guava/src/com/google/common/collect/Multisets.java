@@ -21,7 +21,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.base.Function;
 import com.google.common.base.Objects;
 import com.google.common.collect.Multiset.Entry;
 import com.google.common.primitives.Ints;
@@ -521,6 +520,7 @@ public final class Multisets {
         return Sets.union(multiset1.elementSet(), multiset2.elementSet());
       }
 
+      @Override
       Iterator<Entry<E>> entryIterator() {
         final Iterator<? extends Entry<? extends E>> iterator1
             = multiset1.entrySet().iterator();
@@ -723,32 +723,6 @@ public final class Multisets {
       }
 
       @Override
-      Set<E> createElementSet() {
-        return new Sets.ImprovedAbstractSet<E>() {
-          @Override
-          public Iterator<E> iterator() {
-            return Iterators.transform(entryIterator(),
-                new Function<Entry<E>, E>() {
-                  @Override
-                  public E apply(Entry<E> input) {
-                    return input.getElement();
-                  }
-                });
-          }
-
-          @Override
-          public boolean contains(@Nullable Object o) {
-            return count(o) > 0;
-          }
-
-          @Override
-          public int size() {
-            return Iterators.size(iterator());
-          }
-        };
-      }
-
-      @Override
       Iterator<Entry<E>> entryIterator() {
         final Iterator<Entry<E>> iterator1 = multiset1.entrySet().iterator();
         return new AbstractIterator<Entry<E>>() {
@@ -769,7 +743,7 @@ public final class Multisets {
 
       @Override
       int distinctElements() {
-        return elementSet().size();
+        return Iterators.size(entryIterator());
       }
     };
   }
