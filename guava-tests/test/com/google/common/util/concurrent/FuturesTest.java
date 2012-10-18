@@ -23,6 +23,7 @@ import static com.google.common.util.concurrent.Futures.getUnchecked;
 import static com.google.common.util.concurrent.Futures.immediateFailedFuture;
 import static com.google.common.util.concurrent.Futures.immediateFuture;
 import static com.google.common.util.concurrent.Futures.successfulAsList;
+import static com.google.common.util.concurrent.MoreExecutors.sameThreadExecutor;
 import static java.util.concurrent.Executors.newSingleThreadExecutor;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
@@ -59,6 +60,8 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
+import java.util.logging.Handler;
+import java.util.logging.LogRecord;
 
 import javax.annotation.Nullable;
 
@@ -1539,6 +1542,77 @@ public class FuturesTest extends TestCase {
     assertTrue(compound.isCancelled());
     assertTrue(future1.isCancelled());
     assertFalse(future1.wasInterrupted());
+  }
+
+  public void testSuccessfulAsList_resultCancelledRacingInputDone()
+      throws Exception {
+    /*
+     * The IllegalStateException that we're testing for is caught by
+     * ExecutionList and logged rather than allowed to propagate. We need to
+     * turn that back into a failure.
+     */
+    Handler throwingHandler = new Handler() {
+      @Override public void publish(@Nullable LogRecord record) {
+        AssertionFailedError error = new AssertionFailedError();
+        error.initCause(record.getThrown());
+        throw error;
+      }
+
+      @Override public void flush() {}
+
+      @Override public void close() {}
+    };
+
+    ExecutionList.log.addHandler(throwingHandler);
+    try {
+      doTestSuccessfulAsList_resultCancelledRacingInputDone();
+    } finally {
+      ExecutionList.log.removeHandler(throwingHandler);
+    }
+  }
+
+  private static void doTestSuccessfulAsList_resultCancelledRacingInputDone()
+      throws Exception {
+    // Simple (combined.cancel -> input.cancel -> setOneValue):
+    Futures.successfulAsList(ImmutableList.of(SettableFuture.create()))
+        .cancel(true);
+
+    /*
+     * Complex (combined.cancel -> input.cancel -> other.set -> setOneValue),
+     * to show that this isn't just about problems with the input future we just
+     * cancelled:
+     */
+    final SettableFuture<String> future1 = SettableFuture.create();
+    final SettableFuture<String> future2 = SettableFuture.create();
+    @SuppressWarnings("unchecked") // array is never modified
+    ListenableFuture<List<String>> compound =
+        Futures.successfulAsList(future1, future2);
+
+    future1.addListener(new Runnable() {
+      @Override public void run() {
+        assertTrue(future1.isCancelled());
+        /*
+         * This test relies on behavior that's unspecified but currently
+         * guaranteed by the implementation: Cancellation of inputs is
+         * performed in the order they were provided to the constructor. Verify
+         * that as a sanity check:
+         */
+        assertFalse(future2.isCancelled());
+        // Now attempt to trigger the exception:
+        future2.set(DATA2);
+      }
+    }, sameThreadExecutor());
+    assertTrue(compound.cancel(false));
+    assertTrue(compound.isCancelled());
+    assertTrue(future1.isCancelled());
+    assertFalse(future2.isCancelled());
+
+    try {
+      compound.get();
+      fail("Expected exception not thrown");
+    } catch (CancellationException e) {
+      // Expected
+    }
   }
 
   public void testSuccessfulAsList_resultInterrupted() throws Exception {

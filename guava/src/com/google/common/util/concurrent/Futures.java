@@ -1519,8 +1519,8 @@ public final class Futures {
       if (isDone() || localValues == null) {
         // Some other future failed or has been cancelled, causing this one to
         // also be cancelled or have an exception set. This should only happen
-        // if allMustSucceed is true.
-        checkState(allMustSucceed,
+        // if allMustSucceed is true or if the output itself has been cancelled.
+        checkState(allMustSucceed || isCancelled(),
             "Future was done before all dependencies completed");
         return;
       }
