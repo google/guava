@@ -37,7 +37,7 @@ public abstract class AbstractIdleService implements Service {
   /* use AbstractService for state management */
   private final Service delegate = new AbstractService() {
     @Override protected final void doStart() {
-      executor(State.STARTING).execute(new Runnable() {
+      executor().execute(new Runnable() {
         @Override public void run() {
           try {
             startUp();
@@ -51,7 +51,7 @@ public abstract class AbstractIdleService implements Service {
     }
 
     @Override protected final void doStop() {
-      executor(State.STOPPING).execute(new Runnable() {
+      executor().execute(new Runnable() {
         @Override public void run() {
           try {
             shutDown();
@@ -81,12 +81,9 @@ public abstract class AbstractIdleService implements Service {
    * priority. The returned executor's {@link Executor#execute(Runnable)
    * execute()} method is called when this service is started and stopped,
    * and should return promptly.
-   *
-   * @param state {@link Service.State#STARTING} or
-   *     {@link Service.State#STOPPING}, used by the default implementation for
-   *     naming the thread
    */
-  protected Executor executor(final State state) {
+  protected Executor executor() {
+    final State state = state();
     return new Executor() {
       @Override
       public void execute(Runnable command) {

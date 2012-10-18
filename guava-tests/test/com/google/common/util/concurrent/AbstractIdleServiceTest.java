@@ -174,7 +174,7 @@ public class AbstractIdleServiceTest extends TestCase {
   public void testTimeout() throws Exception {
     // Create a service whose executor will never run its commands
     Service service = new TestService() {
-      @Override protected Executor executor(Service.State state) {
+      @Override protected Executor executor() {
         return new Executor() {
           @Override public void execute(Runnable command) {}
         };
@@ -207,8 +207,8 @@ public class AbstractIdleServiceTest extends TestCase {
       assertEquals(State.STOPPING, state());
     }
 
-    @Override protected Executor executor(Service.State state) {
-      transitionStates.add(state);
+    @Override protected Executor executor() {
+      transitionStates.add(state());
       return MoreExecutors.sameThreadExecutor();
     }
   }
