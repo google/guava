@@ -57,6 +57,7 @@ import java.util.concurrent.CyclicBarrier;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.RejectedExecutionException;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
@@ -438,6 +439,13 @@ public class MoreExecutorsTest extends JSR166TestCase {
     application.getExitingScheduledExecutorService(executor);
     application.shutdown();
     verify(executor).shutdown();
+  }
+
+  public void testPlatformThreadFactory_default() {
+    ThreadFactory factory = MoreExecutors.platformThreadFactory();
+    assertNotNull(factory);
+    // Executors#defaultThreadFactory() may return a new instance each time.
+    assertEquals(factory.getClass(), Executors.defaultThreadFactory().getClass());
   }
 
   public void testExecutors_nullCheck() throws Exception {

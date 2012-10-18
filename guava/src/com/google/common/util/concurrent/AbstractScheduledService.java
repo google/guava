@@ -25,6 +25,7 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.logging.Level;
@@ -276,7 +277,11 @@ public abstract class AbstractScheduledService implements Service {
    */
   protected ScheduledExecutorService executor() {
     final ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor(
-        new ThreadFactoryBuilder().setNameFormat(serviceName()).build());
+        new ThreadFactory() {
+          @Override public Thread newThread(Runnable runnable) {
+            return MoreExecutors.newThread(serviceName(), runnable);
+          }
+        });
     // Add a listener to shutdown the executor after the service is stopped.  This ensures that the
     // JVM shutdown will not be prevented from exiting after this service has stopped or failed.
     // Technically this listener is added after start() was called so it is a little gross, but it

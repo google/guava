@@ -87,7 +87,7 @@ public abstract class AbstractIdleService implements Service {
     return new Executor() {
       @Override
       public void execute(Runnable command) {
-        new Thread(command, serviceName() + " " + state).start();
+        MoreExecutors.newThread(serviceName() + " " + state, command).start();
       }
     };
   }
