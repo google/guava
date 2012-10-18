@@ -37,7 +37,7 @@ import java.util.Collection;
  * @author Louis Wasserman
  */
 @GwtCompatible
-public class MultimapRemoveAllTester<K, V> extends AbstractMultimapTester<K, V> {
+public class MultimapRemoveAllTester<K, V> extends AbstractMultimapTester<K, V, Multimap<K, V>> {
   @MapFeature.Require(SUPPORTS_REMOVE)
   public void testRemoveAllAbsentKey() {
     ASSERT.that(multimap().removeAll(sampleKeys().e3)).isEmpty();

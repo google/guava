@@ -35,12 +35,12 @@ import java.util.Map.Entry;
  * @author Louis Wasserman
  */
 @GwtCompatible
-public abstract class AbstractMultimapTester<K, V>
-    extends AbstractContainerTester<Multimap<K, V>, Map.Entry<K, V>> {
+public abstract class AbstractMultimapTester<K, V, M extends Multimap<K, V>>
+    extends AbstractContainerTester<M, Map.Entry<K, V>> {
 
-  private Multimap<K, V> multimap;
+  private M multimap;
 
-  protected Multimap<K, V> multimap() {
+  protected M multimap() {
     return multimap;
   }
 
@@ -124,7 +124,7 @@ public abstract class AbstractMultimapTester<K, V>
 
   // TODO: dispose of this once collection is encapsulated.
   @Override
-  protected Multimap<K, V> resetContainer(Multimap<K, V> newContents) {
+  protected M resetContainer(M newContents) {
     multimap = super.resetContainer(newContents);
     return multimap;
   }

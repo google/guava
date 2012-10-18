@@ -81,6 +81,7 @@ public class MultimapTestSuiteBuilder<K, V, M extends Multimap<K, V>> extends
         MultimapGetTester.class,
         MultimapPutTester.class,
         MultimapPutIterableTester.class,
+        MultimapReplaceValuesTester.class,
         MultimapRemoveEntryTester.class,
         MultimapRemoveAllTester.class);
   }

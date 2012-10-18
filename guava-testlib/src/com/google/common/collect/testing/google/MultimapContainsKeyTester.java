@@ -21,6 +21,7 @@ import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_
 import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_QUERIES;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.collect.Multimap;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.MapFeature;
 
@@ -30,7 +31,8 @@ import com.google.common.collect.testing.features.MapFeature;
  * @author Louis Wasserman
  */
 @GwtCompatible
-public class MultimapContainsKeyTester<K, V> extends AbstractMultimapTester<K, V> {
+public class MultimapContainsKeyTester<K, V>
+    extends AbstractMultimapTester<K, V, Multimap<K, V>> {
   @CollectionSize.Require(absent = ZERO)
   public void testContainsKeyYes() {
     assertTrue(multimap().containsKey(sampleKeys().e0));

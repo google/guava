@@ -33,7 +33,7 @@ import java.util.Iterator;
  * @author Louis Wasserman
  */
 @GwtCompatible
-public class MultimapPutIterableTester<K, V> extends AbstractMultimapTester<K, V> {
+public class MultimapPutIterableTester<K, V> extends AbstractMultimapTester<K, V, Multimap<K, V>> {
   @CollectionSize.Require(absent = ZERO)
   @MapFeature.Require(SUPPORTS_PUT)
   public void testPutAllNonEmptyOnPresentKey() {

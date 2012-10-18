@@ -37,7 +37,7 @@ import java.util.Collection;
  * @author Louis Wasserman
  */
 @GwtCompatible
-public class MultimapGetTester<K, V> extends AbstractMultimapTester<K, V> {
+public class MultimapGetTester<K, V> extends AbstractMultimapTester<K, V, Multimap<K, V>> {
   public void testGetEmpty() {
     Collection<V> result = multimap().get(sampleKeys().e3);
     assertTrue(result.isEmpty());

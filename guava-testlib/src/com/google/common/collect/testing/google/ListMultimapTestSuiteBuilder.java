@@ -17,7 +17,9 @@
 package com.google.common.collect.testing.google;
 
 import com.google.common.collect.ListMultimap;
+import com.google.common.collect.testing.AbstractTester;
 import com.google.common.collect.testing.FeatureSpecificTestSuiteBuilder;
+import com.google.common.collect.testing.Helpers;
 import com.google.common.collect.testing.ListTestSuiteBuilder;
 import com.google.common.collect.testing.OneSizeTestContainerGenerator;
 import com.google.common.collect.testing.TestListGenerator;
@@ -45,6 +47,15 @@ public class ListMultimapTestSuiteBuilder<K, V> extends
     ListMultimapTestSuiteBuilder<K, V> result = new ListMultimapTestSuiteBuilder<K, V>();
     result.usingGenerator(generator);
     return result;
+  }
+
+  @Override protected List<Class<? extends AbstractTester>> getTesters() {
+    List<Class<? extends AbstractTester>> testers = Helpers.copyToList(super.getTesters());
+    testers.add(ListMultimapPutTester.class);
+    testers.add(ListMultimapPutAllTester.class);
+    testers.add(ListMultimapRemoveTester.class);
+    testers.add(ListMultimapReplaceValuesTester.class);
+    return testers;
   }
 
   @Override

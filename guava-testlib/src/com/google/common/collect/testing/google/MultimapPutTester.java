@@ -20,6 +20,7 @@ import static com.google.common.collect.testing.features.CollectionSize.ZERO;
 import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_KEYS;
 import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_VALUES;
 import static com.google.common.collect.testing.features.MapFeature.SUPPORTS_PUT;
+import static org.junit.contrib.truth.Truth.ASSERT;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.Multimap;
@@ -27,7 +28,10 @@ import com.google.common.collect.testing.Helpers;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.MapFeature;
 
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map.Entry;
 
 /**
  * Tester for {@link Multimap#put}.
@@ -35,7 +39,7 @@ import java.util.List;
  * @author Louis Wasserman
  */
 @GwtCompatible
-public class MultimapPutTester<K, V> extends AbstractMultimapTester<K, V> {
+public class MultimapPutTester<K, V> extends AbstractMultimapTester<K, V, Multimap<K, V>> {
   private static final Object[] EMPTY = new Object[0];
 
   @MapFeature.Require(SUPPORTS_PUT)
@@ -108,5 +112,82 @@ public class MultimapPutTester<K, V> extends AbstractMultimapTester<K, V> {
 
     assertGet(null, sampleValues().e3);
     assertEquals(size + 1, multimap().size());
+  }
+
+  @MapFeature.Require(SUPPORTS_PUT)
+  public void testPutNotPresentKeyPropagatesToGet() {
+    int size = getNumElements();
+    Collection<V> collection = multimap().get(sampleKeys().e3);
+    ASSERT.that(collection).isEmpty();
+    multimap().put(sampleKeys().e3, sampleValues().e3);
+    ASSERT.that(collection).hasContentsAnyOrder(sampleValues().e3);
+    assertEquals(size + 1, multimap().size());
+  }
+
+  @MapFeature.Require(SUPPORTS_PUT)
+  @CollectionSize.Require(absent = ZERO)
+  public void testPutPresentKeyPropagatesToGet() {
+    List<K> keys = Helpers.copyToList(multimap().keySet());
+    for (K key : keys) {
+      resetContainer();
+
+      int size = getNumElements();
+
+      Collection<V> collection = multimap().get(key);
+      Collection<V> expectedCollection = Helpers.copyToList(collection);
+
+      multimap().put(key, sampleValues().e3);
+      expectedCollection.add(sampleValues().e3);
+      ASSERT.that(collection).hasContentsAnyOrder(expectedCollection.toArray());
+      assertEquals(size + 1, multimap().size());
+    }
+  }
+
+  @MapFeature.Require(SUPPORTS_PUT)
+  @CollectionSize.Require(absent = ZERO)
+  public void testPutPresentKeyPropagatesToAsMapGet() {
+    List<K> keys = Helpers.copyToList(multimap().keySet());
+    for (K key : keys) {
+      resetContainer();
+
+      int size = getNumElements();
+
+      Collection<V> collection = multimap().asMap().get(key);
+      assertNotNull(collection);
+      Collection<V> expectedCollection = Helpers.copyToList(collection);
+
+      multimap().put(key, sampleValues().e3);
+      expectedCollection.add(sampleValues().e3);
+      ASSERT.that(collection).hasContentsAnyOrder(expectedCollection.toArray());
+      assertEquals(size + 1, multimap().size());
+    }
+  }
+
+  @MapFeature.Require(SUPPORTS_PUT)
+  @CollectionSize.Require(absent = ZERO)
+  public void testPutPresentKeyPropagatesToAsMapEntrySet() {
+    List<K> keys = Helpers.copyToList(multimap().keySet());
+    for (K key : keys) {
+      resetContainer();
+
+      int size = getNumElements();
+
+      Iterator<Entry<K, Collection<V>>> asMapItr = multimap().asMap().entrySet().iterator();
+      Collection<V> collection = null;
+      while (asMapItr.hasNext()) {
+        Entry<K, Collection<V>> asMapEntry = asMapItr.next();
+        if (key.equals(asMapEntry.getKey())) {
+          collection = asMapEntry.getValue();
+          break;
+        }
+      }
+      assertNotNull(collection);
+      Collection<V> expectedCollection = Helpers.copyToList(collection);
+
+      multimap().put(key, sampleValues().e3);
+      expectedCollection.add(sampleValues().e3);
+      ASSERT.that(collection).hasContentsAnyOrder(expectedCollection.toArray());
+      assertEquals(size + 1, multimap().size());
+    }
   }
 }

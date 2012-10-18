@@ -21,14 +21,18 @@ import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_
 import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_QUERIES;
 import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_VALUES;
 import static com.google.common.collect.testing.features.MapFeature.SUPPORTS_REMOVE;
+import static org.junit.contrib.truth.Truth.ASSERT;
 
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
+import com.google.common.collect.testing.Helpers;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.MapFeature;
 
 import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map.Entry;
 
 /**
  * Tests for {@link Multimap#remove(Object, Object)}.
@@ -36,22 +40,13 @@ import java.util.Collection;
  * @author Louis Wasserman
  */
 @GwtCompatible
-public class MultimapRemoveEntryTester<K, V> extends AbstractMultimapTester<K, V> {
+public class MultimapRemoveEntryTester<K, V> extends AbstractMultimapTester<K, V, Multimap<K, V>> {
   private static final Object[] EMPTY = new Object[0];
 
   @MapFeature.Require(SUPPORTS_REMOVE)
   public void testRemoveAbsent() {
     assertFalse(multimap().remove(sampleKeys().e0, sampleValues().e1));
     expectUnchanged();
-  }
-
-  @CollectionSize.Require(absent = ZERO)
-  @MapFeature.Require(SUPPORTS_REMOVE)
-  public void testRemovePropagatesToGet() {
-    Collection<V> result = multimap().get(sampleKeys().e0);
-    assertTrue(multimap().remove(sampleKeys().e0, sampleValues().e0));
-    assertTrue(result.isEmpty());
-    assertFalse(multimap().containsKey(sampleKeys().e0));
   }
 
   @CollectionSize.Require(absent = ZERO)
@@ -70,7 +65,7 @@ public class MultimapRemoveEntryTester<K, V> extends AbstractMultimapTester<K, V
 
     assertTrue(multimap().remove(null, getValueForNullKey()));
 
-    expectMissing(Maps.immutableEntry((K) null, getValueForNullKey()));
+    expectMissing(Helpers.mapEntry((K) null, getValueForNullKey()));
     assertGet(getKeyForNullValue(), EMPTY);
   }
 
@@ -81,7 +76,7 @@ public class MultimapRemoveEntryTester<K, V> extends AbstractMultimapTester<K, V
 
     assertTrue(multimap().remove(getKeyForNullValue(), null));
 
-    expectMissing(Maps.immutableEntry(getKeyForNullValue(), (V) null));
+    expectMissing(Helpers.mapEntry(getKeyForNullValue(), (V) null));
     assertGet(getKeyForNullValue(), EMPTY);
   }
 
@@ -117,5 +112,77 @@ public class MultimapRemoveEntryTester<K, V> extends AbstractMultimapTester<K, V
       // success
     }
     expectUnchanged();
+  }
+
+  @MapFeature.Require(SUPPORTS_REMOVE)
+  @CollectionSize.Require(absent = ZERO)
+  public void testRemovePropagatesToGet() {
+    List<Entry<K, V>> entries = Helpers.copyToList(multimap().entries());
+    for (Entry<K, V> entry : entries) {
+      resetContainer();
+
+      K key = entry.getKey();
+      V value = entry.getValue();
+      Collection<V> collection = multimap().get(key);
+      assertNotNull(collection);
+      Collection<V> expectedCollection = Helpers.copyToList(collection);
+
+      multimap().remove(key, value);
+      expectedCollection.remove(value);
+
+      ASSERT.that(collection).hasContentsAnyOrder(expectedCollection.toArray());
+      assertEquals(!expectedCollection.isEmpty(), multimap().containsKey(key));
+    }
+  }
+
+  @MapFeature.Require(SUPPORTS_REMOVE)
+  @CollectionSize.Require(absent = ZERO)
+  public void testRemovePropagatesToAsMap() {
+    List<Entry<K, V>> entries = Helpers.copyToList(multimap().entries());
+    for (Entry<K, V> entry : entries) {
+      resetContainer();
+
+      K key = entry.getKey();
+      V value = entry.getValue();
+      Collection<V> collection = multimap().asMap().get(key);
+      assertNotNull(collection);
+      Collection<V> expectedCollection = Helpers.copyToList(collection);
+
+      multimap().remove(key, value);
+      expectedCollection.remove(value);
+
+      ASSERT.that(collection).hasContentsAnyOrder(expectedCollection.toArray());
+      assertEquals(!expectedCollection.isEmpty(), multimap().containsKey(key));
+    }
+  }
+
+  @MapFeature.Require(SUPPORTS_REMOVE)
+  @CollectionSize.Require(absent = ZERO)
+  public void testRemovePropagatesToAsMapEntrySet() {
+    List<Entry<K, V>> entries = Helpers.copyToList(multimap().entries());
+    for (Entry<K, V> entry : entries) {
+      resetContainer();
+
+      K key = entry.getKey();
+      V value = entry.getValue();
+
+      Iterator<Entry<K, Collection<V>>> asMapItr = multimap().asMap().entrySet().iterator();
+      Collection<V> collection = null;
+      while (asMapItr.hasNext()) {
+        Entry<K, Collection<V>> asMapEntry = asMapItr.next();
+        if (key.equals(asMapEntry.getKey())) {
+          collection = asMapEntry.getValue();
+          break;
+        }
+      }
+      assertNotNull(collection);
+      Collection<V> expectedCollection = Helpers.copyToList(collection);
+
+      multimap().remove(key, value);
+      expectedCollection.remove(value);
+
+      ASSERT.that(collection).hasContentsAnyOrder(expectedCollection.toArray());
+      assertEquals(!expectedCollection.isEmpty(), multimap().containsKey(key));
+    }
   }
 }

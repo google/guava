@@ -32,7 +32,8 @@ import com.google.common.collect.testing.features.MapFeature;
  * @author Louis Wasserman
  */
 @GwtCompatible
-public class MultimapContainsEntryTester<K, V> extends AbstractMultimapTester<K, V> {
+public class MultimapContainsEntryTester<K, V>
+    extends AbstractMultimapTester<K, V, Multimap<K, V>> {
   @CollectionSize.Require(absent = ZERO)
   public void testContainsEntryYes() {
     assertTrue(multimap().containsEntry(sampleKeys().e0, sampleValues().e0));

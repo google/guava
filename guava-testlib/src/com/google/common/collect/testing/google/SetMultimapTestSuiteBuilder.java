@@ -17,13 +17,16 @@
 package com.google.common.collect.testing.google;
 
 import com.google.common.collect.SetMultimap;
+import com.google.common.collect.testing.AbstractTester;
 import com.google.common.collect.testing.FeatureSpecificTestSuiteBuilder;
+import com.google.common.collect.testing.Helpers;
 import com.google.common.collect.testing.OneSizeTestContainerGenerator;
 import com.google.common.collect.testing.SetTestSuiteBuilder;
 import com.google.common.collect.testing.TestSetGenerator;
 
 import junit.framework.TestSuite;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -42,6 +45,14 @@ public class SetMultimapTestSuiteBuilder<K, V>
     SetMultimapTestSuiteBuilder<K, V> result = new SetMultimapTestSuiteBuilder<K, V>();
     result.usingGenerator(generator);
     return result;
+  }
+
+  @Override protected List<Class<? extends AbstractTester>> getTesters() {
+    List<Class<? extends AbstractTester>> testers = Helpers.copyToList(super.getTesters());
+    testers.add(SetMultimapPutTester.class);
+    testers.add(SetMultimapPutAllTester.class);
+    testers.add(SetMultimapReplaceValuesTester.class);
+    return testers;
   }
 
   @Override
