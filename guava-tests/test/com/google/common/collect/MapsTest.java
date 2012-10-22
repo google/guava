@@ -20,6 +20,8 @@ import static com.google.common.collect.Maps.transformEntries;
 import static com.google.common.collect.Maps.transformValues;
 import static com.google.common.collect.Maps.unmodifiableNavigableMap;
 import static com.google.common.collect.testing.Helpers.mapEntry;
+import static com.google.common.collect.testing.google.BiMapRemoveTester.getKeySetIteratorRemoveMethod;
+import static com.google.common.collect.testing.testers.CollectionIteratorTester.getIteratorKnownOrderRemoveSupportedMethod;
 import static com.google.common.collect.testing.testers.CollectionIteratorTester.getIteratorUnknownOrderRemoveSupportedMethod;
 import static java.util.Arrays.asList;
 import static org.junit.contrib.truth.Truth.ASSERT;
@@ -36,9 +38,13 @@ import com.google.common.collect.Maps.ValueDifferenceImpl;
 import com.google.common.collect.SetsTest.Derived;
 import com.google.common.collect.testing.MapTestSuiteBuilder;
 import com.google.common.collect.testing.SortedMapInterfaceTest;
+import com.google.common.collect.testing.SortedMapTestSuiteBuilder;
 import com.google.common.collect.testing.TestStringMapGenerator;
+import com.google.common.collect.testing.TestStringSortedMapGenerator;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.MapFeature;
+import com.google.common.collect.testing.google.BiMapTestSuiteBuilder;
+import com.google.common.collect.testing.google.TestStringBiMapGenerator;
 import com.google.common.testing.EqualsTester;
 import com.google.common.testing.NullPointerTester;
 
@@ -1276,166 +1282,574 @@ public class MapsTest extends TestCase {
       }
     };
 
-  public void testFilteredKeysIllegalPut() {
-    Map<String, Integer> unfiltered = Maps.newHashMap();
-    Map<String, Integer> filtered = Maps.filterKeys(unfiltered, NOT_LENGTH_3);
-    filtered.put("a", 1);
-    filtered.put("b", 2);
-    assertEquals(ImmutableMap.of("a", 1, "b", 2), filtered);
+  // TestStringMapGenerator uses entries of the form "one=January" and so forth.
+  // To test the filtered collections, we'll create a map containing the entries
+  // they ask for, plus some bogus numeric entries. Then our predicates will
+  // simply filter numeric entries back out.
 
-    try {
-      filtered.put("yyy", 3);
-      fail();
-    } catch (IllegalArgumentException expected) {}
+  private static ImmutableMap<String, String> ENTRIES_TO_FILTER_OUT =
+      new ImmutableMap.Builder<String, String>()
+      .put("0", "0")
+      .put("1", "1")
+      .put("2", "2")
+      .build();
 
-    try {
-      filtered.putAll(ImmutableMap.of("c", 3, "zzz", 4, "b", 5));
-      fail();
-    } catch (IllegalArgumentException expected) {}
+  @GwtIncompatible("suite")
+  /** Suite for filter methods. */
+  public static class FilteredMapCollectionTests extends TestCase {
+    public static Test suite() {
+      TestSuite suite = new TestSuite();
 
-    assertEquals(ImmutableMap.of("a", 1, "b", 2), filtered);
+      suite.addTest(MapTestSuiteBuilder.using(
+          new TestStringMapGenerator() {
+            @Override protected Map<String, String> create(
+                Entry<String, String>[] entries) {
+              Map<String, String> map = Maps.newHashMap();
+              for (Entry<String, String> entry : entries) {
+                map.put(entry.getKey(), entry.getValue());
+              }
+              map.putAll(ENTRIES_TO_FILTER_OUT);
+              return Maps.filterKeys(map, new Predicate<String>() {
+                @Override
+                public boolean apply(String input) {
+                  return input == null
+                      || (input.charAt(0) >= 'a' && input.charAt(0) <= 'z');
+                }
+              });
+            }
+          })
+          .named("Maps.filterKeys[Map]")
+          .withFeatures(
+              CollectionSize.ANY,
+              MapFeature.ALLOWS_NULL_KEYS,
+              MapFeature.ALLOWS_NULL_VALUES,
+              MapFeature.GENERAL_PURPOSE)
+              .suppressing(getIteratorUnknownOrderRemoveSupportedMethod())
+              .createTestSuite());
+
+      suite.addTest(SortedMapTestSuiteBuilder.using(
+          new TestStringSortedMapGenerator() {
+            @Override protected SortedMap<String, String> create(
+                Entry<String, String>[] entries) {
+              SortedMap<String, String> map = Maps.newTreeMap();
+              for (Entry<String, String> entry : entries) {
+                map.put(entry.getKey(), entry.getValue());
+              }
+              map.putAll(ENTRIES_TO_FILTER_OUT);
+              return Maps.filterKeys(map, new Predicate<String>() {
+                @Override
+                public boolean apply(String input) {
+                  return input == null
+                      || (input.charAt(0) >= 'a' && input.charAt(0) <= 'z');
+                }
+              });
+            }
+          })
+          .named("Maps.filterKeys[SortedMap]")
+          .withFeatures(
+              CollectionSize.ANY,
+              MapFeature.ALLOWS_NULL_VALUES,
+              MapFeature.GENERAL_PURPOSE)
+              .suppressing(getIteratorKnownOrderRemoveSupportedMethod())
+              .createTestSuite());
+
+      suite.addTest(BiMapTestSuiteBuilder.using(
+          new TestStringBiMapGenerator() {
+            @Override protected BiMap<String, String> create(
+                Entry<String, String>[] entries) {
+              BiMap<String, String> map = HashBiMap.create();
+              for (Entry<String, String> entry : entries) {
+                map.put(entry.getKey(), entry.getValue());
+              }
+              map.putAll(ENTRIES_TO_FILTER_OUT);
+              return Maps.filterKeys(map, new Predicate<String>() {
+                @Override
+                public boolean apply(String input) {
+                  return input == null
+                      || (input.charAt(0) >= 'a' && input.charAt(0) <= 'z');
+                }
+              });
+            }
+          })
+          .named("Maps.filterKeys[BiMap]")
+          .withFeatures(
+              CollectionSize.ANY,
+              MapFeature.ALLOWS_NULL_KEYS,
+              MapFeature.ALLOWS_NULL_VALUES,
+              MapFeature.GENERAL_PURPOSE)
+              .suppressing(getIteratorUnknownOrderRemoveSupportedMethod(),
+                  getKeySetIteratorRemoveMethod())
+              .createTestSuite());
+
+      suite.addTest(MapTestSuiteBuilder.using(
+          new TestStringMapGenerator() {
+            @Override protected Map<String, String> create(
+                Entry<String, String>[] entries) {
+              Map<String, String> map = Maps.newHashMap();
+              for (Entry<String, String> entry : entries) {
+                map.put(entry.getKey(), entry.getValue());
+              }
+              map.putAll(ENTRIES_TO_FILTER_OUT);
+              return Maps.filterValues(map, new Predicate<String>() {
+                @Override
+                public boolean apply(String input) {
+                  return input == null
+                      || (input.charAt(0) >= 'A' && input.charAt(0) <= 'Z');
+                }
+              });
+            }
+          })
+          .named("Maps.filterValues[Map]")
+          .withFeatures(
+              CollectionSize.ANY,
+              MapFeature.ALLOWS_NULL_KEYS,
+              MapFeature.ALLOWS_NULL_VALUES,
+              MapFeature.GENERAL_PURPOSE)
+              .suppressing(getIteratorUnknownOrderRemoveSupportedMethod())
+              .createTestSuite());
+
+      suite.addTest(BiMapTestSuiteBuilder.using(
+          new TestStringBiMapGenerator() {
+            @Override protected BiMap<String, String> create(
+                Entry<String, String>[] entries) {
+              BiMap<String, String> map = HashBiMap.create();
+              for (Entry<String, String> entry : entries) {
+                map.put(entry.getKey(), entry.getValue());
+              }
+              map.putAll(ENTRIES_TO_FILTER_OUT);
+              return Maps.filterValues(map, new Predicate<String>() {
+                @Override
+                public boolean apply(String input) {
+                  return input == null
+                      || (input.charAt(0) >= 'A' && input.charAt(0) <= 'Z');
+                }
+              });
+            }
+          })
+          .named("Maps.filterValues[BiMap]")
+          .withFeatures(
+              CollectionSize.ANY,
+              MapFeature.ALLOWS_NULL_KEYS,
+              MapFeature.ALLOWS_NULL_VALUES,
+              MapFeature.GENERAL_PURPOSE)
+              .suppressing(getIteratorUnknownOrderRemoveSupportedMethod(),
+                  getKeySetIteratorRemoveMethod())
+              .createTestSuite());
+
+      suite.addTest(SortedMapTestSuiteBuilder.using(
+          new TestStringSortedMapGenerator() {
+            @Override protected SortedMap<String, String> create(
+                Entry<String, String>[] entries) {
+              SortedMap<String, String> map = Maps.newTreeMap();
+              for (Entry<String, String> entry : entries) {
+                map.put(entry.getKey(), entry.getValue());
+              }
+              map.putAll(ENTRIES_TO_FILTER_OUT);
+              return Maps.filterValues(map, new Predicate<String>() {
+                @Override
+                public boolean apply(String input) {
+                  return input == null
+                      || (input.charAt(0) >= 'A' && input.charAt(0) <= 'Z');
+                }
+              });
+            }
+          })
+          .named("Maps.filterValues[SortedMap]")
+          .withFeatures(
+              CollectionSize.ANY,
+              MapFeature.ALLOWS_NULL_VALUES,
+              MapFeature.GENERAL_PURPOSE)
+              .suppressing(getIteratorKnownOrderRemoveSupportedMethod())
+              .createTestSuite());
+
+      suite.addTest(MapTestSuiteBuilder.using(
+          new TestStringMapGenerator() {
+            @Override protected Map<String, String> create(
+                Entry<String, String>[] entries) {
+              Map<String, String> map = Maps.newHashMap();
+              for (Entry<String, String> entry : entries) {
+                map.put(entry.getKey(), entry.getValue());
+              }
+              map.putAll(ENTRIES_TO_FILTER_OUT);
+              return Maps.filterEntries(map,
+                  new Predicate<Entry<String, String>>() {
+                @Override
+                public boolean apply(Entry<String, String> entry) {
+                  String input = entry.getKey();
+                  return input == null
+                      || (input.charAt(0) >= 'a' && input.charAt(0) <= 'z');
+                }
+              });
+            }
+          })
+          .named("Maps.filterEntries[Map]")
+          .withFeatures(
+              CollectionSize.ANY,
+              MapFeature.ALLOWS_NULL_KEYS,
+              MapFeature.ALLOWS_NULL_VALUES,
+              MapFeature.GENERAL_PURPOSE)
+              .suppressing(getIteratorUnknownOrderRemoveSupportedMethod())
+              .createTestSuite());
+
+      suite.addTest(BiMapTestSuiteBuilder.using(
+          new TestStringBiMapGenerator() {
+            @Override protected BiMap<String, String> create(
+                Entry<String, String>[] entries) {
+              BiMap<String, String> map = HashBiMap.create();
+              for (Entry<String, String> entry : entries) {
+                map.put(entry.getKey(), entry.getValue());
+              }
+              map.putAll(ENTRIES_TO_FILTER_OUT);
+              return Maps.filterEntries(map,
+                  new Predicate<Entry<String, String>>() {
+                @Override
+                public boolean apply(Entry<String, String> entry) {
+                  String input = entry.getKey();
+                  return input == null
+                      || (input.charAt(0) >= 'a' && input.charAt(0) <= 'z');
+                }
+              });
+            }
+          })
+          .named("Maps.filterEntries[BiMap]")
+          .withFeatures(
+              CollectionSize.ANY,
+              MapFeature.ALLOWS_NULL_KEYS,
+              MapFeature.ALLOWS_NULL_VALUES,
+              MapFeature.GENERAL_PURPOSE)
+              .suppressing(getIteratorUnknownOrderRemoveSupportedMethod(),
+                  getKeySetIteratorRemoveMethod())
+              .createTestSuite());
+
+      suite.addTest(SortedMapTestSuiteBuilder.using(
+          new TestStringSortedMapGenerator() {
+            @Override protected SortedMap<String, String> create(
+                Entry<String, String>[] entries) {
+              SortedMap<String, String> map = Maps.newTreeMap();
+              for (Entry<String, String> entry : entries) {
+                map.put(entry.getKey(), entry.getValue());
+              }
+              map.putAll(ENTRIES_TO_FILTER_OUT);
+              return Maps.filterEntries(map,
+                  new Predicate<Entry<String, String>>() {
+                @Override
+                public boolean apply(Entry<String, String> entry) {
+                  String input = entry.getKey();
+                  return input == null
+                      || (input.charAt(0) >= 'a' && input.charAt(0) <= 'z');
+                }
+              });
+            }
+          })
+          .named("Maps.filterEntries[SortedMap]")
+          .withFeatures(
+              CollectionSize.ANY,
+              MapFeature.ALLOWS_NULL_VALUES,
+              MapFeature.GENERAL_PURPOSE)
+              .suppressing(getIteratorKnownOrderRemoveSupportedMethod())
+              .createTestSuite());
+
+      suite.addTest(MapTestSuiteBuilder.using(
+          new TestStringMapGenerator() {
+            @Override protected Map<String, String> create(
+                Entry<String, String>[] entries) {
+              Map<String, String> map = Maps.newHashMap();
+              for (Entry<String, String> entry : entries) {
+                map.put(entry.getKey(), entry.getValue());
+              }
+              map.putAll(ENTRIES_TO_FILTER_OUT);
+              map.put("", "weird");
+              Map<String, String> withoutEmptyKey = Maps.filterKeys(map,
+                  new Predicate<String>() {
+                @Override
+                public boolean apply(String input) {
+                  return input == null || input.length() != 0;
+                }
+              });
+              return Maps.filterKeys(withoutEmptyKey, new Predicate<String>() {
+                @Override
+                public boolean apply(String input) {
+                  return input == null
+                      || (input.charAt(0) >= 'a' && input.charAt(0) <= 'z');
+                }
+              });
+              // note: these filters were deliberately chosen so that an
+              // element somehow getting around the first filter would cause
+              // an exception in the second
+            }
+          })
+          .named("Maps.filterKeys, chained")
+          .withFeatures(
+              CollectionSize.ANY,
+              MapFeature.ALLOWS_NULL_KEYS,
+              MapFeature.ALLOWS_NULL_VALUES,
+              MapFeature.GENERAL_PURPOSE)
+              .suppressing(getIteratorUnknownOrderRemoveSupportedMethod())
+              .createTestSuite());
+
+      return suite;
+    }
   }
 
-  public void testFilteredKeysChangeFiltered() {
-    Map<String, Integer> unfiltered = Maps.newHashMap();
-    Map<String, Integer> filtered = Maps.filterKeys(unfiltered, NOT_LENGTH_3);
-    unfiltered.put("two", 2);
-    unfiltered.put("three", 3);
-    unfiltered.put("four", 4);
-    assertEquals(ImmutableMap.of("two", 2, "three", 3, "four", 4), unfiltered);
-    assertEquals(ImmutableMap.of("three", 3, "four", 4), filtered);
+  public static class FilteredMapTest extends TestCase {
+    Map<String, Integer> createUnfiltered() {
+      return Maps.newHashMap();
+    }
 
-    unfiltered.remove("three");
-    assertEquals(ImmutableMap.of("two", 2, "four", 4), unfiltered);
-    assertEquals(ImmutableMap.of("four", 4), filtered);
+    public void testFilteredKeysIllegalPut() {
+      Map<String, Integer> unfiltered = createUnfiltered();
+      Map<String, Integer> filtered = Maps.filterKeys(unfiltered, NOT_LENGTH_3);
+      filtered.put("a", 1);
+      filtered.put("b", 2);
+      assertEquals(ImmutableMap.of("a", 1, "b", 2), filtered);
 
-    unfiltered.clear();
-    assertEquals(ImmutableMap.of(), unfiltered);
-    assertEquals(ImmutableMap.of(), filtered);
+      try {
+        filtered.put("yyy", 3);
+        fail();
+      } catch (IllegalArgumentException expected) {}
+    }
+
+    public void testFilteredKeysIllegalPutAll() {
+      Map<String, Integer> unfiltered = createUnfiltered();
+      Map<String, Integer> filtered = Maps.filterKeys(unfiltered, NOT_LENGTH_3);
+      filtered.put("a", 1);
+      filtered.put("b", 2);
+      assertEquals(ImmutableMap.of("a", 1, "b", 2), filtered);
+
+      try {
+        filtered.putAll(ImmutableMap.of("c", 3, "zzz", 4, "b", 5));
+        fail();
+      } catch (IllegalArgumentException expected) {}
+
+      assertEquals(ImmutableMap.of("a", 1, "b", 2), filtered);
+    }
+
+    public void testFilteredKeysFilteredReflectsBackingChanges() {
+      Map<String, Integer> unfiltered = createUnfiltered();
+      Map<String, Integer> filtered = Maps.filterKeys(unfiltered, NOT_LENGTH_3);
+      unfiltered.put("two", 2);
+      unfiltered.put("three", 3);
+      unfiltered.put("four", 4);
+      assertEquals(ImmutableMap.of("two", 2, "three", 3, "four", 4), unfiltered);
+      assertEquals(ImmutableMap.of("three", 3, "four", 4), filtered);
+
+      unfiltered.remove("three");
+      assertEquals(ImmutableMap.of("two", 2, "four", 4), unfiltered);
+      assertEquals(ImmutableMap.of("four", 4), filtered);
+
+      unfiltered.clear();
+      assertEquals(ImmutableMap.of(), unfiltered);
+      assertEquals(ImmutableMap.of(), filtered);
+    }
+
+    public void testFilteredValuesIllegalPut() {
+      Map<String, Integer> unfiltered = createUnfiltered();
+      Map<String, Integer> filtered = Maps.filterValues(unfiltered, EVEN);
+      filtered.put("a", 2);
+      unfiltered.put("b", 4);
+      unfiltered.put("c", 5);
+      assertEquals(ImmutableMap.of("a", 2, "b", 4), filtered);
+
+      try {
+        filtered.put("yyy", 3);
+        fail();
+      } catch (IllegalArgumentException expected) {}
+      assertEquals(ImmutableMap.of("a", 2, "b", 4), filtered);
+    }
+
+    public void testFilteredValuesIllegalPutAll() {
+      Map<String, Integer> unfiltered = createUnfiltered();
+      Map<String, Integer> filtered = Maps.filterValues(unfiltered, EVEN);
+      filtered.put("a", 2);
+      unfiltered.put("b", 4);
+      unfiltered.put("c", 5);
+      assertEquals(ImmutableMap.of("a", 2, "b", 4), filtered);
+
+      try {
+        filtered.putAll(ImmutableMap.of("c", 4, "zzz", 5, "b", 6));
+        fail();
+      } catch (IllegalArgumentException expected) {}
+      assertEquals(ImmutableMap.of("a", 2, "b", 4), filtered);
+    }
+
+    public void testFilteredValuesIllegalSetValue() {
+      Map<String, Integer> unfiltered = createUnfiltered();
+      Map<String, Integer> filtered = Maps.filterValues(unfiltered, EVEN);
+      filtered.put("a", 2);
+      filtered.put("b", 4);
+      assertEquals(ImmutableMap.of("a", 2, "b", 4), filtered);
+
+      Entry<String, Integer> entry = filtered.entrySet().iterator().next();
+      try {
+        entry.setValue(5);
+        fail();
+      } catch (IllegalArgumentException expected) {}
+
+      assertEquals(ImmutableMap.of("a", 2, "b", 4), filtered);
+    }
+
+    public void testFilteredValuesClear() {
+      Map<String, Integer> unfiltered = createUnfiltered();
+      unfiltered.put("one", 1);
+      unfiltered.put("two", 2);
+      unfiltered.put("three", 3);
+      unfiltered.put("four", 4);
+      Map<String, Integer> filtered = Maps.filterValues(unfiltered, EVEN);
+      assertEquals(ImmutableMap.of("one", 1, "two", 2, "three", 3, "four", 4),
+          unfiltered);
+      assertEquals(ImmutableMap.of("two", 2, "four", 4), filtered);
+
+      filtered.clear();
+      assertEquals(ImmutableMap.of("one", 1, "three", 3), unfiltered);
+      assertTrue(filtered.isEmpty());
+    }
+
+    public void testFilteredEntriesIllegalPut() {
+      Map<String, Integer> unfiltered = createUnfiltered();
+      unfiltered.put("cat", 3);
+      unfiltered.put("dog", 2);
+      unfiltered.put("horse", 5);
+      Map<String, Integer> filtered
+          = Maps.filterEntries(unfiltered, CORRECT_LENGTH);
+      assertEquals(ImmutableMap.of("cat", 3, "horse", 5), filtered);
+
+      filtered.put("chicken", 7);
+      assertEquals(ImmutableMap.of("cat", 3, "horse", 5, "chicken", 7), filtered);
+
+      try {
+        filtered.put("cow", 7);
+        fail();
+      } catch (IllegalArgumentException expected) {}
+      assertEquals(ImmutableMap.of("cat", 3, "horse", 5, "chicken", 7), filtered);
+    }
+
+    public void testFilteredEntriesIllegalPutAll() {
+      Map<String, Integer> unfiltered = createUnfiltered();
+      unfiltered.put("cat", 3);
+      unfiltered.put("dog", 2);
+      unfiltered.put("horse", 5);
+      Map<String, Integer> filtered
+          = Maps.filterEntries(unfiltered, CORRECT_LENGTH);
+      assertEquals(ImmutableMap.of("cat", 3, "horse", 5), filtered);
+
+      filtered.put("chicken", 7);
+      assertEquals(ImmutableMap.of("cat", 3, "horse", 5, "chicken", 7), filtered);
+
+      try {
+        filtered.putAll(ImmutableMap.of("sheep", 5, "cow", 7));
+        fail();
+      } catch (IllegalArgumentException expected) {}
+      assertEquals(ImmutableMap.of("cat", 3, "horse", 5, "chicken", 7), filtered);
+    }
+
+    public void testFilteredEntriesObjectPredicate() {
+      Map<String, Integer> unfiltered = createUnfiltered();
+      unfiltered.put("cat", 3);
+      unfiltered.put("dog", 2);
+      unfiltered.put("horse", 5);
+      Predicate<Object> predicate = Predicates.alwaysFalse();
+      Map<String, Integer> filtered
+          = Maps.filterEntries(unfiltered, predicate);
+      assertTrue(filtered.isEmpty());
+    }
+
+    public void testFilteredEntriesWildCardEntryPredicate() {
+      Map<String, Integer> unfiltered = createUnfiltered();
+      unfiltered.put("cat", 3);
+      unfiltered.put("dog", 2);
+      unfiltered.put("horse", 5);
+      Predicate<Entry<?, ?>> predicate = new Predicate<Entry<?, ?>>() {
+        @Override
+        public boolean apply(Entry<?, ?> input) {
+          return "cat".equals(input.getKey())
+              || Integer.valueOf(2) == input.getValue();
+        }
+      };
+      Map<String, Integer> filtered
+          = Maps.filterEntries(unfiltered, predicate);
+      assertEquals(ImmutableMap.of("cat", 3, "dog", 2), filtered);
+    }
   }
 
-  public void testFilteredKeysChangeUnfiltered() {
-    Map<String, Integer> unfiltered = Maps.newHashMap();
-    Map<String, Integer> filtered = Maps.filterKeys(unfiltered, NOT_LENGTH_3);
-    unfiltered.put("two", 2);
-    unfiltered.put("three", 3);
-    unfiltered.put("four", 4);
-    assertEquals(ImmutableMap.of("two", 2, "three", 3, "four", 4), unfiltered);
-    assertEquals(ImmutableMap.of("three", 3, "four", 4), filtered);
+  public static class FilteredSortedMapTest extends FilteredMapTest {
+    @Override
+    SortedMap<String, Integer> createUnfiltered() {
+      return Maps.newTreeMap();
+    }
 
-    filtered.remove("three");
-    assertEquals(ImmutableMap.of("two", 2, "four", 4), unfiltered);
-    assertEquals(ImmutableMap.of("four", 4), filtered);
+    public void testFilterKeysIdentifiesSortedMap() {
+      SortedMap<String, Integer> map = createUnfiltered();
+      assertTrue(Maps.filterKeys((Map<String, Integer>) map, NOT_LENGTH_3)
+          instanceof SortedMap);
+    }
 
-    filtered.clear();
-    assertEquals(ImmutableMap.of("two", 2), unfiltered);
-    assertEquals(ImmutableMap.of(), filtered);
+    public void testFilterValuesIdentifiesSortedMap() {
+      SortedMap<String, Integer> map = createUnfiltered();
+      assertTrue(Maps.filterValues((Map<String, Integer>) map, EVEN)
+          instanceof SortedMap);
+    }
+
+    public void testFilterEntriesIdentifiesSortedMap() {
+      SortedMap<String, Integer> map = createUnfiltered();
+      assertTrue(Maps.filterEntries((Map<String, Integer>) map, CORRECT_LENGTH)
+          instanceof SortedMap);
+    }
+
+    public void testFirstAndLastKeyFilteredMap() {
+      SortedMap<String, Integer> unfiltered = createUnfiltered();
+      unfiltered.put("apple", 2);
+      unfiltered.put("banana", 6);
+      unfiltered.put("cat", 3);
+      unfiltered.put("dog", 5);
+
+      SortedMap<String, Integer> filtered = Maps.filterEntries(unfiltered, CORRECT_LENGTH);
+      assertEquals("banana", filtered.firstKey());
+      assertEquals("cat", filtered.lastKey());
+    }
+
+    public void testHeadSubTailMap_FilteredMap() {
+      SortedMap<String, Integer> unfiltered = createUnfiltered();
+      unfiltered.put("apple", 2);
+      unfiltered.put("banana", 6);
+      unfiltered.put("cat", 4);
+      unfiltered.put("dog", 3);
+      SortedMap<String, Integer> filtered = Maps.filterEntries(unfiltered, CORRECT_LENGTH);
+
+      assertEquals(ImmutableMap.of("banana", 6), filtered.headMap("dog"));
+      assertEquals(ImmutableMap.of(), filtered.headMap("banana"));
+      assertEquals(ImmutableMap.of("banana", 6, "dog", 3), filtered.headMap("emu"));
+
+      assertEquals(ImmutableMap.of("banana", 6), filtered.subMap("banana", "dog"));
+      assertEquals(ImmutableMap.of("dog", 3), filtered.subMap("cat", "emu"));
+
+      assertEquals(ImmutableMap.of("dog", 3), filtered.tailMap("cat"));
+      assertEquals(ImmutableMap.of("banana", 6, "dog", 3), filtered.tailMap("banana"));
+    }
   }
 
-  public void testFilteredValuesIllegalPut() {
-    Map<String, Integer> unfiltered = Maps.newHashMap();
-    Map<String, Integer> filtered = Maps.filterValues(unfiltered, EVEN);
-    filtered.put("a", 2);
-    unfiltered.put("b", 4);
-    unfiltered.put("c", 5);
-    assertEquals(ImmutableMap.of("a", 2, "b", 4), filtered);
+  public static class FilteredBiMapTest extends FilteredMapTest {
+    @Override
+    BiMap<String, Integer> createUnfiltered() {
+      return HashBiMap.create();
+    }
 
-    try {
-      filtered.put("yyy", 3);
-      fail();
-    } catch (IllegalArgumentException expected) {}
+    public void testFilterKeysIdentifiesBiMap() {
+      BiMap<String, Integer> map = createUnfiltered();
+      assertTrue(Maps.filterKeys((Map<String, Integer>) map, NOT_LENGTH_3)
+          instanceof BiMap);
+    }
 
-    try {
-      filtered.putAll(ImmutableMap.of("c", 4, "zzz", 5, "b", 6));
-      fail();
-    } catch (IllegalArgumentException expected) {}
+    public void testFilterValuesIdentifiesBiMap() {
+      BiMap<String, Integer> map = createUnfiltered();
+      assertTrue(Maps.filterValues((Map<String, Integer>) map, EVEN)
+          instanceof BiMap);
+    }
 
-    assertEquals(ImmutableMap.of("a", 2, "b", 4), filtered);
-  }
-
-  public void testFilteredValuesIllegalSetValue() {
-    Map<String, Integer> unfiltered = Maps.newHashMap();
-    Map<String, Integer> filtered = Maps.filterValues(unfiltered, EVEN);
-    filtered.put("a", 2);
-    filtered.put("b", 4);
-    assertEquals(ImmutableMap.of("a", 2, "b", 4), filtered);
-
-    Entry<String, Integer> entry = filtered.entrySet().iterator().next();
-    try {
-      entry.setValue(5);
-      fail();
-    } catch (IllegalArgumentException expected) {}
-
-    assertEquals(ImmutableMap.of("a", 2, "b", 4), filtered);
-  }
-
-  public void testFilteredValuesClear() {
-    Map<String, Integer> unfiltered = Maps.newHashMap();
-    unfiltered.put("one", 1);
-    unfiltered.put("two", 2);
-    unfiltered.put("three", 3);
-    unfiltered.put("four", 4);
-    Map<String, Integer> filtered = Maps.filterValues(unfiltered, EVEN);
-    assertEquals(ImmutableMap.of("one", 1, "two", 2, "three", 3, "four", 4),
-        unfiltered);
-    assertEquals(ImmutableMap.of("two", 2, "four", 4), filtered);
-
-    filtered.clear();
-    assertEquals(ImmutableMap.of("one", 1, "three", 3), unfiltered);
-    assertTrue(filtered.isEmpty());
-  }
-
-  public void testFilteredEntriesIllegalPut() {
-    Map<String, Integer> unfiltered = Maps.newHashMap();
-    unfiltered.put("cat", 3);
-    unfiltered.put("dog", 2);
-    unfiltered.put("horse", 5);
-    Map<String, Integer> filtered
-        = Maps.filterEntries(unfiltered, CORRECT_LENGTH);
-    assertEquals(ImmutableMap.of("cat", 3, "horse", 5), filtered);
-
-    filtered.put("chicken", 7);
-    assertEquals(ImmutableMap.of("cat", 3, "horse", 5, "chicken", 7), filtered);
-
-    try {
-      filtered.put("cow", 7);
-      fail();
-    } catch (IllegalArgumentException expected) {}
-    assertEquals(ImmutableMap.of("cat", 3, "horse", 5, "chicken", 7), filtered);
-
-    try {
-      filtered.putAll(ImmutableMap.of("sheep", 5, "cow", 7));
-      fail();
-    } catch (IllegalArgumentException expected) {}
-    assertEquals(ImmutableMap.of("cat", 3, "horse", 5, "chicken", 7), filtered);
-  }
-
-  public void testFilteredEntriesObjectPredicate() {
-    Map<String, Integer> unfiltered = Maps.newHashMap();
-    unfiltered.put("cat", 3);
-    unfiltered.put("dog", 2);
-    unfiltered.put("horse", 5);
-    Predicate<Object> predicate = Predicates.alwaysFalse();
-    Map<String, Integer> filtered
-        = Maps.filterEntries(unfiltered, predicate);
-    assertTrue(filtered.isEmpty());
-  }
-
-  public void testFilteredEntriesWildCardEntryPredicate() {
-    Map<String, Integer> unfiltered = Maps.newHashMap();
-    unfiltered.put("cat", 3);
-    unfiltered.put("dog", 2);
-    unfiltered.put("horse", 5);
-    Predicate<Entry<?, ?>> predicate = new Predicate<Entry<?, ?>>() {
-      @Override
-      public boolean apply(Entry<?, ?> input) {
-        return "cat".equals(input.getKey())
-            || Integer.valueOf(2) == input.getValue();
-      }
-    };
-    Map<String, Integer> filtered
-        = Maps.filterEntries(unfiltered, predicate);
-    assertEquals(ImmutableMap.of("cat", 3, "dog", 2), filtered);
+    public void testFilterEntriesIdentifiesBiMap() {
+      BiMap<String, Integer> map = createUnfiltered();
+      assertTrue(Maps.filterEntries((Map<String, Integer>) map, CORRECT_LENGTH)
+          instanceof BiMap);
+    }
   }
 
   public void testTransformValues() {
@@ -1587,149 +2001,6 @@ public class MapsTest extends TestCase {
         };
     Map<String, String> transformed = transformEntries(options, flagPrefixer);
     assertEquals("{verbose=verbose, sort=nosort}", transformed.toString());
-  }
-
-  // TestStringMapGenerator uses entries of the form "one=January" and so forth.
-  // To test the filtered collections, we'll create a map containing the entries
-  // they ask for, plus some bogus numeric entries. Then our predicates will
-  // simply filter numeric entries back out.
-
-  private static ImmutableMap<String, String> ENTRIES_TO_FILTER_OUT =
-      new ImmutableMap.Builder<String, String>()
-          .put("0", "0")
-          .put("1", "1")
-          .put("2", "2")
-          .build();
-
-  @GwtIncompatible("suite")
-  /** Suite for filter methods. */
-  public static class FilteredMapTests extends TestCase {
-    public static Test suite() {
-      TestSuite suite = new TestSuite();
-
-      suite.addTest(MapTestSuiteBuilder.using(
-          new TestStringMapGenerator() {
-            @Override protected Map<String, String> create(
-                Entry<String, String>[] entries) {
-              Map<String, String> map = Maps.newHashMap();
-              for (Entry<String, String> entry : entries) {
-                map.put(entry.getKey(), entry.getValue());
-              }
-              map.putAll(ENTRIES_TO_FILTER_OUT);
-              return Maps.filterKeys(map, new Predicate<String>() {
-                @Override
-                public boolean apply(String input) {
-                  return input == null
-                      || (input.charAt(0) >= 'a' && input.charAt(0) <= 'z');
-                }
-              });
-            }
-          })
-          .named("Maps.filterKeys")
-          .withFeatures(
-              CollectionSize.ANY,
-              MapFeature.ALLOWS_NULL_KEYS,
-              MapFeature.ALLOWS_NULL_VALUES,
-              MapFeature.GENERAL_PURPOSE)
-          .suppressing(getIteratorUnknownOrderRemoveSupportedMethod())
-          .createTestSuite());
-
-      suite.addTest(MapTestSuiteBuilder.using(
-          new TestStringMapGenerator() {
-            @Override protected Map<String, String> create(
-                Entry<String, String>[] entries) {
-              Map<String, String> map = Maps.newHashMap();
-              for (Entry<String, String> entry : entries) {
-                map.put(entry.getKey(), entry.getValue());
-              }
-              map.putAll(ENTRIES_TO_FILTER_OUT);
-              return Maps.filterValues(map, new Predicate<String>() {
-                @Override
-                public boolean apply(String input) {
-                  return input == null
-                      || (input.charAt(0) >= 'A' && input.charAt(0) <= 'Z');
-                }
-              });
-            }
-          })
-          .named("Maps.filterValues")
-          .withFeatures(
-              CollectionSize.ANY,
-              MapFeature.ALLOWS_NULL_KEYS,
-              MapFeature.ALLOWS_NULL_VALUES,
-              MapFeature.GENERAL_PURPOSE)
-          .suppressing(getIteratorUnknownOrderRemoveSupportedMethod())
-          .createTestSuite());
-
-      suite.addTest(MapTestSuiteBuilder.using(
-          new TestStringMapGenerator() {
-            @Override protected Map<String, String> create(
-                Entry<String, String>[] entries) {
-              Map<String, String> map = Maps.newHashMap();
-              for (Entry<String, String> entry : entries) {
-                map.put(entry.getKey(), entry.getValue());
-              }
-              map.putAll(ENTRIES_TO_FILTER_OUT);
-              return Maps.filterEntries(map,
-                  new Predicate<Entry<String, String>>() {
-                    @Override
-                    public boolean apply(Entry<String, String> entry) {
-                      String input = entry.getKey();
-                      return input == null
-                          || (input.charAt(0) >= 'a' && input.charAt(0) <= 'z');
-                    }
-                  });
-            }
-          })
-          .named("Maps.filterEntries")
-          .withFeatures(
-              CollectionSize.ANY,
-              MapFeature.ALLOWS_NULL_KEYS,
-              MapFeature.ALLOWS_NULL_VALUES,
-              MapFeature.GENERAL_PURPOSE)
-          .suppressing(getIteratorUnknownOrderRemoveSupportedMethod())
-          .createTestSuite());
-
-      suite.addTest(MapTestSuiteBuilder.using(
-          new TestStringMapGenerator() {
-            @Override protected Map<String, String> create(
-                Entry<String, String>[] entries) {
-              Map<String, String> map = Maps.newHashMap();
-              for (Entry<String, String> entry : entries) {
-                map.put(entry.getKey(), entry.getValue());
-              }
-              map.putAll(ENTRIES_TO_FILTER_OUT);
-              map.put("", "weird");
-              Map<String, String> withoutEmptyKey = Maps.filterKeys(map,
-                  new Predicate<String>() {
-                    @Override
-                    public boolean apply(String input) {
-                      return input == null || input.length() != 0;
-                    }
-                  });
-              return Maps.filterKeys(withoutEmptyKey, new Predicate<String>() {
-                @Override
-                public boolean apply(String input) {
-                  return input == null
-                      || (input.charAt(0) >= 'a' && input.charAt(0) <= 'z');
-                }
-              });
-              // note: these filters were deliberately chosen so that an
-              // element somehow getting around the first filter would cause
-              // an exception in the second
-            }
-          })
-          .named("Maps.filterKeys, chained")
-          .withFeatures(
-              CollectionSize.ANY,
-              MapFeature.ALLOWS_NULL_KEYS,
-              MapFeature.ALLOWS_NULL_VALUES,
-              MapFeature.GENERAL_PURPOSE)
-          .suppressing(getIteratorUnknownOrderRemoveSupportedMethod())
-          .createTestSuite());
-
-      return suite;
-    }
   }
 
   // Logically this would accept a NavigableMap, but that won't work under GWT.

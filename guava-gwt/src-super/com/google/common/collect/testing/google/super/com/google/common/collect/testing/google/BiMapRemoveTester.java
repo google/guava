@@ -20,12 +20,9 @@ import static com.google.common.collect.testing.features.CollectionSize.ZERO;
 import static com.google.common.collect.testing.features.MapFeature.SUPPORTS_REMOVE;
 
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.annotations.GwtIncompatible;
-import com.google.common.collect.testing.Helpers;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.MapFeature;
 
-import java.lang.reflect.Method;
 import java.util.Iterator;
 
 /**
@@ -93,15 +90,5 @@ public class BiMapRemoveTester<K, V> extends AbstractBiMapTester<K, V> {
     assertEquals(initialSize - 1, getMap().size());
     assertEquals(initialSize - 1, getMap().inverse().size());
   }
-
-  /**
-   * Returns the {@link Method} instance for
-   * {@link #testKeySetIteratorRemove()} so that tests of
-   * {@code Maps.filterEntries(BiMap, Predicate)} can suppress
-   * it with {@code FeatureSpecificTestSuiteBuilder.suppressing()}.
-   */
-  @GwtIncompatible("reflection")
-  public static Method getKeySetIteratorRemoveMethod() {
-    return Helpers.getMethod(BiMapRemoveTester.class, "testKeySetIteratorRemove");
-  }
 }
+

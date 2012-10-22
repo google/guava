@@ -1588,6 +1588,32 @@ public final class Maps {
     }
   }
 
+  private static final class KeyPredicate<K, V> implements Predicate<Entry<K, V>> {
+    private final Predicate<? super K> keyPredicate;
+
+    KeyPredicate(Predicate<? super K> keyPredicate) {
+      this.keyPredicate = checkNotNull(keyPredicate);
+    }
+
+    @Override
+    public boolean apply(Entry<K, V> input) {
+      return keyPredicate.apply(input.getKey());
+    }
+  }
+
+  private static final class ValuePredicate<K, V> implements Predicate<Entry<K, V>> {
+    private final Predicate<? super V> valuePredicate;
+
+    ValuePredicate(Predicate<? super V> valuePredicate) {
+      this.valuePredicate = checkNotNull(valuePredicate);
+    }
+
+    @Override
+    public boolean apply(Entry<K, V> input) {
+      return valuePredicate.apply(input.getValue());
+    }
+  }
+
   /**
    * Returns a map containing the mappings in {@code unfiltered} whose keys
    * satisfy a predicate. The returned map is a live view of {@code unfiltered};
@@ -1620,15 +1646,11 @@ public final class Maps {
       Map<K, V> unfiltered, final Predicate<? super K> keyPredicate) {
     if (unfiltered instanceof SortedMap) {
       return filterKeys((SortedMap<K, V>) unfiltered, keyPredicate);
+    } else if (unfiltered instanceof BiMap) {
+      return filterKeys((BiMap<K, V>) unfiltered, keyPredicate);
     }
     checkNotNull(keyPredicate);
-    Predicate<Entry<K, V>> entryPredicate =
-        new Predicate<Entry<K, V>>() {
-          @Override
-          public boolean apply(Entry<K, V> input) {
-            return keyPredicate.apply(input.getKey());
-          }
-        };
+    Predicate<Entry<K, V>> entryPredicate = new KeyPredicate<K, V>(keyPredicate);
     return (unfiltered instanceof AbstractFilteredMap)
         ? filterFiltered((AbstractFilteredMap<K, V>) unfiltered, entryPredicate)
         : new FilteredKeyMap<K, V>(
@@ -1669,14 +1691,39 @@ public final class Maps {
       SortedMap<K, V> unfiltered, final Predicate<? super K> keyPredicate) {
     // TODO: Return a subclass of Maps.FilteredKeyMap for slightly better
     // performance.
+    return filterEntries(unfiltered, new KeyPredicate<K, V>(keyPredicate));
+  }
+
+  /**
+   * Returns a bimap containing the mappings in {@code unfiltered} whose keys satisfy a predicate.
+   * The returned bimap is a live view of {@code unfiltered}; changes to one affect the other.
+   *
+   * <p>The resulting bimap's {@code keySet()}, {@code entrySet()}, and {@code values()} views have
+   * iterators that don't support {@code remove()}, but all other methods are supported by the
+   * bimap and its views. When given a key that doesn't satisfy the predicate, the bimap's {@code
+   * put()}, {@code forcePut()} and {@code putAll()} methods throw an {@link
+   * IllegalArgumentException}.
+   *
+   * <p>When methods such as {@code removeAll()} and {@code clear()} are called on the filtered
+   * bimap or its views, only mappings that satisfy the filter will be removed from the underlying
+   * bimap.
+   *
+   * <p>The returned bimap isn't threadsafe or serializable, even if {@code unfiltered} is.
+   *
+   * <p>Many of the filtered bimap's methods, such as {@code size()}, iterate across every key in
+   * the underlying bimap and determine which satisfy the filter. When a live view is <i>not</i>
+   * needed, it may be faster to copy the filtered bimap and use the copy.
+   *
+   * <p><b>Warning:</b> {@code entryPredicate} must be <i>consistent with equals </i>, as
+   * documented at {@link Predicate#apply}.
+   *
+   * @since 14.0
+   */
+  @Beta
+  public static <K, V> BiMap<K, V> filterKeys(
+      BiMap<K, V> unfiltered, final Predicate<? super K> keyPredicate) {
     checkNotNull(keyPredicate);
-    Predicate<Entry<K, V>> entryPredicate = new Predicate<Entry<K, V>>() {
-      @Override
-      public boolean apply(Entry<K, V> input) {
-        return keyPredicate.apply(input.getKey());
-      }
-    };
-    return filterEntries(unfiltered, entryPredicate);
+    return filterEntries(unfiltered, new KeyPredicate<K, V>(keyPredicate));
   }
 
   /**
@@ -1712,16 +1759,10 @@ public final class Maps {
       Map<K, V> unfiltered, final Predicate<? super V> valuePredicate) {
     if (unfiltered instanceof SortedMap) {
       return filterValues((SortedMap<K, V>) unfiltered, valuePredicate);
+    } else if (unfiltered instanceof BiMap) {
+      return filterValues((BiMap<K, V>) unfiltered, valuePredicate);
     }
-    checkNotNull(valuePredicate);
-    Predicate<Entry<K, V>> entryPredicate =
-        new Predicate<Entry<K, V>>() {
-          @Override
-          public boolean apply(Entry<K, V> input) {
-            return valuePredicate.apply(input.getValue());
-          }
-        };
-    return filterEntries(unfiltered, entryPredicate);
+    return filterEntries(unfiltered, new ValuePredicate<K, V>(valuePredicate));
   }
 
   /**
@@ -1757,15 +1798,41 @@ public final class Maps {
    */
   public static <K, V> SortedMap<K, V> filterValues(
       SortedMap<K, V> unfiltered, final Predicate<? super V> valuePredicate) {
-    checkNotNull(valuePredicate);
-    Predicate<Entry<K, V>> entryPredicate =
-        new Predicate<Entry<K, V>>() {
-          @Override
-          public boolean apply(Entry<K, V> input) {
-            return valuePredicate.apply(input.getValue());
-          }
-        };
-    return filterEntries(unfiltered, entryPredicate);
+    return filterEntries(unfiltered, new ValuePredicate<K, V>(valuePredicate));
+  }
+
+  /**
+   * Returns a bimap containing the mappings in {@code unfiltered} whose values satisfy a
+   * predicate. The returned bimap is a live view of {@code unfiltered}; changes to one affect the
+   * other.
+   *
+   * <p>The resulting bimap's {@code keySet()}, {@code entrySet()}, and {@code values()} views have
+   * iterators that don't support {@code remove()}, but all other methods are supported by the
+   * bimap and its views. When given a value that doesn't satisfy the predicate, the bimap's
+   * {@code put()}, {@code forcePut()} and {@code putAll()} methods throw an {@link
+   * IllegalArgumentException}. Similarly, the map's entries have a {@link Entry#setValue} method
+   * that throws an {@link IllegalArgumentException} when the provided value doesn't satisfy the
+   * predicate.
+   *
+   * <p>When methods such as {@code removeAll()} and {@code clear()} are called on the filtered
+   * bimap or its views, only mappings that satisfy the filter will be removed from the underlying
+   * bimap.
+   *
+   * <p>The returned bimap isn't threadsafe or serializable, even if {@code unfiltered} is.
+   *
+   * <p>Many of the filtered bimap's methods, such as {@code size()}, iterate across every value in
+   * the underlying bimap and determine which satisfy the filter. When a live view is <i>not</i>
+   * needed, it may be faster to copy the filtered bimap and use the copy.
+   *
+   * <p><b>Warning:</b> {@code entryPredicate} must be <i>consistent with equals </i>, as
+   * documented at {@link Predicate#apply}.
+   *
+   * @since 14.0
+   */
+  @Beta
+  public static <K, V> BiMap<K, V> filterValues(
+      BiMap<K, V> unfiltered, final Predicate<? super V> valuePredicate) {
+    return filterEntries(unfiltered, new ValuePredicate<K, V>(valuePredicate));
   }
 
   /**
@@ -1801,6 +1868,8 @@ public final class Maps {
       Map<K, V> unfiltered, Predicate<? super Entry<K, V>> entryPredicate) {
     if (unfiltered instanceof SortedMap) {
       return filterEntries((SortedMap<K, V>) unfiltered, entryPredicate);
+    } else if (unfiltered instanceof BiMap) {
+      return filterEntries((BiMap<K, V>) unfiltered, entryPredicate);
     }
     checkNotNull(entryPredicate);
     return (unfiltered instanceof AbstractFilteredMap)
@@ -1846,6 +1915,43 @@ public final class Maps {
     return (unfiltered instanceof FilteredEntrySortedMap)
         ? filterFiltered((FilteredEntrySortedMap<K, V>) unfiltered, entryPredicate)
         : new FilteredEntrySortedMap<K, V>(checkNotNull(unfiltered), entryPredicate);
+  }
+
+  /**
+   * Returns a bimap containing the mappings in {@code unfiltered} that satisfy a predicate. The
+   * returned bimap is a live view of {@code unfiltered}; changes to one affect the other.
+   *
+   * <p>The resulting bimap's {@code keySet()}, {@code entrySet()}, and {@code values()} views have
+   * iterators that don't support {@code remove()}, but all other methods are supported by the bimap
+   * and its views. When given a key/value pair that doesn't satisfy the predicate, the bimap's
+   * {@code put()}, {@code forcePut()} and {@code putAll()} methods throw an
+   * {@link IllegalArgumentException}. Similarly, the map's entries have an {@link Entry#setValue}
+   * method that throws an {@link IllegalArgumentException} when the existing key and the provided
+   * value don't satisfy the predicate.
+   *
+   * <p>When methods such as {@code removeAll()} and {@code clear()} are called on the filtered
+   * bimap or its views, only mappings that satisfy the filter will be removed from the underlying
+   * bimap.
+   *
+   * <p>The returned bimap isn't threadsafe or serializable, even if {@code unfiltered} is.
+   *
+   * <p>Many of the filtered bimap's methods, such as {@code size()}, iterate across every
+   * key/value mapping in the underlying bimap and determine which satisfy the filter. When a live
+   * view is <i>not</i> needed, it may be faster to copy the filtered bimap and use the copy.
+   *
+   * <p><b>Warning:</b> {@code entryPredicate} must be <i>consistent with equals </i>, as
+   * documented at {@link Predicate#apply}.
+   *
+   * @since 14.0
+   */
+  @Beta
+  public static <K, V> BiMap<K, V> filterEntries(
+      BiMap<K, V> unfiltered, Predicate<? super Entry<K, V>> entryPredicate) {
+    checkNotNull(unfiltered);
+    checkNotNull(entryPredicate);
+    return (unfiltered instanceof FilteredEntryBiMap)
+        ? filterFiltered((FilteredEntryBiMap<K, V>) unfiltered, entryPredicate)
+        : new FilteredEntryBiMap<K, V>(unfiltered, entryPredicate);
   }
 
   /**
@@ -2050,6 +2156,66 @@ public final class Maps {
     @Override public SortedMap<K, V> tailMap(K fromKey) {
       return new FilteredEntrySortedMap<K, V>(
           sortedMap().tailMap(fromKey), predicate);
+    }
+  }
+
+  /**
+   * Support {@code clear()}, {@code removeAll()}, and {@code retainAll()} when
+   * filtering a filtered map.
+   */
+  private static <K, V> BiMap<K, V> filterFiltered(
+      FilteredEntryBiMap<K, V> map, Predicate<? super Entry<K, V>> entryPredicate) {
+    Predicate<Entry<K, V>> predicate = Predicates.and(map.predicate, entryPredicate);
+    return new FilteredEntryBiMap<K, V>(map.unfiltered(), predicate);
+  }
+
+  static final class FilteredEntryBiMap<K, V> extends FilteredEntryMap<K, V>
+      implements BiMap<K, V> {
+    private final BiMap<V, K> inverse;
+
+    private static <K, V> Predicate<Entry<V, K>> inversePredicate(
+        final Predicate<? super Entry<K, V>> forwardPredicate) {
+      return new Predicate<Entry<V, K>>() {
+        @Override
+        public boolean apply(Entry<V, K> input) {
+          return forwardPredicate.apply(
+              Maps.immutableEntry(input.getValue(), input.getKey()));
+        }
+      };
+    }
+
+    FilteredEntryBiMap(BiMap<K, V> delegate,
+        Predicate<? super Entry<K, V>> predicate) {
+      super(delegate, predicate);
+      this.inverse = new FilteredEntryBiMap<V, K>(
+          delegate.inverse(), inversePredicate(predicate), this);
+    }
+
+    private FilteredEntryBiMap(
+        BiMap<K, V> delegate, Predicate<? super Entry<K, V>> predicate,
+        BiMap<V, K> inverse) {
+      super(delegate, predicate);
+      this.inverse = inverse;
+    }
+
+    BiMap<K, V> unfiltered() {
+      return (BiMap<K, V>) unfiltered;
+    }
+
+    @Override
+    public V forcePut(@Nullable K key, @Nullable V value) {
+      checkArgument(predicate.apply(Maps.immutableEntry(key, value)));
+      return unfiltered().forcePut(key, value);
+    }
+
+    @Override
+    public BiMap<V, K> inverse() {
+      return inverse;
+    }
+
+    @Override
+    public Set<V> values() {
+      return inverse.keySet();
     }
   }
 
