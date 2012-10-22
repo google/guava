@@ -474,13 +474,8 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSortedSetFauxveride
   /**
    * Returns a builder that creates immutable sorted sets whose elements are
    * ordered by the reverse of their natural ordering.
-   *
-   * <p>Note: the type parameter {@code E} extends {@code Comparable<E>} rather
-   * than {@code Comparable<? super E>} as a workaround for javac <a
-   * href="http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6468354">bug
-   * 6468354</a>.
    */
-  public static <E extends Comparable<E>> Builder<E> reverseOrder() {
+  public static <E extends Comparable<?>> Builder<E> reverseOrder() {
     return new Builder<E>(Ordering.natural().reverse());
   }
 
@@ -490,13 +485,8 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSortedSetFauxveride
    * Ordering#natural()} as the comparator. This method provides more
    * type-safety than {@link #builder}, as it can be called only for classes
    * that implement {@link Comparable}.
-   *
-   * <p>Note: the type parameter {@code E} extends {@code Comparable<E>} rather
-   * than {@code Comparable<? super E>} as a workaround for javac <a
-   * href="http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6468354">bug
-   * 6468354</a>.
    */
-  public static <E extends Comparable<E>> Builder<E> naturalOrder() {
+  public static <E extends Comparable<?>> Builder<E> naturalOrder() {
     return new Builder<E>(Ordering.natural());
   }
 

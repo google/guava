@@ -909,4 +909,22 @@ public class ImmutableSortedSetTest extends AbstractImmutableSetTest {
   private static final ImmutableList<String> SORTED_NUMBER_NAMES =
       Ordering.natural().immutableSortedCopy(NUMBER_NAMES);
 
+  private static class SelfComparableExample implements Comparable<SelfComparableExample> {
+    @Override
+    public int compareTo(SelfComparableExample o) {
+      return 0;
+    }
+  }
+
+  public void testBuilderGenerics_SelfComparable() {
+    ImmutableSortedSet.Builder<SelfComparableExample> natural = ImmutableSortedSet.naturalOrder();
+    ImmutableSortedSet.Builder<SelfComparableExample> reverse = ImmutableSortedSet.reverseOrder();
+  }
+
+  private static class SuperComparableExample extends SelfComparableExample {}
+
+  public void testBuilderGenerics_SuperComparable() {
+    ImmutableSortedSet.Builder<SuperComparableExample> natural = ImmutableSortedSet.naturalOrder();
+    ImmutableSortedSet.Builder<SuperComparableExample> reverse = ImmutableSortedSet.reverseOrder();
+  }
 }

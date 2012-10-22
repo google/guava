@@ -312,13 +312,8 @@ public abstract class ImmutableSortedMap<K, V>
    * Returns a builder that creates immutable sorted maps whose keys are
    * ordered by their natural ordering. The sorted maps use {@link
    * Ordering#natural()} as the comparator.
-   *
-   * <p>Note: the type parameter {@code K} extends {@code Comparable<K>} rather
-   * than {@code Comparable<? super K>} as a workaround for javac <a
-   * href="http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6468354">bug
-   * 6468354</a>.
    */
-  public static <K extends Comparable<K>, V> Builder<K, V> naturalOrder() {
+  public static <K extends Comparable<?>, V> Builder<K, V> naturalOrder() {
     return new Builder<K, V>(Ordering.natural());
   }
 
@@ -337,13 +332,8 @@ public abstract class ImmutableSortedMap<K, V>
   /**
    * Returns a builder that creates immutable sorted maps whose keys are
    * ordered by the reverse of their natural ordering.
-   *
-   * <p>Note: the type parameter {@code K} extends {@code Comparable<K>} rather
-   * than {@code Comparable<? super K>} as a workaround for javac <a
-   * href="http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6468354">bug
-   * 6468354</a>.
    */
-  public static <K extends Comparable<K>, V> Builder<K, V> reverseOrder() {
+  public static <K extends Comparable<?>, V> Builder<K, V> reverseOrder() {
     return new Builder<K, V>(Ordering.natural().reverse());
   }
 

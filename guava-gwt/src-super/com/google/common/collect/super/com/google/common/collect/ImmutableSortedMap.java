@@ -169,7 +169,7 @@ public abstract class ImmutableSortedMap<K, V>
     map.put(key, value);
   }
 
-  public static <K extends Comparable<K>, V> Builder<K, V> naturalOrder() {
+  public static <K extends Comparable<?>, V> Builder<K, V> naturalOrder() {
     return new Builder<K, V>(Ordering.natural());
   }
 
@@ -177,7 +177,7 @@ public abstract class ImmutableSortedMap<K, V>
     return new Builder<K, V>(comparator);
   }
 
-  public static <K extends Comparable<K>, V> Builder<K, V> reverseOrder() {
+  public static <K extends Comparable<?>, V> Builder<K, V> reverseOrder() {
     return new Builder<K, V>(Ordering.natural().reverse());
   }
 

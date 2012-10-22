@@ -385,11 +385,11 @@ public abstract class ImmutableSortedSet<E>
     return new Builder<E>(comparator);
   }
 
-  public static <E extends Comparable<E>> Builder<E> reverseOrder() {
+  public static <E extends Comparable<?>> Builder<E> reverseOrder() {
     return new Builder<E>(Ordering.natural().reverse());
   }
 
-  public static <E extends Comparable<E>> Builder<E> naturalOrder() {
+  public static <E extends Comparable<?>> Builder<E> naturalOrder() {
     return new Builder<E>(Ordering.natural());
   }
 

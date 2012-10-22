@@ -741,4 +741,29 @@ public class ImmutableSortedMapTest extends TestCase {
     ASSERT.that(map.entrySet()).hasContentsInOrder(Maps.immutableEntry("one", 1),
         Maps.immutableEntry("three", 3), Maps.immutableEntry("two", 2));
   }
+
+  private static class SelfComparableExample implements Comparable<SelfComparableExample> {
+    @Override
+    public int compareTo(SelfComparableExample o) {
+      return 0;
+    }
+  }
+
+  public void testBuilderGenerics_SelfComparable() {
+    ImmutableSortedMap.Builder<SelfComparableExample, Object> natural =
+        ImmutableSortedMap.naturalOrder();
+
+    ImmutableSortedMap.Builder<SelfComparableExample, Object> reverse =
+        ImmutableSortedMap.reverseOrder();
+  }
+
+  private static class SuperComparableExample extends SelfComparableExample {}
+
+  public void testBuilderGenerics_SuperComparable() {
+    ImmutableSortedMap.Builder<SuperComparableExample, Object> natural =
+        ImmutableSortedMap.naturalOrder();
+
+    ImmutableSortedMap.Builder<SuperComparableExample, Object> reverse =
+        ImmutableSortedMap.reverseOrder();
+  }
 }
