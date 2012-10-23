@@ -256,8 +256,8 @@ public abstract class ImmutableTable<R, C, V> implements Table<R, C, V> {
   /**
    * {@inheritDoc}
    *
-   * <p>The value {@code Map<R, V>}s in the returned map are
-   * {@link ImmutableMap}s as well.
+   * <p>The value {@code Map<R, V>} instances in the returned map are
+   * {@link ImmutableMap} instances as well.
    */
   @Override public abstract ImmutableMap<C, Map<R, V>> columnMap();
 
@@ -273,8 +273,8 @@ public abstract class ImmutableTable<R, C, V> implements Table<R, C, V> {
   /**
    * {@inheritDoc}
    *
-   * <p>The value {@code Map<C, V>}s in the returned map are
-   * {@link ImmutableMap}s as well.
+   * <p>The value {@code Map<C, V>} instances in the returned map are
+   * {@link ImmutableMap} instances as well.
    */
   @Override public abstract ImmutableMap<R, Map<C, V>> rowMap();
 

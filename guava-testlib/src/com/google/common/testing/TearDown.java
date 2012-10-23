@@ -40,7 +40,7 @@ public interface TearDown {
    *
    * <p>tl4j details: For backwards compatibility, {@code
    * junit3.TearDownTestCase} currently does not fail a test when an exception
-   * is thrown from one of its {@link TearDown}s, but this is subject to
+   * is thrown from one of its {@link TearDown} instances, but this is subject to
    * change. Also, {@code junit4.TearDownTestCase} will.
    *
    * @throws Exception for any reason. {@code TearDownTestCase} ensures that

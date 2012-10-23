@@ -33,9 +33,9 @@ import java.util.SortedSet;
 import javax.annotation.Nullable;
 
 /**
- * {@code FluentIterable} provides a rich interface for manipulating {@code Iterable}s in a chained
- * fashion. A {@code FluentIterable} can be created from an {@code Iterable}, or from a set of
- * elements. The following types of methods are provided on {@code FluentIterable}:
+ * {@code FluentIterable} provides a rich interface for manipulating {@code Iterable} instances in a
+ * chained fashion. A {@code FluentIterable} can be created from an {@code Iterable}, or from a set
+ * of elements. The following types of methods are provided on {@code FluentIterable}:
  * <ul>
  * <li>chained methods which return a new {@code FluentIterable} based in some way on the contents
  * of the current one (for example {@link #transform})

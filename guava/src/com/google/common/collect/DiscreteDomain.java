@@ -23,7 +23,7 @@ import java.util.NoSuchElementException;
 
 /**
  * A descriptor for a <i>discrete</i> {@code Comparable} domain such as all
- * {@link Integer}s. A discrete domain is one that supports the three basic
+ * {@link Integer} instances. A discrete domain is one that supports the three basic
  * operations: {@link #next}, {@link #previous} and {@link #distance}, according
  * to their specifications. The methods {@link #minValue} and {@link #maxValue}
  * should also be overridden for bounded types.

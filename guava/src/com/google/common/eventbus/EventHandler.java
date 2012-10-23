@@ -65,7 +65,7 @@ class EventHandler {
    *
    * @param event  event to handle
    * @throws InvocationTargetException  if the wrapped method throws any
-   *     {@link Throwable} that is not an {@link Error} ({@code Error}s are
+   *     {@link Throwable} that is not an {@link Error} ({@code Error} instances are
    *     propagated as-is).
    */
   public void handleEvent(Object event) throws InvocationTargetException {

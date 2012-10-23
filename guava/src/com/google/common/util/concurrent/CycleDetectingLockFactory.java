@@ -45,8 +45,8 @@ import javax.annotation.Nullable;
 import javax.annotation.concurrent.ThreadSafe;
 
 /**
- * The {@code CycleDetectingLockFactory} creates {@link ReentrantLock}s and
- * {@link ReentrantReadWriteLock}s that detect potential deadlock by checking
+ * The {@code CycleDetectingLockFactory} creates {@link ReentrantLock} instances and
+ * {@link ReentrantReadWriteLock} instances that detect potential deadlock by checking
  * for cycles in lock acquisition order.
  * <p>
  * Potential deadlocks detected when calling the {@code lock()},
@@ -115,8 +115,8 @@ import javax.annotation.concurrent.ThreadSafe;
  *
  * <strong>ReadWriteLocks</strong>
  * <p>
- * While {@code ReadWriteLock}s have different properties and can form cycles
- * without potential deadlock, this class treats {@code ReadWriteLock}s as
+ * While {@code ReadWriteLock} instances have different properties and can form cycles
+ * without potential deadlock, this class treats {@code ReadWriteLock} instances as
  * equivalent to traditional exclusive locks. Although this increases the false
  * positives that the locks detect (i.e. cycles that will not actually result in
  * deadlock), it simplifies the algorithm and implementation considerably. The
@@ -548,7 +548,7 @@ public class CycleDetectingLockFactory {
 
   /**
    * Represents a detected cycle in lock acquisition ordering. The exception
-   * includes a causal chain of {@code ExampleStackTrace}s to illustrate the
+   * includes a causal chain of {@code ExampleStackTrace} instances to illustrate the
    * cycle, e.g.
    *
    * <pre>
