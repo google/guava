@@ -536,7 +536,7 @@ public final class MoreExecutors {
       private final Delayed delayedDelegate;
 
       public ListenableScheduledTask(
-          ListenableFuture<V> futureDelegate, Delayed delayedDelegate) {
+          ListenableFuture<V> futureDelegate,  Delayed delayedDelegate) {
         super(futureDelegate);
         this.delayedDelegate = delayedDelegate;
       }
