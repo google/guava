@@ -113,7 +113,7 @@ public abstract class AbstractContainerTester<C, E>
   }
 
   protected void expectUnchanged() {
-    expectContents(getSampleElements());
+    expectContents(getOrderedElements());
   }
 
   /**
@@ -170,6 +170,12 @@ public abstract class AbstractContainerTester<C, E>
   protected E[] createSamplesArray() {
     E[] array = getSubjectGenerator().createArray(getNumElements());
     getSampleElements().toArray(array);
+    return array;
+  }
+
+  protected E[] createOrderedArray() {
+    E[] array = getSubjectGenerator().createArray(getNumElements());
+    getOrderedElements().toArray(array);
     return array;
   }
 

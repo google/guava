@@ -39,7 +39,7 @@ public class ListEqualsTester<E> extends AbstractListTester<E> {
   public void testEquals_otherListWithSameElements() {
     assertTrue(
         "A List should equal any other List containing the same elements.",
-        getList().equals(new ArrayList<E>(getSampleElements())));
+        getList().equals(new ArrayList<E>(getOrderedElements())));
   }
 
   @CollectionSize.Require(absent = CollectionSize.ZERO)

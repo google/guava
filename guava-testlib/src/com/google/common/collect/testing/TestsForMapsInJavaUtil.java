@@ -31,7 +31,6 @@ import java.util.Comparator;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeMap;
@@ -135,14 +134,6 @@ public class TestsForMapsInJavaUtil {
             @Override protected Map<String, String> create(
                 Entry<String, String>[] entries) {
               return toHashMap(entries);
-            }
-            @Override public Iterable<Entry<String, String>> order(
-                List<Entry<String, String>> insertionOrder) {
-              /*
-               * For convenience, make this test double as a test that no tester
-               * calls order() on a container without the KNOWN_ORDER feature.
-               */
-              throw new UnsupportedOperationException();
             }
           })
         .named("HashMap")

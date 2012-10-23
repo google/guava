@@ -178,7 +178,7 @@ public class ListSubListTester<E> extends AbstractListTester<E> {
     List<E> subList = getList().subList(0, 2).subList(1, 2);
     assertEquals("subList(0, 2).subList(1, 2) "
         + "should be a single-element list of the element at index 1",
-        Collections.singletonList(samples.e1), subList);
+        Collections.singletonList(getOrderedElements().get(1)), subList);
   }
 
   @CollectionSize.Require(absent = {ZERO})

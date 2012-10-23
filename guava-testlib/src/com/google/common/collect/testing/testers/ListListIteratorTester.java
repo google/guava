@@ -71,7 +71,7 @@ public class ListListIteratorTester<E> extends AbstractListTester<E> {
   private void runListIteratorTest(Set<IteratorFeature> features) {
     new ListIteratorTester<E>(
         listListIteratorTesterNumIterations(), singleton(samples.e4), features,
-        Helpers.copyToList(getSampleElements()), 0) {
+        Helpers.copyToList(getOrderedElements()), 0) {
       {
         // TODO: don't set this universally
         stopTestingWhenAddThrowsException();

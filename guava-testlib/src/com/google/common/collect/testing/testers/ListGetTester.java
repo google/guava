@@ -31,7 +31,7 @@ import com.google.common.annotations.GwtCompatible;
 public class ListGetTester<E> extends AbstractListTester<E> {
   public void testGet_valid() {
     // This calls get() on each index and checks the result:
-    expectContents(createSamplesArray());
+    expectContents(createOrderedArray());
   }
 
   public void testGet_negative() {

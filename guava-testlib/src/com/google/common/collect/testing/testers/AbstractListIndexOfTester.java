@@ -47,7 +47,7 @@ public abstract class AbstractListIndexOfTester<E>
   @CollectionSize.Require(absent = ZERO)
   public void testFind_yes() {
     assertEquals(getMethodName() + "(firstElement) should return 0",
-        0, find(samples.e0));
+        0, find(getOrderedElements().get(0)));
   }
 
   public void testFind_no() {

@@ -29,7 +29,7 @@ import com.google.common.annotations.GwtCompatible;
 public class ListHashCodeTester<E> extends AbstractListTester<E> {
   public void testHashCode() {
     int expectedHashCode = 1;
-    for (E element : getSampleElements()) {
+    for (E element : getOrderedElements()) {
       expectedHashCode = 31 * expectedHashCode +
           ((element == null) ? 0 : element.hashCode());
     }
