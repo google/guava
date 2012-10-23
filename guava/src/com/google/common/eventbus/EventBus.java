@@ -296,7 +296,7 @@ public class EventBus {
         dispatch(eventWithHandler.event, eventWithHandler.handler);
       }
     } finally {
-      isDispatching.set(false);
+      isDispatching.remove();
     }
   }
 
