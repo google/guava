@@ -638,8 +638,8 @@ public final class ByteStreams {
     }
 
     // it's okay to mark even if mark isn't supported, as reset won't work
-    @Override public synchronized void mark(int readlimit) {
-      in.mark(readlimit);
+    @Override public synchronized void mark(int readLimit) {
+      in.mark(readLimit);
       mark = left;
     }
 
@@ -779,8 +779,10 @@ public final class ByteStreams {
    */
   public static void readFully(
       InputStream in, byte[] b, int off, int len) throws IOException {
-    if (read(in, b, off, len) != len) {
-      throw new EOFException();
+    int read = read(in, b, off, len);
+    if (read != len) {
+      throw new EOFException("reached end of stream after reading " + read + " bytes; "
+          + len + " bytes expected");
     }
   }
 
@@ -797,12 +799,15 @@ public final class ByteStreams {
    *     support skipping
    */
   public static void skipFully(InputStream in, long n) throws IOException {
+    long toSkip = n;
     while (n > 0) {
       long amt = in.skip(n);
       if (amt == 0) {
         // Force a blocking read to avoid infinite loop
         if (in.read() == -1) {
-          throw new EOFException();
+          long skipped = toSkip - n;
+          throw new EOFException("reached end of stream after skipping " + skipped + " bytes; "
+              + toSkip + " bytes expected");
         }
         n--;
       } else {
