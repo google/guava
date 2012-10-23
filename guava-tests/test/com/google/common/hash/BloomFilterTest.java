@@ -16,6 +16,7 @@
 
 package com.google.common.hash;
 
+import com.google.common.collect.ImmutableSet;
 import com.google.common.primitives.Ints;
 import com.google.common.testing.EqualsTester;
 import com.google.common.testing.NullPointerTester;
@@ -33,6 +34,46 @@ import javax.annotation.Nullable;
  * @author Dimitris Andreou
  */
 public class BloomFilterTest extends TestCase {
+
+  public void testCreateAndCheckBloomFilterWithKnownFalsePositives() {
+    int numInsertions = 1000000;
+    BloomFilter<CharSequence> bf = BloomFilter.create(Funnels.stringFunnel(), numInsertions);
+
+    // Insert "numInsertions" even numbers into the BF.
+    for (int i = 0; i < numInsertions * 2; i += 2) {
+      bf.put(Integer.toString(i));
+    }
+
+    // Assert that the BF "might" have all of the even numbers.
+    for (int i = 0; i < numInsertions * 2; i += 2) {
+      assertTrue(bf.mightContain(Integer.toString(i)));
+    }
+
+    // Now we check for known false positives using a set of known false positives.
+    // (These are all of the false positives under 900.)
+    ImmutableSet<Integer> falsePositives = ImmutableSet.of(
+        49, 51, 59, 163, 199, 321, 325, 363, 367, 469, 545, 561, 727, 769, 773, 781);
+    for (int i = 1; i < 900; i += 2) {
+      if (!falsePositives.contains(i)) {
+        assertFalse("BF should not contain " + i, bf.mightContain(Integer.toString(i)));
+      }
+    }
+
+    // Check that there are exactly 29824 false positives for this BF.
+    int knownNumberOfFalsePositives = 29824;
+    int numFpp = 0;
+    for (int i = 1; i < numInsertions * 2; i += 2) {
+      if (bf.mightContain(Integer.toString(i))) {
+        numFpp++;
+      }
+    }
+    assertEquals(knownNumberOfFalsePositives, numFpp);
+    double actualFpp = (double) knownNumberOfFalsePositives / numInsertions;
+    double expectedFpp = bf.expectedFpp();
+    // The normal order of (expected, actual) is reversed here on purpose.
+    assertEquals(actualFpp, expectedFpp, 0.00015);
+  }
+
   /**
    * Sanity checking with many combinations of false positive rates and expected insertions
    */
