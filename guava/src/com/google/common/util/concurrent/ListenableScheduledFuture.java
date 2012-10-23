@@ -20,7 +20,7 @@ import com.google.common.annotations.Beta;
 
 import java.util.concurrent.ScheduledFuture;
 
-/**u
+/**
  * Helper interface to implement both {@link ListenableFuture} and
  * {@link ScheduledFuture}.
  *
