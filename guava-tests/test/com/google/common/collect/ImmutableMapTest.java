@@ -35,7 +35,9 @@ import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.MapFeature;
 import com.google.common.collect.testing.google.MapGenerators.ImmutableMapCopyOfEnumMapGenerator;
+import com.google.common.collect.testing.google.MapGenerators.ImmutableMapEntryListGenerator;
 import com.google.common.collect.testing.google.MapGenerators.ImmutableMapGenerator;
+import com.google.common.collect.testing.google.MapGenerators.ImmutableMapKeyListGenerator;
 import com.google.common.collect.testing.google.MapGenerators.ImmutableMapUnhashableValuesGenerator;
 import com.google.common.collect.testing.google.MapGenerators.ImmutableMapValueListGenerator;
 import com.google.common.testing.EqualsTester;
@@ -92,6 +94,24 @@ public class ImmutableMapTest extends TestCase {
         .withFeatures(CollectionSize.ANY, CollectionFeature.KNOWN_ORDER,
             CollectionFeature.ALLOWS_NULL_QUERIES)
         .named("ImmutableMap.values, unhashable")
+        .createTestSuite());
+
+    suite.addTest(ListTestSuiteBuilder.using(
+        new ImmutableMapKeyListGenerator())
+        .named("ImmutableMap.keySet.asList")
+        .withFeatures(CollectionSize.ANY,
+            CollectionFeature.SERIALIZABLE,
+            CollectionFeature.REJECTS_DUPLICATES_AT_CREATION,
+            CollectionFeature.ALLOWS_NULL_QUERIES)
+        .createTestSuite());
+
+    suite.addTest(ListTestSuiteBuilder.using(
+        new ImmutableMapEntryListGenerator())
+        .named("ImmutableMap.entrySet.asList")
+        .withFeatures(CollectionSize.ANY,
+            CollectionFeature.SERIALIZABLE,
+            CollectionFeature.REJECTS_DUPLICATES_AT_CREATION,
+            CollectionFeature.ALLOWS_NULL_QUERIES)
         .createTestSuite());
 
     suite.addTest(ListTestSuiteBuilder.using(

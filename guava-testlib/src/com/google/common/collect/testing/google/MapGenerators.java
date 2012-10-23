@@ -16,6 +16,8 @@
 
 package com.google.common.collect.testing.google;
 
+import static com.google.common.collect.testing.Helpers.mapEntry;
+
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
@@ -24,6 +26,7 @@ import com.google.common.collect.testing.AnEnum;
 import com.google.common.collect.testing.SampleElements;
 import com.google.common.collect.testing.TestEnumMapGenerator;
 import com.google.common.collect.testing.TestListGenerator;
+import com.google.common.collect.testing.TestStringListGenerator;
 import com.google.common.collect.testing.TestStringMapGenerator;
 import com.google.common.collect.testing.TestUnhashableCollectionGenerator;
 import com.google.common.collect.testing.UnhashableObject;
@@ -67,30 +70,61 @@ public class MapGenerators {
     }
   }
 
-  public static class ImmutableMapValueListGenerator
-      implements TestListGenerator<String> {
+  public static class ImmutableMapKeyListGenerator extends TestStringListGenerator {
     @Override
-    public SampleElements<String> samples() {
-      return new SampleElements.Strings();
+    public List<String> create(String[] elements) {
+      ImmutableMap.Builder<String, Integer> builder = ImmutableMap.builder();
+      for (int i = 0; i < elements.length; i++) {
+        builder.put(elements[i], i);
+      }
+      return builder.build().keySet().asList();
     }
+  }
 
+  public static class ImmutableMapValueListGenerator extends TestStringListGenerator {
     @Override
-    public List<String> create(Object... elements) {
+    public List<String> create(String[] elements) {
       ImmutableMap.Builder<Integer, String> builder = ImmutableMap.builder();
       for (int i = 0; i < elements.length; i++) {
-        builder.put(i, toStringOrNull(elements[i]));
+        builder.put(i, elements[i]);
       }
       return builder.build().values().asList();
     }
+  }
+
+  public static class ImmutableMapEntryListGenerator
+      implements TestListGenerator<Entry<String, Integer>> {
 
     @Override
-    public String[] createArray(int length) {
-      return new String[length];
+    public SampleElements<Entry<String, Integer>> samples() {
+      return new SampleElements<Entry<String, Integer>>(
+          mapEntry("foo", 5),
+          mapEntry("bar", 3),
+          mapEntry("baz", 17),
+          mapEntry("quux", 1),
+          mapEntry("toaster", -2));
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public Entry<String, Integer>[] createArray(int length) {
+      return new Entry[length];
     }
 
     @Override
-    public Iterable<String> order(List<String> insertionOrder) {
+    public Iterable<Entry<String, Integer>> order(List<Entry<String, Integer>> insertionOrder) {
       return insertionOrder;
+    }
+
+    @Override
+    public List<Entry<String, Integer>> create(Object... elements) {
+      ImmutableMap.Builder<String, Integer> builder = ImmutableMap.builder();
+      for (Object o : elements) {
+        @SuppressWarnings("unchecked")
+        Entry<String, Integer> entry = (Entry<String, Integer>) o;
+        builder.put(entry);
+      }
+      return builder.build().entrySet().asList();
     }
   }
 
