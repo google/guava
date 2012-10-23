@@ -18,6 +18,7 @@ package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Function;
+import com.google.common.base.Predicate;
 import com.google.common.collect.Maps.EntryTransformer;
 
 import java.lang.reflect.Array;
@@ -81,6 +82,13 @@ class Platform {
     return (set instanceof NavigableSet)
         ? Maps.asMap((NavigableSet<K>) set, function)
         : Maps.asMapSortedIgnoreNavigable(set, function);
+  }
+
+  static <E> SortedSet<E> setsFilterSortedSet(SortedSet<E> set,
+      Predicate<? super E> predicate) {
+    return (set instanceof NavigableSet)
+        ? Sets.filter((NavigableSet<E>) set, predicate)
+        : Sets.filterSortedIgnoreNavigable(set, predicate);
   }
 
   private Platform() {}

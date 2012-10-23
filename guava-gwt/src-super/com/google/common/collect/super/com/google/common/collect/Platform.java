@@ -17,6 +17,7 @@
 package com.google.common.collect;
 
 import com.google.common.base.Function;
+import com.google.common.base.Predicate;
 import com.google.common.collect.Maps.EntryTransformer;
 
 import java.util.SortedMap;
@@ -52,5 +53,10 @@ class Platform {
   static <K, V> SortedMap<K, V> mapsAsMapSortedSet(
       SortedSet<K> set, Function<? super K, V> function) {
     return Maps.asMapSortedIgnoreNavigable(set, function);
+  }
+
+  static <E> SortedSet<E> setsFilterSortedSet(
+      SortedSet<E> unfiltered, Predicate<? super E> predicate) {
+    return Sets.filterSortedIgnoreNavigable(unfiltered, predicate);
   }
 }

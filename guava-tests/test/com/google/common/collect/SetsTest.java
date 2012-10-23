@@ -236,7 +236,8 @@ public class SetsTest extends TestCase {
 
   @GwtIncompatible("suite")
   private static Test testsForFilterNoNulls() {
-    return SetTestSuiteBuilder.using(new TestStringSetGenerator() {
+    TestSuite suite = new TestSuite();
+    suite.addTest(SetTestSuiteBuilder.using(new TestStringSetGenerator() {
           @Override public Set<String> create(String[] elements) {
             Set<String> unfiltered = Sets.newLinkedHashSet();
             unfiltered.add("yyy");
@@ -252,7 +253,30 @@ public class SetsTest extends TestCase {
             CollectionSize.ANY,
             CollectionFeature.ALLOWS_NULL_QUERIES)
         .suppressing(getIteratorKnownOrderRemoveSupportedMethod())
-        .createTestSuite();
+        .createTestSuite());
+    suite.addTest(NavigableSetTestSuiteBuilder.using(new TestStringSetGenerator() {
+          @Override public NavigableSet<String> create(String[] elements) {
+            NavigableSet<String> unfiltered = Sets.newTreeSet();
+            unfiltered.add("yyy");
+            unfiltered.addAll(ImmutableList.copyOf(elements));
+            unfiltered.add("zzz");
+            return Sets.filter(unfiltered, Collections2Test.LENGTH_1);
+          }
+
+          @Override
+          public List<String> order(List<String> insertionOrder) {
+            return Ordering.natural().sortedCopy(insertionOrder);
+          }
+        })
+        .named("Sets.filter[NavigableSet]")
+        .withFeatures(
+            SetFeature.GENERAL_PURPOSE,
+            CollectionFeature.KNOWN_ORDER,
+            CollectionSize.ANY,
+            CollectionFeature.ALLOWS_NULL_QUERIES)
+        .suppressing(getIteratorKnownOrderRemoveSupportedMethod())
+        .createTestSuite());
+    return suite;
   }
 
   @GwtIncompatible("suite")
@@ -1095,6 +1119,35 @@ public class SetsTest extends TestCase {
         filteredEven);
     assertEquals("FirstOnModifiedSortedSet", 0L, filteredEven.first().longValue());
     assertEquals("LastOnModifiedSortedSet", 12L, filteredEven.last().longValue());
+  }
+
+  @GwtIncompatible("NavigableSet")
+  public void testFilterNavigable() {
+    NavigableSet<Long> sorted = Sets.newTreeSet();
+    for (long i = 1; i < 11; i++) {
+      sorted.add(i);
+    }
+    NavigableSet<Long> filteredEven = Sets.filter(sorted, new Predicate<Long>() {
+      @Override
+      public boolean apply(Long input) {
+        return input % 2 == 0;
+      }
+    });
+
+    assertEquals("filteredNavigableSet", ImmutableSet.of(2L, 4L, 6L, 8L, 10L), filteredEven);
+    assertEquals("First", 2L, filteredEven.first().longValue());
+    assertEquals("Last", 10L, filteredEven.last().longValue());
+    assertEquals("subSet", ImmutableSet.of(4L, 6L), filteredEven.subSet(4L, 8L));
+    assertEquals("headSet", ImmutableSet.of(2L, 4L), filteredEven.headSet(5L));
+    assertEquals("tailSet", ImmutableSet.of(8L, 10L), filteredEven.tailSet(7L));
+    assertEquals("comparator", sorted.comparator(), filteredEven.comparator());
+
+    sorted.add(12L);
+    sorted.add(0L);
+    assertEquals("addingElementsToSet", ImmutableSet.of(0L, 2L, 4L, 6L, 8L, 10L, 12L),
+        filteredEven);
+    assertEquals("FirstOnModifiedNavigableSet", 0L, filteredEven.first().longValue());
+    assertEquals("LastOnModifiedNavigableSet", 12L, filteredEven.last().longValue());
   }
 
   static SortedSet<Long> filteredEmpty = Sets.filter(new TreeSet<Long>(), Predicates.alwaysTrue());
