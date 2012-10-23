@@ -21,9 +21,18 @@ import static org.junit.contrib.truth.Truth.ASSERT;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.ImmutableSet.Builder;
+import com.google.common.collect.testing.ListTestSuiteBuilder;
+import com.google.common.collect.testing.SetTestSuiteBuilder;
+import com.google.common.collect.testing.features.CollectionFeature;
+import com.google.common.collect.testing.features.CollectionSize;
+import com.google.common.collect.testing.google.SetGenerators.DegeneratedImmutableSetGenerator;
+import com.google.common.collect.testing.google.SetGenerators.ImmutableSetAsListGenerator;
+import com.google.common.collect.testing.google.SetGenerators.ImmutableSetCopyOfGenerator;
+import com.google.common.collect.testing.google.SetGenerators.ImmutableSetWithBadHashesGenerator;
 import com.google.common.testing.EqualsTester;
-import com.google.common.testing.NullPointerTester;
-import com.google.common.testing.SerializableTester;
+
+import junit.framework.Test;
+import junit.framework.TestSuite;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -39,6 +48,42 @@ import java.util.Set;
  */
 @GwtCompatible(emulated = true)
 public class ImmutableSetTest extends AbstractImmutableSetTest {
+
+  @GwtIncompatible("suite")
+  public static Test suite() {
+    TestSuite suite = new TestSuite();
+
+    suite.addTest(SetTestSuiteBuilder.using(new ImmutableSetCopyOfGenerator())
+        .named(ImmutableSetTest.class.getName())
+        .withFeatures(CollectionSize.ANY, CollectionFeature.KNOWN_ORDER,
+            CollectionFeature.SERIALIZABLE,
+            CollectionFeature.ALLOWS_NULL_QUERIES)
+        .createTestSuite());
+
+    suite.addTest(SetTestSuiteBuilder.using(
+        new ImmutableSetWithBadHashesGenerator())
+        .named(ImmutableSetTest.class.getName() + ", with bad hashes")
+        .withFeatures(CollectionSize.ANY, CollectionFeature.KNOWN_ORDER,
+            CollectionFeature.ALLOWS_NULL_QUERIES)
+        .createTestSuite());
+
+    suite.addTest(SetTestSuiteBuilder.using(
+        new DegeneratedImmutableSetGenerator())
+        .named(ImmutableSetTest.class.getName() + ", degenerate")
+        .withFeatures(CollectionSize.ONE, CollectionFeature.KNOWN_ORDER,
+            CollectionFeature.ALLOWS_NULL_QUERIES)
+        .createTestSuite());
+
+    suite.addTest(ListTestSuiteBuilder.using(new ImmutableSetAsListGenerator())
+        .named("ImmutableSet.asList")
+        .withFeatures(CollectionSize.ANY,
+            CollectionFeature.REJECTS_DUPLICATES_AT_CREATION,
+            CollectionFeature.SERIALIZABLE,
+            CollectionFeature.ALLOWS_NULL_QUERIES)
+        .createTestSuite());
+
+    return suite;
+  }
 
   @Override protected Set<String> of() {
     return ImmutableSet.of();
@@ -115,12 +160,6 @@ public class ImmutableSetTest extends AbstractImmutableSetTest {
     assertEquals(Collections.singleton(array), set);
   }
 
-  @GwtIncompatible("NullPointerTester")
-  public void testNullPointers() {
-    NullPointerTester tester = new NullPointerTester();
-    tester.testAllPublicStaticMethods(ImmutableSet.class);
-  }
-
   @GwtIncompatible("ImmutableSet.chooseTableSize")
   public void testChooseTableSize() {
     assertEquals(8, ImmutableSet.chooseTableSize(3));
@@ -172,21 +211,6 @@ public class ImmutableSetTest extends AbstractImmutableSetTest {
   @GwtIncompatible("GWT is single threaded")
   public void testCopyOf_threadSafe() {
     verifyThreadSafe();
-  }
-
-  public void testAsList() {
-    ImmutableSet<String> set = ImmutableSet.of("a", "b", "c", "d", "e");
-    ImmutableList<String> list = set.asList();
-    assertEquals(ImmutableList.of("a", "b", "c", "d", "e"), list);
-  }
-
-  @GwtIncompatible("SerializableTester, ImmutableAsList")
-  public void testAsListReturnTypeAndSerialization() {
-    ImmutableSet<String> set = ImmutableSet.of("a", "b", "c", "d", "e");
-    ImmutableList<String> list = set.asList();
-    assertTrue(list instanceof ImmutableAsList);
-    ImmutableList<String> copy = SerializableTester.reserializeAndAssert(list);
-    assertTrue(copy instanceof ImmutableAsList);
   }
 
   @Override <E extends Comparable<E>> Builder<E> builder() {

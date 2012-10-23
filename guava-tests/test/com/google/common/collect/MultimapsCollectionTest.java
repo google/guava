@@ -45,11 +45,8 @@ import com.google.common.collect.testing.features.MapFeature;
 import com.google.common.collect.testing.google.ListMultimapTestSuiteBuilder;
 import com.google.common.collect.testing.google.MultisetTestSuiteBuilder;
 import com.google.common.collect.testing.google.MultisetWritesTester;
-import com.google.common.collect.testing.google.SetMultimapTestSuiteBuilder;
-import com.google.common.collect.testing.google.SortedSetMultimapTestSuiteBuilder;
 import com.google.common.collect.testing.google.TestStringListMultimapGenerator;
 import com.google.common.collect.testing.google.TestStringMultisetGenerator;
-import com.google.common.collect.testing.google.TestStringSetMultimapGenerator;
 import com.google.common.collect.testing.testers.CollectionIteratorTester;
 
 import junit.framework.Test;
@@ -66,12 +63,12 @@ import java.util.Set;
 import java.util.TreeSet;
 
 /**
- * Run collection tests on {@link Multimap} implementations.
+ * Run collection tests on wrappers from {@link Multimaps}.
  *
  * @author Jared Levy
  */
 @GwtIncompatible("suite") // TODO(cpovirk): set up collect/gwt/suites version
-public class MultimapCollectionTest extends TestCase {
+public class MultimapsCollectionTest extends TestCase {
 
   static final Feature<?>[] COLLECTION_FEATURES_ORDER = {
     CollectionSize.ANY,
@@ -146,7 +143,7 @@ public class MultimapCollectionTest extends TestCase {
    * Implements {@code Multimap.put()} -- and no other methods -- for a {@code
    * Map} by ignoring all but the latest value for each key. This class exists
    * only so that we can use
-   * {@link MultimapCollectionTest#populateMultimapForGet(Multimap, String[])}
+   * {@link MultimapsCollectionTest#populateMultimapForGet(Multimap, String[])}
    * and similar methods to populate a map to be passed to
    * {@link Multimaps#forMap(Map)}. All tests should run against the result of
    * {@link #build()}.
@@ -252,102 +249,6 @@ public class MultimapCollectionTest extends TestCase {
   public static Test suite() {
     TestSuite suite = new TestSuite();
 
-    suite.addTest(SetMultimapTestSuiteBuilder.using(new TestStringSetMultimapGenerator() {
-          @Override
-          protected SetMultimap<String, String> create(Entry<String, String>[] entries) {
-            SetMultimap<String, String> multimap = HashMultimap.create();
-            for (Entry<String, String> entry : entries) {
-              multimap.put(entry.getKey(), entry.getValue());
-            }
-            return multimap;
-          }
-        })
-        .named("HashMultimap")
-        .withFeatures(
-            MapFeature.ALLOWS_NULL_KEYS,
-            MapFeature.ALLOWS_NULL_VALUES,
-            MapFeature.GENERAL_PURPOSE,
-            MapFeature.FAILS_FAST_ON_CONCURRENT_MODIFICATION,
-            CollectionFeature.SERIALIZABLE,
-            CollectionSize.ANY)
-        .createTestSuite());
-
-    suite.addTest(SetMultimapTestSuiteBuilder.using(new TestStringSetMultimapGenerator() {
-        @Override
-        protected SetMultimap<String, String> create(Entry<String, String>[] entries) {
-          SetMultimap<String, String> multimap = LinkedHashMultimap.create();
-          for (Entry<String, String> entry : entries) {
-            multimap.put(entry.getKey(), entry.getValue());
-          }
-          return multimap;
-        }
-      })
-      .named("LinkedHashMultimap")
-      .withFeatures(
-          MapFeature.ALLOWS_NULL_KEYS,
-          MapFeature.ALLOWS_NULL_VALUES,
-          MapFeature.GENERAL_PURPOSE,
-          MapFeature.FAILS_FAST_ON_CONCURRENT_MODIFICATION,
-          CollectionFeature.KNOWN_ORDER,
-          CollectionFeature.SERIALIZABLE,
-          CollectionSize.ANY)
-      .createTestSuite());
-
-    suite.addTest(SortedSetMultimapTestSuiteBuilder.using(new TestStringSetMultimapGenerator() {
-        @Override
-        protected SetMultimap<String, String> create(Entry<String, String>[] entries) {
-          SetMultimap<String, String> multimap = TreeMultimap.create(
-              Ordering.natural().nullsFirst(), Ordering.natural().nullsFirst());
-          for (Entry<String, String> entry : entries) {
-            multimap.put(entry.getKey(), entry.getValue());
-          }
-          return multimap;
-        }
-
-        @Override
-        public Iterable<Entry<String, String>> order(List<Entry<String, String>> insertionOrder) {
-          return new Ordering<Entry<String, String>>() {
-            @Override
-            public int compare(Entry<String, String> left, Entry<String, String> right) {
-              return ComparisonChain.start()
-                  .compare(left.getKey(), right.getKey(), Ordering.natural().nullsFirst())
-                  .compare(left.getValue(), right.getValue(), Ordering.natural().nullsFirst())
-                  .result();
-            }
-          }.sortedCopy(insertionOrder);
-        }
-      })
-      .named("TreeMultimap nullsFirst")
-      .withFeatures(
-          MapFeature.ALLOWS_NULL_KEYS,
-          MapFeature.ALLOWS_NULL_VALUES,
-          MapFeature.GENERAL_PURPOSE,
-          MapFeature.FAILS_FAST_ON_CONCURRENT_MODIFICATION,
-          CollectionFeature.KNOWN_ORDER,
-          CollectionFeature.SERIALIZABLE,
-          CollectionSize.ANY)
-      .createTestSuite());
-
-    suite.addTest(ListMultimapTestSuiteBuilder.using(new TestStringListMultimapGenerator() {
-        @Override
-        protected ListMultimap<String, String> create(Entry<String, String>[] entries) {
-          ListMultimap<String, String> multimap = ArrayListMultimap.create();
-          for (Entry<String, String> entry : entries) {
-            multimap.put(entry.getKey(), entry.getValue());
-          }
-          return multimap;
-        }
-      })
-      .named("ArrayListMultimap")
-      .withFeatures(
-          MapFeature.ALLOWS_NULL_KEYS,
-          MapFeature.ALLOWS_NULL_VALUES,
-          MapFeature.GENERAL_PURPOSE,
-          MapFeature.FAILS_FAST_ON_CONCURRENT_MODIFICATION,
-          CollectionFeature.SERIALIZABLE,
-          CollectionSize.ANY)
-      .createTestSuite());
-
     suite.addTest(ListMultimapTestSuiteBuilder.using(new TestStringListMultimapGenerator() {
         @Override
         protected ListMultimap<String, String> create(Entry<String, String>[] entries) {
@@ -365,62 +266,6 @@ public class MultimapCollectionTest extends TestCase {
           MapFeature.ALLOWS_NULL_VALUES,
           MapFeature.GENERAL_PURPOSE,
           MapFeature.FAILS_FAST_ON_CONCURRENT_MODIFICATION,
-          CollectionSize.ANY)
-      .createTestSuite());
-
-    suite.addTest(ListMultimapTestSuiteBuilder.using(new TestStringListMultimapGenerator() {
-        @Override
-        protected ListMultimap<String, String> create(Entry<String, String>[] entries) {
-          ListMultimap<String, String> multimap = LinkedListMultimap.create();
-          for (Entry<String, String> entry : entries) {
-            multimap.put(entry.getKey(), entry.getValue());
-          }
-          return multimap;
-        }
-      })
-      .named("LinkedListMultimap")
-      .withFeatures(
-          MapFeature.ALLOWS_NULL_KEYS,
-          MapFeature.ALLOWS_NULL_VALUES,
-          MapFeature.GENERAL_PURPOSE,
-          CollectionFeature.SERIALIZABLE,
-          CollectionFeature.KNOWN_ORDER,
-          CollectionSize.ANY)
-      .createTestSuite());
-
-    suite.addTest(ListMultimapTestSuiteBuilder.using(new TestStringListMultimapGenerator() {
-        @Override
-        protected ListMultimap<String, String> create(Entry<String, String>[] entries) {
-          ImmutableListMultimap.Builder<String, String> builder = ImmutableListMultimap.builder();
-          for (Entry<String, String> entry : entries) {
-            builder.put(entry.getKey(), entry.getValue());
-          }
-          return builder.build();
-        }
-      })
-      .named("ImmutableListMultimap")
-      .withFeatures(
-          MapFeature.ALLOWS_NULL_QUERIES,
-          CollectionFeature.SERIALIZABLE,
-          CollectionFeature.KNOWN_ORDER,
-          CollectionSize.ANY)
-      .createTestSuite());
-
-    suite.addTest(SetMultimapTestSuiteBuilder.using(new TestStringSetMultimapGenerator() {
-        @Override
-        protected SetMultimap<String, String> create(Entry<String, String>[] entries) {
-          ImmutableSetMultimap.Builder<String, String> builder = ImmutableSetMultimap.builder();
-          for (Entry<String, String> entry : entries) {
-            builder.put(entry.getKey(), entry.getValue());
-          }
-          return builder.build();
-        }
-      })
-      .named("ImmutableSetMultimap")
-      .withFeatures(
-          MapFeature.ALLOWS_NULL_QUERIES,
-          CollectionFeature.KNOWN_ORDER,
-          CollectionFeature.SERIALIZABLE,
           CollectionSize.ANY)
       .createTestSuite());
 

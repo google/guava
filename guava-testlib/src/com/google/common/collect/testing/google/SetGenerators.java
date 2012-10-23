@@ -258,7 +258,7 @@ public class SetGenerators {
     }
   }
 
-  public static class ImmutableSortedsetSubsetAsListSubListGenerator
+  public static class ImmutableSortedSetSubsetAsListSubListGenerator
       extends TestStringListGenerator {
     @Override protected List<String> create(String[] elements) {
       Comparator<String> comparator = createExplicitComparator(elements);

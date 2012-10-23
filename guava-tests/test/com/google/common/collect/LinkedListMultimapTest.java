@@ -29,7 +29,15 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.testing.IteratorTester;
 import com.google.common.collect.testing.ListIteratorTester;
+import com.google.common.collect.testing.features.CollectionFeature;
+import com.google.common.collect.testing.features.CollectionSize;
+import com.google.common.collect.testing.features.MapFeature;
+import com.google.common.collect.testing.google.ListMultimapTestSuiteBuilder;
+import com.google.common.collect.testing.google.TestStringListMultimapGenerator;
 import com.google.common.testing.EqualsTester;
+
+import junit.framework.Test;
+import junit.framework.TestSuite;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -49,6 +57,32 @@ import java.util.Set;
  */
 @GwtCompatible(emulated = true)
 public class LinkedListMultimapTest extends AbstractListMultimapTest {
+
+  @GwtIncompatible("suite")
+  public static Test suite() {
+    TestSuite suite = new TestSuite();
+    suite.addTest(ListMultimapTestSuiteBuilder.using(new TestStringListMultimapGenerator() {
+        @Override
+        protected ListMultimap<String, String> create(Entry<String, String>[] entries) {
+          ListMultimap<String, String> multimap = LinkedListMultimap.create();
+          for (Entry<String, String> entry : entries) {
+            multimap.put(entry.getKey(), entry.getValue());
+          }
+          return multimap;
+        }
+      })
+      .named("LinkedListMultimap")
+      .withFeatures(
+          MapFeature.ALLOWS_NULL_KEYS,
+          MapFeature.ALLOWS_NULL_VALUES,
+          MapFeature.GENERAL_PURPOSE,
+          CollectionFeature.SERIALIZABLE,
+          CollectionFeature.KNOWN_ORDER,
+          CollectionSize.ANY)
+      .createTestSuite());
+    suite.addTestSuite(LinkedListMultimapTest.class);
+    return suite;
+  }
 
   @Override protected LinkedListMultimap<String, Integer> create() {
     return LinkedListMultimap.create();

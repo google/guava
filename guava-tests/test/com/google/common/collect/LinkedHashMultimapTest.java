@@ -27,7 +27,15 @@ import static org.junit.contrib.truth.Truth.ASSERT;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.testing.IteratorTester;
+import com.google.common.collect.testing.features.CollectionFeature;
+import com.google.common.collect.testing.features.CollectionSize;
+import com.google.common.collect.testing.features.MapFeature;
+import com.google.common.collect.testing.google.SetMultimapTestSuiteBuilder;
+import com.google.common.collect.testing.google.TestStringSetMultimapGenerator;
 import com.google.common.testing.SerializableTester;
+
+import junit.framework.Test;
+import junit.framework.TestSuite;
 
 import java.util.Collection;
 import java.util.Iterator;
@@ -43,6 +51,33 @@ import java.util.Set;
  */
 @GwtCompatible(emulated = true)
 public class LinkedHashMultimapTest extends AbstractSetMultimapTest {
+
+  @GwtIncompatible("suite")
+  public static Test suite() {
+    TestSuite suite = new TestSuite();
+    suite.addTest(SetMultimapTestSuiteBuilder.using(new TestStringSetMultimapGenerator() {
+        @Override
+        protected SetMultimap<String, String> create(Entry<String, String>[] entries) {
+          SetMultimap<String, String> multimap = LinkedHashMultimap.create();
+          for (Entry<String, String> entry : entries) {
+            multimap.put(entry.getKey(), entry.getValue());
+          }
+          return multimap;
+        }
+      })
+      .named("LinkedHashMultimap")
+      .withFeatures(
+          MapFeature.ALLOWS_NULL_KEYS,
+          MapFeature.ALLOWS_NULL_VALUES,
+          MapFeature.GENERAL_PURPOSE,
+          MapFeature.FAILS_FAST_ON_CONCURRENT_MODIFICATION,
+          CollectionFeature.KNOWN_ORDER,
+          CollectionFeature.SERIALIZABLE,
+          CollectionSize.ANY)
+      .createTestSuite());
+    suite.addTestSuite(LinkedHashMultimapTest.class);
+    return suite;
+  }
 
   @Override protected Multimap<String, Integer> create() {
     return LinkedHashMultimap.create();

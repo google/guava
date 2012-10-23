@@ -17,8 +17,16 @@
 package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.GwtIncompatible;
+import com.google.common.collect.testing.features.CollectionFeature;
+import com.google.common.collect.testing.features.CollectionSize;
+import com.google.common.collect.testing.features.MapFeature;
+import com.google.common.collect.testing.google.BiMapTestSuiteBuilder;
+import com.google.common.collect.testing.google.TestStringBiMapGenerator;
 
+import junit.framework.Test;
 import junit.framework.TestCase;
+import junit.framework.TestSuite;
 
 import java.util.Iterator;
 import java.util.Map;
@@ -30,8 +38,34 @@ import java.util.Set;
  *
  * @author Mike Bostock
  */
-@GwtCompatible
+@GwtCompatible(emulated = true)
 public class HashBiMapTest extends TestCase {
+
+  public static final class HashBiMapGenerator extends TestStringBiMapGenerator {
+    @Override
+    protected BiMap<String, String> create(Entry<String, String>[] entries) {
+      BiMap<String, String> result = HashBiMap.create();
+      for (Entry<String, String> entry : entries) {
+        result.put(entry.getKey(), entry.getValue());
+      }
+      return result;
+    }
+  }
+
+  @GwtIncompatible("suite")
+  public static Test suite() {
+    TestSuite suite = new TestSuite();
+    suite.addTest(BiMapTestSuiteBuilder.using(new HashBiMapGenerator())
+      .named("HashBiMap")
+      .withFeatures(CollectionSize.ANY,
+          CollectionFeature.SERIALIZABLE,
+          MapFeature.ALLOWS_NULL_KEYS,
+          MapFeature.ALLOWS_NULL_VALUES,
+          MapFeature.GENERAL_PURPOSE)
+      .createTestSuite());
+    suite.addTestSuite(HashBiMapTest.class);
+    return suite;
+  }
 
   public void testMapConstructor() {
     /* Test with non-empty Map. */

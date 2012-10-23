@@ -21,11 +21,18 @@ import static org.junit.contrib.truth.Truth.ASSERT;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.ImmutableSetMultimap.Builder;
+import com.google.common.collect.testing.features.CollectionFeature;
+import com.google.common.collect.testing.features.CollectionSize;
+import com.google.common.collect.testing.features.MapFeature;
+import com.google.common.collect.testing.google.SetMultimapTestSuiteBuilder;
+import com.google.common.collect.testing.google.TestStringSetMultimapGenerator;
 import com.google.common.collect.testing.google.UnmodifiableCollectionTests;
 import com.google.common.testing.EqualsTester;
 import com.google.common.testing.SerializableTester;
 
+import junit.framework.Test;
 import junit.framework.TestCase;
+import junit.framework.TestSuite;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -39,6 +46,29 @@ import java.util.Map.Entry;
  */
 @GwtCompatible(emulated = true)
 public class ImmutableSetMultimapTest extends TestCase {
+  @GwtIncompatible("suite")
+  public static Test suite() {
+    TestSuite suite = new TestSuite();
+    suite.addTestSuite(ImmutableSetMultimapTest.class);
+    suite.addTest(SetMultimapTestSuiteBuilder.using(new TestStringSetMultimapGenerator() {
+        @Override
+        protected SetMultimap<String, String> create(Entry<String, String>[] entries) {
+          ImmutableSetMultimap.Builder<String, String> builder = ImmutableSetMultimap.builder();
+          for (Entry<String, String> entry : entries) {
+            builder.put(entry.getKey(), entry.getValue());
+          }
+          return builder.build();
+        }
+      })
+      .named("ImmutableSetMultimap")
+      .withFeatures(
+          MapFeature.ALLOWS_NULL_QUERIES,
+          CollectionFeature.KNOWN_ORDER,
+          CollectionFeature.SERIALIZABLE,
+          CollectionSize.ANY)
+      .createTestSuite());
+    return suite;
+  }
 
   public void testBuilder_withImmutableEntry() {
     ImmutableSetMultimap<String, Integer> multimap = new Builder<String, Integer>()

@@ -20,9 +20,19 @@ import static java.util.Arrays.asList;
 import static org.junit.contrib.truth.Truth.ASSERT;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.GwtIncompatible;
+import com.google.common.collect.testing.features.CollectionFeature;
+import com.google.common.collect.testing.features.CollectionSize;
+import com.google.common.collect.testing.features.MapFeature;
+import com.google.common.collect.testing.google.ListMultimapTestSuiteBuilder;
+import com.google.common.collect.testing.google.TestStringListMultimapGenerator;
+
+import junit.framework.Test;
+import junit.framework.TestSuite;
 
 import java.util.ConcurrentModificationException;
 import java.util.List;
+import java.util.Map.Entry;
 import java.util.RandomAccess;
 
 /**
@@ -30,8 +40,34 @@ import java.util.RandomAccess;
  *
  * @author Jared Levy
  */
-@GwtCompatible
+@GwtCompatible(emulated = true)
 public class ArrayListMultimapTest extends AbstractListMultimapTest {
+
+  @GwtIncompatible("suite")
+  public static Test suite() {
+    TestSuite suite = new TestSuite();
+    suite.addTest(ListMultimapTestSuiteBuilder.using(new TestStringListMultimapGenerator() {
+        @Override
+        protected ListMultimap<String, String> create(Entry<String, String>[] entries) {
+          ListMultimap<String, String> multimap = ArrayListMultimap.create();
+          for (Entry<String, String> entry : entries) {
+            multimap.put(entry.getKey(), entry.getValue());
+          }
+          return multimap;
+        }
+      })
+      .named("ArrayListMultimap")
+      .withFeatures(
+          MapFeature.ALLOWS_NULL_KEYS,
+          MapFeature.ALLOWS_NULL_VALUES,
+          MapFeature.GENERAL_PURPOSE,
+          MapFeature.FAILS_FAST_ON_CONCURRENT_MODIFICATION,
+          CollectionFeature.SERIALIZABLE,
+          CollectionSize.ANY)
+      .createTestSuite());
+    suite.addTestSuite(ArrayListMultimapTest.class);
+    return suite;
+  }
 
   @Override protected ListMultimap<String, Integer> create() {
     return ArrayListMultimap.create();

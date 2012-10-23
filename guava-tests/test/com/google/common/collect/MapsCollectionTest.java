@@ -20,16 +20,13 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.testing.Helpers.mapEntry;
 
 import com.google.common.base.Function;
-import com.google.common.collect.testing.AnEnum;
 import com.google.common.collect.testing.MapTestSuiteBuilder;
 import com.google.common.collect.testing.NavigableMapTestSuiteBuilder;
 import com.google.common.collect.testing.SafeTreeMap;
 import com.google.common.collect.testing.SampleElements;
 import com.google.common.collect.testing.SortedMapTestSuiteBuilder;
-import com.google.common.collect.testing.TestEnumMapGenerator;
 import com.google.common.collect.testing.TestMapGenerator;
 import com.google.common.collect.testing.TestStringSortedMapGenerator;
-import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.MapFeature;
 import com.google.common.collect.testing.google.BiMapTestSuiteBuilder;
@@ -59,22 +56,6 @@ import java.util.SortedSet;
 public class MapsCollectionTest extends TestCase {
   public static Test suite() {
     TestSuite suite = new TestSuite();
-    suite.addTest(MapTestSuiteBuilder.using(new TestEnumMapGenerator() {
-
-      @Override
-      protected Map<AnEnum, String> create(Entry<AnEnum, String>[] entries) {
-        Map<AnEnum, String> map = Maps.newHashMap();
-        for (Entry<AnEnum, String> entry : entries) {
-          map.put(entry.getKey(), entry.getValue());
-        }
-        return Maps.immutableEnumMap(map);
-      }
-    })
-    .named("Maps.immutableEnumMap")
-    .withFeatures(CollectionSize.ANY,
-        CollectionFeature.SERIALIZABLE,
-        CollectionFeature.ALLOWS_NULL_QUERIES)
-    .createTestSuite());
 
     suite.addTest(NavigableMapTestSuiteBuilder
         .using(new TestStringSortedMapGenerator() {

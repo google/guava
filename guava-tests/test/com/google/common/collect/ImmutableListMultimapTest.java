@@ -21,11 +21,18 @@ import static org.junit.contrib.truth.Truth.ASSERT;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.ImmutableListMultimap.Builder;
+import com.google.common.collect.testing.features.CollectionFeature;
+import com.google.common.collect.testing.features.CollectionSize;
+import com.google.common.collect.testing.features.MapFeature;
+import com.google.common.collect.testing.google.ListMultimapTestSuiteBuilder;
+import com.google.common.collect.testing.google.TestStringListMultimapGenerator;
 import com.google.common.collect.testing.google.UnmodifiableCollectionTests;
 import com.google.common.testing.EqualsTester;
 import com.google.common.testing.SerializableTester;
 
+import junit.framework.Test;
 import junit.framework.TestCase;
+import junit.framework.TestSuite;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -39,6 +46,31 @@ import java.util.Map.Entry;
  */
 @GwtCompatible(emulated = true)
 public class ImmutableListMultimapTest extends TestCase {
+  public static class ImmutableListMultimapGenerator extends TestStringListMultimapGenerator {
+    @Override
+    protected ListMultimap<String, String> create(Entry<String, String>[] entries) {
+      ImmutableListMultimap.Builder<String, String> builder = ImmutableListMultimap.builder();
+      for (Entry<String, String> entry : entries) {
+        builder.put(entry.getKey(), entry.getValue());
+      }
+      return builder.build();
+    }
+  }
+
+  @GwtIncompatible("suite")
+  public static Test suite() {
+    TestSuite suite = new TestSuite();
+    suite.addTest(ListMultimapTestSuiteBuilder.using(new ImmutableListMultimapGenerator())
+      .named("ImmutableListMultimap")
+      .withFeatures(
+          MapFeature.ALLOWS_NULL_QUERIES,
+          CollectionFeature.SERIALIZABLE,
+          CollectionFeature.KNOWN_ORDER,
+          CollectionSize.ANY)
+      .createTestSuite());
+    suite.addTestSuite(ImmutableListMultimapTest.class);
+    return suite;
+  }
 
   public void testBuilder_withImmutableEntry() {
     ImmutableListMultimap<String, Integer> multimap = new Builder<String, Integer>()

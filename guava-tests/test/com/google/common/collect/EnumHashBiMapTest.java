@@ -18,13 +18,23 @@ package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.collect.testing.SampleElements;
+import com.google.common.collect.testing.features.CollectionFeature;
+import com.google.common.collect.testing.features.CollectionSize;
+import com.google.common.collect.testing.features.MapFeature;
+import com.google.common.collect.testing.google.BiMapTestSuiteBuilder;
+import com.google.common.collect.testing.google.TestBiMapGenerator;
 import com.google.common.testing.NullPointerTester;
 import com.google.common.testing.SerializableTester;
 
+import junit.framework.Test;
 import junit.framework.TestCase;
+import junit.framework.TestSuite;
 
 import java.util.Collections;
+import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 /**
@@ -34,8 +44,67 @@ import java.util.Set;
  */
 @GwtCompatible(emulated = true)
 public class EnumHashBiMapTest extends TestCase {
-  private enum Currency { DOLLAR, PESO, FRANC }
-  private enum Country { CANADA, CHILE, SWITZERLAND }
+  private enum Currency { DOLLAR, FRANC, PESO, POUND, YEN }
+  private enum Country { CANADA, CHILE, JAPAN, SWITZERLAND, UK }
+
+  public static final class EnumHashBiMapGenerator implements TestBiMapGenerator<Country, String> {
+    @SuppressWarnings("unchecked")
+    @Override
+    public BiMap<Country, String> create(Object... entries) {
+      BiMap<Country, String> result = EnumHashBiMap.create(Country.class);
+      for (Object o : entries) {
+        Entry<Country, String> entry = (Entry<Country, String>) o;
+        result.put(entry.getKey(), entry.getValue());
+      }
+      return result;
+    }
+
+    @Override
+    public SampleElements<Entry<Country, String>> samples() {
+      return new SampleElements<Entry<Country, String>>(
+          Maps.immutableEntry(Country.CANADA, "DOLLAR"),
+          Maps.immutableEntry(Country.CHILE, "PESO"),
+          Maps.immutableEntry(Country.UK, "POUND"),
+          Maps.immutableEntry(Country.JAPAN, "YEN"),
+          Maps.immutableEntry(Country.SWITZERLAND, "FRANC"));
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public Entry<Country, String>[] createArray(int length) {
+      return new Entry[length];
+    }
+
+    @Override
+    public Iterable<Entry<Country, String>> order(List<Entry<Country, String>> insertionOrder) {
+      return insertionOrder;
+    }
+
+    @Override
+    public Country[] createKeyArray(int length) {
+      return new Country[length];
+    }
+
+    @Override
+    public String[] createValueArray(int length) {
+      return new String[length];
+    }
+  }
+
+  @GwtIncompatible("suite")
+  public static Test suite() {
+    TestSuite suite = new TestSuite();
+    suite.addTest(BiMapTestSuiteBuilder.using(new EnumHashBiMapGenerator())
+        .named("EnumHashBiMap")
+        .withFeatures(CollectionSize.ANY,
+            CollectionFeature.SERIALIZABLE,
+            MapFeature.ALLOWS_NULL_VALUES,
+            MapFeature.GENERAL_PURPOSE,
+            CollectionFeature.KNOWN_ORDER)
+        .createTestSuite());
+    suite.addTestSuite(EnumHashBiMapTest.class);
+    return suite;
+  }
 
   public void testCreate() {
     EnumHashBiMap<Currency, String> bimap =
@@ -137,7 +206,7 @@ public class EnumHashBiMapTest extends TestCase {
         Currency.FRANC, "franc");
     EnumHashBiMap<Currency, String> bimap
         = EnumHashBiMap.create(map);
-    
+
     Set<Object> uniqueEntries = Sets.newIdentityHashSet();
     uniqueEntries.addAll(bimap.entrySet());
     assertEquals(3, uniqueEntries.size());
