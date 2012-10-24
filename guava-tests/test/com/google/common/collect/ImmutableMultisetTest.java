@@ -16,13 +16,16 @@
 
 package com.google.common.collect;
 
+import static com.google.common.base.Preconditions.checkArgument;
 import static java.util.Arrays.asList;
 import static org.junit.contrib.truth.Truth.ASSERT;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.collect.testing.ListTestSuiteBuilder;
 import com.google.common.collect.testing.MinimalCollection;
 import com.google.common.collect.testing.SetTestSuiteBuilder;
+import com.google.common.collect.testing.TestStringListGenerator;
 import com.google.common.collect.testing.TestStringSetGenerator;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
@@ -37,7 +40,9 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -69,12 +74,55 @@ public class ImmutableMultisetTest extends TestCase {
 
     suite.addTest(SetTestSuiteBuilder.using(new TestStringSetGenerator() {
           @Override protected Set<String> create(String[] elements) {
-            return SerializableTester.reserialize(
-                ImmutableMultiset.copyOf(elements).elementSet());
+            return ImmutableMultiset.copyOf(elements).elementSet();
           }
         })
         .named("ImmutableMultiset, element set")
         .withFeatures(CollectionSize.ANY,
+            CollectionFeature.SERIALIZABLE,
+            CollectionFeature.ALLOWS_NULL_QUERIES)
+        .createTestSuite());
+
+    suite.addTest(ListTestSuiteBuilder.using(new TestStringListGenerator() {
+          @Override protected List<String> create(String[] elements) {
+            return ImmutableMultiset.copyOf(elements).asList();
+          }
+
+          @Override
+          public List<String> order(List<String> insertionOrder) {
+            List<String> order = new ArrayList<String>();
+            for (String s : insertionOrder) {
+              int index = order.indexOf(s);
+              if (index == -1) {
+                order.add(s);
+              } else {
+                order.add(index, s);
+              }
+            }
+            return order;
+          }
+        })
+        .named("ImmutableMultiset.asList")
+        .withFeatures(CollectionSize.ANY,
+            CollectionFeature.SERIALIZABLE,
+            CollectionFeature.ALLOWS_NULL_QUERIES)
+        .createTestSuite());
+
+    suite.addTest(ListTestSuiteBuilder.using(new TestStringListGenerator() {
+          @Override protected List<String> create(String[] elements) {
+            Set<String> set = new HashSet<String>();
+            ImmutableMultiset.Builder<String> builder = ImmutableMultiset.builder();
+            for (String s : elements) {
+              checkArgument(set.add(s));
+              builder.addCopies(s, 2);
+            }
+            ImmutableSet<String> elementSet = (ImmutableSet<String>) builder.build().elementSet();
+            return elementSet.asList();
+          }
+        })
+        .named("ImmutableMultiset.elementSet.asList")
+        .withFeatures(CollectionSize.ANY,
+            CollectionFeature.REJECTS_DUPLICATES_AT_CREATION,
             CollectionFeature.SERIALIZABLE,
             CollectionFeature.ALLOWS_NULL_QUERIES)
         .createTestSuite());
