@@ -628,7 +628,7 @@ public abstract class Ordering<T> implements Comparator<T> {
   @Beta
   public <E extends T> List<E> leastOf(Iterator<E> elements, int k) {
     checkNotNull(elements);
-    checkArgument(k >= 0, "k (%d) must be nonnegative", k);
+    checkArgument(k >= 0, "k (%s) must be nonnegative", k);
 
     if (k == 0 || !elements.hasNext()) {
       return ImmutableList.of();
