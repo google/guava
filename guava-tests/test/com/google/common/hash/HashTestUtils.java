@@ -23,6 +23,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import com.google.common.primitives.Ints;
+import com.google.common.testing.EqualsTester;
 
 import org.junit.Assert;
 
@@ -519,6 +520,18 @@ final class HashTestUtils {
       Charsets.UTF_8);
 
   private static void assertHashStringEquivalence(HashFunction hashFunction, Random random) {
+    // Test that only data and data-order is important, not the individual operations.
+    new EqualsTester()
+        .addEqualityGroup(
+            hashFunction.newHasher().putString("abc").hash(),
+            hashFunction.newHasher().putString("ab").putString("c").hash(),
+            hashFunction.newHasher().putString("a").putString("bc").hash(),
+            hashFunction.newHasher().putString("a").putString("b").putString("c").hash(),
+            hashFunction.newHasher().putChar('a').putString("bc").hash(),
+            hashFunction.newHasher().putString("ab").putChar('c').hash(),
+            hashFunction.newHasher().putChar('a').putChar('b').putChar('c').hash())
+        .testEquals();
+
     int size = random.nextInt(2048);
     byte[] bytes = new byte[size];
     random.nextBytes(bytes);
