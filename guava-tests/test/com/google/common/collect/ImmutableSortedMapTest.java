@@ -22,12 +22,16 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableSortedMap.Builder;
+import com.google.common.collect.testing.ListTestSuiteBuilder;
 import com.google.common.collect.testing.NavigableMapTestSuiteBuilder;
 import com.google.common.collect.testing.SortedMapInterfaceTest;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.MapFeature;
+import com.google.common.collect.testing.google.SortedMapGenerators.ImmutableSortedMapEntryListGenerator;
 import com.google.common.collect.testing.google.SortedMapGenerators.ImmutableSortedMapGenerator;
+import com.google.common.collect.testing.google.SortedMapGenerators.ImmutableSortedMapKeyListGenerator;
+import com.google.common.collect.testing.google.SortedMapGenerators.ImmutableSortedMapValueListGenerator;
 import com.google.common.testing.NullPointerTester;
 import com.google.common.testing.SerializableTester;
 
@@ -58,6 +62,7 @@ public class ImmutableSortedMapTest extends TestCase {
   public static Test suite() {
     TestSuite suite = new TestSuite();
     suite.addTestSuite(ImmutableSortedMapTest.class);
+
     suite.addTest(NavigableMapTestSuiteBuilder.using(
         new ImmutableSortedMapGenerator())
         .withFeatures(
@@ -67,6 +72,33 @@ public class ImmutableSortedMapTest extends TestCase {
             MapFeature.REJECTS_DUPLICATES_AT_CREATION,
             MapFeature.ALLOWS_NULL_QUERIES)
         .named("ImmutableSortedMap")
+        .createTestSuite());
+
+    suite.addTest(ListTestSuiteBuilder.using(
+        new ImmutableSortedMapEntryListGenerator())
+        .named("ImmutableSortedMap.entrySet.asList")
+        .withFeatures(CollectionSize.ANY,
+            CollectionFeature.SERIALIZABLE,
+            CollectionFeature.REJECTS_DUPLICATES_AT_CREATION,
+            CollectionFeature.ALLOWS_NULL_QUERIES)
+        .createTestSuite());
+
+    suite.addTest(ListTestSuiteBuilder.using(
+        new ImmutableSortedMapKeyListGenerator())
+        .named("ImmutableSortedMap.keySet.asList")
+        .withFeatures(CollectionSize.ANY,
+            CollectionFeature.SERIALIZABLE,
+            CollectionFeature.REJECTS_DUPLICATES_AT_CREATION,
+            CollectionFeature.ALLOWS_NULL_QUERIES)
+        .createTestSuite());
+
+    suite.addTest(ListTestSuiteBuilder.using(
+        new ImmutableSortedMapValueListGenerator())
+        .named("ImmutableSortedMap.values.asList")
+        .withFeatures(CollectionSize.ANY,
+            CollectionFeature.SERIALIZABLE,
+            CollectionFeature.REJECTS_DUPLICATES_AT_CREATION,
+            CollectionFeature.ALLOWS_NULL_QUERIES)
         .createTestSuite());
 
     return suite;

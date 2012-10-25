@@ -17,11 +17,17 @@
 package com.google.common.collect.testing.google;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.collect.testing.Helpers.mapEntry;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.ImmutableSortedMap;
+import com.google.common.collect.Ordering;
+import com.google.common.collect.testing.SampleElements;
+import com.google.common.collect.testing.TestListGenerator;
+import com.google.common.collect.testing.TestStringListGenerator;
 import com.google.common.collect.testing.TestStringSortedMapGenerator;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -33,6 +39,7 @@ import java.util.Map.Entry;
  * @author Jared Levy
  * @author Hayward Chan
  * @author Chris Povirk
+ * @author Louis Wasserman
  */
 @GwtCompatible
 public class SortedMapGenerators {
@@ -44,6 +51,72 @@ public class SortedMapGenerators {
         builder.put(entry.getKey(), entry.getValue());
       }
       return builder.build();
+    }
+  }
+
+  public static class ImmutableSortedMapEntryListGenerator
+      implements TestListGenerator<Entry<String, Integer>> {
+
+    @Override
+    public SampleElements<Entry<String, Integer>> samples() {
+      return new SampleElements<Entry<String, Integer>>(
+          mapEntry("foo", 5),
+          mapEntry("bar", 3),
+          mapEntry("baz", 17),
+          mapEntry("quux", 1),
+          mapEntry("toaster", -2));
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public Entry<String, Integer>[] createArray(int length) {
+      return new Entry[length];
+    }
+
+    @Override
+    public Iterable<Entry<String, Integer>> order(List<Entry<String, Integer>> insertionOrder) {
+      return new Ordering<Entry<String, Integer>>() {
+        @Override
+        public int compare(Entry<String, Integer> left, Entry<String, Integer> right) {
+          return left.getKey().compareTo(right.getKey());
+        }
+      }.sortedCopy(insertionOrder);
+    }
+
+    @Override
+    public List<Entry<String, Integer>> create(Object... elements) {
+      ImmutableSortedMap.Builder<String, Integer> builder = ImmutableSortedMap.naturalOrder();
+      for (Object o : elements) {
+        @SuppressWarnings("unchecked")
+        Entry<String, Integer> entry = (Entry<String, Integer>) o;
+        builder.put(entry);
+      }
+      return builder.build().entrySet().asList();
+    }
+  }
+
+  public static class ImmutableSortedMapKeyListGenerator extends TestStringListGenerator {
+    @Override protected List<String> create(String[] elements) {
+      ImmutableSortedMap.Builder<String, Integer> builder = ImmutableSortedMap.naturalOrder();
+      for (int i = 0; i < elements.length; i++) {
+        builder.put(elements[i], i);
+      }
+      return builder.build().keySet().asList();
+    }
+
+    @Override
+    public List<String> order(List<String> insertionOrder) {
+      return Ordering.natural().sortedCopy(insertionOrder);
+    }
+  }
+
+  public static class ImmutableSortedMapValueListGenerator extends TestStringListGenerator {
+    @Override protected List<String> create(String[] elements) {
+      ImmutableSortedMap.Builder<Integer, String> builder = ImmutableSortedMap.naturalOrder();
+      for (int i = 0; i < elements.length; i++) {
+        builder.put(i, elements[i]);
+      }
+      return builder.build().values().asList();
     }
   }
 }
