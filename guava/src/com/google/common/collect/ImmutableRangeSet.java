@@ -13,6 +13,7 @@
  */
 package com.google.common.collect;
 
+import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkElementIndex;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.SortedLists.KeyAbsentBehavior.NEXT_LOWER;
@@ -261,8 +262,7 @@ final class ImmutableRangeSet<C extends Comparable> extends AbstractRangeSet<C>
   }
 
   /**
-   * A builder for immutable range sets. Duplicate or connected ranges are permitted, and will be
-   * merged in the resulting immutable range set.
+   * A builder for immutable range sets.
    */
   public static class Builder<C extends Comparable<?>> {
     private final RangeSet<C> rangeSet;
@@ -272,10 +272,23 @@ final class ImmutableRangeSet<C extends Comparable> extends AbstractRangeSet<C>
     }
 
     /**
-     * Add the specified range to this builder. Duplicate or connected ranges are permitted, and
-     * will be merged in the resulting immutable range set.
+     * Add the specified range to this builder.  {@linkplain Range#isConnected Connected} ranges
+     * will be {@linkplain Range#span(Range) coalesced}.
+     *
+     * @throws IllegalArgumentException if {@code range} is empty or overlaps any ranges already
+     *         added to the builder
      */
     public Builder<C> add(Range<C> range) {
+      if (range.isEmpty()) {
+        throw new IllegalArgumentException("range must not be empty, but was " + range);
+      } else if (!rangeSet.complement().encloses(range)) {
+        for (Range<C> currentRange : rangeSet.asRanges()) {
+          checkArgument(
+              !currentRange.isConnected(range) || currentRange.intersection(range).isEmpty(),
+              "Ranges may not overlap, but received %s and %s", currentRange, range);
+        }
+        throw new AssertionError("should have thrown an IAE above");
+      }
       rangeSet.add(range);
       return this;
     }
@@ -285,7 +298,9 @@ final class ImmutableRangeSet<C extends Comparable> extends AbstractRangeSet<C>
      * are permitted, and will be merged in the resulting immutable range set.
      */
     public Builder<C> addAll(RangeSet<C> ranges) {
-      rangeSet.addAll(ranges);
+      for (Range<C> range : ranges.asRanges()) {
+        add(range);
+      }
       return this;
     }
 

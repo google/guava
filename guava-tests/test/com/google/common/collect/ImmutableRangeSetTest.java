@@ -237,9 +237,22 @@ public class ImmutableRangeSetTest extends AbstractRangeSetTest {
       RangeSet<Integer> mutable = TreeRangeSet.create();
       ImmutableRangeSet.Builder<Integer> builder = ImmutableRangeSet.builder();
 
+      int expectedRanges = 0;
       for (Range<Integer> range : subset) {
-        mutable.add(range);
-        builder.add(range);
+        boolean overlaps = false;
+        for (Range<Integer> other : mutable.asRanges()) {
+          if (other.isConnected(range) && !other.intersection(range).isEmpty()) {
+            overlaps = true;
+          }
+        }
+
+        try {
+          builder.add(range);
+          assertFalse(overlaps);
+          mutable.add(range);
+        } catch (IllegalArgumentException e) {
+          assertTrue(overlaps);
+        }
       }
 
       ImmutableRangeSet<Integer> built = builder.build();
