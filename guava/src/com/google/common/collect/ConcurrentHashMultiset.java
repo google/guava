@@ -466,15 +466,35 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> impleme
       @Override protected Set<E> delegate() {
         return delegate;
       }
-      @Override public boolean remove(Object object) {
-        try {
-          return delegate.remove(object);
-        } catch (NullPointerException e) {
+
+      @Override
+      public boolean contains(@Nullable Object object) {
+        if (object == null) {
           return false;
+        }
+        try {
+          return delegate.contains(object);
         } catch (ClassCastException e) {
           return false;
         }
       }
+
+      @Override
+      public boolean containsAll(Collection<?> collection) {
+        return standardContainsAll(collection);
+      }
+
+      @Override public boolean remove(Object object) {
+        if (object == null) {
+          return false;
+        }
+        try {
+          return delegate.remove(object);
+        } catch (ClassCastException e) {
+          return false;
+        }
+      }
+
       @Override public boolean removeAll(Collection<?> c) {
         return standardRemoveAll(c);
       }

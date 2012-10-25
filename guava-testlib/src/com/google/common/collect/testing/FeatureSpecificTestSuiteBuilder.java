@@ -35,6 +35,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
@@ -99,18 +100,21 @@ public abstract class FeatureSpecificTestSuiteBuilder<
 
   // Features
 
-  private Set<Feature<?>> features;
+  private Set<Feature<?>> features = new LinkedHashSet<Feature<?>>();
 
   /**
    * Configures this builder to produce tests appropriate for the given
-   * features.
+   * features.  This method may be called more than once to add features
+   * in multiple groups.
    */
   public B withFeatures(Feature<?>... features) {
     return withFeatures(Arrays.asList(features));
   }
 
   public B withFeatures(Iterable<? extends Feature<?>> features) {
-    this.features = Helpers.copyToSet(features);
+    for (Feature<?> feature : features) {
+      this.features.add(feature);
+    }
     return self();
   }
 

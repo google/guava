@@ -438,13 +438,28 @@ public class MultimapTestSuiteBuilder<K, V, M extends Multimap<K, V>> extends
 
     @Override
     public Multiset<K> create(Object... elements) {
-      Iterator<V> valueIter = ((TestMultimapGenerator<K, V, M>) multimapGenerator
-          .getInnerGenerator()).sampleValues().iterator();
-      Entry<K, V>[] entries = new Entry[elements.length];
+      /*
+       * This is nasty and complicated, but it's the only way to make sure keys get mapped to enough
+       * distinct values.
+       */
+      Map.Entry[] entries = new Map.Entry[elements.length];
+      Map<K, Iterator<V>> valueIterators = new HashMap<K, Iterator<V>>();
       for (int i = 0; i < elements.length; i++) {
-        entries[i] = mapEntry((K) elements[i], valueIter.next());
+        @SuppressWarnings("unchecked")
+        K key = (K) elements[i];
+
+        Iterator<V> valueItr = valueIterators.get(key);
+        if (valueItr == null) {
+          valueIterators.put(key, valueItr = sampleValuesIterator());
+        }
+        entries[i] = mapEntry((K) elements[i], valueItr.next());
       }
       return multimapGenerator.create(entries).keys();
+    }
+
+    private Iterator<V> sampleValuesIterator() {
+      return ((TestMultimapGenerator<K, V, M>) multimapGenerator
+          .getInnerGenerator()).sampleValues().iterator();
     }
 
     @SuppressWarnings("unchecked")
@@ -456,8 +471,7 @@ public class MultimapTestSuiteBuilder<K, V, M extends Multimap<K, V>> extends
 
     @Override
     public Iterable<K> order(List<K> insertionOrder) {
-      Iterator<V> valueIter = ((TestMultimapGenerator<K, V, M>) multimapGenerator
-          .getInnerGenerator()).sampleValues().iterator();
+      Iterator<V> valueIter = sampleValuesIterator();
       List<Entry<K, V>> entries = new ArrayList<Entry<K, V>>();
       for (K k : insertionOrder) {
         entries.add(mapEntry(k, valueIter.next()));

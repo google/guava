@@ -99,6 +99,7 @@ public class MultimapsCollectionTest extends TestCase {
     CollectionSize.ANY,
     ALLOWS_NULL_VALUES,
     SUPPORTS_REMOVE,
+    MultisetTestSuiteBuilder.NoRecurse.NO_ENTRY_SET, // Cannot create entries with count > 1
   };
 
   static final Supplier<TreeSet<String>> STRING_TREESET_FACTORY
