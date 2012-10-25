@@ -91,7 +91,16 @@ public final class Closeables {
    * IOException in the signature.
    * @param closeable the {@code Closeable} object to be closed, or null, in
    *      which case this method does nothing
+   * @deprecated This method has few valid use cases and encourages misuse by
+   *     making it easy to do the wrong thing. Among other things, it may
+   *     swallow exceptions that really should be thrown, such as exceptions
+   *     thrown when closing an output stream: this often involves flushing
+   *     buffered data to the final output destination and as such it is just
+   *     as important to throw the exception thrown when closing as it is to
+   *     throw an exception thrown by a call to a write method. This method
+   *     is scheduled to be removed in Guava 16.0.
    */
+  @Deprecated
   public static void closeQuietly(@Nullable Closeable closeable) {
     try {
       close(closeable, true);
