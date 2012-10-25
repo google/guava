@@ -23,6 +23,8 @@ import java.nio.charset.Charset;
  * translate all multibyte values ({@link #putInt(int)}, {@link #putLong(long)}, etc) to bytes
  * in little-endian order.
  *
+ * <p>The result of calling any methods after calling {@link #hash} is undefined.
+ *
  * @author Kevin Bourrillion
  * @since 11.0
  */
