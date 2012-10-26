@@ -14,14 +14,15 @@
 
 package com.google.common.collect;
 
+import static com.google.common.base.Preconditions.checkArgument;
 import static java.util.Arrays.asList;
 import static org.junit.contrib.truth.Truth.ASSERT;
 
 import com.google.common.base.Function;
 import com.google.common.collect.Multiset.Entry;
+import com.google.common.collect.testing.ListTestSuiteBuilder;
 import com.google.common.collect.testing.MinimalCollection;
-import com.google.common.collect.testing.SetTestSuiteBuilder;
-import com.google.common.collect.testing.TestStringSetGenerator;
+import com.google.common.collect.testing.TestStringListGenerator;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.google.SortedMultisetTestSuiteBuilder;
@@ -54,34 +55,61 @@ public class ImmutableSortedMultisetTest extends TestCase {
     suite.addTestSuite(ImmutableSortedMultisetTest.class);
 
     suite.addTest(SortedMultisetTestSuiteBuilder.using(new TestStringMultisetGenerator() {
-      @Override
-      protected Multiset<String> create(String[] elements) {
-        return ImmutableSortedMultiset.copyOf(elements);
-      }
+        @Override
+        protected Multiset<String> create(String[] elements) {
+          return ImmutableSortedMultiset.copyOf(elements);
+        }
 
-      @Override
-      public List<String> order(List<String> insertionOrder) {
-        return Ordering.natural().sortedCopy(insertionOrder);
-      }
-    }).named("ImmutableSortedMultiset").withFeatures(CollectionSize.ANY,
-        CollectionFeature.SERIALIZABLE_INCLUDING_VIEWS,
-        CollectionFeature.ALLOWS_NULL_QUERIES)
+        @Override
+        public List<String> order(List<String> insertionOrder) {
+          return Ordering.natural().sortedCopy(insertionOrder);
+        }
+      })
+      .named("ImmutableSortedMultiset")
+      .withFeatures(CollectionSize.ANY,
+          CollectionFeature.SERIALIZABLE_INCLUDING_VIEWS,
+          CollectionFeature.ALLOWS_NULL_QUERIES)
         .createTestSuite());
 
-    suite.addTest(SetTestSuiteBuilder
-        .using(new TestStringSetGenerator() {
-          @Override
-          protected Set<String> create(String[] elements) {
-            return SerializableTester.reserialize(ImmutableSortedMultiset.copyOf(elements)
-                .elementSet());
-          }
+    suite.addTest(ListTestSuiteBuilder.using(new TestStringListGenerator() {
+        @Override
+        protected List<String> create(String[] elements) {
+          return ImmutableSortedMultiset.copyOf(elements).asList();
+        }
 
-          @Override
-          public List<String> order(List<String> insertionOrder) {
-            return Ordering.natural().immutableSortedCopy(insertionOrder);
+        @Override
+        public List<String> order(List<String> insertionOrder) {
+          return Ordering.natural().sortedCopy(insertionOrder);
+        }
+      })
+      .named("ImmutableSortedMultiset.asList")
+      .withFeatures(CollectionSize.ANY,
+          CollectionFeature.SERIALIZABLE,
+          CollectionFeature.ALLOWS_NULL_QUERIES)
+        .createTestSuite());
+
+    suite.addTest(ListTestSuiteBuilder.using(new TestStringListGenerator() {
+        @Override
+        protected List<String> create(String[] elements) {
+          Set<String> set = Sets.newHashSet();
+          ImmutableSortedMultiset.Builder<String> builder = ImmutableSortedMultiset.naturalOrder();
+          for (String s : elements) {
+            checkArgument(set.add(s));
+            builder.addCopies(s, 2);
           }
-        }).named("ImmutableSortedMultiset, element set").withFeatures(CollectionSize.ANY,
-            CollectionFeature.ALLOWS_NULL_QUERIES)
+          return builder.build().elementSet().asList();
+        }
+
+        @Override
+        public List<String> order(List<String> insertionOrder) {
+          return Ordering.natural().sortedCopy(insertionOrder);
+        }
+      })
+      .named("ImmutableSortedMultiset.elementSet.asList")
+      .withFeatures(CollectionSize.ANY,
+          CollectionFeature.REJECTS_DUPLICATES_AT_CREATION,
+          CollectionFeature.SERIALIZABLE,
+          CollectionFeature.ALLOWS_NULL_QUERIES)
         .createTestSuite());
 
     return suite;

@@ -91,11 +91,7 @@ public final class ListTestSuiteBuilder<E> extends
    * lists have an iteration ordering corresponding to the insertion order.
    */
   @Override public TestSuite createTestSuite() {
-    if (!getFeatures().contains(CollectionFeature.KNOWN_ORDER)) {
-      List<Feature<?>> features = Helpers.copyToList(getFeatures());
-      features.add(CollectionFeature.KNOWN_ORDER);
-      withFeatures(features);
-    }
+    withFeatures(CollectionFeature.KNOWN_ORDER);
     return super.createTestSuite();
   }
 
@@ -118,7 +114,7 @@ public final class ListTestSuiteBuilder<E> extends
     }
     return derivedSuites;
   }
-  
+
   static class ReserializedListGenerator<E> implements TestListGenerator<E>{
     final OneSizeTestContainerGenerator<Collection<E>, E> gen;
 
@@ -146,7 +142,7 @@ public final class ListTestSuiteBuilder<E> extends
       return gen.order(insertionOrder);
     }
   }
-  
+
   private static Set<Feature<?>> computeReserializedCollectionFeatures(
       Set<Feature<?>> features) {
     Set<Feature<?>> derivedFeatures = new HashSet<Feature<?>>();

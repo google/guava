@@ -62,6 +62,7 @@ public class SortedMultisetTestSuiteBuilder<E> extends
 
   @Override
   public TestSuite createTestSuite() {
+    withFeatures(CollectionFeature.KNOWN_ORDER);
     TestSuite suite = super.createTestSuite();
     for (TestSuite subSuite : createDerivedSuites(this)) {
       suite.addTest(subSuite);
