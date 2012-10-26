@@ -16,9 +16,18 @@
 
 package com.google.common.collect;
 
+import static java.util.Arrays.asList;
+
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.collect.testing.features.CollectionFeature;
+import com.google.common.collect.testing.features.CollectionSize;
+import com.google.common.collect.testing.google.MultisetTestSuiteBuilder;
+import com.google.common.collect.testing.google.TestStringMultisetGenerator;
 import com.google.common.testing.SerializableTester;
+
+import junit.framework.Test;
+import junit.framework.TestSuite;
 
 import java.io.Serializable;
 import java.util.Arrays;
@@ -31,6 +40,29 @@ import java.util.Arrays;
  */
 @GwtCompatible(emulated = true)
 public class HashMultisetTest extends AbstractMultisetTest {
+
+  @GwtIncompatible("suite")
+  public static Test suite() {
+    TestSuite suite = new TestSuite();
+    suite.addTest(MultisetTestSuiteBuilder.using(hashMultisetGenerator())
+        .withFeatures(CollectionSize.ANY,
+            CollectionFeature.ALLOWS_NULL_VALUES,
+            CollectionFeature.SERIALIZABLE,
+            CollectionFeature.GENERAL_PURPOSE)
+        .named("HashMultiset")
+        .createTestSuite());
+    suite.addTestSuite(HashMultisetTest.class);
+    return suite;
+  }
+
+  private static TestStringMultisetGenerator hashMultisetGenerator() {
+    return new TestStringMultisetGenerator() {
+      @Override protected Multiset<String> create(String[] elements) {
+        return HashMultiset.create(asList(elements));
+      }
+    };
+  }
+
   @Override protected <E> Multiset<E> create() {
     return HashMultiset.create();
   }

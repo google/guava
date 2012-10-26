@@ -31,8 +31,14 @@ import com.google.common.collect.MapMaker.RemovalListener;
 import com.google.common.collect.MapMaker.RemovalNotification;
 import com.google.common.collect.Multiset.Entry;
 import com.google.common.collect.testing.IteratorTester;
+import com.google.common.collect.testing.features.CollectionFeature;
+import com.google.common.collect.testing.features.CollectionSize;
+import com.google.common.collect.testing.google.MultisetTestSuiteBuilder;
+import com.google.common.collect.testing.google.TestStringMultisetGenerator;
 
+import junit.framework.Test;
 import junit.framework.TestCase;
+import junit.framework.TestSuite;
 
 import org.easymock.EasyMock;
 
@@ -49,6 +55,28 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @author mike nonemacher
  */
 public class ConcurrentHashMultisetTest extends TestCase {
+
+  public static Test suite() {
+    TestSuite suite = new TestSuite();
+    suite.addTest(MultisetTestSuiteBuilder.using(concurrentMultisetGenerator())
+        .withFeatures(CollectionSize.ANY,
+            CollectionFeature.GENERAL_PURPOSE,
+            CollectionFeature.SERIALIZABLE,
+            CollectionFeature.ALLOWS_NULL_QUERIES)
+        .named("ConcurrentHashMultiset")
+        .createTestSuite());
+    suite.addTestSuite(ConcurrentHashMultisetTest.class);
+    return suite;
+  }
+
+  private static TestStringMultisetGenerator concurrentMultisetGenerator() {
+    return new TestStringMultisetGenerator() {
+      @Override protected Multiset<String> create(String[] elements) {
+        return ConcurrentHashMultiset.create(asList(elements));
+      }
+    };
+  }
+
   private static final String KEY = "puppies";
 
   ConcurrentMap<String, AtomicInteger> backingMap;
@@ -343,7 +371,7 @@ public class ConcurrentHashMultisetTest extends TestCase {
   public void testIdentityKeyEquality_strongKeys() {
     testIdentityKeyEquality(STRONG);
   }
-  
+
   public void testIdentityKeyEquality_softKeys() {
     testIdentityKeyEquality(SOFT);
   }

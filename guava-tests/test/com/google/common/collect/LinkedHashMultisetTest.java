@@ -18,15 +18,24 @@ package com.google.common.collect;
 
 import static com.google.common.collect.Lists.newArrayList;
 import static com.google.common.collect.testing.IteratorFeature.MODIFIABLE;
+import static java.util.Arrays.asList;
 import static org.junit.contrib.truth.Truth.ASSERT;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.testing.IteratorTester;
+import com.google.common.collect.testing.features.CollectionFeature;
+import com.google.common.collect.testing.features.CollectionSize;
+import com.google.common.collect.testing.google.MultisetTestSuiteBuilder;
+import com.google.common.collect.testing.google.TestStringMultisetGenerator;
+
+import junit.framework.Test;
+import junit.framework.TestSuite;
 
 import java.util.Arrays;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
+import java.util.List;
 
 /**
  * Unit test for {@link LinkedHashMultiset}.
@@ -35,6 +44,44 @@ import java.util.Iterator;
  */
 @GwtCompatible(emulated = true)
 public class LinkedHashMultisetTest extends AbstractMultisetTest {
+
+  @GwtIncompatible("suite")
+  public static Test suite() {
+    TestSuite suite = new TestSuite();
+    suite.addTest(MultisetTestSuiteBuilder.using(linkedHashMultisetGenerator())
+        .named("LinkedHashMultiset")
+        .withFeatures(CollectionSize.ANY,
+            CollectionFeature.KNOWN_ORDER,
+            CollectionFeature.ALLOWS_NULL_VALUES,
+            CollectionFeature.SERIALIZABLE,
+            CollectionFeature.GENERAL_PURPOSE)
+        .createTestSuite());
+    suite.addTestSuite(LinkedHashMultisetTest.class);
+    return suite;
+  }
+
+  private static TestStringMultisetGenerator linkedHashMultisetGenerator() {
+    return new TestStringMultisetGenerator() {
+      @Override protected Multiset<String> create(String[] elements) {
+        return LinkedHashMultiset.create(asList(elements));
+      }
+
+      @Override
+      public List<String> order(List<String> insertionOrder) {
+        List<String> order = Lists.newArrayList();
+        for (String s : insertionOrder) {
+          int index = order.indexOf(s);
+          if (index == -1) {
+            order.add(s);
+          } else {
+            order.add(index, s);
+          }
+        }
+        return order;
+      }
+    };
+  }
+
   @Override protected <E> Multiset<E> create() {
     return LinkedHashMultiset.create();
   }

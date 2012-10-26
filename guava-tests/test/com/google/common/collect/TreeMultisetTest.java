@@ -19,11 +19,20 @@ package com.google.common.collect;
 import static com.google.common.collect.BoundType.CLOSED;
 import static com.google.common.collect.Lists.newArrayList;
 import static com.google.common.collect.testing.IteratorFeature.MODIFIABLE;
+import static java.util.Collections.sort;
 import static org.junit.contrib.truth.Truth.ASSERT;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.collect.testing.Helpers.NullsBeforeB;
 import com.google.common.collect.testing.IteratorTester;
+import com.google.common.collect.testing.features.CollectionFeature;
+import com.google.common.collect.testing.features.CollectionSize;
+import com.google.common.collect.testing.google.SortedMultisetTestSuiteBuilder;
+import com.google.common.collect.testing.google.TestStringMultisetGenerator;
+
+import junit.framework.Test;
+import junit.framework.TestSuite;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -40,6 +49,53 @@ import java.util.SortedSet;
  */
 @GwtCompatible(emulated = true)
 public class TreeMultisetTest extends AbstractMultisetTest {
+
+  @GwtIncompatible("suite")
+  public static Test suite() {
+    TestSuite suite = new TestSuite();
+    suite.addTest(SortedMultisetTestSuiteBuilder
+        .using(new TestStringMultisetGenerator() {
+          @Override
+          protected Multiset<String> create(String[] elements) {
+            return TreeMultiset.create(Arrays.asList(elements));
+          }
+
+          @Override
+          public List<String> order(List<String> insertionOrder) {
+            return Ordering.natural().sortedCopy(insertionOrder);
+          }
+        })
+        .withFeatures(CollectionSize.ANY, CollectionFeature.KNOWN_ORDER,
+            CollectionFeature.GENERAL_PURPOSE,
+            CollectionFeature.SERIALIZABLE,
+            CollectionFeature.ALLOWS_NULL_QUERIES)
+        .named("TreeMultiset, Ordering.natural")
+        .createTestSuite());
+    suite.addTest(SortedMultisetTestSuiteBuilder
+        .using(new TestStringMultisetGenerator() {
+          @Override
+          protected Multiset<String> create(String[] elements) {
+            Multiset<String> result = TreeMultiset.create(NullsBeforeB.INSTANCE);
+            result.addAll(Arrays.asList(elements));
+            return result;
+          }
+
+          @Override
+          public List<String> order(List<String> insertionOrder) {
+            sort(insertionOrder, NullsBeforeB.INSTANCE);
+            return insertionOrder;
+          }
+        })
+        .withFeatures(CollectionSize.ANY, CollectionFeature.KNOWN_ORDER,
+            CollectionFeature.GENERAL_PURPOSE,
+            CollectionFeature.SERIALIZABLE,
+            CollectionFeature.ALLOWS_NULL_VALUES)
+        .named("TreeMultiset, NullsBeforeB")
+        .createTestSuite());
+    suite.addTestSuite(TreeMultisetTest.class);
+    return suite;
+  }
+
   @SuppressWarnings("unchecked")
   @Override protected <E> Multiset<E> create() {
     return (Multiset) TreeMultiset.create();

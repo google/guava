@@ -20,11 +20,18 @@ import static java.util.Arrays.asList;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.collect.testing.AnEnum;
+import com.google.common.collect.testing.features.CollectionFeature;
+import com.google.common.collect.testing.features.CollectionSize;
+import com.google.common.collect.testing.google.MultisetTestSuiteBuilder;
+import com.google.common.collect.testing.google.TestEnumMultisetGenerator;
 import com.google.common.testing.ClassSanityTester;
 import com.google.common.testing.NullPointerTester;
 import com.google.common.testing.SerializableTester;
 
+import junit.framework.Test;
 import junit.framework.TestCase;
+import junit.framework.TestSuite;
 
 import java.util.Collection;
 import java.util.EnumSet;
@@ -37,6 +44,31 @@ import java.util.Set;
  */
 @GwtCompatible(emulated = true)
 public class EnumMultisetTest extends TestCase {
+
+  @GwtIncompatible("suite")
+  public static Test suite() {
+    TestSuite suite = new TestSuite();
+    suite.addTest(MultisetTestSuiteBuilder.using(enumMultisetGenerator())
+        .withFeatures(CollectionSize.ANY,
+            CollectionFeature.KNOWN_ORDER,
+            CollectionFeature.GENERAL_PURPOSE,
+            CollectionFeature.ALLOWS_NULL_QUERIES)
+        .named("EnumMultiset")
+        .createTestSuite());
+    suite.addTestSuite(EnumMultisetTest.class);
+    return suite;
+  }
+
+  private static TestEnumMultisetGenerator enumMultisetGenerator() {
+    return new TestEnumMultisetGenerator() {
+      @Override protected Multiset<AnEnum> create(AnEnum[] elements) {
+        return (elements.length == 0)
+            ? EnumMultiset.create(AnEnum.class)
+            : EnumMultiset.create(asList(elements));
+      }
+    };
+  }
+
   private static enum Color {
     BLUE, RED, YELLOW, GREEN, WHITE
   }
@@ -81,13 +113,13 @@ public class EnumMultisetTest extends TestCase {
         asList(Color.RED, Color.YELLOW, Color.RED));
     assertEquals(ms, SerializableTester.reserialize(ms));
   }
-  
+
   public void testEntrySet() {
     Multiset<Color> ms = EnumMultiset.create(Color.class);
     ms.add(Color.BLUE, 3);
     ms.add(Color.YELLOW, 1);
     ms.add(Color.RED, 2);
-    
+
     Set<Object> uniqueEntries = Sets.newIdentityHashSet();
     uniqueEntries.addAll(ms.entrySet());
     assertEquals(3, uniqueEntries.size());

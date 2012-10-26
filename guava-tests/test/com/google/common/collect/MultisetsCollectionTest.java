@@ -20,17 +20,13 @@ import static com.google.common.collect.testing.google.AbstractMultisetSetCountT
 import static com.google.common.collect.testing.google.MultisetIteratorTester.getIteratorDuplicateInitializingMethods;
 import static com.google.common.collect.testing.google.MultisetReadsTester.getReadsDuplicateInitializingMethods;
 import static java.util.Arrays.asList;
-import static java.util.Collections.sort;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Objects;
-import com.google.common.collect.testing.AnEnum;
-import com.google.common.collect.testing.Helpers.NullsBeforeB;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.google.MultisetTestSuiteBuilder;
 import com.google.common.collect.testing.google.SortedMultisetTestSuiteBuilder;
-import com.google.common.collect.testing.google.TestEnumMultisetGenerator;
 import com.google.common.collect.testing.google.TestStringMultisetGenerator;
 
 import junit.framework.Test;
@@ -38,29 +34,18 @@ import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
 /**
- * Collection tests for {@link Multiset} implementations.
+ * Collection tests on wrappers from {@link Multisets}.
  *
  * @author Jared Levy
  */
 @GwtIncompatible("suite") // TODO(cpovirk): set up collect/gwt/suites version
-public class MultisetCollectionTest extends TestCase {
+public class MultisetsCollectionTest extends TestCase {
   public static Test suite() {
     TestSuite suite = new TestSuite();
-
-    // TODO(user): break these up into their individual test classes
-
-    suite.addTest(MultisetTestSuiteBuilder.using(hashMultisetGenerator())
-        .withFeatures(CollectionSize.ANY,
-            CollectionFeature.ALLOWS_NULL_VALUES,
-            CollectionFeature.SERIALIZABLE,
-            CollectionFeature.GENERAL_PURPOSE)
-        .named("HashMultiset")
-        .createTestSuite());
 
     suite.addTest(MultisetTestSuiteBuilder.using(
         unmodifiableMultisetGenerator())
@@ -76,47 +61,6 @@ public class MultisetCollectionTest extends TestCase {
         .named("Multisets.unmodifiableMultiset[TreeMultiset]")
         .createTestSuite());
 
-    suite.addTest(SortedMultisetTestSuiteBuilder
-        .using(new TestStringMultisetGenerator() {
-          @Override
-          protected Multiset<String> create(String[] elements) {
-            return TreeMultiset.create(Arrays.asList(elements));
-          }
-
-          @Override
-          public List<String> order(List<String> insertionOrder) {
-            return Ordering.natural().sortedCopy(insertionOrder);
-          }
-        })
-        .withFeatures(CollectionSize.ANY, CollectionFeature.KNOWN_ORDER,
-            CollectionFeature.GENERAL_PURPOSE,
-            CollectionFeature.SERIALIZABLE,
-            CollectionFeature.ALLOWS_NULL_QUERIES)
-        .named("TreeMultiset, Ordering.natural")
-        .createTestSuite());
-
-    suite.addTest(SortedMultisetTestSuiteBuilder
-        .using(new TestStringMultisetGenerator() {
-          @Override
-          protected Multiset<String> create(String[] elements) {
-            Multiset<String> result = TreeMultiset.create(NullsBeforeB.INSTANCE);
-            result.addAll(Arrays.asList(elements));
-            return result;
-          }
-
-          @Override
-          public List<String> order(List<String> insertionOrder) {
-            sort(insertionOrder, NullsBeforeB.INSTANCE);
-            return insertionOrder;
-          }
-        })
-        .withFeatures(CollectionSize.ANY, CollectionFeature.KNOWN_ORDER,
-            CollectionFeature.GENERAL_PURPOSE,
-            CollectionFeature.SERIALIZABLE,
-            CollectionFeature.ALLOWS_NULL_VALUES)
-        .named("TreeMultiset, NullsBeforeB")
-        .createTestSuite());
-
     suite.addTest(MultisetTestSuiteBuilder.using(forSetGenerator())
         .withFeatures(CollectionSize.ANY, CollectionFeature.ALLOWS_NULL_VALUES,
             CollectionFeature.SERIALIZABLE,
@@ -126,23 +70,6 @@ public class MultisetCollectionTest extends TestCase {
         .suppressing(getSetCountDuplicateInitializingMethods())
         .suppressing(getIteratorDuplicateInitializingMethods())
         .named("Multisets.forSet")
-        .createTestSuite());
-
-    suite.addTest(MultisetTestSuiteBuilder.using(
-        concurrentMultisetGenerator())
-        .withFeatures(CollectionSize.ANY,
-            CollectionFeature.GENERAL_PURPOSE,
-            CollectionFeature.SERIALIZABLE,
-            CollectionFeature.ALLOWS_NULL_QUERIES)
-        .named("ConcurrentHashMultiset")
-        .createTestSuite());
-
-    suite.addTest(MultisetTestSuiteBuilder.using(enumMultisetGenerator())
-        .withFeatures(CollectionSize.ANY,
-            CollectionFeature.KNOWN_ORDER,
-            CollectionFeature.GENERAL_PURPOSE,
-            CollectionFeature.ALLOWS_NULL_QUERIES)
-        .named("EnumMultiset")
         .createTestSuite());
 
     suite.addTest(MultisetTestSuiteBuilder.using(unionGenerator())
@@ -172,14 +99,6 @@ public class MultisetCollectionTest extends TestCase {
         .createTestSuite());
 
     return suite;
-  }
-
-  private static TestStringMultisetGenerator hashMultisetGenerator() {
-    return new TestStringMultisetGenerator() {
-      @Override protected Multiset<String> create(String[] elements) {
-        return HashMultiset.create(asList(elements));
-      }
-    };
   }
 
   private static TestStringMultisetGenerator unmodifiableMultisetGenerator() {
@@ -220,24 +139,6 @@ public class MultisetCollectionTest extends TestCase {
     return new TestStringMultisetGenerator() {
       @Override protected Multiset<String> create(String[] elements) {
         return Multisets.forSet(Sets.newHashSet(elements));
-      }
-    };
-  }
-
-  private static TestStringMultisetGenerator concurrentMultisetGenerator() {
-    return new TestStringMultisetGenerator() {
-      @Override protected Multiset<String> create(String[] elements) {
-        return ConcurrentHashMultiset.create(asList(elements));
-      }
-    };
-  }
-
-  private static TestEnumMultisetGenerator enumMultisetGenerator() {
-    return new TestEnumMultisetGenerator() {
-      @Override protected Multiset<AnEnum> create(AnEnum[] elements) {
-        return (elements.length == 0)
-            ? EnumMultiset.create(AnEnum.class)
-            : EnumMultiset.create(asList(elements));
       }
     };
   }
