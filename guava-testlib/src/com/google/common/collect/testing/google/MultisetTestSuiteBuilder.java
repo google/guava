@@ -96,7 +96,7 @@ public class MultisetTestSuiteBuilder<E> extends
     return derivedFeatures;
   }
 
-  private static Set<Feature<?>> computeElementSetFeatures(
+  static Set<Feature<?>> computeElementSetFeatures(
       Set<Feature<?>> features) {
     Set<Feature<?>> derivedFeatures = new HashSet<Feature<?>>();
     derivedFeatures.addAll(features);
@@ -123,12 +123,7 @@ public class MultisetTestSuiteBuilder<E> extends
     List<TestSuite> derivedSuites = new ArrayList<TestSuite>(
         super.createDerivedSuites(parentBuilder));
 
-    derivedSuites.add(SetTestSuiteBuilder
-        .using(new ElementSetGenerator<E>(parentBuilder.getSubjectGenerator()))
-        .named(getName() + ".elementSet")
-        .withFeatures(computeElementSetFeatures(parentBuilder.getFeatures()))
-        .suppressing(parentBuilder.getSuppressedTests())
-        .createTestSuite());
+    derivedSuites.add(createElementSetTestSuite(parentBuilder));
 
     if (!parentBuilder.getFeatures().contains(NoRecurse.NO_ENTRY_SET)) {
       derivedSuites.add(
@@ -150,10 +145,20 @@ public class MultisetTestSuiteBuilder<E> extends
     return derivedSuites;
   }
 
+  TestSuite createElementSetTestSuite(FeatureSpecificTestSuiteBuilder<
+      ?, ? extends OneSizeTestContainerGenerator<Collection<E>, E>> parentBuilder) {
+    return SetTestSuiteBuilder
+        .using(new ElementSetGenerator<E>(parentBuilder.getSubjectGenerator()))
+        .named(getName() + ".elementSet")
+        .withFeatures(computeElementSetFeatures(parentBuilder.getFeatures()))
+        .suppressing(parentBuilder.getSuppressedTests())
+        .createTestSuite();
+  }
+
   static class ElementSetGenerator<E> implements TestSetGenerator<E> {
     final OneSizeTestContainerGenerator<Collection<E>, E> gen;
 
-    private ElementSetGenerator(OneSizeTestContainerGenerator<Collection<E>, E> gen) {
+    ElementSetGenerator(OneSizeTestContainerGenerator<Collection<E>, E> gen) {
       this.gen = gen;
     }
 

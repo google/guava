@@ -22,8 +22,11 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Multiset;
 import com.google.common.collect.SortedMultiset;
 import com.google.common.collect.testing.AbstractTester;
+import com.google.common.collect.testing.FeatureSpecificTestSuiteBuilder;
 import com.google.common.collect.testing.Helpers;
+import com.google.common.collect.testing.OneSizeTestContainerGenerator;
 import com.google.common.collect.testing.SampleElements;
+import com.google.common.collect.testing.SortedSetTestSuiteBuilder;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.Feature;
 import com.google.common.testing.SerializableTester;
@@ -32,6 +35,7 @@ import junit.framework.TestSuite;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
@@ -71,6 +75,17 @@ public class SortedMultisetTestSuiteBuilder<E> extends
         Helpers.copyToList(super.getTesters());
     testers.add(MultisetNavigationTester.class);
     return testers;
+  }
+
+  @Override
+  TestSuite createElementSetTestSuite(FeatureSpecificTestSuiteBuilder<
+      ?, ? extends OneSizeTestContainerGenerator<Collection<E>, E>> parentBuilder) {
+    return SortedSetTestSuiteBuilder
+        .using(new ElementSetGenerator<E>(parentBuilder.getSubjectGenerator()))
+        .named(getName() + ".elementSet")
+        .withFeatures(computeElementSetFeatures(parentBuilder.getFeatures()))
+        .suppressing(parentBuilder.getSuppressedTests())
+        .createTestSuite();
   }
 
   /**
