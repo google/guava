@@ -1,0 +1,235 @@
+/*
+ * Copyright (C) 2012 The Guava Authors
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
+ */
+
+package com.google.common.collect;
+
+import static com.google.common.base.Preconditions.checkNotNull;
+
+import com.google.common.annotations.GwtIncompatible;
+import com.google.common.base.Function;
+import com.google.common.collect.SortedLists.KeyAbsentBehavior;
+import com.google.common.collect.SortedLists.KeyPresentBehavior;
+
+import java.util.Comparator;
+import java.util.Map;
+import java.util.Map.Entry;
+
+import javax.annotation.Nullable;
+
+/**
+ * An immutable implementation of {@code IRangeMap}, supporting all query operations efficiently.
+ *
+ * <p>Like all {@code IRangeMap} implementations, this supports neither null keys nor null values.
+ *
+ * @author Louis Wasserman
+ */
+@GwtIncompatible("NavigableMap")
+public final class ImmutableRangeMap<K extends Comparable<?>, V> implements RangeMap<K, V> {
+  @SuppressWarnings("unchecked")
+  private static final ImmutableRangeMap EMPTY =
+      new ImmutableRangeMap(ImmutableList.of(), ImmutableList.of());
+
+  /**
+   * Returns an empty immutable range map.
+   */
+  @SuppressWarnings("unchecked")
+  public static final <K extends Comparable<?>, V> ImmutableRangeMap<K, V> of() {
+    return EMPTY;
+  }
+
+  /**
+   * Returns an immutable range map mapping a single range to a single value.
+   */
+  public static final <K extends Comparable<?>, V> ImmutableRangeMap<K, V> of(
+      Range<K> range, V value) {
+    return new ImmutableRangeMap<K, V>(ImmutableList.of(range), ImmutableList.of(value));
+  }
+
+  @SuppressWarnings("unchecked")
+  public static final <K extends Comparable<?>, V> ImmutableRangeMap<K, V> copyOf(
+      RangeMap<K, ? extends V> rangeMap) {
+    if (rangeMap instanceof ImmutableRangeMap) {
+      return (ImmutableRangeMap<K, V>) rangeMap;
+    }
+    Map<Range<K>, ? extends V> map = rangeMap.asMapOfRanges();
+    ImmutableList.Builder<Range<K>> rangesBuilder = new ImmutableList.Builder<Range<K>>(map.size());
+    ImmutableList.Builder<V> valuesBuilder = new ImmutableList.Builder<V>(map.size());
+    for (Entry<Range<K>, ? extends V> entry : map.entrySet()) {
+      rangesBuilder.add(entry.getKey());
+      valuesBuilder.add(entry.getValue());
+    }
+    return new ImmutableRangeMap<K, V>(rangesBuilder.build(), valuesBuilder.build());
+  }
+
+  /**
+   * Returns a new builder for an immutable range map.
+   */
+  public static <K extends Comparable<?>, V> Builder<K, V> builder() {
+    return new Builder<K, V>();
+  }
+
+  /**
+   * A builder for immutable range maps. Overlapping ranges are prohibited.
+   */
+  public static final class Builder<K extends Comparable<?>, V> {
+    private final RangeSet<K> keyRanges;
+    private final RangeMap<K, V> rangeMap;
+
+    public Builder() {
+      this.keyRanges = TreeRangeSet.create();
+      this.rangeMap = TreeRangeMap.create();
+    }
+
+    /**
+     * Associates the specified range with the specified value.
+     *
+     * @throws IllegalArgumentException if {@code range} overlaps with any other ranges inserted
+     *         into this builder
+     */
+    public Builder<K, V> put(Range<K> range, V value) {
+      checkNotNull(range);
+      checkNotNull(value);
+      if (!keyRanges.complement().encloses(range)) {
+        // it's an error case; we can afford an expensive lookup
+        for (Entry<Range<K>, V> entry : rangeMap.asMapOfRanges().entrySet()) {
+          Range<K> key = entry.getKey();
+          if (key.isConnected(range) && !key.intersection(range).isEmpty()) {
+            throw new IllegalArgumentException(
+                "Overlapping ranges: range " + range + " overlaps with entry " + entry);
+          }
+        }
+      }
+      if (range.isEmpty()) {
+        return this;
+      }
+      keyRanges.add(range);
+      rangeMap.put(range, value);
+      return this;
+    }
+
+    /**
+     * Copies all associations from the specified range map into this builder.
+     *
+     * @throws IllegalArgumentException if any of the ranges in {@code rangeMap} overlap with ranges
+     *         already in this builder
+     */
+    public Builder<K, V> putAll(RangeMap<K, ? extends V> rangeMap) {
+      for (Entry<Range<K>, ? extends V> entry : rangeMap.asMapOfRanges().entrySet()) {
+        put(entry.getKey(), entry.getValue());
+      }
+      return this;
+    }
+
+    /**
+     * Returns an {@code ImmutableRangeMap} containing the associations previously added to this
+     * builder.
+     */
+    public ImmutableRangeMap<K, V> build() {
+      Map<Range<K>, V> map = rangeMap.asMapOfRanges();
+      ImmutableList.Builder<Range<K>> rangesBuilder =
+          new ImmutableList.Builder<Range<K>>(map.size());
+      ImmutableList.Builder<V> valuesBuilder = new ImmutableList.Builder<V>(map.size());
+      for (Entry<Range<K>, V> entry : map.entrySet()) {
+        rangesBuilder.add(entry.getKey());
+        valuesBuilder.add(entry.getValue());
+      }
+      return new ImmutableRangeMap<K, V>(rangesBuilder.build(), valuesBuilder.build());
+    }
+  }
+
+  private final ImmutableList<Range<K>> ranges;
+  private final ImmutableList<V> values;
+
+  ImmutableRangeMap(ImmutableList<Range<K>> ranges, ImmutableList<V> values) {
+    this.ranges = ranges;
+    this.values = values;
+  }
+
+  @Override
+  @Nullable
+  public V get(K key) {
+    int index = SortedLists.binarySearch(ranges, new Function<Range<K>, Cut<K>>() {
+      @Override
+      @Nullable
+      public Cut<K> apply(Range<K> input) {
+        return input.lowerBound;
+      }
+    }, Cut.belowValue(key), KeyPresentBehavior.ANY_PRESENT, KeyAbsentBehavior.NEXT_LOWER);
+    if (index == -1) {
+      return null;
+    } else {
+      Range<K> range = ranges.get(index);
+      return range.contains(key) ? values.get(index) : null;
+    }
+  }
+
+  @Override
+  public void put(Range<K> range, V value) {
+    throw new UnsupportedOperationException();
+  }
+
+  @Override
+  public void putAll(RangeMap<K, V> rangeMap) {
+    throw new UnsupportedOperationException();
+  }
+
+  @Override
+  public void clear() {
+    throw new UnsupportedOperationException();
+  }
+
+  @Override
+  public void remove(Range<K> range) {
+    throw new UnsupportedOperationException();
+  }
+
+  @Override
+  public ImmutableMap<Range<K>, V> asMapOfRanges() {
+    if (ranges.isEmpty()) {
+      return ImmutableMap.of();
+    }
+    Comparator<Range<K>> rangeComparator = new Ordering<Range<K>>() {
+      @Override
+      public int compare(Range<K> left, Range<K> right) {
+        return ComparisonChain.start()
+            .compare(left.lowerBound, right.lowerBound)
+            .compare(left.upperBound, right.upperBound)
+            .result();
+      }
+    };
+
+    RegularImmutableSortedSet<Range<K>> rangeSet =
+        new RegularImmutableSortedSet<Range<K>>(ranges, rangeComparator);
+    return new RegularImmutableSortedMap<Range<K>, V>(rangeSet, values);
+  }
+
+  @Override
+  public int hashCode() {
+    return asMapOfRanges().hashCode();
+  }
+
+  @Override
+  public boolean equals(@Nullable Object o) {
+    if (o instanceof RangeMap) {
+      RangeMap<?, ?> rangeMap = (RangeMap<?, ?>) o;
+      return asMapOfRanges().equals(rangeMap.asMapOfRanges());
+    }
+    return false;
+  }
+
+  @Override
+  public String toString() {
+    return asMapOfRanges().toString();
+  }
+}

@@ -6,26 +6,29 @@
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the
- * License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
- * express or implied. See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.google.common.collect;
 
 import static com.google.common.collect.BoundType.OPEN;
 
+import com.google.common.annotations.GwtIncompatible;
+
 import junit.framework.TestCase;
 
 import java.util.Map;
 
 /**
- * Tests for {@code RangeMap}.
+ * Tests for {@code TreeRangeMap}.
  *
  * @author Louis Wasserman
  */
-public class RangeMapTest extends TestCase {
+@GwtIncompatible("NavigableMap")
+public class TreeRangeMapTest extends TestCase {
   private static final ImmutableList<Range<Integer>> RANGES;
   private static final int MIN_BOUND = -1;
   private static final int MAX_BOUND = 1;
@@ -43,7 +46,6 @@ public class RangeMapTest extends TestCase {
     }
 
     // Add two-ended ranges
-
     for (int i = MIN_BOUND; i <= MAX_BOUND; i++) {
       for (int j = i; j <= MAX_BOUND; j++) {
         for (BoundType lowerType : BoundType.values()) {
@@ -63,7 +65,7 @@ public class RangeMapTest extends TestCase {
     for (Range<Integer> range : RANGES) {
       Map<Integer, Integer> model = Maps.newHashMap();
       putModel(model, range, 1);
-      RangeMap<Integer, Integer> test = RangeMap.create();
+      RangeMap<Integer, Integer> test = TreeRangeMap.create();
       test.put(range, 1);
       verify(model, test);
     }
@@ -75,7 +77,7 @@ public class RangeMapTest extends TestCase {
         Map<Integer, Integer> model = Maps.newHashMap();
         putModel(model, range1, 1);
         putModel(model, range2, 2);
-        RangeMap<Integer, Integer> test = RangeMap.create();
+        RangeMap<Integer, Integer> test = TreeRangeMap.create();
         test.put(range1, 1);
         test.put(range2, 2);
         verify(model, test);
@@ -91,7 +93,7 @@ public class RangeMapTest extends TestCase {
           putModel(model, range1, 1);
           putModel(model, range2, 2);
           putModel(model, range3, 3);
-          RangeMap<Integer, Integer> test = RangeMap.create();
+          RangeMap<Integer, Integer> test = TreeRangeMap.create();
           test.put(range1, 1);
           test.put(range2, 2);
           test.put(range3, 3);
@@ -101,7 +103,7 @@ public class RangeMapTest extends TestCase {
     }
   }
 
-  public void testPutAll1() {
+  public void testPutAll() {
     for (Range<Integer> range1 : RANGES) {
       for (Range<Integer> range2 : RANGES) {
         for (Range<Integer> range3 : RANGES) {
@@ -109,8 +111,8 @@ public class RangeMapTest extends TestCase {
           putModel(model, range1, 1);
           putModel(model, range2, 2);
           putModel(model, range3, 3);
-          RangeMap<Integer, Integer> test = RangeMap.create();
-          RangeMap<Integer, Integer> test2 = RangeMap.create();
+          RangeMap<Integer, Integer> test = TreeRangeMap.create();
+          RangeMap<Integer, Integer> test2 = TreeRangeMap.create();
           // put range2 and range3 into test2, and then put test2 into test
           test.put(range1, 1);
           test2.put(range2, 2);
@@ -122,21 +124,32 @@ public class RangeMapTest extends TestCase {
     }
   }
 
-  public void testPutAll2() {
-    for (Range<Integer> range1 : RANGES) {
-      for (Range<Integer> range2 : RANGES) {
-        for (Range<Integer> range3 : RANGES) {
+  public void testPutAndRemove() {
+    for (Range<Integer> rangeToPut : RANGES) {
+      for (Range<Integer> rangeToRemove : RANGES) {
+        Map<Integer, Integer> model = Maps.newHashMap();
+        putModel(model, rangeToPut, 1);
+        removeModel(model, rangeToRemove);
+        RangeMap<Integer, Integer> test = TreeRangeMap.create();
+        test.put(rangeToPut, 1);
+        test.remove(rangeToRemove);
+        verify(model, test);
+      }
+    }
+  }
+
+  public void testPutTwoAndRemove() {
+    for (Range<Integer> rangeToPut1 : RANGES) {
+      for (Range<Integer> rangeToPut2 : RANGES) {
+        for (Range<Integer> rangeToRemove : RANGES) {
           Map<Integer, Integer> model = Maps.newHashMap();
-          putModel(model, range1, 1);
-          putModel(model, range2, 2);
-          putModel(model, range3, 3);
-          RangeMap<Integer, Integer> test = RangeMap.create();
-          RangeMap<Integer, Integer> test2 = RangeMap.create();
-          // put range3 into test2, and then put test2 into test
-          test.put(range1, 1);
-          test.put(range2, 2);
-          test2.put(range3, 3);
-          test.putAll(test2);
+          putModel(model, rangeToPut1, 1);
+          putModel(model, rangeToPut2, 2);
+          removeModel(model, rangeToRemove);
+          RangeMap<Integer, Integer> test = TreeRangeMap.create();
+          test.put(rangeToPut1, 1);
+          test.put(rangeToPut2, 2);
+          test.remove(rangeToRemove);
           verify(model, test);
         }
       }
@@ -147,12 +160,31 @@ public class RangeMapTest extends TestCase {
     for (int i = MIN_BOUND - 1; i <= MAX_BOUND + 1; i++) {
       assertEquals(model.get(i), test.get(i));
     }
+    for (Range<Integer> range : test.asMapOfRanges().keySet()) {
+      assertFalse(range.isEmpty());
+    }
   }
 
   private void putModel(Map<Integer, Integer> model, Range<Integer> range, int value) {
     for (int i = MIN_BOUND - 1; i <= MAX_BOUND + 1; i++) {
       if (range.contains(i)) {
         model.put(i, value);
+      }
+    }
+  }
+
+  private void removeModel(Map<Integer, Integer> model, Range<Integer> range) {
+    for (int i = MIN_BOUND - 1; i <= MAX_BOUND + 1; i++) {
+      if (range.contains(i)) {
+        model.remove(i);
+      }
+    }
+  }
+
+  private void retainModel(Map<Integer, Integer> model, Range<Integer> range) {
+    for (int i = MIN_BOUND - 1; i <= MAX_BOUND + 1; i++) {
+      if (!range.contains(i)) {
+        model.remove(i);
       }
     }
   }
