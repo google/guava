@@ -26,6 +26,8 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.testing.Helpers.NullsBeforeB;
 import com.google.common.collect.testing.IteratorTester;
+import com.google.common.collect.testing.NavigableSetTestSuiteBuilder;
+import com.google.common.collect.testing.TestStringSetGenerator;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.google.SortedMultisetTestSuiteBuilder;
@@ -34,6 +36,7 @@ import com.google.common.collect.testing.google.TestStringMultisetGenerator;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
+import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
@@ -92,6 +95,23 @@ public class TreeMultisetTest extends AbstractMultisetTest {
             CollectionFeature.ALLOWS_NULL_VALUES)
         .named("TreeMultiset, NullsBeforeB")
         .createTestSuite());
+    suite.addTest(NavigableSetTestSuiteBuilder.using(new TestStringSetGenerator() {
+        @Override
+        protected Set<String> create(String[] elements) {
+          return TreeMultiset.create(Arrays.asList(elements)).elementSet();
+        }
+
+        @Override
+        public List<String> order(List<String> insertionOrder) {
+          return Lists.newArrayList(Sets.newTreeSet(insertionOrder));
+        }
+      })
+      .named("TreeMultiset[Ordering.natural].elementSet")
+      .withFeatures(
+          CollectionSize.ANY,
+          CollectionFeature.SUPPORTS_REMOVE,
+          CollectionFeature.ALLOWS_NULL_QUERIES)
+      .createTestSuite());
     suite.addTestSuite(TreeMultisetTest.class);
     return suite;
   }
@@ -387,6 +407,16 @@ public class TreeMultisetTest extends AbstractMultisetTest {
   @Override public void testToStringNull() {
     c = ms = TreeMultiset.create(Ordering.natural().nullsFirst());
     super.testToStringNull();
+  }
+
+  @GwtIncompatible("reflection")
+  public void testElementSetBridgeMethods() {
+    for (Method m : TreeMultiset.class.getMethods()) {
+      if (m.getName().equals("elementSet") && m.getReturnType().equals(SortedSet.class)) {
+        return;
+      }
+    }
+    fail("No bridge method found");
   }
 }
 

@@ -121,6 +121,10 @@ public final class TreeMultiset<E> extends AbstractSortedMultiset<E> implements 
     this.rootReference = new Reference<AvlNode<E>>();
   }
 
+  // GWT inherits the default, SortedSet-returning AbstractSortedMultiset impl
+
+  // GWT inherits the default, SortedSet-returning AbstractSortedMultiset impl
+
   /**
    * A function which can be summed across a subtree.
    */

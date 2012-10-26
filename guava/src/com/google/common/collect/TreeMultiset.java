@@ -31,6 +31,7 @@ import java.io.Serializable;
 import java.util.Comparator;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
+import java.util.NavigableSet;
 import java.util.NoSuchElementException;
 
 import javax.annotation.Nullable;
@@ -123,6 +124,20 @@ public final class TreeMultiset<E> extends AbstractSortedMultiset<E> implements 
     this.header = new AvlNode<E>(null, 1);
     successor(header, header);
     this.rootReference = new Reference<AvlNode<E>>();
+  }
+
+  // GWT inherits the default, SortedSet-returning AbstractSortedMultiset impl
+  @GwtIncompatible("Navigable")
+  @Override
+  public NavigableSet<E> elementSet() {
+    return (NavigableSet<E>) super.elementSet();
+  }
+
+  // GWT inherits the default, SortedSet-returning AbstractSortedMultiset impl
+  @GwtIncompatible("Navigable")
+  @Override
+  NavigableSet<E> createElementSet() {
+    return new SortedMultisets.NavigableElementSet<E>(this);
   }
 
   /**

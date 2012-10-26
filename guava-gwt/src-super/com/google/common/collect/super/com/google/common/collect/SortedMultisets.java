@@ -16,17 +16,14 @@
 
 package com.google.common.collect;
 
-import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.BoundType.CLOSED;
 import static com.google.common.collect.BoundType.OPEN;
 
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.Multiset.Entry;
 
 import java.util.Comparator;
 import java.util.Iterator;
-import java.util.NavigableSet;
 import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.SortedSet;
@@ -73,82 +70,6 @@ final class SortedMultisets {
 
     @Override public E last() {
       return getElementOrThrow(multiset().lastEntry());
-    }
-  }
-
-  /**
-   * A skeleton navigable implementation for {@link SortedMultiset#elementSet}.
-   */
-  @GwtIncompatible("Navigable")
-  static class NavigableElementSet<E> extends ElementSet<E> implements NavigableSet<E> {
-    private final SortedMultiset<E> multiset;
-
-    NavigableElementSet(SortedMultiset<E> multiset) {
-      this.multiset = checkNotNull(multiset);
-    }
-
-    @Override final SortedMultiset<E> multiset() {
-      return multiset;
-    }
-
-    @Override
-    public E lower(E e) {
-      return getElementOrNull(multiset().headMultiset(e, OPEN).lastEntry());
-    }
-
-    @Override
-    public E floor(E e) {
-      return getElementOrNull(multiset().headMultiset(e, CLOSED).lastEntry());
-    }
-
-    @Override
-    public E ceiling(E e) {
-      return getElementOrNull(multiset().tailMultiset(e, CLOSED).firstEntry());
-    }
-
-    @Override
-    public E higher(E e) {
-      return getElementOrNull(multiset().tailMultiset(e, OPEN).firstEntry());
-    }
-
-    @Override
-    public NavigableSet<E> descendingSet() {
-      return new NavigableElementSet<E>(multiset().descendingMultiset());
-    }
-
-    @Override
-    public Iterator<E> descendingIterator() {
-      return descendingSet().iterator();
-    }
-
-    @Override
-    public E pollFirst() {
-      return getElementOrNull(multiset().pollFirstEntry());
-    }
-
-    @Override
-    public E pollLast() {
-      return getElementOrNull(multiset().pollLastEntry());
-    }
-
-    @Override
-    public NavigableSet<E> subSet(
-        E fromElement, boolean fromInclusive, E toElement, boolean toInclusive) {
-      return new NavigableElementSet<E>(multiset().subMultiset(
-          fromElement, BoundType.forBoolean(fromInclusive),
-          toElement, BoundType.forBoolean(toInclusive)));
-    }
-
-    @Override
-    public NavigableSet<E> headSet(E toElement, boolean inclusive) {
-      return new NavigableElementSet<E>(
-          multiset().headMultiset(toElement, BoundType.forBoolean(inclusive)));
-    }
-
-    @Override
-    public NavigableSet<E> tailSet(E fromElement, boolean inclusive) {
-      return new NavigableElementSet<E>(
-          multiset().tailMultiset(fromElement, BoundType.forBoolean(inclusive)));
     }
   }
 
@@ -280,3 +201,4 @@ final class SortedMultisets {
     }
   }
 }
+
