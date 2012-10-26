@@ -46,6 +46,10 @@ abstract class AbstractSetMultimap<K, V>
 
   @Override abstract Set<V> createCollection();
 
+  @Override Set<V> createUnmodifiableEmptyCollection() {
+    return ImmutableSet.of();
+  }
+
   // Following Javadoc copied from SetMultimap.
 
   /**

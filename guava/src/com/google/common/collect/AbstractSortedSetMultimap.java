@@ -19,6 +19,8 @@ package com.google.common.collect;
 import com.google.common.annotations.GwtCompatible;
 
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Map;
 import java.util.SortedSet;
 
@@ -45,7 +47,18 @@ abstract class AbstractSortedSetMultimap<K, V>
     super(map);
   }
 
-  @Override abstract SortedSet<V> createCollection();
+  @Override
+  abstract SortedSet<V> createCollection();
+
+  @Override
+  SortedSet<V> createUnmodifiableEmptyCollection() {
+    Comparator<? super V> comparator = valueComparator();
+    if (comparator == null) {
+      return Collections.unmodifiableSortedSet(createCollection());
+    } else {
+      return ImmutableSortedSet.emptySet(valueComparator());
+    }
+  }
 
   // Following Javadoc copied from Multimap and SortedSetMultimap.
 

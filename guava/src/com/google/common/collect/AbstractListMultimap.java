@@ -48,6 +48,11 @@ abstract class AbstractListMultimap<K, V>
 
   @Override abstract List<V> createCollection();
 
+  @Override
+  List<V> createUnmodifiableEmptyCollection() {
+    return ImmutableList.of();
+  }
+
   // Following Javadoc copied from ListMultimap.
 
   /**

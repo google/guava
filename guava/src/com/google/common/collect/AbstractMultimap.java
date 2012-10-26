@@ -130,6 +130,15 @@ abstract class AbstractMultimap<K, V> implements Multimap<K, V>, Serializable {
   }
 
   /**
+   * Creates an unmodifiable, empty collection of values.
+   *
+   * <p>This is used in {@link #removeAll} on an empty key.
+   */
+  Collection<V> createUnmodifiableEmptyCollection() {
+    return unmodifiableCollectionSubclass(createCollection());
+  }
+
+  /**
    * Creates the collection of values for a single key.
    *
    * <p>Collections with weak, soft, or phantom references are not supported.
@@ -313,13 +322,15 @@ abstract class AbstractMultimap<K, V> implements Multimap<K, V>, Serializable {
   @Override
   public Collection<V> removeAll(@Nullable Object key) {
     Collection<V> collection = map.remove(key);
-    Collection<V> output = createCollection();
 
-    if (collection != null) {
-      output.addAll(collection);
-      totalSize -= collection.size();
-      collection.clear();
+    if (collection == null) {
+      return createUnmodifiableEmptyCollection();
     }
+
+    Collection<V> output = createCollection();
+    output.addAll(collection);
+    totalSize -= collection.size();
+    collection.clear();
 
     return unmodifiableCollectionSubclass(output);
   }
