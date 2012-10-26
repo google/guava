@@ -19,10 +19,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.SortedLists.KeyAbsentBehavior.NEXT_LOWER;
 import static com.google.common.collect.SortedLists.KeyPresentBehavior.ANY_PRESENT;
 
-import com.google.common.base.Function;
-
 import java.io.Serializable;
-import java.util.Comparator;
 
 /**
  * An efficient immutable implementation of a {@link RangeSet}.
@@ -102,14 +99,8 @@ final class ImmutableRangeSet<C extends Comparable> extends AbstractRangeSet<C>
 
   @Override
   public boolean encloses(Range<C> otherRange) {
-    Function<Range<C>, Cut<C>> lowerBoundFunction = new Function<Range<C>, Cut<C>>() {
-      @Override
-      public Cut<C> apply(Range<C> input) {
-        return input.lowerBound;
-      }
-    };
     int index = SortedLists.binarySearch(ranges,
-        lowerBoundFunction,
+        Range.<C>lowerBoundFn(),
         otherRange.lowerBound,
         Ordering.natural(),
         ANY_PRESENT,
@@ -119,14 +110,8 @@ final class ImmutableRangeSet<C extends Comparable> extends AbstractRangeSet<C>
 
   @Override
   public Range<C> rangeContaining(C value) {
-    Function<Range<C>, Cut<C>> lowerBoundFunction = new Function<Range<C>, Cut<C>>() {
-      @Override
-      public Cut<C> apply(Range<C> input) {
-        return input.lowerBound;
-      }
-    };
     int index = SortedLists.binarySearch(ranges,
-        lowerBoundFunction,
+        Range.<C>lowerBoundFn(),
         Cut.belowValue(value),
         Ordering.natural(),
         ANY_PRESENT,
@@ -168,13 +153,7 @@ final class ImmutableRangeSet<C extends Comparable> extends AbstractRangeSet<C>
     if (ranges.isEmpty()) {
       return ImmutableSet.of();
     }
-    return new RegularImmutableSortedSet<Range<C>>(ranges, new Comparator<Range<C>>() {
-      @Override
-      public int compare(Range<C> range1, Range<C> range2) {
-        return ComparisonChain.start().compare(range1.lowerBound, range2.lowerBound)
-            .compare(range1.upperBound, range2.upperBound).result();
-      }
-    });
+    return new RegularImmutableSortedSet<Range<C>>(ranges, Range.RANGE_LEX_ORDERING);
   }
 
   private transient ImmutableRangeSet<C> complement;

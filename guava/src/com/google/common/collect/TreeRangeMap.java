@@ -18,26 +18,30 @@ package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
 
 import java.util.AbstractMap;
 import java.util.AbstractSet;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.NavigableMap;
 import java.util.Set;
 
 import javax.annotation.Nullable;
 
 /**
- * An implementation of {@code IRangeMap} based on a {@code TreeMap}, supporting
+ * An implementation of {@code RangeMap} based on a {@code TreeMap}, supporting
  * all optional operations.
  *
- * <p>Like all {@code IRangeMap} implementations, this supports neither null
+ * <p>Like all {@code RangeMap} implementations, this supports neither null
  * keys nor null values.
  *
  * @author Louis Wasserman
+ * @since 14.0
  */
+@Beta
 @GwtIncompatible("NavigableMap")
 public final class TreeRangeMap<K extends Comparable, V> implements RangeMap<K, V> {
 
@@ -91,10 +95,17 @@ public final class TreeRangeMap<K extends Comparable, V> implements RangeMap<K, 
   @Override
   @Nullable
   public V get(K key) {
+    Entry<Range<K>, V> entry = getEntry(key);
+    return (entry == null) ? null : entry.getValue();
+  }
+
+  @Override
+  @Nullable
+  public Entry<Range<K>, V> getEntry(K key) {
     Map.Entry<Cut<K>, RangeMapEntry<K, V>> mapEntry =
         entriesByLowerBound.floorEntry(Cut.belowValue(key));
     if (mapEntry != null && mapEntry.getValue().contains(key)) {
-      return mapEntry.getValue().getValue();
+      return mapEntry.getValue();
     } else {
       return null;
     }

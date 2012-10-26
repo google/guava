@@ -159,6 +159,12 @@ public class TreeRangeMapTest extends TestCase {
   private void verify(Map<Integer, Integer> model, RangeMap<Integer, Integer> test) {
     for (int i = MIN_BOUND - 1; i <= MAX_BOUND + 1; i++) {
       assertEquals(model.get(i), test.get(i));
+
+      Map.Entry<Range<Integer>, Integer> entry = test.getEntry(i);
+      assertEquals(model.containsKey(i), entry != null);
+      if (entry != null) {
+        assertTrue(test.asMapOfRanges().entrySet().contains(entry));
+      }
     }
     for (Range<Integer> range : test.asMapOfRanges().keySet()) {
       assertFalse(range.isEmpty());

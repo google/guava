@@ -21,6 +21,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Equivalence;
+import com.google.common.base.Function;
 import com.google.common.base.Predicate;
 
 import java.io.Serializable;
@@ -116,6 +117,29 @@ import javax.annotation.Nullable;
 @GwtCompatible
 @SuppressWarnings("rawtypes")
 public final class Range<C extends Comparable> implements Predicate<C>, Serializable {
+
+  private static final Function<Range, Cut> LOWER_BOUND_FN = new Function<Range, Cut>() {
+    @Override
+    public Cut apply(Range range) {
+      return range.lowerBound;
+    }
+  };
+
+  @SuppressWarnings("unchecked")
+  static <C extends Comparable<?>> Function<Range<C>, Cut<C>> lowerBoundFn() {
+    return (Function) LOWER_BOUND_FN;
+  }
+
+  static final Ordering<Range<?>> RANGE_LEX_ORDERING = new Ordering<Range<?>>() {
+    @Override
+    public int compare(Range<?> left, Range<?> right) {
+      return ComparisonChain.start()
+          .compare(left.lowerBound, right.lowerBound)
+          .compare(left.upperBound, right.upperBound)
+          .result();
+    }
+  };
+
   static <C extends Comparable<?>> Range<C> create(
       Cut<C> lowerBound, Cut<C> upperBound) {
     return new Range<C>(lowerBound, upperBound);

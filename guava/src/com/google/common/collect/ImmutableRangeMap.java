@@ -16,26 +16,28 @@ package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
-import com.google.common.base.Function;
 import com.google.common.collect.SortedLists.KeyAbsentBehavior;
 import com.google.common.collect.SortedLists.KeyPresentBehavior;
 
-import java.util.Comparator;
 import java.util.Map;
 import java.util.Map.Entry;
 
 import javax.annotation.Nullable;
 
 /**
- * An immutable implementation of {@code IRangeMap}, supporting all query operations efficiently.
+ * An immutable implementation of {@code RangeMap}, supporting all query operations efficiently.
  *
- * <p>Like all {@code IRangeMap} implementations, this supports neither null keys nor null values.
+ * <p>Like all {@code RangeMap} implementations, this supports neither null keys nor null values.
  *
  * @author Louis Wasserman
+ * @since 14.0
  */
+@Beta
 @GwtIncompatible("NavigableMap")
 public final class ImmutableRangeMap<K extends Comparable<?>, V> implements RangeMap<K, V> {
+
   @SuppressWarnings("unchecked")
   private static final ImmutableRangeMap EMPTY =
       new ImmutableRangeMap(ImmutableList.of(), ImmutableList.of());
@@ -159,18 +161,26 @@ public final class ImmutableRangeMap<K extends Comparable<?>, V> implements Rang
   @Override
   @Nullable
   public V get(K key) {
-    int index = SortedLists.binarySearch(ranges, new Function<Range<K>, Cut<K>>() {
-      @Override
-      @Nullable
-      public Cut<K> apply(Range<K> input) {
-        return input.lowerBound;
-      }
-    }, Cut.belowValue(key), KeyPresentBehavior.ANY_PRESENT, KeyAbsentBehavior.NEXT_LOWER);
+    int index = SortedLists.binarySearch(ranges, Range.<K>lowerBoundFn(),
+        Cut.belowValue(key), KeyPresentBehavior.ANY_PRESENT, KeyAbsentBehavior.NEXT_LOWER);
     if (index == -1) {
       return null;
     } else {
       Range<K> range = ranges.get(index);
       return range.contains(key) ? values.get(index) : null;
+    }
+  }
+
+  @Override
+  @Nullable
+  public Map.Entry<Range<K>, V> getEntry(K key) {
+    int index = SortedLists.binarySearch(ranges, Range.<K>lowerBoundFn(),
+        Cut.belowValue(key), KeyPresentBehavior.ANY_PRESENT, KeyAbsentBehavior.NEXT_LOWER);
+    if (index == -1) {
+      return null;
+    } else {
+      Range<K> range = ranges.get(index);
+      return range.contains(key) ? Maps.immutableEntry(range, values.get(index)) : null;
     }
   }
 
@@ -199,18 +209,8 @@ public final class ImmutableRangeMap<K extends Comparable<?>, V> implements Rang
     if (ranges.isEmpty()) {
       return ImmutableMap.of();
     }
-    Comparator<Range<K>> rangeComparator = new Ordering<Range<K>>() {
-      @Override
-      public int compare(Range<K> left, Range<K> right) {
-        return ComparisonChain.start()
-            .compare(left.lowerBound, right.lowerBound)
-            .compare(left.upperBound, right.upperBound)
-            .result();
-      }
-    };
-
     RegularImmutableSortedSet<Range<K>> rangeSet =
-        new RegularImmutableSortedSet<Range<K>>(ranges, rangeComparator);
+        new RegularImmutableSortedSet<Range<K>>(ranges, Range.RANGE_LEX_ORDERING);
     return new RegularImmutableSortedMap<Range<K>, V>(rangeSet, values);
   }
 

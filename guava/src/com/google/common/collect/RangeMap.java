@@ -16,6 +16,8 @@
 
 package com.google.common.collect;
 
+import com.google.common.annotations.Beta;
+
 import java.util.Map;
 
 import javax.annotation.Nullable;
@@ -28,7 +30,9 @@ import javax.annotation.Nullable;
  * Range#isConnected(Range) connected} ranges, even if they are mapped to the same value.
  *
  * @author Louis Wasserman
+ * @since 14.0
  */
+@Beta
 public interface RangeMap<K extends Comparable, V> {
   /**
    * Returns the value associated with the specified key, or {@code null} if there is no
@@ -39,6 +43,13 @@ public interface RangeMap<K extends Comparable, V> {
    */
   @Nullable
   V get(K key);
+
+  /**
+   * Returns the range containing this key and its associated value, if such a range is present
+   * in the range map, or {@code null} otherwise.
+   */
+  @Nullable
+  Map.Entry<Range<K>, V> getEntry(K key);
 
   /**
    * Maps a range to a specified value (optional operation).

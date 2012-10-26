@@ -20,6 +20,8 @@ import com.google.common.annotations.GwtIncompatible;
 
 import junit.framework.TestCase;
 
+import java.util.Map.Entry;
+
 /**
  * Tests for {@code ImmutableRangeMap}.
  *
@@ -93,6 +95,29 @@ public class ImmutableRangeMapTest extends TestCase {
             }
 
             assertEquals(expectedValue, rangeMap.get(i));
+          }
+        }
+      }
+    }
+  }
+
+  public void testGetEntry() {
+    for (Range<Integer> range1 : RANGES) {
+      for (Range<Integer> range2 : RANGES) {
+        if (!range1.isEmpty() && !range2.isEmpty()
+            && (!range1.isConnected(range2) || range1.intersection(range2).isEmpty())) {
+          ImmutableRangeMap<Integer, Integer> rangeMap =
+              ImmutableRangeMap.<Integer, Integer>builder().put(range1, 1).put(range2, 2).build();
+
+          for (int i = MIN_BOUND; i <= MAX_BOUND; i++) {
+            Entry<Range<Integer>, Integer> expectedEntry = null;
+            if (range1.contains(i)) {
+              expectedEntry = Maps.immutableEntry(range1, 1);
+            } else if (range2.contains(i)) {
+              expectedEntry = Maps.immutableEntry(range2, 2);
+            }
+
+            assertEquals(expectedEntry, rangeMap.getEntry(i));
           }
         }
       }
