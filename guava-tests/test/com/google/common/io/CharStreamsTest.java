@@ -81,18 +81,18 @@ public class CharStreamsTest extends IoTestCase {
     CharStreams.skipFully(reader, 6);
     assertEquals(-1, reader.read());
   }
-
+  
   private static class NonSkippingReader extends StringReader {
     NonSkippingReader(String s) {
       super(s);
     }
-
+    
     @Override
     public long skip(long n) {
       return 0;
     }
   }
-
+  
   public void testReadLines_fromReadable() throws IOException {
     byte[] bytes = "a\nb\nc".getBytes(Charsets.UTF_8.name());
     List<String> lines = CharStreams.readLines(
@@ -217,6 +217,37 @@ public class CharStreamsTest extends IoTestCase {
       assertEquals("broken write", e.getMessage());
     }
     assertTrue(brokenWrite.areClosed());
+  }
+
+  public void testCopySuppliersExceptions() {
+    TestLogHandler logHandler = new TestLogHandler();
+    Closeables.logger.addHandler(logHandler);
+    try {
+      for (InputSupplier<? extends Reader> in : BROKEN_INPUTS) {
+        runFailureTest(in, newStringWriterSupplier());
+        assertTrue(logHandler.getStoredLogRecords().isEmpty());
+
+        runFailureTest(in, BROKEN_CLOSE_OUTPUT);
+        assertEquals((in == BROKEN_GET_INPUT) ? 0 : 1, getAndResetRecords(logHandler));
+      }
+
+      for (OutputSupplier<? extends Writer> out : BROKEN_OUTPUTS) {
+        runFailureTest(newReaderSupplier("ABC"), out);
+        assertTrue(logHandler.getStoredLogRecords().isEmpty());
+
+        runFailureTest(BROKEN_CLOSE_INPUT, out);
+        assertEquals(1, getAndResetRecords(logHandler));
+      }
+
+      for (InputSupplier<? extends Reader> in : BROKEN_INPUTS) {
+        for (OutputSupplier<? extends Writer> out : BROKEN_OUTPUTS) {
+          runFailureTest(in, out);
+          assertTrue(getAndResetRecords(logHandler) <= 1);
+        }
+      }
+    } finally {
+      Closeables.logger.removeHandler(logHandler);
+    }
   }
 
   private static int getAndResetRecords(TestLogHandler logHandler) {
