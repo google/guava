@@ -22,8 +22,6 @@ import java.util.Iterator;
 import java.util.NavigableSet;
 import java.util.SortedSet;
 
-import javax.annotation.Nullable;
-
 /**
  * A navigable set which forwards all its method calls to another navigable set. Subclasses should
  * override one or more methods to modify the behavior of the backing set as desired per the <a
@@ -123,7 +121,7 @@ public abstract class ForwardingNavigableSet<E>
    * implementation.
    */
   protected E standardPollFirst() {
-    return poll(iterator());
+    return Iterators.pollNext(iterator());
   }
 
   @Override
@@ -137,7 +135,7 @@ public abstract class ForwardingNavigableSet<E>
    * forward to this implementation.
    */
   protected E standardPollLast() {
-    return poll(delegate().descendingIterator());
+    return Iterators.pollNext(delegate().descendingIterator());
   }
 
   protected E standardFirst() {
@@ -236,15 +234,5 @@ public abstract class ForwardingNavigableSet<E>
    */
   protected SortedSet<E> standardTailSet(E fromElement) {
     return tailSet(fromElement, true);
-  }
-
-  @Nullable
-  private E poll(Iterator<E> iterator) {
-    if (iterator.hasNext()) {
-      E result = iterator.next();
-      iterator.remove();
-      return result;
-    }
-    return null;
   }
 }

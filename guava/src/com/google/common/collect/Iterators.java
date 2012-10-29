@@ -1051,6 +1051,21 @@ public final class Iterators {
     };
   }
 
+  /**
+   * Deletes and returns the next value from the iterator, or returns
+   * {@code defaultValue} if there is no such value.
+   */
+  @Nullable
+  static <T> T pollNext(Iterator<T> iterator) {
+    if (iterator.hasNext()) {
+      T result = iterator.next();
+      iterator.remove();
+      return result;
+    } else {
+      return null;
+    }
+  }
+
   // Methods only in Iterators, not in Iterables
 
   /**

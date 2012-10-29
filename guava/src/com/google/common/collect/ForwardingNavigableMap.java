@@ -26,8 +26,6 @@ import java.util.NavigableSet;
 import java.util.NoSuchElementException;
 import java.util.SortedMap;
 
-import javax.annotation.Nullable;
-
 /**
  * A navigable map which forwards all its method calls to another navigable map. Subclasses should
  * override one or more methods to modify the behavior of the backing map as desired per the <a
@@ -238,7 +236,7 @@ public abstract class ForwardingNavigableMap<K, V>
    * {@code pollFirstEntry} to forward to this implementation.
    */
   protected Entry<K, V> standardPollFirstEntry() {
-    return poll(entrySet().iterator());
+    return Iterators.pollNext(entrySet().iterator());
   }
 
   @Override
@@ -252,7 +250,7 @@ public abstract class ForwardingNavigableMap<K, V>
    * to override {@code pollFirstEntry} to forward to this implementation.
    */
   protected Entry<K, V> standardPollLastEntry() {
-    return poll(descendingMap().entrySet().iterator());
+    return Iterators.pollNext(descendingMap().entrySet().iterator());
   }
 
   @Override
@@ -398,15 +396,5 @@ public abstract class ForwardingNavigableMap<K, V>
    */
   protected SortedMap<K, V> standardTailMap(K fromKey) {
     return tailMap(fromKey, true);
-  }
-
-  @Nullable
-  private static <T> T poll(Iterator<T> iterator) {
-    if (iterator.hasNext()) {
-      T result = iterator.next();
-      iterator.remove();
-      return result;
-    }
-    return null;
   }
 }
