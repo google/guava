@@ -105,7 +105,7 @@ class Element extends AccessibleObject implements Member {
     return Modifier.isPrivate(getModifiers());
   }
 
-  /** Returns true if the field or method is static. */
+  /** Returns true if the element is static. */
   public final boolean isStatic() {
     return Modifier.isStatic(getModifiers());
   }

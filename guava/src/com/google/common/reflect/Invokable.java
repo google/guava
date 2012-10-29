@@ -64,13 +64,13 @@ public abstract class Invokable<T, R> extends Element implements GenericDeclarat
   }
 
   /**
-   * Returns {@code true} if this is an overridable method; {@code false} if either it's not
-   * overridable, or if it's a constructor.
+   * Returns {@code true} if this is an overridable method. Constructors, private, static or final
+   * methods, or methods declared by final classes are not overridable.
    */
   public abstract boolean isOverridable();
 
   /**
-   * Invokes with {@code receiver} as the 'this' and {@code args} passed to the underlying method
+   * Invokes with {@code receiver} as 'this' and {@code args} passed to the underlying method
    * and returns the return value; or calls the underlying constructor with {@code args} and returns
    * the constructed instance.
    *
@@ -89,14 +89,14 @@ public abstract class Invokable<T, R> extends Element implements GenericDeclarat
     return (R) invokeInternal(receiver, checkNotNull(args));
   }
 
-  /** Returns the return type of this delegate. */
+  /** Returns the return type of this {@code Invokable}. */
   // All subclasses are owned by us and we'll make sure to get the R type right.
   @SuppressWarnings("unchecked")
   public final TypeToken<? extends R> getReturnType() {
     return (TypeToken<? extends R>) TypeToken.of(getGenericReturnType());
   }
 
-  /** Returns all declared parameters of this delegate. */
+  /** Returns all declared parameters of this {@code Invokable}. */
   public final ImmutableList<Parameter> getParameters() {
     Type[] parameterTypes = getGenericParameterTypes();
     Annotation[][] annotations = getParameterAnnotations();
@@ -108,7 +108,7 @@ public abstract class Invokable<T, R> extends Element implements GenericDeclarat
     return builder.build();
   }
 
-  /** Returns all declared exception types of this delegate. */
+  /** Returns all declared exception types of this {@code Invokable}. */
   public final ImmutableList<TypeToken<? extends Throwable>> getExceptionTypes() {
     ImmutableList.Builder<TypeToken<? extends Throwable>> builder = ImmutableList.builder();
     for (Type type : getGenericExceptionTypes()) {
@@ -122,7 +122,7 @@ public abstract class Invokable<T, R> extends Element implements GenericDeclarat
   }
 
   /**
-   * Explicitly specifies the {@code returnType return type} of the functor. For example:
+   * Explicitly specifies the return type of this {@code Invokable}. For example:
    * <pre>   {@code
    *   Method factoryMethod = Person.class.getMethod("create");
    *   Invokable<?, Person> factory = Invokable.of(getNameMethod).returning(Person.class);
@@ -132,7 +132,7 @@ public abstract class Invokable<T, R> extends Element implements GenericDeclarat
     return returning(TypeToken.of(returnType));
   }
 
-  /** Explicitly specifies the {@code returnType return type} of the functor. */
+  /** Explicitly specifies the return type of this {@code Invokable}. */
   public final <R1 extends R> Invokable<T, R1> returning(TypeToken<R1> returnType) {
     if (!returnType.isAssignableFrom(getReturnType())) {
       throw new IllegalArgumentException(
