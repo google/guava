@@ -211,18 +211,6 @@ public class IterablesTest extends TestCase {
     assertTrue(Arrays.equals(sourceArray, newArray));
   }
 
-  public void testFilter() {
-    Iterable<String> unfiltered = newArrayList("foo", "bar");
-    Iterable<String> filtered = Iterables.filter(unfiltered,
-                                                 Predicates.equalTo("foo"));
-
-    List<String> expected = Collections.singletonList("foo");
-    List<String> actual = newArrayList(filtered);
-    assertEquals(expected, actual);
-    assertCanIterateAgain(filtered);
-    assertEquals("[foo]", filtered.toString());
-  }
-
   public void testAny() {
     List<String> list = newArrayList();
     Predicate<String> predicate = Predicates.equalTo("pants");

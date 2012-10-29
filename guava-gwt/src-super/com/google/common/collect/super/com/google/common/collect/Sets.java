@@ -828,19 +828,11 @@ public final class Sets {
         checkNotNull(unfiltered), checkNotNull(predicate));
   }
 
-  private static class FilteredSortedSet<E> extends FilteredCollection<E>
+  private static class FilteredSortedSet<E> extends FilteredSet<E>
       implements SortedSet<E> {
 
     FilteredSortedSet(SortedSet<E> unfiltered, Predicate<? super E> predicate) {
       super(unfiltered, predicate);
-    }
-
-    @Override public boolean equals(@Nullable Object object) {
-      return equalsImpl(this, object);
-    }
-
-    @Override public int hashCode() {
-      return hashCodeImpl(this);
     }
 
     @Override
