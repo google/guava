@@ -21,12 +21,13 @@ import static com.google.common.io.BaseEncoding.base64;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Ascii;
-import com.google.common.base.Charsets;
 import com.google.common.base.Joiner;
 import com.google.common.base.Splitter;
 import com.google.common.collect.ImmutableList;
 
 import junit.framework.TestCase;
+
+import java.io.UnsupportedEncodingException;
 
 /**
  * Tests for {@code BaseEncoding}.
@@ -258,12 +259,22 @@ public class BaseEncodingTest extends TestCase {
   }
 
   private void testEncodes(BaseEncoding encoding, String decoded, String encoded) {
-    byte[] bytes = decoded.getBytes(Charsets.US_ASCII);
+    byte[] bytes;
+    try {
+      bytes = decoded.getBytes("UTF-8");
+    } catch (UnsupportedEncodingException e) {
+      throw new AssertionError();
+    }
     assertEquals(encoded, encoding.encode(bytes));
   }
 
   private void testDecodes(BaseEncoding encoding, String encoded, String decoded) {
-    byte[] bytes = decoded.getBytes(Charsets.US_ASCII);
+    byte[] bytes;
+    try {
+      bytes = decoded.getBytes("UTF-8");
+    } catch (UnsupportedEncodingException e) {
+      throw new AssertionError();
+    }
     assertEquals(bytes, encoding.decode(encoded));
   }
 

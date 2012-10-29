@@ -23,12 +23,12 @@ import static java.math.RoundingMode.CEILING;
 import static java.math.RoundingMode.UNNECESSARY;
 
 import com.google.common.annotations.Beta;
+import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Ascii;
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Joiner;
 import com.google.common.base.Splitter;
 
-import java.nio.ByteBuffer;
 import java.util.Arrays;
 
 import javax.annotation.CheckReturnValue;
@@ -45,6 +45,7 @@ import javax.annotation.Nullable;
  * @since 14.0
  */
 @Beta
+@GwtCompatible
 public abstract class BaseEncoding {
   BaseEncoding() {}
 
@@ -316,8 +317,9 @@ public abstract class BaseEncoding {
     public byte[] decode(CharSequence chars) {
       checkNotNull(chars);
 
-      int outputLength = bytesPerChunk * divide(chars.length(), charsPerChunk, CEILING);
-      ByteBuffer outputBuffer = ByteBuffer.allocate(outputLength);
+      int expectedOutputLength = bytesPerChunk * divide(chars.length(), charsPerChunk, CEILING);
+      byte[] output = new byte[expectedOutputLength];
+      int outputPosition = 0;
 
       int bitBuffer = 0;
       int bitBufferLength = 0;
@@ -343,7 +345,7 @@ public abstract class BaseEncoding {
           bitBufferLength += bitsPerChar;
 
           if (bitBufferLength >= 8) {
-            outputBuffer.put((byte) (bitBuffer >> (bitBufferLength - 8)));
+            output[outputPosition++] = (byte) (bitBuffer >> (bitBufferLength - 8));
             bitBufferLength -= 8;
           }
         }
@@ -354,21 +356,17 @@ public abstract class BaseEncoding {
         throw new IllegalArgumentException("Bad trailing characters \""
             + chars.subSequence(chars.length() - charsOverChunk, chars.length()) + "\"");
       }
-      outputBuffer.flip();
-      return extractBytes(outputBuffer);
+
+      return extract(output, outputPosition);
     }
 
-    private static byte[] extractBytes(ByteBuffer buf) {
-      if (buf.hasArray() &&
-          buf.arrayOffset() == 0 &&
-          buf.position() == 0 &&
-          buf.limit() == buf.capacity()) {
-        return buf.array();
-      } else {
-        byte[] result = new byte[buf.remaining()];
-        buf.get(result);
-        buf.position(buf.position() - result.length);
+    private static byte[] extract(byte[] result, int length) {
+      if (length == result.length) {
         return result;
+      } else {
+        byte[] trunc = new byte[length];
+        System.arraycopy(result, 0, trunc, 0, length);
+        return trunc;
       }
     }
 
