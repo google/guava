@@ -21,6 +21,7 @@ import com.google.common.annotations.GwtIncompatible;
 import junit.framework.TestCase;
 
 import java.util.Map;
+import java.util.NoSuchElementException;
 
 /**
  * Tests for {@code TreeRangeMap}.
@@ -59,6 +60,52 @@ public class TreeRangeMapTest extends TestCase {
       }
     }
     RANGES = builder.build();
+  }
+
+  public void testSpanSingleRange() {
+    for (Range<Integer> range : RANGES) {
+      RangeMap<Integer, Integer> rangeMap = TreeRangeMap.create();
+      rangeMap.put(range, 1);
+
+      try {
+        assertEquals(range, rangeMap.span());
+        assertFalse(range.isEmpty());
+      } catch (NoSuchElementException e) {
+        assertTrue(range.isEmpty());
+      }
+    }
+  }
+
+  public void testSpanTwoRanges() {
+    for (Range<Integer> range1 : RANGES) {
+      for (Range<Integer> range2 : RANGES) {
+        RangeMap<Integer, Integer> rangeMap = TreeRangeMap.create();
+        rangeMap.put(range1, 1);
+        rangeMap.put(range2, 2);
+
+        Range<Integer> expected;
+        if (range1.isEmpty()) {
+          if (range2.isEmpty()) {
+            expected = null;
+          } else {
+            expected = range2;
+          }
+        } else {
+          if (range2.isEmpty()) {
+            expected = range1;
+          } else {
+            expected = range1.span(range2);
+          }
+        }
+
+        try {
+          assertEquals(expected, rangeMap.span());
+          assertNotNull(expected);
+        } catch (NoSuchElementException e) {
+          assertNull(expected);
+        }
+      }
+    }
   }
 
   public void testAllRangesAlone() {
@@ -182,14 +229,6 @@ public class TreeRangeMapTest extends TestCase {
   private void removeModel(Map<Integer, Integer> model, Range<Integer> range) {
     for (int i = MIN_BOUND - 1; i <= MAX_BOUND + 1; i++) {
       if (range.contains(i)) {
-        model.remove(i);
-      }
-    }
-  }
-
-  private void retainModel(Map<Integer, Integer> model, Range<Integer> range) {
-    for (int i = MIN_BOUND - 1; i <= MAX_BOUND + 1; i++) {
-      if (!range.contains(i)) {
         model.remove(i);
       }
     }

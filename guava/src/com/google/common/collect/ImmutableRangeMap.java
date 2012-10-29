@@ -24,6 +24,7 @@ import com.google.common.collect.SortedLists.KeyPresentBehavior;
 
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.NoSuchElementException;
 
 import javax.annotation.Nullable;
 
@@ -181,6 +182,16 @@ public final class ImmutableRangeMap<K extends Comparable<?>, V> implements Rang
       Range<K> range = ranges.get(index);
       return range.contains(key) ? Maps.immutableEntry(range, values.get(index)) : null;
     }
+  }
+
+  @Override
+  public Range<K> span() {
+    if (ranges.isEmpty()) {
+      throw new NoSuchElementException();
+    }
+    Range<K> firstRange = ranges.get(0);
+    Range<K> lastRange = ranges.get(ranges.size() - 1);
+    return Range.create(firstRange.lowerBound, lastRange.upperBound);
   }
 
   @Override

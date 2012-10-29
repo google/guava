@@ -21,6 +21,7 @@ import com.google.common.annotations.GwtIncompatible;
 import junit.framework.TestCase;
 
 import java.util.Map.Entry;
+import java.util.NoSuchElementException;
 
 /**
  * Tests for {@code ImmutableRangeMap}.
@@ -73,9 +74,7 @@ public class ImmutableRangeMapTest extends TestCase {
       try {
         builder.put(Range.openClosed(i, i), 1);
         fail("Expected IllegalArgumentException");
-      } catch (IllegalArgumentException expected) {
-        // success
-      }
+      } catch (IllegalArgumentException expected) {}
     }
   }
 
@@ -113,6 +112,36 @@ public class ImmutableRangeMapTest extends TestCase {
 
             assertEquals(expectedValue, rangeMap.get(i));
           }
+        }
+      }
+    }
+  }
+
+  public void testSpanEmpty() {
+    try {
+      ImmutableRangeMap.of().span();
+      fail("Expected NoSuchElementException");
+    } catch (NoSuchElementException expected) {}
+  }
+
+  public void testSpanSingleRange() {
+    for (Range<Integer> range : RANGES) {
+      RangeMap<Integer, Integer> rangemap = ImmutableRangeMap.<Integer, Integer>builder()
+          .put(range, 1)
+          .build();
+      assertEquals(range, rangemap.span());
+    }
+  }
+
+  public void testSpanTwoRanges() {
+    for (Range<Integer> range1 : RANGES) {
+      for (Range<Integer> range2 : RANGES) {
+        if (!range1.isConnected(range2) || range1.intersection(range2).isEmpty()) {
+          RangeMap<Integer, Integer> rangemap = ImmutableRangeMap.<Integer, Integer>builder()
+              .put(range1, 1)
+              .put(range2, 2)
+              .build();
+          assertEquals(range1.span(range2), rangemap.span());
         }
       }
     }

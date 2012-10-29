@@ -52,6 +52,14 @@ public interface RangeMap<K extends Comparable, V> {
   Map.Entry<Range<K>, V> getEntry(K key);
 
   /**
+   * Returns the minimal range {@linkplain Range#encloses(Range) enclosing} the ranges
+   * in this {@code RangeMap}.
+   *
+   * @throws NoSuchElementException if this range map is empty
+   */
+  Range<K> span();
+
+  /**
    * Maps a range to a specified value (optional operation).
    *
    * <p>Specifically, after a call to {@code put(range, value)}, if

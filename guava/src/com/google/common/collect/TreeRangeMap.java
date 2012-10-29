@@ -25,6 +25,7 @@ import java.util.AbstractMap;
 import java.util.AbstractSet;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.Map.Entry;
 import java.util.NavigableMap;
 import java.util.Set;
@@ -130,6 +131,18 @@ public final class TreeRangeMap<K extends Comparable, V> implements RangeMap<K, 
   @Override
   public void clear() {
     entriesByLowerBound.clear();
+  }
+
+  @Override
+  public Range<K> span() {
+    Entry<Cut<K>, RangeMapEntry<K, V>> firstEntry = entriesByLowerBound.firstEntry();
+    Entry<Cut<K>, RangeMapEntry<K, V>> lastEntry = entriesByLowerBound.lastEntry();
+    if (firstEntry == null) {
+      throw new NoSuchElementException();
+    }
+    return Range.create(
+        firstEntry.getValue().getKey().lowerBound,
+        lastEntry.getValue().getKey().upperBound);
   }
 
   private void putRangeMapEntry(Cut<K> lowerBound, Cut<K> upperBound, V value) {
