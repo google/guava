@@ -51,6 +51,7 @@ public final class UnsignedInteger extends Number implements Comparable<Unsigned
   private final int value;
 
   private UnsignedInteger(int value) {
+    // GWT doesn't consistently overflow values to make them 32-bit, so we need to force it.
     this.value = value & 0xffffffff;
   }
 
