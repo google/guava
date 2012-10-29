@@ -12,6 +12,17 @@
  * the License.
  */
 
+/*
+ * MurmurHash3 was written by Austin Appleby, and is placed in the public
+ * domain. The author hereby disclaims copyright to this source code.
+ */
+
+/*
+ * Source:
+ * http://code.google.com/p/smhasher/source/browse/trunk/MurmurHash3.cpp
+ * (Modified to adapt to Guava coding conventions and to use the HashFunction interface)
+ */
+
 package com.google.common.hash;
 
 import static com.google.common.primitives.UnsignedBytes.toInt;
