@@ -488,47 +488,47 @@ public class SplitterTest extends TestCase {
     assertFalse(iterator.hasNext());
   }
 
-  public void testAtEachSimpleSplit() {
+  public void testFixedLengthSimpleSplit() {
     String simple = "abcde";
     Iterable<String> letters = Splitter.fixedLength(2).split(simple);
     ASSERT.that(letters).hasContentsInOrder("ab", "cd", "e");
   }
 
-  public void testAtEachSplitEqualChunkLength() {
+  public void testFixedLengthSplitEqualChunkLength() {
     String simple = "abcdef";
     Iterable<String> letters = Splitter.fixedLength(2).split(simple);
     ASSERT.that(letters).hasContentsInOrder("ab", "cd", "ef");
   }
 
-  public void testAtEachSplitOnlyOneChunk() {
+  public void testFixedLengthSplitOnlyOneChunk() {
     String simple = "abc";
     Iterable<String> letters = Splitter.fixedLength(3).split(simple);
     ASSERT.that(letters).hasContentsInOrder("abc");
   }
 
-  public void testAtEachSplitSmallerString() {
+  public void testFixedLengthSplitSmallerString() {
     String simple = "ab";
     Iterable<String> letters = Splitter.fixedLength(3).split(simple);
     ASSERT.that(letters).hasContentsInOrder("ab");
   }
 
-  public void testAtEachSplitEmptyString() {
+  public void testFixedLengthSplitEmptyString() {
     String simple = "";
     Iterable<String> letters = Splitter.fixedLength(3).split(simple);
     ASSERT.that(letters).hasContentsInOrder("");
   }
 
-  public void testAtEachSplitEmptyStringWithOmitEmptyStrings() {
+  public void testFixedLengthSplitEmptyStringWithOmitEmptyStrings() {
     ASSERT.that(Splitter.fixedLength(3).omitEmptyStrings().split("")).isEmpty();
   }
 
-  public void testAtEachSplitIntoChars() {
+  public void testFixedLengthSplitIntoChars() {
     String simple = "abcd";
     Iterable<String> letters = Splitter.fixedLength(1).split(simple);
     ASSERT.that(letters).hasContentsInOrder("a", "b", "c", "d");
   }
 
-  public void testAtEachSplitZeroChunkLen() {
+  public void testFixedLengthSplitZeroChunkLen() {
     try {
       Splitter.fixedLength(0);
       fail();
@@ -536,7 +536,7 @@ public class SplitterTest extends TestCase {
     }
   }
 
-  public void testAtEachSplitNegativeChunkLen() {
+  public void testFixedLengthSplitNegativeChunkLen() {
     try {
       Splitter.fixedLength(-1);
       fail();
