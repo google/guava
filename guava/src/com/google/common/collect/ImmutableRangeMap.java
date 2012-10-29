@@ -14,6 +14,7 @@
 
 package com.google.common.collect;
 
+import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.Beta;
@@ -97,11 +98,12 @@ public final class ImmutableRangeMap<K extends Comparable<?>, V> implements Rang
      * Associates the specified range with the specified value.
      *
      * @throws IllegalArgumentException if {@code range} overlaps with any other ranges inserted
-     *         into this builder
+     *         into this builder, or if {@code range} is empty
      */
     public Builder<K, V> put(Range<K> range, V value) {
       checkNotNull(range);
       checkNotNull(value);
+      checkArgument(!range.isEmpty(), "Range must not be empty, but was %s", range);
       if (!keyRanges.complement().encloses(range)) {
         // it's an error case; we can afford an expensive lookup
         for (Entry<Range<K>, V> entry : rangeMap.asMapOfRanges().entrySet()) {
@@ -111,9 +113,6 @@ public final class ImmutableRangeMap<K extends Comparable<?>, V> implements Rang
                 "Overlapping ranges: range " + range + " overlaps with entry " + entry);
           }
         }
-      }
-      if (range.isEmpty()) {
-        return this;
       }
       keyRanges.add(range);
       rangeMap.put(range, value);

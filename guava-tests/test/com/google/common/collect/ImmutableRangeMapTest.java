@@ -47,7 +47,7 @@ public class ImmutableRangeMapTest extends TestCase {
 
     // Add two-ended ranges
     for (int i = MIN_BOUND; i <= MAX_BOUND; i++) {
-      for (int j = i; j <= MAX_BOUND; j++) {
+      for (int j = i + 1; j <= MAX_BOUND; j++) {
         for (BoundType lowerType : BoundType.values()) {
           for (BoundType upperType : BoundType.values()) {
             if (i == j & lowerType == OPEN & upperType == OPEN) {
@@ -59,6 +59,24 @@ public class ImmutableRangeMapTest extends TestCase {
       }
     }
     RANGES = builder.build();
+  }
+
+  public void testBuilderRejectsEmptyRanges() {
+    for (int i = MIN_BOUND; i <= MAX_BOUND; i++) {
+      ImmutableRangeMap.Builder<Integer, Integer> builder = ImmutableRangeMap.builder();
+      try {
+        builder.put(Range.closedOpen(i, i), 1);
+        fail("Expected IllegalArgumentException");
+      } catch (IllegalArgumentException expected) {
+        // success
+      }
+      try {
+        builder.put(Range.openClosed(i, i), 1);
+        fail("Expected IllegalArgumentException");
+      } catch (IllegalArgumentException expected) {
+        // success
+      }
+    }
   }
 
   public void testOverlapRejection() {
@@ -81,8 +99,7 @@ public class ImmutableRangeMapTest extends TestCase {
   public void testGet() {
     for (Range<Integer> range1 : RANGES) {
       for (Range<Integer> range2 : RANGES) {
-        if (!range1.isEmpty() && !range2.isEmpty()
-            && (!range1.isConnected(range2) || range1.intersection(range2).isEmpty())) {
+        if (!range1.isConnected(range2) || range1.intersection(range2).isEmpty()) {
           ImmutableRangeMap<Integer, Integer> rangeMap =
               ImmutableRangeMap.<Integer, Integer>builder().put(range1, 1).put(range2, 2).build();
 
@@ -104,8 +121,7 @@ public class ImmutableRangeMapTest extends TestCase {
   public void testGetEntry() {
     for (Range<Integer> range1 : RANGES) {
       for (Range<Integer> range2 : RANGES) {
-        if (!range1.isEmpty() && !range2.isEmpty()
-            && (!range1.isConnected(range2) || range1.intersection(range2).isEmpty())) {
+        if (!range1.isConnected(range2) || range1.intersection(range2).isEmpty()) {
           ImmutableRangeMap<Integer, Integer> rangeMap =
               ImmutableRangeMap.<Integer, Integer>builder().put(range1, 1).put(range2, 2).build();
 
@@ -138,8 +154,7 @@ public class ImmutableRangeMapTest extends TestCase {
   public void testAsMapOfRanges() {
     for (Range<Integer> range1 : RANGES) {
       for (Range<Integer> range2 : RANGES) {
-        if (!range1.isEmpty() && !range2.isEmpty()
-            && (!range1.isConnected(range2) || range1.intersection(range2).isEmpty())) {
+        if (!range1.isConnected(range2) || range1.intersection(range2).isEmpty()) {
           ImmutableRangeMap<Integer, Integer> rangeMap =
               ImmutableRangeMap.<Integer, Integer>builder().put(range1, 1).put(range2, 2).build();
 
