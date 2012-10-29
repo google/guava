@@ -440,4 +440,8 @@ public class FilteredCollectionsTest extends TestCase {
       return Sets.filter(elements, predicate);
     }
   }
+
+  /** No-op test so that the class has at least one method, making Maven's test runner happy. */
+  public void testNoop() {
+  }
 }
