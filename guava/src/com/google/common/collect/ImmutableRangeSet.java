@@ -47,7 +47,7 @@ final class ImmutableRangeSet<C extends Comparable> extends AbstractRangeSet<C>
    * Returns an immutable range set containing the single range {@link Range#all()}.
    */
   @SuppressWarnings("unchecked")
-  public static <C extends Comparable> ImmutableRangeSet<C> all() {
+  static <C extends Comparable> ImmutableRangeSet<C> all() {
     return ALL;
   }
 
