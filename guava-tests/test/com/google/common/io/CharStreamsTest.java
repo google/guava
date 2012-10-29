@@ -220,33 +220,62 @@ public class CharStreamsTest extends IoTestCase {
   }
 
   public void testCopySuppliersExceptions() {
-    TestLogHandler logHandler = new TestLogHandler();
-    Closeables.logger.addHandler(logHandler);
-    try {
-      for (InputSupplier<? extends Reader> in : BROKEN_INPUTS) {
-        runFailureTest(in, newStringWriterSupplier());
-        assertTrue(logHandler.getStoredLogRecords().isEmpty());
+    if (!Closer.SuppressingSuppressor.isAvailable()) {
+      // test that exceptions are logged
 
-        runFailureTest(in, BROKEN_CLOSE_OUTPUT);
-        assertEquals((in == BROKEN_GET_INPUT) ? 0 : 1, getAndResetRecords(logHandler));
+      TestLogHandler logHandler = new TestLogHandler();
+      Closeables.logger.addHandler(logHandler);
+      try {
+        for (InputSupplier<? extends Reader> in : BROKEN_INPUTS) {
+          runFailureTest(in, newStringWriterSupplier());
+          assertTrue(logHandler.getStoredLogRecords().isEmpty());
+
+          runFailureTest(in, BROKEN_CLOSE_OUTPUT);
+          assertEquals((in == BROKEN_GET_INPUT) ? 0 : 1, getAndResetRecords(logHandler));
+        }
+
+        for (OutputSupplier<? extends Writer> out : BROKEN_OUTPUTS) {
+          runFailureTest(newReaderSupplier("ABC"), out);
+          assertTrue(logHandler.getStoredLogRecords().isEmpty());
+
+          runFailureTest(BROKEN_CLOSE_INPUT, out);
+          assertEquals(1, getAndResetRecords(logHandler));
+        }
+
+        for (InputSupplier<? extends Reader> in : BROKEN_INPUTS) {
+          for (OutputSupplier<? extends Writer> out : BROKEN_OUTPUTS) {
+            runFailureTest(in, out);
+            assertTrue(getAndResetRecords(logHandler) <= 1);
+          }
+        }
+      } finally {
+        Closeables.logger.removeHandler(logHandler);
+      }
+    } else {
+      // test that exceptions are suppressed
+
+      for (InputSupplier<? extends Reader> in : BROKEN_INPUTS) {
+        int suppressed = runSuppressionFailureTest(in, newStringWriterSupplier());
+        assertEquals(0, suppressed);
+
+        suppressed = runSuppressionFailureTest(in, BROKEN_CLOSE_OUTPUT);
+        assertEquals((in == BROKEN_GET_INPUT) ? 0 : 1, suppressed);
       }
 
       for (OutputSupplier<? extends Writer> out : BROKEN_OUTPUTS) {
-        runFailureTest(newReaderSupplier("ABC"), out);
-        assertTrue(logHandler.getStoredLogRecords().isEmpty());
+        int suppressed = runSuppressionFailureTest(newReaderSupplier("ABC"), out);
+        assertEquals(0, suppressed);
 
-        runFailureTest(BROKEN_CLOSE_INPUT, out);
-        assertEquals(1, getAndResetRecords(logHandler));
+        suppressed = runSuppressionFailureTest(BROKEN_CLOSE_INPUT, out);
+        assertEquals(1, suppressed);
       }
 
       for (InputSupplier<? extends Reader> in : BROKEN_INPUTS) {
         for (OutputSupplier<? extends Writer> out : BROKEN_OUTPUTS) {
-          runFailureTest(in, out);
-          assertTrue(getAndResetRecords(logHandler) <= 1);
+          int suppressed = runSuppressionFailureTest(in, out);
+          assertTrue(suppressed <= 1);
         }
       }
-    } finally {
-      Closeables.logger.removeHandler(logHandler);
     }
   }
 
@@ -263,6 +292,20 @@ public class CharStreamsTest extends IoTestCase {
       fail();
     } catch (IOException expected) {
     }
+  }
+
+  /**
+   * @return the number of exceptions that were suppressed on the expected thrown exception
+   */
+  private static int runSuppressionFailureTest(
+      InputSupplier<? extends Reader> in, OutputSupplier<? extends Writer> out) {
+    try {
+      copy(in, out);
+      fail();
+    } catch (IOException expected) {
+      return CloserTest.getSuppressed(expected).length;
+    }
+    throw new AssertionError(); // can't happen
   }
 
   private static OutputSupplier<Writer> newStringWriterSupplier() {

@@ -343,33 +343,62 @@ public class ByteStreamsTest extends IoTestCase {
   }
 
   public void testCopySuppliersExceptions() {
-    TestLogHandler logHandler = new TestLogHandler();
-    Closeables.logger.addHandler(logHandler);
-    try {
-      for (InputSupplier<InputStream> in : BROKEN_INPUTS) {
-        runFailureTest(in, newByteArrayOutputStreamSupplier());
-        assertTrue(logHandler.getStoredLogRecords().isEmpty());
+    if (!Closer.SuppressingSuppressor.isAvailable()) {
+      // test that exceptions are logged
 
-        runFailureTest(in, BROKEN_CLOSE_OUTPUT);
-        assertEquals((in == BROKEN_GET_INPUT) ? 0 : 1, getAndResetRecords(logHandler));
+      TestLogHandler logHandler = new TestLogHandler();
+      Closeables.logger.addHandler(logHandler);
+      try {
+        for (InputSupplier<InputStream> in : BROKEN_INPUTS) {
+          runFailureTest(in, newByteArrayOutputStreamSupplier());
+          assertTrue(logHandler.getStoredLogRecords().isEmpty());
+
+          runFailureTest(in, BROKEN_CLOSE_OUTPUT);
+          assertEquals((in == BROKEN_GET_INPUT) ? 0 : 1, getAndResetRecords(logHandler));
+        }
+
+        for (OutputSupplier<OutputStream> out : BROKEN_OUTPUTS) {
+          runFailureTest(newInputStreamSupplier(new byte[10]), out);
+          assertTrue(logHandler.getStoredLogRecords().isEmpty());
+
+          runFailureTest(BROKEN_CLOSE_INPUT, out);
+          assertEquals(1, getAndResetRecords(logHandler));
+        }
+
+        for (InputSupplier<InputStream> in : BROKEN_INPUTS) {
+          for (OutputSupplier<OutputStream> out : BROKEN_OUTPUTS) {
+            runFailureTest(in, out);
+            assertTrue(getAndResetRecords(logHandler) <= 1);
+          }
+        }
+      } finally {
+        Closeables.logger.removeHandler(logHandler);
+      }
+    } else {
+      // test that exceptions are suppressed
+
+      for (InputSupplier<InputStream> in : BROKEN_INPUTS) {
+        int suppressed = runSuppressionFailureTest(in, newByteArrayOutputStreamSupplier());
+        assertEquals(0, suppressed);
+
+        suppressed = runSuppressionFailureTest(in, BROKEN_CLOSE_OUTPUT);
+        assertEquals((in == BROKEN_GET_INPUT) ? 0 : 1, suppressed);
       }
 
       for (OutputSupplier<OutputStream> out : BROKEN_OUTPUTS) {
-        runFailureTest(newInputStreamSupplier(new byte[10]), out);
-        assertTrue(logHandler.getStoredLogRecords().isEmpty());
+        int suppressed = runSuppressionFailureTest(newInputStreamSupplier(new byte[10]), out);
+        assertEquals(0, suppressed);
 
-        runFailureTest(BROKEN_CLOSE_INPUT, out);
-        assertEquals(1, getAndResetRecords(logHandler));
+        suppressed = runSuppressionFailureTest(BROKEN_CLOSE_INPUT, out);
+        assertEquals(1, suppressed);
       }
 
       for (InputSupplier<InputStream> in : BROKEN_INPUTS) {
         for (OutputSupplier<OutputStream> out : BROKEN_OUTPUTS) {
-          runFailureTest(in, out);
-          assertTrue(getAndResetRecords(logHandler) <= 1);
+          int suppressed = runSuppressionFailureTest(in, out);
+          assertTrue(suppressed <= 1);
         }
       }
-    } finally {
-      Closeables.logger.removeHandler(logHandler);
     }
   }
 
@@ -386,6 +415,20 @@ public class ByteStreamsTest extends IoTestCase {
       fail();
     } catch (IOException expected) {
     }
+  }
+
+  /**
+   * @return the number of exceptions that were suppressed on the expected thrown exception
+   */
+  private static int runSuppressionFailureTest(
+      InputSupplier<? extends InputStream> in, OutputSupplier<OutputStream> out) {
+    try {
+      copy(in, out);
+      fail();
+    } catch (IOException expected) {
+      return CloserTest.getSuppressed(expected).length;
+    }
+    throw new AssertionError(); // can't happen
   }
 
   private static OutputSupplier<OutputStream> newByteArrayOutputStreamSupplier() {

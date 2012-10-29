@@ -27,7 +27,6 @@ import java.lang.reflect.Method;
 import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * A {@link Closeable} that collects {@code Closeable} resources and closes them all when it is
@@ -79,8 +78,6 @@ import java.util.logging.Logger;
  */
 final class Closer implements Closeable {
 
-  @VisibleForTesting static final Logger logger = Logger.getLogger(Closer.class.getName());
-
   /**
    * The suppressor implementation to use for the current Java version.
    */
@@ -107,6 +104,8 @@ final class Closer implements Closeable {
 
   /**
    * Adds the given closeable to be closed when this {@code Closer} is closed.
+   *
+   * @return the given {@code closeable}
    */
   public <C extends Closeable> C add(C closeable) {
     stack.push(closeable);
@@ -223,7 +222,8 @@ final class Closer implements Closeable {
 
     @Override
     public void suppress(Closeable closeable, Throwable thrown, Throwable suppressed) {
-      logger.log(Level.WARNING,
+      // log to the same place as Closeables
+      Closeables.logger.log(Level.WARNING,
           "Suppressing exception thrown when closing " + closeable, suppressed);
     }
   }

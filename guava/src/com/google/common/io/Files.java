@@ -217,13 +217,14 @@ public final class Files {
     } else {
       // Avoid an extra allocation and copy.
       byte[] b = new byte[(int) file.length()];
-      boolean threw = true;
-      InputStream in = new FileInputStream(file);
+      Closer closer = Closer.create();
       try {
+        InputStream in = closer.add(new FileInputStream(file));
         ByteStreams.readFully(in, b);
-        threw = false;
+      } catch (Throwable e) {
+        throw closer.rethrow(e, IOException.class);
       } finally {
-        Closeables.close(in, threw);
+        closer.close();
       }
       return b;
     }
@@ -741,30 +742,29 @@ public final class Files {
       throws FileNotFoundException, IOException {
     checkNotNull(file);
     checkNotNull(mode);
-    RandomAccessFile raf =
-        new RandomAccessFile(file, mode == MapMode.READ_ONLY ? "r" : "rw");
 
-    boolean threw = true;
+    Closer closer = Closer.create();
     try {
-      MappedByteBuffer mbb = map(raf, mode, size);
-      threw = false;
-      return mbb;
+      RandomAccessFile raf = closer.add(
+          new RandomAccessFile(file, mode == MapMode.READ_ONLY ? "r" : "rw"));
+      return map(raf, mode, size);
+    } catch (Throwable e) {
+      throw closer.rethrow(e, IOException.class);
     } finally {
-      Closeables.close(raf, threw);
+      closer.close();
     }
   }
 
   private static MappedByteBuffer map(RandomAccessFile raf, MapMode mode,
       long size) throws IOException {
-    FileChannel channel = raf.getChannel();
-
-    boolean threw = true;
+    Closer closer = Closer.create();
     try {
-      MappedByteBuffer mbb = channel.map(mode, 0, size);
-      threw = false;
-      return mbb;
+      FileChannel channel = closer.add(raf.getChannel());
+      return channel.map(mode, 0, size);
+    } catch (Throwable e) {
+      throw closer.rethrow(e, IOException.class);
     } finally {
-      Closeables.close(channel, threw);
+      closer.close();
     }
   }
 

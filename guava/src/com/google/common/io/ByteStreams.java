@@ -98,13 +98,14 @@ public final class ByteStreams {
       OutputSupplier<? extends OutputStream> to) throws IOException {
     checkNotNull(from);
     checkNotNull(to);
-    boolean threw = true;
-    OutputStream out = to.getOutput();
+    Closer closer = Closer.create();
     try {
+      OutputStream out = closer.add(to.getOutput());
       out.write(from);
-      threw = false;
+    } catch (Throwable e) {
+      throw closer.rethrow(e, IOException.class);
     } finally {
-      Closeables.close(out, threw);
+      closer.close();
     }
   }
 
@@ -121,20 +122,15 @@ public final class ByteStreams {
       OutputSupplier<? extends OutputStream> to) throws IOException {
     checkNotNull(from);
     checkNotNull(to);
-    int successfulOps = 0;
-    InputStream in = from.getInput();
+    Closer closer = Closer.create();
     try {
-      OutputStream out = to.getOutput();
-      try {
-        long count = copy(in, out);
-        successfulOps++;
-        return count;
-      } finally {
-        Closeables.close(out, successfulOps < 1);
-        successfulOps++;
-      }
+      InputStream in = closer.add(from.getInput());
+      OutputStream out = closer.add(to.getOutput());
+      return copy(in, out);
+    } catch (Throwable e) {
+      throw closer.rethrow(e, IOException.class);
     } finally {
-      Closeables.close(in, successfulOps < 2);
+      closer.close();
     }
   }
 
@@ -152,14 +148,14 @@ public final class ByteStreams {
       OutputStream to) throws IOException {
     checkNotNull(from);
     checkNotNull(to);
-    boolean threw = true;
-    InputStream in = from.getInput();
+    Closer closer = Closer.create();
     try {
-      long count = copy(in, to);
-      threw = false;
-      return count;
+      InputStream in = closer.add(from.getInput());
+      return copy(in, to);
+    } catch (Throwable e) {
+      throw closer.rethrow(e, IOException.class);
     } finally {
-      Closeables.close(in, threw);
+      closer.close();
     }
   }
 
@@ -178,14 +174,14 @@ public final class ByteStreams {
       OutputSupplier<? extends OutputStream> to) throws IOException {
     checkNotNull(from);
     checkNotNull(to);
-    boolean threw = true;
-    OutputStream out = to.getOutput();
+    Closer closer = Closer.create();
     try {
-      long count = copy(from, out);
-      threw = false;
-      return count;
+      OutputStream out = closer.add(to.getOutput());
+      return copy(from, out);
+    } catch (Throwable e) {
+      throw closer.rethrow(e, IOException.class);
     } finally {
-      Closeables.close(out, threw);
+      closer.close();
     }
   }
 
@@ -262,14 +258,15 @@ public final class ByteStreams {
    */
   public static byte[] toByteArray(
       InputSupplier<? extends InputStream> supplier) throws IOException {
-    boolean threw = true;
-    InputStream in = supplier.getInput();
+    checkNotNull(supplier);
+    Closer closer = Closer.create();
     try {
-      byte[] result = toByteArray(in);
-      threw = false;
-      return result;
+      InputStream in = closer.add(supplier.getInput());
+      return toByteArray(in);
+    } catch (Throwable e) {
+      throw closer.rethrow(e, IOException.class);
     } finally {
-      Closeables.close(in, threw);
+      closer.close();
     }
   }
 
@@ -693,15 +690,14 @@ public final class ByteStreams {
   public static long length(
       InputSupplier<? extends InputStream> supplier) throws IOException {
     long count = 0;
-    boolean threw = true;
-    InputStream in = supplier.getInput();
+    Closer closer = Closer.create();
     try {
+      InputStream in = closer.add(supplier.getInput());
       while (true) {
         // We skip only Integer.MAX_VALUE due to JDK overflow bugs.
         long amt = in.skip(Integer.MAX_VALUE);
         if (amt == 0) {
           if (in.read() == -1) {
-            threw = false;
             return count;
           }
           count++;
@@ -709,8 +705,10 @@ public final class ByteStreams {
           count += amt;
         }
       }
+    } catch (Throwable e) {
+      throw closer.rethrow(e, IOException.class);
     } finally {
-      Closeables.close(in, threw);
+      closer.close();
     }
   }
 
@@ -724,27 +722,23 @@ public final class ByteStreams {
     byte[] buf1 = new byte[BUF_SIZE];
     byte[] buf2 = new byte[BUF_SIZE];
 
-    boolean threw = true;
-    InputStream in1 = supplier1.getInput();
+    Closer closer = Closer.create();
     try {
-      InputStream in2 = supplier2.getInput();
-      try {
-        while (true) {
-          int read1 = read(in1, buf1, 0, BUF_SIZE);
-          int read2 = read(in2, buf2, 0, BUF_SIZE);
-          if (read1 != read2 || !Arrays.equals(buf1, buf2)) {
-            threw = false;
-            return false;
-          } else if (read1 != BUF_SIZE) {
-            threw = false;
-            return true;
-          }
+      InputStream in1 = closer.add(supplier1.getInput());
+      InputStream in2 = closer.add(supplier2.getInput());
+      while (true) {
+        int read1 = read(in1, buf1, 0, BUF_SIZE);
+        int read2 = read(in2, buf2, 0, BUF_SIZE);
+        if (read1 != read2 || !Arrays.equals(buf1, buf2)) {
+          return false;
+        } else if (read1 != BUF_SIZE) {
+          return true;
         }
-      } finally {
-        Closeables.close(in2, threw);
       }
+    } catch (Throwable e) {
+      throw closer.rethrow(e, IOException.class);
     } finally {
-      Closeables.close(in1, threw);
+      closer.close();
     }
   }
 
@@ -828,20 +822,21 @@ public final class ByteStreams {
       InputSupplier<? extends InputStream> supplier,
       ByteProcessor<T> processor) throws IOException {
     byte[] buf = new byte[BUF_SIZE];
-    boolean threw = true;
-    InputStream in = supplier.getInput();
+    Closer closer = Closer.create();
     try {
+      InputStream in = closer.add(supplier.getInput());
       int amt;
       do {
         amt = in.read(buf);
         if (amt == -1) {
-          threw = false;
           break;
         }
       } while (processor.processBytes(buf, 0, amt));
       return processor.getResult();
+    } catch (Throwable e) {
+      throw closer.rethrow(e, IOException.class);
     } finally {
-      Closeables.close(in, threw);
+      closer.close();
     }
   }
 
@@ -957,9 +952,15 @@ public final class ByteStreams {
         if (offset > 0) {
           try {
             skipFully(in, offset);
-          } catch (IOException e) {
-            Closeables.closeQuietly(in);
-            throw e;
+          } catch (Throwable e) {
+            // create Closer here since we only need to close now if there was an exception
+            Closer closer = Closer.create();
+            closer.add(in);
+            try {
+              throw closer.rethrow(e, IOException.class);
+            } finally {
+              closer.close();
+            }
           }
         }
         return limit(in, length);

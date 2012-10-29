@@ -292,7 +292,7 @@ public class CloserTest extends TestCase {
   public static void testLoggingSuppressor() throws IOException {
     TestLogHandler logHandler = new TestLogHandler();
 
-    Closer.logger.addHandler(logHandler);
+    Closeables.logger.addHandler(logHandler);
     try {
       Closer closer = new Closer(new Closer.LoggingSuppressor());
 
@@ -314,7 +314,7 @@ public class CloserTest extends TestCase {
       record = logHandler.getStoredLogRecords().get(1);
       assertEquals("Suppressing exception thrown when closing " + c1, record.getMessage());
     } finally {
-      Closer.logger.removeHandler(logHandler);
+      Closeables.logger.removeHandler(logHandler);
     }
   }
 
@@ -354,7 +354,7 @@ public class CloserTest extends TestCase {
     assertEquals(ImmutableSet.of(c1Exception, c2Exception), suppressed);
   }
 
-  private static Throwable[] getSuppressed(Throwable throwable) {
+  static Throwable[] getSuppressed(Throwable throwable) {
     try {
       Method getSuppressed = Throwable.class.getDeclaredMethod("getSuppressed");
       return (Throwable[]) getSuppressed.invoke(throwable);

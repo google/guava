@@ -20,7 +20,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.Beta;
 import com.google.common.base.Charsets;
-import com.google.common.base.Preconditions;
 
 import java.io.Closeable;
 import java.io.EOFException;
@@ -67,7 +66,7 @@ public final class CharStreams {
    */
   public static InputSupplier<StringReader> newReaderSupplier(
       final String value) {
-    Preconditions.checkNotNull(value);
+    checkNotNull(value);
     return new InputSupplier<StringReader>() {
       @Override
       public StringReader getInput() {
@@ -87,8 +86,8 @@ public final class CharStreams {
    */
   public static InputSupplier<InputStreamReader> newReaderSupplier(
       final InputSupplier<? extends InputStream> in, final Charset charset) {
-    Preconditions.checkNotNull(in);
-    Preconditions.checkNotNull(charset);
+    checkNotNull(in);
+    checkNotNull(charset);
     return new InputSupplier<InputStreamReader>() {
       @Override
       public InputStreamReader getInput() throws IOException {
@@ -108,8 +107,8 @@ public final class CharStreams {
    */
   public static OutputSupplier<OutputStreamWriter> newWriterSupplier(
       final OutputSupplier<? extends OutputStream> out, final Charset charset) {
-    Preconditions.checkNotNull(out);
-    Preconditions.checkNotNull(charset);
+    checkNotNull(out);
+    checkNotNull(charset);
     return new OutputSupplier<OutputStreamWriter>() {
       @Override
       public OutputStreamWriter getOutput() throws IOException {
@@ -128,14 +127,15 @@ public final class CharStreams {
    */
   public static <W extends Appendable & Closeable> void write(CharSequence from,
       OutputSupplier<W> to) throws IOException {
-    Preconditions.checkNotNull(from);
-    boolean threw = true;
-    W out = to.getOutput();
+    checkNotNull(from);
+    Closer closer = Closer.create();
     try {
+      W out = closer.add(to.getOutput());
       out.append(from);
-      threw = false;
+    } catch (Throwable e) {
+      throw closer.rethrow(e, IOException.class);
     } finally {
-      Closeables.close(out, threw);
+      closer.close();
     }
   }
 
@@ -154,20 +154,15 @@ public final class CharStreams {
       OutputSupplier<W> to) throws IOException {
     checkNotNull(from);
     checkNotNull(to);
-    int successfulOps = 0;
-    R in = from.getInput();
+    Closer closer = Closer.create();
     try {
-      W out = to.getOutput();
-      try {
-        long count = copy(in, out);
-        successfulOps++;
-        return count;
-      } finally {
-        Closeables.close(out, successfulOps < 1);
-        successfulOps++;
-      }
+      R in = closer.add(from.getInput());
+      W out = closer.add(to.getOutput());
+      return copy(in, out);
+    } catch (Throwable e) {
+      throw closer.rethrow(e, IOException.class);
     } finally {
-      Closeables.close(in, successfulOps < 2);
+      closer.close();
     }
   }
 
@@ -185,14 +180,14 @@ public final class CharStreams {
       InputSupplier<R> from, Appendable to) throws IOException {
     checkNotNull(from);
     checkNotNull(to);
-    boolean threw = true;
-    R in = from.getInput();
+    Closer closer = Closer.create();
     try {
-      long count = copy(in, to);
-      threw = false;
-      return count;
+      R in = closer.add(from.getInput());
+      return copy(in, to);
+    } catch (Throwable e) {
+      throw closer.rethrow(e, IOException.class);
     } finally {
-      Closeables.close(in, threw);
+      closer.close();
     }
   }
 
@@ -267,14 +262,14 @@ public final class CharStreams {
    */
   private static <R extends Readable & Closeable> StringBuilder toStringBuilder(
       InputSupplier<R> supplier) throws IOException {
-    boolean threw = true;
-    R r = supplier.getInput();
+    Closer closer = Closer.create();
     try {
-      StringBuilder result = toStringBuilder(r);
-      threw = false;
-      return result;
+      R r = closer.add(supplier.getInput());
+      return toStringBuilder(r);
+    } catch (Throwable e) {
+      throw closer.rethrow(e, IOException.class);
     } finally {
-      Closeables.close(r, threw);
+      closer.close();
     }
   }
 
@@ -289,14 +284,14 @@ public final class CharStreams {
    */
   public static <R extends Readable & Closeable> String readFirstLine(
       InputSupplier<R> supplier) throws IOException {
-    boolean threw = true;
-    R r = supplier.getInput();
+    Closer closer = Closer.create();
     try {
-      String line = new LineReader(r).readLine();
-      threw = false;
-      return line;
+      R r = closer.add(supplier.getInput());
+      return new LineReader(r).readLine();
+    } catch (Throwable e) {
+      throw closer.rethrow(e, IOException.class);
     } finally {
-      Closeables.close(r, threw);
+      closer.close();
     }
   }
 
@@ -311,14 +306,14 @@ public final class CharStreams {
    */
   public static <R extends Readable & Closeable> List<String> readLines(
       InputSupplier<R> supplier) throws IOException {
-    boolean threw = true;
-    R r = supplier.getInput();
+    Closer closer = Closer.create();
     try {
-      List<String> result = readLines(r);
-      threw = false;
-      return result;
+      R r = closer.add(supplier.getInput());
+      return readLines(r);
+    } catch (Throwable e) {
+      throw closer.rethrow(e, IOException.class);
     } finally {
-      Closeables.close(r, threw);
+      closer.close();
     }
   }
 
@@ -357,9 +352,9 @@ public final class CharStreams {
    */
   public static <R extends Readable & Closeable, T> T readLines(
       InputSupplier<R> supplier, LineProcessor<T> callback) throws IOException {
-    boolean threw = true;
-    R r = supplier.getInput();
+    Closer closer = Closer.create();
     try {
+      R r = closer.add(supplier.getInput());
       LineReader lineReader = new LineReader(r);
       String line;
       while ((line = lineReader.readLine()) != null) {
@@ -367,11 +362,12 @@ public final class CharStreams {
           break;
         }
       }
-      threw = false;
+      return callback.getResult();
+    } catch (Throwable e) {
+      throw closer.rethrow(e, IOException.class);
     } finally {
-      Closeables.close(r, threw);
+      closer.close();
     }
-    return callback.getResult();
   }
 
   /**
