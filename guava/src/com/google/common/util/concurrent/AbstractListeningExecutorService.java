@@ -16,6 +16,8 @@ package com.google.common.util.concurrent;
 
 import static com.google.common.util.concurrent.MoreExecutors.invokeAnyImpl;
 
+import com.google.common.annotations.Beta;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -38,8 +40,10 @@ import javax.annotation.Nullable;
  * termination.
  *
  * @author Doug Lea
+ * @since 14.0
  */
-abstract class AbstractListeningExecutorService implements ListeningExecutorService {
+@Beta
+public abstract class AbstractListeningExecutorService implements ListeningExecutorService {
   @Override public ListenableFuture<?> submit(Runnable task) {
     ListenableFutureTask<Void> ftask = ListenableFutureTask.create(task, null);
     execute(ftask);
