@@ -20,6 +20,7 @@ import static com.google.common.collect.SortedLists.KeyAbsentBehavior.NEXT_LOWER
 import static com.google.common.collect.SortedLists.KeyPresentBehavior.ANY_PRESENT;
 
 import java.io.Serializable;
+import java.util.NoSuchElementException;
 
 /**
  * An efficient immutable implementation of a {@link RangeSet}.
@@ -121,6 +122,16 @@ final class ImmutableRangeSet<C extends Comparable> extends AbstractRangeSet<C>
       return range.contains(value) ? range : null;
     }
     return null;
+  }
+
+  @Override
+  public Range<C> span() {
+    if (ranges.isEmpty()) {
+      throw new NoSuchElementException();
+    }
+    return Range.create(
+        ranges.get(0).lowerBound,
+        ranges.get(ranges.size() - 1).upperBound);
   }
 
   @Override

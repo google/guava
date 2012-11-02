@@ -14,6 +14,7 @@
 
 package com.google.common.collect;
 
+import java.util.NoSuchElementException;
 import java.util.Set;
 
 import javax.annotation.Nullable;
@@ -50,6 +51,14 @@ import javax.annotation.Nullable;
    * (equivalently, of upper bound).
    */
   Set<Range<C>> asRanges();
+
+  /**
+   * Returns the minimal range which {@linkplain Range#encloses(Range) encloses} all ranges
+   * in this range set.
+   *
+   * @throws NoSuchElementException if this range set is {@linkplain #isEmpty() empty}
+   */
+  Range<C> span();
 
   /**
    * Returns {@code true} if this range set contains no ranges.

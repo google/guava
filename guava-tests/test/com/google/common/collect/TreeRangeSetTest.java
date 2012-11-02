@@ -87,6 +87,10 @@ public class TreeRangeSetTest extends AbstractRangeSetTest {
     }
   }
 
+  public void testInvariantsEmpty() {
+    testInvariants(TreeRangeSet.create());
+  }
+
   public void testAllSingleRangesEnclosing() {
     for (Range<Integer> range : QUERY_RANGES) {
       TreeRangeSet<Integer> rangeSet = TreeRangeSet.create();

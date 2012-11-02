@@ -24,6 +24,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map.Entry;
 import java.util.NavigableMap;
+import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.TreeMap;
 
@@ -93,6 +94,16 @@ import javax.annotation.Nullable;
     checkNotNull(range);
     Entry<Cut<C>, Range<C>> floorEntry = rangesByLowerCut.floorEntry(range.lowerBound);
     return floorEntry != null && floorEntry.getValue().encloses(range);
+  }
+
+  @Override
+  public Range<C> span() {
+    Entry<Cut<C>, Range<C>> firstEntry = rangesByLowerCut.firstEntry();
+    Entry<Cut<C>, Range<C>> lastEntry = rangesByLowerCut.lastEntry();
+    if (firstEntry == null) {
+      throw new NoSuchElementException();
+    }
+    return Range.create(firstEntry.getValue().lowerBound, lastEntry.getValue().upperBound);
   }
 
   @Override
@@ -234,7 +245,6 @@ import javax.annotation.Nullable;
     @Override
     public Set<Range<C>> asRanges() {
       return new AbstractSet<Range<C>>() {
-
         @Override
         public Iterator<Range<C>> iterator() {
           return TreeRangeSet.this.standardComplementIterator();
@@ -256,8 +266,33 @@ import javax.annotation.Nullable;
           }
           return size;
         }
-
       };
+    }
+
+    @Override
+    public Range<C> span() {
+      Cut<C> spanLowerBound;
+      Entry<Cut<C>, Range<C>> firstEntry = rangesByLowerCut.firstEntry();
+      if (firstEntry == null) {
+        return Range.all();
+      } else if (firstEntry.getValue().hasLowerBound()) {
+        spanLowerBound = Cut.belowAll();
+      } else {
+        spanLowerBound = firstEntry.getValue().upperBound;
+        if (Cut.aboveAll().equals(spanLowerBound)) {
+          // TreeRangeSet.this contains the single range Range.all(), so the complement is empty
+          throw new NoSuchElementException();
+        }
+      }
+
+      Cut<C> spanUpperBound;
+      Entry<Cut<C>, Range<C>> lastEntry = rangesByLowerCut.lastEntry();
+      if (lastEntry.getValue().hasUpperBound()) {
+        spanUpperBound = Cut.aboveAll();
+      } else {
+        spanUpperBound = lastEntry.getValue().lowerBound;
+      }
+      return Range.create(spanLowerBound, spanUpperBound);
     }
 
     @Override
