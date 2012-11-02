@@ -64,6 +64,7 @@ public final class ThreadFactoryBuilder {
    *     instance of the ThreadFactory and will be assigned sequentially.
    * @return this for the builder pattern
    */
+  @SuppressWarnings("ReturnValueIgnored")
   public ThreadFactoryBuilder setNameFormat(String nameFormat) {
     String.format(nameFormat, 0); // fail fast if the format is bad or null
     this.nameFormat = nameFormat;
