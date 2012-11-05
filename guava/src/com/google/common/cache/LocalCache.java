@@ -4658,8 +4658,8 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
       this.loader = loader;
     }
 
-   CacheBuilder<Object, Object> recreateCacheBuilder() {
-      CacheBuilder<Object, Object> builder = CacheBuilder.newBuilder()
+   CacheBuilder<K, V> recreateCacheBuilder() {
+      CacheBuilder<K, V> builder = CacheBuilder.newBuilder()
           .setKeyStrength(keyStrength)
           .setValueStrength(valueStrength)
           .keyEquivalence(keyEquivalence)
@@ -4691,7 +4691,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
 
     private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
       in.defaultReadObject();
-      CacheBuilder<Object, Object> builder = recreateCacheBuilder();
+      CacheBuilder<K, V> builder = recreateCacheBuilder();
       this.delegate = builder.build();
     }
 
@@ -4725,7 +4725,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
 
     private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
       in.defaultReadObject();
-      CacheBuilder<Object, Object> builder = recreateCacheBuilder();
+      CacheBuilder<K, V> builder = recreateCacheBuilder();
       this.autoDelegate = builder.build(loader);
     }
 
