@@ -267,7 +267,7 @@ public class ImmutableBiMapTest extends TestCase {
         builder.build();
         fail();
       } catch (IllegalArgumentException expected) {
-        assertEquals("duplicate key: one", expected.getMessage());
+        assertTrue(expected.getMessage().contains("one"));
       }
     }
 
@@ -340,7 +340,7 @@ public class ImmutableBiMapTest extends TestCase {
         ImmutableBiMap.of("one", 1, "one", 1);
         fail();
       } catch (IllegalArgumentException expected) {
-        assertEquals("duplicate key: one", expected.getMessage());
+        assertTrue(expected.getMessage().contains("one"));
       }
     }
 
@@ -414,7 +414,7 @@ public class ImmutableBiMapTest extends TestCase {
         ImmutableBiMap.copyOf(map);
         fail();
       } catch (IllegalArgumentException expected) {
-        assertEquals("duplicate key: 1", expected.getMessage());
+        assertTrue(expected.getMessage().contains("1"));
       }
     }
   }

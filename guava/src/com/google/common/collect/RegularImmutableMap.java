@@ -86,7 +86,7 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
    *
    * @param size The number of keys to be inserted. Must be greater than or equal to 2.
    */
-  private static int chooseTableSize(int size) {
+  static int chooseTableSize(int size) {
     // Get the recommended table size.
     // Round down to the nearest power of 2.
     int tableSize = Integer.highestOneBit(size);
