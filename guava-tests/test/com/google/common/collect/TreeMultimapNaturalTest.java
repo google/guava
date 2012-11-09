@@ -16,14 +16,19 @@
 
 package com.google.common.collect;
 
+import static com.google.common.base.Preconditions.checkArgument;
 import static org.junit.contrib.truth.Truth.ASSERT;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.testing.DerivedComparable;
+import com.google.common.collect.testing.Helpers;
+import com.google.common.collect.testing.NavigableMapTestSuiteBuilder;
 import com.google.common.collect.testing.NavigableSetTestSuiteBuilder;
-import com.google.common.collect.testing.SortedSetTestSuiteBuilder;
+import com.google.common.collect.testing.SampleElements;
+import com.google.common.collect.testing.TestSortedMapGenerator;
 import com.google.common.collect.testing.TestStringSetGenerator;
+import com.google.common.collect.testing.TestStringSortedSetGenerator;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.MapFeature;
@@ -41,10 +46,12 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.SortedSet;
 import java.util.Map.Entry;
+import java.util.NavigableMap;
+import java.util.NavigableSet;
 import java.util.Set;
 import java.util.SortedMap;
+import java.util.SortedSet;
 
 /**
  * Unit tests for {@code TreeMultimap} with natural ordering.
@@ -92,9 +99,9 @@ public class TreeMultimapNaturalTest extends AbstractSetMultimapTest {
           CollectionFeature.SERIALIZABLE,
           CollectionSize.ANY)
       .createTestSuite());
-    suite.addTest(SortedSetTestSuiteBuilder.using(new TestStringSetGenerator() {
+    suite.addTest(NavigableSetTestSuiteBuilder.using(new TestStringSortedSetGenerator() {
         @Override
-        protected Set<String> create(String[] elements) {
+        protected NavigableSet<String> create(String[] elements) {
           TreeMultimap<String, Integer> multimap = TreeMultimap.create(
               Ordering.natural().nullsFirst(), Ordering.natural());
           for (int i = 0; i < elements.length; i++) {
@@ -112,6 +119,86 @@ public class TreeMultimapNaturalTest extends AbstractSetMultimapTest {
       .withFeatures(
           CollectionFeature.ALLOWS_NULL_VALUES,
           CollectionFeature.SUPPORTS_REMOVE,
+          CollectionFeature.KNOWN_ORDER,
+          CollectionSize.ANY)
+      .createTestSuite());
+    suite.addTest(NavigableMapTestSuiteBuilder.using(
+      new TestSortedMapGenerator<String, Collection<String>>() {
+
+        @Override
+        public String[] createKeyArray(int length) {
+          return new String[length];
+        }
+
+        @SuppressWarnings("unchecked")
+        @Override
+        public Collection<String>[] createValueArray(int length) {
+          return new Collection[length];
+        }
+
+        @Override
+        public SampleElements<Entry<String, Collection<String>>> samples() {
+          return new SampleElements<Entry<String, Collection<String>>>(
+              Helpers.mapEntry("a", (Collection<String>) ImmutableSortedSet.of("alex")),
+              Helpers.mapEntry("b", (Collection<String>) ImmutableSortedSet.of("bob", "bagel")),
+              Helpers.mapEntry("c", (Collection<String>) ImmutableSortedSet.of("carl", "carol")),
+              Helpers.mapEntry("d", (Collection<String>) ImmutableSortedSet.of("david", "dead")),
+              Helpers.mapEntry("e", (Collection<String>) ImmutableSortedSet.of("eric", "elaine")));
+        }
+
+        @SuppressWarnings("unchecked")
+        @Override
+        public Entry<String, Collection<String>>[] createArray(int length) {
+          return new Entry[length];
+        }
+
+        @Override
+        public Iterable<Entry<String, Collection<String>>> order(
+            List<Entry<String, Collection<String>>> insertionOrder) {
+          return new Ordering<Entry<String, ?>>() {
+            @Override
+            public int compare(Entry<String, ?> left, Entry<String, ?> right) {
+              return left.getKey().compareTo(right.getKey());
+            }
+          }.sortedCopy(insertionOrder);
+        }
+
+        @Override
+        public NavigableMap<String, Collection<String>> create(Object... elements) {
+          TreeMultimap<String, String> multimap = TreeMultimap.create();
+          for (Object o : elements) {
+            @SuppressWarnings("unchecked")
+            Entry<String, Collection<String>> entry = (Entry<String, Collection<String>>) o;
+            checkArgument(!multimap.containsKey(entry.getKey()));
+            multimap.putAll(entry.getKey(), entry.getValue());
+          }
+          return multimap.asMap();
+        }
+
+        @Override
+        public Entry<String, Collection<String>> belowSamplesLesser() {
+          return Helpers.mapEntry("-- a", (Collection<String>) ImmutableSortedSet.of("--below"));
+        }
+
+        @Override
+        public Entry<String, Collection<String>> belowSamplesGreater() {
+          return Helpers.mapEntry("-- b", (Collection<String>) ImmutableSortedSet.of("--below"));
+        }
+
+        @Override
+        public Entry<String, Collection<String>> aboveSamplesLesser() {
+          return Helpers.mapEntry("~~ b", (Collection<String>) ImmutableSortedSet.of("~above"));
+        }
+
+        @Override
+        public Entry<String, Collection<String>> aboveSamplesGreater() {
+          return Helpers.mapEntry("~~ c", (Collection<String>) ImmutableSortedSet.of("~above"));
+        }
+      })
+      .named("TreeMultimap.asMap")
+      .withFeatures(
+          MapFeature.SUPPORTS_REMOVE,
+          MapFeature.REJECTS_DUPLICATES_AT_CREATION,
           CollectionFeature.KNOWN_ORDER,
           CollectionSize.ANY)
       .createTestSuite());
@@ -400,6 +487,25 @@ public class TreeMultimapNaturalTest extends AbstractSetMultimapTest {
     assertEquals(4, multimap.size());
     assertEquals(4, multimap.values().size());
     assertEquals(4, multimap.keys().size());
+  }
+
+  @GwtIncompatible("reflection")
+  public void testKeySetBridgeMethods() {
+    for (Method m : TreeMultimap.class.getMethods()) {
+      if (m.getName().equals("keySet") && m.getReturnType().equals(SortedSet.class)) {
+        return;
+      }
+    }
+    fail("No bridge method found");
+  }
+
+  @GwtIncompatible("reflection")
+  public void testAsMapBridgeMethods() {
+    for (Method m : TreeMultimap.class.getMethods()) {
+      if (m.getName().equals("asMap") && m.getReturnType().equals(SortedMap.class)) {
+        return;
+      }
+    }
   }
 
   @GwtIncompatible("reflection")

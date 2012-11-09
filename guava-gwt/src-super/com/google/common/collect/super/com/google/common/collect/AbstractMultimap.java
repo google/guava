@@ -908,7 +908,9 @@ abstract class AbstractMultimap<K, V> implements Multimap<K, V>, Serializable {
     return (result == null) ? keySet = createKeySet() : result;
   }
 
-  private Set<K> createKeySet() {
+  Set<K> createKeySet() {
+    // TreeMultimap uses NavigableKeySet explicitly, but we don't handle that here for GWT
+    // compatibility reasons
     return (map instanceof SortedMap)
         ? new SortedKeySet((SortedMap<K, Collection<V>>) map) : new KeySet(map);
   }
@@ -931,9 +933,9 @@ abstract class AbstractMultimap<K, V> implements Multimap<K, V>, Serializable {
     }
 
     @Override public Iterator<K> iterator() {
+      final Iterator<Map.Entry<K, Collection<V>>> entryIterator
+          = subMap.entrySet().iterator();
       return new Iterator<K>() {
-        final Iterator<Map.Entry<K, Collection<V>>> entryIterator
-            = subMap.entrySet().iterator();
         Map.Entry<K, Collection<V>> entry;
 
         @Override
@@ -1199,7 +1201,9 @@ abstract class AbstractMultimap<K, V> implements Multimap<K, V>, Serializable {
     return (result == null) ? asMap = createAsMap() : result;
   }
 
-  private Map<K, Collection<V>> createAsMap() {
+  Map<K, Collection<V>> createAsMap() {
+    // TreeMultimap uses NavigableAsMap explicitly, but we don't handle that here for GWT
+    // compatibility reasons
     return (map instanceof SortedMap)
         ? new SortedAsMap((SortedMap<K, Collection<V>>) map) : new AsMap(map);
   }
@@ -1282,6 +1286,11 @@ abstract class AbstractMultimap<K, V> implements Multimap<K, V>, Serializable {
       }
     }
 
+    Entry<K, Collection<V>> wrapEntry(Entry<K, Collection<V>> entry) {
+      K key = entry.getKey();
+      return Maps.immutableEntry(key, wrapCollection(key, entry.getValue()));
+    }
+
     class AsMapEntries extends Maps.EntrySet<K, Collection<V>> {
       @Override
       Map<K, Collection<V>> map() {
@@ -1322,9 +1331,8 @@ abstract class AbstractMultimap<K, V> implements Multimap<K, V>, Serializable {
       @Override
       public Map.Entry<K, Collection<V>> next() {
         Map.Entry<K, Collection<V>> entry = delegateIterator.next();
-        K key = entry.getKey();
         collection = entry.getValue();
-        return Maps.immutableEntry(key, wrapCollection(key, collection));
+        return wrapEntry(entry);
       }
 
       @Override
@@ -1382,8 +1390,11 @@ abstract class AbstractMultimap<K, V> implements Multimap<K, V>, Serializable {
     // satisfy the SortedMap.keySet() interface
     @Override public SortedSet<K> keySet() {
       SortedSet<K> result = sortedKeySet;
-      return (result == null)
-          ? sortedKeySet = new SortedKeySet(sortedMap()) : result;
+      return (result == null) ? sortedKeySet = createKeySet() : result;
+    }
+
+    SortedSet<K> createKeySet() {
+      return new SortedKeySet(sortedMap());
     }
   }
 

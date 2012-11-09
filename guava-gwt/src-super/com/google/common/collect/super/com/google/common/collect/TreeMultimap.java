@@ -22,10 +22,11 @@ import com.google.common.annotations.GwtCompatible;
 
 import java.util.Collection;
 import java.util.Comparator;
-import java.util.SortedMap;
 import java.util.SortedSet;
 import java.util.TreeMap;
 import java.util.TreeSet;
+
+import javax.annotation.Nullable;
 
 /**
  * Implementation of {@code Multimap} whose keys and values are ordered by
@@ -65,10 +66,11 @@ import java.util.TreeSet;
  * {@code Multimap}</a>.
  *
  * @author Jared Levy
+ * @author Louis Wasserman
  * @since 2.0 (imported from Google Collections Library)
  */
 @GwtCompatible(serializable = true, emulated = true)
-public class TreeMultimap<K, V> extends AbstractSortedSetMultimap<K, V> {
+public class TreeMultimap<K, V> extends AbstractSortedKeySortedSetMultimap<K, V> {
   private transient Comparator<? super K> keyComparator;
   private transient Comparator<? super V> valueComparator;
 
@@ -134,6 +136,14 @@ public class TreeMultimap<K, V> extends AbstractSortedSetMultimap<K, V> {
     return new TreeSet<V>(valueComparator);
   }
 
+  @Override
+  Collection<V> createCollection(@Nullable K key) {
+    if (key == null) {
+      keyComparator().compare(key, key);
+    }
+    return super.createCollection(key);
+  }
+
   /**
    * Returns the comparator that orders the multimap keys.
    */
@@ -146,31 +156,10 @@ public class TreeMultimap<K, V> extends AbstractSortedSetMultimap<K, V> {
     return valueComparator;
   }
 
-  /* 
-   * In GWT, the following methods are not overridden, which gives the desired behavior anyway:
-   * they all use and return SortedSets instead of NavigableSets.
+  /*
+   * The following @GwtIncompatible methods override the methods in 
+   * AbstractSortedKeySortedSetMultimap, so GWT will fall back to the ASKSSM implementations,
+   * which return SortedSets and SortedMaps.
    */
-
-  /**
-   * {@inheritDoc}
-   *
-   * <p>Because a {@code TreeMultimap} has unique sorted keys, this method
-   * returns a {@link SortedSet}, instead of the {@link java.util.Set} specified
-   * in the {@link Multimap} interface.
-   */
-  @Override public SortedSet<K> keySet() {
-    return (SortedSet<K>) super.keySet();
-  }
-
-  /**
-   * {@inheritDoc}
-   *
-   * <p>Because a {@code TreeMultimap} has unique sorted keys, this method
-   * returns a {@link SortedMap}, instead of the {@link java.util.Map} specified
-   * in the {@link Multimap} interface.
-   */
-  @Override public SortedMap<K, Collection<V>> asMap() {
-    return (SortedMap<K, Collection<V>>) super.asMap();
-  }
 }
 
