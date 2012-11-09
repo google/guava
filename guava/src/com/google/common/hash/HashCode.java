@@ -35,8 +35,18 @@ public abstract class HashCode {
   /**
    * Returns the first four bytes of {@linkplain #asBytes() this hashcode's bytes}, converted to
    * an {@code int} value in little-endian order.
+   *
+   * @throws IllegalStateException if {@code bits() < 32}
    */
   public abstract int asInt();
+
+  /**
+   * By default, returns {@code asInt()}. Implementations can override this method in case the
+   * {@code HashCode} has less than four bytes.
+   */
+  int padToInt() {
+    return asInt();
+  }
 
   /**
    * Returns the first eight bytes of {@linkplain #asBytes() this hashcode's bytes}, converted to
@@ -105,7 +115,7 @@ public abstract class HashCode {
      * As long as the hash function that produced this isn't of horrible quality, this
      * won't be of horrible quality either.
      */
-    return asInt();
+    return padToInt();
   }
 
   /**
@@ -119,7 +129,6 @@ public abstract class HashCode {
    */
   @Override public String toString() {
     byte[] bytes = asBytes();
-    // TODO(user): Use c.g.common.base.ByteArrays once it is open sourced.
     StringBuilder sb = new StringBuilder(2 * bytes.length);
     for (byte b : bytes) {
       sb.append(hexDigits[(b >> 4) & 0xf]).append(hexDigits[b & 0xf]);

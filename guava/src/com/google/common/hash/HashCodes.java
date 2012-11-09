@@ -16,6 +16,7 @@ package com.google.common.hash;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkState;
 
 import com.google.common.annotations.Beta;
 import com.google.common.primitives.UnsignedInts;
@@ -122,20 +123,19 @@ public final class HashCodes {
 
     private static final long serialVersionUID = 0;
   }
-  
+
   /**
    * Creates a {@code HashCode} from a byte array. The array is defensively copied to preserve
-   * the immutability contract of {@code HashCode}. The array must be at least of length 4.
+   * the immutability contract of {@code HashCode}. The array cannot be empty.
    */
   public static HashCode fromBytes(byte[] bytes) {
-    checkArgument(bytes.length >= 4, "A HashCode must contain at least 4 bytes.");
+    checkArgument(bytes.length >= 1, "A HashCode must contain at least 1 byte.");
     return fromBytesNoCopy(bytes.clone());
   }
 
   /**
    * Creates a {@code HashCode} from a byte array. The array is <i>not</i> copied defensively, 
    * so it must be handed-off so as to preserve the immutability contract of {@code HashCode}.
-   * The array must be at least of length 4 (not checked).
    */
   static HashCode fromBytesNoCopy(byte[] bytes) {
     return new BytesHashCode(bytes);
@@ -157,6 +157,8 @@ public final class HashCodes {
     }
 
     @Override public int asInt() {
+      checkState(bytes.length >= 4,
+          "HashCode#asInt() requires >= 4 bytes (it only has %s bytes).", bytes.length);
       return (bytes[0] & 0xFF)
           | ((bytes[1] & 0xFF) << 8)
           | ((bytes[2] & 0xFF) << 16)
@@ -164,10 +166,8 @@ public final class HashCodes {
     }
 
     @Override public long asLong() {
-      if (bytes.length < 8) {
-        // Checking this to throw the correct type of exception
-        throw new IllegalStateException("Not enough bytes");
-      }
+      checkState(bytes.length >= 8,
+          "HashCode#asInt() requires >= 8 bytes (it only has %s bytes).", bytes.length);
       return (bytes[0] & 0xFFL)
           | ((bytes[1] & 0xFFL) << 8)
           | ((bytes[2] & 0xFFL) << 16)
@@ -181,6 +181,19 @@ public final class HashCodes {
     @Override
     public long padToLong() {
       return (bytes.length < 8) ? UnsignedInts.toLong(asInt()) : asLong();
+    }
+
+    @Override
+    int padToInt() {
+      if (bytes.length >= 4) {
+        return asInt();
+      } else {
+        int val = (bytes[0] & 0xFF);
+        for (int i = 1; i < bytes.length; i++) {
+          val |= ((bytes[i] & 0xFF) << (i * 8));
+        }
+        return val;
+      }
     }
 
     private static final long serialVersionUID = 0;

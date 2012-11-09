@@ -52,7 +52,11 @@ abstract class AbstractByteHasher extends AbstractHasher {
   /**
    * Updates this hasher with {@code len} bytes starting at {@code off} in the given buffer.
    */
-  protected abstract void update(byte[] b, int off, int len);
+  protected void update(byte[] b, int off, int len) {
+    for (int i = off; i < off + len; i++) {
+      update(b[i]);
+    }
+  }
 
   @Override
   public Hasher putByte(byte b) {
