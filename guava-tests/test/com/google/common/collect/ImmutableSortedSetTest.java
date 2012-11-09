@@ -168,6 +168,8 @@ public class ImmutableSortedSetTest extends AbstractImmutableSetTest {
             CollectionFeature.ALLOWS_NULL_QUERIES)
             .createTestSuite());
 
+    suite.addTestSuite(ImmutableSortedSetTest.class);
+
     return suite;
   }
 

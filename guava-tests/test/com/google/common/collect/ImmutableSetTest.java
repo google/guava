@@ -82,6 +82,8 @@ public class ImmutableSetTest extends AbstractImmutableSetTest {
             CollectionFeature.ALLOWS_NULL_QUERIES)
         .createTestSuite());
 
+    suite.addTestSuite(ImmutableSetTest.class);
+
     return suite;
   }
 
