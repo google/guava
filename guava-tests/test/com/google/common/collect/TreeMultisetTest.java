@@ -419,4 +419,3 @@ public class TreeMultisetTest extends AbstractMultisetTest {
     fail("No bridge method found");
   }
 }
-
