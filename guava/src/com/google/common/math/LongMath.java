@@ -119,7 +119,7 @@ public final class LongMath {
       return IntMath.log10((int) x, mode);
     }
     int logFloor = log10Floor(x);
-    long floorPow = POWERS_OF_10[logFloor];
+    long floorPow = powersOf10[logFloor];
     switch (mode) {
       case UNNECESSARY:
         checkRoundingUnnecessary(x == floorPow);
@@ -134,7 +134,7 @@ public final class LongMath {
       case HALF_UP:
       case HALF_EVEN:
         // sqrt(10) is irrational, so log10(x)-logFloor is never exactly 0.5
-        return (x <= HALF_POWERS_OF_10[logFloor]) ? logFloor : logFloor + 1;
+        return (x <= halfPowersOf10[logFloor]) ? logFloor : logFloor + 1;
       default:
         throw new AssertionError();
     }
@@ -149,10 +149,10 @@ public final class LongMath {
      * we can narrow the possible floor(log10(x)) values to two.  For example, if floor(log2(x))
      * is 6, then 64 <= x < 128, so floor(log10(x)) is either 1 or 2.
      */
-    int y = MAX_LOG10_FOR_LEADING_ZEROS[Long.numberOfLeadingZeros(x)];
+    int y = maxLog10ForLeadingZeros[Long.numberOfLeadingZeros(x)];
     // y is the higher of the two possible values of floor(log10(x))
 
-    long sgn = (x - POWERS_OF_10[y]) >>> (Long.SIZE - 1);
+    long sgn = (x - powersOf10[y]) >>> (Long.SIZE - 1);
     /*
      * sgn is the sign bit of x - 10^y; it is 1 if x < 10^y, and 0 otherwise. If x < 10^y, then we
      * want the lower of the two possible values, or y - 1, otherwise, we want y.
@@ -160,15 +160,15 @@ public final class LongMath {
     return y - (int) sgn;
   }
 
-  // MAX_LOG10_FOR_LEADING_ZEROS[i] == floor(log10(2^(Long.SIZE - i)))
-  @VisibleForTesting static final byte[] MAX_LOG10_FOR_LEADING_ZEROS = {
+  // maxLog10ForLeadingZeros[i] == floor(log10(2^(Long.SIZE - i)))
+  @VisibleForTesting static final byte[] maxLog10ForLeadingZeros = {
       19, 18, 18, 18, 18, 17, 17, 17, 16, 16, 16, 15, 15, 15, 15, 14, 14, 14, 13, 13, 13, 12, 12,
       12, 12, 11, 11, 11, 10, 10, 10, 9, 9, 9, 9, 8, 8, 8, 7, 7, 7, 6, 6, 6, 6, 5, 5, 5, 4, 4, 4,
       3, 3, 3, 3, 2, 2, 2, 1, 1, 1, 0, 0, 0 };
 
   @GwtIncompatible("TODO")
   @VisibleForTesting
-  static final long[] POWERS_OF_10 = {
+  static final long[] powersOf10 = {
     1L,
     10L,
     100L,
@@ -190,10 +190,10 @@ public final class LongMath {
     1000000000000000000L
   };
 
-  // HALF_POWERS_OF_10[i] = largest long less than 10^(i + 0.5)
+  // halfPowersOf10[i] = largest long less than 10^(i + 0.5)
   @GwtIncompatible("TODO")
   @VisibleForTesting
-  static final long[] HALF_POWERS_OF_10 = {
+  static final long[] halfPowersOf10 = {
     3L,
     31L,
     316L,
@@ -584,10 +584,10 @@ public final class LongMath {
   @GwtIncompatible("TODO")
   public static long factorial(int n) {
     checkNonNegative("n", n);
-    return (n < FACTORIALS.length) ? FACTORIALS[n] : Long.MAX_VALUE;
+    return (n < factorials.length) ? factorials[n] : Long.MAX_VALUE;
   }
 
-  static final long[] FACTORIALS = {
+  static final long[] factorials = {
       1L,
       1L,
       1L * 2,
@@ -624,11 +624,11 @@ public final class LongMath {
     if (k > (n >> 1)) {
       k = n - k;
     }
-    if (k >= BIGGEST_BINOMIALS.length || n > BIGGEST_BINOMIALS[k]) {
+    if (k >= biggestBinomials.length || n > biggestBinomials[k]) {
       return Long.MAX_VALUE;
     }
     long result = 1;
-    if (k < BIGGEST_SIMPLE_BINOMIALS.length && n <= BIGGEST_SIMPLE_BINOMIALS[k]) {
+    if (k < biggestSimpleBinomials.length && n <= biggestSimpleBinomials[k]) {
       // guaranteed not to overflow
       for (int i = 0; i < k; i++) {
         result *= n - i;
@@ -647,19 +647,19 @@ public final class LongMath {
   }
 
   /*
-   * binomial(BIGGEST_BINOMIALS[k], k) fits in a long, but not
-   * binomial(BIGGEST_BINOMIALS[k] + 1, k).
+   * binomial(biggestBinomials[k], k) fits in a long, but not
+   * binomial(biggestBinomials[k] + 1, k).
    */
-  static final int[] BIGGEST_BINOMIALS =
+  static final int[] biggestBinomials =
       {Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, 3810779, 121977, 16175, 4337, 1733,
           887, 534, 361, 265, 206, 169, 143, 125, 111, 101, 94, 88, 83, 79, 76, 74, 72, 70, 69, 68,
           67, 67, 66, 66, 66, 66};
 
   /*
-   * binomial(BIGGEST_SIMPLE_BINOMIALS[k], k) doesn't need to use the slower GCD-based impl,
-   * but binomial(BIGGEST_SIMPLE_BINOMIALS[k] + 1, k) does.
+   * binomial(biggestSimpleBinomials[k], k) doesn't need to use the slower GCD-based impl,
+   * but binomial(biggestSimpleBinomials[k] + 1, k) does.
    */
-  @VisibleForTesting static final int[] BIGGEST_SIMPLE_BINOMIALS =
+  @VisibleForTesting static final int[] biggestSimpleBinomials =
       {Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, 2642246, 86251, 11724, 3218, 1313,
           684, 419, 287, 214, 169, 139, 119, 105, 95, 87, 81, 76, 73, 70, 68, 66, 64, 63, 62, 62,
           61, 61, 61};

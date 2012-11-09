@@ -98,15 +98,15 @@ public final class LongMath {
   /** The biggest half power of two that fits into an unsigned long */
   @VisibleForTesting static final long MAX_POWER_OF_SQRT2_UNSIGNED = 0xB504F333F9DE6484L;
 
-  // MAX_LOG10_FOR_LEADING_ZEROS[i] == floor(log10(2^(Long.SIZE - i)))
-  @VisibleForTesting static final byte[] MAX_LOG10_FOR_LEADING_ZEROS = {
+  // maxLog10ForLeadingZeros[i] == floor(log10(2^(Long.SIZE - i)))
+  @VisibleForTesting static final byte[] maxLog10ForLeadingZeros = {
       19, 18, 18, 18, 18, 17, 17, 17, 16, 16, 16, 15, 15, 15, 15, 14, 14, 14, 13, 13, 13, 12, 12,
       12, 12, 11, 11, 11, 10, 10, 10, 9, 9, 9, 9, 8, 8, 8, 7, 7, 7, 6, 6, 6, 6, 5, 5, 5, 4, 4, 4,
       3, 3, 3, 3, 2, 2, 2, 1, 1, 1, 0, 0, 0 };
 
-  // HALF_POWERS_OF_10[i] = largest long less than 10^(i + 0.5)
+  // halfPowersOf10[i] = largest long less than 10^(i + 0.5)
 
-  static final long[] FACTORIALS = {
+  static final long[] factorials = {
       1L,
       1L,
       1L * 2,
@@ -143,11 +143,11 @@ public final class LongMath {
     if (k > (n >> 1)) {
       k = n - k;
     }
-    if (k >= BIGGEST_BINOMIALS.length || n > BIGGEST_BINOMIALS[k]) {
+    if (k >= biggestBinomials.length || n > biggestBinomials[k]) {
       return Long.MAX_VALUE;
     }
     long result = 1;
-    if (k < BIGGEST_SIMPLE_BINOMIALS.length && n <= BIGGEST_SIMPLE_BINOMIALS[k]) {
+    if (k < biggestSimpleBinomials.length && n <= biggestSimpleBinomials[k]) {
       // guaranteed not to overflow
       for (int i = 0; i < k; i++) {
         result *= n - i;
@@ -166,19 +166,19 @@ public final class LongMath {
   }
 
   /*
-   * binomial(BIGGEST_BINOMIALS[k], k) fits in a long, but not
-   * binomial(BIGGEST_BINOMIALS[k] + 1, k).
+   * binomial(biggestBinomials[k], k) fits in a long, but not
+   * binomial(biggestBinomials[k] + 1, k).
    */
-  static final int[] BIGGEST_BINOMIALS =
+  static final int[] biggestBinomials =
       {Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, 3810779, 121977, 16175, 4337, 1733,
           887, 534, 361, 265, 206, 169, 143, 125, 111, 101, 94, 88, 83, 79, 76, 74, 72, 70, 69, 68,
           67, 67, 66, 66, 66, 66};
 
   /*
-   * binomial(BIGGEST_SIMPLE_BINOMIALS[k], k) doesn't need to use the slower GCD-based impl,
-   * but binomial(BIGGEST_SIMPLE_BINOMIALS[k] + 1, k) does.
+   * binomial(biggestSimpleBinomials[k], k) doesn't need to use the slower GCD-based impl,
+   * but binomial(biggestSimpleBinomials[k] + 1, k) does.
    */
-  @VisibleForTesting static final int[] BIGGEST_SIMPLE_BINOMIALS =
+  @VisibleForTesting static final int[] biggestSimpleBinomials =
       {Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, 2642246, 86251, 11724, 3218, 1313,
           684, 419, 287, 214, 169, 139, 119, 105, 95, 87, 81, 76, 73, 70, 68, 66, 64, 63, 62, 62,
           61, 61, 61};

@@ -314,8 +314,8 @@ public final class BigIntegerMath {
     checkNonNegative("n", n);
 
     // If the factorial is small enough, just use LongMath to do it.
-    if (n < LongMath.FACTORIALS.length) {
-      return BigInteger.valueOf(LongMath.FACTORIALS[n]);
+    if (n < LongMath.factorials.length) {
+      return BigInteger.valueOf(LongMath.factorials[n]);
     }
 
     // Pre-allocate space for our list of intermediate BigIntegers.
@@ -323,8 +323,8 @@ public final class BigIntegerMath {
     ArrayList<BigInteger> bignums = new ArrayList<BigInteger>(approxSize);
 
     // Start from the pre-computed maximum long factorial.
-    int startingNumber = LongMath.FACTORIALS.length;
-    long product = LongMath.FACTORIALS[startingNumber - 1];
+    int startingNumber = LongMath.factorials.length;
+    long product = LongMath.factorials[startingNumber - 1];
     // Strip off 2s from this value.
     int shift = Long.numberOfTrailingZeros(product);
     product >>= shift;
@@ -401,7 +401,7 @@ public final class BigIntegerMath {
     if (k > (n >> 1)) {
       k = n - k;
     }
-    if (k < LongMath.BIGGEST_BINOMIALS.length && n <= LongMath.BIGGEST_BINOMIALS[k]) {
+    if (k < LongMath.biggestBinomials.length && n <= LongMath.biggestBinomials[k]) {
       return BigInteger.valueOf(LongMath.binomial(n, k));
     }
 

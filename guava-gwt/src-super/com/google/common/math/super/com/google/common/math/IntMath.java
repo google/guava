@@ -110,10 +110,10 @@ public final class IntMath {
      * we can narrow the possible floor(log10(x)) values to two.  For example, if floor(log2(x))
      * is 6, then 64 <= x < 128, so floor(log10(x)) is either 1 or 2.
      */
-    int y = MAX_LOG10_FOR_LEADING_ZEROS[Integer.numberOfLeadingZeros(x)];
+    int y = maxLog10ForLeadingZeros[Integer.numberOfLeadingZeros(x)];
     // y is the higher of the two possible values of floor(log10(x))
 
-    int sgn = (x - POWERS_OF_10[y]) >>> (Integer.SIZE - 1);
+    int sgn = (x - powersOf10[y]) >>> (Integer.SIZE - 1);
     /*
      * sgn is the sign bit of x - 10^y; it is 1 if x < 10^y, and 0 otherwise. If x < 10^y, then we
      * want the lower of the two possible values, or y - 1, otherwise, we want y.
@@ -121,15 +121,15 @@ public final class IntMath {
     return y - sgn;
   }
 
-  // MAX_LOG10_FOR_LEADING_ZEROS[i] == floor(log10(2^(Long.SIZE - i)))
-  @VisibleForTesting static final byte[] MAX_LOG10_FOR_LEADING_ZEROS = {9, 9, 9, 8, 8, 8,
+  // maxLog10ForLeadingZeros[i] == floor(log10(2^(Long.SIZE - i)))
+  @VisibleForTesting static final byte[] maxLog10ForLeadingZeros = {9, 9, 9, 8, 8, 8,
     7, 7, 7, 6, 6, 6, 6, 5, 5, 5, 4, 4, 4, 3, 3, 3, 3, 2, 2, 2, 1, 1, 1, 0, 0, 0, 0};
 
-  @VisibleForTesting static final int[] POWERS_OF_10 = {1, 10, 100, 1000, 10000,
+  @VisibleForTesting static final int[] powersOf10 = {1, 10, 100, 1000, 10000,
     100000, 1000000, 10000000, 100000000, 1000000000};
 
-  // HALF_POWERS_OF_10[i] = largest int less than 10^(i + 0.5)
-  @VisibleForTesting static final int[] HALF_POWERS_OF_10 =
+  // halfPowersOf10[i] = largest int less than 10^(i + 0.5)
+  @VisibleForTesting static final int[] halfPowersOf10 =
       {3, 31, 316, 3162, 31622, 316227, 3162277, 31622776, 316227766, Integer.MAX_VALUE};
 
   private static int sqrtFloor(int x) {
@@ -363,10 +363,10 @@ public final class IntMath {
    */
   public static int factorial(int n) {
     checkNonNegative("n", n);
-    return (n < FACTORIALS.length) ? FACTORIALS[n] : Integer.MAX_VALUE;
+    return (n < factorials.length) ? factorials[n] : Integer.MAX_VALUE;
   }
 
-  static final int[] FACTORIALS = {
+  private static final int[] factorials = {
       1,
       1,
       1 * 2,
@@ -381,8 +381,8 @@ public final class IntMath {
       1 * 2 * 3 * 4 * 5 * 6 * 7 * 8 * 9 * 10 * 11,
       1 * 2 * 3 * 4 * 5 * 6 * 7 * 8 * 9 * 10 * 11 * 12};
 
-  // binomial(BIGGEST_BINOMIALS[k], k) fits in an int, but not binomial(BIGGEST_BINOMIALS[k]+1,k).
-  @VisibleForTesting static int[] BIGGEST_BINOMIALS = {
+  // binomial(biggestBinomials[k], k) fits in an int, but not binomial(biggestBinomials[k]+1,k).
+  @VisibleForTesting static int[] biggestBinomials = {
     Integer.MAX_VALUE,
     Integer.MAX_VALUE,
     65536,

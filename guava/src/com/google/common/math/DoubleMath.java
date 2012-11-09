@@ -287,12 +287,12 @@ public final class DoubleMath {
       return Double.POSITIVE_INFINITY;
     } else {
       // Multiplying the last (n & 0xf) values into their own accumulator gives a more accurate
-      // result than multiplying by EVERY_SIXTEENTH_FACTORIAL[n >> 4] directly.
+      // result than multiplying by everySixteenthFactorial[n >> 4] directly.
       double accum = 1.0;
       for (int i = 1 + (n & ~0xf); i <= n; i++) {
         accum *= i;
       }
-      return accum * EVERY_SIXTEENTH_FACTORIAL[n >> 4];
+      return accum * everySixteenthFactorial[n >> 4];
     }
   }
 
@@ -300,7 +300,7 @@ public final class DoubleMath {
   static final int MAX_FACTORIAL = 170;
 
   @VisibleForTesting
-  static final double[] EVERY_SIXTEENTH_FACTORIAL = {
+  static final double[] everySixteenthFactorial = {
       0x1.0p0,
       0x1.30777758p44,
       0x1.956ad0aae33a4p117,

@@ -71,7 +71,7 @@ public class DoubleMathTest extends TestCase {
   public void testConstantsEverySixteenthFactorial() {
     for (int i = 0, n = 0; n <= DoubleMath.MAX_FACTORIAL; i++, n += 16) {
       assertEquals(
-          BigIntegerMath.factorial(n).doubleValue(), DoubleMath.EVERY_SIXTEENTH_FACTORIAL[i]);
+          BigIntegerMath.factorial(n).doubleValue(), DoubleMath.everySixteenthFactorial[i]);
     }
   }
 

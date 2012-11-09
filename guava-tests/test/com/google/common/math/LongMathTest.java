@@ -58,29 +58,29 @@ public class LongMathTest extends TestCase {
     for (int i = 0; i < Long.SIZE; i++) {
       assertEquals(
           BigIntegerMath.log10(BigInteger.ONE.shiftLeft(Long.SIZE - i), FLOOR),
-          LongMath.MAX_LOG10_FOR_LEADING_ZEROS[i]);
+          LongMath.maxLog10ForLeadingZeros[i]);
     }
   }
 
   @GwtIncompatible("TODO")
   public void testConstantsPowersOf10() {
-    for (int i = 0; i < LongMath.POWERS_OF_10.length; i++) {
-      assertEquals(LongMath.checkedPow(10, i), LongMath.POWERS_OF_10[i]);
+    for (int i = 0; i < LongMath.powersOf10.length; i++) {
+      assertEquals(LongMath.checkedPow(10, i), LongMath.powersOf10[i]);
     }
     try {
-      LongMath.checkedPow(10, LongMath.POWERS_OF_10.length);
+      LongMath.checkedPow(10, LongMath.powersOf10.length);
       fail("Expected ArithmeticException");
     } catch (ArithmeticException expected) {}
   }
 
   @GwtIncompatible("TODO")
   public void testConstantsHalfPowersOf10() {
-    for (int i = 0; i < LongMath.HALF_POWERS_OF_10.length; i++) {
+    for (int i = 0; i < LongMath.halfPowersOf10.length; i++) {
       assertEquals(BigIntegerMath.sqrt(BigInteger.TEN.pow(2 * i + 1), FLOOR),
-          BigInteger.valueOf(LongMath.HALF_POWERS_OF_10[i]));
+          BigInteger.valueOf(LongMath.halfPowersOf10[i]));
     }
     BigInteger nextBigger =
-        BigIntegerMath.sqrt(BigInteger.TEN.pow(2 * LongMath.HALF_POWERS_OF_10.length + 1), FLOOR);
+        BigIntegerMath.sqrt(BigInteger.TEN.pow(2 * LongMath.halfPowersOf10.length + 1), FLOOR);
     assertTrue(nextBigger.compareTo(BigInteger.valueOf(Long.MAX_VALUE)) > 0);
   }
 
@@ -92,45 +92,45 @@ public class LongMathTest extends TestCase {
   @GwtIncompatible("TODO")
   public void testConstantsFactorials() {
     long expected = 1;
-    for (int i = 0; i < LongMath.FACTORIALS.length; i++, expected *= i) {
-      assertEquals(expected, LongMath.FACTORIALS[i]);
+    for (int i = 0; i < LongMath.factorials.length; i++, expected *= i) {
+      assertEquals(expected, LongMath.factorials[i]);
     }
     try {
       LongMath.checkedMultiply(
-          LongMath.FACTORIALS[LongMath.FACTORIALS.length - 1], LongMath.FACTORIALS.length);
+          LongMath.factorials[LongMath.factorials.length - 1], LongMath.factorials.length);
       fail("Expected ArithmeticException");
     } catch (ArithmeticException expect) {}
   }
 
   @GwtIncompatible("TODO")
   public void testConstantsBiggestBinomials() {
-    for (int k = 0; k < LongMath.BIGGEST_BINOMIALS.length; k++) {
-      assertTrue(fitsInLong(BigIntegerMath.binomial(LongMath.BIGGEST_BINOMIALS[k], k)));
-      assertTrue(LongMath.BIGGEST_BINOMIALS[k] == Integer.MAX_VALUE
-          || !fitsInLong(BigIntegerMath.binomial(LongMath.BIGGEST_BINOMIALS[k] + 1, k)));
+    for (int k = 0; k < LongMath.biggestBinomials.length; k++) {
+      assertTrue(fitsInLong(BigIntegerMath.binomial(LongMath.biggestBinomials[k], k)));
+      assertTrue(LongMath.biggestBinomials[k] == Integer.MAX_VALUE
+          || !fitsInLong(BigIntegerMath.binomial(LongMath.biggestBinomials[k] + 1, k)));
       // In the first case, any long is valid; in the second, we want to test that the next-bigger
       // long overflows.
     }
-    int k = LongMath.BIGGEST_BINOMIALS.length;
+    int k = LongMath.biggestBinomials.length;
     assertFalse(fitsInLong(BigIntegerMath.binomial(2 * k, k)));
     // 2 * k is the smallest value for which we don't replace k with (n-k).
   }
 
   @GwtIncompatible("TODO")
   public void testConstantsBiggestSimpleBinomials() {
-    for (int k = 0; k < LongMath.BIGGEST_SIMPLE_BINOMIALS.length; k++) {
-      assertTrue(LongMath.BIGGEST_SIMPLE_BINOMIALS[k] <= LongMath.BIGGEST_BINOMIALS[k]);
-      simpleBinomial(LongMath.BIGGEST_SIMPLE_BINOMIALS[k], k); // mustn't throw
-      if (LongMath.BIGGEST_SIMPLE_BINOMIALS[k] < Integer.MAX_VALUE) {
+    for (int k = 0; k < LongMath.biggestSimpleBinomials.length; k++) {
+      assertTrue(LongMath.biggestSimpleBinomials[k] <= LongMath.biggestBinomials[k]);
+      simpleBinomial(LongMath.biggestSimpleBinomials[k], k); // mustn't throw
+      if (LongMath.biggestSimpleBinomials[k] < Integer.MAX_VALUE) {
         // unless all n are fair game with this k
         try {
-          simpleBinomial(LongMath.BIGGEST_SIMPLE_BINOMIALS[k] + 1, k);
+          simpleBinomial(LongMath.biggestSimpleBinomials[k] + 1, k);
           fail("Expected ArithmeticException");
         } catch (ArithmeticException expected) {}
       }
     }
     try {
-      int k = LongMath.BIGGEST_SIMPLE_BINOMIALS.length;
+      int k = LongMath.biggestSimpleBinomials.length;
       simpleBinomial(2 * k, k);
       // 2 * k is the smallest value for which we don't replace k with (n-k).
       fail("Expected ArithmeticException");

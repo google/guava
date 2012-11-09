@@ -54,8 +54,8 @@ public class IntMathTest extends TestCase {
 
   @GwtIncompatible("pow()")
   public void testConstantsPowersOf10() {
-    for (int i = 0; i < IntMath.POWERS_OF_10.length - 1; i++) {
-      assertEquals(IntMath.pow(10, i), IntMath.POWERS_OF_10[i]);
+    for (int i = 0; i < IntMath.powersOf10.length - 1; i++) {
+      assertEquals(IntMath.pow(10, i), IntMath.powersOf10[i]);
     }
   }
 
@@ -64,14 +64,14 @@ public class IntMathTest extends TestCase {
     for (int i = 0; i < Integer.SIZE; i++) {
       assertEquals(
           BigIntegerMath.log10(BigInteger.ONE.shiftLeft(Integer.SIZE - i), FLOOR),
-          IntMath.MAX_LOG10_FOR_LEADING_ZEROS[i]);
+          IntMath.maxLog10ForLeadingZeros[i]);
     }
   }
 
   @GwtIncompatible("BigIntegerMath") // TODO(cpovirk): GWT-enable BigIntegerMath
   public void testConstantsHalfPowersOf10() {
-    for (int i = 0; i < IntMath.HALF_POWERS_OF_10.length; i++) {
-      assert IntMath.HALF_POWERS_OF_10[i]
+    for (int i = 0; i < IntMath.halfPowersOf10.length; i++) {
+      assert IntMath.halfPowersOf10[i]
           == Math.min(Integer.MAX_VALUE,
               BigIntegerMath.sqrt(BigInteger.TEN.pow(2 * i + 1), FLOOR).longValue());
     }
@@ -79,16 +79,16 @@ public class IntMathTest extends TestCase {
 
   @GwtIncompatible("BigIntegerMath") // TODO(cpovirk): GWT-enable BigIntegerMath
   public void testConstantsBiggestBinomials() {
-    for (int k = 0; k < IntMath.BIGGEST_BINOMIALS.length; k++) {
-      assertTrue(fitsInInt(BigIntegerMath.binomial(IntMath.BIGGEST_BINOMIALS[k], k)));
-      assertTrue(IntMath.BIGGEST_BINOMIALS[k] == Integer.MAX_VALUE
-          || !fitsInInt(BigIntegerMath.binomial(IntMath.BIGGEST_BINOMIALS[k] + 1, k)));
+    for (int k = 0; k < IntMath.biggestBinomials.length; k++) {
+      assertTrue(fitsInInt(BigIntegerMath.binomial(IntMath.biggestBinomials[k], k)));
+      assertTrue(IntMath.biggestBinomials[k] == Integer.MAX_VALUE
+          || !fitsInInt(BigIntegerMath.binomial(IntMath.biggestBinomials[k] + 1, k)));
       // In the first case, any int is valid; in the second, we want to test that the next-bigger
       // int overflows.
     }
     assertFalse(
         fitsInInt(BigIntegerMath.binomial(
-            2 * IntMath.BIGGEST_BINOMIALS.length, IntMath.BIGGEST_BINOMIALS.length)));
+            2 * IntMath.biggestBinomials.length, IntMath.biggestBinomials.length)));
   }
 
   @GwtIncompatible("sqrt")

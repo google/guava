@@ -48,10 +48,10 @@ public class LongMathBenchmark extends SimpleBenchmark {
       nonnegative[i] = randomNonNegativeBigInteger(Long.SIZE - 2).longValue();
       longs[i] = RANDOM_SOURCE.nextLong();
       factorialArguments[i] = RANDOM_SOURCE.nextInt(30);
-      binomialArguments[i][1] = RANDOM_SOURCE.nextInt(MathBenchmarking.BIGGEST_BINOMIALS.length);
+      binomialArguments[i][1] = RANDOM_SOURCE.nextInt(MathBenchmarking.biggestBinomials.length);
       int k = binomialArguments[i][1];
       binomialArguments[i][0] =
-          RANDOM_SOURCE.nextInt(MathBenchmarking.BIGGEST_BINOMIALS[k] - k) + k;
+          RANDOM_SOURCE.nextInt(MathBenchmarking.biggestBinomials[k] - k) + k;
     }
   }
 

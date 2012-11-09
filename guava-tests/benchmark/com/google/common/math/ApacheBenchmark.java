@@ -158,8 +158,8 @@ public class ApacheBenchmark extends SimpleBenchmark {
         }
       } while (!Impl.GUAVA.noMulOverflow(longsToMul[i][0], longsToMul[i][1]));
 
-      int k = binomials[i][1] = RANDOM_SOURCE.nextInt(MathBenchmarking.BIGGEST_BINOMIALS.length);
-      binomials[i][0] = RANDOM_SOURCE.nextInt(MathBenchmarking.BIGGEST_BINOMIALS[k] - k) + k;
+      int k = binomials[i][1] = RANDOM_SOURCE.nextInt(MathBenchmarking.biggestBinomials.length);
+      binomials[i][0] = RANDOM_SOURCE.nextInt(MathBenchmarking.biggestBinomials[k] - k) + k;
     }
   }
 
