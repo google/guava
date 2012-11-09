@@ -33,6 +33,10 @@ import java.nio.charset.Charset;
  * @author Kevin Bourrillion
  */
 abstract class AbstractStreamingHashFunction implements HashFunction {
+  @Override public <T> HashCode hashObject(T instance, Funnel<? super T> funnel) {
+    return newHasher().putObject(instance, funnel).hash();
+  }
+
   @Override public HashCode hashString(CharSequence input) {
     return newHasher().putString(input).hash();
   }

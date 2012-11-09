@@ -42,6 +42,10 @@ abstract class AbstractNonStreamingHashFunction implements HashFunction {
     return new BufferingHasher(expectedInputSize);
   }
 
+  @Override public <T> HashCode hashObject(T instance, Funnel<? super T> funnel) {
+    return newHasher().putObject(instance, funnel).hash();
+  }
+
   @Override public HashCode hashString(CharSequence input) {
     int len = input.length();
     Hasher hasher = newHasher(len * 2);

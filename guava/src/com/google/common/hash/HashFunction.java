@@ -200,6 +200,14 @@ public interface HashFunction {
   HashCode hashString(CharSequence input, Charset charset);
 
   /**
+   * Shortcut for {@code newHasher().putObject(instance, funnel).hash()}. The implementation
+   * <i>might</i> perform better than its longhand equivalent, but should not perform worse.
+   *
+   * @since 14.0
+   */
+  <T> HashCode hashObject(T instance, Funnel<? super T> funnel);
+
+  /**
    * Returns the number of bits (a multiple of 32) that each hash code produced by this
    * hash function has.
    */
