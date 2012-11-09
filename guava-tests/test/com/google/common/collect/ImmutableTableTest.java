@@ -25,7 +25,7 @@ import com.google.common.annotations.GwtCompatible;
  *
  * @author Gregory Kick
  */
-@GwtCompatible
+@GwtCompatible(emulated = true)
 public class ImmutableTableTest extends AbstractTableReadTest {
   @Override protected Table<String, Integer, Character> create(Object... data) {
     ImmutableTable.Builder<String, Integer, Character> builder =
