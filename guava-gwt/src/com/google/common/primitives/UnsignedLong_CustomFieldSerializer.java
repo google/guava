@@ -29,7 +29,7 @@ public class UnsignedLong_CustomFieldSerializer {
 
   public static UnsignedLong instantiate(SerializationStreamReader reader)
       throws SerializationException {
-    return UnsignedLong.asUnsigned(reader.readLong());
+    return UnsignedLong.fromLongBits(reader.readLong());
   }
 
   public static void serialize(SerializationStreamWriter writer,
