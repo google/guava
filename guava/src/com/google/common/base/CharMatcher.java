@@ -63,35 +63,90 @@ public abstract class CharMatcher implements Predicate<Character> {
    *
    * @since 2.0
    */
-  public static final CharMatcher BREAKING_WHITESPACE =
-      anyOf("\t\n\013\f\r \u0085\u1680\u2028\u2029\u205f\u3000")
-          .or(inRange('\u2000', '\u2006'))
-          .or(inRange('\u2008', '\u200a'))
-          .withToString("CharMatcher.BREAKING_WHITESPACE")
-          .precomputed();
+  public static final CharMatcher BREAKING_WHITESPACE = new CharMatcher() {
+    @Override
+    public boolean matches(char c) {
+      switch (c) {
+        case '\t':
+        case '\n':
+        case '\013':
+        case '\f':
+        case '\r':
+        case ' ':
+        case '\u0085':
+        case '\u1680':
+        case '\u2028':
+        case '\u2029':
+        case '\u205f':
+        case '\u3000':
+          return true;
+        case '\u2007':
+          return false;
+        default:
+          return c >= '\u2000' && c <= '\u200a';
+      }
+    }
+
+    @Override
+    public String toString() {
+      return "CharMatcher.BREAKING_WHITESPACE";
+    }
+  };
 
   /**
    * Determines whether a character is ASCII, meaning that its code point is less than 128.
    */
   public static final CharMatcher ASCII = inRange('\0', '\u007f', "CharMatcher.ASCII");
 
+  private static class RangesMatcher extends CharMatcher {
+    private final char[] rangeStarts;
+    private final char[] rangeEnds;
+
+    RangesMatcher(String description, char[] rangeStarts, char[] rangeEnds) {
+      super(description);
+      this.rangeStarts = rangeStarts;
+      this.rangeEnds = rangeEnds;
+      checkArgument(rangeStarts.length == rangeEnds.length);
+      for (int i = 0; i < rangeStarts.length; i++) {
+        checkArgument(rangeStarts[i] <= rangeEnds[i]);
+        if (i + 1 < rangeStarts.length) {
+          checkArgument(rangeEnds[i] < rangeStarts[i + 1]);
+        }
+      }
+    }
+
+    @Override
+    public boolean matches(char c) {
+      int index = Arrays.binarySearch(rangeStarts, c);
+      if (index >= 0) {
+        return true;
+      } else {
+        index = ~index - 1;
+        return index >= 0 && c <= rangeEnds[index];
+      }
+    }
+  }
+
+  // Must be in ascending order.
+  private static final String ZEROES = "0\u0660\u06f0\u07c0\u0966\u09e6\u0a66\u0ae6\u0b66\u0be6"
+      + "\u0c66\u0ce6\u0d66\u0e50\u0ed0\u0f20\u1040\u1090\u17e0\u1810\u1946\u19d0\u1b50\u1bb0"
+      + "\u1c40\u1c50\ua620\ua8d0\ua900\uaa50\uff10";
+
+  private static final String NINES;
+  static {
+    StringBuilder builder = new StringBuilder(ZEROES.length());
+    for (int i = 0; i < ZEROES.length(); i++) {
+      builder.append((char) (ZEROES.charAt(i) + 9));
+    }
+    NINES = builder.toString();
+  }
+
   /**
    * Determines whether a character is a digit according to
    * <a href="http://unicode.org/cldr/utility/list-unicodeset.jsp?a=%5Cp%7Bdigit%7D">Unicode</a>.
    */
-  public static final CharMatcher DIGIT;
-
-  static {
-    CharMatcher digit = inRange('0', '9');
-    String zeroes =
-        "\u0660\u06f0\u07c0\u0966\u09e6\u0a66\u0ae6\u0b66\u0be6\u0c66"
-            + "\u0ce6\u0d66\u0e50\u0ed0\u0f20\u1040\u1090\u17e0\u1810\u1946"
-            + "\u19d0\u1b50\u1bb0\u1c40\u1c50\ua620\ua8d0\ua900\uaa50\uff10";
-    for (char base : zeroes.toCharArray()) {
-      digit = digit.or(inRange(base, (char) (base + 9)));
-    }
-    DIGIT = digit.withToString("CharMatcher.DIGIT").precomputed();
-  }
+  public static final CharMatcher DIGIT = new RangesMatcher(
+      "CharMatcher.DIGIT", ZEROES.toCharArray(), NINES.toCharArray());
 
   /**
    * Determines whether a character is a digit according to {@link Character#isDigit(char) Java's
@@ -161,20 +216,11 @@ public abstract class CharMatcher implements Predicate<Character> {
    * SPACE_SEPARATOR, LINE_SEPARATOR, PARAGRAPH_SEPARATOR, CONTROL, FORMAT, SURROGATE, and
    * PRIVATE_USE according to ICU4J.
    */
-  public static final CharMatcher INVISIBLE = inRange('\u0000', '\u0020')
-      .or(inRange('\u007f', '\u00a0'))
-      .or(is('\u00ad'))
-      .or(inRange('\u0600', '\u0604'))
-      .or(anyOf("\u06dd\u070f\u1680\u180e"))
-      .or(inRange('\u2000', '\u200f'))
-      .or(inRange('\u2028', '\u202f'))
-      .or(inRange('\u205f', '\u2064'))
-      .or(inRange('\u206a', '\u206f'))
-      .or(is('\u3000'))
-      .or(inRange('\ud800', '\uf8ff'))
-      .or(anyOf("\ufeff\ufff9\ufffa\ufffb"))
-      .withToString("CharMatcher.INVISIBLE")
-      .precomputed();
+  public static final CharMatcher INVISIBLE = new RangesMatcher("CharMatcher.INVISIBLE", (
+      "\u0000\u007f\u00ad\u0600\u06dd\u070f\u1680\u180e\u2000\u2028\u205f\u206a\u3000\ud800\ufeff"
+      + "\ufff9\ufffa").toCharArray(), (
+      "\u0020\u00a0\u00ad\u0604\u06dd\u070f\u1680\u180e\u200f\u202f\u2064\u206f\u3000\uf8ff\ufeff"
+      + "\ufff9\ufffb").toCharArray());
 
   /**
    * Determines whether a character is single-width (not double-width). When in doubt, this matcher
@@ -184,21 +230,9 @@ public abstract class CharMatcher implements Predicate<Character> {
    * <p><b>Note:</b> as the reference file evolves, we will modify this constant to keep it up to
    * date.
    */
-  public static final CharMatcher SINGLE_WIDTH = inRange('\u0000', '\u04f9')
-      .or(is('\u05be'))
-      .or(inRange('\u05d0', '\u05ea'))
-      .or(is('\u05f3'))
-      .or(is('\u05f4'))
-      .or(inRange('\u0600', '\u06ff'))
-      .or(inRange('\u0750', '\u077f'))
-      .or(inRange('\u0e00', '\u0e7f'))
-      .or(inRange('\u1e00', '\u20af'))
-      .or(inRange('\u2100', '\u213a'))
-      .or(inRange('\ufb50', '\ufdff'))
-      .or(inRange('\ufe70', '\ufeff'))
-      .or(inRange('\uff61', '\uffdc'))
-      .withToString("CharMatcher.SINGLE_WIDTH")
-      .precomputed();
+  public static final CharMatcher SINGLE_WIDTH = new RangesMatcher("CharMatcher.SINGLE_WIDTH",
+      "\u0000\u05be\u05d0\u05f3\u0600\u0750\u0e00\u1e00\u2100\ufb50\ufe70\uff61".toCharArray(),
+      "\u04f9\u05be\u05ea\u05f4\u06ff\u077f\u0e7f\u20af\u213a\ufdff\ufeff\uffdc".toCharArray());
 
   /** Matches any character. */
   public static final CharMatcher ANY =
@@ -1267,6 +1301,36 @@ public abstract class CharMatcher implements Predicate<Character> {
   }
 
   /**
+   * A special-case CharMatcher for Unicode whitespace characters that is extremely
+   * efficient both in space required and in time to check for matches.
+   *
+   * Implementation details.
+   * It turns out that all current (early 2012) Unicode characters are unique modulo 79:
+   * so we can construct a lookup table of exactly 79 entries, and just check the character code
+   * mod 79, and see if that character is in the table.
+   *
+   * There is a 1 at the beginning of the table so that the null character is not listed
+   * as whitespace.
+   *
+   * Other things we tried that did not prove to be beneficial, mostly due to speed concerns:
+   *
+   *   * Binary search into the sorted list of characters, i.e., what
+   *     CharMatcher.anyOf() does</li>
+   *   * Perfect hash function into a table of size 26 (using an offset table and a special
+   *     Jenkins hash function)</li>
+   *   * Perfect-ish hash function that required two lookups into a single table of size 26.</li>
+   *   * Using a power-of-2 sized hash table (size 64) with linear probing.</li>
+   *
+   * --Christopher Swenson, February 2012.
+   */
+  private static final String WHITESPACE_TABLE = "\u0001\u0000\u00a0\u0000\u0000\u0000\u0000\u0000"
+      + "\u0000\u0009\n\u000b\u000c\r\u0000\u0000\u2028\u2029\u0000\u0000\u0000\u0000\u0000\u202f"
+      + "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0020\u0000\u0000\u0000\u0000\u0000"
+      + "\u0000\u0000\u0000\u0000\u0000\u3000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000"
+      + "\u0000\u0000\u0085\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200a"
+      + "\u0000\u0000\u0000\u0000\u0000\u205f\u1680\u0000\u0000\u180e\u0000\u0000\u0000";
+
+  /**
    * Determines whether a character is whitespace according to the latest Unicode standard, as
    * illustrated
    * <a href="http://unicode.org/cldr/utility/list-unicodeset.jsp?a=%5Cp%7Bwhitespace%7D">here</a>.
@@ -1278,38 +1342,9 @@ public abstract class CharMatcher implements Predicate<Character> {
    * to date.
    */
   public static final CharMatcher WHITESPACE = new FastMatcher("CharMatcher.WHITESPACE") {
-    /**
-     * A special-case CharMatcher for Unicode whitespace characters that is extremely
-     * efficient both in space required and in time to check for matches.
-     *
-     * Implementation details.
-     * It turns out that all current (early 2012) Unicode characters are unique modulo 79:
-     * so we can construct a lookup table of exactly 79 entries, and just check the character code
-     * mod 79, and see if that character is in the table.
-     *
-     * There is a 1 at the beginning of the table so that the null character is not listed
-     * as whitespace.
-     *
-     * Other things we tried that did not prove to be beneficial, mostly due to speed concerns:
-     *
-     *   * Binary search into the sorted list of characters, i.e., what
-     *     CharMatcher.anyOf() does</li>
-     *   * Perfect hash function into a table of size 26 (using an offset table and a special
-     *     Jenkins hash function)</li>
-     *   * Perfect-ish hash function that required two lookups into a single table of size 26.</li>
-     *   * Using a power-of-2 sized hash table (size 64) with linear probing.</li>
-     *
-     * --Christopher Swenson, February 2012.
-     */
-
-    // Mod-79 lookup table.
-    private final char[] table = {1, 0, 160, 0, 0, 0, 0, 0, 0, 9, 10, 11, 12, 13, 0, 0,
-        8232, 8233, 0, 0, 0, 0, 0, 8239, 0, 0, 0, 0, 0, 0, 0, 0, 32, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        12288, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 133, 8192, 8193, 8194, 8195, 8196, 8197, 8198, 8199,
-        8200, 8201, 8202, 0, 0, 0, 0, 0, 8287, 5760, 0, 0, 6158, 0, 0, 0};
 
     @Override public boolean matches(char c) {
-      return table[c % 79] == c;
+      return WHITESPACE_TABLE.charAt(c % 79) == c;
     }
   };
 }
