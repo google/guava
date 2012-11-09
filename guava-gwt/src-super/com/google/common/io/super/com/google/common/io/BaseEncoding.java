@@ -18,9 +18,6 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkPositionIndexes;
 import static com.google.common.io.GwtWorkarounds.asCharInput;
-import static com.google.common.io.GwtWorkarounds.asCharOutput;
-import static com.google.common.io.GwtWorkarounds.asInputStream;
-import static com.google.common.io.GwtWorkarounds.asOutputStream;
 import static com.google.common.io.GwtWorkarounds.stringBuilderOutput;
 import static com.google.common.math.IntMath.divide;
 import static com.google.common.math.IntMath.log2;
@@ -30,7 +27,6 @@ import static java.math.RoundingMode.UNNECESSARY;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Ascii;
 import com.google.common.base.CharMatcher;
 import com.google.common.io.GwtWorkarounds.ByteInput;
@@ -39,10 +35,6 @@ import com.google.common.io.GwtWorkarounds.CharInput;
 import com.google.common.io.GwtWorkarounds.CharOutput;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.Reader;
-import java.io.Writer;
 import java.util.Arrays;
 
 import javax.annotation.CheckReturnValue;
@@ -90,32 +82,6 @@ public abstract class BaseEncoding {
     return result.toString();
   }
 
-  /**
-   * Returns an {@code OutputStream} that encodes bytes using this encoding into the specified
-   * {@code Writer}.  When the returned {@code OutputStream} is closed, so is the backing
-   * {@code Writer}.
-   */
-  @GwtIncompatible("Writer,OutputStream")
-  public final OutputStream encodingStream(Writer writer) {
-    return asOutputStream(encodingStream(asCharOutput(writer)));
-  }
-
-  /**
-   * Returns an {@code OutputSupplier} that supplies streams that encode bytes using this encoding
-   * into writers from the specified {@code OutputSupplier}.
-   */
-  @GwtIncompatible("Writer,OutputStream")
-  public final OutputSupplier<OutputStream> encodingStream(
-      final OutputSupplier<Writer> writerSupplier) {
-    checkNotNull(writerSupplier);
-    return new OutputSupplier<OutputStream>() {
-      @Override
-      public OutputStream getOutput() throws IOException {
-        return encodingStream(writerSupplier.getOutput());
-      }
-    };
-  }
-
   // TODO(user): document the extent of leniency, probably after adding ignore(CharMatcher)
 
   private static byte[] extract(byte[] result, int length) {
@@ -147,30 +113,6 @@ public abstract class BaseEncoding {
       throw new IllegalArgumentException(badInput);
     }
     return extract(tmp, index);
-  }
-
-  /**
-   * Returns an {@code InputStream} that decodes base-encoded input from the specified
-   * {@code Reader}.
-   */
-  @GwtIncompatible("Reader,InputStream")
-  public final InputStream decodingStream(Reader reader) {
-    return asInputStream(decodingStream(asCharInput(reader)));
-  }
-
-  /**
-   * Returns an {@code InputSupplier} that supplies input streams that decode base-encoded input
-   * from readers from the specified supplier.
-   */
-  @GwtIncompatible("Reader,InputStream")
-  public InputSupplier<InputStream> decodingStream(final InputSupplier<Reader> readerSupplier) {
-    checkNotNull(readerSupplier);
-    return new InputSupplier<InputStream>() {
-      @Override
-      public InputStream getInput() throws IOException {
-        return decodingStream(readerSupplier.getInput());
-      }
-    };
   }
 
   // Implementations for encoding/decoding

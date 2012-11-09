@@ -20,6 +20,7 @@ import static com.google.common.io.BaseEncoding.base32Hex;
 import static com.google.common.io.BaseEncoding.base64;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Ascii;
 import com.google.common.base.Joiner;
 import com.google.common.base.Splitter;
@@ -27,6 +28,11 @@ import com.google.common.collect.ImmutableList;
 
 import junit.framework.TestCase;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.StringReader;
+import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
 
 /**
@@ -34,7 +40,7 @@ import java.io.UnsupportedEncodingException;
  *
  * @author Louis Wasserman
  */
-@GwtCompatible
+@GwtCompatible(emulated = true)
 public class BaseEncodingTest extends TestCase {
   public void assertEquals(byte[] expected, byte[] actual) {
     assertEquals(expected.length, actual.length);
@@ -78,6 +84,18 @@ public class BaseEncodingTest extends TestCase {
     testEncodingWithSeparators(base64(), "foob", "Zm9vYg==");
     testEncodingWithSeparators(base64(), "fooba", "Zm9vYmE=");
     testEncodingWithSeparators(base64(), "foobar", "Zm9vYmFy");
+  }
+
+  @GwtIncompatible("Reader/Writer")
+  public void testBase64Streaming() throws IOException {
+    // The following test vectors are specified in RFC 4648 itself
+    testStreamingEncodingWithSeparators(base64(), "", "");
+    testStreamingEncodingWithSeparators(base64(), "f", "Zg==");
+    testStreamingEncodingWithSeparators(base64(), "fo", "Zm8=");
+    testStreamingEncodingWithSeparators(base64(), "foo", "Zm9v");
+    testStreamingEncodingWithSeparators(base64(), "foob", "Zm9vYg==");
+    testStreamingEncodingWithSeparators(base64(), "fooba", "Zm9vYmE=");
+    testStreamingEncodingWithSeparators(base64(), "foobar", "Zm9vYmFy");
   }
 
   public void testBase64LenientPadding() {
@@ -127,6 +145,18 @@ public class BaseEncodingTest extends TestCase {
     testEncodingWithSeparators(enc, "foobar", "Zm9vYmFy");
   }
 
+  @GwtIncompatible("Reader/Writer")
+  public void testBase64StreamingAlternatePadding() throws IOException {
+    BaseEncoding enc = base64().withPadChar('~');
+    testStreamingEncodingWithSeparators(enc, "", "");
+    testStreamingEncodingWithSeparators(enc, "f", "Zg~~");
+    testStreamingEncodingWithSeparators(enc, "fo", "Zm8~");
+    testStreamingEncodingWithSeparators(enc, "foo", "Zm9v");
+    testStreamingEncodingWithSeparators(enc, "foob", "Zm9vYg~~");
+    testStreamingEncodingWithSeparators(enc, "fooba", "Zm9vYmE~");
+    testStreamingEncodingWithSeparators(enc, "foobar", "Zm9vYmFy");
+  }
+
   public void testBase64OmitPadding() {
     BaseEncoding enc = base64().omitPadding();
     testEncodingWithSeparators(enc, "", "");
@@ -138,6 +168,18 @@ public class BaseEncodingTest extends TestCase {
     testEncodingWithSeparators(enc, "foobar", "Zm9vYmFy");
   }
 
+  @GwtIncompatible("Reader/Writer")
+  public void testBase64StreamingOmitPadding() throws IOException {
+    BaseEncoding enc = base64().omitPadding();
+    testStreamingEncodingWithSeparators(enc, "", "");
+    testStreamingEncodingWithSeparators(enc, "f", "Zg");
+    testStreamingEncodingWithSeparators(enc, "fo", "Zm8");
+    testStreamingEncodingWithSeparators(enc, "foo", "Zm9v");
+    testStreamingEncodingWithSeparators(enc, "foob", "Zm9vYg");
+    testStreamingEncodingWithSeparators(enc, "fooba", "Zm9vYmE");
+    testStreamingEncodingWithSeparators(enc, "foobar", "Zm9vYmFy");
+  }
+
   public void testBase32() {
     // The following test vectors are specified in RFC 4648 itself
     testEncodingWithCasing(base32(), "", "");
@@ -147,6 +189,18 @@ public class BaseEncodingTest extends TestCase {
     testEncodingWithCasing(base32(), "foob", "MZXW6YQ=");
     testEncodingWithCasing(base32(), "fooba", "MZXW6YTB");
     testEncodingWithCasing(base32(), "foobar", "MZXW6YTBOI======");
+  }
+
+  @GwtIncompatible("Reader/Writer")
+  public void testBase32Streaming() throws IOException {
+    // The following test vectors are specified in RFC 4648 itself
+    testStreamingEncodingWithCasing(base32(), "", "");
+    testStreamingEncodingWithCasing(base32(), "f", "MY======");
+    testStreamingEncodingWithCasing(base32(), "fo", "MZXQ====");
+    testStreamingEncodingWithCasing(base32(), "foo", "MZXW6===");
+    testStreamingEncodingWithCasing(base32(), "foob", "MZXW6YQ=");
+    testStreamingEncodingWithCasing(base32(), "fooba", "MZXW6YTB");
+    testStreamingEncodingWithCasing(base32(), "foobar", "MZXW6YTBOI======");
   }
 
   public void testBase32LenientPadding() {
@@ -194,6 +248,18 @@ public class BaseEncodingTest extends TestCase {
     testEncodingWithCasing(base32Hex(), "foob", "CPNMUOG=");
     testEncodingWithCasing(base32Hex(), "fooba", "CPNMUOJ1");
     testEncodingWithCasing(base32Hex(), "foobar", "CPNMUOJ1E8======");
+  }
+
+  @GwtIncompatible("Reader/Writer")
+  public void testBase32HexStreaming() throws IOException {
+    // The following test vectors are specified in RFC 4648 itself
+    testStreamingEncodingWithCasing(base32Hex(), "", "");
+    testStreamingEncodingWithCasing(base32Hex(), "f", "CO======");
+    testStreamingEncodingWithCasing(base32Hex(), "fo", "CPNG====");
+    testStreamingEncodingWithCasing(base32Hex(), "foo", "CPNMU===");
+    testStreamingEncodingWithCasing(base32Hex(), "foob", "CPNMUOG=");
+    testStreamingEncodingWithCasing(base32Hex(), "fooba", "CPNMUOJ1");
+    testStreamingEncodingWithCasing(base32Hex(), "foobar", "CPNMUOJ1E8======");
   }
 
   public void testBase32HexLenientPadding() {
@@ -281,9 +347,71 @@ public class BaseEncodingTest extends TestCase {
   private void assertFailsToDecode(BaseEncoding encoding, String cannotDecode) {
     try {
       encoding.decode(cannotDecode);
-      fail();
+      fail("Expected IllegalArgumentException");
     } catch (IllegalArgumentException expected) {
       // success
     }
+  }
+
+  @GwtIncompatible("Reader/Writer")
+  private void testStreamingEncodingWithCasing(
+      BaseEncoding encoding, String decoded, String encoded) throws IOException {
+    testStreamingEncodingWithSeparators(encoding, decoded, encoded);
+    testStreamingEncodingWithSeparators(encoding.upperCase(), decoded, Ascii.toUpperCase(encoded));
+    testStreamingEncodingWithSeparators(encoding.lowerCase(), decoded, Ascii.toLowerCase(encoded));
+  }
+
+  @GwtIncompatible("Reader/Writer")
+  private void testStreamingEncodingWithSeparators(
+      BaseEncoding encoding, String decoded, String encoded) throws IOException {
+    testStreamingEncoding(encoding, decoded, encoded);
+
+    // test separators work
+    for (int sepLength = 3; sepLength <= 5; sepLength++) {
+      for (String separator : ImmutableList.of(",", "\n", ";;", "")) {
+        testStreamingEncoding(encoding.withSeparator(separator, sepLength), decoded,
+            Joiner.on(separator).join(Splitter.fixedLength(sepLength).split(encoded)));
+      }
+    }
+  }
+
+  @GwtIncompatible("Reader/Writer")
+  private void testStreamingEncoding(BaseEncoding encoding, String decoded, String encoded)
+      throws IOException {
+    testStreamingEncodes(encoding, decoded, encoded);
+    testStreamingDecodes(encoding, encoded, decoded);
+  }
+
+  @GwtIncompatible("Writer")
+  private void testStreamingEncodes(BaseEncoding encoding, String decoded, String encoded)
+      throws IOException {
+    byte[] bytes;
+    try {
+      bytes = decoded.getBytes("UTF-8");
+    } catch (UnsupportedEncodingException e) {
+      throw new AssertionError();
+    }
+    StringWriter writer = new StringWriter();
+    OutputStream encodingStream = encoding.encodingStream(writer);
+    encodingStream.write(bytes);
+    encodingStream.close();
+    assertEquals(encoded, writer.toString());
+  }
+
+  @GwtIncompatible("Reader")
+  private void testStreamingDecodes(BaseEncoding encoding, String encoded, String decoded)
+      throws IOException {
+    byte[] bytes;
+    try {
+      bytes = decoded.getBytes("UTF-8");
+    } catch (UnsupportedEncodingException e) {
+      throw new AssertionError();
+    }
+    InputStream decodingStream = encoding.decodingStream(new StringReader(encoded));
+    for (int i = 0; i < bytes.length; i++) {
+      assertEquals(bytes[i] & 0xFF, decodingStream.read());
+    }
+    assertEquals(-1, decodingStream.read());
+    decodingStream.close();
   }
 }
