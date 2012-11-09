@@ -22,6 +22,7 @@ import com.google.common.base.Predicate;
 import com.google.common.collect.Maps.EntryTransformer;
 
 import java.lang.reflect.Array;
+import java.util.Map;
 import java.util.NavigableMap;
 import java.util.NavigableSet;
 import java.util.SortedMap;
@@ -89,6 +90,13 @@ class Platform {
     return (set instanceof NavigableSet)
         ? Sets.filter((NavigableSet<E>) set, predicate)
         : Sets.filterSortedIgnoreNavigable(set, predicate);
+  }
+  
+  static <K, V> SortedMap<K, V> mapsFilterSortedMap(SortedMap<K, V> map,
+      Predicate<? super Map.Entry<K, V>> predicate) {
+    return (map instanceof NavigableMap)
+        ? Maps.filterEntries((NavigableMap<K, V>) map, predicate)
+        : Maps.filterSortedIgnoreNavigable(map, predicate);
   }
 
   private Platform() {}

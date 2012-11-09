@@ -1689,7 +1689,7 @@ public final class Maps {
    */
   public static <K, V> SortedMap<K, V> filterKeys(
       SortedMap<K, V> unfiltered, final Predicate<? super K> keyPredicate) {
-    // TODO: Return a subclass of Maps.FilteredKeyMap for slightly better
+    // TODO(user): Return a subclass of Maps.FilteredKeyMap for slightly better
     // performance.
     return filterEntries(unfiltered, new KeyPredicate<K, V>(keyPredicate));
   }
@@ -1911,6 +1911,12 @@ public final class Maps {
   public static <K, V> SortedMap<K, V> filterEntries(
       SortedMap<K, V> unfiltered,
       Predicate<? super Entry<K, V>> entryPredicate) {
+    return Platform.mapsFilterSortedMap(unfiltered, entryPredicate);
+  }
+
+  static <K, V> SortedMap<K, V> filterSortedIgnoreNavigable(
+      SortedMap<K, V> unfiltered,
+      Predicate<? super Entry<K, V>> entryPredicate) {
     checkNotNull(entryPredicate);
     return (unfiltered instanceof FilteredEntrySortedMap)
         ? filterFiltered((FilteredEntrySortedMap<K, V>) unfiltered, entryPredicate)
@@ -2099,6 +2105,7 @@ public final class Maps {
       }
     }
   }
+
   /**
    * Support {@code clear()}, {@code removeAll()}, and {@code retainAll()} when
    * filtering a filtered sorted map.
@@ -2310,7 +2317,11 @@ public final class Maps {
 
     @Override public Set<K> keySet() {
       Set<K> result = keySet;
-      return (result == null) ? keySet = new KeySet() : result;
+      return (result == null) ? keySet = createKeySet() : result;
+    }
+
+    Set<K> createKeySet() {
+      return new KeySet();
     }
 
     private class KeySet extends Sets.ImprovedAbstractSet<K> {

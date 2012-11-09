@@ -2180,7 +2180,46 @@ public final class Maps {
    */
   public static <K, V> SortedMap<K, V> filterKeys(
       SortedMap<K, V> unfiltered, final Predicate<? super K> keyPredicate) {
-    // TODO: Return a subclass of Maps.FilteredKeyMap for slightly better
+    // TODO(user): Return a subclass of Maps.FilteredKeyMap for slightly better
+    // performance.
+    return filterEntries(unfiltered, new KeyPredicate<K, V>(keyPredicate));
+  }
+
+  /**
+   * Returns a navigable map containing the mappings in {@code unfiltered} whose
+   * keys satisfy a predicate. The returned map is a live view of {@code
+   * unfiltered}; changes to one affect the other.
+   *
+   * <p>The resulting map's {@code keySet()}, {@code entrySet()}, and {@code
+   * values()} views have iterators that don't support {@code remove()}, but all
+   * other methods are supported by the map and its views. When given a key that
+   * doesn't satisfy the predicate, the map's {@code put()} and {@code putAll()}
+   * methods throw an {@link IllegalArgumentException}.
+   *
+   * <p>When methods such as {@code removeAll()} and {@code clear()} are called
+   * on the filtered map or its views, only mappings whose keys satisfy the
+   * filter will be removed from the underlying map.
+   *
+   * <p>The returned map isn't threadsafe or serializable, even if {@code
+   * unfiltered} is.
+   *
+   * <p>Many of the filtered map's methods, such as {@code size()},
+   * iterate across every key/value mapping in the underlying map and determine
+   * which satisfy the filter. When a live view is <i>not</i> needed, it may be
+   * faster to copy the filtered map and use the copy.
+   *
+   * <p><b>Warning:</b> {@code keyPredicate} must be <i>consistent with
+   * equals</i>, as documented at {@link Predicate#apply}. Do not provide a
+   * predicate such as {@code Predicates.instanceOf(ArrayList.class)}, which is
+   * inconsistent with equals.
+   *
+   * @since 14.0
+   */
+  @Beta
+  @GwtIncompatible("NavigableMap")
+  public static <K, V> NavigableMap<K, V> filterKeys(
+      NavigableMap<K, V> unfiltered, final Predicate<? super K> keyPredicate) {
+    // TODO(user): Return a subclass of Maps.FilteredKeyMap for slightly better
     // performance.
     return filterEntries(unfiltered, new KeyPredicate<K, V>(keyPredicate));
   }
@@ -2289,6 +2328,44 @@ public final class Maps {
    */
   public static <K, V> SortedMap<K, V> filterValues(
       SortedMap<K, V> unfiltered, final Predicate<? super V> valuePredicate) {
+    return filterEntries(unfiltered, new ValuePredicate<K, V>(valuePredicate));
+  }
+
+  /**
+   * Returns a navigable map containing the mappings in {@code unfiltered} whose
+   * values satisfy a predicate. The returned map is a live view of {@code
+   * unfiltered}; changes to one affect the other.
+   *
+   * <p>The resulting map's {@code keySet()}, {@code entrySet()}, and {@code
+   * values()} views have iterators that don't support {@code remove()}, but all
+   * other methods are supported by the map and its views. When given a value
+   * that doesn't satisfy the predicate, the map's {@code put()}, {@code
+   * putAll()}, and {@link Entry#setValue} methods throw an {@link
+   * IllegalArgumentException}.
+   *
+   * <p>When methods such as {@code removeAll()} and {@code clear()} are called
+   * on the filtered map or its views, only mappings whose values satisfy the
+   * filter will be removed from the underlying map.
+   *
+   * <p>The returned map isn't threadsafe or serializable, even if {@code
+   * unfiltered} is.
+   *
+   * <p>Many of the filtered map's methods, such as {@code size()},
+   * iterate across every key/value mapping in the underlying map and determine
+   * which satisfy the filter. When a live view is <i>not</i> needed, it may be
+   * faster to copy the filtered map and use the copy.
+   *
+   * <p><b>Warning:</b> {@code valuePredicate} must be <i>consistent with
+   * equals</i>, as documented at {@link Predicate#apply}. Do not provide a
+   * predicate such as {@code Predicates.instanceOf(ArrayList.class)}, which is
+   * inconsistent with equals.
+   *
+   * @since 14.0
+   */
+  @Beta
+  @GwtIncompatible("NavigableMap")
+  public static <K, V> NavigableMap<K, V> filterValues(
+      NavigableMap<K, V> unfiltered, final Predicate<? super V> valuePredicate) {
     return filterEntries(unfiltered, new ValuePredicate<K, V>(valuePredicate));
   }
 
@@ -2402,10 +2479,58 @@ public final class Maps {
   public static <K, V> SortedMap<K, V> filterEntries(
       SortedMap<K, V> unfiltered,
       Predicate<? super Entry<K, V>> entryPredicate) {
+    return Platform.mapsFilterSortedMap(unfiltered, entryPredicate);
+  }
+
+  static <K, V> SortedMap<K, V> filterSortedIgnoreNavigable(
+      SortedMap<K, V> unfiltered,
+      Predicate<? super Entry<K, V>> entryPredicate) {
     checkNotNull(entryPredicate);
     return (unfiltered instanceof FilteredEntrySortedMap)
         ? filterFiltered((FilteredEntrySortedMap<K, V>) unfiltered, entryPredicate)
         : new FilteredEntrySortedMap<K, V>(checkNotNull(unfiltered), entryPredicate);
+  }
+
+  /**
+   * Returns a sorted map containing the mappings in {@code unfiltered} that
+   * satisfy a predicate. The returned map is a live view of {@code unfiltered};
+   * changes to one affect the other.
+   *
+   * <p>The resulting map's {@code keySet()}, {@code entrySet()}, and {@code
+   * values()} views have iterators that don't support {@code remove()}, but all
+   * other methods are supported by the map and its views. When given a
+   * key/value pair that doesn't satisfy the predicate, the map's {@code put()}
+   * and {@code putAll()} methods throw an {@link IllegalArgumentException}.
+   * Similarly, the map's entries have a {@link Entry#setValue} method that
+   * throws an {@link IllegalArgumentException} when the existing key and the
+   * provided value don't satisfy the predicate.
+   *
+   * <p>When methods such as {@code removeAll()} and {@code clear()} are called
+   * on the filtered map or its views, only mappings that satisfy the filter
+   * will be removed from the underlying map.
+   *
+   * <p>The returned map isn't threadsafe or serializable, even if {@code
+   * unfiltered} is.
+   *
+   * <p>Many of the filtered map's methods, such as {@code size()},
+   * iterate across every key/value mapping in the underlying map and determine
+   * which satisfy the filter. When a live view is <i>not</i> needed, it may be
+   * faster to copy the filtered map and use the copy.
+   *
+   * <p><b>Warning:</b> {@code entryPredicate} must be <i>consistent with
+   * equals</i>, as documented at {@link Predicate#apply}.
+   *
+   * @since 14.0
+   */
+  @Beta
+  @GwtIncompatible("NavigableMap")
+  public static <K, V> NavigableMap<K, V> filterEntries(
+      NavigableMap<K, V> unfiltered,
+      Predicate<? super Entry<K, V>> entryPredicate) {
+    checkNotNull(entryPredicate);
+    return (unfiltered instanceof FilteredEntryNavigableMap)
+        ? filterFiltered((FilteredEntryNavigableMap<K, V>) unfiltered, entryPredicate)
+        : new FilteredEntryNavigableMap<K, V>(checkNotNull(unfiltered), entryPredicate);
   }
 
   /**
@@ -2590,6 +2715,7 @@ public final class Maps {
       }
     }
   }
+
   /**
    * Support {@code clear()}, {@code removeAll()}, and {@code retainAll()} when
    * filtering a filtered sorted map.
@@ -2647,6 +2773,191 @@ public final class Maps {
     @Override public SortedMap<K, V> tailMap(K fromKey) {
       return new FilteredEntrySortedMap<K, V>(
           sortedMap().tailMap(fromKey), predicate);
+    }
+  }
+
+  /**
+   * Support {@code clear()}, {@code removeAll()}, and {@code retainAll()} when
+   * filtering a filtered navigable map.
+   */
+  @GwtIncompatible("NavigableMap")
+  private static <K, V> NavigableMap<K, V> filterFiltered(
+      FilteredEntryNavigableMap<K, V> map,
+      Predicate<? super Entry<K, V>> entryPredicate) {
+    Predicate<Entry<K, V>> predicate
+        = Predicates.and(map.predicate, entryPredicate);
+    return new FilteredEntryNavigableMap<K, V>(map.sortedMap(), predicate);
+  }
+
+  @GwtIncompatible("NavigableMap")
+  private static class FilteredEntryNavigableMap<K, V> extends FilteredEntrySortedMap<K, V>
+      implements NavigableMap<K, V> {
+
+    FilteredEntryNavigableMap(
+        NavigableMap<K, V> unfiltered, Predicate<? super Entry<K, V>> entryPredicate) {
+      super(unfiltered, entryPredicate);
+    }
+
+    @Override
+    NavigableMap<K, V> sortedMap() {
+      return (NavigableMap<K, V>) super.sortedMap();
+    }
+
+    @Override
+    public Entry<K, V> lowerEntry(K key) {
+      return headMap(key, false).lastEntry();
+    }
+
+    @Override
+    public K lowerKey(K key) {
+      return keyOrNull(lowerEntry(key));
+    }
+
+    @Override
+    public Entry<K, V> floorEntry(K key) {
+      return headMap(key, true).lastEntry();
+    }
+
+    @Override
+    public K floorKey(K key) {
+      return keyOrNull(floorEntry(key));
+    }
+
+    @Override
+    public Entry<K, V> ceilingEntry(K key) {
+      return tailMap(key, true).firstEntry();
+    }
+
+    @Override
+    public K ceilingKey(K key) {
+      return keyOrNull(ceilingEntry(key));
+    }
+
+    @Override
+    public Entry<K, V> higherEntry(K key) {
+      return tailMap(key, false).firstEntry();
+    }
+
+    @Override
+    public K higherKey(K key) {
+      return keyOrNull(higherEntry(key));
+    }
+
+    @Override
+    public Entry<K, V> firstEntry() {
+      return Iterables.getFirst(entrySet(), null);
+    }
+
+    @Override
+    public Entry<K, V> lastEntry() {
+      return Iterables.getFirst(descendingMap().entrySet(), null);
+    }
+
+    @Override
+    public Entry<K, V> pollFirstEntry() {
+      return pollFirstSatisfyingEntry(sortedMap().entrySet().iterator());
+    }
+
+    @Override
+    public Entry<K, V> pollLastEntry() {
+      return pollFirstSatisfyingEntry(sortedMap().descendingMap().entrySet().iterator());
+    }
+
+    @Nullable
+    Entry<K, V> pollFirstSatisfyingEntry(Iterator<Entry<K, V>> entryIterator) {
+      while (entryIterator.hasNext()) {
+        Entry<K, V> entry = entryIterator.next();
+        if (predicate.apply(entry)) {
+          entryIterator.remove();
+          return entry;
+        }
+      }
+      return null;
+    }
+
+    @Override
+    public NavigableMap<K, V> descendingMap() {
+      return filterEntries(sortedMap().descendingMap(), predicate);
+    }
+
+    @Override
+    public NavigableSet<K> keySet() {
+      return (NavigableSet<K>) super.keySet();
+    }
+
+    @Override
+    NavigableSet<K> createKeySet() {
+      return new NavigableKeySet<K, V>(this) {
+        @Override
+        public boolean removeAll(Collection<?> c) {
+          boolean changed = false;
+          Iterator<Entry<K, V>> entryIterator = sortedMap().entrySet().iterator();
+          while (entryIterator.hasNext()) {
+            Entry<K, V> entry = entryIterator.next();
+            if (c.contains(entry.getKey()) && predicate.apply(entry)) {
+              entryIterator.remove();
+              changed = true;
+            }
+          }
+          return changed;
+        }
+
+        @Override
+        public boolean retainAll(Collection<?> c) {
+          boolean changed = false;
+          Iterator<Entry<K, V>> entryIterator = sortedMap().entrySet().iterator();
+          while (entryIterator.hasNext()) {
+            Entry<K, V> entry = entryIterator.next();
+            if (!c.contains(entry.getKey()) && predicate.apply(entry)) {
+              entryIterator.remove();
+              changed = true;
+            }
+          }
+          return changed;
+        }
+      };
+    }
+
+    @Override
+    public NavigableSet<K> navigableKeySet() {
+      return keySet();
+    }
+
+    @Override
+    public NavigableSet<K> descendingKeySet() {
+      return descendingMap().navigableKeySet();
+    }
+
+    @Override
+    public NavigableMap<K, V> subMap(K fromKey, K toKey) {
+      return subMap(fromKey, true, toKey, false);
+    }
+
+    @Override
+    public NavigableMap<K, V> subMap(
+        K fromKey, boolean fromInclusive, K toKey, boolean toInclusive) {
+      return filterEntries(
+          sortedMap().subMap(fromKey, fromInclusive, toKey, toInclusive), predicate);
+    }
+
+    @Override
+    public NavigableMap<K, V> headMap(K toKey) {
+      return headMap(toKey, false);
+    }
+
+    @Override
+    public NavigableMap<K, V> headMap(K toKey, boolean inclusive) {
+      return filterEntries(sortedMap().headMap(toKey, inclusive), predicate);
+    }
+
+    @Override
+    public NavigableMap<K, V> tailMap(K fromKey) {
+      return tailMap(fromKey, true);
+    }
+
+    @Override
+    public NavigableMap<K, V> tailMap(K fromKey, boolean inclusive) {
+      return filterEntries(sortedMap().tailMap(fromKey, inclusive), predicate);
     }
   }
 
@@ -2801,7 +3112,11 @@ public final class Maps {
 
     @Override public Set<K> keySet() {
       Set<K> result = keySet;
-      return (result == null) ? keySet = new KeySet() : result;
+      return (result == null) ? keySet = createKeySet() : result;
+    }
+
+    Set<K> createKeySet() {
+      return new KeySet();
     }
 
     private class KeySet extends Sets.ImprovedAbstractSet<K> {
@@ -3311,9 +3626,17 @@ public final class Maps {
   }
 
   @GwtIncompatible("NavigableMap")
-  abstract static class NavigableKeySet<K, V> extends KeySet<K, V> implements NavigableSet<K> {
+  static class NavigableKeySet<K, V> extends KeySet<K, V> implements NavigableSet<K> {
+    private final NavigableMap<K, V> map;
+
+    NavigableKeySet(NavigableMap<K, V> map) {
+      this.map = checkNotNull(map);
+    }
+
     @Override
-    abstract NavigableMap<K, V> map();
+    NavigableMap<K, V> map() {
+      return map;
+    }
 
     @Override
     public Comparator<? super K> comparator() {
@@ -3702,15 +4025,7 @@ public final class Maps {
     @Override
     public NavigableSet<K> navigableKeySet() {
       NavigableSet<K> result = navigableKeySet;
-      if (result == null) {
-        result = navigableKeySet = new NavigableKeySet<K, V>() {
-          @Override
-          NavigableMap<K, V> map() {
-            return DescendingMap.this;
-          }
-        };
-      }
-      return result;
+      return (result == null) ? navigableKeySet = new NavigableKeySet<K, V>(this) : result;
     }
 
     @Override

@@ -330,11 +330,8 @@ public abstract class ForwardingNavigableMap<K, V>
   @Beta
   protected class StandardNavigableKeySet extends Maps.NavigableKeySet<K, V> {
     /** Constructor for use by subclasses. */
-    public StandardNavigableKeySet() {}
-
-    @Override
-    NavigableMap<K, V> map() {
-      return ForwardingNavigableMap.this;
+    public StandardNavigableKeySet() {
+      super(ForwardingNavigableMap.this);
     }
   }
 

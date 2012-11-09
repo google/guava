@@ -20,6 +20,7 @@ import com.google.common.base.Function;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Maps.EntryTransformer;
 
+import java.util.Map;
 import java.util.SortedMap;
 import java.util.SortedSet;
 
@@ -58,5 +59,10 @@ class Platform {
   static <E> SortedSet<E> setsFilterSortedSet(
       SortedSet<E> unfiltered, Predicate<? super E> predicate) {
     return Sets.filterSortedIgnoreNavigable(unfiltered, predicate);
+  }
+  
+  static <K, V> SortedMap<K, V> mapsFilterSortedMap(
+      SortedMap<K, V> unfiltered, Predicate<? super Map.Entry<K, V>> predicate) {
+    return Maps.filterSortedIgnoreNavigable(unfiltered, predicate);
   }
 }
