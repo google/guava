@@ -366,6 +366,7 @@ public final class Futures {
    * @param input the primary input {@code Future}
    * @param fallback the {@link FutureFallback} implementation to be called if
    *     {@code input} fails
+   * @since 14.0
    */
   public static <V> ListenableFuture<V> withFallback(
       ListenableFuture<? extends V> input,
@@ -431,6 +432,7 @@ public final class Futures {
    *     {@code input} fails
    * @param executor the executor that runs {@code fallback} if {@code input}
    *     fails
+   * @since 14.0
    */
   public static <V> ListenableFuture<V> withFallback(
       ListenableFuture<? extends V> input,
