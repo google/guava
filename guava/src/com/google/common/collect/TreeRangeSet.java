@@ -47,6 +47,15 @@ import javax.annotation.Nullable;
     return new TreeRangeSet<C>(new TreeMap<Cut<C>, Range<C>>());
   }
 
+  /**
+   * Returns a {@code TreeRangeSet} initialized with the ranges in the specified range set.
+   */
+  public static <C extends Comparable<?>> TreeRangeSet<C> create(RangeSet<C> rangeSet) {
+    TreeRangeSet<C> result = create();
+    result.addAll(rangeSet);
+    return result;
+  }
+
   private TreeRangeSet(NavigableMap<Cut<C>, Range<C>> rangesByLowerCut) {
     this.rangesByLowerCut = rangesByLowerCut;
   }

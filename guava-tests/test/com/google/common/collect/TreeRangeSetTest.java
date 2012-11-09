@@ -112,6 +112,18 @@ public class TreeRangeSetTest extends AbstractRangeSetTest {
     }
   }
 
+  public void testCreateCopy() {
+    for (Range<Integer> range1 : QUERY_RANGES) {
+      for (Range<Integer> range2 : QUERY_RANGES) {
+        TreeRangeSet<Integer> rangeSet = TreeRangeSet.create();
+        rangeSet.add(range1);
+        rangeSet.add(range2);
+        
+        assertEquals(rangeSet, TreeRangeSet.create(rangeSet));
+      }
+    }
+  }
+
   public void testMergesConnectedWithOverlap() {
     TreeRangeSet<Integer> rangeSet = TreeRangeSet.create();
     rangeSet.add(Range.closed(1, 4));
