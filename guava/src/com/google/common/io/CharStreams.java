@@ -20,6 +20,9 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.Beta;
 import com.google.common.base.Charsets;
+import com.google.common.base.Splitter;
+import com.google.common.collect.AbstractIterator;
+import com.google.common.collect.ImmutableList;
 
 import java.io.Closeable;
 import java.io.EOFException;
@@ -35,7 +38,9 @@ import java.nio.CharBuffer;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
+import java.util.regex.Pattern;
 
 /**
  * Provides utility methods for working with character streams.
@@ -49,6 +54,7 @@ import java.util.List;
  *
  * @author Chris Nokleberg
  * @author Bin Zhu
+ * @author Colin Decker
  * @since 1.0
  */
 @Beta
@@ -73,6 +79,82 @@ public final class CharStreams {
         return new StringReader(value);
       }
     };
+  }
+
+  /**
+   * Returns a {@link CharSource} that reads the given string value.
+   *
+   * @since 14.0
+   */
+  public static CharSource asCharSource(String string) {
+    return new StringCharSource(string);
+  }
+
+  private static final class StringCharSource extends CharSource {
+
+    private static final Splitter LINE_SPLITTER = Splitter.on(Pattern.compile("\r\n|\n|\r"));
+
+    private final String string;
+
+    private StringCharSource(String string) {
+      this.string = checkNotNull(string);
+    }
+
+    @Override
+    public Reader openStream() {
+      return new StringReader(string);
+    }
+
+    @Override
+    public String read() {
+      return string;
+    }
+
+    /**
+     * Returns an iterable over the lines in the string. If the string ends in a newline, a final
+     * empty string is not included to match the behavior of BufferedReader/LineReader.readLine().
+     */
+    private Iterable<String> lines() {
+      return new Iterable<String>() {
+        @Override
+        public Iterator<String> iterator() {
+          return new AbstractIterator<String>() {
+            Iterator<String> lines = LINE_SPLITTER.split(string).iterator();
+
+            @Override
+            protected String computeNext() {
+              if (lines.hasNext()) {
+                String next = lines.next();
+                // skip last line if it's empty
+                if (lines.hasNext() || !next.isEmpty()) {
+                  return next;
+                }
+              }
+              return endOfData();
+            }
+          };
+        }
+      };
+    }
+
+    @Override
+    public String readFirstLine() {
+      Iterator<String> lines = lines().iterator();
+      return lines.hasNext() ? lines.next() : null;
+    }
+
+    @Override
+    public ImmutableList<String> readLines() {
+      return ImmutableList.copyOf(lines());
+    }
+
+    @Override
+    public String toString() {
+      String limited = (string.length() <= 15)
+          ? string
+          : string.substring(0, 12) + "...";
+      return "CharStreams.newCharSource(" + limited + ")";
+    }
   }
 
   /**
@@ -341,6 +423,30 @@ public final class CharStreams {
   }
 
   /**
+   * Streams lines from a {@link Readable} object, stopping when the processor
+   * returns {@code false} or all lines have been read and returning the result
+   * produced by the processor. Does not close {@code readable}. Note that this
+   * method may not fully consume the contents of {@code readable} if the
+   * processor stops processing early.
+   *
+   * @throws IOException if an I/O error occurs
+   */
+  public static <T> T readLines(
+      Readable readable, LineProcessor<T> processor) throws IOException {
+    checkNotNull(readable);
+    checkNotNull(processor);
+
+    LineReader lineReader = new LineReader(readable);
+    String line;
+    while ((line = lineReader.readLine()) != null) {
+      if (!processor.processLine(line)) {
+        break;
+      }
+    }
+    return processor.getResult();
+  }
+
+  /**
    * Streams lines from a {@link Readable} and {@link Closeable} object
    * supplied by a factory, stopping when our callback returns false, or we
    * have read all of the lines.
@@ -355,14 +461,7 @@ public final class CharStreams {
     Closer closer = Closer.create();
     try {
       R r = closer.add(supplier.getInput());
-      LineReader lineReader = new LineReader(r);
-      String line;
-      while ((line = lineReader.readLine()) != null) {
-        if (!callback.processLine(line)) {
-          break;
-        }
-      }
-      return callback.getResult();
+      return readLines(r, callback);
     } catch (Throwable e) {
       throw closer.rethrow(e, IOException.class);
     } finally {

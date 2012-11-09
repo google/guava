@@ -39,6 +39,7 @@ import java.util.List;
  *
  * @author Chris Nokleberg
  * @author Ben Yu
+ * @author Colin Decker
  * @since 1.0
  */
 @Beta
@@ -64,6 +65,37 @@ public final class Resources {
   }
 
   /**
+   * Returns a {@link ByteSource} that reads from the given URL.
+   *
+   * @since 14.0
+   */
+  public static ByteSource asByteSource(URL url) {
+    return new UrlByteSource(url);
+  }
+
+  /**
+   * A byte source that reads from a URL using {@link URL#openStream()}.
+   */
+  private static final class UrlByteSource extends ByteSource {
+
+    private final URL url;
+
+    private UrlByteSource(URL url) {
+      this.url = checkNotNull(url);
+    }
+
+    @Override
+    public InputStream openStream() throws IOException {
+      return url.openStream();
+    }
+
+    @Override
+    public String toString() {
+      return "Resources.newByteSource(" + url + ")";
+    }
+  }
+
+  /**
    * Returns a factory that will supply instances of
    * {@link InputStreamReader} that read a URL using the given character set.
    *
@@ -75,6 +107,15 @@ public final class Resources {
   public static InputSupplier<InputStreamReader> newReaderSupplier(
       URL url, Charset charset) {
     return CharStreams.newReaderSupplier(newInputStreamSupplier(url), charset);
+  }
+
+  /**
+   * Returns a {@link CharSource} that reads from the given URL using the given character set.
+   *
+   * @since 14.0
+   */
+  public static CharSource asCharSource(URL url, Charset charset) {
+    return asByteSource(url).asCharSource(charset);
   }
 
   /**

@@ -18,16 +18,19 @@ package com.google.common.io;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.io.FileWriteMode.APPEND;
 
 import com.google.common.annotations.Beta;
 import com.google.common.base.Charsets;
 import com.google.common.base.Joiner;
 import com.google.common.base.Splitter;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.hash.HashCode;
 import com.google.common.hash.HashFunction;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.ByteArrayOutputStream;
 import java.io.Closeable;
 import java.io.File;
 import java.io.FileInputStream;
@@ -44,6 +47,7 @@ import java.nio.channels.FileChannel;
 import java.nio.channels.FileChannel.MapMode;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.zip.Checksum;
 
@@ -53,6 +57,7 @@ import java.util.zip.Checksum;
  * <p>All method parameters must be non-null unless documented otherwise.
  *
  * @author Chris Nokleberg
+ * @author Colin Decker
  * @since 1.0
  */
 @Beta
@@ -95,6 +100,155 @@ public final class Files {
     checkNotNull(charset);
     return new BufferedWriter(
         new OutputStreamWriter(new FileOutputStream(file), charset));
+  }
+
+  /**
+   * Returns a new {@link ByteSource} for reading bytes from the given file.
+   *
+   * @since 14.0
+   */
+  public static ByteSource asByteSource(File file) {
+    return new FileByteSource(file);
+  }
+
+  private static final class FileByteSource extends ByteSource {
+
+    private final File file;
+
+    private FileByteSource(File file) {
+      this.file = checkNotNull(file);
+    }
+
+    @Override
+    public FileInputStream openStream() throws IOException {
+      return new FileInputStream(file);
+    }
+
+    @Override
+    public long size() throws IOException {
+      if (!file.isFile()) {
+        throw new FileNotFoundException(file.toString());
+      }
+      return file.length();
+    }
+
+    @Override
+    public byte[] read() throws IOException {
+      long size = file.length();
+      // some special files may return size 0 but have content
+      // read normally to be sure
+      if (size == 0) {
+        return super.read();
+      }
+
+      // can't initialize a large enough array
+      if (size > Integer.MAX_VALUE) {
+        // TODO(user): Is OOME the right thing to throw here?
+        throw new OutOfMemoryError("file is too large to fit in a byte array: "
+            + size + " bytes");
+      }
+
+      // initialize the array to the current size of the file
+      byte[] bytes = new byte[(int) size];
+
+      Closer closer = Closer.create();
+      try {
+        InputStream in = closer.add(openStream());
+        int off = 0;
+        int read = 0;
+
+        // read until we've read size bytes or reached EOF
+        while (off < size
+            && ((read = in.read(bytes, off, (int) size - off)) != -1)) {
+          off += read;
+        }
+
+        byte[] result = bytes;
+
+        if (off < size) {
+          // encountered EOF early; truncate the result
+          result = Arrays.copyOf(bytes, off);
+        } else if (read != -1) {
+          // we read size bytes... if the last read didn't return -1, the file got larger
+          // so we just read the rest normally and then create a new array
+          ByteArrayOutputStream out = new ByteArrayOutputStream();
+          ByteStreams.copy(in, out);
+          byte[] moreBytes = out.toByteArray();
+          result = new byte[bytes.length + moreBytes.length];
+          System.arraycopy(bytes, 0, result, 0, bytes.length);
+          System.arraycopy(moreBytes, 0, result, bytes.length, moreBytes.length);
+        }
+        return result;
+      } catch (Throwable e) {
+        throw closer.rethrow(e, IOException.class);
+      } finally {
+        closer.close();
+      }
+    }
+
+    @Override
+    public String toString() {
+      return "Files.newByteSource(" + file + ")";
+    }
+  }
+
+  /**
+   * Returns a new {@link ByteSink} for writing bytes to the given file. The
+   * given {@code modes} control how the file is opened for writing. When no
+   * mode is provided, the file will be truncated before writing. When the
+   * {@link FileWriteMode#APPEND APPEND} mode is provided, writes will
+   * append to the end of the file without truncating it.
+   *
+   * @since 14.0
+   */
+  public static ByteSink asByteSink(File file, FileWriteMode... modes) {
+    return new FileByteSink(file, modes);
+  }
+
+  private static final class FileByteSink extends ByteSink {
+
+    private final File file;
+    private final ImmutableSet<FileWriteMode> modes;
+
+    private FileByteSink(File file, FileWriteMode... modes) {
+      this.file = checkNotNull(file);
+      this.modes = ImmutableSet.copyOf(modes);
+    }
+
+    @Override
+    public FileOutputStream openStream() throws IOException {
+      return new FileOutputStream(file, modes.contains(APPEND));
+    }
+
+    @Override
+    public String toString() {
+      return "Files.newByteSink(" + file + ", " + modes + ")";
+    }
+  }
+
+  /**
+   * Returns a new {@link CharSource} for reading character data from the given
+   * file using the given character set.
+   *
+   * @since 14.0
+   */
+  public static CharSource asCharSource(File file, Charset charset) {
+    return asByteSource(file).asCharSource(charset);
+  }
+
+  /**
+   * Returns a new {@link CharSink} for writing character data to the given
+   * file using the given character set. The given {@code modes} control how
+   * the file is opened for writing. When no mode is provided, the file
+   * will be truncated before writing. When the
+   * {@link FileWriteMode#APPEND APPEND} mode is provided, writes will
+   * append to the end of the file without truncating it.
+   *
+   * @since 14.0
+   */
+  public static CharSink asCharSink(File file, Charset charset,
+      FileWriteMode... modes) {
+    return asByteSink(file, modes).asCharSink(charset);
   }
 
   /**

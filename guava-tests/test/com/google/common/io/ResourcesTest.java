@@ -23,6 +23,8 @@ import com.google.common.base.Charsets;
 import com.google.common.collect.ImmutableList;
 import com.google.common.testing.NullPointerTester;
 
+import junit.framework.TestSuite;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
@@ -38,6 +40,16 @@ import java.util.List;
  */
 public class ResourcesTest extends IoTestCase {
 
+  public static TestSuite suite() {
+    TestSuite suite = new TestSuite();
+    suite.addTest(ByteSourceTester.tests("Resources.asByteSource[URL]",
+        SourceSinkFactories.urlByteSourceFactory(), true));
+    suite.addTest(CharSourceTester.tests("Resources.asCharSource[URL, Charset]",
+        SourceSinkFactories.urlCharSourceFactory()));
+    suite.addTestSuite(ResourcesTest.class);
+    return suite;
+  }
+
   public void testUrlSupplier() throws IOException {
     byte[] data = ByteStreams.toByteArray(
         Resources.newInputStreamSupplier(classfile(Resources.class)));
@@ -51,7 +63,7 @@ public class ResourcesTest extends IoTestCase {
     ASSERT.that(Resources.toString(resource, Charsets.US_ASCII))
         .isNotEqualTo(I18N);
   }
-  
+
   public void testToToByteArray() throws IOException {
     byte[] data = Resources.toByteArray(classfile(Resources.class));
     assertEquals(0xCAFEBABE,
@@ -94,7 +106,7 @@ public class ResourcesTest extends IoTestCase {
     Resources.copy(resource, out);
     assertEquals(I18N, out.toString("UTF-8"));
   }
-  
+
   public void testGetResource_notFound() {
     try {
       Resources.getResource("no such resource");
@@ -103,12 +115,12 @@ public class ResourcesTest extends IoTestCase {
       assertEquals("resource no such resource not found.", e.getMessage());
     }
   }
-  
+
   public void testGetResource() {
     assertNotNull(
         Resources.getResource("com/google/common/io/testdata/i18n.txt"));
   }
-  
+
   public void testGetResource_relativePath_notFound() {
     try {
       Resources.getResource(
@@ -120,7 +132,7 @@ public class ResourcesTest extends IoTestCase {
           e.getMessage());
     }
   }
-  
+
   public void testGetResource_relativePath() {
     assertNotNull(Resources.getResource(getClass(), "testdata/i18n.txt"));
   }

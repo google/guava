@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2007 The Guava Authors
+ * Copyright (C) 2012 The Guava Authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,23 +16,31 @@
 
 package com.google.common.io;
 
+import static com.google.common.base.Charsets.UTF_8;
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import java.io.FilterInputStream;
+import java.io.ByteArrayInputStream;
+import java.io.FilterReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.util.Random;
+import java.io.InputStreamReader;
 
-/** Returns a random portion of the requested bytes on each call. */
-class RandomAmountInputStream extends FilterInputStream {
-  private final Random random;
+/**
+ * @author Colin Decker
+ */
+public class TestReader extends FilterReader {
 
-  public RandomAmountInputStream(InputStream in, Random random) {
-    super(checkNotNull(in));
-    this.random = checkNotNull(random);
+  private final TestInputStream in;
+
+  public TestReader(TestOption... options) throws IOException {
+    this(new TestInputStream(new ByteArrayInputStream(new byte[10]), options));
   }
 
-  @Override public int read(byte[] b, int off, int len) throws IOException {
-    return super.read(b, off, random.nextInt(len) + 1);
+  public TestReader(TestInputStream in) {
+    super(new InputStreamReader(checkNotNull(in), UTF_8));
+    this.in = in;
+  }
+
+  public boolean closed() {
+    return in.closed();
   }
 }

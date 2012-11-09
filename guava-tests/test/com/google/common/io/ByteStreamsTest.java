@@ -25,6 +25,8 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.hash.Hashing;
 import com.google.common.testing.TestLogHandler;
 
+import junit.framework.TestSuite;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.EOFException;
@@ -47,6 +49,14 @@ import java.util.zip.Checksum;
  * @author Chris Nokleberg
  */
 public class ByteStreamsTest extends IoTestCase {
+
+  public static TestSuite suite() {
+    TestSuite suite = new TestSuite();
+    suite.addTest(ByteSourceTester.tests("ByteStreams.asByteSource[byte[]]",
+        SourceSinkFactories.byteArraySourceFactory(), true));
+    suite.addTestSuite(ByteStreamsTest.class);
+    return suite;
+  }
 
   /** Provides an InputStream that throws an IOException on every read. */
   static final InputSupplier<InputStream> BROKEN_READ

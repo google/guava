@@ -16,21 +16,15 @@
 
 package com.google.common.io;
 
-import com.google.common.testing.AbstractPackageSanityTests;
-
-import java.lang.reflect.Method;
-
 /**
- * Basic sanity tests for the entire package.
+ * Options controlling the behavior of sources/sinks/streams for testing.
  *
- * @author Ben Yu
+ * @author Colin Decker
  */
-
-public class PackageSanityTests extends AbstractPackageSanityTests {
-  public PackageSanityTests() {
-    setDefault(BaseEncoding.class, BaseEncoding.base64());
-    setDefault(int.class, 32);
-    setDefault(String.class, "abcd");
-    setDefault(Method.class, AbstractPackageSanityTests.class.getDeclaredMethods()[0]);
-  }
+public enum TestOption {
+  OPEN_THROWS,
+  SKIP_THROWS,
+  READ_THROWS,
+  WRITE_THROWS,
+  CLOSE_THROWS
 }

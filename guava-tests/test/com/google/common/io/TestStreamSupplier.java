@@ -16,21 +16,22 @@
 
 package com.google.common.io;
 
-import com.google.common.testing.AbstractPackageSanityTests;
-
-import java.lang.reflect.Method;
-
 /**
- * Basic sanity tests for the entire package.
+ * Interface for a supplier of streams that can report whether a stream was opened and whether that
+ * stream was closed. Intended for use in a test where only a single stream should be opened and
+ * possibly closed.
  *
- * @author Ben Yu
+ * @author Colin Decker
  */
+public interface TestStreamSupplier {
 
-public class PackageSanityTests extends AbstractPackageSanityTests {
-  public PackageSanityTests() {
-    setDefault(BaseEncoding.class, BaseEncoding.base64());
-    setDefault(int.class, 32);
-    setDefault(String.class, "abcd");
-    setDefault(Method.class, AbstractPackageSanityTests.class.getDeclaredMethods()[0]);
-  }
+  /**
+   * Returns whether or not a new stream was opened.
+   */
+  boolean wasStreamOpened();
+
+  /**
+   * Returns whether or not an open stream was closed.
+   */
+  boolean wasStreamClosed();
 }

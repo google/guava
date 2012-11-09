@@ -18,9 +18,9 @@ package com.google.common.io;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkPositionIndex;
 
 import com.google.common.annotations.Beta;
-import com.google.common.base.Preconditions;
 import com.google.common.hash.Funnels;
 import com.google.common.hash.HashCode;
 import com.google.common.hash.HashFunction;
@@ -47,6 +47,7 @@ import java.util.zip.Checksum;
  * Provides utility methods for working with byte arrays and I/O streams.
  *
  * @author Chris Nokleberg
+ * @author Colin Decker
  * @since 1.0
  */
 @Beta
@@ -85,6 +86,57 @@ public final class ByteStreams {
         return new ByteArrayInputStream(b, off, len);
       }
     };
+  }
+
+  /**
+   * Returns a new {@link ByteSource} that reads bytes from the given byte array.
+   *
+   * @since 14.0
+   */
+  public static ByteSource asByteSource(byte[] b) {
+    return new ByteArrayByteSource(b);
+  }
+
+  private static final class ByteArrayByteSource extends ByteSource {
+
+    private final byte[] bytes;
+
+    private ByteArrayByteSource(byte[] bytes) {
+      this.bytes = checkNotNull(bytes);
+    }
+
+    @Override
+    public InputStream openStream() throws IOException {
+      return new ByteArrayInputStream(bytes);
+    }
+
+    @Override
+    public long size() throws IOException {
+      return bytes.length;
+    }
+
+    @Override
+    public byte[] read() throws IOException {
+      return bytes.clone();
+    }
+
+    @Override
+    public long copyTo(OutputStream output) throws IOException {
+      output.write(bytes);
+      return bytes.length;
+    }
+
+    @Override
+    public HashCode hash(HashFunction hashFunction) throws IOException {
+      return hashFunction.hashBytes(bytes);
+    }
+
+    // TODO(user): Possibly override slice()
+
+    @Override
+    public String toString() {
+      return "ByteStreams.newByteSource(" + BaseEncoding.base16().encode(bytes) + ")";
+    }
   }
 
   /**
@@ -286,7 +338,7 @@ public final class ByteStreams {
    *     than the length of the array
    */
   public static ByteArrayDataInput newDataInput(byte[] bytes, int start) {
-    Preconditions.checkPositionIndex(start, bytes.length);
+    checkPositionIndex(start, bytes.length);
     return new ByteArrayDataInputStream(bytes, start);
   }
 
@@ -578,7 +630,6 @@ public final class ByteStreams {
     @Override public byte[] toByteArray() {
       return byteArrayOutputSteam.toByteArray();
     }
-
   }
 
   private static final OutputStream NULL_OUTPUT_STREAM =
@@ -594,10 +645,15 @@ public final class ByteStreams {
         @Override public void write(byte[] b, int off, int len) {
           checkNotNull(b);
         }
+
+        @Override
+        public String toString() {
+          return "ByteStreams.nullOutputStream()";
+        }
       };
 
   /**
-   * Returns a {@link OutputStream} that simply discards written bytes.
+   * Returns an {@link OutputStream} that simply discards written bytes.
    *
    * @since 14.0 (since 1.0 as com.google.common.io.NullOutputStream)
    */

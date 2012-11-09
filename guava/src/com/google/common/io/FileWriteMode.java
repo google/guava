@@ -16,21 +16,13 @@
 
 package com.google.common.io;
 
-import com.google.common.testing.AbstractPackageSanityTests;
-
-import java.lang.reflect.Method;
-
 /**
- * Basic sanity tests for the entire package.
+ * Modes for opening a file for writing. The default when mode when none is specified is to
+ * truncate the file before writing.
  *
- * @author Ben Yu
+ * @author Colin Decker
  */
-
-public class PackageSanityTests extends AbstractPackageSanityTests {
-  public PackageSanityTests() {
-    setDefault(BaseEncoding.class, BaseEncoding.base64());
-    setDefault(int.class, 32);
-    setDefault(String.class, "abcd");
-    setDefault(Method.class, AbstractPackageSanityTests.class.getDeclaredMethods()[0]);
-  }
+public enum FileWriteMode {
+  /** Specifies that writes to the opened file should append to the end of the file. */
+  APPEND
 }
