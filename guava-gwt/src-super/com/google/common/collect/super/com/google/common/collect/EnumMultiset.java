@@ -54,6 +54,19 @@ public final class EnumMultiset<E extends Enum<E>> extends AbstractMapBasedMulti
     Iterables.addAll(multiset, elements);
     return multiset;
   }
+  
+  /**
+   * Returns a new {@code EnumMultiset} instance containing the given elements.  Unlike
+   * {@link EnumMultiset#create(Iterable)}, this method does not produce an exception on an empty
+   * iterable.
+   * 
+   * @since 14.0
+   */
+  public static <E extends Enum<E>> EnumMultiset<E> create(Iterable<E> elements, Class<E> type) {
+    EnumMultiset<E> result = create(type);
+    Iterables.addAll(result, elements);
+    return result;
+  }
 
   private transient Class<E> type;
 
