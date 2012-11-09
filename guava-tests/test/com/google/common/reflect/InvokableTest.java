@@ -31,6 +31,8 @@ import java.lang.reflect.Method;
 import java.lang.reflect.TypeVariable;
 import java.util.Collections;
 
+import javax.annotation.Nullable;
+
 /**
  * Unit tests for {@link Invokable}.
  *
@@ -262,10 +264,166 @@ public class InvokableTest extends TestCase {
     @SuppressWarnings("unused") // used by reflection
     void notFinalMethod() {}
   }
+
   public void testNonFinalMethodInFinalClass_isOverridable() throws Exception {
     Invokable<?, ?> delegate = Invokable.from(
         FinalClass.class.getDeclaredMethod("notFinalMethod"));
     assertFalse(delegate.isOverridable());
+  }
+
+  private class InnerWithDefaultConstructor {
+    class NestedInner {}
+  }
+
+  public void testInnerClassDefaultConstructor() throws Exception {
+    Constructor<?> constructor =
+        InnerWithDefaultConstructor.class.getDeclaredConstructors() [0];
+    assertEquals(0, Invokable.from(constructor).getParameters().size());
+  }
+
+  public void testNestedInnerClassDefaultConstructor() throws Exception {
+    Constructor<?> constructor =
+        InnerWithDefaultConstructor.NestedInner.class.getDeclaredConstructors() [0];
+    assertEquals(0, Invokable.from(constructor).getParameters().size());
+  }
+
+  private class InnerWithOneParameterConstructor {
+    @SuppressWarnings("unused") // called by reflection
+    public InnerWithOneParameterConstructor(String s) {}
+  }
+
+  public void testInnerClassWithOneParameterConstructor() throws Exception {
+    Constructor<?> constructor =
+        InnerWithOneParameterConstructor.class.getDeclaredConstructors()[0];
+    Invokable<?, ?> invokable = Invokable.from(constructor);
+    assertEquals(1, invokable.getParameters().size());
+    assertEquals(TypeToken.of(String.class), invokable.getParameters().get(0).getType());
+  }
+
+  private class InnerWithAnnotatedConstructorParameter {
+    @SuppressWarnings("unused") // called by reflection
+    InnerWithAnnotatedConstructorParameter(@Nullable String s) {}
+  }
+
+  public void testInnerClassWithAnnotatedConstructorParameter() throws Exception {
+    Constructor<?> constructor =
+        InnerWithAnnotatedConstructorParameter.class.getDeclaredConstructors() [0];
+    Invokable<?, ?> invokable = Invokable.from(constructor);
+    assertEquals(1, invokable.getParameters().size());
+    assertEquals(TypeToken.of(String.class), invokable.getParameters().get(0).getType());
+  }
+
+  private class InnerWithGenericConstructorParameter {
+    @SuppressWarnings("unused") // called by reflection
+    InnerWithGenericConstructorParameter(Iterable<String> it, String s) {}
+  }
+
+  public void testInnerClassWithGenericConstructorParameter() throws Exception {
+    Constructor<?> constructor =
+        InnerWithGenericConstructorParameter.class.getDeclaredConstructors() [0];
+    Invokable<?, ?> invokable = Invokable.from(constructor);
+    assertEquals(2, invokable.getParameters().size());
+    assertEquals(new TypeToken<Iterable<String>>() {},
+        invokable.getParameters().get(0).getType());
+    assertEquals(TypeToken.of(String.class),
+        invokable.getParameters().get(1).getType());
+  }
+
+  public void testAnonymousClassDefaultConstructor() throws Exception {
+    final int i = 1;
+    final String s = "hello world";
+    Class<?> anonymous = new Runnable() {
+      @Override public void run() {
+        System.out.println(s + i);
+      }
+    }.getClass();
+    Constructor<?> constructor =
+        anonymous.getDeclaredConstructors() [0];
+    assertEquals(0, Invokable.from(constructor).getParameters().size());
+  }
+
+  public void testAnonymousClassWithTwoParametersConstructor() throws Exception {
+    abstract class Base {
+      @SuppressWarnings("unused") // called by reflection
+      Base(String s, int i) {}
+    }
+    Class<?> anonymous = new Base("test", 0) {}.getClass();
+    Constructor<?> constructor =
+        anonymous.getDeclaredConstructors() [0];
+    assertEquals(2, Invokable.from(constructor).getParameters().size());
+  }
+
+  public void testLocalClassDefaultConstructor() throws Exception {
+    final int i = 1;
+    final String s = "hello world";
+    class LocalWithDefaultConstructor implements Runnable {
+      @Override public void run() {
+        System.out.println(s + i);
+      }
+    }
+    Constructor<?> constructor =
+        LocalWithDefaultConstructor.class.getDeclaredConstructors() [0];
+    assertEquals(0, Invokable.from(constructor).getParameters().size());
+  }
+
+  public void testStaticAnonymousClassDefaultConstructor() throws Exception {
+    doTestStaticAnonymousClassDefaultConstructor();
+  }
+
+  private static void doTestStaticAnonymousClassDefaultConstructor() throws Exception {
+    final int i = 1;
+    final String s = "hello world";
+    Class<?> anonymous = new Runnable() {
+      @Override public void run() {
+        System.out.println(s + i);
+      }
+    }.getClass();
+    Constructor<?> constructor =
+        anonymous.getDeclaredConstructors() [0];
+    assertEquals(0, Invokable.from(constructor).getParameters().size());
+  }
+
+  public void testLocalClassWithOneParameterConstructor() throws Exception {
+    final int i = 1;
+    final String s = "hello world";
+    class LocalWithOneParameterConstructor {
+      @SuppressWarnings("unused") // called by reflection
+      public LocalWithOneParameterConstructor(String x) {
+        System.out.println(s + i);
+      }
+    }
+    Constructor<?> constructor =
+        LocalWithOneParameterConstructor.class.getDeclaredConstructors()[0];
+    Invokable<?, ?> invokable = Invokable.from(constructor);
+    assertEquals(1, invokable.getParameters().size());
+    assertEquals(TypeToken.of(String.class), invokable.getParameters().get(0).getType());
+  }
+
+  public void testLocalClassWithAnnotatedConstructorParameter() throws Exception {
+    class LocalWithAnnotatedConstructorParameter {
+      @SuppressWarnings("unused") // called by reflection
+      LocalWithAnnotatedConstructorParameter(@Nullable String s) {}
+    }
+    Constructor<?> constructor =
+        LocalWithAnnotatedConstructorParameter.class.getDeclaredConstructors() [0];
+    Invokable<?, ?> invokable = Invokable.from(constructor);
+    assertEquals(1, invokable.getParameters().size());
+    assertEquals(TypeToken.of(String.class), invokable.getParameters().get(0).getType());
+  }
+
+  public void testLocalClassWithGenericConstructorParameter() throws Exception {
+    class LocalWithGenericConstructorParameter {
+      @SuppressWarnings("unused") // called by reflection
+      LocalWithGenericConstructorParameter(Iterable<String> it, String s) {}
+    }
+    Constructor<?> constructor =
+        LocalWithGenericConstructorParameter.class.getDeclaredConstructors() [0];
+    Invokable<?, ?> invokable = Invokable.from(constructor);
+    assertEquals(2, invokable.getParameters().size());
+    assertEquals(new TypeToken<Iterable<String>>() {},
+        invokable.getParameters().get(0).getType());
+    assertEquals(TypeToken.of(String.class),
+        invokable.getParameters().get(1).getType());
   }
 
   public void testEquals() throws Exception {

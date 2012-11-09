@@ -17,6 +17,7 @@
 package com.google.common.testing;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static org.junit.contrib.truth.Truth.ASSERT;
 
 import com.google.common.base.Function;
 import com.google.common.base.Supplier;
@@ -1193,6 +1194,21 @@ public class NullPointerTesterTest extends TestCase {
         VisibilityMethods.class.getDeclaredMethod("protectedMethod")));
     assertTrue(Visibility.PACKAGE.isVisible(
         VisibilityMethods.class.getDeclaredMethod("publicMethod")));
+  }
+
+  private class Inner {
+    public Inner(String s) {
+      checkNotNull(s);
+    }
+  }
+
+  public void testNonStaticInnerClass() {
+    try {
+      new NullPointerTester().testAllPublicConstructors(Inner.class);
+      fail();
+    } catch (IllegalArgumentException expected) {
+      ASSERT.that(expected.getMessage()).contains("inner class");
+    }
   }
 
   /*

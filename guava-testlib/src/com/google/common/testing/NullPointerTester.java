@@ -16,6 +16,7 @@
 
 package com.google.common.testing;
 
+import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.Beta;
@@ -181,6 +182,10 @@ public final class NullPointerTester {
    * non-{@link Nullable} parameters are null.
    */
   public void testConstructor(Constructor<?> ctor) {
+    Class<?> declaringClass = ctor.getDeclaringClass();
+    checkArgument(Modifier.isStatic(declaringClass.getModifiers())
+        || declaringClass.getEnclosingClass() == null,
+        "Cannot test constructor of non-static inner class: %s", declaringClass.getName());
     Class<?>[] types = ctor.getParameterTypes();
     for (int nullIndex = 0; nullIndex < types.length; nullIndex++) {
       testConstructorParameter(ctor, nullIndex);

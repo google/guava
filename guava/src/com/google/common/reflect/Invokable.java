@@ -20,7 +20,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.Beta;
 import com.google.common.collect.ImmutableList;
-import com.google.common.reflect.TypeToken;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.AccessibleObject;
@@ -32,6 +31,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
+import java.util.Arrays;
 
 import javax.annotation.Nullable;
 
@@ -96,7 +96,11 @@ public abstract class Invokable<T, R> extends Element implements GenericDeclarat
     return (TypeToken<? extends R>) TypeToken.of(getGenericReturnType());
   }
 
-  /** Returns all declared parameters of this {@code Invokable}. */
+  /**
+   * Returns all declared parameters of this {@code Invokable}. Note that if this is a constructor
+   * of a non-static inner class, unlike {@link Constructor#getParameterTypes}, the hidden
+   * {@code this} parameter of the enclosing class is excluded from the returned parameters.
+   */
   public final ImmutableList<Parameter> getParameters() {
     Type[] parameterTypes = getGenericParameterTypes();
     Annotation[][] annotations = getParameterAnnotations();
@@ -223,7 +227,16 @@ public abstract class Invokable<T, R> extends Element implements GenericDeclarat
     }
 
     @Override Type[] getGenericParameterTypes() {
-      return constructor.getGenericParameterTypes();
+      Type[] types = constructor.getGenericParameterTypes();
+      Class<?> declaringClass = constructor.getDeclaringClass();
+      if (!Modifier.isStatic(declaringClass.getModifiers())
+          && declaringClass.getEnclosingClass() != null) {
+        if (types.length == constructor.getParameterTypes().length) {
+          // first parameter is the hidden 'this'
+          return Arrays.copyOfRange(types, 1, types.length);
+        }
+      }
+      return types;
     }
 
     @Override Type[] getGenericExceptionTypes() {
