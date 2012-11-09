@@ -254,7 +254,7 @@ public class JoinerTest extends TestCase {
   public void test_useForNull_skipNulls() {
     Joiner j = Joiner.on("x").useForNull("y");
     try {
-      j.skipNulls();
+      j = j.skipNulls();
       fail();
     } catch (UnsupportedOperationException expected) {
     }
@@ -263,7 +263,7 @@ public class JoinerTest extends TestCase {
   public void test_skipNulls_useForNull() {
     Joiner j = Joiner.on("x").skipNulls();
     try {
-      j.useForNull("y");
+      j = j.useForNull("y");
       fail();
     } catch (UnsupportedOperationException expected) {
     }
@@ -272,7 +272,7 @@ public class JoinerTest extends TestCase {
   public void test_useForNull_twice() {
     Joiner j = Joiner.on("x").useForNull("y");
     try {
-      j.useForNull("y");
+      j = j.useForNull("y");
       fail();
     } catch (UnsupportedOperationException expected) {
     }
@@ -338,6 +338,7 @@ public class JoinerTest extends TestCase {
     assertEquals("1:2;1:3;3:4;5:6;5:10", sb2.toString());
   }
 
+  @SuppressWarnings("ReturnValueIgnored")
   public void test_skipNulls_onMap() {
     Joiner j = Joiner.on(",").skipNulls();
     try {
