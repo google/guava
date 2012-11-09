@@ -24,7 +24,7 @@ import java.math.BigInteger;
 
 /**
  * Factories for common {@link DiscreteDomain} instances.
- * 
+ *
  * <p>See the Guava User Guide section on <a href=
  * "http://code.google.com/p/guava-libraries/wiki/RangesExplained#Discrete_Domains">
  * {@code DiscreteDomain}</a>.
@@ -73,7 +73,7 @@ public final class DiscreteDomains {
     private Object readResolve() {
       return INSTANCE;
     }
-    
+
     @Override
     public String toString() {
       return "DiscreteDomains.integers()";
@@ -125,7 +125,7 @@ public final class DiscreteDomains {
     private Object readResolve() {
       return INSTANCE;
     }
-    
+
     @Override
     public String toString() {
       return "DiscreteDomains.longs()";
@@ -160,13 +160,13 @@ public final class DiscreteDomains {
     }
 
     @Override public long distance(BigInteger start, BigInteger end) {
-      return start.subtract(end).max(MIN_LONG).min(MAX_LONG).longValue();
+      return end.subtract(start).max(MIN_LONG).min(MAX_LONG).longValue();
     }
 
     private Object readResolve() {
       return INSTANCE;
     }
-    
+
     @Override
     public String toString() {
       return "DiscreteDomains.bigIntegers()";

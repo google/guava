@@ -19,15 +19,25 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.SortedLists.KeyAbsentBehavior.NEXT_LOWER;
 import static com.google.common.collect.SortedLists.KeyPresentBehavior.ANY_PRESENT;
 
+import com.google.common.annotations.GwtIncompatible;
+import com.google.common.collect.SortedLists.KeyAbsentBehavior;
+import com.google.common.collect.SortedLists.KeyPresentBehavior;
+import com.google.common.primitives.Ints;
+
 import java.io.Serializable;
+import java.util.Collections;
+import java.util.Iterator;
 import java.util.NoSuchElementException;
+import java.util.Set;
+
+import javax.annotation.Nullable;
 
 /**
  * An efficient immutable implementation of a {@link RangeSet}.
  *
  * @author Louis Wasserman
  */
-final class ImmutableRangeSet<C extends Comparable> extends AbstractRangeSet<C>
+public final class ImmutableRangeSet<C extends Comparable> extends AbstractRangeSet<C>
     implements Serializable {
 
   @SuppressWarnings("unchecked")
@@ -238,6 +248,288 @@ final class ImmutableRangeSet<C extends Comparable> extends AbstractRangeSet<C>
       result = complement = new ImmutableRangeSet<C>(complementRanges, this);
     }
     return result;
+  }
+
+  /**
+   * Returns a list containing the nonempty intersections of {@code range}
+   * with the ranges in this range set.
+   */
+  private ImmutableList<Range<C>> intersectRanges(final Range<C> range) {
+    if (ranges.isEmpty() || range.isEmpty()) {
+      return ImmutableList.of();
+    } else if (range.encloses(span())) {
+      return ranges;
+    }
+
+    final int fromIndex;
+    if (range.hasLowerBound()) {
+      fromIndex = SortedLists.binarySearch(
+          ranges, Range.<C>upperBoundFn(), range.lowerBound, KeyPresentBehavior.FIRST_AFTER,
+          KeyAbsentBehavior.NEXT_HIGHER);
+    } else {
+      fromIndex = 0;
+    }
+
+    int toIndex;
+    if (range.hasUpperBound()) {
+      toIndex = SortedLists.binarySearch(
+          ranges, Range.<C>lowerBoundFn(), range.upperBound, KeyPresentBehavior.FIRST_PRESENT,
+          KeyAbsentBehavior.NEXT_HIGHER);
+    } else {
+      toIndex = ranges.size();
+    }
+    final int length = toIndex - fromIndex;
+    if (length == 0) {
+      return ImmutableList.of();
+    } else {
+      return new ImmutableList<Range<C>>() {
+        @Override
+        public int size() {
+          return length;
+        }
+
+        @Override
+        public Range<C> get(int index) {
+          checkElementIndex(index, length);
+          if (index == 0 || index == length - 1) {
+            return ranges.get(index + fromIndex).intersection(range);
+          } else {
+            return ranges.get(index + fromIndex);
+          }
+        }
+
+        @Override
+        boolean isPartialView() {
+          return true;
+        }
+      };
+    }
+  }
+
+  /**
+   * Returns an {@link ImmutableSortedSet} containing the same values in the given domain
+   * {@linkplain RangeSet#contains contained} by this range set.
+   *
+   * <p><b>Note:</b> {@code a.asSet(d).equals(b.asSet(d))} does not imply {@code a.equals(b)}! For
+   * example, {@code a} and {@code b} could be {@code [2..4]} and {@code (1..5)}, or the empty
+   * ranges {@code [3..3)} and {@code [4..4)}.
+   *
+   * <p><b>Warning:</b> Be extremely careful what you do with the {@code asSet} view of a large
+   * range set (such as {@code ImmutableRangeSet.of(Range.greaterThan(0))}). Certain operations on
+   * such a set can be performed efficiently, but others (such as {@link Set#hashCode} or
+   * {@link Collections#frequency}) can cause major performance problems.
+   *
+   * <p>The returned set's {@link Object#toString} method returns a short-hand form of the set's
+   * contents, such as {@code "[1..100]}"}.
+   *
+   * @throws IllegalArgumentException if neither this range nor the domain has a lower bound, or if
+   *         neither has an upper bound
+   */
+  public ImmutableSortedSet<C> asSet(DiscreteDomain<C> domain) {
+    return asSet(domain, Range.<C>all());
+  }
+
+  ImmutableSortedSet<C> asSet(DiscreteDomain<C> domain, Range<C> range) {
+    checkNotNull(domain);
+    checkNotNull(range);
+    if (isEmpty()) {
+      return ImmutableSortedSet.of();
+    }
+    Range<C> span = span();
+    if (!range.isConnected(span)) {
+      return ImmutableSortedSet.of();
+    }
+
+    range = range.intersection(span).canonical(domain);
+
+    if (!range.hasLowerBound()) {
+      // according to the spec of canonical, neither this ImmutableRangeSet nor
+      // the range have a lower bound
+      throw new IllegalArgumentException(
+          "Neither the DiscreteDomain nor this range set are bounded below");
+    } else if (!range.hasUpperBound()) {
+      try {
+        domain.maxValue();
+      } catch (NoSuchElementException e) {
+        throw new IllegalArgumentException(
+            "Neither the DiscreteDomain nor this range set are bounded above");
+      }
+    }
+
+    ImmutableList<Range<C>> subRanges = intersectRanges(range);
+    switch (subRanges.size()) {
+      case 0:
+        return ImmutableSortedSet.of();
+      case 1:
+        return subRanges.get(0).asSet(domain);
+      default:
+        return new AsSet(domain, range, subRanges);
+    }
+  }
+
+  private final class AsSet extends ImmutableSortedSet<C> {
+    private final DiscreteDomain<C> domain;
+    private final Range<C> subRange;
+    private final ImmutableList<Range<C>> subRanges;
+
+    AsSet(DiscreteDomain<C> domain, Range<C> subRange, ImmutableList<Range<C>> subRanges) {
+      super(Ordering.natural());
+      this.domain = domain;
+      this.subRange = subRange;
+      this.subRanges = subRanges;
+    }
+
+    private transient Integer size;
+
+    @Override
+    public int size() {
+      // racy single-check idiom
+      Integer result = size;
+      if (result == null) {
+        long total = 0;
+        for (Range<C> range : subRanges) {
+          total += range.asSet(domain).size();
+          if (total >= Integer.MAX_VALUE) {
+            break;
+          }
+        }
+        result = size = Ints.saturatedCast(total);
+      }
+      return result.intValue();
+    }
+
+    @Override
+    public UnmodifiableIterator<C> iterator() {
+      return new AbstractIterator<C>() {
+        final Iterator<Range<C>> rangeItr = subRanges.iterator();
+        Iterator<C> elemItr = Iterators.emptyIterator();
+
+        @Override
+        protected C computeNext() {
+          while (!elemItr.hasNext()) {
+            if (rangeItr.hasNext()) {
+              elemItr = rangeItr.next().asSet(domain).iterator();
+            } else {
+              return endOfData();
+            }
+          }
+          return elemItr.next();
+        }
+      };
+    }
+
+    @Override
+    @GwtIncompatible("NavigableSet")
+    public UnmodifiableIterator<C> descendingIterator() {
+      return new AbstractIterator<C>() {
+        final Iterator<Range<C>> rangeItr = subRanges.reverse().iterator();
+        Iterator<C> elemItr = Iterators.emptyIterator();
+
+        @Override
+        protected C computeNext() {
+          while (!elemItr.hasNext()) {
+            if (rangeItr.hasNext()) {
+              elemItr = rangeItr.next().asSet(domain).descendingIterator();
+            } else {
+              return endOfData();
+            }
+          }
+          return elemItr.next();
+        }
+      };
+    }
+
+    ImmutableSortedSet<C> subSet(Range<C> range) {
+      if (range.encloses(subRange)) {
+        return this;
+      } else if (subRange.isConnected(range)) {
+        return asSet(domain, subRange.intersection(range));
+      } else {
+        return ImmutableSortedSet.of();
+      }
+    }
+
+    @Override
+    ImmutableSortedSet<C> headSetImpl(C toElement, boolean inclusive) {
+      return subSet(Range.upTo(toElement, BoundType.forBoolean(inclusive)));
+    }
+
+    @Override
+    ImmutableSortedSet<C> subSetImpl(
+        C fromElement, boolean fromInclusive, C toElement, boolean toInclusive) {
+      if (!fromInclusive && !toInclusive && Range.compareOrThrow(fromElement, toElement) == 0) {
+        return ImmutableSortedSet.of();
+      }
+      return subSet(Range.range(
+          fromElement, BoundType.forBoolean(fromInclusive),
+          toElement, BoundType.forBoolean(toInclusive)));
+    }
+
+    @Override
+    ImmutableSortedSet<C> tailSetImpl(C fromElement, boolean inclusive) {
+      return subSet(Range.downTo(fromElement, BoundType.forBoolean(inclusive)));
+    }
+
+    @Override
+    public boolean contains(@Nullable Object o) {
+      if (o == null) {
+        return false;
+      }
+      try {
+        @SuppressWarnings("unchecked") // we catch CCE's
+        C c = (C) o;
+        return subRange.contains(c) && ImmutableRangeSet.this.contains(c);
+      } catch (ClassCastException e) {
+        return false;
+      }
+    }
+
+    @Override
+    int indexOf(Object target) {
+      if (contains(target)) {
+        @SuppressWarnings("unchecked") // if it's contained, it's definitely a C
+        C c = (C) target;
+        long total = 0;
+        for (Range<C> range : subRanges) {
+          if (range.contains(c)) {
+            return Ints.saturatedCast(total + range.asSet(domain).indexOf(c));
+          } else {
+            total += range.asSet(domain).size();
+          }
+        }
+        throw new AssertionError("impossible");
+      }
+      return -1;
+    }
+
+    @Override
+    boolean isPartialView() {
+      return subRanges.isPartialView() || subRanges.size() < ranges.size();
+    }
+
+    @Override
+    public String toString() {
+      return subRanges.toString();
+    }
+
+    @Override
+    Object writeReplace() {
+      return new AsSetSerializedForm<C>(subRanges, domain);
+    }
+  }
+
+  private static class AsSetSerializedForm<C extends Comparable> implements Serializable {
+    private final ImmutableList<Range<C>> ranges;
+    private final DiscreteDomain<C> domain;
+
+    AsSetSerializedForm(ImmutableList<Range<C>> ranges, DiscreteDomain<C> domain) {
+      this.ranges = ranges;
+      this.domain = domain;
+    }
+
+    Object readResolve() {
+      return new ImmutableRangeSet<C>(ranges).asSet(domain);
+    }
   }
 
   boolean isPartialView() {

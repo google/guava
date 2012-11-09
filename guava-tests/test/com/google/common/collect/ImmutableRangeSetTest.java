@@ -17,8 +17,18 @@ package com.google.common.collect;
 import static org.junit.contrib.truth.Truth.ASSERT;
 
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.collect.testing.NavigableSetTestSuiteBuilder;
+import com.google.common.collect.testing.SampleElements;
+import com.google.common.collect.testing.TestSetGenerator;
+import com.google.common.collect.testing.features.CollectionFeature;
+import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.testing.SerializableTester;
 
+import junit.framework.Test;
+import junit.framework.TestSuite;
+
+import java.math.BigInteger;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -28,6 +38,94 @@ import java.util.Set;
  */
 @GwtIncompatible("ImmutableRangeSet")
 public class ImmutableRangeSetTest extends AbstractRangeSetTest {
+  static final class ImmutableRangeSetIntegerAsSetGenerator implements TestSetGenerator<Integer> {
+    @Override
+    public SampleElements<Integer> samples() {
+      return new SampleElements<Integer>(1, 4, 3, 2, 5);
+    }
+
+    @Override
+    public Integer[] createArray(int length) {
+      return new Integer[length];
+    }
+
+    @Override
+    public Iterable<Integer> order(List<Integer> insertionOrder) {
+      return Ordering.natural().sortedCopy(insertionOrder);
+    }
+
+    @Override
+    public Set<Integer> create(Object... elements) {
+      ImmutableRangeSet.Builder<Integer> builder = ImmutableRangeSet.builder();
+      for (Object o : elements) {
+        Integer i = (Integer) o;
+        builder.add(Range.singleton(i));
+      }
+      return builder.build().asSet(DiscreteDomains.integers());
+    }
+  }
+
+  static final class ImmutableRangeSetBigIntegerAsSetGenerator
+      implements TestSetGenerator<BigInteger> {
+    @Override
+    public SampleElements<BigInteger> samples() {
+      return new SampleElements<BigInteger>(
+          BigInteger.valueOf(1),
+          BigInteger.valueOf(4),
+          BigInteger.valueOf(3),
+          BigInteger.valueOf(2),
+          BigInteger.valueOf(5));
+    }
+
+    @Override
+    public BigInteger[] createArray(int length) {
+      return new BigInteger[length];
+    }
+
+    @Override
+    public Iterable<BigInteger> order(List<BigInteger> insertionOrder) {
+      return Ordering.natural().sortedCopy(insertionOrder);
+    }
+
+    @Override
+    public Set<BigInteger> create(Object... elements) {
+      ImmutableRangeSet.Builder<BigInteger> builder = ImmutableRangeSet.builder();
+      for (Object o : elements) {
+        BigInteger i = (BigInteger) o;
+        builder.add(Range.closedOpen(i, i.add(BigInteger.ONE)));
+      }
+      return builder.build().asSet(DiscreteDomains.bigIntegers());
+    }
+  }
+
+  public static Test suite() {
+    TestSuite suite = new TestSuite();
+    suite.addTestSuite(ImmutableRangeSetTest.class);
+    suite.addTest(NavigableSetTestSuiteBuilder.using(new ImmutableRangeSetIntegerAsSetGenerator())
+        .named("ImmutableRangeSet.asSet[DiscreteDomains.integers[]]")
+        .withFeatures(
+            CollectionSize.ANY,
+            CollectionFeature.REJECTS_DUPLICATES_AT_CREATION,
+            CollectionFeature.ALLOWS_NULL_QUERIES,
+            CollectionFeature.KNOWN_ORDER,
+            CollectionFeature.NON_STANDARD_TOSTRING,
+            CollectionFeature.SERIALIZABLE)
+        .createTestSuite());
+
+    suite.addTest(NavigableSetTestSuiteBuilder.using(
+          new ImmutableRangeSetBigIntegerAsSetGenerator())
+        .named("ImmutableRangeSet.asSet[DiscreteDomains.bigIntegers[]]")
+        .withFeatures(
+            CollectionSize.ANY,
+            CollectionFeature.REJECTS_DUPLICATES_AT_CREATION,
+            CollectionFeature.ALLOWS_NULL_QUERIES,
+            CollectionFeature.KNOWN_ORDER,
+            CollectionFeature.NON_STANDARD_TOSTRING,
+            CollectionFeature.SERIALIZABLE)
+        .createTestSuite());
+    return suite;
+  }
+
   public void testEmpty() {
     ImmutableRangeSet<Integer> rangeSet = ImmutableRangeSet.of();
 
@@ -265,6 +363,80 @@ public class ImmutableRangeSetTest extends AbstractRangeSetTest {
       }
 
       SerializableTester.reserializeAndAssert(built);
+    }
+  }
+
+  public void testAsSet() {
+    ImmutableRangeSet<Integer> rangeSet = ImmutableRangeSet.<Integer>builder()
+        .add(Range.closed(2, 4))
+        .add(Range.open(6, 7))
+        .add(Range.closedOpen(8, 10))
+        .add(Range.openClosed(15, 17))
+        .build();
+    ImmutableSortedSet<Integer> expectedSet = ImmutableSortedSet.of(2, 3, 4, 8, 9, 16, 17);
+    ImmutableSortedSet<Integer> asSet = rangeSet.asSet(DiscreteDomains.integers());
+    assertEquals(expectedSet, asSet);
+    ASSERT.that(asSet).hasContentsInOrder(expectedSet.toArray());
+    assertTrue(asSet.containsAll(expectedSet));
+    SerializableTester.reserializeAndAssert(asSet);
+  }
+
+  public void testHeadSet() {
+    ImmutableRangeSet<Integer> rangeSet = ImmutableRangeSet.<Integer>builder()
+        .add(Range.closed(2, 4))
+        .add(Range.open(6, 7))
+        .add(Range.closedOpen(8, 10))
+        .add(Range.openClosed(15, 17))
+        .build();
+
+    ImmutableSortedSet<Integer> expectedSet = ImmutableSortedSet.of(2, 3, 4, 8, 9, 16, 17);
+    ImmutableSortedSet<Integer> asSet = rangeSet.asSet(DiscreteDomains.integers());
+
+    for (int i = 0; i <= 20; i++) {
+      assertEquals(asSet.headSet(i, false), expectedSet.headSet(i, false));
+      assertEquals(asSet.headSet(i, true), expectedSet.headSet(i, true));
+    }
+  }
+
+  public void testTailSet() {
+    ImmutableRangeSet<Integer> rangeSet = ImmutableRangeSet.<Integer>builder()
+        .add(Range.closed(2, 4))
+        .add(Range.open(6, 7))
+        .add(Range.closedOpen(8, 10))
+        .add(Range.openClosed(15, 17))
+        .build();
+
+    ImmutableSortedSet<Integer> expectedSet = ImmutableSortedSet.of(2, 3, 4, 8, 9, 16, 17);
+    ImmutableSortedSet<Integer> asSet = rangeSet.asSet(DiscreteDomains.integers());
+
+    for (int i = 0; i <= 20; i++) {
+      assertEquals(asSet.tailSet(i, false), expectedSet.tailSet(i, false));
+      assertEquals(asSet.tailSet(i, true), expectedSet.tailSet(i, true));
+    }
+  }
+
+  public void testSubSet() {
+    ImmutableRangeSet<Integer> rangeSet = ImmutableRangeSet.<Integer>builder()
+        .add(Range.closed(2, 4))
+        .add(Range.open(6, 7))
+        .add(Range.closedOpen(8, 10))
+        .add(Range.openClosed(15, 17))
+        .build();
+
+    ImmutableSortedSet<Integer> expectedSet = ImmutableSortedSet.of(2, 3, 4, 8, 9, 16, 17);
+    ImmutableSortedSet<Integer> asSet = rangeSet.asSet(DiscreteDomains.integers());
+
+    for (int i = 0; i <= 20; i++) {
+      for (int j = i + 1; j <= 20; j++) {
+        assertEquals(expectedSet.subSet(i, false, j, false),
+            asSet.subSet(i, false, j, false));
+        assertEquals(expectedSet.subSet(i, true, j, false),
+            asSet.subSet(i, true, j, false));
+        assertEquals(expectedSet.subSet(i, false, j, true),
+            asSet.subSet(i, false, j, true));
+        assertEquals(expectedSet.subSet(i, true, j, true),
+            asSet.subSet(i, true, j, true));
+      }
     }
   }
 }

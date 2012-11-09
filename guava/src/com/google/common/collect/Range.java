@@ -130,6 +130,18 @@ public final class Range<C extends Comparable> implements Predicate<C>, Serializ
     return (Function) LOWER_BOUND_FN;
   }
 
+  private static final Function<Range, Cut> UPPER_BOUND_FN = new Function<Range, Cut>() {
+    @Override
+    public Cut apply(Range range) {
+      return range.upperBound;
+    }
+  };
+
+  @SuppressWarnings("unchecked")
+  static <C extends Comparable<?>> Function<Range<C>, Cut<C>> upperBoundFn() {
+    return (Function) UPPER_BOUND_FN;
+  }
+
   static final Ordering<Range<?>> RANGE_LEX_ORDERING = new Ordering<Range<?>>() {
     @Override
     public int compare(Range<?> left, Range<?> right) {
