@@ -41,6 +41,7 @@ public class InternersBenchmark extends SimpleBenchmark {
     return reps;
   }
   
+  @SuppressWarnings("ReturnValueIgnored")
   public int timeStringIntern(int reps) {
     for (int i = 0; i < reps; i++) {
       Double.toHexString(Math.random()).intern();
