@@ -42,8 +42,7 @@ enum BloomFilterStrategies implements BloomFilter.Strategy {
   MURMUR128_MITZ_32() {
     @Override public <T> boolean put(T object, Funnel<? super T> funnel,
         int numHashFunctions, BitArray bits) {
-      // TODO(user): when the murmur's shortcuts are implemented, update this code
-      long hash64 = Hashing.murmur3_128().newHasher().putObject(object, funnel).hash().asLong();
+      long hash64 = Hashing.murmur3_128().hashObject(object, funnel).asLong();
       int hash1 = (int) hash64;
       int hash2 = (int) (hash64 >>> 32);
       boolean bitsChanged = false;
@@ -59,7 +58,7 @@ enum BloomFilterStrategies implements BloomFilter.Strategy {
 
     @Override public <T> boolean mightContain(T object, Funnel<? super T> funnel,
         int numHashFunctions, BitArray bits) {
-      long hash64 = Hashing.murmur3_128().newHasher().putObject(object, funnel).hash().asLong();
+      long hash64 = Hashing.murmur3_128().hashObject(object, funnel).asLong();
       int hash1 = (int) hash64;
       int hash2 = (int) (hash64 >>> 32);
       for (int i = 1; i <= numHashFunctions; i++) {

@@ -417,8 +417,8 @@ final class HashTestUtils {
     Set<HashCode> hashcodes = Sets.newHashSetWithExpectedSize(objects);
     for (int i = 0; i < objects; i++) {
       Object o = new Object();
-      HashCode hashcode1 = hashFunction.newHasher().putObject(o, HashTestUtils.BAD_FUNNEL).hash();
-      HashCode hashcode2 = hashFunction.newHasher().putObject(o, HashTestUtils.BAD_FUNNEL).hash();
+      HashCode hashcode1 = hashFunction.hashObject(o, HashTestUtils.BAD_FUNNEL);
+      HashCode hashcode2 = hashFunction.hashObject(o, HashTestUtils.BAD_FUNNEL);
       Assert.assertEquals(hashcode1, hashcode2); // idempotent
       Assert.assertEquals(hashFunction.bits(), hashcode1.bits());
       Assert.assertEquals(hashFunction.bits(), hashcode1.asBytes().length * 8);
