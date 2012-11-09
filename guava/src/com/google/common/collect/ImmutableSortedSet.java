@@ -396,7 +396,7 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSortedSetFauxveride
    */
   public static <E> ImmutableSortedSet<E> copyOfSorted(SortedSet<E> sortedSet) {
     Comparator<? super E> comparator = SortedIterables.comparator(sortedSet);
-    E[] elements = (E[]) sortedSet.toArray();
+    Object[] elements = sortedSet.toArray();
     if (elements.length == 0) {
       return emptySet(comparator);
     } else {
