@@ -750,6 +750,7 @@ public class ListsTest extends TestCase {
     ListIterator<Integer> sampleListIterator =
         SOME_SEQUENTIAL_LIST.listIterator();
     List<Integer> listMock = EasyMock.createMock(IntegerList.class);
+    EasyMock.expect(listMock.size()).andReturn(SOME_SEQUENTIAL_LIST.size());
     EasyMock.expect(listMock.listIterator(0)).andReturn(sampleListIterator);
     EasyMock.replay(listMock);
     List<String> transform = Lists.transform(listMock, SOME_FUNCTION);

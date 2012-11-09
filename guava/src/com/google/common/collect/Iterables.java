@@ -248,6 +248,13 @@ public final class Iterables {
    */
   public static boolean elementsEqual(
       Iterable<?> iterable1, Iterable<?> iterable2) {
+    if (iterable1 instanceof Collection && iterable2 instanceof Collection) {
+      Collection<?> collection1 = (Collection<?>) iterable1;
+      Collection<?> collection2 = (Collection<?>) iterable2;
+      if (collection1.size() != collection2.size()) {
+        return false;
+      }
+    }
     return Iterators.elementsEqual(iterable1.iterator(), iterable2.iterator());
   }
 
