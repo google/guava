@@ -39,7 +39,7 @@ import java.util.SortedMap;
  */
 public class NavigableMapTestSuiteBuilder<K, V> extends SortedMapTestSuiteBuilder<K, V> {
   public static <K, V> NavigableMapTestSuiteBuilder<K, V> using(
-      TestMapGenerator<K, V> generator) {
+      TestSortedMapGenerator<K, V> generator) {
     NavigableMapTestSuiteBuilder<K, V> result = new NavigableMapTestSuiteBuilder<K, V>();
     result.usingGenerator(generator);
     return result;
@@ -80,7 +80,7 @@ public class NavigableMapTestSuiteBuilder<K, V> extends SortedMapTestSuiteBuilde
   public static final class NavigableMapSubmapTestMapGenerator<K, V>
       extends SortedMapSubmapTestMapGenerator<K, V> {
     public NavigableMapSubmapTestMapGenerator(
-        TestMapGenerator<K, V> delegate, Bound to, Bound from) {
+        TestSortedMapGenerator<K, V> delegate, Bound to, Bound from) {
       super(delegate, to, from);
     }
 
@@ -105,7 +105,7 @@ public class NavigableMapTestSuiteBuilder<K, V> extends SortedMapTestSuiteBuilde
 
   @Override
   public NavigableMapTestSuiteBuilder<K, V> newBuilderUsing(
-      TestMapGenerator<K, V> delegate, Bound to, Bound from) {
+      TestSortedMapGenerator<K, V> delegate, Bound to, Bound from) {
     return using(new NavigableMapSubmapTestMapGenerator<K, V>(delegate, to, from));
   }
 

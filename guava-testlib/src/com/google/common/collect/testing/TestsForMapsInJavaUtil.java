@@ -33,6 +33,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.SortedMap;
 import java.util.TreeMap;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentSkipListMap;
@@ -172,7 +173,7 @@ public class TestsForMapsInJavaUtil {
   public Test testsForTreeMapNatural() {
     return NavigableMapTestSuiteBuilder
         .using(new TestStringSortedMapGenerator() {
-            @Override protected Map<String, String> create(
+            @Override protected SortedMap<String, String> create(
                 Entry<String, String>[] entries) {
               /*
                * TODO(cpovirk): it would be nice to create an input Map and use
@@ -196,7 +197,7 @@ public class TestsForMapsInJavaUtil {
   public Test testsForTreeMapWithComparator() {
     return NavigableMapTestSuiteBuilder
         .using(new TestStringSortedMapGenerator() {
-            @Override protected Map<String, String> create(
+            @Override protected SortedMap<String, String> create(
                 Entry<String, String>[] entries) {
               return populate(new TreeMap<String, String>(
                   arbitraryNullFriendlyComparator()), entries);
@@ -238,7 +239,7 @@ public class TestsForMapsInJavaUtil {
 
   public Test testsForConcurrentHashMap() {
     return MapTestSuiteBuilder
-        .using(new TestStringSortedMapGenerator() {
+        .using(new TestStringMapGenerator() {
           @Override protected Map<String, String> create(
               Entry<String, String>[] entries) {
             return populate(new ConcurrentHashMap<String, String>(), entries);
@@ -256,7 +257,7 @@ public class TestsForMapsInJavaUtil {
   public Test testsForConcurrentSkipListMapNatural() {
     return NavigableMapTestSuiteBuilder
         .using(new TestStringSortedMapGenerator() {
-          @Override protected Map<String, String> create(
+          @Override protected SortedMap<String, String> create(
               Entry<String, String>[] entries) {
             return populate(new ConcurrentSkipListMap<String, String>(), entries);
           }
@@ -274,7 +275,7 @@ public class TestsForMapsInJavaUtil {
   public Test testsForConcurrentSkipListMapWithComparator() {
     return NavigableMapTestSuiteBuilder
         .using(new TestStringSortedMapGenerator() {
-          @Override protected Map<String, String> create(
+          @Override protected SortedMap<String, String> create(
               Entry<String, String>[] entries) {
             return populate(new ConcurrentSkipListMap<String, String>(
                 arbitraryNullFriendlyComparator()), entries);
@@ -299,8 +300,8 @@ public class TestsForMapsInJavaUtil {
 
   // TODO: call conversion constructors or factory methods instead of using
   // populate() on an empty map
-  private static <T> Map<T, String> populate(
-      Map<T, String> map, Entry<T, String>[] entries) {
+  private static <T, M extends Map<T, String>> M populate(
+      M map, Entry<T, String>[] entries) {
     for (Entry<T, String> entry : entries) {
       map.put(entry.getKey(), entry.getValue());
     }

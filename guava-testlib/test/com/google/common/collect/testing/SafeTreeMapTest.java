@@ -49,7 +49,7 @@ public class SafeTreeMapTest extends TestCase {
     suite.addTestSuite(SafeTreeMapTest.class);
     suite.addTest(
         NavigableMapTestSuiteBuilder.using(new TestStringSortedMapGenerator() {
-          @Override protected Map<String, String> create(
+          @Override protected SortedMap<String, String> create(
               Entry<String, String>[] entries) {
             NavigableMap<String, String> map =
                 new SafeTreeMap<String, String>(Ordering.natural());
@@ -62,7 +62,7 @@ public class SafeTreeMapTest extends TestCase {
             MapFeature.ALLOWS_NULL_VALUES, MapFeature.GENERAL_PURPOSE).named(
             "SafeTreeMap with natural comparator").createTestSuite());
     suite.addTest(NavigableMapTestSuiteBuilder.using(new TestStringSortedMapGenerator() {
-      @Override protected Map<String, String> create(
+      @Override protected SortedMap<String, String> create(
           Entry<String, String>[] entries) {
         NavigableMap<String, String> map =
             new SafeTreeMap<String, String>(NullsBeforeTwo.INSTANCE);

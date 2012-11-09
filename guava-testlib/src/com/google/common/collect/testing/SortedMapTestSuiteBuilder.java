@@ -30,7 +30,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
-import java.util.SortedMap;
 import java.util.SortedSet;
 
 /**
@@ -39,7 +38,7 @@ import java.util.SortedSet;
  */
 public class SortedMapTestSuiteBuilder<K, V> extends MapTestSuiteBuilder<K, V> {
   public static <K, V> SortedMapTestSuiteBuilder<K, V> using(
-      TestMapGenerator<K, V> generator) {
+      TestSortedMapGenerator<K, V> generator) {
     SortedMapTestSuiteBuilder<K, V> result = new SortedMapTestSuiteBuilder<K, V>();
     result.usingGenerator(generator);
     return result;
@@ -110,8 +109,8 @@ public class SortedMapTestSuiteBuilder<K, V> extends MapTestSuiteBuilder<K, V> {
   final TestSuite createSubmapSuite(final FeatureSpecificTestSuiteBuilder<?,
           ? extends OneSizeTestContainerGenerator<Map<K, V>, Entry<K, V>>>
           parentBuilder, final Bound from, final Bound to) {
-    final TestMapGenerator<K, V> delegate
-        = (TestMapGenerator<K, V>) parentBuilder.getSubjectGenerator().getInnerGenerator();
+    final TestSortedMapGenerator<K, V> delegate
+        = (TestSortedMapGenerator<K, V>) parentBuilder.getSubjectGenerator().getInnerGenerator();
 
     List<Feature<?>> features = new ArrayList<Feature<?>>();
     features.add(NoRecurse.SUBMAP);
@@ -126,7 +125,7 @@ public class SortedMapTestSuiteBuilder<K, V> extends MapTestSuiteBuilder<K, V> {
 
   /** Like using() but overrideable by NavigableMapTestSuiteBuilder. */
   SortedMapTestSuiteBuilder<K, V> newBuilderUsing(
-      TestMapGenerator<K, V> delegate, Bound to, Bound from) {
+      TestSortedMapGenerator<K, V> delegate, Bound to, Bound from) {
     return using(new SortedMapSubmapTestMapGenerator<K, V>(delegate, to, from));
   }
 }

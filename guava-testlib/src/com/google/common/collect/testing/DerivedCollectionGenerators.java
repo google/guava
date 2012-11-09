@@ -22,7 +22,6 @@ import static com.google.common.collect.testing.Helpers.mapEntry;
 import static java.util.Collections.sort;
 
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.collect.testing.DerivedCollectionGenerators.SortedMapSubmapTestMapGenerator;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -213,7 +212,8 @@ public final class DerivedCollectionGenerators {
     @Override
     public Iterable<V> order(List<V> insertionOrder) {
       final List<Entry<K, V>> orderedEntries =
-          castOrCopyToList(mapGenerator.order(castOrCopyToList(mapGenerator.getSampleElements(5))));
+          castOrCopyToList(mapGenerator.order(castOrCopyToList(
+              mapGenerator.getSampleElements(5))));
       sort(insertionOrder, new Comparator<V>() {
         @Override public int compare(V left, V right) {
           // The indexes are small enough for the subtraction trick to be safe.
@@ -290,19 +290,20 @@ public final class DerivedCollectionGenerators {
    * exposes as many getters, does work in the constructor, and has both a superclass and a subclass
    */
   public static class SortedMapSubmapTestMapGenerator<K, V>
-      extends ForwardingTestMapGenerator<K, V> {
+      extends ForwardingTestMapGenerator<K, V> implements TestSortedMapGenerator<K, V> {
     final Bound to;
     final Bound from;
     final K firstInclusive;
     final K lastInclusive;
     private final Comparator<Entry<K, V>> entryComparator;
 
-    public SortedMapSubmapTestMapGenerator(TestMapGenerator<K, V> delegate, Bound to, Bound from) {
+    public SortedMapSubmapTestMapGenerator(
+        TestSortedMapGenerator<K, V> delegate, Bound to, Bound from) {
       super(delegate);
       this.to = to;
       this.from = from;
 
-      SortedMap<K, V> emptyMap = (SortedMap<K, V>) delegate.create();
+      SortedMap<K, V> emptyMap = delegate.create();
       this.entryComparator = Helpers.entryComparator(emptyMap.comparator());
 
       // derive values for inclusive filtering from the input samples
@@ -315,23 +316,21 @@ public final class DerivedCollectionGenerators {
       this.lastInclusive = samplesList.get(samplesList.size() - 1).getKey();
     }
 
-    @Override public Map<K, V> create(Object... entries) {
-      @SuppressWarnings("unchecked") // we dangerously assume K and V are both strings
-      List<Entry<K, V>> extremeValues = (List) getExtremeValues();
+    @Override public SortedMap<K, V> create(Object... entries) {
       @SuppressWarnings("unchecked") // map generators must past entry objects
       List<Entry<K, V>> normalValues = (List) Arrays.asList(entries);
+      List<Entry<K, V>> extremeValues = new ArrayList<Entry<K, V>>();
 
       // prepare extreme values to be filtered out of view
-      Collections.sort(extremeValues, entryComparator);
-      K firstExclusive = extremeValues.get(1).getKey();
-      K lastExclusive = extremeValues.get(2).getKey();
-      if (from == Bound.NO_BOUND) {
-        extremeValues.remove(0);
-        extremeValues.remove(0);
+      K firstExclusive = getInnerGenerator().belowSamplesGreater().getKey();
+      K lastExclusive = getInnerGenerator().aboveSamplesLesser().getKey();
+      if (from != Bound.NO_BOUND) {
+        extremeValues.add(getInnerGenerator().belowSamplesLesser());
+        extremeValues.add(getInnerGenerator().belowSamplesGreater());
       }
-      if (to == Bound.NO_BOUND) {
-        extremeValues.remove(extremeValues.size() - 1);
-        extremeValues.remove(extremeValues.size() - 1);
+      if (to != Bound.NO_BOUND) {
+        extremeValues.add(getInnerGenerator().aboveSamplesLesser());
+        extremeValues.add(getInnerGenerator().aboveSamplesGreater());
       }
 
       // the regular values should be visible after filtering
@@ -349,7 +348,7 @@ public final class DerivedCollectionGenerators {
      * Calls the smallest subMap overload that filters out the extreme values. This method is
      * overridden in NavigableMapTestSuiteBuilder.
      */
-    Map<K, V> createSubMap(SortedMap<K, V> map, K firstExclusive, K lastExclusive) {
+    SortedMap<K, V> createSubMap(SortedMap<K, V> map, K firstExclusive, K lastExclusive) {
       if (from == Bound.NO_BOUND && to == Bound.EXCLUSIVE) {
         return map.headMap(lastExclusive);
       } else if (from == Bound.INCLUSIVE && to == Bound.NO_BOUND) {
@@ -369,26 +368,33 @@ public final class DerivedCollectionGenerators {
       return from;
     }
 
-    public final TestMapGenerator<K, V> getInnerGenerator() {
-      return delegate;
+    public final TestSortedMapGenerator<K, V> getInnerGenerator() {
+      return (TestSortedMapGenerator<K, V>) delegate;
     }
-  }
 
-  /**
-   * Returns an array of four bogus elements that will always be too high or
-   * too low for the display. This includes two values for each extreme.
-   *
-   * <p>This method (dangerously) assume that the strings {@code "!! a"} and
-   * {@code "~~ z"} will work for this purpose, which may cause problems for
-   * navigable maps with non-string or unicode generators.
-   */
-  private static List<Entry<String, String>> getExtremeValues() {
-    List<Entry<String, String>> result = new ArrayList<Entry<String, String>>();
-    result.add(Helpers.mapEntry("!! a", "below view"));
-    result.add(Helpers.mapEntry("!! b", "below view"));
-    result.add(Helpers.mapEntry("~~ y", "above view"));
-    result.add(Helpers.mapEntry("~~ z", "above view"));
-    return result;
+    @Override
+    public Entry<K, V> belowSamplesLesser() {
+      // should never reach here!
+      throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Entry<K, V> belowSamplesGreater() {
+      // should never reach here!
+      throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Entry<K, V> aboveSamplesLesser() {
+      // should never reach here!
+      throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Entry<K, V> aboveSamplesGreater() {
+      // should never reach here!
+      throw new UnsupportedOperationException();
+    }
   }
 
   private DerivedCollectionGenerators() {}

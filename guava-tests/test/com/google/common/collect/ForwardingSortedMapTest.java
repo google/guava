@@ -116,7 +116,7 @@ public class ForwardingSortedMapTest extends ForwardingMapTest {
 
     suite.addTestSuite(ForwardingSortedMapTest.class);
     suite.addTest(SortedMapTestSuiteBuilder.using(new TestStringSortedMapGenerator() {
-      @Override protected Map<String, String> create(
+      @Override protected SortedMap<String, String> create(
           Entry<String, String>[] entries) {
         SortedMap<String, String> map = new SafeTreeMap<String, String>();
         for (Entry<String, String> entry : entries) {
@@ -131,7 +131,7 @@ public class ForwardingSortedMapTest extends ForwardingMapTest {
     suite.addTest(SortedMapTestSuiteBuilder.using(new TestStringSortedMapGenerator() {
       private final Comparator<String> comparator = NullsBeforeTwo.INSTANCE;
 
-      @Override protected Map<String, String> create(
+      @Override protected SortedMap<String, String> create(
           Entry<String, String>[] entries) {
         SortedMap<String, String> map =
             new SafeTreeMap<String, String>(comparator);
@@ -146,7 +146,7 @@ public class ForwardingSortedMapTest extends ForwardingMapTest {
         MapFeature.ALLOWS_NULL_KEYS, MapFeature.GENERAL_PURPOSE)
         .createTestSuite());
     suite.addTest(SortedMapTestSuiteBuilder.using(new TestStringSortedMapGenerator() {
-      @Override protected Map<String, String> create(
+      @Override protected SortedMap<String, String> create(
           Entry<String, String>[] entries) {
         ImmutableSortedMap.Builder<String, String> builder =
             ImmutableSortedMap.naturalOrder();

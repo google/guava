@@ -236,7 +236,7 @@ public class ForwardingNavigableMapTest extends ForwardingSortedMapTest {
 
     suite.addTestSuite(ForwardingNavigableMapTest.class);
     suite.addTest(NavigableMapTestSuiteBuilder.using(new TestStringSortedMapGenerator() {
-      @Override protected Map<String, String> create(
+      @Override protected SortedMap<String, String> create(
           Entry<String, String>[] entries) {
         NavigableMap<String, String> map = new SafeTreeMap<String, String>();
         for (Entry<String, String> entry : entries) {

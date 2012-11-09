@@ -52,7 +52,7 @@ public class TreeBasedTableTest extends AbstractTableTest {
     suite.addTestSuite(TreeRowTest.class);
     suite.addTest(SortedMapTestSuiteBuilder
         .using(new TestStringSortedMapGenerator() {
-          @Override protected Map<String, String> create(
+          @Override protected SortedMap<String, String> create(
               Entry<String, String>[] entries) {
             TreeBasedTable<String, String, String> table =
                 TreeBasedTable.create();

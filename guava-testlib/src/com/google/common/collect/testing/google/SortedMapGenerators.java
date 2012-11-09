@@ -28,8 +28,8 @@ import com.google.common.collect.testing.TestStringListGenerator;
 import com.google.common.collect.testing.TestStringSortedMapGenerator;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Map.Entry;
+import java.util.SortedMap;
 
 /**
  * Generators of sorted maps and derived collections.
@@ -44,7 +44,7 @@ import java.util.Map.Entry;
 @GwtCompatible
 public class SortedMapGenerators {
   public static class ImmutableSortedMapGenerator extends TestStringSortedMapGenerator {
-    @Override public Map<String, String> create(Entry<String, String>[] entries) {
+    @Override public SortedMap<String, String> create(Entry<String, String>[] entries) {
       ImmutableSortedMap.Builder<String, String> builder = ImmutableSortedMap.naturalOrder();
       for (Entry<String, String> entry : entries) {
         checkNotNull(entry);

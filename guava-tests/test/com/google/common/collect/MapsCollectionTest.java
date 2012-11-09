@@ -60,7 +60,7 @@ public class MapsCollectionTest extends TestCase {
     suite.addTest(NavigableMapTestSuiteBuilder
         .using(new TestStringSortedMapGenerator() {
           @Override
-          protected Map<String, String> create(Entry<String, String>[] entries) {
+          protected SortedMap<String, String> create(Entry<String, String>[] entries) {
             SafeTreeMap<String, String> map = new SafeTreeMap<String, String>();
             for (Entry<String, String> entry : entries) {
               map.put(entry.getKey(), entry.getValue());
@@ -76,7 +76,7 @@ public class MapsCollectionTest extends TestCase {
         .using(new TestStringSortedMapGenerator() {
 
           @Override
-          protected Map<String, String> create(Entry<String, String>[] entries) {
+          protected SortedMap<String, String> create(Entry<String, String>[] entries) {
             SafeTreeMap<String, String> map = new SafeTreeMap<String, String>();
             for (Entry<String, String> entry : entries) {
               map.put(entry.getKey(), entry.getValue());

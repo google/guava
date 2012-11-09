@@ -48,7 +48,7 @@ public abstract class TestStringMapGenerator
   }
 
   @Override
-  public final Map<String, String> create(Object... entries) {
+  public Map<String, String> create(Object... entries) {
     @SuppressWarnings("unchecked")
     Entry<String, String>[] array = new Entry[entries.length];
     int i = 0;

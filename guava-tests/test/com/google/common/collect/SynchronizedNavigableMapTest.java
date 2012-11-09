@@ -31,7 +31,6 @@ import junit.framework.TestSuite;
 
 import java.io.Serializable;
 import java.util.Comparator;
-import java.util.Map;
 import java.util.Map.Entry;
 import java.util.NavigableMap;
 import java.util.NavigableSet;
@@ -233,7 +232,7 @@ public class SynchronizedNavigableMapTest extends SynchronizedMapTest {
         NavigableMapTestSuiteBuilder.using(new TestStringSortedMapGenerator() {
           private final Object mutex = new Integer(1);
 
-          @Override protected Map<String, String> create(
+          @Override protected SortedMap<String, String> create(
               Entry<String, String>[] entries) {
             NavigableMap<String, String> innermost =
                 new SafeTreeMap<String, String>();
