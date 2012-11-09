@@ -59,7 +59,7 @@ import java.util.TreeSet;
  * multimap. Concurrent read operations will work correctly. To allow concurrent
  * update operations, wrap your multimap with a call to {@link
  * Multimaps#synchronizedSortedSetMultimap}.
- * 
+ *
  * <p>See the Guava User Guide article on <a href=
  * "http://code.google.com/p/guava-libraries/wiki/NewCollectionTypesExplained#Multimap">
  * {@code Multimap}</a>.
@@ -145,6 +145,11 @@ public class TreeMultimap<K, V> extends AbstractSortedSetMultimap<K, V> {
   public Comparator<? super V> valueComparator() {
     return valueComparator;
   }
+
+  /* 
+   * In GWT, the following methods are not overridden, which gives the desired behavior anyway:
+   * they all use and return SortedSets instead of NavigableSets.
+   */
 
   /**
    * {@inheritDoc}

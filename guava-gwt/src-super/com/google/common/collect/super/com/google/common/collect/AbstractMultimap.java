@@ -20,7 +20,6 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.annotations.GwtIncompatible;
 
 import java.io.Serializable;
 import java.util.AbstractCollection;
@@ -34,7 +33,6 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.NavigableSet;
 import java.util.RandomAccess;
 import java.util.Set;
 import java.util.SortedMap;
@@ -745,81 +743,6 @@ abstract class AbstractMultimap<K, V> implements Multimap<K, V>, Serializable {
       return new WrappedSortedSet(
           getKey(), getSortedSetDelegate().tailSet(fromElement),
           (getAncestor() == null) ? this : getAncestor());
-    }
-  }
-
-  @GwtIncompatible("NavigableSet")
-  class WrappedNavigableSet extends WrappedSortedSet implements NavigableSet<V> {
-    WrappedNavigableSet(
-        @Nullable K key, NavigableSet<V> delegate, @Nullable WrappedCollection ancestor) {
-      super(key, delegate, ancestor);
-    }
-
-    @Override
-    NavigableSet<V> getSortedSetDelegate() {
-      return (NavigableSet<V>) super.getSortedSetDelegate();
-    }
-
-    @Override
-    public V lower(V v) {
-      return getSortedSetDelegate().lower(v);
-    }
-
-    @Override
-    public V floor(V v) {
-      return getSortedSetDelegate().floor(v);
-    }
-
-    @Override
-    public V ceiling(V v) {
-      return getSortedSetDelegate().ceiling(v);
-    }
-
-    @Override
-    public V higher(V v) {
-      return getSortedSetDelegate().higher(v);
-    }
-
-    @Override
-    public V pollFirst() {
-      return Iterators.pollNext(iterator());
-    }
-
-    @Override
-    public V pollLast() {
-      return Iterators.pollNext(descendingIterator());
-    }
-
-    private NavigableSet<V> wrap(NavigableSet<V> wrapped) {
-      return new WrappedNavigableSet(key, wrapped,
-          (getAncestor() == null) ? this : getAncestor());
-    }
-
-    @Override
-    public NavigableSet<V> descendingSet() {
-      return wrap(getSortedSetDelegate().descendingSet());
-    }
-
-    @Override
-    public Iterator<V> descendingIterator() {
-      return new WrappedIterator(getSortedSetDelegate().descendingIterator());
-    }
-
-    @Override
-    public NavigableSet<V> subSet(
-        V fromElement, boolean fromInclusive, V toElement, boolean toInclusive) {
-      return wrap(
-          getSortedSetDelegate().subSet(fromElement, fromInclusive, toElement, toInclusive));
-    }
-
-    @Override
-    public NavigableSet<V> headSet(V toElement, boolean inclusive) {
-      return wrap(getSortedSetDelegate().headSet(toElement, inclusive));
-    }
-
-    @Override
-    public NavigableSet<V> tailSet(V fromElement, boolean inclusive) {
-      return wrap(getSortedSetDelegate().tailSet(fromElement, inclusive));
     }
   }
 

@@ -26,10 +26,13 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Collection;
 import java.util.Comparator;
+import java.util.NavigableSet;
 import java.util.SortedMap;
 import java.util.SortedSet;
 import java.util.TreeMap;
 import java.util.TreeSet;
+
+import javax.annotation.Nullable;
 
 /**
  * Implementation of {@code Multimap} whose keys and values are ordered by
@@ -63,7 +66,7 @@ import java.util.TreeSet;
  * multimap. Concurrent read operations will work correctly. To allow concurrent
  * update operations, wrap your multimap with a call to {@link
  * Multimaps#synchronizedSortedSetMultimap}.
- * 
+ *
  * <p>See the Guava User Guide article on <a href=
  * "http://code.google.com/p/guava-libraries/wiki/NewCollectionTypesExplained#Multimap">
  * {@code Multimap}</a>.
@@ -148,6 +151,32 @@ public class TreeMultimap<K, V> extends AbstractSortedSetMultimap<K, V> {
   @Override
   public Comparator<? super V> valueComparator() {
     return valueComparator;
+  }
+
+  /* 
+   * In GWT, the following methods are not overridden, which gives the desired behavior anyway:
+   * they all use and return SortedSets instead of NavigableSets.
+   */
+  
+  /**
+   * @since 14.0 (present with return type {@code SortedSet} since 2.0)
+   */
+  @Override
+  @GwtIncompatible("NavigableSet")
+  public NavigableSet<V> get(@Nullable K key) {
+    return (NavigableSet<V>) super.get(key);
+  }
+
+  @Override
+  @GwtIncompatible("NavigableSet")
+  Collection<V> unmodifiableCollectionSubclass(Collection<V> collection) {
+    return Sets.unmodifiableNavigableSet((NavigableSet<V>) collection);
+  }
+
+  @Override
+  @GwtIncompatible("NavigableSet")
+  Collection<V> wrapCollection(K key, Collection<V> collection) {
+    return new WrappedNavigableSet(key, (NavigableSet<V>) collection, null);
   }
 
   /**
