@@ -48,7 +48,7 @@ import java.util.SortedMap;
  * @author Jared Levy
  */
 @GwtCompatible(emulated = true)
-public class TreeMultimapNaturalTest<E> extends AbstractSetMultimapTest {
+public class TreeMultimapNaturalTest extends AbstractSetMultimapTest {
 
   @GwtIncompatible("suite")
   public static Test suite() {
@@ -229,7 +229,7 @@ public class TreeMultimapNaturalTest<E> extends AbstractSetMultimapTest {
    * results in natural ordering.
    */
   public void testCreateFromHashMultimap() {
-    Multimap<Double, Double> hash = HashMultimap.create();
+    Multimap<Double, Double> hash = TreeMultimap.create();
     hash.put(1.0, 2.0);
     hash.put(2.0, 3.0);
     hash.put(3.0, 4.0);

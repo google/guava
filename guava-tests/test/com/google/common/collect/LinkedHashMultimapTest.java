@@ -417,5 +417,4 @@ public class LinkedHashMultimapTest extends AbstractSetMultimapTest {
       }
     }.test();
   }
-
 }

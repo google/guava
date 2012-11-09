@@ -33,7 +33,7 @@ import java.util.Map.Entry;
  *
  * @author Jared Levy
  */
-@GwtCompatible
+@GwtCompatible(emulated = true)
 public class ImmutableMultimapTest extends TestCase {
 
   public void testBuilder_withImmutableEntry() {
