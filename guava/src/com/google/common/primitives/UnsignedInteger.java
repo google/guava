@@ -1,11 +1,11 @@
 /*
  * Copyright (C) 2011 The Guava Authors
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software distributed under the
  * License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
  * express or implied. See the License for the specific language governing permissions and
@@ -30,14 +30,14 @@ import javax.annotation.Nullable;
 
 /**
  * A wrapper class for unsigned {@code int} values, supporting arithmetic operations.
- * 
+ *
  * <p>In some cases, when speed is more important than code readability, it may be faster simply to
  * treat primitive {@code int} values as unsigned, using the methods from {@link UnsignedInts}.
- * 
+ *
  * <p>See the Guava User Guide article on <a href=
  * "http://code.google.com/p/guava-libraries/wiki/PrimitivesExplained#Unsigned_support">
  * unsigned primitive utilities</a>.
- * 
+ *
  * @author Louis Wasserman
  * @since 11.0
  */
@@ -60,7 +60,18 @@ public final class UnsignedInteger extends Number implements Comparable<Unsigned
    * equal to {@code value}.
    */
   public static UnsignedInteger asUnsigned(int value) {
-    return new UnsignedInteger(value);
+    // TODO(user): deprecate this
+    return fromIntBits(value);
+  }
+
+  /**
+   * Returns an {@code UnsignedInteger} corresponding to a given bit representation.
+   * The argument is interpreted as an unsigned 32-bit value.
+   *
+   * @since 14.0
+   */
+  public static UnsignedInteger fromIntBits(int bits) {
+    return new UnsignedInteger(bits);
   }
 
   /**
@@ -70,26 +81,26 @@ public final class UnsignedInteger extends Number implements Comparable<Unsigned
   public static UnsignedInteger valueOf(long value) {
     checkArgument((value & INT_MASK) == value,
         "value (%s) is outside the range for an unsigned integer value", value);
-    return asUnsigned((int) value);
+    return fromIntBits((int) value);
   }
 
   /**
    * Returns a {@code UnsignedInteger} representing the same value as the specified
    * {@link BigInteger}. This is the inverse operation of {@link #bigIntegerValue()}.
-   * 
+   *
    * @throws IllegalArgumentException if {@code value} is negative or {@code value >= 2^32}
    */
   public static UnsignedInteger valueOf(BigInteger value) {
     checkNotNull(value);
     checkArgument(value.signum() >= 0 && value.bitLength() <= Integer.SIZE,
         "value (%s) is outside the range for an unsigned integer value", value);
-    return asUnsigned(value.intValue());
+    return fromIntBits(value.intValue());
   }
 
   /**
    * Returns an {@code UnsignedInteger} holding the value of the specified {@code String}, parsed
    * as an unsigned {@code int} value.
-   * 
+   *
    * @throws NumberFormatException if the string does not contain a parsable unsigned {@code int}
    *         value
    */
@@ -100,12 +111,12 @@ public final class UnsignedInteger extends Number implements Comparable<Unsigned
   /**
    * Returns an {@code UnsignedInteger} holding the value of the specified {@code String}, parsed
    * as an unsigned {@code int} value in the specified radix.
-   * 
+   *
    * @throws NumberFormatException if the string does not contain a parsable unsigned {@code int}
    *         value
    */
   public static UnsignedInteger valueOf(String string, int radix) {
-    return asUnsigned(UnsignedInts.parseUnsignedInt(string, radix));
+    return fromIntBits(UnsignedInts.parseUnsignedInt(string, radix));
   }
 
   /**
@@ -113,8 +124,18 @@ public final class UnsignedInteger extends Number implements Comparable<Unsigned
    * returns the low 32 bits of the result.
    */
   public UnsignedInteger add(UnsignedInteger val) {
-    checkNotNull(val);
-    return asUnsigned(this.value + val.value);
+    // TODO(user): deprecate this
+    return plus(val);
+  }
+
+  /**
+   * Returns the result of adding this and {@code val}. If the result would have more than 32 bits,
+   * returns the low 32 bits of the result.
+   *
+   * @since 14.0
+   */
+  public UnsignedInteger plus(UnsignedInteger val) {
+    return fromIntBits(this.value + checkNotNull(val).value);
   }
 
   /**
@@ -122,40 +143,81 @@ public final class UnsignedInteger extends Number implements Comparable<Unsigned
    * returns the low 32 bits of the result.
    */
   public UnsignedInteger subtract(UnsignedInteger val) {
-    checkNotNull(val);
-    return asUnsigned(this.value - val.value);
+    // TODO(user): deprecate this
+    return minus(val);
+  }
+
+  /**
+   * Returns the result of subtracting this and {@code val}. If the result would be negative,
+   * returns the low 32 bits of the result.
+   *
+   * @since 14.0
+   */
+  public UnsignedInteger minus(UnsignedInteger val) {
+    return fromIntBits(value - checkNotNull(val).value);
   }
 
   /**
    * Returns the result of multiplying this and {@code val}. If the result would have more than 32
    * bits, returns the low 32 bits of the result.
    */
-  @GwtIncompatible("Does not truncate correctly")
   public UnsignedInteger multiply(UnsignedInteger val) {
-    checkNotNull(val);
-    return asUnsigned(value * val.value);
+    // TODO(user): deprecate this
+    return times(val);
+  }
+
+  /**
+   * Returns the result of multiplying this and {@code val}. If the result would have more than 32
+   * bits, returns the low 32 bits of the result.
+   *
+   * @since 14.0
+   */
+  @GwtIncompatible("Does not truncate correctly")
+  public UnsignedInteger times(UnsignedInteger val) {
+    // TODO(user): make this GWT-compatible
+    return fromIntBits(value * checkNotNull(val).value);
   }
 
   /**
    * Returns the result of dividing this by {@code val}.
    */
   public UnsignedInteger divide(UnsignedInteger val) {
-    checkNotNull(val);
-    return asUnsigned(UnsignedInts.divide(value, val.value));
+    // TODO(user): deprecate this
+    return dividedBy(val);
+  }
+
+  /**
+   * Returns the result of dividing this by {@code val}.
+   *
+   * @throws ArithmeticException if {@code val} is zero
+   * @since 14.0
+   */
+  public UnsignedInteger dividedBy(UnsignedInteger val) {
+    return fromIntBits(UnsignedInts.divide(value, checkNotNull(val).value));
   }
 
   /**
    * Returns the remainder of dividing this by {@code val}.
    */
   public UnsignedInteger remainder(UnsignedInteger val) {
-    checkNotNull(val);
-    return asUnsigned(UnsignedInts.remainder(value, val.value));
+    // TODO(user): deprecate this
+    return mod(val);
+  }
+
+  /**
+   * Returns this mod {@code val}.
+   *
+   * @throws ArithmeticException if {@code val} is zero
+   * @since 14.0
+   */
+  public UnsignedInteger mod(UnsignedInteger val) {
+    return fromIntBits(UnsignedInts.remainder(value, checkNotNull(val).value));
   }
 
   /**
    * Returns the value of this {@code UnsignedInteger} as an {@code int}. This is an inverse
-   * operation to {@link #asUnsigned}.
-   * 
+   * operation to {@link #fromIntBits}.
+   *
    * <p>Note that if this {@code UnsignedInteger} holds a value {@code >= 2^31}, the returned value
    * will be equal to {@code this - 2^32}.
    */

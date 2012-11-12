@@ -46,24 +46,24 @@ public class UnsignedIntegerTest extends TestCase {
     TEST_INTS = testIntsBuilder.build();
   }
 
-  public void testAsUnsignedAndIntValueAreInverses() {
+  public void testFromIntBitsAndIntValueAreInverses() {
     for (int value : TEST_INTS) {
-      assertEquals(UnsignedInts.toString(value), value, UnsignedInteger.asUnsigned(value)
+      assertEquals(UnsignedInts.toString(value), value, UnsignedInteger.fromIntBits(value)
           .intValue());
     }
   }
 
-  public void testAsUnsignedLongValue() {
+  public void testFromIntBitsLongValue() {
     for (int value : TEST_INTS) {
       long expected = value & 0xffffffffL;
-      assertEquals(UnsignedInts.toString(value), expected, UnsignedInteger.asUnsigned(value)
+      assertEquals(UnsignedInts.toString(value), expected, UnsignedInteger.fromIntBits(value)
           .longValue());
     }
   }
 
   public void testToString() {
     for (int value : TEST_INTS) {
-      UnsignedInteger unsignedValue = UnsignedInteger.asUnsigned(value);
+      UnsignedInteger unsignedValue = UnsignedInteger.fromIntBits(value);
       assertEquals(unsignedValue.bigIntegerValue().toString(), unsignedValue.toString());
     }
   }
@@ -72,7 +72,7 @@ public class UnsignedIntegerTest extends TestCase {
   public void testToStringRadix() {
     for (int radix = Character.MIN_RADIX; radix <= Character.MAX_RADIX; radix++) {
       for (int l : TEST_INTS) {
-        UnsignedInteger value = UnsignedInteger.asUnsigned(l);
+        UnsignedInteger value = UnsignedInteger.fromIntBits(l);
         assertEquals(value.bigIntegerValue().toString(radix), value.toString(radix));
       }
     }
@@ -82,7 +82,7 @@ public class UnsignedIntegerTest extends TestCase {
     int[] radices = {2, 3, 5, 7, 10, 12, 16, 21, 31, 36};
     for (int radix : radices) {
       for (int l : TEST_INTS) {
-        UnsignedInteger value = UnsignedInteger.asUnsigned(l);
+        UnsignedInteger value = UnsignedInteger.fromIntBits(l);
         assertEquals(value.bigIntegerValue().toString(radix), value.toString(radix));
       }
     }
@@ -90,66 +90,66 @@ public class UnsignedIntegerTest extends TestCase {
 
   public void testFloatValue() {
     for (int value : TEST_INTS) {
-      UnsignedInteger unsignedValue = UnsignedInteger.asUnsigned(value);
+      UnsignedInteger unsignedValue = UnsignedInteger.fromIntBits(value);
       assertEquals(unsignedValue.bigIntegerValue().floatValue(), unsignedValue.floatValue());
     }
   }
 
   public void testDoubleValue() {
     for (int value : TEST_INTS) {
-      UnsignedInteger unsignedValue = UnsignedInteger.asUnsigned(value);
+      UnsignedInteger unsignedValue = UnsignedInteger.fromIntBits(value);
       assertEquals(unsignedValue.bigIntegerValue().doubleValue(), unsignedValue.doubleValue());
     }
   }
 
-  public void testAdd() {
+  public void testPlus() {
     for (int a : TEST_INTS) {
       for (int b : TEST_INTS) {
-        UnsignedInteger aUnsigned = UnsignedInteger.asUnsigned(a);
-        UnsignedInteger bUnsigned = UnsignedInteger.asUnsigned(b);
+        UnsignedInteger aUnsigned = UnsignedInteger.fromIntBits(a);
+        UnsignedInteger bUnsigned = UnsignedInteger.fromIntBits(b);
         int expected = aUnsigned.bigIntegerValue().add(bUnsigned.bigIntegerValue()).intValue();
-        UnsignedInteger unsignedSum = aUnsigned.add(bUnsigned);
+        UnsignedInteger unsignedSum = aUnsigned.plus(bUnsigned);
         assertEquals(expected, unsignedSum.intValue());
       }
     }
   }
 
-  public void testSubtract() {
+  public void testMinus() {
     for (int a : TEST_INTS) {
       for (int b : TEST_INTS) {
-        UnsignedInteger aUnsigned = UnsignedInteger.asUnsigned(a);
-        UnsignedInteger bUnsigned = UnsignedInteger.asUnsigned(b);
+        UnsignedInteger aUnsigned = UnsignedInteger.fromIntBits(a);
+        UnsignedInteger bUnsigned = UnsignedInteger.fromIntBits(b);
         int expected =
             force32(aUnsigned.bigIntegerValue().subtract(bUnsigned.bigIntegerValue()).intValue());
-        UnsignedInteger unsignedSub = aUnsigned.subtract(bUnsigned);
+        UnsignedInteger unsignedSub = aUnsigned.minus(bUnsigned);
         assertEquals(expected, unsignedSub.intValue());
       }
     }
   }
 
   @GwtIncompatible("multiply")
-  public void testMultiply() {
+  public void testTimes() {
     for (int a : TEST_INTS) {
       for (int b : TEST_INTS) {
-        UnsignedInteger aUnsigned = UnsignedInteger.asUnsigned(a);
-        UnsignedInteger bUnsigned = UnsignedInteger.asUnsigned(b);
+        UnsignedInteger aUnsigned = UnsignedInteger.fromIntBits(a);
+        UnsignedInteger bUnsigned = UnsignedInteger.fromIntBits(b);
         int expected =
             force32(aUnsigned.bigIntegerValue().multiply(bUnsigned.bigIntegerValue()).intValue());
-        UnsignedInteger unsignedMul = aUnsigned.multiply(bUnsigned);
+        UnsignedInteger unsignedMul = aUnsigned.times(bUnsigned);
         assertEquals(aUnsigned + " * " + bUnsigned, expected, unsignedMul.intValue());
       }
     }
   }
 
-  public void testDivide() {
+  public void testDividedBy() {
     for (int a : TEST_INTS) {
       for (int b : TEST_INTS) {
         if (b != 0) {
-          UnsignedInteger aUnsigned = UnsignedInteger.asUnsigned(a);
-          UnsignedInteger bUnsigned = UnsignedInteger.asUnsigned(b);
+          UnsignedInteger aUnsigned = UnsignedInteger.fromIntBits(a);
+          UnsignedInteger bUnsigned = UnsignedInteger.fromIntBits(b);
           int expected =
               aUnsigned.bigIntegerValue().divide(bUnsigned.bigIntegerValue()).intValue();
-          UnsignedInteger unsignedDiv = aUnsigned.divide(bUnsigned);
+          UnsignedInteger unsignedDiv = aUnsigned.dividedBy(bUnsigned);
           assertEquals(expected, unsignedDiv.intValue());
         }
       }
@@ -159,31 +159,31 @@ public class UnsignedIntegerTest extends TestCase {
   public void testDivideByZeroThrows() {
     for (int a : TEST_INTS) {
       try {
-        UnsignedInteger.asUnsigned(a).divide(UnsignedInteger.ZERO);
+        UnsignedInteger.fromIntBits(a).divide(UnsignedInteger.ZERO);
         fail("Expected ArithmeticException");
       } catch (ArithmeticException expected) {}
     }
   }
 
-  public void testRemainder() {
+  public void testMod() {
     for (int a : TEST_INTS) {
       for (int b : TEST_INTS) {
         if (b != 0) {
-          UnsignedInteger aUnsigned = UnsignedInteger.asUnsigned(a);
-          UnsignedInteger bUnsigned = UnsignedInteger.asUnsigned(b);
+          UnsignedInteger aUnsigned = UnsignedInteger.fromIntBits(a);
+          UnsignedInteger bUnsigned = UnsignedInteger.fromIntBits(b);
           int expected =
-              aUnsigned.bigIntegerValue().remainder(bUnsigned.bigIntegerValue()).intValue();
-          UnsignedInteger unsignedRem = aUnsigned.remainder(bUnsigned);
+              aUnsigned.bigIntegerValue().mod(bUnsigned.bigIntegerValue()).intValue();
+          UnsignedInteger unsignedRem = aUnsigned.mod(bUnsigned);
           assertEquals(expected, unsignedRem.intValue());
         }
       }
     }
   }
 
-  public void testRemainderByZero() {
+  public void testModByZero() {
     for (int a : TEST_INTS) {
       try {
-        UnsignedInteger.asUnsigned(a).remainder(UnsignedInteger.ZERO);
+        UnsignedInteger.fromIntBits(a).mod(UnsignedInteger.ZERO);
         fail("Expected ArithmeticException");
       } catch (ArithmeticException expected) {}
     }
@@ -192,8 +192,8 @@ public class UnsignedIntegerTest extends TestCase {
   public void testCompare() {
     for (int a : TEST_INTS) {
       for (int b : TEST_INTS) {
-        UnsignedInteger aUnsigned = UnsignedInteger.asUnsigned(a);
-        UnsignedInteger bUnsigned = UnsignedInteger.asUnsigned(b);
+        UnsignedInteger aUnsigned = UnsignedInteger.fromIntBits(a);
+        UnsignedInteger bUnsigned = UnsignedInteger.fromIntBits(b);
         assertEquals(aUnsigned.bigIntegerValue().compareTo(bUnsigned.bigIntegerValue()),
             aUnsigned.compareTo(bUnsigned));
       }
@@ -205,7 +205,7 @@ public class UnsignedIntegerTest extends TestCase {
     EqualsTester equalsTester = new EqualsTester();
     for (int a : TEST_INTS) {
       long value = a & 0xffffffffL;
-      equalsTester.addEqualityGroup(UnsignedInteger.asUnsigned(a), UnsignedInteger.valueOf(value),
+      equalsTester.addEqualityGroup(UnsignedInteger.fromIntBits(a), UnsignedInteger.valueOf(value),
           UnsignedInteger.valueOf(Long.toString(value)),
           UnsignedInteger.valueOf(Long.toString(value, 16), 16));
     }
@@ -214,7 +214,7 @@ public class UnsignedIntegerTest extends TestCase {
 
   public void testIntValue() {
     for (int a : TEST_INTS) {
-      UnsignedInteger aUnsigned = UnsignedInteger.asUnsigned(a);
+      UnsignedInteger aUnsigned = UnsignedInteger.fromIntBits(a);
       int intValue = aUnsigned.bigIntegerValue().intValue();
       assertEquals(intValue, aUnsigned.intValue());
     }
@@ -223,7 +223,7 @@ public class UnsignedIntegerTest extends TestCase {
   @GwtIncompatible("serialization")
   public void testSerialization() {
     for (int a : TEST_INTS) {
-      SerializableTester.reserializeAndAssert(UnsignedInteger.asUnsigned(a));
+      SerializableTester.reserializeAndAssert(UnsignedInteger.fromIntBits(a));
     }
   }
 
