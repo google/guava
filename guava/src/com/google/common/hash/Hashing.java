@@ -181,17 +181,6 @@ public final class Hashing {
   private static final HashFunction SHA_512 = new MessageDigestHashFunction("SHA-512");
 
   /**
-   * Returns a hash function implementing the CRC-8 checksum algorithm (4 hash bits).
-   *
-   * @since 14.0
-   */
-  public static HashFunction crc8() {
-    return CRC_8;
-  }
-
-  private static final HashFunction CRC_8 = new Crc8HashFunction();
-
-  /**
    * Returns a hash function implementing the CRC-32 checksum algorithm (32 hash bits) by delegating
    * to the {@link CRC32} {@link Checksum}.
    *
