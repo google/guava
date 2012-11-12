@@ -34,17 +34,59 @@ import java.util.Random;
  * <p>Parameters for the benchmark are:
  * <ul>
  * <li>size: The length of the byte array to hash.
+ * <li>algorithm: the algorithm to hash with (e.g. MD5, SHA1, etc.).
+ * <li>hashMethod: how to hash the data (using the Hashing API or the MessageDigest API).
  * </ul>
  *
  * @author Kurt Alfred Kluever
  */
 public class MessageDigestAlgorithmBenchmark extends SimpleBenchmark {
+  @Param({"10", "1000", "100000", "1000000"}) int size;
+  @Param Algorithm algorithm;
+  @Param HashMethod hashMethod;
+
+  private enum HashMethod {
+    MESSAGE_DIGEST_API() {
+      @Override public byte[] hash(Algorithm algorithm, byte[] input) {
+        MessageDigest md = algorithm.getMessageDigest();
+        md.update(input);
+        return md.digest();
+      }
+    },
+    HASH_FUNCTION_API() {
+      @Override public byte[] hash(Algorithm algorithm, byte[] input) {
+        return algorithm.getHashFunction().hashBytes(input).asBytes();
+      }
+    };
+    public abstract byte[] hash(Algorithm algorithm, byte[] input);
+  }
+
+  private enum Algorithm {
+    MD5("MD5", Hashing.md5()),
+    SHA_1("SHA-1", Hashing.sha1()),
+    SHA_256("SHA-256", Hashing.sha256()),
+    SHA_512("SHA-512", Hashing.sha512());
+
+    private final String algorithmName;
+    private final HashFunction hashFn;
+    Algorithm(String algorithmName, HashFunction hashFn) {
+      this.algorithmName = algorithmName;
+      this.hashFn = hashFn;
+    }
+    public MessageDigest getMessageDigest() {
+      try {
+        return MessageDigest.getInstance(algorithmName);
+      } catch (NoSuchAlgorithmException e) {
+        throw new AssertionError(e);
+      }
+    }
+    public HashFunction getHashFunction() {
+      return hashFn;
+    }
+  }
 
   // Use a constant seed for all of the benchmarks to ensure apples to apples comparisons.
   private static final int RANDOM_SEED = new Random().nextInt();
-
-  @Param({"10", "1000", "100000", "1000000"})
-  private int size;
 
   private byte[] testBytes;
 
@@ -53,65 +95,12 @@ public class MessageDigestAlgorithmBenchmark extends SimpleBenchmark {
     new Random(RANDOM_SEED).nextBytes(testBytes);
   }
 
-  // MD5
-
-  public byte timeMd5HashFunction(int reps) {
-    return runHashFunction(reps, Hashing.md5());
-  }
-
-  public byte timeMd5MessageDigest(int reps) throws Exception {
-    return runMessageDigest(reps, "MD5");
-  }
-
-  // SHA-1
-
-  public byte timeSha1HashFunction(int reps) {
-    return runHashFunction(reps, Hashing.sha1());
-  }
-
-  public byte timeSha1MessageDigest(int reps) throws Exception {
-    return runMessageDigest(reps, "SHA-1");
-  }
-
-  // SHA-256
-
-  public byte timeSha256HashFunction(int reps) {
-    return runHashFunction(reps, Hashing.sha256());
-  }
-
-  public byte timeSha256MessageDigest(int reps) throws Exception {
-    return runMessageDigest(reps, "SHA-256");
-  }
-
-  // SHA-512
-
-  public byte timeSha512HashFunction(int reps) {
-    return runHashFunction(reps, Hashing.sha512());
-  }
-
-  public byte timeSha512MessageDigest(int reps) throws Exception {
-    return runMessageDigest(reps, "SHA-512");
-  }
-
-  // Helpers + main
-
-  private byte runHashFunction(int reps, HashFunction hashFunction) {
+  public byte timeHashing(int reps) {
     byte result = 0x01;
-    // Trick the JVM to prevent it from using the hash function non-polymorphically
-    result ^= Hashing.sha1().hashInt(reps).asBytes()[0];
-    result ^= Hashing.md5().hashInt(reps).asBytes()[0];
+    HashMethod hashMethod = this.hashMethod;
+    Algorithm algorithm = this.algorithm;
     for (int i = 0; i < reps; i++) {
-      result ^= hashFunction.hashBytes(testBytes).asBytes()[0];
-    }
-    return result;
-  }
-
-  private byte runMessageDigest(int reps, String algorithm) throws NoSuchAlgorithmException {
-    byte result = 0x01;
-    for (int i = 0; i < reps; i++) {
-      MessageDigest md = MessageDigest.getInstance(algorithm);
-      md.update(testBytes);
-      result ^= md.digest()[0];
+      result ^= hashMethod.hash(algorithm, testBytes)[0];
     }
     return result;
   }
