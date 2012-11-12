@@ -15,7 +15,6 @@
 package com.google.common.hash;
 
 import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 
 import java.io.Serializable;
@@ -31,28 +30,36 @@ import java.util.Arrays;
  */
 final class MessageDigestHashFunction extends AbstractStreamingHashFunction
     implements Serializable {
-  private final String algorithmName;
+  private final MessageDigest prototype;
   private final int bytes;
+  private final boolean supportsClone;
 
   MessageDigestHashFunction(String algorithmName) {
-    this.algorithmName = checkNotNull(algorithmName);
-    this.bytes = getMessageDigestLength(algorithmName);
+    this.prototype = getMessageDigest(algorithmName);
+    this.bytes = prototype.getDigestLength();
+    this.supportsClone = supportsClone();
   }
 
   MessageDigestHashFunction(String algorithmName, int bytes) {
-    int maxLength = getMessageDigestLength(algorithmName);
+    this.prototype = getMessageDigest(algorithmName);
+    int maxLength = prototype.getDigestLength();
     checkArgument(bytes >= 4 && bytes <= maxLength,
         "bytes (%s) must be >= 4 and < %s", bytes, maxLength);
-    this.algorithmName = checkNotNull(algorithmName);
     this.bytes = bytes;
+    this.supportsClone = supportsClone();
+  }
+
+  private boolean supportsClone() {
+    try {
+      prototype.clone();
+      return true;
+    } catch (CloneNotSupportedException e) {
+      return false;
+    }
   }
 
   @Override public int bits() {
     return bytes * Byte.SIZE;
-  }
-
-  private static int getMessageDigestLength(String algorithmName) {
-    return getMessageDigest(algorithmName).getDigestLength();
   }
 
   private static MessageDigest getMessageDigest(String algorithmName) {
@@ -64,7 +71,34 @@ final class MessageDigestHashFunction extends AbstractStreamingHashFunction
   }
 
   @Override public Hasher newHasher() {
-    return new MessageDigestHasher(getMessageDigest(algorithmName), bytes);
+    if (supportsClone) {
+      try {
+        return new MessageDigestHasher((MessageDigest) prototype.clone(), bytes);
+      } catch (CloneNotSupportedException e) {
+        // falls through
+      }
+    }
+    return new MessageDigestHasher(getMessageDigest(prototype.getAlgorithm()), bytes);
+  }
+
+  private static final class SerializedForm implements Serializable {
+    private final String algorithmName;
+    private final int bytes;
+
+    private SerializedForm(String algorithmName, int bytes) {
+      this.algorithmName = algorithmName;
+      this.bytes = bytes;
+    }
+
+    private Object readResolve() {
+      return new MessageDigestHashFunction(algorithmName, bytes);
+    }
+
+    private static final long serialVersionUID = 0;
+  }
+
+  Object writeReplace() {
+    return new SerializedForm(prototype.getAlgorithm(), bytes);
   }
 
   /**
@@ -111,6 +145,4 @@ final class MessageDigestHashFunction extends AbstractStreamingHashFunction
           : HashCodes.fromBytesNoCopy(Arrays.copyOf(digest.digest(), bytes));
     }
   }
-
-  private static final long serialVersionUID = 0L;
 }
