@@ -167,7 +167,7 @@ public final class HashCodes {
 
     @Override public long asLong() {
       checkState(bytes.length >= 8,
-          "HashCode#asInt() requires >= 8 bytes (it only has %s bytes).", bytes.length);
+          "HashCode#asLong() requires >= 8 bytes (it only has %s bytes).", bytes.length);
       return (bytes[0] & 0xFFL)
           | ((bytes[1] & 0xFFL) << 8)
           | ((bytes[2] & 0xFFL) << 16)
@@ -184,7 +184,7 @@ public final class HashCodes {
     }
 
     @Override
-    int padToInt() {
+    public int hashCode() {
       if (bytes.length >= 4) {
         return asInt();
       } else {

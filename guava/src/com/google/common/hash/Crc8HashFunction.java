@@ -19,7 +19,7 @@ import com.google.common.primitives.UnsignedBytes;
 /**
  * This implements CRC8 ATM HES.
  * According to specification, Polynomial = 0x07, initial = 0, output XOR = 0x55.
- * Ported from http://code.google.com/p/rlz/source/browse/trunk/win/lib/crc8.cc
+ * Ported from http://code.google.com/p/rlz/source/browse/trunk/lib/crc8.cc
  *
  * @author Nicholas Yu
  * @author Kurt Alfred Kluever

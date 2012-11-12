@@ -41,14 +41,6 @@ public abstract class HashCode {
   public abstract int asInt();
 
   /**
-   * By default, returns {@code asInt()}. Implementations can override this method in case the
-   * {@code HashCode} has less than four bytes.
-   */
-  int padToInt() {
-    return asInt();
-  }
-
-  /**
    * Returns the first eight bytes of {@linkplain #asBytes() this hashcode's bytes}, converted to
    * a {@code long} value in little-endian order.
    *
@@ -115,7 +107,7 @@ public abstract class HashCode {
      * As long as the hash function that produced this isn't of horrible quality, this
      * won't be of horrible quality either.
      */
-    return padToInt();
+    return asInt();
   }
 
   /**
