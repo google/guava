@@ -467,30 +467,24 @@ public final class CacheBuilder<K, V> {
   }
 
   /**
-   * Specifies a listener instance, which all caches built using this {@code CacheBuilder} will
-   * notify each time an entry is removed from the cache by any means.
+   * Specifies a listener instance that caches should notify each time an entry is removed for any
+   * {@linkplain RemovalCause reason}. Each cache created by this builder will invoke this listener
+   * as part of the routine maintenance described in the class documentation above.
    *
-   * <p>Each cache built by this {@code CacheBuilder} after this method is called invokes the
-   * supplied listener after removing an element for any reason (see removal causes in {@link
-   * RemovalCause}). It will invoke the listener as part of the routine maintenance described
-   * in the class javadoc.
+   * <p><b>Warning:</b> after invoking this method, do not continue to use <i>this</i> cache
+   * builder reference; instead use the reference this method <i>returns</i>. At runtime, these
+   * point to the same instance, but only the returned reference has the correct generic type
+   * information so as to ensure type safety. For best results, use the standard method-chaining
+   * idiom illustrated in the class documentation above, configuring a builder and building your
+   * cache in a single statement. Failure to heed this advice can result in a {@link
+   * ClassCastException} being thrown by a cache operation at some <i>undefined</i> point in the
+   * future.
    *
-   * <p><b>Note:</b> <i>all exceptions thrown by {@code listener} will be logged (using
-   * {@link java.util.logging.Logger})and then swallowed</i>.
+   * <p><b>Warning:</b> any exception thrown by {@code listener} will <i>not</i> be propagated to
+   * the {@code Cache} user, only logged via a {@link Logger}.
    *
-   * <p><b>Important note:</b> Instead of returning <em>this</em> as a {@code CacheBuilder}
-   * instance, this method returns {@code CacheBuilder<K1, V1>}. From this point on, either the
-   * original reference or the returned reference may be used to complete configuration and build
-   * the cache, but only the "generic" one is type-safe. That is, it will properly prevent you from
-   * building caches whose key or value types are incompatible with the types accepted by the
-   * listener already provided; the {@code CacheBuilder} type cannot do this. For best results,
-   * simply use the standard method-chaining idiom, as illustrated in the documentation at top,
-   * configuring a {@code CacheBuilder} and building your {@link Cache} all in a single statement.
-   *
-   * <p><b>Warning:</b> if you ignore the above advice, and use this {@code CacheBuilder} to build
-   * a cache whose key or value type is incompatible with the listener, you will likely experience
-   * a {@link ClassCastException} at some <i>undefined</i> point in the future.
-   *
+   * @return the cache builder reference that should be used instead of {@code this} for any
+   *     remaining configuration and cache building
    * @throws IllegalStateException if a removal listener was already set
    */
   @CheckReturnValue
