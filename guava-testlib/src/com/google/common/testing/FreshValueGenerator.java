@@ -314,7 +314,7 @@ class FreshValueGenerator {
   }
 
   @Generates private UnsignedLong freshUnsignedLong() {
-    return UnsignedLong.asUnsigned(freshLong());
+    return UnsignedLong.fromLongBits(freshLong());
   }
 
   @Generates private BigInteger freshBigInteger() {
