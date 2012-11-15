@@ -17,6 +17,7 @@ package com.google.common.io;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkPositionIndexes;
+import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.io.GwtWorkarounds.asCharInput;
 import static com.google.common.io.GwtWorkarounds.stringBuilderOutput;
 import static com.google.common.math.IntMath.divide;
@@ -276,27 +277,25 @@ public abstract class BaseEncoding {
     return BASE16;
   }
 
-  static final class StandardBaseEncoding extends BaseEncoding {
-    private final String alphabet;
-    private final int alphabetMask;
-    private final int bitsPerChar;
-    private final int charsPerChunk;
-    private final int bytesPerChunk;
-
-    @Nullable
-    private final Character paddingChar;
-
+  private static final class Alphabet extends CharMatcher {
+    // this is meant to be immutable -- don't modify it!
+    private final char[] chars;
+    final int mask;
+    final int bitsPerChar;
+    final int charsPerChunk;
+    final int bytesPerChunk;
     private final byte[] decodabet;
-
-    // The lengths mod charsPerChunk that a non-padded encoded string might possibly have.
     private final boolean[] validPadding;
 
-    StandardBaseEncoding(String alphabet, @Nullable Character paddingChar) {
-      this.alphabet = checkNotNull(alphabet);
+    private transient Alphabet lowerCase;
+    private transient Alphabet upperCase;
+
+    Alphabet(char[] chars) {
+      this.chars = checkNotNull(chars);
       try {
-        this.bitsPerChar = log2(alphabet.length(), UNNECESSARY);
+        this.bitsPerChar = log2(chars.length, UNNECESSARY);
       } catch (ArithmeticException e) {
-        throw new IllegalArgumentException("Illegal alphabet length " + alphabet.length(), e);
+        throw new IllegalArgumentException("Illegal alphabet length " + chars.length, e);
       }
 
       /*
@@ -307,26 +306,115 @@ public abstract class BaseEncoding {
       this.charsPerChunk = 8 / gcd;
       this.bytesPerChunk = bitsPerChar / gcd;
 
-      this.alphabetMask = alphabet.length() - 1;
-
-      this.paddingChar = paddingChar;
-      checkArgument(paddingChar == null || alphabet.indexOf(paddingChar.charValue()) == -1,
-          "Padding character must not appear in alphabet");
+      this.mask = chars.length - 1;
 
       byte[] decodabet = new byte[128];
       Arrays.fill(decodabet, (byte) -1);
-      for (int i = 0; i < alphabet.length(); i++) {
-        char c = alphabet.charAt(i);
+      for (int i = 0; i < chars.length; i++) {
+        char c = chars[i];
+        checkArgument(decodabet[c] == -1, "Duplicate character: %s", c);
         decodabet[c] = (byte) i;
       }
       this.decodabet = decodabet;
 
       boolean[] validPadding = new boolean[charsPerChunk];
       for (int i = 0; i < bytesPerChunk; i++) {
-        int chars = divide(i * 8, bitsPerChar, CEILING);
-        validPadding[chars] = true;
+        validPadding[divide(i * 8, bitsPerChar, CEILING)] = true;
       }
       this.validPadding = validPadding;
+    }
+
+    char encode(int bits) {
+      return chars[bits];
+    }
+
+    boolean isValidPaddingStartPosition(int index) {
+      return validPadding[index % charsPerChunk];
+    }
+
+    int decode(char ch) throws IOException {
+      if (ch >= 128 || decodabet[ch] == -1) {
+        throw new IOException("Unrecognized character: " + ch);
+      }
+      return decodabet[ch];
+    }
+
+    private boolean hasLowerCase() {
+      for (char c : chars) {
+        if (c >= 'a' & c <= 'z') {
+          return true;
+        }
+      }
+      return false;
+    }
+
+    private boolean hasUpperCase() {
+      for (char c : chars) {
+        if (c >= 'A' & c <= 'Z') {
+          return true;
+        }
+      }
+      return false;
+    }
+
+    Alphabet upperCase() {
+      Alphabet result = upperCase;
+      if (result == null) {
+        if (!hasLowerCase()) {
+          result = upperCase = this;
+        } else {
+          checkState(!hasUpperCase(), "Cannot call upperCase() on a mixed-case alphabet");
+          char[] upperCased = new char[chars.length];
+          for (int i = 0; i < chars.length; i++) {
+            upperCased[i] = Ascii.toUpperCase(chars[i]);
+          }
+          result = upperCase = new Alphabet(upperCased);
+          result.lowerCase = this;
+        }
+      }
+      return result;
+    }
+
+    Alphabet lowerCase() {
+      Alphabet result = lowerCase;
+      if (result == null) {
+        if (!hasUpperCase()) {
+          result = lowerCase = this;
+        } else {
+          checkState(!hasLowerCase(), "Cannot call lowerCase() on a mixed-case alphabet");
+          char[] lowerCased = new char[chars.length];
+          for (int i = 0; i < chars.length; i++) {
+            lowerCased[i] = Ascii.toLowerCase(chars[i]);
+          }
+          result = lowerCase = new Alphabet(lowerCased);
+          result.upperCase = this;
+        }
+      }
+      return result;
+    }
+
+    @Override
+    public boolean matches(char c) {
+      return CharMatcher.ASCII.matches(c) && decodabet[c] != -1;
+    }
+  }
+
+  static final class StandardBaseEncoding extends BaseEncoding {
+    // TODO(user): provide a useful toString
+    private final Alphabet alphabet;
+
+    @Nullable
+    private final Character paddingChar;
+
+    StandardBaseEncoding(String alphabetChars, @Nullable Character paddingChar) {
+      this(new Alphabet(alphabetChars.toCharArray()), paddingChar);
+    }
+
+    StandardBaseEncoding(Alphabet alphabet, Character paddingChar) {
+      this.alphabet = checkNotNull(alphabet);
+      checkArgument(paddingChar == null || !alphabet.matches(paddingChar),
+          "Padding character %s was already in alphabet", paddingChar);
+      this.paddingChar = paddingChar;
     }
 
     private CharMatcher paddingMatcher() {
@@ -335,7 +423,7 @@ public abstract class BaseEncoding {
 
     @Override
     int maxEncodedSize(int bytes) {
-      return charsPerChunk * divide(bytes, bytesPerChunk, CEILING);
+      return alphabet.charsPerChunk * divide(bytes, alphabet.bytesPerChunk, CEILING);
     }
 
     @Override
@@ -351,11 +439,12 @@ public abstract class BaseEncoding {
           bitBuffer <<= 8;
           bitBuffer |= b & 0xFF;
           bitBufferLength += 8;
-          while (bitBufferLength >= bitsPerChar) {
-            int charIndex = (bitBuffer >> (bitBufferLength - bitsPerChar)) & alphabetMask;
-            out.write(alphabet.charAt(charIndex));
+          while (bitBufferLength >= alphabet.bitsPerChar) {
+            int charIndex = (bitBuffer >> (bitBufferLength - alphabet.bitsPerChar))
+                & alphabet.mask;
+            out.write(alphabet.encode(charIndex));
             writtenChars++;
-            bitBufferLength -= bitsPerChar;
+            bitBufferLength -= alphabet.bitsPerChar;
           }
         }
 
@@ -367,11 +456,12 @@ public abstract class BaseEncoding {
         @Override
         public void close() throws IOException {
           if (bitBufferLength > 0) {
-            int charIndex = (bitBuffer << (bitsPerChar - bitBufferLength)) & alphabetMask;
-            out.write(alphabet.charAt(charIndex));
+            int charIndex = (bitBuffer << (alphabet.bitsPerChar - bitBufferLength))
+                & alphabet.mask;
+            out.write(alphabet.encode(charIndex));
             writtenChars++;
             if (paddingChar != null) {
-              while (writtenChars % charsPerChunk != 0) {
+              while (writtenChars % alphabet.charsPerChunk != 0) {
                 out.write(paddingChar.charValue());
                 writtenChars++;
               }
@@ -384,7 +474,7 @@ public abstract class BaseEncoding {
 
     @Override
     int maxDecodedSize(int chars) {
-      return bytesPerChunk * divide(chars, charsPerChunk, CEILING);
+      return alphabet.bytesPerChunk * divide(chars, alphabet.charsPerChunk, CEILING);
     }
 
     @Override
@@ -402,8 +492,7 @@ public abstract class BaseEncoding {
           while (true) {
             int readChar = reader.read();
             if (readChar == -1) {
-              int charsOverChunk = readChars % charsPerChunk;
-              if (!hitPadding && !validPadding[charsOverChunk]) {
+              if (!hitPadding && !alphabet.isValidPaddingStartPosition(readChars)) {
                 throw new IOException("Invalid input length " + readChars);
               }
               return -1;
@@ -412,19 +501,17 @@ public abstract class BaseEncoding {
             char ch = (char) readChar;
             if (paddingMatcher.matches(ch)) {
               if (!hitPadding
-                  && (readChars == 0 || !validPadding[(readChars - 1) % charsPerChunk])) {
+                  && (readChars == 1 || !alphabet.isValidPaddingStartPosition(readChars - 1))) {
                 throw new IOException("Padding cannot start at index " + readChars);
               }
               hitPadding = true;
             } else if (hitPadding) {
               throw new IOException(
                   "Expected padding character but found '" + ch + "' at index " + readChars);
-            } else if (!CharMatcher.ASCII.matches(ch) || decodabet[ch] == -1) {
-              throw new IOException("Unrecognized character: " + ch);
             } else {
-              bitBuffer <<= bitsPerChar;
-              bitBuffer |= decodabet[ch] & alphabetMask;
-              bitBufferLength += bitsPerChar;
+              bitBuffer <<= alphabet.bitsPerChar;
+              bitBuffer |= alphabet.decode(ch);
+              bitBufferLength += alphabet.bitsPerChar;
 
               if (bitBufferLength >= 8) {
                 bitBufferLength -= 8;
@@ -448,11 +535,9 @@ public abstract class BaseEncoding {
 
     @Override
     public BaseEncoding withPadChar(char padChar) {
-      if (8 % bitsPerChar == 0 || (paddingChar != null && paddingChar.charValue() == padChar)) {
+      if (8 % alphabet.bitsPerChar == 0 ||
+          (paddingChar != null && paddingChar.charValue() == padChar)) {
         return this;
-      } else if (alphabet.indexOf(padChar) != -1) {
-        throw new IllegalArgumentException("Padding character '" + padChar +
-            "'appears in alphabet");
       } else {
         return new StandardBaseEncoding(alphabet, padChar);
       }
@@ -461,40 +546,21 @@ public abstract class BaseEncoding {
     @Override
     public BaseEncoding withSeparator(String separator, int afterEveryChars) {
       checkNotNull(separator);
-      checkArgument(paddingMatcher().or(CharMatcher.anyOf(alphabet)).matchesNoneOf(separator),
+      checkArgument(paddingMatcher().or(alphabet).matchesNoneOf(separator),
           "Separator cannot contain alphabet or padding characters");
       return new SeparatedBaseEncoding(this, separator, afterEveryChars);
     }
 
-    private static final CharMatcher ASCII_UPPER_CASE = CharMatcher.inRange('A', 'Z');
-    private static final CharMatcher ASCII_NOT_UPPER_CASE =
-        CharMatcher.ASCII.and(ASCII_UPPER_CASE.negate());
-    private static final CharMatcher ASCII_LOWER_CASE = CharMatcher.inRange('a', 'z');
-    private static final CharMatcher ASCII_NOT_LOWER_CASE =
-        CharMatcher.ASCII.and(ASCII_LOWER_CASE.negate());
-
     @Override
     public BaseEncoding upperCase() {
-      if (ASCII_UPPER_CASE.matchesAnyOf(alphabet) && ASCII_LOWER_CASE.matchesAnyOf(alphabet)) {
-        throw new IllegalStateException("alphabet uses both upper and lower case characters");
-      } else if (ASCII_NOT_LOWER_CASE.matchesAllOf(alphabet)) {
-        // already all uppercase or caseless
-        return this;
-      } else {
-        return new StandardBaseEncoding(Ascii.toUpperCase(alphabet), paddingChar);
-      }
+      Alphabet upper = alphabet.upperCase();
+      return (upper == alphabet) ? this : new StandardBaseEncoding(upper, paddingChar);
     }
 
     @Override
     public BaseEncoding lowerCase() {
-      if (ASCII_UPPER_CASE.matchesAnyOf(alphabet) && ASCII_LOWER_CASE.matchesAnyOf(alphabet)) {
-        throw new IllegalStateException("alphabet uses both upper and lower case characters");
-      } else if (ASCII_NOT_UPPER_CASE.matchesAllOf(alphabet)) {
-        // already all lowercase or caseless
-        return this;
-      } else {
-        return new StandardBaseEncoding(Ascii.toLowerCase(alphabet), paddingChar);
-      }
+      Alphabet lower = alphabet.lowerCase();
+      return (lower == alphabet) ? this : new StandardBaseEncoding(lower, paddingChar);
     }
   }
 
