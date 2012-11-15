@@ -22,6 +22,8 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Objects;
+import com.google.common.base.Predicate;
+import com.google.common.base.Predicates;
 import com.google.common.collect.Multiset.Entry;
 import com.google.common.primitives.Ints;
 
@@ -463,6 +465,128 @@ public final class Multisets {
     }
 
     private static final long serialVersionUID = 0;
+  }
+
+  /**
+   * Returns a view of the elements of {@code unfiltered} that satisfy a predicate. The returned
+   * multiset is a live view of {@code unfiltered}; changes to one affect the other.
+   *
+   * <p>The resulting multiset's iterators, and those of its {@code entrySet()} and
+   * {@code elementSet()}, do not support {@code remove()}.  However, all other multiset methods
+   * supported by {@code unfiltered} are supported by the returned multiset. When given an element
+   * that doesn't satisfy the predicate, the multiset's {@code add()} and {@code addAll()} methods
+   * throw an {@link IllegalArgumentException}. When methods such as {@code removeAll()} and
+   * {@code clear()} are called on the filtered multiset, only elements that satisfy the filter
+   * will be removed from the underlying multiset.
+   *
+   * <p>The returned multiset isn't threadsafe or serializable, even if {@code unfiltered} is.
+   *
+   * <p>Many of the filtered multiset's methods, such as {@code size()}, iterate across every
+   * element in the underlying multiset and determine which elements satisfy the filter. When a
+   * live view is <i>not</i> needed, it may be faster to copy the returned multiset and use the
+   * copy.
+   *
+   * <p><b>Warning:</b> {@code predicate} must be <i>consistent with equals</i>, as documented at
+   * {@link Predicate#apply}. Do not provide a predicate such as
+   * {@code Predicates.instanceOf(ArrayList.class)}, which is inconsistent with equals. (See
+   * {@link Iterables#filter(Iterable, Class)} for related functionality.)
+   *
+   * @since 14.0
+   */
+  @Beta
+  public static <E> Multiset<E> filter(Multiset<E> unfiltered, Predicate<? super E> predicate) {
+    if (unfiltered instanceof FilteredMultiset) {
+      // Support clear(), removeAll(), and retainAll() when filtering a filtered
+      // collection.
+      FilteredMultiset<E> filtered = (FilteredMultiset<E>) unfiltered;
+      Predicate<E> combinedPredicate
+          = Predicates.<E>and(filtered.predicate, predicate);
+      return new FilteredMultiset<E>(filtered.unfiltered, combinedPredicate);
+    }
+    return new FilteredMultiset<E>(unfiltered, predicate);
+  }
+
+  private static final class FilteredMultiset<E> extends AbstractMultiset<E> {
+    final Multiset<E> unfiltered;
+    final Predicate<? super E> predicate;
+
+    FilteredMultiset(Multiset<E> unfiltered, Predicate<? super E> predicate) {
+      this.unfiltered = checkNotNull(unfiltered);
+      this.predicate = checkNotNull(predicate);
+    }
+
+    @Override
+    Set<E> createElementSet() {
+      return Sets.filter(unfiltered.elementSet(), predicate);
+    }
+
+    @Override
+    Set<Entry<E>> createEntrySet() {
+      return Sets.filter(unfiltered.entrySet(), new Predicate<Entry<E>>() {
+        @Override
+        public boolean apply(Entry<E> entry) {
+          return predicate.apply(entry.getElement());
+        }
+      });
+    }
+
+    @Override
+    Iterator<Entry<E>> entryIterator() {
+      throw new AssertionError("should never be called");
+    }
+
+    @Override
+    int distinctElements() {
+      return elementSet().size();
+    }
+
+    @Override
+    public boolean contains(@Nullable Object element) {
+      return count(element) > 0;
+    }
+
+    @Override
+    public int count(@Nullable Object element) {
+      int count = unfiltered.count(element);
+      if (count > 0) {
+        @SuppressWarnings("unchecked") // element is equal to an E
+        E e = (E) element;
+        return predicate.apply(e) ? count : 0;
+      }
+      return 0;
+    }
+
+    @Override
+    public int add(@Nullable E element, int occurrences) {
+      checkArgument(predicate.apply(element),
+          "Element %s does not match predicate %s", element, predicate);
+      return unfiltered.add(element, occurrences);
+    }
+
+    @Override
+    public int remove(@Nullable Object element, int occurrences) {
+      Multisets.checkNonnegative(occurrences, "occurrences");
+      if (occurrences == 0) {
+        return count(element);
+      } else {
+        return contains(element) ? unfiltered.remove(element, occurrences) : 0;
+      }
+    }
+
+    @Override
+    public boolean removeAll(Collection<?> c) {
+      return elementSet().removeAll(c);
+    }
+
+    @Override
+    public boolean retainAll(Collection<?> c) {
+      return elementSet().retainAll(c);
+    }
+
+    @Override
+    public void clear() {
+      elementSet().clear();
+    }
   }
 
   /**

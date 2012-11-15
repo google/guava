@@ -103,4 +103,13 @@ public class MultisetIteratorTester<E> extends AbstractMultisetTester<E> {
         Helpers.getMethod(MultisetIteratorTester.class, "testRemovingIteratorKnownOrder"),
         Helpers.getMethod(MultisetIteratorTester.class, "testRemovingIteratorUnknownOrder"));
   }
+  
+  /**
+   * Returns the {@link Method} instance for the test that assumes the multiset iterator supports 
+   * {@code remove()} so that the test for {@code Multisets.filter} can suppress it.
+   */
+  @GwtIncompatible("reflection")
+  public static Method getIteratorKnownOrderRemoveSupportedMethod() {
+    return Helpers.getMethod(MultisetIteratorTester.class, "testRemovingIteratorKnownOrder");
+  }
 }

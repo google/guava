@@ -143,6 +143,9 @@ public final class Collections2 {
     @Override
     public boolean contains(Object element) {
       try {
+        // TODO(user): consider doing the predicate after unfiltered.contains,
+        // which would reduce the risk of CCE here
+
         // unsafe cast can result in a CCE from predicate.apply(), which we
         // will catch
         @SuppressWarnings("unchecked")
@@ -184,6 +187,9 @@ public final class Collections2 {
     @Override
     public boolean remove(Object element) {
       try {
+        // TODO(user): consider doing the predicate after unfiltered.contains,
+        // which would reduce the risk of CCE here
+
         // unsafe cast can result in a CCE from predicate.apply(), which we
         // will catch
         @SuppressWarnings("unchecked")

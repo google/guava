@@ -23,17 +23,23 @@ import static java.util.Arrays.asList;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Objects;
+import com.google.common.base.Predicate;
+import com.google.common.base.Predicates;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
+import com.google.common.collect.testing.google.MultisetIteratorTester;
 import com.google.common.collect.testing.google.MultisetTestSuiteBuilder;
+import com.google.common.collect.testing.google.MultisetWritesTester;
 import com.google.common.collect.testing.google.SortedMultisetTestSuiteBuilder;
 import com.google.common.collect.testing.google.TestStringMultisetGenerator;
+import com.google.common.collect.testing.testers.CollectionIteratorTester;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -96,6 +102,17 @@ public class MultisetsCollectionTest extends TestCase {
             CollectionFeature.ALLOWS_NULL_VALUES,
             CollectionFeature.KNOWN_ORDER)
         .named("Multisets.difference")
+        .createTestSuite());
+
+    suite.addTest(MultisetTestSuiteBuilder.using(filteredGenerator())
+        .withFeatures(CollectionSize.ANY,
+            CollectionFeature.ALLOWS_NULL_VALUES,
+            CollectionFeature.KNOWN_ORDER,
+            CollectionFeature.GENERAL_PURPOSE)
+        .named("Multiset.filter[Multiset, Predicate]")
+        .suppressing(CollectionIteratorTester.getIteratorKnownOrderRemoveSupportedMethod(),
+            MultisetIteratorTester.getIteratorKnownOrderRemoveSupportedMethod(),
+            MultisetWritesTester.getEntrySetIteratorMethod())
         .createTestSuite());
 
     return suite;
@@ -230,6 +247,29 @@ public class MultisetsCollectionTest extends TestCase {
           multiset2.add(elements[i], i + 1);
         }
         return Multisets.difference(multiset1, multiset2);
+      }
+    };
+  }
+
+  private static final Multiset<String> ELEMENTS_TO_FILTER_OUT = ImmutableMultiset.of(
+      "foobar", "bazfoo", "foobar", "foobar");
+
+  private static final Predicate<String> PREDICATE =
+      Predicates.not(Predicates.in(ELEMENTS_TO_FILTER_OUT));
+
+  private static TestStringMultisetGenerator filteredGenerator() {
+    return new TestStringMultisetGenerator() {
+      @Override
+      protected Multiset<String> create(String[] elements) {
+        Multiset<String> multiset = LinkedHashMultiset.create();
+        multiset.addAll(Arrays.asList(elements));
+        multiset.addAll(ELEMENTS_TO_FILTER_OUT);
+        return Multisets.filter(multiset, PREDICATE);
+      }
+
+      @Override
+      public List<String> order(List<String> insertionOrder) {
+        return Lists.newArrayList(LinkedHashMultiset.create(insertionOrder));
       }
     };
   }
