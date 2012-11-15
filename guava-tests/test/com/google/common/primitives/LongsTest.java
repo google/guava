@@ -16,6 +16,9 @@
 
 package com.google.common.primitives;
 
+import static java.lang.Long.MAX_VALUE;
+import static java.lang.Long.MIN_VALUE;
+
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.testing.Helpers;
@@ -24,6 +27,7 @@ import com.google.common.testing.SerializableTester;
 
 import junit.framework.TestCase;
 
+import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -44,11 +48,8 @@ public class LongsTest extends TestCase {
   private static final long[] ARRAY234
       = {(long) 2, (long) 3, (long) 4};
 
-  private static final long LEAST = Long.MIN_VALUE;
-  private static final long GREATEST = Long.MAX_VALUE;
-
   private static final long[] VALUES =
-      { LEAST, (long) -1, (long) 0, (long) 1, GREATEST };
+      { MIN_VALUE, (long) -1, (long) 0, (long) 1, MAX_VALUE };
 
   @GwtIncompatible("Long.hashCode returns different values in GWT.")
   public void testHashCode() {
@@ -150,8 +151,8 @@ public class LongsTest extends TestCase {
   }
 
   public void testMax() {
-    assertEquals(LEAST, Longs.max(LEAST));
-    assertEquals(GREATEST, Longs.max(GREATEST));
+    assertEquals(MIN_VALUE, Longs.max(MIN_VALUE));
+    assertEquals(MAX_VALUE, Longs.max(MAX_VALUE));
     assertEquals((long) 9, Longs.max(
         (long) 8, (long) 6, (long) 7,
         (long) 5, (long) 3, (long) 0, (long) 9));
@@ -166,8 +167,8 @@ public class LongsTest extends TestCase {
   }
 
   public void testMin() {
-    assertEquals(LEAST, Longs.min(LEAST));
-    assertEquals(GREATEST, Longs.min(GREATEST));
+    assertEquals(MIN_VALUE, Longs.min(MIN_VALUE));
+    assertEquals(MAX_VALUE, Longs.min(MAX_VALUE));
     assertEquals((long) 0, Longs.min(
         (long) 8, (long) 6, (long) 7,
         (long) 5, (long) 3, (long) 0, (long) 9));
@@ -278,14 +279,14 @@ public class LongsTest extends TestCase {
   public void testLexicographicalComparator() {
     List<long[]> ordered = Arrays.asList(
         new long[] {},
-        new long[] {LEAST},
-        new long[] {LEAST, LEAST},
-        new long[] {LEAST, (long) 1},
+        new long[] {MIN_VALUE},
+        new long[] {MIN_VALUE, MIN_VALUE},
+        new long[] {MIN_VALUE, (long) 1},
         new long[] {(long) 1},
-        new long[] {(long) 1, LEAST},
-        new long[] {GREATEST, GREATEST - (long) 1},
-        new long[] {GREATEST, GREATEST},
-        new long[] {GREATEST, GREATEST, GREATEST});
+        new long[] {(long) 1, MIN_VALUE},
+        new long[] {MAX_VALUE, MAX_VALUE - (long) 1},
+        new long[] {MAX_VALUE, MAX_VALUE},
+        new long[] {MAX_VALUE, MAX_VALUE, MAX_VALUE});
 
     Comparator<long[]> comparator = Longs.lexicographicalComparator();
     Helpers.testComparator(comparator, ordered);
@@ -395,5 +396,33 @@ public class LongsTest extends TestCase {
   @GwtIncompatible("NullPointerTester")
   public void testNulls() {
     new NullPointerTester().testAllPublicStaticMethods(Longs.class);
+  }
+
+  @GwtIncompatible("AndroidInteger")
+  public void testTryParse() {
+    tryParseAndAssertEquals(0L, "0");
+    tryParseAndAssertEquals(0L, "-0");
+    tryParseAndAssertEquals(1L, "1");
+    tryParseAndAssertEquals(-1L, "-1");
+    tryParseAndAssertEquals(8900L, "8900");
+    tryParseAndAssertEquals(-8900L, "-8900");
+    tryParseAndAssertEquals(MAX_VALUE, Long.toString(MAX_VALUE));
+    tryParseAndAssertEquals(MIN_VALUE, Long.toString(MIN_VALUE));
+    assertNull(Longs.tryParse(""));
+    assertNull(Longs.tryParse("-"));
+    assertNull(Longs.tryParse("+1"));
+    assertNull(Longs.tryParse("999999999999999999999999"));
+    assertNull("Max integer + 1",
+        Longs.tryParse(BigInteger.valueOf(MAX_VALUE).add(BigInteger.ONE).toString()));
+    assertNull("Min integer - 1",
+        Longs.tryParse(BigInteger.valueOf(MIN_VALUE).subtract(BigInteger.ONE).toString()));
+  }
+
+  /**
+   * Applies {@link Longs#tryParse(String)} to the given string and asserts that
+   * the result is as expected.
+   */
+  private static void tryParseAndAssertEquals(Long expected, String value) {
+    assertEquals(expected, Longs.tryParse(value));
   }
 }
