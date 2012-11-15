@@ -30,6 +30,7 @@ import java.nio.charset.Charset;
  */
 @GwtCompatible(emulated = true)
 public class CharsetsTest extends TestCase {
+
   @GwtIncompatible("Non-UTF-8 Charset")
   public void testUsAscii() {
     assertEquals(Charset.forName("US-ASCII"), Charsets.US_ASCII);
