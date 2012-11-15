@@ -237,7 +237,7 @@ public abstract class BaseEncoding {
   public abstract BaseEncoding lowerCase();
 
   private static final BaseEncoding BASE64 = new StandardBaseEncoding(
-      "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/", '=');
+      "base64()", "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/", '=');
 
   /**
    * The "base64" base encoding specified by <a
@@ -257,7 +257,7 @@ public abstract class BaseEncoding {
   }
 
   private static final BaseEncoding BASE64_URL = new StandardBaseEncoding(
-      "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_", '=');
+      "base64Url()", "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_", '=');
 
   /**
    * The "base64url" encoding specified by <a
@@ -278,7 +278,7 @@ public abstract class BaseEncoding {
   }
 
   private static final BaseEncoding BASE32 =
-      new StandardBaseEncoding("ABCDEFGHIJKLMNOPQRSTUVWXYZ234567", '=');
+      new StandardBaseEncoding("base32()", "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567", '=');
 
   /**
    * The "base32" encoding specified by <a
@@ -298,7 +298,7 @@ public abstract class BaseEncoding {
   }
 
   private static final BaseEncoding BASE32_HEX =
-      new StandardBaseEncoding("0123456789ABCDEFGHIJKLMNOPQRSTUV", '=');
+      new StandardBaseEncoding("base32Hex()", "0123456789ABCDEFGHIJKLMNOPQRSTUV", '=');
 
   /**
    * The "base32hex" encoding specified by <a
@@ -316,7 +316,8 @@ public abstract class BaseEncoding {
     return BASE32_HEX;
   }
 
-  private static final BaseEncoding BASE16 = new StandardBaseEncoding("0123456789ABCDEF", null);
+  private static final BaseEncoding BASE16 =
+      new StandardBaseEncoding("base16()", "0123456789ABCDEF", null);
 
   /**
    * The "base16" encoding specified by <a
@@ -336,6 +337,7 @@ public abstract class BaseEncoding {
   }
 
   private static final class Alphabet extends CharMatcher {
+    private final String name;
     // this is meant to be immutable -- don't modify it!
     private final char[] chars;
     final int mask;
@@ -348,7 +350,8 @@ public abstract class BaseEncoding {
     private transient Alphabet lowerCase;
     private transient Alphabet upperCase;
 
-    Alphabet(char[] chars) {
+    Alphabet(String name, char[] chars) {
+      this.name = checkNotNull(name);
       this.chars = checkNotNull(chars);
       try {
         this.bitsPerChar = log2(chars.length, UNNECESSARY);
@@ -426,7 +429,7 @@ public abstract class BaseEncoding {
           for (int i = 0; i < chars.length; i++) {
             upperCased[i] = Ascii.toUpperCase(chars[i]);
           }
-          result = upperCase = new Alphabet(upperCased);
+          result = upperCase = new Alphabet(name + ".upperCase()", upperCased);
           result.lowerCase = this;
         }
       }
@@ -444,7 +447,7 @@ public abstract class BaseEncoding {
           for (int i = 0; i < chars.length; i++) {
             lowerCased[i] = Ascii.toLowerCase(chars[i]);
           }
-          result = lowerCase = new Alphabet(lowerCased);
+          result = lowerCase = new Alphabet(name + ".lowerCase()", lowerCased);
           result.upperCase = this;
         }
       }
@@ -455,6 +458,11 @@ public abstract class BaseEncoding {
     public boolean matches(char c) {
       return CharMatcher.ASCII.matches(c) && decodabet[c] != -1;
     }
+
+    @Override
+    public String toString() {
+      return name;
+    }
   }
 
   static final class StandardBaseEncoding extends BaseEncoding {
@@ -464,8 +472,8 @@ public abstract class BaseEncoding {
     @Nullable
     private final Character paddingChar;
 
-    StandardBaseEncoding(String alphabetChars, @Nullable Character paddingChar) {
-      this(new Alphabet(alphabetChars.toCharArray()), paddingChar);
+    StandardBaseEncoding(String name, String alphabetChars, @Nullable Character paddingChar) {
+      this(new Alphabet(name, alphabetChars.toCharArray()), paddingChar);
     }
 
     StandardBaseEncoding(Alphabet alphabet, Character paddingChar) {
@@ -620,6 +628,20 @@ public abstract class BaseEncoding {
       Alphabet lower = alphabet.lowerCase();
       return (lower == alphabet) ? this : new StandardBaseEncoding(lower, paddingChar);
     }
+
+    @Override
+    public String toString() {
+      StringBuilder builder = new StringBuilder("BaseEncoding.");
+      builder.append(alphabet.toString());
+      if (8 % alphabet.bitsPerChar != 0) {
+        if (paddingChar == null) {
+          builder.append(".omitPadding()");
+        } else {
+          builder.append(".withPadChar(").append(paddingChar).append(')');
+        }
+      }
+      return builder.toString();
+    }
   }
 
   static CharInput ignoringInput(final CharInput delegate, final CharMatcher toIgnore) {
@@ -734,6 +756,12 @@ public abstract class BaseEncoding {
     @Override
     public BaseEncoding lowerCase() {
       return delegate.lowerCase().withSeparator(separator, afterEveryChars);
+    }
+
+    @Override
+    public String toString() {
+      return delegate.toString() +
+          ".withSeparator(\"" + separator + "\", " + afterEveryChars + ")";
     }
   }
 }

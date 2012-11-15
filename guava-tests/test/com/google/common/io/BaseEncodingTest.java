@@ -414,4 +414,14 @@ public class BaseEncodingTest extends TestCase {
     assertEquals(-1, decodingStream.read());
     decodingStream.close();
   }
+  
+  public void testToString() {
+    assertEquals("BaseEncoding.base64().withPadChar(=)", BaseEncoding.base64().toString());
+    assertEquals("BaseEncoding.base32Hex().omitPadding()", 
+        BaseEncoding.base32Hex().omitPadding().toString());
+    assertEquals("BaseEncoding.base32().lowerCase().withPadChar($)", 
+        BaseEncoding.base32().lowerCase().withPadChar('$').toString());
+    assertEquals("BaseEncoding.base16().withSeparator(\"\n\", 10)",
+        BaseEncoding.base16().withSeparator("\n", 10).toString());
+  }
 }
