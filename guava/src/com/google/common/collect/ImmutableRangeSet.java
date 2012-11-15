@@ -554,11 +554,11 @@ public final class ImmutableRangeSet<C extends Comparable> extends AbstractRange
     }
 
     /**
-     * Add the specified range to this builder.  {@linkplain Range#isConnected Connected} ranges
-     * will be {@linkplain Range#span(Range) coalesced}.
+     * Add the specified range to this builder.  Adjacent/abutting ranges are permitted, but
+     * empty ranges, or ranges with nonempty overlap, are forbidden.
      *
-     * @throws IllegalArgumentException if {@code range} is empty or overlaps any ranges already
-     *         added to the builder
+     * @throws IllegalArgumentException if {@code range} is empty or has nonempty intersection with
+     *         any ranges already added to the builder
      */
     public Builder<C> add(Range<C> range) {
       if (range.isEmpty()) {
