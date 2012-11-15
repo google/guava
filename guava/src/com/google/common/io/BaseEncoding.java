@@ -347,9 +347,6 @@ public abstract class BaseEncoding {
     private final byte[] decodabet;
     private final boolean[] validPadding;
 
-    private transient Alphabet lowerCase;
-    private transient Alphabet upperCase;
-
     Alphabet(String name, char[] chars) {
       this.name = checkNotNull(name);
       this.chars = checkNotNull(chars);
@@ -419,39 +416,29 @@ public abstract class BaseEncoding {
     }
 
     Alphabet upperCase() {
-      Alphabet result = upperCase;
-      if (result == null) {
-        if (!hasLowerCase()) {
-          result = upperCase = this;
-        } else {
-          checkState(!hasUpperCase(), "Cannot call upperCase() on a mixed-case alphabet");
-          char[] upperCased = new char[chars.length];
-          for (int i = 0; i < chars.length; i++) {
-            upperCased[i] = Ascii.toUpperCase(chars[i]);
-          }
-          result = upperCase = new Alphabet(name + ".upperCase()", upperCased);
-          result.lowerCase = this;
+      if (!hasLowerCase()) {
+        return this;
+      } else {
+        checkState(!hasUpperCase(), "Cannot call upperCase() on a mixed-case alphabet");
+        char[] upperCased = new char[chars.length];
+        for (int i = 0; i < chars.length; i++) {
+          upperCased[i] = Ascii.toUpperCase(chars[i]);
         }
+        return new Alphabet(name + ".upperCase()", upperCased);
       }
-      return result;
     }
 
     Alphabet lowerCase() {
-      Alphabet result = lowerCase;
-      if (result == null) {
-        if (!hasUpperCase()) {
-          result = lowerCase = this;
-        } else {
-          checkState(!hasLowerCase(), "Cannot call lowerCase() on a mixed-case alphabet");
-          char[] lowerCased = new char[chars.length];
-          for (int i = 0; i < chars.length; i++) {
-            lowerCased[i] = Ascii.toLowerCase(chars[i]);
-          }
-          result = lowerCase = new Alphabet(name + ".lowerCase()", lowerCased);
-          result.upperCase = this;
+      if (!hasUpperCase()) {
+        return this;
+      } else {
+        checkState(!hasLowerCase(), "Cannot call lowerCase() on a mixed-case alphabet");
+        char[] lowerCased = new char[chars.length];
+        for (int i = 0; i < chars.length; i++) {
+          lowerCased[i] = Ascii.toLowerCase(chars[i]);
         }
+        return new Alphabet(name + ".lowerCase()", lowerCased);
       }
-      return result;
     }
 
     @Override
@@ -617,16 +604,29 @@ public abstract class BaseEncoding {
       return new SeparatedBaseEncoding(this, separator, afterEveryChars);
     }
 
+    private transient BaseEncoding upperCase;
+    private transient BaseEncoding lowerCase;
+
     @Override
     public BaseEncoding upperCase() {
-      Alphabet upper = alphabet.upperCase();
-      return (upper == alphabet) ? this : new StandardBaseEncoding(upper, paddingChar);
+      BaseEncoding result = upperCase;
+      if (result == null) {
+        Alphabet upper = alphabet.upperCase();
+        result = upperCase =
+            (upper == alphabet) ? this : new StandardBaseEncoding(upper, paddingChar);
+      }
+      return result;
     }
 
     @Override
     public BaseEncoding lowerCase() {
-      Alphabet lower = alphabet.lowerCase();
-      return (lower == alphabet) ? this : new StandardBaseEncoding(lower, paddingChar);
+      BaseEncoding result = lowerCase;
+      if (result == null) {
+        Alphabet lower = alphabet.lowerCase();
+        result = lowerCase =
+            (lower == alphabet) ? this : new StandardBaseEncoding(lower, paddingChar);
+      }
+      return result;
     }
 
     @Override
