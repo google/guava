@@ -20,6 +20,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.GwtIncompatible;
 
 import java.io.Serializable;
 import java.util.AbstractCollection;
@@ -32,7 +33,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
-import java.util.Map.Entry;
+import java.util.NavigableMap;
+import java.util.NavigableSet;
 import java.util.RandomAccess;
 import java.util.Set;
 import java.util.SortedMap;
@@ -51,7 +53,7 @@ import javax.annotation.Nullable;
  *
  * <p>The multimap constructor takes a map that has a single entry for each
  * distinct key. When you insert a key-value pair with a key that isn't already
- * in the multimap, {@code AbstractMultimap} calls {@link #createCollection()}
+ * in the multimap, {@code AbstractMapBasedMultimap} calls {@link #createCollection()}
  * to create the collection of values for that key. The subclass should not call
  * {@link #createCollection()} directly, and a new instance should be created
  * every time the method is called.
@@ -84,7 +86,8 @@ import javax.annotation.Nullable;
  * @author Louis Wasserman
  */
 @GwtCompatible(emulated = true)
-abstract class AbstractMultimap<K, V> implements Multimap<K, V>, Serializable {
+abstract class AbstractMapBasedMultimap<K, V> extends AbstractMultimap<K, V>
+    implements Serializable {
   /*
    * Here's an outline of the overall design.
    *
@@ -114,7 +117,7 @@ abstract class AbstractMultimap<K, V> implements Multimap<K, V>, Serializable {
    *     values
    * @throws IllegalArgumentException if {@code map} is not empty
    */
-  protected AbstractMultimap(Map<K, Collection<V>> map) {
+  protected AbstractMapBasedMultimap(Map<K, Collection<V>> map) {
     checkArgument(map.isEmpty());
     this.map = map;
   }
@@ -176,30 +179,8 @@ abstract class AbstractMultimap<K, V> implements Multimap<K, V>, Serializable {
   }
 
   @Override
-  public boolean isEmpty() {
-    return totalSize == 0;
-  }
-
-  @Override
   public boolean containsKey(@Nullable Object key) {
     return map.containsKey(key);
-  }
-
-  @Override
-  public boolean containsValue(@Nullable Object value) {
-    for (Collection<V> collection : map.values()) {
-      if (collection.contains(value)) {
-        return true;
-      }
-    }
-
-    return false;
-  }
-
-  @Override
-  public boolean containsEntry(@Nullable Object key, @Nullable Object value) {
-    Collection<V> collection = map.get(key);
-    return collection != null && collection.contains(value);
   }
 
   // Modification Operations
@@ -233,56 +214,7 @@ abstract class AbstractMultimap<K, V> implements Multimap<K, V>, Serializable {
     return collection;
   }
 
-  @Override
-  public boolean remove(@Nullable Object key, @Nullable Object value) {
-    Collection<V> collection = map.get(key);
-    if (collection == null) {
-      return false;
-    }
-
-    boolean changed = collection.remove(value);
-    if (changed) {
-      totalSize--;
-      if (collection.isEmpty()) {
-        map.remove(key);
-      }
-    }
-    return changed;
-  }
-
   // Bulk Operations
-
-  @Override
-  public boolean putAll(@Nullable K key, Iterable<? extends V> values) {
-    if (!values.iterator().hasNext()) {
-      return false;
-    }
-    // TODO(user): investigate atomic failure?
-    Collection<V> collection = getOrCreateCollection(key);
-    int oldSize = collection.size();
-
-    boolean changed = false;
-    if (values instanceof Collection) {
-      Collection<? extends V> c = Collections2.cast(values);
-      changed = collection.addAll(c);
-    } else {
-      for (V value : values) {
-        changed |= collection.add(value);
-      }
-    }
-
-    totalSize += (collection.size() - oldSize);
-    return changed;
-  }
-
-  @Override
-  public boolean putAll(Multimap<? extends K, ? extends V> multimap) {
-    boolean changed = false;
-    for (Map.Entry<? extends K, ? extends V> entry : multimap.entries()) {
-      changed |= put(entry.getKey(), entry.getValue());
-    }
-    return changed;
-  }
 
   /**
    * {@inheritDoc}
@@ -290,8 +222,7 @@ abstract class AbstractMultimap<K, V> implements Multimap<K, V>, Serializable {
    * <p>The returned collection is immutable.
    */
   @Override
-  public Collection<V> replaceValues(
-      @Nullable K key, Iterable<? extends V> values) {
+  public Collection<V> replaceValues(@Nullable K key, Iterable<? extends V> values) {
     Iterator<? extends V> iterator = values.iterator();
     if (!iterator.hasNext()) {
       return removeAll(key);
@@ -408,7 +339,7 @@ abstract class AbstractMultimap<K, V> implements Multimap<K, V>, Serializable {
    *
    * <p>Full collections, identified by a null ancestor field, contain all
    * multimap values for a given key. Its delegate is a value in {@link
-   * AbstractMultimap#map} whenever the delegate is non-empty. The {@code
+   * AbstractMapBasedMultimap#map} whenever the delegate is non-empty. The {@code
    * refreshIfEmpty}, {@code removeIfEmpty}, and {@code addToMap} methods ensure
    * that the {@code WrappedCollection} and map remain consistent.
    *
@@ -455,7 +386,7 @@ abstract class AbstractMultimap<K, V> implements Multimap<K, V>, Serializable {
     }
 
     /**
-     * If collection is empty, remove it from {@code AbstractMultimap.this.map}.
+     * If collection is empty, remove it from {@code AbstractMapBasedMultimap.this.map}.
      * For subcollections, check whether the ancestor collection is empty.
      */
     void removeIfEmpty() {
@@ -746,6 +677,81 @@ abstract class AbstractMultimap<K, V> implements Multimap<K, V>, Serializable {
     }
   }
 
+  @GwtIncompatible("NavigableSet")
+  class WrappedNavigableSet extends WrappedSortedSet implements NavigableSet<V> {
+    WrappedNavigableSet(
+        @Nullable K key, NavigableSet<V> delegate, @Nullable WrappedCollection ancestor) {
+      super(key, delegate, ancestor);
+    }
+
+    @Override
+    NavigableSet<V> getSortedSetDelegate() {
+      return (NavigableSet<V>) super.getSortedSetDelegate();
+    }
+
+    @Override
+    public V lower(V v) {
+      return getSortedSetDelegate().lower(v);
+    }
+
+    @Override
+    public V floor(V v) {
+      return getSortedSetDelegate().floor(v);
+    }
+
+    @Override
+    public V ceiling(V v) {
+      return getSortedSetDelegate().ceiling(v);
+    }
+
+    @Override
+    public V higher(V v) {
+      return getSortedSetDelegate().higher(v);
+    }
+
+    @Override
+    public V pollFirst() {
+      return Iterators.pollNext(iterator());
+    }
+
+    @Override
+    public V pollLast() {
+      return Iterators.pollNext(descendingIterator());
+    }
+
+    private NavigableSet<V> wrap(NavigableSet<V> wrapped) {
+      return new WrappedNavigableSet(key, wrapped,
+          (getAncestor() == null) ? this : getAncestor());
+    }
+
+    @Override
+    public NavigableSet<V> descendingSet() {
+      return wrap(getSortedSetDelegate().descendingSet());
+    }
+
+    @Override
+    public Iterator<V> descendingIterator() {
+      return new WrappedIterator(getSortedSetDelegate().descendingIterator());
+    }
+
+    @Override
+    public NavigableSet<V> subSet(
+        V fromElement, boolean fromInclusive, V toElement, boolean toInclusive) {
+      return wrap(
+          getSortedSetDelegate().subSet(fromElement, fromInclusive, toElement, toInclusive));
+    }
+
+    @Override
+    public NavigableSet<V> headSet(V toElement, boolean inclusive) {
+      return wrap(getSortedSetDelegate().headSet(toElement, inclusive));
+    }
+
+    @Override
+    public NavigableSet<V> tailSet(V fromElement, boolean inclusive) {
+      return wrap(getSortedSetDelegate().tailSet(fromElement, inclusive));
+    }
+  }
+
   /** List decorator that stays in sync with the multimap values for a key. */
   private class WrappedList extends WrappedCollection implements List<V> {
     WrappedList(@Nullable K key, List<V> delegate,
@@ -900,14 +906,7 @@ abstract class AbstractMultimap<K, V> implements Multimap<K, V>, Serializable {
     }
   }
 
-  private transient Set<K> keySet;
-
   @Override
-  public Set<K> keySet() {
-    Set<K> result = keySet;
-    return (result == null) ? keySet = createKeySet() : result;
-  }
-
   Set<K> createKeySet() {
     // TreeMultimap uses NavigableKeySet explicitly, but we don't handle that here for GWT
     // compatibility reasons
@@ -1030,19 +1029,88 @@ abstract class AbstractMultimap<K, V> implements Multimap<K, V>, Serializable {
     }
   }
 
-  private transient Multiset<K> multiset;
-
-  @Override
-  public Multiset<K> keys() {
-    Multiset<K> result = multiset;
-    if (result == null) {
-      return multiset = new Multimaps.Keys<K, V>() {
-        @Override Multimap<K, V> multimap() {
-          return AbstractMultimap.this;
-        }
-      };
+  @GwtIncompatible("NavigableSet")
+  class NavigableKeySet extends SortedKeySet implements NavigableSet<K> {
+    NavigableKeySet(NavigableMap<K, Collection<V>> subMap) {
+      super(subMap);
     }
-    return result;
+
+    @Override
+    NavigableMap<K, Collection<V>> sortedMap() {
+      return (NavigableMap<K, Collection<V>>) super.sortedMap();
+    }
+
+    @Override
+    public K lower(K k) {
+      return sortedMap().lowerKey(k);
+    }
+
+    @Override
+    public K floor(K k) {
+      return sortedMap().floorKey(k);
+    }
+
+    @Override
+    public K ceiling(K k) {
+      return sortedMap().ceilingKey(k);
+    }
+
+    @Override
+    public K higher(K k) {
+      return sortedMap().higherKey(k);
+    }
+
+    @Override
+    public K pollFirst() {
+      return Iterators.pollNext(iterator());
+    }
+
+    @Override
+    public K pollLast() {
+      return Iterators.pollNext(descendingIterator());
+    }
+
+    @Override
+    public NavigableSet<K> descendingSet() {
+      return new NavigableKeySet(sortedMap().descendingMap());
+    }
+
+    @Override
+    public Iterator<K> descendingIterator() {
+      return descendingSet().iterator();
+    }
+
+    @Override
+    public NavigableSet<K> headSet(K toElement) {
+      return headSet(toElement, false);
+    }
+
+    @Override
+    public NavigableSet<K> headSet(K toElement, boolean inclusive) {
+      return new NavigableKeySet(sortedMap().headMap(toElement, inclusive));
+    }
+
+    @Override
+    public NavigableSet<K> subSet(K fromElement, K toElement) {
+      return subSet(fromElement, true, toElement, false);
+    }
+
+    @Override
+    public NavigableSet<K> subSet(
+        K fromElement, boolean fromInclusive, K toElement, boolean toInclusive) {
+      return new NavigableKeySet(
+          sortedMap().subMap(fromElement, fromInclusive, toElement, toInclusive));
+    }
+
+    @Override
+    public NavigableSet<K> tailSet(K fromElement) {
+      return tailSet(fromElement, true);
+    }
+
+    @Override
+    public NavigableSet<K> tailSet(K fromElement, boolean inclusive) {
+      return new NavigableKeySet(sortedMap().tailMap(fromElement, inclusive));
+    }
   }
 
   /**
@@ -1068,8 +1136,6 @@ abstract class AbstractMultimap<K, V> implements Multimap<K, V>, Serializable {
     return count;
   }
 
-  private transient Collection<V> valuesCollection;
-
   /**
    * {@inheritDoc}
    *
@@ -1077,18 +1143,8 @@ abstract class AbstractMultimap<K, V> implements Multimap<K, V>, Serializable {
    * for one key, followed by the values of a second key, and so on.
    */
   @Override public Collection<V> values() {
-    Collection<V> result = valuesCollection;
-    if (result == null) {
-      return valuesCollection = new Multimaps.Values<K, V>() {
-        @Override Multimap<K, V> multimap() {
-          return AbstractMultimap.this;
-        }
-      };
-    }
-    return result;
+    return super.values();
   }
-
-  private transient Collection<Map.Entry<K, V>> entries;
 
   /*
    * TODO(kevinb): should we copy this javadoc to each concrete class, so that
@@ -1108,42 +1164,19 @@ abstract class AbstractMultimap<K, V> implements Multimap<K, V>, Serializable {
    */
   @Override
   public Collection<Map.Entry<K, V>> entries() {
-    Collection<Map.Entry<K, V>> result = entries;
-    return (result == null) ? entries = createEntries() : result;
-  }
-
-  Collection<Map.Entry<K, V>> createEntries() {
-    if (this instanceof SetMultimap) {
-      return new Multimaps.EntrySet<K, V>() {
-        @Override Multimap<K, V> multimap() {
-          return AbstractMultimap.this;
-        }
-
-        @Override public Iterator<Entry<K, V>> iterator() {
-          return createEntryIterator();
-        }
-      };
-    }
-    return new Multimaps.Entries<K, V>() {
-      @Override Multimap<K, V> multimap() {
-        return AbstractMultimap.this;
-      }
-
-      @Override public Iterator<Entry<K, V>> iterator() {
-        return createEntryIterator();
-      }
-    };
+    return super.entries();
   }
 
   /**
    * Returns an iterator across all key-value map entries, used by {@code
    * entries().iterator()} and {@code values().iterator()}. The default
    * behavior, which traverses the values for one key, the values for a second
-   * key, and so on, suffices for most {@code AbstractMultimap} implementations.
+   * key, and so on, suffices for most {@code AbstractMapBasedMultimap} implementations.
    *
    * @return an iterator across map entries
    */
-  Iterator<Map.Entry<K, V>> createEntryIterator() {
+  @Override
+  Iterator<Map.Entry<K, V>> entryIterator() {
     return new EntryIterator();
   }
 
@@ -1193,14 +1226,7 @@ abstract class AbstractMultimap<K, V> implements Multimap<K, V>, Serializable {
     }
   }
 
-  private transient Map<K, Collection<V>> asMap;
-
   @Override
-  public Map<K, Collection<V>> asMap() {
-    Map<K, Collection<V>> result = asMap;
-    return (result == null) ? asMap = createAsMap() : result;
-  }
-
   Map<K, Collection<V>> createAsMap() {
     // TreeMultimap uses NavigableAsMap explicitly, but we don't handle that here for GWT
     // compatibility reasons
@@ -1243,7 +1269,7 @@ abstract class AbstractMultimap<K, V> implements Multimap<K, V>, Serializable {
     }
 
     @Override public Set<K> keySet() {
-      return AbstractMultimap.this.keySet();
+      return AbstractMapBasedMultimap.this.keySet();
     }
 
     @Override
@@ -1279,7 +1305,7 @@ abstract class AbstractMultimap<K, V> implements Multimap<K, V>, Serializable {
     @Override
     public void clear() {
       if (submap == map) {
-        AbstractMultimap.this.clear();
+        AbstractMapBasedMultimap.this.clear();
       } else {
 
         Iterators.clear(new AsMapIterator());
@@ -1398,40 +1424,150 @@ abstract class AbstractMultimap<K, V> implements Multimap<K, V>, Serializable {
     }
   }
 
-  // Comparison and hashing
+  @GwtIncompatible("NavigableAsMap")
+  class NavigableAsMap extends SortedAsMap implements NavigableMap<K, Collection<V>> {
 
-  @Override public boolean equals(@Nullable Object object) {
-    if (object == this) {
-      return true;
+    NavigableAsMap(NavigableMap<K, Collection<V>> submap) {
+      super(submap);
     }
-    if (object instanceof Multimap) {
-      Multimap<?, ?> that = (Multimap<?, ?>) object;
-      return this.map.equals(that.asMap());
+
+    @Override
+    NavigableMap<K, Collection<V>> sortedMap() {
+      return (NavigableMap<K, Collection<V>>) super.sortedMap();
     }
-    return false;
-  }
 
-  /**
-   * Returns the hash code for this multimap.
-   *
-   * <p>The hash code of a multimap is defined as the hash code of the map view,
-   * as returned by {@link Multimap#asMap}.
-   *
-   * @see Map#hashCode
-   */
-  @Override public int hashCode() {
-    return map.hashCode();
-  }
+    @Override
+    public Entry<K, Collection<V>> lowerEntry(K key) {
+      Entry<K, Collection<V>> entry = sortedMap().lowerEntry(key);
+      return (entry == null) ? null : wrapEntry(entry);
+    }
 
-  /**
-   * Returns a string representation of the multimap, generated by calling
-   * {@code toString} on the map returned by {@link Multimap#asMap}.
-   *
-   * @return a string representation of the multimap
-   */
-  @Override
-  public String toString() {
-    return map.toString();
+    @Override
+    public K lowerKey(K key) {
+      return sortedMap().lowerKey(key);
+    }
+
+    @Override
+    public Entry<K, Collection<V>> floorEntry(K key) {
+      Entry<K, Collection<V>> entry = sortedMap().floorEntry(key);
+      return (entry == null) ? null : wrapEntry(entry);
+    }
+
+    @Override
+    public K floorKey(K key) {
+      return sortedMap().floorKey(key);
+    }
+
+    @Override
+    public Entry<K, Collection<V>> ceilingEntry(K key) {
+      Entry<K, Collection<V>> entry = sortedMap().ceilingEntry(key);
+      return (entry == null) ? null : wrapEntry(entry);
+    }
+
+    @Override
+    public K ceilingKey(K key) {
+      return sortedMap().ceilingKey(key);
+    }
+
+    @Override
+    public Entry<K, Collection<V>> higherEntry(K key) {
+      Entry<K, Collection<V>> entry = sortedMap().higherEntry(key);
+      return (entry == null) ? null : wrapEntry(entry);
+    }
+
+    @Override
+    public K higherKey(K key) {
+      return sortedMap().higherKey(key);
+    }
+
+    @Override
+    public Entry<K, Collection<V>> firstEntry() {
+      Entry<K, Collection<V>> entry = sortedMap().firstEntry();
+      return (entry == null) ? null : wrapEntry(entry);
+    }
+
+    @Override
+    public Entry<K, Collection<V>> lastEntry() {
+      Entry<K, Collection<V>> entry = sortedMap().lastEntry();
+      return (entry == null) ? null : wrapEntry(entry);
+    }
+
+    @Override
+    public Entry<K, Collection<V>> pollFirstEntry() {
+      return pollAsMapEntry(entrySet().iterator());
+    }
+
+    @Override
+    public Entry<K, Collection<V>> pollLastEntry() {
+      return pollAsMapEntry(descendingMap().entrySet().iterator());
+    }
+
+    Map.Entry<K, Collection<V>> pollAsMapEntry(Iterator<Entry<K, Collection<V>>> entryIterator) {
+      if (!entryIterator.hasNext()) {
+        return null;
+      }
+      Entry<K, Collection<V>> entry = entryIterator.next();
+      Collection<V> output = createCollection();
+      output.addAll(entry.getValue());
+      entryIterator.remove();
+      return Maps.immutableEntry(entry.getKey(), unmodifiableCollectionSubclass(output));
+    }
+
+    @Override
+    public NavigableMap<K, Collection<V>> descendingMap() {
+      return new NavigableAsMap(sortedMap().descendingMap());
+    }
+
+    @Override
+    public NavigableSet<K> keySet() {
+      return (NavigableSet<K>) super.keySet();
+    }
+
+    @Override
+    NavigableSet<K> createKeySet() {
+      return new NavigableKeySet(sortedMap());
+    }
+
+    @Override
+    public NavigableSet<K> navigableKeySet() {
+      return keySet();
+    }
+
+    @Override
+    public NavigableSet<K> descendingKeySet() {
+      return descendingMap().navigableKeySet();
+    }
+
+    @Override
+    public NavigableMap<K, Collection<V>> subMap(K fromKey, K toKey) {
+      return subMap(fromKey, true, toKey, false);
+    }
+
+    @Override
+    public NavigableMap<K, Collection<V>> subMap(
+        K fromKey, boolean fromInclusive, K toKey, boolean toInclusive) {
+      return new NavigableAsMap(sortedMap().subMap(fromKey, fromInclusive, toKey, toInclusive));
+    }
+
+    @Override
+    public NavigableMap<K, Collection<V>> headMap(K toKey) {
+      return headMap(toKey, false);
+    }
+
+    @Override
+    public NavigableMap<K, Collection<V>> headMap(K toKey, boolean inclusive) {
+      return new NavigableAsMap(sortedMap().headMap(toKey, false));
+    }
+
+    @Override
+    public NavigableMap<K, Collection<V>> tailMap(K fromKey) {
+      return tailMap(fromKey, true);
+    }
+
+    @Override
+    public NavigableMap<K, Collection<V>> tailMap(K fromKey, boolean inclusive) {
+      return new NavigableAsMap(sortedMap().tailMap(fromKey, inclusive));
+    }
   }
 
   private static final long serialVersionUID = 2447537837011683357L;

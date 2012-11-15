@@ -62,8 +62,8 @@ import javax.annotation.Nullable;
  * @since 2.0 (imported from Google Collections Library)
  */
 @GwtCompatible(emulated = true)
-public abstract class ImmutableMultimap<K, V>
-    implements Multimap<K, V>, Serializable {
+public abstract class ImmutableMultimap<K, V> extends AbstractMultimap<K, V>
+    implements Serializable {
 
   /** Returns an empty multimap. */
   public static <K, V> ImmutableMultimap<K, V> of() {
@@ -123,7 +123,7 @@ public abstract class ImmutableMultimap<K, V>
    * value orderings, allows duplicate values, and performs better than
    * {@link LinkedListMultimap}.
    */
-  private static class BuilderMultimap<K, V> extends AbstractMultimap<K, V> {
+  private static class BuilderMultimap<K, V> extends AbstractMapBasedMultimap<K, V> {
     BuilderMultimap() {
       super(new LinkedHashMap<K, Collection<V>>());
     }
@@ -427,50 +427,13 @@ public abstract class ImmutableMultimap<K, V>
   // accessors
 
   @Override
-  public boolean containsEntry(@Nullable Object key, @Nullable Object value) {
-    Collection<V> values = map.get(key);
-    return values != null && values.contains(value);
-  }
-
-  @Override
   public boolean containsKey(@Nullable Object key) {
     return map.containsKey(key);
   }
 
   @Override
-  public boolean containsValue(@Nullable Object value) {
-    for (Collection<V> valueCollection : map.values()) {
-      if (valueCollection.contains(value)) {
-        return true;
-      }
-    }
-    return false;
-  }
-
-  @Override
-  public boolean isEmpty() {
-    return size == 0;
-  }
-
-  @Override
   public int size() {
     return size;
-  }
-
-  @Override public boolean equals(@Nullable Object object) {
-    if (object instanceof Multimap) {
-      Multimap<?, ?> that = (Multimap<?, ?>) object;
-      return this.map.equals(that.asMap());
-    }
-    return false;
-  }
-
-  @Override public int hashCode() {
-    return map.hashCode();
-  }
-
-  @Override public String toString() {
-    return map.toString();
   }
 
   // views
@@ -494,8 +457,11 @@ public abstract class ImmutableMultimap<K, V>
   public ImmutableMap<K, Collection<V>> asMap() {
     return (ImmutableMap) map;
   }
-
-  private transient ImmutableCollection<Entry<K, V>> entries;
+  
+  @Override
+  Map<K, Collection<V>> createAsMap() {
+    throw new AssertionError("should never be called");
+  }
 
   /**
    * Returns an immutable collection of all key-value pairs in the multimap. Its
@@ -504,9 +470,12 @@ public abstract class ImmutableMultimap<K, V>
    */
   @Override
   public ImmutableCollection<Entry<K, V>> entries() {
-    ImmutableCollection<Entry<K, V>> result = entries;
-    return (result == null)
-        ? (entries = new EntryCollection<K, V>(this)) : result;
+    return (ImmutableCollection<Entry<K, V>>) super.entries();
+  }
+  
+  @Override
+  ImmutableCollection<Entry<K, V>> createEntries() {
+    return new EntryCollection<K, V>(this);
   }
 
   private static class EntryCollection<K, V>
@@ -518,30 +487,7 @@ public abstract class ImmutableMultimap<K, V>
     }
 
     @Override public UnmodifiableIterator<Entry<K, V>> iterator() {
-      final Iterator<? extends Entry<K, ? extends ImmutableCollection<V>>>
-          mapIterator = this.multimap.map.entrySet().iterator();
-
-      return new UnmodifiableIterator<Entry<K, V>>() {
-        K key;
-        Iterator<V> valueIterator;
-
-        @Override
-        public boolean hasNext() {
-          return (key != null && valueIterator.hasNext())
-              || mapIterator.hasNext();
-        }
-
-        @Override
-        public Entry<K, V> next() {
-          if (key == null || !valueIterator.hasNext()) {
-            Entry<K, ? extends ImmutableCollection<V>> entry
-                = mapIterator.next();
-            key = entry.getKey();
-            valueIterator = entry.getValue().iterator();
-          }
-          return Maps.immutableEntry(key, valueIterator.next());
-        }
-      };
+      return multimap.entryIterator();
     }
 
     @Override boolean isPartialView() {
@@ -563,8 +509,34 @@ public abstract class ImmutableMultimap<K, V>
 
     private static final long serialVersionUID = 0;
   }
+  
+  @Override
+  UnmodifiableIterator<Entry<K, V>> entryIterator() {
+    final Iterator<? extends Entry<K, ? extends ImmutableCollection<V>>>
+        mapIterator = map.entrySet().iterator();
 
-  private transient ImmutableMultiset<K> keys;
+    return new UnmodifiableIterator<Entry<K, V>>() {
+      K key;
+      Iterator<V> valueIterator;
+
+      @Override
+      public boolean hasNext() {
+        return (key != null && valueIterator.hasNext())
+            || mapIterator.hasNext();
+      }
+
+      @Override
+      public Entry<K, V> next() {
+        if (key == null || !valueIterator.hasNext()) {
+          Entry<K, ? extends ImmutableCollection<V>> entry
+              = mapIterator.next();
+          key = entry.getKey();
+          valueIterator = entry.getValue().iterator();
+        }
+        return Maps.immutableEntry(key, valueIterator.next());
+      }
+    };
+  }
 
   /**
    * Returns a collection, which may contain duplicates, of all keys. The number
@@ -574,11 +546,11 @@ public abstract class ImmutableMultimap<K, V>
    */
   @Override
   public ImmutableMultiset<K> keys() {
-    ImmutableMultiset<K> result = keys;
-    return (result == null) ? (keys = createKeys()) : result;
+    return (ImmutableMultiset<K>) super.keys();
   }
 
-  private ImmutableMultiset<K> createKeys() {
+  @Override
+  ImmutableMultiset<K> createKeys() {
     return new Keys();
   }
 
@@ -646,8 +618,6 @@ public abstract class ImmutableMultimap<K, V>
     }
   }
 
-  private transient ImmutableCollection<V> values;
-
   /**
    * Returns an immutable collection of the values in this multimap. Its
    * iterator traverses the values for the first key, the values for the second
@@ -655,8 +625,12 @@ public abstract class ImmutableMultimap<K, V>
    */
   @Override
   public ImmutableCollection<V> values() {
-    ImmutableCollection<V> result = values;
-    return (result == null) ? (values = new Values<V>(this)) : result;
+    return (ImmutableCollection<V>) super.values();
+  }
+  
+  @Override
+  ImmutableCollection<V> createValues() {
+    return new Values<V>(this);
   }
 
   private static class Values<V> extends ImmutableCollection<V> {

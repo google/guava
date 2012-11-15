@@ -28,7 +28,7 @@ import javax.annotation.Nullable;
 
 /**
  * Basic implementation of the {@link SortedSetMultimap} interface. It's a
- * wrapper around {@link AbstractMultimap} that converts the returned
+ * wrapper around {@link AbstractMapBasedMultimap} that converts the returned
  * collections into sorted sets. The {@link #createCollection} method
  * must return a {@code SortedSet}.
  *

@@ -116,7 +116,7 @@ public final class Multimaps {
     return new CustomMultimap<K, V>(map, factory);
   }
 
-  private static class CustomMultimap<K, V> extends AbstractMultimap<K, V> {
+  private static class CustomMultimap<K, V> extends AbstractMapBasedMultimap<K, V> {
     transient Supplier<? extends Collection<V>> factory;
 
     CustomMultimap(Map<K, Collection<V>> map,

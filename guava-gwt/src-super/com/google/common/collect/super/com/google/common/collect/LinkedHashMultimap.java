@@ -525,7 +525,7 @@ public final class LinkedHashMultimap<K, V> extends AbstractSetMultimap<K, V> {
   }
 
   @Override
-  Iterator<Map.Entry<K, V>> createEntryIterator() {
+  Iterator<Map.Entry<K, V>> entryIterator() {
     return new Iterator<Map.Entry<K, V>>() {
       ValueEntry<K, V> nextEntry = multimapHeaderEntry.successorInMultimap;
       ValueEntry<K, V> toRemove;

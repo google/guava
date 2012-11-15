@@ -26,14 +26,14 @@ import javax.annotation.Nullable;
 
 /**
  * Basic implementation of the {@link SetMultimap} interface. It's a wrapper
- * around {@link AbstractMultimap} that converts the returned collections into
+ * around {@link AbstractMapBasedMultimap} that converts the returned collections into
  * {@code Sets}. The {@link #createCollection} method must return a {@code Set}.
  *
  * @author Jared Levy
  */
 @GwtCompatible
 abstract class AbstractSetMultimap<K, V>
-    extends AbstractMultimap<K, V> implements SetMultimap<K, V> {
+    extends AbstractMapBasedMultimap<K, V> implements SetMultimap<K, V> {
   /**
    * Creates a new multimap that uses the provided map.
    *

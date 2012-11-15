@@ -26,7 +26,7 @@ import javax.annotation.Nullable;
 
 /**
  * Basic implementation of the {@link ListMultimap} interface. It's a wrapper
- * around {@link AbstractMultimap} that converts the returned collections into
+ * around {@link AbstractMapBasedMultimap} that converts the returned collections into
  * {@code Lists}. The {@link #createCollection} method must return a {@code
  * List}.
  *
@@ -35,7 +35,7 @@ import javax.annotation.Nullable;
  */
 @GwtCompatible
 abstract class AbstractListMultimap<K, V>
-    extends AbstractMultimap<K, V> implements ListMultimap<K, V> {
+    extends AbstractMapBasedMultimap<K, V> implements ListMultimap<K, V> {
   /**
    * Creates a new multimap that uses the provided map.
    *
