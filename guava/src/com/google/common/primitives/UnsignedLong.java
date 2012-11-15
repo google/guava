@@ -62,9 +62,12 @@ public final class UnsignedLong extends Number implements Comparable<UnsignedLon
    *
    * <p>Put another way, if {@code value} is negative, the returned result will be equal to
    * {@code 2^64 + value}; otherwise, the returned result will be equal to {@code value}.
+   *
+   * @deprecated Use {@link #fromLongBits(long)}. This method is scheduled for deletion in January
+   *             2013.
    */
+  @Deprecated
   public static UnsignedLong asUnsigned(long value) {
-    // TODO(user): deprecate this
     return fromLongBits(value);
   }
 
@@ -89,7 +92,7 @@ public final class UnsignedLong extends Number implements Comparable<UnsignedLon
     checkNotNull(value);
     checkArgument(value.signum() >= 0 && value.bitLength() <= Long.SIZE,
         "value (%s) is outside the range for an unsigned long value", value);
-    return asUnsigned(value.longValue());
+    return fromLongBits(value.longValue());
   }
 
   /**
@@ -112,15 +115,18 @@ public final class UnsignedLong extends Number implements Comparable<UnsignedLon
    *         {@link Character#MAX_RADIX}
    */
   public static UnsignedLong valueOf(String string, int radix) {
-    return asUnsigned(UnsignedLongs.parseUnsignedLong(string, radix));
+    return fromLongBits(UnsignedLongs.parseUnsignedLong(string, radix));
   }
 
   /**
    * Returns the result of adding this and {@code val}. If the result would have more than 64 bits,
    * returns the low 64 bits of the result.
+   *
+   * @deprecated Use {@link #plus(UnsignedLong)}.  This method is scheduled for deletion in January
+   *             2013.
    */
+  @Deprecated
   public UnsignedLong add(UnsignedLong val) {
-    // TODO(user): deprecate this
     return plus(val);
   }
 
@@ -137,9 +143,12 @@ public final class UnsignedLong extends Number implements Comparable<UnsignedLon
   /**
    * Returns the result of subtracting this and {@code val}. If the result would be negative,
    * returns the low 64 bits of the result.
+   *
+   * @deprecated Use {@link #minus(UnsignedLong)}.  This method is scheduled for deletion in
+   *             January 2013.
    */
+  @Deprecated
   public UnsignedLong subtract(UnsignedLong val) {
-    // TODO(user): deprecate this
     return minus(val);
   }
 
@@ -156,9 +165,12 @@ public final class UnsignedLong extends Number implements Comparable<UnsignedLon
   /**
    * Returns the result of multiplying this and {@code val}. If the result would have more than 64
    * bits, returns the low 64 bits of the result.
+   *
+   * @deprecated Use {@link #times(UnsignedLong)}.  This method is scheduled for deletion in
+   *             January 2013.
    */
+  @Deprecated
   public UnsignedLong multiply(UnsignedLong val) {
-    // TODO(user): deprecate this
     return times(val);
   }
 
@@ -175,9 +187,12 @@ public final class UnsignedLong extends Number implements Comparable<UnsignedLon
 
   /**
    * Returns the result of dividing this by {@code val}.
+   *
+   * @deprecated Use {@link #dividedBy(UnsignedLong)}.  This method is scheduled for deletion in
+   *             January 2013.
    */
+  @Deprecated
   public UnsignedLong divide(UnsignedLong val) {
-    // TODO(user): deprecate this
     return dividedBy(val);
   }
 
@@ -193,9 +208,12 @@ public final class UnsignedLong extends Number implements Comparable<UnsignedLon
 
   /**
    * Returns the remainder of dividing this by {@code val}.
+   *
+   * @deprecated Use {@link #mod(UnsignedLong)}.  This method is scheduled for deletion in January
+   *             2013.
    */
+  @Deprecated
   public UnsignedLong remainder(UnsignedLong val) {
-    // TODO(user): deprecate this
     return mod(val);
   }
 
