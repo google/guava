@@ -34,10 +34,10 @@ import java.nio.charset.Charset;
  *   newHasher().putString("a").putString("bc").hash()
  *   newHasher().putChar('a').putChar('b').putChar('c').hash()}</pre>
  *
- * If you wish to avoid this, you must explicitly delimit your data chunks. For example:
+ * If you wish to avoid this, you should either prepend or append the size of each chunk.
+ * For example:
  * <pre>   {@code
- *
- *   newHasher().putString("ab").putByte(DELIM).putString("c").hash()}</pre>
+ *   newHasher().putInt(s1.length()).putString(s1).putInt(s2.length()).putString(s2).hash()}</pre>
  *
  * @author Kevin Bourrillion
  * @since 11.0
