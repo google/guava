@@ -441,8 +441,8 @@ public final class Iterators {
   /**
    * Returns an iterator that cycles indefinitely over the provided elements.
    *
-   * <p>The returned iterator supports {@code remove()} if the provided iterator
-   * does. After {@code remove()} is called, subsequent cycles omit the removed
+   * <p>The returned iterator supports {@code remove()}. After {@code remove()}
+   * is called, subsequent cycles omit the removed
    * element, but {@code elements} does not change. The iterator's
    * {@code hasNext()} method returns {@code true} until all of the original
    * elements have been removed.
