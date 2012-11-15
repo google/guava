@@ -26,6 +26,7 @@ import com.google.common.annotations.GwtIncompatible;
 
 import java.math.BigInteger;
 
+import javax.annotation.CheckReturnValue;
 import javax.annotation.Nullable;
 
 /**
@@ -58,7 +59,11 @@ public final class UnsignedInteger extends Number implements Comparable<Unsigned
   /**
    * Returns an {@code UnsignedInteger} that, when treated as signed, is
    * equal to {@code value}.
+   *
+   * @deprecated Use {@link #fromIntBits(int)}. This method is scheduled for deletion in January
+   *             2013.
    */
+  @Deprecated
   public static UnsignedInteger asUnsigned(int value) {
     // TODO(user): deprecate this
     return fromIntBits(value);
@@ -122,9 +127,12 @@ public final class UnsignedInteger extends Number implements Comparable<Unsigned
   /**
    * Returns the result of adding this and {@code val}. If the result would have more than 32 bits,
    * returns the low 32 bits of the result.
+   *
+   * @deprecated Use {@link #plus(UnsignedInteger)}. This method is scheduled for deletion in
+   *             January 2013.
    */
+  @Deprecated
   public UnsignedInteger add(UnsignedInteger val) {
-    // TODO(user): deprecate this
     return plus(val);
   }
 
@@ -134,6 +142,7 @@ public final class UnsignedInteger extends Number implements Comparable<Unsigned
    *
    * @since 14.0
    */
+  @CheckReturnValue
   public UnsignedInteger plus(UnsignedInteger val) {
     return fromIntBits(this.value + checkNotNull(val).value);
   }
@@ -141,9 +150,12 @@ public final class UnsignedInteger extends Number implements Comparable<Unsigned
   /**
    * Returns the result of subtracting this and {@code val}. If the result would be negative,
    * returns the low 32 bits of the result.
+   *
+   * @deprecated Use {@link #minus(UnsignedInteger)}. This method is scheduled for deletion in
+   *             January 2013.
    */
+  @Deprecated
   public UnsignedInteger subtract(UnsignedInteger val) {
-    // TODO(user): deprecate this
     return minus(val);
   }
 
@@ -153,6 +165,7 @@ public final class UnsignedInteger extends Number implements Comparable<Unsigned
    *
    * @since 14.0
    */
+  @CheckReturnValue
   public UnsignedInteger minus(UnsignedInteger val) {
     return fromIntBits(value - checkNotNull(val).value);
   }
@@ -160,9 +173,12 @@ public final class UnsignedInteger extends Number implements Comparable<Unsigned
   /**
    * Returns the result of multiplying this and {@code val}. If the result would have more than 32
    * bits, returns the low 32 bits of the result.
+   *
+   * @deprecated Use {@link #times(UnsignedInteger)}. This method is scheduled for deletion in
+   *             January 2013.
    */
+  @Deprecated
   public UnsignedInteger multiply(UnsignedInteger val) {
-    // TODO(user): deprecate this
     return times(val);
   }
 
@@ -172,6 +188,7 @@ public final class UnsignedInteger extends Number implements Comparable<Unsigned
    *
    * @since 14.0
    */
+  @CheckReturnValue
   @GwtIncompatible("Does not truncate correctly")
   public UnsignedInteger times(UnsignedInteger val) {
     // TODO(user): make this GWT-compatible
@@ -180,9 +197,12 @@ public final class UnsignedInteger extends Number implements Comparable<Unsigned
 
   /**
    * Returns the result of dividing this by {@code val}.
+   *
+   * @deprecated Use {@link #dividedBy(UnsignedInteger)}. This method is scheduled for deletion in
+   *             January 2013.
    */
+  @Deprecated
   public UnsignedInteger divide(UnsignedInteger val) {
-    // TODO(user): deprecate this
     return dividedBy(val);
   }
 
@@ -192,15 +212,19 @@ public final class UnsignedInteger extends Number implements Comparable<Unsigned
    * @throws ArithmeticException if {@code val} is zero
    * @since 14.0
    */
+  @CheckReturnValue
   public UnsignedInteger dividedBy(UnsignedInteger val) {
     return fromIntBits(UnsignedInts.divide(value, checkNotNull(val).value));
   }
 
   /**
    * Returns the remainder of dividing this by {@code val}.
+   *
+   * @deprecated Use {@link #mod(UnsignedInteger)}. This method is scheduled for deletion in
+   *             January 2013.
    */
+  @Deprecated
   public UnsignedInteger remainder(UnsignedInteger val) {
-    // TODO(user): deprecate this
     return mod(val);
   }
 
@@ -210,6 +234,7 @@ public final class UnsignedInteger extends Number implements Comparable<Unsigned
    * @throws ArithmeticException if {@code val} is zero
    * @since 14.0
    */
+  @CheckReturnValue
   public UnsignedInteger mod(UnsignedInteger val) {
     return fromIntBits(UnsignedInts.remainder(value, checkNotNull(val).value));
   }
