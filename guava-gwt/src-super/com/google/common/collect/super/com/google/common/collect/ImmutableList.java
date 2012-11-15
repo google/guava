@@ -116,19 +116,6 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
     return new RegularImmutableList<E>(ImmutableList.<E>nullCheckedList(array));
   }
 
-  public static <E> ImmutableList<E> of(E[] elements) {
-    checkNotNull(elements); // for GWT
-    switch (elements.length) {
-      case 0:
-        return ImmutableList.of();
-      case 1:
-        return new SingletonImmutableList<E>(elements[0]);
-      default:
-        return new RegularImmutableList<E>(
-            ImmutableList.<E>nullCheckedList(elements));
-    }
-  }
-
   private static void arrayCopy(Object[] dest, int pos, Object... source) {
     System.arraycopy(source, 0, dest, pos, source.length);
   }
