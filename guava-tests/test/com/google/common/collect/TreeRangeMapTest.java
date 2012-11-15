@@ -15,12 +15,22 @@
 package com.google.common.collect;
 
 import static com.google.common.collect.BoundType.OPEN;
+import static com.google.common.collect.testing.Helpers.mapEntry;
 
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.collect.testing.MapTestSuiteBuilder;
+import com.google.common.collect.testing.SampleElements;
+import com.google.common.collect.testing.TestMapGenerator;
+import com.google.common.collect.testing.features.CollectionFeature;
+import com.google.common.collect.testing.features.CollectionSize;
 
+import junit.framework.Test;
 import junit.framework.TestCase;
+import junit.framework.TestSuite;
 
+import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.NoSuchElementException;
 
 /**
@@ -30,6 +40,65 @@ import java.util.NoSuchElementException;
  */
 @GwtIncompatible("NavigableMap")
 public class TreeRangeMapTest extends TestCase {
+  public static Test suite() {
+    TestSuite suite = new TestSuite();
+    suite.addTestSuite(TreeRangeMapTest.class);
+    suite.addTest(MapTestSuiteBuilder.using(new TestMapGenerator<Range<Integer>, String>() {
+        @Override
+        public SampleElements<Entry<Range<Integer>, String>> samples() {
+          return new SampleElements<Entry<Range<Integer>, String>>(
+              mapEntry(Range.singleton(0), "banana"),
+              mapEntry(Range.closedOpen(3, 5), "frisbee"),
+              mapEntry(Range.atMost(-1), "fruitcake"),
+              mapEntry(Range.open(10, 15), "elephant"),
+              mapEntry(Range.closed(20, 22), "umbrella"));
+        }
+  
+        @Override
+        public Map<Range<Integer>, String> create(Object... elements) {
+          RangeMap<Integer, String> rangeMap = TreeRangeMap.create();
+          for (Object o : elements) {
+            @SuppressWarnings("unchecked")
+            Entry<Range<Integer>, String> entry = (Entry<Range<Integer>, String>) o;
+            rangeMap.put(entry.getKey(), entry.getValue());
+          }
+          return rangeMap.asMapOfRanges();
+        }
+  
+        @SuppressWarnings("unchecked")
+        @Override
+        public Entry<Range<Integer>, String>[] createArray(int length) {
+          return new Entry[length];
+        }
+  
+        @Override
+        public Iterable<Entry<Range<Integer>, String>> order(
+            List<Entry<Range<Integer>, String>> insertionOrder) {
+          return Range.RANGE_LEX_ORDERING.onResultOf(Maps.<Range<Integer>>keyFunction())
+              .sortedCopy(insertionOrder);
+        }
+  
+        @SuppressWarnings("unchecked")
+        @Override
+        public Range<Integer>[] createKeyArray(int length) {
+          return new Range[length];
+        }
+  
+        @Override
+        public String[] createValueArray(int length) {
+          return new String[length];
+        }
+      })
+      .named("TreeRangeMap.asMapOfRanges")
+      .withFeatures(
+          CollectionSize.ANY,
+          CollectionFeature.SUPPORTS_REMOVE,
+          CollectionFeature.ALLOWS_NULL_QUERIES,
+          CollectionFeature.KNOWN_ORDER)
+      .createTestSuite());
+    return suite;
+  }
+  
   private static final ImmutableList<Range<Integer>> RANGES;
   private static final int MIN_BOUND = -1;
   private static final int MAX_BOUND = 1;

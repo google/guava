@@ -211,7 +211,7 @@ public final class TreeRangeMap<K extends Comparable, V> implements RangeMap<K, 
       if (key instanceof Range) {
         Range<?> range = (Range<?>) key;
         RangeMapEntry<K, V> rangeMapEntry = entriesByLowerBound.get(range.lowerBound);
-        if (rangeMapEntry.getKey().equals(range)) {
+        if (rangeMapEntry != null && rangeMapEntry.getKey().equals(range)) {
           return rangeMapEntry.getValue();
         }
       }

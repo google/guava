@@ -76,6 +76,18 @@ import javax.annotation.Nullable;
 public final class Maps {
   private Maps() {}
 
+  private static final Function<Entry, Object> KEY_FUNCTION = new Function<Entry, Object>() {
+    @Override
+    public Object apply(Entry entry) {
+      return entry.getKey();
+    }
+  };
+
+  @SuppressWarnings("unchecked")
+  static <K> Function<Entry<K, ?>, K> keyFunction() {
+    return (Function) KEY_FUNCTION;
+  }
+
   /**
    * Returns an immutable map instance containing the given entries.
    * Internally, the returned set will be backed by an {@link EnumMap}.
