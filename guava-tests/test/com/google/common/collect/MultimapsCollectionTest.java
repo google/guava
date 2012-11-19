@@ -99,16 +99,15 @@ public class MultimapsCollectionTest extends TestCase {
     CollectionSize.ANY,
     ALLOWS_NULL_VALUES,
     SUPPORTS_REMOVE,
-    MultisetTestSuiteBuilder.NoRecurse.NO_ENTRY_SET, // Cannot create entries with count > 1
+    MultisetTestSuiteBuilder.NoRecurse.NO_ENTRY_SET,  // Cannot create entries with count > 1
   };
 
-  static final Supplier<TreeSet<String>> STRING_TREESET_FACTORY
-      = new Supplier<TreeSet<String>>() {
-        @Override
-        public TreeSet<String> get() {
-          return new TreeSet<String>(Ordering.natural().nullsLast());
-        }
-      };
+  static final Supplier<TreeSet<String>> STRING_TREESET_FACTORY = new Supplier<TreeSet<String>>() {
+    @Override
+    public TreeSet<String> get() {
+      return new TreeSet<String>(Ordering.natural().nullsLast());
+    }
+  };
 
   static void populateMultimapForGet(
       Multimap<Integer, String> multimap, String[] elements) {
@@ -158,7 +157,7 @@ public class MultimapsCollectionTest extends TestCase {
       return new PopulatableMapAsMultimap<K, V>();
     }
 
-    @SuppressWarnings("unchecked") // all methods throw immediately
+    @SuppressWarnings("unchecked")  // all methods throw immediately
     PopulatableMapAsMultimap() {
       this.map = newHashMap();
       this.unusableDelegate = (SetMultimap<K, V>) newProxyInstance(
@@ -187,7 +186,7 @@ public class MultimapsCollectionTest extends TestCase {
     }
   }
 
-  static abstract class TestEntriesGenerator
+  abstract static class TestEntriesGenerator
       implements TestCollectionGenerator<Entry<String, Integer>> {
     @Override
     public SampleElements<Entry<String, Integer>> samples() {
@@ -225,7 +224,7 @@ public class MultimapsCollectionTest extends TestCase {
     }
   }
 
-  public static abstract class TestEntriesListGenerator
+  public abstract static class TestEntriesListGenerator
       extends TestEntriesGenerator
       implements TestListGenerator<Entry<String, Integer>> {
     @Override public List<Entry<String, Integer>> create(Object... elements) {
@@ -285,8 +284,7 @@ public class MultimapsCollectionTest extends TestCase {
 
     suite.addTest(SetTestSuiteBuilder.using(new TestStringSetGenerator() {
           @Override protected Set<String> create(String[] elements) {
-            SetMultimap<Integer, String> multimap
-                = LinkedHashMultimap.create();
+            SetMultimap<Integer, String> multimap = LinkedHashMultimap.create();
             populateMultimapForGet(multimap, elements);
             multimap.put(3, "badvalue");
             multimap.put(55556, "foo");
@@ -313,12 +311,12 @@ public class MultimapsCollectionTest extends TestCase {
 
     suite.addTest(SetTestSuiteBuilder.using(
         new TestStringSetGenerator() {
-        @Override protected Set<String> create(String[] elements) {
-          SetMultimap<String, Integer> multimap = LinkedHashMultimap.create();
-          populateMultimapForKeySet(multimap, elements);
-          multimap.put("badkey", 3);
-          multimap.put("a", 55556);
-          return Multimaps.filterEntries(multimap, FILTER_KEYSET_PREDICATE).keySet();
+          @Override protected Set<String> create(String[] elements) {
+            SetMultimap<String, Integer> multimap = LinkedHashMultimap.create();
+            populateMultimapForKeySet(multimap, elements);
+            multimap.put("badkey", 3);
+            multimap.put("a", 55556);
+            return Multimaps.filterEntries(multimap, FILTER_KEYSET_PREDICATE).keySet();
           }
         })
         .named("Multimaps.filterEntries.keySet")
@@ -342,7 +340,7 @@ public class MultimapsCollectionTest extends TestCase {
         .suppressing(CollectionIteratorTester.getIteratorKnownOrderRemoveSupportedMethod())
         .createTestSuite());
 
-    // TODO: use collection testers on Multimaps.forMap.values
+    // TODO(user): use collection testers on Multimaps.forMap.values
 
     suite.addTest(MultisetTestSuiteBuilder.using(
         new TestStringMultisetGenerator() {
@@ -377,8 +375,7 @@ public class MultimapsCollectionTest extends TestCase {
         .suppressing(getIteratorDuplicateInitializingMethods())
         .createTestSuite());
 
-    suite.addTest(CollectionTestSuiteBuilder.using(
-        new TestEntriesGenerator() {
+    suite.addTest(CollectionTestSuiteBuilder.using(new TestEntriesGenerator() {
           @Override Multimap<String, Integer> createMultimap() {
             Multimap<String, Integer> multimap = LinkedHashMultimap.create();
             multimap.put("badkey", 3);
@@ -531,7 +528,7 @@ public class MultimapsCollectionTest extends TestCase {
         .withFeatures(CollectionSize.ANY, CollectionFeature.SUPPORTS_REMOVE)
         .createTestSuite());
 
-    // TODO: use collection testers on Multimaps.forMap.entries
+    // TODO(user): use collection testers on Multimaps.forMap.entries
 
     return suite;
   }

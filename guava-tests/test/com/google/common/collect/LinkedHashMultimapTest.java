@@ -356,8 +356,8 @@ public class LinkedHashMultimapTest extends AbstractSetMultimapTest {
 
   @GwtIncompatible("unreasonable slow")
   public void testKeySetIteration() {
-    new IteratorTester<String>(6, MODIFIABLE, newLinkedHashSet(asList(
-        "foo", "bar", "baz", "dog", "cat")),
+    new IteratorTester<String>(6, MODIFIABLE,
+        newLinkedHashSet(asList("foo", "bar", "baz", "dog", "cat")),
         IteratorTester.KnownOrder.KNOWN_ORDER) {
       private Multimap<String, Integer> multimap;
 

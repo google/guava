@@ -476,7 +476,7 @@ public final class LinkedHashMultimap<K, V> extends AbstractSetMultimap<K, V> {
         this.hashTable = hashTable;
         int mask = hashTable.length - 1;
         for (ValueSetLink<K, V> entry = firstEntry;
-              entry != this; entry = entry.getSuccessorInValueSet()) {
+            entry != this; entry = entry.getSuccessorInValueSet()) {
           ValueEntry<K, V> valueEntry = (ValueEntry<K, V>) entry;
           int row = Hashing.smear(valueEntry.valueHash) & mask;
           valueEntry.nextInValueSetHashRow = hashTable[row];
