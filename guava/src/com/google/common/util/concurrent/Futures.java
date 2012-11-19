@@ -1131,18 +1131,22 @@ public final class Futures {
     Runnable callbackListener = new Runnable() {
       @Override
       public void run() {
+        final V value;
         try {
           // TODO(user): (Before Guava release), validate that this
           // is the thing for IE.
-          V value = getUninterruptibly(future);
-          callback.onSuccess(value);
+          value = getUninterruptibly(future);
         } catch (ExecutionException e) {
           callback.onFailure(e.getCause());
+          return;
         } catch (RuntimeException e) {
           callback.onFailure(e);
+          return;
         } catch (Error e) {
           callback.onFailure(e);
+          return;
         }
+        callback.onSuccess(value);
       }
     };
     future.addListener(callbackListener, executor);
