@@ -20,18 +20,30 @@ import java.util.Set;
 import javax.annotation.Nullable;
 
 /**
- * A set of values of type {@code C} made up of zero or more <i>disjoint</i> {@linkplain Range
- * ranges}.
+ * A set comprising zero or more {@linkplain Range#isEmpty nonempty}, 
+ * {@linkplain Range#isConnected(Range) disconnected} ranges of type {@code C}.
+ * 
+ * <p>Implementations that choose to support the {@link #add(Range)} operation are required to
+ * ignore empty ranges and coalesce connected ranges.  For example:  <pre>   {@code
  *
- * <p>It is guaranteed that {@linkplain Range#isConnected connected} ranges will be
- * {@linkplain Range#span coalesced} together, and that {@linkplain Range#isEmpty empty} ranges
- * will never be held in a {@code RangeSet}.
+ *   RangeSet<Integer> rangeSet = TreeRangeSet.create();
+ *   rangeSet.add(Range.closed(1, 10)); // {[1, 10]}
+ *   rangeSet.add(Range.closedOpen(11, 15)); // {[1, 10], [11, 15)} 
+ *   rangeSet.add(Range.open(15, 20)); // disconnected range; {[1, 10], [11, 20)}
+ *   rangeSet.add(Range.openClosed(0, 0)); // empty range; {[1, 10], [11, 20)}
+ *   rangeSet.remove(Range.open(5, 10)); // splits [1, 10]; {[1, 5], [10, 10], [11, 20)}}</pre>
+ *   
+ * <p>Note that the behavior of {@link Range#isEmpty()} and {@link Range#isConnected(Range)} may
+ * not be as expected on discrete ranges.  See the Javadoc of those methods for details.
  *
  * <p>For a {@link Set} whose contents are specified by a {@link Range}, see {@link ContiguousSet}.
  *
  * @author Kevin Bourrillion
  * @author Louis Wasserman
- */ interface RangeSet<C extends Comparable> {
+ */
+public interface RangeSet<C extends Comparable> {
+  
+  // Query methods
 
   /**
    * Determines whether any of this range set's member ranges contains {@code value}.
@@ -45,12 +57,26 @@ import javax.annotation.Nullable;
   Range<C> rangeContaining(C value);
 
   /**
-   * Returns a view of the {@linkplain Range#isConnected disconnected} ranges that make up this
-   * range set.  The returned set may be empty. The iterators returned by its
-   * {@link Iterable#iterator} method return the ranges in increasing order of lower bound
-   * (equivalently, of upper bound).
+   * Returns {@code true} if there exists a member range in this range set which
+   * {@linkplain Range#encloses encloses} the specified range.
    */
-  Set<Range<C>> asRanges();
+  boolean encloses(Range<C> otherRange);
+
+  /**
+   * Returns {@code true} if for each member range in {@code other} there exists a member range in
+   * this range set which {@linkplain Range#encloses encloses} it. It follows that
+   * {@code this.contains(value)} whenever {@code other.contains(value)}. Returns {@code true} if
+   * {@code other} is empty.
+   *
+   * <p>This is equivalent to checking if this range set {@link #encloses} each of the ranges in
+   * {@code other}.
+   */
+  boolean enclosesAll(RangeSet<C> other);
+
+  /**
+   * Returns {@code true} if this range set contains no ranges.
+   */
+  boolean isEmpty();
 
   /**
    * Returns the minimal range which {@linkplain Range#encloses(Range) encloses} all ranges
@@ -60,10 +86,15 @@ import javax.annotation.Nullable;
    */
   Range<C> span();
 
+  // Views
+  
   /**
-   * Returns {@code true} if this range set contains no ranges.
+   * Returns a view of the {@linkplain Range#isConnected disconnected} ranges that make up this
+   * range set.  The returned set may be empty. The iterators returned by its
+   * {@link Iterable#iterator} method return the ranges in increasing order of lower bound
+   * (equivalently, of upper bound).
    */
-  boolean isEmpty();
+  Set<Range<C>> asRanges();
 
   /**
    * Returns a view of the complement of this {@code RangeSet}.
@@ -72,6 +103,8 @@ import javax.annotation.Nullable;
    * {@link #remove}, and vice versa.
    */
   RangeSet<C> complement();
+  
+  // Modification
 
   /**
    * Adds the specified range to this {@code RangeSet} (optional operation). That is, for equal
@@ -99,23 +132,6 @@ import javax.annotation.Nullable;
   void remove(Range<C> range);
 
   /**
-   * Returns {@code true} if there exists a member range in this range set which
-   * {@linkplain Range#encloses encloses} the specified range.
-   */
-  boolean encloses(Range<C> otherRange);
-
-  /**
-   * Returns {@code true} if for each member range in {@code other} there exists a member range in
-   * this range set which {@linkplain Range#encloses encloses} it. It follows that
-   * {@code this.contains(value)} whenever {@code other.contains(value)}. Returns {@code true} if
-   * {@code other} is empty.
-   *
-   * <p>This is equivalent to checking if this range set {@link #encloses} each of the ranges in
-   * {@code other}.
-   */
-  boolean enclosesAll(RangeSet<C> other);
-
-  /**
    * Adds all of the ranges from the specified range set to this range set (optional operation).
    * After this operation, this range set is the minimal range set that
    * {@linkplain #enclosesAll(RangeSet) encloses} both the original range set and {@code other}.
@@ -139,6 +155,8 @@ import javax.annotation.Nullable;
    *         operation
    */
   void removeAll(RangeSet<C> other);
+  
+  // Object methods
 
   /**
    * Returns {@code true} if {@code obj} is another {@code RangeSet} that contains the same ranges
@@ -146,6 +164,12 @@ import javax.annotation.Nullable;
    */
   @Override
   boolean equals(@Nullable Object obj);
+  
+  /**
+   * Returns {@code asRanges().hashCode()}.
+   */
+  @Override
+  int hashCode();
 
   /**
    * Returns a readable string representation of this range set. For example, if this
