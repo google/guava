@@ -222,6 +222,18 @@ public abstract class CharMatcher implements Predicate<Character> {
       "\u0020\u00a0\u00ad\u0604\u06dd\u070f\u1680\u180e\u200f\u202f\u2064\u206f\u3000\uf8ff\ufeff"
       + "\ufff9\ufffb").toCharArray());
 
+  private static String showCharacter(char c) {
+    String hex = "0123456789ABCDEF";
+    char[] tmp = {'\\', 'u', '\0', '\0', '\0', '\0'};
+    StringBuilder result = new StringBuilder(6);
+    for (int i = 0; i < 4; i++) {
+      tmp[5 - i] = hex.charAt(c & 0xF);
+      c >>= 4;
+    }
+    return String.copyValueOf(tmp);
+
+  }
+
   /**
    * Determines whether a character is single-width (not double-width). When in doubt, this matcher
    * errs on the side of returning {@code false} (that is, it tends to assume a character is
@@ -388,7 +400,7 @@ public abstract class CharMatcher implements Predicate<Character> {
    * Returns a {@code char} matcher that matches only one specified character.
    */
   public static CharMatcher is(final char match) {
-    String description = "CharMatcher.is(" + Integer.toHexString(match) + ")";
+    String description = "CharMatcher.is('" + showCharacter(match) + "')";
     return new FastMatcher(description) {
       @Override public boolean matches(char c) {
         return c == match;
@@ -467,18 +479,23 @@ public abstract class CharMatcher implements Predicate<Character> {
     // TODO(user): is it potentially worth just going ahead and building a precomputed matcher?
     final char[] chars = sequence.toString().toCharArray();
     Arrays.sort(chars);
-    String description = "CharMatcher.anyOf(\"" + String.valueOf(chars) + "\")";
-    return new CharMatcher(description) {
-          @Override public boolean matches(char c) {
-            return Arrays.binarySearch(chars, c) >= 0;
-          }
+    StringBuilder description = new StringBuilder("CharMatcher.anyOf(\"");
+    for (char c : chars) {
+      description.append(showCharacter(c));
+    }
+    description.append("\")");
+    return new CharMatcher(description.toString()) {
+      @Override public boolean matches(char c) {
+        return Arrays.binarySearch(chars, c) >= 0;
+      }
     };
   }
 
   private static CharMatcher isEither(
       final char match1,
       final char match2) {
-    String description = "CharMatcher.anyOf(\"" + match1 + match2 + "\")";
+    String description = "CharMatcher.anyOf(\"" +
+        showCharacter(match1) + showCharacter(match2) + "\")";
     return new FastMatcher(description) {
       @Override public boolean matches(char c) {
         return c == match1 || c == match2;
@@ -509,9 +526,9 @@ public abstract class CharMatcher implements Predicate<Character> {
    */
   public static CharMatcher inRange(final char startInclusive, final char endInclusive) {
     checkArgument(endInclusive >= startInclusive);
-    String description = "CharMatcher.inRange(" +
-        Integer.toHexString(startInclusive) + ", " +
-        Integer.toHexString(endInclusive) + ")";
+    String description = "CharMatcher.inRange('" +
+        showCharacter(startInclusive) + "', '" +
+        showCharacter(endInclusive) + "')";
     return inRange(startInclusive, endInclusive, description);
   }
 
@@ -567,7 +584,7 @@ public abstract class CharMatcher implements Predicate<Character> {
    * {@code toString()} to provide a useful description.
    */
   protected CharMatcher() {
-    description = "UnknownCharMatcher";
+    description = super.toString();
   }
 
   // Abstract methods
