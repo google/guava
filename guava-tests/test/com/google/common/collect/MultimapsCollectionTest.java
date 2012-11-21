@@ -17,6 +17,7 @@
 package com.google.common.collect;
 
 import static com.google.common.collect.Maps.newHashMap;
+import static com.google.common.collect.testing.Helpers.mapEntry;
 import static com.google.common.collect.testing.features.CollectionFeature.ALLOWS_NULL_VALUES;
 import static com.google.common.collect.testing.features.CollectionFeature.SUPPORTS_REMOVE;
 import static com.google.common.collect.testing.google.AbstractMultisetSetCountTester.getSetCountDuplicateInitializingMethods;
@@ -25,26 +26,28 @@ import static com.google.common.collect.testing.google.MultisetReadsTester.getRe
 import static java.lang.reflect.Proxy.newProxyInstance;
 
 import com.google.common.annotations.GwtIncompatible;
-import com.google.common.base.Functions;
+import com.google.common.base.Ascii;
+import com.google.common.base.Function;
 import com.google.common.base.Predicate;
 import com.google.common.base.Supplier;
+import com.google.common.collect.Maps.EntryTransformer;
 import com.google.common.collect.testing.CollectionTestSuiteBuilder;
-import com.google.common.collect.testing.ListTestSuiteBuilder;
 import com.google.common.collect.testing.SampleElements;
 import com.google.common.collect.testing.SetTestSuiteBuilder;
 import com.google.common.collect.testing.TestCollectionGenerator;
 import com.google.common.collect.testing.TestListGenerator;
 import com.google.common.collect.testing.TestStringCollectionGenerator;
-import com.google.common.collect.testing.TestStringListGenerator;
 import com.google.common.collect.testing.TestStringSetGenerator;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.Feature;
-import com.google.common.collect.testing.features.ListFeature;
 import com.google.common.collect.testing.features.MapFeature;
 import com.google.common.collect.testing.google.ListMultimapTestSuiteBuilder;
+import com.google.common.collect.testing.google.MultimapTestSuiteBuilder;
 import com.google.common.collect.testing.google.MultisetTestSuiteBuilder;
 import com.google.common.collect.testing.google.MultisetWritesTester;
+import com.google.common.collect.testing.google.TestListMultimapGenerator;
+import com.google.common.collect.testing.google.TestMultimapGenerator;
 import com.google.common.collect.testing.google.TestStringListMultimapGenerator;
 import com.google.common.collect.testing.google.TestStringMultisetGenerator;
 import com.google.common.collect.testing.testers.CollectionIteratorTester;
@@ -268,6 +271,7 @@ public class MultimapsCollectionTest extends TestCase {
           MapFeature.FAILS_FAST_ON_CONCURRENT_MODIFICATION,
           CollectionSize.ANY)
       .createTestSuite());
+    suite.addTest(transformSuite());
 
     suite.addTest(SetTestSuiteBuilder.using(
         new TestStringSetGenerator() {
@@ -389,147 +393,147 @@ public class MultimapsCollectionTest extends TestCase {
         .suppressing(CollectionIteratorTester.getIteratorKnownOrderRemoveSupportedMethod())
         .createTestSuite());
 
-    suite.addTest(ListTestSuiteBuilder.using(new TestStringListGenerator() {
-      @Override protected List<String> create(String[] elements) {
-        ListMultimap<Integer, String> multimap = ArrayListMultimap.create();
-        populateMultimapForGet(multimap, elements);
-        return Multimaps.transformValues(
-            multimap, Functions.<String> identity()).get(3);
-      }
-    }).named("Multimaps.transformValues[ListMultimap].get").withFeatures(
-        CollectionSize.ANY, CollectionFeature.ALLOWS_NULL_VALUES,
-        CollectionFeature.SUPPORTS_REMOVE,
-        ListFeature.SUPPORTS_REMOVE_WITH_INDEX).createTestSuite());
+    // TODO: use collection testers on Multimaps.forMap.entries
 
-    suite.addTest(SetTestSuiteBuilder.using(new TestStringSetGenerator() {
-      @Override protected Set<String> create(String[] elements) {
-        ListMultimap<String, Integer> multimap = ArrayListMultimap.create();
-        populateMultimapForKeySet(multimap, elements);
-        return Multimaps.transformValues(
-            multimap, Functions.<Integer> identity()).keySet();
-      }
-    }).named("Multimaps.transformValues[ListMultimap].keySet").withFeatures(
-        CollectionSize.ANY, CollectionFeature.ALLOWS_NULL_VALUES,
-        CollectionFeature.SUPPORTS_REMOVE).createTestSuite());
+    return suite;
+  }
 
-    suite.addTest(MultisetTestSuiteBuilder.using(
-        new TestStringMultisetGenerator() {
-          @Override protected Multiset<String> create(String[] elements) {
-            ListMultimap<String, Integer> multimap
-                = ArrayListMultimap.create();
-            populateMultimapForKeys(multimap, elements);
-            return Multimaps.transformValues(
-                multimap, Functions.<Integer> identity()).keys();
+  static abstract class TransformedMultimapGenerator<M extends Multimap<String, String>>
+      implements TestMultimapGenerator<String, String, M> {
+
+    @Override
+    public String[] createKeyArray(int length) {
+      return new String[length];
+    }
+
+    @Override
+    public String[] createValueArray(int length) {
+      return new String[length];
+    }
+
+    @Override
+    public SampleElements<String> sampleKeys() {
+      return new SampleElements<String>("one", "two", "three", "four", "five");
+    }
+
+    @Override
+    public SampleElements<String> sampleValues() {
+      return new SampleElements<String>("january", "february", "march", "april", "may");
+    }
+
+    @Override
+    public Collection<String> createCollection(Iterable<? extends String> values) {
+      return Lists.newArrayList(values);
+    }
+
+    @Override
+    public SampleElements<Entry<String, String>> samples() {
+      return new SampleElements<Entry<String, String>>(
+          mapEntry("one", "january"),
+          mapEntry("two", "february"),
+          mapEntry("three", "march"),
+          mapEntry("four", "april"),
+          mapEntry("five", "may"));
+    }
+
+    @Override
+    public M create(Object... elements) {
+      Multimap<String, String> multimap = ArrayListMultimap.create();
+      for (Object o : elements) {
+        @SuppressWarnings("unchecked")
+        Entry<String, String> entry = (Entry<String, String>) o;
+        multimap.put(entry.getKey(), Ascii.toUpperCase(entry.getValue()));
+      }
+      return transform(multimap);
+    }
+
+    abstract M transform(Multimap<String, String> multimap);
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public Entry<String, String>[] createArray(int length) {
+      return new Entry[length];
+    }
+
+    @Override
+    public Iterable<Entry<String, String>> order(List<Entry<String, String>> insertionOrder) {
+      return insertionOrder;
+    }
+
+    static final Function<String, String> FUNCTION = new Function<String, String>() {
+      @Override
+      public String apply(String value) {
+        return Ascii.toLowerCase(value);
+      }
+    };
+
+    static final EntryTransformer<String, String, String> ENTRY_TRANSFORMER =
+        new EntryTransformer<String, String, String>() {
+      @Override
+      public String transformEntry(String key, String value) {
+        return Ascii.toLowerCase(value);
+      }
+    };
+  }
+
+  static abstract class TransformedListMultimapGenerator
+      extends TransformedMultimapGenerator<ListMultimap<String, String>>
+      implements TestListMultimapGenerator<String, String> {
+  }
+
+  private static Test transformSuite() {
+    TestSuite suite = new TestSuite("Multimaps.transform*");
+    suite.addTest(MultimapTestSuiteBuilder.using(
+        new TransformedMultimapGenerator<Multimap<String,String>>() {
+          @Override
+          Multimap<String, String> transform(Multimap<String, String> multimap) {
+            return Multimaps.transformValues(multimap, FUNCTION);
           }
         })
-        .named("Multimaps.transform[ListMultimap].keys")
-        .withFeatures(COLLECTION_FEATURES_REMOVE)
+        .named("Multimaps.transformValues[Multimap]")
+        .withFeatures(
+            CollectionSize.ANY,
+            MapFeature.SUPPORTS_REMOVE,
+            MapFeature.ALLOWS_NULL_KEYS)
         .createTestSuite());
-
-    suite.addTest(
-        CollectionTestSuiteBuilder.using(new TestStringCollectionGenerator() {
-          @Override public Collection<String> create(String[] elements) {
-            ListMultimap<Integer, String> multimap = ArrayListMultimap.create();
-            populateMultimapForValues(multimap, elements);
-            return Multimaps.transformValues(
-                multimap, Functions.<String> identity()).values();
-          }
-        }).named("Multimaps.transformValues[ListMultimap].values").withFeatures(
-            COLLECTION_FEATURES_REMOVE).createTestSuite());
-
-    suite.addTest(CollectionTestSuiteBuilder.using(new TestEntriesGenerator() {
-      @Override public Collection<Entry<String, Integer>> create(
-          Object... elements) {
-        ListMultimap<String, Integer> multimap = ArrayListMultimap.create();
-        for (Object element : elements) {
-          @SuppressWarnings("unchecked")
-          Entry<String, Integer> entry = (Entry<String, Integer>) element;
-          multimap.put(entry.getKey(), entry.getValue());
-        }
-        return Multimaps.transformValues(
-            multimap, Functions.<Integer> identity()).entries();
-      }
-
-      @Override Multimap<String, Integer> createMultimap() {
-        return Multimaps.transformValues(
-            ArrayListMultimap.<String, Integer> create(),
-            Functions.<Integer> identity());
-      }
-    }).named("Multimaps.transformValues[ListMultimap].entries")
-        .withFeatures(CollectionSize.ANY, CollectionFeature.SUPPORTS_REMOVE)
-        .createTestSuite());
-
-    suite.addTest(
-        CollectionTestSuiteBuilder.using(new TestStringCollectionGenerator() {
-          @Override protected Collection<String> create(String[] elements) {
-            Multimap<Integer, String> multimap = ArrayListMultimap.create();
-            populateMultimapForGet(multimap, elements);
-            return Multimaps.transformValues(
-                multimap, Functions.<String> identity()).get(3);
-          }
-        }).named("Multimaps.transformValues[Multimap].get").withFeatures(
-            CollectionSize.ANY, CollectionFeature.ALLOWS_NULL_VALUES,
-            CollectionFeature.SUPPORTS_REMOVE).createTestSuite());
-
-    suite.addTest(SetTestSuiteBuilder.using(new TestStringSetGenerator() {
-      @Override protected Set<String> create(String[] elements) {
-        Multimap<String, Integer> multimap = ArrayListMultimap.create();
-        populateMultimapForKeySet(multimap, elements);
-        return Multimaps.transformValues(
-            multimap, Functions.<Integer> identity()).keySet();
-      }
-    }).named("Multimaps.transformValues[Multimap].keySet").withFeatures(
-        COLLECTION_FEATURES_REMOVE).createTestSuite());
-
-    suite.addTest(MultisetTestSuiteBuilder.using(
-        new TestStringMultisetGenerator() {
-          @Override protected Multiset<String> create(String[] elements) {
-            Multimap<String, Integer> multimap
-                = ArrayListMultimap.create();
-            populateMultimapForKeys(multimap, elements);
-            return Multimaps.transformValues(
-                multimap, Functions.<Integer> identity()).keys();
+    suite.addTest(MultimapTestSuiteBuilder.using(
+        new TransformedMultimapGenerator<Multimap<String,String>>() {
+          @Override
+          Multimap<String, String> transform(Multimap<String, String> multimap) {
+            return Multimaps.transformEntries(multimap, ENTRY_TRANSFORMER);
           }
         })
-        .named("Multimaps.transformValues[Multimap].keys")
-        .withFeatures(COLLECTION_FEATURES_REMOVE)
+        .named("Multimaps.transformEntries[Multimap]")
+        .withFeatures(
+            CollectionSize.ANY,
+            MapFeature.SUPPORTS_REMOVE,
+            MapFeature.ALLOWS_NULL_KEYS)
         .createTestSuite());
-
-    suite.addTest(
-        CollectionTestSuiteBuilder.using(new TestStringCollectionGenerator() {
-          @Override public Collection<String> create(String[] elements) {
-            Multimap<Integer, String> multimap = ArrayListMultimap.create();
-            populateMultimapForValues(multimap, elements);
-            return Multimaps.transformValues(
-                multimap, Functions.<String> identity()).values();
+    suite.addTest(ListMultimapTestSuiteBuilder.using(new TransformedListMultimapGenerator() {
+          @Override
+          ListMultimap<String, String> transform(Multimap<String, String> multimap) {
+            return Multimaps.transformValues((ListMultimap<String, String>) multimap, FUNCTION);
           }
-        }).named("Multimaps.transformValues[Multimap].values").withFeatures(
-            COLLECTION_FEATURES_REMOVE).createTestSuite());
-
-    suite.addTest(CollectionTestSuiteBuilder.using(new TestEntriesGenerator() {
-      @Override public Collection<Entry<String, Integer>> create(
-          Object... elements) {
-        Multimap<String, Integer> multimap = ArrayListMultimap.create();
-        for (Object element : elements) {
-          @SuppressWarnings("unchecked")
-          Entry<String, Integer> entry = (Entry<String, Integer>) element;
-          multimap.put(entry.getKey(), entry.getValue());
-        }
-        return Multimaps.transformValues(
-            multimap, Functions.<Integer> identity()).entries();
-      }
-     @Override Multimap<String, Integer> createMultimap() {
-       return Multimaps.transformValues(
-           (Multimap<String, Integer>)
-                ArrayListMultimap.<String, Integer> create(),
-                Functions.<Integer> identity());
-      }
-    }).named("Multimaps.transformValues[Multimap].entries")
-        .withFeatures(CollectionSize.ANY, CollectionFeature.SUPPORTS_REMOVE)
+        })
+        .named("Multimaps.transformValues[ListMultimap]")
+        .withFeatures(
+            CollectionSize.ANY,
+            MapFeature.SUPPORTS_REMOVE,
+            MapFeature.ALLOWS_NULL_KEYS)
         .createTestSuite());
-
-    // TODO(user): use collection testers on Multimaps.forMap.entries
-
+    suite.addTest(ListMultimapTestSuiteBuilder.using(new TransformedListMultimapGenerator() {
+          @Override
+          ListMultimap<String, String> transform(Multimap<String, String> multimap) {
+            return Multimaps.transformEntries(
+                (ListMultimap<String, String>) multimap, ENTRY_TRANSFORMER);
+          }
+        })
+        .named("Multimaps.transformEntries[ListMultimap]")
+        .withFeatures(
+            CollectionSize.ANY,
+            MapFeature.SUPPORTS_REMOVE,
+            MapFeature.ALLOWS_NULL_KEYS)
+        .createTestSuite());
     return suite;
   }
 }

@@ -29,7 +29,6 @@ import com.google.common.base.Objects;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import com.google.common.base.Supplier;
-import com.google.common.collect.Collections2.TransformedCollection;
 import com.google.common.collect.Maps.EntryTransformer;
 
 import java.io.IOException;
@@ -1390,9 +1389,24 @@ public final class Multimaps {
       EntryTransformer<? super K, ? super V1, V2> transformer) {
     return new TransformedEntriesMultimap<K, V1, V2>(fromMap, transformer);
   }
+  
+  static final class ValueFunction<K, V1, V2> implements Function<V1, V2> {
+    private final K key;
+    private final EntryTransformer<? super K, ? super V1, V2> transformer;
+    
+    ValueFunction(K key, EntryTransformer<? super K, ? super V1, V2> transformer) {
+      this.key = key;
+      this.transformer = transformer;
+    }
+    
+    @Override
+    public V2 apply(@Nullable V1 value) {
+      return transformer.transformEntry(key, value);
+    }
+  }
 
   private static class TransformedEntriesMultimap<K, V1, V2>
-      implements Multimap<K, V2> {
+      extends AbstractMultimap<K, V2> {
     final Multimap<K, V1> fromMultimap;
     final EntryTransformer<? super K, ? super V1, V2> transformer;
 
@@ -1402,30 +1416,25 @@ public final class Multimaps {
       this.transformer = checkNotNull(transformer);
     }
 
-    Collection<V2> transform(final K key, Collection<V1> values) {
-      return Collections2.transform(values, new Function<V1, V2>() {
-        @Override public V2 apply(V1 value) {
-          return transformer.transformEntry(key, value);
-        }
-      });
+    Collection<V2> transform(K key, Collection<V1> values) {
+      Function<V1, V2> function = new ValueFunction<K, V1, V2>(key, transformer);
+      if (values instanceof List) {
+        return Lists.transform((List<V1>) values, function);
+      } else {
+        return Collections2.transform(values, function);
+      }
     }
 
-    private transient Map<K, Collection<V2>> asMap;
+    @Override
+    Map<K, Collection<V2>> createAsMap() {
+      return Maps.transformEntries(fromMultimap.asMap(),
+          new EntryTransformer<K, Collection<V1>, Collection<V2>>() {
 
-    @Override public Map<K, Collection<V2>> asMap() {
-      if (asMap == null) {
-        Map<K, Collection<V2>> aM = Maps.transformEntries(fromMultimap.asMap(),
-            new EntryTransformer<K, Collection<V1>, Collection<V2>>() {
-
-              @Override public Collection<V2> transformEntry(
-                  K key, Collection<V1> value) {
-                return transform(key, value);
-              }
-            });
-        asMap = aM;
-        return aM;
-      }
-      return asMap;
+        @Override public Collection<V2> transformEntry(
+            K key, Collection<V1> value) {
+          return transform(key, value);
+        }
+      });
     }
 
     @Override public void clear() {
@@ -1446,58 +1455,25 @@ public final class Multimaps {
       return values().contains(value);
     }
 
-    private transient Collection<Entry<K, V2>> entries;
+    @Override
+    Iterator<Entry<K, V2>> entryIterator() {
+      return Iterators.transform(
+          fromMultimap.entries().iterator(), new Function<Entry<K, V1>, Entry<K, V2>>() {
+            @Override
+            public Entry<K, V2> apply(final Entry<K, V1> entry) {
+              return new AbstractMapEntry<K, V2>() {
+                @Override
+                public K getKey() {
+                  return entry.getKey();
+                }
 
-    @Override public Collection<Entry<K, V2>> entries() {
-      if (entries == null) {
-        Collection<Entry<K, V2>> es = new TransformedEntries(transformer);
-        entries = es;
-        return es;
-      }
-      return entries;
-    }
-
-    private class TransformedEntries
-        extends TransformedCollection<Entry<K, V1>, Entry<K, V2>> {
-
-      TransformedEntries(
-          final EntryTransformer<? super K, ? super V1, V2> transformer) {
-        super(fromMultimap.entries(),
-            new Function<Entry<K, V1>, Entry<K, V2>>() {
-              @Override public Entry<K, V2> apply(final Entry<K, V1> entry) {
-                return new AbstractMapEntry<K, V2>() {
-
-                  @Override public K getKey() {
-                    return entry.getKey();
-                  }
-
-                  @Override public V2 getValue() {
-                    return transformer.transformEntry(
-                        entry.getKey(), entry.getValue());
-                  }
-                };
-              }
-            });
-      }
-
-      @Override public boolean contains(Object o) {
-        if (o instanceof Entry) {
-          Entry<?, ?> entry = (Entry<?, ?>) o;
-          return containsEntry(entry.getKey(), entry.getValue());
-        }
-        return false;
-      }
-
-      @SuppressWarnings("unchecked")
-      @Override public boolean remove(Object o) {
-        if (o instanceof Entry) {
-          Entry<?, ?> entry = (Entry<?, ?>) o;
-          Collection<V2> values = get((K) entry.getKey());
-          return values.remove(entry.getValue());
-        }
-        return false;
-      }
-
+                @Override
+                public V2 getValue() {
+                  return transformer.transformEntry(entry.getKey(), entry.getValue());
+                }
+              };
+            }
+          });
     }
 
     @Override public Collection<V2> get(final K key) {
@@ -1547,39 +1523,16 @@ public final class Multimaps {
     @Override public int size() {
       return fromMultimap.size();
     }
-
-    private transient Collection<V2> values;
-
-    @Override public Collection<V2> values() {
-      if (values == null) {
-        Collection<V2> vs = Collections2.transform(
-            fromMultimap.entries(), new Function<Entry<K, V1>, V2>() {
-
-              @Override public V2 apply(Entry<K, V1> entry) {
-                return transformer.transformEntry(
-                    entry.getKey(), entry.getValue());
-              }
-            });
-        values = vs;
-        return vs;
-      }
-      return values;
-    }
-
-    @Override public boolean equals(Object obj) {
-      if (obj instanceof Multimap) {
-        Multimap<?, ?> other = (Multimap<?, ?>) obj;
-        return asMap().equals(other.asMap());
-      }
-      return false;
-    }
-
-    @Override public int hashCode() {
-      return asMap().hashCode();
-    }
-
-    @Override public String toString() {
-      return asMap().toString();
+    
+    @Override
+    Collection<V2> createValues() {
+      return Collections2.transform(
+          fromMultimap.entries(), new Function<Entry<K, V1>, V2>() {
+            @Override public V2 apply(Entry<K, V1> entry) {
+              return transformer.transformEntry(
+                  entry.getKey(), entry.getValue());
+            }
+          });
     }
   }
 
