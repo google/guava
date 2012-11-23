@@ -31,6 +31,7 @@ import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.VisibleForTesting;
+import com.google.common.primitives.UnsignedLongs;
 
 import java.math.BigInteger;
 import java.math.RoundingMode;
@@ -297,18 +298,61 @@ public final class LongMath {
 
   @GwtIncompatible("TODO")
   private static long sqrtFloor(long x) {
-    // Hackers's Delight, Figure 11-1
-    long sqrt0 = (long) Math.sqrt(x);
-    // Precision can be lost in the cast to double, so we use this as a starting estimate.
-    long sqrt1 = (sqrt0 + (x / sqrt0)) >> 1;
-    if (sqrt1 == sqrt0) {
-      return sqrt0;
+    long guess = (long) (Math.sqrt(x) + 0.5);
+    /*
+     * Theorem: |sqrt(x) - guess| <= 1.
+     *
+     * Proof:
+     * Recall that the maximum error introduced by rounding a real number between
+     * 0 and 2^32 to a double is 2^32 * 2^-52 = 2^-20.  Therefore the maximum error introduced by
+     * rounding a real number between 0 and 2^32 to a double, adding 0.5, and truncating is
+     * 0.5 + 2^-20 < 0.6.
+     *
+     * We consider two cases: x <= 2^53 and x > 2^53.
+     *
+     * If x <= 2^53, then x is exactly representable as a double, and Math.sqrt(x) is the exact
+     * sqrt(x) rounded to a double. Therefore, the maximum error of (long) (Math.sqrt(x) + 0.5) is
+     * 0.6 < 1.
+     *
+     * Otherwise, x > 2^53.  Note that |(double) x - x| <= 2^63/2^52 = 2^11, and
+     * guess >= sqrt(2^53) > 2^26.
+     * Since guess is obtained by rounding sqrt((double) x) to a double, adding 0.5, and
+     * truncating,
+     *
+     *         sqrt((double) x) - 0.6 <=  guess  <= sqrt((double) x) + 0.6
+     *           sqrt(x - 2^11) - 0.6 <=  guess  <= sqrt(x + 2^11) + 0.6
+     * (x - 2^11) - 1.2sqrt(x - 2^11) <= guess^2 <= (x + 2^11) + 1.2sqrt(x + 2^11) + 0.36
+     * Recalling that for nonnegative a, b, sqrt(a + b) <= sqrt(a) + sqrt(b),
+     *          x - 2^11 - 1.2sqrt(x) <= guess^2 <= x + 2^11 + 1.2sqrt(x) + 1.2sqrt(2^11) + 0.36
+     *                                           <= x + 2^12 + 1.2sqrt(x)
+     *
+     * With these inequalities, we can show that
+     *
+     * (guess + 1)^2  = guess^2 + 2guess + 1
+     *               >= x - 2^11 - 1.2sqrt(x) + 2sqrt(x - 2^11) - 0.2
+     *               >= x - 2^11 - 1.2sqrt(x) + 2sqrt(x) - 2^7
+     *               >= x - 2^12 + 0.8sqrt(x)
+     *               >= x - 2^12 + 0.8 * 2^26
+     *               >= x
+     *
+     * (guess - 1)^2  = guess^2 - 2guess + 1
+     *               <= x + 2^12 + 1.2sqrt(x) - 2sqrt(x - 2^11) + 2.2
+     *               <= x + 2^12 + 1.2sqrt(x) - 2sqrt(x) + 2^7
+     *               <= x + 2^13 - 0.8sqrt(x)
+     *               <= x + 2^13 - 0.8 * 2^26
+     *               <= x
+     * so (guess - 1)^2 <=     x   <= (guess + 1)^2
+     *        guess - 1 <= sqrt(x) <= guess + 1 as desired.
+     */
+    long guessSquared = guess * guess;
+    // guessSquared may overflow a signed long, but may safely be treated as unsigned.
+    if (x - guessSquared >= guess + guess + 1) {
+      // The condition is equivalent to x >= (guess + 1) * (guess + 1), but doesn't overflow.
+      guess++;
+    } else if (UnsignedLongs.compare(x, guessSquared) < 0) {
+      guess--;
     }
-    do {
-      sqrt0 = sqrt1;
-      sqrt1 = (sqrt0 + (x / sqrt0)) >> 1;
-    } while (sqrt1 < sqrt0);
-    return sqrt0;
+    return guess;
   }
 
   /**
