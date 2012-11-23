@@ -20,6 +20,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.math.MathPreconditions.checkNonNegative;
 import static com.google.common.math.MathPreconditions.checkPositive;
 import static com.google.common.math.MathPreconditions.checkRoundingUnnecessary;
+import static java.lang.Math.min;
 import static java.math.RoundingMode.HALF_EVEN;
 import static java.math.RoundingMode.HALF_UP;
 
@@ -106,6 +107,57 @@ public final class LongMath {
 
   // halfPowersOf10[i] = largest long less than 10^(i + 0.5)
 
+  /**
+   * Returns the greatest common divisor of {@code a, b}. Returns {@code 0} if
+   * {@code a == 0 && b == 0}.
+   *
+   * @throws IllegalArgumentException if {@code a < 0} or {@code b < 0}
+   */
+  public static long gcd(long a, long b) {
+    /*
+     * The reason we require both arguments to be >= 0 is because otherwise, what do you return on
+     * gcd(0, Long.MIN_VALUE)? BigInteger.gcd would return positive 2^63, but positive 2^63 isn't
+     * an int.
+     */
+    checkNonNegative("a", a);
+    checkNonNegative("b", b);
+    if (a == 0) {
+      // 0 % b == 0, so b divides a, but the converse doesn't hold.
+      // BigInteger.gcd is consistent with this decision.
+      return b;
+    } else if (b == 0) {
+      return a; // similar logic
+    }
+    /*
+     * Uses the binary GCD algorithm; see http://en.wikipedia.org/wiki/Binary_GCD_algorithm.
+     * This is >60% faster than the Euclidean algorithm in benchmarks.
+     */
+    int aTwos = Long.numberOfTrailingZeros(a);
+    a >>= aTwos; // divide out all 2s
+    int bTwos = Long.numberOfTrailingZeros(b);
+    b >>= bTwos; // divide out all 2s
+    while (a != b) { // both a, b are odd
+      // The key to the binary GCD algorithm is as follows:
+      // Both a and b are odd.  Assume a > b; then gcd(a - b, b) = gcd(a, b).
+      // But in gcd(a - b, b), a - b is even and b is odd, so we can divide out powers of two.
+
+      // We bend over backwards to avoid branching, adapting a technique from
+      // http://graphics.stanford.edu/~seander/bithacks.html#IntegerMinOrMax
+
+      long delta = a - b; // can't overflow, since a and b are nonnegative
+
+      long minDeltaOrZero = delta & (delta >> (Long.SIZE - 1));
+      // equivalent to Math.min(delta, 0)
+
+      a = delta - minDeltaOrZero - minDeltaOrZero; // sets a to Math.abs(a - b)
+      // a is now nonnegative and even
+
+      b += minDeltaOrZero; // sets b to min(old a, b)
+      a >>= Long.numberOfTrailingZeros(a); // divide out all 2s, since 2 doesn't divide b
+    }
+    return a << min(aTwos, bTwos);
+  }
+
   static final long[] factorials = {
       1L,
       1L,
@@ -143,26 +195,72 @@ public final class LongMath {
     if (k > (n >> 1)) {
       k = n - k;
     }
-    if (k >= biggestBinomials.length || n > biggestBinomials[k]) {
-      return Long.MAX_VALUE;
+    switch (k) {
+      case 0:
+        return 1;
+      case 1:
+        return n;
+      default:
+        if (n < factorials.length) {
+          return factorials[n] / (factorials[k] * factorials[n - k]);
+        } else if (k >= biggestBinomials.length || n > biggestBinomials[k]) {
+          return Long.MAX_VALUE;
+        } else if (k < biggestSimpleBinomials.length && n <= biggestSimpleBinomials[k]) {
+          // guaranteed not to overflow
+          long result = n--;
+          for (int i = 2; i <= k; n--, i++) {
+            result *= n;
+            result /= i;
+          }
+          return result;
+        } else {
+          int nBits = LongMath.log2(n, RoundingMode.CEILING);
+
+          long result = 1;
+          long numerator = n--;
+          long denominator = 1;
+
+          int numeratorBits = nBits;
+          // This is an upper bound on log2(numerator, ceiling).
+
+          /*
+           * We want to do this in long math for speed, but want to avoid overflow. We adapt the
+           * technique previously used by BigIntegerMath: maintain separate numerator and
+           * denominator accumulators, multiplying the fraction into result when near overflow.
+           */
+          for (int i = 2; i <= k; i++, n--) {
+            if (numeratorBits + nBits < Long.SIZE - 1) {
+              // It's definitely safe to multiply into numerator and denominator.
+              numerator *= n;
+              denominator *= i;
+              numeratorBits += nBits;
+            } else {
+              // It might not be safe to multiply into numerator and denominator,
+              // so multiply (numerator / denominator) into result.
+              result = multiplyFraction(result, numerator, denominator);
+              numerator = n;
+              denominator = i;
+              numeratorBits = nBits;
+            }
+          }
+          return multiplyFraction(result, numerator, denominator);
+        }
     }
-    long result = 1;
-    if (k < biggestSimpleBinomials.length && n <= biggestSimpleBinomials[k]) {
-      // guaranteed not to overflow
-      for (int i = 0; i < k; i++) {
-        result *= n - i;
-        result /= i + 1;
-      }
-    } else {
-      // We want to do this in long math for speed, but want to avoid overflow.
-      // Dividing by the GCD suffices to avoid overflow in all the remaining cases.
-      for (int i = 1; i <= k; i++, n--) {
-        int d = IntMath.gcd(n, i);
-        result /= i / d; // (i/d) is guaranteed to divide result
-        result *= n / d;
-      }
+  }
+
+  /**
+   * Returns (x * numerator / denominator), which is assumed to come out to an integral value.
+   */
+  static long multiplyFraction(long x, long numerator, long denominator) {
+    if (x == 1) {
+      return numerator / denominator;
     }
-    return result;
+    long commonDivisor = gcd(x, denominator);
+    x /= commonDivisor;
+    denominator /= commonDivisor;
+    // We know gcd(x, denominator) = 1, and x * numerator / denominator is exact,
+    // so denominator must be a divisor of numerator.
+    return x * (numerator / denominator);
   }
 
   /*

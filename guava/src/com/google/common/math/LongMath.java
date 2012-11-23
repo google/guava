@@ -470,7 +470,6 @@ public final class LongMath {
    *
    * @throws IllegalArgumentException if {@code a < 0} or {@code b < 0}
    */
-  @GwtIncompatible("TODO")
   public static long gcd(long a, long b) {
     /*
      * The reason we require both arguments to be >= 0 is because otherwise, what do you return on
@@ -668,26 +667,72 @@ public final class LongMath {
     if (k > (n >> 1)) {
       k = n - k;
     }
-    if (k >= biggestBinomials.length || n > biggestBinomials[k]) {
-      return Long.MAX_VALUE;
+    switch (k) {
+      case 0:
+        return 1;
+      case 1:
+        return n;
+      default:
+        if (n < factorials.length) {
+          return factorials[n] / (factorials[k] * factorials[n - k]);
+        } else if (k >= biggestBinomials.length || n > biggestBinomials[k]) {
+          return Long.MAX_VALUE;
+        } else if (k < biggestSimpleBinomials.length && n <= biggestSimpleBinomials[k]) {
+          // guaranteed not to overflow
+          long result = n--;
+          for (int i = 2; i <= k; n--, i++) {
+            result *= n;
+            result /= i;
+          }
+          return result;
+        } else {
+          int nBits = LongMath.log2(n, RoundingMode.CEILING);
+
+          long result = 1;
+          long numerator = n--;
+          long denominator = 1;
+
+          int numeratorBits = nBits;
+          // This is an upper bound on log2(numerator, ceiling).
+
+          /*
+           * We want to do this in long math for speed, but want to avoid overflow. We adapt the
+           * technique previously used by BigIntegerMath: maintain separate numerator and
+           * denominator accumulators, multiplying the fraction into result when near overflow.
+           */
+          for (int i = 2; i <= k; i++, n--) {
+            if (numeratorBits + nBits < Long.SIZE - 1) {
+              // It's definitely safe to multiply into numerator and denominator.
+              numerator *= n;
+              denominator *= i;
+              numeratorBits += nBits;
+            } else {
+              // It might not be safe to multiply into numerator and denominator,
+              // so multiply (numerator / denominator) into result.
+              result = multiplyFraction(result, numerator, denominator);
+              numerator = n;
+              denominator = i;
+              numeratorBits = nBits;
+            }
+          }
+          return multiplyFraction(result, numerator, denominator);
+        }
     }
-    long result = 1;
-    if (k < biggestSimpleBinomials.length && n <= biggestSimpleBinomials[k]) {
-      // guaranteed not to overflow
-      for (int i = 0; i < k; i++) {
-        result *= n - i;
-        result /= i + 1;
-      }
-    } else {
-      // We want to do this in long math for speed, but want to avoid overflow.
-      // Dividing by the GCD suffices to avoid overflow in all the remaining cases.
-      for (int i = 1; i <= k; i++, n--) {
-        int d = IntMath.gcd(n, i);
-        result /= i / d; // (i/d) is guaranteed to divide result
-        result *= n / d;
-      }
+  }
+
+  /**
+   * Returns (x * numerator / denominator), which is assumed to come out to an integral value.
+   */
+  static long multiplyFraction(long x, long numerator, long denominator) {
+    if (x == 1) {
+      return numerator / denominator;
     }
-    return result;
+    long commonDivisor = gcd(x, denominator);
+    x /= commonDivisor;
+    denominator /= commonDivisor;
+    // We know gcd(x, denominator) = 1, and x * numerator / denominator is exact,
+    // so denominator must be a divisor of numerator.
+    return x * (numerator / denominator);
   }
 
   /*

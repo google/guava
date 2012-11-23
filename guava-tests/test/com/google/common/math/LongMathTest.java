@@ -414,8 +414,7 @@ public class LongMathTest extends TestCase {
     }
   }
 
-  @GwtIncompatible("TODO")
-  public void testGCD() {
+  public void testGCDExhaustive() {
     for (long a : POSITIVE_LONG_CANDIDATES) {
       for (long b : POSITIVE_LONG_CANDIDATES) {
         assertEquals(valueOf(a).gcd(valueOf(b)), valueOf(LongMath.gcd(a, b)));
@@ -551,6 +550,17 @@ public class LongMathTest extends TestCase {
         BigInteger expectedBig = BigIntegerMath.binomial(n, k);
         long expectedLong = fitsInLong(expectedBig) ? expectedBig.longValue() : Long.MAX_VALUE;
         assertEquals(expectedLong, LongMath.binomial(n, k));
+      }
+    }
+  }
+
+  @GwtIncompatible("Slow")
+  public void testBinomial_exhaustiveNotOverflowing() {
+    // Tests all of the inputs to LongMath.binomial that won't cause it to overflow, that weren't
+    // tested in the previous method, for k >= 3.
+    for (int k = 3; k < LongMath.biggestBinomials.length; k++) {
+      for (int n = 70; n <= LongMath.biggestBinomials[k]; n++) {
+        assertEquals(BigIntegerMath.binomial(n, k).longValue(), LongMath.binomial(n, k));
       }
     }
   }
