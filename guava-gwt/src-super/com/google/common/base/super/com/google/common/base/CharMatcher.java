@@ -223,7 +223,6 @@ public abstract class CharMatcher implements Predicate<Character> {
   private static String showCharacter(char c) {
     String hex = "0123456789ABCDEF";
     char[] tmp = {'\\', 'u', '\0', '\0', '\0', '\0'};
-    StringBuilder result = new StringBuilder(6);
     for (int i = 0; i < 4; i++) {
       tmp[5 - i] = hex.charAt(c & 0xF);
       c >>= 4;
