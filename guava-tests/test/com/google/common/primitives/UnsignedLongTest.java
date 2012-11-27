@@ -33,9 +33,11 @@ import java.math.BigInteger;
 @GwtCompatible(emulated = true)
 public class UnsignedLongTest extends TestCase {
   private static final ImmutableSet<Long> TEST_LONGS;
+  private static final ImmutableSet<BigInteger> TEST_BIG_INTEGERS;
 
   static {
     ImmutableSet.Builder<Long> testLongsBuilder = ImmutableSet.builder();
+    ImmutableSet.Builder<BigInteger> testBigIntegersBuilder = ImmutableSet.builder();
     for (long i = -3; i <= 3; i++) {
       testLongsBuilder
           .add(i)
@@ -43,8 +45,18 @@ public class UnsignedLongTest extends TestCase {
           .add(Long.MIN_VALUE + i)
           .add(Integer.MIN_VALUE + i)
           .add(Integer.MAX_VALUE + i);
+      BigInteger bigI = BigInteger.valueOf(i);
+      testBigIntegersBuilder
+          .add(bigI)
+          .add(BigInteger.valueOf(Long.MAX_VALUE).add(bigI))
+          .add(BigInteger.valueOf(Long.MIN_VALUE).add(bigI))
+          .add(BigInteger.valueOf(Integer.MAX_VALUE).add(bigI))
+          .add(BigInteger.valueOf(Integer.MIN_VALUE).add(bigI))
+          .add(BigInteger.ONE.shiftLeft(63).add(bigI))
+          .add(BigInteger.ONE.shiftLeft(64).add(bigI));
     }
     TEST_LONGS = testLongsBuilder.build();
+    TEST_BIG_INTEGERS = testBigIntegersBuilder.build();
   }
 
   public void testAsUnsignedAndLongValueAreInverses() {
@@ -61,6 +73,33 @@ public class UnsignedLongTest extends TestCase {
           : BigInteger.valueOf(value).add(BigInteger.ZERO.setBit(64));
       assertEquals(UnsignedLongs.toString(value), expected,
           UnsignedLong.fromLongBits(value).bigIntegerValue());
+    }
+  }
+  
+  public void testValueOfLong() {
+    for (long value : TEST_LONGS) {
+      boolean expectSuccess = value >= 0;
+      try {
+        assertEquals(value, UnsignedLong.valueOf(value).longValue());
+        assertTrue(expectSuccess);
+      } catch (IllegalArgumentException e) {
+        assertFalse(expectSuccess);
+      }
+    }
+  }
+  
+  public void testValueOfBigInteger() {
+    BigInteger min = BigInteger.ZERO;
+    BigInteger max = UnsignedLong.MAX_VALUE.bigIntegerValue();
+    for (BigInteger big : TEST_BIG_INTEGERS) {
+      boolean expectSuccess =
+          big.compareTo(min) >= 0 && big.compareTo(max) <= 0;
+      try {
+        assertEquals(big, UnsignedLong.valueOf(big).bigIntegerValue());
+        assertTrue(expectSuccess);
+      } catch (IllegalArgumentException e) {
+        assertFalse(expectSuccess);
+      }
     }
   }
 

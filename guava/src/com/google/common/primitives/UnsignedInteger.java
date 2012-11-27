@@ -71,7 +71,13 @@ public final class UnsignedInteger extends Number implements Comparable<Unsigned
 
   /**
    * Returns an {@code UnsignedInteger} corresponding to a given bit representation.
-   * The argument is interpreted as an unsigned 32-bit value.
+   * The argument is interpreted as an unsigned 32-bit value. Specifically, the sign bit
+   * of {@code bits} is interpreted as a normal bit, and all other bits are treated as usual.
+   *
+   * <p>If the argument is nonnegative, the returned result will be equal to {@code bits},
+   * otherwise, the result will be equal to {@code 2^32 + bits}.
+   *
+   * <p>To represent unsigned decimal constants, consider {@link #valueOf(long)} instead.
    *
    * @since 14.0
    */

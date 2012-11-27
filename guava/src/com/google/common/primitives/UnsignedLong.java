@@ -73,13 +73,32 @@ public final class UnsignedLong extends Number implements Comparable<UnsignedLon
 
   /**
    * Returns an {@code UnsignedLong} corresponding to a given bit representation.
-   * The argument is interpreted as an unsigned 64-bit value.
+   * The argument is interpreted as an unsigned 64-bit value. Specifically, the sign bit
+   * of {@code bits} is interpreted as a normal bit, and all other bits are treated as usual.
+   *
+   * <p>If the argument is nonnegative, the returned result will be equal to {@code bits},
+   * otherwise, the result will be equal to {@code 2^64 + bits}.
+   *
+   * <p>To represent decimal constants less than {@code 2^63}, consider {@link #valueOf(long)}
+   * instead.
    *
    * @since 14.0
    */
   public static UnsignedLong fromLongBits(long bits) {
     // TODO(user): consider caching small values, like Long.valueOf
     return new UnsignedLong(bits);
+  }
+
+  /**
+   * Returns an {@code UnsignedLong} representing the same value as the specified {@code long}.
+   *
+   * @throws IllegalArgumentException if {@code value} is negative
+   * @since 14.0
+   */
+  public static UnsignedLong valueOf(long value) {
+    checkArgument(value >= 0,
+        "value (%s) is outside the range for an unsigned long value", value);
+    return fromLongBits(value);
   }
 
   /**

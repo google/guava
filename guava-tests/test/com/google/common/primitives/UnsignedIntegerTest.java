@@ -23,6 +23,8 @@ import com.google.common.testing.SerializableTester;
 
 import junit.framework.TestCase;
 
+import java.math.BigInteger;
+
 /**
  * Tests for {@code UnsignedInteger}.
  *
@@ -31,6 +33,7 @@ import junit.framework.TestCase;
 @GwtCompatible(emulated = true)
 public class UnsignedIntegerTest extends TestCase {
   private static final ImmutableSet<Integer> TEST_INTS;
+  private static final ImmutableSet<Long> TEST_LONGS;
 
   private static int force32(int value) {
     // GWT doesn't consistently overflow values to make them 32-bit, so we need to force it.
@@ -39,11 +42,20 @@ public class UnsignedIntegerTest extends TestCase {
 
   static {
     ImmutableSet.Builder<Integer> testIntsBuilder = ImmutableSet.builder();
+    ImmutableSet.Builder<Long> testLongsBuilder = ImmutableSet.builder();
     for (int i = -3; i <= 3; i++) {
-      testIntsBuilder.add(i).add(-i).add(force32(Integer.MIN_VALUE + i))
-          .add(force32(Integer.MAX_VALUE + i));
+      testIntsBuilder
+        .add(i)
+        .add(force32(Integer.MIN_VALUE + i))
+        .add(force32(Integer.MAX_VALUE + i));
+      testLongsBuilder
+        .add((long) i)
+        .add((long) Integer.MIN_VALUE + i)
+        .add((long) Integer.MAX_VALUE + i)
+        .add((1L << 32) + i);
     }
     TEST_INTS = testIntsBuilder.build();
+    TEST_LONGS = testLongsBuilder.build();
   }
 
   public void testFromIntBitsAndIntValueAreInverses() {
@@ -58,6 +70,35 @@ public class UnsignedIntegerTest extends TestCase {
       long expected = value & 0xffffffffL;
       assertEquals(UnsignedInts.toString(value), expected, UnsignedInteger.fromIntBits(value)
           .longValue());
+    }
+  }
+  
+  public void testValueOfLong() {
+    long min = 0;
+    long max = (1L << 32) - 1;
+    for (long value : TEST_LONGS) {
+      boolean expectSuccess = value >= min && value <= max;
+      try {
+        assertEquals(value, UnsignedInteger.valueOf(value).longValue());
+        assertTrue(expectSuccess);
+      } catch (IllegalArgumentException e) {
+        assertFalse(expectSuccess);
+      }
+    }
+  }
+  
+  public void testValueOfBigInteger() {
+    long min = 0;
+    long max = (1L << 32) - 1;
+    for (long value : TEST_LONGS) {
+      boolean expectSuccess = value >= min && value <= max;
+      try {
+        assertEquals(value, UnsignedInteger.valueOf(BigInteger.valueOf(value))
+            .longValue());
+        assertTrue(expectSuccess);
+      } catch (IllegalArgumentException e) {
+        assertFalse(expectSuccess);
+      }
     }
   }
 
