@@ -20,6 +20,7 @@ import com.google.common.annotations.GwtIncompatible;
 
 import junit.framework.TestCase;
 
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.NoSuchElementException;
 
@@ -74,7 +75,8 @@ public class ImmutableRangeMapTest extends TestCase {
       try {
         builder.put(Range.openClosed(i, i), 1);
         fail("Expected IllegalArgumentException");
-      } catch (IllegalArgumentException expected) {}
+      } catch (IllegalArgumentException expected) {
+      }
     }
   }
 
@@ -121,14 +123,14 @@ public class ImmutableRangeMapTest extends TestCase {
     try {
       ImmutableRangeMap.of().span();
       fail("Expected NoSuchElementException");
-    } catch (NoSuchElementException expected) {}
+    } catch (NoSuchElementException expected) {
+    }
   }
 
   public void testSpanSingleRange() {
     for (Range<Integer> range : RANGES) {
-      RangeMap<Integer, Integer> rangemap = ImmutableRangeMap.<Integer, Integer>builder()
-          .put(range, 1)
-          .build();
+      RangeMap<Integer, Integer> rangemap =
+          ImmutableRangeMap.<Integer, Integer>builder().put(range, 1).build();
       assertEquals(range, rangemap.span());
     }
   }
@@ -137,10 +139,8 @@ public class ImmutableRangeMapTest extends TestCase {
     for (Range<Integer> range1 : RANGES) {
       for (Range<Integer> range2 : RANGES) {
         if (!range1.isConnected(range2) || range1.intersection(range2).isEmpty()) {
-          RangeMap<Integer, Integer> rangemap = ImmutableRangeMap.<Integer, Integer>builder()
-              .put(range1, 1)
-              .put(range2, 2)
-              .build();
+          RangeMap<Integer, Integer> rangemap =
+              ImmutableRangeMap.<Integer, Integer>builder().put(range1, 1).put(range2, 2).build();
           assertEquals(range1.span(range2), rangemap.span());
         }
       }
@@ -194,6 +194,32 @@ public class ImmutableRangeMapTest extends TestCase {
 
           for (Range<Integer> query : RANGES) {
             assertEquals(expectedAsMap.get(query), asMap.get(query));
+          }
+        }
+      }
+    }
+  }
+
+  public void testSubRangeMap() {
+    for (Range<Integer> range1 : RANGES) {
+      for (Range<Integer> range2 : RANGES) {
+        if (!range1.isConnected(range2) || range1.intersection(range2).isEmpty()) {
+          for (Range<Integer> subRange : RANGES) {
+            ImmutableRangeMap<Integer, Integer> rangeMap =
+                ImmutableRangeMap.<Integer, Integer>builder()
+                  .put(range1, 1).put(range2, 2).build();
+
+            ImmutableRangeMap.Builder<Integer, Integer> expectedBuilder =
+                ImmutableRangeMap.builder();
+            for (Map.Entry<Range<Integer>, Integer> entry : rangeMap.asMapOfRanges().entrySet()) {
+              if (entry.getKey().isConnected(subRange)
+                  && !entry.getKey().intersection(subRange).isEmpty()) {
+                expectedBuilder.put(entry.getKey().intersection(subRange), entry.getValue());
+              }
+            }
+
+            ImmutableRangeMap<Integer, Integer> expected = expectedBuilder.build();
+            assertEquals(expected, rangeMap.subRangeMap(subRange));
           }
         }
       }
