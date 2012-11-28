@@ -305,6 +305,21 @@ public final class ImmutableRangeSet<C extends Comparable> extends AbstractRange
       };
     }
   }
+  
+  /**
+   * Returns a view of the intersection of this range set with the given range.
+   */
+  public ImmutableRangeSet<C> subRangeSet(Range<C> range) {
+    if (!isEmpty()) {
+      Range<C> span = span();
+      if (range.encloses(span)) {
+        return this;
+      } else if (range.isConnected(span)) {
+        return new ImmutableRangeSet<C>(intersectRanges(range));
+      }
+    }
+    return of();
+  }
 
   /**
    * Returns an {@link ImmutableSortedSet} containing the same values in the given domain
@@ -326,28 +341,17 @@ public final class ImmutableRangeSet<C extends Comparable> extends AbstractRange
    *         neither has an upper bound
    */
   public ImmutableSortedSet<C> asSet(DiscreteDomain<C> domain) {
-    return asSet(domain, Range.<C>all());
-  }
-
-  ImmutableSortedSet<C> asSet(DiscreteDomain<C> domain, Range<C> range) {
     checkNotNull(domain);
-    checkNotNull(range);
     if (isEmpty()) {
       return ImmutableSortedSet.of();
     }
-    Range<C> span = span();
-    if (!range.isConnected(span)) {
-      return ImmutableSortedSet.of();
-    }
-
-    range = range.intersection(span).canonical(domain);
-
-    if (!range.hasLowerBound()) {
+    Range<C> span = span().canonical(domain);
+    if (!span.hasLowerBound()) {
       // according to the spec of canonical, neither this ImmutableRangeSet nor
       // the range have a lower bound
       throw new IllegalArgumentException(
           "Neither the DiscreteDomain nor this range set are bounded below");
-    } else if (!range.hasUpperBound()) {
+    } else if (!span.hasUpperBound()) {
       try {
         domain.maxValue();
       } catch (NoSuchElementException e) {
@@ -356,27 +360,15 @@ public final class ImmutableRangeSet<C extends Comparable> extends AbstractRange
       }
     }
 
-    ImmutableList<Range<C>> subRanges = intersectRanges(range);
-    switch (subRanges.size()) {
-      case 0:
-        return ImmutableSortedSet.of();
-      case 1:
-        return subRanges.get(0).asSet(domain);
-      default:
-        return new AsSet(domain, range, subRanges);
-    }
+    return new AsSet(domain);
   }
 
   private final class AsSet extends ImmutableSortedSet<C> {
     private final DiscreteDomain<C> domain;
-    private final Range<C> subRange;
-    private final ImmutableList<Range<C>> subRanges;
 
-    AsSet(DiscreteDomain<C> domain, Range<C> subRange, ImmutableList<Range<C>> subRanges) {
+    AsSet(DiscreteDomain<C> domain) {
       super(Ordering.natural());
       this.domain = domain;
-      this.subRange = subRange;
-      this.subRanges = subRanges;
     }
 
     private transient Integer size;
@@ -387,7 +379,7 @@ public final class ImmutableRangeSet<C extends Comparable> extends AbstractRange
       Integer result = size;
       if (result == null) {
         long total = 0;
-        for (Range<C> range : subRanges) {
+        for (Range<C> range : ranges) {
           total += range.asSet(domain).size();
           if (total >= Integer.MAX_VALUE) {
             break;
@@ -401,7 +393,7 @@ public final class ImmutableRangeSet<C extends Comparable> extends AbstractRange
     @Override
     public UnmodifiableIterator<C> iterator() {
       return new AbstractIterator<C>() {
-        final Iterator<Range<C>> rangeItr = subRanges.iterator();
+        final Iterator<Range<C>> rangeItr = ranges.iterator();
         Iterator<C> elemItr = Iterators.emptyIterator();
 
         @Override
@@ -422,7 +414,7 @@ public final class ImmutableRangeSet<C extends Comparable> extends AbstractRange
     @GwtIncompatible("NavigableSet")
     public UnmodifiableIterator<C> descendingIterator() {
       return new AbstractIterator<C>() {
-        final Iterator<Range<C>> rangeItr = subRanges.reverse().iterator();
+        final Iterator<Range<C>> rangeItr = ranges.reverse().iterator();
         Iterator<C> elemItr = Iterators.emptyIterator();
 
         @Override
@@ -440,13 +432,7 @@ public final class ImmutableRangeSet<C extends Comparable> extends AbstractRange
     }
 
     ImmutableSortedSet<C> subSet(Range<C> range) {
-      if (range.encloses(subRange)) {
-        return this;
-      } else if (subRange.isConnected(range)) {
-        return asSet(domain, subRange.intersection(range));
-      } else {
-        return ImmutableSortedSet.of();
-      }
+      return subRangeSet(range).asSet(domain);
     }
 
     @Override
@@ -478,7 +464,7 @@ public final class ImmutableRangeSet<C extends Comparable> extends AbstractRange
       try {
         @SuppressWarnings("unchecked") // we catch CCE's
         C c = (C) o;
-        return subRange.contains(c) && ImmutableRangeSet.this.contains(c);
+        return ImmutableRangeSet.this.contains(c);
       } catch (ClassCastException e) {
         return false;
       }
@@ -490,7 +476,7 @@ public final class ImmutableRangeSet<C extends Comparable> extends AbstractRange
         @SuppressWarnings("unchecked") // if it's contained, it's definitely a C
         C c = (C) target;
         long total = 0;
-        for (Range<C> range : subRanges) {
+        for (Range<C> range : ranges) {
           if (range.contains(c)) {
             return Ints.saturatedCast(total + range.asSet(domain).indexOf(c));
           } else {
@@ -504,17 +490,17 @@ public final class ImmutableRangeSet<C extends Comparable> extends AbstractRange
 
     @Override
     boolean isPartialView() {
-      return subRanges.isPartialView() || subRanges.size() < ranges.size();
+      return ranges.isPartialView();
     }
 
     @Override
     public String toString() {
-      return subRanges.toString();
+      return ranges.toString();
     }
 
     @Override
     Object writeReplace() {
-      return new AsSetSerializedForm<C>(subRanges, domain);
+      return new AsSetSerializedForm<C>(ranges, domain);
     }
   }
 

@@ -38,6 +38,20 @@ import java.util.Set;
  */
 @GwtIncompatible("ImmutableRangeSet")
 public class ImmutableRangeSetTest extends AbstractRangeSetTest {
+  @SuppressWarnings("unchecked") // varargs
+  private static final ImmutableSet<Range<Integer>> RANGES = ImmutableSet.of(
+      Range.<Integer>all(),
+      Range.closedOpen(3, 5),
+      Range.singleton(1),
+      Range.lessThan(2),
+      Range.greaterThan(10),
+      Range.atMost(4),
+      Range.atLeast(3),
+      Range.closed(4, 6),
+      Range.closedOpen(1, 3),
+      Range.openClosed(5, 7),
+      Range.open(3, 4));
+  
   static final class ImmutableRangeSetIntegerAsSetGenerator implements TestSetGenerator<Integer> {
     @Override
     public SampleElements<Integer> samples() {
@@ -381,7 +395,7 @@ public class ImmutableRangeSetTest extends AbstractRangeSetTest {
     SerializableTester.reserializeAndAssert(asSet);
   }
 
-  public void testHeadSet() {
+  public void testAsSetHeadSet() {
     ImmutableRangeSet<Integer> rangeSet = ImmutableRangeSet.<Integer>builder()
         .add(Range.closed(2, 4))
         .add(Range.open(6, 7))
@@ -398,7 +412,7 @@ public class ImmutableRangeSetTest extends AbstractRangeSetTest {
     }
   }
 
-  public void testTailSet() {
+  public void testAsSetTailSet() {
     ImmutableRangeSet<Integer> rangeSet = ImmutableRangeSet.<Integer>builder()
         .add(Range.closed(2, 4))
         .add(Range.open(6, 7))
@@ -415,7 +429,7 @@ public class ImmutableRangeSetTest extends AbstractRangeSetTest {
     }
   }
 
-  public void testSubSet() {
+  public void testAsSetSubSet() {
     ImmutableRangeSet<Integer> rangeSet = ImmutableRangeSet.<Integer>builder()
         .add(Range.closed(2, 4))
         .add(Range.open(6, 7))
@@ -436,6 +450,57 @@ public class ImmutableRangeSetTest extends AbstractRangeSetTest {
             asSet.subSet(i, false, j, true));
         assertEquals(expectedSet.subSet(i, true, j, true),
             asSet.subSet(i, true, j, true));
+      }
+    }
+  }
+  
+  public void testSubRangeSet() {
+    ImmutableList.Builder<Range<Integer>> rangesBuilder = ImmutableList.builder();
+    rangesBuilder.add(Range.<Integer>all());
+    for (int i = -2; i <= 2; i++) {
+      for (BoundType boundType : BoundType.values()) {
+        rangesBuilder.add(Range.upTo(i, boundType));
+        rangesBuilder.add(Range.downTo(i, boundType));
+      }
+      for (int j = i + 1; j <= 2; j++) {
+        for (BoundType lbType : BoundType.values()) {
+          for (BoundType ubType : BoundType.values()) {
+            rangesBuilder.add(Range.range(i, lbType, j, ubType));
+          }
+        }
+      }
+    }
+    ImmutableList<Range<Integer>> ranges = rangesBuilder.build();
+    for (int i = -2; i <= 2; i++) {
+      rangesBuilder.add(Range.closedOpen(i, i));
+      rangesBuilder.add(Range.openClosed(i, i));
+    }
+    ImmutableList<Range<Integer>> subRanges = rangesBuilder.build();
+    for (Range<Integer> range1 : ranges) {
+      for (Range<Integer> range2 : ranges) {
+        if (!range1.isConnected(range2) || range1.intersection(range2).isEmpty()) {
+          ImmutableRangeSet<Integer> rangeSet = ImmutableRangeSet.<Integer>builder()
+              .add(range1)
+              .add(range2)
+              .build();
+          for (Range<Integer> subRange : subRanges) {
+            RangeSet<Integer> expected = TreeRangeSet.create();
+            for (Range<Integer> range : rangeSet.asRanges()) {
+              if (range.isConnected(subRange)) {
+                expected.add(range.intersection(subRange));
+              }
+            }
+            ImmutableRangeSet<Integer> subRangeSet = rangeSet.subRangeSet(subRange);
+            assertEquals(expected, subRangeSet);
+            assertEquals(expected.asRanges(), subRangeSet.asRanges());
+            if (!expected.isEmpty()) {
+              assertEquals(expected.span(), subRangeSet.span());
+            }
+            for (int i = -3; i <= 3; i++) {
+              assertEquals(expected.contains(i), subRangeSet.contains(i));
+            }
+          }
+        }
       }
     }
   }
