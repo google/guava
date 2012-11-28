@@ -88,6 +88,18 @@ public final class Maps {
     return (Function) KEY_FUNCTION;
   }
 
+  private static final Function<Entry, Object> VALUE_FUNCTION = new Function<Entry, Object>() {
+    @Override
+    public Object apply(Entry entry) {
+      return entry.getValue();
+    }
+  };
+
+  @SuppressWarnings("unchecked")
+  static <V> Function<Entry<?, V>, V> valueFunction() {
+    return (Function) VALUE_FUNCTION;
+  }
+
   /**
    * Returns an immutable map instance containing the given entries.
    * Internally, the returned set will be backed by an {@link EnumMap}.

@@ -96,6 +96,22 @@ public interface RangeMap<K extends Comparable, V> {
    * <p>It is guaranteed that no empty ranges will be in the returned {@code Map}.
    */
   Map<Range<K>, V> asMapOfRanges();
+  
+  /**
+   * Returns a view of the part of this range map that intersects with {@code range}.
+   * 
+   * <p>For example, if {@code rangeMap} had the entries 
+   * {@code [1, 5] => "foo", (6, 8) => "bar", (10, \u2025) => "baz"}
+   * then {@code rangeMap.subRangeMap(Range.open(3, 12))} would return a range map
+   * with the entries {@code (3, 5) => "foo", (6, 8) => "bar", (10, 12) => "baz"}.
+   * 
+   * <p>The returned range map supports all optional operations that this range map supports,
+   * except for {@code asMapOfRanges().iterator().remove()}.
+   * 
+   * <p>The returned range map will throw an {@link IllegalArgumentException} on an attempt to 
+   * insert a range not {@linkplain Range#encloses(Range) enclosed} by {@code range}. 
+   */
+  RangeMap<K, V> subRangeMap(Range<K> range);
 
   /**
    * Returns {@code true} if {@code obj} is another {@code RangeMap} that has an equivalent

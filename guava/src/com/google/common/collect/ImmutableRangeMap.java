@@ -225,9 +225,12 @@ public class ImmutableRangeMap<K extends Comparable<?>, V> implements RangeMap<K
     return new RegularImmutableSortedMap<Range<K>, V>(rangeSet, values);
   }
   
+  @Override
   public ImmutableRangeMap<K, V> subRangeMap(final Range<K> range) {
     if (checkNotNull(range).isEmpty()) {
       return ImmutableRangeMap.of();
+    } else if (ranges.isEmpty() || range.encloses(span())) {
+      return this;
     }
     int lowerIndex = SortedLists.binarySearch(
         ranges, Range.<K>upperBoundFn(), range.lowerBound,
