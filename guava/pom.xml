@@ -14,14 +14,20 @@
     utility classes, google's collections, io classes, and much
     much more.
 
-    Guava has only one code dependency - javax.annotation,
-    per the JSR-305 spec.
+    Guava has two code dependencies - javax.annotation
+    per the JSR-305 spec and javax.inject per the JSR-330 spec.
   </description>
   <dependencies>
     <dependency>
       <groupId>com.google.code.findbugs</groupId>
       <artifactId>jsr305</artifactId>
       <version>1.3.9</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>javax.inject</groupId>
+      <artifactId>javax.inject</artifactId>
+      <version>1</version>
       <scope>provided</scope>
     </dependency>
   </dependencies>

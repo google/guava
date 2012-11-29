@@ -121,11 +121,21 @@ public abstract class AbstractIdleService implements Service {
   @Override public final State stopAndWait() {
     return delegate.stopAndWait();
   }
-
+  
+  /**
+   * @since 13.0
+   */
   @Override public final void addListener(Listener listener, Executor executor) {
     delegate.addListener(listener, executor);
   }
-
+  
+  /**
+   * @since 14.0
+   */
+  @Override public final Throwable failureCause() {
+    return delegate.failureCause();
+  }
+  
   /**
    * Returns the name of this service. {@link AbstractIdleService} may include the name in debugging
    * output.

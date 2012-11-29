@@ -585,6 +585,30 @@ public class AbstractServiceTest extends TestCase {
         listener.getStateHistory());
   }
 
+  public void testFailureCause_throwsIfNotFailed() {
+    StopFailingService service = new StopFailingService();
+    try {
+      service.failureCause();
+      fail();
+    } catch (IllegalStateException e) {
+      // expected
+    }
+    service.startAndWait();
+    try {
+      service.failureCause();
+      fail();
+    } catch (IllegalStateException e) {
+      // expected
+    }
+    try {
+      service.stopAndWait();
+      fail();
+    } catch (UncheckedExecutionException e) {
+      assertEquals(EXCEPTION, service.failureCause());
+      assertEquals(EXCEPTION, e.getCause());
+    }
+  }
+
   public void testAddListenerAfterFailureDoesntCauseDeadlock() throws InterruptedException {
     final StartFailingService service = new StartFailingService();
     service.start();
