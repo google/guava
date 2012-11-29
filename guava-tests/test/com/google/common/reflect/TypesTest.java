@@ -16,7 +16,8 @@
 
 package com.google.common.reflect;
 
-import static org.junit.contrib.truth.Truth.ASSERT;
+import static java.util.Arrays.asList;
+import static org.truth0.Truth.ASSERT;
 
 import com.google.common.testing.EqualsTester;
 import com.google.common.testing.NullPointerTester;
@@ -65,7 +66,7 @@ public class TypesTest extends TestCase {
     assertEquals(jvmType.hashCode(), ourType.hashCode());
     assertEquals(HashMap.class, ourType.getRawType());
     ASSERT.that(ourType.getActualTypeArguments())
-        .hasContentsInOrder(jvmType.getActualTypeArguments());
+        .iteratesOverSequence(jvmType.getActualTypeArguments());
     assertEquals(Arrays.asList(
             String.class,
             Types.newArrayType(Types.newArrayType(int.class))),
@@ -106,7 +107,7 @@ public class TypesTest extends TestCase {
     assertEquals(Map.class, ourType.getOwnerType());
     assertEquals(Map.Entry.class, ourType.getRawType());
     ASSERT.that(ourType.getActualTypeArguments())
-        .hasContentsInOrder(jvmType.getActualTypeArguments());
+        .iteratesOverSequence(jvmType.getActualTypeArguments());
   }
 
   public void testNewParameterizedType_serializable() {
@@ -267,9 +268,9 @@ public class TypesTest extends TestCase {
     assertEquals(expected.toString(), actual.toString());
     assertEquals(actual.toString(), expected.hashCode(), actual.hashCode());
     ASSERT.that(actual.getLowerBounds())
-        .hasContentsInOrder(expected.getLowerBounds());
+        .has().allFrom(asList(expected.getLowerBounds())).inOrder();
     ASSERT.that(actual.getUpperBounds())
-        .hasContentsInOrder(expected.getUpperBounds());
+        .has().allFrom(asList(expected.getUpperBounds())).inOrder();
   }
 
   private static class WithTypeVariable {
@@ -346,7 +347,7 @@ public class TypesTest extends TestCase {
     assertEquals(
         expected.getGenericDeclaration(), actual.getGenericDeclaration());
     assertEquals(actual.toString(), expected.hashCode(), actual.hashCode());
-    ASSERT.that(actual.getBounds()).hasContentsInOrder(expected.getBounds());
+    ASSERT.that(actual.getBounds()).has().allFrom(asList(expected.getBounds())).inOrder();
   }
 
   /**

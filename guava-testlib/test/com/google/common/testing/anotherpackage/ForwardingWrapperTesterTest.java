@@ -16,7 +16,7 @@
 
 package com.google.common.testing.anotherpackage;
 
-import static org.junit.contrib.truth.Truth.ASSERT;
+import static org.truth0.Truth.ASSERT;
 
 import com.google.common.base.Equivalence;
 import com.google.common.base.Function;

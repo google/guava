@@ -17,7 +17,7 @@
 package com.google.common.collect;
 
 import static com.google.common.collect.testing.Helpers.nefariousMapEntry;
-import static org.junit.contrib.truth.Truth.ASSERT;
+import static org.truth0.Truth.ASSERT;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -115,11 +115,11 @@ public class MapConstraintsTest extends TestCase {
     assertFalse(map.values() instanceof Serializable);
     assertEquals(map.toString(), constrained.toString());
     assertEquals(map.hashCode(), constrained.hashCode());
-    ASSERT.that(map.entrySet()).hasContentsInOrder(
+    ASSERT.that(map.entrySet()).has().allOf(
         Maps.immutableEntry(TEST_KEY, TEST_VALUE),
         Maps.immutableEntry("foo", 1),
         Maps.immutableEntry("bar", 2),
-        Maps.immutableEntry("baz", 3));
+        Maps.immutableEntry("baz", 3)).inOrder();
   }
 
   public void testConstrainedMapIllegal() {
@@ -163,11 +163,11 @@ public class MapConstraintsTest extends TestCase {
     assertEquals(map.values(), constrained.values());
     assertEquals(map.toString(), constrained.toString());
     assertEquals(map.hashCode(), constrained.hashCode());
-    ASSERT.that(map.entrySet()).hasContentsInOrder(
+    ASSERT.that(map.entrySet()).has().allOf(
         Maps.immutableEntry(TEST_KEY, TEST_VALUE),
         Maps.immutableEntry("foo", 1),
         Maps.immutableEntry("bar", 2),
-        Maps.immutableEntry("baz", 3));
+        Maps.immutableEntry("baz", 3)).inOrder();
   }
 
   public void testConstrainedBiMapIllegal() {
@@ -232,7 +232,7 @@ public class MapConstraintsTest extends TestCase {
     assertTrue(constrained.equals(multimap));
     ASSERT.that(ImmutableList.copyOf(multimap.entries()))
         .is(ImmutableList.copyOf(constrained.entries()));
-    ASSERT.that(constrained.asMap().get("foo")).hasContentsInOrder(1);
+    ASSERT.that(constrained.asMap().get("foo")).has().item(1);
     assertNull(constrained.asMap().get("missing"));
     assertEquals(multimap.asMap(), constrained.asMap());
     assertEquals(multimap.values(), constrained.values());
@@ -240,7 +240,7 @@ public class MapConstraintsTest extends TestCase {
     assertEquals(multimap.keySet(), constrained.keySet());
     assertEquals(multimap.toString(), constrained.toString());
     assertEquals(multimap.hashCode(), constrained.hashCode());
-    ASSERT.that(multimap.entries()).hasContentsInOrder(
+    ASSERT.that(multimap.entries()).has().allOf(
         Maps.immutableEntry(TEST_KEY, TEST_VALUE),
         Maps.immutableEntry("foo", 1),
         Maps.immutableEntry("bar", 2),
@@ -252,7 +252,7 @@ public class MapConstraintsTest extends TestCase {
         Maps.immutableEntry("bim", 8),
         Maps.immutableEntry("bop", 9),
         Maps.immutableEntry("dig", 10),
-        Maps.immutableEntry("dag", 11));
+        Maps.immutableEntry("dag", 11)).inOrder();
     assertFalse(constrained.asMap().values() instanceof Serializable);
     Iterator<Collection<Integer>> iterator =
         constrained.asMap().values().iterator();

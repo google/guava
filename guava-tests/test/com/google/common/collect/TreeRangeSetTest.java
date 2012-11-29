@@ -16,7 +16,7 @@ package com.google.common.collect;
 
 import static com.google.common.collect.BoundType.OPEN;
 import static com.google.common.collect.Range.range;
-import static org.junit.contrib.truth.Truth.ASSERT;
+import static org.truth0.Truth.ASSERT;
 
 import com.google.common.annotations.GwtIncompatible;
 
@@ -82,8 +82,7 @@ public class TreeRangeSetTest extends AbstractRangeSetTest {
       complement.remove(range);
 
       assertEquals(complement, rangeSet.complement());
-      ASSERT.that(rangeSet.complement().asRanges())
-          .hasContentsInOrder(complement.asRanges().toArray());
+      ASSERT.that(rangeSet.complement().asRanges()).has().allFrom(complement.asRanges()).inOrder();
     }
   }
 
@@ -129,9 +128,9 @@ public class TreeRangeSetTest extends AbstractRangeSetTest {
     rangeSet.add(Range.closed(1, 4));
     rangeSet.add(Range.open(2, 6));
     testInvariants(rangeSet);
-    ASSERT.that(rangeSet.asRanges()).hasContentsInOrder(Range.closedOpen(1, 6));
+    ASSERT.that(rangeSet.asRanges()).has().item(Range.closedOpen(1, 6));
     ASSERT.that(rangeSet.complement().asRanges())
-        .hasContentsInOrder(Range.lessThan(1), Range.atLeast(6));
+        .has().allOf(Range.lessThan(1), Range.atLeast(6)).inOrder();
   }
 
   public void testMergesConnectedDisjoint() {
@@ -139,9 +138,9 @@ public class TreeRangeSetTest extends AbstractRangeSetTest {
     rangeSet.add(Range.closed(1, 4));
     rangeSet.add(Range.open(4, 6));
     testInvariants(rangeSet);
-    ASSERT.that(rangeSet.asRanges()).hasContentsInOrder(Range.closedOpen(1, 6));
+    ASSERT.that(rangeSet.asRanges()).has().item(Range.closedOpen(1, 6));
     ASSERT.that(rangeSet.complement().asRanges())
-        .hasContentsInOrder(Range.lessThan(1), Range.atLeast(6));
+        .has().allOf(Range.lessThan(1), Range.atLeast(6)).inOrder();
   }
 
   public void testIgnoresSmallerSharingNoBound() {
@@ -149,9 +148,9 @@ public class TreeRangeSetTest extends AbstractRangeSetTest {
     rangeSet.add(Range.closed(1, 6));
     rangeSet.add(Range.open(2, 4));
     testInvariants(rangeSet);
-    ASSERT.that(rangeSet.asRanges()).hasContentsInOrder(Range.closed(1, 6));
+    ASSERT.that(rangeSet.asRanges()).has().item(Range.closed(1, 6));
     ASSERT.that(rangeSet.complement().asRanges())
-        .hasContentsInOrder(Range.lessThan(1), Range.greaterThan(6));
+        .has().allOf(Range.lessThan(1), Range.greaterThan(6)).inOrder();
   }
 
   public void testIgnoresSmallerSharingLowerBound() {
@@ -159,9 +158,9 @@ public class TreeRangeSetTest extends AbstractRangeSetTest {
     rangeSet.add(Range.closed(1, 6));
     rangeSet.add(Range.closed(1, 4));
     testInvariants(rangeSet);
-    ASSERT.that(rangeSet.asRanges()).hasContentsInOrder(Range.closed(1, 6));
+    ASSERT.that(rangeSet.asRanges()).has().item(Range.closed(1, 6));
     ASSERT.that(rangeSet.complement().asRanges())
-        .hasContentsInOrder(Range.lessThan(1), Range.greaterThan(6));
+        .has().allOf(Range.lessThan(1), Range.greaterThan(6)).inOrder();
   }
 
   public void testIgnoresSmallerSharingUpperBound() {
@@ -169,9 +168,9 @@ public class TreeRangeSetTest extends AbstractRangeSetTest {
     rangeSet.add(Range.closed(1, 6));
     rangeSet.add(Range.closed(3, 6));
     testInvariants(rangeSet);
-    ASSERT.that(rangeSet.asRanges()).hasContentsInOrder(Range.closed(1, 6));
+    ASSERT.that(rangeSet.asRanges()).has().item(Range.closed(1, 6));
     ASSERT.that(rangeSet.complement().asRanges())
-        .hasContentsInOrder(Range.lessThan(1), Range.greaterThan(6));
+        .has().allOf(Range.lessThan(1), Range.greaterThan(6)).inOrder();
   }
 
   public void testIgnoresEqual() {
@@ -179,9 +178,9 @@ public class TreeRangeSetTest extends AbstractRangeSetTest {
     rangeSet.add(Range.closed(1, 6));
     rangeSet.add(Range.closed(1, 6));
     testInvariants(rangeSet);
-    ASSERT.that(rangeSet.asRanges()).hasContentsInOrder(Range.closed(1, 6));
+    ASSERT.that(rangeSet.asRanges()).has().item(Range.closed(1, 6));
     ASSERT.that(rangeSet.complement().asRanges())
-        .hasContentsInOrder(Range.lessThan(1), Range.greaterThan(6));
+        .has().allOf(Range.lessThan(1), Range.greaterThan(6)).inOrder();
   }
 
   public void testExtendSameLowerBound() {
@@ -189,9 +188,9 @@ public class TreeRangeSetTest extends AbstractRangeSetTest {
     rangeSet.add(Range.closed(1, 4));
     rangeSet.add(Range.closed(1, 6));
     testInvariants(rangeSet);
-    ASSERT.that(rangeSet.asRanges()).hasContentsInOrder(Range.closed(1, 6));
+    ASSERT.that(rangeSet.asRanges()).has().item(Range.closed(1, 6));
     ASSERT.that(rangeSet.complement().asRanges())
-        .hasContentsInOrder(Range.lessThan(1), Range.greaterThan(6));
+        .has().allOf(Range.lessThan(1), Range.greaterThan(6)).inOrder();
   }
 
   public void testExtendSameUpperBound() {
@@ -199,9 +198,9 @@ public class TreeRangeSetTest extends AbstractRangeSetTest {
     rangeSet.add(Range.closed(3, 6));
     rangeSet.add(Range.closed(1, 6));
     testInvariants(rangeSet);
-    ASSERT.that(rangeSet.asRanges()).hasContentsInOrder(Range.closed(1, 6));
+    ASSERT.that(rangeSet.asRanges()).has().item(Range.closed(1, 6));
     ASSERT.that(rangeSet.complement().asRanges())
-        .hasContentsInOrder(Range.lessThan(1), Range.greaterThan(6));
+        .has().allOf(Range.lessThan(1), Range.greaterThan(6)).inOrder();
   }
 
   public void testExtendBothDirections() {
@@ -209,9 +208,9 @@ public class TreeRangeSetTest extends AbstractRangeSetTest {
     rangeSet.add(Range.closed(3, 4));
     rangeSet.add(Range.closed(1, 6));
     testInvariants(rangeSet);
-    ASSERT.that(rangeSet.asRanges()).hasContentsInOrder(Range.closed(1, 6));
+    ASSERT.that(rangeSet.asRanges()).has().item(Range.closed(1, 6));
     ASSERT.that(rangeSet.complement().asRanges())
-        .hasContentsInOrder(Range.lessThan(1), Range.greaterThan(6));
+        .has().allOf(Range.lessThan(1), Range.greaterThan(6)).inOrder();
   }
 
   public void testAddEmpty() {
@@ -219,7 +218,7 @@ public class TreeRangeSetTest extends AbstractRangeSetTest {
     rangeSet.add(Range.closedOpen(3, 3));
     testInvariants(rangeSet);
     ASSERT.that(rangeSet.asRanges()).isEmpty();
-    ASSERT.that(rangeSet.complement().asRanges()).hasContentsInOrder(Range.<Integer>all());
+    ASSERT.that(rangeSet.complement().asRanges()).has().allOf(Range.<Integer>all()).inOrder();
   }
 
   public void testFillHoleExactly() {
@@ -228,9 +227,9 @@ public class TreeRangeSetTest extends AbstractRangeSetTest {
     rangeSet.add(Range.closedOpen(4, 6));
     rangeSet.add(Range.closedOpen(3, 4));
     testInvariants(rangeSet);
-    ASSERT.that(rangeSet.asRanges()).hasContentsInOrder(Range.closedOpen(1, 6));
+    ASSERT.that(rangeSet.asRanges()).has().item(Range.closedOpen(1, 6));
     ASSERT.that(rangeSet.complement().asRanges())
-        .hasContentsInOrder(Range.lessThan(1), Range.atLeast(6));
+        .has().allOf(Range.lessThan(1), Range.atLeast(6)).inOrder();
   }
 
   public void testFillHoleWithOverlap() {
@@ -239,9 +238,9 @@ public class TreeRangeSetTest extends AbstractRangeSetTest {
     rangeSet.add(Range.closedOpen(4, 6));
     rangeSet.add(Range.closedOpen(2, 5));
     testInvariants(rangeSet);
-    ASSERT.that(rangeSet.asRanges()).hasContentsInOrder(Range.closedOpen(1, 6));
+    ASSERT.that(rangeSet.asRanges()).has().item(Range.closedOpen(1, 6));
     ASSERT.that(rangeSet.complement().asRanges())
-        .hasContentsInOrder(Range.lessThan(1), Range.atLeast(6));
+        .has().allOf(Range.lessThan(1), Range.atLeast(6)).inOrder();
   }
 
   public void testAddManyPairs() {
@@ -278,16 +277,16 @@ public class TreeRangeSetTest extends AbstractRangeSetTest {
     if (a.isEmpty() && b.isEmpty()) {
       ASSERT.that(rangeSet.asRanges()).isEmpty();
     } else if (a.isEmpty()) {
-      ASSERT.that(rangeSet.asRanges()).hasContentsInOrder(b);
+      ASSERT.that(rangeSet.asRanges()).has().item(b);
     } else if (b.isEmpty()) {
-      ASSERT.that(rangeSet.asRanges()).hasContentsInOrder(a);
+      ASSERT.that(rangeSet.asRanges()).has().item(a);
     } else if (a.isConnected(b)) {
-      ASSERT.that(rangeSet.asRanges()).hasContentsInOrder(a.span(b));
+      ASSERT.that(rangeSet.asRanges()).has().allOf(a.span(b)).inOrder();
     } else {
       if (a.lowerEndpoint() < b.lowerEndpoint()) {
-        ASSERT.that(rangeSet.asRanges()).hasContentsInOrder(a, b);
+        ASSERT.that(rangeSet.asRanges()).has().allOf(a, b).inOrder();
       } else {
-        ASSERT.that(rangeSet.asRanges()).hasContentsInOrder(b, a);
+        ASSERT.that(rangeSet.asRanges()).has().allOf(b, a).inOrder();
       }
     }
   }
@@ -297,9 +296,9 @@ public class TreeRangeSetTest extends AbstractRangeSetTest {
     rangeSet.add(Range.closed(1, 6));
     rangeSet.remove(Range.closedOpen(3, 3));
     testInvariants(rangeSet);
-    ASSERT.that(rangeSet.asRanges()).hasContentsInOrder(Range.closed(1, 6));
+    ASSERT.that(rangeSet.asRanges()).has().item(Range.closed(1, 6));
     ASSERT.that(rangeSet.complement().asRanges())
-        .hasContentsInOrder(Range.lessThan(1), Range.greaterThan(6));
+        .has().allOf(Range.lessThan(1), Range.greaterThan(6)).inOrder();
   }
 
   public void testRemovePartSharingLowerBound() {
@@ -307,9 +306,9 @@ public class TreeRangeSetTest extends AbstractRangeSetTest {
     rangeSet.add(Range.closed(3, 5));
     rangeSet.remove(Range.closedOpen(3, 5));
     testInvariants(rangeSet);
-    ASSERT.that(rangeSet.asRanges()).hasContentsInOrder(Range.singleton(5));
+    ASSERT.that(rangeSet.asRanges()).has().item(Range.singleton(5));
     ASSERT.that(rangeSet.complement().asRanges())
-        .hasContentsInOrder(Range.lessThan(5), Range.greaterThan(5));
+        .has().allOf(Range.lessThan(5), Range.greaterThan(5)).inOrder();
   }
 
   public void testRemovePartSharingUpperBound() {
@@ -317,9 +316,9 @@ public class TreeRangeSetTest extends AbstractRangeSetTest {
     rangeSet.add(Range.closed(3, 5));
     rangeSet.remove(Range.openClosed(3, 5));
     testInvariants(rangeSet);
-    ASSERT.that(rangeSet.asRanges()).hasContentsInOrder(Range.singleton(3));
+    ASSERT.that(rangeSet.asRanges()).has().item(Range.singleton(3));
     ASSERT.that(rangeSet.complement().asRanges())
-        .hasContentsInOrder(Range.lessThan(3), Range.greaterThan(3));
+        .has().allOf(Range.lessThan(3), Range.greaterThan(3)).inOrder();
   }
 
   public void testRemoveMiddle() {
@@ -327,9 +326,9 @@ public class TreeRangeSetTest extends AbstractRangeSetTest {
     rangeSet.add(Range.atMost(6));
     rangeSet.remove(Range.closedOpen(3, 4));
     testInvariants(rangeSet);
-    ASSERT.that(rangeSet.asRanges()).hasContentsInOrder(Range.lessThan(3), Range.closed(4, 6));
+    ASSERT.that(rangeSet.asRanges()).has().allOf(Range.lessThan(3), Range.closed(4, 6)).inOrder();
     ASSERT.that(rangeSet.complement().asRanges())
-        .hasContentsInOrder(Range.closedOpen(3, 4), Range.greaterThan(6));
+        .has().allOf(Range.closedOpen(3, 4), Range.greaterThan(6)).inOrder();
   }
 
   public void testRemoveNoOverlap() {
@@ -337,7 +336,7 @@ public class TreeRangeSetTest extends AbstractRangeSetTest {
     rangeSet.add(Range.closed(3, 6));
     rangeSet.remove(Range.closedOpen(1, 3));
     testInvariants(rangeSet);
-    ASSERT.that(rangeSet.asRanges()).hasContentsInOrder(Range.closed(3, 6));
+    ASSERT.that(rangeSet.asRanges()).has().allOf(Range.closed(3, 6)).inOrder();
   }
 
   public void testRemovePartFromBelowLowerBound() {
@@ -345,7 +344,7 @@ public class TreeRangeSetTest extends AbstractRangeSetTest {
     rangeSet.add(Range.closed(3, 6));
     rangeSet.remove(Range.closed(1, 3));
     testInvariants(rangeSet);
-    ASSERT.that(rangeSet.asRanges()).hasContentsInOrder(Range.openClosed(3, 6));
+    ASSERT.that(rangeSet.asRanges()).has().allOf(Range.openClosed(3, 6)).inOrder();
   }
 
   public void testRemovePartFromAboveUpperBound() {
@@ -353,7 +352,7 @@ public class TreeRangeSetTest extends AbstractRangeSetTest {
     rangeSet.add(Range.closed(3, 6));
     rangeSet.remove(Range.closed(6, 9));
     testInvariants(rangeSet);
-    ASSERT.that(rangeSet.asRanges()).hasContentsInOrder(Range.closedOpen(3, 6));
+    ASSERT.that(rangeSet.asRanges()).has().allOf(Range.closedOpen(3, 6)).inOrder();
   }
 
   public void testRemoveExact() {

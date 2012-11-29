@@ -17,7 +17,7 @@
 package com.google.common.collect;
 
 import static java.util.Arrays.asList;
-import static org.junit.contrib.truth.Truth.ASSERT;
+import static org.truth0.Truth.ASSERT;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -221,6 +221,6 @@ public abstract class AbstractCollectionTest extends TestCase {
   }
 
   protected void assertContents(String... expected) {
-    ASSERT.that(c).hasContentsAnyOrder(expected);
+    ASSERT.that(c).has().allFrom(asList(expected));
   }
 }

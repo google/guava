@@ -16,7 +16,7 @@
 
 package com.google.common.eventbus.outside;
 
-import static org.junit.contrib.truth.Truth.ASSERT;
+import static org.truth0.Truth.ASSERT;
 
 import com.google.common.collect.Lists;
 import com.google.common.eventbus.EventBus;
@@ -83,7 +83,7 @@ public class AnnotatedHandlerFinderTests {
     }
 
     public void testSubscriber() {
-      ASSERT.that(getHandler().subscriberEvents).hasContentsInOrder(EVENT);
+      ASSERT.that(getHandler().subscriberEvents).has().item(EVENT);
     }
 
     @Override
@@ -119,11 +119,11 @@ public class AnnotatedHandlerFinderTests {
     }
 
     public void testOverriddenAndAnnotatedInSubclass() {
-      ASSERT.that(getHandler().overriddenAndAnnotatedInSubclassEvents).hasContentsInOrder(EVENT);
+      ASSERT.that(getHandler().overriddenAndAnnotatedInSubclassEvents).has().item(EVENT);
     }
 
     public void testOverriddenNotAnnotatedInSubclass() {
-      ASSERT.that(getHandler().overriddenInSubclassEvents).hasContentsInOrder(EVENT);
+      ASSERT.that(getHandler().overriddenInSubclassEvents).has().item(EVENT);
     }
 
     @Override
@@ -199,28 +199,28 @@ public class AnnotatedHandlerFinderTests {
     }
 
     public void testNotOverriddenInSubclass() {
-      ASSERT.that(getHandler().notOverriddenInSubclassEvents).hasContentsInOrder(EVENT);
+      ASSERT.that(getHandler().notOverriddenInSubclassEvents).has().item(EVENT);
     }
 
     public void testOverriddenNotAnnotatedInSubclass() {
-      ASSERT.that(getHandler().overriddenNotAnnotatedInSubclassEvents).hasContentsInOrder(EVENT);
+      ASSERT.that(getHandler().overriddenNotAnnotatedInSubclassEvents).has().item(EVENT);
     }
 
     public void testDifferentlyOverriddenNotAnnotatedInSubclass() {
       ASSERT
           .that(getHandler().differentlyOverriddenNotAnnotatedInSubclassGoodEvents)
-          .hasContentsInOrder(EVENT);
+          .has().item(EVENT);
       ASSERT.that(getHandler().differentlyOverriddenNotAnnotatedInSubclassBadEvents).isEmpty();
     }
 
     public void testOverriddenAndAnnotatedInSubclass() {
-      ASSERT.that(getHandler().overriddenAndAnnotatedInSubclassEvents).hasContentsInOrder(EVENT);
+      ASSERT.that(getHandler().overriddenAndAnnotatedInSubclassEvents).has().item(EVENT);
     }
 
     public void testDifferentlyOverriddenAndAnnotatedInSubclass() {
       ASSERT
           .that(getHandler().differentlyOverriddenAnnotatedInSubclassGoodEvents)
-          .hasContentsInOrder(EVENT);
+          .has().item(EVENT);
       ASSERT.that(getHandler().differentlyOverriddenAnnotatedInSubclassBadEvents).isEmpty();
     }
 
@@ -255,7 +255,7 @@ public class AnnotatedHandlerFinderTests {
     }
 
     public void testOverriddenAndAnnotatedInSubclass() {
-      ASSERT.that(getHandler().overriddenAndAnnotatedInSubclassEvents).hasContentsInOrder(EVENT);
+      ASSERT.that(getHandler().overriddenAndAnnotatedInSubclassEvents).has().item(EVENT);
     }
 
     public void testOverriddenInSubclassNowhereAnnotated() {
@@ -310,7 +310,7 @@ public class AnnotatedHandlerFinderTests {
     }
 
     public void testOverriddenAndAnnotatedInSubclass() {
-      ASSERT.that(getHandler().overriddenAndAnnotatedInSubclassEvents).hasContentsInOrder(EVENT);
+      ASSERT.that(getHandler().overriddenAndAnnotatedInSubclassEvents).has().item(EVENT);
     }
 
     @Override
@@ -412,31 +412,31 @@ public class AnnotatedHandlerFinderTests {
     }
 
     public void testAnnotatedIn1() {
-      ASSERT.that(getHandler().annotatedIn1Events).hasContentsInOrder(EVENT);
+      ASSERT.that(getHandler().annotatedIn1Events).has().item(EVENT);
     }
 
     public void testAnnotatedIn2() {
-      ASSERT.that(getHandler().annotatedIn2Events).hasContentsInOrder(EVENT);
+      ASSERT.that(getHandler().annotatedIn2Events).has().item(EVENT);
     }
 
     public void testAnnotatedIn1And2() {
-      ASSERT.that(getHandler().annotatedIn1And2Events).hasContentsInOrder(EVENT);
+      ASSERT.that(getHandler().annotatedIn1And2Events).has().item(EVENT);
     }
 
     public void testAnnotatedIn1And2AndClass() {
-      ASSERT.that(getHandler().annotatedIn1And2AndClassEvents).hasContentsInOrder(EVENT);
+      ASSERT.that(getHandler().annotatedIn1And2AndClassEvents).has().item(EVENT);
     }
 
     public void testDeclaredIn1AnnotatedIn2() {
-      ASSERT.that(getHandler().declaredIn1AnnotatedIn2Events).hasContentsInOrder(EVENT);
+      ASSERT.that(getHandler().declaredIn1AnnotatedIn2Events).has().item(EVENT);
     }
 
     public void testDeclaredIn1AnnotatedInClass() {
-      ASSERT.that(getHandler().declaredIn1AnnotatedInClassEvents).hasContentsInOrder(EVENT);
+      ASSERT.that(getHandler().declaredIn1AnnotatedInClassEvents).has().item(EVENT);
     }
 
     public void testDeclaredIn2AnnotatedInClass() {
-      ASSERT.that(getHandler().declaredIn2AnnotatedInClassEvents).hasContentsInOrder(EVENT);
+      ASSERT.that(getHandler().declaredIn2AnnotatedInClassEvents).has().item(EVENT);
     }
 
     public void testNowhereAnnotated() {

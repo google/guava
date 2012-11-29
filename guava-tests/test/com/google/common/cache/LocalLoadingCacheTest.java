@@ -19,7 +19,7 @@ package com.google.common.cache;
 import static com.google.common.cache.CacheBuilder.EMPTY_STATS;
 import static com.google.common.cache.LocalCacheTest.SMALL_MAX_SIZE;
 import static com.google.common.cache.TestingCacheLoaders.identityLoader;
-import static org.junit.contrib.truth.Truth.ASSERT;
+import static org.truth0.Truth.ASSERT;
 
 import com.google.common.cache.LocalCache.LocalLoadingCache;
 import com.google.common.cache.LocalCache.Segment;
@@ -162,13 +162,17 @@ public class LocalLoadingCacheTest extends TestCase {
     assertNull(map.put(three, one));
     assertNull(map.put(one, two));
 
-    Set<Map.Entry<Object, Object>> entries = map.entrySet();
-    ASSERT.that(entries).hasContentsAnyOrder(
-        Maps.immutableEntry(three, one), Maps.immutableEntry(one, two));
-    Set<Object> keys = map.keySet();
-    ASSERT.that(keys).hasContentsAnyOrder(one, three);
-    Collection<Object> values = map.values();
-    ASSERT.that(values).hasContentsAnyOrder(one, two);
+    ASSERT.that(map).hasKey(three).withValue(one);
+    ASSERT.that(map).hasKey(one).withValue(two);
+
+    //TODO(user): Confirm with fry@ that this is a reasonable substitute.
+    //Set<Map.Entry<Object, Object>> entries = map.entrySet();
+    //ASSERT.that(entries).has().allOf(
+    //    Maps.immutableEntry(three, one), Maps.immutableEntry(one, two));
+    //Set<Object> keys = map.keySet();
+    //ASSERT.that(keys).has().allOf(one, three);
+    //Collection<Object> values = map.values();
+    //ASSERT.that(values).has().allOf(one, two);
 
     map.clear();
 

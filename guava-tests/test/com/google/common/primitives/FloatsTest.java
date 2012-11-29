@@ -17,7 +17,7 @@
 package com.google.common.primitives;
 
 import static java.lang.Float.NaN;
-import static org.junit.contrib.truth.Truth.ASSERT;
+import static org.truth0.Truth.ASSERT;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -354,7 +354,7 @@ public class FloatsTest extends TestCase {
     list.set(0, (float) 2);
     assertTrue(Arrays.equals(new float[] {(float) 2, (float) 1}, array));
     array[1] = (float) 3;
-    ASSERT.that(list).hasContentsInOrder((float) 2, (float) 3);
+    ASSERT.that(list).has().allOf((float) 2, (float) 3).inOrder();
   }
 
   public void testAsList_toArray_roundTrip() {

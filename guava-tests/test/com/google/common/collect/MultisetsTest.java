@@ -17,7 +17,7 @@
 package com.google.common.collect;
 
 import static com.google.common.testing.SerializableTester.reserializeAndAssert;
-import static org.junit.contrib.truth.Truth.ASSERT;
+import static org.truth0.Truth.ASSERT;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -81,8 +81,8 @@ public class MultisetsTest extends TestCase {
     assertFalse(multisetView.contains("bar"));
     assertFalse(set.contains("bar"));
     assertEquals(set, multisetView.elementSet());
-    ASSERT.that(multisetView.elementSet()).hasContentsAnyOrder("foo", null);
-    ASSERT.that(multisetView.entrySet()).hasContentsAnyOrder(
+    ASSERT.that(multisetView.elementSet()).has().allOf("foo", null);
+    ASSERT.that(multisetView.entrySet()).has().allOf(
         Multisets.immutableEntry("foo", 1), Multisets.immutableEntry((String) null, 1));
     multisetView.clear();
     assertFalse(multisetView.contains("foo"));
@@ -113,9 +113,9 @@ public class MultisetsTest extends TestCase {
     assertTrue(set.isEmpty());
     set.add(new DerivedComparable("foo"), 2);
     set.add(new DerivedComparable("bar"), 3);
-    ASSERT.that(set).hasContentsInOrder(
+    ASSERT.that(set).has().allOf(
         new DerivedComparable("bar"), new DerivedComparable("bar"), new DerivedComparable("bar"),
-        new DerivedComparable("foo"), new DerivedComparable("foo"));
+        new DerivedComparable("foo"), new DerivedComparable("foo")).inOrder();
   }
 
   public void testNewTreeMultisetNonGeneric() {
@@ -123,9 +123,9 @@ public class MultisetsTest extends TestCase {
     assertTrue(set.isEmpty());
     set.add(new LegacyComparable("foo"), 2);
     set.add(new LegacyComparable("bar"), 3);
-    ASSERT.that(set).hasContentsInOrder(new LegacyComparable("bar"),
+    ASSERT.that(set).has().allOf(new LegacyComparable("bar"),
         new LegacyComparable("bar"), new LegacyComparable("bar"),
-        new LegacyComparable("foo"), new LegacyComparable("foo"));
+        new LegacyComparable("foo"), new LegacyComparable("foo")).inOrder();
   }
 
   public void testNewTreeMultisetComparator() {
@@ -133,7 +133,7 @@ public class MultisetsTest extends TestCase {
         = TreeMultiset.create(Collections.reverseOrder());
     multiset.add("bar", 3);
     multiset.add("foo", 2);
-    ASSERT.that(multiset).hasContentsInOrder("foo", "foo", "bar", "bar", "bar");
+    ASSERT.that(multiset).has().allOf("foo", "foo", "bar", "bar", "bar").inOrder();
   }
 
   public void testRetainOccurrencesEmpty() {
@@ -141,7 +141,7 @@ public class MultisetsTest extends TestCase {
     Multiset<String> toRetain =
         HashMultiset.create(Arrays.asList("a", "b", "a"));
     assertFalse(Multisets.retainOccurrences(multiset, toRetain));
-    ASSERT.that(multiset).hasContentsInOrder();
+    ASSERT.that(multiset).isEmpty();
   }
 
   public void testRemoveOccurrencesEmpty() {
@@ -156,8 +156,7 @@ public class MultisetsTest extends TestCase {
     Multiset<String> ms1 = HashMultiset.create(Arrays.asList("a", "b", "a"));
     Multiset<String> ms2 = HashMultiset.create(
         Arrays.asList("a", "b", "b", "c"));
-    ASSERT.that(Multisets.union(ms1, ms2))
-        .hasContentsAnyOrder("a", "a", "b", "b", "c");
+    ASSERT.that(Multisets.union(ms1, ms2)).has().allOf("a", "a", "b", "b", "c");
   }
 
   public void testUnionEqualMultisets() {
@@ -181,51 +180,50 @@ public class MultisetsTest extends TestCase {
   public void testIntersectEmptyNonempty() {
     Multiset<String> ms1 = HashMultiset.create();
     Multiset<String> ms2 = HashMultiset.create(Arrays.asList("a", "b", "a"));
-    ASSERT.that(Multisets.intersection(ms1, ms2)).hasContentsInOrder();
+    ASSERT.that(Multisets.intersection(ms1, ms2)).isEmpty();
   }
 
   public void testIntersectNonemptyEmpty() {
     Multiset<String> ms1 = HashMultiset.create(Arrays.asList("a", "b", "a"));
     Multiset<String> ms2 = HashMultiset.create();
-    ASSERT.that(Multisets.intersection(ms1, ms2)).hasContentsInOrder();
+    ASSERT.that(Multisets.intersection(ms1, ms2)).isEmpty();
   }
 
   public void testSum() {
     Multiset<String> ms1 = HashMultiset.create(Arrays.asList("a", "b", "a"));
     Multiset<String> ms2 = HashMultiset.create(Arrays.asList("b", "c"));
-    ASSERT.that(Multisets.sum(ms1, ms2))
-        .hasContentsAnyOrder("a", "a", "b", "b", "c");
+    ASSERT.that(Multisets.sum(ms1, ms2)).has().allOf("a", "a", "b", "b", "c");
   }
 
   public void testSumEmptyNonempty() {
     Multiset<String> ms1 = HashMultiset.create();
     Multiset<String> ms2 = HashMultiset.create(Arrays.asList("a", "b", "a"));
-    ASSERT.that(Multisets.sum(ms1, ms2)).hasContentsAnyOrder("a", "b", "a");
+    ASSERT.that(Multisets.sum(ms1, ms2)).has().allOf("a", "b", "a");
   }
 
   public void testSumNonemptyEmpty() {
     Multiset<String> ms1 = HashMultiset.create(Arrays.asList("a", "b", "a"));
     Multiset<String> ms2 = HashMultiset.create();
-    ASSERT.that(Multisets.sum(ms1, ms2)).hasContentsAnyOrder("a", "b", "a");
+    ASSERT.that(Multisets.sum(ms1, ms2)).has().allOf("a", "b", "a");
   }
 
   public void testDifferenceWithNoRemovedElements() {
     Multiset<String> ms1 = HashMultiset.create(Arrays.asList("a", "b", "a"));
     Multiset<String> ms2 = HashMultiset.create(Arrays.asList("a"));
-    ASSERT.that(Multisets.difference(ms1, ms2)).hasContentsAnyOrder("a", "b");
+    ASSERT.that(Multisets.difference(ms1, ms2)).has().allOf("a", "b");
   }
 
   public void testDifferenceWithRemovedElement() {
     Multiset<String> ms1 = HashMultiset.create(Arrays.asList("a", "b", "a"));
     Multiset<String> ms2 = HashMultiset.create(Arrays.asList("b"));
-    ASSERT.that(Multisets.difference(ms1, ms2)).hasContentsAnyOrder("a", "a");
+    ASSERT.that(Multisets.difference(ms1, ms2)).has().allOf("a", "a");
   }
 
   public void testDifferenceWithMoreElementsInSecondMultiset() {
     Multiset<String> ms1 = HashMultiset.create(Arrays.asList("a", "b", "a"));
     Multiset<String> ms2 = HashMultiset.create(Arrays.asList("a", "b", "b", "b"));
     Multiset<String> diff = Multisets.difference(ms1, ms2);
-    ASSERT.that(diff).hasContentsAnyOrder("a");
+    ASSERT.that(diff).has().item("a");
     assertEquals(0, diff.count("b"));
     assertEquals(1, diff.count("a"));
     assertFalse(diff.contains("b"));
@@ -275,7 +273,7 @@ public class MultisetsTest extends TestCase {
     Multiset<String> toRetain =
         HashMultiset.create(Arrays.asList("a", "b", "b"));
     assertTrue(Multisets.retainOccurrences(multiset, toRetain));
-    ASSERT.that(multiset).hasContentsInOrder("a", "b");
+    ASSERT.that(multiset).has().allOf("a", "b").inOrder();
   }
 
   public void testRemoveEmptyOccurrences() {
@@ -283,7 +281,7 @@ public class MultisetsTest extends TestCase {
         TreeMultiset.create(Arrays.asList("a", "b", "a"));
     Multiset<String> toRemove = HashMultiset.create();
     assertFalse(Multisets.removeOccurrences(multiset, toRemove));
-    ASSERT.that(multiset).hasContentsInOrder("a", "a", "b");
+    ASSERT.that(multiset).has().allOf("a", "a", "b").inOrder();
   }
 
   public void testRemoveOccurrences() {
@@ -292,7 +290,7 @@ public class MultisetsTest extends TestCase {
     Multiset<String> toRemove =
         HashMultiset.create(Arrays.asList("a", "b", "b"));
     assertTrue(Multisets.removeOccurrences(multiset, toRemove));
-    ASSERT.that(multiset).hasContentsInOrder("a", "c");
+    ASSERT.that(multiset).has().allOf("a", "c").inOrder();
   }
 
   @SuppressWarnings("deprecation")
@@ -312,17 +310,17 @@ public class MultisetsTest extends TestCase {
     ImmutableMultiset<String> sortedMultiset =
         Multisets.copyHighestCountFirst(multiset);
 
-    ASSERT.that(sortedMultiset.entrySet()).hasContentsInOrder(
+    ASSERT.that(sortedMultiset.entrySet()).has().allOf(
         Multisets.immutableEntry("a", 3), Multisets.immutableEntry("c", 2),
-        Multisets.immutableEntry("b", 1));
+        Multisets.immutableEntry("b", 1)).inOrder();
 
-    ASSERT.that(sortedMultiset).hasContentsInOrder(
+    ASSERT.that(sortedMultiset).has().allOf(
         "a",
         "a",
         "a",
         "c",
         "c",
-        "b");
+        "b").inOrder();
 
     ASSERT.that(Multisets.copyHighestCountFirst(ImmutableMultiset.of())).isEmpty();
   }

@@ -22,7 +22,7 @@ import static com.google.common.cache.TestingCacheLoaders.identityLoader;
 import static com.google.common.cache.TestingRemovalListeners.countingRemovalListener;
 import static java.util.Arrays.asList;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
-import static org.junit.contrib.truth.Truth.ASSERT;
+import static org.truth0.Truth.ASSERT;
 
 import com.google.common.cache.CacheLoader.InvalidCacheLoadException;
 import com.google.common.cache.TestingCacheLoaders.CountingLoader;
@@ -437,7 +437,7 @@ public class CacheLoadingTest extends TestCase {
 
     Object[] lookupKeys = new Object[] { new Object(), new Object(), new Object() };
     Map<Object, Object> result = cache.getAll(asList(lookupKeys));
-    ASSERT.that(result.keySet()).hasContentsAnyOrder(lookupKeys);
+    ASSERT.that(result.keySet()).has().allFrom(asList(lookupKeys));
     for (Map.Entry<Object, Object> entry : result.entrySet()) {
       Object key = entry.getKey();
       Object value = entry.getValue();
@@ -474,7 +474,7 @@ public class CacheLoadingTest extends TestCase {
 
     Object[] lookupKeys = new Object[] { new Object(), new Object(), new Object() };
     Map<Object, Object> result = cache.getAll(asList(lookupKeys));
-    ASSERT.that(result.keySet()).hasContentsAnyOrder(lookupKeys);
+    ASSERT.that(result.keySet()).has().allFrom(asList(lookupKeys));
     for (Map.Entry<Object, Object> entry : result.entrySet()) {
       Object key = entry.getKey();
       Object value = entry.getValue();

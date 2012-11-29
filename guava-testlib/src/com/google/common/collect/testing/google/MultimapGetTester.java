@@ -22,7 +22,7 @@ import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_
 import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_VALUES;
 import static com.google.common.collect.testing.features.MapFeature.SUPPORTS_PUT;
 import static com.google.common.collect.testing.features.MapFeature.SUPPORTS_REMOVE;
-import static org.junit.contrib.truth.Truth.ASSERT;
+import static org.truth0.Truth.ASSERT;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.Multimap;
@@ -82,8 +82,8 @@ public class MultimapGetTester<K, V> extends AbstractMultimapTester<K, V, Multim
     assertTrue(result.add(v1));
     assertTrue(result.add(v2));
 
-    ASSERT.that(result).hasContentsAnyOrder(v1, v2);
-    ASSERT.that(multimap().get(k0)).hasContentsAnyOrder(v1, v2);
+    ASSERT.that(result).has().allOf(v1, v2);
+    ASSERT.that(multimap().get(k0)).has().allOf(v1, v2);
     assertTrue(multimap().containsKey(k0));
     assertFalse(multimap().containsEntry(k0, v0));
     assertTrue(multimap().containsEntry(k0, v2));
@@ -94,7 +94,7 @@ public class MultimapGetTester<K, V> extends AbstractMultimapTester<K, V, Multim
   @CollectionSize.Require(absent = ZERO)
   public void testGetNullPresent() {
     initMultimapWithNullKey();
-    ASSERT.that(multimap().get(null)).hasContentsInOrder(getValueForNullKey());
+    ASSERT.that(multimap().get(null)).has().item(getValueForNullKey());
   }
 
   @MapFeature.Require(ALLOWS_NULL_QUERIES)
@@ -117,6 +117,6 @@ public class MultimapGetTester<K, V> extends AbstractMultimapTester<K, V, Multim
   public void testGetWithNullValue() {
     initMultimapWithNullValue();
     ASSERT.that(multimap().get(getKeyForNullValue()))
-        .hasContentsInOrder((V) null);
+        .has().item(null);
   }
 }

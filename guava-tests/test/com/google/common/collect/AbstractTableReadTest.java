@@ -16,7 +16,7 @@
 
 package com.google.common.collect;
 
-import static org.junit.contrib.truth.Truth.ASSERT;
+import static org.truth0.Truth.ASSERT;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -183,7 +183,7 @@ public abstract class AbstractTableReadTest extends TestCase {
   public void testColumnSetPartialOverlap() {
     table = create(
         "foo", 1, 'a', "bar", 1, 'b', "foo", 2, 'c', "bar", 3, 'd');
-    ASSERT.that(table.columnKeySet()).hasContentsAnyOrder(1, 2, 3);
+    ASSERT.that(table.columnKeySet()).has().allOf(1, 2, 3);
   }
 
   @GwtIncompatible("NullPointerTester")

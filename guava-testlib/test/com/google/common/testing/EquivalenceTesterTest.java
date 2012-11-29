@@ -17,7 +17,7 @@
 package com.google.common.testing;
 
 import static com.google.common.base.Preconditions.checkState;
-import static org.junit.contrib.truth.Truth.ASSERT;
+import static org.truth0.Truth.ASSERT;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Equivalence;

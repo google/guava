@@ -26,7 +26,7 @@ import static com.google.common.collect.testing.features.CollectionFeature.RESTR
 import static com.google.common.collect.testing.testers.NavigableSetNavigationTester.getHoleMethods;
 import static com.google.common.testing.SerializableTester.reserialize;
 import static com.google.common.testing.SerializableTester.reserializeAndAssert;
-import static org.junit.contrib.truth.Truth.ASSERT;
+import static org.truth0.Truth.ASSERT;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -121,15 +121,15 @@ public class ContiguousSetTest extends TestCase {
   public void testHeadSet() {
     ImmutableSortedSet<Integer> set = ContiguousSet.create(Range.closed(1, 3), integers());
     ASSERT.that(set.headSet(1)).isEmpty();
-    ASSERT.that(set.headSet(2)).hasContentsInOrder(1);
-    ASSERT.that(set.headSet(3)).hasContentsInOrder(1, 2);
-    ASSERT.that(set.headSet(4)).hasContentsInOrder(1, 2, 3);
-    ASSERT.that(set.headSet(Integer.MAX_VALUE)).hasContentsInOrder(1, 2, 3);
-    ASSERT.that(set.headSet(1, true)).hasContentsInOrder(1);
-    ASSERT.that(set.headSet(2, true)).hasContentsInOrder(1, 2);
-    ASSERT.that(set.headSet(3, true)).hasContentsInOrder(1, 2, 3);
-    ASSERT.that(set.headSet(4, true)).hasContentsInOrder(1, 2, 3);
-    ASSERT.that(set.headSet(Integer.MAX_VALUE, true)).hasContentsInOrder(1, 2, 3);
+    ASSERT.that(set.headSet(2)).has().item(1);
+    ASSERT.that(set.headSet(3)).has().allOf(1, 2).inOrder();
+    ASSERT.that(set.headSet(4)).has().allOf(1, 2, 3).inOrder();
+    ASSERT.that(set.headSet(Integer.MAX_VALUE)).has().allOf(1, 2, 3).inOrder();
+    ASSERT.that(set.headSet(1, true)).has().item(1);
+    ASSERT.that(set.headSet(2, true)).has().allOf(1, 2).inOrder();
+    ASSERT.that(set.headSet(3, true)).has().allOf(1, 2, 3).inOrder();
+    ASSERT.that(set.headSet(4, true)).has().allOf(1, 2, 3).inOrder();
+    ASSERT.that(set.headSet(Integer.MAX_VALUE, true)).has().allOf(1, 2, 3).inOrder();
   }
 
   public void testHeadSet_tooSmall() {
@@ -138,13 +138,13 @@ public class ContiguousSetTest extends TestCase {
 
   public void testTailSet() {
     ImmutableSortedSet<Integer> set = ContiguousSet.create(Range.closed(1, 3), integers());
-    ASSERT.that(set.tailSet(Integer.MIN_VALUE)).hasContentsInOrder(1, 2, 3);
-    ASSERT.that(set.tailSet(1)).hasContentsInOrder(1, 2, 3);
-    ASSERT.that(set.tailSet(2)).hasContentsInOrder(2, 3);
-    ASSERT.that(set.tailSet(3)).hasContentsInOrder(3);
-    ASSERT.that(set.tailSet(Integer.MIN_VALUE, false)).hasContentsInOrder(1, 2, 3);
-    ASSERT.that(set.tailSet(1, false)).hasContentsInOrder(2, 3);
-    ASSERT.that(set.tailSet(2, false)).hasContentsInOrder(3);
+    ASSERT.that(set.tailSet(Integer.MIN_VALUE)).has().allOf(1, 2, 3).inOrder();
+    ASSERT.that(set.tailSet(1)).has().allOf(1, 2, 3).inOrder();
+    ASSERT.that(set.tailSet(2)).has().allOf(2, 3).inOrder();
+    ASSERT.that(set.tailSet(3)).has().item(3);
+    ASSERT.that(set.tailSet(Integer.MIN_VALUE, false)).has().allOf(1, 2, 3).inOrder();
+    ASSERT.that(set.tailSet(1, false)).has().allOf(2, 3).inOrder();
+    ASSERT.that(set.tailSet(2, false)).has().item(3);
     ASSERT.that(set.tailSet(3, false)).isEmpty();
   }
 
@@ -154,19 +154,19 @@ public class ContiguousSetTest extends TestCase {
 
   public void testSubSet() {
     ImmutableSortedSet<Integer> set = ContiguousSet.create(Range.closed(1, 3), integers());
-    ASSERT.that(set.subSet(1, 4)).hasContentsInOrder(1, 2, 3);
-    ASSERT.that(set.subSet(2, 4)).hasContentsInOrder(2, 3);
-    ASSERT.that(set.subSet(3, 4)).hasContentsInOrder(3);
+    ASSERT.that(set.subSet(1, 4)).has().allOf(1, 2, 3).inOrder();
+    ASSERT.that(set.subSet(2, 4)).has().allOf(2, 3).inOrder();
+    ASSERT.that(set.subSet(3, 4)).has().item(3);
     ASSERT.that(set.subSet(3, 3)).isEmpty();
-    ASSERT.that(set.subSet(2, 3)).hasContentsInOrder(2);
-    ASSERT.that(set.subSet(1, 3)).hasContentsInOrder(1, 2);
-    ASSERT.that(set.subSet(1, 2)).hasContentsInOrder(1);
+    ASSERT.that(set.subSet(2, 3)).has().item(2);
+    ASSERT.that(set.subSet(1, 3)).has().allOf(1, 2).inOrder();
+    ASSERT.that(set.subSet(1, 2)).has().item(1);
     ASSERT.that(set.subSet(2, 2)).isEmpty();
-    ASSERT.that(set.subSet(Integer.MIN_VALUE, Integer.MAX_VALUE)).hasContentsInOrder(1, 2, 3);
-    ASSERT.that(set.subSet(1, true, 3, true)).hasContentsInOrder(1, 2, 3);
-    ASSERT.that(set.subSet(1, false, 3, true)).hasContentsInOrder(2, 3);
-    ASSERT.that(set.subSet(1, true, 3, false)).hasContentsInOrder(1, 2);
-    ASSERT.that(set.subSet(1, false, 3, false)).hasContentsInOrder(2);
+    ASSERT.that(set.subSet(Integer.MIN_VALUE, Integer.MAX_VALUE)).has().allOf(1, 2, 3).inOrder();
+    ASSERT.that(set.subSet(1, true, 3, true)).has().allOf(1, 2, 3).inOrder();
+    ASSERT.that(set.subSet(1, false, 3, true)).has().allOf(2, 3).inOrder();
+    ASSERT.that(set.subSet(1, true, 3, false)).has().allOf(1, 2).inOrder();
+    ASSERT.that(set.subSet(1, false, 3, false)).has().item(2);
   }
 
   public void testSubSet_outOfOrder() {

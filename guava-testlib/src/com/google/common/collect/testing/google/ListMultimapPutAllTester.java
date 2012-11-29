@@ -47,7 +47,7 @@ public class ListMultimapPutAllTester<K, V> extends AbstractListMultimapTester<K
       multimap().putAll(k, values);
       expectedValues.addAll(values);
 
-      assertGet(k, expectedValues.toArray());
+      assertGet(k, expectedValues);
     }
   }
 }

@@ -16,7 +16,7 @@
 
 package com.google.common.base;
 
-import static org.junit.contrib.truth.Truth.ASSERT;
+import static org.truth0.Truth.ASSERT;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -221,7 +221,7 @@ public final class OptionalTest extends TestCase {
   public void testPresentInstances_allPresent() {
     List<Optional<String>> optionals =
         ImmutableList.of(Optional.of("a"), Optional.of("b"), Optional.of("c"));
-    ASSERT.that(Optional.presentInstances(optionals)).hasContentsInOrder("a", "b", "c");
+    ASSERT.that(Optional.presentInstances(optionals)).iteratesOverSequence("a", "b", "c");
   }
 
   public void testPresentInstances_allAbsent() {
@@ -233,22 +233,22 @@ public final class OptionalTest extends TestCase {
   public void testPresentInstances_somePresent() {
     List<Optional<String>> optionals =
         ImmutableList.of(Optional.of("a"), Optional.<String>absent(), Optional.of("c"));
-    ASSERT.that(Optional.presentInstances(optionals)).hasContentsInOrder("a", "c");
+    ASSERT.that(Optional.presentInstances(optionals)).iteratesOverSequence("a", "c");
   }
 
   public void testPresentInstances_callingIteratorTwice() {
     List<Optional<String>> optionals =
         ImmutableList.of(Optional.of("a"), Optional.<String>absent(), Optional.of("c"));
     Iterable<String> onlyPresent = Optional.presentInstances(optionals);
-    ASSERT.that(onlyPresent).hasContentsInOrder("a", "c");
-    ASSERT.that(onlyPresent).hasContentsInOrder("a", "c");
+    ASSERT.that(onlyPresent).iteratesOverSequence("a", "c");
+    ASSERT.that(onlyPresent).iteratesOverSequence("a", "c");
   }
 
   public void testPresentInstances_wildcards() {
     List<Optional<? extends Number>> optionals =
         ImmutableList.<Optional<? extends Number>>of(Optional.<Double>absent(), Optional.of(2));
     Iterable<Number> onlyPresent = Optional.presentInstances(optionals);
-    ASSERT.that(onlyPresent).hasContentsInOrder(2);
+    ASSERT.that(onlyPresent).iteratesOverSequence(2);
   }
 
   private static Optional<Integer> getSomeOptionalInt() {

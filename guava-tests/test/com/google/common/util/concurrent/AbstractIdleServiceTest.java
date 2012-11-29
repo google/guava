@@ -16,7 +16,7 @@
 
 package com.google.common.util.concurrent;
 
-import static org.junit.contrib.truth.Truth.ASSERT;
+import static org.truth0.Truth.ASSERT;
 
 import com.google.common.collect.Lists;
 
@@ -93,7 +93,7 @@ public class AbstractIdleServiceTest extends TestCase {
     service.startAndWait();
     assertEquals(1, service.startUpCalled);
     assertEquals(Service.State.RUNNING, service.state());
-    ASSERT.that(service.transitionStates).hasContentsInOrder(Service.State.STARTING);
+    ASSERT.that(service.transitionStates).has().allOf(Service.State.STARTING).inOrder();
   }
 
   public void testStart_failed() {
@@ -113,7 +113,7 @@ public class AbstractIdleServiceTest extends TestCase {
     }
     assertEquals(1, service.startUpCalled);
     assertEquals(Service.State.FAILED, service.state());
-    ASSERT.that(service.transitionStates).hasContentsInOrder(Service.State.STARTING);
+    ASSERT.that(service.transitionStates).has().allOf(Service.State.STARTING).inOrder();
   }
 
   public void testStop_withoutStart() {
@@ -135,7 +135,7 @@ public class AbstractIdleServiceTest extends TestCase {
     assertEquals(1, service.shutDownCalled);
     assertEquals(Service.State.TERMINATED, service.state());
     ASSERT.that(service.transitionStates)
-        .hasContentsInOrder(Service.State.STARTING, Service.State.STOPPING);
+        .has().allOf(Service.State.STARTING, Service.State.STOPPING).inOrder();
   }
 
   public void testStop_failed() {
@@ -159,7 +159,7 @@ public class AbstractIdleServiceTest extends TestCase {
     assertEquals(1, service.shutDownCalled);
     assertEquals(Service.State.FAILED, service.state());
     ASSERT.that(service.transitionStates)
-        .hasContentsInOrder(Service.State.STARTING, Service.State.STOPPING);
+        .has().allOf(Service.State.STARTING, Service.State.STOPPING).inOrder();
   }
 
   public void testServiceToString() {

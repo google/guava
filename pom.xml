@@ -31,7 +31,7 @@
     </license>
   </licenses>
   <prerequisites>
-    <maven>2.0.9</maven>
+    <maven>3.0.3</maven>
   </prerequisites>
   <scm>
     <connection>scm:git:https://code.google.com/p/guava-libraries/</connection>

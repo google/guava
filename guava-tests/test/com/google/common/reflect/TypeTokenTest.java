@@ -16,7 +16,7 @@
 
 package com.google.common.reflect;
 
-import static org.junit.contrib.truth.Truth.ASSERT;
+import static org.truth0.Truth.ASSERT;
 
 import com.google.common.base.Function;
 import com.google.common.collect.ImmutableList;
@@ -155,39 +155,39 @@ public class TypeTokenTest extends TestCase {
 
   public void testGetTypes_noSuperclass() {
     TypeToken<Object>.TypeSet types = new TypeToken<Object>() {}.getTypes();
-    ASSERT.that(types).hasContentsAnyOrder(TypeToken.of(Object.class));
-    ASSERT.that(types.rawTypes()).hasContentsAnyOrder(Object.class);
+    ASSERT.that(types).has().item(TypeToken.of(Object.class));
+    ASSERT.that(types.rawTypes()).has().item(Object.class);
     ASSERT.that(types.interfaces()).isEmpty();
     ASSERT.that(types.interfaces().rawTypes()).isEmpty();
-    ASSERT.that(types.classes()).hasContentsAnyOrder(TypeToken.of(Object.class));
-    ASSERT.that(types.classes().rawTypes()).hasContentsAnyOrder(Object.class);
+    ASSERT.that(types.classes()).has().item(TypeToken.of(Object.class));
+    ASSERT.that(types.classes().rawTypes()).has().item(Object.class);
   }
 
   public void testGetTypes_fromInterface() {
     TypeToken<Interface1>.TypeSet types = new TypeToken<Interface1>() {}.getTypes();
-    ASSERT.that(types).hasContentsInOrder(TypeToken.of(Interface1.class));
-    ASSERT.that(types.rawTypes()).hasContentsInOrder(Interface1.class);
-    ASSERT.that(types.interfaces()).hasContentsAnyOrder(TypeToken.of(Interface1.class));
-    ASSERT.that(types.interfaces().rawTypes()).hasContentsAnyOrder(Interface1.class);
+    ASSERT.that(types).has().item(TypeToken.of(Interface1.class));
+    ASSERT.that(types.rawTypes()).has().item(Interface1.class);
+    ASSERT.that(types.interfaces()).has().item(TypeToken.of(Interface1.class));
+    ASSERT.that(types.interfaces().rawTypes()).has().item(Interface1.class);
     ASSERT.that(types.classes()).isEmpty();
     ASSERT.that(types.classes().rawTypes()).isEmpty();
   }
 
   public void testGetTypes_fromPrimitive() {
     TypeToken<Integer>.TypeSet types = TypeToken.of(int.class).getTypes();
-    ASSERT.that(types).hasContentsAnyOrder(TypeToken.of(int.class));
-    ASSERT.that(types.rawTypes()).hasContentsAnyOrder(int.class);
+    ASSERT.that(types).has().item(TypeToken.of(int.class));
+    ASSERT.that(types.rawTypes()).has().item(int.class);
     ASSERT.that(types.interfaces()).isEmpty();
     ASSERT.that(types.interfaces().rawTypes()).isEmpty();
-    ASSERT.that(types.classes()).hasContentsAnyOrder(TypeToken.of(int.class));
-    ASSERT.that(types.classes().rawTypes()).hasContentsAnyOrder(int.class);
+    ASSERT.that(types.classes()).has().item(TypeToken.of(int.class));
+    ASSERT.that(types.classes().rawTypes()).has().item(int.class);
   }
 
   public void testGetTypes_withInterfacesAndSuperclasses() {
     abstract class Class2 extends Class1 implements Interface12 {}
     abstract class Class3<T> extends Class2 implements Interface3<T> {}
     TypeToken<Class3<String>>.TypeSet types = new TypeToken<Class3<String>>() {}.getTypes();
-    ASSERT.that(types).hasContentsAnyOrder(
+    ASSERT.that(types).has().allOf(
         new TypeToken<Class3<String>>() {},
         new TypeToken<Interface3<String>>() {},
         new TypeToken<Iterable<String>>() {},
@@ -197,13 +197,13 @@ public class TypeTokenTest extends TestCase {
         TypeToken.of(Interface2.class),
         TypeToken.of(Class1.class),
         TypeToken.of(Object.class));
-    ASSERT.that(types.interfaces()).hasContentsAnyOrder(
+    ASSERT.that(types.interfaces()).has().allOf(
         new TypeToken<Interface3<String>>() {},
         TypeToken.of(Interface12.class),
         TypeToken.of(Interface1.class),
         TypeToken.of(Interface2.class),
         new TypeToken<Iterable<String>>() {});
-    ASSERT.that(types.classes()).hasContentsAnyOrder(
+    ASSERT.that(types.classes()).has().allOf(
         new TypeToken<Class3<String>>() {},
         TypeToken.of(Class2.class),
         TypeToken.of(Class1.class),
@@ -215,7 +215,7 @@ public class TypeTokenTest extends TestCase {
     abstract class Class2 extends Class1 implements Interface12 {}
     abstract class Class3<T> extends Class2 implements Interface3<T> {}
     TypeToken<Class3<String>>.TypeSet types = new TypeToken<Class3<String>>() {}.getTypes();
-    ASSERT.that(types.rawTypes()).hasContentsAnyOrder(
+    ASSERT.that(types.rawTypes()).has().allOf(
         Class3.class, Interface3.class,
         Iterable.class,
         Class2.class,
@@ -224,13 +224,13 @@ public class TypeTokenTest extends TestCase {
         Interface2.class,
         Class1.class,
         Object.class);
-    ASSERT.that(types.interfaces().rawTypes()).hasContentsAnyOrder(
+    ASSERT.that(types.interfaces().rawTypes()).has().allOf(
         Interface3.class,
         Interface12.class,
         Interface1.class,
         Interface2.class,
         Iterable.class);
-    ASSERT.that(types.classes().rawTypes()).hasContentsAnyOrder(
+    ASSERT.that(types.classes().rawTypes()).has().allOf(
         Class3.class,
         Class2.class,
         Class1.class,
@@ -240,33 +240,33 @@ public class TypeTokenTest extends TestCase {
 
   public <A extends Class1 & Interface1, B extends A>
   void testGetTypes_ignoresTypeVariablesByDefault() {
-    TypeToken<?>.TypeSet types = TypeToken.of(new TypeCapture<B>() {}.capture()).getTypes();
-    ASSERT.that(types).hasContentsAnyOrder(
+    TypeToken.TypeSet types = TypeToken.of(new TypeCapture<B>() {}.capture()).getTypes();
+    ASSERT.that(types).has().allOf(
         TypeToken.of(Interface1.class), TypeToken.of(Class1.class),
         TypeToken.of(Object.class));
     assertSubtypeFirst(types);
-    ASSERT.that(types.interfaces()).hasContentsInOrder(
-        TypeToken.of(Interface1.class));
-    ASSERT.that(types.classes()).hasContentsInOrder(
-        TypeToken.of(Class1.class), TypeToken.of(Object.class));
+    ASSERT.that(types.interfaces()).has().allOf(
+        TypeToken.of(Interface1.class)).inOrder();
+    ASSERT.that(types.classes()).has().allOf(
+        TypeToken.of(Class1.class), TypeToken.of(Object.class)).inOrder();
   }
 
   public <A extends Class1 & Interface1, B extends A>
   void testGetTypes_rawTypes_ignoresTypeVariablesByDefault() {
-    TypeToken<?>.TypeSet types = TypeToken.of(new TypeCapture<B>() {}.capture()).getTypes();
-    ASSERT.that(types.rawTypes()).hasContentsAnyOrder(
+    TypeToken.TypeSet types = TypeToken.of(new TypeCapture<B>() {}.capture()).getTypes();
+    ASSERT.that(types.rawTypes()).has().allOf(
         Interface1.class, Class1.class,
         Object.class);
-    ASSERT.that(types.interfaces().rawTypes()).hasContentsInOrder(
-        Interface1.class);
-    ASSERT.that(types.classes().rawTypes()).hasContentsInOrder(
-        Class1.class, Object.class);
+    ASSERT.that(types.interfaces().rawTypes()).has().allOf(
+        Interface1.class).inOrder();
+    ASSERT.that(types.classes().rawTypes()).has().allOf(
+        Class1.class, Object.class).inOrder();
   }
 
   public <A extends Interface1 & Interface2 & Interface3<String>>
   void testGetTypes_manyBounds() {
-    TypeToken<?>.TypeSet types = TypeToken.of(new TypeCapture<A>() {}.capture()).getTypes();
-    ASSERT.that(types.rawTypes()).hasContentsAnyOrder(
+    TypeToken.TypeSet types = TypeToken.of(new TypeCapture<A>() {}.capture()).getTypes();
+    ASSERT.that(types.rawTypes()).has().allOf(
         Interface1.class, Interface2.class, Interface3.class, Iterable.class);
   }
 
@@ -470,30 +470,28 @@ public class TypeTokenTest extends TestCase {
   public <T extends NoInterface&Iterable<String>>
   void testGetGenericInterfaces_typeVariable_boundsAreClassWithInterface() {
     ASSERT.that(TypeToken.of(new TypeCapture<T>() {}.capture()).getGenericInterfaces())
-        .hasContentsAnyOrder(new TypeToken<Iterable<String>>() {});
+        .iteratesOverSequence(new TypeToken<Iterable<String>>() {});
     assertHasArrayInterfaces(new TypeToken<T[]>() {});
   }
 
   public <T extends CharSequence&Iterable<String>>
   void testGetGenericInterfaces_typeVariable_boundsAreInterfaces() {
     ASSERT.that(TypeToken.of(new TypeCapture<T>() {}.capture()).getGenericInterfaces())
-        .hasContentsAnyOrder(
-            TypeToken.of(CharSequence.class), new TypeToken<Iterable<String>>() {});
+        .iteratesOverSequence(TypeToken.of(CharSequence.class), new TypeToken<Iterable<String>>() {});
     assertHasArrayInterfaces(new TypeToken<T[]>() {});
   }
 
   public <T extends CharSequence&Iterable<T>>
   void testGetGenericInterfaces_typeVariable_boundsAreFBoundedInterfaces() {
     ASSERT.that(TypeToken.of(new TypeCapture<T>() {}.capture()).getGenericInterfaces())
-        .hasContentsAnyOrder(
-            TypeToken.of(CharSequence.class), new TypeToken<Iterable<T>>() {});
+        .iteratesOverSequence(TypeToken.of(CharSequence.class), new TypeToken<Iterable<T>>() {});
     assertHasArrayInterfaces(new TypeToken<T[]>() {});
   }
 
   public <T extends Base&Iterable<T>>
   void testGetGenericInterfaces_typeVariable_boundsAreClassWithFBoundedInterface() {
     ASSERT.that(TypeToken.of(new TypeCapture<T>() {}.capture()).getGenericInterfaces())
-        .hasContentsAnyOrder(new TypeToken<Iterable<T>>() {});
+        .iteratesOverSequence(new TypeToken<Iterable<T>>() {});
     assertHasArrayInterfaces(new TypeToken<T[]>() {});
   }
 
@@ -507,7 +505,7 @@ public class TypeTokenTest extends TestCase {
   public <T extends Iterable<T>, T1 extends T, T2 extends T1>
   void testGetGenericInterfaces_typeVariable_boundIsTypeVariableAndInterface() {
     ASSERT.that(TypeToken.of(new TypeCapture<T2>() {}.capture()).getGenericInterfaces())
-        .hasContentsAnyOrder(TypeToken.of(new TypeCapture<T1>() {}.capture()));
+        .iteratesOverSequence(TypeToken.of(new TypeCapture<T1>() {}.capture()));
     assertHasArrayInterfaces(new TypeToken<T2[]>() {});
   }
 
@@ -528,7 +526,7 @@ public class TypeTokenTest extends TestCase {
   public void testGetGenericInterfaces_wildcard_boundIsInterface() {
     TypeToken<Iterable<String>> interfaceType = new TypeToken<Iterable<String>>() {};
     ASSERT.that(TypeToken.of(Types.subtypeOf(interfaceType.getType())).getGenericInterfaces())
-        .hasContentsAnyOrder(interfaceType);
+        .iteratesOverSequence(interfaceType);
     assertHasArrayInterfaces(new TypeToken<Iterable<String>[]>() {});
   }
 
@@ -1236,7 +1234,7 @@ public class TypeTokenTest extends TestCase {
       throws NoSuchMethodException {
     Method failMethod = Loser.class.getMethod("lose");
     Invokable<T, ?> invokable = new TypeToken<T>(getClass()) {}.method(failMethod);
-    ASSERT.that(invokable.getExceptionTypes()).hasContentsInOrder(TypeToken.of(AssertionError.class));
+    ASSERT.that(invokable.getExceptionTypes()).has().item(TypeToken.of(AssertionError.class));
   }
 
   public void testConstructor_notDeclaredByType() throws NoSuchMethodException {
@@ -1280,8 +1278,7 @@ public class TypeTokenTest extends TestCase {
     @SuppressWarnings("rawtypes") // Reflection API skew
     Constructor<CannotConstruct> constructor = CannotConstruct.class.getConstructor();
     Invokable<T, ?> invokable = new TypeToken<T>(getClass()) {}.constructor(constructor);
-    ASSERT.that(invokable.getExceptionTypes())
-        .hasContentsInOrder(TypeToken.of(AssertionError.class));
+    ASSERT.that(invokable.getExceptionTypes()).has().item(TypeToken.of(AssertionError.class));
   }
 
   private abstract static class RawTypeConsistencyTester<T extends Enum<T> & CharSequence> {

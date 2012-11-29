@@ -18,7 +18,7 @@ package com.google.common.collect;
 
 import static com.google.common.collect.testing.IteratorFeature.MODIFIABLE;
 import static java.util.Arrays.asList;
-import static org.junit.contrib.truth.Truth.ASSERT;
+import static org.truth0.Truth.ASSERT;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -182,11 +182,11 @@ public abstract class AbstractListMultimapTest extends AbstractMultimapTest {
 
     list.add(1, 2);
     assertEquals(4, multimap.size());
-    ASSERT.that(multimap.get("foo")).hasContentsInOrder(1, 2, 3, 5);
+    ASSERT.that(multimap.get("foo")).has().allOf(1, 2, 3, 5).inOrder();
 
     list.addAll(3, asList(4, 8));
     assertEquals(6, multimap.size());
-    ASSERT.that(multimap.get("foo")).hasContentsInOrder(1, 2, 3, 4, 8, 5);
+    ASSERT.that(multimap.get("foo")).has().allOf(1, 2, 3, 4, 8, 5).inOrder();
 
     assertEquals(8, list.get(4).intValue());
     assertEquals(4, list.indexOf(8));
@@ -194,11 +194,11 @@ public abstract class AbstractListMultimapTest extends AbstractMultimapTest {
 
     list.remove(4);
     assertEquals(5, multimap.size());
-    ASSERT.that(multimap.get("foo")).hasContentsInOrder(1, 2, 3, 4, 5);
+    ASSERT.that(multimap.get("foo")).has().allOf(1, 2, 3, 4, 5).inOrder();
 
     list.set(4, 10);
     assertEquals(5, multimap.size());
-    ASSERT.that(multimap.get("foo")).hasContentsInOrder(1, 2, 3, 4, 10);
+    ASSERT.that(multimap.get("foo")).has().allOf(1, 2, 3, 4, 10).inOrder();
   }
   
   public void testListMethodsIncludingSublist() {
@@ -211,9 +211,9 @@ public abstract class AbstractListMultimapTest extends AbstractMultimapTest {
     List<Integer> list = multimap.get("foo");
     
     List<Integer> sublist = list.subList(1, 4);
-    ASSERT.that(sublist).hasContentsInOrder(2, 3, 4);
+    ASSERT.that(sublist).has().allOf(2, 3, 4).inOrder();
     list.set(3, 6);
-    ASSERT.that(multimap.get("foo")).hasContentsInOrder(1, 2, 3, 6, 10);
+    ASSERT.that(multimap.get("foo")).has().allOf(1, 2, 3, 6, 10).inOrder();
   }
 
   /**
@@ -229,10 +229,10 @@ public abstract class AbstractListMultimapTest extends AbstractMultimapTest {
 
     List<Integer> list = multimap.get("foo");
     List<Integer> sublist = list.subList(1, 4);
-    ASSERT.that(sublist).hasContentsInOrder(2, 3, 4);
+    ASSERT.that(sublist).has().allOf(2, 3, 4).inOrder();
     list.set(3, 6);
-    ASSERT.that(multimap.get("foo")).hasContentsInOrder(1, 2, 3, 6, 5);
-    ASSERT.that(sublist).hasContentsInOrder(2, 3, 6);
+    ASSERT.that(multimap.get("foo")).has().allOf(1, 2, 3, 6, 5).inOrder();
+    ASSERT.that(sublist).has().allOf(2, 3, 6).inOrder();
   }
 
   /**
@@ -272,11 +272,11 @@ public abstract class AbstractListMultimapTest extends AbstractMultimapTest {
 
     assertEquals(1, iterator.next().intValue());
     iterator.set(2);
-    ASSERT.that(multimap.get("foo")).hasContentsInOrder(2, 3, 5);
+    ASSERT.that(multimap.get("foo")).has().allOf(2, 3, 5).inOrder();
 
     assertEquals(3, iterator.next().intValue());
     iterator.remove();
-    ASSERT.that(multimap.get("foo")).hasContentsInOrder(2, 5);
+    ASSERT.that(multimap.get("foo")).has().allOf(2, 5).inOrder();
   }
 
   /**
@@ -296,12 +296,12 @@ public abstract class AbstractListMultimapTest extends AbstractMultimapTest {
     ListMultimap<String, Integer> multimap = create();
     multimap.putAll("foo", asList(1, 2, 3, 4, 5));
     List<Integer> list = multimap.get("foo");
-    ASSERT.that(multimap.get("foo")).hasContentsInOrder(1, 2, 3, 4, 5);
+    ASSERT.that(multimap.get("foo")).has().allOf(1, 2, 3, 4, 5).inOrder();
     List<Integer> sublist = list.subList(1, 4);
-    ASSERT.that(sublist).hasContentsInOrder(2, 3, 4);
+    ASSERT.that(sublist).has().allOf(2, 3, 4).inOrder();
 
     sublist.set(1, 6);
-    ASSERT.that(multimap.get("foo")).hasContentsInOrder(1, 2, 6, 4, 5);
+    ASSERT.that(multimap.get("foo")).has().allOf(1, 2, 6, 4, 5).inOrder();
   }
 
   /**
@@ -311,21 +311,21 @@ public abstract class AbstractListMultimapTest extends AbstractMultimapTest {
     ListMultimap<String, Integer> multimap = create();
     multimap.putAll("foo", asList(1, 2, 3, 4, 5));
     List<Integer> list = multimap.get("foo");
-    ASSERT.that(multimap.get("foo")).hasContentsInOrder(1, 2, 3, 4, 5);
+    ASSERT.that(multimap.get("foo")).has().allOf(1, 2, 3, 4, 5).inOrder();
     List<Integer> sublist = list.subList(1, 4);
-    ASSERT.that(sublist).hasContentsInOrder(2, 3, 4);
+    ASSERT.that(sublist).has().allOf(2, 3, 4).inOrder();
 
     sublist.remove(1);
     assertEquals(4, multimap.size());
-    ASSERT.that(multimap.get("foo")).hasContentsInOrder(1, 2, 4, 5);
+    ASSERT.that(multimap.get("foo")).has().allOf(1, 2, 4, 5).inOrder();
 
     sublist.removeAll(Collections.singleton(4));
     assertEquals(3, multimap.size());
-    ASSERT.that(multimap.get("foo")).hasContentsInOrder(1, 2, 5);
+    ASSERT.that(multimap.get("foo")).has().allOf(1, 2, 5).inOrder();
 
     sublist.remove(0);
     assertEquals(2, multimap.size());
-    ASSERT.that(multimap.get("foo")).hasContentsInOrder(1, 5);
+    ASSERT.that(multimap.get("foo")).has().allOf(1, 5).inOrder();
   }
 
   /**
@@ -335,17 +335,17 @@ public abstract class AbstractListMultimapTest extends AbstractMultimapTest {
     ListMultimap<String, Integer> multimap = create();
     multimap.putAll("foo", asList(1, 2, 3, 4, 5));
     List<Integer> list = multimap.get("foo");
-    ASSERT.that(multimap.get("foo")).hasContentsInOrder(1, 2, 3, 4, 5);
+    ASSERT.that(multimap.get("foo")).has().allOf(1, 2, 3, 4, 5).inOrder();
     List<Integer> sublist = list.subList(1, 4);
-    ASSERT.that(sublist).hasContentsInOrder(2, 3, 4);
+    ASSERT.that(sublist).has().allOf(2, 3, 4).inOrder();
 
     sublist.add(6);
     assertEquals(6, multimap.size());
-    ASSERT.that(multimap.get("foo")).hasContentsInOrder(1, 2, 3, 4, 6, 5);
+    ASSERT.that(multimap.get("foo")).has().allOf(1, 2, 3, 4, 6, 5).inOrder();
 
     sublist.add(0, 7);
     assertEquals(7, multimap.size());
-    ASSERT.that(multimap.get("foo")).hasContentsInOrder(1, 7, 2, 3, 4, 6, 5);
+    ASSERT.that(multimap.get("foo")).has().allOf(1, 7, 2, 3, 4, 6, 5).inOrder();
   }
 
   /**
@@ -355,13 +355,13 @@ public abstract class AbstractListMultimapTest extends AbstractMultimapTest {
     ListMultimap<String, Integer> multimap = create();
     multimap.putAll("foo", asList(1, 2, 3, 4, 5));
     List<Integer> list = multimap.get("foo");
-    ASSERT.that(multimap.get("foo")).hasContentsInOrder(1, 2, 3, 4, 5);
+    ASSERT.that(multimap.get("foo")).has().allOf(1, 2, 3, 4, 5).inOrder();
     List<Integer> sublist = list.subList(1, 4);
-    ASSERT.that(sublist).hasContentsInOrder(2, 3, 4);
+    ASSERT.that(sublist).has().allOf(2, 3, 4).inOrder();
 
     sublist.clear();
     assertEquals(2, multimap.size());
-    ASSERT.that(multimap.get("foo")).hasContentsInOrder(1, 5);
+    ASSERT.that(multimap.get("foo")).has().allOf(1, 5).inOrder();
   }
 
   /**
@@ -371,9 +371,9 @@ public abstract class AbstractListMultimapTest extends AbstractMultimapTest {
     ListMultimap<String, Integer> multimap = create();
     multimap.putAll("foo", asList(1, 2, 3, 4, 5));
     List<Integer> list = multimap.get("foo");
-    ASSERT.that(multimap.get("foo")).hasContentsInOrder(1, 2, 3, 4, 5);
+    ASSERT.that(multimap.get("foo")).has().allOf(1, 2, 3, 4, 5).inOrder();
     List<Integer> sublist = list.subList(0, 5);
-    ASSERT.that(sublist).hasContentsInOrder(1, 2, 3, 4, 5);
+    ASSERT.that(sublist).has().allOf(1, 2, 3, 4, 5).inOrder();
 
     sublist.retainAll(Collections.EMPTY_LIST);
     assertTrue(multimap.isEmpty());
@@ -394,12 +394,12 @@ public abstract class AbstractListMultimapTest extends AbstractMultimapTest {
 
     assertEquals(2, iterator.next().intValue());
     iterator.set(6);
-    ASSERT.that(multimap.get("foo")).hasContentsInOrder(1, 6, 3, 4, 5);
+    ASSERT.that(multimap.get("foo")).has().allOf(1, 6, 3, 4, 5).inOrder();
 
     assertTrue(iterator.hasNext());
     assertEquals(3, iterator.next().intValue());
     iterator.remove();
-    ASSERT.that(multimap.get("foo")).hasContentsInOrder(1, 6, 4, 5);
+    ASSERT.that(multimap.get("foo")).has().allOf(1, 6, 4, 5).inOrder();
     assertEquals(4, multimap.size());
   }
 
@@ -485,7 +485,7 @@ public abstract class AbstractListMultimapTest extends AbstractMultimapTest {
     multimap.put("bar", 11);
     multimap.put("bar", 12);
     multimap.get("bar").add(0, 13);
-    ASSERT.that(multimap.get("bar")).hasContentsInOrder(13, 11, 12);
+    ASSERT.that(multimap.get("bar")).has().allOf(13, 11, 12).inOrder();
   }
 
   /**
@@ -501,7 +501,7 @@ public abstract class AbstractListMultimapTest extends AbstractMultimapTest {
     multimap.putAll("foo", asList(1, 2, 2, 3, 3, 3));
 
     multimap.get("foo").retainAll(asList(1, 2, 4));
-    ASSERT.that(multimap.get("foo")).hasContentsInOrder(1, 2, 2);
+    ASSERT.that(multimap.get("foo")).has().allOf(1, 2, 2).inOrder();
   }
 
   /**
@@ -517,6 +517,6 @@ public abstract class AbstractListMultimapTest extends AbstractMultimapTest {
     multimap.putAll("foo", asList(1, 2, 2, 3, 3, 3));
 
     multimap.get("foo").removeAll(asList(2, 3, 3, 4));
-    ASSERT.that(multimap.get("foo")).hasContentsInOrder(1);
+    ASSERT.that(multimap.get("foo")).has().item(1);
   }
 }

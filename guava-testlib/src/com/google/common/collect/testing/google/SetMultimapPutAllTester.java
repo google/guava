@@ -49,7 +49,7 @@ public class SetMultimapPutAllTester<K, V>
       multimap().putAll(k, valuesToPut);
       expectedValues.addAll(valuesToPut);
 
-      assertGet(k, expectedValues.toArray());
+      assertGet(k, expectedValues);
     }
   }
 }

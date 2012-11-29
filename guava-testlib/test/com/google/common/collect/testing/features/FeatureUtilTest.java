@@ -16,7 +16,7 @@
 
 package com.google.common.collect.testing.features;
 
-import static org.junit.contrib.truth.Truth.ASSERT;
+import static org.truth0.Truth.ASSERT;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
@@ -159,18 +159,18 @@ public class FeatureUtilTest extends TestCase {
 
     features = Sets.<Feature<?>>newHashSet(
         ExampleDerivedFeature.DERIVED_FEATURE_1);
-    ASSERT.that(FeatureUtil.addImpliedFeatures(features)).hasContentsAnyOrder(
+    ASSERT.that(FeatureUtil.addImpliedFeatures(features)).has().item(
         ExampleDerivedFeature.DERIVED_FEATURE_1);
 
     features = Sets.<Feature<?>>newHashSet(
         ExampleDerivedFeature.DERIVED_FEATURE_2);
-    ASSERT.that(FeatureUtil.addImpliedFeatures(features)).hasContentsAnyOrder(
+    ASSERT.that(FeatureUtil.addImpliedFeatures(features)).has().allOf(
         ExampleDerivedFeature.DERIVED_FEATURE_2,
         ExampleBaseFeature.BASE_FEATURE_1);
 
     features = Sets.<Feature<?>>newHashSet(
         ExampleDerivedFeature.COMPOUND_DERIVED_FEATURE);
-    ASSERT.that(FeatureUtil.addImpliedFeatures(features)).hasContentsAnyOrder(
+    ASSERT.that(FeatureUtil.addImpliedFeatures(features)).has().allOf(
         ExampleDerivedFeature.COMPOUND_DERIVED_FEATURE,
         ExampleDerivedFeature.DERIVED_FEATURE_1,
         ExampleDerivedFeature.DERIVED_FEATURE_2,
@@ -193,12 +193,12 @@ public class FeatureUtilTest extends TestCase {
 
     features = Sets.<Feature<?>>newHashSet(
         ExampleDerivedFeature.DERIVED_FEATURE_2);
-    ASSERT.that(FeatureUtil.impliedFeatures(features)).hasContentsAnyOrder(
+    ASSERT.that(FeatureUtil.impliedFeatures(features)).has().item(
         ExampleBaseFeature.BASE_FEATURE_1);
 
     features = Sets.<Feature<?>>newHashSet(
         ExampleDerivedFeature.COMPOUND_DERIVED_FEATURE);
-    ASSERT.that(FeatureUtil.impliedFeatures(features)).hasContentsAnyOrder(
+    ASSERT.that(FeatureUtil.impliedFeatures(features)).has().allOf(
         ExampleDerivedFeature.DERIVED_FEATURE_1,
         ExampleDerivedFeature.DERIVED_FEATURE_2,
         ExampleBaseFeature.BASE_FEATURE_1,
@@ -250,7 +250,7 @@ public class FeatureUtilTest extends TestCase {
           ExampleDerivedInterfaceTester_Conflict.class);
       fail("Expected ConflictingRequirementsException");
     } catch (ConflictingRequirementsException e) {
-      ASSERT.that(e.getConflicts()).hasContentsAnyOrder(
+      ASSERT.that(e.getConflicts()).has().item(
           ExampleBaseFeature.BASE_FEATURE_1);
       assertEquals(ExampleDerivedInterfaceTester_Conflict.class, e.getSource());
     }
@@ -264,7 +264,7 @@ public class FeatureUtilTest extends TestCase {
       FeatureUtil.buildTesterRequirements(method);
       fail("Expected ConflictingRequirementsException");
     } catch (ConflictingRequirementsException e) {
-      ASSERT.that(e.getConflicts()).hasContentsAnyOrder(
+      ASSERT.that(e.getConflicts()).has().item(
           ExampleBaseFeature.BASE_FEATURE_1);
       assertEquals(method, e.getSource());
     }

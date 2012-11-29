@@ -16,7 +16,7 @@
 
 package com.google.common.testing;
 
-import static org.junit.contrib.truth.Truth.ASSERT;
+import static org.truth0.Truth.ASSERT;
 
 import com.google.common.base.Predicates;
 import com.google.common.collect.ImmutableList;
@@ -48,32 +48,30 @@ public class AbstractPackageSanityTestsTest extends TestCase {
 
   public void testFindClassesToTest_noCorrespondingTestClass() {
     ASSERT.that(findClassesToTest(ImmutableList.of(Foo.class)))
-        .hasContentsInOrder(Foo.class);
+        .has().allOf(Foo.class).inOrder();
     ASSERT.that(findClassesToTest(ImmutableList.of(Foo.class, Foo2Test.class)))
-        .hasContentsInOrder(Foo.class);
+        .has().allOf(Foo.class).inOrder();
   }
 
   public void testFindClassesToTest_publicApiOnly() {
     sanityTests.publicApiOnly();
     ASSERT.that(findClassesToTest(ImmutableList.of(Foo.class)))
         .isEmpty();
-    ASSERT.that(findClassesToTest(ImmutableList.of(PublicFoo.class)))
-        .hasContentsInOrder(PublicFoo.class);
+    ASSERT.that(findClassesToTest(ImmutableList.of(PublicFoo.class))).has().item(PublicFoo.class);
   }
 
   public void testFindClassesToTest_ignoreClasses() {
     sanityTests.ignoreClasses(Predicates.<Object>equalTo(PublicFoo.class));
     ASSERT.that(findClassesToTest(ImmutableList.of(PublicFoo.class)))
         .isEmpty();
-    ASSERT.that(findClassesToTest(ImmutableList.of(Foo.class)))
-        .hasContentsInOrder(Foo.class);
+    ASSERT.that(findClassesToTest(ImmutableList.of(Foo.class))).has().item(Foo.class);
   }
 
   public void testFindClassesToTest_withCorrespondingTestClassButNotExplicitlyTested() {
     ASSERT.that(findClassesToTest(ImmutableList.of(Foo.class, FooTest.class), "testNotThere"))
-        .hasContentsInOrder(Foo.class);
+        .has().allOf(Foo.class).inOrder();
     ASSERT.that(findClassesToTest(ImmutableList.of(Foo.class, FooTest.class), "testNotPublic"))
-        .hasContentsInOrder(Foo.class);
+        .has().allOf(Foo.class).inOrder();
   }
 
   public void testFindClassesToTest_withCorrespondingTestClassAndExplicitlyTested() {
@@ -86,7 +84,7 @@ public class AbstractPackageSanityTestsTest extends TestCase {
 
   public void testFindClassesToTest_withCorrespondingTestClass_noTestName() {
     ASSERT.that(findClassesToTest(ImmutableList.of(Foo.class, FooTest.class)))
-        .hasContentsInOrder(Foo.class);
+        .has().allOf(Foo.class).inOrder();
   }
 
   static class EmptyTestCase {}

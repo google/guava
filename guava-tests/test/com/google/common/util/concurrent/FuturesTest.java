@@ -28,7 +28,7 @@ import static java.util.concurrent.Executors.newSingleThreadExecutor;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.easymock.EasyMock.expect;
-import static org.junit.contrib.truth.Truth.ASSERT;
+import static org.truth0.Truth.ASSERT;
 
 import com.google.common.base.Function;
 import com.google.common.base.Functions;
@@ -840,7 +840,7 @@ public class FuturesTest extends TestCase {
     assertTrue(listener.wasCalled());
 
     List<String> results = compound.get();
-    ASSERT.that(results).hasContentsInOrder(DATA1, DATA2, DATA3);
+    ASSERT.that(results).has().allOf(DATA1, DATA2, DATA3).inOrder();
   }
 
   public void testAllAsList_emptyList() throws Exception {
@@ -1021,7 +1021,7 @@ public class FuturesTest extends TestCase {
     assertTrue(listener.wasCalled());
 
     List<String> results = compound.get();
-    ASSERT.that(results).hasContentsInOrder(DATA1, DATA2, DATA3);
+    ASSERT.that(results).has().allOf(DATA1, DATA2, DATA3).inOrder();
   }
 
   private static String createCombinedResult(Integer i, Boolean b) {
@@ -1441,7 +1441,7 @@ public class FuturesTest extends TestCase {
     assertTrue(listener.wasCalled());
 
     List<String> results = compound.get();
-    ASSERT.that(results).hasContentsInOrder(DATA1, DATA2, DATA3);
+    ASSERT.that(results).has().allOf(DATA1, DATA2, DATA3).inOrder();
   }
 
   public void testSuccessfulAsList_emptyList() throws Exception {
@@ -1484,7 +1484,7 @@ public class FuturesTest extends TestCase {
     assertTrue(listener.wasCalled());
 
     List<String> results = compound.get();
-    ASSERT.that(results).hasContentsInOrder(null, DATA2);
+    ASSERT.that(results).has().allOf(null, DATA2).inOrder();
   }
 
   public void testSuccessfulAsList_totalFailure() throws Exception {
@@ -1505,7 +1505,7 @@ public class FuturesTest extends TestCase {
     assertTrue(listener.wasCalled());
 
     List<String> results = compound.get();
-    ASSERT.that(results).hasContentsInOrder(null, null);
+    ASSERT.that(results).has().allOf(null, null).inOrder();
   }
 
   public void testSuccessfulAsList_cancelled() throws Exception {
@@ -1526,7 +1526,7 @@ public class FuturesTest extends TestCase {
     assertTrue(listener.wasCalled());
 
     List<String> results = compound.get();
-    ASSERT.that(results).hasContentsInOrder(null, DATA2);
+    ASSERT.that(results).has().allOf(null, DATA2).inOrder();
   }
 
   public void testSuccessfulAsList_resultCancelled() throws Exception {
@@ -1652,7 +1652,7 @@ public class FuturesTest extends TestCase {
     assertTrue(listener.wasCalled());
 
     List<String> results = compound.get();
-    ASSERT.that(results).hasContentsInOrder(null, null, DATA3);
+    ASSERT.that(results).has().allOf(null, null, DATA3).inOrder();
   }
 
   private static class TestException extends Exception {

@@ -14,10 +14,13 @@
 
 package com.google.common.collect.testing.google;
 
-import static org.junit.contrib.truth.Truth.ASSERT;
+import static org.truth0.Truth.ASSERT;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.ListMultimap;
+
+import java.util.Arrays;
+import java.util.Collection;
 
 /**
  * Superclass for all {@code ListMultimap} testers.
@@ -28,20 +31,24 @@ import com.google.common.collect.ListMultimap;
 public class AbstractListMultimapTester<K, V>
     extends AbstractMultimapTester<K, V, ListMultimap<K, V>> {
 
-  protected void assertGet(K key, Object... values) {
-    ASSERT.that(multimap().get(key)).hasContentsInOrder(values);
+  protected void assertGet(K key, V... values) {
+    assertGet(key, Arrays.asList(values));
+  }
 
-    if (values.length > 0) {
-      ASSERT.that(multimap().asMap().get(key)).hasContentsInOrder(values);
+  protected void assertGet(K key, Collection<V> values) {
+    ASSERT.that(multimap().get(key)).has().allFrom(values).inOrder();
+
+    if (!values.isEmpty()) {
+      ASSERT.that(multimap().asMap().get(key)).has().allFrom(values).inOrder();
       assertFalse(multimap().isEmpty());
     } else {
       ASSERT.that(multimap().asMap().get(key)).isNull();
     }
 
-    assertEquals(values.length, multimap().get(key).size());
-    assertEquals(values.length > 0, multimap().containsKey(key));
-    assertEquals(values.length > 0, multimap().keySet().contains(key));
-    assertEquals(values.length > 0, multimap().keys().contains(key));
+    assertEquals(values.size(), multimap().get(key).size());
+    assertEquals(values.size() > 0, multimap().containsKey(key));
+    assertEquals(values.size() > 0, multimap().keySet().contains(key));
+    assertEquals(values.size() > 0, multimap().keys().contains(key));
   }
 }
 

@@ -16,7 +16,7 @@
 
 package com.google.common.collect;
 
-import static org.junit.contrib.truth.Truth.ASSERT;
+import static org.truth0.Truth.ASSERT;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -150,8 +150,8 @@ public class TreeBasedTableTest extends AbstractTableTest {
     table.put("foo", 12, 'b');
     table.put("bar", 5, 'c');
     table.put("cat", 8, 'd');
-    ASSERT.that(table.rowKeySet()).hasContentsInOrder("foo", "cat", "bar");
-    ASSERT.that(table.row("foo").keySet()).hasContentsInOrder(12, 3);
+    ASSERT.that(table.rowKeySet()).has().allOf("foo", "cat", "bar").inOrder();
+    ASSERT.that(table.row("foo").keySet()).has().allOf(12, 3).inOrder();
   }
 
   public void testCreateCopy() {
@@ -162,8 +162,8 @@ public class TreeBasedTableTest extends AbstractTableTest {
     original.put("bar", 5, 'c');
     original.put("cat", 8, 'd');
     table = TreeBasedTable.create(original);
-    ASSERT.that(table.rowKeySet()).hasContentsInOrder("foo", "cat", "bar");
-    ASSERT.that(table.row("foo").keySet()).hasContentsInOrder(12, 3);
+    ASSERT.that(table.rowKeySet()).has().allOf("foo", "cat", "bar").inOrder();
+    ASSERT.that(table.row("foo").keySet()).has().allOf(12, 3).inOrder();
     assertEquals(original, table);
   }
 

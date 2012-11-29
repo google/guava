@@ -16,7 +16,7 @@
 
 package com.google.common.reflect;
 
-import static org.junit.contrib.truth.Truth.ASSERT;
+import static org.truth0.Truth.ASSERT;
 
 import com.google.common.base.Charsets;
 import com.google.common.collect.ImmutableMap;
@@ -61,11 +61,11 @@ public class ClassPathTest extends TestCase {
       packageNames.add(classInfo.getPackageName());
       simpleNames.add(classInfo.getSimpleName());
     }
-    ASSERT.that(names).containsAllOf(ClassPath.class.getName(), ClassPathTest.class.getName());
-    ASSERT.that(strings).containsAllOf(ClassPath.class.getName(), ClassPathTest.class.getName());
-    ASSERT.that(classes).containsAllOf(ClassPath.class, ClassPathTest.class);
-    ASSERT.that(packageNames).containsAllOf(ClassPath.class.getPackage().getName());
-    ASSERT.that(simpleNames).containsAllOf("ClassPath", "ClassPathTest");
+    ASSERT.that(names).has().allOf(ClassPath.class.getName(), ClassPathTest.class.getName());
+    ASSERT.that(strings).has().allOf(ClassPath.class.getName(), ClassPathTest.class.getName());
+    ASSERT.that(classes).has().allOf(ClassPath.class, ClassPathTest.class);
+    ASSERT.that(packageNames).has().item(ClassPath.class.getPackage().getName());
+    ASSERT.that(simpleNames).has().allOf("ClassPath", "ClassPathTest");
     assertFalse(classes.contains(ClassInSubPackage.class));
   }
 
@@ -76,7 +76,7 @@ public class ClassPathTest extends TestCase {
         : classpath.getTopLevelClassesRecursive(ClassPathTest.class.getPackage().getName())) {
       classes.add(classInfo.load());
     }
-    ASSERT.that(classes).containsAllOf(ClassPathTest.class, ClassInSubPackage.class);
+    ASSERT.that(classes).has().allOf(ClassPathTest.class, ClassInSubPackage.class);
   }
 
   public void testGetClasses_diamond() throws Exception {
@@ -115,7 +115,7 @@ public class ClassPathTest extends TestCase {
     URLClassLoader child = new URLClassLoader(new URL[] {url2}, parent) {};
     ImmutableMap<URI, ClassLoader> classPathEntries = ClassPath.getClassPathEntries(child);
     assertEquals(ImmutableMap.of(url1.toURI(), parent, url2.toURI(), child),  classPathEntries);
-    ASSERT.that(classPathEntries.keySet()).hasContentsInOrder(url1.toURI(), url2.toURI());
+    ASSERT.that(classPathEntries.keySet()).has().allOf(url1.toURI(), url2.toURI()).inOrder();
   }
 
   public void testClassPathEntries_duplicateUri_parentWins() throws Exception {
@@ -201,7 +201,7 @@ public class ClassPathTest extends TestCase {
     // with/relative/directory is the Class-Path value in the mf file.
     Manifest manifest = manifestClasspath("with/relative/dir");
     ASSERT.that(ClassPath.getClassPathFromManifest(jarFile, manifest))
-        .hasContentsInOrder(new File("base/with/relative/dir").toURI());
+        .has().allOf(new File("base/with/relative/dir").toURI()).inOrder();
   }
 
   public void testGetClassPathFromManifest_relativeJar() throws IOException {
@@ -209,7 +209,7 @@ public class ClassPathTest extends TestCase {
     // with/relative/directory is the Class-Path value in the mf file.
     Manifest manifest = manifestClasspath("with/relative.jar");
     ASSERT.that(ClassPath.getClassPathFromManifest(jarFile, manifest))
-        .hasContentsInOrder(new File("base/with/relative.jar").toURI());
+        .has().allOf(new File("base/with/relative.jar").toURI()).inOrder();
   }
 
   public void testGetClassPathFromManifest_jarInCurrentDirectory() throws IOException {
@@ -217,45 +217,46 @@ public class ClassPathTest extends TestCase {
     // with/relative/directory is the Class-Path value in the mf file.
     Manifest manifest = manifestClasspath("current.jar");
     ASSERT.that(ClassPath.getClassPathFromManifest(jarFile, manifest))
-        .hasContentsInOrder(new File("base/current.jar").toURI());
+        .has().allOf(new File("base/current.jar").toURI()).inOrder();
   }
 
   public void testGetClassPathFromManifest_absoluteDirectory() throws IOException {
     File jarFile = new File("base/some.jar");
     Manifest manifest = manifestClasspath("file:/with/absolute/dir");
     ASSERT.that(ClassPath.getClassPathFromManifest(jarFile, manifest))
-        .hasContentsInOrder(new File("/with/absolute/dir").toURI());
+        .has().allOf(new File("/with/absolute/dir").toURI()).inOrder();
   }
 
   public void testGetClassPathFromManifest_absoluteJar() throws IOException {
     File jarFile = new File("base/some.jar");
     Manifest manifest = manifestClasspath("file:/with/absolute.jar");
     ASSERT.that(ClassPath.getClassPathFromManifest(jarFile, manifest))
-        .hasContentsInOrder(new File("/with/absolute.jar").toURI());
+        .has().allOf(new File("/with/absolute.jar").toURI()).inOrder();
   }
 
   public void testGetClassPathFromManifest_multiplePaths() throws IOException {
     File jarFile = new File("base/some.jar");
     Manifest manifest = manifestClasspath("file:/with/absolute.jar relative.jar  relative/dir");
     ASSERT.that(ClassPath.getClassPathFromManifest(jarFile, manifest))
-        .hasContentsInOrder(
+        .has().allOf(
             new File("/with/absolute.jar").toURI(),
             new File("base/relative.jar").toURI(),
-            new File("base/relative/dir").toURI());
+            new File("base/relative/dir").toURI())
+        .inOrder();
   }
 
   public void testGetClassPathFromManifest_leadingBlanks() throws IOException {
     File jarFile = new File("base/some.jar");
     Manifest manifest = manifestClasspath(" relative.jar");
     ASSERT.that(ClassPath.getClassPathFromManifest(jarFile, manifest))
-        .hasContentsInOrder(new File("base/relative.jar").toURI());
+        .has().allOf(new File("base/relative.jar").toURI()).inOrder();
   }
 
   public void testGetClassPathFromManifest_trailingBlanks() throws IOException {
     File jarFile = new File("base/some.jar");
     Manifest manifest = manifestClasspath("relative.jar ");
     ASSERT.that(ClassPath.getClassPathFromManifest(jarFile, manifest))
-        .hasContentsInOrder(new File("base/relative.jar").toURI());
+        .has().allOf(new File("base/relative.jar").toURI()).inOrder();
   }
 
   public void testGetClassName() {

@@ -23,7 +23,7 @@ import static com.google.common.collect.testing.IteratorFeature.MODIFIABLE;
 import static com.google.common.collect.testing.IteratorFeature.UNMODIFIABLE;
 import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
-import static org.junit.contrib.truth.Truth.ASSERT;
+import static org.truth0.Truth.ASSERT;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -283,7 +283,7 @@ public class IterablesTest extends TestCase {
     Iterable<TypeA> alist = Lists
         .newArrayList(new TypeA(), new TypeA(), hasBoth, new TypeA());
     Iterable<TypeB> blist = Iterables.filter(alist, TypeB.class);
-    ASSERT.that(blist).hasContentsInOrder(hasBoth);
+    ASSERT.that(blist).iteratesOverSequence(hasBoth);
   }
 
   public void testTransform() {
@@ -411,7 +411,7 @@ public class IterablesTest extends TestCase {
     int n = 4;
     Iterable<Integer> repeated
         = Iterables.concat(Collections.nCopies(n, iterable));
-    ASSERT.that(repeated).hasContentsInOrder(
+    ASSERT.that(repeated).iteratesOverSequence(
         1, 2, 3, 1, 2, 3, 1, 2, 3, 1, 2, 3);
   }
 
@@ -510,8 +510,8 @@ public class IterablesTest extends TestCase {
     List<String> freshlyAdded = newArrayList("freshly", "added");
 
     boolean changed = Iterables.addAll(alreadyThere, freshlyAdded);
-    ASSERT.that(alreadyThere).hasContentsInOrder(
-        "already", "there", "freshly", "added");
+    ASSERT.that(alreadyThere).has().allOf(
+        "already", "there", "freshly", "added").inOrder();
     assertTrue(changed);
   }
 
@@ -656,7 +656,7 @@ public class IterablesTest extends TestCase {
     Iterable<String> tail = skip(set, 1);
     set.remove("b");
     set.addAll(newArrayList("A", "B", "C"));
-    ASSERT.that(tail).hasContentsInOrder("c", "A", "B", "C");
+    ASSERT.that(tail).iteratesOverSequence("c", "A", "B", "C");
   }
 
   public void testSkip_structurallyModifiedSkipSomeList() throws Exception {
@@ -664,7 +664,7 @@ public class IterablesTest extends TestCase {
     Iterable<String> tail = skip(list, 1);
     list.subList(1, 3).clear();
     list.addAll(0, newArrayList("A", "B", "C"));
-    ASSERT.that(tail).hasContentsInOrder("B", "C", "a");
+    ASSERT.that(tail).iteratesOverSequence("B", "C", "a");
   }
 
   public void testSkip_structurallyModifiedSkipAll() throws Exception {
@@ -1102,12 +1102,12 @@ public class IterablesTest extends TestCase {
     Iterable<String> consumingIterable = Iterables.consumingIterable(list);
     Iterator<String> consumingIterator = consumingIterable.iterator();
 
-    ASSERT.that(list).hasContentsInOrder("a", "b");
+    ASSERT.that(list).has().allOf("a", "b").inOrder();
 
     assertTrue(consumingIterator.hasNext());
-    ASSERT.that(list).hasContentsInOrder("a", "b");
+    ASSERT.that(list).has().allOf("a", "b").inOrder();
     assertEquals("a", consumingIterator.next());
-    ASSERT.that(list).hasContentsInOrder("b");
+    ASSERT.that(list).has().item("b");
 
     assertTrue(consumingIterator.hasNext());
     assertEquals("b", consumingIterator.next());

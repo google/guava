@@ -46,7 +46,7 @@ public class MultimapReplaceValuesTester<K, V>
     @SuppressWarnings("unchecked")
     List<V> values = Arrays.asList(sampleValues().e0, sampleValues().e2, sampleValues().e3);
     multimap().replaceValues(key, values);
-    assertGet(key, values.toArray());
+    assertGet(key, values);
     assertEquals(size + values.size(), multimap().size());
   }
 
@@ -63,7 +63,7 @@ public class MultimapReplaceValuesTester<K, V>
       int size = multimap().size();
       Collection<V> oldKeyValues = Helpers.copyToList(multimap().get(k));
       multimap().replaceValues(k, values);
-      assertGet(k, values.toArray());
+      assertGet(k, values);
       assertEquals(size + values.size() - oldKeyValues.size(), multimap().size());
     }
   }

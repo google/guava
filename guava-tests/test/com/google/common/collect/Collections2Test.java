@@ -22,6 +22,7 @@ import static com.google.common.collect.Lists.newLinkedList;
 import static com.google.common.collect.testing.testers.CollectionIteratorTester.getIteratorKnownOrderRemoveSupportedMethod;
 import static java.util.Arrays.asList;
 import static java.util.Collections.nCopies;
+import static org.truth0.Truth.ASSERT;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -237,7 +238,7 @@ public class Collections2Test extends TestCase {
         Collections2.orderedPermutations(list);
 
     assertEquals(1, permutationSet.size());
-    assertTrue(permutationSet.contains(list));
+    ASSERT.that(permutationSet).has().item(list);
 
     Iterator<List<Integer>> permutations = permutationSet.iterator();
 

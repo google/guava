@@ -19,7 +19,7 @@ package com.google.common.collect;
 import static com.google.common.collect.Lists.newArrayList;
 import static com.google.common.collect.testing.IteratorFeature.MODIFIABLE;
 import static java.util.Arrays.asList;
-import static org.junit.contrib.truth.Truth.ASSERT;
+import static org.truth0.Truth.ASSERT;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -153,14 +153,14 @@ public class LinkedHashMultisetTest extends AbstractMultisetTest {
     ms.add("a");
     ms.add("b", 2);
     ms.add("c");
-    ASSERT.that(ms.elementSet()).hasContentsInOrder("a", "b", "c");
+    ASSERT.that(ms.elementSet()).has().allOf("a", "b", "c").inOrder();
     ms.remove("b");
-    ASSERT.that(ms.elementSet()).hasContentsInOrder("a", "b", "c");
+    ASSERT.that(ms.elementSet()).has().allOf("a", "b", "c").inOrder();
     ms.add("b");
-    ASSERT.that(ms.elementSet()).hasContentsInOrder("a", "b", "c");
+    ASSERT.that(ms.elementSet()).has().allOf("a", "b", "c").inOrder();
     ms.remove("b", 2);
     ms.add("b");
-    ASSERT.that(ms.elementSet()).hasContentsInOrder("a", "c", "b");
+    ASSERT.that(ms.elementSet()).has().allOf("a", "c", "b").inOrder();
   }
 
   public void testIteratorRemoveConcurrentModification() {

@@ -16,7 +16,7 @@
 
 package com.google.common.collect;
 
-import static org.junit.contrib.truth.Truth.ASSERT;
+import static org.truth0.Truth.ASSERT;
 
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
@@ -101,7 +101,7 @@ public class FilteredCollectionsTest extends TestCase {
         target.add(4);
         C addThenFilter = filter(createUnfiltered(target), EVEN);
 
-        ASSERT.that(filterThenAdd).hasContentsAnyOrder(addThenFilter.toArray());
+        ASSERT.that(filterThenAdd).has().allFrom(addThenFilter);
       }
     }
 
@@ -157,7 +157,7 @@ public class FilteredCollectionsTest extends TestCase {
         } catch (IllegalArgumentException expected) {
         }
 
-        ASSERT.that(filteredToModify).hasContentsAnyOrder(filtered.toArray());
+        ASSERT.that(filteredToModify).has().allFrom(filtered);
       }
     }
 
@@ -191,7 +191,7 @@ public class FilteredCollectionsTest extends TestCase {
             Predicates.not(Predicates.and(EVEN, PRIME_DIGIT)));
 
         filtered2.clear();
-        ASSERT.that(unfiltered).hasContentsAnyOrder(Iterables.toArray(inverseFiltered));
+        ASSERT.that(unfiltered).has().allFrom(inverseFiltered);
       }
     }
   }
@@ -328,8 +328,7 @@ public class FilteredCollectionsTest extends TestCase {
         NavigableSet<Integer> filtered = filter(createUnfiltered(contents), EVEN);
         NavigableSet<Integer> unfiltered = createUnfiltered(filtered);
 
-        ASSERT.that(filtered.descendingSet()).hasContentsInOrder(
-            unfiltered.descendingSet().toArray());
+        ASSERT.that(filtered.descendingSet()).has().allFrom(unfiltered.descendingSet()).inOrder();
       }
     }
 

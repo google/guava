@@ -53,7 +53,7 @@ public class SetMultimapPutTester<K, V>
 
       assertFalse(multimap().put(k, v));
       assertEquals(expectedValues, values);
-      assertGet(k, expectedValues.toArray());
+      assertGet(k, expectedValues);
     }
   }
 }

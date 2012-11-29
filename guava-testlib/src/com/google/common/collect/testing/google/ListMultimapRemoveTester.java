@@ -18,7 +18,7 @@ import static com.google.common.collect.testing.Helpers.copyToList;
 import static com.google.common.collect.testing.Helpers.mapEntry;
 import static com.google.common.collect.testing.features.CollectionSize.SEVERAL;
 import static com.google.common.collect.testing.features.MapFeature.SUPPORTS_REMOVE;
-import static org.junit.contrib.truth.Truth.ASSERT;
+import static org.truth0.Truth.ASSERT;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.ListMultimap;
@@ -48,7 +48,7 @@ public class ListMultimapRemoveTester<K, V> extends AbstractListMultimapTester<K
 
     List<V> list = multimap().get(k);
     multimap().remove(k, v0);
-    ASSERT.that(list).hasContentsInOrder(v1, v0);
+    ASSERT.that(list).has().allOf(v1, v0).inOrder();
   }
 
   @SuppressWarnings("unchecked")
@@ -67,7 +67,7 @@ public class ListMultimapRemoveTester<K, V> extends AbstractListMultimapTester<K
       multimap().get(k).remove(i);
       expectedValues.remove(i);
 
-      assertGet(k, expectedValues.toArray());
+      assertGet(k, expectedValues);
     }
   }
 
@@ -88,7 +88,7 @@ public class ListMultimapRemoveTester<K, V> extends AbstractListMultimapTester<K
       asMapValue.remove(i);
       expectedValues.remove(i);
 
-      assertGet(k, expectedValues.toArray());
+      assertGet(k, expectedValues);
     }
   }
 
@@ -110,7 +110,7 @@ public class ListMultimapRemoveTester<K, V> extends AbstractListMultimapTester<K
       asMapValue.remove(i);
       expectedValues.remove(i);
 
-      assertGet(k, expectedValues.toArray());
+      assertGet(k, expectedValues);
     }
   }
 }

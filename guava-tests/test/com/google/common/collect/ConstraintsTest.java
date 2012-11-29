@@ -17,7 +17,7 @@
 package com.google.common.collect;
 
 import static java.util.Arrays.asList;
-import static org.junit.contrib.truth.Truth.ASSERT;
+import static org.truth0.Truth.ASSERT;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -80,8 +80,9 @@ public class ConstraintsTest extends TestCase {
     constrained.add("qux");
     constrained.addAll(asList("cat", "dog"));
     /* equals and hashCode aren't defined for Collection */
-    ASSERT.that(collection).hasContentsInOrder("foo", "bar", TEST_ELEMENT, "qux", "cat", "dog");
-    ASSERT.that(constrained).hasContentsInOrder("foo", "bar", TEST_ELEMENT, "qux", "cat", "dog");
+    ASSERT.that(collection).has().allOf("foo", "bar", TEST_ELEMENT, "qux", "cat", "dog").inOrder();
+    ASSERT.that(constrained).has()
+        .allOf("foo", "bar", TEST_ELEMENT, "qux", "cat", "dog").inOrder();
   }
 
   public void testConstrainedCollectionIllegal() {
@@ -96,8 +97,8 @@ public class ConstraintsTest extends TestCase {
       constrained.addAll(asList("baz", TEST_ELEMENT));
       fail("TestElementException expected");
     } catch (TestElementException expected) {}
-    ASSERT.that(constrained).hasContentsInOrder("foo", "bar");
-    ASSERT.that(collection).hasContentsInOrder("foo", "bar");
+    ASSERT.that(constrained).has().allOf("foo", "bar").inOrder();
+    ASSERT.that(collection).has().allOf("foo", "bar").inOrder();
   }
 
   public void testConstrainedSetLegal() {
@@ -110,8 +111,9 @@ public class ConstraintsTest extends TestCase {
     assertTrue(constrained.equals(set));
     assertEquals(set.toString(), constrained.toString());
     assertEquals(set.hashCode(), constrained.hashCode());
-    ASSERT.that(set).hasContentsInOrder("foo", "bar", TEST_ELEMENT, "qux", "cat", "dog");
-    ASSERT.that(constrained).hasContentsInOrder("foo", "bar", TEST_ELEMENT, "qux", "cat", "dog");
+    ASSERT.that(set).has().allOf("foo", "bar", TEST_ELEMENT, "qux", "cat", "dog").inOrder();
+    ASSERT.that(constrained).has()
+        .allOf("foo", "bar", TEST_ELEMENT, "qux", "cat", "dog").inOrder();
   }
 
   public void testConstrainedSetIllegal() {
@@ -125,8 +127,8 @@ public class ConstraintsTest extends TestCase {
       constrained.addAll(asList("baz", TEST_ELEMENT));
       fail("TestElementException expected");
     } catch (TestElementException expected) {}
-    ASSERT.that(constrained).hasContentsInOrder("foo", "bar");
-    ASSERT.that(set).hasContentsInOrder("foo", "bar");
+    ASSERT.that(constrained).has().allOf("foo", "bar").inOrder();
+    ASSERT.that(set).has().allOf("foo", "bar").inOrder();
   }
 
   public void testConstrainedSortedSetLegal() {
@@ -140,8 +142,9 @@ public class ConstraintsTest extends TestCase {
     assertTrue(constrained.equals(sortedSet));
     assertEquals(sortedSet.toString(), constrained.toString());
     assertEquals(sortedSet.hashCode(), constrained.hashCode());
-    ASSERT.that(sortedSet).hasContentsInOrder("bar", "cat", "dog", "foo", "qux", TEST_ELEMENT);
-    ASSERT.that(constrained).hasContentsInOrder("bar", "cat", "dog", "foo", "qux", TEST_ELEMENT);
+    ASSERT.that(sortedSet).has().allOf("bar", "cat", "dog", "foo", "qux", TEST_ELEMENT).inOrder();
+    ASSERT.that(constrained).has()
+        .allOf("bar", "cat", "dog", "foo", "qux", TEST_ELEMENT).inOrder();
     assertNull(constrained.comparator());
     assertEquals("bar", constrained.first());
     assertEquals(TEST_ELEMENT, constrained.last());
@@ -171,8 +174,8 @@ public class ConstraintsTest extends TestCase {
       constrained.addAll(asList("baz", TEST_ELEMENT));
       fail("TestElementException expected");
     } catch (TestElementException expected) {}
-    ASSERT.that(constrained).hasContentsInOrder("bar", "foo");
-    ASSERT.that(sortedSet).hasContentsInOrder("bar", "foo");
+    ASSERT.that(constrained).has().allOf("bar", "foo").inOrder();
+    ASSERT.that(sortedSet).has().allOf("bar", "foo").inOrder();
   }
 
   public void testConstrainedListLegal() {
@@ -189,18 +192,18 @@ public class ConstraintsTest extends TestCase {
     assertTrue(constrained.equals(list));
     assertEquals(list.toString(), constrained.toString());
     assertEquals(list.hashCode(), constrained.hashCode());
-    ASSERT.that(list).hasContentsInOrder(
-        "foo", "cow", "baz", TEST_ELEMENT, "box", "fan", "qux", "cat", "dog");
-    ASSERT.that(constrained).hasContentsInOrder(
-        "foo", "cow", "baz", TEST_ELEMENT, "box", "fan", "qux", "cat", "dog");
+    ASSERT.that(list).has().allOf(
+        "foo", "cow", "baz", TEST_ELEMENT, "box", "fan", "qux", "cat", "dog").inOrder();
+    ASSERT.that(constrained).has().allOf(
+        "foo", "cow", "baz", TEST_ELEMENT, "box", "fan", "qux", "cat", "dog").inOrder();
     ListIterator<String> iterator = constrained.listIterator();
     iterator.next();
     iterator.set("sun");
     constrained.listIterator(2).add("sky");
-    ASSERT.that(list).hasContentsInOrder(
-        "sun", "cow", "sky", "baz", TEST_ELEMENT, "box", "fan", "qux", "cat", "dog");
-    ASSERT.that(constrained).hasContentsInOrder(
-        "sun", "cow", "sky", "baz", TEST_ELEMENT, "box", "fan", "qux", "cat", "dog");
+    ASSERT.that(list).has().allOf(
+        "sun", "cow", "sky", "baz", TEST_ELEMENT, "box", "fan", "qux", "cat", "dog").inOrder();
+    ASSERT.that(constrained).has().allOf(
+        "sun", "cow", "sky", "baz", TEST_ELEMENT, "box", "fan", "qux", "cat", "dog").inOrder();
     assertTrue(constrained instanceof RandomAccess);
   }
 
@@ -257,8 +260,8 @@ public class ConstraintsTest extends TestCase {
       constrained.addAll(1, asList("baz", TEST_ELEMENT));
       fail("TestElementException expected");
     } catch (TestElementException expected) {}
-    ASSERT.that(constrained).hasContentsInOrder("foo", "bar");
-    ASSERT.that(list).hasContentsInOrder("foo", "bar");
+    ASSERT.that(constrained).has().allOf("foo", "bar").inOrder();
+    ASSERT.that(list).has().allOf("foo", "bar").inOrder();
   }
 
   public void testConstrainedMultisetLegal() {
@@ -273,15 +276,15 @@ public class ConstraintsTest extends TestCase {
     assertTrue(constrained.equals(multiset));
     assertEquals(multiset.toString(), constrained.toString());
     assertEquals(multiset.hashCode(), constrained.hashCode());
-    ASSERT.that(multiset).hasContentsAnyOrder(
+    ASSERT.that(multiset).has().allOf(
         "foo", "bar", TEST_ELEMENT, "qux", "cat", "dog", "cow", "cow");
-    ASSERT.that(constrained).hasContentsAnyOrder(
+    ASSERT.that(constrained).has().allOf(
         "foo", "bar", TEST_ELEMENT, "qux", "cat", "dog", "cow", "cow");
     assertEquals(1, constrained.count("foo"));
     assertEquals(1, constrained.remove("foo", 3));
     assertEquals(2, constrained.setCount("cow", 0));
-    ASSERT.that(multiset).hasContentsAnyOrder("bar", TEST_ELEMENT, "qux", "cat", "dog");
-    ASSERT.that(constrained).hasContentsAnyOrder("bar", TEST_ELEMENT, "qux", "cat", "dog");
+    ASSERT.that(multiset).has().allOf("bar", TEST_ELEMENT, "qux", "cat", "dog");
+    ASSERT.that(constrained).has().allOf("bar", TEST_ELEMENT, "qux", "cat", "dog");
   }
 
   public void testConstrainedMultisetIllegal() {
@@ -300,8 +303,8 @@ public class ConstraintsTest extends TestCase {
       constrained.addAll(asList("baz", TEST_ELEMENT));
       fail("TestElementException expected");
     } catch (TestElementException expected) {}
-    ASSERT.that(constrained).hasContentsAnyOrder("foo", "bar");
-    ASSERT.that(multiset).hasContentsAnyOrder("foo", "bar");
+    ASSERT.that(constrained).has().allOf("foo", "bar");
+    ASSERT.that(multiset).has().allOf("foo", "bar");
   }
 
   public void testNefariousAddAll() {
@@ -310,8 +313,8 @@ public class ConstraintsTest extends TestCase {
         list, TEST_CONSTRAINT);
     Collection<String> onceIterable = onceIterableCollection("baz");
     constrained.addAll(onceIterable);
-    ASSERT.that(constrained).hasContentsInOrder("foo", "bar", "baz");
-    ASSERT.that(list).hasContentsInOrder("foo", "bar", "baz");
+    ASSERT.that(constrained).has().allOf("foo", "bar", "baz").inOrder();
+    ASSERT.that(list).has().allOf("foo", "bar", "baz").inOrder();
   }
 
   /**

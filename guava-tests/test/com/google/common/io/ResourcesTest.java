@@ -17,7 +17,7 @@
 package com.google.common.io;
 
 import static com.google.common.base.CharMatcher.WHITESPACE;
-import static org.junit.contrib.truth.Truth.ASSERT;
+import static org.truth0.Truth.ASSERT;
 
 import com.google.common.base.Charsets;
 import com.google.common.collect.ImmutableList;

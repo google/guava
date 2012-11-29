@@ -16,7 +16,7 @@
 
 package com.google.common.collect;
 
-import static org.junit.contrib.truth.Truth.ASSERT;
+import static org.truth0.Truth.ASSERT;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -249,10 +249,10 @@ public class ImmutableSetMultimapTest extends TestCase {
     builder.put("a", 2);
     builder.put("b", 6);
     ImmutableSetMultimap<String, Integer> multimap = builder.build();
-    ASSERT.that(multimap.keySet()).hasContentsInOrder("d", "c", "b", "a");
-    ASSERT.that(multimap.values()).hasContentsInOrder(2, 4, 3, 6, 5, 2);
-    ASSERT.that(multimap.get("a")).hasContentsInOrder(5, 2);
-    ASSERT.that(multimap.get("b")).hasContentsInOrder(3, 6);
+    ASSERT.that(multimap.keySet()).has().allOf("d", "c", "b", "a").inOrder();
+    ASSERT.that(multimap.values()).has().allOf(2, 4, 3, 6, 5, 2).inOrder();
+    ASSERT.that(multimap.get("a")).has().allOf(5, 2).inOrder();
+    ASSERT.that(multimap.get("b")).has().allOf(3, 6).inOrder();
     assertFalse(multimap.get("a") instanceof ImmutableSortedSet);
     assertFalse(multimap.get("x") instanceof ImmutableSortedSet);
     assertFalse(multimap.asMap().get("a") instanceof ImmutableSortedSet);
@@ -274,10 +274,10 @@ public class ImmutableSetMultimapTest extends TestCase {
     builder.put("a", 2);
     builder.put("bb", 6);
     ImmutableSetMultimap<String, Integer> multimap = builder.build();
-    ASSERT.that(multimap.keySet()).hasContentsInOrder("d", "a", "bb", "cc");
-    ASSERT.that(multimap.values()).hasContentsInOrder(2, 5, 2, 3, 6, 4);
-    ASSERT.that(multimap.get("a")).hasContentsInOrder(5, 2);
-    ASSERT.that(multimap.get("bb")).hasContentsInOrder(3, 6);
+    ASSERT.that(multimap.keySet()).has().allOf("d", "a", "bb", "cc").inOrder();
+    ASSERT.that(multimap.values()).has().allOf(2, 5, 2, 3, 6, 4).inOrder();
+    ASSERT.that(multimap.get("a")).has().allOf(5, 2).inOrder();
+    ASSERT.that(multimap.get("bb")).has().allOf(3, 6).inOrder();
     assertFalse(multimap.get("a") instanceof ImmutableSortedSet);
     assertFalse(multimap.get("x") instanceof ImmutableSortedSet);
     assertFalse(multimap.asMap().get("a") instanceof ImmutableSortedSet);
@@ -294,10 +294,10 @@ public class ImmutableSetMultimapTest extends TestCase {
     builder.put("a", 2);
     builder.put("b", 6);
     ImmutableSetMultimap<String, Integer> multimap = builder.build();
-    ASSERT.that(multimap.keySet()).hasContentsInOrder("b", "d", "a", "c");
-    ASSERT.that(multimap.values()).hasContentsInOrder(6, 3, 2, 5, 2, 4);
-    ASSERT.that(multimap.get("a")).hasContentsInOrder(5, 2);
-    ASSERT.that(multimap.get("b")).hasContentsInOrder(6, 3);
+    ASSERT.that(multimap.keySet()).has().allOf("b", "d", "a", "c").inOrder();
+    ASSERT.that(multimap.values()).has().allOf(6, 3, 2, 5, 2, 4).inOrder();
+    ASSERT.that(multimap.get("a")).has().allOf(5, 2).inOrder();
+    ASSERT.that(multimap.get("b")).has().allOf(6, 3).inOrder();
     assertTrue(multimap.get("a") instanceof ImmutableSortedSet);
     assertEquals(Collections.reverseOrder(),
         ((ImmutableSortedSet<Integer>) multimap.get("a")).comparator());
@@ -321,10 +321,10 @@ public class ImmutableSetMultimapTest extends TestCase {
     builder.put("a", 2);
     builder.put("b", 6);
     ImmutableSetMultimap<String, Integer> multimap = builder.build();
-    ASSERT.that(multimap.keySet()).hasContentsInOrder("d", "c", "b", "a");
-    ASSERT.that(multimap.values()).hasContentsInOrder(2, 4, 6, 3, 5, 2);
-    ASSERT.that(multimap.get("a")).hasContentsInOrder(5, 2);
-    ASSERT.that(multimap.get("b")).hasContentsInOrder(6, 3);
+    ASSERT.that(multimap.keySet()).has().allOf("d", "c", "b", "a").inOrder();
+    ASSERT.that(multimap.values()).has().allOf(2, 4, 6, 3, 5, 2).inOrder();
+    ASSERT.that(multimap.get("a")).has().allOf(5, 2).inOrder();
+    ASSERT.that(multimap.get("b")).has().allOf(6, 3).inOrder();
     assertTrue(multimap.get("a") instanceof ImmutableSortedSet);
     assertEquals(Collections.reverseOrder(),
         ((ImmutableSortedSet<Integer>) multimap.get("a")).comparator());

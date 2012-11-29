@@ -33,7 +33,10 @@ import static com.google.common.util.concurrent.MoreExecutors.invokeAnyImpl;
 import static com.google.common.util.concurrent.MoreExecutors.listeningDecorator;
 import static com.google.common.util.concurrent.MoreExecutors.sameThreadExecutor;
 import static java.util.concurrent.TimeUnit.SECONDS;
-import static org.junit.contrib.truth.Truth.ASSERT;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import static org.truth0.Truth.ASSERT;
 
 import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableList;
@@ -43,10 +46,6 @@ import com.google.common.util.concurrent.MoreExecutors.Application;
 
 import org.mockito.InOrder;
 import org.mockito.Mockito;
-
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.Collections;

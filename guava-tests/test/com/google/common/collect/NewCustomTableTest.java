@@ -16,7 +16,7 @@
 
 package com.google.common.collect;
 
-import static org.junit.contrib.truth.Truth.ASSERT;
+import static org.truth0.Truth.ASSERT;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Supplier;
@@ -51,11 +51,11 @@ public class NewCustomTableTest extends AbstractTableTest {
 
   public void testRowKeySetOrdering() {
     table = create("foo", 3, 'a', "bar", 1, 'b', "foo", 2, 'c');
-    ASSERT.that(table.rowKeySet()).hasContentsInOrder("foo", "bar");
+    ASSERT.that(table.rowKeySet()).has().allOf("foo", "bar").inOrder();
   }
 
   public void testRowOrdering() {
     table = create("foo", 3, 'a', "bar", 1, 'b', "foo", 2, 'c');
-    ASSERT.that(table.row("foo").keySet()).hasContentsInOrder(2, 3);
+    ASSERT.that(table.row("foo").keySet()).has().allOf(2, 3).inOrder();
   }
 }

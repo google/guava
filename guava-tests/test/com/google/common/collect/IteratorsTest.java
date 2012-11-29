@@ -24,7 +24,7 @@ import static com.google.common.collect.testing.IteratorFeature.MODIFIABLE;
 import static com.google.common.collect.testing.IteratorFeature.UNMODIFIABLE;
 import static java.util.Arrays.asList;
 import static java.util.Collections.singleton;
-import static org.junit.contrib.truth.Truth.ASSERT;
+import static org.truth0.Truth.ASSERT;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -750,7 +750,7 @@ public class IteratorsTest extends TestCase {
 
     boolean changed = Iterators.addAll(alreadyThere,
                                        Iterators.<String>emptyIterator());
-    ASSERT.that(alreadyThere).hasContentsInOrder("already", "there");
+    ASSERT.that(alreadyThere).has().allOf("already", "there").inOrder();
     assertFalse(changed);
   }
 
@@ -760,7 +760,7 @@ public class IteratorsTest extends TestCase {
 
     boolean changed = Iterators.addAll(alreadyThere, freshlyAdded.iterator());
 
-    ASSERT.that(alreadyThere).hasContentsInOrder("already", "there", "freshly", "added");
+    ASSERT.that(alreadyThere).has().allOf("already", "there", "freshly", "added");
     assertTrue(changed);
   }
 
@@ -770,7 +770,7 @@ public class IteratorsTest extends TestCase {
     List<String> oneMore = Lists.newArrayList("there");
 
     boolean changed = Iterators.addAll(alreadyThere, oneMore.iterator());
-    ASSERT.that(alreadyThere).hasContentsInOrder("already", "there");
+    ASSERT.that(alreadyThere).has().allOf("already", "there").inOrder();
     assertFalse(changed);
   }
 
@@ -1506,12 +1506,12 @@ public class IteratorsTest extends TestCase {
     Iterator<String> consumingIterator =
         Iterators.consumingIterator(list.iterator());
 
-    ASSERT.that(list).hasContentsInOrder("a", "b");
+    ASSERT.that(list).has().allOf("a", "b").inOrder();
 
     assertTrue(consumingIterator.hasNext());
-    ASSERT.that(list).hasContentsInOrder("a", "b");
+    ASSERT.that(list).has().allOf("a", "b").inOrder();
     assertEquals("a", consumingIterator.next());
-    ASSERT.that(list).hasContentsInOrder("b");
+    ASSERT.that(list).has().item("b");
 
     assertTrue(consumingIterator.hasNext());
     assertEquals("b", consumingIterator.next());

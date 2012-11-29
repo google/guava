@@ -42,7 +42,7 @@ public class ListMultimapReplaceValuesTester<K, V> extends AbstractListMultimapT
     for (K k : sampleKeys()) {
       resetContainer();
       multimap().replaceValues(k, values);
-      assertGet(k, values.toArray());
+      assertGet(k, values);
     }
   }
 }

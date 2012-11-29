@@ -17,7 +17,7 @@
 package com.google.common.collect;
 
 import static java.util.Arrays.asList;
-import static org.junit.contrib.truth.Truth.ASSERT;
+import static org.truth0.Truth.ASSERT;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -286,13 +286,13 @@ public class ArrayTableTest extends AbstractTableTest {
   public void testRowKeyList() {
     ArrayTable<String, Integer, Character> table
         = create("foo", 1, 'a', "bar", 1, 'b', "foo", 3, 'c');
-    ASSERT.that(table.rowKeyList()).hasContentsInOrder("foo", "bar", "cat");
+    ASSERT.that(table.rowKeyList()).has().allOf("foo", "bar", "cat").inOrder();
   }
 
   public void testColumnKeyList() {
     ArrayTable<String, Integer, Character> table
         = create("foo", 1, 'a', "bar", 1, 'b', "foo", 3, 'c');
-    ASSERT.that(table.columnKeyList()).hasContentsInOrder(1, 2, 3);
+    ASSERT.that(table.columnKeyList()).has().allOf(1, 2, 3).inOrder();
   }
 
   public void testGetMissingKeys() {
@@ -400,9 +400,9 @@ public class ArrayTableTest extends AbstractTableTest {
         = create("foo", 1, 'a', "bar", 1, 'b', "foo", 3, 'c');
     Character[][] array = table.toArray(Character.class);
     assertEquals(3, array.length);
-    ASSERT.that(array[0]).hasContentsInOrder('a', null, 'c');
-    ASSERT.that(array[1]).hasContentsInOrder('b', null, null);
-    ASSERT.that(array[2]).hasContentsInOrder(null, null, null);
+    ASSERT.that(array[0]).has().allOf('a', null, 'c').inOrder();
+    ASSERT.that(array[1]).has().allOf('b', null, null).inOrder();
+    ASSERT.that(array[2]).has().allOf(null, null, null).inOrder();
     table.set(0, 2, 'd');
     assertEquals((Character) 'c', array[0][2]);
     array[0][2] = 'e';

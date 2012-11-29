@@ -17,10 +17,9 @@ package com.google.common.cache;
 import static com.google.common.cache.CacheTesting.checkEmpty;
 import static com.google.common.cache.CacheTesting.checkValidState;
 import static com.google.common.cache.TestingCacheLoaders.identityLoader;
-import static java.util.Arrays.asList;
 import static java.util.concurrent.TimeUnit.DAYS;
 import static java.util.concurrent.TimeUnit.SECONDS;
-import static org.junit.contrib.truth.Truth.ASSERT;
+import static org.truth0.Truth.ASSERT;
 
 import com.google.common.base.Function;
 import com.google.common.cache.CacheBuilderFactory.DurationSpec;
@@ -195,11 +194,10 @@ public class PopulatedCachesTest extends TestCase {
       Set<Object> keys = cache.asMap().keySet();
       List<Entry<Object, Object>> warmed = warmUp(cache);
 
-      Object[] expectedArray = Maps.newHashMap(cache.asMap()).keySet().toArray(new Object[0]);
-      ASSERT.that(keys).hasContentsAnyOrder(expectedArray);
-      ASSERT.that(asList(keys.toArray())).hasContentsAnyOrder(expectedArray);
-      ASSERT.that(asList(keys.toArray(new Object[(int) cache.size()])))
-          .hasContentsAnyOrder(expectedArray);
+      Set<Object> expected = Maps.newHashMap(cache.asMap()).keySet();
+      ASSERT.that(keys).has().allFrom(expected);
+      ASSERT.that(keys.toArray()).has().allFrom(expected);
+      ASSERT.that(keys.toArray(new Object[0])).has().allFrom(expected);
 
       new EqualsTester()
           .addEqualityGroup(cache.asMap().keySet(), keys)
@@ -223,11 +221,10 @@ public class PopulatedCachesTest extends TestCase {
       Collection<Object> values = cache.asMap().values();
       List<Entry<Object, Object>> warmed = warmUp(cache);
 
-      Object[] expectedArray = Maps.newHashMap(cache.asMap()).values().toArray(new Object[0]);
-      ASSERT.that(values).hasContentsAnyOrder(expectedArray);
-      ASSERT.that(asList(values.toArray())).hasContentsAnyOrder(expectedArray);
-      ASSERT.that(asList(values.toArray(new Object[(int) cache.size()])))
-          .hasContentsAnyOrder(expectedArray);
+      Collection<Object> expected = Maps.newHashMap(cache.asMap()).values();
+      ASSERT.that(values).has().allFrom(expected);
+      ASSERT.that(values.toArray()).has().allFrom(expected);
+      ASSERT.that(values.toArray(new Object[0])).has().allFrom(expected);
 
       assertEquals(WARMUP_SIZE, values.size());
       for (int i = WARMUP_MIN; i < WARMUP_MAX; i++) {
@@ -249,11 +246,10 @@ public class PopulatedCachesTest extends TestCase {
       Set<Entry<Object, Object>> entries = cache.asMap().entrySet();
       List<Entry<Object, Object>> warmed = warmUp(cache, WARMUP_MIN, WARMUP_MAX);
 
-      Set<Entry<Object, Object>> entrySet = Maps.newHashMap(cache.asMap()).entrySet();
-      ASSERT.that(entries).is(entrySet);
-      ASSERT.that(entries.toArray()).hasContentsAnyOrder(entrySet.toArray());
-      ASSERT.that(entries.toArray(new Entry[0]))
-          .hasContentsAnyOrder(entrySet.toArray(new Entry[0]));
+      Set<?> expected = Maps.newHashMap(cache.asMap()).entrySet();
+      ASSERT.that(entries).has().allFrom((Collection<Entry<Object, Object>>)expected);
+      ASSERT.that(entries.toArray()).has().allFrom((Collection<Object>)expected);
+      ASSERT.that(entries.toArray(new Entry[0])).has().allFrom((Collection<Entry>)expected);
 
       new EqualsTester()
           .addEqualityGroup(cache.asMap().entrySet(), entries)

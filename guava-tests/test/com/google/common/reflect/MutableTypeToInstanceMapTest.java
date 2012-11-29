@@ -16,7 +16,7 @@
 
 package com.google.common.reflect;
 
-import static org.junit.contrib.truth.Truth.ASSERT;
+import static org.truth0.Truth.ASSERT;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
@@ -165,7 +165,7 @@ public class MutableTypeToInstanceMapTest extends TestCase {
     TypeToken<ImmutableList<Integer>[]> type = new TypeToken<ImmutableList<Integer>[]>() {};
     map.putInstance(type, array);
     assertEquals(1, map.size());
-    ASSERT.that(map.getInstance(type)).hasContentsInOrder(array[0]);
+    ASSERT.that(map.getInstance(type)).has().allOf(array[0]).inOrder();
   }
 
   public void testWildcardType() {

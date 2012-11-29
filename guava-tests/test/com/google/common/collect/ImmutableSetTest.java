@@ -16,7 +16,7 @@
 
 package com.google.common.collect;
 
-import static org.junit.contrib.truth.Truth.ASSERT;
+import static org.truth0.Truth.ASSERT;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -153,7 +153,7 @@ public class ImmutableSetTest extends AbstractImmutableSetTest {
     // now we'll get the varargs overload
     ImmutableSet<String> set = ImmutableSet.of(
         "a", "b", "c", "c", "c", "c", "b", "b", "a", "a", "c", "c", "c", "a");
-    ASSERT.that(set).hasContentsInOrder("a", "b", "c");
+    ASSERT.that(set).has().allOf("a", "b", "c").inOrder();
   }
 
   public void testCreation_arrayOfArray() {

@@ -18,7 +18,7 @@ package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static java.util.Arrays.asList;
-import static org.junit.contrib.truth.Truth.ASSERT;
+import static org.truth0.Truth.ASSERT;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -452,7 +452,7 @@ public class ImmutableMultisetTest extends TestCase {
   public void testSerialization_multiple() {
     Collection<String> c = ImmutableMultiset.of("a", "b", "a");
     Collection<String> copy = SerializableTester.reserializeAndAssert(c);
-    ASSERT.that(copy).hasContentsInOrder("a", "a", "b");
+    ASSERT.that(copy).has().allOf("a", "a", "b").inOrder();
   }
 
   @GwtIncompatible("SerializableTester")
@@ -460,7 +460,7 @@ public class ImmutableMultisetTest extends TestCase {
     Multiset<String> c = ImmutableMultiset.of("a", "b", "a");
     Collection<String> copy =
         LenientSerializableTester.reserializeAndAssertLenient(c.elementSet());
-    ASSERT.that(copy).hasContentsInOrder("a", "b");
+    ASSERT.that(copy).has().allOf("a", "b").inOrder();
   }
 
   @GwtIncompatible("SerializableTester")
@@ -479,7 +479,7 @@ public class ImmutableMultisetTest extends TestCase {
 
   public void testIterationOrder() {
     Collection<String> c = ImmutableMultiset.of("a", "b", "a");
-    ASSERT.that(c).hasContentsInOrder("a", "a", "b");
+    ASSERT.that(c).has().allOf("a", "a", "b").inOrder();
   }
 
   public void testMultisetWrites() {

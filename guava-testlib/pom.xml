@@ -31,20 +31,11 @@
       <version>4.8.2</version>
     </dependency>
     <dependency>
-      <groupId>org.junit.contrib</groupId>
+      <groupId>org.truth0</groupId>
       <artifactId>truth</artifactId>
-      <version>0.7.0</version>
+      <version>0.10</version>
     </dependency>
   </dependencies>
-  <repositories>
-    <repository>
-      <releases><enabled>true</enabled></releases>
-      <snapshots><enabled>false</enabled></snapshots>
-      <id>truth-github</id>
-      <name>Truth Github Repository</name>
-      <url>https://raw.github.com/truth0/repo/master</url>
-    </repository>
-  </repositories>
   <build>
     <plugins>
       <plugin>

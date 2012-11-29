@@ -22,7 +22,7 @@ import static com.google.common.collect.Sets.newLinkedHashSet;
 import static com.google.common.collect.testing.Helpers.mapEntry;
 import static com.google.common.collect.testing.IteratorFeature.MODIFIABLE;
 import static java.util.Arrays.asList;
-import static org.junit.contrib.truth.Truth.ASSERT;
+import static org.truth0.Truth.ASSERT;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -143,21 +143,21 @@ public class LinkedHashMultimapTest extends AbstractSetMultimapTest {
     multimap.put("c", 4);
     multimap.remove("a", 1);
     multimap = SerializableTester.reserializeAndAssert(multimap);
-    ASSERT.that(multimap.keySet()).hasContentsInOrder("a", "b", "c");
-    ASSERT.that(multimap.entries()).hasContentsInOrder(
+    ASSERT.that(multimap.keySet()).has().allOf("a", "b", "c").inOrder();
+    ASSERT.that(multimap.entries()).has().allOf(
         mapEntry("b", 2),
         mapEntry("a", 3),
-        mapEntry("c", 4));
+        mapEntry("c", 4)).inOrder();
     // note that the keys and entries are in different orders
   }
 
   private void assertOrderingReadOnly(Multimap<String, Integer> multimap) {
-    ASSERT.that(multimap.get("foo")).hasContentsInOrder(5, 3);
-    ASSERT.that(multimap.get("bar")).hasContentsInOrder(4, 1);
-    ASSERT.that(multimap.get("cow")).hasContentsInOrder(2);
+    ASSERT.that(multimap.get("foo")).has().allOf(5, 3).inOrder();
+    ASSERT.that(multimap.get("bar")).has().allOf(4, 1).inOrder();
+    ASSERT.that(multimap.get("cow")).has().item(2);
 
-    ASSERT.that(multimap.keySet()).hasContentsInOrder("foo", "bar", "cow");
-    ASSERT.that(multimap.values()).hasContentsInOrder(5, 4, 3, 2, 1);
+    ASSERT.that(multimap.keySet()).has().allOf("foo", "bar", "cow").inOrder();
+    ASSERT.that(multimap.values()).has().allOf(5, 4, 3, 2, 1).inOrder();
 
     Iterator<Map.Entry<String, Integer>> entryIterator =
         multimap.entries().iterator();
@@ -171,28 +171,28 @@ public class LinkedHashMultimapTest extends AbstractSetMultimapTest {
         multimap.asMap().entrySet().iterator();
     Map.Entry<String, Collection<Integer>> entry = collectionIterator.next();
     assertEquals("foo", entry.getKey());
-    ASSERT.that(entry.getValue()).hasContentsInOrder(5, 3);
+    ASSERT.that(entry.getValue()).has().allOf(5, 3).inOrder();
     entry = collectionIterator.next();
     assertEquals("bar", entry.getKey());
-    ASSERT.that(entry.getValue()).hasContentsInOrder(4, 1);
+    ASSERT.that(entry.getValue()).has().allOf(4, 1).inOrder();
     entry = collectionIterator.next();
     assertEquals("cow", entry.getKey());
-    ASSERT.that(entry.getValue()).hasContentsInOrder(2);
+    ASSERT.that(entry.getValue()).has().item(2);
   }
 
   public void testOrderingUpdates() {
     Multimap<String, Integer> multimap = initializeMultimap5();
 
-    ASSERT.that(multimap.replaceValues("foo", asList(6, 7))).hasContentsInOrder(5, 3);
-    ASSERT.that(multimap.keySet()).hasContentsInOrder("foo", "bar", "cow");
-    ASSERT.that(multimap.removeAll("foo")).hasContentsInOrder(6, 7);
-    ASSERT.that(multimap.keySet()).hasContentsInOrder("bar", "cow");
+    ASSERT.that(multimap.replaceValues("foo", asList(6, 7))).has().allOf(5, 3).inOrder();
+    ASSERT.that(multimap.keySet()).has().allOf("foo", "bar", "cow").inOrder();
+    ASSERT.that(multimap.removeAll("foo")).has().allOf(6, 7).inOrder();
+    ASSERT.that(multimap.keySet()).has().allOf("bar", "cow").inOrder();
     assertTrue(multimap.remove("bar", 4));
-    ASSERT.that(multimap.keySet()).hasContentsInOrder("bar", "cow");
+    ASSERT.that(multimap.keySet()).has().allOf("bar", "cow").inOrder();
     assertTrue(multimap.remove("bar", 1));
-    ASSERT.that(multimap.keySet()).hasContentsInOrder("cow");
+    ASSERT.that(multimap.keySet()).has().item("cow");
     multimap.put("bar", 9);
-    ASSERT.that(multimap.keySet()).hasContentsInOrder("cow", "bar");
+    ASSERT.that(multimap.keySet()).has().allOf("cow", "bar").inOrder();
   }
 
   public void testToStringNullExact() {

@@ -16,7 +16,8 @@
 
 package com.google.common.collect.testing.google;
 
-import static org.junit.contrib.truth.Truth.ASSERT;
+import static java.util.Arrays.asList;
+import static org.truth0.Truth.ASSERT;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.Multimap;
@@ -24,6 +25,7 @@ import com.google.common.collect.testing.AbstractContainerTester;
 import com.google.common.collect.testing.Helpers;
 import com.google.common.collect.testing.SampleElements;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
@@ -139,21 +141,26 @@ public abstract class AbstractMultimapTester<K, V, M extends Multimap<K, V>>
     resetContainer();
   }
 
-  protected void assertGet(K key, Object... values) {
-    ASSERT.that(multimap().get(key)).hasContentsAnyOrder(values);
+  protected void assertGet(K key, V... values) {
+    assertGet(key, Arrays.asList(values));
+  }
 
-    if (values.length > 0) {
-      ASSERT.that(multimap().asMap().get(key)).hasContentsAnyOrder(values);
+  protected void assertGet(K key, Collection<V> values) {
+    ASSERT.that(multimap().get(key)).has().allFrom(values);
+
+    if (!values.isEmpty()) {
+      ASSERT.that(multimap().asMap().get(key)).has().allFrom(values);
       assertFalse(multimap().isEmpty());
     } else {
       ASSERT.that(multimap().asMap().get(key)).isNull();
     }
 
+    // TODO(user): Add proper overrides to prevent autoboxing.
     // Truth+autoboxing == compile error. Cast int to long to fix:
-    ASSERT.that(multimap().get(key).size()).is((long) values.length);
+    ASSERT.that(multimap().get(key).size()).is((long) values.size());
 
-    assertEquals(values.length > 0, multimap().containsKey(key));
-    assertEquals(values.length > 0, multimap().keySet().contains(key));
-    assertEquals(values.length > 0, multimap().keys().contains(key));
+    assertEquals(values.size() > 0, multimap().containsKey(key));
+    assertEquals(values.size() > 0, multimap().keySet().contains(key));
+    assertEquals(values.size() > 0, multimap().keys().contains(key));
   }
 }

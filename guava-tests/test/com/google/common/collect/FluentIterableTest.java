@@ -17,7 +17,7 @@
 package com.google.common.collect;
 
 import static java.util.Arrays.asList;
-import static org.junit.contrib.truth.Truth.ASSERT;
+import static org.truth0.Truth.ASSERT;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -188,7 +188,7 @@ public class FluentIterableTest extends TestCase {
     FluentIterable<TypeA> alist =
         FluentIterable.from(asList(new TypeA(), new TypeA(), hasBoth, new TypeA()));
     Iterable<TypeB> blist = alist.filter(TypeB.class);
-    ASSERT.that(blist).hasContentsInOrder(hasBoth);
+    ASSERT.that(blist).iteratesOverSequence(hasBoth);
   }
 
   public void testAnyMatch() {
@@ -435,7 +435,7 @@ public class FluentIterableTest extends TestCase {
     FluentIterable<String> tail = FluentIterable.from(set).skip(1);
     set.remove("b");
     set.addAll(Lists.newArrayList("X", "Y", "Z"));
-    ASSERT.that(tail).hasContentsInOrder("c", "X", "Y", "Z");
+    ASSERT.that(tail).iteratesOverSequence("c", "X", "Y", "Z");
   }
 
   public void testSkip_structurallyModifiedSkipSomeList() throws Exception {
@@ -443,7 +443,7 @@ public class FluentIterableTest extends TestCase {
     FluentIterable<String> tail = FluentIterable.from(list).skip(1);
     list.subList(1, 3).clear();
     list.addAll(0, Lists.newArrayList("X", "Y", "Z"));
-    ASSERT.that(tail).hasContentsInOrder("Y", "Z", "a");
+    ASSERT.that(tail).iteratesOverSequence("Y", "Z", "a");
   }
 
   public void testSkip_structurallyModifiedSkipAll() throws Exception {
@@ -511,11 +511,11 @@ public class FluentIterableTest extends TestCase {
   }
 
   public void testToSet() {
-    ASSERT.that(fluent(1, 2, 3, 4).toSet()).hasContentsInOrder(1, 2, 3, 4);
+    ASSERT.that(fluent(1, 2, 3, 4).toSet()).has().allOf(1, 2, 3, 4).inOrder();
   }
 
   public void testToSet_removeDuplicates() {
-    ASSERT.that(fluent(1, 2, 1, 2).toSet()).hasContentsInOrder(1, 2);
+    ASSERT.that(fluent(1, 2, 1, 2).toSet()).has().allOf(1, 2).inOrder();
   }
 
   public void testToSet_empty() {
@@ -524,20 +524,20 @@ public class FluentIterableTest extends TestCase {
 
   public void testToSortedSet() {
     ASSERT.that(fluent(1, 4, 2, 3).toSortedSet(Ordering.<Integer>natural().reverse()))
-        .hasContentsInOrder(4, 3, 2, 1);
+        .has().allOf(4, 3, 2, 1).inOrder();
   }
 
   public void testToSortedSet_removeDuplicates() {
     ASSERT.that(fluent(1, 4, 1, 3).toSortedSet(Ordering.<Integer>natural().reverse()))
-        .hasContentsInOrder(4, 3, 1);
+        .has().allOf(4, 3, 1).inOrder();
   }
 
   public void testToMap() {
     ASSERT.that(fluent(1, 2, 3).toMap(Functions.toStringFunction()).entrySet())
-        .hasContentsInOrder(
+        .has().allOf(
             Maps.immutableEntry(1, "1"),
             Maps.immutableEntry(2, "2"),
-            Maps.immutableEntry(3, "3"));
+            Maps.immutableEntry(3, "3")).inOrder();
   }
 
   public void testToMap_nullKey() {
@@ -641,17 +641,17 @@ public class FluentIterableTest extends TestCase {
 
   public void testCopyInto_List() {
     ASSERT.that(fluent(1, 3, 5).copyInto(Lists.newArrayList(1, 2)))
-        .hasContentsInOrder(1, 2, 1, 3, 5);
+        .has().allOf(1, 2, 1, 3, 5).inOrder();
   }
 
   public void testCopyInto_Set() {
     ASSERT.that(fluent(1, 3, 5).copyInto(Sets.newHashSet(1, 2)))
-        .hasContentsAnyOrder(1, 2, 3, 5);
+        .has().allOf(1, 2, 3, 5);
   }
 
   public void testCopyInto_SetAllDuplicates() {
     ASSERT.that(fluent(1, 3, 5).copyInto(Sets.newHashSet(1, 2, 3, 5)))
-        .hasContentsAnyOrder(1, 2, 3, 5);
+        .has().allOf(1, 2, 3, 5);
   }
 
   public void testCopyInto_NonCollection() {
@@ -666,7 +666,7 @@ public class FluentIterableTest extends TestCase {
     };
 
     ASSERT.that(FluentIterable.from(iterable).copyInto(list))
-      .hasContentsInOrder(1, 2, 3, 9, 8, 7);
+        .has().allOf(1, 2, 3, 9, 8, 7).inOrder();
   }
 
   public void testGet() {

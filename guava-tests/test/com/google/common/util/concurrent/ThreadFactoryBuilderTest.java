@@ -16,7 +16,7 @@
 
 package com.google.common.util.concurrent;
 
-import static org.junit.contrib.truth.Truth.ASSERT;
+import static org.truth0.Truth.ASSERT;
 
 import com.google.common.testing.NullPointerTester;
 

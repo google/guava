@@ -22,7 +22,7 @@ import static com.google.common.collect.Sets.newHashSet;
 import static com.google.common.collect.testing.Helpers.nefariousMapEntry;
 import static com.google.common.collect.testing.IteratorFeature.MODIFIABLE;
 import static java.util.Arrays.asList;
-import static org.junit.contrib.truth.Truth.ASSERT;
+import static org.truth0.Truth.ASSERT;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -298,7 +298,7 @@ public class MultimapsTest extends AbstractMultimapTest {
     assertEquals(multimap.hashCode(), unmodifiable.hashCode());
     assertEquals(multimap, unmodifiable);
 
-    ASSERT.that(unmodifiable.asMap().get("bar")).hasContentsAnyOrder(5, -1);
+    ASSERT.that(unmodifiable.asMap().get("bar")).has().allOf(5, -1);
     assertNull(unmodifiable.asMap().get("missing"));
 
     assertFalse(unmodifiable.entries() instanceof Serializable);
@@ -430,11 +430,11 @@ public class MultimapsTest extends AbstractMultimapTest {
     assertFalse(map.containsKey("bar"));
     assertEquals(map.keySet(), multimapView.keySet());
     assertEquals(map.keySet(), multimapView.keys().elementSet());
-    ASSERT.that(multimapView.keys()).hasContentsAnyOrder("foo");
-    ASSERT.that(multimapView.values()).hasContentsAnyOrder(1);
-    ASSERT.that(multimapView.entries()).hasContentsAnyOrder(
+    ASSERT.that(multimapView.keys()).has().item("foo");
+    ASSERT.that(multimapView.values()).has().item(1);
+    ASSERT.that(multimapView.entries()).has().item(
         Maps.immutableEntry("foo", 1));
-    ASSERT.that(multimapView.asMap().entrySet()).hasContentsAnyOrder(
+    ASSERT.that(multimapView.asMap().entrySet()).has().item(
         Maps.immutableEntry(
             "foo", (Collection<Integer>) Collections.singleton(1)));
     multimapView.clear();
@@ -592,7 +592,7 @@ public class MultimapsTest extends AbstractMultimapTest {
     } catch (IllegalArgumentException expected) {
       // expected
     }
-    ASSERT.that(multimap.entries()).hasContentsAnyOrder(
+    ASSERT.that(multimap.entries()).has().allOf(
         Maps.immutableEntry(Color.RED, 1),
         Maps.immutableEntry(Color.BLUE, 2));
   }
@@ -814,11 +814,10 @@ public class MultimapsTest extends AbstractMultimapTest {
         return in * in;
       }
     };
-    Multimap<String, Integer> transformed =
-        Multimaps.transformValues(multimap, square);
-    ASSERT.that(transformed.entries()).hasContentsInOrder(immutableEntry("a", 4),
+    Multimap<String, Integer> transformed = Multimaps.transformValues(multimap, square);
+    ASSERT.that(transformed.entries()).has().allOf(immutableEntry("a", 4),
         immutableEntry("a", 16), immutableEntry("b", 9), immutableEntry("b", 9),
-        immutableEntry("c", 36));
+        immutableEntry("c", 36)).inOrder();
   }
 
   @GwtIncompatible(value = "untested")
@@ -834,7 +833,7 @@ public class MultimapsTest extends AbstractMultimapTest {
         });
     Entry<String, String> entry = multimap.entries().iterator().next();
     entry.setValue("bbb");
-    ASSERT.that(transformed.entries()).hasContentsInOrder(immutableEntry("a", 3));
+    ASSERT.that(transformed.entries()).has().allOf(immutableEntry("a", 3)).inOrder();
   }
 
   @GwtIncompatible(value = "untested")
@@ -849,9 +848,9 @@ public class MultimapsTest extends AbstractMultimapTest {
     };
     ListMultimap<String, Integer> transformed =
         Multimaps.transformValues(multimap, square);
-    ASSERT.that(transformed.entries()).hasContentsInOrder(immutableEntry("a", 4),
+    ASSERT.that(transformed.entries()).has().allOf(immutableEntry("a", 4),
         immutableEntry("a", 16), immutableEntry("b", 9), immutableEntry("b", 9),
-        immutableEntry("c", 36));
+        immutableEntry("c", 36)).inOrder();
   }
 
   @GwtIncompatible(value = "untested")
@@ -867,8 +866,8 @@ public class MultimapsTest extends AbstractMultimapTest {
         };
     Multimap<String, String> transformed =
         Multimaps.transformEntries(multimap, transformer);
-    ASSERT.that(transformed.entries()).hasContentsInOrder(immutableEntry("a", "a"),
-        immutableEntry("a", "a"), immutableEntry("b", "nob"));
+    ASSERT.that(transformed.entries()).has().allOf(immutableEntry("a", "a"),
+        immutableEntry("a", "a"), immutableEntry("b", "nob")).inOrder();
   }
 
   @GwtIncompatible(value = "untested")
