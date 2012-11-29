@@ -29,14 +29,13 @@ import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Ascii;
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
+import com.google.common.base.Predicates;
 import com.google.common.base.Supplier;
 import com.google.common.collect.Maps.EntryTransformer;
-import com.google.common.collect.testing.CollectionTestSuiteBuilder;
 import com.google.common.collect.testing.SampleElements;
 import com.google.common.collect.testing.SetTestSuiteBuilder;
 import com.google.common.collect.testing.TestCollectionGenerator;
 import com.google.common.collect.testing.TestListGenerator;
-import com.google.common.collect.testing.TestStringCollectionGenerator;
 import com.google.common.collect.testing.TestStringSetGenerator;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
@@ -44,6 +43,7 @@ import com.google.common.collect.testing.features.Feature;
 import com.google.common.collect.testing.features.MapFeature;
 import com.google.common.collect.testing.google.ListMultimapTestSuiteBuilder;
 import com.google.common.collect.testing.google.MultimapTestSuiteBuilder;
+import com.google.common.collect.testing.google.MultisetIteratorTester;
 import com.google.common.collect.testing.google.MultisetTestSuiteBuilder;
 import com.google.common.collect.testing.google.MultisetWritesTester;
 import com.google.common.collect.testing.google.TestListMultimapGenerator;
@@ -286,20 +286,6 @@ public class MultimapsCollectionTest extends TestCase {
         .withFeatures(FOR_MAP_FEATURES_ONE)
         .createTestSuite());
 
-    suite.addTest(SetTestSuiteBuilder.using(new TestStringSetGenerator() {
-          @Override protected Set<String> create(String[] elements) {
-            SetMultimap<Integer, String> multimap = LinkedHashMultimap.create();
-            populateMultimapForGet(multimap, elements);
-            multimap.put(3, "badvalue");
-            multimap.put(55556, "foo");
-            return (Set<String>) Multimaps.filterEntries(multimap, FILTER_GET_PREDICATE).get(3);
-          }
-        })
-        .named("Multimaps.filterEntries.get")
-        .withFeatures(COLLECTION_FEATURES_ORDER)
-        .suppressing(CollectionIteratorTester.getIteratorKnownOrderRemoveSupportedMethod())
-        .createTestSuite());
-
     suite.addTest(SetTestSuiteBuilder.using(
         new TestStringSetGenerator() {
           @Override protected Set<String> create(String[] elements) {
@@ -313,38 +299,7 @@ public class MultimapsCollectionTest extends TestCase {
         .withFeatures(FOR_MAP_FEATURES_ANY)
         .createTestSuite());
 
-    suite.addTest(SetTestSuiteBuilder.using(
-        new TestStringSetGenerator() {
-          @Override protected Set<String> create(String[] elements) {
-            SetMultimap<String, Integer> multimap = LinkedHashMultimap.create();
-            populateMultimapForKeySet(multimap, elements);
-            multimap.put("badkey", 3);
-            multimap.put("a", 55556);
-            return Multimaps.filterEntries(multimap, FILTER_KEYSET_PREDICATE).keySet();
-          }
-        })
-        .named("Multimaps.filterEntries.keySet")
-        .withFeatures(COLLECTION_FEATURES_REMOVE_ORDER)
-        .suppressing(CollectionIteratorTester.getIteratorKnownOrderRemoveSupportedMethod())
-        .createTestSuite());
-
-    suite.addTest(CollectionTestSuiteBuilder.using(
-        new TestStringCollectionGenerator() {
-          @Override public Collection<String> create(String[] elements) {
-            Multimap<Integer, String> multimap
-                = LinkedHashMultimap.create();
-            populateMultimapForValues(multimap, elements);
-            multimap.put(3, "badvalue");
-            multimap.put(55556, "foo");
-            return Multimaps.filterEntries(multimap, FILTER_GET_PREDICATE).values();
-          }
-        })
-        .named("Multimaps.filterEntries.values")
-        .withFeatures(COLLECTION_FEATURES_REMOVE_ORDER)
-        .suppressing(CollectionIteratorTester.getIteratorKnownOrderRemoveSupportedMethod())
-        .createTestSuite());
-
-    // TODO(user): use collection testers on Multimaps.forMap.values
+    // TODO: use collection testers on Multimaps.forMap.values
 
     suite.addTest(MultisetTestSuiteBuilder.using(
         new TestStringMultisetGenerator() {
@@ -362,43 +317,12 @@ public class MultimapsCollectionTest extends TestCase {
         .suppressing(getIteratorDuplicateInitializingMethods())
         .createTestSuite());
 
-    suite.addTest(MultisetTestSuiteBuilder.using(
-        new TestStringMultisetGenerator() {
-        @Override protected Multiset<String> create(String[] elements) {
-          SetMultimap<String, Integer> multimap = LinkedHashMultimap.create();
-          populateMultimapForKeys(multimap, elements);
-          multimap.put("badkey", 3);
-          multimap.put("a", 55556);
-          return Multimaps.filterEntries(multimap, FILTER_KEYSET_PREDICATE).keys();
-          }
-        })
-        .named("Multimaps.filterEntries.keys")
-        .withFeatures(COLLECTION_FEATURES_REMOVE_ORDER)
-        .suppressing(CollectionIteratorTester.getIteratorKnownOrderRemoveSupportedMethod())
-        .suppressing(MultisetWritesTester.getEntrySetIteratorMethod())
-        .suppressing(getIteratorDuplicateInitializingMethods())
-        .createTestSuite());
-
-    suite.addTest(CollectionTestSuiteBuilder.using(new TestEntriesGenerator() {
-          @Override Multimap<String, Integer> createMultimap() {
-            Multimap<String, Integer> multimap = LinkedHashMultimap.create();
-            multimap.put("badkey", 3);
-            multimap.put("a", 55556);
-            return Multimaps.filterEntries(multimap, FILTER_KEYSET_PREDICATE);
-          }
-        })
-        .named("Multimap.filterEntries.entries")
-        .withFeatures(CollectionSize.ANY, CollectionFeature.SUPPORTS_REMOVE,
-            CollectionFeature.KNOWN_ORDER)
-        .suppressing(CollectionIteratorTester.getIteratorKnownOrderRemoveSupportedMethod())
-        .createTestSuite());
-
     // TODO: use collection testers on Multimaps.forMap.entries
 
     return suite;
   }
-
-  static abstract class TransformedMultimapGenerator<M extends Multimap<String, String>>
+  
+  static abstract class TransformedMultimapGenerator<M extends Multimap<String, String>> 
       implements TestMultimapGenerator<String, String, M> {
 
     @Override
@@ -446,7 +370,7 @@ public class MultimapsCollectionTest extends TestCase {
       }
       return transform(multimap);
     }
-
+    
     abstract M transform(Multimap<String, String> multimap);
 
     @SuppressWarnings("unchecked")
@@ -459,14 +383,14 @@ public class MultimapsCollectionTest extends TestCase {
     public Iterable<Entry<String, String>> order(List<Entry<String, String>> insertionOrder) {
       return insertionOrder;
     }
-
+    
     static final Function<String, String> FUNCTION = new Function<String, String>() {
       @Override
       public String apply(String value) {
         return Ascii.toLowerCase(value);
       }
     };
-
+    
     static final EntryTransformer<String, String, String> ENTRY_TRANSFORMER =
         new EntryTransformer<String, String, String>() {
       @Override
@@ -475,12 +399,12 @@ public class MultimapsCollectionTest extends TestCase {
       }
     };
   }
-
-  static abstract class TransformedListMultimapGenerator
+  
+  static abstract class TransformedListMultimapGenerator 
       extends TransformedMultimapGenerator<ListMultimap<String, String>>
       implements TestListMultimapGenerator<String, String> {
   }
-
+  
   private static Test transformSuite() {
     TestSuite suite = new TestSuite("Multimaps.transform*");
     suite.addTest(MultimapTestSuiteBuilder.using(
@@ -534,6 +458,204 @@ public class MultimapsCollectionTest extends TestCase {
             MapFeature.SUPPORTS_REMOVE,
             MapFeature.ALLOWS_NULL_KEYS)
         .createTestSuite());
+
+    // TODO: use collection testers on Multimaps.forMap.entries
+    
+    suite.addTest(filterSuite());
+
+    return suite;
+  }
+  
+  static abstract class TestFilteredMultimapGenerator 
+      implements TestMultimapGenerator<String, Integer, Multimap<String, Integer>> {
+
+    @Override
+    public SampleElements<Entry<String, Integer>> samples() {
+      return new SampleElements<Entry<String, Integer>>(
+          mapEntry("one", 114),
+          mapEntry("two", 37),
+          mapEntry("three", 42),
+          mapEntry("four", 19),
+          mapEntry("five", 82));
+    }
+    
+    abstract Multimap<String, Integer> filter(Multimap<String, Integer> multimap);
+
+    @Override
+    public Multimap<String, Integer> create(Object... elements) {
+      Multimap<String, Integer> multimap = LinkedHashMultimap.create();
+      for (Object o : elements) {
+        @SuppressWarnings("unchecked")
+        Entry<String, Integer> entry = (Entry<String, Integer>) o;
+        multimap.put(entry.getKey(), entry.getValue());
+      }
+      return filter(multimap);
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public Entry<String, Integer>[] createArray(int length) {
+      return new Entry[length];
+    }
+
+    @Override
+    public Iterable<Entry<String, Integer>> order(List<Entry<String, Integer>> insertionOrder) {
+      return insertionOrder;
+    }
+
+    @Override
+    public String[] createKeyArray(int length) {
+      return new String[length];
+    }
+
+    @Override
+    public Integer[] createValueArray(int length) {
+      return new Integer[length];
+    }
+
+    @Override
+    public SampleElements<String> sampleKeys() {
+      return new SampleElements<String>("one", "two", "three", "four", "five");
+    }
+
+    @Override
+    public SampleElements<Integer> sampleValues() {
+      return new SampleElements<Integer>(114, 37, 42, 19, 82);
+    }
+
+    @Override
+    public Collection<Integer> createCollection(Iterable<? extends Integer> values) {
+      return Sets.newLinkedHashSet(values);
+    }
+  }
+ 
+  private static Test filterSuite() {
+    TestSuite suite = new TestSuite("Multimaps.filter*");
+    suite.addTest(MultimapTestSuiteBuilder.using(new TestFilteredMultimapGenerator() {
+        @Override
+        Multimap<String, Integer> filter(Multimap<String, Integer> multimap) {
+          multimap.put("foo", 17);
+          multimap.put("bar", 32);
+          multimap.put("foo", 16);
+          return Multimaps.filterKeys(multimap, 
+              Predicates.not(Predicates.in(ImmutableSet.of("foo", "bar"))));
+        }
+      })
+      .named("Multimaps.filterKeys[Multimap, Predicate]")
+      .withFeatures(
+          CollectionSize.ANY,
+          MapFeature.GENERAL_PURPOSE,
+          MapFeature.ALLOWS_NULL_KEYS,
+          MapFeature.ALLOWS_NULL_VALUES)
+      .suppressing(CollectionIteratorTester.getIteratorUnknownOrderRemoveSupportedMethod(),
+          MultisetIteratorTester.getIteratorUnknownOrderRemoveSupportedMethod(),
+          MultisetWritesTester.getEntrySetIteratorMethod())
+      .createTestSuite());
+    suite.addTest(MultimapTestSuiteBuilder.using(new TestFilteredMultimapGenerator() {
+        @Override
+        Multimap<String, Integer> filter(Multimap<String, Integer> multimap) {
+          multimap.put("one", 314);
+          multimap.put("two", 159);
+          multimap.put("one", 265);
+          return Multimaps.filterValues(multimap,
+              Predicates.not(Predicates.in(ImmutableSet.of(314, 159, 265))));
+        }
+      })
+      .named("Multimaps.filterValues[Multimap, Predicate]")
+      .withFeatures(
+          CollectionSize.ANY,
+          MapFeature.GENERAL_PURPOSE,
+          MapFeature.ALLOWS_NULL_KEYS,
+          MapFeature.ALLOWS_NULL_VALUES)
+      .suppressing(CollectionIteratorTester.getIteratorUnknownOrderRemoveSupportedMethod(),
+          MultisetIteratorTester.getIteratorUnknownOrderRemoveSupportedMethod(),
+          MultisetWritesTester.getEntrySetIteratorMethod())
+      .createTestSuite());
+    suite.addTest(MultimapTestSuiteBuilder.using(new TestFilteredMultimapGenerator() {
+        @Override
+        Multimap<String, Integer> filter(Multimap<String, Integer> multimap) {
+          ImmutableSetMultimap<String, Integer> badEntries =
+              ImmutableSetMultimap.of("foo", 314, "one", 159, "two", 265, "bar", 358);
+          multimap.putAll(badEntries);
+          return Multimaps.filterEntries(multimap,
+              Predicates.not(Predicates.in(badEntries.entries())));
+        }
+      })
+      .named("Multimaps.filterEntries[Multimap, Predicate]")
+      .withFeatures(
+          CollectionSize.ANY,
+          MapFeature.GENERAL_PURPOSE,
+          MapFeature.ALLOWS_NULL_KEYS,
+          MapFeature.ALLOWS_NULL_VALUES)
+      .suppressing(CollectionIteratorTester.getIteratorUnknownOrderRemoveSupportedMethod(),
+          MultisetIteratorTester.getIteratorUnknownOrderRemoveSupportedMethod(),
+          MultisetWritesTester.getEntrySetIteratorMethod())
+      .createTestSuite());
+    suite.addTest(MultimapTestSuiteBuilder.using(new TestFilteredMultimapGenerator() {
+        @Override
+        Multimap<String, Integer> filter(Multimap<String, Integer> multimap) {
+          ImmutableSetMultimap<String, Integer> badEntries =
+              ImmutableSetMultimap.of("foo", 314, "one", 159, "two", 265, "bar", 358);
+          multimap.putAll(badEntries);
+          multimap = Multimaps.filterKeys(multimap, 
+              Predicates.not(Predicates.in(ImmutableSet.of("foo", "bar"))));
+          return Multimaps.filterEntries(multimap,
+              Predicates.not(Predicates.in(badEntries.entries())));
+        }
+      })
+      .named("Multimaps.filterEntries[Maps.filterKeys[Multimap]]")
+      .withFeatures(
+          CollectionSize.ANY,
+          MapFeature.GENERAL_PURPOSE,
+          MapFeature.ALLOWS_NULL_KEYS,
+          MapFeature.ALLOWS_NULL_VALUES)
+      .suppressing(CollectionIteratorTester.getIteratorUnknownOrderRemoveSupportedMethod(),
+          MultisetIteratorTester.getIteratorUnknownOrderRemoveSupportedMethod(),
+          MultisetWritesTester.getEntrySetIteratorMethod())
+      .createTestSuite());
+    suite.addTest(MultimapTestSuiteBuilder.using(new TestFilteredMultimapGenerator() {
+        @Override
+        Multimap<String, Integer> filter(Multimap<String, Integer> multimap) {
+          ImmutableSetMultimap<String, Integer> badEntries =
+              ImmutableSetMultimap.of("foo", 314, "one", 159, "two", 265, "bar", 358);
+          multimap.putAll(badEntries);
+          multimap = Multimaps.filterEntries(multimap,
+              Predicates.not(Predicates.in(ImmutableMap.of("one", 159, "two", 265).entrySet())));
+          return Multimaps.filterKeys(multimap,
+              Predicates.not(Predicates.in(ImmutableSet.of("foo", "bar"))));
+        }
+      })
+      .named("Multimaps.filterKeys[Maps.filterEntries[Multimap]]")
+      .withFeatures(
+          CollectionSize.ANY,
+          MapFeature.GENERAL_PURPOSE,
+          MapFeature.ALLOWS_NULL_KEYS,
+          MapFeature.ALLOWS_NULL_VALUES)
+      .suppressing(CollectionIteratorTester.getIteratorUnknownOrderRemoveSupportedMethod(),
+          MultisetIteratorTester.getIteratorUnknownOrderRemoveSupportedMethod(),
+          MultisetWritesTester.getEntrySetIteratorMethod())
+      .createTestSuite());
+    suite.addTest(MultimapTestSuiteBuilder.using(new TestFilteredMultimapGenerator() {
+        @Override
+        Multimap<String, Integer> filter(Multimap<String, Integer> multimap) {
+          ImmutableSetMultimap<String, Integer> badEntries =
+              ImmutableSetMultimap.of("foo", 314, "bar", 358);
+          multimap.putAll(badEntries);
+          multimap = Multimaps.filterKeys(multimap, Predicates.not(Predicates.equalTo("foo")));
+          multimap = Multimaps.filterKeys(multimap, Predicates.not(Predicates.equalTo("bar")));
+          return multimap;
+        }
+      })
+      .named("Multimaps.filterKeys[Maps.filterKeys[Multimap]]")
+      .withFeatures(
+          CollectionSize.ANY,
+          MapFeature.GENERAL_PURPOSE,
+          MapFeature.ALLOWS_NULL_KEYS,
+          MapFeature.ALLOWS_NULL_VALUES)
+      .suppressing(CollectionIteratorTester.getIteratorUnknownOrderRemoveSupportedMethod(),
+          MultisetIteratorTester.getIteratorUnknownOrderRemoveSupportedMethod(),
+          MultisetWritesTester.getEntrySetIteratorMethod())
+      .createTestSuite());
     return suite;
   }
 }

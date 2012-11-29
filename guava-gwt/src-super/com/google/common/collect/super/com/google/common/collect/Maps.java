@@ -71,28 +71,30 @@ import javax.annotation.Nullable;
 public final class Maps {
   private Maps() {}
 
-  private static final Function<Entry, Object> KEY_FUNCTION = new Function<Entry, Object>() {
-    @Override
-    public Object apply(Entry entry) {
-      return entry.getKey();
-    }
-  };
+  private enum EntryFunction implements Function<Entry, Object> {
+    KEY {
+      @Override
+      @Nullable
+      public Object apply(Entry entry) {
+        return entry.getKey();
+      }
+    },
+    VALUE {
+      @Override
+      @Nullable
+      public Object apply(Entry entry) {
+        return entry.getValue();
+      }
+    };
+  }
 
   @SuppressWarnings("unchecked")
   static <K> Function<Entry<K, ?>, K> keyFunction() {
-    return (Function) KEY_FUNCTION;
+    return (Function) EntryFunction.KEY;
   }
 
-  private static final Function<Entry, Object> VALUE_FUNCTION = new Function<Entry, Object>() {
-    @Override
-    public Object apply(Entry entry) {
-      return entry.getValue();
-    }
-  };
-
-  @SuppressWarnings("unchecked")
   static <V> Function<Entry<?, V>, V> valueFunction() {
-    return (Function) VALUE_FUNCTION;
+    return (Function) EntryFunction.VALUE;
   }
 
   /**
