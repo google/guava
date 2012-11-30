@@ -142,8 +142,9 @@ public final class Files {
       }
 
       // can't initialize a large enough array
+      // technically, this could probably be Integer.MAX_VALUE - 5
       if (size > Integer.MAX_VALUE) {
-        // TODO(user): Is OOME the right thing to throw here?
+        // OOME is what would be thrown if we tried to initialize the array
         throw new OutOfMemoryError("file is too large to fit in a byte array: "
             + size + " bytes");
       }
@@ -178,6 +179,8 @@ public final class Files {
           System.arraycopy(bytes, 0, result, 0, bytes.length);
           System.arraycopy(moreBytes, 0, result, bytes.length, moreBytes.length);
         }
+        // normally, off should == size and read should == -1
+        // in that case, the array is just returned as is
         return result;
       } catch (Throwable e) {
         throw closer.rethrow(e, IOException.class);
@@ -260,13 +263,7 @@ public final class Files {
    */
   public static InputSupplier<FileInputStream> newInputStreamSupplier(
       final File file) {
-    checkNotNull(file);
-    return new InputSupplier<FileInputStream>() {
-      @Override
-      public FileInputStream getInput() throws IOException {
-        return new FileInputStream(file);
-      }
-    };
+    return ByteStreams.asInputSupplier(asByteSource(file));
   }
 
   /**
@@ -278,7 +275,6 @@ public final class Files {
    */
   public static OutputSupplier<FileOutputStream> newOutputStreamSupplier(
       File file) {
-    checkNotNull(file);
     return newOutputStreamSupplier(file, false);
   }
 
@@ -293,13 +289,13 @@ public final class Files {
    */
   public static OutputSupplier<FileOutputStream> newOutputStreamSupplier(
       final File file, final boolean append) {
-    checkNotNull(file);
-    return new OutputSupplier<FileOutputStream>() {
-      @Override
-      public FileOutputStream getOutput() throws IOException {
-        return new FileOutputStream(file, append);
-      }
-    };
+    return ByteStreams.asOutputSupplier(asByteSink(file, modes(append)));
+  }
+
+  private static FileWriteMode[] modes(boolean append) {
+    return append
+        ? new FileWriteMode[]{ FileWriteMode.APPEND }
+        : new FileWriteMode[0];
   }
 
   /**
@@ -313,9 +309,7 @@ public final class Files {
    */
   public static InputSupplier<InputStreamReader> newReaderSupplier(File file,
       Charset charset) {
-    checkNotNull(file);
-    checkNotNull(charset);
-    return CharStreams.newReaderSupplier(newInputStreamSupplier(file), charset);
+    return CharStreams.asInputSupplier(asCharSource(file, charset));
   }
 
   /**
@@ -329,8 +323,6 @@ public final class Files {
    */
   public static OutputSupplier<OutputStreamWriter> newWriterSupplier(File file,
       Charset charset) {
-    checkNotNull(file);
-    checkNotNull(charset);
     return newWriterSupplier(file, charset, false);
   }
 
@@ -347,10 +339,7 @@ public final class Files {
    */
   public static OutputSupplier<OutputStreamWriter> newWriterSupplier(File file,
       Charset charset, boolean append) {
-    checkNotNull(file);
-    checkNotNull(charset);
-    return CharStreams.newWriterSupplier(
-        newOutputStreamSupplier(file, append), charset);
+    return CharStreams.asOutputSupplier(asCharSink(file, charset, modes(append)));
   }
 
   /**
@@ -363,25 +352,7 @@ public final class Files {
    * @throws IOException if an I/O error occurs
    */
   public static byte[] toByteArray(File file) throws IOException {
-    checkNotNull(file);
-    checkArgument(file.length() <= Integer.MAX_VALUE);
-    if (file.length() == 0) {
-      // Some special files are length 0 but have content nonetheless.
-      return ByteStreams.toByteArray(newInputStreamSupplier(file));
-    } else {
-      // Avoid an extra allocation and copy.
-      byte[] b = new byte[(int) file.length()];
-      Closer closer = Closer.create();
-      try {
-        InputStream in = closer.add(new FileInputStream(file));
-        ByteStreams.readFully(in, b);
-      } catch (Throwable e) {
-        throw closer.rethrow(e, IOException.class);
-      } finally {
-        closer.close();
-      }
-      return b;
-    }
+    return asByteSource(file).read();
   }
 
   /**
@@ -395,9 +366,7 @@ public final class Files {
    * @throws IOException if an I/O error occurs
    */
   public static String toString(File file, Charset charset) throws IOException {
-    checkNotNull(file);
-    checkNotNull(charset);
-    return new String(toByteArray(file), charset);
+    return asCharSource(file, charset).read();
   }
 
   /**
@@ -410,9 +379,7 @@ public final class Files {
    */
   public static void copy(InputSupplier<? extends InputStream> from, File to)
       throws IOException {
-    checkNotNull(from);
-    checkNotNull(to);
-    ByteStreams.copy(from, newOutputStreamSupplier(to));
+    ByteStreams.asByteSource(from).copyTo(asByteSink(to));
   }
 
   /**
@@ -423,9 +390,7 @@ public final class Files {
    * @throws IOException if an I/O error occurs
    */
   public static void write(byte[] from, File to) throws IOException {
-    checkNotNull(from);
-    checkNotNull(to);
-    ByteStreams.write(from, newOutputStreamSupplier(to));
+    asByteSink(to).write(from);
   }
 
   /**
@@ -438,9 +403,7 @@ public final class Files {
    */
   public static void copy(File from, OutputSupplier<? extends OutputStream> to)
       throws IOException {
-    checkNotNull(from);
-    checkNotNull(to);
-    ByteStreams.copy(newInputStreamSupplier(from), to);
+    asByteSource(from).copyTo(ByteStreams.asByteSink(to));
   }
 
   /**
@@ -451,9 +414,7 @@ public final class Files {
    * @throws IOException if an I/O error occurs
    */
   public static void copy(File from, OutputStream to) throws IOException {
-    checkNotNull(from);
-    checkNotNull(to);
-    ByteStreams.copy(newInputStreamSupplier(from), to);
+    asByteSource(from).copyTo(to);
   }
 
   /**
@@ -470,11 +431,9 @@ public final class Files {
    * @throws IllegalArgumentException if {@code from.equals(to)}
    */
   public static void copy(File from, File to) throws IOException {
-    checkNotNull(from);
-    checkNotNull(to);
     checkArgument(!from.equals(to),
         "Source %s and destination %s must be different", from, to);
-    copy(newInputStreamSupplier(from), to);
+    asByteSource(from).copyTo(asByteSink(to));
   }
 
   /**
@@ -490,10 +449,7 @@ public final class Files {
    */
   public static <R extends Readable & Closeable> void copy(
       InputSupplier<R> from, File to, Charset charset) throws IOException {
-    checkNotNull(from);
-    checkNotNull(to);
-    checkNotNull(charset);
-    CharStreams.copy(from, newWriterSupplier(to, charset));
+    CharStreams.asCharSource(from).copyTo(asCharSink(to, charset));
   }
 
   /**
@@ -508,10 +464,7 @@ public final class Files {
    */
   public static void write(CharSequence from, File to, Charset charset)
       throws IOException {
-    checkNotNull(from);
-    checkNotNull(to);
-    checkNotNull(charset);
-    write(from, to, charset, false);
+    asCharSink(to, charset).write(from);
   }
 
   /**
@@ -526,9 +479,6 @@ public final class Files {
    */
   public static void append(CharSequence from, File to, Charset charset)
       throws IOException {
-    checkNotNull(from);
-    checkNotNull(to);
-    checkNotNull(charset);
     write(from, to, charset, true);
   }
 
@@ -545,7 +495,7 @@ public final class Files {
    */
   private static void write(CharSequence from, File to, Charset charset,
       boolean append) throws IOException {
-    CharStreams.write(from, newWriterSupplier(to, charset, append));
+    asCharSink(to, charset, modes(append)).write(from);
   }
 
   /**
@@ -561,10 +511,7 @@ public final class Files {
    */
   public static <W extends Appendable & Closeable> void copy(File from,
       Charset charset, OutputSupplier<W> to) throws IOException {
-    checkNotNull(from);
-    checkNotNull(to);
-    checkNotNull(charset);
-    CharStreams.copy(newReaderSupplier(from, charset), to);
+    asCharSource(from, charset).copyTo(CharStreams.asCharSink(to));
   }
 
   /**
@@ -579,10 +526,7 @@ public final class Files {
    */
   public static void copy(File from, Charset charset, Appendable to)
       throws IOException {
-    checkNotNull(from);
-    checkNotNull(to);
-    checkNotNull(charset);
-    CharStreams.copy(newReaderSupplier(from, charset), to);
+    asCharSource(from, charset).copyTo(to);
   }
 
   /**
@@ -607,8 +551,7 @@ public final class Files {
     if (len1 != 0 && len2 != 0 && len1 != len2) {
       return false;
     }
-    return ByteStreams.equal(newInputStreamSupplier(file1),
-        newInputStreamSupplier(file2));
+    return asByteSource(file1).contentEquals(asByteSource(file2));
   }
 
   /**
@@ -728,9 +671,7 @@ public final class Files {
    */
   public static String readFirstLine(File file, Charset charset)
       throws IOException {
-    checkNotNull(file);
-    checkNotNull(charset);
-    return CharStreams.readFirstLine(Files.newReaderSupplier(file, charset));
+    return asCharSource(file, charset).readFirstLine();
   }
 
   /**
@@ -746,8 +687,6 @@ public final class Files {
    */
   public static List<String> readLines(File file, Charset charset)
       throws IOException {
-    checkNotNull(file);
-    checkNotNull(charset);
     return CharStreams.readLines(Files.newReaderSupplier(file, charset));
   }
 
@@ -764,11 +703,7 @@ public final class Files {
    */
   public static <T> T readLines(File file, Charset charset,
       LineProcessor<T> callback) throws IOException {
-    checkNotNull(file);
-    checkNotNull(charset);
-    checkNotNull(callback);
-    return CharStreams.readLines(
-        Files.newReaderSupplier(file, charset), callback);
+    return CharStreams.readLines(newReaderSupplier(file, charset), callback);
   }
 
   /**
@@ -784,8 +719,6 @@ public final class Files {
    */
   public static <T> T readBytes(File file, ByteProcessor<T> processor)
       throws IOException {
-    checkNotNull(file);
-    checkNotNull(processor);
     return ByteStreams.readBytes(newInputStreamSupplier(file), processor);
   }
 
@@ -798,11 +731,13 @@ public final class Files {
    * @return the result of {@link Checksum#getValue} after updating the
    *     checksum object with all of the bytes in the file
    * @throws IOException if an I/O error occurs
+   * @deprecated Use {@code hash} with the {@code Hashing.crc32()} or
+   *     {@code Hashing.adler32()} hash functions. This method is scheduled
+   *     to be removed in Guava 15.0.
    */
+  @Deprecated
   public static long getChecksum(File file, Checksum checksum)
       throws IOException {
-    checkNotNull(file);
-    checkNotNull(checksum);
     return ByteStreams.getChecksum(newInputStreamSupplier(file), checksum);
   }
 
@@ -817,9 +752,7 @@ public final class Files {
    */
   public static HashCode hash(File file, HashFunction hashFunction)
       throws IOException {
-    checkNotNull(file);
-    checkNotNull(hashFunction);
-    return ByteStreams.hash(newInputStreamSupplier(file), hashFunction);
+    return asByteSource(file).hash(hashFunction);
   }
 
   /**

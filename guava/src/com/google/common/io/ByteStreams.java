@@ -21,10 +21,8 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkPositionIndex;
 
 import com.google.common.annotations.Beta;
-import com.google.common.hash.Funnels;
 import com.google.common.hash.HashCode;
 import com.google.common.hash.HashFunction;
-import com.google.common.hash.Hasher;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -65,7 +63,7 @@ public final class ByteStreams {
    */
   public static InputSupplier<ByteArrayInputStream> newInputStreamSupplier(
       byte[] b) {
-    return newInputStreamSupplier(b, 0, b.length);
+    return ByteStreams.asInputSupplier(asByteSource(b));
   }
 
   /**
@@ -79,13 +77,7 @@ public final class ByteStreams {
    */
   public static InputSupplier<ByteArrayInputStream> newInputStreamSupplier(
       final byte[] b, final int off, final int len) {
-    checkNotNull(b);
-    return new InputSupplier<ByteArrayInputStream>() {
-      @Override
-      public ByteArrayInputStream getInput() {
-        return new ByteArrayInputStream(b, off, len);
-      }
-    };
+    return ByteStreams.asInputSupplier(asByteSource(b).slice(off, len));
   }
 
   /**
@@ -148,17 +140,7 @@ public final class ByteStreams {
    */
   public static void write(byte[] from,
       OutputSupplier<? extends OutputStream> to) throws IOException {
-    checkNotNull(from);
-    checkNotNull(to);
-    Closer closer = Closer.create();
-    try {
-      OutputStream out = closer.add(to.getOutput());
-      out.write(from);
-    } catch (Throwable e) {
-      throw closer.rethrow(e, IOException.class);
-    } finally {
-      closer.close();
-    }
+    asByteSink(to).write(from);
   }
 
   /**
@@ -172,18 +154,7 @@ public final class ByteStreams {
    */
   public static long copy(InputSupplier<? extends InputStream> from,
       OutputSupplier<? extends OutputStream> to) throws IOException {
-    checkNotNull(from);
-    checkNotNull(to);
-    Closer closer = Closer.create();
-    try {
-      InputStream in = closer.add(from.getInput());
-      OutputStream out = closer.add(to.getOutput());
-      return copy(in, out);
-    } catch (Throwable e) {
-      throw closer.rethrow(e, IOException.class);
-    } finally {
-      closer.close();
-    }
+    return asByteSource(from).copyTo(asByteSink(to));
   }
 
   /**
@@ -198,17 +169,7 @@ public final class ByteStreams {
    */
   public static long copy(InputSupplier<? extends InputStream> from,
       OutputStream to) throws IOException {
-    checkNotNull(from);
-    checkNotNull(to);
-    Closer closer = Closer.create();
-    try {
-      InputStream in = closer.add(from.getInput());
-      return copy(in, to);
-    } catch (Throwable e) {
-      throw closer.rethrow(e, IOException.class);
-    } finally {
-      closer.close();
-    }
+    return asByteSource(from).copyTo(to);
   }
 
   /**
@@ -224,17 +185,7 @@ public final class ByteStreams {
    */
   public static long copy(InputStream from,
       OutputSupplier<? extends OutputStream> to) throws IOException {
-    checkNotNull(from);
-    checkNotNull(to);
-    Closer closer = Closer.create();
-    try {
-      OutputStream out = closer.add(to.getOutput());
-      return copy(from, out);
-    } catch (Throwable e) {
-      throw closer.rethrow(e, IOException.class);
-    } finally {
-      closer.close();
-    }
+    return asByteSink(to).writeFrom(from);
   }
 
   /**
@@ -310,16 +261,7 @@ public final class ByteStreams {
    */
   public static byte[] toByteArray(
       InputSupplier<? extends InputStream> supplier) throws IOException {
-    checkNotNull(supplier);
-    Closer closer = Closer.create();
-    try {
-      InputStream in = closer.add(supplier.getInput());
-      return toByteArray(in);
-    } catch (Throwable e) {
-      throw closer.rethrow(e, IOException.class);
-    } finally {
-      closer.close();
-    }
+    return asByteSource(supplier).read();
   }
 
   /**
@@ -741,31 +683,10 @@ public final class ByteStreams {
     }
   }
 
-  // TODO(chrisn): Not all streams support skipping.
   /** Returns the length of a supplied input stream, in bytes. */
   public static long length(
       InputSupplier<? extends InputStream> supplier) throws IOException {
-    long count = 0;
-    Closer closer = Closer.create();
-    try {
-      InputStream in = closer.add(supplier.getInput());
-      while (true) {
-        // We skip only Integer.MAX_VALUE due to JDK overflow bugs.
-        long amt = in.skip(Integer.MAX_VALUE);
-        if (amt == 0) {
-          if (in.read() == -1) {
-            return count;
-          }
-          count++;
-        } else {
-          count += amt;
-        }
-      }
-    } catch (Throwable e) {
-      throw closer.rethrow(e, IOException.class);
-    } finally {
-      closer.close();
-    }
+    return asByteSource(supplier).size();
   }
 
   /**
@@ -775,27 +696,7 @@ public final class ByteStreams {
    */
   public static boolean equal(InputSupplier<? extends InputStream> supplier1,
       InputSupplier<? extends InputStream> supplier2) throws IOException {
-    byte[] buf1 = new byte[BUF_SIZE];
-    byte[] buf2 = new byte[BUF_SIZE];
-
-    Closer closer = Closer.create();
-    try {
-      InputStream in1 = closer.add(supplier1.getInput());
-      InputStream in2 = closer.add(supplier2.getInput());
-      while (true) {
-        int read1 = read(in1, buf1, 0, BUF_SIZE);
-        int read2 = read(in2, buf2, 0, BUF_SIZE);
-        if (read1 != read2 || !Arrays.equals(buf1, buf2)) {
-          return false;
-        } else if (read1 != BUF_SIZE) {
-          return true;
-        }
-      }
-    } catch (Throwable e) {
-      throw closer.rethrow(e, IOException.class);
-    } finally {
-      closer.close();
-    }
+    return asByteSource(supplier1).contentEquals(asByteSource(supplier2));
   }
 
   /**
@@ -877,17 +778,16 @@ public final class ByteStreams {
   public static <T> T readBytes(
       InputSupplier<? extends InputStream> supplier,
       ByteProcessor<T> processor) throws IOException {
+    checkNotNull(processor);
+
     byte[] buf = new byte[BUF_SIZE];
     Closer closer = Closer.create();
     try {
       InputStream in = closer.add(supplier.getInput());
-      int amt;
+      int read;
       do {
-        amt = in.read(buf);
-        if (amt == -1) {
-          break;
-        }
-      } while (processor.processBytes(buf, 0, amt));
+        read = in.read(buf);
+      } while (read != -1 && processor.processBytes(buf, 0, read));
       return processor.getResult();
     } catch (Throwable e) {
       throw closer.rethrow(e, IOException.class);
@@ -905,10 +805,15 @@ public final class ByteStreams {
    * @return the result of {@link Checksum#getValue} after updating the
    *     checksum object with all of the bytes in the stream
    * @throws IOException if an I/O error occurs
+   * @deprecated Use {@code hash} with the {@code Hashing.crc32()} or
+   *     {@code Hashing.adler32()} hash functions instead. This method is
+   *     scheduled to be removed in Guava 15.0.
    */
+  @Deprecated
   public static long getChecksum(
       InputSupplier<? extends InputStream> supplier, final Checksum checksum)
       throws IOException {
+    checkNotNull(checksum);
     return readBytes(supplier, new ByteProcessor<Long>() {
       @Override
       public boolean processBytes(byte[] buf, int off, int len) {
@@ -937,9 +842,7 @@ public final class ByteStreams {
   public static HashCode hash(
       InputSupplier<? extends InputStream> supplier, HashFunction hashFunction)
       throws IOException {
-    Hasher hasher = hashFunction.newHasher();
-    copy(supplier, Funnels.asOutputStream(hasher));
-    return hasher.hash();
+    return asByteSource(supplier).hash(hashFunction);
   }
 
   /**
@@ -999,29 +902,7 @@ public final class ByteStreams {
       final InputSupplier<? extends InputStream> supplier,
       final long offset,
       final long length) {
-    checkNotNull(supplier);
-    checkArgument(offset >= 0, "offset is negative");
-    checkArgument(length >= 0, "length is negative");
-    return new InputSupplier<InputStream>() {
-      @Override public InputStream getInput() throws IOException {
-        InputStream in = supplier.getInput();
-        if (offset > 0) {
-          try {
-            skipFully(in, offset);
-          } catch (Throwable e) {
-            // create Closer here since we only need to close now if there was an exception
-            Closer closer = Closer.create();
-            closer.add(in);
-            try {
-              throw closer.rethrow(e, IOException.class);
-            } finally {
-              closer.close();
-            }
-          }
-        }
-        return limit(in, length);
-      }
-    };
+    return asInputSupplier(asByteSource(supplier).slice(offset, length));
   }
 
   /**
@@ -1053,5 +934,53 @@ public final class ByteStreams {
   public static InputSupplier<InputStream> join(
       InputSupplier<? extends InputStream>... suppliers) {
     return join(Arrays.asList(suppliers));
+  }
+
+  // TODO(user): Remove these once Input/OutputSupplier methods are removed
+
+  static <S extends InputStream> InputSupplier<S> asInputSupplier(
+      final ByteSource source) {
+    checkNotNull(source);
+    return new InputSupplier<S>() {
+      @SuppressWarnings("unchecked") // used internally where known to be safe
+      @Override
+      public S getInput() throws IOException {
+        return (S) source.openStream();
+      }
+    };
+  }
+
+  static <S extends OutputStream> OutputSupplier<S> asOutputSupplier(
+      final ByteSink sink) {
+    checkNotNull(sink);
+    return new OutputSupplier<S>() {
+      @SuppressWarnings("unchecked") // used internally where known to be safe
+      @Override
+      public S getOutput() throws IOException {
+        return (S) sink.openStream();
+      }
+    };
+  }
+
+  static ByteSource asByteSource(
+      final InputSupplier<? extends InputStream> supplier) {
+    checkNotNull(supplier);
+    return new ByteSource() {
+      @Override
+      public InputStream openStream() throws IOException {
+        return supplier.getInput();
+      }
+    };
+  }
+
+  static ByteSink asByteSink(
+      final OutputSupplier<? extends OutputStream> supplier) {
+    checkNotNull(supplier);
+    return new ByteSink() {
+      @Override
+      public OutputStream openStream() throws IOException {
+        return supplier.getOutput();
+      }
+    };
   }
 }

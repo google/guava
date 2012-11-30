@@ -53,15 +53,8 @@ public final class Resources {
    * @param url the URL to read from
    * @return the factory
    */
-  public static InputSupplier<InputStream> newInputStreamSupplier(
-      final URL url) {
-    checkNotNull(url);
-    return new InputSupplier<InputStream>() {
-      @Override
-      public InputStream getInput() throws IOException {
-        return url.openStream();
-      }
-    };
+  public static InputSupplier<InputStream> newInputStreamSupplier(URL url) {
+    return ByteStreams.asInputSupplier(asByteSource(url));
   }
 
   /**
@@ -106,7 +99,7 @@ public final class Resources {
    */
   public static InputSupplier<InputStreamReader> newReaderSupplier(
       URL url, Charset charset) {
-    return CharStreams.newReaderSupplier(newInputStreamSupplier(url), charset);
+    return CharStreams.asInputSupplier(asCharSource(url, charset));
   }
 
   /**
@@ -126,7 +119,7 @@ public final class Resources {
    * @throws IOException if an I/O error occurs
    */
   public static byte[] toByteArray(URL url) throws IOException {
-    return ByteStreams.toByteArray(newInputStreamSupplier(url));
+    return asByteSource(url).read();
   }
 
   /**
@@ -140,7 +133,7 @@ public final class Resources {
    * @throws IOException if an I/O error occurs.
    */
   public static String toString(URL url, Charset charset) throws IOException {
-    return CharStreams.toString(newReaderSupplier(url, charset));
+    return asCharSource(url, charset).read();
   }
 
   /**
@@ -183,7 +176,7 @@ public final class Resources {
    * @throws IOException if an I/O error occurs
    */
   public static void copy(URL from, OutputStream to) throws IOException {
-    ByteStreams.copy(newInputStreamSupplier(from), to);
+    asByteSource(from).copyTo(to);
   }
   
   /**

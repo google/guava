@@ -72,13 +72,7 @@ public final class CharStreams {
    */
   public static InputSupplier<StringReader> newReaderSupplier(
       final String value) {
-    checkNotNull(value);
-    return new InputSupplier<StringReader>() {
-      @Override
-      public StringReader getInput() {
-        return new StringReader(value);
-      }
-    };
+    return CharStreams.asInputSupplier(asCharSource(value));
   }
 
   /**
@@ -168,14 +162,8 @@ public final class CharStreams {
    */
   public static InputSupplier<InputStreamReader> newReaderSupplier(
       final InputSupplier<? extends InputStream> in, final Charset charset) {
-    checkNotNull(in);
-    checkNotNull(charset);
-    return new InputSupplier<InputStreamReader>() {
-      @Override
-      public InputStreamReader getInput() throws IOException {
-        return new InputStreamReader(in.getInput(), charset);
-      }
-    };
+    return CharStreams.asInputSupplier(
+        ByteStreams.asByteSource(in).asCharSource(charset));
   }
 
   /**
@@ -189,14 +177,8 @@ public final class CharStreams {
    */
   public static OutputSupplier<OutputStreamWriter> newWriterSupplier(
       final OutputSupplier<? extends OutputStream> out, final Charset charset) {
-    checkNotNull(out);
-    checkNotNull(charset);
-    return new OutputSupplier<OutputStreamWriter>() {
-      @Override
-      public OutputStreamWriter getOutput() throws IOException {
-        return new OutputStreamWriter(out.getOutput(), charset);
-      }
-    };
+    return CharStreams.asOutputSupplier(
+        ByteStreams.asByteSink(out).asCharSink(charset));
   }
 
   /**
@@ -209,16 +191,7 @@ public final class CharStreams {
    */
   public static <W extends Appendable & Closeable> void write(CharSequence from,
       OutputSupplier<W> to) throws IOException {
-    checkNotNull(from);
-    Closer closer = Closer.create();
-    try {
-      W out = closer.add(to.getOutput());
-      out.append(from);
-    } catch (Throwable e) {
-      throw closer.rethrow(e, IOException.class);
-    } finally {
-      closer.close();
-    }
+    asCharSink(to).write(from);
   }
 
   /**
@@ -234,18 +207,7 @@ public final class CharStreams {
   public static <R extends Readable & Closeable,
       W extends Appendable & Closeable> long copy(InputSupplier<R> from,
       OutputSupplier<W> to) throws IOException {
-    checkNotNull(from);
-    checkNotNull(to);
-    Closer closer = Closer.create();
-    try {
-      R in = closer.add(from.getInput());
-      W out = closer.add(to.getOutput());
-      return copy(in, out);
-    } catch (Throwable e) {
-      throw closer.rethrow(e, IOException.class);
-    } finally {
-      closer.close();
-    }
+    return asCharSource(from).copyTo(asCharSink(to));
   }
 
   /**
@@ -260,17 +222,7 @@ public final class CharStreams {
    */
   public static <R extends Readable & Closeable> long copy(
       InputSupplier<R> from, Appendable to) throws IOException {
-    checkNotNull(from);
-    checkNotNull(to);
-    Closer closer = Closer.create();
-    try {
-      R in = closer.add(from.getInput());
-      return copy(in, to);
-    } catch (Throwable e) {
-      throw closer.rethrow(e, IOException.class);
-    } finally {
-      closer.close();
-    }
+    return asCharSource(from).copyTo(to);
   }
 
   /**
@@ -318,7 +270,7 @@ public final class CharStreams {
    */
   public static <R extends Readable & Closeable> String toString(
       InputSupplier<R> supplier) throws IOException {
-    return toStringBuilder(supplier).toString();
+    return asCharSource(supplier).read();
   }
 
   /**
@@ -336,26 +288,6 @@ public final class CharStreams {
   }
 
   /**
-   * Returns the characters from a {@link Readable} & {@link Closeable} object
-   * supplied by a factory as a new {@link StringBuilder} instance.
-   *
-   * @param supplier the factory to read from
-   * @throws IOException if an I/O error occurs
-   */
-  private static <R extends Readable & Closeable> StringBuilder toStringBuilder(
-      InputSupplier<R> supplier) throws IOException {
-    Closer closer = Closer.create();
-    try {
-      R r = closer.add(supplier.getInput());
-      return toStringBuilder(r);
-    } catch (Throwable e) {
-      throw closer.rethrow(e, IOException.class);
-    } finally {
-      closer.close();
-    }
-  }
-
-  /**
    * Reads the first line from a {@link Readable} & {@link Closeable} object
    * supplied by a factory. The line does not include line-termination
    * characters, but does include other leading and trailing whitespace.
@@ -366,15 +298,7 @@ public final class CharStreams {
    */
   public static <R extends Readable & Closeable> String readFirstLine(
       InputSupplier<R> supplier) throws IOException {
-    Closer closer = Closer.create();
-    try {
-      R r = closer.add(supplier.getInput());
-      return new LineReader(r).readLine();
-    } catch (Throwable e) {
-      throw closer.rethrow(e, IOException.class);
-    } finally {
-      closer.close();
-    }
+    return asCharSource(supplier).readFirstLine();
   }
 
   /**
@@ -458,6 +382,8 @@ public final class CharStreams {
    */
   public static <R extends Readable & Closeable, T> T readLines(
       InputSupplier<R> supplier, LineProcessor<T> callback) throws IOException {
+    checkNotNull(callback);
+
     Closer closer = Closer.create();
     try {
       R r = closer.add(supplier.getInput());
@@ -542,5 +468,74 @@ public final class CharStreams {
       return (Writer) target;
     }
     return new AppendableWriter(target);
+  }
+
+  // TODO(user): Remove these once Input/OutputSupplier methods are removed
+
+  static <R extends Readable & Closeable> Reader asReader(final R readable) {
+    checkNotNull(readable);
+    if (readable instanceof Reader) {
+      return (Reader) readable;
+    }
+    return new Reader() {
+      @Override
+      public int read(char[] cbuf, int off, int len) throws IOException {
+        return read(CharBuffer.wrap(cbuf, off, len));
+      }
+
+      @Override
+      public int read(CharBuffer target) throws IOException {
+        return readable.read(target);
+      }
+
+      @Override
+      public void close() throws IOException {
+        readable.close();
+      }
+    };
+  }
+
+  static <R extends Reader> InputSupplier<R> asInputSupplier(
+      final CharSource source) {
+    checkNotNull(source);
+    return new InputSupplier<R>() {
+      @Override
+      public R getInput() throws IOException {
+        return (R) source.openStream();
+      }
+    };
+  }
+
+  static <W extends Writer> OutputSupplier<W> asOutputSupplier(
+      final CharSink sink) {
+    checkNotNull(sink);
+    return new OutputSupplier<W>() {
+      @Override
+      public W getOutput() throws IOException {
+        return (W) sink.openStream();
+      }
+    };
+  }
+
+  static <R extends Readable & Closeable> CharSource asCharSource(
+      final InputSupplier<R> supplier) {
+    checkNotNull(supplier);
+    return new CharSource() {
+      @Override
+      public Reader openStream() throws IOException {
+        return asReader(supplier.getInput());
+      }
+    };
+  }
+
+  static <W extends Appendable & Closeable> CharSink asCharSink(
+      final OutputSupplier<W> supplier) {
+    checkNotNull(supplier);
+    return new CharSink() {
+      @Override
+      public Writer openStream() throws IOException {
+        return asWriter(supplier.getOutput());
+      }
+    };
   }
 }
