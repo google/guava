@@ -1579,7 +1579,6 @@ public final class Maps {
    *
    * @since 11.0
    */
-  @Beta
   public static <K, V1, V2> SortedMap<K, V2> transformValues(
       SortedMap<K, V1> fromMap, Function<? super V1, V2> function) {
     return transformEntries(fromMap, asEntryTransformer(function));
@@ -1626,7 +1625,6 @@ public final class Maps {
    *
    * @since 13.0
    */
-  @Beta
   @GwtIncompatible("NavigableMap")
   public static <K, V1, V2> NavigableMap<K, V2> transformValues(
       NavigableMap<K, V1> fromMap, Function<? super V1, V2> function) {
@@ -1756,7 +1754,6 @@ public final class Maps {
    *
    * @since 11.0
    */
-  @Beta
   public static <K, V1, V2> SortedMap<K, V2> transformEntries(
       SortedMap<K, V1> fromMap,
       EntryTransformer<? super K, ? super V1, V2> transformer) {
@@ -1816,7 +1813,6 @@ public final class Maps {
    *
    * @since 13.0
    */
-  @Beta
   @GwtIncompatible("NavigableMap")
   public static <K, V1, V2> NavigableMap<K, V2> transformEntries(
       final NavigableMap<K, V1> fromMap,
@@ -2241,7 +2237,6 @@ public final class Maps {
    *
    * @since 14.0
    */
-  @Beta
   @GwtIncompatible("NavigableMap")
   public static <K, V> NavigableMap<K, V> filterKeys(
       NavigableMap<K, V> unfiltered, final Predicate<? super K> keyPredicate) {
@@ -2275,7 +2270,6 @@ public final class Maps {
    *
    * @since 14.0
    */
-  @Beta
   public static <K, V> BiMap<K, V> filterKeys(
       BiMap<K, V> unfiltered, final Predicate<? super K> keyPredicate) {
     checkNotNull(keyPredicate);
@@ -2388,7 +2382,6 @@ public final class Maps {
    *
    * @since 14.0
    */
-  @Beta
   @GwtIncompatible("NavigableMap")
   public static <K, V> NavigableMap<K, V> filterValues(
       NavigableMap<K, V> unfiltered, final Predicate<? super V> valuePredicate) {
@@ -2423,7 +2416,6 @@ public final class Maps {
    *
    * @since 14.0
    */
-  @Beta
   public static <K, V> BiMap<K, V> filterValues(
       BiMap<K, V> unfiltered, final Predicate<? super V> valuePredicate) {
     return filterEntries(unfiltered, new ValuePredicate<K, V>(valuePredicate));
@@ -2548,7 +2540,6 @@ public final class Maps {
    *
    * @since 14.0
    */
-  @Beta
   @GwtIncompatible("NavigableMap")
   public static <K, V> NavigableMap<K, V> filterEntries(
       NavigableMap<K, V> unfiltered,
@@ -2586,7 +2577,6 @@ public final class Maps {
    *
    * @since 14.0
    */
-  @Beta
   public static <K, V> BiMap<K, V> filterEntries(
       BiMap<K, V> unfiltered, Predicate<? super Entry<K, V>> entryPredicate) {
     checkNotNull(unfiltered);
@@ -3418,7 +3408,6 @@ public final class Maps {
    * @return a synchronized view of the specified navigable map.
    * @since 13.0
    */
-  @Beta
   @GwtIncompatible("NavigableMap")
   public static <K, V> NavigableMap<K, V> synchronizedNavigableMap(
       NavigableMap<K, V> navigableMap) {

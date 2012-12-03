@@ -19,7 +19,6 @@ package com.google.common.collect;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Function;
@@ -435,7 +434,6 @@ public abstract class Ordering<T> implements Comparator<T> {
    *
    * @since 11.0
    */
-  @Beta
   public <E extends T> E min(Iterator<E> iterator) {
     // let this throw NoSuchElementException as necessary
     E minSoFar = iterator.next();
@@ -512,7 +510,6 @@ public abstract class Ordering<T> implements Comparator<T> {
    *
    * @since 11.0
    */
-  @Beta
   public <E extends T> E max(Iterator<E> iterator) {
     // let this throw NoSuchElementException as necessary
     E maxSoFar = iterator.next();
@@ -590,7 +587,6 @@ public abstract class Ordering<T> implements Comparator<T> {
    * @throws IllegalArgumentException if {@code k} is negative
    * @since 8.0
    */
-  @Beta
   public <E extends T> List<E> leastOf(Iterable<E> iterable, int k) {
     if (iterable instanceof Collection) {
       Collection<E> collection = (Collection<E>) iterable;
@@ -625,7 +621,6 @@ public abstract class Ordering<T> implements Comparator<T> {
    * @throws IllegalArgumentException if {@code k} is negative
    * @since 14.0
    */
-  @Beta
   public <E extends T> List<E> leastOf(Iterator<E> elements, int k) {
     checkNotNull(elements);
     checkArgument(k >= 0, "k (%s) must be nonnegative", k);
@@ -750,7 +745,6 @@ public abstract class Ordering<T> implements Comparator<T> {
    * @throws IllegalArgumentException if {@code k} is negative
    * @since 8.0
    */
-  @Beta
   public <E extends T> List<E> greatestOf(Iterable<E> iterable, int k) {
     // TODO(kevinb): see if delegation is hurting performance noticeably
     // TODO(kevinb): if we change this implementation, add full unit tests.
@@ -771,7 +765,6 @@ public abstract class Ordering<T> implements Comparator<T> {
    * @throws IllegalArgumentException if {@code k} is negative
    * @since 14.0
    */
-  @Beta
   public <E extends T> List<E> greatestOf(Iterator<E> iterator, int k) {
     return reverse().leastOf(iterator, k);
   }

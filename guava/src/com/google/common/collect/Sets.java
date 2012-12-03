@@ -19,7 +19,6 @@ package com.google.common.collect;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Predicate;
@@ -1585,7 +1584,6 @@ public final class Sets {
    * @return a synchronized view of the specified navigable set.
    * @since 13.0
    */
-  @Beta
   @GwtIncompatible("NavigableSet")
   public static <E> NavigableSet<E> synchronizedNavigableSet(
       NavigableSet<E> navigableSet) {
