@@ -16,7 +16,6 @@
 
 package com.google.common.collect;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 
 import java.util.Collection;
@@ -196,7 +195,7 @@ public class ImmutableListMultimap<K, V>
      *
      * @since 8.0
      */
-    @Beta @Override
+    @Override
     public Builder<K, V> orderKeysBy(Comparator<? super K> keyComparator) {
       super.orderKeysBy(keyComparator);
       return this;
@@ -207,7 +206,7 @@ public class ImmutableListMultimap<K, V>
      *
      * @since 8.0
      */
-    @Beta @Override
+    @Override
     public Builder<K, V> orderValuesBy(Comparator<? super V> valueComparator) {
       super.orderValuesBy(valueComparator);
       return this;
@@ -294,7 +293,6 @@ public class ImmutableListMultimap<K, V>
    *
    * @since 11.0
    */
-  @Beta
   @Override
   public ImmutableListMultimap<V, K> inverse() {
     ImmutableListMultimap<V, K> result = inverse;

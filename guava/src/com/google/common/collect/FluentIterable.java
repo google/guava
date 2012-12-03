@@ -66,7 +66,6 @@ import javax.annotation.Nullable;
  * @author Marcin Mikosik
  * @since 12.0
  */
-@Beta
 @GwtCompatible(emulated = true)
 public abstract class FluentIterable<E> implements Iterable<E> {
   // We store 'iterable' and use it instead of 'this' to allow Iterables to perform instanceof
@@ -338,6 +337,7 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    * @throws NullPointerException if any element is null
    * @since 14.0 (since 13.0 as {@code toSortedImmutableList()}).
    */
+  @Beta
   public final ImmutableList<E> toSortedList(Comparator<? super E> comparator) {
     return Ordering.from(comparator).immutableSortedCopy(iterable);
   }

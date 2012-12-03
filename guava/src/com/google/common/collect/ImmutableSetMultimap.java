@@ -18,7 +18,6 @@ package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Function;
@@ -236,7 +235,7 @@ public class ImmutableSetMultimap<K, V>
      *
      * @since 8.0
      */
-    @Beta @Override
+    @Override
     public Builder<K, V> orderKeysBy(Comparator<? super K> keyComparator) {
       this.keyComparator = checkNotNull(keyComparator);
       return this;
@@ -254,7 +253,7 @@ public class ImmutableSetMultimap<K, V>
      * @since 8.0
      */
     // TODO: Make serialization behavior consistent.
-    @Beta @Override
+    @Override
     public Builder<K, V> orderValuesBy(Comparator<? super V> valueComparator) {
       super.orderValuesBy(valueComparator);
       return this;
@@ -383,7 +382,6 @@ public class ImmutableSetMultimap<K, V>
    *
    * @since 11.0
    */
-  @Beta
   public ImmutableSetMultimap<V, K> inverse() {
     ImmutableSetMultimap<V, K> result = inverse;
     return (result == null) ? (inverse = invert()) : result;

@@ -113,7 +113,6 @@ import javax.annotation.Nullable;
  * @author Gregory Kick
  * @since 10.0
  */
-@Beta
 @GwtCompatible
 @SuppressWarnings("rawtypes")
 public final class Range<C extends Comparable> implements Predicate<C>, Serializable {
@@ -599,6 +598,7 @@ public final class Range<C extends Comparable> implements Predicate<C>, Serializ
    *     neither has an upper bound
    */
   // TODO(kevinb): commit in spec to which methods are efficient?
+  @Beta
   @GwtCompatible(serializable = false)
   public ContiguousSet<C> asSet(DiscreteDomain<C> domain) {
     return ContiguousSet.create(this, domain);
