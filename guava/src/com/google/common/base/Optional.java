@@ -147,7 +147,6 @@ public abstract class Optional<T> implements Serializable {
    * Returns this {@code Optional} if it has a value present; {@code secondChoice}
    * otherwise.
    */
-  @Beta
   public abstract Optional<T> or(Optional<? extends T> secondChoice);
 
   /**
@@ -183,7 +182,6 @@ public abstract class Optional<T> implements Serializable {
    *
    * @since 12.0
    */
-  @Beta
   public abstract <V> Optional<V> transform(Function<? super T, V> function);
 
   /**

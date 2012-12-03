@@ -18,7 +18,6 @@ package com.google.common.base;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 
 import java.util.Arrays;
@@ -214,7 +213,6 @@ public final class Objects {
      *
      * @since 12.0
      */
-    @Beta
     public ToStringHelper omitNullValues() {
       omitNullValues = true;
       return this;
