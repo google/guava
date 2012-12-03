@@ -83,7 +83,7 @@ public abstract class HashCode {
   }
 
   /**
-   * Returns the number of bits in this hash code; a positive multiple of 32.
+   * Returns the number of bits in this hash code; a positive multiple of 8.
    */
   public abstract int bits();
 
