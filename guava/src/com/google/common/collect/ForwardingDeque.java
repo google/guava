@@ -16,8 +16,6 @@
 
 package com.google.common.collect;
 
-import com.google.common.annotations.Beta;
-
 import java.util.Deque;
 import java.util.Iterator;
 
@@ -31,16 +29,11 @@ import java.util.Iterator;
  * <b>indiscriminately</b> to the methods of the delegate. For example,
  * overriding {@link #add} alone <b>will not</b> change the behavior of {@link
  * #offer} which can lead to unexpected behavior. In this case, you should
- * override {@code offer} as well, either providing your own implementation, or
- * delegating to the provided {@code standardOffer} method.
- *
- * <p>The {@code standard} methods are not guaranteed to be thread-safe, even
- * when all of the methods that they depend on are thread-safe.
+ * override {@code offer} as well.
  *
  * @author Kurt Alfred Kluever
  * @since 12.0
  */
-@Beta
 public abstract class ForwardingDeque<E> extends ForwardingQueue<E>
     implements Deque<E> {
 
