@@ -38,7 +38,6 @@ import java.util.Map.Entry;
  * Unit test of {@link MutableTypeToInstanceMap}.
  *
  * @author Ben Yu
- * @since 13
  */
 public class MutableTypeToInstanceMapTest extends TestCase {
 

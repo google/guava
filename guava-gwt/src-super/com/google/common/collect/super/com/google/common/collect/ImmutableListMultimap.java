@@ -292,7 +292,7 @@ public class ImmutableListMultimap<K, V>
    * ImmutableListMultimap} rather than the {@code ImmutableMultimap} specified
    * in the {@code ImmutableMultimap} class.
    *
-   * @since 11
+   * @since 11.0
    */
   @Beta
   @Override

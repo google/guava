@@ -39,7 +39,6 @@ import java.util.Map.Entry;
  * Unit test for {@link ImmutableTypeToInstanceMap}.
  *
  * @author Ben Yu
- * @since 13
  */
 public class ImmutableTypeToInstanceMapTest extends TestCase {
 
