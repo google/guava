@@ -18,7 +18,6 @@ package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 
 import java.util.Collection;
@@ -84,7 +83,7 @@ public abstract class ForwardingSet<E> extends ForwardingCollection<E>
    *
    * @since 7.0
    */
-  @Beta protected boolean standardEquals(@Nullable Object object) {
+  protected boolean standardEquals(@Nullable Object object) {
     return Sets.equalsImpl(this, object);
   }
 
@@ -95,7 +94,7 @@ public abstract class ForwardingSet<E> extends ForwardingCollection<E>
    *
    * @since 7.0
    */
-  @Beta protected int standardHashCode() {
+  protected int standardHashCode() {
     return Sets.hashCodeImpl(this);
   }
 }

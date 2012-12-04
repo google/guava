@@ -107,7 +107,7 @@ public abstract class ForwardingMultiset<E> extends ForwardingCollection<E>
    * 
    * @since 7.0
    */
-  @Override @Beta protected boolean standardContains(@Nullable Object object) {
+  @Override protected boolean standardContains(@Nullable Object object) {
     return count(object) > 0;
   }
 
@@ -118,12 +118,8 @@ public abstract class ForwardingMultiset<E> extends ForwardingCollection<E>
    *
    * @since 7.0
    */
-  @Override @Beta protected void standardClear() {
-    Iterator<Entry<E>> entryIterator = entrySet().iterator();
-    while (entryIterator.hasNext()) {
-      entryIterator.next();
-      entryIterator.remove();
-    }
+  @Override protected void standardClear() {
+    Iterators.clear(entrySet().iterator());
   }
 
   /**
@@ -149,7 +145,7 @@ public abstract class ForwardingMultiset<E> extends ForwardingCollection<E>
    * 
    * @since 7.0
    */
-  @Beta protected boolean standardAdd(E element) {
+  protected boolean standardAdd(E element) {
     add(element, 1);
     return true;
   }
@@ -175,7 +171,7 @@ public abstract class ForwardingMultiset<E> extends ForwardingCollection<E>
    * 
    * @since 7.0
    */
-  @Beta @Override protected boolean standardRemove(Object element) {
+  @Override protected boolean standardRemove(Object element) {
     return remove(element, 1) > 0;
   }
 
@@ -187,7 +183,7 @@ public abstract class ForwardingMultiset<E> extends ForwardingCollection<E>
    *
    * @since 7.0
    */
-  @Beta @Override protected boolean standardRemoveAll(
+  @Override protected boolean standardRemoveAll(
       Collection<?> elementsToRemove) {
     return Multisets.removeAllImpl(this, elementsToRemove);
   }
@@ -200,7 +196,7 @@ public abstract class ForwardingMultiset<E> extends ForwardingCollection<E>
    *
    * @since 7.0
    */
-  @Beta @Override protected boolean standardRetainAll(
+  @Override protected boolean standardRetainAll(
       Collection<?> elementsToRetain) {
     return Multisets.retainAllImpl(this, elementsToRetain);
   }
@@ -214,7 +210,7 @@ public abstract class ForwardingMultiset<E> extends ForwardingCollection<E>
    * 
    * @since 7.0
    */
-  @Beta protected int standardSetCount(E element, int count) {
+  protected int standardSetCount(E element, int count) {
     return Multisets.setCountImpl(this, element, count);
   }
 
@@ -226,8 +222,7 @@ public abstract class ForwardingMultiset<E> extends ForwardingCollection<E>
    *
    * @since 7.0
    */
-  @Beta protected boolean standardSetCount(
-      E element, int oldCount, int newCount) {
+  protected boolean standardSetCount(E element, int oldCount, int newCount) {
     return Multisets.setCountImpl(this, element, oldCount, newCount);
   }
 
@@ -262,7 +257,7 @@ public abstract class ForwardingMultiset<E> extends ForwardingCollection<E>
    * 
    * @since 7.0
    */
-  @Beta protected Iterator<E> standardIterator() {
+  protected Iterator<E> standardIterator() {
     return Multisets.iteratorImpl(this);
   }
 
@@ -273,7 +268,7 @@ public abstract class ForwardingMultiset<E> extends ForwardingCollection<E>
    * 
    * @since 7.0
    */
-  @Beta protected int standardSize() {
+  protected int standardSize() {
     return Multisets.sizeImpl(this);
   }
 
@@ -285,7 +280,7 @@ public abstract class ForwardingMultiset<E> extends ForwardingCollection<E>
    *
    * @since 7.0
    */
-  @Beta protected boolean standardEquals(@Nullable Object object) {
+  protected boolean standardEquals(@Nullable Object object) {
     return Multisets.equalsImpl(this, object);
   }
 
@@ -296,7 +291,7 @@ public abstract class ForwardingMultiset<E> extends ForwardingCollection<E>
    *
    * @since 7.0
    */
-  @Beta protected int standardHashCode() {
+  protected int standardHashCode() {
     return entrySet().hashCode();
   }
 
@@ -307,7 +302,7 @@ public abstract class ForwardingMultiset<E> extends ForwardingCollection<E>
    *
    * @since 7.0
    */
-  @Beta @Override protected String standardToString() {
+  @Override protected String standardToString() {
     return entrySet().toString();
   }
 }

@@ -127,7 +127,7 @@ public abstract class ForwardingList<E> extends ForwardingCollection<E>
    *
    * @since 7.0
    */
-  @Beta protected boolean standardAdd(E element){
+  protected boolean standardAdd(E element){
     add(size(), element);
     return true;
   }
@@ -140,7 +140,7 @@ public abstract class ForwardingList<E> extends ForwardingCollection<E>
    *
    * @since 7.0
    */
-  @Beta protected boolean standardAddAll(
+  protected boolean standardAddAll(
       int index, Iterable<? extends E> elements) {
     return Lists.addAllImpl(this, index, elements);
   }
@@ -152,7 +152,7 @@ public abstract class ForwardingList<E> extends ForwardingCollection<E>
    *
    * @since 7.0
    */
-  @Beta protected int standardIndexOf(@Nullable Object element) {
+  protected int standardIndexOf(@Nullable Object element) {
     return Lists.indexOfImpl(this, element);
   }
 
@@ -164,7 +164,7 @@ public abstract class ForwardingList<E> extends ForwardingCollection<E>
    *
    * @since 7.0
    */
-  @Beta protected int standardLastIndexOf(@Nullable Object element) {
+  protected int standardLastIndexOf(@Nullable Object element) {
     return Lists.lastIndexOfImpl(this, element);
   }
 
@@ -175,7 +175,7 @@ public abstract class ForwardingList<E> extends ForwardingCollection<E>
    *
    * @since 7.0
    */
-  @Beta protected Iterator<E> standardIterator() {
+  protected Iterator<E> standardIterator() {
     return listIterator();
   }
 
@@ -187,7 +187,7 @@ public abstract class ForwardingList<E> extends ForwardingCollection<E>
    *
    * @since 7.0
    */
-  @Beta protected ListIterator<E> standardListIterator() {
+  protected ListIterator<E> standardListIterator() {
     return listIterator(0);
   }
 

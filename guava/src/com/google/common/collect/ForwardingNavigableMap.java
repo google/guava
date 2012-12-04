@@ -67,7 +67,6 @@ public abstract class ForwardingNavigableMap<K, V>
    * {@link #headMap(Object, boolean)}. If you override {@code headMap}, you may wish to override
    * {@code lowerEntry} to forward to this implementation.
    */
-  @Beta
   protected Entry<K, V> standardLowerEntry(K key) {
     return headMap(key, false).lastEntry();
   }
@@ -82,7 +81,6 @@ public abstract class ForwardingNavigableMap<K, V>
    * {@link #lowerEntry}, you may wish to override {@code lowerKey} to forward to this
    * implementation.
    */
-  @Beta
   protected K standardLowerKey(K key) {
     return keyOrNull(lowerEntry(key));
   }
@@ -97,7 +95,6 @@ public abstract class ForwardingNavigableMap<K, V>
    * {@link #headMap(Object, boolean)}. If you override {@code headMap}, you may wish to override
    * {@code floorEntry} to forward to this implementation.
    */
-  @Beta
   protected Entry<K, V> standardFloorEntry(K key) {
     return headMap(key, true).lastEntry();
   }
@@ -112,7 +109,6 @@ public abstract class ForwardingNavigableMap<K, V>
    * {@code floorEntry}, you may wish to override {@code floorKey} to forward to this
    * implementation.
    */
-  @Beta
   protected K standardFloorKey(K key) {
     return keyOrNull(floorEntry(key));
   }
@@ -127,7 +123,6 @@ public abstract class ForwardingNavigableMap<K, V>
    * {@link #tailMap(Object, boolean)}. If you override {@code tailMap}, you may wish to override
    * {@code ceilingEntry} to forward to this implementation.
    */
-  @Beta
   protected Entry<K, V> standardCeilingEntry(K key) {
     return tailMap(key, true).firstEntry();
   }
@@ -142,7 +137,6 @@ public abstract class ForwardingNavigableMap<K, V>
    * {@code ceilingEntry}, you may wish to override {@code ceilingKey} to forward to this
    * implementation.
    */
-  @Beta
   protected K standardCeilingKey(K key) {
     return keyOrNull(ceilingEntry(key));
   }
@@ -157,7 +151,6 @@ public abstract class ForwardingNavigableMap<K, V>
    * {@link #tailMap(Object, boolean)}. If you override {@code tailMap}, you may wish to override
    * {@code higherEntry} to forward to this implementation.
    */
-  @Beta
   protected Entry<K, V> standardHigherEntry(K key) {
     return tailMap(key, false).firstEntry();
   }
@@ -172,7 +165,6 @@ public abstract class ForwardingNavigableMap<K, V>
    * {@code higherEntry}, you may wish to override {@code higherKey} to forward to this
    * implementation.
    */
-  @Beta
   protected K standardHigherKey(K key) {
     return keyOrNull(higherEntry(key));
   }
@@ -187,7 +179,6 @@ public abstract class ForwardingNavigableMap<K, V>
    * {@link #entrySet}. If you override {@code entrySet}, you may wish to override
    * {@code firstEntry} to forward to this implementation.
    */
-  @Beta
   protected Entry<K, V> standardFirstEntry() {
     return Iterables.getFirst(entrySet(), null);
   }
@@ -197,7 +188,6 @@ public abstract class ForwardingNavigableMap<K, V>
    * {@code firstEntry}, you may wish to override {@code firstKey} to forward to this
    * implementation.
    */
-  @Beta
   protected K standardFirstKey() {
     Entry<K, V> entry = firstEntry();
     if (entry == null) {
@@ -217,7 +207,6 @@ public abstract class ForwardingNavigableMap<K, V>
    * {@link #entrySet} of {@link #descendingMap}. If you override {@code descendingMap}, you may
    * wish to override {@code lastEntry} to forward to this implementation.
    */
-  @Beta
   protected Entry<K, V> standardLastEntry() {
     return Iterables.getFirst(descendingMap().entrySet(), null);
   }
@@ -226,7 +215,6 @@ public abstract class ForwardingNavigableMap<K, V>
    * A sensible definition of {@link #lastKey} in terms of {@code lastEntry}. If you override
    * {@code lastEntry}, you may wish to override {@code lastKey} to forward to this implementation.
    */
-  @Beta
   protected K standardLastKey() {
     Entry<K, V> entry = lastEntry();
     if (entry == null) {
@@ -246,7 +234,6 @@ public abstract class ForwardingNavigableMap<K, V>
    * {@code entrySet}. If you override {@code entrySet}, you may wish to override
    * {@code pollFirstEntry} to forward to this implementation.
    */
-  @Beta
   protected Entry<K, V> standardPollFirstEntry() {
     return Iterators.pollNext(entrySet().iterator());
   }
@@ -261,7 +248,6 @@ public abstract class ForwardingNavigableMap<K, V>
    * {@code entrySet} of {@code descendingMap}. If you override {@code descendingMap}, you may wish
    * to override {@code pollFirstEntry} to forward to this implementation.
    */
-  @Beta
   protected Entry<K, V> standardPollLastEntry() {
     return Iterators.pollNext(descendingMap().entrySet().iterator());
   }
@@ -371,7 +357,6 @@ public abstract class ForwardingNavigableMap<K, V>
    * {@code subMap(K, boolean, K, boolean)}, you may wish to override {@code subMap} to forward to
    * this implementation.
    */
-  @Beta
   @Override
   protected SortedMap<K, V> standardSubMap(K fromKey, K toKey) {
     return subMap(fromKey, true, toKey, false);
@@ -397,7 +382,6 @@ public abstract class ForwardingNavigableMap<K, V>
    * {@link #headMap(Object, boolean)}. If you override {@code headMap(K, boolean)}, you may wish
    * to override {@code headMap} to forward to this implementation.
    */
-  @Beta
   protected SortedMap<K, V> standardHeadMap(K toKey) {
     return headMap(toKey, false);
   }
@@ -407,7 +391,6 @@ public abstract class ForwardingNavigableMap<K, V>
    * {@link #tailMap(Object, boolean)}. If you override {@code tailMap(K, boolean)}, you may wish
    * to override {@code tailMap} to forward to this implementation.
    */
-  @Beta
   protected SortedMap<K, V> standardTailMap(K fromKey) {
     return tailMap(fromKey, true);
   }

@@ -141,7 +141,7 @@ public abstract class ForwardingMap<K, V> extends ForwardingObject
    *
    * @since 7.0
    */
-  @Beta protected void standardPutAll(Map<? extends K, ? extends V> map) {
+  protected void standardPutAll(Map<? extends K, ? extends V> map) {
     Maps.putAllImpl(this, map);
   }
 
@@ -177,12 +177,8 @@ public abstract class ForwardingMap<K, V> extends ForwardingObject
    *
    * @since 7.0
    */
-  @Beta protected void standardClear() {
-    Iterator<Entry<K, V>> entryIterator = entrySet().iterator();
-    while (entryIterator.hasNext()) {
-      entryIterator.next();
-      entryIterator.remove();
-    }
+  protected void standardClear() {
+    Iterators.clear(entrySet().iterator());
   }
 
   /**
@@ -248,7 +244,7 @@ public abstract class ForwardingMap<K, V> extends ForwardingObject
    *
    * @since 7.0
    */
-  @Beta protected boolean standardContainsValue(@Nullable Object value) {
+  protected boolean standardContainsValue(@Nullable Object value) {
     return Maps.containsValueImpl(this, value);
   }
 
@@ -280,7 +276,7 @@ public abstract class ForwardingMap<K, V> extends ForwardingObject
    *
    * @since 7.0
    */
-  @Beta protected boolean standardIsEmpty() {
+  protected boolean standardIsEmpty() {
     return !entrySet().iterator().hasNext();
   }
 
@@ -291,7 +287,7 @@ public abstract class ForwardingMap<K, V> extends ForwardingObject
    *
    * @since 7.0
    */
-  @Beta protected boolean standardEquals(@Nullable Object object) {
+  protected boolean standardEquals(@Nullable Object object) {
     return Maps.equalsImpl(this, object);
   }
 
@@ -302,7 +298,7 @@ public abstract class ForwardingMap<K, V> extends ForwardingObject
    *
    * @since 7.0
    */
-  @Beta protected int standardHashCode() {
+  protected int standardHashCode() {
     return Sets.hashCodeImpl(entrySet());
   }
 
@@ -313,7 +309,7 @@ public abstract class ForwardingMap<K, V> extends ForwardingObject
    *
    * @since 7.0
    */
-  @Beta protected String standardToString() {
+  protected String standardToString() {
     return Maps.toStringImpl(this);
   }
 }

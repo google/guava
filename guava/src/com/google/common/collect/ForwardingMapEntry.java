@@ -92,7 +92,7 @@ public abstract class ForwardingMapEntry<K, V>
    *
    * @since 7.0
    */
-  @Beta protected boolean standardEquals(@Nullable Object object) {
+  protected boolean standardEquals(@Nullable Object object) {
     if (object instanceof Entry) {
       Entry<?, ?> that = (Entry<?, ?>) object;
       return Objects.equal(this.getKey(), that.getKey())
@@ -108,7 +108,7 @@ public abstract class ForwardingMapEntry<K, V>
    *
    * @since 7.0
    */
-  @Beta protected int standardHashCode() {
+  protected int standardHashCode() {
     K k = getKey();
     V v = getValue();
     return ((k == null) ? 0 : k.hashCode()) ^ ((v == null) ? 0 : v.hashCode());

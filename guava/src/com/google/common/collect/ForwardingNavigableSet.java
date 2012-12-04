@@ -63,7 +63,6 @@ public abstract class ForwardingNavigableSet<E>
    * {@link #headSet(Object, boolean)}. If you override {@link #headSet(Object, boolean)}, you may
    * wish to override {@link #lower} to forward to this implementation.
    */
-  @Beta
   protected E standardLower(E e) {
     return Iterators.getNext(headSet(e, false).descendingIterator(), null);
   }
@@ -78,7 +77,6 @@ public abstract class ForwardingNavigableSet<E>
    * {@link #headSet(Object, boolean)}. If you override {@link #headSet(Object, boolean)}, you may
    * wish to override {@link #floor} to forward to this implementation.
    */
-  @Beta
   protected E standardFloor(E e) {
     return Iterators.getNext(headSet(e, true).descendingIterator(), null);
   }
@@ -93,7 +91,6 @@ public abstract class ForwardingNavigableSet<E>
    * {@link #tailSet(Object, boolean)}. If you override {@link #tailSet(Object, boolean)}, you may
    * wish to override {@link #ceiling} to forward to this implementation.
    */
-  @Beta
   protected E standardCeiling(E e) {
     return Iterators.getNext(tailSet(e, true).iterator(), null);
   }
@@ -108,7 +105,6 @@ public abstract class ForwardingNavigableSet<E>
    * {@link #tailSet(Object, boolean)}. If you override {@link #tailSet(Object, boolean)}, you may
    * wish to override {@link #higher} to forward to this implementation.
    */
-  @Beta
   protected E standardHigher(E e) {
     return Iterators.getNext(tailSet(e, false).iterator(), null);
   }
@@ -123,7 +119,6 @@ public abstract class ForwardingNavigableSet<E>
    * override {@link #iterator} you may wish to override {@link #pollFirst} to forward to this
    * implementation.
    */
-  @Beta
   protected E standardPollFirst() {
     return Iterators.pollNext(iterator());
   }
@@ -138,17 +133,14 @@ public abstract class ForwardingNavigableSet<E>
    * If you override {@link #descendingIterator} you may wish to override {@link #pollLast} to
    * forward to this implementation.
    */
-  @Beta
   protected E standardPollLast() {
-    return Iterators.pollNext(delegate().descendingIterator());
+    return Iterators.pollNext(descendingIterator());
   }
 
-  @Beta
   protected E standardFirst() {
     return iterator().next();
   }
 
-  @Beta
   protected E standardLast() {
     return descendingIterator().next();
   }
@@ -209,7 +201,6 @@ public abstract class ForwardingNavigableSet<E>
    * {@link #subSet(Object, boolean, Object, boolean)}, you may wish to override
    * {@link #subSet(Object, Object)} to forward to this implementation.
    */
-  @Beta
   @Override
   protected SortedSet<E> standardSubSet(E fromElement, E toElement) {
     return subSet(fromElement, true, toElement, false);
@@ -226,7 +217,6 @@ public abstract class ForwardingNavigableSet<E>
    * {@link #headSet(Object, boolean)}, you may wish to override
    * {@link #headSet(Object)} to forward to this implementation.
    */
-  @Beta
   protected SortedSet<E> standardHeadSet(E toElement) {
     return headSet(toElement, false);
   }
@@ -242,7 +232,6 @@ public abstract class ForwardingNavigableSet<E>
    * {@link #tailSet(Object, boolean)}, you may wish to override
    * {@link #tailSet(Object)} to forward to this implementation.
    */
-  @Beta
   protected SortedSet<E> standardTailSet(E fromElement) {
     return tailSet(fromElement, true);
   }
