@@ -19,6 +19,7 @@ package com.google.common.collect;
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 
+import java.io.Serializable;
 import java.util.NoSuchElementException;
 
 /**
@@ -38,11 +39,112 @@ import java.util.NoSuchElementException;
  *
  * @author Kevin Bourrillion
  * @since 10.0
- * @see DiscreteDomains
  */
 @GwtCompatible
 @Beta
 public abstract class DiscreteDomain<C extends Comparable> {
+
+  /**
+   * Returns the discrete domain for values of type {@code Integer}.
+   * 
+   * @since 14.0 (since 10.0 as {@code DiscreteDomains.integers()})
+   */
+  public static DiscreteDomain<Integer> integers() {
+    return IntegerDomain.INSTANCE;
+  }
+
+  private static final class IntegerDomain extends DiscreteDomain<Integer>
+      implements Serializable {
+    private static final IntegerDomain INSTANCE = new IntegerDomain();
+
+    @Override public Integer next(Integer value) {
+      int i = value;
+      return (i == Integer.MAX_VALUE) ? null : i + 1;
+    }
+
+    @Override public Integer previous(Integer value) {
+      int i = value;
+      return (i == Integer.MIN_VALUE) ? null : i - 1;
+    }
+
+    @Override public long distance(Integer start, Integer end) {
+      return (long) end - start;
+    }
+
+    @Override public Integer minValue() {
+      return Integer.MIN_VALUE;
+    }
+
+    @Override public Integer maxValue() {
+      return Integer.MAX_VALUE;
+    }
+
+    private Object readResolve() {
+      return INSTANCE;
+    }
+
+    @Override
+    public String toString() {
+      return "DiscreteDomains.integers()";
+    }
+
+    private static final long serialVersionUID = 0;
+  }
+
+  /**
+   * Returns the discrete domain for values of type {@code Long}.
+   * 
+   * @since 14.0 (since 10.0 as {@code DiscreteDomains.longs()})
+   */
+  public static DiscreteDomain<Long> longs() {
+    return LongDomain.INSTANCE;
+  }
+
+  private static final class LongDomain extends DiscreteDomain<Long>
+      implements Serializable {
+    private static final LongDomain INSTANCE = new LongDomain();
+
+    @Override public Long next(Long value) {
+      long l = value;
+      return (l == Long.MAX_VALUE) ? null : l + 1;
+    }
+
+    @Override public Long previous(Long value) {
+      long l = value;
+      return (l == Long.MIN_VALUE) ? null : l - 1;
+    }
+
+    @Override public long distance(Long start, Long end) {
+      long result = end - start;
+      if (end > start && result < 0) { // overflow
+        return Long.MAX_VALUE;
+      }
+      if (end < start && result > 0) { // underflow
+        return Long.MIN_VALUE;
+      }
+      return result;
+    }
+
+    @Override public Long minValue() {
+      return Long.MIN_VALUE;
+    }
+
+    @Override public Long maxValue() {
+      return Long.MAX_VALUE;
+    }
+
+    private Object readResolve() {
+      return INSTANCE;
+    }
+
+    @Override
+    public String toString() {
+      return "DiscreteDomains.longs()";
+    }
+
+    private static final long serialVersionUID = 0;
+  }
+  
   /** Constructor for use by subclasses. */
   protected DiscreteDomain() {}
 
@@ -114,4 +216,5 @@ public abstract class DiscreteDomain<C extends Comparable> {
   public C maxValue() {
     throw new NoSuchElementException();
   }
+  
 }

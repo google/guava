@@ -23,15 +23,14 @@ import com.google.common.annotations.GwtIncompatible;
 import junit.framework.TestCase;
 
 /**
- * Tests for {@link DiscreteDomains}.
+ * Tests for {@link DiscreteDomain}.
  *
  * @author Chris Povirk
  */
 @GwtIncompatible("SerializableTester")
-public class DiscreteDomainsTest extends TestCase {
+public class DiscreteDomainTest extends TestCase {
   public void testSerialization() {
-    reserializeAndAssert(DiscreteDomains.integers());
-    reserializeAndAssert(DiscreteDomains.longs());
-    reserializeAndAssert(DiscreteDomains.bigIntegers());
+    reserializeAndAssert(DiscreteDomain.integers());
+    reserializeAndAssert(DiscreteDomain.longs());
   }
 }
