@@ -89,7 +89,7 @@ public final class Stopwatch {
    * source.
    */
   public Stopwatch(Ticker ticker) {
-    this.ticker = checkNotNull(ticker);
+    this.ticker = checkNotNull(ticker, "ticker");
   }
 
   /**
@@ -108,7 +108,8 @@ public final class Stopwatch {
    * @throws IllegalStateException if the stopwatch is already running.
    */
   public Stopwatch start() {
-    checkState(!isRunning);
+    checkState(!isRunning,
+        "This stopwatch is already running; it cannot be started more than once.");
     isRunning = true;
     startTick = ticker.read();
     return this;
@@ -123,7 +124,8 @@ public final class Stopwatch {
    */
   public Stopwatch stop() {
     long tick = ticker.read();
-    checkState(isRunning);
+    checkState(isRunning,
+        "This stopwatch is already stopped; it cannot be stopped more than once.");
     isRunning = false;
     elapsedNanos += tick - startTick;
     return this;
