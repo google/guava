@@ -265,7 +265,8 @@ public abstract class BaseEncoding {
    * The "base16" encoding specified by <a
    * href="http://tools.ietf.org/html/rfc4648#section-8">RFC 4648 section 8</a>, Base 16 Encoding.
    * (This is the same as the base 16 encoding from <a
-   * href="http://tools.ietf.org/html/rfc3548#section-6">RFC 3548</a>.)
+   * href="http://tools.ietf.org/html/rfc3548#section-6">RFC 3548</a>.) This is commonly known as
+   * "hexadecimal" format.
    *
    * <p>No padding is necessary in base 16, so {@link #withPadChar(char)} and
    * {@link #omitPadding()} have no effect.
