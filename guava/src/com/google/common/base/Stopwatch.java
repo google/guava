@@ -154,18 +154,35 @@ public final class Stopwatch {
    * <p>Note that the overhead of measurement can be more than a microsecond, so
    * it is generally not useful to specify {@link TimeUnit#NANOSECONDS}
    * precision here.
+   *
+   * @since 14.0 (since 10.0 as {@code elapsedTime()})
    */
-  public long elapsedTime(TimeUnit desiredUnit) {
+  public long elapsed(TimeUnit desiredUnit) {
     return desiredUnit.convert(elapsedNanos(), NANOSECONDS);
   }
 
   /**
    * Returns the current elapsed time shown on this stopwatch, expressed
-   * in milliseconds, with any fraction rounded down. This is identical to
-   * {@code elapsedTime(TimeUnit.MILLISECONDS)}.
+   * in the desired time unit, with any fraction rounded down.
+   *
+   * <p>Note that the overhead of measurement can be more than a microsecond, so
+   * it is generally not useful to specify {@link TimeUnit#NANOSECONDS}
+   * precision here.
    */
+   // TODO(user): @deprecated Use {@link Stopwatch#elapsed(TimeUnit)} instead.
+  public long elapsedTime(TimeUnit desiredUnit) {
+    return elapsed(desiredUnit);
+  }
+
+  /**
+   * Returns the current elapsed time shown on this stopwatch, expressed
+   * in milliseconds, with any fraction rounded down. This is identical to
+   * {@code elapsed(TimeUnit.MILLISECONDS)}.
+   */
+  // TODO(user): @deprecated Pass {@link TimeUnit#MILLISECONDS} to
+  // {@link Stopwatch#elapsed(TimeUnit)} instead.
   public long elapsedMillis() {
-    return elapsedTime(MILLISECONDS);
+    return elapsed(MILLISECONDS);
   }
 
   /**
@@ -179,7 +196,7 @@ public final class Stopwatch {
   /**
    * Returns a string representation of the current elapsed time, choosing an
    * appropriate unit and using the specified number of significant figures.
-   * For example, at the instant when {@code elapsedTime(NANOSECONDS)} would
+   * For example, at the instant when {@code elapsed(NANOSECONDS)} would
    * return {1234567}, {@code toString(4)} returns {@code "1.235 ms"}.
    *
    * @deprecated Use {@link #toString()} instead. This method is scheduled
