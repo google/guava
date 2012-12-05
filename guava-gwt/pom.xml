@@ -16,6 +16,9 @@
 
     This project includes GWT-friendly sources.
   </description>
+  <properties>
+    <gwt.version>2.5.0-rc1</gwt.version>
+  </properties>
   <dependencies>
     <!-- GWT requires a library's transitive dependencies to be present when compiling a project that uses that library, thanks to its full-program compilation, so we don't use scope=provided. -->
     <dependency>
@@ -29,22 +32,15 @@
       <version>${project.version}</version>
     </dependency>
     <dependency>
-      <groupId>com.google.guava</groupId>
-      <artifactId>guava</artifactId>
-      <version>${project.version}</version>
-      <classifier>sources</classifier>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
       <groupId>com.google.gwt</groupId>
       <artifactId>gwt-dev</artifactId>
-      <version>2.2.0</version>
+      <version>${gwt.version}</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>com.google.gwt</groupId>
       <artifactId>gwt-user</artifactId>
-      <version>2.2.0</version>
+      <version>${gwt.version}</version>
       <scope>provided</scope>
     </dependency>
   </dependencies>
@@ -59,6 +55,15 @@
         </configuration>
       </plugin>
       <plugin>
+        <artifactId>maven-jar-plugin</artifactId>
+        <version>2.3.1</version>
+        <configuration>
+          <excludes>
+            <exclude>**/ForceGuavaCompilation*</exclude>
+          </excludes>
+        </configuration>
+      </plugin>
+      <plugin>
         <artifactId>maven-source-plugin</artifactId>
         <version>2.1.2</version>
         <executions>
@@ -68,6 +73,11 @@
             <goals><goal>jar</goal></goals>
           </execution>
         </executions>
+        <configuration>
+          <excludes>
+            <exclude>**/ForceGuavaCompilation*</exclude>
+          </excludes>
+        </configuration>
       </plugin>
       <plugin>
         <artifactId>maven-javadoc-plugin</artifactId>
@@ -79,6 +89,14 @@
             <goals><goal>jar</goal></goals>
           </execution>
         </executions>
+      </plugin>
+      <!-- Disable "normal" testing, which doesn't work for GWT tests. -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <configuration>
+          <skip>true</skip>
+        </configuration>
       </plugin>
       <plugin>
         <artifactId>maven-dependency-plugin</artifactId>
@@ -93,7 +111,6 @@
               <classifier>sources</classifier>
               <overWrite>true</overWrite>
               <excludeTransitive>true</excludeTransitive>
-              <includeScope>provided</includeScope>
               <excludes>META-INF/MANIFEST.MF</excludes>
               <outputDirectory>${project.build.directory}/guava-sources</outputDirectory>
               <type>java-source</type>
@@ -101,6 +118,14 @@
             </configuration>
           </execution>
         </executions>
+        <dependencies>
+          <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>${project.version}</version>
+            <classifier>sources</classifier>
+          </dependency>
+        </dependencies>
       </plugin>
       <plugin>
         <artifactId>maven-antrun-plugin</artifactId>
@@ -126,9 +151,27 @@
           </execution>
         </executions>
       </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>gwt-maven-plugin</artifactId>
+        <version>${gwt.version}</version>
+        <executions>
+          <execution>
+            <id>gwt-compile</id>
+            <goals>
+              <goal>compile</goal>
+            </goals>
+            <configuration>
+              <module>com.google.common.ForceGuavaCompilation</module>
+              <strict>true</strict>
+              <validateOnly>true</validateOnly>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
     </plugins>
-    <sourceDirectory>src</sourceDirectory>
-    <testSourceDirectory>disabled</testSourceDirectory>
+    <sourceDirectory>src,src-super</sourceDirectory>
+    <testSourceDirectory>test</testSourceDirectory>
     <resources>
       <resource>
         <directory>src</directory>
@@ -140,5 +183,10 @@
         <directory>${project.build.directory}/guava-gwt-sources</directory>
       </resource>
     </resources>
+    <testResources>
+      <testResource>
+        <directory>test</directory>
+      </testResource>
+    </testResources>
   </build>
 </project>
