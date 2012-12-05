@@ -19,6 +19,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 
+import com.google.common.annotations.Beta;
 import com.google.common.base.Function;
 import com.google.common.base.Objects;
 import com.google.common.base.Stopwatch;
@@ -66,7 +67,9 @@ import javax.inject.Singleton;
  *     ServiceManager manager = new ServiceManager(services);
  *     manager.addListener(new Listener() {
  *         public void stopped() {}
- *         public void healthy() {}
+ *         public void healthy() {
+ *           // Services have been initialized and are healthy, start accepting requests...
+ *         }
  *         public void failure(Service service) {
  *           // Something failed, at this point we could log it, notify a load balancer, or take
  *           // some other action.  For now we will just exit.
@@ -86,8 +89,7 @@ import javax.inject.Singleton;
  *         }
  *       }
  *     });
- *     manager.startAsync().awaitHealthy();
- *     // Services have been initialized and are healthy, start accepting requests...
+ *     manager.startAsync();  // start all the services asynchronously
  *   }
  * }}</pre>
  *
@@ -97,6 +99,7 @@ import javax.inject.Singleton;
  * @author Luke Sandberg
  * @since 14.0
  */
+@Beta
 @Singleton
 public final class ServiceManager {
   private static final Logger logger = Logger.getLogger(ServiceManager.class.getName());
@@ -110,6 +113,7 @@ public final class ServiceManager {
    * @author Luke Sandberg
    * @since 14.0
    */
+  @Beta  // Should come out of Beta when ServiceManager does
   public static interface Listener {
     /** 
      * Called when the service initially becomes healthy.
@@ -137,10 +141,10 @@ public final class ServiceManager {
   
   /**
    * An encapsulation of all of the state that is accessed by the {@linkplain ServiceListener 
-   * service listeners}.  This is extracted into its own object so that listeners could be safely
-   * constructed and added in the {@link ServiceManager} constructor without having to close over
-   * the partially constructed {@link ServiceManager} instance (i.e. avoid leaking a pointer to 
-   * 'this').
+   * service listeners}.  This is extracted into its own object so that {@link ServiceListener} 
+   * could be made {@code static} and its instances can be safely constructed and added in the 
+   * {@link ServiceManager} constructor without having to close over the partially constructed 
+   * {@link ServiceManager} instance (i.e. avoid leaking a pointer to {@code this}).
    */
   private final ServiceManagerState state;
   private final ImmutableMap<Service, ServiceListener> services;
@@ -171,7 +175,7 @@ public final class ServiceManager {
   
   /**
    * Constructs a new instance for managing the given services. This constructor is provided so that
-   * Guice can create a JIT binding for {@link ServiceManager}.
+   * dependency injection frameworks inject instances of {@link ServiceManager}.
    * 
    * @param services The services to manage
    * 
@@ -184,8 +188,8 @@ public final class ServiceManager {
   /**
    * Registers a {@link Listener} to be {@linkplain Executor#execute executed} on the given 
    * executor. The listener will not have previous state changes replayed, so it is 
-   * suggested that listeners are added before the service manager is {@linkplain #startAsync 
-   * started}.
+   * suggested that listeners are added before any of the managed services are 
+   * {@linkplain Service#start started}.
    *
    * <p>There is no guaranteed ordering of execution of listeners, but any listener added through 
    * this method is guaranteed to be called whenever there is a state change.
@@ -254,7 +258,9 @@ public final class ServiceManager {
       // It would be nice to tell the caller who we are still waiting on, and this information is 
       // likely to be in servicesByState(), however due to race conditions we can't actually tell 
       // which services are holding up healthiness. The current set of NEW or STARTING services is
-      // likely to point out the culprit, but may not.
+      // likely to point out the culprit, but may not.  If we really wanted to solve this we could
+      // change state to track exactly which services have started and then we could accurately 
+      // report on this. But it is only for logging so we likely don't care.
       throw new TimeoutException("Timeout waiting for the services to become healthy.");
     }
     checkState(isHealthy(), "Expected to be healthy after starting");
@@ -701,8 +707,7 @@ public final class ServiceManager {
   }
   
   /** Simple value object binding a listener to its executor. */
-  @Immutable
-  private static final class ListenerExecutorPair {
+  @Immutable private static final class ListenerExecutorPair {
     final Listener listener;
     final Executor executor;
     
