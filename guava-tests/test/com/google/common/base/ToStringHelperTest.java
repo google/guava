@@ -345,6 +345,17 @@ public class ToStringHelperTest extends TestCase {
   }
 
   @GwtIncompatible("Class names are obfuscated in GWT")
+  public void testToStringOmitNullValues_manyFieldsOmitAfterNull() {
+    String toTest = Objects.toStringHelper(new TestClass())
+        .add("field1", null)
+        .add("field2", "Googley")
+        .add("field3", "World")
+        .omitNullValues()
+        .toString();
+    assertEquals("TestClass{field2=Googley, field3=World}", toTest);
+  }
+
+  @GwtIncompatible("Class names are obfuscated in GWT")
   public void testToStringOmitNullValues_manyFieldsLastNull() {
     String toTest = Objects.toStringHelper(new TestClass())
         .omitNullValues()

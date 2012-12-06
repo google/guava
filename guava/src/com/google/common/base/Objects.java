@@ -21,8 +21,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.annotations.GwtCompatible;
 
 import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
 
 import javax.annotation.Nullable;
 
@@ -196,8 +194,8 @@ public final class Objects {
    */
   public static final class ToStringHelper {
     private final String className;
-    private final List<ValueHolder> valueHolders =
-        new LinkedList<ValueHolder>();
+    private ValueHolder holderHead = new ValueHolder();
+    private ValueHolder holderTail = holderHead;
     private boolean omitNullValues = false;
 
     /**
@@ -208,8 +206,9 @@ public final class Objects {
     }
 
     /**
-     * When called, the formatted output returned by {@link #toString()} will
-     * ignore {@code null} values.
+     * Configures the {@link ToStringHelper} so {@link #toString()} will ignore
+     * properties with null value. The order of calling this method, relative
+     * to the {@code add()}/{@code addValue()} methods, is not significant.
      *
      * @since 12.0
      */
@@ -225,9 +224,7 @@ public final class Objects {
      * name/value pair will not be added.
      */
     public ToStringHelper add(String name, @Nullable Object value) {
-      checkNotNull(name);
-      addHolder(value).builder.append(name).append('=').append(value);
-      return this;
+      return addHolder(name, value);
     }
 
     /**
@@ -237,8 +234,7 @@ public final class Objects {
      * @since 11.0 (source-compatible since 2.0)
      */
     public ToStringHelper add(String name, boolean value) {
-      checkNameAndAppend(name).append(value);
-      return this;
+      return addHolder(name, String.valueOf(value));
     }
 
     /**
@@ -248,8 +244,7 @@ public final class Objects {
      * @since 11.0 (source-compatible since 2.0)
      */
     public ToStringHelper add(String name, char value) {
-      checkNameAndAppend(name).append(value);
-      return this;
+      return addHolder(name, String.valueOf(value));
     }
 
     /**
@@ -259,8 +254,7 @@ public final class Objects {
      * @since 11.0 (source-compatible since 2.0)
      */
     public ToStringHelper add(String name, double value) {
-      checkNameAndAppend(name).append(value);
-      return this;
+      return addHolder(name, String.valueOf(value));
     }
 
     /**
@@ -270,8 +264,7 @@ public final class Objects {
      * @since 11.0 (source-compatible since 2.0)
      */
     public ToStringHelper add(String name, float value) {
-      checkNameAndAppend(name).append(value);
-      return this;
+      return addHolder(name, String.valueOf(value));
     }
 
     /**
@@ -281,8 +274,7 @@ public final class Objects {
      * @since 11.0 (source-compatible since 2.0)
      */
     public ToStringHelper add(String name, int value) {
-      checkNameAndAppend(name).append(value);
-      return this;
+      return addHolder(name, String.valueOf(value));
     }
 
     /**
@@ -292,13 +284,7 @@ public final class Objects {
      * @since 11.0 (source-compatible since 2.0)
      */
     public ToStringHelper add(String name, long value) {
-      checkNameAndAppend(name).append(value);
-      return this;
-    }
-
-    private StringBuilder checkNameAndAppend(String name) {
-      checkNotNull(name);
-      return addHolder().builder.append(name).append('=');
+      return addHolder(name, String.valueOf(value));
     }
 
     /**
@@ -308,8 +294,7 @@ public final class Objects {
      * and give value a readable name.
      */
     public ToStringHelper addValue(@Nullable Object value) {
-      addHolder(value).builder.append(value);
-      return this;
+      return addHolder(value);
     }
 
     /**
@@ -321,8 +306,7 @@ public final class Objects {
      * @since 11.0 (source-compatible since 2.0)
      */
     public ToStringHelper addValue(boolean value) {
-      addHolder().builder.append(value);
-      return this;
+      return addHolder(String.valueOf(value));
     }
 
     /**
@@ -334,8 +318,7 @@ public final class Objects {
      * @since 11.0 (source-compatible since 2.0)
      */
     public ToStringHelper addValue(char value) {
-      addHolder().builder.append(value);
-      return this;
+      return addHolder(String.valueOf(value));
     }
 
     /**
@@ -347,8 +330,7 @@ public final class Objects {
      * @since 11.0 (source-compatible since 2.0)
      */
     public ToStringHelper addValue(double value) {
-      addHolder().builder.append(value);
-      return this;
+      return addHolder(String.valueOf(value));
     }
 
     /**
@@ -360,8 +342,7 @@ public final class Objects {
      * @since 11.0 (source-compatible since 2.0)
      */
     public ToStringHelper addValue(float value) {
-      addHolder().builder.append(value);
-      return this;
+      return addHolder(String.valueOf(value));
     }
 
     /**
@@ -373,8 +354,7 @@ public final class Objects {
      * @since 11.0 (source-compatible since 2.0)
      */
     public ToStringHelper addValue(int value) {
-      addHolder().builder.append(value);
-      return this;
+      return addHolder(String.valueOf(value));
     }
 
     /**
@@ -386,33 +366,35 @@ public final class Objects {
      * @since 11.0 (source-compatible since 2.0)
      */
     public ToStringHelper addValue(long value) {
-      addHolder().builder.append(value);
-      return this;
+      return addHolder(String.valueOf(value));
     }
 
     /**
      * Returns a string in the format specified by {@link
      * Objects#toStringHelper(Object)}.
+     *
+     * <p>After calling this method, you can keep adding more properties to later
+     * call toString() again and get a more complete representation of the
+     * same object; but properties cannot be removed, so this only allows
+     * limited reuse of the helper instance. The helper allows duplication of
+     * properties (multiple name/value pairs with the same name can be added).
      */
     @Override public String toString() {
       // create a copy to keep it consistent in case value changes
       boolean omitNullValuesSnapshot = omitNullValues;
-      boolean needsSeparator = false;
+      String nextSeparator = "";
       StringBuilder builder = new StringBuilder(32).append(className)
           .append('{');
-      for (ValueHolder valueHolder : valueHolders) {
-        if (!omitNullValuesSnapshot || !valueHolder.isNull) {
-          if (needsSeparator) {
-            builder.append(", ");
-          } else {
-            needsSeparator = true;
+      for (ValueHolder valueHolder = holderHead.next; valueHolder != null;
+          valueHolder = valueHolder.next) {
+        if (!omitNullValuesSnapshot || valueHolder.value != null) {
+          builder.append(nextSeparator);
+          nextSeparator = ", ";
+
+          if (valueHolder.name != null) {
+            builder.append(valueHolder.name).append('=');
           }
-          // must explicitly cast it, otherwise GWT tests might fail because
-          // it tries to access StringBuilder.append(StringBuilder), which is
-          // a private method
-          // TODO(user): change once 5904010 is fixed
-          CharSequence sequence = valueHolder.builder;
-          builder.append(sequence);
+          builder.append(valueHolder.value);
         }
       }
       return builder.append('}').toString();
@@ -420,19 +402,27 @@ public final class Objects {
 
     private ValueHolder addHolder() {
       ValueHolder valueHolder = new ValueHolder();
-      valueHolders.add(valueHolder);
+      holderTail = holderTail.next = valueHolder;
       return valueHolder;
     }
 
-    private ValueHolder addHolder(@Nullable Object value) {
+    private ToStringHelper addHolder(@Nullable Object value) {
       ValueHolder valueHolder = addHolder();
-      valueHolder.isNull = (value == null);
-      return valueHolder;
+      valueHolder.value = value;
+      return this;
+    }
+
+    private ToStringHelper addHolder(String name, @Nullable Object value) {
+      ValueHolder valueHolder = addHolder();
+      valueHolder.value = value;
+      valueHolder.name = checkNotNull(name);
+      return this;
     }
 
     private static final class ValueHolder {
-      final StringBuilder builder = new StringBuilder();
-      boolean isNull;
+      String name;
+      Object value;
+      ValueHolder next;
     }
   }
 }
