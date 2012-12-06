@@ -18,8 +18,7 @@ package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
+import com.google.common.primitives.Ints;
 
 import java.util.Collections;
 import java.util.List;
@@ -68,15 +67,17 @@ class CollectionBenchmarkSampleData {
 
     // add good queries
     int size = elementsInSet.size();
-    int minCopiesOfEachGoodQuery = numGoodQueries / size;
-    int extras = numGoodQueries % size;
+    if (size > 0) {
+      int minCopiesOfEachGoodQuery = numGoodQueries / size;
+      int extras = numGoodQueries % size;
 
-    for (int i = 0; i < minCopiesOfEachGoodQuery; i++) {
-      queryList.addAll(elementsInSet);
+      for (int i = 0; i < minCopiesOfEachGoodQuery; i++) {
+        queryList.addAll(elementsInSet);
+      }
+      List<Element> tmp = Lists.newArrayList(elementsInSet);
+      Collections.shuffle(tmp, random);
+      queryList.addAll(tmp.subList(0, extras));
     }
-    List<Element> tmp = Lists.newArrayList(elementsInSet);
-    Collections.shuffle(tmp, random);
-    queryList.addAll(tmp.subList(0, extras));
 
     // now add bad queries
     while (queryList.size() < numQueries) {
@@ -118,7 +119,7 @@ class CollectionBenchmarkSampleData {
     }
     @Override
     public int compareTo(Element that) {
-      return (hash < that.hash) ? -1 : (hash > that.hash) ? 1 : 0;
+      return Ints.compare(hash, that.hash);
     }
     @Override public String toString() {
       return String.valueOf(hash);

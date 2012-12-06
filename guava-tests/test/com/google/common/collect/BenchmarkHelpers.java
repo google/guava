@@ -65,6 +65,11 @@ final class BenchmarkHelpers {
         return ImmutableSet.copyOf(contents);
       }
     },
+    ImmutableSorted {
+      @Override Set<Element> create(Collection<Element> contents) {
+        return ImmutableSortedSet.copyOf(contents);
+      }
+    },
     ;
 
     abstract Set<Element> create(Collection<Element> contents);
