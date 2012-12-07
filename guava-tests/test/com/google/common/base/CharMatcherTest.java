@@ -375,14 +375,11 @@ public class CharMatcherTest extends TestCase {
     assertFalse(matcher.matchesAllOf(s));
     assertTrue(matcher.matchesNoneOf(s));
 
-    // Note: only 'assertEquals' is promised by the API.  Although they could
-    // have been assertSame() on the server side, they have to be assertEquals
-    // in GWT, because of GWT issue 4491.
-    assertEquals(s, matcher.removeFrom(s));
-    assertEquals(s, matcher.replaceFrom(s, 'z'));
-    assertEquals(s, matcher.replaceFrom(s, "ZZ"));
-    assertEquals(s, matcher.trimFrom(s));
-    assertEquals(0, matcher.countIn(s));
+    assertSame(s, matcher.removeFrom(s));
+    assertSame(s, matcher.replaceFrom(s, 'z'));
+    assertSame(s, matcher.replaceFrom(s, "ZZ"));
+    assertSame(s, matcher.trimFrom(s));
+    assertSame(0, matcher.countIn(s));
   }
 
   private void reallyTestMatchThenNoMatch(CharMatcher matcher, String s) {
@@ -417,10 +414,23 @@ public class CharMatcherTest extends TestCase {
     assertEquals(1, matcher.countIn(s));
   }
 
+  /**
+   * Checks that expected is equals to out, and further, if in is
+   * equals to expected, then out is successfully optimized to be
+   * identical to in, i.e. that "in" is simply returned.
+   */
+  private void assertEqualsSame(String expected, String in, String out) {
+    if (expected.equals(in)) {
+      assertSame(in, out);
+    } else {
+      assertEquals(expected, out);
+    }
+  }
+
   // Test collapse() a little differently than the rest, as we really want to
   // cover lots of different configurations of input text
   public void testCollapse() {
-    // collapsing groups of - into _
+    // collapsing groups of '-' into '_' or '-'
     doTestCollapse("-", "_");
     doTestCollapse("x-", "x_");
     doTestCollapse("-x", "_x");
@@ -447,30 +457,29 @@ public class CharMatcherTest extends TestCase {
 
   private void doTestCollapse(String in, String out) {
     // Try a few different matchers which all match '-' and not 'x'
-    assertEquals(out, is('-').collapseFrom(in, '_'));
-    assertEquals(out, is('-').or(is('#')).collapseFrom(in, '_'));
-    assertEquals(out, isNot('x').collapseFrom(in, '_'));
-    assertEquals(out, is('x').negate().collapseFrom(in, '_'));
-    assertEquals(out, anyOf("-").collapseFrom(in, '_'));
-    assertEquals(out, anyOf("-#").collapseFrom(in, '_'));
-    assertEquals(out, anyOf("-#123").collapseFrom(in, '_'));
+    // Try replacement chars that both do and do not change the value.
+    for (char replacement : new char[] { '_', '-' }) {
+      String expected = out.replace('_', replacement);
+      assertEqualsSame(expected, in, is('-').collapseFrom(in, replacement));
+      assertEqualsSame(expected, in, is('-').collapseFrom(in, replacement));
+      assertEqualsSame(expected, in, is('-').or(is('#')).collapseFrom(in, replacement));
+      assertEqualsSame(expected, in, isNot('x').collapseFrom(in, replacement));
+      assertEqualsSame(expected, in, is('x').negate().collapseFrom(in, replacement));
+      assertEqualsSame(expected, in, anyOf("-").collapseFrom(in, replacement));
+      assertEqualsSame(expected, in, anyOf("-#").collapseFrom(in, replacement));
+      assertEqualsSame(expected, in, anyOf("-#123").collapseFrom(in, replacement));
+    }
   }
 
   private void doTestCollapseWithNoChange(String inout) {
-    /*
-     * Note: assertSame(), not promised by the spec, happens to work with the
-     * current implementation because String.toString() promises to return
-     * |this|. However, GWT bug 4491 keeps it from working there, so we stick
-     * with assertEquals().
-     */
-    assertEquals(inout, is('-').collapseFrom(inout, '_'));
-    assertEquals(inout, is('-').or(is('#')).collapseFrom(inout, '_'));
-    assertEquals(inout, isNot('x').collapseFrom(inout, '_'));
-    assertEquals(inout, is('x').negate().collapseFrom(inout, '_'));
-    assertEquals(inout, anyOf("-").collapseFrom(inout, '_'));
-    assertEquals(inout, anyOf("-#").collapseFrom(inout, '_'));
-    assertEquals(inout, anyOf("-#123").collapseFrom(inout, '_'));
-    assertEquals(inout, CharMatcher.NONE.collapseFrom(inout, '_'));
+    assertSame(inout, is('-').collapseFrom(inout, '_'));
+    assertSame(inout, is('-').or(is('#')).collapseFrom(inout, '_'));
+    assertSame(inout, isNot('x').collapseFrom(inout, '_'));
+    assertSame(inout, is('x').negate().collapseFrom(inout, '_'));
+    assertSame(inout, anyOf("-").collapseFrom(inout, '_'));
+    assertSame(inout, anyOf("-#").collapseFrom(inout, '_'));
+    assertSame(inout, anyOf("-#123").collapseFrom(inout, '_'));
+    assertSame(inout, CharMatcher.NONE.collapseFrom(inout, '_'));
   }
 
   public void testCollapse_any() {
@@ -584,7 +593,9 @@ public class CharMatcherTest extends TestCase {
   }
 
   public void testTrimAndCollapse() {
-    // collapsing groups of - into _
+    // collapsing groups of '-' into '_' or '-'
+    doTestTrimAndCollapse("", "");
+    doTestTrimAndCollapse("x", "x");
     doTestTrimAndCollapse("-", "");
     doTestTrimAndCollapse("x-", "x");
     doTestTrimAndCollapse("-x", "x");
@@ -607,13 +618,16 @@ public class CharMatcherTest extends TestCase {
 
   private void doTestTrimAndCollapse(String in, String out) {
     // Try a few different matchers which all match '-' and not 'x'
-    assertEquals(out, is('-').trimAndCollapseFrom(in, '_'));
-    assertEquals(out, is('-').or(is('#')).trimAndCollapseFrom(in, '_'));
-    assertEquals(out, isNot('x').trimAndCollapseFrom(in, '_'));
-    assertEquals(out, is('x').negate().trimAndCollapseFrom(in, '_'));
-    assertEquals(out, anyOf("-").trimAndCollapseFrom(in, '_'));
-    assertEquals(out, anyOf("-#").trimAndCollapseFrom(in, '_'));
-    assertEquals(out, anyOf("-#123").trimAndCollapseFrom(in, '_'));
+    for (char replacement : new char[] { '_', '-' }) {
+      String expected = out.replace('_', replacement);
+      assertEqualsSame(expected, in, is('-').trimAndCollapseFrom(in, replacement));
+      assertEqualsSame(expected, in, is('-').or(is('#')).trimAndCollapseFrom(in, replacement));
+      assertEqualsSame(expected, in, isNot('x').trimAndCollapseFrom(in, replacement));
+      assertEqualsSame(expected, in, is('x').negate().trimAndCollapseFrom(in, replacement));
+      assertEqualsSame(expected, in, anyOf("-").trimAndCollapseFrom(in, replacement));
+      assertEqualsSame(expected, in, anyOf("-#").trimAndCollapseFrom(in, replacement));
+      assertEqualsSame(expected, in, anyOf("-#123").trimAndCollapseFrom(in, replacement));
+    }
   }
 
   public void testReplaceFrom() {

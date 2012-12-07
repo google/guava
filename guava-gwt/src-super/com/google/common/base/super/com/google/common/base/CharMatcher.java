@@ -1102,29 +1102,25 @@ public abstract class CharMatcher implements Predicate<Character> {
    */
   @CheckReturnValue
   public String collapseFrom(CharSequence sequence, char replacement) {
-    int first = indexIn(sequence);
-    if (first == -1) {
-      return sequence.toString();
-    }
-
-    // TODO(kevinb): see if this implementation can be made faster
-    StringBuilder builder = new StringBuilder(sequence.length())
-        .append(sequence.subSequence(0, first))
-        .append(replacement);
-    boolean in = true;
-    for (int i = first + 1; i < sequence.length(); i++) {
+    // This implementation avoids unnecessary allocation.
+    int len = sequence.length();
+    for (int i = 0; i < len; i++) {
       char c = sequence.charAt(i);
       if (matches(c)) {
-        if (!in) {
-          builder.append(replacement);
-          in = true;
+        if (c == replacement
+            && (i == len - 1 || !matches(sequence.charAt(i + 1)))) {
+          // a no-op replacement
+          i++;
+        } else {
+          StringBuilder builder = new StringBuilder(len)
+              .append(sequence.subSequence(0, i))
+              .append(replacement);
+          return finishCollapseFrom(sequence, i + 1, len, replacement, builder, true);
         }
-      } else {
-        builder.append(c);
-        in = false;
       }
     }
-    return builder.toString();
+    // no replacement needed
+    return sequence.toString();
   }
 
   /**
@@ -1134,22 +1130,35 @@ public abstract class CharMatcher implements Predicate<Character> {
    */
   @CheckReturnValue
   public String trimAndCollapseFrom(CharSequence sequence, char replacement) {
-    int first = negate().indexIn(sequence);
-    if (first == -1) {
-      return ""; // everything matches. nothing's left.
-    }
-    StringBuilder builder = new StringBuilder(sequence.length());
-    boolean inMatchingGroup = false;
-    for (int i = first; i < sequence.length(); i++) {
+    // This implementation avoids unnecessary allocation.
+    int len = sequence.length();
+    int first;
+    int last;
+
+    for (first = 0; first < len && matches(sequence.charAt(first)); first++) {}
+    for (last = len - 1; last > first && matches(sequence.charAt(last)); last--) {}
+
+    return (first == 0 && last == len - 1)
+        ? collapseFrom(sequence, replacement)
+        : finishCollapseFrom(
+              sequence, first, last + 1, replacement,
+              new StringBuilder(last + 1 - first),
+              false);
+  }
+
+  private String finishCollapseFrom(
+      CharSequence sequence, int start, int end, char replacement,
+      StringBuilder builder, boolean inMatchingGroup) {
+    for (int i = start; i < end; i++) {
       char c = sequence.charAt(i);
       if (matches(c)) {
-        inMatchingGroup = true;
-      } else {
-        if (inMatchingGroup) {
+        if (!inMatchingGroup) {
           builder.append(replacement);
-          inMatchingGroup = false;
+          inMatchingGroup = true;
         }
+      } else {
         builder.append(c);
+        inMatchingGroup = false;
       }
     }
     return builder.toString();
