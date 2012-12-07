@@ -16,8 +16,6 @@
 
 package com.google.common.collect;
 
-import com.google.common.collect.CollectionBenchmarkSampleData.Element;
-
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
@@ -36,42 +34,103 @@ final class BenchmarkHelpers {
    */
   public enum SetImpl {
     Hash {
-      @Override Set<Element> create(Collection<Element> contents) {
-        return new HashSet<Element>(contents);
+      @Override <E extends Comparable<E>> Set<E> create(Collection<E> contents) {
+        return new HashSet<E>(contents);
       }
     },
     LinkedHash {
-      @Override Set<Element> create(Collection<Element> contents) {
-        return new LinkedHashSet<Element>(contents);
+      @Override <E extends Comparable<E>> Set<E> create(Collection<E> contents) {
+        return new LinkedHashSet<E>(contents);
       }
     },
     Tree {
-      @Override Set<Element> create(Collection<Element> contents) {
-        return new TreeSet<Element>(contents);
+      @Override <E extends Comparable<E>> Set<E> create(Collection<E> contents) {
+        return new TreeSet<E>(contents);
       }
     },
     Unmodifiable {
-      @Override Set<Element> create(Collection<Element> contents) {
-        return Collections.unmodifiableSet(new HashSet<Element>(contents));
+      @Override <E extends Comparable<E>> Set<E> create(Collection<E> contents) {
+        return Collections.unmodifiableSet(new HashSet<E>(contents));
       }
     },
     Synchronized {
-      @Override Set<Element> create(Collection<Element> contents) {
-        return Collections.synchronizedSet(new HashSet<Element>(contents));
+      @Override <E extends Comparable<E>> Set<E> create(Collection<E> contents) {
+        return Collections.synchronizedSet(new HashSet<E>(contents));
       }
     },
     Immutable {
-      @Override Set<Element> create(Collection<Element> contents) {
+      @Override <E extends Comparable<E>> Set<E> create(Collection<E> contents) {
         return ImmutableSet.copyOf(contents);
       }
     },
     ImmutableSorted {
-      @Override Set<Element> create(Collection<Element> contents) {
+      @Override <E extends Comparable<E>> Set<E> create(Collection<E> contents) {
         return ImmutableSortedSet.copyOf(contents);
       }
     },
     ;
 
-    abstract Set<Element> create(Collection<Element> contents);
+    abstract <E extends Comparable<E>> Set<E> create(Collection<E> contents);
+  }
+
+  public enum ListMultimapImpl {
+    ArrayList {
+      @Override
+      <K, V> ListMultimap<K, V> create(Multimap<K, V> contents) {
+        return ArrayListMultimap.create(contents);
+      }
+    },
+    LinkedList {
+      @Override
+      <K, V> ListMultimap<K, V> create(Multimap<K, V> contents) {
+        return LinkedListMultimap.create(contents);
+      }
+    },
+    ImmutableList {
+      @Override
+      <K, V> ListMultimap<K, V> create(Multimap<K, V> contents) {
+        return ImmutableListMultimap.copyOf(contents);
+      }
+    };
+
+    abstract <K, V> ListMultimap<K, V> create(Multimap<K, V> contents);
+  }
+
+  public enum SetMultimapImpl {
+    Hash {
+      @Override
+      <K extends Comparable<K>, V extends Comparable<V>> SetMultimap<K, V> create(
+          Multimap<K, V> contents) {
+        return HashMultimap.create(contents);
+      }
+    },
+    LinkedHash {
+      @Override
+      <K extends Comparable<K>, V extends Comparable<V>> SetMultimap<K, V> create(
+          Multimap<K, V> contents) {
+        return LinkedHashMultimap.create(contents);
+      }
+    },
+    Tree {
+      @Override
+      <K extends Comparable<K>, V extends Comparable<V>> SetMultimap<K, V> create(
+          Multimap<K, V> contents) {
+        return TreeMultimap.create(contents);
+      }
+    },
+    ImmutableSet {
+      @Override
+      <K extends Comparable<K>, V extends Comparable<V>> SetMultimap<K, V> create(
+          Multimap<K, V> contents) {
+        return ImmutableSetMultimap.copyOf(contents);
+      }
+    };
+
+    abstract <K extends Comparable<K>, V extends Comparable<V>> SetMultimap<K, V> create(
+        Multimap<K, V> contents);
+  }
+
+  public enum Value {
+    INSTANCE;
   }
 }

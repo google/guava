@@ -38,6 +38,10 @@ class CollectionBenchmarkSampleData {
   private final Set<Element> valuesInSet;
   private final Element[] queries;
   
+  CollectionBenchmarkSampleData(int size) {
+    this(true, new SpecialRandom(), 1.0, size);
+  }
+  
   CollectionBenchmarkSampleData(
       boolean isUserTypeFast,
       SpecialRandom random,
