@@ -27,7 +27,7 @@ import static junit.framework.Assert.assertEquals;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.ContiguousSet;
-import com.google.common.collect.DiscreteDomains;
+import com.google.common.collect.DiscreteDomain;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSortedSet;
 import com.google.common.collect.Lists;
@@ -319,7 +319,7 @@ public class SetGenerators {
          * The (tooLow + 1, tooHigh) arguments below would be invalid because tooLow would be
          * greater than tooHigh.
          */
-        return Range.openClosed(0, 1).asSet(DiscreteDomains.integers()).subSet(0, 1);
+        return Range.openClosed(0, 1).asSet(DiscreteDomain.integers()).subSet(0, 1);
       }
       int tooHigh = set.last() + 1;
       int tooLow = set.first() - 1;
@@ -342,7 +342,7 @@ public class SetGenerators {
       }
       Range<Integer> range =
           (elements.isEmpty()) ? Range.closedOpen(0, 0) : Range.encloseAll(elements);
-      return range.asSet(DiscreteDomains.integers());
+      return range.asSet(DiscreteDomain.integers());
     }
   }
 }
