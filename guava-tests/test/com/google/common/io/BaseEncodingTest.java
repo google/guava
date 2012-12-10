@@ -55,6 +55,7 @@ public class BaseEncodingTest extends TestCase {
     testEncodes(base32().withSeparator("*", 4), "foobar", "MZXW*6YTB*OI==*====");
   }
 
+  @SuppressWarnings("ReturnValueIgnored")
   public void testSeparatorSameAsPadChar() {
     try {
       base64().withSeparator("=", 3);
@@ -67,6 +68,7 @@ public class BaseEncodingTest extends TestCase {
     } catch (IllegalArgumentException expected) {}
   }
 
+  @SuppressWarnings("ReturnValueIgnored")
   public void testAtMostOneSeparator() {
     BaseEncoding separated = base64().withSeparator("\n", 3);
     try {
@@ -116,6 +118,7 @@ public class BaseEncodingTest extends TestCase {
     assertFailsToDecode(base64(), "12345");
   }
 
+  @SuppressWarnings("ReturnValueIgnored")
   public void testBase64CannotUpperCase() {
     try {
       base64().upperCase();
@@ -125,6 +128,7 @@ public class BaseEncodingTest extends TestCase {
     }
   }
 
+  @SuppressWarnings("ReturnValueIgnored")
   public void testBase64CannotLowerCase() {
     try {
       base64().lowerCase();
