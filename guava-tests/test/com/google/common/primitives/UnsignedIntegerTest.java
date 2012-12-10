@@ -221,6 +221,7 @@ public class UnsignedIntegerTest extends TestCase {
     }
   }
 
+  @SuppressWarnings("ReturnValueIgnored")
   public void testModByZero() {
     for (int a : TEST_INTS) {
       try {

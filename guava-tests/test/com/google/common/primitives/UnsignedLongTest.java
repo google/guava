@@ -206,6 +206,7 @@ public class UnsignedLongTest extends TestCase {
     }
   }
 
+  @SuppressWarnings("ReturnValueIgnored")
   public void testDivideByZeroThrows() {
     for (long a : TEST_LONGS) {
       try {
@@ -232,6 +233,7 @@ public class UnsignedLongTest extends TestCase {
     }
   }
 
+  @SuppressWarnings("ReturnValueIgnored")
   public void testModByZero() {
     for (long a : TEST_LONGS) {
       try {
