@@ -32,7 +32,6 @@ import static java.lang.Math.getExponent;
 import static java.lang.Math.log;
 import static java.lang.Math.rint;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.primitives.Booleans;
 
@@ -45,7 +44,6 @@ import java.math.RoundingMode;
  * @author Louis Wasserman
  * @since 11.0
  */
-@Beta
 public final class DoubleMath {
   /*
    * This method returns a value y such that rounding y DOWN (towards zero) gives the same result
@@ -338,7 +336,6 @@ public final class DoubleMath {
    * @throws IllegalArgumentException if {@code tolerance} is {@code < 0} or NaN
    * @since 13.0
    */
-  @Beta
   public static boolean fuzzyEquals(double a, double b, double tolerance) {
     MathPreconditions.checkNonNegative("tolerance", tolerance);
     return
@@ -362,7 +359,6 @@ public final class DoubleMath {
    * @throws IllegalArgumentException if {@code tolerance} is {@code < 0} or NaN
    * @since 13.0
    */
-  @Beta
   public static int fuzzyCompare(double a, double b, double tolerance) {
     if (fuzzyEquals(a, b, tolerance)) {
       return 0;

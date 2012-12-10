@@ -16,7 +16,6 @@
 
 package com.google.common.net;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 
 /**
@@ -32,7 +31,6 @@ import com.google.common.annotations.GwtCompatible;
  * @author Kurt Alfred Kluever
  * @since 11.0
  */
-@Beta
 @GwtCompatible
 public final class HttpHeaders {
   private HttpHeaders() {}

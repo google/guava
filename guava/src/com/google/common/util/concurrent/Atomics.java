@@ -16,8 +16,6 @@
 
 package com.google.common.util.concurrent;
 
-import com.google.common.annotations.Beta;
-
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.atomic.AtomicReferenceArray;
 
@@ -30,7 +28,6 @@ import javax.annotation.Nullable;
  * @author Kurt Alfred Kluever
  * @since 10.0
  */
-@Beta
 public final class Atomics {
   private Atomics() {}
 

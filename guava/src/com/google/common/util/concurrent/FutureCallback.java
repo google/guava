@@ -16,8 +16,6 @@
 
 package com.google.common.util.concurrent;
 
-import com.google.common.annotations.Beta;
-
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
@@ -30,7 +28,6 @@ import java.util.concurrent.Future;
  * @author Anthony Zana
  * @since 10.0
  */
-@Beta
 public interface FutureCallback<V> {
   /**
    * Invoked with the result of the {@code Future} computation when it is
