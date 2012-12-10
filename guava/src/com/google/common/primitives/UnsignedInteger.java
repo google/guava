@@ -42,7 +42,6 @@ import javax.annotation.Nullable;
  * @author Louis Wasserman
  * @since 11.0
  */
-@Beta
 @GwtCompatible(emulated = true)
 public final class UnsignedInteger extends Number implements Comparable<UnsignedInteger> {
   public static final UnsignedInteger ZERO = asUnsigned(0);
@@ -64,8 +63,8 @@ public final class UnsignedInteger extends Number implements Comparable<Unsigned
    *             2013.
    */
   @Deprecated
+  @Beta
   public static UnsignedInteger asUnsigned(int value) {
-    // TODO(user): deprecate this
     return fromIntBits(value);
   }
 
@@ -138,6 +137,7 @@ public final class UnsignedInteger extends Number implements Comparable<Unsigned
    *             January 2013.
    */
   @Deprecated
+  @Beta
   public UnsignedInteger add(UnsignedInteger val) {
     return plus(val);
   }
@@ -161,6 +161,7 @@ public final class UnsignedInteger extends Number implements Comparable<Unsigned
    *             January 2013.
    */
   @Deprecated
+  @Beta
   public UnsignedInteger subtract(UnsignedInteger val) {
     return minus(val);
   }
@@ -184,6 +185,7 @@ public final class UnsignedInteger extends Number implements Comparable<Unsigned
    *             January 2013.
    */
   @Deprecated
+  @Beta
   public UnsignedInteger multiply(UnsignedInteger val) {
     return times(val);
   }
@@ -208,6 +210,7 @@ public final class UnsignedInteger extends Number implements Comparable<Unsigned
    *             January 2013.
    */
   @Deprecated
+  @Beta
   public UnsignedInteger divide(UnsignedInteger val) {
     return dividedBy(val);
   }
@@ -230,6 +233,7 @@ public final class UnsignedInteger extends Number implements Comparable<Unsigned
    *             January 2013.
    */
   @Deprecated
+  @Beta
   public UnsignedInteger remainder(UnsignedInteger val) {
     return mod(val);
   }

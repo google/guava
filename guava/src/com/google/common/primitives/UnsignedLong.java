@@ -40,7 +40,6 @@ import javax.annotation.Nullable;
  * @author Colin Evans
  * @since 11.0
  */
-@Beta
 @GwtCompatible(serializable = true)
 public final class UnsignedLong extends Number implements Comparable<UnsignedLong>, Serializable {
 
@@ -67,6 +66,7 @@ public final class UnsignedLong extends Number implements Comparable<UnsignedLon
    *             2013.
    */
   @Deprecated
+  @Beta
   public static UnsignedLong asUnsigned(long value) {
     return fromLongBits(value);
   }
@@ -145,6 +145,7 @@ public final class UnsignedLong extends Number implements Comparable<UnsignedLon
    *             2013.
    */
   @Deprecated
+  @Beta
   public UnsignedLong add(UnsignedLong val) {
     return plus(val);
   }
@@ -167,6 +168,7 @@ public final class UnsignedLong extends Number implements Comparable<UnsignedLon
    *             January 2013.
    */
   @Deprecated
+  @Beta
   public UnsignedLong subtract(UnsignedLong val) {
     return minus(val);
   }
@@ -189,6 +191,7 @@ public final class UnsignedLong extends Number implements Comparable<UnsignedLon
    *             January 2013.
    */
   @Deprecated
+  @Beta
   public UnsignedLong multiply(UnsignedLong val) {
     return times(val);
   }
@@ -211,6 +214,7 @@ public final class UnsignedLong extends Number implements Comparable<UnsignedLon
    *             January 2013.
    */
   @Deprecated
+  @Beta
   public UnsignedLong divide(UnsignedLong val) {
     return dividedBy(val);
   }
@@ -232,6 +236,7 @@ public final class UnsignedLong extends Number implements Comparable<UnsignedLon
    *             2013.
    */
   @Deprecated
+  @Beta
   public UnsignedLong remainder(UnsignedLong val) {
     return mod(val);
   }
