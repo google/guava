@@ -175,7 +175,7 @@ public final class ServiceManager {
   
   /**
    * Constructs a new instance for managing the given services. This constructor is provided so that
-   * dependency injection frameworks inject instances of {@link ServiceManager}.
+   * dependency injection frameworks can inject instances of {@link ServiceManager}.
    * 
    * @param services The services to manage
    * 
@@ -306,25 +306,16 @@ public final class ServiceManager {
   /**
    * Returns true if all services are currently in the {@linkplain State#RUNNING running} state.  
    * 
-   * <p>This will also log which services have stopped {@linkplain State#RUNNING running} and if the
-   * service has {@linkplain State#FAILED failed} it will log the  exception that caused the service
-   * to fail. Users who want more detailed information should use the {@link #servicesByState} 
-   * method to inspect everything.
+   * <p>Users who want more detailed information should use the {@link #servicesByState} method to 
+   * get detailed information about which services are not running.
    */
   public boolean isHealthy() {
-    boolean result = true;
     for (Service service : services.keySet()) {
       if (!service.isRunning()) {
-        State state = service.state();
-        if (state == State.FAILED) {
-          logger.log(Level.SEVERE, "Service " + service + " has failed", service.failureCause());
-        } else {
-          logger.severe("Failing health check because service: " + service + " is " + state);
-        }
-        result = false;
+        return false;
       }
     }
-    return result;
+    return true;
   }
   
   /**
