@@ -16,11 +16,7 @@
 
 package com.google.common.collect;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
-
-import java.io.Serializable;
-import java.math.BigInteger;
 
 /**
  * Factories for common {@link DiscreteDomain} instances.
@@ -31,9 +27,11 @@ import java.math.BigInteger;
  *
  * @author Gregory Kick
  * @since 10.0
+ * @deprecated Merged into {@link DiscreteDomain}.  This class is scheduled for deletion in release
+ *             15.0.
  */
 @GwtCompatible
-@Beta
+@Deprecated
 public final class DiscreteDomains {
   private DiscreteDomains() {}
 
@@ -41,137 +39,13 @@ public final class DiscreteDomains {
    * Returns the discrete domain for values of type {@code Integer}.
    */
   public static DiscreteDomain<Integer> integers() {
-    return IntegerDomain.INSTANCE;
-  }
-
-  private static final class IntegerDomain extends DiscreteDomain<Integer>
-      implements Serializable {
-    private static final IntegerDomain INSTANCE = new IntegerDomain();
-
-    @Override public Integer next(Integer value) {
-      int i = value;
-      return (i == Integer.MAX_VALUE) ? null : i + 1;
-    }
-
-    @Override public Integer previous(Integer value) {
-      int i = value;
-      return (i == Integer.MIN_VALUE) ? null : i - 1;
-    }
-
-    @Override public long distance(Integer start, Integer end) {
-      return (long) end - start;
-    }
-
-    @Override public Integer minValue() {
-      return Integer.MIN_VALUE;
-    }
-
-    @Override public Integer maxValue() {
-      return Integer.MAX_VALUE;
-    }
-
-    private Object readResolve() {
-      return INSTANCE;
-    }
-
-    @Override
-    public String toString() {
-      return "DiscreteDomains.integers()";
-    }
-
-    private static final long serialVersionUID = 0;
+    return DiscreteDomain.integers();
   }
 
   /**
    * Returns the discrete domain for values of type {@code Long}.
    */
   public static DiscreteDomain<Long> longs() {
-    return LongDomain.INSTANCE;
-  }
-
-  private static final class LongDomain extends DiscreteDomain<Long>
-      implements Serializable {
-    private static final LongDomain INSTANCE = new LongDomain();
-
-    @Override public Long next(Long value) {
-      long l = value;
-      return (l == Long.MAX_VALUE) ? null : l + 1;
-    }
-
-    @Override public Long previous(Long value) {
-      long l = value;
-      return (l == Long.MIN_VALUE) ? null : l - 1;
-    }
-
-    @Override public long distance(Long start, Long end) {
-      long result = end - start;
-      if (end > start && result < 0) { // overflow
-        return Long.MAX_VALUE;
-      }
-      if (end < start && result > 0) { // underflow
-        return Long.MIN_VALUE;
-      }
-      return result;
-    }
-
-    @Override public Long minValue() {
-      return Long.MIN_VALUE;
-    }
-
-    @Override public Long maxValue() {
-      return Long.MAX_VALUE;
-    }
-
-    private Object readResolve() {
-      return INSTANCE;
-    }
-
-    @Override
-    public String toString() {
-      return "DiscreteDomains.longs()";
-    }
-
-    private static final long serialVersionUID = 0;
-  }
-
-  /**
-   * Returns the discrete domain for values of type {@code BigInteger}.
-   */
-  // TODO(kevinb): make sure it's tested, and make it public
-  static DiscreteDomain<BigInteger> bigIntegers() {
-    return BigIntegerDomain.INSTANCE;
-  }
-
-  private static final class BigIntegerDomain extends DiscreteDomain<BigInteger>
-      implements Serializable {
-    private static final BigIntegerDomain INSTANCE = new BigIntegerDomain();
-
-    private static final BigInteger MIN_LONG =
-        BigInteger.valueOf(Long.MIN_VALUE);
-    private static final BigInteger MAX_LONG =
-        BigInteger.valueOf(Long.MAX_VALUE);
-
-    @Override public BigInteger next(BigInteger value) {
-      return value.add(BigInteger.ONE);
-    }
-
-    @Override public BigInteger previous(BigInteger value) {
-      return value.subtract(BigInteger.ONE);
-    }
-
-    @Override public long distance(BigInteger start, BigInteger end) {
-      return end.subtract(start).max(MIN_LONG).min(MAX_LONG).longValue();
-    }
-
-    private Object readResolve() {
-      return INSTANCE;
-    }
-
-    @Override
-    public String toString() {
-      return "DiscreteDomains.bigIntegers()";
-    }
-
-    private static final long serialVersionUID = 0;
+    return DiscreteDomain.longs();
   }
 }

@@ -20,6 +20,7 @@ import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 
 import java.io.Serializable;
+import java.math.BigInteger;
 import java.util.NoSuchElementException;
 
 /**
@@ -140,6 +141,47 @@ public abstract class DiscreteDomain<C extends Comparable> {
     @Override
     public String toString() {
       return "DiscreteDomains.longs()";
+    }
+
+    private static final long serialVersionUID = 0;
+  }
+  
+  /**
+   * Returns the discrete domain for values of type {@code BigInteger}.
+   */
+  // TODO(kevinb): make sure it's tested, and make it public
+  static DiscreteDomain<BigInteger> bigIntegers() {
+    return BigIntegerDomain.INSTANCE;
+  }
+
+  private static final class BigIntegerDomain extends DiscreteDomain<BigInteger>
+      implements Serializable {
+    private static final BigIntegerDomain INSTANCE = new BigIntegerDomain();
+
+    private static final BigInteger MIN_LONG =
+        BigInteger.valueOf(Long.MIN_VALUE);
+    private static final BigInteger MAX_LONG =
+        BigInteger.valueOf(Long.MAX_VALUE);
+
+    @Override public BigInteger next(BigInteger value) {
+      return value.add(BigInteger.ONE);
+    }
+
+    @Override public BigInteger previous(BigInteger value) {
+      return value.subtract(BigInteger.ONE);
+    }
+
+    @Override public long distance(BigInteger start, BigInteger end) {
+      return end.subtract(start).max(MIN_LONG).min(MAX_LONG).longValue();
+    }
+
+    private Object readResolve() {
+      return INSTANCE;
+    }
+
+    @Override
+    public String toString() {
+      return "DiscreteDomains.bigIntegers()";
     }
 
     private static final long serialVersionUID = 0;

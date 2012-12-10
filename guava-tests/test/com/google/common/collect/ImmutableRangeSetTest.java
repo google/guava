@@ -108,7 +108,7 @@ public class ImmutableRangeSetTest extends AbstractRangeSetTest {
         BigInteger i = (BigInteger) o;
         builder.add(Range.closedOpen(i, i.add(BigInteger.ONE)));
       }
-      return builder.build().asSet(DiscreteDomains.bigIntegers());
+      return builder.build().asSet(DiscreteDomain.bigIntegers());
     }
   }
 

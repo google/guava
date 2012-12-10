@@ -491,7 +491,8 @@ public class SetsTest extends TestCase {
     assertTrue(set.isEmpty());
     set.add(new LegacyComparable("foo"));
     set.add(new LegacyComparable("bar"));
-    ASSERT.that(set).has().allOf(new LegacyComparable("bar"), new LegacyComparable("foo")).inOrder();
+    ASSERT.that(set).has()
+        .allOf(new LegacyComparable("bar"), new LegacyComparable("foo")).inOrder();
   }
 
   public void testNewTreeSetFromCollection() {
@@ -723,7 +724,7 @@ public class SetsTest extends TestCase {
 
   @SuppressWarnings("unchecked") // varargs!
   public void testCartesianProductTooBig() {
-    Set<Integer> set = Range.closed(0, 10000).asSet(DiscreteDomains.integers());
+    Set<Integer> set = Range.closed(0, 10000).asSet(DiscreteDomain.integers());
     try {
       Sets.cartesianProduct(set, set, set, set, set);
       fail("Expected IAE");

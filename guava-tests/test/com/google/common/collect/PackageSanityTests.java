@@ -27,6 +27,6 @@ import com.google.common.testing.AbstractPackageSanityTests;
 public class PackageSanityTests extends AbstractPackageSanityTests {
   public PackageSanityTests() {
     publicApiOnly(); // Many package-private classes are tested through the public API.
-    setDefault(DiscreteDomain.class, DiscreteDomains.integers());
+    setDefault(DiscreteDomain.class, DiscreteDomain.integers());
   }
 }

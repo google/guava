@@ -18,7 +18,7 @@ package com.google.common.collect;
 
 import static com.google.common.collect.BoundType.CLOSED;
 import static com.google.common.collect.BoundType.OPEN;
-import static com.google.common.collect.DiscreteDomains.integers;
+import static com.google.common.collect.DiscreteDomain.integers;
 import static com.google.common.testing.SerializableTester.reserializeAndAssert;
 import static java.util.Arrays.asList;
 
@@ -539,15 +539,15 @@ public class RangeTest extends TestCase {
   private static final DiscreteDomain<Integer> UNBOUNDED_DOMAIN =
       new DiscreteDomain<Integer>() {
         @Override public Integer next(Integer value) {
-          return DiscreteDomains.integers().next(value);
+          return integers().next(value);
         }
 
         @Override public Integer previous(Integer value) {
-          return DiscreteDomains.integers().previous(value);
+          return integers().previous(value);
         }
 
         @Override public long distance(Integer start, Integer end) {
-          return DiscreteDomains.integers().distance(start, end);
+          return integers().distance(start, end);
         }
       };
 

@@ -16,7 +16,7 @@
 
 package com.google.common.collect;
 
-import static com.google.common.collect.DiscreteDomains.integers;
+import static com.google.common.collect.DiscreteDomain.integers;
 
 import com.google.caliper.Param;
 import com.google.caliper.Runner;
