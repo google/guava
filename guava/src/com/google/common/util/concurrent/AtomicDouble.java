@@ -17,8 +17,6 @@ package com.google.common.util.concurrent;
 import static java.lang.Double.doubleToRawLongBits;
 import static java.lang.Double.longBitsToDouble;
 
-import com.google.common.annotations.Beta;
-
 import java.util.concurrent.atomic.AtomicLongFieldUpdater;
 
 /**
@@ -44,17 +42,16 @@ import java.util.concurrent.atomic.AtomicLongFieldUpdater;
  *
  * <p>It is possible to write a more scalable updater, at the cost of
  * giving up strict atomicity.  See for example
- * <a href="http://gee.cs.oswego.edu/dl/jsr166/dist/jsr166edocs/jsr166e/DoubleAdder.html"
- * DoubleAdder>
+ * <a href="http://gee.cs.oswego.edu/dl/jsr166/dist/jsr166edocs/jsr166e/DoubleAdder.html">
+ * DoubleAdder</a>
  * and
- * <a href="http://gee.cs.oswego.edu/dl/jsr166/dist/jsr166edocs/jsr166e/DoubleMaxUpdater.html"
- * DoubleMaxUpdater>.
+ * <a href="http://gee.cs.oswego.edu/dl/jsr166/dist/jsr166edocs/jsr166e/DoubleMaxUpdater.html">
+ * DoubleMaxUpdater</a>.
  *
  * @author Doug Lea
  * @author Martin Buchholz
  * @since 11.0
  */
-@Beta
 public class AtomicDouble extends Number implements java.io.Serializable {
   private static final long serialVersionUID = 0L;
 
