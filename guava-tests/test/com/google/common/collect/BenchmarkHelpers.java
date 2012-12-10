@@ -188,6 +188,46 @@ final class BenchmarkHelpers {
     abstract <K extends Comparable<K>, V> SortedMap<K, V> create(Map<K, V> map);
   }
 
+  enum TableImpl {
+    HashBased {
+      @Override
+      <R extends Comparable<R>, C extends Comparable<C>, V> Table<R, C, V> create(
+          Table<R, C, V> contents) {
+        return HashBasedTable.create(contents);
+      }
+    },
+    TreeBased {
+      @Override
+      <R extends Comparable<R>, C extends Comparable<C>, V> Table<R, C, V> create(
+          Table<R, C, V> contents) {
+        Table<R, C, V> table = TreeBasedTable.create();
+        table.putAll(contents);
+        return table;
+      }
+    },
+    Array {
+      @Override
+      <R extends Comparable<R>, C extends Comparable<C>, V> Table<R, C, V> create(
+          Table<R, C, V> contents) {
+        if (contents.isEmpty()) {
+          return ImmutableTable.of();
+        } else {
+          return ArrayTable.create(contents);
+        }
+      }
+    },
+    Immutable {
+      @Override
+      <R extends Comparable<R>, C extends Comparable<C>, V> Table<R, C, V> create(
+          Table<R, C, V> contents) {
+        return ImmutableTable.copyOf(contents);
+      }
+    };
+
+    abstract <R extends Comparable<R>, C extends Comparable<C>, V>
+        Table<R, C, V> create(Table<R, C, V> contents);
+  }
+
   public enum Value {
     INSTANCE;
   }
