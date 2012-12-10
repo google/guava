@@ -20,8 +20,12 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
+import java.util.Map;
 import java.util.Set;
+import java.util.SortedMap;
 import java.util.TreeSet;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentSkipListMap;
 
 /**
  * Helper classes for various benchmarks.
@@ -128,6 +132,60 @@ final class BenchmarkHelpers {
 
     abstract <K extends Comparable<K>, V extends Comparable<V>> SetMultimap<K, V> create(
         Multimap<K, V> contents);
+  }
+
+  public enum MapImpl {
+    Hash {
+      @Override
+      <K, V> Map<K, V> create(Map<K, V> map) {
+        return Maps.newHashMap(map);
+      }
+    },
+    LinkedHash {
+      @Override
+      <K, V> Map<K, V> create(Map<K, V> map) {
+        return Maps.newLinkedHashMap(map);
+      }
+    },
+    ConcurrentHash {
+      @Override
+      <K, V> Map<K, V> create(Map<K, V> map) {
+        return new ConcurrentHashMap<K, V>(map);
+      }
+    },
+    Immutable {
+      @Override
+      <K, V> Map<K, V> create(Map<K, V> map) {
+        return ImmutableMap.copyOf(map);
+      }
+    };
+
+    abstract <K, V> Map<K, V> create(Map<K, V> map);
+  }
+
+  enum SortedMapImpl {
+    Tree {
+      @Override
+      <K extends Comparable<K>, V> SortedMap<K, V> create(Map<K, V> map) {
+        SortedMap<K, V> result = Maps.newTreeMap();
+        result.putAll(map);
+        return result;
+      }
+    },
+    ConcurrentSkipList {
+      @Override
+      <K extends Comparable<K>, V> SortedMap<K, V> create(Map<K, V> map) {
+        return new ConcurrentSkipListMap<K, V>(map);
+      }
+    },
+    ImmutableSorted {
+      @Override
+      <K extends Comparable<K>, V> SortedMap<K, V> create(Map<K, V> map) {
+        return ImmutableSortedMap.copyOf(map);
+      }
+    };
+
+    abstract <K extends Comparable<K>, V> SortedMap<K, V> create(Map<K, V> map);
   }
 
   public enum Value {
