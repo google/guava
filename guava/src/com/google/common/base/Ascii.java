@@ -429,10 +429,21 @@ public final class Ascii {
    * modification.
    */
   public static String toLowerCase(String string) {
-    int length = string.length();
+    return toLowerCase((CharSequence) string);
+  }
+
+  /**
+   * Returns a copy of the input character sequence in which all {@linkplain #isUpperCase(char)
+   * uppercase ASCII characters} have been converted to lowercase. All other characters are copied
+   * without modification.
+   * 
+   * @since 14.0
+   */
+  public static String toLowerCase(CharSequence chars) {
+    int length = chars.length();
     StringBuilder builder = new StringBuilder(length);
     for (int i = 0; i < length; i++) {
-      builder.append(toLowerCase(string.charAt(i)));
+      builder.append(toLowerCase(chars.charAt(i)));
     }
     return builder.toString();
   }
@@ -444,17 +455,28 @@ public final class Ascii {
   public static char toLowerCase(char c) {
     return isUpperCase(c) ? (char) (c ^ 0x20) : c;
   }
-
+  
   /**
    * Returns a copy of the input string in which all {@linkplain #isLowerCase(char) lowercase ASCII
    * characters} have been converted to uppercase. All other characters are copied without
    * modification.
    */
   public static String toUpperCase(String string) {
-    int length = string.length();
+    return toUpperCase((CharSequence) string);
+  }
+
+  /**
+   * Returns a copy of the input character sequence in which all {@linkplain #isLowerCase(char)
+   * lowercase ASCII characters} have been converted to uppercase. All other characters are copied
+   * without modification.
+   * 
+   * @since 14.0
+   */
+  public static String toUpperCase(CharSequence chars) {
+    int length = chars.length();
     StringBuilder builder = new StringBuilder(length);
     for (int i = 0; i < length; i++) {
-      builder.append(toUpperCase(string.charAt(i)));
+      builder.append(toUpperCase(chars.charAt(i)));
     }
     return builder.toString();
   }
