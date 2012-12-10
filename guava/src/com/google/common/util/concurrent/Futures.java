@@ -64,7 +64,6 @@ import javax.annotation.Nullable;
  * @author Sven Mawson
  * @since 1.0
  */
-@Beta
 public final class Futures {
   private Futures() {}
 
@@ -80,6 +79,7 @@ public final class Futures {
    *
    * @since 9.0 (source-compatible since 1.0)
    */
+  @Beta
   public static <V, X extends Exception> CheckedFuture<V, X> makeChecked(
       ListenableFuture<V> future, Function<Exception, X> mapper) {
     return new MappingCheckedFuture<V, X>(checkNotNull(future), mapper);
@@ -248,6 +248,7 @@ public final class Futures {
    * method always returns {@code true}. Calling {@code get()} or {@code
    * checkedGet()} will immediately return the provided value.
    */
+  @Beta
   public static <V, X extends Exception> CheckedFuture<V, X>
       immediateCheckedFuture(@Nullable V value) {
     return new ImmediateSuccessfulCheckedFuture<V, X>(value);
@@ -274,6 +275,7 @@ public final class Futures {
    *
    * @since 14.0
    */
+  @Beta
   public static <V> ListenableFuture<V> immediateCancelledFuture() {
     return new ImmediateCancelledFuture<V>();
   }
@@ -288,6 +290,7 @@ public final class Futures {
    * ExecutionException}, and calling {@code checkedGet()} will throw the
    * provided exception itself.
    */
+  @Beta
   public static <V, X extends Exception> CheckedFuture<V, X>
       immediateFailedCheckedFuture(X exception) {
     checkNotNull(exception);
@@ -368,6 +371,7 @@ public final class Futures {
    *     {@code input} fails
    * @since 14.0
    */
+  @Beta
   public static <V> ListenableFuture<V> withFallback(
       ListenableFuture<? extends V> input,
       FutureFallback<? extends V> fallback) {
@@ -434,6 +438,7 @@ public final class Futures {
    *     fails
    * @since 14.0
    */
+  @Beta
   public static <V> ListenableFuture<V> withFallback(
       ListenableFuture<? extends V> input,
       FutureFallback<? extends V> fallback, Executor executor) {
