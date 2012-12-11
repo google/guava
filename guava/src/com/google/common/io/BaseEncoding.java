@@ -367,10 +367,11 @@ public abstract class BaseEncoding {
 
       this.mask = chars.length - 1;
 
-      byte[] decodabet = new byte[128];
+      byte[] decodabet = new byte[Ascii.MAX + 1];
       Arrays.fill(decodabet, (byte) -1);
       for (int i = 0; i < chars.length; i++) {
         char c = chars[i];
+        checkArgument(CharMatcher.ASCII.matches(c), "Non-ASCII character: %s", c);
         checkArgument(decodabet[c] == -1, "Duplicate character: %s", c);
         decodabet[c] = (byte) i;
       }
@@ -392,7 +393,7 @@ public abstract class BaseEncoding {
     }
 
     int decode(char ch) throws IOException {
-      if (ch >= 128 || decodabet[ch] == -1) {
+      if (ch > Ascii.MAX || decodabet[ch] == -1) {
         throw new IOException("Unrecognized character: " + ch);
       }
       return decodabet[ch];
@@ -400,7 +401,7 @@ public abstract class BaseEncoding {
 
     private boolean hasLowerCase() {
       for (char c : chars) {
-        if (c >= 'a' & c <= 'z') {
+        if (Ascii.isLowerCase(c)) {
           return true;
         }
       }
@@ -409,7 +410,7 @@ public abstract class BaseEncoding {
 
     private boolean hasUpperCase() {
       for (char c : chars) {
-        if (c >= 'A' & c <= 'Z') {
+        if (Ascii.isUpperCase(c)) {
           return true;
         }
       }
