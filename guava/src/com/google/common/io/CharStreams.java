@@ -86,7 +86,8 @@ public final class CharStreams {
 
   private static final class StringCharSource extends CharSource {
 
-    private static final Splitter LINE_SPLITTER = Splitter.on(Pattern.compile("\r\n|\n|\r"));
+    private static final Splitter LINE_SPLITTER
+        = Splitter.on(Pattern.compile("\r\n|\n|\r"));
 
     private final String string;
 
@@ -105,8 +106,9 @@ public final class CharStreams {
     }
 
     /**
-     * Returns an iterable over the lines in the string. If the string ends in a newline, a final
-     * empty string is not included to match the behavior of BufferedReader/LineReader.readLine().
+     * Returns an iterable over the lines in the string. If the string ends in
+     * a newline, a final empty string is not included to match the behavior of
+     * BufferedReader/LineReader.readLine().
      */
     private Iterable<String> lines() {
       return new Iterable<String>() {
@@ -354,6 +356,7 @@ public final class CharStreams {
    * processor stops processing early.
    *
    * @throws IOException if an I/O error occurs
+   * @since 14.0
    */
   public static <T> T readLines(
       Readable readable, LineProcessor<T> processor) throws IOException {
@@ -382,6 +385,7 @@ public final class CharStreams {
    */
   public static <R extends Readable & Closeable, T> T readLines(
       InputSupplier<R> supplier, LineProcessor<T> callback) throws IOException {
+    checkNotNull(supplier);
     checkNotNull(callback);
 
     Closer closer = Closer.create();

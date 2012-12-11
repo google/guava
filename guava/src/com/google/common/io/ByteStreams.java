@@ -732,8 +732,8 @@ public final class ByteStreams {
       InputStream in, byte[] b, int off, int len) throws IOException {
     int read = read(in, b, off, len);
     if (read != len) {
-      throw new EOFException("reached end of stream after reading " + read + " bytes; "
-          + len + " bytes expected");
+      throw new EOFException("reached end of stream after reading "
+          + read + " bytes; " + len + " bytes expected");
     }
   }
 
@@ -757,8 +757,8 @@ public final class ByteStreams {
         // Force a blocking read to avoid infinite loop
         if (in.read() == -1) {
           long skipped = toSkip - n;
-          throw new EOFException("reached end of stream after skipping " + skipped + " bytes; "
-              + toSkip + " bytes expected");
+          throw new EOFException("reached end of stream after skipping "
+              + skipped + " bytes; " + toSkip + " bytes expected");
         }
         n--;
       } else {
@@ -778,22 +778,40 @@ public final class ByteStreams {
   public static <T> T readBytes(
       InputSupplier<? extends InputStream> supplier,
       ByteProcessor<T> processor) throws IOException {
+    checkNotNull(supplier);
     checkNotNull(processor);
 
-    byte[] buf = new byte[BUF_SIZE];
     Closer closer = Closer.create();
     try {
       InputStream in = closer.add(supplier.getInput());
-      int read;
-      do {
-        read = in.read(buf);
-      } while (read != -1 && processor.processBytes(buf, 0, read));
-      return processor.getResult();
+      return readBytes(in, processor);
     } catch (Throwable e) {
       throw closer.rethrow(e, IOException.class);
     } finally {
       closer.close();
     }
+  }
+
+  /**
+   * Process the bytes of the given input stream using the given processor.
+   *
+   * @param input the input stream to process
+   * @param processor the object to which to pass the bytes of the stream
+   * @return the result of the byte processor
+   * @throws IOException if an I/O error occurs
+   * @since 14.0
+   */
+  public static <T> T readBytes(
+      InputStream input, ByteProcessor<T> processor) throws IOException {
+    checkNotNull(input);
+    checkNotNull(processor);
+
+    byte[] buf = new byte[BUF_SIZE];
+    int read;
+    do {
+      read = input.read(buf);
+    } while (read != -1 && processor.processBytes(buf, 0, read));
+    return processor.getResult();
   }
 
   /**

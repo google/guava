@@ -964,6 +964,35 @@ public class ByteStreamsTest extends IoTestCase {
     }
   }
 
+  public void testReadBytes() throws IOException {
+    final byte[] array = newPreFilledByteArray(1000);
+    assertEquals(array, ByteStreams.readBytes(
+      new ByteArrayInputStream(array), new TestByteProcessor()));
+    assertEquals(array, ByteStreams.readBytes(
+      new InputSupplier<InputStream>() {
+        @Override
+        public InputStream getInput() {
+          return new ByteArrayInputStream(array);
+        }
+      }, new TestByteProcessor()));
+  }
+
+  private class TestByteProcessor implements ByteProcessor<byte[]> {
+    private final ByteArrayOutputStream out = new ByteArrayOutputStream();
+
+    @Override
+    public boolean processBytes(byte[] buf, int off, int len)
+        throws IOException {
+      out.write(buf, off, len);
+      return true;
+    }
+
+    @Override
+    public byte[] getResult() {
+      return out.toByteArray();
+    }
+  }
+
   public void testByteProcessorStopEarly() throws IOException {
     byte[] array = newPreFilledByteArray(6000);
     assertEquals((Integer) 42,
