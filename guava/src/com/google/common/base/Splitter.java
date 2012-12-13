@@ -136,7 +136,7 @@ public final class Splitter {
    *
    * @param separatorMatcher a {@link CharMatcher} that determines whether a
    *     character is a separator
-   * @return a splitter, with default settings, that uses this matcher
+   * @return a splitter, with default settings, that uses this config
    */
   public static Splitter on(final CharMatcher separatorMatcher) {
     checkNotNull(separatorMatcher);

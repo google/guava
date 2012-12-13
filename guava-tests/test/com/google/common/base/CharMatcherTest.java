@@ -25,18 +25,15 @@ import static com.google.common.base.CharMatcher.noneOf;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Sets;
 import com.google.common.testing.NullPointerTester;
 
 import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.BitSet;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
@@ -78,7 +75,7 @@ public class CharMatcherTest extends TestCase {
     assertSame(WHATEVER, CharMatcher.NONE.or(WHATEVER));
   }
 
-  // The rest of the behavior of ANY and NONE will be covered in the tests for
+  // The rest of the behavior of ANY and DEFAULT will be covered in the tests for
   // the text processing methods below.
 
   // The next tests require ICU4J and have, at least for now, been sliced out
@@ -736,76 +733,6 @@ public class CharMatcherTest extends TestCase {
     }
     Arrays.sort(retValue);
     return retValue;
-  }
-
-  @GwtIncompatible("java.util.Random, java.util.BitSet")
-  public void testMediumCharMatcher() {
-    CharMatcher len1 = MediumCharMatcher.from(bitSet("#"), "#");
-    CharMatcher len2 = MediumCharMatcher.from(bitSet("ab"), "ab");
-    CharMatcher len3 = MediumCharMatcher.from(bitSet("abc"), "abc");
-    CharMatcher len4 = MediumCharMatcher.from(bitSet("abcd"), "abcd");
-    assertTrue(len1.matches('#'));
-    assertFalse(len1.matches('!'));
-    assertTrue(len2.matches('a'));
-    assertTrue(len2.matches('b'));
-    for (char c = 'c'; c < 'z'; c++) {
-      assertFalse(len2.matches(c));
-    }
-    assertTrue(len3.matches('a'));
-    assertTrue(len3.matches('b'));
-    assertTrue(len3.matches('c'));
-    for (char c = 'd'; c < 'z'; c++) {
-      assertFalse(len3.matches(c));
-    }
-    assertTrue(len4.matches('a'));
-    assertTrue(len4.matches('b'));
-    assertTrue(len4.matches('c'));
-    assertTrue(len4.matches('d'));
-    for (char c = 'e'; c < 'z'; c++) {
-      assertFalse(len4.matches(c));
-    }
-
-    Random rand = new Random(1234);
-    for (int testCase = 0; testCase < 100; testCase++) {
-      char[] chars = randomChars(rand, rand.nextInt(1023) + 1);
-      CharMatcher m = MediumCharMatcher.from(bitSet(chars), new String(chars));
-      checkExactMatches(m, chars);
-    }
-  }
-
-  /**
-   * Create an iterable of ints based on a string description, like,
-   * "1-2,3,4,rand(5, 20, 6)". The last part says to generate 6 random values
-   * between 5 and 20 (inclusive).
-   */
-  Iterable<Integer> intValues(String desc) {
-    Random random = new Random(1234);
-    ArrayList<Integer> values = new ArrayList<Integer>();
-    for (String part : Splitter.on(',').split(desc)) {
-      if (part.contains("-")) {
-        int i = part.indexOf('-');
-        int begin = Integer.parseInt(part.substring(0, i));
-        int end = Integer.parseInt(part.substring(i + 1));
-        for (int j = begin; j <= end; j++) {
-          values.add(j);
-        }
-      } else if (part.startsWith("rand")) {
-        List<String> args =
-            ImmutableList.copyOf(Splitter.on(';').split(part.substring(5, part.length() - 1)));
-        assertEquals(args.size(), 3);
-        int minValue = Integer.parseInt(args.get(0));
-        int maxValue = Integer.parseInt(args.get(1));
-        int count = Integer.parseInt(args.get(2));
-        int diff = maxValue - minValue + 1;
-        for (int i = 0; i < count; i++) {
-          int value = random.nextInt(diff) + minValue;
-          values.add(value);
-        }
-      } else {
-        values.add(Integer.parseInt(part));
-      }
-    }
-    return values;
   }
 
   public void testToString() {

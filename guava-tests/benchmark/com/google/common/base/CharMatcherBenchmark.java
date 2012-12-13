@@ -19,6 +19,7 @@ package com.google.common.base;
 import com.google.caliper.Param;
 import com.google.caliper.Runner;
 import com.google.caliper.SimpleBenchmark;
+import com.google.common.base.BenchmarkHelpers.SampleMatcherConfig;
 import com.google.common.collect.Lists;
 
 import java.util.BitSet;
@@ -28,40 +29,10 @@ import java.util.Random;
 
 public class CharMatcherBenchmark extends SimpleBenchmark {
 
-  private static final String WHITESPACE_CHARACTERS =
-      "\u00a0\u180e\u202f\t\n\013\f\r \u0085"
-          + "\u1680\u2028\u2029\u205f\u3000\u2000\u2001\u2002\u2003\u2004\u2005"
-          + "\u2006\u2007\u2008\u2009\u200a";
-  private static final String ASCII_CHARACTERS;
-  static {
-    final int SPACE_IN_ASCII = 32;
-    final int SEVEN_BIT_ASCII_MAX = 128;
-    StringBuilder sb = new StringBuilder(SEVEN_BIT_ASCII_MAX - SPACE_IN_ASCII);
-    for (int ch = SPACE_IN_ASCII; ch < SEVEN_BIT_ASCII_MAX; ch++) {
-      sb.append((char) ch);
-    }
-    ASCII_CHARACTERS = sb.toString();
-  }
-
-  private static final String ALL_DIGITS;
-  static {
-    final StringBuilder sb = new StringBuilder();
-    final String ZEROS =
-        "0\u0660\u06f0\u07c0\u0966\u09e6\u0a66\u0ae6\u0b66\u0be6\u0c66"
-            + "\u0ce6\u0d66\u0e50\u0ed0\u0f20\u1040\u1090\u17e0\u1810\u1946"
-            + "\u19d0\u1b50\u1bb0\u1c40\u1c50\ua620\ua8d0\ua900\uaa50\uff10";
-    for (char base : ZEROS.toCharArray()) {
-      for (int offset = 0; offset < 10; offset++) {
-        sb.append((char) (base + offset));
-      }
-    }
-    ALL_DIGITS = sb.toString();
-  }
-
   // Caliper injects params automatically
 
   // Overall configuration
-  @Param MatcherConfig config;
+  @Param SampleMatcherConfig config;
 
   // Length of string to match against
   @Param({"64", "1024"}) int length;
@@ -72,7 +43,12 @@ public class CharMatcherBenchmark extends SimpleBenchmark {
   // Whether to use a precomputed CharMatcher
   @Param("true") boolean precomputed;
 
-  @Param({"none", "small", "medium"}) String size;
+  enum Size {
+    DEFAULT,
+    SMALL;
+  }
+
+  @Param Size size;
 
   // Whether to ensure there is a matching character in the first position
   // to force the trimming code to run.
@@ -87,15 +63,11 @@ public class CharMatcherBenchmark extends SimpleBenchmark {
   // Caliper invokes setUp() after injecting params
   @Override protected void setUp() {
     this.matcher = precomputed ? config.matcher.precomputed() : config.matcher;
-    if (size.equals("small") || size.equals("medium")) {
+    if (size == Size.SMALL) {
       BitSet tmp = new BitSet();
       matcher.setBits(tmp);
       int matchedCharCount = tmp.cardinality();
-      if (size.equals("small") && matchedCharCount <= SmallCharMatcher.MAX_SIZE) {
-        this.matcher = SmallCharMatcher.from(tmp, "");
-      } else if (size.equals("medium")) {
-        this.matcher = MediumCharMatcher.from(tmp, "");
-      }
+      this.matcher = SmallCharMatcher.from(tmp, "");
     }
     this.string = checkString(length, percent, config.matchingChars,
         new Random(), forceSlow, web);
@@ -117,23 +89,6 @@ public class CharMatcherBenchmark extends SimpleBenchmark {
       dummy += matcher.matches(string.charAt(i % string.length())) ? 1 : 0;
     }
     return dummy;
-  }
-
-  public enum MatcherConfig {
-    whitespace(CharMatcher.WHITESPACE, WHITESPACE_CHARACTERS),
-    hash(CharMatcher.is('#'), "#"),
-    ascii(CharMatcher.ASCII, ASCII_CHARACTERS),
-    western_digit(CharMatcher.anyOf("0123456789"), "0123456789"),
-    all_digit(CharMatcher.DIGIT, ALL_DIGITS),
-    ;
-
-    public final CharMatcher matcher;
-    public final String matchingChars;
-
-    MatcherConfig(CharMatcher matcher, String matchingChars) {
-      this.matcher = matcher;
-      this.matchingChars = matchingChars;
-    }
   }
 
   private static final String NONMATCHING_CHARS =
