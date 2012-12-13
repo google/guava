@@ -14,6 +14,8 @@
 
 package com.google.common.collect;
 
+import com.google.common.annotations.Beta;
+
 import java.util.NoSuchElementException;
 import java.util.Set;
 
@@ -40,7 +42,9 @@ import javax.annotation.Nullable;
  *
  * @author Kevin Bourrillion
  * @author Louis Wasserman
+ * @since 14.0
  */
+@Beta
 public interface RangeSet<C extends Comparable> {
   
   // Query methods
@@ -130,6 +134,17 @@ public interface RangeSet<C extends Comparable> {
    *         operation
    */
   void remove(Range<C> range);
+  
+  /**
+   * Removes all ranges from this {@code RangeSet} (optional operation).  After this operation,
+   * {@code this.contains(c)} will return false for all {@code c}.
+   * 
+   * <p>This is equivalent to {@code remove(Range.all())}.
+   * 
+   * @throws UnsupportedOperationException if this range set does not support the {@code clear}
+   *         operation
+   */
+  void clear();
 
   /**
    * Adds all of the ranges from the specified range set to this range set (optional operation).

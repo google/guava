@@ -19,6 +19,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.SortedLists.KeyAbsentBehavior.NEXT_LOWER;
 import static com.google.common.collect.SortedLists.KeyPresentBehavior.ANY_PRESENT;
 
+import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.SortedLists.KeyAbsentBehavior;
 import com.google.common.collect.SortedLists.KeyPresentBehavior;
@@ -36,7 +37,9 @@ import javax.annotation.Nullable;
  * An efficient immutable implementation of a {@link RangeSet}.
  *
  * @author Louis Wasserman
+ * @since 14.0
  */
+@Beta
 public final class ImmutableRangeSet<C extends Comparable> extends AbstractRangeSet<C>
     implements Serializable {
 

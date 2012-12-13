@@ -16,8 +16,6 @@ package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import java.util.Iterator;
-
 import javax.annotation.Nullable;
 
 /**
@@ -49,35 +47,6 @@ abstract class AbstractRangeSet<C extends Comparable> implements RangeSet<C> {
     return asRanges().isEmpty();
   }
 
-  /**
-   * An implementation for {@code complement().asRanges().iterator()}.
-   */
-  final Iterator<Range<C>> standardComplementIterator() {
-    return new AbstractIterator<Range<C>>() {
-      final Iterator<Range<C>> positiveIterator = AbstractRangeSet.this.asRanges().iterator();
-      Cut<C> prevCut = Cut.belowAll();
-
-      @Override
-      protected Range<C> computeNext() {
-        while (positiveIterator.hasNext()) {
-          Cut<C> oldCut = prevCut;
-          Range<C> positiveRange = positiveIterator.next();
-          prevCut = positiveRange.upperBound;
-          if (oldCut.compareTo(positiveRange.lowerBound) < 0) {
-            return new Range<C>(oldCut, positiveRange.lowerBound);
-          }
-        }
-        Cut<C> posInfinity = Cut.aboveAll();
-        if (prevCut.compareTo(posInfinity) < 0) {
-          Range<C> result = new Range<C>(prevCut, posInfinity);
-          prevCut = posInfinity;
-          return result;
-        }
-        return endOfData();
-      }
-    };
-  }
-
   @Override
   public void add(Range<C> range) {
     throw new UnsupportedOperationException();
@@ -86,6 +55,11 @@ abstract class AbstractRangeSet<C extends Comparable> implements RangeSet<C> {
   @Override
   public void remove(Range<C> range) {
     throw new UnsupportedOperationException();
+  }
+  
+  @Override
+  public void clear() {
+    remove(Range.<C>all());
   }
 
   @Override

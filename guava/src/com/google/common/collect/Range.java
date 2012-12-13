@@ -364,8 +364,8 @@ public final class Range<C extends Comparable> implements Predicate<C>, Serializ
     if (lowerBound.compareTo(upperBound) > 0) {
       throw new IllegalArgumentException("Invalid range: " + toString(lowerBound, upperBound));
     }
-    this.lowerBound = lowerBound;
-    this.upperBound = upperBound;
+    this.lowerBound = checkNotNull(lowerBound);
+    this.upperBound = checkNotNull(upperBound);
   }
 
   /**
@@ -556,9 +556,17 @@ public final class Range<C extends Comparable> implements Predicate<C>, Serializ
    * @throws IllegalArgumentException if {@code isConnected(connectedRange)} is {@code false}
    */
   public Range<C> intersection(Range<C> connectedRange) {
-    Cut<C> newLower = Ordering.natural().max(lowerBound, connectedRange.lowerBound);
-    Cut<C> newUpper = Ordering.natural().min(upperBound, connectedRange.upperBound);
-    return create(newLower, newUpper);
+    int lowerCmp = lowerBound.compareTo(connectedRange.lowerBound);
+    int upperCmp = upperBound.compareTo(connectedRange.upperBound);
+    if (lowerCmp >= 0 && upperCmp <= 0) {
+      return this;
+    } else if (lowerCmp <= 0 && upperCmp >= 0) {
+      return connectedRange;
+    } else {
+      Cut<C> newLower = (lowerCmp >= 0) ? lowerBound : connectedRange.lowerBound;
+      Cut<C> newUpper = (upperCmp <= 0) ? upperBound : connectedRange.upperBound;
+      return create(newLower, newUpper);
+    }
   }
 
   /**
@@ -573,9 +581,17 @@ public final class Range<C extends Comparable> implements Predicate<C>, Serializ
    * and idempotent. Unlike it, it is always well-defined for any two input ranges.
    */
   public Range<C> span(Range<C> other) {
-    Cut<C> newLower = Ordering.natural().min(lowerBound, other.lowerBound);
-    Cut<C> newUpper = Ordering.natural().max(upperBound, other.upperBound);
-    return create(newLower, newUpper);
+    int lowerCmp = lowerBound.compareTo(other.lowerBound);
+    int upperCmp = upperBound.compareTo(other.upperBound);
+    if (lowerCmp <= 0 && upperCmp >= 0) {
+      return this;
+    } else if (lowerCmp >= 0 && upperCmp <= 0) {
+      return other;
+    } else {
+      Cut<C> newLower = (lowerCmp <= 0) ? lowerBound : other.lowerBound;
+      Cut<C> newUpper = (upperCmp >= 0) ? upperBound : other.upperBound;
+      return create(newLower, newUpper);
+    }
   }
 
   /**
