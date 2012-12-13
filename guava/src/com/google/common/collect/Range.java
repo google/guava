@@ -360,8 +360,9 @@ public final class Range<C extends Comparable> implements Predicate<C>, Serializ
   final Cut<C> lowerBound;
   final Cut<C> upperBound;
 
-  Range(Cut<C> lowerBound, Cut<C> upperBound) {
-    if (lowerBound.compareTo(upperBound) > 0) {
+  private Range(Cut<C> lowerBound, Cut<C> upperBound) {
+    if (lowerBound.compareTo(upperBound) > 0 || lowerBound == Cut.<C>aboveAll()
+        || upperBound == Cut.<C>belowAll()) {
       throw new IllegalArgumentException("Invalid range: " + toString(lowerBound, upperBound));
     }
     this.lowerBound = checkNotNull(lowerBound);

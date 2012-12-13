@@ -3640,6 +3640,11 @@ public final class Maps {
     return (entry == null) ? null : entry.getKey();
   }
 
+  @Nullable
+  static <V> V valueOrNull(@Nullable Entry<?, V> entry) {
+    return (entry == null) ? null : entry.getValue();
+  }
+
   @GwtIncompatible("NavigableMap")
   static class NavigableKeySet<K, V> extends KeySet<K, V> implements NavigableSet<K> {
     private final NavigableMap<K, V> map;

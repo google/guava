@@ -71,7 +71,7 @@ public final class TreeRangeMap<K extends Comparable, V> implements RangeMap<K, 
     private final V value;
 
     RangeMapEntry(Cut<K> lowerBound, Cut<K> upperBound, V value) {
-      this(new Range<K>(lowerBound, upperBound), value);
+      this(Range.create(lowerBound, upperBound), value);
     }
 
     RangeMapEntry(Range<K> range, V value) {

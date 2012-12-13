@@ -228,7 +228,7 @@ public final class ImmutableRangeSet<C extends Comparable> extends AbstractRange
         upperBound = ranges.get(index + (positiveBoundedBelow ? 0 : 1)).lowerBound;
       }
 
-      return new Range<C>(lowerBound, upperBound);
+      return Range.create(lowerBound, upperBound);
     }
 
     @Override
@@ -312,6 +312,7 @@ public final class ImmutableRangeSet<C extends Comparable> extends AbstractRange
   /**
    * Returns a view of the intersection of this range set with the given range.
    */
+  @Override
   public ImmutableRangeSet<C> subRangeSet(Range<C> range) {
     if (!isEmpty()) {
       Range<C> span = span();

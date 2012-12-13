@@ -108,6 +108,16 @@ public interface RangeSet<C extends Comparable> {
    */
   RangeSet<C> complement();
   
+  /**
+   * Returns a view of the intersection of this {@code RangeSet} with the specified range.
+   *
+   * <p>The returned view supports all optional operations supported by this {@code RangeSet}, with
+   * the caveat that an {@link IllegalArgumentException} is thrown on an attempt to
+   * {@linkplain #add(Range) add} any range not {@linkplain Range#encloses(Range) enclosed} by
+   * {@code view}.
+   */
+  RangeSet<C> subRangeSet(Range<C> view);
+  
   // Modification
 
   /**

@@ -20,6 +20,9 @@ import static org.truth0.Truth.ASSERT;
 
 import com.google.common.annotations.GwtIncompatible;
 
+import java.util.List;
+import java.util.NavigableMap;
+
 /**
  * Tests for {@link TreeRangeSet}.
  *
@@ -32,12 +35,15 @@ public class TreeRangeSetTest extends AbstractRangeSetTest {
 
   private static final ImmutableList<Range<Integer>> QUERY_RANGES;
 
+  private static final int MIN_BOUND = -1;
+  private static final int MAX_BOUND = 1;
+
   static {
     ImmutableList.Builder<Range<Integer>> queryBuilder = ImmutableList.builder();
 
     queryBuilder.add(Range.<Integer>all());
 
-    for (int i = 0; i <= 4; i++) {
+    for (int i = MIN_BOUND; i <= MAX_BOUND; i++) {
       for (BoundType boundType : BoundType.values()) {
         queryBuilder.add(Range.upTo(i, boundType));
         queryBuilder.add(Range.downTo(i, boundType));
@@ -47,7 +53,7 @@ public class TreeRangeSetTest extends AbstractRangeSetTest {
       queryBuilder.add(Range.closedOpen(i, i));
 
       for (BoundType lowerBoundType : BoundType.values()) {
-        for (int j = i + 1; j <= 4; j++) {
+        for (int j = i + 1; j <= MAX_BOUND; j++) {
           for (BoundType upperBoundType : BoundType.values()) {
             queryBuilder.add(Range.range(i, lowerBoundType, j, upperBoundType));
           }
@@ -55,6 +61,69 @@ public class TreeRangeSetTest extends AbstractRangeSetTest {
       }
     }
     QUERY_RANGES = queryBuilder.build();
+  }
+
+  void testViewAgainstExpected(RangeSet<Integer> expected, RangeSet<Integer> view) {
+    assertEquals(expected, view);
+    assertEquals(expected.asRanges(), view.asRanges());
+    assertEquals(expected.isEmpty(), view.isEmpty());
+
+    if (!expected.isEmpty()) {
+      assertEquals(expected.span(), view.span());
+    }
+
+    for (int i = MIN_BOUND - 1; i <= MAX_BOUND + 1; i++) {
+      assertEquals(expected.contains(i), view.contains(i));
+      assertEquals(expected.rangeContaining(i), view.rangeContaining(i));
+    }
+    testEnclosing(view);
+    if (view instanceof TreeRangeSet) {
+      testRangesByLowerBounds((TreeRangeSet<Integer>) view, expected.asRanges());
+    }
+  }
+
+  private static final ImmutableList<Cut<Integer>> CUTS_TO_TEST;
+
+  static {
+    List<Cut<Integer>> cutsToTest = Lists.newArrayList();
+    for (int i = MIN_BOUND - 1; i <= MAX_BOUND + 1; i++) {
+      cutsToTest.add(Cut.belowValue(i));
+      cutsToTest.add(Cut.aboveValue(i));
+    }
+    cutsToTest.add(Cut.<Integer>aboveAll());
+    cutsToTest.add(Cut.<Integer>belowAll());
+    CUTS_TO_TEST = ImmutableList.copyOf(cutsToTest);
+  }
+
+  private void testRangesByLowerBounds(
+      TreeRangeSet<Integer> rangeSet, Iterable<Range<Integer>> expectedRanges) {
+    NavigableMap<Cut<Integer>, Range<Integer>> expectedRangesByLowerBound = Maps.newTreeMap();
+    for (Range<Integer> range : expectedRanges) {
+      expectedRangesByLowerBound.put(range.lowerBound, range);
+    }
+
+    NavigableMap<Cut<Integer>, Range<Integer>> rangesByLowerBound = rangeSet.rangesByLowerBound;
+    testNavigationAgainstExpected(expectedRangesByLowerBound, rangesByLowerBound, CUTS_TO_TEST);
+  }
+
+  <K, V> void testNavigationAgainstExpected(
+      NavigableMap<K, V> expected, NavigableMap<K, V> navigableMap, Iterable<K> keysToTest) {
+    for (K key : keysToTest) {
+      assertEquals(expected.lowerEntry(key), navigableMap.lowerEntry(key));
+      assertEquals(expected.floorEntry(key), navigableMap.floorEntry(key));
+      assertEquals(expected.ceilingEntry(key), navigableMap.ceilingEntry(key));
+      assertEquals(expected.higherEntry(key), navigableMap.higherEntry(key));
+      for (boolean inclusive : new boolean[] {false, true}) {
+        ASSERT.that(navigableMap.headMap(key, inclusive).entrySet())
+            .has().allFrom(expected.headMap(key, inclusive).entrySet()).inOrder();
+        ASSERT.that(navigableMap.tailMap(key, inclusive).entrySet())
+            .has().allFrom(expected.tailMap(key, inclusive).entrySet()).inOrder();
+        ASSERT.that(navigableMap.headMap(key, inclusive).descendingMap().entrySet())
+            .has().allFrom(expected.headMap(key, inclusive).descendingMap().entrySet()).inOrder();
+        ASSERT.that(navigableMap.tailMap(key, inclusive).descendingMap().entrySet())
+            .has().allFrom(expected.tailMap(key, inclusive).descendingMap().entrySet()).inOrder();
+      }
+    }
   }
 
   public void testEnclosing(RangeSet<Integer> rangeSet) {
@@ -117,8 +186,99 @@ public class TreeRangeSetTest extends AbstractRangeSetTest {
         TreeRangeSet<Integer> rangeSet = TreeRangeSet.create();
         rangeSet.add(range1);
         rangeSet.add(range2);
-        
+
         assertEquals(rangeSet, TreeRangeSet.create(rangeSet));
+      }
+    }
+  }
+
+  private RangeSet<Integer> expectedSubRangeSet(
+      RangeSet<Integer> rangeSet, Range<Integer> subRange) {
+    RangeSet<Integer> expected = TreeRangeSet.create();
+    for (Range<Integer> range : rangeSet.asRanges()) {
+      if (range.isConnected(subRange)) {
+        expected.add(range.intersection(subRange));
+      }
+    }
+    return expected;
+  }
+
+  private RangeSet<Integer> expectedComplement(RangeSet<Integer> rangeSet) {
+    RangeSet<Integer> expected = TreeRangeSet.create();
+    expected.add(Range.<Integer>all());
+    expected.removeAll(rangeSet);
+    return expected;
+  }
+
+  public void testSubRangeSet() {
+    for (Range<Integer> range1 : QUERY_RANGES) {
+      for (Range<Integer> range2 : QUERY_RANGES) {
+        TreeRangeSet<Integer> rangeSet = TreeRangeSet.create();
+        rangeSet.add(range1);
+        rangeSet.add(range2);
+        for (Range<Integer> subRange : QUERY_RANGES) {
+          testViewAgainstExpected(
+              expectedSubRangeSet(rangeSet, subRange), rangeSet.subRangeSet(subRange));
+        }
+      }
+    }
+  }
+
+  public void testComplement() {
+    for (Range<Integer> range1 : QUERY_RANGES) {
+      for (Range<Integer> range2 : QUERY_RANGES) {
+        TreeRangeSet<Integer> rangeSet = TreeRangeSet.create();
+        rangeSet.add(range1);
+        rangeSet.add(range2);
+        testViewAgainstExpected(expectedComplement(rangeSet), rangeSet.complement());
+      }
+    }
+  }
+
+  public void testSubRangeSetOfComplement() {
+    for (Range<Integer> range1 : QUERY_RANGES) {
+      for (Range<Integer> range2 : QUERY_RANGES) {
+        TreeRangeSet<Integer> rangeSet = TreeRangeSet.create();
+        rangeSet.add(range1);
+        rangeSet.add(range2);
+        for (Range<Integer> subRange : QUERY_RANGES) {
+          testViewAgainstExpected(
+              expectedSubRangeSet(expectedComplement(rangeSet), subRange),
+              rangeSet.complement().subRangeSet(subRange));
+        }
+      }
+    }
+  }
+
+  public void testComplementOfSubRangeSet() {
+    for (Range<Integer> range1 : QUERY_RANGES) {
+      for (Range<Integer> range2 : QUERY_RANGES) {
+        TreeRangeSet<Integer> rangeSet = TreeRangeSet.create();
+        rangeSet.add(range1);
+        rangeSet.add(range2);
+        for (Range<Integer> subRange : QUERY_RANGES) {
+          testViewAgainstExpected(
+              expectedComplement(expectedSubRangeSet(rangeSet, subRange)),
+              rangeSet.subRangeSet(subRange).complement());
+        }
+      }
+    }
+  }
+
+  public void testRangesByUpperBound() {
+    for (Range<Integer> range1 : QUERY_RANGES) {
+      for (Range<Integer> range2 : QUERY_RANGES) {
+        TreeRangeSet<Integer> rangeSet = TreeRangeSet.create();
+        rangeSet.add(range1);
+        rangeSet.add(range2);
+
+        NavigableMap<Cut<Integer>, Range<Integer>> expectedRangesByUpperBound = Maps.newTreeMap();
+        for (Range<Integer> range : rangeSet.asRanges()) {
+          expectedRangesByUpperBound.put(range.upperBound, range);
+        }
+        testNavigationAgainstExpected(expectedRangesByUpperBound,
+            new TreeRangeSet.RangesByUpperBound<Integer>(rangeSet.rangesByLowerBound),
+            CUTS_TO_TEST);
       }
     }
   }

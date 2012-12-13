@@ -2636,6 +2636,11 @@ public final class Maps {
     return (entry == null) ? null : entry.getKey();
   }
 
+  @Nullable
+  static <V> V valueOrNull(@Nullable Entry<?, V> entry) {
+    return (entry == null) ? null : entry.getValue();
+  }
+
   static <K, V> Iterator<V> valueIterator(Iterator<Entry<K, V>> entryIterator) {
     return new TransformedIterator<Entry<K, V>, V>(entryIterator) {
       @Override

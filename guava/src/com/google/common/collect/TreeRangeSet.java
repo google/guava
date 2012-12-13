@@ -14,10 +14,12 @@
 
 package com.google.common.collect;
 
+import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Objects;
 
 import java.util.Collection;
@@ -42,7 +44,8 @@ import javax.annotation.Nullable;
 public class TreeRangeSet<C extends Comparable<?>>
     extends AbstractRangeSet<C> {
 
-  private final NavigableMap<Cut<C>, Range<C>> rangesByLowerBound;
+  @VisibleForTesting
+  final NavigableMap<Cut<C>, Range<C>> rangesByLowerBound;
 
   /**
    * Creates an empty {@code TreeRangeSet} instance.
@@ -108,6 +111,15 @@ public class TreeRangeSet<C extends Comparable<?>>
     Entry<Cut<C>, Range<C>> floorEntry = rangesByLowerBound.floorEntry(range.lowerBound);
     return floorEntry != null && floorEntry.getValue().encloses(range);
   }
+  
+  @Nullable
+  private Range<C> rangeEnclosing(Range<C> range) {
+    checkNotNull(range);
+    Entry<Cut<C>, Range<C>> floorEntry = rangesByLowerBound.floorEntry(range.lowerBound);
+    return (floorEntry != null && floorEntry.getValue().encloses(range))
+        ? floorEntry.getValue()
+        : null;
+  }
 
   @Override
   public Range<C> span() {
@@ -163,7 +175,7 @@ public class TreeRangeSet<C extends Comparable<?>>
     // Remove ranges which are strictly enclosed.
     rangesByLowerBound.subMap(lbToAdd, ubToAdd).clear();
 
-    replaceRangeWithSameLowerBound(new Range<C>(lbToAdd, ubToAdd));
+    replaceRangeWithSameLowerBound(Range.create(lbToAdd, ubToAdd));
   }
 
   @Override
@@ -183,13 +195,14 @@ public class TreeRangeSet<C extends Comparable<?>>
       Range<C> rangeBelowLB = entryBelowLB.getValue();
       if (rangeBelowLB.upperBound.compareTo(rangeToRemove.lowerBound) >= 0) {
         // { < }, and we will need to subdivide
-        if (rangeBelowLB.upperBound.compareTo(rangeToRemove.upperBound) >= 0) {
+        if (rangeToRemove.hasUpperBound()
+            && rangeBelowLB.upperBound.compareTo(rangeToRemove.upperBound) >= 0) {
           // { < > }
           replaceRangeWithSameLowerBound(
-              new Range<C>(rangeToRemove.upperBound, rangeBelowLB.upperBound));
+              Range.create(rangeToRemove.upperBound, rangeBelowLB.upperBound));
         }
         replaceRangeWithSameLowerBound(
-            new Range<C>(rangeBelowLB.lowerBound, rangeToRemove.lowerBound));
+            Range.create(rangeBelowLB.lowerBound, rangeToRemove.lowerBound));
       }
     }
 
@@ -197,10 +210,11 @@ public class TreeRangeSet<C extends Comparable<?>>
     if (entryBelowUB != null) {
       // { >
       Range<C> rangeBelowUB = entryBelowUB.getValue();
-      if (rangeBelowUB.upperBound.compareTo(rangeToRemove.upperBound) >= 0) {
+      if (rangeToRemove.hasUpperBound()
+          && rangeBelowUB.upperBound.compareTo(rangeToRemove.upperBound) >= 0) {
         // { > }
         replaceRangeWithSameLowerBound(
-            new Range<C>(rangeToRemove.upperBound, rangeBelowUB.upperBound));
+            Range.create(rangeToRemove.upperBound, rangeBelowUB.upperBound));
       }
     }
 
@@ -223,7 +237,8 @@ public class TreeRangeSet<C extends Comparable<?>>
     return (result == null) ? complement = new Complement() : result;
   }
   
-  private static final class RangesByUpperBound<C extends Comparable<?>>
+  @VisibleForTesting
+  static final class RangesByUpperBound<C extends Comparable<?>>
       extends AbstractNavigableMap<Cut<C>, Range<C>> {
     private final NavigableMap<Cut<C>, Range<C>> rangesByLowerBound;
     
@@ -339,14 +354,14 @@ public class TreeRangeSet<C extends Comparable<?>>
 
     @Override
     Iterator<Entry<Cut<C>, Range<C>>> descendingEntryIterator() {
-      final PeekingIterator<Range<C>> backingItr;
+      Collection<Range<C>> candidates;
       if (upperBoundWindow.hasUpperBound()) {
-        backingItr = Iterators.peekingIterator(rangesByLowerBound.headMap(
-            upperBoundWindow.upperEndpoint(), false).descendingMap().values().iterator());
+        candidates = rangesByLowerBound.headMap(upperBoundWindow.upperEndpoint(), false)
+            .descendingMap().values();
       } else {
-        backingItr =
-            Iterators.peekingIterator(rangesByLowerBound.descendingMap().values().iterator());
+        candidates = rangesByLowerBound.descendingMap().values();
       }
+      final PeekingIterator<Range<C>> backingItr = Iterators.peekingIterator(candidates.iterator());
       if (backingItr.hasNext()
           && upperBoundWindow.upperBound.isLessThan(backingItr.peek().upperBound)) {
         backingItr.next();
@@ -510,7 +525,9 @@ public class TreeRangeSet<C extends Comparable<?>>
               .descendingMap().values().iterator());
       Cut<C> cut;
       if (positiveItr.hasNext()) {
-        cut = positiveRangesByLowerBound.higherKey(positiveItr.peek().upperBound);
+        cut = (positiveItr.peek().upperBound == Cut.<C>aboveAll()) 
+            ? positiveItr.next().lowerBound 
+            : positiveRangesByLowerBound.higherKey(positiveItr.peek().upperBound);
       } else if (!complementLowerBoundWindow.contains(Cut.<C>belowAll())
           || positiveRangesByLowerBound.containsKey(Cut.belowAll())) {
         return Iterators.emptyIterator();
@@ -597,6 +614,238 @@ public class TreeRangeSet<C extends Comparable<?>>
     @Override
     public RangeSet<C> complement() {
       return TreeRangeSet.this;
+    }
+  }
+
+  private static final class SubRangeSetRangesByLowerBound<C extends Comparable<?>>
+      extends AbstractNavigableMap<Cut<C>, Range<C>> {
+    /**
+     * lowerBoundWindow is the headMap/subMap/tailMap view; it only restricts the keys, and does not
+     * affect the values.
+     */
+    private final Range<Cut<C>> lowerBoundWindow;
+
+    /**
+     * restriction is the subRangeSet view; ranges are truncated to their intersection with
+     * restriction.
+     */
+    private final Range<C> restriction;
+
+    private final NavigableMap<Cut<C>, Range<C>> rangesByLowerBound;
+    private final NavigableMap<Cut<C>, Range<C>> rangesByUpperBound;
+
+    private SubRangeSetRangesByLowerBound(Range<Cut<C>> lowerBoundWindow, Range<C> restriction,
+        NavigableMap<Cut<C>, Range<C>> rangesByLowerBound) {
+      this.lowerBoundWindow = checkNotNull(lowerBoundWindow);
+      this.restriction = checkNotNull(restriction);
+      this.rangesByLowerBound = checkNotNull(rangesByLowerBound);
+      this.rangesByUpperBound = new RangesByUpperBound<C>(rangesByLowerBound);
+    }
+
+    private NavigableMap<Cut<C>, Range<C>> subMap(Range<Cut<C>> window) {
+      if (!window.isConnected(lowerBoundWindow)) {
+        return ImmutableSortedMap.of();
+      } else {
+        return new SubRangeSetRangesByLowerBound<C>(
+            lowerBoundWindow.intersection(window), restriction, rangesByLowerBound);
+      }
+    }
+
+    @Override
+    public NavigableMap<Cut<C>, Range<C>> subMap(
+        Cut<C> fromKey, boolean fromInclusive, Cut<C> toKey, boolean toInclusive) {
+      return subMap(Range.range(
+          fromKey, BoundType.forBoolean(fromInclusive), toKey, BoundType.forBoolean(toInclusive)));
+    }
+
+    @Override
+    public NavigableMap<Cut<C>, Range<C>> headMap(Cut<C> toKey, boolean inclusive) {
+      return subMap(Range.upTo(toKey, BoundType.forBoolean(inclusive)));
+    }
+
+    @Override
+    public NavigableMap<Cut<C>, Range<C>> tailMap(Cut<C> fromKey, boolean inclusive) {
+      return subMap(Range.downTo(fromKey, BoundType.forBoolean(inclusive)));
+    }
+
+    @Override
+    public Comparator<? super Cut<C>> comparator() {
+      return Ordering.<Cut<C>>natural();
+    }
+
+    @Override
+    public boolean containsKey(@Nullable Object key) {
+      return get(key) != null;
+    }
+
+    @Override
+    @Nullable
+    public Range<C> get(@Nullable Object key) {
+      if (key instanceof Cut) {
+        try {
+          @SuppressWarnings("unchecked") // we catch CCE's
+          Cut<C> cut = (Cut<C>) key;
+          if (!lowerBoundWindow.contains(cut) || cut.compareTo(restriction.lowerBound) < 0
+              || cut.compareTo(restriction.upperBound) >= 0) {
+            return null;
+          } else if (cut.equals(restriction.lowerBound)) {
+            // it might be present, truncated on the left
+            Range<C> candidate = Maps.valueOrNull(rangesByLowerBound.floorEntry(cut));
+            if (candidate != null && candidate.upperBound.compareTo(restriction.lowerBound) > 0) {
+              return candidate.intersection(restriction);
+            }
+          } else {
+            Range<C> result = rangesByLowerBound.get(cut);
+            if (result != null) {
+              return result.intersection(restriction);
+            }
+          }
+        } catch (ClassCastException e) {
+          return null;
+        }
+      }
+      return null;
+    }
+
+    @Override
+    Iterator<Entry<Cut<C>, Range<C>>> entryIterator() {
+      if (restriction.isEmpty()) {
+        return Iterators.emptyIterator();
+      }
+      final Iterator<Range<C>> completeRangeItr;
+      if (lowerBoundWindow.upperBound.isLessThan(restriction.lowerBound)) {
+        return Iterators.emptyIterator();
+      } else if (lowerBoundWindow.lowerBound.isLessThan(restriction.lowerBound)) {
+        // starts at the first range with upper bound strictly greater than restriction.lowerBound
+        completeRangeItr =
+            rangesByUpperBound.tailMap(restriction.lowerBound, false).values().iterator();
+      } else {
+        // starts at the first range with lower bound above lowerBoundWindow.lowerBound
+        completeRangeItr = rangesByLowerBound.tailMap(lowerBoundWindow.lowerBound.endpoint(),
+            lowerBoundWindow.lowerBoundType() == BoundType.CLOSED).values().iterator();
+      }
+      final Cut<Cut<C>> upperBoundOnLowerBounds = Ordering.natural()
+          .min(lowerBoundWindow.upperBound, Cut.belowValue(restriction.upperBound));
+      return new AbstractIterator<Entry<Cut<C>, Range<C>>>() {
+        @Override
+        protected Entry<Cut<C>, Range<C>> computeNext() {
+          if (!completeRangeItr.hasNext()) {
+            return endOfData();
+          }
+          Range<C> nextRange = completeRangeItr.next();
+          if (upperBoundOnLowerBounds.isLessThan(nextRange.lowerBound)) {
+            return endOfData();
+          } else {
+            nextRange = nextRange.intersection(restriction);
+            return Maps.immutableEntry(nextRange.lowerBound, nextRange);
+          }
+        }
+      };
+    }
+
+    @Override
+    Iterator<Entry<Cut<C>, Range<C>>> descendingEntryIterator() {
+      if (restriction.isEmpty()) {
+        return Iterators.emptyIterator();
+      }
+      Cut<Cut<C>> upperBoundOnLowerBounds = Ordering.natural()
+          .min(lowerBoundWindow.upperBound, Cut.belowValue(restriction.upperBound));
+      final Iterator<Range<C>> completeRangeItr = rangesByLowerBound.headMap(
+          upperBoundOnLowerBounds.endpoint(),
+          upperBoundOnLowerBounds.typeAsUpperBound() == BoundType.CLOSED)
+          .descendingMap().values().iterator();
+      return new AbstractIterator<Entry<Cut<C>, Range<C>>>() {
+        @Override
+        protected Entry<Cut<C>, Range<C>> computeNext() {
+          if (!completeRangeItr.hasNext()) {
+            return endOfData();
+          }
+          Range<C> nextRange = completeRangeItr.next();
+          if (restriction.lowerBound.compareTo(nextRange.upperBound) >= 0) {
+            return endOfData();
+          }
+          nextRange = nextRange.intersection(restriction);
+          if (lowerBoundWindow.contains(nextRange.lowerBound)) {
+            return Maps.immutableEntry(nextRange.lowerBound, nextRange);
+          } else {
+            return endOfData();
+          }
+        }
+      };
+    }
+
+    @Override
+    public int size() {
+      return Iterators.size(entryIterator());
+    }
+  }
+  
+  @Override
+  public RangeSet<C> subRangeSet(Range<C> view) {
+    return view.equals(Range.<C>all()) ? this : new SubRangeSet(view);
+  }
+  
+  private final class SubRangeSet extends TreeRangeSet<C> {
+    private final Range<C> restriction;
+
+    SubRangeSet(Range<C> restriction) {
+      super(new SubRangeSetRangesByLowerBound<C>(
+          Range.<Cut<C>>all(), restriction, TreeRangeSet.this.rangesByLowerBound));
+      this.restriction = restriction;
+    }
+
+    @Override
+    public boolean encloses(Range<C> range) {
+      if (!restriction.isEmpty() && restriction.encloses(range)) {
+        Range<C> enclosing = TreeRangeSet.this.rangeEnclosing(range);
+        return enclosing != null && !enclosing.intersection(restriction).isEmpty();
+      }
+      return false;
+    }
+
+    @Override
+    @Nullable
+    public Range<C> rangeContaining(C value) {
+      if (!restriction.contains(value)) {
+        return null;
+      }
+      Range<C> result = TreeRangeSet.this.rangeContaining(value);
+      return (result == null) ? null : result.intersection(restriction);
+    }
+
+    @Override
+    public void add(Range<C> rangeToAdd) {
+      checkArgument(restriction.encloses(rangeToAdd), "Cannot add range %s to subRangeSet(%s)",
+          rangeToAdd, restriction);
+      super.add(rangeToAdd);
+    }
+
+    @Override
+    public void remove(Range<C> rangeToRemove) {
+      if (rangeToRemove.isConnected(restriction)) {
+        TreeRangeSet.this.remove(rangeToRemove.intersection(restriction));
+      }
+    }
+
+    @Override
+    public boolean contains(C value) {
+      return restriction.contains(value) && TreeRangeSet.this.contains(value);
+    }
+
+    @Override
+    public void clear() {
+      TreeRangeSet.this.remove(restriction);
+    }
+
+    @Override
+    public RangeSet<C> subRangeSet(Range<C> view) {
+      if (view.encloses(restriction)) {
+        return this;
+      } else if (view.isConnected(restriction)) {
+        return new SubRangeSet(restriction.intersection(view));
+      } else {
+        return ImmutableRangeSet.of();
+      }
     }
   }
 }
