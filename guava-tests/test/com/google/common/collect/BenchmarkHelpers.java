@@ -188,6 +188,52 @@ final class BenchmarkHelpers {
     abstract <K extends Comparable<K>, V> SortedMap<K, V> create(Map<K, V> map);
   }
 
+  enum MultisetImpl {
+    Hash {
+      @Override
+      <E> Multiset<E> create(Multiset<E> contents) {
+        return HashMultiset.create(contents);
+      }
+    },
+    LinkedHash {
+      @Override
+      <E> Multiset<E> create(Multiset<E> contents) {
+        return LinkedHashMultiset.create(contents);
+      }
+    },
+    ConcurrentHash {
+      @Override
+      <E> Multiset<E> create(Multiset<E> contents) {
+        return ConcurrentHashMultiset.create(contents);
+      }
+    },
+    Immutable {
+      @Override
+      <E> Multiset<E> create(Multiset<E> contents) {
+        return ImmutableMultiset.copyOf(contents);
+      }
+    };
+
+    abstract <E> Multiset<E> create(Multiset<E> contents);
+  }
+
+  enum SortedMultisetImpl {
+    Tree {
+      @Override
+      <E extends Comparable<E>> SortedMultiset<E> create(Multiset<E> contents) {
+        return TreeMultiset.create(contents);
+      }
+    },
+    ImmutableSorted {
+      @Override
+      <E extends Comparable<E>> SortedMultiset<E> create(Multiset<E> contents) {
+        return ImmutableSortedMultiset.copyOf(contents);
+      }
+    };
+
+    abstract <E extends Comparable<E>> SortedMultiset<E> create(Multiset<E> contents);
+  }
+
   enum TableImpl {
     HashBased {
       @Override
