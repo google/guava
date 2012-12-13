@@ -32,6 +32,7 @@ import java.io.Serializable;
 import java.util.AbstractSequentialList;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
@@ -124,12 +125,27 @@ public class LinkedListMultimap<K, V>
       return key + "=" + value;
     }
   }
+  
+  private static class KeyList<K, V> {
+    Node<K, V> head;
+    Node<K, V> tail;
+    int count;
+    
+    KeyList(Node<K, V> firstNode) {
+      this(firstNode, firstNode, 1);
+    }
+    
+    KeyList(Node<K, V> keyHead, Node<K, V> keyTail, int keyCount) {
+      this.head = keyHead;
+      this.tail = keyTail;
+      this.count = keyCount;
+    }
+  }
 
   private transient Node<K, V> head; // the head for all keys
   private transient Node<K, V> tail; // the tail for all keys
-  private transient Multiset<K> keyCount; // the number of values for each key
-  private transient Map<K, Node<K, V>> keyToKeyHead; // the head for a given key
-  private transient Map<K, Node<K, V>> keyToKeyTail; // the tail for a given key
+  private transient Map<K, KeyList<K, V>> keyToKeyList;
+  private transient int size;
 
   /**
    * Creates a new, empty {@code LinkedListMultimap} with the default initial
@@ -163,15 +179,11 @@ public class LinkedListMultimap<K, V>
   }
 
   LinkedListMultimap() {
-    keyCount = LinkedHashMultiset.create();
-    keyToKeyHead = Maps.newHashMap();
-    keyToKeyTail = Maps.newHashMap();
+    keyToKeyList = Maps.newLinkedHashMap();
   }
 
   private LinkedListMultimap(int expectedKeys) {
-    keyCount = LinkedHashMultiset.create(expectedKeys);
-    keyToKeyHead = Maps.newHashMapWithExpectedSize(expectedKeys);
-    keyToKeyTail = Maps.newHashMapWithExpectedSize(expectedKeys);
+    keyToKeyList = new LinkedHashMap<K, KeyList<K, V>>(expectedKeys);
   }
 
   private LinkedListMultimap(Multimap<? extends K, ? extends V> multimap) {
@@ -190,27 +202,30 @@ public class LinkedListMultimap<K, V>
     Node<K, V> node = new Node<K, V>(key, value);
     if (head == null) { // empty list
       head = tail = node;
-      keyToKeyHead.put(key, node);
-      keyToKeyTail.put(key, node);
+      keyToKeyList.put(key, new KeyList<K, V>(node));
     } else if (nextSibling == null) { // non-empty list, add to tail
       tail.next = node;
       node.previous = tail;
-      Node<K, V> keyTail = keyToKeyTail.get(key);
-      if (keyTail == null) { // first for this key
-        keyToKeyHead.put(key, node);
+      tail = node;
+      KeyList<K, V> keyList = keyToKeyList.get(key);
+      if (keyList == null) {
+        keyToKeyList.put(key, keyList = new KeyList<K, V>(node));
       } else {
+        keyList.count++;
+        Node<K, V> keyTail = keyList.tail;
         keyTail.nextSibling = node;
         node.previousSibling = keyTail;
+        keyList.tail = node;
       }
-      keyToKeyTail.put(key, node);
-      tail = node;
     } else { // non-empty list, insert before nextSibling
+      KeyList<K, V> keyList = keyToKeyList.get(key);
+      keyList.count++;
       node.previous = nextSibling.previous;
       node.previousSibling = nextSibling.previousSibling;
       node.next = nextSibling;
       node.nextSibling = nextSibling;
       if (nextSibling.previousSibling == null) { // nextSibling was key head
-        keyToKeyHead.put(key, node);
+        keyToKeyList.get(key).head = node;
       } else {
         nextSibling.previousSibling.nextSibling = node;
       }
@@ -222,7 +237,7 @@ public class LinkedListMultimap<K, V>
       nextSibling.previous = node;
       nextSibling.previousSibling = node;
     }
-    keyCount.add(key);
+    size++;
     return node;
   }
 
@@ -242,21 +257,25 @@ public class LinkedListMultimap<K, V>
     } else { // node was tail
       tail = node.previous;
     }
-    if (node.previousSibling != null) {
-      node.previousSibling.nextSibling = node.nextSibling;
-    } else if (node.nextSibling != null) { // node was key head
-      keyToKeyHead.put(node.key, node.nextSibling);
+    if (node.previousSibling == null && node.nextSibling == null) {
+      keyToKeyList.remove(node.key);
     } else {
-      keyToKeyHead.remove(node.key); // don't leak a key-null entry
+      KeyList<K, V> keyList = keyToKeyList.get(node.key);
+      keyList.count--;
+
+      if (node.previousSibling == null) {
+        keyList.head = node.nextSibling;
+      } else {
+        node.previousSibling.nextSibling = node.nextSibling;
+      }
+      
+      if (node.nextSibling == null) {
+        keyList.tail = node.previousSibling;
+      } else {
+        node.nextSibling.previousSibling = node.previousSibling;
+      }
     }
-    if (node.nextSibling != null) {
-      node.nextSibling.previousSibling = node.previousSibling;
-    } else if (node.previousSibling != null) { // node was key tail
-      keyToKeyTail.put(node.key, node.previousSibling);
-    } else {
-      keyToKeyTail.remove(node.key); // don't leak a key-null entry
-    }
-    keyCount.remove(node.key);
+    size--;
   }
 
   /** Removes all nodes for the specified key. */
@@ -398,7 +417,8 @@ public class LinkedListMultimap<K, V>
     /** Constructs a new iterator over all values for the specified key. */
     ValueForKeyIterator(@Nullable Object key) {
       this.key = key;
-      next = keyToKeyHead.get(key);
+      KeyList<K, V> keyList = keyToKeyList.get(key);
+      next = (keyList == null) ? null : keyList.head;
     }
 
     /**
@@ -411,16 +431,17 @@ public class LinkedListMultimap<K, V>
      * @throws IndexOutOfBoundsException if index is invalid
      */
     public ValueForKeyIterator(@Nullable Object key, int index) {
-      int size = keyCount.count(key);
+      KeyList<K,V> keyList = keyToKeyList.get(key);
+      int size = (keyList == null) ? 0 : keyList.count;
       Preconditions.checkPositionIndex(index, size);
       if (index >= (size / 2)) {
-        previous = keyToKeyTail.get(key);
+        previous = (keyList == null) ? null : keyList.tail;
         nextIndex = size;
         while (index++ < size) {
           previous();
         }
       } else {
-        next = keyToKeyHead.get(key);
+        next = (keyList == null) ? null : keyList.head;
         while (index-- > 0) {
           next();
         }
@@ -499,7 +520,7 @@ public class LinkedListMultimap<K, V>
 
   @Override
   public int size() {
-    return keyCount.size();
+    return size;
   }
 
   @Override
@@ -509,7 +530,7 @@ public class LinkedListMultimap<K, V>
 
   @Override
   public boolean containsKey(@Nullable Object key) {
-    return keyToKeyHead.containsKey(key);
+    return keyToKeyList.containsKey(key);
   }
 
   @Override
@@ -636,9 +657,8 @@ public class LinkedListMultimap<K, V>
   public void clear() {
     head = null;
     tail = null;
-    keyCount.clear();
-    keyToKeyHead.clear();
-    keyToKeyTail.clear();
+    keyToKeyList.clear();
+    size = 0;
   }
 
   // Views
@@ -656,7 +676,8 @@ public class LinkedListMultimap<K, V>
   public List<V> get(final @Nullable K key) {
     return new AbstractSequentialList<V>() {
       @Override public int size() {
-        return keyCount.count(key);
+        KeyList<K, V> keyList = keyToKeyList.get(key);
+        return (keyList == null) ? 0 : keyList.count;
       }
       @Override public ListIterator<V> listIterator(int index) {
         return new ValueForKeyIterator(key, index);
@@ -678,7 +699,7 @@ public class LinkedListMultimap<K, V>
     if (result == null) {
       keySet = result = new Sets.ImprovedAbstractSet<K>() {
         @Override public int size() {
-          return keyCount.elementSet().size();
+          return keyToKeyList.size();
         }
         @Override public Iterator<K> iterator() {
           return new DistinctKeyIterator();
@@ -709,12 +730,13 @@ public class LinkedListMultimap<K, V>
   private class MultisetView extends AbstractMultiset<K> {
     @Override
     public int size() {
-      return keyCount.size();
+      return size;
     }
 
     @Override
     public int count(Object element) {
-      return keyCount.count(element);
+      KeyList<K, V> keyList = keyToKeyList.get(element);
+      return (keyList == null) ? 0 : keyList.count;
     }
 
     @Override
@@ -730,7 +752,7 @@ public class LinkedListMultimap<K, V>
 
             @Override
             public int getCount() {
-              return keyCount.count(key);
+              return keyToKeyList.get(key).count;
             }
           };
         }
@@ -767,18 +789,6 @@ public class LinkedListMultimap<K, V>
     public Set<K> elementSet() {
       return keySet();
     }
-
-    @Override public boolean equals(@Nullable Object object) {
-      return keyCount.equals(object);
-    }
-
-    @Override public int hashCode() {
-      return keyCount.hashCode();
-    }
-
-    @Override public String toString() {
-      return keyCount.toString(); // XXX observe order?
-    }
   }
 
   private transient List<V> valuesList;
@@ -798,7 +808,7 @@ public class LinkedListMultimap<K, V>
     if (result == null) {
       valuesList = result = new AbstractSequentialList<V>() {
         @Override public int size() {
-          return keyCount.size();
+          return size;
         }
         @Override
         public ListIterator<V> listIterator(int index) {
@@ -862,7 +872,7 @@ public class LinkedListMultimap<K, V>
     if (result == null) {
       entries = result = new AbstractSequentialList<Entry<K, V>>() {
         @Override public int size() {
-          return keyCount.size();
+          return size;
         }
 
         @Override public ListIterator<Entry<K, V>> listIterator(int index) {
@@ -887,7 +897,7 @@ public class LinkedListMultimap<K, V>
       map = result = new Multimaps.AsMap<K, V>() {
         @Override
         public int size() {
-          return keyCount.elementSet().size();
+          return keyToKeyList.size();
         }
 
         @Override
@@ -977,9 +987,7 @@ public class LinkedListMultimap<K, V>
   private void readObject(ObjectInputStream stream)
       throws IOException, ClassNotFoundException {
     stream.defaultReadObject();
-    keyCount = LinkedHashMultiset.create();
-    keyToKeyHead = Maps.newHashMap();
-    keyToKeyTail = Maps.newHashMap();
+    keyToKeyList = Maps.newLinkedHashMap();
     int size = stream.readInt();
     for (int i = 0; i < size; i++) {
       @SuppressWarnings("unchecked") // reading data stored by writeObject
