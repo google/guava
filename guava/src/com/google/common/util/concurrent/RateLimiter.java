@@ -306,6 +306,8 @@ public abstract class RateLimiter {
    */
   double stableIntervalMicros;
 
+  private final Object mutex = new Object();
+
   /**
    * The time when the next request (no matter its size) will be granted. After granting a request,
    * this is pushed further in the future. Large requests push this further than small requests.
@@ -335,13 +337,15 @@ public abstract class RateLimiter {
    *
    * @param permitsPerSecond the new stable rate of this {@code RateLimiter}.
    */
-  public final synchronized void setRate(double permitsPerSecond) {
-    Preconditions.checkArgument(permitsPerSecond > 0.0
-        && !Double.isNaN(permitsPerSecond), "rate must be positive");
-    resync(readSafeMicros());
-    double stableIntervalMicros = TimeUnit.SECONDS.toMicros(1L) / permitsPerSecond;
-    this.stableIntervalMicros =  stableIntervalMicros;
-    doSetRate(permitsPerSecond, stableIntervalMicros);
+  public final void setRate(double permitsPerSecond) {
+    synchronized (mutex) {
+      Preconditions.checkArgument(permitsPerSecond > 0.0
+          && !Double.isNaN(permitsPerSecond), "rate must be positive");
+      resync(readSafeMicros());
+      double stableIntervalMicros = TimeUnit.SECONDS.toMicros(1L) / permitsPerSecond;
+      this.stableIntervalMicros =  stableIntervalMicros;
+      doSetRate(permitsPerSecond, stableIntervalMicros);
+    }
   }
 
   abstract void doSetRate(double permitsPerSecond, double stableIntervalMicros);
@@ -353,8 +357,10 @@ public abstract class RateLimiter {
    * this {@code RateLimiter}, and it is only updated after invocations
    * to {@linkplain #setRate}.
    */
-  public final synchronized double getRate() {
-    return TimeUnit.SECONDS.toMicros(1L) / stableIntervalMicros;
+  public final double getRate() {
+    synchronized (mutex) {
+      return TimeUnit.SECONDS.toMicros(1L) / stableIntervalMicros;
+    }
   }
 
   /**
@@ -375,7 +381,7 @@ public abstract class RateLimiter {
   public void acquire(int permits) {
     checkPermits(permits);
     long microsToWait;
-    synchronized (this) {
+    synchronized (mutex) {
       microsToWait = reserveNextTicket(permits, readSafeMicros());
     }
     ticker.sleepMicrosUninterruptibly(microsToWait);
@@ -440,7 +446,7 @@ public abstract class RateLimiter {
     long timeoutMicros = unit.toMicros(timeout);
     checkPermits(permits);
     long microsToWait;
-    synchronized (this) {
+    synchronized (mutex) {
       long nowMicros = readSafeMicros();
       if (nextFreeTicketMicros > nowMicros + timeoutMicros) {
         return false;
