@@ -304,7 +304,7 @@ public abstract class RateLimiter {
    * The interval between two unit requests, at our stable rate. E.g., a stable rate of 5 permits
    * per second has a stable interval of 200ms.
    */
-  double stableIntervalMicros;
+  volatile double stableIntervalMicros;
 
   private final Object mutex = new Object();
 
@@ -338,12 +338,12 @@ public abstract class RateLimiter {
    * @param permitsPerSecond the new stable rate of this {@code RateLimiter}.
    */
   public final void setRate(double permitsPerSecond) {
+    Preconditions.checkArgument(permitsPerSecond > 0.0
+        && !Double.isNaN(permitsPerSecond), "rate must be positive");
     synchronized (mutex) {
-      Preconditions.checkArgument(permitsPerSecond > 0.0
-          && !Double.isNaN(permitsPerSecond), "rate must be positive");
       resync(readSafeMicros());
       double stableIntervalMicros = TimeUnit.SECONDS.toMicros(1L) / permitsPerSecond;
-      this.stableIntervalMicros =  stableIntervalMicros;
+      this.stableIntervalMicros = stableIntervalMicros;
       doSetRate(permitsPerSecond, stableIntervalMicros);
     }
   }
@@ -358,9 +358,7 @@ public abstract class RateLimiter {
    * to {@linkplain #setRate}.
    */
   public final double getRate() {
-    synchronized (mutex) {
-      return TimeUnit.SECONDS.toMicros(1L) / stableIntervalMicros;
-    }
+    return TimeUnit.SECONDS.toMicros(1L) / stableIntervalMicros;
   }
 
   /**
