@@ -18,6 +18,7 @@ package com.google.common.util.concurrent;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
 import com.google.common.annotations.Beta;
 import com.google.common.base.Function;
@@ -692,7 +693,7 @@ public final class ServiceManager {
     /** Returns the amount of time it took for the service to finish starting in milliseconds. */
     synchronized long startupTimeMillis() {
       synchronized (watch) {
-        return watch.elapsedMillis();
+        return watch.elapsed(MILLISECONDS);
       }
     }
   }

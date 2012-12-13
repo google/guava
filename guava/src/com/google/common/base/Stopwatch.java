@@ -50,7 +50,7 @@ import java.util.concurrent.TimeUnit;
  *   doSomething();
  *   stopwatch.{@link #stop stop}(); // optional
  *
- *   long millis = stopwatch.{@link #elapsedMillis elapsedMillis}();
+ *   long millis = stopwatch.elapsed(MILLISECONDS);
  *
  *   log.info("that took: " + stopwatch); // formatted string like "12.3 ms"
  * </pre>
@@ -168,8 +168,10 @@ public final class Stopwatch {
    * <p>Note that the overhead of measurement can be more than a microsecond, so
    * it is generally not useful to specify {@link TimeUnit#NANOSECONDS}
    * precision here.
+   *
+   * @deprecated Use {@link Stopwatch#elapsed(TimeUnit)} instead.
    */
-   // TODO(user): @deprecated Use {@link Stopwatch#elapsed(TimeUnit)} instead.
+  @Deprecated
   public long elapsedTime(TimeUnit desiredUnit) {
     return elapsed(desiredUnit);
   }
@@ -178,9 +180,10 @@ public final class Stopwatch {
    * Returns the current elapsed time shown on this stopwatch, expressed
    * in milliseconds, with any fraction rounded down. This is identical to
    * {@code elapsed(TimeUnit.MILLISECONDS)}.
+   *
+   * @deprecated Use {@code stopwatch.elapsed(MILLISECONDS)} instead.
    */
-  // TODO(user): @deprecated Pass {@link TimeUnit#MILLISECONDS} to
-  // {@link Stopwatch#elapsed(TimeUnit)} instead.
+  @Deprecated
   public long elapsedMillis() {
     return elapsed(MILLISECONDS);
   }

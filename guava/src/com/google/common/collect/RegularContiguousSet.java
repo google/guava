@@ -43,7 +43,7 @@ final class RegularContiguousSet<C extends Comparable> extends ContiguousSet<C> 
 
   private ContiguousSet<C> intersectionInCurrentDomain(Range<C> other) {
     return (range.isConnected(other))
-        ? range.intersection(other).asSet(domain)
+        ? ContiguousSet.create(range.intersection(other), domain)
         : new EmptyContiguousSet<C>(domain);
   }
 
@@ -153,7 +153,7 @@ final class RegularContiguousSet<C extends Comparable> extends ContiguousSet<C> 
       C lowerEndpoint = Ordering.natural().max(this.first(), other.first());
       C upperEndpoint = Ordering.natural().min(this.last(), other.last());
       return (lowerEndpoint.compareTo(upperEndpoint) < 0)
-          ? Range.closed(lowerEndpoint, upperEndpoint).asSet(domain)
+          ? ContiguousSet.create(Range.closed(lowerEndpoint, upperEndpoint), domain)
           : new EmptyContiguousSet<C>(domain);
     }
   }

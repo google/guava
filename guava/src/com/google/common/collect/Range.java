@@ -37,8 +37,8 @@ import javax.annotation.Nullable;
 /**
  * A range (or "interval") defines the <i>boundaries</i> around a contiguous span of values of some
  * {@code Comparable} type; for example, "integers from 1 to 100 inclusive." Note that it is not
- * possible to <i>iterate</i> over these contained values unless an appropriate {@link
- * DiscreteDomain} can be provided to the {@link #asSet asSet} method.
+ * possible to <i>iterate</i> over these contained values. To do so, pass this range instance and
+ * an appropriate {@link DiscreteDomain} to {@link ContiguousSet#create}.
  *
  * <h3>Types of ranges</h3>
  *
@@ -613,10 +613,12 @@ public final class Range<C extends Comparable> implements Predicate<C>, Serializ
    *
    * @throws IllegalArgumentException if neither this range nor the domain has a lower bound, or if
    *     neither has an upper bound
+   * @deprecated Use {@code ContiguousSet.create(range, domain)} instead.
    */
   // TODO(kevinb): commit in spec to which methods are efficient?
   @Beta
   @GwtCompatible(serializable = false)
+  @Deprecated
   public ContiguousSet<C> asSet(DiscreteDomain<C> domain) {
     return ContiguousSet.create(this, domain);
   }
@@ -627,9 +629,11 @@ public final class Range<C extends Comparable> implements Predicate<C>, Serializ
    *
    * <ul>
    * <li>equivalence: {@code a.canonical().contains(v) == a.contains(v)} for all {@code v} (in other
-   *     words, {@code a.canonical(domain).asSet(domain).equals(a.asSet(domain))}
-   * <li>uniqueness: unless {@code a.isEmpty()}, {@code a.asSet(domain).equals(b.asSet(domain))}
-   *     implies {@code a.canonical(domain).equals(b.canonical(domain))}
+   *     words, {@code ContiguousSet.create(a.canonical(domain), domain).equals(
+   *     ContiguousSet.create(a, domain))}
+   * <li>uniqueness: unless {@code a.isEmpty()},
+   *     {@code ContiguousSet.create(a, domain).equals(ContiguousSet.create(b, domain))} implies
+   *     {@code a.canonical(domain).equals(b.canonical(domain))}
    * <li>idempotence: {@code a.canonical(domain).canonical(domain).equals(a.canonical(domain))}
    * </ul>
    *

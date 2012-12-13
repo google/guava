@@ -295,8 +295,8 @@ public class SetGenerators {
 
   /*
    * All the ContiguousSet generators below manually reject nulls here. In principle, we'd like to
-   * defer that to Range, since it's Range.asSet() that's used to create the sets. However, that
-   * gets messy here, and we already have null tests for Range.
+   * defer that to Range, since it's ContiguousSet.create() that's used to create the sets. However,
+   * that gets messy here, and we already have null tests for Range.
    */
 
   /*
@@ -346,7 +346,7 @@ public class SetGenerators {
          * The (tooLow + 1, tooHigh) arguments below would be invalid because tooLow would be
          * greater than tooHigh.
          */
-        return Range.openClosed(0, 1).asSet(DiscreteDomain.integers()).subSet(0, 1);
+        return ContiguousSet.create(Range.openClosed(0, 1), DiscreteDomain.integers()).subSet(0, 1);
       }
       int tooHigh = set.last() + 1;
       int tooLow = set.first() - 1;
@@ -382,7 +382,7 @@ public class SetGenerators {
       }
       Range<Integer> range =
           (elements.isEmpty()) ? Range.closedOpen(0, 0) : Range.encloseAll(elements);
-      return range.asSet(DiscreteDomain.integers());
+      return ContiguousSet.create(range, DiscreteDomain.integers());
     }
   }
 }

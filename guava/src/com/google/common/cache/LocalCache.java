@@ -3607,7 +3607,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
     }
 
     public long elapsedNanos() {
-      return stopwatch.elapsedTime(NANOSECONDS);
+      return stopwatch.elapsed(NANOSECONDS);
     }
 
     @Override
@@ -4097,12 +4097,12 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
       throw new ExecutionError(e);
     } finally {
       if (!success) {
-        globalStatsCounter.recordLoadException(stopwatch.elapsedTime(NANOSECONDS));
+        globalStatsCounter.recordLoadException(stopwatch.elapsed(NANOSECONDS));
       }
     }
 
     if (result == null) {
-      globalStatsCounter.recordLoadException(stopwatch.elapsedTime(NANOSECONDS));
+      globalStatsCounter.recordLoadException(stopwatch.elapsed(NANOSECONDS));
       throw new InvalidCacheLoadException(loader + " returned null map from loadAll");
     }
 
@@ -4121,12 +4121,12 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
     }
 
     if (nullsPresent) {
-      globalStatsCounter.recordLoadException(stopwatch.elapsedTime(NANOSECONDS));
+      globalStatsCounter.recordLoadException(stopwatch.elapsed(NANOSECONDS));
       throw new InvalidCacheLoadException(loader + " returned null keys or values from loadAll");
     }
 
     // TODO(fry): record count of loaded entries
-    globalStatsCounter.recordLoadSuccess(stopwatch.elapsedTime(NANOSECONDS));
+    globalStatsCounter.recordLoadSuccess(stopwatch.elapsed(NANOSECONDS));
     return result;
   }
 
