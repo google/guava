@@ -50,11 +50,83 @@ import javax.annotation.CheckReturnValue;
 import javax.annotation.Nullable;
 
 /**
- * A binary encoding scheme for translating between byte sequences and ASCII strings. This class
- * includes several constants for encoding schemes specified by <a
- * href="http://tools.ietf.org/html/rfc4648">RFC 4648</a>.
+ * A binary encoding scheme for reversibly translating between byte sequences and printable ASCII
+ * strings. This class includes several constants for encoding schemes specified by <a
+ * href="http://tools.ietf.org/html/rfc4648">RFC 4648</a>. For example, the expression:
+ * <pre>   {@code
  *
- * <p>All instances of this class are immutable, so they may be stored safely as static constants.
+ *   BaseEncoding.base32().encode("foo".getBytes(Charsets.US_ASCII))
+ * }</pre>
+ * returns the string {@code "MZXW6==="}, and <pre>   {@code
+ *
+ *  byte[] decoded = BaseEncoding.base32().decode("MZXW6===");
+ * }</pre>
+ *
+ * ...returns the ASCII bytes of the string {@code "foo"}.
+ *
+ * <p>By default, {@code BaseEncoding}'s behavior is relatively strict and in accordance with
+ * RFC 4648.  Decoding rejects characters in the wrong case, though padding is optional.
+ * To modify encoding and decoding behavior, use configuration methods to obtain a new encoding
+ * with modified behavior: <pre>   {@code
+ *
+ *  BaseEncoding.base16().lowerCase().decode("deadbeef");
+ * }</pre>
+ *
+ * <p>Warning: BaseEncoding instances are immutable.  Invoking a configuration method has no effect
+ * on the receiving instance; you must store and use the new encoding instance it returns, instead.
+ * <pre>   {@code
+ *
+ *   // Do NOT do this
+ *   BaseEncoding hex = BaseEncoding.base16();
+ *   hex.lowerCase(); // does nothing!
+ *   return hex.decode("deadbeef"); // throws an IllegalArgumentException
+ * }</pre>
+ *
+ * <p>It is guaranteed that {@code encoding.decode(encoding.encode(x))} is always equal to
+ * {@code x}, but the reverse does not necessarily hold.
+ *
+ * <p>
+ * <table>
+ * <tr>
+ * <th>Encoding
+ * <th>Alphabet
+ * <th>{@code char:byte} ratio
+ * <th>Default padding
+ * <th>Comments
+ * <tr>
+ * <td>{@link #base16()}
+ * <td>0-9 A-F
+ * <td>2.00
+ * <td>N/A
+ * <td>Traditional hexadecimal.  Defaults to upper case.
+ * <tr>
+ * <td>{@link #base32()}
+ * <td>A-Z 2-7
+ * <td>1.60
+ * <td>=
+ * <td>Human-readable; no possibility of mixing up 0/O or 1/I.  Defaults to upper case.
+ * <tr>
+ * <td>{@link #base32Hex()}
+ * <td>0-9 A-V
+ * <td>1.60
+ * <td>=
+ * <td>"Numerical" base 32; extended from the traditional hex alphabet.  Defaults to upper case.
+ * <tr>
+ * <td>{@link #base64()}
+ * <td>A-Z a-z 0-9 + /
+ * <td>1.33
+ * <td>=
+ * <td>
+ * <tr>
+ * <td>{@link #base64Url()}
+ * <td>A-Z a-z 0-9 - _
+ * <td>1.33
+ * <td>=
+ * <td>Safe to use as filenames, or to pass in URLs without escaping
+ * </table>
+ *
+ * <p>
+ * All instances of this class are immutable, so they may be stored safely as static constants.
  *
  * @author Louis Wasserman
  * @since 14.0
@@ -62,6 +134,8 @@ import javax.annotation.Nullable;
 @Beta
 @GwtCompatible(emulated = true)
 public abstract class BaseEncoding {
+  // TODO(user): consider adding encodeTo(Appendable, byte[], [int, int])
+
   BaseEncoding() {}
 
   /**
