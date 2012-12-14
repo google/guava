@@ -232,7 +232,7 @@ public abstract class CharMatcher implements Predicate<Character> {
   }
 
   /**
-   * Determines whether a character is single-width (not double-width). When in doubt, this config
+   * Determines whether a character is single-width (not double-width). When in doubt, this matcher
    * errs on the side of returning {@code false} (that is, it tends to assume a character is
    * double-width).
    *
@@ -394,7 +394,7 @@ public abstract class CharMatcher implements Predicate<Character> {
   // Static factories
 
   /**
-   * Returns a {@code char} config that matches only one specified character.
+   * Returns a {@code char} matcher that matches only one specified character.
    */
   public static CharMatcher is(final char match) {
     String description = "CharMatcher.is('" + showCharacter(match) + "')";
@@ -422,7 +422,7 @@ public abstract class CharMatcher implements Predicate<Character> {
   }
 
   /**
-   * Returns a {@code char} config that matches any character except the one specified.
+   * Returns a {@code char} matcher that matches any character except the one specified.
    *
    * <p>To negate another {@code CharMatcher}, use {@link #negate()}.
    */
@@ -448,7 +448,7 @@ public abstract class CharMatcher implements Predicate<Character> {
   }
 
   /**
-   * Returns a {@code char} config that matches any character present in the given character
+   * Returns a {@code char} matcher that matches any character present in the given character
    * sequence.
    */
   public static CharMatcher anyOf(final CharSequence sequence) {
@@ -460,7 +460,7 @@ public abstract class CharMatcher implements Predicate<Character> {
       case 2:
         return isEither(sequence.charAt(0), sequence.charAt(1));
     }
-    // TODO(user): is it potentially worth just going ahead and building a precomputed config?
+    // TODO(user): is it potentially worth just going ahead and building a precomputed matcher?
     final char[] chars = sequence.toString().toCharArray();
     Arrays.sort(chars);
     StringBuilder description = new StringBuilder("CharMatcher.anyOf(\"");
@@ -488,7 +488,7 @@ public abstract class CharMatcher implements Predicate<Character> {
   }
 
   /**
-   * Returns a {@code char} config that matches any character not present in the given character
+   * Returns a {@code char} matcher that matches any character not present in the given character
    * sequence.
    */
   public static CharMatcher noneOf(CharSequence sequence) {
@@ -496,7 +496,7 @@ public abstract class CharMatcher implements Predicate<Character> {
   }
 
   /**
-   * Returns a {@code char} config that matches any character in a given range (both endpoints are
+   * Returns a {@code char} matcher that matches any character in a given range (both endpoints are
    * inclusive). For example, to match any lowercase letter of the English alphabet, use {@code
    * CharMatcher.inRange('a', 'z')}.
    *
@@ -520,7 +520,7 @@ public abstract class CharMatcher implements Predicate<Character> {
   }
 
   /**
-   * Returns a config with identical behavior to the given {@link Character}-based predicate, but
+   * Returns a matcher with identical behavior to the given {@link Character}-based predicate, but
    * which operates on primitive {@code char} instances instead.
    */
   public static CharMatcher forPredicate(final Predicate<? super Character> predicate) {
@@ -568,7 +568,7 @@ public abstract class CharMatcher implements Predicate<Character> {
   // Non-static factories
 
   /**
-   * Returns a config that matches any character not matched by this config.
+   * Returns a matcher that matches any character not matched by this matcher.
    */
   public CharMatcher negate() {
     return new NegatedMatcher(this);
@@ -613,7 +613,7 @@ public abstract class CharMatcher implements Predicate<Character> {
   }
 
   /**
-   * Returns a config that matches any character matched by both this config and {@code other}.
+   * Returns a matcher that matches any character matched by both this matcher and {@code other}.
    */
   public CharMatcher and(CharMatcher other) {
     return new And(this, checkNotNull(other));
@@ -645,7 +645,7 @@ public abstract class CharMatcher implements Predicate<Character> {
   }
 
   /**
-   * Returns a config that matches any character matched by either this config or {@code other}.
+   * Returns a matcher that matches any character matched by either this matcher or {@code other}.
    */
   public CharMatcher or(CharMatcher other) {
     return new Or(this, checkNotNull(other));
@@ -677,12 +677,12 @@ public abstract class CharMatcher implements Predicate<Character> {
   }
 
   /**
-   * Returns a {@code char} config functionally equivalent to this one, but which may be faster to
+   * Returns a {@code char} matcher functionally equivalent to this one, but which may be faster to
    * query than the original; your mileage may vary. Precomputation takes time and is likely to be
-   * worthwhile only if the precomputed config is queried many thousands of times.
+   * worthwhile only if the precomputed matcher is queried many thousands of times.
    *
    * <p>This method has no effect (returns {@code this}) when called in GWT: it's unclear whether a
-   * precomputed config is faster, but it certainly consumes more memory, which doesn't seem like a
+   * precomputed matcher is faster, but it certainly consumes more memory, which doesn't seem like a
    * worthwhile tradeoff in a browser.
    */
   public CharMatcher precomputed() {
@@ -702,7 +702,7 @@ public abstract class CharMatcher implements Predicate<Character> {
   private static final int DISTINCT_CHARS = Character.MAX_VALUE - Character.MIN_VALUE + 1;
 
   /**
-   * A config for which precomputation will not yield any significant benefit.
+   * A matcher for which precomputation will not yield any significant benefit.
    */
   abstract static class FastMatcher extends CharMatcher {
     FastMatcher() {
@@ -754,7 +754,7 @@ public abstract class CharMatcher implements Predicate<Character> {
    * character, until this returns {@code true} or the end is reached.
    *
    * @param sequence the character sequence to examine, possibly empty
-   * @return {@code true} if this config matches at least one character in the sequence
+   * @return {@code true} if this matcher matches at least one character in the sequence
    * @since 8.0
    */
   public boolean matchesAnyOf(CharSequence sequence) {
@@ -768,7 +768,7 @@ public abstract class CharMatcher implements Predicate<Character> {
    * character, until this returns {@code false} or the end is reached.
    *
    * @param sequence the character sequence to examine, possibly empty
-   * @return {@code true} if this config matches every character in the sequence, including when
+   * @return {@code true} if this matcher matches every character in the sequence, including when
    *         the sequence is empty
    */
   public boolean matchesAllOf(CharSequence sequence) {
@@ -788,7 +788,7 @@ public abstract class CharMatcher implements Predicate<Character> {
    * character, until this returns {@code false} or the end is reached.
    *
    * @param sequence the character sequence to examine, possibly empty
-   * @return {@code true} if this config matches every character in the sequence, including when
+   * @return {@code true} if this matcher matches every character in the sequence, including when
    *         the sequence is empty
    */
   public boolean matchesNoneOf(CharSequence sequence) {
@@ -925,7 +925,7 @@ public abstract class CharMatcher implements Predicate<Character> {
 
   /**
    * Returns a string copy of the input character sequence, with each character that matches this
-   * config replaced by a given replacement character. For example: <pre>   {@code
+   * matcher replaced by a given replacement character. For example: <pre>   {@code
    *
    *   CharMatcher.is('a').replaceFrom("radar", 'o')}</pre>
    *
@@ -959,7 +959,7 @@ public abstract class CharMatcher implements Predicate<Character> {
 
   /**
    * Returns a string copy of the input character sequence, with each character that matches this
-   * config replaced by a given replacement sequence. For example: <pre>   {@code
+   * matcher replaced by a given replacement sequence. For example: <pre>   {@code
    *
    *   CharMatcher.is('a').replaceFrom("yaha", "oo")}</pre>
    *
@@ -1005,7 +1005,7 @@ public abstract class CharMatcher implements Predicate<Character> {
   }
 
   /**
-   * Returns a substring of the input character sequence that omits all characters this config
+   * Returns a substring of the input character sequence that omits all characters this matcher
    * matches from the beginning and from the end of the string. For example: <pre>   {@code
    *
    *   CharMatcher.anyOf("ab").trimFrom("abacatbab")}</pre>
@@ -1039,7 +1039,7 @@ public abstract class CharMatcher implements Predicate<Character> {
   }
 
   /**
-   * Returns a substring of the input character sequence that omits all characters this config
+   * Returns a substring of the input character sequence that omits all characters this matcher
    * matches from the beginning of the string. For example: <pre> {@code
    *
    *   CharMatcher.anyOf("ab").trimLeadingFrom("abacatbab")}</pre>
@@ -1061,7 +1061,7 @@ public abstract class CharMatcher implements Predicate<Character> {
   }
 
   /**
-   * Returns a substring of the input character sequence that omits all characters this config
+   * Returns a substring of the input character sequence that omits all characters this matcher
    * matches from the end of the string. For example: <pre> {@code
    *
    *   CharMatcher.anyOf("ab").trimTrailingFrom("abacatbab")}</pre>
@@ -1084,7 +1084,7 @@ public abstract class CharMatcher implements Predicate<Character> {
 
   /**
    * Returns a string copy of the input character sequence, with each group of consecutive
-   * characters that match this config replaced by a single replacement character. For example:
+   * characters that match this matcher replaced by a single replacement character. For example:
    * <pre>   {@code
    *
    *   CharMatcher.anyOf("eko").collapseFrom("bookkeeper", '-')}</pre>
