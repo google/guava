@@ -374,6 +374,16 @@ public abstract class CharMatcher implements Predicate<Character> {
           return sequence.toString();
         }
 
+        @Override
+        public String trimLeadingFrom(CharSequence sequence) {
+          return sequence.toString();
+        }
+
+        @Override
+        public String trimTrailingFrom(CharSequence sequence) {
+          return sequence.toString();
+        }
+
         @Override public int countIn(CharSequence sequence) {
           checkNotNull(sequence);
           return 0;
@@ -1198,15 +1208,12 @@ public abstract class CharMatcher implements Predicate<Character> {
   @CheckReturnValue
   public String trimLeadingFrom(CharSequence sequence) {
     int len = sequence.length();
-    int first;
-
-    for (first = 0; first < len; first++) {
+    for (int first = 0; first < len; first++) {
       if (!matches(sequence.charAt(first))) {
-        break;
+        return sequence.subSequence(first, len).toString();
       }
     }
-
-    return sequence.subSequence(first, len).toString();
+    return "";
   }
 
   /**
@@ -1220,15 +1227,12 @@ public abstract class CharMatcher implements Predicate<Character> {
   @CheckReturnValue
   public String trimTrailingFrom(CharSequence sequence) {
     int len = sequence.length();
-    int last;
-
-    for (last = len - 1; last >= 0; last--) {
+    for (int last = len - 1; last >= 0; last--) {
       if (!matches(sequence.charAt(last))) {
-        break;
+        return sequence.subSequence(0, last + 1).toString();
       }
     }
-
-    return sequence.subSequence(0, last + 1).toString();
+    return "";
   }
 
   /**

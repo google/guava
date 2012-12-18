@@ -177,6 +177,7 @@ public abstract class BaseEncoding {
    *         encoding.
    */
   public final byte[] decode(CharSequence chars) {
+    chars = padding().trimTrailingFrom(chars);
     ByteInput decodedInput = decodingStream(asCharInput(chars));
     byte[] tmp = new byte[maxDecodedSize(chars.length())];
     int index = 0;
@@ -199,6 +200,8 @@ public abstract class BaseEncoding {
   abstract int maxDecodedSize(int chars);
 
   abstract ByteInput decodingStream(CharInput charInput);
+
+  abstract CharMatcher padding();
 
   // Modified encoding generators
 
@@ -488,7 +491,8 @@ public abstract class BaseEncoding {
       this.paddingChar = paddingChar;
     }
 
-    private CharMatcher paddingMatcher() {
+    @Override
+    CharMatcher padding() {
       return (paddingChar == null) ? CharMatcher.NONE : CharMatcher.is(paddingChar.charValue());
     }
 
@@ -545,7 +549,7 @@ public abstract class BaseEncoding {
 
     @Override
     int maxDecodedSize(int chars) {
-      return alphabet.bytesPerChunk * divide(chars, alphabet.charsPerChunk, CEILING);
+      return (int) ((alphabet.bitsPerChar * (long) chars + 7L) / 8L);
     }
 
     @Override
@@ -556,7 +560,7 @@ public abstract class BaseEncoding {
         int bitBufferLength = 0;
         int readChars = 0;
         boolean hitPadding = false;
-        final CharMatcher paddingMatcher = paddingMatcher();
+        final CharMatcher paddingMatcher = padding();
 
         @Override
         public int read() throws IOException {
@@ -617,7 +621,7 @@ public abstract class BaseEncoding {
     @Override
     public BaseEncoding withSeparator(String separator, int afterEveryChars) {
       checkNotNull(separator);
-      checkArgument(paddingMatcher().or(alphabet).matchesNoneOf(separator),
+      checkArgument(padding().or(alphabet).matchesNoneOf(separator),
           "Separator cannot contain alphabet or padding characters");
       return new SeparatedBaseEncoding(this, separator, afterEveryChars);
     }
@@ -727,6 +731,11 @@ public abstract class BaseEncoding {
       checkArgument(
           afterEveryChars > 0, "Cannot add a separator after every %s chars", afterEveryChars);
       this.separatorChars = CharMatcher.anyOf(separator).precomputed();
+    }
+
+    @Override
+    CharMatcher padding() {
+      return delegate.padding();
     }
 
     @Override
