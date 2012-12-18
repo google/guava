@@ -191,6 +191,20 @@ public abstract class BaseEncoding {
     };
   }
 
+  /**
+   * Returns a {@code ByteSink} that writes base-encoded bytes to the specified {@code CharSink}.
+   */
+  @GwtIncompatible("ByteSink,CharSink")
+  public final ByteSink encodingSink(final CharSink encodedSink) {
+    checkNotNull(encodedSink);
+    return new ByteSink() {
+      @Override
+      public OutputStream openStream() throws IOException {
+        return encodingStream(encodedSink.openStream());
+      }
+    };
+  }
+
   // TODO(user): document the extent of leniency, probably after adding ignore(CharMatcher)
 
   private static byte[] extract(byte[] result, int length) {
@@ -239,12 +253,28 @@ public abstract class BaseEncoding {
    * from readers from the specified supplier.
    */
   @GwtIncompatible("Reader,InputStream")
-  public InputSupplier<InputStream> decodingStream(final InputSupplier<Reader> readerSupplier) {
+  public final InputSupplier<InputStream> decodingStream(
+      final InputSupplier<Reader> readerSupplier) {
     checkNotNull(readerSupplier);
     return new InputSupplier<InputStream>() {
       @Override
       public InputStream getInput() throws IOException {
         return decodingStream(readerSupplier.getInput());
+      }
+    };
+  }
+
+  /**
+   * Returns a {@code ByteSource} that reads base-encoded bytes from the specified
+   * {@code CharSource}.
+   */
+  @GwtIncompatible("ByteSource,CharSource")
+  public final ByteSource decodingSource(final CharSource encodedSource) {
+    checkNotNull(encodedSource);
+    return new ByteSource() {
+      @Override
+      public InputStream openStream() throws IOException {
+        return decodingStream(encodedSource.openStream());
       }
     };
   }
