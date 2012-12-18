@@ -188,6 +188,23 @@ final class BenchmarkHelpers {
     abstract <K extends Comparable<K>, V> SortedMap<K, V> create(Map<K, V> map);
   }
 
+  enum BiMapImpl {
+    Hash{
+      @Override
+      <K, V> BiMap<K, V> create(BiMap<K, V> map) {
+        return HashBiMap.create(map);
+      }
+    },
+    Immutable {
+      @Override
+      <K, V> BiMap<K, V> create(BiMap<K, V> map) {
+        return ImmutableBiMap.copyOf(map);
+      }
+    };
+
+    abstract <K, V> BiMap<K, V> create(BiMap<K, V> map);
+  }
+
   enum MultisetImpl {
     Hash {
       @Override
