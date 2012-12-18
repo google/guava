@@ -16,25 +16,18 @@
 
 package com.google.common.cache;
 
+import com.google.common.annotations.GwtCompatible;
+
 /**
- * GWT emulated version of LongAdder.
- *
- * @author Charles Fry
+ * Abstract interface for objects that can concurrently add longs.
+ * 
+ * @author Louis Wasserman
  */
-class LongAdder implements LongAddable {
-
-  private long value;
-
-  public void increment() {
-    value++;
-  }
-
-  public void add(long x) {
-    value += x;
-  }
-
-  public long sum() {
-    return value;
-  }
-
+@GwtCompatible
+interface LongAddable {
+  void increment();
+  
+  void add(long x);
+  
+  long sum();
 }

@@ -203,12 +203,12 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
    */
   @Beta
   public static final class SimpleStatsCounter implements StatsCounter {
-    private final LongAdder hitCount = new LongAdder();
-    private final LongAdder missCount = new LongAdder();
-    private final LongAdder loadSuccessCount = new LongAdder();
-    private final LongAdder loadExceptionCount = new LongAdder();
-    private final LongAdder totalLoadTime = new LongAdder();
-    private final LongAdder evictionCount = new LongAdder();
+    private final LongAddable hitCount = LongAddables.create();
+    private final LongAddable missCount = LongAddables.create();
+    private final LongAddable loadSuccessCount = LongAddables.create();
+    private final LongAddable loadExceptionCount = LongAddables.create();
+    private final LongAddable totalLoadTime = LongAddables.create();
+    private final LongAddable evictionCount = LongAddables.create();
 
     /**
      * Constructs an instance with all counts initialized to zero.

@@ -17,24 +17,12 @@
 package com.google.common.cache;
 
 /**
- * GWT emulated version of LongAdder.
- *
- * @author Charles Fry
+ * GWT emulation for LongAddables.
+ * 
+ * @author Louis Wasserman
  */
-class LongAdder implements LongAddable {
-
-  private long value;
-
-  public void increment() {
-    value++;
+final class LongAddables {  
+  public static LongAddable create() {
+    return new LongAdder();
   }
-
-  public void add(long x) {
-    value += x;
-  }
-
-  public long sum() {
-    return value;
-  }
-
 }

@@ -329,8 +329,13 @@ abstract class Striped64 extends Number {
                     (new java.security
                      .PrivilegedExceptionAction<sun.misc.Unsafe>() {
                         public sun.misc.Unsafe run() throws Exception {
-                            java.lang.reflect.Field f = sun.misc
-                                .Unsafe.class.getDeclaredField("theUnsafe");
+                            java.lang.reflect.Field f;
+                            try {
+                              f = sun.misc.Unsafe.class.getDeclaredField("theUnsafe");
+                            } catch (NoSuchFieldException e) {
+                              // reportedly, this is what Android needs
+                              f = sun.misc.Unsafe.class.getDeclaredField("THE_ONE");
+                            }
                             f.setAccessible(true);
                             return (sun.misc.Unsafe) f.get(null);
                         }});

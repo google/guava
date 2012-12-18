@@ -10,6 +10,7 @@
  */
 
 package com.google.common.cache;
+
 import java.util.concurrent.atomic.AtomicLong;
 import java.io.IOException;
 import java.io.Serializable;
@@ -43,7 +44,7 @@ import java.io.ObjectOutputStream;
  * @since 1.8
  * @author Doug Lea
  */
-final class LongAdder extends Striped64 implements Serializable {
+final class LongAdder extends Striped64 implements Serializable, LongAddable {
     private static final long serialVersionUID = 7249069246863182397L;
 
     /**
@@ -190,7 +191,7 @@ final class LongAdder extends Striped64 implements Serializable {
         return (double)sum();
     }
 
-    private void writeObject(java.io.ObjectOutputStream s)
+    private void writeObject(ObjectOutputStream s)
         throws java.io.IOException {
         s.defaultWriteObject();
         s.writeLong(sum());
