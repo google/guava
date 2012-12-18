@@ -193,6 +193,8 @@ public final class IntMath {
         } else {
           return 0;
         }
+      default:
+        // continue below to handle the general case
     }
     for (int accum = 1;; k >>= 1) {
       switch (k) {
@@ -442,6 +444,8 @@ public final class IntMath {
       case (-2):
         checkNoOverflow(k < Integer.SIZE);
         return ((k & 1) == 0) ? 1 << k : -1 << k;
+      default:
+        // continue below to handle the general case
     }
     int accum = 1;
     while (true) {

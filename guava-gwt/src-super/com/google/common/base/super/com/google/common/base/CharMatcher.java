@@ -469,6 +469,8 @@ public abstract class CharMatcher implements Predicate<Character> {
         return is(sequence.charAt(0));
       case 2:
         return isEither(sequence.charAt(0), sequence.charAt(1));
+      default:
+        // continue below to handle the general case
     }
     // TODO(user): is it potentially worth just going ahead and building a precomputed matcher?
     final char[] chars = sequence.toString().toCharArray();
@@ -752,6 +754,11 @@ public abstract class CharMatcher implements Predicate<Character> {
     CharMatcher withToString(String description) {
       return new NegatedFastMatcher(description, original);
     }
+  }
+
+  private static boolean isSmall(int totalCharacters, int tableLength) {
+    return totalCharacters <= SmallCharMatcher.MAX_SIZE
+        && tableLength > (totalCharacters * Character.SIZE);
   }
 
   // Text processing routines

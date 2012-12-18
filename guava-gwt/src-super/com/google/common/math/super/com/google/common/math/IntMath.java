@@ -329,6 +329,8 @@ public final class IntMath {
       case (-2):
         checkNoOverflow(k < Integer.SIZE);
         return ((k & 1) == 0) ? 1 << k : -1 << k;
+      default:
+        // continue below to handle the general case
     }
     int accum = 1;
     while (true) {

@@ -484,6 +484,8 @@ public abstract class CharMatcher implements Predicate<Character> {
         return is(sequence.charAt(0));
       case 2:
         return isEither(sequence.charAt(0), sequence.charAt(1));
+      default:
+        // continue below to handle the general case
     }
     // TODO(user): is it potentially worth just going ahead and building a precomputed matcher?
     final char[] chars = sequence.toString().toCharArray();
@@ -854,18 +856,20 @@ public abstract class CharMatcher implements Predicate<Character> {
         return NONE;
       case 1:
         return is((char) table.nextSetBit(0));
-      case 2: {
+      case 2:
         char c1 = (char) table.nextSetBit(0);
         char c2 = (char) table.nextSetBit(c1 + 1);
         return isEither(c1, c2);
-      }
+      default:
+        return isSmall(totalCharacters, table.length())
+            ? SmallCharMatcher.from(table, description)
+            : new BitSetMatcher(table, description);
     }
-    if (totalCharacters <= SmallCharMatcher.MAX_SIZE
-        && table.length() > totalCharacters * Character.SIZE) {
-      return SmallCharMatcher.from(table, description);
-    } else {
-      return new BitSetMatcher(table, description);
-    }
+  }
+
+  private static boolean isSmall(int totalCharacters, int tableLength) {
+    return totalCharacters <= SmallCharMatcher.MAX_SIZE
+        && tableLength > (totalCharacters * Character.SIZE);
   }
 
   @GwtIncompatible("java.util.BitSet")
