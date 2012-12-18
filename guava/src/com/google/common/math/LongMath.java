@@ -239,6 +239,8 @@ public final class LongMath {
           } else {
             return 0;
           }
+        default:
+          throw new AssertionError();
       }
     }
     for (long accum = 1;; k >>= 1) {
@@ -586,6 +588,8 @@ public final class LongMath {
         case (-2):
           checkNoOverflow(k < Long.SIZE);
           return ((k & 1) == 0) ? (1L << k) : (-1L << k);
+        default:
+          throw new AssertionError();
       }
     }
     long accum = 1;
