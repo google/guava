@@ -76,6 +76,7 @@ import java.util.logging.Level;
  *
  * @author Colin Decker
  */
+// Coffee's for {@link Closer closers} only.
 final class Closer implements Closeable {
 
   /**
