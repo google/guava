@@ -18,8 +18,11 @@ package com.google.common.hash;
 
 import static com.google.common.hash.Hashing.ConcatenatedHashFunction;
 
+import com.google.common.base.Charsets;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableTable;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Table.Cell;
 import com.google.common.testing.NullPointerTester;
 import com.google.common.util.concurrent.AtomicLongMap;
 
@@ -318,6 +321,88 @@ public class HashingTest extends TestCase {
 
     assertEquals(HashCodes.fromBytes(combined),
         new ConcatenatedHashFunction(Hashing.md5(), Hashing.murmur3_32()).hashLong(42L));
+  }
+
+  private static final ImmutableTable<HashFunction, String, String> KNOWN_HASHES =
+      ImmutableTable.<HashFunction, String, String>builder()
+          .put(Hashing.adler32(),
+               "",
+               "01000000")
+          .put(Hashing.adler32(),
+               "The quick brown fox jumps over the lazy dog",
+               "da0fdc5b")
+          .put(Hashing.adler32(),
+               "The quick brown fox jumps over the lazy dog.",
+               "0810e46b")
+          .put(Hashing.md5(),
+               "",
+               "d41d8cd98f00b204e9800998ecf8427e")
+          .put(Hashing.md5(),
+               "The quick brown fox jumps over the lazy dog",
+               "9e107d9d372bb6826bd81d3542a419d6")
+          .put(Hashing.md5(),
+               "The quick brown fox jumps over the lazy dog.",
+               "e4d909c290d0fb1ca068ffaddf22cbd0")
+          .put(Hashing.murmur3_128(),
+               "",
+               "00000000000000000000000000000000")
+          .put(Hashing.murmur3_128(),
+               "The quick brown fox jumps over the lazy dog",
+               "6c1b07bc7bbc4be347939ac4a93c437a")
+          .put(Hashing.murmur3_128(),
+               "The quick brown fox jumps over the lazy dog.",
+               "c902e99e1f4899cde7b68789a3a15d69")
+          .put(Hashing.murmur3_32(),
+               "",
+               "00000000")
+          .put(Hashing.murmur3_32(),
+               "The quick brown fox jumps over the lazy dog",
+               "23f74f2e")
+          .put(Hashing.murmur3_32(),
+               "The quick brown fox jumps over the lazy dog.",
+               "fc8bc4d5")
+          .put(Hashing.sha1(),
+               "",
+               "da39a3ee5e6b4b0d3255bfef95601890afd80709")
+          .put(Hashing.sha1(),
+               "The quick brown fox jumps over the lazy dog",
+               "2fd4e1c67a2d28fced849ee1bb76e7391b93eb12")
+          .put(Hashing.sha1(),
+               "The quick brown fox jumps over the lazy dog.",
+               "408d94384216f890ff7a0c3528e8bed1e0b01621")
+          .put(Hashing.sha256(),
+               "",
+               "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855")
+          .put(Hashing.sha256(),
+               "The quick brown fox jumps over the lazy dog",
+               "d7a8fbb307d7809469ca9abcb0082e4f8d5651e46d3cdb762d02d0bf37c9e592")
+          .put(Hashing.sha256(),
+               "The quick brown fox jumps over the lazy dog.",
+               "ef537f25c895bfa782526529a9b63d97aa631564d5d789c2b765448c8635fb6c")
+          .put(Hashing.sha512(),
+               "",
+               "cf83e1357eefb8bdf1542850d66d8007d620e4050b5715dc83f4a921d36ce9ce" +
+               "47d0d13c5d85f2b0ff8318d2877eec2f63b931bd47417a81a538327af927da3e")
+          .put(Hashing.sha512(),
+               "The quick brown fox jumps over the lazy dog",
+               "07e547d9586f6a73f73fbac0435ed76951218fb7d0c8d788a309d785436bbb64" +
+               "2e93a252a954f23912547d1e8a3b5ed6e1bfd7097821233fa0538f3db854fee6")
+          .put(Hashing.sha512(),
+               "The quick brown fox jumps over the lazy dog.",
+               "91ea1245f20d46ae9a037a989f54f1f790f0a47607eeb8a14d12890cea77a1bb" +
+               "c6c7ed9cf205e67b7f2b8fd4c7dfd3a7a8617e45f3c463d481c7e586c39ac1ed")
+          .build();
+
+  public void testKnownUtf8Hashing() {
+    for (Cell<HashFunction, String, String> cell : KNOWN_HASHES.cellSet()) {
+      HashFunction func = cell.getRowKey();
+      String input = cell.getColumnKey();
+      String expected = cell.getValue();
+      assertEquals(
+          String.format("Known hash for hash(%s, UTF_8) failed", input),
+          expected,
+          func.hashString(input, Charsets.UTF_8).toString());
+    }
   }
 
   public void testNullPointers() {
