@@ -235,7 +235,7 @@ public abstract class Optional<T> implements Serializable {
             return endOfData();
           }
         };
-      };
+      }
     };
   }
 
