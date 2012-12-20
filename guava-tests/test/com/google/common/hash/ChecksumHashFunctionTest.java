@@ -31,15 +31,15 @@ import java.util.zip.Checksum;
 public class ChecksumHashFunctionTest extends TestCase {
 
   public void testCrc32_equalsChecksumValue() throws Exception {
-    assertChecksum(CRC_32, 32, "");
-    assertChecksum(CRC_32, 32, "Z");
-    assertChecksum(CRC_32, 32, "foobar");
+    assertChecksum(CRC_32, "");
+    assertChecksum(CRC_32, "Z");
+    assertChecksum(CRC_32, "foobar");
   }
 
   public void testAdler32_equalsChecksumValue() throws Exception {
-    assertChecksum(ADLER_32, 32, "");
-    assertChecksum(ADLER_32, 32, "Z");
-    assertChecksum(ADLER_32, 32, "foobar");
+    assertChecksum(ADLER_32, "");
+    assertChecksum(ADLER_32, "Z");
+    assertChecksum(ADLER_32, "foobar");
   }
 
   public void testCrc32_knownValues() throws Exception {
@@ -64,19 +64,24 @@ public class ChecksumHashFunctionTest extends TestCase {
     assertHash32(0x5BD90FD9, ADLER_32, "The quick brown fox jumps over the lazy cog");
   }
 
-  private static void assertChecksum(Supplier<Checksum> supplier, int bits, String input) {
+  private static void assertChecksum(Supplier<Checksum> supplier, String input) {
     byte[] bytes = HashTestUtils.ascii(input);
 
     Checksum checksum = supplier.get();
     checksum.update(bytes, 0, bytes.length);
     long value = checksum.getValue();
 
-    HashCode hashCode = new ChecksumHashFunction(supplier, bits).hashBytes(bytes);
-    assertEquals(value, hashCode.padToLong());
+    String toString = "name";
+    HashFunction func = new ChecksumHashFunction(supplier, 32, toString);
+    assertEquals(toString, func.toString());
+    assertEquals(value, func.hashBytes(bytes).padToLong());
   }
 
   private static void assertHash32(int expected, Supplier<Checksum> supplier, String input) {
     byte[] bytes = HashTestUtils.ascii(input);
-    assertEquals(expected, new ChecksumHashFunction(supplier, 32).hashBytes(bytes).asInt());
+    String toString = "name";
+    HashFunction func = new ChecksumHashFunction(supplier, 32, toString);
+    assertEquals(expected, func.hashBytes(bytes).asInt());
+    assertEquals(toString, func.toString());
   }
 }

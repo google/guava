@@ -16,6 +16,8 @@
 
 package com.google.common.hash;
 
+import com.google.common.collect.ImmutableSet;
+
 import junit.framework.TestCase;
 
 import java.security.MessageDigest;
@@ -28,34 +30,44 @@ import java.util.Arrays;
  * @author Kurt Alfred Kluever
  */
 public class MessageDigestHashFunctionTest extends TestCase {
-  public void testMd5Hashing() throws Exception {
-    assertMessageDigestHashing(HashTestUtils.ascii(""), "MD5");
-    assertMessageDigestHashing(HashTestUtils.ascii("Z"), "MD5");
-    assertMessageDigestHashing(HashTestUtils.ascii("foobar"), "MD5");
-  }
+  private static final ImmutableSet<String> INPUTS = ImmutableSet.of("", "Z", "foobar");
+  private static final ImmutableSet<String> ALGORITHMS = ImmutableSet.of(
+        "MD5", "SHA1", "SHA-1", "SHA-256", "SHA-512");
 
-  public void testSha1Hashing() throws Exception {
-    assertMessageDigestHashing(HashTestUtils.ascii(""), "SHA1");
-    assertMessageDigestHashing(HashTestUtils.ascii("Z"), "SHA1");
-    assertMessageDigestHashing(HashTestUtils.ascii("foobar"), "SHA1");
-  }
-
-  private static void assertMessageDigestHashing(byte[] input, String algorithmName)
-      throws NoSuchAlgorithmException {
-    MessageDigest digest = MessageDigest.getInstance(algorithmName);
-    assertEquals(
-        HashCodes.fromBytes(digest.digest(input)),
-        new MessageDigestHashFunction(algorithmName).hashBytes(input));
-    for (int bytes = 4; bytes <= digest.getDigestLength(); bytes++) {
-      assertEquals(
-          HashCodes.fromBytes(Arrays.copyOf(digest.digest(input), bytes)),
-          new MessageDigestHashFunction(algorithmName, bytes).hashBytes(input));
+  public void testHashing() {
+    for (String stringToTest : INPUTS) {
+      for (String algorithmToTest : ALGORITHMS) {
+        assertMessageDigestHashing(HashTestUtils.ascii(stringToTest), algorithmToTest);
+      }
     }
+  }
+
+  public void testToString() {
+    assertEquals("Hashing.md5()", Hashing.md5().toString());
+    assertEquals("Hashing.sha1()", Hashing.sha1().toString());
+    assertEquals("Hashing.sha256()", Hashing.sha256().toString());
+    assertEquals("Hashing.sha512()", Hashing.sha512().toString());
+  }
+
+  private static void assertMessageDigestHashing(byte[] input, String algorithmName) {
     try {
-      int maxSize = digest.getDigestLength();
-      new MessageDigestHashFunction(algorithmName, maxSize + 1);
-      fail();
-    } catch (IllegalArgumentException expected) {
+      MessageDigest digest = MessageDigest.getInstance(algorithmName);
+      assertEquals(
+          HashCodes.fromBytes(digest.digest(input)),
+          new MessageDigestHashFunction(algorithmName, algorithmName).hashBytes(input));
+      for (int bytes = 4; bytes <= digest.getDigestLength(); bytes++) {
+        assertEquals(
+            HashCodes.fromBytes(Arrays.copyOf(digest.digest(input), bytes)),
+            new MessageDigestHashFunction(algorithmName, bytes, algorithmName).hashBytes(input));
+      }
+      try {
+        int maxSize = digest.getDigestLength();
+        new MessageDigestHashFunction(algorithmName, maxSize + 1, algorithmName);
+        fail();
+      } catch (IllegalArgumentException expected) {
+      }
+    } catch (NoSuchAlgorithmException nsae) {
+      throw new AssertionError(nsae);
     }
   }
 }

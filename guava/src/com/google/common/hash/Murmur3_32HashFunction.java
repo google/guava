@@ -60,6 +60,11 @@ final class Murmur3_32HashFunction extends AbstractStreamingHashFunction impleme
     return new Murmur3_32Hasher(seed);
   }
 
+  @Override
+  public String toString() {
+    return "Hashing.murmur3_32(" + seed + ")";
+  }
+
   @Override public HashCode hashInt(int input) {
     int k1 = mixK1(input);
     int h1 = mixH1(seed, k1);

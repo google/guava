@@ -15,6 +15,7 @@
 package com.google.common.hash;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 
 import java.io.Serializable;
@@ -33,14 +34,17 @@ final class MessageDigestHashFunction extends AbstractStreamingHashFunction
   private final MessageDigest prototype;
   private final int bytes;
   private final boolean supportsClone;
+  private final String toString;
 
-  MessageDigestHashFunction(String algorithmName) {
+  MessageDigestHashFunction(String algorithmName, String toString) {
     this.prototype = getMessageDigest(algorithmName);
     this.bytes = prototype.getDigestLength();
+    this.toString = checkNotNull(toString);
     this.supportsClone = supportsClone();
   }
 
-  MessageDigestHashFunction(String algorithmName, int bytes) {
+  MessageDigestHashFunction(String algorithmName, int bytes, String toString) {
+    this.toString = checkNotNull(toString);
     this.prototype = getMessageDigest(algorithmName);
     int maxLength = prototype.getDigestLength();
     checkArgument(bytes >= 4 && bytes <= maxLength,
@@ -60,6 +64,10 @@ final class MessageDigestHashFunction extends AbstractStreamingHashFunction
 
   @Override public int bits() {
     return bytes * Byte.SIZE;
+  }
+
+  @Override public String toString() {
+    return toString;
   }
 
   private static MessageDigest getMessageDigest(String algorithmName) {
@@ -84,21 +92,23 @@ final class MessageDigestHashFunction extends AbstractStreamingHashFunction
   private static final class SerializedForm implements Serializable {
     private final String algorithmName;
     private final int bytes;
+    private final String toString;
 
-    private SerializedForm(String algorithmName, int bytes) {
+    private SerializedForm(String algorithmName, int bytes, String toString) {
       this.algorithmName = algorithmName;
       this.bytes = bytes;
+      this.toString = toString;
     }
 
     private Object readResolve() {
-      return new MessageDigestHashFunction(algorithmName, bytes);
+      return new MessageDigestHashFunction(algorithmName, bytes, toString);
     }
 
     private static final long serialVersionUID = 0;
   }
 
   Object writeReplace() {
-    return new SerializedForm(prototype.getAlgorithm(), bytes);
+    return new SerializedForm(prototype.getAlgorithm(), bytes, toString);
   }
 
   /**

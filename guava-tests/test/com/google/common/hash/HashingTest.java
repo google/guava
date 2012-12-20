@@ -45,6 +45,7 @@ public class HashingTest extends TestCase {
     HashTestUtils.checkNo2BitCharacteristics(Hashing.md5());
     HashTestUtils.checkNoFunnels(Hashing.md5());
     HashTestUtils.assertInvariants(Hashing.md5());
+    assertEquals("Hashing.md5()", Hashing.md5().toString());
   }
 
   public void testSha1() {
@@ -52,6 +53,7 @@ public class HashingTest extends TestCase {
     HashTestUtils.checkNo2BitCharacteristics(Hashing.sha1());
     HashTestUtils.checkNoFunnels(Hashing.sha1());
     HashTestUtils.assertInvariants(Hashing.sha1());
+    assertEquals("Hashing.sha1()", Hashing.sha1().toString());
   }
 
   public void testSha256() {
@@ -59,6 +61,7 @@ public class HashingTest extends TestCase {
     HashTestUtils.checkNo2BitCharacteristics(Hashing.sha256());
     HashTestUtils.checkNoFunnels(Hashing.sha256());
     HashTestUtils.assertInvariants(Hashing.sha256());
+    assertEquals("Hashing.sha256()", Hashing.sha256().toString());
   }
 
   public void testSha512() {
@@ -66,14 +69,17 @@ public class HashingTest extends TestCase {
     HashTestUtils.checkNo2BitCharacteristics(Hashing.sha512());
     HashTestUtils.checkNoFunnels(Hashing.sha512());
     HashTestUtils.assertInvariants(Hashing.sha512());
+    assertEquals("Hashing.sha512()", Hashing.sha512().toString());
   }
 
   public void testCrc32() {
     HashTestUtils.assertInvariants(Hashing.crc32());
+    assertEquals("Hashing.crc32()", Hashing.crc32().toString());
   }
 
   public void testAdler32() {
     HashTestUtils.assertInvariants(Hashing.adler32());
+    assertEquals("Hashing.adler32()", Hashing.adler32().toString());
   }
 
   public void testMurmur3_128() {
@@ -82,6 +88,7 @@ public class HashingTest extends TestCase {
     HashTestUtils.checkNo2BitCharacteristics(Hashing.murmur3_128());
     HashTestUtils.checkNoFunnels(Hashing.murmur3_128());
     HashTestUtils.assertInvariants(Hashing.murmur3_128());
+    assertEquals("Hashing.murmur3_128(0)", Hashing.murmur3_128().toString());
   }
 
   public void testMurmur3_32() {
@@ -90,6 +97,7 @@ public class HashingTest extends TestCase {
     HashTestUtils.checkNo2BitCharacteristics(Hashing.murmur3_32());
     HashTestUtils.checkNoFunnels(Hashing.murmur3_32());
     HashTestUtils.assertInvariants(Hashing.murmur3_32());
+    assertEquals("Hashing.murmur3_32(0)", Hashing.murmur3_32().toString());
   }
 
   public void testGoodFastHash() {

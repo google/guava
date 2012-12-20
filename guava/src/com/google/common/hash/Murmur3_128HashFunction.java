@@ -54,6 +54,11 @@ final class Murmur3_128HashFunction extends AbstractStreamingHashFunction implem
     return new Murmur3_128Hasher(seed);
   }
 
+  @Override
+  public String toString() {
+    return "Hashing.murmur3_128(" + seed + ")";
+  }
+
   private static final class Murmur3_128Hasher extends AbstractStreamingHasher {
     private static final int CHUNK_SIZE = 16;
     private static final long C1 = 0x87c37b91114253d5L;
