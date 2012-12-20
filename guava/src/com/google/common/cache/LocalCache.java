@@ -2424,8 +2424,9 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
 
     V scheduleRefresh(ReferenceEntry<K, V> entry, K key, int hash, V oldValue, long now,
         CacheLoader<? super K, V> loader) {
-      if (map.refreshes() && (now - entry.getWriteTime() > map.refreshNanos)) {
-        V newValue = refresh(key, hash, loader);
+      if (map.refreshes() && (now - entry.getWriteTime() > map.refreshNanos)
+          && !entry.getValueReference().isLoading()) {
+        V newValue = refresh(key, hash, loader, true);
         if (newValue != null) {
           return newValue;
         }
@@ -2440,9 +2441,9 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
      * refresh.
      */
     @Nullable
-    V refresh(K key, int hash, CacheLoader<? super K, V> loader) {
+    V refresh(K key, int hash, CacheLoader<? super K, V> loader, boolean checkTime) {
       final LoadingValueReference<K, V> loadingValueReference =
-          insertLoadingValueReference(key, hash);
+          insertLoadingValueReference(key, hash, checkTime);
       if (loadingValueReference == null) {
         return null;
       }
@@ -2463,7 +2464,8 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
      * is already loading.
      */
     @Nullable
-    LoadingValueReference<K, V> insertLoadingValueReference(final K key, final int hash) {
+    LoadingValueReference<K, V> insertLoadingValueReference(final K key, final int hash,
+        boolean checkTime) {
       ReferenceEntry<K, V> e = null;
       lock();
       try {
@@ -2482,8 +2484,11 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
             // We found an existing entry.
 
             ValueReference<K, V> valueReference = e.getValueReference();
-            if (valueReference.isLoading()) {
+            if (valueReference.isLoading()
+                || (checkTime && (now - e.getWriteTime() < map.refreshNanos))) {
               // refresh is a no-op if loading is pending
+              // if checkTime, we want to check *after* acquiring the lock if refresh still needs
+              // to be scheduled
               return null;
             }
 
@@ -4145,7 +4150,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
 
   void refresh(K key) {
     int hash = hash(checkNotNull(key));
-    segmentFor(hash).refresh(key, hash, defaultLoader);
+    segmentFor(hash).refresh(key, hash, defaultLoader, false);
   }
 
   @Override

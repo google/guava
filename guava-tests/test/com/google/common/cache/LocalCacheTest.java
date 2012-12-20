@@ -30,7 +30,6 @@ import static com.google.common.collect.Maps.immutableEntry;
 import static java.util.concurrent.TimeUnit.MINUTES;
 import static java.util.concurrent.TimeUnit.NANOSECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
-import static org.easymock.EasyMock.createMock;
 
 import com.google.common.base.Equivalence;
 import com.google.common.base.Ticker;
@@ -718,7 +717,7 @@ public class LocalCacheTest extends TestCase {
     valueRef.setLoading(true);
     entry.setValueReference(valueRef);
     table.set(index, entry);
-    assertNull(segment.refresh(key, hash, identityLoader()));
+    assertNull(segment.refresh(key, hash, identityLoader(), false));
   }
 
   // Removal listener tests
