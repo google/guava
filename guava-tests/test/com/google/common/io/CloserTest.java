@@ -64,9 +64,9 @@ public class CloserTest extends TestCase {
   public void testNoExceptionsThrown() throws IOException {
     Closer closer = new Closer(suppressor);
 
-    TestCloseable c1 = closer.add(TestCloseable.normal());
-    TestCloseable c2 = closer.add(TestCloseable.normal());
-    TestCloseable c3 = closer.add(TestCloseable.normal());
+    TestCloseable c1 = closer.register(TestCloseable.normal());
+    TestCloseable c2 = closer.register(TestCloseable.normal());
+    TestCloseable c3 = closer.register(TestCloseable.normal());
 
     assertFalse(c1.isClosed());
     assertFalse(c2.isClosed());
@@ -84,8 +84,8 @@ public class CloserTest extends TestCase {
   public void testExceptionThrown_fromTryBlock() throws IOException {
     Closer closer = new Closer(suppressor);
 
-    TestCloseable c1 = closer.add(TestCloseable.normal());
-    TestCloseable c2 = closer.add(TestCloseable.normal());
+    TestCloseable c1 = closer.register(TestCloseable.normal());
+    TestCloseable c2 = closer.register(TestCloseable.normal());
 
     IOException exception = new IOException();
 
@@ -93,7 +93,7 @@ public class CloserTest extends TestCase {
       try {
         throw exception;
       } catch (Throwable e) {
-        throw closer.rethrow(e, IOException.class);
+        throw closer.rethrow(e);
       } finally {
         closer.close();
       }
@@ -115,11 +115,11 @@ public class CloserTest extends TestCase {
     TestCloseable c3 = null;
     try {
       try {
-        c1 = closer.add(TestCloseable.normal());
-        c2 = closer.add(TestCloseable.normal());
-        c3 = closer.add(TestCloseable.throwsOnCreate());
+        c1 = closer.register(TestCloseable.normal());
+        c2 = closer.register(TestCloseable.normal());
+        c3 = closer.register(TestCloseable.throwsOnCreate());
       } catch (Throwable e) {
-        throw closer.rethrow(e, IOException.class);
+        throw closer.rethrow(e);
       } finally {
         closer.close();
       }
@@ -140,8 +140,8 @@ public class CloserTest extends TestCase {
     IOException exception = new IOException();
 
     // c1 is added first, closed last
-    TestCloseable c1 = closer.add(TestCloseable.throwsOnClose(exception));
-    TestCloseable c2 = closer.add(TestCloseable.normal());
+    TestCloseable c1 = closer.register(TestCloseable.throwsOnClose(exception));
+    TestCloseable c2 = closer.register(TestCloseable.normal());
 
     try {
       closer.close();
@@ -161,8 +161,8 @@ public class CloserTest extends TestCase {
     IOException exception = new IOException();
 
     // c2 is added last, closed first
-    TestCloseable c1 = closer.add(TestCloseable.normal());
-    TestCloseable c2 = closer.add(TestCloseable.throwsOnClose(exception));
+    TestCloseable c1 = closer.register(TestCloseable.normal());
+    TestCloseable c2 = closer.register(TestCloseable.throwsOnClose(exception));
 
     try {
       closer.close();
@@ -183,14 +183,14 @@ public class CloserTest extends TestCase {
     IOException c1Exception = new IOException();
     IOException c2Exception = new IOException();
 
-    TestCloseable c1 = closer.add(TestCloseable.throwsOnClose(c1Exception));
-    TestCloseable c2 = closer.add(TestCloseable.throwsOnClose(c2Exception));
+    TestCloseable c1 = closer.register(TestCloseable.throwsOnClose(c1Exception));
+    TestCloseable c2 = closer.register(TestCloseable.throwsOnClose(c2Exception));
 
     try {
       try {
         throw tryException;
       } catch (Throwable e) {
-        throw closer.rethrow(e, IOException.class);
+        throw closer.rethrow(e);
       } finally {
         closer.close();
       }
@@ -214,9 +214,9 @@ public class CloserTest extends TestCase {
     IOException c2Exception = new IOException();
     IOException c3Exception = new IOException();
 
-    TestCloseable c1 = closer.add(TestCloseable.throwsOnClose(c1Exception));
-    TestCloseable c2 = closer.add(TestCloseable.throwsOnClose(c2Exception));
-    TestCloseable c3 = closer.add(TestCloseable.throwsOnClose(c3Exception));
+    TestCloseable c1 = closer.register(TestCloseable.throwsOnClose(c1Exception));
+    TestCloseable c2 = closer.register(TestCloseable.throwsOnClose(c2Exception));
+    TestCloseable c3 = closer.register(TestCloseable.throwsOnClose(c3Exception));
 
     try {
       closer.close();
@@ -240,8 +240,8 @@ public class CloserTest extends TestCase {
     RuntimeException c1Exception = new RuntimeException();
     RuntimeException c2Exception = new RuntimeException();
 
-    TestCloseable c1 = closer.add(TestCloseable.throwsOnClose(c1Exception));
-    TestCloseable c2 = closer.add(TestCloseable.throwsOnClose(c2Exception));
+    TestCloseable c1 = closer.register(TestCloseable.throwsOnClose(c1Exception));
+    TestCloseable c2 = closer.register(TestCloseable.throwsOnClose(c2Exception));
 
     try {
       try {
@@ -270,9 +270,9 @@ public class CloserTest extends TestCase {
     Error c2Exception = new Error();
     Error c3Exception = new Error();
 
-    TestCloseable c1 = closer.add(TestCloseable.throwsOnClose(c1Exception));
-    TestCloseable c2 = closer.add(TestCloseable.throwsOnClose(c2Exception));
-    TestCloseable c3 = closer.add(TestCloseable.throwsOnClose(c3Exception));
+    TestCloseable c1 = closer.register(TestCloseable.throwsOnClose(c1Exception));
+    TestCloseable c2 = closer.register(TestCloseable.throwsOnClose(c2Exception));
+    TestCloseable c3 = closer.register(TestCloseable.throwsOnClose(c3Exception));
 
     try {
       closer.close();
@@ -296,8 +296,8 @@ public class CloserTest extends TestCase {
     try {
       Closer closer = new Closer(new Closer.LoggingSuppressor());
 
-      TestCloseable c1 = closer.add(TestCloseable.throwsOnClose(new IOException()));
-      TestCloseable c2 = closer.add(TestCloseable.throwsOnClose(new RuntimeException()));
+      TestCloseable c1 = closer.register(TestCloseable.throwsOnClose(new IOException()));
+      TestCloseable c2 = closer.register(TestCloseable.throwsOnClose(new RuntimeException()));
       try {
         throw closer.rethrow(new IOException("thrown"), IOException.class);
       } catch (IOException expected) {}
@@ -330,8 +330,8 @@ public class CloserTest extends TestCase {
     IOException c1Exception = new IOException();
     RuntimeException c2Exception = new RuntimeException();
 
-    TestCloseable c1 = closer.add(TestCloseable.throwsOnClose(c1Exception));
-    TestCloseable c2 = closer.add(TestCloseable.throwsOnClose(c2Exception));
+    TestCloseable c1 = closer.register(TestCloseable.throwsOnClose(c1Exception));
+    TestCloseable c2 = closer.register(TestCloseable.throwsOnClose(c2Exception));
     try {
       try {
         throw thrownException;

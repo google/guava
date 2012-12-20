@@ -154,7 +154,7 @@ public final class Files {
 
       Closer closer = Closer.create();
       try {
-        InputStream in = closer.add(openStream());
+        InputStream in = closer.register(openStream());
         int off = 0;
         int read = 0;
 
@@ -183,7 +183,7 @@ public final class Files {
         // in that case, the array is just returned as is
         return result;
       } catch (Throwable e) {
-        throw closer.rethrow(e, IOException.class);
+        throw closer.rethrow(e);
       } finally {
         closer.close();
       }
@@ -832,11 +832,11 @@ public final class Files {
 
     Closer closer = Closer.create();
     try {
-      RandomAccessFile raf = closer.add(
+      RandomAccessFile raf = closer.register(
           new RandomAccessFile(file, mode == MapMode.READ_ONLY ? "r" : "rw"));
       return map(raf, mode, size);
     } catch (Throwable e) {
-      throw closer.rethrow(e, IOException.class);
+      throw closer.rethrow(e);
     } finally {
       closer.close();
     }
@@ -846,10 +846,10 @@ public final class Files {
       long size) throws IOException {
     Closer closer = Closer.create();
     try {
-      FileChannel channel = closer.add(raf.getChannel());
+      FileChannel channel = closer.register(raf.getChannel());
       return channel.map(mode, 0, size);
     } catch (Throwable e) {
-      throw closer.rethrow(e, IOException.class);
+      throw closer.rethrow(e);
     } finally {
       closer.close();
     }

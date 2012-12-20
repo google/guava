@@ -40,13 +40,12 @@ public final class Closeables {
   private Closeables() {}
 
   /**
-   * Closes a {@link Closeable}, with control over whether an
-   * {@code IOException} may be thrown. This is primarily useful in a
-   * finally block, where a thrown exception needs to be logged but not
-   * propagated (otherwise the original exception will be lost).
+   * Closes a {@link Closeable}, with control over whether an {@code IOException} may be thrown.
+   * This is primarily useful in a finally block, where a thrown exception needs to be logged but
+   * not propagated (otherwise the original exception will be lost).
    *
-   * <p>If {@code swallowIOException} is true then we never throw
-   * {@code IOException} but merely log it.
+   * <p>If {@code swallowIOException} is true then we never throw {@code IOException} but merely log
+   * it.
    *
    * <p>Example: <pre>   {@code
    *
@@ -62,12 +61,12 @@ public final class Closeables {
    *     }
    *   }}</pre>
    *
-   * @param closeable the {@code Closeable} object to be closed, or null,
-   *     in which case this method does nothing
-   * @param swallowIOException if true, don't propagate IO exceptions
-   *     thrown by the {@code close} methods
-   * @throws IOException if {@code swallowIOException} is false and
-   *     {@code close} throws an {@code IOException}.
+   * @param closeable the {@code Closeable} object to be closed, or null, in which case this method
+   *     does nothing
+   * @param swallowIOException if true, don't propagate IO exceptions thrown by the {@code close}
+   *     methods
+   * @throws IOException if {@code swallowIOException} is false and {@code close} throws an
+   *     {@code IOException}.
    */
   public static void close(@Nullable Closeable closeable,
       boolean swallowIOException) throws IOException {
@@ -87,10 +86,10 @@ public final class Closeables {
   }
 
   /**
-   * Equivalent to calling {@code close(closeable, true)}, but with no
-   * IOException in the signature.
-   * @param closeable the {@code Closeable} object to be closed, or null, in
-   *      which case this method does nothing
+   * Equivalent to calling {@code close(closeable, true)}, but with no IOException in the signature.
+   *
+   * @param closeable the {@code Closeable} object to be closed, or null, in which case this method
+   *     does nothing
    */
   public static void closeQuietly(@Nullable Closeable closeable) {
     try {

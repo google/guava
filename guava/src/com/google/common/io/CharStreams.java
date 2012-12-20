@@ -316,10 +316,10 @@ public final class CharStreams {
       InputSupplier<R> supplier) throws IOException {
     Closer closer = Closer.create();
     try {
-      R r = closer.add(supplier.getInput());
+      R r = closer.register(supplier.getInput());
       return readLines(r);
     } catch (Throwable e) {
-      throw closer.rethrow(e, IOException.class);
+      throw closer.rethrow(e);
     } finally {
       closer.close();
     }
@@ -390,10 +390,10 @@ public final class CharStreams {
 
     Closer closer = Closer.create();
     try {
-      R r = closer.add(supplier.getInput());
+      R r = closer.register(supplier.getInput());
       return readLines(r, callback);
     } catch (Throwable e) {
-      throw closer.rethrow(e, IOException.class);
+      throw closer.rethrow(e);
     } finally {
       closer.close();
     }

@@ -18,6 +18,7 @@ package com.google.common.io;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import com.google.common.annotations.Beta;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Throwables;
 
@@ -30,9 +31,9 @@ import java.util.logging.Level;
 
 /**
  * A {@link Closeable} that collects {@code Closeable} resources and closes them all when it is
- * closed. This is intended to approximately emulate the behavior of Java 7's
+ * {@linkplain #close closed}. This is intended to approximately emulate the behavior of Java 7's
  * <a href="http://docs.oracle.com/javase/tutorial/essential/exceptions/tryResourceClose.html">
- * try-with-resources</a> statement in a JDK6-compatible library. Running on Java 7, code using this
+ * try-with-resources</a> statement in JDK6-compatible code. Running on Java 7, code using this
  * should be approximately equivalent in behavior to the same code written with try-with-resources.
  * Running on Java 6, exceptions that cannot be thrown must be logged rather than being added to the
  * thrown exception as a suppressed exception.
@@ -42,20 +43,26 @@ import java.util.logging.Level;
  * <pre>{@code
  * Closer closer = Closer.create();
  * try {
- *   InputStream in = closer.add(openInputStream());
- *   OutputStream out = closer.add(openOutputStream());
+ *   InputStream in = closer.register(openInputStream());
+ *   OutputStream out = closer.register(openOutputStream());
  *   // do stuff
  * } catch (Throwable e) {
- *   // ensure that any checked exception types that could be thrown are provided here!
- *   throw closer.rethrow(e, IOException.class);
+ *   // ensure that any checked exception types other than IOException that could be thrown are
+ *   // provided here, e.g. throw closer.rethrow(e, CheckedException.class);
+ *   throw closer.rethrow(e);
  * } finally {
  *   closer.close();
  * }
  * }</pre>
  *
- * This pattern ensures the following:
+ * <p>Note that this try-catch-finally block is not equivalent to a try-catch-finally block using
+ * try-with-resources. To get the equivalent of that, you must wrap the above code in <i>another</i>
+ * try block in order to catch any exception that may be thrown (including from the call to
+ * {@code close()}).
+ *
+ * <p>This pattern ensures the following:
  * <ul>
- *   <li>Each {@code Closeable} resource that is successfully opened will be closed later.</li>
+ *   <li>Each {@code Closeable} resource that is successfully registered will be closed later.</li>
  *   <li>If a {@code Throwable} is thrown in the try block, no exceptions that occur when attempting
  *   to close resources will be thrown from the finally block. The throwable from the try block will
  *   be thrown.</li>
@@ -66,18 +73,20 @@ import java.util.logging.Level;
  * </ul>
  *
  * An exception that is suppressed is not thrown. The method of suppression used depends on the
- * JDK version in use:
+ * version of Java the code is running on:
  *
  * <ul>
- *   <li><b>JDK7+:</b> Exceptions are suppressed by adding them to the exception that <i>will</i>
+ *   <li><b>Java 7+:</b> Exceptions are suppressed by adding them to the exception that <i>will</i>
  *   be thrown using {@code Throwable.addSuppressed(Throwable)}.</li>
- *   <li><b>JDK6:</b> Exceptions are suppressed by logging them instead.</li>
+ *   <li><b>Java 6:</b> Exceptions are suppressed by logging them instead.</li>
  * </ul>
  *
  * @author Colin Decker
+ * @since 14.0
  */
 // Coffee's for {@link Closer closers} only.
-final class Closer implements Closeable {
+@Beta
+public final class Closer implements Closeable {
 
   /**
    * The suppressor implementation to use for the current Java version.
@@ -104,69 +113,77 @@ final class Closer implements Closeable {
   }
 
   /**
-   * Adds the given closeable to be closed when this {@code Closer} is closed.
+   * Registers the given {@code closeable} to be closed when this {@code Closer} is
+   * {@linkplain #close closed}.
    *
    * @return the given {@code closeable}
    */
-  public <C extends Closeable> C add(C closeable) {
+  // close. this word no longer has any meaning to me.
+  public <C extends Closeable> C register(C closeable) {
     stack.push(closeable);
     return closeable;
   }
 
   /**
-   * Stores the given throwable and rethrows it. It will be rethrown as is if it is a
-   * {@code RuntimeException} or {@code Error}. Otherwise, it will be rethrown wrapped in a
-   * {@code RuntimeException}. <b>Note:</b> Be sure to declare all of the checked exception types
-   * your try block can throw when calling an overload of this method so as to avoid losing the
-   * original exception type.
+   * Stores the given throwable and rethrows it. It will be rethrown as is if it is an
+   * {@code IOException}, {@code RuntimeException} or {@code Error}. Otherwise, it will be rethrown
+   * wrapped in a {@code RuntimeException}. <b>Note:</b> Be sure to declare all of the checked
+   * exception types your try block can throw when calling an overload of this method so as to avoid
+   * losing the original exception type.
    *
    * <p>This method always throws, and as such should be called as
    * {@code throw closer.rethrow(e);} to ensure the compiler knows that it will throw.
    *
    * @return this method does not return; it always throws
+   * @throws IOException when the given throwable is an IOException
    */
-  public RuntimeException rethrow(Throwable e) {
+  public RuntimeException rethrow(Throwable e) throws IOException {
     thrown = e;
+    Throwables.propagateIfPossible(e, IOException.class);
     throw Throwables.propagate(e);
   }
 
   /**
-   * Stores the given throwable and rethrows it. It will be rethrown as is if it is a
-   * {@code RuntimeException}, {@code Error} or a checked exception of the given type. Otherwise,
-   * it will be rethrown wrapped in a {@code RuntimeException}. <b>Note:</b> Be sure to declare all
-   * of the checked exception types your try block can throw when calling an overload of this method
-   * so as to avoid losing the original exception type.
+   * Stores the given throwable and rethrows it. It will be rethrown as is if it is an
+   * {@code IOException}, {@code RuntimeException}, {@code Error} or a checked exception of the
+   * given type. Otherwise, it will be rethrown wrapped in a {@code RuntimeException}. <b>Note:</b>
+   * Be sure to declare all of the checked exception types your try block can throw when calling an
+   * overload of this method so as to avoid losing the original exception type.
    *
    * <p>This method always throws, and as such should be called as
    * {@code throw closer.rethrow(e, ...);} to ensure the compiler knows that it will throw.
    *
    * @return this method does not return; it always throws
+   * @throws IOException when the given throwable is an IOException
    * @throws X when the given throwable is of the declared type X
    */
   public <X extends Exception> RuntimeException rethrow(Throwable e,
-      Class<X> declaredType) throws X {
+      Class<X> declaredType) throws IOException, X {
     thrown = e;
+    Throwables.propagateIfPossible(e, IOException.class);
     Throwables.propagateIfPossible(e, declaredType);
     throw Throwables.propagate(e);
   }
 
   /**
-   * Stores the given throwable and rethrows it. It will be rethrown as is if it is a
-   * {@code RuntimeException}, {@code Error} or a checked exception of either of the given types.
-   * Otherwise, it will be rethrown wrapped in a {@code RuntimeException}. <b>Note:</b> Be sure to
-   * declare all of the checked exception types your try block can throw when calling an overload of
-   * this method so as to avoid losing the original exception type.
+   * Stores the given throwable and rethrows it. It will be rethrown as is if it is an
+   * {@code IOException}, {@code RuntimeException}, {@code Error} or a checked exception of either
+   * of the given types. Otherwise, it will be rethrown wrapped in a {@code RuntimeException}.
+   * <b>Note:</b> Be sure to declare all of the checked exception types your try block can throw
+   * when calling an overload of this method so as to avoid losing the original exception type.
    *
    * <p>This method always throws, and as such should be called as
    * {@code throw closer.rethrow(e, ...);} to ensure the compiler knows that it will throw.
    *
    * @return this method does not return; it always throws
+   * @throws IOException when the given throwable is an IOException
    * @throws X1 when the given throwable is of the declared type X1
    * @throws X2 when the given throwable is of the declared type X2
    */
   public <X1 extends Exception, X2 extends Exception> RuntimeException rethrow(
-      Throwable e, Class<X1> declaredType1, Class<X2> declaredType2) throws X1, X2 {
+      Throwable e, Class<X1> declaredType1, Class<X2> declaredType2) throws IOException, X1, X2 {
     thrown = e;
+    Throwables.propagateIfPossible(e, IOException.class);
     Throwables.propagateIfPossible(e, declaredType1, declaredType2);
     throw Throwables.propagate(e);
   }

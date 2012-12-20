@@ -89,10 +89,10 @@ public abstract class ByteSink {
 
     Closer closer = Closer.create();
     try {
-      OutputStream out = closer.add(openStream());
+      OutputStream out = closer.register(openStream());
       out.write(bytes);
     } catch (Throwable e) {
-      throw closer.rethrow(e, IOException.class);
+      throw closer.rethrow(e);
     } finally {
       closer.close();
     }
@@ -110,10 +110,10 @@ public abstract class ByteSink {
 
     Closer closer = Closer.create();
     try {
-      OutputStream out = closer.add(openStream());
+      OutputStream out = closer.register(openStream());
       return ByteStreams.copy(input, out);
     } catch (Throwable e) {
-      throw closer.rethrow(e, IOException.class);
+      throw closer.rethrow(e);
     } finally {
       closer.close();
     }

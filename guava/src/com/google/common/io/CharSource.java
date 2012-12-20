@@ -95,10 +95,10 @@ public abstract class CharSource {
 
     Closer closer = Closer.create();
     try {
-      Reader reader = closer.add(openStream());
+      Reader reader = closer.register(openStream());
       return CharStreams.copy(reader, appendable);
     } catch (Throwable e) {
-      throw closer.rethrow(e, IOException.class);
+      throw closer.rethrow(e);
     } finally {
       closer.close();
     }
@@ -115,11 +115,11 @@ public abstract class CharSource {
 
     Closer closer = Closer.create();
     try {
-      Reader reader = closer.add(openStream());
-      Writer writer = closer.add(sink.openStream());
+      Reader reader = closer.register(openStream());
+      Writer writer = closer.register(sink.openStream());
       return CharStreams.copy(reader, writer);
     } catch (Throwable e) {
-      throw closer.rethrow(e, IOException.class);
+      throw closer.rethrow(e);
     } finally {
       closer.close();
     }
@@ -133,10 +133,10 @@ public abstract class CharSource {
   public String read() throws IOException {
     Closer closer = Closer.create();
     try {
-      Reader reader = closer.add(openStream());
+      Reader reader = closer.register(openStream());
       return CharStreams.toString(reader);
     } catch (Throwable e) {
-      throw closer.rethrow(e, IOException.class);
+      throw closer.rethrow(e);
     } finally {
       closer.close();
     }
@@ -154,10 +154,10 @@ public abstract class CharSource {
   public @Nullable String readFirstLine() throws IOException {
     Closer closer = Closer.create();
     try {
-      BufferedReader reader = closer.add(openBufferedStream());
+      BufferedReader reader = closer.register(openBufferedStream());
       return reader.readLine();
     } catch (Throwable e) {
-      throw closer.rethrow(e, IOException.class);
+      throw closer.rethrow(e);
     } finally {
       closer.close();
     }
@@ -176,7 +176,7 @@ public abstract class CharSource {
   public ImmutableList<String> readLines() throws IOException {
     Closer closer = Closer.create();
     try {
-      BufferedReader reader = closer.add(openBufferedStream());
+      BufferedReader reader = closer.register(openBufferedStream());
       List<String> result = Lists.newArrayList();
       String line;
       while ((line = reader.readLine()) != null) {
@@ -184,7 +184,7 @@ public abstract class CharSource {
       }
       return ImmutableList.copyOf(result);
     } catch (Throwable e) {
-      throw closer.rethrow(e, IOException.class);
+      throw closer.rethrow(e);
     } finally {
       closer.close();
     }

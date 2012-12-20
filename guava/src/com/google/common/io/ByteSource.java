@@ -116,7 +116,7 @@ public abstract class ByteSource {
   public long size() throws IOException {
     Closer closer = Closer.create();
     try {
-      InputStream in = closer.add(openStream());
+      InputStream in = closer.register(openStream());
       return countBySkipping(in);
     } catch (IOException e) {
       // skip may not be supported... at any rate, try reading
@@ -126,10 +126,10 @@ public abstract class ByteSource {
 
     closer = Closer.create();
     try {
-      InputStream in = closer.add(openStream());
+      InputStream in = closer.register(openStream());
       return countByReading(in);
     } catch (Throwable e) {
-      throw closer.rethrow(e, IOException.class);
+      throw closer.rethrow(e);
     } finally {
       closer.close();
     }
@@ -179,10 +179,10 @@ public abstract class ByteSource {
 
     Closer closer = Closer.create();
     try {
-      InputStream in = closer.add(openStream());
+      InputStream in = closer.register(openStream());
       return ByteStreams.copy(in, output);
     } catch (Throwable e) {
-      throw closer.rethrow(e, IOException.class);
+      throw closer.rethrow(e);
     } finally {
       closer.close();
     }
@@ -199,11 +199,11 @@ public abstract class ByteSource {
 
     Closer closer = Closer.create();
     try {
-      InputStream in = closer.add(openStream());
-      OutputStream out = closer.add(sink.openStream());
+      InputStream in = closer.register(openStream());
+      OutputStream out = closer.register(sink.openStream());
       return ByteStreams.copy(in, out);
     } catch (Throwable e) {
-      throw closer.rethrow(e, IOException.class);
+      throw closer.rethrow(e);
     } finally {
       closer.close();
     }
@@ -217,10 +217,10 @@ public abstract class ByteSource {
   public byte[] read() throws IOException {
     Closer closer = Closer.create();
     try {
-      InputStream in = closer.add(openStream());
+      InputStream in = closer.register(openStream());
       return ByteStreams.toByteArray(in);
     } catch (Throwable e) {
-      throw closer.rethrow(e, IOException.class);
+      throw closer.rethrow(e);
     } finally {
       closer.close();
     }
@@ -252,8 +252,8 @@ public abstract class ByteSource {
 
     Closer closer = Closer.create();
     try {
-      InputStream in1 = closer.add(openStream());
-      InputStream in2 = closer.add(other.openStream());
+      InputStream in1 = closer.register(openStream());
+      InputStream in2 = closer.register(other.openStream());
       while (true) {
         int read1 = ByteStreams.read(in1, buf1, 0, BUF_SIZE);
         int read2 = ByteStreams.read(in2, buf2, 0, BUF_SIZE);
@@ -264,7 +264,7 @@ public abstract class ByteSource {
         }
       }
     } catch (Throwable e) {
-      throw closer.rethrow(e, IOException.class);
+      throw closer.rethrow(e);
     } finally {
       closer.close();
     }
@@ -316,9 +316,9 @@ public abstract class ByteSource {
           ByteStreams.skipFully(in, offset);
         } catch (Throwable e) {
           Closer closer = Closer.create();
-          closer.add(in);
+          closer.register(in);
           try {
-            throw closer.rethrow(e, IOException.class);
+            throw closer.rethrow(e);
           } finally {
             closer.close();
           }
