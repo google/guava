@@ -140,6 +140,11 @@ public final class MediaType {
   public static final MediaType TEXT_JAVASCRIPT_UTF_8 = createConstantUtf8(TEXT_TYPE, "javascript");
   public static final MediaType VCARD_UTF_8 = createConstantUtf8(TEXT_TYPE, "vcard");
   public static final MediaType WML_UTF_8 = createConstantUtf8(TEXT_TYPE, "vnd.wap.wml");
+  /**
+   * As described in <a href="http://www.ietf.org/rfc/rfc3023.txt">RFC 3023</a>, this constant
+   * ({@code text/xml}) is used for XML documents that are "readable by casual users."
+   * {@link #APPLICATION_XML_UTF_8} is provided for documents that are intended for applications.
+   */
   public static final MediaType XML_UTF_8 = createConstantUtf8(TEXT_TYPE, "xml");
 
   /* image types */
@@ -167,6 +172,12 @@ public final class MediaType {
   public static final MediaType WMV = createConstant(VIDEO_TYPE, "x-ms-wmv");
 
   /* application types */
+  /**
+   * As described in <a href="http://www.ietf.org/rfc/rfc3023.txt">RFC 3023</a>, this constant
+   * ({@code application/xml}) is used for XML documents that are "unreadable by casual users."
+   * {@link #XML_UTF_8} is provided for documents that may be read by users.
+   */
+  public static final MediaType APPLICATION_XML_UTF_8 = createConstantUtf8(APPLICATION_TYPE, "xml");
   public static final MediaType ATOM_UTF_8 = createConstantUtf8(APPLICATION_TYPE, "atom+xml");
   public static final MediaType BZIP2 = createConstant(APPLICATION_TYPE, "x-bzip2");
   public static final MediaType FORM_DATA = createConstant(APPLICATION_TYPE,
@@ -254,6 +265,7 @@ public final class MediaType {
           .put(WEBM_VIDEO, WEBM_VIDEO)
           .put(WMV, WMV)
           /* application types */
+          .put(APPLICATION_XML_UTF_8, APPLICATION_XML_UTF_8)
           .put(ATOM_UTF_8, ATOM_UTF_8)
           .put(BZIP2, BZIP2)
           .put(FORM_DATA, FORM_DATA)
