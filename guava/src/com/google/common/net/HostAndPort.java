@@ -86,7 +86,7 @@ public final class HostAndPort implements Serializable {
    * Returns the portion of this {@code HostAndPort} instance that should
    * represent the hostname or IPv4/IPv6 literal.
    *
-   * A successful parse does not imply any degree of sanity in this field.
+   * <p>A successful parse does not imply any degree of sanity in this field.
    * For additional validation, see the {@link HostSpecifier} class.
    */
   public String getHostText() {
