@@ -499,16 +499,17 @@ public final class ClassSanityTester {
       args.add(generateDummyArg(param, generator));
     }
     Object instance = createInstance(factory, args);
+    List<Object> equalArgs = generateEqualFactoryArguments(factory, params, args);
     // Each group is a List of items, each item has a list of factory args.
     final List<List<List<Object>>> argGroups = Lists.newArrayList();
+    argGroups.add(ImmutableList.of(args, equalArgs));
     EqualsTester tester = new EqualsTester().setItemReporter(new ItemReporter() {
       @Override String reportItem(Item item) {
         List<Object> factoryArgs = argGroups.get(item.groupNumber).get(item.itemNumber);
         return factory.getName() + "(" + Joiner.on(", ").useForNull("null").join(factoryArgs) + ")";
       }
     });
-    tester.addEqualityGroup(instance, createInstance(factory, args));
-    argGroups.add(ImmutableList.of(args, args));
+    tester.addEqualityGroup(instance, createInstance(factory, equalArgs));
     for (int i = 0; i < params.size(); i++) {
       List<Object> newArgs = Lists.newArrayList(args);
       Object newArg = argGenerators.get(i).generate(params.get(i).getType().getRawType());
@@ -521,6 +522,44 @@ public final class ClassSanityTester {
       argGroups.add(ImmutableList.of(newArgs));
     }
     tester.testEquals();
+  }
+
+  /**
+   * Returns dummy factory arguments that are equal to {@code args} but may be different instances,
+   * to be used to construct a second instance of the same equality group.
+   */
+  private List<Object> generateEqualFactoryArguments(
+      Invokable<?, ?> factory, List<Parameter> params, List<Object> args)
+      throws ParameterNotInstantiableException, FactoryMethodReturnsNullException,
+      InvocationTargetException, IllegalAccessException {
+    List<Object> equalArgs = Lists.newArrayList(args);
+    for (int i = 0; i < args.size(); i++) {
+      Parameter param = params.get(i);
+      Object arg = args.get(i);
+      // Use new fresh value generator because 'args' were populated with new fresh generator each.
+      // Two newFreshValueGenerator() instances should normally generate equal value sequence.
+      Object shouldBeEqualArg = generateDummyArg(param, newFreshValueGenerator());
+      if (arg != shouldBeEqualArg
+          && Objects.equal(arg, shouldBeEqualArg)
+          && hashCodeInsensitiveToArgReference(factory, args, i, shouldBeEqualArg)
+          && hashCodeInsensitiveToArgReference(
+              factory, args, i, generateDummyArg(param, newFreshValueGenerator()))) {
+        // If the implementation uses identityHashCode(), referential equality is
+        // probably intended. So no point in using an equal-but-different factory argument.
+        // We check twice to avoid confusion caused by accidental hash collision.
+        equalArgs.set(i, shouldBeEqualArg);
+      }
+    }
+    return equalArgs;
+  }
+
+  private static boolean hashCodeInsensitiveToArgReference(
+      Invokable<?, ?> factory, List<Object> args, int i, Object alternateArg)
+      throws FactoryMethodReturnsNullException, InvocationTargetException, IllegalAccessException {
+    List<Object> tentativeArgs = Lists.newArrayList(args);
+    tentativeArgs.set(i, alternateArg);
+    return createInstance(factory, tentativeArgs).hashCode()
+        == createInstance(factory, args).hashCode();
   }
 
   // sampleInstances is a type-safe class-values mapping, but we don't have a type-safe data

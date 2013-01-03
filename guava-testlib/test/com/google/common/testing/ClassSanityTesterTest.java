@@ -32,6 +32,7 @@ import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.util.AbstractList;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import javax.annotation.Nullable;
@@ -295,6 +296,36 @@ public class ClassSanityTesterTest extends TestCase {
       tester.testEquals(BadEqualsWithParameterizedType.class);
     } catch (AssertionFailedError expected) {
       ASSERT.that(expected.getMessage()).contains("create([[1]])");
+      return;
+    }
+    fail("should have failed");
+  }
+
+  public void testGoodReferentialEqualityComparison() throws Exception {
+    tester.testEquals(UsesEnum.class);
+    tester.testEquals(UsesReferentialEquality.class);
+    tester.testEquals(SameListInstance.class);
+  }
+
+  public void testEqualsUsingReferentialEquality() throws Exception {
+    assertBadUseOfReferentialEquality(SameIntegerInstance.class);
+    assertBadUseOfReferentialEquality(SameLongInstance.class);
+    assertBadUseOfReferentialEquality(SameFloatInstance.class);
+    assertBadUseOfReferentialEquality(SameDoubleInstance.class);
+    assertBadUseOfReferentialEquality(SameShortInstance.class);
+    assertBadUseOfReferentialEquality(SameByteInstance.class);
+    assertBadUseOfReferentialEquality(SameCharacterInstance.class);
+    assertBadUseOfReferentialEquality(SameBooleanInstance.class);
+    assertBadUseOfReferentialEquality(SameObjectInstance.class);
+    assertBadUseOfReferentialEquality(SameStringInstance.class);
+    assertBadUseOfReferentialEquality(SameInterfaceInstance.class);
+  }
+
+  private void assertBadUseOfReferentialEquality(Class<?> cls) throws Exception {
+    try {
+      tester.testEquals(cls);
+    } catch (AssertionFailedError expected) {
+      ASSERT.that(expected.getMessage()).contains(cls.getSimpleName() + "(");
       return;
     }
     fail("should have failed");
@@ -649,6 +680,290 @@ public class ClassSanityTesterTest extends TestCase {
     @Override public int hashCode() {
       return 0;
     }
+  }
+
+  static class SameIntegerInstance {
+    private final Integer i;
+
+    public SameIntegerInstance(Integer i) {
+      this.i = checkNotNull(i);
+    }
+
+    @Override public int hashCode() {
+      return i.hashCode();
+    }
+
+    @Override public boolean equals(Object obj) {
+      if (obj instanceof SameIntegerInstance) {
+        SameIntegerInstance that = (SameIntegerInstance) obj;
+        return i == that.i;
+      }
+      return false;
+    }
+  }
+
+  static class SameLongInstance {
+    private final Long i;
+
+    public SameLongInstance(Long i) {
+      this.i = checkNotNull(i);
+    }
+
+    @Override public int hashCode() {
+      return i.hashCode();
+    }
+
+    @Override public boolean equals(Object obj) {
+      if (obj instanceof SameLongInstance) {
+        SameLongInstance that = (SameLongInstance) obj;
+        return i == that.i;
+      }
+      return false;
+    }
+  }
+
+  static class SameFloatInstance {
+    private final Float i;
+
+    public SameFloatInstance(Float i) {
+      this.i = checkNotNull(i);
+    }
+
+    @Override public int hashCode() {
+      return i.hashCode();
+    }
+
+    @Override public boolean equals(Object obj) {
+      if (obj instanceof SameFloatInstance) {
+        SameFloatInstance that = (SameFloatInstance) obj;
+        return i == that.i;
+      }
+      return false;
+    }
+  }
+
+  static class SameDoubleInstance {
+    private final Double i;
+
+    public SameDoubleInstance(Double i) {
+      this.i = checkNotNull(i);
+    }
+
+    @Override public int hashCode() {
+      return i.hashCode();
+    }
+
+    @Override public boolean equals(Object obj) {
+      if (obj instanceof SameDoubleInstance) {
+        SameDoubleInstance that = (SameDoubleInstance) obj;
+        return i == that.i;
+      }
+      return false;
+    }
+  }
+
+  static class SameShortInstance {
+    private final Short i;
+
+    public SameShortInstance(Short i) {
+      this.i = checkNotNull(i);
+    }
+
+    @Override public int hashCode() {
+      return i.hashCode();
+    }
+
+    @Override public boolean equals(Object obj) {
+      if (obj instanceof SameShortInstance) {
+        SameShortInstance that = (SameShortInstance) obj;
+        return i == that.i;
+      }
+      return false;
+    }
+  }
+
+  static class SameByteInstance {
+    private final Byte i;
+
+    public SameByteInstance(Byte i) {
+      this.i = checkNotNull(i);
+    }
+
+    @Override public int hashCode() {
+      return i.hashCode();
+    }
+
+    @Override public boolean equals(Object obj) {
+      if (obj instanceof SameByteInstance) {
+        SameByteInstance that = (SameByteInstance) obj;
+        return i == that.i;
+      }
+      return false;
+    }
+  }
+
+  static class SameCharacterInstance {
+    private final Character i;
+
+    public SameCharacterInstance(Character i) {
+      this.i = checkNotNull(i);
+    }
+
+    @Override public int hashCode() {
+      return i.hashCode();
+    }
+
+    @Override public boolean equals(Object obj) {
+      if (obj instanceof SameCharacterInstance) {
+        SameCharacterInstance that = (SameCharacterInstance) obj;
+        return i == that.i;
+      }
+      return false;
+    }
+  }
+
+  static class SameBooleanInstance {
+    private final Boolean i;
+
+    public SameBooleanInstance(Boolean i) {
+      this.i = checkNotNull(i);
+    }
+
+    @Override public int hashCode() {
+      return i.hashCode();
+    }
+
+    @Override public boolean equals(Object obj) {
+      if (obj instanceof SameBooleanInstance) {
+        SameBooleanInstance that = (SameBooleanInstance) obj;
+        return i == that.i;
+      }
+      return false;
+    }
+  }
+
+  static class SameStringInstance {
+    private final String s;
+
+    public SameStringInstance(String s) {
+      this.s = checkNotNull(s);
+    }
+
+    @Override public int hashCode() {
+      return s.hashCode();
+    }
+
+    @Override public boolean equals(Object obj) {
+      if (obj instanceof SameStringInstance) {
+        SameStringInstance that = (SameStringInstance) obj;
+        return s == that.s;
+      }
+      return false;
+    }
+  }
+
+  static class SameObjectInstance {
+    private final Object s;
+
+    public SameObjectInstance(Object s) {
+      this.s = checkNotNull(s);
+    }
+
+    @Override public int hashCode() {
+      return s.hashCode();
+    }
+
+    @Override public boolean equals(Object obj) {
+      if (obj instanceof SameObjectInstance) {
+        SameObjectInstance that = (SameObjectInstance) obj;
+        return s == that.s;
+      }
+      return false;
+    }
+  }
+
+  static class SameInterfaceInstance {
+    private final Runnable s;
+
+    public SameInterfaceInstance(Runnable s) {
+      this.s = checkNotNull(s);
+    }
+
+    @Override public int hashCode() {
+      return s.hashCode();
+    }
+
+    @Override public boolean equals(Object obj) {
+      if (obj instanceof SameInterfaceInstance) {
+        SameInterfaceInstance that = (SameInterfaceInstance) obj;
+        return s == that.s;
+      }
+      return false;
+    }
+  }
+
+  static class SameListInstance {
+    private final List<?> s;
+
+    public SameListInstance(List<?> s) {
+      this.s = checkNotNull(s);
+    }
+
+    @Override public int hashCode() {
+      return System.identityHashCode(s);
+    }
+
+    @Override public boolean equals(Object obj) {
+      if (obj instanceof SameListInstance) {
+        SameListInstance that = (SameListInstance) obj;
+        return s == that.s;
+      }
+      return false;
+    }
+  }
+
+  static class UsesReferentialEquality {
+    private final ReferentialEquality s;
+
+    public UsesReferentialEquality(ReferentialEquality s) {
+      this.s = checkNotNull(s);
+    }
+
+    @Override public int hashCode() {
+      return s.hashCode();
+    }
+
+    @Override public boolean equals(Object obj) {
+      if (obj instanceof UsesReferentialEquality) {
+        UsesReferentialEquality that = (UsesReferentialEquality) obj;
+        return s == that.s;
+      }
+      return false;
+    }
+  }
+
+  static class UsesEnum {
+    private final TimeUnit s;
+
+    public UsesEnum(TimeUnit s) {
+      this.s = checkNotNull(s);
+    }
+
+    @Override public int hashCode() {
+      return s.hashCode();
+    }
+
+    @Override public boolean equals(Object obj) {
+      if (obj instanceof UsesEnum) {
+        UsesEnum that = (UsesEnum) obj;
+        return s == that.s;
+      }
+      return false;
+    }
+  }
+
+  public static class ReferentialEquality {
+    public ReferentialEquality() {}
   }
 
   static class BadEqualsWithParameterizedType {

@@ -60,7 +60,6 @@ import com.google.common.collect.SortedMultiset;
 import com.google.common.collect.Table;
 import com.google.common.collect.TreeBasedTable;
 import com.google.common.collect.TreeMultiset;
-import com.google.common.primitives.Primitives;
 import com.google.common.primitives.UnsignedInteger;
 import com.google.common.primitives.UnsignedLong;
 import com.google.common.reflect.AbstractInvocationHandler;
@@ -183,7 +182,7 @@ class FreshValueGenerator {
       Array.set(array, 0, generateIfPossible(componentType));
       return array;
     }
-    Method generator = GENERATORS.get(Primitives.unwrap(rawType));
+    Method generator = GENERATORS.get(rawType);
     if (generator != null) {
       ImmutableList<Parameter> params = Invokable.from(generator).getParameters();
       List<Object> args = Lists.newArrayListWithCapacity(params.size());
@@ -218,15 +217,36 @@ class FreshValueGenerator {
   }
 
   final <T> T newProxy(final Class<T> interfaceType) {
-    final int identity = freshInt();
-    return Reflection.newProxy(interfaceType, new AbstractInvocationHandler() {
-      @Override protected Object handleInvocation(Object proxy, Method method, Object[] args) {
-        return interfaceMethodCalled(interfaceType, method);
+    return Reflection.newProxy(interfaceType, new FreshInvocationHandler(interfaceType));
+  }
+
+  private final class FreshInvocationHandler extends AbstractInvocationHandler {
+    private final int identity = freshInt();
+    private final Class<?> interfaceType;
+    
+    FreshInvocationHandler(Class<?> interfaceType) {
+      this.interfaceType = interfaceType;
+    }
+
+    @Override protected Object handleInvocation(Object proxy, Method method, Object[] args) {
+      return interfaceMethodCalled(interfaceType, method);
+    }
+
+    @Override public int hashCode() {
+      return identity;
+    }
+
+    @Override public boolean equals(@Nullable Object obj) {
+      if (obj instanceof FreshInvocationHandler) {
+        FreshInvocationHandler that = (FreshInvocationHandler) obj;
+        return identity == that.identity;
       }
-      @Override public String toString() {
-        return paramString(interfaceType, identity);
-      }
-    });
+      return false;
+    }
+
+    @Override public String toString() {
+      return paramString(interfaceType, identity);
+    }
   }
 
   /** Subclasses can override to provide different return value for proxied interface methods. */
@@ -281,32 +301,64 @@ class FreshValueGenerator {
     return differentiator.getAndIncrement();
   }
 
+  @Generates private Integer freshInteger() {
+    return new Integer(freshInt());
+  }
+
   @Generates private long freshLong() {
     return freshInt();
+  }
+
+  @Generates private Long freshLongObject() {
+    return new Long(freshLong());
   }
 
   @Generates private float freshFloat() {
     return freshInt();
   }
 
+  @Generates private Float freshFloatObject() {
+    return new Float(freshFloat());
+  }
+
   @Generates private double freshDouble() {
     return freshInt();
+  }
+
+  @Generates private Double freshDoubleObject() {
+    return new Double(freshDouble());
   }
 
   @Generates private short freshShort() {
     return (short) freshInt();
   }
 
+  @Generates private Short freshShortObject() {
+    return new Short(freshShort());
+  }
+
   @Generates private byte freshByte() {
     return (byte) freshInt();
+  }
+
+  @Generates private Byte freshByteObject() {
+    return new Byte(freshByte());
   }
 
   @Generates private char freshChar() {
     return freshString().charAt(0);
   }
 
+  @Generates private Character freshCharacter() {
+    return new Character(freshChar());
+  }
+
   @Generates private boolean freshBoolean() {
     return freshInt() % 2 == 0;
+  }
+
+  @Generates private Boolean freshBooleanObject() {
+    return new Boolean(freshBoolean());
   }
 
   @Generates private UnsignedInteger freshUnsignedInteger() {
