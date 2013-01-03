@@ -168,7 +168,8 @@ public final class Stopwatch {
    * it is generally not useful to specify {@link TimeUnit#NANOSECONDS}
    * precision here.
    *
-   * @deprecated Use {@link Stopwatch#elapsed(TimeUnit)} instead.
+   * @deprecated Use {@link Stopwatch#elapsed(TimeUnit)} instead. This method is
+   *     scheduled to be removed in Guava release 16.0.
    */
   @Deprecated
   public long elapsedTime(TimeUnit desiredUnit) {
@@ -180,7 +181,8 @@ public final class Stopwatch {
    * in milliseconds, with any fraction rounded down. This is identical to
    * {@code elapsed(TimeUnit.MILLISECONDS)}.
    *
-   * @deprecated Use {@code stopwatch.elapsed(MILLISECONDS)} instead.
+   * @deprecated Use {@code stopwatch.elapsed(MILLISECONDS)} instead. This
+   *     method is scheduled to be removed in Guava release 16.0.
    */
   @Deprecated
   public long elapsedMillis() {
