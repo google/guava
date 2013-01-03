@@ -150,7 +150,7 @@ abstract class AbstractMapBasedMultiset<E> extends AbstractMultiset<E>
 
   /*
    * Not subclassing AbstractMultiset$MultisetIterator because next() needs to
-   * retrieve the Map.Entry<E, AtomicInteger> entry, which can then be used for
+   * retrieve the Map.Entry<E, Count> entry, which can then be used for
    * a more efficient remove() call.
    */
   private class MapBasedMultisetIterator implements Iterator<E> {
