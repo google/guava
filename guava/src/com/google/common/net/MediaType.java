@@ -216,12 +216,21 @@ public final class MediaType {
       createConstant(APPLICATION_TYPE, "vnd.oasis.opendocument.text");
   public static final MediaType PDF = createConstant(APPLICATION_TYPE, "pdf");
   public static final MediaType POSTSCRIPT = createConstant(APPLICATION_TYPE, "postscript");
+  public static final MediaType RDF_XML_UTF_8 = createConstantUtf8(APPLICATION_TYPE, "rdf+xml");
   public static final MediaType RTF_UTF_8 = createConstantUtf8(APPLICATION_TYPE, "rtf");
   public static final MediaType SHOCKWAVE_FLASH = createConstant(APPLICATION_TYPE,
       "x-shockwave-flash");
   public static final MediaType SKETCHUP = createConstant(APPLICATION_TYPE, "vnd.sketchup.skp");
   public static final MediaType TAR = createConstant(APPLICATION_TYPE, "x-tar");
   public static final MediaType XHTML_UTF_8 = createConstantUtf8(APPLICATION_TYPE, "xhtml+xml");
+  /**
+   * Media type for Extensible Resource Descriptors. This is not yet registered with the IANA, but
+   * it is specified by OASIS in the
+   * <a href="http://docs.oasis-open.org/xri/xrd/v1.0/cd02/xrd-1.0-cd02.html"> XRD definition</a>
+   * and implemented in projects such as
+   * <a href="http://code.google.com/p/webfinger/">WebFinger</a>.
+   */
+  public static final MediaType XRD_UTF_8 = createConstantUtf8(APPLICATION_TYPE, "xrd+xml");
   public static final MediaType ZIP = createConstant(APPLICATION_TYPE, "zip");
 
   private static final ImmutableMap<MediaType, MediaType> KNOWN_TYPES =
@@ -289,11 +298,13 @@ public final class MediaType {
           .put(OPENDOCUMENT_TEXT, OPENDOCUMENT_TEXT)
           .put(PDF, PDF)
           .put(POSTSCRIPT, POSTSCRIPT)
+          .put(RDF_XML_UTF_8, RDF_XML_UTF_8)
           .put(RTF_UTF_8, RTF_UTF_8)
           .put(SHOCKWAVE_FLASH, SHOCKWAVE_FLASH)
           .put(SKETCHUP, SKETCHUP)
           .put(TAR, TAR)
           .put(XHTML_UTF_8, XHTML_UTF_8)
+          .put(XRD_UTF_8, XRD_UTF_8)
           .put(ZIP, ZIP)
           .build();
 
