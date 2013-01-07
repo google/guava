@@ -162,6 +162,17 @@ public class ClassPathTest extends TestCase {
         .isEmpty();
   }
 
+  public void testReadClassesFromFile_notJarFile() throws IOException {
+    ClassLoader classLoader = ClassPathTest.class.getClassLoader();
+    File notJar = File.createTempFile("not_a_jar", "txt");
+    try {
+      ASSERT.that(ClassPath.readClassesFrom(notJar, classLoader))
+          .isEmpty();
+    } finally {
+      notJar.delete();
+    }
+  }
+
   public void testGetClassPathEntry() throws URISyntaxException {
     assertEquals(URI.create("file:/usr/test/dep.jar"),
         ClassPath.getClassPathEntry(new File("/home/build/outer.jar"), "file:/usr/test/dep.jar"));
