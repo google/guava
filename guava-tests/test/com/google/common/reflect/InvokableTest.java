@@ -231,6 +231,7 @@ public class InvokableTest extends TestCase {
     Invokable<?, ?> delegate = Prepender.method("privateMethod");
     assertTrue(delegate.isPrivate());
     assertFalse(delegate.isOverridable());
+    assertFalse(delegate.isVarArgs());
   }
 
   public void testPrivateFinalInstanceMethod_isOverridable() throws Exception {
@@ -238,12 +239,14 @@ public class InvokableTest extends TestCase {
     assertTrue(delegate.isPrivate());
     assertTrue(delegate.isFinal());
     assertFalse(delegate.isOverridable());
+    assertFalse(delegate.isVarArgs());
   }
 
   public void testStaticMethod_isOverridable() throws Exception {
     Invokable<?, ?> delegate = Prepender.method("staticMethod");
     assertTrue(delegate.isStatic());
     assertFalse(delegate.isOverridable());
+    assertFalse(delegate.isVarArgs());
   }
 
   public void testStaticFinalMethod_isFinal() throws Exception {
@@ -251,6 +254,7 @@ public class InvokableTest extends TestCase {
     assertTrue(delegate.isStatic());
     assertTrue(delegate.isFinal());
     assertFalse(delegate.isOverridable());
+    assertFalse(delegate.isVarArgs());
   }
 
   static class Foo {}
@@ -258,6 +262,17 @@ public class InvokableTest extends TestCase {
   public void testConstructor_isOverridablel() throws Exception {
     Invokable<?, ?> delegate = Invokable.from(Foo.class.getDeclaredConstructor());
     assertFalse(delegate.isOverridable());
+    assertFalse(delegate.isVarArgs());
+  }
+
+  public void testMethod_isVarArgs() throws Exception {
+    Invokable<?, ?> delegate = Prepender.method("privateVarArgsMethod", String[].class);
+    assertTrue(delegate.isVarArgs());
+  }
+
+  public void testConstructor_isVarArgs() throws Exception {
+    Invokable<?, ?> delegate = Prepender.constructor(String[].class);
+    assertTrue(delegate.isVarArgs());
   }
 
   private static final class FinalClass {
@@ -269,6 +284,7 @@ public class InvokableTest extends TestCase {
     Invokable<?, ?> delegate = Invokable.from(
         FinalClass.class.getDeclaredMethod("notFinalMethod"));
     assertFalse(delegate.isOverridable());
+    assertFalse(delegate.isVarArgs());
   }
 
   private class InnerWithDefaultConstructor {
@@ -443,7 +459,7 @@ public class InvokableTest extends TestCase {
   @Retention(RetentionPolicy.RUNTIME)
   private @interface NotBlank {}
 
-  /** Class for testing construcrtor, static method and instance method. */
+  /** Class for testing constructor, static method and instance method. */
   @SuppressWarnings("unused") // most are called by reflection
   private static class Prepender {
 
@@ -453,6 +469,10 @@ public class InvokableTest extends TestCase {
     Prepender(@NotBlank String prefix, int times) throws NullPointerException {
       this.prefix = prefix;
       this.times = times;
+    }
+
+    Prepender(String... varargs) {
+      this(null, 0);
     }
 
     // just for testing
@@ -493,6 +513,8 @@ public class InvokableTest extends TestCase {
     static void staticMethod() {}
 
     static final void staticFinalMethod() {}
+
+    private void privateVarArgsMethod(String... varargs) {}
   }
 
   private static class SubPrepender extends Prepender {

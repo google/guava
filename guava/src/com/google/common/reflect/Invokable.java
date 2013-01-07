@@ -69,6 +69,9 @@ public abstract class Invokable<T, R> extends Element implements GenericDeclarat
    */
   public abstract boolean isOverridable();
 
+  /** Returns {@code true} if this was declared to take a variable number of arguments. */
+  public abstract boolean isVarArgs();
+
   /**
    * Invokes with {@code receiver} as 'this' and {@code args} passed to the underlying method
    * and returns the return value; or calls the underlying constructor with {@code args} and returns
@@ -202,6 +205,10 @@ public abstract class Invokable<T, R> extends Element implements GenericDeclarat
       return  !(isFinal() || isPrivate() || isStatic()
           || Modifier.isFinal(getDeclaringClass().getModifiers()));
     }
+
+    @Override public final boolean isVarArgs() {
+      return method.isVarArgs();
+    }
   }
 
   static class ConstructorInvokable<T> extends Invokable<T, T> {
@@ -253,6 +260,10 @@ public abstract class Invokable<T, R> extends Element implements GenericDeclarat
 
     @Override public final boolean isOverridable() {
       return false;
+    }
+
+    @Override public final boolean isVarArgs() {
+      return constructor.isVarArgs();
     }
   }
 }
