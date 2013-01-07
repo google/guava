@@ -246,17 +246,29 @@ public final class ClassPath {
   private static ImmutableSet<ClassInfo> readClassesFromJar(File file, ClassLoader classloader)
       throws IOException {
     ImmutableSet.Builder<ClassInfo> builder = ImmutableSet.builder();
-    JarFile jarFile = new JarFile(file);
-    for (URI uri : getClassPathFromManifest(file, jarFile.getManifest())) {
-      builder.addAll(readClassesFrom(uri, classloader));
+    JarFile jarFile;
+    try {
+      jarFile = new JarFile(file);
+    } catch (IOException e) {
+      // Not a jar file
+      return ImmutableSet.of();
     }
-    Enumeration<JarEntry> entries = jarFile.entries();
-    while (entries.hasMoreElements()) {
-      JarEntry entry = entries.nextElement();
-      if (isTopLevelClassFile(entry.getName())) {
-        String className = getClassName(entry.getName().replace('/', '.'));
-        builder.add(new ClassInfo(className, classloader));
+    try {
+      for (URI uri : getClassPathFromManifest(file, jarFile.getManifest())) {
+        builder.addAll(readClassesFrom(uri, classloader));
       }
+      Enumeration<JarEntry> entries = jarFile.entries();
+      while (entries.hasMoreElements()) {
+        JarEntry entry = entries.nextElement();
+        if (isTopLevelClassFile(entry.getName())) {
+          String className = getClassName(entry.getName().replace('/', '.'));
+          builder.add(new ClassInfo(className, classloader));
+        }
+      }
+    } finally {
+      try {
+        jarFile.close();
+      } catch (IOException ignored) {}
     }
     return builder.build();
   }
