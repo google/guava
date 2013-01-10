@@ -151,16 +151,8 @@ final class Murmur3_32HashFunction extends AbstractStreamingHashFunction impleme
     @Override protected void processRemaining(ByteBuffer bb) {
       length += bb.remaining();
       int k1 = 0;
-      switch (bb.remaining()) {
-        case 3:
-          k1 ^= toInt(bb.get(2)) << 16; // fall through
-        case 2:
-          k1 ^= toInt(bb.get(1)) << 8; // fall through
-        case 1:
-          k1 ^= toInt(bb.get(0));
-          break;
-        default:
-          throw new AssertionError("Should never get here.");
+      for (int i = 0; bb.hasRemaining(); i += 8) {
+        k1 ^= toInt(bb.get()) << i;
       }
       h1 ^= Murmur3_32HashFunction.mixK1(k1);
     }
