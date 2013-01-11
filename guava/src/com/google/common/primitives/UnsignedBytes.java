@@ -24,10 +24,7 @@ import com.google.common.annotations.VisibleForTesting;
 
 import sun.misc.Unsafe;
 
-import java.lang.reflect.Field;
 import java.nio.ByteOrder;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
 import java.util.Comparator;
 
 /**
@@ -326,23 +323,7 @@ public final class UnsignedBytes {
       static final int BYTE_ARRAY_BASE_OFFSET;
 
       static {
-        theUnsafe = (Unsafe) AccessController.doPrivileged(
-            new PrivilegedAction<Object>() {
-              @Override
-              public Object run() {
-                try {
-                  Field f = Unsafe.class.getDeclaredField("theUnsafe");
-                  f.setAccessible(true);
-                  return f.get(null);
-                } catch (NoSuchFieldException e) {
-                  // It doesn't matter what we throw;
-                  // it's swallowed in getBestComparator().
-                  throw new Error();
-                } catch (IllegalAccessException e) {
-                  throw new Error();
-                }
-              }
-            });
+        theUnsafe = getUnsafe();
 
         BYTE_ARRAY_BASE_OFFSET = theUnsafe.arrayBaseOffset(byte[].class);
 
@@ -350,6 +331,36 @@ public final class UnsignedBytes {
         if (theUnsafe.arrayIndexScale(byte[].class) != 1) {
           throw new AssertionError();
         }
+      }
+      
+      /**
+       * Returns a sun.misc.Unsafe.  Suitable for use in a 3rd party package.
+       * Replace with a simple call to Unsafe.getUnsafe when integrating
+       * into a jdk.
+       *
+       * @return a sun.misc.Unsafe
+       */
+      private static sun.misc.Unsafe getUnsafe() {
+          try {
+              return sun.misc.Unsafe.getUnsafe();
+          } catch (SecurityException tryReflectionInstead) {}
+          try {
+              return java.security.AccessController.doPrivileged
+              (new java.security.PrivilegedExceptionAction<sun.misc.Unsafe>() {
+                  public sun.misc.Unsafe run() throws Exception {
+                      Class<sun.misc.Unsafe> k = sun.misc.Unsafe.class;
+                      for (java.lang.reflect.Field f : k.getDeclaredFields()) {
+                          f.setAccessible(true);
+                          Object x = f.get(null);
+                          if (k.isInstance(x))
+                              return k.cast(x);
+                      }
+                      throw new NoSuchFieldError("the Unsafe");
+                  }});
+          } catch (java.security.PrivilegedActionException e) {
+              throw new RuntimeException("Could not initialize intrinsics",
+                                         e.getCause());
+          }
       }
 
       @Override public int compare(byte[] left, byte[] right) {
