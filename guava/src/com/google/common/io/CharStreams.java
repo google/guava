@@ -149,7 +149,7 @@ public final class CharStreams {
       String limited = (string.length() <= 15)
           ? string
           : string.substring(0, 12) + "...";
-      return "CharStreams.newCharSource(" + limited + ")";
+      return "CharStreams.asCharSource(" + limited + ")";
     }
   }
 

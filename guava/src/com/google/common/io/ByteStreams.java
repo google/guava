@@ -127,7 +127,7 @@ public final class ByteStreams {
 
     @Override
     public String toString() {
-      return "ByteStreams.newByteSource(" + BaseEncoding.base16().encode(bytes) + ")";
+      return "ByteStreams.asByteSource(" + BaseEncoding.base16().encode(bytes) + ")";
     }
   }
 

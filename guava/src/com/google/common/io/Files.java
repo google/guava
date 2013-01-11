@@ -191,7 +191,7 @@ public final class Files {
 
     @Override
     public String toString() {
-      return "Files.newByteSource(" + file + ")";
+      return "Files.asByteSource(" + file + ")";
     }
   }
 
@@ -225,7 +225,7 @@ public final class Files {
 
     @Override
     public String toString() {
-      return "Files.newByteSink(" + file + ", " + modes + ")";
+      return "Files.asByteSink(" + file + ", " + modes + ")";
     }
   }
 
