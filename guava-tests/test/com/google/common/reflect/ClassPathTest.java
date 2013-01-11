@@ -20,8 +20,11 @@ import static org.truth0.Truth.ASSERT;
 
 import com.google.common.base.Charsets;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.common.reflect.ClassPath.ClassInfo;
+import com.google.common.reflect.ClassPath.ResourceInfo;
 import com.google.common.reflect.subpackage.ClassInSubPackage;
 import com.google.common.testing.EqualsTester;
 import com.google.common.testing.NullPointerTester;
@@ -38,6 +41,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.util.Map;
 import java.util.Set;
 import java.util.jar.Manifest;
 
@@ -45,6 +49,30 @@ import java.util.jar.Manifest;
  * Functional tests of {@link ClassPath}.
  */
 public class ClassPathTest extends TestCase {
+
+  public void testGetResources() throws Exception {
+    Map<String, ResourceInfo> byName = Maps.newHashMap();
+    Map<String, ResourceInfo> byToString = Maps.newHashMap();
+    ClassPath classpath = ClassPath.from(getClass().getClassLoader());
+    for (ResourceInfo resource : classpath.getResources()) {
+      byName.put(resource.getResourceName(), resource);
+      byToString.put(resource.toString(), resource);
+      assertNotNull(resource.url());
+    }
+    String testResourceName = "com/google/common/reflect/test.txt";
+    ASSERT.that(byName.keySet()).has().allOf(
+        "com/google/common/reflect/ClassPath.class",
+        "com/google/common/reflect/ClassPathTest.class",
+        "com/google/common/reflect/ClassPathTest$Nested.class",
+        testResourceName);
+    ASSERT.that(byToString.keySet()).has().allOf(
+        "com.google.common.reflect.ClassPath",
+        "com.google.common.reflect.ClassPathTest",
+        "com/google/common/reflect/ClassPathTest$Nested.class",
+        testResourceName);
+    assertEquals(getClass().getClassLoader().getResource(testResourceName),
+        byName.get("com/google/common/reflect/test.txt").url());
+  }
 
   public void testGetClasses() throws Exception {
     Set<String> names = Sets.newHashSet();
@@ -87,10 +115,15 @@ public class ClassPathTest extends TestCase {
         findClass(ClassPath.from(sub2).getTopLevelClasses(), ClassPathTest.class));
   }
 
-  public void testClassInfo() {
+  public void testEquals() {
     new EqualsTester()
         .addEqualityGroup(classInfo(ClassPathTest.class), classInfo(ClassPathTest.class))
         .addEqualityGroup(classInfo(Test.class), classInfo(Test.class, getClass().getClassLoader()))
+        .addEqualityGroup(
+            new ResourceInfo("a/b/c.txt", getClass().getClassLoader()),
+            new ResourceInfo("a/b/c.txt", getClass().getClassLoader()))
+        .addEqualityGroup(
+            new ResourceInfo("x.txt", getClass().getClassLoader()))
         .testEquals();
   }
 
@@ -156,21 +189,23 @@ public class ClassPathTest extends TestCase {
         ClassPath.getClassPathEntries(new ClassLoader(parent) {}));
   }
 
-  public void testReadClassesFromFile_fileNotExists() throws IOException {
+  public void testBrowseFromFile_fileNotExists() throws IOException {
     ClassLoader classLoader = ClassPathTest.class.getClassLoader();
-    ASSERT.that(ClassPath.readClassesFrom(new File("no/such/file/anywhere"), classLoader))
-        .isEmpty();
+    ImmutableSet.Builder<ResourceInfo> resources = ImmutableSet.builder();
+    ClassPath.browseFrom(new File("no/such/file/anywhere"), classLoader, resources);
+    ASSERT.that(resources.build()).isEmpty();
   }
 
-  public void testReadClassesFromFile_notJarFile() throws IOException {
+  public void testBrowseFromFile_notJarFile() throws IOException {
     ClassLoader classLoader = ClassPathTest.class.getClassLoader();
+    ImmutableSet.Builder<ResourceInfo> resources = ImmutableSet.builder();
     File notJar = File.createTempFile("not_a_jar", "txt");
     try {
-      ASSERT.that(ClassPath.readClassesFrom(notJar, classLoader))
-          .isEmpty();
+      ClassPath.browseFrom(notJar, classLoader, resources);
     } finally {
       notJar.delete();
     }
+    ASSERT.that(resources.build()).isEmpty();
   }
 
   public void testGetClassPathEntry() throws URISyntaxException {
@@ -271,27 +306,27 @@ public class ClassPathTest extends TestCase {
   }
 
   public void testGetClassName() {
-    assertEquals("Abc", ClassPath.getClassName("Abc.class"));
+    assertEquals("abc.d.Abc", ClassPath.getClassName("abc/d/Abc.class"));
   }
 
-  public void testIsTopLevelClassName() {
-    assertTrue(ClassPath.isTopLevelClassFile(ClassPathTest.class.getName() + ".class"));
-    assertFalse(ClassPath.isTopLevelClassFile(ClassPathTest.class.getName()));
-    assertFalse(ClassPath.isTopLevelClassFile(Nested.class.getName() + ".class"));
+  public void testResourceInfo_of() {
+    assertEquals(ClassInfo.class, resourceInfo(ClassPathTest.class).getClass());
+    assertEquals(ClassInfo.class, resourceInfo(ClassPath.class).getClass());
+    assertEquals(ResourceInfo.class, resourceInfo(Nested.class).getClass());
   }
 
   public void testGetSimpleName() {
     assertEquals("Foo",
-        new ClassPath.ClassInfo("Foo", getClass().getClassLoader()).getSimpleName());
+        new ClassInfo("Foo.class", getClass().getClassLoader()).getSimpleName());
     assertEquals("Foo",
-        new ClassPath.ClassInfo("a.b.Foo", getClass().getClassLoader()).getSimpleName());
+        new ClassInfo("a/b/Foo.class", getClass().getClassLoader()).getSimpleName());
   }
 
   public void testGetPackageName() {
     assertEquals("",
-        new ClassPath.ClassInfo("Foo", getClass().getClassLoader()).getPackageName());
+        new ClassInfo("Foo.class", getClass().getClassLoader()).getPackageName());
     assertEquals("a.b",
-        new ClassPath.ClassInfo("a.b.Foo", getClass().getClassLoader()).getPackageName());
+        new ClassInfo("a/b/Foo.class", getClass().getClassLoader()).getPackageName());
   }
 
   private static class Nested {}
@@ -312,12 +347,16 @@ public class ClassPathTest extends TestCase {
     throw new AssertionError("failed to find " + cls);
   }
 
-  private static ClassPath.ClassInfo classInfo(Class<?> cls) {
+  private static ResourceInfo resourceInfo(Class<?> cls) {
+    return ResourceInfo.of(cls.getName().replace('.', '/') + ".class", cls.getClassLoader());
+  }
+
+  private static ClassInfo classInfo(Class<?> cls) {
     return classInfo(cls, cls.getClassLoader());
   }
 
-  private static ClassPath.ClassInfo classInfo(Class<?> cls, ClassLoader classLoader) {
-    return new ClassPath.ClassInfo(cls.getName(), classLoader);
+  private static ClassInfo classInfo(Class<?> cls, ClassLoader classLoader) {
+    return new ClassInfo(cls.getName().replace('.', '/') + ".class", classLoader);
   }
 
   private static Manifest manifestClasspath(String classpath) throws IOException {

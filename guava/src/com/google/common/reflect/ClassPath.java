@@ -60,15 +60,15 @@ public final class ClassPath {
 
   private static final String CLASS_FILE_NAME_EXTENSION = ".class";
 
-  private final ImmutableSet<ClassInfo> classes;
+  private final ImmutableSet<ResourceInfo> resources;
 
-  private ClassPath(ImmutableSet<ClassInfo> classes) {
-    this.classes = classes;
+  private ClassPath(ImmutableSet<ResourceInfo> resources) {
+    this.resources = resources;
   }
 
   /**
-   * Returns a {@code ClassPath} representing all classes loadable from {@code classloader} and its
-   * parent class loaders.
+   * Returns a {@code ClassPath} representing all classes and resources loadable from {@code
+   * classloader} and its parent class loaders.
    *
    * <p>Currently only {@link URLClassLoader} and only {@code file://} urls are supported.
    *
@@ -76,24 +76,38 @@ public final class ClassPath {
    *         failed.
    */
   public static ClassPath from(ClassLoader classloader) throws IOException {
-    ImmutableSortedSet.Builder<ClassInfo> builder = new ImmutableSortedSet.Builder<ClassInfo>(
-        Ordering.usingToString());
+    ImmutableSortedSet.Builder<ResourceInfo> resources =
+        new ImmutableSortedSet.Builder<ResourceInfo>(Ordering.usingToString());
     for (Map.Entry<URI, ClassLoader> entry : getClassPathEntries(classloader).entrySet()) {
-      builder.addAll(readClassesFrom(entry.getKey(), entry.getValue()));
+      browse(entry.getKey(), entry.getValue(), resources);
     }
-    return new ClassPath(builder.build());
+    return new ClassPath(resources.build());
+  }
+
+  /**
+   * Returns all resources loadable from the current class path, including the class files of all
+   * loadable classes.
+   */
+  public ImmutableSet<ResourceInfo> getResources() {
+    return resources;
   }
 
   /** Returns all top level classes loadable from the current class path. */
   public ImmutableSet<ClassInfo> getTopLevelClasses() {
-    return classes;
+    ImmutableSet.Builder<ClassInfo> builder = ImmutableSet.builder();
+    for (ResourceInfo resource : resources) {
+      if (resource instanceof ClassInfo) {
+        builder.add((ClassInfo) resource);
+      }
+    }
+    return builder.build();
   }
 
   /** Returns all top level classes whose package name is {@code packageName}. */
   public ImmutableSet<ClassInfo> getTopLevelClasses(String packageName) {
     checkNotNull(packageName);
     ImmutableSet.Builder<ClassInfo> builder = ImmutableSet.builder();
-    for (ClassInfo classInfo : classes) {
+    for (ClassInfo classInfo : getTopLevelClasses()) {
       if (classInfo.getPackageName().equals(packageName)) {
         builder.add(classInfo);
       }
@@ -109,7 +123,7 @@ public final class ClassPath {
     checkNotNull(packageName);
     String packagePrefix = packageName + '.';
     ImmutableSet.Builder<ClassInfo> builder = ImmutableSet.builder();
-    for (ClassInfo classInfo : classes) {
+    for (ClassInfo classInfo : getTopLevelClasses()) {
       if (classInfo.getName().startsWith(packagePrefix)) {
         builder.add(classInfo);
       }
@@ -117,14 +131,71 @@ public final class ClassPath {
     return builder.build();
   }
 
-  /** Represents a class that can be loaded through {@link #load}. */
-  public static final class ClassInfo {
-    private final String className;
-    private final ClassLoader loader;
+  /**
+   * Represents a class path resource that can be either a class file or any other resource file
+   * loadable from the class path.
+   *
+   * @since 14.0
+   */
+  @Beta
+  public static class ResourceInfo {
+    private final String resourceName;
+    final ClassLoader loader;
 
-    @VisibleForTesting ClassInfo(String className, ClassLoader loader) {
-      this.className = checkNotNull(className);
+    static ResourceInfo of(String resourceName, ClassLoader loader) {
+      if (resourceName.endsWith(CLASS_FILE_NAME_EXTENSION) && !resourceName.contains("$")) {
+        return new ClassInfo(resourceName, loader);
+      } else {
+        return new ResourceInfo(resourceName, loader);
+      }
+    }
+  
+    ResourceInfo(String resourceName, ClassLoader loader) {
+      this.resourceName = checkNotNull(resourceName);
       this.loader = checkNotNull(loader);
+    }
+
+    /** Returns the url identifying the resource. */
+    public final URL url() {
+      return checkNotNull(loader.getResource(resourceName),
+          "Failed to load resource: %s", resourceName);
+    }
+
+    /** Returns the fully qualified name of the resource. Such as "com/mycomp/foo/bar.txt". */
+    public final String getResourceName() {
+      return resourceName;
+    }
+
+    @Override public int hashCode() {
+      return resourceName.hashCode();
+    }
+
+    @Override public boolean equals(Object obj) {
+      if (obj instanceof ResourceInfo) {
+        ResourceInfo that = (ResourceInfo) obj;
+        return resourceName.equals(that.resourceName)
+            && loader == that.loader;
+      }
+      return false;
+    }
+
+    @Override public String toString() {
+      return resourceName;
+    }
+  }
+
+  /**
+   * Represents a class that can be loaded through {@link #load}.
+   *
+   * @since 14.0
+   */
+  @Beta
+  public static final class ClassInfo extends ResourceInfo {
+    private final String className;
+
+    ClassInfo(String resourceName, ClassLoader loader) {
+      super(resourceName, loader);
+      this.className = getClassName(resourceName);
     }
 
     /** Returns the package name of the class, without attempting to load the class. */
@@ -157,19 +228,6 @@ public final class ClassPath {
       }
     }
 
-    @Override public int hashCode() {
-      return className.hashCode();
-    }
-
-    @Override public boolean equals(Object obj) {
-      if (obj instanceof ClassInfo) {
-        ClassInfo that = (ClassInfo) obj;
-        return className.equals(that.className)
-            && loader == that.loader;
-      }
-      return false;
-    }
-
     @Override public String toString() {
       return className;
     }
@@ -200,77 +258,73 @@ public final class ClassPath {
     return ImmutableMap.copyOf(entries);
   }
 
-  private static ImmutableSet<ClassInfo> readClassesFrom(URI uri, ClassLoader classloader)
+  private static void browse(
+      URI uri, ClassLoader classloader, ImmutableSet.Builder<ResourceInfo> resources)
       throws IOException {
     if (uri.getScheme().equals("file")) {
-      return readClassesFrom(new File(uri), classloader);
-    } else {
-      return ImmutableSet.of();
+      browseFrom(new File(uri), classloader, resources);
     }
   }
 
-  @VisibleForTesting static ImmutableSet<ClassInfo> readClassesFrom(
-      File file, ClassLoader classloader)
+  @VisibleForTesting static void browseFrom(
+      File file, ClassLoader classloader, ImmutableSet.Builder<ResourceInfo> resources)
       throws IOException {
     if (!file.exists()) {
-      return ImmutableSet.of();
+      return;
     }
     if (file.isDirectory()) {
-      return readClassesFromDirectory(file, classloader);
+      browseDirectory(file, classloader, resources);
     } else {
-      return readClassesFromJar(file, classloader);
+      browseJar(file, classloader, resources);
     }
   }
 
-  private static ImmutableSet<ClassInfo> readClassesFromDirectory(
-      File directory, ClassLoader classloader) {
-    ImmutableSet.Builder<ClassInfo> builder = ImmutableSet.builder();
-    readClassesFromDirectory(directory, classloader, "", builder);
-    return builder.build();
+  private static void browseDirectory(
+      File directory, ClassLoader classloader, ImmutableSet.Builder<ResourceInfo> resources) {
+    browseDirectory(directory, classloader, "", resources);
   }
 
-  private static void readClassesFromDirectory(
-      File directory, ClassLoader classloader,
-      String packagePrefix, ImmutableSet.Builder<ClassInfo> builder) {
+  private static void browseDirectory(
+      File directory, ClassLoader classloader, String packagePrefix,
+      ImmutableSet.Builder<ResourceInfo> resources) {
     for (File f : directory.listFiles()) {
       String name = f.getName();
       if (f.isDirectory()) {
-        readClassesFromDirectory(f, classloader, packagePrefix + name + ".", builder);
-      } else if (isTopLevelClassFile(name)) {
-        String className = packagePrefix + getClassName(name);
-        builder.add(new ClassInfo(className, classloader));
+        browseDirectory(f, classloader, packagePrefix + name + "/", resources);
+      } else {
+        String resourceName = packagePrefix + name;
+        resources.add(ResourceInfo.of(resourceName, classloader));
       }
     }
   }
 
-  private static ImmutableSet<ClassInfo> readClassesFromJar(File file, ClassLoader classloader)
+  private static void browseJar(
+      File file, ClassLoader classloader, ImmutableSet.Builder<ResourceInfo> resources)
       throws IOException {
-    ImmutableSet.Builder<ClassInfo> builder = ImmutableSet.builder();
     JarFile jarFile;
     try {
       jarFile = new JarFile(file);
     } catch (IOException e) {
       // Not a jar file
-      return ImmutableSet.of();
+      return;
     }
     try {
       for (URI uri : getClassPathFromManifest(file, jarFile.getManifest())) {
-        builder.addAll(readClassesFrom(uri, classloader));
+        browse(uri, classloader, resources);
       }
       Enumeration<JarEntry> entries = jarFile.entries();
       while (entries.hasMoreElements()) {
         JarEntry entry = entries.nextElement();
-        if (isTopLevelClassFile(entry.getName())) {
-          String className = getClassName(entry.getName().replace('/', '.'));
-          builder.add(new ClassInfo(className, classloader));
+        if (entry.isDirectory()) {
+          continue;
         }
+        resources.add(ResourceInfo.of(entry.getName(), classloader));
       }
     } finally {
       try {
         jarFile.close();
       } catch (IOException ignored) {}
     }
-    return builder.build();
   }
 
   /**
@@ -318,12 +372,8 @@ public final class ClassPath {
     }
   }
 
-  @VisibleForTesting static boolean isTopLevelClassFile(String filename) {
-    return filename.endsWith(CLASS_FILE_NAME_EXTENSION) && filename.indexOf('$') < 0;
-  }
-
   @VisibleForTesting static String getClassName(String filename) {
     int classNameEnd = filename.length() - CLASS_FILE_NAME_EXTENSION.length();
-    return filename.substring(0, classNameEnd);
+    return filename.substring(0, classNameEnd).replace('/', '.');
   }
 }
