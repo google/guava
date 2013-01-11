@@ -18,8 +18,6 @@ package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
 
-import java.util.Map;
-
 import javax.annotation.Nullable;
 
 /**
@@ -44,23 +42,8 @@ final class EmptyImmutableBiMap extends ImmutableBiMap<Object, Object> {
   }
 
   @Override
-  public ImmutableSet<Object> values() {
-    return ImmutableSet.of();
-  }
-
-  @Override
   public boolean isEmpty() {
     return true;
-  }
-
-  @Override
-  public boolean containsKey(@Nullable Object key) {
-    return false;
-  }
-
-  @Override
-  public boolean containsValue(@Nullable Object value) {
-    return false;
   }
 
   @Override
@@ -81,20 +64,6 @@ final class EmptyImmutableBiMap extends ImmutableBiMap<Object, Object> {
   @Override
   public ImmutableSet<Object> keySet() {
     return ImmutableSet.of();
-  }
-
-  @Override
-  public boolean equals(@Nullable Object object) {
-    if (object instanceof Map) {
-      Map<?, ?> map = (Map<?, ?>) object;
-      return map.isEmpty();
-    }
-    return false;
-  }
-
-  @Override
-  public int hashCode() {
-    return 0;
   }
 
   @Override

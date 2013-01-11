@@ -39,7 +39,6 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
   private final transient LinkedEntry<K, V>[] table;
   // 'and' with an int to get a table index
   private final transient int mask;
-  private final transient int keySetHashCode;
 
   // TODO(gak): investigate avoiding the creation of ImmutableEntries since we
   // re-copy them anyway.
@@ -51,14 +50,12 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
     table = createEntryArray(tableSize);
     mask = tableSize - 1;
 
-    int keySetHashCodeMutable = 0;
     for (int entryIndex = 0; entryIndex < size; entryIndex++) {
       // each of our 6 callers carefully put only Entry<K, V>s into the array!
       @SuppressWarnings("unchecked")
       Entry<K, V> entry = (Entry<K, V>) immutableEntries[entryIndex];
       K key = entry.getKey();
       int keyHashCode = key.hashCode();
-      keySetHashCodeMutable += keyHashCode;
       int tableIndex = Hashing.smear(keyHashCode) & mask;
       @Nullable LinkedEntry<K, V> existing = table[tableIndex];
       // prepend, not append, so the entries can be immutable
@@ -71,7 +68,6 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
         existing = existing.next();
       }
     }
-    keySetHashCode = keySetHashCodeMutable;
   }
 
   /**
@@ -181,23 +177,7 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
   public int size() {
     return entries.length;
   }
-
-  @Override public boolean isEmpty() {
-    return false;
-  }
-
-  @Override public boolean containsValue(@Nullable Object value) {
-    if (value == null) {
-      return false;
-    }
-    for (Entry<K, V> entry : entries) {
-      if (entry.getValue().equals(value)) {
-        return true;
-      }
-    }
-    return false;
-  }
-
+  
   @Override boolean isPartialView() {
     return false;
   }
@@ -222,32 +202,6 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
     ImmutableList<Entry<K, V>> createAsList() {
       return new RegularImmutableAsList<Entry<K, V>>(this, entries);
     }
-  }
-
-  @Override
-  ImmutableSet<K> createKeySet() {
-    return new ImmutableMapKeySet<K, V>() {
-      @Override ImmutableMap<K, V> map() {
-        return RegularImmutableMap.this;
-      }
-
-      @Override
-      boolean isHashCodeFast() {
-        return true;
-      }
-
-      @Override
-      public int hashCode() {
-        return keySetHashCode;
-      }
-    };
-  }
-
-  @Override public String toString() {
-    StringBuilder result
-        = Collections2.newStringBuilderForCollection(size()).append('{');
-    Collections2.STANDARD_JOINER.appendTo(result, entries);
-    return result.append('}').toString();
   }
 
   // This class is never actually serialized directly, but we have to make the

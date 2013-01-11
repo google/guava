@@ -18,7 +18,6 @@ package com.google.common.collect;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import java.util.Comparator;
-import java.util.Map;
 
 import javax.annotation.Nullable;
 
@@ -64,20 +63,6 @@ final class EmptyImmutableSortedMap<K, V> extends ImmutableSortedMap<K, V> {
   @Override
   public ImmutableCollection<V> values() {
     return ImmutableList.of();
-  }
-
-  @Override
-  public int hashCode() {
-    return 0;
-  }
-
-  @Override
-  public boolean equals(@Nullable Object object) {
-    if (object instanceof Map) {
-      Map<?, ?> map = (Map<?, ?>) object;
-      return map.isEmpty();
-    }
-    return false;
   }
 
   @Override

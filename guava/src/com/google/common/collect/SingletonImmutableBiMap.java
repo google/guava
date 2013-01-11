@@ -18,8 +18,6 @@ package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
 
-import java.util.Map;
-
 import javax.annotation.Nullable;
 
 /**
@@ -60,10 +58,6 @@ final class SingletonImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
     return 1;
   }
 
-  @Override public boolean isEmpty() {
-    return false;
-  }
-
   @Override public boolean containsKey(@Nullable Object key) {
     return singleKey.equals(key);
   }
@@ -98,24 +92,5 @@ final class SingletonImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
     } else {
       return result;
     }
-  }
-
-  @Override public boolean equals(@Nullable Object object) {
-    if (object == this) {
-      return true;
-    }
-    if (object instanceof Map) {
-      Map<?, ?> that = (Map<?, ?>) object;
-      if (that.size() == 1) {
-        Entry<?, ?> entry = that.entrySet().iterator().next();
-        return singleKey.equals(entry.getKey())
-            && singleValue.equals(entry.getValue());
-      }
-    }
-    return false;
-  }
-
-  @Override public int hashCode() {
-    return singleKey.hashCode() ^ singleValue.hashCode();
   }
 }

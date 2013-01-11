@@ -59,7 +59,6 @@ final class RegularImmutableSortedMap<K, V> extends ImmutableSortedMap<K, V> {
       return new ImmutableAsList<Entry<K, V>>() {
         // avoid additional indirection
         private final ImmutableList<K> keyList = keySet().asList();
-        private final ImmutableList<V> valueList = values().asList();
 
         @Override
         public Entry<K, V> get(int index) {

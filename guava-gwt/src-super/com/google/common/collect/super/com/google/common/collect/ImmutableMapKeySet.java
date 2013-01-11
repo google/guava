@@ -39,19 +39,7 @@ abstract class ImmutableMapKeySet<K, V> extends ImmutableSet<K> {
 
   @Override
   public UnmodifiableIterator<K> iterator() {
-    return new UnmodifiableIterator<K>() {
-      final UnmodifiableIterator<Entry<K, V>> entryIterator = map().entrySet().iterator();
-
-      @Override
-      public boolean hasNext() {
-        return entryIterator.hasNext();
-      }
-
-      @Override
-      public K next() {
-        return entryIterator.next().getKey();
-      }
-    };
+    return asList().iterator();
   }
 
   @Override

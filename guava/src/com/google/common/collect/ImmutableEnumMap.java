@@ -96,11 +96,6 @@ final class ImmutableEnumMap<K extends Enum<K>, V> extends ImmutableMap<K, V> {
   }
 
   @Override
-  public boolean isEmpty() {
-    return false;
-  }
-
-  @Override
   ImmutableSet<Entry<K, V>> createEntrySet() {
     return new ImmutableMapEntrySet<K, V>() {
 
