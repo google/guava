@@ -63,6 +63,7 @@ public final class BigIntegerMath {
    *         is not a power of two
    */
   @SuppressWarnings("fallthrough")
+  // TODO(kevinb): remove after this warning is disabled globally
   public static int log2(BigInteger x, RoundingMode mode) {
     checkPositive("x", checkNotNull(x));
     int logFloor = x.bitLength() - 1;
@@ -264,3 +265,4 @@ public final class BigIntegerMath {
 
   private BigIntegerMath() {}
 }
+

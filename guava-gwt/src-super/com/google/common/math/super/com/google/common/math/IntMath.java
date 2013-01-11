@@ -68,6 +68,7 @@ public final class IntMath {
    *         is not a power of two
    */
   @SuppressWarnings("fallthrough")
+  // TODO(kevinb): remove after this warning is disabled globally
   public static int log2(int x, RoundingMode mode) {
     checkPositive("x", x);
     switch (mode) {
@@ -417,3 +418,4 @@ public final class IntMath {
 
   private IntMath() {}
 }
+

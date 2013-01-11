@@ -70,6 +70,7 @@ public final class LongMath {
    *         is not a power of two
    */
   @SuppressWarnings("fallthrough")
+  // TODO(kevinb): remove after this warning is disabled globally
   public static int log2(long x, RoundingMode mode) {
     checkPositive("x", x);
     switch (mode) {
@@ -111,6 +112,7 @@ public final class LongMath {
    */
   @GwtIncompatible("TODO")
   @SuppressWarnings("fallthrough")
+  // TODO(kevinb): remove after this warning is disabled globally
   public static int log10(long x, RoundingMode mode) {
     checkPositive("x", x);
     if (fitsInInt(x)) {
@@ -300,26 +302,26 @@ public final class LongMath {
     long guess = (long) Math.sqrt(x);
     /*
      * Lemma: For all a, b, if |a - b| <= 1, then |floor(a) - floor(b)| <= 1.
-     *
-     * Proof:
+     * 
+     * Proof: 
      *           -1 <=        a - b        <= 1
      *        b - 1 <=          a          <= b + 1
      * floor(b - 1) <=       floor(a)      <= floor(b + 1)
      * floor(b) - 1 <=       floor(a)      <= floor(b) + 1
      *           -1 <= floor(a) - floor(b) <= 1
-     *
+     * 
      * Theorem: |floor(sqrt(x)) - guess| <= 1.
-     *
+     * 
      * Proof:  By the lemma, it suffices to show that |sqrt(x) - Math.sqrt(x)| <= 1.
      * We consider two cases: x <= 2^53 and x > 2^53.
-     *
+     * 
      * If x <= 2^53, then x is exactly representable as a double, so the only error is in rounding
      * sqrt(x) to a double, which introduces at most 2^-52 relative error.  Since sqrt(x) < 2^27,
      * the absolute error is at most 2^(27-52) = 2^-25 < 1.
-     *
+     * 
      * Otherwise, x > 2^53.  The rounding error introduced by casting x to a double is at most
      * 2^63 * 2^-52 = 2^11.  Noting that sqrt(x) > 2^26,
-     *
+     * 
      * sqrt(x) - 0.5 =  sqrt((sqrt(x) - 0.5)^2)
      *               =  sqrt(x - sqrt(x) + 0.25)
      *               <  sqrt(x - 2^26 + 0.25)
@@ -329,14 +331,14 @@ public final class LongMath {
      *               =  sqrt(x + sqrt(x) + 0.25)
      *               >  sqrt(x + 2^26 + 0.25)
      *               >  sqrt(x + 2^11)
-     *               >= sqrt((double) x)
+     *               >= sqrt((double) x)     
      * sqrt(x) - 0.5 < sqrt((double) x) < sqrt(x) + 0.5
-     *
+     * 
      * Math.sqrt((double) x) is obtained by rounding sqrt((double) x) to a double, increasing the
      * error by at most 2^-52 * sqrt(x) <= 2^(32 - 52) <= 2^-20, so clearly
-     *
-     * sqrt(x) - 0.5 - 2^-20 <= Math.sqrt((double) x) <= sqrt(x) + 0.5 + 2^-20
-     *
+     * 
+     * sqrt(x) - 0.5 - 2^-20 <= Math.sqrt((double) x) <= sqrt(x) + 0.5 + 2^-20 
+     * 
      * Therefore, |sqrt(x) - Math.sqrt((double) x)| <= 1, so
      *            |floor(sqrt(x)) - (long) Math.sqrt((double) x)| <= 1
      *            as desired.
@@ -685,14 +687,14 @@ public final class LongMath {
           return result;
         } else {
           int nBits = LongMath.log2(n, RoundingMode.CEILING);
-
+          
           long result = 1;
           long numerator = n--;
           long denominator = 1;
-
+          
           int numeratorBits = nBits;
           // This is an upper bound on log2(numerator, ceiling).
-
+          
           /*
            * We want to do this in long math for speed, but want to avoid overflow. We adapt the
            * technique previously used by BigIntegerMath: maintain separate numerator and
@@ -717,7 +719,7 @@ public final class LongMath {
         }
     }
   }
-
+  
   /**
    * Returns (x * numerator / denominator), which is assumed to come out to an integral value.
    */

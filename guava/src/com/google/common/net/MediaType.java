@@ -182,6 +182,17 @@ public final class MediaType {
   public static final MediaType BZIP2 = createConstant(APPLICATION_TYPE, "x-bzip2");
   public static final MediaType FORM_DATA = createConstant(APPLICATION_TYPE,
       "x-www-form-urlencoded");
+  /**
+   * This is a non-standard media type, but is commonly used in serving hosted binary files as it is
+   * <a href="http://code.google.com/p/browsersec/wiki/Part2#Survey_of_content_sniffing_behaviors">
+   * known not to trigger content sniffing in current browsers</a>. It <i>should not</i> be used in
+   * other situations as it is not specified by any RFC and does not appear in the <a href=
+   * "http://www.iana.org/assignments/media-types">/IANA MIME Media Types</a> list. Consider
+   * {@link #OCTET_STREAM} for binary data that is not being served to a browser.
+   *
+   *
+   * @since 14.0
+   */
   public static final MediaType APPLICATION_BINARY = createConstant(APPLICATION_TYPE, "binary");
   public static final MediaType GZIP = createConstant(APPLICATION_TYPE, "x-gzip");
    /**

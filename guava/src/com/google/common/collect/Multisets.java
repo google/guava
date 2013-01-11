@@ -953,6 +953,9 @@ public final class Multisets {
 
     @Override public boolean contains(@Nullable Object o) {
       if (o instanceof Entry) {
+        /*
+         * The GWT compiler wrongly issues a warning here.
+         */
         @SuppressWarnings("cast")
         Entry<?> entry = (Entry<?>) o;
         if (entry.getCount() <= 0) {
@@ -965,6 +968,7 @@ public final class Multisets {
       return false;
     }
 
+    // GWT compiler warning; see contains().
     @SuppressWarnings("cast")
     @Override public boolean remove(Object object) {
       if (object instanceof Multiset.Entry) {

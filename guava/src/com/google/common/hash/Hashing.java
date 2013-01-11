@@ -401,6 +401,10 @@ public final class Hashing {
     }
   }
 
+  /**
+   * Linear CongruentialGenerator to use for consistent hashing.
+   * See http://en.wikipedia.org/wiki/Linear_congruential_generator
+   */
   private static final class LinearCongruentialGenerator {
     private long state;
 

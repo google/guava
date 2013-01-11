@@ -872,7 +872,7 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
       return ImmutableSet.<Class<?>>of((Class<?>) type);
     } else if (type instanceof ParameterizedType) {
       ParameterizedType parameterizedType = (ParameterizedType) type;
-      // JDK implementation declares getRawType() to return Class<?>
+      // JDK implementation declares getRawType() to return Class<?>: http://goo.gl/YzaEd
       return ImmutableSet.<Class<?>>of((Class<?>) parameterizedType.getRawType());
     } else if (type instanceof GenericArrayType) {
       GenericArrayType genericArrayType = (GenericArrayType) type;
@@ -1099,8 +1099,11 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
       if (superclass != null) {
         aboveMe = Math.max(aboveMe, collectTypes(superclass, map));
       }
-      // TODO(benyu): should we include Object for interface?
-      // Also, CharSequence[] and Object[] for String[]?
+      /*
+       * TODO(benyu): should we include Object for interface?
+       * Also, CharSequence[] and Object[] for String[]?
+       *
+       */
       map.put(type, aboveMe + 1);
       return aboveMe + 1;
     }

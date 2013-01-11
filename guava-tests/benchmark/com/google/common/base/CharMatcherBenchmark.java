@@ -27,6 +27,16 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * Benchmark for the {@link CharMatcher} class.
+ *
+ * <p>Example of running the benchmark, overriding one parameter:
+ *
+ *
+ * @author David Beaumont
+ * @author Kevin Bourrillion
+ * @author David Richter
+ */
 public class CharMatcherBenchmark extends SimpleBenchmark {
 
   // Caliper injects params automatically
