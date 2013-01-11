@@ -182,6 +182,7 @@ public final class MediaType {
   public static final MediaType BZIP2 = createConstant(APPLICATION_TYPE, "x-bzip2");
   public static final MediaType FORM_DATA = createConstant(APPLICATION_TYPE,
       "x-www-form-urlencoded");
+  public static final MediaType APPLICATION_BINARY = createConstant(APPLICATION_TYPE, "binary");
   public static final MediaType GZIP = createConstant(APPLICATION_TYPE, "x-gzip");
    /**
     * <a href="http://www.rfc-editor.org/rfc/rfc4329.txt">RFC 4329</a> declares this to be the
@@ -278,6 +279,7 @@ public final class MediaType {
           .put(ATOM_UTF_8, ATOM_UTF_8)
           .put(BZIP2, BZIP2)
           .put(FORM_DATA, FORM_DATA)
+          .put(APPLICATION_BINARY, APPLICATION_BINARY)
           .put(GZIP, GZIP)
           .put(JAVASCRIPT_UTF_8, JAVASCRIPT_UTF_8)
           .put(JSON_UTF_8, JSON_UTF_8)
