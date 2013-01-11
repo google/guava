@@ -403,60 +403,6 @@ class MapMakerInternalMap<K, V>
       }
     },
 
-    SOFT {
-      @Override
-      <K, V> ReferenceEntry<K, V> newEntry(
-          Segment<K, V> segment, K key, int hash, @Nullable ReferenceEntry<K, V> next) {
-        return new SoftEntry<K, V>(segment.keyReferenceQueue, key, hash, next);
-      }
-    },
-    SOFT_EXPIRABLE {
-      @Override
-      <K, V> ReferenceEntry<K, V> newEntry(
-          Segment<K, V> segment, K key, int hash, @Nullable ReferenceEntry<K, V> next) {
-        return new SoftExpirableEntry<K, V>(segment.keyReferenceQueue, key, hash, next);
-      }
-
-      @Override
-      <K, V> ReferenceEntry<K, V> copyEntry(
-          Segment<K, V> segment, ReferenceEntry<K, V> original, ReferenceEntry<K, V> newNext) {
-        ReferenceEntry<K, V> newEntry = super.copyEntry(segment, original, newNext);
-        copyExpirableEntry(original, newEntry);
-        return newEntry;
-      }
-    },
-    SOFT_EVICTABLE {
-      @Override
-      <K, V> ReferenceEntry<K, V> newEntry(
-          Segment<K, V> segment, K key, int hash, @Nullable ReferenceEntry<K, V> next) {
-        return new SoftEvictableEntry<K, V>(segment.keyReferenceQueue, key, hash, next);
-      }
-
-      @Override
-      <K, V> ReferenceEntry<K, V> copyEntry(
-          Segment<K, V> segment, ReferenceEntry<K, V> original, ReferenceEntry<K, V> newNext) {
-        ReferenceEntry<K, V> newEntry = super.copyEntry(segment, original, newNext);
-        copyEvictableEntry(original, newEntry);
-        return newEntry;
-      }
-    },
-    SOFT_EXPIRABLE_EVICTABLE {
-      @Override
-      <K, V> ReferenceEntry<K, V> newEntry(
-          Segment<K, V> segment, K key, int hash, @Nullable ReferenceEntry<K, V> next) {
-        return new SoftExpirableEvictableEntry<K, V>(segment.keyReferenceQueue, key, hash, next);
-      }
-
-      @Override
-      <K, V> ReferenceEntry<K, V> copyEntry(
-          Segment<K, V> segment, ReferenceEntry<K, V> original, ReferenceEntry<K, V> newNext) {
-        ReferenceEntry<K, V> newEntry = super.copyEntry(segment, original, newNext);
-        copyExpirableEntry(original, newEntry);
-        copyEvictableEntry(original, newEntry);
-        return newEntry;
-      }
-    },
-
     WEAK {
       @Override
       <K, V> ReferenceEntry<K, V> newEntry(
@@ -523,7 +469,7 @@ class MapMakerInternalMap<K, V>
      */
     static final EntryFactory[][] factories = {
       { STRONG, STRONG_EXPIRABLE, STRONG_EVICTABLE, STRONG_EXPIRABLE_EVICTABLE },
-      { SOFT, SOFT_EXPIRABLE, SOFT_EVICTABLE, SOFT_EXPIRABLE_EVICTABLE },
+      {}, // no support for SOFT keys
       { WEAK, WEAK_EXPIRABLE, WEAK_EVICTABLE, WEAK_EXPIRABLE_EVICTABLE }
     };
 

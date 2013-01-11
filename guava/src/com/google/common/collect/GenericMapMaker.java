@@ -83,13 +83,6 @@ public abstract class GenericMapMaker<K0, V0> {
   public abstract GenericMapMaker<K0, V0> weakKeys();
 
   /**
-   * See {@link MapMaker#softKeys}.
-   */
-  @Deprecated
-  @GwtIncompatible("java.lang.ref.SoftReference")
-  public abstract GenericMapMaker<K0, V0> softKeys();
-
-  /**
    * See {@link MapMaker#weakValues}.
    */
   @GwtIncompatible("java.lang.ref.WeakReference")

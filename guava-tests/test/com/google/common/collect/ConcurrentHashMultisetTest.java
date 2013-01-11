@@ -16,7 +16,6 @@
 
 package com.google.common.collect;
 
-import static com.google.common.collect.MapMakerInternalMap.Strength.SOFT;
 import static com.google.common.collect.MapMakerInternalMap.Strength.STRONG;
 import static com.google.common.collect.MapMakerInternalMap.Strength.WEAK;
 import static com.google.common.collect.testing.IteratorFeature.SUPPORTS_REMOVE;
@@ -372,10 +371,6 @@ public class ConcurrentHashMultisetTest extends TestCase {
     testIdentityKeyEquality(STRONG);
   }
 
-  public void testIdentityKeyEquality_softKeys() {
-    testIdentityKeyEquality(SOFT);
-  }
-
   public void testIdentityKeyEquality_weakKeys() {
     testIdentityKeyEquality(WEAK);
   }
@@ -413,10 +408,6 @@ public class ConcurrentHashMultisetTest extends TestCase {
 
   public void testLogicalKeyEquality_strongKeys() {
     testLogicalKeyEquality(STRONG);
-  }
-
-  public void testLogicalKeyEquality_softKeys() {
-    testLogicalKeyEquality(SOFT);
   }
 
   public void testLogicalKeyEquality_weakKeys() {

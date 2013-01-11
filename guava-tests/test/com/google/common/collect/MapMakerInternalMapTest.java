@@ -227,13 +227,6 @@ public class MapMakerInternalMapTest extends TestCase {
     assertSame(EntryFactory.WEAK, map.entryFactory);
   }
 
-  @SuppressWarnings("deprecation")
-  public void testSetSoftKeys() {
-    MapMakerInternalMap<Object, Object> map = makeMap(createMapMaker().softKeys());
-    checkStrength(map, Strength.SOFT, Strength.STRONG);
-    assertSame(EntryFactory.SOFT, map.entryFactory);
-  }
-
   public void testSetWeakValues() {
     MapMakerInternalMap<Object, Object> map = makeMap(createMapMaker().weakValues());
     checkStrength(map, Strength.STRONG, Strength.WEAK);
@@ -1608,7 +1601,7 @@ public class MapMakerInternalMapTest extends TestCase {
 
   /**
    * Returns an iterable containing all combinations of maximumSize, expireAfterAccess/Write,
-   * weak/softKeys and weak/softValues.
+   * weakKeys and weak/softValues.
    */
   private static Iterable<MapMaker> allEntryTypeMakers() {
     List<MapMaker> result = newArrayList(allKeyValueStrengthMakers());
@@ -1646,19 +1639,15 @@ public class MapMakerInternalMapTest extends TestCase {
   }
 
   /**
-   * Returns an iterable containing all combinations weak/softKeys and weak/softValues.
+   * Returns an iterable containing all combinations weakKeys and weak/softValues.
    */
-  @SuppressWarnings("deprecation")
   private static Iterable<MapMaker> allKeyValueStrengthMakers() {
     return ImmutableList.of(createMapMaker(),
         createMapMaker().weakValues(),
         createMapMaker().softValues(),
         createMapMaker().weakKeys(),
         createMapMaker().weakKeys().weakValues(),
-        createMapMaker().weakKeys().softValues(),
-        createMapMaker().softKeys(),
-        createMapMaker().softKeys().weakValues(),
-        createMapMaker().softKeys().softValues());
+        createMapMaker().weakKeys().softValues());
   }
 
   // listeners

@@ -18,6 +18,7 @@ import static com.google.common.base.Objects.firstNonNull;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
+import static com.google.common.collect.MapMakerInternalMap.Strength.SOFT;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -74,10 +75,9 @@ import javax.annotation.Nullable;
  * interface. It does not permit null keys or values.
  *
  * <p><b>Note:</b> by default, the returned map uses equality comparisons (the {@link Object#equals
- * equals} method) to determine equality for keys or values. However, if {@link #weakKeys} or {@link
- * #softKeys} was specified, the map uses identity ({@code ==}) comparisons instead for keys.
- * Likewise, if {@link #weakValues} or {@link #softValues} was specified, the map uses identity
- * comparisons for values.
+ * equals} method) to determine equality for keys or values. However, if {@link #weakKeys} was
+ * specified, the map uses identity ({@code ==}) comparisons instead for keys. Likewise, if {@link
+ * #weakValues} or {@link #softValues} was specified, the map uses identity comparisons for values.
  *
  * <p>The view collections of the returned map have <i>weakly consistent iterators</i>. This means
  * that they are safe for concurrent use, but if other threads modify the map after the iterator is
@@ -141,9 +141,9 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
   /**
    * Sets a custom {@code Equivalence} strategy for comparing keys.
    *
-   * <p>By default, the map uses {@link Equivalence#identity} to determine key equality when
-   * {@link #weakKeys} or {@link #softKeys} is specified, and {@link Equivalence#equals()}
-   * otherwise. The only place this is used is in {@link Interners.WeakInterner}.
+   * <p>By default, the map uses {@link Equivalence#identity} to determine key equality when {@link
+   * #weakKeys} is specified, and {@link Equivalence#equals()} otherwise. The only place this is
+   * used is in {@link Interners.WeakInterner}.
    */
   @GwtIncompatible("To be supported")
   @Override
@@ -268,36 +268,10 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
     return setKeyStrength(Strength.WEAK);
   }
 
-  /**
-   * <b>This method is broken.</b> Maps with soft keys offer no functional advantage over maps with
-   * weak keys, and they waste memory by keeping unreachable elements in the map. If your goal is to
-   * create a memory-sensitive map, then consider using soft values instead.
-   *
-   * <p>Specifies that each key (not value) stored in the map should be wrapped in a
-   * {@link SoftReference} (by default, strong references are used). Softly-referenced objects will
-   * be garbage-collected in a <i>globally</i> least-recently-used manner, in response to memory
-   * demand.
-   *
-   * <p><b>Warning:</b> when this method is used, the resulting map will use identity ({@code ==})
-   * comparison to determine equality of keys, which is a technical violation of the {@link Map}
-   * specification, and may not be what you expect.
-   *
-   * @throws IllegalStateException if the key strength was already set
-   * @see SoftReference
-   * @deprecated use {@link #softValues} to create a memory-sensitive map, or {@link #weakKeys} to
-   *     create a map that doesn't hold strong references to the keys.
-   *     <b>This method is scheduled for deletion in January 2013.</b>
-   */
-  @Deprecated
-  @GwtIncompatible("java.lang.ref.SoftReference")
-  @Override
-  public MapMaker softKeys() {
-    return setKeyStrength(Strength.SOFT);
-  }
-
   MapMaker setKeyStrength(Strength strength) {
     checkState(keyStrength == null, "Key strength was already set to %s", keyStrength);
     keyStrength = checkNotNull(strength);
+    checkArgument(keyStrength != SOFT, "Soft keys are not supported");
     if (strength != Strength.STRONG) {
       // STRONG could be used during deserialization.
       useCustomMap = true;
@@ -732,9 +706,8 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
     },
 
     /**
-     * The entry was removed automatically because its key or value was garbage-collected. This
-     * can occur when using {@link #softKeys}, {@link #softValues}, {@link #weakKeys}, or {@link
-     * #weakValues}.
+     * The entry was removed automatically because its key or value was garbage-collected. This can
+     * occur when using {@link #softValues}, {@link #weakKeys}, or {@link #weakValues}.
      */
     COLLECTED {
       @Override
