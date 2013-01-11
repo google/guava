@@ -65,11 +65,13 @@ public class ClassPathTest extends TestCase {
         "com/google/common/reflect/ClassPathTest.class",
         "com/google/common/reflect/ClassPathTest$Nested.class",
         testResourceName);
+    assertFalse(byName.keySet().contains("META-INF/MANIFEST.MF"));
     ASSERT.that(byToString.keySet()).has().allOf(
         "com.google.common.reflect.ClassPath",
         "com.google.common.reflect.ClassPathTest",
         "com/google/common/reflect/ClassPathTest$Nested.class",
         testResourceName);
+    assertFalse(byToString.keySet().contains("META-INF/MANIFEST.MF"));
     assertEquals(getClass().getClassLoader().getResource(testResourceName),
         byName.get("com/google/common/reflect/test.txt").url());
   }

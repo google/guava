@@ -315,7 +315,7 @@ public final class ClassPath {
       Enumeration<JarEntry> entries = jarFile.entries();
       while (entries.hasMoreElements()) {
         JarEntry entry = entries.nextElement();
-        if (entry.isDirectory()) {
+        if (entry.isDirectory() || entry.getName().startsWith("META-INF/")) {
           continue;
         }
         resources.add(ResourceInfo.of(entry.getName(), classloader));
