@@ -39,8 +39,18 @@ import javax.annotation.Nullable;
  * Wrapper around either a {@link Method} or a {@link Constructor}.
  * Convenience API is provided to make common reflective operation easier to deal with,
  * such as {@link #isPublic}, {@link #getParameters} etc.
+ *
+ * <p>In addition to convenience methods, {@link TypeToken#method} and {@link
+ * TypeToken#constructor} will resolve the type parameters of the method or constructor in the
+ * context of the owner type, which may be a subtype of the declaring class. For example:
+ * <pre>   {@code
+ *
+ *   Method getMethod = List.class.getMethod("get", int.class);
+ *   Invokable<List<String>, ?> invokable = new TypeToken<List<String>>() {}.method(getMethod);
+ *   assertEquals(TypeToken.of(String.class), invokable.getReturnType()); // Not Object.class!
+ *   assertEquals(new TypeToken<List<String>>() {}, invokable.getOwnerType());}</pre>
  * 
- * @param <T> the type that declares this method or constructor.
+ * @param <T> the type that owns this method or constructor.
  * @param <R> the return type of (or supertype thereof) the method or the declaring type of the
  *            constructor.
  * @author Ben Yu
@@ -153,6 +163,13 @@ public abstract class Invokable<T, R> extends Element implements GenericDeclarat
   @SuppressWarnings("unchecked") // The declaring class is T's raw class, or one of its supertypes.
   @Override public final Class<? super T> getDeclaringClass() {
     return (Class<? super T>) super.getDeclaringClass();
+  }
+
+  /** Returns the type of {@code T}. */
+  // Overridden in TypeToken#method() and TypeToken#constructor()
+  @SuppressWarnings("unchecked") // The declaring class is T.
+  public TypeToken<T> getOwnerType() {
+    return (TypeToken<T>) TypeToken.of(getDeclaringClass());
   }
 
   abstract Object invokeInternal(@Nullable Object receiver, Object[] args)

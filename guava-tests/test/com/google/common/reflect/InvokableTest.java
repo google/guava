@@ -275,6 +275,16 @@ public class InvokableTest extends TestCase {
     assertTrue(delegate.isVarArgs());
   }
 
+  public void testGetOwnerType_constructor() throws Exception {
+    Invokable<String, String> invokable = Invokable.from(String.class.getConstructor());
+    assertEquals(TypeToken.of(String.class), invokable.getOwnerType());
+  }
+
+  public void testGetOwnerType_method() throws Exception {
+    Invokable<?, ?> invokable = Invokable.from(String.class.getMethod("length"));
+    assertEquals(TypeToken.of(String.class), invokable.getOwnerType());
+  }
+
   private static final class FinalClass {
     @SuppressWarnings("unused") // used by reflection
     void notFinalMethod() {}

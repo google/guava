@@ -474,6 +474,9 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
       @Override Type[] getGenericExceptionTypes() {
         return resolveInPlace(super.getGenericExceptionTypes());
       }
+      @Override public TypeToken<T> getOwnerType() {
+        return TypeToken.this;
+      }
     };
   }
 
@@ -494,6 +497,9 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
       }
       @Override Type[] getGenericExceptionTypes() {
         return resolveInPlace(super.getGenericExceptionTypes());
+      }
+      @Override public TypeToken<T> getOwnerType() {
+        return TypeToken.this;
       }
     };
   }
