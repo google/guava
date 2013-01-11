@@ -16,10 +16,12 @@
 
 package com.google.common.reflect;
 
+import com.google.common.testing.EqualsTester;
 import com.google.common.testing.NullPointerTester;
 
 import junit.framework.TestCase;
 
+import java.lang.reflect.Method;
 import java.lang.reflect.TypeVariable;
 
 /**
@@ -42,6 +44,15 @@ public class TypeParameterTest extends TestCase {
       new TypeParameter<String>() {};
       fail();
     } catch (IllegalArgumentException expected) {}
+  }
+
+  public <A, B> void testEquals() throws Exception {
+    Method method = TypeParameterTest.class.getDeclaredMethod("testEquals");
+    new EqualsTester()
+        .addEqualityGroup(
+            new TypeParameter<A>() {}, new TypeParameter<A>() {})
+        .addEqualityGroup(new TypeParameter<B>() {})
+        .testEquals();
   }
 
   public void testNullPointers() {

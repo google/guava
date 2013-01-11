@@ -17,7 +17,6 @@
 package com.google.common.reflect;
 
 import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.Beta;
 
@@ -43,10 +42,6 @@ import javax.annotation.Nullable;
 public abstract class TypeParameter<T> extends TypeCapture<T> {
 
   final TypeVariable<?> typeVariable;
-
-  private TypeParameter(TypeVariable<?> typeVariable) {
-    this.typeVariable = checkNotNull(typeVariable);
-  }
 
   protected TypeParameter() {
     Type type = capture();
