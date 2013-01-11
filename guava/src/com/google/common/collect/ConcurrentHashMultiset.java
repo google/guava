@@ -588,21 +588,6 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> impleme
       Iterators.addAll(list, iterator());
       return list;
     }
-
-    @Override public boolean remove(Object object) {
-      if (object instanceof Multiset.Entry) {
-        Multiset.Entry<?> entry = (Multiset.Entry<?>) object;
-        Object element = entry.getElement();
-        int entryCount = entry.getCount();
-        if (entryCount != 0) {
-          // Safe as long as we never add a new entry, which we won't.
-          @SuppressWarnings("unchecked")
-          Multiset<Object> multiset = (Multiset) multiset();
-          return multiset.setCount(element, entryCount, 0);
-        }
-      }
-      return false;
-    }
   }
 
   /**

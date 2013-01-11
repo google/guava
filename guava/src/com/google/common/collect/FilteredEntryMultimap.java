@@ -332,9 +332,8 @@ class FilteredEntryMultimap<K, V> extends FilteredMultimap<K, V> {
   }
   
   class Keys extends Multimaps.Keys<K, V> {
-    @Override
-    Multimap<K, V> multimap() {
-      return FilteredEntryMultimap.this;
+    Keys() {
+      super(FilteredEntryMultimap.this);
     }
 
     @Override

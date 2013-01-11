@@ -16,7 +16,6 @@
 
 package com.google.common.collect;
 
-import static com.google.common.testing.SerializableTester.reserializeAndAssert;
 import static org.truth0.Truth.ASSERT;
 
 import com.google.common.annotations.GwtCompatible;
@@ -28,8 +27,6 @@ import junit.framework.TestCase;
 
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * Tests for {@link Multisets}.
@@ -42,71 +39,6 @@ import java.util.Set;
 public class MultisetsTest extends TestCase {
 
   /* See MultisetsImmutableEntryTest for immutableEntry() tests. */
-
-  public void testForSet() {
-    Set<String> set = new HashSet<String>();
-    set.add("foo");
-    set.add("bar");
-    set.add(null);
-    Multiset<String> multiset = HashMultiset.create();
-    multiset.addAll(set);
-    Multiset<String> multisetView = Multisets.forSet(set);
-    assertTrue(multiset.equals(multisetView));
-    assertTrue(multisetView.equals(multiset));
-    assertEquals(multiset.toString(), multisetView.toString());
-    assertEquals(multiset.hashCode(), multisetView.hashCode());
-    assertEquals(multiset.size(), multisetView.size());
-    assertTrue(multisetView.contains("foo"));
-    assertEquals(set, multisetView.elementSet());
-    assertEquals(multisetView.elementSet(), set);
-    assertEquals(multiset.elementSet(), multisetView.elementSet());
-    assertEquals(multisetView.elementSet(), multiset.elementSet());
-    try {
-      multisetView.add("baz");
-      fail("UnsupportedOperationException expected");
-    } catch (UnsupportedOperationException expected) {}
-    try {
-      multisetView.addAll(Collections.singleton("baz"));
-      fail("UnsupportedOperationException expected");
-    } catch (UnsupportedOperationException expected) {}
-    try {
-      multisetView.elementSet().add("baz");
-      fail("UnsupportedOperationException expected");
-    } catch (UnsupportedOperationException expected) {}
-    try {
-      multisetView.elementSet().addAll(Collections.singleton("baz"));
-      fail("UnsupportedOperationException expected");
-    } catch (UnsupportedOperationException expected) {}
-    multisetView.remove("bar");
-    assertFalse(multisetView.contains("bar"));
-    assertFalse(set.contains("bar"));
-    assertEquals(set, multisetView.elementSet());
-    ASSERT.that(multisetView.elementSet()).has().allOf("foo", null);
-    ASSERT.that(multisetView.entrySet()).has().allOf(
-        Multisets.immutableEntry("foo", 1), Multisets.immutableEntry((String) null, 1));
-    multisetView.clear();
-    assertFalse(multisetView.contains("foo"));
-    assertFalse(set.contains("foo"));
-    assertTrue(set.isEmpty());
-    assertTrue(multisetView.isEmpty());
-    multiset.clear();
-    assertEquals(multiset.toString(), multisetView.toString());
-    assertEquals(multiset.hashCode(), multisetView.hashCode());
-    assertEquals(multiset.size(), multisetView.size());
-  }
-
-  @GwtIncompatible("SerializableTester")
-  public void testForSetSerialization() {
-    Set<String> set = new HashSet<String>();
-    set.add("foo");
-    set.add("bar");
-    set.add(null);
-    Multiset<String> multiset = HashMultiset.create();
-    multiset.addAll(set);
-    Multiset<String> multisetView = Multisets.forSet(set);
-    assertTrue(multiset.equals(multisetView));
-    reserializeAndAssert(multisetView);
-  }
 
   public void testNewTreeMultisetDerived() {
     TreeMultiset<DerivedComparable> set = TreeMultiset.create();

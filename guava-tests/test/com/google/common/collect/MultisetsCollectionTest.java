@@ -16,9 +16,6 @@
 
 package com.google.common.collect;
 
-import static com.google.common.collect.testing.google.AbstractMultisetSetCountTester.getSetCountDuplicateInitializingMethods;
-import static com.google.common.collect.testing.google.MultisetIteratorTester.getIteratorDuplicateInitializingMethods;
-import static com.google.common.collect.testing.google.MultisetReadsTester.getReadsDuplicateInitializingMethods;
 import static java.util.Arrays.asList;
 
 import com.google.common.annotations.GwtIncompatible;
@@ -67,17 +64,6 @@ public class MultisetsCollectionTest extends TestCase {
         .named("Multisets.unmodifiableMultiset[TreeMultiset]")
         .createTestSuite());
 
-    suite.addTest(MultisetTestSuiteBuilder.using(forSetGenerator())
-        .withFeatures(CollectionSize.ANY, CollectionFeature.ALLOWS_NULL_VALUES,
-            CollectionFeature.SERIALIZABLE,
-            CollectionFeature.SUPPORTS_REMOVE,
-            MultisetTestSuiteBuilder.NoRecurse.NO_ENTRY_SET) // TODO(user): fix?
-        .suppressing(getReadsDuplicateInitializingMethods())
-        .suppressing(getSetCountDuplicateInitializingMethods())
-        .suppressing(getIteratorDuplicateInitializingMethods())
-        .named("Multisets.forSet")
-        .createTestSuite());
-
     suite.addTest(MultisetTestSuiteBuilder.using(unionGenerator())
         .withFeatures(CollectionSize.ANY,
             CollectionFeature.ALLOWS_NULL_VALUES)
@@ -103,7 +89,7 @@ public class MultisetsCollectionTest extends TestCase {
             CollectionFeature.KNOWN_ORDER)
         .named("Multisets.difference")
         .createTestSuite());
-
+    
     suite.addTest(MultisetTestSuiteBuilder.using(filteredGenerator())
         .withFeatures(CollectionSize.ANY,
             CollectionFeature.ALLOWS_NULL_VALUES,
@@ -148,14 +134,6 @@ public class MultisetsCollectionTest extends TestCase {
       @Override public List<String> order(List<String> insertionOrder) {
         Collections.sort(insertionOrder);
         return insertionOrder;
-      }
-    };
-  }
-
-  private static TestStringMultisetGenerator forSetGenerator() {
-    return new TestStringMultisetGenerator() {
-      @Override protected Multiset<String> create(String[] elements) {
-        return Multisets.forSet(Sets.newHashSet(elements));
       }
     };
   }
@@ -250,13 +228,13 @@ public class MultisetsCollectionTest extends TestCase {
       }
     };
   }
-
+  
   private static final Multiset<String> ELEMENTS_TO_FILTER_OUT = ImmutableMultiset.of(
       "foobar", "bazfoo", "foobar", "foobar");
-
-  private static final Predicate<String> PREDICATE =
+  
+  private static final Predicate<String> PREDICATE = 
       Predicates.not(Predicates.in(ELEMENTS_TO_FILTER_OUT));
-
+  
   private static TestStringMultisetGenerator filteredGenerator() {
     return new TestStringMultisetGenerator() {
       @Override

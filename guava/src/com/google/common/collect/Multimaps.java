@@ -1142,7 +1142,7 @@ public final class Multimaps {
 
     @Override
     public Multiset<K> keys() {
-      return Multisets.forSet(map.keySet());
+      return new Multimaps.Keys<K, V>(this);
     }
 
     @Override
@@ -1783,12 +1783,16 @@ public final class Multimaps {
     return builder.build();
   }
 
-  static abstract class Keys<K, V> extends AbstractMultiset<K> {
-    abstract Multimap<K, V> multimap();
+  static class Keys<K, V> extends AbstractMultiset<K> {
+    final Multimap<K, V> multimap;
+    
+    Keys(Multimap<K, V> multimap) {
+      this.multimap = multimap;
+    }
 
     @Override Iterator<Multiset.Entry<K>> entryIterator() {
       return new TransformedIterator<Map.Entry<K, Collection<V>>, Multiset.Entry<K>>(
-          multimap().asMap().entrySet().iterator()) {
+          multimap.asMap().entrySet().iterator()) {
         @Override
         Multiset.Entry<K> transform(
             final Map.Entry<K, Collection<V>> backingEntry) {
@@ -1808,7 +1812,7 @@ public final class Multimaps {
     }
 
     @Override int distinctElements() {
-      return multimap().asMap().size();
+      return multimap.asMap().size();
     }
 
     @Override Set<Multiset.Entry<K>> createEntrySet() {
@@ -1829,13 +1833,13 @@ public final class Multimaps {
       }
 
       @Override public boolean isEmpty() {
-        return multimap().isEmpty();
+        return multimap.isEmpty();
       }
 
       @Override public boolean contains(@Nullable Object o) {
         if (o instanceof Multiset.Entry) {
           Multiset.Entry<?> entry = (Multiset.Entry<?>) o;
-          Collection<V> collection = multimap().asMap().get(entry.getElement());
+          Collection<V> collection = multimap.asMap().get(entry.getElement());
           return collection != null && collection.size() == entry.getCount();
         }
         return false;
@@ -1844,7 +1848,7 @@ public final class Multimaps {
       @Override public boolean remove(@Nullable Object o) {
         if (o instanceof Multiset.Entry) {
           Multiset.Entry<?> entry = (Multiset.Entry<?>) o;
-          Collection<V> collection = multimap().asMap().get(entry.getElement());
+          Collection<V> collection = multimap.asMap().get(entry.getElement());
           if (collection != null && collection.size() == entry.getCount()) {
             collection.clear();
             return true;
@@ -1855,20 +1859,17 @@ public final class Multimaps {
     }
 
     @Override public boolean contains(@Nullable Object element) {
-      return multimap().containsKey(element);
+      return multimap.containsKey(element);
     }
 
     @Override public Iterator<K> iterator() {
-      return Maps.keyIterator(multimap().entries().iterator());
+      return Maps.keyIterator(multimap.entries().iterator());
     }
 
     @Override public int count(@Nullable Object element) {
       try {
-        if (multimap().containsKey(element)) {
-          Collection<V> values = multimap().asMap().get(element);
-          return (values == null) ? 0 : values.size();
-        }
-        return 0;
+        Collection<V> values = multimap.asMap().get(element);
+        return (values == null) ? 0 : values.size();
       } catch (ClassCastException e) {
         return 0;
       } catch (NullPointerException e) {
@@ -1884,7 +1885,7 @@ public final class Multimaps {
 
       Collection<V> values;
       try {
-        values = multimap().asMap().get(element);
+        values = multimap.asMap().get(element);
       } catch (ClassCastException e) {
         return 0;
       } catch (NullPointerException e) {
@@ -1909,31 +1910,35 @@ public final class Multimaps {
     }
 
     @Override public void clear() {
-      multimap().clear();
+      multimap.clear();
     }
 
     @Override public Set<K> elementSet() {
-      return multimap().keySet();
+      return multimap.keySet();
     }
   }
 
-  static abstract class Values<K, V> extends AbstractCollection<V> {
-    abstract Multimap<K, V> multimap();
+  static class Values<K, V> extends AbstractCollection<V> {
+    final Multimap<K, V> multimap;
+    
+    Values(Multimap<K, V> multimap) {
+      this.multimap = multimap;
+    }
 
     @Override public Iterator<V> iterator() {
-      return Maps.valueIterator(multimap().entries().iterator());
+      return Maps.valueIterator(multimap.entries().iterator());
     }
 
     @Override public int size() {
-      return multimap().size();
+      return multimap.size();
     }
 
     @Override public boolean contains(@Nullable Object o) {
-      return multimap().containsValue(o);
+      return multimap.containsValue(o);
     }
 
     @Override public void clear() {
-      multimap().clear();
+      multimap.clear();
     }
   }
 

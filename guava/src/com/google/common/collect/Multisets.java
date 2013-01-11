@@ -235,155 +235,6 @@ public final class Multisets {
   }
 
   /**
-   * Returns a multiset view of the specified set. The multiset is backed by the
-   * set, so changes to the set are reflected in the multiset, and vice versa.
-   * If the set is modified while an iteration over the multiset is in progress
-   * (except through the iterator's own {@code remove} operation) the results of
-   * the iteration are undefined.
-   *
-   * <p>The multiset supports element removal, which removes the corresponding
-   * element from the set. It does not support the {@code add} or {@code addAll}
-   * operations, nor does it support the use of {@code setCount} to add
-   * elements.
-   *
-   * <p>The returned multiset will be serializable if the specified set is
-   * serializable. The multiset is threadsafe if the set is threadsafe.
-   *
-   * @param set the backing set for the returned multiset view
-   */
-  static <E> Multiset<E> forSet(Set<E> set) {
-    return new SetMultiset<E>(set);
-  }
-
-  /** @see Multisets#forSet */
-  private static class SetMultiset<E> extends ForwardingCollection<E>
-      implements Multiset<E>, Serializable {
-    final Set<E> delegate;
-
-    SetMultiset(Set<E> set) {
-      delegate = checkNotNull(set);
-    }
-
-    @Override protected Set<E> delegate() {
-      return delegate;
-    }
-
-    @Override
-    public int count(Object element) {
-      return delegate.contains(element) ? 1 : 0;
-    }
-
-    @Override
-    public int add(E element, int occurrences) {
-      throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public int remove(Object element, int occurrences) {
-      if (occurrences == 0) {
-        return count(element);
-      }
-      checkArgument(occurrences > 0);
-      return delegate.remove(element) ? 1 : 0;
-    }
-
-    transient Set<E> elementSet;
-
-    @Override
-    public Set<E> elementSet() {
-      Set<E> es = elementSet;
-      return (es == null) ? elementSet = new ElementSet() : es;
-    }
-
-    transient Set<Entry<E>> entrySet;
-
-    @Override public Set<Entry<E>> entrySet() {
-      Set<Entry<E>> es = entrySet;
-      if (es == null) {
-        es = entrySet = new EntrySet<E>() {
-          @Override Multiset<E> multiset() {
-            return SetMultiset.this;
-          }
-
-          @Override public Iterator<Entry<E>> iterator() {
-            return new TransformedIterator<E, Entry<E>>(delegate.iterator()) {
-              @Override
-              Entry<E> transform(E e) {
-                return immutableEntry(e, 1);
-              }
-            };
-          }
-
-          @Override public int size() {
-            return delegate.size();
-          }
-        };
-      }
-      return es;
-    }
-
-    @Override public boolean add(E o) {
-      throw new UnsupportedOperationException();
-    }
-
-    @Override public boolean addAll(Collection<? extends E> c) {
-      throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public int setCount(E element, int count) {
-      checkNonnegative(count, "count");
-
-      if (count == count(element)) {
-        return count;
-      } else if (count == 0) {
-        remove(element);
-        return 1;
-      } else {
-        throw new UnsupportedOperationException();
-      }
-    }
-
-    @Override
-    public boolean setCount(E element, int oldCount, int newCount) {
-      return setCountImpl(this, element, oldCount, newCount);
-    }
-
-    @Override public boolean equals(@Nullable Object object) {
-      if (object instanceof Multiset) {
-        Multiset<?> that = (Multiset<?>) object;
-        return this.size() == that.size() && delegate.equals(that.elementSet());
-      }
-      return false;
-    }
-
-    @Override public int hashCode() {
-      int sum = 0;
-      for (E e : this) {
-        sum += ((e == null) ? 0 : e.hashCode()) ^ 1;
-      }
-      return sum;
-    }
-
-    /** @see SetMultiset#elementSet */
-    class ElementSet extends ForwardingSet<E> {
-      @Override protected Set<E> delegate() {
-        return delegate;
-      }
-
-      @Override public boolean add(E o) {
-        throw new UnsupportedOperationException();
-      }
-
-      @Override public boolean addAll(Collection<? extends E> c) {
-        throw new UnsupportedOperationException();
-      }
-    }
-
-    private static final long serialVersionUID = 0;
-  }
-
-  /**
    * Returns a view of the elements of {@code unfiltered} that satisfy a predicate. The returned
    * multiset is a live view of {@code unfiltered}; changes to one affect the other.
    *
@@ -1115,9 +966,19 @@ public final class Multisets {
     }
 
     @SuppressWarnings("cast")
-    @Override public boolean remove(Object o) {
-      return contains(o)
-          && multiset().elementSet().remove(((Entry<?>) o).getElement());
+    @Override public boolean remove(Object object) {
+      if (object instanceof Multiset.Entry) {
+        Entry<?> entry = (Entry<?>) object;
+        Object element = entry.getElement();
+        int entryCount = entry.getCount();
+        if (entryCount != 0) {
+          // Safe as long as we never add a new entry, which we won't.
+          @SuppressWarnings("unchecked")
+          Multiset<Object> multiset = (Multiset) multiset();
+          return multiset.setCount(element, entryCount, 0);
+        }
+      }
+      return false;
     }
 
     @Override public void clear() {
