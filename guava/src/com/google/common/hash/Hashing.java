@@ -112,7 +112,7 @@ public final class Hashing {
     return MURMUR3_32;
   }
 
-  private static final Murmur3_32HashFunction MURMUR3_32 = new Murmur3_32HashFunction(0);
+  private static final HashFunction MURMUR3_32 = new Murmur3_32HashFunction(0);
 
   /**
    * Returns a hash function implementing the
@@ -138,7 +138,7 @@ public final class Hashing {
     return MURMUR3_128;
   }
 
-  private static final Murmur3_128HashFunction MURMUR3_128 = new Murmur3_128HashFunction(0);
+  private static final HashFunction MURMUR3_128 = new Murmur3_128HashFunction(0);
 
   /**
    * Returns a hash function implementing the MD5 hash algorithm (128 hash bits) by delegating to
