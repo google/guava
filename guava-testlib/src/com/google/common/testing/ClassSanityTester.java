@@ -227,6 +227,33 @@ public final class ClassSanityTester {
    * <li>Inequality check is not performed against state mutation methods such as {@link List#add},
    *     or functional update methods such as {@link com.google.common.base.Joiner#skipNulls}.
    * </ul>
+   *
+   * <p>Note that constructors taking a builder object cannot be tested effectively because
+   * semantics of builder can be arbitrarily complex. Still, a factory class can be created in the
+   * test to facilitate equality testing. For example: <pre>
+   * public class FooTest {
+   *
+   *   private static class FooFactoryForTest {
+   *     public static Foo create(String a, String b, int c, boolean d) {
+   *       return Foo.builder()
+   *           .setA(a)
+   *           .setB(b)
+   *           .setC(c)
+   *           .setD(d)
+   *           .build();
+   *     }
+   *   }
+   *
+   *   public void testEquals() {
+   *     new ClassSanityTester()
+   *       .forAllPublicStaticMethods(FooFactoryForTest.class)
+   *       .thatReturn(Foo.class)
+   *       .testEquals();
+   *   }
+   * }
+   * </pre>
+   * It will test that Foo objects created by the {@code create(a, b, c, d)} factory method with
+   * equal parameters are equal and vice versa, thus indirectly tests the builder equality.
    */
   public void testEquals(Class<?> cls) {
     try {
@@ -323,6 +350,7 @@ public final class ClassSanityTester {
     ImmutableList.Builder<Invokable<?, ?>> builder = ImmutableList.builder();
     for (Method method : cls.getDeclaredMethods()) {
       Invokable<?, ?> invokable = Invokable.from(method);
+      invokable.setAccessible(true);
       if (invokable.isPublic() && invokable.isStatic() && !invokable.isSynthetic()) {
         builder.add(invokable);
       }

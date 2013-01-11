@@ -85,10 +85,11 @@ public class ClassSanityTesterTest extends TestCase {
     fail();
   }
 
-  public static class BadEqualsFactory {
+  private static class BadEqualsFactory {
     /** oneConstantOnly matters now since it can be either null or the constant. */
+    @SuppressWarnings("unused") // Called by reflection
     public static Object bad(String a, int b,
-        @SuppressWarnings("unused") @Nullable OneConstantEnum oneConstantOnly) {
+        @Nullable OneConstantEnum oneConstantOnly) {
       return new GoodEquals(a, b);
     }
   }
@@ -97,7 +98,8 @@ public class ClassSanityTesterTest extends TestCase {
     tester.forAllPublicStaticMethods(GoodNullsFactory.class).testNulls();
   }
 
-  public static class GoodNullsFactory {
+  private static class GoodNullsFactory {
+    @SuppressWarnings("unused") // Called by reflection
     public static Object good(String s) {
       return new GoodNulls(s);
     }
@@ -541,7 +543,8 @@ public class ClassSanityTesterTest extends TestCase {
   }
 
   /** String doesn't check nulls as we expect. But the framework should ignore. */
-  public static class JdkObjectFactory {
+  private static class JdkObjectFactory {
+    @SuppressWarnings("unused") // Called by reflection
     public static Object create() {
       return new ArrayList<String>();
     }
