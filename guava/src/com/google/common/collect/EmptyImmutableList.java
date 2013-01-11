@@ -23,7 +23,6 @@ import static com.google.common.base.Preconditions.checkPositionIndexes;
 import com.google.common.annotations.GwtCompatible;
 
 import java.util.Collection;
-import java.util.List;
 
 import javax.annotation.Nullable;
 
@@ -41,10 +40,6 @@ final class EmptyImmutableList extends ImmutableList<Object> {
   @Override
   public int size() {
     return 0;
-  }
-
-  @Override public boolean isEmpty() {
-    return true;
   }
 
   @Override boolean isPartialView() {
@@ -105,14 +100,6 @@ final class EmptyImmutableList extends ImmutableList<Object> {
   @Override public UnmodifiableListIterator<Object> listIterator(int start) {
     checkPositionIndex(start, 0);
     return Iterators.EMPTY_LIST_ITERATOR;
-  }
-
-  @Override public boolean equals(@Nullable Object object) {
-    if (object instanceof List) {
-      List<?> that = (List<?>) object;
-      return that.isEmpty();
-    }
-    return false;
   }
 
   @Override public int hashCode() {

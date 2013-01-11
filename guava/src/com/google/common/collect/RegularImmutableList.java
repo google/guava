@@ -19,10 +19,6 @@ package com.google.common.collect;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Preconditions;
 
-import java.util.List;
-
-import javax.annotation.Nullable;
-
 /**
  * Implementation of {@link ImmutableList} with one or more elements.
  *
@@ -48,10 +44,6 @@ class RegularImmutableList<E> extends ImmutableList<E> {
   @Override
   public int size() {
     return size;
-  }
-
-  @Override public boolean isEmpty() {
-    return false;
   }
 
   @Override boolean isPartialView() {
@@ -95,45 +87,5 @@ class RegularImmutableList<E> extends ImmutableList<E> {
     // The fake cast to E is safe because the creation methods only allow E's
     return (UnmodifiableListIterator<E>)
         Iterators.forArray(array, offset, size, index);
-  }
-
-  @Override public boolean equals(@Nullable Object object) {
-    if (object == this) {
-      return true;
-    }
-    if (!(object instanceof List)) {
-      return false;
-    }
-
-    List<?> that = (List<?>) object;
-    if (this.size() != that.size()) {
-      return false;
-    }
-
-    int index = offset;
-    if (object instanceof RegularImmutableList) {
-      RegularImmutableList<?> other = (RegularImmutableList<?>) object;
-      for (int i = other.offset; i < other.offset + other.size; i++) {
-        if (!array[index++].equals(other.array[i])) {
-          return false;
-        }
-      }
-    } else {
-      for (Object element : that) {
-        if (!array[index++].equals(element)) {
-          return false;
-        }
-      }
-    }
-    return true;
-  }
-
-  @Override public String toString() {
-    StringBuilder sb = Collections2.newStringBuilderForCollection(size())
-        .append('[').append(array[offset]);
-    for (int i = offset + 1; i < offset + size; i++) {
-      sb.append(", ").append(array[i]);
-    }
-    return sb.append(']').toString();
   }
 }
