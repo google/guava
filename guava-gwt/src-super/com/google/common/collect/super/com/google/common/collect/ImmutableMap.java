@@ -225,11 +225,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
   }
 
   ImmutableSet<K> createKeySet() {
-    return new ImmutableMapKeySet<K, V>() {
-      @Override ImmutableMap<K, V> map() {
-        return ImmutableMap.this;
-      }
-    };
+    return new ImmutableMapKeySet<K, V>(this);
   }
 
   private transient ImmutableCollection<V> cachedValues = null;
@@ -320,11 +316,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
   }
 
   ImmutableCollection<V> createValues() {
-    return new ImmutableMapValues<K, V>() {
-      @Override ImmutableMap<K, V> map() {
-        return ImmutableMap.this;
-      }
-    };
+    return new ImmutableMapValues<K, V>(this);
   }
 
   @Override public boolean equals(@Nullable Object object) {

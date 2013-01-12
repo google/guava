@@ -17,6 +17,7 @@
 package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.primitives.Ints;
 
 /**
  * Static methods for implementing hash-based collections.
@@ -42,5 +43,24 @@ final class Hashing {
    */
   static int smear(int hashCode) {
     return C2 * Integer.rotateLeft(hashCode * C1, 15);
+  }
+  
+  static int MAX_TABLE_SIZE = Ints.MAX_POWER_OF_TWO;
+  
+  static int closedTableSize(int expectedEntries, double loadFactor) {
+    // Get the recommended table size.
+    // Round down to the nearest power of 2.
+    expectedEntries = Math.max(expectedEntries, 2);
+    int tableSize = Integer.highestOneBit(expectedEntries);
+    // Check to make sure that we will not exceed the maximum load factor.
+    if ((double) expectedEntries / tableSize > loadFactor) {
+      tableSize <<= 1;
+      return (tableSize > 0) ? tableSize : MAX_TABLE_SIZE;
+    }
+    return tableSize;
+  }
+  
+  static boolean needsResizing(int size, int tableSize, double loadFactor) {
+    return size > loadFactor * tableSize && tableSize < MAX_TABLE_SIZE;
   }
 }

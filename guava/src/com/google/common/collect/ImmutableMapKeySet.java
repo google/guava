@@ -31,12 +31,16 @@ import javax.annotation.Nullable;
  * @author Kevin Bourrillion
  */
 @GwtCompatible(emulated = true)
-abstract class ImmutableMapKeySet<K, V> extends ImmutableSet<K> {
-  abstract ImmutableMap<K, V> map();
+final class ImmutableMapKeySet<K, V> extends ImmutableSet<K> {
+  private final ImmutableMap<K, V> map;
+
+  ImmutableMapKeySet(ImmutableMap<K, V> map) {
+    this.map = map;
+  }
 
   @Override
   public int size() {
-    return map().size();
+    return map.size();
   }
 
   @Override
@@ -46,12 +50,12 @@ abstract class ImmutableMapKeySet<K, V> extends ImmutableSet<K> {
 
   @Override
   public boolean contains(@Nullable Object object) {
-    return map().containsKey(object);
+    return map.containsKey(object);
   }
 
   @Override
   ImmutableList<K> createAsList() {
-    final ImmutableList<Entry<K, V>> entryList = map().entrySet().asList();
+    final ImmutableList<Entry<K, V>> entryList = map.entrySet().asList();
     return new ImmutableAsList<K>() {
 
       @Override
@@ -74,7 +78,7 @@ abstract class ImmutableMapKeySet<K, V> extends ImmutableSet<K> {
 
   @GwtIncompatible("serialization")
   @Override Object writeReplace() {
-    return new KeySetSerializedForm<K>(map());
+    return new KeySetSerializedForm<K>(map);
   }
 
   @GwtIncompatible("serialization")

@@ -1867,14 +1867,8 @@ public final class Multimaps {
     }
 
     @Override public int count(@Nullable Object element) {
-      try {
-        Collection<V> values = multimap.asMap().get(element);
-        return (values == null) ? 0 : values.size();
-      } catch (ClassCastException e) {
-        return 0;
-      } catch (NullPointerException e) {
-        return 0;
-      }
+      Collection<V> values = Maps.safeGet(multimap.asMap(), element);
+      return (values == null) ? 0 : values.size();
     }
 
     @Override public int remove(@Nullable Object element, int occurrences) {
@@ -1883,14 +1877,7 @@ public final class Multimaps {
         return count(element);
       }
 
-      Collection<V> values;
-      try {
-        values = multimap.asMap().get(element);
-      } catch (ClassCastException e) {
-        return 0;
-      } catch (NullPointerException e) {
-        return 0;
-      }
+      Collection<V> values = Maps.safeGet(multimap.asMap(), element);
 
       if (values == null) {
         return 0;

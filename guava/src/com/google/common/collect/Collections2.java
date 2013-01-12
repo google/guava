@@ -95,12 +95,32 @@ public final class Collections2 {
 
   /**
    * Delegates to {@link Collection#contains}. Returns {@code false} if the
-   * {@code contains} method throws a {@code ClassCastException}.
+   * {@code contains} method throws a {@code ClassCastException} or
+   * {@code NullPointerException}.
    */
   static boolean safeContains(Collection<?> collection, Object object) {
+    checkNotNull(collection);
     try {
       return collection.contains(object);
     } catch (ClassCastException e) {
+      return false;
+    } catch (NullPointerException e) {
+      return false;
+    }
+  }
+
+  /**
+   * Delegates to {@link Collection#remove}. Returns {@code false} if the
+   * {@code remove} method throws a {@code ClassCastException} or
+   * {@code NullPointerException}.
+   */
+  static boolean safeRemove(Collection<?> collection, Object object) {
+    checkNotNull(collection);
+    try {
+      return collection.remove(object);
+    } catch (ClassCastException e) {
+      return false;
+    } catch (NullPointerException e) {
       return false;
     }
   }

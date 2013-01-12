@@ -815,10 +815,6 @@ public final class Maps {
       backingSet().clear();
     }
 
-    protected Entry<K, V> entry(K key) {
-      return immutableEntry(key, function.apply(key));
-    }
-
     @Override
     protected Set<Entry<K, V>> createEntrySet() {
       return new EntrySet<K, V>() {
@@ -829,26 +825,20 @@ public final class Maps {
 
         @Override
         public Iterator<Entry<K, V>> iterator() {
-          final Iterator<K> backingIterator = backingSet().iterator();
-          return new Iterator<Entry<K, V>>() {
-            @Override
-            public boolean hasNext() {
-              return backingIterator.hasNext();
-            }
-
-            @Override
-            public Entry<K, V> next() {
-              return entry(backingIterator.next());
-            }
-
-            @Override
-            public void remove() {
-              backingIterator.remove();
-            }
-          };
+          return asSetEntryIterator(backingSet(), function);
         }
       };
     }
+  }
+
+  private static <K, V> Iterator<Entry<K, V>> asSetEntryIterator(
+      Set<K> set, final Function<? super K, V> function) {
+    return new TransformedIterator<K, Entry<K,V>>(set.iterator()) {
+      @Override
+      Entry<K, V> transform(K key) {
+        return Maps.immutableEntry(key, function.apply(key));
+      }
+    };
   }
 
   private static class SortedAsMapView<K, V> extends AsMapView<K, V>
@@ -901,149 +891,81 @@ public final class Maps {
 
   @GwtIncompatible("NavigableMap")
   private static final class NavigableAsMapView<K, V>
-      extends SortedAsMapView<K, V> implements NavigableMap<K, V> {
+      extends AbstractNavigableMap<K, V> {
+    /*
+     * Using AbstractNavigableMap is simpler than extending SortedAsMapView and rewriting all the
+     * NavigableMap methods.
+     */
+
+    private final NavigableSet<K> set;
+    private final Function<? super K, V> function;
 
     NavigableAsMapView(NavigableSet<K> ks, Function<? super K, V> vFunction) {
-      super(ks, vFunction);
+      this.set = checkNotNull(ks);
+      this.function = checkNotNull(vFunction);
     }
 
     @Override
-    NavigableSet<K> backingSet() {
-      return (NavigableSet<K>) super.backingSet();
-    }
-
-    private Entry<K, V> firstEntry(NavigableSet<K> set) {
-      if (set.isEmpty()) {
-        return null;
-      }
-      return entry(set.first());
-    }
-
-    private K firstKey(NavigableSet<K> set) {
-      if (set.isEmpty()) {
-        return null;
-      }
-      return set.first();
-    }
-
-    private Entry<K, V> lastEntry(NavigableSet<K> set) {
-      if (set.isEmpty()) {
-        return null;
-      }
-      return entry(set.last());
-    }
-
-    private K lastKey(NavigableSet<K> set) {
-      if (set.isEmpty()) {
-        return null;
-      }
-      return set.last();
-    }
-
-    @Override
-    public Entry<K, V> lowerEntry(K key) {
-      return lastEntry(backingSet().headSet(key, false));
-    }
-
-    @Override
-    public K lowerKey(K key) {
-      return lastKey(backingSet().headSet(key, false));
-    }
-
-    @Override
-    public Entry<K, V> floorEntry(K key) {
-      return lastEntry(backingSet().headSet(key, true));
-    }
-
-    @Override
-    public K floorKey(K key) {
-      return lastKey(backingSet().headSet(key, true));
-    }
-
-    @Override
-    public Entry<K, V> ceilingEntry(K key) {
-      return firstEntry(backingSet().tailSet(key, true));
-    }
-
-    @Override
-    public K ceilingKey(K key) {
-      return firstKey(backingSet().tailSet(key, true));
-    }
-
-    @Override
-    public Entry<K, V> higherEntry(K key) {
-      return firstEntry(backingSet().tailSet(key, false));
-    }
-
-    @Override
-    public K higherKey(K key) {
-      return firstKey(backingSet().tailSet(key, false));
-    }
-
-    @Override
-    public Entry<K, V> firstEntry() {
-      return firstEntry(backingSet());
-    }
-
-    @Override
-    public Entry<K, V> lastEntry() {
-      return lastEntry(backingSet());
-    }
-
-    @Override
-    public Entry<K, V> pollFirstEntry() {
-      if (!isEmpty()) {
-        K key = backingSet().pollFirst();
-        return entry(key);
-      }
-      return null;
-    }
-
-    @Override
-    public Entry<K, V> pollLastEntry() {
-      if (!isEmpty()) {
-        K key = backingSet().pollLast();
-        return entry(key);
-      }
-      return null;
-    }
-
-    @Override
-    public NavigableMap<K, V> descendingMap() {
-      return asMap(backingSet().descendingSet(), function);
-    }
-
-    @Override
-    public Set<K> keySet() {
-      return navigableKeySet();
-    }
-
-    @Override
-    public NavigableSet<K> navigableKeySet() {
-      return removeOnlyNavigableSet(backingSet());
-    }
-
-    @Override
-    public NavigableSet<K> descendingKeySet() {
-      return removeOnlyNavigableSet(backingSet().descendingSet());
-    }
-
-    @Override
-    public NavigableMap<K, V> subMap(K fromKey, boolean fromInclusive, K toKey,
-        boolean toInclusive) {
-      return asMap(
-          backingSet().subSet(fromKey, fromInclusive, toKey, toInclusive),
-          function);
+    public NavigableMap<K, V> subMap(
+        K fromKey, boolean fromInclusive, K toKey, boolean toInclusive) {
+      return asMap(set.subSet(fromKey, fromInclusive, toKey, toInclusive), function);
     }
 
     @Override
     public NavigableMap<K, V> headMap(K toKey, boolean inclusive) {
-      return asMap(backingSet().headSet(toKey, inclusive), function);
+      return asMap(set.headSet(toKey, inclusive), function);
     }
 
     @Override
     public NavigableMap<K, V> tailMap(K fromKey, boolean inclusive) {
-      return asMap(backingSet().tailSet(fromKey, inclusive), function);
+      return asMap(set.tailSet(fromKey, inclusive), function);
+    }
+
+    @Override
+    public Comparator<? super K> comparator() {
+      return set.comparator();
+    }
+
+    @Override
+    @Nullable
+    public V get(@Nullable Object key) {
+      if (set.contains(key)) {
+        @SuppressWarnings("unchecked") // unsafe, but Javadoc warns about it
+        K k = (K) key;
+        return function.apply(k);
+      } else {
+        return null;
+      }
+    }
+
+    @Override
+    public void clear() {
+      set.clear();
+    }
+
+    @Override
+    Iterator<Entry<K, V>> entryIterator() {
+      return asSetEntryIterator(set, function);
+    }
+
+    @Override
+    Iterator<Entry<K, V>> descendingEntryIterator() {
+      return descendingMap().entrySet().iterator();
+    }
+
+    @Override
+    public NavigableSet<K> navigableKeySet() {
+      return removeOnlyNavigableSet(set);
+    }
+
+    @Override
+    public int size() {
+      return set.size();
+    }
+
+    @Override
+    public NavigableMap<K, V> descendingMap() {
+      return asMap(set.descendingSet(), function);
     }
   }
 
@@ -3474,25 +3396,46 @@ public final class Maps {
 
   /**
    * Delegates to {@link Map#get}. Returns {@code null} on {@code
-   * ClassCastException}.
+   * ClassCastException} and {@code NullPointerException}.
    */
   static <V> V safeGet(Map<?, V> map, Object key) {
+    checkNotNull(map);
     try {
       return map.get(key);
     } catch (ClassCastException e) {
+      return null;
+    } catch (NullPointerException e) {
       return null;
     }
   }
 
   /**
    * Delegates to {@link Map#containsKey}. Returns {@code false} on {@code
-   * ClassCastException}
+   * ClassCastException} and {@code NullPointerException}.
    */
   static boolean safeContainsKey(Map<?, ?> map, Object key) {
+    checkNotNull(map);
     try {
       return map.containsKey(key);
     } catch (ClassCastException e) {
       return false;
+    } catch (NullPointerException e) {
+      return false;
+    }
+  }
+
+  /**
+   * Delegates to {@link Map#remove}. Returns {@code null} on {@code
+   * ClassCastException} and {@code NullPointerException}.
+   */
+  static <V> V safeRemove(Map<?, V> map, Object key) {
+    checkNotNull(map);
+    try {
+      return map.remove(key);
+    } catch (ClassCastException e) {
+      return null;
+    } catch (NullPointerException e) {
+      return null;
     }
   }
 
@@ -3574,24 +3517,14 @@ public final class Maps {
    * An admittedly inefficient implementation of {@link Map#containsKey}.
    */
   static boolean containsKeyImpl(Map<?, ?> map, @Nullable Object key) {
-    for (Entry<?, ?> entry : map.entrySet()) {
-      if (Objects.equal(entry.getKey(), key)) {
-        return true;
-      }
-    }
-    return false;
+    return Iterators.contains(keyIterator(map.entrySet().iterator()), key);
   }
 
   /**
    * An implementation of {@link Map#containsValue}.
    */
   static boolean containsValueImpl(Map<?, ?> map, @Nullable Object value) {
-    for (Entry<?, ?> entry : map.entrySet()) {
-      if (Objects.equal(entry.getValue(), value)) {
-        return true;
-      }
-    }
-    return false;
+    return Iterators.contains(valueIterator(map.entrySet().iterator()), value);
   }
 
   static <K, V> Iterator<K> keyIterator(Iterator<Entry<K, V>> entryIterator) {
@@ -4055,8 +3988,8 @@ public final class Maps {
 
     @Override
     public
-        NavigableMap<K, V>
-        subMap(K fromKey, boolean fromInclusive, K toKey, boolean toInclusive) {
+    NavigableMap<K, V>
+    subMap(K fromKey, boolean fromInclusive, K toKey, boolean toInclusive) {
       return forward().subMap(toKey, toInclusive, fromKey, fromInclusive).descendingMap();
     }
 

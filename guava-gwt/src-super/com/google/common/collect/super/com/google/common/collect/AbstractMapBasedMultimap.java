@@ -956,14 +956,7 @@ abstract class AbstractMapBasedMultimap<K, V> extends AbstractMultimap<K, V>
    * returns the number of removed mappings.
    */
   private int removeValuesForKey(Object key) {
-    Collection<V> collection;
-    try {
-      collection = map.remove(key);
-    } catch (NullPointerException e) {
-      return 0;
-    } catch (ClassCastException e) {
-      return 0;
-    }
+    Collection<V> collection = Maps.safeRemove(map, key);
 
     int count = 0;
     if (collection != null) {

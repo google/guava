@@ -46,7 +46,7 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
     int size = immutableEntries.length;
     entries = createEntryArray(size);
 
-    int tableSize = chooseTableSize(size);
+    int tableSize = Hashing.closedTableSize(size, MAX_LOAD_FACTOR);
     table = createEntryArray(tableSize);
     mask = tableSize - 1;
 
@@ -76,23 +76,6 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
    * relatively sparse (hence it misses fast) while saving space.
    */
   private static final double MAX_LOAD_FACTOR = 1.2;
-
-  /**
-   * Give a good hash table size for the given number of keys.
-   *
-   * @param size The number of keys to be inserted. Must be greater than or equal to 2.
-   */
-  static int chooseTableSize(int size) {
-    // Get the recommended table size.
-    // Round down to the nearest power of 2.
-    int tableSize = Integer.highestOneBit(size);
-    // Check to make sure that we will not exceed the maximum load factor.
-    if ((double) size / tableSize > MAX_LOAD_FACTOR) {
-      tableSize <<= 1;
-      checkArgument(tableSize > 0, "table too large: %s", size);
-    }
-    return tableSize;
-  }
 
   /**
    * Creates a {@link LinkedEntry} array to hold parameterized entries. The

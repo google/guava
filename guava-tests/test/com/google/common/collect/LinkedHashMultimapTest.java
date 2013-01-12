@@ -92,7 +92,8 @@ public class LinkedHashMultimapTest extends AbstractSetMultimapTest {
       LinkedHashMultimap<String, Integer>.ValueSet valueSet =
           (LinkedHashMultimap.ValueSet) multimap.backingMap().get("a");
       assertEquals(z, valueSet.size());
-      assertTrue(valueSet.size() <= valueSet.threshold());
+      assertFalse(Hashing.needsResizing(valueSet.size(), valueSet.hashTable.length,
+          LinkedHashMultimap.VALUE_SET_LOAD_FACTOR));
     }
   }
 

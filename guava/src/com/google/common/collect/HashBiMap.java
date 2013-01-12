@@ -20,7 +20,6 @@ import static com.google.common.base.Preconditions.checkState;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Objects;
-import com.google.common.primitives.Ints;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -100,8 +99,7 @@ public final class HashBiMap<K, V> extends AbstractMap<K, V> implements BiMap<K,
   }
 
   private static final double LOAD_FACTOR = 1.0;
-  private static final int MAX_TABLE_SIZE = Ints.MAX_POWER_OF_TWO;
-
+  
   private transient BiEntry<K, V>[] hashTableKToV;
   private transient BiEntry<K, V>[] hashTableVToK;
   private transient int size;
@@ -114,10 +112,7 @@ public final class HashBiMap<K, V> extends AbstractMap<K, V> implements BiMap<K,
 
   private void init(int expectedSize) {
     checkArgument(expectedSize >= 0, "expectedSize must be >= 0 but was %s", expectedSize);
-    int tableSize = Integer.highestOneBit(Math.max(2, expectedSize) - 1) << 1;
-    if (tableSize < 0) {
-      tableSize = Ints.MAX_POWER_OF_TWO;
-    }
+    int tableSize = Hashing.closedTableSize(expectedSize, LOAD_FACTOR);
     this.hashTableKToV = createTable(tableSize);
     this.hashTableVToK = createTable(tableSize);
     this.mask = tableSize - 1;
@@ -287,7 +282,7 @@ public final class HashBiMap<K, V> extends AbstractMap<K, V> implements BiMap<K,
 
   private void rehashIfNecessary() {
     BiEntry<K, V>[] oldKToV = hashTableKToV;
-    if (size > LOAD_FACTOR * oldKToV.length && oldKToV.length < MAX_TABLE_SIZE) {
+    if (Hashing.needsResizing(size, oldKToV.length, LOAD_FACTOR)) {
       int newTableSize = oldKToV.length * 2;
 
       this.hashTableKToV = createTable(newTableSize);

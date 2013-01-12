@@ -27,24 +27,26 @@ import java.util.Map.Entry;
  * @author Kevin Bourrillion
  */
 @GwtCompatible(emulated = true)
-abstract class ImmutableMapValues<K, V> extends ImmutableCollection<V> {
-  ImmutableMapValues() {}
-
-  abstract ImmutableMap<K, V> map();
+final class ImmutableMapValues<K, V> extends ImmutableCollection<V> {
+  private final ImmutableMap<K, V> map;
+  
+  ImmutableMapValues(ImmutableMap<K, V> map) {
+    this.map = map;
+  }
 
   @Override
   public int size() {
-    return map().size();
+    return map.size();
   }
 
   @Override
   public UnmodifiableIterator<V> iterator() {
-    return Maps.valueIterator(map().entrySet().iterator());
+    return Maps.valueIterator(map.entrySet().iterator());
   }
 
   @Override
   public boolean contains(Object object) {
-    return map().containsValue(object);
+    return map.containsValue(object);
   }
 
   @Override
@@ -54,7 +56,7 @@ abstract class ImmutableMapValues<K, V> extends ImmutableCollection<V> {
 
   @Override
   ImmutableList<V> createAsList() {
-    final ImmutableList<Entry<K, V>> entryList = map().entrySet().asList();
+    final ImmutableList<Entry<K, V>> entryList = map.entrySet().asList();
     return new ImmutableAsList<V>() {
       @Override
       public V get(int index) {

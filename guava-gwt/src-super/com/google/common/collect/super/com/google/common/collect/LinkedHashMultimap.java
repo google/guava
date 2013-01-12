@@ -21,7 +21,6 @@ import static com.google.common.base.Preconditions.checkArgument;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Objects;
-import com.google.common.primitives.Ints;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -150,7 +149,8 @@ public final class LinkedHashMultimap<K, V> extends AbstractSetMultimap<K, V> {
    * of insertion-ordered entries in that Set<V>, and the linked list of entries
    * in the LinkedHashMultimap as a whole.
    */
-  private static final class ValueEntry<K, V> extends AbstractMapEntry<K, V>
+  @VisibleForTesting
+  static final class ValueEntry<K, V> extends AbstractMapEntry<K, V>
       implements ValueSetLink<K, V> {
     final K key;
     final V value;
@@ -221,8 +221,7 @@ public final class LinkedHashMultimap<K, V> extends AbstractSetMultimap<K, V> {
 
   private static final int DEFAULT_KEY_CAPACITY = 16;
   private static final int DEFAULT_VALUE_SET_CAPACITY = 2;
-
-  private static final int MAX_VALUE_SET_TABLE_SIZE = Ints.MAX_POWER_OF_TWO;
+  @VisibleForTesting static final double VALUE_SET_LOAD_FACTOR = 1.0;
 
   @VisibleForTesting transient int valueSetCapacity = DEFAULT_VALUE_SET_CAPACITY;
   private transient ValueEntry<K, V> multimapHeaderEntry;
@@ -314,7 +313,7 @@ public final class LinkedHashMultimap<K, V> extends AbstractSetMultimap<K, V> {
      */
 
     private final K key;
-    private ValueEntry<K, V>[] hashTable;
+    @VisibleForTesting ValueEntry<K, V>[] hashTable;
     private int size = 0;
     private int modCount = 0;
 
@@ -328,11 +327,8 @@ public final class LinkedHashMultimap<K, V> extends AbstractSetMultimap<K, V> {
       this.firstEntry = this;
       this.lastEntry = this;
       // Round expected values up to a power of 2 to get the table size.
-      int tableSize = Integer.highestOneBit(Math.max(expectedValues, 2) - 1) << 1;
-      if (tableSize < 0) {
-        tableSize = MAX_VALUE_SET_TABLE_SIZE;
-      }
-
+      int tableSize = Hashing.closedTableSize(expectedValues, VALUE_SET_LOAD_FACTOR);
+      
       @SuppressWarnings("unchecked")
       ValueEntry<K, V>[] hashTable = new ValueEntry[tableSize];
       this.hashTable = hashTable;
@@ -437,13 +433,6 @@ public final class LinkedHashMultimap<K, V> extends AbstractSetMultimap<K, V> {
       return false;
     }
 
-    /**
-     * The threshold above which the hash table should be rebuilt.
-     */
-    @VisibleForTesting int threshold() {
-      return hashTable.length; // load factor of 1.0
-    }
-
     @Override
     public boolean add(@Nullable V value) {
       int hash = (value == null) ? 0 : value.hashCode();
@@ -470,7 +459,7 @@ public final class LinkedHashMultimap<K, V> extends AbstractSetMultimap<K, V> {
     }
 
     private void rehashIfNecessary() {
-      if (size > threshold() && hashTable.length < MAX_VALUE_SET_TABLE_SIZE) {
+      if (Hashing.needsResizing(size, hashTable.length, VALUE_SET_LOAD_FACTOR)) {
         @SuppressWarnings("unchecked")
         ValueEntry<K, V>[] hashTable = new ValueEntry[this.hashTable.length * 2];
         this.hashTable = hashTable;

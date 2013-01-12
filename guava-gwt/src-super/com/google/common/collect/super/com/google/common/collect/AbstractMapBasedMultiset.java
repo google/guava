@@ -196,14 +196,8 @@ abstract class AbstractMapBasedMultiset<E> extends AbstractMultiset<E>
   }
 
   @Override public int count(@Nullable Object element) {
-    try {
-      Count frequency = backingMap.get(element);
-      return (frequency == null) ? 0 : frequency.get();
-    } catch (NullPointerException e) {
-      return 0;
-    } catch (ClassCastException e) {
-      return 0;
-    }
+    Count frequency = Maps.safeGet(backingMap, element);
+    return (frequency == null) ? 0 : frequency.get();
   }
 
   // Optional Operations - Modification Operations

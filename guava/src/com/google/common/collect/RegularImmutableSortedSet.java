@@ -75,11 +75,8 @@ final class RegularImmutableSortedSet<E> extends ImmutableSortedSet<E> {
   }
 
   @Override public boolean contains(Object o) {
-    if (o == null) {
-      return false;
-    }
     try {
-      return unsafeBinarySearch(o) >= 0;
+      return o != null && unsafeBinarySearch(o) >= 0;
     } catch (ClassCastException e) {
       return false;
     }

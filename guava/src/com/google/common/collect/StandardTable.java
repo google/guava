@@ -391,17 +391,13 @@ class StandardTable<R, C, V> implements Table<R, C, V>, Serializable {
 
     @Override
     public V remove(Object key) {
-      try {
-        Map<C, V> backingRowMap = backingRowMap();
-        if (backingRowMap == null) {
-          return null;
-        }
-        V result = backingRowMap.remove(key);
-        maintainEmptyInvariant();
-        return result;
-      } catch (ClassCastException e) {
+      Map<C, V> backingRowMap = backingRowMap();
+      if (backingRowMap == null) {
         return null;
       }
+      V result = Maps.safeRemove(backingRowMap, key);
+      maintainEmptyInvariant();
+      return result;
     }
 
     @Override
