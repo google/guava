@@ -355,19 +355,25 @@ public final class ClassSanityTester {
         builder.add(invokable);
       }
     }
-    return new FactoryMethodReturnValueTester(cls, builder.build());
+    return new FactoryMethodReturnValueTester(cls, builder.build(), "public static methods");
   }
 
   /** Runs sanity tests against return values of static factory methods declared by a class. */
   public final class FactoryMethodReturnValueTester {
     private final Set<String> packagesToTest = Sets.newHashSet();
+    private final Class<?> declaringClass;
     private final ImmutableList<Invokable<?, ?>> factories;
+    private final String factoryMethodsDescription;
     private Class<?> returnTypeToTest = Object.class;
 
     private FactoryMethodReturnValueTester(
-        Class<?> declaringClass, ImmutableList<Invokable<?, ?>> factories) {
-      packagesToTest.add(Reflection.getPackageName(declaringClass));
+        Class<?> declaringClass,
+        ImmutableList<Invokable<?, ?>> factories,
+        String factoryMethodsDescription) {
+      this.declaringClass = declaringClass;
       this.factories = factories;
+      this.factoryMethodsDescription = factoryMethodsDescription;
+      packagesToTest.add(Reflection.getPackageName(declaringClass));
     }
 
     /**
@@ -495,7 +501,12 @@ public final class ClassSanityTester {
           builder.add(factory);
         }
       }
-      return builder.build();
+      ImmutableList<Invokable<?, ?>> factoriesToTest = builder.build();
+      Assert.assertFalse("No " + factoryMethodsDescription + " that return "
+              + returnTypeToTest.getName() + " or subtype are found in "
+              + declaringClass + ".",
+          factoriesToTest.isEmpty());
+      return factoriesToTest;
     }
   }
 

@@ -76,6 +76,19 @@ public class ClassSanityTesterTest extends TestCase {
     }
   }
 
+  public void testForAllPublicStaticMethods_noPublicStaticMethods() throws Exception {
+    try {
+      tester.forAllPublicStaticMethods(NoPublicStaticMethods.class).testEquals();
+    } catch (AssertionFailedError expected) {
+      assertEquals(
+          "No public static methods that return java.lang.Object or subtype are found in "
+              + NoPublicStaticMethods.class + ".",
+          expected.getMessage());
+      return;
+    }
+    fail();
+  }
+
   public void testEqualsOnReturnValues_bad() throws Exception {
     try {
       tester.forAllPublicStaticMethods(BadEqualsFactory.class).testEquals();
@@ -118,10 +131,19 @@ public class ClassSanityTesterTest extends TestCase {
   }
 
   public void testNullsOnReturnValues_returnTypeFiltered() throws Exception {
-    tester
-        .forAllPublicStaticMethods(BadNullsFactory.class)
-        .thatReturn(Iterable.class)
-        .testNulls();
+    try {
+      tester
+          .forAllPublicStaticMethods(BadNullsFactory.class)
+          .thatReturn(Iterable.class)
+          .testNulls();
+    } catch (AssertionFailedError expected) {
+      assertEquals(
+          "No public static methods that return java.lang.Iterable or subtype are found in "
+              + BadNullsFactory.class + ".",
+          expected.getMessage());
+      return;
+    }
+    fail();
   }
   
   public static class BadNullsFactory {
@@ -1132,5 +1154,11 @@ public class ClassSanityTesterTest extends TestCase {
 
     @SuppressWarnings("unused")
     public void failsToCheckNull(String s) {}
+  }
+
+  private static class NoPublicStaticMethods {
+    static String notPublic() {
+      return "";
+    }
   }
 }
