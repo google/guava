@@ -73,7 +73,7 @@ import javax.annotation.Nullable;
  * @since 5.0
  */
 @Beta
-@GwtCompatible(emulated = true)
+@GwtCompatible
 public final class InternetDomainName {
 
   private static final CharMatcher DOTS_MATCHER =

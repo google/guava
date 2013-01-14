@@ -1,11 +1,11 @@
 /*
  * Copyright (C) 2011 The Guava Authors
- *
+ * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
- *
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software distributed under the
  * License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
  * express or implied. See the License for the specific language governing permissions and
@@ -22,7 +22,6 @@ import static com.google.common.primitives.UnsignedInts.toLong;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.annotations.GwtIncompatible;
 
 import java.math.BigInteger;
 
@@ -31,14 +30,14 @@ import javax.annotation.Nullable;
 
 /**
  * A wrapper class for unsigned {@code int} values, supporting arithmetic operations.
- *
+ * 
  * <p>In some cases, when speed is more important than code readability, it may be faster simply to
  * treat primitive {@code int} values as unsigned, using the methods from {@link UnsignedInts}.
- *
+ * 
  * <p>See the Guava User Guide article on <a href=
  * "http://code.google.com/p/guava-libraries/wiki/PrimitivesExplained#Unsigned_support">
  * unsigned primitive utilities</a>.
- *
+ * 
  * @author Louis Wasserman
  * @since 11.0
  */
@@ -58,7 +57,7 @@ public final class UnsignedInteger extends Number implements Comparable<Unsigned
   /**
    * Returns an {@code UnsignedInteger} that, when treated as signed, is
    * equal to {@code value}.
-   *
+   * 
    * @deprecated Use {@link #fromIntBits(int)}. This method is scheduled to be removed in Guava
    *             release 15.0.
    */
@@ -77,7 +76,7 @@ public final class UnsignedInteger extends Number implements Comparable<Unsigned
    * otherwise, the result will be equal to {@code 2^32 + bits}.
    *
    * <p>To represent unsigned decimal constants, consider {@link #valueOf(long)} instead.
-   *
+   * 
    * @since 14.0
    */
   public static UnsignedInteger fromIntBits(int bits) {
@@ -97,7 +96,7 @@ public final class UnsignedInteger extends Number implements Comparable<Unsigned
   /**
    * Returns a {@code UnsignedInteger} representing the same value as the specified
    * {@link BigInteger}. This is the inverse operation of {@link #bigIntegerValue()}.
-   *
+   * 
    * @throws IllegalArgumentException if {@code value} is negative or {@code value >= 2^32}
    */
   public static UnsignedInteger valueOf(BigInteger value) {
@@ -110,7 +109,7 @@ public final class UnsignedInteger extends Number implements Comparable<Unsigned
   /**
    * Returns an {@code UnsignedInteger} holding the value of the specified {@code String}, parsed
    * as an unsigned {@code int} value.
-   *
+   * 
    * @throws NumberFormatException if the string does not contain a parsable unsigned {@code int}
    *         value
    */
@@ -121,7 +120,7 @@ public final class UnsignedInteger extends Number implements Comparable<Unsigned
   /**
    * Returns an {@code UnsignedInteger} holding the value of the specified {@code String}, parsed
    * as an unsigned {@code int} value in the specified radix.
-   *
+   * 
    * @throws NumberFormatException if the string does not contain a parsable unsigned {@code int}
    *         value
    */
@@ -132,7 +131,7 @@ public final class UnsignedInteger extends Number implements Comparable<Unsigned
   /**
    * Returns the result of adding this and {@code val}. If the result would have more than 32 bits,
    * returns the low 32 bits of the result.
-   *
+   * 
    * @deprecated Use {@link #plus(UnsignedInteger)}. This method is scheduled to be removed in Guava
    *             release 15.0.
    */
@@ -141,11 +140,11 @@ public final class UnsignedInteger extends Number implements Comparable<Unsigned
   public UnsignedInteger add(UnsignedInteger val) {
     return plus(val);
   }
-
+  
   /**
    * Returns the result of adding this and {@code val}. If the result would have more than 32 bits,
    * returns the low 32 bits of the result.
-   *
+   * 
    * @since 14.0
    */
   @CheckReturnValue
@@ -156,7 +155,7 @@ public final class UnsignedInteger extends Number implements Comparable<Unsigned
   /**
    * Returns the result of subtracting this and {@code val}. If the result would be negative,
    * returns the low 32 bits of the result.
-   *
+   * 
    * @deprecated Use {@link #minus(UnsignedInteger)}. This method is scheduled to be removed in
    *             Guava release 15.0.
    */
@@ -165,11 +164,11 @@ public final class UnsignedInteger extends Number implements Comparable<Unsigned
   public UnsignedInteger subtract(UnsignedInteger val) {
     return minus(val);
   }
-
+  
   /**
    * Returns the result of subtracting this and {@code val}. If the result would be negative,
    * returns the low 32 bits of the result.
-   *
+   * 
    * @since 14.0
    */
   @CheckReturnValue
@@ -178,35 +177,8 @@ public final class UnsignedInteger extends Number implements Comparable<Unsigned
   }
 
   /**
-   * Returns the result of multiplying this and {@code val}. If the result would have more than 32
-   * bits, returns the low 32 bits of the result.
-   *
-   * @deprecated Use {@link #times(UnsignedInteger)}. This method is scheduled to be removed in
-   *             Guava release 15.0.
-   */
-  @Deprecated
-  @Beta
-  @GwtIncompatible("Does not truncate correctly")
-  public UnsignedInteger multiply(UnsignedInteger val) {
-    return times(val);
-  }
-
-  /**
-   * Returns the result of multiplying this and {@code val}. If the result would have more than 32
-   * bits, returns the low 32 bits of the result.
-   *
-   * @since 14.0
-   */
-  @CheckReturnValue
-  @GwtIncompatible("Does not truncate correctly")
-  public UnsignedInteger times(UnsignedInteger val) {
-    // TODO(user): make this GWT-compatible
-    return fromIntBits(value * checkNotNull(val).value);
-  }
-
-  /**
    * Returns the result of dividing this by {@code val}.
-   *
+   * 
    * @deprecated Use {@link #dividedBy(UnsignedInteger)}. This method is scheduled to be removed in
    *             Guava release 15.0.
    */
@@ -218,7 +190,7 @@ public final class UnsignedInteger extends Number implements Comparable<Unsigned
 
   /**
    * Returns the result of dividing this by {@code val}.
-   *
+   * 
    * @throws ArithmeticException if {@code val} is zero
    * @since 14.0
    */
@@ -229,7 +201,7 @@ public final class UnsignedInteger extends Number implements Comparable<Unsigned
 
   /**
    * Returns the remainder of dividing this by {@code val}.
-   *
+   * 
    * @deprecated Use {@link #mod(UnsignedInteger)}. This method is scheduled to be removed in Guava
    *             release 15.0.
    */
@@ -238,10 +210,10 @@ public final class UnsignedInteger extends Number implements Comparable<Unsigned
   public UnsignedInteger remainder(UnsignedInteger val) {
     return mod(val);
   }
-
+  
   /**
    * Returns this mod {@code val}.
-   *
+   * 
    * @throws ArithmeticException if {@code val} is zero
    * @since 14.0
    */
@@ -253,7 +225,7 @@ public final class UnsignedInteger extends Number implements Comparable<Unsigned
   /**
    * Returns the value of this {@code UnsignedInteger} as an {@code int}. This is an inverse
    * operation to {@link #fromIntBits}.
-   *
+   * 
    * <p>Note that if this {@code UnsignedInteger} holds a value {@code >= 2^31}, the returned value
    * will be equal to {@code this - 2^32}.
    */
@@ -337,3 +309,4 @@ public final class UnsignedInteger extends Number implements Comparable<Unsigned
     return UnsignedInts.toString(value, radix);
   }
 }
+

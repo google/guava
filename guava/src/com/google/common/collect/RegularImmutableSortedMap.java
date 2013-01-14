@@ -17,6 +17,8 @@ package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import com.google.common.annotations.GwtCompatible;
+
 import javax.annotation.Nullable;
 
 /**
@@ -24,6 +26,7 @@ import javax.annotation.Nullable;
  *
  * @author Louis Wasserman
  */
+@GwtCompatible(emulated = true)
 @SuppressWarnings("serial") // uses writeReplace, not default serialization
 final class RegularImmutableSortedMap<K, V> extends ImmutableSortedMap<K, V> {
   private final transient RegularImmutableSortedSet<K> keySet;
