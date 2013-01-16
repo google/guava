@@ -390,9 +390,8 @@ public final class HashBiMap<K, V> extends AbstractMap<K, V> implements BiMap<K,
   }
 
   private final class KeySet extends Maps.KeySet<K, V> {
-    @Override
-    Map<K, V> map() {
-      return HashBiMap.this;
+    KeySet() {
+      super(HashBiMap.this);
     }
 
     @Override
@@ -545,9 +544,8 @@ public final class HashBiMap<K, V> extends AbstractMap<K, V> implements BiMap<K,
     }
 
     private final class InverseKeySet extends Maps.KeySet<V, K> {
-      @Override
-      Map<V, K> map() {
-        return Inverse.this;
+      InverseKeySet() {
+        super(Inverse.this);
       }
 
       @Override

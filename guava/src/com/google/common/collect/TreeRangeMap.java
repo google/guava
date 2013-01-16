@@ -503,12 +503,7 @@ public final class TreeRangeMap<K extends Comparable, V> implements RangeMap<K, 
 
       @Override
       public Set<Range<K>> keySet() {
-        return new Maps.KeySet<Range<K>, V>() {
-          @Override
-          Map<Range<K>, V> map() {
-            return SubRangeMapAsMap.this;
-          }
-          
+        return new Maps.KeySet<Range<K>, V>(SubRangeMapAsMap.this) {
           @Override
           public boolean remove(@Nullable Object o) {
             return SubRangeMapAsMap.this.remove(o) != null;
@@ -577,12 +572,7 @@ public final class TreeRangeMap<K extends Comparable, V> implements RangeMap<K, 
       
       @Override
       public Collection<V> values() {
-        return new Maps.Values<Range<K>, V>() {
-          @Override
-          Map<Range<K>, V> map() {
-            return SubRangeMapAsMap.this;
-          }
-          
+        return new Maps.Values<Range<K>, V>(this) {          
           @Override
           public boolean removeAll(Collection<?> c) {
             return removeIf(compose(in(c), Maps.<V>valueFunction()));            

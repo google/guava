@@ -414,15 +414,7 @@ class StandardTable<R, C, V> implements Table<R, C, V>, Serializable {
     @Override
     public Set<C> keySet() {
       Set<C> result = keySet;
-      if (result == null) {
-        return keySet = new Maps.KeySet<C, V>() {
-          @Override
-          Map<C, V> map() {
-            return Row.this;
-          }
-        };
-      }
-      return result;
+      return (result == null) ? keySet = new Maps.KeySet<C, V>(this) : result;
     }
 
     Set<Entry<C, V>> entrySet;

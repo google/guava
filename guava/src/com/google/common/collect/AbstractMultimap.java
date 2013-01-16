@@ -142,12 +142,7 @@ abstract class AbstractMultimap<K, V> implements Multimap<K, V> {
   }
 
   Set<K> createKeySet() {
-    return new Maps.KeySet<K, Collection<V>>() {
-      @Override
-      Map<K, Collection<V>> map() {
-        return asMap();
-      }
-    };
+    return new Maps.KeySet<K, Collection<V>>(asMap());
   }
   
   private transient Multiset<K> keys;

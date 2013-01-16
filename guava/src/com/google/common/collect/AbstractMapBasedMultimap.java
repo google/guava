@@ -915,25 +915,13 @@ abstract class AbstractMapBasedMultimap<K, V> extends AbstractMultimap<K, V>
   }
 
   private class KeySet extends Maps.KeySet<K, Collection<V>> {
-
-    /**
-     * This is usually the same as map, except when someone requests a
-     * subcollection of a {@link SortedKeySet}.
-     */
-    final Map<K, Collection<V>> subMap;
-
     KeySet(final Map<K, Collection<V>> subMap) {
-      this.subMap = subMap;
-    }
-
-    @Override
-    Map<K, Collection<V>> map() {
-      return subMap;
+      super(subMap);
     }
 
     @Override public Iterator<K> iterator() {
       final Iterator<Map.Entry<K, Collection<V>>> entryIterator
-          = subMap.entrySet().iterator();
+          = map().entrySet().iterator();
       return new Iterator<K>() {
         Map.Entry<K, Collection<V>> entry;
 
@@ -961,7 +949,7 @@ abstract class AbstractMapBasedMultimap<K, V> extends AbstractMultimap<K, V>
 
     @Override public boolean remove(Object key) {
       int count = 0;
-      Collection<V> collection = subMap.remove(key);
+      Collection<V> collection = map().remove(key);
       if (collection != null) {
         count = collection.size();
         collection.clear();
@@ -976,15 +964,15 @@ abstract class AbstractMapBasedMultimap<K, V> extends AbstractMultimap<K, V>
     }
 
     @Override public boolean containsAll(Collection<?> c) {
-      return subMap.keySet().containsAll(c);
+      return map().keySet().containsAll(c);
     }
 
     @Override public boolean equals(@Nullable Object object) {
-      return this == object || this.subMap.keySet().equals(object);
+      return this == object || this.map().keySet().equals(object);
     }
 
     @Override public int hashCode() {
-      return subMap.keySet().hashCode();
+      return map().keySet().hashCode();
     }
   }
 
@@ -995,7 +983,7 @@ abstract class AbstractMapBasedMultimap<K, V> extends AbstractMultimap<K, V>
     }
 
     SortedMap<K, Collection<V>> sortedMap() {
-      return (SortedMap<K, Collection<V>>) subMap;
+      return (SortedMap<K, Collection<V>>) super.map();
     }
 
     @Override

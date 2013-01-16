@@ -98,6 +98,7 @@ public final class Maps {
     return (Function) EntryFunction.KEY;
   }
 
+  @SuppressWarnings("unchecked")
   static <V> Function<Entry<?, V>, V> valueFunction() {
     return (Function) EntryFunction.VALUE;
   }
@@ -384,8 +385,15 @@ public final class Maps {
     Map<K, V> onlyOnRight = new HashMap<K, V>(right); // will whittle it down
     Map<K, V> onBoth = newHashMap();
     Map<K, MapDifference.ValueDifference<V>> differences = newHashMap();
-    boolean eq = true;
+    doDifference(left, right, valueEquivalence, onlyOnLeft, onlyOnRight, onBoth, differences);
+    return new MapDifferenceImpl<K, V>(onlyOnLeft, onlyOnRight, onBoth, differences);
+  }
 
+  private static <K, V> void doDifference(
+      Map<? extends K, ? extends V> left, Map<? extends K, ? extends V> right,
+      Equivalence<? super V> valueEquivalence,
+      Map<K, V> onlyOnLeft, Map<K, V> onlyOnRight, Map<K, V> onBoth,
+      Map<K, MapDifference.ValueDifference<V>> differences) {
     for (Entry<? extends K, ? extends V> entry : left.entrySet()) {
       K leftKey = entry.getKey();
       V leftValue = entry.getValue();
@@ -394,51 +402,41 @@ public final class Maps {
         if (valueEquivalence.equivalent(leftValue, rightValue)) {
           onBoth.put(leftKey, leftValue);
         } else {
-          eq = false;
           differences.put(
               leftKey, ValueDifferenceImpl.create(leftValue, rightValue));
         }
       } else {
-        eq = false;
         onlyOnLeft.put(leftKey, leftValue);
       }
     }
-
-    boolean areEqual = eq && onlyOnRight.isEmpty();
-    return mapDifference(
-        areEqual, onlyOnLeft, onlyOnRight, onBoth, differences);
   }
 
-  private static <K, V> MapDifference<K, V> mapDifference(boolean areEqual,
-      Map<K, V> onlyOnLeft, Map<K, V> onlyOnRight, Map<K, V> onBoth,
-      Map<K, ValueDifference<V>> differences) {
-    return new MapDifferenceImpl<K, V>(areEqual,
-        Collections.unmodifiableMap(onlyOnLeft),
-        Collections.unmodifiableMap(onlyOnRight),
-        Collections.unmodifiableMap(onBoth),
-        Collections.unmodifiableMap(differences));
+  private static <K, V> Map<K, V> unmodifiableMap(Map<K, V> map) {
+    if (map instanceof SortedMap) {
+      return Collections.unmodifiableSortedMap((SortedMap<K, ? extends V>) map);
+    } else {
+      return Collections.unmodifiableMap(map);
+    }
   }
 
   static class MapDifferenceImpl<K, V> implements MapDifference<K, V> {
-    final boolean areEqual;
     final Map<K, V> onlyOnLeft;
     final Map<K, V> onlyOnRight;
     final Map<K, V> onBoth;
     final Map<K, ValueDifference<V>> differences;
 
-    MapDifferenceImpl(boolean areEqual, Map<K, V> onlyOnLeft,
+    MapDifferenceImpl(Map<K, V> onlyOnLeft,
         Map<K, V> onlyOnRight, Map<K, V> onBoth,
         Map<K, ValueDifference<V>> differences) {
-      this.areEqual = areEqual;
-      this.onlyOnLeft = onlyOnLeft;
-      this.onlyOnRight = onlyOnRight;
-      this.onBoth = onBoth;
-      this.differences = differences;
+      this.onlyOnLeft = unmodifiableMap(onlyOnLeft);
+      this.onlyOnRight = unmodifiableMap(onlyOnRight);
+      this.onBoth = unmodifiableMap(onBoth);
+      this.differences = unmodifiableMap(differences);
     }
 
     @Override
     public boolean areEqual() {
-      return areEqual;
+      return onlyOnLeft.isEmpty() && onlyOnRight.isEmpty() && differences.isEmpty();
     }
 
     @Override
@@ -481,7 +479,7 @@ public final class Maps {
     }
 
     @Override public String toString() {
-      if (areEqual) {
+      if (areEqual()) {
         return "equal";
       }
 
@@ -572,47 +570,16 @@ public final class Maps {
     SortedMap<K, V> onBoth = Maps.newTreeMap(comparator);
     SortedMap<K, MapDifference.ValueDifference<V>> differences =
         Maps.newTreeMap(comparator);
-    boolean eq = true;
-
-    for (Entry<? extends K, ? extends V> entry : left.entrySet()) {
-      K leftKey = entry.getKey();
-      V leftValue = entry.getValue();
-      if (right.containsKey(leftKey)) {
-        V rightValue = onlyOnRight.remove(leftKey);
-        if (Objects.equal(leftValue, rightValue)) {
-          onBoth.put(leftKey, leftValue);
-        } else {
-          eq = false;
-          differences.put(
-              leftKey, ValueDifferenceImpl.create(leftValue, rightValue));
-        }
-      } else {
-        eq = false;
-        onlyOnLeft.put(leftKey, leftValue);
-      }
-    }
-
-    boolean areEqual = eq && onlyOnRight.isEmpty();
-    return sortedMapDifference(
-        areEqual, onlyOnLeft, onlyOnRight, onBoth, differences);
-  }
-
-  private static <K, V> SortedMapDifference<K, V> sortedMapDifference(
-      boolean areEqual, SortedMap<K, V> onlyOnLeft, SortedMap<K, V> onlyOnRight,
-      SortedMap<K, V> onBoth, SortedMap<K, ValueDifference<V>> differences) {
-    return new SortedMapDifferenceImpl<K, V>(areEqual,
-        Collections.unmodifiableSortedMap(onlyOnLeft),
-        Collections.unmodifiableSortedMap(onlyOnRight),
-        Collections.unmodifiableSortedMap(onBoth),
-        Collections.unmodifiableSortedMap(differences));
+    doDifference(left, right, Equivalence.equals(), onlyOnLeft, onlyOnRight, onBoth, differences);
+    return new SortedMapDifferenceImpl<K, V>(onlyOnLeft, onlyOnRight, onBoth, differences);
   }
 
   static class SortedMapDifferenceImpl<K, V> extends MapDifferenceImpl<K, V>
       implements SortedMapDifference<K, V> {
-    SortedMapDifferenceImpl(boolean areEqual, SortedMap<K, V> onlyOnLeft,
+    SortedMapDifferenceImpl(SortedMap<K, V> onlyOnLeft,
         SortedMap<K, V> onlyOnRight, SortedMap<K, V> onBoth,
         SortedMap<K, ValueDifference<V>> differences) {
-      super(areEqual, onlyOnLeft, onlyOnRight, onBoth, differences);
+      super(onlyOnLeft, onlyOnRight, onBoth, differences);
     }
 
     @Override public SortedMap<K, ValueDifference<V>> entriesDiffering() {
@@ -1862,14 +1829,7 @@ public final class Maps {
 
     @Override public Collection<V2> values() {
       Collection<V2> result = values;
-      if (result == null) {
-        return values = new Values<K, V2>() {
-          @Override Map<K, V2> map() {
-            return TransformedEntriesMap.this;
-          }
-        };
-      }
-      return result;
+      return (result == null) ? values = new Values<K, V2>(this) : result;
     }
   }
 
@@ -3367,11 +3327,7 @@ public final class Maps {
     @Override public Set<K> keySet() {
       Set<K> result = keySet;
       if (result == null) {
-        return keySet = new KeySet<K, V>() {
-          @Override Map<K, V> map() {
-            return ImprovedAbstractMap.this;
-          }
-        };
+        return keySet = new KeySet<K, V>(this);
       }
       return result;
     }
@@ -3380,14 +3336,7 @@ public final class Maps {
 
     @Override public Collection<V> values() {
       Collection<V> result = values;
-      if (result == null) {
-        return values = new Values<K, V>() {
-          @Override Map<K, V> map() {
-            return ImprovedAbstractMap.this;
-          }
-        };
-      }
-      return result;
+      return (result == null) ? values = new Values<K, V>(this) : result;
     }
   }
 
@@ -3527,17 +3476,16 @@ public final class Maps {
     return Iterators.contains(valueIterator(map.entrySet().iterator()), value);
   }
 
-  static <K, V> Iterator<K> keyIterator(Iterator<Entry<K, V>> entryIterator) {
-    return new TransformedIterator<Entry<K, V>, K>(entryIterator) {
-      @Override
-      K transform(Entry<K, V> entry) {
-        return entry.getKey();
-      }
-    };
-  }
+  static class KeySet<K, V> extends Sets.ImprovedAbstractSet<K> {
+    final Map<K, V> map;
 
-  abstract static class KeySet<K, V> extends Sets.ImprovedAbstractSet<K> {
-    abstract Map<K, V> map();
+    KeySet(Map<K, V> map) {
+      this.map = checkNotNull(map);
+    }
+
+    Map<K, V> map() {
+      return map;
+    }
 
     @Override public Iterator<K> iterator() {
       return keyIterator(map().entrySet().iterator());
@@ -3580,15 +3528,13 @@ public final class Maps {
 
   @GwtIncompatible("NavigableMap")
   static class NavigableKeySet<K, V> extends KeySet<K, V> implements NavigableSet<K> {
-    private final NavigableMap<K, V> map;
-
     NavigableKeySet(NavigableMap<K, V> map) {
-      this.map = checkNotNull(map);
+      super(map);
     }
 
     @Override
     NavigableMap<K, V> map() {
-      return map;
+      return (NavigableMap<K, V>) map;
     }
 
     @Override
@@ -3681,13 +3627,12 @@ public final class Maps {
     }
   }
 
+  static <K, V> Iterator<K> keyIterator(Iterator<Entry<K, V>> entryIterator) {
+    return Iterators.transform(entryIterator, Maps.<K>keyFunction());
+  }
+
   static <K, V> Iterator<V> valueIterator(Iterator<Entry<K, V>> entryIterator) {
-    return new TransformedIterator<Entry<K, V>, V>(entryIterator) {
-      @Override
-      V transform(Entry<K, V> entry) {
-        return entry.getValue();
-      }
-    };
+    return Iterators.transform(entryIterator, Maps.<V>valueFunction());
   }
 
   static <K, V> UnmodifiableIterator<V> valueIterator(
@@ -3705,8 +3650,16 @@ public final class Maps {
     };
   }
 
-  abstract static class Values<K, V> extends AbstractCollection<V> {
-    abstract Map<K, V> map();
+  static class Values<K, V> extends AbstractCollection<V> {
+    final Map<K, V> map;
+
+    Values(Map<K, V> map) {
+      this.map = checkNotNull(map);
+    }
+
+    final Map<K, V> map() {
+      return map;
+    }
 
     @Override public Iterator<V> iterator() {
       return valueIterator(map().entrySet().iterator());
@@ -3955,7 +3908,6 @@ public final class Maps {
 
     Set<Entry<K, V>> createEntrySet() {
       return new EntrySet<K, V>() {
-
         @Override
         Map<K, V> map() {
           return DescendingMap.this;
@@ -4020,12 +3972,7 @@ public final class Maps {
 
     @Override
     public Collection<V> values() {
-      return new Values<K, V>() {
-        @Override
-        Map<K, V> map() {
-          return DescendingMap.this;
-        }
-      };
+      return new Values<K, V>(this);
     }
   }
 }

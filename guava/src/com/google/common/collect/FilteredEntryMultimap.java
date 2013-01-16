@@ -215,12 +215,7 @@ class FilteredEntryMultimap<K, V> extends AbstractMultimap<K, V> implements Filt
     public Set<K> keySet() {
       Set<K> result = keySet;
       if (result == null) {
-        return keySet = new Maps.KeySet<K, Collection<V>>() {
-          @Override
-          Map<K, Collection<V>> map() {
-            return AsMap.this;
-          }
-          
+        return keySet = new Maps.KeySet<K, Collection<V>>(this) {
           @Override
           public boolean removeAll(Collection<?> c) {
             return removeIf(compose(in(c), Maps.<K>keyFunction()));
@@ -289,12 +284,7 @@ class FilteredEntryMultimap<K, V> extends AbstractMultimap<K, V> implements Filt
     
     @Override
     public Collection<Collection<V>> values() {
-      return new Maps.Values<K, Collection<V>>() {
-        @Override
-        Map<K, Collection<V>> map() {
-          return AsMap.this;
-        }
-
+      return new Maps.Values<K, Collection<V>>(AsMap.this) {
         @Override
         public boolean remove(@Nullable Object o) {
           if (o instanceof Collection) {
