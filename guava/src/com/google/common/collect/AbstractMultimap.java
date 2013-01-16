@@ -101,29 +101,34 @@ abstract class AbstractMultimap<K, V> implements Multimap<K, V> {
   
   Collection<Entry<K, V>> createEntries() {
     if (this instanceof SetMultimap) {
-      return new Multimaps.EntrySet<K, V>() {
-        @Override
-        Multimap<K, V> multimap() {
-          return AbstractMultimap.this;
-        }
-
-        @Override
-        public Iterator<Entry<K, V>> iterator() {
-          return entryIterator();
-        }
-      };
+      return new EntrySet();
+    } else {
+      return new Entries();
     }
-    return new Multimaps.Entries<K, V>() {
-      @Override
-      Multimap<K, V> multimap() {
-        return AbstractMultimap.this;
-      }
+  }
+  
+  private class Entries extends Multimaps.Entries<K, V> {
+    @Override
+    Multimap<K, V> multimap() {
+      return AbstractMultimap.this;
+    }
 
-      @Override
-      public Iterator<Entry<K, V>> iterator() {
-        return entryIterator();
-      }
-    };
+    @Override
+    public Iterator<Entry<K, V>> iterator() {
+      return entryIterator();
+    }
+  }
+  
+  private class EntrySet extends Entries implements Set<Entry<K, V>> {
+    @Override
+    public int hashCode() {
+      return Sets.hashCodeImpl(this);
+    }
+
+    @Override
+    public boolean equals(@Nullable Object obj) {
+      return Sets.equalsImpl(this, obj);
+    }    
   }
   
   abstract Iterator<Entry<K, V>> entryIterator();
@@ -182,14 +187,7 @@ abstract class AbstractMultimap<K, V> implements Multimap<K, V> {
   // Comparison and hashing
 
   @Override public boolean equals(@Nullable Object object) {
-    if (object == this) {
-      return true;
-    }
-    if (object instanceof Multimap) {
-      Multimap<?, ?> that = (Multimap<?, ?>) object;
-      return this.asMap().equals(that.asMap());
-    }
-    return false;
+    return Multimaps.equalsImpl(this, object);
   }
 
   /**

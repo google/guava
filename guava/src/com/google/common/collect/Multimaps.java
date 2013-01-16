@@ -23,8 +23,6 @@ import static com.google.common.base.Preconditions.checkState;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Function;
-import com.google.common.base.Joiner;
-import com.google.common.base.Joiner.MapJoiner;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import com.google.common.base.Supplier;
@@ -1159,115 +1157,53 @@ public final class Multimaps {
     public Map<K, Collection<V>> asMap() {
       Map<K, Collection<V>> result = asMap;
       if (result == null) {
-        asMap = result = new AsMap();
+        asMap = result = new AsMap<K, V>() {
+          @Override
+          Multimap<K, V> multimap() {
+            return MapMultimap.this;
+          }
+
+          @Override
+          public int size() {
+            return map.size();
+          }
+
+          @Override
+          Iterator<Map.Entry<K, Collection<V>>> entryIterator() {
+            return new TransformedIterator<K, Entry<K, Collection<V>>>(map.keySet().iterator()) {
+              @Override
+              Entry<K, Collection<V>> transform(final K key) {
+                return new AbstractMapEntry<K, Collection<V>>() {
+                  @Override
+                  public K getKey() {
+                    return key;
+                  }
+
+                  @Override
+                  public Collection<V> getValue() {
+                    return get(key);
+                  }
+                };
+              }
+            };
+          }
+        };
       }
       return result;
     }
 
     @Override public boolean equals(@Nullable Object object) {
-      if (object == this) {
-        return true;
-      }
-      if (object instanceof Multimap) {
-        Multimap<?, ?> that = (Multimap<?, ?>) object;
-        return this.size() == that.size() && asMap().equals(that.asMap());
-      }
-      return false;
+      return Multimaps.equalsImpl(this, object);
     }
 
     @Override public int hashCode() {
       return map.hashCode();
     }
 
-    private static final MapJoiner JOINER
-        = Joiner.on("], ").withKeyValueSeparator("=[").useForNull("null");
-
     @Override public String toString() {
-      if (map.isEmpty()) {
-        return "{}";
-      }
-      StringBuilder builder
-          = Collections2.newStringBuilderForCollection(map.size()).append('{');
-      JOINER.appendTo(builder, map);
-      return builder.append("]}").toString();
+      return asMap().toString();
     }
-
-    /** @see MapMultimap#asMap */
-    class AsMapEntries extends Sets.ImprovedAbstractSet<Entry<K, Collection<V>>> {
-      @Override public int size() {
-        return map.size();
-      }
-
-      @Override public Iterator<Entry<K, Collection<V>>> iterator() {
-        return new TransformedIterator<K, Entry<K, Collection<V>>>(map.keySet().iterator()) {
-          @Override
-          Entry<K, Collection<V>> transform(final K key) {
-            return new AbstractMapEntry<K, Collection<V>>() {
-              @Override
-              public K getKey() {
-                return key;
-              }
-
-              @Override
-              public Collection<V> getValue() {
-                return get(key);
-              }
-            };
-          }
-        };
-      }
-
-      @Override public boolean contains(Object o) {
-        if (!(o instanceof Entry)) {
-          return false;
-        }
-        Entry<?, ?> entry = (Entry<?, ?>) o;
-        if (!(entry.getValue() instanceof Set)) {
-          return false;
-        }
-        Set<?> set = (Set<?>) entry.getValue();
-        return (set.size() == 1)
-            && containsEntry(entry.getKey(), set.iterator().next());
-      }
-
-      @Override public boolean remove(Object o) {
-        if (!(o instanceof Entry)) {
-          return false;
-        }
-        Entry<?, ?> entry = (Entry<?, ?>) o;
-        if (!(entry.getValue() instanceof Set)) {
-          return false;
-        }
-        Set<?> set = (Set<?>) entry.getValue();
-        return (set.size() == 1)
-            && map.entrySet().remove(
-                Maps.immutableEntry(entry.getKey(), set.iterator().next()));
-      }
-    }
-
-    /** @see MapMultimap#asMap */
-    class AsMap extends Maps.ImprovedAbstractMap<K, Collection<V>> {
-      @Override protected Set<Entry<K, Collection<V>>> createEntrySet() {
-        return new AsMapEntries();
-      }
-
-      // The following methods are included for performance.
-
-      @Override public boolean containsKey(Object key) {
-        return map.containsKey(key);
-      }
-
-      @SuppressWarnings("unchecked")
-      @Override public Collection<V> get(Object key) {
-        Collection<V> collection = MapMultimap.this.get((K) key);
-        return collection.isEmpty() ? null : collection;
-      }
-
-      @Override public Collection<V> remove(Object key) {
-        Collection<V> collection = removeAll(key);
-        return collection.isEmpty() ? null : collection;
-      }
-    }
+    
     private static final long serialVersionUID = 7845222491160860175L;
   }
 
@@ -1962,20 +1898,6 @@ public final class Multimaps {
   }
 
   /**
-   * A skeleton implementation of {@link SetMultimap#entries()}.
-   */
-  static abstract class EntrySet<K, V> extends Entries<K, V> implements
-      Set<Map.Entry<K, V>> {
-    @Override public int hashCode() {
-      return Sets.hashCodeImpl(this);
-    }
-
-    @Override public boolean equals(@Nullable Object obj) {
-      return Sets.equalsImpl(this, obj);
-    }
-  }
-
-  /**
    * A skeleton implementation of {@link Multimap#asMap()}.
    */
   static abstract class AsMap<K, V> extends
@@ -2171,6 +2093,17 @@ public final class Multimaps {
     Predicate<Entry<K, V>> predicate
         = Predicates.and(multimap.entryPredicate(), entryPredicate);
     return new FilteredEntryMultimap<K, V>(multimap.unfiltered, predicate);
+  }
+  
+  static boolean equalsImpl(Multimap<?, ?> multimap, @Nullable Object object) {
+    if (object == multimap) {
+      return true;
+    }
+    if (object instanceof Multimap) {
+      Multimap<?, ?> that = (Multimap<?, ?>) object;
+      return multimap.asMap().equals(that.asMap());
+    }
+    return false;
   }
 
   // TODO(jlevy): Create methods that filter a SetMultimap or SortedSetMultimap.
