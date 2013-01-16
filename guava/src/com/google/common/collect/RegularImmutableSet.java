@@ -18,7 +18,6 @@ package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.VisibleForTesting;
-import com.google.common.collect.ImmutableSet.ArrayImmutableSet;
 
 /**
  * Implementation of {@link ImmutableSet} with two or more elements.
@@ -27,7 +26,8 @@ import com.google.common.collect.ImmutableSet.ArrayImmutableSet;
  */
 @GwtCompatible(serializable = true, emulated = true)
 @SuppressWarnings("serial") // uses writeReplace(), not default serialization
-final class RegularImmutableSet<E> extends ArrayImmutableSet<E> {
+final class RegularImmutableSet<E> extends ImmutableSet<E> {
+  private final Object[] elements;
   // the same elements in hashed positions (plus nulls)
   @VisibleForTesting final transient Object[] table;
   // 'and' with an int to get a valid table index.
@@ -36,7 +36,7 @@ final class RegularImmutableSet<E> extends ArrayImmutableSet<E> {
 
   RegularImmutableSet(
       Object[] elements, int hashCode, Object[] table, int mask) {
-    super(elements);
+    this.elements = elements;
     this.table = table;
     this.mask = mask;
     this.hashCode = hashCode;
@@ -55,6 +55,37 @@ final class RegularImmutableSet<E> extends ArrayImmutableSet<E> {
         return true;
       }
     }
+  }
+
+  @Override
+  public int size() {
+    return elements.length;
+  }
+
+  @SuppressWarnings("unchecked") // all elements are E's
+  @Override
+  public UnmodifiableIterator<E> iterator() {
+    return (UnmodifiableIterator<E>) Iterators.forArray(elements);
+  }
+
+  @Override
+  public Object[] toArray() {
+    return asList().toArray();
+  }
+
+  @Override
+  public <T> T[] toArray(T[] other) {
+    return asList().toArray(other);
+  }
+
+  @Override
+  ImmutableList<E> createAsList() {
+    return new RegularImmutableAsList<E>(this, elements);
+  }
+
+  @Override
+  boolean isPartialView() {
+    return false;
   }
 
   @Override public int hashCode() {

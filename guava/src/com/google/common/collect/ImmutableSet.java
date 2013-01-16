@@ -17,7 +17,7 @@
 package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.collect.ObjectArrays.checkElementNotNull;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.VisibleForTesting;
@@ -192,7 +192,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E>
     int hashCode = 0;
     int uniques = 0;
     for (int i = 0; i < n; i++) {
-      Object element = ObjectArrays.checkElementNotNull(elements[i], i);
+      Object element = checkElementNotNull(elements[i], i);
       int hash = element.hashCode();
       for (int j = Hashing.smear(hash); ; j++) {
         int index = j & mask;
@@ -234,7 +234,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E>
 
   // If the set has this many elements, it will "max out" the table size
   private static final int CUTOFF =
-      (int) Math.floor(MAX_TABLE_SIZE * DESIRED_LOAD_FACTOR);
+      (int) (MAX_TABLE_SIZE * DESIRED_LOAD_FACTOR);
 
   /**
    * Returns an array size suitable for the backing array of a hash table that
@@ -269,8 +269,6 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E>
    * @since 3.0
    */
   public static <E> ImmutableSet<E> copyOf(E[] elements) {
-    // TODO(benyu): could we delegate to
-    // copyFromCollection(Arrays.asList(elements))?
     switch (elements.length) {
       case 0:
         return of();
@@ -359,6 +357,10 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E>
    * @since 7.0 (source-compatible since 2.0)
    */
   public static <E> ImmutableSet<E> copyOf(Collection<? extends E> elements) {
+    /*
+     * TODO(user): consider checking for ImmutableAsList here
+     * TODO(user): consider checking for Multiset here
+     */
     if (elements instanceof ImmutableSet
         && !(elements instanceof ImmutableSortedSet)) {
       @SuppressWarnings("unchecked") // all supported methods are covariant
@@ -373,24 +375,8 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E>
       ImmutableSet<E> result = (ImmutableSet<E>) ImmutableEnumSet.asImmutable(enumSet);
       return result;
     }
-    return copyFromCollection(elements);
-  }
-
-  private static <E> ImmutableSet<E> copyFromCollection(
-      Collection<? extends E> collection) {
-    Object[] elements = collection.toArray();
-    switch (elements.length) {
-      case 0:
-        return of();
-      case 1:
-        @SuppressWarnings("unchecked") // collection had only Es in it
-        E onlyElement = (E) elements[0];
-        return of(onlyElement);
-      default:
-        // safe to use the array without copying it
-        // as specified by Collection.toArray().
-        return construct(elements.length, elements);
-    }
+    Object[] array = elements.toArray();
+    return construct(array.length, array);
   }
 
   ImmutableSet() {}
@@ -403,8 +389,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E>
   @Override public boolean equals(@Nullable Object object) {
     if (object == this) {
       return true;
-    }
-    if (object instanceof ImmutableSet
+    } else if (object instanceof ImmutableSet
         && isHashCodeFast()
         && ((ImmutableSet<?>) object).isHashCodeFast()
         && hashCode() != object.hashCode()) {
@@ -420,62 +405,6 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E>
   // This declaration is needed to make Set.iterator() and
   // ImmutableCollection.iterator() consistent.
   @Override public abstract UnmodifiableIterator<E> iterator();
-
-  abstract static class ArrayImmutableSet<E> extends ImmutableSet<E> {
-    // the elements (two or more) in the desired order.
-    final transient Object[] elements;
-
-    ArrayImmutableSet(Object[] elements) {
-      this.elements = elements;
-    }
-
-    @Override
-    public int size() {
-      return elements.length;
-    }
-
-    @Override public boolean isEmpty() {
-      return false;
-    }
-
-    @Override public UnmodifiableIterator<E> iterator() {
-      return asList().iterator();
-    }
-
-    @Override public Object[] toArray() {
-      return asList().toArray();
-    }
-
-    @Override public <T> T[] toArray(T[] array) {
-      return asList().toArray(array);
-    }
-
-    @Override public boolean containsAll(Collection<?> targets) {
-      if (targets == this) {
-        return true;
-      }
-      if (!(targets instanceof ArrayImmutableSet)) {
-        return super.containsAll(targets);
-      }
-      if (targets.size() > size()) {
-        return false;
-      }
-      for (Object target : ((ArrayImmutableSet<?>) targets).elements) {
-        if (!contains(target)) {
-          return false;
-        }
-      }
-      return true;
-    }
-
-    @Override boolean isPartialView() {
-      return false;
-    }
-
-    @Override ImmutableList<E> createAsList() {
-      return new RegularImmutableAsList<E>(this, elements);
-    }
-  }
 
   /*
    * This class is used to serialize all ImmutableSet instances, except for
@@ -523,9 +452,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E>
    *
    * @since 2.0 (imported from Google Collections Library)
    */
-  public static class Builder<E> extends ImmutableCollection.Builder<E> {
-    Object[] contents;
-    int size;
+  public static class Builder<E> extends ImmutableCollection.ArrayBasedBuilder<E> {
 
     /**
      * Creates a new builder. The returned builder is equivalent to the builder
@@ -536,21 +463,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E>
     }
 
     Builder(int capacity) {
-      checkArgument(capacity >= 0, "capacity must be >= 0 but was %s", capacity);
-      this.contents = new Object[capacity];
-      this.size = 0;
-    }
-
-    /**
-     * Expand the absolute capacity of the builder so it can accept at least
-     * the specified number of elements without being resized.
-     */
-    Builder<E> ensureCapacity(int minCapacity) {
-      if (contents.length < minCapacity) {
-        contents = ObjectArrays.arraysCopyOf(
-            contents, expandedCapacity(contents.length, minCapacity));
-      }
-      return this;
+      super(capacity);
     }
 
     /**
@@ -563,8 +476,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E>
      * @throws NullPointerException if {@code element} is null
      */
     @Override public Builder<E> add(E element) {
-      ensureCapacity(size + 1);
-      contents[size++] = checkNotNull(element);
+      super.add(element);
       return this;
     }
 
@@ -578,12 +490,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E>
      *     null element
      */
     @Override public Builder<E> add(E... elements) {
-      for (int i = 0; i < elements.length; i++) {
-        ObjectArrays.checkElementNotNull(elements[i], i);
-      }
-      ensureCapacity(size + elements.length);
-      System.arraycopy(elements, 0, contents, size, elements.length);
-      size += elements.length;
+      super.add(elements);
       return this;
     }
 
@@ -597,10 +504,6 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E>
      *     null element
      */
     @Override public Builder<E> addAll(Iterable<? extends E> elements) {
-      if (elements instanceof Collection) {
-        Collection<?> collection = (Collection<?>) elements;
-        ensureCapacity(size + collection.size());
-      }
       super.addAll(elements);
       return this;
     }

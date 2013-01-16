@@ -16,6 +16,8 @@
 
 package com.google.common.collect;
 
+import static com.google.common.base.Preconditions.checkPositionIndexes;
+
 import com.google.common.annotations.GwtCompatible;
 
 import java.util.Collection;
@@ -138,6 +140,17 @@ public final class ObjectArrays {
     return fillArray(c, new Object[c.size()]);
   }
 
+  /**
+   * Returns a copy of the specified subrange of the specified array that is literally an Object[],
+   * and not e.g. a {@code String[]}.
+   */
+  static Object[] copyAsObjectArray(Object[] elements, int offset, int length) {
+    checkPositionIndexes(offset, offset + length, elements.length);
+    Object[] result = new Object[length];
+    System.arraycopy(elements, offset, result, 0, length);
+    return result;
+  }
+
   private static Object[] fillArray(Iterable<?> elements, Object[] array) {
     int i = 0;
     for (Object element : elements) {
@@ -153,6 +166,17 @@ public final class ObjectArrays {
     Object temp = array[i];
     array[i] = array[j];
     array[j] = temp;
+  }
+
+  static Object[] checkElementsNotNull(Object... array) {
+    return checkElementsNotNull(array, array.length);
+  }
+  
+  static Object[] checkElementsNotNull(Object[] array, int length) {
+    for (int i = 0; i < length; i++) {
+      checkElementNotNull(array[i], i);
+    }
+    return array;
   }
 
   // We do this instead of Preconditions.checkNotNull to save boxing and array

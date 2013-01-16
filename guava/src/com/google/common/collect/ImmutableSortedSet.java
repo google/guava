@@ -18,6 +18,7 @@ package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.collect.ObjectArrays.checkElementsNotNull;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -25,13 +26,11 @@ import com.google.common.annotations.GwtIncompatible;
 import java.io.InvalidObjectException;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
-import java.util.List;
 import java.util.NavigableSet;
 import java.util.SortedSet;
 
@@ -141,7 +140,7 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSortedSetFauxveride
   @SuppressWarnings("unchecked")
   public static <E extends Comparable<? super E>> ImmutableSortedSet<E> of(
       E e1, E e2) {
-    return copyOf(Ordering.natural(), Arrays.asList(e1, e2));
+    return construct(Ordering.natural(), 2, e1, e2);
   }
 
   /**
@@ -154,7 +153,7 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSortedSetFauxveride
   @SuppressWarnings("unchecked")
   public static <E extends Comparable<? super E>> ImmutableSortedSet<E> of(
       E e1, E e2, E e3) {
-    return copyOf(Ordering.natural(), Arrays.asList(e1, e2, e3));
+    return construct(Ordering.natural(), 3, e1, e2, e3);
   }
 
   /**
@@ -167,7 +166,7 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSortedSetFauxveride
   @SuppressWarnings("unchecked")
   public static <E extends Comparable<? super E>> ImmutableSortedSet<E> of(
       E e1, E e2, E e3, E e4) {
-    return copyOf(Ordering.natural(), Arrays.asList(e1, e2, e3, e4));
+    return construct(Ordering.natural(), 4, e1, e2, e3, e4);
   }
 
   /**
@@ -180,7 +179,7 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSortedSetFauxveride
   @SuppressWarnings("unchecked")
   public static <E extends Comparable<? super E>> ImmutableSortedSet<E> of(
       E e1, E e2, E e3, E e4, E e5) {
-    return copyOf(Ordering.natural(), Arrays.asList(e1, e2, e3, e4, e5));
+    return construct(Ordering.natural(), 5, e1, e2, e3, e4, e5);
   }
 
   /**
@@ -194,11 +193,15 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSortedSetFauxveride
   @SuppressWarnings("unchecked")
   public static <E extends Comparable<? super E>> ImmutableSortedSet<E> of(
       E e1, E e2, E e3, E e4, E e5, E e6, E... remaining) {
-    int size = remaining.length + 6;
-    List<E> all = new ArrayList<E>(size);
-    Collections.addAll(all, e1, e2, e3, e4, e5, e6);
-    Collections.addAll(all, remaining);
-    return copyOf(Ordering.natural(), all);
+    Comparable[] contents = new Comparable[6 + remaining.length];
+    contents[0] = e1;
+    contents[1] = e2;
+    contents[2] = e3;
+    contents[3] = e4;
+    contents[4] = e5;
+    contents[5] = e6;
+    System.arraycopy(remaining, 0, contents, 6, remaining.length);
+    return construct(Ordering.natural(), contents.length, (E[]) contents);
   }
 
   // TODO(kevinb): Consider factory methods that reject duplicates
@@ -213,7 +216,7 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSortedSetFauxveride
    */
   public static <E extends Comparable<? super E>> ImmutableSortedSet<E> copyOf(
       E[] elements) {
-    return copyOf(Ordering.natural(), Arrays.asList(elements));
+    return construct(Ordering.natural(), elements.length, elements.clone());
   }
 
   /**
@@ -320,7 +323,7 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSortedSetFauxveride
    */
   public static <E> ImmutableSortedSet<E> copyOf(
       Comparator<? super E> comparator, Iterator<? extends E> elements) {
-    return copyOf(comparator, Lists.newArrayList(elements));
+    return new Builder<E>(comparator).addAll(elements).build();
   }
 
   /**
@@ -396,43 +399,12 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSortedSetFauxveride
    */
   public static <E> ImmutableSortedSet<E> copyOfSorted(SortedSet<E> sortedSet) {
     Comparator<? super E> comparator = SortedIterables.comparator(sortedSet);
-    Object[] elements = sortedSet.toArray();
-    if (elements.length == 0) {
+    ImmutableList<E> list = ImmutableList.copyOf(sortedSet);
+    if (list.isEmpty()) {
       return emptySet(comparator);
     } else {
-      return new RegularImmutableSortedSet<E>(
-          ImmutableList.<E>asImmutableList(elements), comparator);
+      return new RegularImmutableSortedSet<E>(list, comparator);
     }
-  }
-
-  /**
-   * Sorts and eliminates duplicates from the first {@code n} positions in {@code contents}.
-   * Returns the number of unique elements.  If this returns {@code k}, then the first {@code k}
-   * elements of {@code contents} will be the sorted, unique elements, and {@code
-   * contents[i] == null} for {@code k <= i < n}.
-   *
-   * @throws NullPointerException if any of the first {@code n} elements of {@code contents} is
-   *          null
-   */
-  static <E> int sortAndUnique(
-      Comparator<? super E> comparator, int n, E... contents) {
-    if (n == 0) {
-      return 0;
-    }
-    for (int i = 0; i < n; i++) {
-      ObjectArrays.checkElementNotNull(contents[i], i);
-    }
-    Arrays.sort(contents, 0, n, comparator);
-    int uniques = 1;
-    for (int i = 1; i < n; i++) {
-      E cur = contents[i];
-      E prev = contents[uniques - 1];
-      if (comparator.compare(cur, prev) != 0) {
-        contents[uniques++] = cur;
-      }
-    }
-    Arrays.fill(contents, uniques, n, null);
-    return uniques;
   }
 
   /**
@@ -449,14 +421,22 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSortedSetFauxveride
    */
   static <E> ImmutableSortedSet<E> construct(
       Comparator<? super E> comparator, int n, E... contents) {
-    int uniques = sortAndUnique(comparator, n, contents);
-    if (uniques == 0) {
+    if (n == 0) {
       return emptySet(comparator);
-    } else if (uniques < contents.length) {
-      contents = ObjectArrays.arraysCopyOf(contents, uniques);
     }
+    checkElementsNotNull(contents, n);
+    Arrays.sort(contents, 0, n, comparator);
+    int uniques = 1;
+    for (int i = 1; i < n; i++) {
+      E cur = contents[i];
+      E prev = contents[uniques - 1];
+      if (comparator.compare(cur, prev) != 0) {
+        contents[uniques++] = cur;
+      }
+    }
+    Arrays.fill(contents, uniques, n, null);
     return new RegularImmutableSortedSet<E>(
-        ImmutableList.<E>asImmutableList(contents), comparator);
+        ImmutableList.<E>asImmutableList(contents, uniques), comparator);
   }
 
   /**
@@ -711,7 +691,7 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSortedSetFauxveride
       E fromElement, boolean fromInclusive, E toElement, boolean toInclusive);
 
   abstract ImmutableSortedSet<E> tailSetImpl(E fromElement, boolean inclusive);
-
+  
   /**
    * @since 12.0
    */
