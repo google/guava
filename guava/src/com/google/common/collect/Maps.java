@@ -117,13 +117,15 @@ public final class Maps {
   @GwtCompatible(serializable = true)
   @Beta
   public static <K extends Enum<K>, V> ImmutableMap<K, V> immutableEnumMap(
-      Map<K, V> map) {
+      Map<K, ? extends V> map) {
     if (map instanceof ImmutableEnumMap) {
-      return (ImmutableEnumMap<K, V>) map;
+      @SuppressWarnings("unchecked") // safe covariant cast
+      ImmutableEnumMap<K, V> result = (ImmutableEnumMap<K, V>) map;
+      return result;
     } else if (map.isEmpty()) {
       return ImmutableMap.of();
     } else {
-      for (Map.Entry<K, V> entry : map.entrySet()) {
+      for (Map.Entry<K, ? extends V> entry : map.entrySet()) {
         checkNotNull(entry.getKey());
         checkNotNull(entry.getValue());
       }
