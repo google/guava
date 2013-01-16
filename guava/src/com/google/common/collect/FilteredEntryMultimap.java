@@ -43,16 +43,22 @@ import javax.annotation.Nullable;
  * @author Louis Wasserman
  */
 @GwtCompatible
-class FilteredEntryMultimap<K, V> extends FilteredMultimap<K, V> {
+class FilteredEntryMultimap<K, V> extends AbstractMultimap<K, V> implements FilteredMultimap<K, V> {
+  final Multimap<K, V> unfiltered;
   final Predicate<? super Entry<K, V>> predicate;
 
   FilteredEntryMultimap(Multimap<K, V> unfiltered, Predicate<? super Entry<K, V>> predicate) {
-    super(unfiltered);
+    this.unfiltered = checkNotNull(unfiltered);
     this.predicate = checkNotNull(predicate);
+  }
+  
+  @Override
+  public Multimap<K, V> unfiltered() {
+    return unfiltered;
   }
 
   @Override
-  Predicate<? super Entry<K, V>> entryPredicate() {
+  public Predicate<? super Entry<K, V>> entryPredicate() {
     return predicate;
   }
 

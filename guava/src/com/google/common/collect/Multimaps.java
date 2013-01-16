@@ -1991,20 +1991,106 @@ public final class Multimaps {
    *
    * @since 11.0
    */
-  @GwtIncompatible(value = "untested")
   public static <K, V> Multimap<K, V> filterKeys(
       Multimap<K, V> unfiltered, final Predicate<? super K> keyPredicate) {
-    if (unfiltered instanceof FilteredKeyMultimap) {
+    if (unfiltered instanceof SetMultimap) {
+      return filterKeys((SetMultimap<K, V>) unfiltered, keyPredicate);
+    } else if (unfiltered instanceof ListMultimap) {
+      return filterKeys((ListMultimap<K, V>) unfiltered, keyPredicate);
+    } else if (unfiltered instanceof FilteredKeyMultimap) {
       FilteredKeyMultimap<K, V> prev = (FilteredKeyMultimap<K, V>) unfiltered;
       return new FilteredKeyMultimap<K, V>(prev.unfiltered,
           Predicates.and(prev.keyPredicate, keyPredicate));
     } else if (unfiltered instanceof FilteredMultimap) {
       FilteredMultimap<K, V> prev = (FilteredMultimap<K, V>) unfiltered;
-      return new FilteredEntryMultimap<K, V>(prev.unfiltered,
-          Predicates.<Entry<K, V>>and(prev.entryPredicate(),
-              Predicates.compose(keyPredicate, Maps.<K>keyFunction())));
+      return filterFiltered(prev, Predicates.compose(keyPredicate, Maps.<K>keyFunction()));
     } else {
       return new FilteredKeyMultimap<K, V>(unfiltered, keyPredicate);
+    }
+  }
+  
+  /**
+   * Returns a multimap containing the mappings in {@code unfiltered} whose keys
+   * satisfy a predicate. The returned multimap is a live view of
+   * {@code unfiltered}; changes to one affect the other.
+   *
+   * <p>The resulting multimap's views have iterators that don't support
+   * {@code remove()}, but all other methods are supported by the multimap and
+   * its views. When adding a key that doesn't satisfy the predicate, the
+   * multimap's {@code put()}, {@code putAll()}, and {@code replaceValues()}
+   * methods throw an {@link IllegalArgumentException}.
+   *
+   * <p>When methods such as {@code removeAll()} and {@code clear()} are called on
+   * the filtered multimap or its views, only mappings whose keys satisfy the
+   * filter will be removed from the underlying multimap.
+   *
+   * <p>The returned multimap isn't threadsafe or serializable, even if
+   * {@code unfiltered} is.
+   *
+   * <p>Many of the filtered multimap's methods, such as {@code size()}, iterate
+   * across every key/value mapping in the underlying multimap and determine
+   * which satisfy the filter. When a live view is <i>not</i> needed, it may be
+   * faster to copy the filtered multimap and use the copy.
+   *
+   * <p><b>Warning:</b> {@code keyPredicate} must be <i>consistent with equals</i>,
+   * as documented at {@link Predicate#apply}. Do not provide a predicate such
+   * as {@code Predicates.instanceOf(ArrayList.class)}, which is inconsistent
+   * with equals.
+   *
+   * @since 14.0
+   */
+  public static <K, V> SetMultimap<K, V> filterKeys(
+      SetMultimap<K, V> unfiltered, final Predicate<? super K> keyPredicate) {
+    if (unfiltered instanceof FilteredKeySetMultimap) {
+      FilteredKeySetMultimap<K, V> prev = (FilteredKeySetMultimap<K, V>) unfiltered;
+      return new FilteredKeySetMultimap<K, V>(prev.unfiltered(),
+          Predicates.and(prev.keyPredicate, keyPredicate));
+    } else if (unfiltered instanceof FilteredSetMultimap) {
+      FilteredSetMultimap<K, V> prev = (FilteredSetMultimap<K, V>) unfiltered;
+      return filterFiltered(prev, Predicates.compose(keyPredicate, Maps.<K>keyFunction()));
+    } else {
+      return new FilteredKeySetMultimap<K, V>(unfiltered, keyPredicate);
+    }
+  }
+  
+  /**
+   * Returns a multimap containing the mappings in {@code unfiltered} whose keys
+   * satisfy a predicate. The returned multimap is a live view of
+   * {@code unfiltered}; changes to one affect the other.
+   *
+   * <p>The resulting multimap's views have iterators that don't support
+   * {@code remove()}, but all other methods are supported by the multimap and
+   * its views. When adding a key that doesn't satisfy the predicate, the
+   * multimap's {@code put()}, {@code putAll()}, and {@code replaceValues()}
+   * methods throw an {@link IllegalArgumentException}.
+   *
+   * <p>When methods such as {@code removeAll()} and {@code clear()} are called on
+   * the filtered multimap or its views, only mappings whose keys satisfy the
+   * filter will be removed from the underlying multimap.
+   *
+   * <p>The returned multimap isn't threadsafe or serializable, even if
+   * {@code unfiltered} is.
+   *
+   * <p>Many of the filtered multimap's methods, such as {@code size()}, iterate
+   * across every key/value mapping in the underlying multimap and determine
+   * which satisfy the filter. When a live view is <i>not</i> needed, it may be
+   * faster to copy the filtered multimap and use the copy.
+   *
+   * <p><b>Warning:</b> {@code keyPredicate} must be <i>consistent with equals</i>,
+   * as documented at {@link Predicate#apply}. Do not provide a predicate such
+   * as {@code Predicates.instanceOf(ArrayList.class)}, which is inconsistent
+   * with equals.
+   *
+   * @since 14.0
+   */
+  public static <K, V> ListMultimap<K, V> filterKeys(
+      ListMultimap<K, V> unfiltered, final Predicate<? super K> keyPredicate) {
+    if (unfiltered instanceof FilteredKeyListMultimap) {
+      FilteredKeyListMultimap<K, V> prev = (FilteredKeyListMultimap<K, V>) unfiltered;
+      return new FilteredKeyListMultimap<K, V>(prev.unfiltered(),
+          Predicates.and(prev.keyPredicate, keyPredicate));
+    } else {
+      return new FilteredKeyListMultimap<K, V>(unfiltered, keyPredicate);
     }
   }
 
@@ -2038,9 +2124,43 @@ public final class Multimaps {
    *
    * @since 11.0
    */
-  @GwtIncompatible(value = "untested")
   public static <K, V> Multimap<K, V> filterValues(
       Multimap<K, V> unfiltered, final Predicate<? super V> valuePredicate) {
+    return filterEntries(unfiltered, Predicates.compose(valuePredicate, Maps.<V>valueFunction()));
+  }
+  
+  /**
+   * Returns a multimap containing the mappings in {@code unfiltered} whose values
+   * satisfy a predicate. The returned multimap is a live view of
+   * {@code unfiltered}; changes to one affect the other.
+   *
+   * <p>The resulting multimap's views have iterators that don't support
+   * {@code remove()}, but all other methods are supported by the multimap and
+   * its views. When adding a value that doesn't satisfy the predicate, the
+   * multimap's {@code put()}, {@code putAll()}, and {@code replaceValues()}
+   * methods throw an {@link IllegalArgumentException}.
+   *
+   * <p>When methods such as {@code removeAll()} and {@code clear()} are called on
+   * the filtered multimap or its views, only mappings whose value satisfy the
+   * filter will be removed from the underlying multimap.
+   *
+   * <p>The returned multimap isn't threadsafe or serializable, even if
+   * {@code unfiltered} is.
+   *
+   * <p>Many of the filtered multimap's methods, such as {@code size()}, iterate
+   * across every key/value mapping in the underlying multimap and determine
+   * which satisfy the filter. When a live view is <i>not</i> needed, it may be
+   * faster to copy the filtered multimap and use the copy.
+   *
+   * <p><b>Warning:</b> {@code valuePredicate} must be <i>consistent with
+   * equals</i>, as documented at {@link Predicate#apply}. Do not provide a
+   * predicate such as {@code Predicates.instanceOf(ArrayList.class)}, which is
+   * inconsistent with equals.
+   *
+   * @since 14.0
+   */
+  public static <K, V> SetMultimap<K, V> filterValues(
+      SetMultimap<K, V> unfiltered, final Predicate<? super V> valuePredicate) {
     return filterEntries(unfiltered, Predicates.compose(valuePredicate, Maps.<V>valueFunction()));
   }
 
@@ -2072,13 +2192,51 @@ public final class Multimaps {
    *
    * @since 11.0
    */
-  @GwtIncompatible(value = "untested")
   public static <K, V> Multimap<K, V> filterEntries(
       Multimap<K, V> unfiltered, Predicate<? super Entry<K, V>> entryPredicate) {
     checkNotNull(entryPredicate);
+    if (unfiltered instanceof SetMultimap) {
+      return filterEntries((SetMultimap<K, V>) unfiltered, entryPredicate);
+    }
     return (unfiltered instanceof FilteredMultimap)
         ? filterFiltered((FilteredMultimap<K, V>) unfiltered, entryPredicate)
         : new FilteredEntryMultimap<K, V>(checkNotNull(unfiltered), entryPredicate);
+  }
+  
+  /**
+   * Returns a multimap containing the mappings in {@code unfiltered} that
+   * satisfy a predicate. The returned multimap is a live view of
+   * {@code unfiltered}; changes to one affect the other.
+   *
+   * <p>The resulting multimap's views have iterators that don't support
+   * {@code remove()}, but all other methods are supported by the multimap and
+   * its views. When adding a key/value pair that doesn't satisfy the predicate,
+   * multimap's {@code put()}, {@code putAll()}, and {@code replaceValues()}
+   * methods throw an {@link IllegalArgumentException}.
+   *
+   * <p>When methods such as {@code removeAll()} and {@code clear()} are called on
+   * the filtered multimap or its views, only mappings whose keys satisfy the
+   * filter will be removed from the underlying multimap.
+   *
+   * <p>The returned multimap isn't threadsafe or serializable, even if
+   * {@code unfiltered} is.
+   *
+   * <p>Many of the filtered multimap's methods, such as {@code size()}, iterate
+   * across every key/value mapping in the underlying multimap and determine
+   * which satisfy the filter. When a live view is <i>not</i> needed, it may be
+   * faster to copy the filtered multimap and use the copy.
+   *
+   * <p><b>Warning:</b> {@code entryPredicate} must be <i>consistent with
+   * equals</i>, as documented at {@link Predicate#apply}.
+   *
+   * @since 14.0
+   */
+  public static <K, V> SetMultimap<K, V> filterEntries(
+      SetMultimap<K, V> unfiltered, Predicate<? super Entry<K, V>> entryPredicate) {
+    checkNotNull(entryPredicate);
+    return (unfiltered instanceof FilteredSetMultimap)
+        ? filterFiltered((FilteredSetMultimap<K, V>) unfiltered, entryPredicate)
+        : new FilteredEntrySetMultimap<K, V>(checkNotNull(unfiltered), entryPredicate);
   }
 
   /**
@@ -2092,7 +2250,21 @@ public final class Multimaps {
       Predicate<? super Entry<K, V>> entryPredicate) {
     Predicate<Entry<K, V>> predicate
         = Predicates.and(multimap.entryPredicate(), entryPredicate);
-    return new FilteredEntryMultimap<K, V>(multimap.unfiltered, predicate);
+    return new FilteredEntryMultimap<K, V>(multimap.unfiltered(), predicate);
+  }
+
+  /**
+   * Support removal operations when filtering a filtered multimap. Since a filtered multimap has
+   * iterators that don't support remove, passing one to the FilteredEntryMultimap constructor would
+   * lead to a multimap whose removal operations would fail. This method combines the predicates to
+   * avoid that problem.
+   */
+  private static <K, V> SetMultimap<K, V> filterFiltered(
+      FilteredSetMultimap<K, V> multimap,
+      Predicate<? super Entry<K, V>> entryPredicate) {
+    Predicate<Entry<K, V>> predicate
+        = Predicates.and(multimap.entryPredicate(), entryPredicate);
+    return new FilteredEntrySetMultimap<K, V>(multimap.unfiltered(), predicate);
   }
   
   static boolean equalsImpl(Multimap<?, ?> multimap, @Nullable Object object) {
@@ -2106,5 +2278,5 @@ public final class Multimaps {
     return false;
   }
 
-  // TODO(jlevy): Create methods that filter a SetMultimap or SortedSetMultimap.
+  // TODO(jlevy): Create methods that filter a SortedSetMultimap.
 }

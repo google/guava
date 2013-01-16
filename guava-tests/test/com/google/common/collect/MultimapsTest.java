@@ -28,6 +28,7 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Function;
 import com.google.common.base.Functions;
+import com.google.common.base.Predicates;
 import com.google.common.base.Supplier;
 import com.google.common.collect.Maps.EntryTransformer;
 import com.google.common.collect.testing.IteratorTester;
@@ -904,6 +905,83 @@ public class MultimapsTest extends AbstractMultimapTest {
   }
 
   private static void foo(Object o) {}
+  
+  public void testFilteredKeysSetMultimapReplaceValues() {
+    SetMultimap<String, Integer> multimap = LinkedHashMultimap.create();
+    multimap.put("foo", 1);
+    multimap.put("bar", 2);
+    multimap.put("baz", 3);
+    multimap.put("bar", 4);
+    
+    SetMultimap<String, Integer> filtered = Multimaps.filterKeys(
+        multimap, Predicates.in(ImmutableSet.of("foo", "bar")));
+    
+    assertEquals(
+        ImmutableSet.of(),
+        filtered.replaceValues("baz", ImmutableSet.<Integer>of()));
+    
+    try {
+      filtered.replaceValues("baz", ImmutableSet.of(5));
+      fail("Expected IllegalArgumentException");
+    } catch (IllegalArgumentException expected) {
+    }
+  }
+  
+  public void testFilteredKeysSetMultimapGetBadValue() {
+    SetMultimap<String, Integer> multimap = LinkedHashMultimap.create();
+    multimap.put("foo", 1);
+    multimap.put("bar", 2);
+    multimap.put("baz", 3);
+    multimap.put("bar", 4);
+    
+    SetMultimap<String, Integer> filtered = Multimaps.filterKeys(
+        multimap, Predicates.in(ImmutableSet.of("foo", "bar")));
+    Set<Integer> bazSet = filtered.get("baz");
+    ASSERT.that(bazSet).isEmpty();
+    try {
+      bazSet.add(5);
+      fail("Expected IllegalArgumentException");
+    } catch (IllegalArgumentException expected) {
+    }
+    try {
+      bazSet.addAll(ImmutableSet.of(6, 7));
+      fail("Expected IllegalArgumentException");
+    } catch (IllegalArgumentException expected) {
+    }
+  }
+  
+  public void testFilteredKeysListMultimapGetBadValue() {
+    ListMultimap<String, Integer> multimap = ArrayListMultimap.create();
+    multimap.put("foo", 1);
+    multimap.put("bar", 2);
+    multimap.put("baz", 3);
+    multimap.put("bar", 4);
+    
+    ListMultimap<String, Integer> filtered = Multimaps.filterKeys(
+        multimap, Predicates.in(ImmutableSet.of("foo", "bar")));
+    List<Integer> bazList = filtered.get("baz");
+    ASSERT.that(bazList).isEmpty();
+    try {
+      bazList.add(5);
+      fail("Expected IllegalArgumentException");
+    } catch (IllegalArgumentException expected) {
+    }
+    try {
+      bazList.add(0, 6);
+      fail("Expected IllegalArgumentException");
+    } catch (IllegalArgumentException expected) {
+    }
+    try {
+      bazList.addAll(ImmutableList.of(7, 8));
+      fail("Expected IllegalArgumentException");
+    } catch (IllegalArgumentException expected) {
+    }
+    try {
+      bazList.addAll(0, ImmutableList.of(9, 10));
+      fail("Expected IllegalArgumentException");
+    } catch (IllegalArgumentException expected) {
+    }
+  }
 
   @GwtIncompatible("NullPointerTester")
   public void testNullPointers() {
