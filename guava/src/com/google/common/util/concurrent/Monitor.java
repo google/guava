@@ -667,13 +667,13 @@ public final class Monitor {
    */
   public void leave() {
     final ReentrantLock lock = this.lock;
-    if (!lock.isHeldByCurrentThread()) {
-      throw new IllegalMonitorStateException();
-    }
     try {
-      signalConditionsOfSatisfiedGuards(null);
+      // No need to signal if we will still be holding the lock when we return
+      if (lock.getHoldCount() == 1) {
+        signalConditionsOfSatisfiedGuards(null);
+      }
     } finally {
-      lock.unlock();
+      lock.unlock();  // Will throw IllegalMonitorStateException if not held
     }
   }
 
