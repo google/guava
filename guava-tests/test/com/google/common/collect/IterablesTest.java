@@ -870,14 +870,6 @@ public class IterablesTest extends TestCase {
     }
   }
 
-  public void testGetLast_withDefault_not_empty_sortedSet() {
-    // TODO: verify that this is the best testing strategy.
-    SortedSet<String> diesOnIteratorSortedSet = new DiesOnIteratorTreeSet();
-    diesOnIteratorSortedSet.add("bar");
-
-    assertEquals("bar", Iterables.getLast(diesOnIteratorSortedSet, "qux"));
-  }
-
   public void testGetLast_emptySortedSet() {
     SortedSet<String> sortedSet = ImmutableSortedSet.of();
     try {
