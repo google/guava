@@ -522,6 +522,12 @@ public final class ImmutableRangeSet<C extends Comparable> extends AbstractRange
     }
   }
 
+  /**
+   * Returns {@code true} if this immutable range set's implementation contains references to
+   * user-created objects that aren't accessible via this range set's methods. This is generally
+   * used to determine whether {@code copyOf} implementations should make an explicit copy to avoid
+   * memory leaks.
+   */
   boolean isPartialView() {
     return ranges.isPartialView();
   }

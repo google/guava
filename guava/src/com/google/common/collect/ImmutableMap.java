@@ -492,6 +492,12 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
     return Maps.equalsImpl(this, object);
   }
 
+  /**
+   * Returns {@code true} if this immutable map's implementation contains references to
+   * user-created objects that aren't accessible via this map's methods. This is generally
+   * used to determine whether {@code copyOf} implementations should make an explicit copy to avoid
+   * memory leaks.
+   */
   abstract boolean isPartialView();
 
   @Override public int hashCode() {
