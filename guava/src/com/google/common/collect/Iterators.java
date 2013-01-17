@@ -361,6 +361,7 @@ public final class Iterators {
   public static <T> boolean addAll(
       Collection<T> addTo, Iterator<? extends T> iterator) {
     checkNotNull(addTo);
+    checkNotNull(iterator);
     boolean wasModified = false;
     while (iterator.hasNext()) {
       wasModified |= addTo.add(iterator.next());
@@ -430,8 +431,7 @@ public final class Iterators {
       }
       @Override
       public void remove() {
-        checkState(removeFrom != null,
-            "no calls to next() since last call to remove()");
+        checkRemove(removeFrom != null);
         removeFrom.remove();
         removeFrom = null;
       }
@@ -468,12 +468,9 @@ public final class Iterators {
    * {@code iterator = Iterators.concat(iterator, suffix);}, since iteration over the
    * resulting iterator has a cubic complexity to the depth of the nesting.
    */
-  @SuppressWarnings("unchecked")
   public static <T> Iterator<T> concat(Iterator<? extends T> a,
       Iterator<? extends T> b) {
-    checkNotNull(a);
-    checkNotNull(b);
-    return concat(Arrays.asList(a, b).iterator());
+    return concat(ImmutableList.of(a, b).iterator());
   }
 
   /**
@@ -490,13 +487,9 @@ public final class Iterators {
    * {@code iterator = Iterators.concat(iterator, suffix);}, since iteration over the
    * resulting iterator has a cubic complexity to the depth of the nesting.
    */
-  @SuppressWarnings("unchecked")
   public static <T> Iterator<T> concat(Iterator<? extends T> a,
       Iterator<? extends T> b, Iterator<? extends T> c) {
-    checkNotNull(a);
-    checkNotNull(b);
-    checkNotNull(c);
-    return concat(Arrays.asList(a, b, c).iterator());
+    return concat(ImmutableList.of(a, b, c).iterator());
   }
 
   /**
@@ -513,15 +506,10 @@ public final class Iterators {
    * {@code iterator = Iterators.concat(iterator, suffix);}, since iteration over the
    * resulting iterator has a cubic complexity to the depth of the nesting.
    */
-  @SuppressWarnings("unchecked")
   public static <T> Iterator<T> concat(Iterator<? extends T> a,
       Iterator<? extends T> b, Iterator<? extends T> c,
       Iterator<? extends T> d) {
-    checkNotNull(a);
-    checkNotNull(b);
-    checkNotNull(c);
-    checkNotNull(d);
-    return concat(Arrays.asList(a, b, c, d).iterator());
+    return concat(ImmutableList.of(a, b, c, d).iterator());
   }
 
   /**
@@ -590,8 +578,7 @@ public final class Iterators {
       }
       @Override
       public void remove() {
-        checkState(removeFrom != null,
-            "no calls to next() since last call to remove()");
+        checkRemove(removeFrom != null);
         removeFrom.remove();
         removeFrom = null;
       }

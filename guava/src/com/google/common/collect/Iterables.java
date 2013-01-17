@@ -330,7 +330,7 @@ public final class Iterables {
       Collection<? extends T> c = Collections2.cast(elementsToAdd);
       return addTo.addAll(c);
     }
-    return Iterators.addAll(addTo, elementsToAdd.iterator());
+    return Iterators.addAll(addTo, checkNotNull(elementsToAdd).iterator());
   }
 
   /**
@@ -788,8 +788,7 @@ public final class Iterables {
       if (c.isEmpty()) {
         return defaultValue;
       } else if (iterable instanceof List) {
-        List<? extends T> list = Lists.cast(iterable);
-        return getLastInNonemptyList(list);
+        return getLastInNonemptyList(Lists.cast(iterable));
       }
     }
 
@@ -831,9 +830,8 @@ public final class Iterables {
         @Override
         public Iterator<T> iterator() {
           // TODO(kevinb): Support a concurrently modified collection?
-          return (numberToSkip >= list.size())
-              ? Iterators.<T>emptyIterator()
-              : list.subList(numberToSkip, list.size()).iterator();
+          int toSkip = Math.min(list.size(), numberToSkip);
+          return list.subList(toSkip, list.size()).iterator();
         }
       };
     }
@@ -860,22 +858,14 @@ public final class Iterables {
 
           @Override
           public T next() {
-            if (!hasNext()) {
-              throw new NoSuchElementException();
-            }
-
-            try {
-              return iterator.next();
-            } finally {
-              atStart = false;
-            }
+            T result = iterator.next();
+            atStart = false; // not called if next() fails
+            return result;
           }
 
           @Override
           public void remove() {
-            if (atStart) {
-              throw new IllegalStateException();
-            }
+            Iterators.checkRemove(!atStart);
             iterator.remove();
           }
         };

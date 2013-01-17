@@ -28,9 +28,11 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Function;
 import com.google.common.base.Objects;
+import com.google.common.math.IntMath;
 import com.google.common.primitives.Ints;
 
 import java.io.Serializable;
+import java.math.RoundingMode;
 import java.util.AbstractList;
 import java.util.AbstractSequentialList;
 import java.util.ArrayList;
@@ -137,11 +139,8 @@ public final class Lists {
    */
   @GwtCompatible(serializable = true)
   public static <E> ArrayList<E> newArrayList(Iterator<? extends E> elements) {
-    checkNotNull(elements); // for GWT
     ArrayList<E> list = newArrayList();
-    while (elements.hasNext()) {
-      list.add(elements.next());
-    }
+    Iterators.addAll(list, elements);
     return list;
   }
 
@@ -218,9 +217,7 @@ public final class Lists {
   public static <E> LinkedList<E> newLinkedList(
       Iterable<? extends E> elements) {
     LinkedList<E> list = newLinkedList();
-    for (E element : elements) {
-      list.add(element);
-    }
+    Iterables.addAll(list, elements);
     return list;
   }
 
@@ -588,20 +585,14 @@ public final class Lists {
     }
 
     @Override public List<T> get(int index) {
-      int listSize = size();
-      checkElementIndex(index, listSize);
+      checkElementIndex(index, size());
       int start = index * size;
       int end = Math.min(start + size, list.size());
       return list.subList(start, end);
     }
 
     @Override public int size() {
-      // TODO(user): refactor to common.math.IntMath.divide
-      int result = list.size() / size;
-      if (result * size != list.size()) {
-        result++;
-      }
-      return result;
+      return IntMath.divide(list.size(), size, RoundingMode.CEILING);
     }
 
     @Override public boolean isEmpty() {
@@ -664,40 +655,6 @@ public final class Lists {
     @Override public int size() {
       return string.length();
     }
-
-    @Override public boolean equals(@Nullable Object obj) {
-      if (!(obj instanceof List)) {
-        return false;
-      }
-      List<?> list = (List<?>) obj;
-      int n = string.length();
-      if (n != list.size()) {
-        return false;
-      }
-      Iterator<?> iterator = list.iterator();
-      for (int i = 0; i < n; i++) {
-        Object elem = iterator.next();
-        if (!(elem instanceof Character)
-            || ((Character) elem).charValue() != string.charAt(i)) {
-          return false;
-        }
-      }
-      return true;
-    }
-
-    int hash = 0;
-
-    @Override public int hashCode() {
-      int h = hash;
-      if (h == 0) {
-        h = 1;
-        for (int i = 0; i < string.length(); i++) {
-          h = h * 31 + string.charAt(i);
-        }
-        hash = h;
-      }
-      return h;
-    }
   }
 
   /**
@@ -728,69 +685,8 @@ public final class Lists {
       return sequence.charAt(index);
     }
 
-    @Override public boolean contains(@Nullable Object o) {
-      return indexOf(o) >= 0;
-    }
-
-    @Override public int indexOf(@Nullable Object o) {
-      if (o instanceof Character) {
-        char c = (Character) o;
-        for (int i = 0; i < sequence.length(); i++) {
-          if (sequence.charAt(i) == c) {
-            return i;
-          }
-        }
-      }
-      return -1;
-    }
-
-    @Override public int lastIndexOf(@Nullable Object o) {
-      if (o instanceof Character) {
-        char c = ((Character) o).charValue();
-        for (int i = sequence.length() - 1; i >= 0; i--) {
-          if (sequence.charAt(i) == c) {
-            return i;
-          }
-        }
-      }
-      return -1;
-    }
-
     @Override public int size() {
       return sequence.length();
-    }
-
-    @Override public List<Character> subList(int fromIndex, int toIndex) {
-      checkPositionIndexes(fromIndex, toIndex, size()); // for GWT
-      return charactersOf(sequence.subSequence(fromIndex, toIndex));
-    }
-
-    @Override public int hashCode() {
-      int hash = 1;
-      for (int i = 0; i < sequence.length(); i++) {
-        hash = hash * 31 + sequence.charAt(i);
-      }
-      return hash;
-    }
-
-    @Override public boolean equals(@Nullable Object o) {
-      if (!(o instanceof List)) {
-        return false;
-      }
-      List<?> list = (List<?>) o;
-      int n = sequence.length();
-      if (n != list.size()) {
-        return false;
-      }
-      Iterator<?> iterator = list.iterator();
-      for (int i = 0; i < n; i++) {
-        Object elem = iterator.next();
-        if (!(elem instanceof Character)
-            || ((Character) elem).charValue() != sequence.charAt(i)) {
-          return false;
-        }
-      }
-      return true;
     }
   }
 

@@ -621,6 +621,38 @@ public class IterablesTest extends TestCase {
     assertEquals(newArrayList("a", "b"), newArrayList(skip(list, 0)));
   }
 
+  public void testSkip_removal() {
+    Collection<String> set = Sets.newHashSet("a", "b");
+    Iterator<String> iterator = skip(set, 2).iterator();
+    try {
+      iterator.next();
+    } catch (NoSuchElementException suppressed) {
+      // We want remove() to fail even after a failed call to next().
+    }
+    try {
+      iterator.remove();
+      fail("Expected IllegalStateException");
+    } catch (IllegalStateException expected) {}
+  }
+
+  public void testSkip_allOfMutableList_modifiable() {
+    List<String> list = newArrayList("a", "b");
+    Iterator<String> iterator = skip(list, 2).iterator();
+    try {
+      iterator.remove();
+      fail("Expected IllegalStateException");
+    } catch (IllegalStateException expected) {}
+  }
+
+  public void testSkip_allOfImmutableList_modifiable() {
+    List<String> list = ImmutableList.of("a", "b");
+    Iterator<String> iterator = skip(list, 2).iterator();
+    try {
+      iterator.remove();
+      fail("Expected UnsupportedOperationException");
+    } catch (UnsupportedOperationException expected) {}
+  }
+
   @GwtIncompatible("slow (~35s)")
   public void testSkip_iterator() {
     new IteratorTester<Integer>(5, MODIFIABLE, newArrayList(2, 3),

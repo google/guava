@@ -236,9 +236,7 @@ public final class Sets {
    */
   public static <E> HashSet<E> newHashSet(Iterator<? extends E> elements) {
     HashSet<E> set = newHashSet();
-    while (elements.hasNext()) {
-      set.add(elements.next());
-    }
+    Iterators.addAll(set, elements);
     return set;
   }
 
@@ -292,9 +290,7 @@ public final class Sets {
       return new LinkedHashSet<E>(Collections2.cast(elements));
     }
     LinkedHashSet<E> set = newLinkedHashSet();
-    for (E element : elements) {
-      set.add(element);
-    }
+    Iterables.addAll(set, elements);
     return set;
   }
 
@@ -331,9 +327,7 @@ public final class Sets {
   public static <E extends Comparable> TreeSet<E> newTreeSet(
       Iterable<? extends E> elements) {
     TreeSet<E> set = newTreeSet();
-    for (E element : elements) {
-      set.add(element);
-    }
+    Iterables.addAll(set, elements);
     return set;
   }
 
@@ -1614,15 +1608,7 @@ public final class Sets {
      * http://code.google.com/p/guava-libraries/issues/detail?id=1013
      */
     if (collection instanceof Set && collection.size() > set.size()) {
-      Iterator<?> setIterator = set.iterator();
-      boolean changed = false;
-      while (setIterator.hasNext()) {
-        if (collection.contains(setIterator.next())) {
-          changed = true;
-          setIterator.remove();
-        }
-      }
-      return changed;
+      return Iterators.removeAll(set.iterator(), collection);
     } else {
       return removeAllImpl(set, collection.iterator());
     }
