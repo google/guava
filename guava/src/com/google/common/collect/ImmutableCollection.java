@@ -21,7 +21,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.ObjectArrays.checkElementsNotNull;
 
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.annotations.VisibleForTesting;
 
 import java.io.Serializable;
 import java.util.Collection;
@@ -204,7 +203,6 @@ public abstract class ImmutableCollection<E>
   public abstract static class Builder<E> {
     static final int DEFAULT_INITIAL_CAPACITY = 4;
 
-    @VisibleForTesting
     static int expandedCapacity(int oldCapacity, int minCapacity) {
       if (minCapacity < 0) {
         throw new AssertionError("cannot store more than MAX_VALUE elements");

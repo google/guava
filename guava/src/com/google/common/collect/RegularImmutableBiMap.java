@@ -21,7 +21,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.annotations.GwtCompatible;
 
 import java.io.Serializable;
-import java.util.Collection;
 
 import javax.annotation.Nullable;
 
@@ -81,19 +80,24 @@ class RegularImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
   private transient final int mask;
   private transient final int hashCode;
   
-  RegularImmutableBiMap(Collection<? extends Entry<? extends K, ? extends V>> entriesToAdd) {
-    int n = entriesToAdd.size();
+  RegularImmutableBiMap(Entry<?, ?>... entriesToAdd) {
+    this(entriesToAdd.length, entriesToAdd);
+  }
+  
+  RegularImmutableBiMap(int n, Entry<?, ?>[] entriesToAdd) {
     int tableSize = Hashing.closedTableSize(n, MAX_LOAD_FACTOR);
     this.mask = tableSize - 1;
     BiMapEntry<K, V>[] kToVTable = createEntryArray(tableSize);
     BiMapEntry<K, V>[] vToKTable = createEntryArray(tableSize);
     BiMapEntry<K, V>[] entries = createEntryArray(n);
-    int i = 0;
     int hashCode = 0;
     
-    for (Entry<? extends K, ? extends V> entry : entriesToAdd) {
-      K key = checkNotNull(entry.getKey());
-      V value = checkNotNull(entry.getValue());
+    for (int i = 0; i < n; i++) {
+      Entry<?, ?> entry = entriesToAdd[i];
+      @SuppressWarnings("unchecked") // all callers only have Ks here
+      K key = (K) checkNotNull(entry.getKey());
+      @SuppressWarnings("unchecked") // all callers only have Vs here
+      V value = (V) checkNotNull(entry.getValue());
       
       int keyHash = key.hashCode();
       int valueHash = value.hashCode();
@@ -122,7 +126,7 @@ class RegularImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
           : new NonTerminalBiMapEntry<K, V>(key, value, nextInKToVBucket, nextInVToKBucket);
       kToVTable[keyBucket] = newEntry;
       vToKTable[valueBucket] = newEntry;
-      entries[i++] = newEntry;
+      entries[i] = newEntry;
       hashCode += keyHash ^ valueHash;
     }
     

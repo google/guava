@@ -40,20 +40,19 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
   // 'and' with an int to get a table index
   private final transient int mask;
 
-  // TODO(gak): investigate avoiding the creation of ImmutableEntries since we
-  // re-copy them anyway.
-  RegularImmutableMap(Entry<?, ?>... immutableEntries) {
-    int size = immutableEntries.length;
-    entries = createEntryArray(size);
+  RegularImmutableMap(Entry<?, ?>... theEntries) {
+    this(theEntries.length, theEntries);
+  }
 
+  RegularImmutableMap(int size, Entry<?, ?>[] theEntries) {
+    entries = createEntryArray(size);
     int tableSize = Hashing.closedTableSize(size, MAX_LOAD_FACTOR);
     table = createEntryArray(tableSize);
     mask = tableSize - 1;
-
     for (int entryIndex = 0; entryIndex < size; entryIndex++) {
       // each of our 6 callers carefully put only Entry<K, V>s into the array!
       @SuppressWarnings("unchecked")
-      Entry<K, V> entry = (Entry<K, V>) immutableEntries[entryIndex];
+      Entry<K, V> entry = (Entry<K, V>) theEntries[entryIndex];
       K key = entry.getKey();
       int keyHashCode = key.hashCode();
       int tableIndex = Hashing.smear(keyHashCode) & mask;
@@ -89,6 +88,12 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
 
   private static <K, V> LinkedEntry<K, V> newLinkedEntry(K key, V value,
       @Nullable LinkedEntry<K, V> next) {
+    /*
+     * TODO(user): figure out a way to avoid the redundant check for
+     * ImmutableMap.of(), Builder constructors without introducing race
+     * conditions or redundant copies for the copyOf constructor.
+     */
+    checkEntryNotNull(key, value);
     return (next == null)
         ? new TerminalEntry<K, V>(key, value)
         : new NonTerminalEntry<K, V>(key, value, next);
@@ -160,7 +165,7 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
   public int size() {
     return entries.length;
   }
-  
+
   @Override boolean isPartialView() {
     return false;
   }

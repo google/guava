@@ -20,7 +20,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
 
-import java.util.Collection;
 import java.util.Map;
 
 /**
@@ -68,10 +67,7 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableMap<K, V>
    * @throws IllegalArgumentException if duplicate keys or values are added
    */
   public static <K, V> ImmutableBiMap<K, V> of(K k1, V v1, K k2, V v2) {
-    return new Builder<K, V>()
-        .put(k1, v1)
-        .put(k2, v2)
-        .build();
+    return new RegularImmutableBiMap<K, V>(entryOf(k1, v1), entryOf(k2, v2));
   }
 
   /**
@@ -81,11 +77,7 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableMap<K, V>
    */
   public static <K, V> ImmutableBiMap<K, V> of(
       K k1, V v1, K k2, V v2, K k3, V v3) {
-    return new Builder<K, V>()
-        .put(k1, v1)
-        .put(k2, v2)
-        .put(k3, v3)
-        .build();
+    return new RegularImmutableBiMap<K, V>(entryOf(k1, v1), entryOf(k2, v2), entryOf(k3, v3));
   }
 
   /**
@@ -95,12 +87,8 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableMap<K, V>
    */
   public static <K, V> ImmutableBiMap<K, V> of(
       K k1, V v1, K k2, V v2, K k3, V v3, K k4, V v4) {
-    return new Builder<K, V>()
-        .put(k1, v1)
-        .put(k2, v2)
-        .put(k3, v3)
-        .put(k4, v4)
-        .build();
+    return new RegularImmutableBiMap<K, V>(entryOf(k1, v1), entryOf(k2, v2), entryOf(k3, v3),
+        entryOf(k4, v4));
   }
 
   /**
@@ -110,13 +98,8 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableMap<K, V>
    */
   public static <K, V> ImmutableBiMap<K, V> of(
       K k1, V v1, K k2, V v2, K k3, V v3, K k4, V v4, K k5, V v5) {
-    return new Builder<K, V>()
-        .put(k1, v1)
-        .put(k2, v2)
-        .put(k3, v3)
-        .put(k4, v4)
-        .put(k5, v5)
-        .build();
+    return new RegularImmutableBiMap<K, V>(entryOf(k1, v1), entryOf(k2, v2), entryOf(k3, v3),
+        entryOf(k4, v4), entryOf(k5, v5));
   }
 
   // looking for of() with > 5 entries? Use the builder instead.
@@ -184,7 +167,7 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableMap<K, V>
      * @throws IllegalArgumentException if duplicate keys or values were added
      */
     @Override public ImmutableBiMap<K, V> build() {
-      return fromEntries(entries);
+      return fromEntries(size, entries);
     }
   }
 
@@ -212,21 +195,26 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableMap<K, V>
         return bimap;
       }
     }
-
-    return fromEntries(ImmutableList.copyOf(map.entrySet()));
+    Entry<?, ?>[] entries = map.entrySet().toArray(EMPTY_ENTRY_ARRAY);
+    return fromEntries(entries.length, entries);
   }
 
+  private static final Entry<?, ?>[] EMPTY_ENTRY_ARRAY = new Entry<?, ?>[0];
+
   static <K, V> ImmutableBiMap<K, V> fromEntries(
-      Collection<? extends Entry<? extends K, ? extends V>> entries) {
-    switch (entries.size()) {
+      int n, Entry<?, ?>[] entries) {
+    switch (n) {
       case 0:
         return of();
       case 1: {
-        Entry<? extends K, ? extends V> entry = Iterables.getOnlyElement(entries);
-        return new SingletonImmutableBiMap<K, V>(entry.getKey(), entry.getValue());
+        @SuppressWarnings("unchecked") // all callers only have Ks here
+        K key = (K) entries[0].getKey();
+        @SuppressWarnings("unchecked") // all callers only have Vs here
+        V value = (V) entries[0].getValue();
+        return new SingletonImmutableBiMap<K, V>(key, value);
       }
       default:
-        return new RegularImmutableBiMap<K, V>(entries);
+        return new RegularImmutableBiMap<K, V>(n, entries);
     }
   }
 
