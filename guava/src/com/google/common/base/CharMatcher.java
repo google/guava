@@ -869,7 +869,8 @@ public abstract class CharMatcher implements Predicate<Character> {
 
   private static boolean isSmall(int totalCharacters, int tableLength) {
     return totalCharacters <= SmallCharMatcher.MAX_SIZE
-        && tableLength > (totalCharacters * Character.SIZE);
+        && tableLength > (totalCharacters * 4 * Character.SIZE);
+        // err on the side of BitSetMatcher
   }
 
   @GwtIncompatible("java.util.BitSet")
