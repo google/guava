@@ -34,6 +34,7 @@ final class SingletonImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
   final transient V singleValue;
 
   SingletonImmutableBiMap(K singleKey, V singleValue) {
+    checkEntryNotNull(singleKey, singleValue);
     this.singleKey = singleKey;
     this.singleValue = singleValue;
   }

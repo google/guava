@@ -54,12 +54,18 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
       @SuppressWarnings("unchecked")
       Entry<K, V> entry = (Entry<K, V>) theEntries[entryIndex];
       K key = entry.getKey();
+      V value = entry.getValue();
+      /*
+       * TODO(user): figure out a way to avoid the redundant check for
+       * ImmutableMap.of(), Builder constructors without introducing race
+       * conditions or redundant copies for the copyOf constructor.
+       */
+      checkEntryNotNull(key, value);
       int keyHashCode = key.hashCode();
       int tableIndex = Hashing.smear(keyHashCode) & mask;
       @Nullable LinkedEntry<K, V> existing = table[tableIndex];
       // prepend, not append, so the entries can be immutable
-      LinkedEntry<K, V> linkedEntry =
-          newLinkedEntry(key, entry.getValue(), existing);
+      LinkedEntry<K, V> linkedEntry = newLinkedEntry(key, value, existing);
       table[tableIndex] = linkedEntry;
       entries[entryIndex] = linkedEntry;
       while (existing != null) {
@@ -88,12 +94,6 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
 
   private static <K, V> LinkedEntry<K, V> newLinkedEntry(K key, V value,
       @Nullable LinkedEntry<K, V> next) {
-    /*
-     * TODO(user): figure out a way to avoid the redundant check for
-     * ImmutableMap.of(), Builder constructors without introducing race
-     * conditions or redundant copies for the copyOf constructor.
-     */
-    checkEntryNotNull(key, value);
     return (next == null)
         ? new TerminalEntry<K, V>(key, value)
         : new NonTerminalEntry<K, V>(key, value, next);

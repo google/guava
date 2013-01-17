@@ -55,6 +55,17 @@ public class MapGenerators {
       return builder.build();
     }
   }
+  
+  public static class ImmutableMapCopyOfGenerator
+      extends TestStringMapGenerator {
+    @Override protected Map<String, String> create(Entry<String, String>[] entries) {
+      Map<String, String> builder = Maps.newLinkedHashMap();
+      for (Entry<String, String> entry : entries) {
+        builder.put(entry.getKey(), entry.getValue());
+      }
+      return ImmutableMap.copyOf(builder);
+    }
+  }
 
   public static class ImmutableMapUnhashableValuesGenerator
       extends TestUnhashableCollectionGenerator<Collection<UnhashableObject>> {

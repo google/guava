@@ -35,6 +35,7 @@ import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.MapFeature;
 import com.google.common.collect.testing.google.MapGenerators.ImmutableMapCopyOfEnumMapGenerator;
+import com.google.common.collect.testing.google.MapGenerators.ImmutableMapCopyOfGenerator;
 import com.google.common.collect.testing.google.MapGenerators.ImmutableMapEntryListGenerator;
 import com.google.common.collect.testing.google.MapGenerators.ImmutableMapGenerator;
 import com.google.common.collect.testing.google.MapGenerators.ImmutableMapKeyListGenerator;
@@ -78,6 +79,15 @@ public class ImmutableMapTest extends TestCase {
             MapFeature.REJECTS_DUPLICATES_AT_CREATION,
             CollectionFeature.ALLOWS_NULL_QUERIES)
         .named("ImmutableMap")
+        .createTestSuite());
+
+    suite.addTest(MapTestSuiteBuilder.using(new ImmutableMapCopyOfGenerator())
+        .withFeatures(
+            CollectionSize.ANY,
+            CollectionFeature.SERIALIZABLE_INCLUDING_VIEWS,
+            CollectionFeature.KNOWN_ORDER,
+            CollectionFeature.ALLOWS_NULL_QUERIES)
+        .named("ImmutableMap.copyOf")
         .createTestSuite());
 
     suite.addTest(MapTestSuiteBuilder.using(new ImmutableMapCopyOfEnumMapGenerator())

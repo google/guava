@@ -16,8 +16,6 @@
 
 package com.google.common.collect;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
 
@@ -220,8 +218,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
       V value = entry.getValue();
       ensureCapacity(size + 1);
       if (entry instanceof ImmutableEntry) {
-        checkNotNull(key);
-        checkNotNull(value);
+        checkEntryNotNull(key, value);
         @SuppressWarnings("unchecked") // all supported methods are covariant
         Entry<K, V> immutableEntry = (Entry<K, V>) entry;
         entries[size++] = immutableEntry;
@@ -288,8 +285,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
     } else if (map instanceof EnumMap) {
       EnumMap<?, ?> enumMap = (EnumMap<?, ?>) map;
       for (Map.Entry<?, ?> entry : enumMap.entrySet()) {
-        checkNotNull(entry.getKey());
-        checkNotNull(entry.getValue());
+        checkEntryNotNull(entry.getKey(), entry.getValue());
       }
       @SuppressWarnings("unchecked")
       // immutable collections are safe for covariant casts
@@ -307,7 +303,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
       case 1:
         @SuppressWarnings("unchecked") // all entries will be Entry<K, V>'s
         Entry<K, V> onlyEntry = (Entry<K, V>) entries[0];
-        return new SingletonImmutableBiMap<K, V>(onlyEntry);
+        return ImmutableBiMap.of(onlyEntry.getKey(), onlyEntry.getValue());
       default:
         return new RegularImmutableMap<K, V>(size, entries);
     }
