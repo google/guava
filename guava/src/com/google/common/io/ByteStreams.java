@@ -21,6 +21,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkPositionIndex;
 
 import com.google.common.annotations.Beta;
+import com.google.common.collect.ImmutableList;
 import com.google.common.hash.HashCode;
 import com.google.common.hash.HashFunction;
 
@@ -39,6 +40,7 @@ import java.nio.ByteBuffer;
 import java.nio.channels.ReadableByteChannel;
 import java.nio.channels.WritableByteChannel;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.zip.Checksum;
 
 /**
@@ -954,33 +956,69 @@ public final class ByteStreams {
     return join(Arrays.asList(suppliers));
   }
 
+  /**
+   * Concatenates multiple {@link ByteSource} instances into a single source.
+   * Streams returned from the source will contain the concatenated data from
+   * the streams of the underlying sources.
+   *
+   * <p>Only one underlying stream will be open at a time. Closing the
+   * concatenated stream will close the open underlying stream.
+   *
+   * @param sources the sources to concatenate
+   * @return a {@code ByteSource} containing the concatenated data
+   * @throws NullPointerException if any of {@code sources} is {@code null}
+   * @since 15.0
+   */
+  public static ByteSource concat(Iterable<? extends ByteSource> sources) {
+    return asByteSource(join(ImmutableList.copyOf(sources)));
+  }
+
+  /**
+   * Concatenates multiple {@link ByteSource} instances into a single source.
+   * Streams returned from the source will contain the concatenated data from
+   * the streams of the underlying sources.
+   *
+   * <p>Only one underlying stream will be open at a time. Closing the
+   * concatenated stream will close the open underlying stream.
+   *
+   * @param sources the sources to concatenate
+   * @return a {@code ByteSource} containing the concatenated data
+   * @throws NullPointerException if any of {@code sources} is {@code null}
+   * @since 15.0
+   */
+  public static ByteSource concat(Iterator<? extends ByteSource> sources) {
+    return concat(ImmutableList.copyOf(sources));
+  }
+
+  /**
+   * Concatenates multiple {@link ByteSource} instances into a single source.
+   * Streams returned from the source will contain the concatenated data from
+   * the streams of the underlying sources.
+   *
+   * <p>Only one underlying stream will be open at a time. Closing the
+   * concatenated stream will close the open underlying stream.
+   *
+   * @param sources the sources to concatenate
+   * @return a {@code ByteSource} containing the concatenated data
+   * @throws NullPointerException if any of {@code sources} is {@code null}
+   * @since 15.0
+   */
+  public static ByteSource concat(ByteSource... sources) {
+    return concat(ImmutableList.copyOf(sources));
+  }
+
   // TODO(user): Remove these once Input/OutputSupplier methods are removed
 
-  static <S extends InputStream> InputSupplier<S> asInputSupplier(
-      final ByteSource source) {
-    checkNotNull(source);
-    return new InputSupplier<S>() {
-      @SuppressWarnings("unchecked") // used internally where known to be safe
-      @Override
-      public S getInput() throws IOException {
-        return (S) source.openStream();
-      }
-    };
-  }
-
-  static <S extends OutputStream> OutputSupplier<S> asOutputSupplier(
-      final ByteSink sink) {
-    checkNotNull(sink);
-    return new OutputSupplier<S>() {
-      @SuppressWarnings("unchecked") // used internally where known to be safe
-      @Override
-      public S getOutput() throws IOException {
-        return (S) sink.openStream();
-      }
-    };
-  }
-
-  static ByteSource asByteSource(
+  /**
+   * Returns a view of the given {@code InputStream} supplier as a
+   * {@code ByteSource}.
+   *
+   * <p>This method is a temporary method provided for easing migration from
+   * suppliers to sources and sinks.
+   *
+   * @since 15.0
+   */
+  public static ByteSource asByteSource(
       final InputSupplier<? extends InputStream> supplier) {
     checkNotNull(supplier);
     return new ByteSource() {
@@ -988,10 +1026,24 @@ public final class ByteStreams {
       public InputStream openStream() throws IOException {
         return supplier.getInput();
       }
+
+      @Override
+      public String toString() {
+        return "ByteStreams.asByteSource(" + supplier + ")";
+      }
     };
   }
 
-  static ByteSink asByteSink(
+  /**
+   * Returns a view of the given {@code OutputStream} supplier as a
+   * {@code ByteSink}.
+   *
+   * <p>This method is a temporary method provided for easing migration from
+   * suppliers to sources and sinks.
+   *
+   * @since 15.0
+   */
+  public static ByteSink asByteSink(
       final OutputSupplier<? extends OutputStream> supplier) {
     checkNotNull(supplier);
     return new ByteSink() {
@@ -999,6 +1051,23 @@ public final class ByteStreams {
       public OutputStream openStream() throws IOException {
         return supplier.getOutput();
       }
+
+      @Override
+      public String toString() {
+        return "ByteStreams.asByteSink(" + supplier + ")";
+      }
     };
+  }
+
+  @SuppressWarnings("unchecked") // used internally where known to be safe
+  static <S extends InputStream> InputSupplier<S> asInputSupplier(
+      final ByteSource source) {
+    return (InputSupplier) checkNotNull(source);
+  }
+
+  @SuppressWarnings("unchecked") // used internally where known to be safe
+  static <S extends OutputStream> OutputSupplier<S> asOutputSupplier(
+      final ByteSink sink) {
+    return (OutputSupplier) checkNotNull(sink);
   }
 }

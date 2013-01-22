@@ -431,6 +431,57 @@ public final class CharStreams {
   }
 
   /**
+   * Concatenates multiple {@link CharSource} instances into a single source.
+   * Streams returned from the source will contain the concatenated data from
+   * the streams of the underlying sources.
+   *
+   * <p>Only one underlying stream will be open at a time. Closing the
+   * concatenated stream will close the open underlying stream.
+   *
+   * @param sources the sources to concatenate
+   * @return a {@code CharSource} containing the concatenated data
+   * @throws NullPointerException if any of {@code sources} is {@code null}
+   * @since 15.0
+   */
+  public static CharSource concat(Iterable<? extends CharSource> sources) {
+    return asCharSource(join(ImmutableList.copyOf(sources)));
+  }
+
+  /**
+   * Concatenates multiple {@link CharSource} instances into a single source.
+   * Streams returned from the source will contain the concatenated data from
+   * the streams of the underlying sources.
+   *
+   * <p>Only one underlying stream will be open at a time. Closing the
+   * concatenated stream will close the open underlying stream.
+   *
+   * @param sources the sources to concatenate
+   * @return a {@code CharSource} containing the concatenated data
+   * @throws NullPointerException if any of {@code sources} is {@code null}
+   * @since 15.0
+   */
+  public static CharSource concat(Iterator<? extends CharSource> sources) {
+    return concat(ImmutableList.copyOf(sources));
+  }
+
+  /**
+   * Concatenates multiple {@link CharSource} instances into a single source.
+   * Streams returned from the source will contain the concatenated data from
+   * the streams of the underlying sources.
+   *
+   * <p>Only one underlying stream will be open at a time. Closing the
+   * concatenated stream will close the open underlying stream.
+   *
+   * @param sources the sources to concatenate
+   * @return a {@code CharSource} containing the concatenated data
+   * @throws NullPointerException if any of {@code sources} is {@code null}
+   * @since 15.0
+   */
+  public static CharSource concat(CharSource... sources) {
+    return concat(ImmutableList.copyOf(sources));
+  }
+
+  /**
    * Discards {@code n} characters of data from the reader. This method
    * will block until the full amount has been skipped. Does not close the
    * reader.
@@ -438,7 +489,7 @@ public final class CharStreams {
    * @param reader the reader to read from
    * @param n the number of characters to skip
    * @throws EOFException if this stream reaches the end before skipping all
-   *     the bytes
+   *     the characters
    * @throws IOException if an I/O error occurs
    */
   public static void skipFully(Reader reader, long n) throws IOException {
@@ -476,7 +527,7 @@ public final class CharStreams {
 
   // TODO(user): Remove these once Input/OutputSupplier methods are removed
 
-  static <R extends Readable & Closeable> Reader asReader(final R readable) {
+  static Reader asReader(final Readable readable) {
     checkNotNull(readable);
     if (readable instanceof Reader) {
       return (Reader) readable;
@@ -494,52 +545,72 @@ public final class CharStreams {
 
       @Override
       public void close() throws IOException {
-        readable.close();
+        if (readable instanceof Closeable) {
+          ((Closeable) readable).close();
+        }
       }
     };
   }
 
-  static <R extends Reader> InputSupplier<R> asInputSupplier(
-      final CharSource source) {
-    checkNotNull(source);
-    return new InputSupplier<R>() {
-      @Override
-      public R getInput() throws IOException {
-        return (R) source.openStream();
-      }
-    };
-  }
-
-  static <W extends Writer> OutputSupplier<W> asOutputSupplier(
-      final CharSink sink) {
-    checkNotNull(sink);
-    return new OutputSupplier<W>() {
-      @Override
-      public W getOutput() throws IOException {
-        return (W) sink.openStream();
-      }
-    };
-  }
-
-  static <R extends Readable & Closeable> CharSource asCharSource(
-      final InputSupplier<R> supplier) {
+  /**
+   * Returns a view of the given {@code Readable} supplier as a
+   * {@code CharSource}.
+   *
+   * <p>This method is a temporary method provided for easing migration from
+   * suppliers to sources and sinks.
+   *
+   * @since 15.0
+   */
+  public static CharSource asCharSource(
+      final InputSupplier<? extends Readable> supplier) {
     checkNotNull(supplier);
     return new CharSource() {
       @Override
       public Reader openStream() throws IOException {
         return asReader(supplier.getInput());
       }
+
+      @Override
+      public String toString() {
+        return "CharStreams.asCharSource(" + supplier + ")";
+      }
     };
   }
 
-  static <W extends Appendable & Closeable> CharSink asCharSink(
-      final OutputSupplier<W> supplier) {
+  /**
+   * Returns a view of the given {@code Appendable} supplier as a
+   * {@code CharSink}.
+   *
+   * <p>This method is a temporary method provided for easing migration from
+   * suppliers to sources and sinks.
+   *
+   * @since 15.0
+   */
+  public static CharSink asCharSink(
+      final OutputSupplier<? extends Appendable> supplier) {
     checkNotNull(supplier);
     return new CharSink() {
       @Override
       public Writer openStream() throws IOException {
         return asWriter(supplier.getOutput());
       }
+
+      @Override
+      public String toString() {
+        return "CharStreams.asCharSink(" + supplier + ")";
+      }
     };
+  }
+
+  @SuppressWarnings("unchecked") // used internally where known to be safe
+  static <R extends Reader> InputSupplier<R> asInputSupplier(
+      CharSource source) {
+    return (InputSupplier) checkNotNull(source);
+  }
+
+  @SuppressWarnings("unchecked") // used internally where known to be safe
+  static <W extends Writer> OutputSupplier<W> asOutputSupplier(
+      CharSink sink) {
+    return (OutputSupplier) checkNotNull(sink);
   }
 }

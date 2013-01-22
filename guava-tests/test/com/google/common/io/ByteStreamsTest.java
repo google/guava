@@ -21,6 +21,7 @@ import static com.google.common.io.ByteStreams.newInputStreamSupplier;
 
 import com.google.common.base.Charsets;
 import com.google.common.base.Preconditions;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.hash.Hashing;
 import com.google.common.testing.TestLogHandler;
@@ -1116,6 +1117,21 @@ public class ByteStreamsTest extends IoTestCase {
     } catch (IOException expected) {
       assertEquals("Mark not supported", expected.getMessage());
     }
+  }
+
+  public void testConcat() throws IOException {
+    ByteSource b1 = ByteStreams.asByteSource(new byte[] {0, 1, 2, 3});
+    ByteSource b2 = ByteStreams.asByteSource(new byte[0]);
+    ByteSource b3 = ByteStreams.asByteSource(new byte[] {4, 5});
+
+    byte[] expected = {0, 1, 2, 3, 4, 5};
+
+    assertEquals(expected,
+        ByteStreams.concat(ImmutableList.of(b1, b2, b3)).read());
+    assertEquals(expected,
+        ByteStreams.concat(b1, b2, b3).read());
+    assertEquals(expected,
+        ByteStreams.concat(ImmutableList.of(b1, b2, b3).iterator()).read());
   }
   
   private static class UnmarkableInputStream extends InputStream {

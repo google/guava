@@ -46,7 +46,7 @@ import java.nio.charset.Charset;
  * @since 14.0
  * @author Colin Decker
  */
-public abstract class CharSink {
+public abstract class CharSink implements OutputSupplier<Writer> {
 
   /**
    * Opens a new {@link Writer} for writing to this sink. This method should return a new,
@@ -57,6 +57,21 @@ public abstract class CharSink {
    * @throws IOException if an I/O error occurs in the process of opening the writer
    */
   public abstract Writer openStream() throws IOException;
+
+  /**
+   * This method is a temporary method provided for easing migration from suppliers to sources and
+   * sinks.
+   *
+   * @since 15.0
+   * @deprecated This method is only provided for temporary compatibility with the
+   *     {@link OutputSupplier} interface and should not be called directly. Use {@link #openStream}
+   *     instead.
+   */
+  @Override
+  @Deprecated
+  public final Writer getOutput() throws IOException {
+    return openStream();
+  }
 
   /**
    * Opens a new {@link BufferedWriter} for writing to this sink. This method should return a new,

@@ -44,7 +44,7 @@ import java.nio.charset.Charset;
  * @since 14.0
  * @author Colin Decker
  */
-public abstract class ByteSink {
+public abstract class ByteSink implements OutputSupplier<OutputStream> {
 
   /**
    * Returns a {@link CharSink} view of this {@code ByteSink} that writes characters to this sink
@@ -63,6 +63,21 @@ public abstract class ByteSink {
    * @throws IOException if an I/O error occurs in the process of opening the stream
    */
   public abstract OutputStream openStream() throws IOException;
+
+  /**
+   * This method is a temporary method provided for easing migration from suppliers to sources and
+   * sinks.
+   *
+   * @since 15.0
+   * @deprecated This method is only provided for temporary compatibility with the
+   *     {@link OutputSupplier} interface and should not be called directly. Use {@link #openStream}
+   *     instead.
+   */
+  @Override
+  @Deprecated
+  public final OutputStream getOutput() throws IOException {
+    return openStream();
+  }
 
   /**
    * Opens a new {@link BufferedOutputStream} for writing to this sink. This method should return a

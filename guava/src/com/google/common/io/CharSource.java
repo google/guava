@@ -56,7 +56,7 @@ import javax.annotation.Nullable;
  * @since 14.0
  * @author Colin Decker
  */
-public abstract class CharSource {
+public abstract class CharSource implements InputSupplier<Reader> {
 
   /**
    * Opens a new {@link Reader} for reading from this source. This method should return a new,
@@ -67,6 +67,21 @@ public abstract class CharSource {
    * @throws IOException if an I/O error occurs in the process of opening the reader
    */
   public abstract Reader openStream() throws IOException;
+
+  /**
+   * This method is a temporary method provided for easing migration from suppliers to sources and
+   * sinks.
+   *
+   * @since 15.0
+   * @deprecated This method is only provided for temporary compatibility with the
+   *     {@link InputSupplier} interface and should not be called directly. Use {@link #openStream}
+   *     instead.
+   */
+  @Override
+  @Deprecated
+  public final Reader getInput() throws IOException {
+    return openStream();
+  }
 
   /**
    * Opens a new {@link BufferedReader} for reading from this source. This method should return a
