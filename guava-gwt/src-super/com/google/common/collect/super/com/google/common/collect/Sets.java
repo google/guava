@@ -24,7 +24,6 @@ import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import com.google.common.collect.Collections2.FilteredCollection;
 
-import java.io.Serializable;
 import java.util.AbstractSet;
 import java.util.Arrays;
 import java.util.Collection;
@@ -408,14 +407,6 @@ public final class Sets {
     return result;
   }
 
-  /*
-   * Regarding newSetForMap() and SetFromMap:
-   *
-   * Written by Doug Lea with assistance from members of JCP JSR-166
-   * Expert Group and released to the public domain, as explained at
-   * http://creativecommons.org/licenses/publicdomain
-   */
-
   /**
    * Returns a set backed by the specified map. The resulting set displays
    * the same ordering, concurrency, and performance characteristics as the
@@ -448,67 +439,7 @@ public final class Sets {
    * @throws IllegalArgumentException if {@code map} is not empty
    */
   public static <E> Set<E> newSetFromMap(Map<E, Boolean> map) {
-    return new SetFromMap<E>(map);
-  }
-
-  private static class SetFromMap<E> extends AbstractSet<E>
-      implements Set<E>, Serializable {
-    private final Map<E, Boolean> m; // The backing map
-    private transient Set<E> s; // Its keySet
-
-    SetFromMap(Map<E, Boolean> map) {
-      checkArgument(map.isEmpty(), "Map is non-empty");
-      m = map;
-      s = map.keySet();
-    }
-
-    @Override public void clear() {
-      m.clear();
-    }
-    @Override public int size() {
-      return m.size();
-    }
-    @Override public boolean isEmpty() {
-      return m.isEmpty();
-    }
-    @Override public boolean contains(Object o) {
-      return m.containsKey(o);
-    }
-    @Override public boolean remove(Object o) {
-      return m.remove(o) != null;
-    }
-    @Override public boolean add(E e) {
-      return m.put(e, Boolean.TRUE) == null;
-    }
-    @Override public Iterator<E> iterator() {
-      return s.iterator();
-    }
-    @Override public Object[] toArray() {
-      return s.toArray();
-    }
-    @Override public <T> T[] toArray(T[] a) {
-      return s.toArray(a);
-    }
-    @Override public String toString() {
-      return s.toString();
-    }
-    @Override public int hashCode() {
-      return s.hashCode();
-    }
-    @Override public boolean equals(@Nullable Object object) {
-      return this == object || this.s.equals(object);
-    }
-    @Override public boolean containsAll(Collection<?> c) {
-      return s.containsAll(c);
-    }
-    @Override public boolean removeAll(Collection<?> c) {
-      return s.removeAll(c);
-    }
-    @Override public boolean retainAll(Collection<?> c) {
-      return s.retainAll(c);
-    }
-
-    // addAll is the only inherited implementation
+    return Platform.newSetFromMap(map);
   }
 
   /**

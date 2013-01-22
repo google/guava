@@ -22,9 +22,11 @@ import com.google.common.base.Predicate;
 import com.google.common.collect.Maps.EntryTransformer;
 
 import java.lang.reflect.Array;
+import java.util.Collections;
 import java.util.Map;
 import java.util.NavigableMap;
 import java.util.NavigableSet;
+import java.util.Set;
 import java.util.SortedMap;
 import java.util.SortedSet;
 
@@ -58,6 +60,10 @@ class Platform {
     @SuppressWarnings("unchecked")
     T[] result = (T[]) Array.newInstance(type, length);
     return result;
+  }
+  
+  static <E> Set<E> newSetFromMap(Map<E, Boolean> map) {
+    return Collections.newSetFromMap(map);
   }
 
   /**
