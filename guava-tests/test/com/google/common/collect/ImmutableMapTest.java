@@ -383,6 +383,57 @@ public class ImmutableMapTest extends TestCase {
       assertMapEquals(mapTwo, "one", 1, "two", 2, "three", 3, "four", 4);
     }
 
+    public void testBuilderPutNullKeyFailsAtomically() {
+      Builder<String, Integer> builder = new Builder<String, Integer>();
+      try {
+        builder.put(null, 1);
+        fail();
+      } catch (NullPointerException expected) {}
+      builder.put("foo", 2);
+      assertMapEquals(builder.build(), "foo", 2);
+    }
+
+    public void testBuilderPutImmutableEntryWithNullKeyFailsAtomically() {
+      Builder<String, Integer> builder = new Builder<String, Integer>();
+      try {
+        builder.put(Maps.immutableEntry((String) null, 1));
+        fail();
+      } catch (NullPointerException expected) {}
+      builder.put("foo", 2);
+      assertMapEquals(builder.build(), "foo", 2);
+    }
+
+    // for GWT compatibility
+    static class SimpleEntry<K, V> extends AbstractMapEntry<K, V> {
+      public K key;
+      public V value;
+
+      SimpleEntry(K key, V value) {
+        this.key = key;
+        this.value = value;
+      }
+
+      @Override
+      public K getKey() {
+        return key;
+      }
+
+      @Override
+      public V getValue() {
+        return value;
+      }
+    }
+
+    public void testBuilderPutMutableEntryWithNullKeyFailsAtomically() {
+      Builder<String, Integer> builder = new Builder<String, Integer>();
+      try {
+        builder.put(new SimpleEntry<String, Integer>(null, 1));
+        fail();
+      } catch (NullPointerException expected) {}
+      builder.put("foo", 2);
+      assertMapEquals(builder.build(), "foo", 2);
+    }
+
     public void testBuilderPutNullKey() {
       Builder<String, Integer> builder = new Builder<String, Integer>();
       try {
