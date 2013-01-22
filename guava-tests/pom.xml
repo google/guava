@@ -79,6 +79,7 @@
           </execution>
         </executions>
       </plugin>
+      <!-- TODO(cpovirk): reenable after a matching Caliper snapshot is pushed to Maven Central
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>build-helper-maven-plugin</artifactId>
@@ -96,6 +97,7 @@
           </execution>
         </executions>
       </plugin>
+      -->
     </plugins>
     <testResources>
       <testResource>
