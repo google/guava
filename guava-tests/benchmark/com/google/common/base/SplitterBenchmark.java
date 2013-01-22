@@ -16,9 +16,9 @@
 
 package com.google.common.base;
 
+import com.google.caliper.Benchmark;
 import com.google.caliper.Param;
 import com.google.caliper.Runner;
-import com.google.caliper.SimpleBenchmark;
 import com.google.common.collect.Iterables;
 
 /**
@@ -26,7 +26,7 @@ import com.google.common.collect.Iterables;
  *
  * @author Paul Lindner
  */
-public class SplitterBenchmark extends SimpleBenchmark {
+public class SplitterBenchmark extends Benchmark {
   // overall size of string
   @Param({"1", "10", "100", "1000"}) int length;
   // Number of matching strings

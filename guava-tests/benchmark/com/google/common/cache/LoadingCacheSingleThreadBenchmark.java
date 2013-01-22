@@ -16,9 +16,9 @@
 
 package com.google.common.cache;
 
+import com.google.caliper.Benchmark;
 import com.google.caliper.Param;
 import com.google.caliper.Runner;
-import com.google.caliper.SimpleBenchmark;
 import com.google.common.primitives.Ints;
 
 import java.util.Random;
@@ -29,7 +29,7 @@ import java.util.concurrent.atomic.AtomicLong;
  *
  * @author Charles Fry
  */
-public class LoadingCacheSingleThreadBenchmark extends SimpleBenchmark {
+public class LoadingCacheSingleThreadBenchmark extends Benchmark {
   @Param({"1000", "2000"}) int maximumSize;
   @Param("5000") int distinctKeys;
   @Param("4") int segments;

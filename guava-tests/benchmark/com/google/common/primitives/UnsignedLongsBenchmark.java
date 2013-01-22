@@ -16,8 +16,8 @@
 
 package com.google.common.primitives;
 
+import com.google.caliper.Benchmark;
 import com.google.caliper.Runner;
-import com.google.caliper.SimpleBenchmark;
 
 import java.util.Random;
 
@@ -26,7 +26,7 @@ import java.util.Random;
  *
  * @author Eamonn McManus
  */
-public class UnsignedLongsBenchmark extends SimpleBenchmark {
+public class UnsignedLongsBenchmark extends Benchmark {
   private static final int ARRAY_SIZE = 0x10000;
   private static final int ARRAY_MASK = 0x0ffff;
   private static final Random RANDOM_SOURCE = new Random(314159265358979L);

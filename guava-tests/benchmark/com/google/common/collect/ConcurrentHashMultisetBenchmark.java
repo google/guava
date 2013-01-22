@@ -19,9 +19,9 @@ package com.google.common.collect;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.collect.Multisets.checkNonnegative;
 
+import com.google.caliper.Benchmark;
 import com.google.caliper.Param;
 import com.google.caliper.Runner;
-import com.google.caliper.SimpleBenchmark;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.primitives.Ints;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
@@ -46,7 +46,7 @@ import javax.annotation.Nullable;
  *
  * @author mike nonemacher
  */
-public class ConcurrentHashMultisetBenchmark extends SimpleBenchmark {
+public class ConcurrentHashMultisetBenchmark extends Benchmark {
   @Param({"1", "2", "4", "8"}) int threads;
   @Param({"3", "30", "300"}) int size;
   @Param MultisetSupplier implSupplier;

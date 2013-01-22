@@ -22,9 +22,9 @@ import static com.google.common.math.MathBenchmarking.RANDOM_SOURCE;
 import static com.google.common.math.MathBenchmarking.randomBigInteger;
 import static com.google.common.math.MathBenchmarking.randomNonNegativeBigInteger;
 
+import com.google.caliper.Benchmark;
 import com.google.caliper.Param;
 import com.google.caliper.Runner;
-import com.google.caliper.SimpleBenchmark;
 import com.google.common.math.DoubleMath;
 import com.google.common.math.IntMath;
 import com.google.common.math.LongMath;
@@ -36,7 +36,7 @@ import com.google.common.math.LongMath;
  *
  * @author Louis Wasserman
  */
-public class ApacheBenchmark extends SimpleBenchmark {
+public class ApacheBenchmark extends Benchmark {
   private enum Impl {
     GUAVA {
       @Override

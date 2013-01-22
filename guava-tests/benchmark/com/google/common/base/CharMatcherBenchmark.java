@@ -16,9 +16,9 @@
 
 package com.google.common.base;
 
+import com.google.caliper.Benchmark;
 import com.google.caliper.Param;
 import com.google.caliper.Runner;
-import com.google.caliper.SimpleBenchmark;
 import com.google.common.base.BenchmarkHelpers.SampleMatcherConfig;
 import com.google.common.collect.Lists;
 
@@ -37,7 +37,7 @@ import java.util.Random;
  * @author Kevin Bourrillion
  * @author David Richter
  */
-public class CharMatcherBenchmark extends SimpleBenchmark {
+public class CharMatcherBenchmark extends Benchmark {
 
   // Caliper injects params automatically
 

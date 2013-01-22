@@ -23,8 +23,8 @@ import static com.google.common.math.MathBenchmarking.randomExponent;
 import static com.google.common.math.MathBenchmarking.randomNonNegativeBigInteger;
 import static com.google.common.math.MathBenchmarking.randomPositiveBigInteger;
 
+import com.google.caliper.Benchmark;
 import com.google.caliper.Runner;
-import com.google.caliper.SimpleBenchmark;
 import com.google.common.math.IntMath;
 
 /**
@@ -32,7 +32,7 @@ import com.google.common.math.IntMath;
  *
  * @author Louis Wasserman
  */
-public class IntMathBenchmark extends SimpleBenchmark {
+public class IntMathBenchmark extends Benchmark {
   private static int[] exponent = new int[ARRAY_SIZE];
   private static int[] factorial = new int[ARRAY_SIZE];
   private static int[] binomial = new int[ARRAY_SIZE];

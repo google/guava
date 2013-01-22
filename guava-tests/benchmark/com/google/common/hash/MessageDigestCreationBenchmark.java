@@ -16,9 +16,9 @@
 
 package com.google.common.hash;
 
+import com.google.caliper.Benchmark;
 import com.google.caliper.Param;
 import com.google.caliper.Runner;
-import com.google.caliper.SimpleBenchmark;
 
 import java.security.MessageDigest;
 
@@ -27,7 +27,7 @@ import java.security.MessageDigest;
  *
  * @author Kurt Alfred Kluever
  */
-public class MessageDigestCreationBenchmark extends SimpleBenchmark {
+public class MessageDigestCreationBenchmark extends Benchmark {
 
   @Param({"MD5", "SHA-1", "SHA-256", "SHA-512"})
   private String algorithm;

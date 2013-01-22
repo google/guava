@@ -16,9 +16,9 @@
 
 package com.google.common.collect;
 
+import com.google.caliper.Benchmark;
 import com.google.caliper.Param;
 import com.google.caliper.Runner;
-import com.google.caliper.SimpleBenchmark;
 import com.google.common.base.Function;
 import com.google.common.collect.ForwardingQueue;
 import com.google.common.collect.MinMaxPriorityQueue;
@@ -35,7 +35,7 @@ import java.util.Random;
  * 
  * @author Sverre Sundsdal
  */
-public class MinMaxPriorityQueueBenchmark extends SimpleBenchmark {
+public class MinMaxPriorityQueueBenchmark extends Benchmark {
   @Param private ComparatorType comparator;
 
   // TODO(kevinb): add 1000000 back when we have the ability to throw

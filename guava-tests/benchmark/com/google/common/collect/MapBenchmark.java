@@ -16,9 +16,9 @@
 
 package com.google.common.collect;
 
+import com.google.caliper.Benchmark;
 import com.google.caliper.Param;
 import com.google.caliper.Runner;
-import com.google.caliper.SimpleBenchmark;
 import com.google.common.collect.CollectionBenchmarkSampleData.Element;
 
 import java.util.Collection;
@@ -34,7 +34,7 @@ import java.util.concurrent.ConcurrentSkipListMap;
  *
  * @author Nicholaus Shupe
  */
-public class MapBenchmark extends SimpleBenchmark {
+public class MapBenchmark extends Benchmark {
   @Param({"Hash", "LinkedHM", "MapMaker1", "Immutable"})
   private Impl impl;
 

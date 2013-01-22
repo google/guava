@@ -16,9 +16,9 @@
 
 package com.google.common.hash;
 
+import com.google.caliper.Benchmark;
 import com.google.caliper.Param;
 import com.google.caliper.Runner;
-import com.google.caliper.SimpleBenchmark;
 
 import java.util.Random;
 
@@ -34,7 +34,7 @@ import java.util.Random;
  *
  * @author David Beaumont
  */
-public class HashBenchmark extends SimpleBenchmark {
+public class HashBenchmark extends Benchmark {
 
   @Param({"10", "1000", "1000000"})
   private int size;

@@ -22,15 +22,15 @@ import static com.google.common.math.MathBenchmarking.RANDOM_SOURCE;
 import static com.google.common.math.MathBenchmarking.randomDouble;
 import static com.google.common.math.MathBenchmarking.randomPositiveDouble;
 
+import com.google.caliper.Benchmark;
 import com.google.caliper.Runner;
-import com.google.caliper.SimpleBenchmark;
 
 /**
  * Tests for the non-rounding methods of {@code DoubleMath}.
  *
  * @author Louis Wasserman
  */
-public class DoubleMathBenchmark extends SimpleBenchmark {
+public class DoubleMathBenchmark extends Benchmark {
   private static final double[] positiveDoubles = new double[ARRAY_SIZE];
   private static final int[] factorials = new int[ARRAY_SIZE];
   private static final double [] doubles = new double[ARRAY_SIZE];

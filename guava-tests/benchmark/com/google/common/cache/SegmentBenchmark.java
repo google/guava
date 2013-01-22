@@ -18,9 +18,9 @@ package com.google.common.cache;
 
 import static com.google.common.base.Preconditions.checkState;
 
+import com.google.caliper.Benchmark;
 import com.google.caliper.Param;
 import com.google.caliper.Runner;
-import com.google.caliper.SimpleBenchmark;
 import com.google.common.cache.LocalCache.ReferenceEntry;
 import com.google.common.cache.LocalCache.Segment;
 
@@ -31,7 +31,7 @@ import java.util.concurrent.atomic.AtomicReferenceArray;
  *
  * @author Charles Fry
  */
-public class SegmentBenchmark extends SimpleBenchmark {
+public class SegmentBenchmark extends Benchmark {
 
   @Param({"16", "32", "64", "128", "256", "512", "1024", "2048", "4096", "8192"}) int capacity;
 

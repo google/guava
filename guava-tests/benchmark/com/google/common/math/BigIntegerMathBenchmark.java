@@ -21,9 +21,9 @@ import static com.google.common.math.MathBenchmarking.ARRAY_SIZE;
 import static com.google.common.math.MathBenchmarking.RANDOM_SOURCE;
 import static java.math.RoundingMode.CEILING;
 
+import com.google.caliper.Benchmark;
 import com.google.caliper.Param;
 import com.google.caliper.Runner;
-import com.google.caliper.SimpleBenchmark;
 import com.google.common.math.BigIntegerMath;
 import com.google.common.math.IntMath;
 import com.google.common.math.LongMath;
@@ -35,7 +35,7 @@ import java.math.BigInteger;
  *
  * @author Louis Wasserman
  */
-public class BigIntegerMathBenchmark extends SimpleBenchmark {
+public class BigIntegerMathBenchmark extends Benchmark {
   private static final int[] factorials = new int[ARRAY_SIZE];
   private static final int[] slowFactorials = new int[ARRAY_SIZE];
   private static final int[] binomials = new int[ARRAY_SIZE];

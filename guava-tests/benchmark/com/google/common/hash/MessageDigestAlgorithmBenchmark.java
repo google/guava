@@ -16,9 +16,9 @@
 
 package com.google.common.hash;
 
+import com.google.caliper.Benchmark;
 import com.google.caliper.Param;
 import com.google.caliper.Runner;
-import com.google.caliper.SimpleBenchmark;
 import com.google.common.hash.HashFunction;
 import com.google.common.hash.Hashing;
 
@@ -40,7 +40,7 @@ import java.util.Random;
  *
  * @author Kurt Alfred Kluever
  */
-public class MessageDigestAlgorithmBenchmark extends SimpleBenchmark {
+public class MessageDigestAlgorithmBenchmark extends Benchmark {
   @Param({"10", "1000", "100000", "1000000"}) int size;
   @Param Algorithm algorithm;
   @Param HashMethod hashMethod;

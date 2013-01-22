@@ -16,9 +16,9 @@
 
 package com.google.common.hash;
 
+import com.google.caliper.Benchmark;
 import com.google.caliper.Param;
 import com.google.caliper.Runner;
-import com.google.caliper.SimpleBenchmark;
 import com.google.common.hash.HashFunction;
 import com.google.common.hash.Hashing;
 
@@ -34,7 +34,7 @@ import java.util.Random;
  *
  * @author Kurt Alfred Kluever
  */
-public class HashFunctionBenchmark extends SimpleBenchmark {
+public class HashFunctionBenchmark extends Benchmark {
 
   // Use a constant seed for all of the benchmarks to ensure apples to apples comparisons.
   private static final int RANDOM_SEED = new Random().nextInt();

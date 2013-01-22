@@ -16,9 +16,9 @@
 
 package com.google.common.collect;
 
+import com.google.caliper.Benchmark;
 import com.google.caliper.Param;
 import com.google.caliper.Runner;
-import com.google.caliper.SimpleBenchmark;
 import com.google.common.collect.BenchmarkHelpers.SetImpl;
 import com.google.common.collect.CollectionBenchmarkSampleData.Element;
 
@@ -30,7 +30,7 @@ import java.util.Set;
  *
  * @author Kevin Bourrillion
  */
-public class SetContainsBenchmark extends SimpleBenchmark {
+public class SetContainsBenchmark extends Benchmark {
   // Start at 4.88 then multiply by 2*2^phi <evil cackle> - The goal is be uniform
   // yet visit a variety of "values-relative-to-the-next-power-of-2"
   @Param({"5", "30", "180", "1100", "6900", "43000", "260000"}) // "1600000", "9800000"

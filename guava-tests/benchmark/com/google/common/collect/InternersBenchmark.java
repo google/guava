@@ -16,15 +16,15 @@
 
 package com.google.common.collect;
 
+import com.google.caliper.Benchmark;
 import com.google.caliper.Runner;
-import com.google.caliper.SimpleBenchmark;
 
 /**
  * Benchmarking interners.
  * 
  * @author Dimitris Andreou
  */
-public class InternersBenchmark extends SimpleBenchmark {
+public class InternersBenchmark extends Benchmark {
   public int timeWeakInterner(int reps) {
     Interner<String> interner = Interners.newWeakInterner();
     for (int i = 0; i < reps; i++) {

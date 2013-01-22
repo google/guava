@@ -18,9 +18,9 @@ package com.google.common.collect;
 
 import static com.google.common.collect.DiscreteDomain.integers;
 
+import com.google.caliper.Benchmark;
 import com.google.caliper.Param;
 import com.google.caliper.Runner;
-import com.google.caliper.SimpleBenchmark;
 
 import java.util.Set;
 
@@ -29,7 +29,7 @@ import java.util.Set;
  *
  * @author Kevin Bourrillion
  */
-public class PowerSetBenchmark extends SimpleBenchmark {
+public class PowerSetBenchmark extends Benchmark {
   @Param({"2", "4", "8", "16"}) int elements;
 
   Set<Set<Integer>> powerSet;

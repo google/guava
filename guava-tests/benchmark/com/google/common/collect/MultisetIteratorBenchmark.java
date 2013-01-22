@@ -16,9 +16,9 @@
 
 package com.google.common.collect;
 
+import com.google.caliper.Benchmark;
 import com.google.caliper.Param;
 import com.google.caliper.Runner;
-import com.google.caliper.SimpleBenchmark;
 import com.google.common.base.Preconditions;
 
 import java.util.Random;
@@ -28,7 +28,7 @@ import java.util.Random;
  * 
  * @author David Richter
  */
-public class MultisetIteratorBenchmark extends SimpleBenchmark {
+public class MultisetIteratorBenchmark extends Benchmark {
   @Param({"0", "1", "16", "256", "4096", "65536"}) int size;
 
   LinkedHashMultiset<Object> linkedHashMultiset;

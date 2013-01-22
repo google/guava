@@ -14,8 +14,8 @@
 
 package com.google.common.collect;
 
+import com.google.caliper.Benchmark;
 import com.google.caliper.Runner;
-import com.google.caliper.SimpleBenchmark;
 import com.google.common.collect.HashMultiset;
 import com.google.common.collect.Multiset;
 
@@ -28,7 +28,7 @@ import java.util.Random;
  *
  * @author Louis Wasserman
  */
-public class HashMultisetAddPresentBenchmark extends SimpleBenchmark {
+public class HashMultisetAddPresentBenchmark extends Benchmark {
   private static final int ARRAY_MASK = 0x0ffff;
   private static final int ARRAY_SIZE = 0x10000;
   List<Multiset<Integer>> multisets = new ArrayList<Multiset<Integer>>(0x10000);

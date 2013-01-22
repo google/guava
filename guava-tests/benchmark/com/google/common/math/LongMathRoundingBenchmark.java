@@ -22,9 +22,9 @@ import static com.google.common.math.MathBenchmarking.RANDOM_SOURCE;
 import static com.google.common.math.MathBenchmarking.randomNonZeroBigInteger;
 import static com.google.common.math.MathBenchmarking.randomPositiveBigInteger;
 
+import com.google.caliper.Benchmark;
 import com.google.caliper.Param;
 import com.google.caliper.Runner;
-import com.google.caliper.SimpleBenchmark;
 import com.google.common.math.LongMath;
 
 import java.math.RoundingMode;
@@ -34,7 +34,7 @@ import java.math.RoundingMode;
  *
  * @author Louis Wasserman
  */
-public class LongMathRoundingBenchmark extends SimpleBenchmark {
+public class LongMathRoundingBenchmark extends Benchmark {
   @Param({"DOWN", "UP", "FLOOR", "CEILING", "HALF_EVEN", "HALF_UP", "HALF_DOWN"})
   RoundingMode mode;
 

@@ -16,9 +16,9 @@
 
 package com.google.common.collect;
 
+import com.google.caliper.Benchmark;
 import com.google.caliper.Param;
 import com.google.caliper.Runner;
-import com.google.caliper.SimpleBenchmark;
 
 import java.util.List;
 
@@ -27,7 +27,7 @@ import java.util.List;
  *
  * @author Louis Wasserman
  */
-public class ImmutableListCreationBenchmark extends SimpleBenchmark {
+public class ImmutableListCreationBenchmark extends Benchmark {
 
   @Param({"10", "1000", "1000000"})
   int size;

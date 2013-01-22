@@ -21,9 +21,9 @@ import static com.google.common.math.MathBenchmarking.ARRAY_SIZE;
 import static com.google.common.math.MathBenchmarking.randomNonZeroBigInteger;
 import static com.google.common.math.MathBenchmarking.randomPositiveBigInteger;
 
+import com.google.caliper.Benchmark;
 import com.google.caliper.Param;
 import com.google.caliper.Runner;
-import com.google.caliper.SimpleBenchmark;
 import com.google.common.math.BigIntegerMath;
 
 import java.math.BigInteger;
@@ -34,7 +34,7 @@ import java.math.RoundingMode;
  * 
  * @author Louis Wasserman
  */
-public class BigIntegerMathRoundingBenchmark extends SimpleBenchmark {
+public class BigIntegerMathRoundingBenchmark extends Benchmark {
   private static final BigInteger[] nonzero1 = new BigInteger[ARRAY_SIZE];
   private static final BigInteger[] nonzero2 = new BigInteger[ARRAY_SIZE];
   private static final BigInteger[] positive = new BigInteger[ARRAY_SIZE];

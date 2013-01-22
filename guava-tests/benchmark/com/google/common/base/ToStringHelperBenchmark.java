@@ -16,16 +16,16 @@
 
 package com.google.common.base;
 
+import com.google.caliper.Benchmark;
 import com.google.caliper.Param;
 import com.google.caliper.Runner;
-import com.google.caliper.SimpleBenchmark;
 
 /**
  * Some microbenchmarks for the {@link Objects.ToStringHelper} class.
  *
  * @author Osvaldo Doederlein
  */
-public class ToStringHelperBenchmark extends SimpleBenchmark {
+public class ToStringHelperBenchmark extends Benchmark {
 
   @Param({"0", "2", "5", "10"}) int dataSize;
   private static final String NAME = "abcdefgh";

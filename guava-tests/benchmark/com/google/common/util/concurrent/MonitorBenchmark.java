@@ -16,9 +16,9 @@
 
 package com.google.common.util.concurrent;
 
+import com.google.caliper.Benchmark;
 import com.google.caliper.Param;
 import com.google.caliper.Runner;
-import com.google.caliper.SimpleBenchmark;
 
 import java.lang.reflect.Constructor;
 import java.util.concurrent.BlockingQueue;
@@ -28,7 +28,7 @@ import java.util.concurrent.BlockingQueue;
  * 
  * @author Justin T. Sampson
  */
-public class MonitorBenchmark extends SimpleBenchmark {
+public class MonitorBenchmark extends Benchmark {
   
   @Param({"10", "100", "1000"}) int capacity;
   @Param({"Array", "Priority"}) String queueType;

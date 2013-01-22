@@ -16,9 +16,9 @@
 
 package com.google.common.util.concurrent;
 
+import com.google.caliper.Benchmark;
 import com.google.caliper.Param;
 import com.google.caliper.Runner;
-import com.google.caliper.SimpleBenchmark;
 
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -28,7 +28,7 @@ import java.util.concurrent.locks.ReentrantLock;
  *
  * @author Darick Tong
  */
-public class CycleDetectingLockFactoryBenchmark extends SimpleBenchmark {
+public class CycleDetectingLockFactoryBenchmark extends Benchmark {
 
   @Param({"2","3","4","5","10"}) int lockNestingDepth;
 

@@ -16,9 +16,9 @@
 
 package com.google.common.collect;
 
+import com.google.caliper.Benchmark;
 import com.google.caliper.Param;
 import com.google.caliper.Runner;
-import com.google.caliper.SimpleBenchmark;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -28,7 +28,7 @@ import java.util.LinkedList;
  * 
  * @author David Richter
  */
-public class IteratorBenchmark extends SimpleBenchmark {
+public class IteratorBenchmark extends Benchmark {
   @Param({"0", "1", "16", "256", "4096", "65536"}) int size;
 
   // use concrete classes to remove any possible polymorphic overhead?

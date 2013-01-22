@@ -16,9 +16,9 @@
 
 package com.google.common.base;
 
+import com.google.caliper.Benchmark;
 import com.google.caliper.Param;
 import com.google.caliper.Runner;
-import com.google.caliper.SimpleBenchmark;
 import com.google.common.base.Ascii;
 import com.google.common.collect.Lists;
 import com.google.common.primitives.Chars;
@@ -33,7 +33,7 @@ import java.util.Random;
  *
  * @author Kevin Bourrillion
  */
-public class AsciiBenchmark extends SimpleBenchmark {
+public class AsciiBenchmark extends Benchmark {
   private static String ALPHA =
       "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
   private static String NONALPHA =

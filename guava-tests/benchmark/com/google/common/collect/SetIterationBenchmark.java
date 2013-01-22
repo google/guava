@@ -16,9 +16,9 @@
 
 package com.google.common.collect;
 
+import com.google.caliper.Benchmark;
 import com.google.caliper.Param;
 import com.google.caliper.Runner;
-import com.google.caliper.SimpleBenchmark;
 import com.google.common.collect.BenchmarkHelpers.SetImpl;
 import com.google.common.collect.CollectionBenchmarkSampleData.Element;
 
@@ -29,7 +29,7 @@ import java.util.Set;
  *
  * @author Christopher Swenson
  */
-public class SetIterationBenchmark extends SimpleBenchmark {
+public class SetIterationBenchmark extends Benchmark {
   @Param({ "3", "6", "11", "23", "45", "91", "181", "362", "724", "1448",
       "2896", "5793", "11585", "23170", "46341", "92682", "185364", "370728",
       "741455", "1482910", "2965821", "5931642"})

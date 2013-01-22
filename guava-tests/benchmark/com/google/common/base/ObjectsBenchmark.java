@@ -16,8 +16,8 @@
 
 package com.google.common.base;
 
+import com.google.caliper.Benchmark;
 import com.google.caliper.Runner;
-import com.google.caliper.SimpleBenchmark;
 import com.google.common.base.Objects;
 
 /**
@@ -25,7 +25,7 @@ import com.google.common.base.Objects;
  *
  * @author Ben L. Titzer
  */
-public class ObjectsBenchmark extends SimpleBenchmark {
+public class ObjectsBenchmark extends Benchmark {
 
   private static final Integer I0 = -45;
   private static final Integer I1 = -1;

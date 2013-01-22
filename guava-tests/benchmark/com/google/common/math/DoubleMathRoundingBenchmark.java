@@ -21,9 +21,9 @@ import static com.google.common.math.MathBenchmarking.ARRAY_SIZE;
 import static com.google.common.math.MathBenchmarking.randomDouble;
 import static com.google.common.math.MathBenchmarking.randomPositiveDouble;
 
+import com.google.caliper.Benchmark;
 import com.google.caliper.Param;
 import com.google.caliper.Runner;
-import com.google.caliper.SimpleBenchmark;
 import com.google.common.math.DoubleMath;
 
 import java.math.RoundingMode;
@@ -33,7 +33,7 @@ import java.math.RoundingMode;
  *
  * @author Louis Wasserman
  */
-public class DoubleMathRoundingBenchmark extends SimpleBenchmark {
+public class DoubleMathRoundingBenchmark extends Benchmark {
   private static final double[] doubleInIntRange = new double[ARRAY_SIZE];
   private static final double[] doubleInLongRange = new double[ARRAY_SIZE];
   private static final double[] positiveDoubles = new double[ARRAY_SIZE];

@@ -16,8 +16,8 @@
 
 package com.google.common.cache;
 
+import com.google.caliper.Benchmark;
 import com.google.caliper.Runner;
-import com.google.caliper.SimpleBenchmark;
 import com.google.common.base.Function;
 import com.google.common.base.Functions;
 import com.google.common.collect.MapMaker;
@@ -29,7 +29,7 @@ import java.util.Map;
  *
  * @author Nikita Sidorov
  */
-public class MapMakerComparisonBenchmark extends SimpleBenchmark {
+public class MapMakerComparisonBenchmark extends Benchmark {
   private static final String TEST_KEY = "test key";
   private static final String TEST_VALUE = "test value";
 

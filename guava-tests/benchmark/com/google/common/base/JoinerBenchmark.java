@@ -16,9 +16,9 @@
 
 package com.google.common.base;
 
+import com.google.caliper.Benchmark;
 import com.google.caliper.Param;
 import com.google.caliper.Runner;
-import com.google.caliper.SimpleBenchmark;
 
 import java.util.Arrays;
 import java.util.Iterator;
@@ -29,7 +29,7 @@ import java.util.Iterator;
  *
  * @author Adomas Paltanavicius
  */
-public class JoinerBenchmark extends SimpleBenchmark {
+public class JoinerBenchmark extends Benchmark {
 
   private static final String DELIMITER_STRING = ",";
   private static final char DELIMITER_CHARACTER = ',';

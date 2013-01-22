@@ -16,9 +16,9 @@
 
 package com.google.common.base;
 
+import com.google.caliper.Benchmark;
 import com.google.caliper.Param;
 import com.google.caliper.Runner;
-import com.google.caliper.SimpleBenchmark;
 import com.google.common.base.Strings;
 
 /**
@@ -26,7 +26,7 @@ import com.google.common.base.Strings;
  *
  * @author Mike Cripps
  */
-public class StringsRepeatBenchmark extends SimpleBenchmark {
+public class StringsRepeatBenchmark extends Benchmark {
   @Param({"1", "5", "25", "125"}) int count;
   @Param({"1", "10"}) int length;
 
