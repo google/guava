@@ -33,6 +33,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.SortedMap;
+import java.util.SortedSet;
 
 /**
  * Derived suite generators, split out of the suite builders so that they are available to GWT.
@@ -73,6 +74,7 @@ public final class DerivedCollectionGenerators {
       return mapGenerator.order(insertionOrder);
     }
 
+    @Override
     public OneSizeTestContainerGenerator<Map<K, V>, Map.Entry<K, V>> getInnerGenerator() {
       return mapGenerator;
     }
@@ -80,6 +82,15 @@ public final class DerivedCollectionGenerators {
 
   // TODO: investigate some API changes to SampleElements that would tidy up
   // parts of the following classes.
+  
+  static <K, V> TestSetGenerator<K> keySetGenerator(
+      OneSizeTestContainerGenerator<Map<K, V>, Map.Entry<K, V>> mapGenerator) {
+    if (mapGenerator.getInnerGenerator() instanceof TestSortedMapGenerator) {
+      return new MapSortedKeySetGenerator<K, V>(mapGenerator);
+    } else {
+      return new MapKeySetGenerator<K, V>(mapGenerator);
+    }
+  }
 
   public static class MapKeySetGenerator<K, V>
       implements TestSetGenerator<K>, DerivedGenerator {
@@ -151,9 +162,47 @@ public final class DerivedCollectionGenerators {
       return keys;
     }
 
+    @Override
     public OneSizeTestContainerGenerator<Map<K, V>, Map.Entry<K, V>> getInnerGenerator() {
       return mapGenerator;
     }
+  }
+  
+  public static class MapSortedKeySetGenerator<K, V> extends MapKeySetGenerator<K, V>
+      implements TestSortedSetGenerator<K>, DerivedGenerator {
+    private final TestSortedMapGenerator<K, V> delegate;
+    
+    public MapSortedKeySetGenerator(
+        OneSizeTestContainerGenerator<Map<K, V>, Entry<K, V>> mapGenerator) {
+      super(mapGenerator);
+      this.delegate = (TestSortedMapGenerator<K, V>) mapGenerator.getInnerGenerator();
+    }
+
+    @Override
+    public SortedSet<K> create(Object... elements) {
+      return (SortedSet<K>) super.create(elements);
+    }
+
+    @Override
+    public K belowSamplesLesser() {
+      return delegate.belowSamplesLesser().getKey();
+    }
+
+    @Override
+    public K belowSamplesGreater() {
+      return delegate.belowSamplesGreater().getKey();
+    }
+
+    @Override
+    public K aboveSamplesLesser() {
+      return delegate.aboveSamplesLesser().getKey();
+    }
+
+    @Override
+    public K aboveSamplesGreater() {
+      return delegate.aboveSamplesGreater().getKey();
+    }
+    
   }
 
   public static class MapValueCollectionGenerator<K, V>
@@ -232,6 +281,7 @@ public final class DerivedCollectionGenerators {
       return insertionOrder;
     }
 
+    @Override
     public OneSizeTestContainerGenerator<Map<K, V>, Map.Entry<K, V>> getInnerGenerator() {
       return mapGenerator;
     }
@@ -283,6 +333,128 @@ public final class DerivedCollectionGenerators {
     INCLUSIVE,
     EXCLUSIVE,
     NO_BOUND;
+  }
+  
+  public static class SortedSetSubsetTestSetGenerator<E>
+      implements TestSortedSetGenerator<E> {
+    final Bound to;
+    final Bound from;
+    final E firstInclusive;
+    final E lastInclusive;
+    private final Comparator<? super E> comparator;
+    private final TestSortedSetGenerator<E> delegate;
+    
+    public SortedSetSubsetTestSetGenerator(
+        TestSortedSetGenerator<E> delegate, Bound to, Bound from) {
+      this.to = to;
+      this.from = from;
+      this.delegate = delegate;
+      
+      SortedSet<E> emptySet = delegate.create();
+      this.comparator = emptySet.comparator();
+      
+      SampleElements<E> samples = delegate.samples();
+      List<E> samplesList = new ArrayList<E>(samples.asList());
+      Collections.sort(samplesList, comparator);
+      this.firstInclusive = samplesList.get(0);
+      this.lastInclusive = samplesList.get(samplesList.size() - 1);
+    }
+
+    public final TestSortedSetGenerator<E> getInnerGenerator() {
+      return delegate;
+    }
+
+    public final Bound getTo() {
+      return to;
+    }
+
+    public final Bound getFrom() {
+      return from;
+    }
+
+    @Override
+    public SampleElements<E> samples() {
+      return delegate.samples();
+    }
+
+    @Override
+    public E[] createArray(int length) {
+      return delegate.createArray(length);
+    }
+
+    @Override
+    public Iterable<E> order(List<E> insertionOrder) {
+      return delegate.order(insertionOrder);
+    }
+
+    @Override
+    public SortedSet<E> create(Object... elements) {
+      @SuppressWarnings("unchecked") // set generators must pass SampleElements values
+      List<E> normalValues = (List) Arrays.asList(elements);
+      List<E> extremeValues = new ArrayList<E>();
+      
+      // nulls are usually out of bounds for a subset, so ban them altogether
+      for (Object o : elements) {
+        if (o == null) {
+          throw new NullPointerException();
+        }
+      }
+
+      // prepare extreme values to be filtered out of view
+      E firstExclusive = delegate.belowSamplesGreater();
+      E lastExclusive = delegate.aboveSamplesLesser();
+      if (from != Bound.NO_BOUND) {
+        extremeValues.add(delegate.belowSamplesLesser());
+        extremeValues.add(delegate.belowSamplesGreater());
+      }
+      if (to != Bound.NO_BOUND) {
+        extremeValues.add(delegate.aboveSamplesLesser());
+        extremeValues.add(delegate.aboveSamplesGreater());
+      }
+
+      // the regular values should be visible after filtering
+      List<E> allEntries = new ArrayList<E>();
+      allEntries.addAll(extremeValues);
+      allEntries.addAll(normalValues);
+      SortedSet<E> map = delegate.create(allEntries.toArray());
+
+      return createSubSet(map, firstExclusive, lastExclusive);
+    }
+
+    /**
+     * Calls the smallest subSet overload that filters out the extreme values.
+     */
+    SortedSet<E> createSubSet(SortedSet<E> set, E firstExclusive, E lastExclusive) {
+      if (from == Bound.NO_BOUND && to == Bound.EXCLUSIVE) {
+        return set.headSet(lastExclusive);
+      } else if (from == Bound.INCLUSIVE && to == Bound.NO_BOUND) {
+        return set.tailSet(firstInclusive);
+      } else if (from == Bound.INCLUSIVE && to == Bound.EXCLUSIVE) {
+        return set.subSet(firstInclusive, lastExclusive);
+      } else {
+        throw new IllegalArgumentException();
+      }
+    }
+
+    @Override
+    public E belowSamplesLesser() {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public E belowSamplesGreater() {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public E aboveSamplesLesser() {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public E aboveSamplesGreater() {
+      throw new UnsupportedOperationException();
+    }
   }
 
   /*

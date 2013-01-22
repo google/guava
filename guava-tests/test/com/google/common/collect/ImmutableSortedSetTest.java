@@ -31,11 +31,8 @@ import com.google.common.collect.testing.google.SetGenerators.ImmutableSortedSet
 import com.google.common.collect.testing.google.SetGenerators.ImmutableSortedSetDescendingGenerator;
 import com.google.common.collect.testing.google.SetGenerators.ImmutableSortedSetExplicitComparator;
 import com.google.common.collect.testing.google.SetGenerators.ImmutableSortedSetExplicitSuperclassComparatorGenerator;
-import com.google.common.collect.testing.google.SetGenerators.ImmutableSortedSetHeadsetGenerator;
 import com.google.common.collect.testing.google.SetGenerators.ImmutableSortedSetReversedOrderGenerator;
 import com.google.common.collect.testing.google.SetGenerators.ImmutableSortedSetSubsetAsListGenerator;
-import com.google.common.collect.testing.google.SetGenerators.ImmutableSortedSetSubsetGenerator;
-import com.google.common.collect.testing.google.SetGenerators.ImmutableSortedSetTailsetGenerator;
 import com.google.common.collect.testing.google.SetGenerators.ImmutableSortedSetUnhashableGenerator;
 import com.google.common.collect.testing.testers.SetHashCodeTester;
 import com.google.common.testing.NullPointerTester;
@@ -69,30 +66,6 @@ public class ImmutableSortedSetTest extends AbstractImmutableSetTest {
     suite.addTest(NavigableSetTestSuiteBuilder.using(
         new ImmutableSortedSetCopyOfGenerator())
         .named(ImmutableSortedSetTest.class.getName())
-        .withFeatures(CollectionSize.ANY, CollectionFeature.KNOWN_ORDER,
-            CollectionFeature.SERIALIZABLE,
-            CollectionFeature.ALLOWS_NULL_QUERIES)
-            .createTestSuite());
-
-    suite.addTest(NavigableSetTestSuiteBuilder.using(
-        new ImmutableSortedSetHeadsetGenerator())
-        .named(ImmutableSortedSetTest.class.getName() + ", headset")
-        .withFeatures(CollectionSize.ANY, CollectionFeature.KNOWN_ORDER,
-            CollectionFeature.SERIALIZABLE,
-            CollectionFeature.ALLOWS_NULL_QUERIES)
-            .createTestSuite());
-
-    suite.addTest(NavigableSetTestSuiteBuilder.using(
-        new ImmutableSortedSetTailsetGenerator())
-        .named(ImmutableSortedSetTest.class.getName() + ", tailset")
-        .withFeatures(CollectionSize.ANY, CollectionFeature.KNOWN_ORDER,
-            CollectionFeature.SERIALIZABLE,
-            CollectionFeature.ALLOWS_NULL_QUERIES)
-            .createTestSuite());
-
-    suite.addTest(NavigableSetTestSuiteBuilder.using(
-        new ImmutableSortedSetSubsetGenerator())
-        .named(ImmutableSortedSetTest.class.getName() + ", subset")
         .withFeatures(CollectionSize.ANY, CollectionFeature.KNOWN_ORDER,
             CollectionFeature.SERIALIZABLE,
             CollectionFeature.ALLOWS_NULL_QUERIES)

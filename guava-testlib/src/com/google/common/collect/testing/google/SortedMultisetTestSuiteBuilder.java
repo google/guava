@@ -26,7 +26,7 @@ import com.google.common.collect.testing.FeatureSpecificTestSuiteBuilder;
 import com.google.common.collect.testing.Helpers;
 import com.google.common.collect.testing.OneSizeTestContainerGenerator;
 import com.google.common.collect.testing.SampleElements;
-import com.google.common.collect.testing.SortedSetTestSuiteBuilder;
+import com.google.common.collect.testing.SetTestSuiteBuilder;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.Feature;
 import com.google.common.testing.SerializableTester;
@@ -81,7 +81,8 @@ public class SortedMultisetTestSuiteBuilder<E> extends
   @Override
   TestSuite createElementSetTestSuite(FeatureSpecificTestSuiteBuilder<
       ?, ? extends OneSizeTestContainerGenerator<Collection<E>, E>> parentBuilder) {
-    return SortedSetTestSuiteBuilder
+    // TODO(user): make a SortedElementSetGenerator
+    return SetTestSuiteBuilder
         .using(new ElementSetGenerator<E>(parentBuilder.getSubjectGenerator()))
         .named(getName() + ".elementSet")
         .withFeatures(computeElementSetFeatures(parentBuilder.getFeatures()))

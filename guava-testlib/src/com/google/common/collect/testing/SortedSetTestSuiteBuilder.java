@@ -16,12 +16,16 @@
 
 package com.google.common.collect.testing;
 
+import com.google.common.collect.testing.DerivedCollectionGenerators.Bound;
+import com.google.common.collect.testing.DerivedCollectionGenerators.SortedSetSubsetTestSetGenerator;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.Feature;
 import com.google.common.collect.testing.testers.SortedSetNavigationTester;
 
 import junit.framework.TestSuite;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -30,7 +34,7 @@ import java.util.List;
  */
 public class SortedSetTestSuiteBuilder<E> extends SetTestSuiteBuilder<E> {
   public static <E> SortedSetTestSuiteBuilder<E> using(
-      TestSetGenerator<E> generator) {
+      TestSortedSetGenerator<E> generator) {
     SortedSetTestSuiteBuilder<E> builder =
         new SortedSetTestSuiteBuilder<E>();
     builder.usingGenerator(generator);
@@ -51,5 +55,50 @@ public class SortedSetTestSuiteBuilder<E> extends SetTestSuiteBuilder<E> {
       withFeatures(features);
     }
     return super.createTestSuite();
+  }
+
+  @Override
+  protected List<TestSuite> createDerivedSuites(FeatureSpecificTestSuiteBuilder<
+      ?, ? extends OneSizeTestContainerGenerator<Collection<E>, E>> parentBuilder) {
+    List<TestSuite> derivedSuites = super.createDerivedSuites(parentBuilder);
+
+    if (!parentBuilder.getFeatures().contains(CollectionFeature.SUBSET_VIEW)) {
+      derivedSuites.add(createSubsetSuite(parentBuilder, Bound.NO_BOUND, Bound.EXCLUSIVE));
+      derivedSuites.add(createSubsetSuite(parentBuilder, Bound.INCLUSIVE, Bound.NO_BOUND));
+      derivedSuites.add(createSubsetSuite(parentBuilder, Bound.INCLUSIVE, Bound.EXCLUSIVE));
+    }
+
+    return derivedSuites;
+  }
+
+  /**
+   * Creates a suite whose set has some elements filtered out of view.
+   *
+   * <p>Because the set may be ascending or descending, this test must derive
+   * the relative order of these extreme values rather than relying on their
+   * regular sort ordering.
+   */
+  final TestSuite createSubsetSuite(final FeatureSpecificTestSuiteBuilder<?,
+          ? extends OneSizeTestContainerGenerator<Collection<E>, E>>
+          parentBuilder, final Bound from, final Bound to) {
+    final TestSortedSetGenerator<E> delegate
+        = (TestSortedSetGenerator<E>) parentBuilder.getSubjectGenerator().getInnerGenerator();
+
+    List<Feature<?>> features = new ArrayList<Feature<?>>();
+    features.addAll(parentBuilder.getFeatures());
+    features.remove(CollectionFeature.ALLOWS_NULL_VALUES);
+    features.add(CollectionFeature.SUBSET_VIEW);
+
+    return newBuilderUsing(delegate, to, from)
+        .named(parentBuilder.getName() + " subSet " + from + "-" + to)
+        .withFeatures(features)
+        .suppressing(parentBuilder.getSuppressedTests())
+        .createTestSuite();
+  }
+
+  /** Like using() but overrideable by NavigableSetTestSuiteBuilder. */
+  SortedSetTestSuiteBuilder<E> newBuilderUsing(
+      TestSortedSetGenerator<E> delegate, Bound to, Bound from) {
+    return using(new SortedSetSubsetTestSetGenerator<E>(delegate, to, from));
   }
 }

@@ -100,12 +100,15 @@ public enum CollectionFeature implements Feature<Collection> {
       SUPPORTS_REMOVE),
 
   SERIALIZABLE, SERIALIZABLE_INCLUDING_VIEWS(SERIALIZABLE),
+  
+  SUBSET_VIEW,
+  DESCENDING_VIEW,
 
   /**
    * For documenting collections that support no optional features, such as
    * {@link java.util.Collections#emptySet}
    */
-  NONE();
+  NONE;
 
   private final Set<Feature<? super Collection>> implied;
 

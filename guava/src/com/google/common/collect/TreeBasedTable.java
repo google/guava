@@ -193,6 +193,10 @@ public class TreeBasedTable<R, C, V> extends StandardRowSortedTable<R, C, V> {
           || compare(lowerBound, upperBound) <= 0);
     }
 
+    @Override public SortedSet<C> keySet() {
+      return new Maps.SortedKeySet<C, V>(this);
+    }
+
     @Override public Comparator<? super C> comparator() {
       return columnComparator();
     }

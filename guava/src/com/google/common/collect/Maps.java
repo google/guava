@@ -1201,7 +1201,7 @@ public final class Maps {
    * @param entry the entry for which to return an unmodifiable view
    * @return an unmodifiable view of the entry
    */
-  static <K, V> Entry<K, V> unmodifiableEntry(final Entry<K, V> entry) {
+  static <K, V> Entry<K, V> unmodifiableEntry(final Entry<? extends K, ? extends V> entry) {
     checkNotNull(entry);
     return new AbstractMapEntry<K, V>() {
       @Override public K getKey() {
@@ -2536,32 +2536,9 @@ public final class Maps {
       return (result == null) ? values = new Values() : result;
     }
 
-    class Values extends AbstractCollection<V> {
-      @Override public Iterator<V> iterator() {
-        final Iterator<Entry<K, V>> entryIterator = entrySet().iterator();
-        return new UnmodifiableIterator<V>() {
-          @Override
-          public boolean hasNext() {
-            return entryIterator.hasNext();
-          }
-
-          @Override
-          public V next() {
-            return entryIterator.next().getValue();
-          }
-        };
-      }
-
-      @Override public int size() {
-        return entrySet().size();
-      }
-
-      @Override public void clear() {
-        entrySet().clear();
-      }
-
-      @Override public boolean isEmpty() {
-        return entrySet().isEmpty();
+    class Values extends Maps.Values<K, V> {
+      Values() {
+        super(AbstractFilteredMap.this);
       }
 
       @Override public boolean remove(Object o) {
@@ -2577,32 +2554,142 @@ public final class Maps {
       }
 
       @Override public boolean removeAll(Collection<?> collection) {
-        checkNotNull(collection);
-        boolean changed = false;
-        Iterator<Entry<K, V>> iterator = unfiltered.entrySet().iterator();
-        while (iterator.hasNext()) {
-          Entry<K, V> entry = iterator.next();
-          if (collection.contains(entry.getValue()) && predicate.apply(entry)) {
-            iterator.remove();
-            changed = true;
-          }
-        }
-        return changed;
+        return Iterables.removeIf(unfiltered.entrySet(), Predicates.<Entry<K, V>>and(
+            predicate, Predicates.compose(Predicates.in(collection), Maps.<V>valueFunction())));
       }
 
       @Override public boolean retainAll(Collection<?> collection) {
-        checkNotNull(collection);
-        boolean changed = false;
-        Iterator<Entry<K, V>> iterator = unfiltered.entrySet().iterator();
-        while (iterator.hasNext()) {
-          Entry<K, V> entry = iterator.next();
-          if (!collection.contains(entry.getValue())
-              && predicate.apply(entry)) {
-            iterator.remove();
-            changed = true;
+        return Iterables.removeIf(
+            unfiltered.entrySet(), Predicates.<Entry<K, V>>and(predicate, Predicates.compose(
+                Predicates.not(Predicates.in(collection)), Maps.<V>valueFunction())));
+      }
+
+      @Override public Object[] toArray() {
+        // creating an ArrayList so filtering happens once
+        return Lists.newArrayList(iterator()).toArray();
+      }
+
+      @Override public <T> T[] toArray(T[] array) {
+        return Lists.newArrayList(iterator()).toArray(array);
+      }
+    }
+  }
+
+  private static class FilteredKeyMap<K, V> extends AbstractFilteredMap<K, V> {
+    Predicate<? super K> keyPredicate;
+
+    FilteredKeyMap(Map<K, V> unfiltered, Predicate<? super K> keyPredicate,
+        Predicate<Entry<K, V>> entryPredicate) {
+      super(unfiltered, entryPredicate);
+      this.keyPredicate = keyPredicate;
+    }
+
+    Set<Entry<K, V>> entrySet;
+
+    @Override public Set<Entry<K, V>> entrySet() {
+      Set<Entry<K, V>> result = entrySet;
+      return (result == null)
+          ? entrySet = Sets.filter(unfiltered.entrySet(), predicate)
+          : result;
+    }
+
+    Set<K> keySet;
+
+    @Override public Set<K> keySet() {
+      Set<K> result = keySet;
+      return (result == null)
+          ? keySet = Sets.filter(unfiltered.keySet(), keyPredicate)
+          : result;
+    }
+
+    // The cast is called only when the key is in the unfiltered map, implying
+    // that key is a K.
+    @Override
+    @SuppressWarnings("unchecked")
+    public boolean containsKey(Object key) {
+      return unfiltered.containsKey(key) && keyPredicate.apply((K) key);
+    }
+  }
+
+  static class FilteredEntryMap<K, V> extends AbstractFilteredMap<K, V> {
+    /**
+     * Entries in this set satisfy the predicate, but they don't validate the
+     * input to {@code Entry.setValue()}.
+     */
+    final Set<Entry<K, V>> filteredEntrySet;
+
+    FilteredEntryMap(
+        Map<K, V> unfiltered, Predicate<? super Entry<K, V>> entryPredicate) {
+      super(unfiltered, entryPredicate);
+      filteredEntrySet = Sets.filter(unfiltered.entrySet(), predicate);
+    }
+
+    Set<Entry<K, V>> entrySet;
+
+    @Override public Set<Entry<K, V>> entrySet() {
+      Set<Entry<K, V>> result = entrySet;
+      return (result == null) ? entrySet = new EntrySet() : result;
+    }
+
+    private class EntrySet extends ForwardingSet<Entry<K, V>> {
+      @Override protected Set<Entry<K, V>> delegate() {
+        return filteredEntrySet;
+      }
+
+      @Override public Iterator<Entry<K, V>> iterator() {
+        final Iterator<Entry<K, V>> iterator = filteredEntrySet.iterator();
+        return new TransformedIterator<Entry<K, V>, Entry<K, V>>(iterator) {
+          @Override
+          Entry<K, V> transform(final Entry<K, V> entry) {
+            return new ForwardingMapEntry<K, V>() {
+              @Override protected Entry<K, V> delegate() {
+                return entry;
+              }
+
+              @Override public V setValue(V value) {
+                checkArgument(apply(entry.getKey(), value));
+                return super.setValue(value);
+              }
+            };
           }
+        };
+      }
+    }
+
+    Set<K> keySet;
+
+    @Override public Set<K> keySet() {
+      Set<K> result = keySet;
+      return (result == null) ? keySet = createKeySet() : result;
+    }
+
+    Set<K> createKeySet() {
+      return new KeySet();
+    }
+
+    class KeySet extends Maps.KeySet<K, V> {
+      KeySet() {
+        super(FilteredEntryMap.this);
+      }
+
+      @Override public boolean remove(Object o) {
+        if (containsKey(o)) {
+          unfiltered.remove(o);
+          return true;
         }
-        return changed;
+        return false;
+      }
+
+      @Override
+      public boolean removeAll(Collection<?> c) {
+        return Iterables.removeIf(unfiltered.entrySet(), Predicates.<Entry<K, V>>and(
+            predicate, Predicates.compose(Predicates.in(c), Maps.<K>keyFunction())));
+      }
+
+      @Override
+      public boolean retainAll(Collection<?> c) {
+        return Iterables.removeIf(unfiltered.entrySet(), Predicates.<Entry<K, V>>and(predicate,
+            Predicates.compose(Predicates.not(Predicates.in(c)), Maps.<K>keyFunction())));
       }
 
       @Override public Object[] toArray() {
@@ -2638,6 +2725,47 @@ public final class Maps {
 
     SortedMap<K, V> sortedMap() {
       return (SortedMap<K, V>) unfiltered;
+    }
+
+    @Override public SortedSet<K> keySet() {
+      return (SortedSet<K>) super.keySet();
+    }
+
+    @Override
+    SortedSet<K> createKeySet() {
+      return new SortedKeySet();
+    }
+
+    class SortedKeySet extends KeySet implements SortedSet<K> {
+      @Override
+      public Comparator<? super K> comparator() {
+        return sortedMap().comparator();
+      }
+
+      @Override
+      public SortedSet<K> subSet(K fromElement, K toElement) {
+        return (SortedSet<K>) subMap(fromElement, toElement).keySet();
+      }
+
+      @Override
+      public SortedSet<K> headSet(K toElement) {
+        return (SortedSet<K>) headMap(toElement).keySet();
+      }
+
+      @Override
+      public SortedSet<K> tailSet(K fromElement) {
+        return (SortedSet<K>) tailMap(fromElement).keySet();
+      }
+
+      @Override
+      public K first() {
+        return firstKey();
+      }
+
+      @Override
+      public K last() {
+        return lastKey();
+      }
     }
 
     @Override public Comparator<? super K> comparator() {
@@ -2787,35 +2915,65 @@ public final class Maps {
 
     @Override
     NavigableSet<K> createKeySet() {
-      return new NavigableKeySet<K, V>(this) {
-        @Override
-        public boolean removeAll(Collection<?> c) {
-          boolean changed = false;
-          Iterator<Entry<K, V>> entryIterator = sortedMap().entrySet().iterator();
-          while (entryIterator.hasNext()) {
-            Entry<K, V> entry = entryIterator.next();
-            if (c.contains(entry.getKey()) && predicate.apply(entry)) {
-              entryIterator.remove();
-              changed = true;
-            }
-          }
-          return changed;
-        }
+      return new NavigableKeySet();
+    }
 
-        @Override
-        public boolean retainAll(Collection<?> c) {
-          boolean changed = false;
-          Iterator<Entry<K, V>> entryIterator = sortedMap().entrySet().iterator();
-          while (entryIterator.hasNext()) {
-            Entry<K, V> entry = entryIterator.next();
-            if (!c.contains(entry.getKey()) && predicate.apply(entry)) {
-              entryIterator.remove();
-              changed = true;
-            }
-          }
-          return changed;
-        }
-      };
+    class NavigableKeySet extends SortedKeySet implements NavigableSet<K> {
+      @Override
+      public K lower(K k) {
+        return lowerKey(k);
+      }
+
+      @Override
+      public K floor(K k) {
+        return floorKey(k);
+      }
+
+      @Override
+      public K ceiling(K k) {
+        return ceilingKey(k);
+      }
+
+      @Override
+      public K higher(K k) {
+        return higherKey(k);
+      }
+
+      @Override
+      public K pollFirst() {
+        return keyOrNull(pollFirstEntry());
+      }
+
+      @Override
+      public K pollLast() {
+        return keyOrNull(pollLastEntry());
+      }
+
+      @Override
+      public NavigableSet<K> descendingSet() {
+        return descendingMap().navigableKeySet();
+      }
+
+      @Override
+      public Iterator<K> descendingIterator() {
+        return descendingSet().iterator();
+      }
+
+      @Override
+      public NavigableSet<K> subSet(
+          K fromElement, boolean fromInclusive, K toElement, boolean toInclusive) {
+        return subMap(fromElement, fromInclusive, toElement, toInclusive).navigableKeySet();
+      }
+
+      @Override
+      public NavigableSet<K> headSet(K toElement, boolean inclusive) {
+        return headMap(toElement, inclusive).navigableKeySet();
+      }
+
+      @Override
+      public NavigableSet<K> tailSet(K fromElement, boolean inclusive) {
+        return tailMap(fromElement, inclusive).navigableKeySet();
+      }
     }
 
     @Override
@@ -2918,165 +3076,6 @@ public final class Maps {
     @Override
     public Set<V> values() {
       return inverse.keySet();
-    }
-  }
-
-  private static class FilteredKeyMap<K, V> extends AbstractFilteredMap<K, V> {
-    Predicate<? super K> keyPredicate;
-
-    FilteredKeyMap(Map<K, V> unfiltered, Predicate<? super K> keyPredicate,
-        Predicate<Entry<K, V>> entryPredicate) {
-      super(unfiltered, entryPredicate);
-      this.keyPredicate = keyPredicate;
-    }
-
-    Set<Entry<K, V>> entrySet;
-
-    @Override public Set<Entry<K, V>> entrySet() {
-      Set<Entry<K, V>> result = entrySet;
-      return (result == null)
-          ? entrySet = Sets.filter(unfiltered.entrySet(), predicate)
-          : result;
-    }
-
-    Set<K> keySet;
-
-    @Override public Set<K> keySet() {
-      Set<K> result = keySet;
-      return (result == null)
-          ? keySet = Sets.filter(unfiltered.keySet(), keyPredicate)
-          : result;
-    }
-
-    // The cast is called only when the key is in the unfiltered map, implying
-    // that key is a K.
-    @Override
-    @SuppressWarnings("unchecked")
-    public boolean containsKey(Object key) {
-      return unfiltered.containsKey(key) && keyPredicate.apply((K) key);
-    }
-  }
-
-  static class FilteredEntryMap<K, V> extends AbstractFilteredMap<K, V> {
-    /**
-     * Entries in this set satisfy the predicate, but they don't validate the
-     * input to {@code Entry.setValue()}.
-     */
-    final Set<Entry<K, V>> filteredEntrySet;
-
-    FilteredEntryMap(
-        Map<K, V> unfiltered, Predicate<? super Entry<K, V>> entryPredicate) {
-      super(unfiltered, entryPredicate);
-      filteredEntrySet = Sets.filter(unfiltered.entrySet(), predicate);
-    }
-
-    Set<Entry<K, V>> entrySet;
-
-    @Override public Set<Entry<K, V>> entrySet() {
-      Set<Entry<K, V>> result = entrySet;
-      return (result == null) ? entrySet = new EntrySet() : result;
-    }
-
-    private class EntrySet extends ForwardingSet<Entry<K, V>> {
-      @Override protected Set<Entry<K, V>> delegate() {
-        return filteredEntrySet;
-      }
-
-      @Override public Iterator<Entry<K, V>> iterator() {
-        final Iterator<Entry<K, V>> iterator = filteredEntrySet.iterator();
-        return new UnmodifiableIterator<Entry<K, V>>() {
-          @Override
-          public boolean hasNext() {
-            return iterator.hasNext();
-          }
-
-          @Override
-          public Entry<K, V> next() {
-            final Entry<K, V> entry = iterator.next();
-            return new ForwardingMapEntry<K, V>() {
-              @Override protected Entry<K, V> delegate() {
-                return entry;
-              }
-
-              @Override public V setValue(V value) {
-                checkArgument(apply(entry.getKey(), value));
-                return super.setValue(value);
-              }
-            };
-          }
-        };
-      }
-    }
-
-    Set<K> keySet;
-
-    @Override public Set<K> keySet() {
-      Set<K> result = keySet;
-      return (result == null) ? keySet = createKeySet() : result;
-    }
-
-    Set<K> createKeySet() {
-      return new KeySet();
-    }
-
-    private class KeySet extends Sets.ImprovedAbstractSet<K> {
-      @Override public Iterator<K> iterator() {
-        final Iterator<Entry<K, V>> iterator = filteredEntrySet.iterator();
-        return new UnmodifiableIterator<K>() {
-          @Override
-          public boolean hasNext() {
-            return iterator.hasNext();
-          }
-
-          @Override
-          public K next() {
-            return iterator.next().getKey();
-          }
-        };
-      }
-
-      @Override public int size() {
-        return filteredEntrySet.size();
-      }
-
-      @Override public void clear() {
-        filteredEntrySet.clear();
-      }
-
-      @Override public boolean contains(Object o) {
-        return containsKey(o);
-      }
-
-      @Override public boolean remove(Object o) {
-        if (containsKey(o)) {
-          unfiltered.remove(o);
-          return true;
-        }
-        return false;
-      }
-
-      @Override public boolean retainAll(Collection<?> collection) {
-        checkNotNull(collection); // for GWT
-        boolean changed = false;
-        Iterator<Entry<K, V>> iterator = unfiltered.entrySet().iterator();
-        while (iterator.hasNext()) {
-          Entry<K, V> entry = iterator.next();
-          if (predicate.apply(entry) && !collection.contains(entry.getKey())) {
-            iterator.remove();
-            changed = true;
-          }
-        }
-        return changed;
-      }
-
-      @Override public Object[] toArray() {
-        // creating an ArrayList so filtering happens once
-        return Lists.newArrayList(iterator()).toArray();
-      }
-
-      @Override public <T> T[] toArray(T[] array) {
-        return Lists.newArrayList(iterator()).toArray(array);
-      }
     }
   }
 
@@ -3528,20 +3527,34 @@ public final class Maps {
     return (entry == null) ? null : entry.getValue();
   }
 
-  @GwtIncompatible("NavigableMap")
-  static class NavigableKeySet<K, V> extends KeySet<K, V> implements NavigableSet<K> {
-    NavigableKeySet(NavigableMap<K, V> map) {
+  static class SortedKeySet<K, V> extends KeySet<K, V> implements SortedSet<K> {
+    SortedKeySet(SortedMap<K, V> map) {
       super(map);
     }
 
     @Override
-    NavigableMap<K, V> map() {
-      return (NavigableMap<K, V>) map;
+    SortedMap<K, V> map() {
+      return (SortedMap<K, V>) super.map();
     }
 
     @Override
     public Comparator<? super K> comparator() {
       return map().comparator();
+    }
+
+    @Override
+    public SortedSet<K> subSet(K fromElement, K toElement) {
+      return new SortedKeySet<K, V>(map().subMap(fromElement, toElement));
+    }
+
+    @Override
+    public SortedSet<K> headSet(K toElement) {
+      return new SortedKeySet<K, V>(map().headMap(toElement));
+    }
+
+    @Override
+    public SortedSet<K> tailSet(K fromElement) {
+      return new SortedKeySet<K, V>(map().tailMap(fromElement));
     }
 
     @Override
@@ -3552,6 +3565,18 @@ public final class Maps {
     @Override
     public K last() {
       return map().lastKey();
+    }
+  }
+
+  @GwtIncompatible("NavigableMap")
+  static class NavigableKeySet<K, V> extends SortedKeySet<K, V> implements NavigableSet<K> {
+    NavigableKeySet(NavigableMap<K, V> map) {
+      super(map);
+    }
+
+    @Override
+    NavigableMap<K, V> map() {
+      return (NavigableMap<K, V>) map;
     }
 
     @Override

@@ -16,8 +16,9 @@
 
 package com.google.common.collect.testing;
 
+import static com.google.common.collect.testing.DerivedCollectionGenerators.keySetGenerator;
+
 import com.google.common.collect.testing.DerivedCollectionGenerators.MapEntrySetGenerator;
-import com.google.common.collect.testing.DerivedCollectionGenerators.MapKeySetGenerator;
 import com.google.common.collect.testing.DerivedCollectionGenerators.MapValueCollectionGenerator;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
@@ -109,7 +110,7 @@ public class MapTestSuiteBuilder<K, V>
         .createTestSuite());
 
     derivedSuites.add(createDerivedKeySetSuite(
-            new MapKeySetGenerator<K, V>(parentBuilder.getSubjectGenerator()))
+            keySetGenerator(parentBuilder.getSubjectGenerator()))
         .withFeatures(computeKeySetFeatures(parentBuilder.getFeatures()))
         .named(parentBuilder.getName() + " keys")
         .suppressing(parentBuilder.getSuppressedTests())
@@ -152,6 +153,9 @@ public class MapTestSuiteBuilder<K, V>
     Set<Feature<?>> keySetFeatures =
         computeCommonDerivedCollectionFeatures(mapFeatures);
 
+    // TODO(user): make this trigger only if the map is a submap
+    // currently, the KeySetGenerator won't work properly for a subset of a keyset of a submap
+    keySetFeatures.add(CollectionFeature.SUBSET_VIEW);
     if (mapFeatures.contains(MapFeature.ALLOWS_NULL_KEYS)) {
       keySetFeatures.add(CollectionFeature.ALLOWS_NULL_VALUES);
     } else if (mapFeatures.contains(MapFeature.ALLOWS_NULL_QUERIES)) {

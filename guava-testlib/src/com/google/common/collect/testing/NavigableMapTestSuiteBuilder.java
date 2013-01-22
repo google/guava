@@ -74,7 +74,7 @@ public class NavigableMapTestSuiteBuilder<K, V> extends SortedMapTestSuiteBuilde
 
   @Override protected NavigableSetTestSuiteBuilder<K> createDerivedKeySetSuite(
       TestSetGenerator<K> keySetGenerator) {
-    return NavigableSetTestSuiteBuilder.using(keySetGenerator);
+    return NavigableSetTestSuiteBuilder.using((TestSortedSetGenerator<K>) keySetGenerator);
   }
 
   public static final class NavigableMapSubmapTestMapGenerator<K, V>

@@ -202,7 +202,7 @@ public class TestsForSetsInJavaUtil {
   }
 
   public Test testsForTreeSetNatural() {
-    return SetTestSuiteBuilder
+    return NavigableSetTestSuiteBuilder
         .using(new TestStringSortedSetGenerator() {
             @Override public SortedSet<String> create(String[] elements) {
               return new TreeSet<String>(MinimalCollection.of(elements));
@@ -220,7 +220,7 @@ public class TestsForSetsInJavaUtil {
   }
 
   public Test testsForTreeSetWithComparator() {
-    return SetTestSuiteBuilder
+    return NavigableSetTestSuiteBuilder
         .using(new TestStringSortedSetGenerator() {
             @Override public SortedSet<String> create(String[] elements) {
               SortedSet<String> set

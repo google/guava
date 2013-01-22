@@ -131,6 +131,11 @@ class StandardRowSortedTable<R, C, V> extends StandardTable<R, C, V>
 
   private class RowSortedMap extends RowMap implements SortedMap<R, Map<C, V>> {
     @Override
+    public SortedSet<R> keySet() {
+      return rowKeySet();
+    }
+
+    @Override
     public Comparator<? super R> comparator() {
       return sortedBackingMap().comparator();
     }

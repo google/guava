@@ -30,7 +30,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
-import java.util.SortedSet;
 
 /**
  * Creates, based on your criteria, a JUnit test suite that exhaustively tests
@@ -73,16 +72,9 @@ public class SortedMapTestSuiteBuilder<K, V> extends MapTestSuiteBuilder<K, V> {
     return derivedSuites;
   }
 
-  @Override protected SetTestSuiteBuilder<K> createDerivedKeySetSuite(
+  @Override protected SortedSetTestSuiteBuilder<K> createDerivedKeySetSuite(
       TestSetGenerator<K> keySetGenerator) {
-    /*
-     * TODO(cpovirk): Consider requiring a SortedSet by default and requiring tests of a given
-     * implementation to opt out if they wish to return Set. This would encourage us to return
-     * keySets that implement SortedSet
-     */
-    return (keySetGenerator.create() instanceof SortedSet)
-        ? SortedSetTestSuiteBuilder.using(keySetGenerator)
-        : SetTestSuiteBuilder.using(keySetGenerator);
+    return SortedSetTestSuiteBuilder.using((TestSortedSetGenerator<K>) keySetGenerator);
   }
 
   /**
