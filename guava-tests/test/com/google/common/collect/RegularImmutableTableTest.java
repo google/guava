@@ -19,8 +19,6 @@ package com.google.common.collect;
 import static org.truth0.Truth.ASSERT;
 
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.collect.RegularImmutableTable.DenseImmutableTable;
-import com.google.common.collect.RegularImmutableTable.SparseImmutableTable;
 import com.google.common.collect.Table.Cell;
 
 /**

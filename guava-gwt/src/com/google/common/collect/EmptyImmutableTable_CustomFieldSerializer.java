@@ -14,26 +14,22 @@
 
 package com.google.common.collect;
 
-import com.google.gwt.user.client.rpc.SerializationException;
 import com.google.gwt.user.client.rpc.SerializationStreamReader;
 import com.google.gwt.user.client.rpc.SerializationStreamWriter;
 
 /**
- * This class implements the GWT serialization of {@link HashBasedTable}.
+ * This class implements the GWT serialization of {@link EmptyImmutableTable}.
  *
- * @author Hayward Chan
+ * @author Chris Povirk
  */
-public class HashBasedTable_CustomFieldSerializer {
-  public static void deserialize(SerializationStreamReader reader, HashBasedTable<?, ?, ?> table) {
+public class EmptyImmutableTable_CustomFieldSerializer {
+  public static void deserialize(SerializationStreamReader reader, EmptyImmutableTable instance) {
   }
 
-  public static HashBasedTable<Object, Object, Object> instantiate(SerializationStreamReader reader)
-      throws SerializationException {
-    return Table_CustomFieldSerializerBase.populate(reader, HashBasedTable.create());
+  public static EmptyImmutableTable instantiate(SerializationStreamReader reader) {
+    return EmptyImmutableTable.INSTANCE;
   }
 
-  public static void serialize(SerializationStreamWriter writer, HashBasedTable<?, ?, ?> table)
-      throws SerializationException {
-    Table_CustomFieldSerializerBase.serialize(writer, table);
+  public static void serialize(SerializationStreamWriter writer, EmptyImmutableTable instance) {
   }
 }

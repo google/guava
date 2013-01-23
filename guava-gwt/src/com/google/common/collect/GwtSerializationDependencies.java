@@ -18,6 +18,7 @@ package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
 
+import java.io.Serializable;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.TreeMap;
@@ -92,9 +93,7 @@ final class GwtSerializationDependencies {
     K key;
     V value;
 
-    LinkedListMultimapDependencies() {
-      super();
-    }
+    LinkedListMultimapDependencies() {}
   }
 
   static final class HashBasedTableDependencies<R, C, V>
@@ -112,6 +111,23 @@ final class GwtSerializationDependencies {
 
     TreeBasedTableDependencies() {
       super(null, null);
+    }
+  }
+
+  /*
+   * We don't normally need "implements Serializable," but we do here. That's
+   * because ImmutableTable itself is not Serializable as of this writing. We
+   * need for GWT to believe that this dummy class is serializable, or else it
+   * won't generate serialization code for R, C, and V.
+   */
+  static final class ImmutableTableDependencies<R, C, V>
+      extends SingletonImmutableTable<R, C, V> implements Serializable {
+    R rowKey;
+    C columnKey;
+    V value;
+
+    ImmutableTableDependencies() {
+      super(null, null, null);
     }
   }
 

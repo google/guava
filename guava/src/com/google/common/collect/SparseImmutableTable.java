@@ -1,0 +1,195 @@
+/*
+ * Copyright (C) 2009 The Guava Authors
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
+ */
+
+package com.google.common.collect;
+
+import static com.google.common.base.Preconditions.checkNotNull;
+
+import com.google.common.annotations.GwtCompatible;
+import com.google.common.base.Objects;
+
+import java.util.LinkedHashMap;
+import java.util.Map;
+
+import javax.annotation.Nullable;
+import javax.annotation.concurrent.Immutable;
+
+/**
+ * A {@code RegularImmutableTable} optimized for sparse data.
+ */
+@GwtCompatible
+@Immutable
+final class SparseImmutableTable<R, C, V>
+    extends RegularImmutableTable<R, C, V> {
+
+  private final ImmutableMap<R, Map<C, V>> rowMap;
+  private final ImmutableMap<C, Map<R, V>> columnMap;
+  private final int[] iterationOrderRow;
+  private final int[] iterationOrderColumn;
+
+  SparseImmutableTable(ImmutableList<Cell<R, C, V>> cellList,
+      ImmutableSet<R> rowSpace, ImmutableSet<C> columnSpace) {
+    Map<R, Integer> rowIndex = Maps.newHashMap();
+    Map<R, Map<C, V>> rows = Maps.newLinkedHashMap();
+    for (R row : rowSpace) {
+      rowIndex.put(row, rows.size());
+      rows.put(row, new LinkedHashMap<C, V>());
+    }
+    Map<C, Map<R, V>> columns = Maps.newLinkedHashMap();
+    for (C col : columnSpace) {
+      columns.put(col, new LinkedHashMap<R, V>());
+    }
+    int[] iterationOrderRow = new int[cellList.size()];
+    int[] iterationOrderColumn = new int[cellList.size()];
+    for (int i = 0; i < cellList.size(); i++) {
+      Cell<R, C, V> cell = cellList.get(i);
+      R rowKey = cell.getRowKey();
+      C columnKey = cell.getColumnKey();
+      V value = cell.getValue();
+      
+      iterationOrderRow[i] = rowIndex.get(rowKey);
+      Map<C, V> thisRow = rows.get(rowKey);
+      iterationOrderColumn[i] = thisRow.size();
+      V oldValue = thisRow.put(columnKey, value);
+      if (oldValue != null) {
+        throw new IllegalArgumentException("Duplicate value for row=" + rowKey + ", column="
+            + columnKey + ": " + value + ", " + oldValue);
+      }
+      columns.get(columnKey).put(rowKey, value);
+    }
+    this.iterationOrderRow = iterationOrderRow;
+    this.iterationOrderColumn = iterationOrderColumn;
+    ImmutableMap.Builder<R, Map<C, V>> rowBuilder = ImmutableMap.builder();
+    for (Map.Entry<R, Map<C, V>> row : rows.entrySet()) {
+      rowBuilder.put(row.getKey(), ImmutableMap.copyOf(row.getValue()));
+    }
+    this.rowMap = rowBuilder.build();
+    
+    ImmutableMap.Builder<C, Map<R, V>> columnBuilder = ImmutableMap.builder();
+    for (Map.Entry<C, Map<R, V>> col : columns.entrySet()) {
+      columnBuilder.put(col.getKey(), ImmutableMap.copyOf(col.getValue()));
+    }
+    this.columnMap = columnBuilder.build();
+  }
+
+  @Override public ImmutableMap<R, V> column(C columnKey) {
+    checkNotNull(columnKey);
+    // value maps are guaranteed to be immutable maps
+    return Objects.firstNonNull((ImmutableMap<R, V>) columnMap.get(columnKey),
+        ImmutableMap.<R, V>of());
+  }
+
+  @Override public ImmutableSet<C> columnKeySet() {
+    return columnMap.keySet();
+  }
+
+  @Override public ImmutableMap<C, Map<R, V>> columnMap() {
+    return columnMap;
+  }
+
+  @Override public ImmutableMap<C, V> row(R rowKey) {
+    checkNotNull(rowKey);
+    // value maps are guaranteed to be immutable maps
+    return Objects.firstNonNull((ImmutableMap<C, V>) rowMap.get(rowKey),
+        ImmutableMap.<C, V>of());
+  }
+
+  @Override public ImmutableSet<R> rowKeySet() {
+    return rowMap.keySet();
+  }
+
+  @Override public ImmutableMap<R, Map<C, V>> rowMap() {
+    return rowMap;
+  }
+
+  @Override public boolean contains(@Nullable Object rowKey,
+      @Nullable Object columnKey) {
+    Map<C, V> row = rowMap.get(rowKey);
+    return (row != null) && row.containsKey(columnKey);
+  }
+
+  @Override public boolean containsColumn(@Nullable Object columnKey) {
+    return columnMap.containsKey(columnKey);
+  }
+
+  @Override public boolean containsRow(@Nullable Object rowKey) {
+    return rowMap.containsKey(rowKey);
+  }
+
+  @Override public V get(@Nullable Object rowKey,
+      @Nullable Object columnKey) {
+    Map<C, V> row = rowMap.get(rowKey);
+    return (row == null) ? null : row.get(columnKey);
+  }
+
+  @Override
+  ImmutableCollection<V> createValues() {
+    return new ImmutableList<V>() {
+      @Override
+      public int size() {
+        return iterationOrderRow.length;
+      }
+
+      @Override
+      public V get(int index) {
+        int rowIndex = iterationOrderRow[index];
+        ImmutableMap<C, V> row = (ImmutableMap<C, V>) rowMap.values().asList().get(rowIndex);
+        int columnIndex = iterationOrderColumn[index];
+        return row.values().asList().get(columnIndex);
+      }
+
+      @Override
+      boolean isPartialView() {
+        return true;
+      }
+    };
+  }
+
+  @Override
+  public int size() {
+    return iterationOrderRow.length;
+  }
+
+  @Override
+  ImmutableSet<Cell<R, C, V>> createCellSet() {
+    return new SparseCellSet();
+  }
+  
+  class SparseCellSet extends CellSet {
+    @Override
+    public UnmodifiableIterator<Cell<R, C, V>> iterator() {
+      return asList().iterator();
+    }
+
+    @Override
+    ImmutableList<Cell<R, C, V>> createAsList() {
+      return new ImmutableAsList<Cell<R, C, V>>() {
+        @Override
+        public Cell<R, C, V> get(int index) {
+          int rowIndex = iterationOrderRow[index];
+          Map.Entry<R, Map<C, V>> rowEntry = rowMap.entrySet().asList().get(rowIndex);
+          ImmutableMap<C, V> row = (ImmutableMap<C, V>) rowEntry.getValue();
+          int columnIndex = iterationOrderColumn[index];
+          Map.Entry<C, V> colEntry = row.entrySet().asList().get(columnIndex);
+          return Tables.immutableCell(rowEntry.getKey(), colEntry.getKey(), colEntry.getValue());
+        }
+
+        @Override
+        ImmutableCollection<Cell<R, C, V>> delegateCollection() {
+          return SparseCellSet.this;
+        }
+      };
+    }
+  }
+}

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2009 The Guava Authors
+ * Copyright (C) 2012 The Guava Authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
@@ -19,21 +19,24 @@ import com.google.gwt.user.client.rpc.SerializationStreamReader;
 import com.google.gwt.user.client.rpc.SerializationStreamWriter;
 
 /**
- * This class implements the GWT serialization of {@link HashBasedTable}.
+ * This class implements the GWT serialization of {@link DenseImmutableTable}.
  *
- * @author Hayward Chan
+ * @author Chris Povirk
  */
-public class HashBasedTable_CustomFieldSerializer {
-  public static void deserialize(SerializationStreamReader reader, HashBasedTable<?, ?, ?> table) {
+public class DenseImmutableTable_CustomFieldSerializer {
+  public static void deserialize(
+      SerializationStreamReader reader, DenseImmutableTable<?, ?, ?> instance) {
   }
 
-  public static HashBasedTable<Object, Object, Object> instantiate(SerializationStreamReader reader)
-      throws SerializationException {
-    return Table_CustomFieldSerializerBase.populate(reader, HashBasedTable.create());
+  public static DenseImmutableTable<Object, Object, Object> instantiate(
+      SerializationStreamReader reader) throws SerializationException {
+    return (DenseImmutableTable<Object, Object, Object>)
+        ImmutableTable_CustomFieldSerializerBase.instantiate(reader);
   }
 
-  public static void serialize(SerializationStreamWriter writer, HashBasedTable<?, ?, ?> table)
+  public static void serialize(
+      SerializationStreamWriter writer, DenseImmutableTable<Object, Object, Object> table)
       throws SerializationException {
-    Table_CustomFieldSerializerBase.serialize(writer, table);
+    ImmutableTable_CustomFieldSerializerBase.serialize(writer, table);
   }
 }

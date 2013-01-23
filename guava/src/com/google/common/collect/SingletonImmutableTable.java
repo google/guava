@@ -31,10 +31,10 @@ import javax.annotation.Nullable;
  * @author Gregory Kick
  */
 @GwtCompatible
-final class SingletonImmutableTable<R, C, V> extends ImmutableTable<R, C, V> {
-  private final R singleRowKey;
-  private final C singleColumnKey;
-  private final V singleValue;
+class SingletonImmutableTable<R, C, V> extends ImmutableTable<R, C, V> {
+  final R singleRowKey;
+  final C singleColumnKey;
+  final V singleValue;
 
   SingletonImmutableTable(R rowKey, C columnKey, V value) {
     this.singleRowKey = checkNotNull(rowKey);
