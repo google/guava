@@ -25,7 +25,6 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Ascii;
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Joiner;
-import com.google.common.base.Objects;
 import com.google.common.base.Splitter;
 import com.google.common.collect.ImmutableList;
 
@@ -313,10 +312,14 @@ public final class InternetDomainName {
   }
 
   /**
-   * Returns the domain name, normalized to all lower case.
+   * A deprecated synonym for {@link #toString()}.
+   *
+   * @since 15.0
+   * @deprecated Use {@link #toString()}
    */
+  @Deprecated
   public String name() {
-    return name;
+    return toString();
   }
 
   /**
@@ -546,10 +549,12 @@ public final class InternetDomainName {
     return pieces.length == 2 && TldPatterns.UNDER.contains(pieces[1]);
   }
 
-  // TODO: specify this to return the same as name(); remove name()
+  /**
+   * Returns the domain name, normalized to all lower case.
+   */
   @Override
   public String toString() {
-    return Objects.toStringHelper(this).add("name", name).toString();
+    return name;
   }
 
   /**

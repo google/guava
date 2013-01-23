@@ -348,7 +348,7 @@ public final class InternetDomainNameTest extends TestCase {
   // TODO(hhchan): Resurrect this test after removing the reference to
   // String.toLowerCase(Locale)
   @GwtIncompatible("String.toLowerCase(Locale)")
-  public void testName() {
+  public void testToString() {
     for (String inputName : SOMEWHERE_UNDER_PS) {
       InternetDomainName domain = InternetDomainName.from(inputName);
 
