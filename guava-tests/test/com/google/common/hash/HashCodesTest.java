@@ -16,6 +16,8 @@
 
 package com.google.common.hash;
 
+import static com.google.common.io.BaseEncoding.base16;
+
 import com.google.common.collect.ImmutableList;
 import com.google.common.testing.ClassSanityTester;
 
@@ -124,6 +126,12 @@ public class HashCodesTest extends TestCase {
     byte[] intBytes = {(byte) 0x99, (byte) 0x99, (byte) 0x99, (byte) 0x99};
     assertEquals(0x9999999999999999L, HashCodes.fromBytesNoCopy(longBytes).padToLong());
     assertEquals(0x0000000099999999L, HashCodes.fromBytesNoCopy(intBytes).padToLong());
+  }
+
+  public void testToString() {
+    byte[] data = new byte[] { 127, -128, 5, -1, 14 };
+    assertEquals("7f8005ff0e", HashCodes.fromBytes(data).toString());
+    assertEquals("7f8005ff0e", base16().lowerCase().encode(data));
   }
 
   public void testHashCodes_nulls() throws Exception {
