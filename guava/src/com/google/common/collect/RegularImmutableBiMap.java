@@ -107,18 +107,12 @@ class RegularImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
       BiMapEntry<K, V> nextInKToVBucket = kToVTable[keyBucket];
       for (BiMapEntry<K, V> kToVEntry = nextInKToVBucket; kToVEntry != null;
            kToVEntry = kToVEntry.getNextInKToVBucket()) {
-        if (key.equals(kToVEntry.getKey())) {
-          throw new IllegalArgumentException("Multiple entries with same key: " +
-              entry + " and " + kToVEntry);
-        }
+        checkNoConflict(!key.equals(kToVEntry.getKey()), "key", entry, kToVEntry);
       }
       BiMapEntry<K, V> nextInVToKBucket = vToKTable[valueBucket];
       for (BiMapEntry<K, V> vToKEntry = nextInVToKBucket; vToKEntry != null;
            vToKEntry = vToKEntry.getNextInVToKBucket()) {
-        if (value.equals(vToKEntry.getValue())) {
-          throw new IllegalArgumentException("Multiple entries with same value: "
-              + entry + " and " + vToKEntry);
-        }
+        checkNoConflict(!value.equals(vToKEntry.getValue()), "value", entry, vToKEntry);
       }
       BiMapEntry<K, V> newEntry =
           (nextInKToVBucket == null && nextInVToKBucket == null)

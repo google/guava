@@ -16,6 +16,8 @@ package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
+import static com.google.common.collect.Maps.keyOrNull;
+import static com.google.common.collect.Maps.valueOrNull;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -77,24 +79,28 @@ public final class HashBiMap<K, V> extends AbstractMap<K, V> implements BiMap<K,
     return bimap;
   }
 
-  private static final class BiEntry<K, V> {
-    final K key;
-    final int keyHash;
-
-    final V value;
-    final int valueHash;
+  private static final class BiEntry<K, V> extends AbstractMap.SimpleImmutableEntry<K, V> {
+    final int smearedKeyHash;
+    final int smearedValueHash;
 
     @Nullable
-    BiEntry<K, V> nextInKToVBucket;
+    BiEntry<K, V> nextInKeyBucket;
 
     @Nullable
-    BiEntry<K, V> nextInVToKBucket;
+    BiEntry<K, V> nextInValueBucket;
 
-    BiEntry(K key, int keyHash, V value, int valueHash) {
-      this.key = key;
-      this.keyHash = keyHash;
-      this.value = value;
-      this.valueHash = valueHash;
+    BiEntry(K key, int smearedKeyHash, V value, int smearedValueHash) {
+      super(key, value);
+      this.smearedKeyHash = smearedKeyHash;
+      this.smearedValueHash = smearedValueHash;
+    }
+    
+    boolean matchesKey(@Nullable Object k, int smearedKHash) {
+      return smearedKeyHash == smearedKHash && Objects.equal(getKey(), k);
+    }
+    
+    boolean matchesValue(@Nullable Object v, int smearedVHash) {
+      return smearedValueHash == smearedVHash && Objects.equal(getValue(), v);
     }
   }
 
@@ -125,30 +131,30 @@ public final class HashBiMap<K, V> extends AbstractMap<K, V> implements BiMap<K,
    * key-to-value direction and the value-to-key direction.
    */
   private void delete(BiEntry<K, V> entry) {
-    int keyBucket = entry.keyHash & mask;
+    int keyBucket = entry.smearedKeyHash & mask;
     BiEntry<K, V> prevBucketEntry = null;
     for (BiEntry<K, V> bucketEntry = hashTableKToV[keyBucket]; true;
-        bucketEntry = bucketEntry.nextInKToVBucket) {
+        bucketEntry = bucketEntry.nextInKeyBucket) {
       if (bucketEntry == entry) {
         if (prevBucketEntry == null) {
-          hashTableKToV[keyBucket] = entry.nextInKToVBucket;
+          hashTableKToV[keyBucket] = entry.nextInKeyBucket;
         } else {
-          prevBucketEntry.nextInKToVBucket = entry.nextInKToVBucket;
+          prevBucketEntry.nextInKeyBucket = entry.nextInKeyBucket;
         }
         break;
       }
       prevBucketEntry = bucketEntry;
     }
 
-    int valueBucket = entry.valueHash & mask;
+    int valueBucket = entry.smearedValueHash & mask;
     prevBucketEntry = null;
-    for (BiEntry<K, V> bucketEntry = hashTableVToK[valueBucket];;
-        bucketEntry = bucketEntry.nextInVToKBucket) {
+    for (BiEntry<K, V> bucketEntry = hashTableVToK[valueBucket]; true;
+        bucketEntry = bucketEntry.nextInValueBucket) {
       if (bucketEntry == entry) {
         if (prevBucketEntry == null) {
-          hashTableVToK[valueBucket] = entry.nextInVToKBucket;
+          hashTableVToK[valueBucket] = entry.nextInValueBucket;
         } else {
-          prevBucketEntry.nextInVToKBucket = entry.nextInVToKBucket;
+          prevBucketEntry.nextInValueBucket = entry.nextInValueBucket;
         }
         break;
       }
@@ -160,36 +166,32 @@ public final class HashBiMap<K, V> extends AbstractMap<K, V> implements BiMap<K,
   }
 
   private void insert(BiEntry<K, V> entry) {
-    int keyBucket = entry.keyHash & mask;
-    entry.nextInKToVBucket = hashTableKToV[keyBucket];
+    int keyBucket = entry.smearedKeyHash & mask;
+    entry.nextInKeyBucket = hashTableKToV[keyBucket];
     hashTableKToV[keyBucket] = entry;
 
-    int valueBucket = entry.valueHash & mask;
-    entry.nextInVToKBucket = hashTableVToK[valueBucket];
+    int valueBucket = entry.smearedValueHash & mask;
+    entry.nextInValueBucket = hashTableVToK[valueBucket];
     hashTableVToK[valueBucket] = entry;
 
     size++;
     modCount++;
   }
 
-  private static int hash(@Nullable Object o) {
-    return Hashing.smear((o == null) ? 0 : o.hashCode());
-  }
-
-  private BiEntry<K, V> seekByKey(@Nullable Object key, int keyHash) {
-    for (BiEntry<K, V> entry = hashTableKToV[keyHash & mask]; entry != null;
-        entry = entry.nextInKToVBucket) {
-      if (keyHash == entry.keyHash && Objects.equal(key, entry.key)) {
+  private BiEntry<K, V> seekByKey(@Nullable Object key, int smearedKeyHash) {
+    for (BiEntry<K, V> entry = hashTableKToV[smearedKeyHash & mask]; entry != null;
+        entry = entry.nextInKeyBucket) {
+      if (entry.matchesKey(key, smearedKeyHash)) {
         return entry;
       }
     }
     return null;
   }
 
-  private BiEntry<K, V> seekByValue(@Nullable Object value, int valueHash) {
-    for (BiEntry<K, V> entry = hashTableVToK[valueHash & mask]; entry != null;
-        entry = entry.nextInVToKBucket) {
-      if (valueHash == entry.valueHash && Objects.equal(value, entry.value)) {
+  private BiEntry<K, V> seekByValue(@Nullable Object value, int smearedKeyHash) {
+    for (BiEntry<K, V> entry = hashTableVToK[smearedKeyHash & mask]; entry != null;
+        entry = entry.nextInValueBucket) {
+      if (entry.matchesValue(value, smearedKeyHash)) {
         return entry;
       }
     }
@@ -198,19 +200,18 @@ public final class HashBiMap<K, V> extends AbstractMap<K, V> implements BiMap<K,
 
   @Override
   public boolean containsKey(@Nullable Object key) {
-    return seekByKey(key, hash(key)) != null;
+    return seekByKey(key, Hashing.smearedHash(key)) != null;
   }
 
   @Override
   public boolean containsValue(@Nullable Object value) {
-    return seekByValue(value, hash(value)) != null;
+    return seekByValue(value, Hashing.smearedHash(value)) != null;
   }
 
   @Nullable
   @Override
   public V get(@Nullable Object key) {
-    BiEntry<K, V> entry = seekByKey(key, hash(key));
-    return (entry == null) ? null : entry.value;
+    return valueOrNull(seekByKey(key, Hashing.smearedHash(key)));
   }
 
   @Override
@@ -224,16 +225,15 @@ public final class HashBiMap<K, V> extends AbstractMap<K, V> implements BiMap<K,
   }
 
   private V put(@Nullable K key, @Nullable V value, boolean force) {
-    int keyHash = hash(key);
-    int valueHash = hash(value);
+    int smearedKeyHash = Hashing.smearedHash(key);
+    int smearedValueHash = Hashing.smearedHash(value);
 
-    BiEntry<K, V> oldEntryForKey = seekByKey(key, keyHash);
-    if (oldEntryForKey != null && valueHash == oldEntryForKey.valueHash
-        && Objects.equal(value, oldEntryForKey.value)) {
+    BiEntry<K, V> oldEntryForKey = seekByKey(key, smearedKeyHash);
+    if (oldEntryForKey != null && oldEntryForKey.matchesValue(value, smearedValueHash)) {
       return value;
     }
 
-    BiEntry<K, V> oldEntryForValue = seekByValue(value, valueHash);
+    BiEntry<K, V> oldEntryForValue = seekByValue(value, smearedValueHash);
     if (oldEntryForValue != null) {
       if (force) {
         delete(oldEntryForValue);
@@ -245,24 +245,23 @@ public final class HashBiMap<K, V> extends AbstractMap<K, V> implements BiMap<K,
     if (oldEntryForKey != null) {
       delete(oldEntryForKey);
     }
-    BiEntry<K, V> newEntry = new BiEntry<K, V>(key, keyHash, value, valueHash);
+    BiEntry<K, V> newEntry = new BiEntry<K, V>(key, smearedKeyHash, value, smearedValueHash);
     insert(newEntry);
     rehashIfNecessary();
-    return (oldEntryForKey == null) ? null : oldEntryForKey.value;
+    return valueOrNull(oldEntryForKey);
   }
 
   @Nullable
   private K putInverse(@Nullable V value, @Nullable K key, boolean force) {
-    int valueHash = hash(value);
-    int keyHash = hash(key);
+    int smearedValueHash = Hashing.smearedHash(value);
+    int smearedKeyHash = Hashing.smearedHash(key);
 
-    BiEntry<K, V> oldEntryForValue = seekByValue(value, valueHash);
-    if (oldEntryForValue != null && keyHash == oldEntryForValue.keyHash
-        && Objects.equal(key, oldEntryForValue.key)) {
+    BiEntry<K, V> oldEntryForValue = seekByValue(value, smearedValueHash);
+    if (oldEntryForValue != null && oldEntryForValue.matchesKey(key, smearedKeyHash)) {
       return key;
     }
 
-    BiEntry<K, V> oldEntryForKey = seekByKey(key, keyHash);
+    BiEntry<K, V> oldEntryForKey = seekByKey(key, smearedKeyHash);
     if (oldEntryForKey != null) {
       if (force) {
         delete(oldEntryForKey);
@@ -274,10 +273,10 @@ public final class HashBiMap<K, V> extends AbstractMap<K, V> implements BiMap<K,
     if (oldEntryForValue != null) {
       delete(oldEntryForValue);
     }
-    BiEntry<K, V> newEntry = new BiEntry<K, V>(key, keyHash, value, valueHash);
+    BiEntry<K, V> newEntry = new BiEntry<K, V>(key, smearedKeyHash, value, smearedValueHash);
     insert(newEntry);
     rehashIfNecessary();
-    return (oldEntryForValue == null) ? null : oldEntryForValue.key;
+    return keyOrNull(oldEntryForValue);
   }
 
   private void rehashIfNecessary() {
@@ -293,7 +292,7 @@ public final class HashBiMap<K, V> extends AbstractMap<K, V> implements BiMap<K,
       for (int bucket = 0; bucket < oldKToV.length; bucket++) {
         BiEntry<K, V> entry = oldKToV[bucket];
         while (entry != null) {
-          BiEntry<K, V> nextEntry = entry.nextInKToVBucket;
+          BiEntry<K, V> nextEntry = entry.nextInKeyBucket;
           insert(entry);
           entry = nextEntry;
         }
@@ -309,12 +308,12 @@ public final class HashBiMap<K, V> extends AbstractMap<K, V> implements BiMap<K,
 
   @Override
   public V remove(@Nullable Object key) {
-    BiEntry<K, V> entry = seekByKey(key, hash(key));
+    BiEntry<K, V> entry = seekByKey(key, Hashing.smearedHash(key));
     if (entry == null) {
       return null;
     } else {
       delete(entry);
-      return entry.value;
+      return entry.getValue();
     }
   }
 
@@ -367,7 +366,7 @@ public final class HashBiMap<K, V> extends AbstractMap<K, V> implements BiMap<K,
       }
 
       BiEntry<K, V> entry = next;
-      next = entry.nextInKToVBucket;
+      next = entry.nextInKeyBucket;
       toRemove = entry;
       return output(entry);
     }
@@ -399,14 +398,14 @@ public final class HashBiMap<K, V> extends AbstractMap<K, V> implements BiMap<K,
       return new Itr<K>() {
         @Override
         K output(BiEntry<K, V> entry) {
-          return entry.key;
+          return entry.getKey();
         }
       };
     }
 
     @Override
     public boolean remove(@Nullable Object o) {
-      BiEntry<K, V> entry = seekByKey(o, hash(o));
+      BiEntry<K, V> entry = seekByKey(o, Hashing.smearedHash(o));
       if (entry == null) {
         return false;
       } else {
@@ -440,37 +439,33 @@ public final class HashBiMap<K, V> extends AbstractMap<K, V> implements BiMap<K,
           return new MapEntry(entry);
         }
 
-        class MapEntry extends AbstractMapEntry<K, V> {
+        class MapEntry extends ForwardingMapEntry<K, V> {
           BiEntry<K, V> delegate;
 
           MapEntry(BiEntry<K, V> entry) {
             this.delegate = entry;
           }
-
-          @Override public K getKey() {
-            return delegate.key;
-          }
-
-          @Override public V getValue() {
-            return delegate.value;
+          
+          @Override protected Entry<K, V> delegate() {
+            return delegate;
           }
 
           @Override public V setValue(V value) {
-            V oldValue = delegate.value;
-            int valueHash = hash(value);
-            if (valueHash == delegate.valueHash && Objects.equal(value, oldValue)) {
+            int smearedValueHash = Hashing.smearedHash(value);
+            if (delegate.matchesValue(value, smearedValueHash)) {
               return value;
             }
             checkArgument(
-                seekByValue(value, valueHash) == null, "value already present: %s", value);
+                seekByValue(value, smearedValueHash) == null, "value already present: %s", value);
             delete(delegate);
-            BiEntry<K, V> newEntry =
-                new BiEntry<K, V>(delegate.key, delegate.keyHash, value, valueHash);
+            BiEntry<K, V> newEntry = new BiEntry<K, V>(
+                delegate.getKey(), delegate.smearedKeyHash, value, smearedValueHash);
             insert(newEntry);
             expectedModCount = modCount;
             if (toRemove == delegate) {
               toRemove = newEntry;
             }
+            V oldValue = delegate.getValue();
             delegate = newEntry;
             return oldValue;
           }
@@ -508,8 +503,7 @@ public final class HashBiMap<K, V> extends AbstractMap<K, V> implements BiMap<K,
 
     @Override
     public K get(@Nullable Object value) {
-      BiEntry<K, V> entry = seekByValue(value, hash(value));
-      return (entry == null) ? null : entry.key;
+      return keyOrNull(seekByValue(value, Hashing.smearedHash(value)));
     }
 
     @Override
@@ -524,12 +518,12 @@ public final class HashBiMap<K, V> extends AbstractMap<K, V> implements BiMap<K,
 
     @Override
     public K remove(@Nullable Object value) {
-      BiEntry<K, V> entry = seekByValue(value, hash(value));
+      BiEntry<K, V> entry = seekByValue(value, Hashing.smearedHash(value));
       if (entry == null) {
         return null;
       } else {
         delete(entry);
-        return entry.key;
+        return entry.getKey();
       }
     }
 
@@ -550,7 +544,7 @@ public final class HashBiMap<K, V> extends AbstractMap<K, V> implements BiMap<K,
 
       @Override
       public boolean remove(@Nullable Object o) {
-        BiEntry<K, V> entry = seekByValue(o, hash(o));
+        BiEntry<K, V> entry = seekByValue(o, Hashing.smearedHash(o));
         if (entry == null) {
           return false;
         } else {
@@ -563,7 +557,7 @@ public final class HashBiMap<K, V> extends AbstractMap<K, V> implements BiMap<K,
       public Iterator<V> iterator() {
         return new Itr<V>() {
           @Override V output(BiEntry<K, V> entry) {
-            return entry.value;
+            return entry.getValue();
           }
         };
       }
@@ -600,27 +594,29 @@ public final class HashBiMap<K, V> extends AbstractMap<K, V> implements BiMap<K,
 
               @Override
               public V getKey() {
-                return delegate.value;
+                return delegate.getValue();
               }
 
               @Override
               public K getValue() {
-                return delegate.key;
+                return delegate.getKey();
               }
 
               @Override
               public K setValue(K key) {
-                K oldKey = delegate.key;
-                int keyHash = hash(key);
-                if (keyHash == delegate.keyHash && Objects.equal(key, oldKey)) {
+                int smearedKeyHash = Hashing.smearedHash(key);
+                if (delegate.matchesKey(key, smearedKeyHash)) {
                   return key;
                 }
-                checkArgument(seekByKey(key, keyHash) == null, "value already present: %s", key);
+                checkArgument(
+                    seekByKey(key, smearedKeyHash) == null, "value already present: %s", key);
                 delete(delegate);
-                BiEntry<K, V> newEntry =
-                    new BiEntry<K, V>(key, keyHash, delegate.value, delegate.valueHash);
+                BiEntry<K, V> newEntry = new BiEntry<K, V>(
+                    key, smearedKeyHash, delegate.getValue(), delegate.smearedValueHash);
                 insert(newEntry);
                 expectedModCount = modCount;
+                K oldKey = delegate.getKey();
+                delegate = newEntry;
                 // This is safe because entries can only get bumped up to earlier in the iteration,
                 // so they can't get revisited.
                 return oldKey;

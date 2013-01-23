@@ -423,8 +423,6 @@ public class ImmutableSortedMapTest extends TestCase {
         builder.build();
         fail();
       } catch (IllegalArgumentException expected) {
-        assertEquals("Duplicate keys in mappings one=1 and one=2",
-            expected.getMessage());
       }
     }
 
@@ -481,8 +479,6 @@ public class ImmutableSortedMapTest extends TestCase {
         ImmutableSortedMap.of("one", 1, "one", 1);
         fail();
       } catch (IllegalArgumentException expected) {
-        assertEquals("Duplicate keys in mappings one=1 and one=1",
-            expected.getMessage());
       }
     }
 
@@ -597,8 +593,6 @@ public class ImmutableSortedMapTest extends TestCase {
         ImmutableSortedMap.copyOf(original);
         fail("Expected IllegalArgumentException");
       } catch (IllegalArgumentException expected) {
-        assertEquals("Duplicate keys in mappings 11=eleven and 12=twelve",
-            expected.getMessage());
       }
     }
 

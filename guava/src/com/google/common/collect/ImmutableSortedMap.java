@@ -302,12 +302,8 @@ public abstract class ImmutableSortedMap<K, V>
   private static <K, V> void validateEntries(int size, Entry<K, V>[] entries,
       Comparator<? super K> comparator) {
     for (int i = 1; i < size; i++) {
-      if (comparator.compare(
-          entries[i - 1].getKey(), entries[i].getKey()) == 0) {
-        throw new IllegalArgumentException(
-            "Duplicate keys in mappings " + entries[i - 1] + " and "
-                + entries[i]);
-      }
+      checkNoConflict(comparator.compare(entries[i - 1].getKey(), entries[i].getKey()) != 0, "key",
+          entries[i - 1], entries[i]);
     }
   }
 
