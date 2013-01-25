@@ -170,7 +170,7 @@
         </executions>
       </plugin>
     </plugins>
-    <sourceDirectory>src,src-super</sourceDirectory>
+    <sourceDirectory>src</sourceDirectory>
     <testSourceDirectory>test</testSourceDirectory>
     <resources>
       <resource>
