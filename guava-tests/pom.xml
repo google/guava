@@ -79,6 +79,15 @@
           </execution>
         </executions>
       </plugin>
+      <plugin>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>2.7.2</version>
+        <configuration>
+          <includes>
+            <include>${test.include}</include>
+          </includes>
+        </configuration>
+      </plugin>
       <!-- TODO(cpovirk): reenable after a matching Caliper snapshot is pushed to Maven Central
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
@@ -109,4 +118,7 @@
     </testResources>
     <testSourceDirectory>test</testSourceDirectory>
   </build>
+  <properties>
+    <test.include>**/*Test.java</test.include>
+  </properties>
 </project>
