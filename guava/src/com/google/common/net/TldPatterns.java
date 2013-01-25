@@ -6204,7 +6204,8 @@ final class TldPatterns {
       "tp",
       "ng",
       "\u049b\u0430\u0437",
-      "xn--80ao21a"
+      "xn--80ao21a",
+      "cw"
   );
 
   /**
