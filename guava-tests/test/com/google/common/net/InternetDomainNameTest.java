@@ -379,13 +379,13 @@ public final class InternetDomainNameTest extends TestCase {
   }
 
   public void testMultipleUnders() {
-    // PSL has both *.uk and *.police.uk; the latter should win.
+    // PSL has both *.uk and *.sch.uk; the latter should win.
     // See http://code.google.com/p/guava-libraries/issues/detail?id=1176
 
-    InternetDomainName domain = InternetDomainName.from("www.essex.police.uk");
+    InternetDomainName domain = InternetDomainName.from("www.essex.sch.uk");
     assertTrue(domain.hasPublicSuffix());
-    assertEquals("essex.police.uk", domain.publicSuffix().name());
-    assertEquals("www.essex.police.uk", domain.topPrivateDomain().name());
+    assertEquals("essex.sch.uk", domain.publicSuffix().name());
+    assertEquals("www.essex.sch.uk", domain.topPrivateDomain().name());
   }
 
   public void testEquality() {
