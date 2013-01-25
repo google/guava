@@ -18,7 +18,7 @@ package com.google.common.collect;
 
 import com.google.caliper.Benchmark;
 import com.google.caliper.Param;
-import com.google.caliper.Runner;
+import com.google.caliper.runner.CaliperMain;
 import com.google.common.base.Function;
 import com.google.common.collect.MapMaker;
 import com.google.common.primitives.Ints;
@@ -105,7 +105,7 @@ public class MapMakerSingleThreadBenchmark extends Benchmark {
   }
 
   public static void main(String[] args) {
-    Runner.main(MapMakerSingleThreadBenchmark.class, args);
+    CaliperMain.main(MapMakerSingleThreadBenchmark.class, args);
   }
 
   // for proper distributions later:

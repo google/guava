@@ -18,7 +18,7 @@ package com.google.common.collect;
 
 import com.google.caliper.Benchmark;
 import com.google.caliper.Param;
-import com.google.caliper.Runner;
+import com.google.caliper.runner.CaliperMain;
 import com.google.common.base.Function;
 import com.google.common.collect.ForwardingQueue;
 import com.google.common.collect.MinMaxPriorityQueue;
@@ -149,6 +149,6 @@ public class MinMaxPriorityQueueBenchmark extends Benchmark {
   }
 
   public static void main(String [] args) {
-    Runner.main(MinMaxPriorityQueueBenchmark.class, args);
+    CaliperMain.main(MinMaxPriorityQueueBenchmark.class, args);
   }
 }

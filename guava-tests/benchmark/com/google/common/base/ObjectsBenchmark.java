@@ -17,7 +17,7 @@
 package com.google.common.base;
 
 import com.google.caliper.Benchmark;
-import com.google.caliper.Runner;
+import com.google.caliper.runner.CaliperMain;
 import com.google.common.base.Objects;
 
 /**
@@ -80,6 +80,6 @@ public class ObjectsBenchmark extends Benchmark {
   }
 
   public static void main(String[] args) {
-    Runner.main(ObjectsBenchmark.class, args);
+    CaliperMain.main(ObjectsBenchmark.class, args);
   }
 }

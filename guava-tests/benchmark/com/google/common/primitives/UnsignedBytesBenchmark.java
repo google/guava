@@ -18,7 +18,7 @@ package com.google.common.primitives;
 
 import com.google.caliper.Benchmark;
 import com.google.caliper.Param;
-import com.google.caliper.Runner;
+import com.google.caliper.runner.CaliperMain;
 
 import java.util.Arrays;
 import java.util.Comparator;
@@ -101,6 +101,6 @@ public class UnsignedBytesBenchmark extends Benchmark {
       bench.timeUnsafe(100000);
     } catch (Exception e) {
     }*/
-    Runner.main(UnsignedBytesBenchmark.class, args);
+    CaliperMain.main(UnsignedBytesBenchmark.class, args);
   }
 }

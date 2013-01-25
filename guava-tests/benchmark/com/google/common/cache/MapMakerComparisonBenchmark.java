@@ -17,7 +17,7 @@
 package com.google.common.cache;
 
 import com.google.caliper.Benchmark;
-import com.google.caliper.Runner;
+import com.google.caliper.runner.CaliperMain;
 import com.google.common.base.Function;
 import com.google.common.base.Functions;
 import com.google.common.collect.MapMaker;
@@ -91,6 +91,6 @@ public class MapMakerComparisonBenchmark extends Benchmark {
   }
 
   public static void main(String[] args) {
-    Runner.main(MapMakerComparisonBenchmark.class, args);
+    CaliperMain.main(MapMakerComparisonBenchmark.class, args);
   }
 }

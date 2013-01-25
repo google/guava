@@ -18,7 +18,7 @@ package com.google.common.base;
 
 import com.google.caliper.Benchmark;
 import com.google.caliper.Param;
-import com.google.caliper.Runner;
+import com.google.caliper.runner.CaliperMain;
 import com.google.common.base.Ascii;
 import com.google.common.collect.Lists;
 import com.google.common.primitives.Chars;
@@ -109,6 +109,6 @@ public class AsciiBenchmark extends Benchmark {
   }
 
   public static void main(String[] args) {
-    Runner.main(AsciiBenchmark.class, args);
+    CaliperMain.main(AsciiBenchmark.class, args);
   }
 }

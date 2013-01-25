@@ -17,7 +17,7 @@
 package com.google.common.collect;
 
 import com.google.caliper.Benchmark;
-import com.google.caliper.Runner;
+import com.google.caliper.runner.CaliperMain;
 
 /**
  * Benchmarking interners.
@@ -50,6 +50,6 @@ public class InternersBenchmark extends Benchmark {
   }
 
   public static void main(String[] args) {
-    Runner.main(InternersBenchmark.class, args);
+    CaliperMain.main(InternersBenchmark.class, args);
   }
 }

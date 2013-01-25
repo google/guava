@@ -24,7 +24,7 @@ import static com.google.common.math.MathBenchmarking.randomPositiveBigInteger;
 
 import com.google.caliper.Benchmark;
 import com.google.caliper.Param;
-import com.google.caliper.Runner;
+import com.google.caliper.runner.CaliperMain;
 import com.google.common.math.LongMath;
 
 import java.math.RoundingMode;
@@ -88,6 +88,6 @@ public class LongMathRoundingBenchmark extends Benchmark {
   }
 
   public static void main(String[] args) {
-    Runner.main(LongMathRoundingBenchmark.class, args);
+    CaliperMain.main(LongMathRoundingBenchmark.class, args);
   }
 }

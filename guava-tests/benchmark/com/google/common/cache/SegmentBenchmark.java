@@ -20,7 +20,7 @@ import static com.google.common.base.Preconditions.checkState;
 
 import com.google.caliper.Benchmark;
 import com.google.caliper.Param;
-import com.google.caliper.Runner;
+import com.google.caliper.runner.CaliperMain;
 import com.google.common.cache.LocalCache.ReferenceEntry;
 import com.google.common.cache.LocalCache.Segment;
 
@@ -64,6 +64,6 @@ public class SegmentBenchmark extends Benchmark {
   }
 
   public static void main(String[] args) {
-    Runner.main(SegmentBenchmark.class, args);
+    CaliperMain.main(SegmentBenchmark.class, args);
   }
 }

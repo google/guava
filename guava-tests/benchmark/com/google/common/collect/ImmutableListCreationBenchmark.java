@@ -18,7 +18,7 @@ package com.google.common.collect;
 
 import com.google.caliper.Benchmark;
 import com.google.caliper.Param;
-import com.google.caliper.Runner;
+import com.google.caliper.runner.CaliperMain;
 
 import java.util.List;
 
@@ -87,6 +87,6 @@ public class ImmutableListCreationBenchmark extends Benchmark {
   }
 
   public static void main(String[] args) {
-    Runner.main(ImmutableListCreationBenchmark.class, args);
+    CaliperMain.main(ImmutableListCreationBenchmark.class, args);
   }
 }

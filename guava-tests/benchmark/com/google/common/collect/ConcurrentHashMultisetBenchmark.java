@@ -21,7 +21,7 @@ import static com.google.common.collect.Multisets.checkNonnegative;
 
 import com.google.caliper.Benchmark;
 import com.google.caliper.Param;
-import com.google.caliper.Runner;
+import com.google.caliper.runner.CaliperMain;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.primitives.Ints;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
@@ -132,7 +132,7 @@ public class ConcurrentHashMultisetBenchmark extends Benchmark {
   }
 
   public static void main(String[] args) {
-    Runner.main(ConcurrentHashMultisetBenchmark.class, args);
+    CaliperMain.main(ConcurrentHashMultisetBenchmark.class, args);
   }
 
   private enum MultisetSupplier {

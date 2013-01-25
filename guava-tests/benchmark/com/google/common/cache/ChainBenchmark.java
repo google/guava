@@ -18,7 +18,7 @@ package com.google.common.cache;
 
 import com.google.caliper.Benchmark;
 import com.google.caliper.Param;
-import com.google.caliper.Runner;
+import com.google.caliper.runner.CaliperMain;
 import com.google.common.cache.LocalCache.ReferenceEntry;
 import com.google.common.cache.LocalCache.Segment;
 
@@ -61,6 +61,6 @@ public class ChainBenchmark extends Benchmark {
   }
 
   public static void main(String[] args) {
-    Runner.main(ChainBenchmark.class, args);
+    CaliperMain.main(ChainBenchmark.class, args);
   }
 }

@@ -17,7 +17,7 @@
 package com.google.common.base;
 
 import com.google.caliper.Benchmark;
-import com.google.caliper.Runner;
+import com.google.caliper.runner.CaliperMain;
 import com.google.common.base.Stopwatch;
 
 import java.util.concurrent.TimeUnit;
@@ -51,6 +51,6 @@ public class StopwatchBenchmark extends Benchmark {
   }
 
   public static void main(String[] args) {
-    Runner.main(StopwatchBenchmark.class, args);
+    CaliperMain.main(StopwatchBenchmark.class, args);
   }
 }

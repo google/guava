@@ -18,13 +18,12 @@ package com.google.common.hash;
 
 import com.google.caliper.Benchmark;
 import com.google.caliper.Param;
-import com.google.caliper.Runner;
+import com.google.caliper.runner.CaliperMain;
 import com.google.common.hash.HashFunction;
 import com.google.common.hash.Hashing;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-
 import java.util.Random;
 
 /**
@@ -106,6 +105,6 @@ public class MessageDigestAlgorithmBenchmark extends Benchmark {
   }
 
   public static void main(String[] args) {
-    Runner.main(MessageDigestAlgorithmBenchmark.class, args);
+    CaliperMain.main(MessageDigestAlgorithmBenchmark.class, args);
   }
 }

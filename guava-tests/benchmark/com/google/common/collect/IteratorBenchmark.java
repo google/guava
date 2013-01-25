@@ -18,7 +18,7 @@ package com.google.common.collect;
 
 import com.google.caliper.Benchmark;
 import com.google.caliper.Param;
-import com.google.caliper.Runner;
+import com.google.caliper.runner.CaliperMain;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -140,6 +140,6 @@ public class IteratorBenchmark extends Benchmark {
   }
 
   public static void main(String[] args) {
-    Runner.main(IteratorBenchmark.class, args);
+    CaliperMain.main(IteratorBenchmark.class, args);
   }
 }

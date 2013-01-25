@@ -18,7 +18,7 @@ package com.google.common.base;
 
 import com.google.caliper.Benchmark;
 import com.google.caliper.Param;
-import com.google.caliper.Runner;
+import com.google.caliper.runner.CaliperMain;
 
 /**
  * Some microbenchmarks for the {@link Objects.ToStringHelper} class.
@@ -56,6 +56,6 @@ public class ToStringHelperBenchmark extends Benchmark {
   }
 
   public static void main(String[] args) {
-    Runner.main(ToStringHelperBenchmark.class, args);
+    CaliperMain.main(ToStringHelperBenchmark.class, args);
   }
 }

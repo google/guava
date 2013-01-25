@@ -18,7 +18,7 @@ package com.google.common.cache;
 
 import com.google.caliper.Benchmark;
 import com.google.caliper.Param;
-import com.google.caliper.Runner;
+import com.google.caliper.runner.CaliperMain;
 import com.google.common.primitives.Ints;
 
 import java.util.Random;
@@ -102,7 +102,7 @@ public class LoadingCacheSingleThreadBenchmark extends Benchmark {
   }
 
   public static void main(String[] args) {
-    Runner.main(LoadingCacheSingleThreadBenchmark.class, args);
+    CaliperMain.main(LoadingCacheSingleThreadBenchmark.class, args);
   }
 
   // for proper distributions later:

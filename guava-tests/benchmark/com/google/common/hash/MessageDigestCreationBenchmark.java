@@ -18,7 +18,7 @@ package com.google.common.hash;
 
 import com.google.caliper.Benchmark;
 import com.google.caliper.Param;
-import com.google.caliper.Runner;
+import com.google.caliper.runner.CaliperMain;
 
 import java.security.MessageDigest;
 
@@ -55,6 +55,6 @@ public class MessageDigestCreationBenchmark extends Benchmark {
   }
 
   public static void main(String[] args) {
-    Runner.main(MessageDigestCreationBenchmark.class, args);
+    CaliperMain.main(MessageDigestCreationBenchmark.class, args);
   }
 }

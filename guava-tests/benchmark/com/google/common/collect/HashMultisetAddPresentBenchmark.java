@@ -15,7 +15,7 @@
 package com.google.common.collect;
 
 import com.google.caliper.Benchmark;
-import com.google.caliper.Runner;
+import com.google.caliper.runner.CaliperMain;
 import com.google.common.collect.HashMultiset;
 import com.google.common.collect.Multiset;
 
@@ -56,6 +56,6 @@ public class HashMultisetAddPresentBenchmark extends Benchmark {
   }
 
   public static void main(String[] args) {
-    Runner.main(HashMultisetAddPresentBenchmark.class, args);
+    CaliperMain.main(HashMultisetAddPresentBenchmark.class, args);
   }
 }

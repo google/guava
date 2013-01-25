@@ -18,7 +18,7 @@ package com.google.common.collect;
 
 import com.google.caliper.Benchmark;
 import com.google.caliper.Param;
-import com.google.caliper.Runner;
+import com.google.caliper.runner.CaliperMain;
 import com.google.common.collect.BenchmarkHelpers.SetImpl;
 import com.google.common.collect.CollectionBenchmarkSampleData.Element;
 
@@ -79,6 +79,6 @@ public class SetContainsBenchmark extends Benchmark {
   }
 
   public static void main(String[] args) throws Exception {
-    Runner.main(SetContainsBenchmark.class, args);
+    CaliperMain.main(SetContainsBenchmark.class, args);
   }
 }

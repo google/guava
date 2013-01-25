@@ -18,7 +18,7 @@ package com.google.common.collect;
 
 import com.google.caliper.Benchmark;
 import com.google.caliper.Param;
-import com.google.caliper.Runner;
+import com.google.caliper.runner.CaliperMain;
 import com.google.common.collect.BenchmarkHelpers.SetImpl;
 
 /**
@@ -56,6 +56,6 @@ public class SetCreationBenchmark extends Benchmark {
   }
   
   public static void main(String[] args) throws Exception {
-    Runner.main(SetCreationBenchmark.class, args);
+    CaliperMain.main(SetCreationBenchmark.class, args);
   }
 }

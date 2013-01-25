@@ -23,7 +23,7 @@ import static java.math.RoundingMode.CEILING;
 
 import com.google.caliper.Benchmark;
 import com.google.caliper.Param;
-import com.google.caliper.Runner;
+import com.google.caliper.runner.CaliperMain;
 import com.google.common.math.BigIntegerMath;
 import com.google.common.math.IntMath;
 import com.google.common.math.LongMath;
@@ -114,6 +114,6 @@ public class BigIntegerMathBenchmark extends Benchmark {
   }
 
   public static void main(String[] args) {
-    Runner.main(BigIntegerMathBenchmark.class, args);
+    CaliperMain.main(BigIntegerMathBenchmark.class, args);
   }
 }

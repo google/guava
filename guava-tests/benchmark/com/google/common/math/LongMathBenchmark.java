@@ -24,7 +24,7 @@ import static com.google.common.math.MathBenchmarking.randomNonNegativeBigIntege
 import static com.google.common.math.MathBenchmarking.randomPositiveBigInteger;
 
 import com.google.caliper.Benchmark;
-import com.google.caliper.Runner;
+import com.google.caliper.runner.CaliperMain;
 import com.google.common.math.LongMath;
 
 /**
@@ -101,6 +101,6 @@ public class LongMathBenchmark extends Benchmark {
   }
   
   public static void main(String[] args) {
-    Runner.main(LongMathBenchmark.class, args);
+    CaliperMain.main(LongMathBenchmark.class, args);
   }
 }
