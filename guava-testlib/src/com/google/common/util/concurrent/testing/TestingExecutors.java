@@ -21,6 +21,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.primitives.Longs;
 import com.google.common.util.concurrent.AbstractFuture;
 import com.google.common.util.concurrent.AbstractListeningExecutorService;
+import com.google.common.util.concurrent.ListenableScheduledFuture;
 import com.google.common.util.concurrent.ListeningScheduledExecutorService;
 
 import java.util.List;
@@ -79,27 +80,28 @@ public final class TestingExecutors {
 
     @Override public void execute(Runnable runnable) {}
 
-    @Override public <V> ScheduledFuture<V> schedule(
+    @Override public <V> ListenableScheduledFuture<V> schedule(
         Callable<V> callable, long delay, TimeUnit unit) {
       return NeverScheduledFuture.create();
     }
 
-    @Override public ScheduledFuture<?> schedule(Runnable command, long delay, TimeUnit unit) {
+    @Override public ListenableScheduledFuture<?> schedule(
+        Runnable command, long delay, TimeUnit unit) {
       return NeverScheduledFuture.create();
     }
 
-    @Override public ScheduledFuture<?> scheduleAtFixedRate(
+    @Override public ListenableScheduledFuture<?> scheduleAtFixedRate(
         Runnable command, long initialDelay, long period, TimeUnit unit) {
       return NeverScheduledFuture.create();
     }
 
-    @Override public ScheduledFuture<?> scheduleWithFixedDelay(
+    @Override public ListenableScheduledFuture<?> scheduleWithFixedDelay(
         Runnable command, long initialDelay, long delay, TimeUnit unit) {
       return NeverScheduledFuture.create();
     }
 
     private static class NeverScheduledFuture<V>
-        extends AbstractFuture<V> implements ScheduledFuture<V> {
+        extends AbstractFuture<V> implements ListenableScheduledFuture<V> {
 
       static <V> NeverScheduledFuture<V> create() {
         return new NeverScheduledFuture<V>();

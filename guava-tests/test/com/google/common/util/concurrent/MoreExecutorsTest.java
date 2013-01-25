@@ -51,6 +51,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Callable;
 import java.util.concurrent.CyclicBarrier;
 import java.util.concurrent.ExecutionException;
@@ -59,6 +60,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.RejectedExecutionException;
+import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -267,6 +269,110 @@ public class MoreExecutorsTest extends JSR166TestCase {
      * TODO(cpovirk): move ForwardingTestCase somewhere common, and use it to
      * test the forwarded methods
      */
+  }
+
+  public void testListeningDecorator_scheduleSuccess() throws Exception {
+    ScheduledThreadPoolExecutor delegate = new ScheduledThreadPoolExecutor(1);
+    ListeningScheduledExecutorService service = listeningDecorator(delegate);
+    ListenableFuture<?> future =
+        service.schedule(Callables.returning(null), 1, TimeUnit.MILLISECONDS);
+
+    future.get(); // wait until done
+    assertTrue(future.isDone());
+    assertListenerRunImmediately(future);
+    assertEquals(0, delegate.getQueue().size());
+  }
+
+  public void testListeningDecorator_scheduleFailure() throws Exception {
+    ScheduledThreadPoolExecutor delegate = new ScheduledThreadPoolExecutor(1);
+    ListeningScheduledExecutorService service = listeningDecorator(delegate);
+    RuntimeException ex = new RuntimeException();
+    ListenableFuture<?> future =
+        service.schedule(new ThrowingRunnable(0, ex), 1, TimeUnit.MILLISECONDS);
+    assertExecutionException(future, ex);
+    assertEquals(0, delegate.getQueue().size());
+  }
+
+  public void testListeningDecorator_schedulePeriodic() throws Exception {
+    ScheduledThreadPoolExecutor delegate = new ScheduledThreadPoolExecutor(1);
+    ListeningScheduledExecutorService service = listeningDecorator(delegate);
+    RuntimeException ex = new RuntimeException();
+
+    ListenableFuture<?> future;
+
+    ThrowingRunnable runnable = new ThrowingRunnable(5, ex);
+    future = service.scheduleAtFixedRate(runnable, 1, 1, TimeUnit.MILLISECONDS);
+    assertExecutionException(future, ex);
+    assertEquals(5, runnable.count);
+    assertEquals(0, delegate.getQueue().size());
+
+    runnable = new ThrowingRunnable(5, ex);
+    future = service.scheduleWithFixedDelay(runnable, 1, 1, TimeUnit.MILLISECONDS);
+    assertExecutionException(future, ex);
+    assertEquals(5, runnable.count);
+    assertEquals(0, delegate.getQueue().size());
+  }
+
+  public void testListeningDecorator_cancelled() throws Exception {
+    ScheduledThreadPoolExecutor delegate = new ScheduledThreadPoolExecutor(1);
+    BlockingQueue<?> delegateQueue = delegate.getQueue();
+    ListeningScheduledExecutorService service = listeningDecorator(delegate);
+    ListenableFuture<?> future;
+    ScheduledFuture<?> delegateFuture;
+
+    Runnable runnable = new Runnable() {
+      @Override public void run() {}
+    };
+
+    future = service.schedule(runnable, 5, TimeUnit.MINUTES);
+    future.cancel(true);
+    assertTrue(future.isCancelled());
+    delegateFuture = (ScheduledFuture<?>) delegateQueue.element();
+    assertTrue(delegateFuture.isCancelled());
+
+    delegateQueue.clear();
+
+    future = service.scheduleAtFixedRate(runnable, 5, 5, TimeUnit.MINUTES);
+    future.cancel(true);
+    assertTrue(future.isCancelled());
+    delegateFuture = (ScheduledFuture<?>) delegateQueue.element();
+    assertTrue(delegateFuture.isCancelled());
+
+    delegateQueue.clear();
+
+    future = service.scheduleWithFixedDelay(runnable, 5, 5, TimeUnit.MINUTES);
+    future.cancel(true);
+    assertTrue(future.isCancelled());
+    delegateFuture = (ScheduledFuture<?>) delegateQueue.element();
+    assertTrue(delegateFuture.isCancelled());
+  }
+
+  private static final class ThrowingRunnable implements Runnable {
+    final int throwAfterCount;
+    final RuntimeException thrown;
+    int count;
+
+    ThrowingRunnable(int throwAfterCount, RuntimeException thrown) {
+      this.throwAfterCount = throwAfterCount;
+      this.thrown = thrown;
+    }
+
+    @Override
+    public void run() {
+      if (++count >= throwAfterCount) {
+        throw thrown;
+      }
+    }
+  }
+
+  private static void assertExecutionException(Future<?> future, Exception expectedCause)
+      throws Exception {
+    try {
+      future.get();
+      fail("Expected ExecutionException");
+    } catch (ExecutionException e) {
+      assertSame(expectedCause, e.getCause());
+    }
   }
 
   /**

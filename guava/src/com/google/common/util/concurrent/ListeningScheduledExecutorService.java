@@ -18,18 +18,15 @@ package com.google.common.util.concurrent;
 
 import com.google.common.annotations.Beta;
 
+import java.util.concurrent.Callable;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 /**
  * A {@link ScheduledExecutorService} that returns {@link ListenableFuture}
- * instances from its {@code ExecutorService} methods.  Futures returned by the
- * {@code schedule*} methods, by contrast, need not implement {@code
- * ListenableFuture}.  (To create an instance from an existing {@link
- * ScheduledExecutorService}, call {@link
- * MoreExecutors#listeningDecorator(ScheduledExecutorService)}.
- *
- * <p>TODO(cpovirk): make at least the one-time schedule() methods return a
- * ListenableFuture, too? But then we'll need ListenableScheduledFuture...
+ * instances from its {@code ExecutorService} methods. To create an instance
+ * from an existing {@link ScheduledExecutorService}, call
+ * {@link MoreExecutors#listeningDecorator(ScheduledExecutorService)}.
  *
  * @author Chris Povirk
  * @since 10.0
@@ -37,4 +34,24 @@ import java.util.concurrent.ScheduledExecutorService;
 @Beta
 public interface ListeningScheduledExecutorService
     extends ScheduledExecutorService, ListeningExecutorService {
+
+  /** @since 15.0 (previously returned ScheduledFuture) */
+  @Override
+  ListenableScheduledFuture<?> schedule(
+      Runnable command, long delay, TimeUnit unit);
+
+  /** @since 15.0 (previously returned ScheduledFuture) */
+  @Override
+  <V> ListenableScheduledFuture<V> schedule(
+      Callable<V> callable, long delay, TimeUnit unit);
+
+  /** @since 15.0 (previously returned ScheduledFuture) */
+  @Override
+  ListenableScheduledFuture<?> scheduleAtFixedRate(
+      Runnable command, long initialDelay, long period, TimeUnit unit);
+
+  /** @since 15.0 (previously returned ScheduledFuture) */
+  @Override
+  ListenableScheduledFuture<?> scheduleWithFixedDelay(
+      Runnable command, long initialDelay, long delay, TimeUnit unit);
 }
