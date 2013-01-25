@@ -84,7 +84,7 @@ public final class Resources {
 
     @Override
     public String toString() {
-      return "Resources.newByteSource(" + url + ")";
+      return "Resources.asByteSource(" + url + ")";
     }
   }
 
