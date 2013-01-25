@@ -479,6 +479,7 @@ public class ImmutableMapTest extends TestCase {
         builder.build();
         fail();
       } catch (IllegalArgumentException expected) {
+        assertEquals("duplicate key: one", expected.getMessage());
       }
     }
 
@@ -533,6 +534,7 @@ public class ImmutableMapTest extends TestCase {
         ImmutableMap.of("one", 1, "one", 1);
         fail();
       } catch (IllegalArgumentException expected) {
+        assertEquals("duplicate key: one", expected.getMessage());
       }
     }
 

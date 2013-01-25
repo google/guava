@@ -16,6 +16,8 @@
 
 package com.google.common.collect;
 
+import static com.google.common.base.Preconditions.checkArgument;
+
 import com.google.common.annotations.GwtCompatible;
 
 import javax.annotation.Nullable;
@@ -66,8 +68,9 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
       LinkedEntry<K, V> linkedEntry = newLinkedEntry(key, value, existing);
       table[tableIndex] = linkedEntry;
       entries[entryIndex] = linkedEntry;
-      for (; existing != null; existing = existing.next()) {
-        checkNoConflict(!key.equals(existing.getKey()), "key", linkedEntry, existing);
+      while (existing != null) {
+        checkArgument(!key.equals(existing.getKey()), "duplicate key: %s", key);
+        existing = existing.next();
       }
     }
   }

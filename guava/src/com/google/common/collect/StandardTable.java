@@ -535,7 +535,8 @@ class StandardTable<R, C, V> implements Table<R, C, V>, Serializable {
         Map<C, V> map = entry.getValue();
         V value = map.get(columnKey);
         if (value != null
-            && predicate.apply(Maps.immutableEntry(entry.getKey(), value))) {
+            && predicate.apply(
+                new ImmutableEntry<R, V>(entry.getKey(), value))) {
           map.remove(columnKey);
           changed = true;
           if (map.isEmpty()) {
@@ -683,7 +684,8 @@ class StandardTable<R, C, V> implements Table<R, C, V>, Serializable {
         Iterator<Map<C, V>> iterator = backingMap.values().iterator();
         while (iterator.hasNext()) {
           Map<C, V> map = iterator.next();
-          if (map.entrySet().remove(Maps.immutableEntry(columnKey, obj))) {
+          if (map.entrySet().remove(
+              new ImmutableEntry<C, Object>(columnKey, obj))) {
             if (map.isEmpty()) {
               iterator.remove();
             }
@@ -929,7 +931,7 @@ class StandardTable<R, C, V> implements Table<R, C, V>, Serializable {
             backingMap.keySet().iterator()) {
           @Override
           Entry<R, Map<C, V>> transform(R rowKey) {
-            return Maps.immutableEntry(rowKey, row(rowKey));
+            return new ImmutableEntry<R, Map<C, V>>(rowKey, row(rowKey));
           }
         };
       }
@@ -1005,7 +1007,8 @@ class StandardTable<R, C, V> implements Table<R, C, V>, Serializable {
             columnKeySet().iterator()) {
           @Override
           Entry<C, Map<R, V>> transform(C columnKey) {
-            return Maps.immutableEntry(columnKey, column(columnKey));
+            return new ImmutableEntry<C, Map<R, V>>(
+                columnKey, column(columnKey));
           }
         };
       }
@@ -1048,7 +1051,8 @@ class StandardTable<R, C, V> implements Table<R, C, V>, Serializable {
       @Override public boolean retainAll(Collection<?> c) {
         boolean changed = false;
         for (C columnKey : Lists.newArrayList(columnKeySet().iterator())) {
-          if (!c.contains(Maps.immutableEntry(columnKey, column(columnKey)))) {
+          if (!c.contains(new ImmutableEntry<C, Map<R, V>>(
+              columnKey, column(columnKey)))) {
             removeColumn(columnKey);
             changed = true;
           }

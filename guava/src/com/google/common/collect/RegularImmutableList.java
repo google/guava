@@ -59,7 +59,13 @@ class RegularImmutableList<E> extends ImmutableList<E> {
   }
 
   @Override public <T> T[] toArray(T[] other) {
-    return ObjectArrays.toArrayImpl(array, offset, size, other);
+    if (other.length < size) {
+      other = ObjectArrays.newArray(other, size);
+    } else if (other.length > size) {
+      other[size] = null;
+    }
+    System.arraycopy(array, offset, other, 0, size);
+    return other;
   }
 
   // The fake cast to E is safe because the creation methods only allow E's

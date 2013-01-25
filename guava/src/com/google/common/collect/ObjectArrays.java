@@ -150,28 +150,6 @@ public final class ObjectArrays {
     }
     return array;
   }
-  
-  /**
-   * Implementation of {@link Collection#toArray(Object[])} for collections backed by an object
-   * array. the runtime type of the returned array is that of the specified array. If the collection
-   * fits in the specified array, it is returned therein. Otherwise, a new array is allocated with
-   * the runtime type of the specified array and the size of the specified collection.
-   *
-   * <p>If the collection fits in the specified array with room to spare (i.e., the array has more
-   * elements than the collection), the element in the array immediately following the end of the
-   * collection is set to {@code null}. This is useful in determining the length of the collection
-   * <i>only</i> if the caller knows that the collection does not contain any null elements.
-   */
-  static <T> T[] toArrayImpl(Object[] src, int offset, int len, T[] dst) {
-    checkPositionIndexes(offset, offset + len, src.length);
-    if (dst.length < len) {
-      dst = newArray(dst, len);
-    } else if (dst.length > len) {
-      dst[len] = null;
-    }
-    System.arraycopy(src, offset, dst, 0, len);
-    return dst;
-  }
 
   /**
    * Returns an array containing all of the elements in the specified
