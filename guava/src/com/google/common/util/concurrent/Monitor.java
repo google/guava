@@ -307,12 +307,12 @@ public final class Monitor {
    * @return whether the monitor was entered
    */
   public boolean enter(long time, TimeUnit unit) {
+    long timeoutNanos = unit.toNanos(time);
     final ReentrantLock lock = this.lock;
     if (!fair && lock.tryLock()) {
       return true;
     }
     long startNanos = System.nanoTime();
-    long timeoutNanos = unit.toNanos(time);
     long remainingNanos = timeoutNanos;
     boolean interruptIgnored = false;
     try {
