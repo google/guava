@@ -90,7 +90,19 @@ public final class Closeables {
    *
    * @param closeable the {@code Closeable} object to be closed, or null, in which case this method
    *     does nothing
+   * @deprecated Where possible, use the
+   *     <a href="http://docs.oracle.com/javase/tutorial/essential/exceptions/tryResourceClose.html">
+   *     try-with-resources</a> statement if using JDK7 or {@link Closer} on JDK6 to close one or
+   *     more {@code Closeable} objects. This method is deprecated because it is easy to misuse and
+   *     may swallow IO exceptions that really should be thrown and handled. See
+   *     <a href="https://code.google.com/p/guava-libraries/issues/detail?id=1118">Guava issue
+   *     1118</a> for a more detailed explanation of the reasons for deprecation and see
+   *     <a href="https://code.google.com/p/guava-libraries/wiki/ClosingResourcesExplained">
+   *     Closing Resources</a> for more information on the problems with closing {@code Closeable}
+   *     objects and some of the preferred solutions for handling it correctly. This method is
+   *     scheduled to be removed in Guava 16.0.
    */
+  @Deprecated
   public static void closeQuietly(@Nullable Closeable closeable) {
     try {
       close(closeable, true);
