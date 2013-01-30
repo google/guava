@@ -62,6 +62,18 @@ public final class IntMath {
   public static boolean isPowerOfTwo(int x) {
     return x > 0 & (x & (x - 1)) == 0;
   }
+  
+  /**
+   * Returns 1 if {@code x < y} as unsigned integers, and 0 otherwise. Assumes that x - y fits into
+   * a signed int. The implementation is branch-free, and benchmarks suggest it is measurably (if
+   * narrowly) faster than the straightforward ternary expression.
+   */
+  @VisibleForTesting
+  static int lessThanBranchFree(int x, int y) {
+    // The double negation is optimized away by normal Java, but is necessary for GWT
+    // to make sure bit twiddling works as expected.
+    return ~~(x - y) >>> (Integer.SIZE - 1);
+  }
 
   /**
    * Returns the base-2 logarithm of {@code x}, rounded according to the specified rounding mode.
@@ -94,7 +106,7 @@ public final class IntMath {
         int cmp = MAX_POWER_OF_SQRT2_UNSIGNED >>> leadingZeros;
           // floor(2^(logFloor + 0.5))
         int logFloor = (Integer.SIZE - 1) - leadingZeros;
-        return (x <= cmp) ? logFloor : logFloor + 1;
+        return logFloor + lessThanBranchFree(cmp, x);
 
       default:
         throw new AssertionError();
@@ -126,12 +138,12 @@ public final class IntMath {
         return logFloor;
       case CEILING:
       case UP:
-        return (x == floorPow) ? logFloor : logFloor + 1;
+        return logFloor + lessThanBranchFree(floorPow, x);
       case HALF_DOWN:
       case HALF_UP:
       case HALF_EVEN:
         // sqrt(10) is irrational, so log10(x) - logFloor is never exactly 0.5
-        return (x <= halfPowersOf10[logFloor]) ? logFloor : logFloor + 1;
+        return logFloor + lessThanBranchFree(halfPowersOf10[logFloor], x);
       default:
         throw new AssertionError();
     }
@@ -146,14 +158,11 @@ public final class IntMath {
      * is 6, then 64 <= x < 128, so floor(log10(x)) is either 1 or 2.
      */
     int y = maxLog10ForLeadingZeros[Integer.numberOfLeadingZeros(x)];
-    // y is the higher of the two possible values of floor(log10(x))
-
-    int sgn = (x - powersOf10[y]) >>> (Integer.SIZE - 1);
     /*
-     * sgn is the sign bit of x - 10^y; it is 1 if x < 10^y, and 0 otherwise. If x < 10^y, then we
-     * want the lower of the two possible values, or y - 1, otherwise, we want y.
+     * y is the higher of the two possible values of floor(log10(x)). If x < 10^y, then we want the
+     * lower of the two possible values, or y - 1, otherwise, we want y.
      */
-    return y - sgn;
+    return y - lessThanBranchFree(x, powersOf10[y]);
   }
 
   // maxLog10ForLeadingZeros[i] == floor(log10(2^(Long.SIZE - i)))
@@ -230,17 +239,23 @@ public final class IntMath {
         return sqrtFloor;
       case CEILING:
       case UP:
-        return (sqrtFloor * sqrtFloor == x) ? sqrtFloor : sqrtFloor + 1;
+        return sqrtFloor + lessThanBranchFree(sqrtFloor * sqrtFloor, x);
       case HALF_DOWN:
       case HALF_UP:
       case HALF_EVEN:
         int halfSquare = sqrtFloor * sqrtFloor + sqrtFloor;
         /*
-         * We wish to test whether or not x <= (sqrtFloor + 0.5)^2 = halfSquare + 0.25.
-         * Since both x and halfSquare are integers, this is equivalent to testing whether or not
-         * x <= halfSquare.  (We have to deal with overflow, though.)
+         * We wish to test whether or not x <= (sqrtFloor + 0.5)^2 = halfSquare + 0.25. Since both
+         * x and halfSquare are integers, this is equivalent to testing whether or not x <=
+         * halfSquare. (We have to deal with overflow, though.)
+         * 
+         * If we treat halfSquare as an unsigned int, we know that
+         *            sqrtFloor^2 <= x < (sqrtFloor + 1)^2
+         * halfSquare - sqrtFloor <= x < halfSquare + sqrtFloor + 1
+         * so |x - halfSquare| <= sqrtFloor.  Therefore, it's safe to treat x - halfSquare as a
+         * signed int, so lessThanBranchFree is safe for use.
          */
-        return (x <= halfSquare | halfSquare < 0) ? sqrtFloor : sqrtFloor + 1;
+        return sqrtFloor + lessThanBranchFree(halfSquare, x);
       default:
         throw new AssertionError();
     }

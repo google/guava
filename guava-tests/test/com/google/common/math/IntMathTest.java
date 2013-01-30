@@ -95,6 +95,18 @@ public class IntMathTest extends TestCase {
   public void testPowersSqrtMaxInt() {
     assertEquals(IntMath.sqrt(Integer.MAX_VALUE, FLOOR), IntMath.FLOOR_SQRT_MAX_INT);
   }
+  
+  public void testLessThanBranchFree() {
+    for (int x : ALL_INTEGER_CANDIDATES) {
+      for (int y : ALL_INTEGER_CANDIDATES) {
+        if (LongMath.fitsInInt((long) x - y)) {
+          int expected = (x < y) ? 1 : 0;
+          int actual = IntMath.lessThanBranchFree(x, y);
+          assertEquals(expected, actual);
+        }
+      }
+    }
+  }
 
   @GwtIncompatible("java.math.BigInteger")
   public void testIsPowerOfTwo() {

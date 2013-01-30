@@ -59,6 +59,18 @@ public final class IntMath {
   public static boolean isPowerOfTwo(int x) {
     return x > 0 & (x & (x - 1)) == 0;
   }
+  
+  /**
+   * Returns 1 if {@code x < y} as unsigned integers, and 0 otherwise. Assumes that x - y fits into
+   * a signed int. The implementation is branch-free, and benchmarks suggest it is measurably (if
+   * narrowly) faster than the straightforward ternary expression.
+   */
+  @VisibleForTesting
+  static int lessThanBranchFree(int x, int y) {
+    // The double negation is optimized away by normal Java, but is necessary for GWT
+    // to make sure bit twiddling works as expected.
+    return ~~(x - y) >>> (Integer.SIZE - 1);
+  }
 
   /**
    * Returns the base-2 logarithm of {@code x}, rounded according to the specified rounding mode.
@@ -91,7 +103,7 @@ public final class IntMath {
         int cmp = MAX_POWER_OF_SQRT2_UNSIGNED >>> leadingZeros;
           // floor(2^(logFloor + 0.5))
         int logFloor = (Integer.SIZE - 1) - leadingZeros;
-        return (x <= cmp) ? logFloor : logFloor + 1;
+        return logFloor + lessThanBranchFree(cmp, x);
 
       default:
         throw new AssertionError();
@@ -110,14 +122,11 @@ public final class IntMath {
      * is 6, then 64 <= x < 128, so floor(log10(x)) is either 1 or 2.
      */
     int y = maxLog10ForLeadingZeros[Integer.numberOfLeadingZeros(x)];
-    // y is the higher of the two possible values of floor(log10(x))
-
-    int sgn = (x - powersOf10[y]) >>> (Integer.SIZE - 1);
     /*
-     * sgn is the sign bit of x - 10^y; it is 1 if x < 10^y, and 0 otherwise. If x < 10^y, then we
-     * want the lower of the two possible values, or y - 1, otherwise, we want y.
+     * y is the higher of the two possible values of floor(log10(x)). If x < 10^y, then we want the
+     * lower of the two possible values, or y - 1, otherwise, we want y.
      */
-    return y - sgn;
+    return y - lessThanBranchFree(x, powersOf10[y]);
   }
 
   // maxLog10ForLeadingZeros[i] == floor(log10(2^(Long.SIZE - i)))

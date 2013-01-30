@@ -137,6 +137,19 @@ public class LongMathTest extends TestCase {
     } catch (ArithmeticException expected) {}
   }
 
+  public void testLessThanBranchFree() {
+    for (long x : ALL_LONG_CANDIDATES) {
+      for (long y : ALL_LONG_CANDIDATES) {
+        BigInteger difference = BigInteger.valueOf(x).subtract(BigInteger.valueOf(y));
+        if (fitsInLong(difference)) {
+          int expected = (x < y) ? 1 : 0;
+          int actual = LongMath.lessThanBranchFree(x, y);
+          assertEquals(expected, actual);
+        }
+      }
+    }
+  }
+
   // Throws an ArithmeticException if "the simple implementation" of binomial coefficients overflows
   @GwtIncompatible("TODO")
   private long simpleBinomial(int n, int k) {
