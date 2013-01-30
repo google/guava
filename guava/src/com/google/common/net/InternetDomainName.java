@@ -48,7 +48,7 @@ import javax.annotation.Nullable;
  * suffixes and addressable as hosts; {@code "uk.com"} is one example. As a
  * result, the only useful test to determine if a domain is a plausible web host
  * is {@link #hasPublicSuffix()}. This will return {@code true} for many domains
- * which (currently) are not hosts, such as {@code "com"}), but given that any
+ * which (currently) are not hosts, such as {@code "com"}, but given that any
  * public suffix may become a host without warning, it is better to err on the
  * side of permissiveness and thus avoid spurious rejection of valid sites.
  *
@@ -63,7 +63,7 @@ import javax.annotation.Nullable;
  * {@link #equals(Object)}.
  *
  * <p><a href="http://en.wikipedia.org/wiki/Internationalized_domain_name">
- * internationalized domain names</a> such as {@code 网络.cn} are supported, as
+ * Internationalized domain names</a> such as {@code 网络.cn} are supported, as
  * are the equivalent <a
  * href="http://en.wikipedia.org/wiki/Internationalized_domain_name">IDNA
  * Punycode-encoded</a> versions.
