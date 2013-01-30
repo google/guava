@@ -203,10 +203,10 @@ public abstract class FluentIterable<E> implements Iterable<E> {
    * function-returned iterables' iterator does. After a successful {@code remove()} call,
    * the returned fluent iterable no longer contains the corresponding element.
    *
-   * @since 13.0
+   * @since 13.0 (required {@code Function<E, Iterable<T>>} until 14.0)
    */
   public <T> FluentIterable<T> transformAndConcat(
-      Function<? super E, ? extends Iterable<T>> function) {
+      Function<? super E, ? extends Iterable<? extends T>> function) {
     return from(Iterables.concat(transform(function)));
   }
 

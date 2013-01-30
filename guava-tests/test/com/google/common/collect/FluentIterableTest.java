@@ -61,6 +61,7 @@ public class FluentIterableTest extends TestCase {
         Lists.newArrayList(FluentIterable.from(ImmutableList.of(1, 2, 3, 4))));
   }
 
+  @SuppressWarnings("deprecation") // test of deprecated method
   public void testFrom_alreadyFluentIterable() {
     FluentIterable<Integer> iterable = FluentIterable.from(asList(1));
     assertSame(iterable, FluentIterable.from(iterable));
@@ -283,6 +284,20 @@ public class FluentIterableTest extends TestCase {
     Iterable<String> result =
         FluentIterable.from(input).transformAndConcat(new RepeatedStringValueOfFunction());
     assertEquals(asList("1", "1", "2", "2", "3", "3"), Lists.newArrayList(result));
+  }
+
+  private static final class RepeatedStringValueOfWildcardFunction
+      implements Function<Integer, List<? extends String>> {
+    @Override
+    public List<String> apply(Integer from) {
+      String value = String.valueOf(from);
+      return ImmutableList.of(value, value);
+    }
+  }
+
+  public void testTransformAndConcat_wildcardFunctionGenerics() {
+    List<Integer> input = asList(1, 2, 3);
+    FluentIterable.from(input).transformAndConcat(new RepeatedStringValueOfWildcardFunction());
   }
 
   public void testFirst_list() {
