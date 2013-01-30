@@ -16,6 +16,7 @@
 
 package com.google.common.testing;
 
+import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static org.truth0.Truth.ASSERT;
 
@@ -130,6 +131,42 @@ public class NullPointerTesterTest extends TestCase {
     "oneArgThrowsOtherThanNpe",
     "oneArgShouldThrowNpeButDoesnt",
   };
+
+  private static class ThrowsIae {
+    public static void christenPoodle(String name) {
+      checkArgument(name != null);
+    }
+  }
+
+  private static class ThrowsNpe {
+    public static void christenPoodle(String name) {
+      checkNotNull(name);
+    }
+  }
+
+  private static class ThrowsUoe {
+    public static void christenPoodle(String name) {
+      throw new UnsupportedOperationException();
+    }
+  }
+
+  private static class ThrowsSomethingElse {
+    public static void christenPoodle(String name) {
+      throw new RuntimeException();
+    }
+  }
+
+  public void testDontAcceptIae() {
+    NullPointerTester tester = new NullPointerTester();
+    tester.testAllPublicStaticMethods(ThrowsNpe.class);
+    tester.testAllPublicStaticMethods(ThrowsUoe.class);
+    try {
+      tester.testAllPublicStaticMethods(ThrowsIae.class);
+    } catch (AssertionFailedError expected) {
+      return;
+    }
+    fail();
+  }
 
   public void testStaticOneArgMethodsThatShouldPass() throws Exception {
     for (String methodName : STATIC_ONE_ARG_METHODS_SHOULD_PASS) {
@@ -1210,12 +1247,4 @@ public class NullPointerTesterTest extends TestCase {
       ASSERT.that(expected.getMessage()).contains("inner class");
     }
   }
-
-  /*
-   *
-   * TODO(kevinb): This is only a very small start.
-   * Must come back and finish.
-   *
-   */
-
 }

@@ -71,6 +71,8 @@ public final class NullPointerTester {
       MutableClassToInstanceMap.create();
   private final List<Member> ignoredMembers = Lists.newArrayList();
 
+  private ExceptionTypePolicy policy = ExceptionTypePolicy.NPE_OR_UOE;
+
   /**
    * Sets a default value that can be used for any parameter of type
    * {@code type}. Returns this object.
@@ -339,8 +341,7 @@ public final class NullPointerTester {
           Arrays.toString(params) + " for " + testedClass);
     } catch (InvocationTargetException e) {
       Throwable cause = e.getCause();
-      if (cause instanceof NullPointerException ||
-          cause instanceof UnsupportedOperationException) {
+      if (policy.isExpectedType(cause)) {
         return;
       }
       AssertionFailedError error = new AssertionFailedError(
@@ -431,5 +432,39 @@ public final class NullPointerTester {
 
   private boolean isIgnored(Member member) {
     return member.isSynthetic() || ignoredMembers.contains(member);
+  }
+
+  /**
+   * Strategy for exception type matching used by {@link NullPointerTester}.
+   */
+  private enum ExceptionTypePolicy {
+
+    /**
+     * Exceptions should be {@link NullPointerException} or
+     * {@link UnsupportedOperationException}.
+     */
+    NPE_OR_UOE() {
+      @Override
+      public boolean isExpectedType(Throwable cause) {
+        return cause instanceof NullPointerException
+            || cause instanceof UnsupportedOperationException;
+      }
+    },
+
+    /**
+     * Exceptions should be {@link NullPointerException},
+     * {@link IllegalArgumentException}, or
+     * {@link UnsupportedOperationException}.
+     */
+    NPE_IAE_OR_UOE() {
+      @Override
+      public boolean isExpectedType(Throwable cause) {
+        return cause instanceof NullPointerException
+            || cause instanceof IllegalArgumentException
+            || cause instanceof UnsupportedOperationException;
+      }
+    };
+
+    public abstract boolean isExpectedType(Throwable cause);
   }
 }
