@@ -22,6 +22,7 @@ import com.google.common.annotations.GwtIncompatible;
 import junit.framework.TestCase;
 
 import java.nio.charset.Charset;
+import java.util.Arrays;
 
 /**
  * Unit test for {@link Charsets}.
@@ -58,5 +59,19 @@ public class CharsetsTest extends TestCase {
   @GwtIncompatible("Non-UTF-8 Charset")
   public void testUtf16() {
     assertEquals(Charset.forName("UTF-16"), Charsets.UTF_16);
+  }
+
+  @GwtIncompatible("Non-UTF-8 Charset")
+  public void testWhyUsAsciiIsDangerous() {
+    byte[] b1 = "朝日新聞".getBytes(Charsets.US_ASCII);
+    byte[] b2 = "聞朝日新".getBytes(Charsets.US_ASCII);
+    byte[] b3 = "????".getBytes(Charsets.US_ASCII);
+    byte[] b4 = "ニュース".getBytes(Charsets.US_ASCII);
+    byte[] b5 = "スューー".getBytes(Charsets.US_ASCII);
+    // Assert they are all equal (using the transitive property)
+    assertTrue(Arrays.equals(b1, b2));
+    assertTrue(Arrays.equals(b2, b3));
+    assertTrue(Arrays.equals(b3, b4));
+    assertTrue(Arrays.equals(b4, b5));
   }
 }
