@@ -297,6 +297,7 @@ public class EventBus {
       }
     } finally {
       isDispatching.remove();
+      eventsToDispatch.remove();
     }
   }
 
