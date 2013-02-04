@@ -44,10 +44,6 @@ abstract class RegularImmutableTable<R, C, V> extends ImmutableTable<R, C, V> {
   abstract ImmutableCollection<V> createValues();
 
   @Override public abstract int size();
-
-  @Override public final boolean containsValue(@Nullable Object value) {
-    return values().contains(value);
-  }
   
   private transient ImmutableSet<Cell<R, C, V>> cellSet;
 

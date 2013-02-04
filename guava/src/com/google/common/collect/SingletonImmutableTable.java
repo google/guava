@@ -19,7 +19,6 @@ package com.google.common.collect;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.base.Objects;
 
 import java.util.Map;
 
@@ -73,15 +72,15 @@ class SingletonImmutableTable<R, C, V> extends ImmutableTable<R, C, V> {
   }
 
   @Override public boolean containsColumn(@Nullable Object columnKey) {
-    return Objects.equal(this.singleColumnKey, columnKey);
+    return this.singleColumnKey.equals(columnKey);
   }
 
   @Override public boolean containsRow(@Nullable Object rowKey) {
-    return Objects.equal(this.singleRowKey, rowKey);
+    return this.singleRowKey.equals(rowKey);
   }
 
   @Override public boolean containsValue(@Nullable Object value) {
-    return Objects.equal(this.singleValue, value);
+    return this.singleValue.equals(value);
   }
 
   @Override public V get(@Nullable Object rowKey, @Nullable Object columnKey) {
@@ -114,36 +113,5 @@ class SingletonImmutableTable<R, C, V> extends ImmutableTable<R, C, V> {
 
   @Override public ImmutableCollection<V> values() {
     return ImmutableSet.of(singleValue);
-  }
-
-  @Override public boolean equals(@Nullable Object obj) {
-    if (obj == this) {
-      return true;
-    } else if (obj instanceof Table) {
-      Table<?, ?, ?> that = (Table<?, ?, ?>) obj;
-      if (that.size() == 1) {
-        Cell<?, ?, ?> thatCell = that.cellSet().iterator().next();
-        return Objects.equal(this.singleRowKey, thatCell.getRowKey()) &&
-            Objects.equal(this.singleColumnKey, thatCell.getColumnKey()) &&
-            Objects.equal(this.singleValue, thatCell.getValue());
-      }
-    }
-    return false;
-  }
-
-  @Override public int hashCode() {
-    return Objects.hashCode(singleRowKey, singleColumnKey, singleValue);
-  }
-
-  @Override public String toString() {
-    return new StringBuilder()
-        .append('{')
-        .append(singleRowKey)
-        .append("={")
-        .append(singleColumnKey)
-        .append('=')
-        .append(singleValue)
-        .append("}}")
-        .toString();
   }
 }

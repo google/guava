@@ -19,6 +19,7 @@ package com.google.common.collect;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.base.Objects;
 
 import java.util.Comparator;
 import java.util.List;
@@ -249,9 +250,16 @@ public abstract class ImmutableTable<R, C, V> implements Table<R, C, V> {
    *
    * @throws NullPointerException if {@code columnKey} is {@code null}
    */
-  @Override public abstract ImmutableMap<R, V> column(C columnKey);
+  @Override public ImmutableMap<R, V> column(C columnKey) {
+    checkNotNull(columnKey);
+    return Objects.firstNonNull(
+        (ImmutableMap<R, V>) columnMap().get(columnKey),
+        ImmutableMap.<R, V>of());
+  }
 
-  @Override public abstract ImmutableSet<C> columnKeySet();
+  @Override public ImmutableSet<C> columnKeySet() {
+    return columnMap().keySet();
+  }
 
   /**
    * {@inheritDoc}
@@ -266,9 +274,16 @@ public abstract class ImmutableTable<R, C, V> implements Table<R, C, V> {
    *
    * @throws NullPointerException if {@code rowKey} is {@code null}
    */
-  @Override public abstract ImmutableMap<C, V> row(R rowKey);
+  @Override public ImmutableMap<C, V> row(R rowKey) {
+    checkNotNull(rowKey);
+    return Objects.firstNonNull(
+        (ImmutableMap<C, V>) rowMap().get(rowKey),
+        ImmutableMap.<C, V>of());
+  }
 
-  @Override public abstract ImmutableSet<R> rowKeySet();
+  @Override public ImmutableSet<R> rowKeySet() {
+    return rowMap().keySet();
+  }
 
   /**
    * {@inheritDoc}
@@ -277,6 +292,34 @@ public abstract class ImmutableTable<R, C, V> implements Table<R, C, V> {
    * {@link ImmutableMap} instances as well.
    */
   @Override public abstract ImmutableMap<R, Map<C, V>> rowMap();
+
+  @Override
+  public boolean contains(@Nullable Object rowKey, @Nullable Object columnKey) {
+    return get(rowKey, columnKey) != null;    
+  }
+
+  @Override
+  public boolean containsRow(@Nullable Object rowKey) {
+    return rowMap().containsKey(rowKey);
+  }
+
+  @Override
+  public boolean containsColumn(@Nullable Object columnKey) {
+    return columnMap().containsKey(columnKey);
+  }
+
+  @Override
+  public boolean containsValue(@Nullable Object value) {
+    return values().contains(value);
+  }
+
+  @Override
+  public boolean isEmpty() {
+    return size() == 0;
+  }
+
+  @Override
+  public abstract ImmutableCollection<V> values();
 
   /**
    * Guaranteed to throw an exception and leave the table unmodified.
@@ -320,14 +363,7 @@ public abstract class ImmutableTable<R, C, V> implements Table<R, C, V> {
   }
 
   @Override public boolean equals(@Nullable Object obj) {
-    if (obj == this) {
-      return true;
-    } else if (obj instanceof Table) {
-      Table<?, ?, ?> that = (Table<?, ?, ?>) obj;
-      return this.cellSet().equals(that.cellSet());
-    } else {
-      return false;
-    }
+    return Tables.equalsImpl(this, obj);
   }
 
   @Override public int hashCode() {

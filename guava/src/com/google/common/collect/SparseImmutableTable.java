@@ -14,10 +14,7 @@
 
 package com.google.common.collect;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.base.Objects;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -83,48 +80,12 @@ final class SparseImmutableTable<R, C, V>
     this.columnMap = columnBuilder.build();
   }
 
-  @Override public ImmutableMap<R, V> column(C columnKey) {
-    checkNotNull(columnKey);
-    // value maps are guaranteed to be immutable maps
-    return Objects.firstNonNull((ImmutableMap<R, V>) columnMap.get(columnKey),
-        ImmutableMap.<R, V>of());
-  }
-
-  @Override public ImmutableSet<C> columnKeySet() {
-    return columnMap.keySet();
-  }
-
   @Override public ImmutableMap<C, Map<R, V>> columnMap() {
     return columnMap;
   }
 
-  @Override public ImmutableMap<C, V> row(R rowKey) {
-    checkNotNull(rowKey);
-    // value maps are guaranteed to be immutable maps
-    return Objects.firstNonNull((ImmutableMap<C, V>) rowMap.get(rowKey),
-        ImmutableMap.<C, V>of());
-  }
-
-  @Override public ImmutableSet<R> rowKeySet() {
-    return rowMap.keySet();
-  }
-
   @Override public ImmutableMap<R, Map<C, V>> rowMap() {
     return rowMap;
-  }
-
-  @Override public boolean contains(@Nullable Object rowKey,
-      @Nullable Object columnKey) {
-    Map<C, V> row = rowMap.get(rowKey);
-    return (row != null) && row.containsKey(columnKey);
-  }
-
-  @Override public boolean containsColumn(@Nullable Object columnKey) {
-    return columnMap.containsKey(columnKey);
-  }
-
-  @Override public boolean containsRow(@Nullable Object rowKey) {
-    return rowMap.containsKey(rowKey);
   }
 
   @Override public V get(@Nullable Object rowKey,

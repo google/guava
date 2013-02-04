@@ -61,10 +61,6 @@ final class EmptyImmutableTable extends ImmutableTable<Object, Object, Object> {
     }
   }
 
-  @Override public int hashCode() {
-    return 0;
-  }
-
   @Override public ImmutableSet<Cell<Object, Object, Object>> cellSet() {
     return ImmutableSet.of();
   }
@@ -74,38 +70,13 @@ final class EmptyImmutableTable extends ImmutableTable<Object, Object, Object> {
     return ImmutableMap.of();
   }
 
-  @Override public ImmutableSet<Object> columnKeySet() {
-    return ImmutableSet.of();
-  }
-
   @Override public ImmutableMap<Object, Map<Object, Object>> columnMap() {
     return ImmutableMap.of();
-  }
-
-  @Override public boolean contains(@Nullable Object rowKey,
-      @Nullable Object columnKey) {
-    return false;
-  }
-
-  @Override public boolean containsColumn(@Nullable Object columnKey) {
-    return false;
-  }
-
-  @Override public boolean containsRow(@Nullable Object rowKey) {
-    return false;
-  }
-
-  @Override public boolean containsValue(@Nullable Object value) {
-    return false;
   }
 
   @Override public ImmutableMap<Object, Object> row(Object rowKey) {
     checkNotNull(rowKey);
     return ImmutableMap.of();
-  }
-
-  @Override public ImmutableSet<Object> rowKeySet() {
-    return ImmutableSet.of();
   }
 
   @Override public ImmutableMap<Object, Map<Object, Object>> rowMap() {

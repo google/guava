@@ -750,4 +750,15 @@ public final class Tables {
           return Collections.unmodifiableMap(input);
         }
       };
+      
+  static boolean equalsImpl(Table<?, ?, ?> table, @Nullable Object obj) {
+    if (obj == table) {
+      return true;
+    } else if (obj instanceof Table) {
+      Table<?, ?, ?> that = (Table<?, ?, ?>) obj;
+      return table.cellSet().equals(that.cellSet());
+    } else {
+      return false;
+    }
+  }
 }

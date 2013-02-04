@@ -267,25 +267,13 @@ final class DenseImmutableTable<R, C, V>
     }
   }
 
-  @Override public ImmutableSet<C> columnKeySet() {
-    return columnKeyToIndex.keySet();
-  }
-
   @Override public ImmutableMap<C, Map<R, V>> columnMap() {
     return columnMap;
   }
 
-  @Override public boolean contains(@Nullable Object rowKey,
-      @Nullable Object columnKey) {
-    return (get(rowKey, columnKey) != null);
-  }
-
-  @Override public boolean containsColumn(@Nullable Object columnKey) {
-    return columnKeyToIndex.containsKey(columnKey);
-  }
-
-  @Override public boolean containsRow(@Nullable Object rowKey) {
-    return rowKeyToIndex.containsKey(rowKey);
+  @Override
+  public ImmutableMap<R, Map<C, V>> rowMap() {
+    return rowMap;
   }
 
   @Override public V get(@Nullable Object rowKey,
@@ -294,25 +282,6 @@ final class DenseImmutableTable<R, C, V>
     Integer columnIndex = columnKeyToIndex.get(columnKey);
     return ((rowIndex == null) || (columnIndex == null)) ? null
         : values[rowIndex][columnIndex];
-  }
-
-  @Override public ImmutableMap<C, V> row(R rowKey) {
-    checkNotNull(rowKey);
-    Integer rowIndex = rowKeyToIndex.get(rowKey);
-    if (rowIndex == null) {
-      return ImmutableMap.of();
-    } else {
-      return new Row(rowIndex);
-    }
-  }
-
-  @Override public ImmutableSet<R> rowKeySet() {
-    return rowKeyToIndex.keySet();
-  }
-
-  @Override
-  public ImmutableMap<R, Map<C, V>> rowMap() {
-    return rowMap;
   }
 
   @Override
