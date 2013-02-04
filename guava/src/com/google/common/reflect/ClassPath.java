@@ -21,6 +21,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Splitter;
+import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSortedSet;
@@ -44,7 +45,7 @@ import java.util.logging.Logger;
 import javax.annotation.Nullable;
 
 /**
- * Scans the source of a {@link ClassLoader} and finds all the classes loadable.
+ * Scans the source of a {@link ClassLoader} and finds all loadable classes and resources.
  *
  * @author Ben Yu
  * @since 14.0
@@ -86,7 +87,7 @@ public final class ClassPath {
 
   /**
    * Returns all resources loadable from the current class path, including the class files of all
-   * loadable classes.
+   * loadable classes but excluding the "META-INF/MANIFEST.MF" file.
    */
   public ImmutableSet<ResourceInfo> getResources() {
     return resources;
@@ -94,13 +95,7 @@ public final class ClassPath {
 
   /** Returns all top level classes loadable from the current class path. */
   public ImmutableSet<ClassInfo> getTopLevelClasses() {
-    ImmutableSet.Builder<ClassInfo> builder = ImmutableSet.builder();
-    for (ResourceInfo resource : resources) {
-      if (resource instanceof ClassInfo) {
-        builder.add((ClassInfo) resource);
-      }
-    }
-    return builder.build();
+    return FluentIterable.from(resources).filter(ClassInfo.class).toSet();
   }
 
   /** Returns all top level classes whose package name is {@code packageName}. */
@@ -218,7 +213,12 @@ public final class ClassPath {
       return className;
     }
 
-    /** Loads (but doesn't link or initialize) the class. */
+    /**
+     * Loads (but doesn't link or initialize) the class.
+     *
+     * @throws LinkageError when there were errors in loading classes that this class depends on.
+     *         For example, {@link NoClassDefFoundError}.
+     */
     public Class<?> load() {
       try {
         return loader.loadClass(className);
@@ -293,7 +293,9 @@ public final class ClassPath {
         browseDirectory(f, classloader, packagePrefix + name + "/", resources);
       } else {
         String resourceName = packagePrefix + name;
-        resources.add(ResourceInfo.of(resourceName, classloader));
+        if (!resourceName.equals(JarFile.MANIFEST_NAME)) {
+          resources.add(ResourceInfo.of(resourceName, classloader));
+        }
       }
     }
   }
@@ -315,7 +317,7 @@ public final class ClassPath {
       Enumeration<JarEntry> entries = jarFile.entries();
       while (entries.hasMoreElements()) {
         JarEntry entry = entries.nextElement();
-        if (entry.isDirectory() || entry.getName().startsWith("META-INF/")) {
+        if (entry.isDirectory() || entry.getName().equals(JarFile.MANIFEST_NAME)) {
           continue;
         }
         resources.add(ResourceInfo.of(entry.getName(), classloader));

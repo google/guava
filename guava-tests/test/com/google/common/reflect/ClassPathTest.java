@@ -43,6 +43,7 @@ import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.Map;
 import java.util.Set;
+import java.util.jar.JarFile;
 import java.util.jar.Manifest;
 
 /**
@@ -55,6 +56,8 @@ public class ClassPathTest extends TestCase {
     Map<String, ResourceInfo> byToString = Maps.newHashMap();
     ClassPath classpath = ClassPath.from(getClass().getClassLoader());
     for (ResourceInfo resource : classpath.getResources()) {
+      ASSERT.that(resource.getResourceName()).isNotEqualTo(JarFile.MANIFEST_NAME);
+      ASSERT.that(resource.toString()).isNotEqualTo(JarFile.MANIFEST_NAME);
       byName.put(resource.getResourceName(), resource);
       byToString.put(resource.toString(), resource);
       assertNotNull(resource.url());
@@ -65,13 +68,11 @@ public class ClassPathTest extends TestCase {
         "com/google/common/reflect/ClassPathTest.class",
         "com/google/common/reflect/ClassPathTest$Nested.class",
         testResourceName);
-    assertFalse(byName.keySet().contains("META-INF/MANIFEST.MF"));
     ASSERT.that(byToString.keySet()).has().allOf(
         "com.google.common.reflect.ClassPath",
         "com.google.common.reflect.ClassPathTest",
         "com/google/common/reflect/ClassPathTest$Nested.class",
         testResourceName);
-    assertFalse(byToString.keySet().contains("META-INF/MANIFEST.MF"));
     assertEquals(getClass().getClassLoader().getResource(testResourceName),
         byName.get("com/google/common/reflect/test.txt").url());
   }
