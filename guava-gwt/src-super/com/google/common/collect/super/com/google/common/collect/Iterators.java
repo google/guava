@@ -722,7 +722,7 @@ public final class Iterators {
    * Returns an {@link Optional} containing the first element in {@code
    * iterator} that satisfies the given predicate, if such an element exists. If
    * no such element is found, an empty {@link Optional} will be returned from
-   * this method and the the iterator will be left exhausted: its {@code
+   * this method and the iterator will be left exhausted: its {@code
    * hasNext()} method will return {@code false}.
    *
    * <p><b>Warning:</b> avoid using a {@code predicate} that matches {@code

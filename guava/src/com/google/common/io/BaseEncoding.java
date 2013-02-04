@@ -572,7 +572,7 @@ public abstract class BaseEncoding {
       this(new Alphabet(name, alphabetChars.toCharArray()), paddingChar);
     }
 
-    StandardBaseEncoding(Alphabet alphabet, Character paddingChar) {
+    StandardBaseEncoding(Alphabet alphabet, @Nullable Character paddingChar) {
       this.alphabet = checkNotNull(alphabet);
       checkArgument(paddingChar == null || !alphabet.matches(paddingChar),
           "Padding character %s was already in alphabet", paddingChar);

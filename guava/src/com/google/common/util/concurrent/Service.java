@@ -138,7 +138,7 @@ public interface Service {
    * logged.
    * 
    * @param listener the listener to run when the service changes state is complete
-   * @param executor the executor in which the the listeners callback methods will be run. For fast,
+   * @param executor the executor in which the listeners callback methods will be run. For fast,
    *     lightweight listeners that would be safe to execute in any thread, consider 
    *     {@link MoreExecutors#sameThreadExecutor}.
    * @since 13.0

@@ -602,7 +602,7 @@ public final class ClassSanityTester {
   }
 
   // sampleInstances is a type-safe class-values mapping, but we don't have a type-safe data
-  // data structure to hold the mappings.
+  // structure to hold the mappings.
   @SuppressWarnings({"unchecked", "rawtypes"})
   private FreshValueGenerator newFreshValueGenerator() {
     FreshValueGenerator generator = new FreshValueGenerator() {

@@ -5,7 +5,7 @@
   <inherits name="com.google.common.escape.testing.Testing"/>
   <inherits name="com.google.common.net.Net"/>
   <inherits name="com.google.common.testing.Testing"/>
-  <inherits name="org.junit.contrib.truth.Truth"/>
+  <inherits name="org.truth0.Truth"/>
   <entry-point class="com.google.common.net.TestModuleEntryPoint"/>
    
   <source path=""/>

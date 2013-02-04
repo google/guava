@@ -508,7 +508,7 @@ public final class Multisets {
    * In the returned multiset, the count of each element is the <i>sum</i> of
    * its counts in the two backing multisets. The iteration order of the
    * returned multiset matches that of the element set of {@code multiset1}
-   * followed by the members of the element set of {@code multiset2} that that
+   * followed by the members of the element set of {@code multiset2} that
    * are not contained in {@code multiset1}, with repeated occurrences of the
    * same element appearing consecutively.
    *

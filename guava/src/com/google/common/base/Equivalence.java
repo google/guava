@@ -210,7 +210,7 @@ public abstract class Equivalence<T> {
     }
 
     /**
-     * Returns the result of {@link Equivalence#hash(Object)} applied to the the wrapped reference.
+     * Returns the result of {@link Equivalence#hash(Object)} applied to the wrapped reference.
      */
     @Override public int hashCode() {
       return equivalence.hash(reference);

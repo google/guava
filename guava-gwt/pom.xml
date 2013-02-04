@@ -136,7 +136,6 @@
             <goals><goal>run</goal></goals>
             <configuration>
               <target name="copy-gwt-resources">
-                <echo message="Test"/>
                 <copy toDir="${project.build.directory}/guava-gwt-sources"
                       verbose="true">
                   <fileset dir="${project.build.directory}/guava-sources">

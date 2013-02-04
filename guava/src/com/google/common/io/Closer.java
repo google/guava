@@ -38,7 +38,7 @@ import java.util.logging.Level;
  * Running on Java 6, exceptions that cannot be thrown must be logged rather than being added to the
  * thrown exception as a suppressed exception.
  *
- * <p>This class is intended to to be used in the following pattern:
+ * <p>This class is intended to be used in the following pattern:
  *
  * <pre>{@code
  * Closer closer = Closer.create();

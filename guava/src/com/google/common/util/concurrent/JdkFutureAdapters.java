@@ -69,7 +69,7 @@ public final class JdkFutureAdapters {
    * <p><b>Warning:</b> If the input future does not already implement {@code
    * ListenableFuture}, the returned future will emulate {@link
    * ListenableFuture#addListener} by submitting a task to the given executor at
-   * at the first call to {@code addListener}. The task must be started by the
+   * the first call to {@code addListener}. The task must be started by the
    * executor promptly, or else the returned {@code ListenableFuture} may fail
    * to work.  The task's execution consists of blocking until the input future
    * is {@linkplain Future#isDone() done}, so each call to this method may

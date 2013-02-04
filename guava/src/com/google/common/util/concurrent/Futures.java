@@ -867,9 +867,6 @@ public final class Futures {
             @Override
             public void run() {
               try {
-                // Here it would have been nice to have had an
-                // UninterruptibleListenableFuture, but we don't want to start a
-                // combinatorial explosion of interfaces, so we have to make do.
                 set(getUninterruptibly(outputFuture));
               } catch (CancellationException e) {
                 // Cancel this future and return.

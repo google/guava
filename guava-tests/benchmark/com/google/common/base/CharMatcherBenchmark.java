@@ -30,8 +30,6 @@ import java.util.Random;
 /**
  * Benchmark for the {@link CharMatcher} class.
  *
- * <p>Example of running the benchmark, overriding one parameter:
- *
  *
  * @author David Beaumont
  * @author Kevin Bourrillion

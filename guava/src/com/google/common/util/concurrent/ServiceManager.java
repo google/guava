@@ -201,7 +201,7 @@ public final class ServiceManager {
    * logged.
    * 
    * @param listener the listener to run when the manager changes state
-   * @param executor the executor in which the the listeners callback methods will be run. For fast,
+   * @param executor the executor in which the listeners callback methods will be run. For fast,
    *     lightweight listeners that would be safe to execute in any thread, consider 
    *     {@link MoreExecutors#sameThreadExecutor}.
    */
