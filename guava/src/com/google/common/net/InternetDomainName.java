@@ -496,17 +496,6 @@ public final class InternetDomainName {
   }
 
   /**
-   * A deprecated synonym for {@link #isValid(String)}.
-   *
-   * @since 8.0 (previously named {@code isValid})
-   * @deprecated Use {@link #isValid(String)} instead
-   */
-  @Deprecated
-  public static boolean isValidLenient(String name) {
-    return isValid(name);
-  }
-
-  /**
    * Indicates whether the argument is a syntactically valid domain name using
    * lenient validation. Specifically, validation against <a
    * href="http://www.ietf.org/rfc/rfc3490.txt">RFC 3490</a>

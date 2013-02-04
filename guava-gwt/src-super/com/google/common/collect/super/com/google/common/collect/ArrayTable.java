@@ -128,16 +128,9 @@ public final class ArrayTable<R, C, V> implements Table<R, C, V>, Serializable {
    * @throws IllegalArgumentException if the provided table is empty
    */
   public static <R, C, V> ArrayTable<R, C, V> create(Table<R, C, V> table) {
-    return new ArrayTable<R, C, V>(table);
-  }
-
-  /**
-   * Creates an {@code ArrayTable} with the same mappings, allowed keys, and
-   * iteration ordering as the provided {@code ArrayTable}.
-   */
-  public static <R, C, V> ArrayTable<R, C, V> create(
-      ArrayTable<R, C, V> table) {
-    return new ArrayTable<R, C, V>(table);
+    return (table instanceof ArrayTable<?, ?, ?>)
+      ? new ArrayTable<R, C, V>((ArrayTable<R, C, V>) table)
+      : new ArrayTable<R, C, V>(table);
   }
 
   private final ImmutableList<R> rowList;
