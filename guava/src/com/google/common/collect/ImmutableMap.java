@@ -18,6 +18,7 @@ package com.google.common.collect;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.collect.RegularImmutableMap.TerminalMapEntry;
 
 import java.io.Serializable;
 import java.util.Collections;
@@ -56,6 +57,7 @@ import javax.annotation.Nullable;
 @GwtCompatible(serializable = true, emulated = true)
 @SuppressWarnings("serial") // we're overriding default serialization
 public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
+
   /**
    * Returns the empty map. This map behaves and performs comparably to
    * {@link Collections#emptyMap}, and is preferable mainly for consistency
@@ -120,23 +122,22 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
   // looking for of() with > 5 entries? Use the builder instead.
 
   /**
-   * Returns a new builder. The generated builder is equivalent to the builder
-   * created by the {@link Builder} constructor.
-   */
-  public static <K, V> Builder<K, V> builder() {
-    return new Builder<K, V>();
-  }
-
-  /**
    * Verifies that {@code key} and {@code value} are non-null, and returns a new
    * immutable entry with those values.
    *
    * <p>A call to {@link Map.Entry#setValue} on the returned entry will always
    * throw {@link UnsupportedOperationException}.
    */
-  static <K, V> Entry<K, V> entryOf(K key, V value) {
-    checkEntryNotNull(key, value);
-    return Maps.immutableEntry(key, value);
+  private static <K, V> TerminalMapEntry<K, V> entryOf(K key, V value) {
+    return new TerminalMapEntry<K, V>(key, value);
+  }
+
+  /**
+   * Returns a new builder. The generated builder is equivalent to the builder
+   * created by the {@link Builder} constructor.
+   */
+  public static <K, V> Builder<K, V> builder() {
+    return new Builder<K, V>();
   }
 
   static void checkEntryNotNull(Object key, Object value) {
@@ -176,7 +177,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
    * @since 2.0 (imported from Google Collections Library)
    */
   public static class Builder<K, V> {
-    Entry<K, V>[] entries;
+    ImmutableEntry<K, V>[] entries;
     int size;
 
     /**
@@ -187,14 +188,15 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
       this(ImmutableCollection.Builder.DEFAULT_INITIAL_CAPACITY);
     }
 
-    Builder(int initialCapacity) {
-      this.entries = createEntryArray(initialCapacity);
+    Builder(ImmutableEntry<K, V>[] entries) {
+      this.entries = entries;
       this.size = 0;
     }
 
     @SuppressWarnings("unchecked")
-    Entry<K, V>[] createEntryArray(int size) {
-      return new Entry[size];
+    Builder(int initialCapacity) {
+      this(new TerminalMapEntry[initialCapacity]);
+      this.size = 0;
     }
 
     private void ensureCapacity(int minCapacity) {
@@ -204,13 +206,17 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
       }
     }
 
+    ImmutableEntry<K, V> entryOf(K key, V value) {
+      return ImmutableMap.entryOf(key, value);
+    }
+
     /**
      * Associates {@code key} with {@code value} in the built map. Duplicate
      * keys are not allowed, and will cause {@link #build} to fail.
      */
     public Builder<K, V> put(K key, V value) {
       ensureCapacity(size + 1);
-      Entry<K, V> entry = entryOf(key, value);
+      ImmutableEntry<K, V> entry = entryOf(key, value);
       // don't inline this: we want to fail atomically if key or value is null
       entries[size++] = entry;
       return this;
@@ -223,21 +229,8 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
      *
      * @since 11.0
      */
-    @SuppressWarnings("unchecked") // all supported methods are covariant in the unchecked case
     public Builder<K, V> put(Entry<? extends K, ? extends V> entry) {
-      K key = entry.getKey();
-      V value = entry.getValue();
-      ensureCapacity(size + 1);
-      Entry<K, V> immutableEntry;
-      if (entry instanceof ImmutableEntry) {
-        checkEntryNotNull(key, value);
-        immutableEntry = (Entry<K, V>) entry;
-      } else {
-        // Directly calling entryOf(entry.getKey(), entry.getValue()) can cause
-        // compilation error in Eclipse.
-        immutableEntry = entryOf(key, value);
-      }
-      entries[size++] = immutableEntry;
+      put(entry.getKey(), entry.getValue());
       return this;
     }
 
@@ -250,7 +243,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
     public Builder<K, V> putAll(Map<? extends K, ? extends V> map) {
       ensureCapacity(size + map.size());
       for (Entry<? extends K, ? extends V> entry : map.entrySet()) {
-        put(entry.getKey(), entry.getValue());
+        put(entry);
       }
       return this;
     }
@@ -266,7 +259,14 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
      * @throws IllegalArgumentException if duplicate keys were added
      */
     public ImmutableMap<K, V> build() {
-      return fromEntries(size, entries);
+      switch (size) {
+        case 0:
+          return of();
+        case 1:
+          return of(entries[0].getKey(), entries[0].getValue());
+        default:
+          return new RegularImmutableMap<K, V>(size, (TerminalMapEntry<?, ?>[]) entries);
+      }
     }
   }
 
@@ -304,19 +304,15 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
       return result;
     }
     Entry<?, ?>[] entries = map.entrySet().toArray(EMPTY_ENTRY_ARRAY);
-    return fromEntries(entries.length, entries);
-  }
-
-  private static <K, V> ImmutableMap<K, V> fromEntries(int size, Entry<?, ?>[] entries) {
-    switch (size) {
+    switch (entries.length) {
       case 0:
         return of();
       case 1:
         @SuppressWarnings("unchecked") // all entries will be Entry<K, V>'s
         Entry<K, V> onlyEntry = (Entry<K, V>) entries[0];
-        return ImmutableBiMap.of(onlyEntry.getKey(), onlyEntry.getValue());
+        return of(onlyEntry.getKey(), onlyEntry.getValue());
       default:
-        return new RegularImmutableMap<K, V>(size, entries);
+        return new RegularImmutableMap<K, V>(entries);
     }
   }
 
