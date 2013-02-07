@@ -215,7 +215,7 @@ public final class ServiceManager {
    * 
    * @return this
    * @throws IllegalStateException if any of the Services are not {@link State#NEW new} when the 
-   *     method is called, {@link State#TERMINATED terminated} or {@link State#FAILED failed}.
+   *     method is called.
    */
   public ServiceManager startAsync() {
     for (Map.Entry<Service, ServiceListener> entry : services.entrySet()) {
@@ -447,10 +447,7 @@ public final class ServiceManager {
     boolean awaitHealthy(long timeout, TimeUnit unit) {
       monitor.enter();
       try {
-        if (monitor.waitForUninterruptibly(awaitHealthGuard, timeout, unit)) {
-          return true;
-        }
-        return false;
+        return monitor.waitForUninterruptibly(awaitHealthGuard, timeout, unit);
       } finally {
         monitor.leave();
       }
@@ -629,7 +626,8 @@ public final class ServiceManager {
     }
     
     @Override public void terminated(State from) {
-      logger.info("Service " + service + " has terminated. Previous state was " + from + " state.");
+      logger.log(Level.FINE, "Service {0} has terminated. Previous state was: {1}", 
+          new Object[] {service, from});
       state.monitor.enter();
       try {
         if (from == State.NEW) {
@@ -670,7 +668,8 @@ public final class ServiceManager {
     void finishedStarting(boolean currentlyHealthy) {
       synchronized (watch) {
         watch.stop();
-        logger.log(Level.INFO, "Started " + service + " in " + startupTimeMillis() + " ms.");
+        logger.log(Level.FINE, "Started {0} in {1} ms.", 
+            new Object[] {service, startupTimeMillis()});
       }
       state.serviceFinishedStarting(service, currentlyHealthy);
     }
@@ -685,7 +684,7 @@ public final class ServiceManager {
       synchronized (watch) {
         if (!watch.isRunning()) { // only start the watch once.
           watch.start();
-          logger.log(Level.INFO, "Starting {0}", service);
+          logger.log(Level.FINE, "Starting {0}.", service);
         }
       }
     }
