@@ -16,18 +16,25 @@
 
 package com.google.common.eventbus;
 
+import com.google.common.base.Objects;
 import com.google.common.base.Throwables;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
 import com.google.common.reflect.TypeToken;
 import com.google.common.util.concurrent.UncheckedExecutionException;
 
 import java.lang.reflect.Method;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
+
+import javax.annotation.Nullable;
 
 /**
  * A {@link HandlerFindingStrategy} for collecting all event handler methods that are marked with
@@ -78,35 +85,52 @@ class AnnotatedHandlerFinder implements HandlerFindingStrategy {
       throw Throwables.propagate(e.getCause());
     }
   }
+  
+  private static final class MethodIdentifier {
+    private final String name;
+    private final List<Class<?>> parameterTypes;
+    
+    MethodIdentifier(Method method) {
+      this.name = method.getName();
+      this.parameterTypes = Arrays.asList(method.getParameterTypes());
+    }
+    
+    @Override
+    public int hashCode() {
+      return Objects.hashCode(name, parameterTypes);
+    }
+    
+    @Override
+    public boolean equals(@Nullable Object o) {
+      if (o instanceof MethodIdentifier) {
+        MethodIdentifier ident = (MethodIdentifier) o;
+        return name.equals(ident.name) && parameterTypes.equals(ident.parameterTypes);
+      }
+      return false;
+    }
+  }
 
   private static ImmutableList<Method> getAnnotatedMethodsInternal(Class<?> clazz) {
     Set<? extends Class<?>> supers = TypeToken.of(clazz).getTypes().rawTypes();
-    ImmutableList.Builder<Method> result = ImmutableList.builder();
-    for (Method method : clazz.getMethods()) {
-      /*
-       * Iterate over each distinct method of {@code clazz}, checking if it is annotated with
-       * @Subscribe by any of the superclasses or superinterfaces that declare it.
-       */
-      for (Class<?> c : supers) {
-        try {
-          Method m = c.getMethod(method.getName(), method.getParameterTypes());
-          if (m.isAnnotationPresent(Subscribe.class)) {
-            Class<?>[] parameterTypes = method.getParameterTypes();
-            if (parameterTypes.length != 1) {
-              throw new IllegalArgumentException("Method " + method
-                  + " has @Subscribe annotation, but requires " + parameterTypes.length
-                  + " arguments.  Event handler methods must require a single argument.");
-            }
-            Class<?> eventType = parameterTypes[0];
-            result.add(method);
-            break;
+    Map<MethodIdentifier, Method> identifiers = Maps.newHashMap();
+    for (Class<?> superClazz : supers) {
+      for (Method superClazzMethod : superClazz.getMethods()) {
+        if (superClazzMethod.isAnnotationPresent(Subscribe.class)) {
+          Class<?>[] parameterTypes = superClazzMethod.getParameterTypes();
+          if (parameterTypes.length != 1) {
+            throw new IllegalArgumentException("Method " + superClazzMethod
+                + " has @Subscribe annotation, but requires " + parameterTypes.length
+                + " arguments.  Event handler methods must require a single argument.");
           }
-        } catch (NoSuchMethodException ignored) {
-          // Move on.
+          
+          MethodIdentifier ident = new MethodIdentifier(superClazzMethod);
+          if (!identifiers.containsKey(ident)) {
+            identifiers.put(ident, superClazzMethod);
+          }
         }
       }
     }
-    return result.build();
+    return ImmutableList.copyOf(identifiers.values());
   }
 
   /**
