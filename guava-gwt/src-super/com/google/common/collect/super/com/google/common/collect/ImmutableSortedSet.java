@@ -278,6 +278,16 @@ public abstract class ImmutableSortedSet<E>
     return super.iterator();
   }
 
+  @Override
+  public Object[] toArray() {
+    return ObjectArrays.toArrayImpl(this);
+  }
+
+  @Override
+  public <T> T[] toArray(T[] other) {
+    return ObjectArrays.toArrayImpl(this, other);
+  }
+
   @Override public boolean contains(@Nullable Object object) {
     try {
       // This set never contains null.  We need to explicitly check here

@@ -136,12 +136,9 @@ final class RegularImmutableSortedSet<E> extends ImmutableSortedSet<E> {
     return elements.isPartialView();
   }
 
-  @Override public Object[] toArray() {
-    return elements.toArray();
-  }
-
-  @Override public <T> T[] toArray(T[] array) {
-    return elements.toArray(array);
+  @Override
+  int copyIntoArray(Object[] dst, int offset) {
+    return elements.copyIntoArray(dst, offset);
   }
 
   @Override public boolean equals(@Nullable Object object) {

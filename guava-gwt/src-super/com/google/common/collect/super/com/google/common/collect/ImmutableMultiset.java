@@ -19,7 +19,6 @@ package com.google.common.collect;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.annotations.GwtIncompatible;
 import com.google.common.primitives.Ints;
 
 import java.io.Serializable;
@@ -310,16 +309,6 @@ public abstract class ImmutableMultiset<E> extends ImmutableCollection<E>
   @Override
   public final boolean setCount(E element, int oldCount, int newCount) {
     throw new UnsupportedOperationException();
-  }
-
-  @GwtIncompatible("not present in emulated superclass")
-  @Override
-  int copyIntoArray(Object[] dst, int offset) {
-    for (Multiset.Entry<E> entry : entrySet()) {
-      Arrays.fill(dst, offset, offset + entry.getCount(), entry.getElement());
-      offset += entry.getCount();
-    }
-    return offset;
   }
 
   @Override public boolean equals(@Nullable Object object) {

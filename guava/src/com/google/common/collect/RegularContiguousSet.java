@@ -134,16 +134,6 @@ final class RegularContiguousSet<C extends Comparable> extends ContiguousSet<C> 
     return false;
   }
 
-  // copied to make sure not to use the GWT-emulated version
-  @Override public Object[] toArray() {
-    return ObjectArrays.toArrayImpl(this);
-  }
-
-  // copied to make sure not to use the GWT-emulated version
-  @Override public <T> T[] toArray(T[] other) {
-    return ObjectArrays.toArrayImpl(this, other);
-  }
-
   @Override public ContiguousSet<C> intersection(ContiguousSet<C> other) {
     checkNotNull(other);
     checkArgument(this.domain.equals(other.domain));

@@ -63,15 +63,9 @@ final class EmptyImmutableList extends ImmutableList<Object> {
     return listIterator();
   }
 
-  @Override public Object[] toArray() {
-    return ObjectArrays.EMPTY_ARRAY;
-  }
-
-  @Override public <T> T[] toArray(T[] a) {
-    if (a.length > 0) {
-      a[0] = null;
-    }
-    return a;
+  @Override
+  int copyIntoArray(Object[] dst, int offset) {
+    return offset;
   }
 
   @Override

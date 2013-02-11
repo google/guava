@@ -81,14 +81,6 @@ final class ImmutableEnumSet<E extends Enum<E>> extends ImmutableSet<E> {
     return delegate.isEmpty();
   }
 
-  @Override public Object[] toArray() {
-    return delegate.toArray();
-  }
-
-  @Override public <T> T[] toArray(T[] array) {
-    return delegate.toArray(array);
-  }
-
   @Override public boolean equals(Object object) {
     return object == this || delegate.equals(object);
   }

@@ -55,13 +55,27 @@ public abstract class ImmutableCollection<E>
   public abstract UnmodifiableIterator<E> iterator();
 
   @Override
-  public Object[] toArray() {
-    return ObjectArrays.toArrayImpl(this);
+  public final Object[] toArray() {
+    int size = size();
+    if (size == 0) {
+      return ObjectArrays.EMPTY_ARRAY;
+    }
+    Object[] result = new Object[size()];
+    copyIntoArray(result, 0);
+    return result;
   }
 
   @Override
-  public <T> T[] toArray(T[] other) {
-    return ObjectArrays.toArrayImpl(this, other);
+  public final <T> T[] toArray(T[] other) {
+    checkNotNull(other);
+    int size = size();
+    if (other.length < size) {
+      other = ObjectArrays.newArray(other, size);
+    } else if (other.length > size) {
+      other[size] = null;
+    }
+    copyIntoArray(other, 0);
+    return other;
   }
 
   @Override
@@ -189,6 +203,17 @@ public abstract class ImmutableCollection<E>
    * memory leaks.
    */
   abstract boolean isPartialView();
+  
+  /**
+   * Copies the contents of this immutable collection into the specified array at the specified
+   * offset.  Returns {@code offset + size()}.
+   */
+  int copyIntoArray(Object[] dst, int offset) {
+    for (E e : this) {
+      dst[offset++] = e;
+    }
+    return offset;
+  }
 
   Object writeReplace() {
     // We serialize by default to ImmutableList, the simplest thing that works.

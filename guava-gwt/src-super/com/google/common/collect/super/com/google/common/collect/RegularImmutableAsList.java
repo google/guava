@@ -17,7 +17,6 @@
 package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.annotations.GwtIncompatible;
 
 /**
  * An {@link ImmutableAsList} implementation specialized for when the delegate collection is
@@ -55,12 +54,6 @@ class RegularImmutableAsList<E> extends ImmutableAsList<E> {
     return (UnmodifiableListIterator<E>) delegateList.listIterator(index);
   }
 
-  @GwtIncompatible("not present in emulated superclass")
-  @Override
-  int copyIntoArray(Object[] dst, int offset) {
-    return delegateList.copyIntoArray(dst, offset);
-  }
-
   @Override
   public int indexOf(Object object) {
     return delegateList.indexOf(object);
@@ -86,3 +79,4 @@ class RegularImmutableAsList<E> extends ImmutableAsList<E> {
     return delegateList.get(index);
   }
 }
+

@@ -660,7 +660,7 @@ public abstract class ImmutableMultimap<K, V> extends AbstractMultimap<K, V>
     public boolean contains(@Nullable Object object) {
       return containsValue(object);
     }
-
+    
     @Override public UnmodifiableIterator<V> iterator() {
       return new Itr<V>() {
         @Override
@@ -668,6 +668,15 @@ public abstract class ImmutableMultimap<K, V> extends AbstractMultimap<K, V>
           return value;
         }
       };
+    }
+
+    @GwtIncompatible("not present in emulated superclass")
+    @Override
+    int copyIntoArray(Object[] dst, int offset) {
+      for (ImmutableCollection<V> valueCollection : map.values()) {
+        offset = valueCollection.copyIntoArray(dst, offset);
+      }
+      return offset;
     }
 
     @Override

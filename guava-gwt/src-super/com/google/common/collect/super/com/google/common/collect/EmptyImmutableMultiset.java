@@ -17,7 +17,6 @@
 package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.annotations.GwtIncompatible;
 
 import java.util.Collection;
 
@@ -92,12 +91,6 @@ final class EmptyImmutableMultiset extends ImmutableMultiset<Object> {
     return false;
   }
 
-  @GwtIncompatible("not present in emulated superclass")
-  @Override
-  int copyIntoArray(Object[] dst, int offset) {
-    return offset;
-  }
-
   @Override
   public ImmutableList<Object> asList() {
     return ImmutableList.of();
@@ -109,3 +102,4 @@ final class EmptyImmutableMultiset extends ImmutableMultiset<Object> {
 
   private static final long serialVersionUID = 0;
 }
+

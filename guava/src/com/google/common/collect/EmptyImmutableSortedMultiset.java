@@ -123,13 +123,8 @@ final class EmptyImmutableSortedMultiset<E> extends ImmutableSortedMultiset<E> {
   }
 
   @Override
-  public Object[] toArray() {
-    return ObjectArrays.EMPTY_ARRAY;
-  }
-
-  @Override
-  public <T> T[] toArray(T[] other) {
-    return asList().toArray(other);
+  int copyIntoArray(Object[] dst, int offset) {
+    return offset;
   }
 
   @Override

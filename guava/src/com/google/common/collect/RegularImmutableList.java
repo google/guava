@@ -54,12 +54,10 @@ class RegularImmutableList<E> extends ImmutableList<E> {
     return offset != 0 || size != array.length;
   }
 
-  @Override public Object[] toArray() {
-    return ObjectArrays.copyAsObjectArray(array, offset, size);
-  }
-
-  @Override public <T> T[] toArray(T[] other) {
-    return ObjectArrays.toArrayImpl(array, offset, size, other);
+  @Override
+  int copyIntoArray(Object[] dst, int dstOff) {
+    System.arraycopy(array, offset, dst, dstOff, size);
+    return dstOff + size;
   }
 
   // The fake cast to E is safe because the creation methods only allow E's

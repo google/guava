@@ -28,7 +28,6 @@ import java.io.InvalidObjectException;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.RandomAccess;
@@ -483,6 +482,16 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
    */
   @Override public ImmutableList<E> asList() {
     return this;
+  }
+
+  @Override
+  int copyIntoArray(Object[] dst, int offset) {
+    // this loop is faster for RandomAccess instances, which ImmutableLists are
+    int size = size();
+    for (int i = 0; i < size; i++) {
+      dst[offset + i] = get(i);
+    }
+    return offset + size;
   }
 
   /**

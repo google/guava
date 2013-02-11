@@ -72,12 +72,9 @@ class EmptyImmutableSortedSet<E> extends ImmutableSortedSet<E> {
     return ImmutableList.of();
   }
 
-  @Override public Object[] toArray() {
-    return ObjectArrays.EMPTY_ARRAY;
-  }
-
-  @Override public <T> T[] toArray(T[] a) {
-    return asList().toArray(a);
+  @Override
+  int copyIntoArray(Object[] dst, int offset) {
+    return offset;
   }
 
   @Override public boolean equals(@Nullable Object object) {

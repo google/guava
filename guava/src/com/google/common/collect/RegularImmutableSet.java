@@ -69,13 +69,9 @@ final class RegularImmutableSet<E> extends ImmutableSet<E> {
   }
 
   @Override
-  public Object[] toArray() {
-    return asList().toArray();
-  }
-
-  @Override
-  public <T> T[] toArray(T[] other) {
-    return asList().toArray(other);
+  int copyIntoArray(Object[] dst, int offset) {
+    System.arraycopy(elements, 0, dst, offset, elements.length);
+    return offset + elements.length;
   }
 
   @Override
