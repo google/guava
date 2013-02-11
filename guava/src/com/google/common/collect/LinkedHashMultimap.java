@@ -520,6 +520,11 @@ public final class LinkedHashMultimap<K, V> extends AbstractSetMultimap<K, V> {
       }
     };
   }
+  
+  @Override
+  Iterator<V> valueIterator() {
+    return Maps.valueIterator(entryIterator());
+  }
 
   @Override
   public void clear() {

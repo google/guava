@@ -33,6 +33,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.NavigableMap;
 import java.util.NavigableSet;
 import java.util.RandomAccess;
@@ -1117,6 +1118,47 @@ abstract class AbstractMapBasedMultimap<K, V> extends AbstractMultimap<K, V>
     return count;
   }
 
+  private abstract class Itr<T> implements Iterator<T> {
+    final Iterator<Map.Entry<K, Collection<V>>> keyIterator;
+    K key;
+    Collection<V> collection;
+    Iterator<V> valueIterator;
+
+    Itr() {
+      keyIterator = map.entrySet().iterator();
+      key = null;
+      collection = null;
+      valueIterator = Iterators.emptyModifiableIterator();
+    }
+
+    abstract T output(K key, V value);
+
+    @Override
+    public boolean hasNext() {
+      return keyIterator.hasNext() || valueIterator.hasNext();
+    }
+
+    @Override
+    public T next() {
+      if (!valueIterator.hasNext()) {
+        Map.Entry<K, Collection<V>> mapEntry = keyIterator.next();
+        key = mapEntry.getKey();
+        collection = mapEntry.getValue();
+        valueIterator = collection.iterator();
+      }
+      return output(key, valueIterator.next());
+    }
+
+    @Override
+    public void remove() {
+      valueIterator.remove();
+      if (collection.isEmpty()) {
+        keyIterator.remove();
+      }
+      totalSize--;
+    }
+  }
+
   /**
    * {@inheritDoc}
    *
@@ -1125,6 +1167,16 @@ abstract class AbstractMapBasedMultimap<K, V> extends AbstractMultimap<K, V>
    */
   @Override public Collection<V> values() {
     return super.values();
+  }
+
+  @Override
+  Iterator<V> valueIterator() {
+    return new Itr<V>() {
+      @Override
+      V output(K key, V value) {
+        return value;
+      }
+    };
   }
 
   /*
@@ -1158,53 +1210,12 @@ abstract class AbstractMapBasedMultimap<K, V> extends AbstractMultimap<K, V>
    */
   @Override
   Iterator<Map.Entry<K, V>> entryIterator() {
-    return new EntryIterator();
-  }
-
-  /** Iterator across all key-value pairs. */
-  private class EntryIterator implements Iterator<Map.Entry<K, V>> {
-    final Iterator<Map.Entry<K, Collection<V>>> keyIterator;
-    K key;
-    Collection<V> collection;
-    Iterator<V> valueIterator;
-
-    EntryIterator() {
-      keyIterator = map.entrySet().iterator();
-      if (keyIterator.hasNext()) {
-        findValueIteratorAndKey();
-      } else {
-        valueIterator = Iterators.emptyModifiableIterator();
+    return new Itr<Map.Entry<K, V>>() {
+      @Override
+      Entry<K, V> output(K key, V value) {
+        return Maps.immutableEntry(key, value);
       }
-    }
-
-    void findValueIteratorAndKey() {
-      Map.Entry<K, Collection<V>> entry = keyIterator.next();
-      key = entry.getKey();
-      collection = entry.getValue();
-      valueIterator = collection.iterator();
-    }
-
-    @Override
-    public boolean hasNext() {
-      return keyIterator.hasNext() || valueIterator.hasNext();
-    }
-
-    @Override
-    public Map.Entry<K, V> next() {
-      if (!valueIterator.hasNext()) {
-        findValueIteratorAndKey();
-      }
-      return Maps.immutableEntry(key, valueIterator.next());
-    }
-
-    @Override
-    public void remove() {
-      valueIterator.remove();
-      if (collection.isEmpty()) {
-        keyIterator.remove();
-      }
-      totalSize--;
-    }
+    };
   }
 
   @Override

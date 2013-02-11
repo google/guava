@@ -652,28 +652,39 @@ public abstract class ImmutableMultimap<K, V> extends AbstractMultimap<K, V>
   
   @Override
   ImmutableCollection<V> createValues() {
-    return new Values();
+    return new Values<K, V>(this);
   }
 
-  private final class Values extends ImmutableCollection<V> {
+  @Override
+  UnmodifiableIterator<V> valueIterator() {
+    return new Itr<V>() {
+      @Override
+      V output(K key, V value) {
+        return value;
+      }
+    };
+  }
+
+  private static final class Values<K, V> extends ImmutableCollection<V> {
+    private transient final ImmutableMultimap<K, V> multimap;
+    
+    Values(ImmutableMultimap<K, V> multimap) {
+      this.multimap = multimap;
+    }
+
     @Override
     public boolean contains(@Nullable Object object) {
-      return containsValue(object);
+      return multimap.containsValue(object);
     }
     
     @Override public UnmodifiableIterator<V> iterator() {
-      return new Itr<V>() {
-        @Override
-        V output(K key, V value) {
-          return value;
-        }
-      };
+      return multimap.valueIterator();
     }
 
     @GwtIncompatible("not present in emulated superclass")
     @Override
     int copyIntoArray(Object[] dst, int offset) {
-      for (ImmutableCollection<V> valueCollection : map.values()) {
+      for (ImmutableCollection<V> valueCollection : multimap.map.values()) {
         offset = valueCollection.copyIntoArray(dst, offset);
       }
       return offset;
@@ -681,7 +692,7 @@ public abstract class ImmutableMultimap<K, V> extends AbstractMultimap<K, V>
 
     @Override
     public int size() {
-      return ImmutableMultimap.this.size();
+      return multimap.size();
     }
 
     @Override boolean isPartialView() {

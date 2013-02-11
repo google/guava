@@ -1322,6 +1322,17 @@ public final class Multimaps {
           });
     }
 
+    @Override
+    Iterator<V2> valueIterator() {
+      return Iterators.transform(
+          fromMultimap.entries().iterator(), new Function<Entry<K, V1>, V2>() {
+            @Override
+            public V2 apply(final Entry<K, V1> entry) {
+              return transformer.transformEntry(entry.getKey(), entry.getValue());
+            }
+          });
+    }
+
     @Override public Collection<V2> get(final K key) {
       return transform(key, fromMultimap.get(key));
     }
@@ -1749,30 +1760,6 @@ public final class Multimaps {
 
     @Override public Set<K> elementSet() {
       return multimap.keySet();
-    }
-  }
-
-  static class Values<K, V> extends AbstractCollection<V> {
-    final Multimap<K, V> multimap;
-    
-    Values(Multimap<K, V> multimap) {
-      this.multimap = multimap;
-    }
-
-    @Override public Iterator<V> iterator() {
-      return Maps.valueIterator(multimap.entries().iterator());
-    }
-
-    @Override public int size() {
-      return multimap.size();
-    }
-
-    @Override public boolean contains(@Nullable Object o) {
-      return multimap.containsValue(o);
-    }
-
-    @Override public void clear() {
-      multimap.clear();
     }
   }
 

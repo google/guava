@@ -20,6 +20,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
 
+import java.util.AbstractCollection;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
@@ -166,7 +167,29 @@ abstract class AbstractMultimap<K, V> implements Multimap<K, V> {
   }
   
   Collection<V> createValues() {
-    return new Multimaps.Values<K, V>(this);
+    return new Values();
+  }
+
+  class Values extends AbstractCollection<V> {
+    @Override public Iterator<V> iterator() {
+      return valueIterator();
+    }
+
+    @Override public int size() {
+      return AbstractMultimap.this.size();
+    }
+
+    @Override public boolean contains(@Nullable Object o) {
+      return AbstractMultimap.this.containsValue(o);
+    }
+
+    @Override public void clear() {
+      AbstractMultimap.this.clear();
+    }
+  }
+  
+  Iterator<V> valueIterator() {
+    return Maps.valueIterator(entries().iterator());
   }
   
   private transient Map<K, Collection<V>> asMap;
