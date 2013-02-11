@@ -424,11 +424,11 @@ public final class MoreExecutors {
    * {@code invokeAny}, are implemented in terms of calls to {@code
    * delegate.execute}. All other methods are forwarded unchanged to the
    * delegate. This implies that the returned {@code
-   * SchedulingListeningExecutorService} never calls the delegate's {@code
+   * ListeningScheduledExecutorService} never calls the delegate's {@code
    * submit}, {@code invokeAll}, and {@code invokeAny} methods, so any special
    * handling of tasks must be implemented in the delegate's {@code execute}
    * method or by wrapping the returned {@code
-   * SchedulingListeningExecutorService}.
+   * ListeningScheduledExecutorService}.
    *
    * <p>If the delegate executor was already an instance of {@code
    * ListeningScheduledExecutorService}, it is returned untouched, and the rest
