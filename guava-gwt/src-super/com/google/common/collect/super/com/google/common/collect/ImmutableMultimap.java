@@ -434,6 +434,11 @@ public abstract class ImmutableMultimap<K, V> extends AbstractMultimap<K, V>
   }
 
   @Override
+  public boolean containsValue(@Nullable Object value) {
+    return value != null && super.containsValue(value);
+  }
+  
+  @Override
   public int size() {
     return size;
   }
@@ -640,6 +645,11 @@ public abstract class ImmutableMultimap<K, V> extends AbstractMultimap<K, V>
 
     Values(ImmutableMultimap<?, V> multimap) {
       this.multimap = multimap;
+    }
+
+    @Override
+    public boolean contains(@Nullable Object object) {
+      return multimap.containsValue(object);
     }
 
     @Override public UnmodifiableIterator<V> iterator() {
