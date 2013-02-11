@@ -425,12 +425,43 @@ public class ImmutableSetMultimap<K, V>
    * Its iterator traverses the values for the first key, the values for the
    * second key, and so on.
    */
-  // TODO(kevinb): Fix this so that two copies of the entries are not created.
   @Override public ImmutableSet<Entry<K, V>> entries() {
     ImmutableSet<Entry<K, V>> result = entries;
     return (result == null)
-        ? (entries = ImmutableSet.copyOf(super.entries()))
+        ? (entries = new EntrySet<K, V>(this))
         : result;
+  }
+  
+  private static final class EntrySet<K, V> extends ImmutableSet<Entry<K, V>> {
+    private transient final ImmutableSetMultimap<K, V> multimap;
+    
+    EntrySet(ImmutableSetMultimap<K, V> multimap) {
+      this.multimap = multimap;
+    }
+
+    @Override
+    public boolean contains(@Nullable Object object) {
+      if (object instanceof Entry) {
+        Entry<?, ?> entry = (Entry<?, ?>) object;
+        return multimap.containsEntry(entry.getKey(), entry.getValue());
+      }
+      return false;
+    }
+
+    @Override
+    public int size() {
+      return multimap.size();
+    }
+
+    @Override
+    public UnmodifiableIterator<Entry<K, V>> iterator() {
+      return multimap.entryIterator();
+    }
+
+    @Override
+    boolean isPartialView() {
+      return false;
+    }    
   }
 
   /**
