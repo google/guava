@@ -323,22 +323,7 @@ public abstract class ImmutableMultiset<E> extends ImmutableCollection<E>
   }
 
   @Override public boolean equals(@Nullable Object object) {
-    if (object == this) {
-      return true;
-    }
-    if (object instanceof Multiset) {
-      Multiset<?> that = (Multiset<?>) object;
-      if (this.size() != that.size()) {
-        return false;
-      }
-      for (Entry<?> entry : that.entrySet()) {
-        if (count(entry.getElement()) != entry.getCount()) {
-          return false;
-        }
-      }
-      return true;
-    }
-    return false;
+    return Multisets.equalsImpl(this, object);
   }
 
   @Override public int hashCode() {
