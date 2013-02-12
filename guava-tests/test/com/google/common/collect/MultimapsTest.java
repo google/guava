@@ -303,7 +303,6 @@ public class MultimapsTest extends AbstractMultimapTest {
     assertNull(unmodifiable.asMap().get("missing"));
 
     assertFalse(unmodifiable.entries() instanceof Serializable);
-    assertFalse(unmodifiable.asMap().values() instanceof Serializable);
   }
 
   /**

@@ -1027,47 +1027,19 @@ public final class Maps {
 
     @Override public Iterator<Entry<K, V>> iterator() {
       final Iterator<Entry<K, V>> delegate = super.iterator();
-      return new ForwardingIterator<Entry<K, V>>() {
+      return new UnmodifiableIterator<Entry<K, V>>() {
+        @Override
+        public boolean hasNext() {
+          return delegate.hasNext();
+        }
+
         @Override public Entry<K, V> next() {
-          return unmodifiableEntry(super.next());
-        }
-
-        @Override public void remove() {
-          throw new UnsupportedOperationException();
-        }
-
-        @Override protected Iterator<Entry<K, V>> delegate() {
-          return delegate;
+          return unmodifiableEntry(delegate.next());
         }
       };
     }
 
     // See java.util.Collections.UnmodifiableEntrySet for details on attacks.
-
-    @Override public boolean add(Entry<K, V> element) {
-      throw new UnsupportedOperationException();
-    }
-
-    @Override public boolean addAll(
-        Collection<? extends Entry<K, V>> collection) {
-      throw new UnsupportedOperationException();
-    }
-
-    @Override public void clear() {
-      throw new UnsupportedOperationException();
-    }
-
-    @Override public boolean remove(Object object) {
-      throw new UnsupportedOperationException();
-    }
-
-    @Override public boolean removeAll(Collection<?> collection) {
-      throw new UnsupportedOperationException();
-    }
-
-    @Override public boolean retainAll(Collection<?> collection) {
-      throw new UnsupportedOperationException();
-    }
 
     @Override public Object[] toArray() {
       return standardToArray();

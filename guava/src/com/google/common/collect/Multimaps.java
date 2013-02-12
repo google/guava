@@ -511,43 +511,13 @@ public final class Multimaps {
     @Override public Map<K, Collection<V>> asMap() {
       Map<K, Collection<V>> result = map;
       if (result == null) {
-        final Map<K, Collection<V>> unmodifiableMap
-            = Collections.unmodifiableMap(delegate.asMap());
-        map = result = new ForwardingMap<K, Collection<V>>() {
-          @Override protected Map<K, Collection<V>> delegate() {
-            return unmodifiableMap;
-          }
-
-          Set<Entry<K, Collection<V>>> entrySet;
-
-          @Override public Set<Map.Entry<K, Collection<V>>> entrySet() {
-            Set<Entry<K, Collection<V>>> result = entrySet;
-            return (result == null)
-                ? entrySet
-                    = unmodifiableAsMapEntries(unmodifiableMap.entrySet())
-                : result;
-          }
-
-          @Override public Collection<V> get(Object key) {
-            Collection<V> collection = unmodifiableMap.get(key);
-            return (collection == null)
-                ? null : unmodifiableValueCollection(collection);
-          }
-
-          Collection<Collection<V>> asMapValues;
-
-          @Override public Collection<Collection<V>> values() {
-            Collection<Collection<V>> result = asMapValues;
-            return (result == null)
-                ? asMapValues
-                    = new UnmodifiableAsMapValues<V>(unmodifiableMap.values())
-                : result;
-          }
-
-          @Override public boolean containsValue(Object o) {
-            return values().contains(o);
-          }
-        };
+        result = map = Collections.unmodifiableMap(
+            Maps.transformValues(delegate.asMap(), new Function<Collection<V>, Collection<V>>() {
+              @Override
+              public Collection<V> apply(Collection<V> collection) {
+                return unmodifiableValueCollection(collection);
+              }
+            }));
       }
       return result;
     }
@@ -615,42 +585,6 @@ public final class Multimaps {
     }
 
     private static final long serialVersionUID = 0;
-  }
-
-  private static class UnmodifiableAsMapValues<V>
-      extends ForwardingCollection<Collection<V>> {
-    final Collection<Collection<V>> delegate;
-    UnmodifiableAsMapValues(Collection<Collection<V>> delegate) {
-      this.delegate = Collections.unmodifiableCollection(delegate);
-    }
-    @Override protected Collection<Collection<V>> delegate() {
-      return delegate;
-    }
-    @Override public Iterator<Collection<V>> iterator() {
-      final Iterator<Collection<V>> iterator = delegate.iterator();
-      return new UnmodifiableIterator<Collection<V>>() {
-        @Override
-        public boolean hasNext() {
-          return iterator.hasNext();
-        }
-        @Override
-        public Collection<V> next() {
-          return unmodifiableValueCollection(iterator.next());
-        }
-      };
-    }
-    @Override public Object[] toArray() {
-      return standardToArray();
-    }
-    @Override public <T> T[] toArray(T[] array) {
-      return standardToArray(array);
-    }
-    @Override public boolean contains(Object o) {
-      return standardContains(o);
-    }
-    @Override public boolean containsAll(Collection<?> c) {
-      return standardContainsAll(c);
-    }
   }
 
   private static class UnmodifiableListMultimap<K, V>
@@ -898,31 +832,6 @@ public final class Multimaps {
   }
 
   /**
-   * Returns an unmodifiable view of the specified multimap {@code asMap} entry.
-   * The {@link Entry#setValue} operation throws an {@link
-   * UnsupportedOperationException}, and the collection returned by {@code
-   * getValue} is also an unmodifiable (type-preserving) view. This also has the
-   * side-effect of redefining equals to comply with the Map.Entry contract, and
-   * to avoid a possible nefarious implementation of equals.
-   *
-   * @param entry the entry for which to return an unmodifiable view
-   * @return an unmodifiable view of the entry
-   */
-  private static <K, V> Map.Entry<K, Collection<V>> unmodifiableAsMapEntry(
-      final Map.Entry<K, Collection<V>> entry) {
-    checkNotNull(entry);
-    return new AbstractMapEntry<K, Collection<V>>() {
-      @Override public K getKey() {
-        return entry.getKey();
-      }
-
-      @Override public Collection<V> getValue() {
-        return unmodifiableValueCollection(entry.getValue());
-      }
-    };
-  }
-
-  /**
    * Returns an unmodifiable view of the specified collection of entries. The
    * {@link Entry#setValue} operation throws an {@link
    * UnsupportedOperationException}. If the specified collection is a {@code
@@ -938,67 +847,6 @@ public final class Multimaps {
     }
     return new Maps.UnmodifiableEntries<K, V>(
         Collections.unmodifiableCollection(entries));
-  }
-
-  /**
-   * Returns an unmodifiable view of the specified set of {@code asMap} entries.
-   * The {@link Entry#setValue} operation throws an {@link
-   * UnsupportedOperationException}, as do any operations that attempt to modify
-   * the returned collection.
-   *
-   * @param asMapEntries the {@code asMap} entries for which to return an
-   *     unmodifiable view
-   * @return an unmodifiable view of the collection entries
-   */
-  private static <K, V> Set<Entry<K, Collection<V>>> unmodifiableAsMapEntries(
-      Set<Entry<K, Collection<V>>> asMapEntries) {
-    return new UnmodifiableAsMapEntries<K, V>(
-        Collections.unmodifiableSet(asMapEntries));
-  }
-
-  /** @see Multimaps#unmodifiableAsMapEntries */
-  static class UnmodifiableAsMapEntries<K, V>
-      extends ForwardingSet<Entry<K, Collection<V>>> {
-    private final Set<Entry<K, Collection<V>>> delegate;
-    UnmodifiableAsMapEntries(Set<Entry<K, Collection<V>>> delegate) {
-      this.delegate = delegate;
-    }
-
-    @Override protected Set<Entry<K, Collection<V>>> delegate() {
-      return delegate;
-    }
-
-    @Override public Iterator<Entry<K, Collection<V>>> iterator() {
-      final Iterator<Entry<K, Collection<V>>> iterator = delegate.iterator();
-      return new ForwardingIterator<Entry<K, Collection<V>>>() {
-        @Override protected Iterator<Entry<K, Collection<V>>> delegate() {
-          return iterator;
-        }
-        @Override public Entry<K, Collection<V>> next() {
-          return unmodifiableAsMapEntry(iterator.next());
-        }
-      };
-    }
-
-    @Override public Object[] toArray() {
-      return standardToArray();
-    }
-
-    @Override public <T> T[] toArray(T[] array) {
-      return standardToArray(array);
-    }
-
-    @Override public boolean contains(Object o) {
-      return Maps.containsEntryImpl(delegate(), o);
-    }
-
-    @Override public boolean containsAll(Collection<?> c) {
-      return standardContainsAll(c);
-    }
-
-    @Override public boolean equals(@Nullable Object object) {
-      return standardEquals(object);
-    }
   }
 
   /**
