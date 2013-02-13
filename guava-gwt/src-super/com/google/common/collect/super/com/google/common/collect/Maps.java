@@ -1245,7 +1245,7 @@ public final class Maps {
     return transformEntries(fromMap, asEntryTransformer(function));
   }
 
-  private static <K, V1, V2> EntryTransformer<K, V1, V2>
+  static <K, V1, V2> EntryTransformer<K, V1, V2>
       asEntryTransformer(final Function<? super V1, V2> function) {
     checkNotNull(function);
     return new EntryTransformer<K, V1, V2>() {
@@ -1411,6 +1411,27 @@ public final class Maps {
     V2 transformEntry(@Nullable K key, @Nullable V1 value);
   }
 
+  static <K, V1, V2> Iterator<Map.Entry<K, V2>> transformedEntryIterator(
+      Iterator<Map.Entry<K, V1>> entryIterator,
+      final EntryTransformer<? super K, ? super V1, V2> transformer) {
+    return new TransformedIterator<Map.Entry<K, V1>, Map.Entry<K, V2>>(entryIterator) {
+      @Override
+      Entry<K, V2> transform(final Entry<K, V1> entry) {
+        return new AbstractMapEntry<K, V2>() {
+          @Override
+          public K getKey() {
+            return entry.getKey();
+          }
+
+          @Override
+          public V2 getValue() {
+            return transformer.transformEntry(entry.getKey(), entry.getValue());
+          }
+        };
+      }
+    };
+  }
+
   static class TransformedEntriesMap<K, V1, V2>
       extends AbstractMap<K, V2> {
     final Map<K, V1> fromMap;
@@ -1467,23 +1488,7 @@ public final class Maps {
           }
 
           @Override public Iterator<Entry<K, V2>> iterator() {
-            return new TransformedIterator<Entry<K, V1>, Entry<K, V2>>(
-                fromMap.entrySet().iterator()) {
-              @Override
-              Entry<K, V2> transform(final Entry<K, V1> entry) {
-                return new AbstractMapEntry<K, V2>() {
-                  @Override
-                  public K getKey() {
-                    return entry.getKey();
-                  }
-
-                  @Override
-                  public V2 getValue() {
-                    return transformer.transformEntry(entry.getKey(), entry.getValue());
-                  }
-                };
-              }
-            };
+            return transformedEntryIterator(fromMap.entrySet().iterator(), transformer);
           }
         };
       }

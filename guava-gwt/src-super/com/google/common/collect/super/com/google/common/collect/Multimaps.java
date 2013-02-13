@@ -1013,13 +1013,7 @@ public final class Multimaps {
   public static <K, V1, V2> Multimap<K, V2> transformValues(
       Multimap<K, V1> fromMultimap, final Function<? super V1, V2> function) {
     checkNotNull(function);
-    EntryTransformer<K, V1, V2> transformer =
-        new EntryTransformer<K, V1, V2>() {
-          @Override
-          public V2 transformEntry(K key, V1 value) {
-            return function.apply(value);
-          }
-        };
+    EntryTransformer<K, V1, V2> transformer = Maps.asEntryTransformer(function);
     return transformEntries(fromMultimap, transformer);
   }
 
@@ -1151,23 +1145,7 @@ public final class Multimaps {
 
     @Override
     Iterator<Entry<K, V2>> entryIterator() {
-      return Iterators.transform(
-          fromMultimap.entries().iterator(), new Function<Entry<K, V1>, Entry<K, V2>>() {
-            @Override
-            public Entry<K, V2> apply(final Entry<K, V1> entry) {
-              return new AbstractMapEntry<K, V2>() {
-                @Override
-                public K getKey() {
-                  return entry.getKey();
-                }
-
-                @Override
-                public V2 getValue() {
-                  return transformer.transformEntry(entry.getKey(), entry.getValue());
-                }
-              };
-            }
-          });
+      return Maps.transformedEntryIterator(fromMultimap.entries().iterator(), transformer);
     }
 
     @Override
@@ -1286,13 +1264,7 @@ public final class Multimaps {
       ListMultimap<K, V1> fromMultimap,
       final Function<? super V1, V2> function) {
     checkNotNull(function);
-    EntryTransformer<K, V1, V2> transformer =
-        new EntryTransformer<K, V1, V2>() {
-          @Override
-          public V2 transformEntry(K key, V1 value) {
-            return function.apply(value);
-          }
-        };
+    EntryTransformer<K, V1, V2> transformer = Maps.asEntryTransformer(function);
     return transformEntries(fromMultimap, transformer);
   }
 
