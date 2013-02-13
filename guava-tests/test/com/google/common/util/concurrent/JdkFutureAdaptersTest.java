@@ -33,6 +33,8 @@ import junit.framework.TestCase;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
+import java.util.concurrent.SynchronousQueue;
+import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -99,6 +101,45 @@ public class JdkFutureAdaptersTest extends TestCase {
     singleCallListener.waitForCall();
 
     assertTrue(spy.wasExecuted);
+    assertTrue(singleCallListener.wasCalled());
+    assertTrue(listenableFuture.isDone());
+  }
+
+  public void testListenInPoolThreadCustomExecutorInterrupted()
+      throws Exception {
+    final CountDownLatch submitSuccessful = new CountDownLatch(1);
+    ExecutorService executorService = new ThreadPoolExecutor(
+        0, Integer.MAX_VALUE, 60L, TimeUnit.SECONDS,
+        new SynchronousQueue<Runnable>(),
+        new ThreadFactoryBuilder().setDaemon(true).build()) {
+      @Override
+      protected void beforeExecute(Thread t, Runnable r) {
+        submitSuccessful.countDown();
+      }
+    };
+    NonListenableSettableFuture<String> abstractFuture =
+        NonListenableSettableFuture.create();
+    ListenableFuture<String> listenableFuture =
+        listenInPoolThread(abstractFuture, executorService);
+
+    SingleCallListener singleCallListener = new SingleCallListener();
+    singleCallListener.expectCall();
+
+    assertFalse(singleCallListener.wasCalled());
+    assertFalse(listenableFuture.isDone());
+
+    listenableFuture.addListener(singleCallListener, sameThreadExecutor());
+    /*
+     * Don't shut down until the listenInPoolThread task has been accepted to
+     * run. We want to see what happens when it's interrupted, not when it's
+     * rejected.
+     */
+    submitSuccessful.await();
+    executorService.shutdownNow();
+    abstractFuture.set(DATA1);
+    assertEquals(DATA1, listenableFuture.get());
+    singleCallListener.waitForCall();
+
     assertTrue(singleCallListener.wasCalled());
     assertTrue(listenableFuture.isDone());
   }
