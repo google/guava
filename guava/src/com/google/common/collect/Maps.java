@@ -1962,7 +1962,7 @@ public final class Maps {
     }
   }
 
-  private static final class KeyPredicate<K, V> implements Predicate<Entry<K, V>> {
+  static final class KeyPredicate<K, V> implements Predicate<Entry<K, V>> {
     private final Predicate<? super K> keyPredicate;
 
     KeyPredicate(Predicate<? super K> keyPredicate) {
@@ -1975,7 +1975,7 @@ public final class Maps {
     }
   }
 
-  private static final class ValuePredicate<K, V> implements Predicate<Entry<K, V>> {
+  static final class ValuePredicate<K, V> implements Predicate<Entry<K, V>> {
     private final Predicate<? super V> valuePredicate;
 
     ValuePredicate(Predicate<? super V> valuePredicate) {
@@ -2530,15 +2530,17 @@ public final class Maps {
         return false;
       }
 
-      @Override public boolean removeAll(Collection<?> collection) {
+      private boolean removeIf(Predicate<? super V> valuePredicate) {
         return Iterables.removeIf(unfiltered.entrySet(), Predicates.<Entry<K, V>>and(
-            predicate, Predicates.compose(Predicates.in(collection), Maps.<V>valueFunction())));
+            predicate, new ValuePredicate<K, V>(valuePredicate)));
+      }
+
+      @Override public boolean removeAll(Collection<?> collection) {
+        return removeIf(Predicates.in(collection));
       }
 
       @Override public boolean retainAll(Collection<?> collection) {
-        return Iterables.removeIf(
-            unfiltered.entrySet(), Predicates.<Entry<K, V>>and(predicate, Predicates.compose(
-                Predicates.not(Predicates.in(collection)), Maps.<V>valueFunction())));
+        return removeIf(Predicates.not(Predicates.in(collection)));
       }
 
       @Override public Object[] toArray() {
@@ -2657,16 +2659,19 @@ public final class Maps {
         return false;
       }
 
+      private boolean removeIf(Predicate<? super K> keyPredicate) {
+        return Iterables.removeIf(unfiltered.entrySet(), Predicates.<Entry<K, V>>and(
+            predicate, new KeyPredicate<K, V>(keyPredicate)));
+      }
+
       @Override
       public boolean removeAll(Collection<?> c) {
-        return Iterables.removeIf(unfiltered.entrySet(), Predicates.<Entry<K, V>>and(
-            predicate, Predicates.compose(Predicates.in(c), Maps.<K>keyFunction())));
+        return removeIf(Predicates.in(c));
       }
 
       @Override
       public boolean retainAll(Collection<?> c) {
-        return Iterables.removeIf(unfiltered.entrySet(), Predicates.<Entry<K, V>>and(predicate,
-            Predicates.compose(Predicates.not(Predicates.in(c)), Maps.<K>keyFunction())));
+        return removeIf(Predicates.not(Predicates.in(c)));
       }
 
       @Override public Object[] toArray() {

@@ -19,7 +19,6 @@ import static com.google.common.base.Preconditions.checkPositionIndex;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Predicate;
-import com.google.common.base.Predicates;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -53,7 +52,7 @@ class FilteredKeyMultimap<K, V> extends AbstractMultimap<K, V> implements Filter
 
   @Override
   public Predicate<? super Entry<K, V>> entryPredicate() {
-    return Predicates.compose(keyPredicate, Maps.<K>keyFunction());
+    return new Maps.KeyPredicate<K, V>(keyPredicate);
   }
 
   @Override
@@ -173,8 +172,7 @@ class FilteredKeyMultimap<K, V> extends AbstractMultimap<K, V> implements Filter
 
   @Override
   Iterator<Entry<K, V>> entryIterator() {
-    return Iterators.filter(
-        unfiltered.entries().iterator(), Predicates.compose(keyPredicate, Maps.<K>keyFunction()));
+    throw new AssertionError("should never be called");
   }
 
   @Override
@@ -182,15 +180,10 @@ class FilteredKeyMultimap<K, V> extends AbstractMultimap<K, V> implements Filter
     return new Entries();
   }
 
-  class Entries extends Multimaps.Entries<K, V> {
+  class Entries extends ForwardingCollection<Entry<K, V>> {
     @Override
-    Multimap<K, V> multimap() {
-      return FilteredKeyMultimap.this;
-    }
-
-    @Override
-    public Iterator<Entry<K, V>> iterator() {
-      return entryIterator();
+    protected Collection<Entry<K, V>> delegate() {
+      return Collections2.filter(unfiltered.entries(), entryPredicate());
     }
 
     @Override
@@ -198,27 +191,13 @@ class FilteredKeyMultimap<K, V> extends AbstractMultimap<K, V> implements Filter
     public boolean remove(@Nullable Object o) {
       if (o instanceof Entry) {
         Entry<?, ?> entry = (Entry<?, ?>) o;
-        if (unfiltered.containsEntry(entry.getKey(), entry.getValue())
+        if (unfiltered.containsKey(entry.getKey())
+            // if this holds, then we know entry.getKey() is a K
             && keyPredicate.apply((K) entry.getKey())) {
           return unfiltered.remove(entry.getKey(), entry.getValue());
         }
       }
       return false;
-    }
-
-    @Override
-    public boolean removeAll(Collection<?> c) {
-      Predicate<Entry<K, ?>> combinedPredicate =
-          Predicates.and(Predicates.compose(keyPredicate, Maps.<K>keyFunction()), Predicates.in(c));
-      return Iterators.removeIf(unfiltered.entries().iterator(), combinedPredicate);
-    }
-
-    @Override
-    public boolean retainAll(Collection<?> c) {
-      Predicate<Entry<K, ?>> combinedPredicate = Predicates.and(
-          Predicates.compose(keyPredicate, Maps.<K>keyFunction()),
-          Predicates.not(Predicates.in(c)));
-      return Iterators.removeIf(unfiltered.entries().iterator(), combinedPredicate);
     }
   }
 
