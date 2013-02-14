@@ -210,18 +210,22 @@ public class HashingTest extends TestCase {
   }
 
   /**
-   * Tests that the linear congruential generator is actually compatible with the c++
-   * implementation.
-   *
-   * This test was added to help refactoring, it is not a strict requirement, it can be removed if
-   * functionality changes in the future.
+   * Check a few "golden" values to see that implementations across languages
+   * are equivalent.
    */
   public void testConsistentHash_linearCongruentialGeneratorCompatibility() {
-    assertEquals(55, Hashing.consistentHash(1, 100));
-    assertEquals(62, Hashing.consistentHash(2, 100));
-    assertEquals(8, Hashing.consistentHash(3, 100));
-    assertEquals(45, Hashing.consistentHash(4, 100));
-    assertEquals(59, Hashing.consistentHash(5, 100));
+    int[] golden100 =
+        { 0, 55, 62, 8, 45, 59, 86, 97, 82, 59,
+          73, 37, 17, 56, 86, 21, 90, 37, 38, 83 };
+    for (int i = 0; i < golden100.length; i++) {
+      assertEquals(golden100[i], Hashing.consistentHash(i, 100));
+    }
+    assertEquals(6, Hashing.consistentHash(10863919174838991L, 11));
+    assertEquals(3, Hashing.consistentHash(2016238256797177309L, 11));
+    assertEquals(5, Hashing.consistentHash(1673758223894951030L, 11));
+    assertEquals(80343, Hashing.consistentHash(2, 100001));
+    assertEquals(22152, Hashing.consistentHash(2201, 100001));
+    assertEquals(15018, Hashing.consistentHash(2202, 100001));
   }
 
   private static final double MAX_PERCENT_SPREAD = 0.5;
