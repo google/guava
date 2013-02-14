@@ -372,6 +372,9 @@ public class HashingTest extends TestCase {
           .put(Hashing.sha512(), TQBFJOTLDP,
                "91ea1245f20d46ae9a037a989f54f1f790f0a47607eeb8a14d12890cea77a1bb" +
                "c6c7ed9cf205e67b7f2b8fd4c7dfd3a7a8617e45f3c463d481c7e586c39ac1ed")
+          .put(Hashing.crc32(), EMPTY_STRING, "00000000")
+          .put(Hashing.crc32(), TQBFJOTLD, "39a34f41")
+          .put(Hashing.crc32(), TQBFJOTLDP, "e9259051")
           .build();
 
   public void testAllHashFunctionsHaveKnownHashes() throws Exception {
