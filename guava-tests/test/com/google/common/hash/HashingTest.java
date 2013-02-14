@@ -28,6 +28,7 @@ import com.google.common.util.concurrent.AtomicLongMap;
 
 import junit.framework.TestCase;
 
+import java.lang.reflect.Method;
 import java.nio.ByteBuffer;
 import java.util.Collections;
 import java.util.List;
@@ -368,6 +369,17 @@ public class HashingTest extends TestCase {
                "91ea1245f20d46ae9a037a989f54f1f790f0a47607eeb8a14d12890cea77a1bb" +
                "c6c7ed9cf205e67b7f2b8fd4c7dfd3a7a8617e45f3c463d481c7e586c39ac1ed")
           .build();
+
+  public void testAllHashFunctionsHaveKnownHashes() throws Exception {
+    for (Method method : Hashing.class.getDeclaredMethods()) {
+      if (method.getReturnType().equals(HashFunction.class) && // must return HashFunction
+          method.getParameterTypes().length == 0) { // only the seed-less grapes^W hash functions
+        HashFunction hashFunction = (HashFunction) method.invoke(Hashing.class);
+        assertEquals("There should be 3 entries in KNOWN_HASHES for " + hashFunction.toString(),
+            3, KNOWN_HASHES.row(hashFunction).size());
+      }
+    }
+  }
 
   public void testKnownUtf8Hashing() {
     for (Cell<HashFunction, String, String> cell : KNOWN_HASHES.cellSet()) {
