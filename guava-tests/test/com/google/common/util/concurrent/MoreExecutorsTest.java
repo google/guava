@@ -53,6 +53,7 @@ import java.util.List;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Callable;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.CyclicBarrier;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
@@ -272,12 +273,23 @@ public class MoreExecutorsTest extends JSR166TestCase {
   }
 
   public void testListeningDecorator_scheduleSuccess() throws Exception {
-    ScheduledThreadPoolExecutor delegate = new ScheduledThreadPoolExecutor(1);
+    final CountDownLatch completed = new CountDownLatch(1);
+    ScheduledThreadPoolExecutor delegate = new ScheduledThreadPoolExecutor(1) {
+      @Override
+      protected void afterExecute(Runnable r, Throwable t) {
+        completed.countDown();
+      }
+    };
     ListeningScheduledExecutorService service = listeningDecorator(delegate);
     ListenableFuture<?> future =
         service.schedule(Callables.returning(null), 1, TimeUnit.MILLISECONDS);
 
-    future.get(); // wait until done
+    /*
+     * Wait not just until the Future's value is set (as in future.get()) but
+     * also until ListeningScheduledExecutorService's wrapper task is done
+     * executing listeners, as detected by yielding control to afterExecute.
+     */
+    completed.await();
     assertTrue(future.isDone());
     assertListenerRunImmediately(future);
     assertEquals(0, delegate.getQueue().size());
