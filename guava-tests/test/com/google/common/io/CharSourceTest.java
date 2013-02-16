@@ -142,4 +142,19 @@ public class CharSourceTest extends IoTestCase {
     }
     assertTrue(okSource.wasStreamClosed());
   }
+
+  public void testConcat() throws IOException {
+    CharSource c1 = CharStreams.asCharSource("abc");
+    CharSource c2 = CharStreams.asCharSource("");
+    CharSource c3 = CharStreams.asCharSource("de");
+
+    String expected = "abcde";
+
+    assertEquals(expected,
+        CharSource.concat(ImmutableList.of(c1, c2, c3)).read());
+    assertEquals(expected,
+        CharSource.concat(c1, c2, c3).read());
+    assertEquals(expected,
+        CharSource.concat(ImmutableList.of(c1, c2, c3).iterator()).read());
+  }
 }

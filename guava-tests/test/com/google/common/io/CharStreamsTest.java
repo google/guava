@@ -406,21 +406,6 @@ public class CharStreamsTest extends IoTestCase {
     assertEquals(string.length(), copied);
   }
 
-  public void testConcat() throws IOException {
-    CharSource c1 = CharStreams.asCharSource("abc");
-    CharSource c2 = CharStreams.asCharSource("");
-    CharSource c3 = CharStreams.asCharSource("de");
-
-    String expected = "abcde";
-
-    assertEquals(expected,
-        CharStreams.concat(ImmutableList.of(c1, c2, c3)).read());
-    assertEquals(expected,
-        CharStreams.concat(c1, c2, c3).read());
-    assertEquals(expected,
-        CharStreams.concat(ImmutableList.of(c1, c2, c3).iterator()).read());
-  }
-
   private static CheckCloseSupplier.Input<Reader> newCheckReader(
       InputSupplier<? extends Reader> delegate) {
     return new CheckCloseSupplier.Input<Reader>(delegate) {

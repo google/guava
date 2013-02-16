@@ -431,57 +431,6 @@ public final class CharStreams {
   }
 
   /**
-   * Concatenates multiple {@link CharSource} instances into a single source.
-   * Streams returned from the source will contain the concatenated data from
-   * the streams of the underlying sources.
-   *
-   * <p>Only one underlying stream will be open at a time. Closing the
-   * concatenated stream will close the open underlying stream.
-   *
-   * @param sources the sources to concatenate
-   * @return a {@code CharSource} containing the concatenated data
-   * @throws NullPointerException if any of {@code sources} is {@code null}
-   * @since 15.0
-   */
-  public static CharSource concat(Iterable<? extends CharSource> sources) {
-    return asCharSource(join(ImmutableList.copyOf(sources)));
-  }
-
-  /**
-   * Concatenates multiple {@link CharSource} instances into a single source.
-   * Streams returned from the source will contain the concatenated data from
-   * the streams of the underlying sources.
-   *
-   * <p>Only one underlying stream will be open at a time. Closing the
-   * concatenated stream will close the open underlying stream.
-   *
-   * @param sources the sources to concatenate
-   * @return a {@code CharSource} containing the concatenated data
-   * @throws NullPointerException if any of {@code sources} is {@code null}
-   * @since 15.0
-   */
-  public static CharSource concat(Iterator<? extends CharSource> sources) {
-    return concat(ImmutableList.copyOf(sources));
-  }
-
-  /**
-   * Concatenates multiple {@link CharSource} instances into a single source.
-   * Streams returned from the source will contain the concatenated data from
-   * the streams of the underlying sources.
-   *
-   * <p>Only one underlying stream will be open at a time. Closing the
-   * concatenated stream will close the open underlying stream.
-   *
-   * @param sources the sources to concatenate
-   * @return a {@code CharSource} containing the concatenated data
-   * @throws NullPointerException if any of {@code sources} is {@code null}
-   * @since 15.0
-   */
-  public static CharSource concat(CharSource... sources) {
-    return concat(ImmutableList.copyOf(sources));
-  }
-
-  /**
    * Discards {@code n} characters of data from the reader. This method
    * will block until the full amount has been skipped. Does not close the
    * reader.

@@ -25,6 +25,7 @@ import static com.google.common.io.TestOption.WRITE_THROWS;
 import static org.junit.Assert.assertArrayEquals;
 
 import com.google.common.base.Charsets;
+import com.google.common.collect.ImmutableList;
 import com.google.common.hash.Hashing;
 
 import java.io.BufferedInputStream;
@@ -211,5 +212,20 @@ public class ByteSourceTest extends IoTestCase {
     } catch (IOException expected) {
     }
     assertTrue(okSource.wasStreamClosed());
+  }
+
+  public void testConcat() throws IOException {
+    ByteSource b1 = ByteStreams.asByteSource(new byte[] {0, 1, 2, 3});
+    ByteSource b2 = ByteStreams.asByteSource(new byte[0]);
+    ByteSource b3 = ByteStreams.asByteSource(new byte[] {4, 5});
+
+    byte[] expected = {0, 1, 2, 3, 4, 5};
+
+    assertArrayEquals(expected,
+        ByteSource.concat(ImmutableList.of(b1, b2, b3)).read());
+    assertArrayEquals(expected,
+        ByteSource.concat(b1, b2, b3).read());
+    assertArrayEquals(expected,
+        ByteSource.concat(ImmutableList.of(b1, b2, b3).iterator()).read());
   }
 }

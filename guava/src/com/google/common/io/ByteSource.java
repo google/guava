@@ -19,6 +19,7 @@ package com.google.common.io;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.hash.Funnels;
 import com.google.common.hash.HashCode;
 import com.google.common.hash.HashFunction;
@@ -32,6 +33,7 @@ import java.io.OutputStream;
 import java.io.Reader;
 import java.nio.charset.Charset;
 import java.util.Arrays;
+import java.util.Iterator;
 
 /**
  * A readable source of bytes, such as a file. Unlike an {@link InputStream}, a
@@ -283,6 +285,57 @@ public abstract class ByteSource implements InputSupplier<InputStream> {
     } finally {
       closer.close();
     }
+  }
+
+  /**
+   * Concatenates multiple {@link ByteSource} instances into a single source.
+   * Streams returned from the source will contain the concatenated data from
+   * the streams of the underlying sources.
+   *
+   * <p>Only one underlying stream will be open at a time. Closing the
+   * concatenated stream will close the open underlying stream.
+   *
+   * @param sources the sources to concatenate
+   * @return a {@code ByteSource} containing the concatenated data
+   * @throws NullPointerException if any of {@code sources} is {@code null}
+   * @since 15.0
+   */
+  public static ByteSource concat(Iterable<? extends ByteSource> sources) {
+    return ByteStreams.asByteSource(ByteStreams.join(ImmutableList.copyOf(sources)));
+  }
+
+  /**
+   * Concatenates multiple {@link ByteSource} instances into a single source.
+   * Streams returned from the source will contain the concatenated data from
+   * the streams of the underlying sources.
+   *
+   * <p>Only one underlying stream will be open at a time. Closing the
+   * concatenated stream will close the open underlying stream.
+   *
+   * @param sources the sources to concatenate
+   * @return a {@code ByteSource} containing the concatenated data
+   * @throws NullPointerException if any of {@code sources} is {@code null}
+   * @since 15.0
+   */
+  public static ByteSource concat(Iterator<? extends ByteSource> sources) {
+    return concat(ImmutableList.copyOf(sources));
+  }
+
+  /**
+   * Concatenates multiple {@link ByteSource} instances into a single source.
+   * Streams returned from the source will contain the concatenated data from
+   * the streams of the underlying sources.
+   *
+   * <p>Only one underlying stream will be open at a time. Closing the
+   * concatenated stream will close the open underlying stream.
+   *
+   * @param sources the sources to concatenate
+   * @return a {@code ByteSource} containing the concatenated data
+   * @throws NullPointerException if any of {@code sources} is {@code null}
+   * @since 15.0
+   */
+  public static ByteSource concat(ByteSource... sources) {
+    return concat(ImmutableList.copyOf(sources));
   }
 
   /**
