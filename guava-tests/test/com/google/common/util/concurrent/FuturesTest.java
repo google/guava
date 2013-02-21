@@ -333,15 +333,22 @@ public class FuturesTest extends TestCase {
    */
   public void testTransformExceptionRemainsMemoized_ListenableFuture()
       throws Throwable {
-    SettableFuture<Integer> input = SettableFuture.create();
-
+    // We need to test with two input futures since ExecutionList.execute
+    // doesn't catch Errors and we cannot depend on the order that our
+    // transformations run. (So it is possible that the Error being thrown
+    // could prevent our second transformations from running).
+    SettableFuture<Integer> exceptionInput = SettableFuture.create();
     ListenableFuture<Integer> exceptionComposedFuture =
-        Futures.transform(input, newOneTimeExceptionThrower());
+        Futures.transform(exceptionInput, newOneTimeExceptionThrower());
+    exceptionInput.set(0);
+    runGetIdempotencyTest(exceptionComposedFuture, MyRuntimeException.class);
+
+    SettableFuture<Integer> errorInput = SettableFuture.create();
     ListenableFuture<Integer> errorComposedFuture =
-        Futures.transform(input, newOneTimeErrorThrower());
+        Futures.transform(errorInput, newOneTimeErrorThrower());
 
     try {
-      input.set(0);
+      errorInput.set(0);
       fail();
     } catch (MyError expected) {
       /*
@@ -349,8 +356,6 @@ public class FuturesTest extends TestCase {
        * as assigning them to the output of the future.
        */
     }
-
-    runGetIdempotencyTest(exceptionComposedFuture, MyRuntimeException.class);
     runGetIdempotencyTest(errorComposedFuture, MyError.class);
 
     /*
@@ -358,14 +363,16 @@ public class FuturesTest extends TestCase {
      * slightly different in that case.
      */
     exceptionComposedFuture =
-        Futures.transform(input, newOneTimeExceptionThrower());
+        Futures.transform(exceptionInput, newOneTimeExceptionThrower());
     runGetIdempotencyTest(exceptionComposedFuture, MyRuntimeException.class);
 
     try {
-      Futures.transform(input, newOneTimeErrorThrower());
+      Futures.transform(errorInput, newOneTimeErrorThrower());
       fail();
     } catch (MyError expected) {
+      // Again, errors are rethrown from execute.
     }
+    runGetIdempotencyTest(errorComposedFuture, MyError.class);
   }
 
   private static void runGetIdempotencyTest(Future<Integer> transformedFuture,

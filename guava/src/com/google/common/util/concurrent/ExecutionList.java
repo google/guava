@@ -18,12 +18,13 @@ package com.google.common.util.concurrent;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Preconditions;
-import com.google.common.collect.Lists;
 
-import java.util.Queue;
 import java.util.concurrent.Executor;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import javax.annotation.Nullable;
+import javax.annotation.concurrent.GuardedBy;
 
 /**
  * <p>A list of listeners, each with an associated {@code Executor}, that
@@ -44,21 +45,20 @@ import java.util.logging.Logger;
  * @since 1.0
  */
 public final class ExecutionList {
-
   // Logger to log exceptions caught when running runnables.
-  @VisibleForTesting static final Logger log =
-      Logger.getLogger(ExecutionList.class.getName());
+  @VisibleForTesting static final Logger log = Logger.getLogger(ExecutionList.class.getName());
 
-  // The runnable,executor pairs to execute.
-  private final Queue<RunnableExecutorPair> runnables = Lists.newLinkedList();
-
-  // Boolean we use mark when execution has started.  Only accessed from within
-  // synchronized blocks.
-  private boolean executed = false;
+  /**
+   * The runnable, executor pairs to execute.  This acts as a stack threaded through the 
+   * {@link RunnableExecutorPair#next} field.
+   */
+  @GuardedBy("this")
+  private RunnableExecutorPair runnables;
+  @GuardedBy("this")
+  private boolean executed;
 
   /** Creates a new, empty {@link ExecutionList}. */
-  public ExecutionList() {
-  }
+  public ExecutionList() {}
 
   /**
    * Adds the {@code Runnable} and accompanying {@code Executor} to the list of
@@ -85,26 +85,20 @@ public final class ExecutionList {
     Preconditions.checkNotNull(runnable, "Runnable was null.");
     Preconditions.checkNotNull(executor, "Executor was null.");
 
-    boolean executeImmediate = false;
-
     // Lock while we check state.  We must maintain the lock while adding the
     // new pair so that another thread can't run the list out from under us.
     // We only add to the list if we have not yet started execution.
-    synchronized (runnables) {
+    synchronized (this) {
       if (!executed) {
-        runnables.add(new RunnableExecutorPair(runnable, executor));
-      } else {
-        executeImmediate = true;
+        runnables = new RunnableExecutorPair(runnable, executor, runnables);
+        return;
       }
     }
-
     // Execute the runnable immediately. Because of scheduling this may end up
     // getting called before some of the previously added runnables, but we're
     // OK with that.  If we want to change the contract to guarantee ordering
     // among runnables we'd have to modify the logic here to allow it.
-    if (executeImmediate) {
-      new RunnableExecutorPair(runnable, executor).execute();
-    }
+    executeListener(runnable, executor);
   }
 
   /**
@@ -122,39 +116,62 @@ public final class ExecutionList {
   public void execute() {
     // Lock while we update our state so the add method above will finish adding
     // any listeners before we start to run them.
-    synchronized (runnables) {
+    RunnableExecutorPair list;
+    synchronized (this) {
       if (executed) {
         return;
       }
       executed = true;
+      list = runnables;
+      runnables = null;  // allow GC to free listeners even if this stays around for a while.
     }
-
-    // At this point the runnables will never be modified by another
-    // thread, so we are safe using it outside of the synchronized block.
-    while (!runnables.isEmpty()) {
-      runnables.poll().execute();
+    // If we succeeded then list holds all the runnables we to execute.  The pairs in the stack are
+    // in the opposite order from how they were added so we need to reverse the list to fulfill our
+    // contract.
+    // This is somewhat annoying, but turns out to be very fast in practice.  Alternatively, we 
+    // could drop the contract on the method that enforces this queue like behavior since depending
+    // on it is likely to be a bug anyway.
+    
+    // N.B. All writes to the list and the next pointers must have happened before the above 
+    // synchronized block, so we can iterate the list without the lock held here.
+    RunnableExecutorPair reversedList = null;
+    while (list != null) {
+      RunnableExecutorPair tmp = list;
+      list = list.next;
+      tmp.next = reversedList;
+      reversedList = tmp;
+    }
+    while (reversedList != null) {
+      executeListener(reversedList.runnable, reversedList.executor);
+      reversedList = reversedList.next;
     }
   }
 
-  private static class RunnableExecutorPair {
+  /**
+   * Submits the given runnable to the given {@link Executor} catching and logging all 
+   * {@linkplain RuntimeException runtime exceptions} thrown by the executor.
+   */
+  private static void executeListener(Runnable runnable, Executor executor) {
+    try {
+      executor.execute(runnable);
+    } catch (RuntimeException e) {
+      // Log it and keep going, bad runnable and/or executor.  Don't
+      // punish the other runnables if we're given a bad one.  We only
+      // catch RuntimeException because we want Errors to propagate up.
+      log.log(Level.SEVERE, "RuntimeException while executing runnable "
+          + runnable + " with executor " + executor, e);
+    }
+  }
+
+  private static final class RunnableExecutorPair {
     final Runnable runnable;
     final Executor executor;
+    @Nullable RunnableExecutorPair next;
 
-    RunnableExecutorPair(Runnable runnable, Executor executor) {
+    RunnableExecutorPair(Runnable runnable, Executor executor, RunnableExecutorPair next) {
       this.runnable = runnable;
       this.executor = executor;
-    }
-
-    void execute() {
-      try {
-        executor.execute(runnable);
-      } catch (RuntimeException e) {
-        // Log it and keep going, bad runnable and/or executor.  Don't
-        // punish the other runnables if we're given a bad one.  We only
-        // catch RuntimeException because we want Errors to propagate up.
-        log.log(Level.SEVERE, "RuntimeException while executing runnable "
-            + runnable + " with executor " + executor, e);
-      }
+      this.next = next;
     }
   }
 }

@@ -106,6 +106,22 @@ public class ExecutionListTest extends TestCase {
     assertTrue(countDownLatch.await(1L, TimeUnit.SECONDS));
   }
 
+  public void testOrdering() throws Exception {
+    final AtomicInteger integer = new AtomicInteger();
+    for (int i = 0; i < 10; i++) {
+      final int expectedCount = i;
+      list.add(
+          new Runnable() {
+            @Override public void run() {
+              integer.compareAndSet(expectedCount, expectedCount + 1);
+            }
+          },
+          MoreExecutors.sameThreadExecutor());
+    }
+    list.execute();
+    assertEquals(10, integer.get());
+  }
+
   private class MockRunnable implements Runnable {
     CountDownLatch countDownLatch;
 
@@ -132,8 +148,5 @@ public class ExecutionListTest extends TestCase {
     @Override public void run() {
       throw new RuntimeException();
     }
-  };
-  private static final Runnable DO_NOTHING = new Runnable() {
-    @Override public void run() {}
   };
 }
