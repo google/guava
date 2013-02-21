@@ -187,8 +187,7 @@ public interface HashFunction {
    * Shortcut for {@code newHasher().putString(input).hash()}. The implementation <i>might</i>
    * perform better than its longhand equivalent, but should not perform worse. Note that no
    * character encoding is performed; the low byte and high byte of each character are hashed
-   * directly (in that order). This is equivalent to using
-   * {@code hashString(input, Charsets.UTF_16LE)}.
+   * directly (in that order).
    */
   HashCode hashString(CharSequence input);
 
