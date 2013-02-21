@@ -48,7 +48,7 @@
     <dependency>
       <groupId>org.truth0</groupId>
       <artifactId>truth</artifactId>
-      <version>0.10</version>
+      <version>0.11</version>
       <scope>test</scope>
     </dependency>
     <dependency>

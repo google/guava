@@ -457,84 +457,76 @@ public class TypeTokenTest extends TestCase {
   }
 
   public <T> void testGetGenericInterfaces_typeVariable_unbounded() {
-    ASSERT.that(TypeToken.of(new TypeCapture<T>() {}.capture()).getGenericInterfaces())
-       .isEmpty();
+    ASSERT.that(TypeToken.of(new TypeCapture<T>() {}.capture()).getGenericInterfaces()).isEmpty();
     assertHasArrayInterfaces(new TypeToken<T[]>() {});
   }
 
   public <T extends NoInterface> void testGetGenericInterfaces_typeVariable_boundIsClass() {
-    ASSERT.that(TypeToken.of(new TypeCapture<T>() {}.capture()).getGenericInterfaces())
-        .isEmpty();
+    ASSERT.that(TypeToken.of(new TypeCapture<T>() {}.capture()).getGenericInterfaces()).isEmpty();
     assertHasArrayInterfaces(new TypeToken<T[]>() {});
   }
 
   public <T extends NoInterface&Iterable<String>>
   void testGetGenericInterfaces_typeVariable_boundsAreClassWithInterface() {
-    ASSERT.that(TypeToken.of(new TypeCapture<T>() {}.capture()).getGenericInterfaces())
-        .iteratesOverSequence(new TypeToken<Iterable<String>>() {});
+    ASSERT.that((List) TypeToken.of(new TypeCapture<T>() {}.capture()).getGenericInterfaces())
+        .iteratesAs(new TypeToken<Iterable<String>>() {});
     assertHasArrayInterfaces(new TypeToken<T[]>() {});
   }
 
   public <T extends CharSequence&Iterable<String>>
   void testGetGenericInterfaces_typeVariable_boundsAreInterfaces() {
-    ASSERT.that(TypeToken.of(new TypeCapture<T>() {}.capture()).getGenericInterfaces())
-        .iteratesOverSequence(
-            TypeToken.of(CharSequence.class), new TypeToken<Iterable<String>>() {});
+    ASSERT.that((List) TypeToken.of(new TypeCapture<T>() {}.capture()).getGenericInterfaces())
+        .iteratesAs(TypeToken.of(CharSequence.class), new TypeToken<Iterable<String>>() {});
     assertHasArrayInterfaces(new TypeToken<T[]>() {});
   }
 
   public <T extends CharSequence&Iterable<T>>
   void testGetGenericInterfaces_typeVariable_boundsAreFBoundedInterfaces() {
-    ASSERT.that(TypeToken.of(new TypeCapture<T>() {}.capture()).getGenericInterfaces())
-        .iteratesOverSequence(TypeToken.of(CharSequence.class), new TypeToken<Iterable<T>>() {});
+    ASSERT.that((List) TypeToken.of(new TypeCapture<T>() {}.capture()).getGenericInterfaces())
+        .iteratesAs(TypeToken.of(CharSequence.class), new TypeToken<Iterable<T>>() {});
     assertHasArrayInterfaces(new TypeToken<T[]>() {});
   }
 
   public <T extends Base&Iterable<T>>
   void testGetGenericInterfaces_typeVariable_boundsAreClassWithFBoundedInterface() {
-    ASSERT.that(TypeToken.of(new TypeCapture<T>() {}.capture()).getGenericInterfaces())
-        .iteratesOverSequence(new TypeToken<Iterable<T>>() {});
+    ASSERT.that((List) TypeToken.of(new TypeCapture<T>() {}.capture()).getGenericInterfaces())
+        .iteratesAs(new TypeToken<Iterable<T>>() {});
     assertHasArrayInterfaces(new TypeToken<T[]>() {});
   }
 
   public <T extends NoInterface, T1 extends T, T2 extends T1>
   void testGetGenericInterfaces_typeVariable_boundIsTypeVariableAndClass() {
-    ASSERT.that(TypeToken.of(new TypeCapture<T2>() {}.capture()).getGenericInterfaces())
-        .isEmpty();
+    ASSERT.that(TypeToken.of(new TypeCapture<T2>() {}.capture()).getGenericInterfaces()).isEmpty();
     assertHasArrayInterfaces(new TypeToken<T2[]>() {});
   }
 
   public <T extends Iterable<T>, T1 extends T, T2 extends T1>
   void testGetGenericInterfaces_typeVariable_boundIsTypeVariableAndInterface() {
-    ASSERT.that(TypeToken.of(new TypeCapture<T2>() {}.capture()).getGenericInterfaces())
-        .iteratesOverSequence(TypeToken.of(new TypeCapture<T1>() {}.capture()));
+    ASSERT.that((List) TypeToken.of(new TypeCapture<T2>() {}.capture()).getGenericInterfaces())
+        .iteratesAs(TypeToken.of(new TypeCapture<T1>() {}.capture()));
     assertHasArrayInterfaces(new TypeToken<T2[]>() {});
   }
 
   public void testGetGenericInterfaces_wildcard_lowerBounded() {
-    ASSERT.that(TypeToken.of(Types.supertypeOf(String.class)).getGenericInterfaces())
-        .isEmpty();
-    ASSERT.that(TypeToken.of(Types.supertypeOf(String[].class)).getGenericInterfaces())
-        .isEmpty();
+    ASSERT.that(TypeToken.of(Types.supertypeOf(String.class)).getGenericInterfaces()).isEmpty();
+    ASSERT.that(TypeToken.of(Types.supertypeOf(String[].class)).getGenericInterfaces()).isEmpty();
   }
 
   public void testGetGenericInterfaces_wildcard_boundIsClass() {
-    ASSERT.that(TypeToken.of(Types.subtypeOf(Object.class)).getGenericInterfaces())
-        .isEmpty();
-    ASSERT.that(TypeToken.of(Types.subtypeOf(Object[].class)).getGenericInterfaces())
-        .isEmpty();
+    ASSERT.that(TypeToken.of(Types.subtypeOf(Object.class)).getGenericInterfaces()).isEmpty();
+    ASSERT.that(TypeToken.of(Types.subtypeOf(Object[].class)).getGenericInterfaces()).isEmpty();
   }
 
   public void testGetGenericInterfaces_wildcard_boundIsInterface() {
     TypeToken<Iterable<String>> interfaceType = new TypeToken<Iterable<String>>() {};
-    ASSERT.that(TypeToken.of(Types.subtypeOf(interfaceType.getType())).getGenericInterfaces())
-        .iteratesOverSequence(interfaceType);
+    ASSERT.that((List) TypeToken.of(
+        Types.subtypeOf(interfaceType.getType())).getGenericInterfaces())
+            .iteratesAs(interfaceType);
     assertHasArrayInterfaces(new TypeToken<Iterable<String>[]>() {});
   }
 
   public void testGetGenericInterfaces_noInterface() {
-    ASSERT.that(new TypeToken<NoInterface>() {}.getGenericInterfaces())
-        .isEmpty();
+    ASSERT.that(new TypeToken<NoInterface>() {}.getGenericInterfaces()).isEmpty();
     assertHasArrayInterfaces(new TypeToken<NoInterface[]>() {});
   }
 
